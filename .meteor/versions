@@ -30,6 +30,7 @@ json@1.0.3
 launch-screen@1.0.2
 livedata@1.0.13
 logging@1.0.7
+materialize:materialize@0.95.3
 meteor@1.1.5
 meteor-platform@1.2.2
 minifiers@1.1.4
