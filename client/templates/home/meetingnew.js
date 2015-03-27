@@ -1,8 +1,9 @@
 // Meetings = new Mongo.Collection("meetings");
 
-Template.meetingnew.created = function () {
-    //add your statement here 
-};
+Template.meetingnew.onCreated(function () {
+    //add your statement here
+    //$('.tooltipped').tooltip({delay: 50});
+});
 
 Template.meetingnew.helpers({
     //add you helpers here
@@ -19,6 +20,10 @@ Template.meetingnew.events({
 
         Meteor.call("addMeeting", aProject, aName);
 
-        Router.go("/");     // go back to home screen
+        // Clear form
+        $('form')[0].reset();
+
+        //toast('I am a toast!', 4000); // 4000 is the duration of the toast
+        //Router.go("/");     // go back to home screen
     }
 });

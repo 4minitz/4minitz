@@ -1,12 +1,16 @@
+Template.meetinglist.onRendered(function () {
+  $('.collapsible').collapsible();
+  //$('.tooltipped').tooltip({delay: 50});
+});
 
 
-Template.meetinglist.created = function () {
-};
-
+Template.meetinglist.onCreated(function () {
+});
 
 Template.meetinglist.helpers({
     meetings: function () {
-        return Meetings.find({});
+      //return Meetings.find({});
+      return Meetings.find({}, {sort: {createdAt: -1}});
     }
 
 });
@@ -17,8 +21,13 @@ Template.meetinglist.events({
     },
     "click #deleteMeeting": function() {
         console.log("Delete");
+        //$('#modalDeleteMeeting').openModal();
         if (confirm("Do you really want to delete this meeting type?")) {
-            Meteor.call("deleteMeeting", this._id);
+          Meteor.call("deleteMeeting", this._id);
         }
+    },
+    "click #deleteMeetingDB": function() {
+        console.log("Delete from DB");
+          Meteor.call("deleteMeeting", this._id);
     }
 });
