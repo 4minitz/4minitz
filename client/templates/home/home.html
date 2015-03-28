@@ -5,6 +5,12 @@
 
   <div class="divider"></div>
 
-  {{> meetinglist}}
+  {{#if currentUser}}
+    {{> atNavButton}}
+    {{> meetinglist}}
+  {{else}}
+    {{> atForm}}
+  {{/if}}
+
 
 </template>

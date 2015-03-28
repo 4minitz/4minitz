@@ -9,3 +9,5 @@ autopublish
 insecure
 iron:router
 materialize:materialize
+useraccounts:materialize
+accounts-password
