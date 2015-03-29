@@ -1,12 +1,8 @@
 <template name="home">
-  <h1 class="header center orange-text">
-    4minitz.com 0.1
-  </h1>
 
-  <div class="divider"></div>
+  {{> navigation}}
 
   {{#if currentUser}}
-    {{> atNavButton}}
     {{> meetinglist}}
   {{else}}
     {{> atForm}}
