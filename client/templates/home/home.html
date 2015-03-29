@@ -1,11 +1,15 @@
 <template name="home">
 
-  {{> navigation}}
-
   {{#if currentUser}}
     {{> meetinglist}}
+    {{> atNavButton}}
   {{else}}
-    {{> atForm}}
+    <div class="row">
+      <div class="col s6">
+        {{> atForm}}
+      </div>
+    </div>
+
   {{/if}}
 
 

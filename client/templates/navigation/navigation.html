@@ -1,16 +1,38 @@
-<template name="navigation">
-  <nav class="orange" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">4minitz</a>
-      <ul class="right">
-        {{#if currentUser}}
-          <li>Logged in as {{currentUser.username}} {{> atNavButton}}</li>
-        {{/if}}
-      </ul>
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-    </div>
-  </nav>
+<template name="navigation">
+  <ul id="userDropdown" class="dropdown-content">
+    <li><a href="#">Sign out</a></li>
+    <li><a href="#">Edit Profile</a></li>
+  </ul>
+
+  <div class="navbar-fixed">
+    <nav class="orange">
+      <div class="nav-wrapper orange container">
+        <a href="{{pathFor 'home'}}" class="brand-logo">4Minitz!</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#">MyMinitz</a></li>
+          <li><a href="#">Templates</a></li>
+          <li><a href="#">Minutes</a></li>
+          <li><a class="dropdown-button" href="#" data-activates="userDropdown">
+            <i class="mdi-social-person left"></i>
+            {{currentUser.username}}
+            <i class="mdi-navigation-arrow-drop-down right"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li><a href="#">MyMinitz</a></li>
+          <li><a href="#">Templates</a></li>
+          <li><a href="#">Minutes</a></li>
+          <li><a class="dropdown-button" href="#" data-activates="userDropdown">
+            <i class="mdi-social-person left"></i>
+            {{currentUser.username}}
+            <i class="mdi-navigation-arrow-drop-down right"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </template>
