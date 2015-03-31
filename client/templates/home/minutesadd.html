@@ -1,9 +1,35 @@
 <template name="minutesadd">
     <h2 class="header center orange-text">
-        Add Minutes to Meeting
+        Add Minutes to Meeting<br>
+        {{meeting.project}} - {{meeting.name}}
     </h2>
     <div class="divider"></div>
 
     <p></p>
-    <a class="waves-effect waves-light btn-large" href="/">Cancel</a>
+    <a class="waves-effect waves-light btn-large" href="/" id="btnCancel">Cancel</a>
+    <a class="waves-effect waves-light btn-large" href="/" id="btnSave">Save</a>
+
+    <p></p>
+    <div class="row">
+        <div class="col s3">
+            <label for="id_date">Date</label>
+            <input id="id_date" type="date" class="datepicker">
+        </div>
+        <div class="input-field col s12">
+            <label for="id_participants">Participants</label>
+            <input id="id_participants" type="text" class="validate">
+        </div>
+    </div>
+
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="id_text" class="materialize-textarea"></textarea>
+                    <label for="id_text">Minutes</label>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </template>

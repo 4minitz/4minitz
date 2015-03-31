@@ -1,0 +1,30 @@
+<template name="minutesshow">
+    <h2 class="header center orange-text">
+      Minutes of <br>
+      {{meeting.project}} - {{meeting.name}}
+    </h2>
+    <div class="divider"></div>
+
+    <p>
+        <b>Date:</b><br>
+      {{minute.date}}
+    </p>
+    <div class="divider"></div>
+
+    <p>
+      <b>Participants:</b><br>
+      {{minute.participants}}
+    </p>
+    <div class="divider"></div>
+
+    <b>Minutes:</b>
+    <p>
+        {{minute.text}}
+    </p>
+    <div class="divider"></div>
+
+
+    <p></p>
+    <a class="waves-effect waves-light btn-large" href="/">OK</a>
+
+</template>
