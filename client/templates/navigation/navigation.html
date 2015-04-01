@@ -1,13 +1,12 @@
 
 <template name="navigation">
-  <ul id="userDropdown" class="dropdown-content">
+  <ul id="userDropdown" class="dropdown-content nav-dropdown">
     <li><a href="#">Sign out</a></li>
     <li><a href="#">Edit Profile</a></li>
   </ul>
 
-  <div class="navbar-fixed">
-    <nav class="orange">
-      <div class="nav-wrapper orange container">
+  <nav class="orange">
+      <div class="nav-wrapper container">
         <a href="{{pathFor 'home'}}" class="brand-logo">4Minitz!</a>
         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
         <ul class="right hide-on-med-and-down">
@@ -33,6 +32,5 @@
           </li>
         </ul>
       </div>
-    </nav>
-  </div>
+  </nav>
 </template>
