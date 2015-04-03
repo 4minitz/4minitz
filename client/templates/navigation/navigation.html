@@ -1,9 +1,11 @@
 
 <template name="navigation">
+  <!-- user dropdown menu currently not needed
   <ul id="userDropdown" class="dropdown-content nav-dropdown">
-    <li><a href="#">Sign out</a></li>
+    <li><a href="#" id="navbar-signout">Sign out</a></li>
     <li><a href="#">Edit Profile</a></li>
   </ul>
+  -->
 
   <nav class="orange">
       <div class="nav-wrapper container">
@@ -19,14 +21,25 @@
   </nav>
 </template>
 
+
 <template name="navigationEntries">
   <li><a href="#">MyMinitz</a></li>
   <li><a href="#">Templates</a></li>
   <li><a href="#">Minutes</a></li>
+  {{#if currentUser}}
+    <li>
+      <a href="#" id="navbar-signout">
+        <i class="mdi-social-person left"></i>{{currentUser.username}}&nbsp;&nbsp;(sign out)
+      </a>
+    </li>
+  {{/if}}
+
+  <!-- user dropdown menu currently not needed
   <li><a class="dropdown-button" href="#" data-activates="userDropdown">
     <i class="mdi-social-person left"></i>
     {{currentUser.username}}
     <i class="mdi-navigation-arrow-drop-down right"></i>
     </a>
   </li>
+  -->
 </template>
