@@ -12,8 +12,8 @@ Template.meetingnew.helpers({
 Template.meetingnew.events({
     "click #btnSave": function (event, template) {
         event.preventDefault();
-        aProject = template.find("#id_meetingproject").value;
-        aName = template.find("#id_meetingname").value;
+        var aProject = template.find("#id_meetingproject").value;
+        var aName = template.find("#id_meetingname").value;
         if (aProject == "" || aName == "") {
             return;
         }
