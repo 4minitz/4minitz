@@ -1,5 +1,7 @@
 Template.navigation.onRendered(function() {
-  $(".button-collapse").sideNav();
+  $(".button-collapse").sideNav({
+    closeOnClick: true
+  });
   $(".dropdown-button").dropdown();
 });
 
@@ -7,7 +9,8 @@ Template.navigation.onRendered(function() {
 Template.navigation.events({
   "click li #navbar-signout": function(event) {
     event.preventDefault();
-    if (Meteor.userId())
+    if (Meteor.userId()) {
       AccountsTemplates.logout();
+    }
   }
 });
