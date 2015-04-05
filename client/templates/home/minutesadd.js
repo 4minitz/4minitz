@@ -6,15 +6,19 @@ Template.minutesadd.created = function () {
 };
 
 Template.minutesadd.onRendered(function () {
-  $('.datepicker').pickadate({
-    //selectMonths: true, // Creates a dropdown to control month
-    //selectYears: 15 // Creates a dropdown of 15 years to control year
-  });
+    // Initialize the datepicker control
+    $('.datepicker').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
+        format: 'yyyy-mm-dd'
+    });
 });
 
 Template.minutesadd.helpers({
     meeting: function() {
         return _meeting;
+    },
+
+    currentDate: function() {
+        return new Date();
     }
 });
 
