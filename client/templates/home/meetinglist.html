@@ -58,6 +58,10 @@
         <a class="btn-floating waves-effect waves-light" href="minutesadd/{{this._id}}"><i class="mdi-content-add"></i></a>
         <a class="btn-floating waves-effect waves-light" href="minuteslist/{{this._id}}"><i class="mdi-action-list"></i></a>
         <a class="btn-floating waves-effect waves-light red" id="deleteMeeting"><i class="mdi-action-delete"></i></a>
-      {{this.project}}: {{this.name}} ({{countMinutes}})
+      {{this.project}}: {{this.name}}
+        ({{countMinutes}}{{#if lastMinutes}},
+                                last minutes of <a href="/minutesshow/{{lastMinutes._id}}">{{lastMinutes.date}}</a>
+                         {{/if}}
+        )
     </li>
 </template>

@@ -39,6 +39,16 @@ Template.meeting.helpers( {
         } else {
             return "No minutes, yet";
         }
-    }
+    },
 
+    lastMinutes: function () {
+        if (this.minutes && this.minutes.length > 0) {
+            lastMinutesID = this.minutes[this.minutes.length -1];
+            lastMinutes = Minutes.findOne(lastMinutesID);
+            if (lastMinutes) {
+                return lastMinutes
+            }
+        }
+        return false;
+    }
 });
