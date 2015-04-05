@@ -19,6 +19,55 @@ Template.minutesadd.helpers({
 
     currentDate: function() {
         return new Date();
+    },
+
+    topicsArray: function () {
+        return [
+            {
+                subject: "Planung Iteration #2",
+                responsible: "WOK",
+                priority: 2,
+                duedate: "2015-04-02",
+                state: "open",
+                details: [  { date: "2015-03-02",
+                    text: "lorem ipsum details 2"
+                },
+                    { date: "2015-03-01",
+                        text: "lorem ipsum details 1"
+                    }
+                ]  // end-of details
+            } // end-of topic
+            ,
+            {
+                subject: "Diskussion Datenmodell",
+                responsible: "@all",
+                priority: 1,
+                duedate: "2015-04-02",
+                state: "open",
+                details: [  { date: "2015-03-02",
+                    text: "lorem ipsum details 22"
+                },
+                    { date: "2015-03-01",
+                        text: "lorem ipsum details 11"
+                    }
+                ]  // end-of details
+            } // end-of topic
+            ,
+            {
+                subject: "Einführung Testframework",
+                responsible: "@all",
+                priority: 1,
+                duedate: "2015-04-05",
+                state: "closed",
+                details: [  { date: "2015-01-02",
+                    text: "lorem ipsum details 222"
+                },
+                    { date: "2015-01-01",
+                        text: "lorem ipsum details 111"
+                    }
+                ]  // end-of details
+            } // end-of topic
+        ];
     }
 });
 
