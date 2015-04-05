@@ -14,5 +14,7 @@ Template.minutesshow.helpers({
 });
 
 Template.minutesshow.events({
-    //add your events here
+    "click #btnOK": function () {
+        window.history.back();
+    }
 });
