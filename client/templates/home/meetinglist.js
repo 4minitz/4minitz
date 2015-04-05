@@ -12,7 +12,6 @@ Template.meetinglist.helpers({
       //return Meetings.find({});
       return Meetings.find({}, {sort: {createdAt: -1}});
     }
-
 });
 
 Template.meetinglist.events({
@@ -30,4 +29,16 @@ Template.meetinglist.events({
         console.log("Delete from DB");
           Meteor.call("deleteMeeting", this._id);
     }
+});
+
+
+Template.meeting.helpers( {
+    countMinutes: function () {
+        if (this.minutes && this.minutes.length > 0) {
+            return this.minutes.length+" minutes";
+        } else {
+            return "No minutes, yet";
+        }
+    }
+
 });
