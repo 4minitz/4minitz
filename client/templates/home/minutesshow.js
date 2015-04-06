@@ -1,15 +1,26 @@
-var _minute;   // minutes of the template
+var _minutesID;   // minutes ID of the template
 
 Template.minutesshow.created = function () {
-    _minute = this.data;
+    _minutesID = this.data;
+
 };
 
 Template.minutesshow.helpers({
     minute: function() {
-        return _minute;
+        return Minutes.findOne(_minutesID);
     },
     meeting: function() {
-        return Meetings.findOne(_minute.meeting_id);
+        var min = Minutes.findOne(_minutesID);
+        return Meetings.findOne(min.meeting_id);
+    },
+
+    topicsArray: function () {
+        var min = Minutes.findOne(_minutesID);
+        Meteor.defer(function () {  // activate the new added collapsible!
+            $('.collapsible').collapsible();
+        });
+
+        return min.topics;
     }
 });
 

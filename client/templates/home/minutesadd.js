@@ -93,7 +93,7 @@ Template.minutesadd.events({
     },
 
     "click #btnOK": function (evt, tmpl) {
-        event.preventDefault();
+        evt.preventDefault();
         var aSubject = tmpl.find("#id_subject").value;
         var aPriority = tmpl.find("#id_priority").value;
         var aResponsible = tmpl.find("#id_responsible").value;
