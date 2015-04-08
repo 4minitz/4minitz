@@ -1,18 +1,21 @@
 
-var _meeting;   // the parent meeting of this minutes
 var _minutesID; // the ID of these minutes
 
-Template.minutesedit.onCreated(function () {
-    _meeting = this.data;
-});
+Template.minutesedit.created = function () {
+    _minutesID = this.data;
+};
 
 Template.minutesedit.onRendered(function () {
     // Initialize the datepicker control
     $('#id_date').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
-        format: 'yyyy-mm-dd'
+        format: 'yyyy-mm-dd',
+        closeOnSelect: true,
+        firstDay: 1
     });
     $('#id_duedate').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
-        format: 'yyyy-mm-dd'
+        format: 'yyyy-mm-dd',
+        closeOnSelect: true,
+        firstDay: 1
     });
 
     $('.modal-trigger').leanModal({
@@ -28,31 +31,22 @@ Template.minutesedit.onRendered(function () {
             } // Callback for Modal open
         }
     );
-
-    var aDate = this.find("#id_date").value;
-    console.log(_meeting);
-    console.log(_minutesID);
-     //Meteor.call("initializeMinutes", _meeting._id, aDate);
 });
 
 Template.minutesedit.helpers({
     meeting: function() {
-        return _meeting;
-    },
-
-    currentDatePlusDeltaDays: function(deltaDays) {     // TODO: does not work with deltaDays!  :-(
-        var aDate = new Date();
-        console.log("DD:"+deltaDays);
-        if (deltaDays) {
-            aDate.setDate(aDate.getDate() + deltaDays);
-            console.log("ad:"+aDate);
+        if (_minutesID && _minutesID != "") {
+            var min = Minutes.findOne(_minutesID);
+            return Meetings.findOne(min.meeting_id);
         }
-        return aDate;
+        return null;
     },
 
-    currentMinutesID: function () {
-        _minutesID = Session.get("currentMinutesID");   // HACK to bring Session result to local var
-        return _minutesID;
+    minutes: function () {
+        if (_minutesID && _minutesID != "") {
+            return Minutes.findOne(_minutesID);
+        }
+        return null;
     },
 
     topicsArray: function () {
@@ -64,22 +58,14 @@ Template.minutesedit.helpers({
         }
     },
 
-    agenda: function () {
-      if (_minutesID && _minutesID != "") {
-          var min = Minutes.findOne(_minutesID);
-          if (min) {
-              return min.agenda;
-          }
-      }
-    },
-
-    participants: function () {
-      if (_minutesID && _minutesID != "") {
-          var min = Minutes.findOne(_minutesID);
-          if (min) {
-              return min.participants;
-          }
-      }
+    currentDatePlusDeltaDays: function(deltaDays) {     // TODO: does not work with deltaDays!  :-(
+        var aDate = new Date();
+        console.log("DD:"+deltaDays);
+        if (deltaDays) {
+            aDate.setDate(aDate.getDate() + deltaDays);
+            console.log("ad:"+aDate);
+        }
+        return aDate;
     }
 });
 

@@ -1,6 +1,6 @@
 <template name="minutesedit">
-    <h2 class="header center orange-text" minutesID={{currentMinutesID}}>   <!-- Hack to trigger Session -->
-        Edit Minutes to Meeting<br>
+    <h2 class="header center orange-text">
+        Edit Minutes for Meeting<br>
         {{meeting.project}} - {{meeting.name}}
     </h2>
     <div class="divider"></div>
@@ -10,15 +10,15 @@
     <div class="row">
         <div class="col s3">
             <label for="id_date">Date</label>
-            <input id="id_date" type="date" class="datepicker" data-value={{currentDatePlusDeltaDays}} value={{date}}>
+            <input id="id_date" type="date" class="datepicker" data-value={{currentDatePlusDeltaDays}} value={{minutes.date}}>
         </div>
         <div class="input-field col s12">
-            <label for="id_participants" class="active">Participants</label>
-            <input id="id_participants" type="text" class="validate" value="{{participants}}">
+            <input id="id_participants" type="text" value="{{minutes.participants}}">
+            <label for="id_participants">Participants</label>
         </div>
         <div class="input-field col s12">
-            <label for="id_agenda" class="active">Agenda</label>
-            <textarea id="id_agenda" class="materialize-textarea" value="{{agenda}}"></textarea>
+            <textarea id="id_agenda" class="materialize-textarea" value="{{minutes.agenda}}"></textarea>
+            <label for="id_agenda">Agenda</label>
         </div>
 
         <div class="col s12">
