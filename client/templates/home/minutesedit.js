@@ -37,14 +37,19 @@ Template.minutesedit.helpers({
     meeting: function() {
         if (_minutesID && _minutesID != "") {
             var min = Minutes.findOne(_minutesID);
-            return Meetings.findOne(min.meeting_id);
+            if (min) {
+                return Meetings.findOne(min.meeting_id);
+            }
         }
         return null;
     },
 
     minutes: function () {
         if (_minutesID && _minutesID != "") {
-            return Minutes.findOne(_minutesID);
+            var min = Minutes.findOne(_minutesID);
+            if (min) {
+                return min;
+            }
         }
         return null;
     },
@@ -81,9 +86,9 @@ Template.minutesedit.events({
     },
 
     "change #id_participants": function (evt, tmpl) {
+        var theParticipant = tmpl.find("#id_participants").value;
         var min = Minutes.findOne(_minutesID);
         if (min) {
-            var theParticipant = tmpl.find("#id_participants").value;
             Minutes.update(_minutesID, {$set: {participants: theParticipant}});
         }
     },
