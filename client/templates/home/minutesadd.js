@@ -9,10 +9,14 @@ Template.minutesadd.created = function () {
 Template.minutesadd.onRendered(function () {
     // Initialize the datepicker control
     $('#id_date').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
-        format: 'yyyy-mm-dd'
+        format: 'yyyy-mm-dd',
+        closeOnSelect: true,
+        firstDay: 1
     });
     $('#id_duedate').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
-        format: 'yyyy-mm-dd'
+        format: 'yyyy-mm-dd',
+        closeOnSelect: true,
+        firstDay: 1
     });
 
     $('.modal-trigger').leanModal({
