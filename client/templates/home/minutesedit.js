@@ -7,7 +7,7 @@ Template.minutesedit.created = function () {
 
 Template.minutesedit.onRendered(function () {
     // Initialize the datepicker control
-    $('#id_date').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
+    $('#id_minutesdate').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
         format: 'yyyy-mm-dd',
         closeOnSelect: true,
         firstDay: 1
@@ -15,7 +15,8 @@ Template.minutesedit.onRendered(function () {
     $('#id_duedate').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
         format: 'yyyy-mm-dd',
         closeOnSelect: true,
-        firstDay: 1
+        firstDay: 1,
+        container: document.body
     });
 
     $('.modal-trigger').leanModal({
