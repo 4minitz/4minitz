@@ -76,12 +76,12 @@ Template.minutesedit.helpers({
 });
 
 Template.minutesedit.events({
-    "change #id_date": function (evt, tmpl) {
+    "change #id_minutesdate": function (evt, tmpl) {
         console.log("1");
         var min = Minutes.findOne(_minutesID);
         if (min) {
             console.log("2");
-            var aDate = tmpl.find("#id_date").value;
+            var aDate = tmpl.find("#id_minutesdate").value;
             Minutes.update(_minutesID, {$set: {date: aDate}});
         }
     },
