@@ -9,5 +9,6 @@ autopublish
 insecure
 iron:router
 materialize:materialize
-useraccounts:materialize
 accounts-password
+twbs:bootstrap
+useraccounts:bootstrap
