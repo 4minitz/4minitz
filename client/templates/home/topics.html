@@ -1,21 +1,27 @@
 <template name="topics">
-    <ul class="collapsible popout" data-collapsible="expandable" id="id_topiclist">
-
-        <!-- iterate over a given topic array "this" specified by parent template during template include -->
-        {{#each this}}
-            <li>
-                <div class="collapsible-header {{topicColor}}"><i class="mdi-image-filter-drama"></i>
-                    {{this.subject}}
-                    Resp: {{this.responsible}}
-                    Prio:{{this.priority}}
-                    Due: {{this.duedate}}
-                    State: {{this.state}}
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+{{#each this}}
+        <div class="panel panel-info">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{currentCollapseID}}" aria-expanded="true" aria-controls="collapseOne">
+                        {{this.subject}}
+                        Resp: {{this.responsible}}
+                        Prio:{{this.priority}}
+                        Due: {{this.duedate}}
+                        State: {{this.state}}
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse-{{currentCollapseID}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    {{#each detailsArray}}
+                        <p>{{this.date}} - {{this.text}}</p>
+                    {{/each}}
                 </div>
-
-                {{#each detailsArray}}
-                    <div class="collapsible-body"><p>{{this.date}} - {{this.text}}</p></div>
-                {{/each}}
-            </li>
-        {{/each}}
-    </ul>
+            </div>
+        </div>
+{{/each}}
+    </div>
 </template>
+

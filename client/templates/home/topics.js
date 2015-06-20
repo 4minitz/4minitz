@@ -3,12 +3,18 @@ Template.topics.created = function () {
 };
 
 Template.topics.rendered = function () {
-    $('.collapsible').collapsible();
 };
 
+var collapseID = 0;
 Template.topics.helpers({
     detailsArray: function () {
         return this.details;
+    },
+
+    currentCollapseID: function () {
+        cID = collapseID;
+        collapseID ++;
+        return Math.floor(cID / 2);
     },
 
     topicColor: function () {

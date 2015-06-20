@@ -3,77 +3,95 @@
         Edit Minutes for Meeting<br>
         {{meeting.project}} - {{meeting.name}}
     </h2>
-    <div class="divider"></div>
-
 
     <p></p>
-    <div class="row">
-        <div class="col s3">
-            <label for="id_minutesdate" class="active">Date</label>
-            <input id="id_minutesdate" type="date" class="datepicker" value={{minutes.date}}>
-        </div>
-        <div class="input-field col s12">
-            <input id="id_participants" type="text" value="{{minutes.participants}}">
-            <label for="id_participants" class="active">Participants</label>
-        </div>
-        <div class="input-field col s12">
-            <textarea id="id_agenda" class="materialize-textarea" value="{{minutes.agenda}}"></textarea>
-            <label for="id_agenda" class="active">Agenda</label>
-        </div>
 
-        <div class="col s12">
-            <a class="waves-effect waves-light btn modal-trigger" href="#modalAddNewTopic">
-                <i class="mdi-action-note-add"></i>
+    <div class="well">
+        <form>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="id_minutesdate">Date</label>
+                        <input id="id_minutesdate" type="date" class="form-control" value={{minutes.date}}>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_participants" class="active">Participants</label>
+                <input id="id_participants" type="text" value="{{minutes.participants}}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_agenda" class="active">Agenda</label>
+                <textarea id="id_agenda" class="form-control" value="{{minutes.agenda}}"></textarea>
+            </div>
+            <hr>
+
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
                 Add Topic
-            </a>
+            </button>
+
+
+            <br>
+            <br>
             {{>topics topicsArray}}
-        </div>
+        </form>
     </div>
+
+
 
 
 
     <!-- *********************** -->
     <!-- MODAL DIALOG: Add Topic -->
     <!-- *********************** -->
-    <div id="modalAddNewTopic" class="modal">
-        <div class="modal-content">
-            <h4>Add New Topic</h4>
 
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="id_subject" type="text" class="validate">
-                            <label for="id_subject">Subject of Topic</label>
-                        </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add Topic</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                    <div class="form-group">
+                        <label for="id_subject">Subject of Topic</label>
+                        <input id="id_subject" type="text" class="form-control">
                     </div>
                     <div class="row">
-                        <div class="input-field col s4">
-                            <input id="id_priority" type="text" class="validate">
-                            <label for="id_priority">Priority</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="id_priority">Priority</label>
+                                <input id="id_priority" type="text" class="form-control">
+                            </div>
                         </div>
-                        <div class="input-field col s4">
-                            <input id="id_responsible" type="text" class="validate">
-                            <label for="id_responsible">Responsible</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="id_responsible">Responsible</label>
+                                <input id="id_responsible" type="text" class="form-control">
+                            </div>
                         </div>
-                        <div class="input-field col s4">
-                            <input id="id_duedate" type="date" class="datepicker" data-value={{currentDatePlusDeltaDays 7}}>
-                            <label for="id_duedate" class="active">Due Date</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="id_duedate">Due Date</label>
+                                <input id="id_duedate" type="date" class="form-control"
+                                       data-value={{currentDatePlusDeltaDays 7}}>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <textarea id="id_details" class="materialize-textarea"></textarea>
-                            <label for="id_details">Details</label>
-                        </div>
+                    <div class="form-group">
+                        <label for="id_details">Details</label>
+                        <textarea id="id_details" class="form-control"></textarea>
                     </div>
-                </form>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btnOK">Save Topic</button>
+                </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect btn" id="btnOK">OK</a>
-            <span> </span>
-            <a href="#!" class="modal-action modal-close waves-effect btn" id="btnCancel">Cancel</a>
         </div>
     </div>
     <!-- END-OF MODAL DIALOG: Add Topic -->
