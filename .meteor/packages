@@ -8,7 +8,6 @@ meteor-platform
 autopublish
 insecure
 iron:router
-materialize:materialize
 accounts-password
 twbs:bootstrap
 useraccounts:bootstrap

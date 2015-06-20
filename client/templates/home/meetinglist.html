@@ -1,67 +1,42 @@
 <template name="meetinglist">
-    <div class="divider"></div>
+    {{> meetingnew}}
 
-    <div class="section">
-      <ul class="collapsible" data-collapsible="accordion">
-        <li>
-          <div class="collapsible-header teal lighten-1 white-text">
-            New Meeting Type<i class="mdi-navigation-arrow-drop-down right"></i>
-          </div>
-          <div class="collapsible-body"><p>{{> meetingnew}}</p></div>
-        </li>
-      </ul>
-    </div>
+    <br>
+    <br>
 
-    <div class="divider"></div>
-    <ul>
+    <ul class="list-group" style="font-size: 130%;">
       {{#each meetings}}
         {{> meeting}}
       {{/each}}
     </ul>
 
-    <div class="help">
-        <div class="row">
-            <div class="col s12 m6">
-                <div class="card blue-grey darken-1">
-                    <div class="card-content white-text">
-                        <span class="card-title">Quick Help</span>
-                        <p>With 4minitz you can create minutes for meetings. Fast!</p>
-                        <p>First create a meeting type, then create minutes on multiple dates for this special meeting type</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="#" class="hidehelp">OK, Hide</a>
-                    </div>
-                </div>
-            </div>
+    <div class="help panel panel-default">
+        <div class="panel-heading">Quick Help</div>
+        <div class="panel-body">
+            <p>With 4minitz you can create minutes for meetings. Fast!</p>
+            <p>First create a meeting type, then create minutes on multiple dates for this special meeting type</p>
+            <a href="#" class="hidehelp">OK, Hide</a>
         </div>
     </div>
-
-    <div class="divider"></div>
-
-    <!-- Modal Structure -->
-    <div id="modalDeleteMeeting" class="modal modal-fixed-footer">
-      <div class="modal-content">
-        <h4>Delete Meeting Type</h4>
-        <p>Do you really want to delete this meeting type?</p>
-      </div>
-      <div class="modal-footer">
-        <div id="deleteMeetingDB" class="waves-effect waves-green btn-flat modal-action modal-close">Agree</div>
-        <a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Agree</a>
-      </div>
-    </div>
-
 </template>
 
 
 <template name="meeting">
-    <li class="meetingListItem">
-        <a class="btn-floating waves-effect waves-light" href="minutesadd/{{this._id}}"><i class="mdi-content-add"></i></a>
-        <a class="btn-floating waves-effect waves-light" href="minuteslist/{{this._id}}"><i class="mdi-action-list"></i></a>
-        <a class="btn-floating waves-effect waves-light red" id="deleteMeeting"><i class="mdi-action-delete"></i></a>
-      {{this.project}}: {{this.name}}
-        ({{countMinutes}}{{#if lastMinutes}},
-                                last minutes of <a href="/minutesedit/{{lastMinutes._id}}">{{lastMinutes.date}}</a>
-                         {{/if}}
-        )
-    </li>
+        <li class="list-group-item">
+            <a href="minutesadd/{{this._id}}" class="btn btn-info">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Delete Meeting"></span>
+            </a>
+            <a href="minuteslist/{{this._id}}" class="btn btn-info">
+                <span class="glyphicon glyphicon-list-alt" aria-hidden="true" aria-label="Delete Meeting"></span>
+            </a>
+            <a id="deleteMeeting" class="btn btn-info">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Meeting"></span>
+            </a>
+
+            {{this.project}}: {{this.name}}
+            ({{countMinutes}}{{#if lastMinutes}},
+            last minutes of <a href="/minutesedit/{{lastMinutes._id}}">{{lastMinutes.date}}</a>
+        {{/if}}
+            )
+        </li>
 </template>

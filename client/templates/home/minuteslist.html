@@ -6,34 +6,26 @@
     <div class="divider"></div>
 
     <p></p>
-    <ul>
+    <ul class="list-group" style="font-size: 130%;">
         {{#each minutes}}
-          <li><a href="/minutesedit/{{this._id}}" class="waves-effect waves-light btn">{{date}}</a>
-          <!-- li><a href="/minutesshow/{{this._id}}" class="waves-effect waves-light btn">{{date}}</a -->
-                 Participants: {{participants}}</li>
+          <li class="list-group-item">
+              <a href="/minutesedit/{{this._id}}" class="btn btn-info">{{date}}</a>
+              Participants: {{participants}}
+          </li>
         {{/each}}
     </ul>
 
-    <div class="divider"></div>
-
     <p></p>
-    <a class="waves-effect waves-light btn-large" href="/">OK</a>
+    <a class="btn btn-primary„" href="/">OK</a>
 
-    <div class="help">
-        <div class="row">
-            <div class="col s12 m6">
-                <div class="card blue-grey darken-1">
-                    <div class="card-content white-text">
-                        <span class="card-title">Quick Help</span>
-                        <p>Click on date button to show details for these minutes</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="#" id="btnHideHelp">OK, Hide</a>
-                    </div>
-                </div>
-            </div>
+    <br>
+    <br>
+
+    <div class="help panel panel-default">
+        <div class="panel-heading">Quick Help</div>
+        <div class="panel-body">
+            <p>Click on date button to show details for these minutes</p>
+            <a href="#" id="btnHideHelp">OK, Hide</a>
         </div>
     </div>
-
-
 </template>

@@ -1,45 +1,34 @@
 
 <template name="navigation">
-  <!-- user dropdown menu currently not needed
-  <ul id="userDropdown" class="dropdown-content nav-dropdown">
-    <li><a href="#" id="navbar-signout">Sign out</a></li>
-    <li><a href="#">Edit Profile</a></li>
-  </ul>
-  -->
 
-  <nav class="orange">
-      <div class="nav-wrapper container">
-        <a href="{{pathFor 'home'}}" class="brand-logo">4Minitz!</a>
-        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-        <ul class="right hide-on-med-and-down">
-          {{> navigationEntries}}
-        </ul>
-        <ul class="side-nav" id="mobile-demo">
-          {{> navigationEntries}}
-        </ul>
-      </div>
-  </nav>
-</template>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{pathFor 'home'}}">4Minitz.com</a>
+            </div>
 
-
-<template name="navigationEntries">
-  <li><a href="#">MyMinitz</a></li>
-  <li><a href="#">Templates</a></li>
-  <li><a href="#">Minutes</a></li>
-  {{#if currentUser}}
-    <li>
-      <a href="#" id="navbar-signout">
-        <i class="mdi-social-person left"></i>{{currentUser.username}}&nbsp;&nbsp;(sign out)
-      </a>
-    </li>
-  {{/if}}
-
-  <!-- user dropdown menu currently not needed
-  <li><a class="dropdown-button" href="#" data-activates="userDropdown">
-    <i class="mdi-social-person left"></i>
-    {{currentUser.username}}
-    <i class="mdi-navigation-arrow-drop-down right"></i>
-    </a>
-  </li>
-  -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">MyMinitz</a></li>
+                    <li><a href="#">Templates</a></li>
+                    <li><a href="#">Minutes</a></li>
+                  {{#if currentUser}}
+                      <li>
+                          <a href="#" id="navbar-signout">
+                              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{currentUser.username}}&nbsp;&nbsp;(sign out)
+                          </a>
+                      </li>
+                  {{/if}}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
 </template>

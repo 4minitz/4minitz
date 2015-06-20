@@ -36,7 +36,6 @@ less@1.0.14
 livedata@1.0.13
 localstorage@1.0.3
 logging@1.0.7
-materialize:materialize@0.96.1
 meteor@1.1.6
 meteor-platform@1.2.2
 minifiers@1.1.5

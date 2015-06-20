@@ -20,7 +20,6 @@ Template.meetinglist.events({
     },
     "click #deleteMeeting": function() {
         console.log("Delete");
-        //$('#modalDeleteMeeting').openModal();
         if (confirm("Do you really want to delete this meeting type?")) {
           Meteor.call("deleteMeeting", this._id);
         }
