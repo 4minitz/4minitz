@@ -1,16 +1,17 @@
 var _meeting;   // the parent meeting of this minutes
 
-Template.minuteslist.created = function () {
+Template.meeting.created = function () {
+    console.log(this);
     _meeting = this.data;
 };
 
-Template.minuteslist.helpers({
+Template.meeting.helpers({
     meeting: function() {
         return _meeting;
     },
 
     minutes: function() {
-        var meeting = Meetings.findOne(_meeting._id);
+        var meeting = _meeting;
         var minIDs = meeting.minutes;
         var results = [];
         for (index = 0; index < minIDs.length; ++index) {
@@ -22,7 +23,7 @@ Template.minuteslist.helpers({
     }
 });
 
-Template.minuteslist.events({
+Template.meeting.events({
     "click #btnHideHelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     }

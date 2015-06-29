@@ -6,7 +6,7 @@
 
     <ul class="list-group" style="font-size: 130%;">
       {{#each meetings}}
-        {{> meeting}}
+        {{> meetingRow}}
       {{/each}}
     </ul>
 
@@ -21,12 +21,12 @@
 </template>
 
 
-<template name="meeting">
+<template name="meetingRow">
         <li class="list-group-item">
             <a href="minutesadd/{{this._id}}" class="btn btn-info">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Meeting"></span>
             </a>
-            <a href="minuteslist/{{this._id}}" class="btn btn-info">
+            <a href="meeting/{{this._id}}" class="btn btn-info">
                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" aria-label="List Meetings"></span>
             </a>
             <a id="deleteMeeting" class="btn btn-info">

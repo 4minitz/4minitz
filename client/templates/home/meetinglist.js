@@ -31,7 +31,7 @@ Template.meetinglist.events({
 });
 
 
-Template.meeting.helpers( {
+Template.meetingRow.helpers( {
     countMinutes: function () {
         if (this.minutes && this.minutes.length > 0) {
             return this.minutes.length+" minutes";
