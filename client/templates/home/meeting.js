@@ -1,7 +1,7 @@
 var _meeting;   // the parent meeting of this minutes
 
 Template.meeting.created = function () {
-    _meeting = this.data;
+    _meeting = Meetings.findOne(this.data);
 };
 
 Template.meeting.helpers({
