@@ -32,12 +32,12 @@ Template.meetings.events({
 
 
 Template.meetingRow.helpers( {
-    countMinutes: function () {
-        if (this.minutes && this.minutes.length > 0) {
-            return this.minutes.length+" minutes";
-        } else {
-            return "No minutes, yet";
-        }
+    countMinutes: function() {
+      if (this.minutes) {
+        return this.minutes.length;
+      } else {
+        return 0;
+      }
     },
 
     lastMinutes: function () {
