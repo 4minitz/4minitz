@@ -1,7 +1,6 @@
 var _meeting;   // the parent meeting of this minutes
 
 Template.meeting.created = function () {
-    console.log(this);
     _meeting = this.data;
 };
 
@@ -11,8 +10,7 @@ Template.meeting.helpers({
     },
 
     minutes: function() {
-        var meeting = _meeting;
-        var minIDs = meeting.minutes;
+        var minIDs = _meeting.minutes;
         var results = [];
         for (index = 0; index < minIDs.length; ++index) {
             var id = minIDs[index];
