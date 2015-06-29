@@ -1,20 +1,20 @@
-Template.meetinglist.onRendered(function () {
+Template.meetings.onRendered(function () {
   $('.collapsible').collapsible();
   //$('.tooltipped').tooltip({delay: 50});
 });
 
 
-Template.meetinglist.onCreated(function () {
+Template.meetings.onCreated(function () {
 });
 
-Template.meetinglist.helpers({
+Template.meetings.helpers({
     meetings: function () {
       //return Meetings.find({});
       return Meetings.find({}, {sort: {createdAt: -1}});
     }
 });
 
-Template.meetinglist.events({
+Template.meetings.events({
     "click .hidehelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     },
