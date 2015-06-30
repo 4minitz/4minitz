@@ -32,7 +32,7 @@
             </div>
             <hr>
 
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#dlgAddTopic">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
                 Add Topic
             </button>
@@ -52,7 +52,7 @@
     <!-- MODAL DIALOG: Add Topic -->
     <!-- *********************** -->
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="dlgAddTopic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -60,7 +60,7 @@
                     <h4 class="modal-title" id="myModalLabel">Add Topic</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="frmDlgAddTopic">
                     <div class="form-group">
                         <label for="id_subject">Subject of Topic</label>
                         <input id="id_subject" type="text" class="form-control">
@@ -80,9 +80,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="id_duedate">Due Date</label>
-                                <input id="id_duedate" type="date" class="form-control"
-                                       data-value={{currentDatePlusDeltaDays 7}}>
+                                <label for="id_duedatePicker">Date</label>
+                                <div class='input-group date' id='id_duedatePicker'>
+                                    <input id="id_duedateInput" type='text' class="form-control"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>

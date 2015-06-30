@@ -11,6 +11,11 @@ Template.minutesedit.onRendered(function () {
             format: "YYYY-MM-DD"
         }
     );
+    this.$('#id_duedatePicker').datetimepicker(
+        {
+            format: "YYYY-MM-DD"
+        }
+    );
 });
 
 Template.minutesedit.helpers({
@@ -41,15 +46,6 @@ Template.minutesedit.helpers({
                 return min.topics;
             }
         }
-    },
-
-    currentDatePlusDeltaDays: function(deltaDays) {     // TODO: does not work with deltaDays!  :-(
-        var aDate = new Date();
-        if (deltaDays) {
-            aDate.setDate(aDate.getDate() + deltaDays);
-            console.log("ad:"+aDate);
-        }
-        return aDate;
     }
 });
 
@@ -83,7 +79,7 @@ Template.minutesedit.events({
         var aSubject = tmpl.find("#id_subject").value;
         var aPriority = tmpl.find("#id_priority").value;
         var aResponsible = tmpl.find("#id_responsible").value;
-        var aDuedate = tmpl.find("#id_duedate").value;
+        var aDuedate = tmpl.find("#id_duedateInput").value;
         var aDetails = tmpl.find("#id_details").value;
         if (aSubject == "") {
             return;
@@ -111,12 +107,24 @@ Template.minutesedit.events({
                 Minutes.update(_minutesID, {$set: {topics: topics}});
             }
         }
-        // Clear form
-        $('form')[0].reset();
+        // Hide modal dialog
+        $('#dlgAddTopic').modal('hide')
     },
 
-    "click #btnCancel": function (evt, tmpl) {
-        console.log("BTN Cancel");
-        // TODO: Add security question, if form is filled
+    "hidden.bs.modal #dlgAddTopic": function (evt, tmpl) {
+        $('#frmDlgAddTopic')[0].reset();
+    },
+
+    "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
+        tmpl.find("#id_duedateInput").value = currentDatePlusDeltaDays(7);
+        tmpl.find("#id_subject").focus();
     }
 });
+
+var currentDatePlusDeltaDays = function(deltaDays) {
+    var aDate = new Date();
+    if (deltaDays) {
+        aDate.setDate(aDate.getDate() + deltaDays);
+    }
+    return formatDateISO8601(aDate);
+};
