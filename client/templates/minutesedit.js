@@ -6,6 +6,11 @@ Template.minutesedit.created = function () {
 };
 
 Template.minutesedit.onRendered(function () {
+    this.$('#id_minutesdatePicker').datetimepicker(
+        {
+            format: "YYYY-MM-DD"
+        }
+    );
 });
 
 Template.minutesedit.helpers({
@@ -49,12 +54,10 @@ Template.minutesedit.helpers({
 });
 
 Template.minutesedit.events({
-    "change #id_minutesdate": function (evt, tmpl) {
-        console.log("1");
+    "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         var min = Minutes.findOne(_minutesID);
         if (min) {
-            console.log("2");
-            var aDate = tmpl.find("#id_minutesdate").value;
+            var aDate = tmpl.find("#id_minutesdateInput").value;
             Minutes.update(_minutesID, {$set: {date: aDate}});
         }
     },

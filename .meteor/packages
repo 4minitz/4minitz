@@ -11,3 +11,4 @@ iron:router
 accounts-password
 twbs:bootstrap
 useraccounts:bootstrap
+tsega:bootstrap3-datetimepicker

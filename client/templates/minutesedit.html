@@ -11,8 +11,13 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="id_minutesdate">Date</label>
-                        <input id="id_minutesdate" type="date" class="form-control" value={{minutes.date}}>
+                        <label for="id_minutesdatePicker">Date</label>
+                        <div class='input-group date' id='id_minutesdatePicker'>
+                            <input id="id_minutesdateInput" type='text' class="form-control" value="{{minutes.date}}" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
