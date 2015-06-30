@@ -6,32 +6,6 @@ Template.minutesedit.created = function () {
 };
 
 Template.minutesedit.onRendered(function () {
-    // Initialize the datepicker control
-    $('#id_minutesdate').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
-        format: 'yyyy-mm-dd',
-        closeOnSelect: true,
-        firstDay: 1
-    });
-    $('#id_duedate').pickadate({  // for all datepicker options see: http://amsul.ca/pickadate.js/date/
-        format: 'yyyy-mm-dd',
-        closeOnSelect: true,
-        firstDay: 1,
-        container: document.body
-    });
-
-    $('.modal-trigger').leanModal({
-            dismissible: false, // Modal can be dismissed by clicking outside of the modal
-            // complete: function() { alert('Closed'); } // Callback for Modal close
-            ready: function() {
-                    Meteor.defer(function () {  // wait for DOM update, then set focus on edit
-                        var input = $('#id_subject');
-                        if (input) {
-                            input.focus();
-                        }
-                    })
-            } // Callback for Modal open
-        }
-    );
 });
 
 Template.minutesedit.helpers({
@@ -66,7 +40,6 @@ Template.minutesedit.helpers({
 
     currentDatePlusDeltaDays: function(deltaDays) {     // TODO: does not work with deltaDays!  :-(
         var aDate = new Date();
-        console.log("DD:"+deltaDays);
         if (deltaDays) {
             aDate.setDate(aDate.getDate() + deltaDays);
             console.log("ad:"+aDate);
@@ -133,10 +106,6 @@ Template.minutesedit.events({
                 var topics = min.topics;
                 topics.unshift(topic);  // add to front of array
                 Minutes.update(_minutesID, {$set: {topics: topics}});
-
-                Meteor.defer(function () {  // activate the new added collapsible!
-                    $('.collapsible').collapsible();
-                })
             }
         }
         // Clear form

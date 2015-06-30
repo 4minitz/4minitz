@@ -1,6 +1,4 @@
 Template.meetings.onRendered(function () {
-  $('.collapsible').collapsible();
-  //$('.tooltipped').tooltip({delay: 50});
 });
 
 
