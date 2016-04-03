@@ -1,0 +1,40 @@
+@startuml
+' ************************ activities
+(Add MeetingType) as (AddMT)
+(List MeetingTypes) as (ListMT)
+(Add Invited) as (AddInv)
+(Add Moderator) as (AddMod)
+(Add One Minutes) as (AddM)
+(List All Minutes) as (ListM)
+(Read Minutes) as (ReadM)
+(Delete Minutes) as (DeleteM)
+
+' ************************ hierarchy
+User <|---- Invited
+Invited <|--- Moderator
+
+' ************************ relationships
+User -> (Start)
+User --> (AddMT)
+
+Invited --> (ListMT)
+Invited --> (ListM)
+Invited --> (ReadM)
+
+Moderator --> (AddM)
+Moderator ---> (AddInv)
+Moderator ---> (AddMod)
+Moderator ---> (DeleteM)
+
+(AddMT) .. Moderator
+
+' ************************ notes
+note right of (AddM): to MeetingType
+note right of (AddMT)
+    1.) MeetingType consists of
+         ProjectName & MeetingName
+    2.) User becomes Moderator of
+         this MeetingType
+end note
+
+@enduml
