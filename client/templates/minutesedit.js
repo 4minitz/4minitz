@@ -19,11 +19,12 @@ Template.minutesedit.onRendered(function () {
 });
 
 Template.minutesedit.helpers({
-    meeting: function() {
+    meetingSeries: function() {
         if (_minutesID && _minutesID != "") {
             var min = Minutes.findOne(_minutesID);
             if (min) {
-                return MeetingSeries.findOne(min.meeting_id);
+                ms = MeetingSeries.findOne(min.meetingSeries_id);
+                return ms
             }
         }
         return null;

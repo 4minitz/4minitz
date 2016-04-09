@@ -1,15 +1,15 @@
 // Meetings = new Mongo.Collection("meetings");
 
-Template.meetingnew.onCreated(function () {
+Template.meetingSeriesAdd.onCreated(function () {
     //add your statement here
     //$('.tooltipped').tooltip({delay: 50});
 });
 
-Template.meetingnew.helpers({
+Template.meetingSeriesAdd.helpers({
     //add you helpers here
 });
 
-Template.meetingnew.events({
+Template.meetingSeriesAdd.events({
     "click #btnSave": function (event, template) {
         event.preventDefault();
         var aProject = template.find("#id_meetingproject").value;
@@ -18,7 +18,7 @@ Template.meetingnew.events({
             return;
         }
 
-        Meteor.call("addMeeting", aProject, aName);
+        Meteor.call("addMeetingSeries", aProject, aName);
 
         // Clear form
         $('form')[0].reset();

@@ -1,7 +1,7 @@
 @startuml
 
-MeetingSeries "1" --> "*" MeetingMinutes
-MeetingMinutes "1" --> "*" Topic
+MeetingSeries "1" --> "*" Minutes
+Minutes "1" --> "*" Topic
 Topic <|-- ActionItem
 Topic <|-- Decision
 Topic <|-- Information
@@ -12,7 +12,7 @@ class MeetingSeries {
     string name
 }
 
-class MeetingMinutes {
+class Minutes {
     Date date
     string[] participants
     string text

@@ -1,35 +1,34 @@
-Template.meetings.onRendered(function () {
+Template.meetingSeriesList.onRendered(function () {
 });
 
 
-Template.meetings.onCreated(function () {
+Template.meetingSeriesList.onCreated(function () {
 });
 
-Template.meetings.helpers({
-    meetings: function () {
-      //return MeetingSeries.find({});
+Template.meetingSeriesList.helpers({
+    meetingSeriesRow: function () {
       return MeetingSeries.find({}, {sort: {createdAt: -1}});
     }
 });
 
-Template.meetings.events({
+Template.meetingSeriesList.events({
     "click .hidehelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     },
-    "click #deleteMeeting": function() {
+    "click #deleteMeetingSeries": function() {
         console.log("Delete");
-        if (confirm("Do you really want to delete this meeting type?")) {
-          Meteor.call("deleteMeeting", this._id);
+        if (confirm("Do you really want to delete this meeting series?")) {
+          Meteor.call("deleteMeetingSeries", this._id);
         }
     },
     "click #deleteMeetingDB": function() {
         console.log("Delete from DB");
-          Meteor.call("deleteMeeting", this._id);
+          Meteor.call("deleteMeetingSeries", this._id);
     }
 });
 
 
-Template.meetingRow.helpers( {
+Template.meetingSeriesOverview.helpers( {
     countMinutes: function() {
       if (this.minutes) {
         return this.minutes.length;

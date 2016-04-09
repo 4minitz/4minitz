@@ -1,16 +1,16 @@
-var _meeting;   // the parent meeting of this minutes
+var _meetingSeries;   // the parent meeting object of this minutes
 
-Template.meeting.created = function () {
-    _meeting = MeetingSeries.findOne(this.data);
+Template.meetingSeries.created = function () {
+    _meetingSeries = MeetingSeries.findOne(this.data);
 };
 
-Template.meeting.helpers({
-    meeting: function() {
-        return _meeting;
+Template.meetingSeries.helpers({
+    meetingSeries: function() {
+        return _meetingSeries;
     },
 
     minutes: function() {
-        var minIDs = _meeting.minutes;
+        var minIDs = _meetingSeries.minutes;
         var results = [];
         for (index = 0; index < minIDs.length; ++index) {
             var id = minIDs[index];
@@ -21,7 +21,7 @@ Template.meeting.helpers({
     }
 });
 
-Template.meeting.events({
+Template.meetingSeries.events({
     "click #btnHideHelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     }
