@@ -23,7 +23,7 @@ Template.minutesedit.helpers({
         if (_minutesID && _minutesID != "") {
             var min = Minutes.findOne(_minutesID);
             if (min) {
-                return Meetings.findOne(min.meeting_id);
+                return MeetingSeries.findOne(min.meeting_id);
             }
         }
         return null;

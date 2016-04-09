@@ -7,8 +7,8 @@ Template.meetings.onCreated(function () {
 
 Template.meetings.helpers({
     meetings: function () {
-      //return Meetings.find({});
-      return Meetings.find({}, {sort: {createdAt: -1}});
+      //return MeetingSeries.find({});
+      return MeetingSeries.find({}, {sort: {createdAt: -1}});
     }
 });
 
