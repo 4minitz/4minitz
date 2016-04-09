@@ -1,7 +1,9 @@
 @startuml
+!include style.puml
+
 ' ************************ activities
-(Add MeetingType) as (AddMT)
-(List MeetingTypes) as (ListMT)
+(Add MettingSeries) as (AddMS)
+(List All MettingSeries) as (ListMS)
 (Add Invited) as (AddInv)
 (Add Moderator) as (AddMod)
 (Add One Minutes) as (AddM)
@@ -15,9 +17,9 @@ Invited <|--- Moderator
 
 ' ************************ relationships
 User -> (Start)
-User --> (AddMT)
+User --> (AddMS)
 
-Invited --> (ListMT)
+Invited --> (ListMS)
 Invited --> (ListM)
 Invited --> (ReadM)
 
@@ -26,15 +28,15 @@ Moderator ---> (AddInv)
 Moderator ---> (AddMod)
 Moderator ---> (DeleteM)
 
-(AddMT) .. Moderator
+(AddMS) .. Moderator
 
 ' ************************ notes
-note right of (AddM): to MeetingType
-note right of (AddMT)
-    1.) MeetingType consists of
+note right of (AddM): to MettingSeries
+note right of (AddMS)
+    1.) MettingSeries consists of
          ProjectName & MeetingName
     2.) User becomes Moderator of
-         this MeetingType
+         this MettingSeries
 end note
 
 @enduml
