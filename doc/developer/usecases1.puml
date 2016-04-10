@@ -2,8 +2,8 @@
 !include style.puml
 
 ' ************************ activities
-(Add MettingSeries) as (AddMS)
-(List All MettingSeries) as (ListMS)
+(Add MeetingSeries) as (AddMS)
+(List All MeetingSeries) as (ListMS)
 (Add Invited) as (AddInv)
 (Add Moderator) as (AddMod)
 (Add One Minutes) as (AddM)
@@ -31,12 +31,12 @@ Moderator ---> (DeleteM)
 (AddMS) .. Moderator
 
 ' ************************ notes
-note right of (AddM): to MettingSeries
+note right of (AddM): to MeetingSeries
 note right of (AddMS)
-    1.) MettingSeries consists of
+    1.) MeetingSeries consists of
          ProjectName & MeetingName
     2.) User becomes Moderator of
-         this MettingSeries
+         this MeetingSeries
 end note
 
 @enduml
