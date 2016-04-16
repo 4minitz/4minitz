@@ -1,18 +1,23 @@
-var _meetingSeries;   // the parent meeting object of this minutes
+
+import { MeetingSeries } from '/imports/meetingseries'
+import { Minutes } from '/imports/minutes'
+
+var _meetingSeriesID;   // the parent meeting object of this minutes
 
 Template.meetingSeries.created = function () {
-    _meetingSeries = MeetingSeries.findOne(this.data);
+    _meetingSeriesID = this.data;
 };
 
 Template.meetingSeries.helpers({
     meetingSeries: function() {
-        return _meetingSeries;
+        return new MeetingSeries(_meetingSeriesID);
     },
 
     minutes: function() {
-        var minIDs = _meetingSeries.minutes;
+        let ms = new MeetingSeries(_meetingSeriesID);
+        var minIDs = ms.minutes;        // TODO realize MeetingSeries => Minutes via method
         var results = [];
-        for (index = 0; index < minIDs.length; ++index) {
+        for (let index = 0; index < minIDs.length; ++index) {
             var id = minIDs[index];
             var min = Minutes.findOne(id);
             results.push (min);
