@@ -1,3 +1,6 @@
+import { MeetingSeries } from '/imports/meetingseries'
+import { Minutes } from '/imports/minutes'
+
 Template.meetingSeriesList.onRendered(function () {
 });
 
@@ -16,14 +19,10 @@ Template.meetingSeriesList.events({
         $(".help").hide();  // use jQuery to find and hide class
     },
     "click #deleteMeetingSeries": function() {
-        console.log("Delete");
+        console.log("Remove Meeting Series"+this._id);
         if (confirm("Do you really want to delete this meeting series?")) {
-          Meteor.call("deleteMeetingSeries", this._id);
+            MeetingSeries.remove(this._id);
         }
-    },
-    "click #deleteMeetingDB": function() {
-        console.log("Delete from DB");
-          Meteor.call("deleteMeetingSeries", this._id);
     }
 });
 

@@ -1,3 +1,5 @@
+import { MeetingSeries } from '/imports/meetingseries'
+import { Minutes } from '/imports/minutes'
 
 var _minutesID; // the ID of these minutes
 
@@ -20,58 +22,51 @@ Template.minutesedit.onRendered(function () {
 
 Template.minutesedit.helpers({
     meetingSeries: function() {
-        if (_minutesID && _minutesID != "") {
-            var min = Minutes.findOne(_minutesID);
-            if (min) {
-                ms = MeetingSeries.findOne(min.meetingSeries_id);
-                return ms
-            }
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            return aMin.parentMeetingSeries();
         }
         return null;
     },
 
     minutes: function () {
-        if (_minutesID && _minutesID != "") {
-            var min = Minutes.findOne(_minutesID);
-            if (min) {
-                return min;
-            }
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            return aMin;
         }
         return null;
     },
 
     topicsArray: function () {
-        if (_minutesID && _minutesID != "") {
-            var min = Minutes.findOne(_minutesID);
-            if (min) {
-                return min.topics;
-            }
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            return aMin.topics;
         }
     }
 });
 
 Template.minutesedit.events({
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
-        var min = Minutes.findOne(_minutesID);
-        if (min) {
-            var aDate = tmpl.find("#id_minutesdateInput").value;
-            Minutes.update(_minutesID, {$set: {date: aDate}});
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            let aDate = tmpl.find("#id_minutesdateInput").value;
+            aMin.update({date: aDate});
         }
     },
 
     "change #id_participants": function (evt, tmpl) {
-        var theParticipant = tmpl.find("#id_participants").value;
-        var min = Minutes.findOne(_minutesID);
-        if (min) {
-            Minutes.update(_minutesID, {$set: {participants: theParticipant}});
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            let theParticipant = tmpl.find("#id_participants").value;
+            aMin.update({participants: theParticipant});
         }
     },
 
     "change #id_agenda": function (evt, tmpl) {
-        var min = Minutes.findOne(_minutesID);
-        if (min) {
-            var anAgenda = tmpl.find("#id_agenda").value;
-            Minutes.update(_minutesID, {$set: {agenda: anAgenda}});
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            let anAgenda = tmpl.find("#id_agenda").value;
+            aMin.update({agenda: anAgenda});
         }
     },
 
@@ -86,27 +81,25 @@ Template.minutesedit.events({
             return;
         }
 
-        if (_minutesID && _minutesID != "") {
-            var min = Minutes.findOne(_minutesID);
-            if (min) {
-                aDate = formatDateISO8601(new Date());
-                var topic =
-                {
-                    subject: aSubject,
-                    responsible: aResponsible,
-                    priority: aPriority,
-                    duedate: aDuedate,
-                    state: "open",
-                    details: [{
-                        date: aDate,
-                        text: aDetails
-                    }]  // end-of details
-                }; // end-of topic
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            let aDate = formatDateISO8601(new Date());
+            var topic =                             // TODO: Use to-be-created Topic class for this!
+            {
+                subject: aSubject,
+                responsible: aResponsible,
+                priority: aPriority,
+                duedate: aDuedate,
+                state: "open",
+                details: [{
+                    date: aDate,
+                    text: aDetails
+                }]  // end-of details
+            }; // end-of topic
 
-                var topics = min.topics;
-                topics.unshift(topic);  // add to front of array
-                Minutes.update(_minutesID, {$set: {topics: topics}});
-            }
+            var topics = aMin.topics;
+            topics.unshift(topic);  // add to front of array
+            aMin.update({topics: topics});
         }
         // Hide modal dialog
         $('#dlgAddTopic').modal('hide')
