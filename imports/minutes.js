@@ -83,4 +83,18 @@ export class Minutes {
     parentMeetingSeries () {
         return MeetingSeries.findOne(this.meetingSeries_id);
     }
+
+    // This also does a minimal update of collection!
+    removeTopicWithID(id) {
+        let i = -1;
+        for (i = 0; i < this.topics.length; i++) {
+            if (id === this.topics[i]._id) {
+                break;
+            }
+        }
+        if (i > -1) {
+            this.topics.splice(i, 1);
+            this.update({topics: this.topics}); // update only topics array!
+        }
+    }
 }

@@ -30,14 +30,6 @@ Template.minutesedit.helpers({
             return aMin;
         }
         return null;
-    },
-
-    topicsArray: function () {
-        let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            return aMin.topics;
-        }
-        return null;
     }
 });
 

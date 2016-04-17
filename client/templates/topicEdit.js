@@ -46,6 +46,7 @@ Template.topicEdit.events({
             let aDate = formatDateISO8601(new Date());
             var topic =                             // TODO: Use to-be-created Topic class for this!
             {
+                _id: Random.id(),   // create our own local _id here!
                 subject: aSubject,
                 responsible: aResponsible,
                 priority: aPriority,

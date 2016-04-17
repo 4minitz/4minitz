@@ -1,9 +1,10 @@
-<template name="topics">
+<template name="topicsList">
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-{{#each this}}
+{{#each topicsArray}}
         <div class="panel panel-info">
             <div class="panel-heading" role="tab" id="headingOne">
                 <h4 class="panel-title">
+                    <a id="btnDelTopic" href="#"><span class="glyphicon glyphicon-remove"></span></a>&nbsp;&nbsp;
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{currentCollapseID}}" aria-expanded="true" aria-controls="collapseOne">
                         {{subject}}
                         Resp: {{responsible}}

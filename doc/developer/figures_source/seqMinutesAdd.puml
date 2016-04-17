@@ -2,8 +2,8 @@
 !include style.puml
 
 Moderator -> Router: /minutesadd/:_id (for parent meetingSeries)
-    Router -> Series: addNewMinutes()
-        Series -> Minutes: (new Minutes()).save()
+    Router -> MeetingSeries: addNewMinutes()
+        MeetingSeries -> Minutes: (new Minutes()).save()
             Minutes -> Session: _id for new minutes
     Router <-- Session: _id for new minutes
 Moderator <- Router: redirect(/minutesedit/:_id) (for new minutes)
