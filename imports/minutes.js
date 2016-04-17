@@ -24,8 +24,16 @@ export class Minutes {
         return MinutesCollection.find.apply(MinutesCollection, arguments);
     }
 
-    static findOne(query, projection) {
+    static findOne() {
         return MinutesCollection.findOne.apply(MinutesCollection, arguments);
+    }
+
+    static findAllIn(MinutesIDArray) {
+        console.log("findAllIn:"+MinutesIDArray);
+        let minCursor =  MinutesCollection.find(
+            {_id: {$in: MinutesIDArray}},
+            {sort: {date: -1}});
+        return minCursor;
     }
 
     static remove(id) {

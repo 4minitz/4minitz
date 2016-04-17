@@ -15,14 +15,7 @@ Template.meetingSeries.helpers({
 
     minutes: function() {
         let ms = new MeetingSeries(_meetingSeriesID);
-        var minIDs = ms.minutes;        // TODO realize MeetingSeries => Minutes via method
-        var results = [];
-        for (let index = 0; index < minIDs.length; ++index) {
-            var id = minIDs[index];
-            var min = Minutes.findOne(id);
-            results.push (min);
-        }
-        return results;
+        return ms.getAllMinutes();
     }
 });
 

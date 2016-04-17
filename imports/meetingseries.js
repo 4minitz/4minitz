@@ -66,4 +66,8 @@ export class MeetingSeries {
         console.log("   Constr. OK");
         min.save(true);
     }
+
+    getAllMinutes () {
+        return Minutes.findAllIn(this.minutes);
+    }
 }
