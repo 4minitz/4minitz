@@ -1,8 +1,8 @@
 
-Template.topics.created = function () {
+Template.topics.onCreated = function () {
 };
 
-Template.topics.rendered = function () {
+Template.topics.onRendered = function () {
 };
 
 var collapseID = 0;

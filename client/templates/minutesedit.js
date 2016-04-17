@@ -3,17 +3,12 @@ import { Minutes } from '/imports/minutes'
 
 var _minutesID; // the ID of these minutes
 
-Template.minutesedit.created = function () {
+Template.minutesedit.onCreated = function () {
     _minutesID = this.data;
 };
 
 Template.minutesedit.onRendered(function () {
     this.$('#id_minutesdatePicker').datetimepicker(
-        {
-            format: "YYYY-MM-DD"
-        }
-    );
-    this.$('#id_duedatePicker').datetimepicker(
         {
             format: "YYYY-MM-DD"
         }
@@ -42,6 +37,7 @@ Template.minutesedit.helpers({
         if (aMin) {
             return aMin.topics;
         }
+        return null;
     }
 });
 
@@ -68,57 +64,5 @@ Template.minutesedit.events({
             let anAgenda = tmpl.find("#id_agenda").value;
             aMin.update({agenda: anAgenda});
         }
-    },
-
-    "click #btnOK": function (evt, tmpl) {
-        evt.preventDefault();
-        var aSubject = tmpl.find("#id_subject").value;
-        var aPriority = tmpl.find("#id_priority").value;
-        var aResponsible = tmpl.find("#id_responsible").value;
-        var aDuedate = tmpl.find("#id_duedateInput").value;
-        var aDetails = tmpl.find("#id_details").value;
-        if (aSubject == "") {
-            return;
-        }
-
-        let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            let aDate = formatDateISO8601(new Date());
-            var topic =                             // TODO: Use to-be-created Topic class for this!
-            {
-                subject: aSubject,
-                responsible: aResponsible,
-                priority: aPriority,
-                duedate: aDuedate,
-                state: "open",
-                details: [{
-                    date: aDate,
-                    text: aDetails
-                }]  // end-of details
-            }; // end-of topic
-
-            var topics = aMin.topics;
-            topics.unshift(topic);  // add to front of array
-            aMin.update({topics: topics});
-        }
-        // Hide modal dialog
-        $('#dlgAddTopic').modal('hide')
-    },
-
-    "hidden.bs.modal #dlgAddTopic": function (evt, tmpl) {
-        $('#frmDlgAddTopic')[0].reset();
-    },
-
-    "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
-        tmpl.find("#id_duedateInput").value = currentDatePlusDeltaDays(7);
-        tmpl.find("#id_subject").focus();
     }
 });
-
-var currentDatePlusDeltaDays = function(deltaDays) {
-    var aDate = new Date();
-    if (deltaDays) {
-        aDate.setDate(aDate.getDate() + deltaDays);
-    }
-    return formatDateISO8601(aDate);
-};

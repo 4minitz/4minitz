@@ -4,7 +4,7 @@ import { Minutes } from '/imports/minutes'
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
-Template.meetingSeriesDetails.created = function () {
+Template.meetingSeriesDetails.onCreated = function () {
     _meetingSeriesID = this.data;
 };
 

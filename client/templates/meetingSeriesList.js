@@ -25,7 +25,3 @@ Template.meetingSeriesList.events({
         }
     }
 });
-
-
-Template.meetingSeriesOverview.helpers( {
-});
