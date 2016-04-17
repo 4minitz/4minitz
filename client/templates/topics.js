@@ -11,6 +11,7 @@ Template.topics.helpers({
         return this.details;
     },
 
+    // generate 1-1, 2-2, 3-3,... pairs to link headings with their collapsible details
     currentCollapseID: function () {
         cID = collapseID;
         collapseID ++;
