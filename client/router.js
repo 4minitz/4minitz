@@ -11,7 +11,7 @@ Router.route('/', {name: 'home'});
 
 Router.route('/meetingseries/:_id', function () {
     var meetingSeriesID = this.params._id;
-    this.render('meetingSeries', {data: meetingSeriesID});
+    this.render('meetingSeriesDetails', {data: meetingSeriesID});
 });
 
 Router.route('/minutesadd/:_id', function () {

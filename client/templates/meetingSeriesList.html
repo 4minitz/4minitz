@@ -32,10 +32,12 @@
             <a id="deleteMeetingSeries" class="btn btn-info">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Meeting Series"></span>
             </a>
-            {{this.project}}: {{this.name}}
-            {{#if lastMinutes}}
-              (last minutes of <a href="/minutesedit/{{lastMinutes._id}}">{{lastMinutes.date}}</a>)
-            {{/if}}
+            {{project}}: {{name}}
+            {{#with lastMin = lastMinutes}}
+                {{#if lastMin}}
+                  (last minutes of <a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)
+                {{/if}}
+            {{/with}}
             <span class="badge">{{countMinutes}}</span>
         </li>
 </template>

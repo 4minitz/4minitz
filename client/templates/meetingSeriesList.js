@@ -28,22 +28,4 @@ Template.meetingSeriesList.events({
 
 
 Template.meetingSeriesOverview.helpers( {
-    countMinutes: function() {
-      if (this.minutes) {
-        return this.minutes.length;
-      } else {
-        return 0;
-      }
-    },
-
-    lastMinutes: function () {
-        if (this.minutes && this.minutes.length > 0) {
-            lastMinutesID = this.minutes[this.minutes.length -1];
-            lastMinutes = Minutes.findOne(lastMinutesID);
-            if (lastMinutes) {
-                return lastMinutes
-            }
-        }
-        return false;
-    }
 });

@@ -70,4 +70,23 @@ export class MeetingSeries {
     getAllMinutes () {
         return Minutes.findAllIn(this.minutes);
     }
+
+    countMinutes () {
+        if (this.minutes) {
+            return this.minutes.length;
+        } else {
+            return 0;
+        }
+    }
+
+    lastMinutes () {
+        if (!this.minutes || this.minutes.length == 0) {
+            return false;
+        }
+        let lastMin = Minutes.findAllIn(this.minutes, 1).fetch();
+        if (lastMin && lastMin.length == 1) {
+            return lastMin[0];
+        }
+        return false;
+    }
 }

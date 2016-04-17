@@ -4,11 +4,11 @@ import { Minutes } from '/imports/minutes'
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
-Template.meetingSeries.created = function () {
+Template.meetingSeriesDetails.created = function () {
     _meetingSeriesID = this.data;
 };
 
-Template.meetingSeries.helpers({
+Template.meetingSeriesDetails.helpers({
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);
     },
@@ -19,7 +19,7 @@ Template.meetingSeries.helpers({
     }
 });
 
-Template.meetingSeries.events({
+Template.meetingSeriesDetails.events({
     "click #btnHideHelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     }

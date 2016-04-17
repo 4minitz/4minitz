@@ -28,12 +28,19 @@ export class Minutes {
         return MinutesCollection.findOne.apply(MinutesCollection, arguments);
     }
 
-    static findAllIn(MinutesIDArray) {
-        console.log("findAllIn:"+MinutesIDArray);
-        let minCursor =  MinutesCollection.find(
+    static findAllIn(MinutesIDArray, limit) {
+        console.log("findAllIn: >"+MinutesIDArray+"<");
+        if (!MinutesIDArray || MinutesIDArray.length == 0) {
+            return [];
+        }
+
+        let options = {sort: {date: -1}};
+        if (limit) {
+            options["limit"] = limit;
+        }
+        return MinutesCollection.find(
             {_id: {$in: MinutesIDArray}},
-            {sort: {date: -1}});
-        return minCursor;
+            options);
     }
 
     static remove(id) {
