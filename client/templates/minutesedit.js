@@ -3,9 +3,9 @@ import { Minutes } from '/imports/minutes'
 
 var _minutesID; // the ID of these minutes
 
-Template.minutesedit.onCreated = function () {
+Template.minutesedit.onCreated(function () {
     _minutesID = this.data;
-};
+});
 
 Template.minutesedit.onRendered(function () {
     this.$('#id_minutesdatePicker').datetimepicker(

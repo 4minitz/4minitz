@@ -31,7 +31,13 @@ Template.topicEdit.events({
         var aResponsible = tmpl.find("#id_responsible").value;
         var aDuedate = tmpl.find("#id_duedateInput").value;
         var aDetails = tmpl.find("#id_details").value;
+        let subjectNode = tmpl.$("#id_subject");
+
+        // validate form and show errors
+        subjectNode.parent().removeClass("has-error");
         if (aSubject == "") {
+            subjectNode.parent().addClass("has-error");
+            subjectNode.focus();
             return;
         }
 

@@ -1,9 +1,9 @@
 
-Template.topics.onCreated = function () {
-};
+Template.topics.onCreated(function () {
+});
 
-Template.topics.onRendered = function () {
-};
+Template.topics.onRendered(function () {
+});
 
 var collapseID = 0;
 Template.topics.helpers({
