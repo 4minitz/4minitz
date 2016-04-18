@@ -34,9 +34,7 @@ Meteor.methods({
         //    throw new Meteor.Error('not-authorized');
         //}
         // Inject userId to specify owner of doc
-        //if (doc.userId == undefined) {
-        //    doc.userId = Meteor.userId();
-        //}
+        //doc.userId = Meteor.userId();
 
         MinutesCollection.insert(doc, function(error, newMinutesID) {
             doc._id = newMinutesID;
