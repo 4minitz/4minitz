@@ -88,6 +88,8 @@ Meteor.methods({
         // related meetingSeries as well.
         let minutes = MinutesCollection.findOne(id);
         MeetingSeriesCollection.update(minutes.meetingSeries_id, {$pull: {'minutes': id}});
+            // maybe we should encapsulate the access to the meetingSeriesCollection in
+            // the meetingseries_private.js ???
 
         // last but not least we remove the minutes itself.
         MinutesCollection.remove(id);
