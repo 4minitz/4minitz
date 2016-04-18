@@ -1,0 +1,42 @@
+@startuml
+!include style.puml
+
+' ************************ activities
+(Add MeetingSeries) as (AddMS)
+(List All MeetingSeries) as (ListMS)
+(Add Invited) as (AddInv)
+(Add Moderator) as (AddMod)
+(Add One Minutes) as (AddM)
+(List All Minutes) as (ListM)
+(Read Minutes) as (ReadM)
+(Delete Minutes) as (DeleteM)
+
+' ************************ hierarchy
+User <|---- Invited
+Invited <|--- Moderator
+
+' ************************ relationships
+User -> (Start)
+User --> (AddMS)
+
+Invited --> (ListMS)
+Invited --> (ListM)
+Invited --> (ReadM)
+
+Moderator --> (AddM)
+Moderator ---> (AddInv)
+Moderator ---> (AddMod)
+Moderator ---> (DeleteM)
+
+(AddMS) .. Moderator
+
+' ************************ notes
+note right of (AddM): to MeetingSeries
+note right of (AddMS)
+    1.) MeetingSeries consists of
+         ProjectName & MeetingName
+    2.) User becomes Moderator of
+         this MeetingSeries
+end note
+
+@enduml

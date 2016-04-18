@@ -1,7 +1,7 @@
-<template name="meeting">
+<template name="meetingSeriesDetails">
     <h2 class="header center orange-text">
-        List Minutes for Meeting<br>
-        {{meeting.project}} - {{meeting.name}}
+        Meeting Series Details<br>
+        {{meetingSeries.project}} - {{meetingSeries.name}}
     </h2>
     <div class="divider"></div>
 
@@ -9,7 +9,7 @@
     <ul class="list-group" style="font-size: 130%;">
         {{#each minutes}}
           <li class="list-group-item">
-              <a href="/minutesedit/{{this._id}}" class="btn btn-info">{{date}}</a>
+              <a href="/minutesedit/{{_id}}" class="btn btn-info">{{date}}</a>
               Participants: {{participants}}
           </li>
         {{/each}}

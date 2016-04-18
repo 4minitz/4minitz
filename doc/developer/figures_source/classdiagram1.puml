@@ -1,0 +1,21 @@
+@startuml
+!include style.puml
+
+MeetingSeries "1" --> "*" Minutes
+Minutes "1" --> "*" Topic
+Topic <|-- ActionItem
+Topic <|-- Decision
+Topic <|-- Information
+
+
+class MeetingSeries {
+    string project
+    string name
+}
+
+class Minutes {
+    Date date
+    string[] participants
+    string text
+}
+@enduml

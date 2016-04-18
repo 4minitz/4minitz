@@ -4,7 +4,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-autopublish
 insecure
 iron:router
 accounts-password
@@ -26,3 +25,5 @@ spacebars
 check
 standard-minifier-css
 standard-minifier-js
+es5-shim
+ecmascript

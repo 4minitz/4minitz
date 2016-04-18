@@ -1,14 +1,7 @@
-# 4minitz!
+# 4minitz Admin Guide
 
-Simply the best app for taking minutes.
+## Setup
 
-Documentation is "continously" not finished... Nevertheless these WIP docs may be of help:
-
-* [User Doc](doc/user/usermanual.md)
-* [Admin Guide](doc/admin/adminguide.md)
-* [Developer Doc](doc/developer/developermanual.md)
-
-## Quick Start
 ### Prerequisites
 1. Install current version of node.js
    Make sure, node & npm is in the PATH.
@@ -27,3 +20,5 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
     git clone --depth 1 https://github.com/4minitz/4minitz.git
     cd 4minitz
     meteor --production
+
+You can reach 4minitz via the default port 3000 by opening [http://localhost:3000](http://localhost:3000) in your browser 
