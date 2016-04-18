@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes'
 import { MeetingSeries } from '../meetingseries'
+import { MeetingSeriesCollection } from './meetingseries_private'
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -82,6 +83,13 @@ Meteor.methods({
         //}
         // Ensure user can not remove documents of other users
         // MinutesCollection.remove({_id: id, userId: Meteor.userId()});
+
+        // when removing minutes, remove the id from the minutes array in the
+        // related meetingSeries as well.
+        let minutes = MinutesCollection.findOne(id);
+        MeetingSeriesCollection.update(minutes.meetingSeries_id, {$pull: {'minutes': id}});
+
+        // last but not least we remove the minutes itself.
         MinutesCollection.remove(id);
     }
 });
