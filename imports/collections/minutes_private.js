@@ -54,7 +54,10 @@ Meteor.methods({
     },
 
     'minutes.update'(doc) {
-        if (doc._id == undefined || doc._id == "") {
+        let id = doc._id;
+        delete doc._id; // otherwise collection.update will fail
+
+        if (id == undefined || id == "") {
             return;
         }
 
