@@ -60,7 +60,7 @@ export class Minutes {
             this.createdAt = new Date();
         }
         if (this._id && this._id != "") {
-            Meteor.call("minutes.update", this);    // TODO - Method does not exist!
+            Meteor.call("minutes.update", this);
             if (edit) {
                 Session.set("currentMinutesID", this._id);
             }
