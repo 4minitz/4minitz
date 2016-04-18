@@ -68,7 +68,7 @@ export class Minutes {
             if (this.topics == undefined) {
                 this.topics = [];
             }
-            Meteor.call("minutes.insert", this, edit);
+            Meteor.call("minutes.insert", this);
         }
     }
 

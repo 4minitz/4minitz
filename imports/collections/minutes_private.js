@@ -25,7 +25,7 @@ if (Meteor.isClient) {
 }
 
 Meteor.methods({
-    'minutes.insert'(doc, edit) {
+    'minutes.insert'(doc) {
         // check(text, String);
 
         // If app has activated accounts ...
@@ -55,6 +55,20 @@ Meteor.methods({
         });
     },
 
+    'minutes.update'(doc) {
+        if (doc._id == undefined || doc._id == "") {
+            return;
+        }
+
+        // If app has activated accounts ...
+        // Make sure the user is logged in before updating a task
+        //if (!Meteor.userId()) {
+        //    throw new Meteor.Error('not-authorized');
+        //}
+        // Ensure user can not update documents of other users
+        // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: docPart});
+        MinutesCollection.update(doc._id, {$set: doc});
+    },
 
     'minutes.updateDocPart'(doc, docPart) {
         if (doc._id == undefined || doc._id == "")
