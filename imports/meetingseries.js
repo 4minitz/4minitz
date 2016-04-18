@@ -24,7 +24,7 @@ export class MeetingSeries {
         return MeetingSeriesCollection.find.apply(MeetingSeriesCollection, arguments);
     }
 
-    static findOne(query, projection) {
+    static findOne() {
         return MeetingSeriesCollection.findOne.apply(MeetingSeriesCollection, arguments);
     }
 
@@ -63,7 +63,6 @@ export class MeetingSeries {
             meetingSeries_id: this._id,
             date: formatDateISO8601(new Date())
         });
-        console.log("   Constr. OK");
         min.save(true);
     }
 

@@ -1,7 +1,9 @@
 <template name="meetingSeriesDetails">
     <h2 class="header center orange-text">
         Meeting Series Details<br>
-        {{meetingSeries.project}} - {{meetingSeries.name}}
+        {{#with meetingSeries}}
+            {{project}} - {{name}}
+        {{/with}}
     </h2>
     <div class="divider"></div>
 

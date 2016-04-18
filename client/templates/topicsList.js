@@ -32,7 +32,7 @@ Template.topicsList.helpers({
 
     topicColor: function () {
         if (this.state === "open") {
-            return "teal lighten-3";
+            return "teal lighten-3";    // TODO: old colors
         } else {
             return "grey lighten-1";
         }
