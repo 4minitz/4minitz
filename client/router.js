@@ -1,5 +1,4 @@
 import { MeetingSeries } from '/imports/meetingseries'
-import { Minutes } from '/imports/minutes'
 
 Router.configure({
     // set default application template for all routes
@@ -15,13 +14,15 @@ Router.route('/meetingseries/:_id', function () {
 });
 
 Router.route('/minutesadd/:_id', function () {
-    var meetingSeriesID = this.params._id;
+    let meetingSeriesID = this.params._id;
     ms = new MeetingSeries(meetingSeriesID);
-    ms.addNewMinutes();
 
-    // grab new minutes ID published by the callback inside initializeMinutes via Session
-    let newMinutesID = Session.get("currentMinutesID");
-    this.redirect('/minutesedit/'+newMinutesID);
+    let id = '';
+    ms.addNewMinutes(newMinutesID => {
+        id = newMinutesID;
+    });
+
+    this.redirect('/minutesedit/' + id);
 });
 
 Router.route('/minutesedit/:_id', function () {
