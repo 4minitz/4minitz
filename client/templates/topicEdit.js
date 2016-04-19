@@ -31,9 +31,9 @@ Template.topicEdit.events({
         var aResponsible = tmpl.find("#id_responsible").value;
         var aDuedate = tmpl.find("#id_duedateInput").value;
         var aDetails = tmpl.find("#id_details").value;
-        let subjectNode = tmpl.$("#id_subject");
 
         // validate form and show errors
+        let subjectNode = tmpl.$("#id_subject");
         subjectNode.parent().removeClass("has-error");
         if (aSubject == "") {
             subjectNode.parent().addClass("has-error");
@@ -68,6 +68,8 @@ Template.topicEdit.events({
 
     "hidden.bs.modal #dlgAddTopic": function (evt, tmpl) {
         $('#frmDlgAddTopic')[0].reset();
+        let subjectNode = tmpl.$("#id_subject");
+        subjectNode.parent().removeClass("has-error");
     },
 
     "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
