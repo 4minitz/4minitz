@@ -1,4 +1,5 @@
 import { Minutes } from '/imports/minutes'
+import { Topic } from '/imports/topic'
 
 var _minutesID; // the ID of these minutes
 
@@ -30,19 +31,40 @@ Template.topicsList.helpers({
         return Math.floor(cID / 2);
     },
 
-    topicColor: function () {
-        if (this.state === "open") {
-            return "teal lighten-3";    // TODO: old colors
+    topicBackgroundColor: function () {
+        if (this.isOpen) {
+            return "panel-info";
         } else {
-            return "grey lighten-1";
+            return "panel-warning";
+        }
+    },
+
+    openCloseIcon: function () {
+        if (this.isOpen) {
+            return "unchecked";
+        } else {
+            return "check";
         }
     }
+
 });
+
 
 Template.topicsList.events({
     'click #btnDelTopic'(evt, tmpl) {
-        console.log("Delete Topics: "+this._id+" from minutes "+_minutesID);
+        evt.preventDefault();
+        console.log("Delete topics: "+this._id+" from minutes "+_minutesID);
         let aMin = new Minutes(_minutesID);
-        aMin.removeTopicWithID(this._id);
+        aMin.removeTopic(this._id);
+    },
+
+    'click #btnToggleState'(evt, tmpl) {
+        evt.preventDefault();
+        console.log("Toggle topic state: "+this._id+" from minutes "+_minutesID);
+        aTopic = new Topic(_minutesID, this._id);
+        if (aTopic) {
+            aTopic.toggleState();
+            aTopic.save();
+        }
     }
 });

@@ -82,16 +82,46 @@ export class Minutes {
     }
 
     // This also does a minimal update of collection!
-    removeTopicWithID(id) {
-        let i = -1;
-        for (i = 0; i < this.topics.length; i++) {
-            if (id === this.topics[i]._id) {
-                break;
-            }
-        }
+    removeTopic(id) {
+        let i = this._findTopicIndex(id);
         if (i > -1) {
             this.topics.splice(i, 1);
             this.update({topics: this.topics}); // update only topics array!
         }
+    }
+
+    findTopic(id) {
+        let i = this._findTopicIndex(id);
+        if (i != -1) {
+            return this.topics[i];
+        }
+        return undefined;
+    }
+
+    upsertTopic(topicDoc) {
+        let i = -1;
+        if (! topicDoc._id) {             // brand-new topic
+            topicDoc._id = Random.id();   // create our own local _id here!
+        } else {
+            i = this._findTopicIndex(topicDoc._id); // try to find it
+        }
+        if (i == -1) {                      // topic not in array
+            this.topics.unshift(topicDoc);  // add to front of array
+        } else {
+            this.topics[i] = topicDoc;      // overwrite in place
+        }
+        this.update({topics: this.topics}); // update only topics array!
+    }
+
+
+    // ################### private methods
+    _findTopicIndex(id) {
+        let i = -1;
+        for (i = 0; i < this.topics.length; i++) {
+            if (id === this.topics[i]._id) {
+                return i;
+            }
+        }
+        return undefined;
     }
 }

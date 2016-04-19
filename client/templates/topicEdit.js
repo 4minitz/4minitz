@@ -51,7 +51,7 @@ Template.topicEdit.events({
                 responsible: aResponsible,
                 priority: aPriority,
                 duedate: aDuedate,
-                state: "open",
+                isOpen: true,
                 details: [{
                     date: aDate,
                     text: aDetails
