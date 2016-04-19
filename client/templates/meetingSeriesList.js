@@ -1,5 +1,4 @@
 import { MeetingSeries } from '/imports/meetingseries'
-import { Minutes } from '/imports/minutes'
 
 Template.meetingSeriesList.onRendered(function () {
 });

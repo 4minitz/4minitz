@@ -83,13 +83,15 @@ export class Minutes {
 
     // This also does a minimal update of collection!
     removeTopicWithID(id) {
-        let i = -1;
+        let i;
+
         for (i = 0; i < this.topics.length; i++) {
             if (id === this.topics[i]._id) {
                 break;
             }
         }
-        if (i > -1) {
+
+        if (i < this.topics.length) {
             this.topics.splice(i, 1);
             this.update({topics: this.topics}); // update only topics array!
         }

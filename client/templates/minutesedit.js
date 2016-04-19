@@ -1,4 +1,3 @@
-import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
 
 var _minutesID; // the ID of these minutes
