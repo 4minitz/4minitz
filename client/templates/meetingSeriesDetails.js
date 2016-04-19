@@ -1,6 +1,5 @@
 
 import { MeetingSeries } from '/imports/meetingseries'
-import { Minutes } from '/imports/minutes'
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
