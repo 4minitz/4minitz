@@ -67,6 +67,18 @@ export class MeetingSeries {
             date: formatDateISO8601(new Date())
         });
         min.save(true);
+
+        // update the lastChange value of this meetingSeries
+        Meteor.call(
+            'meetingseries.update', {_id: this._id} /* only the meetingSeries id is necessary to update the lastChange value */,
+            // server callback
+            // TODO: display error / this callback should be provided by the caller of this function
+            (error) => {
+                if (error) {
+                    console.log(error); // for the moment we log this error so we can notice if any error occurs.
+                }
+            }
+        );
     }
 
     getAllMinutes () {
