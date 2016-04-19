@@ -74,5 +74,12 @@ Meteor.methods({
         // Ensure user can not remove documents of other users
         // MeetingSeriesCollection.remove({_id: id, userId: Meteor.userId()});
         MeetingSeriesCollection.remove(id);
+    },
+
+    'meetingseries.removeMinutesFromArray'(meetingSeriesId, minutesId) {
+        console.log("meetingseries.removeMinutesFromArray: MeetingSeries ("
+            + meetingSeriesId + "), Minutes (" + minutesId + ")");
+
+        MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
     }
 });
