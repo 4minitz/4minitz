@@ -18,9 +18,24 @@ Router.route('/minutesadd/:_id', function () {
     ms = new MeetingSeries(meetingSeriesID);
 
     let id;
-    ms.addNewMinutes(newMinutesID => {
-        id = newMinutesID;
-    });
+    ms.addNewMinutes(
+        // optimistic ui callback
+        newMinutesID => {
+            id = newMinutesID
+        },
+
+        // server callback
+        (error/*, newMinutesID*/) => {
+            // no need to redirect to correct minutes page
+            // as the optimistic ui callback already took
+            // care of that
+
+            if (error) {
+                // todo: display error
+                this.redirect('/meetingseries/' + meetingSeriesID);
+            }
+        }
+    );
 
     // callback should have been called by now
     if (id) {

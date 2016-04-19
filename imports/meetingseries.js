@@ -57,14 +57,14 @@ export class MeetingSeries {
         console.log(this.toString());
     }
 
-    addNewMinutes (callback) {
+    addNewMinutes (optimisticUICallback, serverCallback) {
         console.log("addNewMinutes()");
         let min = new Minutes({
             meetingSeries_id: this._id,
             date: formatDateISO8601(new Date())
         });
 
-        min.save(callback);
+        min.save(optimisticUICallback, serverCallback);
     }
 
     getAllMinutes () {
