@@ -25,7 +25,7 @@ if (Meteor.isClient) {
 }
 
 Meteor.methods({
-    'minutes.insert'(doc) {
+    'minutes.insert'(doc, clientCallback) {
         // check(text, String);
 
         // If app has activated accounts ...
@@ -36,7 +36,7 @@ Meteor.methods({
         // Inject userId to specify owner of doc
         //doc.userId = Meteor.userId();
 
-        MinutesCollection.insert(doc, function(error, newMinutesID) {
+        MinutesCollection.insert(doc, function (error, newMinutesID) {
             doc._id = newMinutesID;
             if (!error) {
                 // store this new minutes ID to the parent meeting's array "minutes"
@@ -44,10 +44,8 @@ Meteor.methods({
                 parentMeetingSeries.minutes.push(newMinutesID);
                 parentMeetingSeries.save();
 
-                // After we initialized the new minutes, we publish the ID via Session
-                // This is needed by the minutesadd/ => minutesedit/ route
-                if (Meteor.isClient) {
-                    Session.set("currentMinutesID", newMinutesID);
+                if (Meteor.isClient && clientCallback) {
+                    clientCallback(newMinutesID);
                 }
             }
         });

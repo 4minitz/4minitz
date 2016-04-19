@@ -54,21 +54,18 @@ export class Minutes {
         _.extend(this, docPart);    // merge new doc fragment into this document
     }
 
-    save (edit) {
+    save (optimisticUICallback, serverCallback) {
         console.log("Minutes.save()");
         if (this.createdAt == undefined) {
             this.createdAt = new Date();
         }
         if (this._id && this._id != "") {
             Meteor.call("minutes.update", this);
-            if (edit) {
-                Session.set("currentMinutesID", this._id);
-            }
         } else {
             if (this.topics == undefined) {
                 this.topics = [];
             }
-            Meteor.call("minutes.insert", this);
+            Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
         }
     }
 

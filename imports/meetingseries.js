@@ -60,13 +60,14 @@ export class MeetingSeries {
         console.log(this.toString());
     }
 
-    addNewMinutes () {
+    addNewMinutes (optimisticUICallback, serverCallback) {
         console.log("addNewMinutes()");
         let min = new Minutes({
             meetingSeries_id: this._id,
             date: formatDateISO8601(new Date())
         });
-        min.save(true);
+
+        min.save(optimisticUICallback, serverCallback);
 
         // update the lastChange value of this meetingSeries
         Meteor.call(
