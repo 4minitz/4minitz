@@ -60,7 +60,7 @@ export class Minutes {
             this.createdAt = new Date();
         }
         if (this._id && this._id != "") {
-            Meteor.call("minutes.update", this, optimisticUICallback, serverCallback);
+            Meteor.call("minutes.update", this);
         } else {
             if (this.topics == undefined) {
                 this.topics = [];
