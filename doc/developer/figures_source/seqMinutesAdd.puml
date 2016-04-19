@@ -2,9 +2,12 @@
 !include style.puml
 
 Moderator -> Router: /minutesadd/:_id (for parent meetingSeries)
-    Router -> MeetingSeries: addNewMinutes(callback)
-        MeetingSeries -> Minutes: (new Minutes()).save(callback)
-    Router <-- Minutes: callback(_id)
+    Router -> MeetingSeries: addNewMinutes()
+        MeetingSeries -> Minutes: (new Minutes()).save()
+            Minutes -> Method: Meteor.call('minutes.insert') (client)
+            Minutes -> Method: Meteor.call('minutes.insert') (server)
+    Router <-- Method: callback(_id) (client)
+    Router <-- Method: callback(error, _id) (server)
 Moderator <- Router: redirect(/minutesedit/:_id) (for new minutes)
 
 @enduml
