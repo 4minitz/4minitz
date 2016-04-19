@@ -11,6 +11,9 @@
     <ul class="list-group" style="font-size: 130%;">
         {{#each minutes}}
           <li class="list-group-item">
+              <a id="deleteMinutes" class="btn btn-info">
+                  <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"></span>
+              </a>
               <a href="/minutesedit/{{_id}}" class="btn btn-info">{{date}}</a>
               Participants: {{participants}}
           </li>
