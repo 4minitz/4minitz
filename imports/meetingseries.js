@@ -32,6 +32,15 @@ export class MeetingSeries {
         Meteor.call("meetingseries.remove", id)
     }
 
+    static removeMinutesWithId(meetingSeriesId, minutesId) {
+        // when removing minutes, remove the id from the minutes array in the
+        // this meetingSeries as well.
+        Meteor.call('meetingseries.removeMinutesFromArray', meetingSeriesId, minutesId);
+
+        // last but not least we remove the minutes itself.
+        Minutes.remove(minutesId);
+    }
+
 
     // ################### object methods
     save () {
