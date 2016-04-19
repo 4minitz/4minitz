@@ -36,6 +36,15 @@ Meteor.methods({
         // Inject userId to specify owner of doc
         //doc.userId = Meteor.userId();
 
+        // the user should not be able to define the date when this series was create - or should he?
+        // -> so we overwrite this field if it was set previously
+        this.createdAt = new Date();
+
+        if (this.minutes == undefined) {
+            // if the minutes field was not set previously we make sure that we will always get an array.
+            this.minutes = [];
+        }
+
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
             doc._id = newMeetingSeriesID;
         });

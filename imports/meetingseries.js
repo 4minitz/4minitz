@@ -48,12 +48,6 @@ export class MeetingSeries {
             console.log("My Minutes:"+this.minutes);
             Meteor.call("meetingseries.update", this);
         } else {
-            if (this.createdAt == undefined) {
-                this.createdAt = new Date();
-            }
-            if (this.minutes == undefined) {
-                this.minutes = [];
-            }
             Meteor.call("meetingseries.insert", this);
         }
     }
