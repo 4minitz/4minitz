@@ -84,7 +84,7 @@ export class Minutes {
     // This also does a minimal update of collection!
     removeTopic(id) {
         let i = this._findTopicIndex(id);
-        if (i > -1) {
+        if (i != undefined) {
             this.topics.splice(i, 1);
             this.update({topics: this.topics}); // update only topics array!
         }
@@ -92,7 +92,7 @@ export class Minutes {
 
     findTopic(id) {
         let i = this._findTopicIndex(id);
-        if (i != -1) {
+        if (i != undefined) {
             return this.topics[i];
         }
         return undefined;
@@ -105,7 +105,7 @@ export class Minutes {
         } else {
             i = this._findTopicIndex(topicDoc._id); // try to find it
         }
-        if (i == -1) {                      // topic not in array
+        if (i == undefined) {                      // topic not in array
             this.topics.unshift(topicDoc);  // add to front of array
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
@@ -116,7 +116,7 @@ export class Minutes {
 
     // ################### private methods
     _findTopicIndex(id) {
-        let i = -1;
+        let i;
         for (i = 0; i < this.topics.length; i++) {
             if (id === this.topics[i]._id) {
                 return i;
