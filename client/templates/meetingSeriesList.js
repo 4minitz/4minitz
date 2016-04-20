@@ -35,7 +35,7 @@ Template.meetingSeriesList.events({
         confirmationDialog(
             /* callback called if user wants to continue */
             () => {
-                MeetingSeries.remove(this._id);
+                MeetingSeries.remove(this);
             },
             dialogContent
         );

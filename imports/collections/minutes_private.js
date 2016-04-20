@@ -84,17 +84,32 @@ Meteor.methods({
     },
 
 
+    // id may be the actual id (string) or an array of ids which should all be removed
     'minutes.remove'(id) {
         if (id == undefined || id == "")
             return;
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before removing a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
-        // Ensure user can not remove documents of other users
-        // MinutesCollection.remove({_id: id, userId: Meteor.userId()});
-        MinutesCollection.remove(id);
+
+        var handleRemove = {
+            removeMinute: function(id) {
+                // If app has activated accounts ...
+                // Make sure the user is logged in before removing a task
+                //if (!Meteor.userId()) {
+                //    throw new Meteor.Error('not-authorized');
+                //}
+                // Ensure user can not remove documents of other users
+                // MinutesCollection.remove({_id: id, userId: Meteor.userId()});
+                MinutesCollection.remove(id);
+            }
+        };
+
+        let ids = id;
+        if (typeof id === 'string') {
+            handleRemove.removeMinute(id);
+        }
+
+        for (let i = 0; i < ids.length; i++) {
+            handleRemove.removeMinute(ids[i]);
+        }
     }
 });
