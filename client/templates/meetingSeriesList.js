@@ -9,7 +9,7 @@ Template.meetingSeriesList.onCreated(function () {
 
 Template.meetingSeriesList.helpers({
     meetingSeriesRow: function () {
-      return MeetingSeries.find({}, {sort: {lastChange: -1}});
+      return MeetingSeries.find({}, {sort: {lastMinutesDate: -1}});
     }
 });
 
