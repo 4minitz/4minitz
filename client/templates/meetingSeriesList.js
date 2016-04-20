@@ -19,8 +19,13 @@ Template.meetingSeriesList.events({
     },
     "click #deleteMeetingSeries": function() {
         console.log("Remove Meeting Series"+this._id);
-        if (confirm("Do you really want to delete this meeting series?")) {
-            MeetingSeries.remove(this._id);
-        }
+        confirmationDialog(
+            /* callback called if user wants to continue */
+            () => {
+                MeetingSeries.remove(this._id);
+            },
+            /* Dialog content */
+            "Do you really want to delete this meeting series?"
+        );
     }
 });
