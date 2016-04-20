@@ -43,7 +43,7 @@ Meteor.methods({
         doc.createdAt = currentDate;
 
         // initialize the lastChange field
-        doc.lastChange = currentDate;
+        doc.lastMinutesDate = formatDateISO8601(currentDate);
 
         if (doc.minutes == undefined) {
             // if the minutes field was not set previously we make sure that we will always get an array.
@@ -62,9 +62,6 @@ Meteor.methods({
         delete doc._id; // otherwise collection.update will fail
         if (id == undefined || id == "")
             return;
-
-        // the meetingseries was changed so we update the lastChange field.
-        doc.lastChange = new Date();
 
         // If app has activated accounts ...
         // Make sure the user is logged in before updating a task
