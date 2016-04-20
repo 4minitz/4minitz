@@ -8,7 +8,8 @@ Template.confirmationDialog.helpers({
     },
 
     'getContent': function() {
-        return Session.get("confirmationDialogContent");
+        // SafeString allows us to pass html content
+        return Spacebars.SafeString(Session.get("confirmationDialogContent"));
     },
     'getConfirmBtnName': function() {
         return Session.get("confirmationDialogConfirmButton");
