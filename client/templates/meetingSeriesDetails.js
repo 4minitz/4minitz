@@ -21,9 +21,14 @@ Template.meetingSeriesDetails.helpers({
 Template.meetingSeriesDetails.events({
     "click #deleteMinutes": function () {
         console.log("Remove Meeting Minute " + this._id);
-        if (confirm("Do you really want to delete this meeting minute?")) {
-            MeetingSeries.removeMinutesWithId(_meetingSeriesID, this._id);
-        }
+        confirmationDialog(
+            /* callback called if user wants to continue */
+            () => {
+                MeetingSeries.removeMinutesWithId(_meetingSeriesID, this._id);
+            },
+            /* Dialog content */
+            "Do you really want to delete this meeting minute?"
+        );
     },
     "click #btnHideHelp": function () {
         $(".help").hide();  // use jQuery to find and hide class

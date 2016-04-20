@@ -28,8 +28,17 @@ export class MeetingSeries {
         return MeetingSeriesCollection.findOne.apply(MeetingSeriesCollection, arguments);
     }
 
-    static remove(id) {
-        Meteor.call("meetingseries.remove", id)
+    static remove(meetingSeries) {
+        if (meetingSeries.countMinutes() > 0) {
+            Meteor.call(
+                "minutes.remove",
+                meetingSeries.getAllMinutes().map(
+                    (minutes) => {
+                        return minutes._id
+                    })
+            );
+        }
+        Meteor.call("meetingseries.remove", meetingSeries._id);
     }
 
     static removeMinutesWithId(meetingSeriesId, minutesId) {
