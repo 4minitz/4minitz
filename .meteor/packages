@@ -28,3 +28,4 @@ standard-minifier-js
 es5-shim
 ecmascript
 msavin:mongol
+practicalmeteor:mocha

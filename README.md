@@ -23,7 +23,16 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 
 ### Installation of 4minitz    
 
-
     git clone --depth 1 https://github.com/4minitz/4minitz.git
     cd 4minitz
     meteor --production
+
+### Running tests
+
+In oder to execute tests you need to run the following meteor command.
+
+    meteor test --driver-package practicalmeteor:mocha
+
+Optionally add commandline switch *--port 3100* to run tests in parallel to the meteor application.
+
+Further info on testing with meteor can be found at http://guide.meteor.com/testing.html
