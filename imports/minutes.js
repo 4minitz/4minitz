@@ -105,7 +105,7 @@ export class Minutes {
     }
 
     upsertTopic(topicDoc) {
-        let i = -1;
+        let i = undefined;
         if (! topicDoc._id) {             // brand-new topic
             topicDoc._id = Random.id();   // create our own local _id here!
         } else {

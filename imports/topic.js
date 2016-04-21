@@ -25,6 +25,22 @@ export class Topic {
         this._topicDoc = source;
     }
 
+    getDateFromDetails () {
+        let details = this._topicDoc.details;
+        if (details.length > 0 && details[0].hasOwnProperty("date")) {
+            return details[0].date;
+        }
+        return false;
+    }
+
+    getTextFromDetails () {
+        let details = this._topicDoc.details;
+        if (details.length > 0 && details[0].hasOwnProperty("text")) {
+            return details[0].text;
+        }
+        return "";
+    }
+
     toString () {
         return "Topic: "+JSON.stringify(this._topicDoc, null, 4);
     }

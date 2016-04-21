@@ -66,5 +66,11 @@ Template.topicsList.events({
             aTopic.toggleState();
             aTopic.save();
         }
+    },
+
+    'click #btnEditTopic'(evt, tmpl) {
+        evt.preventDefault();
+        Session.set("topicEditMinutesId", _minutesID);
+        Session.set("topicEditTopicId", this._id);
     }
 });
