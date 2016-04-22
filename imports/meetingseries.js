@@ -101,4 +101,17 @@ export class MeetingSeries {
         }
         return false;
     }
+
+    /**
+     * Finalizes the given minutes and
+     * copies the open/closed topics to
+     * this series.
+     *
+     * @param minutes
+     */
+    finalizeMinutes (minutes) {
+        this.relatedActionItems = minutes.topics;
+        this.save();
+        minutes.finalize();
+    }
 }

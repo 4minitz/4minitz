@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="id_minutesdatePicker">Date</label>
+                        <label for="id_minutesdateInput">Date</label>
                         <div class='input-group date' id='id_minutesdatePicker'>
                             <input id="id_minutesdateInput" type='text' class="form-control" value="{{minutes.date}}" />
                             <span class="input-group-addon">
@@ -19,6 +19,12 @@
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-8">
+                    <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg pull-right">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
+                        Finalize Minutes
+                    </button>
                 </div>
             </div>
 

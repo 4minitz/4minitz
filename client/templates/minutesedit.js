@@ -55,5 +55,15 @@ Template.minutesedit.events({
             let anAgenda = tmpl.find("#id_agenda").value;
             aMin.update({agenda: anAgenda});
         }
+    },
+
+    'click #btn_finalizeMinutes': function(evt, tmpl) {
+        evt.preventDefault();
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+            let parentSeries = aMin.parentMeetingSeries();
+            parentSeries.finalizeMinutes(aMin);
+        }
     }
 });

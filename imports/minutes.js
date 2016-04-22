@@ -119,6 +119,15 @@ export class Minutes {
         this.update({topics: this.topics}); // update only topics array!
     }
 
+    /**
+     * Finalizes this minutes object. Shall
+     * only be called from the finalize method
+     * within the meeting series.
+     */
+    finalize() {
+        Meteor.call('minutes.finalize', this._id);
+    }
+
 
     // ################### private methods
     _findTopicIndex(id) {
