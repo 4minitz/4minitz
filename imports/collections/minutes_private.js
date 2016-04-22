@@ -81,6 +81,7 @@ Meteor.methods({
         // delete properties which should not be modified by the client
         delete doc.finalizedAt;
         delete doc.createdAt;
+        delete doc.isFinalized;
 
         // If app has activated accounts ...
         // Make sure the user is logged in before updating a task
@@ -89,7 +90,9 @@ Meteor.methods({
         //}
         // Ensure user can not update documents of other users
         // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: docPart});
-        MinutesCollection.update(doc._id, {$set: doc});
+
+        // Ensure user can not update finalized minutes
+        MinutesCollection.update({_id: doc._id, isFinalized: false}, {$set: doc});
     },
 
     'minutes.updateDocPart'(doc, docPart) {
@@ -103,7 +106,9 @@ Meteor.methods({
         //}
         // Ensure user can not update documents of other users
         // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: docPart});
-        MinutesCollection.update(doc._id, {$set: docPart});
+
+        // Ensure user can not update finalized minutes
+        MinutesCollection.update({_id: doc._id, isFinalized: false}, {$set: docPart});
     },
 
 

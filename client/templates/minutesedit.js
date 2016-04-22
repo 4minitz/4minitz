@@ -44,6 +44,11 @@ Template.minutesedit.helpers({
     getFinalizedBy: function () {
         let aMin = new Minutes(_minutesID);
         return Meteor.users.findOne({_id: aMin.finalizedBy});
+    },
+
+    readOnlyIfFinalized: function () {
+        let aMin = new Minutes(_minutesID);
+        return (aMin.isFinalized) ? "readonly" : "";
     }
 });
 
