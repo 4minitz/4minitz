@@ -29,6 +29,21 @@ Template.minutesedit.helpers({
             return aMin;
         }
         return null;
+    },
+
+    isFinalized: function () {
+        let aMin = new Minutes(_minutesID);
+        return aMin.isFinalized;
+    },
+
+    getFinalizedDate: function () {
+        let aMin = new Minutes(_minutesID);
+        return formatDateISO8601(aMin.finalizedAt); // TODO: format date!
+    },
+
+    getFinalizedBy: function () {
+        let aMin = new Minutes(_minutesID);
+        return Meteor.users.findOne({_id: aMin.finalizedBy});
     }
 });
 

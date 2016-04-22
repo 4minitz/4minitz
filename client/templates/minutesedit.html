@@ -20,11 +20,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg pull-right">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
-                        Finalize Minutes
-                    </button>
+                <div class="col-md-8 text-right">
+                    {{#if isFinalized}}
+                        Finalized by {{getFinalizedBy.username}} on {{getFinalizedDate}}
+                    {{else}}
+                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
+                            Finalize Minutes
+                        </button>
+                    {{/if}}
                 </div>
             </div>
 
