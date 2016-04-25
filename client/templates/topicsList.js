@@ -45,6 +45,11 @@ Template.topicsList.helpers({
         } else {
             return "check";
         }
+    },
+
+    isFinalized: function () {
+        let aMin = new Minutes(_minutesID);
+        return (aMin && aMin.isFinalized);
     }
 
 });

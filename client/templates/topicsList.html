@@ -11,10 +11,12 @@
                         Prio:{{priority}}
                         Due: {{duedate}}
                     </a>
-                    <span class="pull-right">
-                        <a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic"><span class="glyphicon glyphicon-pencil"></span></a>
-                        <a id="btnDelTopic" href="#"><span class="glyphicon glyphicon-trash"></span></a>
-                    </span>
+                    {{#unless isFinalized}}
+                        <span class="pull-right">
+                            <a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a id="btnDelTopic" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                        </span>
+                    {{/unless}}
                 </h4>
             </div>
             <div id="collapse-{{currentCollapseID}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
