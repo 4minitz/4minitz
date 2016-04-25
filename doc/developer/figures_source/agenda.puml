@@ -1,0 +1,38 @@
+@startuml
+!include style.puml
+
+AgendaItem "1" --> "*" SubItem
+
+SubItem  <|-- Information
+SubItem  <|-- Decision
+SubItem  <|-- ActionItem
+
+class AgendaItem {
+    _id
+    start
+    subject
+    responsibles
+    relatedSubItems
+    status
+    isTemplateItem
+}
+
+abstract class SubItem {
+    id
+    description
+    parentAgendaItems
+    currentParentAgendaItem
+}
+
+class Decision {
+    date
+}
+
+class ActionItem {
+    dueDate
+    responsibles
+    status
+    priority
+}
+
+@enduml
