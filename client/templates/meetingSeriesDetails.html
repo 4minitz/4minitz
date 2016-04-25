@@ -10,25 +10,14 @@
     <p></p>
 
     <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#">Minutes</a></li>
-        <li role="presentation"><a href="#">Open Action Items</a></li>
-        <li role="presentation"><a href="#">Closed Action Items</a></li>
-        <li role="presentation"><a href="#">Decisions</a></li>
+        <li data-template="minutesList" role="presentation"><a href="#">Minutes</a></li>
+        <li data-template="actionItemList" data-action="open" role="presentation"><a href="#">Open Action Items</a></li>
+        <li data-template="actionItemList" data-action="closed" role="presentation"><a href="#">Closed Action Items</a></li>
+        <li data-template="decisionList" role="presentation"><a href="#">Decisions</a></li>
     </ul>
-
-    <br>
-
-    <ul class="list-group" style="font-size: 130%;">
-        {{#each minutes}}
-          <li class="list-group-item">
-              <a href="" id="deleteMinutes" class="btn btn-info">
-                  <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"></span>
-              </a>
-              <a href="/minutesedit/{{_id}}" class="btn btn-info">{{date}}</a>
-              Participants: {{participants}}
-          </li>
-        {{/each}}
-    </ul>
+    <div class="active">
+        {{> Template.dynamic template=tab data=tabData}}
+    </div>
 
     <p></p>
     <a class="btn btn-primary" href="/">OK</a>

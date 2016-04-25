@@ -1,0 +1,23 @@
+<template name="minutesList">
+    <div class="pull-right">
+        <button type="button" class="open_category_dialog btn btn-success hidden-xs hidden-sm" data-on-success="onSuccessDashboard">
+            Add Minutes
+        </button>
+        <button class="open_category_dialog btn btn-success visible-xs visible-sm" data-on-success="onSuccessDashboard" type="button" title="Add Minutes">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+    </div>
+    <h2 style="height: 30px;"></h2><!-- Placeholder -->
+
+    <ul class="list-group" style="font-size: 130%;">
+        {{#each this}}
+            <li class="list-group-item">
+                <a href="" id="deleteMinutes" class="btn btn-info">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"></span>
+                </a>
+                <a href="/minutesedit/{{_id}}" class="btn btn-info">{{date}}</a>
+                Participants: {{participants}}
+            </li>
+        {{/each}}
+    </ul>
+</template>
