@@ -34,6 +34,11 @@ Template.topicItem.helpers({
 Template.topicItem.events({
     'click #btnDelTopic'(evt, tmpl) {
         evt.preventDefault();
+
+        if (!this.minutesID) {
+            return;
+        }
+
         console.log("Delete topics: "+this.topic._id+" from minutes "+this.minutesID);
         let aMin = new Minutes(this.minutesID);
         aMin.removeTopic(this.topic._id);
@@ -41,6 +46,11 @@ Template.topicItem.events({
 
     'click #btnToggleState'(evt, tmpl) {
         evt.preventDefault();
+
+        if (!this.minutesID) {
+            return;
+        }
+
         console.log("Toggle topic state: "+this.topic._id+" from minutes "+this.minutesID);
         let aTopic = new Topic(this.minutesID, this.topic._id);
         if (aTopic) {
@@ -51,6 +61,11 @@ Template.topicItem.events({
 
     'click #btnEditTopic'(evt, tmpl) {
         evt.preventDefault();
+
+        if (!this.minutesID) {
+            return;
+        }
+
         Session.set("topicEditMinutesId", this.minutesID);
         Session.set("topicEditTopicId", this.topic._id);
     }

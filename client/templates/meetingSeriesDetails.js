@@ -9,6 +9,10 @@ Template.meetingSeriesDetails.onCreated(function () {
     Session.setDefault("currentTab", "minutesList");
 });
 
+Template.meetingSeriesDetails.onRendered(function () {
+    Session.set("currentTab", "minutesList");
+});
+
 Template.meetingSeriesDetails.helpers({
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);
@@ -26,16 +30,38 @@ Template.meetingSeriesDetails.helpers({
     tabData: function() {
         let tab = Session.get("currentTab");
         let ms = new MeetingSeries(_meetingSeriesID);
+        let title = ms.project + " - " + ms.name
 
         switch (tab) {
             case "minutesList":
-                return ms.getAllMinutes();
+                return {
+                    minutes: ms.getAllMinutes(),
+                    title: title
+                };
 
-            case "actionItemList":
-                return Session.get("actionItemStatus");
+            case "topicListTab":
+                let status = Session.get("actionItemStatus");
+                let filterOpen = status === "open";
+
+                let  topics;
+                if (ms.relatedActionItems) {
+                    topics = ms.relatedActionItems.filter((topic) => {
+                        return topic.isOpen === filterOpen;
+                    });
+                } else {
+                    topics = [];
+                }
+
+                return {
+                    status: status,
+                    topics: topics,
+                    title: title
+                };
 
             case "decisionList":
-                break;
+                return {
+                    title: title
+                };
         }
     }
 });
