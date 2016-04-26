@@ -75,9 +75,18 @@ export class MeetingSeries {
 
     addNewMinutes (optimisticUICallback, serverCallback) {
         console.log("addNewMinutes()");
+
+        // The new Minutes object should be dated after the latest existing one
+        let newMinutesDate = new Date();
+        let lastMinutes = this.lastMinutes();
+        if (lastMinutes && formatDateISO8601(newMinutesDate) <= lastMinutes.date) {
+            let lastMinDate = new Date(lastMinutes.date);
+            newMinutesDate.setDate(lastMinDate.getDate() + 1);
+        }
+
         let min = new Minutes({
             meetingSeries_id: this._id,
-            date: formatDateISO8601(new Date())
+            date: formatDateISO8601(newMinutesDate)
         });
 
         min.save(optimisticUICallback, serverCallback);
