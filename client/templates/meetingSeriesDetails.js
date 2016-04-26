@@ -36,7 +36,8 @@ Template.meetingSeriesDetails.helpers({
             case "minutesList":
                 return {
                     minutes: ms.getAllMinutes(),
-                    title: title
+                    title: title,
+                    meetingSeriesId: _meetingSeriesID
                 };
 
             case "topicListTab":
@@ -67,17 +68,6 @@ Template.meetingSeriesDetails.helpers({
 });
 
 Template.meetingSeriesDetails.events({
-    "click #deleteMinutes": function () {
-        console.log("Remove Meeting Minute " + this._id);
-        confirmationDialog(
-            /* callback called if user wants to continue */
-            () => {
-                MeetingSeries.removeMinutesWithId(_meetingSeriesID, this._id);
-            },
-            /* Dialog content */
-            "Do you really want to delete this meeting minute?"
-        );
-    },
     "click #btnHideHelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     },

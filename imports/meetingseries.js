@@ -41,17 +41,21 @@ export class MeetingSeries {
         Meteor.call("meetingseries.remove", meetingSeries._id);
     }
 
-    static removeMinutesWithId(meetingSeriesId, minutesId) {
-        // when removing minutes, remove the id from the minutes array in the
-        // this meetingSeries as well.
-        Meteor.call('meetingseries.removeMinutesFromArray', meetingSeriesId, minutesId);
-
-        // last but not least we remove the minutes itself.
-        Minutes.remove(minutesId);
-    }
-
 
     // ################### object methods
+
+    removeMinutesWithId(minutesId) {
+        // when removing minutes, remove the id from the minutes array in the
+        // this meetingSeries as well.
+        Meteor.call('meetingseries.removeMinutesFromArray', this._id, minutesId);
+
+        // then we remove the minutes itself.
+        Minutes.remove(minutesId);
+
+        // last but not least we update the lastMinutesDate-field
+        this.updateLastMinutesDate();
+    }
+
     save () {
         if (this._id && this._id != "") {
             console.log("My Minutes:"+this.minutes);
@@ -100,6 +104,33 @@ export class MeetingSeries {
             return lastMin[0];
         }
         return false;
+    }
+
+    updateLastMinutesDate () {
+        let lastMinutesDate;
+
+        let lastMinutes = this.lastMinutes();
+        if (lastMinutes) {
+            lastMinutesDate = lastMinutes.date;
+        }
+
+        if (!lastMinutesDate) {
+            return;
+        }
+
+        Meteor.call(
+            'meetingseries.update', {
+                _id: this._id,
+                lastMinutesDate: lastMinutesDate
+            },
+            // server callback
+            // TODO: display error / this callback should be provided by the caller of this function
+            (error) => {
+                if (error) {
+                    console.log(error); // for the moment we log this error so we can notice if any error occurs.
+                }
+            }
+        );
     }
 
     /**

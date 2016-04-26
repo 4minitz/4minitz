@@ -55,7 +55,7 @@ export class Minutes {
 
         // update the lastMinuteDate-field of the related series iff the date has changed.
         if (docPart.hasOwnProperty('date')) {
-            this._updateMeetingSeriesLastMinutesDate();
+            this.parentMeetingSeries().updateLastMinutesDate();
         }
     }
 
@@ -72,7 +72,7 @@ export class Minutes {
             }
             Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
         }
-        this._updateMeetingSeriesLastMinutesDate();
+        this.parentMeetingSeries().updateLastMinutesDate();
     }
 
     toString () {
@@ -140,26 +140,4 @@ export class Minutes {
         return undefined;
     }
 
-    _updateMeetingSeriesLastMinutesDate() {
-        let lastMinutesDate = this.date;
-        let lastMinutes = this.parentMeetingSeries().lastMinutes();
-        if (lastMinutes && lastMinutes.date > this.date) {
-            lastMinutesDate = lastMinutes.date;
-        }
-
-        // update the lastMinutesDate-field of the related meeting series
-        Meteor.call(
-            'meetingseries.update', {
-                _id: this.meetingSeries_id,
-                lastMinutesDate: lastMinutesDate
-            },
-            // server callback
-            // TODO: display error / this callback should be provided by the caller of this function
-            (error) => {
-                if (error) {
-                    console.log(error); // for the moment we log this error so we can notice if any error occurs.
-                }
-            }
-        );
-    }
 }

@@ -1,21 +1,23 @@
 <template name="minutesList">
     <div class="pull-right">
-        <button type="button" class="open_category_dialog btn btn-success hidden-xs hidden-sm" data-on-success="onSuccessDashboard">
+        <a href="/minutesadd/{{meetingSeriesId}}" class="btn btn-success hidden-xs hidden-sm">
             Add Minutes
-        </button>
-        <button class="open_category_dialog btn btn-success visible-xs visible-sm" data-on-success="onSuccessDashboard" type="button" title="Add Minutes">
+        </a>
+        <a href="/minutesadd/{{meetingSeriesId}}" class="btn btn-success visible-xs visible-sm" title="Add Minutes">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>
+        </a>
     </div>
     <h3>{{title}}: Minutes</h3>
 
     <ul class="list-group" style="font-size: 130%;">
         {{#each minutes}}
             <li class="list-group-item">
-                <a href="" id="deleteMinutes" class="btn btn-info">
+                {{#unless isFinalized}}
+                <a href="" id="deleteMinutes" class="btn btn-{{buttonBackground}}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"></span>
                 </a>
-                <a href="/minutesedit/{{_id}}" class="btn btn-info">{{date}}</a>
+                {{/unless}}
+                <a href="/minutesedit/{{_id}}" class="btn btn-{{buttonBackground}}">{{date}}</a>
                 Participants: {{participants}}
             </li>
         {{/each}}
