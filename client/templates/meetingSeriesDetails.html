@@ -2,9 +2,10 @@
     <h2 class="header center orange-text">
         Meeting Series Details
     </h2>
-    <div class="divider"></div>
 
-    <p></p>
+    {{#if errorTitle}}
+        <div class="alert alert-danger" role="alert"><strong>Error {{errorTitle}}: </strong> {{errorMessage}}</div>
+    {{/if}}
 
     <ul class="nav nav-tabs">
         <li data-template="minutesList" role="presentation" class="active"><a href="#">Minutes</a></li>

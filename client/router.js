@@ -31,7 +31,9 @@ Router.route('/minutesadd/:_id', function () {
             // care of that
 
             if (error) {
-                // todo: display error
+                // display error
+                Session.set("errorTitle", error.error);
+                Session.set("errorReason", error.reason);
                 this.redirect('/meetingseries/' + meetingSeriesID);
             }
         }
