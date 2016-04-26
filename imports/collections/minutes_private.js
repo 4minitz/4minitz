@@ -43,6 +43,9 @@ Meteor.methods({
             throw new Meteor.Error("Cannot create new Minutes", "Last Minutes must be finalized first.");
         }
 
+        // It also not allowed to insert a new minute dated before the last finalized one
+        parentMeetingSeries.isMinutesDateAllowed(/*we have no minutes_id*/null, doc.date);
+
         doc.isFinalized = false;
 
         MinutesCollection.insert(doc, function (error, newMinutesID) {
@@ -89,21 +92,12 @@ Meteor.methods({
         delete doc.createdAt;
         delete doc.isFinalized;
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
-        // Ensure user can not update documents of other users
-        // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: docPart});
-
-        // Ensure user can not update finalized minutes
-        MinutesCollection.update({_id: doc._id, isFinalized: false}, {$set: doc});
-    },
-
-    'minutes.updateDocPart'(doc, docPart) {
-        if (doc._id == undefined || doc._id == "")
-            return;
+        if (doc.date) {
+            let minutes = new Minutes(id);
+            if (!minutes.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)) {
+                return;
+            }
+        }
 
         // If app has activated accounts ...
         // Make sure the user is logged in before updating a task
@@ -114,7 +108,7 @@ Meteor.methods({
         // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: docPart});
 
         // Ensure user can not update finalized minutes
-        MinutesCollection.update({_id: doc._id, isFinalized: false}, {$set: docPart});
+        MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
     },
 
 

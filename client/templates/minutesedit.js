@@ -56,7 +56,17 @@ Template.minutesedit.events({
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin) {
+            let dateNode = tmpl.$("#id_minutesdateInput");
             let aDate = tmpl.find("#id_minutesdateInput").value;
+
+
+            dateNode.parent().removeClass("has-error");
+            if (!aMin.parentMeetingSeries().isMinutesDateAllowed(aMin._id, aDate)) {
+                dateNode.parent().addClass("has-error");
+                tmpl.find("#id_minutesdateInput").value = aMin.date;
+                return;
+            }
+
             aMin.update({date: aDate});
         }
     },

@@ -159,4 +159,38 @@ export class MeetingSeries {
         let lastMinutes = this.lastMinutes();
         return (!lastMinutes || lastMinutes.isFinalized);
     }
+
+    isMinutesDateAllowed(minutesId, date) {
+        if (typeof date === "string") {
+            date = new Date(date);
+        }
+
+        let firstPossibleDate;
+        if (!minutesId) {
+            // we have no minutes id, so the first possible date depends on the last minutes
+            let lastMinutes = this.lastMinutes();
+            if (lastMinutes) {
+                firstPossibleDate = new Date(lastMinutes.date);
+            }
+        } else {
+            // fetch the two latest minutes, because the given one could be the latest minute.
+            let latestMinutes = Minutes.findAllIn(this.minutes, 2);
+
+            let foo = {}; // dirty way to emulate break in forEach loop...
+            try {
+                latestMinutes.forEach((minutes) => {
+                    if (minutes._id !== minutesId) {
+                        firstPossibleDate = new Date(minutes.date);
+                        throw foo;
+                    }
+                });
+            } catch(e) {
+                if (e !== foo) {
+                    throw e;
+                }
+            }
+        }
+
+        return date > firstPossibleDate;
+    }
 }

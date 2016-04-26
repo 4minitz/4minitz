@@ -50,7 +50,8 @@ export class Minutes {
 
     // ################### object methods
     update (docPart) {
-        Meteor.call("minutes.updateDocPart", this, docPart);
+        _.extend(docPart, {_id: this._id});It is not allowed to save Minutes that are dated before the last finalized Minute
+        Meteor.call("minutes.update", docPart);
         _.extend(this, docPart);    // merge new doc fragment into this document
 
         // update the lastMinuteDate-field of the related series iff the date has changed.
