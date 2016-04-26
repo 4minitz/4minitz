@@ -1,9 +1,9 @@
 <template name="minutesList">
     <div class="pull-right">
-        <a href="/minutesadd/{{meetingSeriesId}}" class="btn btn-success hidden-xs hidden-sm">
+        <a href="{{addMinutesPath}}" class="btn btn-success hidden-xs hidden-sm" disabled="{{addMinutesNotAllowed}}">
             Add Minutes
         </a>
-        <a href="/minutesadd/{{meetingSeriesId}}" class="btn btn-success visible-xs visible-sm" title="Add Minutes">
+        <a href="/minutesadd/{{meetingSeriesId}}" class="btn btn-success visible-xs visible-sm" disabled="true" title="Add Minutes">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </a>
     </div>
@@ -12,11 +12,9 @@
     <ul class="list-group" style="font-size: 130%;">
         {{#each minutes}}
             <li class="list-group-item">
-                {{#unless isFinalized}}
-                <a href="" id="deleteMinutes" class="btn btn-{{buttonBackground}}">
+                <a href="" id="deleteMinutes" class="btn btn-{{buttonBackground}}" disabled="{{isFinalized}}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"></span>
                 </a>
-                {{/unless}}
                 <a href="/minutesedit/{{_id}}" class="btn btn-{{buttonBackground}}">{{date}}</a>
                 Participants: {{participants}}
             </li>

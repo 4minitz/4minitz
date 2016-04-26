@@ -11,15 +11,19 @@ Template.meetingSeriesDetails.onCreated(function () {
 
 Template.meetingSeriesDetails.onRendered(function () {
     Session.set("currentTab", "minutesList");
-
-    setTimeout(() => {
-        Session.set("errorTitle", false);
-    }, 2500);
 });
 
 Template.meetingSeriesDetails.helpers({
     errorTitle: function() {
-        return Session.get("errorTitle");
+        let title = Session.get("errorTitle");
+
+        if (title) {
+            setTimeout(() => {
+                Session.set("errorTitle", false);
+            }, 3000);
+        }
+
+        return title;
     },
 
     errorMessage: function () {

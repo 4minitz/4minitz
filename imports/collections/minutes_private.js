@@ -36,13 +36,19 @@ Meteor.methods({
         // Inject userId to specify owner of doc
         //doc.userId = Meteor.userId();
 
+        // It is not allowed to insert new minutes if the last minute was not finalized
+        let parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
+        if (!parentMeetingSeries.addNewMinutesAllowed()) {
+            // last minutes is not finalized!
+            throw new Meteor.Error("Cannot create new Minutes", "Last Minutes must be finalized first.");
+        }
+
         doc.isFinalized = false;
 
         MinutesCollection.insert(doc, function (error, newMinutesID) {
             doc._id = newMinutesID;
             if (!error) {
                 // store this new minutes ID to the parent meeting's array "minutes"
-                var parentMeetingSeries = MeetingSeries.findOne(doc.meetingSeries_id);
                 parentMeetingSeries.minutes.push(newMinutesID);
                 parentMeetingSeries.save();
 

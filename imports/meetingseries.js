@@ -145,4 +145,9 @@ export class MeetingSeries {
         this.save();
         minutes.finalize();
     }
+
+    addNewMinutesAllowed() {
+        let lastMinutes = this.lastMinutes();
+        return (!lastMinutes || lastMinutes.isFinalized);
+    }
 }
