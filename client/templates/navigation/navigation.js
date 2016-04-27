@@ -7,6 +7,7 @@ Template.navigation.events({
     event.preventDefault();
     if (Meteor.userId()) {
       AccountsTemplates.logout();
+      Router.go("/");
     }
   }
 });
