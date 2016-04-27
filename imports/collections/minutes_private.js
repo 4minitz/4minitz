@@ -151,17 +151,19 @@ Meteor.methods({
                 //}
                 // Ensure user can not remove documents of other users
                 // MinutesCollection.remove({_id: id, userId: Meteor.userId()});
-                MinutesCollection.remove({_id: id, isFinalized: false, isUnfinalized: false});
+                return MinutesCollection.remove({_id: id, isFinalized: false, isUnfinalized: false});
             }
         };
 
         let ids = id;
         if (typeof id === 'string') {
-            handleRemove.removeMinute(id);
+            return handleRemove.removeMinute(id);
         }
 
+        let countRemoved = 0;
         for (let i = 0; i < ids.length; i++) {
-            handleRemove.removeMinute(ids[i]);
+             // TODO: check if result is zero...
+            countRemoved += handleRemove.removeMinute(ids[i]);
         }
     }
 });

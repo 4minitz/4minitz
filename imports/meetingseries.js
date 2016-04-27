@@ -45,15 +45,24 @@ export class MeetingSeries {
     // ################### object methods
 
     removeMinutesWithId(minutesId) {
-        // when removing minutes, remove the id from the minutes array in the
-        // this meetingSeries as well.
-        Meteor.call('meetingseries.removeMinutesFromArray', this._id, minutesId);
+        console.log("removeMinutesWithId: " + minutesId);
 
-        // then we remove the minutes itself.
-        Minutes.remove(minutesId);
+        // first we remove the minutes itself
+        Minutes.remove(
+            minutesId,
+            /* server callback */
+            (error, result) => { // result contains the number of removed items
+                if (!error && result == 1) {
+                    // if the minutes has been removed
+                    // we remove the id from the minutes array in
+                    // this meetingSeries as well.
+                    Meteor.call('meetingseries.removeMinutesFromArray', this._id, minutesId);
 
-        // last but not least we update the lastMinutesDate-field
-        this.updateLastMinutesDate();
+                    // last but not least we update the lastMinutesDate-field
+                    this.updateLastMinutesDate();
+                }
+            }
+        );
     }
 
     save () {

@@ -43,8 +43,8 @@ export class Minutes {
             options);
     }
 
-    static remove(id) {
-        Meteor.call("minutes.remove", id)
+    static remove(id, serverCallback) {
+        Meteor.call("minutes.remove", id, serverCallback)
     }
 
 
