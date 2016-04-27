@@ -99,9 +99,19 @@ export class MeetingSeries {
             newMinutesDate.setDate(lastMinDate.getDate() + 1);
         }
 
+        let topics = [];
+
+        // copy open topics from this meeting series
+        if (this.relatedActionItems) {
+            topics = this.relatedActionItems.filter((topic) => {
+                return topic.isOpen;
+            });
+        }
+
         let min = new Minutes({
             meetingSeries_id: this._id,
-            date: formatDateISO8601(newMinutesDate)
+            date: formatDateISO8601(newMinutesDate),
+            topics: topics
         });
 
         min.save(optimisticUICallback, serverCallback);
@@ -165,6 +175,14 @@ export class MeetingSeries {
      * @param minutes
      */
     finalizeMinutes (minutes) {
+        // first delete all open relatedActionItems to prevent duplicates
+        if (this.relatedActionItems) {
+            this.relatedActionItems = this.relatedActionItems.filter((topic) => {
+                return !topic.isOpen;
+            });
+        }
+
+        // then we can concat all topics of the to-finalized minute.
         this.relatedActionItems = minutes.topics.concat(this.relatedActionItems);
         this.save();
         minutes.finalize();
