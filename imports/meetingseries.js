@@ -204,11 +204,14 @@ export class MeetingSeries {
         return (!lastMinutes || lastMinutes.isFinalized);
     }
 
-    isMinutesDateAllowed(minutesId, date) {
-        if (typeof date === "string") {
-            date = new Date(date);
-        }
-
+    /**
+     * Gets the first possible date which can be assigned
+     * to the given minutes.
+     *
+     * @param minutesId
+     * @returns Date or false, if all dates are possible.
+     */
+    getMinimumAllowedDateForMinutes(minutesId) {
         let firstPossibleDate;
         if (!minutesId) {
             // we have no minutes id, so the first possible date depends on the last minutes
@@ -220,21 +223,39 @@ export class MeetingSeries {
             // fetch the two latest minutes, because the given one could be the latest minute.
             let latestMinutes = Minutes.findAllIn(this.minutes, 2);
 
-            let foo = {}; // dirty way to emulate break in forEach loop...
-            try {
-                latestMinutes.forEach((minutes) => {
-                    if (minutes._id !== minutesId) {
-                        firstPossibleDate = new Date(minutes.date);
-                        throw foo;
+            if (latestMinutes) {
+                let foo = {}; // dirty way to emulate break in forEach loop...
+                try {
+                    latestMinutes.forEach((minutes) => {
+                        if (minutes._id !== minutesId) {
+                            firstPossibleDate = new Date(minutes.date);
+                            throw foo;
+                        }
+                    });
+                } catch (e) {
+                    if (e !== foo) {
+                        throw e;
                     }
-                });
-            } catch(e) {
-                if (e !== foo) {
-                    throw e;
                 }
             }
         }
 
-        return date > firstPossibleDate;
+        firstPossibleDate.setHours(0);
+        firstPossibleDate.setMinutes(0);
+
+        return firstPossibleDate;
+    }
+
+    isMinutesDateAllowed(minutesId, date) {
+        if (typeof date === "string") {
+            date = new Date(date);
+        }
+
+        date.setHours(0);
+        date.setMinutes(0);
+
+        let firstPossibleDate = this.getMinimumAllowedDateForMinutes(minutesId);
+        // if no firstPossibleDate is given, all dates are allowed
+        return ( !firstPossibleDate || date > firstPossibleDate );
     }
 }

@@ -7,11 +7,22 @@ Template.minutesedit.onCreated(function () {
 });
 
 Template.minutesedit.onRendered(function () {
-    this.$('#id_minutesdatePicker').datetimepicker(
-        {
-            format: "YYYY-MM-DD"
+    let datePickerNode = this.$('#id_minutesdatePicker');
+    datePickerNode.datetimepicker({
+        format: "YYYY-MM-DD"
+    });
+
+    let aMin = new Minutes(_minutesID);
+    let ms = aMin.parentMeetingSeries();
+    if (ms) {
+        let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
+        if (minDate) {
+            minDate.setDate(minDate.getDate() + 1);
+            datePickerNode.data("DateTimePicker").minDate(minDate);
         }
-    );
+    }
+
+
 });
 
 Template.minutesedit.helpers({
@@ -38,7 +49,7 @@ Template.minutesedit.helpers({
 
     getFinalizedDate: function () {
         let aMin = new Minutes(_minutesID);
-        return formatDateISO8601(aMin.finalizedAt); // TODO: format date!
+        return formatDateISO8601(aMin.finalizedAt);
     },
 
     getFinalizedBy: function () {
