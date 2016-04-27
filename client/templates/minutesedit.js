@@ -12,6 +12,7 @@ Template.minutesedit.onRendered(function () {
             format: "YYYY-MM-DD"
         }
     );
+    $.material.init();
 });
 
 Template.minutesedit.helpers({

@@ -7,6 +7,10 @@ Template.meetingSeriesDetails.onCreated(function () {
     _meetingSeriesID = this.data;
 });
 
+Template.meetingSeriesDetails.onRendered(function () {
+    $.material.init();
+});
+
 Template.meetingSeriesDetails.helpers({
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);

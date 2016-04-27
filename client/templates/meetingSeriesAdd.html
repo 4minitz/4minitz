@@ -1,28 +1,30 @@
 <template name="meetingSeriesAdd">
 
-    <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseMeetingSeriesAdd"
+    <a class="btn btn-primary btn-raised" role="button" data-toggle="collapse" href="#collapseMeetingSeriesAdd"
        aria-expanded="false" aria-controls="collapseExample">
         New Meeting Series <span class="glyphicon glyphicon-align-left glyphicon-menu-down" aria-hidden="true"></span>
     </a>
 
     <div class="collapse" id="collapseMeetingSeriesAdd">
         <div class="well">
-            <form>
-                <label>Project Name</label>
-                <input id="id_meetingproject" type="text"
+                <label class="control-label">Project Name</label>
+                <input id="id_meetingproject" type="text" class="form-control"
                        name="meetingproject" placeholder="Project Name"
                         style="width: 100%;">
                 <br>
                 <br>
-                <label>Meeting Name</label>
-                <input id="id_meetingname" type="text"
+                <label class="control-label">Meeting Name</label>
+                <input id="id_meetingname" type="text" class="form-control"
                        name="meetingname" placeholder="Meeting Name"
                         style="width: 100%;">
                 <br>
                 <br>
-                <a class="btn btn-primary" id="btnSave">Create</a>
-            </form>
-        </div>
+                <a class="btn btn-primary btn-raised" id="btnAdd">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
+                    Add
+                </a>
+
+            </div>
     </div>
 
 </template>

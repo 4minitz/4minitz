@@ -1,11 +1,14 @@
 import { MeetingSeries } from '/imports/meetingseries'
 
-Template.meetingSeriesList.onRendered(function () {
-});
-
 
 Template.meetingSeriesList.onCreated(function () {
 });
+
+
+Template.meetingSeriesList.onRendered(function () {
+    $.material.init();
+});
+
 
 Template.meetingSeriesList.helpers({
     meetingSeriesRow: function () {
