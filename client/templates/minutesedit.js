@@ -56,6 +56,12 @@ Template.minutesedit.events({
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin) {
+            if (aMin.isFinalized) {
+                // event will be called on page load
+                // if the meeting is already finalized nothing has to be updated
+                return;
+            }
+
             let dateNode = tmpl.$("#id_minutesdateInput");
             let aDate = tmpl.find("#id_minutesdateInput").value;
 
@@ -94,6 +100,16 @@ Template.minutesedit.events({
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.finalizeMinutes(aMin);
+        }
+    },
+
+    'click #btn_unfinalizeMinutes': function(evt, tmpl) {
+        evt.preventDefault();
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            console.log("Un-Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+            let parentSeries = aMin.parentMeetingSeries();
+            parentSeries.unfinalizeMinutes(aMin);
         }
     }
 });

@@ -150,9 +150,44 @@ export class MeetingSeries {
      * @param minutes
      */
     finalizeMinutes (minutes) {
-        this.relatedActionItems = minutes.topics;
+        this.relatedActionItems = minutes.topics.concat(this.relatedActionItems);
         this.save();
         minutes.finalize();
+    }
+
+    /**
+     * Unfinalizes the given minutes and
+     * removes the open/closed topics of this
+     * minutes from the series.
+     *
+     * @param minutes
+     */
+    unfinalizeMinutes (minutes) {
+        minutes.unfinalize(
+            /* Server callback */
+            (error) => {
+                if (!error) {
+                    // remove all elements of the relatedActionItem-Array which are listed as topic from the given minutes
+                    this.relatedActionItems = this.relatedActionItems.filter((item) => {
+                        return !minutes.findTopic(item._id);
+                    });
+
+                    this.save();
+                }
+            }
+        );
+    }
+
+    /**
+     * A minutes is only allowed to be un-finalized
+     * if it is the last one.
+     *
+     * @param minutesId
+     */
+    isUnfinalizeMinutesAllowed(minutesId) {
+        let lastMinutes = this.lastMinutes();
+
+        return (lastMinutes && lastMinutes._id === minutesId);
     }
 
     addNewMinutesAllowed() {

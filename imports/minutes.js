@@ -129,6 +129,15 @@ export class Minutes {
         Meteor.call('minutes.finalize', this._id);
     }
 
+    /**
+     * Unfinalizes this minutes object. Shall
+     * only be called from the finalize method
+     * whithin the meeting series.
+     */
+    unfinalize(serverCallback) {
+        Meteor.call('minutes.unfinalize', this._id, serverCallback);
+    }
+
 
     // ################### private methods
     _findTopicIndex(id) {

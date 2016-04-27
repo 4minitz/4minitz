@@ -47,6 +47,7 @@ Meteor.methods({
         parentMeetingSeries.isMinutesDateAllowed(/*we have no minutes_id*/null, doc.date);
 
         doc.isFinalized = false;
+        doc.isUnfinalized = false;
 
         MinutesCollection.insert(doc, function (error, newMinutesID) {
             doc._id = newMinutesID;
@@ -66,8 +67,31 @@ Meteor.methods({
         let doc = {
             finalizedAt: new Date(),
             finalizedBy: Meteor.userId(),
-            isFinalized: true
+            isFinalized: true,
+            isUnfinalized: false
         };
+
+        // If app has activated accounts ...
+        // Make sure the user is logged in before updating a task
+        //if (!Meteor.userId()) {
+        //    throw new Meteor.Error('not-authorized');
+        //}
+        // Ensure user can not update documents of other users
+        // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
+        MinutesCollection.update(id, {$set: doc});
+    },
+
+    'minutes.unfinalize'(id) {
+        let doc = {
+            isFinalized: false,
+            isUnfinalized: true
+        };
+
+        // it is not allowed to un-finalize a minute if it is not the last finalized one
+        let aMin = new Minutes(id);
+        if (!aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(id)) {
+            throw new Meteor.Error("not-allowed", "This minutes is not allowed to be un-finalized.");
+        }
 
         // If app has activated accounts ...
         // Make sure the user is logged in before updating a task
@@ -127,7 +151,7 @@ Meteor.methods({
                 //}
                 // Ensure user can not remove documents of other users
                 // MinutesCollection.remove({_id: id, userId: Meteor.userId()});
-                MinutesCollection.remove({_id: id, isFinalized: false});
+                MinutesCollection.remove({_id: id, isFinalized: false, isUnfinalized: false});
             }
         };
 
