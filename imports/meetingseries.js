@@ -29,18 +29,10 @@ export class MeetingSeries {
     }
 
     static remove(meetingSeries) {
-        // Meeting series with at least one finalized minutes is not allowed to be deleted.
-        if (meetingSeries.hasFinalizedMinutes()) {
-            return;
-        }
-
         if (meetingSeries.countMinutes() > 0) {
             Meteor.call(
-                "minutes.remove",
-                meetingSeries.getAllMinutes().map(
-                    (minutes) => {
-                        return minutes._id
-                    }),
+                "minutes.removeAllOfSeries",
+                meetingSeries._id,
                 /* server callback */
                 (error) => {
                     if (!error) {
@@ -216,27 +208,6 @@ export class MeetingSeries {
     addNewMinutesAllowed() {
         let lastMinutes = this.lastMinutes();
         return (!lastMinutes || lastMinutes.isFinalized);
-    }
-
-    /**
-     * Checks whether this series has at
-     * least one finalized minutes (this could also be a un-finalized one).
-     *
-     * @returns boolean
-     */
-    hasFinalizedMinutes() {
-        // fetch the two latest minutes, because at least the second one must be finalized
-        let latestMinutes = Minutes.findAllIn(this.minutes, 2);
-        let hasFinalizedMinutes = false;
-        if (latestMinutes) {
-            latestMinutes.forEach((minutes) => {
-                if (!hasFinalizedMinutes && ( minutes.isFinalized || minutes.isUnfinalized ) ) {
-                    hasFinalizedMinutes = true;
-                }
-            })
-        }
-
-        return hasFinalizedMinutes;
     }
 
     /**

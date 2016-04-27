@@ -136,11 +136,9 @@ Meteor.methods({
     },
 
 
-    // id may be the actual id (string) or an array of ids which should all be removed
     'minutes.remove'(id) {
         if (id == undefined || id == "")
             return;
-
 
         var handleRemove = {
             removeMinute: function(id) {
@@ -155,16 +153,15 @@ Meteor.methods({
             }
         };
 
-        let ids = id;
-        if (typeof id === 'string') {
-            return handleRemove.removeMinute(id);
+        return handleRemove.removeMinute(id);
+    },
+
+    'minutes.removeAllOfSeries'(meetingSeriesId) {
+        if (meetingSeriesId == undefined || meetingSeriesId == "") {
+            return;
         }
 
-        let countRemoved = 0;
-        for (let i = 0; i < ids.length; i++) {
-             // TODO: a transaction would be great, so we could rollback if one action failed.
-             // TODO: check if result is zero...
-            countRemoved += handleRemove.removeMinute(ids[i]);
-        }
+        // deleting all minutes of one series is allowed, even if they are finalized.
+        MinutesCollection.remove({meetingSeries_id: meetingSeriesId});
     }
 });
