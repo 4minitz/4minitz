@@ -60,6 +60,11 @@ Template.minutesedit.helpers({
     readOnlyIfFinalized: function () {
         let aMin = new Minutes(_minutesID);
         return (aMin.isFinalized) ? "readonly" : "";
+    },
+
+    isUnfinalizeAllowed: function () {
+        let aMin = new Minutes(_minutesID);
+        return aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(_minutesID);
     }
 });
 

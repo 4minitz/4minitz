@@ -12,7 +12,7 @@
     <ul class="list-group" style="font-size: 130%;">
         {{#each minutes}}
             <li class="list-group-item">
-                <a href="" id="deleteMinutes" class="btn btn-{{buttonBackground}}" disabled="{{isFinalized}}">
+                <a href="" id="deleteMinutes" class="btn btn-{{buttonBackground}}" disabled="{{isDeleteNotAllowed}}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"></span>
                 </a>
                 <a href="/minutesedit/{{_id}}" class="btn btn-{{buttonBackground}}">{{date}}</a>

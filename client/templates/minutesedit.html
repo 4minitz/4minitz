@@ -23,9 +23,11 @@
                 <div class="col-md-8 text-right">
                     {{#if isFinalized}}
                         Finalized on {{getFinalizedDate}} by {{getFinalizedBy.username}}
+                        {{#if isUnfinalizeAllowed}}
                         <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
+                        {{/if}}
                     {{else}}
                         <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
