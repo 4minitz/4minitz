@@ -1,0 +1,8 @@
+<template name="versionInfo">
+    <div style="position:absolute;  top:0;  right:0; margin-top: 5px; margin-right: 5px; text-align: right; color: #c7c7c7;">
+        {{#with gitVersionInfo}}
+            {{branch}} ({{commitshort}})<br>
+            Version {{tag}}<br>
+        {{/with}}
+    </div>
+</template>
