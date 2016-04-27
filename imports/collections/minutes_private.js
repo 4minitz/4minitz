@@ -162,6 +162,7 @@ Meteor.methods({
 
         let countRemoved = 0;
         for (let i = 0; i < ids.length; i++) {
+             // TODO: a transaction would be great, so we could rollback if one action failed.
              // TODO: check if result is zero...
             countRemoved += handleRemove.removeMinute(ids[i]);
         }

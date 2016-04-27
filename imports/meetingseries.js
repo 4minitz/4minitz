@@ -29,16 +29,30 @@ export class MeetingSeries {
     }
 
     static remove(meetingSeries) {
+        // Meeting series with at least one finalized minutes is not allowed to be deleted.
+        if (meetingSeries.hasFinalizedMinutes()) {
+            return;
+        }
+
         if (meetingSeries.countMinutes() > 0) {
             Meteor.call(
                 "minutes.remove",
                 meetingSeries.getAllMinutes().map(
                     (minutes) => {
                         return minutes._id
-                    })
+                    }),
+                /* server callback */
+                (error) => {
+                    if (!error) {
+                        // if all related minutes were delete we can delete the series as well
+                        Meteor.call("meetingseries.remove", meetingSeries._id);
+                    }
+                }
             );
+        } else {
+            // we have no related minutes so we can delete the series blindly
+            Meteor.call("meetingseries.remove", meetingSeries._id);
         }
-        Meteor.call("meetingseries.remove", meetingSeries._id);
     }
 
 
@@ -205,6 +219,27 @@ export class MeetingSeries {
     }
 
     /**
+     * Checks whether this series has at
+     * least one finalized minutes (this could also be a un-finalized one).
+     *
+     * @returns boolean
+     */
+    hasFinalizedMinutes() {
+        // fetch the two latest minutes, because at least the second one must be finalized
+        let latestMinutes = Minutes.findAllIn(this.minutes, 2);
+        let hasFinalizedMinutes = false;
+        if (latestMinutes) {
+            latestMinutes.forEach((minutes) => {
+                if (!hasFinalizedMinutes && ( minutes.isFinalized || minutes.isUnfinalized ) ) {
+                    hasFinalizedMinutes = true;
+                }
+            })
+        }
+
+        return hasFinalizedMinutes;
+    }
+
+    /**
      * Gets the first possible date which can be assigned
      * to the given minutes.
      *
@@ -240,8 +275,10 @@ export class MeetingSeries {
             }
         }
 
-        firstPossibleDate.setHours(0);
-        firstPossibleDate.setMinutes(0);
+        if (firstPossibleDate) {
+            firstPossibleDate.setHours(0);
+            firstPossibleDate.setMinutes(0);
+        }
 
         return firstPossibleDate;
     }
