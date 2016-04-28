@@ -5,6 +5,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries'
+import { Minutes } from "./../minutes"
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -63,6 +64,8 @@ Meteor.methods({
         if (id == undefined || id == "")
             return;
 
+        // TODO: fix security issue: it is not allowed to modify (e.g. remove) elements from the minutes array!
+
         // If app has activated accounts ...
         // Make sure the user is logged in before updating a task
         //if (!Meteor.userId()) {
@@ -91,6 +94,10 @@ Meteor.methods({
     'meetingseries.removeMinutesFromArray'(meetingSeriesId, minutesId) {
         console.log("meetingseries.removeMinutesFromArray: MeetingSeries ("
             + meetingSeriesId + "), Minutes (" + minutesId + ")");
+
+        // Minutes can only be removed as long as they are not finalized
+        let aMin = new Minutes(minutesId);
+        if (aMin.isFinalized) return;
 
         MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
     }
