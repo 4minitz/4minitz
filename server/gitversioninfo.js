@@ -6,30 +6,20 @@ GIT_VERSION_INFO = {
 };
 
 try {
-    var git = require('git-rev');
+    var git = require('git-rev-sync');
+    GIT_VERSION_INFO.commitshort = git.short();
+    GIT_VERSION_INFO.commitlong = git.long();
+    GIT_VERSION_INFO.branch = git.branch();
+    GIT_VERSION_INFO.tag = git.tag();
+    if (GIT_VERSION_INFO.tag == GIT_VERSION_INFO.commitlong) {  // no tag found!
+        delete GIT_VERSION_INFO.tag;
+    }
 
-    console.log("");
-    git.short(function (str) {
-        console.log('git.short', str);
-        GIT_VERSION_INFO.commitshort = str;
-    });
+    console.log("git version:"+JSON.stringify(GIT_VERSION_INFO, null, 4));
 
-    git.long(function (str) {
-        console.log('git.long', str);
-        GIT_VERSION_INFO.commitlong = str;
-    });
-
-    git.branch(function (str) {
-        console.log('git.branch', str);
-        GIT_VERSION_INFO.branch = str;
-    });
-
-    git.tag(function (str) {
-        console.log('git.tag', str);
-        GIT_VERSION_INFO.tag = str;
-    });
 } catch (e) {
-    console.log("No git-rev installed? Do 'meteor npm install --save' before launch of meteor!");
+    console.log("No git-rev-sync installed? Do 'meteor npm install' before launch of meteor!");
+    console.log(e);
 }
 
 

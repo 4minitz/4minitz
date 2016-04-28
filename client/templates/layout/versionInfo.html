@@ -2,7 +2,9 @@
     <div class="version-info">
         {{#with gitVersionInfo}}
             {{branch}} ({{commitshort}})<br>
-            Version {{tag}}<br>
+            {{#if tag}}
+                Version {{tag}}<br>
+            {{/if}}
         {{/with}}
     </div>
 </template>

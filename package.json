@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/4minitz/4minitz#readme",
   "dependencies": {
-    "git-rev": "^0.2.1"
+    "git-rev-sync": "^1.5.1"
   }
 }
