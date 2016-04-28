@@ -102,8 +102,8 @@ export class MeetingSeries {
         let topics = [];
 
         // copy open topics from this meeting series
-        if (this.relatedActionItems) {
-            topics = this.relatedActionItems.filter((topic) => {
+        if (this.relatedTopics) {
+            topics = this.relatedTopics.filter((topic) => {
                 return topic.isOpen;
             });
         }
@@ -175,15 +175,15 @@ export class MeetingSeries {
      * @param minutes
      */
     finalizeMinutes (minutes) {
-        // first delete all open relatedActionItems to prevent duplicates
-        if (this.relatedActionItems) {
-            this.relatedActionItems = this.relatedActionItems.filter((topic) => {
+        // first delete all open relatedTopics to prevent duplicates
+        if (this.relatedTopics) {
+            this.relatedTopics = this.relatedTopics.filter((topic) => {
                 return !topic.isOpen;
             });
         }
 
         // then we can concat all topics of the to-finalized minute.
-        this.relatedActionItems = minutes.topics.concat(this.relatedActionItems);
+        this.relatedTopics = minutes.topics.concat(this.relatedTopics);
         this.save();
         minutes.finalize();
     }
@@ -201,7 +201,7 @@ export class MeetingSeries {
             (error) => {
                 if (!error) {
                     // remove all elements of the relatedActionItem-Array which are listed as topic from the given minutes
-                    this.relatedActionItems = this.relatedActionItems.filter((item) => {
+                    this.relatedTopics = this.relatedTopics.filter((item) => {
                         return !minutes.findTopic(item._id);
                     });
 

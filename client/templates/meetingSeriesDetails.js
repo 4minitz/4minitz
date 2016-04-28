@@ -61,8 +61,8 @@ Template.meetingSeriesDetails.helpers({
                 let filterOpen = status === "open";
 
                 let  topics;
-                if (ms.relatedActionItems) {
-                    topics = ms.relatedActionItems.filter((topic) => {
+                if (ms.relatedTopics) {
+                    topics = ms.relatedTopics.filter((topic) => {
                         return topic.isOpen === filterOpen;
                     });
                 } else {
