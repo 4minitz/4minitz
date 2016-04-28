@@ -1,0 +1,19 @@
+@startuml
+!include style.puml
+
+
+
+Minutes "1" --> "*" AgendaItem
+Minutes "1" --> "*" Information
+Minutes "1" --> "*" Decision
+Minutes "1" --> "*" ActionItem
+
+class MeetingSeries {
+    decisions
+    openActionItems
+    closedActionItems
+    openAgendaItems
+    templateAgendaItems
+}
+
+@enduml

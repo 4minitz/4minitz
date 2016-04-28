@@ -50,5 +50,12 @@ Router.route('/minutesadd/:_id', function () {
 
 Router.route('/minutesedit/:_id', function () {
     var minutesID = this.params._id;
-    this.render('minutesedit', {data: minutesID});
+
+    this.subscribe('minutes', minutesID).wait();
+
+    if (this.ready()) {
+        this.render('minutesedit', {data: minutesID});
+    } else {
+        this.render('loading');
+    }
 });
