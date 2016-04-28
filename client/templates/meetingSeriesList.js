@@ -34,15 +34,17 @@ Template.meetingSeriesList.events({
 
         let countMinutes = this.countMinutes();
 
-        let dialogContent = "";
+        //let dialogContent = "";
+
+        let seriesName = "<strong>" + this.project + ": " + this.name + "</strong>";
+
+        let dialogContent = "<p>Do you really want to delete the meeting series " + seriesName + "?</p>";
 
         if (countMinutes !== 0) {
             let lastMinDate = this.lastMinutes().date;
-            dialogContent = "<p>This series contains " + countMinutes
+            dialogContent += "<p>This series contains " + countMinutes
                 + " meeting minutes (last minutes of " + lastMinDate + ").</p>";
         }
-
-        dialogContent += "<p>Do you really want to delete this meeting series?</p>";
 
         confirmationDialog(
             /* callback called if user wants to continue */
