@@ -27,6 +27,8 @@ Template.minutesList.events({
         if (disabled) return;
 
         console.log("Remove Meeting Minute " + this._id + " from Series: " + this.meetingSeries_id);
+
+        let dialogContent = "Do you really want to delete this meeting minute dated on <strong>" + this.date + "</strong>?";
         confirmationDialog(
             /* callback called if user wants to continue */
             () => {
@@ -34,7 +36,7 @@ Template.minutesList.events({
                 ms.removeMinutesWithId(this._id);
             },
             /* Dialog content */
-            "Do you really want to delete this meeting minute?"
+            dialogContent
         );
     }
 });
