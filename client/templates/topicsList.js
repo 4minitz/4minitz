@@ -52,24 +52,24 @@ Template.topicsList.helpers({
 
 
 Template.topicsList.events({
-    'click #btnDelTopic'(evt, tmpl) {
+    'click #btnDelTopic'(evt) {
         evt.preventDefault();
         console.log("Delete topics: "+this._id+" from minutes "+_minutesID);
         let aMin = new Minutes(_minutesID);
         aMin.removeTopic(this._id);
     },
 
-    'click #btnToggleState'(evt, tmpl) {
+    'click #btnToggleState'(evt) {
         evt.preventDefault();
         console.log("Toggle topic state: "+this._id+" from minutes "+_minutesID);
-        aTopic = new Topic(_minutesID, this._id);
+        let aTopic = new Topic(_minutesID, this._id);
         if (aTopic) {
             aTopic.toggleState();
             aTopic.save();
         }
     },
 
-    'click #btnEditTopic'(evt, tmpl) {
+    'click #btnEditTopic'(evt) {
         evt.preventDefault();
         Session.set("topicEditMinutesId", _minutesID);
         Session.set("topicEditTopicId", this._id);
