@@ -51,9 +51,14 @@ Meteor.methods({
             doc.minutes = [];
         }
 
-        if (doc.relatedTopics == undefined) {
-            // if the related topics field was not set previously we make sure that we will always get an array.
-            doc.relatedTopics =  [];
+        if (doc.openTopics == undefined) {
+            // if the closed topics field was not set previously we make sure that we will always get an array.
+            doc.openTopics =  [];
+        }
+
+        if (doc.closedTopics == undefined) {
+            // if the closed topics field was not set previously we make sure that we will always get an array.
+            doc.closedTopics =  [];
         }
 
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {

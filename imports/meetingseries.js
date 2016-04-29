@@ -102,10 +102,8 @@ export class MeetingSeries {
         let topics = [];
 
         // copy open topics from this meeting series
-        if (this.relatedTopics) {
-            topics = this.relatedTopics.filter((topic) => {
-                return topic.isOpen;
-            });
+        if (this.openTopics) {
+            topics = this.openTopics;
         }
 
         let min = new Minutes({
@@ -175,15 +173,19 @@ export class MeetingSeries {
      * @param minutes
      */
     finalizeMinutes (minutes) {
-        // first delete all open relatedTopics to prevent duplicates
-        if (this.relatedTopics) {
-            this.relatedTopics = this.relatedTopics.filter((topic) => {
-                return !topic.isOpen;
-            });
-        }
+        // first override the openTopics of this series (the minute contains all relevant open topics)
+        this.openTopics = minutes.topics.filter((topic) => { // filter always returns an array
+            return topic.isOpen;
+        });
 
-        // then we can concat all topics of the to-finalized minute.
-        this.relatedTopics = minutes.topics.concat(this.relatedTopics);
+
+        // then we concat the closed topics of the current minute to the closed ones of this series
+        this.closedTopics = this.closedTopics.concat(
+            minutes.topics.filter((topic) => {
+                return !topic.isOpen;
+            })
+        );
+
         this.save();
         minutes.finalize();
     }
@@ -200,8 +202,12 @@ export class MeetingSeries {
             /* Server callback */
             (error) => {
                 if (!error) {
-                    // remove all elements of the relatedActionItem-Array which are listed as topic from the given minutes
-                    this.relatedTopics = this.relatedTopics.filter((item) => {
+                    // remove all elements of the open-Array which are listed as topic from the given minutes
+                    this.openTopics = this.openTopics.filter((item) => {
+                        return !minutes.findTopic(item._id);
+                    });
+                    // same procedure with the closed ones
+                    this.closedTopics = this.closedTopics.filter((item) => {
                         return !minutes.findTopic(item._id);
                     });
 
