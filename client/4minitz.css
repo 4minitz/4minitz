@@ -14,6 +14,10 @@
     pointer-events: none;
 }
 
+.panel-link:hover, .panel-link:link {
+    color: inherit;
+}
+
 @media screen and (max-width: 799px) {
     .version-info {
         display:none;

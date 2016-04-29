@@ -1,6 +1,6 @@
 <template name="minutesedit">
-    <h2 class="header center orange-text">
-        Edit Minutes for Meeting Series<br>
+    <h2 class="header">
+        Edit Minutes for Meeting Series
         <a href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
     </h2>
 
@@ -29,7 +29,7 @@
                         </a>
                         {{/if}}
                     {{else}}
-                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg">
+                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
                             Finalize Minutes
                         </button>

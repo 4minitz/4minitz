@@ -15,11 +15,20 @@ Template.topicItem.helpers({
 
     topicBackgroundColor: function () {
         if (this.topic.isOpen) {
-            return "panel-info";
+            return "panel-primary";
         } else {
-            return "panel-warning";
+            return "";
         }
     },
+
+    topicTextColor: function () {
+        if (this.topic.isOpen) {
+            return "white";
+        } else {
+            return "black";
+        }
+    },
+
 
     openCloseIcon: function () {
         if (this.topic.isOpen) {
