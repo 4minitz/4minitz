@@ -51,6 +51,11 @@ Meteor.methods({
             doc.minutes = [];
         }
 
+        if (doc.relatedTopics == undefined) {
+            // if the related topics field was not set previously we make sure that we will always get an array.
+            doc.relatedTopics =  [];
+        }
+
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
             doc._id = newMeetingSeriesID;
         });
