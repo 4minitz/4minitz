@@ -38,5 +38,34 @@ Template.minutesList.events({
             /* Dialog content */
             dialogContent
         );
+    },
+
+    "click #deleteMeetingSeries": function() {
+        console.log("Remove Meeting Series"+this._id);
+        let ms = new MeetingSeries(this.meetingSeriesId);
+
+        let countMinutes = ms.countMinutes();
+
+        //let dialogContent = "";
+
+        let seriesName = "<strong>" + ms.project + ": " + ms.name + "</strong>";
+
+        let dialogContent = "<p>Do you really want to delete the meeting series " + seriesName + "?</p>";
+
+        if (countMinutes !== 0) {
+            let lastMinDate = ms.lastMinutes().date;
+            dialogContent += "<p>This series contains " + countMinutes
+                + " meeting minutes (last minutes of " + lastMinDate + ").</p>";
+        }
+
+        confirmationDialog(
+            /* callback called if user wants to continue */
+            () => {
+                MeetingSeries.remove(ms);
+                Router.go("/");
+            },
+            dialogContent
+        );
     }
+
 });
