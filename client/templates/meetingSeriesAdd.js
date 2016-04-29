@@ -2,7 +2,6 @@
 import { MeetingSeries } from '/imports/meetingseries'
 
 Template.meetingSeriesAdd.onCreated(function () {
-    $.material.init();
 });
 
 Template.meetingSeriesAdd.onRendered(function () {
@@ -32,6 +31,8 @@ Template.meetingSeriesAdd.events({
         ms.save();
 
         // Clear form
-        $('form')[0].reset();
+        template.find("#id_meetingproject").value = "";
+        template.find("#id_meetingname").value = "";
+        template.find("#id_meetingproject").focus();
     }
 });
