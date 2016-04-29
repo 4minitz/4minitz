@@ -202,11 +202,9 @@ export class MeetingSeries {
             /* Server callback */
             (error) => {
                 if (!error) {
-                    // remove all elements of the open-Array which are listed as topic from the given minutes
-                    this.openTopics = this.openTopics.filter((item) => {
-                        return !minutes.findTopic(item._id);
-                    });
-                    // same procedure with the closed ones
+                    // remove all elements of the closed-Array which are listed as topic from the given minutes
+                    // because they will be concatenated in the finalize procedure which would lead to
+                    // duplicates
                     this.closedTopics = this.closedTopics.filter((item) => {
                         return !minutes.findTopic(item._id);
                     });
