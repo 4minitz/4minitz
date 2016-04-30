@@ -50,7 +50,7 @@ Template.meetingSeriesDetails.helpers({
     tabData: function() {
         let tab = Session.get("currentTab");
         let ms = new MeetingSeries(_meetingSeriesID);
-        let title = ms.project + " - " + ms.name
+        let title = ms.project + " - " + ms.name;
 
         switch (tab) {
             case "minutesList":
@@ -62,16 +62,7 @@ Template.meetingSeriesDetails.helpers({
 
             case "topicListTab":
                 let status = Session.get("actionItemStatus");
-                let filterOpen = status === "open";
-
-                let  topics;
-                if (ms.relatedTopics) {
-                    topics = ms.relatedTopics.filter((topic) => {
-                        return topic.isOpen === filterOpen;
-                    });
-                } else {
-                    topics = [];
-                }
+                let  topics = (status === "open") ? ms.openTopics : ms.closedTopics;
 
                 return {
                     status: status,

@@ -1,31 +1,29 @@
 @startuml
 !include style.puml
 
-AgendaItem "1" --> "*" SubItem
+Topic "1" --> "*" TopicItem
 
-SubItem  <|-- Information
-SubItem  <|-- Decision
-SubItem  <|-- ActionItem
+TopicItem  <|-- Information
+TopicItem  <|-- Decision
+TopicItem  <|-- ActionItem
 
-class AgendaItem {
-    _id
-    start
+class Topic {
     subject
+    start
     responsibles
-    relatedSubItems
     status
-    isTemplateItem
+    isRecurring
 }
 
-abstract class SubItem {
-    id
+abstract class TopicItem {
     description
-    parentAgendaItems
-    currentParentAgendaItem
+    createdAt
+}
+
+class Information {
 }
 
 class Decision {
-    date
 }
 
 class ActionItem {
@@ -33,6 +31,7 @@ class ActionItem {
     responsibles
     status
     priority
+    details: []
 }
 
 @enduml
