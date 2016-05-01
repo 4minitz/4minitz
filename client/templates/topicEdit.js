@@ -17,6 +17,8 @@ Template.topicEdit.onRendered(function () {
             format: "YYYY-MM-DD"
         }
     );
+
+    $.material.init()
 });
 
 Template.topicEdit.onDestroyed(function () {

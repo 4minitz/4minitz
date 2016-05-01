@@ -1,6 +1,6 @@
 <template name="minutesedit">
-    <h2 class="header center orange-text">
-        Edit Minutes for Meeting Series<br>
+    <h2 class="header">
+        Edit Minutes for
         <a href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
     </h2>
 
@@ -29,7 +29,7 @@
                         </a>
                         {{/if}}
                     {{else}}
-                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg">
+                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
                             Finalize Minutes
                         </button>
@@ -37,8 +37,8 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="id_participants" class="active">Participants</label>
+            <div class="form-group label-floating">
+                <label for="id_participants" class="control-label">Participants</label>
                 <input id="id_participants" type="text" value="{{minutes.participants}}" class="form-control" {{readOnlyIfFinalized}}>
             </div>
             <div class="form-group">
@@ -48,7 +48,7 @@
             <hr>
 
             {{#unless isFinalized}}
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#dlgAddTopic">
+                <button type="button" class="btn btn-primary btn-lg btn-raised" data-toggle="modal" data-target="#dlgAddTopic">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
                 Add Topic
             </button>

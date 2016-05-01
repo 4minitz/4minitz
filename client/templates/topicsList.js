@@ -7,6 +7,7 @@ Template.topicsList.onCreated(function () {
 });
 
 Template.topicsList.onRendered(function () {
+    $.material.init();
 });
 
 var isMinuteFinalized = function () {

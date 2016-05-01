@@ -13,6 +13,10 @@ Template.meetingSeriesDetails.onRendered(function () {
     Session.set("currentTab", "minutesList");
 });
 
+Template.meetingSeriesDetails.onRendered(function () {
+    $.material.init();
+});
+
 Template.meetingSeriesDetails.helpers({
     errorTitle: function() {
         let title = Session.get("errorTitle");

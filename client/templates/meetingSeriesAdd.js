@@ -2,15 +2,19 @@
 import { MeetingSeries } from '/imports/meetingseries'
 
 Template.meetingSeriesAdd.onCreated(function () {
-    //add your statement here
 });
+
+Template.meetingSeriesAdd.onRendered(function () {
+    $.material.init();
+});
+
 
 Template.meetingSeriesAdd.helpers({
     //add you helpers here
 });
 
 Template.meetingSeriesAdd.events({
-    "click #btnSave": function (event, template) {
+    "click #btnAdd": function (event, template) {
         event.preventDefault();
 
         var aProject = template.find("#id_meetingproject").value;
@@ -27,6 +31,8 @@ Template.meetingSeriesAdd.events({
         ms.save();
 
         // Clear form
-        $('form')[0].reset();
+        template.find("#id_meetingproject").value = "";
+        template.find("#id_meetingname").value = "";
+        template.find("#id_meetingproject").focus();
     }
 });

@@ -1,11 +1,14 @@
 import { MeetingSeries } from '/imports/meetingseries'
 
-Template.meetingSeriesList.onRendered(function () {
-});
-
 
 Template.meetingSeriesList.onCreated(function () {
 });
+
+
+Template.meetingSeriesList.onRendered(function () {
+    $.material.init();
+});
+
 
 Template.meetingSeriesList.helpers({
     meetingSeriesRow: function () {
@@ -28,30 +31,5 @@ Template.meetingSeriesOverview.helpers({
 Template.meetingSeriesList.events({
     "click .hidehelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
-    },
-    "click #deleteMeetingSeries": function() {
-        console.log("Remove Meeting Series"+this._id);
-
-        let countMinutes = this.countMinutes();
-
-        //let dialogContent = "";
-
-        let seriesName = "<strong>" + this.project + ": " + this.name + "</strong>";
-
-        let dialogContent = "<p>Do you really want to delete the meeting series " + seriesName + "?</p>";
-
-        if (countMinutes !== 0) {
-            let lastMinDate = this.lastMinutes().date;
-            dialogContent += "<p>This series contains " + countMinutes
-                + " meeting minutes (last minutes of " + lastMinDate + ").</p>";
-        }
-
-        confirmationDialog(
-            /* callback called if user wants to continue */
-            () => {
-                MeetingSeries.remove(this);
-            },
-            dialogContent
-        );
     }
 });
