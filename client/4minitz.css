@@ -18,6 +18,16 @@
     color: inherit;
 }
 
+ul.nav-tabs .active {   /* highlight active nav-tabs item */
+    color: inherit;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+a:focus {   /* remove dotted outline on clicked menu / tab items */
+    outline: none;
+}
+
+
 @media screen and (max-width: 799px) {
     .version-info {
         display:none;

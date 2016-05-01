@@ -1,6 +1,5 @@
 <template name="topicListTab">
-    <h3>{{title}}: {{status}} Topics</h3>
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="margin-top: 10px;">
         {{#each topics}}
             {{> topicItem getTopicItem}}
         {{/each}}

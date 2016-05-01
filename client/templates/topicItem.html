@@ -2,7 +2,14 @@
     <div class="panel {{topicBackgroundColor}}">
         <div class="panel-heading" role="tab" id="headingOne">
             <h4 class="panel-title">
-                <a id="btnToggleState" href="#" class="panel-link"><span class="glyphicon glyphicon-{{openCloseIcon}}"></span></a>
+                {{#if isEditable}}
+                    <a id="btnToggleState" href="#" class="panel-link">
+                        <span class="glyphicon glyphicon-{{openCloseIcon}}"></span>
+                    </a>
+                {{else}}
+                    <span class="glyphicon glyphicon-{{openCloseIcon}}"></span>
+                {{/if}}
+
                 <a role="button" class="panel-link" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
                     {{topic.subject}}
                     Resp: {{topic.responsible}}

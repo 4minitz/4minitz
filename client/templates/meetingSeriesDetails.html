@@ -1,6 +1,9 @@
 <template name="meetingSeriesDetails">
     <h2 class="header center orange-text">
-        Meeting Series Details
+        Meeting Series:
+        {{#with meetingSeries}}
+            {{project}} - {{name}}
+        {{/with}}
     </h2>
 
     {{#if errorTitle}}
