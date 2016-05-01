@@ -12,26 +12,25 @@
                 </div>
                 <div class="modal-body">
                     <form id="frmDlgAddTopic">
-                        <div class="form-group">
-                            <label for="id_subject">Subject of Topic (mandatory)</label>
+                        <div class="form-group label-floating">
+                            <label for="id_subject" class="control-label">Subject of Topic (mandatory)</label>
                             <input id="id_subject" type="text" class="form-control" value="{{getTopicSubject}}">
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="id_priority">Priority</label>
+                                <div class="form-group label-floating">
+                                    <label for="id_priority" class="control-label">Priority</label>
                                     <input id="id_priority" type="text" class="form-control" value="{{getTopicPriority}}">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="id_responsible">Responsible</label>
+                                <div class="form-group label-floating">
+                                    <label for="id_responsible" class="control-label">Responsible</label>
                                     <input id="id_responsible" type="text" class="form-control" value="{{getTopicResponsible}}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="id_duedateInput">Date</label>
                                     <div class='input-group date' id='id_duedatePicker'>
                                         <input id="id_duedateInput" type='text' class="form-control" value="{{getTopicDate}}"/>
                                     <span class="input-group-addon">

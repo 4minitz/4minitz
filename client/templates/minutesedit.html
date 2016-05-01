@@ -1,6 +1,6 @@
 <template name="minutesedit">
     <h2 class="header">
-        Edit Minutes for Meeting Series
+        Edit Minutes for
         <a href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
     </h2>
 
@@ -37,8 +37,8 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="id_participants" class="active">Participants</label>
+            <div class="form-group label-floating">
+                <label for="id_participants" class="control-label">Participants</label>
                 <input id="id_participants" type="text" value="{{minutes.participants}}" class="form-control" {{readOnlyIfFinalized}}>
             </div>
             <div class="form-group">
