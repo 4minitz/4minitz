@@ -109,6 +109,7 @@ export class Minutes {
         let i = undefined;
         if (! topicDoc._id) {             // brand-new topic
             topicDoc._id = Random.id();   // create our own local _id here!
+            topicDoc.isNew = true;
         } else {
             i = this._findTopicIndex(topicDoc._id); // try to find it
         }

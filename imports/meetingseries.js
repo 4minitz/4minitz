@@ -101,9 +101,12 @@ export class MeetingSeries {
 
         let topics = [];
 
-        // copy open topics from this meeting series
+        // copy open topics from this meeting series & set isNew=false
         if (this.openTopics) {
             topics = this.openTopics;
+            topics.forEach((topic) => {
+                topic.isNew = false;
+            });
         }
 
         let min = new Minutes({
@@ -180,6 +183,10 @@ export class MeetingSeries {
 
 
         // then we concat the closed topics of the current minute to the closed ones of this series
+        // but first we set the isNew-flag to false for the currently existing closed topics
+        this.closedTopics.forEach((topic) => {
+            topic.isNew = false;
+        });
         this.closedTopics = this.closedTopics.concat(
             minutes.topics.filter((topic) => {
                 return !topic.isOpen;
