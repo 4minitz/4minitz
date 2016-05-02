@@ -16,8 +16,8 @@ Template.minutesList.helpers({
         return !ms.addNewMinutesAllowed();
     },
 
-    isDeleteNotAllowed: function () {
-        return (this.isFinalized);
+    isDeleteAllowed: function () {
+        return (!this.isFinalized);
     }
 });
 
