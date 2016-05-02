@@ -149,7 +149,7 @@ Meteor.methods({
                 //}
                 // Ensure user can not remove documents of other users
                 // MinutesCollection.remove({_id: id, userId: Meteor.userId()});
-                return MinutesCollection.remove({_id: id, isFinalized: false, isUnfinalized: false});
+                return MinutesCollection.remove({_id: id, isFinalized: false});
             }
         };
 

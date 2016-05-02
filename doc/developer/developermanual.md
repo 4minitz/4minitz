@@ -58,6 +58,7 @@ They build a facade for the underlying MongoCollections and enrich them with con
             "priority": "...",
             "duedate": "YYYY-MM-dd",
             "isOpen": true,
+            "isNew": (true|false),
             "details": [  {
                          date:
                          text:
@@ -76,6 +77,7 @@ They build a facade for the underlying MongoCollections and enrich them with con
               "priority": "...",
               "duedate": "YYYY-MM-dd",
               "isOpen": true,
+              "isNew": (true|false),
               "details": [  {
                            date:
                            text:
@@ -95,6 +97,7 @@ They build a facade for the underlying MongoCollections and enrich them with con
             "priority": "...",
             "duedate": "YYYY-MM-dd",
             "isOpen": false,
+              "isNew": (true|false),
             "details": [  {
                          date:
                          text:
@@ -113,6 +116,7 @@ They build a facade for the underlying MongoCollections and enrich them with con
               "priority": "...",
               "duedate": "YYYY-MM-dd",
               "isOpen": false,
+              "isNew": (true|false),
               "details": [  {
                            date:
                            text:
@@ -145,6 +149,7 @@ They build a facade for the underlying MongoCollections and enrich them with con
               "priority": "...",
               "duedate": "YYYY-MM-dd",
               "isOpen": (true|false),
+              "isNew": (true|false),
               "details": [  {
                            date:
                            text:
@@ -163,6 +168,7 @@ They build a facade for the underlying MongoCollections and enrich them with con
               "priority": "...",
               "duedate": "YYYY-MM-dd",
               "isOpen": (true|false),
+              "isNew": (true|false),
               "details": [  {
                            date:
                            text:

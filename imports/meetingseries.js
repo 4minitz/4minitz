@@ -101,9 +101,12 @@ export class MeetingSeries {
 
         let topics = [];
 
-        // copy open topics from this meeting series
+        // copy open topics from this meeting series & set isNew=false
         if (this.openTopics) {
             topics = this.openTopics;
+            topics.forEach((topic) => {
+                topic.isNew = false;
+            });
         }
 
         let min = new Minutes({
@@ -134,6 +137,17 @@ export class MeetingSeries {
         let lastMin = Minutes.findAllIn(this.minutes, 1).fetch();
         if (lastMin && lastMin.length == 1) {
             return lastMin[0];
+        }
+        return false;
+    }
+
+    secondLastMinutes () {
+        if (!this.minutes || this.minutes.length < 2) {
+            return false;
+        }
+        let secondLastMin = Minutes.findAllIn(this.minutes, 2).fetch();
+        if (secondLastMin && secondLastMin.length == 2) {
+            return secondLastMin[1];
         }
         return false;
     }
@@ -180,6 +194,10 @@ export class MeetingSeries {
 
 
         // then we concat the closed topics of the current minute to the closed ones of this series
+        // but first we set the isNew-flag to false for the currently existing closed topics
+        this.closedTopics.forEach((topic) => {
+            topic.isNew = false;
+        });
         this.closedTopics = this.closedTopics.concat(
             minutes.topics.filter((topic) => {
                 return !topic.isOpen;
@@ -208,6 +226,33 @@ export class MeetingSeries {
                     this.closedTopics = this.closedTopics.filter((item) => {
                         return !minutes.findTopic(item._id);
                     });
+
+                    //### Restore state of open-/closed-topics before this minute was finalized  ###
+                    // TODO: Maybe we should save all states in a stack before we create a new minute ?? Then restoring the old state would be much easier.
+                    // also remove all elements of the open-Array which are marked as *new* in the given minutes
+                    this.openTopics = this.openTopics.filter((item) => {
+                        return !(item.isNew && minutes.findTopic(item._id) );
+                    });
+
+                    // re-open all old topics which were closed within this minute
+                    let minuteOldClosedTopics = minutes.getOldClosedTopics();
+                    minuteOldClosedTopics.forEach((topic) => {
+                        topic.isOpen = true;
+                        this.openTopics.push(topic);
+                    });
+
+                    // restore the isNew-Flag of our topics saved in this series
+                    let secondLastMinute = this.secondLastMinutes();
+                    let updateIsNew = (topic) => {
+                        // set the isNew-Flag to this topic if the flag is set in the latest minute
+                        let lastTopic = secondLastMinute.findTopic(topic._id);
+                        if (lastTopic) {
+                            topic.isNew = lastTopic.isNew;
+                        }
+                    };
+                    this.openTopics.forEach(updateIsNew);
+                    this.closedTopics.forEach(updateIsNew);
+                    //### end: restore state ####
 
                     this.save();
                 }
