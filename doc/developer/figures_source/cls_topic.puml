@@ -4,7 +4,6 @@
 Topic "1" --> "*" TopicItem
 
 TopicItem  <|-- Information
-TopicItem  <|-- Decision
 TopicItem  <|-- ActionItem
 
 class Topic {
@@ -16,14 +15,12 @@ class Topic {
 }
 
 abstract class TopicItem {
-    description
+    subject
     createdAt
+    tags: []
 }
 
 class Information {
-}
-
-class Decision {
 }
 
 class ActionItem {
@@ -33,5 +30,12 @@ class ActionItem {
     priority
     details: []
 }
+
+
+' ************************ notes
+note right of (Topic)
+    This is an Agenda Topic
+end note
+
 
 @enduml

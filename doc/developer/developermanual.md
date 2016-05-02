@@ -28,7 +28,10 @@ They build a facade for the underlying MongoCollections and enrich them with con
 
 
 ## Class Diagrams
-![Classes: Basic](./figures/classdiagram1.png)
+![Classes: MeetingSeries](./figures/cls_MeetingSeries.png)
+
+![Classes: Topic](./figures/cls_Topic.png)
+
 
 
 ## Sequence Diagrams

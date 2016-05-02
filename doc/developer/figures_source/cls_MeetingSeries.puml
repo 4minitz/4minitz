@@ -3,9 +3,7 @@
 
 MeetingSeries "1" --> "*" Minutes
 Minutes "1" --> "*" Topic
-Topic <|-- ActionItem
-Topic <|-- Decision
-Topic <|-- Information
+
 
 
 class MeetingSeries {
@@ -18,4 +16,12 @@ class Minutes {
     string[] participants
     string text
 }
+
+
+' ************************ notes
+note right of (Topic)
+    Details see separate
+    class diagram
+end note
+
 @enduml
