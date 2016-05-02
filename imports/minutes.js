@@ -105,6 +105,26 @@ export class Minutes {
         return undefined;
     }
 
+    /**
+     * Returns all topics which are created
+     * within this meeting.
+     */
+    getNewTopics() {
+        return this.topics.filter((topic) => {
+            return topic.isNew;
+        });
+    }
+
+    /**
+     * Returns all old topics which were closed
+     * within this topic.
+     */
+    getOldClosedTopics() {
+        return this.topics.filter((topic) => {
+            return ( !topic.isNew && !topic.isOpen );
+        });
+    }
+
     upsertTopic(topicDoc) {
         let i = undefined;
         if (! topicDoc._id) {             // brand-new topic
