@@ -18,12 +18,27 @@
     color: inherit;
 }
 
-ul.nav-tabs .active {   /* highlight active nav-tabs item */
-    color: inherit;
-    background-color: rgba(255, 255, 255, 0.2);
+/* highlight active nav-tabs item */
+ul.nav-tabs {
+    background-color: rgba(255, 255, 255, 0.0);
+    border-bottom: .333rem solid transparent;
+}
+ul.nav-tabs li.active {
+    border-bottom: .333rem solid teal;
+    color: grey;
+}
+ul.nav-tabs li a,
+ul.nav-tabs li a:focus
+{
+    color: grey !important;
+}
+ul.nav-tabs li a:hover {
+    color: black !important;
 }
 
-a:focus {   /* remove dotted outline on clicked menu / tab items */
+
+/* remove dotted outline on clicked menu / tab items */
+a:focus {
     outline: none;
 }
 
