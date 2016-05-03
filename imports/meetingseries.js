@@ -188,10 +188,15 @@ export class MeetingSeries {
      * @param minutes
      */
     finalizeMinutes (minutes) {
-        this._copyTopicsToSeries(minutes);
-
-        this.save();
-        minutes.finalize();
+        minutes.finalize(
+            /* server callback */
+            (error) => {
+                if (!error) {
+                    this._copyTopicsToSeries(minutes);
+                    this.save();
+                }
+            }
+        );
     }
 
     /**
