@@ -5,6 +5,7 @@
 import { Meteor } from 'meteor/meteor';
 import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries'
+import { Topic } from './topic'
 
 export class Minutes {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -146,8 +147,8 @@ export class Minutes {
      * only be called from the finalize method
      * within the meeting series.
      */
-    finalize() {
-        Meteor.call('minutes.finalize', this._id);
+    finalize(serverCallback) {
+        Meteor.call('minutes.finalize', this._id, serverCallback);
     }
 
     /**
@@ -162,13 +163,7 @@ export class Minutes {
 
     // ################### private methods
     _findTopicIndex(id) {
-        let i;
-        for (i = 0; i < this.topics.length; i++) {
-            if (id === this.topics[i]._id) {
-                return i;
-            }
-        }
-        return undefined;
+        return Topic.findTopicIndexInArray(id, this.topics);
     }
 
 }

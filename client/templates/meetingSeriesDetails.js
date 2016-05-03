@@ -69,11 +69,6 @@ Template.meetingSeriesDetails.helpers({
                     topics: topics,
                     title: title
                 };
-
-            case "decisionList":
-                return {
-                    title: title
-                };
         }
     }
 });

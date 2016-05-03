@@ -25,6 +25,18 @@ export class Topic {
         this._topicDoc = source;
     }
 
+    // ################### static methods
+    static findTopicIndexInArray(id, topics) {
+        let i;
+        for (i = 0; i < topics.length; i++) {
+            if (id === topics[i]._id) {
+                return i;
+            }
+        }
+        return undefined;
+    }
+
+    // ################### object methods
     getDateFromDetails () {
         let details = this._topicDoc.details;
         if (details.length > 0 && details[0].hasOwnProperty("date")) {
