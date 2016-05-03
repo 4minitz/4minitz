@@ -42,6 +42,15 @@ a:focus {
     outline: none;
 }
 
+/* for panel lists of topics/action items */
+.panel-heading.actionitem-open {
+    background-color: #77CCCC;
+}
+
+.panel-heading.actionitem-closed {
+    background-color: #DDDDDD;
+}
+
 
 @media screen and (max-width: 799px) {
     .version-info {

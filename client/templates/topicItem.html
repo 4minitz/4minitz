@@ -1,35 +1,38 @@
 <template name="topicItem">
-    <div class="panel {{topicBackgroundColor}}">
-        <div class="panel-heading" role="tab" id="headingOne">
+    <div class="panel">
+        <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne">
             <h4 class="panel-title">
-                {{#if isEditable}}
-                    <a id="btnToggleState" href="#" class="panel-link">
-                        <span class="glyphicon glyphicon-{{openCloseIcon}}"></span>
-                    </a>
-                {{else}}
-                    <span class="glyphicon glyphicon-{{openCloseIcon}}"></span>
-                {{/if}}
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" class="checkbox" id="btnToggleState" {{checkedState}} {{disabledState}}>
+                    </label>
 
-                <a role="button" class="panel-link" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
-                    {{topic.subject}}
-                    Resp: {{topic.responsible}}
-                    Prio:{{topic.priority}}
-                    Due: {{topic.duedate}}
-                </a>
-                <!-- New-Topic-Label -->
-                {{#if topic.isNew}}
-                    <span class="badge" style="margin-bottom: 5px;">New</span>
-                {{/if}}
-                {{#if isEditable}}
-                    <span class="pull-right">
+                    <a role="button" class="panel-link" data-toggle="collapse" data-parent="#accordion"
+                       href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
+                        {{topic.subject}}
+                        Resp: {{topic.responsible}}
+                        Prio:{{topic.priority}}
+                        Due: {{topic.duedate}}
+                    </a>
+
+                    <!-- New-Topic-Label -->
+                    {{#if topic.isNew}}
+                        <span class="badge" style="margin-bottom: 5px;">New</span>
+                    {{/if}}
+
+                    <!-- Edit & Delete Icons -->
+                    {{#if isEditable}}
+                        <span class="pull-right">
                             <a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic" class="panel-link">
-                                <span class="glyphicon glyphicon-pencil" style="color: {{topicTextColor}};"></span>
+                                <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                             <a id="btnDelTopic" href="#" class="panel-link">
-                                <span class="glyphicon glyphicon-trash" style="color: {{topicTextColor}};"></span>
+                                <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </span>
-                {{/if}}
+                    {{/if}}
+                </div>
+
             </h4>
         </div>
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">

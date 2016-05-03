@@ -50,13 +50,11 @@ Template.meetingSeriesDetails.helpers({
     tabData: function() {
         let tab = Session.get("currentTab");
         let ms = new MeetingSeries(_meetingSeriesID);
-        let title = ms.project + " - " + ms.name;
 
         switch (tab) {
             case "minutesList":
                 return {
                     minutes: ms.getAllMinutes(),
-                    title: title,
                     meetingSeriesId: _meetingSeriesID
                 };
 
@@ -66,8 +64,7 @@ Template.meetingSeriesDetails.helpers({
 
                 return {
                     status: status,
-                    topics: topics,
-                    title: title
+                    topics: topics
                 };
         }
     }

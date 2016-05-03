@@ -13,30 +13,30 @@ Template.topicItem.helpers({
         return this.topic.details;
     },
 
-    topicBackgroundColor: function () {
+    topicStateClass: function () {
         if (this.topic.isOpen) {
-            return "panel-primary";
+            return "actionitem-open";
         } else {
+            return "actionitem-closed";
+        }
+    },
+
+    checkedState: function () {
+        if (this.topic.isOpen) {
             return "";
+        } else {
+            return {checked: "checked"};
         }
     },
 
-    topicTextColor: function () {
-        if (this.topic.isOpen) {
-            return "white";
+    disabledState: function () {
+        if (this.isEditable) {
+            return "";
         } else {
-            return "black";
-        }
-    },
-
-
-    openCloseIcon: function () {
-        if (this.topic.isOpen) {
-            return "unchecked";
-        } else {
-            return "check";
+            return {disabled: "disabled"};
         }
     }
+
 });
 
 
@@ -60,7 +60,7 @@ Template.topicItem.events({
             return;
         }
 
-        console.log("Toggle topic state: "+this.topic._id+" from minutes "+this.minutesID);
+        console.log("Toggle topic state ("+this.topic.isOpen+"): "+this.topic._id+" from minutes "+this.minutesID);
         let aTopic = new Topic(this.minutesID, this.topic._id);
         if (aTopic) {
             aTopic.toggleState();
