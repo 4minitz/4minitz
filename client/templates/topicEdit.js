@@ -85,24 +85,21 @@ Template.topicEdit.events({
             ? editTopic.getDateFromDetails()
             : formatDateISO8601(new Date());
 
-        let isOpen = (editTopic) ? editTopic._topicDoc.isOpen : true;
-
-        let topicDoc = {
-            subject: aSubject,
-            responsible: aResponsible,
-            priority: aPriority,
-            duedate: aDuedate,
-            isOpen: isOpen,
-            details: [{
-                date: aDate,
-                text: aDetails
-            }]  // end-of details
-        }; // end-of topic
-
+        let topicDoc = {};
 
         if (editTopic) {
-            topicDoc._id = editTopic._topicDoc._id;
+            _.extend(topicDoc, editTopic._topicDoc);
         }
+
+        topicDoc.subject = aSubject;
+        topicDoc.responsible = aResponsible;
+        topicDoc.priority = aPriority;
+        topicDoc.duedate = aDuedate;
+        topicDoc.details =
+            [{
+                date: aDate,
+                text: aDetails
+            }];  // end-of details
 
         let aTopic = new Topic(_minutesID, topicDoc);
         aTopic.save();
