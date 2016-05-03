@@ -66,7 +66,7 @@ Meteor.methods({
     'minutes.finalize'(id) {
         let doc = {
             finalizedAt: new Date(),
-            finalizedBy: Meteor.userId(),
+            finalizedBy: Meteor.user().username,
             isFinalized: true,
             isUnfinalized: false
         };

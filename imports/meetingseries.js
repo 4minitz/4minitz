@@ -5,6 +5,7 @@
 import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
+import { Topic } from './topic'
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -187,25 +188,15 @@ export class MeetingSeries {
      * @param minutes
      */
     finalizeMinutes (minutes) {
-        // first override the openTopics of this series (the minute contains all relevant open topics)
-        this.openTopics = minutes.topics.filter((topic) => { // filter always returns an array
-            return topic.isOpen;
-        });
-
-
-        // then we concat the closed topics of the current minute to the closed ones of this series
-        // but first we set the isNew-flag to false for the currently existing closed topics
-        this.closedTopics.forEach((topic) => {
-            topic.isNew = false;
-        });
-        this.closedTopics = this.closedTopics.concat(
-            minutes.topics.filter((topic) => {
-                return !topic.isOpen;
-            })
+        minutes.finalize(
+            /* server callback */
+            (error) => {
+                if (!error) {
+                    this._copyTopicsToSeries(minutes);
+                    this.save();
+                }
+            }
         );
-
-        this.save();
-        minutes.finalize();
     }
 
     /**
@@ -227,32 +218,14 @@ export class MeetingSeries {
                         return !minutes.findTopic(item._id);
                     });
 
-                    //### Restore state of open-/closed-topics before this minute was finalized  ###
-                    // TODO: Maybe we should save all states in a stack before we create a new minute ?? Then restoring the old state would be much easier.
-                    // also remove all elements of the open-Array which are marked as *new* in the given minutes
-                    this.openTopics = this.openTopics.filter((item) => {
-                        return !(item.isNew && minutes.findTopic(item._id) );
-                    });
-
-                    // re-open all old topics which were closed within this minute
-                    let minuteOldClosedTopics = minutes.getOldClosedTopics();
-                    minuteOldClosedTopics.forEach((topic) => {
-                        topic.isOpen = true;
-                        this.openTopics.push(topic);
-                    });
-
-                    // restore the isNew-Flag of our topics saved in this series
                     let secondLastMinute = this.secondLastMinutes();
-                    let updateIsNew = (topic) => {
-                        // set the isNew-Flag to this topic if the flag is set in the latest minute
-                        let lastTopic = secondLastMinute.findTopic(topic._id);
-                        if (lastTopic) {
-                            topic.isNew = lastTopic.isNew;
-                        }
-                    };
-                    this.openTopics.forEach(updateIsNew);
-                    this.closedTopics.forEach(updateIsNew);
-                    //### end: restore state ####
+                    if (secondLastMinute) {
+                        this._copyTopicsToSeries(secondLastMinute);
+                    } else {
+                        // if we un-finalize our fist minute it is save to delete all open topics
+                        // because they are stored inside this minute
+                        this.openTopics = [];
+                    }
 
                     this.save();
                 }
@@ -332,5 +305,50 @@ export class MeetingSeries {
         let firstPossibleDate = this.getMinimumAllowedDateForMinutes(minutesId);
         // if no firstPossibleDate is given, all dates are allowed
         return ( !firstPossibleDate || date > firstPossibleDate );
+    }
+
+    // ################### private methods
+    /**
+     * Copies the open/closed topics from the given
+     * minute to this series.
+     *
+     * This is necessary for both, finalizing a
+     * minute and un-finalizing a minute.
+     *
+     * When finalizing this method will be called
+     * with the minute which will be finalized.
+     * When un-finalizing a minute it will be called
+     * with the 2nd last minute to revert the
+     * previous state.
+     *
+     * @param minutes
+     * @private
+     */
+    _copyTopicsToSeries(minutes) {
+        // first override the openTopics of this series (the minute contains all relevant open topics)
+        this.openTopics = minutes.topics.filter((topic) => { // filter always returns an array
+            return topic.isOpen;
+        });
+
+
+        // then we concat the closed topics of the current minute to the closed ones of this series
+        // but first we set the isNew-flag to false for the currently existing closed topics
+        this.closedTopics.forEach((topic) => {
+            topic.isNew = false;
+        });
+        // then we remove the closed topics which are also listed in the current minute
+        // to prevent duplicates (remember this method will also be called on the 2nd last minute
+        // when un-finalizing the last one).
+        this.closedTopics = this.closedTopics.filter((topic) => {
+            let isTopicInMinute = Topic.findTopicIndexInArray(topic._id, minutes.topics);
+
+            return (isTopicInMinute === undefined );
+        });
+        // after that we can simply concat the closed topics to our array
+        this.closedTopics = this.closedTopics.concat(
+            minutes.topics.filter((topic) => {
+                return !topic.isOpen;
+            })
+        );
     }
 }
