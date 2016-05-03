@@ -22,6 +22,9 @@ export class Topic {
         if (typeof source === 'string') {   // we may have an ID here.
             source = this._parentMinutes.findTopic(source);
         }
+        if (source.isOpen == undefined) {
+            source.isOpen = true;
+        }
         this._topicDoc = source;
     }
 
