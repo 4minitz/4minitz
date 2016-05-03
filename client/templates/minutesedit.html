@@ -9,7 +9,25 @@
     <div class="well">
         <form>
             <div class="row">
-                <div class="col-md-4">
+                <!--Finalize Button-->
+                <div class="col-md-4 col-md-push-8 text-right">
+                    {{#if isFinalized}}
+                        Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                        {{#if isUnfinalizeAllowed}}
+                            <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        {{/if}}
+                    {{else}}
+                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
+                            Finalize Minutes
+                        </button>
+                    {{/if}}
+                </div>
+
+                <!--Date Picker-->
+                <div class="col-md-8 col-md-pull-4">
                     <div class="form-group">
                         <label for="id_minutesdateInput">Date</label>
                         <div class='input-group date' id='id_minutesdatePicker'>
@@ -20,22 +38,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 text-right">
-                    {{#if isFinalized}}
-                        Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
-                        {{#if isUnfinalizeAllowed}}
-                        <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                        {{/if}}
-                    {{else}}
-                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
-                            Finalize Minutes
-                        </button>
-                    {{/if}}
-                </div>
+
+
             </div>
+
+
 
             <div class="form-group label-floating">
                 <label for="id_participants" class="control-label">Participants</label>
