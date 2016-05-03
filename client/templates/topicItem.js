@@ -6,6 +6,7 @@ Template.topicItem.onCreated(function () {
 });
 
 Template.topicItem.onRendered(function () {
+    $.material.init();
 });
 
 Template.topicItem.helpers({
