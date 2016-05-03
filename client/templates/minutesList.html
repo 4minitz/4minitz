@@ -3,6 +3,7 @@
         <div class="pull-right">
             <!-- Responsive "Add Minutes" button via hidden/visible-xs, hidden/visible-sm -->
             <a href="{{addMinutesPath}}" class="btn btn-success btn-raised hidden-xs hidden-sm" disabled="{{addMinutesNotAllowed}}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Meeting Minutes"></span>
                 Add Minutes
             </a>
             <div class="pull-left">
@@ -13,11 +14,12 @@
 
             <!-- Responsive "Delete Meeting Series" button via hidden/visible-xs, hidden/visible-sm -->
             <a href="#" id="deleteMeetingSeries" class="btn btn-danger btn-raised hidden-xs hidden-sm">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 Delete Meeting Series
             </a>
             <div class="pull-right">
                 <a href="#" id="deleteMeetingSeries" class="btn btn-danger btn-raised visible-xs visible-sm">
-                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
             </div>
         </div>
@@ -37,7 +39,8 @@
                     <a href="/minutesedit/{{_id}}">{{date}}</a>
                     {{#if isDeleteAllowed}}
                         <a href="#" id="deleteMinutes">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"></span>
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"
+                            style="color: red;"></span>
                         </a>
                     {{/if}}
                 </td>

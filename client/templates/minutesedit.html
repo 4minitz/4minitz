@@ -9,9 +9,11 @@
     <div class="well">
         <form>
             <div class="row">
-                <!--Finalize Button-->
                 <div class="col-md-4 col-md-push-8 text-right">
+
+
                     {{#if isFinalized}}
+                        <!--Static Finalize Text -->
                         Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
                         {{#if isUnfinalizeAllowed}}
                             <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
@@ -19,6 +21,13 @@
                             </a>
                         {{/if}}
                     {{else}}
+                        <!--Delete Minutes Button-->
+                        <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Minutes"></span>
+                            Delete Minutes
+                        </button>
+
+                        <!--Finalize Minutes Button-->
                         <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
                             Finalize Minutes
