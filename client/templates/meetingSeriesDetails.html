@@ -1,19 +1,20 @@
 <template name="meetingSeriesDetails">
     <h2 class="header center orange-text">
-        Meeting Series Details<br>
-        {{meetingSeries.project}} - {{meetingSeries.name}}
+        Meeting Series Details
     </h2>
-    <div class="divider"></div>
 
-    <p></p>
-    <ul class="list-group" style="font-size: 130%;">
-        {{#each minutes}}
-          <li class="list-group-item">
-              <a href="/minutesedit/{{_id}}" class="btn btn-info">{{date}}</a>
-              Participants: {{participants}}
-          </li>
-        {{/each}}
+    {{#if errorTitle}}
+        <div class="alert alert-danger" role="alert"><strong>{{errorTitle}}: </strong> {{errorMessage}}</div>
+    {{/if}}
+
+    <ul class="nav nav-tabs">
+        <li data-template="minutesList" role="presentation" class="active"><a href="#">Minutes</a></li>
+        <li data-template="topicListTab" data-action="open" role="presentation"><a href="#">Open Topics</a></li>
+        <li data-template="topicListTab" data-action="closed" role="presentation"><a href="#">Closed Topics</a></li>
     </ul>
+    <div class="active">
+        {{> Template.dynamic template=tab data=tabData}}
+    </div>
 
     <p></p>
     <a class="btn btn-primary" href="/">OK</a>

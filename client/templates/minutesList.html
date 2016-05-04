@@ -1,0 +1,23 @@
+<template name="minutesList">
+    <div class="pull-right">
+        <a href="{{addMinutesPath}}" class="btn btn-success hidden-xs hidden-sm" disabled="{{addMinutesNotAllowed}}">
+            Add Minutes
+        </a>
+        <a href="{{addMinutesPath}}" class="btn btn-success visible-xs visible-sm" disabled="{{addMinutesNotAllowed}}" title="Add Minutes">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </a>
+    </div>
+    <h3>{{title}}: Minutes</h3>
+
+    <ul class="list-group" style="font-size: 130%;">
+        {{#each minutes}}
+            <li class="list-group-item">
+                <a href="" id="deleteMinutes" class="btn btn-{{buttonBackground}}" disabled="{{isDeleteNotAllowed}}">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"></span>
+                </a>
+                <a href="/minutesedit/{{_id}}" class="btn btn-{{buttonBackground}}">{{date}}</a>
+                Participants: {{participants}}
+            </li>
+        {{/each}}
+    </ul>
+</template>

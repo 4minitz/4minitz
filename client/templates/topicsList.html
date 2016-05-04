@@ -1,27 +1,7 @@
 <template name="topicsList">
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 {{#each topicsArray}}
-        <div class="panel panel-info">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                    <a id="btnDelTopic" href="#"><span class="glyphicon glyphicon-remove"></span></a>&nbsp;&nbsp;
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{currentCollapseID}}" aria-expanded="true" aria-controls="collapseOne">
-                        {{subject}}
-                        Resp: {{responsible}}
-                        Prio:{{priority}}
-                        Due: {{duedate}}
-                        State: {{state}}
-                    </a>
-                </h4>
-            </div>
-            <div id="collapse-{{currentCollapseID}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
-                    {{#each detailsArray}}
-                        <p>{{this.date}} - {{this.text}}</p>
-                    {{/each}}
-                </div>
-            </div>
-        </div>
+        {{> topicItem getTopicItem}}
 {{/each}}
     </div>
 </template>

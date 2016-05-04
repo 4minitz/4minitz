@@ -9,6 +9,11 @@ Template.topicsList.onCreated(function () {
 Template.topicsList.onRendered(function () {
 });
 
+var isMinuteFinalized = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isFinalized);
+};
+
 var collapseID = 0;
 Template.topicsList.helpers({
     topicsArray: function () {
@@ -19,30 +24,17 @@ Template.topicsList.helpers({
         return null;
     },
 
-    detailsArray: function () {
-        return this.details;
+    getTopicItem: function () {
+        return {
+            topic: this,
+            isEditable:  !isMinuteFinalized(),
+            minutesID: _minutesID,
+            currentCollapseId: collapseID++  // each topic item gets its own collapseID
+        };
     },
 
-    // generate 1-1, 2-2, 3-3,... pairs to link headings with their collapsible details
-    currentCollapseID: function () {
-        cID = collapseID;
-        collapseID ++;
-        return Math.floor(cID / 2);
-    },
-
-    topicColor: function () {
-        if (this.state === "open") {
-            return "teal lighten-3";
-        } else {
-            return "grey lighten-1";
-        }
+    isFinalized: function () {
+        return isMinuteFinalized();
     }
-});
 
-Template.topicsList.events({
-    'click #btnDelTopic'(evt, tmpl) {
-        console.log("Delete Topics: "+this._id+" from minutes "+_minutesID);
-        let aMin = new Minutes(_minutesID);
-        aMin.removeTopicWithID(this._id);
-    }
 });

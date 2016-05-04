@@ -3,13 +3,7 @@
 ## Setup
 
 ### Prerequisites
-1. Install current version of node.js
-   Make sure, node & npm is in the PATH.
-
-1. Install current version of mongodb
-   Make sure, mongod is in the PATH.
-
-1. Install current version of meteor:
+1. Install current version of meteor (which will install node & mongodb if not present):
 
 
     curl https://install.meteor.com/ | sh

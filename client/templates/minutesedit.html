@@ -1,7 +1,7 @@
 <template name="minutesedit">
     <h2 class="header center orange-text">
         Edit Minutes for Meeting Series<br>
-        {{meetingSeries.project}} - {{meetingSeries.name}}
+        <a href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
     </h2>
 
     <p></p>
@@ -11,31 +11,48 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="id_minutesdatePicker">Date</label>
+                        <label for="id_minutesdateInput">Date</label>
                         <div class='input-group date' id='id_minutesdatePicker'>
-                            <input id="id_minutesdateInput" type='text' class="form-control" value="{{minutes.date}}" />
+                            <input id="id_minutesdateInput" type='text' class="form-control" value="{{minutes.date}}" {{readOnlyIfFinalized}}/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-8 text-right">
+                    {{#if isFinalized}}
+                        Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                        {{#if isUnfinalizeAllowed}}
+                        <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        {{/if}}
+                    {{else}}
+                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
+                            Finalize Minutes
+                        </button>
+                    {{/if}}
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="id_participants" class="active">Participants</label>
-                <input id="id_participants" type="text" value="{{minutes.participants}}" class="form-control">
+                <input id="id_participants" type="text" value="{{minutes.participants}}" class="form-control" {{readOnlyIfFinalized}}>
             </div>
             <div class="form-group">
                 <label for="id_agenda" class="active">Agenda</label>
-                <textarea id="id_agenda" class="form-control" value="{{minutes.agenda}}"></textarea>
+                <textarea id="id_agenda" class="form-control" {{readOnlyIfFinalized}}>{{minutes.agenda}}</textarea>
             </div>
             <hr>
 
+            {{#unless isFinalized}}
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#dlgAddTopic">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
                 Add Topic
             </button>
+            {{/unless}}
 
 
             <br>

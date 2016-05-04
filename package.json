@@ -1,0 +1,26 @@
+{
+  "name": "4minitz",
+  "version": "0.2.0",
+  "description": "Simply the best app for taking minutes!  ;-)",
+  "main": "4minitz.html",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4minitz/4minitz.git"
+  },
+  "author": "4minitz Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/4minitz/4minitz/issues"
+  },
+  "homepage": "https://github.com/4minitz/4minitz#readme",
+  "dependencies": {
+    "git-rev-sync": "^1.5.1"
+  }
+}

@@ -23,13 +23,13 @@
 
 <template name="meetingSeriesOverview">
         <li class="list-group-item">
-            <a href="minutesadd/{{this._id}}" class="btn btn-info">
+            <a href="{{addMinutesPath}}" class="btn btn-info" disabled="{{addMinutesNotAllowed}}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Meeting Minutes"></span>
             </a>
             <a href="meetingseries/{{this._id}}" class="btn btn-info">
                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" aria-label="List Meetings Series"></span>
             </a>
-            <a id="deleteMeetingSeries" class="btn btn-info">
+            <a href="" id="deleteMeetingSeries" class="btn btn-info">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Meeting Series"></span>
             </a>
             {{project}}: {{name}}

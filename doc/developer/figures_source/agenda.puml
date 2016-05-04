@@ -1,0 +1,37 @@
+@startuml
+!include style.puml
+
+Topic "1" --> "*" TopicItem
+
+TopicItem  <|-- Information
+TopicItem  <|-- Decision
+TopicItem  <|-- ActionItem
+
+class Topic {
+    subject
+    start
+    responsibles
+    status
+    isRecurring
+}
+
+abstract class TopicItem {
+    description
+    createdAt
+}
+
+class Information {
+}
+
+class Decision {
+}
+
+class ActionItem {
+    dueDate
+    responsibles
+    status
+    priority
+    details: []
+}
+
+@enduml
