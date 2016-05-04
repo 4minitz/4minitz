@@ -3,7 +3,6 @@
 
 Topic "1" --> "*" TopicItem
 
-TopicItem  <|-- Information
 TopicItem  <|-- ActionItem
 
 class Topic {
@@ -18,9 +17,6 @@ abstract class TopicItem {
     subject
     createdAt
     tags: []
-}
-
-class Information {
 }
 
 class ActionItem {
