@@ -1,11 +1,10 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { MeetingSeries } from './../meetingseries'
-import { Minutes } from "./../minutes"
+import { MeetingSeries } from './../meetingseries';
+import { Minutes } from './../minutes';
+
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { TopicSchema } from './topics_private.js';
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -23,6 +22,19 @@ if (Meteor.isServer) {
 if (Meteor.isClient) {
     Meteor.subscribe('meetingSeries');
 }
+
+const MeetingSeriesSchema = new SimpleSchema({
+    project: {type: String},
+    name: {type: String},
+    createdAt: {type: Date},
+    // todo: make this a date?
+    lastMinutesDate: {type: String},
+    minutes: {type: [String], defaultValue: []},
+    openTopics: {type: [TopicSchema], defaultValue: []},
+    closedTopics: {type: [TopicSchema], defaultValue: []}
+});
+
+MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
 
 Meteor.methods({
     'meetingseries.insert'(doc) {
@@ -46,22 +58,7 @@ Meteor.methods({
         // initialize the lastChange field
         doc.lastMinutesDate = formatDateISO8601(currentDate);
 
-        if (doc.minutes == undefined) {
-            // if the minutes field was not set previously we make sure that we will always get an array.
-            doc.minutes = [];
-        }
-
-        if (doc.openTopics == undefined) {
-            // if the closed topics field was not set previously we make sure that we will always get an array.
-            doc.openTopics =  [];
-        }
-
-        if (doc.closedTopics == undefined) {
-            // if the closed topics field was not set previously we make sure that we will always get an array.
-            doc.closedTopics =  [];
-        }
-
-        MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
+        MeetingSeriesCollection.insert(doc, function (error, newMeetingSeriesID) {
             doc._id = newMeetingSeriesID;
         });
 

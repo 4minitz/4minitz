@@ -4,8 +4,11 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Minutes } from '../minutes'
-import { MeetingSeries } from '../meetingseries'
+import { Minutes } from '../minutes';
+import { MeetingSeries } from '../meetingseries';
+
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { TopicSchema } from './topics_private.js';
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -23,6 +26,22 @@ if (Meteor.isServer) {
 if (Meteor.isClient) {
     Meteor.subscribe('minutes');
 }
+
+const MinutesSchema = new SimpleSchema({
+    meetingSeries_id: {type: String, regEx: SimpleSchema.RegEx.Id},
+    // todo: make this of type date
+    date: {type: String},
+    topics: {type: [TopicSchema], defaultValue: []},
+    createdAt: {type: Date},
+    isFinalized: {type: Boolean, defaultValue: false},
+    isUnfinalized: {type: Boolean, defaultValue: false},
+    participants: {type: String, defaultValue: ""},
+    agenda: {type: String, defaultValue: ""},
+    finalizedAt: {type: Date, optional: true},
+    finalizedBy: {type: String, optional: true}
+});
+
+MinutesCollection.attachSchema(MinutesSchema);
 
 Meteor.methods({
     'minutes.insert'(doc, clientCallback) {
