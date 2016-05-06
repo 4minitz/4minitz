@@ -1,4 +1,7 @@
+import { Meteor } from 'meteor/meteor';
+
 import { MeetingSeries } from '/imports/meetingseries'
+import { UserRoles } from '/imports/userroles'
 
 
 Template.meetingSeriesList.onCreated(function () {
@@ -25,7 +28,13 @@ Template.meetingSeriesOverview.helpers({
     addMinutesNotAllowed: function () {
         let ms = new MeetingSeries(this._id);
         return !ms.addNewMinutesAllowed();
+    },
+
+    isModeratorOfSeries: function () {
+        let usrRole = new UserRoles(Meteor.userId());
+        return usrRole.isModeratorOf(this._id);
     }
+
 });
 
 Template.meetingSeriesList.events({
