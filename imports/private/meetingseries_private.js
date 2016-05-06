@@ -6,9 +6,11 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries'
 import { Minutes } from "./../minutes"
+import { UserRoles } from "./../userroles"
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
+        // inject methods of class MeetingSeries to all returned collection docs
         transform: function (doc) {
             return new MeetingSeries(doc);
         }
@@ -17,7 +19,8 @@ export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {
-        return MeetingSeriesCollection.find();
+        return MeetingSeriesCollection.find(
+            {visibleFor: {$in: [this.userId]}});
     });
 }
 if (Meteor.isClient) {
@@ -29,42 +32,37 @@ Meteor.methods({
         console.log("meetingseries.insert");
         // check(text, String);
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before inserting a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
-        // Inject userId to specify owner of doc
-        //doc.userId = Meteor.userId();
-
-        let currentDate = new Date();
+        // Make sure the user is logged in before inserting
+        if (!Meteor.userId()) {
+           throw new Meteor.Error('not-authorized');
+        }
 
         // the user should not be able to define the date when this series was create - or should he?
         // -> so we overwrite this field if it was set previously
+        let currentDate = new Date();
         doc.createdAt = currentDate;
-
-        // initialize the lastChange field
         doc.lastMinutesDate = formatDateISO8601(currentDate);
 
+        // Ensure initialization of some fields
         if (doc.minutes == undefined) {
-            // if the minutes field was not set previously we make sure that we will always get an array.
             doc.minutes = [];
         }
-
         if (doc.openTopics == undefined) {
-            // if the closed topics field was not set previously we make sure that we will always get an array.
             doc.openTopics =  [];
         }
-
         if (doc.closedTopics == undefined) {
-            // if the closed topics field was not set previously we make sure that we will always get an array.
             doc.closedTopics =  [];
         }
 
+        // limit visibility of this meeting series (see server side publish)
+        // array will be expanded by future invites
+        doc.visibleFor = [Meteor.userId()];
+
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
             doc._id = newMeetingSeriesID;
+            // Make creator of this meeting series the first moderator
+            Roles.addUsersToRoles(Meteor.userId(), [UserRoles.ROLE_MODERATOR], newMeetingSeriesID);
         });
-
     },
 
     'meetingseries.update'(doc) {
