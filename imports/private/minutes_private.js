@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes'
 import { MeetingSeries } from '../meetingseries'
+import { UserRoles } from "./../userroles"
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -17,7 +18,11 @@ export var MinutesCollection = new Mongo.Collection("minutes",
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication() {
-        return MinutesCollection.find();
+        let userRoles = new UserRoles(this.userId);
+
+        // publish only minutes for the visible meeting series of this user
+        return MinutesCollection.find(
+            {meetingSeries_id: {$in: userRoles.visibleMeetingSeries()}});
     });
 }
 if (Meteor.isClient) {
@@ -28,13 +33,10 @@ Meteor.methods({
     'minutes.insert'(doc, clientCallback) {
         // check(text, String);
 
-        // If app has activated accounts ...
         // Make sure the user is logged in before inserting a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
-        // Inject userId to specify owner of doc
-        //doc.userId = Meteor.userId();
+        if (!Meteor.userId()) {
+           throw new Meteor.Error('not-authorized');
+        }
 
         // It is not allowed to insert new minutes if the last minute was not finalized
         let parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
@@ -71,11 +73,10 @@ Meteor.methods({
             isUnfinalized: false
         };
 
-        // If app has activated accounts ...
         // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
+        if (!Meteor.userId()) {
+           throw new Meteor.Error('not-authorized');
+        }
         // Ensure user can not update documents of other users
         // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
         MinutesCollection.update(id, {$set: doc});
@@ -93,11 +94,10 @@ Meteor.methods({
             throw new Meteor.Error("not-allowed", "This minutes is not allowed to be un-finalized.");
         }
 
-        // If app has activated accounts ...
         // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
+        if (!Meteor.userId()) {
+           throw new Meteor.Error('not-authorized');
+        }
         // Ensure user can not update documents of other users
         // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
         MinutesCollection.update(id, {$set: doc});
