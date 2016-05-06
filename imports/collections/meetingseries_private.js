@@ -123,7 +123,7 @@ Meteor.methods({
 
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(id)) {
+        if (userRoles.isModeratorOf(meetingSeriesId)) {
             MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
         } else {
             throw new Meteor.Error("Cannot remove minutes from meeting series", "You are not moderator of this meeting series.");
