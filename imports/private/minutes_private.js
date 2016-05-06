@@ -31,9 +31,7 @@ if (Meteor.isClient) {
 
 Meteor.methods({
     'minutes.insert'(doc, clientCallback) {
-        // check(text, String);
-
-        // Make sure the user is logged in before inserting a task
+        // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
            throw new Meteor.Error('not-authorized');
         }
@@ -73,10 +71,11 @@ Meteor.methods({
             isUnfinalized: false
         };
 
-        // Make sure the user is logged in before updating a task
+        // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
-           throw new Meteor.Error('not-authorized');
+            throw new Meteor.Error('not-authorized');
         }
+
         // Ensure user can not update documents of other users
         // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
         MinutesCollection.update(id, {$set: doc});
@@ -94,10 +93,11 @@ Meteor.methods({
             throw new Meteor.Error("not-allowed", "This minutes is not allowed to be un-finalized.");
         }
 
-        // Make sure the user is logged in before updating a task
+        // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
-           throw new Meteor.Error('not-authorized');
+            throw new Meteor.Error('not-authorized');
         }
+
         // Ensure user can not update documents of other users
         // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
         MinutesCollection.update(id, {$set: doc});
@@ -123,11 +123,11 @@ Meteor.methods({
             }
         }
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
         // Ensure user can not update documents of other users
         // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: docPart});
 
@@ -142,11 +142,11 @@ Meteor.methods({
 
         var handleRemove = {
             removeMinute: function(id) {
-                // If app has activated accounts ...
-                // Make sure the user is logged in before removing a task
-                //if (!Meteor.userId()) {
-                //    throw new Meteor.Error('not-authorized');
-                //}
+                // Make sure the user is logged in before changing collections
+                if (!Meteor.userId()) {
+                    throw new Meteor.Error('not-authorized');
+                }
+
                 // Ensure user can not remove documents of other users
                 // MinutesCollection.remove({_id: id, userId: Meteor.userId()});
                 return MinutesCollection.remove({_id: id, isFinalized: false});
@@ -159,6 +159,10 @@ Meteor.methods({
     'minutes.removeAllOfSeries'(meetingSeriesId) {
         if (meetingSeriesId == undefined || meetingSeriesId == "") {
             return;
+        }
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
         }
 
         // deleting all minutes of one series is allowed, even if they are finalized.
