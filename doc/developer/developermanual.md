@@ -5,6 +5,7 @@
 * For generating the UML figures in this doc we use [PlantUML](http://plantuml.com/)
   (respective the [PlantUML plugin](https://plugins.jetbrains.com/plugin/7017?pr=) for JetBrains products)
 * We use ES2015 (ES6) as we make progress in learning it.
+* Before merging new features, read our ["Definition of Done"] ()
 
 
 ## Running Tests
@@ -17,6 +18,17 @@ The ```-full-app``` allows to use published collections, routes, methods in the 
 Optionally add commandline switch *--port 3100* to run tests in parallel to the meteor application.
 
 Further info on testing with meteor can be found at http://guide.meteor.com/testing.html and http://info.meteor.com/blog/full-app-testing-in-meteor
+
+## DoD - Our "Definition of Done"
+* __Acceptance critera__: from the user story are checked and work OK
+* __Responsiveness:__ Your user story shall look great on small (<= 480px width) and large (>1000px) screens
+* __Unit- and integration tests:__ do cover your new code
+* __Documentation updated:__ the developer doc and the user doc are updated
+* __No client-side exceptions:__ Check your user story and watch the browser console
+* __No server-side exceptions:__ Check your user story and the meteor console
+* __No open issues:__ on your user story
+* __Create issues:__ if your tests discover issues in other already implemented user stories: write a [github issue](https://github.com/4minitz/4minitz/issues) 
+* __ES2015:__ Where possible we use ES2015 language features
 
 
 ## Where to start

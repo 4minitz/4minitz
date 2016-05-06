@@ -1,12 +1,8 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Minutes } from '../minutes';
-import { MeetingSeries } from '../meetingseries';
-
+import { Minutes } from '../minutes'
+import { MeetingSeries } from '../meetingseries'
+import { UserRoles } from "./../userroles"
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TopicSchema } from './topics_private.js';
 
@@ -20,7 +16,11 @@ export var MinutesCollection = new Mongo.Collection("minutes",
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication() {
-        return MinutesCollection.find();
+        let userRoles = new UserRoles(this.userId);
+
+        // publish only minutes for the visible meeting series of this user
+        return MinutesCollection.find(
+            {meetingSeries_id: {$in: userRoles.visibleMeetingSeries()}});
     });
 }
 if (Meteor.isClient) {
@@ -45,15 +45,10 @@ MinutesCollection.attachSchema(MinutesSchema);
 
 Meteor.methods({
     'minutes.insert'(doc, clientCallback) {
-        // check(text, String);
-
-        // If app has activated accounts ...
-        // Make sure the user is logged in before inserting a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
-        // Inject userId to specify owner of doc
-        //doc.userId = Meteor.userId();
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+           throw new Meteor.Error('not-authorized');
+        }
 
         // It is not allowed to insert new minutes if the last minute was not finalized
         let parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
@@ -68,18 +63,24 @@ Meteor.methods({
         doc.isFinalized = false;
         doc.isUnfinalized = false;
 
-        MinutesCollection.insert(doc, function (error, newMinutesID) {
-            doc._id = newMinutesID;
-            if (!error) {
-                // store this new minutes ID to the parent meeting's array "minutes"
-                parentMeetingSeries.minutes.push(newMinutesID);
-                parentMeetingSeries.save();
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(doc.meetingSeries_id)) {
+            MinutesCollection.insert(doc, function (error, newMinutesID) {
+                doc._id = newMinutesID;
+                if (!error) {
+                    // store this new minutes ID to the parent meeting's array "minutes"
+                    parentMeetingSeries.minutes.push(newMinutesID);
+                    parentMeetingSeries.save();
 
-                if (Meteor.isClient && clientCallback) {
-                    clientCallback(newMinutesID);
+                    if (Meteor.isClient && clientCallback) {
+                        clientCallback(newMinutesID);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            throw new Meteor.Error("Cannot create new minutes", "You are not moderator of the parent meeting series.");
+        }
     },
 
     'minutes.finalize'(id) {
@@ -90,14 +91,19 @@ Meteor.methods({
             isUnfinalized: false
         };
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
         // Ensure user can not update documents of other users
-        // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
-        MinutesCollection.update(id, {$set: doc});
+        let userRoles = new UserRoles(Meteor.userId());
+        let aMin = new Minutes(id);
+        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            MinutesCollection.update(id, {$set: doc});
+        } else {
+            throw new Meteor.Error("Cannot finalize minutes", "You are not moderator of the parent meeting series.");
+        }
     },
 
     'minutes.unfinalize'(id) {
@@ -112,17 +118,26 @@ Meteor.methods({
             throw new Meteor.Error("not-allowed", "This minutes is not allowed to be un-finalized.");
         }
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
         // Ensure user can not update documents of other users
-        // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
-        MinutesCollection.update(id, {$set: doc});
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            MinutesCollection.update(id, {$set: doc});
+        } else {
+            throw new Meteor.Error("Cannot un-finalize minutes", "You are not moderator of the parent meeting series.");
+        }
     },
 
     'minutes.update'(doc) {
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
         let id = doc._id;
         delete doc._id; // otherwise collection.update will fail
 
@@ -135,23 +150,19 @@ Meteor.methods({
         delete doc.createdAt;
         delete doc.isFinalized;
 
+        let aMin = new Minutes(id);
         if (doc.date) {
-            let minutes = new Minutes(id);
-            if (!minutes.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)) {
+            if (!aMin.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)) {
                 return;
             }
         }
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
         // Ensure user can not update documents of other users
-        // MinutesCollection.update({_id: id, userId: Meteor.userId()}, {$set: docPart});
-
-        // Ensure user can not update finalized minutes
-        MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            // Ensure user can not update finalized minutes
+            MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
+        }
     },
 
 
@@ -161,14 +172,19 @@ Meteor.methods({
 
         var handleRemove = {
             removeMinute: function(id) {
-                // If app has activated accounts ...
-                // Make sure the user is logged in before removing a task
-                //if (!Meteor.userId()) {
-                //    throw new Meteor.Error('not-authorized');
-                //}
+                // Make sure the user is logged in before changing collections
+                if (!Meteor.userId()) {
+                    throw new Meteor.Error('not-authorized');
+                }
+
                 // Ensure user can not remove documents of other users
-                // MinutesCollection.remove({_id: id, userId: Meteor.userId()});
-                return MinutesCollection.remove({_id: id, isFinalized: false});
+                let userRoles = new UserRoles(Meteor.userId());
+                let aMin = new Minutes(id);
+                if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+                    return MinutesCollection.remove({_id: id, isFinalized: false});
+                } else {
+                    throw new Meteor.Error("Cannot delete minutes", "You are not moderator of the parent meeting series.");
+                }
             }
         };
 
@@ -179,8 +195,18 @@ Meteor.methods({
         if (meetingSeriesId == undefined || meetingSeriesId == "") {
             return;
         }
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
 
-        // deleting all minutes of one series is allowed, even if they are finalized.
-        MinutesCollection.remove({meetingSeries_id: meetingSeriesId});
+        // Ensure user can not remove documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(meetingSeriesId)) {
+            // deleting all minutes of one series is allowed, even if they are finalized.
+            MinutesCollection.remove({meetingSeries_id: meetingSeriesId});
+        } else {
+            throw new Meteor.Error("Cannot delete all minutes", "You are not moderator of the parent meeting series.");
+        }
     }
 });
