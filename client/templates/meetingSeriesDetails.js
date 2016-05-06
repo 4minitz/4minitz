@@ -1,6 +1,5 @@
 
-import { MeetingSeries } from '/imports/meetingseries'
-import { Minutes } from '/imports/minutes'
+import { MeetingSeries } from '/imports/meetingseries';
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
@@ -18,22 +17,6 @@ Template.meetingSeriesDetails.onRendered(function () {
 });
 
 Template.meetingSeriesDetails.helpers({
-    errorTitle: function() {
-        let title = Session.get("errorTitle");
-
-        if (title) {
-            setTimeout(() => {
-                Session.set("errorTitle", false);
-            }, 3000);
-        }
-
-        return title;
-    },
-
-    errorMessage: function () {
-        return Session.get("errorReason");
-    },
-
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);
     },
@@ -74,7 +57,7 @@ Template.meetingSeriesDetails.events({
     "click #btnHideHelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     },
-    "click .nav-tabs li": function(event, tmpl) {
+    "click .nav-tabs li": function(event) {
         var currentTab = $(event.target).closest("li");
 
         currentTab.addClass("active");

@@ -1,4 +1,3 @@
-import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 
 Session.setDefault("topicEditMinutesId", null);
@@ -37,7 +36,6 @@ var getEditTopic = function() {
 };
 
 Template.topicEdit.helpers({
-    //add you helpers here
     'getTopicSubject': function() {
         let topic = getEditTopic();
         return (topic) ? topic._topicDoc.subject : "";
@@ -70,15 +68,6 @@ Template.topicEdit.events({
         var aDuedate = tmpl.find("#id_duedateInput").value;
         var aDetails = tmpl.find("#id_details").value;
 
-        // validate form and show errors
-        let subjectNode = tmpl.$("#id_subject");
-        subjectNode.parent().removeClass("has-error");
-        if (aSubject == "") {
-            subjectNode.parent().addClass("has-error");
-            subjectNode.focus();
-            return;
-        }
-
         let editTopic = getEditTopic();
 
         let aDate = (editTopic)
@@ -102,10 +91,14 @@ Template.topicEdit.events({
             }];  // end-of details
 
         let aTopic = new Topic(_minutesID, topicDoc);
-        aTopic.save();
-
-        // Hide modal dialog
-        $('#dlgAddTopic').modal('hide')
+        aTopic.save((error) => {
+            if (error) {
+                Session.set('errorTitle', 'Validation error');
+                Session.set('errorReason', error.reason);
+            } else {
+                $('#dlgAddTopic').modal('hide')
+            }
+        });
     },
 
     "hidden.bs.modal #dlgAddTopic": function (evt, tmpl) {

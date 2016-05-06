@@ -39,7 +39,6 @@ MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
 Meteor.methods({
     'meetingseries.insert'(doc) {
         console.log("meetingseries.insert");
-        // check(text, String);
 
         // If app has activated accounts ...
         // Make sure the user is logged in before inserting a task
@@ -59,9 +58,11 @@ Meteor.methods({
         doc.lastMinutesDate = formatDateISO8601(currentDate);
 
         MeetingSeriesCollection.insert(doc, function (error, newMeetingSeriesID) {
+            if (error) {
+                throw error;
+            }
             doc._id = newMeetingSeriesID;
         });
-
     },
 
     'meetingseries.update'(doc) {

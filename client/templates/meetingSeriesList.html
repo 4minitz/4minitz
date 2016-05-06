@@ -23,7 +23,7 @@
 
 <template name="meetingSeriesOverview">
         <li class="list-group-item" style="padding-bottom: 10px;">
-            <a href="meetingseries/{{this._id}}">{{project}}: {{name}}</a>
+            <a href="/meetingseries/{{this._id}}">{{project}}: {{name}}</a>
             {{#with lastMin = lastMinutes}}
                 {{#if lastMin}}
                   (last minutes of <a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)

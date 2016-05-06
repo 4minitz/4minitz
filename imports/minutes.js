@@ -50,14 +50,14 @@ export class Minutes {
 
 
     // ################### object methods
-    update (docPart) {
+    update (docPart, callback) {
         _.extend(docPart, {_id: this._id});
-        Meteor.call("minutes.update", docPart);
+        Meteor.call("minutes.update", docPart, callback);
         _.extend(this, docPart);    // merge new doc fragment into this document
 
         // update the lastMinuteDate-field of the related series iff the date has changed.
         if (docPart.hasOwnProperty('date')) {
-            this.parentMeetingSeries().updateLastMinutesDate();
+            this.parentMeetingSeries().updateLastMinutesDate(callback);
         }
     }
 
@@ -74,7 +74,7 @@ export class Minutes {
             }
             Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
         }
-        this.parentMeetingSeries().updateLastMinutesDate();
+        this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
     }
 
     toString () {
@@ -126,7 +126,7 @@ export class Minutes {
         });
     }
 
-    upsertTopic(topicDoc) {
+    upsertTopic(topicDoc, callback) {
         let i = undefined;
         if (! topicDoc._id) {             // brand-new topic
             topicDoc._id = Random.id();   // create our own local _id here!
@@ -139,7 +139,7 @@ export class Minutes {
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
         }
-        this.update({topics: this.topics}); // update only topics array!
+        this.update({topics: this.topics}, callback); // update only topics array!
     }
 
     /**
