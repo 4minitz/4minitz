@@ -43,6 +43,14 @@ Template.minutesedit.helpers({
         return null;
     },
 
+    participantsLabelFloating: function () {
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            return (aMin.participants) ? "" : "label-floating";
+        }
+        return null;
+    },
+
     isFinalized: function () {
         let aMin = new Minutes(_minutesID);
         return aMin.isFinalized;
