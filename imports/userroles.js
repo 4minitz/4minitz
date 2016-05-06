@@ -5,6 +5,9 @@
 
 import { Meteor } from 'meteor/meteor';
 
+import { MeetingSeries } from './meetingseries'
+
+
 export class UserRoles {
     constructor(userId) {
         this._userId = userId;
@@ -19,6 +22,8 @@ export class UserRoles {
         }
     }
 
+
+    // **************************** STATIC METHODS
     static get ROLE_MODERATOR() {
         return "moderator";
     }
@@ -26,6 +31,24 @@ export class UserRoles {
         return "invited";
     }
 
+    static allRoles() {
+        return [
+            UserRoles.ROLE_INVITED,
+            UserRoles.ROLE_MODERATOR
+        ];
+    }
+
+    static removeAllRolesFor(aMeetingSeriesID) {
+        ms = new MeetingSeries(aMeetingSeriesID);
+        let affectedUsers = ms.visibleFor;
+        if (affectedUsers && affectedUsers.length > 0) {
+            Roles.removeUsersFromRoles(affectedUsers, UserRoles.allRoles(), aMeetingSeriesID);
+        }
+    }
+
+
+
+    // **************************** METHODS
 
     // generate list of visible meeting series for a specific user
     visibleMeetingSeries() {
@@ -46,4 +69,5 @@ export class UserRoles {
     isInvitedTo(aMeetingSeriesID) {
         return this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_INVITED;
     }
+
 }

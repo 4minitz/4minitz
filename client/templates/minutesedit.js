@@ -69,9 +69,10 @@ Template.minutesedit.helpers({
         return aMin.finalizedBy;
     },
 
-    readOnlyIfFinalized: function () {
+    disableUIControl: function () {
         let aMin = new Minutes(_minutesID);
-        return (aMin.isFinalized) ? "readonly" : "";
+        let usrRole = new UserRoles(Meteor.userId());
+        return (aMin.isFinalized || !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())) ? "readonly" : "";
     },
 
     isUnfinalizeAllowed: function () {
