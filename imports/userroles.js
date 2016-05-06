@@ -29,7 +29,6 @@ export class UserRoles {
 
     // generate list of visible meeting series for a specific user
     visibleMeetingSeries() {
-
         let visibleMeetingsSeries = [];
         for (let aMeetingSeriesID in this._userRoles) {
             if (this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_MODERATOR ||

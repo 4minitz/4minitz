@@ -21,17 +21,19 @@
                             </a>
                         {{/if}}
                     {{else}}
-                        <!--Delete Minutes Button-->
-                        <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Minutes"></span>
-                            Delete Minutes
-                        </button>
+                        {{#if isModeratorOfParentSeries}}
+                            <!--Delete Minutes Button-->
+                            <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Minutes"></span>
+                                Delete Minutes
+                            </button>
 
-                        <!--Finalize Minutes Button-->
-                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
-                            Finalize Minutes
-                        </button>
+                            <!--Finalize Minutes Button-->
+                            <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
+                                Finalize Minutes
+                            </button>
+                        {{/if}}
                     {{/if}}
                 </div>
 
@@ -53,7 +55,7 @@
 
 
 
-            <div class="form-group label-floating">
+            <div class="form-group {{participantsLabelFloating}}">
                 <label for="id_participants" class="control-label">Participants</label>
                 <input id="id_participants" type="text" value="{{minutes.participants}}" class="form-control" {{readOnlyIfFinalized}}>
             </div>
@@ -64,12 +66,13 @@
             <hr>
 
             {{#unless isFinalized}}
-                <button type="button" class="btn btn-primary btn-lg btn-raised" data-toggle="modal" data-target="#dlgAddTopic">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
-                Add Topic
-            </button>
+                {{#if isModeratorOfParentSeries}}
+                    <button type="button" class="btn btn-primary btn-lg btn-raised" data-toggle="modal" data-target="#dlgAddTopic">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
+                        Add Topic
+                    </button>
+                {{/if}}
             {{/unless}}
-
 
             <br>
             <br>
