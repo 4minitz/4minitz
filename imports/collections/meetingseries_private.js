@@ -6,9 +6,11 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries'
 import { Minutes } from "./../minutes"
+import { UserRoles } from "./../userroles"
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
+        // inject methods of class MeetingSeries to all returned collection docs
         transform: function (doc) {
             return new MeetingSeries(doc);
         }
@@ -17,7 +19,8 @@ export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {
-        return MeetingSeriesCollection.find();
+        return MeetingSeriesCollection.find(
+            {visibleFor: {$in: [this.userId]}});
     });
 }
 if (Meteor.isClient) {
@@ -29,42 +32,38 @@ Meteor.methods({
         console.log("meetingseries.insert");
         // check(text, String);
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before inserting a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
-        // Inject userId to specify owner of doc
-        //doc.userId = Meteor.userId();
-
-        let currentDate = new Date();
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
 
         // the user should not be able to define the date when this series was create - or should he?
         // -> so we overwrite this field if it was set previously
+        let currentDate = new Date();
         doc.createdAt = currentDate;
-
-        // initialize the lastChange field
         doc.lastMinutesDate = formatDateISO8601(currentDate);
 
+        // Ensure initialization of some fields
         if (doc.minutes == undefined) {
-            // if the minutes field was not set previously we make sure that we will always get an array.
             doc.minutes = [];
         }
-
         if (doc.openTopics == undefined) {
-            // if the closed topics field was not set previously we make sure that we will always get an array.
             doc.openTopics =  [];
         }
-
         if (doc.closedTopics == undefined) {
-            // if the closed topics field was not set previously we make sure that we will always get an array.
             doc.closedTopics =  [];
         }
 
+        // limit visibility of this meeting series (see server side publish)
+        // array will be expanded by future invites
+        doc.visibleFor = [Meteor.userId()];
+
+        // Every logged in user is allowed to create a new meeting series.
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
             doc._id = newMeetingSeriesID;
+            // Make creator of this meeting series the first moderator
+            Roles.addUsersToRoles(Meteor.userId(), [UserRoles.ROLE_MODERATOR], newMeetingSeriesID);
         });
-
     },
 
     'meetingseries.update'(doc) {
@@ -76,14 +75,18 @@ Meteor.methods({
 
         // TODO: fix security issue: it is not allowed to modify (e.g. remove) elements from the minutes array!
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
         // Ensure user can not update documents of other users
-        // MeetingSeriesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
-        MeetingSeriesCollection.update(id, {$set: doc});
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(id)) {
+            MeetingSeriesCollection.update(id, {$set: doc});
+        } else {
+            throw new Meteor.Error("Cannot update meeting series", "You are not moderator of this meeting series.");
+        }
     },
 
     'meetingseries.remove'(id) {
@@ -91,14 +94,18 @@ Meteor.methods({
         if (id == undefined || id == "")
             return;
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before removing a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
-        // Ensure user can not remove documents of other users
-        // MeetingSeriesCollection.remove({_id: id, userId: Meteor.userId()});
-        MeetingSeriesCollection.remove(id);
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(id)) {
+            MeetingSeriesCollection.remove(id);
+        } else {
+            throw new Meteor.Error("Cannot remove meeting series", "You are not moderator of this meeting series.");
+        }
     },
 
     'meetingseries.removeMinutesFromArray'(meetingSeriesId, minutesId) {
@@ -109,6 +116,12 @@ Meteor.methods({
         let aMin = new Minutes(minutesId);
         if (aMin.isFinalized) return;
 
-        MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(id)) {
+            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
+        } else {
+            throw new Meteor.Error("Cannot remove minutes from meeting series", "You are not moderator of this meeting series.");
+        }
     }
 });

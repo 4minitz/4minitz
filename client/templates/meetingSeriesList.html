@@ -24,6 +24,9 @@
 <template name="meetingSeriesOverview">
         <li class="list-group-item" style="padding-bottom: 10px;">
             <a href="meetingseries/{{this._id}}">{{project}}: {{name}}</a>
+            {{#if isModeratorOfSeries}}
+                <span class="glyphicon glyphicon-star-empty"></span>
+            {{/if}}
             {{#with lastMin = lastMinutes}}
                 {{#if lastMin}}
                   (last minutes of <a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)

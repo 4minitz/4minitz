@@ -89,6 +89,10 @@ export class Minutes {
         return MeetingSeries.findOne(this.meetingSeries_id);
     }
 
+    parentMeetingSeriesID () {
+        return this.meetingSeries_id;
+    }
+
     // This also does a minimal update of collection!
     removeTopic(id) {
         let i = this._findTopicIndex(id);
