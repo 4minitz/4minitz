@@ -39,4 +39,12 @@ export class UserRoles {
         }
         return visibleMeetingsSeries;
     }
+    
+    isModeratorOf(aMeetingSeriesID) {
+        return this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_MODERATOR;
+    }
+
+    isInvitedTo(aMeetingSeriesID) {
+        return this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_INVITED;
+    }
 }

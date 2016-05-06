@@ -58,6 +58,7 @@ Meteor.methods({
         // array will be expanded by future invites
         doc.visibleFor = [Meteor.userId()];
 
+        // Every logged in user is allowed to create a new meeting series.
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
             doc._id = newMeetingSeriesID;
             // Make creator of this meeting series the first moderator
@@ -80,8 +81,12 @@ Meteor.methods({
         }
 
         // Ensure user can not update documents of other users
-        // MeetingSeriesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
-        MeetingSeriesCollection.update(id, {$set: doc});
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(id)) {
+            MeetingSeriesCollection.update(id, {$set: doc});
+        } else {
+            throw new Meteor.Error("Cannot update meeting series", "You are not moderator of this meeting series.");
+        }
     },
 
     'meetingseries.remove'(id) {
@@ -94,9 +99,13 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized');
         }
 
-        // Ensure user can not remove documents of other users
-        // MeetingSeriesCollection.remove({_id: id, userId: Meteor.userId()});
-        MeetingSeriesCollection.remove(id);
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(id)) {
+            MeetingSeriesCollection.remove(id);
+        } else {
+            throw new Meteor.Error("Cannot remove meeting series", "You are not moderator of this meeting series.");
+        }
     },
 
     'meetingseries.removeMinutesFromArray'(meetingSeriesId, minutesId) {
@@ -107,6 +116,12 @@ Meteor.methods({
         let aMin = new Minutes(minutesId);
         if (aMin.isFinalized) return;
 
-        MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(id)) {
+            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
+        } else {
+            throw new Meteor.Error("Cannot remove minutes from meeting series", "You are not moderator of this meeting series.");
+        }
     }
 });
