@@ -1,5 +1,8 @@
+import { Meteor } from 'meteor/meteor';
+
 import { Minutes } from '/imports/minutes'
 import { MeetingSeries } from '/imports/meetingseries'
+import { UserRoles } from '/imports/userroles'
 
 var _minutesID; // the ID of these minutes
 
@@ -74,6 +77,13 @@ Template.minutesedit.helpers({
     isUnfinalizeAllowed: function () {
         let aMin = new Minutes(_minutesID);
         return aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(_minutesID);
+    },
+    
+    isModeratorOfParentSeries: function () {
+        let aMin = new Minutes(_minutesID);
+        let usrRole = new UserRoles(Meteor.userId());
+
+        return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
     }
 });
 

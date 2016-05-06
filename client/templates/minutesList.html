@@ -1,5 +1,6 @@
 <template name="minutesList">
     <div class="clearfix">
+        {{#if isModeratorOfParentSeries}}
         <div class="pull-right">
             <!-- Responsive "Add Minutes" button via hidden/visible-xs, hidden/visible-sm -->
             <a href="{{addMinutesPath}}" class="btn btn-success btn-raised hidden-xs hidden-sm" disabled="{{addMinutesNotAllowed}}">
@@ -23,6 +24,9 @@
                 </a>
             </div>
         </div>
+        {{else}}
+            &nbsp;
+        {{/if}}
     </div>
 
     <div class="well">
@@ -38,10 +42,12 @@
                 <td>
                     <a href="/minutesedit/{{_id}}">{{date}}</a>
                     {{#if isDeleteAllowed}}
-                        <a href="#" id="deleteMinutes">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"
-                            style="color: red;"></span>
-                        </a>
+                        {{#if isModeratorOfParentSeries}}
+                            <a href="#" id="deleteMinutes">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"
+                                style="color: red;"></span>
+                            </a>
+                        {{/if}}
                     {{/if}}
                 </td>
                 <td>

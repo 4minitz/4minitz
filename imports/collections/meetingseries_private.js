@@ -84,8 +84,6 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(id)) {
             MeetingSeriesCollection.update(id, {$set: doc});
-        } else {
-            throw new Meteor.Error("Cannot update meeting series", "You are not moderator of this meeting series.");
         }
     },
 

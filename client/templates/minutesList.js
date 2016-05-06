@@ -1,5 +1,7 @@
+import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from '/imports/meetingseries'
+import { UserRoles } from '/imports/userroles'
 
 Template.minutesList.helpers({
     buttonBackground: function () {
@@ -18,7 +20,13 @@ Template.minutesList.helpers({
 
     isDeleteAllowed: function () {
         return (!this.isFinalized);
+    },
+
+    isModeratorOfParentSeries: function () {
+        let usrRole = new UserRoles(Meteor.userId());
+        return usrRole.isModeratorOf(this.meetingSeriesId);
     }
+    
 });
 
 Template.minutesList.events({

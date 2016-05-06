@@ -148,8 +148,6 @@ Meteor.methods({
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
             MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
-        } else {
-            throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
         }
     },
 
