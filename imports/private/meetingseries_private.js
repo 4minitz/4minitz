@@ -32,9 +32,9 @@ Meteor.methods({
         console.log("meetingseries.insert");
         // check(text, String);
 
-        // Make sure the user is logged in before inserting
+        // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
-           throw new Meteor.Error('not-authorized');
+            throw new Meteor.Error('not-authorized');
         }
 
         // the user should not be able to define the date when this series was create - or should he?
@@ -74,11 +74,11 @@ Meteor.methods({
 
         // TODO: fix security issue: it is not allowed to modify (e.g. remove) elements from the minutes array!
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before updating a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
         // Ensure user can not update documents of other users
         // MeetingSeriesCollection.update({_id: id, userId: Meteor.userId()}, {$set: doc});
         MeetingSeriesCollection.update(id, {$set: doc});
@@ -89,11 +89,11 @@ Meteor.methods({
         if (id == undefined || id == "")
             return;
 
-        // If app has activated accounts ...
-        // Make sure the user is logged in before removing a task
-        //if (!Meteor.userId()) {
-        //    throw new Meteor.Error('not-authorized');
-        //}
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
         // Ensure user can not remove documents of other users
         // MeetingSeriesCollection.remove({_id: id, userId: Meteor.userId()});
         MeetingSeriesCollection.remove(id);
