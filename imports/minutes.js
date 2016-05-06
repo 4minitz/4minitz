@@ -3,7 +3,7 @@
  */
 
 import { Meteor } from 'meteor/meteor';
-import { MinutesCollection } from './private/minutes_private';
+import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries'
 import { Topic } from './topic'
 
