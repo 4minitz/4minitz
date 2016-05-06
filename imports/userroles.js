@@ -8,6 +8,15 @@ import { Meteor } from 'meteor/meteor';
 export class UserRoles {
     constructor(userId) {
         this._userId = userId;
+        let currentUser = Meteor.users.findOne(this._userId);
+        if (! currentUser) {
+            throw new Meteor.Error('Could not find user for userId:'+this._userId);
+        }
+
+        this._userRoles = currentUser.roles;
+        if (! this._userRoles) {
+            throw new Meteor.Error('Could not find roles for userId:'+this._userId);
+        }
     }
 
     static get ROLE_MODERATOR() {
@@ -20,15 +29,11 @@ export class UserRoles {
 
     // generate list of visible meeting series for a specific user
     visibleMeetingSeries() {
-        let currentUser = Meteor.users.findOne(this._userId);
-        if (! currentUser) {
-            return [];
-        }
 
         let visibleMeetingsSeries = [];
-        for (let aMeetingSeriesID in currentUser.roles) {
-            if (currentUser.roles[aMeetingSeriesID] == UserRoles.ROLE_MODERATOR ||
-                currentUser.roles[aMeetingSeriesID]  == UserRoles.ROLE_INVITED) {
+        for (let aMeetingSeriesID in this._userRoles) {
+            if (this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_MODERATOR ||
+                this._userRoles[aMeetingSeriesID]  == UserRoles.ROLE_INVITED) {
                 visibleMeetingsSeries.push(aMeetingSeriesID);
             }
         }
