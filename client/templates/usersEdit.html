@@ -1,0 +1,19 @@
+<template name="usersEdit">
+    {{#if isModeEditSeries}}
+            {{#each users}}
+                {{# with userRoleObj this._id}}
+                    {{#if isVisibleForUser}}
+                        <div class="label username-label">
+                            {{#if isModerator}}
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            {{/if}}
+                            {{getUser.username}}
+                            <span id="btnDeleteUser" style="color: indianred; cursor: pointer; font-size: 150%;">&times;</span>
+                        </div>
+                    {{/if}}
+                {{/with}}
+            {{/each}}
+    {{else}}
+        Not isModeEditSeries
+    {{/if}}
+</template>

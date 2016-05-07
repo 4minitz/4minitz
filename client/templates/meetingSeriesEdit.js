@@ -1,9 +1,30 @@
+import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from './../../imports/meetingseries'
+import { UserEditConfig } from './../../imports/userEditConfig'
 
+Template.meetingSeriesEdit.onCreated(function() {
+    this.userEditConfig = new UserEditConfig("EDIT_SERIES",
+                                             this.data._id,
+                                             Meteor.users.find({}).fetch());
+});
+
+Template.meetingSeriesEdit.onRendered(function() {
+    $.material.init();
+});
+
+Template.meetingSeriesEdit.onDestroyed(function() {
+    //add your statement here
+});
 
 Template.meetingSeriesEdit.helpers({
- //add you helpers here
+    users: function () {
+        return Meteor.users.find({});
+    },
+
+    userEditConfig: function () {
+        return Template.instance().userEditConfig;
+    }
 });
 
 Template.meetingSeriesEdit.events({
@@ -36,6 +57,8 @@ Template.meetingSeriesEdit.events({
     "click #btnMeetingSeriesSave": function (evt, tmpl) {
         evt.preventDefault();
 
+        console.log("SAVE: "+JSON.stringify(Template.instance().userEditConfig));
+
         var aProject = tmpl.find("#id_meetingproject").value;
         var aName = tmpl.find("#id_meetingname").value;
 
@@ -64,16 +87,3 @@ Template.meetingSeriesEdit.events({
         $('#dlgEditMeetingSeries').modal('hide');
     }
 });
-
-Template.meetingSeriesEdit.onCreated(function() {
-    //add your statement here
-});
-
-Template.meetingSeriesEdit.onRendered(function() {
-    //add your statement here
-});
-
-Template.meetingSeriesEdit.onDestroyed(function() {
-    //add your statement here
-});
-

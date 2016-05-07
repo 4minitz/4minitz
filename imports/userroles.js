@@ -5,19 +5,24 @@
 
 import { Meteor } from 'meteor/meteor';
 
+import  './collections/userroles_private';
 import { MeetingSeries } from './meetingseries'
-
 
 export class UserRoles {
     constructor(userId) {
         this._userId = userId;
         let currentUser = Meteor.users.findOne(this._userId);
         if (! currentUser) {
+            console.log("Number of users:"+Meteor.users.find().count());
+            Router.go("/");
             throw new Meteor.Error('Could not find user for userId:'+this._userId);
         }
 
         this._userRoles = currentUser.roles;
+        this._user = currentUser;
+        
         if (! this._userRoles) {
+            Router.go("/");
             throw new Meteor.Error('Could not find roles for userId:'+this._userId);
         }
     }
@@ -73,5 +78,9 @@ export class UserRoles {
     hasViewRoleFor(aMeetingSeriesID) {
         return (this.isInvitedTo(aMeetingSeriesID) || 
                 this.isModeratorOf(aMeetingSeriesID));
+    }
+    
+    getUser() {
+        return this._user;
     }
 }

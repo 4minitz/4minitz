@@ -51,9 +51,19 @@ a:focus {
     background-color: #DDDDDD;
 }
 
+.username-label {
+    font-size: 120%;
+    line-height: 250%;
+    background-color: #DDDDDD;
+    padding: .5em;
+    margin-right: .5em;
+    font-weight: 100;
+    color: black;
+}
 
 @media screen and (max-width: 799px) {
     .version-info {
         display:none;
     }
 }
+
