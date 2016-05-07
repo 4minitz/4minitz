@@ -70,4 +70,8 @@ export class UserRoles {
         return this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_INVITED;
     }
 
+    hasViewRoleFor(aMeetingSeriesID) {
+        return (this.isInvitedTo(aMeetingSeriesID) || 
+                this.isModeratorOf(aMeetingSeriesID));
+    }
 }
