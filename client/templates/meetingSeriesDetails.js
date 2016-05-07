@@ -1,6 +1,9 @@
+import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
+import { UserRoles } from '/imports/userroles'
+
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
@@ -67,6 +70,11 @@ Template.meetingSeriesDetails.helpers({
                     topics: topics
                 };
         }
+    },
+
+    isModerator: function () {
+        let usrRole = new UserRoles(Meteor.userId());
+        return usrRole.isModeratorOf(_meetingSeriesID);
     }
 });
 
