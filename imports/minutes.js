@@ -48,6 +48,11 @@ export class Minutes {
         Meteor.call("minutes.remove", id, serverCallback)
     }
 
+    static syncVisibility(parentSeriesID, visibleForArray) {
+        Meteor.call("minutes.syncVisibility", parentSeriesID, visibleForArray);
+    }
+
+
 
     // ################### object methods
     update (docPart) {

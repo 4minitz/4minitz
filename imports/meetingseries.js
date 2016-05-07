@@ -74,7 +74,6 @@ export class MeetingSeries {
 
     save () {
         if (this._id && this._id != "") {
-            console.log("My Minutes:"+this.minutes);
             Meteor.call("meetingseries.update", this);
         } else {
             Meteor.call("meetingseries.insert", this);
@@ -113,7 +112,8 @@ export class MeetingSeries {
         let min = new Minutes({
             meetingSeries_id: this._id,
             date: formatDateISO8601(newMinutesDate),
-            topics: topics
+            topics: topics,
+            visibleFor: this.visibleFor             // freshly created minutes inherit visibility of their series
         });
 
         min.save(optimisticUICallback, serverCallback);
@@ -306,6 +306,35 @@ export class MeetingSeries {
         // if no firstPossibleDate is given, all dates are allowed
         return ( !firstPossibleDate || date > firstPossibleDate );
     }
+
+
+    addVisibleUser(userId) {
+        if (this.visibleFor.indexOf(userId) > -1) {    // already in
+            return;
+        }
+        if (!this._id) {
+            throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using addVisibleUser()");
+        }
+
+        this.visibleFor.push(userId);
+        Minutes.syncVisibility(this._id, this.visibleFor);
+    }
+
+    removeVisibleUser(userId) {
+        if (this.visibleFor.indexOf(userId) == -1) {    // not found
+            return;
+        }
+        if (!this._id) {
+            throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using removeVisibleUser()");
+        }
+
+        let index = this.visibleFor.indexOf(userId);
+        this.visibleFor.splice(index, 1);
+        Minutes.syncVisibility(this._id, this.visibleFor);
+    }
+
+
+
 
     // ################### private methods
     /**
