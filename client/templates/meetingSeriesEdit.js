@@ -7,6 +7,32 @@ Template.meetingSeriesEdit.helpers({
 });
 
 Template.meetingSeriesEdit.events({
+
+    "click #deleteMeetingSeries": function() {
+        console.log("Remove Meeting Series: "+this._id);
+        $('#dlgEditMeetingSeries').modal('hide');   // hide underlying modal dialog first, otherwise transparent modal layer is locked!
+
+        let ms = new MeetingSeries(this._id);
+        let countMinutes = ms.countMinutes();
+        let seriesName = "<strong>" + ms.project + ": " + ms.name + "</strong>";
+        let dialogContent = "<p>Do you really want to delete the meeting series " + seriesName + "?</p>";
+        if (countMinutes !== 0) {
+            let lastMinDate = ms.lastMinutes().date;
+            dialogContent += "<p>This series contains " + countMinutes
+                + " meeting minutes (last minutes of " + lastMinDate + ").</p>";
+        }
+
+        confirmationDialog(
+            /* callback called if user wants to continue */
+            () => {
+                MeetingSeries.remove(ms);
+                Router.go("/");
+            },
+            dialogContent
+        );
+    },
+    
+    
     "click #btnMeetingSeriesSave": function (evt, tmpl) {
         evt.preventDefault();
 
