@@ -4,9 +4,25 @@ import { MeetingSeries } from './../../imports/meetingseries'
 import { UserEditConfig } from './../../imports/userEditConfig'
 
 Template.meetingSeriesEdit.onCreated(function() {
-    this.userEditConfig = new UserEditConfig("EDIT_SERIES",
-                                             this.data._id,
-                                             Meteor.users.find({}).fetch());
+
+    // create client-only collection for storage of users attached
+    // to this meeting series as input <=> output for the user editor
+    let _attachedUsersCollection = new Mongo.Collection(null);
+
+    // copy all attached users of this series to a new collection
+    // and save their original _ids for later reference
+    let visibleFor = this.data.visibleFor;
+    for (let i in visibleFor) {
+        let user = Meteor.users.findOne(visibleFor[i]);
+        user._idOrg = user._id;
+        delete user._id;
+        _attachedUsersCollection.insert(user);
+    }
+
+    // build editor config and attach it to the instance of the template
+    this.userEditConfig = new UserEditConfig("EDIT_SERIES", // mode
+        this.data._id,                                      // the meeting series id
+        _attachedUsersCollection);                          // collection of attached users
 });
 
 Template.meetingSeriesEdit.onRendered(function() {
@@ -57,7 +73,7 @@ Template.meetingSeriesEdit.events({
     "click #btnMeetingSeriesSave": function (evt, tmpl) {
         evt.preventDefault();
 
-        console.log("SAVE: "+JSON.stringify(Template.instance().userEditConfig));
+        console.log("SAVE: "+JSON.stringify(Template.instance().userEditConfig.users.find().fetch()));
 
         var aProject = tmpl.find("#id_meetingproject").value;
         var aName = tmpl.find("#id_meetingname").value;

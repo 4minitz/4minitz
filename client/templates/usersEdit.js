@@ -2,6 +2,7 @@
 import { UserRoles } from '/imports/userroles'
 
 var _config;
+
 Template.usersEdit.onCreated(function() {
     _config = this.data;    // UserEditConfig object
 });
@@ -24,7 +25,8 @@ Template.usersEdit.helpers({
     },
     
     users: function () {
-        return _config.users;
+        // return _config.users;
+        return _config.users.find();
     },
 
     userRoleObj: function (userID) {
@@ -70,5 +72,15 @@ Template.usersEdit.events({
     "click #btnAddUser": function (evt, tmpl) {
         evt.preventDefault();
         let newUserName = window.prompt("Enter User Name","Wolfram Esser");
+
+        let usr =   {
+            "username": newUserName,
+            "_idOrg": "vzbpfXdmnikCMTn7g",
+            "roles": {
+            }
+        };
+
+        usr.roles[_config.meetingSeriesID] = ["10"];
+        _config.users.insert(usr);
     }
 });

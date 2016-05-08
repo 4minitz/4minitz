@@ -15,8 +15,7 @@
                 </thead>
                 <tbody>
                 {{#each users}}
-                    {{# with userRoleObj this._id}}
-                        {{#if hasViewRole}}
+                    {{# with userRoleObj this._idOrg}}
                         <tr>
                             <td style="vertical-align: middle;">
                                 {{getUser.username}}
@@ -28,7 +27,6 @@
                                 <span id="btnDeleteUser" class="glyphicon glyphicon-trash" style="color:red; cursor:pointer;"></span>
                             </td>
                         </tr>
-                        {{/if}}
                     {{/with}}
                 {{/each}}
                 </tbody>
