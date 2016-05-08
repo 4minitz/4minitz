@@ -32,7 +32,7 @@ Template.usersEdit.helpers({
         return new UserRoles(userID);
     },
 
-    isVisibleForUser: function () {
+    hasViewRole: function () {
         return this.hasViewRoleFor(_config.meetingSeriesID);
     },
 
@@ -40,6 +40,7 @@ Template.usersEdit.helpers({
         return this.isModeratorOf(_config.meetingSeriesID);
     }
 
+    
 });
 
 Template.usersEdit.events({

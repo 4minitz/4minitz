@@ -2,7 +2,7 @@
     {{#if isModeEditSeries}}
             {{#each users}}
                 {{# with userRoleObj this._id}}
-                    {{#if isVisibleForUser}}
+                    {{#if hasViewRole}}
                         <div class="label username-label">
                             {{#if isModerator}}
                                 <span class="glyphicon glyphicon-star-empty"></span>
