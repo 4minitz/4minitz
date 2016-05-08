@@ -66,16 +66,23 @@ Template.usersEdit.helpers({
 Template.usersEdit.events({
     "click #btnDeleteUser": function (evt, tmpl) {
         evt.preventDefault();
-        console.log("DelUser? "+JSON.stringify(this));
+        // Attention we need to go via _idOrg here!
+        _config.users.remove({_idOrg: this._userId});
     },
 
     "click #btnAddUser": function (evt, tmpl) {
         evt.preventDefault();
         let newUserName = window.prompt("Enter User Name","Wolfram Esser");
 
+        let existingUser = Meteor.users.findOne({"username": newUserName});
+        if (!existingUser) {
+            console.log("Not found!"+newUserName);
+            return;
+        }
+
         let usr =   {
             "username": newUserName,
-            "_idOrg": "vzbpfXdmnikCMTn7g",
+            "_idOrg": existingUser._id,
             "roles": {
             }
         };

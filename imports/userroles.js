@@ -29,12 +29,10 @@ export class UserRoles {
         }
 
         this._userRoles = currentUser.roles;
-        this._user = currentUser;
-        
         if (! this._userRoles) {
-            Router.go("/");
-            throw new Meteor.Error('Could not find roles for userId:'+this._userId);
+            this._userRoles = [];
         }
+        this._user = currentUser;
     }
 
 
