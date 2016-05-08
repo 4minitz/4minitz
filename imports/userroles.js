@@ -14,9 +14,9 @@ import { MeetingSeries } from './meetingseries'
 // and lower values have higher access rights!
 // So, prefix zeroes are important!
 export var USERROLES = {
-        "Moderator": "01",
-        "Invited":   "10",
-        "Informed":  "20"
+        "Moderator":   "01"
+        , "Invited":   "10"
+        //, "Informed":  "20"   // TODO implement later
 };
 
 export class UserRoles {
@@ -39,15 +39,25 @@ export class UserRoles {
 
 
     // **************************** STATIC METHODS
-    static allRoles() {
-        return Object.keys(this.USERROLES);
+    static allRolesNumerical() {
+        let rolesNum = [];
+        for (var key in USERROLES) {
+            rolesNum.push(USERROLES[key]);
+        }
+        return rolesNum;
     }
 
     static allRolesText() {
-        let rolestext = [];
-        for (var key in this.USERROLES) {
-            rolestext.push(this.USERROLES[key]);
+        return Object.keys(USERROLES);
+    }
+
+    static role2Text(roleValue) {
+        for (var key in USERROLES) {
+            if (USERROLES[key] == roleValue) {
+                return key;
+            }
         }
+        return undefined;
     }
 
     static removeAllRolesFor(aMeetingSeriesID) {
@@ -57,7 +67,6 @@ export class UserRoles {
             Roles.removeUsersFromRoles(affectedUsers, UserRoles.allRoles(), aMeetingSeriesID);
         }
     }
-
 
 
     // **************************** METHODS
@@ -90,7 +99,15 @@ export class UserRoles {
         return (this.isInvitedTo(aMeetingSeriesID) || 
                 this.isModeratorOf(aMeetingSeriesID));
     }
-    
+
+    currentRoleFor (aMeetingSeriesID) {
+        return this._userRoles[aMeetingSeriesID];
+    }
+
+    currentRoleTextFor (aMeetingSeriesID) {
+        return UserRoles.role2Text(this._userRoles[aMeetingSeriesID]);
+    }
+
     getUser() {
         return this._user;
     }

@@ -1,18 +1,40 @@
-<template name="usersEdit">
+<template name="usersEdit" id="id_useredit">
     {{#if isModeEditSeries}}
-            {{#each users}}
-                {{# with userRoleObj this._id}}
-                    {{#if hasViewRole}}
-                        <div class="label username-label">
-                            {{#if isModerator}}
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            {{/if}}
-                            {{getUser.username}}
-                            <span id="btnDeleteUser" style="color: indianred; cursor: pointer; font-size: 150%;">&times;</span>
-                        </div>
-                    {{/if}}
-                {{/with}}
-            {{/each}}
+            <table class="table table-striped" style="border: 1px solid darkgray;">
+                <thead>
+                    <tr>
+                        <th>
+                            User
+                            <button id="btnAddUser" class="btn btn-sm btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </th>
+                        <th style="vertical-align: middle;">Role</th>
+                        <th style="text-align: right; vertical-align: middle;">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each users}}
+                    {{# with userRoleObj this._id}}
+                        {{#if hasViewRole}}
+                        <tr>
+                            <td style="vertical-align: middle;">
+                                {{getUser.username}}
+                            </td>
+                            <td style="vertical-align: middle;">
+                                {{{rolesOptions}}}
+                            </td>
+                            <td style="text-align: right; vertical-align: middle;">
+                                <span id="btnDeleteUser" class="glyphicon glyphicon-trash" style="color:red; cursor:pointer;"></span>
+                            </td>
+                        </tr>
+                        {{/if}}
+                    {{/with}}
+                {{/each}}
+                </tbody>
+
+            </table>
+
     {{else}}
         Not isModeEditSeries
     {{/if}}
