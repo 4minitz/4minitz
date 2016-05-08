@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries'
 import { Minutes } from "./../minutes"
-import { UserRoles } from "./../userroles"
+import * as UR from "./../userroles"
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -62,7 +62,7 @@ Meteor.methods({
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
             doc._id = newMeetingSeriesID;
             // Make creator of this meeting series the first moderator
-            Roles.addUsersToRoles(Meteor.userId(), [UserRoles.ROLE_MODERATOR], newMeetingSeriesID);
+            Roles.addUsersToRoles(Meteor.userId(), UR.USERROLES.Moderator, newMeetingSeriesID);
         });
     },
 
@@ -85,7 +85,7 @@ Meteor.methods({
         }
 
         // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
+        let userRoles = new UR.UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(id)) {
             MeetingSeriesCollection.update(id, {$set: doc});
         } else {
@@ -104,9 +104,9 @@ Meteor.methods({
         }
 
         // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
+        let userRoles = new UR.UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(id)) {
-            UserRoles.removeAllRolesFor(id);
+            UR.UserRoles.removeAllRolesFor(id);
             MeetingSeriesCollection.remove(id);
         } else {
             throw new Meteor.Error("Cannot remove meeting series", "You are not moderator of this meeting series.");
@@ -122,7 +122,7 @@ Meteor.methods({
         if (aMin.isFinalized) return;
 
         // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
+        let userRoles = new UR.UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(meetingSeriesId)) {
             MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
         } else {

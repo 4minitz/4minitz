@@ -11,5 +11,6 @@ if (Meteor.isServer) {
 }
 
 if (Meteor.isClient) {
+    // This gets visible via Meteor.users collection
     Meteor.subscribe('userListSimple');
 }

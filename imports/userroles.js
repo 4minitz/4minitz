@@ -8,12 +8,22 @@ import { Meteor } from 'meteor/meteor';
 import  './collections/userroles_private';
 import { MeetingSeries } from './meetingseries'
 
+
+// Security:
+// Make sure the values of this enum are string-sortable
+// and lower values have higher access rights!
+// So, prefix zeroes are important!
+export var USERROLES = {
+        "Moderator": "01",
+        "Invited":   "10",
+        "Informed":  "20"
+};
+
 export class UserRoles {
     constructor(userId) {
         this._userId = userId;
         let currentUser = Meteor.users.findOne(this._userId);
         if (! currentUser) {
-            console.log("Number of users:"+Meteor.users.find().count());
             Router.go("/");
             throw new Meteor.Error('Could not find user for userId:'+this._userId);
         }
@@ -29,18 +39,15 @@ export class UserRoles {
 
 
     // **************************** STATIC METHODS
-    static get ROLE_MODERATOR() {
-        return "moderator";
-    }
-    static get ROLE_INVITED() {
-        return "invited";
+    static allRoles() {
+        return Object.keys(this.USERROLES);
     }
 
-    static allRoles() {
-        return [
-            UserRoles.ROLE_INVITED,
-            UserRoles.ROLE_MODERATOR
-        ];
+    static allRolesText() {
+        let rolestext = [];
+        for (var key in this.USERROLES) {
+            rolestext.push(this.USERROLES[key]);
+        }
     }
 
     static removeAllRolesFor(aMeetingSeriesID) {
@@ -59,8 +66,8 @@ export class UserRoles {
     visibleMeetingSeries() {
         let visibleMeetingsSeries = [];
         for (let aMeetingSeriesID in this._userRoles) {
-            if (this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_MODERATOR ||
-                this._userRoles[aMeetingSeriesID]  == UserRoles.ROLE_INVITED) {
+            if (this._userRoles[aMeetingSeriesID] == USERROLES.Moderator ||
+                this._userRoles[aMeetingSeriesID]  == USERROLES.Invited) {
                 visibleMeetingsSeries.push(aMeetingSeriesID);
             }
         }
@@ -68,11 +75,15 @@ export class UserRoles {
     }
     
     isModeratorOf(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_MODERATOR;
+        return this._userRoles[aMeetingSeriesID] == USERROLES.Moderator;
     }
 
     isInvitedTo(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] == UserRoles.ROLE_INVITED;
+        return this._userRoles[aMeetingSeriesID] == USERROLES.Invited;
+    }
+
+    isInformedAbout(aMeetingSeriesID) {
+        return this._userRoles[aMeetingSeriesID] == USERROLES.Informed;
     }
 
     hasViewRoleFor(aMeetingSeriesID) {
