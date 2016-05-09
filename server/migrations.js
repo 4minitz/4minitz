@@ -1,4 +1,5 @@
 import { Migrations } from 'meteor/percolate:migrations';
+import { backupMongo } from './mongo-backup';
 
 Migrations.add({
     version: 1,
@@ -29,9 +30,9 @@ export const handleMigration = function () {
         currentVersion = Migrations.getVersion();
 
     if (currentVersion < latestVersion) {
-        // todo: database dump
-
         // uncomment this as soon as the first migration exists
+
+        // backupMongo();
         //Migrations.migrateTo('latest');
     }
 };
