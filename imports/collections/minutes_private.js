@@ -16,11 +16,9 @@ export var MinutesCollection = new Mongo.Collection("minutes",
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication() {
-        let userRoles = new UserRoles(this.userId);
-
-        // publish only minutes for the visible meeting series of this user
+        // publish only minutes visible for this user
         return MinutesCollection.find(
-            {meetingSeries_id: {$in: userRoles.visibleMeetingSeries()}});
+            {visibleFor: {$in: [this.userId]}});
     });
 }
 if (Meteor.isClient) {
@@ -208,5 +206,10 @@ Meteor.methods({
         } else {
             throw new Meteor.Error("Cannot delete all minutes", "You are not moderator of the parent meeting series.");
         }
+    },
+
+    'minutes.syncVisibility'(parentSeriesID, visibleForArray) {
+        Minutes.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
     }
+
 });
