@@ -12,5 +12,6 @@ export const MinutesSchema = new SimpleSchema({
     participants: {type: String, defaultValue: ""},
     agenda: {type: String, defaultValue: ""},
     finalizedAt: {type: Date, optional: true},
-    finalizedBy: {type: String, optional: true}
+    finalizedBy: {type: String, optional: true},
+    visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id}
 });
