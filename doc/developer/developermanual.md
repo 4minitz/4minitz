@@ -33,7 +33,7 @@ Further info on testing with meteor can be found at http://guide.meteor.com/test
 
 ## Where to start
 Our work-horses are the classes in /imports/ (e.g. meetingseries.js, minutes.js).
-They build a facade for the underlying MongoCollections and enrich them with convencience methods.
+They build a facade for the underlying MongoCollections and enrich them with convenience methods.
 
 ## Use Cases
 ![Use Case: Roles](./figures/usecases1.png)
@@ -194,3 +194,9 @@ They build a facade for the underlying MongoCollections and enrich them with con
              }             // .....
         ]  // end-of topics
     }
+
+
+## MongoDB Migrations
+
+Migrations are realized with the percolate:migrations package. To adjust existing databases to a new schema add
+new migration up() and down() functions to /server/migrations.js.
