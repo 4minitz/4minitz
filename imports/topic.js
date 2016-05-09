@@ -4,6 +4,10 @@
 
 import { Minutes } from './minutes';
 
+/**
+ * A Topic is an Agenda Topic which can
+ * have multiple sub-items called TopicItem.
+ */
 export class Topic {
     constructor(parentMinutesID, source) {   // constructs obj from Topic ID or Topic document
         if (!parentMinutesID || !source)
@@ -26,17 +30,15 @@ export class Topic {
             source.isOpen = true;
         }
         this._topicDoc = source;
+
+        if (!this._topicDoc.topicItems) {
+            this._topicDoc.topicItems = [];
+        }
     }
 
     // ################### static methods
     static findTopicIndexInArray(id, topics) {
-        let i;
-        for (i = 0; i < topics.length; i++) {
-            if (id === topics[i]._id) {
-                return i;
-            }
-        }
-        return undefined;
+        return subElementsHelper.findIndexById(id, topics);
     }
 
     // ################### object methods
@@ -64,7 +66,46 @@ export class Topic {
         console.log(this.toString());
     }
 
+    upsertTopicItem(topicItemDoc) {
+        let i = undefined;
+        if (! topicItemDoc._id) {             // brand-new topicItem
+            topicItemDoc._id = Random.id();   // create our own local _id here!
+        } else {
+            i = subElementsHelper.findIndexById(topicItemDoc._id, this.getTopicItems())
+        }
+        if (i == undefined) {                      // topicItem not in array
+            this.getTopicItems().unshift(topicItemDoc);  // add to front of array
+        } else {
+            this.getTopicItems()[i] = topicItemDoc;      // overwrite in place
+        }
+
+        this.save();
+    }
+
+
+    removeTopicItem(id) {
+        let i = subElementsHelper.findIndexById(id, this.getTopicItems());
+        if (i != undefined) {
+            this.getTopicItems().splice(i, 1);
+            this.save();
+
+        }
+    }
+
+    findTopicItem(id) {
+        let i = i = subElementsHelper.findIndexById(id, this.getTopicItems());
+        if (i != undefined) {
+            return this.topics[i];
+        }
+        return undefined;
+    }
+
+    getTopicItems() {
+        return this._topicDoc.topicItems;
+    }
+
     save() {
+        // this will update the entire topics array from the parent minutes!
         this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
