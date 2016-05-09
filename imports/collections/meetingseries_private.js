@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries'
 import { Minutes } from "./../minutes"
-import * as UR from "./../userroles"
+import { UserRoles } from "./../userroles"
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -62,7 +62,7 @@ Meteor.methods({
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
             doc._id = newMeetingSeriesID;
             // Make creator of this meeting series the first moderator
-            Roles.addUsersToRoles(Meteor.userId(), UR.USERROLES.Moderator, newMeetingSeriesID);
+            Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
         });
     },
 

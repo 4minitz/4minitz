@@ -6,12 +6,13 @@
 
         <h2 class="header">
             Meeting Series:
-
-                <b>{{project}} - {{name}}</b>
             {{#if isModerator}}
-                <a href="#" data-toggle="modal" data-target="#dlgEditMeetingSeries" style="font-size: 80%;">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="Edit Meeting Series"></span>
+                <a href="#" data-toggle="modal" data-target="#dlgEditMeetingSeries">
+                    {{project}} - {{name}}
+                    <span class="glyphicon glyphicon-pencil" style="font-size: 80%;" aria-hidden="true" aria-label="Edit Meeting Series"></span>
                 </a>
+            {{else}}
+                {{project}} - {{name}}
             {{/if}}
         </h2>
     {{/with}}
