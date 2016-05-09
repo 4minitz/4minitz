@@ -2,9 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries';
 import { Minutes } from './../minutes';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { TopicSchema } from './topics_private.js';
-import { UserRoles } from "./../userroles"
+import { MeetingSeriesSchema } from './meetingseries.schema';
+import { UserRoles } from "./../userroles";
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -24,18 +23,6 @@ if (Meteor.isServer) {
 if (Meteor.isClient) {
     Meteor.subscribe('meetingSeries');
 }
-
-const MeetingSeriesSchema = new SimpleSchema({
-    project: {type: String},
-    name: {type: String},
-    createdAt: {type: Date},
-    visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id},
-    // todo: make this a date?
-    lastMinutesDate: {type: String},
-    minutes: {type: [String], defaultValue: []},
-    openTopics: {type: [TopicSchema], defaultValue: []},
-    closedTopics: {type: [TopicSchema], defaultValue: []}
-});
 
 MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
 
