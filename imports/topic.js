@@ -91,14 +91,13 @@ export class Topic {
         if (i != undefined) {
             this.getInfoItems().splice(i, 1);
             this.save();
-
         }
     }
 
     findInfoItem(id) {
         let i = subElementsHelper.findIndexById(id, this.getInfoItems());
         if (i != undefined) {
-            return this.topics[i];
+            return this.getInfoItems()[i];
         }
         return undefined;
     }

@@ -11,10 +11,7 @@ describe('Unit-Test for class Topic', function() {
 
     let dummyMinute;
     let stub;
-
-    let doc = {
-        subject: "topic-subject"
-    };
+    let topicDoc;
 
     beforeEach(function () {
         dummyMinute = {
@@ -29,6 +26,10 @@ describe('Unit-Test for class Topic', function() {
         stub = sinon.stub(Minutes, "findOne", function() {
             return dummyMinute;
         });
+
+        topicDoc = {
+            subject: "topic-subject"
+        }
     });
 
     afterEach(function() {
@@ -36,20 +37,32 @@ describe('Unit-Test for class Topic', function() {
     });
 
     it('#constructor', function () {
-        let myTopic = new Topic(dummyMinute._id, doc);
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
 
         // the parent minute should be equal to our dummy parent minute
         expect(myTopic._parentMinutes).to.equal(dummyMinute);
         // the subject of the new topic should be equal to the initial value
-        expect(myTopic._topicDoc.subject).to.equal(doc.subject);
+        expect(myTopic._topicDoc.subject).to.equal(topicDoc.subject);
         // the new topic should be "opened"
         expect(myTopic._topicDoc.isOpen).to.be.true;
         // the created topic should have the isNew-Flag
         expect(myTopic._topicDoc.isNew).to.be.true;
     });
 
+    it('#toggleState', function () {
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
+
+        let oldState = myTopic._topicDoc.isOpen;
+
+        myTopic.toggleState();
+
+        // state should have changed
+        expect(myTopic._topicDoc.isOpen).to.not.equal(oldState);
+
+    });
+
     it('#upsertInfoItem', function() {
-        let myTopic = new Topic(dummyMinute._id, doc);
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
 
         let topicItemDoc = {
             subject: "info-item-subject",
@@ -77,6 +90,76 @@ describe('Unit-Test for class Topic', function() {
         expect(myTopic.getInfoItems()[0]._id).to.equal(topicItem._id);
         // but the subject should have changed
         expect(myTopic.getInfoItems()[0].subject).to.equal(topicItem.subject);
+    });
+
+    it('#findInfoItem', function() {
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
+
+        let infoItemDoc = {
+            _id: 'AaBbCcDd01',
+            subject: "info-item-subject",
+            createdAt: new Date()
+        };
+
+        // new info item is not added yet, so our topic should not find it
+        let foundItem = myTopic.findInfoItem(infoItemDoc._id);
+        expect(foundItem).to.equal(undefined);
+
+        // now we add the info item to our topic
+        myTopic.upsertInfoItem(infoItemDoc);
+
+        foundItem = myTopic.findInfoItem(infoItemDoc._id);
+        // foundItem should not be undefined
+        expect(foundItem).to.not.equal(undefined);
+        // the subject of the found item should be equal to its initial value
+        expect(foundItem.subject).to.equal(infoItemDoc.subject);
+    });
+
+    it('#removeInfoItem', function() {
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
+
+        let infoItemDoc = {
+            _id: 'AaBbCcDd01',
+            subject: "info-item-subject",
+            createdAt: new Date()
+        };
+        let infoItemDoc2 = {
+            _id: 'AaBbCcDd02',
+            subject: "info-item-subject2",
+            createdAt: new Date()
+        };
+
+        // now we add the info items to our topic
+        myTopic.upsertInfoItem(infoItemDoc);
+        myTopic.upsertInfoItem(infoItemDoc2);
+
+        // check that the two info items was added
+        expect(myTopic.getInfoItems().length).to.equal(2);
+
+        // remove the second one
+        myTopic.removeInfoItem(infoItemDoc2._id);
+
+        // check that there are now only one items
+        expect(myTopic.getInfoItems().length).to.equal(1);
+
+        // check that the first item is still part of our topic
+        expect(myTopic.getInfoItems()[0]._id).to.equal(infoItemDoc._id);
+
+    });
+
+    it('#save', function() {
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
+
+        // the save-method should call the upsertTopic-Method of the parent Minute
+        // so we spy on it
+        var spy = sinon.spy(dummyMinute, "upsertTopic");
+
+        myTopic.save();
+
+        expect(spy.calledOnce).to.be.true;
+        expect(spy.calledWith(myTopic._topicDoc)).to.be.true;
+
+        spy.restore();
     });
 
 });
