@@ -29,6 +29,9 @@ export class Topic {
         if (source.isOpen == undefined) {
             source.isOpen = true;
         }
+        if (source.isNew == undefined) {
+            source.isNew = true;
+        }
         this._topicDoc = source;
 
         if (!this._topicDoc.topicItems) {
