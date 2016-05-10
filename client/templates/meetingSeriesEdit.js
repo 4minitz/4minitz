@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from './../../imports/meetingseries'
-import { UserEditConfig } from './../../imports/userEditConfig'
+import { UserEditConfig } from './userEditConfig'
+import { UserRoles } from '/imports/userroles'
+
 
 Template.meetingSeriesEdit.onCreated(function() {
     let thisMeetingSeriesID = this.data._id;
@@ -10,20 +12,13 @@ Template.meetingSeriesEdit.onCreated(function() {
     // to this meeting series as input <=> output for the user editor
     let _attachedUsersCollection = new Mongo.Collection(null);
 
-    // copy all attached users of this series to a new collection
-    // and save their original _ids for later reference
-    let visibleFor = this.data.visibleFor;
-    for (let i in visibleFor) {
-        let user = Meteor.users.findOne(visibleFor[i]);
-        user._idOrg = user._id;
-        delete user._id;
-        _attachedUsersCollection.insert(user);
-    }
-
     // build editor config and attach it to the instance of the template
     this.userEditConfig = new UserEditConfig("EDIT_SERIES", // mode
-        thisMeetingSeriesID,                                      // the meeting series id
+        true,                                               // current user can not be edited
+        thisMeetingSeriesID,                                // the meeting series id
         _attachedUsersCollection);                          // collection of attached users
+
+    // Hint: collection will be filled in the "show.bs.modal" event below
 });
 
 Template.meetingSeriesEdit.onRendered(function() {
@@ -69,12 +64,27 @@ Template.meetingSeriesEdit.events({
             dialogContent
         );
     },
-    
-    
+
+
+    // "show" event is fired shortly before BootStrap modal dialog will pop up
+    // We fill the temp. client-side only user database for the user editor on this event
+    "show.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
+
+        Template.instance().userEditConfig.users.remove({});    // first: clean up everything!
+
+        // copy all attached users of this series to the temp. client-side user collection
+        // and save their original _ids for later reference
+        for (let i in this.visibleFor) {
+            let user = Meteor.users.findOne(this.visibleFor[i]);
+            user._idOrg = user._id;
+            delete user._id;
+            Template.instance().userEditConfig.users.insert(user);
+        }
+    },
+
+
     "click #btnMeetingSeriesSave": function (evt, tmpl) {
         evt.preventDefault();
-
-        console.log("SAVE: "+JSON.stringify(Template.instance().userEditConfig.users.find().fetch()));
 
         var aProject = tmpl.find("#id_meetingproject").value;
         var aName = tmpl.find("#id_meetingname").value;
@@ -95,9 +105,22 @@ Template.meetingSeriesEdit.events({
             return;
         }
 
-        ms = new MeetingSeries(this._id);
+        let usersWithRoles = Template.instance().userEditConfig.users.find().fetch();
+        let allVisiblesArray = [];
+        let meetingSeriesId = this._id;
+        for (let i in usersWithRoles) {
+            let usr = usersWithRoles[i];
+            let ur = new UserRoles(usr._idOrg);     // Attention: get back to Id of Meteor.users collection
+            ur.saveRoleForMeetingSeries(this._id, usr.roles[meetingSeriesId]);
+            if (UserRoles.isVisibleRole(usr.roles[this._id])) {
+                allVisiblesArray.push(usr._idOrg);  // Attention: get back to Id of Meteor.users collection
+            }
+        }
+
+        ms = new MeetingSeries(meetingSeriesId);
         ms.project = aProject;
         ms.name = aName;
+        ms.setVisibleUsers(allVisiblesArray);
         ms.save();
 
         // Hide modal dialog

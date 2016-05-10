@@ -61,7 +61,10 @@ export class UserRoles {
             Roles.removeUsersFromRoles(affectedUsers, UserRoles.allRolesNumerical(), aMeetingSeriesID);
         }
     }
-
+    
+    static isVisibleRole(aRole) {
+        return (aRole <= UserRoles.USERROLES.Invited); 
+    }
 
     // **************************** METHODS
 
@@ -78,15 +81,15 @@ export class UserRoles {
     }
     
     isModeratorOf(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] == UserRoles.USERROLES.Moderator;
+        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Moderator;
     }
 
     isInvitedTo(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] == UserRoles.USERROLES.Invited;
+        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Invited;
     }
 
     isInformedAbout(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] == UserRoles.USERROLES.Informed;
+        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Informed;
     }
 
     hasViewRoleFor(aMeetingSeriesID) {
@@ -104,6 +107,10 @@ export class UserRoles {
 
     getUser() {
         return this._user;
+    }
+
+    saveRoleForMeetingSeries (meetingSeriesId, newRole) {
+        Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, meetingSeriesId, newRole);
     }
 }
 

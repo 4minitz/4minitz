@@ -197,10 +197,11 @@ Meteor.methods({
     'minutes.syncVisibility'(parentSeriesID, visibleForArray) {
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
-            Minutes.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+            if (MinutesCollection.find({meetingSeries_id: parentSeriesID}).count() > 0) {
+                MinutesCollection.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+            }
         } else {
             throw new Meteor.Error("Cannot sync visibility of minutes", "You are not moderator of the parent meeting series.");
         }
     }
-
 });

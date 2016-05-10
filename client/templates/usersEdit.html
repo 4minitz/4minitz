@@ -21,10 +21,16 @@
                                 {{getUser.username}}
                             </td>
                             <td style="vertical-align: middle;">
-                                {{{rolesOptions}}}
+                                {{#if userIsReadOnly}}
+                                    {{currentRole}}     <!-- static role text -->
+                                {{else}}
+                                    {{{rolesOptions}}}
+                                {{/if}}
                             </td>
                             <td style="text-align: right; vertical-align: middle;">
-                                <span id="btnDeleteUser" class="glyphicon glyphicon-trash" style="color:red; cursor:pointer;"></span>
+                                {{#unless userIsReadOnly}}
+                                    <span id="btnDeleteUser" class="glyphicon glyphicon-trash" style="color:red; cursor:pointer;"></span>
+                                {{/unless}}
                             </td>
                         </tr>
                     {{/with}}

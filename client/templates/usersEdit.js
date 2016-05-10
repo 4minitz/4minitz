@@ -69,7 +69,16 @@ Template.usersEdit.helpers({
     isModerator: function () {
         return this.isModeratorOf(_config.meetingSeriesID);
     },
-    
+
+    // the currently logged in user shall not be able to edit herself.
+    // Eg. logged in user shall not change herself Moderator => Invited
+    // or currently logged in user shall not be able to delete herself from list
+    userIsReadOnly: function () {
+        return _config.currentUserReadOnly && (this._user._idOrg == Meteor.userId());
+    }, 
+
+    // generate the "<select>" HTML with possible roles and the
+    // role selected that is currently attached to the user
     rolesOptions: function () {
         let currentRole = this.currentRoleTextFor(_config.meetingSeriesID);
         let rolesHTML = '<select id="select111" class="form-control user-role-select">';
@@ -91,8 +100,7 @@ Template.usersEdit.helpers({
 Template.usersEdit.events({
     "click #btnDeleteUser": function (evt, tmpl) {
         evt.preventDefault();
-        // Attention we need to go via _idOrg here!
-        _config.users.remove({_idOrg: this._userId});
+        _config.users.remove({_id: this._userId});
     },
 
     "click #btnAddUser": function (evt, tmpl) {
@@ -109,8 +117,8 @@ Template.usersEdit.events({
             return;
         }
 
-        let existingInAllUsers = Meteor.users.findOne({"username": newUserName});
-        if (!existingInAllUsers) {
+        let addedUser = Meteor.users.findOne({"username": newUserName});
+        if (!addedUser) {
             let msg = "Error: This is not a registered user name: "+newUserName;
             console.log(msg);
             window.alert(msg);
@@ -124,27 +132,24 @@ Template.usersEdit.events({
             return;
         }
 
-        let usr =   {
-            "username": newUserName,
-            "_idOrg": existingInAllUsers._id,
-            "roles": {
-            }
-        };
+        // prepare added user for client-side tmp. collection
+        addedUser._idOrg = addedUser._id;
+        delete addedUser._id;
+        if (!addedUser.roles) {
+            addedUser.roles = {};
+        }
 
-        usr.roles[_config.meetingSeriesID] = [UserRoles.USERROLES.Invited];
-        _config.users.insert(usr);
+        addedUser.roles[_config.meetingSeriesID] = [UserRoles.USERROLES.Invited];
+        _config.users.insert(addedUser);
     },
 
     // when role select changes, update role in temp. client-only user collection
-    // ATTENTION: we do NOT keep roles for other meeting series alive here.
-    // We only store role for the current edited meeting series
-    // its the responsibility of the SAVE routine, to get this straight.
     "change .user-role-select": function (evt, tmpl) {
         var roleString = $(evt.target).val();
         let roleValue = UserRoles.USERROLES[roleString];
-        console.log("Select of "+this._user.username+" is now: "+roleString+"=>"+roleValue);
-        let newRole = {};
-        newRole[_config.meetingSeriesID] = [roleValue];
-        _config.users.update(this._userId, {$set: {roles: newRole}});
+
+        let changedUser = _config.users.findOne(this._userId);
+        changedUser.roles[_config.meetingSeriesID] = [roleValue];
+        _config.users.update(this._userId, {$set: {roles: changedUser.roles}});
     }
 });

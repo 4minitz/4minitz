@@ -307,32 +307,22 @@ export class MeetingSeries {
         return ( !firstPossibleDate || date > firstPossibleDate );
     }
 
-
-    addVisibleUser(userId) {
-        if (this.visibleFor.indexOf(userId) > -1) {    // already in
-            return;
-        }
+    /**
+     * Overwrite the current "visibleFor" array with new user Ids
+     * Needs a "save()" afterwards to persist
+     * @param {Array} visibleForArray 
+     */
+    setVisibleUsers(visibleForArray) {
         if (!this._id) {
             throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using addVisibleUser()");
         }
-
-        this.visibleFor.push(userId);
-        Minutes.syncVisibility(this._id, this.visibleFor);
-    }
-
-    removeVisibleUser(userId) {
-        if (this.visibleFor.indexOf(userId) == -1) {    // not found
-            return;
-        }
-        if (!this._id) {
-            throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using removeVisibleUser()");
+        if (!$.isArray(visibleForArray)) {
+            throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
         }
 
-        let index = this.visibleFor.indexOf(userId);
-        this.visibleFor.splice(index, 1);
+        this.visibleFor = visibleForArray;
         Minutes.syncVisibility(this._id, this.visibleFor);
     }
-
 
 
 
