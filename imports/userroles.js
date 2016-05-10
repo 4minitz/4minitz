@@ -10,9 +10,15 @@ import { MeetingSeries } from './meetingseries'
 
 
 export class UserRoles {
-    constructor(userId) {
+    constructor(userId, userCollection /* may be null */) {
         this._userId = userId;
-        let currentUser = Meteor.users.findOne(this._userId);
+        let currentUser = null; 
+        if (userCollection) {
+            currentUser = userCollection.findOne(this._userId);
+        } else {
+            currentUser = Meteor.users.findOne(this._userId);
+        }
+        
         if (! currentUser) {
             Router.go("/");
             throw new Meteor.Error('Could not find user for userId:'+this._userId);

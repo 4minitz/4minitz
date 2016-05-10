@@ -4,6 +4,7 @@ import { MeetingSeries } from './../../imports/meetingseries'
 import { UserEditConfig } from './../../imports/userEditConfig'
 
 Template.meetingSeriesEdit.onCreated(function() {
+    let thisMeetingSeriesID = this.data._id;
 
     // create client-only collection for storage of users attached
     // to this meeting series as input <=> output for the user editor
@@ -21,7 +22,7 @@ Template.meetingSeriesEdit.onCreated(function() {
 
     // build editor config and attach it to the instance of the template
     this.userEditConfig = new UserEditConfig("EDIT_SERIES", // mode
-        this.data._id,                                      // the meeting series id
+        thisMeetingSeriesID,                                      // the meeting series id
         _attachedUsersCollection);                          // collection of attached users
 });
 

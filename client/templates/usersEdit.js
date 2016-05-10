@@ -4,6 +4,9 @@ import { UserRoles } from '/imports/userroles'
 
 var _config;
 
+
+// For adding of users:
+// build list of available users that are not already shown in user editor
 var userlistClean = function (allUsers,substractUsers) {
     let resultUsers = [];
 
@@ -23,6 +26,7 @@ var userlistClean = function (allUsers,substractUsers) {
     }
     return resultUsers;
 };
+
 
 Template.usersEdit.onCreated(function() {
     _config = this.data;    // UserEditConfig object
@@ -50,7 +54,8 @@ Template.usersEdit.helpers({
     },
 
     userRoleObj: function (userID) {
-        return new UserRoles(userID);
+        // get user with roles from temp. user collection, not the global meteor user collection!
+        return new UserRoles(userID, _config.users);
     },
 
     hasViewRole: function () {
@@ -67,7 +72,7 @@ Template.usersEdit.helpers({
     
     rolesOptions: function () {
         let currentRole = this.currentRoleTextFor(_config.meetingSeriesID);
-        let rolesHTML = '<select id="select111" class="form-control">';
+        let rolesHTML = '<select id="select111" class="form-control user-role-select">';
         let rolesText = UserRoles.allRolesText();
         for (let i in rolesText) {
             let role = rolesText[i];
@@ -126,7 +131,20 @@ Template.usersEdit.events({
             }
         };
 
-        usr.roles[_config.meetingSeriesID] = ["10"];
+        usr.roles[_config.meetingSeriesID] = [UserRoles.USERROLES.Invited];
         _config.users.insert(usr);
+    },
+
+    // when role select changes, update role in temp. client-only user collection
+    // ATTENTION: we do NOT keep roles for other meeting series alive here.
+    // We only store role for the current edited meeting series
+    // its the responsibility of the SAVE routine, to get this straight.
+    "change .user-role-select": function (evt, tmpl) {
+        var roleString = $(evt.target).val();
+        let roleValue = UserRoles.USERROLES[roleString];
+        console.log("Select of "+this._user.username+" is now: "+roleString+"=>"+roleValue);
+        let newRole = {};
+        newRole[_config.meetingSeriesID] = [roleValue];
+        _config.users.update(this._userId, {$set: {roles: newRole}});
     }
 });
