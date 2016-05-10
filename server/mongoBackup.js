@@ -32,8 +32,8 @@ function dumpParameters(uri, path) {
     return params;
 }
 
-function invokeDump(path) {
-    let uri = mongoUri.parse(process.env.MONGO_URL);
+function invokeDump(path, mongoUrl) {
+    let uri = mongoUri.parse(mongoUrl);
     let parameters = dumpParameters(uri, path);
     const command = 'mongodump';
     let future = new Future();
@@ -49,9 +49,9 @@ function invokeDump(path) {
     return future.wait();
 }
 
-export var backupMongo = function () {
+export var backupMongo = function (mongoUrl) {
     let backupPath = path.join(os.tmpDir(), 'mongobackup_' + moment().format('YYYY-MM-DD'));
-    console.log('Backing up mongodb', process.env.MONGO_URL, 'to', backupPath);
+    console.log('Backing up mongodb', mongoUrl, 'to', backupPath);
 
-    invokeDump(backupPath);
+    invokeDump(backupPath, mongoUrl);
 };
