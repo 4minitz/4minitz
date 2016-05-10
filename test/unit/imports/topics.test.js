@@ -94,7 +94,6 @@ describe('Unit-Test for class Topic', function() {
 
     it('#findInfoItem', function() {
         let myTopic = new Topic(dummyMinute._id, topicDoc);
-
         let infoItemDoc = {
             _id: 'AaBbCcDd01',
             subject: "info-item-subject",
@@ -112,7 +111,7 @@ describe('Unit-Test for class Topic', function() {
         // foundItem should not be undefined
         expect(foundItem).to.not.equal(undefined);
         // the subject of the found item should be equal to its initial value
-        expect(foundItem.subject).to.equal(infoItemDoc.subject);
+        expect(foundItem._infoItemDoc.subject).to.equal(infoItemDoc.subject);
     });
 
     it('#removeInfoItem', function() {

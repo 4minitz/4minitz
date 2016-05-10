@@ -6,17 +6,17 @@
 import { InfoItem } from './infoitem';
 
 export class ActionItem extends InfoItem{
-    constructor(parentTopic, source) {   // constructs obj from Topic ID or Topic document
-        if (source.isOpen == undefined) {
-            source.isOpen = true;
-        }
-
+    constructor(parentTopic, source) {   // constructs obj from item ID or document
         super(parentTopic, source);
+
+        if (this._infoItemDoc.isOpen == undefined) {
+            this._infoItemDoc.isOpen = true;
+        }
     }
 
     // ################### object methods
     getDateFromDetails () {
-        let details = this._topicItemDoc.details;
+        let details = this._infoItemDoc.details;
         if (details.length > 0 && details[0].hasOwnProperty("date")) {
             return details[0].date;
         }
@@ -24,7 +24,7 @@ export class ActionItem extends InfoItem{
     }
 
     getTextFromDetails () {
-        let details = this._topicItemDoc.details;
+        let details = this._infoItemDoc.details;
         if (details.length > 0 && details[0].hasOwnProperty("text")) {
             return details[0].text;
         }
@@ -32,6 +32,6 @@ export class ActionItem extends InfoItem{
     }
 
     toggleState () {    // open/close
-        this._topicItemDoc.isOpen = !this._topicItemDoc.isOpen;
+        this._infoItemDoc.isOpen = !this._infoItemDoc.isOpen;
     }
 }

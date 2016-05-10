@@ -3,6 +3,7 @@
  */
 
 import { Minutes } from './minutes';
+import { InfoItemFactory } from './InfoItemFactory';
 
 /**
  * A Topic is an Agenda Topic which can
@@ -94,10 +95,17 @@ export class Topic {
         }
     }
 
+    /**
+     * Finds the InfoItem identified by its
+     * id.
+     *
+     * @param id
+     * @returns {undefined|InfoItem|ActionItem}
+     */
     findInfoItem(id) {
         let i = subElementsHelper.findIndexById(id, this.getInfoItems());
         if (i != undefined) {
-            return this.getInfoItems()[i];
+            return InfoItemFactory.createInfoItem(this, this.getInfoItems()[i]);
         }
         return undefined;
     }

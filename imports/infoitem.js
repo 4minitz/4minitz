@@ -17,7 +17,7 @@ export class InfoItem {
             throw new Meteor.Error("It is not allowed to create a InfoItem without the parentTopicId and the source");
 
         this._parentTopic = undefined;
-        this._topicItemDoc = undefined;
+        this._infoItemDoc = undefined;
 
         if (typeof parentTopic === 'object') {   // we have a topic object here.
             this._parentTopic = parentTopic;
@@ -27,19 +27,20 @@ export class InfoItem {
         }
 
         if (typeof source === 'string') {   // we may have an ID here.
-            source = this._parentTopic.findTopicItem(source);
+            source = this._parentTopic.findInfoItem(source);
         }
 
-        this._topicItemDoc = source;
+        this._infoItemDoc = source;
     }
 
+    // ################### object methods
     save() {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
         this._parentTopic.save();
     }
 
     toString () {
-        return "InfoItem: " + JSON.stringify(this._topicItemDoc, null, 4);
+        return "InfoItem: " + JSON.stringify(this._infoItemDoc, null, 4);
     }
 
     log () {
