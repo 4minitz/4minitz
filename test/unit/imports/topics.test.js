@@ -48,35 +48,35 @@ describe('Unit-Test for class Topic', function() {
         expect(myTopic._topicDoc.isNew).to.be.true;
     });
 
-    it('#upsertTopicItem', function() {
+    it('#upsertInfoItem', function() {
         let myTopic = new Topic(dummyMinute._id, doc);
 
         let topicItemDoc = {
-            subject: "topic-item-subject",
+            subject: "info-item-subject",
                 createdAt: new Date()
         };
 
-        myTopic.upsertTopicItem(topicItemDoc);
+        myTopic.upsertInfoItem(topicItemDoc);
 
         // our topic should now have exactly one topic item
-        expect(myTopic.getTopicItems().length).to.equal(1);
+        expect(myTopic.getInfoItems().length).to.equal(1);
         // the new topic item should have a id
-        expect(myTopic.getTopicItems()[0]._id).to.not.be.false;
+        expect(myTopic.getInfoItems()[0]._id).to.not.be.false;
         // the subject of the new topic item should be equal to the initial value
-        expect(myTopic.getTopicItems()[0].subject).to.equal(topicItemDoc.subject);
+        expect(myTopic.getInfoItems()[0].subject).to.equal(topicItemDoc.subject);
 
         // Change the subject and call the upsertTopicItem method again
-        let topicItem = myTopic.getTopicItems()[0];
+        let topicItem = myTopic.getInfoItems()[0];
         topicItem.subject = "new_subject";
 
-        myTopic.upsertTopicItem(topicItem);
+        myTopic.upsertInfoItem(topicItem);
 
         // our topic should still have exaclty one topic item
-        expect(myTopic.getTopicItems().length).to.equal(1);
+        expect(myTopic.getInfoItems().length).to.equal(1);
         // the id of this item should not have changed
-        expect(myTopic.getTopicItems()[0]._id).to.equal(topicItem._id);
+        expect(myTopic.getInfoItems()[0]._id).to.equal(topicItem._id);
         // but the subject should have changed
-        expect(myTopic.getTopicItems()[0].subject).to.equal(topicItem.subject);
+        expect(myTopic.getInfoItems()[0].subject).to.equal(topicItem.subject);
     });
 
 });

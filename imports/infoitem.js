@@ -5,16 +5,16 @@
 import { Topic } from './topic'
 
 /**
- * A TopicItem is a sub-element of
+ * A InfoItem is a sub-element of
  * a topic which has a subject,
  * a date when is was created
  * and a list of associated tags.
  */
-export class TopicItem {
+export class InfoItem {
 
     constructor(parentTopic, source) {
         if (!parentTopic || !source)
-            throw new Meteor.Error("It is not allowed to create a TopicItem without the parentTopicId and the source");
+            throw new Meteor.Error("It is not allowed to create a InfoItem without the parentTopicId and the source");
 
         this._parentTopic = undefined;
         this._topicItemDoc = undefined;
@@ -39,7 +39,7 @@ export class TopicItem {
     }
 
     toString () {
-        return "TopicItem: " + JSON.stringify(this._topicItemDoc, null, 4);
+        return "InfoItem: " + JSON.stringify(this._topicItemDoc, null, 4);
     }
 
     log () {

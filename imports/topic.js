@@ -6,7 +6,7 @@ import { Minutes } from './minutes';
 
 /**
  * A Topic is an Agenda Topic which can
- * have multiple sub-items called TopicItem.
+ * have multiple sub-items called InfoItem.
  */
 export class Topic {
     constructor(parentMinutesID, source) {   // constructs obj from Topic ID or Topic document
@@ -69,41 +69,41 @@ export class Topic {
         console.log(this.toString());
     }
 
-    upsertTopicItem(topicItemDoc) {
+    upsertInfoItem(topicItemDoc) {
         let i = undefined;
         if (! topicItemDoc._id) {             // brand-new topicItem
             topicItemDoc._id = Random.id();   // create our own local _id here!
         } else {
-            i = subElementsHelper.findIndexById(topicItemDoc._id, this.getTopicItems())
+            i = subElementsHelper.findIndexById(topicItemDoc._id, this.getInfoItems())
         }
         if (i == undefined) {                      // topicItem not in array
-            this.getTopicItems().unshift(topicItemDoc);  // add to front of array
+            this.getInfoItems().unshift(topicItemDoc);  // add to front of array
         } else {
-            this.getTopicItems()[i] = topicItemDoc;      // overwrite in place
+            this.getInfoItems()[i] = topicItemDoc;      // overwrite in place
         }
 
         this.save();
     }
 
 
-    removeTopicItem(id) {
-        let i = subElementsHelper.findIndexById(id, this.getTopicItems());
+    removeInfoItem(id) {
+        let i = subElementsHelper.findIndexById(id, this.getInfoItems());
         if (i != undefined) {
-            this.getTopicItems().splice(i, 1);
+            this.getInfoItems().splice(i, 1);
             this.save();
 
         }
     }
 
-    findTopicItem(id) {
-        let i = i = subElementsHelper.findIndexById(id, this.getTopicItems());
+    findInfoItem(id) {
+        let i = subElementsHelper.findIndexById(id, this.getInfoItems());
         if (i != undefined) {
             return this.topics[i];
         }
         return undefined;
     }
 
-    getTopicItems() {
+    getInfoItems() {
         return this._topicDoc.topicItems;
     }
 

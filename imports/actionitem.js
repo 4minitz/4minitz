@@ -3,9 +3,9 @@
  */
 
 
-import { TopicItem } from './topcitem';
+import { InfoItem } from './infoitem';
 
-export class ActionItem extends TopicItem{
+export class ActionItem extends InfoItem{
     constructor(parentTopic, source) {   // constructs obj from Topic ID or Topic document
         if (source.isOpen == undefined) {
             source.isOpen = true;
