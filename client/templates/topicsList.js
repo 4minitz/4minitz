@@ -1,47 +1,41 @@
+import { Meteor } from 'meteor/meteor';
+
 import { Minutes } from '/imports/minutes'
+import { Topic } from '/imports/topic'
 
-var _minutesID; // the ID of these minutes
 
-Template.topicsList.onCreated(function () {
-    _minutesID = this.data;
-});
+export class TopicListConfig {
+    constructor (topics, minutesId, isReadonly) {
+        this.topics = topics;
+        this.minutesId = minutesId;
+        this.isReadonly = isReadonly;
+    }
+}
 
-Template.topicsList.onRendered(function () {
+Template.topicsList.onRendered(function() {
     $.material.init();
 });
 
-var isMinuteFinalized = function () {
-    let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isFinalized);
-};
+Template.topicsList.onDestroyed(function() {
+    //add your statement here
+});
 
-var isModerator = function () {
-    let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isCurrentUserModerator());
-};
-
-
-var collapseID = 0;
+let collapseID = 0;
 Template.topicsList.helpers({
-    topicsArray: function () {
-        let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            return aMin.topics;
-        }
-        return null;
+
+    'getTopics': function() {
+        let config = Template.instance().data;
+        return config.topics;
     },
 
     getTopicItem: function () {
+        let config = Template.instance().data;
         return {
             topic: this,
-            isEditable:  (!isMinuteFinalized() && isModerator()),
-            minutesID: _minutesID,
+            isEditable: !config.isReadonly,
+            minutesID: config.minutesId,
             currentCollapseId: collapseID++  // each topic item gets its own collapseID
         };
-    },
-
-    isFinalized: function () {
-        return isMinuteFinalized();
     }
 
 });

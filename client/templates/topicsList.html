@@ -1,8 +1,7 @@
 <template name="topicsList">
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-{{#each topicsArray}}
-        {{> topicItem getTopicItem}}
-{{/each}}
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="margin-top: 20px;">
+        {{#each getTopics}}
+            {{> topicItem getTopicItem}}
+        {{/each}}
     </div>
 </template>
-

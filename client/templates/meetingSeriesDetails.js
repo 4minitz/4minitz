@@ -4,6 +4,8 @@ import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 
+import { TopicListConfig } from './topicsList'
+
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
@@ -45,14 +47,11 @@ Template.meetingSeriesDetails.helpers({
                     meetingSeriesId: _meetingSeriesID
                 };
 
-            case "topicListTab":
+            case "topicsList":
                 let status = Session.get("actionItemStatus");
                 let  topics = (status === "open") ? ms.openTopics : ms.closedTopics;
 
-                return {
-                    status: status,
-                    topics: topics
-                };
+                return new TopicListConfig(topics, null, true);
         }
     },
 
