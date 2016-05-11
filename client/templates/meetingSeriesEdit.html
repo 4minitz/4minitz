@@ -1,0 +1,42 @@
+<template name="meetingSeriesEdit">
+    <!-- ********************************* -->
+    <!-- MODAL DIALOG: Edit Meeting Series -->
+    <!-- ********************************* -->
+
+    <div class="modal fade" id="dlgEditMeetingSeries" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Meeting Series</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmDlgEditMeetingSeries">
+                        <div class="well">
+                                <label class="control-label" for="id_meetingproject">Project Name</label>
+                                <input class="form-control" id="id_meetingproject" type="text" value="{{this.project}}">
+
+                                <label class="control-label" for="id_meetingname">Meeting Name</label>
+                                <input class="form-control" id="id_meetingname" type="text" value="{{this.name}}">
+
+                            <div class="form-group">
+                                <label class="control-label" for="id_useredit">User Editor</label>
+                                {{>usersEdit userEditConfig}}
+                            </div>
+
+                        </div>
+                        <a href="#" id="deleteMeetingSeries" class="btn btn-danger btn-raised" style="width: 100%;">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            Delete Meeting Series
+                        </a>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-raised" id="btnMeetingSeriesSave">Save Meeting Series</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

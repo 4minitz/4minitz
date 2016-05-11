@@ -1,14 +1,23 @@
 <template name="meetingSeriesDetails">
-    <h2 class="header center orange-text">
-        Meeting Series:
-        {{#with meetingSeries}}
-            {{project}} - {{name}}
-        {{/with}}
-    </h2>
 
-    {{#if errorTitle}}
-        <div class="alert alert-danger" role="alert"><strong>{{errorTitle}}: </strong> {{errorMessage}}</div>
-    {{/if}}
+    {{#with meetingSeries}}
+        <!--Include modal dialog for edit meeting series -->
+        {{> meetingSeriesEdit this}}
+
+        <h2 class="header">
+            Meeting Series:
+            {{#if isModerator}}
+                <a href="#" data-toggle="modal" data-target="#dlgEditMeetingSeries">
+                    {{project}} - {{name}}
+                    <span class="glyphicon glyphicon-pencil" style="font-size: 80%;" aria-hidden="true" aria-label="Edit Meeting Series"></span>
+                </a>
+            {{else}}
+                {{project}} - {{name}}
+            {{/if}}
+        </h2>
+    {{/with}}
+
+    {{> error}}
 
     <ul class="nav nav-tabs">
         <li data-template="minutesList" role="presentation" class="active"><a href="#">Minutes</a></li>

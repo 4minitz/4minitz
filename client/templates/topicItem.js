@@ -37,7 +37,6 @@ Template.topicItem.helpers({
             return {disabled: "disabled"};
         }
     }
-
 });
 
 

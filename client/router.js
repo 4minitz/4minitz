@@ -1,4 +1,7 @@
+import { Meteor } from 'meteor/meteor';
+
 import { MeetingSeries } from '/imports/meetingseries'
+import { UserRoles } from '/imports/userroles'
 
 Router.configure({
     // set default application template for all routes
@@ -10,7 +13,12 @@ Router.route('/', {name: 'home'});
 
 Router.route('/meetingseries/:_id', function () {
     var meetingSeriesID = this.params._id;
-    this.render('meetingSeriesDetails', {data: meetingSeriesID});
+    let usrRoles = new UserRoles();
+    if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
+        this.render('meetingSeriesDetails', {data: meetingSeriesID});
+    } else {
+        Router.go("/");
+    }
 });
 
 Router.route('/minutesadd/:_id', function () {

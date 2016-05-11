@@ -114,9 +114,9 @@ export class Topic {
         return this._topicDoc.topicItems;
     }
 
-    save() {
+    save(callback) {
         // this will update the entire topics array from the parent minutes!
-        this._parentMinutes.upsertTopic(this._topicDoc);
+        this._parentMinutes.upsertTopic(this._topicDoc, callback);
     }
 
     toggleState () {    // open/close

@@ -71,7 +71,7 @@ Template.minutesedit.helpers({
 
     disableUIControl: function () {
         let aMin = new Minutes(_minutesID);
-        let usrRole = new UserRoles(Meteor.userId());
+        let usrRole = new UserRoles();
         return (aMin.isFinalized || !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())) ? "readonly" : "";
     },
 
@@ -82,7 +82,7 @@ Template.minutesedit.helpers({
     
     isModeratorOfParentSeries: function () {
         let aMin = new Minutes(_minutesID);
-        let usrRole = new UserRoles(Meteor.userId());
+        let usrRole = new UserRoles();
 
         return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
     }

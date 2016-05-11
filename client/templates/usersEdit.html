@@ -1,0 +1,45 @@
+<template name="usersEdit" id="id_useredit">
+    {{#if isModeEditSeries}}
+            <table class="table table-striped" style="border: 1px solid darkgray;">
+                <thead>
+                    <tr>
+                        <th style="vertical-align: middle;">
+                            User
+                            <button id="btnAddUser" class="btn btn-sm btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </th>
+                        <th style="vertical-align: middle;">Role</th>
+                        <th style="text-align: right; vertical-align: middle;">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each users}}
+                    {{# with userRoleObj this._id}}
+                        <tr>
+                            <td style="vertical-align: middle;">
+                                {{getUser.username}}
+                            </td>
+                            <td style="vertical-align: middle;">
+                                {{#if userIsReadOnly}}
+                                    {{currentRole}}     <!-- static role text -->
+                                {{else}}
+                                    {{{rolesOptions}}}
+                                {{/if}}
+                            </td>
+                            <td style="text-align: right; vertical-align: middle;">
+                                {{#unless userIsReadOnly}}
+                                    <span id="btnDeleteUser" class="glyphicon glyphicon-trash" style="color:red; cursor:pointer;"></span>
+                                {{/unless}}
+                            </td>
+                        </tr>
+                    {{/with}}
+                {{/each}}
+                </tbody>
+
+            </table>
+
+    {{else}}
+        Not isModeEditSeries
+    {{/if}}
+</template>

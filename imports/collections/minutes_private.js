@@ -1,12 +1,9 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes'
 import { MeetingSeries } from '../meetingseries'
 import { UserRoles } from "./../userroles"
+import { MinutesSchema } from './minutes.schema';
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -26,6 +23,8 @@ if (Meteor.isServer) {
 if (Meteor.isClient) {
     Meteor.subscribe('minutes');
 }
+
+MinutesCollection.attachSchema(MinutesSchema);
 
 Meteor.methods({
     'minutes.insert'(doc, clientCallback) {
@@ -195,7 +194,13 @@ Meteor.methods({
     },
 
     'minutes.syncVisibility'(parentSeriesID, visibleForArray) {
-        Minutes.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(parentSeriesID)) {
+            if (MinutesCollection.find({meetingSeries_id: parentSeriesID}).count() > 0) {
+                MinutesCollection.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+            }
+        } else {
+            throw new Meteor.Error("Cannot sync visibility of minutes", "You are not moderator of the parent meeting series.");
+        }
     }
-
 });

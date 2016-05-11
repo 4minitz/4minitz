@@ -15,6 +15,12 @@ var isMinuteFinalized = function () {
     return (aMin && aMin.isFinalized);
 };
 
+var isModerator = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isCurrentUserModerator());
+};
+
+
 var collapseID = 0;
 Template.topicsList.helpers({
     topicsArray: function () {
@@ -28,7 +34,7 @@ Template.topicsList.helpers({
     getTopicItem: function () {
         return {
             topic: this,
-            isEditable:  !isMinuteFinalized(),
+            isEditable:  (!isMinuteFinalized() && isModerator()),
             minutesID: _minutesID,
             currentCollapseId: collapseID++  // each topic item gets its own collapseID
         };

@@ -19,20 +19,23 @@ Template.meetingSeriesAdd.events({
 
         var aProject = template.find("#id_meetingproject").value;
         var aName = template.find("#id_meetingname").value;
-        if (aProject == "" || aName == "") {
-            return;
-        }
 
-        ms = new MeetingSeries({
+        let ms = new MeetingSeries({
             project: aProject,
             name: aName,
             createdAt: new Date()
         });
-        ms.save();
 
-        // Clear form
-        template.find("#id_meetingproject").value = "";
-        template.find("#id_meetingname").value = "";
-        template.find("#id_meetingproject").focus();
+        ms.save((error) => {
+            if (error) {
+                Session.set('errorTitle', 'Error');
+                Session.set('errorReason', error.reason);
+            } else {
+                // Clear form
+                template.find("#id_meetingproject").value = "";
+                template.find("#id_meetingname").value = "";
+                template.find("#id_meetingproject").focus();
+            }
+        });
     }
 });

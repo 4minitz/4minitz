@@ -1,12 +1,9 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { MeetingSeries } from './../meetingseries'
-import { Minutes } from "./../minutes"
-import { UserRoles } from "./../userroles"
+import { MeetingSeries } from './../meetingseries';
+import { Minutes } from './../minutes';
+import { MeetingSeriesSchema } from './meetingseries.schema';
+import { UserRoles } from "./../userroles";
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -27,10 +24,11 @@ if (Meteor.isClient) {
     Meteor.subscribe('meetingSeries');
 }
 
+MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
+
 Meteor.methods({
     'meetingseries.insert'(doc) {
         console.log("meetingseries.insert");
-        // check(text, String);
 
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
@@ -43,26 +41,19 @@ Meteor.methods({
         doc.createdAt = currentDate;
         doc.lastMinutesDate = formatDateISO8601(currentDate);
 
-        // Ensure initialization of some fields
-        if (doc.minutes == undefined) {
-            doc.minutes = [];
-        }
-        if (doc.openTopics == undefined) {
-            doc.openTopics =  [];
-        }
-        if (doc.closedTopics == undefined) {
-            doc.closedTopics =  [];
-        }
-
         // limit visibility of this meeting series (see server side publish)
         // array will be expanded by future invites
         doc.visibleFor = [Meteor.userId()];
 
         // Every logged in user is allowed to create a new meeting series.
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
+            if (error) {
+                throw error;
+            }
+
             doc._id = newMeetingSeriesID;
             // Make creator of this meeting series the first moderator
-            Roles.addUsersToRoles(Meteor.userId(), [UserRoles.ROLE_MODERATOR], newMeetingSeriesID);
+            Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
         });
     },
 

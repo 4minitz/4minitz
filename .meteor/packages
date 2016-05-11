@@ -30,3 +30,6 @@ msavin:mongol
 practicalmeteor:mocha
 fezvrasta:bootstrap-material-design
 alanning:roles
+aldeed:simple-schema
+aldeed:collection2
+percolate:migrations
