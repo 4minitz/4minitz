@@ -7,6 +7,7 @@ import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
 import { Topic } from './topic'
 import { UserRoles } from './userroles'
+import { _ } from 'meteor/underscore';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -73,11 +74,11 @@ export class MeetingSeries {
         );
     }
 
-    save () {
+    save (callback) {
         if (this._id && this._id != "") {
-            Meteor.call("meetingseries.update", this);
+            Meteor.call("meetingseries.update", this, callback);
         } else {
-            Meteor.call("meetingseries.insert", this);
+            Meteor.call("meetingseries.insert", this, callback);
         }
     }
 
@@ -154,7 +155,7 @@ export class MeetingSeries {
         return false;
     }
 
-    updateLastMinutesDate () {
+    updateLastMinutesDate (callback) {
         let lastMinutesDate;
 
         let lastMinutes = this.lastMinutes();
@@ -171,13 +172,7 @@ export class MeetingSeries {
                 _id: this._id,
                 lastMinutesDate: lastMinutesDate
             },
-            // server callback
-            // TODO: display error / this callback should be provided by the caller of this function
-            (error) => {
-                if (error) {
-                    console.log(error); // for the moment we log this error so we can notice if any error occurs.
-                }
-            }
+            callback
         );
     }
 

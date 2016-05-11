@@ -17,9 +17,7 @@
         </h2>
     {{/with}}
 
-    {{#if errorTitle}}
-        <div class="alert alert-danger" role="alert"><strong>{{errorTitle}}: </strong> {{errorMessage}}</div>
-    {{/if}}
+    {{> error}}
 
     <ul class="nav nav-tabs">
         <li data-template="minutesList" role="presentation" class="active"><a href="#">Minutes</a></li>

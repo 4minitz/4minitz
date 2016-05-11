@@ -1,6 +1,10 @@
+import { Meteor } from 'meteor/meteor';
+import { handleMigration } from './migrations';
 
-// To trigger server side code
-import '/imports/collections/meetingseries_private'
-import '/imports/collections/minutes_private'
+import '/imports/minutes';
+import '/imports/meetingseries';
 import '/imports/collections/userroles_private'
 
+Meteor.startup(() => {
+    handleMigration();
+});

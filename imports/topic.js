@@ -64,8 +64,8 @@ export class Topic {
         console.log(this.toString());
     }
 
-    save() {
-        this._parentMinutes.upsertTopic(this._topicDoc);
+    save(callback) {
+        this._parentMinutes.upsertTopic(this._topicDoc, callback);
     }
 
     toggleState () {    // open/close

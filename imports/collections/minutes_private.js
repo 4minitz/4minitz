@@ -1,12 +1,9 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes'
 import { MeetingSeries } from '../meetingseries'
 import { UserRoles } from "./../userroles"
+import { MinutesSchema } from './minutes.schema';
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -26,6 +23,8 @@ if (Meteor.isServer) {
 if (Meteor.isClient) {
     Meteor.subscribe('minutes');
 }
+
+MinutesCollection.attachSchema(MinutesSchema);
 
 Meteor.methods({
     'minutes.insert'(doc, clientCallback) {
