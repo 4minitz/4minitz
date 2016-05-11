@@ -13,7 +13,7 @@ Router.route('/', {name: 'home'});
 
 Router.route('/meetingseries/:_id', function () {
     var meetingSeriesID = this.params._id;
-    let usrRoles = new UserRoles(Meteor.userId());
+    let usrRoles = new UserRoles();
     if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
         this.render('meetingSeriesDetails', {data: meetingSeriesID});
     } else {

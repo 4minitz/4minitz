@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
 import { Topic } from './topic'
+import { UserRoles } from './userroles'
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -324,7 +325,10 @@ export class MeetingSeries {
         Minutes.syncVisibility(this._id, this.visibleFor);
     }
 
-
+    isCurrentUserModerator() {
+        let ur = new UserRoles();
+        return ur.isModeratorOf(this._id);
+    }
 
     // ################### private methods
     /**

@@ -23,7 +23,7 @@ Template.minutesList.helpers({
     },
 
     isModeratorOfParentSeries: function () {
-        let usrRole = new UserRoles(Meteor.userId());
+        let usrRole = new UserRoles();
         return usrRole.isModeratorOf(this.meetingSeriesId);
     }
     

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from './../../imports/meetingseries'
-import { UserEditConfig } from './userEditConfig'
+import { UsersEditConfig } from './usersEdit'
 import { UserRoles } from '/imports/userroles'
 
 
@@ -13,7 +13,7 @@ Template.meetingSeriesEdit.onCreated(function() {
     let _attachedUsersCollection = new Mongo.Collection(null);
 
     // build editor config and attach it to the instance of the template
-    this.userEditConfig = new UserEditConfig("EDIT_SERIES", // mode
+    this.userEditConfig = new UsersEditConfig("EDIT_SERIES", // mode
         true,                                               // current user can not be edited
         thisMeetingSeriesID,                                // the meeting series id
         _attachedUsersCollection);                          // collection of attached users

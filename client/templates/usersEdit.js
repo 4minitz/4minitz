@@ -2,7 +2,17 @@ import { Meteor } from 'meteor/meteor';
 
 import { UserRoles } from '/imports/userroles'
 
-var _config;
+var _config;    // of type: UsersEditConfig
+
+
+export class UsersEditConfig {
+    constructor (mode, currentUserReadOnly, meetingSeriesID, users) {
+        this.mode = mode;
+        this.currentUserReadOnly = currentUserReadOnly;
+        this.meetingSeriesID = meetingSeriesID;
+        this.users = users;
+    }
+}
 
 
 // For adding of users:
@@ -29,7 +39,7 @@ var userlistClean = function (allUsers,substractUsers) {
 
 
 Template.usersEdit.onCreated(function() {
-    _config = this.data;    // UserEditConfig object
+    _config = this.data;    // UsersEditConfig object
 });
 
 Template.usersEdit.onRendered(function() {
@@ -50,7 +60,7 @@ Template.usersEdit.helpers({
     },
     
     users: function () {
-        return _config.users.find();
+        return _config.users.find({}, {sort: {username: 1}});
     },
 
     userRoleObj: function (userID) {

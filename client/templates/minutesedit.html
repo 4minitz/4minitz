@@ -15,10 +15,12 @@
                     {{#if isFinalized}}
                         <!--Static Finalize Text -->
                         Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
-                        {{#if isUnfinalizeAllowed}}
-                            <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </a>
+                        {{#if isModeratorOfParentSeries}}
+                            {{#if isUnfinalizeAllowed}}
+                                <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            {{/if}}
                         {{/if}}
                     {{else}}
                         {{#if isModeratorOfParentSeries}}

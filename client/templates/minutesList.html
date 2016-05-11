@@ -2,16 +2,11 @@
     <div class="clearfix">
         {{#if isModeratorOfParentSeries}}
         <div class="pull-right">
-            <!-- Responsive "Add Minutes" button via hidden/visible-xs, hidden/visible-sm -->
-            <a href="{{addMinutesPath}}" class="btn btn-success btn-raised hidden-xs hidden-sm" disabled="{{addMinutesNotAllowed}}">
+            <!-- "Add Minutes" button -->
+            <a href="{{addMinutesPath}}" class="btn btn-success btn-raised" disabled="{{addMinutesNotAllowed}}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Meeting Minutes"></span>
                 Add Minutes
             </a>
-            <div class="pull-left">
-                <a href="{{addMinutesPath}}" class="btn btn-success btn-raised visible-xs visible-sm" disabled="{{addMinutesNotAllowed}}" title="Add Minutes">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </a>
-            </div>
         </div>
         {{else}}
             &nbsp;

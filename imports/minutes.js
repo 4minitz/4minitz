@@ -91,7 +91,7 @@ export class Minutes {
     }
 
     parentMeetingSeries () {
-        return MeetingSeries.findOne(this.meetingSeries_id);
+        return new MeetingSeries(this.meetingSeries_id);
     }
 
     parentMeetingSeriesID () {
@@ -169,6 +169,9 @@ export class Minutes {
         Meteor.call('minutes.unfinalize', this._id, serverCallback);
     }
 
+    isCurrentUserModerator() {
+        return this.parentMeetingSeries().isCurrentUserModerator();
+    }
 
     // ################### private methods
     _findTopicIndex(id) {

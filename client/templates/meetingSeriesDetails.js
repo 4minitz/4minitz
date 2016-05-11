@@ -73,7 +73,7 @@ Template.meetingSeriesDetails.helpers({
     },
 
     isModerator: function () {
-        let usrRole = new UserRoles(Meteor.userId());
+        let usrRole = new UserRoles();
         return usrRole.isModeratorOf(_meetingSeriesID);
     }
 });

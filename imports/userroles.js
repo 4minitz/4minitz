@@ -10,8 +10,13 @@ import { MeetingSeries } from './meetingseries'
 
 
 export class UserRoles {
-    constructor(userId, userCollection /* may be null */) {
-        this._userId = userId;
+    constructor(userId /* may be null */ , userCollection /* may be null */) {
+        if (userId) {
+            this._userId = userId;
+        } else {
+            this._userId = Meteor.userId();
+        }
+        
         let currentUser = null; 
         if (userCollection) {
             currentUser = userCollection.findOne(this._userId);
