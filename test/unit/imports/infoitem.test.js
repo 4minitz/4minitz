@@ -15,7 +15,7 @@ describe('Unit-Test for class InfoItem', function() {
         dummyTopic = {
             _id: "AaBbCcDd",
             _infoItems: [],
-            save: function() {
+            upsertInfoItem: function() {
                 // this method must be declared but we do not need any functionality for our tests
             },
             findInfoItem: function(id) {
@@ -58,7 +58,7 @@ describe('Unit-Test for class InfoItem', function() {
         let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
 
         // the save method of our dummyTopic-object should be called
-        let spy = sinon.spy(dummyTopic, "save");
+        let spy = sinon.spy(dummyTopic, "upsertInfoItem");
 
         myInfoItem.save();
         expect(spy.calledOnce).to.be.true;
