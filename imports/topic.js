@@ -35,8 +35,8 @@ export class Topic {
         }
         this._topicDoc = source;
 
-        if (!this._topicDoc.topicItems) {
-            this._topicDoc.topicItems = [];
+        if (!this._topicDoc.infoItems) {
+            this._topicDoc.infoItems = [];
         }
     }
 
@@ -111,7 +111,7 @@ export class Topic {
     }
 
     getInfoItems() {
-        return this._topicDoc.topicItems;
+        return this._topicDoc.infoItems;
     }
 
     save(callback) {
