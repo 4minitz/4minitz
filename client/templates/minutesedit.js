@@ -4,6 +4,8 @@ import { Minutes } from '/imports/minutes'
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 
+import { TopicListConfig } from './topicsList'
+
 var _minutesID; // the ID of these minutes
 
 Template.minutesedit.onCreated(function () {
@@ -25,9 +27,17 @@ Template.minutesedit.onRendered(function () {
             datePickerNode.data("DateTimePicker").minDate(minDate);
         }
     }
-
-
 });
+
+var isMinuteFinalized = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isFinalized);
+};
+
+var isModerator = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isCurrentUserModerator());
+};
 
 Template.minutesedit.helpers({
     meetingSeries: function() {
@@ -85,6 +95,11 @@ Template.minutesedit.helpers({
         let usrRole = new UserRoles();
 
         return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
+    },
+
+    getTopicsListConfig: function() {
+        let aMin = new Minutes(_minutesID);
+        return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()));
     }
 });
 
