@@ -1,4 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { InfoItemSchema } from './infoitem.schema';
 
 const DetailsSchema = new SimpleSchema({
     date: {type: String},
@@ -13,6 +14,7 @@ export const TopicSchema = new SimpleSchema({
     duedate: {type: String},
     details: {type: [DetailsSchema], defaultValue: []},
     isOpen: {type: Boolean, defaultValue: true},
-    isNew: {type: Boolean, defaultValue: true}
+    isNew: {type: Boolean, defaultValue: true},
+    infoItems: {type: [InfoItemSchema], defaultValue: []}
 });
 
