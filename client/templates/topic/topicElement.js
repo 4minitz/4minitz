@@ -81,7 +81,6 @@ Template.topicElement.events({
             return;
         }
 
-        Session.set("topicEditMinutesId", this.minutesID);
         Session.set("topicEditTopicId", this.topic._id);
     },
 

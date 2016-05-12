@@ -1,6 +1,5 @@
 import { Topic } from '/imports/topic'
 
-Session.setDefault("topicEditMinutesId", null);
 Session.setDefault("topicEditTopicId", null);
 
 let _minutesID; // the ID of these minutes
@@ -19,14 +18,13 @@ Template.topicEdit.onDestroyed(function () {
 });
 
 var getEditTopic = function() {
-    let minutesId = Session.get("topicEditMinutesId");
     let topicId = Session.get("topicEditTopicId");
 
-    if (minutesId == null ||  topicId == null) {
+    if (_minutesID == null ||  topicId == null) {
         return false;
     }
 
-    return new Topic(minutesId, topicId);
+    return new Topic(_minutesID, topicId);
 };
 
 Template.topicEdit.helpers({
@@ -75,7 +73,6 @@ Template.topicEdit.events({
         subjectNode.parent().removeClass("has-error");
 
         // reset the session vars to indicate that edit mode has been closed
-        Session.set("topicEditMinutesId", null);
         Session.set("topicEditTopicId", null);
     },
 
