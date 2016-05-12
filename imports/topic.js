@@ -70,7 +70,7 @@ export class Topic {
         console.log(this.toString());
     }
 
-    upsertInfoItem(topicItemDoc) {
+    upsertInfoItem(topicItemDoc, callback) {
         let i = undefined;
         if (! topicItemDoc._id) {             // brand-new topicItem
             topicItemDoc._id = Random.id();   // create our own local _id here!
@@ -83,7 +83,7 @@ export class Topic {
             this.getInfoItems()[i] = topicItemDoc;      // overwrite in place
         }
 
-        this.save();
+        this.save(callback);
     }
 
 

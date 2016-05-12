@@ -125,8 +125,14 @@ Template.topicInfoItemEdit.events({
                 throw new Meteor.Error("Unknown type!");
         }
 
-        newItem.save();
-        $('#dlgAddInfoItem').modal('hide')
+        newItem.save((error) => {
+            if (error) {
+                Session.set('errorTitle', 'Validation error');
+                Session.set('errorReason', error.reason);
+            } else {
+                $('#dlgAddInfoItem').modal('hide')
+            }
+        });
     },
 
     "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
@@ -156,9 +162,9 @@ Template.topicInfoItemEdit.events({
         tmpl.find("#id_item_subject").focus();
     },
 
-    "hidden.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
-        //let subjectNode = tmpl.$("#id_subject");
-        //subjectNode.parent().removeClass("has-error");
+    "hidden.bs.modal #dlgAddInfoItem": function () {
+        Session.set('errorTitle', null);
+        Session.set('errorReason', null);
 
         // reset the session var to indicate that edit mode has been closed
         Session.set("topicInfoItemEditInfoItemId", null);

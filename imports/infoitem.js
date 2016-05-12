@@ -36,9 +36,9 @@ export class InfoItem {
     }
 
     // ################### object methods
-    save() {
+    save(callback) {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
-        this._parentTopic.upsertInfoItem(this._infoItemDoc);
+        this._parentTopic.upsertInfoItem(this._infoItemDoc, callback);
     }
 
     toString () {
