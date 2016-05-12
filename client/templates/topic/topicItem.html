@@ -4,16 +4,25 @@
             <h4 class="panel-title">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" class="checkbox" id="btnToggleState" {{checkedState}} {{disabledState}}>
+                        {{#if isActionItem}}
+                            <input type="checkbox" class="checkbox" id="btnToggleState" {{checkedState}} {{disabledState}}>
+                        {{else}}
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                        {{/if}}
                     </label>
 
-                    <a role="button" class="panel-link" data-toggle="collapse" data-parent="#accordion"
-                       href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
+
+                    {{#if isActionItem}}
+                        <a role="button" class="panel-link" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
+                            {{topic.subject}}
+                            Resp: {{topic.responsible}}
+                            Prio:{{topic.priority}}
+                            Due: {{topic.duedate}}
+                        </a>
+                    {{else}}
                         {{topic.subject}}
-                        Resp: {{topic.responsible}}
-                        Prio:{{topic.priority}}
-                        Due: {{topic.duedate}}
-                    </a>
+                    {{/if}}
 
                     <!-- New-Topic-Label -->
                     {{#if topic.isNew}}
@@ -35,6 +44,8 @@
 
             </h4>
         </div>
+
+        {{#if isActionItem}}
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
                 {{#each detailsArray}}
@@ -42,5 +53,6 @@
                 {{/each}}
             </div>
         </div>
+        {{/if}}
     </div>
 </template>

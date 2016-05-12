@@ -4,7 +4,7 @@ import { Minutes } from '/imports/minutes'
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 
-import { TopicListConfig } from './topicsList'
+import { TopicListConfig } from './topic/topicsList'
 
 var _minutesID; // the ID of these minutes
 

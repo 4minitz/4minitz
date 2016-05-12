@@ -51,6 +51,10 @@ a:focus {
     background-color: #DDDDDD;
 }
 
+.panel-heading.infoitem {
+    background-color: #ffffff;
+}
+
 .username-label {
     font-size: 120%;
     line-height: 250%;

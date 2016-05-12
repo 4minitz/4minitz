@@ -1,26 +1,19 @@
+/**
+ * Created by felix on 12.05.16.
+ */
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
+import { InfoItem } from '/imports/infoitem'
 
-
-Template.topicItem.onCreated(function () {
+Template.topicElement.onCreated(function () {
 });
 
-Template.topicItem.onRendered(function () {
+Template.topicElement.onRendered(function () {
     $.material.init();
 });
 
-Template.topicItem.helpers({
-    detailsArray: function () {
-        return this.topic.details;
-    },
-
-    topicStateClass: function () {
-        if (this.topic.isOpen) {
-            return "actionitem-open";
-        } else {
-            return "actionitem-closed";
-        }
-    },
+let collapseID = 0;
+Template.topicElement.helpers({
 
     checkedState: function () {
         if (this.topic.isOpen) {
@@ -36,11 +29,27 @@ Template.topicItem.helpers({
         } else {
             return {disabled: "disabled"};
         }
+    },
+
+    getinfoItems: function () {
+        let aTopic = new Topic(this.minutesID, this.topic._id);
+        return aTopic.getInfoItems();
+    },
+
+    // helper will be called within the each-infoItem block
+    // so this refers to the current infoItem
+    getInfoItem: function () {
+        return {
+            topic: this,
+            isEditable: this.isEditable,
+            minutesID: this.minutesID,
+            currentCollapseId: collapseID++  // each topic item gets its own collapseID
+        };
     }
 });
 
 
-Template.topicItem.events({
+Template.topicElement.events({
     'click #btnDelTopic'(evt, tmpl) {
         evt.preventDefault();
 
@@ -55,7 +64,7 @@ Template.topicItem.events({
 
     'click #btnToggleState'(evt, tmpl) {
         evt.preventDefault();
-
+        console.log(this.minutesID);
         if (!this.minutesID) {
             return;
         }
@@ -77,5 +86,24 @@ Template.topicItem.events({
 
         Session.set("topicEditMinutesId", this.minutesID);
         Session.set("topicEditTopicId", this.topic._id);
+    },
+
+    'click #addTopicInfoItem'(evt, tmpl) {
+        evt.preventDefault();
+
+        if (!this.minutesID) {
+            return;
+        }
+
+        let newSubject = window.prompt("Please enter the subject for the new information item:","");
+
+        let aTopic = new Topic(this.minutesID, this.topic._id);
+        if (aTopic) {
+            let doc = {
+                subject: newSubject
+            };
+            let newInfoItem = new InfoItem(aTopic, doc);
+            newInfoItem.save();
+        }
     }
 });
