@@ -5,8 +5,6 @@ export const TopicSchema = new SimpleSchema({
     _id: {type: String, regEx: SimpleSchema.RegEx.Id},
     subject: {type: String},
     responsible: {type: String, defaultValue: '', optional: true},
-    priority: {type: String, defaultValue: '', optional: true},
-    duedate: {type: String},
     isOpen: {type: Boolean, defaultValue: true},
     isNew: {type: Boolean, defaultValue: true},
     infoItems: {type: [InfoItemSchema], defaultValue: []}
