@@ -69,6 +69,7 @@ Template.topicInfoItemEdit.helpers({
 
     getTopicSubject: function () {
         let topic = getRelatedTopic();
+        console.log(topic);
         return (topic) ? topic._topicDoc.subject : "";
     }
 });
@@ -167,6 +168,7 @@ Template.topicInfoItemEdit.events({
         Session.set('errorReason', null);
 
         // reset the session var to indicate that edit mode has been closed
+        Session.set("topicInfoItemEditTopicId", null);
         Session.set("topicInfoItemEditInfoItemId", null);
     }
 

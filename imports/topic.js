@@ -26,6 +26,9 @@ export class Topic {
 
         if (typeof source === 'string') {   // we may have an ID here.
             source = this._parentMinutes.findTopic(source);
+            if (!source) {
+                throw new Metoer.Error("Runtime Error, could not find topic!");
+            }
         }
         if (source.isOpen == undefined) {
             source.isOpen = true;
