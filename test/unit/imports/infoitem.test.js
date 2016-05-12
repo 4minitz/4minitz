@@ -6,6 +6,7 @@ import { expect } from 'meteor/practicalmeteor:chai';
 
 import { Topic } from '/imports/topic'
 import { InfoItem } from '/imports/infoitem'
+import { InfoItemFactory } from '/imports/InfoItemFactory'
 
 describe('Unit-Test for class InfoItem', function() {
 
@@ -21,7 +22,7 @@ describe('Unit-Test for class InfoItem', function() {
             findInfoItem: function(id) {
                 let index = subElementsHelper.findIndexById(id, this._infoItems);
                 if (index == undefined) return undefined;
-                return this._infoItems[index];
+                return InfoItemFactory.createInfoItem(this, this._infoItems[index]);
             },
             // test-only method
             addInfoItem: function (infoItem) {
