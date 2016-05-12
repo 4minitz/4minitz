@@ -27,7 +27,9 @@ export class InfoItem {
         }
 
         if (typeof source === 'string') {   // we may have an ID here.
-            source = this._parentTopic.findInfoItem(source);
+            // Caution: findInfoItem returns a InfoItem-Object not the document itself!
+            let infoItem = this._parentTopic.findInfoItem(source);
+            source = infoItem._infoItemDoc;
         }
 
         this._infoItemDoc = source;

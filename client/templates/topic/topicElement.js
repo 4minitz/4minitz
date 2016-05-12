@@ -6,6 +6,7 @@ import { Topic } from '/imports/topic'
 import { InfoItem } from '/imports/infoitem'
 
 Template.topicElement.onCreated(function () {
+    console.log(this.minutesID);
 });
 
 Template.topicElement.onRendered(function () {
@@ -31,18 +32,16 @@ Template.topicElement.helpers({
         }
     },
 
-    getinfoItems: function () {
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        return aTopic.getInfoItems();
-    },
-
     // helper will be called within the each-infoItem block
     // so this refers to the current infoItem
     getInfoItem: function () {
+        let parentTopicId = Template.instance().data.topic._id;
+
         return {
-            topic: this,
-            isEditable: this.isEditable,
-            minutesID: this.minutesID,
+            infoItem: this,
+            parentTopicId: parentTopicId,
+            isEditable: Template.instance().data.isEditable,
+            minutesID: Template.instance().data.minutesID,
             currentCollapseId: collapseID++  // each topic item gets its own collapseID
         };
     }
@@ -64,7 +63,6 @@ Template.topicElement.events({
 
     'click #btnToggleState'(evt, tmpl) {
         evt.preventDefault();
-        console.log(this.minutesID);
         if (!this.minutesID) {
             return;
         }

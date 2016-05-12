@@ -36,8 +36,8 @@
             {{#if isEditable}}
                 <a href="" id="addTopicInfoItem">Add element...</a>
             {{/if}}
-            {{#each getinfoItems}}
-                {{> topicItem getInfoItem}}
+            {{#each topic.infoItems}}
+                {{> topicInfoItem getInfoItem}}
             {{/each}}
         </div>
     </div>
