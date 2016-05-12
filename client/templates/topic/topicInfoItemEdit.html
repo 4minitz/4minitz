@@ -22,7 +22,7 @@
                     <form id="frmDlgAddTopic">
                         <div class="form-group">
                             <label for="id_type">Type</label>
-                            <select id="id_type" class="form-control">
+                            <select id="id_type" class="form-control" {{disableTypeChange}}>
                                 <option value="infoItem">Information</option>
                                 <option value="actionItem">Action Item</option>
                             </select>
@@ -30,7 +30,7 @@
 
                         <div class="form-group label-floating">
                             <label for="id_item_subject" class="control-label">Subject (mandatory)</label>
-                            <input id="id_item_subject" type="text" class="form-control" value="{{getItemSubject}}">
+                            <input id="id_item_subject" type="text" class="form-control" value="{{getItemSubject}}" required>
                         </div>
 
                         <div class="actionItemOnly" style="display: none;">

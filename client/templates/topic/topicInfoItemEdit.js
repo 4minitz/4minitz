@@ -44,9 +44,27 @@ let getEditInfoItem = function() {
     return getRelatedTopic().findInfoItem(id);
 };
 
+let toggleItemMode = function (type, tmpl) {
+    let actionItemOnlyElements = tmpl.$('.actionItemOnly');
+    switch (type) {
+        case "actionItem":
+            actionItemOnlyElements.show();
+            break;
+        case "infoItem":
+            actionItemOnlyElements.hide();
+            break;
+        default:
+            throw new Meteor.Error("Unknown type!");
+    }
+};
+
 Template.topicInfoItemEdit.helpers({
     isEditMode: function () {
-        return false;
+        return (getEditInfoItem() !== false);
+    },
+
+    disableTypeChange: function () {
+        return (getEditInfoItem()) ? "disabled" : "";
     },
 
     getTopicSubject: function () {
@@ -58,17 +76,8 @@ Template.topicInfoItemEdit.helpers({
 Template.topicInfoItemEdit.events({
     'change #id_type': function(evt, tmpl) {
         let type = evt.target.value;
-        let actionItemOnlyElements = tmpl.$('.actionItemOnly');
-        switch (type) {
-            case "actionItem":
-                actionItemOnlyElements.show();
-                break;
-            case "infoItem":
-                actionItemOnlyElements.hide();
-                break;
-            default:
-                throw new Meteor.Error("Unknown type!");
-        }
+        toggleItemMode(type, tmpl);
+        tmpl.find("#id_item_subject").focus();
     },
 
     'click #btnInfoItemSave': function(evt, tmpl) {
@@ -78,22 +87,30 @@ Template.topicInfoItemEdit.events({
             throw new Meteor.Error("IllegalState: We have no related topic object!");
         }
 
+        let editItem = getEditInfoItem();
+
         let type = tmpl.find('#id_type').value;
         let newSubject = tmpl.find('#id_item_subject').value;
 
-        let doc = {
-            subject: newSubject
-        };
+        let doc = {};
+
+        if (editItem) {
+            _.extend(doc, editItem._infoItemDoc);
+        }
+
+        doc.subject = newSubject;
 
         let newItem;
         switch (type) {
             case "actionItem":
+                let detailsDate = (editItem) ? editItem.getDateFromDetails() : formatDateISO8601(new Date());
+
                 doc.priority = tmpl.find('#id_item_priority').value;
                 doc.responsible = tmpl.find('#id_item_responsible').value;
                 doc.duedate = tmpl.find('#id_item_duedateInput').value;
                 doc.details = [
                     {
-                        date: new Date(),
+                        date: detailsDate,
                         text: tmpl.find('#id_item_details').value
                     }
                 ];
@@ -117,17 +134,35 @@ Template.topicInfoItemEdit.events({
         // at this point we clear the view
         let editItem = getEditInfoItem();
         tmpl.find("#id_item_subject").value = (editItem) ? editItem._infoItemDoc.subject : "";
-        tmpl.find('#id_item_priority').value = "";
-        tmpl.find('#id_item_responsible').value = "";
-        tmpl.find('#id_item_duedateInput').value = "";
-        tmpl.find('#id_item_details').value = "";
-        tmpl.find("#id_item_duedateInput").value = currentDatePlusDeltaDays(7);
+
+        tmpl.find('#id_item_priority').value =
+            (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : "";
+        tmpl.find('#id_item_responsible').value =
+            (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.responsible : "";
+        tmpl.find('#id_item_duedateInput').value =
+            (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
+        tmpl.find('#id_item_details').value =
+            (editItem && (editItem instanceof ActionItem)) ? editItem.getTextFromDetails() : "";
+
+        // set type
+        if (editItem) {
+            let type = (editItem instanceof ActionItem) ? "actionItem" : "infoItem";
+            tmpl.find('#id_type').value = type;
+            toggleItemMode(type, tmpl);
+        }
     },
 
     "shown.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
-        //if (!getEditTopic()) {
-            tmpl.find("#id_item_duedateInput").value = currentDatePlusDeltaDays(7);
-        //}
         tmpl.find("#id_item_subject").focus();
+    },
+
+    "hidden.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
+        //let subjectNode = tmpl.$("#id_subject");
+        //subjectNode.parent().removeClass("has-error");
+
+        // reset the session var to indicate that edit mode has been closed
+        Session.set("topicInfoItemEditInfoItemId", null);
     }
+
+
 });

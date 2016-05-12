@@ -48,7 +48,7 @@ Template.topicElement.helpers({
 
 
 Template.topicElement.events({
-    'click #btnDelTopic'(evt, tmpl) {
+    'click #btnDelTopic'(evt) {
         evt.preventDefault();
 
         if (!this.minutesID) {
@@ -60,7 +60,7 @@ Template.topicElement.events({
         aMin.removeTopic(this.topic._id);
     },
 
-    'click #btnToggleState'(evt, tmpl) {
+    'click #btnToggleState'(evt) {
         evt.preventDefault();
         if (!this.minutesID) {
             return;
@@ -74,7 +74,7 @@ Template.topicElement.events({
         }
     },
 
-    'click #btnEditTopic'(evt, tmpl) {
+    'click #btnEditTopic'(evt) {
         evt.preventDefault();
 
         if (!this.minutesID) {
@@ -85,7 +85,7 @@ Template.topicElement.events({
         Session.set("topicEditTopicId", this.topic._id);
     },
 
-    'click #addTopicInfoItem'(evt, tmpl) {
+    'click #addTopicInfoItem'(evt) {
         evt.preventDefault();
         // will be called before the modal dialog is shown
 

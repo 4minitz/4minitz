@@ -61,7 +61,7 @@ let findInfoItem = (minuteId, topicId, infoItemId) => {
 
 
 Template.topicInfoItem.events({
-    'click #btnDelTopic'(evt) {
+    'click #btnDelInfoItem'(evt) {
         evt.preventDefault();
 
         let aTopic = createTopic(this.minutesID, this.parentTopicId);
