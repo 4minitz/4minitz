@@ -6,7 +6,6 @@ import { Topic } from '/imports/topic'
 import { InfoItem } from '/imports/infoitem'
 
 Template.topicElement.onCreated(function () {
-    console.log(this.minutesID);
 });
 
 Template.topicElement.onRendered(function () {
@@ -88,20 +87,8 @@ Template.topicElement.events({
 
     'click #addTopicInfoItem'(evt, tmpl) {
         evt.preventDefault();
+        // will be called before the modal dialog is shown
 
-        if (!this.minutesID) {
-            return;
-        }
-
-        let newSubject = window.prompt("Please enter the subject for the new information item:","");
-
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            let doc = {
-                subject: newSubject
-            };
-            let newInfoItem = new InfoItem(aTopic, doc);
-            newInfoItem.save();
-        }
+        Session.set("topicInfoItemEditTopicId", this.topic._id);
     }
 });

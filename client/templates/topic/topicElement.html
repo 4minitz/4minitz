@@ -34,7 +34,7 @@
 
         <div style="margin-left: 20px; padding-left: 5px;">
             {{#if isEditable}}
-                <a href="" id="addTopicInfoItem">Add element...</a>
+                <a href="#" id="addTopicInfoItem" data-toggle="modal" data-target="#dlgAddInfoItem">Add element...</a>
             {{/if}}
             {{#each topic.infoItems}}
                 {{> topicInfoItem getInfoItem}}

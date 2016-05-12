@@ -61,7 +61,7 @@ let findInfoItem = (minuteId, topicId, infoItemId) => {
 
 
 Template.topicInfoItem.events({
-    'click #btnDelTopic'(evt, tmpl) {
+    'click #btnDelTopic'(evt) {
         evt.preventDefault();
 
         let aTopic = createTopic(this.minutesID, this.parentTopicId);
@@ -70,7 +70,7 @@ Template.topicInfoItem.events({
         }
     },
 
-    'click #btnToggleAIState'(evt, tmpl) {
+    'click #btnToggleAIState'(evt) {
         evt.preventDefault();
 
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
@@ -80,14 +80,14 @@ Template.topicInfoItem.events({
         }
     },
 
-    'click #btnEditTopic'(evt, tmpl) {
-        /*evt.preventDefault();
+    'click #btnEditInfoItem'(evt) {
+        evt.preventDefault();
 
         if (!this.minutesID) {
             return;
         }
 
-        Session.set("topicEditMinutesId", this.minutesID);
-        Session.set("topicEditTopicId", this.infoItem._id);*/
+        Session.set("topicInfoItemEditTopicId", this.parentTopicId);
+        Session.set("topicInfoItemEditInfoItemId", this.infoItem._id);
     }
 });
