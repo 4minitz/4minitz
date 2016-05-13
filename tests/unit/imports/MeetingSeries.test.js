@@ -9,6 +9,7 @@ let Meteor = {
 };
 let Minutes = {};
 let Topic = {};
+let UserRoles = {};
 
 const {
     MeetingSeries
@@ -17,6 +18,7 @@ const {
     './collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
+    './userroles': { UserRoles, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true}
 });
 
