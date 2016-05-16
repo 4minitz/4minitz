@@ -9,15 +9,37 @@
 
 
 ## Running Tests
-In oder to execute tests you need to run the following meteor command.
+
+We use several approaches to test as many aspects of our application as possible.
+
+### Unit Tests
+
+Our unit tests are implemented so they do not use any meteor dependencies at all. In order
+to execute unit tests run
+
+    meteor npm test
+
+Unit tests are stored in tests/unit.
+
+### Integration Tests
+
+In order to execute integration tests you need to either run the meteor test server
 
     meteor test --driver-package practicalmeteor:mocha
-    meteor test --driver-package practicalmeteor:mocha --full-app
 
-The ```-full-app``` allows to use published collections, routes, methods in the tests.
-Optionally add commandline switch *--port 3100* to run tests in parallel to the meteor application.
+and open localhost:3000 in your browser to run the tests or run
 
-Further info on testing with meteor can be found at http://guide.meteor.com/testing.html and http://info.meteor.com/blog/full-app-testing-in-meteor
+    meteor test --once --driver-package dispatch:mocha-phantomjs
+
+to run them headless, e.g. on a CI. Optionally add commandline switch *--port 3100*
+to run tests in parallel to the meteor application.
+
+Further information  on testing with meteor can be found at http://guide.meteor.com/testing.html
+and http://info.meteor.com/blog/full-app-testing-in-meteor
+
+### End2End Tests
+
+tbd.
 
 ## DoD - Our "Definition of Done"
 * __Acceptance critera__: from the user story are checked and work OK

@@ -8,7 +8,13 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./tests/**/*.js --compilers js:babel-register"
+    "test": "meteor npm run test:unit",
+    "test:ci": "meteor npm run test:unit && meteor npm run test:integration:headless && meteor npm run test:end2end",
+    "test:unit": "meteor node ./node_modules/.bin/mocha ./tests/**/*.js --compilers js:babel-register",
+    "test:integration": "meteor npm run test:integration:browser",
+    "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3100",
+    "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3100",
+    "test:end2end": "echo tbd"
   },
   "repository": {
     "type": "git",
