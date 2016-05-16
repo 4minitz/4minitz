@@ -51,10 +51,15 @@ and http://info.meteor.com/blog/full-app-testing-in-meteor
 ### End2End Tests
 
 End-to-End tests are stored in directory ```tests/end2end/``` and use the [chimp package](https://chimp.readme.io), which first needs to be installed globally.
+Hint: The chimp package needs an installed Chrome browser.
+To run the e2e tests, you need to run the server in "end2end" mode. 
 
+    meteor npm run test:end2end:server
 
-    chimp --ddp=http://localhost:3000 --mocha --watch --path=tests/end2end/
-    chimp --ddp=http://localhost:3000 --watch --path=tests/end2end/
+This will set some specific e2e settings from ```settings-test-end2end.json```. 
+Then run the chimp tests:
+
+    chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/
 
 
 ## Where to start

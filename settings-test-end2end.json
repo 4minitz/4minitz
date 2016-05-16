@@ -1,0 +1,6 @@
+{
+    "isEnd2EndTest": true,
+    "e2eUrl":               "http://localhost:3100",
+    "e2eTestUsers":         ["user1",   "user2", "user3"],
+    "e2eTestPasswords":     ["PwdPwd1", "PwdPwd2", "PwdPwd3"]
+}
