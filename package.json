@@ -14,7 +14,11 @@
     "test:integration": "meteor npm run test:integration:browser",
     "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3100",
     "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3100",
-    "test:end2end": "echo tbd"
+    "test:end2end:server": "meteor run --port 3100 --settings ./settings-test-end2end.json",
+
+    "//": "The below commands do not work, yet when called via meteor npm run XXXXX :-(",
+    "test:end2end:testonce": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
+    "test:end2end:testwatch": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch"
   },
   "repository": {
     "type": "git",
