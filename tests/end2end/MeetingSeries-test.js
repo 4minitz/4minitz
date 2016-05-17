@@ -1,53 +1,41 @@
-var e2eTestSettings = require('../../settings-test-end2end.json');
+var e2e = require('./e2eHelpers');
+
 console.log("End2End Settings:");
-console.log(e2eTestSettings);
-console.log("# of test users:"+e2eTestSettings.e2eTestUsers.length);
+console.log("# of test users:"+e2e.settings.e2eTestUsers.length);
 
 function countMeetingSeries() {
     try {
-        browser.waitForExist('.list-group-item');
+        browser.waitForExist('li.meeting-series-item');
     } catch (e) {
-        return 0;   // we have no meeting series => "zero" result
+        return 0;   // we have no meeting series <li> => "zero" result
     }
-    const elements = browser.elements('.list-group-item');
+    const elements = browser.elements('li.meeting-series-item');
     return elements.value.length;
 }
 
 
 describe('MeetingSeries', function () {
     before(function () {
-        try {
-            server.call('e2e.resetMyApp');
-        } catch (e) {
-            console.log("Exception: "+e);
-            console.log("Did you forget to run the server with '--settings settings-test-end2end.json'?");
-        }
-
-        browser.url(e2eTestSettings.e2eUrl);           // browser = WebdriverIO instance
-        if (browser.isExisting('#navbar-signout')) {
-            browser.click('#navbar-signout')
-        }
-        try {    // try to log in
-            if (browser.isExisting('#at-field-username_and_email')) {
-                browser.setValue('input[id="at-field-username_and_email"]', e2eTestSettings.e2eTestUsers[0]);
-                browser.setValue('input[id="at-field-password"]', e2eTestSettings.e2eTestPasswords[0]);
-                browser.keys(['Enter']);
-            }
-        } catch (e) {
-            console.log("Login failed...?!");
-        }
+        e2e.resetMyApp();
+        e2e.launchApp();
+        e2e.loginUser(0);
     });
-
 
     after(function () {
-        if (browser.isExisting('#navbar-signout')) {
-            // browser.click('#navbar-signout')
-        }
+        // Keep this as a comment for a while to see last browser state when using "chimp --watch"
+        // e2e.logoutUser();
     });
 
+    beforeEach(function () {
+        e2e.gotoStartPage();
+        expect(browser.getTitle()).to.equal('4minitz!');
+        expect (e2e.isLoggedIn()).to.be.true;
+    });
+    
 
-    it('can create a new meeting series @watch', function () {
+    it('can create a first meeting series @watch', function () {
         var initialCount = countMeetingSeries();
+        expect(initialCount).to.equal(0);
 
         browser.waitForExist('#btnNewMeetingSeries');
         browser.click('#btnNewMeetingSeries');
@@ -57,6 +45,6 @@ describe('MeetingSeries', function () {
         browser.click('#btnAdd');
         browser.click('#btnNewMeetingSeries');
 
-        assert.equal(countMeetingSeries(), initialCount+1);
+        expect(countMeetingSeries()).to.equal(1);
     });
 });
