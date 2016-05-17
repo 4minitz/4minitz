@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "meteor npm run test:unit",
-    "test:ci": "meteor npm run test:unit && meteor npm run test:integration:headless && meteor npm run test:end2end",
+    "test:ci": "meteor npm run test:unit && meteor npm run test:integration:headless",
     "test:unit": "meteor node ./node_modules/mocha/bin/mocha ./tests/unit/**/*.js --compilers js:babel-register",
     "test:integration": "meteor npm run test:integration:browser",
     "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3100",
