@@ -35,6 +35,11 @@ export class InfoItem {
         this._infoItemDoc = source;
     }
 
+    // ################### static methods
+    static isActionItem(infoItemDoc) {
+        return (infoItemDoc.hasOwnProperty('isOpen'));
+    }
+
     // ################### object methods
     save(callback) {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!

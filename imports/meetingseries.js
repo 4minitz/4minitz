@@ -335,7 +335,7 @@ export class MeetingSeries {
      *
      * When finalizing this method will be called
      * with the minute which will be finalized.
-     * When un-finalizing a minute it will be called
+     * When un-finalizing a minute this will be called
      * with the 2nd last minute to revert the
      * previous state.
      *
@@ -343,14 +343,10 @@ export class MeetingSeries {
      * @private
      */
     _copyTopicsToSeries(minutes) {
-        // first override the openTopics of this series (the minute contains all relevant open topics)
-        this.openTopics = minutes.topics.filter((topic) => { // filter always returns an array
-            return topic.isOpen;
-        });
+        // clear open topics of this series (the minute contains all relevant open topics)
+        this.openTopics = [];
 
-
-        // then we concat the closed topics of the current minute to the closed ones of this series
-        // but first we set the isNew-flag to false for the currently existing closed topics
+        // closed topics will be appended, so we have to clear the isNew-flag for the old ones
         this.closedTopics.forEach((topic) => {
             topic.isNew = false;
         });
@@ -362,11 +358,16 @@ export class MeetingSeries {
 
             return (isTopicInMinute === undefined );
         });
-        // after that we can simply concat the closed topics to our array
-        this.closedTopics = this.closedTopics.concat(
-            minutes.topics.filter((topic) => {
-                return !topic.isOpen;
-            })
-        );
+
+        minutes.topics.forEach((topic) => {
+            let topicObj = new Topic(minutes._id, topic);
+            topicObj.tailorTopic();
+            if (topic.isOpen || topicObj.hasOpenActionItem()) {
+                topic.isOpen = true;
+                this.openTopics.unshift(topicObj.getDocument());
+            } else {
+                this.closedTopics.unshift(topicObj.getDocument());
+            }
+        });
     }
 }

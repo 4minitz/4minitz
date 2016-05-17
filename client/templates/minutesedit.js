@@ -104,6 +104,9 @@ Template.minutesedit.helpers({
 });
 
 Template.minutesedit.events({
+    "click #btnHideHelp": function () {
+        $(".help").hide();  // use jQuery to find and hide class
+    },
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin) {

@@ -4,6 +4,7 @@
 
 import { Minutes } from './minutes';
 import { InfoItemFactory } from './InfoItemFactory';
+import { InfoItem } from './infoitem';
 
 /**
  * A Topic is an Agenda Topic which can
@@ -27,7 +28,7 @@ export class Topic {
         if (typeof source === 'string') {   // we may have an ID here.
             source = this._parentMinutes.findTopic(source);
             if (!source) {
-                throw new Metoer.Error("Runtime Error, could not find topic!");
+                throw new Meteor.Error("Runtime Error, could not find topic!");
             }
         }
         if (source.isOpen == undefined) {
@@ -46,6 +47,24 @@ export class Topic {
     // ################### static methods
     static findTopicIndexInArray(id, topics) {
         return subElementsHelper.findIndexById(id, topics);
+    }
+
+    /**
+     * Checks if the given topic document
+     * has at least one opened ActionItem.
+     *
+     * @param topicDoc document of a topic
+     * @returns {boolean}
+     */
+    static hasOpenActionItem(topicDoc) {
+        let infoItemDocs = topicDoc.infoItems;
+        let i;
+        for (i = 0; i < infoItemDocs.length; i++) {
+            if (infoItemDocs[i].isOpen) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // ################### object methods
@@ -99,6 +118,17 @@ export class Topic {
     }
 
     /**
+     * Removes all fire-and-forget elements
+     * from this topic (info items which are
+     * no action items)
+     */
+    tailorTopic() {
+        this._topicDoc.infoItems = this._topicDoc.infoItems.filter((infoItem) => {
+            return InfoItem.isActionItem(infoItem);
+        });
+    }
+
+    /**
      * Finds the InfoItem identified by its
      * id.
      *
@@ -124,5 +154,13 @@ export class Topic {
 
     toggleState () {    // open/close
         this._topicDoc.isOpen = !this._topicDoc.isOpen;
+    }
+
+    hasOpenActionItem() {
+        return Topic.hasOpenActionItem(this._topicDoc);
+    }
+
+    getDocument() {
+        return this._topicDoc;
     }
 }

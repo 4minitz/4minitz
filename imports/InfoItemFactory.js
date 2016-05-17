@@ -21,7 +21,7 @@ export class InfoItemFactory {
      * @returns {InfoItem|ActionItem}
      */
     static createInfoItem(parentTopic, infoItemDoc) {
-        if (infoItemDoc.hasOwnProperty('isOpen')) {
+        if (InfoItem.isActionItem(infoItemDoc)) {
             // only ActionItems has the isOpen-Property!
             return new ActionItem(parentTopic, infoItemDoc);
         } else {
