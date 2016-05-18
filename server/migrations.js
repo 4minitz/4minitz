@@ -8,17 +8,9 @@ import { MigrateV1 } from './migrate_v1'
      version: 1,
      up() {
          MigrateV1.up();
-
-        //e.g.
-        // MeetingSeries.find().forEach(series => {
-        //   MeetingSeries.update(series._id, {$set: {newField: 1}});
-        // });
      },
      down() {
          MigrateV1.down();
-
-        // e.g.
-        // MeetingSeries.update({}, {$unset: {newField: true}});
      }
  });
 

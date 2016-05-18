@@ -1,25 +1,34 @@
 /**
- * Created by felix on 10.05.16.
+ * Created by felix on 18.05.16.
  */
+import { expect } from 'chai';
+import proxyquire from 'proxyquire';
 
-import { expect } from 'meteor/practicalmeteor:chai';
+let doNothing = () => {};
 
-import { Topic } from '/imports/topic'
-import { ActionItem } from '/imports/actionitem'
+let Topic = {};
 
-describe('Unit-Test for class ActionItem', function() {
+const {
+    InfoItem
+    } = proxyquire('../../../imports/infoitem', {
+    './topic': { Topic, '@noCallThru': true}
+});
+
+const {
+    ActionItem
+    } = proxyquire('../../../imports/actionitem', {
+    './infoitem': { InfoItem, '@noCallThru': true}
+});
+
+describe('ActionItem', function() {
 
     let dummyTopic, infoItemDoc;
 
     beforeEach(function () {
         dummyTopic = {
             _id: "AaBbCcDd",
-            save: function () {
-                // this method must be declared but we do not need any functionality for our tests
-            },
-            findInfoItem: function (id) {
-
-            }
+            save: doNothing,
+            findInfoItem: doNothing
         };
 
         infoItemDoc = {
