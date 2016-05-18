@@ -65,7 +65,7 @@ export class MigrateV1 {
 
             let iterateTopics = (propertyName) => {
                 return (topic, index) => {
-                    topic = modifyTopic(topic, minute);
+                    topic = modifyTopic(topic);
 
                     let sel = propertyName + '.' + index;
                     let setNewTopic = {};

@@ -5,6 +5,8 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
+require('../../../lib/helpers');
+
 let doNothing = () => {};
 
 let dummyMinute = {
@@ -23,17 +25,7 @@ global.Random = {
     }
 };
 
-global.subElementsHelper = {
-    findIndexById: function(id, elements) {
-        let i;
-        for (i = 0; i < elements.length; i++) {
-            if (id === elements[i]._id) {
-                return i;
-            }
-        }
-        return undefined;
-    }
-};
+//global.subElementsHelper = helpers.subElementsHelper;
 
 const {
         Topic
