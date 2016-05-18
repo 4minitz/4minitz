@@ -58,6 +58,19 @@ describe('InfoItem', function() {
         expect(sameInfoItem._infoItemDoc).to.equal(myInfoItem._infoItemDoc);
     });
 
+    it('#isActionItem', function () {
+        let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
+        expect(myInfoItem.isActionItem()).to.be.false;
+
+        let actionItemDoc = {
+            _id: "AaBbCcDd02",
+            subject: "actionItemDoc",
+            isOpen: false
+        };
+        expect(InfoItem.isActionItem(actionItemDoc)).to.be.true;
+
+    });
+
     it('#save', function() {
         let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
 

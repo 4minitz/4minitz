@@ -34,7 +34,13 @@ describe('ActionItem', function() {
         infoItemDoc = {
             _id: "AaBbCcDd01",
             subject: "infoItemDoc",
-            createdAt: new Date()
+            createdAt: new Date(),
+            details: [
+                {
+                    date: '2016-05-06',
+                    text: 'details Text'
+                }
+            ]
         };
     });
 
@@ -48,6 +54,18 @@ describe('ActionItem', function() {
 
         // the isOpen-filed should be initially true for a new actionItem
         expect(myActionItem._infoItemDoc.isOpen).to.be.true;
+    });
+
+    it('#getDateFromDetails', function () {
+        let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+
+        expect(myActionItem.getDateFromDetails()).to.equal(infoItemDoc.details[0].date);
+    });
+
+    it('#getTextFromDetails', function () {
+        let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+
+        expect(myActionItem.getTextFromDetails()).to.equal(infoItemDoc.details[0].text);
     });
 
     it('#toggleState', function() {

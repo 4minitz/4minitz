@@ -38,7 +38,8 @@ describe('Topic', function() {
     beforeEach(function () {
 
         topicDoc = {
-            subject: "topic-subject"
+            subject: "topic-subject",
+            infoItems: []
         }
     });
 
@@ -56,6 +57,28 @@ describe('Topic', function() {
         expect(myTopic._topicDoc.isOpen).to.be.true;
         // the created topic should have the isNew-Flag
         expect(myTopic._topicDoc.isNew).to.be.true;
+    });
+
+    it('#findTopicIndexInArray', function() {
+        let topicArray = [ topicDoc ];
+        let index = Topic.findTopicIndexInArray(topicDoc._id, topicArray);
+        expect(index).to.equal(0);
+    });
+
+    it('#hasOpenActionItem', function() {
+        expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
+
+        topicDoc.infoItems.push({
+            isOpen: false
+        });
+
+        expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
+
+        topicDoc.infoItems[0].isOpen = true;
+        expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
+
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
+        expect(myTopic.hasOpenActionItem()).to.be.true;
     });
 
     it('#toggleState', function () {
@@ -155,6 +178,26 @@ describe('Topic', function() {
 
     });
 
+    it('#tailorTopic', function() {
+        topicDoc.infoItems.push({
+            subject: "myInfoItem"
+        });
+        topicDoc.infoItems.push({
+            subject: "myClosedActionItem",
+            isOpen: false
+        });
+        let openAI = {
+            subject: "myOpenActionItem",
+            isOpen: true
+        };
+        topicDoc.infoItems.push(openAI);
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
+        myTopic.tailorTopic();
+
+        expect(myTopic.getInfoItems()).to.have.length(1);
+        expect(myTopic._topicDoc.infoItems[0].subject).to.equal(openAI.subject);
+    });
+
     it('#save', function() {
         let myTopic = new Topic(dummyMinute._id, topicDoc);
 
@@ -168,6 +211,12 @@ describe('Topic', function() {
         expect(spy.calledWith(myTopic._topicDoc)).to.be.true;
 
         spy.restore();
+    });
+
+    it('#getDocument', function () {
+        let myTopic = new Topic(dummyMinute._id, topicDoc);
+
+        expect(myTopic.getDocument()).to.equal(topicDoc);
     });
 
 });

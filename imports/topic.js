@@ -51,7 +51,7 @@ export class Topic {
 
     /**
      * Checks if the given topic document
-     * has at least one opened ActionItem.
+     * has at least one open ActionItem.
      *
      * @param topicDoc document of a topic
      * @returns {boolean}
@@ -68,22 +68,6 @@ export class Topic {
     }
 
     // ################### object methods
-    getDateFromDetails () {
-        let details = this._topicDoc.details;
-        if (details.length > 0 && details[0].hasOwnProperty("date")) {
-            return details[0].date;
-        }
-        return false;
-    }
-
-    getTextFromDetails () {
-        let details = this._topicDoc.details;
-        if (details.length > 0 && details[0].hasOwnProperty("text")) {
-            return details[0].text;
-        }
-        return "";
-    }
-
     toString () {
         return "Topic: "+JSON.stringify(this._topicDoc, null, 4);
     }
@@ -118,13 +102,13 @@ export class Topic {
     }
 
     /**
-     * Removes all fire-and-forget elements
-     * from this topic (info items which are
+     * Removes all fire-and-forget elements as well
+     * as closed AIs from this topic (info items which are
      * no action items)
      */
     tailorTopic() {
         this._topicDoc.infoItems = this._topicDoc.infoItems.filter((infoItem) => {
-            return InfoItem.isActionItem(infoItem);
+            return InfoItem.isActionItem(infoItem) && infoItem.isOpen;
         });
     }
 

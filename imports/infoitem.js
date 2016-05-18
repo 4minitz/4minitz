@@ -46,6 +46,10 @@ export class InfoItem {
         this._parentTopic.upsertInfoItem(this._infoItemDoc, callback);
     }
 
+    isActionItem() {
+        return InfoItem.isActionItem(this._infoItemDoc);
+    }
+
     toString () {
         return "InfoItem: " + JSON.stringify(this._infoItemDoc, null, 4);
     }
