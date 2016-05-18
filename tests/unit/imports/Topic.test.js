@@ -25,8 +25,6 @@ global.Random = {
     }
 };
 
-//global.subElementsHelper = helpers.subElementsHelper;
-
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
