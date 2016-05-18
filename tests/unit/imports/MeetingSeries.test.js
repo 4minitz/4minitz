@@ -33,10 +33,15 @@ describe('MeetingSeries', function () {
             };
         });
 
-        it('constructs a new MeetingSeries', function () {
+        it('sets the project correctly', function () {
             var ms = new MeetingSeries(meetingSeries);
 
             expect(ms.project).to.equal(meetingSeries.project);
+        });
+
+        it('sets the name correctly', function () {
+            var ms = new MeetingSeries(meetingSeries);
+
             expect(ms.name).to.equal(meetingSeries.name);
         });
     });
@@ -51,10 +56,15 @@ describe('MeetingSeries', function () {
             });
         });
 
-        it('sends the document to a meteor method', function () {
+        it('calls the meteor method meetingseries.insert', function () {
             meetingSeries.save();
 
             expect(Meteor.call.calledOnce).to.be.true;
+        });
+
+        it('sends the document to the meteor method meetingseries.insert', function () {
+            meetingSeries.save();
+
             expect(Meteor.call.calledWith('meetingseries.insert', meetingSeries)).to.be.true;
         });
     });
