@@ -2,10 +2,13 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
+let doNothing = () => {};
+
 let Migrations = {
     getVersion: sinon.stub().returns(0),
     _list: [],
-    migrateTo: sinon.spy()
+    migrateTo: sinon.spy(),
+    add: doNothing
 };
 let backupMongo = sinon.spy();
 

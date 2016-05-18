@@ -1,26 +1,19 @@
+/**
+ * Created by felix on 12.05.16.
+ */
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
+import { InfoItem } from '/imports/infoitem'
 
-
-Template.topicItem.onCreated(function () {
+Template.topicElement.onCreated(function () {
 });
 
-Template.topicItem.onRendered(function () {
+Template.topicElement.onRendered(function () {
     $.material.init();
 });
 
-Template.topicItem.helpers({
-    detailsArray: function () {
-        return this.topic.details;
-    },
-
-    topicStateClass: function () {
-        if (this.topic.isOpen) {
-            return "actionitem-open";
-        } else {
-            return "actionitem-closed";
-        }
-    },
+let collapseID = 0;
+Template.topicElement.helpers({
 
     checkedState: function () {
         if (this.topic.isOpen) {
@@ -36,12 +29,26 @@ Template.topicItem.helpers({
         } else {
             return {disabled: "disabled"};
         }
+    },
+
+    // helper will be called within the each-infoItem block
+    // so this refers to the current infoItem
+    getInfoItem: function () {
+        let parentTopicId = Template.instance().data.topic._id;
+
+        return {
+            infoItem: this,
+            parentTopicId: parentTopicId,
+            isEditable: Template.instance().data.isEditable,
+            minutesID: Template.instance().data.minutesID,
+            currentCollapseId: collapseID++  // each topic item gets its own collapseID
+        };
     }
 });
 
 
-Template.topicItem.events({
-    'click #btnDelTopic'(evt, tmpl) {
+Template.topicElement.events({
+    'click #btnDelTopic'(evt) {
         evt.preventDefault();
 
         if (!this.minutesID) {
@@ -53,9 +60,8 @@ Template.topicItem.events({
         aMin.removeTopic(this.topic._id);
     },
 
-    'click #btnToggleState'(evt, tmpl) {
+    'click #btnToggleState'(evt) {
         evt.preventDefault();
-
         if (!this.minutesID) {
             return;
         }
@@ -68,14 +74,20 @@ Template.topicItem.events({
         }
     },
 
-    'click #btnEditTopic'(evt, tmpl) {
+    'click #btnEditTopic'(evt) {
         evt.preventDefault();
 
         if (!this.minutesID) {
             return;
         }
 
-        Session.set("topicEditMinutesId", this.minutesID);
         Session.set("topicEditTopicId", this.topic._id);
+    },
+
+    'click #addTopicInfoItem'(evt) {
+        evt.preventDefault();
+        // will be called before the modal dialog is shown
+
+        Session.set("topicInfoItemEditTopicId", this.topic._id);
     }
 });

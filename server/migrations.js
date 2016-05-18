@@ -1,20 +1,18 @@
 import { Migrations } from 'meteor/percolate:migrations';
 import { backupMongo } from './mongoBackup';
 
+import { MigrateV1 } from './migrate_v1'
+
 // Example for defining a migration
-// Migrations.add({
-//     version: 1,
-//     up() {
-//        //e.g.
-//        // MeetingSeries.find().forEach(series => {
-//        //   MeetingSeries.update(series._id, {$set: {newField: 1}});
-//        // });
-//     },
-//     down() {
-//        // e.g.
-//        // MeetingSeries.update({}, {$unset: {newField: true}});
-//     }
-// });
+ Migrations.add({
+     version: 1,
+     up() {
+         MigrateV1.up();
+     },
+     down() {
+         MigrateV1.down();
+     }
+ });
 
 function findLatestVersion() {
     let max = 0;
