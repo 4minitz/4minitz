@@ -36,12 +36,8 @@ export const handleMigration = function () {
     const latestVersion = findLatestVersion(),
         currentVersion = Migrations.getVersion();
 
-    console.log("Current Version: " + currentVersion);
-    console.log("Latest Version: " + latestVersion);
-
     if (currentVersion < latestVersion) {
         backupMongo(process.env.MONGO_URL);
-        console.log("MIGRATE!!!");
         Migrations.migrateTo('latest');
     }
 };

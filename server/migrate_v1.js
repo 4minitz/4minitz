@@ -2,45 +2,52 @@
  * Created by felix on 18.05.16.
  */
 import { MinutesCollection } from '/imports/collections/minutes_private'
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
 
 export class MigrateV1 {
 
     static up() {
-        this._updateTopics((topic) => {
+        let topicModifier = (topic) => {
             delete topic.priority;
             delete topic.duedate;
             delete topic.details;
             topic.infoItems = [];
 
             return topic;
-        });
+        };
+
+        this._updateTopics(topicModifier);
+        this._updateMeetingSeries(topicModifier);
     }
 
     static down() {
-        this._updateTopics((topic, minute) => {
+        let topicModifier = (topic, minute) => {
+            let date = (minute) ? new Date(minute.date) : new Date();
+
             topic.priority = '';
-            topic.duedate = currentDatePlusDeltaDays(7, new Date(minute.date));
+            topic.duedate = currentDatePlusDeltaDays(7, date);
             topic.details = [
                 {
-                    date: minute.date,
+                    date: formatDateISO8601(date),
                     text: ''
                 }
             ];
             delete topic.infoItems;
 
             return topic;
-        });
+        };
+
+        this._updateTopics(topicModifier);
+        this._updateMeetingSeries(topicModifier);
     }
 
     static _updateTopics(modifyTopic) {
         MinutesCollection.find().forEach(minute => {
 
-            let i = 0;
-            minute.topics.forEach((topic) => {
-
+            minute.topics.forEach((topic, index) => {
                 topic = modifyTopic(topic, minute);
 
-                let sel = 'topics.' + i;
+                let sel = 'topics.' + index;
                 let setNewTopic = {};
                 setNewTopic[sel] = topic;
                 MinutesCollection.update(
@@ -48,10 +55,32 @@ export class MigrateV1 {
                     {
                         $set: setNewTopic
                     });
-                i++;
             });
 
         });
+    }
+
+    static _updateMeetingSeries(modifyTopic) {
+        MeetingSeriesCollection.find().forEach(series => {
+
+            let iterateTopics = (propertyName) => {
+                return (topic, index) => {
+                    topic = modifyTopic(topic, minute);
+
+                    let sel = propertyName + '.' + index;
+                    let setNewTopic = {};
+                    setNewTopic[sel] = topic;
+                    MeetingSeriesCollection.update(
+                        series._id,
+                        {
+                            $set: setNewTopic
+                        });
+                };
+            };
+
+            series.openTopics.forEach(iterateTopics('openTopics'));
+            series.closedTopics.forEach(iterateTopics('closedTopics'));
+        })
     }
 
 }
