@@ -28,7 +28,7 @@ Template.topicsList.helpers({
         return config.topics;
     },
 
-    getTopicItem: function () {
+    getTopicElement: function () {
         let config = Template.instance().data;
         return {
             topic: this,

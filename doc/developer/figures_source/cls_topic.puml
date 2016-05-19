@@ -1,9 +1,9 @@
 @startuml
 !include style.puml
 
-Topic "1" --> "*" TopicItem
+Topic "1" --> "*" InfoItem
 
-TopicItem  <|-- ActionItem
+InfoItem  <|-- ActionItem
 
 class Topic {
     subject
@@ -13,7 +13,7 @@ class Topic {
     isRecurring
 }
 
-abstract class TopicItem {
+class InfoItem {
     subject
     createdAt
     tags: []

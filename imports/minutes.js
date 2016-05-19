@@ -139,7 +139,6 @@ export class Minutes {
         let i = undefined;
         if (! topicDoc._id) {             // brand-new topic
             topicDoc._id = Random.id();   // create our own local _id here!
-            topicDoc.isNew = true;
         } else {
             i = this._findTopicIndex(topicDoc._id); // try to find it
         }
@@ -163,7 +162,7 @@ export class Minutes {
     /**
      * Unfinalizes this minutes object. Shall
      * only be called from the finalize method
-     * whithin the meeting series.
+     * within the meeting series.
      */
     unfinalize(serverCallback) {
         Meteor.call('minutes.unfinalize', this._id, serverCallback);
