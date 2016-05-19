@@ -15,18 +15,18 @@ function countMeetingSeries() {
 
 
 describe('MeetingSeries', function () {
-    before(function () {
+    before("reset the app database via server method and login a test user", function () {
         e2e.resetMyApp();
         e2e.launchApp();
         e2e.loginUser(0);
     });
 
-    after(function () {
+    after("Log out test user", function () {
         // Keep this as a comment for a while to see last browser state when using "chimp --watch"
         // e2e.logoutUser();
     });
 
-    beforeEach(function () {
+    beforeEach("goto start page and make sure test user is logged in", function () {
         e2e.gotoStartPage();
         expect(browser.getTitle()).to.equal('4minitz!');
         expect (e2e.isLoggedIn()).to.be.true;
@@ -36,15 +36,21 @@ describe('MeetingSeries', function () {
     it('can create a first meeting series @watch', function () {
         var initialCount = countMeetingSeries();
         expect(initialCount).to.equal(0);
-
-        browser.waitForExist('#btnNewMeetingSeries');
-        browser.click('#btnNewMeetingSeries');
-        browser.waitForExist('input[id="id_meetingproject"]');
-        browser.setValue('input[id="id_meetingproject"]', "E2E Project");
-        browser.setValue('input[id="id_meetingname"]', "Meeting Name");
-        browser.click('#btnAdd');
-        browser.click('#btnNewMeetingSeries');
-
+        e2e.createMeetingSeries("E2E Project", "Meeting Name #1");
         expect(countMeetingSeries()).to.equal(1);
+    });
+
+
+    it('can create a further meeting series @watch', function () {
+        var initialCount = countMeetingSeries();
+        e2e.createMeetingSeries("E2E Project", "Meeting Name #2");
+        expect(countMeetingSeries()).to.equal(initialCount + 1);
+    });
+
+    
+    it('can goto meeting series details @watch', function () {
+        e2e.createMeetingSeries("E2E Project", "Meeting Name #3");
+        e2e.gotoMeetingSeries("E2E Project", "Meeting Name #3");
+        expect(e2e.inOnStartPage()).to.be.false;
     });
 });
