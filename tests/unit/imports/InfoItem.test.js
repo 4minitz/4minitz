@@ -40,34 +40,44 @@ describe('InfoItem', function() {
         };
     });
 
-    it('#constructor', function () {
-        let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
+    describe('#constructor', function () {
 
-        // the infoItem should have a reference of our dummyTopic
-        expect(myInfoItem._parentTopic).to.equal(dummyTopic);
-        // the doc should be equal to our initial document
-        expect(myInfoItem._infoItemDoc).to.equal(infoItemDoc);
+        it('sets the reference to the parent topic correctly', function() {
+            let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
+            // the infoItem should have a reference of our dummyTopic
+            expect(myInfoItem._parentTopic).to.equal(dummyTopic);
+        });
 
-        // add the created info item to our dummy topic
-        dummyTopic.addInfoItem(myInfoItem);
+        it('sets the document correctly', function() {
+            let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
+            // the doc should be equal to our initial document
+            expect(myInfoItem._infoItemDoc).to.equal(infoItemDoc);
+        });
 
-        // Now we should be able to create the same info item again
-        // by passing the dummyTopic together with the info items id
-        let sameInfoItem = new InfoItem(dummyTopic, myInfoItem._infoItemDoc._id);
-        // the associated documents of both info items should be the same
-        expect(sameInfoItem._infoItemDoc).to.equal(myInfoItem._infoItemDoc);
+        it('creates the same object by passing the id of an existing one', function() {
+            let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
+            // add the created info item to our dummy topic
+            dummyTopic.addInfoItem(myInfoItem);
+
+            // Now we should be able to create the same info item again
+            // by passing the dummyTopic together with the info items id
+            let sameInfoItem = new InfoItem(dummyTopic, myInfoItem._infoItemDoc._id);
+            // the associated documents of both info items should be the same
+            expect(sameInfoItem._infoItemDoc).to.equal(myInfoItem._infoItemDoc);
+        });
+
     });
 
     it('#isActionItem', function () {
         let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
-        expect(myInfoItem.isActionItem()).to.be.false;
+        expect(myInfoItem.isActionItem(), "Item without the isOpen-property should not be an ActionItem").to.be.false;
 
         let actionItemDoc = {
             _id: "AaBbCcDd02",
             subject: "actionItemDoc",
             isOpen: false
         };
-        expect(InfoItem.isActionItem(actionItemDoc)).to.be.true;
+        expect(InfoItem.isActionItem(actionItemDoc), "Item with the isOpen-property should be an ActionItem").to.be.true;
 
     });
 

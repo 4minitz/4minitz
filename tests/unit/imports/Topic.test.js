@@ -46,17 +46,28 @@ describe('Topic', function() {
     afterEach(function() {
     });
 
-    it('#constructor', function () {
-        let myTopic = new Topic(dummyMinute._id, topicDoc);
+    describe('#constructor', function () {
 
-        // the parent minute should be equal to our dummy parent minute
-        expect(myTopic._parentMinutes).to.equal(dummyMinute);
-        // the subject of the new topic should be equal to the initial value
-        expect(myTopic._topicDoc.subject).to.equal(topicDoc.subject);
-        // the new topic should be "opened"
-        expect(myTopic._topicDoc.isOpen).to.be.true;
-        // the created topic should have the isNew-Flag
-        expect(myTopic._topicDoc.isNew).to.be.true;
+        it('sets the reference to the parent minute correctly', function() {
+            let myTopic = new Topic(dummyMinute._id, topicDoc);
+            expect(myTopic._parentMinutes).to.equal(dummyMinute);
+        });
+
+        it('sets the subject correctly', function() {
+            let myTopic = new Topic(dummyMinute._id, topicDoc);
+            expect(myTopic._topicDoc.subject).to.equal(topicDoc.subject);
+        });
+
+        it('sets the initial value of the isOpen-flag correctly', function() {
+            let myTopic = new Topic(dummyMinute._id, topicDoc);
+            expect(myTopic._topicDoc.isOpen).to.be.true;
+        });
+
+        it('sets the initial value of the isNew-flag correctly', function() {
+            let myTopic = new Topic(dummyMinute._id, topicDoc);
+            expect(myTopic._topicDoc.isNew).to.be.true;
+        });
+
     });
 
     it('#findTopicIndexInArray', function() {
@@ -65,20 +76,37 @@ describe('Topic', function() {
         expect(index).to.equal(0);
     });
 
-    it('#hasOpenActionItem', function() {
-        expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
+    describe('#hasOpenActionItem', function() {
 
-        topicDoc.infoItems.push({
-            isOpen: false
+        it('returns false if the topic does not have any sub items', function() {
+            expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
         });
 
-        expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
+        it('returns false if the topic has only closed action items', function() {
+            topicDoc.infoItems.push({
+                isOpen: false
+            });
 
-        topicDoc.infoItems[0].isOpen = true;
-        expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
+            expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
+        });
 
-        let myTopic = new Topic(dummyMinute._id, topicDoc);
-        expect(myTopic.hasOpenActionItem()).to.be.true;
+        it('returns true if the topic has a closed action item (static method call)', function() {
+            topicDoc.infoItems.push({
+                isOpen: false
+            });
+            topicDoc.infoItems[0].isOpen = true;
+            expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
+        });
+
+        it('returns true if the topic has a closed action item (object method call)', function() {
+            topicDoc.infoItems.push({
+                isOpen: false
+            });
+            topicDoc.infoItems[0].isOpen = true;
+            let myTopic = new Topic(dummyMinute._id, topicDoc);
+            expect(myTopic.hasOpenActionItem()).to.be.true;
+        });
+
     });
 
     it('#toggleState', function () {
@@ -93,35 +121,42 @@ describe('Topic', function() {
 
     });
 
-    it('#upsertInfoItem', function() {
-        let myTopic = new Topic(dummyMinute._id, topicDoc);
+    describe('#upsertInfoItem', function() {
 
-        let topicItemDoc = {
-            subject: "info-item-subject",
-            createdAt: new Date()
-        };
+        let myTopic, topicItemDoc;
 
-        myTopic.upsertInfoItem(topicItemDoc);
+        beforeEach(function() {
+            myTopic = new Topic(dummyMinute._id, topicDoc);
 
-        // our topic should now have exactly one topic item
-        expect(myTopic.getInfoItems().length).to.equal(1);
-        // the new topic item should have a id
-        expect(myTopic.getInfoItems()[0]._id).to.not.be.false;
-        // the subject of the new topic item should be equal to the initial value
-        expect(myTopic.getInfoItems()[0].subject).to.equal(topicItemDoc.subject);
+            topicItemDoc = {
+                subject: "info-item-subject",
+                createdAt: new Date()
+            };
+        });
 
-        // Change the subject and call the upsertTopicItem method again
-        let topicItem = myTopic.getInfoItems()[0];
-        topicItem.subject = "new_subject";
+        it('adds a new info item to our topic', function() {
+            myTopic.upsertInfoItem(topicItemDoc);
 
-        myTopic.upsertInfoItem(topicItem);
+            expect(myTopic.getInfoItems().length, "the topic should have exactly one item").to.equal(1);
+            expect(myTopic.getInfoItems()[0]._id, "the item should have an id").to.not.be.false;
+            expect(myTopic.getInfoItems()[0].subject, "the subject should be set correctly").to.equal(topicItemDoc.subject);
+        });
 
-        // our topic should still have exaclty one topic item
-        expect(myTopic.getInfoItems().length).to.equal(1);
-        // the id of this item should not have changed
-        expect(myTopic.getInfoItems()[0]._id).to.equal(topicItem._id);
-        // but the subject should have changed
-        expect(myTopic.getInfoItems()[0].subject).to.equal(topicItem.subject);
+        it('updates an existing info item', function() {
+            myTopic.upsertInfoItem(topicItemDoc);
+
+            // Change the subject and call the upsertTopicItem method again
+            let topicItem = myTopic.getInfoItems()[0];
+            topicItem.subject = "new_subject";
+
+            myTopic.upsertInfoItem(topicItem);
+
+            expect(myTopic.getInfoItems().length, "the topic should have exactly one item").to.equal(1);
+            expect(myTopic.getInfoItems()[0]._id, "the item should have an id").to.equal(topicItem._id);
+            expect(myTopic.getInfoItems()[0].subject, "the subject should be set correctly").to.equal(topicItem.subject);
+        });
+
+
     });
 
     it('#findInfoItem', function() {
@@ -141,9 +176,9 @@ describe('Topic', function() {
 
         foundItem = myTopic.findInfoItem(infoItemDoc._id);
         // foundItem should not be undefined
-        expect(foundItem).to.not.equal(undefined);
+        expect(foundItem, "the result should not be undefined").to.not.equal(undefined);
         // the subject of the found item should be equal to its initial value
-        expect(foundItem._infoItemDoc.subject).to.equal(infoItemDoc.subject);
+        expect(foundItem._infoItemDoc.subject, "the correct info item should be found").to.equal(infoItemDoc.subject);
     });
 
     it('#removeInfoItem', function() {
@@ -165,37 +200,52 @@ describe('Topic', function() {
         myTopic.upsertInfoItem(infoItemDoc2);
 
         // check that the two info items was added
-        expect(myTopic.getInfoItems().length).to.equal(2);
+        let initialLength = myTopic.getInfoItems().length;
 
         // remove the second one
         myTopic.removeInfoItem(infoItemDoc2._id);
 
+        let diff = initialLength - myTopic.getInfoItems().length;
+
         // check that there are now only one items
-        expect(myTopic.getInfoItems().length).to.equal(1);
+        expect(diff, "The length of the info items should be decreased by one").to.equal(1);
 
         // check that the first item is still part of our topic
-        expect(myTopic.getInfoItems()[0]._id).to.equal(infoItemDoc._id);
+        expect(myTopic.getInfoItems()[0]._id, "The other info item should not be removed.").to.equal(infoItemDoc._id);
 
     });
 
-    it('#tailorTopic', function() {
-        topicDoc.infoItems.push({
-            subject: "myInfoItem"
-        });
-        topicDoc.infoItems.push({
-            subject: "myClosedActionItem",
-            isOpen: false
-        });
-        let openAI = {
-            subject: "myOpenActionItem",
-            isOpen: true
-        };
-        topicDoc.infoItems.push(openAI);
-        let myTopic = new Topic(dummyMinute._id, topicDoc);
-        myTopic.tailorTopic();
+    describe('#tailorTopic', function() {
 
-        expect(myTopic.getInfoItems()).to.have.length(1);
-        expect(myTopic._topicDoc.infoItems[0].subject).to.equal(openAI.subject);
+        let myTopic;
+
+        beforeEach(function() {
+            topicDoc.infoItems.push({
+                subject: "myInfoItem"
+            });
+            topicDoc.infoItems.push({
+                subject: "myClosedActionItem",
+                isOpen: false
+            });
+            topicDoc.infoItems.push({
+                subject: "myOpenActionItem",
+                isOpen: true
+            });
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('removes all info items and closed action items', function() {
+            myTopic.tailorTopic();
+
+            expect(myTopic.getInfoItems()).to.have.length(1);
+        });
+
+        it('keeps the open action items', function() {
+            myTopic.tailorTopic();
+
+            expect(myTopic._topicDoc.infoItems[0].isOpen).to.be.true;
+        });
+
     });
 
     it('#save', function() {
@@ -207,8 +257,8 @@ describe('Topic', function() {
 
         myTopic.save();
 
-        expect(spy.calledOnce).to.be.true;
-        expect(spy.calledWith(myTopic._topicDoc)).to.be.true;
+        expect(spy.calledOnce, "the upsertTopic method should be called once").to.be.true;
+        expect(spy.calledWith(myTopic._topicDoc), "the document should be sent to the upsertTopic method").to.be.true;
 
         spy.restore();
     });
