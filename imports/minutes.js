@@ -6,11 +6,12 @@ import { Meteor } from 'meteor/meteor';
 import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries'
 import { Topic } from './topic'
+import { _ } from 'meteor/underscore';
 
 export class Minutes {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
         if (! source)
-            return;
+            throw new Meteor.Error('invalid-argument', 'Mongo ID or Mongo document required');
 
         if (typeof source === 'string') {   // we may have an ID here.
             source = Minutes.findOne(source);
@@ -174,7 +175,7 @@ export class Minutes {
 
     // ################### private methods
     _findTopicIndex(id) {
-        return Topic.findTopicIndexInArray(id, this.topics);
+        return subElementsHelper.findIndexById(id, this.topics);
     }
 
 }
