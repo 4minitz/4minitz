@@ -44,16 +44,26 @@ describe('ActionItem', function() {
         };
     });
 
-    it('#constructor', function () {
-        let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+    describe('#constructor', function () {
 
-        // the infoItem should have a reference of our dummyTopic
-        expect(myActionItem._parentTopic).to.equal(dummyTopic);
-        // the doc should be equal to our initial document
-        expect(myActionItem._infoItemDoc).to.equal(infoItemDoc);
+        it('sets the reference to the parent topic correctly', function() {
+            let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
-        // the isOpen-filed should be initially true for a new actionItem
-        expect(myActionItem._infoItemDoc.isOpen).to.be.true;
+            // the infoItem should have a reference of our dummyTopic
+            expect(myActionItem._parentTopic).to.equal(dummyTopic);
+        });
+
+        it('sets the document correctly', function() {
+            let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+            // the doc should be equal to our initial document
+            expect(myActionItem._infoItemDoc).to.equal(infoItemDoc);
+        });
+
+        it('sets the initial value for the isOpen-flag correctly', function() {
+            let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+            // the isOpen-filed should be initially true for a new actionItem
+            expect(myActionItem._infoItemDoc.isOpen).to.be.true;
+        });
     });
 
     it('#getDateFromDetails', function () {
