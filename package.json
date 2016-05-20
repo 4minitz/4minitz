@@ -11,7 +11,7 @@
     "test": "npm run test:unit",
     "test:ci": "npm run test:unit && npm run test:integration:headless && npm run test:end2end:headless",
 
-    "test:unit": "meteor node ./node_modules/mocha/bin/mocha ./tests/unit/**/*.js --compilers js:babel-register",
+    "test:unit": "node ./node_modules/mocha/bin/mocha ./tests/unit/**/*.js --compilers js:babel-register",
 
     "test:integration": "npm run test:integration:browser",
     "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200",
