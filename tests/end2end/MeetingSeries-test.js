@@ -1,4 +1,4 @@
-var e2e = require('./e2eHelpers');
+var e2e = require('./E2EHelpers');
 
 console.log("End2End Settings:");
 console.log("# of test users:"+e2e.settings.e2eTestUsers.length);
