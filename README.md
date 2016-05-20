@@ -1,5 +1,10 @@
 # 4minitz!
 
+## Build status
+|Branch||
+|---|---|
+|develop|[![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=develop)](https://travis-ci.org/4minitz/4minitz)|
+
 Simply the best app for taking minutes.
 
 Documentation is "continously" not finished... Nevertheless these WIP docs may be of help:
