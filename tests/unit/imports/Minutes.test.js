@@ -9,6 +9,7 @@ import _ from 'underscore';
 require('../../../lib/helpers');
 
 let MinutesCollection = {
+    find: sinon.stub(),
     findOne: sinon.stub()
 };
 
@@ -60,6 +61,7 @@ describe('Minutes', function () {
     });
 
     afterEach(function () {
+        MinutesCollection.find.reset();
         MinutesCollection.findOne.reset();
         Meteor.call.reset();
         isCurrentUserModeratorStub.reset();
@@ -89,6 +91,99 @@ describe('Minutes', function () {
             }
 
             expect(exceptionThrown).to.be.true;
+        });
+
+    });
+
+    describe('find', function () {
+
+        it('#find', function () {
+            Minutes.find("myArg");
+            expect(MinutesCollection.find.calledOnce, "find-Method should be called once").to.be.true;
+            expect(MinutesCollection.find.calledWithExactly("myArg"), "arguments should be passed").to.be.true;
+        });
+
+        it('#findOne', function () {
+            Minutes.findOne("myArg");
+            expect(MinutesCollection.findOne.calledOnce, "findOne-Method should be called once").to.be.true;
+            expect(MinutesCollection.findOne.calledWithExactly("myArg"), "arguments should be passed").to.be.true;
+        });
+
+        describe('#findAllIn', function () {
+
+            let minIdArray;
+            let limit;
+
+            beforeEach(function () {
+                minIdArray = ['1', '2'];
+                limit = 3;
+            });
+
+            it('calls the find-Method of the Collection', function () {
+                Minutes.findAllIn(minIdArray, limit);
+                expect(MinutesCollection.find.calledOnce, "find-Method should be called once").to.be.true;
+            });
+
+            it('sets the id selector correctly', function () {
+                Minutes.findAllIn(minIdArray, limit);
+                let selector = MinutesCollection.find.getCall(0).args[0];
+                expect(selector, "Selector has the property _id").to.have.ownProperty('_id');
+                expect(selector._id, '_id-selector has propery $in').to.have.ownProperty('$in');
+                expect(selector._id.$in, 'idArray should be passed').to.deep.equal(minIdArray);
+            });
+
+            it('sets the option correctly (sort, no limit)', function () {
+                let expectedOption = { sort: {date: -1} };
+                Minutes.findAllIn(minIdArray);
+                let options = MinutesCollection.find.getCall(0).args[1];
+                expect(options).to.deep.equal(expectedOption);
+            });
+
+            it('sets the option correctly (sort and limit)', function () {
+                let expectedOption = { sort: {date: -1}, limit: limit };
+                Minutes.findAllIn(minIdArray, limit);
+                let options = MinutesCollection.find.getCall(0).args[1];
+                expect(options).to.deep.equal(expectedOption);
+            });
+
+        });
+
+    });
+
+    describe('#remove', function () {
+
+        it('calls the meteor method minutes.remove', function () {
+            Minutes.remove(minute._id);
+            expect(Meteor.call.calledOnce).to.be.true;
+        });
+
+        it('sends the minutes id to the meteor method minutes.remove', function () {
+            Minutes.remove(minute._id);
+            expect(Meteor.call.calledWithExactly('minutes.remove', minute._id, undefined)).to.be.true;
+        });
+
+    });
+
+    describe('#syncVisibility', function () {
+
+        let visibleForArray, parentSeriesId;
+
+        beforeEach(function () {
+            visibleForArray = [
+                '1',
+                '2'
+            ];
+            parentSeriesId = minute.meetingSeries_id;
+        });
+
+        it('calls the meteor method minutes.syncVisibility', function () {
+            Minutes.syncVisibility(parentSeriesId, visibleForArray);
+            expect(Meteor.call.calledOnce).to.be.true;
+        });
+
+        it('sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibility', function () {
+            Minutes.syncVisibility(parentSeriesId, visibleForArray);
+            expect(Meteor.call.calledWithExactly('minutes.syncVisibility', parentSeriesId, visibleForArray)).to.be.true;
         });
 
     });
