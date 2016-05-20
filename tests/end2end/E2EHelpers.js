@@ -127,7 +127,7 @@ var getMeetingSeriesId = function (aProj, aName) {
     try {
         browser.waitForExist('li.meeting-series-item');
     } catch (e) {
-        return undefined;   // we have no meeting series at all!
+        return false;   // we have no meeting series at all!
     }
     let compareText = aProj+": "+aName;
 
@@ -138,11 +138,10 @@ var getMeetingSeriesId = function (aProj, aName) {
         let visibleText = browser.elementIdText(elemId).value;
         if (visibleText == compareText) {
             let linkTarget = browser.elementIdAttribute(elemId, 'href').value;
-            console.log(">"+linkTarget+"<");
             return linkTarget.slice(linkTarget.lastIndexOf("/")+1);
         }
     }
-    throw new Error("Could not find Meeting Series '"+compareText+"'");
+    return false;
 };
 
 
@@ -162,11 +161,22 @@ var gotoMeetingSeries = function (aProj, aName) {
         let elemId = elements.value[i].ELEMENT;
         let visibleText = browser.elementIdText(elemId).value;
         if (visibleText == compareText) {
-            let linkTarget = browser.elementIdClick(elemId);
+            browser.elementIdClick(elemId);
             return true;
         }
     }
     throw new Error("Could not find Meeting Series '"+compareText+"'");
+};
+
+var openMeetingSeriesEditor = function (aProj, aName) {
+    gotoMeetingSeries(aProj, aName);
+
+    // Open dialog
+    browser.waitForVisible('#btnEditMeetingSeries', 3000);
+    browser.click('#btnEditMeetingSeries');
+    waitSomeTime(750); // give dialog animation time
+    // Check if dialog is there?
+    browser.waitForVisible('#btnMeetingSeriesSave', 3000);
 };
 
 
@@ -183,3 +193,4 @@ module.exports.inOnStartPage = isOnStartPage;
 module.exports.createMeetingSeries = createMeetingSeries;
 module.exports.getMeetingSeriesId = getMeetingSeriesId;
 module.exports.gotoMeetingSeries = gotoMeetingSeries;
+module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor ;

@@ -33,24 +33,53 @@ describe('MeetingSeries', function () {
     });
     
 
-    it('can create a first meeting series @watch', function () {
+    it('can create a first meeting series', function () {
         var initialCount = countMeetingSeries();
         expect(initialCount).to.equal(0);
         e2e.createMeetingSeries("E2E Project", "Meeting Name #1");
         expect(countMeetingSeries()).to.equal(1);
+        expect(e2e.getMeetingSeriesId("E2E Project", "Meeting Name #1")).not.to.be.false;
     });
 
 
-    it('can create a further meeting series @watch', function () {
+    it('can create a further meeting series', function () {
         var initialCount = countMeetingSeries();
         e2e.createMeetingSeries("E2E Project", "Meeting Name #2");
         expect(countMeetingSeries()).to.equal(initialCount + 1);
+        expect(e2e.getMeetingSeriesId("E2E Project", "Meeting Name #2")).not.to.be.false;
     });
 
     
-    it('can goto meeting series details @watch', function () {
+    it('can goto meeting series details', function () {
         e2e.createMeetingSeries("E2E Project", "Meeting Name #3");
         e2e.gotoMeetingSeries("E2E Project", "Meeting Name #3");
         expect(e2e.inOnStartPage()).to.be.false;
+    });
+
+
+    it('can open and close meeting series editor @watch', function () {
+        e2e.createMeetingSeries("E2E Project", "Meeting Name #4");
+        e2e.openMeetingSeriesEditor("E2E Project", "Meeting Name #4");
+        // Now dialog should be there
+        expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.true;
+        browser.click('button.close');
+        e2e.waitSomeTime(750); // give dialog animation time
+        // Now dialog should be gone
+        expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.false;
+    });
+
+    it('can delete a meeting series @watch', function () {
+        e2e.createMeetingSeries("E2E Project", "Meeting Name #5");
+        var countAfterCreate = countMeetingSeries();
+        expect(e2e.getMeetingSeriesId("E2E Project", "Meeting Name #5")).not.to.be.false;
+        e2e.openMeetingSeriesEditor("E2E Project", "Meeting Name #5");
+
+        browser.click("#deleteMeetingSeries");  // Delete this Meeting Series!
+        browser.waitForVisible('#confirmationDialogOK', 3000);
+        browser.click("#confirmationDialogOK"); // YES, do it!
+        e2e.waitSomeTime(750); // give dialog animation time
+
+        expect(countMeetingSeries()).to.equal(countAfterCreate -1);
+        expect(e2e.getMeetingSeriesId("E2E Project", "Meeting Name #5")).to.be.false;
     });
 });
