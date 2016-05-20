@@ -93,6 +93,35 @@ describe('Minutes', function () {
 
     });
 
+    describe('#update', function () {
+
+        let updateDocPart;
+
+        beforeEach(function () {
+            updateDocPart = {
+                date: '2016-05-07'
+            }
+        });
+
+        it('calls the meteor method minutes.update', function () {
+            minute.update(updateDocPart);
+            expect(Meteor.call.calledOnce).to.be.true;
+        });
+
+        it('sends the doc part and the minutes id to the meteor method minutes.update', function () {
+            minute.update(updateDocPart);
+            let sentObj = JSON.parse(JSON.stringify(updateDocPart));
+            sentObj._id = minute._id;
+            expect(Meteor.call.calledWithExactly('minutes.update', sentObj, undefined)).to.be.true;
+        });
+
+        it('updates the changed property of the minute object', function () {
+            minute.update(updateDocPart);
+            expect(minute.date).to.equal(updateDocPart.date);
+        });
+
+    });
+
     describe('#save', function () {
 
         it('calls the meteor method minutes.insert if a new minute will be saved', function () {
@@ -105,6 +134,23 @@ describe('Minutes', function () {
             delete minute._id;
             minute.save();
             expect(Meteor.call.calledWithExactly('minutes.insert', minute, undefined, undefined)).to.be.true;
+        });
+
+        it('sets the createdAt-property if it is not set', function () {
+            delete minute._id;
+            delete minute.createdAt;
+            minute.save();
+            expect(minute).to.have.ownProperty('createdAt');
+        });
+
+        it('calls the meteor method minutes.update if a existing minute will be saved', function () {
+            minute.save();
+            expect(Meteor.call.calledOnce).to.be.true;
+        });
+
+        it('sends the minutes object to the meteor method minutes.update', function () {
+            minute.save();
+            expect(Meteor.call.calledWithExactly('minutes.update', minute)).to.be.true;
         });
 
     });
