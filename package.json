@@ -9,16 +9,18 @@
   },
   "scripts": {
     "test": "npm run test:unit",
-    "test:ci": "meteor npm run test:unit && meteor npm run test:integration:headless",
-    "test:unit": "node ./node_modules/mocha/bin/mocha ./tests/unit/**/*.js --compilers js:babel-register",
-    "test:integration": "meteor npm run test:integration:browser",
-    "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3100",
-    "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3100",
-    "test:end2end:server": "meteor run --port 3100 --settings ./settings-test-end2end.json",
+    "test:ci": "npm run test:unit && npm run test:integration:headless && npm run test:end2end:headless",
 
-    "//": "The below commands do not work, yet when called via meteor npm run XXXXX :-(",
-    "test:end2end:testonce": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
-    "test:end2end:testwatch": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch"
+    "test:unit": "meteor node ./node_modules/mocha/bin/mocha ./tests/unit/**/*.js --compilers js:babel-register",
+
+    "test:integration": "npm run test:integration:browser",
+    "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200",
+    "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3200",
+
+    "test:end2end:server": "meteor run --port 3100 --settings ./settings-test-end2end.json",
+    "test:end2end:headless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs", 
+    "test:end2end:once": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
+    "test:end2end:watch": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch"
   },
   "repository": {
     "type": "git",
