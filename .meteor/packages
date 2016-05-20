@@ -34,3 +34,4 @@ aldeed:simple-schema
 aldeed:collection2
 percolate:migrations
 dispatch:mocha-phantomjs
+email
