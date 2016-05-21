@@ -46,16 +46,31 @@ describe('MeetingSeries Editor', function () {
         e2e.createMeetingSeries(aProjectName, aMeetingName);
         let countAfterCreate = e2e.countMeetingSeries();
 
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
         browser.click("#deleteMeetingSeries");
-        browser.waitForVisible('#confirmationDialogOK', 1000);
-        browser.click("#confirmationDialogOK");
-        e2e.waitSomeTime(750); // give dialog animation time
+        e2e.confirmationDialogAnswer(true);
 
         expect(e2e.countMeetingSeries()).to.equal(countAfterCreate -1);
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.false;
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
+    });
+
+
+    it('can cancel delete of meeting series', function () {
+        let aProjectName = "E2E Project";
+        let aMeetingName = "Meeting Name #5a";
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
+        let countAfterCreate = e2e.countMeetingSeries();
+
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
+        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+
+        browser.click("#deleteMeetingSeries");
+        e2e.confirmationDialogAnswer(false);
+
+        expect(e2e.countMeetingSeries()).to.equal(countAfterCreate);
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
     });
 
 
@@ -76,9 +91,7 @@ describe('MeetingSeries Editor', function () {
         // Now delete meeting series with attached Minutes
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
         browser.click("#deleteMeetingSeries");
-        browser.waitForVisible('#confirmationDialogOK', 1000);
-        browser.click("#confirmationDialogOK");
-        e2e.waitSomeTime(750); // give dialog animation time
+        e2e.confirmationDialogAnswer(true);
 
         // Meeting series and attached minutes should be gone
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(countDBMeetingSeriesBefore);

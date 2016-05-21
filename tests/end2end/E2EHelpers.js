@@ -107,6 +107,17 @@ let countMeetingSeries = function() {
 };
 
 
+let confirmationDialogAnswer = function (pressOK) {
+    waitSomeTime(750); // give dialog animation time
+    browser.waitForVisible('#confirmationDialogOK', 1000);
+    if (pressOK) {
+        browser.click("#confirmationDialogOK");
+    } else {
+        browser.click("#confirmationDialogCancel");
+    }
+    waitSomeTime(750); // give dialog animation time
+};
+
 
 let createMeetingSeries = function (aProj, aName) {
     gotoStartPage();
@@ -155,14 +166,15 @@ let getMeetingSeriesId = function (aProj, aName) {
 let gotoMeetingSeries = function (aProj, aName) {
     gotoStartPage();
 
+    let selector = 'li.meeting-series-item a';
     try {
-        browser.waitForExist('li.meeting-series-item');
+        browser.waitForExist(selector);
     } catch (e) {
         return false;   // we have no meeting series at all!
     }
     let compareText = aProj+": "+aName;
 
-    const elements = browser.elements('li.meeting-series-item a');
+    const elements = browser.elements(selector);
 
     for (let i in elements.value) {
         let elemId = elements.value[i].ELEMENT;
@@ -187,12 +199,22 @@ let openMeetingSeriesEditor = function (aProj, aName) {
     browser.waitForVisible('#btnMeetingSeriesSave', 1000);
 };
 
-
-let addMinutesToMeetingSeries = function (aProj, aName) {
+/**
+ * 
+ * @param aProj
+ * @param aName
+ * @param aDate is optional!
+ */
+let addMinutesToMeetingSeries = function (aProj, aName, aDate) {
     gotoMeetingSeries(aProj, aName);
     browser.waitForVisible("#btnAddMinutes");
     browser.click("#btnAddMinutes");
     waitSomeTime(); // give route change time
+    
+    if (aDate) {
+        browser.waitForVisible('#id_minutesdateInput');
+        browser.setValue('#id_minutesdateInput', aDate);   // date of first commit to our project ;-)
+    }
 };
 
 
@@ -238,6 +260,28 @@ let getMinutesId = function (aDate) {
 };
 
 
+let gotoMinutes = function (aDate) {
+    let selector = 'a#id_linkToMinutes';
+    try {
+        browser.waitForExist(selector);
+    } catch (e) {
+        return false;   // we have no meeting series at all!
+    }
+
+    const elements = browser.elements(selector);
+
+    for (let i in elements.value) {
+        let elemId = elements.value[i].ELEMENT;
+        let visibleText = browser.elementIdText(elemId).value;
+        if (visibleText == aDate) {
+            browser.elementIdClick(elemId);
+            return true;
+        }
+    }
+    throw new Error("Could not find Minutes '"+aDate+"'");
+};
+
+
 
 // ************* EXPORTS ****************
 module.exports.settings = settings;
@@ -248,7 +292,9 @@ module.exports.loginUser = loginUser;
 module.exports.logoutUser = logoutUser;
 module.exports.launchApp = launchApp;
 module.exports.gotoStartPage = gotoStartPage;
-module.exports.inOnStartPage = isOnStartPage;
+module.exports.isOnStartPage = isOnStartPage;
+module.exports.confirmationDialogAnswer = confirmationDialogAnswer;
+
 module.exports.createMeetingSeries = createMeetingSeries;
 module.exports.countMeetingSeries = countMeetingSeries;
 module.exports.getMeetingSeriesId = getMeetingSeriesId;
@@ -256,6 +302,7 @@ module.exports.gotoMeetingSeries = gotoMeetingSeries;
 module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor ;
 
 module.exports.addMinutesToMeetingSeries = addMinutesToMeetingSeries;
+module.exports.gotoMinutes = gotoMinutes;
 module.exports.finalizeCurrentMinutes = finalizeCurrentMinutes;
 module.exports.getMinutesId = getMinutesId;
 module.exports.countMinutesForSeries = countMinutesForSeries;

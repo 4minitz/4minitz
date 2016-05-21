@@ -53,6 +53,6 @@ describe('MeetingSeries', function () {
         let aMeetingName = "Meeting Name #3";
         e2e.createMeetingSeries(aProjectName, aMeetingName);
         e2e.gotoMeetingSeries(aProjectName, aMeetingName);
-        expect(e2e.inOnStartPage()).to.be.false;
+        expect(e2e.isOnStartPage()).to.be.false;
     });
 });
