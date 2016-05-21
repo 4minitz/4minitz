@@ -6,11 +6,7 @@ let waitSomeTime = function (milliseconds) {
     if (!milliseconds) {
         milliseconds = 500;
     }
-    try {
-        browser.waitForExist('.THIS-CLASS-DOES-NOT-EXIST', milliseconds);
-    } catch (e) {
-        // intentionally do nothing
-    }
+    browser.pause(milliseconds);
 } ;
 
 
@@ -108,7 +104,7 @@ let countMeetingSeries = function() {
     }
     const elements = browser.elements('li.meeting-series-item');
     return elements.value.length;
-}
+};
 
 
 
@@ -119,8 +115,8 @@ let createMeetingSeries = function (aProj, aName) {
     if (! browser.isVisible('input[id="id_meetingproject"]')) {
         waitSomeTime();
         browser.click('#btnNewMeetingSeries');  // open
-        browser.waitForVisible('input[id="id_meetingproject"]', 3000);
         waitSomeTime();
+        browser.waitForVisible('input[id="id_meetingproject"]');
     }
 
     browser.setValue('input[id="id_meetingproject"]', aProj);
@@ -180,16 +176,33 @@ let gotoMeetingSeries = function (aProj, aName) {
     throw new Error("Could not find Meeting Series '"+compareText+"'");
 };
 
+
 let openMeetingSeriesEditor = function (aProj, aName) {
     gotoMeetingSeries(aProj, aName);
 
     // Open dialog
-    browser.waitForVisible('#btnEditMeetingSeries', 3000);
+    browser.waitForVisible('#btnEditMeetingSeries', 1000);
     browser.click('#btnEditMeetingSeries');
     waitSomeTime(750); // give dialog animation time
     // Check if dialog is there?
-    browser.waitForVisible('#btnMeetingSeriesSave', 3000);
+    browser.waitForVisible('#btnMeetingSeriesSave', 1000);
 };
+
+
+let addMinutesToMeetingSeries = function (aProj, aName) {
+    gotoMeetingSeries(aProj, aName);
+    browser.waitForVisible("#btnAddMinutes");
+    browser.click("#btnAddMinutes");
+    waitSomeTime(); // give route change time
+};
+
+
+let finalizeCurrentMinutes = function () {
+    browser.waitForVisible("#btn_finalizeMinutes");
+    browser.click("#btn_finalizeMinutes");
+    waitSomeTime(); // give dialog animation time
+};
+
 
 
 // ************* EXPORTS ****************
@@ -207,3 +220,5 @@ module.exports.countMeetingSeries = countMeetingSeries;
 module.exports.getMeetingSeriesId = getMeetingSeriesId;
 module.exports.gotoMeetingSeries = gotoMeetingSeries;
 module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor ;
+module.exports.addMinutesToMeetingSeries = addMinutesToMeetingSeries;
+module.exports.finalizeCurrentMinutes = finalizeCurrentMinutes;

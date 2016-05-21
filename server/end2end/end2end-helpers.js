@@ -25,11 +25,11 @@ if (Meteor.settings.isEnd2EndTest) {
                 console.log("Created user: "+newUser+" with password: "+newPassword);
             }
         },
-        'e2e.countMeetingSeriesAll'() {
+        'e2e.countMeetingSeriesInMongDB'() {
             console.log("-------------------------- E2E-METHOD: countMeetingSeries");
             return MeetingSeriesCollection.find({}).count();
         },
-        'e2e.countMinutesAll'() {
+        'e2e.countMinutesInMongoDB'() {
             console.log("-------------------------- E2E-METHOD: countMinutesSeries");
             return MinutesCollection.find({}).count();
         }

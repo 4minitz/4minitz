@@ -1,7 +1,7 @@
 let e2e = require('./E2EHelpers');
 
 
-describe('MeetingSeries Edit', function () {
+describe('MeetingSeries Editor', function () {
     beforeEach("goto start page and make sure test user is logged in", function () {
         e2e.gotoStartPage();
         expect(browser.getTitle()).to.equal('4minitz!');
@@ -42,15 +42,16 @@ describe('MeetingSeries Edit', function () {
 
     it('can delete an empty meeting series', function () {
         let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #5";
+        let aMeetingName = "Meeting Name #5a";
         e2e.createMeetingSeries(aProjectName, aMeetingName);
         let countAfterCreate = e2e.countMeetingSeries();
+
         expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
-        browser.click("#deleteMeetingSeries");  // Delete this Meeting Series!
-        browser.waitForVisible('#confirmationDialogOK', 3000);
-        browser.click("#confirmationDialogOK"); // YES, do it!
+        browser.click("#deleteMeetingSeries");
+        browser.waitForVisible('#confirmationDialogOK', 1000);
+        browser.click("#confirmationDialogOK");
         e2e.waitSomeTime(750); // give dialog animation time
 
         expect(e2e.countMeetingSeries()).to.equal(countAfterCreate -1);
@@ -58,7 +59,35 @@ describe('MeetingSeries Edit', function () {
     });
 
 
-    it('can not save meeting series without project or name @watch', function () {
+    it('can clean up child minutes on deleting meeting series', function () {
+        let aProjectName = "E2E Project";
+        let aMeetingName = "Meeting Name #5b";
+        let countDBMeetingSeriesBefore = server.call('e2e.countMeetingSeriesInMongDB');
+        let countDBMinutesBefore = server.call('e2e.countMinutesInMongoDB');
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
+        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        e2e.finalizeCurrentMinutes();
+        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+
+        // One more Meeting series and one more minutes
+        expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(countDBMeetingSeriesBefore +1);
+        expect(server.call('e2e.countMinutesInMongoDB')).to.equal(countDBMinutesBefore +1);
+
+        // Now delete meeting series with attached Minutes
+        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        browser.click("#deleteMeetingSeries");
+        browser.waitForVisible('#confirmationDialogOK', 1000);
+        browser.click("#confirmationDialogOK");
+        e2e.waitSomeTime(750); // give dialog animation time
+
+        // Meeting series and attached minutes should be gone
+        expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(countDBMeetingSeriesBefore);
+        expect(server.call('e2e.countMinutesInMongoDB')).to.equal(countDBMinutesBefore);
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
+    });
+
+
+    it('can not save meeting series without project or name', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #6";
         e2e.createMeetingSeries(aProjectName, aMeetingName);
@@ -85,7 +114,7 @@ describe('MeetingSeries Edit', function () {
     });
 
 
-    it('can save meeting series with new project and name @watch', function () {
+    it('can save meeting series with new project and name', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #7";
         e2e.createMeetingSeries(aProjectName, aMeetingName);
