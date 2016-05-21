@@ -1,4 +1,4 @@
-var e2e = require('./E2EHelpers');
+let e2e = require('./E2EHelpers');
 
 console.log("End2End Settings:");
 console.log("# of test users:"+e2e.settings.e2eTestUsers.length);
@@ -34,32 +34,40 @@ describe('MeetingSeries', function () {
     
 
     it('can create a first meeting series', function () {
-        var initialCount = countMeetingSeries();
+        let aProjectName = "E2E Project";
+        let aMeetingName = "Meeting Name #1";
+        let initialCount = countMeetingSeries();
         expect(initialCount).to.equal(0);
-        e2e.createMeetingSeries("E2E Project", "Meeting Name #1");
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
         expect(countMeetingSeries()).to.equal(1);
-        expect(e2e.getMeetingSeriesId("E2E Project", "Meeting Name #1")).not.to.be.false;
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
     });
 
 
     it('can create a further meeting series', function () {
-        var initialCount = countMeetingSeries();
-        e2e.createMeetingSeries("E2E Project", "Meeting Name #2");
+        let aProjectName = "E2E Project";
+        let aMeetingName = "Meeting Name #2";
+        let initialCount = countMeetingSeries();
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
         expect(countMeetingSeries()).to.equal(initialCount + 1);
-        expect(e2e.getMeetingSeriesId("E2E Project", "Meeting Name #2")).not.to.be.false;
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
     });
 
     
     it('can goto meeting series details', function () {
-        e2e.createMeetingSeries("E2E Project", "Meeting Name #3");
-        e2e.gotoMeetingSeries("E2E Project", "Meeting Name #3");
+        let aProjectName = "E2E Project";
+        let aMeetingName = "Meeting Name #3";
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
+        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
         expect(e2e.inOnStartPage()).to.be.false;
     });
 
 
     it('can open and close meeting series editor @watch', function () {
-        e2e.createMeetingSeries("E2E Project", "Meeting Name #4");
-        e2e.openMeetingSeriesEditor("E2E Project", "Meeting Name #4");
+        let aProjectName = "E2E Project";
+        let aMeetingName = "Meeting Name #4";
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
+        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.true;
         browser.click('button.close');
@@ -69,10 +77,12 @@ describe('MeetingSeries', function () {
     });
 
     it('can delete a meeting series @watch', function () {
-        e2e.createMeetingSeries("E2E Project", "Meeting Name #5");
-        var countAfterCreate = countMeetingSeries();
-        expect(e2e.getMeetingSeriesId("E2E Project", "Meeting Name #5")).not.to.be.false;
-        e2e.openMeetingSeriesEditor("E2E Project", "Meeting Name #5");
+        let aProjectName = "E2E Project";
+        let aMeetingName = "Meeting Name #5";
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
+        let countAfterCreate = countMeetingSeries();
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
+        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
         browser.click("#deleteMeetingSeries");  // Delete this Meeting Series!
         browser.waitForVisible('#confirmationDialogOK', 3000);
@@ -80,6 +90,6 @@ describe('MeetingSeries', function () {
         e2e.waitSomeTime(750); // give dialog animation time
 
         expect(countMeetingSeries()).to.equal(countAfterCreate -1);
-        expect(e2e.getMeetingSeriesId("E2E Project", "Meeting Name #5")).to.be.false;
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.false;
     });
 });

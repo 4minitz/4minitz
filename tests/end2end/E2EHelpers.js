@@ -1,8 +1,8 @@
 
-var settings = require('../../settings-test-end2end.json');
+let settings = require('../../settings-test-end2end.json');
 
 
-var waitSomeTime = function (milliseconds) {
+let waitSomeTime = function (milliseconds) {
     if (!milliseconds) {
         milliseconds = 500;
     }
@@ -15,7 +15,7 @@ var waitSomeTime = function (milliseconds) {
 
 
 // Calls the server method to clean database and create fresh test users
-var resetMyApp = function () {
+let resetMyApp = function () {
     try {
         server.call('e2e.resetMyApp');
     } catch (e) {
@@ -25,7 +25,7 @@ var resetMyApp = function () {
 };
 
 
-var isLoggedIn = function () {
+let isLoggedIn = function () {
     try {
         browser.waitForExist('#navbar-signout', 1000);         // browser = WebdriverIO instance
     } catch (e) {
@@ -35,7 +35,7 @@ var isLoggedIn = function () {
 };
 
 
-var logoutUser = function () {
+let logoutUser = function () {
     if (isLoggedIn()) {
         browser.click('#navbar-signout')
     }
@@ -46,12 +46,12 @@ var logoutUser = function () {
  * Logout current user, if necessary, then login a specific test user 
  * @param index of test user from setting. optional.
  */
-var loginUser = function (index) {
+let loginUser = function (index) {
     if (!index) {
         index = 0;
     }
-    var aUser = settings.e2eTestUsers[index];
-    var aPassword = settings.e2eTestPasswords[index];
+    let aUser = settings.e2eTestUsers[index];
+    let aPassword = settings.e2eTestPasswords[index];
 
     logoutUser();
     try {    // try to log in
@@ -70,7 +70,7 @@ var loginUser = function (index) {
 };
 
 
-var launchApp = function () {
+let launchApp = function () {
     browser.url(settings.e2eUrl);
 
     if (browser.getTitle() != "4minitz!") {
@@ -79,7 +79,7 @@ var launchApp = function () {
 };
 
 
-var isOnStartPage = function () {
+let isOnStartPage = function () {
     // post-condition
     try {
         browser.waitForExist('#btnNewMeetingSeries', 2000);
@@ -92,7 +92,7 @@ var isOnStartPage = function () {
 
 // We can't use "launchApp" here, as this resets the browser
 // so we click on the "Logo" icon
-var gotoStartPage = function () {
+let gotoStartPage = function () {
     browser.click('a.navbar-brand');
 
     // check post-condition
@@ -100,7 +100,7 @@ var gotoStartPage = function () {
 };
 
 
-var createMeetingSeries = function (aProj, aName) {
+let createMeetingSeries = function (aProj, aName) {
     gotoStartPage();
 
     // is "create MeetingSeries dialog" closed?
@@ -121,7 +121,7 @@ var createMeetingSeries = function (aProj, aName) {
 };
 
 
-var getMeetingSeriesId = function (aProj, aName) {
+let getMeetingSeriesId = function (aProj, aName) {
     gotoStartPage();
 
     try {
@@ -145,7 +145,7 @@ var getMeetingSeriesId = function (aProj, aName) {
 };
 
 
-var gotoMeetingSeries = function (aProj, aName) {
+let gotoMeetingSeries = function (aProj, aName) {
     gotoStartPage();
 
     try {
@@ -168,7 +168,7 @@ var gotoMeetingSeries = function (aProj, aName) {
     throw new Error("Could not find Meeting Series '"+compareText+"'");
 };
 
-var openMeetingSeriesEditor = function (aProj, aName) {
+let openMeetingSeriesEditor = function (aProj, aName) {
     gotoMeetingSeries(aProj, aName);
 
     // Open dialog
