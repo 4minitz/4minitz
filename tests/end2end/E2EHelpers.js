@@ -99,6 +99,18 @@ let gotoStartPage = function () {
     expect (isOnStartPage()).to.be.true;
 };
 
+let countMeetingSeries = function() {
+    gotoStartPage();
+    try {
+        browser.waitForExist('li.meeting-series-item');
+    } catch (e) {
+        return 0;   // we have no meeting series <li> => "zero" result
+    }
+    const elements = browser.elements('li.meeting-series-item');
+    return elements.value.length;
+}
+
+
 
 let createMeetingSeries = function (aProj, aName) {
     gotoStartPage();
@@ -191,6 +203,7 @@ module.exports.launchApp = launchApp;
 module.exports.gotoStartPage = gotoStartPage;
 module.exports.inOnStartPage = isOnStartPage;
 module.exports.createMeetingSeries = createMeetingSeries;
+module.exports.countMeetingSeries = countMeetingSeries;
 module.exports.getMeetingSeriesId = getMeetingSeriesId;
 module.exports.gotoMeetingSeries = gotoMeetingSeries;
 module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor ;
