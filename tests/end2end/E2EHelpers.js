@@ -13,7 +13,7 @@ let waitSomeTime = function (milliseconds) {
 // Calls the server method to clean database and create fresh test users
 let resetMyApp = function () {
     try {
-        server.call('e2e.resetMyApp');
+        server.call('e2e.resetMyApp');  // call meteor server method
     } catch (e) {
         console.log("Exception: "+e);
         console.log("Did you forget to run the server with '--settings settings-test-end2end.json'?");
@@ -113,7 +113,6 @@ let createMeetingSeries = function (aProj, aName) {
 
     // is "create MeetingSeries dialog" closed?
     if (! browser.isVisible('input[id="id_meetingproject"]')) {
-        waitSomeTime();
         browser.click('#btnNewMeetingSeries');  // open
         waitSomeTime();
         browser.waitForVisible('input[id="id_meetingproject"]');
@@ -204,6 +203,41 @@ let finalizeCurrentMinutes = function () {
 };
 
 
+let countMinutesForSeries = function(aProj, aName) {
+    let selector = 'a#id_linkToMinutes';
+    gotoMeetingSeries(aProj, aName);
+    try {
+        browser.waitForExist(selector);
+    } catch (e) {
+        return 0;   // we have no minutes series <li> => "zero" result
+    }
+    const elements = browser.elements(selector);
+    return elements.value.length;
+};
+
+
+let getMinutesId = function (aDate) {
+    let selector = 'a#id_linkToMinutes';
+    try {
+        browser.waitForExist(selector);
+    } catch (e) {
+        return false;   // we have no meeting series at all!
+    }
+
+    const elements = browser.elements(selector);
+
+    for (let i in elements.value) {
+        let elemId = elements.value[i].ELEMENT;
+        let visibleText = browser.elementIdText(elemId).value;
+        if (visibleText == aDate) {
+            let linkTarget = browser.elementIdAttribute(elemId, 'href').value;
+            return linkTarget.slice(linkTarget.lastIndexOf("/")+1);
+        }
+    }
+    return false;
+};
+
+
 
 // ************* EXPORTS ****************
 module.exports.settings = settings;
@@ -220,5 +254,8 @@ module.exports.countMeetingSeries = countMeetingSeries;
 module.exports.getMeetingSeriesId = getMeetingSeriesId;
 module.exports.gotoMeetingSeries = gotoMeetingSeries;
 module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor ;
+
 module.exports.addMinutesToMeetingSeries = addMinutesToMeetingSeries;
 module.exports.finalizeCurrentMinutes = finalizeCurrentMinutes;
+module.exports.getMinutesId = getMinutesId;
+module.exports.countMinutesForSeries = countMinutesForSeries;
