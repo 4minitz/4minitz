@@ -367,6 +367,55 @@ let gotoMinutes = function (aDate) {
     throw new Error("Could not find Minutes '"+aDate+"'");
 };
 
+let gotoLatestMinutes = function () {
+    let selector = 'a#id_linkToMinutes';
+
+    try {
+        browser.waitForExist(selector);
+    } catch (e) {
+        return false;
+    }
+
+    const elements = browser.elements(selector);
+    const firstElementId = elements.value[0].ELEMENT;
+
+    browser.elementIdClick(firstElementId);
+
+    throw new Error("Could not find any Minutes");
+};
+
+let addTopicToMinutes = function (aTopic) {
+    browser.waitForVisible("#id_showAddTopicDialog");
+    browser.click("#id_showAddTopicDialog");
+
+    try {
+        browser.waitForVisible('#id_subject');
+    } catch (e) {
+        return false;
+    }
+    waitSomeTime();
+
+    browser.setValue('#id_subject', aTopic);
+    browser.click("#btnTopicSave");
+    waitSomeTime();
+};
+
+let getTopicsForMinute = function () {
+    let selector = '#accordion > div.well';
+    try {
+        browser.waitForExist(selector);
+    } catch (e) {
+        return 0;
+    }
+    const elements = browser.elements(selector);
+    return elements.value;
+};
+
+let countTopicsForMinute = function() {
+    var topics = getTopicsForMinute();
+    
+    return topics.length;
+};
 
 
 // ************* EXPORTS ****************
@@ -395,3 +444,7 @@ module.exports.gotoMinutes = gotoMinutes;
 module.exports.finalizeCurrentMinutes = finalizeCurrentMinutes;
 module.exports.getMinutesId = getMinutesId;
 module.exports.countMinutesForSeries = countMinutesForSeries;
+module.exports.addTopicToMinutes = addTopicToMinutes;
+module.exports.gotoLatestMinutes = gotoLatestMinutes;
+module.exports.getTopicsForMinute = getTopicsForMinute;
+module.exports.countTopicsForMinute = countTopicsForMinute;

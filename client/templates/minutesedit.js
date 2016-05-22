@@ -12,6 +12,39 @@ Template.minutesedit.onCreated(function () {
     _minutesID = this.data;
 });
 
+var isMinuteFinalized = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isFinalized);
+};
+
+var toggleTopicSorting = function () {
+    let topicList = $('#accordion'),
+        isFinalized = isMinuteFinalized();
+
+    if (!isFinalized) {
+        topicList.sortable('enable');
+    }
+
+    if (isFinalized) {
+        topicList.sortable('disable');
+    }
+};
+
+var updateTopicSorting = function () {
+    let sorting = $('#accordion').find('> div.well'),
+        minute = new Minutes(_minutesID),
+        newTopicSorting = [];
+
+    for (let i = 0; i < sorting.length; ++i) {
+        let topicId = $(sorting[i]).attr('data-id');
+        let topic = minute.findTopic(topicId);
+
+        newTopicSorting.push(topic);
+    }
+
+    minute.update({topics: newTopicSorting});
+};
+
 Template.minutesedit.onRendered(function () {
     let datePickerNode = this.$('#id_minutesdatePicker');
     datePickerNode.datetimepicker({
@@ -27,12 +60,18 @@ Template.minutesedit.onRendered(function () {
             datePickerNode.data("DateTimePicker").minDate(minDate);
         }
     }
-});
 
-var isMinuteFinalized = function () {
-    let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isFinalized);
-};
+    $('#accordion').sortable({
+        appendTo: document.body,
+        axis: 'y',
+        items: '> .well',
+        opacity: 0.5,
+        disabled: true,
+        update: updateTopicSorting
+    });
+
+    toggleTopicSorting();
+});
 
 var isModerator = function () {
     let aMin = new Minutes(_minutesID);
@@ -154,6 +193,8 @@ Template.minutesedit.events({
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.finalizeMinutes(aMin);
+
+            toggleTopicSorting();
         }
     },
 
@@ -164,6 +205,8 @@ Template.minutesedit.events({
             console.log("Un-Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.unfinalizeMinutes(aMin);
+
+            toggleTopicSorting();
         }
     },
 
