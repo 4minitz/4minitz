@@ -12,6 +12,24 @@ Template.minutesedit.onCreated(function () {
     _minutesID = this.data;
 });
 
+var isMinuteFinalized = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isFinalized);
+};
+
+var toggleTopicSorting = function () {
+    var topicList = $('#accordion'),
+        isFinalized = isMinuteFinalized();
+
+    if (!isFinalized) {
+        topicList.sortable('enable');
+    }
+
+    if (isFinalized) {
+        topicList.sortable('disable');
+    }
+};
+
 Template.minutesedit.onRendered(function () {
     let datePickerNode = this.$('#id_minutesdatePicker');
     datePickerNode.datetimepicker({
@@ -34,12 +52,9 @@ Template.minutesedit.onRendered(function () {
         items: '> .well',
         opacity: 0.5
     });
-});
 
-var isMinuteFinalized = function () {
-    let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isFinalized);
-};
+    toggleTopicSorting();
+});
 
 var isModerator = function () {
     let aMin = new Minutes(_minutesID);
@@ -161,6 +176,8 @@ Template.minutesedit.events({
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.finalizeMinutes(aMin);
+
+            toggleTopicSorting();
         }
     },
 
@@ -171,6 +188,8 @@ Template.minutesedit.events({
             console.log("Un-Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.unfinalizeMinutes(aMin);
+
+            toggleTopicSorting();
         }
     },
 

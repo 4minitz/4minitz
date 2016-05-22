@@ -44,7 +44,7 @@ describe('Minutes', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can change the order of topics via drag and drop', function () {
+    it('can change the order of topics via drag and drop @watch', function () {
         e2e.addTopicToMinutes('some topic');
         e2e.addTopicToMinutes('some other topic');
         e2e.addTopicToMinutes('yet another topic');
@@ -58,7 +58,7 @@ describe('Minutes', function () {
         expect(visibleText).to.have.string('some topic');
     });
 
-    it('can not change the order of topics on the open topics page', function () {
+    it('can not change the order of topics on the open topics page @watch', function () {
         e2e.addTopicToMinutes('some topic');
         e2e.addTopicToMinutes('some other topic');
         e2e.addTopicToMinutes('yet another topic');
@@ -80,5 +80,25 @@ describe('Minutes', function () {
         let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
         let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
         expect(visibleTextAfterSortAttempt).to.have.string('some topic');
+    });
+
+    it('can not change the order of topics of finalized minutes @watch', function () {
+        e2e.addTopicToMinutes('some topic');
+        e2e.addTopicToMinutes('some other topic');
+        e2e.addTopicToMinutes('yet another topic');
+
+        e2e.finalizeCurrentMinutes();
+
+        var topicsBeforeSortAttempt = e2e.getTopicsForMinute();
+        let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
+        let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
+        expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
+
+        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+
+        var topicsAfterSortAttempt = e2e.getTopicsForMinute();
+        let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
+        let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
+        expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
     });
 });
