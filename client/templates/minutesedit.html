@@ -14,7 +14,9 @@
 
                     {{#if isFinalized}}
                         <!--Static Finalize Text -->
-                        Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                        <span id="txt_FinalizedBy">
+                            Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                        </span>
                         {{#if isModeratorOfParentSeries}}
                             {{#if isUnfinalizeAllowed}}
                                 <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">

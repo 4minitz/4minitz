@@ -10,6 +10,19 @@ let waitSomeTime = function (milliseconds) {
 } ;
 
 
+let formatDateISO8601 = function (aDate) {
+    var dd = aDate.getDate();
+    var mm = aDate.getMonth()+1; //January is 0!
+    var yyyy = aDate.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+    return yyyy+"-"+mm+"-"+dd;
+};
+
 // Calls the server method to clean database and create fresh test users
 let resetMyApp = function () {
     try {
@@ -213,7 +226,8 @@ let addMinutesToMeetingSeries = function (aProj, aName, aDate) {
     
     if (aDate) {
         browser.waitForVisible('#id_minutesdateInput');
-        browser.setValue('#id_minutesdateInput', aDate);   // date of first commit to our project ;-)
+        browser.setValue('#id_minutesdateInput', "");
+        browser.setValue('#id_minutesdateInput', aDate);
     }
 };
 
@@ -221,7 +235,6 @@ let addMinutesToMeetingSeries = function (aProj, aName, aDate) {
 let finalizeCurrentMinutes = function () {
     browser.waitForVisible("#btn_finalizeMinutes");
     browser.click("#btn_finalizeMinutes");
-    waitSomeTime(); // give dialog animation time
 };
 
 
@@ -287,6 +300,7 @@ let gotoMinutes = function (aDate) {
 module.exports.settings = settings;
 module.exports.resetMyApp = resetMyApp;
 module.exports.waitSomeTime = waitSomeTime;
+module.exports.formatDateISO8601 = formatDateISO8601;
 module.exports.isLoggedIn = isLoggedIn;
 module.exports.loginUser = loginUser;
 module.exports.logoutUser = logoutUser;
