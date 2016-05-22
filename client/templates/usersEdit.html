@@ -11,11 +11,11 @@
                 <tbody>
                 {{#each users}}
                     {{# with userRoleObj this._id}}
-                        <tr>
-                            <td style="vertical-align: middle;">
+                        <tr id="id_userRow">
+                            <td style="vertical-align: middle;" id="id_userName">
                                 {{getUser.username}}
                             </td>
-                            <td style="vertical-align: middle;">
+                            <td style="vertical-align: middle;" id="id_userRole">
                                 {{#if userIsReadOnly}}
                                     {{currentRole}}     <!-- static role text -->
                                 {{else}}

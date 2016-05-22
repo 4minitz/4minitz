@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { UserRoles } from '/imports/userroles'
+import { userlistClean, addNewUser } from './usersEditHelpers'
 
 var _config;    // of type: UsersEditConfig
 
@@ -13,71 +14,6 @@ export class UsersEditConfig {
         this.users = users;
     }
 }
-
-
-// For adding of users:
-// build list of available users that are not already shown in user editor
-var userlistClean = function (allUsers,substractUsers) {
-    let resultUsers = [];
-
-    // build a dict with username => user object
-    let indexedSubstractUsers = {};
-    for (let i in substractUsers) {
-        let sUser = substractUsers[i];
-        indexedSubstractUsers[sUser["username"]] = sUser;
-    }
-
-    // copy all users to result, if NOT in indexedSubstractUsers
-    for (let i in allUsers) {
-        let aUser = allUsers[i];
-        if (indexedSubstractUsers[aUser["username"]] == undefined) {
-            resultUsers.push(aUser["username"]);
-        }
-    }
-    return resultUsers;
-};
-
-
-/**
- * Add a username from the global Meteor.users collection
- * to the temporary client-only user collection.
- *
- * This user will get the role "Invited" for the current meeting series.
- * To enable "Cancel" of editor, this role is kept in the temporary
- * collection until "Save".
- *
- * @param newUserName
- */
-var addNewUser = function (newUserName) {
-    if (!newUserName) {
-        return;
-    }
-
-    let addedUser = Meteor.users.findOne({"username": newUserName});
-    if (!addedUser) {
-        let msg = "Error: This is not a registered user name: "+newUserName;
-        console.log(msg);
-        window.alert(msg);
-        return;
-    }
-    let alreadyInEditor = _config.users.findOne({"username": newUserName});
-    if (alreadyInEditor) {
-        let msg = "Error: user name already in list: "+newUserName;
-        console.log(msg);
-        window.alert(msg);
-        return;
-    }
-
-    // prepare added user for client-side tmp. collection
-    addedUser._idOrg = addedUser._id;
-    delete addedUser._id;
-    if (!addedUser.roles) {
-        addedUser.roles = {};
-    }
-
-    addedUser.roles[_config.meetingSeriesID] = [UserRoles.USERROLES.Invited];
-    _config.users.insert(addedUser);
-};
 
 
 Template.usersEdit.onCreated(function() {
@@ -141,13 +77,14 @@ Template.usersEdit.helpers({
     // role selected that is currently attached to the user
     rolesOptions: function () {
         let currentRole = this.currentRoleTextFor(_config.meetingSeriesID);
-        let rolesHTML = '<select id="select111" class="form-control user-role-select">';
+        let userName = this.getUser().username;
+        let rolesHTML = '<select id="roleSelect'+userName+'" class="form-control user-role-select">';
         let rolesText = UserRoles.allRolesText();
         for (let i in rolesText) {
             let role = rolesText[i];
-            let startTag = "<option>";
+            let startTag = "<option value='"+role+"'>";
             if (role == currentRole) {
-                startTag = '<option selected="selected">'
+                startTag = '<option value="'+role+'" selected="selected">'
             }
             rolesHTML += startTag+role+"</option>";
         }
@@ -182,7 +119,7 @@ Template.usersEdit.events({
             evt.preventDefault();
 
             let newUserName = tmpl.find("#edt_AddUser").value;
-            addNewUser(newUserName);
+            addNewUser(newUserName, _config);
 
             $('.typeahead')
                 .typeahead('val', "")
@@ -205,6 +142,6 @@ Template.usersEdit.events({
     "typeahead:select": function (evt, tmpl, selected) {
         let newUserName = selected.value.toString();
         $('.typeahead').typeahead('val', "");
-        addNewUser(newUserName);
+        addNewUser(newUserName, _config);
     }
 });
