@@ -1,6 +1,6 @@
 
 let settings = require('../../settings-test-end2end.json');
-
+let _currentlyLoggedInUser = "";
 
 let waitSomeTime = function (milliseconds) {
     if (!milliseconds) {
@@ -48,6 +48,7 @@ let logoutUser = function () {
     if (isLoggedIn()) {
         browser.click('#navbar-signout')
     }
+    _currentlyLoggedInUser = "";
 };
 
 
@@ -72,12 +73,17 @@ let loginUser = function (index) {
             if (browser.isExisting('.at-error.alert.alert-danger')) {
                 throw new Error ("Unknown user or wrong password.")
             }
+            _currentlyLoggedInUser = aUser;
         }
     } catch (e) {
         throw new Error ("Login failed for user "+aUser + " with "+aPassword+"\nwith "+e);
     }
 };
 
+
+let getCurrentUser = function () {
+    return _currentlyLoggedInUser;
+};
 
 let launchApp = function () {
     browser.url(settings.e2eUrl);
@@ -217,10 +223,16 @@ let openMeetingSeriesEditor = function (aProj, aName) {
  * Analyze the user editor table in the DOM and generate a dictionary with its content
  *
  * Example result:
- * { user1: { role: 'Moderator', isReadOnly: true, isDeletable: false },
- *   user2: { role: 'Moderator', isReadOnly: false, isDeletable: true },
- *   user3: { role: 'Invited', isReadOnly: false, isDeletable: true },
- *   user4: { role: 'Invited', isReadOnly: false, isDeletable: true } }
+     { user1:
+        { role: 'Moderator',
+          isReadOnly: true,
+          isDeletable: false,
+          deleteElemId: '0' },
+       user2:
+        { role: 'Invited',
+          isReadOnly: false,
+          isDeletable: true,
+          deleteElemId: '236' } }
  *
  * @param colNumUser    in which 0-based table column is the user name?
  * @param colNumRole    in which 0-based table column is the role text/ role <select>?
@@ -235,7 +247,9 @@ let getUsersAndRolesFromUserEditor = function (colNumUser, colNumRole, colNumDel
     let selector = "select.user-role-select";   // selects *all* <selects>
     // browser.getValue(selector) delivers *all* current selections => e.g. ["Moderator","Invited","Invited"]
     // except for the current user, who has no <select>
-    let usrRoleSelected = browser.getValue(selector);
+    let usrRoleSelected = [];
+    try {usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector)); } catch(e) {}
+
 
     let selectNum = 0;
     let isUserReadonly = true;
@@ -246,7 +260,8 @@ let getUsersAndRolesFromUserEditor = function (colNumUser, colNumRole, colNumDel
         let elementsTD = browser.elementIdElements(elemTRId, "td");
         let usrName = browser.elementIdText(elementsTD.value[colNumUser].ELEMENT).value;
         let elementsDelete = browser.elementIdElements(elementsTD.value[colNumDelete].ELEMENT, "#btnDeleteUser");
-        let usrIsDeletable = elementsDelete.value.length > 0;
+        let usrIsDeletable = elementsDelete.value.length == 1;
+        let usrDeleteElemId = usrIsDeletable? elementsDelete.value[0].ELEMENT : "0";
 
         // for the current user usrRole already contains his read-only role string "Moderator"
         let usrRole = browser.elementIdText(elementsTD.value[colNumRole].ELEMENT).value;
@@ -260,8 +275,11 @@ let getUsersAndRolesFromUserEditor = function (colNumUser, colNumRole, colNumDel
 
         usersAndRoles[usrName] = {  role: usrRole,
                                     isReadOnly: usrIsReadOnly,
-                                    isDeletable: usrIsDeletable};
+                                    isDeletable: usrIsDeletable,
+                                    deleteElemId: usrDeleteElemId};
     }
+    // console.log(usersAndRoles);
+
     return usersAndRoles;
 };
 
@@ -358,6 +376,7 @@ module.exports.waitSomeTime = waitSomeTime;
 module.exports.formatDateISO8601 = formatDateISO8601;
 module.exports.isLoggedIn = isLoggedIn;
 module.exports.loginUser = loginUser;
+module.exports.getCurrentUser = getCurrentUser;
 module.exports.logoutUser = logoutUser;
 module.exports.launchApp = launchApp;
 module.exports.gotoStartPage = gotoStartPage;
