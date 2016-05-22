@@ -27,6 +27,13 @@ Template.minutesedit.onRendered(function () {
             datePickerNode.data("DateTimePicker").minDate(minDate);
         }
     }
+
+    $('#accordion').sortable({
+        appendTo: document.body,
+        axis: 'y',
+        items: '> .well',
+        opacity: 0.5
+    });
 });
 
 var isMinuteFinalized = function () {

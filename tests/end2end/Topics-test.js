@@ -19,12 +19,12 @@ describe('Minutes', function () {
         e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-    it('can add a topic to minutes @watch', function () {
+    it('can add a topic to minutes', function () {
         e2e.addTopicToMinutes('some topic');
         expect(e2e.countTopicsForMinute()).to.equal(1);
     });
 
-    it('can add multiple topics @watch', function () {
+    it('can add multiple topics', function () {
         e2e.addTopicToMinutes('some topic');
         e2e.addTopicToMinutes('some other topic');
         e2e.addTopicToMinutes('yet another topic');
@@ -32,7 +32,7 @@ describe('Minutes', function () {
     });
 
 
-    it('multiple topics are added with latest topic at the top @watch', function () {
+    it('multiple topics are added with latest topic at the top', function () {
         e2e.addTopicToMinutes('some topic');
         e2e.addTopicToMinutes('some other topic');
         e2e.addTopicToMinutes('yet another topic');
@@ -44,7 +44,7 @@ describe('Minutes', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can change the order of topics via drag and drop @watch', function () {
+    it('can change the order of topics via drag and drop', function () {
         e2e.addTopicToMinutes('some topic');
         e2e.addTopicToMinutes('some other topic');
         e2e.addTopicToMinutes('yet another topic');
@@ -56,5 +56,29 @@ describe('Minutes', function () {
         let visibleText = browser.elementIdText(elementId).value;
 
         expect(visibleText).to.have.string('some topic');
+    });
+
+    it('can not change the order of topics on the open topics page', function () {
+        e2e.addTopicToMinutes('some topic');
+        e2e.addTopicToMinutes('some other topic');
+        e2e.addTopicToMinutes('yet another topic');
+
+        e2e.finalizeCurrentMinutes();
+        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+
+        browser.click('a*=Open Topics');
+        e2e.waitSomeTime();
+
+        var topicsBeforeSortAttempt = e2e.getTopicsForMinute();
+        let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
+        let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
+        expect(visibleTextBeforeSortAttempt).to.have.string('some topic');
+
+        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+
+        var topicsAfterSortAttempt = e2e.getTopicsForMinute();
+        let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
+        let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
+        expect(visibleTextAfterSortAttempt).to.have.string('some topic');
     });
 });

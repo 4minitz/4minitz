@@ -328,7 +328,7 @@ let addTopicToMinutes = function (aTopic) {
 };
 
 let getTopicsForMinute = function () {
-    let selector = 'div.ui-sortable#accordion > div.well';
+    let selector = '#accordion > div.well';
     try {
         browser.waitForExist(selector);
     } catch (e) {
