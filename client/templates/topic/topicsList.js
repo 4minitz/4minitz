@@ -14,6 +14,13 @@ export class TopicListConfig {
 
 Template.topicsList.onRendered(function() {
     $.material.init();
+
+    $('#accordion').sortable({
+        appendTo: document.body,
+        axis: 'y',
+        items: '> .well',
+        opacity: 0.5
+    });
 });
 
 Template.topicsList.onDestroyed(function() {
