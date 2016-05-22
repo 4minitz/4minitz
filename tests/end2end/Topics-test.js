@@ -1,8 +1,8 @@
 let e2e = require('./E2EHelpers');
 
 
-describe('Minutes', function () {
-    const aProjectName = "E2E Minutes";
+describe('Topics', function () {
+    const aProjectName = "E2E Topics";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
@@ -44,7 +44,7 @@ describe('Minutes', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can change the order of topics via drag and drop @watch', function () {
+    it('can change the order of topics via drag and drop', function () {
         e2e.addTopicToMinutes('some topic');
         e2e.addTopicToMinutes('some other topic');
         e2e.addTopicToMinutes('yet another topic');
@@ -58,7 +58,7 @@ describe('Minutes', function () {
         expect(visibleText).to.have.string('some topic');
     });
 
-    it('can not change the order of topics on the open topics page @watch', function () {
+    it('can not change the order of topics on the open topics page', function () {
         e2e.addTopicToMinutes('some topic');
         e2e.addTopicToMinutes('some other topic');
         e2e.addTopicToMinutes('yet another topic');
@@ -82,7 +82,7 @@ describe('Minutes', function () {
         expect(visibleTextAfterSortAttempt).to.have.string('some topic');
     });
 
-    it('can not change the order of topics of finalized minutes @watch', function () {
+    it('can not change the order of topics of finalized minutes', function () {
         e2e.addTopicToMinutes('some topic');
         e2e.addTopicToMinutes('some other topic');
         e2e.addTopicToMinutes('yet another topic');
