@@ -18,7 +18,7 @@ var isMinuteFinalized = function () {
 };
 
 var toggleTopicSorting = function () {
-    var topicList = $('#accordion'),
+    let topicList = $('#accordion'),
         isFinalized = isMinuteFinalized();
 
     if (!isFinalized) {
@@ -28,6 +28,21 @@ var toggleTopicSorting = function () {
     if (isFinalized) {
         topicList.sortable('disable');
     }
+};
+
+var updateTopicSorting = function () {
+    let sorting = $('#accordion').find('> div.well'),
+        minute = new Minutes(_minutesID),
+        newTopicSorting = [];
+
+    for (let i = 0; i < sorting.length; ++i) {
+        let topicId = $(sorting[i]).attr('data-id');
+        let topic = minute.findTopic(topicId);
+
+        newTopicSorting.push(topic);
+    }
+
+    minute.update({topics: newTopicSorting});
 };
 
 Template.minutesedit.onRendered(function () {
@@ -50,7 +65,9 @@ Template.minutesedit.onRendered(function () {
         appendTo: document.body,
         axis: 'y',
         items: '> .well',
-        opacity: 0.5
+        opacity: 0.5,
+        disabled: true,
+        update: updateTopicSorting
     });
 
     toggleTopicSorting();

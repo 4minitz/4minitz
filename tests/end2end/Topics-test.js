@@ -101,4 +101,24 @@ describe('Topics', function () {
         let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
         expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
     });
+
+    it('sorting of topics is persistent', function () {
+        e2e.addTopicToMinutes('some topic');
+        e2e.addTopicToMinutes('some other topic');
+        e2e.addTopicToMinutes('yet another topic');
+
+        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+
+        var topicsBeforeReload = e2e.getTopicsForMinute();
+        let firstElementBeforeReload = topicsBeforeReload[0].ELEMENT;
+        let visibleTextBeforeReload = browser.elementIdText(firstElementBeforeReload).value;
+        expect(visibleTextBeforeReload).to.have.string('some topic');
+
+        browser.refresh();
+
+        var topicsAfterReload = e2e.getTopicsForMinute();
+        let firstElementAfterReload = topicsAfterReload[0].ELEMENT;
+        let visibleTextAfterReload = browser.elementIdText(firstElementAfterReload).value;
+        expect(visibleTextAfterReload).to.have.string('some topic');
+    });
 });
