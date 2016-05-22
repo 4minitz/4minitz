@@ -212,11 +212,66 @@ let openMeetingSeriesEditor = function (aProj, aName) {
     browser.waitForVisible('#btnMeetingSeriesSave', 1000);
 };
 
+
+/**
+ * Analyze the user editor table in the DOM and generate a dictionary with its content
+ *
+ * Example result:
+ * { user1: { role: 'Moderator', isReadOnly: true, isDeletable: false },
+ *   user2: { role: 'Moderator', isReadOnly: false, isDeletable: true },
+ *   user3: { role: 'Invited', isReadOnly: false, isDeletable: true },
+ *   user4: { role: 'Invited', isReadOnly: false, isDeletable: true } }
+ *
+ * @param colNumUser    in which 0-based table column is the user name?
+ * @param colNumRole    in which 0-based table column is the role text/ role <select>?
+ * @param colNumDelete  in which 0-based table column is the delete button?
+ * @returns {{}}
+ */
+let getUsersAndRolesFromUserEditor = function (colNumUser, colNumRole, colNumDelete) {
+    // grab all user rows
+    const elementsUserRows = browser.elements('#id_userRow');
+    let usersAndRoles = {};
+
+    let selector = "select.user-role-select";   // selects *all* <selects>
+    // browser.getValue(selector) delivers *all* current selections => e.g. ["Moderator","Invited","Invited"]
+    // except for the current user, who has no <select>
+    let usrRoleSelected = browser.getValue(selector);
+
+    let selectNum = 0;
+    let isUserReadonly = true;
+    // the "current user" is read-only and has no <select>
+    // we must skip this user in the above usrRoleSelected
+    for (let rowIndex in elementsUserRows.value) {
+        let elemTRId = elementsUserRows.value[rowIndex].ELEMENT;
+        let elementsTD = browser.elementIdElements(elemTRId, "td");
+        let usrName = browser.elementIdText(elementsTD.value[colNumUser].ELEMENT).value;
+        let elementsDelete = browser.elementIdElements(elementsTD.value[colNumDelete].ELEMENT, "#btnDeleteUser");
+        let usrIsDeletable = elementsDelete.value.length > 0;
+
+        // for the current user usrRole already contains his read-only role string "Moderator"
+        let usrRole = browser.elementIdText(elementsTD.value[colNumRole].ELEMENT).value;
+        let usrIsReadOnly  = true;
+        // for all other users we must get their role from the usrRoleSelected array
+        if (usrRole.indexOf("\n") >= 0) {    // with '\n' linebreaks we detect a <select> for this user!
+            usrRole = usrRoleSelected[selectNum];
+            usrIsReadOnly = false;
+            selectNum += 1;
+        }
+
+        usersAndRoles[usrName] = {  role: usrRole,
+                                    isReadOnly: usrIsReadOnly,
+                                    isDeletable: usrIsDeletable};
+    }
+    return usersAndRoles;
+};
+
+
+
 /**
  * 
  * @param aProj
  * @param aName
- * @param aDate is optional!
+ * @param aDate format: YYYY-MM-DD is optional!
  */
 let addMinutesToMeetingSeries = function (aProj, aName, aDate) {
     gotoMeetingSeries(aProj, aName);
@@ -313,7 +368,8 @@ module.exports.createMeetingSeries = createMeetingSeries;
 module.exports.countMeetingSeries = countMeetingSeries;
 module.exports.getMeetingSeriesId = getMeetingSeriesId;
 module.exports.gotoMeetingSeries = gotoMeetingSeries;
-module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor ;
+module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor;
+module.exports.getUsersAndRolesFromUserEditor  = getUsersAndRolesFromUserEditor;
 
 module.exports.addMinutesToMeetingSeries = addMinutesToMeetingSeries;
 module.exports.gotoMinutes = gotoMinutes;
