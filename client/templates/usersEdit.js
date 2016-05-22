@@ -31,10 +31,52 @@ var userlistClean = function (allUsers,substractUsers) {
     for (let i in allUsers) {
         let aUser = allUsers[i];
         if (indexedSubstractUsers[aUser["username"]] == undefined) {
-            resultUsers.push(aUser);
+            resultUsers.push(aUser["username"]);
         }
     }
     return resultUsers;
+};
+
+
+/**
+ * Add a username from the global Meteor.users collection
+ * to the temporary client-only user collection.
+ *
+ * This user will get the role "Invited" for the current meeting series.
+ * To enable "Cancel" of editor, this role is kept in the temporary
+ * collection until "Save".
+ *
+ * @param newUserName
+ */
+var addNewUser = function (newUserName) {
+    if (!newUserName) {
+        return;
+    }
+
+    let addedUser = Meteor.users.findOne({"username": newUserName});
+    if (!addedUser) {
+        let msg = "Error: This is not a registered user name: "+newUserName;
+        console.log(msg);
+        window.alert(msg);
+        return;
+    }
+    let alreadyInEditor = _config.users.findOne({"username": newUserName});
+    if (alreadyInEditor) {
+        let msg = "Error: user name already in list: "+newUserName;
+        console.log(msg);
+        window.alert(msg);
+        return;
+    }
+
+    // prepare added user for client-side tmp. collection
+    addedUser._idOrg = addedUser._id;
+    delete addedUser._id;
+    if (!addedUser.roles) {
+        addedUser.roles = {};
+    }
+
+    addedUser.roles[_config.meetingSeriesID] = [UserRoles.USERROLES.Invited];
+    _config.users.insert(addedUser);
 };
 
 
@@ -44,13 +86,21 @@ Template.usersEdit.onCreated(function() {
 
 Template.usersEdit.onRendered(function() {
     $.material.init();
+    Meteor.typeahead.inject();
 });
+
 
 Template.usersEdit.onDestroyed(function() {
     //add your statement here
 });
 
 Template.usersEdit.helpers({
+    userListClean: function () {
+        return userlistClean(
+            Meteor.users.find().fetch(),
+            _config.users.find().fetch());
+    },
+    
     isModeEditSeries: function () {
         return _config.mode == "EDIT_SERIES";
     },
@@ -107,51 +157,13 @@ Template.usersEdit.helpers({
     
 });
 
+
 Template.usersEdit.events({
     "click #btnDeleteUser": function (evt, tmpl) {
         evt.preventDefault();
         _config.users.remove({_id: this._userId});
     },
 
-    "click #btnAddUser": function (evt, tmpl) {
-        evt.preventDefault();
-        let possibleUsers = userlistClean(
-                                Meteor.users.find().fetch(),
-                                _config.users.find().fetch());
-        let possibleNames = "";
-        for (let i in possibleUsers) {
-            possibleNames += "\n    *  '"+possibleUsers[i].username+"'";
-        }
-        let newUserName = window.prompt("Please enter one of the following available user names:"+possibleNames,"");
-        if (!newUserName) {
-            return;
-        }
-
-        let addedUser = Meteor.users.findOne({"username": newUserName});
-        if (!addedUser) {
-            let msg = "Error: This is not a registered user name: "+newUserName;
-            console.log(msg);
-            window.alert(msg);
-            return;
-        }
-        let alreadyInEditor = _config.users.findOne({"username": newUserName});
-        if (alreadyInEditor) {
-            let msg = "Error: user name already in list: "+newUserName;
-            console.log(msg);
-            window.alert(msg);
-            return;
-        }
-
-        // prepare added user for client-side tmp. collection
-        addedUser._idOrg = addedUser._id;
-        delete addedUser._id;
-        if (!addedUser.roles) {
-            addedUser.roles = {};
-        }
-
-        addedUser.roles[_config.meetingSeriesID] = [UserRoles.USERROLES.Invited];
-        _config.users.insert(addedUser);
-    },
 
     // when role select changes, update role in temp. client-only user collection
     "change .user-role-select": function (evt, tmpl) {
@@ -161,5 +173,38 @@ Template.usersEdit.events({
         let changedUser = _config.users.findOne(this._userId);
         changedUser.roles[_config.meetingSeriesID] = [roleValue];
         _config.users.update(this._userId, {$set: {roles: changedUser.roles}});
+    },
+
+
+    'keyup #edt_AddUser': function(evt, tmpl) {
+        if (evt.which === 13) {     // 'ENTER' on username <input>
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            let newUserName = tmpl.find("#edt_AddUser").value;
+            addNewUser(newUserName);
+
+            $('.typeahead')
+                .typeahead('val', "")
+                .typeahead('close');
+
+            return false;
+        }
+        if (evt.which === 27) {     // 'ESC' on username <input>
+            evt.stopPropagation();
+            evt.preventDefault();
+            $('.typeahead')
+                .typeahead('val', "")
+                .typeahead('close');
+            return false;
+        }
+
+    },
+
+    // a typeahead suggestion was selected from drop-down menu
+    "typeahead:select": function (evt, tmpl, selected) {
+        let newUserName = selected.value.toString();
+        $('.typeahead').typeahead('val', "");
+        addNewUser(newUserName);
     }
 });
