@@ -28,7 +28,12 @@ let MeetingSeries = function(seriesId) {
     this.isCurrentUserModerator = isCurrentUserModeratorStub;
     this.updateLastMinutesDate = updateLastMinutesDateStub;
 };
-let Topic = {};
+
+let topicGetOpenActionItemsStub = sinon.stub();
+let Topic = function () {
+    this.getOpenActionItems = topicGetOpenActionItemsStub
+};
+
 
 const {
     Minutes
@@ -66,6 +71,7 @@ describe('Minutes', function () {
         Meteor.call.reset();
         isCurrentUserModeratorStub.reset();
         updateLastMinutesDateStub.reset();
+        topicGetOpenActionItemsStub.reset();
     });
 
     describe('#constructor', function () {
@@ -351,6 +357,21 @@ describe('Minutes', function () {
                         "isNew and isOpen flag should both not set"
                     ).to.be.false;
                 });
+            });
+
+        });
+
+        describe('#getOpenActionItems', function () {
+
+            it('calls the getOpenActionItems method for each topic', function () {
+                minute.getOpenActionItems();
+                expect(topicGetOpenActionItemsStub.callCount).to.equal(minute.topics.length);
+            });
+
+            it('concatenates all results of each getOpenActionItems-call', function () {
+                topicGetOpenActionItemsStub.returns([5,7]);
+                expect(minute.getOpenActionItems()).to.have.length(minute.topics.length * 2);
+
             });
 
         });

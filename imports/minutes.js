@@ -151,6 +151,13 @@ export class Minutes {
         this.update({topics: this.topics}, callback); // update only topics array!
     }
 
+    getOpenActionItems() {
+        return this.topics.reduce((acc, topicDoc) => {
+            let topic = new Topic(this, topicDoc);
+            return acc.concat(topic.getOpenActionItems());
+        }, /* initial value */[]);
+    }
+
     /**
      * Finalizes this minutes object. Shall
      * only be called from the finalize method
