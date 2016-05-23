@@ -168,11 +168,10 @@ describe('MeetingSeries Editor Users', function () {
     });
 
 
-    it('can persist edited user roles to database @watch', function () {
+    it('can persist edited user roles to database', function () {
         let currentUser = e2e.getCurrentUser();
         let user2 = e2e.settings.e2eTestUsers[1];
         let user3 = e2e.settings.e2eTestUsers[2];
-        let user4 = e2e.settings.e2eTestUsers[3];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
         let selector = "select.user-role-select";
@@ -188,18 +187,18 @@ describe('MeetingSeries Editor Users', function () {
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
         e2e.waitSomeTime();         // wait for dialog's animation
 
-        // check after save and re-open what was persisted
+        // after save and re-open, check what was persisted
         usersAndRoles = e2e.getUsersAndRolesFromUserEditor(0,1,2);
-        expect(Object.keys(usersAndRoles).length).to.be.equal(3);
-        expect(usersAndRoles[currentUser]).to.be.ok;                    // **** for current user
+        expect(Object.keys(usersAndRoles)).to.have.length(3);
+        expect(usersAndRoles[currentUser]).to.be.ok;                    // ... for current user
         expect(usersAndRoles[currentUser].role).to.equal("Moderator");
         expect(usersAndRoles[currentUser].isDeletable).to.be.false;
         expect(usersAndRoles[currentUser].isReadOnly).to.be.true;
-        expect(usersAndRoles[user2]).to.be.ok;                          // **** for user#2
+        expect(usersAndRoles[user2]).to.be.ok;                          // ... for user#2
         expect(usersAndRoles[user2].role).to.equal("Moderator");
         expect(usersAndRoles[user2].isDeletable).to.be.true;
         expect(usersAndRoles[user2].isReadOnly).to.be.false;
-        expect(usersAndRoles[user3]).to.be.ok;                          // **** for user#3
+        expect(usersAndRoles[user3]).to.be.ok;                          // ... for user#3
         expect(usersAndRoles[user3].role).to.equal("Invited");
         expect(usersAndRoles[user3].isDeletable).to.be.true;
         expect(usersAndRoles[user3].isReadOnly).to.be.false;
@@ -209,19 +208,62 @@ describe('MeetingSeries Editor Users', function () {
     });
 
 
+    it('ensures invited user can see but not edit new meeting series', function () {
+        let currentUser = e2e.getCurrentUser();
+        let user2 = e2e.settings.e2eTestUsers[1];
+        browser.setValue('#edt_AddUser', user2);
+        browser.keys(['Enter']);
+        let selector = "select.user-role-select";
+        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        e2e.waitSomeTime();         // wait for dialog's animation
+
+        e2e.loginUser(1);
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
+
+        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        e2e.waitSomeTime();
+        expect(browser.isExisting("#btnAddMinutes")).to.be.false;
+
+        e2e.loginUser();
+    });
+
+
+    it('ensures additional moderator user can see & edit new meeting series', function () {
+        let currentUser = e2e.getCurrentUser();
+        let user2 = e2e.settings.e2eTestUsers[1];
+        browser.setValue('#edt_AddUser', user2);
+        browser.keys(['Enter']);
+        let selector = "select.user-role-select";
+        let usrRoleOption = browser.selectByValue(selector, "Moderator");
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        e2e.waitSomeTime();         // wait for dialog's animation
+
+        e2e.loginUser(1);
+        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
+
+        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        e2e.waitSomeTime();
+        expect(browser.isExisting("#btnAddMinutes")).to.be.true;
+
+        e2e.loginUser();
+    });
+
+
+
     // it('ensures that no roles change on dialog cancel', function () {
     //     let aProjectName = "E2E MSEditor User";
     //     let aMeetingName = "Meeting Name #11";
     // });
     //
     //
-    // it('allows new invited access to old minutes ', function () {
+    // it('allows new invited user to access old minutes ', function () {
     //     let aProjectName = "E2E MSEditor User";
     //     let aMeetingName = "Meeting Name #12";
     // });
     //
     //
-    // it('allows new moderator access to old minutes', function () {
+    // it('allows new moderator user to access old minutes', function () {
     //     let aProjectName = "E2E MSEditor User";
     //     let aMeetingName = "Meeting Name #13";
     // });
@@ -239,7 +281,7 @@ describe('MeetingSeries Editor Users', function () {
     // });
     //
     //
-    // it('prohibits user without access to see meeting series', function () {
+    // it('prohibits user with no access role to see meeting series', function () {
     //     let aProjectName = "E2E MSEditor User";
     //     let aMeetingName = "Meeting Name #15";
     // });
