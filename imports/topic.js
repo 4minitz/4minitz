@@ -67,6 +67,15 @@ export class Topic {
         return false;
     }
 
+    static invalidateIsNewFlag(topicDoc) {
+        topicDoc.isNew = false;
+        topicDoc.infoItems.forEach(infoItemDoc => {
+            if (InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isNew) {
+                infoItemDoc.isNew = false;
+            }
+        })
+    }
+
     // ################### object methods
     toString () {
         return "Topic: "+JSON.stringify(this._topicDoc, null, 4);

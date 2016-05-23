@@ -12,6 +12,9 @@ export class ActionItem extends InfoItem{
         if (this._infoItemDoc.isOpen == undefined) {
             this._infoItemDoc.isOpen = true;
         }
+        if (this._infoItemDoc.isNew == undefined) {
+            this._infoItemDoc.isNew = true;
+        }
     }
 
     // ################### object methods

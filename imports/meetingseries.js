@@ -106,8 +106,8 @@ export class MeetingSeries {
         // copy open topics from this meeting series & set isNew=false
         if (this.openTopics) {
             topics = this.openTopics;
-            topics.forEach((topic) => {
-                topic.isNew = false;
+            topics.forEach((topicDoc) => {
+                Topic.invalidateIsNewFlag(topicDoc);
             });
         }
 
