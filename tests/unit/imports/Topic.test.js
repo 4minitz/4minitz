@@ -109,6 +109,28 @@ describe('Topic', function() {
 
     });
 
+    describe('#invalidateIsNewFlag', function () {
+
+        beforeEach(function () {
+            topicDoc.isNew = true;
+            topicDoc.infoItems.push({
+                isOpen: true,
+                isNew: true
+            });
+        });
+
+        it('clears the isNew-Flag of the topic itself', function () {
+            Topic.invalidateIsNewFlag(topicDoc);
+            expect(topicDoc.isNew).to.be.false;
+        });
+
+        it('clears the isNew-Flag of the action item', function () {
+            Topic.invalidateIsNewFlag(topicDoc);
+            expect(topicDoc.infoItems[0].isNew).to.be.false;
+        });
+
+    });
+
     it('#toggleState', function () {
         let myTopic = new Topic(dummyMinute._id, topicDoc);
 
