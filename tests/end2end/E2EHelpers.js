@@ -24,6 +24,23 @@ let formatDateISO8601 = function (aDate) {
     return yyyy+"-"+mm+"-"+dd;
 };
 
+
+let browserName = function () {
+    if (browser && 
+        browser._original && 
+        browser._original.desiredCapabilities &&
+        browser._original.desiredCapabilities.browserName) {
+        return browser._original.desiredCapabilities.browserName; 
+    }
+    return "unknown";
+};
+
+
+let browserIsPhantomJS = function () {
+    return (browserName() == "phantomjs")
+};
+
+
 // Calls the server method to clean database and create fresh test users
 let resetMyApp = function () {
     try {
@@ -267,8 +284,13 @@ let getUsersAndRolesFromUserEditor = function (colNumUser, colNumRole, colNumDel
         // for the current user usrRole already contains his read-only role string "Moderator"
         let usrRole = browser.elementIdText(elementsTD.value[colNumRole].ELEMENT).value;
         let usrIsReadOnly  = true;
-        // for all other users we must get their role from the usrRoleSelected array
-        if (usrRole.indexOf("\n") >= 0) {    // with '\n' linebreaks we detect a <select> for this user!
+        
+        // For all other users we must get their role from the usrRoleSelected array
+        // Here we try to find out, if we look at a <select> UI element...
+        // Chrome: with '\n' linebreaks we detect a <select> for this user!
+        // Phantom.js: Has no linebreaks between <option>s, it just concatenates like "InvitedModerator"
+        // so we go for "usrRole.length>10" to detect a non-possible role text...
+        if (usrRole.indexOf("\n") >= 0 || usrRole.length>10) {    
             usrRole = usrRoleSelected[selectNum];
             usrIsReadOnly = false;
             selectNum += 1;
@@ -423,6 +445,8 @@ let countTopicsForMinute = function() {
 module.exports.settings = settings;
 module.exports.resetMyApp = resetMyApp;
 module.exports.waitSomeTime = waitSomeTime;
+module.exports.browserName = browserName;
+module.exports.browserIsPhantomJS = browserIsPhantomJS;
 module.exports.formatDateISO8601 = formatDateISO8601;
 module.exports.isLoggedIn = isLoggedIn;
 module.exports.loginUser = loginUser;

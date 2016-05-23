@@ -7,6 +7,7 @@ describe('MeetingSeries Editor Users', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         e2e.gotoStartPage();
         expect(browser.getTitle()).to.equal('4minitz!');
@@ -56,8 +57,11 @@ describe('MeetingSeries Editor Users', function () {
         browser.setValue('#edt_AddUser', user2);   // try to add first time
         browser.keys(['Enter']);
 
-        expect(browser.alertText()).to.be.ok;     // expect error alert
-        browser.alertAccept();
+        // For Phantom.js we skip this, as headless phantom has no alert pop-ups...
+        if (! e2e.browserIsPhantomJS()) {
+            expect(browser.alertText()).to.be.ok;     // expect error alert
+            browser.alertAccept();
+        }
 
         let usersAndRoles = e2e.getUsersAndRolesFromUserEditor(0,1,2);
         expect(Object.keys(usersAndRoles).length).to.be.equal(2);   // still only two!
