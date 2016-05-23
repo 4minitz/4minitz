@@ -19,7 +19,9 @@
                                 {{#if userIsReadOnly}}
                                     {{currentRole}}     <!-- static role text -->
                                 {{else}}
+                                    <span class="form-group">
                                     {{{rolesOptions}}}
+                                    </span>
                                 {{/if}}
                             </td>
                             <td style="text-align: right; vertical-align: middle;">
@@ -34,6 +36,7 @@
                 <!--Use TypeAhead.js for insertion of new users-->
                 <tr>
                     <td colspan="3">
+                        <span class="form-group">
                         <input class="form-control typeahead"
                                id ="edt_AddUser"
                                name="newUserName"
@@ -41,6 +44,7 @@
                                placeholder="Add User..."
                                autocomplete="off"
                                data-source="userListClean"/>
+                        </span>
                     </td>
                 </tr>
 
