@@ -7,16 +7,17 @@ import sinon from 'sinon';
 
 require('../../../lib/helpers');
 
-let doNothing = () => {};
+class Minutes {
+    constructor(id) {
+        this._id = id;
+    }
+    upsertTopic() {}
+    static findOne() {
+        return dummyMinute
+    }
+}
 
-let dummyMinute = {
-    _id: "AaBbCcDd",
-    upsertTopic: doNothing
-};
-
-let Minutes = {
-    findOne: () => dummyMinute
-};
+let dummyMinute = new Minutes("AaBbCcDd");
 
 global.Random = {
     i: 1,
@@ -50,6 +51,11 @@ describe('Topic', function() {
 
         it('sets the reference to the parent minute correctly', function() {
             let myTopic = new Topic(dummyMinute._id, topicDoc);
+            expect(myTopic._parentMinutes).to.equal(dummyMinute);
+        });
+
+        it('can instantiate a topic with the parent minutes object instead of its id', function () {
+            let myTopic = new Topic(dummyMinute, topicDoc);
             expect(myTopic._parentMinutes).to.equal(dummyMinute);
         });
 

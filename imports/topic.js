@@ -11,15 +11,18 @@ import { InfoItem } from './infoitem';
  * have multiple sub-items called InfoItem.
  */
 export class Topic {
-    constructor(parentMinutesID, source) {   // constructs obj from Topic ID or Topic document
-        if (!parentMinutesID || !source)
+    constructor(parentMinutes, source) {   // constructs obj from Topic ID or Topic document
+        if (!parentMinutes || !source)
             return;
 
         this._parentMinutes = undefined;
         this._topicDoc = undefined;     // keep separate, no _.extend to prevent storage recursion
 
-        if (typeof parentMinutesID === 'string') {   // we may have an ID here.
-            this._parentMinutes = Minutes.findOne(parentMinutesID);
+        if (typeof parentMinutes === 'string') {   // we may have an ID here.
+            this._parentMinutes = Minutes.findOne(parentMinutes);
+        }
+        if ((typeof parentMinutes === 'object') && (parentMinutes instanceof Minutes)) {
+            this._parentMinutes = parentMinutes;
         }
         if (!this._parentMinutes) {
             return;
