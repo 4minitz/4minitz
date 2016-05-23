@@ -276,6 +276,42 @@ describe('Topic', function() {
 
     });
 
+    describe('#getOpenActionItems', function() {
+
+        let myTopic;
+
+        beforeEach(function () {
+            topicDoc.infoItems.push({
+                subject: "myInfoItem"
+            });
+            topicDoc.infoItems.push({
+                subject: "myClosedActionItem",
+                isOpen: false
+            });
+            topicDoc.infoItems.push({
+                subject: "myOpenActionItem",
+                isOpen: true
+            });
+            topicDoc.infoItems.push({
+                subject: "my2ndOpenActionItem",
+                isOpen: true
+            });
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('returns the correct amount of items', function () {
+            expect(myTopic.getOpenActionItems()).to.have.length(2);
+        });
+
+        it('returns only open action items', function () {
+            myTopic.getOpenActionItems().forEach(item => {
+                expect(item, "the item should be a action item").to.have.ownProperty('isOpen');
+                expect(item.isOpen, "the item should marked as open").to.be.true;
+            })
+        });
+
+    });
+
     it('#save', function() {
         let myTopic = new Topic(dummyMinute._id, topicDoc);
 

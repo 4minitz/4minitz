@@ -143,6 +143,12 @@ export class Topic {
         return this._topicDoc.infoItems;
     }
 
+    getOpenActionItems() {
+        return this._topicDoc.infoItems.filter((topicDoc) => {
+            return InfoItem.isActionItem(topicDoc) && topicDoc.isOpen;
+        });
+    }
+
     save(callback) {
         // this will update the entire topics array from the parent minutes!
         this._parentMinutes.upsertTopic(this._topicDoc, callback);
