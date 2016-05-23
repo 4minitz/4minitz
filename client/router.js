@@ -13,11 +13,20 @@ Router.route('/', {name: 'home'});
 
 Router.route('/meetingseries/:_id', function () {
     var meetingSeriesID = this.params._id;
-    let usrRoles = new UserRoles();
-    if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
-        this.render('meetingSeriesDetails', {data: meetingSeriesID});
+
+    // we have to wait until the client side db is ready
+    // otherwise creating the UserRoles-Object will fail
+    this.subscribe('userListSimple', Meteor.userId()).wait();
+
+    if (this.ready()) {
+        let usrRoles = new UserRoles();
+        if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
+            this.render('meetingSeriesDetails', {data: meetingSeriesID});
+        } else {
+            Router.go("/");
+        }
     } else {
-        Router.go("/");
+        this.render('loading');
     }
 });
 
