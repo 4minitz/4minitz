@@ -29,9 +29,14 @@ let MeetingSeries = function(seriesId) {
     this.updateLastMinutesDate = updateLastMinutesDateStub;
 };
 
-let topicGetOpenActionItemsStub = sinon.stub();
+let topicGetOpenActionItemsStub = sinon.stub().returns([]);
 let Topic = function () {
     this.getOpenActionItems = topicGetOpenActionItemsStub
+};
+
+let ActionItem = function (topic, doc) {
+    this._parentTopic = topic;
+    this._infoItemDoc = doc;
 };
 
 
@@ -42,6 +47,7 @@ const {
     './collections/minutes_private': { MinutesCollection, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
+    './actionitem': { ActionItem, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true}
 });
 

@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries'
 import { Topic } from './topic'
+import { ActionItem } from './actionitem'
 import { _ } from 'meteor/underscore';
 
 export class Minutes {
@@ -151,10 +152,19 @@ export class Minutes {
         this.update({topics: this.topics}, callback); // update only topics array!
     }
 
+    /**
+     *
+     * @returns ActionItem[]
+     */
     getOpenActionItems() {
         return this.topics.reduce((acc, topicDoc) => {
             let topic = new Topic(this, topicDoc);
-            return acc.concat(topic.getOpenActionItems());
+            let actionItemDocs = topic.getOpenActionItems();
+            return acc.concat(
+                actionItemDocs.map(doc => {
+                    return new ActionItem(topic, doc);
+                })
+            );
         }, /* initial value */[]);
     }
 

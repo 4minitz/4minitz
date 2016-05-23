@@ -4,6 +4,7 @@ import { Minutes } from '../minutes'
 import { MeetingSeries } from '../meetingseries'
 import { UserRoles } from "./../userroles"
 import { MinutesSchema } from './minutes.schema';
+import { FinalizeMailHandler } from '../mail/FinalizeMailHandler'
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -83,7 +84,14 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         let aMin = new Minutes(id);
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            MinutesCollection.update(id, {$set: doc});
+            MinutesCollection.update(id, {$set: doc}, /* options */null, function (error, affectedDocs) {
+                if (!error && affectedDocs == 1 && Meteor.isServer) {
+                    Meteor.defer(() => { // server background tasks after successfully updated the minute doc
+                        let finalizeMailHandler = new FinalizeMailHandler(aMin);
+                        finalizeMailHandler.sendMails();
+                    });
+                }
+            });
         } else {
             throw new Meteor.Error("Cannot finalize minutes", "You are not moderator of the parent meeting series.");
         }

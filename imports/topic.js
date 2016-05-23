@@ -144,8 +144,8 @@ export class Topic {
     }
 
     getOpenActionItems() {
-        return this._topicDoc.infoItems.filter((topicDoc) => {
-            return InfoItem.isActionItem(topicDoc) && topicDoc.isOpen;
+        return this._topicDoc.infoItems.filter((infoItemDoc) => {
+            return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;
         });
     }
 
