@@ -73,6 +73,7 @@ modules-runtime@0.6.3
 momentjs:moment@2.13.1
 mongo@1.1.7
 mongo-id@1.0.4
+mrt:jquery-ui-sortable@1.10.3
 msavin:mongol@1.6.2
 npm-bcrypt@0.8.5
 npm-mongo@1.4.43
@@ -93,6 +94,7 @@ reactive-var@1.0.9
 reload@1.1.8
 retry@1.0.7
 routepolicy@1.0.10
+sergeyt:typeahead@0.11.1_8
 service-configuration@1.0.9
 session@1.1.5
 sha@1.0.7

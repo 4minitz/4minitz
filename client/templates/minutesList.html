@@ -3,7 +3,7 @@
         {{#if isModeratorOfParentSeries}}
         <div class="pull-right">
             <!-- "Add Minutes" button -->
-            <a href="{{addMinutesPath}}" class="btn btn-success btn-raised" disabled="{{addMinutesNotAllowed}}">
+            <a href="{{addMinutesPath}}" id="btnAddMinutes" class="btn btn-success btn-raised" disabled="{{addMinutesNotAllowed}}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Meeting Minutes"></span>
                 Add Minutes
             </a>
@@ -24,7 +24,7 @@
             {{#each minutes}}
             <tr>
                 <td>
-                    <a href="/minutesedit/{{_id}}">{{date}}</a>
+                    <a href="/minutesedit/{{_id}}" id="id_linkToMinutes">{{date}}</a>
                     {{#if isModeratorOfParentSeries}}
                         {{#if isDeleteAllowed}}
                             <a href="#" id="deleteMinutes">

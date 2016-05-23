@@ -34,4 +34,6 @@ aldeed:simple-schema
 aldeed:collection2
 percolate:migrations
 dispatch:mocha-phantomjs
+sergeyt:typeahead
+mrt:jquery-ui-sortable
 email

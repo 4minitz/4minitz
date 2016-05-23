@@ -29,21 +29,19 @@ We use several approaches to test as many aspects of our application as possible
 Unit tests are stored in ```tests/unit```. They are implemented so they do not use any meteor dependencies at all. In order
 to execute unit tests run
 
-    meteor npm test
-
+    npm run test:unit
 
 ### Integration Tests
 
 In order to execute integration tests you need to either run the meteor test server
 
-    meteor test --driver-package practicalmeteor:mocha
+    npm run test:integration:browser
 
 and open localhost:3000 in your browser to run the tests or run
 
-    meteor test --once --driver-package dispatch:mocha-phantomjs
+    npm run test:integration:headless
 
-to run them headless, e.g. on a CI. Optionally add commandline switch *--port 3100*
-to run tests in parallel to the meteor application.
+to run them headless, e.g. on a CI. Both will start a meteor test instance on port 3200.
 
 Further information  on testing with meteor can be found at http://guide.meteor.com/testing.html
 and http://info.meteor.com/blog/full-app-testing-in-meteor
@@ -54,13 +52,19 @@ End-to-End tests are stored in directory ```tests/end2end/``` and use the [chimp
 Hint: The chimp package needs an installed Chrome browser.
 To run the e2e tests, you need to run the server in "end2end" mode. 
 
-    meteor npm run test:end2end:server
+    npm run test:end2end:server
 
 This will set some specific e2e settings from ```settings-test-end2end.json```. 
-Then run the chimp tests:
+Then run the chimp tests use either
 
-    chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/
+    npm run test:end2end:once
+    npm run test:end2end:watch
 
+to run them once or in watch mode or use
+
+    npm run test:end2end:headless
+
+to run the end2end tests headless in a phantomjs instance. 
 
 ## Where to start
 Our work-horses are the classes in /imports/ (e.g. meetingseries.js, minutes.js).

@@ -65,9 +65,11 @@ a:focus {
     color: black;
 }
 
+
 @media screen and (max-width: 799px) {
     .version-info {
         display:none;
     }
 }
+
 

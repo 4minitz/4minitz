@@ -14,7 +14,9 @@
 
                     {{#if isFinalized}}
                         <!--Static Finalize Text -->
-                        Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                        <span id="txt_FinalizedBy">
+                            Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                        </span>
                         {{#if isModeratorOfParentSeries}}
                             {{#if isUnfinalizeAllowed}}
                                 <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
@@ -69,7 +71,7 @@
 
             {{#unless isFinalized}}
                 {{#if isModeratorOfParentSeries}}
-                    <button type="button" class="btn btn-primary btn-lg btn-raised" data-toggle="modal" data-target="#dlgAddTopic">
+                    <button id="id_showAddTopicDialog" type="button" class="btn btn-primary btn-lg btn-raised" data-toggle="modal" data-target="#dlgAddTopic">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
                         Add Topic
                     </button>

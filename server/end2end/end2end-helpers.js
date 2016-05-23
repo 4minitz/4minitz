@@ -10,7 +10,7 @@ if (Meteor.settings.isEnd2EndTest) {
 
     Meteor.methods({
         'e2e.resetMyApp'() {
-            console.log("-------------------------- METHOD: resetMyApp ");
+            console.log("-------------------------- E2E-METHOD: resetMyApp ");
             MeetingSeriesCollection.remove({});
             console.log("Count MeetingSeries after reset:"+MeetingSeriesCollection.find().count());
             MinutesCollection.remove({});
@@ -24,6 +24,14 @@ if (Meteor.settings.isEnd2EndTest) {
                 Accounts.createUser({username: newUser, password: newPassword});
                 console.log("Created user: "+newUser+" with password: "+newPassword);
             }
+        },
+        'e2e.countMeetingSeriesInMongDB'() {
+            console.log("-------------------------- E2E-METHOD: countMeetingSeries");
+            return MeetingSeriesCollection.find({}).count();
+        },
+        'e2e.countMinutesInMongoDB'() {
+            console.log("-------------------------- E2E-METHOD: countMinutesSeries");
+            return MinutesCollection.find({}).count();
         }
     });
 }

@@ -3,12 +3,7 @@
             <table class="table table-striped" style="border: 1px solid darkgray;">
                 <thead>
                     <tr>
-                        <th style="vertical-align: middle;">
-                            User
-                            <button id="btnAddUser" class="btn btn-sm btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </th>
+                        <th style="vertical-align: middle;">User</th>
                         <th style="vertical-align: middle;">Role</th>
                         <th style="text-align: right; vertical-align: middle;">Delete</th>
                     </tr>
@@ -16,11 +11,11 @@
                 <tbody>
                 {{#each users}}
                     {{# with userRoleObj this._id}}
-                        <tr>
-                            <td style="vertical-align: middle;">
+                        <tr id="id_userRow">
+                            <td style="vertical-align: middle;" id="id_userName">
                                 {{getUser.username}}
                             </td>
-                            <td style="vertical-align: middle;">
+                            <td style="vertical-align: middle;" id="id_userRole" class="form-group">
                                 {{#if userIsReadOnly}}
                                     {{currentRole}}     <!-- static role text -->
                                 {{else}}
@@ -35,6 +30,20 @@
                         </tr>
                     {{/with}}
                 {{/each}}
+
+                <!--Use TypeAhead.js for insertion of new users-->
+                <tr>
+                    <td colspan="3" class="form-group">
+                        <input class="form-control typeahead"
+                               id ="edt_AddUser"
+                               name="newUserName"
+                               type="text"
+                               placeholder="Add User..."
+                               autocomplete="off"
+                               data-source="userListClean"/>
+                    </td>
+                </tr>
+
                 </tbody>
 
             </table>
