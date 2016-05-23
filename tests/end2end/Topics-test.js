@@ -1,7 +1,7 @@
 let e2e = require('./E2EHelpers');
 
 
-describe('Topics', function () {
+describe('Topics @watch', function () {
     const aProjectName = "E2E Topics";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
@@ -101,6 +101,47 @@ describe('Topics', function () {
         let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
         expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
     });
+
+
+    it('ensures invited user can not drag-n-drop topics', function () {
+        e2e.addTopicToMinutes('some topic');
+        e2e.addTopicToMinutes('some other topic');
+        e2e.addTopicToMinutes('yet another topic');
+        
+        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+
+        let currentUser = e2e.getCurrentUser();
+        let user2 = e2e.settings.e2eTestUsers[1];
+        browser.setValue('#edt_AddUser', user2);
+        browser.keys(['Enter']);
+        let selector = "select.user-role-select";
+        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        e2e.waitSomeTime();         // wait for dialog's animation
+
+
+        e2e.loginUser(1);
+        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        e2e.waitSomeTime();
+
+        e2e.gotoLatestMinutes();
+        var topicsBeforeSortAttempt = e2e.getTopicsForMinute();
+        let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
+        let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
+        expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
+
+        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+
+        var topicsAfterSortAttempt = e2e.getTopicsForMinute();
+        let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
+        let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
+        expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
+
+        e2e.loginUser();
+    });
+
+
 
     it('sorting of topics is persistent', function () {
         e2e.addTopicToMinutes('some topic');

@@ -54,7 +54,7 @@ let resetMyApp = function () {
 
 let isLoggedIn = function () {
     try {
-        browser.waitForExist('#navbar-signout', 1000);         // browser = WebdriverIO instance
+        browser.waitForExist('#navbar-signout', 2000);         // browser = WebdriverIO instance
     } catch (e) {
         // give browser some time, on fresh login
     }
@@ -87,10 +87,12 @@ let loginUser = function (index) {
             browser.setValue('input[id="at-field-username_and_email"]', aUser);
             browser.setValue('input[id="at-field-password"]', aPassword);
             browser.keys(['Enter']);
+            waitSomeTime();
 
             if (browser.isExisting('.at-error.alert.alert-danger')) {
                 throw new Error ("Unknown user or wrong password.")
             }
+            isLoggedIn();
             _currentlyLoggedInUser = aUser;
         }
     } catch (e) {
@@ -127,10 +129,10 @@ let isOnStartPage = function () {
 // so we click on the "Logo" icon
 let gotoStartPage = function () {
     browser.click('a.navbar-brand');
-
     // check post-condition
-    expect (isOnStartPage()).to.be.true;
+    expect (isOnStartPage(), "gotoStartPage()").to.be.true;
 };
+
 
 let countMeetingSeries = function() {
     gotoStartPage();
@@ -268,9 +270,7 @@ let getUsersAndRolesFromUserEditor = function (colNumUser, colNumRole, colNumDel
     let usrRoleSelected = [];
     try {usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector)); } catch(e) {}
 
-
     let selectNum = 0;
-    let isUserReadonly = true;
     // the "current user" is read-only and has no <select>
     // we must skip this user in the above usrRoleSelected
     for (let rowIndex in elementsUserRows.value) {
@@ -403,8 +403,6 @@ let gotoLatestMinutes = function () {
     const firstElementId = elements.value[0].ELEMENT;
 
     browser.elementIdClick(firstElementId);
-
-    throw new Error("Could not find any Minutes");
 };
 
 let addTopicToMinutes = function (aTopic) {

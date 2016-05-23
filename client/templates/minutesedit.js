@@ -17,11 +17,16 @@ var isMinuteFinalized = function () {
     return (aMin && aMin.isFinalized);
 };
 
+var isModerator = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isCurrentUserModerator());
+};
+
 var toggleTopicSorting = function () {
     let topicList = $('#accordion'),
         isFinalized = isMinuteFinalized();
 
-    if (!isFinalized) {
+    if (!isFinalized && isModerator()) {
         topicList.sortable('enable');
     }
 
@@ -72,11 +77,6 @@ Template.minutesedit.onRendered(function () {
 
     toggleTopicSorting();
 });
-
-var isModerator = function () {
-    let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isCurrentUserModerator());
-};
 
 Template.minutesedit.helpers({
     meetingSeries: function() {
