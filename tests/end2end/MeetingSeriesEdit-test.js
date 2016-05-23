@@ -2,18 +2,24 @@ let e2e = require('./E2EHelpers');
 
 
 describe('MeetingSeries Editor', function () {
+    const aProjectName = "E2E MeetingSeries Editor";
+    let aMeetingCounter = 0;
+    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingName;
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         e2e.gotoStartPage();
         expect(browser.getTitle()).to.equal('4minitz!');
         expect (e2e.isLoggedIn()).to.be.true;
+
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
     });
     
 
 
     it('can open and close meeting series editor', function () {
-        let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #4a";
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.true;
@@ -26,9 +32,6 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can open and cancel meeting series editor', function () {
-        let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #4b";
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetinSeriesEditCancel')).to.be.true;
@@ -41,11 +44,7 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can delete an empty meeting series', function () {
-        let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #5a";
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
         let countAfterCreate = e2e.countMeetingSeries();
-
         expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
@@ -58,11 +57,7 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can cancel delete of meeting series', function () {
-        let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #5a";
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
         let countAfterCreate = e2e.countMeetingSeries();
-
         expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
@@ -75,8 +70,7 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can clean up child minutes on deleting meeting series', function () {
-        let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #5b";
+        let aMeetingName = "Meeting Name (with Minute)";
         let countDBMeetingSeriesBefore = server.call('e2e.countMeetingSeriesInMongDB');
         let countDBMinutesBefore = server.call('e2e.countMinutesInMongoDB');
         e2e.createMeetingSeries(aProjectName, aMeetingName);
@@ -101,11 +95,7 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can not save meeting series without project or name', function () {
-        let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #6";
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
-
         browser.setValue('input[id="id_meetingproject"]', "");  // empty input
         browser.setValue('input[id="id_meetingname"]', "");     // empty input
         browser.click("#btnMeetingSeriesSave");     // try to save
@@ -128,11 +118,7 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can save meeting series with new project and name', function () {
-        let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #7";
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
         e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
-
         let aNewProjectName = "E2E New Project";
         let aNewMeetingName = "New Meeting Name #7b";
         browser.setValue('input[id="id_meetingproject"]', aNewProjectName);

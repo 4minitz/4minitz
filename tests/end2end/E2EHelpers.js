@@ -4,7 +4,8 @@ let _currentlyLoggedInUser = "";
 
 let waitSomeTime = function (milliseconds) {
     if (!milliseconds) {
-        milliseconds = 500;
+        // bootstrap fade animation time is 250ms, so give this some more...  ;-)
+        milliseconds = 300;
     }
     browser.pause(milliseconds);
 } ;
@@ -397,7 +398,7 @@ let addTopicToMinutes = function (aTopic) {
 
     browser.setValue('#id_subject', aTopic);
     browser.click("#btnTopicSave");
-    waitSomeTime();
+    waitSomeTime(700);
 };
 
 let getTopicsForMinute = function () {
