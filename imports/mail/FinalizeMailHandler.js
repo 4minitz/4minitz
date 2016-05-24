@@ -4,20 +4,24 @@ import { ActionItem } from './../actionitem'
 
 export class FinalizeMailHandler {
 
-    constructor(minute) {
+    constructor(minute, senderAddress) {
         if (!minute) {
             throw new Meteor.Error('illegal-argument', 'Minute id or object required');
+        }
+        if (!senderAddress) {
+            throw new Meteor.Error('illegal-argument', 'sender address required');
         }
         if (typeof minute === 'string') {   // we may have an ID here.
             minute = new Minutes(minute);
         }
 
         this._minute = minute;
+        this._senderAddress = senderAddress;
     }
 
     sendMails() {
         this._sendActionItems();
-        //todo: this._sendProtocol();
+        //todo: this._InfoItems();
     }
 
     _sendActionItems() {
@@ -28,7 +32,14 @@ export class FinalizeMailHandler {
         actionItems.forEach(item => {
             item.getResponsibleArray().forEach(recipient => {
                 if (!userMailHandlerMap.has(recipient)) {
-                    userMailHandlerMap.set(recipient, new ActionItemsMailHandler(recipient));
+                    userMailHandlerMap.set(
+                        recipient,
+                        new ActionItemsMailHandler(
+                            this._senderAddress,
+                            recipient,
+                            this._minute.parentMeetingSeries().name
+                        )
+                    );
                 }
                 userMailHandlerMap.get(recipient).addActionItem(item);
             });

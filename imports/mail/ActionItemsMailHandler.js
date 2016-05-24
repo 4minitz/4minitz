@@ -1,11 +1,14 @@
 import { ActionItem } from '../actionitem'
+import { MeteorMail } from './MeteorMail'
 
 export class ActionItemsMailHandler {
 
-    constructor(recipient) {
+    constructor(sender, recipient, meetingSeriesName) {
         this._actionItems = [];
         this._sendSeparateMails = false;
         this._recipient = recipient;
+        this._sender = sender;
+        this._meetingSeriesName = meetingSeriesName;
     }
 
     addActionItem(actionItem) {
@@ -14,8 +17,17 @@ export class ActionItemsMailHandler {
 
     send() {
         this._actionItems.forEach(item => {
-            console.log("Send mail to: " + this._recipient + " action item: " + item);
+            this._getMailer().setSubject(this._meetingSeriesName + " - " + item.getParentTopic().getSubject());
+            this._getMailer().setText("Hello " + this._recipient + " your action item: " + item);
+            this._getMailer().send();
         });
+    }
+
+    _getMailer() {
+        if (!this._mailer) {
+            this._mailer = new MeteorMail(this._sender, this._recipient);
+        }
+        return this._mailer;
     }
 
 }

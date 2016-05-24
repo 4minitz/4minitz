@@ -149,6 +149,10 @@ export class Topic {
         });
     }
 
+    getSubject() {
+        return this._topicDoc.subject;
+    }
+
     save(callback) {
         // this will update the entire topics array from the parent minutes!
         this._parentMinutes.upsertTopic(this._topicDoc, callback);

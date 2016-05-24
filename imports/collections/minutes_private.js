@@ -1,10 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Minutes } from '../minutes'
-import { MeetingSeries } from '../meetingseries'
-import { UserRoles } from "./../userroles"
+import { Minutes } from '../minutes';
+import { MeetingSeries } from '../meetingseries';
+import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
-import { FinalizeMailHandler } from '../mail/FinalizeMailHandler'
+import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
+import { GlobalSettings } from './../GlobalSettings';
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -86,8 +87,12 @@ Meteor.methods({
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             MinutesCollection.update(id, {$set: doc}, /* options */null, function (error, affectedDocs) {
                 if (!error && affectedDocs == 1 && Meteor.isServer) {
+                    let emails = Meteor.user().emails;
                     Meteor.defer(() => { // server background tasks after successfully updated the minute doc
-                        let finalizeMailHandler = new FinalizeMailHandler(aMin);
+                        let senderEmail = (emails.length > 0)
+                            ? emails[0].address
+                            : GlobalSettings.getDefaultEmailSenderAddress();
+                        let finalizeMailHandler = new FinalizeMailHandler(aMin, senderEmail);
                         finalizeMailHandler.sendMails();
                     });
                 }
