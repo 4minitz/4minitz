@@ -37,7 +37,7 @@ export class FinalizeMailHandler {
                         new ActionItemsMailHandler(
                             this._senderAddress,
                             recipient,
-                            this._minute.parentMeetingSeries().name
+                            this._minute
                         )
                     );
                 }

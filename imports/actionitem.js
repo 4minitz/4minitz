@@ -51,9 +51,30 @@ export class ActionItem extends InfoItem{
         return "";
     }
 
+    getDetails() {
+        return this._infoItemDoc.details;
+    }
+
+    getSubject() {
+        return this._infoItemDoc.subject;
+    }
+
     getResponsibleArray() {
         // currently we store the responsible persons as a comma separated string
         return this._infoItemDoc.responsible.split(',');
+    }
+
+    getResponsibleString() {
+        return this._infoItemDoc.responsible;
+    }
+
+    getPriority() {
+        let prio = this._infoItemDoc.priority;
+        return (prio) ? prio : '';
+    }
+
+    getDuedate() {
+        return this._infoItemDoc.duedate;
     }
 
     toggleState () {    // open/close
