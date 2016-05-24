@@ -23,20 +23,20 @@ export class FinalizeMailHandler {
     _sendActionItems() {
         // create map recipient->mailHandler and add all AIs to the
         // mail handler for this recipient
-        let userMailHandlerMap = [];
+        let userMailHandlerMap = new Map();
         let actionItems = this._minute.getOpenActionItems();
         actionItems.forEach(item => {
             item.getResponsibleArray().forEach(recipient => {
-                if (!userMailHandlerMap.hasOwnProperty(recipient)) {
-                    userMailHandlerMap[recipient] = new ActionItemsMailHandler(recipient);
+                if (!userMailHandlerMap.has(recipient)) {
+                    userMailHandlerMap.set(recipient, new ActionItemsMailHandler(recipient));
                 }
-                userMailHandlerMap[recipient].addActionItem(item);
+                userMailHandlerMap.get(recipient).addActionItem(item);
             });
         });
 
         // iterate over all mail handler and send the mails
-        Object.keys(userMailHandlerMap).forEach(key => {
-            userMailHandlerMap[key].send();
-        });
+        for(let mailHandler of userMailHandlerMap.values()) {
+            mailHandler.send();
+        }
     }
 }
