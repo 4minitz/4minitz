@@ -51,6 +51,11 @@ export class ActionItem extends InfoItem{
         return "";
     }
 
+    getResponsibleArray() {
+        // currently we store the responsible persons as a comma separated string
+        return this._infoItemDoc.responsible.split(',');
+    }
+
     toggleState () {    // open/close
         this._infoItemDoc.isOpen = !this._infoItemDoc.isOpen;
     }
