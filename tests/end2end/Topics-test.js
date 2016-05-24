@@ -1,7 +1,7 @@
 let e2e = require('./E2EHelpers');
 
 
-describe('Topics @watch', function () {
+describe('Topics', function () {
     const aProjectName = "E2E Topics";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";

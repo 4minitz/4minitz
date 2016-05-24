@@ -2,6 +2,12 @@
 let settings = require('../../settings-test-end2end.json');
 let _currentlyLoggedInUser = "";
 
+
+let USERROLES = {
+    Moderator:   "Moderator",
+    Invited:   "Invited"
+};
+
 let waitSomeTime = function (milliseconds) {
     if (!milliseconds) {
         // bootstrap fade animation time is 250ms, so give this some more...  ;-)
@@ -64,7 +70,8 @@ let isLoggedIn = function () {
 
 let logoutUser = function () {
     if (isLoggedIn()) {
-        browser.click('#navbar-signout')
+        browser.click('#navbar-signout');
+        waitSomeTime();
     }
     _currentlyLoggedInUser = "";
 };
@@ -236,6 +243,18 @@ let openMeetingSeriesEditor = function (aProj, aName) {
     waitSomeTime(750); // give dialog animation time
     // Check if dialog is there?
     browser.waitForVisible('#btnMeetingSeriesSave', 1000);
+};
+
+
+// assumes an open meeting series editor
+let addUserToMeetingSeries = function (username, role) {
+    browser.setValue('#edt_AddUser', username);
+    browser.keys(['Enter']);
+    
+    if (role) {
+        let selector = "select.user-role-select";
+        browser.selectByValue(selector, role);
+    }
 };
 
 
@@ -441,6 +460,7 @@ let countTopicsForMinute = function() {
 
 // ************* EXPORTS ****************
 module.exports.settings = settings;
+module.exports.USERROLES = USERROLES;
 module.exports.resetMyApp = resetMyApp;
 module.exports.waitSomeTime = waitSomeTime;
 module.exports.browserName = browserName;
@@ -460,6 +480,7 @@ module.exports.countMeetingSeries = countMeetingSeries;
 module.exports.getMeetingSeriesId = getMeetingSeriesId;
 module.exports.gotoMeetingSeries = gotoMeetingSeries;
 module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor;
+module.exports.addUserToMeetingSeries  = addUserToMeetingSeries;
 module.exports.getUsersAndRolesFromUserEditor  = getUsersAndRolesFromUserEditor;
 
 module.exports.addMinutesToMeetingSeries = addMinutesToMeetingSeries;
