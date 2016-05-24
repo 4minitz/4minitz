@@ -37,3 +37,4 @@ dispatch:mocha-phantomjs
 sergeyt:typeahead
 mrt:jquery-ui-sortable
 email
+meteorhacks:ssr
