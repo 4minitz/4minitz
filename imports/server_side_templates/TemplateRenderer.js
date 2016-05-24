@@ -11,15 +11,26 @@ export class TemplateRenderer {
         return TemplateRenderer.ID++;
     }
 
-    constructor(template, templatePathPrefix) {
+    constructor(template, templatePathPrefix, loadTmplFromAssets) {
         if (!template) {
             throw new Meteor.Error('invalid-argument', 'Parameter template required');
         }
-        let templatePath = (templatePathPrefix)
-            ? templatePathPrefix + "/" + template + ".html"
-            : template + ".html";
-        this._templateName = template;
-        SSR.compileTemplate(this._templateName, Assets.getText(templatePath));
+        if (loadTmplFromAssets === undefined) {
+            loadTmplFromAssets = true;
+        }
+
+        let tmplString;
+        if (loadTmplFromAssets) {
+            let templatePath = (templatePathPrefix)
+                ? templatePathPrefix + "/" + template + ".html"
+                : template + ".html";
+            this._templateName = template;
+            tmplString = Assets.getText(templatePath);
+        } else {
+            tmplString = template;
+            this._templateName = 'ssrTemplate' + TemplateRenderer.getID();
+        }
+        SSR.compileTemplate(this._templateName, tmplString);
         this._helpers = {};
         this._data = {};
     }
