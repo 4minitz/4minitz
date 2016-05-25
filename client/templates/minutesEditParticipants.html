@@ -11,7 +11,11 @@
                            name="present" id="btnTogglePresent" data-index="{{@index}}"
                             {{checkedStatePresent}} {{disableUIControl}}>
                 </label>
-                {{userNameForId this.userId}}
+                {{#if isModeratorOfParentSeries this.userId}}
+                    <b>{{userNameForId this.userId}}</b>
+                {{else}}
+                    {{userNameForId this.userId}}
+                {{/if}}
             </div>
             {{/each}}
             <input id="edtParticipantsAdditional" type="text" class="form-control"

@@ -1,4 +1,5 @@
 import { Minutes } from '/imports/minutes'
+import { UserRoles } from '/imports/userroles'
 
 let _minutesID; // the ID of these minutes
 
@@ -21,6 +22,13 @@ Template.minutesEditParticipants.onRendered(function() {
 Template.minutesEditParticipants.helpers({
     userNameForId (userId) {
         return Meteor.users.findOne(userId).username;
+    },
+
+    isModeratorOfParentSeries (userId) {
+        let aMin = new Minutes(_minutesID);
+        let usrRole = new UserRoles(userId);
+
+        return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
     },
 
     checkedStatePresent() {
