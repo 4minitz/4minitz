@@ -19,10 +19,9 @@ Template.minutesEditParticipants.onRendered(function() {
 
 
 Template.minutesEditParticipants.helpers({
-    userName(userId) {
+    userNameForId (userId) {
         return Meteor.users.findOne(userId).username;
     },
-
 
     checkedStatePresent() {
         if (this.present) {
@@ -31,7 +30,7 @@ Template.minutesEditParticipants.helpers({
         return {};
     },
 
-    disabledStatePresent: function () {
+    disableUIControl: function () {
         if (isEditable()) {
             return "";
         } else {
@@ -42,10 +41,19 @@ Template.minutesEditParticipants.helpers({
 
 
 Template.minutesEditParticipants.events({
-    "click #btnTogglePresent": function (evt, tmpl) {
+    "click #btnTogglePresent" (evt, tmpl) {
         let min = new Minutes(_minutesID);
         let indexInParticipantsArray = evt.target.dataset.index;
         let checkedState = evt.target.checked;
         min.updateParticipantPresent(indexInParticipantsArray, checkedState);
+    },
+    "change #edtParticipantsAdditional" (evt, tmpl) {
+        console.log("Trigger!");
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            console.log("   Min!");
+            let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
+            aMin.update({participantsAdditional: theParticipant});
+        }
     }
 });

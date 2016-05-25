@@ -6,14 +6,17 @@
             {{#each participants}}
             <div class="checkbox">
                 <label>
-                <input type="checkbox" class="checkbox"
-                       name="present" id="btnTogglePresent" data-index="{{@index}}"
-                        {{checkedStatePresent}} {{disabledStatePresent}}>
+                    <!--With @index we push over the array index to the checkbox event handler-->
+                    <input type="checkbox" class="checkbox"
+                           name="present" id="btnTogglePresent" data-index="{{@index}}"
+                            {{checkedStatePresent}} {{disableUIControl}}>
                 </label>
-                {{userName this.userId}}
+                {{userNameForId this.userId}}
             </div>
             {{/each}}
-            Additional Participants: {{participantsAdditional}}
+            <input id="edtParticipantsAdditional" type="text" class="form-control"
+                   placeholder="Additional Participants..."
+                   value="{{participantsAdditional}}" {{disableUIControl}}>
         </div>
     </div>
 </template>
