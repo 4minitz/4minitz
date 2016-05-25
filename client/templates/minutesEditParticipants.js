@@ -15,14 +15,6 @@ let isModeratorOfParentSeries = function (userId) {
 };
 
 
-let recalcMobileWidth = function () {
-    if ($(window).width() <= 400) {
-        Session.set("isMobileWidth", true);
-    } else {
-        Session.set("isMobileWidth", false);
-    }
-};
-
 Template.minutesEditParticipants.onCreated(function() {
     _minutesID = this.data._id;
     console.log("Template minutesEditParticipants created with minutesID "+_minutesID);
@@ -32,12 +24,6 @@ Template.minutesEditParticipants.onCreated(function() {
     if (isEditable()) {
         Session.set("participants.expand", true);
     }
-
-    recalcMobileWidth();
-    $(window).resize(function() {
-        console.log($(window).width());
-        recalcMobileWidth();
-    });
 });
 
 Template.minutesEditParticipants.onRendered(function() {
@@ -79,15 +65,15 @@ Template.minutesEditParticipants.helpers({
         }
     },
 
-    // some responsive tweaking
-    useWellClass() {
-        if (! Session.get("isMobileWidth")) {
+    // some responsive CSS tweaking
+    useClassWell() {
+        if (! Session.get("global.isMobileWidth")) {
             return "well";
         }
     },
 
-    usePadding() {
-        if (! Session.get("isMobileWidth")) {
+    useStylePadding() {
+        if (! Session.get("global.isMobileWidth")) {
             return "padding-left: 1.5em;";
         }
     }
