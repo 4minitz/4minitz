@@ -2,18 +2,21 @@ import { Migrations } from 'meteor/percolate:migrations';
 import { backupMongo } from './mongoBackup';
 
 import { MigrateV1 } from './migrate_v1'
+import { MigrateV2 } from './migrate_v2'
 
-// Example for defining a migration
  Migrations.add({
      version: 1,
-     up() {
-         MigrateV1.up();
-     },
-     down() {
-         MigrateV1.down();
-     }
+     up() {MigrateV1.up();},
+     down() {MigrateV1.down();}
  });
 
+Migrations.add({
+    version: 2,
+    up() {MigrateV2.up();},
+    down() {MigrateV2.down();}
+});
+
+// ----------------------------------------------------------------
 function findLatestVersion() {
     let max = 0;
 
