@@ -1,13 +1,19 @@
 <template name="minutesEditParticipants">
-        {{#each participants}}
-        <div class="checkbox">
-            <label>
-            <input type="checkbox" class="checkbox"
-                   name="present" id="btnTogglePresent" data-index="{{@index}}"
-                    {{checkedStatePresent}} {{disabledStatePresent}}>
-            </label>
-            {{userName this.userId}}
+    <div class="form-group">
+        <label for="id_participants">Participants</label>
+
+        <div id="id_participants" style="padding-left: 1.5em;">
+            {{#each participants}}
+            <div class="checkbox">
+                <label>
+                <input type="checkbox" class="checkbox"
+                       name="present" id="btnTogglePresent" data-index="{{@index}}"
+                        {{checkedStatePresent}} {{disabledStatePresent}}>
+                </label>
+                {{userName this.userId}}
+            </div>
+            {{/each}}
+            Additional Participants: {{participantsAdditional}}
         </div>
-        {{/each}}
-        Additional Participants: {{participantsAdditional}}
+    </div>
 </template>
