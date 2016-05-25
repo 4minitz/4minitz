@@ -1,3 +1,13 @@
 <template name="minutesEditParticipants">
-
+        {{#each participants}}
+        <div class="checkbox">
+            <label>
+            <input type="checkbox" class="checkbox"
+                   name="present" id="btnTogglePresent" data-index="{{@index}}"
+                    {{checkedStatePresent}} {{disabledStatePresent}}>
+            </label>
+            {{userName this.userId}}
+        </div>
+        {{/each}}
+        Additional Participants: {{participantsAdditional}}
 </template>

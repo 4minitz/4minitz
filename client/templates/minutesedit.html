@@ -61,7 +61,7 @@
 
             <div class="form-group {{participantsLabelFloating}}">
                 <label for="id_participants" class="control-label">Participants</label>
-                <input id="id_participants" type="text" value="{{minutes.participants}}" class="form-control" {{disableUIControl}}>
+                {{> minutesEditParticipants minutes}}
             </div>
             <div class="form-group">
                 <label for="id_agenda" class="active">Agenda</label>

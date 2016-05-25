@@ -20,7 +20,7 @@ export class Minutes {
             _.extend(this, source);
         }
     }
-
+    
     // ################### static methods
     static find() {
         return MinutesCollection.find.apply(MinutesCollection, arguments);
@@ -172,6 +172,46 @@ export class Minutes {
     isCurrentUserModerator() {
         return this.parentMeetingSeries().isCurrentUserModerator();
     }
+
+    // Add users of .visibleFor that are not yet in .participants.
+    // So, this method can be called multiple times to refresh the .participants array.
+    // This method never removes users from the .participants list! 
+    refreshParticipants (saveToDB) {
+        if (this.isFinalized) {
+            throw new Error("updateParticipants () must not be called on finalized minutes");
+        }
+
+        // construct lookup dict
+        let participantKnown = {};
+        if (!this.participants) {
+            this.participants = [];
+        }
+        this.participants.forEach(parti => {
+            participantKnown[parti.userId] = true;
+        });
+
+        // add unknown entries from .visibleFor
+        this.visibleFor.forEach(userId => {
+            if (!participantKnown[userId]) {
+                this.participants.push({
+                    userId: userId,
+                    present: false,
+                    minuteKeeper: false
+                });
+            }
+        });
+
+        // did we add anything?
+        if (saveToDB && this.participants.length > Object.keys(participantKnown).length) {
+            this.update({participants: this.participants}); // update only participants array!
+        }
+    }
+    
+    updateParticipantPresent(index, isPresent) {
+        this.participants[index].present = isPresent;
+        this.update({participants: this.participants});
+    }
+
 
     // ################### private methods
     _findTopicIndex(id) {

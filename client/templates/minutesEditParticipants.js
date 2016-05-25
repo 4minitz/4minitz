@@ -1,21 +1,51 @@
+import { Minutes } from '/imports/minutes'
+
+let _minutesID; // the ID of these minutes
+
+let isEditable = function () {
+    let min = new Minutes(_minutesID);
+    return min.isCurrentUserModerator() && !min.isFinalized;
+};
+
 Template.minutesEditParticipants.onCreated(function() {
-    //add your statement here
+    _minutesID = this.data._id;
+    console.log("Template minutesEditParticipants created with minutesID "+_minutesID);
 });
 
 Template.minutesEditParticipants.onRendered(function() {
-    //add your statement here
+    $.material.init()
 });
 
-Template.minutesEditParticipants.onDestroyed(function() {
-    //add your statement here
-});
 
 
 Template.minutesEditParticipants.helpers({
- //add you helpers here
+    userName(userId) {
+        return Meteor.users.findOne(userId).username;
+    },
+
+
+    checkedStatePresent() {
+        if (this.present) {
+            return {checked: "checked"};
+        }
+        return {};
+    },
+
+    disabledStatePresent: function () {
+        if (isEditable()) {
+            return "";
+        } else {
+            return {disabled: "disabled"};
+        }
+    }
 });
+
 
 Template.minutesEditParticipants.events({
- //add your events here
+    "click #btnTogglePresent": function (evt, tmpl) {
+        let min = new Minutes(_minutesID);
+        let indexInParticipantsArray = evt.target.dataset.index;
+        let checkedState = evt.target.checked;
+        min.updateParticipantPresent(indexInParticipantsArray, checkedState);
+    }
 });
-
