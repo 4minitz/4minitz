@@ -117,7 +117,8 @@ export class MeetingSeries {
             topics: topics,
             visibleFor: this.visibleFor             // freshly created minutes inherit visibility of their series
         });
-
+        
+        min.refreshParticipants(false); // do not save to DB!
         min.save(optimisticUICallback, serverCallback);
     }
 

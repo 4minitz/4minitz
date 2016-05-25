@@ -170,21 +170,6 @@ Template.minutesedit.events({
         }
     },
 
-    "change #id_participants": function (evt, tmpl) {
-        let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            let theParticipant = tmpl.find("#id_participants").value;
-            aMin.update({participants: theParticipant});
-        }
-    },
-
-    "change #id_agenda": function (evt, tmpl) {
-        let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            let anAgenda = tmpl.find("#id_agenda").value;
-            aMin.update({agenda: anAgenda});
-        }
-    },
 
     'click #btn_finalizeMinutes': function(evt, tmpl) {
         evt.preventDefault();

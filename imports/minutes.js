@@ -20,7 +20,7 @@ export class Minutes {
             _.extend(this, source);
         }
     }
-
+    
     // ################### static methods
     static find() {
         return MinutesCollection.find.apply(MinutesCollection, arguments);
@@ -172,6 +172,84 @@ export class Minutes {
     isCurrentUserModerator() {
         return this.parentMeetingSeries().isCurrentUserModerator();
     }
+
+
+    /**
+     * Add users of .visibleFor that are not yet in .participants to .participants
+     * So, this method can be called multiple times to refresh the .participants array.
+     * This method never removes users from the .participants list!
+     * Trows an exception if this minutes are finalized
+     * @param saveToDB internal saving can be skipped
+     */
+    refreshParticipants (saveToDB) {
+        if (this.isFinalized) {
+            throw new Error("updateParticipants () must not be called on finalized minutes");
+        }
+
+        // construct lookup dict
+        let participantKnown = {};
+        if (!this.participants) {
+            this.participants = [];
+        }
+        this.participants.forEach(parti => {
+            participantKnown[parti.userId] = true;
+        });
+
+        // add unknown entries from .visibleFor
+        this.visibleFor.forEach(userId => {
+            if (!participantKnown[userId]) {
+                this.participants.push({
+                    userId: userId,
+                    present: false,
+                    minuteKeeper: false
+                });
+            }
+        });
+
+        // did we add anything?
+        if (saveToDB && this.participants.length > Object.keys(participantKnown).length) {
+            this.update({participants: this.participants}); // update only participants array!
+        }
+    }
+
+
+    /**
+     * Change presence of a single participant. Immediately updates .participants array
+     * TODO Reactive performance may be better if we only update one array element in DB
+     * @param index of the participant in the participant array
+     * @param isPresent new state of presence
+     */
+    updateParticipantPresent(index, isPresent) {
+        this.participants[index].present = isPresent;
+        this.update({participants: this.participants});
+    }
+
+
+    /**
+     * Returns a human readable list of present participants of the meeting
+     * @param maxChars truncate and add ellipsis if necessary
+     * @returns {String} with comma separated list of names
+     */
+    getPresentParticipantNames(maxChars) {
+        let names = "";
+        this.participants.forEach(part => {
+            if (part.present) {
+                let name = Meteor.users.findOne(part.userId).username;
+                names = names + name + ", ";
+            }
+        });
+        if (this.participantsAdditional) {
+            names = names + this.participantsAdditional;
+        } else {
+            names = names .slice(0, -2);    // delete last ", "
+        }
+        if (maxChars && names.length > maxChars) {
+            return names.substr(0, maxChars)+"...";
+        }
+        return names;
+    }
+
+
 
     // ################### private methods
     _findTopicIndex(id) {
