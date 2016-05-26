@@ -27,14 +27,6 @@
                     <a href="/minutesedit/{{_id}}" id="id_linkToMinutes" style="white-space: nowrap;">
                         {{date}}
                     </a>
-                    {{#if isModeratorOfParentSeries}}
-                        {{#if isDeleteAllowed}}
-                            <a href="#" id="deleteMinutes">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"
-                                style="color: red;"></span>
-                            </a>
-                        {{/if}}
-                    {{/if}}
                 </td>
                 <td style="vertical-align: top;">
                     {{#if isFinalized}}
