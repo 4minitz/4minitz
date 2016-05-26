@@ -36,3 +36,4 @@ percolate:migrations
 dispatch:mocha-phantomjs
 sergeyt:typeahead
 mrt:jquery-ui-sortable
+dsyko:jquery-ui-touch-punch
