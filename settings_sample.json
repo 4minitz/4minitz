@@ -1,0 +1,12 @@
+{
+  "enableMailDelivery": true,
+
+  "mailDeliverer": "mailgun|smtp",
+
+  "smtpMailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/",
+
+  "mailgunApiKey": "Your mailgun api key",
+  "mailgunDomain": "Your mailgun domain",
+  "mailgunApiUrl": "https://api.mailgun.net/v2"
+
+}

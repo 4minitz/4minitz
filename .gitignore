@@ -2,3 +2,4 @@
 .meteor/meteorite
 .idea
 node_modules
+settings.json
