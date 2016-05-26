@@ -1,6 +1,6 @@
 
 let recalcMobileWidth = function () {
-    if ($(window).width() <= 400) {
+    if ($(window).width() < 768) {
         Session.set("global.isMobileWidth", true);
     } else {
         Session.set("global.isMobileWidth", false);

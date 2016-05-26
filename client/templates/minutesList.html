@@ -24,7 +24,9 @@
             {{#each minutes}}
             <tr>
                 <td>
-                    <a href="/minutesedit/{{_id}}" id="id_linkToMinutes">{{date}}</a>
+                    <a href="/minutesedit/{{_id}}" id="id_linkToMinutes" style="white-space: nowrap;">
+                        {{date}}
+                    </a>
                     {{#if isModeratorOfParentSeries}}
                         {{#if isDeleteAllowed}}
                             <a href="#" id="deleteMinutes">

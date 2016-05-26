@@ -24,9 +24,8 @@ Template.minutesList.helpers({
 
     isModeratorOfParentSeries: function () {
         let usrRole = new UserRoles();
-        return usrRole.isModeratorOf(this.meetingSeriesId);
+        return usrRole.isModeratorOf(this.meetingSeries_id);
     }
-    
 });
 
 Template.minutesList.events({
