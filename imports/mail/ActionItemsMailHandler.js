@@ -1,5 +1,6 @@
 import { ActionItem } from '../actionitem'
 import { MeteorMail } from './MeteorMail'
+import { MailFactory } from './MailFactory'
 import { TemplateRenderer } from './../server_side_templates/TemplateRenderer'
 
 export class ActionItemsMailHandler {
@@ -73,7 +74,7 @@ export class ActionItemsMailHandler {
 
     _getMailer() {
         if (!this._mailer) {
-            this._mailer = new MeteorMail(this._sender, this._recipient);
+            this._mailer = MailFactory.getMailer(this._sender, this._recipient);
         }
         return this._mailer;
     }

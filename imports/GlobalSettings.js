@@ -20,6 +20,13 @@ export class GlobalSettings {
         return "smtp";
     }
 
+    static getSMTPMailUrl() {
+        if (Meteor.settings.smtpMailUrl) {
+            return Meteor.settings.smtpMailUrl;
+        }
+        return "";
+    }
+
     static getMailgunSettings() {
         if (Meteor.Settings.mailgunApiKey
             && Meteor.Settings.mailgunDomain
