@@ -28,14 +28,14 @@ export class GlobalSettings {
     }
 
     static getMailgunSettings() {
-        if (Meteor.Settings.mailgunApiKey
-            && Meteor.Settings.mailgunDomain
-            && Meteor.Settings.mailgunApiUrl
+        if (Meteor.settings.mailgunApiKey
+            && Meteor.settings.mailgunDomain
+            && Meteor.settings.mailgunApiUrl
         ) {
             return {
-                apiKey: Meteor.Settings.mailgunApiKey,
-                domain: Meteor.Settings.mailgunDomain,
-                apiUrl: Meteor.Settings.mailgunApiUrl
+                apiKey: Meteor.settings.mailgunApiKey,
+                domain: Meteor.settings.mailgunDomain,
+                apiUrl: Meteor.settings.mailgunApiUrl
             };
         }
 

@@ -13,6 +13,7 @@ export class MeteorMail extends Mail{
         let config = {
             to: this._recipient,
             from: this._from,
+            replyTo: this._replyTo,
             subject: this._subject
         };
 
