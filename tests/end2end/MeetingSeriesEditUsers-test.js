@@ -39,7 +39,7 @@ describe('MeetingSeries Editor Users', function () {
 
         let usersAndRoles = e2e.getUsersAndRolesFromUserEditor(0,1,2);
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        e2e.waitSomeTime();         // wait for dialog's animation
+        e2e.waitSomeTime(600);         // wait for dialog's animation
 
         expect(Object.keys(usersAndRoles)).to.have.length(2);
         expect(usersAndRoles[user2]).to.be.ok;

@@ -180,6 +180,7 @@ Template.minutesedit.events({
             parentSeries.finalizeMinutes(aMin);
 
             toggleTopicSorting();
+            Session.set("participants.expand", false);
         }
     },
 
@@ -192,6 +193,11 @@ Template.minutesedit.events({
             parentSeries.unfinalizeMinutes(aMin);
 
             toggleTopicSorting();
+            Session.set("participants.expand", true);
+            // We need this forked to re-create material checkboxes
+            Meteor.setTimeout(function () {
+                $.material.init();
+            }, 0)
         }
     },
 
