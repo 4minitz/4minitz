@@ -3,6 +3,8 @@
 
   "mailDeliverer": "mailgun|smtp",
 
+  "defaultEMailSenderAddress": "default@email.de",
+
   "smtpMailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/",
 
   "mailgunApiKey": "Your mailgun api key",
