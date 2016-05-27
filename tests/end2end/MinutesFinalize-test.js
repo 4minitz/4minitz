@@ -38,10 +38,10 @@ describe('Minutes Finalize', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        e2e.finalizeCurrentMinutes(/*autoConfirmDialog*/false);
+        E2EMinutes.finalizeCurrentMinutes(/*autoConfirmDialog*/false);
 
         expect(browser.isExisting('#cbSendAI')).to.be.true;
         expect(browser.isExisting('#cbSendII')).to.be.true;
