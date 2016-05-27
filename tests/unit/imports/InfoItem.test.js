@@ -23,13 +23,13 @@ describe('InfoItem', function() {
             _infoItems: [],
             upsertInfoItem: sinon.stub(),
             findInfoItem: function(id) {
-                let index = subElementsHelper.findIndexById(id, this._infoItems);
+                let index = subElementsHelper.findIndexById(id, this._topics);
                 if (index == undefined) return undefined;
-                return new InfoItem(this, this._infoItems[index]);
+                return new InfoItem(this, this._topics[index]);
             },
             // test-only method
             addInfoItem: function (infoItem) {
-                this._infoItems.push(infoItem._infoItemDoc);
+                this._topics.push(infoItem._infoItemDoc);
             }
         };
 

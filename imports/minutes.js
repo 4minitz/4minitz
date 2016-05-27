@@ -137,6 +137,18 @@ export class Minutes {
         });
     }
 
+    /**
+     * Returns tailored topics which
+     * does only contain info items.
+     */
+    getTopicsWithOnlyInfoItems() {
+        return this.topics.map((topicDoc) => {
+            let topic = new Topic(this, topicDoc);
+            topicDoc.infoItems = topic.getOnlyInfoItems();
+            return topicDoc;
+        })
+    }
+
     upsertTopic(topicDoc, callback) {
         let i = undefined;
         if (! topicDoc._id) {             // brand-new topic

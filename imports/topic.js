@@ -143,6 +143,12 @@ export class Topic {
         return this._topicDoc.infoItems;
     }
 
+    getOnlyInfoItems() {
+        return this.getInfoItems().filter((item) => {
+            return !InfoItem.isActionItem(item);
+        })
+    }
+
     getOpenActionItems() {
         return this._topicDoc.infoItems.filter((infoItemDoc) => {
             return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;

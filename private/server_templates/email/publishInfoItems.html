@@ -1,0 +1,16 @@
+Hello{{#if name}} {{name}}{{/if}},<br>
+<br>
+the following topics were discussed during the meeting on {{minutesDate}}:<br>
+
+<ul>
+    {{#each topics}}
+    <li>
+        {{subject}} {{#unless isOpen}}(discussed){{/unless}}
+            <ul>
+                {{#each infoItems}}
+                    <li>{{subject}}</li>
+                {{/each}}
+            </ul>
+    </li>
+    {{/each}}
+</ul>

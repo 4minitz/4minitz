@@ -1,4 +1,5 @@
 import { ActionItemsMailHandler } from './ActionItemsMailHandler'
+import { InfoItemsMailHandler } from './InfoItemsMailHandler'
 import { Minutes } from './../minutes'
 import { ActionItem } from './../actionitem'
 
@@ -56,6 +57,9 @@ export class FinalizeMailHandler {
     }
 
     _sendInfoItems() {
-
+        let recipients = []; // todo: get the informed persons from the minute
+        let topics = this._minute.getTopicsWithOnlyInfoItems();
+        let mailHandler = new InfoItemsMailHandler(this._senderAddress, recipients, this._minute, topics);
+        mailHandler.send();
     }
 }

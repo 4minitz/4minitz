@@ -4,11 +4,30 @@ import { MailFactory } from './MailFactory'
 
 export class TopicItemsMailHandler {
 
-    constructor(sender, recipient, minute, templateName) {
-        this._recipient = recipient;
+    constructor(sender, recipients, minute, templateName) {
+        this._recipients = recipients;
         this._sender = sender;
         this._minute = minute;
         this._templateName = templateName;
+        this._currentRecipient = "";
+    }
+
+    send() {
+        this._recipients.forEach((recipient) => {
+            this._currentRecipient = recipient;
+            this._sendMail();
+            this._mailer = null;
+        })
+    }
+
+    _sendMail() {
+        throw new Meteor.Error('illegal-state', 'abstract method _sendMail not implemented.');
+    }
+
+    _getCurrentMailAddress() {
+        return (typeof this._currentRecipient === 'string')
+                ? this._currentRecipient
+                : this._currentRecipient.address;
     }
 
     _getSubjectPrefix() {
@@ -26,12 +45,15 @@ export class TopicItemsMailHandler {
     }
 
     _getTmplRenderer() {
-        return (new TemplateRenderer(this._templateName, 'server_templates/email')).addData('name', this._recipient);
+        let recipientsName = (typeof this._currentRecipient === 'string')
+            ? this._currentRecipient
+            : this._currentRecipient.name;
+        return (new TemplateRenderer(this._templateName, 'server_templates/email')).addData('name', recipientsName);
     }
 
     _getMailer() {
         if (!this._mailer) {
-            this._mailer = MailFactory.getMailer(this._sender, this._recipient);
+            this._mailer = MailFactory.getMailer(this._sender, this._getCurrentMailAddress);
         }
         return this._mailer;
     }
