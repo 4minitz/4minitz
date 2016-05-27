@@ -36,6 +36,13 @@ Template.meetingSeriesEdit.helpers({
 
     userEditConfig: function () {
         return Template.instance().userEditConfig;
+    },
+
+    // some responsive CSS tweaking
+    useClassWell() {
+        if (! Session.get("global.isMobileWidth")) {
+            return "well";
+        }
     }
 });
 

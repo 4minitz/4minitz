@@ -1,11 +1,10 @@
 <template name="usersEdit" id="id_useredit">
-    {{#if isModeEditSeries}}
-            <table class="table table-striped" style="border: 1px solid darkgray;">
+    <div class="form-group">
+        <label class="control-label" for="id_useredit">User Editor</label>
+        {{#if isModeEditSeries}}
+            <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th style="vertical-align: middle;">User</th>
-                        <th style="vertical-align: middle;">Role</th>
-                        <th style="text-align: right; vertical-align: middle;">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,24 +30,22 @@
                     {{/with}}
                 {{/each}}
 
-                <!--Use TypeAhead.js for insertion of new users-->
-                <tr>
-                    <td colspan="3" class="form-group">
-                        <input class="form-control typeahead"
-                               id ="edt_AddUser"
-                               name="newUserName"
-                               type="text"
-                               placeholder="Add User..."
-                               autocomplete="off"
-                               data-source="userListClean"/>
-                    </td>
-                </tr>
-
                 </tbody>
 
             </table>
 
-    {{else}}
-        Not isModeEditSeries
-    {{/if}}
+            <!--Use TypeAhead.js for insertion of new users-->
+            <div class="form-group">
+                <input class="form-control typeahead"
+                       id ="edt_AddUser"
+                       name="newUserName"
+                       type="text"
+                       placeholder="Add User..."
+                       autocomplete="off"
+                       data-source="userListClean"/>
+            </div>
+        {{else}}
+            Not isModeEditSeries
+        {{/if}}
+    </div>
 </template>

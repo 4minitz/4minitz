@@ -26,7 +26,6 @@ Template.minutesList.helpers({
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(this.meetingSeriesId);
     }
-    
 });
 
 Template.minutesList.events({

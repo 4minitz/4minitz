@@ -2,4 +2,5 @@
 .meteor/meteorite
 .idea
 node_modules
+npm-debug.log
 settings.json

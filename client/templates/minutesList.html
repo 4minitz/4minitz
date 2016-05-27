@@ -17,33 +17,26 @@
         <table class="table table-striped">
             <thead style="font-weight: bold;">
                 <td>Date</td>
-                <td>Finalized</td>
+                <td>Fin.</td>
                 <td>Participants</td>
             </thead>
             <tbody>
             {{#each minutes}}
             <tr>
                 <td>
-                    <a href="/minutesedit/{{_id}}" id="id_linkToMinutes">{{date}}</a>
-                    {{#if isModeratorOfParentSeries}}
-                        {{#if isDeleteAllowed}}
-                            <a href="#" id="deleteMinutes">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Remove Meeting Minutes"
-                                style="color: red;"></span>
-                            </a>
-                        {{/if}}
-                    {{/if}}
+                    <a href="/minutesedit/{{_id}}" id="id_linkToMinutes" style="white-space: nowrap;">
+                        {{date}}
+                    </a>
                 </td>
-                <td>
-                    &nbsp;
+                <td style="vertical-align: top;">
                     {{#if isFinalized}}
-                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" aria-label="Finalized"></span>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalized"></span>
                     {{else}}
                         <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" aria-label="Finalized"></span>
                     {{/if}}
                 </td>
                 <td>
-                    {{participants}}
+                    {{getPresentParticipantNames 60}}  <!-- Limit to max. 60 chars -->
                 </td>
             </tr>
             {{/each}}

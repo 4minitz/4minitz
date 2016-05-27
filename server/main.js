@@ -10,4 +10,6 @@ Meteor.startup(() => {
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
 
     handleMigration();
+    // Migrations.migrateTo(1);     // Plz. keep this comment for manual testing... ;-)
 });
+

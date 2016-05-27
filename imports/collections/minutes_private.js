@@ -211,6 +211,13 @@ Meteor.methods({
         if (userRoles.isModeratorOf(parentSeriesID)) {
             if (MinutesCollection.find({meetingSeries_id: parentSeriesID}).count() > 0) {
                 MinutesCollection.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+
+                // add missing participants to non-finalized meetings
+                MinutesCollection.find({meetingSeries_id: parentSeriesID}).forEach (min => {
+                    if (!min.isFinalized) {
+                        min.refreshParticipants(true);
+                    }
+                });
             }
         } else {
             throw new Meteor.Error("Cannot sync visibility of minutes", "You are not moderator of the parent meeting series.");

@@ -17,11 +17,16 @@ var isMinuteFinalized = function () {
     return (aMin && aMin.isFinalized);
 };
 
+var isModerator = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isCurrentUserModerator());
+};
+
 var toggleTopicSorting = function () {
     let topicList = $('#accordion'),
         isFinalized = isMinuteFinalized();
 
-    if (!isFinalized) {
+    if (!isFinalized && isModerator()) {
         topicList.sortable('enable');
     }
 
@@ -72,11 +77,6 @@ Template.minutesedit.onRendered(function () {
 
     toggleTopicSorting();
 });
-
-var isModerator = function () {
-    let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isCurrentUserModerator());
-};
 
 Template.minutesedit.helpers({
     meetingSeries: function() {
@@ -170,21 +170,6 @@ Template.minutesedit.events({
         }
     },
 
-    "change #id_participants": function (evt, tmpl) {
-        let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            let theParticipant = tmpl.find("#id_participants").value;
-            aMin.update({participants: theParticipant});
-        }
-    },
-
-    "change #id_agenda": function (evt, tmpl) {
-        let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            let anAgenda = tmpl.find("#id_agenda").value;
-            aMin.update({agenda: anAgenda});
-        }
-    },
 
     'click #btn_finalizeMinutes': function(evt, tmpl) {
         evt.preventDefault();
@@ -195,6 +180,7 @@ Template.minutesedit.events({
             parentSeries.finalizeMinutes(aMin);
 
             toggleTopicSorting();
+            Session.set("participants.expand", false);
         }
     },
 
@@ -207,6 +193,11 @@ Template.minutesedit.events({
             parentSeries.unfinalizeMinutes(aMin);
 
             toggleTopicSorting();
+            Session.set("participants.expand", true);
+            // We need this forked to re-create material checkboxes
+            Meteor.setTimeout(function () {
+                $.material.init();
+            }, 0)
         }
     },
 

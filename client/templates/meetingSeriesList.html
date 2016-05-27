@@ -29,7 +29,7 @@
             {{/if}}
             {{#with lastMin = lastMinutes}}
                 {{#if lastMin}}
-                  (last minutes of <a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)
+                  (<span class="hidden-xs">last minutes of </span><a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)
                 {{/if}}
             {{/with}}
             <span class="badge">{{countMinutes}}</span>

@@ -2,9 +2,16 @@
 let settings = require('../../settings-test-end2end.json');
 let _currentlyLoggedInUser = "";
 
+
+let USERROLES = {
+    Moderator:   "Moderator",
+    Invited:   "Invited"
+};
+
 let waitSomeTime = function (milliseconds) {
     if (!milliseconds) {
-        milliseconds = 500;
+        // bootstrap fade animation time is 250ms, so give this some more...  ;-)
+        milliseconds = 300;
     }
     browser.pause(milliseconds);
 } ;
@@ -23,6 +30,23 @@ let formatDateISO8601 = function (aDate) {
     return yyyy+"-"+mm+"-"+dd;
 };
 
+
+let browserName = function () {
+    if (browser && 
+        browser._original && 
+        browser._original.desiredCapabilities &&
+        browser._original.desiredCapabilities.browserName) {
+        return browser._original.desiredCapabilities.browserName; 
+    }
+    return "unknown";
+};
+
+
+let browserIsPhantomJS = function () {
+    return (browserName() == "phantomjs")
+};
+
+
 // Calls the server method to clean database and create fresh test users
 let resetMyApp = function () {
     try {
@@ -36,7 +60,7 @@ let resetMyApp = function () {
 
 let isLoggedIn = function () {
     try {
-        browser.waitForExist('#navbar-signout', 1000);         // browser = WebdriverIO instance
+        browser.waitForExist('#navbar-signout', 2000);         // browser = WebdriverIO instance
     } catch (e) {
         // give browser some time, on fresh login
     }
@@ -46,7 +70,8 @@ let isLoggedIn = function () {
 
 let logoutUser = function () {
     if (isLoggedIn()) {
-        browser.click('#navbar-signout')
+        browser.click('#navbar-signout');
+        waitSomeTime();
     }
     _currentlyLoggedInUser = "";
 };
@@ -69,10 +94,12 @@ let loginUser = function (index) {
             browser.setValue('input[id="at-field-username_and_email"]', aUser);
             browser.setValue('input[id="at-field-password"]', aPassword);
             browser.keys(['Enter']);
+            waitSomeTime();
 
             if (browser.isExisting('.at-error.alert.alert-danger')) {
                 throw new Error ("Unknown user or wrong password.")
             }
+            isLoggedIn();
             _currentlyLoggedInUser = aUser;
         }
     } catch (e) {
@@ -109,10 +136,10 @@ let isOnStartPage = function () {
 // so we click on the "Logo" icon
 let gotoStartPage = function () {
     browser.click('a.navbar-brand');
-
     // check post-condition
-    expect (isOnStartPage()).to.be.true;
+    expect (isOnStartPage(), "gotoStartPage()").to.be.true;
 };
+
 
 let countMeetingSeries = function() {
     gotoStartPage();
@@ -219,6 +246,18 @@ let openMeetingSeriesEditor = function (aProj, aName) {
 };
 
 
+// assumes an open meeting series editor
+let addUserToMeetingSeries = function (username, role) {
+    browser.setValue('#edt_AddUser', username);
+    browser.keys(['Enter']);
+    
+    if (role) {
+        let selector = "select.user-role-select";
+        browser.selectByValue(selector, role);
+    }
+};
+
+
 /**
  * Analyze the user editor table in the DOM and generate a dictionary with its content
  *
@@ -250,9 +289,7 @@ let getUsersAndRolesFromUserEditor = function (colNumUser, colNumRole, colNumDel
     let usrRoleSelected = [];
     try {usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector)); } catch(e) {}
 
-
     let selectNum = 0;
-    let isUserReadonly = true;
     // the "current user" is read-only and has no <select>
     // we must skip this user in the above usrRoleSelected
     for (let rowIndex in elementsUserRows.value) {
@@ -266,8 +303,13 @@ let getUsersAndRolesFromUserEditor = function (colNumUser, colNumRole, colNumDel
         // for the current user usrRole already contains his read-only role string "Moderator"
         let usrRole = browser.elementIdText(elementsTD.value[colNumRole].ELEMENT).value;
         let usrIsReadOnly  = true;
-        // for all other users we must get their role from the usrRoleSelected array
-        if (usrRole.indexOf("\n") >= 0) {    // with '\n' linebreaks we detect a <select> for this user!
+        
+        // For all other users we must get their role from the usrRoleSelected array
+        // Here we try to find out, if we look at a <select> UI element...
+        // Chrome: with '\n' linebreaks we detect a <select> for this user!
+        // Phantom.js: Has no linebreaks between <option>s, it just concatenates like "InvitedModerator"
+        // so we go for "usrRole.length>10" to detect a non-possible role text...
+        if (usrRole.indexOf("\n") >= 0 || usrRole.length>10) {    
             usrRole = usrRoleSelected[selectNum];
             usrIsReadOnly = false;
             selectNum += 1;
@@ -380,8 +422,6 @@ let gotoLatestMinutes = function () {
     const firstElementId = elements.value[0].ELEMENT;
 
     browser.elementIdClick(firstElementId);
-
-    throw new Error("Could not find any Minutes");
 };
 
 let addTopicToMinutes = function (aTopic) {
@@ -397,7 +437,7 @@ let addTopicToMinutes = function (aTopic) {
 
     browser.setValue('#id_subject', aTopic);
     browser.click("#btnTopicSave");
-    waitSomeTime();
+    waitSomeTime(700);
 };
 
 let getTopicsForMinute = function () {
@@ -420,8 +460,11 @@ let countTopicsForMinute = function() {
 
 // ************* EXPORTS ****************
 module.exports.settings = settings;
+module.exports.USERROLES = USERROLES;
 module.exports.resetMyApp = resetMyApp;
 module.exports.waitSomeTime = waitSomeTime;
+module.exports.browserName = browserName;
+module.exports.browserIsPhantomJS = browserIsPhantomJS;
 module.exports.formatDateISO8601 = formatDateISO8601;
 module.exports.isLoggedIn = isLoggedIn;
 module.exports.loginUser = loginUser;
@@ -437,6 +480,7 @@ module.exports.countMeetingSeries = countMeetingSeries;
 module.exports.getMeetingSeriesId = getMeetingSeriesId;
 module.exports.gotoMeetingSeries = gotoMeetingSeries;
 module.exports.openMeetingSeriesEditor  = openMeetingSeriesEditor;
+module.exports.addUserToMeetingSeries  = addUserToMeetingSeries;
 module.exports.getUsersAndRolesFromUserEditor  = getUsersAndRolesFromUserEditor;
 
 module.exports.addMinutesToMeetingSeries = addMinutesToMeetingSeries;
