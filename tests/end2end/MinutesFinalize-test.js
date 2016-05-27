@@ -2,6 +2,12 @@ let e2e = require('./E2EHelpers');
 
 
 describe('Minutes Finalize', function () {
+
+    const aProjectName = "E2E Minutes Finalize";
+    let aMeetingCounter = 0;
+    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingName;
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         e2e.gotoStartPage();
         expect(browser.getTitle()).to.equal('4minitz!');
@@ -10,8 +16,8 @@ describe('Minutes Finalize', function () {
     
 
     it('can finalize minutes', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #1";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
 
         e2e.createMeetingSeries(aProjectName, aMeetingName);
         expect(e2e.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
@@ -24,10 +30,23 @@ describe('Minutes Finalize', function () {
         expect(e2e.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
     });
 
+    it('asks if emails should be sent before finalizing the minute @watch', function () {
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
+
+        e2e.createMeetingSeries(aProjectName, aMeetingName);
+        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        e2e.finalizeCurrentMinutes(/*autoConfirmDialog*/false);
+
+        expect(browser.isExisting('#cbSendAI')).to.be.true;
+        expect(browser.isExisting('#cbSendII')).to.be.true;
+    });
+
 
     it('can not add minutes if unfinalized minutes exist', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #2";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
 
         e2e.createMeetingSeries(aProjectName, aMeetingName);
         let countInitialMinutes = e2e.countMinutesForSeries(aProjectName, aMeetingName);
@@ -46,8 +65,8 @@ describe('Minutes Finalize', function () {
 
 
     it('can finalize minutes at later timepoint', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #3";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
 
         e2e.createMeetingSeries(aProjectName, aMeetingName);
         let countInitialMinutes = e2e.countMinutesForSeries(aProjectName, aMeetingName);
@@ -69,8 +88,8 @@ describe('Minutes Finalize', function () {
 
 
     it('can not delete or finalize already finalized minutes', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #4";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
 
         e2e.createMeetingSeries(aProjectName, aMeetingName);
@@ -84,8 +103,8 @@ describe('Minutes Finalize', function () {
 
 
     it('can unfinalize minutes', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #5";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
 
         e2e.createMeetingSeries(aProjectName, aMeetingName);
@@ -100,8 +119,8 @@ describe('Minutes Finalize', function () {
 
 
     it('does show name of user that did finalize', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #6";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
         let currentUsername = e2e.settings.e2eTestUsers[0];
 
@@ -120,8 +139,8 @@ describe('Minutes Finalize', function () {
 
 
     it('prohibits editing of finalized minutes', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #7";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
 
         e2e.createMeetingSeries(aProjectName, aMeetingName);
@@ -138,8 +157,8 @@ describe('Minutes Finalize', function () {
 
 
     it('prohibits unfinalizing of non-latest minutes', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #7";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate1 = "2015-03-17";  // date of first project commit ;-)
         let myDate2 = "2015-03-18";
 
@@ -164,8 +183,8 @@ describe('Minutes Finalize', function () {
 
 
     it('prohibits minutes on dates before the latest minutes', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #8";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate1 = "2015-03-17";  // date of first project commit ;-)
         let myDate2 = "2010-01-01";
 
@@ -184,8 +203,8 @@ describe('Minutes Finalize', function () {
 
 
     it('prohibits two minutes on the same date', function () {
-        let aProjectName = "E2E Minutes Finalize";
-        let aMeetingName = "Meeting Name #9";
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate1 = "2015-03-17";  // date of first project commit ;-)
 
         e2e.createMeetingSeries(aProjectName, aMeetingName);

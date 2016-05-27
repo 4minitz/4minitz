@@ -177,10 +177,27 @@ Template.minutesedit.events({
         if (aMin) {
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
             let parentSeries = aMin.parentMeetingSeries();
-            parentSeries.finalizeMinutes(aMin);
 
-            toggleTopicSorting();
-            Session.set("participants.expand", false);
+            let dialogContent = "<p>Do you really want to finalize this meeting minute dated on <strong>" + aMin.date + "</strong>?";
+            dialogContent += ""
+                + "<div class='checkbox form-group'><label for='cbSendAI'><input id='cbSendAI' type='checkbox' class='checkbox' checked> Send action items</label></div>"
+                + "<div class='checkbox form-group'><label for='cbSendII'><input id='cbSendII' type='checkbox' class='checkbox' checked> Send information items</label></div>"
+                + "</p>";
+
+            confirmationDialog(
+                /* callback called if user wants to continue */
+                () => {
+                    parentSeries.finalizeMinutes(aMin);
+
+                    toggleTopicSorting();
+                    Session.set("participants.expand", false);
+                },
+                /* Dialog content */
+                dialogContent,
+                "Confirm finalize minute",
+                "Finalize"
+            );
+
         }
     },
 

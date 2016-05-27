@@ -29,8 +29,8 @@ export class MailgunMail extends Mail {
         if (this._html) {
             options.params.html = this._html;
         }
-        var onError = function(error, result) {
-            // todo: what shall we do with an email error... ? and what is the result?
+        var onError = function(error/*, result*/) {
+            // todo: what shall we do with an email error... ?
             if(error) {console.log("Error: " + error)}
         };
 

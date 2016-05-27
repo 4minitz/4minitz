@@ -346,10 +346,18 @@ let addMinutesToMeetingSeries = function (aProj, aName, aDate) {
     }
 };
 
-
-let finalizeCurrentMinutes = function () {
+/**
+ * Finalizes the current minute
+ *
+ * @param confirmDialog should the dialog be confirmed automatically
+ *                      default: true
+ */
+let finalizeCurrentMinutes = function (confirmDialog) {
     browser.waitForVisible("#btn_finalizeMinutes");
     browser.click("#btn_finalizeMinutes");
+    if (confirmDialog === undefined || confirmDialog) {
+        confirmationDialogAnswer(true);
+    }
 };
 
 

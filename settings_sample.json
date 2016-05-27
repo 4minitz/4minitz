@@ -9,6 +9,6 @@
 
   "mailgunApiKey": "Your mailgun api key",
   "mailgunDomain": "Your mailgun domain",
-  "mailgunApiUrl": "https://api.mailgun.net/v2"
+  "mailgunApiUrl": "https://api.mailgun.net/v3"
 
 }
