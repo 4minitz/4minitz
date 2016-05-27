@@ -1,71 +1,76 @@
-let e2e = require('./E2EHelpers');
+
+import { E2EGlobal } from './helpers/E2EGlobal'
+import { E2EApp } from './helpers/E2EApp'
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
+import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
+import { E2EMinutes } from './helpers/E2EMinutes'
 
 
-describe('MeetingSeries Editor', function () {
+describe('MeetingSeries Editor @watch', function () {
     const aProjectName = "E2E MeetingSeries Editor";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     beforeEach("goto start page and make sure test user is logged in", function () {
-        e2e.gotoStartPage();
+        E2EApp.gotoStartPage();
         expect(browser.getTitle()).to.equal('4minitz!');
-        expect (e2e.isLoggedIn()).to.be.true;
+        expect (E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
     });
     
 
 
     it('can open and close meeting series editor', function () {
-        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.true;
         browser.click('button.close');
-        e2e.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
         // Now dialog should be gone
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.false;
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
     });
 
 
     it('can open and cancel meeting series editor', function () {
-        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetinSeriesEditCancel')).to.be.true;
         browser.click('#btnMeetinSeriesEditCancel');
-        e2e.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
         // Now dialog should be gone
         expect(browser.isVisible('#btnMeetinSeriesEditCancel')).to.be.false;
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
     });
 
 
     it('can delete an empty meeting series', function () {
-        let countAfterCreate = e2e.countMeetingSeries();
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
-        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        let countAfterCreate = E2EMeetingSeries.countMeetingSeries();
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
         browser.click("#deleteMeetingSeries");
-        e2e.confirmationDialogAnswer(true);
+        E2EApp.confirmationDialogAnswer(true);
 
-        expect(e2e.countMeetingSeries()).to.equal(countAfterCreate -1);
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
+        expect(E2EMeetingSeries.countMeetingSeries()).to.equal(countAfterCreate -1);
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
     });
 
 
     it('can cancel delete of meeting series', function () {
-        let countAfterCreate = e2e.countMeetingSeries();
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
-        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        let countAfterCreate = E2EMeetingSeries.countMeetingSeries();
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
         browser.click("#deleteMeetingSeries");
-        e2e.confirmationDialogAnswer(false);
+        E2EApp.confirmationDialogAnswer(false);
 
-        expect(e2e.countMeetingSeries()).to.equal(countAfterCreate);
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
+        expect(E2EMeetingSeries.countMeetingSeries()).to.equal(countAfterCreate);
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
     });
 
 
@@ -73,29 +78,29 @@ describe('MeetingSeries Editor', function () {
         let aMeetingName = "Meeting Name (with Minute)";
         let countDBMeetingSeriesBefore = server.call('e2e.countMeetingSeriesInMongDB');
         let countDBMinutesBefore = server.call('e2e.countMinutesInMongoDB');
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        e2e.finalizeCurrentMinutes();
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
 
         // One more Meeting series and one more minutes
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(countDBMeetingSeriesBefore +1);
         expect(server.call('e2e.countMinutesInMongoDB')).to.equal(countDBMinutesBefore +1);
 
         // Now delete meeting series with attached Minutes
-        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         browser.click("#deleteMeetingSeries");
-        e2e.confirmationDialogAnswer(true);
+        E2EApp.confirmationDialogAnswer(true);
 
         // Meeting series and attached minutes should be gone
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(countDBMeetingSeriesBefore);
         expect(server.call('e2e.countMinutesInMongoDB')).to.equal(countDBMinutesBefore);
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
     });
 
 
     it('can not save meeting series without project or name', function () {
-        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         browser.setValue('input[id="id_meetingproject"]', "");  // empty input
         browser.setValue('input[id="id_meetingname"]', "");     // empty input
         browser.click("#btnMeetingSeriesSave");     // try to save
@@ -112,21 +117,21 @@ describe('MeetingSeries Editor', function () {
         expect(browser.isVisible("#btnMeetingSeriesSave")).to.be.true;  // dialog still open!
 
         browser.click('#btnMeetinSeriesEditCancel');
-        e2e.waitSomeTime(750); // give dialog animation time
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;  // prj/name should be unchanged
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;  // prj/name should be unchanged
     });
 
 
     it('can save meeting series with new project and name', function () {
-        e2e.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         let aNewProjectName = "E2E New Project";
         let aNewMeetingName = "New Meeting Name #7b";
         browser.setValue('input[id="id_meetingproject"]', aNewProjectName);
         browser.setValue('input[id="id_meetingname"]', aNewMeetingName);
         browser.click("#btnMeetingSeriesSave");     // try to save
-        e2e.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
 
-        expect(e2e.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
-        expect(e2e.getMeetingSeriesId(aNewProjectName, aNewMeetingName)).to.be.ok;
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
+        expect(E2EMeetingSeries.getMeetingSeriesId(aNewProjectName, aNewMeetingName)).to.be.ok;
     });
 });
