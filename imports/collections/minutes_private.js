@@ -89,7 +89,7 @@ Meteor.methods({
                 if (!error && affectedDocs == 1 && Meteor.isServer) {
                     let emails = Meteor.user().emails;
                     Meteor.defer(() => { // server background tasks after successfully updated the minute doc
-                        let senderEmail = (emails.length > 0)
+                        let senderEmail = (emails && emails.length > 0)
                             ? emails[0].address
                             : GlobalSettings.getDefaultEmailSenderAddress();
                         let finalizeMailHandler = new FinalizeMailHandler(aMin, senderEmail);
