@@ -60,6 +60,9 @@ export class ActionItem extends InfoItem{
     }
 
     getResponsibleArray() {
+        if (!this._infoItemDoc.responsible) {
+            return [];
+        }
         // currently we store the responsible persons as a comma separated string
         return this._infoItemDoc.responsible.split(',');
     }
