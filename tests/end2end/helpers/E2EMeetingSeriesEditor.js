@@ -5,8 +5,11 @@ import { E2EMeetingSeries } from './E2EMeetingSeries'
 
 export class E2EMeetingSeriesEditor {
     
-    static openMeetingSeriesEditor (aProj, aName) {
-        E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
+    static openMeetingSeriesEditor (aProj, aName, skipGotoMeetingSeries) {
+        // Maybe we can save "gotoStartPage => gotoMeetingSeries"?
+        if (! skipGotoMeetingSeries) {
+            E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
+        }
 
         // Open dialog
         browser.waitForVisible('#btnEditMeetingSeries', 1000);

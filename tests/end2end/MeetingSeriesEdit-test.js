@@ -24,24 +24,24 @@ describe('MeetingSeries Editor', function () {
     
 
 
-    it('can open and close meeting series editor', function () {
+    it('can open and close meeting series editor without changing data', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.true;
         browser.click('button.close');
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.waitSomeTime(); // give dialog animation time
         // Now dialog should be gone
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.false;
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
     });
 
 
-    it('can open and cancel meeting series editor', function () {
+    it('can open and cancel meeting series editor without changing data', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetinSeriesEditCancel')).to.be.true;
         browser.click('#btnMeetinSeriesEditCancel');
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.waitSomeTime(); // give dialog animation time
         // Now dialog should be gone
         expect(browser.isVisible('#btnMeetinSeriesEditCancel')).to.be.false;
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.false;
@@ -122,10 +122,10 @@ describe('MeetingSeries Editor', function () {
     });
 
 
-    it('can save meeting series with new project and name', function () {
+    it('can save meeting series with new project name and meeting name', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         let aNewProjectName = "E2E New Project";
-        let aNewMeetingName = "New Meeting Name #7b";
+        let aNewMeetingName = "New Meeting Name";
         browser.setValue('input[id="id_meetingproject"]', aNewProjectName);
         browser.setValue('input[id="id_meetingname"]', aNewMeetingName);
         browser.click("#btnMeetingSeriesSave");     // try to save
@@ -134,4 +134,39 @@ describe('MeetingSeries Editor', function () {
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
         expect(E2EMeetingSeries.getMeetingSeriesId(aNewProjectName, aNewMeetingName)).to.be.ok;
     });
+
+    it('can restore fields after close and re-open @watch', function () {
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        browser.setValue('input[id="id_meetingproject"]', aProjectName+" Changed!");
+        browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
+
+        browser.click('button.close');
+        E2EGlobal.waitSomeTime(); // give dialog animation time
+
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, true);
+        expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(aProjectName);
+        expect(browser.getValue('input[id="id_meetingname"]')).to.equal(aMeetingName);
+
+        browser.click('button.close');
+        E2EGlobal.waitSomeTime(); // give dialog animation time
+    });
+
+
+    it('can restore fields after cancel and re-open', function () {
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        browser.setValue('input[id="id_meetingproject"]', aProjectName+" Changed!");
+        browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
+
+        browser.click('#btnMeetinSeriesEditCancel');
+        E2EGlobal.waitSomeTime(); // give dialog animation time
+
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, true);
+        expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(aProjectName);
+        expect(browser.getValue('input[id="id_meetingname"]')).to.equal(aMeetingName);
+
+        browser.click('#btnMeetinSeriesEditCancel');
+        E2EGlobal.waitSomeTime(); // give dialog animation time
+    });
+
+
 });
