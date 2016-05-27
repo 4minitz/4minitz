@@ -1,4 +1,8 @@
-let e2e = require('./E2EHelpers');
+
+import { E2EGlobal } from './helpers/E2EGlobal'
+import { E2EApp } from './helpers/E2EApp'
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
+import { E2EMinutes } from './helpers/E2EMinutes'
 
 
 describe('Minutes Finalize', function () {
@@ -9,9 +13,9 @@ describe('Minutes Finalize', function () {
     let aMeetingName;
 
     beforeEach("goto start page and make sure test user is logged in", function () {
-        e2e.gotoStartPage();
+        E2EApp.gotoStartPage();
         expect(browser.getTitle()).to.equal('4minitz!');
-        expect (e2e.isLoggedIn()).to.be.true;
+        expect (E2EApp.isLoggedIn()).to.be.true;
     });
     
 
@@ -19,15 +23,15 @@ describe('Minutes Finalize', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        expect(e2e.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
 
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.false;
-        e2e.finalizeCurrentMinutes();
+        E2EMinutes.finalizeCurrentMinutes();
 
         expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.true;
-        expect(e2e.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
     });
 
     it('asks if emails should be sent before finalizing the minute @watch', function () {
@@ -48,19 +52,19 @@ describe('Minutes Finalize', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        let countInitialMinutes = e2e.countMinutesForSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        let countInitialMinutes = E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName);
 
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         // No finalize here!
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         browser.waitForVisible("#btnAddMinutes");
 
         // check if button is disabled
         expect(browser.isExisting('a#btnAddMinutes[disabled="true"]')).to.be.true;
         // check if button is clicked, it does not add minutes
         browser.click("#btnAddMinutes");
-        expect(e2e.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(countInitialMinutes +1);
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(countInitialMinutes +1);
     });
 
 
@@ -68,22 +72,22 @@ describe('Minutes Finalize', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        let countInitialMinutes = e2e.countMinutesForSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        let countInitialMinutes = E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName);
 
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         // No finalize here!
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         browser.waitForVisible("#btnAddMinutes");
         browser.click("a#id_linkToMinutes");        // goto first available minutes
         // Now finalize!
-        e2e.finalizeCurrentMinutes();
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
 
         // check if button is clicked, it does add 2nd minutes
         browser.click("#btnAddMinutes");
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
-        expect(e2e.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(countInitialMinutes +2);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(countInitialMinutes +2);
     });
 
 
@@ -92,10 +96,10 @@ describe('Minutes Finalize', function () {
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
-        e2e.finalizeCurrentMinutes();
-        e2e.gotoMinutes(myDate);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.gotoMinutes(myDate);
 
         expect(browser.isExisting("#btn_finalizeMinutes")).to.be.false;
         expect(browser.isExisting("#btn_deleteMinutes")).to.be.false;
@@ -107,9 +111,9 @@ describe('Minutes Finalize', function () {
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
-        e2e.finalizeCurrentMinutes();
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
+        E2EMinutes.finalizeCurrentMinutes();
 
         browser.waitForVisible('#btn_unfinalizeMinutes');
         browser.click('#btn_unfinalizeMinutes');
@@ -122,17 +126,17 @@ describe('Minutes Finalize', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
-        let currentUsername = e2e.settings.e2eTestUsers[0];
+        let currentUsername = E2EGlobal.SETTINGS.e2eTestUsers[0];
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
-        e2e.finalizeCurrentMinutes();
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
+        E2EMinutes.finalizeCurrentMinutes();
         let finalizedText = browser.getText('#txt_FinalizedBy');
         expect(finalizedText).to.contain(currentUsername);
 
         // Now leave and re-enter minutes to trigger fresh render
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
-        e2e.gotoMinutes(myDate);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoMinutes(myDate);
         finalizedText = browser.getText('#txt_FinalizedBy');
         expect(finalizedText).to.contain(currentUsername);
     });
@@ -143,9 +147,9 @@ describe('Minutes Finalize', function () {
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
-        e2e.finalizeCurrentMinutes();
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
+        E2EMinutes.finalizeCurrentMinutes();
 
         let dateOfMinutes = browser.getValue('#id_minutesdateInput');
         expect(dateOfMinutes).to.equal(myDate);
@@ -162,22 +166,22 @@ describe('Minutes Finalize', function () {
         let myDate1 = "2015-03-17";  // date of first project commit ;-)
         let myDate2 = "2015-03-18";
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate1);
-        e2e.finalizeCurrentMinutes();
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate1);
+        E2EMinutes.finalizeCurrentMinutes();
 
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate2); // myDate2 is kept UNFINALIZED!
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate2); // myDate2 is kept UNFINALIZED!
 
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
-        e2e.gotoMinutes(myDate1);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoMinutes(myDate1);
         expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.false;
 
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);  // now FINALIZE myDate2
-        e2e.gotoMinutes(myDate2);
-        e2e.finalizeCurrentMinutes();
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);  // now FINALIZE myDate2
+        E2EMinutes.gotoMinutes(myDate2);
+        E2EMinutes.finalizeCurrentMinutes();
 
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
-        e2e.gotoMinutes(myDate1);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoMinutes(myDate1);
         expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.false;
     });
 
@@ -188,17 +192,17 @@ describe('Minutes Finalize', function () {
         let myDate1 = "2015-03-17";  // date of first project commit ;-)
         let myDate2 = "2010-01-01";
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate1);
-        e2e.finalizeCurrentMinutes();
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate1);
+        E2EMinutes.finalizeCurrentMinutes();
 
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate2);
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate2);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
 
-        expect(e2e.getMinutesId(myDate2)).not.to.be.ok;
-        let currentDateISO = e2e.formatDateISO8601(new Date());
-        expect(e2e.getMinutesId(currentDateISO)).to.be.ok;
+        expect(E2EMinutes.getMinutesId(myDate2)).not.to.be.ok;
+        let currentDateISO = E2EGlobal.formatDateISO8601(new Date());
+        expect(E2EMinutes.getMinutesId(currentDateISO)).to.be.ok;
     });
 
 
@@ -207,16 +211,16 @@ describe('Minutes Finalize', function () {
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate1 = "2015-03-17";  // date of first project commit ;-)
 
-        e2e.createMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate1);
-        e2e.finalizeCurrentMinutes();
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate1);
+        E2EMinutes.finalizeCurrentMinutes();
 
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
-        e2e.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate1);
-        e2e.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate1);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
 
-        expect(e2e.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(2);
-        let currentDateISO = e2e.formatDateISO8601(new Date());
-        expect(e2e.getMinutesId(currentDateISO)).to.be.ok;
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(2);
+        let currentDateISO = E2EGlobal.formatDateISO8601(new Date());
+        expect(E2EMinutes.getMinutesId(currentDateISO)).to.be.ok;
     });
 });

@@ -32,6 +32,7 @@ diff-sequence@1.0.5
 dispatch:mocha-core@0.0.1
 dispatch:mocha-phantomjs@0.1.1
 dispatch:phantomjs-tests@0.0.5
+dsyko:jquery-ui-touch-punch@1.2.4
 ecmascript@0.4.3
 ecmascript-runtime@0.2.10
 ejson@1.0.11
