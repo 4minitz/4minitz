@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { SSR, Template } from 'meteor/meteorhacks:ssr'
+import { _ } from 'meteor/underscore';
 
 export class TemplateRenderer {
 
@@ -43,6 +44,10 @@ export class TemplateRenderer {
     addData(name, value) {
         this._data[name] = value;
         return this;
+    }
+
+    addDataObject(data) {
+        _.extend(this._data, data);
     }
 
     render() {

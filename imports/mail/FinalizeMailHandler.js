@@ -24,7 +24,7 @@ export class FinalizeMailHandler {
             this._sendActionItems();
         }
         if (sendInfoItems) {
-            //todo: this._InfoItems();
+            this._sendInfoItems();
         }
     }
 
@@ -53,5 +53,9 @@ export class FinalizeMailHandler {
         for(let mailHandler of userMailHandlerMap.values()) {
             mailHandler.send();
         }
+    }
+
+    _sendInfoItems() {
+
     }
 }

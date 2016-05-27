@@ -1,16 +1,12 @@
+import { TopicItemsMailHandler } from './TopicItemsMailHandler'
 import { ActionItem } from '../actionitem'
-import { MeteorMail } from './MeteorMail'
-import { MailFactory } from './MailFactory'
-import { TemplateRenderer } from './../server_side_templates/TemplateRenderer'
 
-export class ActionItemsMailHandler {
+export class ActionItemsMailHandler extends TopicItemsMailHandler {
 
     constructor(sender, recipient, minute) {
+        super(sender, recipient, minute, 'assignedActionItems');
         this._actionItems = [];
         this._sendSeparateMails = false;
-        this._recipient = recipient;
-        this._sender = sender;
-        this._minute = minute;
     }
 
     addActionItem(actionItem) {
@@ -25,7 +21,9 @@ export class ActionItemsMailHandler {
 
                 this._buildMail(
                     mailSubject,
-                    [ActionItemsMailHandler._createActionItemDataObject(topicSubject, item)]
+                    {
+                        'actionItems': [ActionItemsMailHandler._createActionItemDataObject(topicSubject, item)]
+                    }
                 );
             });
         } else {
@@ -52,31 +50,6 @@ export class ActionItemsMailHandler {
             duedate: item.getDuedate(),
             details: details
         }
-    }
-
-    _getSubjectPrefix() {
-        return "[" + this._minute.parentMeetingSeries().project + "] "
-            + this._minute.parentMeetingSeries().name + " on "
-            + this._minute.date;
-    }
-
-    _buildMail(subject, actionItemsData) {
-        this._getMailer().setSubject(subject);
-        let tmplRenderer = this._getTmplRenderer();
-        tmplRenderer.addData('actionItems', actionItemsData);
-        this._getMailer().setHtml(tmplRenderer.render());
-        this._getMailer().send();
-    }
-
-    _getTmplRenderer() {
-        return (new TemplateRenderer('assignedActionItems', 'server_templates/email')).addData('name', this._recipient);
-    }
-
-    _getMailer() {
-        if (!this._mailer) {
-            this._mailer = MailFactory.getMailer(this._sender, this._recipient);
-        }
-        return this._mailer;
     }
 
 }
