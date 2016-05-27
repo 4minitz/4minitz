@@ -135,7 +135,7 @@ describe('MeetingSeries Editor', function () {
         expect(E2EMeetingSeries.getMeetingSeriesId(aNewProjectName, aNewMeetingName)).to.be.ok;
     });
 
-    it('can restore fields after close and re-open @watch', function () {
+    it('can restore fields after close and re-open', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         browser.setValue('input[id="id_meetingproject"]', aProjectName+" Changed!");
         browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
