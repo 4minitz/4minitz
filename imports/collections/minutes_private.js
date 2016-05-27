@@ -68,7 +68,7 @@ Meteor.methods({
         }
     },
 
-    'minutes.finalize'(id) {
+    'minutes.finalize'(id, sendActionItems, sendInfoItems) {
         let doc = {
             finalizedAt: new Date(),
             finalizedBy: Meteor.user().username,
@@ -93,7 +93,7 @@ Meteor.methods({
                             ? emails[0].address
                             : GlobalSettings.getDefaultEmailSenderAddress();
                         let finalizeMailHandler = new FinalizeMailHandler(aMin, senderEmail);
-                        finalizeMailHandler.sendMails();
+                        finalizeMailHandler.sendMails(sendActionItems, sendInfoItems);
                     });
                 }
             });

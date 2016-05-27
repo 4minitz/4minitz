@@ -183,9 +183,12 @@ export class MeetingSeries {
      * this series.
      *
      * @param minutes
+     * @param sendActionItems default: true
+     * @param sendInfoItems default: true
      */
-    finalizeMinutes (minutes) {
+    finalizeMinutes (minutes, sendActionItems = true, sendInfoItems = true) {
         minutes.finalize(
+            sendActionItems, sendInfoItems,
             /* server callback */
             (error) => {
                 if (!error) {

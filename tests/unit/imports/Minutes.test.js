@@ -448,7 +448,7 @@ describe('Minutes', function () {
         it('sends the id to the meteor method minutes.finalize', function () {
             minute.finalize();
 
-            expect(Meteor.call.calledWithExactly('minutes.finalize', minutesDoc._id, undefined)).to.be.true;
+            expect(Meteor.call.calledWith('minutes.finalize', minutesDoc._id)).to.be.true;
         });
 
     });

@@ -173,8 +173,8 @@ export class Minutes {
      * only be called from the finalize method
      * within the meeting series.
      */
-    finalize(serverCallback) {
-        Meteor.call('minutes.finalize', this._id, serverCallback);
+    finalize(sendActionItems, sendInfoItems, serverCallback) {
+        Meteor.call('minutes.finalize', this._id, sendActionItems, sendInfoItems, serverCallback);
     }
 
     /**

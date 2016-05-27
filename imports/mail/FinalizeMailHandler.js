@@ -19,9 +19,13 @@ export class FinalizeMailHandler {
         this._senderAddress = senderAddress;
     }
 
-    sendMails() {
-        this._sendActionItems();
-        //todo: this._InfoItems();
+    sendMails(sendActionItems = true, sendInfoItems = true) {
+        if (sendActionItems) {
+            this._sendActionItems();
+        }
+        if (sendInfoItems) {
+            //todo: this._InfoItems();
+        }
     }
 
     _sendActionItems() {

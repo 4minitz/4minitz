@@ -190,7 +190,7 @@ Template.minutesedit.events({
             confirmationDialog(
                 /* callback called if user wants to continue */
                 () => {
-                    parentSeries.finalizeMinutes(aMin);
+                    parentSeries.finalizeMinutes(aMin, sendActionItems, sendInformationItems);
 
                     toggleTopicSorting();
                     Session.set("participants.expand", false);
