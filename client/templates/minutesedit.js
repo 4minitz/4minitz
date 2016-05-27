@@ -50,6 +50,9 @@ var updateTopicSorting = function () {
     minute.update({topics: newTopicSorting});
 };
 
+var sendActionItems = true;
+var sendInformationItems = true;
+
 Template.minutesedit.onRendered(function () {
     let datePickerNode = this.$('#id_minutesdatePicker');
     datePickerNode.datetimepicker({
@@ -180,8 +183,8 @@ Template.minutesedit.events({
 
             let dialogContent = "<p>Do you really want to finalize this meeting minute dated on <strong>" + aMin.date + "</strong>?";
             dialogContent += ""
-                + "<div class='checkbox form-group'><label for='cbSendAI'><input id='cbSendAI' type='checkbox' class='checkbox' checked> Send action items</label></div>"
-                + "<div class='checkbox form-group'><label for='cbSendII'><input id='cbSendII' type='checkbox' class='checkbox' checked> Send information items</label></div>"
+                + "<div class='checkbox form-group'><label for='cbSendAI'><input id='cbSendAI' type='checkbox' class='checkbox' " + ((sendActionItems) ? "checked" : "") + "> send action items</label></div>"
+                + "<div class='checkbox form-group'><label for='cbSendII'><input id='cbSendII' type='checkbox' class='checkbox' " + ((sendInformationItems) ? "checked" : "") + "> send information items</label></div>"
                 + "</p>";
 
             confirmationDialog(
@@ -195,7 +198,8 @@ Template.minutesedit.events({
                 /* Dialog content */
                 dialogContent,
                 "Confirm finalize minute",
-                "Finalize"
+                "Finalize",
+                "btn-success"
             );
 
         }
@@ -252,4 +256,15 @@ Template.minutesedit.events({
         }
     }
 
+});
+
+// pass event handler for the send-email checkbox to the confirmation dialog
+// so we can track changes
+Template.confirmationDialog.events({
+    'change #cbSendAI': function(evt) {
+        sendActionItems = evt.target.checked;
+    },
+    'change #cbSendII': function(evt) {
+        sendInformationItems = evt.target.checked;
+    }
 });

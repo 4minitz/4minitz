@@ -1,6 +1,5 @@
 Session.setDefault("confirmationDialogTitle", "Confirm delete");
 Session.setDefault("confirmationDialogContent", "Are you sure to delete this?");
-Session.setDefault("confirmationDialogConfirmButton", "Delete");
 
 
 Template.confirmationDialog.onRendered(function () {
