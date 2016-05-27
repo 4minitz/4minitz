@@ -1,4 +1,6 @@
+
 import { E2EGlobal } from './E2EGlobal'
+
 
 export class E2ETopics {
     static addTopicToMinutes (aTopic) {

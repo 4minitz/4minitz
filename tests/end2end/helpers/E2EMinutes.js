@@ -1,4 +1,8 @@
+
 import { E2EGlobal } from './E2EGlobal'
+import { E2EApp } from './E2EApp'
+import { E2EMeetingSeries } from './E2EMeetingSeries'
+
 
 export class E2EMinutes {
     /**
@@ -7,10 +11,10 @@ export class E2EMinutes {
      * @param aDate format: YYYY-MM-DD is optional!
      */
     static addMinutesToMeetingSeries (aProj, aName, aDate) {
-        gotoMeetingSeries(aProj, aName);
+        E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
         browser.waitForVisible("#btnAddMinutes");
         browser.click("#btnAddMinutes");
-        waitSomeTime(); // give route change time
+        E2EGlobal.waitSomeTime(); // give route change time
 
         if (aDate) {
             browser.waitForVisible('#id_minutesdateInput');
@@ -28,7 +32,7 @@ export class E2EMinutes {
 
     static countMinutesForSeries (aProj, aName) {
         let selector = 'a#id_linkToMinutes';
-        gotoMeetingSeries(aProj, aName);
+        E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
         try {
             browser.waitForExist(selector);
         } catch (e) {

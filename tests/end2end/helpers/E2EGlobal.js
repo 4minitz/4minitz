@@ -1,4 +1,5 @@
 
+
 export class E2EGlobal {
     static waitSomeTime (milliseconds) {
         if (!milliseconds) {

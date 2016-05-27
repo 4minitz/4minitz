@@ -6,7 +6,7 @@ import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 import { E2EMinutes } from './helpers/E2EMinutes'
 
 
-describe('MeetingSeries Editor @watch', function () {
+describe('MeetingSeries Editor', function () {
     const aProjectName = "E2E MeetingSeries Editor";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";

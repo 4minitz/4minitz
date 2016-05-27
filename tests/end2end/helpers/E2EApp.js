@@ -1,4 +1,6 @@
+
 import { E2EGlobal } from './E2EGlobal'
+
 
 export class E2EApp {
     // Calls the server method to clean database and create fresh test users
@@ -97,7 +99,7 @@ export class E2EApp {
         } else {
             browser.click("#confirmationDialogCancel");
         }
-        E2EGlobalwaitSomeTime(750); // give dialog animation time
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
     };
 }
 
