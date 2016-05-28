@@ -96,8 +96,7 @@ describe('Minutes Finalize', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
         E2EMinutes.finalizeCurrentMinutes();
 
-        browser.waitForVisible('#btn_unfinalizeMinutes');
-        browser.click('#btn_unfinalizeMinutes');
+        E2EMinutes.unfinalizeCurrentMinutes();
         expect(browser.isExisting("#btn_finalizeMinutes")).to.be.true;
         expect(browser.isExisting("#btn_deleteMinutes")).to.be.true;
     });
