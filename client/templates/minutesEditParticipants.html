@@ -13,18 +13,21 @@
         {{#if isParticipantsExpanded}}
             <div class="{{useClassWell}}" id="id_participants" style="{{useStylePadding}}">
                 {{#each participants}}
-                <div class="checkbox">
+                <div class="checkbox" id="id_participant">
                     <label>
                         <!--With @index we transfer the array index to the checkbox event handler-->
                         <input type="checkbox" class="checkbox"
                                name="present" id="btnTogglePresent" data-index="{{@index}}"
                                 {{checkedStatePresent}} {{disableUIControl}}>
+
+                        <span id="id_username" style="color: black;">
+                            {{#if isModeratorOfParentSeries this.userId}}
+                                <b>{{userNameForId this.userId}}</b>    <!-- make moderators bold -->
+                            {{else}}
+                                {{userNameForId this.userId}}
+                            {{/if}}
+                        </span>
                     </label>
-                    {{#if isModeratorOfParentSeries this.userId}}
-                        <b>{{userNameForId this.userId}}</b>    <!-- make moderators bold -->
-                    {{else}}
-                        {{userNameForId this.userId}}
-                    {{/if}}
                 </div>
                 {{/each}}
 

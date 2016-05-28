@@ -60,6 +60,7 @@ export class E2EMeetingSeriesEditor {
         // browser.getValue(selector) delivers *all* current selections => e.g. ["Moderator","Invited","Invited"]
         // except for the current user, who has no <select>
         let usrRoleSelected = [];
+        // ensure we get an array here - even in case only one value returned from getValue()!
         try {usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector)); } catch(e) {}
 
         let selectNum = 0;
