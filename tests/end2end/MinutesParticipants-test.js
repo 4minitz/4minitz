@@ -30,23 +30,81 @@ describe('Minutes Participants @watch', function () {
     it('ensures per default only creator of series is participant', function () {
         let participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(1);
-        expect(participantsInfo.getParticipantInfo("user1")).to.be.ok;
+        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser())).to.be.ok;
     });
 
 
-    //
-    // it('can add users to series which will show up on new minutes', function () {
-    // });
-    //
-    //
-    // it('can add users to series which will show up on unfinalized minutes', function () {
-    // });
-    //
-    //
-    // it('prohibits user changes in series to also propagate to finalized minutes ', function () {
-    // });
-    //
-    //
+
+    it('can add users to series which will show up on new minutes', function () {
+        E2EMinutes.finalizeCurrentMinutes();    // we don't need these...
+
+        // prepare meeting series
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EGlobal.waitSomeTime(750);
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+
+        // now create some new minutes
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        let participantsInfo = new E2EMinutesParticipants();
+        expect(participantsInfo.getParticipantsCount()).to.equal(3);
+        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "currentUser").to.be.ok;
+        expect(participantsInfo.getParticipantInfo(user2), user2).to.be.ok;
+        expect(participantsInfo.getParticipantInfo(user3), user3).to.be.ok;
+    });
+
+
+    it('can add users to series which will show up on unfinalized minutes', function () {
+        // prepare meeting series
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EGlobal.waitSomeTime(750);
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+
+        E2EMinutes.gotoLatestMinutes();
+
+        let participantsInfo = new E2EMinutesParticipants();
+        expect(participantsInfo.getParticipantsCount()).to.equal(3);
+        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "currentUser").to.be.ok;
+        expect(participantsInfo.getParticipantInfo(user2), user2).to.be.ok;
+        expect(participantsInfo.getParticipantInfo(user3), user3).to.be.ok;
+    });
+
+
+    it('prohibits user changes in series to propagate to finalized minutes @watch', function () {
+        E2EMinutes.finalizeCurrentMinutes();
+
+        // prepare meeting series
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EGlobal.waitSomeTime(750);
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+
+        E2EMinutes.gotoLatestMinutes();
+        browser.click("#btnParticipantsCollapse");
+
+        let participantsInfo = new E2EMinutesParticipants();
+        expect(participantsInfo.getParticipantsCount()).to.equal(1);
+        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser())).to.be.ok;
+    });
+
+
     // it('can persist checked participants', function () {
     // });
     //

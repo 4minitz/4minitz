@@ -10,6 +10,24 @@ export class E2EMinutesParticipants {
         this.updateUsersAndPresence();
     }
 
+
+
+    /*  updates this._participantsAndPresence from the current browser DOM.
+        E.g., to something like this:
+         {
+             "##additional participants##": "Max Mustermann and some other guys",
+             "user1": {
+                 "present": false,
+                 "checkboxElemId": "700",
+                 "userElemId": "697"
+             },
+             "user2": {
+                 "present": true,
+                 "checkboxElemId": "701",
+                 "userElemId": "698"
+             },
+         }
+     */
     updateUsersAndPresence() {
         this._participantsAndPresence = {};
         this._participantsAndPresence["##additional participants##"] = browser.getValue('#edtParticipantsAdditional');
@@ -26,8 +44,6 @@ export class E2EMinutesParticipants {
                 userElemId: participants.value[participantIndex].ELEMENT
             };
         }
-
-        console.log("JSON: "+JSON.stringify(this._participantsAndPresence,null,2));
     }
 
     getParticipantsCount () {
@@ -42,8 +58,6 @@ export class E2EMinutesParticipants {
     getAdditionalParticipants() {
         return this._participantsAndPresence["##additional participants##"];
     }
-
-    
 
     setUserPresence(username, presence) {
         let currentSelectState = browser.elementIdSelected(this._participantsAndPresence[username].checkboxElemId).value;
