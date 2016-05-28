@@ -12,7 +12,42 @@ export class E2EMinutesParticipants {
 
 
 
-    /*  updates this._participantsAndPresence from the current browser DOM.
+    // ******************** STATIC Methods
+    static isExpanded() {
+        return browser.isExisting("#edtParticipantsAdditional");
+    }
+
+    static isCollapsed() {
+        return ! browser.isExisting("div#edtParticipantsAdditional");
+    }
+
+    static expand() {
+        if (E2EMinutesParticipants.isCollapsed()) {
+            browser.click("#btnParticipantsCollapse");
+        }
+    }
+
+    static collapse() {
+        if (E2EMinutesParticipants.isExpanded()) {
+            browser.click("#btnParticipantsCollapse");
+        }
+    }
+
+    static getPresentParticipantsFromServer(minutesId) {
+        try {
+            return server.call('e2e.getPresentParticipantNames', minutesId);
+        } catch (e) {
+            console.log("Exception: "+e);
+            console.log("Did you forget to run the server with '--settings settings-test-end2end.json'?");
+        } 
+        return undefined;
+    }
+
+
+
+    // ******************** NON-STATIC Methods
+    /*  updateUsersAndPresence()
+        updates this._participantsAndPresence from the current browser DOM.
         E.g., to something like this:
          {
              "##additional participants##": "Max Mustermann and some other guys",
@@ -47,7 +82,7 @@ export class E2EMinutesParticipants {
     }
 
     getParticipantsCount () {
-        // -1: skip this._participantsAndPresence["##additional participants##"] 
+        // "-1" to skip this._participantsAndPresence["##additional participants##"]
         return Object.keys(this._participantsAndPresence).length -1
     }
 
@@ -66,4 +101,6 @@ export class E2EMinutesParticipants {
         }
         this.updateUsersAndPresence();
     }
+    
+    
 }

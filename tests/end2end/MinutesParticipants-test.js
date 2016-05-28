@@ -7,7 +7,7 @@ import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2EMinutesParticipants } from './helpers/E2EMinutesParticipants'
 
 
-describe('Minutes Participants @watch', function () {
+describe('Minutes Participants', function () {
     const aProjectName = "E2E Minutes Participants";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
@@ -82,7 +82,7 @@ describe('Minutes Participants @watch', function () {
     });
 
 
-    it('prohibits user changes in series to propagate to finalized minutes @watch', function () {
+    it('prohibits user changes in series to propagate to all finalized minutes', function () {
         E2EMinutes.finalizeCurrentMinutes();
 
         // prepare meeting series
@@ -97,7 +97,8 @@ describe('Minutes Participants @watch', function () {
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
 
         E2EMinutes.gotoLatestMinutes();
-        browser.click("#btnParticipantsCollapse");
+        // finalized minutes have their participants collapsed, by default.
+        E2EMinutesParticipants.expand();
 
         let participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(1);
@@ -105,23 +106,80 @@ describe('Minutes Participants @watch', function () {
     });
 
 
-    // it('can persist checked participants', function () {
-    // });
-    //
-    //
-    // it('can persist additional participants', function () {
-    // });
-    //
-    //
-    // it('can show collapsed view of participants', function () {
-    // });
-    //
-    //
-    // it('can expand a collapsed view of participants', function () {
-    // });
-    //
-    //
-    // it('prohibits invited users to change participants', function () {
+    it('can persist checked participants', function () {
+        // prepare meeting series
+        let currentUser = E2EApp.getCurrentUser();
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EGlobal.waitSomeTime(750);
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+
+        E2EMinutes.gotoLatestMinutes();
+        let minId = E2EMinutes.getCurrentMinutesId();
+
+        let participantsInfo = new E2EMinutesParticipants();
+        participantsInfo.setUserPresence(currentUser, true);
+        participantsInfo.setUserPresence(user3, true);
+
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        let parts = E2EMinutesParticipants.getPresentParticipantsFromServer(minId);
+        expect(parts).to.contain(currentUser);
+        expect(parts).to.contain(user3);
+    });
+
+
+    it('can persist additional participants', function () {
+        let additionalUser = "Max Mustermann";
+        browser.setValue('#edtParticipantsAdditional', additionalUser);
+        E2EMinutes.finalizeCurrentMinutes();
+
+        let minId = E2EMinutes.getCurrentMinutesId();
+        let parts = E2EMinutesParticipants.getPresentParticipantsFromServer(minId);
+        expect(parts).to.equal(additionalUser);
+    });
+
+
+    it('can show collapsed view of participants', function () {
+        E2EMinutesParticipants.collapse();
+        expect (E2EMinutesParticipants.isCollapsed()).to.be.true;
+    });
+
+
+    it('can re-expand a collapsed view of participants', function () {
+        E2EMinutesParticipants.collapse();
+        E2EMinutesParticipants.expand();
+        expect (E2EMinutesParticipants.isExpanded()).to.be.true;
+    });
+
+
+    it('prohibits non-moderator users to change participants @watch', function () {
+        // prepare meeting series
+        let currentUser = E2EApp.getCurrentUser();
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EGlobal.waitSomeTime(750);
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+
+        E2EApp.loginUser(1);
+        E2EMinutes.gotoLatestMinutes();
+
+        // let participantsInfo = new E2EMinutesParticipants();
+        // participantsInfo.setUserPresence(currentUser, true);
+        // participantsInfo.setUserPresence(user3, true);
+
+        E2EApp.loginUser();
+    });
+
+
+    // it('prohibits change of participants on finalized minutes', function () {
     // });
     //
     //
