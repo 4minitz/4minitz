@@ -18,7 +18,7 @@ export class E2EMinutesParticipants {
     }
 
     static isCollapsed() {
-        return ! browser.isExisting("div#edtParticipantsAdditional");
+        return ! E2EMinutesParticipants.isExpanded();
     }
 
     static expand() {
@@ -46,6 +46,7 @@ export class E2EMinutesParticipants {
 
 
     // ******************** NON-STATIC Methods
+
     /*  updateUsersAndPresence()
         updates this._participantsAndPresence from the current browser DOM.
         E.g., to something like this:
@@ -64,6 +65,8 @@ export class E2EMinutesParticipants {
          }
      */
     updateUsersAndPresence() {
+        E2EMinutesParticipants.expand();
+
         this._participantsAndPresence = {};
         this._participantsAndPresence["##additional participants##"] = browser.getValue('#edtParticipantsAdditional');
 

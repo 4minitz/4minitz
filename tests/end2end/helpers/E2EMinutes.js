@@ -30,6 +30,12 @@ export class E2EMinutes {
     };
 
 
+    static  unfinalizeCurrentMinutes () {
+        browser.waitForVisible('#btn_unfinalizeMinutes');
+        browser.click('#btn_unfinalizeMinutes');
+    };
+
+
     static countMinutesForSeries (aProj, aName) {
         let selector = 'a#id_linkToMinutes';
         E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
