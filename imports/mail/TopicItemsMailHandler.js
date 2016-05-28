@@ -53,7 +53,7 @@ export class TopicItemsMailHandler {
 
     _getMailer() {
         if (!this._mailer) {
-            this._mailer = MailFactory.getMailer(this._sender, this._getCurrentMailAddress);
+            this._mailer = MailFactory.getMailer(this._sender, this._getCurrentMailAddress());
         }
         return this._mailer;
     }

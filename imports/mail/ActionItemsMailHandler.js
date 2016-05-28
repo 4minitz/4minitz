@@ -30,10 +30,12 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             let mailSubject = this._getSubjectPrefix() + " / your action items";
             this._buildMail(
                 mailSubject,
-                this._actionItems.map(item => {
-                    let topicSubject = item.getParentTopic().getSubject();
-                    return ActionItemsMailHandler._createActionItemDataObject(topicSubject, item);
-                })
+                {
+                    'actionItems': this._actionItems.map(item => {
+                        let topicSubject = item.getParentTopic().getSubject();
+                        return ActionItemsMailHandler._createActionItemDataObject(topicSubject, item);
+                    })
+                }
             );
         }
     }

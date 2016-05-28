@@ -18,7 +18,7 @@ export class MailgunMail extends Mail {
             auth: "api:" + mailgunSettings.apiKey,
             params: {
                 "from": this._from,
-                "to": [this._recipients],
+                "to": [this._recipient],
                 "h:Reply-To": this._replyTo,
                 "subject": this._subject
             }

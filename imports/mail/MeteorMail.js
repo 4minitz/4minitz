@@ -11,7 +11,7 @@ export class MeteorMail extends Mail{
         super.send();
 
         let config = {
-            to: this._recipients,
+            to: this._recipient,
             from: this._from,
             replyTo: this._replyTo,
             subject: this._subject
