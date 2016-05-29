@@ -33,9 +33,14 @@ Router.route('/meetingseries/:_id', function () {
 
 Router.route('/minutesadd/:_id', function () {
     let meetingSeriesID = this.params._id;
-    ms = new MeetingSeries(meetingSeriesID);
+
+    let usrRoles = new UserRoles();
+    if (!usrRoles.hasViewRoleFor(meetingSeriesID)) {
+        Router.go("/");
+    }
 
     let id;
+    ms = new MeetingSeries(meetingSeriesID);
     ms.addNewMinutes(
         // optimistic ui callback
         newMinutesID => {
@@ -65,6 +70,7 @@ Router.route('/minutesadd/:_id', function () {
         this.redirect('/meetingseries/' + meetingSeriesID);
     }
 });
+
 
 Router.route('/minutesedit/:_id', function () {
     var minutesID = this.params._id;
