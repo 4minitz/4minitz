@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 import { ActionItemsMailHandler } from './ActionItemsMailHandler'
 import { InfoItemsMailHandler } from './InfoItemsMailHandler'
 import { Minutes } from './../minutes'
@@ -57,7 +59,18 @@ export class FinalizeMailHandler {
     }
 
     _sendInfoItems() {
-        let recipients = []; // todo: get the informed persons from the minute
+        let informed = this._minute.getPersonsInformed();
+        let recipients = informed.reduce((recipients, userId) => {
+            let user = Meteor.users.findOne(userId);
+            if (user.emails && user.emails.length > 0) {
+                recipients.push({
+                    name: user.username,
+                    address: user.emails[0].address
+                });
+                return recipients;
+            }
+        }, /* initial value */ []);
+
         let topics = this._minute.getTopicsWithOnlyInfoItems();
         let mailHandler = new InfoItemsMailHandler(this._senderAddress, recipients, this._minute, topics);
         mailHandler.send();

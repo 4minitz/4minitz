@@ -202,6 +202,16 @@ export class Minutes {
         return this.parentMeetingSeries().isCurrentUserModerator();
     }
 
+    /**
+     * Gets all persons who want to be
+     * informed about this minute.
+     *
+     * @returns {string[]} of user ids
+     */
+    getPersonsInformed() {
+       return this.visibleFor;
+    }
+
 
     /**
      * Add users of .visibleFor that are not yet in .participants to .participants
