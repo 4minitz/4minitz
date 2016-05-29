@@ -96,7 +96,7 @@ export class UserRoles {
     isInformedAbout(aMeetingSeriesID) {
         return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Informed;
     }
-
+    
     hasViewRoleFor(aMeetingSeriesID) {
         return (this.isInvitedTo(aMeetingSeriesID) || 
                 this.isModeratorOf(aMeetingSeriesID));

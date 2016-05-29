@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from '/imports/meetingseries'
+import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 
 Router.configure({
@@ -71,7 +72,13 @@ Router.route('/minutesedit/:_id', function () {
     this.subscribe('minutes', minutesID).wait();
 
     if (this.ready()) {
-        this.render('minutesedit', {data: minutesID});
+        let usrRoles = new UserRoles();
+        let aMin = new Minutes(minutesID);
+        if (usrRoles.hasViewRoleFor(aMin.meetingSeries_id)) {
+            this.render('minutesedit', {data: minutesID});
+        } else {
+            Router.go("/");
+        }
     } else {
         this.render('loading');
     }

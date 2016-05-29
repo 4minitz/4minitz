@@ -7,7 +7,7 @@ if (Meteor.isServer) {
     Meteor.publish('userListSimple', function () {
         return Meteor.users.find(
             {},
-            // intentionally suppress email addresses of all other users!
+            // Security: intentionally suppress email addresses of all other users!
             {fields: {'username': 1, 'roles': 1}});
     });
 }
