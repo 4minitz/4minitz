@@ -3,6 +3,8 @@ language: node_js
 node_js:
   - "stable"
 before_install:
-  - "curl -L https://git.io/vr7hR | /bin/sh"
-  - "meteor npm run test:end2end:server&"
-  - "sleep 30"
+  - curl -L https://git.io/vr7hR | /bin/sh
+before_script:
+  - meteor npm run test:end2end:server&
+  - sleep 30
+script: meteor npm run test:ci
