@@ -9,6 +9,8 @@ export class ActionItem extends InfoItem{
     constructor(parentTopic, source) {   // constructs obj from item ID or document
         super(parentTopic, source);
 
+        this._infoItemDoc.itemType = 'actionItem';
+
         if (this._infoItemDoc.isOpen == undefined) {
             this._infoItemDoc.isOpen = true;
         }

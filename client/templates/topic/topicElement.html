@@ -36,9 +36,11 @@
             {{#if isEditable}}
                 <a href="#" id="addTopicInfoItem" data-toggle="modal" data-target="#dlgAddInfoItem">Add element...</a>
             {{/if}}
-            {{#each topic.infoItems}}
-                {{> topicInfoItem getInfoItem}}
-            {{/each}}
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {{#each topic.infoItems}}
+                    {{> topicInfoItem getInfoItem}}
+                {{/each}}
+            </div>
         </div>
     </div>
 </template>

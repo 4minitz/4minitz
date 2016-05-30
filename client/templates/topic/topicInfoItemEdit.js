@@ -69,7 +69,6 @@ Template.topicInfoItemEdit.helpers({
 
     getTopicSubject: function () {
         let topic = getRelatedTopic();
-        console.log(topic);
         return (topic) ? topic._topicDoc.subject : "";
     }
 });

@@ -10,6 +10,7 @@ const DetailsSchema = new SimpleSchema({
 
 export const InfoItemSchema = new SimpleSchema({
     _id: {type: String, regEx: SimpleSchema.RegEx.Id},
+    itemType: {type: String, regEx: /^(actionItem)|(infoItem)$/, defaultValue: 'infoItem'},
     subject: {type: String},
     isOpen: {type: Boolean, optional: true},
     responsible: {type: String, defaultValue: '', optional: true},

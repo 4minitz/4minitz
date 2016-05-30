@@ -32,12 +32,13 @@ export class InfoItem {
             source = infoItem._infoItemDoc;
         }
 
+        source.itemType = 'infoItem';
         this._infoItemDoc = source;
     }
 
     // ################### static methods
     static isActionItem(infoItemDoc) {
-        return (infoItemDoc.hasOwnProperty('isOpen'));
+        return (infoItemDoc.itemType === 'actionItem');
     }
 
     // ################### object methods

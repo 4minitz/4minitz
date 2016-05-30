@@ -12,7 +12,7 @@ Template.topicInfoItem.onRendered(function () {
 
 Template.topicInfoItem.helpers({
     isActionItem: function() {
-        return (this.infoItem.isOpen !== undefined);
+        return (this.infoItem.itemType === 'actionItem');
     },
 
     detailsArray: function () {
@@ -20,7 +20,7 @@ Template.topicInfoItem.helpers({
     },
 
     topicStateClass: function () {
-        if (this.infoItem.isOpen === undefined) { // it is a info item
+        if (this.infoItem.itemType !== 'actionItem') {
             return "infoitem";
         } else if (this.infoItem.isOpen) {
             return "actionitem-open";
@@ -30,7 +30,7 @@ Template.topicInfoItem.helpers({
     },
 
     checkedState: function () {
-        if (this.infoItem.isOpen) {
+        if (this.infoItem.itemType === 'infoItem' || this.infoItem.isOpen) {
             return "";
         } else {
             return {checked: "checked"};
