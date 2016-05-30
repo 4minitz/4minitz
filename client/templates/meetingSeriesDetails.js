@@ -49,7 +49,20 @@ Template.meetingSeriesDetails.helpers({
 
             case "topicsList":
                 let status = Session.get("actionItemStatus");
-                let  topics = (status === "open") ? ms.openTopics : ms.closedTopics;
+                let  topics;
+                switch (status) {
+                    case "open":
+                        topics = ms.openTopics;
+                        break;
+                    case "closed":
+                        topics = ms.closedTopics;
+                        break;
+                    case "topics":
+                        topics = ms.topics;
+                        break;
+                    default:
+                        throw new Meteor.Error("illegal-state", "Unknown topic list status: " + status);
+                }
 
                 return new TopicListConfig(topics, null, true);
         }
