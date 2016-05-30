@@ -20,7 +20,7 @@ export class E2ETopics {
     };
 
     static getTopicsForMinute () {
-        let selector = '#accordion > div.well';
+        let selector = '#topicPanel > div.well';
         try {
             browser.waitForExist(selector);
         } catch (e) {

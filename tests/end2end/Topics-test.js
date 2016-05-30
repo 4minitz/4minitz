@@ -55,7 +55,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
 
-        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+        browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         var topics = E2ETopics.getTopicsForMinute();
         let elementId = topics[0].ELEMENT;
@@ -80,7 +80,7 @@ describe('Topics', function () {
         let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('some topic');
 
-        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+        browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         var topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
@@ -100,7 +100,7 @@ describe('Topics', function () {
         let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
-        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+        browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         var topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
@@ -137,7 +137,7 @@ describe('Topics', function () {
         let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
-        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+        browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         var topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
@@ -154,7 +154,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
 
-        browser.dragAndDrop('#accordion .well:nth-child(3)', '#accordion .well:nth-child(1)');
+        browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         var topicsBeforeReload = E2ETopics.getTopicsForMinute();
         let firstElementBeforeReload = topicsBeforeReload[0].ELEMENT;

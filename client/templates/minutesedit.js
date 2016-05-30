@@ -23,7 +23,7 @@ var isModerator = function () {
 };
 
 var toggleTopicSorting = function () {
-    let topicList = $('#accordion'),
+    let topicList = $('#topicPanel'),
         isFinalized = isMinuteFinalized();
 
     if (!isFinalized && isModerator()) {
@@ -36,7 +36,7 @@ var toggleTopicSorting = function () {
 };
 
 var updateTopicSorting = function () {
-    let sorting = $('#accordion').find('> div.well'),
+    let sorting = $('#topicPanel').find('> div.well'),
         minute = new Minutes(_minutesID),
         newTopicSorting = [];
 
@@ -66,7 +66,7 @@ Template.minutesedit.onRendered(function () {
         }
     }
 
-    $('#accordion').sortable({
+    $('#topicPanel').sortable({
         appendTo: document.body,
         axis: 'y',
         items: '> .well',

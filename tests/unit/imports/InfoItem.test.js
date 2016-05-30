@@ -70,14 +70,14 @@ describe('InfoItem', function() {
 
     it('#isActionItem', function () {
         let myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
-        expect(myInfoItem.isActionItem(), "Item without the isOpen-property should not be an ActionItem").to.be.false;
+        expect(myInfoItem.isActionItem(), "Item without the itemType-property should not be an ActionItem").to.be.false;
 
         let actionItemDoc = {
             _id: "AaBbCcDd02",
             subject: "actionItemDoc",
-            isOpen: false
+            itemType: 'actionItem'
         };
-        expect(InfoItem.isActionItem(actionItemDoc), "Item with the isOpen-property should be an ActionItem").to.be.true;
+        expect(InfoItem.isActionItem(actionItemDoc), "Item with the itemType-property set to actionItem should be an ActionItem").to.be.true;
 
     });
 

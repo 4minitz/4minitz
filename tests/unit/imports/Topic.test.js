@@ -225,11 +225,13 @@ describe('Topic', function() {
             });
             topicDoc.infoItems.push({
                 subject: "myClosedActionItem",
-                isOpen: false
+                isOpen: false,
+                itemType: "actionItem"
             });
             topicDoc.infoItems.push({
                 subject: "myOpenActionItem",
-                isOpen: true
+                isOpen: true,
+                itemType: "actionItem"
             });
             myTopic = new Topic(dummyMinute._id, topicDoc);
         });
