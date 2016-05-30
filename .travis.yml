@@ -4,5 +4,7 @@ node_js:
   - "stable"
 before_install:
   - curl -L https://git.io/vr7hR | /bin/sh
+before_script:
   - meteor npm run test:end2end:server&
-script: meteor npm run test:ci
+  - sleep 30
+script: npm run test:ci
