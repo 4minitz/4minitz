@@ -34,7 +34,7 @@ describe('Minutes Finalize', function () {
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
     });
 
-    it('asks if emails should be sent before finalizing the minute @watch', function () {
+    it('asks if emails should be sent before finalizing the minute', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 

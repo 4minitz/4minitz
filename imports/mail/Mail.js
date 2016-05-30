@@ -25,6 +25,21 @@ export class Mail {
         if (!this._text && !this._html) {
             throw new Meteor.Error('invalid-state', 'You must set either html or text as email content');
         }
+        try {
+            this._sendMail();
+        } catch(error) {
+            console.log("#Email could not be sent successfully to: " + this._recipient);
+            console.log("\tEmail subject: " + this._subject);
+            console.log("\tError: " + error);
+            return;
+        }
+
+        console.log("#Email was sent successfully to: " + this._recipient);
+        console.log("\tEmail subject: " + this._subject);
+    }
+
+    _sendMail() {
+        throw new Meteor.Error('not-implemented', 'This method must be implemented by the concrete Mail class');
     }
 
 }

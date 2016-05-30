@@ -7,9 +7,8 @@ export class MailgunMail extends Mail {
         super(replyTo, recipient);
     }
 
-    send() {
+    _sendMail() {
         console.log("Sending mail via mailgun");
-        super.send();
 
         let mailgunSettings = GlobalSettings.getMailgunSettings();
 
@@ -29,13 +28,9 @@ export class MailgunMail extends Mail {
         if (this._html) {
             options.params.html = this._html;
         }
-        var onError = function(error/*, result*/) {
-            // todo: what shall we do with an email error... ?
-            if(error) {console.log("Error: " + error)}
-        };
 
         // Send the request
-        Meteor.http.post(postURL, options, onError);
+        Meteor.http.post(postURL, options); // do not pass callback so the post request will run synchronously
     }
 
 }

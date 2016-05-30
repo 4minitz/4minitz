@@ -15,6 +15,12 @@ export class ActionItem extends InfoItem{
         if (this._infoItemDoc.isNew == undefined) {
             this._infoItemDoc.isNew = true;
         }
+        if (this._infoItemDoc.responsible == undefined) {
+            this._infoItemDoc.responsible = "";
+        }
+        if (this._infoItemDoc.priority == undefined) {
+            this._infoItemDoc.priority = "";
+        }
     }
 
     // ################### object methods
