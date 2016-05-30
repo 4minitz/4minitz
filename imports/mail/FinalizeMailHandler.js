@@ -59,8 +59,15 @@ export class FinalizeMailHandler {
     }
 
     _sendInfoItems() {
-        let informed = this._minute.getPersonsInformed();
-        let recipients = informed.reduce((recipients, userId) => {
+        let recipients = this._getInformedRecipients();
+
+        let topics = this._minute.getTopicsWithOnlyInfoItems();
+        let mailHandler = new InfoItemsMailHandler(this._senderAddress, recipients, this._minute, topics);
+        mailHandler.send();
+    }
+
+    _getInformedRecipients() {
+        return this._minute.getPersonsInformed().reduce((recipients, userId) => {
             let user = Meteor.users.findOne(userId);
             if (user.emails && user.emails.length > 0) {
                 recipients.push({
@@ -70,9 +77,5 @@ export class FinalizeMailHandler {
                 return recipients;
             }
         }, /* initial value */ []);
-
-        let topics = this._minute.getTopicsWithOnlyInfoItems();
-        let mailHandler = new InfoItemsMailHandler(this._senderAddress, recipients, this._minute, topics);
-        mailHandler.send();
     }
 }

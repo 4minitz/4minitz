@@ -1,6 +1,16 @@
 Hello{{#if name}} {{name}}{{/if}},<br>
 <br>
-the following topics were discussed during the meeting on {{minutesDate}}:<br>
+please find enclosed the meeting minutes from {{meetingSeriesName}} meeting dated on {{minutesDate}}.<br>
+
+Participants:<br>
+<ul>
+    {{#each participants}}
+        <li>{{name}}</li>
+    {{/each}}
+</ul>
+<br>
+
+The following topics were discussed during the meeting:<br>
 
 <ul>
     {{#each topics}}
