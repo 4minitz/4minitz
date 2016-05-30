@@ -38,6 +38,12 @@ export class E2EMinutes {
 };
 
 
+    static  unfinalizeCurrentMinutes () {
+        browser.waitForVisible('#btn_unfinalizeMinutes');
+        browser.click('#btn_unfinalizeMinutes');
+    };
+
+
     static countMinutesForSeries (aProj, aName) {
         let selector = 'a#id_linkToMinutes';
         E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
@@ -71,6 +77,15 @@ export class E2EMinutes {
         }
         return false;
     };
+
+    static getCurrentMinutesDate() {
+        return browser.getValue('#id_minutesdateInput');
+    }
+
+    static getCurrentMinutesId() {
+        let url = browser.getUrl();
+        return url.slice(url.lastIndexOf("/")+1);
+    }
 
 
     static  gotoMinutes (aDate) {

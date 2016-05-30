@@ -76,6 +76,9 @@ Template.meetingSeriesEdit.events({
     // "show" event is fired shortly before BootStrap modal dialog will pop up
     // We fill the temp. client-side only user database for the user editor on this event
     "show.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
+        // Make sure these init values are filled in a close/re-open scenario
+        tmpl.find("#id_meetingproject").value = this.project;
+        tmpl.find("#id_meetingname").value = this.name;
 
         Template.instance().userEditConfig.users.remove({});    // first: clean up everything!
 

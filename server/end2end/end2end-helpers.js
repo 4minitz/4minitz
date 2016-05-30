@@ -1,6 +1,7 @@
 
 import { MeetingSeriesCollection } from './../../imports/collections/meetingseries_private';
 import { MinutesCollection } from './../../imports/collections/minutes_private';
+import { Minutes } from './../../imports/minutes';
 
 
 // Security: ensure that these methods only exist in End2End testing mode
@@ -32,6 +33,12 @@ if (Meteor.settings.isEnd2EndTest) {
         'e2e.countMinutesInMongoDB'() {
             console.log("-------------------------- E2E-METHOD: countMinutesSeries");
             return MinutesCollection.find({}).count();
+        },
+        'e2e.getPresentParticipantNames'(minutesId) {
+            console.log("-------------------------- E2E-METHOD: getParticipantsString");
+            let aMin = new Minutes(minutesId);
+            return aMin.getPresentParticipantNames();
         }
+
     });
 }

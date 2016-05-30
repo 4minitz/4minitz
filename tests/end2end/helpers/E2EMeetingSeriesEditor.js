@@ -5,8 +5,11 @@ import { E2EMeetingSeries } from './E2EMeetingSeries'
 
 export class E2EMeetingSeriesEditor {
     
-    static openMeetingSeriesEditor (aProj, aName) {
-        E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
+    static openMeetingSeriesEditor (aProj, aName, skipGotoMeetingSeries) {
+        // Maybe we can save "gotoStartPage => gotoMeetingSeries"?
+        if (! skipGotoMeetingSeries) {
+            E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
+        }
 
         // Open dialog
         browser.waitForVisible('#btnEditMeetingSeries', 1000);
@@ -57,6 +60,7 @@ export class E2EMeetingSeriesEditor {
         // browser.getValue(selector) delivers *all* current selections => e.g. ["Moderator","Invited","Invited"]
         // except for the current user, who has no <select>
         let usrRoleSelected = [];
+        // ensure we get an array here - even in case only one value returned from getValue()!
         try {usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector)); } catch(e) {}
 
         let selectNum = 0;
