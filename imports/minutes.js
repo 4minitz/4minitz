@@ -212,6 +212,28 @@ export class Minutes {
        return this.visibleFor;
     }
 
+    /**
+     * Returns all informed persons with name and
+     * email address.
+     * Skips all persons with no email address.
+     *
+     * @param userCollection
+     * @returns {Array}
+     */
+    getPersonsInformedWithEmail(userCollection) {
+        return this.getPersonsInformed().reduce((recipients, userId) => {
+            let user = userCollection.findOne(userId);
+            if (user.emails && user.emails.length > 0) {
+                recipients.push({
+                    userId: userId,
+                    name: user.username,
+                    address: user.emails[0].address
+                });
+            }
+            return recipients;
+        }, /* initial value */ []);
+    }
+
 
     /**
      * Add users of .visibleFor that are not yet in .participants to .participants
@@ -261,6 +283,24 @@ export class Minutes {
     updateParticipantPresent(index, isPresent) {
         this.participants[index].present = isPresent;
         this.update({participants: this.participants});
+    }
+
+    /**
+     * Returns the list of participants and adds the name of
+     * each participants if a userCollection is given.
+     * @param userCollection to query for the participants name.
+     * @returns {Array}
+     */
+    getParticipants(userCollection) {
+        if (userCollection) {
+            return this.participants.map(participant => {
+                let user = userCollection.findOne(participant.userId);
+                participant.name = user.username;
+                return participant;
+            });
+        }
+
+        return this.participants;
     }
 
 

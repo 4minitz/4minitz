@@ -1,13 +1,14 @@
 Hello{{#if name}} {{name}}{{/if}},<br>
 <br>
 please find enclosed the meeting minutes from {{meetingSeriesName}} meeting dated on {{minutesDate}}.<br>
-
+<br>
 Participants:<br>
 <ul>
     {{#each participants}}
-        <li>{{name}}</li>
+        <li>{{name}} {{#if present}}(present){{/if}}</li>
     {{/each}}
 </ul>
+{{#if participantsAdditional}}Addition information: {{participantsAdditional}}{{/if}}<br>
 <br>
 
 The following topics were discussed during the meeting:<br>
