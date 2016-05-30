@@ -115,5 +115,15 @@ export class E2EMinutes {
 
         browser.elementIdClick(firstElementId);
     };
+
+    static gotoParentMeetingSeries () {
+        let selector = 'a#id_linkToParentSeries'
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return false;
+        }
+        browser.click(selector);
+    }
 }
 
