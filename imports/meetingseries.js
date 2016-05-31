@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
 import { Topic } from './topic'
+import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
 
@@ -208,11 +209,9 @@ export class MeetingSeries {
             /* Server callback */
             (error) => {
                 if (!error) {
-                    // remove all elements of the closed-Array which are listed as topic from the given minutes
-                    // because they will be concatenated in the finalize procedure which would lead to
-                    // duplicates
-                    this.closedTopics = this.closedTopics.filter((item) => {
-                        return !minutes.findTopic(item._id);
+                    // remove all topics with isNew-Flag because they were added within the last meeting
+                    this.topics = this.topics.filter(topic => {
+                        return !topic.isNew;
                     });
 
                     let secondLastMinute = this.secondLastMinutes();
@@ -327,12 +326,12 @@ export class MeetingSeries {
     }
 
     // ################### private methods
-    _mergeTopic(topicIndex, topicDoc) {
+    _mergeTopic(topicIndex, minutesTopicDoc) {
         let msTopicDoc = this.topics[topicIndex];
 
         // loop backwards through topic items
-        for (let i = topicDoc.infoItems.length; i-- > 0;) {
-            let infoDoc = topicDoc.infoItems[i];
+        for (let i = minutesTopicDoc.infoItems.length; i-- > 0;) {
+            let infoDoc = minutesTopicDoc.infoItems[i];
 
 
             let indexInMsTopicDoc = subElementsHelper.findIndexById(infoDoc._id, msTopicDoc.infoItems);
@@ -344,10 +343,21 @@ export class MeetingSeries {
                 msTopicDoc.infoItems[indexInMsTopicDoc] = infoDoc;
             }
         }
+
+        // delete all open AIs listed in the msTopicDoc but not in the minutesTopicDoc
+        // (these were deleted during the last minute)
+        msTopicDoc.infoItems = msTopicDoc.infoItems.filter(itemDoc => {
+            let openAI = InfoItem.isActionItem(itemDoc) && itemDoc.isOpen;
+            if (openAI) {
+                let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, minutesTopicDoc.infoItems);
+                return !(indexInMinutesTopicDoc === undefined);
+            }
+            return true;
+        });
     }
 
     /**
-     * Copies the open/closed topics from the given
+     * Copies the topics from the given
      * minute to this series.
      *
      * This is necessary for both, finalizing a
@@ -366,11 +376,6 @@ export class MeetingSeries {
         // clear open topics of this series (the minute contains all relevant open topics)
         this.openTopics = [];
 
-        // closed topics will be appended, so we have to clear the isNew-flag for the old ones
-        this.closedTopics.forEach((topic) => {
-            topic.isNew = false;
-        });
-
         // iterate backwards through the topics of the minute
         for (let i = minutes.topics.length; i-- > 0;) {
             let topicDoc = minutes.topics[i];
@@ -384,40 +389,22 @@ export class MeetingSeries {
             if (indexInSeries === undefined) {
                 // topic does not exist so we simply prepend the topic to our array
                 this.topics.unshift(topicDoc);
+                indexInSeries = 0;
             } else {
                 // topic already exists, here we do the magic merge
                 this._mergeTopic(indexInSeries, topicDoc);
                 this.topics[indexInSeries].isNew = false;
             }
 
+            // change topic state depending on the state of its AIs
+            this.topics[indexInSeries].isOpen = (topicDoc.isOpen || topic.hasOpenActionItem());
+
             // copy additional the tailored topic to our open topic list
             topic.tailorTopic();
-            if (topic.isOpen || topic.hasOpenActionItem()) {
-                topic.isOpen = true;
+            if (topic.getDocument().isOpen || topic.hasOpenActionItem()) {
+                topic.getDocument().isOpen = true;
                 this.openTopics.unshift(topic.getDocument());
             }
         }
-
-
-        /*
-        // then we remove the closed topics which are also listed in the current minute
-        // to prevent duplicates (remember this method will also be called on the 2nd last minute
-        // when un-finalizing the last one).
-        this.closedTopics = this.closedTopics.filter((topic) => {
-            let isTopicInMinute = Topic.findTopicIndexInArray(topic._id, minutes.topics);
-
-            return (isTopicInMinute === undefined );
-        });
-
-        minutes.topics.forEach((topic) => {
-            let topicObj = new Topic(minutes._id, topic);
-            topicObj.tailorTopic();
-            if (topic.isOpen || topicObj.hasOpenActionItem()) {
-                topic.isOpen = true;
-                this.openTopics.unshift(topicObj.getDocument());
-            } else {
-                this.closedTopics.unshift(topicObj.getDocument());
-            }
-        });*/
     }
 }
