@@ -1,27 +1,36 @@
 Hello{{#if name}} {{name}}{{/if}},<br>
 <br>
-please find enclosed the meeting minutes from {{meetingSeriesName}} meeting dated on {{minutesDate}}.<br>
+you can find the meeting minutes from {{meetingSeriesName}} meeting dated on {{minutesDate}} below.<br>
 <br>
-Participants:<br>
-<ul>
-    {{#each participants}}
-        <li>{{name}} {{#if present}}(present){{/if}}</li>
-    {{/each}}
-</ul>
-{{#if participantsAdditional}}Addition information: {{participantsAdditional}}{{/if}}<br>
+Participants: {{presentParticipants}}<br>
+Members absent: {{absentParticipants}}<br>
+{{#if participantsAdditional}}Additional information: {{participantsAdditional}}{{/if}}<br>
 <br>
 
-The following topics were discussed during the meeting:<br>
-
-<ul>
-    {{#each topics}}
-    <li>
-        {{subject}} {{#unless isOpen}}(discussed){{/unless}}
-            <ul>
+The listed topics were discussed:<br>
+<ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
+    {{#each discussedTopics}}
+        <li>
+            <strong>{{subject}}</strong>
+            <ul style="padding-left: 30px;">
                 {{#each infoItems}}
                     <li>{{subject}}</li>
                 {{/each}}
             </ul>
-    </li>
+        </li>
+    {{/each}}
+</ul>
+
+The following topics were skipped due to the lack of time:<br>
+<ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
+    {{#each skippedTopics}}
+        <li>
+            <strong>{{subject}}</strong>
+            <ul style="padding-left: 30px;">
+                {{#each infoItems}}
+                    <li>{{subject}}</li>
+                {{/each}}
+            </ul>
+        </li>
     {{/each}}
 </ul>

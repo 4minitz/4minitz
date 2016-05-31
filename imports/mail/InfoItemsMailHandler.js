@@ -14,16 +14,47 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
     _sendMail() {
         let mailSubject = this._getSubjectPrefix();
+
+        let presentParticipants = this._participants.filter(participant => {
+            return participant.present;
+        });
+        let absentParticipants = this._participants.filter(participant => {
+            return !participant.present;
+        });
+        let discussedTopics = this._topics.filter(topic => {
+            return !topic.isOpen;
+        });
+        let skippedTopics = this._topics.filter(topic => {
+            return topic.isOpen;
+        });
+
         this._buildMail(
             mailSubject,
             {
                 minutesDate: this._minute.date,
                 meetingSeriesName: this._msName,
-                participants: this._participants,
+                presentParticipants: this._participantsArrayToString(presentParticipants),
+                absentParticipants: this._participantsArrayToString(absentParticipants),
                 participantsAdditional: this._minute.participantsAdditional,
-                topics: this._topics
+                discussedTopics: discussedTopics,
+                skippedTopics: skippedTopics
             }
         );
+    }
+
+    _participantsArrayToString(participants) {
+        let str = "";
+        let first = true;
+        participants.forEach(participant => {
+            if (first) {
+                first = false;
+            } else {
+                str += ", ";
+            }
+            str += participant.name;
+        });
+
+        return str;
     }
 
 }
