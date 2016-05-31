@@ -221,6 +221,7 @@ export class MeetingSeries {
                         // if we un-finalize our fist minute it is save to delete all open topics
                         // because they are stored inside this minute
                         this.openTopics = [];
+                        this.topics = [];
                     }
 
                     this.save();
