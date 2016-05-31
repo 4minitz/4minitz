@@ -5,8 +5,8 @@ import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
 
-describe('MeetingSeries Topic History @watch', function () {
-    const aProjectName = "MeetingSeries Topic History";
+describe('MeetingSeries complete Topic list @watch', function () {
+    const aProjectName = "MeetingSeries Topic List";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
@@ -32,7 +32,7 @@ describe('MeetingSeries Topic History @watch', function () {
 
         E2EMinutes.gotoParentMeetingSeries();
 
-        E2EMeetingSeries.gotoTabHistory();
+        E2EMeetingSeries.gotoTabTopics();
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });

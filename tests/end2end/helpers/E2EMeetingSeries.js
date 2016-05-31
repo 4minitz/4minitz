@@ -84,8 +84,8 @@ export class E2EMeetingSeries {
         throw new Error("Could not find Meeting Series '"+compareText+"'");
     };
 
-    static gotoTabHistory() {
-        let selector = '#tab_history';
+    static gotoTabTopics() {
+        let selector = '#tab_topics';
         try {
             browser.waitForExist(selector);
         } catch (e) {
