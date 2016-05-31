@@ -87,6 +87,11 @@ Meteor.methods({
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             MinutesCollection.update(id, {$set: doc}, /* options */null, function (error, affectedDocs) {
                 if (!error && affectedDocs == 1 && Meteor.isServer) {
+                    if (!GlobalSettings.isEMailDeliveryEnabled()) {
+                        console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in you settings.json file");
+                        return;
+                    }
+
                     let emails = Meteor.user().emails;
                     Meteor.defer(() => { // server background tasks after successfully updated the minute doc
                         let senderEmail = (emails && emails.length > 0)
