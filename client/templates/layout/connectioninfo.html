@@ -1,0 +1,16 @@
+<template name="connectionInfo">
+    {{#unless connectionStatus.connected}}
+        <div class="connection-info">
+            <a href="#" id="btnConnectionLost">
+                <span class="glyphicon glyphicon-warning-sign"
+                      style="color: yellow; font-size: 200%;"
+                      title="Connection Lost!
+           Status: {{connectionStatus.status}}
+           Retry Count: {{connectionStatus.retryCount}}
+           Retry Time: {{connectionWaitTime}} sec.
+           Reason: {{connectionStatus.reason}}
+Click to reconnect."></span></a>
+        </div>
+    {{/unless}}
+
+</template>
