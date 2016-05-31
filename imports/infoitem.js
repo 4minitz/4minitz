@@ -47,6 +47,10 @@ export class InfoItem {
         this._parentTopic.upsertInfoItem(this._infoItemDoc, callback);
     }
 
+    getParentTopic() {
+        return this._parentTopic;
+    }
+
     isActionItem() {
         return InfoItem.isActionItem(this._infoItemDoc);
     }

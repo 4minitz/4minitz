@@ -56,13 +56,19 @@ describe('ActionItem', function() {
         it('sets the document correctly', function() {
             let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
             // the doc should be equal to our initial document
-            expect(myActionItem._infoItemDoc).to.equal(infoItemDoc);
+            expect(myActionItem._infoItemDoc).to.deep.equal(infoItemDoc);
         });
 
         it('sets the initial value for the isOpen-flag correctly', function() {
             let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
             // the isOpen-filed should be initially true for a new actionItem
             expect(myActionItem._infoItemDoc.isOpen).to.be.true;
+        });
+
+        it('sets the initial value for the isNew-flag correctly', function() {
+            let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+            // the isOpen-filed should be initially true for a new actionItem
+            expect(myActionItem._infoItemDoc.isNew).to.be.true;
         });
     });
 

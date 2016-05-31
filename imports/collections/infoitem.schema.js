@@ -12,9 +12,10 @@ export const InfoItemSchema = new SimpleSchema({
     _id: {type: String, regEx: SimpleSchema.RegEx.Id},
     itemType: {type: String, regEx: /^(actionItem)|(infoItem)$/, defaultValue: 'infoItem'},
     subject: {type: String},
-    isOpen: {type: Boolean, optional: true},
-    responsible: {type: String, defaultValue: '', optional: true},
-    priority: {type: String, defaultValue: '', optional: true},
-    duedate: {type: String, optional: true},
-    details: {type: [DetailsSchema], defaultValue: [], optional: true}
+    isOpen: {type: Boolean, optional: true},                            // action item
+    isNew: {type: Boolean, optional: true},                             // action item
+    responsible: {type: String, defaultValue: '', optional: true},      // action item
+    priority: {type: String, defaultValue: '', optional: true},         // action item
+    duedate: {type: String, optional: true},                            // action item
+    details: {type: [DetailsSchema], defaultValue: [], optional: true}  // action item
 });

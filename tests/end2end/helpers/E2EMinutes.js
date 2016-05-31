@@ -23,11 +23,19 @@ export class E2EMinutes {
         }
     };
 
-
-    static  finalizeCurrentMinutes () {
+    /**
+     * Finalizes the current minute
+     *
+     * @param confirmDialog should the dialog be confirmed automatically
+     *                      default: true
+     */
+    static finalizeCurrentMinutes (confirmDialog) {
         browser.waitForVisible("#btn_finalizeMinutes");
         browser.click("#btn_finalizeMinutes");
-    };
+        if (confirmDialog === undefined || confirmDialog) {
+            E2EApp.confirmationDialogAnswer(true);
+        }
+};
 
 
     static  unfinalizeCurrentMinutes () {
