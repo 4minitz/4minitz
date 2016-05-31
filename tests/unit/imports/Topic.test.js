@@ -121,7 +121,8 @@ describe('Topic', function() {
             topicDoc.isNew = true;
             topicDoc.infoItems.push({
                 isOpen: true,
-                isNew: true
+                isNew: true,
+                itemType: "actionItem"
             });
         });
 
@@ -288,15 +289,18 @@ describe('Topic', function() {
             });
             topicDoc.infoItems.push({
                 subject: "myClosedActionItem",
-                isOpen: false
+                isOpen: false,
+                itemType: "actionItem"
             });
             topicDoc.infoItems.push({
                 subject: "myOpenActionItem",
-                isOpen: true
+                isOpen: true,
+                itemType: "actionItem"
             });
             topicDoc.infoItems.push({
                 subject: "my2ndOpenActionItem",
-                isOpen: true
+                isOpen: true,
+                itemType: "actionItem"
             });
             myTopic = new Topic(dummyMinute._id, topicDoc);
         });
