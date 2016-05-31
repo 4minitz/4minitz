@@ -7,6 +7,7 @@ import { ActionItem } from '/imports/actionitem'
 
 Session.setDefault("topicInfoItemEditTopicId", null);
 Session.setDefault("topicInfoItemEditInfoItemId", null);
+Session.setDefault("topicInfoItemType", "infoItem");
 
 let _minutesID; // the ID of these minutes
 
@@ -46,6 +47,7 @@ let getEditInfoItem = function() {
 
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
+    Session.set("topicInfoItemType", type);
     switch (type) {
         case "actionItem":
             actionItemOnlyElements.show();
@@ -70,6 +72,11 @@ Template.topicInfoItemEdit.helpers({
     getTopicSubject: function () {
         let topic = getRelatedTopic();
         return (topic) ? topic._topicDoc.subject : "";
+    },
+
+    getTopicItemType: function () {
+        let type = Session.get("topicInfoItemType");
+        return (type === "infoItem") ? "Information" : "Action Item";
     }
 });
 
