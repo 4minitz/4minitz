@@ -327,6 +327,25 @@ export class MeetingSeries {
     }
 
     // ################### private methods
+    _mergeTopic(topicIndex, topicDoc) {
+        let msTopicDoc = this.topics[topicIndex];
+
+        // loop backwards through topic items
+        for (let i = topicDoc.infoItems.length; i-- > 0;) {
+            let infoDoc = topicDoc.infoItems[i];
+
+
+            let indexInMsTopicDoc = subElementsHelper.findIndexById(infoDoc._id, msTopicDoc.infoItems);
+            if (indexInMsTopicDoc === undefined) {
+                // item does not exist -> simply prepend
+                msTopicDoc.infoItems.unshift(infoDoc);
+            } else {
+                // update the existing one
+                msTopicDoc.infoItems[indexInMsTopicDoc] = infoDoc;
+            }
+        }
+    }
+
     /**
      * Copies the open/closed topics from the given
      * minute to this series.
@@ -351,6 +370,36 @@ export class MeetingSeries {
         this.closedTopics.forEach((topic) => {
             topic.isNew = false;
         });
+
+        // iterate backwards through the topics of the minute
+        for (let i = minutes.topics.length; i-- > 0;) {
+            let topicDoc = minutes.topics[i];
+            let topicDocCopy = _.extend({}, topicDoc);
+            // pass a copy to our topic object, so this can be tailored for the open topics list
+            // without manipulating the original document
+            let topic = new Topic(minutes._id, topicDocCopy);
+
+            // check if topic already exists in meeting series
+            let indexInSeries = Topic.findTopicIndexInArray(topicDoc._id, this.topics);
+            if (indexInSeries === undefined) {
+                // topic does not exist so we simply prepend the topic to our array
+                this.topics.unshift(topicDoc);
+            } else {
+                // topic already exists, here we do the magic merge
+                this._mergeTopic(indexInSeries, topicDoc);
+                this.topics[indexInSeries].isNew = false;
+            }
+
+            // copy additional the tailored topic to our open topic list
+            topic.tailorTopic();
+            if (topic.isOpen || topic.hasOpenActionItem()) {
+                topic.isOpen = true;
+                this.openTopics.unshift(topic.getDocument());
+            }
+        }
+
+
+        /*
         // then we remove the closed topics which are also listed in the current minute
         // to prevent duplicates (remember this method will also be called on the 2nd last minute
         // when un-finalizing the last one).
@@ -369,6 +418,6 @@ export class MeetingSeries {
             } else {
                 this.closedTopics.unshift(topicObj.getDocument());
             }
-        });
+        });*/
     }
 }

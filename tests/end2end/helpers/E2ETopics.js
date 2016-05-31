@@ -66,8 +66,8 @@ export class E2ETopics {
         return elements.value;
     }
 
-    static countItemsForTopic (topicPos) {
-        let items = E2ETopics.getItemsForTopic(topicPos);
+    static countItemsForTopic (topicIndex) {
+        let items = E2ETopics.getItemsForTopic(topicIndex);
         return items.length;
     }
 }
