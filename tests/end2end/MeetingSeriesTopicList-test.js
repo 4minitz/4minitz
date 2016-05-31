@@ -23,7 +23,7 @@ describe('MeetingSeries complete Topic list @watch', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-    it("copies all topics of the first minute to the parent series including all info- and actionItems.", function () {
+    it("copies all topics of the first minute to the parent series including both all info- and actionItems.", function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
         E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
@@ -34,7 +34,16 @@ describe('MeetingSeries complete Topic list @watch', function () {
 
         E2EMeetingSeries.gotoTabTopics();
 
-        expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+        expect(E2ETopics.countTopicsForMinute(), "Meeting Series should have one topic").to.equal(1);
+
+        expect(E2ETopics.countItemsForTopic(1), "Topic should have two items").to.equal(2);
+
+        let items = E2ETopics.getItemsForTopic(1);
+        let firstItemElement = items[0].ELEMENT;
+        expect(browser.elementIdText(firstItemElement).value, "fist element should be the action item").to.have.string('some action item');
+
+        let sndElement = items[1].ELEMENT;
+        expect(browser.elementIdText(sndElement).value, "2nd element should be the info item").to.have.string('some information');
     });
 
 });

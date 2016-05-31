@@ -21,7 +21,6 @@ export class E2ETopics {
 
     static addInfoItemToTopic (infoItemDoc, topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .addTopicInfoItem";
-        console.log(selector);
 
         browser.waitForVisible(selector);
         browser.click(selector);
@@ -55,4 +54,20 @@ export class E2ETopics {
         var topics = E2ETopics.getTopicsForMinute();
         return topics.length;
     };
+
+    static getItemsForTopic (topicIndex) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem";
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return 0;
+        }
+        const elements = browser.elements(selector);
+        return elements.value;
+    }
+
+    static countItemsForTopic (topicPos) {
+        let items = E2ETopics.getItemsForTopic(topicPos);
+        return items.length;
+    }
 }
