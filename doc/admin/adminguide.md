@@ -15,4 +15,15 @@
     cd 4minitz
     meteor --production
 
-You can reach 4minitz via the default port 3000 by opening [http://localhost:3000](http://localhost:3000) in your browser 
+You can reach 4minitz via the default port 3000 by opening [http://localhost:3000](http://localhost:3000) in your browser
+
+### Configuration for sending emails
+
+You can send emails either via smtp or [mailgun](http://www.mailgun.com/). To enable email sending you have to provide
+your custom settings.json file where you have to define your smtp settings or mailgun api key.
+Then simply run the application and pass your settings file as program argument:
+
+    meteor --production --settings path/to/settings.json
+
+See /settings_sample.json for an example. Do not forget to set "enableMailDelivery" to true and set "mailDeliverer"
+to either "mailgun" or "smtp" - not both as seen in the example file!
