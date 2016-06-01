@@ -193,7 +193,8 @@ describe('Topic', function() {
         let infoItemDoc = {
             _id: 'AaBbCcDd01',
             subject: "info-item-subject",
-            createdAt: new Date()
+            createdAt: new Date(),
+            createdInMinute: dummyMinute._id
         };
 
         // new info item is not added yet, so our topic should not find it

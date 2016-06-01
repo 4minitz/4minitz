@@ -33,6 +33,7 @@ describe('ActionItem', function() {
 
         infoItemDoc = {
             _id: "AaBbCcDd01",
+            createdInMinute:"AaBbCcDd01",
             subject: "infoItemDoc",
             createdAt: new Date(),
             details: [
