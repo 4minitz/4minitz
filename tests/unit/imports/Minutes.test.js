@@ -31,8 +31,9 @@ let MeetingSeries = function(seriesId) {
 
 let topicGetOpenActionItemsStub = sinon.stub().returns([]);
 let Topic = function () {
-    this.getOpenActionItems = topicGetOpenActionItemsStub
+    this.getOpenActionItems = topicGetOpenActionItemsStub;
 };
+Topic.hasOpenActionItem = () => { return false; };
 
 let ActionItem = function (topic, doc) {
     this._parentTopic = topic;

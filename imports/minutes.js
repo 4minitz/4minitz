@@ -133,7 +133,7 @@ export class Minutes {
      */
     getOldClosedTopics() {
         return this.topics.filter((topic) => {
-            return ( !topic.isNew && !topic.isOpen );
+            return ( !topic.isNew && !topic.isOpen && !Topic.hasOpenActionItem(topic) );
         });
     }
 
