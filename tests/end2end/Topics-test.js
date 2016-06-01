@@ -64,7 +64,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('some topic');
     });
 
-    it('can not change the order of topics on the open topics page', function () {
+    it('can not change the order of topics on the topics page', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -72,20 +72,20 @@ describe('Topics', function () {
         E2EMinutes.finalizeCurrentMinutes();
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
 
-        browser.click('a*=Open Topics');
+        browser.click('#tab_topics');
         E2EGlobal.waitSomeTime();
 
         var topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
         let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
-        expect(visibleTextBeforeSortAttempt).to.have.string('some topic');
+        expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
         browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         var topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
         let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
-        expect(visibleTextAfterSortAttempt).to.have.string('some topic');
+        expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
     });
 
     it('can not change the order of topics of finalized minutes', function () {

@@ -46,7 +46,7 @@ describe('MeetingSeries complete Topic list', function () {
         expect(browser.elementIdText(sndElement).value, "2nd element should be the info item").to.have.string('some information');
     });
 
-    it("merges topics of finalized minute into existing topic list of the meeting series @watch", function () {
+    it("merges topics of finalized minute into existing topic list of the meeting series", function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
         E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
