@@ -7,16 +7,17 @@ import sinon from 'sinon';
 
 require('../../../lib/helpers');
 
-let doNothing = () => {};
+class Minutes {
+    constructor(id) {
+        this._id = id;
+    }
+    upsertTopic() {}
+    static findOne() {
+        return dummyMinute
+    }
+}
 
-let dummyMinute = {
-    _id: "AaBbCcDd",
-    upsertTopic: doNothing
-};
-
-let Minutes = {
-    findOne: () => dummyMinute
-};
+let dummyMinute = new Minutes("AaBbCcDd");
 
 global.Random = {
     i: 1,
@@ -50,6 +51,11 @@ describe('Topic', function() {
 
         it('sets the reference to the parent minute correctly', function() {
             let myTopic = new Topic(dummyMinute._id, topicDoc);
+            expect(myTopic._parentMinutes).to.equal(dummyMinute);
+        });
+
+        it('can instantiate a topic with the parent minutes object instead of its id', function () {
+            let myTopic = new Topic(dummyMinute, topicDoc);
             expect(myTopic._parentMinutes).to.equal(dummyMinute);
         });
 
@@ -105,6 +111,29 @@ describe('Topic', function() {
             topicDoc.infoItems[0].isOpen = true;
             let myTopic = new Topic(dummyMinute._id, topicDoc);
             expect(myTopic.hasOpenActionItem()).to.be.true;
+        });
+
+    });
+
+    describe('#invalidateIsNewFlag', function () {
+
+        beforeEach(function () {
+            topicDoc.isNew = true;
+            topicDoc.infoItems.push({
+                isOpen: true,
+                isNew: true,
+                itemType: "actionItem"
+            });
+        });
+
+        it('clears the isNew-Flag of the topic itself', function () {
+            Topic.invalidateIsNewFlag(topicDoc);
+            expect(topicDoc.isNew).to.be.false;
+        });
+
+        it('clears the isNew-Flag of the action item', function () {
+            Topic.invalidateIsNewFlag(topicDoc);
+            expect(topicDoc.infoItems[0].isNew).to.be.false;
         });
 
     });
@@ -246,6 +275,45 @@ describe('Topic', function() {
             myTopic.tailorTopic();
 
             expect(myTopic._topicDoc.infoItems[0].isOpen).to.be.true;
+        });
+
+    });
+
+    describe('#getOpenActionItems', function() {
+
+        let myTopic;
+
+        beforeEach(function () {
+            topicDoc.infoItems.push({
+                subject: "myInfoItem"
+            });
+            topicDoc.infoItems.push({
+                subject: "myClosedActionItem",
+                isOpen: false,
+                itemType: "actionItem"
+            });
+            topicDoc.infoItems.push({
+                subject: "myOpenActionItem",
+                isOpen: true,
+                itemType: "actionItem"
+            });
+            topicDoc.infoItems.push({
+                subject: "my2ndOpenActionItem",
+                isOpen: true,
+                itemType: "actionItem"
+            });
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('returns the correct amount of items', function () {
+            expect(myTopic.getOpenActionItems()).to.have.length(2);
+        });
+
+        it('returns only open action items', function () {
+            myTopic.getOpenActionItems().forEach(item => {
+                expect(item, "the item should be a action item").to.have.ownProperty('isOpen');
+                expect(item.isOpen, "the item should marked as open").to.be.true;
+            })
         });
 
     });

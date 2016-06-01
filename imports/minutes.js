@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries'
 import { Topic } from './topic'
+import { ActionItem } from './actionitem'
 import { _ } from 'meteor/underscore';
 
 export class Minutes {
@@ -136,6 +137,18 @@ export class Minutes {
         });
     }
 
+    /**
+     * Returns tailored topics which
+     * does only contain info items.
+     */
+    getTopicsWithOnlyInfoItems() {
+        return this.topics.map((topicDoc) => {
+            let topic = new Topic(this, topicDoc);
+            topicDoc.infoItems = topic.getOnlyInfoItems();
+            return topicDoc;
+        })
+    }
+
     upsertTopic(topicDoc, callback) {
         let i = undefined;
         if (! topicDoc._id) {             // brand-new topic
@@ -152,12 +165,28 @@ export class Minutes {
     }
 
     /**
+     *
+     * @returns ActionItem[]
+     */
+    getOpenActionItems() {
+        return this.topics.reduce((acc, topicDoc) => {
+            let topic = new Topic(this, topicDoc);
+            let actionItemDocs = topic.getOpenActionItems();
+            return acc.concat(
+                actionItemDocs.map(doc => {
+                    return new ActionItem(topic, doc);
+                })
+            );
+        }, /* initial value */[]);
+    }
+
+    /**
      * Finalizes this minutes object. Shall
      * only be called from the finalize method
      * within the meeting series.
      */
-    finalize(serverCallback) {
-        Meteor.call('minutes.finalize', this._id, serverCallback);
+    finalize(sendActionItems, sendInfoItems, serverCallback) {
+        Meteor.call('minutes.finalize', this._id, sendActionItems, sendInfoItems, serverCallback);
     }
 
     /**
@@ -171,6 +200,38 @@ export class Minutes {
 
     isCurrentUserModerator() {
         return this.parentMeetingSeries().isCurrentUserModerator();
+    }
+
+    /**
+     * Gets all persons who want to be
+     * informed about this minute.
+     *
+     * @returns {string[]} of user ids
+     */
+    getPersonsInformed() {
+       return this.visibleFor;
+    }
+
+    /**
+     * Returns all informed persons with name and
+     * email address.
+     * Skips all persons with no email address.
+     *
+     * @param userCollection
+     * @returns {Array}
+     */
+    getPersonsInformedWithEmail(userCollection) {
+        return this.getPersonsInformed().reduce((recipients, userId) => {
+            let user = userCollection.findOne(userId);
+            if (user.emails && user.emails.length > 0) {
+                recipients.push({
+                    userId: userId,
+                    name: user.username,
+                    address: user.emails[0].address
+                });
+            }
+            return recipients;
+        }, /* initial value */ []);
     }
 
 
@@ -222,6 +283,24 @@ export class Minutes {
     updateParticipantPresent(index, isPresent) {
         this.participants[index].present = isPresent;
         this.update({participants: this.participants});
+    }
+
+    /**
+     * Returns the list of participants and adds the name of
+     * each participants if a userCollection is given.
+     * @param userCollection to query for the participants name.
+     * @returns {Array}
+     */
+    getParticipants(userCollection) {
+        if (userCollection) {
+            return this.participants.map(participant => {
+                let user = userCollection.findOne(participant.userId);
+                participant.name = user.username;
+                return participant;
+            });
+        }
+
+        return this.participants;
     }
 
 

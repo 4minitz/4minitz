@@ -1,6 +1,5 @@
 Session.setDefault("confirmationDialogTitle", "Confirm delete");
 Session.setDefault("confirmationDialogContent", "Are you sure to delete this?");
-Session.setDefault("confirmationDialogConfirmButton", "Delete");
 
 
 Template.confirmationDialog.onRendered(function () {
@@ -15,7 +14,12 @@ Template.confirmationDialog.helpers({
 
     'getContent': function() {
         // SafeString allows us to pass html content
-        return Spacebars.SafeString(Session.get("confirmationDialogContent"));
+        let content = Spacebars.SafeString(Session.get("confirmationDialogContent"));
+        // We need this forked to re-create material checkboxes
+        Meteor.setTimeout(function () {
+            $.material.init();
+        }, 0);
+        return content;
     },
     'getConfirmBtnName': function() {
         return Session.get("confirmationDialogConfirmButton");

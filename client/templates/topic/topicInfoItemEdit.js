@@ -7,6 +7,7 @@ import { ActionItem } from '/imports/actionitem'
 
 Session.setDefault("topicInfoItemEditTopicId", null);
 Session.setDefault("topicInfoItemEditInfoItemId", null);
+Session.setDefault("topicInfoItemType", "infoItem");
 
 let _minutesID; // the ID of these minutes
 
@@ -46,6 +47,7 @@ let getEditInfoItem = function() {
 
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
+    Session.set("topicInfoItemType", type);
     switch (type) {
         case "actionItem":
             actionItemOnlyElements.show();
@@ -70,11 +72,16 @@ Template.topicInfoItemEdit.helpers({
     getTopicSubject: function () {
         let topic = getRelatedTopic();
         return (topic) ? topic._topicDoc.subject : "";
+    },
+
+    getTopicItemType: function () {
+        let type = Session.get("topicInfoItemType");
+        return (type === "infoItem") ? "Information" : "Action Item";
     }
 });
 
 Template.topicInfoItemEdit.events({
-    'change #id_type': function(evt, tmpl) {
+    'click .type': function(evt, tmpl) {
         let type = evt.target.value;
         toggleItemMode(type, tmpl);
         tmpl.find("#id_item_subject").focus();
@@ -89,7 +96,7 @@ Template.topicInfoItemEdit.events({
 
         let editItem = getEditInfoItem();
 
-        let type = tmpl.find('#id_type').value;
+        let type = tmpl.find('input[name="id_type"]:checked').value;
         let newSubject = tmpl.find('#id_item_subject').value;
 
         let doc = {};
@@ -153,7 +160,7 @@ Template.topicInfoItemEdit.events({
         // set type
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? "actionItem" : "infoItem";
-            tmpl.find('#id_type').value = type;
+            tmpl.find('#type_' + type).checked = true;
             toggleItemMode(type, tmpl);
         }
     },

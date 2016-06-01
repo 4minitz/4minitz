@@ -11,15 +11,18 @@ import { InfoItem } from './infoitem';
  * have multiple sub-items called InfoItem.
  */
 export class Topic {
-    constructor(parentMinutesID, source) {   // constructs obj from Topic ID or Topic document
-        if (!parentMinutesID || !source)
+    constructor(parentMinutes, source) {   // constructs obj from Topic ID or Topic document
+        if (!parentMinutes || !source)
             return;
 
         this._parentMinutes = undefined;
         this._topicDoc = undefined;     // keep separate, no _.extend to prevent storage recursion
 
-        if (typeof parentMinutesID === 'string') {   // we may have an ID here.
-            this._parentMinutes = Minutes.findOne(parentMinutesID);
+        if (typeof parentMinutes === 'string') {   // we may have an ID here.
+            this._parentMinutes = Minutes.findOne(parentMinutes);
+        }
+        if ((typeof parentMinutes === 'object') && (parentMinutes instanceof Minutes)) {
+            this._parentMinutes = parentMinutes;
         }
         if (!this._parentMinutes) {
             return;
@@ -65,6 +68,15 @@ export class Topic {
             }
         }
         return false;
+    }
+
+    static invalidateIsNewFlag(topicDoc) {
+        topicDoc.isNew = false;
+        topicDoc.infoItems.forEach(infoItemDoc => {
+            if (InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isNew) {
+                infoItemDoc.isNew = false;
+            }
+        })
     }
 
     // ################### object methods
@@ -129,6 +141,22 @@ export class Topic {
 
     getInfoItems() {
         return this._topicDoc.infoItems;
+    }
+
+    getOnlyInfoItems() {
+        return this.getInfoItems().filter((item) => {
+            return !InfoItem.isActionItem(item);
+        })
+    }
+
+    getOpenActionItems() {
+        return this._topicDoc.infoItems.filter((infoItemDoc) => {
+            return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;
+        });
+    }
+
+    getSubject() {
+        return this._topicDoc.subject;
     }
 
     save(callback) {

@@ -14,18 +14,24 @@
                         {{else}}
                             Add
                         {{/if}}
-                        Information for {{getTopicSubject}}
+                        {{getTopicItemType}} to {{getTopicSubject}}
                     </h4>
                 </div>
                 {{> error}}
                 <div class="modal-body">
                     <form id="frmDlgAddTopic">
                         <div class="form-group">
-                            <label for="id_type">Type</label>
-                            <select id="id_type" class="form-control" {{disableTypeChange}}>
-                                <option value="infoItem">Information</option>
-                                <option value="actionItem">Action Item</option>
-                            </select>
+                            <label>Type</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="id_type" id="type_infoItem" value="infoItem" class="type" {{disableTypeChange}} checked>
+                                    Information
+                                </label>
+                                <label>
+                                    <input type="radio" name="id_type" id="type_actionItem" value="actionItem" class="type" {{disableTypeChange}}>
+                                    Action Item
+                                </label>
+                            </div>
                         </div>
 
                         <div class="form-group label-floating">

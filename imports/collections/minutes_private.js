@@ -1,9 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Minutes } from '../minutes'
-import { MeetingSeries } from '../meetingseries'
-import { UserRoles } from "./../userroles"
+import { Minutes } from '../minutes';
+import { MeetingSeries } from '../meetingseries';
+import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
+import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
+import { GlobalSettings } from './../GlobalSettings';
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -66,7 +68,7 @@ Meteor.methods({
         }
     },
 
-    'minutes.finalize'(id) {
+    'minutes.finalize'(id, sendActionItems, sendInfoItems) {
         let doc = {
             finalizedAt: new Date(),
             finalizedBy: Meteor.user().username,
@@ -83,7 +85,23 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         let aMin = new Minutes(id);
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            MinutesCollection.update(id, {$set: doc});
+            MinutesCollection.update(id, {$set: doc}, /* options */null, function (error, affectedDocs) {
+                if (!error && affectedDocs == 1 && Meteor.isServer) {
+                    if (!GlobalSettings.isEMailDeliveryEnabled()) {
+                        console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in you settings.json file");
+                        return;
+                    }
+
+                    let emails = Meteor.user().emails;
+                    Meteor.defer(() => { // server background tasks after successfully updated the minute doc
+                        let senderEmail = (emails && emails.length > 0)
+                            ? emails[0].address
+                            : GlobalSettings.getDefaultEmailSenderAddress();
+                        let finalizeMailHandler = new FinalizeMailHandler(aMin, senderEmail);
+                        finalizeMailHandler.sendMails(sendActionItems, sendInfoItems);
+                    });
+                }
+            });
         } else {
             throw new Meteor.Error("Cannot finalize minutes", "You are not moderator of the parent meeting series.");
         }

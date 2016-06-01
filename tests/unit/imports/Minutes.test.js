@@ -28,7 +28,17 @@ let MeetingSeries = function(seriesId) {
     this.isCurrentUserModerator = isCurrentUserModeratorStub;
     this.updateLastMinutesDate = updateLastMinutesDateStub;
 };
-let Topic = {};
+
+let topicGetOpenActionItemsStub = sinon.stub().returns([]);
+let Topic = function () {
+    this.getOpenActionItems = topicGetOpenActionItemsStub
+};
+
+let ActionItem = function (topic, doc) {
+    this._parentTopic = topic;
+    this._infoItemDoc = doc;
+};
+
 
 const {
     Minutes
@@ -37,6 +47,7 @@ const {
     './collections/minutes_private': { MinutesCollection, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
+    './actionitem': { ActionItem, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true}
 });
 
@@ -66,6 +77,7 @@ describe('Minutes', function () {
         Meteor.call.reset();
         isCurrentUserModeratorStub.reset();
         updateLastMinutesDateStub.reset();
+        topicGetOpenActionItemsStub.reset();
     });
 
     describe('#constructor', function () {
@@ -355,6 +367,21 @@ describe('Minutes', function () {
 
         });
 
+        describe('#getOpenActionItems', function () {
+
+            it('calls the getOpenActionItems method for each topic', function () {
+                minute.getOpenActionItems();
+                expect(topicGetOpenActionItemsStub.callCount).to.equal(minute.topics.length);
+            });
+
+            it('concatenates all results of each getOpenActionItems-call', function () {
+                topicGetOpenActionItemsStub.returns([5,7]);
+                expect(minute.getOpenActionItems()).to.have.length(minute.topics.length * 2);
+
+            });
+
+        });
+
     });
 
     describe('#upsertTopic', function () {
@@ -421,7 +448,7 @@ describe('Minutes', function () {
         it('sends the id to the meteor method minutes.finalize', function () {
             minute.finalize();
 
-            expect(Meteor.call.calledWithExactly('minutes.finalize', minutesDoc._id, undefined)).to.be.true;
+            expect(Meteor.call.calledWith('minutes.finalize', minutesDoc._id)).to.be.true;
         });
 
     });

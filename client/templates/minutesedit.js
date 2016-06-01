@@ -50,6 +50,9 @@ var updateTopicSorting = function () {
     minute.update({topics: newTopicSorting});
 };
 
+var sendActionItems = true;
+var sendInformationItems = true;
+
 Template.minutesedit.onRendered(function () {
     let datePickerNode = this.$('#id_minutesdatePicker');
     datePickerNode.datetimepicker({
@@ -177,10 +180,28 @@ Template.minutesedit.events({
         if (aMin) {
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
             let parentSeries = aMin.parentMeetingSeries();
-            parentSeries.finalizeMinutes(aMin);
 
-            toggleTopicSorting();
-            Session.set("participants.expand", false);
+            let dialogContent = "<p>Do you really want to finalize this meeting minute dated on <strong>" + aMin.date + "</strong>?";
+            dialogContent += ""
+                + "<div class='checkbox form-group'><label for='cbSendAI'><input id='cbSendAI' type='checkbox' class='checkbox' " + ((sendActionItems) ? "checked" : "") + "> send action items</label></div>"
+                + "<div class='checkbox form-group'><label for='cbSendII'><input id='cbSendII' type='checkbox' class='checkbox' " + ((sendInformationItems) ? "checked" : "") + "> send information items</label></div>"
+                + "</p>";
+
+            confirmationDialog(
+                /* callback called if user wants to continue */
+                () => {
+                    parentSeries.finalizeMinutes(aMin, sendActionItems, sendInformationItems);
+
+                    toggleTopicSorting();
+                    Session.set("participants.expand", false);
+                },
+                /* Dialog content */
+                dialogContent,
+                "Confirm finalize minute",
+                "Finalize",
+                "btn-success"
+            );
+
         }
     },
 
@@ -235,4 +256,15 @@ Template.minutesedit.events({
         }
     }
 
+});
+
+// pass event handler for the send-email checkbox to the confirmation dialog
+// so we can track changes
+Template.confirmationDialog.events({
+    'change #cbSendAI': function(evt) {
+        sendActionItems = evt.target.checked;
+    },
+    'change #cbSendII': function(evt) {
+        sendInformationItems = evt.target.checked;
+    }
 });
