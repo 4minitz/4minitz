@@ -2,13 +2,13 @@ import { TopicItemsMailHandler } from './TopicItemsMailHandler'
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
-    constructor(sender, recipients, minute, topics, msName, participants) {
+    constructor(sender, recipients, minute, topics, meetingSeries, participants) {
         super(sender, recipients, minute, 'publishInfoItems');
         this._topics = topics;
         this._sendSeparateMails = false;
         this._sender = sender;
         this._minute = minute;
-        this._msName = msName;
+        this._meetingSeries = meetingSeries;
         this._participants = participants;
     }
 
@@ -32,7 +32,10 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             mailSubject,
             {
                 minutesDate: this._minute.date,
-                meetingSeriesName: this._msName,
+                meetingSeriesName: this._meetingSeries.name,
+                meetingSeriesProject: this._meetingSeries.project,
+                meetingSeriesURL: Meteor.absoluteUrl("meetingseries/" + this._meetingSeries._id),
+                minuteUrl: Meteor.absoluteUrl("minutesedit/" + this._minute._id),
                 presentParticipants: this._participantsArrayToString(presentParticipants),
                 absentParticipants: this._participantsArrayToString(absentParticipants),
                 participantsAdditional: this._minute.participantsAdditional,
