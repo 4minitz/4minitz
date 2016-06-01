@@ -1,3 +1,11 @@
+sudo: required
 language: node_js
 node_js:
-    - "stable"
+  - "stable"
+before_install:
+  - curl https://install.meteor.com | /bin/sh
+  - npm install -g chimp
+before_script:
+  - meteor npm run test:end2end:server&
+  - sleep 30
+script: npm run test:ci
