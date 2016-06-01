@@ -212,11 +212,6 @@ export class MeetingSeries {
             /* Server callback */
             (error) => {
                 if (!error) {
-                    // remove all topics with isNew-Flag because they were added within the last meeting
-                    this.topics = this.topics.filter(topic => {
-                        return !topic.isNew;
-                    });
-
                     let secondLastMinute = this.secondLastMinutes();
                     if (secondLastMinute) {
                         this._copyTopicsToSeries(secondLastMinute);
@@ -381,6 +376,9 @@ export class MeetingSeries {
     _copyTopicsToSeries(minutes) {
         // clear open topics of this series (the minute contains all relevant open topics)
         this.openTopics = [];
+        this.topics.forEach((topicDoc) => {
+            Topic.invalidateIsNewFlag(topicDoc);
+        });
 
         // iterate backwards through the topics of the minute
         for (let i = minutes.topics.length; i-- > 0;) {
@@ -412,5 +410,15 @@ export class MeetingSeries {
                 this.openTopics.unshift(topic.getDocument());
             }
         }
+
+        // delete all open topics from msTopicList which are not part of the currently
+        // finalized minute -> they were deleted within this minute
+        this.topics = this.topics.filter(topic => {
+            if (topic.isOpen) {
+                let indexInMinute = subElementsHelper.findIndexById(topic._id, minutes.topics);
+                return !(indexInMinute === undefined);
+            }
+            return true;
+        })
     }
 }
