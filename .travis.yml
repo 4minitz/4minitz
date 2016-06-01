@@ -3,7 +3,8 @@ language: node_js
 node_js:
   - "stable"
 before_install:
-  - curl -L https://git.io/vr7hR | /bin/sh
+  - curl https://install.meteor.com | /bin/sh
+  - npm install -g chimp
 before_script:
   - meteor npm run test:end2end:server&
   - sleep 30
