@@ -1,6 +1,6 @@
 Hello{{#if name}} {{name}}{{/if}},<br>
 <br>
-you can find the meeting minutes from {{meetingSeriesName}} meeting dated on {{minutesDate}} below.<br>
+you can find the meeting minutes from {{meetingSeriesName}} dated on {{minutesDate}} below.<br>
 <br>
 Participants: {{presentParticipants}}<br>
 Members absent: {{absentParticipants}}<br>
@@ -21,7 +21,7 @@ The listed topics were discussed:<br>
     {{/each}}
 </ul>
 
-The following topics were skipped due to the lack of time:<br>
+The following topics were kept open:<br>
 <ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
     {{#each skippedTopics}}
         <li>
