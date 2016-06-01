@@ -34,21 +34,25 @@ describe('Minutes Finalize', function () {
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
     });
 
-    it('asks if emails should be sent before finalizing the minute', function () {
-        aMeetingCounter++;
-        aMeetingName = aMeetingNameBase + aMeetingCounter;
+    // this test does only make sense if mail delivery is enabled
+    // so we have to wait until the mail system can be mocked
+    if (E2EGlobal.SETTINGS.enableMailDelivery) {
+        it('asks if emails should be sent before finalizing the minute', function () {
+            aMeetingCounter++;
+            aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        E2EMinutes.finalizeCurrentMinutes(/*autoConfirmDialog*/false);
+            E2EMinutes.finalizeCurrentMinutes(/*autoConfirmDialog*/false);
 
-        expect(browser.isExisting('#cbSendAI')).to.be.true;
-        expect(browser.isExisting('#cbSendII')).to.be.true;
+            expect(browser.isExisting('#cbSendAI')).to.be.true;
+            expect(browser.isExisting('#cbSendII')).to.be.true;
 
-        // close dialog otherwise beforeEach-hook will fail!
-        E2EApp.confirmationDialogAnswer(false);
-    });
+            // close dialog otherwise beforeEach-hook will fail!
+            E2EApp.confirmationDialogAnswer(false);
+        });
+    }
 
 
     it('can not add minutes if unfinalized minutes exist', function () {

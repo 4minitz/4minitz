@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './E2EGlobal'
 import { E2EApp } from './E2EApp'
 import { E2EMeetingSeries } from './E2EMeetingSeries'
@@ -32,8 +31,10 @@ export class E2EMinutes {
     static finalizeCurrentMinutes (confirmDialog) {
         browser.waitForVisible("#btn_finalizeMinutes");
         browser.click("#btn_finalizeMinutes");
-        if (confirmDialog === undefined || confirmDialog) {
-            E2EApp.confirmationDialogAnswer(true);
+        if (E2EGlobal.SETTINGS.enableMailDelivery) {
+            if (confirmDialog === undefined || confirmDialog) {
+                E2EApp.confirmationDialogAnswer(true);
+            }
         }
 };
 
