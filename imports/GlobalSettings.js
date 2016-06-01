@@ -1,7 +1,6 @@
 export class GlobalSettings {
 
     static publishSettings() {
-        console.log("publishSettings called");
         if (Meteor.settings.public === undefined) {
             Meteor.settings.public = {};
         }

@@ -90,6 +90,7 @@ export class Topic {
     static overwritePrimitiveProperties(sourceTopicDoc, targetTopicDoc) {
         targetTopicDoc.subject = sourceTopicDoc.subject;
         targetTopicDoc.responsible = sourceTopicDoc.responsible;
+        targetTopicDoc.isNew = sourceTopicDoc.isNew;
         return targetTopicDoc;
     }
 

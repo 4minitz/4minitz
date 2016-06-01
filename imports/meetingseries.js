@@ -404,7 +404,6 @@ export class MeetingSeries {
             } else {
                 // topic already exists, here we do the magic merge
                 this._mergeTopic(indexInSeries, topicDoc);
-                this.topics[indexInSeries].isNew = false;
             }
 
             // change topic state depending on the state of its AIs
