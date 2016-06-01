@@ -6,6 +6,8 @@ import { UserRoles } from '/imports/userroles'
 
 import { TopicListConfig } from './topic/topicsList'
 
+import { GlobalSettings } from '/imports/GlobalSettings'
+
 var _minutesID; // the ID of these minutes
 
 Template.minutesedit.onCreated(function () {
@@ -98,14 +100,6 @@ Template.minutesedit.helpers({
         return null;
     },
 
-    participantsLabelFloating: function () {
-        let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            return (aMin.participants) ? "" : "label-floating";
-        }
-        return null;
-    },
-
     isFinalized: function () {
         let aMin = new Minutes(_minutesID);
         return aMin.isFinalized;
@@ -174,38 +168,47 @@ Template.minutesedit.events({
     },
 
 
-    'click #btn_finalizeMinutes': function(evt, tmpl) {
+    'click #btn_finalizeMinutes': function(evt) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
         if (aMin) {
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
             let parentSeries = aMin.parentMeetingSeries();
 
-            let dialogContent = "<p>Do you really want to finalize this meeting minute dated on <strong>" + aMin.date + "</strong>?";
-            dialogContent += ""
-                + "<div class='checkbox form-group'><label for='cbSendAI'><input id='cbSendAI' type='checkbox' class='checkbox' " + ((sendActionItems) ? "checked" : "") + "> send action items</label></div>"
-                + "<div class='checkbox form-group'><label for='cbSendII'><input id='cbSendII' type='checkbox' class='checkbox' " + ((sendInformationItems) ? "checked" : "") + "> send information items</label></div>"
-                + "</p>";
+            let doFinalize = function () {
+                parentSeries.finalizeMinutes(aMin, sendActionItems, sendInformationItems);
 
-            confirmationDialog(
-                /* callback called if user wants to continue */
-                () => {
-                    parentSeries.finalizeMinutes(aMin, sendActionItems, sendInformationItems);
+                toggleTopicSorting();
+                Session.set("participants.expand", false);
+            };
 
-                    toggleTopicSorting();
-                    Session.set("participants.expand", false);
-                },
-                /* Dialog content */
-                dialogContent,
-                "Confirm finalize minute",
-                "Finalize",
-                "btn-success"
-            );
+            if (GlobalSettings.isEMailDeliveryEnabled()) { // only show confirmation Dialog, if mails can be sent.
+
+                let dialogContent = "<p>Do you really want to finalize this meeting minute dated on <strong>" + aMin.date + "</strong>?";
+                if (aMin.hasOpenActionItems()) {
+                    dialogContent += "<div class='checkbox form-group'><label for='cbSendAI'><input id='cbSendAI' type='checkbox' class='checkbox' " + ((sendActionItems) ? "checked" : "") + "> send action items</label></div>";
+                }
+                dialogContent +=
+                      "<div class='checkbox form-group'><label for='cbSendII'><input id='cbSendII' type='checkbox' class='checkbox' " + ((sendInformationItems) ? "checked" : "") + "> send information items</label></div>"
+                    + "</p>";
+
+                confirmationDialog(
+                    /* callback called if user wants to continue */
+                    doFinalize,
+                    /* Dialog content */
+                    dialogContent,
+                    "Confirm finalize minute",
+                    "Finalize",
+                    "btn-success"
+                );
+            } else {
+                doFinalize();
+            }
 
         }
     },
 
-    'click #btn_unfinalizeMinutes': function(evt, tmpl) {
+    'click #btn_unfinalizeMinutes': function(evt) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
         if (aMin) {
@@ -222,7 +225,7 @@ Template.minutesedit.events({
         }
     },
 
-    'click #btn_deleteMinutes': function(evt, tmpl) {
+    'click #btn_deleteMinutes': function(evt) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
         if (aMin) {

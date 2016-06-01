@@ -138,6 +138,22 @@ export class Minutes {
     }
 
     /**
+     * Checks whether this minute has at least one
+     * open AI.
+     *
+     * @returns {boolean}
+     */
+    hasOpenActionItems() {
+        for (let i = this.topics.length; i-- > 0;) {
+            let topic = new Topic(this, this.topics[i]);
+            if (topic.hasOpenActionItem()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns tailored topics which
      * does only contain info items.
      */

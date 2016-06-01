@@ -1,5 +1,14 @@
 export class GlobalSettings {
 
+    static publishSettings() {
+        console.log("publishSettings called");
+        if (Meteor.settings.public === undefined) {
+            Meteor.settings.public = {};
+        }
+
+        Meteor.settings.public.enableMailDelivery = Meteor.settings.enableMailDelivery
+    }
+
     static getDefaultEmailSenderAddress() {
         if (Meteor.settings.defaultEMailSenderAddress) {
             return Meteor.settings.defaultEMailSenderAddress;
@@ -9,7 +18,7 @@ export class GlobalSettings {
     }
 
     static isEMailDeliveryEnabled() {
-        return Meteor.settings.enableMailDelivery;
+        return Meteor.settings.public.enableMailDelivery;
     }
 
     static getMailDeliverer() {
@@ -41,5 +50,4 @@ export class GlobalSettings {
 
         throw new Meteor.Error('illegal-state', 'mailgun settings not defined in meteor settings');
     }
-
 }

@@ -7,6 +7,7 @@ import '/imports/meetingseries';
 import '/imports/collections/userroles_private'
 
 Meteor.startup(() => {
+    GlobalSettings.publishSettings();
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
 
     handleMigration();
