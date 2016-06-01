@@ -33,7 +33,10 @@ export class E2ETopics {
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
         let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
-        browser.selectByValue("#id_type", type);
+        let radioBtnSelector = "#label_" + type;
+        browser.waitForExist(radioBtnSelector);
+        browser.click(radioBtnSelector);
+
         //todo: set other fields (priority, responsible, duedate, details)
         browser.click("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
