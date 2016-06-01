@@ -83,4 +83,14 @@ export class E2EMeetingSeries {
         }
         throw new Error("Could not find Meeting Series '"+compareText+"'");
     };
+
+    static gotoTabTopics() {
+        let selector = '#tab_topics';
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return false;   // we have no meeting series at all!
+        }
+        browser.click(selector);
+    }
 }

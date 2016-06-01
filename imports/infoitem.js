@@ -32,6 +32,10 @@ export class InfoItem {
             source = infoItem._infoItemDoc;
         }
 
+        if (!source.hasOwnProperty('createdInMinute')) {
+            throw new Meteor.Error('Property createdInMinute of topicDoc required');
+        }
+
         source.itemType = 'infoItem';
         this._infoItemDoc = source;
     }

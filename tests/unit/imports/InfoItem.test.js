@@ -29,6 +29,7 @@ describe('InfoItem', function() {
             },
             // test-only method
             addInfoItem: function (infoItem) {
+                infoItem._infoItemDoc.createdInMinute = "AaBbCcDd01";
                 this._infoItems.push(infoItem._infoItemDoc);
             }
         };
@@ -36,7 +37,8 @@ describe('InfoItem', function() {
         infoItemDoc = {
             _id: "AaBbCcDd01",
             subject: "infoItemDoc",
-            createdAt: new Date()
+            createdAt: new Date(),
+            createdInMinute: "AaBbCcDd01"
         };
     });
 

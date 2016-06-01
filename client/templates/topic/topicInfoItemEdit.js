@@ -106,6 +106,7 @@ Template.topicInfoItemEdit.events({
         }
 
         doc.subject = newSubject;
+        doc.createdInMinute = _minutesID;
 
         let newItem;
         switch (type) {

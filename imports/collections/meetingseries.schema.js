@@ -10,5 +10,5 @@ export const MeetingSeriesSchema = new SimpleSchema({
     lastMinutesDate: {type: String},
     minutes: {type: [String], defaultValue: []},
     openTopics: {type: [TopicSchema], defaultValue: []},
-    closedTopics: {type: [TopicSchema], defaultValue: []}
+    topics: {type: [TopicSchema], defaultValue: []}
 });

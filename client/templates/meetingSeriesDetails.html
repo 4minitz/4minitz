@@ -20,9 +20,8 @@
     {{> error}}
 
     <ul class="nav nav-tabs">
-        <li data-template="minutesList" role="presentation" class="active"><a href="#">Minutes</a></li>
-        <li data-template="topicsList" data-action="open" role="presentation"><a href="#">Open Topics</a></li>
-        <li data-template="topicsList" data-action="closed" role="presentation"><a href="#">Closed Topics</a></li>
+        <li id="tab_minutes" data-template="minutesList" role="presentation" class="active"><a href="#">Minutes</a></li>
+        <li id="tab_topics" data-template="topicsList" data-action="topics" role="presentation"><a href="#">Topics</a></li>
     </ul>
     <div class="active">
         {{> Template.dynamic template=tab data=tabData}}
