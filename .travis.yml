@@ -5,6 +5,8 @@ node_js:
 before_install:
   - curl https://install.meteor.com | /bin/sh
   - npm install -g chimp
+  - npm install -g babel-cli
+  - npm install -g codeclimate-test-reporter
 before_script:
   - meteor npm run test:end2end:server&
   - sleep 30
