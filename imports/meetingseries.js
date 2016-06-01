@@ -333,6 +333,8 @@ export class MeetingSeries {
     _mergeTopic(topicIndex, minutesTopicDoc) {
         let msTopicDoc = this.topics[topicIndex];
 
+        msTopicDoc = Topic.overwritePrimitiveProperties(minutesTopicDoc, msTopicDoc);
+
         // loop backwards through topic items
         for (let i = minutesTopicDoc.infoItems.length; i-- > 0;) {
             let infoDoc = minutesTopicDoc.infoItems[i];

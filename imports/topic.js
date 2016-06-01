@@ -79,6 +79,20 @@ export class Topic {
         })
     }
 
+    /**
+     * Overwrites the simple properties (subject, responsible)
+     * of the target doc with the properties of the source document.
+     *
+     * @param sourceTopicDoc
+     * @param targetTopicDoc
+     * @returns targetTopicDoc
+     */
+    static overwritePrimitiveProperties(sourceTopicDoc, targetTopicDoc) {
+        targetTopicDoc.subject = sourceTopicDoc.subject;
+        targetTopicDoc.responsible = sourceTopicDoc.responsible;
+        return targetTopicDoc;
+    }
+
     // ################### object methods
     toString () {
         return "Topic: "+JSON.stringify(this._topicDoc, null, 4);
