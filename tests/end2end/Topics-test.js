@@ -7,7 +7,7 @@ import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
 
-describe('Topics @watch', function () {
+describe('Topics', function () {
     const aProjectName = "E2E Topics";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
