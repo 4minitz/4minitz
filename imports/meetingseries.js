@@ -214,6 +214,13 @@ export class MeetingSeries {
                 if (!error) {
                     let secondLastMinute = this.secondLastMinutes();
                     if (secondLastMinute) {
+                        // all fresh created infoItems have to be deleted from the topic list of this series
+                        this.topics.forEach(topicDoc => {
+                            topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
+                                return infoItemDoc.createdInMinute !== minutes._id;
+                            })
+                        });
+
                         this._copyTopicsToSeries(secondLastMinute);
                     } else {
                         // if we un-finalize our fist minute it is save to delete all open topics
