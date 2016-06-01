@@ -54,9 +54,6 @@ Template.meetingSeriesDetails.helpers({
                     case "open":
                         topics = ms.openTopics;
                         break;
-                    case "closed":
-                        topics = ms.closedTopics;
-                        break;
                     case "topics":
                         topics = ms.topics;
                         break;
