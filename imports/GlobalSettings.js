@@ -21,12 +21,12 @@ export class GlobalSettings {
             : false;
     }
 
-    static getRootUrl() {
+    static getRootUrl(path) {
         if (Meteor.settings.ROOT_URL) {
-            return Meteor.settings.ROOT_URL;
+            return Meteor.absoluteUrl(path, { rootUrl: Meteor.settings.ROOT_URL });
         }
 
-        return "";
+        return Meteor.absoluteUrl(path);
     }
 
     static getDefaultEmailSenderAddress(alternativeSender) {

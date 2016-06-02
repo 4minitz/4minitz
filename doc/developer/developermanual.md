@@ -92,3 +92,8 @@ See *.schema.js files in imports/collections.
 
 Migrations are realized with the percolate:migrations package. To adjust existing databases to a new schema add
 new migration up() and down() functions to /server/migrations.js.
+
+## Accessing the servers root url
+
+If you have to generate an absolute URL (e.g. for links in emails) do not use Meteor.absoluteUrl() ! Instead use
+GlobalSettings.getRootUrl(path [optional]). This method does all the necessary stuff for you ;-)

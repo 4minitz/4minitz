@@ -1,4 +1,5 @@
 import { TopicItemsMailHandler } from './TopicItemsMailHandler'
+import { GlobalSettings } from './../GlobalSettings'
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
@@ -34,8 +35,8 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
                 minutesDate: this._minute.date,
                 meetingSeriesName: this._meetingSeries.name,
                 meetingSeriesProject: this._meetingSeries.project,
-                meetingSeriesURL: Meteor.absoluteUrl("meetingseries/" + this._meetingSeries._id),
-                minuteUrl: Meteor.absoluteUrl("minutesedit/" + this._minute._id),
+                meetingSeriesURL: GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeries._id),
+                minuteUrl: GlobalSettings.getRootUrl("minutesedit/" + this._minute._id),
                 presentParticipants: this._participantsArrayToString(presentParticipants),
                 absentParticipants: this._participantsArrayToString(absentParticipants),
                 participantsAdditional: this._minute.participantsAdditional,

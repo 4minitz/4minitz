@@ -4,7 +4,16 @@ import sinon from 'sinon';
 
 class MeteorError {}
 let Meteor = {
-    Error: MeteorError
+    Error: MeteorError,
+    absoluteUrl: (path, config) => {
+        if (!path) path = "";
+
+        if (config && config.rootUrl) {
+            if (path !== "") path = "/" + path;
+            return config.rootUrl + path;
+        }
+        return path;
+    }
 };
 
 const {
