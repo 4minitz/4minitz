@@ -1,14 +1,19 @@
 {
-  "enableMailDelivery": true,
 
-  "mailDeliverer": "mailgun|smtp",
+  "ROOT_URL": "http://your-domain.com",
 
-  "defaultEMailSenderAddress": "default@email.de",
-
-  "smtpMailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/",
-
-  "mailgunApiKey": "Your mailgun api key",
-  "mailgunDomain": "Your mailgun domain",
-  "mailgunApiUrl": "https://api.mailgun.net/v3"
+  "email": {
+    "enableMailDelivery": true,
+    "mailDeliverer": "mailgun|smtp",
+    "defaultEMailSenderAddress": "default@email.de",
+    "smtp": {
+      "mailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/"
+    },
+    "mailgun": {
+      "apiKey": "Your mailgun api key",
+      "domain": "Your mailgun domain",
+      "apiUrl": "https://api.mailgun.net/v3"
+    }
+  }
 
 }
