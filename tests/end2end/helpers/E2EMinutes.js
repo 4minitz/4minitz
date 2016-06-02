@@ -31,7 +31,7 @@ export class E2EMinutes {
     static finalizeCurrentMinutes (confirmDialog) {
         browser.waitForVisible("#btn_finalizeMinutes");
         browser.click("#btn_finalizeMinutes");
-        if (E2EGlobal.SETTINGS.enableMailDelivery) {
+        if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
             if (confirmDialog === undefined || confirmDialog) {
                 E2EApp.confirmationDialogAnswer(true);
             }
