@@ -40,6 +40,11 @@ describe("GlobalSettings", function () {
             expect(GlobalSettings.getRootUrl()).to.equal("");
         });
 
+        it('does not fail if no settings file give', function () {
+            Meteor.settings = {};
+            expect(GlobalSettings.getRootUrl()).to.equal("");
+        });
+
     });
 
     describe("#getDefaultEmailSenderAddress", function () {
@@ -101,6 +106,11 @@ describe("GlobalSettings", function () {
             expect(GlobalSettings.isEMailDeliveryEnabled()).to.be.false;
         });
 
+        it('does not fail if no settings file give', function () {
+            Meteor.settings = {};
+            expect(GlobalSettings.isEMailDeliveryEnabled()).to.be.false;
+        });
+
     });
 
     describe('#getMailDeliverer', function () {
@@ -113,6 +123,11 @@ describe("GlobalSettings", function () {
             delete Meteor.settings.email.mailDeliverer;
             expect(GlobalSettings.getMailDeliverer()).to.equal("smtp");
         });
+
+        it('does not fail if no settings file give', function () {
+            Meteor.settings = {};
+            expect(GlobalSettings.getMailDeliverer()).to.equal("smtp");
+        });
     });
 
     describe('#getSMTPMailUrl', function () {
@@ -122,6 +137,11 @@ describe("GlobalSettings", function () {
 
         it('returns an empty string if property is not set', function () {
             delete Meteor.settings.email.smtp.mailUrl;
+            expect(GlobalSettings.getSMTPMailUrl()).to.equal("");
+        });
+
+        it('does not fail if no settings file give', function () {
+            Meteor.settings = {};
             expect(GlobalSettings.getSMTPMailUrl()).to.equal("");
         });
     });
