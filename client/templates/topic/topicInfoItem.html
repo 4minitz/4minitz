@@ -49,7 +49,7 @@
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
                 {{#each detailsArray}}
-                    <p style="margin: 0 0 -10px 0; vertical-align: baseline;">
+                    <p class="detailRow" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                         <span class="detailText" data-id="{{detailID}}"> {{this.date}} - </span><span id="detailText_{{detailID}}" data-id="{{detailID}}" class="detailText">{{this.text}}</span>
                         <input type="text" id="detailInput_{{detailID}}" data-id="{{detailID}}" class="form-control detailInput" style="display: none; font-size: 14px;">
                     </p>

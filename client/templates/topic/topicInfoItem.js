@@ -132,7 +132,8 @@ Template.topicInfoItem.events({
         // We need this forked to re-create material input fields
         Meteor.setTimeout(function () {
             $.material.init();
-            let inputEl = tmpl.$('.detailInput:last');
+
+            let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
             inputEl.parent().css('margin', '0 0 25px 0');
             inputEl.show();
             inputEl.focus();
