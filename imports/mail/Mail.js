@@ -6,7 +6,7 @@ export class Mail {
     constructor(replyTo, recipient) {
         this._replyTo = replyTo;
         this._recipient = recipient;
-        this._from = GlobalSettings.getDefaultEmailSenderAddress();
+        this._from = GlobalSettings.getDefaultEmailSenderAddress(/*alternative:*/ replyTo);
     }
 
     setSubject(subject) {

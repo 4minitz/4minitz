@@ -16,11 +16,9 @@ export class GlobalSettings {
             Meteor.settings.public = {};
         }
 
-        let enableEmailDelivery = (Meteor.settings.email.enableMailDelivery !== undefined)
+        Meteor.settings.public.enableMailDelivery = (Meteor.settings.email.enableMailDelivery !== undefined)
             ? Meteor.settings.email.enableMailDelivery
             : false;
-
-        Meteor.settings.public.enableMailDelivery = enableEmailDelivery;
     }
 
     static getRootUrl() {
@@ -31,13 +29,12 @@ export class GlobalSettings {
         return "";
     }
 
-    static getDefaultEmailSenderAddress() {
+    static getDefaultEmailSenderAddress(alternativeSender) {
         let address = Meteor.settings.email.defaultEMailSenderAddress;
         if (address !== undefined) {
             if (address === "") {
-                let userEmails = Meteor.user().emails;
-                return (userEmails && userEmails.length > 0)
-                    ? userEmails[0].address
+                return (alternativeSender)
+                    ? alternativeSender
                     : GlobalSettings.getFallbackEMailSenderAddress();
             } else {
                 return address;
