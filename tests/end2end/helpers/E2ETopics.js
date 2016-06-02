@@ -42,6 +42,65 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime(700);
     }
 
+    static getInfoItemSelector(topicIndex, infoItemIndex) {
+        return "#topicPanel .well:nth-child(" + topicIndex + ") #accordion:nth-child(" + infoItemIndex + ") ";
+    }
+
+    static expandDetailsForActionItem(topicIndex, infoItemIndex) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        let selOpenDetails = selectInfoItem + ".expandDetails";
+        browser.waitForVisible(selOpenDetails);
+
+        try {
+            browser.waitForVisible(selectInfoItem + ".detailRow");
+        } catch (e) {
+            browser.click(selOpenDetails);
+        }
+    }
+
+    static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
+
+        let selAddDetails = selectInfoItem + ".addDetail";
+        try {
+            browser.waitForVisible(selAddDetails);
+        } catch (e) {
+            return false;
+        }
+        browser.click(selAddDetails);
+
+        let selFocusedInput = "input:focus";
+        try {
+            browser.waitForVisible(selFocusedInput);
+        } catch (e) {
+            return false;
+        }
+        browser.setValue(selFocusedInput, detailsText);
+        browser.keys(['Enter']);
+    }
+
+    static changeDetailsForActionItem(topicIndex, infoItemIndex, detailsIndex, detailsText) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
+
+        let selDateCol = selectInfoItem + ".actionItemDetails:nth-child(" + infoItemIndex + ") span.detailDate";
+        browser.waitForVisible(selDateCol);
+        browser.click(selDateCol);
+
+        let selFocusedInput = "input:focus";
+        try {
+            browser.waitForVisible(selFocusedInput);
+        } catch (e) {
+            return false;
+        }
+        browser.setValue(selFocusedInput, detailsText);
+        browser.keys(['Enter']);
+    }
+
     static getTopicsForMinute () {
         let selector = '#topicPanel > div.well';
         try {

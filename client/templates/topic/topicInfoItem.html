@@ -13,7 +13,7 @@
 
 
                     {{#if isActionItem}}
-                        <a role="button" class="panel-link" data-toggle="collapse" data-parent="#accordion"
+                        <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
                            href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
                             {{infoItem.subject}}
                             Resp: {{infoItem.responsible}}
@@ -47,10 +47,10 @@
 
         {{#if isActionItem}}
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-            <div class="panel-body">
+            <div class="panel-body actionItemDetails">
                 {{#each detailsArray}}
                     <p class="detailRow" style="margin: 0 0 -10px 0; vertical-align: baseline;">
-                        <span class="detailText" data-id="{{detailID}}"> {{this.date}} - </span><span id="detailText_{{detailID}}" data-id="{{detailID}}" class="detailText">{{this.text}}</span>
+                        <span class="detailText detailDate" data-id="{{detailID}}"> {{this.date}} - </span><span id="detailText_{{detailID}}" data-id="{{detailID}}" class="detailText">{{this.text}}</span>
                         <input type="text" id="detailInput_{{detailID}}" data-id="{{detailID}}" class="form-control detailInput" style="display: none; font-size: 14px;">
                     </p>
                 {{/each}}
