@@ -48,9 +48,14 @@
         {{#if isActionItem}}
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
+                <table>
                 {{#each detailsArray}}
-                    <p>{{this.date}} - {{this.text}}</p>
+                    <tr>
+                        <td valign="top">{{this.date}}&nbsp;</td>
+                        <td>{{{breakLines this.text}}}</td>
+                    </tr>
                 {{/each}}
+                </table>
             </div>
         </div>
         {{/if}}

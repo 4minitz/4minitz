@@ -19,6 +19,10 @@ Template.topicInfoItem.helpers({
         return this.infoItem.details;
     },
 
+    breakLines(text){
+        return text.replace(/(\r\n|\n|\r)/gm,"<br>");
+    },
+
     topicStateClass: function () {
         if (this.infoItem.itemType !== 'actionItem') {
             return "infoitem";
