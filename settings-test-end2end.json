@@ -5,6 +5,6 @@
     "e2eTestPasswords":     ["PwdPwd1", "PwdPwd2", "PwdPwd3","PwdPwd4"],
 
     "email": {
-        "enableMailDelivery": true
+        "enableMailDelivery": false
     }
 }
