@@ -59,6 +59,16 @@ export class ActionItem extends InfoItem{
         return "";
     }
 
+    addDetails(text) {
+        if (text === undefined) text = "";
+
+        let date = formatDateISO8601(new Date());
+        this._infoItemDoc.details.push({
+            date: date,
+            text: text
+        })
+    }
+
     getDetails() {
         return this._infoItemDoc.details;
     }

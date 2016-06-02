@@ -25,7 +25,7 @@ Template.topicInfoItem.helpers({
     detailID: function () {
         let dId = detailId;
         detailId++;
-        return Math.floor(dId / 4);
+        return Math.floor(dId / 5);
     },
 
     topicStateClass: function () {
@@ -112,34 +112,26 @@ Template.topicInfoItem.events({
 
         inputEl.show();
         inputEl.val(textEl.html());
-        inputEl.parent().css('margin', '0 0 0 0');
-        inputEl.parent().css('vertical-align', 'baseline');
+        inputEl.parent().css('margin', '0 0 25px 0');
         inputEl.focus();
     },
 
-    'change .detailInput'(evt, tmpl) {
-        evt.preventDefault();
-
-        let detailId = evt.currentTarget.getAttribute('data-id');
-        let textEl = tmpl.$('#detailText_' + detailId);
-        let inputEl = tmpl.$('#detailInput_' + detailId);
-
-        let text = inputEl.val();
-
+    'click .addDetail'(evt, tmpl) {
         let aMin = new Minutes(tmpl.data.minutesID);
         let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
         let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
 
 
-        let index = textEl.parent().index();
-
-        if (text === "") {
-            aActionItem._infoItemDoc.details.splice(index, 1);
-        } else {
-            aActionItem._infoItemDoc.details[index].text = text;
-        }
-
+        aActionItem.addDetails();
         aActionItem.save();
+        // We need this forked to re-create material input fields
+        Meteor.setTimeout(function () {
+            $.material.init();
+            let inputEl = tmpl.$('.detailInput:last');
+            inputEl.parent().css('margin', '0 0 25px 0');
+            inputEl.show();
+            inputEl.focus();
+        }, 0);
 
     },
 
@@ -149,6 +141,25 @@ Template.topicInfoItem.events({
         let detailId = evt.currentTarget.getAttribute('data-id');
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
+
+        let text = inputEl.val();
+
+        if (text === "" || (text != textEl.html())) {
+            let aMin = new Minutes(tmpl.data.minutesID);
+            let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
+            let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
+
+
+            let index = textEl.parent().index();
+
+            if (text === "") {
+                aActionItem._infoItemDoc.details.splice(index, 1);
+            } else {
+                aActionItem._infoItemDoc.details[index].text = text;
+            }
+
+            aActionItem.save();
+        }
 
         inputEl.hide();
         textEl.show();
