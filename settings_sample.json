@@ -6,6 +6,7 @@
     "enableMailDelivery": true,
     "mailDeliverer": "mailgun|smtp",
     "defaultEMailSenderAddress": "default@email.de",
+    "fallbackEMailSenderAddress": "if defaultEMailSenderAddress is left open this field must be set with a valid email address",
     "smtp": {
       "mailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/"
     },

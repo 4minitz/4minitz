@@ -2,10 +2,16 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
+let currentUser = {
+    emails: [{ address: "currentUsersMailAddress" }]
+};
 
 class MeteorError {}
 let Meteor = {
-    Error: MeteorError
+    Error: MeteorError,
+    user: () => {
+        return currentUser;
+    }
 };
 
 const {
@@ -40,9 +46,30 @@ describe("GlobalSettings", function () {
             expect(GlobalSettings.getDefaultEmailSenderAddress()).to.equal(Meteor.settings.email.defaultEMailSenderAddress);
         });
 
-        it('returns an empty string if property is left empty', function () {
+        it('returns the email address of the current user if property is left empty', function () {
             Meteor.settings.email.defaultEMailSenderAddress = "";
-            expect(GlobalSettings.getDefaultEmailSenderAddress()).to.equal("");
+            expect(GlobalSettings.getDefaultEmailSenderAddress()).to.equal(currentUser.emails[0].address);
+        });
+
+        it('returns fallback sender address if current user has no email address', function () {
+            Meteor.settings.email.defaultEMailSenderAddress = "";
+            delete currentUser.emails;
+            expect(GlobalSettings.getDefaultEmailSenderAddress()).to.equal(Meteor.settings.email.fallbackEMailSenderAddress);
+        });
+
+        it('throws exception if fallback sender address required but not given', function () {
+            Meteor.settings.email.defaultEMailSenderAddress = "";
+            delete currentUser.emails;
+            delete Meteor.settings.email.fallbackEMailSenderAddress;
+            let exceptionThrown;
+            try {
+                GlobalSettings.getDefaultEmailSenderAddress();
+                exceptionThrown = false;
+            } catch (e) {
+                exceptionThrown = (e instanceof MeteorError);
+            }
+
+            expect(exceptionThrown, "Method did not throw exception").to.be.true;
         });
 
         it('throws exception if property is not set', function () {

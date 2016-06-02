@@ -32,11 +32,27 @@ export class GlobalSettings {
     }
 
     static getDefaultEmailSenderAddress() {
-        if (Meteor.settings.email.defaultEMailSenderAddress !== undefined) {
-            return Meteor.settings.email.defaultEMailSenderAddress;
+        let address = Meteor.settings.email.defaultEMailSenderAddress;
+        if (address !== undefined) {
+            if (address === "") {
+                let userEmails = Meteor.user().emails;
+                return (userEmails && userEmails.length > 0)
+                    ? userEmails[0].address
+                    : GlobalSettings.getFallbackEMailSenderAddress();
+            } else {
+                return address;
+            }
         }
 
         throw new Meteor.Error('illegal-state', 'defaultEMailSenderAddress not defined in settings');
+    }
+
+    static getFallbackEMailSenderAddress() {
+        if (Meteor.settings.email.fallbackEMailSenderAddress) {
+            return Meteor.settings.email.fallbackEMailSenderAddress;
+        }
+
+        throw new Meteor.Error('illegal-state', 'fallback email sender address required but not defined in settings');
     }
 
     static isEMailDeliveryEnabled() {
