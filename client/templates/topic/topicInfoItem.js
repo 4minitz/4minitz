@@ -19,6 +19,7 @@ Template.topicInfoItem.helpers({
     detailsArray: function () {
         // reset detailId
         detailId = 0;
+        $.material.init();
         return this.infoItem.details;
     },
 
@@ -102,6 +103,10 @@ Template.topicInfoItem.events({
 
     'click .detailText'(evt, tmpl) {
         evt.preventDefault();
+
+        if (!tmpl.data.isEditable) {
+            return;
+        }
 
         let detailId = evt.currentTarget.getAttribute('data-id');
         let textEl = tmpl.$('#detailText_' + detailId);

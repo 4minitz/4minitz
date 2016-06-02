@@ -54,7 +54,9 @@
                         <input type="text" id="detailInput_{{detailID}}" data-id="{{detailID}}" class="form-control detailInput" style="display: none; font-size: 14px;">
                     </p>
                 {{/each}}
+                {{#if isEditable}}
                 <a href="#" class="addDetail">Add details</a>
+                {{/if}}
             </div>
         </div>
         {{/if}}
