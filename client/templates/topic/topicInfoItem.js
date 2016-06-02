@@ -10,13 +10,22 @@ Template.topicInfoItem.onRendered(function () {
     $.material.init();
 });
 
+let detailId = 0;
 Template.topicInfoItem.helpers({
     isActionItem: function() {
         return (this.infoItem.itemType === 'actionItem');
     },
 
     detailsArray: function () {
+        // reset detailId
+        detailId = 0;
         return this.infoItem.details;
+    },
+
+    detailID: function () {
+        let dId = detailId;
+        detailId++;
+        return Math.floor(dId / 4);
     },
 
     topicStateClass: function () {
@@ -89,5 +98,69 @@ Template.topicInfoItem.events({
 
         Session.set("topicInfoItemEditTopicId", this.parentTopicId);
         Session.set("topicInfoItemEditInfoItemId", this.infoItem._id);
+    },
+
+    'click .detailText'(evt, tmpl) {
+        evt.preventDefault();
+
+        let detailId = evt.currentTarget.getAttribute('data-id');
+        let textEl = tmpl.$('#detailText_' + detailId);
+        let inputEl = tmpl.$('#detailInput_' + detailId);
+
+        textEl.hide();
+
+
+        inputEl.show();
+        inputEl.val(textEl.html());
+        inputEl.parent().css('margin', '0 0 0 0');
+        inputEl.parent().css('vertical-align', 'baseline');
+        inputEl.focus();
+    },
+
+    'change .detailInput'(evt, tmpl) {
+        evt.preventDefault();
+
+        let detailId = evt.currentTarget.getAttribute('data-id');
+        let textEl = tmpl.$('#detailText_' + detailId);
+        let inputEl = tmpl.$('#detailInput_' + detailId);
+
+        let text = inputEl.val();
+
+        let aMin = new Minutes(tmpl.data.minutesID);
+        let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
+        let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
+
+
+        let index = textEl.parent().index();
+
+        if (text === "") {
+            aActionItem._infoItemDoc.details.splice(index, 1);
+        } else {
+            aActionItem._infoItemDoc.details[index].text = text;
+        }
+
+        aActionItem.save();
+
+    },
+
+    'blur .detailInput'(evt, tmpl) {
+        evt.preventDefault();
+
+        let detailId = evt.currentTarget.getAttribute('data-id');
+        let textEl = tmpl.$('#detailText_' + detailId);
+        let inputEl = tmpl.$('#detailInput_' + detailId);
+
+        inputEl.hide();
+        textEl.show();
+    },
+
+    'keyup .detailInput'(evt, tmpl) {
+
+        let detailId = evt.currentTarget.getAttribute('data-id');
+        let inputEl = tmpl.$('#detailInput_' + detailId);
+
+        if (event.which === 13) {
+            inputEl.blur();
+        }
     }
 });
