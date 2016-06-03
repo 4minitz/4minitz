@@ -9,7 +9,7 @@ require('./../../lib/helpers');
 
 
 describe('ActionItems Details @watch', function () {
-    const aProjectName = "E2E Topics";
+    const aProjectName = "E2E ActionItems Details";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;

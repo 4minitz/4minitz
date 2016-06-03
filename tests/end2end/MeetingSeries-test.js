@@ -15,9 +15,8 @@ describe('MeetingSeries', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #1";
         let initialCount = E2EMeetingSeries.countMeetingSeries();
-        expect(initialCount).to.equal(0);
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        expect(E2EMeetingSeries.countMeetingSeries()).to.equal(1);
+        expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialCount + 1);
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
     });
 
