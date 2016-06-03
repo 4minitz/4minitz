@@ -43,6 +43,10 @@ Template.topicElement.helpers({
             minutesID: Template.instance().data.minutesID,
             currentCollapseId: collapseID++  // each topic item gets its own collapseID
         };
+    },
+    
+    showOutline() {
+        return Session.get("minutesedit.showOutline");
     }
 });
 

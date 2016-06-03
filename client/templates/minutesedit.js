@@ -257,8 +257,14 @@ Template.minutesedit.events({
             );
 
         }
-    }
+    },
 
+    "click #btnCollapseToOutline": function (evt, tmpl) {
+        Session.set("minutesedit.showOutline", true);
+    },
+    "click #btnExpandFromOutline": function (evt, tmpl) {
+        Session.set("minutesedit.showOutline", false);
+    }
 });
 
 // pass event handler for the send-email checkbox to the confirmation dialog
