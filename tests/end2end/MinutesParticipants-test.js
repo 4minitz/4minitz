@@ -39,7 +39,6 @@ describe('Minutes Participants', function () {
         E2EMinutes.finalizeCurrentMinutes();    // we don't need these...
 
         // prepare meeting series
-        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -62,7 +61,6 @@ describe('Minutes Participants', function () {
 
     it('can add users to series which will show up on unfinalized minutes', function () {
         // prepare meeting series
-        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -86,7 +84,6 @@ describe('Minutes Participants', function () {
         E2EMinutes.finalizeCurrentMinutes();
 
         // prepare meeting series
-        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -109,7 +106,6 @@ describe('Minutes Participants', function () {
     it('can persist checked participants', function () {
         // prepare meeting series
         let currentUser = E2EApp.getCurrentUser();
-        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -160,7 +156,6 @@ describe('Minutes Participants', function () {
     it('shows collapsed view for non-moderators', function () {
         // prepare meeting series
         let currentUser = E2EApp.getCurrentUser();
-        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -180,7 +175,6 @@ describe('Minutes Participants', function () {
     it('prohibits non-moderator users to change participants', function () {
         // prepare meeting series
         let currentUser = E2EApp.getCurrentUser();
-        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -231,7 +225,6 @@ describe('Minutes Participants', function () {
     it('shows participants on minutelist in meeting series details view', function () {
         // prepare meeting series
         let currentUser = E2EApp.getCurrentUser();
-        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];

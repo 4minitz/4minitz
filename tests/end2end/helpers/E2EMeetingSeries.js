@@ -32,7 +32,7 @@ export class E2EMeetingSeries {
 
         E2EGlobal.waitSomeTime();
         browser.click('#btnNewMeetingSeries');  // close dialog
-        E2EGlobal.waitSomeTime(); // give time for close-animation
+        E2EGlobal.waitSomeTime(500); // give time for close-animation
     };
 
 
@@ -78,6 +78,7 @@ export class E2EMeetingSeries {
             let visibleText = browser.elementIdText(elemId).value;
             if (visibleText == compareText) {
                 browser.elementIdClick(elemId);
+                E2EGlobal.waitSomeTime();
                 return true;
             }
         }

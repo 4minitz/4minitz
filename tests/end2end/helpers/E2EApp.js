@@ -87,6 +87,7 @@ export class E2EApp {
     // so we click on the "Logo" icon
     static gotoStartPage () {
         browser.click('a.navbar-brand');
+        E2EGlobal.waitSomeTime();
         // check post-condition
         expect (E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
     };
