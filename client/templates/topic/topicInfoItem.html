@@ -54,7 +54,7 @@
                             <span class="detailText detailDate" data-id="{{this.id}}"><strong>{{this.date}}</strong></span>
                         </div>
                         <div style="padding-left: 10px;">
-                            <span id="detailText_{{this.id}}" data-id="{{this.id}}" data-text="{{this.text}}" class="detailText">{{{breakLines this.text}}}</span>
+                            <span id="detailText_{{this.id}}" data-id="{{this.id}}" data-text="{{this.text}}" class="detailText">{{#markdown}}{{this.text}}{{/markdown}}</span>
                             <textarea id="detailInput_{{this.id}}" rows="1" data-id="{{this.id}}" class="form-control detailInput" style="display: none; font-size: 14px; resize: vertical;"></textarea>
                         </div>
                     </p>

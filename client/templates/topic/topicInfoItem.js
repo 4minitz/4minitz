@@ -175,15 +175,21 @@ Template.topicInfoItem.events({
         textEl.show();
     },
 
-    'keyup .detailInput'(evt, tmpl) {
-
+    'keypress .detailInput'(evt, tmpl) {
         let detailId = evt.currentTarget.getAttribute('data-id');
         let inputEl = tmpl.$('#detailInput_' + detailId);
 
         if (event.which === 13 && !event.shiftKey) {
+            evt.preventDefault();
             inputEl.blur();
         }
 
+        resizeTextarea(inputEl);
+    },
+
+    'keyup .detailInput'(evt, tmpl) {
+        let detailId = evt.currentTarget.getAttribute('data-id');
+        let inputEl = tmpl.$('#detailInput_' + detailId);
         resizeTextarea(inputEl);
     }
 });
