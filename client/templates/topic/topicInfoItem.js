@@ -24,6 +24,10 @@ Template.topicInfoItem.helpers({
         });
     },
 
+    breakLines(text){
+        return text.replace(/(\r\n|\n|\r)/gm,"<br>");
+    },
+
     topicStateClass: function () {
         if (this.infoItem.itemType !== 'actionItem') {
             return "infoitem";
@@ -62,6 +66,11 @@ let findInfoItem = (minuteId, topicId, infoItemId) => {
         return aTopic.findInfoItem(infoItemId);
     }
     return undefined;
+};
+
+let resizeTextarea = (element) => {
+    element.css('height', 'auto');
+    element.css('height', element.prop('scrollHeight') + "px");
 };
 
 
@@ -108,12 +117,11 @@ Template.topicInfoItem.events({
         let inputEl = tmpl.$('#detailInput_' + detailId);
 
         textEl.hide();
-
-
         inputEl.show();
-        inputEl.val(textEl.html());
+        inputEl.val(textEl.attr('data-text'));
         inputEl.parent().css('margin', '0 0 25px 0');
         inputEl.focus();
+        resizeTextarea(inputEl);
     },
 
     'click .addDetail'(evt, tmpl) {
@@ -153,7 +161,7 @@ Template.topicInfoItem.events({
 
             let index = textEl.parent().index();
 
-            if (text === "") {
+            if (text.trim() === "") {
                 aActionItem._infoItemDoc.details.splice(index, 1);
             } else {
                 aActionItem._infoItemDoc.details[index].text = text;
@@ -171,8 +179,10 @@ Template.topicInfoItem.events({
         let detailId = evt.currentTarget.getAttribute('data-id');
         let inputEl = tmpl.$('#detailInput_' + detailId);
 
-        if (event.which === 13) {
+        if (event.which === 13 && !event.shiftKey) {
             inputEl.blur();
         }
+
+        resizeTextarea(inputEl);
     }
 });
