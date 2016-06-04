@@ -50,8 +50,8 @@
             <div class="panel-body actionItemDetails">
                 {{#each detailsArray}}
                     <p class="detailRow" style="margin: 0 0 -10px 0; vertical-align: baseline;">
-                        <span class="detailText detailDate" data-id="{{detailID}}"> {{this.date}} - </span><span id="detailText_{{detailID}}" data-id="{{detailID}}" class="detailText">{{this.text}}</span>
-                        <input type="text" id="detailInput_{{detailID}}" data-id="{{detailID}}" class="form-control detailInput" style="display: none; font-size: 14px;">
+                        <span class="detailText detailDate" data-id="{{this.id}}"> {{this.date}} - </span><span id="detailText_{{this.id}}" data-id="{{this.id}}" class="detailText">{{this.text}}</span>
+                        <input type="text" id="detailInput_{{this.id}}" data-id="{{this.id}}" class="form-control detailInput" style="display: none; font-size: 14px;">
                     </p>
                 {{/each}}
                 {{#if isEditable}}

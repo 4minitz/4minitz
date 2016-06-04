@@ -10,23 +10,18 @@ Template.topicInfoItem.onRendered(function () {
     $.material.init();
 });
 
-let detailId = 0;
 Template.topicInfoItem.helpers({
     isActionItem: function() {
         return (this.infoItem.itemType === 'actionItem');
     },
 
     detailsArray: function () {
-        // reset detailId
-        detailId = 0;
         $.material.init();
-        return this.infoItem.details;
-    },
-
-    detailID: function () {
-        let dId = detailId;
-        detailId++;
-        return Math.floor(dId / 5);
+        let id = 0;
+        return this.infoItem.details.map(detail => {
+            detail.id = id++;
+            return detail;
+        });
     },
 
     topicStateClass: function () {
