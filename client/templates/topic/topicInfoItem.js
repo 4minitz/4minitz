@@ -24,7 +24,8 @@ Template.topicInfoItem.helpers({
         });
     },
 
-    breakLines(text){
+    breakLines(text) {
+        if (!text) return "";
         return text.replace(/(\r\n|\n|\r)/gm,"<br>");
     },
 
@@ -69,8 +70,10 @@ let findInfoItem = (minuteId, topicId, infoItemId) => {
 };
 
 let resizeTextarea = (element) => {
+    let scrollPos = $(document).scrollTop();
     element.css('height', 'auto');
     element.css('height', element.prop('scrollHeight') + "px");
+    $(document).scrollTop(scrollPos);
 };
 
 
@@ -153,18 +156,16 @@ Template.topicInfoItem.events({
 
         let text = inputEl.val();
 
-        if (text === "" || (text != textEl.html())) {
+        if (text === "" || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
             let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
 
 
-            let index = textEl.parent().index();
-
             if (text.trim() === "") {
-                aActionItem._infoItemDoc.details.splice(index, 1);
+                aActionItem._infoItemDoc.details.splice(detailId, 1);
             } else {
-                aActionItem._infoItemDoc.details[index].text = text;
+                aActionItem._infoItemDoc.details[detailId].text = text;
             }
 
             aActionItem.save();
