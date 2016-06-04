@@ -72,7 +72,8 @@ export class E2ETopics {
         }
         browser.click(selAddDetails);
 
-        let selFocusedInput = "input:focus";
+        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
+        let selFocusedInput = "#detailInput_" + newId;
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
@@ -91,7 +92,8 @@ export class E2ETopics {
         browser.waitForVisible(selDateCol);
         browser.click(selDateCol);
 
-        let selFocusedInput = "input:focus";
+        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
+        let selFocusedInput = "#detailInput_" + newId;
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
@@ -131,5 +133,25 @@ export class E2ETopics {
     static countItemsForTopic (topicIndex) {
         let items = E2ETopics.getItemsForTopic(topicIndex);
         return items.length;
+    }
+
+    static getDetailsForItem(topicIndex, infoItemIndex) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
+
+        let selector = selectInfoItem + " .detailRow";
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return 0;
+        }
+        const elements = browser.elements(selector);
+        return elements.value;
+    }
+
+    static countDetailsForItem(topicIndex, infoItemIndex) {
+        let details = E2ETopics.getDetailsForItem(topicIndex, infoItemIndex);
+        return details.length;
     }
 }

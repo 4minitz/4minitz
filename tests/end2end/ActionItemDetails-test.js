@@ -8,7 +8,7 @@ import { E2ETopics } from './helpers/E2ETopics'
 require('./../../lib/helpers');
 
 
-describe('ActionItems Details @watch', function () {
+describe('ActionItems Details', function () {
     const aProjectName = "E2E ActionItems Details";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
@@ -56,7 +56,7 @@ describe('ActionItems Details @watch', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + ' - New Details');
+            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
     });
 
     it('can add a second detail to an Action Item', function () {
@@ -66,9 +66,9 @@ describe('ActionItems Details @watch', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, "First added detail should be displayed")
-            .to.have.string(formatDateISO8601(new Date()) + ' - First Details');
+            .to.have.string(formatDateISO8601(new Date()) + '\nFirst Details');
         expect(browser.elementIdText(firstItemOfNewTopic).value, "2nd added detail should be displayed, too")
-            .to.have.string(formatDateISO8601(new Date()) + ' - Second Details');
+            .to.have.string(formatDateISO8601(new Date()) + '\nSecond Details');
     });
 
     it('can change existing details', function () {
@@ -79,7 +79,7 @@ describe('ActionItems Details @watch', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + ' - New Details (changed)');
+            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details (changed)');
     });
 
     it('saves details persistent', function () {
@@ -90,10 +90,12 @@ describe('ActionItems Details @watch', function () {
 
         E2ETopics.expandDetailsForActionItem(1, 1);
 
+        E2EGlobal.waitSomeTime(100); // phantom.js needs some time here, too...
+
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + ' - New Details');
+            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
     });
 
     it('ensures that only moderator can add details', function () {
@@ -121,7 +123,7 @@ describe('ActionItems Details @watch', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.not.have.string(formatDateISO8601(new Date()) + ' - New Details');
+            .to.not.have.string(formatDateISO8601(new Date()) + '\nNew Details');
 
         E2EApp.loginUser();
     });
@@ -153,7 +155,7 @@ describe('ActionItems Details @watch', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + ' - Old Details');
+            .to.have.string(formatDateISO8601(new Date()) + '\nOld Details');
 
         E2EApp.loginUser();
     });
