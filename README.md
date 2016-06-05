@@ -1,7 +1,10 @@
 # 4minitz!
 
+## Backlog
+[![Stories in Ready](https://badge.waffle.io/4minitz/4minitz.svg?label=ready&title=Ready)](http://waffle.io/4minitz/4minitz) 
+
 ## Build status
-|Branch||
+|Branch|  |
 |---|---|
 |develop|[![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=develop)](https://travis-ci.org/4minitz/4minitz)|
 

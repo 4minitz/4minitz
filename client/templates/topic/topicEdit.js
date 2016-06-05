@@ -77,6 +77,7 @@ Template.topicEdit.events({
     },
 
     "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
+        $('#dlgAddTopic input').trigger("change");    // ensure new values trigger placeholder animation
         tmpl.find("#id_subject").focus();
     }
 });

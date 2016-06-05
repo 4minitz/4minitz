@@ -92,6 +92,11 @@ Template.meetingSeriesEdit.events({
         }
     },
 
+    "shown.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
+        $('#dlgEditMeetingSeries input').trigger("change");   // ensure new values trigger placeholder animation
+        tmpl.find("#id_meetingproject").focus();
+    },
+
 
     "click #btnMeetingSeriesSave": function (evt, tmpl) {
         evt.preventDefault();

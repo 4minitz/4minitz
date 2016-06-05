@@ -167,6 +167,7 @@ Template.topicInfoItemEdit.events({
     },
 
     "shown.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
+        $('#dlgAddInfoItem input').trigger("change");    // ensure new values trigger placeholder animation
         tmpl.find("#id_item_subject").focus();
     },
 
