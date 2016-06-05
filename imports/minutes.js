@@ -4,6 +4,7 @@ import { MeetingSeries } from './meetingseries'
 import { Topic } from './topic'
 import { ActionItem } from './actionitem'
 import { _ } from 'meteor/underscore';
+import './helpers/promisedMethods';
 
 export class Minutes {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document

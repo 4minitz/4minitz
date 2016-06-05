@@ -5,6 +5,7 @@ import { Topic } from './topic'
 import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
+import './helpers/promisedMethods';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -28,23 +29,12 @@ export class MeetingSeries {
         return MeetingSeriesCollection.findOne.apply(MeetingSeriesCollection, arguments);
     }
 
-    static remove(meetingSeries) {
+    static async remove(meetingSeries) {
         if (meetingSeries.countMinutes() > 0) {
-            Meteor.call(
-                "minutes.removeAllOfSeries",
-                meetingSeries._id,
-                /* server callback */
-                (error) => {
-                    if (!error) {
-                        // if all related minutes were delete we can delete the series as well
-                        Meteor.call("meetingseries.remove", meetingSeries._id);
-                    }
-                }
-            );
-        } else {
-            // we have no related minutes so we can delete the series blindly
-            Meteor.call("meetingseries.remove", meetingSeries._id);
+            await Meteor.callPromise("minutes.removeAllOfSeries", meetingSeries._id);
         }
+
+        Meteor.call("meetingseries.remove", meetingSeries._id);
     }
 
 
@@ -61,11 +51,11 @@ export class MeetingSeries {
         }
     }
 
-    save (callback) {
+    save() {
         if (this._id) {
-            Meteor.call("meetingseries.update", this, callback);
+            return Meteor.callPromise("meetingseries.update", this);
         } else {
-            Meteor.call("meetingseries.insert", this, callback);
+            return Meteor.callPromise("meetingseries.insert", this);
         }
     }
 

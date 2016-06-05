@@ -58,15 +58,18 @@ Meteor.methods({
     },
 
     'meetingseries.update'(doc) {
-        console.log("meetingseries.update:"+doc.minutes);
-        if (! doc) {
+        if (!doc) {
+            console.log('meetingseries.update: no data given');
             return;
         }
 
+        console.log("meetingseries.update:", doc.minutes);
+
         let id = doc._id;
         delete doc._id; // otherwise collection.update will fail
-        if (id == undefined || id == "")
+        if (!id) {
             return;
+        }
 
         // TODO: fix security issue: it is not allowed to modify (e.g. remove) elements from the minutes array!
 

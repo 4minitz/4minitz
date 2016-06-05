@@ -14,7 +14,7 @@ Template.meetingSeriesAdd.helpers({
 });
 
 Template.meetingSeriesAdd.events({
-    "click #btnAdd": function (event, template) {
+    "click #btnAdd": async function (event, template) {
         event.preventDefault();
 
         var aProject = template.find("#id_meetingproject").value;
@@ -26,16 +26,16 @@ Template.meetingSeriesAdd.events({
             createdAt: new Date()
         });
 
-        ms.save((error) => {
-            if (error) {
-                Session.set('errorTitle', 'Error');
-                Session.set('errorReason', error.reason);
-            } else {
-                // Clear form
-                template.find("#id_meetingproject").value = "";
-                template.find("#id_meetingname").value = "";
-                template.find("#id_meetingproject").focus();
-            }
-        });
+        try {
+            await ms.save();
+
+            // Clear form
+            template.find("#id_meetingproject").value = "";
+            template.find("#id_meetingname").value = "";
+            template.find("#id_meetingproject").focus();
+        } catch (error) {
+            Session.set('errorTitle', 'Error');
+            Session.set('errorReason', error.reason);
+        }
     }
 });

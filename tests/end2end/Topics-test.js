@@ -162,7 +162,7 @@ describe('Topics', function () {
         expect(visibleTextBeforeReload).to.have.string('some topic');
 
         browser.refresh();
-        E2EGlobal.waitSomeTime(1500); // phantom.js needs some time here...
+        E2EGlobal.waitSomeTime(2500); // phantom.js needs some time here...
 
         var topicsAfterReload = E2ETopics.getTopicsForMinute();
         let firstElementAfterReload = topicsAfterReload[0].ELEMENT;
