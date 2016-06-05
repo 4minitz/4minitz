@@ -1,7 +1,3 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
@@ -252,6 +248,36 @@ export class MeetingSeries {
         return (!lastMinutes || lastMinutes.isFinalized);
     }
 
+    _getDateOfLatestMinute() {
+        let lastMinutes = this.lastMinutes();
+
+        if (lastMinutes) {
+            return new Date(lastMinutes.date);
+        }
+    }
+
+    _getDateOfLatestMinuteExcluding(minuteId) {
+        // todo: check if excluding the given minuteId could be
+        // done directly in the find call on the collection
+
+        let latestMinutes = Minutes.findAllIn(this.minutes, 2)
+            .map((minute) => {
+                return {
+                    _id: minute._id,
+                    date: minute.date
+                };
+            });
+
+        if (!latestMinutes) {
+            return;
+        }
+
+        let firstNonMatchingMinute = latestMinutes.find((minute) => minute._id !== minuteId);
+        if (firstNonMatchingMinute) {
+            return new Date(firstNonMatchingMinute.date);
+        }
+    }
+
     /**
      * Gets the first possible date which can be assigned
      * to the given minutes.
@@ -261,31 +287,11 @@ export class MeetingSeries {
      */
     getMinimumAllowedDateForMinutes(minutesId) {
         let firstPossibleDate;
-        if (!minutesId) {
-            // we have no minutes id, so the first possible date depends on the last minutes
-            let lastMinutes = this.lastMinutes();
-            if (lastMinutes) {
-                firstPossibleDate = new Date(lastMinutes.date);
-            }
-        } else {
-            // fetch the two latest minutes, because the given one could be the latest minute.
-            let latestMinutes = Minutes.findAllIn(this.minutes, 2);
 
-            if (latestMinutes) {
-                let foo = {}; // dirty way to emulate break in forEach loop...
-                try {
-                    latestMinutes.forEach((minutes) => {
-                        if (minutes._id !== minutesId) {
-                            firstPossibleDate = new Date(minutes.date);
-                            throw foo;
-                        }
-                    });
-                } catch (e) {
-                    if (e !== foo) {
-                        throw e;
-                    }
-                }
-            }
+        if (!minutesId) {
+            firstPossibleDate = this._getDateOfLatestMinute();
+        } else {
+            firstPossibleDate = this._getDateOfLatestMinuteExcluding(minutesId);
         }
 
         if (firstPossibleDate) {
@@ -411,7 +417,7 @@ export class MeetingSeries {
 
             // copy additional the tailored topic to our open topic list
             topic.tailorTopic();
-            if (topic.getDocument().isOpen || topic.hasOpenActionItem()) {
+            if (topic.getDocument().isOpen || topic.hasOpenActionItem()) {
                 topic.getDocument().isOpen = true;
                 this.openTopics.unshift(topic.getDocument());
             }
