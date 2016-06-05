@@ -58,7 +58,7 @@ export class MeetingSeries {
             minutesId,
             /* server callback */
             (error, result) => { // result contains the number of removed items
-                if (!error && result == 1) {
+                if (!error && result === 1) {
                     // if the minutes has been removed
                     // we remove the id from the minutes array in
                     // this meetingSeries as well.
@@ -72,7 +72,7 @@ export class MeetingSeries {
     }
 
     save (callback) {
-        if (this._id && this._id != "") {
+        if (this._id) {
             Meteor.call("meetingseries.update", this, callback);
         } else {
             Meteor.call("meetingseries.insert", this, callback);
@@ -132,11 +132,11 @@ export class MeetingSeries {
     }
 
     lastMinutes () {
-        if (!this.minutes || this.minutes.length == 0) {
+        if (!this.minutes || this.minutes.length === 0) {
             return false;
         }
         let lastMin = Minutes.findAllIn(this.minutes, 1).fetch();
-        if (lastMin && lastMin.length == 1) {
+        if (lastMin && lastMin.length === 1) {
             return lastMin[0];
         }
         return false;
@@ -147,7 +147,7 @@ export class MeetingSeries {
             return false;
         }
         let secondLastMin = Minutes.findAllIn(this.minutes, 2).fetch();
-        if (secondLastMin && secondLastMin.length == 2) {
+        if (secondLastMin && secondLastMin.length === 2) {
             return secondLastMin[1];
         }
         return false;

@@ -1,9 +1,7 @@
-/**
- * Created by felix on 16.05.16.
- */
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+import _ from 'underscore';
 
 require('../../../lib/helpers');
 
@@ -29,6 +27,7 @@ global.Random = {
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
+    'meteor/underscore': { _, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true}
 });
 
@@ -37,14 +36,10 @@ describe('Topic', function() {
     let topicDoc;
 
     beforeEach(function () {
-
         topicDoc = {
             subject: "topic-subject",
             infoItems: []
         }
-    });
-
-    afterEach(function() {
     });
 
     describe('#constructor', function () {
@@ -74,6 +69,12 @@ describe('Topic', function() {
             expect(myTopic._topicDoc.isNew).to.be.true;
         });
 
+        it('enforces infoItems to be of type Array', function() {
+            topicDoc.infoItems = 'something';
+            let myTopic = new Topic(dummyMinute._id, topicDoc);
+
+            expect(myTopic._topicDoc.infoItems).to.be.an('array');
+        });
     });
 
     it('#findTopicIndexInArray', function() {
