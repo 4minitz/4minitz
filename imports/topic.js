@@ -1,48 +1,53 @@
-/**
- * Created by wok on 19.04.16.
- */
-
 import { Minutes } from './minutes';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
+import { _ } from 'meteor/underscore';
+
+
+function resolveParentMinutes(minutes) {
+    if (typeof minutes === 'string') {
+        return Minutes.findOne(minutes);
+    }
+
+    if ((typeof minutes === 'object') && (minutes instanceof Minutes)) {
+        return minutes;
+    }
+}
+
+function resolveTopic(parentMinutes, source) {
+    if (typeof source === 'string') {
+        source = parentMinutes.findTopic(source);
+        if (!source) {
+            throw new Meteor.Error("Runtime Error, could not find topic!");
+        }
+    }
+
+    _.defaults(source, {
+        isOpen: true,
+        isNew: true
+    });
+
+    return source;
+}
 
 /**
  * A Topic is an Agenda Topic which can
  * have multiple sub-items called InfoItem.
  */
 export class Topic {
-    constructor(parentMinutes, source) {   // constructs obj from Topic ID or Topic document
-        if (!parentMinutes || !source)
+    constructor(parentMinutes, source) {
+        if (!parentMinutes || !source) {
             return;
-
-        this._parentMinutes = undefined;
-        this._topicDoc = undefined;     // keep separate, no _.extend to prevent storage recursion
-
-        if (typeof parentMinutes === 'string') {   // we may have an ID here.
-            this._parentMinutes = Minutes.findOne(parentMinutes);
         }
-        if ((typeof parentMinutes === 'object') && (parentMinutes instanceof Minutes)) {
-            this._parentMinutes = parentMinutes;
-        }
+
+        this._parentMinutes = resolveParentMinutes(parentMinutes);
         if (!this._parentMinutes) {
             return;
         }
 
-        if (typeof source === 'string') {   // we may have an ID here.
-            source = this._parentMinutes.findTopic(source);
-            if (!source) {
-                throw new Meteor.Error("Runtime Error, could not find topic!");
-            }
-        }
-        if (source.isOpen == undefined) {
-            source.isOpen = true;
-        }
-        if (source.isNew == undefined) {
-            source.isNew = true;
-        }
-        this._topicDoc = source;
+        this._topicDoc = resolveTopic(this._parentMinutes, source);
 
-        if (!this._topicDoc.infoItems) {
+        if (!Array.isArray(this._topicDoc.infoItems)) {
             this._topicDoc.infoItems = [];
         }
     }
