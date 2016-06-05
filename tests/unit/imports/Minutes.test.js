@@ -17,6 +17,7 @@ class MeteorError {}
 
 let Meteor = {
     call: sinon.stub(),
+    callPromise: sinon.stub(),
     Error: MeteorError
 };
 
@@ -167,12 +168,12 @@ describe('Minutes', function () {
 
         it('calls the meteor method minutes.remove', function () {
             Minutes.remove(minute._id);
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
         it('sends the minutes id to the meteor method minutes.remove', function () {
             Minutes.remove(minute._id);
-            expect(Meteor.call.calledWithExactly('minutes.remove', minute._id, undefined)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('minutes.remove', minute._id)).to.be.true;
         });
 
     });

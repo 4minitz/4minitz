@@ -18,7 +18,7 @@
     "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3200",
 
     "test:end2end:server": "meteor run --port 3100 --settings ./settings-test-end2end.json",
-    "test:end2end:headless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs", 
+    "test:end2end:headless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs",
     "test:end2end:once": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
     "test:end2end:watch": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch"
   },
@@ -33,6 +33,8 @@
   },
   "homepage": "https://github.com/4minitz/4minitz#readme",
   "dependencies": {
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-preset-stage-3": "^6.5.0",
     "fibers": "^1.0.13",
     "git-rev-sync": "^1.5.1",
     "meteor-node-stubs": "^0.2.3",

@@ -50,25 +50,15 @@ export class MeetingSeries {
 
     // ################### object methods
 
-    removeMinutesWithId(minutesId) {
+    async removeMinutesWithId(minutesId) {
         console.log("removeMinutesWithId: " + minutesId);
 
-        // first we remove the minutes itself
-        Minutes.remove(
-            minutesId,
-            /* server callback */
-            (error, result) => { // result contains the number of removed items
-                if (!error && result === 1) {
-                    // if the minutes has been removed
-                    // we remove the id from the minutes array in
-                    // this meetingSeries as well.
-                    Meteor.call('meetingseries.removeMinutesFromArray', this._id, minutesId);
+        let numberOfRemovedMinutes = await Minutes.remove(minutesId);
 
-                    // last but not least we update the lastMinutesDate-field
-                    this.updateLastMinutesDate();
-                }
-            }
-        );
+        if (numberOfRemovedMinutes === 1) {
+            Meteor.call('meetingseries.removeMinutesFromArray', this._id, minutesId);
+            this.updateLastMinutesDate();
+        }
     }
 
     save (callback) {

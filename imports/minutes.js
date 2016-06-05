@@ -1,7 +1,3 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries'
@@ -46,8 +42,8 @@ export class Minutes {
             options);
     }
 
-    static remove(id, serverCallback) {
-        Meteor.call("minutes.remove", id, serverCallback)
+    static remove(id) {
+        return Meteor.callPromise("minutes.remove", id);
     }
 
     static syncVisibility(parentSeriesID, visibleForArray) {
