@@ -178,8 +178,7 @@ Template.topicInfoItem.events({
     'keypress .detailInput'(evt, tmpl) {
         let detailId = evt.currentTarget.getAttribute('data-id');
         let inputEl = tmpl.$('#detailInput_' + detailId);
-
-        if (event.which === 13 && !event.shiftKey) {
+        if (event.which === 13/*enter*/ && !event.shiftKey) {
             evt.preventDefault();
             inputEl.blur();
         }
@@ -190,6 +189,13 @@ Template.topicInfoItem.events({
     'keyup .detailInput'(evt, tmpl) {
         let detailId = evt.currentTarget.getAttribute('data-id');
         let inputEl = tmpl.$('#detailInput_' + detailId);
+
+        // escape key will not be handled in keypress callback...
+        if (event.which === 27/*escape*/) {
+            evt.preventDefault();
+            inputEl.blur();
+        }
+
         resizeTextarea(inputEl);
     }
 });

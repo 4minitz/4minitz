@@ -51,10 +51,10 @@
                 {{#each detailsArray}}
                     <p class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                         <div>
-                            <span class="detailText detailDate" data-id="{{this.id}}"><strong>{{this.date}}</strong></span>
+                            <label for="detailInput_{{this.id}}" class="detailDate"><strong>{{this.date}}</strong></label>
                         </div>
-                        <div style="padding-left: 10px;">
-                            <span id="detailText_{{this.id}}" data-id="{{this.id}}" data-text="{{this.text}}" class="detailText">{{#markdown}}{{this.text}}{{/markdown}}</span>
+                        <div style="padding-left: 10px;" class="detailText" data-id="{{this.id}}">
+                            <span id="detailText_{{this.id}}" data-id="{{this.id}}" data-text="{{this.text}}">{{#markdown}}{{this.text}}{{/markdown}}</span>
                             <textarea id="detailInput_{{this.id}}" rows="1" data-id="{{this.id}}" class="form-control detailInput" style="display: none; font-size: 14px; resize: vertical;"></textarea>
                         </div>
                     </p>

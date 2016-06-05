@@ -88,7 +88,7 @@ export class E2ETopics {
 
         E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
 
-        let selDateCol = selectInfoItem + ".actionItemDetails:nth-child(" + detailsIndex + ") span.detailDate";
+        let selDateCol = selectInfoItem + ".actionItemDetails:nth-child(" + detailsIndex + ") .detailDate";
         browser.waitForVisible(selDateCol);
         browser.click(selDateCol);
 
