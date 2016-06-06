@@ -174,4 +174,64 @@ describe('Topics', function () {
         let visibleTextAfterReload = browser.elementIdText(firstElementAfterReload).value;
         expect(visibleTextAfterReload).to.have.string('some topic');
     });
+
+
+    it('can collapse a topic', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        let infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(2);
+
+        // collapse top-most topic
+        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(1);
+
+        let firstVisibleInfoitemId = infoitems[0].ELEMENT;
+        let firstVisibleInfoItemText = browser.elementIdText(firstVisibleInfoitemId).value;
+        expect(firstVisibleInfoItemText).to.be.equal("InfoItem#1");
+    });
+
+    it('can collapse and re-expand a topic', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        // collapse & re-expand top-most topic
+        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        let infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(2);
+    });
+
+
+    it('can collapse all topics', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        // collapse & re-expand top-most topic
+        browser.click('#btnCollapseAll');
+        let infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(0);
+    });
+
+
+    it('can collapse and re-expand all topics', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        // collapse & re-expand top-most topic
+        browser.click('#btnCollapseAll');
+        browser.click('#btnExpandAll');
+        let infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(2);
+    });
 });
