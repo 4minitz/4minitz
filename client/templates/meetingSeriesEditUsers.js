@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { UserRoles } from '/imports/userroles'
-import { userlistClean, addNewUser } from './usersEditHelpers'
+import { userlistClean, addNewUser } from './meetingSeriesEditUsersHelpers'
 
 var _config;    // of type: UsersEditConfig
 

@@ -101,8 +101,7 @@ Template.minutesedit.helpers({
     },
 
     isFinalized: function () {
-        let aMin = new Minutes(_minutesID);
-        return aMin.isFinalized;
+        return isMinuteFinalized();
     },
 
     getFinalizedDate: function () {
@@ -143,6 +142,10 @@ Template.minutesedit.helpers({
             return "btn-xs";
         }
         return "";
+    },
+    
+    isReadOnly() {
+        return (isMinuteFinalized() || !isModerator());
     }
 });
 
