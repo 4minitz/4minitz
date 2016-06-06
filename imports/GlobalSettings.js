@@ -29,7 +29,7 @@ export class GlobalSettings {
         return Meteor.absoluteUrl(path);
     }
 
-    static isTruestedIntranetInstallation() {
+    static isTrustedIntranetInstallation() {
         if (Meteor.settings.trustedIntranetInstallation) {
             return Meteor.settings.trustedIntranetInstallation;
         }
