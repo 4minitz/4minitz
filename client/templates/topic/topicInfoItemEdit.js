@@ -117,8 +117,9 @@ Template.topicInfoItemEdit.events({
                 doc.responsible = tmpl.find('#id_item_responsible').value;
                 doc.duedate = tmpl.find('#id_item_duedateInput').value;
 
-                let detailsText = tmpl.find('#id_item_details').value;
-                if (detailsText) {
+                let detailsText = tmpl.find('#id_item_details');
+                if (detailsText && detailsText.value) {
+                    detailsText = detailsText.value;
                     if (doc.details && doc.details.length > 0) {
                         doc.details[0].text = detailsText;
                     } else {
