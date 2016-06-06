@@ -256,7 +256,7 @@ describe('MeetingSeries complete Topic list', function () {
             expect(browser.elementIdText(topicEl).value, "the topic responsible should have changed").to.not.have.string(newResponsible);
         });
 
-        it('changes the properties (subject/responsible) of an existing AI @watch', function () {
+        it('changes the properties (subject/responsible) of an existing AI', function () {
             const newSubject = "changed action item subject";
             const newResponsible = "changed responsible";
 
