@@ -27,3 +27,6 @@ Then simply run the application and pass your settings file as program argument:
 
 See /settings_sample.json for an example. Do not forget to set "enableMailDelivery" to true and set "mailDeliverer"
 to either "mailgun" or "smtp" - not both as seen in the example file!
+
+If you enable the option "trustedIntranetEvironment" the finalize-info-email will be sent once with all recipients in
+the "TO:" field. Disable this option in public or demo mode!

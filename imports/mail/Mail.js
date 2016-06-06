@@ -3,6 +3,11 @@ import { GlobalSettings } from './../GlobalSettings'
 
 export class Mail {
 
+    /**
+     *
+     * @param replyTo {string}
+     * @param recipient {string|string[]}
+     */
     constructor(replyTo, recipient) {
         this._replyTo = replyTo;
         this._recipient = recipient;

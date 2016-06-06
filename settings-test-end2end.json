@@ -4,6 +4,7 @@
     "e2eTestUsers":         ["user1",   "user2", "user3",   "user4"],
     "e2eTestPasswords":     ["PwdPwd1", "PwdPwd2", "PwdPwd3","PwdPwd4"],
 
+    "trustedIntranetInstallation": true,
     "email": {
         "enableMailDelivery": false
     }

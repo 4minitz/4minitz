@@ -1,7 +1,7 @@
 {
 
   "ROOT_URL": "http://your-domain.com",
-
+  "trustedIntranetInstallation": true,
   "email": {
     "enableMailDelivery": true,
     "mailDeliverer": "mailgun|smtp",
