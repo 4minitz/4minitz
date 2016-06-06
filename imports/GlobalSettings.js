@@ -30,11 +30,8 @@ export class GlobalSettings {
     }
 
     static isTrustedIntranetInstallation() {
-        if (Meteor.settings.trustedIntranetInstallation) {
-            return Meteor.settings.trustedIntranetInstallation;
-        }
-
-        return false;
+        // returns false instead of undefined
+        return !!Meteor.settings.trustedIntranetInstallation;
     }
 
     static getDefaultEmailSenderAddress(alternativeSender) {
