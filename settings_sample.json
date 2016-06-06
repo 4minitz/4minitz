@@ -2,10 +2,10 @@
     "//1": "below option ensures that embedded links in E-Mails point back to your server",
     "ROOT_URL": "http://www.your-domain.com",
 
-    "//2": ["below option switches of some privacy settings in trusted envirionments",
-      "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
-      "false: will send separate finalize mails to all participants and keep their privacy"],
-    "trustedIntranetInstallation": true,
+    "//2": ["below option switches off some privacy settings in trusted envirionments",
+                "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
+                "false: will send separate finalize mails to all participants and keep their privacy"],
+    "trustedIntranetInstallation": false,
 
     "//3": "below option configures if and how to send E-Mails",
     "email": {
@@ -13,8 +13,10 @@
         "enableMailDelivery": true,
         "//5": "Choose one of the below mail deliver methods",
         "mailDeliverer": "mailgun|smtp",
+
         "defaultEMailSenderAddress": "default@email.de",
         "fallbackEMailSenderAddress": "if defaultEMailSenderAddress is left open this field must be set with a valid email address",
+
         "smtp": {
             "mailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/"
         },
