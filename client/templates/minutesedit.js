@@ -136,6 +136,13 @@ Template.minutesedit.helpers({
     getTopicsListConfig: function() {
         let aMin = new Minutes(_minutesID);
         return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()));
+    },
+
+    mobileButton() {
+        if (Session.get("global.isMobileWidth")) {
+            return "btn-xs";
+        }
+        return "";
     }
 });
 
