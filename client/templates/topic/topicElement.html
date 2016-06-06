@@ -1,5 +1,15 @@
 <template name="topicElement">
-    <div class="well" data-id="{{topic._id}}">
+    <div class="well" data-id="{{topic._id}}" style="position: relative;">
+
+        <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
+        <span id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey;">
+            {{#if isCollapsed}}
+                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+            {{else}}
+                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+            {{/if}}
+        </span>
+
         <div>
             <div class="checkbox">
                 <label>
@@ -35,7 +45,7 @@
             </div>
         </div>
 
-        {{#unless showOutline}}
+        {{#unless isCollapsed}}
             <div style="margin-left: 20px; padding-left: 5px;">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     {{#each topic.infoItems}}

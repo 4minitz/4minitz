@@ -259,11 +259,18 @@ Template.minutesedit.events({
         }
     },
 
-    "click #btnCollapseToOutline": function (evt, tmpl) {
-        Session.set("minutesedit.showOutline", true);
+    "click #btnCollapseAll": function (evt, tmpl) {
+        let aMin = new Minutes(_minutesID);
+        let sessionCollapse = {};
+        for (let topicIndex in aMin.topics) {
+            let topicId = aMin.topics[topicIndex]._id;
+            sessionCollapse[topicId] = true;
+        }
+        Session.set("minutesedit.collapsetopics."+_minutesID, sessionCollapse);
     },
-    "click #btnExpandFromOutline": function (evt, tmpl) {
-        Session.set("minutesedit.showOutline", false);
+
+    "click #btnExpandAll": function (evt, tmpl) {
+        Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
     }
 });
 

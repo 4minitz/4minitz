@@ -63,16 +63,18 @@
                 {{#if isModeratorOfParentSeries}}
                     <button id="id_showAddTopicDialog" type="button" class="btn btn-primary btn-lg btn-raised" data-toggle="modal" data-target="#dlgAddTopic">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
-                        Add Topic
+                        <span class="hidden-xs">Add</span> Topic
                     </button>
                 {{/if}}
             {{/unless}}
 
-            <button id="btnCollapseToOutline" type="button" class="btn btn-default">
-                Collapse
+            <button id="btnCollapseAll" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                <span class="hidden-xs">Collapse All</span>
             </button>
-            <button id="btnExpandFromOutline" type="button" class="btn btn-default">
-                Expand
+            <button id="btnExpandAll" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                <span class="hidden-xs">Expand All</span>
             </button>
 
         </form>

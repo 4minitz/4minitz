@@ -1,11 +1,11 @@
-/**
- * Created by felix on 12.05.16.
- */
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { InfoItem } from '/imports/infoitem'
 
+let _minutesId;
+
 Template.topicElement.onCreated(function () {
+    _minutesId = Template.instance().data.minutesID;
 });
 
 Template.topicElement.onRendered(function () {
@@ -44,9 +44,11 @@ Template.topicElement.helpers({
             currentCollapseId: collapseID++  // each topic item gets its own collapseID
         };
     },
-    
-    showOutline() {
-        return Session.get("minutesedit.showOutline");
+
+    // determine if this topic shall be rendered collapsed
+    isCollapsed() {
+        let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
+        return collapseState ? collapseState[this.topic._id] : false;
     }
 });
 
@@ -93,5 +95,18 @@ Template.topicElement.events({
         // will be called before the modal dialog is shown
 
         Session.set("topicInfoItemEditTopicId", this.topic._id);
+    },
+
+    'click #btnTopicExpandCollapse'(evt) {
+        console.log("btnTopicExpandCollapse()"+this.topic._id);
+        evt.preventDefault();
+        let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
+        console.log("1. JSON: "+JSON.stringify(collapseState,null,2));
+        if (!collapseState) {
+            collapseState = {};
+        }
+        collapseState[this.topic._id] = ! collapseState[this.topic._id];
+        Session.set("minutesedit.collapsetopics."+_minutesId, collapseState);
+        console.log("2. JSON: "+JSON.stringify(collapseState,null,2));
     }
 });
