@@ -23,6 +23,12 @@ describe('MeetingSeries complete Topic list', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
+    after("clear database", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.resetMyApp(true);
+        }
+    });
+
     it("copies all topics of the first minute to the parent series including both all info- and actionItems.", function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);

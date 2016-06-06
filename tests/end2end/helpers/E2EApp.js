@@ -4,9 +4,9 @@ import { E2EGlobal } from './E2EGlobal'
 
 export class E2EApp {
     // Calls the server method to clean database and create fresh test users
-    static resetMyApp () {
+    static resetMyApp (skipUsers) {
         try {
-            server.call('e2e.resetMyApp');  // call meteor server method
+            server.call('e2e.resetMyApp', skipUsers);  // call meteor server method
         } catch (e) {
             console.log("Exception: "+e);
             console.log("Did you forget to run the server with '--settings settings-test-end2end.json'?");

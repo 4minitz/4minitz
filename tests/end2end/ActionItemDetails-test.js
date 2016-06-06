@@ -50,6 +50,12 @@ describe('ActionItems Details', function () {
         }, 1);
     });
 
+    after("clear database", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.resetMyApp(true);
+        }
+    });
+
     it('can add details to an Action Item', function() {
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
 

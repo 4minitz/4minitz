@@ -17,6 +17,12 @@ describe('Minutes Finalize', function () {
         expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
     });
+
+    after("clear database", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.resetMyApp(true);
+        }
+    });
     
 
     it('can finalize minutes', function () {

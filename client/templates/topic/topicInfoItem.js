@@ -178,7 +178,7 @@ Template.topicInfoItem.events({
     'keypress .detailInput'(evt, tmpl) {
         let detailId = evt.currentTarget.getAttribute('data-id');
         let inputEl = tmpl.$('#detailInput_' + detailId);
-        if (event.which === 13/*enter*/ && !event.shiftKey) {
+        if (event.which === 13/*enter*/ && event.ctrlKey) {
             evt.preventDefault();
             inputEl.blur();
         }

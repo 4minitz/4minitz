@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
@@ -23,6 +22,12 @@ describe('Topics', function () {
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+    });
+
+    after("clear database", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.resetMyApp(true);
+        }
     });
 
     it('can add a topic to minutes', function () {

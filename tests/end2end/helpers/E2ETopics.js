@@ -80,7 +80,7 @@ export class E2ETopics {
             return false;
         }
         browser.setValue(selFocusedInput, detailsText);
-        browser.keys(['Enter']);
+        browser.keys(['Escape']);
     }
 
     static changeDetailsForActionItem(topicIndex, infoItemIndex, detailsIndex, detailsText) {
@@ -100,7 +100,7 @@ export class E2ETopics {
             return false;
         }
         browser.setValue(selFocusedInput, detailsText);
-        browser.keys(['Enter']);
+        browser.keys(['Escape']);
     }
 
     static getTopicsForMinute () {

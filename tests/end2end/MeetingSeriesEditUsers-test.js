@@ -24,6 +24,12 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     });
 
+    after("clear database", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.resetMyApp(true);
+        }
+    });
+
 
 
     it('has one moderator per default', function () {
