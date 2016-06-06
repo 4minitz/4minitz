@@ -29,6 +29,14 @@ export class GlobalSettings {
         return Meteor.absoluteUrl(path);
     }
 
+    static isTruestedIntranetInstallation() {
+        if (Meteor.settings.trustedIntranetInstallation) {
+            return Meteor.settings.trustedIntranetInstallation;
+        }
+
+        return false;
+    }
+
     static getDefaultEmailSenderAddress(alternativeSender) {
         let address = (Meteor.settings.email)
             ? Meteor.settings.email.defaultEMailSenderAddress
