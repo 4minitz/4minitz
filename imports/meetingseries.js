@@ -20,12 +20,12 @@ export class MeetingSeries {
     }
 
     // ################### static methods
-    static find() {
-        return MeetingSeriesCollection.find.apply(MeetingSeriesCollection, arguments);
+    static find(...args) {
+        return MeetingSeriesCollection.find(...args);
     }
 
-    static findOne() {
-        return MeetingSeriesCollection.findOne.apply(MeetingSeriesCollection, arguments);
+    static findOne(...args) {
+        return MeetingSeriesCollection.findOne(...args);
     }
 
     static remove(meetingSeries) {

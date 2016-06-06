@@ -23,12 +23,12 @@ export class Minutes {
     }
     
     // ################### static methods
-    static find() {
-        return MinutesCollection.find.apply(MinutesCollection, arguments);
+    static find(...args) {
+        return MinutesCollection.find(...args);
     }
 
-    static findOne() {
-        return MinutesCollection.findOne.apply(MinutesCollection, arguments);
+    static findOne(...args) {
+        return MinutesCollection.findOne(...args);
     }
 
     static findAllIn(MinutesIDArray, limit) {
