@@ -4,19 +4,25 @@ import { InfoItem } from './infoitem';
 import { _ } from 'meteor/underscore';
 
 
-function resolveParentMinutes(minutes) {
+function resolveParentElement(minutes) {
     if (typeof minutes === 'string') {
         return Minutes.findOne(minutes);
     }
 
-    if ((typeof minutes === 'object') && (minutes instanceof Minutes)) {
+    if ((typeof minutes === 'object') && ( typeof minutes.upsertTopic === 'function' )) {
         return minutes;
     }
+
+    throw new Meteor.Error('Runtime error, illegal parent element');
 }
 
-function resolveTopic(parentMinutes, source) {
+function resolveTopic(parentElement, source) {
     if (typeof source === 'string') {
-        source = parentMinutes.findTopic(source);
+        if (typeof parentElement.findTopic !== 'function') {
+            throw new Meteor.Error('Runtime error, illegal parent element');
+        }
+
+        source = parentElement.findTopic(source);
         if (!source) {
             throw new Meteor.Error("Runtime Error, could not find topic!");
         }
@@ -35,12 +41,21 @@ function resolveTopic(parentMinutes, source) {
  * have multiple sub-items called InfoItem.
  */
 export class Topic {
-    constructor(parentMinutes, source) {
-        if (!parentMinutes || !source) {
+
+    /**
+     *
+     * @param parentElement {string|object} is either the id of the parent minute
+     *                      or the parent object which has at least the methods upsertTopic() and findTopic().
+     *                      So the parent object could be both a minute or a meeting series.
+     * @param source        {string|object} topic_id then the document will be fetched from the parentMinute
+     *                      or a topic object
+     */
+    constructor(parentElement, source) {
+        if (!parentElement || !source) {
             return;
         }
 
-        this._parentMinutes = resolveParentMinutes(parentMinutes);
+        this._parentMinutes = resolveParentElement(parentElement);
         if (!this._parentMinutes) {
             return;
         }
