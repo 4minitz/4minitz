@@ -26,6 +26,12 @@ describe('Minutes Participants', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
+    after("clear database", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.resetMyApp(true);
+        }
+    });
+
 
     it('ensures per default only creator of series is participant', function () {
         let participantsInfo = new E2EMinutesParticipants();
