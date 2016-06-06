@@ -5,17 +5,36 @@ import _ from 'underscore';
 
 require('../../../lib/helpers');
 
+const meetingSeriesId = "AaBbCcDd01";
+class MeetingSeries {
+    constructor(id) {
+        this._id = id;
+    }
+    upsertTopic() {}
+    static findOne(id) {
+        if (id === meetingSeriesId) {
+            return dummySeries;
+        }
+        return undefined;
+    }
+}
+
+const minuteId = "AaBbCcDd02";
 class Minutes {
     constructor(id) {
         this._id = id;
     }
     upsertTopic() {}
-    static findOne() {
-        return dummyMinute
+    static findOne(id) {
+        if (id === minuteId) {
+            return dummyMinute;
+        }
+        return undefined;
     }
 }
 
-let dummyMinute = new Minutes("AaBbCcDd");
+let dummyMinute = new Minutes(minuteId);
+let dummySeries = new MeetingSeries(meetingSeriesId);
 
 global.Random = {
     i: 1,
@@ -28,7 +47,8 @@ const {
         Topic
     } = proxyquire('../../../imports/topic', {
     'meteor/underscore': { _, '@noCallThru': true},
-    './minutes': { Minutes, '@noCallThru': true}
+    './minutes': { Minutes, '@noCallThru': true},
+    './meetingseries': { MeetingSeries, '@noCallThru': true}
 });
 
 describe('Topic', function() {

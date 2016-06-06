@@ -1,16 +1,20 @@
 import { Minutes } from './minutes';
+import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
 import { _ } from 'meteor/underscore';
 
 
-function resolveParentElement(minutes) {
-    if (typeof minutes === 'string') {
-        return Minutes.findOne(minutes);
+function resolveParentElement(parent) {
+    if (typeof parent === 'string') {
+        let parentId = parent;
+        parent =  MeetingSeries.findOne(parentId);
+        if (!parent) parent = Minutes.findOne(parentId);
+        return parent;
     }
 
-    if ((typeof minutes === 'object') && ( typeof minutes.upsertTopic === 'function' )) {
-        return minutes;
+    if ((typeof parent === 'object') && ( typeof parent.upsertTopic === 'function' )) {
+        return parent;
     }
 
     throw new Meteor.Error('Runtime error, illegal parent element');
@@ -44,7 +48,7 @@ export class Topic {
 
     /**
      *
-     * @param parentElement {string|object} is either the id of the parent minute
+     * @param parentElement {string|object} is either the id of the parent minute or parent meeting series
      *                      or the parent object which has at least the methods upsertTopic() and findTopic().
      *                      So the parent object could be both a minute or a meeting series.
      * @param source        {string|object} topic_id then the document will be fetched from the parentMinute

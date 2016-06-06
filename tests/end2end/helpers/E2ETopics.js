@@ -7,6 +7,19 @@ export class E2ETopics {
         browser.waitForVisible("#id_showAddTopicDialog");
         browser.click("#id_showAddTopicDialog");
 
+        E2ETopics.insertTopicDataIntoDialog(aTopic);
+    };
+
+    static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnEditTopic";
+
+        browser.waitForVisible(selector);
+        browser.click(selector);
+
+        E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
+    }
+
+    static insertTopicDataIntoDialog(subject, responsible) {
         try {
             browser.waitForVisible('#id_subject');
         } catch (e) {
@@ -14,16 +27,31 @@ export class E2ETopics {
         }
         E2EGlobal.waitSomeTime();
 
-        browser.setValue('#id_subject', aTopic);
+        browser.setValue('#id_subject', subject);
+        if (responsible) {
+            browser.setValue('#id_responsible', responsible);
+        }
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);
-    };
+    }
 
     static addInfoItemToTopic (infoItemDoc, topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .addTopicInfoItem";
 
         browser.waitForVisible(selector);
         browser.click(selector);
+        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc)
+    }
+
+    static editInfoItemForTopic(topicIndex, infoItemIndex, infoItemDoc) {
+        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnEditInfoItem";
+
+        browser.waitForVisible(selector);
+        browser.click(selector);
+        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true)
+    }
+
+    static insertInfoItemDataIntoDialog(infoItemDoc, isEditMode) {
         try {
             browser.waitForVisible('#id_item_subject');
         } catch (e) {
@@ -32,14 +60,46 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime();
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
-        let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
-        let radioBtnSelector = "#label_" + type;
-        browser.waitForExist(radioBtnSelector);
-        browser.click(radioBtnSelector);
-
+        if (infoItemDoc.responsible) {
+            browser.setValue('#id_item_responsible', infoItemDoc.responsible);
+        }
         //todo: set other fields (priority, responsible, duedate, details)
+
+        if (!isEditMode) {
+            let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
+            let radioBtnSelector = "#label_" + type;
+            browser.waitForExist(radioBtnSelector);
+            browser.click(radioBtnSelector);
+        }
+
         browser.click("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
+    }
+
+    static toggleTopic(topicIndex) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .labelTopicCb";
+        browser.waitForVisible(selector);
+        browser.click(selector);
+    }
+
+    static isTopicClosed(topicIndex) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnToggleState";
+
+        return E2EGlobal.isCheckboxSelected(selector)
+    }
+
+    static toggleActionItem(topicIndex, infoItemIndex) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        let selector = selectInfoItem + ".checkboxLabel";
+        browser.waitForVisible(selector);
+        browser.click(selector);
+    }
+
+    static isActionItemClosed(topicIndex, infoItemIndex) {
+        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnToggleAIState";
+
+        return E2EGlobal.isCheckboxSelected(selector)
     }
 
     static getInfoItemSelector(topicIndex, infoItemIndex) {
@@ -115,8 +175,8 @@ export class E2ETopics {
     };
 
     static countTopicsForMinute () {
-        var topics = E2ETopics.getTopicsForMinute();
-        return topics.length;
+        let topics = E2ETopics.getTopicsForMinute();
+        return (topics.length) ? topics.length : 0;
     };
 
     static getItemsForTopic (topicIndex) {

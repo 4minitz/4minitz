@@ -36,6 +36,12 @@ export class E2EGlobal {
         return (E2EGlobal.browserName() == "phantomjs")
     };
 
+    static isCheckboxSelected(selector) {
+        let element = browser.element(selector).value;
+        let checkboxId = element.ELEMENT;
+        return browser.elementIdSelected(checkboxId).value;
+    }
+
     /**
      * Takes a screenshot and saves it under
      * tests/snapshots/date[_<filename>].jpg.
