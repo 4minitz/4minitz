@@ -27,6 +27,14 @@ export class ActionItem extends InfoItem{
 
     // ################### object methods
 
+    invalidateIsNewFlag() {
+        this._infoItemDoc.isNew = false;
+    }
+
+    isSticky() {
+        return this._infoItemDoc.isOpen;
+    }
+
     /**
      * Gets the date of the detail item
      * at the given index.

@@ -138,22 +138,26 @@ describe('Topic', function() {
 
     describe('#invalidateIsNewFlag', function () {
 
+        let myTopic;
+
         beforeEach(function () {
             topicDoc.isNew = true;
             topicDoc.infoItems.push({
                 isOpen: true,
                 isNew: true,
-                itemType: "actionItem"
+                itemType: "actionItem",
+                createdInMinute: dummyMinute._id
             });
+            myTopic = new Topic(dummyMinute._id, topicDoc);
         });
 
         it('clears the isNew-Flag of the topic itself', function () {
-            Topic.invalidateIsNewFlag(topicDoc);
+            myTopic.invalidateIsNewFlag();
             expect(topicDoc.isNew).to.be.false;
         });
 
         it('clears the isNew-Flag of the action item', function () {
-            Topic.invalidateIsNewFlag(topicDoc);
+            myTopic.invalidateIsNewFlag();
             expect(topicDoc.infoItems[0].isNew).to.be.false;
         });
 
