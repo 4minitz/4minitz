@@ -181,7 +181,10 @@ Template.topicInfoItemEdit.events({
     },
 
     "shown.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
-        $('#dlgAddInfoItem input').trigger("change");    // ensure new values trigger placeholder animation
+        // ensure new values trigger placeholder animation
+        $('#id_item_priority').trigger("change");
+        $('#id_item_responsible').trigger("change");
+        $('#id_item_details').trigger("change");
         tmpl.find("#id_item_subject").focus();
     },
 
