@@ -1,0 +1,46 @@
+<template name="minutesEditParticipants">
+    <div class="form-group">
+        <label for="id_participants" id="btnParticipantsCollapse" style="cursor: pointer;">
+            Participants
+            {{#if isParticipantsExpanded}}
+                <span class="glyphicon glyphicon-option-vertical"></span>
+            {{else}}
+                <span class="glyphicon glyphicon-option-horizontal" style="vertical-align: middle;"></span>
+            {{/if}}
+        </label>
+
+        <!-- Expanded variant of participant list -->
+        {{#if isParticipantsExpanded}}
+            <div class="{{useClassWell}}" id="id_participants" style="{{useStylePadding}}">
+                {{#each participants}}
+                <div class="checkbox" id="id_participant">
+                    <label>
+                        <!--With @index we transfer the array index to the checkbox event handler-->
+                        <input type="checkbox" class="checkbox"
+                               name="present" id="btnTogglePresent" data-index="{{@index}}"
+                                {{checkedStatePresent}} {{disableUIControl}}>
+
+                        <span id="id_username" style="color: black;">
+                            {{#if isModeratorOfParentSeries this.userId}}
+                                <b>{{userNameForId this.userId}}</b>    <!-- make moderators bold -->
+                            {{else}}
+                                {{userNameForId this.userId}}
+                            {{/if}}
+                        </span>
+                    </label>
+                </div>
+                {{/each}}
+
+                <!--Additional Participants: freetext field-->
+                <input id="edtParticipantsAdditional" type="text" class="form-control"
+                       placeholder="Additional Participants..."
+                       value="{{participantsAdditional}}" {{disableUIControl}}>
+            </div>
+
+
+        <!-- Collapsed variant of participant list -->
+        {{else}}
+            <div id="btnParticipantsCollapse" style="cursor: pointer;">{{collapsedParticipantsNames}}</div>
+        {{/if}}
+    </div>
+</template>

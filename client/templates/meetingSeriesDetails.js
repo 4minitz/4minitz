@@ -1,6 +1,11 @@
+import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
+import { UserRoles } from '/imports/userroles'
+
+import { TopicListConfig } from './topic/topicsList'
+
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
@@ -13,23 +18,11 @@ Template.meetingSeriesDetails.onRendered(function () {
     Session.set("currentTab", "minutesList");
 });
 
+Template.meetingSeriesDetails.onRendered(function () {
+    $.material.init();
+});
+
 Template.meetingSeriesDetails.helpers({
-    errorTitle: function() {
-        let title = Session.get("errorTitle");
-
-        if (title) {
-            setTimeout(() => {
-                Session.set("errorTitle", false);
-            }, 3000);
-        }
-
-        return title;
-    },
-
-    errorMessage: function () {
-        return Session.get("errorReason");
-    },
-
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);
     },
@@ -46,26 +39,35 @@ Template.meetingSeriesDetails.helpers({
     tabData: function() {
         let tab = Session.get("currentTab");
         let ms = new MeetingSeries(_meetingSeriesID);
-        let title = ms.project + " - " + ms.name;
 
         switch (tab) {
             case "minutesList":
                 return {
                     minutes: ms.getAllMinutes(),
-                    title: title,
                     meetingSeriesId: _meetingSeriesID
                 };
 
-            case "topicListTab":
+            case "topicsList":
                 let status = Session.get("actionItemStatus");
-                let  topics = (status === "open") ? ms.openTopics : ms.closedTopics;
+                let  topics;
+                switch (status) {
+                    case "open":
+                        topics = ms.openTopics;
+                        break;
+                    case "topics":
+                        topics = ms.topics;
+                        break;
+                    default:
+                        throw new Meteor.Error("illegal-state", "Unknown topic list status: " + status);
+                }
 
-                return {
-                    status: status,
-                    topics: topics,
-                    title: title
-                };
+                return new TopicListConfig(topics, null, true);
         }
+    },
+
+    isModerator: function () {
+        let usrRole = new UserRoles();
+        return usrRole.isModeratorOf(_meetingSeriesID);
     }
 });
 
@@ -73,7 +75,7 @@ Template.meetingSeriesDetails.events({
     "click #btnHideHelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     },
-    "click .nav-tabs li": function(event, tmpl) {
+    "click .nav-tabs li": function(event) {
         var currentTab = $(event.target).closest("li");
 
         currentTab.addClass("active");

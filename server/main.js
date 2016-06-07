@@ -1,7 +1,16 @@
-/**
- * Created by wok on 16.04.16.
- */
+import { Meteor } from 'meteor/meteor';
+import { handleMigration } from './migrations';
+import { GlobalSettings } from '/imports/GlobalSettings';
 
-// To trigger server side code
-import '/imports/collections/meetingseries_private'
-import '/imports/collections/minutes_private'
+import '/imports/minutes';
+import '/imports/meetingseries';
+import '/imports/collections/userroles_private'
+
+Meteor.startup(() => {
+    GlobalSettings.publishSettings();
+    process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
+
+    handleMigration();
+    // Migrations.migrateTo(1);     // Plz. keep this comment for manual testing... ;-)
+});
+

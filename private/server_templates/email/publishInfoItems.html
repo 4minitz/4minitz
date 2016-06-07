@@ -1,0 +1,36 @@
+Hello{{#if name}} {{name}}{{/if}},<br>
+<br>
+you can find the meeting minutes from <a href="{{meetingSeriesURL}}">{{meetingSeriesProject}} - {{meetingSeriesName}}</a> dated on <a href="{{minuteUrl}}">{{minutesDate}}</a> below.<br>
+<br>
+Participants: {{presentParticipants}}<br>
+Members absent: {{absentParticipants}}<br>
+{{#if participantsAdditional}}Additional information: {{participantsAdditional}}{{/if}}<br>
+<br>
+
+The listed topics were discussed:<br>
+<ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
+    {{#each discussedTopics}}
+        <li>
+            <strong>{{subject}}</strong>
+            <ul style="padding-left: 30px;">
+                {{#each infoItems}}
+                    <li>{{subject}}</li>
+                {{/each}}
+            </ul>
+        </li>
+    {{/each}}
+</ul>
+
+The following topics remained open:<br>
+<ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
+    {{#each skippedTopics}}
+        <li>
+            <strong>{{subject}}</strong>
+            <ul style="padding-left: 30px;">
+                {{#each infoItems}}
+                    <li>{{subject}}</li>
+                {{/each}}
+            </ul>
+        </li>
+    {{/each}}
+</ul>

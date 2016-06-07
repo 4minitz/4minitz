@@ -14,7 +14,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" id="confirmationDialogCancel" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-ok" id="confirmationDialogOK" data-dismiss="modal">{{getConfirmBtnName}}</a>
+                <!-- Caution: this button is not reactive! -> see confirmationDialog in helpers.js -->
+                <button type="button" class="btn btn-ok btn-raised" id="confirmationDialogOK" data-dismiss="modal">{{getConfirmBtnName}}</button>
             </div>
         </div>
     </div>

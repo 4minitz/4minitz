@@ -1,7 +1,7 @@
 <template name="minutesedit">
-    <h2 class="header center orange-text">
-        Edit Minutes for Meeting Series<br>
-        <a href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
+    <h2 class="header">
+        <span class="hidden-xs">Minutes for</span>
+        <a id="id_linkToParentSeries" href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
     </h2>
 
     <p></p>
@@ -9,59 +9,102 @@
     <div class="well">
         <form>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 col-md-push-8 text-right">
+
+
+                    {{#if isFinalized}}
+                        <!--Static Finalize Text -->
+                        <span id="txt_FinalizedBy">
+                            Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                        </span>
+                        {{#if isModeratorOfParentSeries}}
+                            {{#if isUnfinalizeAllowed}}
+                                <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            {{/if}}
+                        {{/if}}
+                    {{else}}
+                        {{#if isModeratorOfParentSeries}}
+                            <!--Delete Minutes Button-->
+                            <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Minutes"></span>
+                                Delete Minutes
+                            </button>
+
+                            <!--Finalize Minutes Button-->
+                            <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
+                                Finalize Minutes
+                            </button>
+                        {{/if}}
+                    {{/if}}
+                </div>
+
+                <!--Date Picker-->
+                <div class="col-md-8 col-md-pull-4">
                     <div class="form-group">
                         <label for="id_minutesdateInput">Date</label>
                         <div class='input-group date' id='id_minutesdatePicker'>
-                            <input id="id_minutesdateInput" type='text' class="form-control" value="{{minutes.date}}" {{readOnlyIfFinalized}}/>
+                            <input id="id_minutesdateInput" type='text' class="form-control" value="{{minutes.date}}" {{disableUIControl}}/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 text-right">
-                    {{#if isFinalized}}
-                        Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
-                        {{#if isUnfinalizeAllowed}}
-                        <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                        {{/if}}
-                    {{else}}
-                        <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg">
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
-                            Finalize Minutes
-                        </button>
-                    {{/if}}
-                </div>
+
+
             </div>
 
-            <div class="form-group">
-                <label for="id_participants" class="active">Participants</label>
-                <input id="id_participants" type="text" value="{{minutes.participants}}" class="form-control" {{readOnlyIfFinalized}}>
-            </div>
-            <div class="form-group">
-                <label for="id_agenda" class="active">Agenda</label>
-                <textarea id="id_agenda" class="form-control" {{readOnlyIfFinalized}}>{{minutes.agenda}}</textarea>
-            </div>
-            <hr>
+            {{> minutesEditParticipants minutes}}
 
             {{#unless isFinalized}}
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#dlgAddTopic">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
-                Add Topic
-            </button>
+                {{#if isModeratorOfParentSeries}}
+                    <button id="id_showAddTopicDialog" type="button" class="btn btn-primary btn-lg btn-raised" data-toggle="modal" data-target="#dlgAddTopic">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
+                        <span class="hidden-xs">Add</span> Topic
+                    </button>
+                {{/if}}
             {{/unless}}
 
+            <!--Responsive Expand / Collapse All buttons-->
+            <button id="btnCollapseAll" type="button" class="btn btn-default {{mobileButton}}">
+                {{#if isReadOnly}}
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                    Collapse All
+                {{else}}
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                    <span class="hidden-xs">Collapse All</span>
+                {{/if}}
+            </button>
+            <button id="btnExpandAll" type="button" class="btn btn-default {{mobileButton}}">
+                {{#if isReadOnly}}
+                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                    Expand All
+                {{else}}
+                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                    <span class="hidden-xs">Expand All</span>
+                {{/if}}
+            </button>
 
-            <br>
-            <br>
-            {{>topicsList minutes._id}}
         </form>
     </div>
 
+    {{>topicsList getTopicsListConfig}}
+
+    <div class="help panel panel-default">
+        <div class="panel-heading">Quick Help</div>
+        <div class="panel-body">
+            <p>
+                Tick off a whole topic to make clear you have talked about it during the meeting. If the topic contains
+                unchecked action items it will be presented in the next minute again.
+            </p>
+            <a href="#" id="btnHideHelp">OK, Hide</a>
+        </div>
+    </div>
 
     {{> topicEdit minutes._id}}
+    {{> topicInfoItemEdit minutes._id}}
 
 </template>

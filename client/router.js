@@ -1,4 +1,8 @@
+import { Meteor } from 'meteor/meteor';
+
 import { MeetingSeries } from '/imports/meetingseries'
+import { Minutes } from '/imports/minutes'
+import { UserRoles } from '/imports/userroles'
 
 Router.configure({
     // set default application template for all routes
@@ -10,14 +14,33 @@ Router.route('/', {name: 'home'});
 
 Router.route('/meetingseries/:_id', function () {
     var meetingSeriesID = this.params._id;
-    this.render('meetingSeriesDetails', {data: meetingSeriesID});
+
+    // we have to wait until the client side db is ready
+    // otherwise creating the UserRoles-Object will fail
+    this.subscribe('userListSimple', Meteor.userId()).wait();
+
+    if (this.ready()) {
+        let usrRoles = new UserRoles();
+        if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
+            this.render('meetingSeriesDetails', {data: meetingSeriesID});
+        } else {
+            Router.go("/");
+        }
+    } else {
+        this.render('loading');
+    }
 });
 
 Router.route('/minutesadd/:_id', function () {
     let meetingSeriesID = this.params._id;
-    ms = new MeetingSeries(meetingSeriesID);
+
+    let usrRoles = new UserRoles();
+    if (!usrRoles.hasViewRoleFor(meetingSeriesID)) {
+        Router.go("/");
+    }
 
     let id;
+    ms = new MeetingSeries(meetingSeriesID);
     ms.addNewMinutes(
         // optimistic ui callback
         newMinutesID => {
@@ -48,13 +71,20 @@ Router.route('/minutesadd/:_id', function () {
     }
 });
 
+
 Router.route('/minutesedit/:_id', function () {
     var minutesID = this.params._id;
 
     this.subscribe('minutes', minutesID).wait();
 
     if (this.ready()) {
-        this.render('minutesedit', {data: minutesID});
+        let usrRoles = new UserRoles();
+        let aMin = new Minutes(minutesID);
+        if (usrRoles.hasViewRoleFor(aMin.meetingSeries_id)) {
+            this.render('minutesedit', {data: minutesID});
+        } else {
+            Router.go("/");
+        }
     } else {
         this.render('loading');
     }

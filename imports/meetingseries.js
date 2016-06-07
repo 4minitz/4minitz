@@ -1,11 +1,10 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
 import { Topic } from './topic'
+import { InfoItem } from './infoitem'
+import { UserRoles } from './userroles'
+import { _ } from 'meteor/underscore';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -21,12 +20,12 @@ export class MeetingSeries {
     }
 
     // ################### static methods
-    static find() {
-        return MeetingSeriesCollection.find.apply(MeetingSeriesCollection, arguments);
+    static find(...args) {
+        return MeetingSeriesCollection.find(...args);
     }
 
-    static findOne() {
-        return MeetingSeriesCollection.findOne.apply(MeetingSeriesCollection, arguments);
+    static findOne(...args) {
+        return MeetingSeriesCollection.findOne(...args);
     }
 
     static remove(meetingSeries) {
@@ -59,7 +58,7 @@ export class MeetingSeries {
             minutesId,
             /* server callback */
             (error, result) => { // result contains the number of removed items
-                if (!error && result == 1) {
+                if (!error && result === 1) {
                     // if the minutes has been removed
                     // we remove the id from the minutes array in
                     // this meetingSeries as well.
@@ -72,12 +71,11 @@ export class MeetingSeries {
         );
     }
 
-    save () {
-        if (this._id && this._id != "") {
-            console.log("My Minutes:"+this.minutes);
-            Meteor.call("meetingseries.update", this);
+    save (callback) {
+        if (this._id) {
+            Meteor.call("meetingseries.update", this, callback);
         } else {
-            Meteor.call("meetingseries.insert", this);
+            Meteor.call("meetingseries.insert", this, callback);
         }
     }
 
@@ -105,17 +103,19 @@ export class MeetingSeries {
         // copy open topics from this meeting series & set isNew=false
         if (this.openTopics) {
             topics = this.openTopics;
-            topics.forEach((topic) => {
-                topic.isNew = false;
+            topics.forEach((topicDoc) => {
+                Topic.invalidateIsNewFlag(topicDoc);
             });
         }
 
         let min = new Minutes({
             meetingSeries_id: this._id,
             date: formatDateISO8601(newMinutesDate),
-            topics: topics
+            topics: topics,
+            visibleFor: this.visibleFor             // freshly created minutes inherit visibility of their series
         });
-
+        
+        min.refreshParticipants(false); // do not save to DB!
         min.save(optimisticUICallback, serverCallback);
     }
 
@@ -132,11 +132,11 @@ export class MeetingSeries {
     }
 
     lastMinutes () {
-        if (!this.minutes || this.minutes.length == 0) {
+        if (!this.minutes || this.minutes.length === 0) {
             return false;
         }
         let lastMin = Minutes.findAllIn(this.minutes, 1).fetch();
-        if (lastMin && lastMin.length == 1) {
+        if (lastMin && lastMin.length === 1) {
             return lastMin[0];
         }
         return false;
@@ -147,13 +147,13 @@ export class MeetingSeries {
             return false;
         }
         let secondLastMin = Minutes.findAllIn(this.minutes, 2).fetch();
-        if (secondLastMin && secondLastMin.length == 2) {
+        if (secondLastMin && secondLastMin.length === 2) {
             return secondLastMin[1];
         }
         return false;
     }
 
-    updateLastMinutesDate () {
+    updateLastMinutesDate (callback) {
         let lastMinutesDate;
 
         let lastMinutes = this.lastMinutes();
@@ -170,13 +170,7 @@ export class MeetingSeries {
                 _id: this._id,
                 lastMinutesDate: lastMinutesDate
             },
-            // server callback
-            // TODO: display error / this callback should be provided by the caller of this function
-            (error) => {
-                if (error) {
-                    console.log(error); // for the moment we log this error so we can notice if any error occurs.
-                }
-            }
+            callback
         );
     }
 
@@ -186,9 +180,12 @@ export class MeetingSeries {
      * this series.
      *
      * @param minutes
+     * @param sendActionItems default: true
+     * @param sendInfoItems default: true
      */
-    finalizeMinutes (minutes) {
+    finalizeMinutes (minutes, sendActionItems = true, sendInfoItems = true) {
         minutes.finalize(
+            sendActionItems, sendInfoItems,
             /* server callback */
             (error) => {
                 if (!error) {
@@ -211,20 +208,21 @@ export class MeetingSeries {
             /* Server callback */
             (error) => {
                 if (!error) {
-                    // remove all elements of the closed-Array which are listed as topic from the given minutes
-                    // because they will be concatenated in the finalize procedure which would lead to
-                    // duplicates
-                    this.closedTopics = this.closedTopics.filter((item) => {
-                        return !minutes.findTopic(item._id);
-                    });
-
                     let secondLastMinute = this.secondLastMinutes();
                     if (secondLastMinute) {
+                        // all fresh created infoItems have to be deleted from the topic list of this series
+                        this.topics.forEach(topicDoc => {
+                            topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
+                                return infoItemDoc.createdInMinute !== minutes._id;
+                            })
+                        });
+
                         this._copyTopicsToSeries(secondLastMinute);
                     } else {
                         // if we un-finalize our fist minute it is save to delete all open topics
                         // because they are stored inside this minute
                         this.openTopics = [];
+                        this.topics = [];
                     }
 
                     this.save();
@@ -250,6 +248,36 @@ export class MeetingSeries {
         return (!lastMinutes || lastMinutes.isFinalized);
     }
 
+    _getDateOfLatestMinute() {
+        let lastMinutes = this.lastMinutes();
+
+        if (lastMinutes) {
+            return new Date(lastMinutes.date);
+        }
+    }
+
+    _getDateOfLatestMinuteExcluding(minuteId) {
+        // todo: check if excluding the given minuteId could be
+        // done directly in the find call on the collection
+
+        let latestMinutes = Minutes.findAllIn(this.minutes, 2)
+            .map((minute) => {
+                return {
+                    _id: minute._id,
+                    date: minute.date
+                };
+            });
+
+        if (!latestMinutes) {
+            return;
+        }
+
+        let firstNonMatchingMinute = latestMinutes.find((minute) => minute._id !== minuteId);
+        if (firstNonMatchingMinute) {
+            return new Date(firstNonMatchingMinute.date);
+        }
+    }
+
     /**
      * Gets the first possible date which can be assigned
      * to the given minutes.
@@ -259,31 +287,11 @@ export class MeetingSeries {
      */
     getMinimumAllowedDateForMinutes(minutesId) {
         let firstPossibleDate;
-        if (!minutesId) {
-            // we have no minutes id, so the first possible date depends on the last minutes
-            let lastMinutes = this.lastMinutes();
-            if (lastMinutes) {
-                firstPossibleDate = new Date(lastMinutes.date);
-            }
-        } else {
-            // fetch the two latest minutes, because the given one could be the latest minute.
-            let latestMinutes = Minutes.findAllIn(this.minutes, 2);
 
-            if (latestMinutes) {
-                let foo = {}; // dirty way to emulate break in forEach loop...
-                try {
-                    latestMinutes.forEach((minutes) => {
-                        if (minutes._id !== minutesId) {
-                            firstPossibleDate = new Date(minutes.date);
-                            throw foo;
-                        }
-                    });
-                } catch (e) {
-                    if (e !== foo) {
-                        throw e;
-                    }
-                }
-            }
+        if (!minutesId) {
+            firstPossibleDate = this._getDateOfLatestMinute();
+        } else {
+            firstPossibleDate = this._getDateOfLatestMinuteExcluding(minutesId);
         }
 
         if (firstPossibleDate) {
@@ -307,9 +315,63 @@ export class MeetingSeries {
         return ( !firstPossibleDate || date > firstPossibleDate );
     }
 
-    // ################### private methods
     /**
-     * Copies the open/closed topics from the given
+     * Overwrite the current "visibleFor" array with new user Ids
+     * Needs a "save()" afterwards to persist
+     * @param {Array} visibleForArray 
+     */
+    setVisibleUsers(visibleForArray) {
+        if (!this._id) {
+            throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using addVisibleUser()");
+        }
+        if (!$.isArray(visibleForArray)) {
+            throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
+        }
+
+        this.visibleFor = visibleForArray;
+        Minutes.syncVisibility(this._id, this.visibleFor);
+    }
+
+    isCurrentUserModerator() {
+        let ur = new UserRoles();
+        return ur.isModeratorOf(this._id);
+    }
+
+    // ################### private methods
+    _mergeTopic(topicIndex, minutesTopicDoc) {
+        let msTopicDoc = this.topics[topicIndex];
+
+        msTopicDoc = Topic.overwritePrimitiveProperties(minutesTopicDoc, msTopicDoc);
+
+        // loop backwards through topic items
+        for (let i = minutesTopicDoc.infoItems.length; i-- > 0;) {
+            let infoDoc = minutesTopicDoc.infoItems[i];
+
+
+            let indexInMsTopicDoc = subElementsHelper.findIndexById(infoDoc._id, msTopicDoc.infoItems);
+            if (indexInMsTopicDoc === undefined) {
+                // item does not exist -> simply prepend
+                msTopicDoc.infoItems.unshift(infoDoc);
+            } else {
+                // update the existing one
+                msTopicDoc.infoItems[indexInMsTopicDoc] = infoDoc;
+            }
+        }
+
+        // delete all open AIs listed in the msTopicDoc but not in the minutesTopicDoc
+        // (these were deleted during the last minute)
+        msTopicDoc.infoItems = msTopicDoc.infoItems.filter(itemDoc => {
+            let openAI = InfoItem.isActionItem(itemDoc) && itemDoc.isOpen;
+            if (openAI) {
+                let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, minutesTopicDoc.infoItems);
+                return !(indexInMinutesTopicDoc === undefined);
+            }
+            return true;
+        });
+    }
+
+    /**
+     * Copies the topics from the given
      * minute to this series.
      *
      * This is necessary for both, finalizing a
@@ -317,7 +379,7 @@ export class MeetingSeries {
      *
      * When finalizing this method will be called
      * with the minute which will be finalized.
-     * When un-finalizing a minute it will be called
+     * When un-finalizing a minute this will be called
      * with the 2nd last minute to revert the
      * previous state.
      *
@@ -325,30 +387,50 @@ export class MeetingSeries {
      * @private
      */
     _copyTopicsToSeries(minutes) {
-        // first override the openTopics of this series (the minute contains all relevant open topics)
-        this.openTopics = minutes.topics.filter((topic) => { // filter always returns an array
-            return topic.isOpen;
+        // clear open topics of this series (the minute contains all relevant open topics)
+        this.openTopics = [];
+        this.topics.forEach((topicDoc) => {
+            Topic.invalidateIsNewFlag(topicDoc);
         });
 
+        // iterate backwards through the topics of the minute
+        for (let i = minutes.topics.length; i-- > 0;) {
+            let topicDoc = minutes.topics[i];
+            let topicDocCopy = _.extend({}, topicDoc);
+            // pass a copy to our topic object, so this can be tailored for the open topics list
+            // without manipulating the original document
+            let topic = new Topic(minutes._id, topicDocCopy);
 
-        // then we concat the closed topics of the current minute to the closed ones of this series
-        // but first we set the isNew-flag to false for the currently existing closed topics
-        this.closedTopics.forEach((topic) => {
-            topic.isNew = false;
-        });
-        // then we remove the closed topics which are also listed in the current minute
-        // to prevent duplicates (remember this method will also be called on the 2nd last minute
-        // when un-finalizing the last one).
-        this.closedTopics = this.closedTopics.filter((topic) => {
-            let isTopicInMinute = Topic.findTopicIndexInArray(topic._id, minutes.topics);
+            // check if topic already exists in meeting series
+            let indexInSeries = Topic.findTopicIndexInArray(topicDoc._id, this.topics);
+            if (indexInSeries === undefined) {
+                // topic does not exist so we simply prepend the topic to our array
+                this.topics.unshift(topicDoc);
+                indexInSeries = 0;
+            } else {
+                // topic already exists, here we do the magic merge
+                this._mergeTopic(indexInSeries, topicDoc);
+            }
 
-            return (isTopicInMinute === undefined );
-        });
-        // after that we can simply concat the closed topics to our array
-        this.closedTopics = this.closedTopics.concat(
-            minutes.topics.filter((topic) => {
-                return !topic.isOpen;
-            })
-        );
+            // change topic state depending on the state of its AIs
+            this.topics[indexInSeries].isOpen = (topicDoc.isOpen || topic.hasOpenActionItem());
+
+            // copy additional the tailored topic to our open topic list
+            topic.tailorTopic();
+            if (topic.getDocument().isOpen || topic.hasOpenActionItem()) {
+                topic.getDocument().isOpen = true;
+                this.openTopics.unshift(topic.getDocument());
+            }
+        }
+
+        // delete all open topics from msTopicList which are not part of the currently
+        // finalized minute -> they were deleted within this minute
+        this.topics = this.topics.filter(topic => {
+            if (topic.isOpen) {
+                let indexInMinute = subElementsHelper.findIndexById(topic._id, minutes.topics);
+                return !(indexInMinute === undefined);
+            }
+            return true;
+        })
     }
 }

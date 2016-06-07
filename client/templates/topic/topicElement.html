@@ -1,0 +1,58 @@
+<template name="topicElement">
+    <div class="well" data-id="{{topic._id}}" style="position: relative;">
+
+        <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
+        <span id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;">
+            {{#if isCollapsed}}
+                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+            {{else}}
+                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+            {{/if}}
+        </span>
+
+        <div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" class="checkbox" id="btnToggleState" {{checkedState}} {{disabledState}}>
+                </label>
+
+                <h3 style="display: inline;">
+                    {{topic.subject}}
+                    {{#if topic.responsible}}
+                        ({{topic.responsible}})
+                    {{/if}}
+                </h3>
+
+                <!-- Edit & Delete Icons -->
+                {{#if isEditable}}
+                    <span class="">
+                            <a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic" class="panel-link">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a id="btnDelTopic" href="#" class="panel-link">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                            <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add element">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </span>
+                {{/if}}
+
+                <!-- New-Topic-Label -->
+                {{#if topic.isNew}}
+                    <span class="badge pull-right" style="margin-bottom: 5px;">New</span>
+                {{/if}}
+            </div>
+        </div>
+
+        {{#unless isCollapsed}}
+            <div style="margin-left: 20px; padding-left: 5px;">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    {{#each topic.infoItems}}
+                        {{> topicInfoItem getInfoItem}}
+                    {{/each}}
+                </div>
+            </div>
+        {{/unless}}
+    </div>
+</template>

@@ -1,0 +1,19 @@
+Hello{{#if name}} {{name}}{{/if}},<br>
+<br>
+you have been assigned to the following action items:<br>
+
+<ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
+    {{#each actionItems}}
+    <li>
+        <strong>{{subject}}</strong> (Topic: {{topicSubject}})
+            <ul style="padding-left: 30px;">
+                {{#if responsible}}<li>Resp: {{responsible}}</li>{{/if}}
+                {{#if priority}}<li>Prio: {{priority}}</li>{{/if}}
+                {{#if duedate}}<li>Due: {{duedate}}</li>{{/if}}
+                {{#each details}}
+                    <li>{{date}} - {{text}}</li>
+                {{/each}}
+            </ul>
+    </li>
+    {{/each}}
+</ul>

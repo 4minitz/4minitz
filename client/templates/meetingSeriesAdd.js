@@ -2,31 +2,50 @@
 import { MeetingSeries } from '/imports/meetingseries'
 
 Template.meetingSeriesAdd.onCreated(function () {
-    //add your statement here
 });
+
+Template.meetingSeriesAdd.onRendered(function () {
+    $.material.init();
+});
+
 
 Template.meetingSeriesAdd.helpers({
     //add you helpers here
 });
 
 Template.meetingSeriesAdd.events({
-    "click #btnSave": function (event, template) {
+    "click #btnAdd": function (event, template) {
         event.preventDefault();
 
         var aProject = template.find("#id_meetingproject").value;
         var aName = template.find("#id_meetingname").value;
-        if (aProject == "" || aName == "") {
-            return;
-        }
 
-        ms = new MeetingSeries({
+        let ms = new MeetingSeries({
             project: aProject,
             name: aName,
             createdAt: new Date()
         });
-        ms.save();
 
-        // Clear form
-        $('form')[0].reset();
+        ms.save((error) => {
+            if (error) {
+                Session.set('errorTitle', 'Error');
+                Session.set('errorReason', error.reason);
+            } else {
+                // Clear form
+                template.find("#id_meetingproject").value = "";
+                template.find("#id_meetingname").value = "";
+                template.find("#id_meetingproject").focus();
+            }
+        });
+    },
+
+    "show.bs.collapse #collapseMeetingSeriesAdd": function (evt, tmpl) {
+        // tmpl.find('#id_meetingproject').value = "";
+        // tmpl.find('#id_meetingname').value = "";
+    },
+
+    "shown.bs.collapse #collapseMeetingSeriesAdd": function (evt, tmpl) {
+        tmpl.find("#id_meetingproject").focus();
     }
+
 });

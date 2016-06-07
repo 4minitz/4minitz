@@ -1,0 +1,37 @@
+@startuml
+!include style.puml
+
+Topic "1" --> "*" InfoItem
+
+InfoItem  <|-- ActionItem
+
+class Topic {
+    subject
+    start
+    responsibles
+    status
+    isRecurring
+}
+
+class InfoItem {
+    subject
+    createdAt
+    tags: []
+}
+
+class ActionItem {
+    dueDate
+    responsibles
+    status
+    priority
+    details: []
+}
+
+
+' ************************ notes
+note right of (Topic)
+    This is an Agenda Topic
+end note
+
+
+@enduml

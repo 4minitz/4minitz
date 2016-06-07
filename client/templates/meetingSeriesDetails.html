@@ -1,23 +1,37 @@
 <template name="meetingSeriesDetails">
-    <h2 class="header center orange-text">
-        Meeting Series Details
-    </h2>
 
-    {{#if errorTitle}}
-        <div class="alert alert-danger" role="alert"><strong>{{errorTitle}}: </strong> {{errorMessage}}</div>
-    {{/if}}
+    {{#with meetingSeries}}
+        <!--Include modal dialog for edit meeting series -->
+        {{> meetingSeriesEdit this}}
+
+        <h2 class="header">
+            <span class="hidden-xs">Meeting Series:</span>
+            {{#if isModerator}}
+                <a href="#" data-toggle="modal" data-target="#dlgEditMeetingSeries" id="btnEditMeetingSeries">
+                    {{project}} - {{name}}
+                    <span class="glyphicon glyphicon-pencil" style="font-size: 80%;" aria-hidden="true" aria-label="Edit Meeting Series"></span>
+                </a>
+            {{else}}
+                {{project}} - {{name}}
+            {{/if}}
+        </h2>
+    {{/with}}
+
+    {{> error}}
 
     <ul class="nav nav-tabs">
-        <li data-template="minutesList" role="presentation" class="active"><a href="#">Minutes</a></li>
-        <li data-template="topicListTab" data-action="open" role="presentation"><a href="#">Open Topics</a></li>
-        <li data-template="topicListTab" data-action="closed" role="presentation"><a href="#">Closed Topics</a></li>
+        <li id="tab_minutes" data-template="minutesList" role="presentation" class="active"><a href="#">Minutes</a></li>
+        <li id="tab_topics" data-template="topicsList" data-action="topics" role="presentation"><a href="#">Topics</a></li>
     </ul>
     <div class="active">
         {{> Template.dynamic template=tab data=tabData}}
     </div>
 
     <p></p>
-    <a class="btn btn-primary" href="/">OK</a>
+    <a class="btn btn-primary btn-raised" href="/">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="Go Back"></span>
+        Go Back
+    </a>
 
     <br>
     <br>

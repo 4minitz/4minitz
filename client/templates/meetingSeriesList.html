@@ -22,20 +22,14 @@
 
 
 <template name="meetingSeriesOverview">
-        <li class="list-group-item">
-            <a href="{{addMinutesPath}}" class="btn btn-info" disabled="{{addMinutesNotAllowed}}">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Meeting Minutes"></span>
-            </a>
-            <a href="meetingseries/{{this._id}}" class="btn btn-info">
-                <span class="glyphicon glyphicon-list-alt" aria-hidden="true" aria-label="List Meetings Series"></span>
-            </a>
-            <a href="" id="deleteMeetingSeries" class="btn btn-info">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Meeting Series"></span>
-            </a>
-            {{project}}: {{name}}
+        <li class="list-group-item meeting-series-item" style="padding-bottom: 10px;">
+            <a href="/meetingseries/{{this._id}}">{{project}}: {{name}}</a>
+            {{#if isModeratorOfSeries}}
+                <span class="glyphicon glyphicon-user"></span>
+            {{/if}}
             {{#with lastMin = lastMinutes}}
                 {{#if lastMin}}
-                  (last minutes of <a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)
+                  (<span class="hidden-xs">last minutes of </span><a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)
                 {{/if}}
             {{/with}}
             <span class="badge">{{countMinutes}}</span>
