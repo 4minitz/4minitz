@@ -37,5 +37,15 @@ Template.meetingSeriesAdd.events({
                 template.find("#id_meetingproject").focus();
             }
         });
+    },
+
+    "show.bs.collapse #collapseMeetingSeriesAdd": function (evt, tmpl) {
+        // tmpl.find('#id_meetingproject').value = "";
+        // tmpl.find('#id_meetingname').value = "";
+    },
+
+    "shown.bs.collapse #collapseMeetingSeriesAdd": function (evt, tmpl) {
+        tmpl.find("#id_meetingproject").focus();
     }
+
 });

@@ -13,8 +13,10 @@
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git
     cd 4minitz
+    meteor npm install
     meteor --production
 
+Wait some time for meteor to finish building. 
 You can reach 4minitz via the default port 3000 by opening [http://localhost:3000](http://localhost:3000) in your browser
 
 ### Configuration for sending emails
