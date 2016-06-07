@@ -1,22 +1,32 @@
 import { Minutes } from './minutes';
+import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
 import { _ } from 'meteor/underscore';
 
 
-function resolveParentMinutes(minutes) {
-    if (typeof minutes === 'string') {
-        return Minutes.findOne(minutes);
+function resolveParentElement(parent) {
+    if (typeof parent === 'string') {
+        let parentId = parent;
+        parent =  MeetingSeries.findOne(parentId);
+        if (!parent) parent = Minutes.findOne(parentId);
+        return parent;
     }
 
-    if ((typeof minutes === 'object') && (minutes instanceof Minutes)) {
-        return minutes;
+    if ((typeof parent === 'object') && ( typeof parent.upsertTopic === 'function' )) {
+        return parent;
     }
+
+    throw new Meteor.Error('Runtime error, illegal parent element');
 }
 
-function resolveTopic(parentMinutes, source) {
+function resolveTopic(parentElement, source) {
     if (typeof source === 'string') {
-        source = parentMinutes.findTopic(source);
+        if (typeof parentElement.findTopic !== 'function') {
+            throw new Meteor.Error('Runtime error, illegal parent element');
+        }
+
+        source = parentElement.findTopic(source);
         if (!source) {
             throw new Meteor.Error("Runtime Error, could not find topic!");
         }
@@ -35,12 +45,21 @@ function resolveTopic(parentMinutes, source) {
  * have multiple sub-items called InfoItem.
  */
 export class Topic {
-    constructor(parentMinutes, source) {
-        if (!parentMinutes || !source) {
+
+    /**
+     *
+     * @param parentElement {string|object} is either the id of the parent minute or parent meeting series
+     *                      or the parent object which has at least the methods upsertTopic() and findTopic().
+     *                      So the parent object could be both a minute or a meeting series.
+     * @param source        {string|object} topic_id then the document will be fetched from the parentMinute
+     *                      or a topic object
+     */
+    constructor(parentElement, source) {
+        if (!parentElement || !source) {
             return;
         }
 
-        this._parentMinutes = resolveParentMinutes(parentMinutes);
+        this._parentMinutes = resolveParentElement(parentElement);
         if (!this._parentMinutes) {
             return;
         }
@@ -75,30 +94,6 @@ export class Topic {
         return false;
     }
 
-    static invalidateIsNewFlag(topicDoc) {
-        topicDoc.isNew = false;
-        topicDoc.infoItems.forEach(infoItemDoc => {
-            if (InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isNew) {
-                infoItemDoc.isNew = false;
-            }
-        })
-    }
-
-    /**
-     * Overwrites the simple properties (subject, responsible)
-     * of the target doc with the properties of the source document.
-     *
-     * @param sourceTopicDoc
-     * @param targetTopicDoc
-     * @returns targetTopicDoc
-     */
-    static overwritePrimitiveProperties(sourceTopicDoc, targetTopicDoc) {
-        targetTopicDoc.subject = sourceTopicDoc.subject;
-        targetTopicDoc.responsible = sourceTopicDoc.responsible;
-        targetTopicDoc.isNew = sourceTopicDoc.isNew;
-        return targetTopicDoc;
-    }
-
     // ################### object methods
     toString () {
         return "Topic: "+JSON.stringify(this._topicDoc, null, 4);
@@ -108,7 +103,61 @@ export class Topic {
         console.log(this.toString());
     }
 
-    upsertInfoItem(topicItemDoc, callback) {
+    invalidateIsNewFlag() {
+        this._topicDoc.isNew = false;
+        this._topicDoc.infoItems.forEach(infoItemDoc => {
+            let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
+            infoItem.invalidateIsNewFlag();
+        });
+    }
+
+    /**
+     * Merges all changes of the updateTopicDoc
+     * into the current topic doc.
+     * This means:
+     *  - overwrite the simple properties (subject, responsible)
+     *  - add new InfoItems / AIs
+     *  - update existing InfoItems / AIs
+     *  - delete sticky items which where deleted within the updateTopicDoc
+     *
+     * @param updateTopicDoc
+     */
+    merge(updateTopicDoc) {
+        this._overwritePrimitiveProperties(updateTopicDoc);
+        let myTopicDoc = this._topicDoc;
+
+        // loop backwards through topic items
+        for (let i = updateTopicDoc.infoItems.length; i-- > 0;) {
+            let infoDoc = updateTopicDoc.infoItems[i];
+            this.upsertInfoItem(infoDoc, undefined, false);
+        }
+
+        // delete all sticky items listed in the this topic but not in the updateTopicDoc
+        // (these were deleted during the last minute)
+        myTopicDoc.info = myTopicDoc.infoItems.filter(itemDoc => {
+            let item = InfoItemFactory.createInfoItem(this, itemDoc);
+            if (item.isSticky()) {
+                let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, updateTopicDoc.infoItems);
+                return !(indexInMinutesTopicDoc === undefined);
+            }
+            return true;
+        });
+    }
+
+    /**
+     * A topic is closed if it is not open
+     * and has no more open AIs.
+     *
+     * @returns {boolean}
+     */
+    isClosed() {
+        return (!this.getDocument().isOpen && !this.hasOpenActionItem());
+    }
+
+    upsertInfoItem(topicItemDoc, callback, saveChanges) {
+        if (saveChanges === undefined) {
+            saveChanges = true;
+        }
         let i = undefined;
         if (! topicItemDoc._id) {             // brand-new topicItem
             topicItemDoc._id = Random.id();   // create our own local _id here!
@@ -121,7 +170,9 @@ export class Topic {
             this.getInfoItems()[i] = topicItemDoc;      // overwrite in place
         }
 
-        this.save(callback);
+        if (saveChanges) {
+            this.save(callback);
+        }
     }
 
 
@@ -194,5 +245,19 @@ export class Topic {
 
     getDocument() {
         return this._topicDoc;
+    }
+
+
+    // ################### private methods
+    /**
+     * Overwrites the simple properties (subject, responsible)
+     * with the properties of the source document.
+     *
+     * @param updateTopicDoc
+     */
+    _overwritePrimitiveProperties(updateTopicDoc) {
+        this._topicDoc.subject = updateTopicDoc.subject;
+        this._topicDoc.responsible = updateTopicDoc.responsible;
+        this._topicDoc.isNew = updateTopicDoc.isNew;
     }
 }
