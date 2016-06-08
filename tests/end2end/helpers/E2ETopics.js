@@ -61,6 +61,15 @@ export class E2ETopics {
         E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true)
     }
 
+    static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
+        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnDelInfoItem";
+        browser.waitForVisible(selector);
+        browser.click(selector);
+        if (confirmDialog === undefined || confirmDialog) {
+            E2EApp.confirmationDialogAnswer(true);
+        }
+    }
+
     static insertInfoItemDataIntoDialog(infoItemDoc, isEditMode) {
         try {
             browser.waitForVisible('#id_item_subject');

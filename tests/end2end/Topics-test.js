@@ -42,7 +42,7 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(3);
     });
 
-    it('shows security question before deleting a topic @watch', function() {
+    it('shows security question before deleting a topic', function() {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.deleteTopic(1, /*auto-confirm-dialog*/false);
 
