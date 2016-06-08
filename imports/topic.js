@@ -190,8 +190,9 @@ export class Topic {
      * no action items)
      */
     tailorTopic() {
-        this._topicDoc.infoItems = this._topicDoc.infoItems.filter((infoItem) => {
-            return InfoItem.isActionItem(infoItem) && infoItem.isOpen;
+        this._topicDoc.infoItems = this._topicDoc.infoItems.filter((infoItemDoc) => {
+            let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
+            return infoItem.isSticky();
         });
     }
 

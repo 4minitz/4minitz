@@ -14,7 +14,7 @@ The listed topics were discussed:<br>
             <strong>{{subject}}</strong>
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
-                    <li>{{subject}}</li>
+                    <li>{{subject}}{{#if isSticky}} (pinned){{/if}}</li>
                 {{/each}}
             </ul>
         </li>
@@ -28,7 +28,7 @@ The following topics remained open:<br>
             <strong>{{subject}}</strong>
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
-                    <li>{{subject}}</li>
+                    <li>{{subject}}{{#if isSticky}} (pinned){{/if}}</li>
                 {{/each}}
             </ul>
         </li>
