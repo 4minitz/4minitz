@@ -1,5 +1,6 @@
 
 import { E2EGlobal } from './E2EGlobal'
+import { E2EApp } from './E2EApp'
 
 
 export class E2ETopics {
@@ -17,6 +18,15 @@ export class E2ETopics {
         browser.click(selector);
 
         E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
+    }
+
+    static deleteTopic(topicIndex, confirmDialog) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
+        browser.waitForVisible(selector);
+        browser.click(selector);
+        if (confirmDialog === undefined || confirmDialog) {
+            E2EApp.confirmationDialogAnswer(true);
+        }
     }
 
     static insertTopicDataIntoDialog(subject, responsible) {
