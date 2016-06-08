@@ -3,6 +3,7 @@
  */
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
+import _ from 'underscore';
 
 let doNothing = () => {};
 
@@ -11,6 +12,7 @@ let Topic = {};
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/underscore': { _, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true}
 });
 

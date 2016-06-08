@@ -3,6 +3,7 @@
  */
 
 import { Topic } from './topic'
+import { _ } from 'meteor/underscore';
 
 /**
  * A InfoItem is a sub-element of

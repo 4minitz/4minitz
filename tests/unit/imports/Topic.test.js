@@ -51,6 +51,13 @@ const {
     './meetingseries': { MeetingSeries, '@noCallThru': true}
 });
 
+const {
+    InfoItem
+    } = proxyquire('../../../imports/infoitem', {
+    'meteor/underscore': { _, '@noCallThru': true},
+    './topic': { Topic, '@noCallThru': true}
+});
+
 describe('Topic', function() {
 
     let topicDoc;
