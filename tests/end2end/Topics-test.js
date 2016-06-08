@@ -42,6 +42,24 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(3);
     });
 
+    it('shows security question before deleting a topic', function() {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.deleteTopic(1, /*auto-confirm-dialog*/false);
+
+        let selectorDialog = "#confirmDialog";
+
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
+
+        let dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
+        let dialogContentText = browser.elementIdText(dialogContentElement).value;
+
+        expect(dialogContentText, 'dialog content should display the title of the to-be-deleted object').to.have.string('some topic');
+
+        // close dialog otherwise beforeEach-hook will fail!
+        E2EApp.confirmationDialogAnswer(false);
+    });
+
 
     it('multiple topics are added with latest topic at the top', function () {
         E2ETopics.addTopicToMinutes('some topic');

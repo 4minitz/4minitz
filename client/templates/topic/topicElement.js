@@ -60,10 +60,20 @@ Template.topicElement.events({
         if (!this.minutesID) {
             return;
         }
-
         console.log("Delete topics: "+this.topic._id+" from minutes "+this.minutesID);
+
         let aMin = new Minutes(this.minutesID);
-        aMin.removeTopic(this.topic._id);
+
+        let dialogContent = "<p>Do you really want to delete the topic <strong>" + this.topic.subject + "</strong>?</p>";
+
+        confirmationDialog(
+            /* callback called if user wants to continue */
+            () => {
+                aMin.removeTopic(this.topic._id);
+            },
+            /* Dialog content */
+            dialogContent
+        );
     },
 
     'click #btnToggleState'(evt) {

@@ -87,7 +87,17 @@ Template.topicInfoItem.events({
 
         let aTopic = createTopic(this.minutesID, this.parentTopicId);
         if (aTopic) {
-            aTopic.removeInfoItem(this.infoItem._id)
+            let itemType = (this.infoItem.itemType === "infoItem") ? "information" : "action item";
+            let dialogContent = "<p>Do you really want to delete the " + itemType + " <strong>" + this.infoItem.subject + "</strong>?</p>";
+
+            confirmationDialog(
+                /* callback called if user wants to continue */
+                () => {
+                    aTopic.removeInfoItem(this.infoItem._id)
+                },
+                /* Dialog content */
+                dialogContent
+            );
         }
     },
 
