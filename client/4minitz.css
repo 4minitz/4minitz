@@ -79,4 +79,12 @@ a:focus {
     }
 }
 
+.sticky-item {
+    color: blue;
+    -webkit-transform: rotate(315deg); /* Safari and Chrome */
+    -moz-transform: rotate(315deg);   /* Firefox */
+    -ms-transform: rotate(315deg);   /* IE 9 */
+    -o-transform: rotate(315deg);   /* Opera */
+    transform: rotate(315deg);
+}
 

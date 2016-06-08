@@ -1,6 +1,7 @@
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { ActionItem } from '/imports/actionitem'
+import { InfoItem } from '/imports/infoitem'
 
 
 Template.topicInfoItem.onCreated(function () {
@@ -97,6 +98,20 @@ Template.topicInfoItem.events({
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             aInfoItem.toggleState();
+            aInfoItem.save();
+        }
+    },
+
+    'click #btnPinInfoItem'(evt) {
+        evt.preventDefault();
+
+        if (!this.isEditable) {
+            return;
+        }
+
+        let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
+        if (aInfoItem instanceof InfoItem) {
+            aInfoItem.toggleSticky();
             aInfoItem.save();
         }
     },
