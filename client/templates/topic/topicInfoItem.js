@@ -24,15 +24,6 @@ Template.topicInfoItem.helpers({
         });
     },
 
-    breakLines(text) {
-        if (!text) return "";
-        return text.replace(/(\r\n|\n|\r)/gm,"<br>");
-    },
-
-    breakLines(text){
-        return text.replace(/(\r\n|\n|\r)/gm,"<br>");
-    },
-
     topicStateClass: function () {
         if (this.infoItem.itemType !== 'actionItem') {
             return "infoitem";
