@@ -1,9 +1,11 @@
+import { ReactiveVar } from 'meteor/reactive-var'
+
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { ActionItem } from '/imports/actionitem'
 
-
 Template.topicInfoItem.onCreated(function () {
+    this.isTopicCollapsed = new ReactiveVar(true);
 });
 
 Template.topicInfoItem.onRendered(function () {
@@ -48,6 +50,11 @@ Template.topicInfoItem.helpers({
         } else {
             return {disabled: "disabled"};
         }
+    },
+
+    isCollapsed() {
+        console.log("_coll "+Template.instance().isTopicCollapsed.get());
+        return Template.instance().isTopicCollapsed.get();
     }
 });
 
@@ -202,5 +209,13 @@ Template.topicInfoItem.events({
         }
 
         resizeTextarea(inputEl);
+    },
+
+    "hide.bs.collapse"(evt, tmpl) {
+        tmpl.isTopicCollapsed.set(true);
+    },
+    "show.bs.collapse"(evt, tmpl) {
+        tmpl.isTopicCollapsed.set(false);
     }
+
 });

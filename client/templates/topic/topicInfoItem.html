@@ -1,6 +1,16 @@
 <template name="topicInfoItem">
     <div class="panel topicInfoItem">
-        <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne">
+        <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne" style="position: relative;">
+            {{#if isActionItem}}
+                <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
+                    href="#collapse-{{currentCollapseId}}" style="position: absolute; top:0; left: 0; color: grey;">
+                    {{#if isCollapsed}}
+                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                    {{else}}
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                    {{/if}}
+                </a>
+            {{/if}}
             <h4 class="panel-title">
                 <div class="checkbox">
                     <label for="btnToggleAIState" class="checkboxLabel">
