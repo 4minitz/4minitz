@@ -2,14 +2,15 @@
     <div class="well" data-id="{{topic._id}}" style="position: relative;">
 
         <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
-        <span id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;">
-            {{#if isCollapsed}}
-                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-            {{else}}
-                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-            {{/if}}
-        </span>
-
+        {{#if topic.infoItems.length}}
+            <span id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;">
+                {{#if isCollapsed}}
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                {{else}}
+                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                {{/if}}
+            </span>
+        {{/if}}
         <div>
             <div class="checkbox">
                 <label for="btnToggleState" class="labelTopicCb">
