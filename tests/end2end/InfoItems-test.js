@@ -8,7 +8,7 @@ import { E2ETopics } from './helpers/E2ETopics'
 require('./../../lib/helpers');
 
 
-describe('ActionItems Details', function () {
+describe('Info Items', function () {
     const aProjectName = "E2E Info Items";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
@@ -52,7 +52,7 @@ describe('ActionItems Details', function () {
         }
     });
 
-    it('shows security question before deleting info items @watch', function () {
+    it('shows security question before deleting info items', function () {
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
             subject: infoItemName,
@@ -76,7 +76,7 @@ describe('ActionItems Details', function () {
         E2EApp.confirmationDialogAnswer(false);
     });
 
-    it('shows security question before deleting action items @watch', function () {
+    it('shows security question before deleting action items', function () {
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
             subject: infoItemName,

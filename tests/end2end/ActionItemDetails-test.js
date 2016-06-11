@@ -77,6 +77,20 @@ describe('ActionItems Details', function () {
             .to.have.string(formatDateISO8601(new Date()) + '\nSecond Details');
     });
 
+    it('does not remove details when AI will be updated with the edit dialog @watch', function () {
+        const newSubject = "AI - changed subject";
+
+        E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
+
+        E2ETopics.editInfoItemForTopic(1, 1, { subject: newSubject });
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1, 1);
+        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        let completeAIText = browser.elementIdText(firstItemOfNewTopic).value;
+        expect(completeAIText, "Subject of AI should have changed").to.have.string(newSubject);
+        expect(completeAIText, "AI should still contain the details").to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+    });
+
     it('can change existing details', function () {
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
 
