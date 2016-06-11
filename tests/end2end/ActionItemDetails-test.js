@@ -77,7 +77,7 @@ describe('ActionItems Details', function () {
             .to.have.string(formatDateISO8601(new Date()) + '\nSecond Details');
     });
 
-    it('does not remove details when AI will be updated with the edit dialog @watch', function () {
+    it('does not remove details when AI will be updated with the edit dialog', function () {
         const newSubject = "AI - changed subject";
 
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details');

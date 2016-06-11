@@ -131,7 +131,7 @@ Template.topicInfoItemEdit.events({
                         ];
                     }
                 } else {
-                    doc.details = [];
+                    doc.details = (!doc.details) ? [] : doc.details;
                 }
                 newItem = new ActionItem(getRelatedTopic(), doc);
                 break;
