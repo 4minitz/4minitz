@@ -129,7 +129,7 @@ export class Topic {
         // loop backwards through topic items
         for (let i = updateTopicDoc.infoItems.length; i-- > 0;) {
             let infoDoc = updateTopicDoc.infoItems[i];
-            this.upsertInfoItem(infoDoc, undefined, false);
+            this.upsertInfoItem(infoDoc, false);
         }
 
         // delete all sticky items listed in the this topic but not in the updateTopicDoc
@@ -154,18 +154,7 @@ export class Topic {
         return (!this.getDocument().isOpen && !this.hasOpenActionItem());
     }
 
-    async upsertInfoItem(topicItemDoc, callback, saveChanges) {
-        callback = callback || function () {};
-
-        try {
-            let result = await this.upsertInfoItemAsync(topicItemDoc, saveChanges);
-            callback(undefined, result);
-        } catch (error) {
-            callback(error);
-        }
-    }
-
-    async upsertInfoItemAsync(topicItemDoc, saveChanges) {
+    async upsertInfoItem(topicItemDoc, saveChanges) {
         if (saveChanges === undefined) {
             saveChanges = true;
         }

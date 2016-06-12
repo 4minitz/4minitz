@@ -55,9 +55,20 @@ export class InfoItem {
         return false;
     }
 
-    save(callback) {
+    async save(callback) {
+        callback = callback || function () {};
+
+        try {
+            let result = await this.saveAsync();
+            callback(undefined, result);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
+    async saveAsync() {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
-        this._parentTopic.upsertInfoItem(this._infoItemDoc, callback);
+        return this._parentTopic.upsertInfoItem(this._infoItemDoc);
     }
 
     getParentTopic() {
