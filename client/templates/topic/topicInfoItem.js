@@ -131,6 +131,10 @@ Template.topicInfoItem.events({
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
 
+        if (inputEl.val() !== "") {
+            return;
+        }
+
         textEl.hide();
         inputEl.show();
         inputEl.val(textEl.attr('data-text'));
@@ -183,6 +187,7 @@ Template.topicInfoItem.events({
             aActionItem.save();
         }
 
+        inputEl.val("");
         inputEl.hide();
         textEl.show();
     },
