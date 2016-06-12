@@ -154,7 +154,18 @@ export class Topic {
         return (!this.getDocument().isOpen && !this.hasOpenActionItem());
     }
 
-    upsertInfoItem(topicItemDoc, callback, saveChanges) {
+    async upsertInfoItem(topicItemDoc, callback, saveChanges) {
+        callback = callback || function () {};
+
+        try {
+            let result = await this.upsertInfoItemAsync(topicItemDoc, saveChanges);
+            callback(undefined, result);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
+    async upsertInfoItemAsync(topicItemDoc, saveChanges) {
         if (saveChanges === undefined) {
             saveChanges = true;
         }
@@ -171,16 +182,17 @@ export class Topic {
         }
 
         if (saveChanges) {
-            this.save(callback);
+            return this.save();
         }
     }
 
 
-    removeInfoItem(id) {
+    async removeInfoItem(id) {
         let i = subElementsHelper.findIndexById(id, this.getInfoItems());
+
         if (i != undefined) {
             this.getInfoItems().splice(i, 1);
-            this.save();
+            return this.save();
         }
     }
 
@@ -230,9 +242,9 @@ export class Topic {
         return this._topicDoc.subject;
     }
 
-    save(callback) {
+    async save() {
         // this will update the entire topics array from the parent minutes!
-        this._parentMinutes.upsertTopic(this._topicDoc, callback);
+        return this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
     toggleState () {    // open/close

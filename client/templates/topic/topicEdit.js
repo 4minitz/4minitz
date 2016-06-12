@@ -39,7 +39,7 @@ Template.topicEdit.helpers({
 });
 
 Template.topicEdit.events({
-    "click #btnTopicSave": function (evt, tmpl) {
+    "click #btnTopicSave": async function (evt, tmpl) {
         evt.preventDefault();
 
         var aSubject = tmpl.find("#id_subject").value;
@@ -57,14 +57,14 @@ Template.topicEdit.events({
         topicDoc.responsible = aResponsible;
 
         let aTopic = new Topic(_minutesID, topicDoc);
-        aTopic.save((error) => {
-            if (error) {
-                Session.set('errorTitle', 'Validation error');
-                Session.set('errorReason', error.reason);
-            } else {
-                $('#dlgAddTopic').modal('hide')
-            }
-        });
+
+        try {
+            await aTopic.save();
+            $('#dlgAddTopic').modal('hide');
+        } catch (error) {
+            Session.set('errorTitle', 'Validation error');
+            Session.set('errorReason', error.reason);
+        }
     },
 
     "hidden.bs.modal #dlgAddTopic": function (evt, tmpl) {

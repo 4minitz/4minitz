@@ -165,18 +165,7 @@ export class Minutes {
         })
     }
 
-    async upsertTopic(topicDoc, callback) {
-        callback = callback || function () {};
-
-        try {
-            let result = await this.upsertTopicAsync(topicDoc);
-            callback(undefined, result);
-        } catch (error) {
-            callback(error);
-        }
-    }
-
-    async upsertTopicAsync(topicDoc) {
+    async upsertTopic(topicDoc) {
         let i = undefined;
 
         if (! topicDoc._id) {             // brand-new topic
