@@ -91,7 +91,7 @@ describe('ActionItems Details', function () {
         expect(completeAIText, "AI should still contain the details").to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
     });
 
-    it('does not revert changes when input field receives click-event during input @watch', function () {
+    it('does not revert changes when input field receives click-event during input', function () {
         let doBeforeSubmit = (inputElement) => {
             // perform click event on the input field after setting the text and before submitting the changes
             browser.click(inputElement);
