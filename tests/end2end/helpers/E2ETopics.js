@@ -138,7 +138,16 @@ export class E2ETopics {
         }
     }
 
-    static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText) {
+    /**
+     * Adds details to an action item.
+     *
+     * @param topicIndex index of the chosen topic (1=topmost ... n=#topics)
+     * @param infoItemIndex index of the chosen AI (1=topmost ... n=#info items)
+     * @param detailsText text to set
+     * @param doBeforeSubmit callback, which will be called before submitting the changes
+     * @returns {boolean}
+     */
+    static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText, doBeforeSubmit) {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
 
         E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
@@ -159,6 +168,9 @@ export class E2ETopics {
             return false;
         }
         browser.setValue(selFocusedInput, detailsText);
+        if (doBeforeSubmit) {
+            doBeforeSubmit(selFocusedInput);
+        }
         browser.keys(['Escape']);
     }
 
