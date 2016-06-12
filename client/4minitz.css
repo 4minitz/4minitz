@@ -88,3 +88,7 @@ a:focus {
     transform: rotate(315deg);
 }
 
+.grey-icon {
+    color: grey;
+}
+
