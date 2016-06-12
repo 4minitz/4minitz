@@ -1,5 +1,6 @@
 
 import { E2EGlobal } from './E2EGlobal'
+import { E2EApp } from './E2EApp'
 
 
 export class E2ETopics {
@@ -17,6 +18,15 @@ export class E2ETopics {
         browser.click(selector);
 
         E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
+    }
+
+    static deleteTopic(topicIndex, confirmDialog) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
+        browser.waitForVisible(selector);
+        browser.click(selector);
+        if (confirmDialog === undefined || confirmDialog) {
+            E2EApp.confirmationDialogAnswer(true);
+        }
     }
 
     static insertTopicDataIntoDialog(subject, responsible) {
@@ -49,6 +59,15 @@ export class E2ETopics {
         browser.waitForVisible(selector);
         browser.click(selector);
         E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true)
+    }
+
+    static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
+        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnDelInfoItem";
+        browser.waitForVisible(selector);
+        browser.click(selector);
+        if (confirmDialog === undefined || confirmDialog) {
+            E2EApp.confirmationDialogAnswer(true);
+        }
     }
 
     static insertInfoItemDataIntoDialog(infoItemDoc, isEditMode) {
@@ -119,7 +138,16 @@ export class E2ETopics {
         }
     }
 
-    static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText) {
+    /**
+     * Adds details to an action item.
+     *
+     * @param topicIndex index of the chosen topic (1=topmost ... n=#topics)
+     * @param infoItemIndex index of the chosen AI (1=topmost ... n=#info items)
+     * @param detailsText text to set
+     * @param doBeforeSubmit callback, which will be called before submitting the changes
+     * @returns {boolean}
+     */
+    static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText, doBeforeSubmit) {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
 
         E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
@@ -140,6 +168,9 @@ export class E2ETopics {
             return false;
         }
         browser.setValue(selFocusedInput, detailsText);
+        if (doBeforeSubmit) {
+            doBeforeSubmit(selFocusedInput);
+        }
         browser.keys(['Escape']);
     }
 
