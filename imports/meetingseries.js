@@ -134,7 +134,18 @@ export class MeetingSeries {
         return false;
     }
 
-    updateLastMinutesDate (callback) {
+    async updateLastMinutesDate (callback) {
+        callback = callback || function () {};
+
+        try {
+            let result = await this.updateLastMinutesDateAsync();
+            callback(undefined, result);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
+    async updateLastMinutesDateAsync() {
         let lastMinutesDate;
 
         let lastMinutes = this.lastMinutes();
@@ -146,13 +157,11 @@ export class MeetingSeries {
             return;
         }
 
-        Meteor.call(
-            'meetingseries.update', {
-                _id: this._id,
-                lastMinutesDate: lastMinutesDate
-            },
-            callback
-        );
+        let updateInfo = {
+            _id: this._id,
+            lastMinutesDate
+        };
+        return Meteor.callPromise('meetingseries.update', updateInfo);
     }
 
     /**

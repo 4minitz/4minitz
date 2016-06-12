@@ -47,21 +47,37 @@ export class Minutes {
         return Meteor.callPromise("minutes.remove", id);
     }
 
-    static syncVisibility(parentSeriesID, visibleForArray) {
-        Meteor.call("minutes.syncVisibility", parentSeriesID, visibleForArray);
+    static async syncVisibility(parentSeriesID, visibleForArray) {
+        return Meteor.callPromise("minutes.syncVisibility", parentSeriesID, visibleForArray);
     }
 
 
 
     // ################### object methods
-    update (docPart, callback) {
-        _.extend(docPart, {_id: this._id});
-        Meteor.call("minutes.update", docPart, callback);
-        _.extend(this, docPart);    // merge new doc fragment into this document
+    
+    // wrap the new async version for now so we do not have
+    // to migrate everything at once.
+    async update(docPart, callback) {
+        callback = callback || function () {};
 
-        // update the lastMinuteDate-field of the related series iff the date has changed.
+        try {
+            let result = await this.updateAsync(docPart);
+            callback(undefined, result);
+        } catch (error) {
+            callback(error);
+        }
+    }
+    
+    async updateAsync (docPart, callback) {
+        _.extend(docPart, {_id: this._id});
+
+        await Meteor.callPromise ("minutes.update", docPart, callback);
+
+        // merge new doc fragment into this document
+        _.extend(this, docPart);
+
         if (docPart.hasOwnProperty('date')) {
-            this.parentMeetingSeries().updateLastMinutesDate(callback);
+            return this.parentMeetingSeries().updateLastMinutesDateAsync();
         }
     }
 

@@ -6,6 +6,7 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
 
+require('sinon-as-promised');
 require('../../../lib/helpers');
 
 let MinutesCollection = {
@@ -17,7 +18,7 @@ class MeteorError {}
 
 let Meteor = {
     call: sinon.stub(),
-    callPromise: sinon.stub(),
+    callPromise: sinon.stub().resolves(true),
     Error: MeteorError
 };
 
@@ -25,10 +26,12 @@ let PromisedMethods = {};
 
 let isCurrentUserModeratorStub = sinon.stub();
 let updateLastMinutesDateStub = sinon.stub();
+let updateLastMinutesDateAsyncStub = sinon.stub().resolves(true);
 let MeetingSeries = function(seriesId) {
     this._id = seriesId;
     this.isCurrentUserModerator = isCurrentUserModeratorStub;
     this.updateLastMinutesDate = updateLastMinutesDateStub;
+    this.updateLastMinutesDateAsync = updateLastMinutesDateAsyncStub;
 };
 
 let topicGetOpenActionItemsStub = sinon.stub().returns([]);
@@ -79,6 +82,7 @@ describe('Minutes', function () {
         MinutesCollection.find.reset();
         MinutesCollection.findOne.reset();
         Meteor.call.reset();
+        Meteor.callPromise.reset();
         isCurrentUserModeratorStub.reset();
         updateLastMinutesDateStub.reset();
         topicGetOpenActionItemsStub.reset();
@@ -194,12 +198,12 @@ describe('Minutes', function () {
 
         it('calls the meteor method minutes.syncVisibility', function () {
             Minutes.syncVisibility(parentSeriesId, visibleForArray);
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
         it('sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibility', function () {
             Minutes.syncVisibility(parentSeriesId, visibleForArray);
-            expect(Meteor.call.calledWithExactly('minutes.syncVisibility', parentSeriesId, visibleForArray)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('minutes.syncVisibility', parentSeriesId, visibleForArray)).to.be.true;
         });
 
     });
@@ -216,19 +220,20 @@ describe('Minutes', function () {
 
         it('calls the meteor method minutes.update', function () {
             minute.update(updateDocPart);
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
         it('sends the doc part and the minutes id to the meteor method minutes.update', function () {
             minute.update(updateDocPart);
             let sentObj = JSON.parse(JSON.stringify(updateDocPart));
             sentObj._id = minute._id;
-            expect(Meteor.call.calledWithExactly('minutes.update', sentObj, undefined)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('minutes.update', sentObj, undefined)).to.be.true;
         });
 
-        it('updates the changed property of the minute object', function () {
-            minute.update(updateDocPart);
+        it('updates the changed property of the minute object', async function (done) {
+            await minute.updateAsync(updateDocPart);
             expect(minute.date).to.equal(updateDocPart.date);
+            done();
         });
 
     });
@@ -333,7 +338,7 @@ describe('Minutes', function () {
 
             it('calls the meteor method minutes.update', function () {
                 minute.removeTopic(topic1._id);
-                expect(Meteor.call.calledOnce).to.be.true;
+                expect(Meteor.callPromise.calledOnce).to.be.true;
             });
 
         });
@@ -427,12 +432,12 @@ describe('Minutes', function () {
 
         it('calls the meteor method minutes.update', function () {
             minute.upsertTopic(topicDoc);
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
         it('sends the doc part and the minutes id to the meteor method minutes.update', function () {
             minute.upsertTopic(topicDoc);
-            let callArgs = Meteor.call.getCall(0).args;
+            let callArgs = Meteor.callPromise.getCall(0).args;
             expect(callArgs[0], "first argument should be the name of the meteor method", 'minutes.update');
             let sentDoc = callArgs[1];
             expect(sentDoc._id, 'minutes id should be part of the document').to.equal(minutesDoc._id);
