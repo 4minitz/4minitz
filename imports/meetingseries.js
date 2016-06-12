@@ -34,7 +34,7 @@ export class MeetingSeries {
             await Meteor.callPromise("minutes.removeAllOfSeries", meetingSeries._id);
         }
 
-        Meteor.call("meetingseries.remove", meetingSeries._id);
+        return Meteor.callPromise("meetingseries.remove", meetingSeries._id);
     }
 
 
