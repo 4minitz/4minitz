@@ -231,7 +231,7 @@ describe('Minutes', function () {
         });
 
         it('updates the changed property of the minute object', async function (done) {
-            await minute.updateAsync(updateDocPart);
+            await minute.update(updateDocPart);
             expect(minute.date).to.equal(updateDocPart.date);
             done();
         });

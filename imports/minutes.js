@@ -55,20 +55,7 @@ export class Minutes {
 
     // ################### object methods
     
-    // wrap the new async version for now so we do not have
-    // to migrate everything at once.
-    async update(docPart, callback) {
-        callback = callback || function () {};
-
-        try {
-            let result = await this.updateAsync(docPart);
-            callback(undefined, result);
-        } catch (error) {
-            callback(error);
-        }
-    }
-    
-    async updateAsync (docPart, callback) {
+    async update (docPart, callback) {
         _.extend(docPart, {_id: this._id});
 
         await Meteor.callPromise ("minutes.update", docPart, callback);
@@ -118,7 +105,7 @@ export class Minutes {
         let i = this._findTopicIndex(id);
         if (i != undefined) {
             this.topics.splice(i, 1);
-            return this.updateAsync({topics: this.topics}); // update only topics array!
+            return this.update({topics: this.topics}); // update only topics array!
         }
     }
 
@@ -178,19 +165,33 @@ export class Minutes {
         })
     }
 
-    upsertTopic(topicDoc, callback) {
+    async upsertTopic(topicDoc, callback) {
+        callback = callback || function () {};
+
+        try {
+            let result = await this.upsertTopicAsync(topicDoc);
+            callback(undefined, result);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
+    async upsertTopicAsync(topicDoc) {
         let i = undefined;
+
         if (! topicDoc._id) {             // brand-new topic
             topicDoc._id = Random.id();   // create our own local _id here!
         } else {
             i = this._findTopicIndex(topicDoc._id); // try to find it
         }
+
         if (i == undefined) {                      // topic not in array
             this.topics.unshift(topicDoc);  // add to front of array
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
         }
-        this.update({topics: this.topics}, callback); // update only topics array!
+
+        return this.update({topics: this.topics}); // update only topics array!
     }
 
     /**
@@ -298,7 +299,7 @@ export class Minutes {
 
         // did we add anything?
         if (saveToDB && this.participants.length > Object.keys(participantKnown).length) {
-            return this.updateAsync({participants: this.participants}); // update only participants array!
+            return this.update({participants: this.participants}); // update only participants array!
         }
     }
 
@@ -311,7 +312,7 @@ export class Minutes {
      */
     async updateParticipantPresent(index, isPresent) {
         this.participants[index].present = isPresent;
-        return this.updateAsync({participants: this.participants});
+        return this.update({participants: this.participants});
     }
 
     /**
