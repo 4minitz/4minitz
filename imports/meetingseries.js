@@ -21,12 +21,12 @@ export class MeetingSeries {
     }
 
     // ################### static methods
-    static find() {
-        return MeetingSeriesCollection.find.apply(MeetingSeriesCollection, arguments);
+    static find(...args) {
+        return MeetingSeriesCollection.find(...args);
     }
 
-    static findOne() {
-        return MeetingSeriesCollection.findOne.apply(MeetingSeriesCollection, arguments);
+    static findOne(...args) {
+        return MeetingSeriesCollection.findOne(...args);
     }
 
     static async remove(meetingSeries) {
@@ -84,7 +84,8 @@ export class MeetingSeries {
         if (this.openTopics) {
             topics = this.openTopics;
             topics.forEach((topicDoc) => {
-                Topic.invalidateIsNewFlag(topicDoc);
+                let topic = new Topic(this, topicDoc);
+                topic.invalidateIsNewFlag();
             });
         }
 
@@ -317,39 +318,40 @@ export class MeetingSeries {
         return ur.isModeratorOf(this._id);
     }
 
-    // ################### private methods
-    _mergeTopic(topicIndex, minutesTopicDoc) {
-        let msTopicDoc = this.topics[topicIndex];
+    upsertTopic(topicDoc, mergeTopic) {
+        let i = undefined;
+        if (! topicDoc._id) {             // brand-new topic
+            throw new Meteor.Error('Runtime error, it is not allowed to create a new topic in a meeting series');
+        } else {
+            i = subElementsHelper.findIndexById(topicDoc._id, this.topics); // try to find it
+        }
 
-        msTopicDoc = Topic.overwritePrimitiveProperties(minutesTopicDoc, msTopicDoc);
-
-        // loop backwards through topic items
-        for (let i = minutesTopicDoc.infoItems.length; i-- > 0;) {
-            let infoDoc = minutesTopicDoc.infoItems[i];
-
-
-            let indexInMsTopicDoc = subElementsHelper.findIndexById(infoDoc._id, msTopicDoc.infoItems);
-            if (indexInMsTopicDoc === undefined) {
-                // item does not exist -> simply prepend
-                msTopicDoc.infoItems.unshift(infoDoc);
+        if (i === undefined) {                      // topic not in array
+            this.topics.unshift(topicDoc);  // add to front of array
+            i = 0;
+        } else {
+            if (mergeTopic) {
+                let msTopic = new Topic(this, this.topics[i]);
+                msTopic.merge(topicDoc);
             } else {
-                // update the existing one
-                msTopicDoc.infoItems[indexInMsTopicDoc] = infoDoc;
+                this.topics[i] = topicDoc;      // overwrite in place
             }
         }
 
-        // delete all open AIs listed in the msTopicDoc but not in the minutesTopicDoc
-        // (these were deleted during the last minute)
-        msTopicDoc.infoItems = msTopicDoc.infoItems.filter(itemDoc => {
-            let openAI = InfoItem.isActionItem(itemDoc) && itemDoc.isOpen;
-            if (openAI) {
-                let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, minutesTopicDoc.infoItems);
-                return !(indexInMinutesTopicDoc === undefined);
-            }
-            return true;
-        });
+        // close topic if it is completely closed (not just marked as discussed)
+        let topic = new Topic(this, topicDoc);
+        this.topics[i].isOpen = (!topic.isClosed());
     }
 
+    findTopic() {
+        let i = subElementsHelper.findIndexById(id, this.topics);
+        if (i != undefined) {
+            return this.topics[i];
+        }
+        return undefined;
+    }
+
+    // ################### private methods
     /**
      * Copies the topics from the given
      * minute to this series.
@@ -370,7 +372,8 @@ export class MeetingSeries {
         // clear open topics of this series (the minute contains all relevant open topics)
         this.openTopics = [];
         this.topics.forEach((topicDoc) => {
-            Topic.invalidateIsNewFlag(topicDoc);
+            let topic = new Topic(this, topicDoc);
+            topic.invalidateIsNewFlag();
         });
 
         // iterate backwards through the topics of the minute
@@ -381,23 +384,11 @@ export class MeetingSeries {
             // without manipulating the original document
             let topic = new Topic(minutes._id, topicDocCopy);
 
-            // check if topic already exists in meeting series
-            let indexInSeries = Topic.findTopicIndexInArray(topicDoc._id, this.topics);
-            if (indexInSeries === undefined) {
-                // topic does not exist so we simply prepend the topic to our array
-                this.topics.unshift(topicDoc);
-                indexInSeries = 0;
-            } else {
-                // topic already exists, here we do the magic merge
-                this._mergeTopic(indexInSeries, topicDoc);
-            }
-
-            // change topic state depending on the state of its AIs
-            this.topics[indexInSeries].isOpen = (topicDoc.isOpen || topic.hasOpenActionItem());
+            this.upsertTopic(topicDoc, /*merge*/ true);
 
             // copy additional the tailored topic to our open topic list
             topic.tailorTopic();
-            if (topic.getDocument().isOpen || topic.hasOpenActionItem()) {
+            if (!topic.isClosed()) {
                 topic.getDocument().isOpen = true;
                 this.openTopics.unshift(topic.getDocument());
             }

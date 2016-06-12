@@ -35,6 +35,24 @@ export class E2EGlobal {
     static browserIsPhantomJS () {
         return (E2EGlobal.browserName() == "phantomjs")
     };
+
+    static isCheckboxSelected(selector) {
+        let element = browser.element(selector).value;
+        let checkboxId = element.ELEMENT;
+        return browser.elementIdSelected(checkboxId).value;
+    }
+
+    /**
+     * Takes a screenshot and saves it under
+     * tests/snapshots/date[_<filename>].jpg.
+     *
+     * @param filename
+     */
+    static saveScreenshot(filename) {
+        let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
+        filename = (!filename) ? dateStr : dateStr + "_" + filename;
+        browser.saveScreenshot('./tests/snapshots/' + filename + ".png");
+    }
 }
 
 

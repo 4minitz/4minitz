@@ -46,6 +46,15 @@ export class InfoItem {
     }
 
     // ################### object methods
+    invalidateIsNewFlag() {
+        // a normal info item has no isNew-Flag so it is nothing to do here
+    }
+
+    isSticky() {
+        // a normal info item can not be sticky
+        return false;
+    }
+
     save(callback) {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
         this._parentTopic.upsertInfoItem(this._infoItemDoc, callback);

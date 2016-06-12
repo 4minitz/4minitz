@@ -101,8 +101,7 @@ Template.minutesedit.helpers({
     },
 
     isFinalized: function () {
-        let aMin = new Minutes(_minutesID);
-        return aMin.isFinalized;
+        return isMinuteFinalized();
     },
 
     getFinalizedDate: function () {
@@ -136,6 +135,17 @@ Template.minutesedit.helpers({
     getTopicsListConfig: function() {
         let aMin = new Minutes(_minutesID);
         return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()));
+    },
+
+    mobileButton() {
+        if (Session.get("global.isMobileWidth")) {
+            return "btn-xs";
+        }
+        return "";
+    },
+    
+    isReadOnly() {
+        return (isMinuteFinalized() || !isModerator());
     }
 });
 
@@ -259,11 +269,18 @@ Template.minutesedit.events({
         }
     },
 
-    "click #btnCollapseToOutline": function (evt, tmpl) {
-        Session.set("minutesedit.showOutline", true);
+    "click #btnCollapseAll": function (evt, tmpl) {
+        let aMin = new Minutes(_minutesID);
+        let sessionCollapse = {};
+        for (let topicIndex in aMin.topics) {
+            let topicId = aMin.topics[topicIndex]._id;
+            sessionCollapse[topicId] = true;
+        }
+        Session.set("minutesedit.collapsetopics."+_minutesID, sessionCollapse);
     },
-    "click #btnExpandFromOutline": function (evt, tmpl) {
-        Session.set("minutesedit.showOutline", false);
+
+    "click #btnExpandAll": function (evt, tmpl) {
+        Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
     }
 });
 

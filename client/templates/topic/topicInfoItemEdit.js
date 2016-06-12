@@ -116,12 +116,23 @@ Template.topicInfoItemEdit.events({
                 doc.priority = tmpl.find('#id_item_priority').value;
                 doc.responsible = tmpl.find('#id_item_responsible').value;
                 doc.duedate = tmpl.find('#id_item_duedateInput').value;
-                doc.details = [
-                    {
-                        date: detailsDate,
-                        text: tmpl.find('#id_item_details').value
+
+                let detailsText = tmpl.find('#id_item_details');
+                if (detailsText && detailsText.value) {
+                    detailsText = detailsText.value;
+                    if (doc.details && doc.details.length > 0) {
+                        doc.details[0].text = detailsText;
+                    } else {
+                        doc.details = [
+                            {
+                                date: detailsDate,
+                                text: detailsText
+                            }
+                        ];
                     }
-                ];
+                } else {
+                    doc.details = (!doc.details) ? [] : doc.details;
+                }
                 newItem = new ActionItem(getRelatedTopic(), doc);
                 break;
             case "infoItem":
@@ -155,8 +166,11 @@ Template.topicInfoItemEdit.events({
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.responsible : "";
         tmpl.find('#id_item_duedateInput').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
-        tmpl.find('#id_item_details').value =
-            (editItem && (editItem instanceof ActionItem)) ? editItem.getTextFromDetails() : "";
+        let detailsField = tmpl.find('#id_item_details');
+        if (detailsField) {
+            detailsField.value =
+                (editItem && (editItem instanceof ActionItem)) ? editItem.getTextFromDetails() : "";
+        }
 
         // set type
         if (editItem) {
@@ -167,6 +181,10 @@ Template.topicInfoItemEdit.events({
     },
 
     "shown.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
+        // ensure new values trigger placeholder animation
+        $('#id_item_priority').trigger("change");
+        $('#id_item_responsible').trigger("change");
+        $('#id_item_details').trigger("change");
         tmpl.find("#id_item_subject").focus();
     },
 

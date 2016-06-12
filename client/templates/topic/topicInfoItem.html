@@ -1,9 +1,21 @@
 <template name="topicInfoItem">
     <div class="panel topicInfoItem">
-        <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne">
+        <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne" style="position: relative;">
+            {{#if isActionItem}}
+                {{#if detailsArray.length}}
+                    <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
+                        href="#collapse-{{currentCollapseId}}" style="position: absolute; top:0; left: 0; color: grey;">
+                        {{#if isCollapsed}}
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        {{else}}
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        {{/if}}
+                    </a>
+                {{/if}}
+            {{/if}}
             <h4 class="panel-title">
                 <div class="checkbox">
-                    <label>
+                    <label for="btnToggleAIState" class="checkboxLabel">
                         {{#if isActionItem}}
                             <input type="checkbox" class="checkbox" id="btnToggleAIState" {{checkedState}} {{disabledState}}>
                         {{else}}
@@ -13,7 +25,7 @@
 
 
                     {{#if isActionItem}}
-                        <a role="button" class="panel-link" data-toggle="collapse" data-parent="#accordion"
+                        <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
                            href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
                             {{infoItem.subject}}
                             Resp: {{infoItem.responsible}}
@@ -47,15 +59,28 @@
 
         {{#if isActionItem}}
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-            <div class="panel-body">
-                <table>
+            <div class="panel-body actionItemDetails">
                 {{#each detailsArray}}
-                    <tr>
-                        <td valign="top">{{this.date}}&nbsp;</td>
-                        <td>{{{breakLines this.text}}}</td>
-                    </tr>
+                    <p class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
+                        <div>
+                            <label for="detailInput_{{this.id}}" class="detailDate"><strong>{{this.date}}</strong></label>
+                        </div>
+                        <div style="padding-left: 10px;" class="detailText" data-id="{{this.id}}">
+                            <span id="detailText_{{this.id}}" data-id="{{this.id}}" data-text="{{this.text}}">
+                                {{#markdown}}{{this.text}}{{/markdown}}
+                            </span>
+
+                            <textarea id="detailInput_{{this.id}}"
+                                      rows="1" data-id="{{this.id}}"
+                                      class="form-control detailInput"
+                                      style="display: none; font-size: 14px;"
+                                      placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
+                        </div>
+                    </p>
                 {{/each}}
-                </table>
+                {{#if isEditable}}
+                <a href="#" class="addDetail">Add details</a>
+                {{/if}}
             </div>
         </div>
         {{/if}}

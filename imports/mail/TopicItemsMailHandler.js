@@ -1,6 +1,7 @@
 
 import { TemplateRenderer } from './../server_side_templates/TemplateRenderer'
 import { MailFactory } from './MailFactory'
+import { GlobalSettings } from './../GlobalSettings'
 
 export class TopicItemsMailHandler {
 
@@ -10,14 +11,21 @@ export class TopicItemsMailHandler {
         this._minute = minute;
         this._templateName = templateName;
         this._currentRecipient = "";
+        this._sendOneMailToAllRecipients = GlobalSettings.isTrustedIntranetInstallation();
     }
 
     send() {
-        this._recipients.forEach((recipient) => {
-            this._currentRecipient = recipient;
+        if (this._sendOneMailToAllRecipients) {
+            this._currentRecipient = this._recipients;
             this._sendMail();
             this._mailer = null;
-        })
+        } else {
+            this._recipients.forEach((recipient) => {
+                this._currentRecipient = recipient;
+                this._sendMail();
+                this._mailer = null;
+            });
+        }
     }
 
     _sendMail() {
@@ -25,9 +33,18 @@ export class TopicItemsMailHandler {
     }
 
     _getCurrentMailAddress() {
-        return (typeof this._currentRecipient === 'string')
-                ? this._currentRecipient
-                : this._currentRecipient.address;
+        if (typeof this._currentRecipient === 'string') {
+            return this._currentRecipient;
+        } else if (this._currentRecipient.hasOwnProperty('address')) {
+            return this._currentRecipient.address;
+        } else {
+            // we should send the mail to multiple recipients -> return array of strings
+            return this._currentRecipient.map(recipient => {
+                return (typeof recipient === 'string')
+                    ? recipient
+                    : recipient.address;
+            })
+        }
     }
 
     _getSubjectPrefix() {
@@ -45,9 +62,9 @@ export class TopicItemsMailHandler {
     }
 
     _getTmplRenderer() {
-        let recipientsName = (typeof this._currentRecipient === 'string')
-            ? this._currentRecipient
-            : this._currentRecipient.name;
+        let recipientsName = (this._currentRecipient.hasOwnProperty('name'))
+            ? this._currentRecipient.name
+            : "";
         return (new TemplateRenderer(this._templateName, 'server_templates/email')).addData('name', recipientsName);
     }
 

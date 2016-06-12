@@ -47,6 +47,23 @@ describe("GlobalSettings", function () {
 
     });
 
+    describe('#isTrustedIntranetInstallation', function() {
+
+        it('returns the correct value', function () {
+            expect(GlobalSettings.isTrustedIntranetInstallation()).to.equal(Meteor.settings.trustedIntranetInstallation);
+        });
+
+        it('returns false if property is not set', function () {
+            delete Meteor.settings.trustedIntranetInstallation;
+            expect(GlobalSettings.isTrustedIntranetInstallation()).to.be.false;
+        });
+
+        it('does not fail if no settings file give', function () {
+            Meteor.settings = {};
+            expect(GlobalSettings.isTrustedIntranetInstallation()).to.be.false;
+        });
+    });
+
     describe("#getDefaultEmailSenderAddress", function () {
 
         it("returns the default email sender address", function () {

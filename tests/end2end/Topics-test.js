@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
@@ -25,6 +24,12 @@ describe('Topics', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
+    after("clear database", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.resetMyApp(true);
+        }
+    });
+
     it('can add a topic to minutes', function () {
         E2ETopics.addTopicToMinutes('some topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
@@ -35,6 +40,24 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(3);
+    });
+
+    it('shows security question before deleting a topic', function() {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.deleteTopic(1, /*auto-confirm-dialog*/false);
+
+        let selectorDialog = "#confirmDialog";
+
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
+
+        let dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
+        let dialogContentText = browser.elementIdText(dialogContentElement).value;
+
+        expect(dialogContentText, 'dialog content should display the title of the to-be-deleted object').to.have.string('some topic');
+
+        // close dialog otherwise beforeEach-hook will fail!
+        E2EApp.confirmationDialogAnswer(false);
     });
 
 
@@ -168,5 +191,65 @@ describe('Topics', function () {
         let firstElementAfterReload = topicsAfterReload[0].ELEMENT;
         let visibleTextAfterReload = browser.elementIdText(firstElementAfterReload).value;
         expect(visibleTextAfterReload).to.have.string('some topic');
+    });
+
+
+    it('can collapse a topic', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        let infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(2);
+
+        // collapse top-most topic
+        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(1);
+
+        let firstVisibleInfoitemId = infoitems[0].ELEMENT;
+        let firstVisibleInfoItemText = browser.elementIdText(firstVisibleInfoitemId).value;
+        expect(firstVisibleInfoItemText).to.be.equal("InfoItem#1");
+    });
+
+    it('can collapse and re-expand a topic', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        // collapse & re-expand top-most topic
+        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        let infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(2);
+    });
+
+
+    it('can collapse all topics', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        // collapse & re-expand top-most topic
+        browser.click('#btnCollapseAll');
+        let infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(0);
+    });
+
+
+    it('can collapse and re-expand all topics', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        // collapse & re-expand top-most topic
+        browser.click('#btnCollapseAll');
+        browser.click('#btnExpandAll');
+        let infoitems = browser.elements(".infoitem").value;
+        expect(infoitems.length).to.be.equal(2);
     });
 });

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from './../../imports/meetingseries'
-import { UsersEditConfig } from './usersEdit'
+import { UsersEditConfig } from './meetingSeriesEditUsers'
 import { UserRoles } from '/imports/userroles'
 
 
@@ -13,7 +13,7 @@ Template.meetingSeriesEdit.onCreated(function() {
     let _attachedUsersCollection = new Mongo.Collection(null);
 
     // build editor config and attach it to the instance of the template
-    this.userEditConfig = new UsersEditConfig("EDIT_SERIES", // mode
+    this.userEditConfig = new UsersEditConfig(
         true,                                               // current user can not be edited
         thisMeetingSeriesID,                                // the meeting series id
         _attachedUsersCollection);                          // collection of attached users
@@ -90,6 +90,11 @@ Template.meetingSeriesEdit.events({
             delete user._id;
             Template.instance().userEditConfig.users.insert(user);
         }
+    },
+
+    "shown.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
+        $('#dlgEditMeetingSeries input').trigger("change");   // ensure new values trigger placeholder animation
+        tmpl.find("#id_meetingproject").focus();
     },
 
 

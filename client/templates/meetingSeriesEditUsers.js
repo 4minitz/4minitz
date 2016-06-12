@@ -1,14 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 
 import { UserRoles } from '/imports/userroles'
-import { userlistClean, addNewUser } from './usersEditHelpers'
+import { userlistClean, addNewUser } from './meetingSeriesEditUsersHelpers'
 
 var _config;    // of type: UsersEditConfig
 
 
 export class UsersEditConfig {
-    constructor (mode, currentUserReadOnly, meetingSeriesID, users) {
-        this.mode = mode;
+    constructor (currentUserReadOnly, meetingSeriesID, users) {
         this.currentUserReadOnly = currentUserReadOnly;
         this.meetingSeriesID = meetingSeriesID;
         this.users = users;
@@ -16,33 +15,25 @@ export class UsersEditConfig {
 }
 
 
-Template.usersEdit.onCreated(function() {
+Template.meetingSeriesEditUsers.onCreated(function() {
     _config = this.data;    // UsersEditConfig object
 });
 
-Template.usersEdit.onRendered(function() {
+Template.meetingSeriesEditUsers.onRendered(function() {
     $.material.init();
     Meteor.typeahead.inject();
 });
 
 
-Template.usersEdit.onDestroyed(function() {
+Template.meetingSeriesEditUsers.onDestroyed(function() {
     //add your statement here
 });
 
-Template.usersEdit.helpers({
+Template.meetingSeriesEditUsers.helpers({
     userListClean: function () {
         return userlistClean(
             Meteor.users.find().fetch(),
             _config.users.find().fetch());
-    },
-    
-    isModeEditSeries: function () {
-        return _config.mode == "EDIT_SERIES";
-    },
-
-    isModeEditMinutes: function () {
-        return _config.mode == "EDIT_MINUTES";
     },
     
     users: function () {
@@ -95,7 +86,7 @@ Template.usersEdit.helpers({
 });
 
 
-Template.usersEdit.events({
+Template.meetingSeriesEditUsers.events({
     "click #btnDeleteUser": function (evt, tmpl) {
         evt.preventDefault();
         _config.users.remove({_id: this._userId});

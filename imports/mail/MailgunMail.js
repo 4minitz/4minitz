@@ -13,11 +13,14 @@ export class MailgunMail extends Mail {
         let mailgunSettings = GlobalSettings.getMailgunSettings();
 
         let postURL = mailgunSettings.apiUrl + '/' + mailgunSettings.domain + '/messages';
+
+        let recipient = (typeof this._recipient === 'string') ? [this._recipient] : this._recipient;
+
         let options =   {
             auth: "api:" + mailgunSettings.apiKey,
             params: {
                 "from": this._from,
-                "to": [this._recipient],
+                "to": recipient,
                 "h:Reply-To": this._replyTo,
                 "subject": this._subject
             }
