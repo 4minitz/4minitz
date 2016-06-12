@@ -93,7 +93,7 @@ Template.minutesEditParticipants.events({
         if (aMin) {
             console.log("   Min!");
             let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
-            aMin.update({participantsAdditional: theParticipant});
+            aMin.updateAsync({participantsAdditional: theParticipant});
         }
     },
 

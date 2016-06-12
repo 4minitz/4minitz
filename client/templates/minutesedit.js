@@ -49,7 +49,7 @@ var updateTopicSorting = function () {
         newTopicSorting.push(topic);
     }
 
-    minute.update({topics: newTopicSorting});
+    minute.updateAsync({topics: newTopicSorting});
 };
 
 var sendActionItems = true;
@@ -173,7 +173,7 @@ Template.minutesedit.events({
                 return;
             }
 
-            aMin.update({date: aDate});
+            aMin.updateAsync({date: aDate});
         }
     },
 

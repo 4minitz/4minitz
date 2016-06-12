@@ -114,11 +114,11 @@ export class Minutes {
     }
 
     // This also does a minimal update of collection!
-    removeTopic(id) {
+    async removeTopic(id) {
         let i = this._findTopicIndex(id);
         if (i != undefined) {
             this.topics.splice(i, 1);
-            this.update({topics: this.topics}); // update only topics array!
+            return this.updateAsync({topics: this.topics}); // update only topics array!
         }
     }
 
@@ -271,7 +271,7 @@ export class Minutes {
      * Trows an exception if this minutes are finalized
      * @param saveToDB internal saving can be skipped
      */
-    refreshParticipants (saveToDB) {
+    async refreshParticipants (saveToDB) {
         if (this.isFinalized) {
             throw new Error("updateParticipants () must not be called on finalized minutes");
         }
@@ -281,8 +281,8 @@ export class Minutes {
         if (!this.participants) {
             this.participants = [];
         }
-        this.participants.forEach(parti => {
-            participantKnown[parti.userId] = true;
+        this.participants.forEach(participant => {
+            participantKnown[participant.userId] = true;
         });
 
         // add unknown entries from .visibleFor
@@ -298,7 +298,7 @@ export class Minutes {
 
         // did we add anything?
         if (saveToDB && this.participants.length > Object.keys(participantKnown).length) {
-            this.update({participants: this.participants}); // update only participants array!
+            return this.updateAsync({participants: this.participants}); // update only participants array!
         }
     }
 
@@ -309,9 +309,9 @@ export class Minutes {
      * @param index of the participant in the participant array
      * @param isPresent new state of presence
      */
-    updateParticipantPresent(index, isPresent) {
+    async updateParticipantPresent(index, isPresent) {
         this.participants[index].present = isPresent;
-        this.update({participants: this.participants});
+        return this.updateAsync({participants: this.participants});
     }
 
     /**
