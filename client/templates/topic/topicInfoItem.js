@@ -3,6 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { ActionItem } from '/imports/actionitem'
+import { InfoItem } from '/imports/infoitem'
 
 Template.topicInfoItem.onCreated(function () {
     this.isTopicCollapsed = new ReactiveVar(true);
@@ -55,6 +56,10 @@ Template.topicInfoItem.helpers({
     isCollapsed() {
         console.log("_coll "+Template.instance().isTopicCollapsed.get());
         return Template.instance().isTopicCollapsed.get();
+    },
+
+    showPinItem() {
+        return (this.infoItem.itemType === 'infoItem' && ( this.isEditable || this.infoItem.isSticky) );
     }
 });
 
@@ -105,6 +110,20 @@ Template.topicInfoItem.events({
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             aInfoItem.toggleState();
+            aInfoItem.save();
+        }
+    },
+
+    'click .btnPinInfoItem'(evt) {
+        evt.preventDefault();
+
+        if (!this.isEditable) {
+            return;
+        }
+
+        let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
+        if (aInfoItem instanceof InfoItem) {
+            aInfoItem.toggleSticky();
             aInfoItem.save();
         }
     },

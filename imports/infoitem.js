@@ -3,6 +3,7 @@
  */
 
 import { Topic } from './topic'
+import { _ } from 'meteor/underscore';
 
 /**
  * A InfoItem is a sub-element of
@@ -36,7 +37,10 @@ export class InfoItem {
             throw new Meteor.Error('Property createdInMinute of topicDoc required');
         }
 
-        source.itemType = 'infoItem';
+        _.defaults(source, {
+            itemType: 'infoItem',
+            isSticky: false
+        });
         this._infoItemDoc = source;
     }
 
@@ -51,8 +55,11 @@ export class InfoItem {
     }
 
     isSticky() {
-        // a normal info item can not be sticky
-        return false;
+        return this._infoItemDoc.isSticky;
+    }
+
+    toggleSticky() {
+        this._infoItemDoc.isSticky = !this.isSticky();
     }
 
     save(callback) {

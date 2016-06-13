@@ -51,6 +51,13 @@ const {
     './meetingseries': { MeetingSeries, '@noCallThru': true}
 });
 
+const {
+    InfoItem
+    } = proxyquire('../../../imports/infoitem', {
+    'meteor/underscore': { _, '@noCallThru': true},
+    './topic': { Topic, '@noCallThru': true}
+});
+
 describe('Topic', function() {
 
     let topicDoc;
@@ -276,17 +283,20 @@ describe('Topic', function() {
 
         beforeEach(function() {
             topicDoc.infoItems.push({
-                subject: "myInfoItem"
+                subject: "myInfoItem",
+                createdInMinute: dummyMinute._id
             });
             topicDoc.infoItems.push({
                 subject: "myClosedActionItem",
                 isOpen: false,
-                itemType: "actionItem"
+                itemType: "actionItem",
+                createdInMinute: dummyMinute._id
             });
             topicDoc.infoItems.push({
                 subject: "myOpenActionItem",
                 isOpen: true,
-                itemType: "actionItem"
+                itemType: "actionItem",
+                createdInMinute: dummyMinute._id
             });
             myTopic = new Topic(dummyMinute._id, topicDoc);
         });

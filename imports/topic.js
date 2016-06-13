@@ -134,7 +134,7 @@ export class Topic {
 
         // delete all sticky items listed in the this topic but not in the updateTopicDoc
         // (these were deleted during the last minute)
-        myTopicDoc.info = myTopicDoc.infoItems.filter(itemDoc => {
+        myTopicDoc.infoItems = myTopicDoc.infoItems.filter(itemDoc => {
             let item = InfoItemFactory.createInfoItem(this, itemDoc);
             if (item.isSticky()) {
                 let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, updateTopicDoc.infoItems);
@@ -190,8 +190,9 @@ export class Topic {
      * no action items)
      */
     tailorTopic() {
-        this._topicDoc.infoItems = this._topicDoc.infoItems.filter((infoItem) => {
-            return InfoItem.isActionItem(infoItem) && infoItem.isOpen;
+        this._topicDoc.infoItems = this._topicDoc.infoItems.filter((infoItemDoc) => {
+            let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
+            return infoItem.isSticky();
         });
     }
 
