@@ -252,4 +252,17 @@ describe('Topics', function () {
         let infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(2);
     });
+
+    it('can close topics @watch', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+
+        E2ETopics.toggleTopic(1);
+        E2ETopics.toggleTopic(2);
+
+        expect(E2ETopics.isTopicClosed(1), "first topic should be closed").to.be.true;
+        expect(E2ETopics.isTopicClosed(2), "second topic should be closed").to.be.true;
+    });
 });
