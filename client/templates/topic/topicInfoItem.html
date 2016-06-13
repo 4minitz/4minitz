@@ -43,11 +43,11 @@
 
                     <!-- Edit & Delete Icons -->
                         <span class="pull-right">
-                            {{#unless isActionItem}}
-                                <a id="btnPinInfoItem" href="#" class="panel-link">
+                            {{#if showPinItem}}
+                                <a href="#" class="panel-link btnPinInfoItem">
                                     <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item{{else}}grey-icon{{/if}}"></span>
                                 </a>
-                            {{/unless}}
+                            {{/if}}
 
                             {{#if isEditable}}
                             <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link">

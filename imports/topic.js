@@ -134,7 +134,7 @@ export class Topic {
 
         // delete all sticky items listed in the this topic but not in the updateTopicDoc
         // (these were deleted during the last minute)
-        myTopicDoc.info = myTopicDoc.infoItems.filter(itemDoc => {
+        myTopicDoc.infoItems = myTopicDoc.infoItems.filter(itemDoc => {
             let item = InfoItemFactory.createInfoItem(this, itemDoc);
             if (item.isSticky()) {
                 let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, updateTopicDoc.infoItems);

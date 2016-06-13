@@ -121,8 +121,34 @@ export class E2ETopics {
         return E2EGlobal.isCheckboxSelected(selector)
     }
 
+    static toggleInfoItemStickyState(topicIndex, infoItemIndex) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        let selector = selectInfoItem + ".btnPinInfoItem";
+        try {
+            browser.waitForVisible(selector);
+        } catch (e) {
+            return false;
+        }
+        browser.click(selector);
+    }
+
+    static isInfoItemSticky(topicIndex, infoItemIndex) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        let selector = selectInfoItem + ".btnPinInfoItem span";
+        try {
+            browser.waitForVisible(selector);
+        } catch(e) {
+            return false;
+        }
+        let element = browser.element(selector);
+        let classes = element.getAttribute('class');
+        return (classes.indexOf('sticky-item') > 1);
+    }
+
     static getInfoItemSelector(topicIndex, infoItemIndex) {
-        return "#topicPanel .well:nth-child(" + topicIndex + ") #accordion:nth-child(" + infoItemIndex + ") ";
+        return "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem:nth-child(" + infoItemIndex + ") ";
     }
 
     static expandDetailsForActionItem(topicIndex, infoItemIndex) {
@@ -215,7 +241,7 @@ export class E2ETopics {
         try {
             browser.waitForExist(selector);
         } catch (e) {
-            return 0;
+            return [];
         }
         const elements = browser.elements(selector);
         return elements.value;

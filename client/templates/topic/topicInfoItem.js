@@ -56,6 +56,10 @@ Template.topicInfoItem.helpers({
     isCollapsed() {
         console.log("_coll "+Template.instance().isTopicCollapsed.get());
         return Template.instance().isTopicCollapsed.get();
+    },
+
+    showPinItem() {
+        return (this.infoItem.itemType === 'infoItem' && ( this.isEditable || this.infoItem.isSticky) );
     }
 });
 
@@ -110,7 +114,7 @@ Template.topicInfoItem.events({
         }
     },
 
-    'click #btnPinInfoItem'(evt) {
+    'click .btnPinInfoItem'(evt) {
         evt.preventDefault();
 
         if (!this.isEditable) {
