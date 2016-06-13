@@ -102,7 +102,7 @@ export class E2ETopics {
     }
 
     static isTopicClosed(topicIndex) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnToggleState";
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .btnToggleState";
 
         return E2EGlobal.isCheckboxSelected(selector)
     }
@@ -116,13 +116,13 @@ export class E2ETopics {
     }
 
     static isActionItemClosed(topicIndex, infoItemIndex) {
-        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnToggleAIState";
+        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + ".btnToggleAIState";
 
         return E2EGlobal.isCheckboxSelected(selector)
     }
 
     static getInfoItemSelector(topicIndex, infoItemIndex) {
-        return "#topicPanel .well:nth-child(" + topicIndex + ") #accordion:nth-child(" + infoItemIndex + ") ";
+        return "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem:nth-child(" + infoItemIndex + ") ";
     }
 
     static expandDetailsForActionItem(topicIndex, infoItemIndex) {

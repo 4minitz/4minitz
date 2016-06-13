@@ -15,9 +15,9 @@
             {{/if}}
             <h4 class="panel-title">
                 <div class="checkbox">
-                    <label for="btnToggleAIState" class="checkboxLabel">
+                    <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
                         {{#if isActionItem}}
-                            <input type="checkbox" class="checkbox" id="btnToggleAIState" {{checkedState}} {{disabledState}}>
+                            <input type="checkbox" class="checkbox btnToggleAIState" id="btnToggleAIState_{{infoItem._id}}" {{checkedState}} {{disabledState}}>
                         {{else}}
                             <span class="glyphicon glyphicon-info-sign"></span>
                         {{/if}}

@@ -99,7 +99,7 @@ Template.topicInfoItem.events({
         }
     },
 
-    'click #btnToggleAIState'(evt) {
+    'click .btnToggleAIState'(evt) {
         evt.preventDefault();
 
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
