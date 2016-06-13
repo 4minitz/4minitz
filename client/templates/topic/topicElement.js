@@ -76,7 +76,7 @@ Template.topicElement.events({
         );
     },
 
-    'click #btnToggleState'(evt) {
+    'click .btnToggleState'(evt) {
         evt.preventDefault();
         if (!this.minutesID) {
             return;

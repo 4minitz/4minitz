@@ -8,7 +8,7 @@ import { E2ETopics } from './helpers/E2ETopics'
 require('./../../lib/helpers');
 
 
-describe('ActionItems @watch', function () {
+describe('ActionItems', function () {
     const aProjectName = "E2E ActionItems";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
@@ -59,7 +59,7 @@ describe('ActionItems @watch', function () {
     it('toggles the open-state of the first AI', function () {
         E2ETopics.toggleActionItem(1, 1);
 
-        expect(E2ETopics.isActionItemClosed(1, 1), "the AI should be closed").to.be.true ;
+        expect(E2ETopics.isActionItemClosed(1, 1), "the AI should be closed").to.be.true;
     });
 
     it('toggles the open-state of the second AI', function () {

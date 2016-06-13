@@ -253,7 +253,7 @@ describe('Topics', function () {
         expect(infoitems.length).to.be.equal(2);
     });
 
-    it('can close topics @watch', function () {
+    it('can close topics', function () {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
