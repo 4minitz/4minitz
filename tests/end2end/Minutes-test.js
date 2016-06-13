@@ -11,6 +11,12 @@ describe('Minutes', function () {
         expect (E2EApp.isLoggedIn()).to.be.true;
     });
 
+    before("reload page", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.launchApp();
+        }
+    });
+
     after("clear database", function () {
         if (E2EGlobal.browserIsPhantomJS()) {
             E2EApp.resetMyApp(true);
