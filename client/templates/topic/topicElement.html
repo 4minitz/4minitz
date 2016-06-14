@@ -24,24 +24,27 @@
                     {{/if}}
                 </h3>
 
+                <!-- New-Topic-Label -->
+                {{#if topic.isNew}}
+                    <span class="badge" style="margin-bottom: 5px;">New</span>
+                {{/if}}
+
                 <!-- Edit & Delete Icons -->
                 {{#if isEditable}}
-                    <span class="">
+                    <span class="pull-right">
+                            <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add element">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                            <a href="#" class="toggleRecurring panel-link" title="toggle recurring">
+                                <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
+                            </a>
                             <a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic" class="panel-link">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                             <a id="btnDelTopic" href="#" class="panel-link">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
-                            <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add element">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </a>
                         </span>
-                {{/if}}
-
-                <!-- New-Topic-Label -->
-                {{#if topic.isNew}}
-                    <span class="badge pull-right" style="margin-bottom: 5px;">New</span>
                 {{/if}}
             </div>
         </div>
