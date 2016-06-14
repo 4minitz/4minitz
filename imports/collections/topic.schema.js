@@ -6,6 +6,7 @@ export const TopicSchema = new SimpleSchema({
     subject: {type: String},
     responsible: {type: String, defaultValue: '', optional: true},
     isOpen: {type: Boolean, defaultValue: true},
+    isRecurring: {type: Boolean, defaultValue: false},
     isNew: {type: Boolean, defaultValue: true},
     infoItems: {type: [InfoItemSchema], defaultValue: []}
 });
