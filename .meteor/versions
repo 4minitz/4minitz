@@ -78,6 +78,7 @@ mongo@1.1.7
 mongo-id@1.0.4
 mrt:jquery-ui-sortable@1.10.3
 msavin:mongol@1.6.2
+natestrauser:select2@4.0.2
 npm-bcrypt@0.8.5
 npm-mongo@1.4.43
 observe-sequence@1.0.11

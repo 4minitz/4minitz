@@ -1,4 +1,7 @@
+import { Meteor } from 'meteor/meteor';
+
 import { Topic } from '/imports/topic'
+import { Minutes } from '/imports/minutes'
 
 Session.setDefault("topicEditTopicId", null);
 
@@ -10,7 +13,12 @@ Template.topicEdit.onCreated(function () {
 });
 
 Template.topicEdit.onRendered(function () {
-    $.material.init()
+    $.material.init();
+    $('#id_selResponsible').select2({
+        placeholder: 'Select...',
+        tags: true,
+        tokenSeparators: [',', ';']
+    });
 });
 
 Template.topicEdit.onDestroyed(function () {
@@ -32,9 +40,29 @@ Template.topicEdit.helpers({
         let topic = getEditTopic();
         return (topic) ? topic._topicDoc.subject : "";
     },
+
     'getTopicResponsible': function() {
         let topic = getEditTopic();
         return (topic) ? topic._topicDoc.responsible : "";
+    },
+
+    'getMinutesParticipants'() {
+        let aMin = new Minutes(_minutesID);
+        let participants = aMin.participants;
+        for (let i in participants) {
+            participants[i].username = Meteor.users.findOne(participants[i].userId).username;
+        }
+
+        // add the additional participants, by splitting string up
+        let participantsAdditional = aMin.participantsAdditional;
+        if (participantsAdditional) {
+            let splitted = participantsAdditional.split(/[,;]/);
+            for (let i in splitted) {
+                let aParticipant = splitted[i].trim();
+                participants.push({username: aParticipant, userId: aParticipant})
+            }
+        }
+        return participants;
     }
 });
 
@@ -43,7 +71,7 @@ Template.topicEdit.events({
         evt.preventDefault();
 
         var aSubject = tmpl.find("#id_subject").value;
-        var aResponsible = tmpl.find("#id_responsible").value;
+        var multiResponsibles = $('#id_selResponsible').val();
 
         let editTopic = getEditTopic();
 
@@ -54,7 +82,7 @@ Template.topicEdit.events({
         }
 
         topicDoc.subject = aSubject;
-        topicDoc.responsible = aResponsible;
+        topicDoc.responsibles = multiResponsibles;
 
         let aTopic = new Topic(_minutesID, topicDoc);
         aTopic.save((error) => {
@@ -74,6 +102,10 @@ Template.topicEdit.events({
 
         // reset the session vars to indicate that edit mode has been closed
         Session.set("topicEditTopicId", null);
+    },
+
+    "show.bs.modal #dlgAddTopic": function (evt, tmpl) {
+        $('#id_selResponsible').val(null).trigger("change");
     },
 
     "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
