@@ -20,11 +20,7 @@ Template.topicInfoItem.helpers({
 
     detailsArray: function () {
         $.material.init();
-        let id = 0;
-        return this.infoItem.details.map(detail => {
-            detail.id = id++;
-            return detail;
-        });
+        return this.infoItem.details;
     },
 
     topicStateClass: function () {
