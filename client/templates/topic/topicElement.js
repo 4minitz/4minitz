@@ -90,6 +90,19 @@ Template.topicElement.events({
         }
     },
 
+    'click .js-toggle-recurring'(evt) {
+        evt.preventDefault();
+        if (!this.minutesID) {
+            return;
+        }
+
+        let aTopic = new Topic(this.minutesID, this.topic._id);
+        if (aTopic) {
+            aTopic.toggleRecurring();
+            aTopic.save();
+        }
+    },
+
     'click #btnEditTopic'(evt) {
         evt.preventDefault();
 

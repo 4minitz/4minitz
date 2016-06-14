@@ -35,7 +35,7 @@
                             <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add element">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
-                            <a href="#" class="toggleRecurring panel-link" title="toggle recurring">
+                            <a href="#" class="js-toggle-recurring panel-link" title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
                                 <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                             </a>
                             <a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic" class="panel-link">

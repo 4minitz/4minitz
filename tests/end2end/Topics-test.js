@@ -271,4 +271,20 @@ describe('Topics', function () {
         expect(E2ETopics.isTopicClosed(1), "first topic should be closed").to.be.true;
         expect(E2ETopics.isTopicClosed(2), "second topic should be closed").to.be.true;
     });
+
+    it('is possible to mark topics as recurring persistently', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addTopicToMinutes('topic 2');
+
+        expect(E2ETopics.isTopicRecurring(1), 'topic should not be recurring initially').to.be.false;
+
+        E2ETopics.toggleRecurringTopic(1);
+
+        browser.refresh();
+        E2EGlobal.waitSomeTime(1500); // phantom.js needs some time here...
+
+        expect(E2ETopics.isTopicRecurring(1), 'topic should be recurring').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be recurring').to.be.false;
+    });
+
 });

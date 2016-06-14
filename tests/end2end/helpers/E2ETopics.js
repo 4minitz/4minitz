@@ -101,10 +101,28 @@ export class E2ETopics {
         browser.click(selector);
     }
 
+    static toggleRecurringTopic(topicIndex) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring";
+        browser.waitForVisible(selector);
+        browser.click(selector);
+    }
+
     static isTopicClosed(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .btnToggleState";
 
         return E2EGlobal.isCheckboxSelected(selector)
+    }
+
+    static isTopicRecurring(topicIndex) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring span";
+        try {
+            browser.waitForVisible(selector);
+        } catch(e) {
+            return false;
+        }
+        let element = browser.element(selector);
+        let classes = element.getAttribute('class');
+        return (classes.indexOf('active-icon') > 1);
     }
 
     static toggleActionItem(topicIndex, infoItemIndex) {
