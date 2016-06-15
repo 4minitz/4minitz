@@ -20,9 +20,7 @@
                         <div class="form-group">
                             <label for="id_selResponsible" class="control-label" style="color: teal;">Responsible</label>
                             <select id="id_selResponsible" multiple="multiple" style="width:100%;">
-                                {{#each getMinutesParticipants}}
-                                    <option value="{{userId}}">{{username}}</option>
-                                {{/each}}
+                                <!--Options will be filled in by show.bs.modal event handler-->
                             </select>
                         </div>
                         <div>
