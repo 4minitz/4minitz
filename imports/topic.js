@@ -152,7 +152,7 @@ export class Topic {
      * @returns {boolean}
      */
     isClosed() {
-        return (!this.getDocument().isOpen && !this.hasOpenActionItem());
+        return (!this.getDocument().isOpen && !this.hasOpenActionItem() && !this.isRecurring());
     }
 
     isRecurring() {

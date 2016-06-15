@@ -305,7 +305,7 @@ describe('Topics', function () {
         expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
     });
 
-    it('ensures that it is not possible to change the recurring flag if topic is presented in read-only-mode @watch', function () {
+    it('ensures that it is not possible to change the recurring flag if topic is presented in read-only-mode', function () {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addTopicToMinutes('topic 2');
         E2ETopics.toggleRecurringTopic(1);
@@ -326,6 +326,22 @@ describe('Topics', function () {
 
         expect(E2ETopics.isTopicRecurring(1), 'topic of meeting series should not be able to modify in topics tab').to.be.true;
         expect(E2ETopics.isTopicRecurring(2), 'topic of meeting series should not be able to set as recurring in topics tab').to.be.false;
+    });
+
+    it('ensures that a closed recurring topic should be presented in the next minute again', function () {
+        const myTopicSubject = 'recurring topic';
+
+        E2ETopics.addTopicToMinutes(myTopicSubject);
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        var topicsOfNewMinute = E2ETopics.getTopicsForMinute();
+        let firstElement = topicsOfNewMinute[0].ELEMENT;
+        let visibleText = browser.elementIdText(firstElement).value;
+        expect(visibleText).to.have.string(myTopicSubject);
     });
 
 });
