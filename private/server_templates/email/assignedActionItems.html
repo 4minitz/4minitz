@@ -11,7 +11,7 @@ you have been assigned to the following action items:<br>
                 {{#if priority}}<li>Prio: {{priority}}</li>{{/if}}
                 {{#if duedate}}<li>Due: {{duedate}}</li>{{/if}}
                 {{#each details}}
-                    <li>{{date}} - {{text}}</li>
+                    <li>{{date}}: {{markdown2html text}}</li>
                 {{/each}}
             </ul>
     </li>
