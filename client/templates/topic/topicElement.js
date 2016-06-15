@@ -49,6 +49,10 @@ Template.topicElement.helpers({
     isCollapsed() {
         let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
         return collapseState ? collapseState[this.topic._id] : false;
+    },
+
+    showRecurringIcon() {
+        return (this.isEditable || this.topic.isRecurring);
     }
 });
 
@@ -92,6 +96,10 @@ Template.topicElement.events({
 
     'click .js-toggle-recurring'(evt) {
         evt.preventDefault();
+        if (!this.isEditable) {
+            return;
+        }
+
         if (!this.minutesID) {
             return;
         }

@@ -103,7 +103,11 @@ export class E2ETopics {
 
     static toggleRecurringTopic(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring";
-        browser.waitForVisible(selector);
+        try {
+            browser.waitForVisible(selector);
+        } catch(e) {
+            return false;
+        }
         browser.click(selector);
     }
 

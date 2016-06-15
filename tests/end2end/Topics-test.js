@@ -287,4 +287,45 @@ describe('Topics', function () {
         expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be recurring').to.be.false;
     });
 
+    it('ensures that recurring topics will be displayed as recurring even in read-only-mode', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addTopicToMinutes('topic 2');
+
+        E2ETopics.toggleRecurringTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+
+        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
+
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeries.gotoTabTopics();
+
+        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
+    });
+
+    it('ensures that it is not possible to change the recurring flag if topic is presented in read-only-mode @watch', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.toggleRecurringTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleRecurringTopic(2);
+
+        expect(E2ETopics.isTopicRecurring(1), 'topic of minute should not be able to set as not-recurring if minute is finalized').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'topic of minute should not be able to set as recurring if minute is finalized').to.be.false;
+
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeries.gotoTabTopics();
+
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleRecurringTopic(2);
+
+        expect(E2ETopics.isTopicRecurring(1), 'topic of meeting series should not be able to modify in topics tab').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'topic of meeting series should not be able to set as recurring in topics tab').to.be.false;
+    });
+
 });
