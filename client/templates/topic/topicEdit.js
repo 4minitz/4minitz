@@ -14,16 +14,12 @@ Template.topicEdit.onCreated(function () {
 
 Template.topicEdit.onRendered(function () {
     $.material.init();
-    $('#id_selResponsible').select2({
-        placeholder: 'Select...',
-        tags: true,
-        tokenSeparators: [',', ';']
-    });
 });
 
 Template.topicEdit.onDestroyed(function () {
     //add your statement here
 });
+
 
 var getEditTopic = function() {
     let topicId = Session.get("topicEditTopicId");
@@ -71,12 +67,63 @@ var getPossibleResponsibles = function() {
             if (aUser) {
                 aResponsibleName = aUser.username;
             }
-            possibleResponsibles.push({username: aResponsibleName, userId: aResponsibleId});
+            possibleResponsibles.push({id: aResponsibleId, text: aResponsibleName});
         }
     }
 
     return possibleResponsibles;
 };
+
+
+// get those registered users that are not already added to select2 via
+// getPossibleResponsibles()
+var getRemainingUsers = function (participants) {
+    let participantsIds = [];
+    let remainingUsers = [];
+    for (let i in participants) {
+        if (participants[i].id.length > 15) {   // Meteor _ids default to 17 chars
+            participantsIds.push(participants[i].id);
+        }
+    }
+
+    // format return object suiting for select2.js
+    let users = Meteor.users.find({_id: {$nin: participantsIds}}).fetch();
+    for (let i in users) {
+        remainingUsers.push ({id: users[i]._id, text: users[i].username});
+    }
+    return remainingUsers;
+};
+
+
+function configureSelect2Responsibles() {
+    let selectResponsibles = $('#id_selResponsible');
+    selectResponsibles.find('optgroup')     // clear all <option>s
+        .remove();
+    let possResp = getPossibleResponsibles();
+    let remainingUsers = getRemainingUsers(possResp);
+    let selectOptions = [{
+        text: "Participants",
+        children: possResp
+    }, {
+        text: "Other Users",
+        children: remainingUsers
+    }];
+    selectResponsibles.select2({
+        placeholder: 'Select...',
+        tags: true,                     // Allow freetext adding
+        tokenSeparators: [',', ';'],
+        data: selectOptions             // push <option>s data
+    });
+
+    // select the options that where stored with this topic last time
+    let topic = getEditTopic();
+    if (topic && topic._topicDoc && topic._topicDoc.responsibles) {
+        selectResponsibles.val(topic._topicDoc.responsibles);
+    }
+    selectResponsibles.trigger("change");
+}
+
+
 
 Template.topicEdit.helpers({
     'getTopicSubject': function() {
@@ -84,6 +131,8 @@ Template.topicEdit.helpers({
         return (topic) ? topic._topicDoc.subject : "";
     }
 });
+
+
 
 Template.topicEdit.events({
     "click #btnTopicSave": function (evt, tmpl) {
@@ -124,22 +173,7 @@ Template.topicEdit.events({
     },
 
     "show.bs.modal #dlgAddTopic": function (evt, tmpl) {
-        let selectResponsibles = $('#id_selResponsible');
-        selectResponsibles.val(null)        // clear <option>s and selections
-            .find('option')
-            .remove()
-            .end();
-        let possResp = getPossibleResponsibles();
-        for (let i in possResp) {
-            selectResponsibles.append('<option value="'+ possResp[i].userId +'">'+ possResp[i].username +'</option>');
-        }
-
-        let topic = getEditTopic();
-        if (topic && topic._topicDoc && topic._topicDoc.responsibles) {
-            console.log(topic._topicDoc.responsibles);
-            selectResponsibles.val(topic._topicDoc.responsibles);
-        }
-        selectResponsibles.trigger("change");
+        configureSelect2Responsibles();
     },
 
     "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
