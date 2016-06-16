@@ -219,7 +219,7 @@ describe('MeetingSeries complete Topic list', function () {
             expect(E2ETopics.isActionItemClosed(1, 1), "AI should be closed").to.be.true;
         });
 
-        it('changes the properties (subject/responsible) of an existing Topic', function () {
+        xit('changes the properties (subject/responsible) of an existing Topic @watch', function () {
             const newTopicSubject = "changed topic subject";
             const newResponsible = "changed responsible";
 
