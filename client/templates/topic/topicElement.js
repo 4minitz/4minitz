@@ -49,6 +49,14 @@ Template.topicElement.helpers({
     isCollapsed() {
         let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
         return collapseState ? collapseState[this.topic._id] : false;
+    },
+
+    responsiblesHelper() {
+        let aTopic = new Topic(this.minutesID, this.topic._id);
+        if (aTopic.hasResponsibles()) {
+            return "("+aTopic.getResponsiblesString()+")";
+        }
+        return "";
     }
 });
 

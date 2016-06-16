@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
@@ -248,6 +250,35 @@ export class Topic {
         return this._topicDoc;
     }
 
+    hasResponsibles () {
+        let responsibles = this._topicDoc.responsibles;
+        return (responsibles && responsibles.length > 0);
+    }
+    
+    getResponsiblesString() {
+        let responsibles = this._topicDoc.responsibles;
+        if (!this.hasResponsibles()) {
+            return "";
+        }
+
+        let responsiblesString = "";
+        for (let i in responsibles) {
+            let userName = "";
+            if (responsibles[i].length > 15) {  // maybe DB Id or free text
+                let user = Meteor.users.findOne(responsibles[i]);
+                if (user) {
+                    userName = user.username;
+                }
+            }
+            if (userName) {     // user DB match!
+                responsiblesString += userName + ", ";
+            } else {
+                responsiblesString += responsibles[i] + ", ";
+            }
+        }
+        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
+        return responsiblesString;
+    }
 
     // ################### private methods
     /**
@@ -258,7 +289,7 @@ export class Topic {
      */
     _overwritePrimitiveProperties(updateTopicDoc) {
         this._topicDoc.subject = updateTopicDoc.subject;
-        this._topicDoc.responsible = updateTopicDoc.responsible;
+        this._topicDoc.responsibles = updateTopicDoc.responsibles;
         this._topicDoc.isNew = updateTopicDoc.isNew;
     }
 }
