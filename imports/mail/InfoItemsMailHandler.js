@@ -1,5 +1,6 @@
 import { TopicItemsMailHandler } from './TopicItemsMailHandler'
 import { GlobalSettings } from './../GlobalSettings'
+import { Topic } from './../topic'
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
@@ -22,13 +23,23 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
         let absentParticipants = this._participants.filter(participant => {
             return !participant.present;
         });
+
+        // Generate responsibles strings for all topics
+        this._topics.forEach(topic => {
+            let aTopicObj = new Topic (this._minute._id, topic);
+            topic.responsiblesString = "";
+            if (aTopicObj.hasResponsibles()) {
+                topic.responsiblesString = "("+aTopicObj.getResponsiblesString()+")";
+            }
+        });
+
         let discussedTopics = this._topics.filter(topic => {
             return !topic.isOpen;
         });
         let skippedTopics = this._topics.filter(topic => {
             return topic.isOpen;
         });
-
+        
         this._buildMail(
             mailSubject,
             {

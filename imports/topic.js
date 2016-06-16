@@ -263,15 +263,15 @@ export class Topic {
 
         let responsiblesString = "";
         for (let i in responsibles) {
-            let userName = "";
+            let userNameFromDB = "";
             if (responsibles[i].length > 15) {  // maybe DB Id or free text
                 let user = Meteor.users.findOne(responsibles[i]);
                 if (user) {
-                    userName = user.username;
+                    userNameFromDB = user.username;
                 }
             }
-            if (userName) {     // user DB match!
-                responsiblesString += userName + ", ";
+            if (userNameFromDB) {     // user DB match!
+                responsiblesString += userNameFromDB + ", ";
             } else {
                 responsiblesString += responsibles[i] + ", ";
             }
