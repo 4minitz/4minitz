@@ -189,6 +189,45 @@ describe('Topic', function() {
 
     });
 
+    describe('#isRecurring', function () {
+
+        let myTopic;
+
+        beforeEach(function() {
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('sets the default value correctly', function () {
+            expect(myTopic.isRecurring()).to.be.false;
+        });
+
+        it('returns the correct value', function () {
+            myTopic.getDocument().isRecurring = true;
+            expect(myTopic.isRecurring()).to.be.true;
+        });
+    });
+
+    describe('#toggleRecurring', function () {
+
+        let myTopic;
+
+        beforeEach(function() {
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('can change the value correctly', function () {
+            myTopic.toggleRecurring();
+            expect(myTopic.isRecurring()).to.be.true;
+        });
+
+        it('can reset the isRecurring-Flag', function () {
+            myTopic.toggleRecurring();
+            myTopic.toggleRecurring();
+            expect(myTopic.isRecurring()).to.be.false;
+        })
+
+    });
+
     describe('#upsertInfoItem', function() {
 
         let myTopic, topicItemDoc;

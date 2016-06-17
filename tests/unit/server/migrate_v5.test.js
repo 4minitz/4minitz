@@ -35,29 +35,22 @@ let MeetingSeriesCollection = {
 };
 
 const {
-    MigrateV3
-    } = proxyquire('../../../server/migrate_v3', {
+    MigrateV5
+    } = proxyquire('../../../server/migrate_v5', {
     '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
     '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
 });
 
-describe('Migrate Version 3', function () {
+describe('Migrate Version 5', function () {
 
-    let series, minute, topicOfMinute, topicOfSeries, openTopic, infoItem;
+    let series, minute, topicOfMinute, topicOfSeries, openTopic;
 
     beforeEach(function () {
-        infoItem = {
-            _id: "AaBbCc0101",
-            subject: "my info item",
-            itemType: "infoItem",
-            createdInMinute: "AaBbCc01"
-        };
-
         topicOfMinute = {
             subject: "Topic Subject",
             isOpen: true,
             isNew: true,
-            infoItems: [infoItem]
+            infoItems: []
         };
 
         openTopic = JSON.parse(JSON.stringify(topicOfMinute)); // clone topic
@@ -91,18 +84,18 @@ describe('Migrate Version 3', function () {
 
     describe('#up', function() {
 
-        it('adds the isSticky flag for each info item in minutes collection', function () {
-            MigrateV3.up();
+        it('adds the isRecurring flag for each topic in minutes collection', function () {
+            MigrateV5.up();
 
-            expect(minute.topics[0].infoItems[0].isSticky, "isSticky flag should be added").to.be.false;
+            expect(minute.topics[0].isRecurring, "isRecurring flag should be added").to.be.false;
             expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
         });
 
-        it('adds the isSticky flag for each info item in meeting series collection', function () {
-            MigrateV3.up();
+        it('adds the isRecurring flag for each topic in meeting series collection', function () {
+            MigrateV5.up();
 
-            expect(series.openTopics[0].infoItems[0].isSticky, "isSticky flag should be added of the infoItems in the openTopics array").to.be.false;
-            expect(series.topics[0].infoItems[0].isSticky, "isSticky flag should be added of the infoItems in the topics array").to.be.false;
+            expect(series.openTopics[0].isRecurring, "isRecurring flag should be added of the topics in the openTopics array").to.be.false;
+            expect(series.topics[0].isRecurring, "isRecurring flag should be added of the topics in the topics array").to.be.false;
             expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
         });
 
@@ -110,24 +103,24 @@ describe('Migrate Version 3', function () {
 
     describe('#down', function() {
 
-        beforeEach('add isSticky property for each item', function() {
-            minute.topics[0].infoItems[0].isSticky = true;
-            series.topics[0].infoItems[0].isSticky = false;
-            series.openTopics[0].infoItems[0].isSticky = true;
+        beforeEach('add isRecurring property for each topic', function() {
+            minute.topics[0].isRecurring = true;
+            series.topics[0].isRecurring = false;
+            series.openTopics[0].isRecurring = true;
         });
 
-        it('removes the isSticky flag for each info item in minutes collection', function () {
-            MigrateV3.down();
+        it('removes the isRecurring flag for each topic in minutes collection', function () {
+            MigrateV5.down();
 
-            expect(minute.topics[0].infoItems[0].isSticky, "isSticky flag should be removed").to.be.undefined;
+            expect(minute.topics[0].isRecurring, "isRecurring flag should be removed").to.be.undefined;
             expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
         });
 
-        it('removes the isSticky flag for each info item in meeting series collection', function () {
-            MigrateV3.down();
+        it('removes the isRecurring flag for each topic in meeting series collection', function () {
+            MigrateV5.down();
 
-            expect(series.openTopics[0].infoItems[0].isSticky, "isSticky flag should be removed of the infoItems in the openTopics array").to.be.undefined;
-            expect(series.topics[0].infoItems[0].isSticky, "isSticky flag should be removed of the infoItems in the topics array").to.be.undefined;
+            expect(series.openTopics[0].isRecurring, "isRecurring flag should be removed from the topics in the openTopics array").to.be.undefined;
+            expect(series.topics[0].isRecurring, "isRecurring flag should be removed from the topics in the topics array").to.be.undefined;
             expect(MeetingSeriesCollection.update.calledOnce, 'MeetingSeriesCollection.update should be called once').to.be.true;
         });
 

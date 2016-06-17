@@ -36,7 +36,8 @@ function resolveTopic(parentElement, source) {
 
     _.defaults(source, {
         isOpen: true,
-        isNew: true
+        isNew: true,
+        isRecurring: false
     });
 
     return source;
@@ -153,7 +154,15 @@ export class Topic {
      * @returns {boolean}
      */
     isClosed() {
-        return (!this.getDocument().isOpen && !this.hasOpenActionItem());
+        return (!this.getDocument().isOpen && !this.hasOpenActionItem() && !this.isRecurring());
+    }
+
+    isRecurring() {
+        return this.getDocument().isRecurring;
+    }
+
+    toggleRecurring() {
+        this.getDocument().isRecurring = !this.isRecurring();
     }
 
     upsertInfoItem(topicItemDoc, callback, saveChanges) {
@@ -291,5 +300,6 @@ export class Topic {
         this._topicDoc.subject = updateTopicDoc.subject;
         this._topicDoc.responsibles = updateTopicDoc.responsibles;
         this._topicDoc.isNew = updateTopicDoc.isNew;
+        this._topicDoc.isRecurring = updateTopicDoc.isRecurring;
     }
 }

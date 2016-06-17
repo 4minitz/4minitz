@@ -51,6 +51,10 @@ Template.topicElement.helpers({
         return collapseState ? collapseState[this.topic._id] : false;
     },
 
+    showRecurringIcon() {
+        return (this.isEditable || this.topic.isRecurring);
+    },
+
     responsiblesHelper() {
         let aTopic = new Topic(this.minutesID, this.topic._id);
         if (aTopic.hasResponsibles()) {
@@ -94,6 +98,23 @@ Template.topicElement.events({
         let aTopic = new Topic(this.minutesID, this.topic._id);
         if (aTopic) {
             aTopic.toggleState();
+            aTopic.save();
+        }
+    },
+
+    'click .js-toggle-recurring'(evt) {
+        evt.preventDefault();
+        if (!this.isEditable) {
+            return;
+        }
+
+        if (!this.minutesID) {
+            return;
+        }
+
+        let aTopic = new Topic(this.minutesID, this.topic._id);
+        if (aTopic) {
+            aTopic.toggleRecurring();
             aTopic.save();
         }
     },

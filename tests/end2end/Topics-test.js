@@ -271,4 +271,99 @@ describe('Topics', function () {
         expect(E2ETopics.isTopicClosed(1), "first topic should be closed").to.be.true;
         expect(E2ETopics.isTopicClosed(2), "second topic should be closed").to.be.true;
     });
+
+    it('is possible to mark topics as recurring persistently', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addTopicToMinutes('topic 2');
+
+        expect(E2ETopics.isTopicRecurring(1), 'topic should not be recurring initially').to.be.false;
+
+        E2ETopics.toggleRecurringTopic(1);
+
+        browser.refresh();
+        E2EGlobal.waitSomeTime(1500); // phantom.js needs some time here...
+
+        expect(E2ETopics.isTopicRecurring(1), 'topic should be recurring').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be recurring').to.be.false;
+    });
+
+    it('ensures that recurring topics will be displayed as recurring even in read-only-mode', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addTopicToMinutes('topic 2');
+
+        E2ETopics.toggleRecurringTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+
+        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
+
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeries.gotoTabTopics();
+
+        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
+    });
+
+    it('ensures that it is not possible to change the recurring flag if topic is presented in read-only-mode', function () {
+        E2ETopics.addTopicToMinutes('topic 1');
+        E2ETopics.addTopicToMinutes('topic 2');
+        E2ETopics.toggleRecurringTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleRecurringTopic(2);
+
+        expect(E2ETopics.isTopicRecurring(1), 'topic of minute should not be able to set as not-recurring if minute is finalized').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'topic of minute should not be able to set as recurring if minute is finalized').to.be.false;
+
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeries.gotoTabTopics();
+
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleRecurringTopic(2);
+
+        expect(E2ETopics.isTopicRecurring(1), 'topic of meeting series should not be able to modify in topics tab').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'topic of meeting series should not be able to set as recurring in topics tab').to.be.false;
+    });
+
+    it('ensures that a closed recurring topic should be presented in the next minute again', function () {
+        const myTopicSubject = 'recurring topic';
+
+        E2ETopics.addTopicToMinutes(myTopicSubject);
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        var topicsOfNewMinute = E2ETopics.getTopicsForMinute();
+        let firstElement = topicsOfNewMinute[0].ELEMENT;
+        let visibleText = browser.elementIdText(firstElement).value;
+        expect(visibleText).to.have.string(myTopicSubject);
+    });
+
+    it('ensures that the isRecurring-State of a topic in the meeting series topic list will be overwritten from the ' +
+        'topics state within the last finalized minute', function () {
+
+        const myTopicSubject = 'recurring topic';
+
+        E2ETopics.addTopicToMinutes(myTopicSubject);
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeries.gotoTabTopics();
+
+        expect(E2ETopics.isTopicRecurring(1)).to.be.false;
+    });
+
 });
