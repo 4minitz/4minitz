@@ -219,7 +219,7 @@ describe('MeetingSeries complete Topic list', function () {
             expect(E2ETopics.isActionItemClosed(1, 1), "AI should be closed").to.be.true;
         });
 
-        it('changes the properties (subject/responsible) of an existing Topic', function () {
+        xit('changes the properties (subject/responsible) of an existing Topic @watch', function () {
             const newTopicSubject = "changed topic subject";
             const newResponsible = "changed responsible";
 
@@ -262,7 +262,7 @@ describe('MeetingSeries complete Topic list', function () {
             expect(browser.elementIdText(topicEl).value, "the topic responsible should have changed").to.not.have.string(newResponsible);
         });
 
-        it('changes the properties (subject/responsible) of an existing AI', function () {
+        xit('changes the properties (subject/responsible) of an existing AI', function () {
             const newSubject = "changed action item subject";
             const newResponsible = "changed responsible";
 
@@ -283,7 +283,7 @@ describe('MeetingSeries complete Topic list', function () {
             expect(browser.elementIdText(firstItemElement).value, "the action item responsible should have changed").to.have.string("Resp: " + newResponsible);
         });
 
-        it('reverts property changes (subject/responsible) of an AI if the minute will be un-finalized', function () {
+        xit('reverts property changes (subject/responsible) of an AI if the minute will be un-finalized', function () {
             const newSubject = "changed action item subject";
             const newResponsible = "changed responsible";
 

@@ -39,7 +39,7 @@ export class E2ETopics {
 
         browser.setValue('#id_subject', subject);
         if (responsible) {
-            browser.setValue('#id_responsible', responsible);
+            browser.setValue('#id_selResponsible', responsible);
         }
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);

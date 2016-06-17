@@ -5,6 +5,12 @@ import _ from 'underscore';
 
 require('../../../lib/helpers');
 
+class MeteorError {}
+let Meteor = {
+    call: sinon.stub(),
+    Error: MeteorError
+};
+
 const meetingSeriesId = "AaBbCcDd01";
 class MeetingSeries {
     constructor(id) {
@@ -46,6 +52,7 @@ global.Random = {
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true}
