@@ -344,4 +344,26 @@ describe('Topics', function () {
         expect(visibleText).to.have.string(myTopicSubject);
     });
 
+    it('ensures that the isRecurring-State of a topic in the meeting series topic list will be overwritten from the ' +
+        'topics state within the last finalized minute', function () {
+
+        const myTopicSubject = 'recurring topic';
+
+        E2ETopics.addTopicToMinutes(myTopicSubject);
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        E2ETopics.toggleRecurringTopic(1);
+        E2ETopics.toggleTopic(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeries.gotoTabTopics();
+
+        expect(E2ETopics.isTopicRecurring(1)).to.be.false;
+    });
+
 });

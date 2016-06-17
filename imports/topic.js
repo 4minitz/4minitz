@@ -269,5 +269,6 @@ export class Topic {
         this._topicDoc.subject = updateTopicDoc.subject;
         this._topicDoc.responsible = updateTopicDoc.responsible;
         this._topicDoc.isNew = updateTopicDoc.isNew;
+        this._topicDoc.isRecurring = updateTopicDoc.isRecurring;
     }
 }
