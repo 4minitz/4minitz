@@ -4,7 +4,7 @@ import { backupMongo } from './mongoBackup';
 import { MigrateV1 } from './migrate_v1'
 import { MigrateV2 } from './migrate_v2'
 import { MigrateV3 } from './migrate_v3'
-import { MigrateV4 } from './migrate_v4'
+import { MigrateV5 } from './migrate_v5'
 
  Migrations.add({
      version: 1,
@@ -25,9 +25,9 @@ Migrations.add({
 });
 
 Migrations.add({
-    version: 4,
-    up() {MigrateV4.up();},
-    down() {MigrateV4.down();}
+    version: 5,
+    up() {MigrateV5.up();},
+    down() {MigrateV5.down();}
 });
 
 // ----------------------------------------------------------------

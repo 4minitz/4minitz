@@ -2,7 +2,7 @@ import { MinutesCollection } from '/imports/collections/minutes_private'
 import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
 
 // convert the participants fields
-export class MigrateV4 {
+export class MigrateV5 {
 
     static _upgradeTopics(topics) {
         // add new field isRecurring with default value false for each topic
@@ -21,7 +21,7 @@ export class MigrateV4 {
 
     static up() {
         MinutesCollection.find().forEach(minute => {
-            MigrateV4._upgradeTopics(minute.topics);
+            MigrateV5._upgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
             MinutesCollection.update(
@@ -36,8 +36,8 @@ export class MigrateV4 {
         });
 
         MeetingSeriesCollection.find().forEach(series => {
-            MigrateV4._upgradeTopics(series.openTopics);
-            MigrateV4._upgradeTopics(series.topics);
+            MigrateV5._upgradeTopics(series.openTopics);
+            MigrateV5._upgradeTopics(series.topics);
 
             MeetingSeriesCollection.update(
                 series._id,
@@ -54,7 +54,7 @@ export class MigrateV4 {
 
     static down() {
         MinutesCollection.find().forEach(minute => {
-            MigrateV4._downgradeTopics(minute.topics);
+            MigrateV5._downgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
             MinutesCollection.update(
@@ -69,8 +69,8 @@ export class MigrateV4 {
         });
 
         MeetingSeriesCollection.find().forEach(series => {
-            MigrateV4._downgradeTopics(series.openTopics);
-            MigrateV4._downgradeTopics(series.topics);
+            MigrateV5._downgradeTopics(series.openTopics);
+            MigrateV5._downgradeTopics(series.topics);
 
             MeetingSeriesCollection.update(
                 series._id,

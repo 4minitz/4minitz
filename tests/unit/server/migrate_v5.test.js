@@ -35,13 +35,13 @@ let MeetingSeriesCollection = {
 };
 
 const {
-    MigrateV4
-    } = proxyquire('../../../server/migrate_v4', {
+    MigrateV5
+    } = proxyquire('../../../server/migrate_v5', {
     '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
     '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
 });
 
-describe('Migrate Version 4', function () {
+describe('Migrate Version 5', function () {
 
     let series, minute, topicOfMinute, topicOfSeries, openTopic;
 
@@ -85,14 +85,14 @@ describe('Migrate Version 4', function () {
     describe('#up', function() {
 
         it('adds the isRecurring flag for each topic in minutes collection', function () {
-            MigrateV4.up();
+            MigrateV5.up();
 
             expect(minute.topics[0].isRecurring, "isRecurring flag should be added").to.be.false;
             expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
         });
 
         it('adds the isRecurring flag for each topic in meeting series collection', function () {
-            MigrateV4.up();
+            MigrateV5.up();
 
             expect(series.openTopics[0].isRecurring, "isRecurring flag should be added of the topics in the openTopics array").to.be.false;
             expect(series.topics[0].isRecurring, "isRecurring flag should be added of the topics in the topics array").to.be.false;
@@ -110,14 +110,14 @@ describe('Migrate Version 4', function () {
         });
 
         it('removes the isRecurring flag for each topic in minutes collection', function () {
-            MigrateV4.down();
+            MigrateV5.down();
 
             expect(minute.topics[0].isRecurring, "isRecurring flag should be removed").to.be.undefined;
             expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
         });
 
         it('removes the isRecurring flag for each topic in meeting series collection', function () {
-            MigrateV4.down();
+            MigrateV5.down();
 
             expect(series.openTopics[0].isRecurring, "isRecurring flag should be removed from the topics in the openTopics array").to.be.undefined;
             expect(series.topics[0].isRecurring, "isRecurring flag should be removed from the topics in the topics array").to.be.undefined;
