@@ -219,9 +219,9 @@ describe('MeetingSeries complete Topic list', function () {
             expect(E2ETopics.isActionItemClosed(1, 1), "AI should be closed").to.be.true;
         });
 
-        xit('changes the properties (subject/responsible) of an existing Topic @watch', function () {
+        it('changes the properties (subject/responsible) of an existing Topic', function () {
             const newTopicSubject = "changed topic subject";
-            const newResponsible = "changed responsible";
+            const newResponsible = "user1";
 
             // add a second minute
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -242,7 +242,7 @@ describe('MeetingSeries complete Topic list', function () {
 
         it('reverts property changes (subject/responsible) of a Topic if the minute will be un-finalized', function () {
             const newTopicSubject = "changed topic subject";
-            const newResponsible = "changed responsible";
+            const newResponsible = "user1";
 
             // add a second minute
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -262,9 +262,9 @@ describe('MeetingSeries complete Topic list', function () {
             expect(browser.elementIdText(topicEl).value, "the topic responsible should have changed").to.not.have.string(newResponsible);
         });
 
-        xit('changes the properties (subject/responsible) of an existing AI', function () {
+        it('changes the properties (subject/responsible) of an existing AI', function () {
             const newSubject = "changed action item subject";
-            const newResponsible = "changed responsible";
+            const newResponsible = "user1";
 
             // add a second minute
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -283,9 +283,9 @@ describe('MeetingSeries complete Topic list', function () {
             expect(browser.elementIdText(firstItemElement).value, "the action item responsible should have changed").to.have.string("Resp: " + newResponsible);
         });
 
-        xit('reverts property changes (subject/responsible) of an AI if the minute will be un-finalized', function () {
+        it('reverts property changes (subject/responsible) of an AI if the minute will be un-finalized', function () {
             const newSubject = "changed action item subject";
-            const newResponsible = "changed responsible";
+            const newResponsible = "user1";
 
             // add a second minute
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);

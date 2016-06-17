@@ -39,7 +39,9 @@ export class E2ETopics {
 
         browser.setValue('#id_subject', subject);
         if (responsible) {
-            browser.setValue('#id_selResponsible', responsible);
+            let selectEl = browser.element('#id_selResponsible');
+            selectEl.selectByVisibleText(responsible);
+            //browser.setValue('#id_selResponsible', responsible);
         }
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);

@@ -363,7 +363,7 @@ export class MeetingSeries {
         this.topics[i].isOpen = (!topic.isClosed());
     }
 
-    findTopic() {
+    findTopic(id) {
         let i = subElementsHelper.findIndexById(id, this.topics);
         if (i != undefined) {
             return this.topics[i];

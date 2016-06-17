@@ -134,7 +134,7 @@ Template.minutesedit.helpers({
 
     getTopicsListConfig: function() {
         let aMin = new Minutes(_minutesID);
-        return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()));
+        return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
     mobileButton() {

@@ -56,7 +56,9 @@ Template.topicElement.helpers({
     },
 
     responsiblesHelper() {
-        let aTopic = new Topic(this.minutesID, this.topic._id);
+        let parentElement = (this.minutesID) ? this.minutesID : this.parentMeetingSeriesId;
+
+        let aTopic = new Topic(parentElement, this.topic._id);
         if (aTopic.hasResponsibles()) {
             return "("+aTopic.getResponsiblesString()+")";
         }
