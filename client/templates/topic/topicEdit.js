@@ -80,8 +80,9 @@ var getPossibleResponsibles = function() {
 var getRemainingUsers = function (participants) {
     let participantsIds = [];
     let remainingUsers = [];
+    console.log(participants);
     for (let i in participants) {
-        if (participants[i].id.length > 15) {   // Meteor _ids default to 17 chars
+        if (participants[i].id && participants[i].id.length > 15) {   // Meteor _ids default to 17 chars
             participantsIds.push(participants[i].id);
         }
     }
