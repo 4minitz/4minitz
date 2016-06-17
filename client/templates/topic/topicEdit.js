@@ -54,7 +54,7 @@ var getPossibleResponsibles = function() {
 
     // add the responsibles from current topic
     let topic = getEditTopic();
-    if (topic) {
+    if (topic && topic.hasResponsibles()) {
         buffer = buffer.concat(topic._topicDoc.responsibles);
     }
 
