@@ -16,7 +16,7 @@ export class E2EMeetingSeries {
     };
 
 
-    static createMeetingSeries (aProj, aName) {
+    static editMeetingSeriesForm(aProj, aName, switchInput) {
         E2EApp.gotoStartPage();
 
         // is "create MeetingSeries dialog" closed?
@@ -26,8 +26,18 @@ export class E2EMeetingSeries {
             browser.waitForVisible('input[id="id_meetingproject"]');
         }
 
-        browser.setValue('input[id="id_meetingproject"]', aProj);
-        browser.setValue('input[id="id_meetingname"]', aName);
+        if (switchInput) {
+            browser.setValue('input[id="id_meetingname"]', aName);
+            browser.setValue('input[id="id_meetingproject"]', aProj);
+        } else {
+            browser.setValue('input[id="id_meetingproject"]', aProj);
+            browser.setValue('input[id="id_meetingname"]', aName);
+        }
+    }
+
+    static createMeetingSeries (aProj, aName) {
+        this.editMeetingSeriesForm(aProj, aName);
+
         browser.click('#btnAdd');
 
         E2EGlobal.waitSomeTime();

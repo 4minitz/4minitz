@@ -1,11 +1,16 @@
-
-import { MeetingSeries } from '/imports/meetingseries'
+import { MeetingSeries } from '/imports/meetingseries';
+import submitOnEnter from '../helpers/submitOnEnter';
+import { $ } from 'meteor/jquery';
 
 Template.meetingSeriesAdd.onCreated(function () {
 });
 
 Template.meetingSeriesAdd.onRendered(function () {
     $.material.init();
+
+    submitOnEnter(['#id_meetingproject', '#id_meetingname'], [], () => {
+        $('#btnAdd').click();
+    });
 });
 
 
