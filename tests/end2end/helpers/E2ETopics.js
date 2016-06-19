@@ -9,6 +9,7 @@ export class E2ETopics {
         browser.click("#id_showAddTopicDialog");
 
         E2ETopics.insertTopicDataIntoDialog(aTopic);
+        E2ETopics.submitTopicDialog();
     };
 
     static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
@@ -18,6 +19,7 @@ export class E2ETopics {
         browser.click(selector);
 
         E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
+        E2ETopics.submitTopicDialog();
     }
 
     static deleteTopic(topicIndex, confirmDialog) {
@@ -43,6 +45,9 @@ export class E2ETopics {
             selectEl.selectByVisibleText(responsible);
             //browser.setValue('#id_selResponsible', responsible);
         }
+    }
+
+    static submitTopicDialog() {
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);
     }

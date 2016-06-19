@@ -1,7 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 
-import { Topic } from '/imports/topic'
-import { Minutes } from '/imports/minutes'
+import { Topic } from '/imports/topic';
+import { Minutes } from '/imports/minutes';
+
+import { $ } from 'meteor/jquery';
+import submitOnEnter from '../../helpers/submitOnEnter';
 
 Session.setDefault("topicEditTopicId", null);
 
@@ -14,6 +17,10 @@ Template.topicEdit.onCreated(function () {
 
 Template.topicEdit.onRendered(function () {
     $.material.init();
+
+    submitOnEnter(['#id_subject'], [], () => {
+        $('#btnTopicSave').click();
+    });
 });
 
 Template.topicEdit.onDestroyed(function () {
