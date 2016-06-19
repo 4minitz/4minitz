@@ -77,6 +77,7 @@ Template.minutesedit.onRendered(function () {
         items: '> .well',
         opacity: 0.5,
         disabled: true,
+        handle: '.topicDragDropHandle',
         update: updateTopicSorting
     });
 

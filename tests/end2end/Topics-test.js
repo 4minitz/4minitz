@@ -79,12 +79,26 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can change the order of topics via drag and drop', function () {
+    it('can not change the order of topics via drag and drop by clicking anywhere', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
 
         browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
+
+        var topics = E2ETopics.getTopicsForMinute();
+        let elementId = topics[0].ELEMENT;
+        let visibleText = browser.elementIdText(elementId).value;
+
+        expect(visibleText).to.have.string('yet another topic');
+    });
+
+    it('can change the order of topics via drag and drop by clicking on the sort icon', function () {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.addTopicToMinutes('some other topic');
+        E2ETopics.addTopicToMinutes('yet another topic');
+
+        browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
 
         var topics = E2ETopics.getTopicsForMinute();
         let elementId = topics[0].ELEMENT;
@@ -166,16 +180,10 @@ describe('Topics', function () {
         let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
-        browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
-
-        var topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
-        let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
-        let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
-        expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
+        expect(browser.isExisting('#topicPanel .well:nth-child(3) .topicDragDropHandle')).to.be.false;
 
         E2EApp.loginUser();
     });
-
 
 
     it('sorting of topics is persistent', function () {
@@ -183,7 +191,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
 
-        browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
+        browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
 
         var topicsBeforeReload = E2ETopics.getTopicsForMinute();
         let firstElementBeforeReload = topicsBeforeReload[0].ELEMENT;
