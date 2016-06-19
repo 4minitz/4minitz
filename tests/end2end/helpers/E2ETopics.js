@@ -52,12 +52,17 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime(700);
     }
 
-    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+    static openInfoItemDialog(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .addTopicInfoItem";
 
         browser.waitForVisible(selector);
         browser.click(selector);
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc)
+    }
+
+    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+        this.openInfoItemDialog(topicIndex);
+        this.insertInfoItemDataIntoDialog(infoItemDoc);
+        this.submitInfoItemDialog();
     }
 
     static editInfoItemForTopic(topicIndex, infoItemIndex, infoItemDoc) {
@@ -65,7 +70,8 @@ export class E2ETopics {
 
         browser.waitForVisible(selector);
         browser.click(selector);
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true)
+        this.insertInfoItemDataIntoDialog(infoItemDoc, true);
+        this.submitInfoItemDialog();
     }
 
     static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
@@ -97,7 +103,9 @@ export class E2ETopics {
             browser.waitForExist(radioBtnSelector);
             browser.click(radioBtnSelector);
         }
+    }
 
+    static submitInfoItemDialog() {
         browser.click("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
     }
