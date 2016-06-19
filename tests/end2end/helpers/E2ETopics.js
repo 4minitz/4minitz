@@ -92,9 +92,6 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime();
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
-        if (infoItemDoc.responsible) {
-            browser.setValue('#id_item_responsible', infoItemDoc.responsible);
-        }
         //todo: set other fields (priority, responsible, duedate, details)
 
         if (!isEditMode) {
@@ -102,6 +99,14 @@ export class E2ETopics {
             let radioBtnSelector = "#label_" + type;
             browser.waitForExist(radioBtnSelector);
             browser.click(radioBtnSelector);
+        }
+
+        if (infoItemDoc.responsible) {
+            browser.setValue('#id_item_responsible', infoItemDoc.responsible);
+        }
+
+        if (infoItemDoc.priority) {
+            browser.setValue('#id_item_priority', infoItemDoc.priority);
         }
     }
 

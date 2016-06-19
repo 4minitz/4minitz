@@ -1,9 +1,9 @@
-/**
- * Created by felix on 12.05.16.
- */
-import { Topic } from '/imports/topic'
-import { InfoItem } from '/imports/infoitem'
-import { ActionItem } from '/imports/actionitem'
+import { Topic } from '/imports/topic';
+import { InfoItem } from '/imports/infoitem';
+import { ActionItem } from '/imports/actionitem';
+
+import { $ } from 'meteor/jquery';
+import submitOnEnter from '../../helpers/submitOnEnter';
 
 Session.setDefault("topicInfoItemEditTopicId", null);
 Session.setDefault("topicInfoItemEditInfoItemId", null);
@@ -17,13 +17,23 @@ Template.topicInfoItemEdit.onCreated(function () {
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
-    this.$('#id_item_duedatePicker').datetimepicker(
-        {
-            format: "YYYY-MM-DD"
-        }
-    );
+    this.$('#id_item_duedatePicker').datetimepicker({
+        format: "YYYY-MM-DD"
+    });
 
-    $.material.init()
+    $.material.init();
+
+    let inputs = [
+        '.id_type',
+        '#id_item_subject',
+        '#id_item_priority',
+        '#id_item_responsible'
+    ];
+    let textarea = ['#id_item_details'];
+
+    submitOnEnter(inputs, textarea, () => {
+        $('#btnInfoItemSave').click();
+    });
 });
 
 let getRelatedTopic = function() {

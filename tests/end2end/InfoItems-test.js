@@ -101,5 +101,25 @@ describe('Info Items', function () {
         E2EApp.confirmationDialogAnswer(false);
     });
 
+    it('can submit an info item by pressing enter in the topic field', function () {
+        let topicIndex = 1;
+        E2ETopics.openInfoItemDialog(topicIndex);
+
+        const infoItemName = getNewAIName();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: infoItemName + "\n",
+            itemType: "infoItem"
+        });
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
+
+        let infoItemExpandElement = browser.element(selector).value.ELEMENT;
+        let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
+
+        expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
+    });
 
 });

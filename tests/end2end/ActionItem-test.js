@@ -83,6 +83,71 @@ describe('ActionItems', function () {
         expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
     });
 
+    it('can add an action item by pressing enter in the topic field', function () {
+        let topicIndex = 1;
+        E2ETopics.openInfoItemDialog(topicIndex);
+
+        const actionItemName = getNewAIName();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: actionItemName + "\n",
+            itemType: "actionItem"
+        });
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
+
+        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+
+        expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
+    });
+
+    it('can add an action item by pressing enter in the responsible field', function () {
+        let topicIndex = 1;
+        E2ETopics.openInfoItemDialog(topicIndex);
+
+        const actionItemName = getNewAIName();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: actionItemName,
+            responsible: 'me' + "\n",
+            itemType: "actionItem"
+        });
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
+
+        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+
+        expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
+    });
+
+    it('can add an action item by pressing enter in the priority field', function () {
+        let topicIndex = 1;
+        E2ETopics.openInfoItemDialog(topicIndex);
+
+        const actionItemName = getNewAIName();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: actionItemName,
+            priority: 'low' + "\n",
+            itemType: "actionItem"
+        });
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
+
+        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+
+        expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
+    });
+
     it('toggles the open-state of the first AI', function () {
         addActionItemToFirstTopic();
 
