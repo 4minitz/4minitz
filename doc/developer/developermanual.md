@@ -82,7 +82,7 @@ They build a facade for the underlying MongoCollections and enrich them with con
 
 
 ## Sequence Diagrams
-![Sequence: Add Minutes to MeetingSeries](./figures/seqMinutesAdd.png)
+![Sequence: Add Minutes to MeetingSeries](./figures/seq_MinutesAdd.png)
 
 ## MongoDB Collection Schema
 
