@@ -16,7 +16,7 @@ export const InfoItemSchema = new SimpleSchema({
     subject: {type: String},
     isOpen: {type: Boolean, optional: true},                            // action item
     isNew: {type: Boolean, optional: true},                             // action item
-    responsible: {type: String, defaultValue: '', optional: true},      // action item
+    responsibles: {type: [String], defaultValue: [], optional: true},   // action item
     priority: {type: String, defaultValue: '', optional: true},         // action item
     duedate: {type: String, optional: true},                            // action item
     details: {type: [DetailsSchema], defaultValue: [], optional: true}  // action item
