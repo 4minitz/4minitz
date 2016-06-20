@@ -12,12 +12,10 @@ MeteorMail --> UserOfMailFeature
 
 UserOfMailFeature --> MeteorMail: send()
     MeteorMail --> Mail: send()
-        loop for each recipient
-            Mail -> Mail: check preconditions
-            Mail --> MeteorMail: _sendMail()
-            MeteorMail --> Mail
-            Mail -> Mail: create log entry for sending email
-        end
+        Mail -> Mail: check preconditions
+        Mail --> MeteorMail: _sendMail()
+        MeteorMail --> Mail
+        Mail -> Mail: create log entry for sending email
     Mail --> MeteorMail
 MeteorMail --> UserOfMailFeature
 

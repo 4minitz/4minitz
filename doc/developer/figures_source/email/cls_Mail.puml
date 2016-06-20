@@ -4,8 +4,12 @@
 abstract class Mail {
     string replyTo
     string|string[] recipient
+    constructor(replyTo, recipients)
+    setSubject(subject)
+    setText(text)
+    setHtml(html)
     send()
-    _sendMail()
+    abstract _sendMail()
 }
 
 class MailgunMail {
@@ -21,7 +25,7 @@ Mail  <|-- MeteorMail
 
 
 class MailFactory {
-    static getMailer()
+    static getMailer(replyTo, recipient)
 }
 
 @enduml

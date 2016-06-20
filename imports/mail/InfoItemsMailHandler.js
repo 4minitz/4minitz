@@ -7,7 +7,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
     constructor(sender, recipients, minute, topics, meetingSeries, participants) {
         super(sender, recipients, minute, 'publishInfoItems');
         this._topics = topics;
-        this._sendSeparateMails = false;
+        this._sendAIseperately = false;
         this._sender = sender;
         this._minute = minute;
         this._meetingSeries = meetingSeries;

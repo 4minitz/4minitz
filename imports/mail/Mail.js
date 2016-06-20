@@ -6,11 +6,11 @@ export class Mail {
     /**
      *
      * @param replyTo {string}
-     * @param recipient {string|string[]}
+     * @param recipients {string|string[]}
      */
-    constructor(replyTo, recipient) {
+    constructor(replyTo, recipients) {
         this._replyTo = replyTo;
-        this._recipient = recipient;
+        this._recipients = recipients;
         this._from = GlobalSettings.getDefaultEmailSenderAddress(/*alternative:*/ replyTo);
     }
 
@@ -33,13 +33,13 @@ export class Mail {
         try {
             this._sendMail();
         } catch(error) {
-            console.log("#Email could not be sent successfully to: " + this._recipient);
+            console.log("#Email could not be sent successfully to: " + this._recipients);
             console.log("\tEmail subject: " + this._subject);
             console.log("\tError: " + error);
             return;
         }
 
-        console.log("#Email was sent successfully to: " + this._recipient);
+        console.log("#Email was sent successfully to: " + this._recipients);
         console.log("\tEmail subject: " + this._subject);
     }
 
