@@ -4,19 +4,23 @@ import { E2EApp } from './E2EApp'
 
 
 export class E2ETopics {
-    static addTopicToMinutes (aTopic) {
+    static addTopicToMinutes (aTopic, aResponsible) {
         browser.waitForVisible("#id_showAddTopicDialog");
         browser.click("#id_showAddTopicDialog");
 
-        E2ETopics.insertTopicDataIntoDialog(aTopic);
+        E2ETopics.insertTopicDataIntoDialog(aTopic, aResponsible);
     };
 
-    static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
+    
+    static openEditTopicForMinutes(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnEditTopic";
-
         browser.waitForVisible(selector);
         browser.click(selector);
+        E2EGlobal.waitSomeTime();
+    }
 
+    static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
+        E2ETopics.openEditTopicForMinutes(topicIndex);
         E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
     }
 
@@ -29,6 +33,11 @@ export class E2ETopics {
         }
     }
 
+    static responsibleEnterFreetext(theText) {
+        browser.element(".select2-selection").click();
+        browser.keys(theText+"\uE007"); // plus ENTER
+    }
+    
     static insertTopicDataIntoDialog(subject, responsible) {
         try {
             browser.waitForVisible('#id_subject');
@@ -36,12 +45,12 @@ export class E2ETopics {
             return false;
         }
         E2EGlobal.waitSomeTime();
-
-        browser.setValue('#id_subject', subject);
+        
+        if (subject) {
+            browser.setValue('#id_subject', subject);
+        }
         if (responsible) {
-            let selectEl = browser.element('#id_selResponsible');
-            selectEl.selectByVisibleText(responsible);
-            //browser.setValue('#id_selResponsible', responsible);
+            E2ETopics.responsibleEnterFreetext(responsible);
         }
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);
