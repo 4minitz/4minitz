@@ -62,12 +62,14 @@ Template.minutesedit.onRendered(function () {
     });
 
     let aMin = new Minutes(_minutesID);
-    let ms = aMin.parentMeetingSeries();
-    if (ms) {
-        let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
-        if (minDate) {
-            minDate.setDate(minDate.getDate() + 1);
-            datePickerNode.data("DateTimePicker").minDate(minDate);
+    if (!aMin.isFinalized) {
+        let ms = aMin.parentMeetingSeries();
+        if (ms) {
+            let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
+            if (minDate) {
+                minDate.setDate(minDate.getDate() + 1);
+                datePickerNode.data("DateTimePicker").minDate(minDate);
+            }
         }
     }
 
