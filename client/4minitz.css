@@ -19,6 +19,8 @@
     top: 10px;
     right: 10px;
     z-index: 1000;
+    background-color: rgba(255,0,0, 0.5);
+    padding: 5px;
 }
 
 .panel-link:hover, .panel-link:link {
