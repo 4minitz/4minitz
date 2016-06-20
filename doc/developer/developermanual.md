@@ -88,7 +88,7 @@ They build a facade for the underlying MongoCollections and enrich them with con
 
 We provide different ways for sending emails. Currently sending mails via smtp or the mail delivery service
 [mailgun](http://www.mailgun.com/) is supported. Via the configuration file settings.json you can define globally which
-service should be used (see for configuration (doc/admin/adminguide.md)).
+service should be used (for configuration go to [Admin Doc](../admin/adminguide.md#configuration-for-sending-emails)).
 
 To achieve this you should not use Meteor.mail() for sending mails directly. Instead you can use our MailFactory to get
 a concrete instance of the abstract Mail-Class. This class defines the API for sending mails and is currently
