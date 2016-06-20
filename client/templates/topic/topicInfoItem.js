@@ -159,6 +159,10 @@ Template.topicInfoItem.events({
     },
 
     'click .addDetail'(evt, tmpl) {
+        console.log(tmpl.$('#accordion'));
+        console.log(tmpl.$('#collapse-' + this.currentCollapseId));
+        tmpl.$('#collapse-' + this.currentCollapseId).collapse('show');
+
         let aMin = new Minutes(tmpl.data.minutesID);
         let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
         let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);

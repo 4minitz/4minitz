@@ -50,12 +50,18 @@
                             {{/if}}
 
                             {{#if isEditable}}
-                            <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </a>
-                            <a id="btnDelInfoItem" href="#" class="panel-link">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
+                                {{#if isActionItem}}
+                                    <a href="#" class="panel-link addDetail">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </a>
+                                {{/if}}
+
+                                <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <a id="btnDelInfoItem" href="#" class="panel-link">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
                             {{/if}}
                         </span>
                 </div>
