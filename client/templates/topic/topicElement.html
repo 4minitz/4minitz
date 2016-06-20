@@ -27,8 +27,8 @@
                     <span class="badge" style="margin-bottom: 5px;">New</span>
                 {{/if}}
 
-                <!-- Edit & Delete Icons -->
-                <span class="pull-right">
+                <!-- Manipulation Menu Icons -->
+                <span class="pull-right pull-right-icons">
                     {{#if isEditable}}
                         <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add element">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -49,6 +49,7 @@
                         <span class="topicDragDropHandle glyphicon glyphicon-sort"></span>
                     {{/if}}
                 </span>
+                <br clear="all">
             </div>
         </div>
 

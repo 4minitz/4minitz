@@ -97,3 +97,13 @@ a:focus {
     color: grey;
 }
 
+/* glyphicon menu buttons */
+.pull-right-icons .glyphicon {
+    padding: 0.5em;
+    margin-left: 0.75em;
+    font-size: 16px;
+}
+
+.pull-right-icons a {
+    text-decoration: none;
+}
