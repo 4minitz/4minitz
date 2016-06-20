@@ -1,12 +1,12 @@
 <template name="minutesEditParticipants">
     <div class="form-group">
         <label for="id_participants" id="btnParticipantsCollapse" style="cursor: pointer;">
-            Participants
             {{#if isParticipantsExpanded}}
-                <span class="glyphicon glyphicon-option-vertical"></span>
+                <span class="glyphicon glyphicon-triangle-bottom"></span>
             {{else}}
-                <span class="glyphicon glyphicon-option-horizontal" style="vertical-align: middle;"></span>
+                <span class="glyphicon glyphicon-triangle-right"></span>
             {{/if}}
+            Participants
         </label>
 
         <!-- Expanded variant of participant list -->
