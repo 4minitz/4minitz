@@ -364,11 +364,26 @@ export class MeetingSeries {
     }
 
     findTopic(id) {
-        let i = subElementsHelper.findIndexById(id, this.topics);
-        if (i != undefined) {
-            return this.topics[i];
+        return subElementsHelper.getElementById(id, this.topics);
+    }
+
+    findLabel(id) {
+        return subElementsHelper.getElementById(id, this.availableLabels);
+    }
+
+    upsertLabel(labelDoc) {
+        let i = undefined;
+        if (! labelDoc._id) {            // brand-new label
+            labelDoc._id = Random.id();
+        } else {
+            i = subElementsHelper.findIndexById(labelDoc._id, this.availableLabels); // try to find it
         }
-        return undefined;
+
+        if (i === undefined) {                      // label not in array
+            this.availableLabels.unshift(labelDoc);
+        } else {
+            this.availableLabels[i] = labelDoc;      // overwrite in place
+        }
     }
 
     // ################### private methods
