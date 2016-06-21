@@ -85,16 +85,45 @@ export class ActionItem extends InfoItem{
         return this._infoItemDoc.subject;
     }
 
-    getResponsibleArray() {
-        if (!this._infoItemDoc.responsible) {
-            return [];
-        }
-        // currently we store the responsible persons as a comma separated string
-        return this._infoItemDoc.responsible.split(',');
+    hasResponsibles() {
+        return (this._infoItemDoc.responsibles && this._infoItemDoc.responsibles.length);
     }
 
-    getResponsibleString() {
-        return this._infoItemDoc.responsible;
+    getResponsibleRawArray() {
+        if (!this.hasResponsibles()) {
+            return [];
+        }
+        return this._infoItemDoc.responsibles;
+    }
+
+    getResponsibleEMailArray() {
+
+    }
+
+
+    getResponsibleNameString() {
+        if (!this.hasResponsibles()) {
+            return "";
+        }
+
+        let responsibles = this._infoItemDoc.responsibles;
+        let responsiblesString = "";
+        for (let i in responsibles) {
+            let userNameFromDB = "";
+            if (responsibles[i].length > 15) {  // maybe DB Id or free text
+                let user = Meteor.users.findOne(responsibles[i]);
+                if (user) {
+                    userNameFromDB = user.username;
+                }
+            }
+            if (userNameFromDB) {     // user DB match!
+                responsiblesString += userNameFromDB + ", ";
+            } else {
+                responsiblesString += responsibles[i] + ", ";
+            }
+        }
+        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
+        return responsiblesString;
     }
 
     getPriority() {

@@ -27,8 +27,7 @@
                     {{#if isActionItem}}
                         <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
                            href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
-                            {{infoItem.subject}}
-                            Resp: {{infoItem.responsible}}
+                            {{infoItem.subject}} {{responsiblesHelper}}
                             Prio:{{infoItem.priority}}
                             Due: {{infoItem.duedate}}
                         </a>
