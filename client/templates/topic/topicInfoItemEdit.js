@@ -288,7 +288,24 @@ Template.topicInfoItemEdit.events({
         // reset the session var to indicate that edit mode has been closed
         Session.set("topicInfoItemEditTopicId", null);
         Session.set("topicInfoItemEditInfoItemId", null);
-    }
+    },
 
+    "select2:selecting #id_selResponsibleActionItem"(evt, tmpl) {
+        console.log(evt);
+        console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
+        if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
+            if (! /\S+@\S+\.\S+/.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
+                // prohibit non-mail free text entries
+                alert("Not a valid responsible!\nSelect user from dropdown or enter email address.");
+                return false;
+            }
+        }
+        return true;
+    },
+
+    "select2:select #id_selResponsibleActionItem"(evt, tmpl) {
+        // console.log(evt);
+        // console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
+    }
 
 });

@@ -1,6 +1,3 @@
-/**
- * Created by felix on 18.05.16.
- */
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import _ from 'underscore';
@@ -12,6 +9,7 @@ let Topic = {};
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true}
 });
