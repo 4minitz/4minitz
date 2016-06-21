@@ -99,8 +99,8 @@ a:focus {
 
 /* glyphicon menu buttons */
 .pull-right-icons .glyphicon {
-    padding: 0.5em;
-    margin-left: 0.75em;
+    padding: 0.3em;
+    margin-left: 0.5em;
     font-size: 16px;
 }
 
