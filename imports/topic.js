@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
@@ -34,7 +36,8 @@ function resolveTopic(parentElement, source) {
 
     _.defaults(source, {
         isOpen: true,
-        isNew: true
+        isNew: true,
+        isRecurring: false
     });
 
     return source;
@@ -134,7 +137,7 @@ export class Topic {
 
         // delete all sticky items listed in the this topic but not in the updateTopicDoc
         // (these were deleted during the last minute)
-        myTopicDoc.info = myTopicDoc.infoItems.filter(itemDoc => {
+        myTopicDoc.infoItems = myTopicDoc.infoItems.filter(itemDoc => {
             let item = InfoItemFactory.createInfoItem(this, itemDoc);
             if (item.isSticky()) {
                 let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, updateTopicDoc.infoItems);
@@ -151,7 +154,15 @@ export class Topic {
      * @returns {boolean}
      */
     isClosed() {
-        return (!this.getDocument().isOpen && !this.hasOpenActionItem());
+        return (!this.getDocument().isOpen && !this.hasOpenActionItem() && !this.isRecurring());
+    }
+
+    isRecurring() {
+        return this.getDocument().isRecurring;
+    }
+
+    toggleRecurring() {
+        this.getDocument().isRecurring = !this.isRecurring();
     }
 
     async upsertInfoItem(topicItemDoc, saveChanges) {
@@ -191,8 +202,9 @@ export class Topic {
      * no action items)
      */
     tailorTopic() {
-        this._topicDoc.infoItems = this._topicDoc.infoItems.filter((infoItem) => {
-            return InfoItem.isActionItem(infoItem) && infoItem.isOpen;
+        this._topicDoc.infoItems = this._topicDoc.infoItems.filter((infoItemDoc) => {
+            let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
+            return infoItem.isSticky();
         });
     }
 
@@ -248,6 +260,35 @@ export class Topic {
         return this._topicDoc;
     }
 
+    hasResponsibles () {
+        let responsibles = this._topicDoc.responsibles;
+        return (responsibles && responsibles.length > 0);
+    }
+    
+    getResponsiblesString() {
+        if (!this.hasResponsibles()) {
+            return "";
+        }
+
+        let responsibles = this._topicDoc.responsibles;
+        let responsiblesString = "";
+        for (let i in responsibles) {
+            let userNameFromDB = "";
+            if (responsibles[i].length > 15) {  // maybe DB Id or free text
+                let user = Meteor.users.findOne(responsibles[i]);
+                if (user) {
+                    userNameFromDB = user.username;
+                }
+            }
+            if (userNameFromDB) {     // user DB match!
+                responsiblesString += userNameFromDB + ", ";
+            } else {
+                responsiblesString += responsibles[i] + ", ";
+            }
+        }
+        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
+        return responsiblesString;
+    }
 
     // ################### private methods
     /**
@@ -258,7 +299,8 @@ export class Topic {
      */
     _overwritePrimitiveProperties(updateTopicDoc) {
         this._topicDoc.subject = updateTopicDoc.subject;
-        this._topicDoc.responsible = updateTopicDoc.responsible;
+        this._topicDoc.responsibles = updateTopicDoc.responsibles;
         this._topicDoc.isNew = updateTopicDoc.isNew;
+        this._topicDoc.isRecurring = updateTopicDoc.isRecurring;
     }
 }

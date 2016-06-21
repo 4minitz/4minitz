@@ -1,6 +1,7 @@
 /**
  * Created by felix on 12.05.16.
  */
+import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { InfoItem } from '/imports/infoitem'
 import { ActionItem } from '/imports/actionitem'
@@ -51,6 +52,7 @@ let toggleItemMode = function (type, tmpl) {
     switch (type) {
         case "actionItem":
             actionItemOnlyElements.show();
+            configureSelect2Responsibles();
             break;
         case "infoItem":
             actionItemOnlyElements.hide();
@@ -59,6 +61,101 @@ let toggleItemMode = function (type, tmpl) {
             throw new Meteor.Error("Unknown type!");
     }
 };
+
+
+var getPossibleResponsibles = function() {
+    let possibleResponsibles = [];          // sorted later on
+    let possibleResponsiblesUnique = {};    // ensure uniqueness
+    let buffer = [];                        // userIds and names from different sources, may have doubles
+
+    // add regular participants from current minutes
+    let aMin = new Minutes(_minutesID);
+    for (let i in aMin.participants) {
+        buffer.push(aMin.participants[i].userId);
+    }
+
+    // add the "additional participants" from current minutes as simple strings
+    let participantsAdditional = aMin.participantsAdditional;
+    if (participantsAdditional) {
+        let splitted = participantsAdditional.split(/[,;]/);
+        for (let i in splitted) {
+            buffer.push(splitted[i].trim());
+        }
+    }
+
+    // add the responsibles from current item
+    let editItem = getEditInfoItem();
+    if (editItem && editItem.hasResponsibles()) {
+        buffer = buffer.concat(editItem._infoItemDoc.responsibles);
+    }
+
+    for (let i in buffer) {
+        let aResponsibleId = buffer[i];
+        if (! possibleResponsiblesUnique[aResponsibleId]) { // not seen?
+            possibleResponsiblesUnique[aResponsibleId] = true;
+            let aResponsibleName = aResponsibleId;
+            let aUser = Meteor.users.findOne(aResponsibleId);
+            if (aUser) {
+                aResponsibleName = aUser.username;
+            }
+            possibleResponsibles.push({id: aResponsibleId, text: aResponsibleName});
+        }
+    }
+
+    return possibleResponsibles;
+};
+
+
+// get those registered users that are not already added to select2 via
+// getPossibleResponsibles()
+var getRemainingUsers = function (participants) {
+    let participantsIds = [];
+    let remainingUsers = [];
+    for (let i in participants) {
+        if (participants[i].id && participants[i].id.length > 15) {   // Meteor _ids default to 17 chars
+            participantsIds.push(participants[i].id);
+        }
+    }
+
+    // format return object suiting for select2.js
+    let users = Meteor.users.find({_id: {$nin: participantsIds}}).fetch();
+    for (let i in users) {
+        remainingUsers.push ({id: users[i]._id, text: users[i].username});
+    }
+    return remainingUsers;
+};
+
+
+function configureSelect2Responsibles() {
+    let selectResponsibles = $('#id_selResponsibleActionItem');
+    selectResponsibles.find('optgroup')     // clear all <option>s
+        .remove();
+    let possResp = getPossibleResponsibles();
+    let remainingUsers = getRemainingUsers(possResp);
+    let selectOptions = [{
+        text: "Participants",
+        children: possResp
+    }, {
+        text: "Other Users",
+        children: remainingUsers
+    }];
+
+    selectResponsibles.select2({
+        placeholder: 'Select...',
+        tags: true,                     // Allow freetext adding
+        tokenSeparators: [',', ';'],
+        data: selectOptions             // push <option>s data
+    });
+
+    // select the options that where stored with this topic last time
+    let editItem = getEditInfoItem();
+    if (editItem) {
+        selectResponsibles.val(editItem.getResponsibleRawArray());
+    }
+    selectResponsibles.trigger("change");
+}
+
+
 
 Template.topicInfoItemEdit.helpers({
     isEditMode: function () {
@@ -94,13 +191,11 @@ Template.topicInfoItemEdit.events({
             throw new Meteor.Error("IllegalState: We have no related topic object!");
         }
 
-        let editItem = getEditInfoItem();
-
         let type = tmpl.find('input[name="id_type"]:checked').value;
         let newSubject = tmpl.find('#id_item_subject').value;
 
+        let editItem = getEditInfoItem();
         let doc = {};
-
         if (editItem) {
             _.extend(doc, editItem._infoItemDoc);
         }
@@ -114,7 +209,7 @@ Template.topicInfoItemEdit.events({
                 let detailsDate = (editItem) ? editItem.getDateFromDetails() : formatDateISO8601(new Date());
 
                 doc.priority = tmpl.find('#id_item_priority').value;
-                doc.responsible = tmpl.find('#id_item_responsible').value;
+                doc.responsibles = $('#id_selResponsibleActionItem').val();
                 doc.duedate = tmpl.find('#id_item_duedateInput').value;
 
                 let detailsText = tmpl.find('#id_item_details');
@@ -162,8 +257,7 @@ Template.topicInfoItemEdit.events({
 
         tmpl.find('#id_item_priority').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : "";
-        tmpl.find('#id_item_responsible').value =
-            (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.responsible : "";
+
         tmpl.find('#id_item_duedateInput').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
         let detailsField = tmpl.find('#id_item_details');
@@ -177,13 +271,17 @@ Template.topicInfoItemEdit.events({
             let type = (editItem instanceof ActionItem) ? "actionItem" : "infoItem";
             tmpl.find('#type_' + type).checked = true;
             toggleItemMode(type, tmpl);
+        } else {
+            let selectResponsibles = $('#id_selResponsibleActionItem');
+            if (selectResponsibles) {
+                selectResponsibles.val([]).trigger("change");;
+            }
         }
     },
 
     "shown.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
         // ensure new values trigger placeholder animation
         $('#id_item_priority').trigger("change");
-        $('#id_item_responsible').trigger("change");
         $('#id_item_details').trigger("change");
         tmpl.find("#id_item_subject").focus();
     },
@@ -195,7 +293,24 @@ Template.topicInfoItemEdit.events({
         // reset the session var to indicate that edit mode has been closed
         Session.set("topicInfoItemEditTopicId", null);
         Session.set("topicInfoItemEditInfoItemId", null);
-    }
+    },
 
+    "select2:selecting #id_selResponsibleActionItem"(evt, tmpl) {
+        console.log(evt);
+        console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
+        if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
+            if (! /\S+@\S+\.\S+/.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
+                // prohibit non-mail free text entries
+                alert("Not a valid responsible!\nSelect user from dropdown or enter email address.");
+                return false;
+            }
+        }
+        return true;
+    },
+
+    "select2:select #id_selResponsibleActionItem"(evt, tmpl) {
+        // console.log(evt);
+        // console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
+    }
 
 });

@@ -5,6 +5,12 @@ import _ from 'underscore';
 
 require('../../../lib/helpers');
 
+class MeteorError {}
+let Meteor = {
+    call: sinon.stub(),
+    Error: MeteorError
+};
+
 const meetingSeriesId = "AaBbCcDd01";
 class MeetingSeries {
     constructor(id) {
@@ -46,9 +52,17 @@ global.Random = {
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true}
+});
+
+const {
+    InfoItem
+    } = proxyquire('../../../imports/infoitem', {
+    'meteor/underscore': { _, '@noCallThru': true},
+    './topic': { Topic, '@noCallThru': true}
 });
 
 describe('Topic', function() {
@@ -175,6 +189,45 @@ describe('Topic', function() {
 
     });
 
+    describe('#isRecurring', function () {
+
+        let myTopic;
+
+        beforeEach(function() {
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('sets the default value correctly', function () {
+            expect(myTopic.isRecurring()).to.be.false;
+        });
+
+        it('returns the correct value', function () {
+            myTopic.getDocument().isRecurring = true;
+            expect(myTopic.isRecurring()).to.be.true;
+        });
+    });
+
+    describe('#toggleRecurring', function () {
+
+        let myTopic;
+
+        beforeEach(function() {
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('can change the value correctly', function () {
+            myTopic.toggleRecurring();
+            expect(myTopic.isRecurring()).to.be.true;
+        });
+
+        it('can reset the isRecurring-Flag', function () {
+            myTopic.toggleRecurring();
+            myTopic.toggleRecurring();
+            expect(myTopic.isRecurring()).to.be.false;
+        })
+
+    });
+
     describe('#upsertInfoItem', function() {
 
         let myTopic, topicItemDoc;
@@ -276,17 +329,20 @@ describe('Topic', function() {
 
         beforeEach(function() {
             topicDoc.infoItems.push({
-                subject: "myInfoItem"
+                subject: "myInfoItem",
+                createdInMinute: dummyMinute._id
             });
             topicDoc.infoItems.push({
                 subject: "myClosedActionItem",
                 isOpen: false,
-                itemType: "actionItem"
+                itemType: "actionItem",
+                createdInMinute: dummyMinute._id
             });
             topicDoc.infoItems.push({
                 subject: "myOpenActionItem",
                 isOpen: true,
-                itemType: "actionItem"
+                itemType: "actionItem",
+                createdInMinute: dummyMinute._id
             });
             myTopic = new Topic(dummyMinute._id, topicDoc);
         });

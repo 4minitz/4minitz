@@ -4,19 +4,23 @@ import { E2EApp } from './E2EApp'
 
 
 export class E2ETopics {
-    static addTopicToMinutes (aTopic) {
+    static addTopicToMinutes (aTopic, aResponsible) {
         browser.waitForVisible("#id_showAddTopicDialog");
         browser.click("#id_showAddTopicDialog");
 
-        E2ETopics.insertTopicDataIntoDialog(aTopic);
+        E2ETopics.insertTopicDataIntoDialog(aTopic, aResponsible);
     };
 
-    static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
+    
+    static openEditTopicForMinutes(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnEditTopic";
-
         browser.waitForVisible(selector);
         browser.click(selector);
+        E2EGlobal.waitSomeTime();
+    }
 
+    static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
+        E2ETopics.openEditTopicForMinutes(topicIndex);
         E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
     }
 
@@ -29,6 +33,11 @@ export class E2ETopics {
         }
     }
 
+    static responsibleEnterFreetext(theText) {
+        browser.element(".select2-selection").click();
+        browser.keys(theText+"\uE007"); // plus ENTER
+    }
+    
     static insertTopicDataIntoDialog(subject, responsible) {
         try {
             browser.waitForVisible('#id_subject');
@@ -36,10 +45,12 @@ export class E2ETopics {
             return false;
         }
         E2EGlobal.waitSomeTime();
-
-        browser.setValue('#id_subject', subject);
+        
+        if (subject) {
+            browser.setValue('#id_subject', subject);
+        }
         if (responsible) {
-            browser.setValue('#id_responsible', responsible);
+            E2ETopics.responsibleEnterFreetext(responsible);
         }
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);
@@ -58,7 +69,10 @@ export class E2ETopics {
 
         browser.waitForVisible(selector);
         browser.click(selector);
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true)
+
+        E2EGlobal.waitSomeTime();
+
+        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true);
     }
 
     static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
@@ -79,8 +93,9 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime();
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
+
         if (infoItemDoc.responsible) {
-            browser.setValue('#id_item_responsible', infoItemDoc.responsible);
+            E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
         }
         //todo: set other fields (priority, responsible, duedate, details)
 
@@ -101,10 +116,32 @@ export class E2ETopics {
         browser.click(selector);
     }
 
+    static toggleRecurringTopic(topicIndex) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring";
+        try {
+            browser.waitForVisible(selector);
+        } catch(e) {
+            return false;
+        }
+        browser.click(selector);
+    }
+
     static isTopicClosed(topicIndex) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnToggleState";
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .btnToggleState";
 
         return E2EGlobal.isCheckboxSelected(selector)
+    }
+
+    static isTopicRecurring(topicIndex) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring span";
+        try {
+            browser.waitForVisible(selector);
+        } catch(e) {
+            return false;
+        }
+        let element = browser.element(selector);
+        let classes = element.getAttribute('class');
+        return (classes.indexOf('active-icon') > 1);
     }
 
     static toggleActionItem(topicIndex, infoItemIndex) {
@@ -116,13 +153,39 @@ export class E2ETopics {
     }
 
     static isActionItemClosed(topicIndex, infoItemIndex) {
-        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnToggleAIState";
+        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + ".btnToggleAIState";
 
         return E2EGlobal.isCheckboxSelected(selector)
     }
 
+    static toggleInfoItemStickyState(topicIndex, infoItemIndex) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        let selector = selectInfoItem + ".btnPinInfoItem";
+        try {
+            browser.waitForVisible(selector);
+        } catch (e) {
+            return false;
+        }
+        browser.click(selector);
+    }
+
+    static isInfoItemSticky(topicIndex, infoItemIndex) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        let selector = selectInfoItem + ".btnPinInfoItem span";
+        try {
+            browser.waitForVisible(selector);
+        } catch(e) {
+            return false;
+        }
+        let element = browser.element(selector);
+        let classes = element.getAttribute('class');
+        return (classes.indexOf('sticky-item') > 1);
+    }
+
     static getInfoItemSelector(topicIndex, infoItemIndex) {
-        return "#topicPanel .well:nth-child(" + topicIndex + ") #accordion:nth-child(" + infoItemIndex + ") ";
+        return "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem:nth-child(" + infoItemIndex + ") ";
     }
 
     static expandDetailsForActionItem(topicIndex, infoItemIndex) {
@@ -138,7 +201,16 @@ export class E2ETopics {
         }
     }
 
-    static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText) {
+    /**
+     * Adds details to an action item.
+     *
+     * @param topicIndex index of the chosen topic (1=topmost ... n=#topics)
+     * @param infoItemIndex index of the chosen AI (1=topmost ... n=#info items)
+     * @param detailsText text to set
+     * @param doBeforeSubmit callback, which will be called before submitting the changes
+     * @returns {boolean}
+     */
+    static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText, doBeforeSubmit) {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
 
         E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
@@ -159,6 +231,9 @@ export class E2ETopics {
             return false;
         }
         browser.setValue(selFocusedInput, detailsText);
+        if (doBeforeSubmit) {
+            doBeforeSubmit(selFocusedInput);
+        }
         browser.keys(['Escape']);
     }
 
@@ -203,7 +278,7 @@ export class E2ETopics {
         try {
             browser.waitForExist(selector);
         } catch (e) {
-            return 0;
+            return [];
         }
         const elements = browser.elements(selector);
         return elements.value;

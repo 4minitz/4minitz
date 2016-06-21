@@ -4,13 +4,13 @@ import { MeteorMail } from './MeteorMail'
 
 export class MailFactory {
 
-    static getMailer(replyTo, recipient) {
+    static getMailer(replyTo, recipients) {
         let deliverer = GlobalSettings.getMailDeliverer();
         switch (deliverer) {
             case "mailgun":
-                return new MailgunMail(replyTo, recipient);
+                return new MailgunMail(replyTo, recipients);
             case "smtp":
-                return new MeteorMail(replyTo, recipient);
+                return new MeteorMail(replyTo, recipients);
             default:
                 throw new Meteor.Error('illegal-state', 'Unknown mail deliverer: ' + deliverer);
         }

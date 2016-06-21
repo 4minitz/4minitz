@@ -50,6 +50,12 @@ describe('ActionItems Details', function () {
         }, 1);
     });
 
+    before("reload page", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.launchApp();
+        }
+    });
+
     after("clear database", function () {
         if (E2EGlobal.browserIsPhantomJS()) {
             E2EApp.resetMyApp(true);
@@ -89,6 +95,20 @@ describe('ActionItems Details', function () {
         let completeAIText = browser.elementIdText(firstItemOfNewTopic).value;
         expect(completeAIText, "Subject of AI should have changed").to.have.string(newSubject);
         expect(completeAIText, "AI should still contain the details").to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+    });
+
+    it('does not revert changes when input field receives click-event during input', function () {
+        let doBeforeSubmit = (inputElement) => {
+            // perform click event on the input field after setting the text and before submitting the changes
+            browser.click(inputElement);
+        };
+
+        E2ETopics.addDetailsToActionItem(1, 1, 'First Details', doBeforeSubmit);
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        expect(browser.elementIdText(firstItemOfNewTopic).value, "Added detail should be displayed")
+            .to.have.string(formatDateISO8601(new Date()) + '\nFirst Details');
     });
 
     it('can change existing details', function () {

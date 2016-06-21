@@ -1,0 +1,30 @@
+@startuml
+!include ../style.puml
+
+UserOfSendFinalizeMailsFeature --> FinalizeMailHandler: constructor(minute, senderAddress)
+FinalizeMailHandler --> UserOfSendFinalizeMailsFeature
+
+UserOfSendFinalizeMailsFeature --> FinalizeMailHandler: sendMails()
+
+    FinalizeMailHandler --> ActionItemsMailHandler: constructor(sender, recipient, minute)
+    ActionItemsMailHandler --> FinalizeMailHandler
+
+    loop for each recipient
+        FinalizeMailHandler --> ActionItemsMailHandler: addActionItem(actionItems)
+        ActionItemsMailHandler --> FinalizeMailHandler
+    end
+
+    FinalizeMailHandler --> ActionItemsMailHandler: send()
+    ActionItemsMailHandler --> FinalizeMailHandler
+
+    FinalizeMailHandler --> InfoItemsMailHandler: constructor(sender, recipients, minute, topics, meetingSeries, participants)
+    InfoItemsMailHandler --> FinalizeMailHandler
+
+    FinalizeMailHandler --> InfoItemsMailHandler: send()
+    InfoItemsMailHandler --> FinalizeMailHandler
+
+
+FinalizeMailHandler --> UserOfSendFinalizeMailsFeature
+
+
+@enduml

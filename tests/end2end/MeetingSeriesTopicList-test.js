@@ -23,6 +23,12 @@ describe('MeetingSeries complete Topic list', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
+    before("reload page", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.launchApp();
+        }
+    });
+
     after("clear database", function () {
         if (E2EGlobal.browserIsPhantomJS()) {
             E2EApp.resetMyApp(true);
@@ -215,7 +221,7 @@ describe('MeetingSeries complete Topic list', function () {
 
         it('changes the properties (subject/responsible) of an existing Topic', function () {
             const newTopicSubject = "changed topic subject";
-            const newResponsible = "changed responsible";
+            const newResponsible = "user1";
 
             // add a second minute
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -236,7 +242,7 @@ describe('MeetingSeries complete Topic list', function () {
 
         it('reverts property changes (subject/responsible) of a Topic if the minute will be un-finalized', function () {
             const newTopicSubject = "changed topic subject";
-            const newResponsible = "changed responsible";
+            const newResponsible = "user1";
 
             // add a second minute
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -258,7 +264,7 @@ describe('MeetingSeries complete Topic list', function () {
 
         it('changes the properties (subject/responsible) of an existing AI', function () {
             const newSubject = "changed action item subject";
-            const newResponsible = "changed responsible";
+            const newResponsible = "user1";
 
             // add a second minute
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -274,12 +280,12 @@ describe('MeetingSeries complete Topic list', function () {
             let items = E2ETopics.getItemsForTopic(1);
             let firstItemElement = items[0].ELEMENT;
             expect(browser.elementIdText(firstItemElement).value, "the action item subject should have changed").to.have.string(newSubject);
-            expect(browser.elementIdText(firstItemElement).value, "the action item responsible should have changed").to.have.string("Resp: " + newResponsible);
+            expect(browser.elementIdText(firstItemElement).value, "the action item responsible should have changed").to.have.string(newResponsible);
         });
 
         it('reverts property changes (subject/responsible) of an AI if the minute will be un-finalized', function () {
             const newSubject = "changed action item subject";
-            const newResponsible = "changed responsible";
+            const newResponsible = "user1";
 
             // add a second minute
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);

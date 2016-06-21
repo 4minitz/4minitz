@@ -3,6 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { ActionItem } from '/imports/actionitem'
+import { InfoItem } from '/imports/infoitem'
 
 Template.topicInfoItem.onCreated(function () {
     this.isTopicCollapsed = new ReactiveVar(true);
@@ -12,6 +13,28 @@ Template.topicInfoItem.onRendered(function () {
     $.material.init();
 });
 
+
+let createTopic = (parentElementId, topicId) => {
+    if (!parentElementId || !topicId) return undefined;
+    return new Topic(parentElementId, topicId);
+};
+
+let findInfoItem = (parentElementId, topicId, infoItemId) => {
+    let aTopic = createTopic(parentElementId, topicId);
+    if (aTopic) {
+        return aTopic.findInfoItem(infoItemId);
+    }
+    return undefined;
+};
+
+let resizeTextarea = (element) => {
+    let scrollPos = $(document).scrollTop();
+    element.css('height', 'auto');
+    element.css('height', element.prop('scrollHeight') + "px");
+    $(document).scrollTop(scrollPos);
+};
+
+
 Template.topicInfoItem.helpers({
     isActionItem: function() {
         return (this.infoItem.itemType === 'actionItem');
@@ -19,11 +42,7 @@ Template.topicInfoItem.helpers({
 
     detailsArray: function () {
         $.material.init();
-        let id = 0;
-        return this.infoItem.details.map(detail => {
-            detail.id = id++;
-            return detail;
-        });
+        return this.infoItem.details;
     },
 
     topicStateClass: function () {
@@ -55,28 +74,23 @@ Template.topicInfoItem.helpers({
     isCollapsed() {
         console.log("_coll "+Template.instance().isTopicCollapsed.get());
         return Template.instance().isTopicCollapsed.get();
+    },
+
+    showPinItem() {
+        return (this.infoItem.itemType === 'infoItem' && ( this.isEditable || this.infoItem.isSticky) );
+    },
+
+    responsiblesHelper() {
+        let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
+        if (aInfoItem instanceof ActionItem) {
+            if (aInfoItem.hasResponsibles()) {
+                return "(" + aInfoItem.getResponsibleNameString() + ")";
+            }
+        }
+        return "";
     }
 });
 
-let createTopic = (minuteId, topicId) => {
-    if (!minuteId || !topicId) return undefined;
-    return new Topic(minuteId, topicId);
-};
-
-let findInfoItem = (minuteId, topicId, infoItemId) => {
-    let aTopic = createTopic(minuteId, topicId);
-    if (aTopic) {
-        return aTopic.findInfoItem(infoItemId);
-    }
-    return undefined;
-};
-
-let resizeTextarea = (element) => {
-    let scrollPos = $(document).scrollTop();
-    element.css('height', 'auto');
-    element.css('height', element.prop('scrollHeight') + "px");
-    $(document).scrollTop(scrollPos);
-};
 
 
 Template.topicInfoItem.events({
@@ -99,12 +113,26 @@ Template.topicInfoItem.events({
         }
     },
 
-    'click #btnToggleAIState'(evt) {
+    'click .btnToggleAIState'(evt) {
         evt.preventDefault();
 
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             aInfoItem.toggleState();
+            aInfoItem.save();
+        }
+    },
+
+    'click .btnPinInfoItem'(evt) {
+        evt.preventDefault();
+
+        if (!this.isEditable) {
+            return;
+        }
+
+        let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
+        if (aInfoItem instanceof InfoItem) {
+            aInfoItem.toggleSticky();
             aInfoItem.save();
         }
     },
@@ -131,6 +159,10 @@ Template.topicInfoItem.events({
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
 
+        if (inputEl.val() !== "") {
+            return;
+        }
+
         textEl.hide();
         inputEl.show();
         inputEl.val(textEl.attr('data-text'));
@@ -140,6 +172,10 @@ Template.topicInfoItem.events({
     },
 
     'click .addDetail'(evt, tmpl) {
+        console.log(tmpl.$('#accordion'));
+        console.log(tmpl.$('#collapse-' + this.currentCollapseId));
+        tmpl.$('#collapse-' + this.currentCollapseId).collapse('show');
+
         let aMin = new Minutes(tmpl.data.minutesID);
         let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
         let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
@@ -183,6 +219,7 @@ Template.topicInfoItem.events({
             aActionItem.save();
         }
 
+        inputEl.val("");
         inputEl.hide();
         textEl.show();
     },

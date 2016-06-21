@@ -37,7 +37,7 @@ export class FinalizeMailHandler {
         let userMailHandlerMap = new Map();
         let actionItems = this._minute.getOpenActionItems();
         actionItems.forEach(item => {
-            item.getResponsibleArray().forEach(recipient => {
+            item.getResponsibleEMailArray().forEach(recipient => {
                 if (!userMailHandlerMap.has(recipient)) {
                     userMailHandlerMap.set(
                         recipient,

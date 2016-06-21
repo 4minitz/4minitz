@@ -15,9 +15,9 @@
             {{/if}}
             <h4 class="panel-title">
                 <div class="checkbox">
-                    <label for="btnToggleAIState" class="checkboxLabel">
+                    <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
                         {{#if isActionItem}}
-                            <input type="checkbox" class="checkbox" id="btnToggleAIState" {{checkedState}} {{disabledState}}>
+                            <input type="checkbox" class="checkbox btnToggleAIState" id="btnToggleAIState_{{infoItem._id}}" {{checkedState}} {{disabledState}}>
                         {{else}}
                             <span class="glyphicon glyphicon-info-sign"></span>
                         {{/if}}
@@ -27,8 +27,7 @@
                     {{#if isActionItem}}
                         <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
                            href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
-                            {{infoItem.subject}}
-                            Resp: {{infoItem.responsible}}
+                            {{infoItem.subject}} {{responsiblesHelper}}
                             Prio:{{infoItem.priority}}
                             Due: {{infoItem.duedate}}
                         </a>
@@ -41,17 +40,29 @@
                         <span class="badge" style="margin-bottom: 5px;">New</span>
                     {{/if}}
 
-                    <!-- Edit & Delete Icons -->
-                    {{#if isEditable}}
-                        <span class="pull-right">
-                            <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </a>
-                            <a id="btnDelInfoItem" href="#" class="panel-link">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
+                    <!-- Manipulation Menu Icons -->
+                        <span class="pull-right pull-right-icons">
+                            {{#if showPinItem}}
+                                <a href="#" class="panel-link btnPinInfoItem"  title="Set as pinned info item">
+                                    <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
+                                </a>
+                            {{/if}}
+
+                            {{#if isEditable}}
+                                {{#if isActionItem}}
+                                    <a href="#" class="panel-link addDetail" title="Add details to action item">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </a>
+                                {{/if}}
+
+                                <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link" title="Edit item">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <a id="btnDelInfoItem" href="#" class="panel-link" title="Delete item">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            {{/if}}
                         </span>
-                    {{/if}}
                 </div>
 
             </h4>
@@ -63,15 +74,15 @@
                 {{#each detailsArray}}
                     <p class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                         <div>
-                            <label for="detailInput_{{this.id}}" class="detailDate"><strong>{{this.date}}</strong></label>
+                            <label for="detailInput_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
                         </div>
-                        <div style="padding-left: 10px;" class="detailText" data-id="{{this.id}}">
-                            <span id="detailText_{{this.id}}" data-id="{{this.id}}" data-text="{{this.text}}">
+                        <div style="padding-left: 10px;" class="detailText" data-id="{{@index}}">
+                            <span id="detailText_{{@index}}" data-id="{{@index}}" data-text="{{this.text}}">
                                 {{#markdown}}{{this.text}}{{/markdown}}
                             </span>
 
-                            <textarea id="detailInput_{{this.id}}"
-                                      rows="1" data-id="{{this.id}}"
+                            <textarea id="detailInput_{{@index}}"
+                                      rows="1" data-id="{{@index}}"
                                       class="form-control detailInput"
                                       style="display: none; font-size: 14px;"
                                       placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>

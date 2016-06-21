@@ -33,15 +33,21 @@ export class E2EApp {
     /**
      * Logout current user, if necessary, then login a specific test user
      * @param index of test user from setting. optional.
+     * @param autoLogout perform logout before login the test user. optional.
      */
-    static loginUser (index) {
+    static loginUser (index, autoLogout) {
         if (!index) {
             index = 0;
+        }
+        if (autoLogout === undefined) {
+            autoLogout = true;
         }
         let aUser = E2EGlobal.SETTINGS.e2eTestUsers[index];
         let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[index];
 
-        E2EApp.logoutUser();
+        if (autoLogout) {
+            E2EApp.logoutUser();
+        }
         try {    // try to log in
             if (browser.isExisting('#at-field-username_and_email')) {
                 browser.setValue('input[id="at-field-username_and_email"]', aUser);

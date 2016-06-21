@@ -1,0 +1,31 @@
+@startuml
+!include ../style.puml
+
+abstract class Mail {
+    string replyTo
+    string|string[] recipient
+    constructor(replyTo, recipients)
+    setSubject(subject)
+    setText(text)
+    setHtml(html)
+    send()
+    abstract _sendMail()
+}
+
+class MailgunMail {
+    _sendMail()
+}
+
+class MeteorMail {
+    _sendMail()
+}
+
+Mail  <|-- MailgunMail
+Mail  <|-- MeteorMail
+
+
+class MailFactory {
+    static getMailer(replyTo, recipient)
+}
+
+@enduml

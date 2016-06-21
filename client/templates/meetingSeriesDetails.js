@@ -61,7 +61,7 @@ Template.meetingSeriesDetails.helpers({
                         throw new Meteor.Error("illegal-state", "Unknown topic list status: " + status);
                 }
 
-                return new TopicListConfig(topics, null, true);
+                return new TopicListConfig(topics, null, true, _meetingSeriesID);
         }
     },
 

@@ -14,7 +14,7 @@ export class MailgunMail extends Mail {
 
         let postURL = mailgunSettings.apiUrl + '/' + mailgunSettings.domain + '/messages';
 
-        let recipient = (typeof this._recipient === 'string') ? [this._recipient] : this._recipient;
+        let recipient = (typeof this._recipients === 'string') ? [this._recipients] : this._recipients;
 
         let options =   {
             auth: "api:" + mailgunSettings.apiKey,
