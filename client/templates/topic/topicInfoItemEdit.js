@@ -157,6 +157,22 @@ function configureSelect2Responsibles() {
 
 
 
+function configureSelect2Labels() {
+    let selectLabels = $('#id_item_selLabels');
+    selectLabels.find('optgroup')     // clear all <option>s
+        .remove();
+    let selectOptions = [];
+
+    selectLabels.select2({
+        placeholder: 'Select...',
+        tags: true,                     // Allow freetext adding
+        tokenSeparators: [',', ';'],
+        data: selectOptions             // push <option>s data
+    });
+
+    selectLabels.trigger("change");
+}
+
 Template.topicInfoItemEdit.helpers({
     isEditMode: function () {
         return (getEditInfoItem() !== false);
@@ -281,9 +297,11 @@ Template.topicInfoItemEdit.events({
 
     "shown.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
         // ensure new values trigger placeholder animation
+        $('#id_item_subject').trigger("change");
         $('#id_item_priority').trigger("change");
         $('#id_item_details').trigger("change");
         tmpl.find("#id_item_subject").focus();
+        configureSelect2Labels();
     },
 
     "hidden.bs.modal #dlgAddInfoItem": function () {
