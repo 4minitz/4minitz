@@ -91,7 +91,7 @@ export class E2ETopics {
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
         if (infoItemDoc.responsible) {
-            browser.setValue('#id_item_responsible', infoItemDoc.responsible);
+            E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
         }
         //todo: set other fields (priority, responsible, duedate, details)
 
