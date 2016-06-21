@@ -271,6 +271,11 @@ Template.topicInfoItemEdit.events({
             let type = (editItem instanceof ActionItem) ? "actionItem" : "infoItem";
             tmpl.find('#type_' + type).checked = true;
             toggleItemMode(type, tmpl);
+        } else {
+            let selectResponsibles = $('#id_selResponsibleActionItem');
+            if (selectResponsibles) {
+                selectResponsibles.val([]).trigger("change");;
+            }
         }
     },
 
