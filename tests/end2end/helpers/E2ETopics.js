@@ -71,10 +71,8 @@ export class E2ETopics {
         browser.click(selector);
 
         E2EGlobal.waitSomeTime();
-        E2EGlobal.saveScreenshot("1");
 
         E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true);
-        E2EGlobal.saveScreenshot("6");
     }
 
     static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
@@ -96,12 +94,9 @@ export class E2ETopics {
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
 
-        E2EGlobal.saveScreenshot("2");
-
         if (infoItemDoc.responsible) {
             E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
         }
-        E2EGlobal.saveScreenshot("3");
         //todo: set other fields (priority, responsible, duedate, details)
 
         if (!isEditMode) {
@@ -111,10 +106,8 @@ export class E2ETopics {
             browser.click(radioBtnSelector);
         }
 
-        E2EGlobal.saveScreenshot("4");
         browser.click("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
-        E2EGlobal.saveScreenshot("5");
     }
 
     static toggleTopic(topicIndex) {

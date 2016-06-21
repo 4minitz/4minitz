@@ -35,12 +35,14 @@ Template.topicElement.helpers({
     // so this refers to the current infoItem
     getInfoItem: function () {
         let parentTopicId = Template.instance().data.topic._id;
+        let parentElement = (Template.instance().data.minutesID)
+            ? Template.instance().data.minutesID : Template.instance().data.parentMeetingSeriesId;
 
         return {
             infoItem: this,
             parentTopicId: parentTopicId,
             isEditable: Template.instance().data.isEditable,
-            minutesID: Template.instance().data.minutesID,
+            minutesID: parentElement,//Template.instance().data.minutesID,
             currentCollapseId: collapseID++  // each topic item gets its own collapseID
         };
     },

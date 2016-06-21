@@ -14,13 +14,13 @@ Template.topicInfoItem.onRendered(function () {
 });
 
 
-let createTopic = (minuteId, topicId) => {
-    if (!minuteId || !topicId) return undefined;
-    return new Topic(minuteId, topicId);
+let createTopic = (parentElementId, topicId) => {
+    if (!parentElementId || !topicId) return undefined;
+    return new Topic(parentElementId, topicId);
 };
 
-let findInfoItem = (minuteId, topicId, infoItemId) => {
-    let aTopic = createTopic(minuteId, topicId);
+let findInfoItem = (parentElementId, topicId, infoItemId) => {
+    let aTopic = createTopic(parentElementId, topicId);
     if (aTopic) {
         return aTopic.findInfoItem(infoItemId);
     }

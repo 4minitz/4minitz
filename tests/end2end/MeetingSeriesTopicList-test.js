@@ -262,7 +262,7 @@ describe('MeetingSeries complete Topic list', function () {
             expect(browser.elementIdText(topicEl).value, "the topic responsible should have changed").to.not.have.string(newResponsible);
         });
 
-        xit('changes the properties (subject/responsible) of an existing AI @watch', function () {
+        it('changes the properties (subject/responsible) of an existing AI', function () {
             const newSubject = "changed action item subject";
             const newResponsible = "user1";
 
@@ -271,16 +271,12 @@ describe('MeetingSeries complete Topic list', function () {
 
             E2ETopics.editInfoItemForTopic(1, 1, { subject: newSubject, responsible: newResponsible });
 
-            E2EGlobal.saveScreenshot("7");
             E2EMinutes.finalizeCurrentMinutes();
-            E2EGlobal.saveScreenshot("8");
 
             E2EMinutes.gotoParentMeetingSeries();
-            E2EGlobal.saveScreenshot("9");
 
             E2EMeetingSeries.gotoTabTopics();
-            E2EGlobal.saveScreenshot("after");
-            
+
             let items = E2ETopics.getItemsForTopic(1);
             let firstItemElement = items[0].ELEMENT;
             expect(browser.elementIdText(firstItemElement).value, "the action item subject should have changed").to.have.string(newSubject);
