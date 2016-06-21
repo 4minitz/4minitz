@@ -37,7 +37,8 @@ function resolveTopic(parentElement, source) {
     _.defaults(source, {
         isOpen: true,
         isNew: true,
-        isRecurring: false
+        isRecurring: false,
+        labels: []
     });
 
     return source;

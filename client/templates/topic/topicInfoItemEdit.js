@@ -5,6 +5,7 @@ import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { InfoItem } from '/imports/infoitem'
 import { ActionItem } from '/imports/actionitem'
+import { Label } from '/imports/label'
 
 Session.setDefault("topicInfoItemEditTopicId", null);
 Session.setDefault("topicInfoItemEditInfoItemId", null);
@@ -155,13 +156,19 @@ function configureSelect2Responsibles() {
     selectResponsibles.trigger("change");
 }
 
-
-
 function configureSelect2Labels() {
+    let aMin = new Minutes(_minutesID);
+    let aSeries = aMin.parentMeetingSeries();
+
     let selectLabels = $('#id_item_selLabels');
-    selectLabels.find('optgroup')     // clear all <option>s
+    selectLabels.find('option')     // clear all <option>s
         .remove();
+
     let selectOptions = [];
+
+    aSeries.availableLabels.forEach(label => {
+        selectOptions.push ({id: label._id, text: label.name});
+    });
 
     selectLabels.select2({
         placeholder: 'Select...',
@@ -170,6 +177,12 @@ function configureSelect2Labels() {
         data: selectOptions             // push <option>s data
     });
 
+
+    // select the options that where stored with this topic last time
+    let editItem = getEditInfoItem();
+    if (editItem) {
+        selectLabels.val(editItem.getLabelsRawArray());
+    }
     selectLabels.trigger("change");
 }
 
@@ -216,8 +229,23 @@ Template.topicInfoItemEdit.events({
             _.extend(doc, editItem._infoItemDoc);
         }
 
+        let labels = tmpl.$("#id_item_selLabels").val();
+        if (!labels) labels = [];
+        let aMinute = new Minutes(_minutesID);
+        let aSeries = aMinute.parentMeetingSeries();
+        labels = labels.map(labelId => {
+            let label = Label.createLabelById(aSeries, labelId);
+            if (null === label) {
+                // we have no such label -> it's brand new
+                label = new Label({name: labelId});
+                label.save(aSeries._id);
+            }
+            return label.getId();
+        });
+
         doc.subject = newSubject;
         doc.createdInMinute = _minutesID;
+        doc.labels = labels;
 
         let newItem;
         switch (type) {
@@ -290,7 +318,11 @@ Template.topicInfoItemEdit.events({
         } else {
             let selectResponsibles = $('#id_selResponsibleActionItem');
             if (selectResponsibles) {
-                selectResponsibles.val([]).trigger("change");;
+                selectResponsibles.val([]).trigger("change");
+            }
+            let selectLabels = $('#id_item_selLabels');
+            if (selectLabels) {
+                selectLabels.val([]).trigger("change");
             }
         }
     },

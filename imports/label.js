@@ -29,6 +29,10 @@ export class Label {
         throw new Meteor.Error("Invalid parent meeting series");
     }
 
+    getId() {
+        return this._labelDoc._id;
+    }
+
     setName(name) {
         this._labelDoc.name = name;
     }

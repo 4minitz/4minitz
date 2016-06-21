@@ -39,7 +39,8 @@ export class InfoItem {
 
         _.defaults(source, {
             itemType: 'infoItem',
-            isSticky: false
+            isSticky: false,
+            labels: []
         });
         this._infoItemDoc = source;
     }
@@ -73,6 +74,13 @@ export class InfoItem {
 
     isActionItem() {
         return InfoItem.isActionItem(this._infoItemDoc);
+    }
+
+    getLabelsRawArray() {
+        if (!this._infoItemDoc.labels) {
+            return [];
+        }
+        return this._infoItemDoc.labels;
     }
 
     toString () {

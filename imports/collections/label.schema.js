@@ -5,5 +5,5 @@ export const LabelSchema = new SimpleSchema({
     isDefaultLabel: {type: Boolean, defaultValue: false},
     isDisabled: {type: Boolean, defaultValue: false},
     name: {type: String},
-    color: {type: String}
+    color: {type: String, defaultValue: '#e6e6e6'}
 });
