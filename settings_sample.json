@@ -9,9 +9,9 @@
 
     "//3": "below option configures if and how to send E-Mails",
     "email": {
-        "//4": "Switch on/off E-Mail sending",
+        "//3.1": "Switch on/off E-Mail sending",
         "enableMailDelivery": true,
-        "//5": "Choose one of the below mail deliver methods",
+        "//3.2": "Choose one of the below mail deliver methods",
         "mailDeliverer": "mailgun|smtp",
 
         "defaultEMailSenderAddress": "default@email.de",
@@ -25,5 +25,13 @@
             "domain": "Your mailgun domain",
             "apiUrl": "https://api.mailgun.net/v3"
         }
-    }
+    },
+
+    "//4": "below option to configure default labels for action- and info-items",
+    "defaultLabels": [
+        {
+            "name": "Decision",
+            "color": "#0052cc"
+        }
+    ]
 }
