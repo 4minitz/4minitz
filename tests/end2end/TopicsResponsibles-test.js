@@ -119,6 +119,7 @@ describe('Topics Responsibles', function () {
         E2ETopics.addTopicToMinutes('TOP-1', "");
 
         E2ETopics.openEditTopicForMinutes(1);
+        E2EGlobal.waitSomeTime();
         browser.element(".select2-selection").click();
         // We only send the beginning of the name, to ensure the drop-down is used for selection!
         browser.keys("Add\uE015\uE007");  // + CursorDown + Enter
