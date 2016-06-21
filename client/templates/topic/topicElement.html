@@ -30,7 +30,7 @@
                 <!-- Manipulation Menu Icons -->
                 <span class="pull-right pull-right-icons">
                     {{#if isEditable}}
-                        <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add element">
+                        <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add item to topic">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     {{/if}}
@@ -40,10 +40,10 @@
                         </a>
                     {{/if}}
                     {{#if isEditable}}
-                        <a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic" class="panel-link">
+                        <a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic" class="panel-link"  title="Edit topic">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a id="btnDelTopic" href="#" class="panel-link">
+                        <a id="btnDelTopic" href="#" class="panel-link" title="Delete topic">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
                         <span class="topicDragDropHandle glyphicon glyphicon-sort"></span>

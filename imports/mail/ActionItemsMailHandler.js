@@ -47,7 +47,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
         return {
             topicSubject: topicSubject,
             subject: item.getSubject(),
-            responsible: item.getResponsibleString(),
+            responsibles: item.getResponsibleNameString(),
             priority: item.getPriority(),
             duedate: item.getDuedate(),
             details: details

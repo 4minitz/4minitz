@@ -1,15 +1,20 @@
 import { MinutesCollection } from '/imports/collections/minutes_private'
 
-// Topics: convert the responsible (string) => responsibles (array) fields
-export class MigrateV4 {
+// ActionItems: convert the responsible (string) => responsibles (array) fields
+export class MigrateV6 {
 
     static up() {
         MinutesCollection.find().forEach(minute => {
             minute.topics.forEach(topic => {
-                topic.responsibles = [];
-                if (topic.responsible) {
-                    topic.responsibles.push(topic.responsible);
-                }
+                topic.infoItems.forEach(item => {
+                    item.responsibles = [];
+                    if (item.responsible) {
+                        let resp = item.responsible.split(",");
+                        resp.forEach(r => { r = r.trim();});
+                        item.responsibles = resp;
+                        delete item.responsible;
+                    }
+                });
             });
 
             // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values
@@ -26,7 +31,13 @@ export class MigrateV4 {
     static down() {
         MinutesCollection.find().forEach(minute => {
             minute.topics.forEach(topic => {
-                delete topic.responsibles;
+                topic.infoItems.forEach(item => {
+                    item.responsible = "";
+                    if (item.responsibles && item.responsibles.length) {
+                        item.responsible = item.responsibles.join();
+                    }
+                    delete item.responsibles;
+                });
             });
 
             // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values

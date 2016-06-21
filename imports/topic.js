@@ -265,11 +265,11 @@ export class Topic {
     }
     
     getResponsiblesString() {
-        let responsibles = this._topicDoc.responsibles;
         if (!this.hasResponsibles()) {
             return "";
         }
 
+        let responsibles = this._topicDoc.responsibles;
         let responsiblesString = "";
         for (let i in responsibles) {
             let userNameFromDB = "";

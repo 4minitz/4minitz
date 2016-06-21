@@ -99,11 +99,27 @@ a:focus {
 
 /* glyphicon menu buttons */
 .pull-right-icons .glyphicon {
-    padding: 0.5em;
-    margin-left: 0.75em;
+    padding: 0.3em;
+    margin-left: 0.5em;
     font-size: 16px;
 }
 
 .pull-right-icons a {
     text-decoration: none;
+}
+
+
+
+.topicDragDropHandle:hover {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.topicDragDropHandle:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
 }

@@ -1,7 +1,4 @@
-/**
- * Created by felix on 09.05.16.
- */
-
+import { Meteor } from 'meteor/meteor';
 
 import { InfoItem } from './infoitem';
 
@@ -85,16 +82,79 @@ export class ActionItem extends InfoItem{
         return this._infoItemDoc.subject;
     }
 
-    getResponsibleArray() {
-        if (!this._infoItemDoc.responsible) {
-            return [];
-        }
-        // currently we store the responsible persons as a comma separated string
-        return this._infoItemDoc.responsible.split(',');
+    hasResponsibles() {
+        return (this._infoItemDoc.responsibles && this._infoItemDoc.responsibles.length);
     }
 
-    getResponsibleString() {
-        return this._infoItemDoc.responsible;
+    getResponsibleRawArray() {
+        if (!this.hasResponsibles()) {
+            return [];
+        }
+        return this._infoItemDoc.responsibles;
+    }
+
+    // this should only be called from server.
+    // because EMails are not propagated to the client!
+    getResponsibleEMailArray() {
+        if (Meteor.isServer) {
+            if (!this.hasResponsibles()) {
+                return [];
+            }
+
+            let responsibles = this._infoItemDoc.responsibles;
+            let mailArray = [];
+            for (let i in responsibles) {
+                let userEMailFromDB = "";
+                let userNameFromDB = "";
+                if (responsibles[i].length > 15) {  // maybe DB Id or free text
+                    let user = Meteor.users.findOne(responsibles[i]);
+                    if (user) {
+                        userNameFromDB = user.username;
+                        if (user.emails && user.emails.length) {
+                            userEMailFromDB = user.emails[0].address;
+                        }
+                    }
+                }
+                if (userEMailFromDB) {     // user DB match!
+                    mailArray.push(userEMailFromDB);
+                } else {
+                    let freetextMail = responsibles[i].trim();
+                    if (/\S+@\S+\.\S+/.test(freetextMail)) {    // check valid mail anystring@anystring.anystring
+                        mailArray.push(freetextMail);
+                    } else {
+                        console.log("WARNING: Invalid mail address for responsible: >"+freetextMail+"< "+userNameFromDB);
+                    }
+                }
+            }
+            return mailArray;
+        }
+        return [];
+    }
+
+
+    getResponsibleNameString() {
+        if (!this.hasResponsibles()) {
+            return "";
+        }
+
+        let responsibles = this._infoItemDoc.responsibles;
+        let responsiblesString = "";
+        for (let i in responsibles) {
+            let userNameFromDB = "";
+            if (responsibles[i].length > 15) {  // maybe DB Id or free text
+                let user = Meteor.users.findOne(responsibles[i]);
+                if (user) {
+                    userNameFromDB = user.username;
+                }
+            }
+            if (userNameFromDB) {     // user DB match!
+                responsiblesString += userNameFromDB + ", ";
+            } else {
+                responsiblesString += responsibles[i] + ", ";
+            }
+        }
+        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
+        return responsiblesString;
     }
 
     getPriority() {

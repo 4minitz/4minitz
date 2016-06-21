@@ -27,8 +27,7 @@
                     {{#if isActionItem}}
                         <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
                            href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
-                            {{infoItem.subject}}
-                            Resp: {{infoItem.responsible}}
+                            {{infoItem.subject}} {{responsiblesHelper}}
                             Prio:{{infoItem.priority}}
                             Due: {{infoItem.duedate}}
                         </a>
@@ -44,22 +43,22 @@
                     <!-- Manipulation Menu Icons -->
                         <span class="pull-right pull-right-icons">
                             {{#if showPinItem}}
-                                <a href="#" class="panel-link btnPinInfoItem">
+                                <a href="#" class="panel-link btnPinInfoItem"  title="Set as pinned info item">
                                     <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
                                 </a>
                             {{/if}}
 
                             {{#if isEditable}}
                                 {{#if isActionItem}}
-                                    <a href="#" class="panel-link addDetail">
+                                    <a href="#" class="panel-link addDetail" title="Add details to action item">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </a>
                                 {{/if}}
 
-                                <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link">
+                                <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link" title="Edit item">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                                <a id="btnDelInfoItem" href="#" class="panel-link">
+                                <a id="btnDelInfoItem" href="#" class="panel-link" title="Delete item">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
                             {{/if}}

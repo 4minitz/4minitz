@@ -139,19 +139,14 @@ Template.topicEdit.events({
     "click #btnTopicSave": function (evt, tmpl) {
         evt.preventDefault();
 
-        var aSubject = tmpl.find("#id_subject").value;
-        var multiResponsibles = $('#id_selResponsible').val();
-
         let editTopic = getEditTopic();
-
         let topicDoc = {};
-
         if (editTopic) {
             _.extend(topicDoc, editTopic._topicDoc);
         }
 
-        topicDoc.subject = aSubject;
-        topicDoc.responsibles = multiResponsibles;
+        topicDoc.subject = tmpl.find("#id_subject").value;
+        topicDoc.responsibles = $('#id_selResponsible').val();
 
         let aTopic = new Topic(_minutesID, topicDoc);
         aTopic.save((error) => {

@@ -4,10 +4,10 @@ you have been assigned to the following action items:<br>
 
 <ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
     {{#each actionItems}}
-    <li>
+    <li style="margin-bottom: 1em; border-top: 2px solid #999999;">
         <strong>{{subject}}</strong> (Topic: {{topicSubject}})
             <ul style="padding-left: 30px;">
-                {{#if responsible}}<li>Resp: {{responsible}}</li>{{/if}}
+                {{#if responsibles}}<li>Resp: {{responsibles}}</li>{{/if}}
                 {{#if priority}}<li>Prio: {{priority}}</li>{{/if}}
                 {{#if duedate}}<li>Due: {{duedate}}</li>{{/if}}
                 {{#each details}}

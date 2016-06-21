@@ -13,6 +13,28 @@ Template.topicInfoItem.onRendered(function () {
     $.material.init();
 });
 
+
+let createTopic = (minuteId, topicId) => {
+    if (!minuteId || !topicId) return undefined;
+    return new Topic(minuteId, topicId);
+};
+
+let findInfoItem = (minuteId, topicId, infoItemId) => {
+    let aTopic = createTopic(minuteId, topicId);
+    if (aTopic) {
+        return aTopic.findInfoItem(infoItemId);
+    }
+    return undefined;
+};
+
+let resizeTextarea = (element) => {
+    let scrollPos = $(document).scrollTop();
+    element.css('height', 'auto');
+    element.css('height', element.prop('scrollHeight') + "px");
+    $(document).scrollTop(scrollPos);
+};
+
+
 Template.topicInfoItem.helpers({
     isActionItem: function() {
         return (this.infoItem.itemType === 'actionItem');
@@ -56,28 +78,19 @@ Template.topicInfoItem.helpers({
 
     showPinItem() {
         return (this.infoItem.itemType === 'infoItem' && ( this.isEditable || this.infoItem.isSticky) );
+    },
+
+    responsiblesHelper() {
+        let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
+        if (aInfoItem instanceof ActionItem) {
+            if (aInfoItem.hasResponsibles()) {
+                return "(" + aInfoItem.getResponsibleNameString() + ")";
+            }
+        }
+        return "";
     }
 });
 
-let createTopic = (minuteId, topicId) => {
-    if (!minuteId || !topicId) return undefined;
-    return new Topic(minuteId, topicId);
-};
-
-let findInfoItem = (minuteId, topicId, infoItemId) => {
-    let aTopic = createTopic(minuteId, topicId);
-    if (aTopic) {
-        return aTopic.findInfoItem(infoItemId);
-    }
-    return undefined;
-};
-
-let resizeTextarea = (element) => {
-    let scrollPos = $(document).scrollTop();
-    element.css('height', 'auto');
-    element.css('height', element.prop('scrollHeight') + "px");
-    $(document).scrollTop(scrollPos);
-};
 
 
 Template.topicInfoItem.events({
