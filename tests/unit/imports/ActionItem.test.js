@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 import _ from 'underscore';
 
@@ -6,10 +7,16 @@ let doNothing = () => {};
 
 let Topic = {};
 
+class MeteorError {}
+
+let Meteor = {
+    call: sinon.stub(),
+    Error: MeteorError
+};
+
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
-    'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true}
 });
@@ -17,6 +24,7 @@ const {
 const {
     ActionItem
     } = proxyquire('../../../imports/actionitem', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     './infoitem': { InfoItem, '@noCallThru': true}
 });
 
