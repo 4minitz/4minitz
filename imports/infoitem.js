@@ -3,6 +3,7 @@
  */
 
 import { Topic } from './topic'
+import { Label } from './label'
 import { _ } from 'meteor/underscore';
 
 /**
@@ -74,6 +75,12 @@ export class InfoItem {
 
     isActionItem() {
         return InfoItem.isActionItem(this._infoItemDoc);
+    }
+
+    getLabels(meetingSeriesId) {
+        return this.getLabelsRawArray().map(labelId => {
+            return Label.createLabelById(meetingSeriesId, labelId);
+        })
     }
 
     getLabelsRawArray() {

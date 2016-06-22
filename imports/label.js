@@ -1,4 +1,5 @@
 import { MeetingSeries } from './meetingseries'
+import { ColorHelper } from './ColorHelper'
 
 export class Label {
 
@@ -6,6 +7,12 @@ export class Label {
         if (!source) {
             throw new Meteor.Error("It is not allowed to create a Label without the source");
         }
+
+        _.defaults(source, {
+            isDefaultLabel: true,
+            isDisabled: true,
+            color: '#e6e6e6'
+        });
 
         this._labelDoc = source;
 
@@ -47,6 +54,14 @@ export class Label {
 
     setColor(color) {
         this._labelDoc.color = color;
+    }
+
+    hasDarkBackground() {
+        return ColorHelper.isDarkColor(this.getColor());
+    }
+
+    getDocument() {
+        return this._labelDoc;
     }
 
     save(parentMeetingSeries) {
