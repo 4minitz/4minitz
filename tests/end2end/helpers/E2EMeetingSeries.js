@@ -16,7 +16,7 @@ export class E2EMeetingSeries {
     };
 
 
-    static createMeetingSeries (aProj, aName) {
+    static createMeetingSeries (aProj, aName, inviteUsers) {
         E2EApp.gotoStartPage();
 
         // is "create MeetingSeries dialog" closed?
@@ -28,6 +28,10 @@ export class E2EMeetingSeries {
 
         browser.setValue('input[id="id_meetingproject"]', aProj);
         browser.setValue('input[id="id_meetingname"]', aName);
+        if (inviteUsers) {
+            browser.click('#btnAddInvite');
+            return;
+        }
         browser.click('#btnAdd');
 
         E2EGlobal.waitSomeTime();
