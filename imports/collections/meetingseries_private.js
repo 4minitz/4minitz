@@ -27,7 +27,7 @@ if (Meteor.isClient) {
 MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
 
 Meteor.methods({
-    'meetingseries.insert'(doc) {
+    'meetingseries.insert'(doc, optimisticUICallback) {
         console.log("meetingseries.insert");
 
         // Make sure the user is logged in before changing collections
@@ -49,6 +49,10 @@ Meteor.methods({
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
             if (error) {
                 throw error;
+            }
+
+            if (Meteor.isClient && optimisticUICallback) {
+                optimisticUICallback(newMeetingSeriesID);
             }
 
             doc._id = newMeetingSeriesID;

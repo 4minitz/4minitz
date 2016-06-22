@@ -51,11 +51,12 @@ export class MeetingSeries {
         }
     }
 
-    save() {
+
+    save(optimisticUICallback) {
         if (this._id) {
             return Meteor.callPromise("meetingseries.update", this);
         } else {
-            return Meteor.callPromise("meetingseries.insert", this);
+            return Meteor.callPromise("meetingseries.insert", this, optimisticUICallback);
         }
     }
 
