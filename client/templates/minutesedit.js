@@ -262,8 +262,11 @@ Template.minutesedit.events({
                 /* callback called if user wants to continue */
                 () => {
                     let ms = new MeetingSeries(aMin.meetingSeries_id);
+                    // first route to the parent meetingseries then remove the minute.
+                    // otherwise the current route would automatically re-routed to the main page because the
+                    // minute is not available anymore -> see router.js
+                    Router.go("/meetingseries/"+aMin.meetingSeries_id);
                     ms.removeMinutesWithId(aMin._id);
-                    Router.go("/meetingseries/"+aMin.meetingSeries_id)
                 },
                 /* Dialog content */
                 dialogContent
