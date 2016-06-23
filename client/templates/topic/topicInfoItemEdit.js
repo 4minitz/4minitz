@@ -23,16 +23,10 @@ Template.topicInfoItemEdit.onRendered(function () {
 
     $.material.init();
 
-    let inputs = [
-        '.id_type',
-        '#id_item_subject',
-        '#id_item_priority',
-        '#id_item_responsible'
-    ];
     let textarea = ['#id_item_details'];
 
-    submitOnEnter(inputs, textarea, () => {
-        $('#btnInfoItemSave').click();
+    submitOnEnter(textarea, () => {
+        $('#frmDlgAddInfoItem').submit();
     });
 });
 
@@ -97,7 +91,7 @@ Template.topicInfoItemEdit.events({
         tmpl.find("#id_item_subject").focus();
     },
 
-    'click #btnInfoItemSave': function(evt, tmpl) {
+    'submit #frmDlgAddInfoItem': function(evt, tmpl) {
         evt.preventDefault();
 
         if (!getRelatedTopic()) {
@@ -206,6 +200,4 @@ Template.topicInfoItemEdit.events({
         Session.set("topicInfoItemEditTopicId", null);
         Session.set("topicInfoItemEditInfoItemId", null);
     }
-
-
 });

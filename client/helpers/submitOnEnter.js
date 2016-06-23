@@ -1,11 +1,11 @@
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 
-function createHandler(action, ignoreCtrl) {
+function createHandler(action) {
     return (event) => {
         event.preventDefault();
 
-        let ctrl = ignoreCtrl || event.ctrlKey;
+        let ctrl = event.ctrlKey;
         let enterWasPressed = event.key == 'Enter';
 
         // for browsers that do not support event.key yet
@@ -17,13 +17,8 @@ function createHandler(action, ignoreCtrl) {
     };
 }
 
-function attachHandler(inputs, ignoreCtrl, action) {
-    _.each(inputs, (input) => {
-        $(input).on('keyup', createHandler(action, ignoreCtrl));
+export default function (textareas, action) {
+    _.each(textareas, (input) => {
+        $(input).on('keyup', createHandler(action));
     });
 }
-
-export default function (edits, textareas, action) {
-    attachHandler(edits, true, action);
-    attachHandler(textareas, false, action);
-};

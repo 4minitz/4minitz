@@ -18,8 +18,8 @@
                     </h4>
                 </div>
                 {{> error}}
-                <div class="modal-body">
-                    <form id="frmDlgAddTopic">
+                <form id="frmDlgAddInfoItem">
+                    <div class="modal-body">
                         <div class="form-group">
                             <label>Type</label>
                             <div class="radio">
@@ -71,12 +71,12 @@
                                 </div>
                             {{/unless}}
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary btn-raised" id="btnInfoItemSave">Save</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-raised" id="btnInfoItemSave">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
