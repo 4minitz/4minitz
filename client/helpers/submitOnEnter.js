@@ -6,10 +6,10 @@ function createHandler(action) {
         event.preventDefault();
 
         let ctrl = event.ctrlKey;
-        let enterWasPressed = event.key == 'Enter';
+        let enterWasPressed = event.key === 'Enter';
 
         // for browsers that do not support event.key yet
-        enterWasPressed |= event.keyCode == 13;
+        enterWasPressed |= event.keyCode === 13;
 
         if (ctrl && enterWasPressed) {
             action();
