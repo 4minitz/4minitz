@@ -5,10 +5,11 @@ import { Topic } from '/imports/topic'
 
 
 export class TopicListConfig {
-    constructor (topics, minutesId, isReadonly) {
+    constructor (topics, minutesId, isReadonly, parentMeetingSeriesId) {
         this.topics = topics;
         this.minutesId = minutesId;
         this.isReadonly = isReadonly;
+        this.parentMeetingSeriesId = parentMeetingSeriesId;
     }
 }
 
@@ -34,7 +35,8 @@ Template.topicsList.helpers({
             topic: this,
             isEditable: !config.isReadonly,
             minutesID: config.minutesId,
-            currentCollapseId: collapseID++  // each topic item gets its own collapseID
+            currentCollapseId: collapseID++,  // each topic item gets its own collapseID,
+            parentMeetingSeriesId: config.parentMeetingSeriesId
         };
     }
 

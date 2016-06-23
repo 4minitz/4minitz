@@ -22,6 +22,12 @@ describe('MeetingSeries Editor', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
     });
 
+    before("reload page", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.launchApp();
+        }
+    });
+
     after("clear database", function () {
         if (E2EGlobal.browserIsPhantomJS()) {
             E2EApp.resetMyApp(true);

@@ -62,12 +62,14 @@ Template.minutesedit.onRendered(function () {
     });
 
     let aMin = new Minutes(_minutesID);
-    let ms = aMin.parentMeetingSeries();
-    if (ms) {
-        let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
-        if (minDate) {
-            minDate.setDate(minDate.getDate() + 1);
-            datePickerNode.data("DateTimePicker").minDate(minDate);
+    if (!aMin.isFinalized) {
+        let ms = aMin.parentMeetingSeries();
+        if (ms) {
+            let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
+            if (minDate) {
+                minDate.setDate(minDate.getDate() + 1);
+                datePickerNode.data("DateTimePicker").minDate(minDate);
+            }
         }
     }
 
@@ -77,6 +79,7 @@ Template.minutesedit.onRendered(function () {
         items: '> .well',
         opacity: 0.5,
         disabled: true,
+        handle: '.topicDragDropHandle',
         update: updateTopicSorting
     });
 
@@ -134,7 +137,7 @@ Template.minutesedit.helpers({
 
     getTopicsListConfig: function() {
         let aMin = new Minutes(_minutesID);
-        return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()));
+        return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
     mobileButton() {

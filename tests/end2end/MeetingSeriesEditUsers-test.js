@@ -24,6 +24,12 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     });
 
+    before("reload page", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.launchApp();
+        }
+    });
+
     after("clear database", function () {
         if (E2EGlobal.browserIsPhantomJS()) {
             E2EApp.resetMyApp(true);
@@ -331,7 +337,8 @@ describe('MeetingSeries Editor Users', function () {
             suggestedUserArray.push(usrName);
         }
 
-        expect(suggestedUserArray).to.eql(otherRegisteredUsers);    // deep-equal!
+        expect(suggestedUserArray).to.include.members(otherRegisteredUsers);
+        expect(otherRegisteredUsers).to.include.members(suggestedUserArray);
 
         browser.keys(['Escape']);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation

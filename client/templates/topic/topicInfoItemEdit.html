@@ -41,16 +41,23 @@
 
                         <div class="actionItemOnly" style="display: none;">
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <!--<label for="id_item_responsible" class="control-label">Responsible</label>-->
+                                        <!--<input id="id_item_responsible" type="text" class="form-control">-->
+                                        <label for="id_selResponsibleActionItem" class="control-label" style="color: teal;">Responsible</label>
+                                        <select id="id_selResponsibleActionItem" multiple="multiple" style="width:100%;">
+                                            <!--Options will be filled in by show.bs.modal event handler-->
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group label-floating">
                                         <label for="id_item_priority" class="control-label">Priority</label>
                                         <input id="id_item_priority" type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group label-floating">
-                                        <label for="id_item_responsible" class="control-label">Responsible</label>
-                                        <input id="id_item_responsible" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-4">

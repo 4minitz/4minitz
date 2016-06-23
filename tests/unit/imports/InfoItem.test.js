@@ -4,12 +4,14 @@
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+import _ from 'underscore';
 
 let Topic = {};
 
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/underscore': { _, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true}
 });
 

@@ -13,29 +13,42 @@ Template.meetingSeriesAdd.helpers({
     //add you helpers here
 });
 
+async function addMeetingSeries(template, optimisticUICallback) {
+
+    let aProject = template.find("#id_meetingproject").value;
+    let aName = template.find("#id_meetingname").value;
+
+    let ms = new MeetingSeries({
+        project: aProject,
+        name: aName,
+        createdAt: new Date()
+    });
+
+    try {
+        await ms.save(optimisticUICallback);
+    } catch (error) {
+        Session.set('errorTitle', 'Error');
+        Session.set('errorReason', error.reason);
+    }
+}
+
 Template.meetingSeriesAdd.events({
-    "click #btnAdd": function (event, template) {
+    "click #btnAdd": async function (event, template) {
         event.preventDefault();
 
-        var aProject = template.find("#id_meetingproject").value;
-        var aName = template.find("#id_meetingname").value;
+        addMeetingSeries(template);
 
-        let ms = new MeetingSeries({
-            project: aProject,
-            name: aName,
-            createdAt: new Date()
-        });
+        // Clear form
+        template.find("#id_meetingproject").value = "";
+        template.find("#id_meetingname").value = "";
+        template.find("#id_meetingproject").focus();
+    },
 
-        ms.save((error) => {
-            if (error) {
-                Session.set('errorTitle', 'Error');
-                Session.set('errorReason', error.reason);
-            } else {
-                // Clear form
-                template.find("#id_meetingproject").value = "";
-                template.find("#id_meetingname").value = "";
-                template.find("#id_meetingproject").focus();
-            }
+    "click #btnAddInvite": async function (event, template) {
+        event.preventDefault();
+
+        addMeetingSeries(template, (id) => {
+            Router.go('/meetingseries/invite/' + id);
         });
     },
 
@@ -47,5 +60,4 @@ Template.meetingSeriesAdd.events({
     "shown.bs.collapse #collapseMeetingSeriesAdd": function (evt, tmpl) {
         tmpl.find("#id_meetingproject").focus();
     }
-
 });

@@ -1,22 +1,30 @@
-/**
- * Created by felix on 18.05.16.
- */
 import { expect } from 'chai';
+import sinon from 'sinon';
 import proxyquire from 'proxyquire';
+import _ from 'underscore';
 
 let doNothing = () => {};
 
 let Topic = {};
 
+class MeteorError {}
+
+let Meteor = {
+    call: sinon.stub(),
+    Error: MeteorError
+};
+
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/underscore': { _, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true}
 });
 
 const {
     ActionItem
     } = proxyquire('../../../imports/actionitem', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     './infoitem': { InfoItem, '@noCallThru': true}
 });
 

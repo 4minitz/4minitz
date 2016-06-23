@@ -9,26 +9,47 @@ Router.configure({
     layoutTemplate: 'appLayout'
 });
 
+Router.onBeforeAction(function () {
+    if (!Meteor.userId()) {
+        // if the user is not logged in, render the Login template
+        this.render('login');
+    } else {
+        // otherwise don't hold up the rest of hooks or our route/action function
+        // from running
+        this.next();
+    }
+});
 
 Router.route('/', {name: 'home'});
 
-Router.route('/meetingseries/:_id', function () {
-    var meetingSeriesID = this.params._id;
+function routeToMeetingSeries(meetingSeriesID, router, data) {
+    if (!data) {
+        data = {};
+    }
 
     // we have to wait until the client side db is ready
     // otherwise creating the UserRoles-Object will fail
-    this.subscribe('userListSimple', Meteor.userId()).wait();
+    router.subscribe('userListSimple', Meteor.userId()).wait();
 
-    if (this.ready()) {
+    if (router.ready()) {
         let usrRoles = new UserRoles();
         if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
-            this.render('meetingSeriesDetails', {data: meetingSeriesID});
+            data.meetingSeriesId = meetingSeriesID;
+            router.render('meetingSeriesDetails', { data: data });
         } else {
             Router.go("/");
         }
     } else {
-        this.render('loading');
+        router.render('loading');
     }
+}
+
+Router.route('/meetingseries/:_id', function () {
+    routeToMeetingSeries(this.params._id, this);
+});
+
+Router.route('meetingseries/invite/:_id', function () {
+    routeToMeetingSeries(this.params._id, this, { openMeetingSeriesEditor: true });
 });
 
 Router.route('/minutesadd/:_id', function () {

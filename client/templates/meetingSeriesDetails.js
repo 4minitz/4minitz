@@ -10,12 +10,16 @@ import { TopicListConfig } from './topic/topicsList'
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
 Template.meetingSeriesDetails.onCreated(function () {
-    _meetingSeriesID = this.data;
+    _meetingSeriesID = this.data.meetingSeriesId;
     Session.setDefault("currentTab", "minutesList");
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
     Session.set("currentTab", "minutesList");
+
+    if (this.data.openMeetingSeriesEditor) {
+        $('#dlgEditMeetingSeries').modal('show');
+    }
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
@@ -61,7 +65,7 @@ Template.meetingSeriesDetails.helpers({
                         throw new Meteor.Error("illegal-state", "Unknown topic list status: " + status);
                 }
 
-                return new TopicListConfig(topics, null, true);
+                return new TopicListConfig(topics, null, true, _meetingSeriesID);
         }
     },
 

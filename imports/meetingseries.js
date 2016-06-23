@@ -5,6 +5,7 @@ import { Topic } from './topic'
 import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
+import './helpers/promisedMethods';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -28,54 +29,34 @@ export class MeetingSeries {
         return MeetingSeriesCollection.findOne(...args);
     }
 
-    static remove(meetingSeries) {
+    static async remove(meetingSeries) {
         if (meetingSeries.countMinutes() > 0) {
-            Meteor.call(
-                "minutes.removeAllOfSeries",
-                meetingSeries._id,
-                /* server callback */
-                (error) => {
-                    if (!error) {
-                        // if all related minutes were delete we can delete the series as well
-                        Meteor.call("meetingseries.remove", meetingSeries._id);
-                    }
-                }
-            );
-        } else {
-            // we have no related minutes so we can delete the series blindly
-            Meteor.call("meetingseries.remove", meetingSeries._id);
+            await Meteor.callPromise("minutes.removeAllOfSeries", meetingSeries._id);
         }
+
+        return Meteor.callPromise("meetingseries.remove", meetingSeries._id);
     }
 
 
     // ################### object methods
 
-    removeMinutesWithId(minutesId) {
+    async removeMinutesWithId(minutesId) {
         console.log("removeMinutesWithId: " + minutesId);
 
-        // first we remove the minutes itself
-        Minutes.remove(
-            minutesId,
-            /* server callback */
-            (error, result) => { // result contains the number of removed items
-                if (!error && result === 1) {
-                    // if the minutes has been removed
-                    // we remove the id from the minutes array in
-                    // this meetingSeries as well.
-                    Meteor.call('meetingseries.removeMinutesFromArray', this._id, minutesId);
+        let numberOfRemovedMinutes = await Minutes.remove(minutesId);
 
-                    // last but not least we update the lastMinutesDate-field
-                    this.updateLastMinutesDate();
-                }
-            }
-        );
+        if (numberOfRemovedMinutes === 1) {
+            await Meteor.callPromise('meetingseries.removeMinutesFromArray', this._id, minutesId);
+            return this.updateLastMinutesDateAsync();
+        }
     }
 
-    save (callback) {
+
+    save(optimisticUICallback) {
         if (this._id) {
-            Meteor.call("meetingseries.update", this, callback);
+            return Meteor.callPromise("meetingseries.update", this);
         } else {
-            Meteor.call("meetingseries.insert", this, callback);
+            return Meteor.callPromise("meetingseries.insert", this, optimisticUICallback);
         }
     }
 
@@ -104,7 +85,8 @@ export class MeetingSeries {
         if (this.openTopics) {
             topics = this.openTopics;
             topics.forEach((topicDoc) => {
-                Topic.invalidateIsNewFlag(topicDoc);
+                let topic = new Topic(this, topicDoc);
+                topic.invalidateIsNewFlag();
             });
         }
 
@@ -153,7 +135,18 @@ export class MeetingSeries {
         return false;
     }
 
-    updateLastMinutesDate (callback) {
+    async updateLastMinutesDate (callback) {
+        callback = callback || function () {};
+
+        try {
+            let result = await this.updateLastMinutesDateAsync();
+            callback(undefined, result);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
+    async updateLastMinutesDateAsync() {
         let lastMinutesDate;
 
         let lastMinutes = this.lastMinutes();
@@ -165,13 +158,11 @@ export class MeetingSeries {
             return;
         }
 
-        Meteor.call(
-            'meetingseries.update', {
-                _id: this._id,
-                lastMinutesDate: lastMinutesDate
-            },
-            callback
-        );
+        let updateInfo = {
+            _id: this._id,
+            lastMinutesDate
+        };
+        return Meteor.callPromise('meetingseries.update', updateInfo);
     }
 
     /**
@@ -337,39 +328,40 @@ export class MeetingSeries {
         return ur.isModeratorOf(this._id);
     }
 
-    // ################### private methods
-    _mergeTopic(topicIndex, minutesTopicDoc) {
-        let msTopicDoc = this.topics[topicIndex];
+    upsertTopic(topicDoc, mergeTopic) {
+        let i = undefined;
+        if (! topicDoc._id) {             // brand-new topic
+            throw new Meteor.Error('Runtime error, it is not allowed to create a new topic in a meeting series');
+        } else {
+            i = subElementsHelper.findIndexById(topicDoc._id, this.topics); // try to find it
+        }
 
-        msTopicDoc = Topic.overwritePrimitiveProperties(minutesTopicDoc, msTopicDoc);
-
-        // loop backwards through topic items
-        for (let i = minutesTopicDoc.infoItems.length; i-- > 0;) {
-            let infoDoc = minutesTopicDoc.infoItems[i];
-
-
-            let indexInMsTopicDoc = subElementsHelper.findIndexById(infoDoc._id, msTopicDoc.infoItems);
-            if (indexInMsTopicDoc === undefined) {
-                // item does not exist -> simply prepend
-                msTopicDoc.infoItems.unshift(infoDoc);
+        if (i === undefined) {                      // topic not in array
+            this.topics.unshift(topicDoc);  // add to front of array
+            i = 0;
+        } else {
+            if (mergeTopic) {
+                let msTopic = new Topic(this, this.topics[i]);
+                msTopic.merge(topicDoc);
             } else {
-                // update the existing one
-                msTopicDoc.infoItems[indexInMsTopicDoc] = infoDoc;
+                this.topics[i] = topicDoc;      // overwrite in place
             }
         }
 
-        // delete all open AIs listed in the msTopicDoc but not in the minutesTopicDoc
-        // (these were deleted during the last minute)
-        msTopicDoc.infoItems = msTopicDoc.infoItems.filter(itemDoc => {
-            let openAI = InfoItem.isActionItem(itemDoc) && itemDoc.isOpen;
-            if (openAI) {
-                let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, minutesTopicDoc.infoItems);
-                return !(indexInMinutesTopicDoc === undefined);
-            }
-            return true;
-        });
+        // close topic if it is completely closed (not just marked as discussed)
+        let topic = new Topic(this, topicDoc);
+        this.topics[i].isOpen = (!topic.isClosed());
     }
 
+    findTopic(id) {
+        let i = subElementsHelper.findIndexById(id, this.topics);
+        if (i != undefined) {
+            return this.topics[i];
+        }
+        return undefined;
+    }
+
+    // ################### private methods
     /**
      * Copies the topics from the given
      * minute to this series.
@@ -390,7 +382,8 @@ export class MeetingSeries {
         // clear open topics of this series (the minute contains all relevant open topics)
         this.openTopics = [];
         this.topics.forEach((topicDoc) => {
-            Topic.invalidateIsNewFlag(topicDoc);
+            let topic = new Topic(this, topicDoc);
+            topic.invalidateIsNewFlag();
         });
 
         // iterate backwards through the topics of the minute
@@ -401,23 +394,11 @@ export class MeetingSeries {
             // without manipulating the original document
             let topic = new Topic(minutes._id, topicDocCopy);
 
-            // check if topic already exists in meeting series
-            let indexInSeries = Topic.findTopicIndexInArray(topicDoc._id, this.topics);
-            if (indexInSeries === undefined) {
-                // topic does not exist so we simply prepend the topic to our array
-                this.topics.unshift(topicDoc);
-                indexInSeries = 0;
-            } else {
-                // topic already exists, here we do the magic merge
-                this._mergeTopic(indexInSeries, topicDoc);
-            }
-
-            // change topic state depending on the state of its AIs
-            this.topics[indexInSeries].isOpen = (topicDoc.isOpen || topic.hasOpenActionItem());
+            this.upsertTopic(topicDoc, /*merge*/ true);
 
             // copy additional the tailored topic to our open topic list
             topic.tailorTopic();
-            if (topic.getDocument().isOpen || topic.hasOpenActionItem()) {
+            if (!topic.isClosed()) {
                 topic.getDocument().isOpen = true;
                 this.openTopics.unshift(topic.getDocument());
             }

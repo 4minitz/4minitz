@@ -5,17 +5,42 @@ import _ from 'underscore';
 
 require('../../../lib/helpers');
 
+class MeteorError {}
+let Meteor = {
+    call: sinon.stub(),
+    Error: MeteorError
+};
+
+const meetingSeriesId = "AaBbCcDd01";
+class MeetingSeries {
+    constructor(id) {
+        this._id = id;
+    }
+    upsertTopic() {}
+    static findOne(id) {
+        if (id === meetingSeriesId) {
+            return dummySeries;
+        }
+        return undefined;
+    }
+}
+
+const minuteId = "AaBbCcDd02";
 class Minutes {
     constructor(id) {
         this._id = id;
     }
     upsertTopic() {}
-    static findOne() {
-        return dummyMinute
+    static findOne(id) {
+        if (id === minuteId) {
+            return dummyMinute;
+        }
+        return undefined;
     }
 }
 
-let dummyMinute = new Minutes("AaBbCcDd");
+let dummyMinute = new Minutes(minuteId);
+let dummySeries = new MeetingSeries(meetingSeriesId);
 
 global.Random = {
     i: 1,
@@ -27,8 +52,17 @@ global.Random = {
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
-    './minutes': { Minutes, '@noCallThru': true}
+    './minutes': { Minutes, '@noCallThru': true},
+    './meetingseries': { MeetingSeries, '@noCallThru': true}
+});
+
+const {
+    InfoItem
+    } = proxyquire('../../../imports/infoitem', {
+    'meteor/underscore': { _, '@noCallThru': true},
+    './topic': { Topic, '@noCallThru': true}
 });
 
 describe('Topic', function() {
@@ -118,22 +152,26 @@ describe('Topic', function() {
 
     describe('#invalidateIsNewFlag', function () {
 
+        let myTopic;
+
         beforeEach(function () {
             topicDoc.isNew = true;
             topicDoc.infoItems.push({
                 isOpen: true,
                 isNew: true,
-                itemType: "actionItem"
+                itemType: "actionItem",
+                createdInMinute: dummyMinute._id
             });
+            myTopic = new Topic(dummyMinute._id, topicDoc);
         });
 
         it('clears the isNew-Flag of the topic itself', function () {
-            Topic.invalidateIsNewFlag(topicDoc);
+            myTopic.invalidateIsNewFlag();
             expect(topicDoc.isNew).to.be.false;
         });
 
         it('clears the isNew-Flag of the action item', function () {
-            Topic.invalidateIsNewFlag(topicDoc);
+            myTopic.invalidateIsNewFlag();
             expect(topicDoc.infoItems[0].isNew).to.be.false;
         });
 
@@ -148,6 +186,45 @@ describe('Topic', function() {
 
         // state should have changed
         expect(myTopic._topicDoc.isOpen).to.not.equal(oldState);
+
+    });
+
+    describe('#isRecurring', function () {
+
+        let myTopic;
+
+        beforeEach(function() {
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('sets the default value correctly', function () {
+            expect(myTopic.isRecurring()).to.be.false;
+        });
+
+        it('returns the correct value', function () {
+            myTopic.getDocument().isRecurring = true;
+            expect(myTopic.isRecurring()).to.be.true;
+        });
+    });
+
+    describe('#toggleRecurring', function () {
+
+        let myTopic;
+
+        beforeEach(function() {
+            myTopic = new Topic(dummyMinute._id, topicDoc);
+        });
+
+        it('can change the value correctly', function () {
+            myTopic.toggleRecurring();
+            expect(myTopic.isRecurring()).to.be.true;
+        });
+
+        it('can reset the isRecurring-Flag', function () {
+            myTopic.toggleRecurring();
+            myTopic.toggleRecurring();
+            expect(myTopic.isRecurring()).to.be.false;
+        })
 
     });
 
@@ -252,17 +329,20 @@ describe('Topic', function() {
 
         beforeEach(function() {
             topicDoc.infoItems.push({
-                subject: "myInfoItem"
+                subject: "myInfoItem",
+                createdInMinute: dummyMinute._id
             });
             topicDoc.infoItems.push({
                 subject: "myClosedActionItem",
                 isOpen: false,
-                itemType: "actionItem"
+                itemType: "actionItem",
+                createdInMinute: dummyMinute._id
             });
             topicDoc.infoItems.push({
                 subject: "myOpenActionItem",
                 isOpen: true,
-                itemType: "actionItem"
+                itemType: "actionItem",
+                createdInMinute: dummyMinute._id
             });
             myTopic = new Topic(dummyMinute._id, topicDoc);
         });

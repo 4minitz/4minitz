@@ -1,0 +1,22 @@
+@startuml
+!include ../style.puml
+
+UserOfMailFeature --> MeteorMail: constructor(replyTo, recipients)
+MeteorMail --> UserOfMailFeature
+
+UserOfMailFeature --> MeteorMail: setSubject(subject)
+MeteorMail --> UserOfMailFeature
+
+UserOfMailFeature --> MeteorMail: setHtml(html)
+MeteorMail --> UserOfMailFeature
+
+UserOfMailFeature --> MeteorMail: send()
+    MeteorMail --> Mail: send()
+        Mail -> Mail: check preconditions
+        Mail --> MeteorMail: _sendMail()
+        MeteorMail --> Mail
+        Mail -> Mail: create log entry for sending email
+    Mail --> MeteorMail
+MeteorMail --> UserOfMailFeature
+
+@enduml

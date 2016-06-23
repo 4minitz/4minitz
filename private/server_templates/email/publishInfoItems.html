@@ -11,10 +11,10 @@ The listed topics were discussed:<br>
 <ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
     {{#each discussedTopics}}
         <li>
-            <strong>{{subject}}</strong>
+            <strong>{{subject}}</strong> {{responsiblesString}}
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
-                    <li>{{subject}}</li>
+                    <li>{{subject}}{{#if isSticky}} (pinned){{/if}}</li>
                 {{/each}}
             </ul>
         </li>
@@ -25,10 +25,10 @@ The following topics remained open:<br>
 <ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
     {{#each skippedTopics}}
         <li>
-            <strong>{{subject}}</strong>
+            <strong>{{subject}}</strong> {{responsiblesString}}
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
-                    <li>{{subject}}</li>
+                    <li>{{subject}}{{#if isSticky}} (pinned){{/if}}</li>
                 {{/each}}
             </ul>
         </li>

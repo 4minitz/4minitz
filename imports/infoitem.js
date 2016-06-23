@@ -3,6 +3,7 @@
  */
 
 import { Topic } from './topic'
+import { _ } from 'meteor/underscore';
 
 /**
  * A InfoItem is a sub-element of
@@ -36,7 +37,10 @@ export class InfoItem {
             throw new Meteor.Error('Property createdInMinute of topicDoc required');
         }
 
-        source.itemType = 'infoItem';
+        _.defaults(source, {
+            itemType: 'infoItem',
+            isSticky: false
+        });
         this._infoItemDoc = source;
     }
 
@@ -46,9 +50,32 @@ export class InfoItem {
     }
 
     // ################### object methods
-    save(callback) {
+    invalidateIsNewFlag() {
+        // a normal info item has no isNew-Flag so it is nothing to do here
+    }
+
+    isSticky() {
+        return this._infoItemDoc.isSticky;
+    }
+
+    toggleSticky() {
+        this._infoItemDoc.isSticky = !this.isSticky();
+    }
+
+    async save(callback) {
+        callback = callback || function () {};
+
+        try {
+            let result = await this.saveAsync();
+            callback(undefined, result);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
+    async saveAsync() {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
-        this._parentTopic.upsertInfoItem(this._infoItemDoc, callback);
+        return this._parentTopic.upsertInfoItem(this._infoItemDoc);
     }
 
     getParentTopic() {

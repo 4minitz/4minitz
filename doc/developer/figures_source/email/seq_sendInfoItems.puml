@@ -1,0 +1,23 @@
+@startuml
+!include ../style.puml
+
+
+UserOfInfoItemsMailHandler --> InfoItemsMailHandler: constructor(sender, recipients, minute, topics, meetingSeries, participants)
+InfoItemsMailHandler --> UserOfInfoItemsMailHandler
+
+UserOfInfoItemsMailHandler --> InfoItemsMailHandler: send()
+
+    InfoItemsMailHandler --> TopicItemsMailHandler: send()
+
+        loop for each recipient
+            TopicItemsMailHandler --> InfoItemsMailHandler: _sendMail()
+                InfoItemsMailHandler --> TopicItemsMailHandler: _buildMail()
+                TopicItemsMailHandler --> InfoItemsMailHandler: email built and sent correclty
+            InfoItemsMailHandler --> TopicItemsMailHandler: _sendMail() finished
+        end
+
+    TopicItemsMailHandler --> InfoItemsMailHandler: all emails were sent
+
+InfoItemsMailHandler --> UserOfInfoItemsMailHandler
+
+@enduml

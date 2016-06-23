@@ -82,7 +82,68 @@ They build a facade for the underlying MongoCollections and enrich them with con
 
 
 ## Sequence Diagrams
-![Sequence: Add Minutes to MeetingSeries](./figures/seqMinutesAdd.png)
+![Sequence: Add Minutes to MeetingSeries](./figures/seq_MinutesAdd.png)
+
+## Sending E-Mails
+
+We provide different ways for sending emails. Currently sending mails via smtp or the mail delivery service
+[mailgun](http://www.mailgun.com/) is supported. Via the configuration file settings.json you can define globally which
+service should be used (for configuration go to [Admin Doc](../admin/adminguide.md#configuration-for-sending-emails)).
+
+To achieve this you should not use Meteor.mail() for sending mails directly. Instead you can use our MailFactory to get
+a concrete instance of the abstract Mail-Class. This class defines the API for sending mails and is currently
+implemented by a class called MeteorMail which uses the meteor api for sending emails and a class MailgunMail which uses
+the mailgun api for sending emails.
+
+![Classes: Mail API & MailFactory](./figures/email/cls_Mail.png)
+
+You can get a concrete Mail-Instance via the static method getMailer(replyTo, recipients) of the MailFactory. You have
+to provide the two parameters replyTo (string) and recipients. Recipients can either be a string representing an email
+address or an array of email addresses. As a result you will ge a Mail-Object.
+
+With this object you can prepare your email by providing a subject, setting a email text as either plain text or html
+or both. After that you can send the email by calling the Method send() of the Mail-Object.
+
+When sending the mail by calling the send method, the abstract class Mail takes care about some general things like 
+checking if the necessary parameters are set. Then it calls the abstract method _sendMail() which will be implemented
+by the concrete implementation either MeteorMail or MailgunMail which takes care about actually sending the mail.
+Afterwords the send-method of the Mail-Class takes care about logging the result.
+
+The following sequence diagram shows the process of sending mails using the concrete meteor mail object as an example.
+But you should never use the constructor of a Mail class directly. Instead you should always use the MailFactory to 
+get an instance of a Mailer.
+
+![Sequence: Sending emails](./figures/email/seq_sendEmails.png)
+ 
+### Adding a different email deliverer
+
+If you want to add an additional email service you have to write your own class which derives from the abstract class
+Mail. In your class you have to implement the method _sendMail() only. There you can access the attributes _replyTo, 
+_recipients, _from, _html and _text for building and sending the mail. Then you have to adjust the MailFactory so that
+it will return your implementation depending on the current configuration. Do not forget to adjust the settings_sample.json
+file to draw attention to your new email delivery service.
+
+## Sending info items and action items
+
+For sending info items or action items you can use the classes InfoItemsMailHandler and ActionItemsMailHandler,
+respectively. Both classes are derivations from the abstract class TopicItemsMailHandler. This class provides the base
+features for sending action or info items.
+
+![Classes: TopicsItemMailHandler](./figures/email/cls_MailHandler.png)
+
+The following sequence diagram shows the process of sending info items. If you pass multiple recipients to the 
+InfoItemsMailHandler depending on the isTrustedIntranetEnvironment configuration the info items will be sent to all
+recipients in one mail (all recipients in the TO-field) or if the system is not in a trusted intranet environment
+the info items will sent to all recipients separately.
+Sending action items works analog.
+
+![Sequence: Sending info items](./figures/email/seq_sendInfoItems.png)
+
+The email layout will be provided as a spacebars template. You can pass a template name to the TopicItemsMailHandler 
+which must be found under the path "/private/server_side_templates/email" (e.g InfoItemsMailHandler uses the template 
+"publishInfoItems"). In a concrete derivation of the base class you have to call the method _buildMail() of the base 
+class and pass the subject and the data required by the template as parameters. The method _buildMail() will then take 
+care about rendering the template and sending the email.
 
 ## MongoDB Collection Schema
 

@@ -1,13 +1,10 @@
-/**
- * Created by wok on 16.04.16.
- */
-
 import { Meteor } from 'meteor/meteor';
 import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries'
 import { Topic } from './topic'
 import { ActionItem } from './actionitem'
 import { _ } from 'meteor/underscore';
+import './helpers/promisedMethods';
 
 export class Minutes {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -46,25 +43,28 @@ export class Minutes {
             options);
     }
 
-    static remove(id, serverCallback) {
-        Meteor.call("minutes.remove", id, serverCallback)
+    static remove(id) {
+        return Meteor.callPromise("minutes.remove", id);
     }
 
-    static syncVisibility(parentSeriesID, visibleForArray) {
-        Meteor.call("minutes.syncVisibility", parentSeriesID, visibleForArray);
+    static async syncVisibility(parentSeriesID, visibleForArray) {
+        return Meteor.callPromise("minutes.syncVisibility", parentSeriesID, visibleForArray);
     }
 
 
 
     // ################### object methods
-    update (docPart, callback) {
+    
+    async update (docPart, callback) {
         _.extend(docPart, {_id: this._id});
-        Meteor.call("minutes.update", docPart, callback);
-        _.extend(this, docPart);    // merge new doc fragment into this document
 
-        // update the lastMinuteDate-field of the related series iff the date has changed.
+        await Meteor.callPromise ("minutes.update", docPart, callback);
+
+        // merge new doc fragment into this document
+        _.extend(this, docPart);
+
         if (docPart.hasOwnProperty('date')) {
-            this.parentMeetingSeries().updateLastMinutesDate(callback);
+            return this.parentMeetingSeries().updateLastMinutesDateAsync();
         }
     }
 
@@ -101,11 +101,11 @@ export class Minutes {
     }
 
     // This also does a minimal update of collection!
-    removeTopic(id) {
+    async removeTopic(id) {
         let i = this._findTopicIndex(id);
         if (i != undefined) {
             this.topics.splice(i, 1);
-            this.update({topics: this.topics}); // update only topics array!
+            return this.update({topics: this.topics}); // update only topics array!
         }
     }
 
@@ -165,19 +165,22 @@ export class Minutes {
         })
     }
 
-    upsertTopic(topicDoc, callback) {
+    async upsertTopic(topicDoc) {
         let i = undefined;
+
         if (! topicDoc._id) {             // brand-new topic
             topicDoc._id = Random.id();   // create our own local _id here!
         } else {
             i = this._findTopicIndex(topicDoc._id); // try to find it
         }
+
         if (i == undefined) {                      // topic not in array
             this.topics.unshift(topicDoc);  // add to front of array
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
         }
-        this.update({topics: this.topics}, callback); // update only topics array!
+
+        return this.update({topics: this.topics}); // update only topics array!
     }
 
     /**
@@ -258,7 +261,7 @@ export class Minutes {
      * Trows an exception if this minutes are finalized
      * @param saveToDB internal saving can be skipped
      */
-    refreshParticipants (saveToDB) {
+    async refreshParticipants (saveToDB) {
         if (this.isFinalized) {
             throw new Error("updateParticipants () must not be called on finalized minutes");
         }
@@ -268,8 +271,8 @@ export class Minutes {
         if (!this.participants) {
             this.participants = [];
         }
-        this.participants.forEach(parti => {
-            participantKnown[parti.userId] = true;
+        this.participants.forEach(participant => {
+            participantKnown[participant.userId] = true;
         });
 
         // add unknown entries from .visibleFor
@@ -285,7 +288,7 @@ export class Minutes {
 
         // did we add anything?
         if (saveToDB && this.participants.length > Object.keys(participantKnown).length) {
-            this.update({participants: this.participants}); // update only participants array!
+            return this.update({participants: this.participants}); // update only participants array!
         }
     }
 
@@ -296,9 +299,9 @@ export class Minutes {
      * @param index of the participant in the participant array
      * @param isPresent new state of presence
      */
-    updateParticipantPresent(index, isPresent) {
+    async updateParticipantPresent(index, isPresent) {
         this.participants[index].present = isPresent;
-        this.update({participants: this.participants});
+        return this.update({participants: this.participants});
     }
 
     /**

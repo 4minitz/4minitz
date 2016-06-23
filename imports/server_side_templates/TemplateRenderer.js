@@ -34,6 +34,16 @@ export class TemplateRenderer {
         SSR.compileTemplate(this._templateName, tmplString);
         this._helpers = {};
         this._data = {};
+
+        this.addHelper('markdown2html', function(text) {
+            let converter = new Showdown.converter();
+            let html = converter.makeHtml(text);
+            // remove enclosing p-tag
+            if (html.substr(0, 3) === "<p>") {
+                html = html.substr(3, html.length - 4);
+            }
+            return Spacebars.SafeString(html);
+        });
     }
 
     addHelper(name, helper) {

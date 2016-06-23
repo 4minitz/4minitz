@@ -6,7 +6,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
     constructor(sender, recipient, minute) {
         super(sender, [recipient], minute, 'assignedActionItems');
         this._actionItems = [];
-        this._sendSeparateMails = false;
+        this._sendAIseperately = false;
     }
 
     addActionItem(actionItem) {
@@ -14,7 +14,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
     }
 
     _sendMail() {
-        if (this._sendSeparateMails) {
+        if (this._sendAIseperately) {
             this._actionItems.forEach(item => {
                 let topicSubject = item.getParentTopic().getSubject();
                 let mailSubject = this._getSubjectPrefix() + " / " + topicSubject;
@@ -47,7 +47,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
         return {
             topicSubject: topicSubject,
             subject: item.getSubject(),
-            responsible: item.getResponsibleString(),
+            responsibles: item.getResponsibleNameString(),
             priority: item.getPriority(),
             duedate: item.getDuedate(),
             details: details

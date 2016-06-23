@@ -88,7 +88,7 @@ Meteor.methods({
             MinutesCollection.update(id, {$set: doc}, /* options */null, function (error, affectedDocs) {
                 if (!error && affectedDocs == 1 && Meteor.isServer) {
                     if (!GlobalSettings.isEMailDeliveryEnabled()) {
-                        console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in you settings.json file");
+                        console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file");
                         return;
                     }
 

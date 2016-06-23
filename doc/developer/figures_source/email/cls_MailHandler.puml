@@ -1,0 +1,36 @@
+@startuml
+!include ../style.puml
+
+abstract class TopicItemsMailHandler {
+    _sender
+    _recipients
+    _minute
+    _templateName
+
+    constructor(sender, recipients, minute, templateName)
+    send()
+    _sendMail()
+}
+
+class ActionItemsMailHandler {
+    _actionItems
+
+    constructor(sender, recipient, minute)
+    addActionItem(actionItem)
+    _sendMail()
+}
+
+class InfoItemsMailHandler {
+    _topics
+    _meetingSeries
+    _participants
+
+    constructor(sender, recipients, minute, topics, meetingSeries, participants)
+    _sendMail()
+}
+
+TopicItemsMailHandler  <|-- ActionItemsMailHandler
+TopicItemsMailHandler  <|-- InfoItemsMailHandler
+
+
+@enduml

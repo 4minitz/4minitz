@@ -35,12 +35,14 @@ Template.topicElement.helpers({
     // so this refers to the current infoItem
     getInfoItem: function () {
         let parentTopicId = Template.instance().data.topic._id;
+        let parentElement = (Template.instance().data.minutesID)
+            ? Template.instance().data.minutesID : Template.instance().data.parentMeetingSeriesId;
 
         return {
             infoItem: this,
             parentTopicId: parentTopicId,
             isEditable: Template.instance().data.isEditable,
-            minutesID: Template.instance().data.minutesID,
+            minutesID: parentElement,//Template.instance().data.minutesID,
             currentCollapseId: collapseID++  // each topic item gets its own collapseID
         };
     },
@@ -49,6 +51,20 @@ Template.topicElement.helpers({
     isCollapsed() {
         let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
         return collapseState ? collapseState[this.topic._id] : false;
+    },
+
+    showRecurringIcon() {
+        return (this.isEditable || this.topic.isRecurring);
+    },
+
+    responsiblesHelper() {
+        let parentElement = (this.minutesID) ? this.minutesID : this.parentMeetingSeriesId;
+
+        let aTopic = new Topic(parentElement, this.topic._id);
+        if (aTopic.hasResponsibles()) {
+            return "("+aTopic.getResponsiblesString()+")";
+        }
+        return "";
     }
 });
 
@@ -60,13 +76,23 @@ Template.topicElement.events({
         if (!this.minutesID) {
             return;
         }
-
         console.log("Delete topics: "+this.topic._id+" from minutes "+this.minutesID);
+
         let aMin = new Minutes(this.minutesID);
-        aMin.removeTopic(this.topic._id);
+
+        let dialogContent = "<p>Do you really want to delete the topic <strong>" + this.topic.subject + "</strong>?</p>";
+
+        confirmationDialog(
+            /* callback called if user wants to continue */
+            () => {
+                aMin.removeTopic(this.topic._id);
+            },
+            /* Dialog content */
+            dialogContent
+        );
     },
 
-    'click #btnToggleState'(evt) {
+    'click .btnToggleState'(evt) {
         evt.preventDefault();
         if (!this.minutesID) {
             return;
@@ -76,6 +102,23 @@ Template.topicElement.events({
         let aTopic = new Topic(this.minutesID, this.topic._id);
         if (aTopic) {
             aTopic.toggleState();
+            aTopic.save();
+        }
+    },
+
+    'click .js-toggle-recurring'(evt) {
+        evt.preventDefault();
+        if (!this.isEditable) {
+            return;
+        }
+
+        if (!this.minutesID) {
+            return;
+        }
+
+        let aTopic = new Topic(this.minutesID, this.topic._id);
+        if (aTopic) {
+            aTopic.toggleRecurring();
             aTopic.save();
         }
     },
