@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
-import { Topic } from '/imports/topic'
-import { Minutes } from '/imports/minutes'
+import { Topic } from '/imports/topic';
+import { Minutes } from '/imports/minutes';
+
+import { $ } from 'meteor/jquery';
 
 Session.setDefault("topicEditTopicId", null);
 
@@ -16,11 +18,6 @@ Template.topicEdit.onRendered(function () {
     $.material.init();
 });
 
-Template.topicEdit.onDestroyed(function () {
-    //add your statement here
-});
-
-
 var getEditTopic = function() {
     let topicId = Session.get("topicEditTopicId");
 
@@ -30,7 +27,6 @@ var getEditTopic = function() {
 
     return new Topic(_minutesID, topicId);
 };
-
 
 var getPossibleResponsibles = function() {
     let possibleResponsibles = [];          // sorted later on
@@ -74,7 +70,6 @@ var getPossibleResponsibles = function() {
     return possibleResponsibles;
 };
 
-
 // get those registered users that are not already added to select2 via
 // getPossibleResponsibles()
 var getRemainingUsers = function (participants) {
@@ -94,7 +89,6 @@ var getRemainingUsers = function (participants) {
     }
     return remainingUsers;
 };
-
 
 function configureSelect2Responsibles() {
     let selectResponsibles = $('#id_selResponsible');
@@ -124,8 +118,6 @@ function configureSelect2Responsibles() {
     selectResponsibles.trigger("change");
 }
 
-
-
 Template.topicEdit.helpers({
     'getTopicSubject': function() {
         let topic = getEditTopic();
@@ -133,10 +125,8 @@ Template.topicEdit.helpers({
     }
 });
 
-
-
 Template.topicEdit.events({
-    "click #btnTopicSave": async function (evt, tmpl) {
+    "submit #frmDlgAddTopic": async function (evt, tmpl) {
         evt.preventDefault();
 
         let editTopic = getEditTopic();
@@ -178,15 +168,10 @@ Template.topicEdit.events({
     },
 
     "select2:selecting #id_selResponsible"(evt, tmpl) {
-        // console.log(evt);
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
-        // evt.preventDefault();
-        // return false;
     },
 
     "select2:select #id_selResponsible"(evt, tmpl) {
-        // console.log(evt);
         console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
     }
-
 });

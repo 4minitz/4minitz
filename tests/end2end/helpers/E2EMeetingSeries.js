@@ -16,22 +16,33 @@ export class E2EMeetingSeries {
     };
 
 
-    static createMeetingSeries (aProj, aName, inviteUsers) {
+    static editMeetingSeries (aProj, aName, switchInput) {
         E2EApp.gotoStartPage();
 
         // is "create MeetingSeries dialog" closed?
-        if (! browser.isVisible('input[id="id_meetingproject"]')) {
+        if (!browser.isVisible('input[id="id_meetingproject"]')) {
             browser.click('#btnNewMeetingSeries');  // open
             E2EGlobal.waitSomeTime();
             browser.waitForVisible('input[id="id_meetingproject"]');
         }
 
-        browser.setValue('input[id="id_meetingproject"]', aProj);
-        browser.setValue('input[id="id_meetingname"]', aName);
+        if (switchInput) {
+            browser.setValue('input[id="id_meetingname"]', aName);
+            browser.setValue('input[id="id_meetingproject"]', aProj);
+        } else {
+            browser.setValue('input[id="id_meetingproject"]', aProj);
+            browser.setValue('input[id="id_meetingname"]', aName);
+        }
+    };
+
+    static createMeetingSeries (aProj, aName, inviteUsers, switchInput) {
+        this.editMeetingSeries(aProj, aName,  switchInput);
+            
         if (inviteUsers) {
             browser.click('#btnAddInvite');
             return;
         }
+
         browser.click('#btnAdd');
 
         E2EGlobal.waitSomeTime();

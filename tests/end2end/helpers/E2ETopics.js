@@ -9,6 +9,7 @@ export class E2ETopics {
         browser.click("#id_showAddTopicDialog");
 
         E2ETopics.insertTopicDataIntoDialog(aTopic, aResponsible);
+        E2ETopics.submitTopicDialog();
     };
 
     
@@ -22,6 +23,7 @@ export class E2ETopics {
     static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
         E2ETopics.openEditTopicForMinutes(topicIndex);
         E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
+        E2ETopics.submitTopicDialog();
     }
 
     static deleteTopic(topicIndex, confirmDialog) {
@@ -52,16 +54,24 @@ export class E2ETopics {
         if (responsible) {
             E2ETopics.responsibleEnterFreetext(responsible);
         }
+    }
+
+    static submitTopicDialog() {
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);
     }
 
-    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+    static openInfoItemDialog(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .addTopicInfoItem";
 
         browser.waitForVisible(selector);
         browser.click(selector);
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc)
+    }
+
+    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+        this.openInfoItemDialog(topicIndex);
+        this.insertInfoItemDataIntoDialog(infoItemDoc);
+        this.submitInfoItemDialog();
     }
 
     static editInfoItemForTopic(topicIndex, infoItemIndex, infoItemDoc) {
@@ -72,7 +82,8 @@ export class E2ETopics {
 
         E2EGlobal.waitSomeTime();
 
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true);
+        this.insertInfoItemDataIntoDialog(infoItemDoc, true);
+        this.submitInfoItemDialog();
     }
 
     static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
@@ -97,7 +108,7 @@ export class E2ETopics {
         if (infoItemDoc.responsible) {
             E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
         }
-        //todo: set other fields (priority, responsible, duedate, details)
+        //todo: set other fields (duedate, details)
 
         if (!isEditMode) {
             let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
@@ -106,6 +117,16 @@ export class E2ETopics {
             browser.click(radioBtnSelector);
         }
 
+        if (infoItemDoc.responsible) {
+            browser.setValue('#id_item_responsible', infoItemDoc.responsible);
+        }
+
+        if (infoItemDoc.priority) {
+            browser.setValue('#id_item_priority', infoItemDoc.priority);
+        }
+    }
+
+    static submitInfoItemDialog() {
         browser.click("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
     }
