@@ -61,10 +61,19 @@ describe('MeetingSeries', function () {
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
     });
 
+    it('can create a new series and go to meeting series editor immediately', function () {
+        let aProjectName = "E2E Project";
+        let aMeetingName = "Meeting Name #3";
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName, true);
+
+        expect(browser.getUrl(), "add&invite should go to the invite-route").to.have.string('meetingseries/invite');
+
+        expect(browser.waitForVisible('#dlgEditMeetingSeries')).to.be.true;
+    });
 
     it('can goto meeting series details', function () {
         let aProjectName = "E2E Project";
-        let aMeetingName = "Meeting Name #3";
+        let aMeetingName = "Meeting Name #4";
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         expect(E2EApp.isOnStartPage()).to.be.false;
