@@ -3,7 +3,7 @@ import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 
 
-describe('MeetingSeries @watch', function () {
+describe('MeetingSeries', function () {
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect(browser.getTitle()).to.equal('4minitz!');
