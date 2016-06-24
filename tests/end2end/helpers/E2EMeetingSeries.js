@@ -16,7 +16,7 @@ export class E2EMeetingSeries {
     };
 
 
-    static editMeetingSeries (aProj, aName, switchInput) {
+    static editMeetingSeriesForm (aProj, aName, switchInput) {
         E2EApp.gotoStartPage();
 
         // is "create MeetingSeries dialog" closed?
@@ -36,7 +36,7 @@ export class E2EMeetingSeries {
     };
 
     static createMeetingSeries (aProj, aName, inviteUsers, switchInput) {
-        this.editMeetingSeries(aProj, aName,  switchInput);
+        this.editMeetingSeriesForm(aProj, aName,  switchInput);
             
         if (inviteUsers) {
             browser.click('#btnAddInvite');

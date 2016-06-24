@@ -105,11 +105,6 @@ export class E2ETopics {
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
 
-        if (infoItemDoc.responsible) {
-            E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
-        }
-        //todo: set other fields (duedate, details)
-
         if (!isEditMode) {
             let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
             let radioBtnSelector = "#label_" + type;
@@ -117,8 +112,10 @@ export class E2ETopics {
             browser.click(radioBtnSelector);
         }
 
+        //todo: set other fields (duedate, details)
+
         if (infoItemDoc.responsible) {
-            browser.setValue('#id_item_responsible', infoItemDoc.responsible);
+            E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
         }
 
         if (infoItemDoc.priority) {
