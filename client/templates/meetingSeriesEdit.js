@@ -22,7 +22,7 @@ Template.meetingSeriesEdit.onCreated(function() {
 });
 
 Template.meetingSeriesEdit.onRendered(function() {
-    $.material.init();
+    // $.material.init();
 });
 
 Template.meetingSeriesEdit.onDestroyed(function() {

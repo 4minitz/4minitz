@@ -15,7 +15,7 @@ Template.topicEdit.onCreated(function () {
 });
 
 Template.topicEdit.onRendered(function () {
-    $.material.init();
+    // $.material.init();
 });
 
 var getEditTopic = function() {

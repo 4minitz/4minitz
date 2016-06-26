@@ -233,7 +233,7 @@ Template.minutesedit.events({
             Session.set("participants.expand", true);
             // We need this forked to re-create material checkboxes
             Meteor.setTimeout(function () {
-                $.material.init();
+                // $.material.init();
             }, 0)
         }
     },

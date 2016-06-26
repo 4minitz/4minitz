@@ -9,7 +9,7 @@ Template.topicElement.onCreated(function () {
 });
 
 Template.topicElement.onRendered(function () {
-    $.material.init();
+    // $.material.init();
 });
 
 let collapseID = 0;

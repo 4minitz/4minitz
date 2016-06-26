@@ -27,9 +27,8 @@ Template.minutesEditParticipants.onCreated(function() {
 });
 
 Template.minutesEditParticipants.onRendered(function() {
-    $.material.init()
+    // $.material.init()
 });
-
 
 
 Template.minutesEditParticipants.helpers({
@@ -102,7 +101,7 @@ Template.minutesEditParticipants.events({
 
         // We need this forked to re-create material checkboxes
         Meteor.setTimeout(function () {
-            $.material.init();
+            // $.material.init();
         }, 0)
     }
 });

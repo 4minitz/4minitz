@@ -9,7 +9,7 @@ Template.meetingSeriesList.onCreated(function () {
 
 
 Template.meetingSeriesList.onRendered(function () {
-    $.material.init();
+    // $.material.init();
 });
 
 

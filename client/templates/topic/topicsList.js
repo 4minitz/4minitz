@@ -14,7 +14,7 @@ export class TopicListConfig {
 }
 
 Template.topicsList.onRendered(function() {
-    $.material.init();
+    // $.material.init();
 });
 
 Template.topicsList.onDestroyed(function() {

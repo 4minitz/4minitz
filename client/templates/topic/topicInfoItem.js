@@ -10,7 +10,7 @@ Template.topicInfoItem.onCreated(function () {
 });
 
 Template.topicInfoItem.onRendered(function () {
-    $.material.init();
+    // $.material.init();
 });
 
 
@@ -41,7 +41,7 @@ Template.topicInfoItem.helpers({
     },
 
     detailsArray: function () {
-        $.material.init();
+        // $.material.init();
         return this.infoItem.details;
     },
 
@@ -185,7 +185,7 @@ Template.topicInfoItem.events({
         aActionItem.save();
         // We need this forked to re-create material input fields
         Meteor.setTimeout(function () {
-            $.material.init();
+            // $.material.init();
 
             let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
             inputEl.parent().css('margin', '0 0 25px 0');

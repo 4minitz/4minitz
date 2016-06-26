@@ -2,7 +2,7 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { $ } from 'meteor/jquery';
 
 Template.meetingSeriesAdd.onRendered(function () {
-    $.material.init();
+    // $.material.init();
 });
 
 function clearForm(template) {

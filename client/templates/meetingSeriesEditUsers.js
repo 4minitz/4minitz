@@ -20,7 +20,7 @@ Template.meetingSeriesEditUsers.onCreated(function() {
 });
 
 Template.meetingSeriesEditUsers.onRendered(function() {
-    $.material.init();
+    // $.material.init();
     Meteor.typeahead.inject();
 });
 

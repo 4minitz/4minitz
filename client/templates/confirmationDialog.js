@@ -3,7 +3,7 @@ Session.setDefault("confirmationDialogContent", "Are you sure to delete this?");
 
 
 Template.confirmationDialog.onRendered(function () {
-    $.material.init();
+    // $.material.init();
 });
 
 
@@ -17,7 +17,7 @@ Template.confirmationDialog.helpers({
         let content = Spacebars.SafeString(Session.get("confirmationDialogContent"));
         // We need this forked to re-create material checkboxes
         Meteor.setTimeout(function () {
-            $.material.init();
+            // $.material.init();
         }, 0);
         return content;
     },

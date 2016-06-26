@@ -23,7 +23,7 @@ Template.meetingSeriesDetails.onRendered(function () {
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
-    $.material.init();
+    // $.material.init();
 });
 
 Template.meetingSeriesDetails.helpers({
