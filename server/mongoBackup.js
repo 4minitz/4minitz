@@ -1,4 +1,4 @@
-import { moment } from 'meteor/momentjs:moment';
+import moment from 'moment/moment';
 import Future from 'fibers/future';
 import { spawn } from 'child_process';
 import os from 'os';
