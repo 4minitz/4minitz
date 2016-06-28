@@ -8,10 +8,6 @@ Template.topicElement.onCreated(function () {
     _minutesId = Template.instance().data.minutesID;
 });
 
-Template.topicElement.onRendered(function () {
-    // $.material.init();
-});
-
 let collapseID = 0;
 Template.topicElement.helpers({
 

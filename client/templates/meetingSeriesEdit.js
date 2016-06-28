@@ -21,14 +21,6 @@ Template.meetingSeriesEdit.onCreated(function() {
     // Hint: collection will be filled in the "show.bs.modal" event below
 });
 
-Template.meetingSeriesEdit.onRendered(function() {
-    // $.material.init();
-});
-
-Template.meetingSeriesEdit.onDestroyed(function() {
-    //add your statement here
-});
-
 Template.meetingSeriesEdit.helpers({
     users: function () {
         return Meteor.users.find({});

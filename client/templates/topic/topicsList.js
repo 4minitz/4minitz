@@ -13,14 +13,6 @@ export class TopicListConfig {
     }
 }
 
-Template.topicsList.onRendered(function() {
-    // $.material.init();
-});
-
-Template.topicsList.onDestroyed(function() {
-    //add your statement here
-});
-
 let collapseID = 0;
 Template.topicsList.helpers({
 

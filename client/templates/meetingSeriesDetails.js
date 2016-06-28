@@ -22,10 +22,6 @@ Template.meetingSeriesDetails.onRendered(function () {
     }
 });
 
-Template.meetingSeriesDetails.onRendered(function () {
-    // $.material.init();
-});
-
 Template.meetingSeriesDetails.helpers({
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);

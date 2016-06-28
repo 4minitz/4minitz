@@ -20,14 +20,9 @@ Template.meetingSeriesEditUsers.onCreated(function() {
 });
 
 Template.meetingSeriesEditUsers.onRendered(function() {
-    // $.material.init();
     Meteor.typeahead.inject();
 });
 
-
-Template.meetingSeriesEditUsers.onDestroyed(function() {
-    //add your statement here
-});
 
 Template.meetingSeriesEditUsers.helpers({
     userListClean: function () {

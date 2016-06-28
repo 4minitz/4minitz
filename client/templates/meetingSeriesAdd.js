@@ -1,10 +1,6 @@
 import { MeetingSeries } from '/imports/meetingseries';
 import { $ } from 'meteor/jquery';
 
-Template.meetingSeriesAdd.onRendered(function () {
-    // $.material.init();
-});
-
 function clearForm(template) {
     template.find("#id_meetingproject").value = "";
     template.find("#id_meetingname").value = "";
