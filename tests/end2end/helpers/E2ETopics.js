@@ -34,7 +34,14 @@ export class E2ETopics {
     }
 
     static responsibleEnterFreetext(theText) {
-        browser.element(".select2-selection").click();
+        browser.element(".form-group-responsibles .select2-selection").click();
+        browser.keys(theText+"\uE007"); // plus ENTER
+    }
+
+    static labelEnterFreetext(theText) {
+        E2EGlobal.waitSomeTime();
+        browser.element(".form-group-labels .select2-selection").click();
+        E2EGlobal.waitSomeTime();
         browser.keys(theText+"\uE007"); // plus ENTER
     }
     
@@ -64,15 +71,26 @@ export class E2ETopics {
         E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc)
     }
 
-    static editInfoItemForTopic(topicIndex, infoItemIndex, infoItemDoc) {
+    static openInfoItemEditor(topicIndex, infoItemIndex) {
         let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnEditInfoItem";
 
         browser.waitForVisible(selector);
         browser.click(selector);
 
         E2EGlobal.waitSomeTime();
+    }
+
+    static editInfoItemForTopic(topicIndex, infoItemIndex, infoItemDoc) {
+        E2ETopics.openInfoItemEditor(topicIndex, infoItemIndex, infoItemDoc);
 
         E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true);
+    }
+
+    static addLabelToItem(topicIndex, infoItemIndex, labelName) {
+        E2ETopics.openInfoItemEditor(topicIndex, infoItemIndex);
+        E2ETopics.labelEnterFreetext(labelName);
+        browser.click("#btnInfoItemSave");
+        E2EGlobal.waitSomeTime(700);
     }
 
     static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
