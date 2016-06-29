@@ -38,6 +38,7 @@ ejson@1.0.12
 email@1.0.14
 es5-shim@4.5.12
 fastclick@1.0.12
+felixble:server-templates@1.0.0
 fezvrasta:bootstrap-material-design@0.5.9
 geojson-utils@1.0.9
 hot-code-push@1.0.4
