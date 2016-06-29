@@ -4,6 +4,7 @@ import { MeetingSeries } from './../meetingseries';
 import { Minutes } from './../minutes';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { UserRoles } from "./../userroles";
+import { GlobalSettings } from "./../GlobalSettings"
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -44,6 +45,16 @@ Meteor.methods({
         // limit visibility of this meeting series (see server side publish)
         // array will be expanded by future invites
         doc.visibleFor = [Meteor.userId()];
+
+        if (Meteor.isServer) {
+            // copy the default labels to the series
+            doc.availableLabels = GlobalSettings.getDefaultLabels();
+            doc.availableLabels.forEach((label) => {
+                label._id = Random.id();
+                label.isDefaultLabel = true;
+                label.isDisabled = false;
+            });
+        }
 
         // Every logged in user is allowed to create a new meeting series.
         MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
