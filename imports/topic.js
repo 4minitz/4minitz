@@ -133,7 +133,7 @@ export class Topic {
         // loop backwards through topic items
         for (let i = updateTopicDoc.infoItems.length; i-- > 0;) {
             let infoDoc = updateTopicDoc.infoItems[i];
-            this.upsertInfoItem(infoDoc, undefined, false);
+            this.upsertInfoItem(infoDoc, false);
         }
 
         // delete all sticky items listed in the this topic but not in the updateTopicDoc
@@ -166,7 +166,7 @@ export class Topic {
         this.getDocument().isRecurring = !this.isRecurring();
     }
 
-    upsertInfoItem(topicItemDoc, callback, saveChanges) {
+    async upsertInfoItem(topicItemDoc, saveChanges) {
         if (saveChanges === undefined) {
             saveChanges = true;
         }
@@ -183,16 +183,17 @@ export class Topic {
         }
 
         if (saveChanges) {
-            this.save(callback);
+            return this.save();
         }
     }
 
 
-    removeInfoItem(id) {
+    async removeInfoItem(id) {
         let i = subElementsHelper.findIndexById(id, this.getInfoItems());
+
         if (i != undefined) {
             this.getInfoItems().splice(i, 1);
-            this.save();
+            return this.save();
         }
     }
 
@@ -243,9 +244,9 @@ export class Topic {
         return this._topicDoc.subject;
     }
 
-    save(callback) {
+    async save() {
         // this will update the entire topics array from the parent minutes!
-        this._parentMinutes.upsertTopic(this._topicDoc, callback);
+        return this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
     toggleState () {    // open/close

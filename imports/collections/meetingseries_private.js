@@ -27,7 +27,7 @@ if (Meteor.isClient) {
 MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
 
 Meteor.methods({
-    'meetingseries.insert'(doc) {
+    'meetingseries.insert'(doc, optimisticUICallback) {
         console.log("meetingseries.insert");
 
         // Make sure the user is logged in before changing collections
@@ -51,6 +51,10 @@ Meteor.methods({
                 throw error;
             }
 
+            if (Meteor.isClient && optimisticUICallback) {
+                optimisticUICallback(newMeetingSeriesID);
+            }
+
             doc._id = newMeetingSeriesID;
             // Make creator of this meeting series the first moderator
             Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
@@ -58,15 +62,18 @@ Meteor.methods({
     },
 
     'meetingseries.update'(doc) {
-        console.log("meetingseries.update:"+doc.minutes);
-        if (! doc) {
+        if (!doc) {
+            console.log('meetingseries.update: no data given');
             return;
         }
 
+        console.log("meetingseries.update:", doc.minutes);
+
         let id = doc._id;
         delete doc._id; // otherwise collection.update will fail
-        if (id == undefined || id == "")
+        if (!id) {
             return;
+        }
 
         // TODO: fix security issue: it is not allowed to modify (e.g. remove) elements from the minutes array!
 

@@ -1,11 +1,11 @@
-/**
- * Created by felix on 12.05.16.
- */
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { InfoItem } from '/imports/infoitem'
 import { ActionItem } from '/imports/actionitem'
 import { Label } from '/imports/label'
+
+import { $ } from 'meteor/jquery';
+import submitOnEnter from '../../helpers/submitOnEnter';
 
 Session.setDefault("topicInfoItemEditTopicId", null);
 Session.setDefault("topicInfoItemEditInfoItemId", null);
@@ -19,13 +19,17 @@ Template.topicInfoItemEdit.onCreated(function () {
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
-    this.$('#id_item_duedatePicker').datetimepicker(
-        {
-            format: "YYYY-MM-DD"
-        }
-    );
+    this.$('#id_item_duedatePicker').datetimepicker({
+        format: "YYYY-MM-DD"
+    });
 
-    $.material.init()
+    $.material.init();
+
+    let textarea = ['#id_item_details'];
+
+    submitOnEnter(textarea, () => {
+        $('#frmDlgAddInfoItem').submit();
+    });
 });
 
 let getRelatedTopic = function() {
@@ -213,7 +217,7 @@ Template.topicInfoItemEdit.events({
         tmpl.find("#id_item_subject").focus();
     },
 
-    'click #btnInfoItemSave': function(evt, tmpl) {
+    'submit #frmDlgAddInfoItem': function(evt, tmpl) {
         evt.preventDefault();
 
         if (!getRelatedTopic()) {

@@ -5,6 +5,7 @@ import { Topic } from './topic'
 import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
+import './helpers/promisedMethods';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -28,54 +29,34 @@ export class MeetingSeries {
         return MeetingSeriesCollection.findOne(...args);
     }
 
-    static remove(meetingSeries) {
+    static async remove(meetingSeries) {
         if (meetingSeries.countMinutes() > 0) {
-            Meteor.call(
-                "minutes.removeAllOfSeries",
-                meetingSeries._id,
-                /* server callback */
-                (error) => {
-                    if (!error) {
-                        // if all related minutes were delete we can delete the series as well
-                        Meteor.call("meetingseries.remove", meetingSeries._id);
-                    }
-                }
-            );
-        } else {
-            // we have no related minutes so we can delete the series blindly
-            Meteor.call("meetingseries.remove", meetingSeries._id);
+            await Meteor.callPromise("minutes.removeAllOfSeries", meetingSeries._id);
         }
+
+        return Meteor.callPromise("meetingseries.remove", meetingSeries._id);
     }
 
 
     // ################### object methods
 
-    removeMinutesWithId(minutesId) {
+    async removeMinutesWithId(minutesId) {
         console.log("removeMinutesWithId: " + minutesId);
 
-        // first we remove the minutes itself
-        Minutes.remove(
-            minutesId,
-            /* server callback */
-            (error, result) => { // result contains the number of removed items
-                if (!error && result === 1) {
-                    // if the minutes has been removed
-                    // we remove the id from the minutes array in
-                    // this meetingSeries as well.
-                    Meteor.call('meetingseries.removeMinutesFromArray', this._id, minutesId);
+        let numberOfRemovedMinutes = await Minutes.remove(minutesId);
 
-                    // last but not least we update the lastMinutesDate-field
-                    this.updateLastMinutesDate();
-                }
-            }
-        );
+        if (numberOfRemovedMinutes === 1) {
+            await Meteor.callPromise('meetingseries.removeMinutesFromArray', this._id, minutesId);
+            return this.updateLastMinutesDateAsync();
+        }
     }
 
-    save (callback) {
+
+    save(optimisticUICallback) {
         if (this._id) {
-            Meteor.call("meetingseries.update", this, callback);
+            return Meteor.callPromise("meetingseries.update", this);
         } else {
-            Meteor.call("meetingseries.insert", this, callback);
+            return Meteor.callPromise("meetingseries.insert", this, optimisticUICallback);
         }
     }
 
@@ -154,7 +135,18 @@ export class MeetingSeries {
         return false;
     }
 
-    updateLastMinutesDate (callback) {
+    async updateLastMinutesDate (callback) {
+        callback = callback || function () {};
+
+        try {
+            let result = await this.updateLastMinutesDateAsync();
+            callback(undefined, result);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
+    async updateLastMinutesDateAsync() {
         let lastMinutesDate;
 
         let lastMinutes = this.lastMinutes();
@@ -166,13 +158,11 @@ export class MeetingSeries {
             return;
         }
 
-        Meteor.call(
-            'meetingseries.update', {
-                _id: this._id,
-                lastMinutesDate: lastMinutesDate
-            },
-            callback
-        );
+        let updateInfo = {
+            _id: this._id,
+            lastMinutesDate
+        };
+        return Meteor.callPromise('meetingseries.update', updateInfo);
     }
 
     /**

@@ -10,12 +10,16 @@ import { TopicListConfig } from './topic/topicsList'
 var _meetingSeriesID;   // the parent meeting object of this minutes
 
 Template.meetingSeriesDetails.onCreated(function () {
-    _meetingSeriesID = this.data;
+    _meetingSeriesID = this.data.meetingSeriesId;
     Session.setDefault("currentTab", "minutesList");
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
     Session.set("currentTab", "minutesList");
+
+    if (this.data.openMeetingSeriesEditor) {
+        $('#dlgEditMeetingSeries').modal('show');
+    }
 });
 
 Template.meetingSeriesDetails.onRendered(function () {

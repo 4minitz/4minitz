@@ -9,6 +9,7 @@ export class E2ETopics {
         browser.click("#id_showAddTopicDialog");
 
         E2ETopics.insertTopicDataIntoDialog(aTopic, aResponsible);
+        E2ETopics.submitTopicDialog();
     };
 
     
@@ -22,6 +23,7 @@ export class E2ETopics {
     static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
         E2ETopics.openEditTopicForMinutes(topicIndex);
         E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
+        E2ETopics.submitTopicDialog();
     }
 
     static deleteTopic(topicIndex, confirmDialog) {
@@ -59,16 +61,24 @@ export class E2ETopics {
         if (responsible) {
             E2ETopics.responsibleEnterFreetext(responsible);
         }
+    }
+
+    static submitTopicDialog() {
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);
     }
 
-    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+    static openInfoItemDialog(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .addTopicInfoItem";
 
         browser.waitForVisible(selector);
         browser.click(selector);
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc)
+    }
+
+    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+        this.openInfoItemDialog(topicIndex);
+        this.insertInfoItemDataIntoDialog(infoItemDoc);
+        this.submitInfoItemDialog();
     }
 
     static openInfoItemEditor(topicIndex, infoItemIndex) {
@@ -83,7 +93,8 @@ export class E2ETopics {
     static editInfoItemForTopic(topicIndex, infoItemIndex, infoItemDoc) {
         E2ETopics.openInfoItemEditor(topicIndex, infoItemIndex, infoItemDoc);
 
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true);
+        this.insertInfoItemDataIntoDialog(infoItemDoc, true);
+        this.submitInfoItemDialog();
     }
 
     static addLabelToItem(topicIndex, infoItemIndex, labelName) {
@@ -112,11 +123,6 @@ export class E2ETopics {
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
 
-        if (infoItemDoc.responsible) {
-            E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
-        }
-        //todo: set other fields (priority, responsible, duedate, details)
-
         if (!isEditMode) {
             let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
             let radioBtnSelector = "#label_" + type;
@@ -124,6 +130,18 @@ export class E2ETopics {
             browser.click(radioBtnSelector);
         }
 
+        //todo: set other fields (duedate, details)
+
+        if (infoItemDoc.responsible) {
+            E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
+        }
+
+        if (infoItemDoc.priority) {
+            browser.setValue('#id_item_priority', infoItemDoc.priority);
+        }
+    }
+
+    static submitInfoItemDialog() {
         browser.click("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
     }

@@ -5,17 +5,20 @@ import _ from 'underscore';
 
 let MeetingSeriesCollection = {};
 let Meteor = {
-    call: sinon.stub()
+    call: sinon.stub(),
+    callPromise: sinon.stub()
 };
 let Minutes = {};
 let Topic = {};
 let UserRoles = {};
+let PromisedMethods = {};
 
 const {
     MeetingSeries
 } = proxyquire('../../../imports/meetingseries', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     './collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
+    './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './userroles': { UserRoles, '@noCallThru': true},
@@ -127,13 +130,13 @@ describe('MeetingSeries', function () {
         it('calls the meteor method meetingseries.insert', function () {
             meetingSeries.save();
 
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
         it('sends the document to the meteor method meetingseries.insert', function () {
             meetingSeries.save();
 
-            expect(Meteor.call.calledWith('meetingseries.insert', meetingSeries)).to.be.true;
+            expect(Meteor.callPromise.calledWith('meetingseries.insert', meetingSeries)).to.be.true;
         });
     });
 });

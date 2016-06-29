@@ -41,6 +41,17 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
+    it('can submit a new topic by pressing enter on the topic title input', function () {
+        browser.waitForVisible("#id_showAddTopicDialog");
+        browser.click("#id_showAddTopicDialog");
+
+        E2ETopics.insertTopicDataIntoDialog("some topic\n");
+
+        E2EGlobal.waitSomeTime(700);
+
+        expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+    });
+
     it('can add multiple topics', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
@@ -199,7 +210,7 @@ describe('Topics', function () {
         expect(visibleTextBeforeReload).to.have.string('some topic');
 
         browser.refresh();
-        E2EGlobal.waitSomeTime(1500); // phantom.js needs some time here...
+        E2EGlobal.waitSomeTime(2500); // phantom.js needs some time here...
 
         var topicsAfterReload = E2ETopics.getTopicsForMinute();
         let firstElementAfterReload = topicsAfterReload[0].ELEMENT;
