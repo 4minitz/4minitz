@@ -6,19 +6,21 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-    api.versionsFrom('1.2.0.1');
+    api.versionsFrom('1.3.3.1');
     api.use([
+        'ecmascript',
         'blaze',
         'spacebars',
         'random',
         'spacebars-compiler'
     ], 'server');
     api.addFiles(['lib/api.js']);
-    api.export('ServerTemplate');
+    api.mainModule('lib/api.js');
 });
 
 Package.onTest(function(api) {
     api.use([
+        'ecmascript',
         'tinytest',
         'blaze',
         'spacebars',
