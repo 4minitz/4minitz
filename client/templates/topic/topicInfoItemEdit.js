@@ -166,7 +166,7 @@ function configureSelect2Labels() {
 
     let selectOptions = [];
 
-    aSeries.availableLabels.forEach(label => {
+    aSeries.getAvailableLabels().forEach(label => {
         selectOptions.push ({id: label._id, text: label.name});
     });
 

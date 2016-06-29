@@ -386,6 +386,13 @@ export class MeetingSeries {
         }
     }
 
+    getAvailableLabels() {
+        if (this.availableLabels) {
+            return this.availableLabels;
+        }
+        return [];
+    }
+
     // ################### private methods
     /**
      * Copies the topics from the given

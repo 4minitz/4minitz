@@ -10,12 +10,17 @@ export class Label {
 
         _.defaults(source, {
             isDefaultLabel: true,
-            isDisabled: true,
+            isDisabled: false,
             color: '#e6e6e6'
         });
 
-        this._labelDoc = source;
+        let nameAndColor = source.name.match(/(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/);
+        if (nameAndColor && nameAndColor.length > 2) {
+            source.name = nameAndColor[1];
+            source.color = nameAndColor[2];
+        }
 
+        this._labelDoc = source;
     }
 
     static createLabelById(parentMeetingSeries, labelId) {
