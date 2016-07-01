@@ -13,7 +13,7 @@ export class E2EMinutes {
         E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
         browser.waitForVisible("#btnAddMinutes");
         browser.click("#btnAddMinutes");
-        E2EGlobal.waitSomeTime(); // give route change time
+        E2EGlobal.waitSomeTime(700); // give route change time
 
         if (aDate) {
             browser.waitForVisible('#id_minutesdateInput');

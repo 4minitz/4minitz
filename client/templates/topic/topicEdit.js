@@ -14,10 +14,6 @@ Template.topicEdit.onCreated(function () {
     console.log("Template topicEdit created with minutesID "+_minutesID);
 });
 
-Template.topicEdit.onRendered(function () {
-    $.material.init();
-});
-
 var getEditTopic = function() {
     let topicId = Session.get("topicEditTopicId");
 

@@ -1,16 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import { SSR, Template } from 'meteor/meteorhacks:ssr'
+import { ServerTemplate } from 'meteor/felixble:server-templates'
 import { _ } from 'meteor/underscore';
 
 export class TemplateRenderer {
-
-    static getID() {
-        if (!TemplateRenderer.ID) {
-            TemplateRenderer.ID = 0
-        }
-
-        return TemplateRenderer.ID++;
-    }
 
     constructor(template, templatePathPrefix, loadTmplFromAssets) {
         if (!template) {
@@ -25,13 +17,11 @@ export class TemplateRenderer {
             let templatePath = (templatePathPrefix)
                 ? templatePathPrefix + "/" + template + ".html"
                 : template + ".html";
-            this._templateName = template;
             tmplString = Assets.getText(templatePath);
         } else {
             tmplString = template;
-            this._templateName = 'ssrTemplate' + TemplateRenderer.getID();
         }
-        SSR.compileTemplate(this._templateName, tmplString);
+        this._templateContent = tmplString;
         this._helpers = {};
         this._data = {};
 
@@ -61,9 +51,7 @@ export class TemplateRenderer {
     }
 
     render() {
-        Template[this._templateName].helpers(this._helpers);
-
-        return SSR.render(this._templateName, this._data);
+        return ServerTemplate.render(this._templateContent, this._data, this._helpers);
     }
 
 }
