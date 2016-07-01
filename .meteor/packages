@@ -35,8 +35,9 @@ sergeyt:typeahead
 mrt:jquery-ui-sortable
 dsyko:jquery-ui-touch-punch
 email
-meteorhacks:ssr
 http
 markdown
 reactive-var
 natestrauser:select2
+
+felixble:server-templates
