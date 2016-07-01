@@ -52,16 +52,18 @@ a:focus {
 }
 
 /* for panel lists of topics/action items */
+/* .panel-heading sets the default background which can only be
+   overwritten with the !important flag  */
 .panel-heading.actionitem-open {
-    background-color: #77CCCC;
+    background-color: #77CCCC !important;
 }
 
 .panel-heading.actionitem-closed {
-    background-color: #DDDDDD;
+    background-color: #DDDDDD !important;
 }
 
 .panel-heading.infoitem {
-    background-color: #ffffff;
+    background-color: #ffffff !important;
 }
 
 .username-label {
