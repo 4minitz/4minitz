@@ -15,21 +15,15 @@ import 'arrive';
 // required by bootstrap-datetimepicker
 import 'moment/moment';
 
-// bootstrap css & js
-import 'bootstrap/dist/css/bootstrap.css';
+// bootstrap js
 import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/js/transition';
 import 'bootstrap/js/collapse'
 
 // bootstrap datetime picker
-import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css';
 import 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min';
 
-// material design css
-import 'bootstrap-material-design/dist/css/bootstrap-material-design.css';
-import 'bootstrap-material-design/dist/css/ripples.min.css';
-
-// material design js
+// material design
 import 'bootstrap-material-design';
 import 'bootstrap-material-design/dist/js/material';
 import 'bootstrap-material-design/dist/js/ripples';
