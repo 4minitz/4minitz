@@ -35,7 +35,7 @@
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-preset-stage-3": "^6.5.0",
     "bootstrap-material-design": "^0.5.10",
-    "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker",
+    "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.37",
     "fibers": "^1.0.13",
     "git-rev-sync": "^1.5.1",
     "jquery": "^2.1.4",
