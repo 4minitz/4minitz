@@ -285,6 +285,7 @@ Template.topicInfoItemEdit.events({
                 throw new Meteor.Error("Unknown type!");
         }
 
+        newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
         newItem.save((error) => {
             if (error) {
                 Session.set('errorTitle', 'Validation error');

@@ -94,6 +94,30 @@ export class InfoItem {
         })
     }
 
+    addLabelByName(labelName, meetingSeriesId) {
+        let label = Label.createLabelByName(meetingSeriesId, labelName);
+        if (null == label) {
+            label = new Label({name: labelName});
+            label.save(meetingSeriesId);
+        }
+
+        if (!this.hasLabelWithId(label.getId())) {
+            this._infoItemDoc.labels.push(label.getId());
+        }
+
+        console.log(this._infoItemDoc.labels);
+    }
+
+    hasLabelWithId(labelId) {
+        let i;
+        for (i = 0; i < this._infoItemDoc.labels.length; i++) {
+            if (this._infoItemDoc.labels[i] === labelId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     getLabelsRawArray() {
         if (!this._infoItemDoc.labels) {
             return [];
@@ -107,6 +131,24 @@ export class InfoItem {
 
     log () {
         console.log(this.toString());
+    }
+
+    extractLabelsFromSubject(meetingSeriesId) {
+        const regEx = /(^|[\s.,;])#([^\s.,;]+)/g;
+        let match;
+
+        while(match = regEx.exec(this._infoItemDoc.subject)) {
+            let labelName = match[2];
+            console.log(labelName);
+            this.addLabelByName(labelName, meetingSeriesId);
+            this._removeLabelFromSubject(labelName);
+        }
+    }
+
+    _removeLabelFromSubject(labelName) {
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace("#" + labelName + " ", "");
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace(" #" + labelName, "");
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace("#" + labelName, "");
     }
 
 }

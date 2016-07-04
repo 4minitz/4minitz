@@ -14,19 +14,44 @@ export class Label {
             color: '#e6e6e6'
         });
 
-        let nameAndColor = source.name.match(/(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/);
-        if (nameAndColor && nameAndColor.length > 2) {
-            source.name = nameAndColor[1];
-            source.color = nameAndColor[2];
+        let nameAndColor = Label._separateNameAndColor(source.name);
+        if (typeof nameAndColor !== 'string') {
+            source.name = nameAndColor.name;
+            source.color = nameAndColor.color;
         }
 
         this._labelDoc = source;
+    }
+
+    static _separateNameAndColor(nameAndColorStr) {
+        let nameAndColor = nameAndColorStr.match(/(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/);
+        if (nameAndColor && nameAndColor.length > 2) {
+            return {
+                name: nameAndColor[1],
+                color: nameAndColor[2]
+            };
+        }
+
+        return nameAndColorStr;
     }
 
     static createLabelById(parentMeetingSeries, labelId) {
         parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
         let labelDoc = parentMeetingSeries.findLabel(labelId);
+        if (labelDoc) return new Label(labelDoc);
+        return null;
+    }
+
+    static createLabelByName(parentMeetingSeries, labelName) {
+        let nameAndColor = Label._separateNameAndColor(labelName);
+        if (typeof nameAndColor !== 'string') {
+            labelName = nameAndColor.name;
+        }
+
+        parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
+
+        let labelDoc = parentMeetingSeries.findLabelByName(labelName);
         if (labelDoc) return new Label(labelDoc);
         return null;
     }
