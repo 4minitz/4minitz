@@ -1,0 +1,26 @@
+<template name="meetingSeriesSettings">
+    {{#with meetingSeries}}
+
+        <h2 class="header">
+            <span class="hidden-xs">Settings:</span>
+                {{project}} - {{name}}
+        </h2>
+    {{/with}}
+
+    {{> error}}
+
+    <ul class="nav nav-tabs">
+        <li id="tab_edit_series" data-template="" role="presentation"><a href="#">Edit Meeting Series</a></li>
+        <li id="tab_users" data-template="" role="presentation"><a href="#">Invite Users</a></li>
+        <li id="tab_labels" data-template="meetingSeriesSettingsLabels" role="presentation" class="active"><a href="#">Labels</a></li>
+    </ul>
+    <div class="active">
+        {{> Template.dynamic template=tab data=tabData}}
+    </div>
+
+    <p></p>
+    <a href="/meetingseries/{{meetingSeries._id}}" class="btn btn-primary btn-raised">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="Go Back"></span>
+        Go Back
+    </a>
+</template>

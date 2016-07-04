@@ -361,6 +361,15 @@ export class MeetingSeries {
         return subElementsHelper.getElementById(id, this.availableLabels);
     }
 
+    removeLabel(id) {
+        let index = subElementsHelper.findIndexById(id, this.getAvailableLabels());
+        if (undefined === index) {
+            return;
+        }
+
+        this.availableLabels.splice(index, 1);
+    }
+
     upsertLabel(labelDoc) {
         let i = undefined;
         if (! labelDoc._id) {            // brand-new label

@@ -11,6 +11,13 @@
                     {{project}} - {{name}}
                     <span class="glyphicon glyphicon-pencil" style="font-size: 80%;" aria-hidden="true" aria-label="Edit Meeting Series"></span>
                 </a>
+
+                <span class="pull-right">
+                    <!--Settings-->
+                    <a href="edit/{{_id}}" id="btnMeetingSeriesSettings">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true" aria-label="Settings"></span>
+                    </a>
+                </span>
             {{else}}
                 {{project}} - {{name}}
             {{/if}}

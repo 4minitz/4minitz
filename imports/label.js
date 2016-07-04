@@ -9,7 +9,7 @@ export class Label {
         }
 
         _.defaults(source, {
-            isDefaultLabel: true,
+            isDefaultLabel: false,
             isDisabled: false,
             color: '#e6e6e6'
         });
