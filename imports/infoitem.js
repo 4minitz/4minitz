@@ -143,7 +143,7 @@ export class InfoItem {
     }
 
     extractLabelsFromSubject(meetingSeriesId) {
-        const regEx = /(^|[\s.,;])#([^\s.,;]+)/g;
+        const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
         let match;
 
         while(match = regEx.exec(this._infoItemDoc.subject)) {
