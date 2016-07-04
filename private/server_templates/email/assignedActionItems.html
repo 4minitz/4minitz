@@ -10,7 +10,10 @@ you have been assigned to the following action items:<br>
                 {{#if responsibles}}<li>Resp: {{responsibles}}</li>{{/if}}
                 {{#if priority}}<li>Prio: {{priority}}</li>{{/if}}
                 {{#if duedate}}<li>Due: {{duedate}}</li>{{/if}}
+                {{!-- helper hasLabels and formatLabels are defined in TopicItemsMailHandler#_buildMail() --}}
+                {{#if hasLabels}}<li>Labels:  {{formatLabels topicId}}</li>{{/if}}
                 {{#each details}}
+                    {{!-- helper markdown2html is defined in TemplateRenderer globally --}}
                     <li>{{date}}: {{markdown2html text}}</li>
                 {{/each}}
             </ul>

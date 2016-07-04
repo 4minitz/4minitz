@@ -88,6 +88,10 @@ export class InfoItem {
         return InfoItem.isActionItem(this._infoItemDoc);
     }
 
+    getDocument() {
+        return this._infoItemDoc;
+    }
+
     getLabels(meetingSeriesId) {
         this._infoItemDoc.labels = this.getLabelsRawArray().filter(labelId => {
             return (null !== Label.createLabelById(meetingSeriesId, labelId));
