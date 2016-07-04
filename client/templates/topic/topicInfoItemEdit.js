@@ -22,8 +22,6 @@ Template.topicInfoItemEdit.onRendered(function () {
         format: "YYYY-MM-DD"
     });
 
-    $.material.init();
-
     let textarea = ['#id_item_details'];
 
     submitOnEnter(textarea, () => {

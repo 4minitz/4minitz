@@ -26,12 +26,6 @@ Template.minutesEditParticipants.onCreated(function() {
     }
 });
 
-Template.minutesEditParticipants.onRendered(function() {
-    $.material.init()
-});
-
-
-
 Template.minutesEditParticipants.helpers({
     userNameForId (userId) {
         return Meteor.users.findOne(userId).username;
@@ -99,10 +93,5 @@ Template.minutesEditParticipants.events({
 
     "click #btnParticipantsCollapse" () {
         Session.set("participants.expand", !Session.get("participants.expand"));
-
-        // We need this forked to re-create material checkboxes
-        Meteor.setTimeout(function () {
-            $.material.init();
-        }, 0)
     }
 });

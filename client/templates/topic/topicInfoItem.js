@@ -9,11 +9,6 @@ Template.topicInfoItem.onCreated(function () {
     this.isTopicCollapsed = new ReactiveVar(true);
 });
 
-Template.topicInfoItem.onRendered(function () {
-    $.material.init();
-});
-
-
 let createTopic = (parentElementId, topicId) => {
     if (!parentElementId || !topicId) return undefined;
     return new Topic(parentElementId, topicId);
@@ -41,7 +36,6 @@ Template.topicInfoItem.helpers({
     },
 
     detailsArray: function () {
-        $.material.init();
         return this.infoItem.details;
     },
 
@@ -185,8 +179,6 @@ Template.topicInfoItem.events({
         aActionItem.save();
         // We need this forked to re-create material input fields
         Meteor.setTimeout(function () {
-            $.material.init();
-
             let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
             inputEl.parent().css('margin', '0 0 25px 0');
             inputEl.show();

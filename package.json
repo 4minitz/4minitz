@@ -17,7 +17,8 @@
     "test:end2end:server": "meteor run --port 3100 --settings ./settings-test-end2end.json",
     "test:end2end:headless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs",
     "test:end2end:once": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
-    "test:end2end:watch": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch"
+    "test:end2end:watch": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch",
+    "postinstall": "cp -R ./node_modules/bootstrap/dist/fonts ./public/ && rm -rf ./node_modules/eonasdan-bootstrap-datetimepicker/node_modules"
   },
   "repository": {
     "type": "git",
@@ -30,13 +31,17 @@
   },
   "homepage": "https://github.com/4minitz/4minitz#readme",
   "dependencies": {
+    "arrive": "^2.3.1",
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-preset-stage-3": "^6.5.0",
+    "bootstrap-material-design": "^0.5.10",
+    "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.37",
     "fibers": "^1.0.13",
     "git-rev-sync": "^1.5.1",
+    "jquery": "^2.1.4",
     "meteor-node-stubs": "^0.2.3",
-    "mongo-uri": "^0.1.2",
-    "sinon-as-promised": "^4.0.0"
+    "moment": "^2.13.0",
+    "mongo-uri": "^0.1.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.6.0",
@@ -45,6 +50,7 @@
     "mocha": "^2.4.5",
     "proxyquire": "^1.7.7",
     "sinon": "^1.17.4",
+    "sinon-as-promised": "^4.0.0",
     "sinon-chai": "^2.8.0",
     "underscore": "^1.8.3"
   }
