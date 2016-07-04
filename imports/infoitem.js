@@ -89,8 +89,13 @@ export class InfoItem {
     }
 
     getLabels(meetingSeriesId) {
+        this._infoItemDoc.labels = this.getLabelsRawArray().filter(labelId => {
+            return (null !== Label.createLabelById(meetingSeriesId, labelId));
+        });
+
         return this.getLabelsRawArray().map(labelId => {
             return Label.createLabelById(meetingSeriesId, labelId);
+
         })
     }
 
