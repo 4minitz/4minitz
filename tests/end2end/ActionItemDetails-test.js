@@ -139,7 +139,7 @@ describe('ActionItems Details', function () {
 
     it('does not revert changes when input field receives click-event during input', function () {
         let doBeforeSubmit = (inputElement) => {
-            // perform click event on the input field after setting the text and before submitting the changes
+           // perform click event on the input field after setting the text and before submitting the changes
             browser.click(inputElement);
         };
 
@@ -154,7 +154,7 @@ describe('ActionItems Details', function () {
     it('can change existing details', function () {
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
 
-        E2ETopics.changeDetailsForActionItem(1, 1, 1, 'New Details (changed)');
+        E2ETopics.editDetailsForActionItem(1, 1, 1, 'New Details (changed)');
 
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
@@ -229,7 +229,7 @@ describe('ActionItems Details', function () {
 
         E2EMinutes.gotoLatestMinutes();
 
-        E2ETopics.changeDetailsForActionItem(1, 1, 1, 'Changed Details');
+        E2ETopics.editDetailsForActionItem(1, 1, 1, 'Changed Details');
 
 
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);

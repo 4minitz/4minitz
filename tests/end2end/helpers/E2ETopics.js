@@ -242,7 +242,7 @@ export class E2ETopics {
         browser.click(selAddDetails);
 
         let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex);
-        let selDetails = selectInfoItem + ".actionItemDetails:nth-child(" + newId + ") ";
+        let selDetails = selectInfoItem + ".detailRow:nth-child(" + newId + ") ";
         let selFocusedInput = selDetails + ".detailInput";
         try {
             browser.waitForVisible(selFocusedInput);
@@ -260,10 +260,9 @@ export class E2ETopics {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
         E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
 
-        let selDetails = selectInfoItem + ".actionItemDetails:nth-child(" + detailIndex + ") ";
+        let selDetails = selectInfoItem + ".detailRow:nth-child(" + detailIndex + ") ";
 
         let selEditDetails = selDetails + ".detailText";
-        console.log(selEditDetails);
         try {
             browser.waitForVisible(selEditDetails);
         } catch (e) {
@@ -273,26 +272,6 @@ export class E2ETopics {
         browser.click(selEditDetails);
 
         let selFocusedInput = selDetails + ".detailInput";
-        try {
-            browser.waitForVisible(selFocusedInput);
-        } catch (e) {
-            return false;
-        }
-        browser.setValue(selFocusedInput, detailsText);
-        browser.keys(['Escape']);
-    }
-
-    static changeDetailsForActionItem(topicIndex, infoItemIndex, detailsIndex, detailsText) {
-        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
-
-        E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
-
-        let selDateCol = selectInfoItem + ".actionItemDetails:nth-child(" + detailsIndex + ") .detailDate";
-        browser.waitForVisible(selDateCol);
-        browser.click(selDateCol);
-
-        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
-        let selFocusedInput = "#detailInput_" + newId;
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
