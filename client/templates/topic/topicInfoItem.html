@@ -76,14 +76,15 @@
                         <div>
                             <label for="detailInput_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
                         </div>
-                        <div style="padding-left: 10px;" class="detailText" data-id="{{@index}}">
+                        <div style="padding-left: 10px;" class="detailText tst-detailText_{{@index}}" data-id="{{@index}}">
                             <span id="detailText_{{@index}}" data-id="{{@index}}" data-text="{{this.text}}">
                                 {{#markdown}}{{this.text}}{{/markdown}}
                             </span>
 
+                            {{!-- class tst-* identifies input field for test cases --}}
                             <textarea id="detailInput_{{@index}}"
                                       rows="1" data-id="{{@index}}"
-                                      class="form-control detailInput"
+                                      class="form-control detailInput tst-detailInput_{{@index}}"
                                       style="display: none; font-size: 14px;"
                                       placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
                         </div>

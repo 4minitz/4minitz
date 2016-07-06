@@ -83,6 +83,46 @@ describe('ActionItems Details', function () {
             .to.have.string(formatDateISO8601(new Date()) + '\nSecond Details');
     });
 
+    it('can add details to the 2nd AI of the same topic persistent', function() {
+        E2ETopics.addInfoItemToTopic({
+            subject: getNewAIName(),
+            itemType: "actionItem"
+        }, 1);
+        E2ETopics.addDetailsToActionItem(1, 1, 'First Details');
+
+        const detailsText = 'Details for the 2nd AI';
+
+        E2ETopics.addDetailsToActionItem(1, 2, detailsText);
+
+        browser.refresh();
+        E2EGlobal.waitSomeTime(1500); // phantom.js needs some time here...
+
+        E2ETopics.expandDetailsForActionItem(1, 1);
+
+        E2EGlobal.waitSomeTime(100); // phantom.js needs some time here, too...
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
+        expect(browser.elementIdText(sndItemOfNewTopic).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+    });
+
+    it('can edit the details of the 2nd AI of the sam topic @watch', function() {
+        E2ETopics.addDetailsToActionItem(1, 1, 'First Details');
+
+        E2ETopics.addInfoItemToTopic({
+            subject: getNewAIName(),
+            itemType: "actionItem"
+        }, 1);
+        E2ETopics.addDetailsToActionItem(1, 1, '2nd Details');
+
+        E2ETopics.editDetailsForActionItem(1, 2, 0, "Updated Details");
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
+        expect(browser.elementIdText(sndItemOfNewTopic).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + "Updated Details");
+    });
+
     it('does not remove details when AI will be updated with the edit dialog', function () {
         const newSubject = "AI - changed subject";
 

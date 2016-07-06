@@ -242,7 +242,7 @@ export class E2ETopics {
         browser.click(selAddDetails);
 
         let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
-        let selFocusedInput = "#detailInput_" + newId;
+        let selFocusedInput = selectInfoItem + ".tst-detailInput_" + newId;
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
@@ -252,6 +252,28 @@ export class E2ETopics {
         if (doBeforeSubmit) {
             doBeforeSubmit(selFocusedInput);
         }
+        browser.keys(['Escape']);
+    }
+
+    static editDetailsForActionItem(topicIndex, infoItemIndex, detailIndex, detailsText) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+        E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
+
+        let selEditDetails = selectInfoItem + ".tst-detailText_" + detailIndex;
+        try {
+            browser.waitForVisible(selEditDetails);
+        } catch (e) {
+            return false;
+        }
+        browser.click(selEditDetails);
+
+        let selFocusedInput = selectInfoItem + ".tst-detailInput_" + detailIndex;
+        try {
+            browser.waitForVisible(selFocusedInput);
+        } catch (e) {
+            return false;
+        }
+        browser.setValue(selFocusedInput, detailsText);
         browser.keys(['Escape']);
     }
 
