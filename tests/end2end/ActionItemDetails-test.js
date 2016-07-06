@@ -97,7 +97,7 @@ describe('ActionItems Details', function () {
         browser.refresh();
         E2EGlobal.waitSomeTime(1500); // phantom.js needs some time here...
 
-        E2ETopics.expandDetailsForActionItem(1, 1);
+        E2ETopics.expandDetailsForActionItem(1, 2);
 
         E2EGlobal.waitSomeTime(100); // phantom.js needs some time here, too...
 
@@ -107,7 +107,7 @@ describe('ActionItems Details', function () {
             .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
     });
 
-    it('can edit the details of the 2nd AI of the sam topic @watch', function() {
+    it('can edit the details of the 2nd AI of the same topic', function() {
         E2ETopics.addDetailsToActionItem(1, 1, 'First Details');
 
         E2ETopics.addInfoItemToTopic({
@@ -116,7 +116,7 @@ describe('ActionItems Details', function () {
         }, 1);
         E2ETopics.addDetailsToActionItem(1, 1, '2nd Details');
 
-        E2ETopics.editDetailsForActionItem(1, 2, 0, "Updated Details");
+        E2ETopics.editDetailsForActionItem(1, 2, 1, "Updated Details");
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
         expect(browser.elementIdText(sndItemOfNewTopic).value)

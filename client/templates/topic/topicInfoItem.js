@@ -2,6 +2,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
+import { InfoItemFactory } from '/imports/InfoItemFactory'
 import { ActionItem } from '/imports/actionitem'
 import { InfoItem } from '/imports/infoitem'
 
@@ -36,7 +37,7 @@ Template.topicInfoItem.helpers({
     },
 
     detailsArray: function () {
-        return this.infoItem.details;
+        return (this.infoItem.details) ? this.infoItem.details : [];
     },
 
     topicStateClass: function () {
@@ -144,6 +145,7 @@ Template.topicInfoItem.events({
 
     'click .detailText'(evt, tmpl) {
         evt.preventDefault();
+        console.log(tmpl.data.currentCollapseId);
 
         if (!tmpl.data.isEditable) {
             return;
@@ -172,7 +174,7 @@ Template.topicInfoItem.events({
 
         let aMin = new Minutes(tmpl.data.minutesID);
         let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
-        let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id); //new ActionItem(aTopic, tmpl.data.infoItem._id);
 
 
         aActionItem.addDetails();
@@ -199,15 +201,9 @@ Template.topicInfoItem.events({
         if (text === "" || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
-            let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
-
-
-            if (text.trim() === "") {
-                aActionItem._infoItemDoc.details.splice(detailId, 1);
-            } else {
-                aActionItem._infoItemDoc.details[detailId].text = text;
-            }
-
+            let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id); //new ActionItem(aTopic, tmpl.data.infoItem._id);
+            let index = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+            aActionItem.updateDetails(index, text.trim());
             aActionItem.save();
         }
 

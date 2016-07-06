@@ -74,17 +74,16 @@
                 {{#each detailsArray}}
                     <p class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                         <div>
-                            <label for="detailInput_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
+                            <label for="detailInput_{{../currentCollapseId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
                         </div>
-                        <div style="padding-left: 10px;" class="detailText tst-detailText_{{@index}}" data-id="{{@index}}">
-                            <span id="detailText_{{@index}}" data-id="{{@index}}" data-text="{{this.text}}">
+                        <div style="padding-left: 10px;" class="detailText" data-id="{{../currentCollapseId}}_{{@index}}">
+                            <span id="detailText_{{../currentCollapseId}}_{{@index}}" data-id="{{../currentCollapseId}}_{{@index}}" data-text="{{this.text}}">
                                 {{#markdown}}{{this.text}}{{/markdown}}
                             </span>
 
-                            {{!-- class tst-* identifies input field for test cases --}}
-                            <textarea id="detailInput_{{@index}}"
-                                      rows="1" data-id="{{@index}}"
-                                      class="form-control detailInput tst-detailInput_{{@index}}"
+                            <textarea id="detailInput_{{../currentCollapseId}}_{{@index}}"
+                                      rows="1" data-id="{{../currentCollapseId}}_{{@index}}"
+                                      class="form-control detailInput"
                                       style="display: none; font-size: 14px;"
                                       placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
                         </div>

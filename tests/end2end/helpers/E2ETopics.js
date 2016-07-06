@@ -241,8 +241,9 @@ export class E2ETopics {
         }
         browser.click(selAddDetails);
 
-        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
-        let selFocusedInput = selectInfoItem + ".tst-detailInput_" + newId;
+        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex);
+        let selDetails = selectInfoItem + ".actionItemDetails:nth-child(" + newId + ") ";
+        let selFocusedInput = selDetails + ".detailInput";
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
@@ -259,15 +260,19 @@ export class E2ETopics {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
         E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
 
-        let selEditDetails = selectInfoItem + ".tst-detailText_" + detailIndex;
+        let selDetails = selectInfoItem + ".actionItemDetails:nth-child(" + detailIndex + ") ";
+
+        let selEditDetails = selDetails + ".detailText";
+        console.log(selEditDetails);
         try {
             browser.waitForVisible(selEditDetails);
         } catch (e) {
+            console.log("detailText not visible");
             return false;
         }
         browser.click(selEditDetails);
 
-        let selFocusedInput = selectInfoItem + ".tst-detailInput_" + detailIndex;
+        let selFocusedInput = selDetails + ".detailInput";
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
