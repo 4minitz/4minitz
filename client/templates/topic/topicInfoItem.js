@@ -196,7 +196,7 @@ Template.topicInfoItem.events({
 
         let text = inputEl.val();
 
-        let detailsCount = 0;
+        let detailsCount = undefined;
         if (text === "" || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
