@@ -168,8 +168,6 @@ Template.topicInfoItem.events({
     },
 
     'click .addDetail'(evt, tmpl) {
-        console.log(tmpl.$('#accordion'));
-        console.log(tmpl.$('#collapse-' + this.currentCollapseId));
         tmpl.$('#collapse-' + this.currentCollapseId).collapse('show');
 
         let aMin = new Minutes(tmpl.data.minutesID);
@@ -198,6 +196,7 @@ Template.topicInfoItem.events({
 
         let text = inputEl.val();
 
+        let detailsCount = 0;
         if (text === "" || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
@@ -205,11 +204,16 @@ Template.topicInfoItem.events({
             let index = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
             aActionItem.updateDetails(index, text.trim());
             aActionItem.save();
+            detailsCount = aActionItem.getDetails().length;
         }
 
         inputEl.val("");
         inputEl.hide();
         textEl.show();
+
+        if (detailsCount === 0) {
+            tmpl.$('#collapse-' + tmpl.data.currentCollapseId).collapse('hide');
+        }
     },
 
     'keypress .detailInput'(evt, tmpl) {
