@@ -172,7 +172,7 @@ Template.topicInfoItem.events({
 
         let aMin = new Minutes(tmpl.data.minutesID);
         let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
-        let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id); //new ActionItem(aTopic, tmpl.data.infoItem._id);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
 
 
         aActionItem.addDetails();
@@ -200,7 +200,7 @@ Template.topicInfoItem.events({
         if (text === "" || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
-            let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id); //new ActionItem(aTopic, tmpl.data.infoItem._id);
+            let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
             let index = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
             aActionItem.updateDetails(index, text.trim());
             aActionItem.save();
