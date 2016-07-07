@@ -48,7 +48,7 @@ ul.nav-tabs li a:hover {
 
 /* remove dotted outline on clicked menu / tab items */
 a:focus {
-    outline: none;
+    outline: none !important;
 }
 
 /* for panel lists of topics/action items */
@@ -109,7 +109,6 @@ a:focus {
 .pull-right-icons a {
     text-decoration: none;
 }
-
 
 
 .topicDragDropHandle:hover {
