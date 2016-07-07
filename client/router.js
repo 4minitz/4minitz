@@ -52,10 +52,6 @@ Router.route('meetingseries/invite/:_id', function () {
     routeToMeetingSeries(this.params._id, this, { openMeetingSeriesEditor: true });
 });
 
-Router.route('meetingseries/edit/:_id', function () {
-    routeToMeetingSeries(this.params._id, this, { }, 'meetingSeriesSettings');
-});
-
 Router.route('/minutesadd/:_id', function () {
     let meetingSeriesID = this.params._id;
 
