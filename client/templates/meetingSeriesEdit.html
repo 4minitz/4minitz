@@ -19,9 +19,14 @@
                                 <label class="control-label" for="id_meetingname">Meeting Name</label>
                                 <input class="form-control" id="id_meetingname" type="text" value="{{this.name}}" autocomplete="off">
 
-                                {{>meetingSeriesEditUsers userEditConfig}}
+                                <a href="#" class="evt-toggle-editor" data-action="userEditor">Edit Users</a>
+                                <div id="userEditor" class="editor" style="display: none;">{{>meetingSeriesEditUsers userEditConfig}}</div>
 
-
+                                <br>
+                                <a href="#" class="evt-toggle-editor" data-action="labelsEditor">Edit Labels</a>
+                                <div id="labelsEditor" class="editor" style="display: none;"><label class="control-label">Labels</label>
+                                {{>meetingSeriesSettingsLabels labelsConfig}}
+                                </div>
 
                         </div>
                         <a href="#" id="deleteMeetingSeries" class="btn btn-danger btn-raised" style="width: 100%;">

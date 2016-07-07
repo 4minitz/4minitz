@@ -30,6 +30,12 @@ Template.meetingSeriesEdit.helpers({
         return Template.instance().userEditConfig;
     },
 
+    labelsConfig: function() {
+        return {
+            meetingSeriesId: this._id
+        };
+    },
+
     // some responsive CSS tweaking
     useClassWell() {
         if (! Session.get("global.isMobileWidth")) {
@@ -39,6 +45,13 @@ Template.meetingSeriesEdit.helpers({
 });
 
 Template.meetingSeriesEdit.events({
+
+    "click .evt-toggle-editor": function(evt, tmpl) {
+        evt.preventDefault();
+        let action = $(event.target).data('action');
+        tmpl.$('.editor').hide();
+        tmpl.$('#' + action).show();
+    },
 
     "click #deleteMeetingSeries": function() {
         console.log("Remove Meeting Series: "+this._id);
