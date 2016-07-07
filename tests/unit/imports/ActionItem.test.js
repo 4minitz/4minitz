@@ -6,6 +6,7 @@ import _ from 'underscore';
 let doNothing = () => {};
 
 let Topic = {};
+let Label = {};
 
 class MeteorError {}
 
@@ -18,7 +19,8 @@ const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
     'meteor/underscore': { _, '@noCallThru': true},
-    './topic': { Topic, '@noCallThru': true}
+    './topic': { Topic, '@noCallThru': true},
+    './label': { Label, '@noCallThru': true}
 });
 
 const {

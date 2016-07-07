@@ -7,12 +7,14 @@ import sinon from 'sinon';
 import _ from 'underscore';
 
 let Topic = {};
+let Label = {};
 
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
     'meteor/underscore': { _, '@noCallThru': true},
-    './topic': { Topic, '@noCallThru': true}
+    './topic': { Topic, '@noCallThru': true},
+    './label': { Label, '@noCallThru': true}
 });
 
 describe('InfoItem', function() {

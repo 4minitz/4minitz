@@ -34,6 +34,12 @@ export class GlobalSettings {
         return !!Meteor.settings.trustedIntranetInstallation;
     }
 
+    static getDefaultLabels() {
+        if (!Meteor.settings.defaultLabels) return [];
+
+        return Meteor.settings.defaultLabels;
+    }
+
     static getDefaultEmailSenderAddress(alternativeSender) {
         let address = (Meteor.settings.email)
             ? Meteor.settings.email.defaultEMailSenderAddress

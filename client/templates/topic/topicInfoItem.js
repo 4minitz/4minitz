@@ -10,6 +10,15 @@ Template.topicInfoItem.onCreated(function () {
     this.isTopicCollapsed = new ReactiveVar(true);
 });
 
+let getMeetingSeriesId = (parentElementId) => {
+    let aMin = Minutes.findOne(parentElementId);
+    if (aMin) {
+        return aMin.parentMeetingSeriesID();
+    } else {
+        return parentElementId;
+    }
+};
+
 let createTopic = (parentElementId, topicId) => {
     if (!parentElementId || !topicId) return undefined;
     return new Topic(parentElementId, topicId);
@@ -38,6 +47,17 @@ Template.topicInfoItem.helpers({
 
     detailsArray: function () {
         return (this.infoItem.details) ? this.infoItem.details : [];
+    },
+
+    getLabels: function() {
+        let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
+        return aInfoItem.getLabels(getMeetingSeriesId(this.minutesID))
+            .map(labelObj => {
+                let doc = labelObj.getDocument();
+                doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
+
+                return doc;
+            });
     },
 
     topicStateClass: function () {

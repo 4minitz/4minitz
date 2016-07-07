@@ -1,5 +1,6 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TopicSchema } from './topic.schema';
+import { LabelSchema } from './label.schema'
 
 export const MeetingSeriesSchema = new SimpleSchema({
     project: {type: String},
@@ -10,5 +11,6 @@ export const MeetingSeriesSchema = new SimpleSchema({
     lastMinutesDate: {type: String},
     minutes: {type: [String], defaultValue: []},
     openTopics: {type: [TopicSchema], defaultValue: []},
-    topics: {type: [TopicSchema], defaultValue: []}
+    topics: {type: [TopicSchema], defaultValue: []},
+    availableLabels: {type: [LabelSchema], defaultValue: []}
 });

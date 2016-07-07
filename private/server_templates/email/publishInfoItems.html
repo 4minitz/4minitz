@@ -14,7 +14,8 @@ The listed topics were discussed:<br>
             <strong>{{subject}}</strong> {{responsiblesString}}
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
-                    <li>{{subject}}{{#if isSticky}} (pinned){{/if}}</li>
+                    {{!-- helper hasLabels and formatLabels are defined in TopicItemsMailHandler#_buildMail() --}}
+                    <li>{{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}</li>
                 {{/each}}
             </ul>
         </li>
@@ -28,7 +29,7 @@ The following topics remained open:<br>
             <strong>{{subject}}</strong> {{responsiblesString}}
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
-                    <li>{{subject}}{{#if isSticky}} (pinned){{/if}}</li>
+                    <li>{{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}</li>
                 {{/each}}
             </ul>
         </li>

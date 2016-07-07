@@ -35,9 +35,16 @@
                         {{infoItem.subject}}
                     {{/if}}
 
+                    <span class="labels">
+                        <!-- Labels -->
+                        {{#each getLabels}}
+                            <span class="label" style="background-color: {{color}}; color: {{fontColor}}">{{name}}</span>
+                        {{/each}}
+                    </span>
+
                     <!-- New-Topic-Label -->
                     {{#if infoItem.isNew}}
-                        <span class="badge" style="margin-bottom: 5px;">New</span>
+                        <span class="badge">New</span>
                     {{/if}}
 
                     <!-- Manipulation Menu Icons -->

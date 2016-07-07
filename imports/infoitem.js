@@ -3,6 +3,7 @@
  */
 
 import { Topic } from './topic'
+import { Label } from './label'
 import { _ } from 'meteor/underscore';
 
 /**
@@ -39,7 +40,8 @@ export class InfoItem {
 
         _.defaults(source, {
             itemType: 'infoItem',
-            isSticky: false
+            isSticky: false,
+            labels: []
         });
         this._infoItemDoc = source;
     }
@@ -115,12 +117,73 @@ export class InfoItem {
         return InfoItem.isActionItem(this._infoItemDoc);
     }
 
+    getDocument() {
+        return this._infoItemDoc;
+    }
+
+    getLabels(meetingSeriesId) {
+        this._infoItemDoc.labels = this.getLabelsRawArray().filter(labelId => {
+            return (null !== Label.createLabelById(meetingSeriesId, labelId));
+        });
+
+        return this.getLabelsRawArray().map(labelId => {
+            return Label.createLabelById(meetingSeriesId, labelId);
+
+        })
+    }
+
+    addLabelByName(labelName, meetingSeriesId) {
+        let label = Label.createLabelByName(meetingSeriesId, labelName);
+        if (null == label) {
+            label = new Label({name: labelName});
+            label.save(meetingSeriesId);
+        }
+
+        if (!this.hasLabelWithId(label.getId())) {
+            this._infoItemDoc.labels.push(label.getId());
+        }
+    }
+
+    hasLabelWithId(labelId) {
+        let i;
+        for (i = 0; i < this._infoItemDoc.labels.length; i++) {
+            if (this._infoItemDoc.labels[i] === labelId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    getLabelsRawArray() {
+        if (!this._infoItemDoc.labels) {
+            return [];
+        }
+        return this._infoItemDoc.labels;
+    }
+
     toString () {
         return "InfoItem: " + JSON.stringify(this._infoItemDoc, null, 4);
     }
 
     log () {
         console.log(this.toString());
+    }
+
+    extractLabelsFromSubject(meetingSeriesId) {
+        const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
+        let match;
+
+        while(match = regEx.exec(this._infoItemDoc.subject)) {
+            let labelName = match[2];
+            this.addLabelByName(labelName, meetingSeriesId);
+            this._removeLabelFromSubject(labelName);
+        }
+    }
+
+    _removeLabelFromSubject(labelName) {
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace("#" + labelName + " ", "");
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace(" #" + labelName, "");
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace("#" + labelName, "");
     }
 
 }

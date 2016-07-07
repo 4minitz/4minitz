@@ -5,6 +5,42 @@
     "e2eTestPasswords":     ["PwdPwd1", "PwdPwd2", "PwdPwd3","PwdPwd4"],
 
     "trustedIntranetInstallation": true,
+
+    "defaultLabels": [
+        {
+            "name": "Status:RED",
+            "color": "#ff0000"
+        },
+        {
+            "name": "Status:YELLOW",
+            "color": "#ffff00"
+        },
+        {
+            "name": "Status:GREEN",
+            "color": "#008000"
+        },
+        {
+            "name": "Milestone",
+            "color": "#66ff66"
+        },
+        {
+            "name": "Decision",
+            "color": "#0099ff"
+        },
+        {
+            "name": "Escalation",
+            "color": "#ff9933"
+        },
+        {
+            "name": "Audit-Finding",
+            "color": "#cc66ff"
+        },
+        {
+            "name": "Decision-Proposal",
+            "color": "#ffff66"
+        }
+    ],
+
     "email": {
         "enableMailDelivery": false
     }

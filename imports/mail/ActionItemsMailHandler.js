@@ -22,7 +22,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
                 this._buildMail(
                     mailSubject,
                     {
-                        'actionItems': [ActionItemsMailHandler._createActionItemDataObject(topicSubject, item)]
+                        'actionItems': [ActionItemsMailHandler._createActionItemDataObject(topicSubject, item.getParentTopic()._topicDoc._id, item)]
                     }
                 );
             });
@@ -33,20 +33,23 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
                 {
                     'actionItems': this._actionItems.map(item => {
                         let topicSubject = item.getParentTopic().getSubject();
-                        return ActionItemsMailHandler._createActionItemDataObject(topicSubject, item);
+                        return ActionItemsMailHandler._createActionItemDataObject(topicSubject, item.getParentTopic()._topicDoc._id, item);
                     })
                 }
             );
         }
     }
 
-    static _createActionItemDataObject(topicSubject, item) {
+    static _createActionItemDataObject(topicSubject, topicId, item) {
         // prevent sending empty details
         let details = (item.getTextFromDetails() === "") ? [] : item.getDetails();
 
         return {
+            _id: item.getDocument()._id,
+            topicId: topicId,
             topicSubject: topicSubject,
             subject: item.getSubject(),
+            labels: item.getLabelsRawArray(),
             responsibles: item.getResponsibleNameString(),
             priority: item.getPriority(),
             duedate: item.getDuedate(),

@@ -9,9 +9,9 @@
 
     "//3": "below option configures if and how to send E-Mails",
     "email": {
-        "//4": "Switch on/off E-Mail sending",
+        "//3.1": "Switch on/off E-Mail sending",
         "enableMailDelivery": true,
-        "//5": "Choose one of the below mail deliver methods",
+        "//3.2": "Choose one of the below mail deliver methods",
         "mailDeliverer": "mailgun|smtp",
 
         "defaultEMailSenderAddress": "default@email.de",
@@ -25,5 +25,41 @@
             "domain": "Your mailgun domain",
             "apiUrl": "https://api.mailgun.net/v3"
         }
-    }
+    },
+
+    "//4": "below option to configure default labels for action- and info-items",
+    "defaultLabels": [
+        {
+            "name": "Status:RED",
+            "color": "#ff0000"
+        },
+        {
+            "name": "Status:YELLOW",
+            "color": "#ffff00"
+        },
+        {
+            "name": "Status:GREEN",
+            "color": "#008000"
+        },
+        {
+            "name": "Milestone",
+            "color": "#66ff66"
+        },
+        {
+            "name": "Decision",
+            "color": "#0099ff"
+        },
+        {
+            "name": "Escalation",
+            "color": "#ff9933"
+        },
+        {
+            "name": "Audit-Finding",
+            "color": "#cc66ff"
+        },
+        {
+            "name": "Decision-Proposal",
+            "color": "#ffff66"
+        }
+    ]
 }

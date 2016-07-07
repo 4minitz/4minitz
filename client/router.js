@@ -22,7 +22,7 @@ Router.onBeforeAction(function () {
 
 Router.route('/', {name: 'home'});
 
-function routeToMeetingSeries(meetingSeriesID, router, data) {
+function routeToMeetingSeries(meetingSeriesID, router, data, template = 'meetingSeriesDetails') {
     if (!data) {
         data = {};
     }
@@ -35,7 +35,7 @@ function routeToMeetingSeries(meetingSeriesID, router, data) {
         let usrRoles = new UserRoles();
         if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
             data.meetingSeriesId = meetingSeriesID;
-            router.render('meetingSeriesDetails', { data: data });
+            router.render(template, { data: data });
         } else {
             Router.go("/");
         }

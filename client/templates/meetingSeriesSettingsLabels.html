@@ -1,0 +1,40 @@
+<template name="meetingSeriesSettingsLabels">
+
+    <div class="panel panel-default">
+
+        <!-- Default panel contents -->
+        <div class="panel-heading">{{count getLabels}} labels</div>
+
+        <table class="table">
+            <tbody>
+            {{#each getLabels}}
+                <tr id="row-label-{{_id}}">
+                    <td id="col-label-{{_id}}">
+                        <span class="label view-display" style="background-color: {{color}}; color: {{fontColor}}; font-size: 110%;">{{name}}</span>
+                        <span class="view-edit controls form-inline" style="display: none;">
+                            <input class="form-control evt-submit-enter" name="labelName" type="text" value="{{name}}">
+                            <input class="form-control evt-submit-enter" name="labelColor" type="text" value="{{color}}">
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <span class="view-display">
+                            <a href="#" class="evt-btn-edit-label">Edit</a>
+                            &nbsp;
+                            <a href="#" class="evt-btn-delete-label">Delete</a>
+                        </span>
+                        <span class="view-edit evt-btn-edit-cancel" style="display: none">
+                            <button class="btn btn-default btn-raised">
+                                Cancel
+                            </button>
+                            <button class="btn btn-success btn-raised evt-btn-edit-save">
+                                Save
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</template>

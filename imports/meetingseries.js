@@ -354,11 +354,46 @@ export class MeetingSeries {
     }
 
     findTopic(id) {
-        let i = subElementsHelper.findIndexById(id, this.topics);
-        if (i != undefined) {
-            return this.topics[i];
+        return subElementsHelper.getElementById(id, this.topics);
+    }
+
+    findLabel(id) {
+        return subElementsHelper.getElementById(id, this.availableLabels);
+    }
+
+    findLabelByName(labelName) {
+        return subElementsHelper.getElementById(labelName, this.availableLabels, 'name');
+    }
+
+    removeLabel(id) {
+        let index = subElementsHelper.findIndexById(id, this.getAvailableLabels());
+        if (undefined === index) {
+            return;
         }
-        return undefined;
+
+        this.availableLabels.splice(index, 1);
+    }
+
+    upsertLabel(labelDoc) {
+        let i = undefined;
+        if (! labelDoc._id) {            // brand-new label
+            labelDoc._id = Random.id();
+        } else {
+            i = subElementsHelper.findIndexById(labelDoc._id, this.availableLabels); // try to find it
+        }
+
+        if (i === undefined) {                      // label not in array
+            this.availableLabels.unshift(labelDoc);
+        } else {
+            this.availableLabels[i] = labelDoc;      // overwrite in place
+        }
+    }
+
+    getAvailableLabels() {
+        if (this.availableLabels) {
+            return this.availableLabels;
+        }
+        return [];
     }
 
     // ################### private methods
