@@ -1,17 +1,15 @@
 <template name="topicInfoItem">
     <div class="panel topicInfoItem">
         <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne" style="position: relative;">
-            {{#if isActionItem}}
-                {{#if detailsArray.length}}
-                    <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
-                        href="#collapse-{{currentCollapseId}}" style="position: absolute; top:0; left: 0; color: grey;">
-                        {{#if isCollapsed}}
-                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                        {{else}}
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                        {{/if}}
-                    </a>
-                {{/if}}
+            {{#if detailsArray.length}}
+                <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
+                    href="#collapse-{{currentCollapseId}}" style="position: absolute; top:0; left: 0; color: grey;">
+                    {{#if isCollapsed}}
+                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                    {{else}}
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                    {{/if}}
+                </a>
             {{/if}}
             <h4 class="panel-title">
                 <div class="checkbox">
@@ -56,11 +54,9 @@
                             {{/if}}
 
                             {{#if isEditable}}
-                                {{#if isActionItem}}
-                                    <a href="#" class="panel-link addDetail" title="Add details to action item">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </a>
-                                {{/if}}
+                                <a href="#" class="panel-link addDetail" title="Add details to action item">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </a>
 
                                 <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link" title="Edit item">
                                     <span class="glyphicon glyphicon-pencil"></span>
@@ -75,7 +71,6 @@
             </h4>
         </div>
 
-        {{#if isActionItem}}
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body actionItemDetails">
                 {{#each detailsArray}}
@@ -101,6 +96,5 @@
                 {{/if}}
             </div>
         </div>
-        {{/if}}
     </div>
 </template>

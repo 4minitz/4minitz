@@ -8,7 +8,7 @@ import { E2ETopics } from './helpers/E2ETopics'
 require('./../../lib/helpers');
 
 
-describe('ActionItems Details', function () {
+describe('Item Details', function () {
     const aProjectName = "E2E ActionItems Details";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
@@ -17,7 +17,7 @@ describe('ActionItems Details', function () {
     let aTopicNameBase = "Topic Name #";
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Action Item Name #";
+    let aAINameBase = "Item Name #";
 
     let getNewMeetingName = () => {
         aMeetingCounter++;
@@ -69,6 +69,21 @@ describe('ActionItems Details', function () {
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+    });
+
+    it('can add details to an Info Item, too', function() {
+        const detailsText = 'New Details for Info Item';
+        E2ETopics.addInfoItemToTopic({
+            subject: getNewAIName(),
+            itemType: 'infoItem'
+        }, 1);
+
+        E2ETopics.addDetailsToActionItem(1, 1, detailsText);
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        expect(browser.elementIdText(firstItemOfNewTopic).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
     });
 
     it('can add a second detail to an Action Item', function () {
