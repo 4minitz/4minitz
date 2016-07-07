@@ -241,8 +241,9 @@ export class E2ETopics {
         }
         browser.click(selAddDetails);
 
-        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
-        let selFocusedInput = "#detailInput_" + newId;
+        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex);
+        let selDetails = selectInfoItem + ".detailRow:nth-child(" + newId + ") ";
+        let selFocusedInput = selDetails + ".detailInput";
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
@@ -255,17 +256,22 @@ export class E2ETopics {
         browser.keys(['Escape']);
     }
 
-    static changeDetailsForActionItem(topicIndex, infoItemIndex, detailsIndex, detailsText) {
+    static editDetailsForActionItem(topicIndex, infoItemIndex, detailIndex, detailsText) {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
-
         E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
 
-        let selDateCol = selectInfoItem + ".actionItemDetails:nth-child(" + detailsIndex + ") .detailDate";
-        browser.waitForVisible(selDateCol);
-        browser.click(selDateCol);
+        let selDetails = selectInfoItem + ".detailRow:nth-child(" + detailIndex + ") ";
 
-        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
-        let selFocusedInput = "#detailInput_" + newId;
+        let selEditDetails = selDetails + ".detailText";
+        try {
+            browser.waitForVisible(selEditDetails);
+        } catch (e) {
+            console.log("detailText not visible");
+            return false;
+        }
+        browser.click(selEditDetails);
+
+        let selFocusedInput = selDetails + ".detailInput";
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {

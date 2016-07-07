@@ -62,6 +62,35 @@ export class InfoItem {
         this._infoItemDoc.isSticky = !this.isSticky();
     }
 
+    addDetails(text) {
+        if (text === undefined) text = "";
+
+        let date = formatDateISO8601(new Date());
+        if (!this._infoItemDoc.details) {
+            this._infoItemDoc.details = [];
+        }
+        this._infoItemDoc.details.push({
+            date: date,
+            text: text
+        })
+    }
+
+    updateDetails(index, text) {
+        if (text === "") {
+            this._infoItemDoc.details.splice(index, 1);
+        } else {
+            this._infoItemDoc.details[index].text = text;
+        }
+    }
+
+    getDetails() {
+        if (!this._infoItemDoc.details) {
+            this._infoItemDoc.details = [];
+        }
+
+        return this._infoItemDoc.details;
+    }
+
     async save(callback) {
         callback = callback || function () {};
 
