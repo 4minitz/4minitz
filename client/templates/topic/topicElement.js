@@ -38,7 +38,7 @@ Template.topicElement.helpers({
             parentTopicId: parentTopicId,
             isEditable: Template.instance().data.isEditable,
             minutesID: parentElement,//Template.instance().data.minutesID,
-            currentCollapseId: index  // each topic item gets its own collapseID
+            currentCollapseId: parentTopicId+"_"+index  // each topic item gets its own collapseID
         };
     },
 
