@@ -221,7 +221,7 @@ Template.topicInfoItem.events({
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
-            let index = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+            let index = detailId.split('_')[2]; // detail id is: <collapseId>_<index>
             aActionItem.updateDetails(index, text.trim());
             aActionItem.save();
             detailsCount = aActionItem.getDetails().length;
