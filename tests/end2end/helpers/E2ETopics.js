@@ -231,8 +231,6 @@ export class E2ETopics {
     static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText, doBeforeSubmit) {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
 
-        E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
-
         let selAddDetails = selectInfoItem + ".addDetail";
         try {
             browser.waitForVisible(selAddDetails);
