@@ -32,11 +32,11 @@
             "color": "#ff9933"
         },
         {
-            "name": "Audit-Finding",
+            "name": "Audit Finding",
             "color": "#cc66ff"
         },
         {
-            "name": "Decision-Proposal",
+            "name": "Proposal",
             "color": "#ffff66"
         }
     ],

@@ -76,10 +76,11 @@ export class TopicItemsMailHandler {
                 } else {
                     result += ', ';
                 }
-                result += label.getName();
+                result += "#"+label.getName();
             });
             return result;
         });
+
         this._getMailer().setHtml(tmplRenderer.render());
         this._getMailer().send();
     }
