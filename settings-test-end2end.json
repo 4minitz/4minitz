@@ -8,20 +8,36 @@
 
     "defaultLabels": [
         {
-            "name": "Decision",
-            "color": "#0052cc"
+            "name": "Status:RED",
+            "color": "#ff0000"
+        },
+        {
+            "name": "Status:YELLOW",
+            "color": "#ffff00"
+        },
+        {
+            "name": "Status:GREEN",
+            "color": "#008000"
         },
         {
             "name": "Milestone",
-            "color": "#0e8a16"
+            "color": "#66ff66"
+        },
+        {
+            "name": "Decision",
+            "color": "#0099ff"
         },
         {
             "name": "Escalation",
-            "color": "#fbca04"
+            "color": "#ff9933"
         },
         {
             "name": "Audit-Finding",
-            "color": "#d4c5f9"
+            "color": "#cc66ff"
+        },
+        {
+            "name": "Decision-Proposal",
+            "color": "#ffff66"
         }
     ],
 
