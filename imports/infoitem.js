@@ -113,8 +113,6 @@ export class InfoItem {
         if (!this.hasLabelWithId(label.getId())) {
             this._infoItemDoc.labels.push(label.getId());
         }
-
-        console.log(this._infoItemDoc.labels);
     }
 
     hasLabelWithId(labelId) {
@@ -148,7 +146,6 @@ export class InfoItem {
 
         while(match = regEx.exec(this._infoItemDoc.subject)) {
             let labelName = match[2];
-            console.log(labelName);
             this.addLabelByName(labelName, meetingSeriesId);
             this._removeLabelFromSubject(labelName);
         }
