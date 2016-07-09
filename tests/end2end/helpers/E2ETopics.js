@@ -36,8 +36,19 @@ export class E2ETopics {
     }
 
     static responsibleEnterFreetext(theText) {
-        browser.element(".form-group-responsibles .select2-selection").click();
-        browser.keys(theText+"\uE007"); // plus ENTER
+        E2EGlobal.waitSomeTime();
+
+        // &%$#$@! - the following does not work => Uncaught Error: element not visible
+        // browser.element(".form-group-responsibles .select2-selection").click();
+        // ... so we take this as workaround: click into first select2 then Tab/Tab to the next one
+
+        browser.element(".form-group-labels .select2-selection").click();
+        browser.keys("\uE004\uE004"); // 2 x Tab to reach next select2
+
+        let texts = theText.split(",");
+        for (let i in texts) {
+            browser.keys(texts[i]+"\uE007"); // plus ENTER
+        }
     }
 
     static labelEnterFreetext(theText) {
@@ -129,6 +140,7 @@ export class E2ETopics {
             browser.waitForExist(radioBtnSelector);
             browser.click(radioBtnSelector);
         }
+        E2EGlobal.waitSomeTime();
 
         //todo: set other fields (duedate, details)
 
