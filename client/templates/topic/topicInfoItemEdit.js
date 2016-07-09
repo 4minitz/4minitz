@@ -324,7 +324,15 @@ Template.topicInfoItemEdit.events({
         if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
             if (! /\S+@\S+\.\S+/.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
-                alert("Not a valid responsible!\nSelect user from dropdown or enter email address.");
+                confirmationDialog(
+                    () => {},
+                    "This is not a valid responsible!<br>Please select an <b>existing user</b> from the dropdown or enter a <b>valid email address</b>.",
+                    "Invalid Responsible",
+                    "OK",
+                    "btn-info",
+                    true
+                );
+
                 return false;
             }
         }

@@ -13,9 +13,15 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" id="confirmationDialogCancel" data-dismiss="modal">Cancel</button>
+                {{#unless hideCancelButton}}
+                    <button type="button" class="btn btn-default" id="confirmationDialogCancel" data-dismiss="modal">
+                        Cancel
+                    </button>
+                {{/unless}}
                 <!-- Caution: this button is not reactive! -> see confirmationDialog in helpers.js -->
-                <button type="button" class="btn btn-ok btn-raised" id="confirmationDialogOK" data-dismiss="modal">{{getConfirmBtnName}}</button>
+                <button type="button" class="btn btn-ok btn-raised" id="confirmationDialogOK" data-dismiss="modal">
+                    {{getConfirmBtnName}}
+                </button>
             </div>
         </div>
     </div>
