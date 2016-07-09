@@ -35,7 +35,7 @@ export class E2ETopics {
         }
     }
 
-    static responsibleEnterFreetext(theText) {
+    static responsible2ItemEnterFreetext(theText) {
         E2EGlobal.waitSomeTime();
 
         // &%$#$@! - the following does not work => Uncaught Error: element not visible
@@ -49,6 +49,11 @@ export class E2ETopics {
         for (let i in texts) {
             browser.keys(texts[i]+"\uE007"); // plus ENTER
         }
+    }
+
+    static responsible2TopicEnterFreetext(theText) {
+        browser.element(".select2-selection").click();
+        browser.keys(theText+"\uE007"); // plus ENTER
     }
 
     static labelEnterFreetext(theText) {
@@ -70,7 +75,7 @@ export class E2ETopics {
             browser.setValue('#id_subject', subject);
         }
         if (responsible) {
-            E2ETopics.responsibleEnterFreetext(responsible);
+            E2ETopics.responsible2TopicEnterFreetext(responsible);
         }
     }
 
@@ -145,7 +150,7 @@ export class E2ETopics {
         //todo: set other fields (duedate, details)
 
         if (infoItemDoc.responsible) {
-            E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
+            E2ETopics.responsible2ItemEnterFreetext(infoItemDoc.responsible);
         }
 
         if (infoItemDoc.priority) {
