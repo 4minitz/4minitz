@@ -104,8 +104,9 @@ describe('Topics Responsibles', function () {
         E2ETopics.openEditTopicForMinutes(1);
         browser.element(".select2-selection").click();
         browser.keys("3\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
-        browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime();
+        browser.click("#btnTopicSave");
+        E2EGlobal.waitSomeTime(500);
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
         expect (topicHeadingText).to.contain(user3);
