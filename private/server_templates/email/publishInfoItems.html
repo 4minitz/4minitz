@@ -29,7 +29,15 @@ The following topics remained open:<br>
             <strong>{{subject}}</strong> {{responsiblesString}}
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
-                    <li>{{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}</li>
+                    <li>
+                        {{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}
+                        {{#if details}}
+                            {{#each details}}
+                            {{!-- helper markdown2html is defined in TemplateRenderer globally --}}
+                                <li>{{date}}: {{markdown2html text}}</li>
+                            {{/each}}
+                        {{/if}}
+                    </li>
                 {{/each}}
             </ul>
         </li>
