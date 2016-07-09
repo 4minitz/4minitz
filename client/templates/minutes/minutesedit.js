@@ -4,7 +4,7 @@ import { Minutes } from '/imports/minutes'
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 
-import { TopicListConfig } from './topic/topicsList'
+import { TopicListConfig } from '../topic/topicsList'
 
 import { GlobalSettings } from '/imports/GlobalSettings'
 
