@@ -76,7 +76,10 @@ var getPossibleResponsibles = function() {
     if (participantsAdditional) {
         let splitted = participantsAdditional.split(/[,;]/);
         for (let i in splitted) {
-            buffer.push(splitted[i].trim());
+            let partAdd = splitted[i].trim();
+            if (/^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/.test(partAdd)) {
+                buffer.push(splitted[i].trim());
+            }
         }
     }
 
@@ -322,7 +325,7 @@ Template.topicInfoItemEdit.events({
         console.log(evt);
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
         if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
-            if (! /\S+@\S+\.\S+/.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
+            if (! /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
                 confirmationDialog(
                     () => {},
