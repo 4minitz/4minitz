@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { MeetingSeries } from './../../imports/meetingseries'
+import { MeetingSeries } from '/imports/meetingseries'
 import { UsersEditConfig } from './meetingSeriesEditUsers'
 import { UserRoles } from '/imports/userroles'
 
