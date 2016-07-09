@@ -6,7 +6,11 @@ Template.confirmationDialog.helpers({
     'getTitle': function() {
         return Session.get("confirmationDialogTitle");
     },
-
+    
+    'hideCancelButton': function() {
+        return Session.get("confirmationDialogHideCancelButton");
+    },
+    
     'getContent': function() {
         // SafeString allows us to pass html content
         return Spacebars.SafeString(Session.get("confirmationDialogContent"));
