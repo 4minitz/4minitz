@@ -30,7 +30,7 @@ export class TemplateRenderer {
             let html = converter.makeHtml(text);
             // remove enclosing p-tag
             if (html.substr(0, 3) === "<p>") {
-                html = html.substr(3, html.length - 4);
+                html = html.substr(3, html.length - 3);
             }
             return Spacebars.SafeString(html);
         });
