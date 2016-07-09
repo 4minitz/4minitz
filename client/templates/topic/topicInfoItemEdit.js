@@ -326,7 +326,7 @@ Template.topicInfoItemEdit.events({
                 // prohibit non-mail free text entries
                 confirmationDialog(
                     () => {},
-                    "This is not a valid responsible!<br>Please select an existing user from the dropdown or enter a valid email address.",
+                    "This is not a valid responsible!<br>Please select an <b>existing user</b> from the dropdown or enter a <b>valid email address</b>.",
                     "Invalid Responsible",
                     "OK",
                     "btn-info",

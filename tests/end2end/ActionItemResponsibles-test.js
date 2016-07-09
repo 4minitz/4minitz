@@ -64,7 +64,7 @@ describe('ActionItems Responsibles', function () {
     });
 
 
-    it('can add an action item with a responsibles', function () {
+    it('can add an action item with a responsible', function () {
         let topicIndex = 1;
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
 
@@ -109,5 +109,60 @@ describe('ActionItems Responsibles', function () {
 
         expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(user1);
         expect(actionItemExpandElementText, "user2 shall be responsible").to.have.string(user2);
+    });
+
+
+    it('can add an action item with a free-text EMail-responsible', function () {
+        let topicIndex = 1;
+        let emailUser = "noreply@4minitz.com";
+        E2ETopics.openInfoItemDialog(topicIndex);
+
+        const actionItemName = getNewAIName();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: actionItemName,
+            itemType: "actionItem",
+            responsible: emailUser
+        });
+        browser.element("#btnInfoItemSave").click();
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+
+        expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(emailUser);
+        E2EGlobal.waitSomeTime();
+    });
+
+
+    it('prohibits non-email-string as free-text responsible', function () {
+        let topicIndex = 1;
+        let illegalUserName = "NonEMailResponsible";
+        E2ETopics.openInfoItemDialog(topicIndex);
+
+        const actionItemName = getNewAIName();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: actionItemName,
+            itemType: "actionItem",
+            responsible: illegalUserName
+        });
+
+        // check if 'Invalid Responsible' modal info dialog shows up
+        // Hint: browser.getText("h4.modal-title") delivers an array
+        // where we are only interested in the *last* element - thus we pop()
+        E2EGlobal.waitSomeTime();
+        expect(browser.getText("h4.modal-title").pop(), "'Invalid Responsible' modal should be visible").to.have.string("Invalid Responsible");
+
+        E2EApp.confirmationDialogAnswer(true);  // click info modal "OK"
+        E2EGlobal.waitSomeTime();
+
+        browser.element("#btnInfoItemSave").click();    // save AI
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+
+        expect(actionItemExpandElementText, "no illegal responsible added").not.to.have.string(illegalUserName);
     });
 });
