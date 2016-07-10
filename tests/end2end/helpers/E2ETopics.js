@@ -17,7 +17,7 @@ export class E2ETopics {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnEditTopic";
         browser.waitForVisible(selector);
         browser.click(selector);
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(500);
     }
 
     static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
