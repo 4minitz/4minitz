@@ -166,7 +166,7 @@ describe('Sticky Info Items', function () {
         E2EMinutes.finalizeCurrentMinutes();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        E2ETopics.deleteInfoItem(1, 1);
+        E2ETopics.deleteInfoItem(1, 1, true);
         E2EMinutes.finalizeCurrentMinutes();
 
         E2EMinutes.gotoParentMeetingSeries();
