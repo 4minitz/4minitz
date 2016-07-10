@@ -102,6 +102,7 @@ describe('Topics Responsibles', function () {
         E2ETopics.addTopicToMinutes('TOP-1', "");
 
         E2ETopics.openEditTopicForMinutes(1);
+        E2EGlobal.waitSomeTime();
         browser.element(".select2-selection").click();
         browser.keys("3\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
         E2EGlobal.waitSomeTime();
