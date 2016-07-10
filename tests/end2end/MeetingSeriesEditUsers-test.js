@@ -4,6 +4,7 @@ import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 import { E2EMinutes } from './helpers/E2EMinutes'
+import { E2EMinutesParticipants } from './helpers/E2EMinutesParticipants'
 
 
 describe('MeetingSeries Editor Users', function () {
@@ -409,4 +410,36 @@ describe('MeetingSeries Editor Users', function () {
         browser.keys(['Escape']);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
+
+    it('ensures sync of invited users to participants of un-finalized minutes @watch', function () {
+        let currentUser = E2EApp.getCurrentUser();
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Moderator);
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        let participantsInfo = new E2EMinutesParticipants();
+        expect(participantsInfo.getParticipantsCount(), "initial setup with 2 users").to.equal(2);
+        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "initial setup with user1").to.be.ok;
+        expect(participantsInfo.getParticipantInfo(user2), "initial setup with user2").to.be.ok;
+
+        // Now remove user2 and add user3
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
+        let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
+        browser.elementIdClick(usersAndRoles[user2].deleteElemId);
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+
+        E2EMinutes.gotoLatestMinutes();
+        participantsInfo = new E2EMinutesParticipants();
+        expect(participantsInfo.getParticipantsCount(), "after edit still 2 users").to.equal(2);
+        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "after edit still with user1").to.be.ok;
+        expect(participantsInfo.getParticipantInfo(user3), "after edit now with user3").to.be.ok;
+    });
+
+
 });
