@@ -12,5 +12,6 @@ export const MeetingSeriesSchema = new SimpleSchema({
     minutes: {type: [String], defaultValue: []},
     openTopics: {type: [TopicSchema], defaultValue: []},
     topics: {type: [TopicSchema], defaultValue: []},
-    availableLabels: {type: [LabelSchema], defaultValue: []}
+    availableLabels: {type: [LabelSchema], defaultValue: []},
+    additionalResponsibles: {type: [String], defaultValue: []}
 });

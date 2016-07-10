@@ -2,16 +2,20 @@ import { Meteor } from 'meteor/meteor';
 
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
 
 import { $ } from 'meteor/jquery';
 
 Session.setDefault("topicEditTopicId", null);
 
 let _minutesID; // the ID of these minutes
+let _meetingSeries;
 
 Template.topicEdit.onCreated(function () {
     _minutesID = this.data;
     console.log("Template topicEdit created with minutesID "+_minutesID);
+    let aMin = new Minutes(_minutesID);
+    _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 });
 
 var getEditTopic = function() {
@@ -44,12 +48,20 @@ var getPossibleResponsibles = function() {
         }
     }
 
+    // add former responsibles from the parent meeting series
+    if (_meetingSeries && _meetingSeries.additionalResponsibles) {
+        buffer = buffer.concat(_meetingSeries.additionalResponsibles);
+    }
+
+
     // add the responsibles from current topic
     let topic = getEditTopic();
     if (topic && topic.hasResponsibles()) {
         buffer = buffer.concat(topic._topicDoc.responsibles);
     }
 
+    // copy buffer to possibleResponsibles
+    // but take care for uniqueness
     for (let i in buffer) {
         let aResponsibleId = buffer[i];
         if (! possibleResponsiblesUnique[aResponsibleId]) { // not seen?
@@ -182,5 +194,12 @@ Template.topicEdit.events({
 
     "select2:select #id_selResponsible"(evt, tmpl) {
         console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
+        let respId = evt.params.data.id;
+        let respName = evt.params.data.text;
+        let aUser = Meteor.users.findOne(respId);
+        if (! aUser && respId == respName) {    // we have a free-text user here!
+            _meetingSeries.addAdditionalResponsible(respName);
+            _meetingSeries.save();
+        }
     }
 });
