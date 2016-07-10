@@ -9,7 +9,7 @@ import { $ } from 'meteor/jquery';
 Session.setDefault("topicEditTopicId", null);
 
 let _minutesID; // the ID of these minutes
-let _meetingSeries;
+let _meetingSeries; // ATTENTION - this var. is not reactive!
 
 Template.topicEdit.onCreated(function () {
     _minutesID = this.data;

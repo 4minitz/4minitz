@@ -1,4 +1,7 @@
+import { Meteor } from 'meteor/meteor';
+
 import { Minutes } from '/imports/minutes'
+import { MeetingSeries } from '/imports/meetingseries'
 import { Topic } from '/imports/topic'
 import { InfoItem } from '/imports/infoitem'
 import { ActionItem } from '/imports/actionitem'
@@ -12,10 +15,14 @@ Session.setDefault("topicInfoItemEditInfoItemId", null);
 Session.setDefault("topicInfoItemType", "infoItem");
 
 let _minutesID; // the ID of these minutes
+let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for performance reasons!
+let _emailAddressRegExp = /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/;
 
 Template.topicInfoItemEdit.onCreated(function () {
     _minutesID = this.data;
     console.log("Template topicEdit created with minutesID "+_minutesID);
+    let aMin = new Minutes(_minutesID);
+    _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
@@ -77,10 +84,19 @@ var getPossibleResponsibles = function() {
         let splitted = participantsAdditional.split(/[,;]/);
         for (let i in splitted) {
             let partAdd = splitted[i].trim();
-            if (/^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/.test(partAdd)) {
+            if (_emailAddressRegExp.test(partAdd)) {
                 buffer.push(splitted[i].trim());
             }
         }
+    }
+
+    // add former responsibles from the parent meeting series
+    if (_meetingSeries && _meetingSeries.additionalResponsibles) {
+        _meetingSeries.additionalResponsibles.forEach(resp => {
+            if (_emailAddressRegExp.test(resp)) {
+                buffer.push(resp);
+            }
+        });
     }
 
     // add the responsibles from current item
@@ -89,6 +105,8 @@ var getPossibleResponsibles = function() {
         buffer = buffer.concat(editItem._infoItemDoc.responsibles);
     }
 
+    // copy buffer to possibleResponsibles
+    // but take care for uniqueness
     for (let i in buffer) {
         let aResponsibleId = buffer[i];
         if (! possibleResponsiblesUnique[aResponsibleId]) { // not seen?
@@ -127,6 +145,7 @@ var getRemainingUsers = function (participants) {
 
 
 function configureSelect2Responsibles() {
+    console.log("-----------ConfigureSelect2!");
     let selectResponsibles = $('#id_selResponsibleActionItem');
     selectResponsibles.find('optgroup')     // clear all <option>s
         .remove();
@@ -298,12 +317,13 @@ Template.topicInfoItemEdit.events({
         tmpl.find('#id_item_duedateInput').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
 
-        // set type
+        // set type: edit existing item
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? "actionItem" : "infoItem";
             tmpl.find('#type_' + type).checked = true;
             toggleItemMode(type, tmpl);
-        } else {
+        } else {  // adding a new item
+            configureSelect2Responsibles();
             let selectResponsibles = $('#id_selResponsibleActionItem');
             if (selectResponsibles) {
                 selectResponsibles.val([]).trigger("change");
@@ -336,7 +356,7 @@ Template.topicInfoItemEdit.events({
         console.log(evt);
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
         if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
-            if (! /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
+            if (! _emailAddressRegExp.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
                 confirmationDialog(
                     () => {},
@@ -354,8 +374,14 @@ Template.topicInfoItemEdit.events({
     },
 
     "select2:select #id_selResponsibleActionItem"(evt, tmpl) {
-        // console.log(evt);
-        // console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
+        console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
+        let respId = evt.params.data.id;
+        let respName = evt.params.data.text;
+        let aUser = Meteor.users.findOne(respId);
+        if (! aUser && respId == respName &&    // we have a free-text user here!
+            _emailAddressRegExp.test(respName)) { // only take valid mail addresses
+            _meetingSeries.addAdditionalResponsible(respName);
+            _meetingSeries.save();
+        }
     }
-
 });
