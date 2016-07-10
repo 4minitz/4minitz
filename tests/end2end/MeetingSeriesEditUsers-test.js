@@ -411,7 +411,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
-    it('ensures sync of invited users to participants of un-finalized minutes @watch', function () {
+    it('ensures sync of invited users to participants of un-finalized minutes', function () {
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];

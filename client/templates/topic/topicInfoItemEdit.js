@@ -214,6 +214,10 @@ Template.topicInfoItemEdit.events({
 
     'submit #frmDlgAddInfoItem': function(evt, tmpl) {
         evt.preventDefault();
+        let saveButton = $("#btnInfoItemSave");
+        let cancelButton = $("#btnInfoItemCancel");
+        saveButton.prop("disabled",true);
+        cancelButton.prop("disabled",true);
 
         if (!getRelatedTopic()) {
             throw new Meteor.Error("IllegalState: We have no related topic object!");
@@ -266,6 +270,8 @@ Template.topicInfoItemEdit.events({
 
         newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
         newItem.save((error) => {
+            saveButton.prop("disabled",false);
+            cancelButton.prop("disabled",false);
             if (error) {
                 Session.set('errorTitle', 'Validation error');
                 Session.set('errorReason', error.reason);
@@ -278,6 +284,11 @@ Template.topicInfoItemEdit.events({
     "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
         // will be called before the dialog is shown
         // at this point we clear the view
+        let saveButton = $("#btnInfoItemSave");
+        let cancelButton = $("#btnInfoItemCancel");
+        saveButton.prop("disabled",false);
+        cancelButton.prop("disabled",false);
+
         let editItem = getEditInfoItem();
         tmpl.find("#id_item_subject").value = (editItem) ? editItem._infoItemDoc.subject : "";
 
