@@ -124,6 +124,10 @@ Template.topicEdit.helpers({
 Template.topicEdit.events({
     "submit #frmDlgAddTopic": async function (evt, tmpl) {
         evt.preventDefault();
+        let saveButton = $("#btnTopicSave");
+        let cancelButton = $("#btnTopicCancel");
+        saveButton.prop("disabled",true);
+        cancelButton.prop("disabled",true);
 
         let editTopic = getEditTopic();
         let topicDoc = {};
@@ -138,8 +142,13 @@ Template.topicEdit.events({
 
         try {
             await aTopic.save();
+
+            saveButton.prop("disabled",false);
+            cancelButton.prop("disabled",false);
             $('#dlgAddTopic').modal('hide');
         } catch (error) {
+            saveButton.prop("disabled",false);
+            cancelButton.prop("disabled",false);
             Session.set('errorTitle', 'Validation error');
             Session.set('errorReason', error.reason);
         }
@@ -156,6 +165,10 @@ Template.topicEdit.events({
 
     "show.bs.modal #dlgAddTopic": function (evt, tmpl) {
         configureSelect2Responsibles();
+        let saveButton = $("#btnTopicSave");
+        let cancelButton = $("#btnTopicCancel");
+        saveButton.prop("disabled",false);
+        cancelButton.prop("disabled",false);
     },
 
     "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {

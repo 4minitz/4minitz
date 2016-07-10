@@ -82,6 +82,8 @@ Template.meetingSeriesEdit.events({
     // We fill the temp. client-side only user database for the user editor on this event
     "show.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
         // Make sure these init values are filled in a close/re-open scenario
+        $("#btnMeetingSeriesSave").prop("disabled",false);
+        $("#btnMeetinSeriesEditCancel").prop("disabled",false);
         tmpl.find("#id_meetingproject").value = this.project;
         tmpl.find("#id_meetingname").value = this.name;
 
@@ -105,6 +107,10 @@ Template.meetingSeriesEdit.events({
 
     "click #btnMeetingSeriesSave": function (evt, tmpl) {
         evt.preventDefault();
+        let saveButton = $("#btnMeetingSeriesSave");
+        let cancelButton = $("btnMeetinSeriesEditCancel");
+        saveButton.prop("disabled",true);
+        cancelButton.prop("disabled",true);
 
         var aProject = tmpl.find("#id_meetingproject").value;
         var aName = tmpl.find("#id_meetingname").value;
@@ -144,6 +150,8 @@ Template.meetingSeriesEdit.events({
         ms.save();
 
         // Hide modal dialog
+        saveButton.prop("disabled",false);
+        cancelButton.prop("disabled",false);
         $('#dlgEditMeetingSeries').modal('hide');
     }
 });
