@@ -59,9 +59,9 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(3);
     });
 
-    it('shows security question before deleting a topic', function() {
+    it('shows security question before deleting a topic @watch', function() {
         E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.deleteTopic(1, /*auto-confirm-dialog*/false);
+        E2ETopics.deleteTopic(1);
 
         let selectorDialog = "#confirmDialog";
 
@@ -78,7 +78,25 @@ describe('Topics', function () {
     });
 
 
-    it('multiple topics are added with latest topic at the top', function () {
+    it('can delete a topic @watch', function () {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.addTopicToMinutes('yet another topic');
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+        E2ETopics.deleteTopic(1, true);
+        expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+    });
+
+
+    it('can cancel a "delete topic" @watch', function () {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.addTopicToMinutes('yet another topic');
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+        E2ETopics.deleteTopic(1, false);
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+    });
+
+
+    it('multiple topics are added with latest topic at the top @watch', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');

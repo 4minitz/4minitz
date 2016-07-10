@@ -77,14 +77,14 @@ describe('Info Items', function () {
         expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
     });
 
-    it('shows security question before deleting info items', function () {
+    it('shows security question before deleting info items @watch', function () {
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
             subject: infoItemName,
             itemType: "infoItem"
         }, 1);
 
-        E2ETopics.deleteInfoItem(1, 1, /*auto confirm*/false);
+        E2ETopics.deleteInfoItem(1, 1);
 
         let selectorDialog = "#confirmDialog";
 
@@ -100,6 +100,42 @@ describe('Info Items', function () {
         // close dialog otherwise beforeEach-hook will fail!
         E2EApp.confirmationDialogAnswer(false);
     });
+
+    it('can delete an info item @watch', function () {
+        let topicIndex = 1;
+        const infoItemName = getNewAIName();
+        E2ETopics.addInfoItemToTopic({
+            subject: infoItemName,
+            itemType: "infoItem"
+        }, topicIndex);
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
+
+        E2ETopics.deleteInfoItem(1, 1, true);
+        expect(browser.isVisible(selector), "Info item should be deleted").to.be.false;
+    });
+
+
+    it('can cancel a "delete info item" @watch', function () {
+        let topicIndex = 1;
+        const infoItemName = getNewAIName();
+        E2ETopics.addInfoItemToTopic({
+            subject: infoItemName,
+            itemType: "infoItem"
+        }, topicIndex);
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
+
+        E2ETopics.deleteInfoItem(1, 1, false);
+        expect(browser.isVisible(selector), "Info item should still exist").to.be.true;
+    });
+
 
     it('can submit an info item by pressing enter in the topic field', function () {
         let topicIndex = 1;

@@ -30,9 +30,10 @@ export class E2ETopics {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
         browser.waitForVisible(selector);
         browser.click(selector);
-        if (confirmDialog === undefined || confirmDialog) {
-            E2EApp.confirmationDialogAnswer(true);
+        if (confirmDialog === undefined) {
+            return;
         }
+        E2EApp.confirmationDialogAnswer(confirmDialog);
     }
 
     static responsible2ItemEnterFreetext(theText) {
@@ -124,9 +125,10 @@ export class E2ETopics {
         let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnDelInfoItem";
         browser.waitForVisible(selector);
         browser.click(selector);
-        if (confirmDialog === undefined || confirmDialog) {
-            E2EApp.confirmationDialogAnswer(true);
-        }
+        if (confirmDialog === undefined) {
+            return;
+        } 
+        E2EApp.confirmationDialogAnswer(confirmDialog);
     }
 
     static insertInfoItemDataIntoDialog(infoItemDoc, isEditMode) {
@@ -135,7 +137,7 @@ export class E2ETopics {
         } catch (e) {
             return false;
         }
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(500);
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
 
