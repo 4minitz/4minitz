@@ -77,7 +77,7 @@ describe('Info Items', function () {
         expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
     });
 
-    it('shows security question before deleting info items @watch', function () {
+    it('shows security question before deleting info items', function () {
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
             subject: infoItemName,
@@ -101,7 +101,7 @@ describe('Info Items', function () {
         E2EApp.confirmationDialogAnswer(false);
     });
 
-    it('can delete an info item @watch', function () {
+    it('can delete an info item', function () {
         let topicIndex = 1;
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
@@ -119,7 +119,7 @@ describe('Info Items', function () {
     });
 
 
-    it('can cancel a "delete info item" @watch', function () {
+    it('can cancel a "delete info item"', function () {
         let topicIndex = 1;
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
