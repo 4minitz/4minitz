@@ -53,11 +53,17 @@ Template.topicElement.helpers({
     },
 
     responsiblesHelper() {
-        let parentElement = (this.minutesID) ? this.minutesID : this.parentMeetingSeriesId;
+        try {
+            let parentElement = (this.minutesID) ? this.minutesID : this.parentMeetingSeriesId;
 
-        let aTopic = new Topic(parentElement, this.topic._id);
-        if (aTopic.hasResponsibles()) {
-            return "("+aTopic.getResponsiblesString()+")";
+            let aTopic = new Topic(parentElement, this.topic._id);
+            if (aTopic.hasResponsibles()) {
+                return "("+aTopic.getResponsiblesString()+")";
+            }
+        } catch (e) {
+            // intentionally left blank.
+            // on deletion of a topic blaze once calls this method on the just deleted topic
+            // we handle this gracefully with this empty exception handler
         }
         return "";
     }
