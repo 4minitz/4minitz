@@ -59,7 +59,7 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(3);
     });
 
-    it('shows security question before deleting a topic @watch', function() {
+    it('shows security question before deleting a topic', function() {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.deleteTopic(1);
 
@@ -78,7 +78,7 @@ describe('Topics', function () {
     });
 
 
-    it('can delete a topic @watch', function () {
+    it('can delete a topic', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('yet another topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
@@ -87,7 +87,7 @@ describe('Topics', function () {
     });
 
 
-    it('can cancel a "delete topic" @watch', function () {
+    it('can cancel a "delete topic"', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('yet another topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
@@ -96,7 +96,7 @@ describe('Topics', function () {
     });
 
 
-    it('multiple topics are added with latest topic at the top @watch', function () {
+    it('multiple topics are added with latest topic at the top', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');

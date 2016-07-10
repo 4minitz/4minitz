@@ -396,6 +396,24 @@ export class MeetingSeries {
         return [];
     }
 
+    /**
+     * Add a new (free-text) responsible to the meeting series.
+     * New entry will be pushed to front, existing double will be removed
+     * Needs a "save()" afterwards to persist
+     * @param {String} newResponsible
+     */
+    addAdditionalResponsible(newResponsible) {
+        // remove newResponsible if already present
+        var index = this.additionalResponsibles.indexOf(newResponsible);
+        if (index !== -1) {
+            this.additionalResponsibles.splice(index, 1);
+        }
+
+        // put newResponsible to front of array
+        this.additionalResponsibles.unshift(newResponsible);
+    }
+
+
     // ################### private methods
     /**
      * Copies the topics from the given
