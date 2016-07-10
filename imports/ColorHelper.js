@@ -24,4 +24,8 @@ export class ColorHelper {
         return (o < 125);
     }
 
+    static isValidHexColorString(hexString) {
+        return (null !== ColorHelper.hex2rgb(hexString));
+    }
+
 }
