@@ -255,40 +255,65 @@ export class Minutes {
 
 
     /**
-     * Add users of .visibleFor that are not yet in .participants to .participants
-     * So, this method can be called multiple times to refresh the .participants array.
-     * This method never removes users from the .participants list!
-     * Trows an exception if this minutes are finalized
+     * Sync all users of .visibleFor into .participants
+     * This method adds and removes users from the .participants list.
+     * But it does not change attributes (e.g. .present) of untouched users
+     * Throws an exception if this minutes are finalized
      * @param saveToDB internal saving can be skipped
      */
     async refreshParticipants (saveToDB) {
         if (this.isFinalized) {
             throw new Error("updateParticipants () must not be called on finalized minutes");
         }
+        let changed = false;
 
+        // ********************** PHASE-1
+        // Add new, not-yet known entries from .visibleFor to .participants
         // construct lookup dict
-        let participantKnown = {};
         if (!this.participants) {
             this.participants = [];
         }
+        let participantDict = {};
         this.participants.forEach(participant => {
-            participantKnown[participant.userId] = true;
+            participantDict[participant.userId] = true;
         });
 
-        // add unknown entries from .visibleFor
         this.visibleFor.forEach(userId => {
-            if (!participantKnown[userId]) {
+            if (!participantDict[userId]) {
                 this.participants.push({
                     userId: userId,
                     present: false,
                     minuteKeeper: false
                 });
+                changed = true;
             }
         });
 
-        // did we add anything?
-        if (saveToDB && this.participants.length > Object.keys(participantKnown).length) {
-            return this.update({participants: this.participants}); // update only participants array!
+        // ********************** PHASE-2
+        // Remove entries from .participants that are not in .visibleFor anymore
+        // construct lookup dict
+        if (!this.visibleFor) {
+            this.visibleFor = [];
+        }
+        let visibleForDict = {};
+        this.visibleFor.forEach(visUserId => {
+            visibleForDict[visUserId] = true;
+        });
+
+        let newParticipants = [];
+        this.participants.forEach(participant => {
+            if (visibleForDict[participant.userId]) {
+                newParticipants.push(participant);
+            } else {
+                // here a former participant is removed
+                changed = true;
+            }
+        });
+
+        // only save if desired and we did change something
+        if (saveToDB && changed) {
+            console.log("Saving!");
+            return this.update({participants: newParticipants}); // update only participants array!
         }
     }
 
