@@ -13,7 +13,8 @@
                     <form id="form-label-{{_id}}" class="label-form">
                         <span class="label view-display" style="background-color: {{color}}; color: {{fontColor}}; font-size: 110%;">{{name}}</span>
                         <span class="view-edit controls form-inline" style="display: none;">
-                            <input class="form-control evt-submit-enter" name="labelName" type="text" required value="{{name}}">
+                            <input class="form-control evt-submit-enter" name="labelName" type="text" required
+                                   data-error-msg='Please enter a valid label name' value="{{name}}">
                             <input class="form-control evt-submit-enter label-color-field" name="labelColor" type="text" value="{{color}}">
                             <input style="display: none;" type="submit" value="submit">
                         </span>
