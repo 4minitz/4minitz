@@ -82,6 +82,7 @@ describe('MeetingSeries', function () {
 
         expect(browser.getUrl(), "add&invite should go to the invite-route").to.have.string('meetingseries/invite');
 
+        E2EGlobal.waitSomeTime();
         expect(browser.waitForVisible('#dlgEditMeetingSeries')).to.be.true;
 
         browser.click('#btnMeetinSeriesEditCancel');
