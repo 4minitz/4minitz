@@ -10,11 +10,14 @@
             {{#each getLabels}}
                 <tr id="row-label-{{_id}}">
                     <td id="col-label-{{_id}}">
+                    <form id="form-label-{{_id}}" class="label-form">
                         <span class="label view-display" style="background-color: {{color}}; color: {{fontColor}}; font-size: 110%;">{{name}}</span>
                         <span class="view-edit controls form-inline" style="display: none;">
-                            <input class="form-control evt-submit-enter" name="labelName" type="text" value="{{name}}">
-                            <input class="form-control evt-submit-enter" name="labelColor" type="text" value="{{color}}">
+                            <input class="form-control evt-submit-enter" name="labelName" type="text" required value="{{name}}">
+                            <input class="form-control evt-submit-enter label-color-field" name="labelColor" type="text" value="{{color}}">
+                            <input style="display: none;" type="submit" value="submit">
                         </span>
+                    </form>
                     </td>
                     <td class="text-right">
                         <span class="view-display">
@@ -22,8 +25,8 @@
                             &nbsp;
                             <a href="#" class="evt-btn-delete-label">Delete</a>
                         </span>
-                        <span class="view-edit evt-btn-edit-cancel" style="display: none">
-                            <button class="btn btn-default btn-raised">
+                        <span class="view-edit" style="display: none">
+                            <button class="btn btn-default btn-raised evt-btn-edit-cancel">
                                 Cancel
                             </button>
                             <button class="btn btn-success btn-raised evt-btn-edit-save">

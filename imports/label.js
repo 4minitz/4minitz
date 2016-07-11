@@ -21,6 +21,8 @@ export class Label {
         }
 
         this._labelDoc = source;
+
+        this._checkLabelColor();
     }
 
     static _separateNameAndColor(nameAndColorStr) {
@@ -99,6 +101,12 @@ export class Label {
 
         parentMeetingSeries.upsertLabel(this._labelDoc);
         parentMeetingSeries.save();
+    }
+
+    _checkLabelColor() {
+        if (!ColorHelper.isValidHexColorString(this.getColor())) {
+            throw new Meteor.Error('invalid-color', 'Label color must be a valid hex code');
+        }
     }
 
 }

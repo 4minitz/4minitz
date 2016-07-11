@@ -1,9 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 
+import { addCustomValidator } from '../../helpers/customFieldValidator'
+
 import { MeetingSeries } from '/imports/meetingseries'
 import { Label } from '/imports/label'
 
+import { ColorHelper } from '/imports/ColorHelper'
 
+Template.meetingSeriesSettingsLabels.onRendered(function () {
+    addCustomValidator(
+        "[name='labelColor']",
+        (value) => { return ColorHelper.isValidHexColorString(value) },
+        'Invalid hex color value');
+});
 
 Template.meetingSeriesSettingsLabels.helpers({
     count: function (labels) {
@@ -20,6 +29,13 @@ Template.meetingSeriesSettingsLabels.helpers({
         });
     }
 });
+
+function submitLabelForm(tmpl, context) {
+    let labelId = context._id;
+    // Unfortunately the form.submit()-function does not trigger the
+    // validation process
+    tmpl.$('#form-label-' + labelId).find(':submit').click();
+}
 
 function saveLabel(tmpl, context) {
     let labelId = context._id;
@@ -60,11 +76,9 @@ Template.meetingSeriesSettingsLabels.events({
         row.find('.view-edit').hide();
     },
 
-    'keypress .evt-submit-enter'(evt, tmpl) {
-        if (event.which === 13/*enter*/) {
-            evt.preventDefault();
-            saveLabel(tmpl, this);
-        }
+    'submit .label-form': function(evt, tmpl) {
+        evt.preventDefault();
+        saveLabel(tmpl, this);
     },
 
     'keyup .evt-submit-enter'(evt, tmpl) {
@@ -77,9 +91,16 @@ Template.meetingSeriesSettingsLabels.events({
         }
     },
 
+    'keyup .label-color-field'(evt) {
+        let field = evt.currentTarget;
+        if (field.value === '') {
+            field.value = '#';
+        }
+    },
+
     'click .evt-btn-edit-save': function(evt, tmpl) {
         evt.preventDefault();
-        saveLabel(tmpl, this);
+        submitLabelForm(tmpl, this);
     },
 
     'click .evt-btn-delete-label': function(evt, tmpl) {
