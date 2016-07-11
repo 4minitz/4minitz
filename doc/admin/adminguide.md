@@ -1,4 +1,4 @@
-# 4minitz Admin Guide
+# 4Minitz Admin Guide
 
 ## Setup
 
@@ -8,7 +8,7 @@
 
     curl https://install.meteor.com/ | sh
 
-### Installation of 4minitz    
+### Installation of 4Minitz    
 
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git
