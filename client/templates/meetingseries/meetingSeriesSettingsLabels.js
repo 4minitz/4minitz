@@ -9,14 +9,23 @@ import { ColorHelper } from '/imports/ColorHelper'
 
 Template.meetingSeriesSettingsLabels.onRendered(function () {
     addCustomValidator(
-        "[name='labelColor']",
+        ".label-color-field",
         (value) => { return ColorHelper.isValidHexColorString(value) },
         'Invalid hex color value');
+
+    Meteor.setTimeout(function() {
+        $('.pick-a-color').pickAColor();
+        $('.hex-pound').hide();
+    }, 50);
 });
 
 Template.meetingSeriesSettingsLabels.helpers({
     count: function (labels) {
         return labels.length;
+    },
+
+    getColorNum: function() {
+        return this.color.substr(1);
     },
 
     getLabels: function () {
@@ -44,7 +53,11 @@ function saveLabel(tmpl, context) {
     row.find('.view-edit').hide();
 
     let labelName = row.find("[name='labelName']").val();
-    let labelColor = row.find("[name='labelColor']").val();
+    let labelColor = row.find("[name='labelColor-" + labelId + "']").val();
+
+    if (labelColor.substr(0, 1) !== '#') {
+        labelColor = '#' + labelColor;
+    }
 
     let labelDoc = {
         _id: labelId,
@@ -90,14 +103,14 @@ Template.meetingSeriesSettingsLabels.events({
             row.find('.view-edit').hide();
         }
     },
-
+/*
     'keyup .label-color-field'(evt) {
         let field = evt.currentTarget;
         if (field.value === '') {
             field.value = '#';
         }
     },
-
+*/
     'click .evt-btn-edit-save': function(evt, tmpl) {
         evt.preventDefault();
         submitLabelForm(tmpl, this);

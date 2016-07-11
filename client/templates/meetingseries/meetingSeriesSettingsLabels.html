@@ -15,7 +15,9 @@
                         <span class="view-edit controls form-inline" style="display: none;">
                             <input class="form-control evt-submit-enter" name="labelName" type="text" required
                                    data-error-msg='Please enter a valid label name' value="{{name}}">
-                            <input class="form-control evt-submit-enter label-color-field" name="labelColor" type="text" value="{{color}}">
+                            <div class="input-group-btn">
+                            <input class="form-control evt-submit-enter label-color-field pick-a-color" style="margin-bottom: -40px;" name="labelColor-{{_id}}" type="text" value="{{getColorNum}}">
+                            </div>
                             <input style="display: none;" type="submit" value="submit">
                         </span>
                     </form>
