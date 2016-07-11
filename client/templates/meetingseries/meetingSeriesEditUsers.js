@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
+import { addCustomValidator } from '../../helpers/customFieldValidator'
+
 import { UserRoles } from '/imports/userroles'
-import { userlistClean, addNewUser } from './meetingSeriesEditUsersHelpers'
+import { userlistClean, addNewUser, checkUserName } from './meetingSeriesEditUsersHelpers'
 
 var _config;    // of type: UsersEditConfig
 
@@ -21,6 +23,13 @@ Template.meetingSeriesEditUsers.onCreated(function() {
 
 Template.meetingSeriesEditUsers.onRendered(function() {
     Meteor.typeahead.inject();
+
+    addCustomValidator('#edt_AddUser', (value) => {
+        if (value === '') {
+            return false;
+        }
+        return checkUserName(value, _config);
+    }, '')
 });
 
 

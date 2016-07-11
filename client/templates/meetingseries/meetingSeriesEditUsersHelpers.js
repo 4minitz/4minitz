@@ -23,6 +23,26 @@ export var userlistClean = function (allUsers,substractUsers) {
     return resultUsers;
 };
 
+export function checkUserName(newUserName, config) {
+    let addedUser = Meteor.users.findOne({"username": newUserName});
+    let result = {
+        addedUser: addedUser,
+        valid: false,
+        errorMsg: ''
+    };
+    if (!addedUser) {
+        result.errorMsg = "This is not a registered user name";
+        return result;
+    }
+    let alreadyInEditor = config.users.findOne({"username": newUserName});
+    if (alreadyInEditor) {
+        result.errorMsg = "This user name is already in list";
+        return result
+    }
+
+    result.valid = true;
+    return result;
+}
 
 /**
  * Add a username from the global Meteor.users collection
@@ -39,20 +59,12 @@ export var addNewUser = function (newUserName, config) {
         return;
     }
 
-    let addedUser = Meteor.users.findOne({"username": newUserName});
-    if (!addedUser) {
-        let msg = "Error: This is not a registered user name: "+newUserName;
-        console.log(msg);
-        window.alert(msg);
-        return;
+    let checkResult = checkUserName(newUserName, config);
+    if (!checkResult.valid) {
+        console.log(checkResult.errorMsg);
+        window.alert(checkResult.errorMsg);
     }
-    let alreadyInEditor = config.users.findOne({"username": newUserName});
-    if (alreadyInEditor) {
-        let msg = "Error: user name already in list: "+newUserName;
-        console.log(msg);
-        window.alert(msg);
-        return;
-    }
+    let addedUser = checkResult.addedUser;
 
     // prepare added user for client-side tmp. collection
     addedUser._idOrg = addedUser._id;
