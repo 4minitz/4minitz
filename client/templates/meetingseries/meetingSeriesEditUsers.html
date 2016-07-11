@@ -36,6 +36,7 @@
         </table>
 
         <!--Use TypeAhead.js for insertion of new users-->
+        <form id="form-add-user">
         <div class="form-group">
             <input class="form-control typeahead"
                    id ="edt_AddUser"
@@ -45,5 +46,7 @@
                    autocomplete="off"
                    data-source="userListClean"/>
         </div>
+            <input style="display: none;" type="submit" value="submit">
+        </form>
     </div>
 </template>

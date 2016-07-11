@@ -14,10 +14,12 @@
                     <form id="frmDlgEditMeetingSeries">
                         <div class="{{useClassWell}}">
                                 <label class="control-label" for="id_meetingproject">Project Name</label>
-                                <input class="form-control" id="id_meetingproject" type="text" value="{{this.project}}" autocomplete="off">
+                                <input class="form-control" id="id_meetingproject" type="text" value="{{this.project}}" required
+                                       data-error-msg="Please enter a valid project name" autocomplete="off">
 
                                 <label class="control-label" for="id_meetingname">Meeting Name</label>
-                                <input class="form-control" id="id_meetingname" type="text" value="{{this.name}}" autocomplete="off">
+                                <input class="form-control" id="id_meetingname" type="text" value="{{this.name}}" required
+                                       data-error-msg="Please enter a valid name for the meeting series" autocomplete="off">
 
                                 <a href="#" class="evt-toggle-editor" data-action="userEditor">Edit Users</a>
                                 <div id="userEditor" class="editor">{{>meetingSeriesEditUsers userEditConfig}}</div>
@@ -33,6 +35,8 @@
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             Delete Meeting Series
                         </a>
+                        {{!-- hidden submit button required for form-validation --}}
+                        <input style="display: none" type="submit" value="submit">
                     </form>
 
                 </div>

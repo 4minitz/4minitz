@@ -28,6 +28,20 @@ import 'bootstrap-material-design';
 import 'bootstrap-material-design/dist/js/material';
 import 'bootstrap-material-design/dist/js/ripples';
 
+$(document).arrive('input', {
+    onceOnly: false
+}, function () {
+    let invalidMsg = $(this).attr('data-error-msg');
+    if(invalidMsg) {
+        $(this).on('invalid', function() {
+            this.setCustomValidity(invalidMsg);
+        });
+        $(this).on('input', function() {
+            this.setCustomValidity('');
+        });
+    }
+});
+
 // as soon as the document is loaded initialize material design
 $(document).ready(() => {
     $.material.init();

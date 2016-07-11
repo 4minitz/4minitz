@@ -104,8 +104,7 @@ Template.meetingSeriesEdit.events({
         tmpl.find("#id_meetingproject").focus();
     },
 
-
-    "click #btnMeetingSeriesSave": function (evt, tmpl) {
+    "submit #frmDlgEditMeetingSeries": function(evt, tmpl) {
         evt.preventDefault();
         let saveButton = $("#btnMeetingSeriesSave");
         let cancelButton = $("btnMeetinSeriesEditCancel");
@@ -114,22 +113,6 @@ Template.meetingSeriesEdit.events({
 
         var aProject = tmpl.find("#id_meetingproject").value;
         var aName = tmpl.find("#id_meetingname").value;
-
-        // validate form and show errors
-        let projectNode = tmpl.$("#id_meetingproject");
-        let nameNode = tmpl.$("#id_meetingname");
-        projectNode.parent().removeClass("has-error");
-        nameNode.parent().removeClass("has-error");
-        if (aProject == "") {
-            projectNode.parent().addClass("has-error");
-            projectNode.focus();
-            return;
-        }
-        if (aName == "") {
-            nameNode.parent().addClass("has-error");
-            nameNode.focus();
-            return;
-        }
 
         let usersWithRoles = Template.instance().userEditConfig.users.find().fetch();
         let allVisiblesArray = [];
@@ -153,5 +136,13 @@ Template.meetingSeriesEdit.events({
         saveButton.prop("disabled",false);
         cancelButton.prop("disabled",false);
         $('#dlgEditMeetingSeries').modal('hide');
+    },
+
+
+    "click #btnMeetingSeriesSave": function (evt, tmpl) {
+        evt.preventDefault();
+        // Unfortunately the form.submit()-function does not trigger the
+        // validation process
+        tmpl.$('#frmDlgEditMeetingSeries').find(':submit').click();
     }
 });

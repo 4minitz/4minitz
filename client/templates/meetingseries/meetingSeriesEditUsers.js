@@ -98,18 +98,23 @@ Template.meetingSeriesEditUsers.events({
         _config.users.update(this._userId, {$set: {roles: changedUser.roles}});
     },
 
+    'submit #form-add-user': function(evt, tmpl) {
+        evt.preventDefault();
+        let newUserName = tmpl.find("#edt_AddUser").value;
+        addNewUser(newUserName, _config);
+
+        $('.typeahead')
+            .typeahead('val', "")
+            .typeahead('close');
+    },
+
 
     'keyup #edt_AddUser': function(evt, tmpl) {
         if (evt.which === 13) {     // 'ENTER' on username <input>
             evt.stopPropagation();
             evt.preventDefault();
 
-            let newUserName = tmpl.find("#edt_AddUser").value;
-            addNewUser(newUserName, _config);
-
-            $('.typeahead')
-                .typeahead('val', "")
-                .typeahead('close');
+            tmpl.$('#form-add-user').find(':submit').click();
 
             return false;
         }
