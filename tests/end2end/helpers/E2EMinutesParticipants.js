@@ -68,7 +68,11 @@ export class E2EMinutesParticipants {
         E2EMinutesParticipants.expand();
 
         this._participantsAndPresence = {};
-        this._participantsAndPresence["##additional participants##"] = browser.getValue('#edtParticipantsAdditional');
+        try {
+            this._participantsAndPresence["##additional participants##"] = browser.getValue('#edtParticipantsAdditional');
+        } catch(e) {
+            this._participantsAndPresence["##additional participants##"] = "";
+        }
 
         const participants = browser.elements('#id_participant #id_username');
         const presence = browser.elements('input#btnTogglePresent');
