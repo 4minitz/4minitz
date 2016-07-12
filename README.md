@@ -12,7 +12,7 @@
 * Full privacy: Host your own server - it's easy!
 
 **Important: 4Minitz is currently WIP and not yet ready for mission critical usage. 
-Nevertheless, quite a few featrues are working stable already and you can head over to our
+Nevertheless, quite a few features are working stable already and you can head over to our
 [4Minitz Demo Server](https://www.4minitz.de) and and play around or install the current 
 version on your own server (see below)** 
 
