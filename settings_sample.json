@@ -2,7 +2,7 @@
     "//1": "below option ensures that embedded links in E-Mails point back to your server",
     "ROOT_URL": "http://www.your-domain.com",
 
-    "//2": ["below option switches off some privacy settings in trusted envirionments",
+    "//2": ["below option switches off some privacy settings in trusted environments",
                 "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
                 "false: will send separate finalize mails to all participants and keep their privacy"],
     "trustedIntranetInstallation": false,
@@ -38,5 +38,10 @@
         { "name": "Issue",          "color": "#cc66ff"},
         { "name": "Proposal",       "color": "#ffff66"},
         { "name": "Draft",          "color": "#ffff66"}
-    ]
+    ],
+
+    "//5": "configure mongodb",
+    "db": {
+        "mongodumpTargetDirectory": ""
+    }
 }

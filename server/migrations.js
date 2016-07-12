@@ -1,8 +1,8 @@
 import { Migrations } from 'meteor/percolate:migrations';
 import { backupMongo } from './mongoBackup';
+import { Meteor} from 'meteor/meteor';
 
 import moment from 'moment/moment';
-import os from 'os';
 import path from 'path';
 
 import { MigrateV1 } from './migrate_v1'
@@ -39,8 +39,14 @@ export const handleMigration = function () {
         currentVersion = Migrations.getVersion();
 
     if (currentVersion < latestVersion) {
-        let backupPath = path.join(os.tmpDir(), 'mongobackup_' + moment().format('YYYY-MM-DD'));
-        backupMongo(process.env.MONGO_URL, backupPath);
+        let basePath = Meteor.settings.db.mongodumpTargetDirectory;
+
+        if (basePath !== '') {
+            let backupPath = path.join(basePath, 'mongobackup_' + moment().format('YYYY-MM-DD'));
+            backupMongo(process.env.MONGO_URL, backupPath);
+        } else {
+            console.warn('db.mongodumpTargetDirectory is not configured. Omitting database dump!');
+        }
 
         Migrations.migrateTo('latest');
     }

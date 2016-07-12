@@ -17,14 +17,20 @@ let Migrations = {
     migrateTo: sinon.spy(),
     add: doNothing
 };
+let Meteor = {
+    settings: {
+        db: {
+            mongodumpTargetDirectory: 'outputdir'
+        }
+    }
+};
 let backupMongo = sinon.spy();
-let tmpDir = sinon.stub();
 let join = sinon.stub().returns('outputdir');
 
 const { handleMigration } = proxyquire('../../../server/migrations', {
     'meteor/percolate:migrations': { Migrations, '@noCallThru': true},
     'moment/moment': moment,
-    'os': { tmpDir, '@noCallThru': true},
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     'path': { join, '@noCallThru': true},
     './mongoBackup': { backupMongo, '@noCallThru': true}
 });
@@ -32,10 +38,16 @@ const { handleMigration } = proxyquire('../../../server/migrations', {
 describe('Migrations', function () {
     describe('#handleMigration', function () {
         beforeEach(function () {
+            sinon.spy(console, 'warn');
+
             Migrations._list = [];
 
             backupMongo.reset();
             Migrations.migrateTo.reset();
+        });
+
+        afterEach(function () {
+            console.warn.restore();
         });
 
         it('creates a backup for the mongodb if a migration is due', function () {
@@ -44,6 +56,15 @@ describe('Migrations', function () {
             handleMigration();
 
             expect(backupMongo.calledOnce).to.equal(true);
+        });
+
+        it('omits the creation of a backup if no target directory is set', function () {
+            Meteor.settings.db.mongodumpTargetDirectory = '';
+            Migrations._list.push({version: 1});
+
+            handleMigration();
+
+            expect(console.warn.calledOnce).to.equal(true);
         });
 
         it('migrates to the newest version if one is due', function () {
