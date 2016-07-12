@@ -43,5 +43,10 @@
 
     "email": {
         "enableMailDelivery": false
+    },
+
+    "db": {
+        "mongodumpTargetDirectory": ""
     }
+
 }

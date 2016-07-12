@@ -39,7 +39,7 @@ export const handleMigration = function () {
         currentVersion = Migrations.getVersion();
 
     if (currentVersion < latestVersion) {
-        let basePath = Meteor.settings.db.mongodumpTargetDirectory;
+        let basePath = Meteor.settings && Meteor.settings.db && Meteor.settings.db.mongodumpTargetDirectory || '';
 
         if (basePath !== '') {
             let backupPath = path.join(basePath, 'mongobackup_' + moment().format('YYYY-MM-DD'));

@@ -17,13 +17,7 @@ let Migrations = {
     migrateTo: sinon.spy(),
     add: doNothing
 };
-let Meteor = {
-    settings: {
-        db: {
-            mongodumpTargetDirectory: 'outputdir'
-        }
-    }
-};
+let Meteor = {};
 let backupMongo = sinon.spy();
 let join = sinon.stub().returns('outputdir');
 
@@ -41,6 +35,12 @@ describe('Migrations', function () {
             sinon.spy(console, 'warn');
 
             Migrations._list = [];
+
+            Meteor.settings = {
+                db: {
+                    mongodumpTargetDirectory: 'outputdir'
+                }
+            };
 
             backupMongo.reset();
             Migrations.migrateTo.reset();
@@ -60,6 +60,24 @@ describe('Migrations', function () {
 
         it('omits the creation of a backup if no target directory is set', function () {
             Meteor.settings.db.mongodumpTargetDirectory = '';
+            Migrations._list.push({version: 1});
+
+            handleMigration();
+
+            expect(console.warn.calledOnce).to.equal(true);
+        });
+
+        it('no settings defined will issue a warning about missing the target dir config', function () {
+            Meteor.settings = undefined;
+            Migrations._list.push({version: 1});
+
+            handleMigration();
+
+            expect(console.warn.calledOnce).to.equal(true);
+        });
+
+        it('no db settings defined will issue a warning about missing the target dir config', function () {
+            Meteor.settings.db = undefined;
             Migrations._list.push({version: 1});
 
             handleMigration();
