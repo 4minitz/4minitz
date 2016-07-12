@@ -4,6 +4,13 @@ import sinon from 'sinon';
 
 let doNothing = () => {};
 
+let moment = function () {
+    return {
+        format: sinon.stub()
+    };
+};
+moment['@noCallThru'] = true;
+
 let Migrations = {
     getVersion: sinon.stub().returns(0),
     _list: [],
@@ -11,9 +18,14 @@ let Migrations = {
     add: doNothing
 };
 let backupMongo = sinon.spy();
+let tmpDir = sinon.stub();
+let join = sinon.stub().returns('outputdir');
 
 const { handleMigration } = proxyquire('../../../server/migrations', {
     'meteor/percolate:migrations': { Migrations, '@noCallThru': true},
+    'moment/moment': moment,
+    'os': { tmpDir, '@noCallThru': true},
+    'path': { join, '@noCallThru': true},
     './mongoBackup': { backupMongo, '@noCallThru': true}
 });
 

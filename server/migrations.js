@@ -1,6 +1,10 @@
 import { Migrations } from 'meteor/percolate:migrations';
 import { backupMongo } from './mongoBackup';
 
+import moment from 'moment/moment';
+import os from 'os';
+import path from 'path';
+
 import { MigrateV1 } from './migrate_v1'
 import { MigrateV2 } from './migrate_v2'
 import { MigrateV3 } from './migrate_v3'
@@ -35,7 +39,9 @@ export const handleMigration = function () {
         currentVersion = Migrations.getVersion();
 
     if (currentVersion < latestVersion) {
-        backupMongo(process.env.MONGO_URL);
+        let backupPath = path.join(os.tmpDir(), 'mongobackup_' + moment().format('YYYY-MM-DD'));
+        backupMongo(process.env.MONGO_URL, backupPath);
+
         Migrations.migrateTo('latest');
     }
 };

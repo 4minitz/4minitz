@@ -1,8 +1,5 @@
-import moment from 'moment/moment';
 import Future from 'fibers/future';
 import { spawn } from 'child_process';
-import os from 'os';
-import path from 'path';
 import mongoUri from 'mongo-uri';
 
 function dumpParameters(uri, path) {
@@ -32,7 +29,9 @@ function dumpParameters(uri, path) {
     return params;
 }
 
-function invokeDump(path, mongoUrl) {
+export var backupMongo = function (mongoUrl, path) {
+    console.log('Backing up mongodb', mongoUrl, 'to', path);
+
     let uri = mongoUri.parse(mongoUrl);
     let parameters = dumpParameters(uri, path);
     const command = 'mongodump';
@@ -47,11 +46,4 @@ function invokeDump(path, mongoUrl) {
     });
 
     return future.wait();
-}
-
-export var backupMongo = function (mongoUrl) {
-    let backupPath = path.join(os.tmpDir(), 'mongobackup_' + moment().format('YYYY-MM-DD'));
-    console.log('Backing up mongodb', mongoUrl, 'to', backupPath);
-
-    invokeDump(backupPath, mongoUrl);
 };
