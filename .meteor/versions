@@ -82,6 +82,7 @@ npm-bcrypt@0.8.6_2
 npm-mongo@1.4.45
 observe-sequence@1.0.12
 ordered-dict@1.0.8
+perak:markdown@1.0.5
 percolate:migrations@0.9.8
 practicalmeteor:chai@2.1.0_1
 practicalmeteor:loglevel@1.2.0_2
