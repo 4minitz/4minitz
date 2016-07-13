@@ -48,7 +48,7 @@ Template.meetingSeriesEdit.events({
 
     "click .evt-toggle-editor": function(evt, tmpl) {
         evt.preventDefault();
-        let action = $(event.target).data('action');
+        let action = $(evt.target).data('action');
         tmpl.$('.editor').hide();
         tmpl.$('#' + action).show();
     },

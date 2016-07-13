@@ -8,15 +8,15 @@ import { Label } from '/imports/label'
 import { ColorHelper } from '/imports/ColorHelper'
 
 Template.meetingSeriesSettingsLabels.onRendered(function () {
-    addCustomValidator(
-        ".label-color-field",
-        (value) => { return ColorHelper.isValidHexColorString(value) },
-        'Invalid hex color value');
-
     Meteor.setTimeout(function() {
         $('.pick-a-color').pickAColor();
         $('.hex-pound').hide();
     }, 50);
+
+    addCustomValidator(
+        ".label-color-field",
+        (value) => { return ColorHelper.isValidHexColorString(value) },
+        'Invalid hex color value');
 });
 
 Template.meetingSeriesSettingsLabels.helpers({
@@ -106,7 +106,7 @@ Template.meetingSeriesSettingsLabels.events({
 
     'keyup .evt-submit-enter'(evt, tmpl) {
         // escape key will not be handled in keypress callback...
-        if (event.which === 27/*escape*/) {
+        if (evt.which === 27/*escape*/) {
             let labelId = this._id;
             let row = tmpl.$('#row-label-' + labelId);
             row.find('.view-display').show();

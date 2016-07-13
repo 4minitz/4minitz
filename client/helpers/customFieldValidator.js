@@ -1,6 +1,6 @@
 
 export function addCustomValidator(inputFieldSelector, validate, errorMsg = "", event = 'keyup') {
-    document.querySelectorAll(inputFieldSelector).forEach((element) => {
+    Array.from(document.querySelectorAll(inputFieldSelector)).forEach((element) => {
         element.addEventListener(event, function() {
             let result = validate(this.value);
 
