@@ -174,6 +174,7 @@ Template.topicInfoItem.events({
         let detailId = evt.currentTarget.getAttribute('data-id');
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
+        let markdownHintEl = tmpl.$('#detailInputMarkdownHint_' + detailId);
 
         if (inputEl.val() !== "") {
             return;
@@ -181,6 +182,8 @@ Template.topicInfoItem.events({
 
         textEl.hide();
         inputEl.show();
+        markdownHintEl.show();
+        
         inputEl.val(textEl.attr('data-text'));
         inputEl.parent().css('margin', '0 0 25px 0');
         inputEl.focus();
@@ -213,6 +216,8 @@ Template.topicInfoItem.events({
         let detailId = evt.currentTarget.getAttribute('data-id');
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
+        let markdownHintEl = tmpl.$('#detailInputMarkdownHint_' + detailId);
+
 
         let text = inputEl.val();
 
@@ -229,6 +234,8 @@ Template.topicInfoItem.events({
 
         inputEl.val("");
         inputEl.hide();
+        markdownHintEl.hide();
+
         textEl.show();
 
         if (detailsCount === 0) {
@@ -265,6 +272,50 @@ Template.topicInfoItem.events({
     },
     "show.bs.collapse"(evt, tmpl) {
         tmpl.isTopicCollapsed.set(false);
-    }
+    },
 
+    // Important! We have to use "mousedown" instead of "click" here.
+    // Otherwise the detailsEdit textarea will loose focus and trigger
+    // its blur-event which in turn makes the markdownhint icon invisible
+    // which in turn swallow the click event - and nothing happens on click.
+    "mousedown .detailInputMarkdownHint"(evt, tmpl) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        let markDownHint =
+                "<pre># Heading Level 1<br>"+
+                "## Heading Level 2<br>"+
+                "Text in **bold** or *italic* or ***bold-italic***<br>" +
+                "Text in ~~striked~~ or ```code```<br>"+
+                "> This is a quote<br>"+
+                "<br>"+
+                "Direct Link https://www.4minitz.com/<br>" +
+                "or named link to [4Minitz!](https://www.4minitz.com/)<br>"+
+                "<br>"+
+                "Numbered List<br>"+
+                "1. Numbered Item<br>"+
+                "1. Numbered Item<br>"+
+                "<br>"+
+                "Bullet List<br>"+
+                "- Item<br>"+
+                "- Item<br>"+
+                "<br>"+
+                "Image: ![](/loading-gears.gif \"Tooltip Text\")<br>"+
+                "<br>"+
+                "| Tables        | Are           | Cool  |<br>"+
+                "| ------------- |:-------------:| -----:|<br>"+
+                "| col 3 is      | right-aligned | $1600 |<br>"+
+                "| col 2 is      | centered      |   $1 |</pre>" +
+                "" +
+                "Link to <a target='_blank' href='https://guides.github.com/features/mastering-markdown/'>Full Markdown Help</a>";
+
+        confirmationDialog(
+            () => {},
+            markDownHint,
+            "Help for Markdown Syntax",
+            "OK",
+            "btn-info",
+            true
+        );
+
+    }
 });

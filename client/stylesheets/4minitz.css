@@ -132,3 +132,20 @@ a:focus {
 .form-inline .form-control {
     margin-top: -20px;
 }
+
+/* Format tables in MarkDown details */
+.detailText table {
+    border-collapse:separate;
+    border:solid darkgray 1px;
+    border-radius:6px;
+    padding: 10px;
+}
+
+.detailText td, .detailText th {
+    padding: 10px;
+    border-bottom: solid black 1px;
+}
+
+.detailText th {
+    background: #DDDDDD;
+}
