@@ -85,6 +85,16 @@ Template.meetingSeriesSettingsLabels.events({
         evt.preventDefault();
         let labelId = this._id;
         let row = tmpl.$('#row-label-' + labelId);
+
+        // reset the values
+        let aLabel = Label.createLabelById(tmpl.data.meetingSeriesId, labelId);
+        let labelName = row.find("[name='labelName']");
+        let labelColor = row.find("[name='labelColor-" + labelId + "']");
+        labelName.val(aLabel.getName());
+        labelColor.val(aLabel.getColor().substr(1));
+        labelColor.focus();
+        labelName.focus();
+
         row.find('.view-display').show();
         row.find('.view-edit').hide();
     },
@@ -103,14 +113,7 @@ Template.meetingSeriesSettingsLabels.events({
             row.find('.view-edit').hide();
         }
     },
-/*
-    'keyup .label-color-field'(evt) {
-        let field = evt.currentTarget;
-        if (field.value === '') {
-            field.value = '#';
-        }
-    },
-*/
+
     'click .evt-btn-edit-save': function(evt, tmpl) {
         evt.preventDefault();
         submitLabelForm(tmpl, this);

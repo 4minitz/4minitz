@@ -30,6 +30,12 @@ export class E2EMeetingSeriesEditor {
         }
     };
 
+    static closeMeetingSeriesEditor(save = true) {
+        let selector = (save) ? '#btnMeetingSeriesSave' : '#btnMeetinSeriesEditCancel';
+        browser.click(selector);
+        E2EGlobal.waitSomeTime(400);
+    }
+
 
     /**
      * Analyze the user editor table in the DOM and generate a dictionary with its content
@@ -98,4 +104,44 @@ export class E2EMeetingSeriesEditor {
 
         return usersAndRoles;
     };
+
+    static changeLabel(labelName, newLabelName, newLabelColor, autoSaveLabelChange = true) {
+        // show label edit view
+        browser.waitForExist('#openLabelEditor');
+        browser.click('#openLabelEditor');
+
+        let labelId = E2EMeetingSeriesEditor.getLabelId(labelName);
+
+        let selLabelRow = '#row-label-' + labelId;
+
+        // open label editor for labelId
+        browser.click(selLabelRow + ' .evt-btn-edit-label');
+
+        browser.setValue(selLabelRow + " [name='labelName']", newLabelName);
+        if (newLabelColor) {
+            browser.setValue(selLabelRow + " [name='labelColor-" + labelId + "']", newLabelColor);
+        }
+
+        if (autoSaveLabelChange) {
+            browser.click(selLabelRow + ' .evt-btn-edit-save');
+
+            E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+        }
+
+        return labelId;
+    }
+
+    static getLabelId(labelName) {
+        // get all label elements
+        browser.waitForExist('#table-edit-labels .label');
+        let elements = browser.elements('#table-edit-labels .label').value;
+
+        for (let elementID of elements) {
+            let element = browser.elementIdText(elementID.ELEMENT);
+            if (labelName === element.value) {
+                return browser.elementIdAttribute(elementID.ELEMENT, 'id').value;
+            }
+        }
+    }
+
 }
