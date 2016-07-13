@@ -1,4 +1,4 @@
 
 Template.loading.onRendered(function() {
-    $('#loading-container').hide().delay(500).fadeIn('slow');
+    $('#loading-content').hide().delay(500).fadeIn('slow');
 });
