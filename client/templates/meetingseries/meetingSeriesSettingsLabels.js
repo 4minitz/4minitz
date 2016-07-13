@@ -9,14 +9,23 @@ import { ColorHelper } from '/imports/ColorHelper'
 
 Template.meetingSeriesSettingsLabels.onRendered(function () {
     addCustomValidator(
-        "[name='labelColor']",
+        ".label-color-field",
         (value) => { return ColorHelper.isValidHexColorString(value) },
         'Invalid hex color value');
+
+    Meteor.setTimeout(function() {
+        $('.pick-a-color').pickAColor();
+        $('.hex-pound').hide();
+    }, 50);
 });
 
 Template.meetingSeriesSettingsLabels.helpers({
     count: function (labels) {
         return labels.length;
+    },
+
+    getColorNum: function() {
+        return this.color.substr(1);
     },
 
     getLabels: function () {
@@ -44,7 +53,11 @@ function saveLabel(tmpl, context) {
     row.find('.view-edit').hide();
 
     let labelName = row.find("[name='labelName']").val();
-    let labelColor = row.find("[name='labelColor']").val();
+    let labelColor = row.find("[name='labelColor-" + labelId + "']").val();
+
+    if (labelColor.substr(0, 1) !== '#') {
+        labelColor = '#' + labelColor;
+    }
 
     let labelDoc = {
         _id: labelId,
@@ -72,6 +85,16 @@ Template.meetingSeriesSettingsLabels.events({
         evt.preventDefault();
         let labelId = this._id;
         let row = tmpl.$('#row-label-' + labelId);
+
+        // reset the values
+        let aLabel = Label.createLabelById(tmpl.data.meetingSeriesId, labelId);
+        let labelName = row.find("[name='labelName']");
+        let labelColor = row.find("[name='labelColor-" + labelId + "']");
+        labelName.val(aLabel.getName());
+        labelColor.val(aLabel.getColor().substr(1));
+        labelColor.focus();
+        labelName.focus();
+
         row.find('.view-display').show();
         row.find('.view-edit').hide();
     },
@@ -88,13 +111,6 @@ Template.meetingSeriesSettingsLabels.events({
             let row = tmpl.$('#row-label-' + labelId);
             row.find('.view-display').show();
             row.find('.view-edit').hide();
-        }
-    },
-
-    'keyup .label-color-field'(evt) {
-        let field = evt.currentTarget;
-        if (field.value === '') {
-            field.value = '#';
         }
     },
 

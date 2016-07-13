@@ -76,6 +76,10 @@ a:focus {
     color: black;
 }
 
+.label-large {
+    font-size: 110% !important;
+}
+
 
 @media screen and (max-width: 799px) {
     .version-info {
@@ -148,4 +152,10 @@ a:focus {
 
 .detailText th {
     background: #DDDDDD;
+}
+
+
+/* the pick-a-color preview box is not in-line with the input field */
+input.pick-a-color {
+    margin-bottom: -40px !important;
 }
