@@ -46,13 +46,6 @@ Template.meetingSeriesEdit.helpers({
 
 Template.meetingSeriesEdit.events({
 
-    "click .evt-toggle-editor": function(evt, tmpl) {
-        evt.preventDefault();
-        let action = $(evt.target).data('action');
-        tmpl.$('.editor').hide();
-        tmpl.$('#' + action).show();
-    },
-
     "click #deleteMeetingSeries": function() {
         console.log("Remove Meeting Series: "+this._id);
         $('#dlgEditMeetingSeries').modal('hide');   // hide underlying modal dialog first, otherwise transparent modal layer is locked!
@@ -160,5 +153,13 @@ Template.meetingSeriesEdit.events({
         // Unfortunately the form.submit()-function does not trigger the
         // validation process
         tmpl.$('#frmDlgEditMeetingSeries').find(':submit').click();
+    },
+
+    // Prevent the last open panel to be collapsible
+    "click .panel-heading a": function (evt) {
+        if($(evt.target).parents('.panel').children('.panel-collapse').hasClass('in')){
+            evt.stopPropagation();
+        }
+        evt.preventDefault();
     }
 });
