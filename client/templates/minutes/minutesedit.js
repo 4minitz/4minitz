@@ -183,12 +183,12 @@ Template.minutesedit.events({
     'click #btn_sendAgenda': async function(evt, tmpl) {
         evt.preventDefault();
         let sendBtn = tmpl.$("#btn_sendAgenda");
-        sendBtn.prop("disabled", true);
         let aMin = new Minutes(_minutesID);
         if (aMin) {
             console.log("Send agenda: " + aMin._id + " from series: " + aMin.meetingSeries_id);
 
             let sendAgenda = async () => {
+                sendBtn.prop('disabled', true);
                 try {
                     let result = await aMin.sendAgenda();
                     Session.set('errorTitle', 'OK');
@@ -198,6 +198,7 @@ Template.minutesedit.events({
                     Session.set('errorTitle', 'Error');
                     Session.set('errorReason', error.reason);
                 }
+                sendBtn.prop('disabled', false);
             };
 
             if (aMin.getAgendaSentAt()) {
@@ -218,10 +219,9 @@ Template.minutesedit.events({
                     "btn-success"
                 );
             } else {
-                sendAgenda();
+                await sendAgenda();
             }
         }
-        sendBtn.prop("disabled", false);
     },
 
     'click #btn_finalizeMinutes': function(evt) {
