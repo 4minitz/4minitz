@@ -58,7 +58,7 @@ export class ActionItem extends InfoItem{
     getTextFromDetails (index) {
         if (index === undefined) index = 0;
         let details = this._infoItemDoc.details;
-        if (details.length > 0 && details[index].hasOwnProperty("text")) {
+        if (details && details.length > 0 && details[index].hasOwnProperty("text")) {
             return details[index].text;
         }
         return "";
