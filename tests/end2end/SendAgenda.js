@@ -68,4 +68,21 @@ describe('Send agenda', function () {
         expect(browser.isVisible('#btn_sendAgenda')).to.be.false;
     });
 
+    it('ensures that a confirmation dialog is shown before sending the agenda a second time', function() {
+        browser.waitForVisible('#btn_sendAgenda');
+        browser.click('#btn_sendAgenda');
+
+        E2EGlobal.waitSomeTime();
+
+        browser.click('#btn_sendAgenda');
+
+        let selectorDialog = "#confirmDialog";
+
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
+
+        // close dialog otherwise beforeEach-hook will fail!
+        E2EApp.confirmationDialogAnswer(false);
+    });
+
 });

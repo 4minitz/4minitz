@@ -93,6 +93,8 @@ Meteor.methods({
                 let sendAgendaMailHandler = new SendAgendaMailHandler(senderEmail, aMin);
                 sendAgendaMailHandler.send();
 
+                MinutesCollection.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
+
                 return sendAgendaMailHandler.getCountRecipients();
             }
         } else {

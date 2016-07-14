@@ -187,14 +187,38 @@ Template.minutesedit.events({
         let aMin = new Minutes(_minutesID);
         if (aMin) {
             console.log("Send agenda: " + aMin._id + " from series: " + aMin.meetingSeries_id);
-            try {
-                let result = await aMin.sendAgenda();
-                Session.set('errorTitle', 'OK');
-                Session.set('errorReason', "Agenda was sent to " + result + " recipients successfully");
-                Session.set('errorType', "alert-success");
-            } catch (error) {
-                Session.set('errorTitle', 'Error');
-                Session.set('errorReason', error.reason);
+
+            let sendAgenda = async () => {
+                try {
+                    let result = await aMin.sendAgenda();
+                    Session.set('errorTitle', 'OK');
+                    Session.set('errorReason', "Agenda was sent to " + result + " recipients successfully");
+                    Session.set('errorType', "alert-success");
+                } catch (error) {
+                    Session.set('errorTitle', 'Error');
+                    Session.set('errorReason', error.reason);
+                }
+            };
+
+            if (aMin.getAgendaSentAt()) {
+                let date = aMin.getAgendaSentAt();
+
+                let dialogContent = "<p>Do you really want to sent the agenda for this meeting minute dated on <strong>"
+                    + aMin.date + "</strong>?<br>"
+                    + "It was already sent on " + formatDateISO8601(date) + " at " + date.getHours() + ":" + date.getMinutes() + "</p>";
+
+
+                confirmationDialog(
+                    /* callback called if user wants to continue */
+                    sendAgenda,
+                    /* Dialog content */
+                    dialogContent,
+                    "Confirm sending agenda",
+                    "Send Agenda",
+                    "btn-success"
+                );
+            } else {
+                sendAgenda();
             }
         }
         sendBtn.prop("disabled", false);

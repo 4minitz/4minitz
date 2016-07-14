@@ -42,7 +42,9 @@
     ],
 
     "email": {
-        "enableMailDelivery": false
+        "//": "E-Mails will not actually be sent because there is no smtp configuration given",
+        "enableMailDelivery": true,
+        "defaultEMailSenderAddress": "default@email.de"
     },
 
     "db": {
