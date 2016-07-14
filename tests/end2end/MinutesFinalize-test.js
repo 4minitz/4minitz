@@ -3,6 +3,7 @@ import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMinutes } from './helpers/E2EMinutes'
+import { E2ETopics } from './helpers/E2ETopics'
 
 
 describe('Minutes Finalize', function () {
@@ -55,6 +56,16 @@ describe('Minutes Finalize', function () {
 
             E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
             E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+            E2ETopics.addTopicToMinutes('some topic');
+            E2ETopics.addInfoItemToTopic({
+                subject: 'action item',
+                itemType: "actionItem"
+            }, 1);
+            E2ETopics.addInfoItemToTopic({
+                subject: 'info item',
+                itemType: "infoItem"
+            }, 1);
 
             E2EMinutes.finalizeCurrentMinutes(/*autoConfirmDialog*/false);
 
