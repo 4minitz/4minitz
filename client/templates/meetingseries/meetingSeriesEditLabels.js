@@ -7,7 +7,7 @@ import { Label } from '/imports/label'
 
 import { ColorHelper } from '/imports/ColorHelper'
 
-Template.meetingSeriesSettingsLabels.onRendered(function () {
+Template.meetingSeriesEditLabels.onRendered(function () {
     Meteor.setTimeout(function() {
         $('.pick-a-color').pickAColor();
         $('.hex-pound').hide();
@@ -19,7 +19,7 @@ Template.meetingSeriesSettingsLabels.onRendered(function () {
         'Invalid hex color value');
 });
 
-Template.meetingSeriesSettingsLabels.helpers({
+Template.meetingSeriesEditLabels.helpers({
     getColorNum: function() {
         return this.color.substr(1);
     },
@@ -65,7 +65,7 @@ function saveLabel(tmpl, context) {
     label.save(tmpl.data.meetingSeriesId);
 }
 
-Template.meetingSeriesSettingsLabels.events({
+Template.meetingSeriesEditLabels.events({
 
     'click .evt-btn-edit-label': function(evt, tmpl) {
         evt.preventDefault();
