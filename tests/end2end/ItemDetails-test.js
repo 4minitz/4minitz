@@ -195,7 +195,7 @@ describe('Item Details', function () {
 
     it('ensures that only moderator can add details', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
@@ -227,7 +227,7 @@ describe('Item Details', function () {
         E2ETopics.addDetailsToActionItem(1, 1, 'Old Details');
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);

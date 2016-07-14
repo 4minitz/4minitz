@@ -110,9 +110,8 @@ describe('Labels', function () {
 
             E2EMinutes.finalizeCurrentMinutes();
 
-            E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+            E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "labels");
             E2EMeetingSeriesEditor.changeLabel(labelName, renamedLabel);
-
             E2EMinutes.gotoLatestMinutes();
 
             items = E2ETopics.getItemsForTopic(1);
@@ -126,7 +125,8 @@ describe('Labels', function () {
             const renamedLabel = 'Test';
             const changedColor = 'ffffff';
 
-            E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+            E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "labels");
+
             let labelId = E2EMeetingSeriesEditor.changeLabel(labelName, renamedLabel, changedColor, false);
             let selLabelRow = '#row-label-' + labelId;
             browser.click(selLabelRow + ' .evt-btn-edit-cancel');

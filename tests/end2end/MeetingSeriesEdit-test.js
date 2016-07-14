@@ -155,7 +155,7 @@ describe('MeetingSeries Editor', function () {
         browser.click('button.close');
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, true);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "base", true);
         expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(aProjectName);
         expect(browser.getValue('input[id="id_meetingname"]')).to.equal(aMeetingName);
 
@@ -172,7 +172,7 @@ describe('MeetingSeries Editor', function () {
         browser.click('#btnMeetinSeriesEditCancel');
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, true);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "base", true);
         expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(aProjectName);
         expect(browser.getValue('input[id="id_meetingname"]')).to.equal(aMeetingName);
 

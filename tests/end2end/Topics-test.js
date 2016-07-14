@@ -187,7 +187,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('yet another topic');
         
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
