@@ -34,13 +34,6 @@ Template.meetingSeriesEdit.helpers({
         return {
             meetingSeriesId: this._id
         };
-    },
-
-    // some responsive CSS tweaking
-    useClassWell() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "well";
-        }
     }
 });
 
