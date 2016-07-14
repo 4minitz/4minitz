@@ -5,7 +5,7 @@ import { E2EMeetingSeries } from './E2EMeetingSeries'
 
 export class E2EMeetingSeriesEditor {
     
-    static openMeetingSeriesEditor (aProj, aName, skipGotoMeetingSeries) {
+    static openMeetingSeriesEditor (aProj, aName, panelName = "base", skipGotoMeetingSeries) {
         // Maybe we can save "gotoStartPage => gotoMeetingSeries"?
         if (! skipGotoMeetingSeries) {
             E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
@@ -17,6 +17,23 @@ export class E2EMeetingSeriesEditor {
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         // Check if dialog is there?
         browser.waitForVisible('#btnMeetingSeriesSave', 1000);
+        browser.click("#btnShowHideBaseConfig");
+        E2EGlobal.waitSomeTime(); // give dialog animation time
+
+        if (panelName && panelName != "base") {
+            let panelSelector = "";
+            if (panelName == "invited") {
+                panelSelector = "#btnShowHideInvitedUsers";
+            }
+            else if (panelName == "labels") {
+                panelSelector = "#btnShowHideLabels";
+            } else {
+                throw "Unsupported panelName: "+panelName;
+            }
+            browser.waitForExist(panelSelector);
+            browser.click(panelSelector);
+            E2EGlobal.waitSomeTime();  // wait for panel animation
+        }
     };
 
     // assumes an open meeting series editor
@@ -106,12 +123,7 @@ export class E2EMeetingSeriesEditor {
     };
 
     static changeLabel(labelName, newLabelName, newLabelColor, autoSaveLabelChange = true) {
-        // show label edit view
-        browser.waitForExist('#openLabelEditor');
-        browser.click('#openLabelEditor');
-
         let labelId = E2EMeetingSeriesEditor.getLabelId(labelName);
-
         let selLabelRow = '#row-label-' + labelId;
 
         // open label editor for labelId

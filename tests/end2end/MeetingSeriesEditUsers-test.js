@@ -22,7 +22,7 @@ describe('MeetingSeries Editor Users', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
     });
 
     before("reload page", function () {
@@ -71,12 +71,6 @@ describe('MeetingSeries Editor Users', function () {
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);  // try to add same user again!
-
-        // For Phantom.js we skip this, as headless phantom has no alert pop-ups...
-        if (! E2EGlobal.browserIsPhantomJS()) {
-            expect(browser.alertText()).to.be.ok;     // expect error alert
-            browser.alertAccept();
-        }
 
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         expect(Object.keys(usersAndRoles)).to.have.length(2); // still two!
@@ -161,8 +155,7 @@ describe('MeetingSeries Editor Users', function () {
 
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
         let roleSelector = "select.user-role-select";
         browser.selectByValue(roleSelector, E2EGlobal.USERROLES.Invited);
@@ -190,8 +183,7 @@ describe('MeetingSeries Editor Users', function () {
 
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
         // after save and re-open, check what was persisted
         usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
@@ -258,7 +250,7 @@ describe('MeetingSeries Editor Users', function () {
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         browser.elementIdClick(usersAndRoles[user2].deleteElemId);
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
@@ -280,7 +272,7 @@ describe('MeetingSeries Editor Users', function () {
         browser.keys(['Escape']);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         browser.keys(['Escape']);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
@@ -297,7 +289,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EGlobal.waitSomeTime();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
@@ -427,7 +419,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(participantsInfo.getParticipantInfo(user2), "initial setup with user2").to.be.ok;
 
         // Now remove user2 and add user3
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         browser.elementIdClick(usersAndRoles[user2].deleteElemId);
