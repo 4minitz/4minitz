@@ -16,6 +16,7 @@ export const MinutesSchema = new SimpleSchema({
     date: {type: String},
     topics: {type: [TopicSchema], defaultValue: []},
     createdAt: {type: Date},
+    agendaSentAt: {type: Date, optional: true},
     isFinalized: {type: Boolean, defaultValue: false},
     isUnfinalized: {type: Boolean, defaultValue: false},
     participants: {type: [ParticipantsSchema], defaultValue: []},

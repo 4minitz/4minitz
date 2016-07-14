@@ -70,13 +70,13 @@ export class Minutes {
 
     save (optimisticUICallback, serverCallback) {
         console.log("Minutes.save()");
-        if (this.createdAt == undefined) {
+        if (this.createdAt === undefined) {
             this.createdAt = new Date();
         }
-        if (this._id && this._id != "") {
+        if (this._id && this._id !== "") {
             Meteor.call("minutes.update", this);
         } else {
-            if (this.topics == undefined) {
+            if (this.topics === undefined) {
                 this.topics = [];
             }
             Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
@@ -165,6 +165,13 @@ export class Minutes {
         })
     }
 
+    getTopicsWithoutItems() {
+        return this.topics.map((topicDoc) => {
+            topicDoc.infoItems = [];
+            return topicDoc;
+        })
+    }
+
     async upsertTopic(topicDoc) {
         let i = undefined;
 
@@ -215,6 +222,17 @@ export class Minutes {
      */
     unfinalize(serverCallback) {
         Meteor.call('minutes.unfinalize', this._id, serverCallback);
+    }
+
+    sendAgenda() {
+        return Meteor.callPromise('minutes.sendAgenda', this._id);
+    }
+
+    getAgendaSentAt() {
+        if (!this.agendaSentAt) {
+            return false;
+        }
+        return this.agendaSentAt;
     }
 
     isCurrentUserModerator() {
