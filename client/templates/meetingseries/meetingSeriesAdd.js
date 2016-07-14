@@ -20,7 +20,7 @@ function escapeHandler(event) {
     }
 }
 
-async function addMeetingSeries(template, optimisticUICallback) {
+async function addMeetingSeries(template, optimisticUICallback, clearForm = true) {
 
     let aProject = template.find("#id_meetingproject").value;
     let aName = template.find("#id_meetingname").value;
@@ -33,7 +33,9 @@ async function addMeetingSeries(template, optimisticUICallback) {
 
     try {
         await ms.save(optimisticUICallback);
-        clearForm(template);
+        if (clearForm) {
+            clearForm(template);
+        }
     } catch (error) {
         Session.set('errorTitle', 'Error');
         Session.set('errorReason', error.reason);
@@ -52,7 +54,7 @@ Template.meetingSeriesAdd.events({
 
         addMeetingSeries(template, (id) => {
             Router.go('/meetingseries/invite/' + id);
-        });
+        }, false);
     },
 
     "hidden.bs.collapse #collapseMeetingSeriesAdd"(evt, tmpl) {
