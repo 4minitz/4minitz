@@ -1,6 +1,7 @@
 
 import { MeetingSeriesCollection } from './../../imports/collections/meetingseries_private';
 import { MinutesCollection } from './../../imports/collections/minutes_private';
+import { TestMailCollection } from '/imports/mail/TestMail'
 import { Minutes } from './../../imports/minutes';
 
 
@@ -16,6 +17,8 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log("Count MeetingSeries after reset:"+MeetingSeriesCollection.find().count());
             MinutesCollection.remove({});
             console.log("Count Minutes after reset:"+MinutesCollection.find().count());
+            TestMailCollection.remove({});
+            console.log("Count saved test mails after reset:"+TestMailCollection.find().count());
 
             if (!skipUsers) {
                 // Reset users and create our e2e test users
@@ -23,7 +26,8 @@ if (Meteor.settings.isEnd2EndTest) {
                 for (let i in Meteor.settings.e2eTestUsers) {
                     let newUser = Meteor.settings.e2eTestUsers[i];
                     let newPassword = Meteor.settings.e2eTestPasswords[i];
-                    Accounts.createUser({username: newUser, password: newPassword});
+                    let newEmail = Meteor.settings.e2eTestEmails[i];
+                    Accounts.createUser({username: newUser, password: newPassword, email: newEmail});
                     console.log("Created user: " + newUser + " with password: " + newPassword);
 
                 }
@@ -43,6 +47,21 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log("-------------------------- E2E-METHOD: getParticipantsString");
             let aMin = new Minutes(minutesId);
             return aMin.getPresentParticipantNames();
+        },
+        'e2e.resetTestMailDB'() {
+            TestMailCollection.remove({});
+        },
+        'e2e.findSentMails'(...args) {
+            return TestMailCollection.find(...args).map((mail) => {
+                return {
+                    _id: mail._id,
+                    to: mail.to,
+                    from: mail.from,
+                    replyTo: mail.replyTo,
+                    subject: mail.subject,
+                    html: mail.html
+                }
+            });
         }
 
     });

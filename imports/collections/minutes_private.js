@@ -89,7 +89,6 @@ Meteor.methods({
                 let senderEmail = (emails && emails.length > 0)
                     ? emails[0].address
                     : GlobalSettings.getDefaultEmailSenderAddress();
-                console.log("send mail to: " + senderEmail);
                 let sendAgendaMailHandler = new SendAgendaMailHandler(senderEmail, aMin);
                 sendAgendaMailHandler.send();
 
