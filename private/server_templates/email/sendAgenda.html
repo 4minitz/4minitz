@@ -2,15 +2,15 @@ Hello{{#if name}} {{name}}{{/if}},<br>
 <br>
 you can find the agenda for <a href="{{meetingSeriesURL}}">{{meetingSeriesProject}} - {{meetingSeriesName}}</a> dated on <a href="{{minuteUrl}}">{{minutesDate}}</a> below.<br>
 <br>
-Participants: {{participants}}<br>
-{{#if participantsAdditional}}Additional information: {{participantsAdditional}}<br>{{/if}}
+<strong>Invited:</strong> {{participants}}<br>
+{{#if participantsAdditional}}<strong>Additionally invited:</strong> {{participantsAdditional}}<br>{{/if}}
 <br>
 
-The listed topics will be discussed:<br>
-<ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
+<strong>Agenda:</strong><br>
+<ol style="margin-top: 5px; padding-left: 40px;">
     {{#each topics}}
         <li>
-            <strong>{{subject}}</strong> {{responsiblesString}}
+            {{subject}} {{responsiblesString}}
         </li>
     {{/each}}
-</ul>
+</ol>
