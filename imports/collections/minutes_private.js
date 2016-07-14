@@ -5,6 +5,7 @@ import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
+import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
 
 export var MinutesCollection = new Mongo.Collection("minutes",
@@ -65,6 +66,37 @@ Meteor.methods({
             });
         } else {
             throw new Meteor.Error("Cannot create new minutes", "You are not moderator of the parent meeting series.");
+        }
+    },
+
+    'minutes.sendAgenda'(id) {
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        // Ensure user is moderator before sending the agenda
+        let userRoles = new UserRoles(Meteor.userId());
+        let aMin = new Minutes(id);
+        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            if (!GlobalSettings.isEMailDeliveryEnabled()) {
+                console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file");
+                throw new Meteor.Error("Cannot send agenda", "Email delivery is not enabled in your 4minitz installation.");
+            }
+
+            if (Meteor.isServer) {
+                let emails = Meteor.user().emails;
+                let senderEmail = (emails && emails.length > 0)
+                    ? emails[0].address
+                    : GlobalSettings.getDefaultEmailSenderAddress();
+                console.log("send mail to: " + senderEmail);
+                let sendAgendaMailHandler = new SendAgendaMailHandler(senderEmail, aMin);
+                sendAgendaMailHandler.send();
+
+                return sendAgendaMailHandler.getCountRecipients();
+            }
+        } else {
+            throw new Meteor.Error("Cannot send agenda", "You are not moderator of the parent meeting series.");
         }
     },
 

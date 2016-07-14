@@ -180,6 +180,25 @@ Template.minutesedit.events({
         }
     },
 
+    'click #btn_sendAgenda': async function(evt, tmpl) {
+        evt.preventDefault();
+        let sendBtn = tmpl.$("#btn_sendAgenda");
+        sendBtn.prop("disabled", true);
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            console.log("Send agenda: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+            try {
+                let result = await aMin.sendAgenda();
+                Session.set('errorTitle', 'OK');
+                Session.set('errorReason', "Agenda was sent to " + result + " recipients successfully");
+                Session.set('errorType', "alert-success");
+            } catch (error) {
+                Session.set('errorTitle', 'Error');
+                Session.set('errorReason', error.reason);
+            }
+        }
+        sendBtn.prop("disabled", false);
+    },
 
     'click #btn_finalizeMinutes': function(evt) {
         evt.preventDefault();

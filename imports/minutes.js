@@ -165,6 +165,13 @@ export class Minutes {
         })
     }
 
+    getTopicsWithoutItems() {
+        return this.topics.map((topicDoc) => {
+            topicDoc.infoItems = [];
+            return topicDoc;
+        })
+    }
+
     async upsertTopic(topicDoc) {
         let i = undefined;
 
@@ -215,6 +222,10 @@ export class Minutes {
      */
     unfinalize(serverCallback) {
         Meteor.call('minutes.unfinalize', this._id, serverCallback);
+    }
+
+    sendAgenda() {
+        return Meteor.callPromise('minutes.sendAgenda', this._id);
     }
 
     isCurrentUserModerator() {
