@@ -20,10 +20,6 @@ Template.meetingSeriesSettingsLabels.onRendered(function () {
 });
 
 Template.meetingSeriesSettingsLabels.helpers({
-    count: function (labels) {
-        return labels.length;
-    },
-
     getColorNum: function() {
         return this.color.substr(1);
     },
