@@ -9,7 +9,7 @@
     <div class="well">
         <form>
             <div class="row">
-                <div class="col-md-4 col-md-push-8 text-right">
+                <div class="col-md-4 col-md-push-8 text-right minutes-action-buttons">
 
 
                     {{#if isFinalized}}
@@ -30,6 +30,12 @@
                             <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Minutes"></span>
                                 Delete Minutes
+                            </button>
+
+                            <!--Send Agenda Button-->
+                            <button type="button" id="btn_sendAgenda" class="btn btn-primary btn-lg btn-raised">
+                                <span class="glyphicon glyphicon-envelope" aria-hidden="true" aria-label="Send Agenda"></span>
+                                Send Agenda
                             </button>
 
                             <!--Finalize Minutes Button-->

@@ -7,7 +7,7 @@ import { E2ETopics } from './helpers/E2ETopics'
 
 
 describe('Labels', function () {
-    const aProjectName = "E2E ActionItems";
+    const aProjectName = "E2E Labels";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
