@@ -159,3 +159,8 @@ a:focus {
 input.pick-a-color {
     margin-bottom: -40px !important;
 }
+
+/* prevent adding empty space between color-items of the color picker */
+.pick-a-color-markup .color-menu li {
+    height: 31px;
+}

@@ -9,7 +9,11 @@ import { ColorHelper } from '/imports/ColorHelper'
 
 Template.meetingSeriesEditLabels.onRendered(function () {
     Meteor.setTimeout(function() {
-        $('.pick-a-color').pickAColor();
+        $('.pick-a-color').pickAColor({
+            showSavedColors         : false,
+            showAdvanced            : false,
+            inlineDropdown          : false
+        });
         $('.hex-pound').hide();
     }, 50);
 
