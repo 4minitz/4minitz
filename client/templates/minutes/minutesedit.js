@@ -4,7 +4,7 @@ import { Minutes } from '/imports/minutes'
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 
-import { TopicListConfig } from './topic/topicsList'
+import { TopicListConfig } from '../topic/topicsList'
 
 import { GlobalSettings } from '/imports/GlobalSettings'
 
@@ -180,6 +180,49 @@ Template.minutesedit.events({
         }
     },
 
+    'click #btn_sendAgenda': async function(evt, tmpl) {
+        evt.preventDefault();
+        let sendBtn = tmpl.$("#btn_sendAgenda");
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            console.log("Send agenda: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+
+            let sendAgenda = async () => {
+                sendBtn.prop('disabled', true);
+                try {
+                    let result = await aMin.sendAgenda();
+                    Session.set('errorTitle', 'OK');
+                    Session.set('errorReason', "Agenda was sent to " + result + " recipients successfully");
+                    Session.set('errorType', "alert-success");
+                } catch (error) {
+                    Session.set('errorTitle', 'Error');
+                    Session.set('errorReason', error.reason);
+                }
+                sendBtn.prop('disabled', false);
+            };
+
+            if (aMin.getAgendaSentAt()) {
+                let date = aMin.getAgendaSentAt();
+
+                let dialogContent = "<p>Do you really want to sent the agenda for this meeting minute dated on <strong>"
+                    + aMin.date + "</strong>?<br>"
+                    + "It was already sent on " + formatDateISO8601(date) + " at " + date.getHours() + ":" + date.getMinutes() + "</p>";
+
+
+                confirmationDialog(
+                    /* callback called if user wants to continue */
+                    sendAgenda,
+                    /* Dialog content */
+                    dialogContent,
+                    "Confirm sending agenda",
+                    "Send Agenda",
+                    "btn-success"
+                );
+            } else {
+                await sendAgenda();
+            }
+        }
+    },
 
     'click #btn_finalizeMinutes': function(evt) {
         evt.preventDefault();
@@ -231,10 +274,6 @@ Template.minutesedit.events({
 
             toggleTopicSorting();
             Session.set("participants.expand", true);
-            // We need this forked to re-create material checkboxes
-            Meteor.setTimeout(function () {
-                $.material.init();
-            }, 0)
         }
     },
 
@@ -262,8 +301,11 @@ Template.minutesedit.events({
                 /* callback called if user wants to continue */
                 () => {
                     let ms = new MeetingSeries(aMin.meetingSeries_id);
+                    // first route to the parent meetingseries then remove the minute.
+                    // otherwise the current route would automatically re-routed to the main page because the
+                    // minute is not available anymore -> see router.js
+                    Router.go("/meetingseries/"+aMin.meetingSeries_id);
                     ms.removeMinutesWithId(aMin._id);
-                    Router.go("/meetingseries/"+aMin.meetingSeries_id)
                 },
                 /* Dialog content */
                 dialogContent

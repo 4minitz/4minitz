@@ -1,17 +1,15 @@
 <template name="topicInfoItem">
     <div class="panel topicInfoItem">
         <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne" style="position: relative;">
-            {{#if isActionItem}}
-                {{#if detailsArray.length}}
-                    <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
-                        href="#collapse-{{currentCollapseId}}" style="position: absolute; top:0; left: 0; color: grey;">
-                        {{#if isCollapsed}}
-                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                        {{else}}
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                        {{/if}}
-                    </a>
-                {{/if}}
+            {{#if detailsArray.length}}
+                <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
+                    href="#collapse-{{currentCollapseId}}" style="position: absolute; top:0; left: 0; color: grey;">
+                    {{#if isCollapsed}}
+                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                    {{else}}
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                    {{/if}}
+                </a>
             {{/if}}
             <h4 class="panel-title">
                 <div class="checkbox">
@@ -35,9 +33,16 @@
                         {{infoItem.subject}}
                     {{/if}}
 
+                    <span class="labels">
+                        <!-- Labels -->
+                        {{#each getLabels}}
+                            <span class="label" style="background-color: {{color}}; color: {{fontColor}}">{{name}}</span>
+                        {{/each}}
+                    </span>
+
                     <!-- New-Topic-Label -->
                     {{#if infoItem.isNew}}
-                        <span class="badge" style="margin-bottom: 5px;">New</span>
+                        <span class="badge">New</span>
                     {{/if}}
 
                     <!-- Manipulation Menu Icons -->
@@ -49,11 +54,9 @@
                             {{/if}}
 
                             {{#if isEditable}}
-                                {{#if isActionItem}}
-                                    <a href="#" class="panel-link addDetail" title="Add details to action item">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </a>
-                                {{/if}}
+                                <a href="#" class="panel-link addDetail" title="Add details to action item">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </a>
 
                                 <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link" title="Edit item">
                                     <span class="glyphicon glyphicon-pencil"></span>
@@ -68,21 +71,24 @@
             </h4>
         </div>
 
-        {{#if isActionItem}}
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body actionItemDetails">
                 {{#each detailsArray}}
                     <p class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                         <div>
-                            <label for="detailInput_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
-                        </div>
-                        <div style="padding-left: 10px;" class="detailText" data-id="{{@index}}">
-                            <span id="detailText_{{@index}}" data-id="{{@index}}" data-text="{{this.text}}">
+                            <label for="detailInput_{{../currentCollapseId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
+                            <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign pull-right"
+                                  id="detailInputMarkdownHint_{{../currentCollapseId}}_{{@index}}"
+                                  style="display: none; color: darkgray; font-size: 120%; cursor: pointer;"></span>
+
+                </div>
+                        <div style="padding-left: 10px;" class="detailText" data-id="{{../currentCollapseId}}_{{@index}}">
+                            <span id="detailText_{{../currentCollapseId}}_{{@index}}" data-id="{{../currentCollapseId}}_{{@index}}" data-text="{{this.text}}">
                                 {{#markdown}}{{this.text}}{{/markdown}}
                             </span>
 
-                            <textarea id="detailInput_{{@index}}"
-                                      rows="1" data-id="{{@index}}"
+                            <textarea id="detailInput_{{../currentCollapseId}}_{{@index}}"
+                                      rows="1" data-id="{{../currentCollapseId}}_{{@index}}"
                                       class="form-control detailInput"
                                       style="display: none; font-size: 14px;"
                                       placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
@@ -94,6 +100,5 @@
                 {{/if}}
             </div>
         </div>
-        {{/if}}
     </div>
 </template>

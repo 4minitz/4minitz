@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { MeetingSeries } from './../../imports/meetingseries'
+import { MeetingSeries } from '/imports/meetingseries'
 import { UsersEditConfig } from './meetingSeriesEditUsers'
 import { UserRoles } from '/imports/userroles'
 
@@ -21,14 +21,6 @@ Template.meetingSeriesEdit.onCreated(function() {
     // Hint: collection will be filled in the "show.bs.modal" event below
 });
 
-Template.meetingSeriesEdit.onRendered(function() {
-    $.material.init();
-});
-
-Template.meetingSeriesEdit.onDestroyed(function() {
-    //add your statement here
-});
-
 Template.meetingSeriesEdit.helpers({
     users: function () {
         return Meteor.users.find({});
@@ -38,11 +30,10 @@ Template.meetingSeriesEdit.helpers({
         return Template.instance().userEditConfig;
     },
 
-    // some responsive CSS tweaking
-    useClassWell() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "well";
-        }
+    labelsConfig: function() {
+        return {
+            meetingSeriesId: this._id
+        };
     }
 });
 
@@ -77,6 +68,8 @@ Template.meetingSeriesEdit.events({
     // We fill the temp. client-side only user database for the user editor on this event
     "show.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
         // Make sure these init values are filled in a close/re-open scenario
+        $("#btnMeetingSeriesSave").prop("disabled",false);
+        $("#btnMeetinSeriesEditCancel").prop("disabled",false);
         tmpl.find("#id_meetingproject").value = this.project;
         tmpl.find("#id_meetingname").value = this.name;
 
@@ -97,14 +90,17 @@ Template.meetingSeriesEdit.events({
         tmpl.find("#id_meetingproject").focus();
     },
 
-
-    "click #btnMeetingSeriesSave": function (evt, tmpl) {
+    "submit #frmDlgEditMeetingSeries": function(evt, tmpl) {
         evt.preventDefault();
+        let saveButton = $("#btnMeetingSeriesSave");
+        let cancelButton = $("btnMeetinSeriesEditCancel");
+        saveButton.prop("disabled",true);
+        cancelButton.prop("disabled",true);
 
         var aProject = tmpl.find("#id_meetingproject").value;
         var aName = tmpl.find("#id_meetingname").value;
 
-        // validate form and show errors
+        // validate form and show errors - necessary for browsers which do not support form-validation
         let projectNode = tmpl.$("#id_meetingproject");
         let nameNode = tmpl.$("#id_meetingname");
         projectNode.parent().removeClass("has-error");
@@ -139,6 +135,24 @@ Template.meetingSeriesEdit.events({
         ms.save();
 
         // Hide modal dialog
+        saveButton.prop("disabled",false);
+        cancelButton.prop("disabled",false);
         $('#dlgEditMeetingSeries').modal('hide');
+    },
+
+
+    "click #btnMeetingSeriesSave": function (evt, tmpl) {
+        evt.preventDefault();
+        // Unfortunately the form.submit()-function does not trigger the
+        // validation process
+        tmpl.$('#frmDlgEditMeetingSeries').find(':submit').click();
+    },
+
+    // Prevent the last open panel to be collapsible
+    "click .panel-heading a": function (evt) {
+        if($(evt.target).parents('.panel').children('.panel-collapse').hasClass('in')){
+            evt.stopPropagation();
+        }
+        evt.preventDefault();
     }
 });

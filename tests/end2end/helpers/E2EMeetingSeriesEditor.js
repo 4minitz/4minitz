@@ -5,7 +5,7 @@ import { E2EMeetingSeries } from './E2EMeetingSeries'
 
 export class E2EMeetingSeriesEditor {
     
-    static openMeetingSeriesEditor (aProj, aName, skipGotoMeetingSeries) {
+    static openMeetingSeriesEditor (aProj, aName, panelName = "base", skipGotoMeetingSeries) {
         // Maybe we can save "gotoStartPage => gotoMeetingSeries"?
         if (! skipGotoMeetingSeries) {
             E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
@@ -17,6 +17,23 @@ export class E2EMeetingSeriesEditor {
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         // Check if dialog is there?
         browser.waitForVisible('#btnMeetingSeriesSave', 1000);
+        browser.click("#btnShowHideBaseConfig");
+        E2EGlobal.waitSomeTime(); // give dialog animation time
+
+        if (panelName && panelName != "base") {
+            let panelSelector = "";
+            if (panelName == "invited") {
+                panelSelector = "#btnShowHideInvitedUsers";
+            }
+            else if (panelName == "labels") {
+                panelSelector = "#btnShowHideLabels";
+            } else {
+                throw "Unsupported panelName: "+panelName;
+            }
+            browser.waitForExist(panelSelector);
+            browser.click(panelSelector);
+            E2EGlobal.waitSomeTime();  // wait for panel animation
+        }
     };
 
     // assumes an open meeting series editor
@@ -29,6 +46,12 @@ export class E2EMeetingSeriesEditor {
             browser.selectByValue(selector, role);
         }
     };
+
+    static closeMeetingSeriesEditor(save = true) {
+        let selector = (save) ? '#btnMeetingSeriesSave' : '#btnMeetinSeriesEditCancel';
+        browser.click(selector);
+        E2EGlobal.waitSomeTime(400);
+    }
 
 
     /**
@@ -98,4 +121,39 @@ export class E2EMeetingSeriesEditor {
 
         return usersAndRoles;
     };
+
+    static changeLabel(labelName, newLabelName, newLabelColor, autoSaveLabelChange = true) {
+        let labelId = E2EMeetingSeriesEditor.getLabelId(labelName);
+        let selLabelRow = '#row-label-' + labelId;
+
+        // open label editor for labelId
+        browser.click(selLabelRow + ' .evt-btn-edit-label');
+
+        browser.setValue(selLabelRow + " [name='labelName']", newLabelName);
+        if (newLabelColor) {
+            browser.setValue(selLabelRow + " [name='labelColor-" + labelId + "']", newLabelColor);
+        }
+
+        if (autoSaveLabelChange) {
+            browser.click(selLabelRow + ' .evt-btn-edit-save');
+
+            E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+        }
+
+        return labelId;
+    }
+
+    static getLabelId(labelName) {
+        // get all label elements
+        browser.waitForExist('#table-edit-labels .label');
+        let elements = browser.elements('#table-edit-labels .label').value;
+
+        for (let elementID of elements) {
+            let element = browser.elementIdText(elementID.ELEMENT);
+            if (labelName === element.value) {
+                return browser.elementIdAttribute(elementID.ELEMENT, 'id').value;
+            }
+        }
+    }
+
 }

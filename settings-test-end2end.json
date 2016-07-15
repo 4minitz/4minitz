@@ -3,9 +3,54 @@
     "e2eUrl":               "http://localhost:3100",
     "e2eTestUsers":         ["user1",   "user2", "user3",   "user4"],
     "e2eTestPasswords":     ["PwdPwd1", "PwdPwd2", "PwdPwd3","PwdPwd4"],
+    "e2eTestEmails":        ["user1@4minitz.com", "user2@4minitz.com", "user3@4minitz.com","user4@4minitz.com"],
 
     "trustedIntranetInstallation": true,
+
+    "defaultLabels": [
+        {
+            "name": "Status:RED",
+            "color": "#ff0000"
+        },
+        {
+            "name": "Status:YELLOW",
+            "color": "#ffff00"
+        },
+        {
+            "name": "Status:GREEN",
+            "color": "#008000"
+        },
+        {
+            "name": "Milestone",
+            "color": "#66ff66"
+        },
+        {
+            "name": "Decision",
+            "color": "#0099ff"
+        },
+        {
+            "name": "Escalation",
+            "color": "#ff9933"
+        },
+        {
+            "name": "Issue",
+            "color": "#cc66ff"
+        },
+        {
+            "name": "Proposal",
+            "color": "#ffff66"
+        }
+    ],
+
     "email": {
-        "enableMailDelivery": false
+        "//": "E-Mails will not actually be sent because there is no smtp configuration given",
+        "enableMailDelivery": true,
+        "mailDeliverer": "test",
+        "defaultEMailSenderAddress": "default@email.de"
+    },
+
+    "db": {
+        "mongodumpTargetDirectory": ""
     }
+
 }

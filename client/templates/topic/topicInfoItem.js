@@ -2,6 +2,7 @@ import { ReactiveVar } from 'meteor/reactive-var'
 
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
+import { InfoItemFactory } from '/imports/InfoItemFactory'
 import { ActionItem } from '/imports/actionitem'
 import { InfoItem } from '/imports/infoitem'
 
@@ -9,10 +10,14 @@ Template.topicInfoItem.onCreated(function () {
     this.isTopicCollapsed = new ReactiveVar(true);
 });
 
-Template.topicInfoItem.onRendered(function () {
-    $.material.init();
-});
-
+let getMeetingSeriesId = (parentElementId) => {
+    let aMin = Minutes.findOne(parentElementId);
+    if (aMin) {
+        return aMin.parentMeetingSeriesID();
+    } else {
+        return parentElementId;
+    }
+};
 
 let createTopic = (parentElementId, topicId) => {
     if (!parentElementId || !topicId) return undefined;
@@ -41,8 +46,18 @@ Template.topicInfoItem.helpers({
     },
 
     detailsArray: function () {
-        $.material.init();
-        return this.infoItem.details;
+        return (this.infoItem.details) ? this.infoItem.details : [];
+    },
+
+    getLabels: function() {
+        let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
+        return aInfoItem.getLabels(getMeetingSeriesId(this.minutesID))
+            .map(labelObj => {
+                let doc = labelObj.getDocument();
+                doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
+
+                return doc;
+            });
     },
 
     topicStateClass: function () {
@@ -150,6 +165,7 @@ Template.topicInfoItem.events({
 
     'click .detailText'(evt, tmpl) {
         evt.preventDefault();
+        console.log(tmpl.data.currentCollapseId);
 
         if (!tmpl.data.isEditable) {
             return;
@@ -158,6 +174,7 @@ Template.topicInfoItem.events({
         let detailId = evt.currentTarget.getAttribute('data-id');
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
+        let markdownHintEl = tmpl.$('#detailInputMarkdownHint_' + detailId);
 
         if (inputEl.val() !== "") {
             return;
@@ -165,6 +182,8 @@ Template.topicInfoItem.events({
 
         textEl.hide();
         inputEl.show();
+        markdownHintEl.show();
+        
         inputEl.val(textEl.attr('data-text'));
         inputEl.parent().css('margin', '0 0 25px 0');
         inputEl.focus();
@@ -172,21 +191,17 @@ Template.topicInfoItem.events({
     },
 
     'click .addDetail'(evt, tmpl) {
-        console.log(tmpl.$('#accordion'));
-        console.log(tmpl.$('#collapse-' + this.currentCollapseId));
         tmpl.$('#collapse-' + this.currentCollapseId).collapse('show');
 
         let aMin = new Minutes(tmpl.data.minutesID);
         let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
-        let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
 
 
         aActionItem.addDetails();
         aActionItem.save();
         // We need this forked to re-create material input fields
         Meteor.setTimeout(function () {
-            $.material.init();
-
             let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
             inputEl.parent().css('margin', '0 0 25px 0');
             inputEl.show();
@@ -201,27 +216,31 @@ Template.topicInfoItem.events({
         let detailId = evt.currentTarget.getAttribute('data-id');
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
+        let markdownHintEl = tmpl.$('#detailInputMarkdownHint_' + detailId);
+
 
         let text = inputEl.val();
 
+        let detailsCount = undefined;
         if (text === "" || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
-            let aActionItem = new ActionItem(aTopic, tmpl.data.infoItem._id);
-
-
-            if (text.trim() === "") {
-                aActionItem._infoItemDoc.details.splice(detailId, 1);
-            } else {
-                aActionItem._infoItemDoc.details[detailId].text = text;
-            }
-
+            let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
+            let index = detailId.split('_')[2]; // detail id is: <collapseId>_<index>
+            aActionItem.updateDetails(index, text.trim());
             aActionItem.save();
+            detailsCount = aActionItem.getDetails().length;
         }
 
         inputEl.val("");
         inputEl.hide();
+        markdownHintEl.hide();
+
         textEl.show();
+
+        if (detailsCount === 0) {
+            tmpl.$('#collapse-' + tmpl.data.currentCollapseId).collapse('hide');
+        }
     },
 
     'keypress .detailInput'(evt, tmpl) {
@@ -253,6 +272,50 @@ Template.topicInfoItem.events({
     },
     "show.bs.collapse"(evt, tmpl) {
         tmpl.isTopicCollapsed.set(false);
-    }
+    },
 
+    // Important! We have to use "mousedown" instead of "click" here.
+    // Otherwise the detailsEdit textarea will loose focus and trigger
+    // its blur-event which in turn makes the markdownhint icon invisible
+    // which in turn swallow the click event - and nothing happens on click.
+    "mousedown .detailInputMarkdownHint"(evt, tmpl) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        let markDownHint =
+                "<pre># Heading Level 1<br>"+
+                "## Heading Level 2<br>"+
+                "Text in **bold** or *italic* or ***bold-italic***<br>" +
+                "Text in ~~striked~~ or ```code```<br>"+
+                "> This is a quote<br>"+
+                "<br>"+
+                "Direct Link https://www.4minitz.com/<br>" +
+                "or named link to [4Minitz!](https://www.4minitz.com/)<br>"+
+                "<br>"+
+                "Numbered List<br>"+
+                "1. Numbered Item<br>"+
+                "1. Numbered Item<br>"+
+                "<br>"+
+                "Bullet List<br>"+
+                "- Item<br>"+
+                "- Item<br>"+
+                "<br>"+
+                "Image: ![](/loading-gears.gif \"Tooltip Text\")<br>"+
+                "<br>"+
+                "| Tables        | Are           | Cool  |<br>"+
+                "| ------------- |:-------------:| -----:|<br>"+
+                "| col 3 is      | right-aligned | $1600 |<br>"+
+                "| col 2 is      | centered      |   $1 |</pre>" +
+                "" +
+                "Link to <a target='_blank' href='https://guides.github.com/features/mastering-markdown/'>Full Markdown Help</a>";
+
+        confirmationDialog(
+            () => {},
+            markDownHint,
+            "Help for Markdown Syntax",
+            "OK",
+            "btn-info",
+            true
+        );
+
+    }
 });

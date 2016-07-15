@@ -354,12 +354,65 @@ export class MeetingSeries {
     }
 
     findTopic(id) {
-        let i = subElementsHelper.findIndexById(id, this.topics);
-        if (i != undefined) {
-            return this.topics[i];
-        }
-        return undefined;
+        return subElementsHelper.getElementById(id, this.topics);
     }
+
+    findLabel(id) {
+        return subElementsHelper.getElementById(id, this.availableLabels);
+    }
+
+    findLabelByName(labelName) {
+        return subElementsHelper.getElementById(labelName, this.availableLabels, 'name');
+    }
+
+    removeLabel(id) {
+        let index = subElementsHelper.findIndexById(id, this.getAvailableLabels());
+        if (undefined === index) {
+            return;
+        }
+
+        this.availableLabels.splice(index, 1);
+    }
+
+    upsertLabel(labelDoc) {
+        let i = undefined;
+        if (! labelDoc._id) {            // brand-new label
+            labelDoc._id = Random.id();
+        } else {
+            i = subElementsHelper.findIndexById(labelDoc._id, this.availableLabels); // try to find it
+        }
+
+        if (i === undefined) {                      // label not in array
+            this.availableLabels.unshift(labelDoc);
+        } else {
+            this.availableLabels[i] = labelDoc;      // overwrite in place
+        }
+    }
+
+    getAvailableLabels() {
+        if (this.availableLabels) {
+            return this.availableLabels;
+        }
+        return [];
+    }
+
+    /**
+     * Add a new (free-text) responsible to the meeting series.
+     * New entry will be pushed to front, existing double will be removed
+     * Needs a "save()" afterwards to persist
+     * @param {String} newResponsible
+     */
+    addAdditionalResponsible(newResponsible) {
+        // remove newResponsible if already present
+        var index = this.additionalResponsibles.indexOf(newResponsible);
+        if (index !== -1) {
+            this.additionalResponsibles.splice(index, 1);
+        }
+
+        // put newResponsible to front of array
+        this.additionalResponsibles.unshift(newResponsible);
+    }
+
 
     // ################### private methods
     /**

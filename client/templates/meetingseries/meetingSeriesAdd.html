@@ -1,0 +1,34 @@
+<template name="meetingSeriesAdd">
+
+    <a class="btn btn-primary btn-raised" id="btnNewMeetingSeries" role="button" data-toggle="collapse" href="#collapseMeetingSeriesAdd"
+       aria-expanded="false" aria-controls="collapseExample">
+        New Meeting Series <span class="glyphicon glyphicon-align-left glyphicon-menu-down" aria-hidden="true"></span>
+    </a>
+
+    <div class="collapse" id="collapseMeetingSeriesAdd">
+        <div class="well">
+            {{> error}}
+
+            <form id="id_meetingSeriesAddForm">
+                <div class="form-group label-floating">
+                    <label class="control-label" for="id_meetingproject">Project Name</label>
+                    <input class="form-control" id="id_meetingproject" type="text" required
+                           data-error-msg="Please enter a valid project name" autocomplete="off">
+                </div>
+                <div class="form-group label-floating">
+                    <label class="control-label" for="id_meetingname">Meeting Name</label>
+                    <input class="form-control" id="id_meetingname" type="text" required
+                           data-error-msg="Please enter a valid name for the meeting series" autocomplete="off">
+                </div>
+                <br>
+                <button id="btnAdd" class="btn btn-primary btn-raised" aria-hidden="true" aria-label="Add" type="submit">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add"></span>
+                    Add</button>
+                <button id="btnAddInvite" class="btn btn-primary btn-raised" aria-hidden="true" aria-label="Add" type="button">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add"></span>
+                    Add and invite users</button>
+            </form>
+        </div>
+    </div>
+
+</template>

@@ -1,0 +1,16 @@
+Hello{{#if name}} {{name}}{{/if}},<br>
+<br>
+you can find the agenda for <a href="{{meetingSeriesURL}}">{{meetingSeriesProject}} - {{meetingSeriesName}}</a> dated on <a href="{{minuteUrl}}">{{minutesDate}}</a> below.<br>
+<br>
+<strong>Invited:</strong> {{participants}}<br>
+{{#if participantsAdditional}}<strong>Additionally invited:</strong> {{participantsAdditional}}<br>{{/if}}
+<br>
+
+<strong>Agenda:</strong><br>
+<ol style="margin-top: 5px; padding-left: 40px;">
+    {{#each topics}}
+        <li>
+            {{subject}} {{responsiblesString}}
+        </li>
+    {{/each}}
+</ol>

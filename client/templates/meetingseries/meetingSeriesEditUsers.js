@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
+import { addCustomValidator } from '../../helpers/customFieldValidator'
+
 import { UserRoles } from '/imports/userroles'
-import { userlistClean, addNewUser } from './meetingSeriesEditUsersHelpers'
+import { userlistClean, addNewUser, checkUserName } from './meetingSeriesEditUsersHelpers'
 
 var _config;    // of type: UsersEditConfig
 
@@ -20,14 +22,16 @@ Template.meetingSeriesEditUsers.onCreated(function() {
 });
 
 Template.meetingSeriesEditUsers.onRendered(function() {
-    $.material.init();
     Meteor.typeahead.inject();
+
+    addCustomValidator('#edt_AddUser', (value) => {
+        if (value === '') {
+            return false;
+        }
+        return checkUserName(value, _config);
+    }, '')
 });
 
-
-Template.meetingSeriesEditUsers.onDestroyed(function() {
-    //add your statement here
-});
 
 Template.meetingSeriesEditUsers.helpers({
     userListClean: function () {
@@ -103,18 +107,23 @@ Template.meetingSeriesEditUsers.events({
         _config.users.update(this._userId, {$set: {roles: changedUser.roles}});
     },
 
+    'submit #form-add-user': function(evt, tmpl) {
+        evt.preventDefault();
+        let newUserName = tmpl.find("#edt_AddUser").value;
+        addNewUser(newUserName, _config);
+
+        $('.typeahead')
+            .typeahead('val', "")
+            .typeahead('close');
+    },
+
 
     'keyup #edt_AddUser': function(evt, tmpl) {
         if (evt.which === 13) {     // 'ENTER' on username <input>
             evt.stopPropagation();
             evt.preventDefault();
 
-            let newUserName = tmpl.find("#edt_AddUser").value;
-            addNewUser(newUserName, _config);
-
-            $('.typeahead')
-                .typeahead('val', "")
-                .typeahead('close');
+            tmpl.$('#form-add-user').find(':submit').click();
 
             return false;
         }

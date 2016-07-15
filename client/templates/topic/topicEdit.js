@@ -1,25 +1,22 @@
 import { Meteor } from 'meteor/meteor';
 
-import { Topic } from '/imports/topic'
-import { Minutes } from '/imports/minutes'
+import { Topic } from '/imports/topic';
+import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
+
+import { $ } from 'meteor/jquery';
 
 Session.setDefault("topicEditTopicId", null);
 
 let _minutesID; // the ID of these minutes
+let _meetingSeries; // ATTENTION - this var. is not reactive!
 
 Template.topicEdit.onCreated(function () {
     _minutesID = this.data;
     console.log("Template topicEdit created with minutesID "+_minutesID);
+    let aMin = new Minutes(_minutesID);
+    _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 });
-
-Template.topicEdit.onRendered(function () {
-    $.material.init();
-});
-
-Template.topicEdit.onDestroyed(function () {
-    //add your statement here
-});
-
 
 var getEditTopic = function() {
     let topicId = Session.get("topicEditTopicId");
@@ -30,7 +27,6 @@ var getEditTopic = function() {
 
     return new Topic(_minutesID, topicId);
 };
-
 
 var getPossibleResponsibles = function() {
     let possibleResponsibles = [];          // sorted later on
@@ -52,12 +48,20 @@ var getPossibleResponsibles = function() {
         }
     }
 
+    // add former responsibles from the parent meeting series
+    if (_meetingSeries && _meetingSeries.additionalResponsibles) {
+        buffer = buffer.concat(_meetingSeries.additionalResponsibles);
+    }
+
+
     // add the responsibles from current topic
     let topic = getEditTopic();
     if (topic && topic.hasResponsibles()) {
         buffer = buffer.concat(topic._topicDoc.responsibles);
     }
 
+    // copy buffer to possibleResponsibles
+    // but take care for uniqueness
     for (let i in buffer) {
         let aResponsibleId = buffer[i];
         if (! possibleResponsiblesUnique[aResponsibleId]) { // not seen?
@@ -73,7 +77,6 @@ var getPossibleResponsibles = function() {
 
     return possibleResponsibles;
 };
-
 
 // get those registered users that are not already added to select2 via
 // getPossibleResponsibles()
@@ -94,7 +97,6 @@ var getRemainingUsers = function (participants) {
     }
     return remainingUsers;
 };
-
 
 function configureSelect2Responsibles() {
     let selectResponsibles = $('#id_selResponsible');
@@ -124,8 +126,6 @@ function configureSelect2Responsibles() {
     selectResponsibles.trigger("change");
 }
 
-
-
 Template.topicEdit.helpers({
     'getTopicSubject': function() {
         let topic = getEditTopic();
@@ -133,11 +133,13 @@ Template.topicEdit.helpers({
     }
 });
 
-
-
 Template.topicEdit.events({
-    "click #btnTopicSave": async function (evt, tmpl) {
+    "submit #frmDlgAddTopic": async function (evt, tmpl) {
         evt.preventDefault();
+        let saveButton = $("#btnTopicSave");
+        let cancelButton = $("#btnTopicCancel");
+        saveButton.prop("disabled",true);
+        cancelButton.prop("disabled",true);
 
         let editTopic = getEditTopic();
         let topicDoc = {};
@@ -152,8 +154,13 @@ Template.topicEdit.events({
 
         try {
             await aTopic.save();
+
+            saveButton.prop("disabled",false);
+            cancelButton.prop("disabled",false);
             $('#dlgAddTopic').modal('hide');
         } catch (error) {
+            saveButton.prop("disabled",false);
+            cancelButton.prop("disabled",false);
             Session.set('errorTitle', 'Validation error');
             Session.set('errorReason', error.reason);
         }
@@ -170,6 +177,10 @@ Template.topicEdit.events({
 
     "show.bs.modal #dlgAddTopic": function (evt, tmpl) {
         configureSelect2Responsibles();
+        let saveButton = $("#btnTopicSave");
+        let cancelButton = $("#btnTopicCancel");
+        saveButton.prop("disabled",false);
+        cancelButton.prop("disabled",false);
     },
 
     "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
@@ -178,15 +189,17 @@ Template.topicEdit.events({
     },
 
     "select2:selecting #id_selResponsible"(evt, tmpl) {
-        // console.log(evt);
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
-        // evt.preventDefault();
-        // return false;
     },
 
     "select2:select #id_selResponsible"(evt, tmpl) {
-        // console.log(evt);
         console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
+        let respId = evt.params.data.id;
+        let respName = evt.params.data.text;
+        let aUser = Meteor.users.findOne(respId);
+        if (! aUser && respId == respName) {    // we have a free-text user here!
+            _meetingSeries.addAdditionalResponsible(respName);
+            _meetingSeries.save();
+        }
     }
-
 });

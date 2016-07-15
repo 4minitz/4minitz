@@ -1,6 +1,20 @@
-# 4minitz!
+# 4Minitz!
 
-Simply the best app for taking minutes.
+*Simply the best free webapp for taking minutes.*
+
+* Create a meeting series and invite others
+* Specify moderators, invited and informed users
+* Create an agenda with multiple topics
+* Attend a meeting via web with reactive live updates
+* 1-button sending of minutes and action items by email 
+* Use labels to tag items for later retrieval
+* Track open action items and unfinished topics across meetings
+* Full privacy: Host your own server - it's easy!
+
+**Important: 4Minitz is currently WIP and not yet ready for mission critical usage. 
+Nevertheless, quite a few features are working stable already and you can head over to our
+[4Minitz Demo Server](https://www.4minitz.de) and and play around or install the current 
+version on your own server (see below)** 
 
 Documentation is "continously" not finished... Nevertheless these WIP docs may be of help:
 
@@ -25,7 +39,7 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 
     curl https://install.meteor.com/ | sh
 
-### Installation of 4minitz    
+### Installation of 4Minitz    
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git
     cd 4minitz
@@ -35,3 +49,7 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 Wait some time for meteor to finish building. 
 You can reach 4minitz via the default port 3000 by opening [http://localhost:3000](http://localhost:3000) in your browser
 
+**Hint:** There exists a settings_sample.json file that has quite a few configuration options
+(like sending eMails etc.). Don't miss the [Admin Guide](doc/admin/adminguide.md) with more details
+ on this topic.
+ 

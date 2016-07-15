@@ -4,15 +4,6 @@ import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 
 
-Template.meetingSeriesList.onCreated(function () {
-});
-
-
-Template.meetingSeriesList.onRendered(function () {
-    $.material.init();
-});
-
-
 Template.meetingSeriesList.helpers({
     meetingSeriesRow: function () {
       return MeetingSeries.find({}, {sort: {lastMinutesDate: -1}});

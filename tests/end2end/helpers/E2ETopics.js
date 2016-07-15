@@ -9,6 +9,7 @@ export class E2ETopics {
         browser.click("#id_showAddTopicDialog");
 
         E2ETopics.insertTopicDataIntoDialog(aTopic, aResponsible);
+        E2ETopics.submitTopicDialog();
     };
 
     
@@ -16,25 +17,50 @@ export class E2ETopics {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnEditTopic";
         browser.waitForVisible(selector);
         browser.click(selector);
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(500);
     }
 
     static editTopicForMinutes(topicIndex, newTopicSubject, newResponsible) {
         E2ETopics.openEditTopicForMinutes(topicIndex);
         E2ETopics.insertTopicDataIntoDialog(newTopicSubject, newResponsible);
+        E2ETopics.submitTopicDialog();
     }
 
     static deleteTopic(topicIndex, confirmDialog) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
         browser.waitForVisible(selector);
         browser.click(selector);
-        if (confirmDialog === undefined || confirmDialog) {
-            E2EApp.confirmationDialogAnswer(true);
+        if (confirmDialog === undefined) {
+            return;
+        }
+        E2EApp.confirmationDialogAnswer(confirmDialog);
+    }
+
+    static responsible2ItemEnterFreetext(theText) {
+        E2EGlobal.waitSomeTime();
+
+        // &%$#$@! - the following does not work => Uncaught Error: element not visible
+        // browser.element(".form-group-responsibles .select2-selection").click();
+        // ... so we take this as workaround: click into first select2 then Tab/Tab to the next one
+
+        browser.element(".form-group-labels .select2-selection").click();
+        browser.keys("\uE004\uE004"); // 2 x Tab to reach next select2
+
+        let texts = theText.split(",");
+        for (let i in texts) {
+            browser.keys(texts[i]+"\uE007"); // plus ENTER
         }
     }
 
-    static responsibleEnterFreetext(theText) {
+    static responsible2TopicEnterFreetext(theText) {
         browser.element(".select2-selection").click();
+        browser.keys(theText+"\uE007"); // plus ENTER
+    }
+
+    static labelEnterFreetext(theText) {
+        E2EGlobal.waitSomeTime();
+        browser.element(".form-group-labels .select2-selection").click();
+        E2EGlobal.waitSomeTime();
         browser.keys(theText+"\uE007"); // plus ENTER
     }
     
@@ -50,38 +76,59 @@ export class E2ETopics {
             browser.setValue('#id_subject', subject);
         }
         if (responsible) {
-            E2ETopics.responsibleEnterFreetext(responsible);
+            E2ETopics.responsible2TopicEnterFreetext(responsible);
         }
+    }
+
+    static submitTopicDialog() {
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime(700);
     }
 
-    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+    static openInfoItemDialog(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .addTopicInfoItem";
 
         browser.waitForVisible(selector);
         browser.click(selector);
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc)
     }
 
-    static editInfoItemForTopic(topicIndex, infoItemIndex, infoItemDoc) {
+    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+        this.openInfoItemDialog(topicIndex);
+        this.insertInfoItemDataIntoDialog(infoItemDoc);
+        this.submitInfoItemDialog();
+    }
+
+    static openInfoItemEditor(topicIndex, infoItemIndex) {
         let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnEditInfoItem";
 
         browser.waitForVisible(selector);
         browser.click(selector);
 
         E2EGlobal.waitSomeTime();
+    }
 
-        E2ETopics.insertInfoItemDataIntoDialog(infoItemDoc, true);
+    static editInfoItemForTopic(topicIndex, infoItemIndex, infoItemDoc) {
+        E2ETopics.openInfoItemEditor(topicIndex, infoItemIndex, infoItemDoc);
+
+        this.insertInfoItemDataIntoDialog(infoItemDoc, true);
+        this.submitInfoItemDialog();
+    }
+
+    static addLabelToItem(topicIndex, infoItemIndex, labelName) {
+        E2ETopics.openInfoItemEditor(topicIndex, infoItemIndex);
+        E2ETopics.labelEnterFreetext(labelName);
+        browser.click("#btnInfoItemSave");
+        E2EGlobal.waitSomeTime(700);
     }
 
     static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
         let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnDelInfoItem";
         browser.waitForVisible(selector);
         browser.click(selector);
-        if (confirmDialog === undefined || confirmDialog) {
-            E2EApp.confirmationDialogAnswer(true);
-        }
+        if (confirmDialog === undefined) {
+            return;
+        } 
+        E2EApp.confirmationDialogAnswer(confirmDialog);
     }
 
     static insertInfoItemDataIntoDialog(infoItemDoc, isEditMode) {
@@ -90,14 +137,9 @@ export class E2ETopics {
         } catch (e) {
             return false;
         }
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(500);
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
-
-        if (infoItemDoc.responsible) {
-            E2ETopics.responsibleEnterFreetext(infoItemDoc.responsible);
-        }
-        //todo: set other fields (priority, responsible, duedate, details)
 
         if (!isEditMode) {
             let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
@@ -105,7 +147,20 @@ export class E2ETopics {
             browser.waitForExist(radioBtnSelector);
             browser.click(radioBtnSelector);
         }
+        E2EGlobal.waitSomeTime();
 
+        //todo: set other fields (duedate, details)
+
+        if (infoItemDoc.responsible) {
+            E2ETopics.responsible2ItemEnterFreetext(infoItemDoc.responsible);
+        }
+
+        if (infoItemDoc.priority) {
+            browser.setValue('#id_item_priority', infoItemDoc.priority);
+        }
+    }
+
+    static submitInfoItemDialog() {
         browser.click("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
     }
@@ -213,8 +268,6 @@ export class E2ETopics {
     static addDetailsToActionItem(topicIndex, infoItemIndex, detailsText, doBeforeSubmit) {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
 
-        E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
-
         let selAddDetails = selectInfoItem + ".addDetail";
         try {
             browser.waitForVisible(selAddDetails);
@@ -223,8 +276,9 @@ export class E2ETopics {
         }
         browser.click(selAddDetails);
 
-        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
-        let selFocusedInput = "#detailInput_" + newId;
+        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex);
+        let selDetails = selectInfoItem + ".detailRow:nth-child(" + newId + ") ";
+        let selFocusedInput = selDetails + ".detailInput";
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
@@ -237,17 +291,22 @@ export class E2ETopics {
         browser.keys(['Escape']);
     }
 
-    static changeDetailsForActionItem(topicIndex, infoItemIndex, detailsIndex, detailsText) {
+    static editDetailsForActionItem(topicIndex, infoItemIndex, detailIndex, detailsText) {
         let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
-
         E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
 
-        let selDateCol = selectInfoItem + ".actionItemDetails:nth-child(" + detailsIndex + ") .detailDate";
-        browser.waitForVisible(selDateCol);
-        browser.click(selDateCol);
+        let selDetails = selectInfoItem + ".detailRow:nth-child(" + detailIndex + ") ";
 
-        let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex)-1;
-        let selFocusedInput = "#detailInput_" + newId;
+        let selEditDetails = selDetails + ".detailText";
+        try {
+            browser.waitForVisible(selEditDetails);
+        } catch (e) {
+            console.log("detailText not visible");
+            return false;
+        }
+        browser.click(selEditDetails);
+
+        let selFocusedInput = selDetails + ".detailInput";
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {

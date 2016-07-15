@@ -7,7 +7,14 @@ export class E2EGlobal {
             milliseconds = 300;
         }
         browser.pause(milliseconds);
-    } ;
+
+        let max = 100;
+        while (browser.isVisible('#loading-container') && max > 0) {
+            E2EGlobal.saveScreenshot('loading');
+            browser.pause(100);
+            max--;
+        }
+    }
 
     static formatDateISO8601 (aDate) {
         let dd = aDate.getDate();

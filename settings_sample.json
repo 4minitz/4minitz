@@ -2,16 +2,16 @@
     "//1": "below option ensures that embedded links in E-Mails point back to your server",
     "ROOT_URL": "http://www.your-domain.com",
 
-    "//2": ["below option switches off some privacy settings in trusted envirionments",
+    "//2": ["below option switches off some privacy settings in trusted environments",
                 "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
                 "false: will send separate finalize mails to all participants and keep their privacy"],
     "trustedIntranetInstallation": false,
 
     "//3": "below option configures if and how to send E-Mails",
     "email": {
-        "//4": "Switch on/off E-Mail sending",
+        "//3.1": "Switch on/off E-Mail sending",
         "enableMailDelivery": true,
-        "//5": "Choose one of the below mail deliver methods",
+        "//3.2": "Choose one of the below mail deliver methods",
         "mailDeliverer": "mailgun|smtp",
 
         "defaultEMailSenderAddress": "default@email.de",
@@ -25,5 +25,23 @@
             "domain": "Your mailgun domain",
             "apiUrl": "https://api.mailgun.net/v3"
         }
+    },
+
+    "//4": "below option to configure default labels. These will be copied to all newly added meeting series",
+    "defaultLabels": [
+        { "name": "Status:RED",     "color": "#ff0000"},
+        { "name": "Status:YELLOW",  "color": "#ffff00"},
+        { "name": "Status:GREEN",   "color": "#008000"},
+        { "name": "Milestone",      "color": "#66ff66"},
+        { "name": "Decision",       "color": "#0099ff"},
+        { "name": "Escalation",     "color": "#ff9933"},
+        { "name": "Issue",          "color": "#cc66ff"},
+        { "name": "Proposal",       "color": "#ffff66"},
+        { "name": "Draft",          "color": "#ffff66"}
+    ],
+
+    "//5": "configure mongodb",
+    "db": {
+        "mongodumpTargetDirectory": ""
     }
 }

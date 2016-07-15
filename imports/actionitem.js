@@ -58,24 +58,10 @@ export class ActionItem extends InfoItem{
     getTextFromDetails (index) {
         if (index === undefined) index = 0;
         let details = this._infoItemDoc.details;
-        if (details.length > 0 && details[index].hasOwnProperty("text")) {
+        if (details && details.length > 0 && details[index].hasOwnProperty("text")) {
             return details[index].text;
         }
         return "";
-    }
-
-    addDetails(text) {
-        if (text === undefined) text = "";
-
-        let date = formatDateISO8601(new Date());
-        this._infoItemDoc.details.push({
-            date: date,
-            text: text
-        })
-    }
-
-    getDetails() {
-        return this._infoItemDoc.details;
     }
 
     getSubject() {

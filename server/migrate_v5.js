@@ -1,7 +1,7 @@
 import { MinutesCollection } from '/imports/collections/minutes_private'
 import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
 
-// convert the participants fields
+// add the isRecurring field to all topics
 export class MigrateV5 {
 
     static _upgradeTopics(topics) {
@@ -12,7 +12,7 @@ export class MigrateV5 {
     }
 
     static _downgradeTopics(topics) {
-        // remove field isSticky for each infoItem in each topic
+        // remove field isRecurring for each infoItem in each topic
         topics.forEach(topic => {
             delete topic.isRecurring;
         });

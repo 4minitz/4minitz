@@ -86,9 +86,10 @@ describe('Topics Responsibles', function () {
 
         E2ETopics.openEditTopicForMinutes(1);
         browser.element(".select2-selection").click();
+        E2EGlobal.waitSomeTime();
         browser.keys("1\uE015\uE007");  // "1" (end of user1 string) + CursorDown + Enter
         browser.click("#btnTopicSave");
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(500);
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
         expect (topicHeadingText).to.contain(user1);
@@ -102,10 +103,12 @@ describe('Topics Responsibles', function () {
         E2ETopics.addTopicToMinutes('TOP-1', "");
 
         E2ETopics.openEditTopicForMinutes(1);
+        E2EGlobal.waitSomeTime();
         browser.element(".select2-selection").click();
         browser.keys("3\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
-        browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime();
+        browser.click("#btnTopicSave");
+        E2EGlobal.waitSomeTime(500);
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
         expect (topicHeadingText).to.contain(user3);

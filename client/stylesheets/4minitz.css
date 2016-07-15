@@ -48,20 +48,22 @@ ul.nav-tabs li a:hover {
 
 /* remove dotted outline on clicked menu / tab items */
 a:focus {
-    outline: none;
+    outline: none !important;
 }
 
 /* for panel lists of topics/action items */
+/* .panel-heading sets the default background which can only be
+   overwritten with the !important flag  */
 .panel-heading.actionitem-open {
-    background-color: #77CCCC;
+    background-color: #77CCCC !important;
 }
 
 .panel-heading.actionitem-closed {
-    background-color: #DDDDDD;
+    background-color: #DDDDDD !important;
 }
 
 .panel-heading.infoitem {
-    background-color: #ffffff;
+    background-color: #ffffff !important;
 }
 
 .username-label {
@@ -72,6 +74,10 @@ a:focus {
     margin-right: .5em;
     font-weight: 100;
     color: black;
+}
+
+.label-large {
+    font-size: 110% !important;
 }
 
 
@@ -104,10 +110,13 @@ a:focus {
     font-size: 16px;
 }
 
-.pull-right-icons a {
+.pull-right-icons a,
+.pull-right-icons a:link,
+.pull-right-icons a:visited,
+.pull-right-icons a:hover,
+.pull-right-icons a:active {
     text-decoration: none;
 }
-
 
 
 .topicDragDropHandle:hover {
@@ -122,4 +131,42 @@ a:focus {
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
+}
+
+.form-inline .form-control {
+    margin-top: -20px;
+}
+
+/* Format tables in MarkDown details */
+.detailText table {
+    border-collapse:separate;
+    border:solid darkgray 1px;
+    border-radius:6px;
+    padding: 10px;
+}
+
+.detailText td, .detailText th {
+    padding: 10px;
+    border-bottom: solid black 1px;
+}
+
+.detailText th {
+    background: #DDDDDD;
+}
+
+
+@media screen and (max-width: 739px), screen and (min-width: 992px) {
+    .minutes-action-buttons .btn-raised {
+        width: 100%
+    }
+}
+
+/* the pick-a-color preview box is not in-line with the input field */
+input.pick-a-color {
+    margin-bottom: -40px !important;
+}
+
+/* prevent adding empty space between color-items of the color picker */
+.pick-a-color-markup .color-menu li {
+    height: 31px;
 }

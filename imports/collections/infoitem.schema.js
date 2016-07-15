@@ -13,6 +13,7 @@ export const InfoItemSchema = new SimpleSchema({
     itemType: {type: String, regEx: /^(actionItem)|(infoItem)$/, defaultValue: 'infoItem'},
     isSticky: {type: Boolean, defaultValue: false},
     createdInMinute: {type: String, regEx: SimpleSchema.RegEx.Id},
+    labels: {type: [String], regEx: SimpleSchema.RegEx.Id},
     subject: {type: String},
     isOpen: {type: Boolean, optional: true},                            // action item
     isNew: {type: Boolean, optional: true},                             // action item

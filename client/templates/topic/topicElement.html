@@ -57,7 +57,7 @@
             <div style="margin-left: 20px; padding-left: 5px;">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     {{#each topic.infoItems}}
-                        {{> topicInfoItem getInfoItem}}
+                        {{> topicInfoItem getInfoItem @index}}
                     {{/each}}
                 </div>
             </div>

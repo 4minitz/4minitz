@@ -8,7 +8,7 @@ import { E2ETopics } from './helpers/E2ETopics'
 require('./../../lib/helpers');
 
 
-describe('ActionItems Details', function () {
+describe('Item Details', function () {
     const aProjectName = "E2E ActionItems Details";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
@@ -17,7 +17,7 @@ describe('ActionItems Details', function () {
     let aTopicNameBase = "Topic Name #";
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Action Item Name #";
+    let aAINameBase = "Item Name #";
 
     let getNewMeetingName = () => {
         aMeetingCounter++;
@@ -71,6 +71,21 @@ describe('ActionItems Details', function () {
             .to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
     });
 
+    it('can add details to an Info Item, too', function() {
+        const detailsText = 'New Details for Info Item';
+        E2ETopics.addInfoItemToTopic({
+            subject: getNewAIName(),
+            itemType: 'infoItem'
+        }, 1);
+
+        E2ETopics.addDetailsToActionItem(1, 1, detailsText);
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        expect(browser.elementIdText(firstItemOfNewTopic).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+    });
+
     it('can add a second detail to an Action Item', function () {
         E2ETopics.addDetailsToActionItem(1, 1, 'First Details');
         E2ETopics.addDetailsToActionItem(1, 1, 'Second Details');
@@ -81,6 +96,46 @@ describe('ActionItems Details', function () {
             .to.have.string(formatDateISO8601(new Date()) + '\nFirst Details');
         expect(browser.elementIdText(firstItemOfNewTopic).value, "2nd added detail should be displayed, too")
             .to.have.string(formatDateISO8601(new Date()) + '\nSecond Details');
+    });
+
+    it('can add details to the 2nd AI of the same topic persistent', function() {
+        E2ETopics.addInfoItemToTopic({
+            subject: getNewAIName(),
+            itemType: "actionItem"
+        }, 1);
+        E2ETopics.addDetailsToActionItem(1, 1, 'First Details');
+
+        const detailsText = 'Details for the 2nd AI';
+
+        E2ETopics.addDetailsToActionItem(1, 2, detailsText);
+
+        browser.refresh();
+        E2EGlobal.waitSomeTime(1500); // phantom.js needs some time here...
+
+        E2ETopics.expandDetailsForActionItem(1, 2);
+
+        E2EGlobal.waitSomeTime(100); // phantom.js needs some time here, too...
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
+        expect(browser.elementIdText(sndItemOfNewTopic).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+    });
+
+    it('can edit the details of the 2nd AI of the same topic', function() {
+        E2ETopics.addDetailsToActionItem(1, 1, 'First Details');
+
+        E2ETopics.addInfoItemToTopic({
+            subject: getNewAIName(),
+            itemType: "actionItem"
+        }, 1);
+        E2ETopics.addDetailsToActionItem(1, 1, '2nd Details');
+
+        E2ETopics.editDetailsForActionItem(1, 2, 1, "Updated Details");
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
+        expect(browser.elementIdText(sndItemOfNewTopic).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + "Updated Details");
     });
 
     it('does not remove details when AI will be updated with the edit dialog', function () {
@@ -99,7 +154,7 @@ describe('ActionItems Details', function () {
 
     it('does not revert changes when input field receives click-event during input', function () {
         let doBeforeSubmit = (inputElement) => {
-            // perform click event on the input field after setting the text and before submitting the changes
+           // perform click event on the input field after setting the text and before submitting the changes
             browser.click(inputElement);
         };
 
@@ -114,7 +169,7 @@ describe('ActionItems Details', function () {
     it('can change existing details', function () {
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
 
-        E2ETopics.changeDetailsForActionItem(1, 1, 1, 'New Details (changed)');
+        E2ETopics.editDetailsForActionItem(1, 1, 1, 'New Details (changed)');
 
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
@@ -140,7 +195,7 @@ describe('ActionItems Details', function () {
 
     it('ensures that only moderator can add details', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
@@ -172,7 +227,7 @@ describe('ActionItems Details', function () {
         E2ETopics.addDetailsToActionItem(1, 1, 'Old Details');
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
@@ -189,7 +244,7 @@ describe('ActionItems Details', function () {
 
         E2EMinutes.gotoLatestMinutes();
 
-        E2ETopics.changeDetailsForActionItem(1, 1, 1, 'Changed Details');
+        E2ETopics.editDetailsForActionItem(1, 1, 1, 'Changed Details');
 
 
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);

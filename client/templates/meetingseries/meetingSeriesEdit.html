@@ -1,0 +1,92 @@
+<template name="meetingSeriesEdit">
+    <!-- ********************************* -->
+    <!-- MODAL DIALOG: Edit Meeting Series -->
+    <!-- ********************************* -->
+
+    <div class="modal fade" id="dlgEditMeetingSeries" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Edit Meeting Series</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="frmDlgEditMeetingSeries">
+                        <div>
+
+                            <!--BASE CONFIGURATION-->
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                               id="btnShowHideBaseConfig">
+                                                Base Configuration
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <label class="control-label" for="id_meetingproject">Project Name</label>
+                                            <input class="form-control" id="id_meetingproject" type="text" value="{{this.project}}" required
+                                                   data-error-msg="Please enter a valid project name" autocomplete="off">
+
+                                            <label class="control-label" for="id_meetingname">Meeting Name</label>
+                                            <input class="form-control" id="id_meetingname" type="text" value="{{this.name}}" required
+                                                   data-error-msg="Please enter a valid name for the meeting series" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--INVITED USERS-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingTwo">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+                                            id="btnShowHideInvitedUsers">
+                                                Invited Users
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="panel-body">
+                                            {{>meetingSeriesEditUsers userEditConfig}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--LABELS-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingThree">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"
+                                              id="btnShowHideLabels">
+                                                Labels
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                            {{>meetingSeriesEditLabels labelsConfig}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--BUTTONS-->
+                        <a href="#" id="deleteMeetingSeries" class="btn btn-danger btn-raised" style="width: 100%;">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            Delete Meeting Series
+                        </a>
+                        {{!-- hidden submit button required for form-validation --}}
+                        <input style="display: none" type="submit" value="submit">
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id= "btnMeetinSeriesEditCancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="btnMeetingSeriesSave" class="btn btn-primary btn-raised">Save Meeting Series</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

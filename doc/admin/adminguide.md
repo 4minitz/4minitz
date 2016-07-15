@@ -1,14 +1,14 @@
-# 4minitz Admin Guide
+# 4Minitz Admin Guide
 
 ## Setup
 
 ### Prerequisites
-1. Install current version of meteor (which will install node & mongodb if not present):
+Install current version of meteor (which will install node & mongodb if not present):
 
 
     curl https://install.meteor.com/ | sh
 
-### Installation of 4minitz    
+### Installation of 4Minitz    
 
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git
@@ -18,6 +18,15 @@
 
 Wait some time for meteor to finish building. 
 You can reach 4minitz via the default port 3000 by opening [http://localhost:3000](http://localhost:3000) in your browser
+
+
+### Database configuration
+
+Database related configuration is collected under the ```db``` object in your settings.json. These options are available:
+
+* ```mongodumpTargetDirectory```: The output directory where 4minitz will store the database contents before
+  the database schema is updated. If this is not set or empty no backup will be created.
+
 
 ### Configuration for sending emails
 

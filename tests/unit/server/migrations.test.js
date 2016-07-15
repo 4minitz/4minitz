@@ -4,26 +4,50 @@ import sinon from 'sinon';
 
 let doNothing = () => {};
 
+let moment = function () {
+    return {
+        format: sinon.stub()
+    };
+};
+moment['@noCallThru'] = true;
+
 let Migrations = {
     getVersion: sinon.stub().returns(0),
     _list: [],
     migrateTo: sinon.spy(),
     add: doNothing
 };
+let Meteor = {};
 let backupMongo = sinon.spy();
+let join = sinon.stub().returns('outputdir');
 
 const { handleMigration } = proxyquire('../../../server/migrations', {
     'meteor/percolate:migrations': { Migrations, '@noCallThru': true},
+    'moment/moment': moment,
+    'meteor/meteor': { Meteor, '@noCallThru': true},
+    'path': { join, '@noCallThru': true},
     './mongoBackup': { backupMongo, '@noCallThru': true}
 });
 
 describe('Migrations', function () {
     describe('#handleMigration', function () {
         beforeEach(function () {
+            sinon.spy(console, 'warn');
+
             Migrations._list = [];
+
+            Meteor.settings = {
+                db: {
+                    mongodumpTargetDirectory: 'outputdir'
+                }
+            };
 
             backupMongo.reset();
             Migrations.migrateTo.reset();
+        });
+
+        afterEach(function () {
+            console.warn.restore();
         });
 
         it('creates a backup for the mongodb if a migration is due', function () {
@@ -32,6 +56,33 @@ describe('Migrations', function () {
             handleMigration();
 
             expect(backupMongo.calledOnce).to.equal(true);
+        });
+
+        it('omits the creation of a backup if no target directory is set', function () {
+            Meteor.settings.db.mongodumpTargetDirectory = '';
+            Migrations._list.push({version: 1});
+
+            handleMigration();
+
+            expect(console.warn.calledOnce).to.equal(true);
+        });
+
+        it('no settings defined will issue a warning about missing the target dir config', function () {
+            Meteor.settings = undefined;
+            Migrations._list.push({version: 1});
+
+            handleMigration();
+
+            expect(console.warn.calledOnce).to.equal(true);
+        });
+
+        it('no db settings defined will issue a warning about missing the target dir config', function () {
+            Meteor.settings.db = undefined;
+            Migrations._list.push({version: 1});
+
+            handleMigration();
+
+            expect(console.warn.calledOnce).to.equal(true);
         });
 
         it('migrates to the newest version if one is due', function () {

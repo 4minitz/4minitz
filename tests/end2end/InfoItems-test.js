@@ -58,6 +58,25 @@ describe('Info Items', function () {
         }
     });
 
+    it('can add an info item', function () {
+        let topicIndex = 1;
+        const infoItemName = getNewAIName();
+        E2ETopics.addInfoItemToTopic({
+            subject: infoItemName,
+            itemType: "infoItem"
+        }, topicIndex);
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
+
+        let infoItemExpandElement = browser.element(selector).value.ELEMENT;
+        let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
+
+        expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
+    });
+
     it('shows security question before deleting info items', function () {
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
@@ -65,7 +84,7 @@ describe('Info Items', function () {
             itemType: "infoItem"
         }, 1);
 
-        E2ETopics.deleteInfoItem(1, 1, /*auto confirm*/false);
+        E2ETopics.deleteInfoItem(1, 1);
 
         let selectorDialog = "#confirmDialog";
 
@@ -82,29 +101,61 @@ describe('Info Items', function () {
         E2EApp.confirmationDialogAnswer(false);
     });
 
-    it('shows security question before deleting action items', function () {
+    it('can delete an info item', function () {
+        let topicIndex = 1;
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
             subject: infoItemName,
-            itemType: "actionItem"
-        }, 1);
+            itemType: "infoItem"
+        }, topicIndex);
 
-        E2ETopics.deleteInfoItem(1, 1, /*auto confirm*/false);
+        E2EGlobal.waitSomeTime();
 
-        let selectorDialog = "#confirmDialog";
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
 
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
-        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
-
-        let dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
-        let dialogContentText = browser.elementIdText(dialogContentElement).value;
-
-        expect(dialogContentText, 'dialog content should display the title of the to-be-deleted object').to.have.string(infoItemName);
-        expect(dialogContentText, 'dialog content should display the correct type of the to-be-deleted object').to.have.string("action item");
-
-        // close dialog otherwise beforeEach-hook will fail!
-        E2EApp.confirmationDialogAnswer(false);
+        E2ETopics.deleteInfoItem(1, 1, true);
+        expect(browser.isVisible(selector), "Info item should be deleted").to.be.false;
     });
 
+
+    it('can cancel a "delete info item"', function () {
+        let topicIndex = 1;
+        const infoItemName = getNewAIName();
+        E2ETopics.addInfoItemToTopic({
+            subject: infoItemName,
+            itemType: "infoItem"
+        }, topicIndex);
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
+
+        E2ETopics.deleteInfoItem(1, 1, false);
+        expect(browser.isVisible(selector), "Info item should still exist").to.be.true;
+    });
+
+
+    it('can submit an info item by pressing enter in the topic field', function () {
+        let topicIndex = 1;
+        E2ETopics.openInfoItemDialog(topicIndex);
+
+        const infoItemName = getNewAIName();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: infoItemName + "\n",
+            itemType: "infoItem"
+        });
+
+        E2EGlobal.waitSomeTime();
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
+
+        let infoItemExpandElement = browser.element(selector).value.ELEMENT;
+        let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
+
+        expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
+    });
 
 });

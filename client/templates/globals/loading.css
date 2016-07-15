@@ -1,0 +1,15 @@
+
+div#loading-container
+{
+    text-align: center;
+    font-size: 110%;
+    color: darkgrey;
+
+    width:320px;
+    height:320px;
+    margin:0 auto;
+    position:absolute;
+    top:30%;
+    left:50%;
+    margin-left:-160px;
+}

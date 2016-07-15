@@ -8,11 +8,6 @@ Template.topicElement.onCreated(function () {
     _minutesId = Template.instance().data.minutesID;
 });
 
-Template.topicElement.onRendered(function () {
-    $.material.init();
-});
-
-let collapseID = 0;
 Template.topicElement.helpers({
 
     checkedState: function () {
@@ -33,7 +28,7 @@ Template.topicElement.helpers({
 
     // helper will be called within the each-infoItem block
     // so this refers to the current infoItem
-    getInfoItem: function () {
+    getInfoItem: function (index) {
         let parentTopicId = Template.instance().data.topic._id;
         let parentElement = (Template.instance().data.minutesID)
             ? Template.instance().data.minutesID : Template.instance().data.parentMeetingSeriesId;
@@ -43,7 +38,7 @@ Template.topicElement.helpers({
             parentTopicId: parentTopicId,
             isEditable: Template.instance().data.isEditable,
             minutesID: parentElement,//Template.instance().data.minutesID,
-            currentCollapseId: collapseID++  // each topic item gets its own collapseID
+            currentCollapseId: parentTopicId+"_"+index  // each topic item gets its own collapseID
         };
     },
 
@@ -58,11 +53,17 @@ Template.topicElement.helpers({
     },
 
     responsiblesHelper() {
-        let parentElement = (this.minutesID) ? this.minutesID : this.parentMeetingSeriesId;
+        try {
+            let parentElement = (this.minutesID) ? this.minutesID : this.parentMeetingSeriesId;
 
-        let aTopic = new Topic(parentElement, this.topic._id);
-        if (aTopic.hasResponsibles()) {
-            return "("+aTopic.getResponsiblesString()+")";
+            let aTopic = new Topic(parentElement, this.topic._id);
+            if (aTopic.hasResponsibles()) {
+                return "("+aTopic.getResponsiblesString()+")";
+            }
+        } catch (e) {
+            // intentionally left blank.
+            // on deletion of a topic blaze once calls this method on the just deleted topic
+            // we handle this gracefully with this empty exception handler
         }
         return "";
     }

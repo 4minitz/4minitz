@@ -41,6 +41,17 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
+    it('can submit a new topic by pressing enter on the topic title input', function () {
+        browser.waitForVisible("#id_showAddTopicDialog");
+        browser.click("#id_showAddTopicDialog");
+
+        E2ETopics.insertTopicDataIntoDialog("some topic\n");
+
+        E2EGlobal.waitSomeTime(700);
+
+        expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+    });
+
     it('can add multiple topics', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
@@ -50,7 +61,7 @@ describe('Topics', function () {
 
     it('shows security question before deleting a topic', function() {
         E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.deleteTopic(1, /*auto-confirm-dialog*/false);
+        E2ETopics.deleteTopic(1);
 
         let selectorDialog = "#confirmDialog";
 
@@ -64,6 +75,24 @@ describe('Topics', function () {
 
         // close dialog otherwise beforeEach-hook will fail!
         E2EApp.confirmationDialogAnswer(false);
+    });
+
+
+    it('can delete a topic', function () {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.addTopicToMinutes('yet another topic');
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+        E2ETopics.deleteTopic(1, true);
+        expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+    });
+
+
+    it('can cancel a "delete topic"', function () {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.addTopicToMinutes('yet another topic');
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+        E2ETopics.deleteTopic(1, false);
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
     });
 
 
@@ -158,7 +187,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('yet another topic');
         
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];

@@ -4,7 +4,7 @@ import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 
-import { TopicListConfig } from './topic/topicsList'
+import { TopicListConfig } from '../topic/topicsList'
 
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
@@ -20,10 +20,6 @@ Template.meetingSeriesDetails.onRendered(function () {
     if (this.data.openMeetingSeriesEditor) {
         $('#dlgEditMeetingSeries').modal('show');
     }
-});
-
-Template.meetingSeriesDetails.onRendered(function () {
-    $.material.init();
 });
 
 Template.meetingSeriesDetails.helpers({

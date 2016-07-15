@@ -8,6 +8,7 @@ export const TopicSchema = new SimpleSchema({
     isOpen: {type: Boolean, defaultValue: true},
     isRecurring: {type: Boolean, defaultValue: false},
     isNew: {type: Boolean, defaultValue: true},
-    infoItems: {type: [InfoItemSchema], defaultValue: []}
+    infoItems: {type: [InfoItemSchema], defaultValue: []},
+    labels: {type: [String], regEx: SimpleSchema.RegEx.Id}
 });
 
