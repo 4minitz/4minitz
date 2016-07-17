@@ -40,8 +40,20 @@
         { "name": "Draft",          "color": "#ffff66"}
     ],
 
-    "//5": "configure mongodb",
+    "//5": "MongoDB configuration",
     "db": {
         "mongodumpTargetDirectory": ""
+    },
+
+    "//6": "LDAP Configuration",
+    "ldap": {
+        "enabled": false,
+        "searchDn": "cn",
+        "searchFilter": "(objectClass=user)",
+        "serverDn": "OU=people,DC=example,DC=com",
+        "serverUrl": "ldaps://ld.example.com:636",
+        "allowSelfSignedTLS": false,
+        "whiteListedFields": [ "cn", "department", "employeeNumber", "mail" ],
+        "autopublishFields": [ "cn" ]
     }
 }

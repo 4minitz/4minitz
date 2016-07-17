@@ -4,7 +4,8 @@ import { GlobalSettings } from '/imports/GlobalSettings';
 
 import '/imports/minutes';
 import '/imports/meetingseries';
-import '/imports/collections/userroles_private'
+import '/imports/collections/userroles_private';
+import '/server/ldap';
 
 Meteor.startup(() => {
     GlobalSettings.publishSettings();
