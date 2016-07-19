@@ -44,7 +44,11 @@ Meteor.methods({
         }
 
         // It also not allowed to insert a new minute dated before the last finalized one
-        parentMeetingSeries.isMinutesDateAllowed(/*we have no minutes_id*/null, doc.date);
+        if (!parentMeetingSeries.isMinutesDateAllowed(/*we have no minutes_id*/null, doc.date)) {
+            // invalid date
+            throw new Meteor.Error('Cannot create new Minutes', 'Invalid date - it is not allowed to create a new minute' +
+                'dated before the last finalized one.');
+        }
 
         doc.isFinalized = false;
         doc.isUnfinalized = false;
