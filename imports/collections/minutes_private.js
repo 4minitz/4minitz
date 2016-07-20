@@ -56,15 +56,29 @@ Meteor.methods({
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(doc.meetingSeries_id)) {
-            MinutesCollection.insert(doc, function (error, newMinutesID) {
+            MinutesCollection.insert(doc, async function (error, newMinutesID) {
                 doc._id = newMinutesID;
                 if (!error) {
-                    // store this new minutes ID to the parent meeting's array "minutes"
-                    parentMeetingSeries.minutes.push(newMinutesID);
-                    parentMeetingSeries.save();
-
                     if (Meteor.isClient && clientCallback) {
                         clientCallback(newMinutesID);
+                    }
+
+                    // store this new minutes ID to the parent meeting's array "minutes"
+                    let done = false;
+                    let tries = 2;
+                    while (tries > 0 && !done) {
+                        try {
+                            parentMeetingSeries.minutes.push(newMinutesID);
+                            await parentMeetingSeries.save();
+                            done = true;
+                        } catch (e) {
+                            tries--;
+                            console.log('Could not add minutes id to the parent series. #' + tries);
+                        }
+                    }
+                    if (!done) {
+                        MinutesCollection.remove({_id: newMinutesID});
+                        throw new Meteor.Error('runtime-error', 'Could not add the minutes id to the parent series');
                     }
                 }
             });

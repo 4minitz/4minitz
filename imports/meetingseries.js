@@ -60,6 +60,10 @@ export class MeetingSeries {
         }
     }
 
+    async saveAsync(optimisticUICallback) {
+        await this.save(optimisticUICallback);
+    }
+
     toString () {
         return "MeetingSeries: "+JSON.stringify(this, null, 4);
     }

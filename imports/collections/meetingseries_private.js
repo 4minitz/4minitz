@@ -96,7 +96,16 @@ Meteor.methods({
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(id)) {
-            MeetingSeriesCollection.update(id, {$set: doc});
+            try {
+                let updateResult = MeetingSeriesCollection.update(id, {$set: doc});
+                if (Meteor.isServer && !updateResult) {
+                    console.error('Error updating meeting series, no docs affected!');
+                    throw new Meteor.Error('runtime-error', 'No docs affected when updating meeting series');
+                }
+            } catch(e) {
+                console.error(e);
+                throw new Meteor.Error('runtime-error', 'Error updating meeting series collection', e);
+            }
         } else {
             throw new Meteor.Error("Cannot update meeting series", "You are not moderator of this meeting series.");
         }
