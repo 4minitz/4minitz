@@ -12,6 +12,15 @@ var _minutesID; // the ID of these minutes
 
 Template.minutesedit.onCreated(function () {
     _minutesID = this.data;
+
+    let aMin = new Minutes(_minutesID);
+    try {
+        aMin.checkParent();
+    } catch(error) {
+        // TODO: better error message
+        Session.set('errorTitle', 'Error');
+        Session.set('errorReason', error.reason);
+    }
 });
 
 var isMinuteFinalized = function () {

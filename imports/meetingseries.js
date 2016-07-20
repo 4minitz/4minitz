@@ -109,6 +109,14 @@ export class MeetingSeries {
         return Minutes.findAllIn(this.minutes);
     }
 
+    hasMinute(id) {
+        for (let minuteId of this.minutes) {
+            if (minuteId === id) {
+                return true;
+            }
+        }
+    }
+
     countMinutes () {
         if (this.minutes) {
             return this.minutes.length;
