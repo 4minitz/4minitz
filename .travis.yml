@@ -16,6 +16,7 @@ before_install:
   - npm install -g chimp
 
 install:
+  - meteor npm install
   - travis_wait node tests/setup.js
 
 before_script:
