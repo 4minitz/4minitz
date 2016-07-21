@@ -13,11 +13,11 @@ node_js:
 
 before_install:
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp
+  - npm install -g chimp@0.36.1
 
-install:
-  - meteor npm install
-  - travis_wait node tests/setup.js
+#install:
+#  - meteor npm install
+#  - node tests/setup.js
 
 before_script:
   - meteor npm run test:end2end:server&

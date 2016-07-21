@@ -17,6 +17,8 @@ meteor.stdout.on('data', (data) => {
 
     if (output.indexOf('=> App running at: http://localhost') > -1) {
         meteor.kill();
+        child_process.exec("kill `ps ax | grep '[m]eteor' | awk '{print $1}'`");
+        process.exit(0);
     }
 });
 
