@@ -109,7 +109,7 @@ describe('Minutes', function () {
         expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
     });
 
-    it('displays an error message if the minute is not linked to the parent series @watch', function() {
+    it('displays an error message if the minute is not linked to the parent series', function() {
         let aProjectName = "E2E Minutes";
         let aMeetingName = "Meeting Name #6";
 

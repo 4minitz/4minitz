@@ -103,14 +103,13 @@ Template.minutesedit.helpers({
             aMin.checkParent();
             if (orphanFlashMessage) {
                 FlashMessage.hide();
+                orphanFlashMessage = false;
             }
         } catch(error) {
-            if (!orphanFlashMessage) {
-                let msg = 'Unfortunately the minute is not linked to its parent series correctly - please contact your ' +
-                    'system administrator.';
-                (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
-                orphanFlashMessage = true;
-            }
+            let msg = 'Unfortunately the minute is not linked to its parent series correctly - please contact your ' +
+                'system administrator.';
+            (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
+            orphanFlashMessage = true;
         }
     },
 
