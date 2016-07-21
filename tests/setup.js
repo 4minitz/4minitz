@@ -20,3 +20,8 @@ meteor.stdout.on('data', (data) => {
     }
 });
 
+meteor.stderr.on('data', (data) => {
+    let buffer = data.toString();
+    console.log(buffer);
+});
+
