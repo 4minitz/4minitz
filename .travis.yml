@@ -1,17 +1,25 @@
 sudo: required
 language: node_js
+
 cache:
   directories:
     - node_modules
     - .meteor
     - ~/.meteor
     - $(npm config get prefix)/bin/chimp
+
 node_js:
   - "stable"
+
 before_install:
   - curl https://install.meteor.com | /bin/sh
   - npm install -g chimp
+
+install:
+  - travis_wait node tests/setup.js
+
 before_script:
   - meteor npm run test:end2end:server&
   - sleep 30
+
 script: npm run test:ci
