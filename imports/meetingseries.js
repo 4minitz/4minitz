@@ -60,6 +60,10 @@ export class MeetingSeries {
         }
     }
 
+    async saveAsync(optimisticUICallback) {
+        await this.save(optimisticUICallback);
+    }
+
     toString () {
         return "MeetingSeries: "+JSON.stringify(this, null, 4);
     }
@@ -103,6 +107,14 @@ export class MeetingSeries {
 
     getAllMinutes () {
         return Minutes.findAllIn(this.minutes);
+    }
+
+    hasMinute(id) {
+        for (let minuteId of this.minutes) {
+            if (minuteId === id) {
+                return true;
+            }
+        }
     }
 
     countMinutes () {

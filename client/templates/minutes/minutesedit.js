@@ -8,10 +8,20 @@ import { TopicListConfig } from '../topic/topicsList'
 
 import { GlobalSettings } from '/imports/GlobalSettings'
 
+import { FlashMessage } from '../../helpers/flashMessage'
+
 var _minutesID; // the ID of these minutes
+
+var orphanFlashMessage = false;
 
 Template.minutesedit.onCreated(function () {
     _minutesID = this.data;
+});
+
+Template.minutesedit.onDestroyed(function() {
+    if (orphanFlashMessage) {
+        FlashMessage.hide();
+    }
 });
 
 var isMinuteFinalized = function () {
@@ -87,6 +97,22 @@ Template.minutesedit.onRendered(function () {
 });
 
 Template.minutesedit.helpers({
+    checkParentSeries: function() {
+        let aMin = new Minutes(_minutesID);
+        try {
+            aMin.checkParent();
+            if (orphanFlashMessage) {
+                FlashMessage.hide();
+                orphanFlashMessage = false;
+            }
+        } catch(error) {
+            let msg = 'Unfortunately the minute is not linked to its parent series correctly - please contact your ' +
+                'system administrator.';
+            (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
+            orphanFlashMessage = true;
+        }
+    },
+
     meetingSeries: function() {
         let aMin = new Minutes(_minutesID);
         if (aMin) {

@@ -1,5 +1,10 @@
 <template name="error">
     {{#if errorTitle}}
-        <div class="alert {{errorType}}" role="alert"><strong>{{errorTitle}}: </strong> {{errorMessage}}</div>
+        <div id="flashMessage" class="alert {{errorType}} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>{{errorTitle}}: </strong> {{errorMessage}}
+        </div>
     {{/if}}
 </template>
