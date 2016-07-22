@@ -145,7 +145,7 @@ Template.meetingSeriesEdit.events({
         evt.preventDefault();
         // Unfortunately the form.submit()-function does not trigger the
         // validation process
-        tmpl.$('#frmDlgEditMeetingSeries').find(':submit').click();
+        tmpl.$('#submitMeetingSeriesEditForm').click();
     },
 
     // Prevent the last open panel to be collapsible
