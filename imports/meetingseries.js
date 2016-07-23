@@ -52,11 +52,12 @@ export class MeetingSeries {
     }
 
 
-    save(optimisticUICallback) {
+    save(optimisticUICallback, skipTopics = true) {
+        let doc = (skipTopics) ? _.omit(this, 'topics', 'openTopics') : this;
         if (this._id) {
-            return Meteor.callPromise("meetingseries.update", this);
+            return Meteor.callPromise("meetingseries.update", doc);
         } else {
-            return Meteor.callPromise("meetingseries.insert", this, optimisticUICallback);
+            return Meteor.callPromise("meetingseries.insert", doc, optimisticUICallback);
         }
     }
 
@@ -193,7 +194,7 @@ export class MeetingSeries {
             (error) => {
                 if (!error) {
                     this._copyTopicsToSeries(minutes);
-                    this.save();
+                    this.save(null, /*do not skip topcis*/ false);
                 }
             }
         );
@@ -228,7 +229,7 @@ export class MeetingSeries {
                         this.topics = [];
                     }
 
-                    this.save();
+                    this.save(null, /*do not skip topcis*/ false);
                 }
             }
         );
