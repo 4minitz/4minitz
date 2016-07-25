@@ -108,7 +108,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can not change the order of topics via drag and drop by clicking anywhere', function () {
+    it('can not change the order of topics via drag and drop by clicking anywhere @watch', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -122,17 +122,24 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can change the order of topics via drag and drop by clicking on the sort icon', function () {
+    it('can change the order of topics via drag and drop by clicking on the sort icon @watch', function () {
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         E2ETopics.addTopicToMinutes('some topic');
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         E2ETopics.addTopicToMinutes('some other topic');
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         E2ETopics.addTopicToMinutes('yet another topic');
 
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
 
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         var topics = E2ETopics.getTopicsForMinute();
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         let elementId = topics[0].ELEMENT;
         let visibleText = browser.elementIdText(elementId).value;
 
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         expect(visibleText).to.have.string('some topic');
     });
 
@@ -181,7 +188,7 @@ describe('Topics', function () {
     });
 
 
-    it('ensures invited user can not drag-n-drop topics', function () {
+    it('ensures invited user can not drag-n-drop topics @watch', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -215,24 +222,33 @@ describe('Topics', function () {
     });
 
 
-    it('sorting of topics is persistent', function () {
+    it('sorting of topics is persistent @watch', function () {
+        E2EGlobal.saveScreenshot("topic_persist");
         E2ETopics.addTopicToMinutes('some topic');
+        E2EGlobal.saveScreenshot("topic_persist");
         E2ETopics.addTopicToMinutes('some other topic');
+        E2EGlobal.saveScreenshot("topic_persist");
         E2ETopics.addTopicToMinutes('yet another topic');
 
+        E2EGlobal.saveScreenshot("topic_persist");
         browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
 
+        E2EGlobal.saveScreenshot("topic_persist");
         var topicsBeforeReload = E2ETopics.getTopicsForMinute();
         let firstElementBeforeReload = topicsBeforeReload[0].ELEMENT;
         let visibleTextBeforeReload = browser.elementIdText(firstElementBeforeReload).value;
         expect(visibleTextBeforeReload).to.have.string('some topic');
 
+        E2EGlobal.saveScreenshot("topic_persist");
         browser.refresh();
+        E2EGlobal.saveScreenshot("topic_persist");
         E2EGlobal.waitSomeTime(2500); // phantom.js needs some time here...
 
+        E2EGlobal.saveScreenshot("topic_persist");
         var topicsAfterReload = E2ETopics.getTopicsForMinute();
         let firstElementAfterReload = topicsAfterReload[0].ELEMENT;
         let visibleTextAfterReload = browser.elementIdText(firstElementAfterReload).value;
+        E2EGlobal.saveScreenshot("topic_persist");
         expect(visibleTextAfterReload).to.have.string('some topic');
     });
 
