@@ -133,11 +133,17 @@ describe('Topics', function () {
         E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         // browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
 
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon1");
         browser.waitForExist('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon2");
         browser.moveToObject('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon3");
         browser.buttonDown();
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon4");
         browser.moveToObject('#topicPanel .well:nth-child(1)');
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon5");
         browser.buttonUp();
+        E2EGlobal.saveScreenshot("topic_dnd_sorticon6");
 
 
         E2EGlobal.saveScreenshot("topic_dnd_sorticon");
