@@ -122,7 +122,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can change the order of topics via drag and drop by clicking on the sort icon', function () {
+    xit('can change the order of topics via drag and drop by clicking on the sort icon', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -215,7 +215,7 @@ describe('Topics', function () {
     });
 
 
-    it('sorting of topics is persistent', function () {
+    xit('sorting of topics is persistent', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');

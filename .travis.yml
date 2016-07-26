@@ -1,6 +1,13 @@
 sudo: required
 language: node_js
 
+addons:
+  artifacts:
+    debug: true
+    s3_region: "us-west-2" # defaults to "us-east-1"
+    paths:
+    - $(ls ./tests/snapshots/* | tr "\n" ":")
+
 cache:
   directories:
     - node_modules
@@ -12,8 +19,9 @@ node_js:
   - "stable"
 
 before_install:
+  - mkdir ./tests/snapshots
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp@0.36.1
+  - npm install -g chimp@0.35.0
 
 before_script:
   - meteor npm run test:end2end:server&
