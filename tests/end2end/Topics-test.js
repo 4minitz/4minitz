@@ -131,7 +131,14 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('yet another topic');
 
         E2EGlobal.saveScreenshot("topic_dnd_sorticon");
-        browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
+        // browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
+
+        browser.waitForExist('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        browser.moveToObject('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        browser.buttonDown();
+        browser.moveToObject('#topicPanel .well:nth-child(1)');
+        browser.buttonUp();
+
 
         E2EGlobal.saveScreenshot("topic_dnd_sorticon");
         var topics = E2ETopics.getTopicsForMinute();
@@ -231,7 +238,13 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('yet another topic');
 
         E2EGlobal.saveScreenshot("topic_persist");
-        browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
+        // browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
+        browser.waitForExist('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        browser.moveToObject('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        browser.buttonDown();
+        browser.moveToObject('#topicPanel .well:nth-child(1)');
+        browser.buttonUp();
+
 
         E2EGlobal.saveScreenshot("topic_persist");
         var topicsBeforeReload = E2ETopics.getTopicsForMinute();
