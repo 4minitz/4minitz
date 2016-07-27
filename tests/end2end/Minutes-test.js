@@ -120,6 +120,8 @@ describe('Minutes', function () {
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
+        E2EGlobal.waitSomeTime(2000); // wait until parent check will be enabled
+
         expect(browser.isVisible('#flashMessage'), 'flash message should not be visible before un-linking the minute').to.be.false;
 
         server.call('e2e.updateMeetingSeries', msId, {minutes: []});
