@@ -5,6 +5,7 @@ import { Topic } from './topic'
 import { ActionItem } from './actionitem'
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
+import './collections/workflow_private';
 
 export class Minutes {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -79,7 +80,8 @@ export class Minutes {
             if (this.topics === undefined) {
                 this.topics = [];
             }
-            Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
+            //Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
+            Meteor.call("workflow.addMinutes", this, optimisticUICallback, serverCallback);
         }
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
     }
