@@ -3,17 +3,22 @@ language: node_js
 
 addons:
   artifacts:
+    # This uploads all headless screenshots generated with:
+    #   browser.saveScreenshot("my-testcase");
+    # to our Amazon AWS S3 account.
+    # After build run completed, you can view the snapshots here:
+    # http://s3files.4minitz.com/4minitz/4minitz
     debug: true
     s3_region: "us-west-2" # defaults to "us-east-1"
     paths:
     - $(ls ./tests/snapshots/* | tr "\n" ":")
 
-cache:
-  directories:
-    - node_modules
-    - .meteor
-    - ~/.meteor
-    - $(npm config get prefix)/bin/chimp
+#cache:
+#  directories:
+#    - node_modules
+#    - .meteor
+#    - ~/.meteor
+#    - $(npm config get prefix)/bin/chimp
 
 node_js:
   - "stable"
