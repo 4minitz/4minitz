@@ -31,7 +31,6 @@ deps@1.0.12
 diff-sequence@1.0.6
 dispatch:mocha-phantomjs@0.1.7
 dispatch:phantomjs-tests@0.0.5
-dsyko:jquery-ui-touch-punch@1.2.4
 ecmascript@0.4.8
 ecmascript-runtime@0.2.12
 ejson@1.0.12
@@ -75,7 +74,6 @@ modules@0.6.5
 modules-runtime@0.6.5
 mongo@1.1.9_1
 mongo-id@1.0.5
-mrt:jquery-ui-sortable@1.10.3
 msavin:mongol@1.6.2
 natestrauser:select2@4.0.2
 npm-bcrypt@0.8.6_3
