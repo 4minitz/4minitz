@@ -15,6 +15,7 @@ var _minutesID; // the ID of these minutes
 var orphanFlashMessage = false;
 
 Template.minutesedit.onCreated(function () {
+    Session.set('minutesedit.checkParent', false);
     _minutesID = this.data;
 });
 
@@ -94,10 +95,18 @@ Template.minutesedit.onRendered(function () {
     });
 
     toggleTopicSorting();
+
+    // enable the parent series check after 2 seconds delay to make sure
+    // there was enough time to update the meeting series
+    Meteor.setTimeout(function() {
+        Session.set('minutesedit.checkParent', true);
+    }, 2000);
 });
 
 Template.minutesedit.helpers({
     checkParentSeries: function() {
+        if (!Session.get('minutesedit.checkParent')) return;
+
         let aMin = new Minutes(_minutesID);
         try {
             aMin.checkParent();
