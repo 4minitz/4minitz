@@ -8,12 +8,12 @@ addons:
     paths:
     - $(ls ./tests/snapshots/* | tr "\n" ":")
 
-cache:
-  directories:
-    - node_modules
-    - .meteor
-    - ~/.meteor
-    - $(npm config get prefix)/bin/chimp
+#cache:
+#  directories:
+#    - node_modules
+#    - .meteor
+#    - ~/.meteor
+#    - $(npm config get prefix)/bin/chimp
 
 node_js:
   - "stable"
@@ -21,7 +21,7 @@ node_js:
 before_install:
   - mkdir ./tests/snapshots
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp@0.35.0
+  - npm install -g chimp
 
 before_script:
   - meteor npm run test:end2end:server&
