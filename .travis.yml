@@ -1,6 +1,12 @@
 sudo: required
 language: node_js
 
+env:
+  - TEST_FILES=tests/end2end/A* tests/end2end/I* tests/end2end/L*
+  - TEST_FILES=tests/end2end/Mee*
+  - TEST_FILES=tests/end2end/Mi*
+  - TEST_FILES=tests/end2end/R* tests/end2end/S* tests/end2end/T*
+
 addons:
   artifacts:
     # This uploads all headless screenshots generated with:
