@@ -17,14 +17,14 @@ npm run test:end2end:server&
 
 echo Wait for server
 # give the server time to start
-sleep 30
-echo 30
-sleep 30
-echo 60
-sleep 30
-echo 90
-sleep 30
-echo 120
+sleep 180
+echo 180
+sleep 60
+echo 240
+sleep 60
+echo 300
+sleep 60
+echo 360
 
 echo Start end2end test runner
 chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=phantomjs -- $TEST
