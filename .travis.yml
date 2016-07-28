@@ -2,10 +2,11 @@ sudo: required
 language: node_js
 
 env:
-  - TEST=tests/end2end/A* tests/end2end/I* tests/end2end/L*
-  - TEST=tests/end2end/Mee*
-  - TEST=tests/end2end/Mi*
-  - TEST=tests/end2end/R* tests/end2end/S* tests/end2end/T*
+  - TEST="tests/end2end/A* tests/end2end/I* tests/end2end/L*"
+  - TEST="tests/end2end/Mee*"
+  - TEST="tests/end2end/Mi*"
+  - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
+  - TEST="unit"
 
 addons:
   artifacts:
