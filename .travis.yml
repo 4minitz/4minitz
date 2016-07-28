@@ -33,7 +33,7 @@ node_js:
 before_install:
   - mkdir ./tests/snapshots
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp@0.34.1
+  - npm install -g chimp@0.36.1
 
 script:
   - ./travis.sh "$TEST"
