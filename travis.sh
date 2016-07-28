@@ -19,13 +19,11 @@ echo Wait for server
 # give the server time to start
 sleep 180
 echo 180
-sleep 60
-echo 240
-sleep 60
-echo 300
-sleep 60
+sleep 180
 echo 360
+sleep 120
+echo 480
 
 echo Start end2end test runner
-chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=phantomjs -- $TEST
+chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=phantomjs -- "$TEST"
 
