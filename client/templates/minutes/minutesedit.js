@@ -14,6 +14,40 @@ var _minutesID; // the ID of these minutes
 
 var orphanFlashMessage = false;
 
+
+// Prepare and restore view before/after printing
+(function() {
+    var beforePrint = function() {
+        console.log('BEFORE print...');
+        // as material checkboxes do not print correctly...
+        // change material checkbox to normal checkbox for printing
+        $("div.checkbox").toggleClass('checkbox print-checkbox');
+        // expand all topics
+        Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+    };
+    var afterPrint = function() {
+        console.log('AFTER print...');
+        // change back normal checkboxes to material checkboxes after printing
+        $("div.print-checkbox").toggleClass('checkbox print-checkbox');
+    };
+
+    if (window.matchMedia) {
+        var mediaQueryList = window.matchMedia('print');
+        mediaQueryList.addListener(function(mql) {
+            if (mql.matches) {
+                beforePrint();
+            } else {
+                afterPrint();
+            }
+        });
+    }
+
+    window.onbeforeprint = beforePrint;
+    window.onafterprint = afterPrint;
+}());
+
+
+
 Template.minutesedit.onCreated(function () {
     Session.set('minutesedit.checkParent', false);
     _minutesID = this.data;

@@ -34,19 +34,19 @@
                     {{else}}
                         {{#if isModeratorOfParentSeries}}
                             <!--Delete Minutes Button-->
-                            <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised">
+                            <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised hidden-print">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Minutes"></span>
                                 Delete Minutes
                             </button>
 
                             <!--Send Agenda Button-->
-                            <button type="button" id="btn_sendAgenda" class="btn btn-primary btn-lg btn-raised">
+                            <button type="button" id="btn_sendAgenda" class="btn btn-primary btn-lg btn-raised hidden-print">
                                 <span class="glyphicon glyphicon-envelope" aria-hidden="true" aria-label="Send Agenda"></span>
                                 Send Agenda
                             </button>
 
                             <!--Finalize Minutes Button-->
-                            <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised">
+                            <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised hidden-print">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
                                 Finalize Minutes
                             </button>
@@ -60,7 +60,7 @@
                         <label for="id_minutesdateInput">Date</label>
                         <div class='input-group date' id='id_minutesdatePicker'>
                             <input id="id_minutesdateInput" type='text' class="form-control" value="{{minutes.date}}" {{disableUIControl}}/>
-                            <span class="input-group-addon">
+                            <span class="input-group-addon hidden-print">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
@@ -74,7 +74,7 @@
 
             {{#unless isFinalized}}
                 {{#if isModeratorOfParentSeries}}
-                    <button id="id_showAddTopicDialog" type="button" class="btn btn-primary btn-lg btn-raised" data-toggle="modal" data-target="#dlgAddTopic">
+                    <button id="id_showAddTopicDialog" type="button" class="btn btn-primary btn-lg btn-raised hidden-print" data-toggle="modal" data-target="#dlgAddTopic">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
                         <span class="hidden-xs">Add</span> Topic
                     </button>
@@ -82,7 +82,7 @@
             {{/unless}}
 
             <!--Responsive Expand / Collapse All buttons-->
-            <button id="btnCollapseAll" type="button" class="btn btn-default {{mobileButton}}">
+            <button id="btnCollapseAll" type="button" class="btn btn-default {{mobileButton}} hidden-print">
                 {{#if isReadOnly}}
                     <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                     Collapse All
@@ -91,7 +91,7 @@
                     <span class="hidden-xs">Collapse All</span>
                 {{/if}}
             </button>
-            <button id="btnExpandAll" type="button" class="btn btn-default {{mobileButton}}">
+            <button id="btnExpandAll" type="button" class="btn btn-default {{mobileButton}} hidden-print">
                 {{#if isReadOnly}}
                     <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     Expand All
@@ -106,7 +106,7 @@
 
     {{>topicsList getTopicsListConfig}}
 
-    <div class="help panel panel-default">
+    <div class="help panel panel-default hidden-print">
         <div class="panel-heading">Quick Help</div>
         <div class="panel-body">
             <p>

@@ -3,7 +3,7 @@
 
         <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
         {{#if topic.infoItems.length}}
-            <span id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;">
+            <span id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;" class="hidden-print">
                 {{#if isCollapsed}}
                     <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 {{else}}
@@ -28,7 +28,7 @@
                 {{/if}}
 
                 <!-- Manipulation Menu Icons -->
-                <span class="pull-right pull-right-icons">
+                <span class="pull-right pull-right-icons hidden-print">
                     {{#if isEditable}}
                         <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add item to topic">
                             <span class="glyphicon glyphicon-plus"></span>
