@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if [ ! -d ~/.meteor ]; then
+if [ ! -f ~/.meteor/meteor ]; then
     curl https://install.meteor.com | /bin/sh
 fi
