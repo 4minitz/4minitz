@@ -20,12 +20,12 @@ addons:
     paths:
     - $(ls ./tests/snapshots/* | tr "\n" ":")
 
-#cache:
-#  directories:
-#    - node_modules
-#    - .meteor
-#    - ~/.meteor
-#    - $(npm config get prefix)/bin/chimp
+cache:
+  directories:
+    - node_modules
+    - .meteor/local
+    - ~/.meteor
+    - $(npm config get prefix)/bin/chimp
 
 node_js:
   - "stable"
