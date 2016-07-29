@@ -24,7 +24,7 @@ cache:
   directories:
     - node_modules
     - .meteor/local
-    - /usr/local/bin/meteor
+    - /usr/local/bin
     - ~/.meteor
     - $(npm config get prefix)/bin/chimp
 
