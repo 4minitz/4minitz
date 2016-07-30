@@ -20,20 +20,20 @@ addons:
     paths:
     - $(ls ./tests/snapshots/* | tr "\n" ":")
 
-cache:
-  directories:
-    - node_modules
-    - .meteor/local
-    - /usr/local/bin
-    - ~/.meteor
-    - $(npm config get prefix)/bin/chimp
+#cache:
+#  directories:
+#    - node_modules
+#    - .meteor/local
+#    - /usr/local/bin
+#    - ~/.meteor
+#    - $(npm config get prefix)/bin/chimp
 
 node_js:
   - "stable"
 
 before_install:
   - mkdir ./tests/snapshots
-  - ./get_meteor.sh
+  - curl https://install.meteor.com | /bin/sh
   - npm install -g chimp@0.36.1
 
 script:
