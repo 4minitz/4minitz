@@ -1,4 +1,10 @@
 <template name="minutesedit">
+    {{!
+        This will not display any content instead it will check if the minute is linked to the parent series
+        and display an error message reactively.
+        The error message will be removed when destroying the template
+    }}
+    {{checkParentSeries}}
     <h2 class="header">
         <span class="hidden-xs">Minutes for</span>
         <a id="id_linkToParentSeries" href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>

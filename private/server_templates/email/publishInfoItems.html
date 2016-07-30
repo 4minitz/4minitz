@@ -8,14 +8,21 @@ Members absent: {{absentParticipants}}<br>
 <br>
 
 The listed topics were discussed:<br>
-<ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
+<ul style="list-style-type: none; margin-top: 20px; padding-left: 10px;">
     {{#each discussedTopics}}
-        <li>
+        <li style="margin-bottom: 1em; border-top: 2px solid #999999;">
             <strong>{{subject}}</strong> {{responsiblesString}}
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
                     {{!-- helper hasLabels and formatLabels are defined in TopicItemsMailHandler#_buildMail() --}}
-                    <li>{{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}</li>
+                    <li>
+                        {{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}</li>
+                        {{#if details}}
+                            {{#each details}}
+                            {{!-- helper markdown2html is defined in TemplateRenderer globally --}}
+                                <li>{{date}}: {{markdown2html text}}</li>
+                            {{/each}}
+                        {{/if}}
                 {{/each}}
             </ul>
         </li>
@@ -23,9 +30,9 @@ The listed topics were discussed:<br>
 </ul>
 
 The following topics remained open:<br>
-<ul style="list-style-type: none; margin-top: 5px; padding-left: 10px;">
+<ul style="list-style-type: none; margin-top: 20px; padding-left: 10px;">
     {{#each skippedTopics}}
-        <li>
+        <li style="margin-bottom: 1em; border-top: 2px solid #999999;">
             <strong>{{subject}}</strong> {{responsiblesString}}
             <ul style="padding-left: 30px;">
                 {{#each infoItems}}
@@ -43,3 +50,8 @@ The following topics remained open:<br>
         </li>
     {{/each}}
 </ul>
+
+<hr>
+<p>
+    <small style="color: darkgray;">Generated with ❤ by the <a href="https://www.4minitz.com">4Minitz.com</a> WebApp</small>
+</p>

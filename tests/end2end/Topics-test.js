@@ -1,10 +1,9 @@
-import { E2EGlobal } from './helpers/E2EGlobal'
-import { E2EApp } from './helpers/E2EApp'
-import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
-import { E2EMinutes } from './helpers/E2EMinutes'
-import { E2ETopics } from './helpers/E2ETopics'
-
+import { E2EGlobal } from './helpers/E2EGlobal';
+import { E2EApp } from './helpers/E2EApp';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor';
+import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2ETopics } from './helpers/E2ETopics';
 
 describe('Topics', function () {
     const aProjectName = "E2E Topics";
@@ -127,7 +126,12 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
 
-        browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
+        browser.waitForExist('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        browser.moveToObject('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        browser.buttonDown();
+        browser.moveTo(1, 1);
+        browser.moveToObject('#topicPanel .well:nth-child(1)');
+        browser.buttonUp();
 
         var topics = E2ETopics.getTopicsForMinute();
         let elementId = topics[0].ELEMENT;
@@ -220,7 +224,12 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
 
-        browser.dragAndDrop('#topicPanel .well:nth-child(3) .topicDragDropHandle', '#topicPanel .well:nth-child(1)');
+        browser.waitForExist('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        browser.moveToObject('#topicPanel .well:nth-child(3) .topicDragDropHandle');
+        browser.buttonDown();
+        browser.moveTo(1, 1);
+        browser.moveToObject('#topicPanel .well:nth-child(1)');
+        browser.buttonUp();
 
         var topicsBeforeReload = E2ETopics.getTopicsForMinute();
         let firstElementBeforeReload = topicsBeforeReload[0].ELEMENT;

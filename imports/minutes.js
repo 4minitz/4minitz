@@ -390,11 +390,15 @@ export class Minutes {
         return names;
     }
 
-
+    checkParent() {
+        let parent = this.parentMeetingSeries();
+        if (!parent.hasMinute(this._id)) {
+            throw new Meteor.Error('runtime-error', 'Minute is an orphan!');
+        }
+    }
 
     // ################### private methods
     _findTopicIndex(id) {
         return subElementsHelper.findIndexById(id, this.topics);
     }
-
 }

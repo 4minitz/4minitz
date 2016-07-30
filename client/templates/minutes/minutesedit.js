@@ -8,10 +8,21 @@ import { TopicListConfig } from '../topic/topicsList'
 
 import { GlobalSettings } from '/imports/GlobalSettings'
 
+import { FlashMessage } from '../../helpers/flashMessage'
+
 var _minutesID; // the ID of these minutes
 
+var orphanFlashMessage = false;
+
 Template.minutesedit.onCreated(function () {
+    Session.set('minutesedit.checkParent', false);
     _minutesID = this.data;
+});
+
+Template.minutesedit.onDestroyed(function() {
+    if (orphanFlashMessage) {
+        FlashMessage.hide();
+    }
 });
 
 var isMinuteFinalized = function () {
@@ -84,9 +95,33 @@ Template.minutesedit.onRendered(function () {
     });
 
     toggleTopicSorting();
+
+    // enable the parent series check after 2 seconds delay to make sure
+    // there was enough time to update the meeting series
+    Meteor.setTimeout(function() {
+        Session.set('minutesedit.checkParent', true);
+    }, 2000);
 });
 
 Template.minutesedit.helpers({
+    checkParentSeries: function() {
+        if (!Session.get('minutesedit.checkParent')) return;
+
+        let aMin = new Minutes(_minutesID);
+        try {
+            aMin.checkParent();
+            if (orphanFlashMessage) {
+                FlashMessage.hide();
+                orphanFlashMessage = false;
+            }
+        } catch(error) {
+            let msg = 'Unfortunately the minute is not linked to its parent series correctly - please contact your ' +
+                'system administrator.';
+            (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
+            orphanFlashMessage = true;
+        }
+    },
+
     meetingSeries: function() {
         let aMin = new Minutes(_minutesID);
         if (aMin) {
