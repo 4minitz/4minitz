@@ -56,11 +56,22 @@
     "ldap": {
         "enabled": false,
         "searchDn": "cn",
-        "searchFilter": "(objectClass=user)",
-        "serverDn": "OU=people,DC=example,DC=com",
-        "serverUrl": "ldaps://ld.example.com:636",
-        "allowSelfSignedTLS": false,
-        "whiteListedFields": [ "cn", "department", "employeeNumber", "mail" ],
+        "searchFilter": "",
+        "serverDn": "DC=example,DC=com",
+        "serverUrl": "ldap://localhost:1389",
+        "allowSelfSignedTLS": true,
+        "whiteListedFields": [ "cn", "mail" ],
         "autopublishFields": [ "cn" ]
+    },
+
+    "ldapForumSys": {
+        "enabled": true,
+        "searchDn": "uid",
+        "searchFilter": "(objectClass=inetOrgPerson)",
+        "serverDn": "DC=example,DC=com",
+        "serverUrl": "ldap://ldap.forumsys.com",
+        "allowSelfSignedTLS": true,
+        "whiteListedFields": [ "uid", "cn", "mail" ],
+        "autopublishFields": [ "uid", "cn" ]
     }
 }
