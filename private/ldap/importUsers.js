@@ -70,6 +70,16 @@ let safeProp = function (property, object) {
     });
 };
 
+let setSelfSigned = function (ldapSettings) {
+    return new Promise((resolve, reject) => {
+        let allowSelfSignedTLS = ldapSettings.allowSelfSignedTLS;                                   
+        if (allowSelfSignedTLS) {                                                                           
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;                                                   
+        }
+        resolve(ldapSettings);
+    });
+}
+
 
 let loadLDAPSettings = function (filename) {
     return new Promise((resolve, reject) => {
@@ -78,6 +88,7 @@ let loadLDAPSettings = function (filename) {
             .then(settings => {
                 return safeProp('ldap', settings)
             })
+            .then(setSelfSigned)
             .then(resolve)
             .catch(reject);
     });
@@ -258,7 +269,7 @@ let importUsers = function (settings, mongoUrl, users) {
 // connect everything
 
 let report = function (bulkResult) {
-    let inserted = bulkResult.nInserted,
+    let inserted = bulkResult.nUpserted,
         updated = bulkResult.nModified;
 
     console.log(`Successfully inserted ${inserted} users and updated ${updated} users.`);
