@@ -33,7 +33,7 @@ export class TemplateRenderer {
             if (html.indexOf("<p>") === 0) {
                 html = html.match(/<p>(.*)<\/p>/)[1];
             }
-            console.log(html);
+
             return Spacebars.SafeString(html);
         });
 
