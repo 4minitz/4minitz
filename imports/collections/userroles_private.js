@@ -9,7 +9,8 @@ if (Meteor.isServer) {
     let publishFields = {'username': 1, 'roles': 1};
     // Security: only publish email address in trusted intranet environment
     if(GlobalSettings.isTrustedIntranetInstallation()) {
-        publishFields.emails = 1;
+        publishFields["emails"] = 1;
+        publishFields["profile.name"] = 1;
     }
     Meteor.publish('userListSimple', function () {
         return Meteor.users.find(
