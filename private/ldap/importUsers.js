@@ -221,6 +221,10 @@ let connectMongo = function (mongoUrl) {
     });
 };
 
+RegExp.escape= function(s) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
 let insertUsers = function (db, users) {
     // unique id from the random package also used by minimongo
     // character list: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
@@ -235,7 +239,8 @@ let insertUsers = function (db, users) {
             let bulk = db.collection('users').initializeUnorderedBulkOp();
             _.each(users, user => {
                 if (user && user.username && user.emails[0] && user.emails[0].address) {
-                    bulk.find({username: /^user.username$/i}).upsert().updateOne({
+                    let usrRegExp = new RegExp("^"+RegExp.escape(user.username)+"$", "i");
+                    bulk.find({username: usrRegExp}).upsert().updateOne({
                         $setOnInsert: {
                             _id: random.generate(randomStringConfig),
                             // by setting this only on insert we won't log out everyone
@@ -248,7 +253,7 @@ let insertUsers = function (db, users) {
                         $set: user
                     });
                 } else {
-                    console.log("SKIPPED INVALID USER (no username or no valid emails[0].address: "+JSON.stringify(user,null,2));
+                    console.log("SKIPPED INVALID USER (no username or no valid emails[0].address): "+JSON.stringify(user,null,2));
                 }
             });
             let bulkResult = bulk.execute();
