@@ -33,7 +33,7 @@ let mongoUrl = arg.options.mongourl || process.env.MONGO_URL;
 
 if (!mongoUrl) {
     optionParser.showHelp();
-    console.error('No mongo url found in env or given as parameter.')
+    console.error('No mongo url found in env or given as parameter.');
 
     process.exit(1);
 }
@@ -78,7 +78,7 @@ let setSelfSigned = function (ldapSettings) {
         }
         resolve(ldapSettings);
     });
-}
+};
 
 
 let loadLDAPSettings = function (filename) {
@@ -180,12 +180,29 @@ let getLDAPUsers = function (settings) {
 let createUser = function (ldapSettings, userData) {
     let searchDn = ldapSettings.searchDn || 'cn';
 
-    return {
+    // userData.mail may be a string with one mail address or an array.
+    // Nevertheless we are only interested in the first mail address here - if there should be more...
+    let tmpEMail = userData.mail;
+    if( Object.prototype.toString.call( userData.mail ) === '[object Array]' ) {
+        tmpEMail = userData.mail[0];
+    }
+    let tmpEMailArray = [{
+        address: tmpEMail,
+        verified: true,
+        fromLDAP: true
+    }];
+    let usr= {
         createdAt: new Date(),
-        emails: [userData.mail],
+        emails: tmpEMailArray,
         username: userData[searchDn],
         profile: _.pick(userData, _.without(ldapSettings.whiteListedFields, 'mail'))
     };
+    // copy over the LDAP user's long name from "cn" field to the meteor accounts long name field
+    if (usr.profile.cn) {
+        usr.profile.name = usr.profile.cn;
+        delete usr.profile.cn;
+    }
+    return usr;
 };
 
 let transformUsers = function (settings, users) {
@@ -217,18 +234,22 @@ let insertUsers = function (db, users) {
         try {
             let bulk = db.collection('users').initializeUnorderedBulkOp();
             _.each(users, user => {
-                bulk.find({username: user.username}).upsert().updateOne({
-                    $setOnInsert: {
-                        _id: random.generate(randomStringConfig),
-                        // by setting this only on insert we won't log out everyone
-                        // everytime we sync the users
-                        services: {
-                            password: {bcrypt: ""},
-                            resume: {"loginTokens": []}
-                        }
-                    },
-                    $set: user
-                });
+                if (user && user.username && user.emails[0] && user.emails[0].address) {
+                    bulk.find({username: /^user.username$/i}).upsert().updateOne({
+                        $setOnInsert: {
+                            _id: random.generate(randomStringConfig),
+                            // by setting this only on insert we won't log out everyone
+                            // everytime we sync the users
+                            services: {
+                                password: {bcrypt: ""},
+                                resume: {"loginTokens": []}
+                            }
+                        },
+                        $set: user
+                    });
+                } else {
+                    console.log("SKIPPED INVALID USER (no username or no valid emails[0].address: "+JSON.stringify(user,null,2));
+                }
             });
             let bulkResult = bulk.execute();
 
