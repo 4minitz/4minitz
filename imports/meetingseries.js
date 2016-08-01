@@ -188,16 +188,7 @@ export class MeetingSeries {
      * @param sendInfoItems default: true
      */
     finalizeMinutes (minutes, sendActionItems = true, sendInfoItems = true) {
-        minutes.finalize(
-            sendActionItems, sendInfoItems,
-            /* server callback */
-            (error) => {
-                if (!error) {
-                    this._copyTopicsToSeries(minutes);
-                    this.save(null, /*do not skip topcis*/ false);
-                }
-            }
-        );
+        minutes.finalize(sendActionItems, sendInfoItems);
     }
 
     /**

@@ -214,7 +214,8 @@ export class Minutes {
      * within the meeting series.
      */
     finalize(sendActionItems, sendInfoItems, serverCallback) {
-        Meteor.call('minutes.finalize', this._id, sendActionItems, sendInfoItems, serverCallback);
+        Meteor.callPromise('workflow.finalizeMinute', this._id, sendActionItems, sendInfoItems, serverCallback);
+        //Meteor.call('minutes.finalize', this._id, sendActionItems, sendInfoItems, serverCallback);
     }
 
     /**

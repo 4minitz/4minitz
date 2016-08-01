@@ -5,6 +5,8 @@ import { UserRoles } from './../userroles';
 import { MeetingSeriesCollection } from './meetingseries_private'
 import { MinutesCollection } from './minutes_private'
 import { ServerSyncCollection } from './ServerSyncCollection'
+import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
+import { GlobalSettings } from './../GlobalSettings';
 
 let meetingSeriesSyncCollection = null;
 let minutesSyncCollection = null;
@@ -78,5 +80,63 @@ Meteor.methods({
             console.error(e);
             throw e;
         }
+    },
+
+    'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
+
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        let aMin = new Minutes(id);
+        if (!userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            throw new Meteor.Error("Cannot finalize minutes", "You are not moderator of the parent meeting series.");
+        }
+
+        try {
+            // first we copy the topics of the finalize-minute to the parent series
+            let parentSeries = aMin.parentMeetingSeries();
+            parentSeries._copyTopicsToSeries(aMin);
+            let msAffectedDocs = getMeetingSeriesCollection().update(/*no client callback*/null,
+                parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
+
+            if (msAffectedDocs !== 1 && Meteor.isServer) {
+                throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series')
+            }
+
+            // then we tag the minute as finalized
+
+            let doc = {
+                finalizedAt: new Date(),
+                finalizedBy: Meteor.user().username,
+                isFinalized: true,
+                isUnfinalized: false
+            };
+
+            let affectedDocs = getMinutesCollection().update(/*no client callback*/null, id, {$set: doc});
+            if (affectedDocs == 1 && Meteor.isServer) {
+                if (!GlobalSettings.isEMailDeliveryEnabled()) {
+                    console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set " +
+                        "enableMailDelivery to true in your settings.json file");
+                    return;
+                }
+
+                let emails = Meteor.user().emails;
+                Meteor.defer(() => { // server background tasks after successfully updated the minute doc
+                    let senderEmail = (emails && emails.length > 0)
+                        ? emails[0].address
+                        : GlobalSettings.getDefaultEmailSenderAddress();
+                    let finalizeMailHandler = new FinalizeMailHandler(aMin, senderEmail);
+                    finalizeMailHandler.sendMails(sendActionItems, sendInfoItems);
+                });
+            }
+        } catch(e) {
+            console.error(e);
+            throw e;
+        }
+
     }
 });
