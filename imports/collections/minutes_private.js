@@ -95,25 +95,6 @@ Meteor.methods({
         }
     },
 
-    'minutes.removeAllOfSeries'(meetingSeriesId) {
-        if (meetingSeriesId == undefined || meetingSeriesId == "") {
-            return;
-        }
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        // Ensure user can not remove documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(meetingSeriesId)) {
-            // deleting all minutes of one series is allowed, even if they are finalized.
-            MinutesCollection.remove({meetingSeries_id: meetingSeriesId});
-        } else {
-            throw new Meteor.Error("Cannot delete all minutes", "You are not moderator of the parent meeting series.");
-        }
-    },
-
     'minutes.syncVisibility'(parentSeriesID, visibleForArray) {
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {

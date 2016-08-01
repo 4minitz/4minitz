@@ -30,11 +30,7 @@ export class MeetingSeries {
     }
 
     static async remove(meetingSeries) {
-        if (meetingSeries.countMinutes() > 0) {
-            await Meteor.callPromise("minutes.removeAllOfSeries", meetingSeries._id);
-        }
-
-        return Meteor.callPromise("meetingseries.remove", meetingSeries._id);
+        return Meteor.callPromise("workflow.removeMeetingSeries", meetingSeries._id);
     }
 
 

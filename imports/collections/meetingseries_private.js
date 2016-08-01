@@ -109,42 +109,5 @@ Meteor.methods({
         } else {
             throw new Meteor.Error("Cannot update meeting series", "You are not moderator of this meeting series.");
         }
-    },
-
-    'meetingseries.remove'(id) {
-        console.log("meetingseries.remove:"+id);
-        if (id == undefined || id == "")
-            return;
-
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(id)) {
-            UserRoles.removeAllRolesFor(id);
-            MeetingSeriesCollection.remove(id);
-        } else {
-            throw new Meteor.Error("Cannot remove meeting series", "You are not moderator of this meeting series.");
-        }
-    },
-
-    'meetingseries.removeMinutesFromArray'(meetingSeriesId, minutesId) {
-        console.log("meetingseries.removeMinutesFromArray: MeetingSeries ("
-            + meetingSeriesId + "), Minutes (" + minutesId + ")");
-
-        // Minutes can only be removed as long as they are not finalized
-        let aMin = new Minutes(minutesId);
-        if (aMin.isFinalized) return;
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(meetingSeriesId)) {
-            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
-        } else {
-            throw new Meteor.Error("Cannot remove minutes from meeting series", "You are not moderator of this meeting series.");
-        }
     }
 });

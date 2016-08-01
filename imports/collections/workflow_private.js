@@ -183,5 +183,21 @@ Meteor.methods({
             console.error(e);
             throw e;
         }
+    },
+
+    'workflow.removeMeetingSeries'(id) {
+        console.log("meetingseries.remove:"+id);
+        if (id == undefined || id == "")
+            return;
+
+        checkUserAvailableAndIsModeratorOf(id);
+
+        // first we remove all containing minutes to make sure we don't get orphans
+        // deleting all minutes of one series is allowed, even if they are finalized.
+        getMinutesCollection().remove({meetingSeries_id: id});
+
+        // then we remove the meeting series document itself
+        MeetingSeriesCollection.remove(id);
+
     }
 });
