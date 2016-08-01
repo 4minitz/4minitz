@@ -54,8 +54,8 @@ happens over LDAP, so no passwords or hashes are stored for LDAP users
 in the 4minitz user database. This is needed to store e.g. user access 
 rights for meeting minutes.
 
-#### Syncing LDAP users to the 4minitz user database
-All LDAP users that have logged in at least once will show up in he 
+#### Importing LDAP users to the 4minitz user database
+All LDAP users that have logged in at least once will show up in the 
 type-ahead drop down lists when inviting users to a meeting series or 
 assigning topics or action items. Users that have never signed in 
 won't show up in the type-ahead drop downs. If you want all users of 
@@ -76,7 +76,10 @@ mongo db port to your installation_
 It is OK to run the script multiple times, it only adds new users that 
 are available in LDAP but not in 4minitz user database. If email 
 addresses or user long names changed in LDAP for a given username, the 
-script updates these fields in the 4minitz user database.
+script updates these fields in the 4minitz user database. The script 
+never deletes any users from the 4minitz user database. Granted access 
+right to meeting series or minutes are not changed on existing users 
+by the importUsers.js script. 
 
 _Note: The LDAP "uid" and the the 4minitz user database field 
 "username" are considered as primary key in the import step. But it is 
