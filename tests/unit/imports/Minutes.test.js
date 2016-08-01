@@ -474,7 +474,7 @@ describe('Minutes', function () {
         it('sends the id to the meteor method workflow.unfinalizeMinute', function () {
             minute.unfinalize();
 
-            expect(Meteor.callPromise.calledWithExactly('workflow.unfinalizeMinute', minutesDoc._id, undefined)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('workflow.unfinalizeMinute', minutesDoc._id)).to.be.true;
         });
 
     });

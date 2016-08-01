@@ -179,30 +179,6 @@ export class MeetingSeries {
     }
 
     /**
-     * Finalizes the given minutes and
-     * copies the open/closed topics to
-     * this series.
-     *
-     * @param minutes
-     * @param sendActionItems default: true
-     * @param sendInfoItems default: true
-     */
-    finalizeMinutes (minutes, sendActionItems = true, sendInfoItems = true) {
-        minutes.finalize(sendActionItems, sendInfoItems);
-    }
-
-    /**
-     * Unfinalizes the given minutes and
-     * removes the open/closed topics of this
-     * minutes from the series.
-     *
-     * @param minutes
-     */
-    unfinalizeMinutes (minutes) {
-        minutes.unfinalize();
-    }
-
-    /**
      * A minutes is only allowed to be un-finalized
      * if it is the last one.
      *
@@ -394,7 +370,7 @@ export class MeetingSeries {
     }
 
 
-    // ################### server methods
+    // ################### server methods: shall only be called within a meteor method
 
     server_unfinalizeLastMinute() {
         let minutes = this.lastMinutes();

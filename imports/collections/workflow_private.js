@@ -8,6 +8,11 @@ import { ServerSyncCollection } from './ServerSyncCollection'
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
 
+// Use the functions getMinutesCollection() and getMeetingSeriesCollection() to access the collections
+// this functions take care about wrapping the collections with a mechanism to make sure the collection-method-calls
+// will be done synchronously on the server and asynchronously on the client.
+// Both variables can not be assigned when the script executes first because the collections are not ready at that
+// moment.
 let meetingSeriesSyncCollection = null;
 let minutesSyncCollection = null;
 
@@ -25,12 +30,22 @@ function getMinutesCollection() {
     return minutesSyncCollection;
 }
 
+function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
+    // Make sure the user is logged in before changing collections
+    if (!Meteor.userId()) {
+        throw new Meteor.Error('not-authorized');
+    }
+
+    // Ensure user can not update documents of other users
+    let userRoles = new UserRoles(Meteor.userId());
+    if (!userRoles.isModeratorOf(meetingSeriesId)) {
+        throw new Meteor.Error("Cannot create new minutes", "You are not moderator of the parent meeting series.");
+    }
+}
+
 Meteor.methods({
     'workflow.addMinutes'(doc, clientCallback) {
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
+        checkUserAvailableAndIsModeratorOf(doc.meetingSeries_id);
 
         // It is not allowed to insert new minutes if the last minute was not finalized
         let parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
@@ -48,12 +63,6 @@ Meteor.methods({
 
         doc.isFinalized = false;
         doc.isUnfinalized = false;
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (!userRoles.isModeratorOf(doc.meetingSeries_id)) {
-            throw new Meteor.Error("Cannot create new minutes", "You are not moderator of the parent meeting series.");
-        }
 
         let asyncCallback = function(error, newMinutesID) {
             if (!error && clientCallback) {
@@ -83,18 +92,8 @@ Meteor.methods({
     },
 
     'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
-
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
         let aMin = new Minutes(id);
-        if (!userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            throw new Meteor.Error("Cannot finalize minutes", "You are not moderator of the parent meeting series.");
-        }
+        checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
 
         try {
             // first we copy the topics of the finalize-minute to the parent series
@@ -141,20 +140,8 @@ Meteor.methods({
     },
 
     'workflow.unfinalizeMinute'(id) {
-
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-
         let aMin = new Minutes(id);
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (!userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            throw new Meteor.Error("Cannot un-finalize minutes", "You are not moderator of the parent meeting series.");
-        }
+        checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
 
         // it is not allowed to un-finalize a minute if it is not the last finalized one
         let parentSeries = aMin.parentMeetingSeries();

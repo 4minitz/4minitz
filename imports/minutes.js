@@ -209,23 +209,22 @@ export class Minutes {
     }
 
     /**
-     * Finalizes this minutes object. Shall
-     * only be called from the finalize method
-     * within the meeting series.
+     * Finalizes this minute by calling
+     * the workflow-server-method.
+     *
+     * @param sendActionItems default: true
+     * @param sendInfoItems default: true
      */
-    finalize(sendActionItems, sendInfoItems, serverCallback) {
-        Meteor.callPromise('workflow.finalizeMinute', this._id, sendActionItems, sendInfoItems, serverCallback);
-        //Meteor.call('minutes.finalize', this._id, sendActionItems, sendInfoItems, serverCallback);
+    finalize(sendActionItems, sendInfoItems) {
+        return Meteor.callPromise('workflow.finalizeMinute', this._id, sendActionItems, sendInfoItems);
     }
 
     /**
-     * Unfinalizes this minutes object. Shall
-     * only be called from the finalize method
-     * within the meeting series.
+     * Unfinalizes this minutes by calling
+     * the workflow-server-method.
      */
-    unfinalize(serverCallback) {
-        Meteor.callPromise('workflow.unfinalizeMinute', this._id, serverCallback);
-        //Meteor.call('minutes.unfinalize', this._id, serverCallback);
+    unfinalize() {
+        return Meteor.callPromise('workflow.unfinalizeMinute', this._id);
     }
 
     sendAgenda() {
