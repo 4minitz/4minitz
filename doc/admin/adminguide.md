@@ -41,3 +41,44 @@ to either "mailgun" or "smtp" - not both as seen in the example file!
 
 If you enable the option "trustedIntranetEvironment" the finalize-info-email will be sent once with all recipients in
 the "TO:" field. Disable this option in public or demo mode!
+
+### LDAP Configuration
+
+[... describe base configuration fields...]
+
+Now that you have configured 4minitz to allow LDAP login, all your 
+users should be able to login with their LDAP username & passwords. On 
+first login of an LDAP user, this user (username & email address, user 
+long names) are copied into the 4minitz user database. Password lookup 
+happens over LDAP, so no passwords or hashes are stored for LDAP users 
+in the 4minitz user database. This is needed to store e.g. user access 
+rights for meeting minutes.
+
+#### Syncing LDAP users to the 4minitz user database
+All LDAP users that have logged in at least once will show up in he 
+type-ahead drop down lists when inviting users to a meeting series or 
+assigning topics or action items. Users that have never signed in 
+won't show up in the type-ahead drop downs. If you want all users of 
+your LDAP directory to show up in the type-ahead drop downs 4minitz 
+comes with a handy import script. __importUsers.js__
+ 
+If you have configured and tested your LDAP settings in settings.json 
+(i.e., users can log in via LDAP) you may import all usernames and 
+email addresses (not the password hashes!) from LDAP into the 4minitz 
+user data base with the following script:
+
+    cd [path-to-4minitz]
+    meteor node ./private/ldap/importUsers.js -s settings.json -m mongodb://localhost:3001/meteor
+    
+_Note: if you run 4minitz on the default port 3000, then the mongoDB usually runs on the default port 3001 - otherwise adapt the
+mongo db port to your installation_
+
+It is OK to run the script multiple times, it only adds new users that 
+are available in LDAP but not in 4minitz user database. If email 
+addresses or user long names changed in LDAP for a given username, the 
+script updates these fields in the 4minitz user database.
+
+_Note: The LDAP "uid" and the the 4minitz user database field 
+"username" are considered as primary key in the import step. But it is 
+important to note that comparison is done __case-insensitive__ as 
+[meteor considers no case on usernames during login](https://guide.meteor.com/accounts.html#case-sensitivity)_
