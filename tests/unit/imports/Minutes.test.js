@@ -51,6 +51,7 @@ const {
     } = proxyquire('../../../imports/minutes', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     './collections/minutes_private': { MinutesCollection, '@noCallThru': true},
+    './collections/workflow_private': { null, '@noCallThru': true},
     './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
@@ -246,10 +247,10 @@ describe('Minutes', function () {
             expect(Meteor.call.calledOnce).to.be.true;
         });
 
-        it('sends the minutes object to the meteor method minutes.insert', function () {
+        it('uses the workflow.addMinutes method to save a new minutes document', function () {
             delete minute._id;
             minute.save();
-            expect(Meteor.call.calledWithExactly('minutes.insert', minute, undefined, undefined)).to.be.true;
+            expect(Meteor.call.calledWithExactly('workflow.addMinutes', minute, undefined, undefined)).to.be.true;
         });
 
         it('sets the createdAt-property if it is not set', function () {
@@ -448,16 +449,16 @@ describe('Minutes', function () {
 
     describe('#finalize', function () {
 
-        it('calls the meteor method minutes.finalize', function() {
+        it('calls the meteor method workflow.finalizeMinute', function() {
             minute.finalize();
 
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
-        it('sends the id to the meteor method minutes.finalize', function () {
+        it('sends the id to the meteor method workflow.finalizeMinute', function () {
             minute.finalize();
 
-            expect(Meteor.call.calledWith('minutes.finalize', minutesDoc._id)).to.be.true;
+            expect(Meteor.callPromise.calledWith('workflow.finalizeMinute', minutesDoc._id)).to.be.true;
         });
 
     });
