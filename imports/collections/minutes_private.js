@@ -62,32 +62,6 @@ Meteor.methods({
         }
     },
 
-    'minutes.unfinalize'(id) {
-        let doc = {
-            isFinalized: false,
-            isUnfinalized: true
-        };
-
-        // it is not allowed to un-finalize a minute if it is not the last finalized one
-        let aMin = new Minutes(id);
-        if (!aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(id)) {
-            throw new Meteor.Error("not-allowed", "This minutes is not allowed to be un-finalized.");
-        }
-
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            MinutesCollection.update(id, {$set: doc});
-        } else {
-            throw new Meteor.Error("Cannot un-finalize minutes", "You are not moderator of the parent meeting series.");
-        }
-    },
-
     'minutes.update'(doc) {
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {

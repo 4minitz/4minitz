@@ -199,31 +199,7 @@ export class MeetingSeries {
      * @param minutes
      */
     unfinalizeMinutes (minutes) {
-        minutes.unfinalize(
-            /* Server callback */
-            (error) => {
-                if (!error) {
-                    let secondLastMinute = this.secondLastMinutes();
-                    if (secondLastMinute) {
-                        // all fresh created infoItems have to be deleted from the topic list of this series
-                        this.topics.forEach(topicDoc => {
-                            topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
-                                return infoItemDoc.createdInMinute !== minutes._id;
-                            })
-                        });
-
-                        this._copyTopicsToSeries(secondLastMinute);
-                    } else {
-                        // if we un-finalize our fist minute it is save to delete all open topics
-                        // because they are stored inside this minute
-                        this.openTopics = [];
-                        this.topics = [];
-                    }
-
-                    this.save(null, /*do not skip topcis*/ false);
-                }
-            }
-        );
+        minutes.unfinalize();
     }
 
     /**
@@ -418,6 +394,32 @@ export class MeetingSeries {
     }
 
 
+    // ################### server methods
+
+    server_unfinalizeLastMinute() {
+        let minutes = this.lastMinutes();
+        let secondLastMinute = this.secondLastMinutes();
+        if (secondLastMinute) {
+            // all fresh created infoItems have to be deleted from the topic list of this series
+            this.topics.forEach(topicDoc => {
+                topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
+                    return infoItemDoc.createdInMinute !== minutes._id;
+                })
+            });
+
+            this._copyTopicsToSeries(secondLastMinute);
+        } else {
+            // if we un-finalize our fist minute it is save to delete all open topics
+            // because they are stored inside this minute
+            this.openTopics = [];
+            this.topics = [];
+        }
+    }
+
+    server_finalizeLastMinute() {
+        this._copyTopicsToSeries(this.lastMinutes());
+    }
+
     // ################### private methods
     /**
      * Copies the topics from the given
@@ -471,4 +473,5 @@ export class MeetingSeries {
             return true;
         })
     }
+
 }

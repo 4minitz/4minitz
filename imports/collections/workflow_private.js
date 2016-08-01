@@ -99,7 +99,7 @@ Meteor.methods({
         try {
             // first we copy the topics of the finalize-minute to the parent series
             let parentSeries = aMin.parentMeetingSeries();
-            parentSeries._copyTopicsToSeries(aMin);
+            parentSeries.server_finalizeLastMinute();
             let msAffectedDocs = getMeetingSeriesCollection().update(/*no client callback*/null,
                 parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
@@ -138,5 +138,48 @@ Meteor.methods({
             throw e;
         }
 
+    },
+
+    'workflow.unfinalizeMinute'(id) {
+
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+
+        let aMin = new Minutes(id);
+
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (!userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            throw new Meteor.Error("Cannot un-finalize minutes", "You are not moderator of the parent meeting series.");
+        }
+
+        // it is not allowed to un-finalize a minute if it is not the last finalized one
+        let parentSeries = aMin.parentMeetingSeries();
+        if (!parentSeries.isUnfinalizeMinutesAllowed(id)) {
+            throw new Meteor.Error("not-allowed", "This minutes is not allowed to be un-finalized.");
+        }
+
+        try {
+            parentSeries.server_unfinalizeLastMinute();
+            let msAffectedDocs = getMeetingSeriesCollection().update(/*no client callback*/null,
+                parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
+
+            if (msAffectedDocs !== 1 && Meteor.isServer) {
+                throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series')
+            }
+
+            let doc = {
+                isFinalized: false,
+                isUnfinalized: true
+            };
+
+            getMinutesCollection().update(null, id, {$set: doc});
+        } catch(e) {
+            console.error(e);
+            throw e;
+        }
     }
 });

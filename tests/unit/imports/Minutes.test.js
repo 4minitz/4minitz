@@ -465,16 +465,16 @@ describe('Minutes', function () {
 
     describe('#unfinalize', function () {
 
-        it('calls the meteor method minutes.unfinalize', function() {
+        it('calls the meteor method workflow.unfinalizeMinute', function() {
             minute.unfinalize();
 
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
-        it('sends the id to the meteor method minutes.unfinalize', function () {
+        it('sends the id to the meteor method workflow.unfinalizeMinute', function () {
             minute.unfinalize();
 
-            expect(Meteor.call.calledWithExactly('minutes.unfinalize', minutesDoc._id, undefined)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('workflow.unfinalizeMinute', minutesDoc._id, undefined)).to.be.true;
         });
 
     });
