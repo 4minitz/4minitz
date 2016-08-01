@@ -32,12 +32,14 @@
         { "name": "Status:RED",     "color": "#ff0000"},
         { "name": "Status:YELLOW",  "color": "#ffff00"},
         { "name": "Status:GREEN",   "color": "#008000"},
-        { "name": "Milestone",      "color": "#66ff66"},
         { "name": "Decision",       "color": "#0099ff"},
-        { "name": "Escalation",     "color": "#ff9933"},
-        { "name": "Issue",          "color": "#cc66ff"},
         { "name": "Proposal",       "color": "#ffff66"},
-        { "name": "Draft",          "color": "#ffff66"}
+        { "name": "Draft",          "color": "#ffff66"},
+        { "name": "Confidential",   "color": "#cc2222"},
+        { "name": "Unclassified",   "color": "#22cc22"},
+        { "name": "Issue",          "color": "#cc66ff"},
+        { "name": "Milestone",      "color": "#66ff66"},
+        { "name": "Escalation",     "color": "#ff9933"}
     ],
 
     "//5": "configure mongodb",

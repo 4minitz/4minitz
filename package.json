@@ -15,7 +15,7 @@
     "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200",
     "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3200",
     "test:end2end:server": "meteor run --port 3100 --settings ./settings-test-end2end.json",
-    "test:end2end:headless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs",
+    "test:end2end:headless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs -- $TEST_FILES",
     "test:end2end:once": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
     "test:end2end:watch": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch",
     "postinstall": "cp -R ./node_modules/bootstrap/dist/fonts ./public/ && rm -rf ./node_modules/eonasdan-bootstrap-datetimepicker/node_modules"
@@ -39,6 +39,8 @@
     "fibers": "^1.0.13",
     "git-rev-sync": "^1.5.1",
     "jquery": "^2.1.4",
+    "jquery-ui": "github:jquery/jquery-ui#1.12.0",
+    "jquery-ui-touch-punch": "^0.2.3",
     "meteor-node-stubs": "^0.2.3",
     "moment": "^2.13.0",
     "mongo-uri": "^0.1.2"
