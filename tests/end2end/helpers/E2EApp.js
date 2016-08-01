@@ -49,6 +49,11 @@ export class E2EApp {
             E2EApp.logoutUser();
         }
         try {    // try to log in
+            if (browser.isExisting("#id_ldapUsername")) {
+                browser.click("#tab_standard");
+                E2EGlobal.waitSomeTime();
+            }
+
             if (browser.isExisting('#at-field-username_and_email')) {
                 browser.setValue('input[id="at-field-username_and_email"]', aUser);
                 browser.setValue('input[id="at-field-password"]', aPassword);

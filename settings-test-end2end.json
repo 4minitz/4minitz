@@ -54,7 +54,7 @@
     },
 
     "ldap": {
-        "enabled": false,
+        "enabled": true,
         "searchDn": "cn",
         "searchFilter": "",
         "serverDn": "DC=example,DC=com",
