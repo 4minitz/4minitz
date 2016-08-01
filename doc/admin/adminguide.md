@@ -44,9 +44,20 @@ the "TO:" field. Disable this option in public or demo mode!
 
 ### LDAP Configuration
 
-[... describe base configuration fields...]
+#### Available configuration options
 
-Now that you have configured 4minitz to allow LDAP login, all your 
+| Setting           | Default | Explanation                                                                 |
+|-------------------|---------|-----------------------------------------------------------------------------|
+| enabled           | false   | Enables & disables LDAP login                                               |
+| searchDn          | "cn"    | The attribute used as username                                              |
+| searchFilter      | ""      | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
+| serverDn          | ""      | Your server base dn, e.g. "dc=example,dc=com"                               |
+| serverUrl         | ""      | Server url, e.g. "ldaps://ldap.example.com:1234                             |
+| whiteListedFields | []      | Attributes that are copied into the user's profile property                 |
+| autopublishFields | []      | Meteor will publish these fields automatically on users                     |
+| allowSelfSignedTLS| false   | If enabled, self-signed certs will be allowed for the Meteor server process |
+
+Once you have configured 4minitz to allow LDAP login, all your 
 users should be able to login with their LDAP username & passwords. On 
 first login of an LDAP user, this user (username & email address, user 
 long names) are copied into the 4minitz user database. Password lookup 
@@ -81,7 +92,7 @@ never deletes any users from the 4minitz user database. Granted access
 right to meeting series or minutes are not changed on existing users 
 by the importUsers.js script. 
 
-_Note: The LDAP "uid" and the the 4minitz user database field 
+_Note: The LDAP setting "searchDn" and the the 4minitz user database field 
 "username" are considered as primary key in the import step. But it is 
 important to note that comparison is done __case-insensitive__ as 
-[meteor considers no case on usernames during login](https://guide.meteor.com/accounts.html#case-sensitivity)_
+[meteor considers no case on usernames during login](https://guide.meteor.com/accounts.html#case-sensitivity).
