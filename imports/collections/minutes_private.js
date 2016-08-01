@@ -95,32 +95,6 @@ Meteor.methods({
         }
     },
 
-
-    'minutes.remove'(id) {
-        if (id == undefined || id == "")
-            return;
-
-        var handleRemove = {
-            removeMinute: function(id) {
-                // Make sure the user is logged in before changing collections
-                if (!Meteor.userId()) {
-                    throw new Meteor.Error('not-authorized');
-                }
-
-                // Ensure user can not remove documents of other users
-                let userRoles = new UserRoles(Meteor.userId());
-                let aMin = new Minutes(id);
-                if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-                    return MinutesCollection.remove({_id: id, isFinalized: false});
-                } else {
-                    throw new Meteor.Error("Cannot delete minutes", "You are not moderator of the parent meeting series.");
-                }
-            }
-        };
-
-        return handleRemove.removeMinute(id);
-    },
-
     'minutes.removeAllOfSeries'(meetingSeriesId) {
         if (meetingSeriesId == undefined || meetingSeriesId == "") {
             return;

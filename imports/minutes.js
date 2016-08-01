@@ -45,7 +45,7 @@ export class Minutes {
     }
 
     static remove(id) {
-        return Meteor.callPromise("minutes.remove", id);
+        return Meteor.callPromise("workflow.removeMinute", id);
     }
 
     static async syncVisibility(parentSeriesID, visibleForArray) {

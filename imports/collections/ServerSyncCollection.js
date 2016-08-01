@@ -19,7 +19,7 @@ export class ServerSyncCollection {
         return this.collection.update(...args, clientCallback);
     }
 
-    remote(...args) {
+    remove(...args) {
         return this.collection.remove(...args);
     }
 }

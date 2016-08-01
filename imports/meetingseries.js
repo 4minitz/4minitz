@@ -43,12 +43,8 @@ export class MeetingSeries {
     async removeMinutesWithId(minutesId) {
         console.log("removeMinutesWithId: " + minutesId);
 
-        let numberOfRemovedMinutes = await Minutes.remove(minutesId);
-
-        if (numberOfRemovedMinutes === 1) {
-            await Meteor.callPromise('meetingseries.removeMinutesFromArray', this._id, minutesId);
-            return this.updateLastMinutesDateAsync();
-        }
+        await Minutes.remove(minutesId);
+        return this.updateLastMinutesDateAsync();
     }
 
 

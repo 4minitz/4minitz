@@ -91,6 +91,21 @@ Meteor.methods({
         }
     },
 
+    'workflow.removeMinute'(id) {
+        if (id == undefined || id == "") {
+            throw new Meteor.Error('illegal-arguments', 'Minutes id required');
+        }
+        let aMin = new Minutes(id);
+        let meetingSeriesId = aMin.parentMeetingSeriesID();
+        checkUserAvailableAndIsModeratorOf(meetingSeriesId);
+
+        let affectedDocs = getMinutesCollection().remove({_id: id, isFinalized: false});
+        if (Meteor.isServer && affectedDocs > 0) {
+            // remove the reference in the meeting series minutes array
+            getMeetingSeriesCollection().update(null, meetingSeriesId, {$pull: {'minutes': id}});
+        }
+    },
+
     'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
         let aMin = new Minutes(id);
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());

@@ -180,7 +180,7 @@ describe('Minutes', function () {
 
         it('sends the minutes id to the meteor method minutes.remove', function () {
             Minutes.remove(minute._id);
-            expect(Meteor.callPromise.calledWithExactly('minutes.remove', minute._id)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('workflow.removeMinute', minute._id)).to.be.true;
         });
 
     });
