@@ -55,18 +55,39 @@ To run the e2e tests, you need to run the server in "end2end" mode.
     npm run test:end2end:server
 
 This will set some specific e2e settings from ```settings-test-end2end.json```. 
-Then run the chimp tests use either
+Then run the chimp tests use once mode or in watch mode with an installed 
+Chrome instance
 
     npm run test:end2end:once
     npm run test:end2end:watch
 
-to run them once or in watch mode or use
+or run them headless with phantomjs, which is included in our test runner chimp
 
     npm run test:end2end:headless
 
-to run the end2end tests headless in a phantomjs instance. 
 
-## Where to start
+#### Headless debugging with screenshots
+To debug headless testcases that run red, you can create screenshots at
+interesting timepoints in your tests by either calling WebDriver.io's:
+
+    browser.saveScreenshot("my-testcase");
+    
+or by calling our convenience wrapper function:
+    
+    E2EGlobal.saveScreenshot("my-testcase");
+    
+where the later one adds a timestamp (YYYYMMDDHHMMSS plus milliseconds) in front 
+of the file name to create unique names. The screenshots of the headless
+browser are stored in ```/tests/snapshots```.
+
+Our headless end-2-end` tests are also executed on our CI platform
+Travis-CI. To debug red testcases on Travis-CI, all screenshots are
+uploaded as "artifacts" to our Amazon AWS S3 storage. After a Travis build
+has completed, you can watch all created screenshots via this URL:
+[http://s3files.4minitz.com/4minitz/4minitz](http://s3files.4minitz.com/4minitz/4minitz)
+ 
+
+## Coding - Where to start
 Our work-horses are the classes in /imports/ (e.g. meetingseries.js, minutes.js).
 They build a facade for the underlying MongoCollections and enrich them with convenience methods.
 
