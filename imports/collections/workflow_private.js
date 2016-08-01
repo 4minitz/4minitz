@@ -67,18 +67,18 @@ Meteor.methods({
         let asyncCallback = function(error, newMinutesID) {
             if (!error && clientCallback) {
                 parentMeetingSeries.minutes.push(newMinutesID);
-                getMeetingSeriesCollection().update(null, parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
+                getMeetingSeriesCollection().update(parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
                 clientCallback(newMinutesID);
             }
         };
 
         try {
-            let newMinutesID = getMinutesCollection().insert(asyncCallback, doc);
+            let newMinutesID = getMinutesCollection().insert(doc, asyncCallback);
             if (Meteor.isServer) {
 
                 try {
                     parentMeetingSeries.minutes.push(newMinutesID);
-                    getMeetingSeriesCollection().update(null, parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
+                    getMeetingSeriesCollection().update(parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
                 } catch (e) {
                     getMeetingSeriesCollection().remove({_id: newMinutesID});
                     console.error(e);
@@ -102,7 +102,7 @@ Meteor.methods({
         let affectedDocs = getMinutesCollection().remove({_id: id, isFinalized: false});
         if (Meteor.isServer && affectedDocs > 0) {
             // remove the reference in the meeting series minutes array
-            getMeetingSeriesCollection().update(null, meetingSeriesId, {$pull: {'minutes': id}});
+            getMeetingSeriesCollection().update(meetingSeriesId, {$pull: {'minutes': id}});
         }
     },
 
@@ -114,7 +114,7 @@ Meteor.methods({
             // first we copy the topics of the finalize-minute to the parent series
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.server_finalizeLastMinute();
-            let msAffectedDocs = getMeetingSeriesCollection().update(/*no client callback*/null,
+            let msAffectedDocs = getMeetingSeriesCollection().update(
                 parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
             if (msAffectedDocs !== 1 && Meteor.isServer) {
@@ -130,7 +130,7 @@ Meteor.methods({
                 isUnfinalized: false
             };
 
-            let affectedDocs = getMinutesCollection().update(/*no client callback*/null, id, {$set: doc});
+            let affectedDocs = getMinutesCollection().update(id, {$set: doc});
             if (affectedDocs == 1 && Meteor.isServer) {
                 if (!GlobalSettings.isEMailDeliveryEnabled()) {
                     console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set " +
@@ -166,7 +166,7 @@ Meteor.methods({
 
         try {
             parentSeries.server_unfinalizeLastMinute();
-            let msAffectedDocs = getMeetingSeriesCollection().update(/*no client callback*/null,
+            let msAffectedDocs = getMeetingSeriesCollection().update(
                 parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
             if (msAffectedDocs !== 1 && Meteor.isServer) {
@@ -178,7 +178,7 @@ Meteor.methods({
                 isUnfinalized: true
             };
 
-            getMinutesCollection().update(null, id, {$set: doc});
+            getMinutesCollection().update(id, {$set: doc});
         } catch(e) {
             console.error(e);
             throw e;
