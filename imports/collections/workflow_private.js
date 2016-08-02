@@ -64,10 +64,14 @@ Meteor.methods({
         doc.isFinalized = false;
         doc.isUnfinalized = false;
 
+        let addMinuteReferenceInSeries = function(newMinutesID) {
+            parentMeetingSeries.minutes.push(newMinutesID);
+            getMeetingSeriesCollection().update(parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
+        };
+
         let asyncCallback = function(error, newMinutesID) {
             if (!error && clientCallback) {
-                parentMeetingSeries.minutes.push(newMinutesID);
-                getMeetingSeriesCollection().update(parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
+                addMinuteReferenceInSeries(newMinutesID);
                 clientCallback(newMinutesID);
             }
         };
@@ -75,10 +79,8 @@ Meteor.methods({
         try {
             let newMinutesID = getMinutesCollection().insert(doc, asyncCallback);
             if (Meteor.isServer) {
-
                 try {
-                    parentMeetingSeries.minutes.push(newMinutesID);
-                    getMeetingSeriesCollection().update(parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
+                    addMinuteReferenceInSeries(newMinutesID);
                 } catch (e) {
                     getMeetingSeriesCollection().remove({_id: newMinutesID});
                     console.error(e);
