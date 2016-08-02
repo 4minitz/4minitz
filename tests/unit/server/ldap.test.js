@@ -195,6 +195,18 @@ describe('ldap', function () {
         });
     });
 
+    describe('#addFields', function () {
+        it('returns an object with a password property that holds an empty string', function () {
+            let expectedResult = {
+                password: ''
+            };
+
+            let result = LDAP.addFields();
+
+            expect(result).to.deep.equal(expectedResult);
+        });
+    });
+
     describe('#log', function () {
         beforeEach(function () {
             sinon.spy(console, 'log');
