@@ -13,7 +13,7 @@
     @media only screen {
         html {
             min-height: 100%;
-            background: #f3f3f3
+            background: #eee
         }
     }
 
@@ -272,8 +272,8 @@
             min-width: 0
         }
     }
-    </style><span class="preheader" style="color:#f3f3f3;display:none!important;font-size:1px;line-height:1px;max-height:0;max-width:0;mso-hide:all!important;opacity:0;overflow:hidden;visibility:hidden"></span>
-    <table class="body" style="Margin:0;background:#f3f3f3;border-collapse:collapse;border-spacing:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;height:100%;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;width:100%">
+    </style><span class="preheader" style="color:#eee;display:none!important;font-size:1px;line-height:1px;max-height:0;max-width:0;mso-hide:all!important;opacity:0;overflow:hidden;visibility:hidden"></span>
+    <table class="body" style="Margin:0;background:#eee;border-collapse:collapse;border-spacing:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;height:100%;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;width:100%">
         <tr style="padding:0;text-align:left;vertical-align:top">
             <td class="center" align="center" valign="top" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
                 <center data-parsed="" style="min-width:580px;width:100%">
@@ -337,8 +337,8 @@
                                                     <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                         <tr style="padding:0;text-align:left;vertical-align:top">
                                                             <th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-                                                                <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left"><small style="color:#cacaca;font-size:80%">Date</small>
-                                                                    <br>{{minutesDate}}</p>
+                                                                <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left"><small style="color:#cacaca;font-size:80%">Project</small>
+                                                                    <br>{{meetingSeriesProject}}</p>
                                                             </th>
                                                         </tr>
                                                     </table>
@@ -347,8 +347,8 @@
                                                     <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                         <tr style="padding:0;text-align:left;vertical-align:top">
                                                             <th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-                                                                <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left"><small style="color:#cacaca;font-size:80%">Project</small>
-                                                                    <br>{{meetingSeriesProject}}</p>
+                                                                <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left"><small style="color:#cacaca;font-size:80%">Date</small>
+                                                                    <br>{{minutesDate}}</p>
                                                             </th>
                                                         </tr>
                                                     </table>
@@ -414,14 +414,18 @@
                                                         <tr style="padding:0;text-align:left;vertical-align:top">
                                                             <th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">{{#unless discussedTopics}}
                                                                 <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">None</p>{{/unless}} {{#each discussedTopics}}
-                                                                <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{subject}} {{responsiblesString}}</p>
-                                                                <ul>{{#each infoItems}}
+                                                                <ul>
                                                                     <li style="color:#555">
-                                                                        <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}</p>
-                                                                    </li>{{#if details}} {{#each details}}
-                                                                    <li style="color:#555">
-                                                                        <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{date}}: {{markdown2html text}}</p>
-                                                                    </li>{{/each}} {{/if}} {{/each}}</ul>{{/each}}</th>
+                                                                        <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{subject}} {{responsiblesString}}</p>
+                                                                        <ul>{{#each infoItems}}
+                                                                            <li style="color:#555">
+                                                                                <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}</p>{{#if details}}
+                                                                                <ul>{{#each details}}
+                                                                                    <li style="color:#555">
+                                                                                        <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{date}}: {{markdown2html text}}</p>
+                                                                                    </li>{{/each}}</ul>{{/if}}</li>{{/each}}</ul>
+                                                                    </li>
+                                                                </ul>{{/each}}</th>
                                                             <th class="expander" style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
                                                         </tr>
                                                     </table>
@@ -452,10 +456,17 @@
                                                         <tr style="padding:0;text-align:left;vertical-align:top">
                                                             <th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">{{#unless skippedTopics}}
                                                                 <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">None</p>{{/unless}} {{#each skippedTopics}}
-                                                                <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{subject}} {{responsiblesString}}</p>
-                                                                <ul style="padding-left:30px">{{#each infoItems}}
-                                                                    <li style="color:#555">{{subject}}{{#if hasLabels}} ({{formatLabels ../_id}}){{/if}}{{#if isSticky}} (pinned){{/if}}</li>{{#if details}} {{#each details}}
-                                                                    <li style="color:#555">{{date}}: {{markdown2html text}}</li>{{/each}} {{/if}} {{/each}}</ul>{{/each}}</th>
+                                                                <ul>
+                                                                    <li style="color:#555">
+                                                                        <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{subject}} {{responsiblesString}}</p>
+                                                                        <ul>{{#each infoItems}}
+                                                                            <li style="color:#555">{{subject}} {{#if hasLabels}} ({{formatLabels ../_id}}) {{/if}} {{#if isSticky}} (pinned){{/if}} {{#if details}}
+                                                                                <ul>{{#each details}}
+                                                                                    <li style="color:#555">
+                                                                                        <p style="Margin:0;Margin-bottom:10px;color:#555;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:left">{{date}}: {{markdown2html text}}</p>
+                                                                                    </li>{{/each}}</ul>{{/if}}</li>{{/each}}</ul>
+                                                                    </li>
+                                                                </ul>{{/each}}</th>
                                                             <th class="expander" style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
                                                         </tr>
                                                     </table>
@@ -470,7 +481,7 @@
                                                     <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                         <tr style="padding:0;text-align:left;vertical-align:top">
                                                             <th style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-                                                                <h4 style="Margin:0;Margin-bottom:10px;color:#009688;font-family:Helvetica,Arial,sans-serif;font-size:24px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left;word-wrap:normal">Actions</h4></th>
+                                                                <h4 style="Margin:0;Margin-bottom:10px;color:#009688;font-family:Helvetica,Arial,sans-serif;font-size:24px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left;word-wrap:normal">Links</h4></th>
                                                             <th class="expander" style="Margin:0;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
                                                         </tr>
                                                     </table>
@@ -490,7 +501,7 @@
                                                                         <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
                                                                             <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                                                 <tr style="padding:0;text-align:left;vertical-align:top">
-                                                                                    <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#777;border:0 solid #777;border-collapse:collapse!important;border-radius:3px;color:#fefefe;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><a href="{{meetingSeriesURL}}" style="Margin:0;border:0 solid #777;border-radius:3px;color:#fefefe;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.3;margin:0;padding:8px 16px 8px 16px;text-align:left;text-decoration:none">Open Series</a></td>
+                                                                                    <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#ddd;border:0 solid #ddd;border-collapse:collapse!important;border-radius:3px;color:#777;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><a href="{{meetingSeriesURL}}" style="Margin:0;border:0 solid #ddd;border-radius:3px;color:#777;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:8px 16px 8px 16px;text-align:left;text-decoration:none">Open Series</a></td>
                                                                                 </tr>
                                                                             </table>
                                                                         </td>
@@ -509,7 +520,7 @@
                                                                         <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
                                                                             <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                                                 <tr style="padding:0;text-align:left;vertical-align:top">
-                                                                                    <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#777;border:0 solid #777;border-collapse:collapse!important;border-radius:3px;color:#fefefe;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><a href="{{minuteUrl}}" style="Margin:0;border:0 solid #777;border-radius:3px;color:#fefefe;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.3;margin:0;padding:8px 16px 8px 16px;text-align:left;text-decoration:none">Open Minute</a></td>
+                                                                                    <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#ddd;border:0 solid #ddd;border-collapse:collapse!important;border-radius:3px;color:#777;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><a href="{{minuteUrl}}" style="Margin:0;border:0 solid #ddd;border-radius:3px;color:#777;display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:8px 16px 8px 16px;text-align:left;text-decoration:none">Open Minute</a></td>
                                                                                 </tr>
                                                                             </table>
                                                                         </td>
