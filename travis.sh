@@ -15,6 +15,9 @@ echo Run end2end tests: "$TEST"
 echo Remove old log file
 rm meteor.log
 
+echo Start fake ldap server
+npm run test:end2end:ldapserver > ldap.log&
+
 echo Start end2end server
 npm run test:end2end:server > meteor.log&
 
@@ -40,5 +43,8 @@ CHIMP_RESULT=$?
 echo Meteor server log:
 cat meteor.log
 rm meteor.log
+
+cat ldap.log
+rm ldap.log
 
 exit $CHIMP_RESULT

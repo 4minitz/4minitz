@@ -14,6 +14,7 @@
     "test:integration": "npm run test:integration:browser",
     "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200",
     "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3200",
+    "test:end2end:ldapserver": "node private/ldap/fakes/server.js",
     "test:end2end:server": "meteor run --port 3100 --settings ./settings-test-end2end.json",
     "test:end2end:headless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs -- $TEST_FILES",
     "test:end2end:once": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
