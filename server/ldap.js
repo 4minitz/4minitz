@@ -54,6 +54,15 @@ LDAP.filter = function (isEmailAddress, usernameOrEmail) {
     return ['(&(', searchField, '=', searchValue, ')', filter ,')'].join('');
 };
 
+LDAP.addFields = function (/*person - the ldap entry for that user*/) {
+    // this = ldap request object
+
+    return {
+        // overwrite the password to prevent local logins
+        password: ''
+    };
+};
+
 LDAP.log = function (message) {
     // The ldap plugin prints the user password in clear text in the log
     // The log leaking the password always starts with 'Creating user'
