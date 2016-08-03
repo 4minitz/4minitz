@@ -13,24 +13,21 @@ fi
 echo Run end2end tests: "$TEST"
 
 echo Remove old log file
-rm meteor.log
-
-echo Start fake ldap server
-npm run test:end2end:ldapserver > ldap.log&
+rm server.log
 
 echo Start end2end server
-npm run test:end2end:server > meteor.log&
+npm run test:end2end:server > server.log&
 
 COUNTER=0
 MAX_WAIT=900
-until grep "=> App running at" meteor.log; do
+until grep "=> App running at" server.log; do
     echo App has not started yet.. Waiting for $COUNTER seconds
     sleep 30
     COUNTER=$(($COUNTER+30))
 
     if [ $COUNTER -gt $MAX_WAIT ]; then
-        echo Meteor takes too long to start, exiting. Meteor log:
-        cat meteor.log
+        echo Meteor takes too long to start, exiting. Server log:
+        cat server.log
         exit 1
     fi
 done
@@ -40,11 +37,8 @@ chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=phantom
 
 CHIMP_RESULT=$?
 
-echo Meteor server log:
-cat meteor.log
-rm meteor.log
-
-cat ldap.log
-rm ldap.log
+echo Server log:
+cat server.log
+rm server.log
 
 exit $CHIMP_RESULT
