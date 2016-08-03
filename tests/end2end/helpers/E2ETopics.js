@@ -289,6 +289,9 @@ export class E2ETopics {
             doBeforeSubmit(selFocusedInput);
         }
         browser.keys(['Escape']);
+        E2EGlobal.saveScreenshot('details-added');
+        E2EGlobal.waitSomeTime(250);
+        E2EGlobal.saveScreenshot('details-added_2');
     }
 
     static editDetailsForActionItem(topicIndex, infoItemIndex, detailIndex, detailsText) {
