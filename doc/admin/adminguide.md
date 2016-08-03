@@ -79,7 +79,7 @@ email addresses (not the password hashes!) from LDAP into the 4minitz
 user data base with the following script:
 
     cd [path-to-4minitz]
-    meteor node ./private/ldap/importUsers.js -s settings.json -m mongodb://localhost:3001/meteor
+    node ./private/ldap/importUsers.js -s settings.json -m mongodb://localhost:3001/meteor
     
 _Note: if you run 4minitz on the default port 3000, then the mongoDB usually runs on the default port 3001 - otherwise adapt the
 mongo db port to your installation_
