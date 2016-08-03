@@ -2,33 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
-import { MeetingSeriesCollection } from './meetingseries_private'
-import { MinutesCollection } from './minutes_private'
+import { MeetingSeriesSyncCollection } from './meetingseries_private'
+import { MinutesSyncCollection } from './minutes_private'
 import { ServerSyncCollection } from './ServerSyncCollection'
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
-
-// Use the functions getMinutesCollection() and getMeetingSeriesCollection() to access the collections
-// this functions take care about wrapping the collections with a mechanism to make sure the collection-method-calls
-// will be done synchronously on the server and asynchronously on the client.
-// Both variables can not be assigned when the script executes first because the collections are not ready at that
-// moment.
-let meetingSeriesSyncCollection = null;
-let minutesSyncCollection = null;
-
-function getMeetingSeriesCollection() {
-    if (null === meetingSeriesSyncCollection) {
-        meetingSeriesSyncCollection = new ServerSyncCollection(MeetingSeriesCollection, Meteor);
-    }
-    return meetingSeriesSyncCollection;
-}
-
-function getMinutesCollection() {
-    if (null === minutesSyncCollection) {
-        minutesSyncCollection = new ServerSyncCollection(MinutesCollection, Meteor);
-    }
-    return minutesSyncCollection;
-}
 
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Make sure the user is logged in before changing collections
@@ -66,7 +44,7 @@ Meteor.methods({
 
         let addMinuteReferenceInSeries = function(newMinutesID) {
             parentMeetingSeries.minutes.push(newMinutesID);
-            getMeetingSeriesCollection().update(parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
+            MeetingSeriesSyncCollection.update(parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
         };
 
         let asyncCallback = function(error, newMinutesID) {
@@ -77,12 +55,12 @@ Meteor.methods({
         };
 
         try {
-            let newMinutesID = getMinutesCollection().insert(doc, asyncCallback);
+            let newMinutesID = MinutesSyncCollection.insert(doc, asyncCallback);
             if (Meteor.isServer) {
                 try {
                     addMinuteReferenceInSeries(newMinutesID);
                 } catch (e) {
-                    getMeetingSeriesCollection().remove({_id: newMinutesID});
+                    MeetingSeriesSyncCollection.remove({_id: newMinutesID});
                     console.error(e);
                     throw e;
                 }
@@ -101,10 +79,10 @@ Meteor.methods({
         let meetingSeriesId = aMin.parentMeetingSeriesID();
         checkUserAvailableAndIsModeratorOf(meetingSeriesId);
 
-        let affectedDocs = getMinutesCollection().remove({_id: id, isFinalized: false});
+        let affectedDocs = MinutesSyncCollection.remove({_id: id, isFinalized: false});
         if (Meteor.isServer && affectedDocs > 0) {
             // remove the reference in the meeting series minutes array
-            getMeetingSeriesCollection().update(meetingSeriesId, {$pull: {'minutes': id}});
+            MeetingSeriesSyncCollection.update(meetingSeriesId, {$pull: {'minutes': id}});
         }
     },
 
@@ -116,7 +94,7 @@ Meteor.methods({
             // first we copy the topics of the finalize-minute to the parent series
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.server_finalizeLastMinute();
-            let msAffectedDocs = getMeetingSeriesCollection().update(
+            let msAffectedDocs = MeetingSeriesSyncCollection.update(
                 parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
             if (msAffectedDocs !== 1 && Meteor.isServer) {
@@ -132,7 +110,7 @@ Meteor.methods({
                 isUnfinalized: false
             };
 
-            let affectedDocs = getMinutesCollection().update(id, {$set: doc});
+            let affectedDocs = MinutesSyncCollection.update(id, {$set: doc});
             if (affectedDocs == 1 && Meteor.isServer) {
                 if (!GlobalSettings.isEMailDeliveryEnabled()) {
                     console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set " +
@@ -168,7 +146,7 @@ Meteor.methods({
 
         try {
             parentSeries.server_unfinalizeLastMinute();
-            let msAffectedDocs = getMeetingSeriesCollection().update(
+            let msAffectedDocs = MeetingSeriesSyncCollection.update(
                 parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
             if (msAffectedDocs !== 1 && Meteor.isServer) {
@@ -180,7 +158,7 @@ Meteor.methods({
                 isUnfinalized: true
             };
 
-            getMinutesCollection().update(id, {$set: doc});
+            MinutesSyncCollection.update(id, {$set: doc});
         } catch(e) {
             console.error(e);
             throw e;
@@ -196,10 +174,10 @@ Meteor.methods({
 
         // first we remove all containing minutes to make sure we don't get orphans
         // deleting all minutes of one series is allowed, even if they are finalized.
-        getMinutesCollection().remove({meetingSeries_id: id});
+        MinutesSyncCollection.remove({meetingSeries_id: id});
 
         // then we remove the meeting series document itself
-        MeetingSeriesCollection.remove(id);
+        MeetingSeriesSyncCollection.remove(id);
 
     }
 });

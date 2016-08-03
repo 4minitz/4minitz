@@ -7,6 +7,7 @@ import { MinutesSchema } from './minutes.schema';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
+import { ServerSyncCollection } from './ServerSyncCollection'
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -15,6 +16,8 @@ export var MinutesCollection = new Mongo.Collection("minutes",
         }
     }
 );
+
+export var MinutesSyncCollection = new ServerSyncCollection(MinutesCollection, Meteor);
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication() {
@@ -53,7 +56,7 @@ Meteor.methods({
                 let sendAgendaMailHandler = new SendAgendaMailHandler(senderEmail, aMin);
                 sendAgendaMailHandler.send();
 
-                MinutesCollection.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
+                MinutesSyncCollection.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
 
                 return sendAgendaMailHandler.getCountRecipients();
             }
@@ -91,7 +94,7 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
-            MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
+            MinutesSyncCollection.update({_id: id, isFinalized: false}, {$set: doc});
         }
     },
 
