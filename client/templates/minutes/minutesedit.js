@@ -264,10 +264,9 @@ Template.minutesedit.events({
         let aMin = new Minutes(_minutesID);
         if (aMin) {
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
-            let parentSeries = aMin.parentMeetingSeries();
 
             let doFinalize = function () {
-                parentSeries.finalizeMinutes(aMin, sendActionItems, sendInformationItems);
+                aMin.finalize(sendActionItems, sendInformationItems);
 
                 toggleTopicSorting();
                 Session.set("participants.expand", false);
@@ -304,8 +303,7 @@ Template.minutesedit.events({
         let aMin = new Minutes(_minutesID);
         if (aMin) {
             console.log("Un-Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
-            let parentSeries = aMin.parentMeetingSeries();
-            parentSeries.unfinalizeMinutes(aMin);
+            aMin.unfinalize();
 
             toggleTopicSorting();
             Session.set("participants.expand", true);

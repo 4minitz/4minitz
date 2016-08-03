@@ -30,11 +30,7 @@ export class MeetingSeries {
     }
 
     static async remove(meetingSeries) {
-        if (meetingSeries.countMinutes() > 0) {
-            await Meteor.callPromise("minutes.removeAllOfSeries", meetingSeries._id);
-        }
-
-        return Meteor.callPromise("meetingseries.remove", meetingSeries._id);
+        return Meteor.callPromise("workflow.removeMeetingSeries", meetingSeries._id);
     }
 
 
@@ -43,12 +39,8 @@ export class MeetingSeries {
     async removeMinutesWithId(minutesId) {
         console.log("removeMinutesWithId: " + minutesId);
 
-        let numberOfRemovedMinutes = await Minutes.remove(minutesId);
-
-        if (numberOfRemovedMinutes === 1) {
-            await Meteor.callPromise('meetingseries.removeMinutesFromArray', this._id, minutesId);
-            return this.updateLastMinutesDateAsync();
-        }
+        await Minutes.remove(minutesId);
+        return this.updateLastMinutesDateAsync();
     }
 
 
@@ -176,63 +168,6 @@ export class MeetingSeries {
             lastMinutesDate
         };
         return Meteor.callPromise('meetingseries.update', updateInfo);
-    }
-
-    /**
-     * Finalizes the given minutes and
-     * copies the open/closed topics to
-     * this series.
-     *
-     * @param minutes
-     * @param sendActionItems default: true
-     * @param sendInfoItems default: true
-     */
-    finalizeMinutes (minutes, sendActionItems = true, sendInfoItems = true) {
-        minutes.finalize(
-            sendActionItems, sendInfoItems,
-            /* server callback */
-            (error) => {
-                if (!error) {
-                    this._copyTopicsToSeries(minutes);
-                    this.save(null, /*do not skip topcis*/ false);
-                }
-            }
-        );
-    }
-
-    /**
-     * Unfinalizes the given minutes and
-     * removes the open/closed topics of this
-     * minutes from the series.
-     *
-     * @param minutes
-     */
-    unfinalizeMinutes (minutes) {
-        minutes.unfinalize(
-            /* Server callback */
-            (error) => {
-                if (!error) {
-                    let secondLastMinute = this.secondLastMinutes();
-                    if (secondLastMinute) {
-                        // all fresh created infoItems have to be deleted from the topic list of this series
-                        this.topics.forEach(topicDoc => {
-                            topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
-                                return infoItemDoc.createdInMinute !== minutes._id;
-                            })
-                        });
-
-                        this._copyTopicsToSeries(secondLastMinute);
-                    } else {
-                        // if we un-finalize our fist minute it is save to delete all open topics
-                        // because they are stored inside this minute
-                        this.openTopics = [];
-                        this.topics = [];
-                    }
-
-                    this.save(null, /*do not skip topcis*/ false);
-                }
-            }
-        );
     }
 
     /**
@@ -427,6 +362,32 @@ export class MeetingSeries {
     }
 
 
+    // ################### server methods: shall only be called within a meteor method
+
+    server_unfinalizeLastMinute() {
+        let minutes = this.lastMinutes();
+        let secondLastMinute = this.secondLastMinutes();
+        if (secondLastMinute) {
+            // all fresh created infoItems have to be deleted from the topic list of this series
+            this.topics.forEach(topicDoc => {
+                topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
+                    return infoItemDoc.createdInMinute !== minutes._id;
+                })
+            });
+
+            this._copyTopicsToSeries(secondLastMinute);
+        } else {
+            // if we un-finalize our fist minute it is save to delete all open topics
+            // because they are stored inside this minute
+            this.openTopics = [];
+            this.topics = [];
+        }
+    }
+
+    server_finalizeLastMinute() {
+        this._copyTopicsToSeries(this.lastMinutes());
+    }
+
     // ################### private methods
     /**
      * Copies the topics from the given
@@ -480,4 +441,5 @@ export class MeetingSeries {
             return true;
         })
     }
+
 }
