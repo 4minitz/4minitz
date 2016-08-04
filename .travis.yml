@@ -1,6 +1,13 @@
 sudo: required
 language: node_js
 
+env:
+  - TEST="tests/end2end/A* tests/end2end/I* tests/end2end/L*"
+  - TEST="tests/end2end/Mee*"
+  - TEST="tests/end2end/Mi*"
+  - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
+  - TEST="unit"
+
 addons:
   artifacts:
     # This uploads all headless screenshots generated with:
@@ -16,7 +23,8 @@ addons:
 #cache:
 #  directories:
 #    - node_modules
-#    - .meteor
+#    - .meteor/local
+#    - /usr/local/bin
 #    - ~/.meteor
 #    - $(npm config get prefix)/bin/chimp
 
@@ -26,10 +34,7 @@ node_js:
 before_install:
   - mkdir ./tests/snapshots
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp@0.34.1
+  - npm install -g chimp@0.36.1
 
-before_script:
-  - meteor npm run test:end2end:server&
-  - sleep 30
-
-script: npm run test:ci
+script:
+  - ./travis.sh "$TEST"

@@ -32,8 +32,6 @@ aldeed:collection2
 percolate:migrations
 dispatch:mocha-phantomjs
 sergeyt:typeahead
-mrt:jquery-ui-sortable
-dsyko:jquery-ui-touch-punch
 email
 http
 markdown
@@ -45,3 +43,4 @@ less
 fourseven:scss
 perak:markdown
 rcy:pick-a-color
+meteorhacks:subs-manager
