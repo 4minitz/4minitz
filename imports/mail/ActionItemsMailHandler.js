@@ -48,7 +48,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             _id: item.getDocument()._id,
             topicId: topicId,
             topicSubject: topicSubject,
-            subject: item.getSubject(),
+            itemSubject: item.getSubject(),
             labels: item.getLabelsRawArray(),
             responsibles: item.getResponsibleNameString(),
             priority: item.getPriority(),

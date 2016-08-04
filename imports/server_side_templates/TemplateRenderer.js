@@ -29,10 +29,19 @@ export class TemplateRenderer {
             let converter = new Showdown.converter();
             let html = converter.makeHtml(text);
             // remove enclosing p-tag
-            if (html.substr(0, 3) === "<p>") {
-                html = html.substr(3, html.length - 3);
+
+            if (html.indexOf("<p>") === 0) {
+                html = html.match(/<p>(.*)<\/p>/)[1];
             }
+
             return Spacebars.SafeString(html);
+        });
+
+        // use this helper to bring the doctype into the email
+        // if the doctype is in the html file an error will occur during parsing
+        this.addHelper('doctype', function() {
+            let dt = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+            return Spacebars.SafeString(dt);
         });
     }
 
