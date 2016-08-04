@@ -2,9 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
-import { MeetingSeriesSyncCollection } from './meetingseries_private'
-import { MinutesSyncCollection } from './minutes_private'
-import { ServerSyncCollection } from './ServerSyncCollection'
+import { MeetingSeriesCollection } from './meetingseries_private'
+import { MinutesCollection } from './minutes_private'
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
 
@@ -42,32 +41,34 @@ Meteor.methods({
         doc.isFinalized = false;
         doc.isUnfinalized = false;
 
-        let addMinuteReferenceInSeries = function(newMinutesID) {
-            parentMeetingSeries.minutes.push(newMinutesID);
-            MeetingSeriesSyncCollection.update(parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
-        };
+        try {
+            let newMinutesID = MinutesCollection.insert(doc);
+            try {
+                parentMeetingSeries.minutes.push(newMinutesID);
+                let affectedDocs = MeetingSeriesCollection.update(
+                    parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
+                if (affectedDocs !== 1) {
+                    throw new Meteor.Error('runtime-error', 'Update parent meeting series failed - no docs affected');
+                }
+            } catch (e) {
+                MinutesCollection.remove({_id: newMinutesID});
+                console.error(e);
+                throw e;
+            }
 
-        let asyncCallback = function(error, newMinutesID) {
-            if (!error && clientCallback) {
-                addMinuteReferenceInSeries(newMinutesID);
+            console.log('simulation: ' + Meteor.isClient);
+
+            if (Meteor.isClient && clientCallback) {
                 clientCallback(newMinutesID);
             }
-        };
 
-        try {
-            let newMinutesID = MinutesSyncCollection.insert(doc, asyncCallback);
-            if (Meteor.isServer) {
-                try {
-                    addMinuteReferenceInSeries(newMinutesID);
-                } catch (e) {
-                    MeetingSeriesSyncCollection.remove({_id: newMinutesID});
-                    console.error(e);
-                    throw e;
-                }
-            }
+            return newMinutesID;
+
         } catch (e) {
-            console.error(e);
-            throw e;
+            if (Meteor.isClient) {
+                console.error(e);
+                throw e;
+            }
         }
     },
 
@@ -79,10 +80,10 @@ Meteor.methods({
         let meetingSeriesId = aMin.parentMeetingSeriesID();
         checkUserAvailableAndIsModeratorOf(meetingSeriesId);
 
-        let affectedDocs = MinutesSyncCollection.remove({_id: id, isFinalized: false});
-        if (Meteor.isServer && affectedDocs > 0) {
+        let affectedDocs = MinutesCollection.remove({_id: id, isFinalized: false});
+        if (affectedDocs > 0) {
             // remove the reference in the meeting series minutes array
-            MeetingSeriesSyncCollection.update(meetingSeriesId, {$pull: {'minutes': id}});
+            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': id}});
         }
     },
 
@@ -94,10 +95,10 @@ Meteor.methods({
             // first we copy the topics of the finalize-minute to the parent series
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.server_finalizeLastMinute();
-            let msAffectedDocs = MeetingSeriesSyncCollection.update(
+            let msAffectedDocs = MeetingSeriesCollection.update(
                 parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
-            if (msAffectedDocs !== 1 && Meteor.isServer) {
+            if (msAffectedDocs !== 1) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series')
             }
 
@@ -110,8 +111,8 @@ Meteor.methods({
                 isUnfinalized: false
             };
 
-            let affectedDocs = MinutesSyncCollection.update(id, {$set: doc});
-            if (affectedDocs == 1 && Meteor.isServer) {
+            let affectedDocs = MinutesCollection.update(id, {$set: doc});
+            if (affectedDocs === 1 && !Meteor.isClient) {
                 if (!GlobalSettings.isEMailDeliveryEnabled()) {
                     console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set " +
                         "enableMailDelivery to true in your settings.json file");
@@ -128,8 +129,10 @@ Meteor.methods({
                 });
             }
         } catch(e) {
-            console.error(e);
-            throw e;
+            if (!Meteor.isClient) {
+                console.error(e);
+                throw e;
+            }
         }
 
     },
@@ -146,10 +149,10 @@ Meteor.methods({
 
         try {
             parentSeries.server_unfinalizeLastMinute();
-            let msAffectedDocs = MeetingSeriesSyncCollection.update(
+            let msAffectedDocs = MeetingSeriesCollection.update(
                 parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
-            if (msAffectedDocs !== 1 && Meteor.isServer) {
+            if (msAffectedDocs !== 1) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series')
             }
 
@@ -158,10 +161,12 @@ Meteor.methods({
                 isUnfinalized: true
             };
 
-            MinutesSyncCollection.update(id, {$set: doc});
+            return MinutesCollection.update(id, {$set: doc});
         } catch(e) {
-            console.error(e);
-            throw e;
+            if (!Meteor.isClient) {
+                console.error(e);
+                throw e;
+            }
         }
     },
 
@@ -174,10 +179,10 @@ Meteor.methods({
 
         // first we remove all containing minutes to make sure we don't get orphans
         // deleting all minutes of one series is allowed, even if they are finalized.
-        MinutesSyncCollection.remove({meetingSeries_id: id});
+        MinutesCollection.remove({meetingSeries_id: id});
 
         // then we remove the meeting series document itself
-        MeetingSeriesSyncCollection.remove(id);
+        MeetingSeriesCollection.remove(id);
 
     }
 });
