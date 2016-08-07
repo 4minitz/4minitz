@@ -64,6 +64,21 @@ var updateTopicSorting = function () {
     minute.update({topics: newTopicSorting});
 };
 
+
+var openPrintDialog = function () {
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf("android") > -1;
+
+    if (isAndroid) {
+        // https://developers.google.com/cloud-print/docs/gadget
+        var gadget = new cloudprint.Gadget();
+        gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
+        gadget.openPrintDialog();
+    } else {
+        window.print();
+    }
+};
+
 var sendActionItems = true;
 var sendInformationItems = true;
 
@@ -374,19 +389,27 @@ Template.minutesedit.events({
         Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
 
         if (Session.get("minutesedit.PrintViewActive")) {
-            // as material checkboxes do not print correctly...
-            // change material checkbox to normal checkbox for printing
-            $("div.checkbox").toggleClass('checkbox print-checkbox');
+            // expand all topics, but save current state before!
+            Session.set("minutesedit.collapsetopics-save4print."+_minutesID, Session.get("minutesedit.collapsetopics."+_minutesID));
+            Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+
             Session.set("participants.expand", false);
             $(".help").hide();
-            // $(".hidden-print").hide();
+            Meteor.setTimeout(function(){$(".collapse").addClass("in");}, 100);
 
-            // expand all topics
-            Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+            // give collapsibles some time for animation
+            Meteor.setTimeout(function(){$(".expand-collapse-triangle").hide();}, 350);
+            // as material checkboxes do not print correctly...
+            // change material checkbox to normal checkbox for printing
+            Meteor.setTimeout(function(){$("div.checkbox").toggleClass('checkbox print-checkbox');}, 360);
+            Meteor.setTimeout(function(){openPrintDialog();}, 500);
         } else {
             // change back normal checkboxes to material checkboxes after printing
             $("div.print-checkbox").toggleClass('checkbox print-checkbox');
-            // $(".hidden-print").show();
+            $(".expand-collapse-triangle").show();
+            $(".collapse").removeClass("in");
+            // restore old topic callapsible state
+            Session.set("minutesedit.collapsetopics."+_minutesID, Session.get("minutesedit.collapsetopics-save4print."+_minutesID));
         }
     }
 });

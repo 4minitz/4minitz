@@ -145,12 +145,10 @@ Template.topicElement.events({
         console.log("btnTopicExpandCollapse()"+this.topic._id);
         evt.preventDefault();
         let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
-        console.log("1. JSON: "+JSON.stringify(collapseState,null,2));
         if (!collapseState) {
             collapseState = {};
         }
         collapseState[this.topic._id] = ! collapseState[this.topic._id];
         Session.set("minutesedit.collapsetopics."+_minutesId, collapseState);
-        console.log("2. JSON: "+JSON.stringify(collapseState,null,2));
     }
 });

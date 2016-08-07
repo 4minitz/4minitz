@@ -6,7 +6,7 @@
     }}
     {{checkParentSeries}}
     <h2 class="header">
-        <span class="hidden-xs">Minutes for</span>
+        Minutes for
         <a id="id_linkToParentSeries" href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
     </h2>
 
@@ -24,11 +24,15 @@
                             </span>
                             {{#if isModeratorOfParentSeries}}
                                 {{#if isUnfinalizeAllowed}}
-                                    <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
+                                    <a href="" id="btn_unfinalizeMinutes" class="btn btn-default hidden-print" title="un-finalize">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 {{/if}}
                             {{/if}}
+                            <!--Print Button #1 of 3-->
+                            <button type="button" id="btn_printMinutes" class="btn {{isPrintView}} hidden-print">
+                                <span class="glyphicon glyphicon-print" aria-hidden="true" aria-label="Print View"></span>
+                            </button>
                         </div>
                     {{else}}
                         {{#if isModeratorOfParentSeries}}
@@ -39,9 +43,9 @@
                                 Send Agenda
                             </button>
 
-                            <!--Print Button-->
+                            <!--Print Button #2 of 3-->
                             <button type="button" id="btn_printMinutes" class="btn btn-lg btn-raised {{isPrintView}} hidden-print">
-                                <span class="glyphicon glyphicon-print" aria-hidden="true" aria-label="Finalize Minutes"></span>
+                                <span class="glyphicon glyphicon-print" aria-hidden="true" aria-label="Print View"></span>
                                 Print View
                             </button>
                         </div>
@@ -59,6 +63,13 @@
                             </button>
                         </div>
                         {{/if}}
+                        <div class="col-md-4 col-md-push-8 text-right minutes-action-buttons">
+                            <!--Print Button #3 of 3-->
+                            <button type="button" id="btn_printMinutes" class="btn btn-lg btn-raised {{isPrintView}} hidden-print">
+                                <span class="glyphicon glyphicon-print" aria-hidden="true" aria-label="Print View"></span>
+                                Print View
+                            </button>
+                        </div>
                     {{/if}}
 
                 <!--Date Picker-->

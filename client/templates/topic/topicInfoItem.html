@@ -2,7 +2,7 @@
     <div class="panel topicInfoItem">
         <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne" style="position: relative;">
             {{#if detailsArray.length}}
-                <a role="button" class="panel-link expandDetails hidden-print" data-toggle="collapse" data-parent="#accordion"
+                <a role="button" class="panel-link expandDetails hidden-print expand-collapse-triangle" data-toggle="collapse" data-parent="#accordion"
                     href="#collapse-{{currentCollapseId}}" style="position: absolute; top:0; left: 0; color: grey;">
                     {{#if isCollapsed}}
                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
@@ -26,7 +26,7 @@
                         <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
                            href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
                             {{infoItem.subject}} {{responsiblesHelper}}
-                            Prio:{{infoItem.priority}}
+                            {{#if infoItem.priority}}Prio:{{infoItem.priority}}{{/if}}
                             Due: {{infoItem.duedate}}
                         </a>
                     {{else}}
@@ -96,7 +96,7 @@
                     </p>
                 {{/each}}
                 {{#if isEditable}}
-                <a href="#" class="addDetail">Add details</a>
+                <a href="#" class="addDetail hidden-print">Add details</a>
                 {{/if}}
             </div>
         </div>
