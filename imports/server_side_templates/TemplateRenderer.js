@@ -28,10 +28,10 @@ export class TemplateRenderer {
         this.addHelper('markdown2html', function(text) {
             let html = Markdown(text);
 
-            // remove enclosing p-tag
-            if (html.indexOf("<p>") === 0) {
-                html = html.match(/<p>(.*)<\/p>/)[1];
-            }
+            // as we embed markdown under a <li> tag in emails we
+            // don't want <p> tags to destroy the layout...
+            // so we replace "<p>....</p>" to "....<br>"
+            html = html.replace(/<p>(.*?)<\/p>/gi, "$1<br>");
 
             return Spacebars.SafeString(html);
         });
