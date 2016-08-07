@@ -16,46 +16,53 @@
     <div class="well">
         <form>
             <div class="row">
-                <div class="col-md-4 col-md-push-8 text-right minutes-action-buttons">
-
-
                     {{#if isFinalized}}
-                        <!--Static Finalize Text -->
-                        <span id="txt_FinalizedBy">
-                            Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
-                        </span>
-                        {{#if isModeratorOfParentSeries}}
-                            {{#if isUnfinalizeAllowed}}
-                                <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
+                        <div class="col-md-8 col-md-push-4 text-right minutes-action-buttons">
+                            <!--Static Finalize Text -->
+                            <span id="txt_FinalizedBy">
+                                Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                            </span>
+                            {{#if isModeratorOfParentSeries}}
+                                {{#if isUnfinalizeAllowed}}
+                                    <a href="" id="btn_unfinalizeMinutes" class="btn btn-default" title="un-finalize">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                {{/if}}
                             {{/if}}
-                        {{/if}}
+                        </div>
                     {{else}}
                         {{#if isModeratorOfParentSeries}}
-                            <!--Delete Minutes Button-->
-                            <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised hidden-print">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Minutes"></span>
-                                Delete Minutes
-                            </button>
-
+                        <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
                             <!--Send Agenda Button-->
-                            <button type="button" id="btn_sendAgenda" class="btn btn-primary btn-lg btn-raised hidden-print">
+                            <button type="button" id="btn_sendAgenda" class="btn btn-lg btn-raised hidden-print">
                                 <span class="glyphicon glyphicon-envelope" aria-hidden="true" aria-label="Send Agenda"></span>
                                 Send Agenda
                             </button>
-
+                            
+                            <!--Print Button-->
+                            <button type="button" id="btn_printMinutes" class="btn btn-lg btn-raised hidden-print">
+                                <span class="glyphicon glyphicon-print" aria-hidden="true" aria-label="Finalize Minutes"></span>
+                                Print Minutes
+                            </button>
+                        </div>
+                        <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
                             <!--Finalize Minutes Button-->
                             <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised hidden-print">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
                                 Finalize Minutes
                             </button>
+
+                            <!--Delete Minutes Button-->
+                            <button type="button" id="btn_deleteMinutes" class="btn btn-danger btn-lg btn-raised hidden-print">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="Delete Minutes"></span>
+                                Delete Minutes
+                            </button>
+                        </div>
                         {{/if}}
                     {{/if}}
-                </div>
 
                 <!--Date Picker-->
-                <div class="col-md-8 col-md-pull-4">
+                <div class="col-md-4 col-md-pull-8" style="max-width: 15em;">
                     <div class="form-group">
                         <label for="id_minutesdateInput">Date</label>
                         <div class='input-group date' id='id_minutesdatePicker'>
