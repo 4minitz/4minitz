@@ -58,3 +58,12 @@ $(document).arrive('input', {
 $(document).ready(() => {
     $.material.init();
 });
+
+Meteor.startup(() => {
+    Meteor.call("gitVersionInfoUpdate");
+
+    // Make sure that all server side markdown rendering quotes all HTML <TAGs>
+    Markdown.setOptions({
+        sanitize: true
+    });
+});

@@ -64,6 +64,7 @@ markdown@1.0.10
 mdg:validation-error@0.5.1
 meteor@1.1.16
 meteor-base@1.0.4
+meteorhacks:subs-manager@1.6.4
 meteortoys:toykit@2.2.1
 minifier-css@1.1.13
 minifier-js@1.1.13
