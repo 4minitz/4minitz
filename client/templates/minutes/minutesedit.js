@@ -178,7 +178,7 @@ Template.minutesedit.helpers({
 
     getFinalizedDate: function () {
         let aMin = new Minutes(_minutesID);
-        return formatDateISO8601(aMin.finalizedAt);
+        return formatDateISO8601Time(aMin.finalizedAt);
     },
 
     getFinalizedBy: function () {
