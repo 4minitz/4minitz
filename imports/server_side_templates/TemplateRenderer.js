@@ -26,10 +26,9 @@ export class TemplateRenderer {
         this._data = {};
 
         this.addHelper('markdown2html', function(text) {
-            let converter = new Showdown.converter();
-            let html = converter.makeHtml(text);
-            // remove enclosing p-tag
+            let html = Markdown(text);
 
+            // remove enclosing p-tag
             if (html.indexOf("<p>") === 0) {
                 html = html.match(/<p>(.*)<\/p>/)[1];
             }
