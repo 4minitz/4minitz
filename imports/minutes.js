@@ -390,6 +390,9 @@ export class Minutes {
         if (maxChars && names.length > maxChars) {
             return names.substr(0, maxChars)+"...";
         }
+        if (names === "") {
+            names = "None.";
+        }
         return names;
     }
 
