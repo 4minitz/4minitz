@@ -10,7 +10,7 @@
   "scripts": {
     "test": "npm run test:unit",
     "test:ci": "npm run test:unit && npm run test:integration:headless && npm run test:end2end:headless",
-    "test:unit": "node ./node_modules/mocha/bin/mocha ./tests/unit/**/*.js --compilers js:babel-register --require tests/unit/babel",
+    "test:unit": "node ./node_modules/mocha/bin/mocha './tests/unit/**/*.test.js' --compilers js:babel-register --require tests/unit/babel",
     "test:integration": "npm run test:integration:browser",
     "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200",
     "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3200",
