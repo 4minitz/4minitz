@@ -26,13 +26,21 @@ export class TemplateRenderer {
         this._data = {};
 
         this.addHelper('markdown2html', function(text) {
-            let converter = new Showdown.converter();
-            let html = converter.makeHtml(text);
-            // remove enclosing p-tag
-            if (html.substr(0, 3) === "<p>") {
-                html = html.substr(3, html.length - 3);
-            }
+            let html = Markdown(text);
+
+            // as we embed markdown under a <li> tag in emails we
+            // don't want <p> tags to destroy the layout...
+            // so we replace "<p>....</p>" to "....<br>"
+            html = html.replace(/<p>(.*?)<\/p>/gi, "$1<br>");
+
             return Spacebars.SafeString(html);
+        });
+
+        // use this helper to bring the doctype into the email
+        // if the doctype is in the html file an error will occur during parsing
+        this.addHelper('doctype', function() {
+            let dt = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+            return Spacebars.SafeString(dt);
         });
     }
 

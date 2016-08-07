@@ -7,6 +7,7 @@ import { MinutesSchema } from './minutes.schema';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
+import { ServerSyncCollection } from './ServerSyncCollection'
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {
@@ -15,6 +16,8 @@ export var MinutesCollection = new Mongo.Collection("minutes",
         }
     }
 );
+
+export var MinutesSyncCollection = new ServerSyncCollection(MinutesCollection, Meteor);
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication() {
@@ -30,63 +33,6 @@ if (Meteor.isClient) {
 MinutesCollection.attachSchema(MinutesSchema);
 
 Meteor.methods({
-    'minutes.insert'(doc, clientCallback) {
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-           throw new Meteor.Error('not-authorized');
-        }
-
-        // It is not allowed to insert new minutes if the last minute was not finalized
-        let parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
-        if (!parentMeetingSeries.addNewMinutesAllowed()) {
-            // last minutes is not finalized!
-            throw new Meteor.Error("Cannot create new Minutes", "Last Minutes must be finalized first.");
-        }
-
-        // It also not allowed to insert a new minute dated before the last finalized one
-        if (!parentMeetingSeries.isMinutesDateAllowed(/*we have no minutes_id*/null, doc.date)) {
-            // invalid date
-            throw new Meteor.Error('Cannot create new Minutes', 'Invalid date - it is not allowed to create a new minute' +
-                'dated before the last finalized one.');
-        }
-
-        doc.isFinalized = false;
-        doc.isUnfinalized = false;
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(doc.meetingSeries_id)) {
-            MinutesCollection.insert(doc, async function (error, newMinutesID) {
-                doc._id = newMinutesID;
-                if (!error) {
-                    if (Meteor.isClient && clientCallback) {
-                        clientCallback(newMinutesID);
-                    }
-
-                    // store this new minutes ID to the parent meeting's array "minutes"
-                    let done = false;
-                    let tries = 2;
-                    while (tries > 0 && !done) {
-                        try {
-                            parentMeetingSeries.minutes.push(newMinutesID);
-                            await parentMeetingSeries.save();
-                            done = true;
-                        } catch (e) {
-                            tries--;
-                            console.log('Could not add minutes id to the parent series. #' + tries);
-                        }
-                    }
-                    if (!done) {
-                        MinutesCollection.remove({_id: newMinutesID});
-                        throw new Meteor.Error('runtime-error', 'Could not add the minutes id to the parent series');
-                    }
-                }
-            });
-        } else {
-            throw new Meteor.Error("Cannot create new minutes", "You are not moderator of the parent meeting series.");
-        }
-    },
-
     'minutes.sendAgenda'(id) {
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
@@ -110,77 +56,12 @@ Meteor.methods({
                 let sendAgendaMailHandler = new SendAgendaMailHandler(senderEmail, aMin);
                 sendAgendaMailHandler.send();
 
-                MinutesCollection.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
+                MinutesSyncCollection.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
 
                 return sendAgendaMailHandler.getCountRecipients();
             }
         } else {
             throw new Meteor.Error("Cannot send agenda", "You are not moderator of the parent meeting series.");
-        }
-    },
-
-    'minutes.finalize'(id, sendActionItems, sendInfoItems) {
-        let doc = {
-            finalizedAt: new Date(),
-            finalizedBy: Meteor.user().username,
-            isFinalized: true,
-            isUnfinalized: false
-        };
-
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        let aMin = new Minutes(id);
-        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            MinutesCollection.update(id, {$set: doc}, /* options */null, function (error, affectedDocs) {
-                if (!error && affectedDocs == 1 && Meteor.isServer) {
-                    if (!GlobalSettings.isEMailDeliveryEnabled()) {
-                        console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file");
-                        return;
-                    }
-
-                    let emails = Meteor.user().emails;
-                    Meteor.defer(() => { // server background tasks after successfully updated the minute doc
-                        let senderEmail = (emails && emails.length > 0)
-                            ? emails[0].address
-                            : GlobalSettings.getDefaultEmailSenderAddress();
-                        let finalizeMailHandler = new FinalizeMailHandler(aMin, senderEmail);
-                        finalizeMailHandler.sendMails(sendActionItems, sendInfoItems);
-                    });
-                }
-            });
-        } else {
-            throw new Meteor.Error("Cannot finalize minutes", "You are not moderator of the parent meeting series.");
-        }
-    },
-
-    'minutes.unfinalize'(id) {
-        let doc = {
-            isFinalized: false,
-            isUnfinalized: true
-        };
-
-        // it is not allowed to un-finalize a minute if it is not the last finalized one
-        let aMin = new Minutes(id);
-        if (!aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(id)) {
-            throw new Meteor.Error("not-allowed", "This minutes is not allowed to be un-finalized.");
-        }
-
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            MinutesCollection.update(id, {$set: doc});
-        } else {
-            throw new Meteor.Error("Cannot un-finalize minutes", "You are not moderator of the parent meeting series.");
         }
     },
 
@@ -213,52 +94,7 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
-            MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
-        }
-    },
-
-
-    'minutes.remove'(id) {
-        if (id == undefined || id == "")
-            return;
-
-        var handleRemove = {
-            removeMinute: function(id) {
-                // Make sure the user is logged in before changing collections
-                if (!Meteor.userId()) {
-                    throw new Meteor.Error('not-authorized');
-                }
-
-                // Ensure user can not remove documents of other users
-                let userRoles = new UserRoles(Meteor.userId());
-                let aMin = new Minutes(id);
-                if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-                    return MinutesCollection.remove({_id: id, isFinalized: false});
-                } else {
-                    throw new Meteor.Error("Cannot delete minutes", "You are not moderator of the parent meeting series.");
-                }
-            }
-        };
-
-        return handleRemove.removeMinute(id);
-    },
-
-    'minutes.removeAllOfSeries'(meetingSeriesId) {
-        if (meetingSeriesId == undefined || meetingSeriesId == "") {
-            return;
-        }
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        // Ensure user can not remove documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(meetingSeriesId)) {
-            // deleting all minutes of one series is allowed, even if they are finalized.
-            MinutesCollection.remove({meetingSeries_id: meetingSeriesId});
-        } else {
-            throw new Meteor.Error("Cannot delete all minutes", "You are not moderator of the parent meeting series.");
+            MinutesSyncCollection.update({_id: id, isFinalized: false}, {$set: doc});
         }
     },
 

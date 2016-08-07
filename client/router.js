@@ -4,6 +4,13 @@ import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 
+var subs = new SubsManager({
+    // maximum number of cache subscriptions
+    cacheLimit: 10,
+    // any subscription will be expire after 5 minute, if it's not subscribed again
+    expireIn: 5
+});
+
 Router.configure({
     // set default application template for all routes
     layoutTemplate: 'appLayout'
@@ -29,9 +36,9 @@ function routeToMeetingSeries(meetingSeriesID, router, data, template = 'meeting
 
     // we have to wait until the client side db is ready
     // otherwise creating the UserRoles-Object will fail
-    router.subscribe('userListSimple', Meteor.userId()).wait();
+    let subscription = subs.subscribe('userListSimple', Meteor.userId());
 
-    if (router.ready()) {
+    if (subscription.ready()) {
         let usrRoles = new UserRoles();
         if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
             data.meetingSeriesId = meetingSeriesID;
@@ -96,9 +103,9 @@ Router.route('/minutesadd/:_id', function () {
 Router.route('/minutesedit/:_id', function () {
     var minutesID = this.params._id;
 
-    this.subscribe('minutes', minutesID).wait();
+    let subscription = subs.subscribe('minutes', minutesID);
 
-    if (this.ready()) {
+    if (subscription.ready()) {
         let usrRoles = new UserRoles();
         let aMin = new Minutes(minutesID);
         if (usrRoles.hasViewRoleFor(aMin.meetingSeries_id)) {
