@@ -32,6 +32,8 @@ until grep "=> App running at" meteor.log; do
     fi
 done
 
+sleep 10
+
 echo Start end2end test runner
 chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=phantomjs -- $TEST tests/end2end/setup.js
 
