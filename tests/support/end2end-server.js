@@ -1,5 +1,13 @@
-let task = require('./lib/task'),
-    _ = require('underscore');
+let task = require('./lib/task');
+
+
+if (process.platform === 'win32') {
+    console.log('Windows is currently not supported. Please use');
+    console.log('    npm run test:end2end:ldap');
+    console.log('    npm run test:end2end:meteor');
+    console.log('instead.');
+    process.exit(0);
+}
 
 function logTask(taskname) {
     return function (data) {
@@ -25,7 +33,7 @@ if (process.platform === 'win32') {
 }
 
 process.on('SIGINT', function () {
-    _.each(tasks, (task) => {
+    tasks.each((task) => {
         task.kill();
     });
 
