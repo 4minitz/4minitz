@@ -73,6 +73,7 @@ export class MeetingSeries {
         let lastMinutes = this.lastMinutes();
         if (lastMinutes && formatDateISO8601(newMinutesDate) <= lastMinutes.date) {
             let lastMinDate = new Date(lastMinutes.date);
+            newMinutesDate.setTime(lastMinDate.getTime());
             newMinutesDate.setDate(lastMinDate.getDate() + 1);
         }
 
