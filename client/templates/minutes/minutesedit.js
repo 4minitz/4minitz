@@ -14,6 +14,7 @@ var _minutesID; // the ID of these minutes
 
 var orphanFlashMessage = false;
 
+
 Template.minutesedit.onCreated(function () {
     Session.set('minutesedit.checkParent', false);
     _minutesID = this.data;
@@ -61,6 +62,21 @@ var updateTopicSorting = function () {
     }
 
     minute.update({topics: newTopicSorting});
+};
+
+
+var openPrintDialog = function () {
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf("android") > -1;
+
+    if (isAndroid) {
+        // https://developers.google.com/cloud-print/docs/gadget
+        var gadget = new cloudprint.Gadget();
+        gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
+        gadget.openPrintDialog();
+    } else {
+        window.print();
+    }
 };
 
 var sendActionItems = true;
@@ -144,7 +160,7 @@ Template.minutesedit.helpers({
 
     getFinalizedDate: function () {
         let aMin = new Minutes(_minutesID);
-        return formatDateISO8601(aMin.finalizedAt);
+        return formatDateISO8601Time(aMin.finalizedAt);
     },
 
     getFinalizedBy: function () {
@@ -184,6 +200,12 @@ Template.minutesedit.helpers({
     
     isReadOnly() {
         return (isMinuteFinalized() || !isModerator());
+    },
+
+    isPrintView() {
+        if (Session.get("minutesedit.PrintViewActive")) {
+            return "btn-info";
+        }
     }
 });
 
@@ -359,8 +381,39 @@ Template.minutesedit.events({
 
     "click #btnExpandAll": function (evt, tmpl) {
         Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+    },
+
+    'click #btn_printMinutes': function(evt) {
+        evt.preventDefault();
+
+        Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
+
+        if (Session.get("minutesedit.PrintViewActive")) {
+            // expand all topics, but save current state before!
+            Session.set("minutesedit.collapsetopics-save4print."+_minutesID, Session.get("minutesedit.collapsetopics."+_minutesID));
+            Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+
+            Session.set("participants.expand", false);
+            $(".help").hide();
+            Meteor.setTimeout(function(){$(".collapse").addClass("in");}, 100);
+
+            // give collapsibles some time for animation
+            Meteor.setTimeout(function(){$(".expand-collapse-triangle").hide();}, 350);
+            // as material checkboxes do not print correctly...
+            // change material checkbox to normal checkbox for printing
+            Meteor.setTimeout(function(){$("div.checkbox").toggleClass('checkbox print-checkbox');}, 360);
+            Meteor.setTimeout(function(){openPrintDialog();}, 500);
+        } else {
+            // change back normal checkboxes to material checkboxes after printing
+            $("div.print-checkbox").toggleClass('checkbox print-checkbox');
+            $(".expand-collapse-triangle").show();
+            $(".collapse").removeClass("in");
+            // restore old topic callapsible state
+            Session.set("minutesedit.collapsetopics."+_minutesID, Session.get("minutesedit.collapsetopics-save4print."+_minutesID));
+        }
     }
 });
+
 
 // pass event handler for the send-email checkbox to the confirmation dialog
 // so we can track changes
