@@ -14,6 +14,67 @@ var _minutesID; // the ID of these minutes
 
 var orphanFlashMessage = false;
 
+/**
+ * togglePrintView
+ * Prepares the DOM view for printing - on and off
+ * @param switchOn - optional (if missing, function toggles on <=> off)
+ */
+var togglePrintView = function (switchOn) {
+    if (switchOn === undefined) {   // toggle on <=> off
+        Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
+    } else {
+        Session.set("minutesedit.PrintViewActive", switchOn);
+    }
+
+    if (Session.get("minutesedit.PrintViewActive")) {
+        // expand all topics, but save current state before!
+        Session.set("minutesedit.collapsetopics-save4print."+_minutesID, Session.get("minutesedit.collapsetopics."+_minutesID));
+        Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+
+        Session.set("participants.expand", false);
+        $(".help").hide();
+        Meteor.setTimeout(function(){$(".collapse").addClass("in");}, 100);
+
+        // give collapsibles some time for animation
+        Meteor.setTimeout(function(){$(".expand-collapse-triangle").hide();}, 350);
+        // as material checkboxes do not print correctly...
+        // change material checkbox to normal checkbox for printing
+        Meteor.setTimeout(function(){$("div.checkbox").toggleClass('checkbox print-checkbox');}, 360);
+        Meteor.setTimeout(function(){openPrintDialog();}, 500);
+    } else {
+        // change back normal checkboxes to material checkboxes after printing
+        $("div.print-checkbox").toggleClass('checkbox print-checkbox');
+        $(".expand-collapse-triangle").show();
+        $(".collapse").removeClass("in");
+        // restore old topic collapsible state
+        Session.set("minutesedit.collapsetopics."+_minutesID, Session.get("minutesedit.collapsetopics-save4print."+_minutesID));
+    }
+};
+
+
+
+// Automatically restore view after printing
+(function() {
+    console.log("Hoi");
+    var afterPrint = function() {
+        console.log('AFTER print...');
+        togglePrintView(false);
+    };
+
+    if (window.matchMedia) {
+        var mediaQueryList = window.matchMedia('print');
+        mediaQueryList.addListener(function(mql) {
+            if (! mql.matches) {
+                afterPrint();
+            }
+        });
+    }
+
+    window.onafterprint = afterPrint;
+}());
+
+
+
 
 Template.minutesedit.onCreated(function () {
     Session.set('minutesedit.checkParent', false);
@@ -385,32 +446,7 @@ Template.minutesedit.events({
 
     'click #btn_printMinutes': function(evt) {
         evt.preventDefault();
-
-        Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
-
-        if (Session.get("minutesedit.PrintViewActive")) {
-            // expand all topics, but save current state before!
-            Session.set("minutesedit.collapsetopics-save4print."+_minutesID, Session.get("minutesedit.collapsetopics."+_minutesID));
-            Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
-
-            Session.set("participants.expand", false);
-            $(".help").hide();
-            Meteor.setTimeout(function(){$(".collapse").addClass("in");}, 100);
-
-            // give collapsibles some time for animation
-            Meteor.setTimeout(function(){$(".expand-collapse-triangle").hide();}, 350);
-            // as material checkboxes do not print correctly...
-            // change material checkbox to normal checkbox for printing
-            Meteor.setTimeout(function(){$("div.checkbox").toggleClass('checkbox print-checkbox');}, 360);
-            Meteor.setTimeout(function(){openPrintDialog();}, 500);
-        } else {
-            // change back normal checkboxes to material checkboxes after printing
-            $("div.print-checkbox").toggleClass('checkbox print-checkbox');
-            $(".expand-collapse-triangle").show();
-            $(".collapse").removeClass("in");
-            // restore old topic callapsible state
-            Session.set("minutesedit.collapsetopics."+_minutesID, Session.get("minutesedit.collapsetopics-save4print."+_minutesID));
-        }
+        togglePrintView();
     }
 });
 
