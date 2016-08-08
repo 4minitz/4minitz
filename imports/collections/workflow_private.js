@@ -56,8 +56,6 @@ Meteor.methods({
                 throw e;
             }
 
-            console.log('simulation: ' + Meteor.isClient);
-
             if (Meteor.isClient && clientCallback) {
                 clientCallback(newMinutesID);
             }
