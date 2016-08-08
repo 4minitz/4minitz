@@ -5,7 +5,6 @@ import { Minutes } from './../minutes';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { UserRoles } from "./../userroles";
 import { GlobalSettings } from "./../GlobalSettings"
-import { ServerSyncCollection } from './ServerSyncCollection'
 
 export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -15,8 +14,6 @@ export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
         }
     }
 );
-
-export var MeetingSeriesSyncCollection = new ServerSyncCollection(MeetingSeriesCollection, Meteor);
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {
@@ -49,7 +46,7 @@ Meteor.methods({
         // array will be expanded by future invites
         doc.visibleFor = [Meteor.userId()];
 
-        if (Meteor.isServer) {
+        if (!Meteor.isClient) {
             // copy the default labels to the series
             doc.availableLabels = GlobalSettings.getDefaultLabels();
             doc.availableLabels.forEach((label) => {
@@ -61,29 +58,23 @@ Meteor.methods({
 
         // Every logged in user is allowed to create a new meeting series.
 
-        let doAfterInsert = function(error, newMeetingSeriesID) {
-            if (error) {
-                console.error(error);
-                throw error;
-            }
+        try {
+            let newMeetingSeriesID = MeetingSeriesCollection.insert(doc);
+
+            // Make creator of this meeting series the first moderator
+            Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
 
             if (Meteor.isClient && optimisticUICallback) {
                 optimisticUICallback(newMeetingSeriesID);
             }
 
-            doc._id = newMeetingSeriesID;
-            // Make creator of this meeting series the first moderator
-            Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
-        };
-
-        try {
-            let newMeetingSeriesID = MeetingSeriesSyncCollection.insert(doc, doAfterInsert);
-            if (Meteor.isServer) {
-                doAfterInsert(null, newMeetingSeriesID);
-                return newMeetingSeriesID;
-            }
+            return newMeetingSeriesID;
         } catch(error) {
-            doAfterInsert(error);
+            if (!Meteor.isClient) {
+                // the simulation ignores exceptions which will be thrown...
+                console.error(error);
+                throw error;
+            }
         }
     },
 
@@ -118,14 +109,12 @@ Meteor.methods({
         }
 
         try {
-            let updateResult = MeetingSeriesCollection.update(id, {$set: doc});
-            if (Meteor.isServer && !updateResult) {
-                console.error('Error updating meeting series, no docs affected!');
-                throw new Meteor.Error('runtime-error', 'No docs affected when updating meeting series');
-            }
+            return MeetingSeriesCollection.update(id, {$set: doc});
         } catch(e) {
-            console.error(e);
-            throw new Meteor.Error('runtime-error', 'Error updating meeting series collection', e);
+            if (!Meteor.isClient) {
+                console.error(e);
+                throw new Meteor.Error('runtime-error', 'Error updating meeting series collection', e);
+            }
         }
     }
 });
