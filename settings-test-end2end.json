@@ -51,6 +51,27 @@
 
     "db": {
         "mongodumpTargetDirectory": ""
-    }
+    },
 
+    "ldap": {
+        "enabled": true,
+        "searchDn": "cn",
+        "searchFilter": "",
+        "serverDn": "DC=example,DC=com",
+        "serverUrl": "ldap://localhost:1389",
+        "allowSelfSignedTLS": true,
+        "whiteListedFields": [ "cn", "mail" ],
+        "autopublishFields": [ "cn" ]
+    },
+
+    "ldapForumSys": {
+        "enabled": true,
+        "searchDn": "uid",
+        "searchFilter": "(objectClass=inetOrgPerson)",
+        "serverDn": "DC=example,DC=com",
+        "serverUrl": "ldap://ldap.forumsys.com",
+        "allowSelfSignedTLS": true,
+        "whiteListedFields": [ "uid", "cn", "mail" ],
+        "autopublishFields": [ "uid", "cn" ]
+    }
 }

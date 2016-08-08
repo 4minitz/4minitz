@@ -30,6 +30,56 @@ export class E2EApp {
         E2EApp._currentlyLoggedInUser = "";
     };
 
+    static loginLdapUserWithCredentials(username, password, autoLogout) {
+        this.loginUserWithCredentials(username, password, autoLogout, '#tab_ldap');
+    }
+
+    static loginUserWithCredentials(username, password, autoLogout, tab) {
+        if (autoLogout === undefined) {
+            autoLogout = true;
+        }
+
+        if (tab === undefined) {
+            tab = '#tab_standard';
+        }
+
+        if (autoLogout) {
+            E2EApp.logoutUser();
+        }
+        try {    // try to log in
+            browser.click(tab);
+            E2EGlobal.waitSomeTime();
+
+            let tabIsStandard = browser.isExisting('#at-field-username_and_email');
+            let userWantsStandard = tab === '#tab_standard';
+            let tabIsLdap = browser.isExisting('#id_ldapUsername');
+            let userWantsLdap = tab === '#tab_ldap';
+
+            if ((tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap)) {
+                if (tabIsStandard) {
+                    browser.setValue('input[id="at-field-username_and_email"]', username);
+                    browser.setValue('input[id="at-field-password"]', password);
+                }
+
+                if (tabIsLdap) {
+                    browser.setValue('input[id="id_ldapUsername"]', username);
+                    browser.setValue('input[id="id_ldapPassword"]', password);
+                }
+
+                browser.keys(['Enter']);
+                E2EGlobal.waitSomeTime();
+
+                if (browser.isExisting('.at-error.alert.alert-danger')) {
+                    throw new Error ("Unknown user or wrong password.")
+                }
+                E2EApp.isLoggedIn();
+                E2EApp._currentlyLoggedInUser = username;
+            }
+        } catch (e) {
+            throw new Error (`Login failed for user ${username} with ${password}\nwith ${e}`);
+        }
+    }
+
     /**
      * Logout current user, if necessary, then login a specific test user
      * @param index of test user from setting. optional.
@@ -39,31 +89,11 @@ export class E2EApp {
         if (!index) {
             index = 0;
         }
-        if (autoLogout === undefined) {
-            autoLogout = true;
-        }
+
         let aUser = E2EGlobal.SETTINGS.e2eTestUsers[index];
         let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[index];
 
-        if (autoLogout) {
-            E2EApp.logoutUser();
-        }
-        try {    // try to log in
-            if (browser.isExisting('#at-field-username_and_email')) {
-                browser.setValue('input[id="at-field-username_and_email"]', aUser);
-                browser.setValue('input[id="at-field-password"]', aPassword);
-                browser.keys(['Enter']);
-                E2EGlobal.waitSomeTime();
-
-                if (browser.isExisting('.at-error.alert.alert-danger')) {
-                    throw new Error ("Unknown user or wrong password.")
-                }
-                E2EApp.isLoggedIn();
-                E2EApp._currentlyLoggedInUser = aUser;
-            }
-        } catch (e) {
-            throw new Error ("Login failed for user "+aUser + " with "+aPassword+"\nwith "+e);
-        }
+        this.loginUserWithCredentials(aUser, aPassword, autoLogout);
     };
 
     static getCurrentUser () {
