@@ -7,7 +7,7 @@ let fs = {
     '@noCallThru': true
 };
 
-const { loadLDAPSettings } = proxyquire('../../../../private/ldap/lib/loadLDAPSettings', {
+const loadLDAPSettings = proxyquire('../../../../private/ldap/lib/loadLDAPSettings', {
     'fs': fs
 });
 

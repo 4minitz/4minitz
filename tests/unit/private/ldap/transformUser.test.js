@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { transformUser } from '../../../../private/ldap/lib/transformUser';
+import transformUser from '../../../../private/ldap/lib/transformUser';
 
 describe('transformUser', function () {
     it('defaults to cn for the username when no searchDn is given', function () {

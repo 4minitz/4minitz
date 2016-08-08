@@ -28,7 +28,7 @@ let ldapSearchResponseWithError = {
     }
 };
 
-const { getLDAPUsers } = proxyquire('../../../../private/ldap/lib/getLDAPUsers', {
+const getLDAPUsers = proxyquire('../../../../private/ldap/lib/getLDAPUsers', {
     'ldapjs': ldap
 });
 
@@ -72,7 +72,6 @@ describe('getLDAPUsers', function () {
                 } catch (error) {
                     done(error);
                 }
-
             });
     });
 

@@ -73,6 +73,4 @@ let getLDAPUsers = function (settings) {
     });
 };
 
-module.exports = {
-    getLDAPUsers
-};
+module.exports = getLDAPUsers;

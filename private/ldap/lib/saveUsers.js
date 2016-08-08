@@ -53,7 +53,8 @@ let _insertUsers = function (db, users) {
                         $set: user
                     });
                 } else {
-                    console.log("SKIPPED INVALID USER (no username or no valid emails[0].address): "+JSON.stringify(user,null,2));
+                    let stringifiedUser = JSON.stringify(user, null, 2);
+                    console.log(`SKIPPED INVALID USER (no username or no valid emails[0].address): ${stringifiedUser}`);
                 }
             });
             let bulkResult = bulk.execute();
@@ -91,11 +92,4 @@ let saveUsers = function (settings, mongoUrl, users) {
     });
 };
 
-module.exports = {
-    _transformUsers,
-    _connectMongo,
-    _insertUsers,
-    _closeMongo,
-
-    saveUsers
-};
+module.exports = saveUsers;

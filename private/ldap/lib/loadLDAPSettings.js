@@ -54,6 +54,4 @@ let loadLDAPSettings = function (filename) {
     });
 };
 
-module.exports = {
-    loadLDAPSettings
-};
+module.exports = loadLDAPSettings;
