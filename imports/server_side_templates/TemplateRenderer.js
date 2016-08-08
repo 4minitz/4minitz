@@ -42,6 +42,16 @@ export class TemplateRenderer {
             let dt = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
             return Spacebars.SafeString(dt);
         });
+
+        // use this helper to include external stylesheet definitions into
+        // the template.
+        this.addHelper('style', function(filename) {
+            if (templatePathPrefix) {
+                filename = templatePathPrefix + '/' + filename;
+            }
+            let style = Assets.getText(filename);
+            return Spacebars.SafeString(`<style>${style}</style>`);
+        })
     }
 
     addHelper(name, helper) {
