@@ -163,9 +163,15 @@ Template.topicInfoItem.events({
         Session.set("topicInfoItemEditInfoItemId", this.infoItem._id);
     },
 
+
+    // Keep <a href=...> as clickable links inside detailText markdown
+    'click .detailText a'(evt, tmpl) {
+        evt.stopPropagation();
+    },
+
+
     'click .detailText'(evt, tmpl) {
         evt.preventDefault();
-        console.log(tmpl.data.currentCollapseId);
 
         if (!tmpl.data.isEditable) {
             return;
