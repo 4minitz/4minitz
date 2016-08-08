@@ -12,13 +12,16 @@ Install current version of meteor (which will install node & mongodb if not pres
 
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git
-    cd 4minitz
-    meteor npm install
-    meteor --production
+    4minitz/runapp.sh
 
-Wait some time for meteor to finish building. 
-You can reach 4minitz via the default port 3000 by opening [http://localhost:3000](http://localhost:3000) in your browser
+Wait some time for meteor to finish downloading and building. 
+You can reach 4minitz via the default port 3100 by opening [http://localhost:3000](http://localhost:3100) in your browser
 
+If you want to run 4Minitz on a different port than the default port, you can do so by providing the port the the above runapp.sh script like so:
+
+    4minitz/runapp.sh 4321
+
+Note: you might need sudo rights to open a port below 1024.
 
 ### Database configuration
 

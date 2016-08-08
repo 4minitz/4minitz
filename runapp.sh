@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
 # Simple shell script wrapper to launch this meteor webapp
+# ./runapp.sh         - launches app on default port 3100
+# ./runapp.sh 4321    - launches app on port 4321
+
 PORT4APP="3100"
+if [ ! -z $1 ]
+then
+    PORT4APP=$1
+    echo $PORT4APP
+fi
+echo Port $PORT4APP
+
 
 # Find path of currently running script
 TARGET_FILE=$0
@@ -41,4 +51,3 @@ meteor npm install
 
 # Run app on specific port
 meteor --production --settings settings.json --port $PORT4APP
-

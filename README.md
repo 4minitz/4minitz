@@ -42,12 +42,10 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 ### Installation of 4Minitz    
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git
-    cd 4minitz
-    meteor npm install
-    meteor --production
+    4minitz/runapp.sh
 
-Wait some time for meteor to finish building. 
-You can reach 4minitz via the default port 3000 by opening [http://localhost:3000](http://localhost:3000) in your browser
+Wait some time for meteor to finish downloading and building. 
+You can reach 4Minitz via the default port 3100 by opening [http://localhost:3000](http://localhost:3100) in your browser
 
 **Hint:** There exists a settings_sample.json file that has quite a few configuration options
 (like sending eMails etc.). Don't miss the [Admin Guide](doc/admin/adminguide.md) with more details
