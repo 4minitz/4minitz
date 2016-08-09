@@ -5,6 +5,8 @@ import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
 import { _ } from 'meteor/underscore';
+import './helpers/promisedMethods';
+import './collections/workflow_private';
 
 
 function resolveParentElement(parent) {
