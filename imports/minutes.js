@@ -107,7 +107,7 @@ export class Minutes {
         let i = this._findTopicIndex(id);
         if (i != undefined) {
             this.topics.splice(i, 1);
-            return this.update({topics: this.topics}); // update only topics array!
+            return Meteor.callPromise('minutes.removeTopic', id);
         }
     }
 
@@ -185,11 +185,13 @@ export class Minutes {
 
         if (i == undefined) {                      // topic not in array
             this.topics.unshift(topicDoc);  // add to front of array
+            return Meteor.callPromise('minutes.addTopic', this._id, topicDoc);
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
+            return Meteor.callPromise('minutes.updateTopic', topicDoc._id, topicDoc);
         }
 
-        return this.update({topics: this.topics}); // update only topics array!
+
     }
 
     /**

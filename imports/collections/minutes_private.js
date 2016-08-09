@@ -140,6 +140,62 @@ Meteor.methods({
         }
     },
 
+    'minutes.addTopic'(minutesId, doc) {
+        console.log(`addTopic to minute: ${minutesId}`);
+
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        let aMin = new Minutes(minutesId);
+
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            // Ensure user can not update finalized minutes
+
+            return MinutesCollection.update(
+                {_id: minutesId, isFinalized: false},
+                {$push: {
+                    topics: {
+                        $each: [ doc ],
+                        $position: 0
+                    }
+                }}
+            );
+        } else {
+            throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
+        }
+    },
+
+    'minutes.removeTopic'(topicId) {
+        console.log(`remove topic: ${topicId}`);
+
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        let minutesId = MinutesCollection.findOne({isFinalized: false, 'topics._id': topicId}, {fields: {_id: 1}})._id;
+        let aMin = new Minutes(minutesId);
+
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            // Ensure user can not update finalized minutes
+
+            return MinutesCollection.update(
+                {_id: minutesId, isFinalized: false},
+                {$pull: {
+                    topics: { _id: topicId }
+                }}
+            );
+        } else {
+            throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
+        }
+    },
+
     'minutes.syncVisibility'(parentSeriesID, visibleForArray) {
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {

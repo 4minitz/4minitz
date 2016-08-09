@@ -6,10 +6,8 @@ import _ from 'underscore';
 require('../../../lib/helpers');
 
 class MeteorError {}
-
 let Meteor = {
     call: sinon.stub(),
-    callPromise: sinon.stub().resolves(true),
     Error: MeteorError
 };
 
@@ -51,17 +49,13 @@ global.Random = {
     }
 };
 
-let PromisedMethods = {};
-
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
-    './meetingseries': { MeetingSeries, '@noCallThru': true},
-    './collections/workflow_private': { null, '@noCallThru': true},
-    './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true}
+    './meetingseries': { MeetingSeries, '@noCallThru': true}
 });
 
 const {
@@ -80,10 +74,6 @@ describe('Topic', function() {
             subject: "topic-subject",
             infoItems: []
         }
-    });
-
-    afterEach(function() {
-        Meteor.callPromise.reset();
     });
 
     describe('#constructor', function () {
@@ -413,11 +403,16 @@ describe('Topic', function() {
     it('#save', function() {
         let myTopic = new Topic(dummyMinute._id, topicDoc);
 
+        // the save-method should call the upsertTopic-Method of the parent Minute
+        // so we spy on it
+        var spy = sinon.spy(dummyMinute, "upsertTopic");
+
         myTopic.save();
 
-        expect(Meteor.callPromise.calledOnce, 'Meteor callPromise should be called').to.be.true;
-        let expectedValue = Meteor.callPromise.calledWith('minutes.updateTopic', myTopic._topicDoc._id, myTopic._topicDoc);
-        expect(expectedValue,'the correct parameters should be sent to the meteor method').to.be.true;
+        expect(spy.calledOnce, "the upsertTopic method should be called once").to.be.true;
+        expect(spy.calledWith(myTopic._topicDoc), "the document should be sent to the upsertTopic method").to.be.true;
+
+        spy.restore();
     });
 
     it('#getDocument', function () {

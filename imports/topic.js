@@ -5,8 +5,6 @@ import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
 import { _ } from 'meteor/underscore';
-import './helpers/promisedMethods';
-import './collections/workflow_private';
 
 
 function resolveParentElement(parent) {
@@ -247,7 +245,8 @@ export class Topic {
     }
 
     async save() {
-        return Meteor.callPromise ("minutes.updateTopic", this._topicDoc._id, this._topicDoc);
+        // this will update the entire topics array from the parent minutes!
+        return this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
     toggleState () {    // open/close
