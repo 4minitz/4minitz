@@ -80,8 +80,8 @@ let readSettings = function(filename) {
             .then(config => {
                 if (!config.meetingName) {
                     config.meetingName = faker.name.findName();
-                    resolve(config);
                 }
+                resolve(config);
             })
             .catch(reject)
     });
