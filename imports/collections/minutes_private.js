@@ -91,7 +91,50 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
+
             return MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
+        } else {
+            throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
+        }
+    },
+
+    /**
+     * Update a single topic document identified by its id.
+     * In this case the topic id identifies a single topic because we
+     * can only update topics of a finalized minute the older copies of
+     * the topic (with the same id) live in finalized minutes.
+     *
+     * @param topicId
+     * @param doc
+     * @returns {*|any}
+     */
+    'minutes.updateTopic'(topicId, doc) {
+        console.log(`updateTopic: ${topicId}`);
+
+        // Make sure the user is logged in before changing collections
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        let modifierDoc = {};
+        for (var property in doc) {
+            if (doc.hasOwnProperty(property)) {
+                modifierDoc['topics.$.' + property] = doc[property];
+            }
+        }
+
+        let minutesId = MinutesCollection.findOne({isFinalized: false, 'topics._id': topicId}, {fields: {_id: 1}})._id;
+        let aMin = new Minutes(minutesId);
+
+        // Ensure user can not update documents of other users
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            // Ensure user can not update finalized minutes
+
+            return MinutesCollection.update(
+                {_id: minutesId, isFinalized: false, 'topics._id': topicId},
+                {$set: modifierDoc}
+            );
         } else {
             throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
         }

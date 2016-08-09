@@ -245,8 +245,7 @@ export class Topic {
     }
 
     async save() {
-        // this will update the entire topics array from the parent minutes!
-        return this._parentMinutes.upsertTopic(this._topicDoc);
+        return Meteor.callPromise ("minutes.updateTopic", this._topicDoc._id, this._topicDoc);
     }
 
     toggleState () {    // open/close
