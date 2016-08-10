@@ -39,7 +39,6 @@ Meteor.methods({
         }
 
         doc.isFinalized = false;
-        doc.isUnfinalized = false;
 
         try {
             let newMinutesID = MinutesCollection.insert(doc);
@@ -109,7 +108,6 @@ Meteor.methods({
                 finalizedAt: new Date(),
                 finalizedBy: Meteor.user().username,
                 isFinalized: true,
-                isUnfinalized: false,
                 finalizedVersion: version
             };
             // update aMin object to generate new history entry
@@ -172,7 +170,6 @@ Meteor.methods({
                 finalizedAt: new Date(),
                 finalizedBy: Meteor.user().username,
                 isFinalized: false,
-                isUnfinalized: true
             };
             // update aMin object to generate new history entry
             Object.assign(aMin, doc);

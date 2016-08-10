@@ -71,7 +71,6 @@ describe('Minutes', function () {
             createdAt: new Date(),
             topics: [],
             isFinalized: false,
-            isUnfinalized: true,
             participants: '',
             agenda: ''
         };
