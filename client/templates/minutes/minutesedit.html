@@ -7,7 +7,9 @@
     {{checkParentSeries}}
     <h2 class="header">
         Minutes for
-        <a id="id_linkToParentSeries" href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
+        <a id="id_linkToParentSeries" href="/meetingseries/{{meetingSeries._id}}" title="{{finalizeHistoryTooltip}}">
+            {{meetingSeries.project}} - {{meetingSeries.name}}
+        </a>
     </h2>
 
     {{> error}}
@@ -19,12 +21,14 @@
                     {{#if isFinalized}}
                         <div class="col-md-8 col-md-push-4 text-right minutes-action-buttons">
                             <!--Static Finalize Text -->
-                            <span id="txt_FinalizedBy">
-                                Finalized on {{getFinalizedDate}} by {{getFinalizedBy}}
+                            <span id="txt_FinalizedBy" title="{{finalizeHistoryTooltip}}">
+                                {{getFinalizedText}}
                             </span>
                             {{#if isModeratorOfParentSeries}}
                                 {{#if isUnfinalizeAllowed}}
-                                    <a href="" id="btn_unfinalizeMinutes" class="btn btn-default hidden-print" title="un-finalize">
+                                    <!--Unfinalize Button -->
+                                    <a href="" id="btn_unfinalizeMinutes" class="btn btn-default hidden-print"
+                                       data-toggle="tooltip" title="{{finalizeHistoryTooltip "Click to Un-Finalize Minutes"}}">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 {{/if}}
@@ -52,7 +56,8 @@
                         </div>
                         <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
                             <!--Finalize Minutes Button-->
-                            <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised hidden-print">
+                            <button type="button" id="btn_finalizeMinutes" class="btn btn-success btn-lg btn-raised hidden-print"
+                            data-toggle="tooltip" title="{{finalizeHistoryTooltip "Click to Finalize Minutes"}}">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalize Minutes"></span>
                                 Finalize Minutes
                             </button>

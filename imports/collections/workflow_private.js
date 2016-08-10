@@ -16,7 +16,7 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Ensure user can not update documents of other users
     let userRoles = new UserRoles(Meteor.userId());
     if (!userRoles.isModeratorOf(meetingSeriesId)) {
-        throw new Meteor.Error("Cannot create new minutes", "You are not moderator of the parent meeting series.");
+        throw new Meteor.Error("Cannot modify this minutes/series", "You are not moderator of the meeting series.");
     }
 }
 
@@ -39,7 +39,6 @@ Meteor.methods({
         }
 
         doc.isFinalized = false;
-        doc.isUnfinalized = false;
 
         try {
             let newMinutesID = MinutesCollection.insert(doc);
@@ -101,15 +100,28 @@ Meteor.methods({
             }
 
             // then we tag the minute as finalized
-
+            let version = 1;
+            if (aMin.finalizedVersion) {
+                version = aMin.finalizedVersion + 1;
+            }
             let doc = {
                 finalizedAt: new Date(),
                 finalizedBy: Meteor.user().username,
                 isFinalized: true,
-                isUnfinalized: false
+                finalizedVersion: version
             };
+            // update aMin object to generate new history entry
+            Object.assign(aMin, doc);
+            let history = aMin.finalizedHistory;
+            if (! aMin.finalizedHistory) {
+                history = [];
+            }
+            history.push(aMin.getFinalizedString());
+            doc["finalizedHistory"] = history;
+            console.log(history.join("\n"));
 
             let affectedDocs = MinutesCollection.update(id, {$set: doc});
+
             if (affectedDocs === 1 && !Meteor.isClient) {
                 if (!GlobalSettings.isEMailDeliveryEnabled()) {
                     console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set " +
@@ -155,9 +167,18 @@ Meteor.methods({
             }
 
             let doc = {
+                finalizedAt: new Date(),
+                finalizedBy: Meteor.user().username,
                 isFinalized: false,
-                isUnfinalized: true
             };
+            // update aMin object to generate new history entry
+            Object.assign(aMin, doc);
+            let history = aMin.finalizedHistory;
+            if (! aMin.finalizedHistory) {
+                history = [];
+            }
+            history.push(aMin.getFinalizedString());
+            doc["finalizedHistory"] = history;
 
             return MinutesCollection.update(id, {$set: doc});
         } catch(e) {
