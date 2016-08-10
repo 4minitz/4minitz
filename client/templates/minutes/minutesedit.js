@@ -226,7 +226,7 @@ Template.minutesedit.helpers({
 
     finalizeHistoryTooltip: function (buttontype) {
         let aMin = new Minutes(_minutesID);
-        let tooltip = buttontype+"\n";
+        let tooltip = buttontype ? buttontype+"\n" : "";
         if (aMin.finalizedHistory) {
             tooltip += "\nHistory:\n"+aMin.finalizedHistory.join("\n");
         }

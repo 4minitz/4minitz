@@ -7,7 +7,9 @@
     {{checkParentSeries}}
     <h2 class="header">
         Minutes for
-        <a id="id_linkToParentSeries" href="/meetingseries/{{meetingSeries._id}}">{{meetingSeries.project}} - {{meetingSeries.name}}</a>
+        <a id="id_linkToParentSeries" href="/meetingseries/{{meetingSeries._id}}" title="{{finalizeHistoryTooltip}}">
+            {{meetingSeries.project}} - {{meetingSeries.name}}
+        </a>
     </h2>
 
     {{> error}}
@@ -19,7 +21,7 @@
                     {{#if isFinalized}}
                         <div class="col-md-8 col-md-push-4 text-right minutes-action-buttons">
                             <!--Static Finalize Text -->
-                            <span id="txt_FinalizedBy">
+                            <span id="txt_FinalizedBy" title="{{finalizeHistoryTooltip}}">
                                 {{getFinalizedText}}
                             </span>
                             {{#if isModeratorOfParentSeries}}
