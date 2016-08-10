@@ -103,7 +103,6 @@ Template.topicElement.events({
         let aTopic = new Topic(this.minutesID, this.topic._id);
         if (aTopic) {
             aTopic.toggleState();
-            aTopic.save();
         }
     },
 
