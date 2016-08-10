@@ -1,6 +1,7 @@
 import { LDAP } from 'meteor/babrahams:accounts-ldap';
 import { Meteor } from 'meteor/meteor';
 
+Meteor.settings = Meteor.settings || {};
 Meteor.settings.ldap = Meteor.settings.ldap || {};
 
 let allowSelfSignedTLS = Meteor.settings.ldap.allowSelfSignedTLS;
@@ -12,7 +13,9 @@ LDAP.searchField = Meteor.settings.ldap.searchDn;
 LDAP.searchValueType = 'username';
 
 function ldapEnabled() {
-    return !!Meteor.settings.ldap.enabled;
+    return !!Meteor.settings &&
+        Meteor.settings.ldap &&
+        Meteor.settings.ldap.enabled;
 }
 
 Meteor.startup(() => {
