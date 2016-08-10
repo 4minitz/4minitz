@@ -58,7 +58,8 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             absentParticipants: this._participantsArrayToString(absentParticipants),
             participantsAdditional: this._minute.participantsAdditional,
             discussedTopics: discussedTopics,
-            skippedTopics: skippedTopics
+            skippedTopics: skippedTopics,
+            finalizedVersion: this._minute.finalizedVersion
         };
     }
 

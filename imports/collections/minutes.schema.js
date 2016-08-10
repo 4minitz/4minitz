@@ -23,8 +23,8 @@ export const MinutesSchema = new SimpleSchema({
     isFinalized: {type: Boolean, defaultValue: false},
     finalizedAt: {type: Date, optional: true},
     finalizedBy: {type: String, optional: true},
-    finalizedVersion: {type: Number, optional: true},
-    finalizedHistory: {type: [String], optional: true},
+    finalizedVersion: {type: Number, optional: true, defaultValue: 0},
+    finalizedHistory: {type: [String], optional: true, defaultValue: []},
     visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id}
 });
 

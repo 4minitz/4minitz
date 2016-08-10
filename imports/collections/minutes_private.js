@@ -75,10 +75,14 @@ Meteor.methods({
             return;
         }
 
+        // Security & Consistency:
         // delete properties which should not be modified by the client
+        // these properties are only allowed to be modified serverside by workflow_private methods
         delete doc.finalizedAt;
         delete doc.createdAt;
         delete doc.isFinalized;
+        delete doc.finalizedVersion;
+        delete doc.finalizedHistory;
 
         let aMin = new Minutes(id);
         if (doc.date) {

@@ -55,9 +55,7 @@ var togglePrintView = function (switchOn) {
 
 // Automatically restore view after printing
 (function() {
-    console.log("Hoi");
     var afterPrint = function() {
-        console.log('AFTER print...');
         togglePrintView(false);
     };
 

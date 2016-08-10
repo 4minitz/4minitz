@@ -16,7 +16,7 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Ensure user can not update documents of other users
     let userRoles = new UserRoles(Meteor.userId());
     if (!userRoles.isModeratorOf(meetingSeriesId)) {
-        throw new Meteor.Error("Cannot create new minutes", "You are not moderator of the parent meeting series.");
+        throw new Meteor.Error("Cannot modify this minutes/series", "You are not moderator of the meeting series.");
     }
 }
 
@@ -179,7 +179,6 @@ Meteor.methods({
             }
             history.push(aMin.getFinalizedString());
             doc["finalizedHistory"] = history;
-            console.log(history.join("\n"));
 
             return MinutesCollection.update(id, {$set: doc});
         } catch(e) {
