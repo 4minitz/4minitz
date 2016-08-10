@@ -30,7 +30,7 @@
                                 {{/if}}
                             {{/if}}
                             <!--Print Button #1 of 3-->
-                            <button type="button" id="btn_printMinutes" class="btn {{isPrintView}} hidden-print">
+                            <button type="button" id="btn_printMinutes" class="btn {{isPrintView}} hidden-print" title="Print Minutes">
                                 <span class="glyphicon glyphicon-print" aria-hidden="true" aria-label="Print View"></span>
                             </button>
                         </div>
@@ -44,9 +44,10 @@
                             </button>
 
                             <!--Print Button #2 of 3-->
-                            <button type="button" id="btn_printMinutes" class="btn btn-lg btn-raised {{isPrintView}} hidden-print">
+                            <button type="button" id="btn_printMinutes"
+                                    class="btn btn-lg btn-raised {{isPrintView}} hidden-print"  title="Print Minutes">
                                 <span class="glyphicon glyphicon-print" aria-hidden="true" aria-label="Print View"></span>
-                                Print View
+                                Print Minutes
                             </button>
                         </div>
                         <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
@@ -65,9 +66,10 @@
                         {{else}}
                         <div class="col-md-4 col-md-push-8 text-right minutes-action-buttons">
                             <!--Print Button #3 of 3-->
-                            <button type="button" id="btn_printMinutes" class="btn btn-lg btn-raised {{isPrintView}} hidden-print">
+                            <button type="button" id="btn_printMinutes"
+                                    class="btn btn-lg btn-raised {{isPrintView}} hidden-print" title="Print Minutes">
                                 <span class="glyphicon glyphicon-print" aria-hidden="true" aria-label="Print View"></span>
-                                Print View
+                                Print Minutes
                             </button>
                         </div>
                         {{/if}}
