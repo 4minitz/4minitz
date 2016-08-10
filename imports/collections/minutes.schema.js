@@ -24,6 +24,8 @@ export const MinutesSchema = new SimpleSchema({
     agenda: {type: String, defaultValue: ""},
     finalizedAt: {type: Date, optional: true},
     finalizedBy: {type: String, optional: true},
+    finalizedVersion: {type: Number, optional: true},
+    finalizedHistory: {type: [String], optional: true},
     visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id}
 });
 

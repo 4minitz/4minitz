@@ -219,14 +219,18 @@ Template.minutesedit.helpers({
         return isMinuteFinalized();
     },
 
-    getFinalizedDate: function () {
+    getFinalizedText: function () {
         let aMin = new Minutes(_minutesID);
-        return formatDateISO8601Time(aMin.finalizedAt);
+        return aMin.getFinalizedString();
     },
 
-    getFinalizedBy: function () {
+    finalizeHistoryTooltip: function (buttontype) {
         let aMin = new Minutes(_minutesID);
-        return aMin.finalizedBy;
+        let tooltip = buttontype+"\n";
+        if (aMin.finalizedHistory) {
+            tooltip += "\nHistory:\n"+aMin.finalizedHistory.join("\n");
+        }
+        return tooltip;
     },
 
     disableUIControl: function () {

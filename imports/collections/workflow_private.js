@@ -101,15 +101,29 @@ Meteor.methods({
             }
 
             // then we tag the minute as finalized
-
+            let version = 1;
+            if (aMin.finalizedVersion) {
+                version = aMin.finalizedVersion + 1;
+            }
             let doc = {
                 finalizedAt: new Date(),
                 finalizedBy: Meteor.user().username,
                 isFinalized: true,
-                isUnfinalized: false
+                isUnfinalized: false,
+                finalizedVersion: version
             };
+            // update aMin object to generate new history entry
+            Object.assign(aMin, doc);
+            let history = aMin.finalizedHistory;
+            if (! aMin.finalizedHistory) {
+                history = [];
+            }
+            history.push(aMin.getFinalizedString());
+            doc["finalizedHistory"] = history;
+            console.log(history.join("\n"));
 
             let affectedDocs = MinutesCollection.update(id, {$set: doc});
+
             if (affectedDocs === 1 && !Meteor.isClient) {
                 if (!GlobalSettings.isEMailDeliveryEnabled()) {
                     console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set " +
@@ -155,9 +169,20 @@ Meteor.methods({
             }
 
             let doc = {
+                finalizedAt: new Date(),
+                finalizedBy: Meteor.user().username,
                 isFinalized: false,
                 isUnfinalized: true
             };
+            // update aMin object to generate new history entry
+            Object.assign(aMin, doc);
+            let history = aMin.finalizedHistory;
+            if (! aMin.finalizedHistory) {
+                history = [];
+            }
+            history.push(aMin.getFinalizedString());
+            doc["finalizedHistory"] = history;
+            console.log(history.join("\n"));
 
             return MinutesCollection.update(id, {$set: doc});
         } catch(e) {

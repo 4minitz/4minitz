@@ -403,6 +403,17 @@ export class Minutes {
         }
     }
 
+    getFinalizedString() {
+        if (this.finalizedAt) {
+            let finalizedTimestamp = formatDateISO8601Time(this.finalizedAt);
+            let finalizedString = this.isFinalized? "Finalized" : "Unfinalized";
+            let version = this.finalizedVersion ? "Version "+this.finalizedVersion+". " : "";
+            return (`${version}${finalizedString} on ${finalizedTimestamp} by ${this.finalizedBy}`);
+        } else {
+            return "Never finalized."
+        }
+    }
+
     // ################### private methods
     _findTopicIndex(id) {
         return subElementsHelper.findIndexById(id, this.topics);
