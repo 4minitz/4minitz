@@ -6,6 +6,9 @@ import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
 import { _ } from 'meteor/underscore';
 
+import './helpers/promisedMethods';
+import './collections/minutes_private';
+
 
 function resolveParentElement(parent) {
     if (typeof parent === 'string') {
@@ -251,6 +254,7 @@ export class Topic {
 
     toggleState () {    // open/close
         this._topicDoc.isOpen = !this._topicDoc.isOpen;
+        return Meteor.callPromise('minutes.updateTopic', this._topicDoc._id, { isOpen: this._topicDoc.isOpen });
     }
 
     hasOpenActionItem() {
