@@ -33,7 +33,7 @@ if (process.platform === 'win32') {
 }
 
 process.on('SIGINT', function () {
-    tasks.each((task) => {
+    tasks.forEach((task) => {
         task.kill();
     });
 
