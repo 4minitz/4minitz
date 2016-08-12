@@ -1,14 +1,6 @@
 let task = require('./lib/task');
 
 
-if (process.platform === 'win32') {
-    console.log('Windows is currently not supported. Please use');
-    console.log('    npm run test:end2end:ldap');
-    console.log('    npm run test:end2end:meteor');
-    console.log('instead.');
-    process.exit(0);
-}
-
 function logTask(taskname) {
     return function (data) {
         process.stdout.write(taskname + ': ' + data);
@@ -20,6 +12,24 @@ const tasks = [
     task.run('npm', ['run', 'test:end2end:meteor'], logTask('meteor'))
 ];
 
+function shutdown() {
+    console.log('Kill all running tasks');
+
+    let done = [].fill(false, 0, tasks.length);
+    tasks.forEach((task, index) => {
+        task.kill('SIGINT', function (error) {
+            if (error) {
+                console.warn('ERROR: ', error);
+            }
+
+            done[index] = true;
+            if (!done.includes(false)) {
+                console.log('All tasks killed, exiting.');
+                process.exit(0);
+            }
+        });
+    });
+}
 
 if (process.platform === 'win32') {
     var readline = require('readline').createInterface({
@@ -27,15 +37,8 @@ if (process.platform === 'win32') {
         output: process.stdout
     });
 
-    readline.on('SIGINT', function () {
-        process.emit('SIGINT');
-    });
+    readline.on('SIGINT', shutdown);
 }
 
-process.on('SIGINT', function () {
-    tasks.forEach((task) => {
-        task.kill();
-    });
-
-    process.exit();
-});
+process.on('uncaughtException', shutdown);
+process.on('SIGINT', shutdown);

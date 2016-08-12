@@ -1,8 +1,24 @@
-let spawn = require('child_process').spawn;
+let spawn = require('child_process').spawn,
+    killTree = require('tree-kill');
+
+let transformCommand = (command, args) => {
+    if (process.platform === 'win32') {
+        return {
+            command: 'cmd',
+            args: ['/c', command].concat(args)
+        };
+    }
+
+    return {
+        command,
+        args
+    };
+};
 
 
 function run (command, args, out) {
-    let task = spawn(command, args),
+    let cmd = transformCommand(command, args),
+        task = spawn(cmd.command, cmd.args),
         state = 'running',
         pipe = (data) => {
             if (out) {
@@ -19,13 +35,15 @@ function run (command, args, out) {
     });
 
     return {
-        kill(signal) {
+        name: command,
+        kill(signal, callback) {
             if (state === 'closed') {
                 return;
             }
 
             signal = signal || 'SIGINT';
-            task.kill(signal);
+            console.log(`Killing process ${task.pid}`);
+            killTree(task.pid, signal, callback);
         }
     };
 }

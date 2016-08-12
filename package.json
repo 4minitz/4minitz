@@ -61,6 +61,7 @@
     "sinon": "^1.17.4",
     "sinon-as-promised": "^4.0.0",
     "sinon-chai": "^2.8.0",
+    "tree-kill": "^1.1.0",
     "underscore": "^1.8.3"
   }
 }
