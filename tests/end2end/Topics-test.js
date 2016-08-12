@@ -107,7 +107,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can not change the order of topics via drag and drop by clicking anywhere', function () {
+    it.skip('can not change the order of topics via drag and drop by clicking anywhere', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -121,7 +121,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it('can change the order of topics via drag and drop by clicking on the sort icon', function () {
+    it.skip('can change the order of topics via drag and drop by clicking on the sort icon', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -140,7 +140,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('some topic');
     });
 
-    it('can not change the order of topics on the topics page', function () {
+    it.skip('can not change the order of topics on the topics page', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -164,7 +164,7 @@ describe('Topics', function () {
         expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
     });
 
-    it('can not change the order of topics of finalized minutes', function () {
+    it.skip('can not change the order of topics of finalized minutes', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -185,7 +185,7 @@ describe('Topics', function () {
     });
 
 
-    it('ensures invited user can not drag-n-drop topics', function () {
+    it.skip('ensures invited user can not drag-n-drop topics', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -219,7 +219,7 @@ describe('Topics', function () {
     });
 
 
-    it('sorting of topics is persistent', function () {
+    it.skip('sorting of topics is persistent', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
