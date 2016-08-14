@@ -4,5 +4,6 @@
 node_modules
 npm-debug.log
 settings.json
-tests/snapshots/*
+tests/snapshots
+tests/mongodump
 public/fonts/glyphicons-halflings-regular.*

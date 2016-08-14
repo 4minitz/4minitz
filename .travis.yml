@@ -22,11 +22,13 @@ addons:
     s3_region: "us-west-2" # defaults to "us-east-1"
     paths:
       - $(ls ./tests/snapshots/* | tr "\n" ":")
+      - $(ls ./tests/mongodump/meteor/* | tr "\n" ":")
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+      - mongodb
 
 #cache:
 #  directories:
