@@ -163,9 +163,15 @@ Template.topicInfoItem.events({
         Session.set("topicInfoItemEditInfoItemId", this.infoItem._id);
     },
 
+
+    // Keep <a href=...> as clickable links inside detailText markdown
+    'click .detailText a'(evt, tmpl) {
+        evt.stopPropagation();
+    },
+
+
     'click .detailText'(evt, tmpl) {
         evt.preventDefault();
-        console.log(tmpl.data.currentCollapseId);
 
         if (!tmpl.data.isEditable) {
             return;
@@ -190,7 +196,7 @@ Template.topicInfoItem.events({
         resizeTextarea(inputEl);
     },
 
-    'click .addDetail'(evt, tmpl) {
+    async 'click .addDetail'(evt, tmpl) {
         tmpl.$('#collapse-' + this.currentCollapseId).collapse('show');
 
         let aMin = new Minutes(tmpl.data.minutesID);
@@ -199,14 +205,11 @@ Template.topicInfoItem.events({
 
 
         aActionItem.addDetails();
-        aActionItem.save();
-        // We need this forked to re-create material input fields
-        Meteor.setTimeout(function () {
-            let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
-            inputEl.parent().css('margin', '0 0 25px 0');
-            inputEl.show();
-            inputEl.focus();
-        }, 0);
+        await  aActionItem.save();
+        let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
+        inputEl.parent().css('margin', '0 0 25px 0');
+        inputEl.show();
+        inputEl.focus();
 
     },
 

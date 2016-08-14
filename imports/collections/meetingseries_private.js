@@ -46,7 +46,7 @@ Meteor.methods({
         // array will be expanded by future invites
         doc.visibleFor = [Meteor.userId()];
 
-        if (Meteor.isServer) {
+        if (!Meteor.isClient) {
             // copy the default labels to the series
             doc.availableLabels = GlobalSettings.getDefaultLabels();
             doc.availableLabels.forEach((label) => {
@@ -57,19 +57,25 @@ Meteor.methods({
         }
 
         // Every logged in user is allowed to create a new meeting series.
-        MeetingSeriesCollection.insert(doc, function(error, newMeetingSeriesID) {
-            if (error) {
-                throw error;
-            }
+
+        try {
+            let newMeetingSeriesID = MeetingSeriesCollection.insert(doc);
+
+            // Make creator of this meeting series the first moderator
+            Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
 
             if (Meteor.isClient && optimisticUICallback) {
                 optimisticUICallback(newMeetingSeriesID);
             }
 
-            doc._id = newMeetingSeriesID;
-            // Make creator of this meeting series the first moderator
-            Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
-        });
+            return newMeetingSeriesID;
+        } catch(error) {
+            if (!Meteor.isClient) {
+                // the simulation ignores exceptions which will be thrown...
+                console.error(error);
+                throw error;
+            }
+        }
     },
 
     'meetingseries.update'(doc) {
@@ -86,7 +92,10 @@ Meteor.methods({
             return;
         }
 
-        // TODO: fix security issue: it is not allowed to modify (e.g. remove) elements from the minutes array!
+        // these attributes should only be manipulated by specific workflow-methods
+        delete doc.minutes;
+        delete doc.topics;
+        delete doc.openTopics;
 
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
@@ -95,47 +104,17 @@ Meteor.methods({
 
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(id)) {
-            MeetingSeriesCollection.update(id, {$set: doc});
-        } else {
+        if (!userRoles.isModeratorOf(id)) {
             throw new Meteor.Error("Cannot update meeting series", "You are not moderator of this meeting series.");
         }
-    },
 
-    'meetingseries.remove'(id) {
-        console.log("meetingseries.remove:"+id);
-        if (id == undefined || id == "")
-            return;
-
-        // Make sure the user is logged in before changing collections
-        if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(id)) {
-            UserRoles.removeAllRolesFor(id);
-            MeetingSeriesCollection.remove(id);
-        } else {
-            throw new Meteor.Error("Cannot remove meeting series", "You are not moderator of this meeting series.");
-        }
-    },
-
-    'meetingseries.removeMinutesFromArray'(meetingSeriesId, minutesId) {
-        console.log("meetingseries.removeMinutesFromArray: MeetingSeries ("
-            + meetingSeriesId + "), Minutes (" + minutesId + ")");
-
-        // Minutes can only be removed as long as they are not finalized
-        let aMin = new Minutes(minutesId);
-        if (aMin.isFinalized) return;
-
-        // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(meetingSeriesId)) {
-            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutesId}});
-        } else {
-            throw new Meteor.Error("Cannot remove minutes from meeting series", "You are not moderator of this meeting series.");
+        try {
+            return MeetingSeriesCollection.update(id, {$set: doc});
+        } catch(e) {
+            if (!Meteor.isClient) {
+                console.error(e);
+                throw new Meteor.Error('runtime-error', 'Error updating meeting series collection', e);
+            }
         }
     }
 });

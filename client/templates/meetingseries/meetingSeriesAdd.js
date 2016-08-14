@@ -20,7 +20,7 @@ function escapeHandler(event) {
     }
 }
 
-async function addMeetingSeries(template, optimisticUICallback, clearForm = true) {
+async function addMeetingSeries(template, optimisticUICallback, doClearForm = true) {
 
     let aProject = template.find("#id_meetingproject").value;
     let aName = template.find("#id_meetingname").value;
@@ -33,7 +33,7 @@ async function addMeetingSeries(template, optimisticUICallback, clearForm = true
 
     try {
         await ms.save(optimisticUICallback);
-        if (clearForm) {
+        if (doClearForm) {
             clearForm(template);
         }
     } catch (error) {

@@ -121,13 +121,23 @@ describe('Topics Responsibles', function () {
 
         E2ETopics.addTopicToMinutes('TOP-1', "");
 
+        E2EGlobal.saveScreenshot("additional-responsible-1");
+
         E2ETopics.openEditTopicForMinutes(1);
         E2EGlobal.waitSomeTime();
+
+        E2EGlobal.saveScreenshot("additional-responsible-2");
+
         browser.element(".select2-selection").click();
         // We only send the beginning of the name, to ensure the drop-down is used for selection!
         browser.keys("Add\uE015\uE007");  // + CursorDown + Enter
+
+        E2EGlobal.saveScreenshot("additional-responsible-3");
+
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime();
+
+        E2EGlobal.saveScreenshot("additional-responsible-4");
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
         expect (topicHeadingText).to.contain(additionalParticipant);

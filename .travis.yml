@@ -1,11 +1,48 @@
 sudo: required
 language: node_js
+
+env:
+  global:
+    - CXX=g++-4.8
+  matrix:
+    - TEST="tests/end2end/A* tests/end2end/I* tests/end2end/L*"
+    - TEST="tests/end2end/Mee*"
+    - TEST="tests/end2end/Mi*"
+    - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
+    - TEST="unit"
+
+addons:
+  artifacts:
+    # This uploads all headless screenshots generated with:
+    #   browser.saveScreenshot("my-testcase");
+    # to our Amazon AWS S3 account.
+    # After build run completed, you can view the snapshots here:
+    # http://s3files.4minitz.com/4minitz/4minitz
+    debug: true
+    s3_region: "us-west-2" # defaults to "us-east-1"
+    paths:
+      - $(ls ./tests/snapshots/* | tr "\n" ":")
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+#cache:
+#  directories:
+#    - node_modules
+#    - .meteor/local
+#    - /usr/local/bin
+#    - ~/.meteor
+#    - $(npm config get prefix)/bin/chimp
+
 node_js:
   - "stable"
+
 before_install:
+  - mkdir ./tests/snapshots
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp
-before_script:
-  - meteor npm run test:end2end:server&
-  - sleep 30
-script: npm run test:ci
+  - npm install -g chimp@0.36.1
+
+script:
+  - ./travis.sh "$TEST"

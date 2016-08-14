@@ -51,6 +51,7 @@ const {
     } = proxyquire('../../../imports/minutes', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     './collections/minutes_private': { MinutesCollection, '@noCallThru': true},
+    './collections/workflow_private': { null, '@noCallThru': true},
     './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
@@ -70,7 +71,6 @@ describe('Minutes', function () {
             createdAt: new Date(),
             topics: [],
             isFinalized: false,
-            isUnfinalized: true,
             participants: '',
             agenda: ''
         };
@@ -179,7 +179,7 @@ describe('Minutes', function () {
 
         it('sends the minutes id to the meteor method minutes.remove', function () {
             Minutes.remove(minute._id);
-            expect(Meteor.callPromise.calledWithExactly('minutes.remove', minute._id)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('workflow.removeMinute', minute._id)).to.be.true;
         });
 
     });
@@ -246,10 +246,10 @@ describe('Minutes', function () {
             expect(Meteor.call.calledOnce).to.be.true;
         });
 
-        it('sends the minutes object to the meteor method minutes.insert', function () {
+        it('uses the workflow.addMinutes method to save a new minutes document', function () {
             delete minute._id;
             minute.save();
-            expect(Meteor.call.calledWithExactly('minutes.insert', minute, undefined, undefined)).to.be.true;
+            expect(Meteor.call.calledWithExactly('workflow.addMinutes', minute, undefined, undefined)).to.be.true;
         });
 
         it('sets the createdAt-property if it is not set', function () {
@@ -435,45 +435,45 @@ describe('Minutes', function () {
             expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
-        it('sends the doc part and the minutes id to the meteor method minutes.update', function () {
+        it('sends the minutes id and the topic doc to the meteor method minutes.addTopic', function () {
             minute.upsertTopic(topicDoc);
             let callArgs = Meteor.callPromise.getCall(0).args;
-            expect(callArgs[0], "first argument should be the name of the meteor method", 'minutes.update');
+            expect(callArgs[0], "first argument should be the name of the meteor method", 'minutes.addTopic');
             let sentDoc = callArgs[1];
-            expect(sentDoc._id, 'minutes id should be part of the document').to.equal(minutesDoc._id);
-            expect(sentDoc, 'topics should be a part of the document').to.have.ownProperty('topics');
+            expect(callArgs[1], 'minutes id should be sent to the meteor method').to.equal(minutesDoc._id);
+            expect(callArgs[2], 'topic-doc should be sent to the meteor method').to.equal(topicDoc);
         });
 
     });
 
     describe('#finalize', function () {
 
-        it('calls the meteor method minutes.finalize', function() {
+        it('calls the meteor method workflow.finalizeMinute', function() {
             minute.finalize();
 
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
-        it('sends the id to the meteor method minutes.finalize', function () {
+        it('sends the id to the meteor method workflow.finalizeMinute', function () {
             minute.finalize();
 
-            expect(Meteor.call.calledWith('minutes.finalize', minutesDoc._id)).to.be.true;
+            expect(Meteor.callPromise.calledWith('workflow.finalizeMinute', minutesDoc._id)).to.be.true;
         });
 
     });
 
     describe('#unfinalize', function () {
 
-        it('calls the meteor method minutes.unfinalize', function() {
+        it('calls the meteor method workflow.unfinalizeMinute', function() {
             minute.unfinalize();
 
-            expect(Meteor.call.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
-        it('sends the id to the meteor method minutes.unfinalize', function () {
+        it('sends the id to the meteor method workflow.unfinalizeMinute', function () {
             minute.unfinalize();
 
-            expect(Meteor.call.calledWithExactly('minutes.unfinalize', minutesDoc._id, undefined)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('workflow.unfinalizeMinute', minutesDoc._id)).to.be.true;
         });
 
     });

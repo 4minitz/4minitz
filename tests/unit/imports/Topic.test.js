@@ -8,7 +8,8 @@ require('../../../lib/helpers');
 class MeteorError {}
 let Meteor = {
     call: sinon.stub(),
-    Error: MeteorError
+    Error: MeteorError,
+    callPromise: sinon.stub()
 };
 
 const meetingSeriesId = "AaBbCcDd01";
@@ -55,7 +56,9 @@ const {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
-    './meetingseries': { MeetingSeries, '@noCallThru': true}
+    './meetingseries': { MeetingSeries, '@noCallThru': true},
+    './helpers/promisedMethods': { null, '@noCallThru': true},
+    './collections/minutes_private': { null, '@noCallThru': true},
 });
 
 const {

@@ -13,6 +13,7 @@ import { MigrateV5 } from './migrate_v5'
 import { MigrateV6 } from './migrate_v6'
 import { MigrateV7 } from './migrate_v7'
 import { MigrateV8 } from './migrate_v8'
+import { MigrateV9 } from './migrate_v9'
 
 Migrations.add({version: 1, up() {MigrateV1.up();}, down() {MigrateV1.down();}});
 Migrations.add({version: 2, up() {MigrateV2.up();}, down() {MigrateV2.down();}});
@@ -22,6 +23,7 @@ Migrations.add({version: 5, up() {MigrateV5.up();}, down() {MigrateV5.down();}})
 Migrations.add({version: 6, up() {MigrateV6.up();}, down() {MigrateV6.down();}});
 Migrations.add({version: 7, up() {MigrateV7.up();}, down() {MigrateV7.down();}});
 Migrations.add({version: 8, up() {MigrateV8.up();}, down() {MigrateV8.down();}});
+Migrations.add({version: 9, up() {MigrateV9.up();}, down() {MigrateV9.down();}});
 
 // ----------------------------------------------------------------
 function findLatestVersion() {
@@ -45,7 +47,7 @@ export const handleMigration = function () {
             let backupPath = path.join(basePath, 'mongobackup_' + moment().format('YYYY-MM-DD'));
             backupMongo(process.env.MONGO_URL, backupPath);
         } else {
-            console.warn('db.mongodumpTargetDirectory is not configured. Omitting database dump!');
+            console.warn('db.mongodumpTargetDirectory is not configured in settings.json. Skipping database backup!');
         }
 
         Migrations.migrateTo('latest');

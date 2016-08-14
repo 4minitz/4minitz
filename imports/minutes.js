@@ -5,6 +5,7 @@ import { Topic } from './topic'
 import { ActionItem } from './actionitem'
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
+import './collections/workflow_private';
 
 export class Minutes {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -44,7 +45,7 @@ export class Minutes {
     }
 
     static remove(id) {
-        return Meteor.callPromise("minutes.remove", id);
+        return Meteor.callPromise("workflow.removeMinute", id);
     }
 
     static async syncVisibility(parentSeriesID, visibleForArray) {
@@ -79,7 +80,8 @@ export class Minutes {
             if (this.topics === undefined) {
                 this.topics = [];
             }
-            Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
+            //Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
+            Meteor.call("workflow.addMinutes", this, optimisticUICallback, serverCallback);
         }
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
     }
@@ -105,7 +107,7 @@ export class Minutes {
         let i = this._findTopicIndex(id);
         if (i != undefined) {
             this.topics.splice(i, 1);
-            return this.update({topics: this.topics}); // update only topics array!
+            return Meteor.callPromise('minutes.removeTopic', id);
         }
     }
 
@@ -183,11 +185,13 @@ export class Minutes {
 
         if (i == undefined) {                      // topic not in array
             this.topics.unshift(topicDoc);  // add to front of array
+            return Meteor.callPromise('minutes.addTopic', this._id, topicDoc);
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
+            return Meteor.callPromise('minutes.updateTopic', topicDoc._id, topicDoc);
         }
 
-        return this.update({topics: this.topics}); // update only topics array!
+
     }
 
     /**
@@ -207,21 +211,22 @@ export class Minutes {
     }
 
     /**
-     * Finalizes this minutes object. Shall
-     * only be called from the finalize method
-     * within the meeting series.
+     * Finalizes this minute by calling
+     * the workflow-server-method.
+     *
+     * @param sendActionItems default: true
+     * @param sendInfoItems default: true
      */
-    finalize(sendActionItems, sendInfoItems, serverCallback) {
-        Meteor.call('minutes.finalize', this._id, sendActionItems, sendInfoItems, serverCallback);
+    finalize(sendActionItems, sendInfoItems) {
+        return Meteor.callPromise('workflow.finalizeMinute', this._id, sendActionItems, sendInfoItems);
     }
 
     /**
-     * Unfinalizes this minutes object. Shall
-     * only be called from the finalize method
-     * within the meeting series.
+     * Unfinalizes this minutes by calling
+     * the workflow-server-method.
      */
-    unfinalize(serverCallback) {
-        Meteor.call('minutes.unfinalize', this._id, serverCallback);
+    unfinalize() {
+        return Meteor.callPromise('workflow.unfinalizeMinute', this._id);
     }
 
     sendAgenda() {
@@ -387,14 +392,32 @@ export class Minutes {
         if (maxChars && names.length > maxChars) {
             return names.substr(0, maxChars)+"...";
         }
+        if (names === "") {
+            names = "None.";
+        }
         return names;
     }
 
+    checkParent() {
+        let parent = this.parentMeetingSeries();
+        if (!parent.hasMinute(this._id)) {
+            throw new Meteor.Error('runtime-error', 'Minute is an orphan!');
+        }
+    }
 
+    getFinalizedString() {
+        if (this.finalizedAt) {
+            let finalizedTimestamp = formatDateISO8601Time(this.finalizedAt);
+            let finalizedString = this.isFinalized? "Finalized" : "Unfinalized";
+            let version = this.finalizedVersion ? "Version "+this.finalizedVersion+". " : "";
+            return (`${version}${finalizedString} on ${finalizedTimestamp} by ${this.finalizedBy}`);
+        } else {
+            return "Never finalized."
+        }
+    }
 
     // ################### private methods
     _findTopicIndex(id) {
         return subElementsHelper.findIndexById(id, this.topics);
     }
-
 }

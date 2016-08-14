@@ -108,4 +108,28 @@ describe('Minutes', function () {
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
         expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
     });
+
+    it('displays an error message if the minute is not linked to the parent series', function() {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name #6";
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        let urlArr = browser.getUrl().split('/');
+        let msId = urlArr[(urlArr.length) - 1];
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        E2EGlobal.waitSomeTime(2000); // wait until parent check will be enabled
+
+        expect(browser.isVisible('#flashMessage'), 'flash message should not be visible before un-linking the minute').to.be.false;
+
+        server.call('e2e.updateMeetingSeries', msId, {minutes: []});
+
+        browser.waitForVisible('#flashMessage');
+        let dialogMsgElement = browser.element('#flashMessage').value.ELEMENT;
+        let dialogMsgText = browser.elementIdText(dialogMsgElement).value;
+        expect(dialogMsgText, 'error message should be displayed').to.have.string('Unfortunately the minute is not linked to its parent series correctly');
+    });
+
 });

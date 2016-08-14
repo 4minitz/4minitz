@@ -1,5 +1,12 @@
 <template name="login">
     <div class="col-md-4">
-        {{> atForm}}
+        {{#if ldapEnabled}}
+            <ul class="nav nav-tabs">
+                <li id="tab_ldap" data-template="loginLdap" role="presentation" class="active"><a href="#">LDAP</a></li>
+                <li id="tab_standard" data-template="atForm" role="presentation" class=""><a href="#">Standard</a></li>
+            </ul>
+        {{/if}}
+
+        {{> Template.dynamic template=tab}}
     </div>
 </template>

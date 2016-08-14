@@ -28,6 +28,18 @@ import 'bootstrap-material-design';
 import 'bootstrap-material-design/dist/js/material';
 import 'bootstrap-material-design/dist/js/ripples';
 
+// jquery ui - use the download builder to select packages to load
+// https://jqueryui.com/download/#!version=1.12.0&components=000000000000000000000000000000000000000000000000
+// currently used:
+//   * sortable (plus dependencies)
+import 'jquery-ui/ui/widget';
+import 'jquery-ui/ui/data';
+import 'jquery-ui/ui/scroll-parent';
+import 'jquery-ui/ui/widgets/mouse';
+import 'jquery-ui/ui/widgets/sortable';
+
+import 'jquery-ui-touch-punch/jquery.ui.touch-punch';
+
 $(document).arrive('input', {
     onceOnly: false
 }, function () {
@@ -45,4 +57,13 @@ $(document).arrive('input', {
 // as soon as the document is loaded initialize material design
 $(document).ready(() => {
     $.material.init();
+});
+
+Meteor.startup(() => {
+    Meteor.call("gitVersionInfoUpdate");
+
+    // Make sure that all server side markdown rendering quotes all HTML <TAGs>
+    Markdown.setOptions({
+        sanitize: true
+    });
 });

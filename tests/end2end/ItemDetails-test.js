@@ -255,4 +255,12 @@ describe('Item Details', function () {
         E2EApp.loginUser();
     });
 
+    it('can follow a-hyperlink in details', function() {
+        E2ETopics.addDetailsToActionItem(1, 1, 'New Details with link to http://www.google.com');
+
+        browser.click(".detailText a");
+        E2EGlobal.waitSomeTime();
+        console.log("new URL after click:"+browser.getUrl());
+        expect(browser.getUrl()).to.contain.string("google");
+    });
 });

@@ -17,13 +17,14 @@ export const MinutesSchema = new SimpleSchema({
     topics: {type: [TopicSchema], defaultValue: []},
     createdAt: {type: Date},
     agendaSentAt: {type: Date, optional: true},
-    isFinalized: {type: Boolean, defaultValue: false},
-    isUnfinalized: {type: Boolean, defaultValue: false},
     participants: {type: [ParticipantsSchema], defaultValue: []},
     participantsAdditional: {type: String, defaultValue: "", optional: true},
     agenda: {type: String, defaultValue: ""},
+    isFinalized: {type: Boolean, defaultValue: false},
     finalizedAt: {type: Date, optional: true},
     finalizedBy: {type: String, optional: true},
+    finalizedVersion: {type: Number, optional: true, defaultValue: 0},
+    finalizedHistory: {type: [String], optional: true, defaultValue: []},
     visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id}
 });
 

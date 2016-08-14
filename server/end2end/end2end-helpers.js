@@ -48,6 +48,9 @@ if (Meteor.settings.isEnd2EndTest) {
             let aMin = new Minutes(minutesId);
             return aMin.getPresentParticipantNames();
         },
+        'e2e.updateMeetingSeries'(id, doc) {
+            MeetingSeriesCollection.update(id, {$set: doc});
+        },
         'e2e.resetTestMailDB'() {
             TestMailCollection.remove({});
         },
