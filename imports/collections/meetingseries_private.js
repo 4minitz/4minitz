@@ -87,7 +87,7 @@ Meteor.methods({
         console.log("meetingseries.update:", doc.minutes);
 
         let id = doc._id;
-        check(id, 'String');
+        check(id, String);
         delete doc._id; // otherwise collection.update will fail
         if (!id) {
             return;
