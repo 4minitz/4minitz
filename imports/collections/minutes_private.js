@@ -31,6 +31,7 @@ MinutesCollection.attachSchema(MinutesSchema);
 
 Meteor.methods({
     'minutes.sendAgenda'(id) {
+        check(id, String);
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
             throw new Meteor.Error('not-authorized');
@@ -69,6 +70,7 @@ Meteor.methods({
         }
 
         let id = doc._id;
+        check(id, String);
         delete doc._id; // otherwise collection.update will fail
 
         if (id == undefined || id == "") {
@@ -113,6 +115,7 @@ Meteor.methods({
      * @returns {*|any}
      */
     'minutes.updateTopic'(topicId, doc) {
+        check(topicId, String);
         console.log(`updateTopic: ${topicId}`);
 
         // Make sure the user is logged in before changing collections
@@ -145,6 +148,7 @@ Meteor.methods({
     },
 
     'minutes.addTopic'(minutesId, doc) {
+        check(minutesId, String);
         console.log(`addTopic to minute: ${minutesId}`);
 
         // Make sure the user is logged in before changing collections
@@ -174,6 +178,7 @@ Meteor.methods({
     },
 
     'minutes.removeTopic'(topicId) {
+        check(topicId, String);
         console.log(`remove topic: ${topicId}`);
 
         // Make sure the user is logged in before changing collections
@@ -201,6 +206,7 @@ Meteor.methods({
     },
 
     'minutes.syncVisibility'(parentSeriesID, visibleForArray) {
+        check(parentSeriesID, String);
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
             if (MinutesCollection.find({meetingSeries_id: parentSeriesID}).count() > 0) {
