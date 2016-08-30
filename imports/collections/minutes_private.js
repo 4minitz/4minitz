@@ -130,8 +130,8 @@ Meteor.methods({
             }
         }
 
-        let minutesId = MinutesCollection.findOne({isFinalized: false, 'topics._id': topicId}, {fields: {_id: 1}})._id;
-        let aMin = new Minutes(minutesId);
+        let minDoc = MinutesCollection.findOne({isFinalized: false, 'topics._id': topicId});
+        let aMin = new Minutes(minDoc);
 
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
@@ -139,7 +139,7 @@ Meteor.methods({
             // Ensure user can not update finalized minutes
 
             return MinutesCollection.update(
-                {_id: minutesId, isFinalized: false, 'topics._id': topicId},
+                {_id: aMin._id, isFinalized: false, 'topics._id': topicId},
                 {$set: modifierDoc}
             );
         } else {
@@ -186,8 +186,8 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized');
         }
 
-        let minutesId = MinutesCollection.findOne({isFinalized: false, 'topics._id': topicId}, {fields: {_id: 1}})._id;
-        let aMin = new Minutes(minutesId);
+        let minDoc = MinutesCollection.findOne({isFinalized: false, 'topics._id': topicId});
+        let aMin = new Minutes(minDoc);
 
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
@@ -195,7 +195,7 @@ Meteor.methods({
             // Ensure user can not update finalized minutes
 
             return MinutesCollection.update(
-                {_id: minutesId, isFinalized: false},
+                {_id: aMin._id, isFinalized: false},
                 {$pull: {
                     topics: { _id: topicId }
                 }}
