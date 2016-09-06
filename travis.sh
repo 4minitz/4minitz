@@ -2,7 +2,7 @@
 TEST="$1"
 
 if [ "$TEST" = "unit" ]; then
-    echo Run unit and integration tests
+    echo Run unit and integration teststr
     npm run test:unit
     UNIT=$?
     npm run test:integration:headless
@@ -42,5 +42,8 @@ CHIMP_RESULT=$?
 echo Server log:
 cat server.log
 rm server.log
+
+mkdir tests/mongodump
+mongodump -h localhost:3101 -d meteor -o ./tests/mongodump
 
 exit $CHIMP_RESULT

@@ -25,6 +25,7 @@ Meteor.methods({
         checkUserAvailableAndIsModeratorOf(doc.meetingSeries_id);
 
         // It is not allowed to insert new minutes if the last minute was not finalized
+        check(doc.meetingSeries_id, String);
         let parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
         if (!parentMeetingSeries.addNewMinutesAllowed()) {
             // last minutes is not finalized!
@@ -70,6 +71,7 @@ Meteor.methods({
     },
 
     'workflow.removeMinute'(id) {
+        check(id, String);
         if (id == undefined || id == "") {
             throw new Meteor.Error('illegal-arguments', 'Minutes id required');
         }
@@ -85,6 +87,7 @@ Meteor.methods({
     },
 
     'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
+        check(id, String);
         let aMin = new Minutes(id);
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
 
@@ -148,6 +151,7 @@ Meteor.methods({
     },
 
     'workflow.unfinalizeMinute'(id) {
+        check(id, String);
         let aMin = new Minutes(id);
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
 
@@ -190,6 +194,7 @@ Meteor.methods({
     },
 
     'workflow.removeMeetingSeries'(id) {
+        check(id, String);
         console.log("meetingseries.remove:"+id);
         if (id == undefined || id == "")
             return;
