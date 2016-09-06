@@ -6,6 +6,7 @@ import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
+import moment from 'moment/moment';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -72,9 +73,8 @@ export class MeetingSeries {
         let newMinutesDate = new Date();
         let lastMinutes = this.lastMinutes();
         if (lastMinutes && formatDateISO8601(newMinutesDate) <= lastMinutes.date) {
-            let lastMinDate = new Date(lastMinutes.date);
-            newMinutesDate.setTime(lastMinDate.getTime());
-            newMinutesDate.setDate(lastMinDate.getDate() + 1);
+            let lastMinDate = moment(lastMinutes.date);
+            newMinutesDate = lastMinDate.add(1, 'days').toDate();
         }
 
         let topics = [];
