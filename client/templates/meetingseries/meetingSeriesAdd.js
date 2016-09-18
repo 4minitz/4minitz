@@ -42,15 +42,23 @@ async function addMeetingSeries(template, optimisticUICallback, doClearForm = tr
     }
 }
 
+Template.meetingSeriesAdd.helpers({
+    isExpanded: function () {
+        return Session.get("meetingSeriesAdd.isExpanded");
+    }
+});
+
 Template.meetingSeriesAdd.events({
     "submit #id_meetingSeriesAddForm" (event, template) {
         event.preventDefault();
+        $('#collapseMeetingSeriesAdd').collapse('hide');
 
         addMeetingSeries(template);
     },
 
     "click #btnAddInvite" (event, template) {
         event.preventDefault();
+        $('#collapseMeetingSeriesAdd').collapse('hide');
 
         addMeetingSeries(template, (id) => {
             Router.go('/meetingseries/invite/' + id);
@@ -59,11 +67,13 @@ Template.meetingSeriesAdd.events({
 
     "hidden.bs.collapse #collapseMeetingSeriesAdd"(evt, tmpl) {
         clearForm(tmpl);
+        Session.set("meetingSeriesAdd.isExpanded", false);
         document.removeEventListener('keyup', escapeHandler);
     },
 
     "shown.bs.collapse #collapseMeetingSeriesAdd"(evt, tmpl) {
         tmpl.find("#id_meetingproject").focus();
+        Session.set("meetingSeriesAdd.isExpanded", true);
         document.addEventListener('keyup', escapeHandler);
     }
 });

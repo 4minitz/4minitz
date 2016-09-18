@@ -2,7 +2,12 @@
 
     <a class="btn btn-primary btn-raised" id="btnNewMeetingSeries" role="button" data-toggle="collapse" href="#collapseMeetingSeriesAdd"
        aria-expanded="false" aria-controls="collapseExample">
-        New Meeting Series <span class="glyphicon glyphicon-align-left glyphicon-menu-down" aria-hidden="true"></span>
+        New Meeting Series
+        {{#if isExpanded}}
+            <span class="glyphicon glyphicon-align-left glyphicon-menu-down" aria-hidden="true"></span>
+        {{else}}
+            <span class="glyphicon glyphicon-align-left glyphicon-menu-right" aria-hidden="true"></span>
+        {{/if}}
     </a>
 
     <div class="collapse" id="collapseMeetingSeriesAdd">
