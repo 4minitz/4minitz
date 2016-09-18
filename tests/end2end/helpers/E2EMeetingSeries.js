@@ -35,19 +35,17 @@ export class E2EMeetingSeries {
         }
     };
 
-    static createMeetingSeries (aProj, aName, inviteUsers, switchInput) {
+    static createMeetingSeries (aProj, aName, keepOpenMSEditor, switchInput) {
         this.editMeetingSeriesForm(aProj, aName,  switchInput);
             
-        if (inviteUsers) {
-            browser.click('#btnAddInvite');
-            return;
+        browser.click('#btnAddInvite');
+        E2EGlobal.waitSomeTime(500);  // double time for dialog + panel switch!
+
+        if (! keepOpenMSEditor) {
+            browser.click('#btnMeetinSeriesEditCancel');
+            E2EGlobal.waitSomeTime();
+            E2EApp.gotoStartPage();
         }
-
-        browser.click('#btnAdd');
-
-        E2EGlobal.waitSomeTime();
-        browser.click('#btnNewMeetingSeries');  // close dialog
-        E2EGlobal.waitSomeTime(500); // give time for close-animation
     };
 
 

@@ -49,15 +49,14 @@ Template.meetingSeriesAdd.helpers({
 });
 
 Template.meetingSeriesAdd.events({
-    "submit #id_meetingSeriesAddForm" (event, template) {
-        event.preventDefault();
-        $('#collapseMeetingSeriesAdd').collapse('hide');
-
-        addMeetingSeries(template);
-    },
-
     "click #btnAddInvite" (event, template) {
         event.preventDefault();
+        let aProject = template.find("#id_meetingproject").value;
+        let aName = template.find("#id_meetingname").value;
+        if (aProject === "" || aName === "") {
+            return;
+        }
+
         $('#collapseMeetingSeriesAdd').collapse('hide');
 
         addMeetingSeries(template, (id) => {
