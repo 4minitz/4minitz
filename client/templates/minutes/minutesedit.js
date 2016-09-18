@@ -77,12 +77,18 @@ var togglePrintView = function (switchOn) {
 Template.minutesedit.onCreated(function () {
     Session.set('minutesedit.checkParent', false);
     _minutesID = this.data;
+
+    // Collapse the participants list on scroll
+    $(window).scroll(function(){
+        Session.set("participants.expand", false);
+    });
 });
 
 Template.minutesedit.onDestroyed(function() {
     if (orphanFlashMessage) {
         FlashMessage.hide();
     }
+    $(window).off("scroll");    // Prohibit accumulating multiple scroll handlers on window
 });
 
 var isMinuteFinalized = function () {
