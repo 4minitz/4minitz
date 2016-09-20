@@ -335,7 +335,6 @@ export class Minutes {
 
         // only save if desired and we did change something
         if (saveToDB && changed) {
-            console.log("Saving!");
             return this.update({participants: newParticipants}); // update only participants array!
         }
     }
