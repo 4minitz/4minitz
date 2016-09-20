@@ -434,4 +434,26 @@ describe('MeetingSeries Editor Users', function () {
     });
 
 
+    it('allows an invited user to leave a meeting series', function () {
+        let currentUser = E2EApp.getCurrentUser();
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
+        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+
+        E2EApp.loginUser(1);
+        E2EGlobal.waitSomeTime(100);
+        expect(E2EMeetingSeries.countMeetingSeries(),
+                "1 visible series before leave").to.equal(1);
+
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EGlobal.waitSomeTime();
+
+        browser.click("#btnLeaveMeetingSeries"); // leave meeting series
+        E2EApp.confirmationDialogAnswer(true);
+        expect(E2EMeetingSeries.countMeetingSeries(),
+                "zero visible series after leave").to.equal(0);
+
+        E2EApp.loginUser();
+    });
 });
