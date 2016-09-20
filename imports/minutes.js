@@ -57,8 +57,8 @@ export class Minutes {
     // ################### object methods
     
     async update (docPart, callback) {
+        console.log("Minutes.update()");
         _.extend(docPart, {_id: this._id});
-
         await Meteor.callPromise ("minutes.update", docPart, callback);
 
         // merge new doc fragment into this document

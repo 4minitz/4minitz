@@ -285,9 +285,11 @@ Template.minutesedit.events({
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin) {
-            if (aMin.isFinalized) {
+            if (aMin.isFinalized || ! aMin.isCurrentUserModerator()) {
                 // event will be called on page load
-                // if the meeting is already finalized nothing has to be updated
+                // if the meeting is already finalized ...
+                // or the current user is not a moderator ...
+                // nothing has to be updated
                 return;
             }
 
