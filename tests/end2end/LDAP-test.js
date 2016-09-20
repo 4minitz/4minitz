@@ -1,3 +1,4 @@
+import { E2EGlobal } from './helpers/E2EGlobal';
 import { E2EApp } from './helpers/E2EApp';
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 
@@ -12,6 +13,18 @@ describe('LDAP', function () {
         return aMeetingNameBase + aMeetingCounter;
     };
 
+    before("reload page", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.launchApp();
+        }
+    });
+
+    after("clear database and login user", function () {
+        E2EApp.launchApp();
+        E2EApp.loginUser();
+        expect(E2EApp.isLoggedIn()).to.be.true;
+    });
+    
     beforeEach("make sure test user is logged out and on the start page", function () {
         E2EApp.logoutUser();
 
