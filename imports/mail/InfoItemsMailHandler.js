@@ -13,8 +13,12 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
         this._participants = participants;
     }
 
+    _getSubject() {
+        return this._getSubjectPrefix()  + " (Meeting Minutes V"+this._minute.finalizedVersion+")";
+    }
+
     _sendMail() {
-        let mailSubject = this._getSubjectPrefix();
+        let mailSubject = this._getSubject();
 
         // Generate responsibles strings for all topics
         this._topics.forEach(topic => {

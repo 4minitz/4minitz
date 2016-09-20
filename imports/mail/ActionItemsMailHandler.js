@@ -13,11 +13,15 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
         this._actionItems.push(actionItem);
     }
 
+    _getSubject() {
+        return this._getSubjectPrefix() + " (Your Action Items)";
+    }
+
     _sendMail() {
         if (this._sendAIseperately) {
             this._actionItems.forEach(item => {
                 let topicSubject = item.getParentTopic().getSubject();
-                let mailSubject = this._getSubjectPrefix() + " / " + topicSubject;
+                let mailSubject = this._getSubject()+": " + topicSubject;
 
                 this._buildMail(
                     mailSubject,
@@ -27,7 +31,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
                 );
             });
         } else {
-            let mailSubject = this._getSubjectPrefix() + " / your action items";
+            let mailSubject = this._getSubject();
             this._buildMail(
                 mailSubject,
                 {
