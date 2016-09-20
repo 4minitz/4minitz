@@ -434,7 +434,7 @@ describe('MeetingSeries Editor Users', function () {
     });
 
 
-    it('allows an invited user to leave a meeting series', function () {
+    it('allows an invited user to leave a meeting series @watch', function () {
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
@@ -443,8 +443,7 @@ describe('MeetingSeries Editor Users', function () {
 
         E2EApp.loginUser(1);
         E2EGlobal.waitSomeTime(100);
-        expect(E2EMeetingSeries.countMeetingSeries(),
-                "1 visible series before leave").to.equal(1);
+        let initialMSCount = E2EMeetingSeries.countMeetingSeries();
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime();
@@ -452,7 +451,9 @@ describe('MeetingSeries Editor Users', function () {
         browser.click("#btnLeaveMeetingSeries"); // leave meeting series
         E2EApp.confirmationDialogAnswer(true);
         expect(E2EMeetingSeries.countMeetingSeries(),
-                "zero visible series after leave").to.equal(0);
+                "minus-one visible series after leave").to.equal(initialMSCount -1);
+        expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName),
+                "Series shall be invisible after leave").not.to.be.ok;
 
         E2EApp.loginUser();
     });
