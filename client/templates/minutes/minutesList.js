@@ -30,12 +30,15 @@ Template.minutesList.helpers({
 
 Template.minutesList.events({
     "click #btnLeaveMeetingSeries": function () {
-        console.log("User: "+Meteor.user()+" is leaving Meeting Series" + this.meetingSeries_id);
+        console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
 
         let dialogContent = "<p>Do you really want to leave this meeting series?</p>";
         confirmationDialog(
             /* callback called if user wants to continue */
             () => {
+                let ms = new MeetingSeries(this.meetingSeriesId);
+                MeetingSeries.leave(ms);
+                Router.go("/");
             },
             dialogContent,
             "Leave Meeting Series",
