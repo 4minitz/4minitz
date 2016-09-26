@@ -17,7 +17,11 @@ export var userlistClean = function (allUsers,substractUsers) {
     for (let i in allUsers) {
         let aUser = allUsers[i];
         if (indexedSubstractUsers[aUser["username"]] == undefined) {
-            resultUsers.push(aUser["username"]);
+            let longname = "";
+            if (aUser.profile && aUser.profile.name && aUser.profile.name !== "") {
+                longname = " - "+aUser.profile.name;
+            }
+            resultUsers.push(aUser["username"]+longname);
         }
     }
     return resultUsers;
