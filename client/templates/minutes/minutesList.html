@@ -2,14 +2,20 @@
     <div class="clearfix">
         {{#if isModeratorOfParentSeries}}
         <div class="pull-right">
-            <!-- "Add Minutes" button -->
+            <!-- "Create New Minutes" button for "Moderators"-->
             <a href="{{addMinutesPath}}" id="btnAddMinutes" class="btn btn-success btn-raised" disabled="{{addMinutesNotAllowed}}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Create New Minutes"></span>
                 Create New Minutes
             </a>
         </div>
         {{else}}
-            &nbsp;
+            <div class="pull-right">
+                <!-- "Leave Meeting Series" button for "Invited"-->
+                <a id="btnLeaveMeetingSeries" class="btn btn-default btn-raised">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="Leave Meeting Series"></span>
+                    Leave Meeting Series
+                </a>
+            </div>
         {{/if}}
     </div>
 

@@ -117,6 +117,11 @@ export class UserRoles {
     saveRoleForMeetingSeries (meetingSeriesId, newRole) {
         Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, meetingSeriesId, newRole);
     }
+
+    // remove all roles for the current user for the given meeting series
+    removeRoles(aMeetingSeriesID) {
+        Roles.removeUsersFromRoles(this._userId, UserRoles.allRolesNumerical(), aMeetingSeriesID);
+    }
 }
 
 // Security:
