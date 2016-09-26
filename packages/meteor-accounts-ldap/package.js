@@ -1,12 +1,12 @@
 Package.describe({
   name : 'babrahams:accounts-ldap',
   summary: 'Meteor account login via LDAP',
-  version: '0.6.1',
+  version: '0.6.2',
   git : 'https://github.com/JackAdams/meteor-accounts-ldap',
   documentation: 'README.md'
 });
 
-Npm.depends({'ldapjs' : '0.7.1', 'connect' : '2.19.3'});
+Npm.depends({'ldapjs' : '1.0.0', 'connect' : '2.19.3'});
 
 Package.on_use(function (api) {
   api.versionsFrom('1.1.0.2');
