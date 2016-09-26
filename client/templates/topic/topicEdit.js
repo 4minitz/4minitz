@@ -71,7 +71,7 @@ var getPossibleResponsibles = function() {
             if (aUser) {
                 aResponsibleName = aUser.username;
                 if (aUser.profile && aUser.profile.name && aUser.profile.name !== "") {
-                    aResponsibleName += " - "+aUser.profile.name+"";
+                    aResponsibleName += " - "+aUser.profile.name;
                 }
             }
             possibleResponsibles.push({id: aResponsibleId, text: aResponsibleName});
@@ -96,7 +96,11 @@ var getRemainingUsers = function (participants) {
     // format return object suiting for select2.js
     let users = Meteor.users.find({_id: {$nin: participantsIds}}).fetch();
     for (let i in users) {
-        remainingUsers.push ({id: users[i]._id, text: users[i].username});
+        let usertext = users[i].username;
+        if (users[i].profile && users[i].profile.name && users[i].profile.name !== "") {
+            usertext += " - "+users[i].profile.name;
+        }
+        remainingUsers.push ({id: users[i]._id, text: usertext});
     }
     return remainingUsers;
 };
