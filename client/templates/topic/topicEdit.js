@@ -70,6 +70,9 @@ var getPossibleResponsibles = function() {
             let aUser = Meteor.users.findOne(aResponsibleId);
             if (aUser) {
                 aResponsibleName = aUser.username;
+                if (aUser.profile && aUser.profile.name && aUser.profile.name !== "") {
+                    aResponsibleName += " - "+aUser.profile.name+"";
+                }
             }
             possibleResponsibles.push({id: aResponsibleId, text: aResponsibleName});
         }
