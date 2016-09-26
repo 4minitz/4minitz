@@ -1,0 +1,8 @@
+{
+  "ldap": {
+    "serverDn": "DC=ad,DC=university,DC=edu",
+    "serverUrl": "ldap://ad.university.edu:2222",
+    "whiteListedFields": [ "displayName", "givenName", "department", "employeeNumber", "mail", "title", "address", "phone", "memberOf"],
+    "autopublishFields": [ "displayName", "department", "mail", "title", "address", "phone"]
+  }
+}
