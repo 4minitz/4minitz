@@ -17,18 +17,20 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">MyMinitz</a></li>
-                    <li><a href="#">Templates</a></li>
-                    <li><a href="#">Minutes</a></li>
-                  {{#if currentUser}}
-                      <li>
+                    <!-- class="active" -->
+                    <li><a target="_blank" href="https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md">Help</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myModal">About</a></li>
+                    {{#if currentUser}}
+                        <li>
                           <a href="#" id="navbar-signout">
                               <span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{currentUser.username}}&nbsp;&nbsp;(sign out)
                           </a>
-                      </li>
-                  {{/if}}
+                        </li>
+                    {{/if}}
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+
+    {{> aboutDialog }}
 </template>
