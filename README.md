@@ -36,7 +36,6 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 ### Prerequisites
 4minitz is realized with the [Meteor JS Framework](http://www.meteor.com). So, first install the current version of meteor:
 
-
     curl https://install.meteor.com/ | sh
 
 ### Installation of 4Minitz    
@@ -45,7 +44,7 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
     4minitz/runapp.sh
 
 Wait some time for meteor to finish downloading and building. 
-You can reach 4Minitz via the default port 3100 by opening [http://localhost:3000](http://localhost:3100) in your browser
+You can reach 4Minitz via the default port 3100 by opening [http://localhost:3100](http://localhost:3100) in your browser
 
 **Hint:** There exists a settings_sample.json file that has quite a few configuration options
 (like sending eMails etc.). Don't miss the [Admin Guide](doc/admin/adminguide.md) with more details
