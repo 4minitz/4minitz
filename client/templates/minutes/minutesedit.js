@@ -77,12 +77,18 @@ var togglePrintView = function (switchOn) {
 Template.minutesedit.onCreated(function () {
     Session.set('minutesedit.checkParent', false);
     _minutesID = this.data;
+
+    // Collapse the participants list on scroll
+    $(window).scroll(function(){
+        Session.set("participants.expand", false);
+    });
 });
 
 Template.minutesedit.onDestroyed(function() {
     if (orphanFlashMessage) {
         FlashMessage.hide();
     }
+    $(window).off("scroll");    // Prohibit accumulating multiple scroll handlers on window
 });
 
 var isMinuteFinalized = function () {
@@ -279,9 +285,11 @@ Template.minutesedit.events({
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin) {
-            if (aMin.isFinalized) {
+            if (aMin.isFinalized || ! aMin.isCurrentUserModerator()) {
                 // event will be called on page load
-                // if the meeting is already finalized nothing has to be updated
+                // if the meeting is already finalized ...
+                // or the current user is not a moderator ...
+                // nothing has to be updated
                 return;
             }
 

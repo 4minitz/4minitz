@@ -1,8 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 
-import { MeetingSeries } from '/imports/meetingseries'
-import { Minutes } from '/imports/minutes'
-import { UserRoles } from '/imports/userroles'
+import { MeetingSeries } from '/imports/meetingseries';
+import { Minutes } from '/imports/minutes';
+import { UserRoles } from '/imports/userroles';
+
+import { FlashMessage } from '/client/helpers/flashMessage';
 
 var subs = new SubsManager({
     // maximum number of cache subscriptions
@@ -17,6 +19,8 @@ Router.configure({
 });
 
 Router.onBeforeAction(function () {
+    FlashMessage.hide();
+
     if (!Meteor.userId()) {
         // if the user is not logged in, render the Login template
         this.render('login');

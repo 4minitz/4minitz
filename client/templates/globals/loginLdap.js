@@ -2,11 +2,13 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 import { LDAP } from 'meteor/babrahams:accounts-ldap';
+import { FlashMessage } from '/client/helpers/flashMessage';
 import $ from 'jquery';
 
 function loginCallback(error) {
     if (error) {
         console.error('An error occurred while trying to log in:', error);
+        (new FlashMessage('Login error', error.message)).show();
     }
 
     let routeName = Router.current().route.getName();

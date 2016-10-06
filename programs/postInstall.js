@@ -1,3 +1,4 @@
+"use strict";
 let fs = require('fs-extra');
 
 console.log('copy bootstrap fonts to the public folder');

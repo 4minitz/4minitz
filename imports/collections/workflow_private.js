@@ -20,6 +20,24 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     }
 }
 
+function checkUserMayLeave(meetingSeriesId) {
+    // Make sure the user is logged in before changing collections
+    if (!Meteor.userId()) {
+        throw new Meteor.Error('not-authorized');
+    }
+
+    // Ensure user can not update documents of other users
+    let userRoles = new UserRoles(Meteor.userId());
+    if (userRoles.isModeratorOf(meetingSeriesId)) {
+        throw new Meteor.Error("Cannot leave this meeting series", "Moderators may only be removed by other moderators.");
+    }
+    if (! userRoles.isInvitedTo(meetingSeriesId)) {
+        throw new Meteor.Error("Cannot leave this meeting series", "You are not invited to this meeting series.");
+    }
+}
+
+
+
 Meteor.methods({
     'workflow.addMinutes'(doc, clientCallback) {
         checkUserAvailableAndIsModeratorOf(doc.meetingSeries_id);
@@ -208,5 +226,41 @@ Meteor.methods({
         // then we remove the meeting series document itself
         MeetingSeriesCollection.remove(id);
 
+    },
+
+    'workflow.leaveMeetingSeries'(meetingSeries_id) {
+        // check(meetingSeries_id, Meteor.Collection.ObjectID);
+        check(meetingSeries_id, String);
+        console.log("meetingseries.leave:"+meetingSeries_id);
+        if (meetingSeries_id == undefined || meetingSeries_id == "")
+            return;
+
+        checkUserMayLeave(meetingSeries_id);
+
+        // 1st.: remove user from roles
+        let roles = new UserRoles();
+        roles.removeRoles(meetingSeries_id);
+
+        // 2nd.: adapt "visibleFor" of meeting series
+        let ms = new MeetingSeries(meetingSeries_id);
+        let visibleForArray = ms.visibleFor;
+        let index = visibleForArray.indexOf(Meteor.userId());
+        while(index !== -1) {   // loop, just in case we have multiple hits of this user
+            visibleForArray.splice(index, 1);
+            index = visibleForArray.indexOf(Meteor.userId());
+        }
+        MeetingSeriesCollection.update(meetingSeries_id, {$set: {visibleFor: visibleForArray}});
+
+        // 3rd.: sync "visibleFor" to minutes that have this meeting series as parent
+        if (MinutesCollection.find({meetingSeries_id: meetingSeries_id}).count() > 0) {
+            MinutesCollection.update({meetingSeries_id: meetingSeries_id}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+
+            // refresh participants to non-finalized meetings
+            MinutesCollection.find({meetingSeries_id: meetingSeries_id}).forEach (min => {
+                if (!min.isFinalized) {
+                    min.refreshParticipants(true);
+                }
+            });
+        }
     }
 });

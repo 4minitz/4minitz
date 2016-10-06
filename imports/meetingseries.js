@@ -34,6 +34,10 @@ export class MeetingSeries {
         return Meteor.callPromise("workflow.removeMeetingSeries", meetingSeries._id);
     }
 
+    static async leave(meetingSeries) {
+        return Meteor.callPromise("workflow.leaveMeetingSeries", meetingSeries._id);
+    }
+
 
     // ################### object methods
 

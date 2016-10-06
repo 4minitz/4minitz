@@ -8,8 +8,8 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             minute.parentMeetingSeries(), minute.getParticipants(Meteor.users), 'sendAgenda');
     }
 
-    _getSubjectPrefix() {
-        return super._getSubjectPrefix() + " (Agenda)";
+    _getSubject() {
+        return this._getSubjectPrefix() + " (Agenda)";
     }
 
 

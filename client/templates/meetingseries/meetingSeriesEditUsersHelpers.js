@@ -1,6 +1,8 @@
 
 import { UserRoles } from '/imports/userroles'
 
+let longName2shortName = {};
+
 // For adding of users:
 // build list of available users that are not already shown in user editor
 export var userlistClean = function (allUsers,substractUsers) {
@@ -17,13 +19,22 @@ export var userlistClean = function (allUsers,substractUsers) {
     for (let i in allUsers) {
         let aUser = allUsers[i];
         if (indexedSubstractUsers[aUser["username"]] == undefined) {
-            resultUsers.push(aUser["username"]);
+            let longname = "";
+            if (aUser.profile && aUser.profile.name && aUser.profile.name !== "") {
+                longname = " - "+aUser.profile.name;
+            }
+            resultUsers.push(aUser["username"]+longname);
+            // create lookup dict to convert the long LDAP names back to unique short usernames
+            longName2shortName[aUser["username"]+longname] = aUser["username"];
         }
     }
+    console.log(longName2shortName);
     return resultUsers;
 };
 
 export function checkUserName(newUserName, config) {
+    // convert the LDAP long name back to the short unique username
+    newUserName = longName2shortName[newUserName];
     let addedUser = Meteor.users.findOne({"username": newUserName});
     let result = {
         addedUser: addedUser,

@@ -86,8 +86,14 @@ Template.meetingSeriesEdit.events({
     },
 
     "shown.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
-        $('#dlgEditMeetingSeries input').trigger("change");   // ensure new values trigger placeholder animation
-        tmpl.find("#id_meetingproject").focus();
+        // switch to "invited users" tab once, if desired
+        if (Session.get("meetingSeriesEdit.showUsersPanel") == true) {
+            Session.set("meetingSeriesEdit.showUsersPanel", false);
+            $("#btnShowHideInvitedUsers").click();
+        } else {
+            $('#dlgEditMeetingSeries input').trigger("change");   // ensure new values trigger placeholder animation
+            tmpl.find("#id_meetingproject").focus();
+        }
     },
 
     "submit #frmDlgEditMeetingSeries": function(evt, tmpl) {

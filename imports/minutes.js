@@ -57,8 +57,8 @@ export class Minutes {
     // ################### object methods
     
     async update (docPart, callback) {
+        console.log("Minutes.update()");
         _.extend(docPart, {_id: this._id});
-
         await Meteor.callPromise ("minutes.update", docPart, callback);
 
         // merge new doc fragment into this document
@@ -335,7 +335,6 @@ export class Minutes {
 
         // only save if desired and we did change something
         if (saveToDB && changed) {
-            console.log("Saving!");
             return this.update({participants: newParticipants}); // update only participants array!
         }
     }

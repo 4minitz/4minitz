@@ -18,6 +18,7 @@ Template.meetingSeriesDetails.onRendered(function () {
     Session.set("currentTab", "minutesList");
 
     if (this.data.openMeetingSeriesEditor) {
+        Session.set("meetingSeriesEdit.showUsersPanel", true);
         $('#dlgEditMeetingSeries').modal('show');
     }
 });
