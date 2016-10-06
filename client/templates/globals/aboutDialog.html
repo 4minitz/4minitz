@@ -1,0 +1,79 @@
+<template name="aboutDialog">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">About 4Minitz</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container col-md-12">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="/apple-touch-icon-120x120.png" style="padding-bottom: 10px;">
+                            </div>
+
+                            <div class="col-md-9">
+                                <b>4Minitz</b>
+                                {{#with gitVersionInfo}}
+                                    {{#if tag}}
+                                        {{tag}}<br>
+                                    {{/if}}
+                                    Branch: {{branch}} ({{commitshort}})<br>
+                                {{/with}}
+                                (C) 2015-2016 4Minitz-Team<br>
+                                Licensed under the <a href="https://github.com/4minitz/4minitz/blob/develop/LICENSE.md" target="_blank">MIT-License</a><br>
+                                <a href="https://github.com/4minitz/4minitz" target="_blank">Fork us on GitHub</a>
+                                <br>
+
+                                <div style="margin-top: 0.75em;">
+                                    <b style="color: darkgray;">Main Contributors</b><br>
+                                    Felix Blechschmitt, Wolfram Esser, Michael Gerhäuser<br>
+                                </div>
+
+                                <div style="margin-top: 0.75em;">
+                                    <b style="color: darkgray;">Further Contributions By</b><br>
+                                    Lisa Brückbauer, Daniel Frank<br>
+                                </div>
+
+                                <div style="margin-top: 0.75em; overflow: hidden;">
+                                    <b style="color: darkgray;">Special Thanks To These Projects</b>
+                                <div style="max-height: 111px; overflow-y: scroll">
+                                    <ul>
+    <li><a target="_blank" href="https://nodejs.org">Node.js</a></li>
+    <li><a target="_blank" href="https://www.mongodb.com">MongoDB</a></li>
+    <li><a target="_blank" href="http://meteor.com/">Meteor.js</a></li>
+    <li><a target="_blank" href="http://getbootstrap.com/">Bootstrap</a>
+        <br>-----------------</li>
+    <li><a target="_blank" href="https://github.com/alanning/meteor-roles">alanning:roles</a></li>
+    <li><a target="_blank" href="https://github.com/aldeed/meteor-collection2">aldeed:collection2</a></li>
+    <li><a target="_blank" href="https://github.com/aldeed/meteor-simple-schema">aldeed:simple-schema</a></li>
+    <li><a target="_blank" href="https://github.com/JackAdams/meteor-accounts-ldap/">babrahams:accounts-ldap</a></li>
+    <li><a target="_blank" href="https://github.com/DispatchMe/meteor-mocha-phantomjs/">dispatch:mocha-phantomjs</a></li>
+    <li><a target="_blank" href="https://github.com/felixble/meteor-server-templates">felixble:server-templates</a></li>
+    <li><a target="_blank" href="https://github.com/FezVrasta/bootstrap-material-design">fezvrasta:bootstrap-material-design</a></li>
+    <li><a target="_blank" href="https://github.com/iron-meteor/iron-router">iron-meteor:iron-router</a></li>
+    <li><a target="_blank" href="https://github.com/jquery/jquery">jquery:jquery</a></li>
+    <li><a target="_blank" href="https://github.com/jquery/jquery-ui">jquery:jquery-ui</a></li>
+    <li><a target="_blank" href="https://github.com/mcavage/node-ldapjs">mcavage:node-ldapjs</a></li>
+    <li><a target="_blank" href="https://github.com/kadirahq/subs-manager">meteorhacks:subs-manager</a></li>
+    <li><a target="_blank" href="https://github.com/moment/moment/">moment:moment</a></li>
+    <li><a target="_blank" href="https://github.com/select2/select2">natestrauser:select2</a></li>
+    <li><a target="_blank" href="https://github.com/perak/markdown">perak:markdown</a></li>
+    <li><a target="_blank" href="https://github.com/percolatestudio/meteor-migrations">percolate:migrations</a></li>
+    <li><a target="_blank" href="https://github.com/lauren/pick-a-color">rcy:pick-a-color</a></li>
+    <li><a target="_blank" href="https://github.com/sergeyt/meteor-typeahead">sergeyt:typeahead</a></li>                                    </ul>
+                                </div>
+                            </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</template>
