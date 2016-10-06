@@ -1,6 +1,5 @@
 # 4Minitz User Manual
 
-
 ## Important Hint
 4Minitz is a client-server webapp. So the client needs the server to permanently store your meeting minutes. Nevertheless the meteor framework allows the client webapp to temporarily work 'offline' and sync the contents as soon as the server is available again.
 
@@ -8,7 +7,7 @@
 
 ![Connection Lost Warning](./figures/connection_lost.png)
 
-In this state you can hover the mouse over the icon to get information about how long the connection is lost and how often the client retried to re-conect. You may click on the warning icon to foce an immediate reconnect.
+In this state you can hover the mouse over the icon to get information about how long the connection is lost and how often the client retried to re-connect. You may click on the warning icon to force an immediate reconnect.
  
  **Important:** If you see the above waning icon and you close your webbrowser, or close the tab where 4Minitz is loaded, or if you enter a different URL in the address bar - **You will lose all your unsaved changes!**
  
@@ -42,7 +41,7 @@ After you press the "+ Add" button in the above dialog, 4Minitz will automatical
 
 
 ## Edit Meeting Series Properties
-On the 4Minitz start page you will see all meeting series that are visible for you. A "person" icon behind a meetign series name means that you are moderator of this series.
+On the 4Minitz start page you will see all meeting series that are visible for you. A "person" icon behind a meeting series name means that you are moderator of this series.
 
 If you click on the name of a meeting series, you will see the meeting series details with all existing meeting minutes dates (this list is initially empty, of course).
 
@@ -107,7 +106,7 @@ During a meeting a moderator may add
 by clicking the "Plus" icon on a topic.
  
 ### Information Items
-Information Items are children of topics and will be sent as part of the meeting protocol to all invited users on finalze.
+Information Items are children of topics and will be sent as part of the meeting protocol to all invited users on finalize.
 
 Information items will not be propagated to the next meeting unless the "pinned state" is switched on **and** the parent topic is propagated to the next meeting:
  
@@ -115,7 +114,7 @@ Information items will not be propagated to the next meeting unless the "pinned 
  
 ![Image](./figures/info_item_pinned.png) Pinned state. Click to unpin
 
-For details on when topics are propagated to the next meeting see the "Finalze Meeting" chapter. 
+For details on when topics are propagated to the next meeting see the "Finalize Meeting" chapter. 
 
 The icons on an info item allow the following operations:
 
@@ -126,7 +125,7 @@ The icons on an info item allow the following operations:
   
  
 ### Action Items
-Action Items are children of topics and will be sent only to the entered responsible(s) on finalze of the meeting minutes.
+Action Items are children of topics and will be sent only to the entered responsible(s) on finalize of the meeting minutes.
 
 An action item will be propagated together with its parent topic to the next meeting unless the action item is checked as "done".
 
@@ -142,17 +141,30 @@ By clicking the "Plus" icon on Information Items and Action Items it is possible
 
 In the details editor it is possible to use markdown syntax to create rich text formatting like headings, bold, italic, bullet lists, etc.
 
+### Expand and Collapse
+TODO
+
 ## Finalize Meeting
 
 ![Finalize Button](./figures/finalize_meeting_minutes.png)
 
-![Finalze Dialog](./figures/finalize_meeting_minutes_dialog.png)
+![Finalize Dialog](./figures/finalize_meeting_minutes_dialog.png)
 
 * TODO: Topic Propagation
+* TODO: Finalize history
 
 ## Print Meeting Minutes
-TODO
+With the button "Print Minutes" temporary some view changes are performed for the current minutes like
+* All buttons are hidden
+* Checkboxes are switched to a printable version
+* All topics, info items, action items and details are expanded
+
+Afterwards your systems print dialog is opened.
+
+**Hint:** Via the print functionality you may print the current minutes to a PDF and archive this file in a separate document management software.
 
 
 ## Unfinalize Meeting
-TODO
+The latest finalized meeting minutes can be un-finalized to make corrections / changes to the already finalized minutes. Simply press the "Pen" button next to the finalize time stamp:
+
+Once the moderator creates new minutes on top of the finalized last minutes, it is not possible to un-finalized the last finalized minutes anymore.
