@@ -1,0 +1,7 @@
+<template name="itemsList">
+    <div class="panel-group" id="itemPanel">
+        {{#each getInfoItems}}
+            {{> topicInfoItem infoItemData @index}}
+        {{/each}}
+    </div>
+</template>

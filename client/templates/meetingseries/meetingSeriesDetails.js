@@ -5,6 +5,7 @@ import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 
 import { TopicListConfig } from '../topic/topicsList'
+import { ItemListConfig } from './itemsList'
 
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
@@ -63,6 +64,9 @@ Template.meetingSeriesDetails.helpers({
                 }
 
                 return new TopicListConfig(topics, null, true, _meetingSeriesID);
+
+            case "itemsList":
+                return new ItemListConfig(ms.topics, _meetingSeriesID);
         }
     },
 

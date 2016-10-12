@@ -107,4 +107,14 @@ export class E2EMeetingSeries {
         }
         browser.click(selector);
     }
+
+    static gotoTabItems() {
+        let selector = '#tab_items';
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return false;   // we have no meeting series at all!
+        }
+        browser.click(selector);
+    }
 }
