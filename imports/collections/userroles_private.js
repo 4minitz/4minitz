@@ -13,9 +13,11 @@ if (Meteor.isServer) {
         publishFields["profile.name"] = 1;
     }
     Meteor.publish('userListSimple', function () {
-        return Meteor.users.find(
-            {},
-            {fields: publishFields});
+        if(this.userId) {
+            return Meteor.users.find(
+                {},
+                {fields: publishFields});
+        }
     });
 }
 
