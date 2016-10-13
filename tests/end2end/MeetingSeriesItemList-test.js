@@ -4,6 +4,7 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
+require('./../../lib/helpers');
 
 describe('MeetingSeries Items list', function () {
     const aProjectName = "MeetingSeries Topic List";
