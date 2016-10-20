@@ -5,6 +5,7 @@ import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 
 import { TopicFilter } from '/imports/TopicFilter'
+import { TopicFilterConfig } from '../topic/topicFilter'
 
 export class ItemListConfig {
     constructor (topics, parentMeetingSeriesId) {
@@ -15,17 +16,15 @@ export class ItemListConfig {
 
 Template.itemsList.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar("");
-    this.topicFilterHandler = {
-        filterTopics: (query) => {
-            this.topicFilterQuery.set(query);
-        }
+    this.topicFilterHandler = (query) => {
+        this.topicFilterQuery.set(query);
     };
 });
 
 Template.itemsList.helpers({
 
-    'getTopicFilterHandler': function() {
-        return Template.instance().topicFilterHandler;
+    'getTopicFilterConfig': function() {
+        return new TopicFilterConfig(Template.instance().topicFilterHandler);
     },
 
     'getInfoItems': function() {

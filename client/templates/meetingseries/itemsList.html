@@ -1,5 +1,5 @@
 <template name="itemsList">
-    {{> topicFilter handler=getTopicFilterHandler}}
+    {{> topicFilter config=getTopicFilterConfig}}
 
     <div class="panel-group" id="itemPanel">
         {{#each getInfoItems}}
