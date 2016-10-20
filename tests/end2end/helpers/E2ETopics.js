@@ -261,7 +261,7 @@ export class E2ETopics {
     }
 
     static expandDetailsForNthInfoItem(n) {
-        let selectInfoItem = "#itemPanel:nth-child(" + n + ") ";
+        let selectInfoItem = "#itemPanel .topicInfoItem:nth-child(" + n + ") ";
         E2ETopics.expandDetails(selectInfoItem);
         E2EGlobal.waitSomeTime();
     }
