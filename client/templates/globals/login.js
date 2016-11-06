@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { GlobalSettings } from '/imports/GlobalSettings'
 
 const ldapEnabled = Meteor.settings.public.ldapEnabled;
 
@@ -20,7 +21,12 @@ Template.login.helpers({
 
     tab: function() {
         return Session.get("currentLoginForm");
+    },
+
+    showInfoOnLogin: function () {
+        return GlobalSettings.showInfoOnLogin();
     }
+
 });
 
 Template.login.events({
