@@ -19,6 +19,16 @@ export class GlobalSettings {
         Meteor.settings.public.enableMailDelivery = (Meteor.settings.email && Meteor.settings.email.enableMailDelivery !== undefined)
             ? Meteor.settings.email.enableMailDelivery
             : false;
+        Meteor.settings.public.branding = {};
+        Meteor.settings.public.branding.topLeftLogoHTML = (Meteor.settings.branding && Meteor.settings.branding.topLeftLogoHTML !== undefined)
+            ? Meteor.settings.branding.topLeftLogoHTML
+            : "4Minitz.com";
+        Meteor.settings.public.branding.showForkMeOnGithub = (Meteor.settings.branding && Meteor.settings.branding.showForkMeOnGithub !== undefined)
+            ? Meteor.settings.branding.showForkMeOnGithub
+            : true;
+        Meteor.settings.public.branding.showInfoOnLogin = (Meteor.settings.branding && Meteor.settings.branding.showInfoOnLogin !== undefined)
+            ? Meteor.settings.branding.showInfoOnLogin
+            : true;
     }
 
     static getRootUrl(path) {
@@ -94,5 +104,9 @@ export class GlobalSettings {
         }
 
         throw new Meteor.Error('illegal-state', 'mailgun settings not defined in meteor settings');
+    }
+
+    static getBrandingLogoHTML() {
+        return Meteor.settings.public.branding.topLeftLogoHTML;
     }
 }
