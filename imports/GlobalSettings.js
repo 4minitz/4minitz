@@ -29,6 +29,9 @@ export class GlobalSettings {
         Meteor.settings.public.branding.showInfoOnLogin = (Meteor.settings.branding && Meteor.settings.branding.showInfoOnLogin !== undefined)
             ? Meteor.settings.branding.showInfoOnLogin
             : true;
+        Meteor.settings.public.branding.createDemoAccount = (Meteor.settings.branding && Meteor.settings.branding.createDemoAccount !== undefined)
+            ? Meteor.settings.branding.createDemoAccount
+            : false;    // Security: if this setting is not present, we will *NOT* create a demo user account!
     }
 
     static getRootUrl(path) {
@@ -116,5 +119,9 @@ export class GlobalSettings {
 
     static showInfoOnLogin() {
         return Meteor.settings.public.branding.showInfoOnLogin;
+    }
+
+    static createDemoAccount() {
+        return Meteor.settings.public.branding.createDemoAccount;
     }
 }
