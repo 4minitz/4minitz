@@ -10,15 +10,17 @@
 
             {{> Template.dynamic template=tab}}
         </div>
-        <div class="col-md-3">
-            <div class="hidden-sm" style="min-height: 150px;"></div>
-            <div class="panel panel-body" style="background: #FFFACD;">
-                Hint: Demo Mode Active<br>
-                You may log in with username <b>demo</b> and password <b>demo</b>.
-                Or you may register your own account by clicking on the "Register" link below.
-            </div>
+        {{#if showDemoUserHint}}
+            <div class="col-md-3">
+                <div class="hidden-sm" style="min-height: 150px;"></div>
+                <div class="panel panel-body" style="background: #FFFACD;">
+                    Hint: Demo Mode Active<br>
+                    You may log in with username <b>demo</b> and password <b>demo</b>.
+                    Or you may register your own account by clicking on the "Register" link below.
+                </div>
 
-        </div>
+            </div>
+        {{/if}}
     </div>
 
     {{#if showInfoOnLogin}}

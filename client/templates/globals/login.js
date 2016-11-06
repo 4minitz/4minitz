@@ -24,9 +24,12 @@ Template.login.helpers({
     },
 
     showInfoOnLogin: function () {
-        return GlobalSettings.showInfoOnLogin();
-    }
+        return (!Meteor.userId() && GlobalSettings.showInfoOnLogin());
+    },
 
+    showDemoUserHint: function () {
+        return (!Meteor.userId() && GlobalSettings.createDemoAccount());
+    }
 });
 
 Template.login.events({
