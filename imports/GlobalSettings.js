@@ -113,4 +113,8 @@ export class GlobalSettings {
     static showGithubCorner() {
         return Meteor.settings.public.branding.showGithubCorner;
     }
+
+    static showInfoOnLogin() {
+        return Meteor.settings.public.branding.showInfoOnLogin;
+    }
 }

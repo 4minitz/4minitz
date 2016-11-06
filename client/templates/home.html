@@ -3,11 +3,10 @@
   {{#if currentUser}}
     {{> meetingSeriesList}}
   {{else}}
-    <div class="row">
-        {{> login}}
-    </div>
+
+    <!-- This login template embedding is for security only... -->
+    <!-- Normally the router.js decides to render the login template if no user is logged in -->
+    {{> login}}
 
   {{/if}}
-
-
 </template>
