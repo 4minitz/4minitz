@@ -23,8 +23,8 @@ export class GlobalSettings {
         Meteor.settings.public.branding.topLeftLogoHTML = (Meteor.settings.branding && Meteor.settings.branding.topLeftLogoHTML !== undefined)
             ? Meteor.settings.branding.topLeftLogoHTML
             : "4Minitz.com";
-        Meteor.settings.public.branding.showForkMeOnGithub = (Meteor.settings.branding && Meteor.settings.branding.showForkMeOnGithub !== undefined)
-            ? Meteor.settings.branding.showForkMeOnGithub
+        Meteor.settings.public.branding.showGithubCorner = (Meteor.settings.branding && Meteor.settings.branding.showGithubCorner !== undefined)
+            ? Meteor.settings.branding.showGithubCorner
             : true;
         Meteor.settings.public.branding.showInfoOnLogin = (Meteor.settings.branding && Meteor.settings.branding.showInfoOnLogin !== undefined)
             ? Meteor.settings.branding.showInfoOnLogin
@@ -108,5 +108,9 @@ export class GlobalSettings {
 
     static getBrandingLogoHTML() {
         return Meteor.settings.public.branding.topLeftLogoHTML;
+    }
+
+    static showGithubCorner() {
+        return Meteor.settings.public.branding.showGithubCorner;
     }
 }

@@ -9,13 +9,13 @@
 
     "//2.1 branding": ["Via branding you can configure the 'first impression' of your local installation. ",
         "topLeftLogoHTML: default is '4Minitz.com', but you may add HTML that can live inside a <a>...</a> tag",
-        "showForkMeOnGithub: default is 'true', but you can switch off the top right github logo",
+        "showGithubCorner: default is 'true', but you can switch off the top right github logo",
         "showInfoOnLogin: Specify if you want to show product info bullets on the login screen. Default is 'true'",
         "createDemoAccount: Specify if webapp shall create a demo account (user=demo, password=demo), if it not exists"
     ],
     "branding": {
         "topLeftLogoHTML": "4Minitz.com",
-        "showForkMeOnGithub": true,
+        "showGithubCorner": true,
         "showInfoOnLogin": true,
         "createDemoAccount": true
     },
