@@ -110,6 +110,11 @@ Meteor.methods({
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
 
         try {
+            // check if minute is already finalized
+            if (aMin.isFinalized) {
+                throw new Meteor.Error('runtime-error', 'The minute is already finalized');
+            }
+
             // first we copy the topics of the finalize-minute to the parent series
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.server_finalizeLastMinute();
