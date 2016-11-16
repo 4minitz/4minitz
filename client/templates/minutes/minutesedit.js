@@ -359,10 +359,13 @@ Template.minutesedit.events({
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
 
             let doFinalize = function () {
-                aMin.finalize(sendActionItems, sendInformationItems);
+                // Force closing the dialog before starting the finalize process
+                Meteor.setTimeout(() => {
+                    aMin.finalize(sendActionItems, sendInformationItems);
 
-                toggleTopicSorting();
-                Session.set("participants.expand", false);
+                    toggleTopicSorting();
+                    Session.set("participants.expand", false);
+                }, 500);
             };
 
             if (GlobalSettings.isEMailDeliveryEnabled()) { // only show confirmation Dialog, if mails can be sent.
