@@ -353,18 +353,19 @@ Template.minutesedit.events({
         }
     },
 
-    'click #btn_finalizeMinutes': function(evt) {
+    'click #btn_finalizeMinutes': function(evt, tmpl) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
         if (aMin) {
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
 
             let doFinalize = function () {
+                tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
                 let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
                 // Force closing the dialog before starting the finalize process
                 Meteor.setTimeout(() => {
                     aMin.finalize(sendActionItems, sendInformationItems);
-                    //msg.hideMe();
+                    tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
                     msg.replace('OK', 'This meeting minutes were successfully finalized', 'alert-success', 3000);
                     toggleTopicSorting();
                     Session.set("participants.expand", false);
