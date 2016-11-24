@@ -12,7 +12,11 @@ import { FlashMessage } from '../../helpers/flashMessage'
 
 var _minutesID; // the ID of these minutes
 
-var orphanFlashMessage = false;
+/**
+ *
+ * @type {FlashMessage}
+ */
+var orphanFlashMessage = null;
 
 /**
  * togglePrintView
@@ -85,8 +89,8 @@ Template.minutesedit.onCreated(function () {
 });
 
 Template.minutesedit.onDestroyed(function() {
-    if (orphanFlashMessage) {
-        FlashMessage.hide();
+    if (orphanFlashMessage !== null) {
+        orphanFlashMessage.hideMe();
     }
     $(window).off("scroll");    // Prohibit accumulating multiple scroll handlers on window
 });
@@ -191,15 +195,14 @@ Template.minutesedit.helpers({
         let aMin = new Minutes(_minutesID);
         try {
             aMin.checkParent();
-            if (orphanFlashMessage) {
-                FlashMessage.hide();
-                orphanFlashMessage = false;
+            if (orphanFlashMessage !== null) {
+                orphanFlashMessage.hideMe();
+                orphanFlashMessage = null;
             }
         } catch(error) {
             let msg = 'Unfortunately the minute is not linked to its parent series correctly - please contact your ' +
                 'system administrator.';
-            (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
-            orphanFlashMessage = true;
+            orphanFlashMessage = (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
         }
     },
 
@@ -357,10 +360,12 @@ Template.minutesedit.events({
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
 
             let doFinalize = function () {
+                let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
                 // Force closing the dialog before starting the finalize process
                 Meteor.setTimeout(() => {
                     aMin.finalize(sendActionItems, sendInformationItems);
-
+                    //msg.hideMe();
+                    msg.replace('OK', 'This meeting minutes were successfully finalized', 'alert-success', 3000);
                     toggleTopicSorting();
                     Session.set("participants.expand", false);
                 }, 500);
