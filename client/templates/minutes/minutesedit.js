@@ -319,12 +319,10 @@ Template.minutesedit.events({
                 sendBtn.prop('disabled', true);
                 try {
                     let result = await aMin.sendAgenda();
-                    Session.set('errorTitle', 'OK');
-                    Session.set('errorReason', "Agenda was sent to " + result + " recipients successfully");
-                    Session.set('errorType', "alert-success");
+                    let message = "Agenda was sent to " + result + " recipients successfully";
+                    (new FlashMessage('OK', message, 'alert-success')).show();
                 } catch (error) {
-                    Session.set('errorTitle', 'Error');
-                    Session.set('errorReason', error.reason);
+                    (new FlashMessage('Error', error.reason)).show();
                 }
                 sendBtn.prop('disabled', false);
             };

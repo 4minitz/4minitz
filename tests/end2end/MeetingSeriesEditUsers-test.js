@@ -434,7 +434,7 @@ describe('MeetingSeries Editor Users', function () {
     });
 
 
-    it('allows an invited user to leave a meeting series @watch', function () {
+    it('allows an invited user to leave a meeting series', function () {
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
