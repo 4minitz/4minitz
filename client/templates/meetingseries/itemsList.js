@@ -19,6 +19,7 @@ Template.itemsList.onCreated(function() {
     this.topicFilterHandler = (query) => {
         this.topicFilterQuery.set(query);
     };
+    this.topicFilter = new TopicFilter();
 });
 
 Template.itemsList.helpers({
@@ -29,7 +30,7 @@ Template.itemsList.helpers({
 
     'getInfoItems': function() {
         var query = Template.instance().topicFilterQuery.get();
-        let topics = TopicFilter.filter(this.topics, query);
+        let topics = Template.instance().topicFilter.filter(this.topics, query);
         return topics.reduce(
             (acc, topic) => {
                 return acc.concat(topic.infoItems.map((item) => {

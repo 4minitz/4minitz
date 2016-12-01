@@ -8,9 +8,10 @@ const {
 
 describe('TopicFilter', function() {
 
-    let topics;
+    let topics, topicFilter;
 
     beforeEach(function() {
+        topicFilter = new TopicFilter();
         topics = [
             {
                 subject: "One",
@@ -28,7 +29,7 @@ describe('TopicFilter', function() {
     });
 
     it('does not change the original array of topics', function() {
-        TopicFilter.filter(topics, "three");
+        topicFilter.filter(topics, "three");
 
         expect(topics, "Length of the topic array should be 3").have.length(3);
         expect(topics[0].infoItems, "The first topic should contain two info items").to.have.length(2);
@@ -37,7 +38,7 @@ describe('TopicFilter', function() {
     });
 
     it('returns the filtered array of topics', function() {
-        let res = TopicFilter.filter(topics, "three");
+        let res = topicFilter.filter(topics, "three");
 
         expect(res, "Length of the result topic array should be 3").have.length(2);
         expect(res[0].infoItems, "The first topic should contain one info items").to.have.length(1);
@@ -46,7 +47,7 @@ describe('TopicFilter', function() {
 
     it('should return an topics array containing only info items matching the search query', function() {
         const query = "three";
-        let res = TopicFilter.filter(topics, query);
+        let res = topicFilter.filter(topics, query);
         res.forEach(topic => {
             topic.infoItems.forEach(item => {
                 if (item.subject.indexOf(query) === -1) {
