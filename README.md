@@ -18,6 +18,7 @@ version on your own server (see below)**
 
 Documentation is "continously" not finished... Nevertheless these WIP docs may be of help:
 
+* [FAQ - Frequently Asked Questions](doc/faq.md)
 * [User Doc](doc/user/usermanual.md)
 * [Admin Guide](doc/admin/adminguide.md)
 * [Developer Doc](doc/developer/developermanual.md)

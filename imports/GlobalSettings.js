@@ -19,6 +19,19 @@ export class GlobalSettings {
         Meteor.settings.public.enableMailDelivery = (Meteor.settings.email && Meteor.settings.email.enableMailDelivery !== undefined)
             ? Meteor.settings.email.enableMailDelivery
             : false;
+        Meteor.settings.public.branding = {};
+        Meteor.settings.public.branding.topLeftLogoHTML = (Meteor.settings.branding && Meteor.settings.branding.topLeftLogoHTML !== undefined)
+            ? Meteor.settings.branding.topLeftLogoHTML
+            : "4Minitz.com";
+        Meteor.settings.public.branding.showGithubCorner = (Meteor.settings.branding && Meteor.settings.branding.showGithubCorner !== undefined)
+            ? Meteor.settings.branding.showGithubCorner
+            : true;
+        Meteor.settings.public.branding.showInfoOnLogin = (Meteor.settings.branding && Meteor.settings.branding.showInfoOnLogin !== undefined)
+            ? Meteor.settings.branding.showInfoOnLogin
+            : true;
+        Meteor.settings.public.branding.createDemoAccount = (Meteor.settings.branding && Meteor.settings.branding.createDemoAccount !== undefined)
+            ? Meteor.settings.branding.createDemoAccount
+            : false;    // Security: if this setting is not present, we will *NOT* create a demo user account!
     }
 
     static getRootUrl(path) {
@@ -94,5 +107,21 @@ export class GlobalSettings {
         }
 
         throw new Meteor.Error('illegal-state', 'mailgun settings not defined in meteor settings');
+    }
+
+    static getBrandingLogoHTML() {
+        return Meteor.settings.public.branding.topLeftLogoHTML;
+    }
+
+    static showGithubCorner() {
+        return Meteor.settings.public.branding.showGithubCorner;
+    }
+
+    static showInfoOnLogin() {
+        return Meteor.settings.public.branding.showInfoOnLogin;
+    }
+
+    static createDemoAccount() {
+        return Meteor.settings.public.branding.createDemoAccount;
     }
 }

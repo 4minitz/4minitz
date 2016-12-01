@@ -19,8 +19,6 @@ Router.configure({
 });
 
 Router.onBeforeAction(function () {
-    FlashMessage.hide();
-
     if (!Meteor.userId()) {
         // if the user is not logged in, render the Login template
         this.render('login');

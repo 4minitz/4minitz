@@ -47,6 +47,7 @@
     "jquery-ui": "github:jquery/jquery-ui#1.12.0",
     "jquery-ui-touch-punch": "^0.2.3",
     "ldapjs": "^1.0.0",
+    "lodash": "^4.17.2",
     "meteor-node-stubs": "^0.2.3",
     "moment": "^2.13.0",
     "mongo-uri": "^0.1.2",
@@ -63,6 +64,7 @@
     "sinon": "^1.17.4",
     "sinon-as-promised": "^4.0.0",
     "sinon-chai": "^2.8.0",
+    "travis-ci": "^2.1.1",
     "tree-kill": "^1.1.0",
     "underscore": "^1.8.3"
   }

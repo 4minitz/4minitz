@@ -11,7 +11,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{pathFor 'home'}}">4Minitz.com</a>
+
+                <!--Security: We are using three curly braces here to give the system admin -->
+                <!--the chance to configure some nice brand logo for his company even with HTML tags -->
+                <!--We asume a sysadmin won't insert any harmful code here-->
+                <a class="navbar-brand" href="{{pathFor 'home'}}">{{{ logoHTML }}}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->

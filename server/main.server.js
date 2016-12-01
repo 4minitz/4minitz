@@ -18,5 +18,22 @@ Meteor.startup(() => {
 
     handleMigration();
     // Migrations.migrateTo(1);     // Plz. keep this comment for manual testing... ;-)
-});
 
+    if (GlobalSettings.createDemoAccount) {
+        let demoUser = Meteor.users.findOne({"username": "demo"});
+        if (!demoUser) {
+            Accounts.createUser({username: "demo", password: "demo", email: ""});
+            console.log("*** ATTENTION ***\n    Created demo/demo user account once on startup");
+        }
+    }
+
+    // Security: warn admin if demo user exists
+    let demoUser = Meteor.users.findOne({"username": "demo"});
+    if (demoUser) {
+        console.log("*** ATTENTION ***\n" +
+            "    There exists an account with user name 'demo'.\n" +
+            "    If this account was created with the setting 'branding.createDemoAccount',\n" +
+            "    the password for user 'demo' is also 'demo'.\n" +
+            "    Please check, if this is wanted for your site's installation.\n");
+    }
+});
