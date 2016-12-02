@@ -1,17 +1,19 @@
+import { _ } from 'meteor/underscore';
 
 const KEYWORDS = {
     IS: {
         key: 'is',
-        values: ['open', 'closed', 'info', 'action']
+        values: ['open', 'closed', 'info', 'action', 'new']
     }
 };
 
 export class TopicFilter {
 
-    constructor(queryParser) {
+    constructor(queryParser, getLabelIdByName) {
         if (null === queryParser || undefined === queryParser) {
             throw new Meteor.Error('illegal-state', 'Please inject a query parser.');
         }
+        this.getLabelIdByName = getLabelIdByName;
         this.currentTopics = null;
         this.parser = queryParser;
     }
@@ -33,7 +35,7 @@ export class TopicFilter {
 
         let infoItemFilter = item => {
             return this.constructor._itemMatchesSearchTokens(item, this.parser.getSearchTokens())
-                && this.constructor._itemMatchesLabelTokens(item, this.parser.getLabelTokens())
+                && this._itemMatchesLabelTokens(item, this.parser.getLabelTokens())
                 && this.constructor._itemMatchesFilterTokens(item, this.parser.getFilterTokens());
         };
 
@@ -86,18 +88,27 @@ export class TopicFilter {
             case 'open':
                 return item.isOpen;
             case 'closed':
-                return !item.isOpen;
+                // explicit comparison required to skip info items (which has no isOpen property)
+                return item.isOpen === false;
             case 'info':
                 return item.itemType === 'infoItem';
             case 'action':
                 return item.itemType === 'actionItem';
+            case 'new':
+                return item.isNew;
             default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
         }
     }
 
-    static _itemMatchesLabelTokens(item, labelTokens) {
-        // we have to query the id for the given labelTokens
-        // item.labels is an array of label-ids...
+    _itemMatchesLabelTokens(item, labelTokens) {
+        for (let i=0; i < labelTokens.length; i++) {
+            let labelToken = labelTokens[i];
+            let labelId = (this.getLabelIdByName) ? this.getLabelIdByName(labelToken) : labelToken;
+            if (!_.contains(item.labels, labelId)) {
+                return false;
+            }
+        }
+
         return true;
     }
 }

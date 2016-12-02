@@ -1,7 +1,7 @@
 import { _ } from 'meteor/underscore';
 
 const KEYWORDS = ['is'];
-const KEYWORD_VALUES = ['open', 'closed', 'info', 'action'];
+const KEYWORD_VALUES = ['open', 'closed', 'info', 'action', 'new'];
 
 const TOKEN_TYPE_SEARCH = 1;
 const TOKEN_TYPE_FILTER = 2;

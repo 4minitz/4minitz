@@ -3,6 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
+import { Label } from '/imports/label';
 
 import { TopicFilter } from '/imports/TopicFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -15,12 +16,20 @@ export class ItemListConfig {
     }
 }
 
+function getLabelIdByName(labelName) {
+    let label = Label.createLabelByName(Template.instance().data.parentMeetingSeriesId, labelName);
+    if (null !== label) {
+        return label.getId();
+    }
+    return null;
+}
+
 Template.itemsList.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar("");
     this.topicFilterHandler = (query) => {
         this.topicFilterQuery.set(query);
     };
-    this.topicFilter = new TopicFilter(new QueryParser());
+    this.topicFilter = new TopicFilter(new QueryParser(), getLabelIdByName);
 });
 
 Template.itemsList.helpers({

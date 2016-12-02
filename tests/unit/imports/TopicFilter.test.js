@@ -1,22 +1,33 @@
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+import _ from 'underscore';
 
 const {
     TopicFilter
-    } = proxyquire('../../../imports/TopicFilter', {});
+    } = proxyquire('../../../imports/TopicFilter', {
+    'meteor/underscore': { _, '@noCallThru': true}
+});
+
+let returnInput = (input) => { return input; }
 
 let QueryParserMock = function() { this.query = null};
 QueryParserMock.prototype.parse = function(query) {
     this.query = query;
 };
 QueryParserMock.prototype.getSearchTokens = function() {
+    if (this.query.substr(0,1) === '#') {
+        return [];
+    }
     return this.query.split(" ");
 };
 QueryParserMock.prototype.getFilterTokens = function() {
     return [];
 };
 QueryParserMock.prototype.getLabelTokens = function() {
+    if (this.query.substr(0,1) === '#') {
+        return [this.query.substr(1)];
+    }
     return [];
 };
 QueryParserMock.prototype.reset = function() {};
@@ -26,19 +37,28 @@ describe('TopicFilter', function() {
     let topics, topicFilter;
 
     beforeEach(function() {
-        topicFilter = new TopicFilter(new QueryParserMock());
+        topicFilter = new TopicFilter(new QueryParserMock(), returnInput);
         topics = [
             {
                 subject: "One",
-                infoItems: [{subject: "one.one"}, {subject: "one.two"}]
+                infoItems: [{subject: "one.one", labels: ['L2', 'L1']}, {subject: "one.two", labels: []}]
             },
             {
                 subject: "Two",
-                infoItems: [{subject: "two.one"}, {subject: "two.two"}, {subject: "two.three"}]
+                infoItems: [
+                    {subject: "two.one", labels: ['L1']},
+                    {subject: "two.two", labels: []},
+                    {subject: "two.three", labels: ['L1']}
+                ]
             },
             {
                 subject: "Three",
-                infoItems: [{subject: "three.one"}, {subject: "three.two"}, {subject: "three.three"}, {subject: "three.four"}]
+                infoItems: [
+                    {subject: "three.one", labels: []},
+                    {subject: "three.two", labels: []},
+                    {subject: "three.three", labels: []},
+                    {subject: "three.four", labels: []}
+                ]
             }
         ];
     });
@@ -78,6 +98,14 @@ describe('TopicFilter', function() {
                 }
             });
         })
+    });
+
+    it('can filter for labels', function() {
+        const query = "#L1";
+        let res = topicFilter.filter(topics, query);
+        expect(res, "Length of the result topic array should be 2").have.length(2);
+        expect(res[0].infoItems, "The first topic should contain one info items").to.have.length(1);
+        expect(res[1].infoItems, "The 2nd topic should contain two info items").to.have.length(2);
     });
 
 });
