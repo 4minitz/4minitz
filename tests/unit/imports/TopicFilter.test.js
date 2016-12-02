@@ -16,6 +16,9 @@ QueryParserMock.prototype.getSearchTokens = function() {
 QueryParserMock.prototype.getFilterTokens = function() {
     return [];
 };
+QueryParserMock.prototype.getLabelTokens = function() {
+    return [];
+};
 QueryParserMock.prototype.reset = function() {};
 
 describe('TopicFilter', function() {
