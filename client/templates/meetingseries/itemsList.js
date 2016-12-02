@@ -1,11 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import { ReactiveVar } from 'meteor/reactive-var'
+import { ReactiveVar } from 'meteor/reactive-var';
 
-import { Minutes } from '/imports/minutes'
-import { Topic } from '/imports/topic'
+import { Minutes } from '/imports/minutes';
+import { Topic } from '/imports/topic';
 
-import { TopicFilter } from '/imports/TopicFilter'
-import { TopicFilterConfig } from '../topic/topicFilter'
+import { TopicFilter } from '/imports/TopicFilter';
+import { QueryParser } from '/imports/search/QueryParser';
+import { TopicFilterConfig } from '../topic/topicFilter';
 
 export class ItemListConfig {
     constructor (topics, parentMeetingSeriesId) {
@@ -19,7 +20,7 @@ Template.itemsList.onCreated(function() {
     this.topicFilterHandler = (query) => {
         this.topicFilterQuery.set(query);
     };
-    this.topicFilter = new TopicFilter();
+    this.topicFilter = new TopicFilter(new QueryParser());
 });
 
 Template.itemsList.helpers({
