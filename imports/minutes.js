@@ -263,7 +263,7 @@ export class Minutes {
      * @returns {Array}
      */
     getPersonsInformedWithEmail(userCollection) {
-        return this.getPersonsInformed().reduce((recipients, userId) => {
+        let recipientResult = this.getPersonsInformed().reduce((recipients, userId) => {
             let user = userCollection.findOne(userId);
             if (user.emails && user.emails.length > 0) {
                 recipients.push({
@@ -274,6 +274,22 @@ export class Minutes {
             }
             return recipients;
         }, /* initial value */ []);
+
+        // search for mail addresses in additional participants and add them to recipients
+        if (this.participantsAdditional) {
+            let addMails = this.participantsAdditional.match(global.emailAddressRegExpMatch);
+            addMails.forEach(additionalMail => {
+                recipientResult.push(
+                    {
+                        userId: "additionalRecipient",
+                        name: additionalMail,
+                        address: additionalMail
+                    }
+                )
+            });
+        }
+
+        return recipientResult;
     }
 
 

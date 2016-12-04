@@ -16,7 +16,7 @@ Session.setDefault("topicInfoItemType", "infoItem");
 
 let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for performance reasons!
-let _emailAddressRegExp = /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/;
+let _emailAddressRegExp = global.emailAddressRegExpTest;
 
 Template.topicInfoItemEdit.onCreated(function () {
     _minutesID = this.data;
