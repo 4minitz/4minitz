@@ -276,16 +276,18 @@ export class Minutes {
         }, /* initial value */ []);
 
         // search for mail addresses in additional participants and add them to recipients
-        let addMails = this.participantsAdditional.match(global.emailAddressRegExpMatch);
-        addMails.forEach(additionalMail => {
-            recipientResult.push(
-                {
-                    userId: "additionalRecipient",
-                    name: additionalMail,
-                    address: additionalMail
-                }
-            )
-        });
+        if (this.participantsAdditional) {
+            let addMails = this.participantsAdditional.match(global.emailAddressRegExpMatch);
+            addMails.forEach(additionalMail => {
+                recipientResult.push(
+                    {
+                        userId: "additionalRecipient",
+                        name: additionalMail,
+                        address: additionalMail
+                    }
+                )
+            });
+        }
 
         return recipientResult;
     }
