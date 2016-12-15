@@ -57,3 +57,20 @@ See first chapter of the [user doc](user/usermanual.md). This triangle warns you
  Only the latest meeting minutes can be unfinalized if they are finalized. Open the meeting minutes and click the "pen icon" to unfinalize the meeting minutes.
  
 It is not possible to un-finalize a meeting minute, if a newer meeting already has been created. If you have created such a newer meeting but there are no important changes to these newest minutes, you can delete the newest minutes and afterward you can un-finalize the previous meeting minutes.
+
+
+### How can I send the agenda or meeting minutes to a person that has no 4Minitz account
+ Simply enter the persons mail address to the "Additional Participants" field of the meeting minutes.
+ You can mix real names and mail addresses here. Our algorithm grabs everything
+ that looks like a mail adress from this field. For example if you enter: 
+ 
+ **Additional Participants:** ```Max Mustermann (max@mustermann.com), john@doe.com, Erika Mustermann```
+ 
+ to the
+ additional participants field, then the agenda an meeting minutes are sent to
+  the regular invited users and to these additional mail addresses: 
+  ```max@mustermann.com``` and ```john@doe.com```
+
+### How can I send an action item to a person that has no 4Minitz account
+Simply enter the persons mail address to the "Responsible" field.
+It will be available in the type ahead drop down box in the future.
