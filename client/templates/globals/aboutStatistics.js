@@ -1,15 +1,11 @@
-import { Meteor } from 'meteor/meteor';
-
-let statisticSource = new ReactiveVar({});
+import { Statistics } from '/imports/statistics';
 
 Template.aboutStatistics.onRendered(function () {
-    Meteor.call("server.statistics", function (error, stats) {
-        statisticSource.set(stats);
-    });
+    Statistics.update();
 });
 
 Template.aboutStatistics.helpers({
     statistics() {
-        return statisticSource.get();
+        return Statistics.fetch();
     }
 });
