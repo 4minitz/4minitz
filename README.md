@@ -29,6 +29,12 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 |master|[![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=master)](https://travis-ci.org/4minitz/4minitz)|
 |develop|[![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=develop)](https://travis-ci.org/4minitz/4minitz)|
 
+## Code Climate
+
+4Minitz uses code climate to track its code quality.
+
+[![Code Climate](https://codeclimate.com/github/4minitz/4minitz/badges/gpa.svg)](https://codeclimate.com/github/4minitz/4minitz)
+
 ## Backlog
 You can see whats on our development roadmap and what stories are currently in work in the
  [4Minitz Backlog](https://github.com/4minitz/4minitz/projects/1)
