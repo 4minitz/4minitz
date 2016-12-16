@@ -10,14 +10,16 @@
       {{/each}}
     </ul>
 
-    <div class="help panel panel-default">
-        <div class="panel-heading">Quick Help</div>
-        <div class="panel-body">
-            <p>With 4minitz you can create minutes for meetings. Fast!</p>
-            <p>First create a meeting series, then create meeting minutes on multiple dates for this special meeting type</p>
-            <a href="#" class="hidehelp">OK, Hide</a>
+    {{#if showQuickHelp}}
+        <div class="help panel panel-default">
+            <div class="panel-heading">Quick Help</div>
+            <div class="panel-body">
+                <p>With 4minitz you can create minutes for meetings. Fast!</p>
+                <p>First create a meeting series, then create meeting minutes on multiple dates for this special meeting type</p>
+                <a href="#" class="hidehelp">OK, Hide</a>
+            </div>
         </div>
-    </div>
+    {{/if}}
 </template>
 
 

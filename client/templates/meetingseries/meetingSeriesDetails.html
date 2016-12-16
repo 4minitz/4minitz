@@ -38,11 +38,13 @@
     <br>
     <br>
 
-    <div class="help panel panel-default">
-        <div class="panel-heading">Quick Help</div>
-        <div class="panel-body">
-            <p>Click on date button to show details for these minutes</p>
-            <a href="#" id="btnHideHelp">OK, Hide</a>
+    {{#if showQuickHelp}}
+        <div class="help panel panel-default">
+            <div class="panel-heading">Quick Help</div>
+            <div class="panel-body">
+                <p>Click on date button to show details for these minutes</p>
+                <a href="#" id="btnHideHelp">OK, Hide</a>
+            </div>
         </div>
-    </div>
+    {{/if}}
 </template>

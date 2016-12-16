@@ -132,16 +132,18 @@
 
     {{>topicsList getTopicsListConfig}}
 
-    <div class="help panel panel-default hidden-print">
-        <div class="panel-heading">Quick Help</div>
-        <div class="panel-body">
-            <p>
-                Tick off a whole topic to make clear you have talked about it during the meeting. If the topic contains
-                unchecked action items it will be presented in the next minute again.
-            </p>
-            <a href="#" id="btnHideHelp">OK, Hide</a>
+    {{#if showQuickHelp}}
+        <div class="help panel panel-default hidden-print">
+            <div class="panel-heading">Quick Help</div>
+            <div class="panel-body">
+                <p>
+                    Tick off a whole topic to make clear you have talked about it during the meeting. If the topic contains
+                    unchecked action items it will be presented in the next minute again.
+                </p>
+                <a href="#" id="btnHideHelp">OK, Hide</a>
+            </div>
         </div>
-    </div>
+    {{/if}}
 
     {{> topicEdit minutes._id}}
     {{> topicInfoItemEdit minutes._id}}

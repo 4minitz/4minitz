@@ -6,7 +6,7 @@ import { UserRoles } from "./../userroles"
 
 if (Meteor.isServer) {
     // Security: intentionally suppress email addresses of all other users!
-    let publishFields = {'username': 1, 'roles': 1};
+    let publishFields = {'username': 1, 'roles': 1, 'settings': 1};
     // Security: only publish email address in trusted intranet environment
     if(GlobalSettings.isTrustedIntranetInstallation()) {
         publishFields["emails"] = 1;
