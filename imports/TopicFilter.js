@@ -56,8 +56,8 @@ export class TopicFilter {
 
     static _itemMatchesSearchTokens(item, searchTokens) {
         for (let i=0; i < searchTokens.length; i++) {
-            let token = searchTokens[i];
-            if (item.subject.indexOf(token) === -1) {
+            let token = searchTokens[i].toUpperCase();
+            if (item.subject.toUpperCase().indexOf(token) === -1) {
                 return false;
             }
         }
