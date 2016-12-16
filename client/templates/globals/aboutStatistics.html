@@ -1,0 +1,21 @@
+<template name="aboutStatistics">
+	<div style="margin-top: 0.75em;">
+		<b style="color: darkgray;">Server Statistics</b>
+		<table class="table table-condensed table-hover">
+			<tbody>
+				<tr>
+					<td>Number of users</td>
+					<td>{{statistics.numberOfUsers}}</td>
+				</tr>
+				<tr>
+					<td>Number of meeting series</td>
+					<td>{{statistics.numberOfMeetingSeries}}</td>
+				</tr>
+				<tr>
+					<td>Number of meeting minutes</td>
+					<td>{{statistics.numberOfMeetingMinutes}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</template>
