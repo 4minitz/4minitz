@@ -22,6 +22,6 @@ Template.aboutDialog.helpers({
 
 Template.aboutDialog.events({
     "click #about-4minitz-logo" : function(){
-        showStatistics.set(true);
+        showStatistics.set(!showStatistics.get());
     }
 });
