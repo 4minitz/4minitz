@@ -54,6 +54,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
         return {
             minutesDate: this._minute.date,
+            minutesGlobalNote: this._minute.globalNote,
             meetingSeriesName: this._meetingSeries.name,
             meetingSeriesProject: this._meetingSeries.project,
             meetingSeriesURL: GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeries._id),
