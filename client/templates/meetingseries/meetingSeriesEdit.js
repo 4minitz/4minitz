@@ -90,6 +90,10 @@ Template.meetingSeriesEdit.events({
         if (Session.get("meetingSeriesEdit.showUsersPanel") == true) {
             Session.set("meetingSeriesEdit.showUsersPanel", false);
             $("#btnShowHideInvitedUsers").click();
+            Meteor.setTimeout(function () {
+                tmpl.find("#edt_AddUser").focus();
+            }, 500);
+
         } else {
             $('#dlgEditMeetingSeries input').trigger("change");   // ensure new values trigger placeholder animation
             tmpl.find("#id_meetingproject").focus();
