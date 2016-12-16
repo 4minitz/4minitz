@@ -14,6 +14,7 @@ export const MinutesSchema = new SimpleSchema({
     meetingSeries_id: {type: String, regEx: SimpleSchema.RegEx.Id},
     // todo: make this of type date
     date: {type: String},
+    globalNote: {type: String, defaultValue: "", optional: true},
     topics: {type: [TopicSchema], defaultValue: []},
     createdAt: {type: Date},
     agendaSentAt: {type: Date, optional: true},

@@ -96,6 +96,13 @@
 
             </div>
 
+             <div>
+                 <input id="editGlobalNotes" type="text" class="form-control"
+                        placeholder="Global Note for this minutes..."
+                        value="{{minutes.globalNote}}">
+
+             </div>
+
             {{> minutesEditParticipants minutes}}
 
             {{#unless isFinalized}}

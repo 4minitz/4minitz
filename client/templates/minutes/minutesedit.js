@@ -311,6 +311,15 @@ Template.minutesedit.events({
         }
     },
 
+    "change #editGlobalNotes" (evt, tmpl) {
+        evt.preventDefault();
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            let globalNote = tmpl.find("#editGlobalNotes").value;
+            aMin.update({globalNote: globalNote});
+        }
+    },
+
     'click #btn_sendAgenda': async function(evt, tmpl) {
         evt.preventDefault();
         let sendBtn = tmpl.$("#btn_sendAgenda");
