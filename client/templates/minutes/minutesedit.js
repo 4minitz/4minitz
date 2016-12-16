@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Minutes } from '/imports/minutes'
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
+import { User, userSettings } from '/imports/users'
 
 import { TopicListConfig } from '../topic/topicsList'
 
@@ -250,7 +251,7 @@ Template.minutesedit.helpers({
         let aMin = new Minutes(_minutesID);
         return aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(_minutesID);
     },
-    
+
     isModeratorOfParentSeries: function () {
         let aMin = new Minutes(_minutesID);
         let usrRole = new UserRoles();
@@ -269,7 +270,7 @@ Template.minutesedit.helpers({
         }
         return "";
     },
-    
+
     isReadOnly() {
         return (isMinuteFinalized() || !isModerator());
     },
@@ -278,12 +279,18 @@ Template.minutesedit.helpers({
         if (Session.get("minutesedit.PrintViewActive")) {
             return "btn-info";
         }
+    },
+
+    showQuickHelp: function() {
+        const user = new User();
+        return user.getSetting(userSettings.showQuickHelp.meeting, true);
     }
 });
 
 Template.minutesedit.events({
     "click #btnHideHelp": function () {
-        $(".help").hide();  // use jQuery to find and hide class
+        const user = new User();
+        user.storeSetting(userSettings.showQuickHelp.meeting, false);
     },
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);

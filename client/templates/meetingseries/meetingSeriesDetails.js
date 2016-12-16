@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
+import { User, userSettings } from '/imports/users'
 
 import { TopicListConfig } from '../topic/topicsList'
 import { ItemListConfig } from './itemsList'
@@ -27,6 +28,11 @@ Template.meetingSeriesDetails.onRendered(function () {
 Template.meetingSeriesDetails.helpers({
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);
+    },
+
+    showQuickHelp: function() {
+        const user = new User();
+        return user.getSetting(userSettings.showQuickHelp.meetingSeries, true);
     },
 
     minutes: function() {
@@ -78,7 +84,8 @@ Template.meetingSeriesDetails.helpers({
 
 Template.meetingSeriesDetails.events({
     "click #btnHideHelp": function () {
-        $(".help").hide();  // use jQuery to find and hide class
+        const user = new User();
+        user.storeSetting(userSettings.showQuickHelp.meetingSeries, false);
     },
     "click .nav-tabs li": function(event) {
         var currentTab = $(event.target).closest("li");
