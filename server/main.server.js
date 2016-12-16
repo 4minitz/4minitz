@@ -6,6 +6,7 @@ import '/imports/minutes';
 import '/imports/meetingseries';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
+import '/imports/serverStatistics';
 
 Meteor.startup(() => {
     GlobalSettings.publishSettings();
