@@ -29,7 +29,12 @@
             {{/if}}
             {{#with lastMin = lastMinutes}}
                 {{#if lastMin}}
-                  (<span class="hidden-xs">last minutes of </span><a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)
+                    (<span class="hidden-xs">last minutes of </span><a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>
+                    {{#if lastMin.isFinalized}}
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalized"></span>)
+                    {{else}}
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" aria-label="Not finalized"></span>)
+                    {{/if}}
                 {{/if}}
             {{/with}}
             <span class="badge">{{countMinutes}}</span>
