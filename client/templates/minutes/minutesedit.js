@@ -1,15 +1,14 @@
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Minutes } from '/imports/minutes'
-import { MeetingSeries } from '/imports/meetingseries'
-import { UserRoles } from '/imports/userroles'
-import { User, userSettings } from '/imports/users'
+import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
+import { UserRoles } from '/imports/userroles';
+import { User, userSettings } from '/imports/users';
 
-import { TopicListConfig } from '../topic/topicsList'
-
-import { GlobalSettings } from '/imports/GlobalSettings'
-
-import { FlashMessage } from '../../helpers/flashMessage'
+import { TopicListConfig } from '../topic/topicsList';
+import { GlobalSettings } from '/imports/GlobalSettings';
+import { FlashMessage } from '../../helpers/flashMessage';
 
 var _minutesID; // the ID of these minutes
 
@@ -76,12 +75,19 @@ var togglePrintView = function (switchOn) {
     window.onafterprint = afterPrint;
 }());
 
-
-
-
 Template.minutesedit.onCreated(function () {
+    this.autorun(() => {
+        _minutesID = FlowRouter.getParam('_id');
+        this.subscribe('minutes', _minutesID);
+
+        let usrRoles = new UserRoles();
+        let minute = new Minutes(_minutesID);
+        if (!usrRoles.hasViewRoleFor(minute.parentMeetingSeriesID())) {
+            FlowRouter.redirect('/');
+        }
+    });
+
     Session.set('minutesedit.checkParent', false);
-    _minutesID = this.data;
 
     // Collapse the participants list on scroll
     $(window).scroll(function(){
@@ -453,7 +459,7 @@ Template.minutesedit.events({
                     // first route to the parent meetingseries then remove the minute.
                     // otherwise the current route would automatically re-routed to the main page because the
                     // minute is not available anymore -> see router.js
-                    Router.go("/meetingseries/"+aMin.meetingSeries_id);
+                    FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
                     ms.removeMinutesWithId(aMin._id);
                 },
                 /* Dialog content */

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { Router } from 'meteor/iron:router';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import { LDAP } from 'meteor/babrahams:accounts-ldap';
 import { FlashMessage } from '/client/helpers/flashMessage';
 import $ from 'jquery';
@@ -11,9 +11,9 @@ function loginCallback(error) {
         (new FlashMessage('Login error', error.message)).show();
     }
 
-    let routeName = Router.current().route.getName();
+    let routeName = FlowRouter.current().route.getName();
     if (routeName === 'login' || routeName === 'signup' || routeName === 'home') {
-        Router.go('home');
+        FlowRouter.go('home');
     }
 }
 
