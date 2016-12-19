@@ -80,10 +80,11 @@ export class TopicFilter {
             switch (filter.key) {
                 case KEYWORDS.IS.key:
                 {
-                    if (!TopicFilter._itemMatchesKeyword_IS(item, filter.value)) {
-                        return false;
-                    }
-                    break;
+                    return TopicFilter._itemMatchesKeyword_IS(item, filter.value);
+                }
+                case KEYWORDS.USER.key:
+                {
+                    return ( item.responsibles && _.contains(item.responsibles, filter.value) );
                 }
                 case KEYWORDS.PRIO.key:
                 {

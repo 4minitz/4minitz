@@ -24,12 +24,21 @@ function getLabelIdsByName(labelName) {
     return null;
 }
 
+function getUserIdByName(userName) {
+    let user = (userName === 'me') ? Meteor.user() : Meteor.users.findOne({username: userName});
+    if (user) {
+        return user._id;
+    }
+
+    return userName;
+}
+
 Template.itemsList.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar("");
     this.topicFilterHandler = (query) => {
         this.topicFilterQuery.set(query);
     };
-    this.topicFilter = new TopicFilter(new QueryParser(getLabelIdsByName));
+    this.topicFilter = new TopicFilter(new QueryParser(getLabelIdsByName, getUserIdByName));
 });
 
 Template.itemsList.helpers({

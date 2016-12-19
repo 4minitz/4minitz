@@ -17,17 +17,33 @@ export const KEYWORDS = {
         key: 'due',
         values: '*'
     },
+    USER: {
+        key: '@',
+        values: '*',
+        format: '@username'
+    },
 
-    isKeyword: function(token) {
+    isKeyword: function(token, queryUserIdByName) {
+        if (token.startsWith(this.USER.key)) {
+            return true;
+        }
         let arr = token.split(':');
         return ( arr.length == 2 && KEYWORDS.isAllowedValueForKey(arr[0], arr[1]) );
     },
 
-    getKeyWordFromToken: function(token) {
+    getKeyWordFromToken: function(token, queryUserIdByName) {
         let key, value;
-        let arr = token.split(':');
-        key = arr[0];
-        value = arr[1];
+        if (token.startsWith(this.USER.key)) {
+            key = this.USER.key;
+            value = token.substr(1);
+            if (queryUserIdByName) {
+                value = queryUserIdByName(value);
+            }
+        } else {
+            let arr = token.split(':');
+            key = arr[0];
+            value = arr[1];
+        }
         return {
             key: key,
             value: value

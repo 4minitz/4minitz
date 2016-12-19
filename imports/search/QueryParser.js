@@ -21,9 +21,10 @@ export class QueryParser {
      */
 
 
-    constructor(queryLabelIdsByName) {
+    constructor(queryLabelIdsByName, queryUserIdByName) {
         this.reset();
         this.queryLabelIdsByName = queryLabelIdsByName;
+        this.queryUserIdByName = queryUserIdByName;
     }
 
     reset() {
@@ -126,7 +127,7 @@ export class QueryParser {
 
     _isFilterKeyword(token) {
         let arr = token.split(':');
-        let res = KEYWORDS.isKeyword(token);
+        let res = KEYWORDS.isKeyword(token, this.queryUserIdByName);
         if (res && arr[0] === KEYWORDS.DO.key && arr[1] === 'match-case') {
             this.matchCase = true;
         }
@@ -134,7 +135,7 @@ export class QueryParser {
     }
 
     _addFilterToken(token) {
-        this.filterTokens.push(KEYWORDS.getKeyWordFromToken(token))
+        this.filterTokens.push(KEYWORDS.getKeyWordFromToken(token, this.queryUserIdByName))
     }
 
     /**
