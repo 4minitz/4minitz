@@ -27,7 +27,7 @@ Template.topicFilter.helpers({
 });
 
 Template.topicFilter.events({
-    'change #inputFilter': function(evt, tmpl) {
+    'keyup #inputFilter': function(evt, tmpl) {
         evt.preventDefault();
         Template.instance().callback(tmpl.find('#inputFilter').value);
     }

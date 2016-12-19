@@ -58,6 +58,14 @@ export class Label {
         return null;
     }
 
+    static findLabelsStartingWithName(parentMeetingSeries, name) {
+        parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
+
+        let labelDoc = parentMeetingSeries.findLabelStartingWith(name);
+        if (labelDoc) return labelDoc;
+        return null;
+    }
+
     static _createParentMeetingSeries(parentMeetingSeries) {
         if (typeof parentMeetingSeries === 'string') {
             return new MeetingSeries(parentMeetingSeries);

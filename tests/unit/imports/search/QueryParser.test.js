@@ -37,7 +37,7 @@ describe("QueryParser", function() {
         parser.parse(QUERY);
 
         let filterTokens = parser.getFilterTokens();
-        let labelTokens = parser.getLabelTokens();
+        let labelTokens = parser.getLabelTokens().map(token => {return token.token;});
         let searchTokens = parser.getSearchTokens();
 
         expect(filterTokens, "should contain no filter tokens").to.have.length(0);
@@ -52,7 +52,7 @@ describe("QueryParser", function() {
         const QUERY = "hello is:open world #my label";
         parser.parse(QUERY);
         let filterTokens = parser.getFilterTokens();
-        let labelTokens = parser.getLabelTokens();
+        let labelTokens = parser.getLabelTokens().map(token => {return token.token;});
         let searchTokens = parser.getSearchTokens();
 
         expect(filterTokens, "should contain 1 filter tokens").to.have.length(1);
@@ -63,6 +63,36 @@ describe("QueryParser", function() {
         expect(searchTokens).to.contain('world');
         expect(filterTokens).to.contain({key: 'is', value: 'open'});
         expect(labelTokens).to.contain('my label');
+    });
+
+    describe('Query LabelIds', function() {
+
+        beforeEach(function() {
+            parser = new QueryParser((labelName) => {
+                if (labelName.split(/\s/).length > 2) {
+                    return [];
+                }
+
+                let length = labelName.length;
+                return [`${labelName}-${length}`];
+            })
+        });
+
+        it('can query the label id for a given name using the passed function', function() {
+            const QUERY = "#my label hello world";
+            parser.parse(QUERY);
+            let filterTokens = parser.getFilterTokens();
+            let labelTokens = parser.getLabelTokens();
+            let searchTokens = parser.getSearchTokens();
+
+            expect(filterTokens, "should contain no filter tokens").to.have.length(0);
+            expect(labelTokens, "should contain 1 label token").to.have.length(1);
+            expect(searchTokens, "should contain 2 search tokens").to.have.length(2);
+
+            expect(labelTokens[0].token).to.equal('my label');
+            expect(labelTokens).to.contain({token: 'my label', ids: ['my label-8']});
+        })
+
     });
 
 });

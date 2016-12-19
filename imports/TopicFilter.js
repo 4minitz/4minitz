@@ -9,11 +9,10 @@ const KEYWORDS = {
 
 export class TopicFilter {
 
-    constructor(queryParser, getLabelIdByName) {
+    constructor(queryParser) {
         if (null === queryParser || undefined === queryParser) {
             throw new Meteor.Error('illegal-state', 'Please inject a query parser.');
         }
-        this.getLabelIdByName = getLabelIdByName;
         this.currentTopics = null;
         this.parser = queryParser;
     }
@@ -35,7 +34,7 @@ export class TopicFilter {
 
         let infoItemFilter = item => {
             return this.constructor._itemMatchesSearchTokens(item, this.parser.getSearchTokens())
-                && this._itemMatchesLabelTokens(item, this.parser.getLabelTokens())
+                && this.constructor._itemMatchesLabelTokens(item, this.parser.getLabelTokens())
                 && this.constructor._itemMatchesFilterTokens(item, this.parser.getFilterTokens());
         };
 
@@ -100,11 +99,12 @@ export class TopicFilter {
         }
     }
 
-    _itemMatchesLabelTokens(item, labelTokens) {
+    static _itemMatchesLabelTokens(item, labelTokens) {
         for (let i=0; i < labelTokens.length; i++) {
             let labelToken = labelTokens[i];
-            let labelId = (this.getLabelIdByName) ? this.getLabelIdByName(labelToken) : labelToken;
-            if (!_.contains(item.labels, labelId)) {
+            let labelIds = labelToken.ids;
+
+            if (_.intersection(item.labels, labelIds).length === 0 ) {
                 return false;
             }
         }

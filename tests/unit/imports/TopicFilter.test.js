@@ -9,8 +9,6 @@ const {
     'meteor/underscore': { _, '@noCallThru': true}
 });
 
-let returnInput = (input) => { return input; }
-
 let QueryParserMock = function() { this.query = null};
 QueryParserMock.prototype.parse = function(query) {
     this.query = query;
@@ -26,7 +24,8 @@ QueryParserMock.prototype.getFilterTokens = function() {
 };
 QueryParserMock.prototype.getLabelTokens = function() {
     if (this.query.substr(0,1) === '#') {
-        return [this.query.substr(1)];
+        let token = this.query.substr(1);
+        return [{token: token, ids: [token]}];
     }
     return [];
 };
@@ -37,7 +36,7 @@ describe('TopicFilter', function() {
     let topics, topicFilter;
 
     beforeEach(function() {
-        topicFilter = new TopicFilter(new QueryParserMock(), returnInput);
+        topicFilter = new TopicFilter(new QueryParserMock());
         topics = [
             {
                 subject: "One",

@@ -318,6 +318,12 @@ export class MeetingSeries {
         return subElementsHelper.getElementById(labelName, this.availableLabels, 'name');
     }
 
+    findLabelStartingWith(name) {
+        return this.availableLabels.filter(label => {
+            return name === label.name.substr(0, name.length);
+        })
+    }
+
     removeLabel(id) {
         let index = subElementsHelper.findIndexById(id, this.getAvailableLabels());
         if (undefined === index) {

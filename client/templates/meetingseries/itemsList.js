@@ -16,10 +16,10 @@ export class ItemListConfig {
     }
 }
 
-function getLabelIdByName(labelName) {
-    let label = Label.createLabelByName(Template.instance().data.parentMeetingSeriesId, labelName);
+function getLabelIdsByName(labelName) {
+    let label = Label.findLabelsStartingWithName(Template.instance().data.parentMeetingSeriesId, labelName);
     if (null !== label) {
-        return label.getId();
+        return label.map(label => { return label._id; });
     }
     return null;
 }
@@ -29,7 +29,7 @@ Template.itemsList.onCreated(function() {
     this.topicFilterHandler = (query) => {
         this.topicFilterQuery.set(query);
     };
-    this.topicFilter = new TopicFilter(new QueryParser(), getLabelIdByName);
+    this.topicFilter = new TopicFilter(new QueryParser(getLabelIdsByName));
 });
 
 Template.itemsList.helpers({

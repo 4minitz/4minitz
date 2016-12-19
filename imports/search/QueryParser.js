@@ -9,14 +9,31 @@ const TOKEN_TYPE_LABEL = 3;
 
 export class QueryParser {
 
-    constructor() {
+    /**
+     * @typedef {Object} FilterToken
+     * @property {string} key The filter keyword
+     * @property {string} value The filter value
+     */
+
+    /**
+     * @typedef {Object} LabelToken
+     * @property {string} token The search-word which was detected in the search query
+     * @property {string[]} ids The matching label ids.
+     */
+
+
+    constructor(queryLabelIdsByName) {
         this.reset();
+        this.queryLabelIdsByName = queryLabelIdsByName;
     }
 
     reset() {
         this.query = null;
+        /** @var {FilterToken[]} */
         this.filterTokens = [];
+        /** @var {LabelToken[]} */
         this.labelTokens = [];
+        /** @var {string[]} */
         this.searchTokens = [];
         this.isLabelToken = false;
         this.newLabel = false;
@@ -29,18 +46,38 @@ export class QueryParser {
         this.tokens.forEach(token => { this._parseToken(token) });
         // add last label
         if (null !== this.currentLabel) {
-            this.labelTokens.push(this.currentLabel);
+            this._addCompleteLabelToken();
         }
     }
 
+    /**
+     * Returns all filter tokens of the current
+     * query. Filter tokens are special keywords
+     * like is:action.
+     *
+     * @returns {FilterToken[]}
+     */
     getFilterTokens() {
         return this.filterTokens;
     }
 
+    /**
+     * Returns all label tokens of the current
+     * query. A label token contains the
+     * search-word, and all matching label ids.
+     *
+     * @returns {LabelToken[]}
+     */
     getLabelTokens() {
         return this.labelTokens;
     }
 
+    /**
+     * Returns all search tokens of the current
+     * query.
+     *
+     * @returns {string[]}
+     */
     getSearchTokens() {
         return this.searchTokens;
     }
@@ -56,7 +93,10 @@ export class QueryParser {
 
             case TOKEN_TYPE_LABEL:
             {
-                this._addLabelToken(token);
+                let result = this._addLabelToken(token);
+                if (!result) {
+                    this.searchTokens.push(token);
+                }
                 break;
             }
             case TOKEN_TYPE_SEARCH:
@@ -93,15 +133,46 @@ export class QueryParser {
         })
     }
 
+    /**
+     *
+     *
+     * @param token
+     * @private
+     */
     _addLabelToken(token) {
+        let completeLabel;
         if (this.newLabel) {
             if (null !== this.currentLabel) {
-                this.labelTokens.push(this.currentLabel);
+                this._addCompleteLabelToken();
             }
             this.currentLabel = token.substr(1);
         } else {
-            this.currentLabel += ` ${token}`; // prepend whitespace!
+            completeLabel = this.currentLabel + ` ${token}`; // prepend whitespace!
+            let matchingIds = (this.queryLabelIdsByName) ? this.queryLabelIdsByName(completeLabel) : true;
+            if (matchingIds === true || (matchingIds !== null && matchingIds.length > 0)) {
+                this.currentLabel = completeLabel;
+            } else {
+                // the current token does not match any labels
+                // this means the given token is a simple search token
+                // so we add the previously concatenated label token-parts as
+                // a new label token
+                this.isLabelToken = false;
+                this._addCompleteLabelToken();
+                this.currentLabel = null;
+
+                return false;
+            }
         }
+        return true;
+    }
+
+    _addCompleteLabelToken() {
+        let token = this.currentLabel;
+        let ids = (this.queryLabelIdsByName) ? this.queryLabelIdsByName(token) : [token];
+        this.labelTokens.push({
+            token: token,
+            ids: ids
+        });
     }
 
     _isLabelToken(token) {
