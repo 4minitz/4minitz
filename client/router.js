@@ -33,6 +33,7 @@ FlowRouter.route('/login', {
 });
 
 FlowRouter.route('/meetingseries/:_id', {
+    name: 'meetingseries',
     action() {
         BlazeLayout.render('appLayout', {main: 'meetingSeriesDetails'});
     }
@@ -41,6 +42,7 @@ FlowRouter.route('/meetingseries/:_id', {
 // todo: get rid of this
 // this should not be handled within a route
 FlowRouter.route('/minutesadd/:_id', {
+    name: 'minutesadd',
     action(params) {
         let meetingSeriesID = params._id;
 
@@ -84,6 +86,7 @@ FlowRouter.route('/minutesadd/:_id', {
 
 
 FlowRouter.route('/minutesedit/:_id', {
+    name: 'minutesedit',
     action() {
         BlazeLayout.render('appLayout', {main: 'minutesedit'});
     }

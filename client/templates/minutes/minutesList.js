@@ -8,9 +8,8 @@ Template.minutesList.helpers({
         return (this.isFinalized) ? "default" : "info";
     },
 
-    addMinutesPath: function () {
-        let ms = new MeetingSeries(this.meetingSeriesId);
-        return (ms.addNewMinutesAllowed()) ? "/minutesadd/" + this.meetingSeriesId : "";
+    meetingSeriesId: function () {
+        return this.meetingSeriesId;
     },
 
     addMinutesNotAllowed: function () {

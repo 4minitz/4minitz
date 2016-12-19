@@ -7,7 +7,7 @@
     {{checkParentSeries}}
     <h2 class="header">
         Minutes for
-        <a id="id_linkToParentSeries" href="/meetingseries/{{meetingSeries._id}}" title="{{finalizeHistoryTooltip}}">
+        <a id="id_linkToParentSeries" href="{{pathFor 'meetingseries' _id=meetingSeries._id}}" title="{{finalizeHistoryTooltip}}">
             {{meetingSeries.project}} - {{meetingSeries.name}}
         </a>
     </h2>
