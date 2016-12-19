@@ -1,7 +1,6 @@
 import { _ } from 'meteor/underscore';
 
-const KEYWORDS = ['is'];
-const KEYWORD_VALUES = ['open', 'closed', 'info', 'action', 'new'];
+import { KEYWORDS } from './FilterKeywords'
 
 const TOKEN_TYPE_SEARCH = 1;
 const TOKEN_TYPE_FILTER = 2;
@@ -29,6 +28,7 @@ export class QueryParser {
 
     reset() {
         this.query = null;
+        this.matchCase = false;
         /** @var {FilterToken[]} */
         this.filterTokens = [];
         /** @var {LabelToken[]} */
@@ -48,6 +48,10 @@ export class QueryParser {
         if (null !== this.currentLabel) {
             this._addCompleteLabelToken();
         }
+    }
+
+    isCaseSensitive() {
+        return this.matchCase;
     }
 
     /**
@@ -122,7 +126,11 @@ export class QueryParser {
 
     static _isFilterKeyword(token) {
         let arr = token.split(':');
-        return ( arr.length == 2 && _.contains(KEYWORDS, arr[0]) && _.contains(KEYWORD_VALUES, arr[1]) );
+        let res = ( arr.length == 2 && KEYWORDS.isAllowedValueForKey(arr[0], arr[1]) );
+        if (res && arr[0] === KEYWORDS.DO && arr[1] === 'match-case') {
+            this.matchCase = true;
+        }
+        return res;
     }
 
     _addFilterToken(token) {

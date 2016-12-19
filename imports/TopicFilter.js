@@ -1,11 +1,6 @@
 import { _ } from 'meteor/underscore';
 
-const KEYWORDS = {
-    IS: {
-        key: 'is',
-        values: ['open', 'closed', 'info', 'action', 'new']
-    }
-};
+import { KEYWORDS } from './search/FilterKeywords';
 
 export class TopicFilter {
 
@@ -33,7 +28,7 @@ export class TopicFilter {
         this._checkFilterState();
 
         let infoItemFilter = item => {
-            return this.constructor._itemMatchesSearchTokens(item, this.parser.getSearchTokens())
+            return this._itemMatchesSearchTokens(item, this.parser.getSearchTokens())
                 && this.constructor._itemMatchesLabelTokens(item, this.parser.getLabelTokens())
                 && this.constructor._itemMatchesFilterTokens(item, this.parser.getFilterTokens());
         };
@@ -53,10 +48,15 @@ export class TopicFilter {
         }
     }
 
-    static _itemMatchesSearchTokens(item, searchTokens) {
+    _toUpper(str) {
+        return (this.parser.isCaseSensitive()) ? str : str.toUpperCase();
+    }
+
+    _itemMatchesSearchTokens(item, searchTokens) {
         for (let i=0; i < searchTokens.length; i++) {
-            let token = searchTokens[i].toUpperCase();
-            if (item.subject.toUpperCase().indexOf(token) === -1) {
+            let token = this._toUpper(searchTokens[i]);
+            let subject = this._toUpper(item.subject);
+            if (subject.indexOf(token) === -1) {
                 return false;
             }
         }
@@ -73,6 +73,10 @@ export class TopicFilter {
                     if (!TopicFilter._itemMatchesKeyword_IS(item, filter.value)) {
                         return false;
                     }
+                    break;
+                }
+                case KEYWORDS.DO.key:
+                {
                     break;
                 }
                 default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);

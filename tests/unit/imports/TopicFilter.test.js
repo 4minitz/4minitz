@@ -4,9 +4,16 @@ import sinon from 'sinon';
 import _ from 'underscore';
 
 const {
+    KEYWORDS
+    } = proxyquire('../../../imports/search/FilterKeywords', {
+    'meteor/underscore': { _, '@noCallThru': true}
+});
+
+const {
     TopicFilter
     } = proxyquire('../../../imports/TopicFilter', {
-    'meteor/underscore': { _, '@noCallThru': true}
+    'meteor/underscore': { _, '@noCallThru': true},
+    './search/FilterKeywords': { KEYWORDS, '@noCallThru': true}
 });
 
 let QueryParserMock = function() { this.query = null};
@@ -29,7 +36,9 @@ QueryParserMock.prototype.getLabelTokens = function() {
     }
     return [];
 };
-QueryParserMock.prototype.reset = function() {};
+let caseSensitive = false;
+QueryParserMock.prototype.isCaseSensitive = function () { return caseSensitive; };
+QueryParserMock.prototype.reset = function() { caseSensitive = false; };
 
 describe('TopicFilter', function() {
 
@@ -105,6 +114,21 @@ describe('TopicFilter', function() {
         expect(res, "Length of the result topic array should be 2").have.length(2);
         expect(res[0].infoItems, "The first topic should contain one info items").to.have.length(1);
         expect(res[1].infoItems, "The 2nd topic should contain two info items").to.have.length(2);
+    });
+
+    it('filters case insensitive per default for search tokens', function() {
+        let res = topicFilter.filter(topics, "THREE TWO");
+
+        expect(res, "Length of the result topic array should be 2").have.length(2);
+        expect(res[0].infoItems, "The first topic should contain one info items").to.have.length(1);
+        expect(res[1].infoItems, "The 2nd topic should contain one info items").to.have.length(1);
+    });
+
+    it('can enable case sensitive search', function() {
+        caseSensitive = true;
+        let res = topicFilter.filter(topics, "THREE");
+
+        expect(res, "Length of the result topic array should be 0").have.length(0);
     });
 
 });

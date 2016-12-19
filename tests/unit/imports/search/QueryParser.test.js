@@ -4,9 +4,18 @@ import sinon from 'sinon';
 import _ from 'underscore';
 
 const {
+    KEYWORDS
+    } = proxyquire('../../../../imports/search/FilterKeywords', {
+    'meteor/underscore': { _, '@noCallThru': true}
+});
+
+console.log(KEYWORDS);
+
+const {
     QueryParser
     } = proxyquire('../../../../imports/search/QueryParser', {
-    'meteor/underscore': { _, '@noCallThru': true}
+    'meteor/underscore': { _, '@noCallThru': true},
+    './FilterKeywords': { KEYWORDS, '@noCallThru': true}
 });
 
 describe("QueryParser", function() {
