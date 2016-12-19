@@ -284,6 +284,7 @@ Template.topicInfoItem.events({
     "mousedown .detailInputMarkdownHint"(evt, tmpl) {
         evt.preventDefault();
         evt.stopPropagation();
+        let staticImgPath = Blaze._globalHelpers.pathForImproved("/");
         let markDownHint =
                 "<pre># Heading Level 1<br>"+
                 "## Heading Level 2<br>"+
@@ -302,7 +303,7 @@ Template.topicInfoItem.events({
                 "- Item<br>"+
                 "- Item<br>"+
                 "<br>"+
-                "Image: ![](/loading-gears.gif \"Tooltip Text\")<br>"+
+                "Image: ![](" + staticImgPath + "loading-gears.gif \"Tooltip Text\")<br>"+
                 "<br>"+
                 "| Tables        | Are           | Cool  |<br>"+
                 "| ------------- |:-------------:| -----:|<br>"+
