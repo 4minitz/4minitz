@@ -56,7 +56,17 @@ export class TopicFilter {
         for (let i=0; i < searchTokens.length; i++) {
             let token = this._toUpper(searchTokens[i]);
             let subject = this._toUpper(item.subject);
-            if (subject.indexOf(token) === -1) {
+            let infos = (item.details)
+                ? this._toUpper(item.details.reduce((acc, detail) => { return acc + detail.text; }, ""))
+                : "";
+            let prio = (item.priority) ? this._toUpper(item.priority) : '';
+            let due = (item.duedate) ? item.duedate : '';
+            if (
+                (subject.indexOf(token) === -1
+                && infos.indexOf(token) === -1
+                && prio.indexOf(token) === -1
+                && due.indexOf(token) === -1)
+            ) {
                 return false;
             }
         }
@@ -74,6 +84,14 @@ export class TopicFilter {
                         return false;
                     }
                     break;
+                }
+                case KEYWORDS.PRIO.key:
+                {
+                    return ( item.priority && item.priority.startsWith(filter.value));
+                }
+                case KEYWORDS.DUE.key:
+                {
+                    return ( item.duedate && item.duedate.startsWith(filter.value));
                 }
                 case KEYWORDS.DO.key:
                 {
@@ -99,6 +117,8 @@ export class TopicFilter {
                 return item.itemType === 'actionItem';
             case 'new':
                 return item.isNew;
+            case 'sticky':
+                return item.isSticky;
             default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
         }
     }

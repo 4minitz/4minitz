@@ -126,7 +126,7 @@ export class QueryParser {
 
     _isFilterKeyword(token) {
         let arr = token.split(':');
-        let res = ( arr.length == 2 && KEYWORDS.isAllowedValueForKey(arr[0], arr[1]) );
+        let res = KEYWORDS.isKeyword(token);
         if (res && arr[0] === KEYWORDS.DO.key && arr[1] === 'match-case') {
             this.matchCase = true;
         }
@@ -134,11 +134,7 @@ export class QueryParser {
     }
 
     _addFilterToken(token) {
-        let arr = token.split(':');
-        this.filterTokens.push({
-            key: arr[0],
-            value: arr[1]
-        })
+        this.filterTokens.push(KEYWORDS.getKeyWordFromToken(token))
     }
 
     /**
