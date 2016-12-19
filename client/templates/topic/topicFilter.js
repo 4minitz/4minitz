@@ -55,5 +55,6 @@ Template.topicFilter.events({
         let input = tmpl.find('#inputFilter');
         toggleMatchCase(evt.target.checked, input);
         Template.instance().callback(input.value);
+        input.focus();
     }
 });
