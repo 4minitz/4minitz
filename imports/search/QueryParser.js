@@ -113,7 +113,7 @@ export class QueryParser {
     }
 
     _getTokenType(token) {
-        if (this.constructor._isFilterKeyword(token)) {
+        if (this._isFilterKeyword(token)) {
             return TOKEN_TYPE_FILTER;
         }
 
@@ -124,10 +124,10 @@ export class QueryParser {
         return TOKEN_TYPE_SEARCH;
     }
 
-    static _isFilterKeyword(token) {
+    _isFilterKeyword(token) {
         let arr = token.split(':');
         let res = ( arr.length == 2 && KEYWORDS.isAllowedValueForKey(arr[0], arr[1]) );
-        if (res && arr[0] === KEYWORDS.DO && arr[1] === 'match-case') {
+        if (res && arr[0] === KEYWORDS.DO.key && arr[1] === 'match-case') {
             this.matchCase = true;
         }
         return res;
