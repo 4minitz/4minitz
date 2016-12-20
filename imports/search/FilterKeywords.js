@@ -23,7 +23,7 @@ export const KEYWORDS = {
         format: '@username'
     },
 
-    isKeyword: function(token, queryUserIdByName) {
+    isKeyword: function(token) {
         if (token.startsWith(this.USER.key)) {
             return true;
         }

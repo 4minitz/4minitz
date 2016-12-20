@@ -24,11 +24,8 @@ let toggleMatchCase = function (enable, input) {
     if (enable) {
         input.value = MATCH_CASE + input.value;
     } else {
-        if (input.value.indexOf(MATCH_CASE) === -1) {
-            input.value = input.value.replace(MATCH_CASE.substr(0, MATCH_CASE.length-1), '');
-        } else {
-            input.value = input.value.replace(MATCH_CASE, '');
-        }
+        let MatchCaseRE = new RegExp(MATCH_CASE+"*","g");
+        input.value = input.value.replace(MatchCaseRE, '');
     }
 };
 
