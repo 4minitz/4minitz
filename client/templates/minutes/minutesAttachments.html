@@ -1,0 +1,29 @@
+<template name="minutesAttachments">
+    {{#with currentUpload}}
+        <h3 id="progress-basic">
+            Uploading <b>{{file.name}}</b> @{{uploadSpeedMB}}MB/s {{timeToFinish}} remaining
+        </h3>
+        <div class="progress">
+            <div class="progress-bar" style="width: {{progress.get}}%;"></div>
+        </div>
+    {{else}}
+        <label class="btn btn-default btn-file">
+            Upload... <input type="file" id="fileInput" style="display: none;">
+        </label>
+    {{/with}}
+    <br>
+    <ol>
+        <!-- Strange! Without binding the context via .each only {{name}} works, but not {{link}} -->
+        {{#each attachments.each}}
+                <li>
+                    <!--Delete this Atachment-->
+                    <button id="btnDelAttachment" type="button" class="btn btn-xs btn-danger">×</button>
+                    <!--Download Attachment-->
+                    <a href="{{link}}?download=true" download="{{name}}" target="_parent" type="{{type}}">
+                        {{name}}
+                    </a>
+                </li>
+        {{/each}}
+    </ol>
+
+</template>

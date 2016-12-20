@@ -8,6 +8,7 @@ import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
 import '/imports/collections/statistics_private';
+import '/imports/collections/attachments_private'
 
 Meteor.startup(() => {
     GlobalSettings.publishSettings();

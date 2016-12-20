@@ -82,6 +82,8 @@ npm-bcrypt@0.9.1
 npm-mongo@1.5.50
 observe-sequence@1.0.12
 ordered-dict@1.0.8
+ostrio:cookies@2.0.5
+ostrio:files@1.7.6
 perak:markdown@1.0.5
 percolate:migrations@0.9.8
 practicalmeteor:chai@2.1.0_1

@@ -46,3 +46,6 @@ rcy:pick-a-color
 meteorhacks:subs-manager
 babrahams:accounts-ldap
 shell-server
+
+# Important: ostrio:files must be added after accounts package
+ostrio:files
