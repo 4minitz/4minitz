@@ -12,9 +12,11 @@ export class TopicFilterConfig {
      * for the Topic-Filter-UI-Component.
      *
      * @param {TopicFilterCallback} callback - The callback triggered after the search query has changed
+     * @param {string} initialSearchQuery - The string which should be initially set as search query
      */
-    constructor(callback) {
+    constructor(callback, initialSearchQuery) {
         this.callback = callback;
+        this.prependSearch = initialSearchQuery;
     }
 }
 
@@ -37,13 +39,22 @@ let toggleMatchCase = function (enable, input) {
     }
 };
 
+let performSearch = function(query) {
+    Template.instance().data.config.callback(query);
+};
+
 Template.topicFilter.onCreated(function() {
-    this.callback = this.data.config.callback;
 });
 
 Template.topicFilter.helpers({
     'filters': function () {
         return FILTERS;
+    },
+
+    'searchDefaultValue': function () {
+        let query = Template.instance().data.config.prependSearch;
+        performSearch(query);
+        return query;
     }
 });
 
@@ -51,7 +62,7 @@ Template.topicFilter.events({
     'keyup #inputFilter': function(evt, tmpl) {
         evt.preventDefault();
         let query = tmpl.find('#inputFilter').value;
-        Template.instance().callback(query);
+        performSearch(query);
 
         let caseSensitive = (query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length-1)) !== -1);
         tmpl.$('#cbCaseSensitiveFilter').prop("checked", caseSensitive);
@@ -61,7 +72,7 @@ Template.topicFilter.events({
         evt.preventDefault();
         let input = tmpl.find('#inputFilter');
         toggleMatchCase(evt.target.checked, input);
-        Template.instance().callback(input.value);
+        performSearch(input.value);
         input.focus();
     },
 
@@ -73,7 +84,7 @@ Template.topicFilter.events({
             tmpl.find('#cbCaseSensitiveFilter').checked,
             input
         );
-        Template.instance().callback(input.value);
+        performSearch(input.value);
         input.focus();
     }
 });

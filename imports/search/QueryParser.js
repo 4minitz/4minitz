@@ -55,6 +55,23 @@ export class QueryParser {
         return this.matchCase;
     }
 
+    hasKeyword(key, value) {
+        let keywords = this.findKeywordsByKey(key, value);
+        return keywords.length > 0;
+    }
+
+    findKeywordsByKey(key, value) {
+        let keywords = [];
+        key = (typeof key === 'string') ? key : key.key;
+        for (let i = 0; i < this.filterTokens.length; i++) {
+            let token = this.filterTokens[i];
+            if (token.key === key && ((value && value === token.value) || (!value)) ) {
+                keywords.push(token);
+            }
+        }
+        return keywords;
+    }
+
     /**
      * Returns all filter tokens of the current
      * query. Filter tokens are special keywords

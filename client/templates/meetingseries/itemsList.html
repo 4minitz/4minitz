@@ -1,6 +1,4 @@
 <template name="itemsList">
-    {{> topicFilter config=getTopicFilterConfig}}
-
     <div class="panel-group" id="itemPanel">
         {{#each getInfoItems}}
             {{> topicInfoItem infoItemData @index}}

@@ -6,6 +6,7 @@ import { UserRoles } from '/imports/userroles'
 
 import { TopicListConfig } from '../topic/topicsList'
 import { ItemListConfig } from './itemsList'
+import { TabConfig } from './tabTopicsItems'
 
 
 var _meetingSeriesID;   // the parent meeting object of this minutes
@@ -50,8 +51,9 @@ Template.meetingSeriesDetails.helpers({
                 };
 
             case "topicsList":
+            {
                 let status = Session.get("actionItemStatus");
-                let  topics;
+                let topics;
                 switch (status) {
                     case "open":
                         topics = ms.openTopics;
@@ -64,9 +66,15 @@ Template.meetingSeriesDetails.helpers({
                 }
 
                 return new TopicListConfig(topics, null, true, _meetingSeriesID);
+            }
 
-            case "itemsList":
-                return new ItemListConfig(ms.topics, _meetingSeriesID);
+            case "tabTopicsItems":
+            {
+                let s = Session.get("actionItemStatus");
+                return new TabConfig(ms.topics, _meetingSeriesID, (s === 'items'));
+            }
+
+            default: throw new Meteor.Error('illegal-state', 'Unknown tab: ' + tab);
         }
     },
 

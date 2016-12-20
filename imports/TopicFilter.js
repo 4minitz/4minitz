@@ -13,16 +13,17 @@ export class TopicFilter {
     }
 
     filter(topics, query) {
+        this.parser.reset();
         this.currentTopics = topics;
         this.parser.parse(query);
 
         this.currentTopics = this._filterTopics();
-        let result = this.currentTopics;
-        this.currentTopics = null;
-        this.parser.reset();
-        return result;
+        return this.currentTopics
     }
 
+    isItemView() {
+        return this.parser.hasKeyword(KEYWORDS.IS, 'item');
+    }
 
     _filterTopics() {
         this._checkFilterState();
@@ -80,6 +81,9 @@ export class TopicFilter {
             switch (filter.key) {
                 case KEYWORDS.IS.key:
                 {
+                    if (filter.value === 'item') {
+                        continue;
+                    }
                     return TopicFilter._itemMatchesKeyword_IS(item, filter.value);
                 }
                 case KEYWORDS.USER.key:

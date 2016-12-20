@@ -74,6 +74,14 @@ describe("QueryParser", function() {
         expect(labelTokens).to.contain('my label');
     });
 
+    it('can query if a specific keyword is set', function() {
+        const QUERY = "hello is:open is:item world #my label";
+        parser.parse(QUERY);
+
+        expect(parser.hasKeyword('is', 'item')).to.be.true;
+        expect(parser.hasKeyword({key: 'is'}, 'item')).to.be.true;
+    });
+
     describe('Query LabelIds', function() {
 
         beforeEach(function() {

@@ -3,7 +3,7 @@ import { _ } from 'meteor/underscore';
 export const KEYWORDS = {
     IS: {
         key: 'is',
-        values: ['open', 'closed', 'info', 'action', 'new', 'sticky']
+        values: ['open', 'closed', 'info', 'action', 'new', 'sticky', 'item']
     },
     DO: {
         key: 'do',
