@@ -15,8 +15,6 @@ let _meetingSeriesID;   // the parent meeting object of this minutes
 Template.meetingSeriesDetails.onCreated(function () {
     this.autorun(() => {
         _meetingSeriesID = FlowRouter.getParam('_id');
-        this.subscribe('meetingseries', _meetingSeriesID);
-
         this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
 
         let usrRoles = new UserRoles();
