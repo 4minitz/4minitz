@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Minutes } from '/imports/minutes';
@@ -76,15 +77,13 @@ var togglePrintView = function (switchOn) {
 }());
 
 Template.minutesedit.onCreated(function () {
+    this.minutesReady = new ReactiveVar();
+
     this.autorun(() => {
         _minutesID = FlowRouter.getParam('_id');
-        this.subscribe('minutes', _minutesID);
+        let subscriptionHandle = this.subscribe('minutes', _minutesID);
 
-        let usrRoles = new UserRoles();
-        let minute = new Minutes(_minutesID);
-        if (!usrRoles.hasViewRoleFor(minute.parentMeetingSeriesID())) {
-            FlowRouter.redirect('/');
-        }
+        this.minutesReady.set(subscriptionHandle.ready());
     });
 
     Session.set('minutesedit.checkParent', false);
@@ -158,44 +157,66 @@ var openPrintDialog = function () {
 var sendActionItems = true;
 var sendInformationItems = true;
 
-Template.minutesedit.onRendered(function () {
-    let datePickerNode = this.$('#id_minutesdatePicker');
-    datePickerNode.datetimepicker({
-        format: "YYYY-MM-DD"
-    });
-
-    let aMin = new Minutes(_minutesID);
-    if (!aMin.isFinalized) {
-        let ms = aMin.parentMeetingSeries();
-        if (ms) {
-            let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
-            if (minDate) {
-                minDate.setDate(minDate.getDate() + 1);
-                datePickerNode.data("DateTimePicker").minDate(minDate);
-            }
-        }
-    }
-
-    $('#topicPanel').sortable({
-        appendTo: document.body,
-        axis: 'y',
-        items: '> .well',
-        opacity: 0.5,
-        disabled: true,
-        handle: '.topicDragDropHandle',
-        update: updateTopicSorting
-    });
-
-    toggleTopicSorting();
-
-    // enable the parent series check after 2 seconds delay to make sure
-    // there was enough time to update the meeting series
-    Meteor.setTimeout(function() {
-        Session.set('minutesedit.checkParent', true);
-    }, 2000);
-});
-
 Template.minutesedit.helpers({
+    authenticating() {
+        const subscriptionReady = Template.instance().minutesReady.get();
+        return Meteor.loggingIn() || !subscriptionReady;
+    },
+
+    canShow() {
+        let usrRoles = new UserRoles();
+
+        let minute = new Minutes(_minutesID);
+        if (!usrRoles.hasViewRoleFor(minute.parentMeetingSeriesID())) {
+            FlowRouter.redirect('/');
+        }
+
+        return true;
+    },
+
+    initialize() {
+        let templateInstance = Template.instance();
+
+        $(document).arrive('#id_minutesdatePicker', () => {
+            let datePickerNode = templateInstance.$('#id_minutesdatePicker');
+            datePickerNode.datetimepicker({
+                format: "YYYY-MM-DD"
+            });
+
+            let aMin = new Minutes(_minutesID);
+            if (!aMin.isFinalized) {
+                let ms = aMin.parentMeetingSeries();
+                if (ms) {
+                    let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
+                    if (minDate) {
+                        minDate.setDate(minDate.getDate() + 1);
+                        datePickerNode.data("DateTimePicker").minDate(minDate);
+                    }
+                }
+            }
+        });
+
+        $(document).arrive('#topicPanel', () => {
+            $('#topicPanel').sortable({
+                appendTo: document.body,
+                axis: 'y',
+                items: '> .well',
+                opacity: 0.5,
+                disabled: true,
+                handle: '.topicDragDropHandle',
+                update: updateTopicSorting
+            });
+
+            toggleTopicSorting();
+        });
+
+        // enable the parent series check after 2 seconds delay to make sure
+        // there was enough time to update the meeting series
+        Meteor.setTimeout(function() {
+            Session.set('minutesedit.checkParent', true);
+        }, 2000);
+    },
+
     checkParentSeries: function() {
         if (!Session.get('minutesedit.checkParent')) return;
 
