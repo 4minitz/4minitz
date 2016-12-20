@@ -18,6 +18,14 @@ export class TopicFilterConfig {
     }
 }
 
+const FILTERS = [
+    {text: 'Info Items', value: 'is:info'},
+    {text: 'Action Items', value: 'is:action'},
+    {text: 'Open Action Items', value: 'is:open'},
+    {text: 'Closed Action Items', value: 'is:closed'},
+    {text: 'Your Action Items', value: '@me'},
+];
+
 const MATCH_CASE = 'do:match-case ';
 
 let toggleMatchCase = function (enable, input) {
@@ -34,7 +42,9 @@ Template.topicFilter.onCreated(function() {
 });
 
 Template.topicFilter.helpers({
-
+    'filters': function () {
+        return FILTERS;
+    }
 });
 
 Template.topicFilter.events({
@@ -51,6 +61,18 @@ Template.topicFilter.events({
         evt.preventDefault();
         let input = tmpl.find('#inputFilter');
         toggleMatchCase(evt.target.checked, input);
+        Template.instance().callback(input.value);
+        input.focus();
+    },
+
+    'change #filters': function(evt, tmpl) {
+        evt.preventDefault();
+        let input = tmpl.find('#inputFilter');
+        tmpl.find('#inputFilter').value = evt.target.value;
+        toggleMatchCase(
+            tmpl.find('#cbCaseSensitiveFilter').checked,
+            input
+        );
         Template.instance().callback(input.value);
         input.focus();
     }
