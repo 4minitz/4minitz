@@ -3,7 +3,11 @@
     {{> navigation}}
 
     <div class="container">
-        {{> Template.dynamic template=main}}
+        {{#if isLoggedIn}}
+            {{> Template.dynamic template=main}}
+        {{else}}
+            {{> login}}
+        {{/if}}
     </div>
 
     {{> confirmationDialog}}

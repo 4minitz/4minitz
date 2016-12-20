@@ -1,19 +1,7 @@
-import { Meteor } from 'meteor/meteor';
-
-import { MeetingSeries } from '/imports/meetingseries';
-import { Minutes } from '/imports/minutes';
-import { UserRoles } from '/imports/userroles';
-
-import { FlashMessage } from '/client/helpers/flashMessage';
-
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
-
-FlowRouter.triggers.enter([function () {
-    if (!Meteor.userId()) {
-        FlowRouter.redirect('/login');
-    }
-}]);
+import { MeetingSeries } from '/imports/meetingseries';
+import { UserRoles } from '/imports/userroles';
 
 FlowRouter.route('/', {
     action() {
