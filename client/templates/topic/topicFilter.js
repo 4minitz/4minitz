@@ -25,7 +25,7 @@ const FILTERS = [
     {text: 'Action Items', value: 'is:action'},
     {text: 'Open Action Items', value: 'is:open'},
     {text: 'Closed Action Items', value: 'is:closed'},
-    {text: 'Your Action Items', value: '@me'},
+    {text: 'Your Action Items', value: '@me'}
 ];
 
 const MATCH_CASE = 'do:match-case ';
@@ -66,6 +66,9 @@ Template.topicFilter.events({
 
         let caseSensitive = (query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length-1)) !== -1);
         tmpl.$('#cbCaseSensitiveFilter').prop("checked", caseSensitive);
+
+        let isItemView = query.indexOf('is:item') !== -1;
+        Session.set('activeTabId', isItemView ? 'tab_items' : 'tab_topics');
     },
 
     'change #cbCaseSensitiveFilter': function(evt, tmpl) {

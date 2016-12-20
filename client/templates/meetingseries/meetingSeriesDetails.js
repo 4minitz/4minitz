@@ -14,10 +14,12 @@ var _meetingSeriesID;   // the parent meeting object of this minutes
 Template.meetingSeriesDetails.onCreated(function () {
     _meetingSeriesID = this.data.meetingSeriesId;
     Session.setDefault("currentTab", "minutesList");
+    Session.setDefault("activeTabId", "tab_minutes");
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
     Session.set("currentTab", "minutesList");
+    Session.set("activeTabId", "tab_minutes");
 
     if (this.data.openMeetingSeriesEditor) {
         Session.set("meetingSeriesEdit.showUsersPanel", true);
@@ -33,6 +35,10 @@ Template.meetingSeriesDetails.helpers({
     minutes: function() {
         let ms = new MeetingSeries(_meetingSeriesID);
         return ms.getAllMinutes();
+    },
+
+    isTabActive: function (tabId) {
+        return (Session.get('activeTabId') === tabId) ? 'active' : '';
     },
 
     tab: function() {
@@ -91,8 +97,9 @@ Template.meetingSeriesDetails.events({
     "click .nav-tabs li": function(event) {
         var currentTab = $(event.target).closest("li");
 
-        currentTab.addClass("active");
-        $(".nav-tabs li").not(currentTab).removeClass("active");
+        //currentTab.addClass("active");
+        //$(".nav-tabs li").not(currentTab).removeClass("active");
+        Session.set('activeTabId', currentTab.attr('id'));
 
         Session.set("currentTab", currentTab.data("template"));
 
