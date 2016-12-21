@@ -1,13 +1,28 @@
 <template name="minutesAttachments">
+<div class="form-group">
+    <label for="attachments">Attachments</label><br>
+
     {{#with currentUpload}}
         <h3 id="progress-basic">
-            Uploading <b>{{file.name}}</b> @{{uploadSpeedMB}}MB/s {{timeToFinish}} remaining
+            Uploading <b>{{file.name}}</b>
+            <button id="btnToggleUpload" type="button" class="btn btn-primary btn-info">
+                {{#if onPause.get}}
+                    <span class="glyphicon glyphicon-play" aria-label="Continue Upload"></span>
+                {{else}}
+                    <span class="glyphicon glyphicon-pause" aria-label="Pause Upload"></span>
+                {{/if}}
+            </button>
+            <button id="btnAbortUpload" type="button" class="btn btn-primary btn-warning">
+                <span class="glyphicon glyphicon-remove" aria-label="Abort Upload"></span>
+            </button>
+            {{timeToFinish}}
         </h3>
         <div class="progress">
             <div class="progress-bar" style="width: {{progress.get}}%;"></div>
         </div>
     {{else}}
         <label class="btn btn-default btn-file">
+            <span class="glyphicon glyphicon-upload" aria-label="Abort Upload"></span>
             Upload... <input type="file" id="fileInput" style="display: none;">
         </label>
     {{/with}}
@@ -25,5 +40,5 @@
                 </li>
         {{/each}}
     </ol>
-
+</div>
 </template>

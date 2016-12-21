@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
+import { AttachmentsCollection } from "/imports/collections/attachments_private"
 
 Template.minutesList.helpers({
     buttonBackground: function () {
@@ -25,6 +26,10 @@ Template.minutesList.helpers({
     isModeratorOfParentSeries: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(this.meetingSeriesId);
+    },
+
+    hasAttachments() {
+        return !!AttachmentsCollection.findOne({"meta.meetingminutes_id": this._id});
     }
 });
 

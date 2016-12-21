@@ -47,6 +47,9 @@
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" aria-label="Finalized"></span>
                         V{{finalizedVersion}}
                     {{/if}}
+                    {{#if hasAttachments}}
+                        <span class="glyphicon glyphicon-paperclip" aria-hidden="true" aria-label="HasAttachments"></span>
+                    {{/if}}
                 </td>
                 <td>
                     {{getPresentParticipantNames 60}}  <!-- Limit to max. 60 chars -->
