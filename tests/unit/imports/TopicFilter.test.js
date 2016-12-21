@@ -36,6 +36,9 @@ QueryParserMock.prototype.getLabelTokens = function() {
     }
     return [];
 };
+QueryParserMock.prototype.hasKeyword = function() {
+    return true;
+};
 let caseSensitive = false;
 QueryParserMock.prototype.isCaseSensitive = function () { return caseSensitive; };
 QueryParserMock.prototype.reset = function() {};
