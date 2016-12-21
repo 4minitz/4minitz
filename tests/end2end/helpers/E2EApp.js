@@ -137,9 +137,6 @@ export class E2EApp {
             browser.click("#confirmationDialogCancel");
         }
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
-
-        E2EGlobal.saveScreenshot("confirmationDialog" + (title || "dummy"));
-
     };
 }
 
