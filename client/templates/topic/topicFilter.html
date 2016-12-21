@@ -4,7 +4,7 @@
         <div class="col-sm-2">
             <div class="form-group">
                 <select id="filters" class="form-control">
-                    <option value="">Filters</option>
+                    <option id="noFilter" value="">Filters</option>
                     {{#each filters}}
                         <option value="{{value}}">{{text}}</option>
                     {{/each}}
@@ -13,7 +13,7 @@
         </div>
 
         <div class="col-xs-8">
-            <input type="text" id="inputFilter" class="form-control" placeholder="Filter" value="{{searchDefaultValue}}">
+            <input type="text" id="inputFilter" class="form-control" placeholder="Filter" value="{{injectFilterValue}}">
         </div>
 
         <div class="col-xs-2 align-with-input">

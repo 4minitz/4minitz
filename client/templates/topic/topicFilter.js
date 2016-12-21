@@ -12,35 +12,60 @@ export class TopicFilterConfig {
      * for the Topic-Filter-UI-Component.
      *
      * @param {TopicFilterCallback} callback - The callback triggered after the search query has changed
-     * @param {string} initialSearchQuery - The string which should be initially set as search query
+     * @param {boolean} switchToItemsView - Switches between items and topics tab
      */
-    constructor(callback, initialSearchQuery) {
+    constructor(callback, switchToItemsView) {
         this.callback = callback;
-        this.prependSearch = initialSearchQuery;
+        this.switchToItemsView = switchToItemsView;
     }
 }
 
 const FILTERS = [
-    {text: 'Info Items', value: 'is:info'},
-    {text: 'Action Items', value: 'is:action'},
-    {text: 'Open Action Items', value: 'is:open'},
-    {text: 'Closed Action Items', value: 'is:closed'},
-    {text: 'Your Action Items', value: '@me'}
+    {text: 'Info Items', value: 'is:item is:info'},
+    {text: 'Action Items', value: 'is:item is:action'},
+    {text: 'Open Action Items', value: 'is:item is:open'},
+    {text: 'Closed Action Items', value: 'is:item is:closed'},
+    {text: 'Your Action Items', value: 'is:item @me'}
 ];
 
 const MATCH_CASE = 'do:match-case ';
+const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`,"g");
 
 let toggleMatchCase = function (enable, input) {
     if (enable) {
         input.value = MATCH_CASE + input.value;
     } else {
-        let MatchCaseRE = new RegExp(MATCH_CASE+"*","g");
-        input.value = input.value.replace(MatchCaseRE, '');
+        input.value = input.value.replace(MATCH_CASE_RE, '');
     }
 };
 
-let performSearch = function(query) {
-    Template.instance().data.config.callback(query);
+let performSearch = function(query, tmpl) {
+    tmpl.data.config.callback(query);
+
+    if(!tmpl.view.isRendered) { return; }
+
+    // toogle Match Case Checkbox
+    let caseSensitive = (query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length-1)) !== -1);
+    tmpl.$('#cbCaseSensitiveFilter').prop("checked", caseSensitive);
+
+    // switch active tab
+    let activeTab = 'tab_topics';
+    if (query.indexOf('is:item') !== -1) {
+        activeTab = 'tab_items';
+
+        tmpl.data.config.switchToItemsView = true;
+    } else {
+        tmpl.data.config.switchToItemsView = false;
+    }
+    Session.set('activeTabId', activeTab);
+
+    // change filters dropdown
+    let matchingFilter = tmpl.find(`#filters option[value='${query}']`);
+    if (matchingFilter) {
+        matchingFilter.selected = true;
+    } else {
+        tmpl.find("#noFilter").selected = true;
+    }
 };
 
 Template.topicFilter.onCreated(function() {
@@ -51,9 +76,19 @@ Template.topicFilter.helpers({
         return FILTERS;
     },
 
-    'searchDefaultValue': function () {
-        let query = Template.instance().data.config.prependSearch;
-        performSearch(query);
+    'injectFilterValue': function () {
+        const IS_ITEM = 'is:item';
+        let tmpl = Template.instance();
+        let query;
+        let currentQuery = (tmpl.view.isRendered) ? tmpl.find('#inputFilter').value : '';
+        if (tmpl.data.config.switchToItemsView) {
+            let prependedQuery = (currentQuery) ? `${IS_ITEM} ${currentQuery}` : IS_ITEM;
+            query = (currentQuery.indexOf(IS_ITEM) === -1) ? prependedQuery : currentQuery;
+        } else {
+            query = currentQuery.replace(new RegExp(`${IS_ITEM}*`, 'g'), '');
+        }
+        query = query.trim();
+        performSearch(query, tmpl);
         return query;
     }
 });
@@ -62,20 +97,14 @@ Template.topicFilter.events({
     'keyup #inputFilter': function(evt, tmpl) {
         evt.preventDefault();
         let query = tmpl.find('#inputFilter').value;
-        performSearch(query);
-
-        let caseSensitive = (query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length-1)) !== -1);
-        tmpl.$('#cbCaseSensitiveFilter').prop("checked", caseSensitive);
-
-        let isItemView = query.indexOf('is:item') !== -1;
-        Session.set('activeTabId', isItemView ? 'tab_items' : 'tab_topics');
+        performSearch(query, tmpl);
     },
 
     'change #cbCaseSensitiveFilter': function(evt, tmpl) {
         evt.preventDefault();
         let input = tmpl.find('#inputFilter');
         toggleMatchCase(evt.target.checked, input);
-        performSearch(input.value);
+        performSearch(input.value, tmpl);
         input.focus();
     },
 
@@ -87,7 +116,7 @@ Template.topicFilter.events({
             tmpl.find('#cbCaseSensitiveFilter').checked,
             input
         );
-        performSearch(input.value);
+        performSearch(input.value, tmpl);
         input.focus();
     }
 });
