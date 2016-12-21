@@ -1,3 +1,5 @@
+import { MeetingSeries } from '../meetingseries';
+
 let fs;
 if (Meteor.isServer) {
     fs = require('fs-extra');   // trows an error on client
@@ -36,15 +38,37 @@ export let AttachmentsCollection = new FilesCollection({
     }
 });
 
-if (Meteor.isClient) {
-    Meteor.subscribe('files.attachments.all');
-}
 
 if (Meteor.isServer) {
     Meteor.publish('files.attachments.all', function () {
-        return AttachmentsCollection.find().cursor;
+        // We publish only those attachments that are bound to
+        // a meeting series that is visible for the current user
+        let meetingSeriesIDs = MeetingSeries.getAllVisibleIDsForUser(this.userId);
+        return AttachmentsCollection.find(
+            {"meta.parentseries_id": {$in: meetingSeriesIDs}}
+        ).cursor;
     });
 }
+
+if (Meteor.isClient) {
+    Meteor.subscribe('files.attachments.all');
+
+    // In case the user is invited to an existing meeting series
+    // from her point of view a meeting series is added.
+    // We re-subscribe to the attachments collection in this case,
+    // to force that already existing attachments of this new
+    // meeting series are sent from server to this client.
+    // This live query lives happily til the end of the world...  ;-)
+    let meetingSeriesLiveQuery = MeetingSeries.find();
+    meetingSeriesLiveQuery.observe(
+        {
+            "added": function () {
+                Meteor.subscribe('files.attachments.all');
+            }
+        }
+    );
+}
+
 
 Meteor.methods({
     'attachments.remove'(id) {
