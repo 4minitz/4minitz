@@ -93,13 +93,17 @@ export class UserRoles {
         return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Invited;
     }
 
+    isUploaderFor(aMeetingSeriesID) {
+        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Uploader;
+    }
+
+
     isInformedAbout(aMeetingSeriesID) {
         return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Informed;
     }
     
     hasViewRoleFor(aMeetingSeriesID) {
-        return (this.isInvitedTo(aMeetingSeriesID) || 
-                this.isModeratorOf(aMeetingSeriesID));
+        return (this.isInvitedTo(aMeetingSeriesID) /* or lower access role */ );
     }
 
     currentRoleFor (aMeetingSeriesID) {
@@ -130,6 +134,7 @@ export class UserRoles {
 // So, prefix zeroes are important!
 UserRoles.USERROLES = {
     "Moderator":   "01"
+    , "Uploader":  "05"
     , "Invited":   "10"
     //, "Informed":  "20"   // TODO implement later
 };

@@ -23,6 +23,10 @@ Template.minutesAttachments.onDestroyed(function() {
 
 
 Template.minutesAttachments.helpers({
+    attachmentsEnabled() {
+        return Meteor.settings.public.attachments.enabled;
+    },
+
     attachments() {
         return AttachmentsCollection.find({"meta.meetingminutes_id": _minutesID});
     },
@@ -74,9 +78,15 @@ Template.minutesAttachments.events({
             });
             upload.on('end', function (error, fileObj) {
                 if (error) {
-                    alert('Error during upload: ' + error);
-                } else {
-                    // alert('File "' + fileObj.name + '" successfully uploaded');
+                    confirmationDialog(
+                        () => {},   // do nothing...
+                        /* Dialog content */
+                        "" + error,
+                        "Error during upload",
+                        "OK",
+                        "btn-success",
+                        true /* hide cancel button */
+                    );
                 }
                 template.currentUpload.set(false);
             });

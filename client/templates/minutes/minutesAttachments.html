@@ -1,4 +1,6 @@
 <template name="minutesAttachments">
+
+{{#if attachmentsEnabled}}
 <div class="form-group">
     <label for="attachments">Attachments</label><br>
 
@@ -41,4 +43,6 @@
         {{/each}}
     </ol>
 </div>
+
+{{/if}} <!-- attachmentsEnabled -->
 </template>

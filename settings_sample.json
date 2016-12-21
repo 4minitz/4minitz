@@ -70,5 +70,23 @@
         "allowSelfSignedTLS": false,
         "whiteListedFields": [ "cn", "department", "employeeNumber", "mail" ],
         "autopublishFields": [ "cn" ]
+    },
+
+    "//7": ["Upload attachment configuration",
+            "enabled: true|false to switch on/off upload attachment feature",
+            "storagePath: relative path is relative to the app's private/assets folder.",
+            "             when testing in developer mode, meteor will erase dir on re-builds",
+            "             use absolute path for full control. Make sure meteor user has write access!",
+            "allowExtensions: regexp '.*' to allow all extensions or pipe separated list like 'png|jpe?g|gif|pdf|ppt'",
+            "denyExtensions: empty string or regexp pipe separated list like 'exe|bat|sh|scr|app'",
+            "maxFileSize: maximum allowed bytes per upload file"
+
+        ],
+    "attachments": {
+        "enabled": true,
+        "storagePath": "attachments",
+        "allowExtensions": ".*",
+        "denyExtensions":  "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
+        "maxFileSize": 10485760
     }
 }
