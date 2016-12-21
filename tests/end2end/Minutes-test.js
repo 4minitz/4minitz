@@ -132,7 +132,7 @@ describe('Minutes', function () {
         expect(dialogMsgText, 'error message should be displayed').to.have.string('Unfortunately the minute is not linked to its parent series correctly');
     });
 
-    it('can persist global notes @watch', function() {
+    it('can persist global notes', function() {
         let aProjectName = "E2E Minutes";
         let aMeetingName = "Meeting Name #6";
         const aGlobalNote = "Amazing global note";

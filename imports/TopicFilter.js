@@ -34,8 +34,11 @@ export class TopicFilter {
                 && this.constructor._itemMatchesFilterTokens(item, this.parser.getFilterTokens());
         };
 
+        if (this.isItemView()) {
+            this.currentTopics = this.currentTopics.filter(topic => topic.infoItems.some(infoItemFilter));
+        }
+
         return this.currentTopics
-            .filter(topic => topic.infoItems.some(infoItemFilter))
             .map(topic => {
                 let newTopic = Object.assign({}, topic);
                 newTopic.infoItems = topic.infoItems.filter(infoItemFilter);

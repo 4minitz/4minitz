@@ -38,7 +38,7 @@ QueryParserMock.prototype.getLabelTokens = function() {
 };
 let caseSensitive = false;
 QueryParserMock.prototype.isCaseSensitive = function () { return caseSensitive; };
-QueryParserMock.prototype.reset = function() { caseSensitive = false; };
+QueryParserMock.prototype.reset = function() {};
 
 describe('TopicFilter', function() {
 
@@ -127,6 +127,7 @@ describe('TopicFilter', function() {
     it('can enable case sensitive search', function() {
         caseSensitive = true;
         let res = topicFilter.filter(topics, "THREE");
+        caseSensitive = false;
 
         expect(res, "Length of the result topic array should be 0").have.length(0);
     });
