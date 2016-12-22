@@ -12,6 +12,10 @@ import { Minutes } from '../minutes';
 
 import { FilesCollection } from 'meteor/ostrio:files';
 
+// Security: html downloads from server might allow XSS
+// see https://github.com/VeliovGroup/Meteor-Files/issues/289
+const FORBIDDEN_FILENAME_EXTENSIONS = "html|htm|swf";
+
 export let AttachmentsCollection = new FilesCollection({
     collectionName: 'AttachmentsCollection',
     allowClientCode: false, // Disallow attachments remove() call from clients
@@ -71,7 +75,8 @@ export let AttachmentsCollection = new FilesCollection({
         // Check for non-allowed file extensions
         if (Meteor.settings.public.attachments.denyExtensions != undefined) {
             const denyRE = new RegExp(Meteor.settings.public.attachments.denyExtensions, "i");
-            if (denyRE.test(file.extension)) {
+            const fobiddenRE = new RegExp(FORBIDDEN_FILENAME_EXTENSIONS, "i");
+            if (denyRE.test(file.extension) || fobiddenRE.test(file.extension)) {
                 return "Denied file extension. Please upload other file type.";
             }
         }
