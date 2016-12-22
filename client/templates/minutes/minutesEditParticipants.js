@@ -93,7 +93,7 @@ Template.minutesEditParticipants.events({
         }
     },
 
-    "click #btnParticipantsCollapse" () {
+    "click #btnParticipantsExpand" () {
         Session.set("participants.expand", !Session.get("participants.expand"));
     }
 });

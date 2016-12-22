@@ -11,6 +11,12 @@ Template.minutesAttachments.onCreated(function() {
     this.currentUpload = new ReactiveVar(false);
     _minutesID = this.data._id;
     console.log("minutesAttachment on minutes.id:"+_minutesID);
+
+    // Calculate initial expanded/collapsed state
+    Session.set("attachments.expand", true);
+    if (AttachmentsCollection.find({"meta.meetingminutes_id": _minutesID}).count() == 0) {
+        Session.set("attachments.expand", false);
+    }
 });
 
 Template.minutesAttachments.onRendered(function() {
@@ -27,12 +33,33 @@ Template.minutesAttachments.helpers({
         return Meteor.settings.public.attachments.enabled;
     },
 
+    isAttachmentsExpanded() {
+        return Session.get("attachments.expand");
+    },
+
     attachments() {
         return AttachmentsCollection.find({"meta.meetingminutes_id": _minutesID});
     },
 
+    attachmentsCount() {
+        const count = AttachmentsCollection.find({"meta.meetingminutes_id": _minutesID}).count();
+        return count == 1 ? count + " file" : count + " files";
+    },
+
     currentUpload() {
         return Template.instance().currentUpload.get();
+    },
+
+    // some responsive CSS tweaking
+    useClassWell() {
+        if (! Session.get("global.isMobileWidth")) {
+            return "well";
+        }
+    },
+    useStylePadding() {
+        if (! Session.get("global.isMobileWidth")) {
+            return "padding-left: 1.5em;";
+        }
     },
 
     showUploadButton() {
@@ -152,6 +179,10 @@ Template.minutesAttachments.events({
         e.preventDefault();
         this.abort();
         return false;
+    },
+
+    "click #btnAttachmentsExpand" () {
+        Session.set("attachments.expand", !Session.get("attachments.expand"));
     }
 
 });
