@@ -125,6 +125,10 @@ export class UserRoles {
         return this._user;
     }
 
+    getUserID() {
+        return this._userId;
+    }
+
     saveRoleForMeetingSeries (aMeetingSeriesID, newRole) {
         Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, aMeetingSeriesID, newRole);
     }
