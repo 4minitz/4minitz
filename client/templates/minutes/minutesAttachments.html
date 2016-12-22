@@ -41,9 +41,9 @@
                         <button id="btnDelAttachment" type="button" class="btn btn-xs btn-danger">×</button>
                     {{/if}}
                     <!--Download Attachment-->
-                    <a href="{{link}}?download=true" download="{{name}}" target="_parent" type="{{type}}">
+                    <a href="{{link}}?download=true" download="{{name}}" target="_parent" type="{{type}}" title="{{size}} bytes">
                         {{name}}
-                    </a>
+                    </a> ({{uploaderUsername}} {{uploadTimestamp}})
                 </li>
         {{/each}}
     </ol>

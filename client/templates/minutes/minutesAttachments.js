@@ -72,6 +72,17 @@ Template.minutesAttachments.helpers({
             return time+ " remaining";
         }
         return "";
+    },
+
+    uploaderUsername() {
+        let file = this.fetch()[0]; // this is an attachment cursor in this context, so get "first" object of array
+        let usr = Meteor.users.findOne(file.userId);
+        return usr.username;
+    },
+
+    uploadTimestamp() {
+        let file = this.fetch()[0]; // this is an attachment cursor in this context, so get "first" object of array
+        return (global.formatDateISO8601Time(file.meta.timestamp));
     }
 });
 

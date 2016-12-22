@@ -93,6 +93,7 @@ export let AttachmentsCollection = new FilesCollection({
 
     onAfterUpload: function (file) {
         console.log("Successfully uploaded attachment file: "+file.name + " to "+file.path);
+        AttachmentsCollection.update(file._id, {$set: {"meta.timestamp": new Date()}});
     }
     ,
 
