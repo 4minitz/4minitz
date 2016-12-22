@@ -244,7 +244,7 @@ Meteor.methods({
 
         // 1st.: remove user from roles
         let roles = new UserRoles();
-        roles.removeRoles(meetingSeries_id);
+        roles.removeAllRolesForMeetingSeries(meetingSeries_id);
 
         // 2nd.: adapt "visibleFor" of meeting series
         let ms = new MeetingSeries(meetingSeries_id);

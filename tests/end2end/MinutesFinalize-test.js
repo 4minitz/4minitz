@@ -50,7 +50,7 @@ describe('Minutes Finalize', function () {
     // this test does only make sense if mail delivery is enabled
     // so we have to wait until the mail system can be mocked
     if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
-        it('asks if emails should be sent before finalizing the minute', function () {
+        it('asks if emails should be sent before finalizing the minute @watch', function () {
             aMeetingCounter++;
             aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -74,11 +74,12 @@ describe('Minutes Finalize', function () {
 
             // close dialog otherwise beforeEach-hook will fail!
             E2EApp.confirmationDialogAnswer(false, "failingtest");
+            E2EGlobal.waitSomeTime(300);   // make next test happy
         });
     }
 
 
-    it('can not add minutes if unfinalized minutes exist', function () {
+    it('can not add minutes if unfinalized minutes exist @watch', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
