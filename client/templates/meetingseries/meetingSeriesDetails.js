@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
@@ -9,17 +10,26 @@ import { TopicListConfig } from '../topic/topicsList'
 import { ItemListConfig } from './itemsList'
 
 
-var _meetingSeriesID;   // the parent meeting object of this minutes
+let _meetingSeriesID;   // the parent meeting object of this minutes
 
 Template.meetingSeriesDetails.onCreated(function () {
-    _meetingSeriesID = this.data.meetingSeriesId;
+    this.autorun(() => {
+        _meetingSeriesID = FlowRouter.getParam('_id');
+        this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
+
+        let usrRoles = new UserRoles();
+        if (!usrRoles.hasViewRoleFor(_meetingSeriesID)) {
+            FlowRouter.go('/');
+        }
+    });
+
     Session.setDefault("currentTab", "minutesList");
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
     Session.set("currentTab", "minutesList");
 
-    if (this.data.openMeetingSeriesEditor) {
+    if (this.showSettingsDialog) {
         Session.set("meetingSeriesEdit.showUsersPanel", true);
         $('#dlgEditMeetingSeries').modal('show');
     }

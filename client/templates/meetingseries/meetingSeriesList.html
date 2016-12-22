@@ -26,13 +26,13 @@
 
 <template name="meetingSeriesOverview">
         <li class="list-group-item meeting-series-item" style="padding-bottom: 10px;">
-            <a href="/meetingseries/{{this._id}}">{{project}}: {{name}}</a>
+            <a href="{{pathFor 'meetingseries' _id=this._id}}">{{project}}: {{name}}</a>
             {{#if isModeratorOfSeries}}
                 <span class="glyphicon glyphicon-user"></span>
             {{/if}}
             {{#with lastMin = lastMinutes}}
                 {{#if lastMin}}
-                    (<span class="hidden-xs">last minutes of </span><a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>
+                    (<span class="hidden-xs">last minutes of </span><a href="{{pathFor 'minutesedit' _id=lastMin._id}}">{{lastMin.date}}</a>
                     {{#if lastMin.isFinalized}}
                         <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalized"></span>)
                     {{else}}

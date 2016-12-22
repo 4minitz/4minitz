@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UsersEditConfig } from './meetingSeriesEditUsers'
@@ -6,7 +7,7 @@ import { UserRoles } from '/imports/userroles'
 
 
 Template.meetingSeriesEdit.onCreated(function() {
-    let thisMeetingSeriesID = this.data._id;
+    let thisMeetingSeriesID = FlowRouter.getParam('_id');
 
     // create client-only collection for storage of users attached
     // to this meeting series as input <=> output for the user editor

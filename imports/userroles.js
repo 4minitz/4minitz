@@ -4,9 +4,10 @@
 // Needs "meteor add alanning:roles"
 
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import  './collections/userroles_private';
-import { MeetingSeries } from './meetingseries'
+import { MeetingSeries } from './meetingseries';
 
 
 export class UserRoles {
@@ -25,7 +26,7 @@ export class UserRoles {
         }
         
         if (! currentUser) {
-            Router.go("/");
+            FlowRouter.go("/");
             throw new Meteor.Error('Could not find user for userId:'+this._userId);
         }
 
