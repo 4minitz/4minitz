@@ -18,7 +18,9 @@ export let AttachmentsCollection = new FilesCollection({
     permissions: parseInt('0600', 8),      // Security: make uploaded files "chmod 600' only readable for server user
     storagePath: function (fileObj) {
         if (Meteor.isServer) {
-            let defaultpath = Meteor.settings.attachments.storagePath;
+            let defaultpath = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
+                                ? Meteor.settings.attachments.storagePath
+                                : "attachments/";
             if (fileObj && fileObj.meta && fileObj.meta.parentseries_id) {
                 let path =  defaultpath + fileObj.meta.parentseries_id;
                 // create dir if it does not exist

@@ -58,9 +58,11 @@ export class GlobalSettings {
                 : 10 * 1024 * 1024; // default: 10 MB
 
         // enforce slash "/" at the end
-        if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {
-            Meteor.settings.attachments.storagePath = Meteor.settings.attachments.storagePath + "/";
-            console.log(Meteor.settings.attachments.storagePath);
+        if (Meteor.settings.attachments && Meteor.settings.attachments.storagePath) {
+            if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {
+                Meteor.settings.attachments.storagePath = Meteor.settings.attachments.storagePath + "/";
+                console.log(Meteor.settings.attachments.storagePath);
+            }
         }
     }
 
