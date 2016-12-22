@@ -23,13 +23,13 @@ export class E2EMinutesParticipants {
 
     static expand() {
         if (E2EMinutesParticipants.isCollapsed()) {
-            browser.click("#btnParticipantsCollapse");
+            browser.click("#btnParticipantsExpand");
         }
     }
 
     static collapse() {
         if (E2EMinutesParticipants.isExpanded()) {
-            browser.click("#btnParticipantsCollapse");
+            browser.click("#btnParticipantsExpand");
         }
     }
 
