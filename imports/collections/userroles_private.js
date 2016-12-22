@@ -29,6 +29,10 @@ if (Meteor.isClient) {
 
 Meteor.methods({
     'userroles.saveRoleForMeetingSeries'(otherUserId, meetingSeriesId, newRole) {
+        if (Meteor.isServer) {console.log("Method: userroles.saveRoleForMeetingSeries ", otherUserId, meetingSeriesId, newRole);}
+        if (! Meteor.userId()) {
+            throw new Meteor.Error("Not logged in.");
+        }
         if (Meteor.userId() == otherUserId) {
             return; // silently swallow: user may never change own role!
         }
@@ -41,7 +45,23 @@ Meteor.methods({
         } else {
             throw new Meteor.Error("Cannot set roles for meeting series", "You are not moderator of this meeting series.");
         }
-        
-        
+    },
+
+    'userroles.removeAllRolesForMeetingSeries' (otherUserId, meetingSeriesId) {
+        if (Meteor.isServer) {console.log("Method: userroles.removeAllRolesForMeetingSeries ", otherUserId, meetingSeriesId);}
+        if (! Meteor.userId()) {
+            throw new Meteor.Error("Not logged in.");
+        }
+        if (Meteor.userId() == otherUserId) {
+            return; // silently swallow: user may never change own role!
+        }
+
+        // Security: Ensure user is moderator of affected meeting series
+        let userRoles = new UserRoles(Meteor.userId());
+        if (userRoles.isModeratorOf(meetingSeriesId)) {
+            Roles.removeUsersFromRoles(otherUserId, UserRoles.allRolesNumerical(), meetingSeriesId);
+        } else {
+            throw new Meteor.Error("Cannot set roles for meeting series", "You are not moderator of this meeting series.");
+        }
     }
 });

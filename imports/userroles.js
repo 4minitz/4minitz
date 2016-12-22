@@ -115,13 +115,13 @@ export class UserRoles {
         return this._user;
     }
 
-    saveRoleForMeetingSeries (meetingSeriesId, newRole) {
-        Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, meetingSeriesId, newRole);
+    saveRoleForMeetingSeries (aMeetingSeriesID, newRole) {
+        Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, aMeetingSeriesID, newRole);
     }
 
     // remove all roles for the current user for the given meeting series
-    removeRoles(aMeetingSeriesID) {
-        Roles.removeUsersFromRoles(this._userId, UserRoles.allRolesNumerical(), aMeetingSeriesID);
+    removeAllRolesForMeetingSeries(aMeetingSeriesID) {
+        Meteor.call("userroles.removeAllRolesForMeetingSeries", this._userId, aMeetingSeriesID);
     }
 }
 
