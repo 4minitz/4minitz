@@ -78,8 +78,7 @@ export class UserRoles {
     visibleMeetingSeries() {
         let visibleMeetingsSeries = [];
         for (let aMeetingSeriesID in this._userRoles) {
-            if (this._userRoles[aMeetingSeriesID] == UserRoles.USERROLES.Moderator ||
-                this._userRoles[aMeetingSeriesID]  == UserRoles.USERROLES.Invited) {
+            if (this.hasViewRoleFor(aMeetingSeriesID)) {
                 visibleMeetingsSeries.push(aMeetingSeriesID);
             }
         }
@@ -87,20 +86,24 @@ export class UserRoles {
     }
     
     isModeratorOf(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Moderator;
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Moderator);
     }
 
     isInvitedTo(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Invited;
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Invited);
     }
 
     isUploaderFor(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Uploader;
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Uploader);
     }
 
 
     isInformedAbout(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Informed;
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Informed);
     }
     
     hasViewRoleFor(aMeetingSeriesID) {
@@ -108,7 +111,10 @@ export class UserRoles {
     }
 
     currentRoleFor (aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID];
+        if (! this._userRoles[aMeetingSeriesID] || ! this._userRoles[aMeetingSeriesID][0]) {
+            return undefined;
+        }
+        return this._userRoles[aMeetingSeriesID][0];
     }
 
     currentRoleTextFor (aMeetingSeriesID) {
