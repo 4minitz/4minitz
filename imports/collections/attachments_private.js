@@ -38,6 +38,9 @@ export let AttachmentsCollection = new FilesCollection({
     // This will be run in method context on client and(!) server by the Meteor-Files package
     // So, server will always perform the last ultimate check!
     onBeforeUpload: function (file) {
+        if (! GlobalSettings.getAttachmentsEnabled()) {
+            return "Upload not allowed in settings.json";
+        }
         // Check if this upload candidate is allowed by size and extension
         // This method is called on client and on server
         if (! Meteor.userId()) {
