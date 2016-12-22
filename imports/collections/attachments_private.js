@@ -53,6 +53,13 @@ export let AttachmentsCollection = new FilesCollection({
             console.log(msg);
             return msg;
         }
+        // check if minutes is finalized
+        let min = new Minutes(file.meta.meetingminutes_id);
+        if (min.isFinalized) {
+            const msg = "Upload not allowed. Minutes are finalized.";
+            console.log(msg);
+            return msg;
+        }
         // Check for allowed file size
         if (file.size > Meteor.settings.public.attachments.maxFileSize) {
             const maxMB = Math.floor(Meteor.settings.public.attachments.maxFileSize / 1024 / 1024);
