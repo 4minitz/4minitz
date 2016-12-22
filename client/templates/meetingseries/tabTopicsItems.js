@@ -13,10 +13,12 @@ import { TopicListConfig } from '../topic/topicsList';
 import { ItemListConfig } from '../meetingseries/itemsList';
 
 export class TabConfig {
-    constructor (topics, parentMeetingSeriesId, isItemsView) {
+    constructor (topics, parentMeetingSeriesId, activeTab, onSearchChanged) {
         this.topics = topics;
         this.parentMeetingSeriesId = parentMeetingSeriesId;
-        this.isItemsView = !!isItemsView;
+        this.activeTab = activeTab;
+        this.isItemsView = activeTab.get() === 'tab_items';
+        this.onSearchChanged = onSearchChanged;
     }
 }
 
@@ -38,13 +40,20 @@ function getUserIdByName(userName) {
     return userName;
 }
 
+let isItemsView = function(tmpl) {
+    return tmpl.data.activeTab.get() === 'tab_items';
+};
+
 Template.tabTopicsItems.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar("");
+    let myTemplate = Template.instance();
     this.topicFilterHandler = (query) => {
-        this.topicFilterQuery.set(query);
+        myTemplate.topicFilterQuery.set(query);
+        if (myTemplate.data.onSearchChanged) {
+            myTemplate.data.onSearchChanged(query);
+        }
     };
     this.topicFilter = new TopicFilter(new QueryParser(getLabelIdsByName, getUserIdByName));
-    this.isItemsView = new ReactiveVar(this.data.isItemsView);
 });
 
 Template.tabTopicsItems.helpers({
@@ -52,22 +61,22 @@ Template.tabTopicsItems.helpers({
     'getTopicFilterConfig': function() {
         let tmplInstance = Template.instance();
 
-        let prependSearch = tmplInstance.data.isItemsView ? 'is:item' : '';
-        return new TopicFilterConfig(tmplInstance.topicFilterHandler, prependSearch);
+        let prependSearch = isItemsView(tmplInstance) ? 'is:item' : '';
+        return new TopicFilterConfig(tmplInstance.topicFilterHandler, isItemsView(tmplInstance));
     },
 
     'topicViewData': function() {
-        var query = Template.instance().topicFilterQuery.get();
-        let topics = Template.instance().topicFilter.filter(this.topics, query);
-        let itemsView = Template.instance().topicFilter.isItemView();
-        Template.instance().isItemsView.set(itemsView);
-        return (itemsView)
+        let tmpl = Template.instance();
+        var query = tmpl.topicFilterQuery.get();
+
+        let topics = tmpl.topicFilter.filter(this.topics, query);
+        return (isItemsView(tmpl))
             ? new ItemListConfig(topics, Template.instance().data.parentMeetingSeriesId)
             : new TopicListConfig(topics, null, true, Template.instance().data.parentMeetingSeriesId);
     },
 
     'topicViewTemplate': function() {
-        return (Template.instance().isItemsView.get()) ? 'itemsList' : 'topicsList';
+        return (isItemsView(Template.instance())) ? 'itemsList' : 'topicsList';
     }
 
 

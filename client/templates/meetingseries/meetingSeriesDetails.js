@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { Minutes } from '/imports/minutes'
@@ -13,14 +14,20 @@ var _meetingSeriesID;   // the parent meeting object of this minutes
 
 Template.meetingSeriesDetails.onCreated(function () {
     _meetingSeriesID = this.data.meetingSeriesId;
-    Session.setDefault("currentTab", "minutesList");
-    Session.setDefault("activeTabId", "tab_minutes");
+    this.activeTabTemplate = new ReactiveVar("minutesList");
+    this.activeTabId = new ReactiveVar("tab_minutes");
+
+    let myTemplate = Template.instance();
+    this.onSearchChangedHandler = (query) => {
+        if (myTemplate.activeTabTemplate.get() === 'tabTopicsItems') {
+            let tab_id = (query.indexOf('is:item') === -1) ? 'tab_topics' : 'tab_items';
+            myTemplate.activeTabId.set(tab_id);
+            console.log(myTemplate.activeTabId.get());
+        }
+    }
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
-    Session.set("currentTab", "minutesList");
-    Session.set("activeTabId", "tab_minutes");
-
     if (this.data.openMeetingSeriesEditor) {
         Session.set("meetingSeriesEdit.showUsersPanel", true);
         $('#dlgEditMeetingSeries').modal('show');
@@ -38,15 +45,16 @@ Template.meetingSeriesDetails.helpers({
     },
 
     isTabActive: function (tabId) {
-        return (Session.get('activeTabId') === tabId) ? 'active' : '';
+        return (Template.instance().activeTabId.get() === tabId) ? 'active' : '';
     },
 
     tab: function() {
-        return Session.get("currentTab");
+        return Template.instance().activeTabTemplate.get();
     },
 
     tabData: function() {
-        let tab = Session.get("currentTab");
+        let tmpl = Template.instance();
+        let tab = tmpl.activeTabTemplate.get();
         let ms = new MeetingSeries(_meetingSeriesID);
 
         switch (tab) {
@@ -56,28 +64,9 @@ Template.meetingSeriesDetails.helpers({
                     meetingSeriesId: _meetingSeriesID
                 };
 
-            case "topicsList":
-            {
-                let status = Session.get("actionItemStatus");
-                let topics;
-                switch (status) {
-                    case "open":
-                        topics = ms.openTopics;
-                        break;
-                    case "topics":
-                        topics = ms.topics;
-                        break;
-                    default:
-                        throw new Meteor.Error("illegal-state", "Unknown topic list status: " + status);
-                }
-
-                return new TopicListConfig(topics, null, true, _meetingSeriesID);
-            }
-
             case "tabTopicsItems":
             {
-                let s = Session.get("actionItemStatus");
-                return new TabConfig(ms.topics, _meetingSeriesID, (s === 'items'));
+                return new TabConfig(ms.topics, _meetingSeriesID, tmpl.activeTabId, tmpl.onSearchChangedHandler);
             }
 
             default: throw new Meteor.Error('illegal-state', 'Unknown tab: ' + tab);
@@ -94,17 +83,10 @@ Template.meetingSeriesDetails.events({
     "click #btnHideHelp": function () {
         $(".help").hide();  // use jQuery to find and hide class
     },
-    "click .nav-tabs li": function(event) {
+    "click .nav-tabs li": function(event, tmpl) {
         var currentTab = $(event.target).closest("li");
 
-        //currentTab.addClass("active");
-        //$(".nav-tabs li").not(currentTab).removeClass("active");
-        Session.set('activeTabId', currentTab.attr('id'));
-
-        Session.set("currentTab", currentTab.data("template"));
-
-        if (currentTab.data("action")) {
-            Session.set("actionItemStatus", currentTab.data("action"));
-        }
+        tmpl.activeTabId.set(currentTab.attr('id'));
+        tmpl.activeTabTemplate.set(currentTab.data("template"));
     }
 });

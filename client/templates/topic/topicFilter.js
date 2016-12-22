@@ -48,17 +48,6 @@ let performSearch = function(query, tmpl) {
     let caseSensitive = (query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length-1)) !== -1);
     tmpl.$('#cbCaseSensitiveFilter').prop("checked", caseSensitive);
 
-    // switch active tab
-    let activeTab = 'tab_topics';
-    if (query.indexOf('is:item') !== -1) {
-        activeTab = 'tab_items';
-
-        tmpl.data.config.switchToItemsView = true;
-    } else {
-        tmpl.data.config.switchToItemsView = false;
-    }
-    Session.set('activeTabId', activeTab);
-
     // change filters dropdown
     let matchingFilter = tmpl.find(`#filters option[value='${query}']`);
     if (matchingFilter) {
