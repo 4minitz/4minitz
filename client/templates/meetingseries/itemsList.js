@@ -5,7 +5,7 @@ import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
 import { Label } from '/imports/label';
 
-import { TopicFilter } from '/imports/TopicFilter';
+import { TopicFilter } from '/imports/search/TopicFilter';
 import { QueryParser } from '/imports/search/QueryParser';
 import { TopicFilterConfig } from '../topic/topicFilter';
 

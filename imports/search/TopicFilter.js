@@ -1,6 +1,6 @@
 import { _ } from 'meteor/underscore';
 
-import { KEYWORDS } from './search/FilterKeywords';
+import { KEYWORDS } from './FilterKeywords';
 
 export class TopicFilter {
 

@@ -9,8 +9,6 @@ const {
     'meteor/underscore': { _, '@noCallThru': true}
 });
 
-console.log(KEYWORDS);
-
 const {
     QueryParser
     } = proxyquire('../../../../imports/search/QueryParser', {
