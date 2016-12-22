@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
-import { AttachmentsCollection } from "/imports/collections/attachments_private"
+import { AttachmentsCollection, Attachment } from "/imports/collections/attachments_private"
 
 let _minutesID; // the ID of these minutes
 
@@ -33,6 +33,25 @@ Template.minutesAttachments.helpers({
 
     currentUpload() {
         return Template.instance().currentUpload.get();
+    },
+
+    showUploadButton() {
+        let min = new Minutes(_minutesID);
+        let ur = new UserRoles();
+        if (! min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID())) {
+            return true;
+        }
+        return false;
+    },
+
+    showAttachmentRemoveButton() {
+        let min = new Minutes(_minutesID);
+        let file = this.fetch()[0]; // this is an attachment cursor in this context, so get "first" object of array
+        let attachment = new Attachment(file._id);
+        if (! min.isFinalized && attachment.mayRemove()) {
+            return true;
+        }
+        return false;
     },
 
     uploadSpeed() {

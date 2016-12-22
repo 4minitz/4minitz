@@ -44,6 +44,7 @@ export class GlobalSettings {
             (Meteor.settings.attachments && Meteor.settings.attachments.enabled !== undefined)
                 ? Meteor.settings.attachments.enabled
                 : false;
+
         Meteor.settings.public.attachments.allowExtensions =
             (Meteor.settings.attachments && Meteor.settings.attachments.allowExtensions !== undefined)
                 ? Meteor.settings.attachments.allowExtensions
@@ -158,6 +159,6 @@ export class GlobalSettings {
     }
 
     static getAttachmentsEnabled() {
-        return Meteor.settings.public.attachmentsEnabled;
+        return  Meteor.settings.public.attachments.enabled;
     }
 }

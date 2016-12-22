@@ -23,10 +23,13 @@
             <div class="progress-bar" style="width: {{progress.get}}%;"></div>
         </div>
     {{else}}
-        <label class="btn btn-default btn-file">
-            <span class="glyphicon glyphicon-upload" aria-label="Abort Upload"></span>
-            Upload... <input type="file" id="fileInput" style="display: none;">
-        </label>
+        <!--UPLOAD... button-->
+        {{#if showUploadButton}}
+            <label class="btn btn-default btn-file">
+                <span class="glyphicon glyphicon-upload" aria-label="Abort Upload"></span>
+                Upload... <input type="file" id="fileInput" style="display: none;">
+            </label>
+        {{/if}}
     {{/with}}
     <br>
     <ol>
@@ -34,7 +37,9 @@
         {{#each attachments.each}}
                 <li>
                     <!--Delete this Atachment-->
-                    <button id="btnDelAttachment" type="button" class="btn btn-xs btn-danger">×</button>
+                    {{#if showAttachmentRemoveButton}}
+                        <button id="btnDelAttachment" type="button" class="btn btn-xs btn-danger">×</button>
+                    {{/if}}
                     <!--Download Attachment-->
                     <a href="{{link}}?download=true" download="{{name}}" target="_parent" type="{{type}}">
                         {{name}}

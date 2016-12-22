@@ -209,7 +209,13 @@ Meteor.methods({
 export class Attachment {
     constructor(attachmentID) {
         this._roles = new UserRoles(this.userId);
+        if (!this._roles) {
+            console.log("Could not retrieve roles for ", this.userId);
+        }
         this._file = AttachmentsCollection.findOne(attachmentID);
+        if (!this._file) {
+            console.log("Could not retrieve attachment for ID ", attachmentID);
+        }
     }
 
     isUploaderAndFileOwner () {
