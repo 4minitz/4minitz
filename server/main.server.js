@@ -21,7 +21,7 @@ Meteor.startup(() => {
     handleMigration();
     // Migrations.migrateTo(1);     // Plz. keep this comment for manual testing... ;-)
 
-    if (GlobalSettings.createDemoAccount) {
+    if (GlobalSettings.createDemoAccount()) {
         let demoUser = Meteor.users.findOne({"username": "demo"});
         if (!demoUser) {
             Accounts.createUser({username: "demo", password: "demo", email: ""});
