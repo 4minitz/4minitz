@@ -57,7 +57,27 @@ let performSearch = function(query, tmpl) {
     }
 };
 
+let appendSpace = function(string) {
+    if (string !== '') {
+        string = string.trim() + ' ';
+    }
+    return string;
+};
+
+let focusInputField = function(tmpl) {
+    if(!tmpl.view.isRendered) { return; }
+    let input = tmpl.find('#inputFilter');
+    input.value = appendSpace(input.value);
+    input.focus();
+
+};
+
 Template.topicFilter.onCreated(function() {
+});
+
+Template.topicFilter.onRendered(function() {
+    let tmpl = Template.instance();
+    Meteor.setTimeout(() => { focusInputField(tmpl); }, 1);
 });
 
 Template.topicFilter.helpers({
@@ -78,7 +98,8 @@ Template.topicFilter.helpers({
         }
         query = query.trim();
         performSearch(query, tmpl);
-        return query;
+        focusInputField(tmpl);
+        return appendSpace(query);
     }
 });
 
@@ -94,18 +115,18 @@ Template.topicFilter.events({
         let input = tmpl.find('#inputFilter');
         toggleMatchCase(evt.target.checked, input);
         performSearch(input.value, tmpl);
-        input.focus();
+        focusInputField(tmpl);
     },
 
     'change #filters': function(evt, tmpl) {
         evt.preventDefault();
         let input = tmpl.find('#inputFilter');
-        tmpl.find('#inputFilter').value = evt.target.value;
+        input.value = evt.target.value;
         toggleMatchCase(
             tmpl.find('#cbCaseSensitiveFilter').checked,
             input
         );
         performSearch(input.value, tmpl);
-        input.focus();
+        focusInputField(tmpl);
     }
 });

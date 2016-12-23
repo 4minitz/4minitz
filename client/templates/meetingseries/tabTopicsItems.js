@@ -40,6 +40,7 @@ function getUserIdByName(userName) {
 }
 
 let isItemsView = function(tmpl) {
+    if (!tmpl || !tmpl.data || !tmpl.data.activeTab) { return false; }
     return tmpl.data.activeTab.get() === 'tab_items';
 };
 

@@ -22,7 +22,6 @@ Template.meetingSeriesDetails.onCreated(function () {
         if (myTemplate.activeTabTemplate.get() === 'tabTopicsItems') {
             let tab_id = (query.indexOf('is:item') === -1) ? 'tab_topics' : 'tab_items';
             myTemplate.activeTabId.set(tab_id);
-            console.log(myTemplate.activeTabId.get());
         }
     }
 });

@@ -13,6 +13,9 @@ export class TopicFilter {
     }
 
     filter(topics, query) {
+        if (!topics) { topics = []; }
+        if (!query) { query = ''; }
+
         this.parser.reset();
         this.currentTopics = topics;
         this.parser.parse(query);
