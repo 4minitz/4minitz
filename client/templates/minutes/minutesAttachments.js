@@ -74,11 +74,18 @@ Template.minutesAttachments.helpers({
     showAttachmentRemoveButton() {
         let min = new Minutes(_minutesID);
         let file = this.fetch()[0]; // this is an attachment cursor in this context, so get "first" object of array
-        let attachment = new Attachment(file._id);
-        if (! min.isFinalized && attachment.mayRemove()) {
-            return true;
+        try {
+            let attachment = new Attachment(file._id);
+            if (! min.isFinalized && attachment.mayRemove()) {
+                return true;
+            }
+            return false;
+        } catch(err) {
+            // when attachment is in the process of being removed
+            // new Attachment(id) may fail...
+            // we handle this situation gracefully
+            return false;
         }
-        return false;
     },
 
     uploadSpeed() {
