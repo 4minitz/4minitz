@@ -1,6 +1,9 @@
 let fs;
+let path;
+
 if (Meteor.isServer) {
     fs = require('fs-extra');   // trows an error on client
+    path = require('path');
 }
 
 import { Meteor } from 'meteor/meteor';
@@ -15,26 +18,28 @@ import { FilesCollection } from 'meteor/ostrio:files';
 // Security: html downloads from server might allow XSS
 // see https://github.com/VeliovGroup/Meteor-Files/issues/289
 const FORBIDDEN_FILENAME_EXTENSIONS = "html|htm|swf";
+// const FORBIDDEN_FILENAME_EXTENSIONS = "swf";
+
+
+export let attachmentsStoragePath = function (fileObj) {
+    if (Meteor.isServer) {
+        let path = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
+            ? Meteor.settings.attachments.storagePath   // ends with slash - see GlobalSettings
+            : "attachments/";
+        if (fileObj && fileObj.meta && fileObj.meta.parentseries_id) {
+            path =  path + fileObj.meta.parentseries_id;
+        }
+        // create dir if it does not exist
+        fs.ensureDirSync(path);
+        return path;
+    }
+};
 
 export let AttachmentsCollection = new FilesCollection({
     collectionName: 'AttachmentsCollection',
     allowClientCode: false, // Disallow attachments remove() call from clients
     permissions: parseInt('0600', 8),      // Security: make uploaded files "chmod 600' only readable for server user
-    storagePath: function (fileObj) {
-        if (Meteor.isServer) {
-            let defaultpath = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
-                                ? Meteor.settings.attachments.storagePath
-                                : "attachments/";
-            if (fileObj && fileObj.meta && fileObj.meta.parentseries_id) {
-                let path =  defaultpath + fileObj.meta.parentseries_id;
-                // create dir if it does not exist
-                fs.ensureDirSync(path);
-                return path;
-            } else {
-                return defaultpath;
-            }
-        }
-    },
+    storagePath: attachmentsStoragePath,
 
     // Security: onBeforeUpload
     // Here we check for upload rights of user and if the file is within in defined limits
@@ -171,7 +176,6 @@ if (Meteor.isClient) {
 
 
 Meteor.methods({
-
     // Security: onBeforeRemove
     // Here we check for remove rights of user. User must have
     //   - either: moderator role for meeting series
@@ -212,6 +216,40 @@ Meteor.methods({
 
 
 
+// check storagePath for attachments once at bootstrapping
+if (Meteor.isServer) {
+    if (Meteor.settings.attachments && Meteor.settings.attachments.enabled) {
+        console.log("Attachments upload feature: ENABLED");
+        let settingsPath = attachmentsStoragePath(null);
+        let absoluteTargetPath = path.resolve(settingsPath);
+        console.log("attachmentsStoragePath:"+absoluteTargetPath);
+
+        fs.access(absoluteTargetPath, fs.W_OK, function(err) {
+            if(err){
+                console.error("*** ERROR*** No write access to attachmentsStoragePath");
+                console.error("             Uploads can not be saved.");
+                console.error("             Ensure write access to path specified in your settings.json");
+                console.error("             Current attachments.storagePath setting is: "+settingsPath);
+                if (! path.isAbsolute(settingsPath)) {
+                    console.error("             Which maps to: "+absoluteTargetPath);
+                }
+                // Now switch off feature!
+                Meteor.settings.attachments.enabled = false;
+                console.log("Attachments upload feature: DISABLED");
+            } else {
+                console.log("OK, has write access to attachmentsStoragePath");
+            }
+        });
+    } else {
+        console.log("Attachments upload feature: DISABLED");
+    }
+}
+
+
+// ********************
+// attachments.js
+
+
 export class Attachment {
     constructor(attachmentID) {
         this._roles = new UserRoles(this.userId);
@@ -220,7 +258,7 @@ export class Attachment {
         }
         this._file = AttachmentsCollection.findOne(attachmentID);
         if (!this._file) {
-            console.log("Could not retrieve attachment for ID ", attachmentID);
+            throw new Error("Attachment(): Could not retrieve attachment for ID "+attachmentID);
         }
     }
 

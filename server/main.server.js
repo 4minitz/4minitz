@@ -8,14 +8,14 @@ import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
 import '/imports/collections/statistics_private';
+import '/imports/collections/attachments_private'
 
-// Global Settings must be set before attachment setup
 Meteor.startup(() => {
     GlobalSettings.publishSettings();
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
-    console.log("WebApp working directory:"+process.env.PWD);
+    console.log("WebApp current working directory:"+process.cwd());
 });
-import '/imports/collections/attachments_private'
+
 
 Meteor.startup(() => {
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>

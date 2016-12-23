@@ -53,6 +53,7 @@
     "mongo-uri": "^0.1.2",
     "mongodb": "^2.2.5",
     "node-getopt": "^0.2.3",
+    "path": "^0.12.7",
     "randomstring": "^1.1.5"
   },
   "devDependencies": {
