@@ -29,7 +29,15 @@ Meteor.methods({
         const numberOfMeetingSeries = MeetingSeriesCollection.find().count(),
             numberOfMinutes = MinutesCollection.find().count(),
             numberOfUsers = Meteor.users.find().count(),
-            result = {numberOfMinutes, numberOfMeetingSeries, numberOfUsers};
+
+            result = {result: [
+                {   description: "Number of meeting minutes",
+                    value:  numberOfMinutes      },
+                {   description: "Number of meeting series",
+                    value:  numberOfMeetingSeries      },
+                {   description: "Number of users",
+                    value:  numberOfUsers      }
+            ]};
 
         StatisticsCollection.remove({});
         StatisticsCollection.insert(result);
