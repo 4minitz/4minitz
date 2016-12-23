@@ -21,17 +21,27 @@ const FORBIDDEN_FILENAME_EXTENSIONS = "html|htm|swf";
 // const FORBIDDEN_FILENAME_EXTENSIONS = "swf";
 
 
-export let attachmentsStoragePath = function (fileObj) {
+export let calculateAndCreateStoragePath = function (fileObj) {
     if (Meteor.isServer) {
-        let path = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
-            ? Meteor.settings.attachments.storagePath   // ends with slash - see GlobalSettings
+        let attStoragePath = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
+            ? Meteor.settings.attachments.storagePath   // always ends with slash - see GlobalSettings
             : "attachments/";
+
+        // append sub directory for parent meeting series
         if (fileObj && fileObj.meta && fileObj.meta.parentseries_id) {
-            path =  path + fileObj.meta.parentseries_id;
+            attStoragePath =  attStoragePath + fileObj.meta.parentseries_id;
         }
-        // create dir if it does not exist
-        fs.ensureDirSync(path);
-        return path;
+
+        // create target dir for attachment storage if it does not exist
+        fs.ensureDirSync(attStoragePath, function (err) {
+            if (err) {
+                console.error("ERROR: Could not create path for attachment upload: "+attStoragePath);
+                if (!path.isAbsolute(attStoragePath)) {
+                    console.error("absolute:"+path.resolve(attStoragePath));
+                }
+            }
+        });
+        return attStoragePath;
     }
 };
 
@@ -39,7 +49,7 @@ export let AttachmentsCollection = new FilesCollection({
     collectionName: 'AttachmentsCollection',
     allowClientCode: false, // Disallow attachments remove() call from clients
     permissions: parseInt('0600', 8),      // Security: make uploaded files "chmod 600' only readable for server user
-    storagePath: attachmentsStoragePath,
+    storagePath: calculateAndCreateStoragePath,
 
     // Security: onBeforeUpload
     // Here we check for upload rights of user and if the file is within in defined limits
@@ -220,7 +230,7 @@ Meteor.methods({
 if (Meteor.isServer) {
     if (Meteor.settings.attachments && Meteor.settings.attachments.enabled) {
         console.log("Attachments upload feature: ENABLED");
-        let settingsPath = attachmentsStoragePath(null);
+        let settingsPath = calculateAndCreateStoragePath(null);
         let absoluteTargetPath = path.resolve(settingsPath);
         console.log("attachmentsStoragePath:"+absoluteTargetPath);
 
