@@ -272,6 +272,21 @@ export class Attachment {
         }
     }
 
+    // ********** static methods ****************
+    static countAll() {
+        return AttachmentsCollection.find().count();
+    }
+    static countAllBytes() {
+        let atts = AttachmentsCollection.find({}, {size: 1});
+        let sumBytes = 0;
+        atts.forEach((att) => {
+            sumBytes += att.size;
+        });
+        return sumBytes;
+    }
+
+
+    // ********** object methods ****************
     isUploaderAndFileOwner () {
         return this._roles.isUploaderFor(this._file.meta.parentseries_id)
                 && (this._roles.getUserID() == this._file.userId);
