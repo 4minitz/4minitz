@@ -84,22 +84,31 @@ export class TopicFilter {
             switch (filter.key) {
                 case KEYWORDS.IS.key:
                 {
-                    if (filter.value === 'item') {
-                        continue;
+                    if (!TopicFilter._itemMatchesKeyword_IS(item, filter.value)) {
+                        return false;
                     }
-                    return TopicFilter._itemMatchesKeyword_IS(item, filter.value);
+                    break;
                 }
                 case KEYWORDS.USER.key:
                 {
-                    return ( item.responsibles && _.contains(item.responsibles, filter.value) );
+                    if (!( item.responsibles && _.contains(item.responsibles, filter.value) )) {
+                        return false;
+                    }
+                    break;
                 }
                 case KEYWORDS.PRIO.key:
                 {
-                    return ( item.priority && item.priority.startsWith(filter.value));
+                    if (!( item.priority && item.priority.startsWith(filter.value))) {
+                        return false;
+                    }
+                    break;
                 }
                 case KEYWORDS.DUE.key:
                 {
-                    return ( item.duedate && item.duedate.startsWith(filter.value));
+                    if (!( item.duedate && item.duedate.startsWith(filter.value))) {
+                        return false;
+                    }
+                    break;
                 }
                 case KEYWORDS.DO.key:
                 {
@@ -114,6 +123,8 @@ export class TopicFilter {
 
     static _itemMatchesKeyword_IS(item, value) {
         switch (value) {
+            case 'item':
+                return true;
             case 'open':
                 return item.isOpen;
             case 'closed':

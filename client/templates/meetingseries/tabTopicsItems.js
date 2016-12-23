@@ -17,7 +17,6 @@ export class TabConfig {
         this.topics = topics;
         this.parentMeetingSeriesId = parentMeetingSeriesId;
         this.activeTab = activeTab;
-        this.isItemsView = activeTab.get() === 'tab_items';
         this.onSearchChanged = onSearchChanged;
     }
 }
@@ -61,7 +60,6 @@ Template.tabTopicsItems.helpers({
     'getTopicFilterConfig': function() {
         let tmplInstance = Template.instance();
 
-        let prependSearch = isItemsView(tmplInstance) ? 'is:item' : '';
         return new TopicFilterConfig(tmplInstance.topicFilterHandler, isItemsView(tmplInstance));
     },
 

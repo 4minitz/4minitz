@@ -23,9 +23,9 @@ export class TopicFilterConfig {
 const FILTERS = [
     {text: 'Info Items', value: 'is:item is:info'},
     {text: 'Action Items', value: 'is:item is:action'},
-    {text: 'Open Action Items', value: 'is:item is:open'},
-    {text: 'Closed Action Items', value: 'is:item is:closed'},
-    {text: 'Your Action Items', value: 'is:item @me'}
+    {text: 'Open Action Items', value: 'is:item is:action is:open'},
+    {text: 'Closed Action Items', value: 'is:item is:action is:closed'},
+    {text: 'Your Action Items', value: 'is:item is:action @me'}
 ];
 
 const MATCH_CASE = 'do:match-case ';

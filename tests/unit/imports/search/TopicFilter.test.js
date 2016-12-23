@@ -16,66 +16,74 @@ const {
     './search/FilterKeywords': { KEYWORDS, '@noCallThru': true}
 });
 
-let QueryParserMock = function() { this.query = null};
-QueryParserMock.prototype.parse = function(query) {
-    this.query = query;
-};
-QueryParserMock.prototype.getSearchTokens = function() {
-    if (this.query.substr(0,1) === '#') {
-        return [];
+class QueryParserMock {
+    constructor() {
+        this.init();
     }
-    return this.query.split(" ");
-};
-QueryParserMock.prototype.getFilterTokens = function() {
-    return [];
-};
-QueryParserMock.prototype.getLabelTokens = function() {
-    if (this.query.substr(0,1) === '#') {
-        let token = this.query.substr(1);
-        return [{token: token, ids: [token]}];
+    init() {
+        this.caseSensitive = false;
+        this.searchTokens = [];
+        this.filterTokens = [];
+        this.labelTokens = [];
     }
-    return [];
-};
-QueryParserMock.prototype.hasKeyword = function() {
-    return true;
-};
-let caseSensitive = false;
-QueryParserMock.prototype.isCaseSensitive = function () { return caseSensitive; };
-QueryParserMock.prototype.reset = function() {};
+    reset() {
+        // do nothing here, because this will be called before calling the parse method
+    }
+
+    parse() {}
+    getSearchTokens() {
+        return this.searchTokens;
+    }
+    getFilterTokens() {
+        return this.filterTokens
+    }
+    getLabelTokens() {
+        return this.labelTokens.map(token => { return {token: token, ids: [token]}; });
+    }
+    hasKeyword() {
+        return true;
+    }
+    isCaseSensitive() { return this.caseSensitive }
+}
 
 describe('TopicFilter', function() {
 
-    let topics, topicFilter;
+    let topics, topicFilter, parser;
 
     beforeEach(function() {
-        topicFilter = new TopicFilter(new QueryParserMock());
+        parser = new QueryParserMock();
+        topicFilter = new TopicFilter(parser);
         topics = [
             {
                 subject: "One",
-                infoItems: [{subject: "one.one", labels: ['L2', 'L1']}, {subject: "one.two", labels: []}]
+                infoItems: [
+                    {subject: "one.one", labels: ['L2', 'L1'], itemType: 'infoItem'},
+                    {subject: "one.two", labels: [], itemType: 'actionItem', isOpen:true}
+                ]
             },
             {
                 subject: "Two",
                 infoItems: [
-                    {subject: "two.one", labels: ['L1']},
-                    {subject: "two.two", labels: []},
-                    {subject: "two.three", labels: ['L1']}
+                    {subject: "two.one", labels: ['L1'], itemType: 'infoItem'},
+                    {subject: "two.two", labels: [], itemType: 'infoItem'},
+                    {subject: "two.three", labels: ['L1'], itemType: 'actionItem', isOpen:true}
                 ]
             },
             {
                 subject: "Three",
                 infoItems: [
-                    {subject: "three.one", labels: []},
-                    {subject: "three.two", labels: []},
-                    {subject: "three.three", labels: []},
-                    {subject: "three.four", labels: []}
+                    {subject: "three.one", labels: [], itemType: 'infoItem'},
+                    {subject: "three.two", labels: [], itemType: 'infoItem'},
+                    {subject: "three.three", labels: [], itemType: 'infoItem'},
+                    {subject: "three.four", labels: [], itemType: 'actionItem', isOpen:false}
                 ]
             }
         ];
     });
 
     it('does not change the original array of topics', function() {
-        topicFilter.filter(topics, "three");
+        parser.searchTokens.push("three");
+        topicFilter.filter(topics, "");
 
         expect(topics, "Length of the topic array should be 3").have.length(3);
         expect(topics[0].infoItems, "The first topic should contain two info items").to.have.length(2);
@@ -84,7 +92,8 @@ describe('TopicFilter', function() {
     });
 
     it('returns the filtered array of topics', function() {
-        let res = topicFilter.filter(topics, "three");
+        parser.searchTokens.push("three");
+        let res = topicFilter.filter(topics, "");
 
         expect(res, "Length of the result topic array should be 2").have.length(2);
         expect(res[0].infoItems, "The first topic should contain one info items").to.have.length(1);
@@ -92,7 +101,9 @@ describe('TopicFilter', function() {
     });
 
     it('can filter for multiple search tokens', function() {
-        let res = topicFilter.filter(topics, "three two");
+        parser.searchTokens.push("three");
+        parser.searchTokens.push("two");
+        let res = topicFilter.filter(topics, "");
 
         expect(res, "Length of the result topic array should be 2").have.length(2);
         expect(res[0].infoItems, "The first topic should contain one info items").to.have.length(1);
@@ -101,26 +112,31 @@ describe('TopicFilter', function() {
 
     it('should return an topics array containing only info items matching the search query', function() {
         const query = "three";
+        parser.searchTokens.push(query);
         let res = topicFilter.filter(topics, query);
+        let foundAWrongItem = false;
         res.forEach(topic => {
             topic.infoItems.forEach(item => {
                 if (item.subject.indexOf(query) === -1) {
-                    fail("Result array contains info item which does not match the search query");
+                    foundAWrongItem = true;
                 }
             });
-        })
+        });
+        expect(foundAWrongItem, "Result array contains info item which does not match the search query").to.be.false;
     });
 
     it('can filter for labels', function() {
-        const query = "#L1";
-        let res = topicFilter.filter(topics, query);
+        parser.labelTokens.push("L1");
+        let res = topicFilter.filter(topics, "");
         expect(res, "Length of the result topic array should be 2").have.length(2);
         expect(res[0].infoItems, "The first topic should contain one info items").to.have.length(1);
         expect(res[1].infoItems, "The 2nd topic should contain two info items").to.have.length(2);
     });
 
     it('filters case insensitive per default for search tokens', function() {
-        let res = topicFilter.filter(topics, "THREE TWO");
+        parser.searchTokens.push("THREE");
+        parser.searchTokens.push("TWO");
+        let res = topicFilter.filter(topics, "");
 
         expect(res, "Length of the result topic array should be 2").have.length(2);
         expect(res[0].infoItems, "The first topic should contain one info items").to.have.length(1);
@@ -128,11 +144,27 @@ describe('TopicFilter', function() {
     });
 
     it('can enable case sensitive search', function() {
-        caseSensitive = true;
-        let res = topicFilter.filter(topics, "THREE");
-        caseSensitive = false;
+        parser.caseSensitive = true;
+        parser.searchTokens.push("THREE");
+        let res = topicFilter.filter(topics, "");
+        parser.caseSensitive = false;
 
         expect(res, "Length of the result topic array should be 0").have.length(0);
+    });
+
+    it('can combine multiple is-filter-tokens as logical and which is a conjunctive operation', function() {
+        parser.filterTokens.push({key: 'is', value: 'open'});
+        parser.filterTokens.push({key: 'is', value: 'action'});
+        let res = topicFilter.filter(topics, "");
+
+        expect(res, "Length of the result topic array should be 2").have.length(2);
+
+        parser.init();
+        parser.filterTokens.push({key: 'is', value: 'action'});
+        parser.filterTokens.push({key: 'is', value: 'open'});
+        let res2 = topicFilter.filter(topics, "");
+
+        expect(res2, "The order of the filter tokens should not matter").have.length(2);
     });
 
 });
