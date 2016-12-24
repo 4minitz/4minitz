@@ -91,10 +91,6 @@ describe('Minutes Finalize', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         browser.waitForVisible("#btnAddMinutes");
 
-        // check if add button's parent fieldset is disabled
-        expect(browser.isExisting('fieldset#createMinutes[disabled]')
-                , "parent fieldset of btnAddMinutes should be disabled").to.be.true;
-
         // check button is there but not clickable
         expect(browser.isExisting('#btnAddMinutes'), "btnAddMinutes should be there").to.be.true;
         let clickWasPossible = false;
@@ -179,10 +175,7 @@ describe('Minutes Finalize', function () {
     });
 
 
-
-
-    // TODO
-    it('prohibits editing of finalized minutes', function () {
+    it('prohibits editing date of finalized minutes', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)

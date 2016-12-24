@@ -271,7 +271,7 @@ Template.minutesedit.helpers({
     disableUIControl: function () {
         let aMin = new Minutes(_minutesID);
         let usrRole = new UserRoles();
-        return (aMin.isFinalized || !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())) ? "readonly" : "";
+        return (aMin.isFinalized || !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())) ? "disabled" : "";
     },
 
     isUnfinalizeAllowed: function () {
