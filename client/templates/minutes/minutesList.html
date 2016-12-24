@@ -3,7 +3,7 @@
         {{#if isModeratorOfParentSeries}}
         <div class="pull-right">
             <!-- "Create New Minutes" button for "Moderators"-->
-            <fieldset id="createMinutes" {{addMinutesDisabled}}>   <!-- dynamically set disabled=true -->
+            <fieldset {{addMinutesDisabled}}>   <!-- dynamically set disabled=true -->
                 <a href="{{pathFor 'minutesadd' _id=meetingSeriesId}}"
                         id="btnAddMinutes" class="btn btn-success btn-raised">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Create New Minutes"></span>
