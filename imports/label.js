@@ -58,10 +58,10 @@ export class Label {
         return null;
     }
 
-    static findLabelsStartingWithName(parentMeetingSeries, name) {
+    static findLabelsContainingSubstring(parentMeetingSeries, name, caseSensitive) {
         parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
-        let labelDoc = parentMeetingSeries.findLabelStartingWith(name);
+        let labelDoc = parentMeetingSeries.findLabelContainingSubstr(name, caseSensitive);
         if (labelDoc) return labelDoc;
         return null;
     }

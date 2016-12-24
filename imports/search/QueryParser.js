@@ -39,6 +39,7 @@ export class QueryParser {
         this.isLabelToken = false;
         this.newLabel = false;
         this.currentLabel = null;
+        this.queryParsed = false;
     }
 
     parse(query) {
@@ -49,10 +50,15 @@ export class QueryParser {
         if (null !== this.currentLabel) {
             this._addCompleteLabelToken();
         }
+        this.queryParsed = true;
     }
 
     isCaseSensitive() {
-        return this.matchCase;
+        if (this.queryParsed) {
+            return this.matchCase;
+        } else {
+            return this.query.indexOf('do:match-case') !== -1;
+        }
     }
 
     hasKeyword(key, value) {
@@ -170,7 +176,9 @@ export class QueryParser {
             this.currentLabel = token.substr(1);
         } else {
             completeLabel = this.currentLabel + ` ${token}`; // prepend whitespace!
-            let matchingIds = (this.queryLabelIdsByName) ? this.queryLabelIdsByName(completeLabel) : true;
+            let matchingIds = (this.queryLabelIdsByName)
+                ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
+                : true;
             if (matchingIds === true || (matchingIds !== null && matchingIds.length > 0)) {
                 this.currentLabel = completeLabel;
             } else {
@@ -190,7 +198,7 @@ export class QueryParser {
 
     _addCompleteLabelToken() {
         let token = this.currentLabel;
-        let ids = (this.queryLabelIdsByName) ? this.queryLabelIdsByName(token) : [token];
+        let ids = (this.queryLabelIdsByName) ? this.queryLabelIdsByName(token, this.isCaseSensitive()) : [token];
         this.labelTokens.push({
             token: token,
             ids: ids

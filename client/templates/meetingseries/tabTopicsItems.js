@@ -22,8 +22,8 @@ export class TabConfig {
 }
 
 
-function getLabelIdsByName(labelName) {
-    let label = Label.findLabelsStartingWithName(Template.instance().data.parentMeetingSeriesId, labelName);
+function getLabelIdsByName(labelName, caseSensitive) {
+    let label = Label.findLabelsContainingSubstring(Template.instance().data.parentMeetingSeriesId, labelName, caseSensitive);
     if (null !== label) {
         return label.map(label => { return label._id; });
     }
