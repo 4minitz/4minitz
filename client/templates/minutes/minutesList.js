@@ -13,9 +13,13 @@ Template.minutesList.helpers({
         return this.meetingSeriesId;
     },
 
-    addMinutesNotAllowed: function () {
+    addMinutesDisabled: function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
-        return !ms.addNewMinutesAllowed();
+        if (ms.addNewMinutesAllowed()) {
+            return {};
+        } else {
+            return {disabled: true};
+        }
     },
 
     isDeleteAllowed: function () {

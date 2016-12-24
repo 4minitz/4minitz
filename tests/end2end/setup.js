@@ -9,6 +9,8 @@ before(function() {
 
     E2EApp.resetMyApp();
     E2EApp.launchApp();
+    E2EGlobal.saveScreenshot("UserShouldBeLoggedIn0");
     E2EApp.loginUser();
-    expect(E2EApp.isLoggedIn()).to.be.true;
+    E2EGlobal.saveScreenshot("UserShouldBeLoggedIn1");
+    expect(E2EApp.isLoggedIn(), "User is logged in").to.be.true;
 });
