@@ -92,12 +92,17 @@ describe('Minutes Finalize', function () {
         browser.waitForVisible("#btnAddMinutes");
 
         // check button is there but not clickable
+        E2EGlobal.saveScreenshot("btnAddMinutes_should_be_disabled");
         expect(browser.isExisting('#btnAddMinutes'), "btnAddMinutes should be there").to.be.true;
+        E2EGlobal.saveScreenshot("btnAddMinutes_shoud_be_disabled");
         let clickWasPossible = false;
         try{
+            E2EGlobal.saveScreenshot("btnAddMinutes_should_be_disabled");
             browser.click("#btnAddMinutes");    // this is expected to throw!
+            E2EGlobal.saveScreenshot("btnAddMinutes_should_be_disabled");
             clickWasPossible = true;            // so this statement should not be reached
         } catch(e) {/* intentionally left blank */}
+        E2EGlobal.saveScreenshot("btnAddMinutes_should_be_disabled");
         expect(clickWasPossible, "btnAddMinutes should not be clickable").to.be.false;
     });
 
