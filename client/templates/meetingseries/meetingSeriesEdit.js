@@ -58,7 +58,7 @@ Template.meetingSeriesEdit.events({
             /* callback called if user wants to continue */
             () => {
                 MeetingSeries.remove(ms);
-                Router.go("/");
+                FlowRouter.go("/");
             },
             dialogContent
         );
