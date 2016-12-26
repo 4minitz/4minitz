@@ -12,7 +12,7 @@
     "test:ci": "npm run test:unit && npm run test:integration:headless && npm run test:end2end:headless",
     "test:unit": "node ./node_modules/mocha/bin/mocha './tests/unit/**/*.test.js' --compilers js:babel-register --require tests/unit/babel",
     "test:integration": "npm run test:integration:browser",
-    "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200",
+    "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200 --allow-incompatible-update",
     "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3200",
     "test:end2end:ldap": "node tests/support/ldap-server.js",
     "test:end2end:meteor": "meteor run --port 3100 --settings ./settings-test-end2end.json",
@@ -53,6 +53,7 @@
     "mongo-uri": "^0.1.2",
     "mongodb": "^2.2.5",
     "node-getopt": "^0.2.3",
+    "path": "^0.12.7",
     "randomstring": "^1.1.5"
   },
   "devDependencies": {

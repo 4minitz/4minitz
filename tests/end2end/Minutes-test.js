@@ -142,7 +142,7 @@ describe('Minutes', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
         browser.setValue('input[id="editGlobalNotes"]', aGlobalNote);
-        browser.click('#btnParticipantsCollapse');
+        browser.click('#btnParticipantsExpand');
 
         let result = browser.getValue('input[id="editGlobalNotes"]');
         expect(result).to.equal(aGlobalNote);

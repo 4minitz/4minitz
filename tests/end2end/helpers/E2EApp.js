@@ -126,7 +126,12 @@ export class E2EApp {
         E2EGlobal.waitSomeTime();
         // check post-condition
         if (! E2EApp.isOnStartPage()) {
-            E2EGlobal.saveScreenshot("gotoStartPage");
+            E2EGlobal.saveScreenshot("gotoStartPage1");
+            browser.click('a.navbar-brand');
+            E2EGlobal.waitSomeTime(1500);
+        }
+        if (! E2EApp.isOnStartPage()) {
+            E2EGlobal.saveScreenshot("gotoStartPage2");
         }
         expect (E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
     };

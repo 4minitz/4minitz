@@ -3,6 +3,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
+import { AttachmentsCollection } from "/imports/collections/attachments_private"
 
 Template.minutesList.helpers({
     buttonBackground: function () {
@@ -13,9 +14,13 @@ Template.minutesList.helpers({
         return this.meetingSeriesId;
     },
 
-    addMinutesNotAllowed: function () {
+    addMinutesDisabled: function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
-        return !ms.addNewMinutesAllowed();
+        if (ms.addNewMinutesAllowed()) {
+            return {};
+        } else {
+            return {disabled: true};
+        }
     },
 
     isDeleteAllowed: function () {
@@ -25,6 +30,10 @@ Template.minutesList.helpers({
     isModeratorOfParentSeries: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(this.meetingSeriesId);
+    },
+
+    hasAttachments() {
+        return !!AttachmentsCollection.findOne({"meta.meetingminutes_id": this._id});
     }
 });
 

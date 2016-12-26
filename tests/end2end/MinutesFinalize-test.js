@@ -50,7 +50,7 @@ describe('Minutes Finalize', function () {
     // this test does only make sense if mail delivery is enabled
     // so we have to wait until the mail system can be mocked
     if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
-        it('asks if emails should be sent before finalizing the minute @watch', function () {
+        it('asks if emails should be sent before finalizing the minute', function () {
             aMeetingCounter++;
             aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -79,7 +79,7 @@ describe('Minutes Finalize', function () {
     }
 
 
-    it('can not add minutes if unfinalized minutes exist @watch', function () {
+    it('can not add minutes if unfinalized minutes exist', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -91,11 +91,16 @@ describe('Minutes Finalize', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         browser.waitForVisible("#btnAddMinutes");
 
-        // check if button is disabled
-        expect(browser.isExisting('a#btnAddMinutes[disabled="true"]')).to.be.true;
-        // check if button is clicked, it does not add minutes
+        // check that nothing happens if the add minutes button will be pressed
+        const urlBefore = browser.getUrl();
+        expect(browser.isExisting('#btnAddMinutes'), "btnAddMinutes should be there").to.be.true;
         browser.click("#btnAddMinutes");
-        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(countInitialMinutes +1);
+        E2EGlobal.waitSomeTime(750);
+        expect(browser.getUrl(), "Route should not have changed").to.equal(urlBefore);
+        expect(
+            E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+            "Only one minute should have been added"
+        ).to.equal(countInitialMinutes + 1);
     });
 
 
@@ -172,7 +177,7 @@ describe('Minutes Finalize', function () {
     });
 
 
-    it('prohibits editing of finalized minutes', function () {
+    it('prohibits editing date of finalized minutes', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)

@@ -38,6 +38,12 @@ export class MeetingSeries {
         return Meteor.callPromise("workflow.leaveMeetingSeries", meetingSeries._id);
     }
 
+    static getAllVisibleIDsForUser (userId) {
+        // we return an array with just a list of visible meeting series IDs
+        return MeetingSeriesCollection
+            .find({visibleFor: {$in: [userId]}}, {_id:1})
+            .map(function(item){ return item._id; });
+    }
 
     // ################### object methods
 

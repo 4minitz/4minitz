@@ -9,6 +9,7 @@
                 The error message will be removed when destroying the template
             }}
             {{checkParentSeries}}
+
             {{!
                 Invoke an initialization once the main template is rendered.
                 TODO: Find a better solution.
@@ -121,16 +122,16 @@
 
 
                     </div>
-
                     <div class="form-group">
                         <label for="editGlobalNotes">Global Note</label>
                         <input id="editGlobalNotes" type="text" class="form-control"
                                placeholder="Global Note for this minutes..."
                                value="{{minutes.globalNote}}"  {{disableUIControl}}>
-
                     </div>
 
                     {{> minutesEditParticipants minutes}}
+
+                    {{> minutesAttachments minutes}}
 
                     {{#unless isFinalized}}
                         {{#if isModeratorOfParentSeries}}

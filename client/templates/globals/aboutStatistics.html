@@ -3,18 +3,12 @@
 		<b style="color: darkgray;">Server Statistics</b>
 		<table class="table table-condensed table-hover">
 			<tbody>
-				<tr>
-					<td>Number of users</td>
-					<td class="text-right">{{statistics.numberOfUsers}}</td>
-				</tr>
-				<tr>
-					<td>Number of meeting series</td>
-					<td class="text-right">{{statistics.numberOfMeetingSeries}}</td>
-				</tr>
-				<tr>
-					<td>Number of meeting minutes</td>
-					<td class="text-right">{{statistics.numberOfMinutes}}</td>
-				</tr>
+                {{#each statrow in statistics.result}}
+                    <tr>
+                        <td>{{statrow.description}}</td>
+                        <td class="text-right">{{statrow.value}}</td>
+                    </tr>
+                {{/each}}
 			</tbody>
 		</table>
 	</div>
