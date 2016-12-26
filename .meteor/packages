@@ -4,6 +4,7 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
+dispatch:phantomjs-tests@=0.0.5
 accounts-password@1.3.3
 useraccounts:bootstrap
 meteor-base@1.0.4
