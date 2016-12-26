@@ -37,16 +37,28 @@ export class TopicFilter {
                 && this.constructor._itemMatchesFilterTokens(item, this.parser.getFilterTokens());
         };
 
+        let topicFilter = topic => {
+            if (this.isItemView()) {
+                return topic.infoItems.some(infoItemFilter);
+            } else {
+                return this._topicMatchesSearchTokens(topic, this.parser.getSearchTokens())
+                    || topic.infoItems.some(infoItemFilter);
+            }
+        };
+
+        this.currentTopics = this.currentTopics
+            .filter(topicFilter);
+
         if (this.isItemView()) {
-            this.currentTopics = this.currentTopics.filter(topic => topic.infoItems.some(infoItemFilter));
+            this.currentTopics = this.currentTopics
+                .map(topic => {
+                    let newTopic = Object.assign({}, topic);
+                    newTopic.infoItems = topic.infoItems.filter(infoItemFilter);
+                    return newTopic;
+                });
         }
 
-        return this.currentTopics
-            .map(topic => {
-                let newTopic = Object.assign({}, topic);
-                newTopic.infoItems = topic.infoItems.filter(infoItemFilter);
-                return newTopic;
-            });
+        return this.currentTopics;
     }
 
     _checkFilterState() {
@@ -73,6 +85,19 @@ export class TopicFilter {
                 && infos.indexOf(token) === -1
                 && prio.indexOf(token) === -1
                 && due.indexOf(token) === -1)
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    _topicMatchesSearchTokens(topic, searchTokens) {
+        for (let i=0; i < searchTokens.length; i++) {
+            let token = this._toUpper(searchTokens[i]);
+            let subject = this._toUpper(topic.subject);
+            if (
+                (subject.indexOf(token) === -1)
             ) {
                 return false;
             }

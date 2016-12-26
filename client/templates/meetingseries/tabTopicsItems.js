@@ -31,7 +31,7 @@ function getLabelIdsByName(labelName, caseSensitive) {
 }
 
 function getUserIdsByName(userName) {
-    let users = (userName === 'me') ? Meteor.user() : Meteor.users.find({username: {$regex: userName}}).fetch();
+    let users = (userName === 'me') ? [Meteor.user()] : Meteor.users.find({username: {$regex: userName}}).fetch();
     if (users) {
         return users.map(user => { return user._id; });
     }
