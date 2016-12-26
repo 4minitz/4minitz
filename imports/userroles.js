@@ -4,9 +4,10 @@
 // Needs "meteor add alanning:roles"
 
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import  './collections/userroles_private';
-import { MeetingSeries } from './meetingseries'
+import { MeetingSeries } from './meetingseries';
 
 
 export class UserRoles {
@@ -25,7 +26,7 @@ export class UserRoles {
         }
         
         if (! currentUser) {
-            Router.go("/");
+            FlowRouter.go("/");
             throw new Meteor.Error('Could not find user for userId:'+this._userId);
         }
 
@@ -114,13 +115,13 @@ export class UserRoles {
         return this._user;
     }
 
-    saveRoleForMeetingSeries (meetingSeriesId, newRole) {
-        Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, meetingSeriesId, newRole);
+    saveRoleForMeetingSeries (aMeetingSeriesID, newRole) {
+        Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, aMeetingSeriesID, newRole);
     }
 
     // remove all roles for the current user for the given meeting series
-    removeRoles(aMeetingSeriesID) {
-        Roles.removeUsersFromRoles(this._userId, UserRoles.allRolesNumerical(), aMeetingSeriesID);
+    removeAllRolesForMeetingSeries(aMeetingSeriesID) {
+        Meteor.call("userroles.removeAllRolesForMeetingSeries", this._userId, aMeetingSeriesID);
     }
 }
 

@@ -4,9 +4,10 @@ import { GlobalSettings } from '/imports/GlobalSettings';
 
 import '/imports/minutes';
 import '/imports/meetingseries';
+import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
-import '/imports/serverStatistics';
+import '/imports/collections/statistics_private';
 
 Meteor.startup(() => {
     GlobalSettings.publishSettings();
@@ -20,7 +21,7 @@ Meteor.startup(() => {
     handleMigration();
     // Migrations.migrateTo(1);     // Plz. keep this comment for manual testing... ;-)
 
-    if (GlobalSettings.createDemoAccount) {
+    if (GlobalSettings.createDemoAccount()) {
         let demoUser = Meteor.users.findOne({"username": "demo"});
         if (!demoUser) {
             Accounts.createUser({username: "demo", password: "demo", email: ""});

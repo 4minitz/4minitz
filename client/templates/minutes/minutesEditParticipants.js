@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/kadira:flow-router';
+
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 
@@ -16,7 +18,7 @@ let isModeratorOfParentSeries = function (userId) {
 
 
 Template.minutesEditParticipants.onCreated(function() {
-    _minutesID = this.data._id;
+    _minutesID = FlowRouter.getParam('_id');
     console.log("Template minutesEditParticipants created with minutesID "+_minutesID);
 
     // Calculate initial expanded/collapsed state

@@ -125,18 +125,21 @@ export class E2EApp {
         browser.click('a.navbar-brand');
         E2EGlobal.waitSomeTime();
         // check post-condition
+        if (! E2EApp.isOnStartPage()) {
+            E2EGlobal.saveScreenshot("gotoStartPage");
+        }
         expect (E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
     };
 
-    static confirmationDialogAnswer (pressOK) {
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
+    static confirmationDialogAnswer (pressOK, title) {
+        E2EGlobal.waitSomeTime(1250); // give dialog animation time
         browser.waitForVisible('#confirmationDialogOK', 1000);
         if (pressOK) {
             browser.click("#confirmationDialogOK");
         } else {
             browser.click("#confirmationDialogCancel");
         }
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.waitSomeTime(1250); // give dialog animation time
     };
 }
 

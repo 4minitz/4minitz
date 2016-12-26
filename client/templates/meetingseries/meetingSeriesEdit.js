@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UsersEditConfig } from './meetingSeriesEditUsers'
@@ -6,7 +7,7 @@ import { UserRoles } from '/imports/userroles'
 
 
 Template.meetingSeriesEdit.onCreated(function() {
-    let thisMeetingSeriesID = this.data._id;
+    let thisMeetingSeriesID = FlowRouter.getParam('_id');
 
     // create client-only collection for storage of users attached
     // to this meeting series as input <=> output for the user editor
@@ -57,7 +58,7 @@ Template.meetingSeriesEdit.events({
             /* callback called if user wants to continue */
             () => {
                 MeetingSeries.remove(ms);
-                Router.go("/");
+                FlowRouter.go("/");
             },
             dialogContent
         );
@@ -107,8 +108,8 @@ Template.meetingSeriesEdit.events({
         saveButton.prop("disabled",true);
         cancelButton.prop("disabled",true);
 
-        var aProject = tmpl.find("#id_meetingproject").value;
-        var aName = tmpl.find("#id_meetingname").value;
+        let aProject = tmpl.find("#id_meetingproject").value;
+        let aName = tmpl.find("#id_meetingname").value;
 
         // validate form and show errors - necessary for browsers which do not support form-validation
         let projectNode = tmpl.$("#id_meetingproject");
@@ -126,22 +127,22 @@ Template.meetingSeriesEdit.events({
             return;
         }
 
-        let usersWithRoles = Template.instance().userEditConfig.users.find().fetch();
+        let usersWithRolesAfterEdit = Template.instance().userEditConfig.users.find().fetch();
         let allVisiblesArray = [];
         let meetingSeriesId = this._id;
-        for (let i in usersWithRoles) {
-            let usr = usersWithRoles[i];
-            let ur = new UserRoles(usr._idOrg);     // Attention: get back to Id of Meteor.users collection
-            ur.saveRoleForMeetingSeries(this._id, usr.roles[meetingSeriesId]);
-            if (UserRoles.isVisibleRole(usr.roles[this._id])) {
-                allVisiblesArray.push(usr._idOrg);  // Attention: get back to Id of Meteor.users collection
+        for (let i in usersWithRolesAfterEdit) {
+            let usrAfterEdit = usersWithRolesAfterEdit[i];
+            let ur = new UserRoles(usrAfterEdit._idOrg);     // Attention: get back to Id of Meteor.users collection
+            ur.saveRoleForMeetingSeries(meetingSeriesId, usrAfterEdit.roles[meetingSeriesId]);
+            if (UserRoles.isVisibleRole(usrAfterEdit.roles[meetingSeriesId])) {
+                allVisiblesArray.push(usrAfterEdit._idOrg);  // Attention: get back to Id of Meteor.users collection
             }
         }
 
         ms = new MeetingSeries(meetingSeriesId);
         ms.project = aProject;
         ms.name = aName;
-        ms.setVisibleUsers(allVisiblesArray);
+        ms.setVisibleUsers(allVisiblesArray);   // this also removes the roles of removed users
         ms.save();
 
         // Hide modal dialog

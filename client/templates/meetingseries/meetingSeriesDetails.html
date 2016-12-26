@@ -30,7 +30,7 @@
     </div>
 
     <p></p>
-    <a class="btn btn-primary btn-raised" href="/">
+    <a class="btn btn-primary btn-raised" href="{{pathFor '/'}}">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="Go Back"></span>
         Go Back
     </a>
@@ -38,11 +38,13 @@
     <br>
     <br>
 
-    <div class="help panel panel-default">
-        <div class="panel-heading">Quick Help</div>
-        <div class="panel-body">
-            <p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>
-            <a href="#" id="btnHideHelp">OK, Hide</a>
+    {{#if showQuickHelp}}
+        <div class="help panel panel-default">
+            <div class="panel-heading">Quick Help</div>
+            <div class="panel-body">
+                <p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>
+                <a href="#" id="btnHideHelp">OK, hide</a>
+            </div>
         </div>
-    </div>
+    {{/if}}
 </template>

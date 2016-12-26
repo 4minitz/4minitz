@@ -3,7 +3,7 @@
         {{#if isModeratorOfParentSeries}}
         <div class="pull-right">
             <!-- "Create New Minutes" button for "Moderators"-->
-            <a href="{{addMinutesPath}}" id="btnAddMinutes" class="btn btn-success btn-raised" disabled="{{addMinutesNotAllowed}}">
+            <a href="{{pathFor 'minutesadd' _id=meetingSeriesId}}" id="btnAddMinutes" class="btn btn-success btn-raised" disabled="{{addMinutesNotAllowed}}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Create New Minutes"></span>
                 Create New Minutes
             </a>
@@ -33,7 +33,7 @@
             {{#each minutes}}
             <tr id="id_MinuteRow">
                 <td>
-                    <a href="/minutesedit/{{_id}}" id="id_linkToMinutes" style="white-space: nowrap;"
+                    <a href="{{pathFor 'minutesedit' _id=_id}}" id="id_linkToMinutes" style="white-space: nowrap;"
                        data-toggle="tooltip" title="{{globalNote}}">
                         {{date}}
                     </a>

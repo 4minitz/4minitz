@@ -1,14 +1,15 @@
 import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Minutes } from '/imports/minutes'
-import { MeetingSeries } from '/imports/meetingseries'
-import { UserRoles } from '/imports/userroles'
+import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
+import { UserRoles } from '/imports/userroles';
+import { User, userSettings } from '/imports/users';
 
-import { TopicListConfig } from '../topic/topicsList'
-
-import { GlobalSettings } from '/imports/GlobalSettings'
-
-import { FlashMessage } from '../../helpers/flashMessage'
+import { TopicListConfig } from '../topic/topicsList';
+import { GlobalSettings } from '/imports/GlobalSettings';
+import { FlashMessage } from '../../helpers/flashMessage';
 
 var _minutesID; // the ID of these minutes
 
@@ -75,12 +76,17 @@ var togglePrintView = function (switchOn) {
     window.onafterprint = afterPrint;
 }());
 
-
-
-
 Template.minutesedit.onCreated(function () {
+    this.minutesReady = new ReactiveVar();
+
+    this.autorun(() => {
+        _minutesID = FlowRouter.getParam('_id');
+        let subscriptionHandle = this.subscribe('minutes', _minutesID);
+
+        this.minutesReady.set(subscriptionHandle.ready());
+    });
+
     Session.set('minutesedit.checkParent', false);
-    _minutesID = this.data;
 
     // Collapse the participants list on scroll
     $(window).scroll(function(){
@@ -151,44 +157,66 @@ var openPrintDialog = function () {
 var sendActionItems = true;
 var sendInformationItems = true;
 
-Template.minutesedit.onRendered(function () {
-    let datePickerNode = this.$('#id_minutesdatePicker');
-    datePickerNode.datetimepicker({
-        format: "YYYY-MM-DD"
-    });
-
-    let aMin = new Minutes(_minutesID);
-    if (!aMin.isFinalized) {
-        let ms = aMin.parentMeetingSeries();
-        if (ms) {
-            let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
-            if (minDate) {
-                minDate.setDate(minDate.getDate() + 1);
-                datePickerNode.data("DateTimePicker").minDate(minDate);
-            }
-        }
-    }
-
-    $('#topicPanel').sortable({
-        appendTo: document.body,
-        axis: 'y',
-        items: '> .well',
-        opacity: 0.5,
-        disabled: true,
-        handle: '.topicDragDropHandle',
-        update: updateTopicSorting
-    });
-
-    toggleTopicSorting();
-
-    // enable the parent series check after 2 seconds delay to make sure
-    // there was enough time to update the meeting series
-    Meteor.setTimeout(function() {
-        Session.set('minutesedit.checkParent', true);
-    }, 2000);
-});
-
 Template.minutesedit.helpers({
+    authenticating() {
+        const subscriptionReady = Template.instance().minutesReady.get();
+        return Meteor.loggingIn() || !subscriptionReady;
+    },
+
+    canShow() {
+        let usrRoles = new UserRoles();
+
+        let minute = new Minutes(_minutesID);
+        if (!usrRoles.hasViewRoleFor(minute.parentMeetingSeriesID())) {
+            FlowRouter.redirect('/');
+        }
+
+        return true;
+    },
+
+    initialize() {
+        let templateInstance = Template.instance();
+
+        $(document).arrive('#id_minutesdatePicker', () => {
+            let datePickerNode = templateInstance.$('#id_minutesdatePicker');
+            datePickerNode.datetimepicker({
+                format: "YYYY-MM-DD"
+            });
+
+            let aMin = new Minutes(_minutesID);
+            if (!aMin.isFinalized) {
+                let ms = aMin.parentMeetingSeries();
+                if (ms) {
+                    let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
+                    if (minDate) {
+                        minDate.setDate(minDate.getDate() + 1);
+                        datePickerNode.data("DateTimePicker").minDate(minDate);
+                    }
+                }
+            }
+        });
+
+        $(document).arrive('#topicPanel', () => {
+            $('#topicPanel').sortable({
+                appendTo: document.body,
+                axis: 'y',
+                items: '> .well',
+                opacity: 0.5,
+                disabled: true,
+                handle: '.topicDragDropHandle',
+                update: updateTopicSorting
+            });
+
+            toggleTopicSorting();
+        });
+
+        // enable the parent series check after 2 seconds delay to make sure
+        // there was enough time to update the meeting series
+        Meteor.setTimeout(function() {
+            Session.set('minutesedit.checkParent', true);
+        }, 2000);
+    },
+
     checkParentSeries: function() {
         if (!Session.get('minutesedit.checkParent')) return;
 
@@ -250,7 +278,7 @@ Template.minutesedit.helpers({
         let aMin = new Minutes(_minutesID);
         return aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(_minutesID);
     },
-    
+
     isModeratorOfParentSeries: function () {
         let aMin = new Minutes(_minutesID);
         let usrRole = new UserRoles();
@@ -269,7 +297,7 @@ Template.minutesedit.helpers({
         }
         return "";
     },
-    
+
     isReadOnly() {
         return (isMinuteFinalized() || !isModerator());
     },
@@ -278,12 +306,18 @@ Template.minutesedit.helpers({
         if (Session.get("minutesedit.PrintViewActive")) {
             return "btn-info";
         }
+    },
+
+    showQuickHelp: function() {
+        const user = new User();
+        return user.getSetting(userSettings.showQuickHelp.meeting, true);
     }
 });
 
 Template.minutesedit.events({
     "click #btnHideHelp": function () {
-        $(".help").hide();  // use jQuery to find and hide class
+        const user = new User();
+        user.storeSetting(userSettings.showQuickHelp.meeting, false);
     },
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
@@ -446,7 +480,7 @@ Template.minutesedit.events({
                     // first route to the parent meetingseries then remove the minute.
                     // otherwise the current route would automatically re-routed to the main page because the
                     // minute is not available anymore -> see router.js
-                    Router.go("/meetingseries/"+aMin.meetingSeries_id);
+                    FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
                     ms.removeMinutesWithId(aMin._id);
                 },
                 /* Dialog content */

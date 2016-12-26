@@ -1,5 +1,7 @@
-import { MeetingSeries } from '/imports/meetingseries';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import { $ } from 'meteor/jquery';
+
+import { MeetingSeries } from '/imports/meetingseries';
 
 function clearForm(template) {
     template.find("#id_meetingproject").value = "";
@@ -60,7 +62,7 @@ Template.meetingSeriesAdd.events({
         $('#collapseMeetingSeriesAdd').collapse('hide');
 
         addMeetingSeries(template, (id) => {
-            Router.go('/meetingseries/invite/' + id);
+            FlowRouter.go('/meetingseries/' + id + '?edit=true');
         }, false);
     },
 

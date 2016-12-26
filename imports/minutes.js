@@ -393,6 +393,9 @@ export class Minutes {
      */
     getPresentParticipantNames(maxChars) {
         let names = "";
+
+        this.participants = this.participants || [];
+
         this.participants.forEach(part => {
             if (part.present) {
                 let name = Meteor.users.findOne(part.userId).username;

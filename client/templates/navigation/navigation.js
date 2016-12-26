@@ -1,4 +1,5 @@
-import { GlobalSettings } from '/imports/GlobalSettings'
+import { GlobalSettings } from '/imports/GlobalSettings';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 Template.navigation.onRendered(function() {
 });
@@ -14,7 +15,7 @@ Template.navigation.events({
     event.preventDefault();
     if (Meteor.userId()) {
       AccountsTemplates.logout();
-      Router.go("/");
+      FlowRouter.go("/");
     }
   }
 });
