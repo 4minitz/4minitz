@@ -94,7 +94,8 @@ export class TopicFilter {
                 }
                 case KEYWORDS.USER.key:
                 {
-                    if (!( item.responsibles && _.contains(item.responsibles, filter.value) )) {
+                    if (!( item.responsibles && filter.ids && _.intersection(item.responsibles, filter.ids).length > 0) )
+                    {
                         return false;
                     }
                     break;

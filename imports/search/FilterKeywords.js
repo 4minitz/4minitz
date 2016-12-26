@@ -32,12 +32,14 @@ export const KEYWORDS = {
     },
 
     getKeyWordFromToken: function(token, queryUserIdByName) {
-        let key, value;
+        let key, value, ids;
+        ids = [];
         if (token.startsWith(this.USER.key)) {
             key = this.USER.key;
             value = token.substr(1);
             if (queryUserIdByName) {
-                value = queryUserIdByName(value);
+                ids = queryUserIdByName(value);
+                value = ids[0];
             }
         } else {
             let arr = token.split(':');
@@ -46,7 +48,8 @@ export const KEYWORDS = {
         }
         return {
             key: key,
-            value: value
+            value: value,
+            ids: ids
         };
     },
 

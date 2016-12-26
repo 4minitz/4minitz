@@ -68,7 +68,7 @@ describe("QueryParser", function() {
 
         expect(searchTokens).to.contain('hello');
         expect(searchTokens).to.contain('world');
-        expect(filterTokens).to.contain({key: 'is', value: 'open'});
+        expect(filterTokens).to.contain({key: 'is', value: 'open', ids: []});
         expect(labelTokens).to.contain('my label');
     });
 

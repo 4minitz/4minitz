@@ -30,13 +30,13 @@ function getLabelIdsByName(labelName, caseSensitive) {
     return null;
 }
 
-function getUserIdByName(userName) {
-    let user = (userName === 'me') ? Meteor.user() : Meteor.users.findOne({username: userName});
-    if (user) {
-        return user._id;
+function getUserIdsByName(userName) {
+    let users = (userName === 'me') ? Meteor.user() : Meteor.users.find({username: {$regex: userName}}).fetch();
+    if (users) {
+        return users.map(user => { return user._id; });
     }
 
-    return userName;
+    return [];
 }
 
 let isItemsView = function(tmpl) {
@@ -53,7 +53,7 @@ Template.tabTopicsItems.onCreated(function() {
             myTemplate.data.onSearchChanged(query);
         }
     };
-    this.topicFilter = new TopicFilter(new QueryParser(getLabelIdsByName, getUserIdByName));
+    this.topicFilter = new TopicFilter(new QueryParser(getLabelIdsByName, getUserIdsByName));
 });
 
 Template.tabTopicsItems.helpers({
