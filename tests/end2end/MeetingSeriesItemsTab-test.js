@@ -5,8 +5,8 @@ import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
 
-describe('MeetingSeries complete Topic list', function () {
-    const aProjectName = "MeetingSeries Topic List";
+describe('MeetingSeries Items Tab', function () {
+    const aProjectName = "MeetingSeries Items Tab";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
@@ -49,7 +49,10 @@ describe('MeetingSeries complete Topic list', function () {
 
         expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have three items").to.equal(3);
 
-        browser.setValue('#inputFilter', 'is:item information');
+        // workaround: send space first, which will switch to topics-tab without adding a whitespace, then
+        // the sequence 'is:item' will switch back. The first space makes sure that there will no whitespace
+        // inserted after the first character.
+        browser.setValue('#inputFilter', ' is:item information');
         expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have now two items").to.equal(2);
     });
 
