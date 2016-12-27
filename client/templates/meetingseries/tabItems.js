@@ -9,19 +9,39 @@ import { TopicFilter } from '/imports/search/TopicFilter';
 import { QueryParser } from '/imports/search/QueryParser';
 import { TopicFilterConfig } from '../topic/topicFilter';
 
-export class ItemListConfig {
+import { createLabelIdsReceiver } from './helpers/tabFilterDatabaseOperations';
+import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
+
+export class TabItemsConfig {
     constructor (topics, parentMeetingSeriesId) {
         this.topics = topics;
         this.parentMeetingSeriesId = parentMeetingSeriesId;
     }
 }
 
-Template.itemsList.helpers({
+Template.tabItems.onCreated(function() {
+    this.topicFilterQuery = new ReactiveVar("");
+    let myTemplate = Template.instance();
+    this.topicFilterHandler = (query) => {
+        myTemplate.topicFilterQuery.set(query);
+    };
+    this.topicFilter = new TopicFilter(
+        new QueryParser(createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId), createUserIdsReceiver));
+});
+
+Template.tabItems.helpers({
+
+    'getTopicFilterConfig': function() {
+        let tmpl = Template.instance();
+        return new TopicFilterConfig(tmpl.topicFilterHandler);
+    },
 
     'getInfoItems': function() {
-        let config = Template.instance().data;
-        let topics =  config.topics;
+        let tmpl = Template.instance();
 
+        let query = tmpl.topicFilterQuery.get();
+        let topics = tmpl.topicFilter.filter(tmpl.data.topics, query);
+        //return topics;
         return topics.reduce(
             (acc, topic) => {
                 return acc.concat(topic.infoItems.map((item) => {
@@ -29,22 +49,9 @@ Template.itemsList.helpers({
                     return item;
                 }));
             },
-            [] /* initial value */
-        );
-
-        //var query = Template.instance().topicFilterQuery.get();
-        //let topics = Template.instance().topicFilter.filter(this.topics, query);
-        //return topics;
-        /*return topics.reduce(
-            (acc, topic) => {
-                return acc.concat(topic.infoItems.map((item) => {
-                    item.parentTopicId = topic._id;
-                    return item;
-                }));
-            },
-            /* initial value *
+            /* initial value */
             []
-        );*/
+        );
     },
 
     'infoItemData': function(index) {

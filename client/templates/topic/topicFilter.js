@@ -12,11 +12,9 @@ export class TopicFilterConfig {
      * for the Topic-Filter-UI-Component.
      *
      * @param {TopicFilterCallback} callback - The callback triggered after the search query has changed
-     * @param {boolean} switchToItemsView - Switches between items and topics tab
      */
-    constructor(callback, switchToItemsView) {
+    constructor(callback) {
         this.callback = callback;
-        this.switchToItemsView = switchToItemsView;
     }
 }
 
@@ -83,23 +81,6 @@ Template.topicFilter.onRendered(function() {
 Template.topicFilter.helpers({
     'filters': function () {
         return FILTERS;
-    },
-
-    'injectFilterValue': function () {
-        const IS_ITEM = 'is:item';
-        let tmpl = Template.instance();
-        let query;
-        let currentQuery = (tmpl.view.isRendered) ? tmpl.find('#inputFilter').value : '';
-        if (tmpl.data.config.switchToItemsView) {
-            let prependedQuery = (currentQuery) ? `${IS_ITEM} ${currentQuery}` : IS_ITEM;
-            query = (currentQuery.indexOf(IS_ITEM) === -1) ? prependedQuery : currentQuery;
-        } else {
-            query = currentQuery.replace(new RegExp(`${IS_ITEM}*`, 'g'), '');
-        }
-        query = query.trim();
-        performSearch(query, tmpl);
-        focusInputField(tmpl);
-        return appendSpace(query);
     }
 });
 

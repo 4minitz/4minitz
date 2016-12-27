@@ -8,8 +8,8 @@ import { UserRoles } from '/imports/userroles'
 import { User, userSettings } from '/imports/users'
 
 import { TopicListConfig } from '../topic/topicsList'
-import { ItemListConfig } from './itemsList'
-import { TabConfig } from './tabTopicsItems'
+import { TabItemsConfig } from './tabItems'
+import { TabTopicsConfig } from './tabTopics'
 
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
@@ -27,14 +27,6 @@ Template.meetingSeriesDetails.onCreated(function () {
 
     this.activeTabTemplate = new ReactiveVar("minutesList");
     this.activeTabId = new ReactiveVar("tab_minutes");
-
-    let myTemplate = Template.instance();
-    this.onSearchChangedHandler = (query) => {
-        if (myTemplate.activeTabTemplate.get() === 'tabTopicsItems') {
-            let tab_id = (query.indexOf('is:item') === -1) ? 'tab_topics' : 'tab_items';
-            myTemplate.activeTabId.set(tab_id);
-        }
-    }
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
@@ -79,9 +71,14 @@ Template.meetingSeriesDetails.helpers({
                     meetingSeriesId: _meetingSeriesID
                 };
 
-            case "tabTopicsItems":
+            case "tabTopics":
             {
-                return new TabConfig(ms.topics, _meetingSeriesID, tmpl.activeTabId, tmpl.onSearchChangedHandler);
+                return new TabTopicsConfig(ms.topics, _meetingSeriesID);
+            }
+
+            case "tabItems":
+            {
+                return new TabItemsConfig(ms.topics, _meetingSeriesID);
             }
 
             default: throw new Meteor.Error('illegal-state', 'Unknown tab: ' + tab);

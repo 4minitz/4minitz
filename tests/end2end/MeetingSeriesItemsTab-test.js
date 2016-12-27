@@ -49,10 +49,7 @@ describe('MeetingSeries Items Tab', function () {
 
         expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have three items").to.equal(3);
 
-        // workaround: send space first, which will switch to topics-tab without adding a whitespace, then
-        // the sequence 'is:item' will switch back. The first space makes sure that there will no whitespace
-        // inserted after the first character.
-        browser.setValue('#inputFilter', ' is:item information');
+        browser.setValue('#inputFilter', 'is:item information');
         expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have now two items").to.equal(2);
     });
 
