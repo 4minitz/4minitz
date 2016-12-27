@@ -6,14 +6,13 @@
 
         <h2 class="header">
             <span class="hidden-xs">Meeting Series:</span>
+            {{project}} - {{name}}
             {{#if isModerator}}
                 <a href="#" data-toggle="modal" data-target="#dlgEditMeetingSeries" id="btnEditMeetingSeries"
                     title="Configure Meeting Series">
-                    {{project}} - {{name}}
+
                     <span class="glyphicon glyphicon-cog pull-right" aria-hidden="true" aria-label="Edit Meeting Series"></span>
                 </a>
-            {{else}}
-                {{project}} - {{name}}
             {{/if}}
         </h2>
     {{/with}}
