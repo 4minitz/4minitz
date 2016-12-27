@@ -13,18 +13,11 @@ export class TopicFilterConfig {
      *
      * @param {TopicFilterCallback} callback - The callback triggered after the search query has changed
      */
-    constructor(callback) {
+    constructor(callback, filters) {
         this.callback = callback;
+        this.filters = filters;
     }
 }
-
-const FILTERS = [
-    {text: 'Info Items', value: 'is:item is:info'},
-    {text: 'Action Items', value: 'is:item is:action'},
-    {text: 'Open Action Items', value: 'is:item is:action is:open'},
-    {text: 'Closed Action Items', value: 'is:item is:action is:closed'},
-    {text: 'Your Action Items', value: 'is:item is:action @me'}
-];
 
 const MATCH_CASE = 'do:match-case ';
 const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`,"g");
@@ -47,11 +40,13 @@ let performSearch = function(query, tmpl) {
     tmpl.$('#cbCaseSensitiveFilter').prop("checked", caseSensitive);
 
     // change filters dropdown
-    let matchingFilter = tmpl.find(`#filters option[value='${query}']`);
-    if (matchingFilter) {
-        matchingFilter.selected = true;
-    } else {
-        tmpl.find("#noFilter").selected = true;
+    if (tmpl.data.config.filters) {
+        let matchingFilter = tmpl.find(`#filters option[value='${query}']`);
+        if (matchingFilter) {
+            matchingFilter.selected = true;
+        } else {
+            tmpl.find("#noFilter").selected = true;
+        }
     }
 };
 
@@ -79,8 +74,12 @@ Template.topicFilter.onRendered(function() {
 });
 
 Template.topicFilter.helpers({
+    'hasFilters': function() {
+        return !!Template.instance().data.config.filters;
+    },
+
     'filters': function () {
-        return FILTERS;
+        return Template.instance().data.config.filters;
     }
 });
 

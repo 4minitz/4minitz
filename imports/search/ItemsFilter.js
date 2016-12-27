@@ -118,8 +118,8 @@ export class ItemsFilter {
     _docMatchesKeywords_USER(doc, filter) {
         if (!doc.responsibles) { return false; }
         let respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp }, "");
-        return ( filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0
-                    || this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1);
+        return ( (filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0)
+                    || (filter.value && this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1) );
     }
 
 

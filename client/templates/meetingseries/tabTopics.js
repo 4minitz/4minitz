@@ -23,6 +23,12 @@ export class TabTopicsConfig {
     }
 }
 
+const FILTERS = [
+    {text: 'Open Topics', value: 'is:open'},
+    {text: 'Closed Topics', value: 'is:closed'},
+    {text: 'Your Topics', value: '@me'}
+];
+
 Template.tabTopics.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar("");
     let myTemplate = Template.instance();
@@ -40,7 +46,7 @@ Template.tabTopics.onCreated(function() {
 Template.tabTopics.helpers({
 
     'getTopicFilterConfig': function() {
-        return new TopicFilterConfig(Template.instance().topicFilterHandler);
+        return new TopicFilterConfig(Template.instance().topicFilterHandler, FILTERS);
     },
 
     'topicViewData': function() {

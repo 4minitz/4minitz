@@ -16,6 +16,9 @@ let getKeyWordFromToken = function(token, queryUserIdByName) {
         value = token.substr(1);
         if (queryUserIdByName) {
             ids = queryUserIdByName(value);
+            if (value === 'me') {
+                value = "";
+            }
         }
     } else {
         let arr = token.split(':');

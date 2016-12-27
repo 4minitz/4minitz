@@ -20,6 +20,14 @@ export class TabItemsConfig {
     }
 }
 
+const FILTERS = [
+    {text: 'Info Items', value: 'is:info'},
+    {text: 'Action Items', value: 'is:action'},
+    {text: 'Open Action Items', value: 'is:action is:open'},
+    {text: 'Closed Action Items', value: 'is:action is:closed'},
+    {text: 'Your Action Items', value: 'is:action @me'}
+];
+
 Template.tabItems.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar("");
     let myTemplate = Template.instance();
@@ -39,7 +47,7 @@ Template.tabItems.helpers({
 
     'getTopicFilterConfig': function() {
         let tmpl = Template.instance();
-        return new TopicFilterConfig(tmpl.topicFilterHandler);
+        return new TopicFilterConfig(tmpl.topicFilterHandler, FILTERS);
     },
 
     'getInfoItems': function() {
