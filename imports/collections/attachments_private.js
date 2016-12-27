@@ -203,12 +203,14 @@ Meteor.methods({
                 console.log("Attachment removal prohibited. Attachment not found in DB.");
                 return false;
             }
+            // we must ensure a known meeting minutes id, otherwise we can not check sufficient user role afterwards
             if (file.meta == undefined || file.meta.meetingminutes_id == undefined) {
-                console.log("Attachment removal prohibited. File without parent meeting series.");
+                console.log("Attachment removal prohibited. File without meetingminutes_id.");
                 return false;
             }
 
             const att = new Attachment(attachmentID);
+            // mayRemove() checks for not-finalized minutes and sufficient user role
             if (! att.mayRemove() ) {
                 console.log("Attachment removal prohibited. User has no sufficient role for meeting series: "+file.meta.parentseries_id);
                 return false;
