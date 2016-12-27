@@ -1,6 +1,6 @@
 import { _ } from 'meteor/underscore';
 
-import { KEYWORDS } from './FilterKeywords';
+import { ITEM_KEYWORDS } from './FilterKeywords';
 
 export class TopicFilter {
 
@@ -25,7 +25,7 @@ export class TopicFilter {
     }
 
     isItemView() {
-        return this.parser.hasKeyword(KEYWORDS.IS, 'item');
+        return this.parser.hasKeyword(ITEM_KEYWORDS.IS, 'item');
     }
 
     _filterTopics() {
@@ -110,14 +110,14 @@ export class TopicFilter {
             let filter = filterTokens[i];
 
             switch (filter.key) {
-                case KEYWORDS.IS.key:
+                case ITEM_KEYWORDS.IS.key:
                 {
                     if (!TopicFilter._itemMatchesKeyword_IS(item, filter.value)) {
                         return false;
                     }
                     break;
                 }
-                case KEYWORDS.USER.key:
+                case ITEM_KEYWORDS.USER.key:
                 {
                     if (!( item.responsibles && filter.ids && _.intersection(item.responsibles, filter.ids).length > 0) )
                     {
@@ -125,21 +125,21 @@ export class TopicFilter {
                     }
                     break;
                 }
-                case KEYWORDS.PRIO.key:
+                case ITEM_KEYWORDS.PRIO.key:
                 {
                     if (!( item.priority && item.priority.startsWith(filter.value))) {
                         return false;
                     }
                     break;
                 }
-                case KEYWORDS.DUE.key:
+                case ITEM_KEYWORDS.DUE.key:
                 {
                     if (!( item.duedate && item.duedate.startsWith(filter.value))) {
                         return false;
                     }
                     break;
                 }
-                case KEYWORDS.DO.key:
+                case ITEM_KEYWORDS.DO.key:
                 {
                     break;
                 }

@@ -8,6 +8,7 @@ import { Label } from '/imports/label';
 import { ItemsFilter } from '/imports/search/ItemsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
 import { TopicFilterConfig } from '../topic/topicFilter';
+import { ITEM_KEYWORDS } from '/imports/search/FilterKeywords';
 
 import { createLabelIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
@@ -27,7 +28,11 @@ Template.tabItems.onCreated(function() {
     };
 
     this.itemsFilter = new ItemsFilter();
-    this.parser = new QueryParser(createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId), createUserIdsReceiver);
+    this.parser = new QueryParser(
+        ITEM_KEYWORDS,
+        createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
+        createUserIdsReceiver
+    );
 });
 
 Template.tabItems.helpers({

@@ -1,7 +1,7 @@
 import { _ } from 'meteor/underscore';
 
 
-import { KEYWORDS } from './FilterKeywords';
+import { ITEM_KEYWORDS } from './FilterKeywords';
 
 export class ItemsFilter {
 
@@ -76,14 +76,14 @@ export class ItemsFilter {
             let filter = filterTokens[i];
 
             switch (filter.key) {
-                case KEYWORDS.IS.key:
+                case ITEM_KEYWORDS.IS.key:
                 {
                     if (!ItemsFilter._itemMatchesKeyword_IS(doc, filter.value)) {
                         return false;
                     }
                     break;
                 }
-                case KEYWORDS.USER.key:
+                case ITEM_KEYWORDS.USER.key:
                 {
                     if (!( doc.responsibles && filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0) )
                     {
@@ -91,21 +91,21 @@ export class ItemsFilter {
                     }
                     break;
                 }
-                case KEYWORDS.PRIO.key:
+                case ITEM_KEYWORDS.PRIO.key:
                 {
                     if (!( doc.priority && doc.priority.startsWith(filter.value))) {
                         return false;
                     }
                     break;
                 }
-                case KEYWORDS.DUE.key:
+                case ITEM_KEYWORDS.DUE.key:
                 {
                     if (!( doc.duedate && doc.duedate.startsWith(filter.value))) {
                         return false;
                     }
                     break;
                 }
-                case KEYWORDS.DO.key:
+                case ITEM_KEYWORDS.DO.key:
                 {
                     break;
                 }

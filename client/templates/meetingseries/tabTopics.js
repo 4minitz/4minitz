@@ -6,9 +6,9 @@ import { Topic } from '/imports/topic';
 import { Label } from '/imports/label';
 
 import { TopicDocFilter } from '/imports/search/TopicDocFilter';
-//import { TopicFilter } from '/imports/search/TopicFilter';
 import { QueryParser } from '/imports/search/QueryParser';
 import { TopicFilterConfig } from '../topic/topicFilter';
+import { TOPIC_KEYWORDS } from '/imports/search/FilterKeywords';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { TabItemsConfig } from './tabItems';
@@ -30,7 +30,11 @@ Template.tabTopics.onCreated(function() {
         myTemplate.topicFilterQuery.set(query);
     };
     this.topicFilter = new TopicDocFilter();
-    this.parser = new QueryParser(createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId), createUserIdsReceiver);
+    this.parser = new QueryParser(
+        TOPIC_KEYWORDS,
+        createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
+        createUserIdsReceiver
+    );
 });
 
 Template.tabTopics.helpers({

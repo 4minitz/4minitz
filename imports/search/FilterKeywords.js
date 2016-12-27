@@ -1,17 +1,17 @@
 import { _ } from 'meteor/underscore';
 
 let isKeyword = function(token) {
-    if (token.startsWith(this.USER.key)) {
+    if (this.USER && token.startsWith(this.USER.key)) {
         return true;
     }
     let arr = token.split(':');
-    return ( arr.length == 2 && KEYWORDS.isAllowedValueForKey(arr[0], arr[1]) );
+    return ( arr.length == 2 && this.isAllowedValueForKey(arr[0], arr[1]) );
 };
 
 let getKeyWordFromToken = function(token, queryUserIdByName) {
     let key, value, ids;
     ids = [];
-    if (token.startsWith(this.USER.key)) {
+    if (this.USER && token.startsWith(this.USER.key)) {
         key = this.USER.key;
         value = token.substr(1);
         if (queryUserIdByName) {
@@ -39,7 +39,7 @@ let isAllowedValueForKey = function(key, value) {
     return false;
 };
 
-export const KEYWORDS = {
+export const ITEM_KEYWORDS = {
     IS: {
         key: 'is',
         values: ['open', 'closed', 'info', 'action', 'new', 'sticky', 'item']

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import _ from 'underscore';
 
 const {
-    KEYWORDS
+    ITEM_KEYWORDS
     } = proxyquire('../../../../imports/search/FilterKeywords', {
     'meteor/underscore': { _, '@noCallThru': true}
 });
@@ -12,8 +12,7 @@ const {
 const {
     QueryParser
     } = proxyquire('../../../../imports/search/QueryParser', {
-    'meteor/underscore': { _, '@noCallThru': true},
-    './FilterKeywords': { KEYWORDS, '@noCallThru': true}
+    'meteor/underscore': { _, '@noCallThru': true}
 });
 
 describe("QueryParser", function() {
@@ -21,7 +20,7 @@ describe("QueryParser", function() {
     let parser;
 
     beforeEach(function() {
-        parser = new QueryParser();
+        parser = new QueryParser(ITEM_KEYWORDS);
     });
 
     it("parses a simple query string containing only search tokens correctly", function() {
@@ -83,7 +82,7 @@ describe("QueryParser", function() {
     describe('Query LabelIds', function() {
 
         beforeEach(function() {
-            parser = new QueryParser((labelName) => {
+            parser = new QueryParser(ITEM_KEYWORDS, (labelName) => {
                 if (labelName.split(/\s/).length > 2) {
                     return [];
                 }

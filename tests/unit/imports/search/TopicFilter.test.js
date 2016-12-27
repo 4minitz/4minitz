@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import _ from 'underscore';
 
 const {
-    KEYWORDS
+    ITEM_KEYWORDS
     } = proxyquire('../../../../imports/search/FilterKeywords', {
     'meteor/underscore': { _, '@noCallThru': true}
 });
@@ -13,7 +13,7 @@ const {
     TopicFilter
     } = proxyquire('../../../../imports/search/TopicFilter', {
     'meteor/underscore': { _, '@noCallThru': true},
-    './search/FilterKeywords': { KEYWORDS, '@noCallThru': true}
+    './search/FilterKeywords': { ITEM_KEYWORDS, '@noCallThru': true}
 });
 
 class QueryParserMock {

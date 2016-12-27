@@ -1,7 +1,5 @@
 import { _ } from 'meteor/underscore';
 
-import { KEYWORDS } from './FilterKeywords'
-
 const TOKEN_TYPE_SEARCH = 1;
 const TOKEN_TYPE_FILTER = 2;
 const TOKEN_TYPE_LABEL = 3;
@@ -21,10 +19,15 @@ export class QueryParser {
      */
 
 
-    constructor(queryLabelIdsByName, queryUserIdsByName) {
+    constructor(keywords, queryLabelIdsByName, queryUserIdsByName) {
+        if (!keywords) {
+            throw new Meteor.Error('invalid-state', 'Please inject keywords object');
+        }
+
         this.reset();
         this.queryLabelIdsByName = queryLabelIdsByName;
         this.queryUserIdsByName = queryUserIdsByName;
+        this.keywords = keywords;
     }
 
     reset() {
@@ -150,15 +153,15 @@ export class QueryParser {
 
     _isFilterKeyword(token) {
         let arr = token.split(':');
-        let res = KEYWORDS.isKeyword(token);
-        if (res && arr[0] === KEYWORDS.DO.key && arr[1] === 'match-case') {
+        let res = this.keywords.isKeyword(token);
+        if (this.keywords.hasOwnProperty('DO') && res && arr[0] === this.keywords.DO.key && arr[1] === 'match-case') {
             this.matchCase = true;
         }
         return res;
     }
 
     _addFilterToken(token) {
-        this.filterTokens.push(KEYWORDS.getKeyWordFromToken(token, this.queryUserIdsByName))
+        this.filterTokens.push(this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName))
     }
 
     /**
