@@ -16,7 +16,6 @@ let getKeyWordFromToken = function(token, queryUserIdByName) {
         value = token.substr(1);
         if (queryUserIdByName) {
             ids = queryUserIdByName(value);
-            value = ids[0];
         }
     } else {
         let arr = token.split(':');
@@ -77,6 +76,11 @@ export const TOPIC_KEYWORDS = {
     DO: {
         key: 'do',
         values: ['match-case']
+    },
+    USER: {
+        key: '@',
+        values: '*',
+        format: '@username'
     },
 
     isKeyword: isKeyword,

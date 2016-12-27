@@ -85,8 +85,7 @@ export class ItemsFilter {
                 }
                 case ITEM_KEYWORDS.USER.key:
                 {
-                    if (!( doc.responsibles && filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0) )
-                    {
+                    if (!this._docMatchesKeywords_USER(doc, filter)) {
                         return false;
                     }
                     break;
@@ -114,6 +113,13 @@ export class ItemsFilter {
         }
 
         return true;
+    }
+
+    _docMatchesKeywords_USER(doc, filter) {
+        if (!doc.responsibles) { return false; }
+        let respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp }, "");
+        return ( filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0
+                    || this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1);
     }
 
 

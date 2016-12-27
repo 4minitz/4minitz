@@ -2,6 +2,8 @@ import { _ } from 'meteor/underscore';
 
 import { ItemsFilter } from './ItemsFilter'
 
+import { TOPIC_KEYWORDS } from './FilterKeywords';
+
 export class TopicDocFilter {
 
     constructor() {
@@ -58,7 +60,54 @@ export class TopicDocFilter {
     }
 
     docMatchesFilterTokens(doc, filterTokens) {
+        for (let i=0; i < filterTokens.length; i++) {
+            let filter = filterTokens[i];
+
+            switch (filter.key) {
+                case TOPIC_KEYWORDS.IS.key:
+                {
+                    if (!this.constructor._docMatchesKeyword_IS(doc, filter.value)) {
+                        return false;
+                    }
+                    break;
+                }
+                case TOPIC_KEYWORDS.USER.key:
+                {
+                    if (!this._docMatchesKeywords_USER(doc, filter)) {
+                        return false;
+                    }
+                    break;
+                }
+                case TOPIC_KEYWORDS.DO.key:
+                {
+                    break;
+                }
+                default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
+            }
+        }
+
         return true;
+    }
+
+    _docMatchesKeywords_USER(doc, filter) {
+        if (!doc.responsibles) { return false; }
+        let respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp }, "");
+        return ( filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0
+                    || this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1);
+    }
+
+
+    static _docMatchesKeyword_IS(doc, value) {
+        switch (value) {
+            case 'open':
+                return doc.isOpen;
+            case 'closed':
+                // explicit comparison required to skip info items (which has no isOpen property)
+                return doc.isOpen === false;
+            case 'new':
+                return doc.isNew;
+            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
+        }
     }
 
 
