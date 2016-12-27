@@ -175,3 +175,47 @@ _Note: The LDAP setting "searchDn" and the the 4minitz user database field
 "username" are considered as primary key in the import step. But it is 
 important to note that comparison is done __case-insensitive__ as 
 [meteor considers no case on usernames during login](https://guide.meteor.com/accounts.html#case-sensitivity).
+
+### Configuring Upload of Binary Attachments
+If this feature is switched on, users may upload binary attachments
+to a non-finalized meeting protocol. This is especially cool as
+users may login to the current meeting minutes with their smart
+device, take a snapshot - e.g. of a filled white board - and then directly
+upload the photo to the current meeting minutes.
+
+For detailed setting options for binary attachments take a look at the 
+```settings_sample.json``` section ```attachments```.
+Here you can specify things like:
+* switch on/off the upload binary attachments feature
+* absolute or relative path to the stored files
+* allowed or denied file extensions
+* maximum file size per upload.
+
+Some hints:
+* If the feature is switched off, it is not possible to upload, remove or
+download attachments via the webapp.
+* Users are not able to see or download attachments for meetings where
+they are not invited. Users are only able to upload attachtments to
+meeting series where they have either the moderator or uploader role.
+* If you toggle the feature on => off no files will be deleted. 
+So it's save to switch the feature off temporarily.  
+* The file system path where attachments are stored may be relative
+or absolute. During launch the server will output the full path to your
+uploaded attachments directory. It is a good idea to put this path
+into you backup strategy.
+* Inside the attachments directory the files will be grouped
+by ID of the parent meeting series.
+* During launch the server will check if the attachment directory 
+is writeable. If not, an error will occur in the server log. 
+You know what to do here, right?
+* via allowExtensions and denyExtensions you can either allow all 
+and deny some (e.g. *.exe) or you can allow only some 
+(e.g. *.ppt) - in this case the deny pattern may be empty.
+These settings will only affect future uploads.
+* The maximum file size is specified in bytes and affects only
+future uploads. So a value of 10485760 will mean 10 MB 
+(as 10 * 1024 * 1024 = 10485760).  
+* If you want to find out how many attachments exist at all and how
+much storage space they occupy, you may open the client statistics.
+Open the about box and click on the 4Minitz logo to show/hide the
+server statistics.
