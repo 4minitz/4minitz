@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor';
 
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
-import { AttachmentsCollection, Attachment } from "/imports/collections/attachments_private"
+import { AttachmentsCollection } from '/imports/collections/attachments_private'
+import { Attachment } from '/imports/attachment'
 
 let _minutesID; // the ID of these minutes
 
@@ -14,7 +15,7 @@ Template.minutesAttachments.onCreated(function() {
 
     // Calculate initial expanded/collapsed state
     Session.set("attachments.expand", true);
-    if (AttachmentsCollection.find({"meta.meetingminutes_id": _minutesID}).count() == 0) {
+    if (Attachment.countForMinutes(_minutesID) == 0) {
         Session.set("attachments.expand", false);
     }
 });
@@ -38,11 +39,11 @@ Template.minutesAttachments.helpers({
     },
 
     attachments() {
-        return AttachmentsCollection.find({"meta.meetingminutes_id": _minutesID});
+        return Attachment.findForMinutes(_minutesID);
     },
 
     attachmentsCount() {
-        const count = AttachmentsCollection.find({"meta.meetingminutes_id": _minutesID}).count();
+        const count = Attachment.countForMinutes(_minutesID);
         return count == 1 ? count + " file" : count + " files";
     },
 
@@ -76,7 +77,7 @@ Template.minutesAttachments.helpers({
         let file = this.fetch()[0]; // this is an attachment cursor in this context, so get "first" object of array
         try {
             let attachment = new Attachment(file._id);
-            if (! min.isFinalized && attachment.mayRemove()) {
+            if (attachment.mayRemove()) {
                 return true;
             }
             return false;
@@ -125,41 +126,10 @@ Template.minutesAttachments.events({
         if (e.currentTarget.files && e.currentTarget.files[0]) {
             // We upload only one file, in case
             // multiple files were selected
-            console.log("Uploading... "+e.currentTarget.files[0]);
-            let min = new Minutes(_minutesID);
-            let upload = AttachmentsCollection.insert({
-                file: e.currentTarget.files[0],
-                streams: 'dynamic',
-                chunkSize: 'dynamic',
-                meta: {
-                        meetingminutes_id: _minutesID,
-                        parentseries_id: min.parentMeetingSeriesID()
-                      }
-            }, false);
-
-            upload.on('start', function () {
-                template.currentUpload.set(this);
-            });
-            upload.on('end', function (error, fileObj) {
-                if (error) {
-                    confirmationDialog(
-                        () => {},   // do nothing...
-                        /* Dialog content */
-                        "" + error,
-                        "Error during upload",
-                        "OK",
-                        "btn-success",
-                        true /* hide cancel button */
-                    );
-                }
-                template.currentUpload.set(false);
-            });
-            upload.on('abort', function (error, fileObj) {
-                console.log("Upload of attachment was aborted.");
-                template.currentUpload.set(false);
-            });
-
-            upload.start();
+            const uploadFilename = e.currentTarget.files[0];
+            console.log("Uploading... "+uploadFilename);
+            let minObj = new Minutes(_minutesID);
+            Attachment.uploadFile(uploadFilename, minObj, template.currentUpload, this);
         }
     },
 
@@ -191,5 +161,4 @@ Template.minutesAttachments.events({
     "click #btnAttachmentsExpand" () {
         Session.set("attachments.expand", !Session.get("attachments.expand"));
     }
-
 });
