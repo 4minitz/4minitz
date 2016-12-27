@@ -129,7 +129,7 @@ Template.minutesAttachments.events({
             const uploadFilename = e.currentTarget.files[0];
             console.log("Uploading... "+uploadFilename);
             let minObj = new Minutes(_minutesID);
-            Attachment.uploadFile(uploadFilename, minObj, template.currentUpload, this);
+            Attachment.uploadFile(uploadFilename, minObj, template.currentUpload);
         }
     },
 

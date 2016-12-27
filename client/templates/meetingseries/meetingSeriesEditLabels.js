@@ -8,14 +8,14 @@ import { Label } from '/imports/label'
 import { ColorHelper } from '/imports/ColorHelper'
 
 Template.meetingSeriesEditLabels.onRendered(function () {
-    Meteor.setTimeout(function() {
+    setTimeout(function() {
         $('.pick-a-color').pickAColor({
             showSavedColors         : false,
             showAdvanced            : false,
             inlineDropdown          : false
         });
         $('.hex-pound').hide();
-    }, 50);
+    }, 100);
 
     addCustomValidator(
         ".label-color-field",

@@ -38,7 +38,7 @@ export class Attachment {
         return sumBytes;
     }
 
-    static uploadFile(uploadFilename, minutesObj, uploadTracker, uploadContext) {
+    static uploadFile(uploadFilename, minutesObj, uploadTracker) {
         let upload = AttachmentsCollection.insert({
             file: uploadFilename,
             streams: 'dynamic',
@@ -50,7 +50,7 @@ export class Attachment {
         }, false);
 
         upload.on('start', function () {
-            uploadTracker.set(uploadContext);
+            uploadTracker.set(this);    // this == current upload object
         });
         upload.on('end', function (error, fileObj) {
             if (error) {

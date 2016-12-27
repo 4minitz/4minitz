@@ -5,6 +5,10 @@
     <div class="hidden-xs">
         <a href="https://github.com/4minitz/4minitz" target="_new" class="github-corner"
            aria-label="View 4Minitz source on Github">
+
+            {{#if isChristmasTime}}
+                <img class="christmas-hat" src="/christmas-hat.png">
+            {{/if}}
             <svg width="80" height="80" viewBox="0 0 250 250"
                  style="fill:#44cccc; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
                 <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -16,6 +20,15 @@
         </a>
         <style>.github-corner:hover .octo-arm {
             animation: octocat-wave 560ms ease-in-out
+        }
+
+        .christmas-hat {
+            position: absolute;
+            top: 11px;
+            border: 0;
+            right: -5px;
+            height: 30px;
+            z-index: 1;
         }
 
         @keyframes octocat-wave {

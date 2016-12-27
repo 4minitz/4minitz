@@ -149,7 +149,6 @@ if (Meteor.isServer) {
         // We publish only those attachments that are bound to
         // a meeting series that is visible for the current user
         let meetingSeriesIDs = MeetingSeries.getAllVisibleIDsForUser(this.userId);
-        console.log("\n\nRE-PUBLISH for MS:"+meetingSeriesIDs);
         return AttachmentsCollection.find(
             {"meta.parentseries_id": {$in: meetingSeriesIDs}}
         ).cursor;
@@ -168,14 +167,16 @@ if (Meteor.isClient) {
     let meetingSeriesLiveQuery = MeetingSeries.find();
     meetingSeriesLiveQuery.observe(
         {
-            // "added" is for other users, that are invited to existing meeting series
+            // "added" is for OTHER users, that are invited to existing meeting series
             "added": function () {
                 Meteor.subscribe('files.attachments.all');
             },
-            // "changed" is for this user, while she creates a new meeting series for herself.
+            // "changed" is for THIS user, while she creates a new meeting series for herself.
             // Such a series is first added (in client) and the "added" event above fires in the client
             // but at this time point the "visibleFor" field may not yet been set properly on the server.
-            // so, we also register for the "changed" event to re-subscribe also when visibility changes
+            // So the server re-publish does not regard this meeting series as visible during
+            // calculation of visible attachments.
+            // So, we also register for the "changed" event to re-subscribe also when visibility changes
             // on the server side.
             "changed": function () {
                 Meteor.subscribe('files.attachments.all');

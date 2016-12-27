@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
@@ -45,7 +46,7 @@ Template.minutesList.events({
             () => {
                 console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
                 MeetingSeries.leave(ms);
-                Router.go("/");
+                FlowRouter.go("/");
             },
             "<p>Do you really want to leave the meeting series:<br>" +
             "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + ms.project + " / " + ms.name + "</b><br>" +
