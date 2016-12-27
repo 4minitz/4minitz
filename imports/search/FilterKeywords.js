@@ -1,5 +1,44 @@
 import { _ } from 'meteor/underscore';
 
+let isKeyword = function(token) {
+    if (token.startsWith(this.USER.key)) {
+        return true;
+    }
+    let arr = token.split(':');
+    return ( arr.length == 2 && KEYWORDS.isAllowedValueForKey(arr[0], arr[1]) );
+};
+
+let getKeyWordFromToken = function(token, queryUserIdByName) {
+    let key, value, ids;
+    ids = [];
+    if (token.startsWith(this.USER.key)) {
+        key = this.USER.key;
+        value = token.substr(1);
+        if (queryUserIdByName) {
+            ids = queryUserIdByName(value);
+            value = ids[0];
+        }
+    } else {
+        let arr = token.split(':');
+        key = arr[0];
+        value = arr[1];
+    }
+    return {
+        key: key,
+        value: value,
+        ids: ids
+    };
+};
+
+let isAllowedValueForKey = function(key, value) {
+    key = key.toUpperCase();
+    if (this.hasOwnProperty(key)) {
+        let values = this[key].values;
+        return (values === '*' || _.contains(values, value));
+    }
+    return false;
+};
+
 export const KEYWORDS = {
     IS: {
         key: 'is',
@@ -23,45 +62,26 @@ export const KEYWORDS = {
         format: '@username'
     },
 
-    isKeyword: function(token) {
-        if (token.startsWith(this.USER.key)) {
-            return true;
-        }
-        let arr = token.split(':');
-        return ( arr.length == 2 && KEYWORDS.isAllowedValueForKey(arr[0], arr[1]) );
+    isKeyword: isKeyword,
+
+    getKeyWordFromToken: getKeyWordFromToken,
+
+    isAllowedValueForKey: isAllowedValueForKey
+};
+
+export const TOPIC_KEYWORDS = {
+    IS: {
+        key: 'is',
+        values: ['open', 'closed', 'new']
+    },
+    DO: {
+        key: 'do',
+        values: ['match-case']
     },
 
-    getKeyWordFromToken: function(token, queryUserIdByName) {
-        let key, value, ids;
-        ids = [];
-        if (token.startsWith(this.USER.key)) {
-            key = this.USER.key;
-            value = token.substr(1);
-            if (queryUserIdByName) {
-                ids = queryUserIdByName(value);
-                value = ids[0];
-            }
-        } else {
-            let arr = token.split(':');
-            key = arr[0];
-            value = arr[1];
-        }
-        return {
-            key: key,
-            value: value,
-            ids: ids
-        };
-    },
+    isKeyword: isKeyword,
 
-    isAllowedValueForKey: function(key, value) {
-        key = key.toUpperCase();
-        if (this.hasOwnProperty(key)) {
-            let values = this[key].values;
-            return (values === '*' || _.contains(values, value));
-        }
-        return false;
+    getKeyWordFromToken: getKeyWordFromToken,
 
-
-
-    }
+    isAllowedValueForKey: isAllowedValueForKey
 };

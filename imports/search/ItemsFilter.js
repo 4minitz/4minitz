@@ -1,0 +1,142 @@
+import { _ } from 'meteor/underscore';
+
+
+import { KEYWORDS } from './FilterKeywords';
+
+export class ItemsFilter {
+
+    constructor() {
+        this.isCaseSensitive = false;
+    }
+
+    filter(docs, parser) {
+        if (!parser) { throw new Meteor.Error('illegal-state', 'Please inject a query parser.'); }
+
+        return this.filterWithParams(
+            docs,
+            parser.isCaseSensitive(),
+            parser.getSearchTokens(),
+            parser.getLabelTokens(),
+            parser.getFilterTokens()
+        );
+    }
+
+    filterWithParams(docs, caseSensitive = false, searchTokens = [], labelTokens = [], filterTokens = []) {
+        if (!docs) { docs = []; }
+
+        this.isCaseSensitive = caseSensitive;
+        return docs.filter(doc => {
+            return this.docMatchesSearchTokens(doc, searchTokens)
+                && this.docMatchesLabelTokens(doc, labelTokens)
+                && this.docMatchesFilterTokens(doc, filterTokens);
+        });
+    }
+
+    _toUpper(str) {
+        return (this.isCaseSensitive) ? str : str.toUpperCase();
+    }
+
+    docMatchesSearchTokens(doc, searchTokens) {
+        for (let i=0; i < searchTokens.length; i++) {
+            let token = this._toUpper(searchTokens[i]);
+            let subject = this._toUpper(doc.subject);
+            let infos = (doc.details)
+                ? this._toUpper(doc.details.reduce((acc, detail) => { return acc + detail.text; }, ""))
+                : "";
+            let prio = (doc.priority) ? this._toUpper(doc.priority) : '';
+            let due = (doc.duedate) ? doc.duedate : '';
+            if (
+                (subject.indexOf(token) === -1
+                && infos.indexOf(token) === -1
+                && prio.indexOf(token) === -1
+                && due.indexOf(token) === -1)
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    docMatchesLabelTokens(doc, labelTokens) {
+        for (let i=0; i < labelTokens.length; i++) {
+            let labelToken = labelTokens[i];
+            let labelIds = labelToken.ids;
+
+            if (_.intersection(doc.labels, labelIds).length === 0 ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    docMatchesFilterTokens(doc, filterTokens) {
+        for (let i=0; i < filterTokens.length; i++) {
+            let filter = filterTokens[i];
+
+            switch (filter.key) {
+                case KEYWORDS.IS.key:
+                {
+                    if (!ItemsFilter._itemMatchesKeyword_IS(doc, filter.value)) {
+                        return false;
+                    }
+                    break;
+                }
+                case KEYWORDS.USER.key:
+                {
+                    if (!( doc.responsibles && filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0) )
+                    {
+                        return false;
+                    }
+                    break;
+                }
+                case KEYWORDS.PRIO.key:
+                {
+                    if (!( doc.priority && doc.priority.startsWith(filter.value))) {
+                        return false;
+                    }
+                    break;
+                }
+                case KEYWORDS.DUE.key:
+                {
+                    if (!( doc.duedate && doc.duedate.startsWith(filter.value))) {
+                        return false;
+                    }
+                    break;
+                }
+                case KEYWORDS.DO.key:
+                {
+                    break;
+                }
+                default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
+            }
+        }
+
+        return true;
+    }
+
+
+
+    static _itemMatchesKeyword_IS(item, value) {
+        switch (value) {
+            case 'item':
+                return true;
+            case 'open':
+                return item.isOpen;
+            case 'closed':
+                // explicit comparison required to skip info items (which has no isOpen property)
+                return item.isOpen === false;
+            case 'info':
+                return item.itemType === 'infoItem';
+            case 'action':
+                return item.itemType === 'actionItem';
+            case 'new':
+                return item.isNew;
+            case 'sticky':
+                return item.isSticky;
+            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
+        }
+    }
+
+}

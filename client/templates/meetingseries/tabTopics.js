@@ -5,7 +5,8 @@ import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
 import { Label } from '/imports/label';
 
-import { TopicFilter } from '/imports/search/TopicFilter';
+import { TopicDocFilter } from '/imports/search/TopicDocFilter';
+//import { TopicFilter } from '/imports/search/TopicFilter';
 import { QueryParser } from '/imports/search/QueryParser';
 import { TopicFilterConfig } from '../topic/topicFilter';
 
@@ -28,8 +29,8 @@ Template.tabTopics.onCreated(function() {
     this.topicFilterHandler = (query) => {
         myTemplate.topicFilterQuery.set(query);
     };
-    this.topicFilter = new TopicFilter(
-        new QueryParser(createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId), createUserIdsReceiver));
+    this.topicFilter = new TopicDocFilter();
+    this.parser = new QueryParser(createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId), createUserIdsReceiver);
 });
 
 Template.tabTopics.helpers({
@@ -40,10 +41,12 @@ Template.tabTopics.helpers({
 
     'topicViewData': function() {
         let tmpl = Template.instance();
-        var query = tmpl.topicFilterQuery.get();
+        let query = tmpl.topicFilterQuery.get();
+        tmpl.parser.reset();
+        tmpl.parser.parse(query);
 
-        let topics = tmpl.topicFilter.filter(this.topics, query);
-        return new TopicListConfig(topics, null, true, Template.instance().data.parentMeetingSeriesId);
+        let topics = tmpl.topicFilter.filter(tmpl.data.topics, tmpl.parser);
+        return new TopicListConfig(topics, null, true, tmpl.data.parentMeetingSeriesId);
     }
 
 
