@@ -6,6 +6,6 @@ Template.aboutStatistics.onRendered(function () {
 
 Template.aboutStatistics.helpers({
     statistics() {
-        return Statistics.fetch();
+        return Statistics.fetch();  // delivers the "findOne()" object
     }
 });

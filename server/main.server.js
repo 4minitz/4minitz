@@ -8,11 +8,16 @@ import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
 import '/imports/collections/statistics_private';
+import '/imports/collections/attachments_private'
 
 Meteor.startup(() => {
     GlobalSettings.publishSettings();
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
+    console.log("WebApp current working directory:"+process.cwd());
+});
 
+
+Meteor.startup(() => {
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({
         sanitize: true
