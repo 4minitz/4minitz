@@ -49,7 +49,7 @@ describe('MeetingSeries Items Tab', function () {
 
         expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have three items").to.equal(3);
 
-        browser.setValue('#inputFilter', 'is:item information');
+        browser.setValue('#inputFilter', 'information');
         expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have now two items").to.equal(2);
     });
 

@@ -41,7 +41,7 @@ let isAllowedValueForKey = function(key, value) {
 export const ITEM_KEYWORDS = {
     IS: {
         key: 'is',
-        values: ['open', 'closed', 'info', 'action', 'new', 'sticky', 'item']
+        values: ['open', 'closed', 'info', 'action', 'new', 'sticky']
     },
     DO: {
         key: 'do',

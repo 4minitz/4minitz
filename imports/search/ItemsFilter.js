@@ -126,8 +126,6 @@ export class ItemsFilter {
 
     static _itemMatchesKeyword_IS(item, value) {
         switch (value) {
-            case 'item':
-                return true;
             case 'open':
                 return item.isOpen;
             case 'closed':
