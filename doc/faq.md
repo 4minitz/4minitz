@@ -74,3 +74,9 @@ It is not possible to un-finalize a meeting minute, if a newer meeting already h
 ### How can I send an action item to a person that has no 4Minitz account
 Simply enter the persons mail address to the "Responsible" field.
 It will be available in the type ahead drop down box in the future.
+
+### I'm curious. Can I have some server statistics?
+Yes, open the about dialog and click on the 4Minitz logo. This
+will show / hide the current server statistics and show how many
+users, meeting series, minutes and attachments the server stores.
+

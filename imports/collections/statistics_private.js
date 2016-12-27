@@ -4,7 +4,7 @@ import { StatisticsSchema } from './statistics.schema';
 import { Statistics } from '../statistics';
 import { MinutesCollection } from './minutes_private';
 import { MeetingSeriesCollection } from './meetingseries_private';
-import { Attachment } from './attachments_private'
+import { Attachment } from '../attachment'
 
 export let StatisticsCollection = new Mongo.Collection('statistics',
     {

@@ -168,3 +168,49 @@ Afterwards your systems print dialog is opened.
 The latest finalized meeting minutes can be un-finalized to make corrections / changes to the already finalized minutes. Simply press the "Pen" button next to the finalize time stamp:
 
 Once the moderator creates new minutes on top of the finalized last minutes, it is not possible to un-finalized the last finalized minutes anymore.
+
+## Upload Binary Attachments
+It is possible to attach binary uploads to the current non-finalized
+meeting minutes. You need to have the moderator or the uploader role 
+for the current meeting series to do so. 
+
+![Binary Attachments](./figures/binary_attachments.png)
+
+
+To upload a file, expand the 'Attachments' section by
+clicking on the triangle. Then click the "UPLOAD" button to open
+ a file selection dialog. Select your local file and press "OK".
+
+Your server admin may have specified a maximum file size or denied /
+allowed file extensions. Your client will show an error, if the 
+current file is not allowed. If you are not happy with the settings,
+talk to your admin.
+
+**Did you know?** If you click the Upload button on a *smartphone 
+or tablet* 
+this will present a dialog where you can take a photo with the devices
+camera that will be uploaded afterwards. Very handy for snapshots of
+white boards that where filled during meetings.
+
+During the attachment upload a progress bar will show how long 
+the upload will take. The progress bar has buttons to pause, 
+continue or cancel the upload.
+
+If you are the *moderator* of the meeting series, you may remove
+every attachment of an un-finalized meeting minutes by clicking
+the small red cross "X" in front of the attachment name.
+If you have the uploader role you may only remove your own uploaded
+attachments from non-finalized meeting minutes.
+
+Currently attachments will not be attached to the sent meeting
+minutes EMail. The recipient will have to open the meeting minutes
+in the webbrowser first, to open an attachment by clicking the name.
+
+### Roles and Rights for Attachments
+
+| Role          | May Upload     |  May Remove |   May Download   |
+| ------------- |:--------------:| :-------------:|:-------------:|
+| Moderator     | Yes            |       Yes      | Yes           |
+| Uploader      | Yes            | Only her own!  | Yes           |
+| Invited       | No             |        No      | Yes           |
+

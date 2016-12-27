@@ -30,7 +30,6 @@ export class Minutes {
     }
 
     static findAllIn(MinutesIDArray, limit) {
-        console.log("findAllIn: >"+MinutesIDArray+"<");
         if (!MinutesIDArray || MinutesIDArray.length == 0) {
             return [];
         }

@@ -1,6 +1,9 @@
+import { Meteor } from 'meteor/meteor';
+
 import { TopicItemsMailHandler } from './TopicItemsMailHandler'
 import { GlobalSettings } from './../GlobalSettings'
 import { Topic } from './../topic'
+import { Attachment } from '../attachment';
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
@@ -52,6 +55,12 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             return topic.isOpen;
         });
 
+        let attachments = Attachment.findForMinutes(this._minute._id).fetch();
+        attachments.forEach((file) => {
+            let usr = Meteor.users.findOne(file.userId);
+            return file.username = usr.username;
+        });
+
         return {
             minutesDate: this._minute.date,
             minutesGlobalNote: this._minute.globalNote,
@@ -64,7 +73,8 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             participantsAdditional: this._minute.participantsAdditional,
             discussedTopics: discussedTopics,
             skippedTopics: skippedTopics,
-            finalizedVersion: this._minute.finalizedVersion
+            finalizedVersion: this._minute.finalizedVersion,
+            attachments: attachments
         };
     }
 

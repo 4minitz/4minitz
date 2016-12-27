@@ -12,6 +12,7 @@ import { GlobalSettings } from '/imports/GlobalSettings'
 import { UserRoles } from '../userroles'
 import { MeetingSeries } from '../meetingseries';
 import { Minutes } from '../minutes';
+import { Attachment } from '../attachment';
 
 import { FilesCollection } from 'meteor/ostrio:files';
 
@@ -139,18 +140,7 @@ export let AttachmentsCollection = new FilesCollection({
         }
 
         return true;    // OK - Download allowed
-    },
-
-    // // Security: onBeforeRemove
-    // // Here we check for remove rights of user. User must have
-    // //   - either: moderator role for meeting series
-    // //   - or: uploader role for meeting series and this file was uploaded by user
-    // // This will be run in method context on client and(!) server by the Meteor-Files package
-    // // So, server will always perform the last ultimate check!
-    // onBeforeRemove: function (file) {
-    //     console.log("onBeforeRemove:",file.name);
-    //     return false;
-    // }
+    }
 });
 
 
@@ -177,7 +167,18 @@ if (Meteor.isClient) {
     let meetingSeriesLiveQuery = MeetingSeries.find();
     meetingSeriesLiveQuery.observe(
         {
+            // "added" is for OTHER users, that are invited to existing meeting series
             "added": function () {
+                Meteor.subscribe('files.attachments.all');
+            },
+            // "changed" is for THIS user, while she creates a new meeting series for herself.
+            // Such a series is first added (in client) and the "added" event above fires in the client
+            // but at this time point the "visibleFor" field may not yet been set properly on the server.
+            // So the server re-publish does not regard this meeting series as visible during
+            // calculation of visible attachments.
+            // So, we also register for the "changed" event to re-subscribe also when visibility changes
+            // on the server side.
+            "changed": function () {
                 Meteor.subscribe('files.attachments.all');
             }
         }
@@ -202,12 +203,14 @@ Meteor.methods({
                 console.log("Attachment removal prohibited. Attachment not found in DB.");
                 return false;
             }
+            // we must ensure a known meeting minutes id, otherwise we can not check sufficient user role afterwards
             if (file.meta == undefined || file.meta.meetingminutes_id == undefined) {
-                console.log("Attachment removal prohibited. File without parent meeting series.");
+                console.log("Attachment removal prohibited. File without meetingminutes_id.");
                 return false;
             }
 
             const att = new Attachment(attachmentID);
+            // mayRemove() checks for not-finalized minutes and sufficient user role
             if (! att.mayRemove() ) {
                 console.log("Attachment removal prohibited. User has no sufficient role for meeting series: "+file.meta.parentseries_id);
                 return false;
@@ -252,61 +255,5 @@ if (Meteor.isServer) {
         });
     } else {
         console.log("Attachments upload feature: DISABLED");
-    }
-}
-
-
-// ********************
-// attachments.js
-
-
-export class Attachment {
-    constructor(attachmentID) {
-        this._roles = new UserRoles(this.userId);
-        if (!this._roles) {
-            console.log("Could not retrieve roles for ", this.userId);
-        }
-        this._file = AttachmentsCollection.findOne(attachmentID);
-        if (!this._file) {
-            throw new Error("Attachment(): Could not retrieve attachment for ID "+attachmentID);
-        }
-    }
-
-    // ********** static methods ****************
-    static countAll() {
-        return AttachmentsCollection.find().count();
-    }
-    static countAllBytes() {
-        let atts = AttachmentsCollection.find({}, {size: 1});
-        let sumBytes = 0;
-        atts.forEach((att) => {
-            sumBytes += att.size;
-        });
-        return sumBytes;
-    }
-
-
-    // ********** object methods ****************
-    isUploaderAndFileOwner () {
-        return this._roles.isUploaderFor(this._file.meta.parentseries_id)
-                && (this._roles.getUserID() == this._file.userId);
-    }
-
-    isModerator () {
-        return this._roles.isModeratorOf(this._file.meta.parentseries_id);
-    }
-
-    /**
-     * Checks if:
-     * - meeting is not finalized and
-     * - user is either (moderator) or (uploader & file owner)
-     * @returns {boolean}
-     */
-    mayRemove () {
-        const min = new Minutes(this._file.meta.meetingminutes_id);
-        if (min.isFinalized) {
-            return false;
-        }
-        return (this.isUploaderAndFileOwner() || this.isModerator());
     }
 }
