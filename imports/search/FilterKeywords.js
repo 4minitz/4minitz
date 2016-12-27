@@ -76,6 +76,10 @@ export const TOPIC_KEYWORDS = {
         key: 'is',
         values: ['open', 'closed', 'new']
     },
+    HAS: {
+        key: 'has',
+        values: ['item', 'action', 'info']
+    },
     DO: {
         key: 'do',
         values: ['match-case']

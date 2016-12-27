@@ -71,6 +71,13 @@ export class TopicDocFilter {
                     }
                     break;
                 }
+                case TOPIC_KEYWORDS.HAS.key:
+                {
+                    if (!this._docMatchesKeyword_HAS(doc, filter.value)) {
+                        return false;
+                    }
+                    break;
+                }
                 case TOPIC_KEYWORDS.USER.key:
                 {
                     if (!this._docMatchesKeywords_USER(doc, filter)) {
@@ -106,6 +113,25 @@ export class TopicDocFilter {
                 return doc.isOpen === false;
             case 'new':
                 return doc.isNew;
+            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
+        }
+    }
+
+    _docMatchesKeyword_HAS(doc, value) {
+        switch (value) {
+            case 'item':
+                return doc.infoItems.length > 0;
+            case 'info':
+            case 'action':
+            {
+                let items = this.itemsFilter.filterWithParams(
+                    doc.infoItems,
+                    this.isCaseSensitive,
+                    [],
+                    [],
+                    [{key: 'is', value: value}]);
+                return items.length > 0;
+            }
             default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
         }
     }
