@@ -4,7 +4,7 @@ import { ItemsFilter } from './ItemsFilter'
 
 import { TOPIC_KEYWORDS } from './FilterKeywords';
 
-export class TopicDocFilter {
+export class TopicsFilter {
 
     constructor() {
         this.isCaseSensitive = false;

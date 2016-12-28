@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
-export class TopicFilterConfig {
+export class FilterControlConfig {
 
     /**
-     * @callback TopicFilterCallback
+     * @callback FilterCallback
      * @param {string} searchQuery
      */
 
@@ -11,7 +11,8 @@ export class TopicFilterConfig {
      * Constructor to create a config object
      * for the Topic-Filter-UI-Component.
      *
-     * @param {TopicFilterCallback} callback - The callback triggered after the search query has changed
+     * @param {FilterCallback} callback - The callback triggered after the search query has changed
+     * @param filters
      */
     constructor(callback, filters) {
         this.callback = callback;
@@ -65,15 +66,15 @@ let focusInputField = function(tmpl) {
 
 };
 
-Template.topicFilter.onCreated(function() {
+Template.filterControl.onCreated(function() {
 });
 
-Template.topicFilter.onRendered(function() {
+Template.filterControl.onRendered(function() {
     let tmpl = Template.instance();
     Meteor.setTimeout(() => { focusInputField(tmpl); }, 1);
 });
 
-Template.topicFilter.helpers({
+Template.filterControl.helpers({
     'hasFilters': function() {
         return !!Template.instance().data.config.filters;
     },
@@ -83,7 +84,7 @@ Template.topicFilter.helpers({
     }
 });
 
-Template.topicFilter.events({
+Template.filterControl.events({
     'keyup #inputFilter': function(evt, tmpl) {
         evt.preventDefault();
         let query = tmpl.find('#inputFilter').value;

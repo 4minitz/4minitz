@@ -13,38 +13,10 @@ const {
     ItemsFilter
     } = proxyquire('../../../../imports/search/ItemsFilter', {
     'meteor/underscore': { _, '@noCallThru': true},
-    './search/FilterKeywords': { ITEM_KEYWORDS, '@noCallThru': true}
+    './FilterKeywords': { ITEM_KEYWORDS, '@noCallThru': true}
 });
 
-class QueryParserMock {
-    constructor() {
-        this.init();
-    }
-    init() {
-        this.caseSensitive = false;
-        this.searchTokens = [];
-        this.filterTokens = [];
-        this.labelTokens = [];
-    }
-    reset() {
-        // do nothing here, because this will be called before calling the parse method
-    }
-
-    parse() {}
-    getSearchTokens() {
-        return this.searchTokens;
-    }
-    getFilterTokens() {
-        return this.filterTokens
-    }
-    getLabelTokens() {
-        return this.labelTokens.map(token => { return {token: token, ids: [token]}; });
-    }
-    hasKeyword() {
-        return true;
-    }
-    isCaseSensitive() { return this.caseSensitive }
-}
+import { QueryParserMock } from './QueryParserMock'
 
 describe('ItemsFilter', function() {
 
@@ -70,7 +42,7 @@ describe('ItemsFilter', function() {
         parser.searchTokens.push("three");
         itemsFilter.filter(items, parser);
 
-        expect(items, "Length of the items array should be 3").have.length(9);
+        expect(items, "Length of the items array should be 9").have.length(9);
     });
 
     it('returns the filtered array of items', function() {

@@ -1,5 +1,5 @@
 <template name="tabItems">
-    {{> topicFilter config=getTopicFilterConfig}}
+    {{> filterControl config=getTopicFilterConfig}}
     <div class="panel-group" id="itemPanel">
         {{#each getInfoItems}}
             {{> topicInfoItem infoItemData @index}}

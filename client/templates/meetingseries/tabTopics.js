@@ -5,9 +5,9 @@ import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
 import { Label } from '/imports/label';
 
-import { TopicDocFilter } from '/imports/search/TopicDocFilter';
+import { TopicsFilter } from '/imports/search/TopicsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
-import { TopicFilterConfig } from '../topic/topicFilter';
+import { FilterControlConfig } from '../globals/ui-controls/filterControl';
 import { TOPIC_KEYWORDS } from '/imports/search/FilterKeywords';
 
 import { TopicListConfig } from '../topic/topicsList';
@@ -35,7 +35,7 @@ Template.tabTopics.onCreated(function() {
     this.topicFilterHandler = (query) => {
         myTemplate.topicFilterQuery.set(query);
     };
-    this.topicFilter = new TopicDocFilter();
+    this.topicFilter = new TopicsFilter();
     this.parser = new QueryParser(
         TOPIC_KEYWORDS,
         createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
@@ -46,7 +46,7 @@ Template.tabTopics.onCreated(function() {
 Template.tabTopics.helpers({
 
     'getTopicFilterConfig': function() {
-        return new TopicFilterConfig(Template.instance().topicFilterHandler, FILTERS);
+        return new FilterControlConfig(Template.instance().topicFilterHandler, FILTERS);
     },
 
     'topicViewData': function() {

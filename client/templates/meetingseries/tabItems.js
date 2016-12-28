@@ -7,7 +7,7 @@ import { Label } from '/imports/label';
 
 import { ItemsFilter } from '/imports/search/ItemsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
-import { TopicFilterConfig } from '../topic/topicFilter';
+import { FilterControlConfig } from '../globals/ui-controls/filterControl';
 import { ITEM_KEYWORDS } from '/imports/search/FilterKeywords';
 
 import { createLabelIdsReceiver } from './helpers/tabFilterDatabaseOperations';
@@ -47,7 +47,7 @@ Template.tabItems.helpers({
 
     'getTopicFilterConfig': function() {
         let tmpl = Template.instance();
-        return new TopicFilterConfig(tmpl.topicFilterHandler, FILTERS);
+        return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS);
     },
 
     'getInfoItems': function() {
