@@ -170,3 +170,7 @@ input.pick-a-color {
 .pick-a-color-markup .color-menu li {
     height: 31px;
 }
+
+.align-with-input {
+    bottom: -25px;
+}

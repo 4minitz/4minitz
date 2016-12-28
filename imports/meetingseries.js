@@ -336,6 +336,15 @@ export class MeetingSeries {
         return subElementsHelper.getElementById(labelName, this.availableLabels, 'name');
     }
 
+    findLabelContainingSubstr(name, caseSensitive) {
+        caseSensitive = (caseSensitive === undefined) ? true : caseSensitive;
+        return this.availableLabels.filter(label => {
+            let left = (caseSensitive) ? label.name : label.name.toUpperCase();
+            let right = (caseSensitive) ? name : name.toUpperCase();
+            return left.indexOf(right) !== -1;
+        })
+    }
+
     removeLabel(id) {
         let index = subElementsHelper.findIndexById(id, this.getAvailableLabels());
         if (undefined === index) {

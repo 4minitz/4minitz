@@ -341,14 +341,14 @@ describe('Topics', function () {
 
         E2EMinutes.finalizeCurrentMinutes();
 
-        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring').to.be.true;
-        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
+        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring after finalizing the minute').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring after finalizing the minute').to.be.false;
 
         E2EMinutes.gotoParentMeetingSeries();
         E2EMeetingSeries.gotoTabTopics();
 
-        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring').to.be.true;
-        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
+        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring on topics tab').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring on topics tab').to.be.false;
     });
 
     it('ensures that it is not possible to change the recurring flag if topic is presented in read-only-mode', function () {

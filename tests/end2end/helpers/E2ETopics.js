@@ -343,8 +343,12 @@ export class E2ETopics {
         return (topics.length) ? topics.length : 0;
     };
 
-    static getItemsForTopic (topicIndex) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem";
+    static getItemsForTopic (topicIndexOrSelectorForParentElement) {
+        let parentSel = topicIndexOrSelectorForParentElement;
+        if (!isNaN(parentSel)) {
+            parentSel = "#topicPanel .well:nth-child(" + topicIndexOrSelectorForParentElement + ")";
+        }
+        let selector = parentSel + " .topicInfoItem";
         try {
             browser.waitForExist(selector);
         } catch (e) {
