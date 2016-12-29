@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private'
 
 if (Meteor.settings.isEnd2EndTest) {
     require('/client/debug/findEventHandlers');
@@ -61,6 +62,8 @@ $(document).ready(() => {
 
 Meteor.startup(() => {
     Meteor.call("gitVersionInfoUpdate");
+
+    bootstrapAttachementsLiveQuery();
 
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({
