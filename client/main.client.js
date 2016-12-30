@@ -7,7 +7,7 @@ if (Meteor.settings.isEnd2EndTest) {
 
 // initialize
 //  * twitter bootstrap
-//  * bootstrape-datetimepicker
+//  * bootstrap-datetimepicker
 //  * bootstrap-material-design
 
 // with arrive we need exactly one $.material.init()
