@@ -53,7 +53,7 @@
                                           aria-label="Print View"></span>
                                 </button>
                             </div>
-                        {{else}}
+                        {{else}}  <!--NOT isFinalized-->
                             {{#if isModeratorOfParentSeries}}
                                 <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
                                     <!--Send Agenda Button-->
@@ -92,8 +92,11 @@
                                         Delete Minutes
                                     </button>
                                 </div>
-                            {{else}}
-                                <div class="col-md-4 col-md-push-8 text-right minutes-action-buttons">
+                            {{else}}  <!--NOT isModeratorOfParentSeries-->
+                                <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
+                                    <!--First Column of buttons is empty-->
+                                </div>
+                                <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
                                     <!--Print Button #3 of 3-->
                                     <button type="button" id="btn_printMinutes"
                                             class="btn btn-lg btn-raised {{isPrintView}} hidden-print"
@@ -103,8 +106,8 @@
                                         Print Minutes
                                     </button>
                                 </div>
-                            {{/if}}
-                        {{/if}}
+                            {{/if}}  <!--END isModeratorOfParentSeries-->
+                        {{/if}}  <!--END isFinalized-->
 
                         <!--Date Picker-->
                         <div class="col-md-4 col-md-pull-8" style="max-width: 15em;">
