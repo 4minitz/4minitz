@@ -17,7 +17,7 @@ let collapseID = 0;
 Template.topicsList.helpers({
 
     'getTopics': function() {
-        let config = Template.instance().data;
+        let config =Template.instance().data;
         return config.topics;
     },
 

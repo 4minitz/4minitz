@@ -1,0 +1,33 @@
+<template name="filterControl">
+    <div class="row">
+
+        {{#if hasFilters}}
+        <div class="col-sm-2">
+            <div class="form-group">
+                <select id="filters" class="form-control">
+                    <option id="noFilter" value="">Filters</option>
+                    {{#each filters}}
+                        <option value="{{value}}">{{text}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        {{/if}}
+
+            <div class="{{#if hasFilters}}col-xs-8{{else}}col-xs-10{{/if}}">
+            <input type="text" id="inputFilter" class="form-control" placeholder="Filter">
+        </div>
+
+        <div class="col-xs-2 align-with-input">
+            <div class="checkbox" title="Match Case">
+                <label for="cbCaseSensitiveFilter">
+                    <input type="checkbox" class="checkbox" id="cbCaseSensitiveFilter">
+                    <span class="hidden-sm hidden-xs">Match Case</span>
+                </label>
+            </div>
+        </div>
+
+
+
+    </div>
+</template>

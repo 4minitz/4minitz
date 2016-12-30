@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
@@ -7,7 +8,8 @@ import { UserRoles } from '/imports/userroles'
 import { User, userSettings } from '/imports/users'
 
 import { TopicListConfig } from '../topic/topicsList'
-import { ItemListConfig } from './itemsList'
+import { TabItemsConfig } from './tabItems'
+import { TabTopicsConfig } from './tabTopics'
 
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
@@ -23,12 +25,11 @@ Template.meetingSeriesDetails.onCreated(function () {
         }
     });
 
-    Session.setDefault("currentTab", "minutesList");
+    this.activeTabTemplate = new ReactiveVar("minutesList");
+    this.activeTabId = new ReactiveVar("tab_minutes");
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
-    Session.set("currentTab", "minutesList");
-
     if (this.showSettingsDialog) {
         Session.set("meetingSeriesEdit.showUsersPanel", true);
         $('#dlgEditMeetingSeries').modal('show');
@@ -50,12 +51,17 @@ Template.meetingSeriesDetails.helpers({
         return ms.getAllMinutes();
     },
 
+    isTabActive: function (tabId) {
+        return (Template.instance().activeTabId.get() === tabId) ? 'active' : '';
+    },
+
     tab: function() {
-        return Session.get("currentTab");
+        return Template.instance().activeTabTemplate.get();
     },
 
     tabData: function() {
-        let tab = Session.get("currentTab");
+        let tmpl = Template.instance();
+        let tab = tmpl.activeTabTemplate.get();
         let ms = new MeetingSeries(_meetingSeriesID);
 
         switch (tab) {
@@ -65,24 +71,17 @@ Template.meetingSeriesDetails.helpers({
                     meetingSeriesId: _meetingSeriesID
                 };
 
-            case "topicsList":
-                let status = Session.get("actionItemStatus");
-                let  topics;
-                switch (status) {
-                    case "open":
-                        topics = ms.openTopics;
-                        break;
-                    case "topics":
-                        topics = ms.topics;
-                        break;
-                    default:
-                        throw new Meteor.Error("illegal-state", "Unknown topic list status: " + status);
-                }
+            case "tabTopics":
+            {
+                return new TabTopicsConfig(ms.topics, _meetingSeriesID);
+            }
 
-                return new TopicListConfig(topics, null, true, _meetingSeriesID);
+            case "tabItems":
+            {
+                return new TabItemsConfig(ms.topics, _meetingSeriesID);
+            }
 
-            case "itemsList":
-                return new ItemListConfig(ms.topics, _meetingSeriesID);
+            default: throw new Meteor.Error('illegal-state', 'Unknown tab: ' + tab);
         }
     },
 
@@ -97,16 +96,10 @@ Template.meetingSeriesDetails.events({
         const user = new User();
         user.storeSetting(userSettings.showQuickHelp.meetingSeries, false);
     },
-    "click .nav-tabs li": function(event) {
+    "click .nav-tabs li": function(event, tmpl) {
         var currentTab = $(event.target).closest("li");
 
-        currentTab.addClass("active");
-        $(".nav-tabs li").not(currentTab).removeClass("active");
-
-        Session.set("currentTab", currentTab.data("template"));
-
-        if (currentTab.data("action")) {
-            Session.set("actionItemStatus", currentTab.data("action"));
-        }
+        tmpl.activeTabId.set(currentTab.attr('id'));
+        tmpl.activeTabTemplate.set(currentTab.data("template"));
     }
 });

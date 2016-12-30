@@ -1,26 +1,48 @@
 import { _ } from 'meteor/underscore';
 
-const KEYWORDS = ['is'];
-const KEYWORD_VALUES = ['open', 'closed', 'info', 'action', 'new'];
-
 const TOKEN_TYPE_SEARCH = 1;
 const TOKEN_TYPE_FILTER = 2;
 const TOKEN_TYPE_LABEL = 3;
 
 export class QueryParser {
 
-    constructor() {
+    /**
+     * @typedef {Object} FilterToken
+     * @property {string} key The filter keyword
+     * @property {string} value The filter value
+     */
+
+    /**
+     * @typedef {Object} LabelToken
+     * @property {string} token The search-word which was detected in the search query
+     * @property {string[]} ids The matching label ids.
+     */
+
+
+    constructor(keywords, queryLabelIdsByName, queryUserIdsByName) {
+        if (!keywords) {
+            throw new Meteor.Error('invalid-state', 'Please inject keywords object');
+        }
+
         this.reset();
+        this.queryLabelIdsByName = queryLabelIdsByName;
+        this.queryUserIdsByName = queryUserIdsByName;
+        this.keywords = keywords;
     }
 
     reset() {
         this.query = null;
+        this.matchCase = false;
+        /** @var {FilterToken[]} */
         this.filterTokens = [];
+        /** @var {LabelToken[]} */
         this.labelTokens = [];
+        /** @var {string[]} */
         this.searchTokens = [];
         this.isLabelToken = false;
         this.newLabel = false;
         this.currentLabel = null;
+        this.queryParsed = false;
     }
 
     parse(query) {
@@ -29,18 +51,64 @@ export class QueryParser {
         this.tokens.forEach(token => { this._parseToken(token) });
         // add last label
         if (null !== this.currentLabel) {
-            this.labelTokens.push(this.currentLabel);
+            this._addCompleteLabelToken();
+        }
+        this.queryParsed = true;
+    }
+
+    isCaseSensitive() {
+        if (this.queryParsed) {
+            return this.matchCase;
+        } else {
+            return this.query.indexOf('do:match-case') !== -1;
         }
     }
 
+    hasKeyword(key, value) {
+        let keywords = this.findKeywordsByKey(key, value);
+        return keywords.length > 0;
+    }
+
+    findKeywordsByKey(key, value) {
+        let keywords = [];
+        key = (typeof key === 'string') ? key : key.key;
+        for (let i = 0; i < this.filterTokens.length; i++) {
+            let token = this.filterTokens[i];
+            if (token.key === key && ((value && value === token.value) || (!value)) ) {
+                keywords.push(token);
+            }
+        }
+        return keywords;
+    }
+
+    /**
+     * Returns all filter tokens of the current
+     * query. Filter tokens are special keywords
+     * like is:action.
+     *
+     * @returns {FilterToken[]}
+     */
     getFilterTokens() {
         return this.filterTokens;
     }
 
+    /**
+     * Returns all label tokens of the current
+     * query. A label token contains the
+     * search-word, and all matching label ids.
+     *
+     * @returns {LabelToken[]}
+     */
     getLabelTokens() {
         return this.labelTokens;
     }
 
+    /**
+     * Returns all search tokens of the current
+     * query.
+     *
+     * @returns {string[]}
+     */
     getSearchTokens() {
         return this.searchTokens;
     }
@@ -56,7 +124,10 @@ export class QueryParser {
 
             case TOKEN_TYPE_LABEL:
             {
-                this._addLabelToken(token);
+                let result = this._addLabelToken(token);
+                if (!result) {
+                    this.searchTokens.push(token);
+                }
                 break;
             }
             case TOKEN_TYPE_SEARCH:
@@ -69,7 +140,7 @@ export class QueryParser {
     }
 
     _getTokenType(token) {
-        if (this.constructor._isFilterKeyword(token)) {
+        if (this._isFilterKeyword(token)) {
             return TOKEN_TYPE_FILTER;
         }
 
@@ -80,28 +151,61 @@ export class QueryParser {
         return TOKEN_TYPE_SEARCH;
     }
 
-    static _isFilterKeyword(token) {
+    _isFilterKeyword(token) {
         let arr = token.split(':');
-        return ( arr.length == 2 && _.contains(KEYWORDS, arr[0]) && _.contains(KEYWORD_VALUES, arr[1]) );
+        let res = this.keywords.isKeyword(token);
+        if (this.keywords.hasOwnProperty('DO') && res && arr[0] === this.keywords.DO.key && arr[1] === 'match-case') {
+            this.matchCase = true;
+        }
+        return res;
     }
 
     _addFilterToken(token) {
-        let arr = token.split(':');
-        this.filterTokens.push({
-            key: arr[0],
-            value: arr[1]
-        })
+        this.filterTokens.push(this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName))
     }
 
+    /**
+     *
+     *
+     * @param token
+     * @private
+     */
     _addLabelToken(token) {
+        let completeLabel;
         if (this.newLabel) {
             if (null !== this.currentLabel) {
-                this.labelTokens.push(this.currentLabel);
+                this._addCompleteLabelToken();
             }
             this.currentLabel = token.substr(1);
         } else {
-            this.currentLabel += ` ${token}`; // prepend whitespace!
+            completeLabel = this.currentLabel + ` ${token}`; // prepend whitespace!
+            let matchingIds = (this.queryLabelIdsByName)
+                ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
+                : true;
+            if (matchingIds === true || (matchingIds !== null && matchingIds.length > 0)) {
+                this.currentLabel = completeLabel;
+            } else {
+                // the current token does not match any labels
+                // this means the given token is a simple search token
+                // so we add the previously concatenated label token-parts as
+                // a new label token
+                this.isLabelToken = false;
+                this._addCompleteLabelToken();
+                this.currentLabel = null;
+
+                return false;
+            }
         }
+        return true;
+    }
+
+    _addCompleteLabelToken() {
+        let token = this.currentLabel;
+        let ids = (this.queryLabelIdsByName) ? this.queryLabelIdsByName(token, this.isCaseSensitive()) : [token];
+        this.labelTokens.push({
+            token: token,
+            ids: ids
+        });
     }
 
     _isLabelToken(token) {

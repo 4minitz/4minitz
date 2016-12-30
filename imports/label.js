@@ -58,6 +58,14 @@ export class Label {
         return null;
     }
 
+    static findLabelsContainingSubstring(parentMeetingSeries, name, caseSensitive) {
+        parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
+
+        let labelDoc = parentMeetingSeries.findLabelContainingSubstr(name, caseSensitive);
+        if (labelDoc) return labelDoc;
+        return null;
+    }
+
     static _createParentMeetingSeries(parentMeetingSeries) {
         if (typeof parentMeetingSeries === 'string') {
             return new MeetingSeries(parentMeetingSeries);

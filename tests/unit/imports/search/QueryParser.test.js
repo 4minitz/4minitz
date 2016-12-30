@@ -4,6 +4,12 @@ import sinon from 'sinon';
 import _ from 'underscore';
 
 const {
+    ITEM_KEYWORDS
+    } = proxyquire('../../../../imports/search/FilterKeywords', {
+    'meteor/underscore': { _, '@noCallThru': true}
+});
+
+const {
     QueryParser
     } = proxyquire('../../../../imports/search/QueryParser', {
     'meteor/underscore': { _, '@noCallThru': true}
@@ -14,7 +20,7 @@ describe("QueryParser", function() {
     let parser;
 
     beforeEach(function() {
-        parser = new QueryParser();
+        parser = new QueryParser(ITEM_KEYWORDS);
     });
 
     it("parses a simple query string containing only search tokens correctly", function() {
@@ -37,7 +43,7 @@ describe("QueryParser", function() {
         parser.parse(QUERY);
 
         let filterTokens = parser.getFilterTokens();
-        let labelTokens = parser.getLabelTokens();
+        let labelTokens = parser.getLabelTokens().map(token => {return token.token;});
         let searchTokens = parser.getSearchTokens();
 
         expect(filterTokens, "should contain no filter tokens").to.have.length(0);
@@ -52,7 +58,7 @@ describe("QueryParser", function() {
         const QUERY = "hello is:open world #my label";
         parser.parse(QUERY);
         let filterTokens = parser.getFilterTokens();
-        let labelTokens = parser.getLabelTokens();
+        let labelTokens = parser.getLabelTokens().map(token => {return token.token;});
         let searchTokens = parser.getSearchTokens();
 
         expect(filterTokens, "should contain 1 filter tokens").to.have.length(1);
@@ -61,8 +67,46 @@ describe("QueryParser", function() {
 
         expect(searchTokens).to.contain('hello');
         expect(searchTokens).to.contain('world');
-        expect(filterTokens).to.contain({key: 'is', value: 'open'});
+        expect(filterTokens).to.contain({key: 'is', value: 'open', ids: []});
         expect(labelTokens).to.contain('my label');
+    });
+
+    it('can query if a specific keyword is set', function() {
+        const QUERY = "hello is:open world #my label";
+        parser.parse(QUERY);
+
+        expect(parser.hasKeyword('is', 'open')).to.be.true;
+        expect(parser.hasKeyword({key: 'is'}, 'open')).to.be.true;
+    });
+
+    describe('Query LabelIds', function() {
+
+        beforeEach(function() {
+            parser = new QueryParser(ITEM_KEYWORDS, (labelName) => {
+                if (labelName.split(/\s/).length > 2) {
+                    return [];
+                }
+
+                let length = labelName.length;
+                return [`${labelName}-${length}`];
+            })
+        });
+
+        it('can query the label id for a given name using the passed function', function() {
+            const QUERY = "#my label hello world";
+            parser.parse(QUERY);
+            let filterTokens = parser.getFilterTokens();
+            let labelTokens = parser.getLabelTokens();
+            let searchTokens = parser.getSearchTokens();
+
+            expect(filterTokens, "should contain no filter tokens").to.have.length(0);
+            expect(labelTokens, "should contain 1 label token").to.have.length(1);
+            expect(searchTokens, "should contain 2 search tokens").to.have.length(2);
+
+            expect(labelTokens[0].token).to.equal('my label');
+            expect(labelTokens).to.contain({token: 'my label', ids: ['my label-8']});
+        })
+
     });
 
 });
