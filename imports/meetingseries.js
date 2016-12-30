@@ -27,7 +27,12 @@ export class MeetingSeries {
     }
 
     static findOne(...args) {
-        return MeetingSeriesCollection.findOne(...args);
+        const result = MeetingSeriesCollection.findOne(...args);
+
+        if (result) {
+            return new MeetingSeries(result);
+        }
+        return result;
     }
 
     static async remove(meetingSeries) {
@@ -104,7 +109,7 @@ export class MeetingSeries {
             topics: topics,
             visibleFor: this.visibleFor             // freshly created minutes inherit visibility of their series
         });
-        
+
         min.refreshParticipants(false); // do not save to DB!
         min.save(optimisticUICallback, serverCallback);
     }

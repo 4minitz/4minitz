@@ -1,19 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { MeetingSeries } from './../meetingseries';
-import { Minutes } from './../minutes';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { UserRoles } from "./../userroles";
 import { GlobalSettings } from "./../GlobalSettings"
 
-export var MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
-    {
-        // inject methods of class MeetingSeries to all returned collection docs
-        transform: function (doc) {
-            return new MeetingSeries(doc);
-        }
-    }
-);
+export let MeetingSeriesCollection = new Mongo.Collection("meetingSeries");
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {

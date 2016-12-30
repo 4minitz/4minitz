@@ -71,6 +71,8 @@ export class Label {
             return new MeetingSeries(parentMeetingSeries);
         } else if (parentMeetingSeries.hasOwnProperty('findLabel')) {
             return parentMeetingSeries;
+        } else if (parentMeetingSeries.hasOwnProperty('_id')) {
+            return new MeetingSeries(parentMeetingSeries);
         }
 
         throw new Meteor.Error("Invalid parent meeting series");

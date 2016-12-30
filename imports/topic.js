@@ -13,7 +13,7 @@ import './collections/minutes_private';
 function resolveParentElement(parent) {
     if (typeof parent === 'string') {
         let parentId = parent;
-        parent =  MeetingSeries.findOne(parentId);
+        parent = MeetingSeries.findOne(parentId);
         if (!parent) parent = Minutes.findOne(parentId);
         return parent;
     }
@@ -269,7 +269,7 @@ export class Topic {
         let responsibles = this._topicDoc.responsibles;
         return (responsibles && responsibles.length > 0);
     }
-    
+
     getResponsiblesString() {
         if (!this.hasResponsibles()) {
             return "";
