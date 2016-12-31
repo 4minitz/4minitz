@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
 import { Topic } from './topic'
-import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';

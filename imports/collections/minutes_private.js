@@ -1,14 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes';
-import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
-import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
 
-export var MinutesCollection = new Mongo.Collection("minutes",
+export let MinutesCollection = new Mongo.Collection("minutes",
     {
         transform: function (doc) {
             return new Minutes(doc);

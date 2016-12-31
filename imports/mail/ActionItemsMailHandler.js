@@ -1,5 +1,4 @@
 import { TopicItemsMailHandler } from './TopicItemsMailHandler'
-import { ActionItem } from '../actionitem'
 
 export class ActionItemsMailHandler extends TopicItemsMailHandler {
 

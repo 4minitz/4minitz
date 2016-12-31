@@ -2,7 +2,6 @@
  * Created by felix on 09.05.16.
  */
 
-import { Topic } from './topic'
 import { Label } from './label'
 import { _ } from 'meteor/underscore';
 

@@ -1,18 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { StatisticsSchema } from './statistics.schema';
-import { Statistics } from '../statistics';
 import { MinutesCollection } from './minutes_private';
 import { MeetingSeriesCollection } from './meetingseries_private';
 import { Attachment } from '../attachment'
 
-export let StatisticsCollection = new Mongo.Collection('statistics',
-    {
-        transform: function (doc) {
-            return new Statistics(doc);
-        }
-    }
-);
+export let StatisticsCollection = new Mongo.Collection('statistics');
 
 if (Meteor.isServer) {
     Meteor.publish('statistics', function () {
