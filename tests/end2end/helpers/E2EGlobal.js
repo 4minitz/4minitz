@@ -36,6 +36,7 @@ export class E2EGlobal {
             browser._original.desiredCapabilities.browserName) {
             return browser._original.desiredCapabilities.browserName;
         }
+        console.error("Error: E2EGlobal.browserName() could not determine browserName!");
         return "unknown";
     };
 

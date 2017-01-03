@@ -1,9 +1,10 @@
+import { Meteor } from 'meteor/meteor';
 
 import { MeetingSeriesCollection } from './../../imports/collections/meetingseries_private';
 import { MinutesCollection } from './../../imports/collections/minutes_private';
 import { TestMailCollection } from '/imports/mail/TestMail'
 import { Minutes } from './../../imports/minutes';
-
+import { AttachmentsCollection } from '/imports/collections/attachments_private';
 
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
@@ -19,6 +20,8 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log("Count Minutes after reset:"+MinutesCollection.find().count());
             TestMailCollection.remove({});
             console.log("Count saved test mails after reset:"+TestMailCollection.find().count());
+            AttachmentsCollection.remove({});
+            console.log("Count AttachmentsCollection after reset:"+AttachmentsCollection.find().count());
 
             if (!skipUsers) {
                 // Reset users and create our e2e test users
@@ -35,6 +38,10 @@ if (Meteor.settings.isEnd2EndTest) {
                 console.log("skip resetting users");
             }
         },
+        'e2e.getServerCurrentWorkingDir'() {
+            console.log("-------------------------- E2E-METHOD: getServerCurrentWorkingDir");
+            return (process.cwd());
+        },
         'e2e.countMeetingSeriesInMongDB'() {
             console.log("-------------------------- E2E-METHOD: countMeetingSeries");
             return MeetingSeriesCollection.find({}).count();
@@ -42,6 +49,10 @@ if (Meteor.settings.isEnd2EndTest) {
         'e2e.countMinutesInMongoDB'() {
             console.log("-------------------------- E2E-METHOD: countMinutesSeries");
             return MinutesCollection.find({}).count();
+        },
+        'e2e.countAttachmentsInMongoDB'() {
+            console.log("-------------------------- E2E-METHOD: countAttachmentsInMongoDB");
+            return AttachmentsCollection.find({}).count();
         },
         'e2e.getPresentParticipantNames'(minutesId) {
             console.log("-------------------------- E2E-METHOD: getParticipantsString");
@@ -66,6 +77,5 @@ if (Meteor.settings.isEnd2EndTest) {
                 }
             });
         }
-
     });
 }

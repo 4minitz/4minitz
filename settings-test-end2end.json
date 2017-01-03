@@ -73,5 +73,13 @@
         "allowSelfSignedTLS": true,
         "whiteListedFields": [ "uid", "cn", "mail" ],
         "autopublishFields": [ "uid", "cn" ]
-    }
+    },
+
+    "attachments": {
+        "enabled": true,
+        "storagePath": "attachments",
+        "allowExtensions": ".*",
+        "denyExtensions":  "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
+        "maxFileSize": 10485760
+    }    
 }
