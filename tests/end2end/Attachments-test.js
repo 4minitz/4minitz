@@ -6,6 +6,7 @@ import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2EAttachments } from './helpers/E2EAttachments'
+import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 
 describe('Attachments @watch', function () {
     const _projectName = "E2E Attachments";
@@ -13,6 +14,7 @@ describe('Attachments @watch', function () {
     let _meetingCounter = 0;
     let _lastMeetingSeriesID;
     let _lastMinutesID;
+    let _lastMeetingName;
     let _localPublicDir;
     let _staticLocalFilename = "";
 
@@ -26,10 +28,9 @@ describe('Attachments @watch', function () {
         expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
 
-        let aMeetingName = getNewMeetingName();
-
-        _lastMeetingSeriesID = E2EMeetingSeries.createMeetingSeries(_projectName, aMeetingName);
-        _lastMinutesID = E2EMinutes.addMinutesToMeetingSeries(_projectName, aMeetingName);
+        _lastMeetingName = getNewMeetingName();
+        _lastMeetingSeriesID = E2EMeetingSeries.createMeetingSeries(_projectName, _lastMeetingName);
+        _lastMinutesID = E2EMinutes.addMinutesToMeetingSeries(_projectName, _lastMeetingName);
     });
 
     before("reload page", function () {
@@ -73,7 +74,7 @@ describe('Attachments @watch', function () {
                 "Attachment file should exist on server: "+serverAttachmentFilename)
                 .to.be.ok;
 
-        // check if local and server files have same bytes
+        // check if local and server files have same MD5 checksum
         const md5local = md5File.sync(_staticLocalFilename);
         const md5server = md5File.sync(serverAttachmentFilename);
         expect(md5local,
@@ -85,64 +86,136 @@ describe('Attachments @watch', function () {
         // wrong extension
         let fileWithDeniedExtension = _localPublicDir + "loading-gears.gif";
         E2EAttachments.uploadFile(fileWithDeniedExtension);
-        expect(browser.getText("div#confirmDialog"), "File with denied extension").to.contain("Error: Denied file extension.");
+        E2EApp.confirmationDialogCheckMessage("Error: Denied file extension.");
         E2EApp.confirmationDialogAnswer(true);
 
         // to big file size
         let fileWithTooBigSize = _localPublicDir + "mstile-310x310.png";
         E2EAttachments.uploadFile(fileWithTooBigSize);
-        expect(browser.getText("div#confirmDialog"), "File with too big size").to.contain("Error: Please upload file with max.");
+        E2EApp.confirmationDialogCheckMessage("Error: Please upload file with max.");
         E2EApp.confirmationDialogAnswer(true);
     });
 
     it('can remove an attachment (as moderator)', function () {
-        let removeBtns = browser.elements('button#btnDelAttachment');
-        expect(removeBtns.value.length, "Initially zero remove attachment buttons").to.equal(0);
+        let removeBtns = E2EAttachments.getRemoveButtons();
+        expect(removeBtns.length, "Initially zero remove attachment buttons").to.equal(0);
 
         E2EAttachments.uploadFile(_staticLocalFilename);
 
         let attachmentCountInMin = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID).length;
         expect(attachmentCountInMin, "One attachment after upload").to.equal(1);
-        removeBtns = browser.elements('button#btnDelAttachment');
-        expect(removeBtns.value.length, "One remove attachment buttons after upload").to.equal(1);
+        removeBtns = E2EAttachments.getRemoveButtons();
+        expect(removeBtns.length, "One remove attachment buttons after upload").to.equal(1);
         // REMOVE ATTACHMENT!
-        removeBtns.value[0].click();
+        removeBtns[0].click();
         // check for security question pop up
-        E2EGlobal.waitSomeTime();
-        expect(browser.getText("div#confirmDialog"), "Remove question pop up")
-            .to.contain("Do you really want to delete the attachment");
+        E2EApp.confirmationDialogCheckMessage("Do you really want to delete the attachment");
         E2EApp.confirmationDialogAnswer(true);
-        // check attachment is removed
+        // check attachment is really removed - from UI and in MongoDB
         attachmentCountInMin = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID).length;
-        expect(attachmentCountInMin, "Zero attachments after upload").to.equal(0);
-        removeBtns = browser.elements('button#btnDelAttachment');
-        expect(removeBtns.value.length, "Zero remove attachment buttons after upload").to.equal(0);
+        expect(attachmentCountInMin, "Zero attachments after remove").to.equal(0);
+        removeBtns = E2EAttachments.getRemoveButtons();
+        expect(removeBtns.length, "Zero remove attachment buttons after remove").to.equal(0);
     });
 
-    xit('has correct UI on finalized minutes (as moderator)', function () {
-        // here...
+    it('has correct UI on finalized minutes with attachments (as moderator)', function () {
+        E2EAttachments.uploadFile(_staticLocalFilename);
+        expect(E2EAttachments.isUploadButtonVisible(), "Upload button visible after upload")
+            .to.be.true;
+        let removeBtns = E2EAttachments.getRemoveButtons();
+        expect(removeBtns.length, "One remove attachment button after upload")
+            .to.equal(1);
+        let downloadlinks = E2EAttachments.getDownloadLinks();
+        expect(downloadlinks.length, "One download link after upload")
+            .to.equal(1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        expect(E2EAttachments.isUploadButtonVisible(), "No Upload button visible after finalize")
+            .to.be.false;
+        removeBtns = E2EAttachments.getRemoveButtons();
+        expect(removeBtns.length, "One remove attachment buttons after finalize")
+            .to.equal(0);
+        downloadlinks = E2EAttachments.getDownloadLinks();
+        expect(downloadlinks.length, "Still one download link after finalize")
+            .to.equal(1);
     });
 
 
     // ******************
     // * UPLOADER TESTS
     // ******************
-    xit('can upload an attachment to the server (as uploader)', function () {
-        // here ...
+    it('can upload an attachment to the server (as uploader)', function () {
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Uploader);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
+
+        E2EApp.loginUser(1);
+        E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        let countAttachmentsBeforeUpload = E2EAttachments.countAttachmentsGlobally();
+
+        E2EAttachments.uploadFile(_staticLocalFilename);
+
+        expect(E2EAttachments.countAttachmentsGlobally(),
+            "Number of attachments after upload").to.equal(countAttachmentsBeforeUpload +1);
+        E2EApp.loginUser(0);
     });
 
-    xit('can remove only my own attachment (as uploader)', function () {
-        // here...
+    it('can remove only my own attachment (as uploader)', function () {
+        // 1st Upload by Moderator
+        E2EAttachments.uploadFile(_staticLocalFilename);
+        let attDocBefore = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID);
+
+        // create 2nd user with role "Uploader" and login
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Uploader);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
+        E2EApp.loginUser(1);
+        E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+
+        // 2nd upload by "Uploader". We expect two attachments but only one remove button
+        E2EAttachments.uploadFile(_staticLocalFilename);
+        let attachmentCountInMin = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID).length;
+        expect(attachmentCountInMin, "Two attachment after 2nd upload")
+            .to.equal(2);
+        expect(E2EAttachments.getRemoveButtons().length, "One remove attachment buttons after upload")
+            .to.equal(1);
+
+        // REMOVE 2nd UPLOAD by Uploader!
+        let removeBtns = E2EAttachments.getRemoveButtons();
+        removeBtns[0].click();
+        E2EApp.confirmationDialogAnswer(true);
+        let attDocAfter = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID);
+        expect(attDocBefore, "1st upload is still there after remove").to.deep.equal(attDocAfter);
+        E2EApp.loginUser(0);
     });
 
     // ******************
     // * INVITED TESTS
     // ******************
-    xit('can not upload if only invited', function () {
+    it('can not upload but sees download links (as invited)', function () {
+        E2EAttachments.uploadFile(_staticLocalFilename);
 
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
+        E2EApp.loginUser(1);
+        E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+
+        // no need for "expanding"... it is still expanded from user1...
+        expect(E2EAttachments.isUploadButtonVisible()).to.be.false;
+        expect(E2EAttachments.getDownloadLinks().length, "One download link after upload by moderator")
+            .to.equal(1);
+
+        E2EApp.loginUser(0);
     });
 
-    xit('can download attachment via URL (invited)', function () {
+    xit('can download attachment via URL (as invited)', function () {
         // only in Desktop!
         // not possible in PhantomJS - see https://github.com/ariya/phantomjs/issues/10052
     });
