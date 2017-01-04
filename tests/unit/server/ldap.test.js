@@ -210,26 +210,30 @@ describe('ldap', function () {
     describe('#log', function () {
         beforeEach(function () {
             sinon.spy(console, 'log');
+            sinon.spy(console, 'error');
+            sinon.spy(console, 'warn');
         });
 
         afterEach(function () {
             console.log.restore();
+            console.error.restore();
+            console.warn.restore();
         });
 
-        it('forwards the message to the console', function () {
-            let message = 'something';
+        it('forwards error messages to the console', function () {
+            let message = 'some error';
 
-            LDAP.log(message);
+            LDAP.error(message);
 
-            expect(console.log.calledOnce).to.be.true;
+            expect(console.error.calledOnce).to.be.true;
         });
 
-        it('blocks messages starting with \'Creating user\'', function () {
-            let message = 'Creating user ...';
+        it('forwards warning messages to the console', function () {
+            let message = 'some warning';
 
-            LDAP.log(message);
+            LDAP.warn(message);
 
-            expect(console.log.called).to.be.false;
+            expect(console.warn.calledOnce).to.be.true;
         });
     });
 });
