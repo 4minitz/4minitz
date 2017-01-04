@@ -48,6 +48,7 @@
     "jquery-ui-touch-punch": "^0.2.3",
     "ldapjs": "^1.0.0",
     "lodash": "^4.17.2",
+    "md5-file": "^3.1.1",
     "meteor-node-stubs": "^0.2.3",
     "moment": "^2.13.0",
     "mongo-uri": "^0.1.2",

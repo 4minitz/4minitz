@@ -24,25 +24,25 @@ const FORBIDDEN_FILENAME_EXTENSIONS = "html|htm|swf";
 
 export let calculateAndCreateStoragePath = function (fileObj) {
     if (Meteor.isServer) {
-        let attStoragePath = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
-            ? Meteor.settings.attachments.storagePath   // always ends with slash - see GlobalSettings
-            : "attachments/";
-
-        // append sub directory for parent meeting series
+        let absAttachmentStoragePath = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
+            ? Meteor.settings.attachments.storagePath
+            : "attachments";
+        // make path absolute
+        if (!path.isAbsolute(absAttachmentStoragePath)) {
+            absAttachmentStoragePath = path.resolve(absAttachmentStoragePath);
+        }
+        // optionally: append sub directory for parent meeting series
         if (fileObj && fileObj.meta && fileObj.meta.parentseries_id) {
-            attStoragePath =  attStoragePath + fileObj.meta.parentseries_id;
+            absAttachmentStoragePath =  absAttachmentStoragePath + "/" + fileObj.meta.parentseries_id;
         }
 
         // create target dir for attachment storage if it does not exist
-        fs.ensureDirSync(attStoragePath, function (err) {
+        fs.ensureDirSync(absAttachmentStoragePath, function (err) {
             if (err) {
-                console.error("ERROR: Could not create path for attachment upload: "+attStoragePath);
-                if (!path.isAbsolute(attStoragePath)) {
-                    console.error("absolute:"+path.resolve(attStoragePath));
-                }
+                console.error("ERROR: Could not create path for attachment upload: "+absAttachmentStoragePath);
             }
         });
-        return attStoragePath;
+        return absAttachmentStoragePath;
     }
 };
 

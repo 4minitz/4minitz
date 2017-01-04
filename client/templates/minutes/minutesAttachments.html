@@ -4,9 +4,11 @@
 <div class="form-group">
     <label for="attachments" id="btnAttachmentsExpand" style="cursor: pointer;">
         {{#if isAttachmentsExpanded}}
-            <span class="glyphicon glyphicon-triangle-bottom expand-collapse-triangle hidden-print"></span>
+            <span class="glyphicon glyphicon-triangle-bottom expand-collapse-triangle hidden-print"
+                  id="btn2AttachmentsExpand"></span>
         {{else}}
-            <span class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"></span>
+            <span class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"
+                  id="btn2AttachmentsExpand"></span>
         {{/if}}
 
         Attachments
@@ -39,9 +41,10 @@
             {{else}}
                 <!--UPLOAD... button-->
                 {{#if showUploadButton}}
-                    <label class="btn btn-default btn-file">
+                    <label id="lblUpload" class="btn btn-default btn-file">
                         <span class="glyphicon glyphicon-upload" aria-label="Start Upload"></span>
-                        Upload... <input type="file" id="fileInput" style="display: none;" readonly="true">
+                        Upload...
+                        <input type="file" id="btnUploadAttachment" style="display: none;" readonly="true">
                     </label>
                 {{/if}}
             {{/with}}

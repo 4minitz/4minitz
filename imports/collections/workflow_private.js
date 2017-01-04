@@ -1,10 +1,15 @@
 import { Meteor } from 'meteor/meteor';
+let fs = undefined;
+if (Meteor.isServer) {
+    fs = require('fs-extra');
+}
+
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
 import { MeetingSeriesCollection } from './meetingseries_private';
 import { MinutesCollection } from './minutes_private';
-import { AttachmentsCollection } from './attachments_private';
+import { AttachmentsCollection, calculateAndCreateStoragePath} from './attachments_private';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
 
@@ -247,7 +252,8 @@ Meteor.methods({
         MeetingSeriesCollection.remove(meetingseries_id);
 
         // remove all uploaded attachments for meeting series, if any exist
-        if (Meteor.isServer && AttachmentsCollection.find({"meta.parentseries_id": meetingseries_id}).count() > 0) {
+        if (Meteor.isServer &&
+            AttachmentsCollection.find({"meta.parentseries_id": meetingseries_id}).count() > 0) {
             AttachmentsCollection.remove({"meta.parentseries_id": meetingseries_id},
                 function (error) {
                     if (error) {
@@ -257,6 +263,14 @@ Meteor.methods({
                     }
                 }
             );
+            // remove the meeting series attachment dir
+            let storagePath = calculateAndCreateStoragePath();
+            storagePath += "/"+meetingseries_id;
+            fs.remove(storagePath, function (err) {
+                if (err) {
+                    console.error("Could not remove attachment dir:"+storagePath);
+                }
+            })
         }
     },
 

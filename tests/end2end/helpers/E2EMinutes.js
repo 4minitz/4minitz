@@ -15,11 +15,15 @@ export class E2EMinutes {
         browser.click("#btnAddMinutes");
         E2EGlobal.waitSomeTime(700); // give route change time
 
+        let minutesID = browser.getUrl();
+        minutesID = minutesID.replace(/^.*\//, "");
+
         if (aDate) {
             browser.waitForVisible('#id_minutesdateInput');
             browser.setValue('#id_minutesdateInput', "");
             browser.setValue('#id_minutesdateInput', aDate);
         }
+        return minutesID;
     };
 
     /**
