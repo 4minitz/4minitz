@@ -13,6 +13,7 @@ describe('Attachments @watch', function () {
     let _meetingCounter = 0;
     let _lastMeetingSeriesID;
     let _lastMinutesID;
+    let _localPublicDir;
     let _staticLocalFilename = "";
 
     let getNewMeetingName = () => {
@@ -36,9 +37,9 @@ describe('Attachments @watch', function () {
             E2EApp.launchApp();
         }
 
-        let serverDir = server.call('e2e.getServerCurrentWorkingDir');  // call meteor server method
-        serverDir += "/../web.browser/app/"; // location of files from "/public" directory
-        _staticLocalFilename = serverDir + "favicon.ico";
+        _localPublicDir = server.call('e2e.getServerCurrentWorkingDir');  // call meteor server method
+        _localPublicDir += "/../web.browser/app/"; // location of files from "/public" directory
+        _staticLocalFilename = _localPublicDir + "favicon.ico";
     });
 
     after("clear database", function () {
@@ -52,17 +53,17 @@ describe('Attachments @watch', function () {
     // * MODERATOR TESTS
     // ******************
     it('can upload an attachment to the server (as moderator)', function () {
-        let attachmentCount = server.call('e2e.countAttachmentsInMongoDB');
-        expect(attachmentCount, "Number of attachments before upload").to.equal(0);
+        expect(E2EAttachments.countAttachmentsGlobally(),
+            "Number of attachments before upload").to.equal(0);
 
         E2EAttachments.uploadFile(_staticLocalFilename);
 
         // check we have one attachment now in database
-        attachmentCount = server.call('e2e.countAttachmentsInMongoDB');
-        expect(attachmentCount, "Number of attachments after upload").to.equal(1);
+        expect(E2EAttachments.countAttachmentsGlobally(),
+            "Number of attachments after upload").to.equal(1);
 
         // check if the server file exists after upload
-        let attachment = server.call('e2e.getAttachmentsForMinute', _lastMinutesID)[0];
+        let attachment = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID)[0];
         let serverAttachmentDir = server.call('e2e.getServerAttachmentsDir');
         let serverAttachmentFilename = serverAttachmentDir +
                                 "/" + _lastMeetingSeriesID +
@@ -80,13 +81,42 @@ describe('Attachments @watch', function () {
             .to.equal(md5server);
     });
 
-    xit('can not upload illegal files (as moderator)', function () {
+    it('can not upload illegal files (as moderator)', function () {
         // wrong extension
+        let fileWithDeniedExtension = _localPublicDir + "loading-gears.gif";
+        E2EAttachments.uploadFile(fileWithDeniedExtension);
+        expect(browser.getText("div#confirmDialog"), "File with denied extension").to.contain("Error: Denied file extension.");
+        E2EApp.confirmationDialogAnswer(true);
+
         // to big file size
+        let fileWithTooBigSize = _localPublicDir + "mstile-310x310.png";
+        E2EAttachments.uploadFile(fileWithTooBigSize);
+        expect(browser.getText("div#confirmDialog"), "File with too big size").to.contain("Error: Please upload file with max.");
+        E2EApp.confirmationDialogAnswer(true);
     });
 
-    xit('can remove an attachment (as moderator)', function () {
-        // here...
+    it('can remove an attachment (as moderator)', function () {
+        let removeBtns = browser.elements('button#btnDelAttachment');
+        expect(removeBtns.value.length, "Initially zero remove attachment buttons").to.equal(0);
+
+        E2EAttachments.uploadFile(_staticLocalFilename);
+
+        let attachmentCountInMin = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID).length;
+        expect(attachmentCountInMin, "One attachment after upload").to.equal(1);
+        removeBtns = browser.elements('button#btnDelAttachment');
+        expect(removeBtns.value.length, "One remove attachment buttons after upload").to.equal(1);
+        // REMOVE ATTACHMENT!
+        removeBtns.value[0].click();
+        // check for security question pop up
+        E2EGlobal.waitSomeTime();
+        expect(browser.getText("div#confirmDialog"), "Remove question pop up")
+            .to.contain("Do you really want to delete the attachment");
+        E2EApp.confirmationDialogAnswer(true);
+        // check attachment is removed
+        attachmentCountInMin = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID).length;
+        expect(attachmentCountInMin, "Zero attachments after upload").to.equal(0);
+        removeBtns = browser.elements('button#btnDelAttachment');
+        expect(removeBtns.value.length, "Zero remove attachment buttons after upload").to.equal(0);
     });
 
     xit('has correct UI on finalized minutes (as moderator)', function () {
@@ -97,7 +127,7 @@ describe('Attachments @watch', function () {
     // ******************
     // * UPLOADER TESTS
     // ******************
-    it('can upload an attachment to the server (as uploader)', function () {
+    xit('can upload an attachment to the server (as uploader)', function () {
         // here ...
     });
 

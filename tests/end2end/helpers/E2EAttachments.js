@@ -1,8 +1,13 @@
+const fs = require('fs-extra');
 import { E2EGlobal } from './E2EGlobal'
 import { E2EApp } from './E2EApp'
 
 export class E2EAttachments {
     static uploadFile (filename) {
+        expect(fs.existsSync(filename),
+            "E2EAttachments.uploadFile(): file should exist: "+filename)
+            .to.be.ok;
+
         browser.waitForExist("#btn2AttachmentsExpand");
         if (! browser.isVisible("#lblUpload")) {
             browser.click("#btn2AttachmentsExpand");
@@ -18,6 +23,13 @@ export class E2EAttachments {
             browser.chooseFile("#btnUploadAttachment", filename);
         }
         E2EGlobal.waitSomeTime(250);
+    }
 
+    static countAttachmentsGlobally() {
+        return server.call('e2e.countAttachmentsInMongoDB');
+    }
+
+    static getAttachmentDocsForMinuteID(minID) {
+        return server.call('e2e.getAttachmentsForMinute', minID);
     }
 }
