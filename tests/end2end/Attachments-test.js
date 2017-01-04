@@ -47,7 +47,11 @@ describe('Attachments @watch', function () {
         }
     });
 
-    it('can upload an attachment if user is moderator', function () {
+
+    // ******************
+    // * MODERATOR TESTS
+    // ******************
+    it('can upload an attachment to the server (as moderator)', function () {
         let attachmentCount = server.call('e2e.countAttachmentsInMongoDB');
         expect(attachmentCount, "Number of attachments before upload").to.equal(0);
 
@@ -74,5 +78,63 @@ describe('Attachments @watch', function () {
         expect(md5local,
             "Local file should have same MD5 checksum as server file")
             .to.equal(md5server);
+    });
+
+    xit('can not upload illegal files (as moderator)', function () {
+        // wrong extension
+        // to big file size
+    });
+
+    xit('can remove an attachment (as moderator)', function () {
+        // here...
+    });
+
+    xit('has correct UI on finalized minutes (as moderator)', function () {
+        // here...
+    });
+
+
+    // ******************
+    // * UPLOADER TESTS
+    // ******************
+    it('can upload an attachment to the server (as uploader)', function () {
+        // here ...
+    });
+
+    xit('can remove only my own attachment (as uploader)', function () {
+        // here...
+    });
+
+    // ******************
+    // * INVITED TESTS
+    // ******************
+    xit('can not upload if only invited', function () {
+
+    });
+
+    xit('can download attachment via URL (invited)', function () {
+        // only in Desktop!
+        // not possible in PhantomJS - see https://github.com/ariya/phantomjs/issues/10052
+    });
+
+
+    // ******************
+    // * NOT INVITED / NOT LOGGED IN TESTS
+    // ******************
+
+    xit('has no published attachment publishes if not invited', function () {
+        // here...
+    });
+
+    xit('has no published attachment publishes if not logged in', function () {
+        // here...
+    });
+
+    xit('can not download attachment via URL if user not invited', function () {
+        // result: "File Not Found :("
+    });
+
+    xit('can not download attachment via URL if user not logged in', function () {
+        // result: "File Not Found :("
     });
 });
