@@ -36,6 +36,7 @@ export class E2EGlobal {
             browser._original.desiredCapabilities.browserName) {
             return browser._original.desiredCapabilities.browserName;
         }
+        console.error("Error: E2EGlobal.browserName() could not determine browserName!");
         return "unknown";
     };
 
@@ -50,7 +51,7 @@ export class E2EGlobal {
     }
 
     /**
-     * Takes a screenshot and saves it under
+     * Takes a screen shot and saves it under
      * tests/snapshots/date[_<filename>].jpg.
      *
      * @param filename
@@ -69,5 +70,6 @@ E2EGlobal.SETTINGS = require('../../../settings-test-end2end.json');
 
 E2EGlobal.USERROLES = {
     Moderator:   "Moderator",
-    Invited:   "Invited"
+    Invited:   "Invited",
+    Uploader:  "Uploader"
 };

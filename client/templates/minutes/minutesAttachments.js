@@ -122,7 +122,7 @@ Template.minutesAttachments.helpers({
 });
 
 Template.minutesAttachments.events({
-    'change #fileInput': function (e, template) {
+    'change #btnUploadAttachment': function (e, template) {
         if (e.currentTarget.files && e.currentTarget.files[0]) {
             // We upload only one file, in case
             // multiple files were selected

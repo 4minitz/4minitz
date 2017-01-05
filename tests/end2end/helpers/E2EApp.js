@@ -136,6 +136,12 @@ export class E2EApp {
         expect (E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
     };
 
+    static confirmationDialogCheckMessage (containedText) {
+        E2EGlobal.waitSomeTime();
+        expect(browser.getText("div#confirmDialog"), "Check confirmation messagebox contains text")
+            .to.contain(containedText);
+    };
+
     static confirmationDialogAnswer (pressOK, title) {
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
         browser.waitForVisible('#confirmationDialogOK', 1000);
