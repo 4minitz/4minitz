@@ -1,3 +1,4 @@
+const path = require('path');
 const fs = require('fs-extra');
 const md5File = require('md5-file');
 
@@ -6,9 +7,8 @@ import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2EAttachments } from './helpers/E2EAttachments'
-import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 
-describe('Attachments @watch', function () {
+describe('Attachments', function () {
     const _projectName = "E2E Attachments";
     const _meetingNameBase = "Meeting Name #";
     let _meetingCounter = 0;
@@ -145,14 +145,7 @@ describe('Attachments @watch', function () {
     // * UPLOADER TESTS
     // ******************
     it('can upload an attachment to the server (as uploader)', function () {
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Uploader);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
-
-        E2EApp.loginUser(1);
-        E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
-        E2EMinutes.gotoLatestMinutes();
+        E2EAttachments.switchToUserWithDifferentRole(E2EGlobal.USERROLES.Uploader, _projectName, _lastMeetingName);
         let countAttachmentsBeforeUpload = E2EAttachments.countAttachmentsGlobally();
 
         E2EAttachments.uploadFile(_staticLocalFilename);
@@ -166,15 +159,7 @@ describe('Attachments @watch', function () {
         // 1st Upload by Moderator
         E2EAttachments.uploadFile(_staticLocalFilename);
         let attDocBefore = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID);
-
-        // create 2nd user with role "Uploader" and login
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Uploader);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
-        E2EApp.loginUser(1);
-        E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
-        E2EMinutes.gotoLatestMinutes();
+        E2EAttachments.switchToUserWithDifferentRole(E2EGlobal.USERROLES.Uploader, _projectName, _lastMeetingName);
 
         // 2nd upload by "Uploader". We expect two attachments but only one remove button
         E2EAttachments.uploadFile(_staticLocalFilename);
@@ -198,14 +183,7 @@ describe('Attachments @watch', function () {
     // ******************
     it('can not upload but sees download links (as invited)', function () {
         E2EAttachments.uploadFile(_staticLocalFilename);
-
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
-        E2EApp.loginUser(1);
-        E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
-        E2EMinutes.gotoLatestMinutes();
+        E2EAttachments.switchToUserWithDifferentRole(E2EGlobal.USERROLES.Invited, _projectName, _lastMeetingName);
 
         // no need for "expanding"... it is still expanded from user1...
         expect(E2EAttachments.isUploadButtonVisible()).to.be.false;
@@ -215,9 +193,30 @@ describe('Attachments @watch', function () {
         E2EApp.loginUser(0);
     });
 
-    xit('can download attachment via URL (as invited)', function () {
-        // only in Desktop!
-        // not possible in PhantomJS - see https://github.com/ariya/phantomjs/issues/10052
+
+    // The following test downloads an attachment by clicking the download link
+    // This does not work in PhantomJS - see https://github.com/ariya/phantomjs/issues/10052
+    // This only works in Chrome. Chrome is configured via .meteor/chimp_config.js to
+    // show no pop up dialog on saving, but instead save directly to a known target directory
+    it('can download attachment via URL (as invited) - DESKTOP-CHROME-ONLY', function () {
+        if (! E2EGlobal.browserIsPhantomJS()) {
+            E2EAttachments.uploadFile(_staticLocalFilename);
+            E2EAttachments.switchToUserWithDifferentRole(E2EGlobal.USERROLES.Invited, _projectName, _lastMeetingName);
+
+            let fileShort = path.basename(_staticLocalFilename); // => e.g. "favicon.ico"
+            let downloadDir = E2EAttachments.getChromeDownloadDirectory();
+            let downloadTargetFile = path.join(downloadDir, fileShort);
+            if (fs.existsSync(downloadTargetFile)) {
+                fs.unlinkSync(downloadTargetFile);
+            }
+            expect(fs.existsSync(downloadTargetFile)).to.be.false;  // No file there!
+
+            let links = E2EAttachments.getDownloadLinks();
+            links[0].click();                                       // now download via chrome desktop
+            E2EGlobal.waitSomeTime(2000);
+            expect(fs.existsSync(downloadTargetFile)).to.be.true;   // File should be there
+            E2EApp.loginUser(0);
+        }
     });
 
 
@@ -225,19 +224,51 @@ describe('Attachments @watch', function () {
     // * NOT INVITED / NOT LOGGED IN TESTS
     // ******************
 
-    xit('has no published attachment publishes if not invited', function () {
-        // here...
+    it('has no published attachment if not invited', function () {
+        E2EAttachments.uploadFile(_staticLocalFilename);
+        expect(E2EAttachments.countAttachmentsOnClientForCurrentUser() > 0, "How many attachments are published to the client for user1")
+            .to.be.true;
+
+        E2EApp.loginUser(2);    // switch to non-invited user
+        expect(E2EAttachments.countAttachmentsOnClientForCurrentUser(), "How many attachments are published to the client for user3")
+            .to.equal(0);
+        E2EApp.loginUser(0);
     });
 
-    xit('has no published attachment publishes if not logged in', function () {
-        // here...
+    it('has no published attachment if not logged in', function () {
+        E2EAttachments.uploadFile(_staticLocalFilename);
+        expect(E2EAttachments.countAttachmentsOnClientForCurrentUser() > 0, "How many attachments are published to the client for user1")
+            .to.be.true;
+
+        E2EApp.logoutUser();    // log out user
+        expect(E2EAttachments.countAttachmentsOnClientForCurrentUser(), "How many attachments are published to the client for non-logged in user")
+            .to.equal(0);
+        E2EApp.loginUser(0);
     });
 
-    xit('can not download attachment via URL if user not invited', function () {
-        // result: "File Not Found :("
+    it('can not download attachment via URL if user not invited', function () {
+        E2EAttachments.uploadFile(_staticLocalFilename);
+        let links = E2EAttachments.getDownloadLinks();
+        let attachmentURL = links[0].getAttribute("href");
+
+        E2EApp.loginUser(2);                    // switch to non-invited user
+        browser.url(attachmentURL);             // try to access download URL
+        let htmlSource = browser.getSource();
+        expect(htmlSource).to.contain("File Not Found :(");
+        E2EApp.launchApp();
+        E2EApp.loginUser(0);
     });
 
-    xit('can not download attachment via URL if user not logged in', function () {
-        // result: "File Not Found :("
+    it('can not download attachment via URL if user not logged in', function () {
+        E2EAttachments.uploadFile(_staticLocalFilename);
+        let links = E2EAttachments.getDownloadLinks();
+        let attachmentURL = links[0].getAttribute("href");
+
+        E2EApp.logoutUser();                    // log out user
+        browser.url(attachmentURL);             // try to access download URL
+        let htmlSource = browser.getSource();
+        expect(htmlSource).to.contain("File Not Found :(");
+        E2EApp.launchApp();
+        E2EApp.loginUser(0);
     });
 });

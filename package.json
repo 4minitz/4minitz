@@ -18,8 +18,9 @@
     "test:end2end:meteor": "meteor run --port 3100 --settings ./settings-test-end2end.json",
     "test:end2end:server": "node tests/support/end2end-server.js",
     "test:end2end:headless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs -- $TEST_FILES",
-    "test:end2end:once": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
-    "test:end2end:watch": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch",
+    "test:end2end:once": "chimp .meteor/chimp_config.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
+    "test:end2end:watch": "chimp .meteor/chimp_config.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch",
+    "test:end2end:watchheadless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs --watch",
     "postinstall": "node programs/postInstall.js"
   },
   "repository": {
