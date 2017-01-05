@@ -1,3 +1,5 @@
+// Overrides chimp defaults from here:
+// https://github.com/xolvio/chimp/blob/master/src/bin/default.js
 module.exports = {
     webdriverio: {
         desiredCapabilities: {

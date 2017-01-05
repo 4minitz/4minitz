@@ -215,6 +215,13 @@ describe('Attachments', function () {
             links[0].click();                                       // now download via chrome desktop
             E2EGlobal.waitSomeTime(2000);
             expect(fs.existsSync(downloadTargetFile)).to.be.true;   // File should be there
+            // check if local pre-upload and local post-download files have same MD5 checksum
+            const md5localPre = md5File.sync(_staticLocalFilename);
+            const md5localPost = md5File.sync(downloadTargetFile);
+            expect(md5localPre,
+                "Local pre-upload file should have same MD5 checksum as local post-download file")
+                .to.equal(md5localPost);
+
             E2EApp.loginUser(0);
         }
     });
