@@ -222,17 +222,43 @@ Template.topicInfoItem.events({
         let markdownHintEl = tmpl.$('#detailInputMarkdownHint_' + detailId);
 
 
-        let text = inputEl.val();
+        let text = inputEl.val().trim();
 
-        let detailsCount = undefined;
         if (text === "" || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
             let index = detailId.split('_')[2]; // detail id is: <collapseId>_<index>
-            aActionItem.updateDetails(index, text.trim());
-            aActionItem.save();
-            detailsCount = aActionItem.getDetails().length;
+            if (text !== "") {
+                aActionItem.updateDetails(index, text);
+                aActionItem.save();
+            } else {
+                let deleteDetails = () => {
+                    aActionItem.removeDetails(index);
+                    aActionItem.save();
+                    let detailsCount = aActionItem.getDetails().length;
+                    if (detailsCount === 0) {
+                        tmpl.$('#collapse-' + tmpl.data.currentCollapseId).collapse('hide');
+                    }
+                };
+
+                let oldText = aActionItem.getDetailsAt(index).text;
+                if (!oldText || oldText === "") {
+                    // use case: Adding details and leaving the input field without entering any text should go silently.
+                    deleteDetails();
+                } else {
+                    // otherwise we show an confirmation dialog before the deails will be removed
+                    let subject = aActionItem.getSubject();
+                    let dialogContent = "<p>Do you really want to delete the selected details of the item "
+                                            + `<strong>${subject}</strong>?</p>`;
+                    confirmationDialog(
+                        /* callback called if user wants to continue */
+                        deleteDetails,
+                        /* Dialog content */
+                        dialogContent
+                    );
+                }
+            }
         }
 
         inputEl.val("");
@@ -240,10 +266,6 @@ Template.topicInfoItem.events({
         markdownHintEl.hide();
 
         textEl.show();
-
-        if (detailsCount === 0) {
-            tmpl.$('#collapse-' + tmpl.data.currentCollapseId).collapse('hide');
-        }
     },
 
     'keypress .detailInput'(evt, tmpl) {
