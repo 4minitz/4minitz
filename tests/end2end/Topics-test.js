@@ -413,7 +413,7 @@ describe('Topics', function () {
     });
 
     it('should not be possible to insert a new topics to a meeting minutes which has the same id as an existing one ' +
-        '- even not by using the meteor method directly @watch', function() {
+        '- even not by using the meteor method directly', function() {
         const url = browser.getUrl();
         let parts = url.split('/');
         let minutesId = parts[parts.length - 1];
