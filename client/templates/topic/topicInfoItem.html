@@ -78,11 +78,17 @@
                     <p class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                         <div>
                             <label for="detailInput_{{../currentCollapseId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
-                            <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign pull-right"
-                                  id="detailInputMarkdownHint_{{../currentCollapseId}}_{{@index}}"
-                                  style="display: none; color: darkgray; font-size: 120%; cursor: pointer;"></span>
+                            <span id="detailActions_{{../currentCollapseId}}_{{@index}}"
+                                  class="pull-right pull-right-icons"
+                                  style="display: none;">
+                                <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon">
+                                </span>
+                                <span class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
+                                      data-id="{{../currentCollapseId}}_{{@index}}">
+                                </span>
+                            </span>
 
-                </div>
+                        </div>
                         <div style="padding-left: 10px;" class="detailText" data-id="{{../currentCollapseId}}_{{@index}}">
                             <span id="detailText_{{../currentCollapseId}}_{{@index}}" data-id="{{../currentCollapseId}}_{{@index}}" data-text="{{this.text}}">
                                 {{#markdown}}{{this.text}}{{/markdown}}
