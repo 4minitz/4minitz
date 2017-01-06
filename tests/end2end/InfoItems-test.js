@@ -84,7 +84,7 @@ describe('Info Items', function () {
         E2ETopics.addInfoItemToTopic({
             subject: infoItemName,
             itemType: "infoItem"
-        }, topicIndex);
+        }, topicIndex, /* do not close detail input */false);
 
         E2EGlobal.waitSomeTime();
 
