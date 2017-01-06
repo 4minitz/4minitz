@@ -51,6 +51,9 @@ Template.topicInfoItem.helpers({
 
     getLabels: function() {
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
+        if (!aInfoItem) {
+            return;
+        }
         return aInfoItem.getLabels(getMeetingSeriesId(this.minutesID))
             .map(labelObj => {
                 let doc = labelObj.getDocument();
