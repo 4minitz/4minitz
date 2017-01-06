@@ -19,6 +19,8 @@ describe('Item Details', function () {
     let aAICounter = 0;
     let aAINameBase = "Item Name #";
 
+    let infoItemName;
+
     let getNewMeetingName = () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
@@ -42,10 +44,11 @@ describe('Item Details', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
+        infoItemName = getNewAIName();
         aTopicName = getNewTopicName();
         E2ETopics.addTopicToMinutes(aTopicName);
         E2ETopics.addInfoItemToTopic({
-            subject: getNewAIName(),
+            subject: infoItemName,
             itemType: "actionItem"
         }, 1);
     });
@@ -175,6 +178,40 @@ describe('Item Details', function () {
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + '\nNew Details (changed)');
+    });
+
+    it('shows an confirmation dialog when removing existing details', function() {
+        E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
+
+        E2ETopics.editDetailsForActionItem(1, 1, 1, ''); // empty text will remove the detail
+
+        let selectorDialog = "#confirmDialog";
+
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
+
+        let dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
+        let dialogContentText = browser.elementIdText(dialogContentElement).value;
+
+        expect(dialogContentText, 'dialog content should display the subject of the to-be-deleted parent item')
+            .to.have.string(infoItemName);
+
+        // close dialog otherwise beforeEach-hook will fail!
+        E2EApp.confirmationDialogAnswer(false);
+    });
+
+    it('should remove the details if the input field of the new item will be submitted empty', function() {
+        E2ETopics.addDetailsToActionItem(1, 1, '');
+
+        let selectorDialog = "#confirmDialog";
+
+        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.false;
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        expect(browser.elementIdText(firstItemOfNewTopic).value, 'the item should have not have any details')
+            .to.not.have.string(formatDateISO8601(new Date()));
     });
 
     it('saves details persistent', function () {
