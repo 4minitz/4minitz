@@ -41,11 +41,16 @@ export class E2EMeetingSeries {
         browser.click('#btnAddInvite');
         E2EGlobal.waitSomeTime(500);  // double time for dialog + panel switch!
 
+        let meetingSeriesID = browser.getUrl();
+        meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
+        meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
+
         if (! keepOpenMSEditor && browser.isVisible("#btnMeetinSeriesEditCancel")) {
             browser.click('#btnMeetinSeriesEditCancel');
             E2EGlobal.waitSomeTime();
             E2EApp.gotoStartPage();
         }
+        return meetingSeriesID;
     };
 
 
