@@ -8,14 +8,14 @@ import { Label } from '/imports/label'
 import { ColorHelper } from '/imports/ColorHelper'
 
 Template.meetingSeriesEditLabels.onRendered(function () {
-    Meteor.setTimeout(function() {
+    setTimeout(function() {
         $('.pick-a-color').pickAColor({
             showSavedColors         : false,
             showAdvanced            : false,
             inlineDropdown          : false
         });
         $('.hex-pound').hide();
-    }, 50);
+    }, 100);
 
     addCustomValidator(
         ".label-color-field",
@@ -125,5 +125,24 @@ Template.meetingSeriesEditLabels.events({
         let aSeries = new MeetingSeries(tmpl.data.meetingSeriesId);
         aSeries.removeLabel(labelId);
         aSeries.save();
+    },
+
+    'click .evt-btn-add-label': function (evt, tmpl) {
+        let labelDoc = {
+            name: "NewLabel",
+            color: "#cccccc"
+        };
+
+        let label = new Label(labelDoc);
+        label.save(tmpl.data.meetingSeriesId);
+        // Add Color Picker to the new label.
+        Meteor.setTimeout(function() {
+            $('.pick-a-color:nth-child(1)').pickAColor({
+                showSavedColors         : false,
+                showAdvanced            : false,
+                inlineDropdown          : false
+            });
+            $('.hex-pound').hide();
+        }, 50);
     }
 });

@@ -1,6 +1,9 @@
+import { Meteor } from 'meteor/meteor';
+
 import { TopicItemsMailHandler } from './TopicItemsMailHandler'
 import { GlobalSettings } from './../GlobalSettings'
 import { Topic } from './../topic'
+import { Attachment } from '../attachment';
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
@@ -13,8 +16,12 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
         this._participants = participants;
     }
 
+    _getSubject() {
+        return this._getSubjectPrefix()  + " (Meeting Minutes V"+this._minute.finalizedVersion+")";
+    }
+
     _sendMail() {
-        let mailSubject = this._getSubjectPrefix();
+        let mailSubject = this._getSubject();
 
         // Generate responsibles strings for all topics
         this._topics.forEach(topic => {
@@ -48,8 +55,15 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             return topic.isOpen;
         });
 
+        let attachments = Attachment.findForMinutes(this._minute._id).fetch();
+        attachments.forEach((file) => {
+            let usr = Meteor.users.findOne(file.userId);
+            return file.username = usr.username;
+        });
+
         return {
             minutesDate: this._minute.date,
+            minutesGlobalNote: this._minute.globalNote,
             meetingSeriesName: this._meetingSeries.name,
             meetingSeriesProject: this._meetingSeries.project,
             meetingSeriesURL: GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeries._id),
@@ -58,7 +72,9 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             absentParticipants: this._participantsArrayToString(absentParticipants),
             participantsAdditional: this._minute.participantsAdditional,
             discussedTopics: discussedTopics,
-            skippedTopics: skippedTopics
+            skippedTopics: skippedTopics,
+            finalizedVersion: this._minute.finalizedVersion,
+            attachments: attachments
         };
     }
 

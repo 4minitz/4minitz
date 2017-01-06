@@ -49,6 +49,10 @@ export class TopicItemsMailHandler {
         }
     }
 
+    _getSubject() {
+        return this._getSubjectPrefix();
+    }
+
     _getSubjectPrefix() {
         return "[" + this._minute.parentMeetingSeries().project + "] "
             + this._minute.parentMeetingSeries().name + " on "

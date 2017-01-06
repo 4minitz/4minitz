@@ -30,7 +30,6 @@ export class Minutes {
     }
 
     static findAllIn(MinutesIDArray, limit) {
-        console.log("findAllIn: >"+MinutesIDArray+"<");
         if (!MinutesIDArray || MinutesIDArray.length == 0) {
             return [];
         }
@@ -57,8 +56,8 @@ export class Minutes {
     // ################### object methods
     
     async update (docPart, callback) {
+        console.log("Minutes.update()");
         _.extend(docPart, {_id: this._id});
-
         await Meteor.callPromise ("minutes.update", docPart, callback);
 
         // merge new doc fragment into this document
@@ -107,7 +106,7 @@ export class Minutes {
         let i = this._findTopicIndex(id);
         if (i != undefined) {
             this.topics.splice(i, 1);
-            return this.update({topics: this.topics}); // update only topics array!
+            return Meteor.callPromise('minutes.removeTopic', id);
         }
     }
 
@@ -185,11 +184,13 @@ export class Minutes {
 
         if (i == undefined) {                      // topic not in array
             this.topics.unshift(topicDoc);  // add to front of array
+            return Meteor.callPromise('minutes.addTopic', this._id, topicDoc);
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
+            return Meteor.callPromise('minutes.updateTopic', topicDoc._id, topicDoc);
         }
 
-        return this.update({topics: this.topics}); // update only topics array!
+
     }
 
     /**
@@ -261,7 +262,7 @@ export class Minutes {
      * @returns {Array}
      */
     getPersonsInformedWithEmail(userCollection) {
-        return this.getPersonsInformed().reduce((recipients, userId) => {
+        let recipientResult = this.getPersonsInformed().reduce((recipients, userId) => {
             let user = userCollection.findOne(userId);
             if (user.emails && user.emails.length > 0) {
                 recipients.push({
@@ -272,6 +273,22 @@ export class Minutes {
             }
             return recipients;
         }, /* initial value */ []);
+
+        // search for mail addresses in additional participants and add them to recipients
+        if (this.participantsAdditional) {
+            let addMails = this.participantsAdditional.match(global.emailAddressRegExpMatch);
+            addMails.forEach(additionalMail => {
+                recipientResult.push(
+                    {
+                        userId: "additionalRecipient",
+                        name: additionalMail,
+                        address: additionalMail
+                    }
+                )
+            });
+        }
+
+        return recipientResult;
     }
 
 
@@ -333,7 +350,6 @@ export class Minutes {
 
         // only save if desired and we did change something
         if (saveToDB && changed) {
-            console.log("Saving!");
             return this.update({participants: newParticipants}); // update only participants array!
         }
     }
@@ -376,6 +392,9 @@ export class Minutes {
      */
     getPresentParticipantNames(maxChars) {
         let names = "";
+
+        this.participants = this.participants || [];
+
         this.participants.forEach(part => {
             if (part.present) {
                 let name = Meteor.users.findOne(part.userId).username;
@@ -400,6 +419,17 @@ export class Minutes {
         let parent = this.parentMeetingSeries();
         if (!parent.hasMinute(this._id)) {
             throw new Meteor.Error('runtime-error', 'Minute is an orphan!');
+        }
+    }
+
+    getFinalizedString() {
+        if (this.finalizedAt) {
+            let finalizedTimestamp = formatDateISO8601Time(this.finalizedAt);
+            let finalizedString = this.isFinalized? "Finalized" : "Unfinalized";
+            let version = this.finalizedVersion ? "Version "+this.finalizedVersion+". " : "";
+            return (`${version}${finalizedString} on ${finalizedTimestamp} by ${this.finalizedBy}`);
+        } else {
+            return "Never finalized."
         }
     }
 

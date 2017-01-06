@@ -132,4 +132,29 @@ describe('Minutes', function () {
         expect(dialogMsgText, 'error message should be displayed').to.have.string('Unfortunately the minute is not linked to its parent series correctly');
     });
 
+    it('can persist global notes', function() {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name #6";
+        const aGlobalNote = "Amazing global note";
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        browser.setValue('input[id="editGlobalNotes"]', aGlobalNote);
+        browser.click('#btnParticipantsExpand');
+
+        let result = browser.getValue('input[id="editGlobalNotes"]');
+        expect(result).to.equal(aGlobalNote);
+
+        browser.refresh();
+        E2EGlobal.waitSomeTime(2500); // phantom.js needs some time here...
+
+
+        result = browser.getValue('input[id="editGlobalNotes"]');
+        expect(result).to.equal(aGlobalNote);
+
+
+    });
+
 });

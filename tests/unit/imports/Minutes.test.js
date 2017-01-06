@@ -71,7 +71,6 @@ describe('Minutes', function () {
             createdAt: new Date(),
             topics: [],
             isFinalized: false,
-            isUnfinalized: true,
             participants: '',
             agenda: ''
         };
@@ -436,13 +435,13 @@ describe('Minutes', function () {
             expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
-        it('sends the doc part and the minutes id to the meteor method minutes.update', function () {
+        it('sends the minutes id and the topic doc to the meteor method minutes.addTopic', function () {
             minute.upsertTopic(topicDoc);
             let callArgs = Meteor.callPromise.getCall(0).args;
-            expect(callArgs[0], "first argument should be the name of the meteor method", 'minutes.update');
+            expect(callArgs[0], "first argument should be the name of the meteor method", 'minutes.addTopic');
             let sentDoc = callArgs[1];
-            expect(sentDoc._id, 'minutes id should be part of the document').to.equal(minutesDoc._id);
-            expect(sentDoc, 'topics should be a part of the document').to.have.ownProperty('topics');
+            expect(callArgs[1], 'minutes id should be sent to the meteor method').to.equal(minutesDoc._id);
+            expect(callArgs[2], 'topic-doc should be sent to the meteor method').to.equal(topicDoc);
         });
 
     });

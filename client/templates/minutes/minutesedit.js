@@ -1,29 +1,104 @@
 import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Minutes } from '/imports/minutes'
-import { MeetingSeries } from '/imports/meetingseries'
-import { UserRoles } from '/imports/userroles'
+import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
+import { UserRoles } from '/imports/userroles';
+import { User, userSettings } from '/imports/users';
 
-import { TopicListConfig } from '../topic/topicsList'
-
-import { GlobalSettings } from '/imports/GlobalSettings'
-
-import { FlashMessage } from '../../helpers/flashMessage'
+import { TopicListConfig } from '../topic/topicsList';
+import { GlobalSettings } from '/imports/GlobalSettings';
+import { FlashMessage } from '../../helpers/flashMessage';
 
 var _minutesID; // the ID of these minutes
 
-var orphanFlashMessage = false;
+/**
+ *
+ * @type {FlashMessage}
+ */
+var orphanFlashMessage = null;
 
+/**
+ * togglePrintView
+ * Prepares the DOM view for printing - on and off
+ * @param switchOn - optional (if missing, function toggles on <=> off)
+ */
+var togglePrintView = function (switchOn) {
+    if (switchOn === undefined) {   // toggle on <=> off
+        Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
+    } else {
+        Session.set("minutesedit.PrintViewActive", switchOn);
+    }
+
+    if (Session.get("minutesedit.PrintViewActive")) {
+        // expand all topics, but save current state before!
+        Session.set("minutesedit.collapsetopics-save4print."+_minutesID, Session.get("minutesedit.collapsetopics."+_minutesID));
+        Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+
+        Session.set("participants.expand", false);
+        $(".help").hide();
+        Meteor.setTimeout(function(){$(".collapse").addClass("in");}, 100);
+
+        // give collapsibles some time for animation
+        Meteor.setTimeout(function(){$(".expand-collapse-triangle").hide();}, 350);
+        // as material checkboxes do not print correctly...
+        // change material checkbox to normal checkbox for printing
+        Meteor.setTimeout(function(){$("div.checkbox").toggleClass('checkbox print-checkbox');}, 360);
+        Meteor.setTimeout(function(){openPrintDialog();}, 500);
+    } else {
+        // change back normal checkboxes to material checkboxes after printing
+        $("div.print-checkbox").toggleClass('checkbox print-checkbox');
+        $(".expand-collapse-triangle").show();
+        $(".collapse").removeClass("in");
+        // restore old topic collapsible state
+        Session.set("minutesedit.collapsetopics."+_minutesID, Session.get("minutesedit.collapsetopics-save4print."+_minutesID));
+    }
+};
+
+
+
+// Automatically restore view after printing
+(function() {
+    var afterPrint = function() {
+        togglePrintView(false);
+    };
+
+    if (window.matchMedia) {
+        var mediaQueryList = window.matchMedia('print');
+        mediaQueryList.addListener(function(mql) {
+            if (! mql.matches) {
+                afterPrint();
+            }
+        });
+    }
+
+    window.onafterprint = afterPrint;
+}());
 
 Template.minutesedit.onCreated(function () {
+    this.minutesReady = new ReactiveVar();
+
+    this.autorun(() => {
+        _minutesID = FlowRouter.getParam('_id');
+        let subscriptionHandle = this.subscribe('minutes', _minutesID);
+
+        this.minutesReady.set(subscriptionHandle.ready());
+    });
+
     Session.set('minutesedit.checkParent', false);
-    _minutesID = this.data;
+
+    // Collapse the participants list on scroll
+    $(window).scroll(function(){
+        Session.set("participants.expand", false);
+    });
 });
 
 Template.minutesedit.onDestroyed(function() {
-    if (orphanFlashMessage) {
-        FlashMessage.hide();
+    if (orphanFlashMessage !== null) {
+        orphanFlashMessage.hideMe();
     }
+    $(window).off("scroll");    // Prohibit accumulating multiple scroll handlers on window
 });
 
 var isMinuteFinalized = function () {
@@ -82,59 +157,80 @@ var openPrintDialog = function () {
 var sendActionItems = true;
 var sendInformationItems = true;
 
-Template.minutesedit.onRendered(function () {
-    let datePickerNode = this.$('#id_minutesdatePicker');
-    datePickerNode.datetimepicker({
-        format: "YYYY-MM-DD"
-    });
-
-    let aMin = new Minutes(_minutesID);
-    if (!aMin.isFinalized) {
-        let ms = aMin.parentMeetingSeries();
-        if (ms) {
-            let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
-            if (minDate) {
-                minDate.setDate(minDate.getDate() + 1);
-                datePickerNode.data("DateTimePicker").minDate(minDate);
-            }
-        }
-    }
-
-    $('#topicPanel').sortable({
-        appendTo: document.body,
-        axis: 'y',
-        items: '> .well',
-        opacity: 0.5,
-        disabled: true,
-        handle: '.topicDragDropHandle',
-        update: updateTopicSorting
-    });
-
-    toggleTopicSorting();
-
-    // enable the parent series check after 2 seconds delay to make sure
-    // there was enough time to update the meeting series
-    Meteor.setTimeout(function() {
-        Session.set('minutesedit.checkParent', true);
-    }, 2000);
-});
-
 Template.minutesedit.helpers({
+    authenticating() {
+        const subscriptionReady = Template.instance().minutesReady.get();
+        return Meteor.loggingIn() || !subscriptionReady;
+    },
+
+    canShow() {
+        let usrRoles = new UserRoles();
+
+        let minute = new Minutes(_minutesID);
+        if (!usrRoles.hasViewRoleFor(minute.parentMeetingSeriesID())) {
+            FlowRouter.redirect('/');
+        }
+
+        return true;
+    },
+
+    initialize() {
+        let templateInstance = Template.instance();
+
+        $(document).arrive('#id_minutesdatePicker', () => {
+            let datePickerNode = templateInstance.$('#id_minutesdatePicker');
+            datePickerNode.datetimepicker({
+                format: "YYYY-MM-DD"
+            });
+
+            let aMin = new Minutes(_minutesID);
+            if (!aMin.isFinalized) {
+                let ms = aMin.parentMeetingSeries();
+                if (ms) {
+                    let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
+                    if (minDate) {
+                        minDate.setDate(minDate.getDate() + 1);
+                        datePickerNode.data("DateTimePicker").minDate(minDate);
+                    }
+                }
+            }
+        });
+
+        $(document).arrive('#topicPanel', () => {
+            $('#topicPanel').sortable({
+                appendTo: document.body,
+                axis: 'y',
+                items: '> .well',
+                opacity: 0.5,
+                disabled: true,
+                handle: '.topicDragDropHandle',
+                update: updateTopicSorting
+            });
+
+            toggleTopicSorting();
+        });
+
+        // enable the parent series check after 2 seconds delay to make sure
+        // there was enough time to update the meeting series
+        Meteor.setTimeout(function() {
+            Session.set('minutesedit.checkParent', true);
+        }, 2000);
+    },
+
     checkParentSeries: function() {
         if (!Session.get('minutesedit.checkParent')) return;
 
         let aMin = new Minutes(_minutesID);
         try {
             aMin.checkParent();
-            if (orphanFlashMessage) {
-                FlashMessage.hide();
-                orphanFlashMessage = false;
+            if (orphanFlashMessage !== null) {
+                orphanFlashMessage.hideMe();
+                orphanFlashMessage = null;
             }
         } catch(error) {
             let msg = 'Unfortunately the minute is not linked to its parent series correctly - please contact your ' +
                 'system administrator.';
-            (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
-            orphanFlashMessage = true;
+            orphanFlashMessage = (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
         }
     },
 
@@ -158,27 +254,31 @@ Template.minutesedit.helpers({
         return isMinuteFinalized();
     },
 
-    getFinalizedDate: function () {
+    getFinalizedText: function () {
         let aMin = new Minutes(_minutesID);
-        return formatDateISO8601Time(aMin.finalizedAt);
+        return aMin.getFinalizedString();
     },
 
-    getFinalizedBy: function () {
+    finalizeHistoryTooltip: function (buttontype) {
         let aMin = new Minutes(_minutesID);
-        return aMin.finalizedBy;
+        let tooltip = buttontype ? buttontype+"\n" : "";
+        if (aMin.finalizedHistory) {
+            tooltip += "\nHistory:\n"+aMin.finalizedHistory.join("\n");
+        }
+        return tooltip;
     },
 
     disableUIControl: function () {
         let aMin = new Minutes(_minutesID);
         let usrRole = new UserRoles();
-        return (aMin.isFinalized || !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())) ? "readonly" : "";
+        return (aMin.isFinalized || !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())) ? "disabled" : "";
     },
 
     isUnfinalizeAllowed: function () {
         let aMin = new Minutes(_minutesID);
         return aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(_minutesID);
     },
-    
+
     isModeratorOfParentSeries: function () {
         let aMin = new Minutes(_minutesID);
         let usrRole = new UserRoles();
@@ -197,7 +297,7 @@ Template.minutesedit.helpers({
         }
         return "";
     },
-    
+
     isReadOnly() {
         return (isMinuteFinalized() || !isModerator());
     },
@@ -206,19 +306,27 @@ Template.minutesedit.helpers({
         if (Session.get("minutesedit.PrintViewActive")) {
             return "btn-info";
         }
+    },
+
+    showQuickHelp: function() {
+        const user = new User();
+        return user.getSetting(userSettings.showQuickHelp.meeting, true);
     }
 });
 
 Template.minutesedit.events({
     "click #btnHideHelp": function () {
-        $(".help").hide();  // use jQuery to find and hide class
+        const user = new User();
+        user.storeSetting(userSettings.showQuickHelp.meeting, false);
     },
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin) {
-            if (aMin.isFinalized) {
+            if (aMin.isFinalized || ! aMin.isCurrentUserModerator()) {
                 // event will be called on page load
-                // if the meeting is already finalized nothing has to be updated
+                // if the meeting is already finalized ...
+                // or the current user is not a moderator ...
+                // nothing has to be updated
                 return;
             }
 
@@ -237,6 +345,15 @@ Template.minutesedit.events({
         }
     },
 
+    "change #editGlobalNotes" (evt, tmpl) {
+        evt.preventDefault();
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            let globalNote = tmpl.find("#editGlobalNotes").value;
+            aMin.update({globalNote: globalNote});
+        }
+    },
+
     'click #btn_sendAgenda': async function(evt, tmpl) {
         evt.preventDefault();
         let sendBtn = tmpl.$("#btn_sendAgenda");
@@ -248,12 +365,10 @@ Template.minutesedit.events({
                 sendBtn.prop('disabled', true);
                 try {
                     let result = await aMin.sendAgenda();
-                    Session.set('errorTitle', 'OK');
-                    Session.set('errorReason', "Agenda was sent to " + result + " recipients successfully");
-                    Session.set('errorType', "alert-success");
+                    let message = "Agenda was sent to " + result + " recipients successfully";
+                    (new FlashMessage('OK', message, 'alert-success')).show();
                 } catch (error) {
-                    Session.set('errorTitle', 'Error');
-                    Session.set('errorReason', error.reason);
+                    (new FlashMessage('Error', error.reason)).show();
                 }
                 sendBtn.prop('disabled', false);
             };
@@ -281,17 +396,23 @@ Template.minutesedit.events({
         }
     },
 
-    'click #btn_finalizeMinutes': function(evt) {
+    'click #btn_finalizeMinutes': function(evt, tmpl) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
         if (aMin) {
             console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
 
             let doFinalize = function () {
-                aMin.finalize(sendActionItems, sendInformationItems);
-
-                toggleTopicSorting();
-                Session.set("participants.expand", false);
+                tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
+                let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
+                // Force closing the dialog before starting the finalize process
+                Meteor.setTimeout(() => {
+                    aMin.finalize(sendActionItems, sendInformationItems);
+                    tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
+                    msg.replace('OK', 'This meeting minutes were successfully finalized', 'alert-success', 3000);
+                    toggleTopicSorting();
+                    Session.set("participants.expand", false);
+                }, 500);
             };
 
             if (GlobalSettings.isEMailDeliveryEnabled()) { // only show confirmation Dialog, if mails can be sent.
@@ -359,7 +480,7 @@ Template.minutesedit.events({
                     // first route to the parent meetingseries then remove the minute.
                     // otherwise the current route would automatically re-routed to the main page because the
                     // minute is not available anymore -> see router.js
-                    Router.go("/meetingseries/"+aMin.meetingSeries_id);
+                    FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
                     ms.removeMinutesWithId(aMin._id);
                 },
                 /* Dialog content */
@@ -385,32 +506,7 @@ Template.minutesedit.events({
 
     'click #btn_printMinutes': function(evt) {
         evt.preventDefault();
-
-        Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
-
-        if (Session.get("minutesedit.PrintViewActive")) {
-            // expand all topics, but save current state before!
-            Session.set("minutesedit.collapsetopics-save4print."+_minutesID, Session.get("minutesedit.collapsetopics."+_minutesID));
-            Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
-
-            Session.set("participants.expand", false);
-            $(".help").hide();
-            Meteor.setTimeout(function(){$(".collapse").addClass("in");}, 100);
-
-            // give collapsibles some time for animation
-            Meteor.setTimeout(function(){$(".expand-collapse-triangle").hide();}, 350);
-            // as material checkboxes do not print correctly...
-            // change material checkbox to normal checkbox for printing
-            Meteor.setTimeout(function(){$("div.checkbox").toggleClass('checkbox print-checkbox');}, 360);
-            Meteor.setTimeout(function(){openPrintDialog();}, 500);
-        } else {
-            // change back normal checkboxes to material checkboxes after printing
-            $("div.print-checkbox").toggleClass('checkbox print-checkbox');
-            $(".expand-collapse-triangle").show();
-            $(".collapse").removeClass("in");
-            // restore old topic callapsible state
-            Session.set("minutesedit.collapsetopics."+_minutesID, Session.get("minutesedit.collapsetopics-save4print."+_minutesID));
-        }
+        togglePrintView();
     }
 });
 

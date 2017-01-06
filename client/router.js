@@ -1,119 +1,81 @@
-import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+import { MeetingSeries } from '/imports/meetingseries';
+import { UserRoles } from '/imports/userroles';
 
-import { MeetingSeries } from '/imports/meetingseries'
-import { Minutes } from '/imports/minutes'
-import { UserRoles } from '/imports/userroles'
-
-var subs = new SubsManager({
-    // maximum number of cache subscriptions
-    cacheLimit: 10,
-    // any subscription will be expire after 5 minute, if it's not subscribed again
-    expireIn: 5
-});
-
-Router.configure({
-    // set default application template for all routes
-    layoutTemplate: 'appLayout'
-});
-
-Router.onBeforeAction(function () {
-    if (!Meteor.userId()) {
-        // if the user is not logged in, render the Login template
-        this.render('login');
-    } else {
-        // otherwise don't hold up the rest of hooks or our route/action function
-        // from running
-        this.next();
+FlowRouter.route('/', {
+    action() {
+        BlazeLayout.render('appLayout', {main: 'home'});
     }
 });
 
-Router.route('/', {name: 'home'});
-
-function routeToMeetingSeries(meetingSeriesID, router, data, template = 'meetingSeriesDetails') {
-    if (!data) {
-        data = {};
-    }
-
-    // we have to wait until the client side db is ready
-    // otherwise creating the UserRoles-Object will fail
-    let subscription = subs.subscribe('userListSimple', Meteor.userId());
-
-    if (subscription.ready()) {
-        let usrRoles = new UserRoles();
-        if (usrRoles.hasViewRoleFor(meetingSeriesID)) {
-            data.meetingSeriesId = meetingSeriesID;
-            router.render(template, { data: data });
-        } else {
-            Router.go("/");
+FlowRouter.route('/login', {
+    triggersExit: [
+        function () {
+            FlowRouter.redirect('/');
         }
-    } else {
-        router.render('loading');
+    ],
+    action() {
+        BlazeLayout.render('appLayout', {main: 'login'});
     }
-}
-
-Router.route('/meetingseries/:_id', function () {
-    routeToMeetingSeries(this.params._id, this);
 });
 
-Router.route('meetingseries/invite/:_id', function () {
-    routeToMeetingSeries(this.params._id, this, { openMeetingSeriesEditor: true });
+FlowRouter.route('/meetingseries/:_id', {
+    name: 'meetingseries',
+    action() {
+        BlazeLayout.render('appLayout', {main: 'meetingSeriesDetails'});
+    }
 });
 
-Router.route('/minutesadd/:_id', function () {
-    let meetingSeriesID = this.params._id;
+// todo: get rid of this
+// this should not be handled within a route
+FlowRouter.route('/minutesadd/:_id', {
+    name: 'minutesadd',
+    action(params) {
+        let meetingSeriesID = params._id;
 
-    let usrRoles = new UserRoles();
-    if (!usrRoles.hasViewRoleFor(meetingSeriesID)) {
-        Router.go("/");
-    }
+        let usrRoles = new UserRoles();
+        if (!usrRoles.hasViewRoleFor(meetingSeriesID)) {
+            FlowRouter.go("/");
+        }
 
-    let id;
-    ms = new MeetingSeries(meetingSeriesID);
-    ms.addNewMinutes(
-        // optimistic ui callback
-        newMinutesID => {
-            id = newMinutesID
-        },
+        let id;
+        ms = new MeetingSeries(meetingSeriesID);
+        ms.addNewMinutes(
+            // optimistic ui callback
+            newMinutesID => {
+                id = newMinutesID
+            },
 
-        // server callback
-        (error/*, newMinutesID*/) => {
-            // no need to redirect to correct minutes page
-            // as the optimistic ui callback already took
-            // care of that
+            // server callback
+            (error/*, newMinutesID*/) => {
+                // no need to redirect to correct minutes page
+                // as the optimistic ui callback already took
+                // care of that
 
-            if (error) {
-                // display error
-                Session.set("errorTitle", error.error);
-                Session.set("errorReason", error.reason);
-                this.redirect('/meetingseries/' + meetingSeriesID);
+                if (error) {
+                    // display error
+                    Session.set("errorTitle", error.error);
+                    Session.set("errorReason", error.reason);
+                    FlowRouter.redirect('/meetingseries/' + meetingSeriesID);
+                }
             }
-        }
-    );
+        );
 
-    // callback should have been called by now
-    if (id) {
-        this.redirect('/minutesedit/' + id);
-    } else {
-        // todo: use error page
-        this.redirect('/meetingseries/' + meetingSeriesID);
+        // callback should have been called by now
+        if (id) {
+            FlowRouter.redirect('/minutesedit/' + id);
+        } else {
+            // todo: use error page
+            FlowRouter.redirect('/meetingseries/' + meetingSeriesID);
+        }
     }
 });
 
 
-Router.route('/minutesedit/:_id', function () {
-    var minutesID = this.params._id;
-
-    let subscription = subs.subscribe('minutes', minutesID);
-
-    if (subscription.ready()) {
-        let usrRoles = new UserRoles();
-        let aMin = new Minutes(minutesID);
-        if (usrRoles.hasViewRoleFor(aMin.meetingSeries_id)) {
-            this.render('minutesedit', {data: minutesID});
-        } else {
-            Router.go("/");
-        }
-    } else {
-        this.render('loading');
+FlowRouter.route('/minutesedit/:_id', {
+    name: 'minutesedit',
+    action() {
+        BlazeLayout.render('appLayout', {main: 'minutesedit'});
     }
 });

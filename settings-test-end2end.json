@@ -51,6 +51,37 @@
 
     "db": {
         "mongodumpTargetDirectory": ""
-    }
+    },
 
+    "ldap": {
+        "enabled": true,
+        "searchDn": "cn",
+        "searchFilter": "",
+        "serverDn": "DC=example,DC=com",
+        "serverUrl": "ldap://localhost:1389",
+        "allowSelfSignedTLS": true,
+        "whiteListedFields": [ "cn", "mail" ],
+        "autopublishFields": [ "cn" ]
+    },
+
+    "ldapForumSys": {
+        "enabled": true,
+        "searchDn": "uid",
+        "searchFilter": "(objectClass=inetOrgPerson)",
+        "serverDn": "DC=example,DC=com",
+        "serverUrl": "ldap://ldap.forumsys.com",
+        "allowSelfSignedTLS": true,
+        "whiteListedFields": [ "uid", "cn", "mail" ],
+        "autopublishFields": [ "uid", "cn" ]
+    },
+
+    "attachments": {
+        "enabled": true,
+        "storagePath": "attachments_e2e",
+        "allowExtensions": ".*",
+        "//": "denyExtesnion:gif extension forbidden in e2e test!",
+        "denyExtensions":  "gif|exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
+        "///": "maxFileSize:80000 allows upload of favicon.ico, but not mstile-310x150.png",
+        "maxFileSize": 80000
+    }    
 }

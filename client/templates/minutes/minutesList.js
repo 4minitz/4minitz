@@ -1,21 +1,26 @@
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
+import { AttachmentsCollection } from "/imports/collections/attachments_private"
 
 Template.minutesList.helpers({
     buttonBackground: function () {
         return (this.isFinalized) ? "default" : "info";
     },
 
-    addMinutesPath: function () {
-        let ms = new MeetingSeries(this.meetingSeriesId);
-        return (ms.addNewMinutesAllowed()) ? "/minutesadd/" + this.meetingSeriesId : "";
+    meetingSeriesId: function () {
+        return this.meetingSeriesId;
     },
 
-    addMinutesNotAllowed: function () {
+    addMinutesDisabled: function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
-        return !ms.addNewMinutesAllowed();
+        if (ms.addNewMinutesAllowed()) {
+            return {};
+        } else {
+            return {disabled: true};
+        }
     },
 
     isDeleteAllowed: function () {
@@ -25,37 +30,31 @@ Template.minutesList.helpers({
     isModeratorOfParentSeries: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(this.meetingSeriesId);
+    },
+
+    hasAttachments() {
+        return !!AttachmentsCollection.findOne({"meta.meetingminutes_id": this._id});
     }
 });
 
 Template.minutesList.events({
-    "click #deleteMinutes": function (evt) {
-        let disabled = evt.currentTarget.getAttribute('disabled');
-        if (disabled) return;
-
-        console.log("Remove Meeting Minute " + this._id + " from Series: " + this.meetingSeries_id);
-
-        let dialogContent = "<p>Do you really want to delete this meeting minute dated on <strong>" + this.date + "</strong>?</p>";
-        let newTopicsCount = this.getNewTopics().length;
-        if (newTopicsCount > 0) {
-            dialogContent += "<p>This will remove <strong>" + newTopicsCount
-                + " Topics</strong>, which were created within this minute.</p>";
-        }
-        let closedOldTopicsCount = this.getOldClosedTopics().length;
-        if (closedOldTopicsCount > 0) {
-            let additionally = (newTopicsCount > 0) ? "Additionally " : "";
-            dialogContent += "<p>" + additionally + "<strong>" + closedOldTopicsCount
-                + " topics</strong> will be opened again, which were closed whithin this minute.</p>"
-        }
+    "click #btnLeaveMeetingSeries": function () {
+        let ms = new MeetingSeries(this.meetingSeriesId);
 
         confirmationDialog(
             /* callback called if user wants to continue */
             () => {
-                let ms = new MeetingSeries(this.meetingSeries_id);
-                ms.removeMinutesWithId(this._id);
+                console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
+                MeetingSeries.leave(ms);
+                FlowRouter.go("/");
             },
-            /* Dialog content */
-            dialogContent
+            "<p>Do you really want to leave the meeting series:<br>" +
+            "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + ms.project + " / " + ms.name + "</b><br>" +
+            "You will have to ask a moderator if you want to join again afterwards.</p>",
+            "Leave Meeting Series",
+            "Leave",
+            "btn-danger"
         );
+
     }
 });

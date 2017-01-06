@@ -6,6 +6,7 @@ import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
+import moment from 'moment/moment';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -33,6 +34,16 @@ export class MeetingSeries {
         return Meteor.callPromise("workflow.removeMeetingSeries", meetingSeries._id);
     }
 
+    static async leave(meetingSeries) {
+        return Meteor.callPromise("workflow.leaveMeetingSeries", meetingSeries._id);
+    }
+
+    static getAllVisibleIDsForUser (userId) {
+        // we return an array with just a list of visible meeting series IDs
+        return MeetingSeriesCollection
+            .find({visibleFor: {$in: [userId]}}, {_id:1})
+            .map(function(item){ return item._id; });
+    }
 
     // ################### object methods
 
@@ -72,9 +83,8 @@ export class MeetingSeries {
         let newMinutesDate = new Date();
         let lastMinutes = this.lastMinutes();
         if (lastMinutes && formatDateISO8601(newMinutesDate) <= lastMinutes.date) {
-            let lastMinDate = new Date(lastMinutes.date);
-            newMinutesDate.setTime(lastMinDate.getTime());
-            newMinutesDate.setDate(lastMinDate.getDate() + 1);
+            let lastMinDate = moment(lastMinutes.date);
+            newMinutesDate = lastMinDate.add(1, 'days').toDate();
         }
 
         let topics = [];
@@ -258,17 +268,29 @@ export class MeetingSeries {
     /**
      * Overwrite the current "visibleFor" array with new user Ids
      * Needs a "save()" afterwards to persist
-     * @param {Array} visibleForArray 
+     * @param {Array} newVisibleForArray
      */
-    setVisibleUsers(visibleForArray) {
+    setVisibleUsers(newVisibleForArray) {
         if (!this._id) {
             throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using addVisibleUser()");
         }
-        if (!$.isArray(visibleForArray)) {
+        if (!$.isArray(newVisibleForArray)) {
             throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
         }
 
-        this.visibleFor = visibleForArray;
+        // Collect all removed users where the meeting series is not visible anymore
+        // And then remove the old meeting series role from these users
+        let oldVisibleForArray = this.visibleFor;
+        let removedUserIDs = oldVisibleForArray.filter((usrID) => {
+            return newVisibleForArray.indexOf(usrID) == -1
+        });
+        removedUserIDs.forEach((removedUserID) => {
+            let ur = new UserRoles(removedUserID);
+            ur.removeAllRolesForMeetingSeries(this._id);
+        });
+
+
+        this.visibleFor = newVisibleForArray;
         Minutes.syncVisibility(this._id, this.visibleFor);
     }
 
@@ -312,6 +334,15 @@ export class MeetingSeries {
 
     findLabelByName(labelName) {
         return subElementsHelper.getElementById(labelName, this.availableLabels, 'name');
+    }
+
+    findLabelContainingSubstr(name, caseSensitive) {
+        caseSensitive = (caseSensitive === undefined) ? true : caseSensitive;
+        return this.availableLabels.filter(label => {
+            let left = (caseSensitive) ? label.name : label.name.toUpperCase();
+            let right = (caseSensitive) ? name : name.toUpperCase();
+            return left.indexOf(right) !== -1;
+        })
     }
 
     removeLabel(id) {

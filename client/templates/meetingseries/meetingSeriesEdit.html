@@ -3,11 +3,13 @@
     <!-- MODAL DIALOG: Edit Meeting Series -->
     <!-- ********************************* -->
 
-    <div class="modal fade" id="dlgEditMeetingSeries" tabindex="-1" role="dialog">
+    <div class="modal fade" id="dlgEditMeetingSeries" tabindex="-1" role="dialog" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" id="btnEditMSClose" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <h4 class="modal-title" id="myModalLabel">Edit Meeting Series</h4>
                 </div>
                 <div class="modal-body">
@@ -27,7 +29,7 @@
                                     </div>
                                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                         <div class="panel-body">
-                                            <label class="control-label" for="id_meetingproject">Project Name</label>
+                                            <label class="control-label" for="id_meetingproject">Team / Project Name</label>
                                             <input class="form-control" id="id_meetingproject" type="text" value="{{this.project}}" required
                                                    data-error-msg="Please enter a valid project name" autocomplete="off">
 
@@ -72,19 +74,23 @@
                             </div>
                         </div>
 
-                        <!--BUTTONS-->
-                        <a href="#" id="deleteMeetingSeries" class="btn btn-danger btn-raised" style="width: 100%;">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            Delete Meeting Series
-                        </a>
                         {{!-- hidden submit button required for form-validation --}}
                         <input id="submitMeetingSeriesEditForm" style="display: none" type="submit" value="submit">
                     </form>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id= "btnMeetinSeriesEditCancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" id="btnMeetingSeriesSave" class="btn btn-primary btn-raised">Save Meeting Series</button>
+                    <!--BUTTONS-->
+                    <a href="#" id="deleteMeetingSeries" class="btn btn-danger btn-raised">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        <span class="hidden-xs">Delete</span>
+                    </a>
+                    <button type="button" id= "btnMeetinSeriesEditCancel" class="btn btn-default" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" id="btnMeetingSeriesSave" class="btn btn-primary btn-raised">
+                        Save <span class="hidden-xs">Meeting Series</span>
+                    </button>
                 </div>
             </div>
         </div>

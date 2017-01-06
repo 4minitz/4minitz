@@ -35,12 +35,11 @@ describe('MeetingSeries Editor', function () {
     });
     
 
-
     it('can open and close meeting series editor without changing data', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.true;
-        browser.click('button.close');
+        browser.click('#btnEditMSClose');
         E2EGlobal.waitSomeTime(); // give dialog animation time
         // Now dialog should be gone
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.false;
@@ -152,14 +151,14 @@ describe('MeetingSeries Editor', function () {
         browser.setValue('input[id="id_meetingproject"]', aProjectName+" Changed!");
         browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
 
-        browser.click('button.close');
+        browser.click('#btnEditMSClose');
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "base", true);
         expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(aProjectName);
         expect(browser.getValue('input[id="id_meetingname"]')).to.equal(aMeetingName);
 
-        browser.click('button.close');
+        browser.click('#btnEditMSClose');
         E2EGlobal.waitSomeTime(); // give dialog animation time
     });
 

@@ -243,17 +243,27 @@ export class E2ETopics {
         return "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem:nth-child(" + infoItemIndex + ") ";
     }
 
-    static expandDetailsForActionItem(topicIndex, infoItemIndex) {
-        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
-
-        let selOpenDetails = selectInfoItem + ".expandDetails";
+    static expandDetails(selectorForInfoItem) {
+        let selOpenDetails = selectorForInfoItem + ".expandDetails";
         browser.waitForVisible(selOpenDetails);
 
         try {
-            browser.waitForVisible(selectInfoItem + ".detailRow");
+            browser.waitForVisible(selectorForInfoItem + ".detailRow");
         } catch (e) {
             browser.click(selOpenDetails);
         }
+    }
+
+    static expandDetailsForActionItem(topicIndex, infoItemIndex) {
+        let selectInfoItem = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex);
+
+        E2ETopics.expandDetails(selectInfoItem);
+    }
+
+    static expandDetailsForNthInfoItem(n) {
+        let selectInfoItem = "#itemPanel .topicInfoItem:nth-child(" + n + ") ";
+        E2ETopics.expandDetails(selectInfoItem);
+        E2EGlobal.waitSomeTime();
     }
 
     /**
@@ -333,8 +343,12 @@ export class E2ETopics {
         return (topics.length) ? topics.length : 0;
     };
 
-    static getItemsForTopic (topicIndex) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem";
+    static getItemsForTopic (topicIndexOrSelectorForParentElement) {
+        let parentSel = topicIndexOrSelectorForParentElement;
+        if (!isNaN(parentSel)) {
+            parentSel = "#topicPanel .well:nth-child(" + topicIndexOrSelectorForParentElement + ")";
+        }
+        let selector = parentSel + " .topicInfoItem";
         try {
             browser.waitForExist(selector);
         } catch (e) {
@@ -342,6 +356,21 @@ export class E2ETopics {
         }
         const elements = browser.elements(selector);
         return elements.value;
+    }
+
+    static getAllItemsFromItemList() {
+        let selector = ".topicInfoItem";
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return [];
+        }
+        return browser.elements(selector).value;
+    }
+
+    static getNthItemFromItemList(n) {
+        const elements = E2ETopics.getAllItemsFromItemList();
+        return browser.elementIdText(elements[n].ELEMENT);
     }
 
     static countItemsForTopic (topicIndex) {

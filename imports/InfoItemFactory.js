@@ -13,8 +13,7 @@ export class InfoItemFactory {
      * depending on the given infoItemDoc.
      *
      * InfoItems and ActionItems differ by
-     * the availability of the isOpen-Property
-     * (only ActionItems have a state!)
+     * the itemType-property
      *
      * @param parentTopic
      * @param infoItemDoc
@@ -22,7 +21,6 @@ export class InfoItemFactory {
      */
     static createInfoItem(parentTopic, infoItemDoc) {
         if (InfoItem.isActionItem(infoItemDoc)) {
-            // only ActionItems has the isOpen-Property!
             return new ActionItem(parentTopic, infoItemDoc);
         } else {
             return new InfoItem(parentTopic, infoItemDoc);

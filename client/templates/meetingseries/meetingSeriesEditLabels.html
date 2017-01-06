@@ -1,20 +1,30 @@
 <template name="meetingSeriesEditLabels">
         <table class="table" id="table-edit-labels">
             <tbody>
+            <tr>
+                <td>
+                    Add new Label
+                </td>
+                <td>
+                    <a href="#" class="evt-btn-add-label pull-right">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Label"></span>
+                    </a>
+                </td>
+            </tr>
             {{#each getLabels}}
                 <tr id="row-label-{{_id}}">
                     <td id="col-label-{{_id}}">
-                    <form id="form-label-{{_id}}" class="label-form">
-                        <span class="label label-large view-display" id="{{_id}}" style="background-color: {{color}}; color: {{fontColor}};">{{name}}</span>
-                        <span class="view-edit controls form-inline" style="display: none;">
-                            <input class="form-control evt-submit-enter" name="labelName" type="text" required
-                                   data-error-msg='Please enter a valid label name' value="{{name}}">
-                            <div class="input-group-btn">
-                            <input class="form-control evt-submit-enter label-color-field pick-a-color" name="labelColor-{{_id}}" type="text" value="{{getColorNum}}">
-                            </div>
-                            <input style="display: none;" type="submit" value="submit">
-                        </span>
-                    </form>
+                        <form id="form-label-{{_id}}" class="label-form">
+                            <span class="label label-large view-display" id="{{_id}}" style="background-color: {{color}}; color: {{fontColor}};">{{name}}</span>
+                            <span class="view-edit controls form-inline" style="display: none;">
+                                <input class="form-control evt-submit-enter" name="labelName" type="text" required
+                                       data-error-msg='Please enter a valid label name' value="{{name}}">
+                                <div class="input-group-btn">
+                                <input class="form-control evt-submit-enter label-color-field pick-a-color" name="labelColor-{{_id}}" type="text" value="{{getColorNum}}">
+                                </div>
+                                <input style="display: none;" type="submit" value="submit">
+                            </span>
+                        </form>
                     </td>
                     <td class="text-right">
                         <span class="view-display">

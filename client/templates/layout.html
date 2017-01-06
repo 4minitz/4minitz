@@ -1,14 +1,22 @@
 <template name="appLayout">
 
-  {{> navigation}}
+        {{> navigation}}
 
-  <div class="container">
-    {{> yield}}
-  </div>
+        <div class="container">
 
-  {{> confirmationDialog}}
+            {{> broadcastMessageDialog }}
 
-  {{> versionInfo }}
-  {{> connectionInfo }}
+            {{#if isLoggedIn}}
+                {{> Template.dynamic template=main}}
+                {{> confirmationDialog}}
+            {{else}}
+                {{> login}}
+            {{/if}}
+        </div>
+
+        {{#if showGitHubCorner}}
+            {{> githubcorner }}
+        {{/if}}
+        {{> connectionInfo }}
 
 </template>

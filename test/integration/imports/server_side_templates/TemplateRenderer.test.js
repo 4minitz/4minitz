@@ -45,5 +45,23 @@ if (Meteor.isServer) {
             expect(tmplRenderer.render()).to.equal(expected);
         });
 
+        it('uses the markdown helper correctly', function () {
+            template = 'Hello {{markdown2html name}}';
+            let expected = 'Hello <strong>Peter</strong><br>\n';
+            tmplRenderer = new TemplateRenderer(template, null,/* loadTmplFromAssets */ false);
+
+            tmplRenderer.addData('name', '**Peter**');
+
+            expect(tmplRenderer.render()).to.equal(expected);
+        });
+
+        it('uses the doctype helper correctly', function () {
+            template = '{{doctype}}';
+            let expected = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+            tmplRenderer = new TemplateRenderer(template, null,/* loadTmplFromAssets */ false);
+
+            expect(tmplRenderer.render()).to.equal(expected);
+        });
+
     });
 }

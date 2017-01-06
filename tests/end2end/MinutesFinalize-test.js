@@ -73,7 +73,8 @@ describe('Minutes Finalize', function () {
             expect(browser.isExisting('#cbSendII')).to.be.true;
 
             // close dialog otherwise beforeEach-hook will fail!
-            E2EApp.confirmationDialogAnswer(false);
+            E2EApp.confirmationDialogAnswer(false, "failingtest");
+            E2EGlobal.waitSomeTime(300);   // make next test happy
         });
     }
 
@@ -90,11 +91,16 @@ describe('Minutes Finalize', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         browser.waitForVisible("#btnAddMinutes");
 
-        // check if button is disabled
-        expect(browser.isExisting('a#btnAddMinutes[disabled="true"]')).to.be.true;
-        // check if button is clicked, it does not add minutes
+        // check that nothing happens if the add minutes button will be pressed
+        const urlBefore = browser.getUrl();
+        expect(browser.isExisting('#btnAddMinutes'), "btnAddMinutes should be there").to.be.true;
         browser.click("#btnAddMinutes");
-        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(countInitialMinutes +1);
+        E2EGlobal.waitSomeTime(750);
+        expect(browser.getUrl(), "Route should not have changed").to.equal(urlBefore);
+        expect(
+            E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName),
+            "Only one minute should have been added"
+        ).to.equal(countInitialMinutes + 1);
     });
 
 
@@ -171,7 +177,7 @@ describe('Minutes Finalize', function () {
     });
 
 
-    it('prohibits editing of finalized minutes', function () {
+    it('prohibits editing date of finalized minutes', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         let myDate = "2015-03-17";  // date of first project commit ;-)
