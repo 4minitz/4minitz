@@ -142,7 +142,7 @@ describe('Send agenda', function () {
     });
 
     it('ensures that the agenda will be sent to the *normal* participants even if there are additional participants ' +
-        'with no valid email addresses @watch', function() {
+        'with no valid email addresses', function() {
 
         let additionalUser = "Max Mustermann";
         browser.setValue('#edtParticipantsAdditional', additionalUser);
