@@ -99,6 +99,8 @@ Template.minutesedit.onDestroyed(function() {
         orphanFlashMessage.hideMe();
     }
     $(window).off("scroll");    // Prohibit accumulating multiple scroll handlers on window
+    $(document).unbindArrive('#id_minutesdatePicker');
+    $(document).unbindArrive('#topicPanel');
 });
 
 var isMinuteFinalized = function () {
