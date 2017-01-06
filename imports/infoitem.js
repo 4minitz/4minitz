@@ -64,6 +64,10 @@ export class InfoItem {
         this._infoItemDoc.isSticky = !this.isSticky();
     }
 
+    getSubject() {
+        return this._infoItemDoc.subject;
+    }
+
     addDetails(text) {
         if (text === undefined) text = "";
 
@@ -77,12 +81,17 @@ export class InfoItem {
         })
     }
 
+    removeDetails(index) {
+        this._infoItemDoc.details.splice(index, 1);
+    }
+
     updateDetails(index, text) {
         if (text === "") {
-            this._infoItemDoc.details.splice(index, 1);
-        } else {
-            this._infoItemDoc.details[index].text = text;
+            throw new Meteor.Error("invalid-argument", "Empty details are not allowed. Use #removeDetails() " +
+                "to delete an element");
         }
+
+        this._infoItemDoc.details[index].text = text;
     }
 
     getDetails() {
@@ -91,6 +100,14 @@ export class InfoItem {
         }
 
         return this._infoItemDoc.details;
+    }
+
+    getDetailsAt(index) {
+        if (!this._infoItemDoc.details || index < 0 || index >= this._infoItemDoc.details.length) {
+            throw new Meteor.Error('index-out-of-bounds');
+        }
+
+        return this._infoItemDoc.details[index];
     }
 
     async save(callback) {
