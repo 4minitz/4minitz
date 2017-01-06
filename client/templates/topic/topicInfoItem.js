@@ -39,8 +39,36 @@ let resizeTextarea = (element) => {
     $(document).scrollTop(scrollPos);
 };
 
+let addNewDetails = async (tmpl) => {
+    tmpl.$('#collapse-' + tmpl.data.currentCollapseId).collapse('show');
+
+    let aMin = new Minutes(tmpl.data.minutesID);
+    let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
+    let aItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
+
+    aItem.addDetails();
+    await  aItem.save();
+    let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
+    inputEl.parent().css('margin', '0 0 25px 0');
+    inputEl.show();
+    inputEl.focus();
+};
+
 
 Template.topicInfoItem.helpers({
+    triggerAddDetails: function() {
+        let itemId = Session.get('topicInfoItem.triggerAddDetailsForItem');
+        if (itemId && itemId === this.infoItem._id) {
+            Session.set('topicInfoItem.triggerAddDetailsForItem', null);
+            let tmpl = Template.instance();
+            Meteor.setTimeout(() => {
+                addNewDetails(tmpl, itemId);
+            }, 300); // we need this delay otherwise the input field will be made hidden immediately
+        }
+        // do not return anything! This will be rendered on the page!
+        return '';
+    },
+
     isActionItem: function() {
         return (this.infoItem.itemType === 'actionItem');
     },
@@ -183,7 +211,7 @@ Template.topicInfoItem.events({
         let detailId = evt.currentTarget.getAttribute('data-id');
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
-        let markdownHintEl = tmpl.$('#detailInputMarkdownHint_' + detailId);
+        let detailActionsId = tmpl.$('#detailActions_' + detailId);
 
         if (inputEl.val() !== "") {
             return;
@@ -191,8 +219,8 @@ Template.topicInfoItem.events({
 
         textEl.hide();
         inputEl.show();
-        markdownHintEl.show();
-        
+        detailActionsId.show();
+
         inputEl.val(textEl.attr('data-text'));
         inputEl.parent().css('margin', '0 0 25px 0');
         inputEl.focus();
@@ -200,20 +228,7 @@ Template.topicInfoItem.events({
     },
 
     async 'click .addDetail'(evt, tmpl) {
-        tmpl.$('#collapse-' + this.currentCollapseId).collapse('show');
-
-        let aMin = new Minutes(tmpl.data.minutesID);
-        let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
-        let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
-
-
-        aActionItem.addDetails();
-        await  aActionItem.save();
-        let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
-        inputEl.parent().css('margin', '0 0 25px 0');
-        inputEl.show();
-        inputEl.focus();
-
+        addNewDetails(tmpl);
     },
 
     'blur .detailInput'(evt, tmpl) {
@@ -222,7 +237,7 @@ Template.topicInfoItem.events({
         let detailId = evt.currentTarget.getAttribute('data-id');
         let textEl = tmpl.$('#detailText_' + detailId);
         let inputEl = tmpl.$('#detailInput_' + detailId);
-        let markdownHintEl = tmpl.$('#detailInputMarkdownHint_' + detailId);
+        let detailActionsEl = tmpl.$('#detailActions_' + detailId);
 
 
         let text = inputEl.val().trim();
@@ -266,7 +281,7 @@ Template.topicInfoItem.events({
 
         inputEl.val("");
         inputEl.hide();
-        markdownHintEl.hide();
+        detailActionsEl.hide();
 
         textEl.show();
     },
@@ -303,10 +318,21 @@ Template.topicInfoItem.events({
     },
 
     // Important! We have to use "mousedown" instead of "click" here.
+    // -> for more details see next event handler
+    "mousedown .detailInputDelete"(evt, tmpl) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        let detailId = evt.currentTarget.getAttribute('data-id');
+        let inputEl = tmpl.$('#detailInput_' + detailId);
+        inputEl.val('');
+        inputEl.blur();
+    },
+
+    // Important! We have to use "mousedown" instead of "click" here.
     // Otherwise the detailsEdit textarea will loose focus and trigger
     // its blur-event which in turn makes the markdownhint icon invisible
     // which in turn swallow the click event - and nothing happens on click.
-    "mousedown .detailInputMarkdownHint"(evt, tmpl) {
+    "mousedown .detailInputMarkdownHint"(evt) {
         evt.preventDefault();
         evt.stopPropagation();
         let staticImgPath = Blaze._globalHelpers.pathForImproved("/");

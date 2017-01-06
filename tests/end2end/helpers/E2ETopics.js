@@ -92,10 +92,16 @@ export class E2ETopics {
         browser.click(selector);
     }
 
-    static addInfoItemToTopic (infoItemDoc, topicIndex) {
+    static addInfoItemToTopic (infoItemDoc, topicIndex, autoCloseDetailInput = true) {
         this.openInfoItemDialog(topicIndex);
         this.insertInfoItemDataIntoDialog(infoItemDoc);
         this.submitInfoItemDialog();
+
+        E2EGlobal.waitSomeTime();
+        if (autoCloseDetailInput) {
+            browser.keys(['Escape']);
+            E2EGlobal.waitSomeTime();
+        }
     }
 
     static openInfoItemEditor(topicIndex, infoItemIndex) {
@@ -292,6 +298,7 @@ export class E2ETopics {
         try {
             browser.waitForVisible(selFocusedInput);
         } catch (e) {
+            console.error('Could not add details. Input field not visible');
             return false;
         }
         browser.setValue(selFocusedInput, detailsText);
