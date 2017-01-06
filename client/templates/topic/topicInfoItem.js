@@ -39,8 +39,36 @@ let resizeTextarea = (element) => {
     $(document).scrollTop(scrollPos);
 };
 
+let addNewDetails = async (tmpl) => {
+    tmpl.$('#collapse-' + tmpl.data.currentCollapseId).collapse('show');
+
+    let aMin = new Minutes(tmpl.data.minutesID);
+    let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
+    let aItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
+
+    aItem.addDetails();
+    await  aItem.save();
+    let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
+    inputEl.parent().css('margin', '0 0 25px 0');
+    inputEl.show();
+    inputEl.focus();
+};
+
 
 Template.topicInfoItem.helpers({
+    triggerAddDetails: function() {
+        let itemId = Session.get('topicInfoItem.triggerAddDetailsForItem');
+        if (itemId && itemId === this.infoItem._id) {
+            Session.set('topicInfoItem.triggerAddDetailsForItem', null);
+            let tmpl = Template.instance();
+            Meteor.setTimeout(() => {
+                addNewDetails(tmpl, itemId);
+            }, 75);
+        }
+        // do not return anything! This will be rendered on the page!
+        return '';
+    },
+
     isActionItem: function() {
         return (this.infoItem.itemType === 'actionItem');
     },
@@ -197,20 +225,7 @@ Template.topicInfoItem.events({
     },
 
     async 'click .addDetail'(evt, tmpl) {
-        tmpl.$('#collapse-' + this.currentCollapseId).collapse('show');
-
-        let aMin = new Minutes(tmpl.data.minutesID);
-        let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
-        let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
-
-
-        aActionItem.addDetails();
-        await  aActionItem.save();
-        let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
-        inputEl.parent().css('margin', '0 0 25px 0');
-        inputEl.show();
-        inputEl.focus();
-
+        addNewDetails(tmpl);
     },
 
     'blur .detailInput'(evt, tmpl) {

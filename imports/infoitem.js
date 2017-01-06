@@ -56,6 +56,10 @@ export class InfoItem {
         // a normal info item has no isNew-Flag so it is nothing to do here
     }
 
+    getId() {
+        return this._infoItemDoc._id;
+    }
+
     isSticky() {
         return this._infoItemDoc.isSticky;
     }
@@ -123,7 +127,7 @@ export class InfoItem {
 
     async saveAsync() {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
-        return this._parentTopic.upsertInfoItem(this._infoItemDoc);
+        this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(this._infoItemDoc);
     }
 
     getParentTopic() {
