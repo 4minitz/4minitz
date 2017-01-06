@@ -271,7 +271,7 @@ Template.topicInfoItem.events({
     'keypress .detailInput'(evt, tmpl) {
         let detailId = evt.currentTarget.getAttribute('data-id');
         let inputEl = tmpl.$('#detailInput_' + detailId);
-        if (event.which === 13/*enter*/ && event.ctrlKey) {
+        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
             evt.preventDefault();
             inputEl.blur();
         }
@@ -284,7 +284,7 @@ Template.topicInfoItem.events({
         let inputEl = tmpl.$('#detailInput_' + detailId);
 
         // escape key will not be handled in keypress callback...
-        if (event.which === 27/*escape*/) {
+        if (evt.which === 27/*escape*/) {
             evt.preventDefault();
             inputEl.blur();
         }
