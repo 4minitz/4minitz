@@ -58,6 +58,11 @@ export class GlobalSettings {
                 ? Meteor.settings.attachments.maxFileSize
                 : 10 * 1024 * 1024; // default: 10 MB
 
+        Meteor.settings.public.forbidClientAccountCreation =
+            (Meteor.settings.forbidClientAccountCreation !== undefined)
+                ? Meteor.settings.forbidClientAccountCreation
+                : false;
+
         // enforce slash "/" at the end
         if (Meteor.settings.attachments && Meteor.settings.attachments.storagePath) {
             if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {
