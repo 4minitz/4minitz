@@ -6,7 +6,7 @@ import { UserRoles } from "./../userroles"
 
 if (Meteor.isServer) {
     // Security: intentionally suppress email addresses of all other users!
-    let publishFields = {'username': 1, 'roles': 1, 'settings': 1};
+    let publishFields = {'username': 1, 'roles': 1};
     // Security: only publish email address in trusted intranet environment
     if(GlobalSettings.isTrustedIntranetInstallation()) {
         publishFields["emails"] = 1;
@@ -19,11 +19,20 @@ if (Meteor.isServer) {
                 {fields: publishFields});
         }
     });
+    // Only publish settings for the logged in user
+    Meteor.publish('userSettings', function () {
+        if(this.userId) {
+            return Meteor.users.find(
+                {_id: this.userId},
+                {fields: {'settings': 1}});
+        }
+    });
 }
 
 if (Meteor.isClient) {
     // This gets visible via Meteor.users collection
     Meteor.subscribe('userListSimple');
+    Meteor.subscribe('userSettings');
 }
 
 
