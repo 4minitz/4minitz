@@ -1,3 +1,5 @@
+import moment from 'moment/moment';
+
 import { Meteor } from 'meteor/meteor';
 
 import { Minutes } from '/imports/minutes'
@@ -26,8 +28,15 @@ Template.topicInfoItemEdit.onCreated(function () {
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
+    // Configure DateTimePicker
+    moment.locale('en', {
+        week: { dow: 1 } // Monday is the first day of the week
+    });
+    // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
     this.$('#id_item_duedatePicker').datetimepicker({
-        format: "YYYY-MM-DD"
+        format: "YYYY-MM-DD",
+        calendarWeeks: true,
+        showTodayButton: true
     });
 });
 

@@ -117,7 +117,7 @@
                                     <input id="id_minutesdateInput" type='text' class="form-control"
                                            value="{{minutes.date}}" {{disableUIControl}}/>
                                     <span class="input-group-addon hidden-print">
-                                <span class="glyphicon glyphicon-calendar"></span>
+                                <span class="glyphicon glyphicon-calendar" style="cursor: pointer"></span>
                             </span>
                                 </div>
                             </div>
@@ -138,9 +138,11 @@
 
                     {{#unless isFinalized}}
                         {{#if isModeratorOfParentSeries}}
+                            <!--ADD TOPIC button-->
                             <button id="id_showAddTopicDialog" type="button"
                                     class="btn btn-primary btn-lg btn-raised hidden-print" data-toggle="modal"
-                                    data-target="#dlgAddTopic">
+                                    data-target="#dlgAddTopic"
+                                    title="Add new topic to top of list [Ctrl+Shift+T]">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
                                 <span class="hidden-xs">Add</span> Topic
                             </button>
@@ -193,6 +195,6 @@
 
             {{> topicEdit minutes._id}}
             {{> topicInfoItemEdit minutes._id}}
-        {{/if}}
-    {{/if}}
+        {{/if}}  <!--if canShow-->
+    {{/if}}  <!--if NOT authenticating-->
 </template>
