@@ -1,3 +1,5 @@
+import moment from 'moment/moment';
+
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -200,9 +202,16 @@ Template.minutesedit.helpers({
         let templateInstance = Template.instance();
 
         $(document).arrive('#id_minutesdatePicker', () => {
+            // Configure DateTimePicker
+            moment.locale('en', {
+                week: { dow: 1 } // Monday is the first day of the week
+            });
+
             let datePickerNode = templateInstance.$('#id_minutesdatePicker');
             datePickerNode.datetimepicker({
-                format: "YYYY-MM-DD"
+                format: "YYYY-MM-DD",
+                calendarWeeks: true,
+                showTodayButton: true
             });
 
             let aMin = new Minutes(_minutesID);

@@ -47,4 +47,21 @@ export class BroadcastMessage {
             BroadcastMessageCollection.remove({_id: id});
         }
     }
+
+    static listAll () {
+        if (Meteor.isServer) {
+            console.log("List All BroadcastMessages.");
+            let allMsgs = [];
+            BroadcastMessageCollection.find().forEach(msg => {
+                let oneMsg = "Message: "+msg._id+" "+
+                            global.formatDateISO8601Time(msg.createdAt) +
+                            " dismissed:"+msg.dismissForUserIDs.length +
+                            "\n" + msg.text;
+                console.log(oneMsg);
+                allMsgs.push(oneMsg);
+            });
+            console.log("---");
+            return allMsgs;
+        }
+    }
 }
