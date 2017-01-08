@@ -35,6 +35,11 @@ Template.minutesAttachments.helpers({
     },
 
     isAttachmentsExpanded() {
+        let min = new Minutes(_minutesID);
+        if (min.isFinalized && Attachment.countForMinutes(_minutesID) == 0) {
+            return false;
+        }
+
         return Session.get("attachments.expand");
     },
 
