@@ -76,6 +76,29 @@ var togglePrintView = function (switchOn) {
     window.onafterprint = afterPrint;
 }());
 
+
+// Global keyboard shortcut handler for this template
+// In Meteor global key events can only be bound to the template on <INPUT> elements
+// If we want to have these key events really global, we have to register them with
+// the document. For details see SO:
+// http://stackoverflow.com/questions/27972873/meteor-keydown-keyup-events-outside-input
+let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
+    if (switchOn) {
+        $(document).keypress( function(evt) {
+            if ($('.modal.in').length > 0) {    // any modal dialog open?
+                return;
+            }
+            // Listen for "Ctrl+Shift+T" for "Add Topic"
+            if (evt.ctrlKey && evt.shiftKey && evt.key === 'T') {
+                $('#dlgAddTopic').modal('show');
+                evt.preventDefault();
+            }
+        });
+    } else {
+        $(document).off('keypress');
+    }
+};
+
 Template.minutesedit.onCreated(function () {
     this.minutesReady = new ReactiveVar();
 
@@ -87,6 +110,7 @@ Template.minutesedit.onCreated(function () {
     });
 
     Session.set('minutesedit.checkParent', false);
+    handleTemplatesGlobalKeyboardShortcuts(true);
 });
 
 Template.minutesedit.onDestroyed(function() {
@@ -96,6 +120,7 @@ Template.minutesedit.onDestroyed(function() {
     $(window).off("scroll");    // Prohibit accumulating multiple scroll handlers on window
     $(document).unbindArrive('#id_minutesdatePicker');
     $(document).unbindArrive('#topicPanel');
+    handleTemplatesGlobalKeyboardShortcuts(false);
 });
 
 var isMinuteFinalized = function () {
@@ -316,6 +341,7 @@ Template.minutesedit.events({
         const user = new User();
         user.storeSetting(userSettings.showQuickHelp.meeting, false);
     },
+
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin) {
