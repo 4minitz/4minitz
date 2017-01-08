@@ -49,6 +49,8 @@ let addNewDetails = async (tmpl) => {
     aItem.addDetails();
     await  aItem.save();
     let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
+    tmpl.$('.detailRow').find('.detailActions').last().show();
+
     inputEl.parent().css('margin', '0 0 25px 0');
     inputEl.show();
     inputEl.focus();
@@ -228,6 +230,7 @@ Template.topicInfoItem.events({
     },
 
     async 'click .addDetail'(evt, tmpl) {
+        evt.preventDefault();
         addNewDetails(tmpl);
     },
 
