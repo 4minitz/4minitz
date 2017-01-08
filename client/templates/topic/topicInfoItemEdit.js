@@ -32,6 +32,7 @@ Template.topicInfoItemEdit.onRendered(function () {
     moment.locale('en', {
         week: { dow: 1 } // Monday is the first day of the week
     });
+    // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
     this.$('#id_item_duedatePicker').datetimepicker({
         format: "YYYY-MM-DD",
         calendarWeeks: true,

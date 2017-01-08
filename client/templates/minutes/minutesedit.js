@@ -208,6 +208,7 @@ Template.minutesedit.helpers({
             });
 
             let datePickerNode = templateInstance.$('#id_minutesdatePicker');
+            // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
             datePickerNode.datetimepicker({
                 format: "YYYY-MM-DD",
                 calendarWeeks: true,
