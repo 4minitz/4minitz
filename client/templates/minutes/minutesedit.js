@@ -87,11 +87,6 @@ Template.minutesedit.onCreated(function () {
     });
 
     Session.set('minutesedit.checkParent', false);
-
-    // Collapse the participants list on scroll
-    $(window).scroll(function(){
-        Session.set("participants.expand", false);
-    });
 });
 
 Template.minutesedit.onDestroyed(function() {

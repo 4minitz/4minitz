@@ -13,7 +13,7 @@
                 </a>
             {{/if}}
             <h4 class="panel-title">
-                <div class="checkbox">
+                <div class="checkbox" style="font-size: 110%;">
                     <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
                         {{#if isActionItem}}
                             <input type="checkbox" class="checkbox btnToggleAIState" id="btnToggleAIState_{{infoItem._id}}" {{checkedState}} {{disabledState}}>
@@ -21,7 +21,6 @@
                             <span class="glyphicon glyphicon-info-sign" style="cursor: auto"></span>
                         {{/if}}
                     </label>
-
 
                     {{#if isActionItem}}
                         <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
@@ -75,7 +74,7 @@
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body actionItemDetails">
                 {{#each detailsArray}}
-                    <p class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
+                    <div class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                         <div>
                             <label for="detailInput_{{../currentCollapseId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
                             <span id="detailActions_{{../currentCollapseId}}_{{@index}}"
@@ -90,17 +89,20 @@
 
                         </div>
                         <div style="padding-left: 10px;" class="detailText" data-id="{{../currentCollapseId}}_{{@index}}">
-                            <span id="detailText_{{../currentCollapseId}}_{{@index}}" data-id="{{../currentCollapseId}}_{{@index}}" data-text="{{this.text}}">
+                            <span id="detailText_{{../currentCollapseId}}_{{@index}}"
+                                  style="font-size: 120%;"
+                                  data-id="{{../currentCollapseId}}_{{@index}}"
+                                  data-text="{{this.text}}">
                                 {{#markdown}}{{this.text}}{{/markdown}}
                             </span>
 
                             <textarea id="detailInput_{{../currentCollapseId}}_{{@index}}"
                                       rows="1" data-id="{{../currentCollapseId}}_{{@index}}"
                                       class="form-control detailInput"
-                                      style="display: none; font-size: 14px;"
+                                      style="display: none; font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
                                       placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
                         </div>
-                    </p>
+                    </div>
                 {{/each}}
                 {{#if isEditable}}
                 <a href="#" class="addDetail hidden-print">Add details</a>

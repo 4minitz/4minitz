@@ -41,7 +41,7 @@
             {{else}}
                 <!--UPLOAD... button-->
                 {{#if showUploadButton}}
-                    <label id="lblUpload" class="btn btn-default btn-file">
+                    <label id="lblUpload" class="btn btn-default btn-file hidden-print">
                         <span class="glyphicon glyphicon-upload" aria-label="Start Upload"></span>
                         Upload...
                         <input type="file" id="btnUploadAttachment" style="display: none;" readonly="true">
@@ -52,10 +52,10 @@
             <ol>
                 <!-- Strange! Without binding the context via .each only {{name}} works, but not {{link}} -->
                 {{#each attachments.each}}
-                        <li>
+                        <li style="font-size: 130%;">
                             <!--Delete this Atachment-->
                             {{#if showAttachmentRemoveButton}}
-                                <button id="btnDelAttachment" type="button" class="btn btn-xs btn-danger">×</button>
+                                <button id="btnDelAttachment" type="button" class="btn btn-xs btn-danger hidden-print">×</button>
                             {{/if}}
                             <!--Download Attachment-->
                             <a href="{{link}}?download=true"
