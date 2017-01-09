@@ -90,8 +90,20 @@ let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
             if ($('.modal.in').length > 0) {    // any modal dialog open?
                 return;
             }
-            // Listen for "Ctrl+Shift+T" for "Add Topic"
-            if (evt.ctrlKey && evt.shiftKey && evt.key === 'T') {
+            console.log(evt);
+            // check if focus is in input-text or input-textarea
+            // let el = document.activeElement;
+            // if (el && (el.tagName.toLowerCase() == 'input' && el.type == 'text' ||
+            //     el.tagName.toLowerCase() == 'textarea')) {
+            //     return;
+            // }
+
+            // Listen for "Ctrl+Alt+T" for "Add Topic"
+            // accesskey attribute is not an option, as it needs browser specific modifieres
+            // (see www.w3schools.com/tags/att_global_accesskey.asp) and
+            // accessKeyLabel is not implemented in all browsers
+            if (evt.ctrlKey && evt.altKey && !evt.shiftKey &&
+                (evt.which === 20 || evt.originalEvent.code === 'KeyT')) {
                 $('#dlgAddTopic').modal('show');
                 evt.preventDefault();
             }

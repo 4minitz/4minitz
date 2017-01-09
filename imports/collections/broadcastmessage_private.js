@@ -4,8 +4,10 @@ export let BroadcastMessageCollection = new Mongo.Collection("broadcastmessage")
 
 if (Meteor.isServer) {
     Meteor.publish('broadcastmessage', function () {
-        // publish only messages, that the current user has NOT yet dismissed
-        return BroadcastMessageCollection.find({ dismissForUserIDs: { $nin: [this.userId] } });
+        if(this.userId) {
+            // publish only messages, that the current user has NOT yet dismissed
+            return BroadcastMessageCollection.find({dismissForUserIDs: {$nin: [this.userId]}});
+        }
     });
 }
 
