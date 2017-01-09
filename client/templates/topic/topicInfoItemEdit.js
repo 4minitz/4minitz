@@ -35,7 +35,7 @@ Template.topicInfoItemEdit.onRendered(function () {
     // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
     this.$('#id_item_duedatePicker').datetimepicker({
         format: "YYYY-MM-DD",
-        calendarWeeks: true,
+        // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on some systems...
         showTodayButton: true
     });
 });
