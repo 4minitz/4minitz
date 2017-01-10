@@ -136,6 +136,13 @@ Template.topicInfoItem.helpers({
             }
         }
         return "";
+    },
+
+    classForEdit() {
+        return this.isEditable ? "btnEditInfoItem" : "";
+    },
+    cursorForEdit() {
+        return this.isEditable ? "pointer" : "";
     }
 });
 
@@ -191,9 +198,13 @@ Template.topicInfoItem.events({
         if (!this.minutesID) {
             return;
         }
+        if (getSelection().toString()) {    // don't fire while selection is ongoing
+            return;
+        }
 
         Session.set("topicInfoItemEditTopicId", this.parentTopicId);
         Session.set("topicInfoItemEditInfoItemId", this.infoItem._id);
+        $("#dlgAddInfoItem").modal("show");
     },
 
 
@@ -207,6 +218,9 @@ Template.topicInfoItem.events({
         evt.preventDefault();
 
         if (!tmpl.data.isEditable) {
+            return;
+        }
+        if (getSelection().toString()) {    // don't fire while selection is ongoing
             return;
         }
 

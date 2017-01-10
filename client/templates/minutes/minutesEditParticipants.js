@@ -30,7 +30,18 @@ Template.minutesEditParticipants.onCreated(function() {
 
 Template.minutesEditParticipants.helpers({
     userNameForId (userId) {
-        return Meteor.users.findOne(userId).username;
+        let usr = Meteor.users.findOne(userId);
+        if (usr) {
+            let showName = usr.username;
+            // If we have a long name for the user: prepend it!
+            if (usr.profile && usr.profile.name && usr.profile.name !== "") {
+                showName = usr.profile.name + " ("+showName+")";
+            }
+            return showName;
+
+        } else {
+            return "Unknown User ("+userId+")";
+        }
     },
 
     isModeratorOfParentSeries (userId) {
