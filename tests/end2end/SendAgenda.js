@@ -17,7 +17,6 @@ describe('Send agenda', function () {
         E2EMails.resetSentMailsDb();
 
         E2EApp.gotoStartPage();
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;

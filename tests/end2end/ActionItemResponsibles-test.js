@@ -45,7 +45,6 @@ describe('ActionItems Responsibles', function () {
 
     beforeEach("make sure test user is logged in, create series and add minutes", function () {
         E2EApp.gotoStartPage();
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingName = getNewMeetingName();
