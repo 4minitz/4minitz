@@ -6,8 +6,9 @@
 * Specify moderators, invited and informed users
 * Create an agenda with multiple topics
 * Attend a meeting via web with reactive live updates
-* 1-button sending of minutes and action items by email 
+* 1-button sending of agenda, minutes and action items by email 
 * Use labels to tag items for later retrieval
+* Upload binary attachments to minutes (e.g., presentations, photos)
 * Track open action items and unfinished topics across meetings
 * Full privacy: Host your own server - it's easy!
 
