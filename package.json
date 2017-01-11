@@ -1,6 +1,6 @@
 {
   "name": "4Minitz",
-  "version": "0.8.x_dev",
+  "version": "v0.8.0",
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
   "directories": {
