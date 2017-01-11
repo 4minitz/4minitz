@@ -86,11 +86,11 @@ var togglePrintView = function (switchOn) {
 // http://stackoverflow.com/questions/27972873/meteor-keydown-keyup-events-outside-input
 let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
     if (switchOn) {
-        $(document).keypress( function(evt) {
+        $(document).keydown( function(evt) {
             if ($('.modal.in').length > 0) {    // any modal dialog open?
                 return;
             }
-            console.log(evt);
+            // console.log("keydown", evt);
             // check if focus is in input-text or input-textarea
             // let el = document.activeElement;
             // if (el && (el.tagName.toLowerCase() == 'input' && el.type == 'text' ||
@@ -103,13 +103,13 @@ let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
             // (see www.w3schools.com/tags/att_global_accesskey.asp) and
             // accessKeyLabel is not implemented in all browsers
             if (evt.ctrlKey && evt.altKey && !evt.shiftKey &&
-                (evt.which === 20 || evt.originalEvent.code === 'KeyT')) {
+                evt.keyCode === 84) {
                 $('#dlgAddTopic').modal('show');
                 evt.preventDefault();
             }
         });
     } else {
-        $(document).off('keypress');
+        $(document).off('keydown');
     }
 };
 
