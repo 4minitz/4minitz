@@ -1,0 +1,78 @@
+import { E2EGlobal } from './helpers/E2EGlobal'
+import { E2EApp } from './helpers/E2EApp'
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
+import { E2EMinutes } from './helpers/E2EMinutes'
+import { E2ETopics } from './helpers/E2ETopics'
+
+require('./../../lib/helpers');
+
+describe('MeetingSeries Items list', function () {
+    const aProjectName = "MeetingSeries Topic List";
+    let aMeetingCounter = 0;
+    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingName;
+
+    beforeEach("goto start page and make sure test user is logged in", function () {
+        E2EApp.gotoStartPage();
+        expect(E2EApp.isLoggedIn()).to.be.true;
+
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+    });
+
+    before("reload page", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.launchApp();
+        }
+    });
+
+    after("clear database", function () {
+        if (E2EGlobal.browserIsPhantomJS()) {
+            E2EApp.resetMyApp(true);
+        }
+    });
+
+    it("displays all info- and action-items of all topics", function () {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
+
+        E2ETopics.addTopicToMinutes('some other topic');
+        E2ETopics.addInfoItemToTopic({subject: 'some information of another topic'}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'some action item of another topic', itemType: "actionItem"}, 1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2EMinutes.gotoParentMeetingSeries();
+
+        E2EMeetingSeries.gotoTabItems();
+
+        expect(E2ETopics.getAllItemsFromItemList().length, "List should have 4 items").to.equal(4);
+
+        expect(E2ETopics.getNthItemFromItemList(0).value, "First item should have correct subject").to.have.string("some action item of another topic");
+        expect(E2ETopics.getNthItemFromItemList(1).value, "First item should have correct subject").to.have.string("some information of another topic");
+        expect(E2ETopics.getNthItemFromItemList(2).value, "First item should have correct subject").to.have.string("some action item");
+        expect(E2ETopics.getNthItemFromItemList(3).value, "First item should have correct subject").to.have.string("some information");
+    });
+
+    it('can expand an info item to display its details on the item list', function () {
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
+        E2ETopics.addDetailsToActionItem(1, 1, "Amazing details for this information item");
+
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2EMinutes.gotoParentMeetingSeries();
+
+        E2EMeetingSeries.gotoTabItems();
+
+        E2ETopics.expandDetailsForNthInfoItem(1);
+
+        expect(E2ETopics.getNthItemFromItemList(0).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\nAmazing details for this information item');
+    });
+
+});

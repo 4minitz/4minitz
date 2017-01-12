@@ -1,9 +1,15 @@
 import { Meteor } from 'meteor/meteor';
+let fs = undefined;
+if (Meteor.isServer) {
+    fs = require('fs-extra');
+}
+
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
-import { MeetingSeriesCollection } from './meetingseries_private'
-import { MinutesCollection } from './minutes_private'
+import { MeetingSeriesCollection } from './meetingseries_private';
+import { MinutesCollection } from './minutes_private';
+import { AttachmentsCollection, calculateAndCreateStoragePath} from './attachments_private';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { GlobalSettings } from './../GlobalSettings';
 
@@ -88,19 +94,33 @@ Meteor.methods({
         }
     },
 
-    'workflow.removeMinute'(id) {
-        check(id, String);
-        if (id == undefined || id == "") {
+    'workflow.removeMinute'(minutes_id) {
+        check(minutes_id, String);
+        if (minutes_id == undefined || minutes_id == "") {
             throw new Meteor.Error('illegal-arguments', 'Minutes id required');
         }
-        let aMin = new Minutes(id);
+        console.log('workflow.removeMinute: '+minutes_id);
+        let aMin = new Minutes(minutes_id);
         let meetingSeriesId = aMin.parentMeetingSeriesID();
         checkUserAvailableAndIsModeratorOf(meetingSeriesId);
 
-        let affectedDocs = MinutesCollection.remove({_id: id, isFinalized: false});
+        let affectedDocs = MinutesCollection.remove({_id: minutes_id, isFinalized: false});
         if (affectedDocs > 0) {
             // remove the reference in the meeting series minutes array
-            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': id}});
+            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutes_id}});
+
+            // remove all uploaded attachments for meeting series, if any exist
+            if (Meteor.isServer && AttachmentsCollection.find({"meta.meetingminutes_id": minutes_id}).count() > 0) {
+                AttachmentsCollection.remove({"meta.meetingminutes_id": minutes_id},
+                    function (error) {
+                        if (error) {
+                            console.error("File wasn't removed, error: " + error.reason)
+                        } else {
+                            console.log("OK, removed linked attachments.");
+                        }
+                    }
+                );
+            }
         }
     },
 
@@ -110,6 +130,11 @@ Meteor.methods({
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
 
         try {
+            // check if minute is already finalized
+            if (aMin.isFinalized) {
+                throw new Meteor.Error('runtime-error', 'The minute is already finalized');
+            }
+
             // first we copy the topics of the finalize-minute to the parent series
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.server_finalizeLastMinute();
@@ -211,21 +236,42 @@ Meteor.methods({
         }
     },
 
-    'workflow.removeMeetingSeries'(id) {
-        check(id, String);
-        console.log("meetingseries.remove:"+id);
-        if (id == undefined || id == "")
+    'workflow.removeMeetingSeries'(meetingseries_id) {
+        console.log("workflow.removeMeetingSeries: "+meetingseries_id);
+        check(meetingseries_id, String);
+        if (meetingseries_id == undefined || meetingseries_id == "")
             return;
 
-        checkUserAvailableAndIsModeratorOf(id);
+        checkUserAvailableAndIsModeratorOf(meetingseries_id);
 
         // first we remove all containing minutes to make sure we don't get orphans
         // deleting all minutes of one series is allowed, even if they are finalized.
-        MinutesCollection.remove({meetingSeries_id: id});
+        MinutesCollection.remove({meetingSeries_id: meetingseries_id});
 
         // then we remove the meeting series document itself
-        MeetingSeriesCollection.remove(id);
+        MeetingSeriesCollection.remove(meetingseries_id);
 
+        // remove all uploaded attachments for meeting series, if any exist
+        if (Meteor.isServer &&
+            AttachmentsCollection.find({"meta.parentseries_id": meetingseries_id}).count() > 0) {
+            AttachmentsCollection.remove({"meta.parentseries_id": meetingseries_id},
+                function (error) {
+                    if (error) {
+                        console.error("File wasn't removed, error: " + error.reason)
+                    } else {
+                        console.log("OK, removed linked attachments.");
+                    }
+                }
+            );
+            // remove the meeting series attachment dir
+            let storagePath = calculateAndCreateStoragePath();
+            storagePath += "/"+meetingseries_id;
+            fs.remove(storagePath, function (err) {
+                if (err) {
+                    console.error("Could not remove attachment dir:"+storagePath);
+                }
+            })
+        }
     },
 
     'workflow.leaveMeetingSeries'(meetingSeries_id) {
@@ -239,7 +285,7 @@ Meteor.methods({
 
         // 1st.: remove user from roles
         let roles = new UserRoles();
-        roles.removeRoles(meetingSeries_id);
+        roles.removeAllRolesForMeetingSeries(meetingSeries_id);
 
         // 2nd.: adapt "visibleFor" of meeting series
         let ms = new MeetingSeries(meetingSeries_id);

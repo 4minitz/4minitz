@@ -10,26 +10,34 @@
       {{/each}}
     </ul>
 
-    <div class="help panel panel-default">
-        <div class="panel-heading">Quick Help</div>
-        <div class="panel-body">
-            <p>With 4minitz you can create minutes for meetings. Fast!</p>
-            <p>First create a meeting series, then create meeting minutes on multiple dates for this special meeting type</p>
-            <a href="#" class="hidehelp">OK, Hide</a>
+    {{#if showQuickHelp}}
+        <div class="help panel panel-default">
+            <div class="panel-heading">Quick Help</div>
+            <div class="panel-body">
+            <p>With 4Minitz you can create minutes for meetings.</p>
+            <p>First create a new meeting series and invite some other users.<br>
+                Then create meeting minutes on multiple dates for your meeting series.</p>
+                <a href="#" class="hidehelp">OK, hide</a>
+            </div>
         </div>
-    </div>
+    {{/if}}
 </template>
 
 
 <template name="meetingSeriesOverview">
         <li class="list-group-item meeting-series-item" style="padding-bottom: 10px;">
-            <a href="/meetingseries/{{this._id}}">{{project}}: {{name}}</a>
+            <a href="{{pathFor 'meetingseries' _id=this._id}}">{{project}}: {{name}}</a>
             {{#if isModeratorOfSeries}}
                 <span class="glyphicon glyphicon-user"></span>
             {{/if}}
             {{#with lastMin = lastMinutes}}
                 {{#if lastMin}}
-                  (<span class="hidden-xs">last minutes of </span><a href="/minutesedit/{{lastMin._id}}">{{lastMin.date}}</a>)
+                    (<span class="hidden-xs">last minutes of </span><a href="{{pathFor 'minutesedit' _id=lastMin._id}}">{{lastMin.date}}</a>
+                    {{#if lastMin.isFinalized}}
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalized"></span>)
+                    {{else}}
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" aria-label="Not finalized"></span>)
+                    {{/if}}
                 {{/if}}
             {{/with}}
             <span class="badge">{{countMinutes}}</span>

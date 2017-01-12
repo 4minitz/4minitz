@@ -3,6 +3,8 @@ import { E2EGlobal } from './E2EGlobal'
 
 
 export class E2EApp {
+    static titlePrefix = "4Minitz!";
+
     // Calls the server method to clean database and create fresh test users
     static resetMyApp (skipUsers) {
         try {
@@ -28,6 +30,7 @@ export class E2EApp {
             E2EGlobal.waitSomeTime();
         }
         E2EApp._currentlyLoggedInUser = "";
+        expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
     };
 
     static loginLdapUserWithCredentials(username, password, autoLogout) {
@@ -103,7 +106,7 @@ export class E2EApp {
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
-        if (browser.getTitle() != "4minitz!") {
+        if (browser.getTitle() != E2EApp.titlePrefix) {
             throw new Error("App not loaded. Unexpected title "+browser.getTitle()+". Please run app with 'meteor npm run test:end2end:server'")
         }
     };
@@ -125,18 +128,33 @@ export class E2EApp {
         browser.click('a.navbar-brand');
         E2EGlobal.waitSomeTime();
         // check post-condition
+        if (! E2EApp.isOnStartPage()) {
+            E2EGlobal.saveScreenshot("gotoStartPage1");
+            browser.click('a.navbar-brand');
+            E2EGlobal.waitSomeTime(1500);
+        }
+        if (! E2EApp.isOnStartPage()) {
+            E2EGlobal.saveScreenshot("gotoStartPage2");
+        }
+        expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
         expect (E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
     };
 
-    static confirmationDialogAnswer (pressOK) {
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
+    static confirmationDialogCheckMessage (containedText) {
+        E2EGlobal.waitSomeTime();
+        expect(browser.getText("div#confirmDialog"), "Check confirmation messagebox contains text")
+            .to.contain(containedText);
+    };
+
+    static confirmationDialogAnswer (pressOK, title) {
+        E2EGlobal.waitSomeTime(1250); // give dialog animation time
         browser.waitForVisible('#confirmationDialogOK', 1000);
         if (pressOK) {
             browser.click("#confirmationDialogOK");
         } else {
             browser.click("#confirmationDialogCancel");
         }
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.waitSomeTime(1250); // give dialog animation time
     };
 }
 

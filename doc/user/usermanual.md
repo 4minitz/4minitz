@@ -168,3 +168,90 @@ Afterwards your systems print dialog is opened.
 The latest finalized meeting minutes can be un-finalized to make corrections / changes to the already finalized minutes. Simply press the "Pen" button next to the finalize time stamp:
 
 Once the moderator creates new minutes on top of the finalized last minutes, it is not possible to un-finalized the last finalized minutes anymore.
+
+## Upload Binary Attachments
+It is possible to attach binary uploads to the current non-finalized
+meeting minutes. You need to have the moderator or the uploader role 
+for the current meeting series to do so. 
+
+![Binary Attachments](./figures/binary_attachments.png)
+
+
+To upload a file, expand the 'Attachments' section by
+clicking on the triangle. Then click the "UPLOAD" button to open
+ a file selection dialog. Select your local file and press "OK".
+
+Your server admin may have specified a maximum file size or denied /
+allowed file extensions. Your client will show an error, if the 
+current file is not allowed. If you are not happy with the settings,
+talk to your admin.
+
+**Did you know?** If you click the Upload button not only 
+on your desktop, but also on your *smartphone or tablet*. 
+This will present a dialog where you can take a photo with the devices
+camera that will be uploaded afterwards. Very handy for snapshots of
+white boards that where filled during meetings.
+
+![Upload with Android](./figures/attachments_upload_android.png)
+![Upload with iPhone](./figures/attachments_upload_iphone.png)
+
+
+During the attachment upload a progress bar will show how long 
+the upload will take. The progress bar has buttons to pause, 
+continue or cancel the upload.
+
+If you are the *moderator* of the meeting series, you may remove
+every attachment of an un-finalized meeting minutes by clicking
+the small red cross "X" in front of the attachment name.
+If you have the uploader role you may only remove your own uploaded
+attachments from non-finalized meeting minutes.
+
+Currently attachments will not be attached to the sent meeting
+minutes EMail. The recipient will have to open the meeting minutes
+in the webbrowser first, to open an attachment by clicking the name.
+
+### Roles and Rights for Attachments
+
+| Role          | May Upload     |  May Remove |   May Download   |
+| ------------- |:--------------:| :-------------:|:-------------:|
+| Moderator     | Yes            |       Yes      | Yes           |
+| Uploader      | Yes            | Only her own!  | Yes           |
+| Invited       | No             |        No      | Yes           |
+| Others        | No             |        No      | No ;-)        |
+
+
+## Search through topics, info items and action items
+
+Sometimes one want to dig out, when a certain decision was made
+ or who was responsible for a specific action item. In this case
+ you can head over to the meeting series overview and use the tabs
+ called "Topics" and "Items".
+ 
+![Meeting Series Tabs](./figures/meetingseries_tabs.png)
+  
+On these tabs you get a list of all topics or items that where ever part of finalized meeting minutes. Above the list you have a
+  powerful filter bar:
+  
+![Topic Filter](./figures/meetingseries_topic_filter.png)
+  
+In the filter bar you can enter any text that is searched in the topics / items. Here are some hints:
+  
+* Search is case in-sensitive by default. You can switch on the "Match Case" to make search case sensitive
+* Multiple search terms are combined with a logical "AND". So only documents are filtered that match all of your terms and attributes
+
+* The following attributes can be used in **All Filters**:
+  * `do:match-case` - perform a case sensitive search
+  * `@me` - find all topics, info items or action items that are assigned to me
+  * `@John` - find topics / items assigned to "John"
+  * `@John @Doe` - find topics / items assigned to "John Doe" 
+  * `\#Decision` - find topics / items with this label
+
+* The following attributes can be used in the **Topic Filter**:
+  * `is:open` - find open topics
+  * `is:closed` - find closed topics
+  
+* The following attributes can be used in the **Item Filter**:
+  * `is:action` - find only action items 
+  * `is:info` - find only info items
+  * `is:open` - find open action items
+  * `is:closed` -  find closed action items

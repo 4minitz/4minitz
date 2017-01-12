@@ -41,11 +41,16 @@ export class E2EMeetingSeries {
         browser.click('#btnAddInvite');
         E2EGlobal.waitSomeTime(500);  // double time for dialog + panel switch!
 
+        let meetingSeriesID = browser.getUrl();
+        meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
+        meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
+
         if (! keepOpenMSEditor && browser.isVisible("#btnMeetinSeriesEditCancel")) {
             browser.click('#btnMeetinSeriesEditCancel');
             E2EGlobal.waitSomeTime();
             E2EApp.gotoStartPage();
         }
+        return meetingSeriesID;
     };
 
 
@@ -100,6 +105,26 @@ export class E2EMeetingSeries {
 
     static gotoTabTopics() {
         let selector = '#tab_topics';
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return false;   // we have no meeting series at all!
+        }
+        browser.click(selector);
+    }
+
+    static gotoTabItems() {
+        let selector = '#tab_items';
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return false;   // we have no meeting series at all!
+        }
+        browser.click(selector);
+    }
+
+    static gotoTabItems() {
+        let selector = '#tab_items';
         try {
             browser.waitForExist(selector);
         } catch (e) {

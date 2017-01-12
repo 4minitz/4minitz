@@ -7,6 +7,29 @@
                 "false: will send separate finalize mails to all participants and keep their privacy"],
     "trustedIntranetInstallation": false,
 
+    "//2.0": "Switch on/off the possibility to register new users on the login form",
+    "forbidClientAccountCreation": false,
+
+
+    "//2.1 branding": ["Via branding you can configure the 'first impression' of your local installation. ",
+        "topLeftLogoHTML: default is text '4Minitz.com', but you may add HTML that can live inside a <a>...</a> tag",
+        "                 You also can embedd a clickable logo image like so: <img src='/mylogo.png'>",
+        "                 Then put the mylogo.png inside /public folder before building or",
+        "                 inside build/programs/web.browser/app after building.",
+        "                 HINT: If you run 4Minitz in a subfolder like https://www.company.com/4minitz",
+        "                 and you have set URL_ROOT accordingly then you have to put the the subfolder",
+        "                 in front of your image URL like so: <img src='/4minitz/mylogo.png'>",
+        "showGithubCorner: default is 'true', but you can switch off the top right github logo",
+        "showInfoOnLogin: Specify if you want to show product info bullets on the login screen. Default is 'true'",
+        "createDemoAccount: Specify if webapp shall create a demo account (user=demo, password=demo), if it not exists"
+    ],
+    "branding": {
+        "topLeftLogoHTML": "4Minitz.com",
+        "showGithubCorner": true,
+        "showInfoOnLogin": true,
+        "createDemoAccount": true
+    },
+
     "//3": "below option configures if and how to send E-Mails",
     "email": {
         "//3.1": "Switch on/off E-Mail sending",
@@ -47,7 +70,9 @@
         "mongodumpTargetDirectory": ""
     },
 
-    "//6": "LDAP Configuration",
+    "//6": ["LDAP Configuration",
+            "HINT: please also consider to set the global forbidClientAccountCreation: true if you are using LDAP!"
+        ],
     "ldap": {
         "enabled": false,
         "searchDn": "cn",
@@ -57,5 +82,23 @@
         "allowSelfSignedTLS": false,
         "whiteListedFields": [ "cn", "department", "employeeNumber", "mail" ],
         "autopublishFields": [ "cn" ]
+    },
+
+    "//7": ["Upload attachment configuration",
+            "enabled: true|false to switch on/off upload attachment feature",
+            "storagePath: relative path is relative to the app's private/assets folder.",
+            "             when testing in developer mode, meteor will erase dir on re-builds",
+            "             use absolute path for full control. Make sure meteor user has write access!",
+            "allowExtensions: regexp '.*' to allow all extensions or pipe separated list like 'png|jpe?g|gif|pdf|ppt'",
+            "denyExtensions: empty string or regexp pipe separated list like 'exe|bat|sh|scr|app'",
+            "maxFileSize: maximum allowed bytes per upload file"
+
+        ],
+    "attachments": {
+        "enabled": true,
+        "storagePath": "attachments",
+        "allowExtensions": ".*",
+        "denyExtensions":  "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
+        "maxFileSize": 10485760
     }
 }

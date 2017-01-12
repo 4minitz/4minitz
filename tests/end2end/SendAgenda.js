@@ -17,7 +17,6 @@ describe('Send agenda', function () {
         E2EMails.resetSentMailsDb();
 
         E2EApp.gotoStartPage();
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;
@@ -139,6 +138,21 @@ describe('Send agenda', function () {
 
         expect(recipients).to.have.length(2);
         expect(recipients).to.include.members([E2EGlobal.SETTINGS.e2eTestEmails[0], E2EGlobal.SETTINGS.e2eTestEmails[1]]);
+    });
+
+    it('ensures that the agenda will be sent to the *normal* participants even if there are additional participants ' +
+        'with no valid email addresses', function() {
+
+        let additionalUser = "Max Mustermann";
+        browser.setValue('#edtParticipantsAdditional', additionalUser);
+
+        browser.waitForVisible('#btn_sendAgenda');
+        browser.click('#btn_sendAgenda');
+
+        E2EGlobal.waitSomeTime();
+
+        let sentMails = E2EMails.getAllSentMails();
+        expect(sentMails, 'one mail should be sent').to.have.length(1);
     });
 
 });

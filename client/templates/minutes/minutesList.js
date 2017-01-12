@@ -1,21 +1,26 @@
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
+import { AttachmentsCollection } from "/imports/collections/attachments_private"
 
 Template.minutesList.helpers({
     buttonBackground: function () {
         return (this.isFinalized) ? "default" : "info";
     },
 
-    addMinutesPath: function () {
-        let ms = new MeetingSeries(this.meetingSeriesId);
-        return (ms.addNewMinutesAllowed()) ? "/minutesadd/" + this.meetingSeriesId : "";
+    meetingSeriesId: function () {
+        return this.meetingSeriesId;
     },
 
-    addMinutesNotAllowed: function () {
+    addMinutesDisabled: function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
-        return !ms.addNewMinutesAllowed();
+        if (ms.addNewMinutesAllowed()) {
+            return {};
+        } else {
+            return {disabled: true};
+        }
     },
 
     isDeleteAllowed: function () {
@@ -25,6 +30,10 @@ Template.minutesList.helpers({
     isModeratorOfParentSeries: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(this.meetingSeriesId);
+    },
+
+    hasAttachments() {
+        return !!AttachmentsCollection.findOne({"meta.meetingminutes_id": this._id});
     }
 });
 
@@ -37,7 +46,7 @@ Template.minutesList.events({
             () => {
                 console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
                 MeetingSeries.leave(ms);
-                Router.go("/");
+                FlowRouter.go("/");
             },
             "<p>Do you really want to leave the meeting series:<br>" +
             "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + ms.project + " / " + ms.name + "</b><br>" +

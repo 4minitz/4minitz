@@ -64,10 +64,6 @@ export class ActionItem extends InfoItem{
         return "";
     }
 
-    getSubject() {
-        return this._infoItemDoc.subject;
-    }
-
     hasResponsibles() {
         return (this._infoItemDoc.responsibles && this._infoItemDoc.responsibles.length);
     }

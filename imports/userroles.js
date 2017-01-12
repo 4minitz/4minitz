@@ -4,9 +4,10 @@
 // Needs "meteor add alanning:roles"
 
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import  './collections/userroles_private';
-import { MeetingSeries } from './meetingseries'
+import { MeetingSeries } from './meetingseries';
 
 
 export class UserRoles {
@@ -25,7 +26,7 @@ export class UserRoles {
         }
         
         if (! currentUser) {
-            Router.go("/");
+            FlowRouter.go("/");
             throw new Meteor.Error('Could not find user for userId:'+this._userId);
         }
 
@@ -77,8 +78,7 @@ export class UserRoles {
     visibleMeetingSeries() {
         let visibleMeetingsSeries = [];
         for (let aMeetingSeriesID in this._userRoles) {
-            if (this._userRoles[aMeetingSeriesID] == UserRoles.USERROLES.Moderator ||
-                this._userRoles[aMeetingSeriesID]  == UserRoles.USERROLES.Invited) {
+            if (this.hasViewRoleFor(aMeetingSeriesID)) {
                 visibleMeetingsSeries.push(aMeetingSeriesID);
             }
         }
@@ -86,24 +86,35 @@ export class UserRoles {
     }
     
     isModeratorOf(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Moderator;
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Moderator);
     }
 
     isInvitedTo(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Invited;
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Invited);
     }
 
+    isUploaderFor(aMeetingSeriesID) {
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Uploader);
+    }
+
+
     isInformedAbout(aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID] <= UserRoles.USERROLES.Informed;
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Informed);
     }
     
     hasViewRoleFor(aMeetingSeriesID) {
-        return (this.isInvitedTo(aMeetingSeriesID) || 
-                this.isModeratorOf(aMeetingSeriesID));
+        return (this.isInvitedTo(aMeetingSeriesID) /* or lower access role */ );
     }
 
     currentRoleFor (aMeetingSeriesID) {
-        return this._userRoles[aMeetingSeriesID];
+        if (! this._userRoles[aMeetingSeriesID] || ! this._userRoles[aMeetingSeriesID][0]) {
+            return undefined;
+        }
+        return this._userRoles[aMeetingSeriesID][0];
     }
 
     currentRoleTextFor (aMeetingSeriesID) {
@@ -114,13 +125,17 @@ export class UserRoles {
         return this._user;
     }
 
-    saveRoleForMeetingSeries (meetingSeriesId, newRole) {
-        Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, meetingSeriesId, newRole);
+    getUserID() {
+        return this._userId;
+    }
+
+    saveRoleForMeetingSeries (aMeetingSeriesID, newRole) {
+        Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, aMeetingSeriesID, newRole);
     }
 
     // remove all roles for the current user for the given meeting series
-    removeRoles(aMeetingSeriesID) {
-        Roles.removeUsersFromRoles(this._userId, UserRoles.allRolesNumerical(), aMeetingSeriesID);
+    removeAllRolesForMeetingSeries(aMeetingSeriesID) {
+        Meteor.call("userroles.removeAllRolesForMeetingSeries", this._userId, aMeetingSeriesID);
     }
 }
 
@@ -130,6 +145,7 @@ export class UserRoles {
 // So, prefix zeroes are important!
 UserRoles.USERROLES = {
     "Moderator":   "01"
+    , "Uploader":  "05"
     , "Invited":   "10"
     //, "Informed":  "20"   // TODO implement later
 };

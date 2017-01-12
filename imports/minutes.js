@@ -30,7 +30,6 @@ export class Minutes {
     }
 
     static findAllIn(MinutesIDArray, limit) {
-        console.log("findAllIn: >"+MinutesIDArray+"<");
         if (!MinutesIDArray || MinutesIDArray.length == 0) {
             return [];
         }
@@ -278,15 +277,17 @@ export class Minutes {
         // search for mail addresses in additional participants and add them to recipients
         if (this.participantsAdditional) {
             let addMails = this.participantsAdditional.match(global.emailAddressRegExpMatch);
-            addMails.forEach(additionalMail => {
-                recipientResult.push(
-                    {
-                        userId: "additionalRecipient",
-                        name: additionalMail,
-                        address: additionalMail
-                    }
-                )
-            });
+            if (addMails) { // addMails is null if there is no substring matching the email regular expression
+                addMails.forEach(additionalMail => {
+                    recipientResult.push(
+                        {
+                            userId: "additionalRecipient",
+                            name: additionalMail,
+                            address: additionalMail
+                        }
+                    )
+                });
+            }
         }
 
         return recipientResult;
@@ -393,6 +394,9 @@ export class Minutes {
      */
     getPresentParticipantNames(maxChars) {
         let names = "";
+
+        this.participants = this.participants || [];
+
         this.participants.forEach(part => {
             if (part.present) {
                 let name = Meteor.users.findOne(part.userId).username;

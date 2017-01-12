@@ -7,7 +7,6 @@ import { E2EMinutes } from './helpers/E2EMinutes'
 describe('Minutes', function () {
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
     });
 
@@ -130,6 +129,31 @@ describe('Minutes', function () {
         let dialogMsgElement = browser.element('#flashMessage').value.ELEMENT;
         let dialogMsgText = browser.elementIdText(dialogMsgElement).value;
         expect(dialogMsgText, 'error message should be displayed').to.have.string('Unfortunately the minute is not linked to its parent series correctly');
+    });
+
+    it('can persist global notes', function() {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name #6";
+        const aGlobalNote = "Amazing global note";
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        browser.setValue('input[id="editGlobalNotes"]', aGlobalNote);
+        browser.click('#btnParticipantsExpand');
+
+        let result = browser.getValue('input[id="editGlobalNotes"]');
+        expect(result).to.equal(aGlobalNote);
+
+        browser.refresh();
+        E2EGlobal.waitSomeTime(2500); // phantom.js needs some time here...
+
+
+        result = browser.getValue('input[id="editGlobalNotes"]');
+        expect(result).to.equal(aGlobalNote);
+
+
     });
 
 });

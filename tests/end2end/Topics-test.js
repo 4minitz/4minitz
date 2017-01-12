@@ -13,7 +13,6 @@ describe('Topics', function () {
 
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;
@@ -341,14 +340,14 @@ describe('Topics', function () {
 
         E2EMinutes.finalizeCurrentMinutes();
 
-        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring').to.be.true;
-        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
+        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring after finalizing the minute').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring after finalizing the minute').to.be.false;
 
         E2EMinutes.gotoParentMeetingSeries();
         E2EMeetingSeries.gotoTabTopics();
 
-        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring').to.be.true;
-        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring').to.be.false;
+        expect(E2ETopics.isTopicRecurring(1), 'recurring topic should be displayed as recurring on topics tab').to.be.true;
+        expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring on topics tab').to.be.false;
     });
 
     it('ensures that it is not possible to change the recurring flag if topic is presented in read-only-mode', function () {
@@ -410,6 +409,37 @@ describe('Topics', function () {
         E2EMeetingSeries.gotoTabTopics();
 
         expect(E2ETopics.isTopicRecurring(1)).to.be.false;
+    });
+
+    it('should not be possible to insert a new topics to a meeting minutes which has the same id as an existing one ' +
+        '- even not by using the meteor method directly', function() {
+        const url = browser.getUrl();
+        let parts = url.split('/');
+        let minutesId = parts[parts.length - 1];
+
+        let topic = {
+            _id: 'nCNm3FCx4hRmp2SDQ',
+            subject: 'duplicate me',
+            isOpen:false,
+            isRecurring:false,
+            isNew:true,
+            infoItems: [],
+            labels: []
+        };
+        let aUser = E2EGlobal.SETTINGS.e2eTestUsers[0];
+        let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
+        server.call('login', {user: {username: aUser}, password: aPassword});
+
+        server.call('minutes.addTopic', minutesId, topic);
+        try {
+            server.call('minutes.addTopic', minutesId, topic);
+        } catch(e) {
+            // this is expected
+        }
+
+        E2EGlobal.waitSomeTime();
+
+        expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
 });

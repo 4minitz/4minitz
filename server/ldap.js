@@ -66,14 +66,10 @@ LDAP.addFields = function (/*person - the ldap entry for that user*/) {
     };
 };
 
-LDAP.log = function (message) {
-    // The ldap plugin prints the user password in clear text in the log
-    // The log leaking the password always starts with 'Creating user'
-    // so we filter it here
-    if (message.indexOf('Creating user') === 0) {
-        return;
-    }
-
-    // Let all the other log messages go through
-    console.log(message);
+LDAP.logging = false;
+LDAP.warn = function(message) {
+    console.warn(message);
+};
+LDAP.error = function(message) {
+    console.error(message);
 };

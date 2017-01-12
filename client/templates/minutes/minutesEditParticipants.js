@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/kadira:flow-router';
+
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 
@@ -16,7 +18,7 @@ let isModeratorOfParentSeries = function (userId) {
 
 
 Template.minutesEditParticipants.onCreated(function() {
-    _minutesID = this.data._id;
+    _minutesID = FlowRouter.getParam('_id');
     console.log("Template minutesEditParticipants created with minutesID "+_minutesID);
 
     // Calculate initial expanded/collapsed state
@@ -28,7 +30,18 @@ Template.minutesEditParticipants.onCreated(function() {
 
 Template.minutesEditParticipants.helpers({
     userNameForId (userId) {
-        return Meteor.users.findOne(userId).username;
+        let usr = Meteor.users.findOne(userId);
+        if (usr) {
+            let showName = usr.username;
+            // If we have a long name for the user: prepend it!
+            if (usr.profile && usr.profile.name && usr.profile.name !== "") {
+                showName = usr.profile.name + " ("+showName+")";
+            }
+            return showName;
+
+        } else {
+            return "Unknown User ("+userId+")";
+        }
     },
 
     isModeratorOfParentSeries (userId) {
@@ -91,7 +104,7 @@ Template.minutesEditParticipants.events({
         }
     },
 
-    "click #btnParticipantsCollapse" () {
+    "click #btnParticipantsExpand" () {
         Session.set("participants.expand", !Session.get("participants.expand"));
     }
 });

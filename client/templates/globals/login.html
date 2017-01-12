@@ -1,12 +1,35 @@
 <template name="login">
-    <div class="col-md-4">
-        {{#if ldapEnabled}}
-            <ul class="nav nav-tabs">
-                <li id="tab_ldap" data-template="loginLdap" role="presentation" class="active"><a href="#">LDAP</a></li>
-                <li id="tab_standard" data-template="atForm" role="presentation" class=""><a href="#">Standard</a></li>
-            </ul>
-        {{/if}}
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            {{#if ldapEnabled}}
+                <ul class="nav nav-tabs">
+                    <li id="tab_ldap" data-template="loginLdap" role="presentation" class="active"><a href="#">LDAP</a></li>
+                    <li id="tab_standard" data-template="atForm" role="presentation" class=""><a href="#">Standard</a></li>
+                </ul>
+            {{/if}}
 
-        {{> Template.dynamic template=tab}}
+            {{> Template.dynamic template=tab}}
+        </div>
+        {{#if showDemoUserHint}}
+            <div class="col-md-3">
+                <div class="hidden-sm" style="min-height: 150px;"></div>
+                <div class="panel panel-body" style="background: #FFFACD;">
+                    Hint: Demo Mode Active<br>
+                    You may log in with username <b>demo</b> and password <b>demo</b>.
+                    Or you may register your own account by clicking on the "Register" link below.
+                </div>
+
+            </div>
+        {{/if}}
+    </div>
+
+    {{#if showInfoOnLogin}}
+        {{> loginInfo }}
+    {{/if}}
+
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+            Coded with ❤ by the <a href="https://www.4minitz.com" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none">4Minitz.com</a> WebApp Team
+        </div>
     </div>
 </template>

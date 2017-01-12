@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor'
+let packagejson = require ("/package.json");
 
 GIT_VERSION_INFO = {
     branch: "???",
-    tag: "???",
+    tag: packagejson.version ? packagejson.version : "???",
     commitlong: "???",
     commitshort: "???"
 };

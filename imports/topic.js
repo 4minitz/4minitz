@@ -186,8 +186,13 @@ export class Topic {
         }
 
         if (saveChanges) {
-            return this.save();
+            try {
+                await this.save();
+            } catch(e) {
+                throw e;
+            }
         }
+        return topicItemDoc._id;
     }
 
 

@@ -28,7 +28,7 @@ export var userlistClean = function (allUsers,substractUsers) {
             longName2shortName[aUser["username"]+longname] = aUser["username"];
         }
     }
-    console.log(longName2shortName);
+
     return resultUsers;
 };
 

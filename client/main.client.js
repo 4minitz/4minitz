@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private'
 
 if (Meteor.settings.isEnd2EndTest) {
     require('/client/debug/findEventHandlers');
@@ -6,7 +7,7 @@ if (Meteor.settings.isEnd2EndTest) {
 
 // initialize
 //  * twitter bootstrap
-//  * bootstrape-datetimepicker
+//  * bootstrap-datetimepicker
 //  * bootstrap-material-design
 
 // with arrive we need exactly one $.material.init()
@@ -21,6 +22,7 @@ import 'bootstrap/js/transition';
 import 'bootstrap/js/collapse'
 
 // bootstrap datetime picker
+import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css';
 import 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min';
 
 // material design
@@ -62,8 +64,23 @@ $(document).ready(() => {
 Meteor.startup(() => {
     Meteor.call("gitVersionInfoUpdate");
 
+    bootstrapAttachementsLiveQuery();
+
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({
         sanitize: true
+    });
+
+    Template.registerHelper("pathForImproved", function(path) {
+        // FlowRouters pathFor helper is a little bit inconsistent.
+        // for ROOT_URL=http://localhost:3000           it processes "/" => "/"
+        // for ROOT_URL=http://localhost:3100/4minitz   it processes "/" => "/4minitz"
+        // so sometimes we have a trailing "/" sometimes not.
+        // Unfortunately serving an image like so "<img src="//mylogo.png"> does not work!
+        let pathWithTrailingSlash = Blaze._globalHelpers.pathFor(path);
+        if (! pathWithTrailingSlash.endsWith("/")) {
+            pathWithTrailingSlash = pathWithTrailingSlash + "/";
+        }
+        return pathWithTrailingSlash;
     });
 });
