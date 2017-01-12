@@ -98,7 +98,7 @@ let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
             //     return;
             // }
 
-            // Listen for "Ctrl+Alt+T" for "Add Topic"
+            // Listen for "Ctrl+Alt+T" for "Add Topic" (Alt+T in IE11)
             // accesskey attribute is not an option, as it needs browser specific modifieres
             // (see www.w3schools.com/tags/att_global_accesskey.asp) and
             // accessKeyLabel is not implemented in all browsers
