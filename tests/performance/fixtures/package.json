@@ -1,0 +1,8 @@
+{
+  "name": "performance-fixtures",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "node ../../../node_modules/mocha/bin/mocha  --recursive ./tests/ --compilers js:babel-register --require ./babel",
+    "start": ""
+  }
+}
