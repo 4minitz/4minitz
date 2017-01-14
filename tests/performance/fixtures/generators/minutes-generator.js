@@ -49,11 +49,12 @@ export class MinutesGenerator {
             isFinalized: !isLastOne,
             globalNote: '',
             participantsAdditional: '',
-            finalizedVersion: isLastOne ? 1 : 0,
-            finalizedHistory: []
+            finalizedVersion: isLastOne ? 0 : 1,
+            finalizedHistory: [],
+            agenda: ''
         };
 
-        if (isLastOne) {
+        if (!isLastOne) {
             min.finalizedAt = this.nextMinutesDate;
             min.finalizedBy = this.user.username;
             let dateTime = this.constructor._formatDateTime(this.nextMinutesDate);
