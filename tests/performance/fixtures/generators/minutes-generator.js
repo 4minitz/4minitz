@@ -1,6 +1,6 @@
 import { Random } from '../lib/random';
 import moment from 'moment/moment';
-require('../../../../lib/helpers');
+import { DateHelper } from '../lib/date-helper';
 
 export class MinutesGenerator {
     /**
@@ -8,10 +8,15 @@ export class MinutesGenerator {
      * @param config                        - Configuration
      * @param config.minutesCount {number}  - amount of minutes which should be generated
      * @param parentSeriesId
-     * @param user
+     * @param user                          - owner of the minutes
+     * @param user._id
+     * @param user.username
      * @param nextMinutesDate
      */
-    constructor(config, parentSeriesId, user, nextMinutesDate = new Date()) {
+    constructor(config, parentSeriesId, user, nextMinutesDate = null) {
+        if (null === nextMinutesDate) {
+            nextMinutesDate = new Date();
+        }
         this.config = config;
         this.parentSeriesId = parentSeriesId;
         this.user = user;
@@ -62,11 +67,11 @@ export class MinutesGenerator {
     }
 
     static _formatDate(date) {
-        return formatDateISO8601(date);
+        return DateHelper.formatDateISO8601(date);
     }
 
     static _formatDateTime(date) {
-        return formatDateISO8601Time(date);
+        return DateHelper.formatDateISO8601Time(date);
     }
 
 

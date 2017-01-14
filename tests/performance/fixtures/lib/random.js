@@ -1,4 +1,5 @@
-let randomstring = require('randomstring');
+let randomstring = require('randomstring'),
+    faker = require('faker');
 
 export class Random {
 
@@ -12,5 +13,12 @@ export class Random {
         };
         return randomstring.generate(randomStringConfig);
     };
+
+    static generateMeetingSeriesValues() {
+        return {
+            project: faker.company.companyName(),
+            name: faker.name.findName()
+        }
+    }
 
 }
