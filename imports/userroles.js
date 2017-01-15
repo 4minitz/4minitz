@@ -1,5 +1,3 @@
-
-
 // Convenience and helper class to manage access rights
 // Needs "meteor add alanning:roles"
 
@@ -7,8 +5,6 @@ import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import  './collections/userroles_private';
-import { MeetingSeries } from './meetingseries';
-
 
 export class UserRoles {
     constructor(userId /* may be null */ , userCollection /* may be null */) {
@@ -60,14 +56,6 @@ export class UserRoles {
         return undefined;
     }
 
-    static removeAllRolesFor(aMeetingSeriesID) {
-        ms = new MeetingSeries(aMeetingSeriesID);
-        let affectedUsers = ms.visibleFor;
-        if (affectedUsers && affectedUsers.length > 0) {
-            Roles.removeUsersFromRoles(affectedUsers, UserRoles.allRolesNumerical(), aMeetingSeriesID);
-        }
-    }
-    
     static isVisibleRole(aRole) {
         return (aRole <= UserRoles.USERROLES.Invited); 
     }
@@ -84,7 +72,7 @@ export class UserRoles {
         }
         return visibleMeetingsSeries;
     }
-    
+
     isModeratorOf(aMeetingSeriesID) {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
         return (currentRole && currentRole <= UserRoles.USERROLES.Moderator);
@@ -105,7 +93,7 @@ export class UserRoles {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
         return (currentRole && currentRole <= UserRoles.USERROLES.Informed);
     }
-    
+
     hasViewRoleFor(aMeetingSeriesID) {
         return (this.isInvitedTo(aMeetingSeriesID) /* or lower access role */ );
     }
