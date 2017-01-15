@@ -9,8 +9,8 @@ export class Statistics {
         _.extend(this, doc);
     }
 
-    static update() {
-        Meteor.call('statistics.update');
+    static async update() {
+        return Meteor.callPromise('statistics.update');
     }
 
     static fetch() {
