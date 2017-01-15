@@ -7,6 +7,11 @@ import { Collections } from './lib/mongo-db';
 
 const USERNAME = 'user1';
 const MONGO_URL = 'mongodb://localhost:3101/meteor';
+const CONFIG = {
+    minutesCount: 5,
+    topicsRange: {min: 3, max: 10},
+    itemsRange: {min: 1, max: 8}
+};
 
 
 async function main() {
@@ -21,8 +26,8 @@ async function main() {
         // Generate the data
         let meetingSeriesGenerator = new MeetingSeriesGenerator(user);
         let series = meetingSeriesGenerator.generate();
-        let minutesGenerator = new MinutesGenerator({minutesCount: 5}, series._id, user);
-        let topicsGenerator = new TopicsGenerator({topicsRange: {min: 3, max: 10}, itemsRange: {min: 1, max: 8}});
+        let minutesGenerator = new MinutesGenerator(CONFIG, series._id, user);
+        let topicsGenerator = new TopicsGenerator(CONFIG);
         let minutes = minutesGenerator.generate(topicsGenerator);
         meetingSeriesGenerator.addAllMinutes(minutes, topicsGenerator.seriesTopicList);
 
