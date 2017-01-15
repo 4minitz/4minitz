@@ -14,6 +14,10 @@ export class Random {
         return randomstring.generate(randomStringConfig);
     };
 
+    static randomNumber(min, max) {
+        return Math.floor(Math.random()*(max-min+1)+min);
+    }
+
     static generateMeetingSeriesValues() {
         return {
             project: faker.company.companyName(),
