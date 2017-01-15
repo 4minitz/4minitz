@@ -1,5 +1,6 @@
 import { MeetingSeriesGenerator } from './generators/meeting-series-generator';
 import { MinutesGenerator } from './generators/minutes-generator';
+import { TopicsGenerator } from './generators/topics-generator';
 import { MongoDb } from './lib/mongo-db';
 import { Collections } from './lib/mongo-db';
 
@@ -21,10 +22,9 @@ async function main() {
         let meetingSeriesGenerator = new MeetingSeriesGenerator(user);
         let series = meetingSeriesGenerator.generate();
         let minutesGenerator = new MinutesGenerator({minutesCount: 5}, series._id, user);
-        let minutes = minutesGenerator.generate();
-        meetingSeriesGenerator.addAllMinutes(minutes);
-
-
+        let topicsGenerator = new TopicsGenerator({topicsRange: {min: 3, max: 10}, itemsRange: {min: 1, max: 8}});
+        let minutes = minutesGenerator.generate(topicsGenerator);
+        meetingSeriesGenerator.addAllMinutes(minutes, topicsGenerator.seriesTopicList);
 
         await mongoDb.insertOne(Collections.MeetingSeries, series);
         let count = (await mongoDb.insertMany(Collections.Minutes, minutes)).insertedCount;

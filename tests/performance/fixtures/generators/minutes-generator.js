@@ -23,13 +23,17 @@ export class MinutesGenerator {
         this.nextMinutesDate = nextMinutesDate;
     }
 
-    generate() {
+    /**
+     *
+     * @param topicsGenerator {TopicsGenerator}
+     * @returns {Array}
+     */
+    generate(topicsGenerator) {
         let result = [];
         let lastMin = false;
         for(let i=0; i<this.config.minutesCount; i++) {
             let isLastOne = ( (i+1) === this.config.minutesCount );
-            let topics = (lastMin) ? lastMin.topics : [];
-            lastMin = this.generateOne(topics, isLastOne);
+            lastMin = this.generateOne(topicsGenerator, isLastOne);
             result.push(lastMin);
             this._tickOneDay();
         }
@@ -37,12 +41,13 @@ export class MinutesGenerator {
         return result;
     }
 
-    generateOne(topics = [], isLastOne = false) {
+    generateOne(topicsGenerator, isLastOne = false) {
+        let id = Random.generateId();
         let min = {
-            _id: Random.generateId(),
+            _id: id,
             meetingSeries_id: this.parentSeriesId,
             date: this.constructor._formatDate(this.nextMinutesDate),
-            topics: topics,
+            topics: topicsGenerator.generateNextListForMinutes(id),
             visibleFor: [this.user._id],
             participants: [{userId: this.user._id, present:false, minuteKeeper: false}],
             createdAt: new Date(),

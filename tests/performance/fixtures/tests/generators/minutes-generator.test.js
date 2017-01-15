@@ -5,7 +5,7 @@ import { MinutesGenerator } from '../../generators/minutes-generator';
 
 describe('MinutesGenerator', function() {
 
-    describe('generate', function() {
+    describe('#generate', function() {
 
         const DUMMY_USER = {
             _id: 'userId',
@@ -13,12 +13,16 @@ describe('MinutesGenerator', function() {
         };
         const DATE = new Date('2016-08-01');
 
+        const TOPICS_GENERATOR = {
+            generateNextListForMinutes: () => {return []}
+        };
+
         it('should generate the correct amount of minutes', function() {
             let config = {
                 minutesCount: 5
             };
             let generator = new MinutesGenerator(config, null, DUMMY_USER, DATE);
-            expect(generator.generate()).to.have.length(config.minutesCount);
+            expect(generator.generate(TOPICS_GENERATOR)).to.have.length(config.minutesCount);
         });
 
         it('should set all minutes as finalized except the last one', function() {
@@ -26,7 +30,7 @@ describe('MinutesGenerator', function() {
                 minutesCount: 5
             };
             let generator = new MinutesGenerator(config, null, DUMMY_USER, DATE);
-            let res = generator.generate();
+            let res = generator.generate(TOPICS_GENERATOR);
             res.forEach((m, i) => {
                 let isLastOne = (i+1 === config.minutesCount);
                 if (!isLastOne) {
@@ -42,7 +46,7 @@ describe('MinutesGenerator', function() {
                 minutesCount: 5
             };
             let generator = new MinutesGenerator(config, null, DUMMY_USER, DATE);
-            let res = generator.generate();
+            let res = generator.generate(TOPICS_GENERATOR);
             let expectedDate = DATE;
             res.forEach((m) => {
                 expect(m.date).equal(MinutesGenerator._formatDate(expectedDate));

@@ -8,7 +8,6 @@ describe('TopicsGenerator', function() {
     describe('#_generateANewTopic', function() {
 
         const CONFIG = {
-            minutesCount: 1,
             topicsRange: {min: 3, max: 4},
             itemsRange: {min: 3, max: 7}
         };

@@ -8,7 +8,6 @@ export class TopicsGenerator {
     /**
      *
      * @param config                            - Configuration
-     * @param config.minutesCount {number}      - amount of minutes which should be generated
      * @param config.topicsRange {object}       - Range of topics per minutes
      * @param config.topicsRange.min {number}   - min. value
      * @param config.topicsRange.max {number}   - max. value
@@ -37,6 +36,7 @@ export class TopicsGenerator {
             topicClone.infoItems = topic.infoItems.filter(item => {
                 return (item.isOpen);
             });
+            return topicClone;
         });
 
         this._extendExistingTopics();
@@ -97,7 +97,7 @@ export class TopicsGenerator {
 
         return {
             _id: Random.generateId(),
-            subject: faker.commerce.department(),
+            subject: faker.commerce.department() + ' - ' + faker.commerce.productName(),
             responsibles: [],
             isOpen: faker.random.boolean(),
             isNew: false,

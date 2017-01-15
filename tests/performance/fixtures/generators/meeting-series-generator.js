@@ -32,8 +32,9 @@ export class MeetingSeriesGenerator {
         return this.series;
     }
 
-    addAllMinutes(minutes) {
+    addAllMinutes(minutes, seriesTopicList = []) {
         minutes.forEach(_.bind(this.addMinutes, this));
+        this.series.topics = seriesTopicList;
     }
 
     addMinutes(aMinutes) {
