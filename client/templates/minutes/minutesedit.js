@@ -1,3 +1,5 @@
+import moment from 'moment/moment';
+
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -76,6 +78,41 @@ var togglePrintView = function (switchOn) {
     window.onafterprint = afterPrint;
 }());
 
+
+// Global keyboard shortcut handler for this template
+// In Meteor global key events can only be bound to the template on <INPUT> elements
+// If we want to have these key events really global, we have to register them with
+// the document. For details see SO:
+// http://stackoverflow.com/questions/27972873/meteor-keydown-keyup-events-outside-input
+let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
+    if (switchOn) {
+        $(document).keydown( function(evt) {
+            if ($('.modal.in').length > 0) {    // any modal dialog open?
+                return;
+            }
+            // console.log("keydown", evt);
+            // check if focus is in input-text or input-textarea
+            // let el = document.activeElement;
+            // if (el && (el.tagName.toLowerCase() == 'input' && el.type == 'text' ||
+            //     el.tagName.toLowerCase() == 'textarea')) {
+            //     return;
+            // }
+
+            // Listen for "Ctrl+Alt+T" for "Add Topic" (Alt+T in IE11)
+            // accesskey attribute is not an option, as it needs browser specific modifieres
+            // (see www.w3schools.com/tags/att_global_accesskey.asp) and
+            // accessKeyLabel is not implemented in all browsers
+            if (evt.ctrlKey && evt.altKey && !evt.shiftKey &&
+                evt.keyCode === 84) {
+                $('#dlgAddTopic').modal('show');
+                evt.preventDefault();
+            }
+        });
+    } else {
+        $(document).off('keydown');
+    }
+};
+
 Template.minutesedit.onCreated(function () {
     this.minutesReady = new ReactiveVar();
 
@@ -87,11 +124,7 @@ Template.minutesedit.onCreated(function () {
     });
 
     Session.set('minutesedit.checkParent', false);
-
-    // Collapse the participants list on scroll
-    $(window).scroll(function(){
-        Session.set("participants.expand", false);
-    });
+    handleTemplatesGlobalKeyboardShortcuts(true);
 });
 
 Template.minutesedit.onDestroyed(function() {
@@ -99,6 +132,9 @@ Template.minutesedit.onDestroyed(function() {
         orphanFlashMessage.hideMe();
     }
     $(window).off("scroll");    // Prohibit accumulating multiple scroll handlers on window
+    $(document).unbindArrive('#id_minutesdatePicker');
+    $(document).unbindArrive('#topicPanel');
+    handleTemplatesGlobalKeyboardShortcuts(false);
 });
 
 var isMinuteFinalized = function () {
@@ -178,9 +214,17 @@ Template.minutesedit.helpers({
         let templateInstance = Template.instance();
 
         $(document).arrive('#id_minutesdatePicker', () => {
+            // Configure DateTimePicker
+            moment.locale('en', {
+                week: { dow: 1 } // Monday is the first day of the week
+            });
+
             let datePickerNode = templateInstance.$('#id_minutesdatePicker');
+            // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
             datePickerNode.datetimepicker({
-                format: "YYYY-MM-DD"
+                format: "YYYY-MM-DD",
+                // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on some systems...
+                showTodayButton: true
             });
 
             let aMin = new Minutes(_minutesID);
@@ -319,6 +363,7 @@ Template.minutesedit.events({
         const user = new User();
         user.storeSetting(userSettings.showQuickHelp.meeting, false);
     },
+
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin) {

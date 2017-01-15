@@ -6,6 +6,7 @@
     "e2eTestEmails":        ["user1@4minitz.com", "user2@4minitz.com", "user3@4minitz.com","user4@4minitz.com"],
 
     "trustedIntranetInstallation": true,
+    "forbidClientAccountCreation": false,
 
     "defaultLabels": [
         {

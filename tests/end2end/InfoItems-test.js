@@ -34,7 +34,6 @@ describe('Info Items', function () {
 
     beforeEach("make sure test user is logged in, create series and add minutes", function () {
         E2EApp.gotoStartPage();
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingName = getNewMeetingName();
@@ -75,6 +74,31 @@ describe('Info Items', function () {
         let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
 
         expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
+    });
+
+    it('places the cursor in the new details field after adding one item to directly add details', function() {
+        const detailsText = 'Directly added details';
+        let topicIndex = 1;
+        const infoItemName = getNewAIName();
+        E2ETopics.addInfoItemToTopic({
+            subject: infoItemName,
+            itemType: "infoItem"
+        }, topicIndex, /* do not close detail input */false);
+
+        E2EGlobal.waitSomeTime();
+
+        let selDetails = E2ETopics.getInfoItemSelector(1, 1) + ".detailRow:nth-child(1) ";
+        let selFocusedInput = selDetails + ".detailInput";
+        browser.waitForVisible(selFocusedInput);
+
+        browser.keys(detailsText);
+        browser.keys(['Escape']); // Save the details
+        E2EGlobal.waitSomeTime(250);
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        expect(browser.elementIdText(firstItemOfNewTopic).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
     });
 
     it('shows security question before deleting info items', function () {

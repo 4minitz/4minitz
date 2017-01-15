@@ -27,8 +27,6 @@ describe('LDAP', function () {
     
     beforeEach("make sure test user is logged out and on the start page", function () {
         E2EApp.logoutUser();
-
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect(E2EApp.isLoggedIn()).to.be.false;
     });
 

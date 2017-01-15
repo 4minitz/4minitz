@@ -13,7 +13,6 @@ describe('Topics', function () {
 
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
 
         aMeetingCounter++;
@@ -410,6 +409,37 @@ describe('Topics', function () {
         E2EMeetingSeries.gotoTabTopics();
 
         expect(E2ETopics.isTopicRecurring(1)).to.be.false;
+    });
+
+    it('should not be possible to insert a new topics to a meeting minutes which has the same id as an existing one ' +
+        '- even not by using the meteor method directly', function() {
+        const url = browser.getUrl();
+        let parts = url.split('/');
+        let minutesId = parts[parts.length - 1];
+
+        let topic = {
+            _id: 'nCNm3FCx4hRmp2SDQ',
+            subject: 'duplicate me',
+            isOpen:false,
+            isRecurring:false,
+            isNew:true,
+            infoItems: [],
+            labels: []
+        };
+        let aUser = E2EGlobal.SETTINGS.e2eTestUsers[0];
+        let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
+        server.call('login', {user: {username: aUser}, password: aPassword});
+
+        server.call('minutes.addTopic', minutesId, topic);
+        try {
+            server.call('minutes.addTopic', minutesId, topic);
+        } catch(e) {
+            // this is expected
+        }
+
+        E2EGlobal.waitSomeTime();
+
+        expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
 });

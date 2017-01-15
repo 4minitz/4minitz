@@ -7,6 +7,10 @@
                 "false: will send separate finalize mails to all participants and keep their privacy"],
     "trustedIntranetInstallation": false,
 
+    "//2.0": "Switch on/off the possibility to register new users on the login form",
+    "forbidClientAccountCreation": false,
+
+
     "//2.1 branding": ["Via branding you can configure the 'first impression' of your local installation. ",
         "topLeftLogoHTML: default is text '4Minitz.com', but you may add HTML that can live inside a <a>...</a> tag",
         "                 You also can embedd a clickable logo image like so: <img src='/mylogo.png'>",
@@ -66,7 +70,9 @@
         "mongodumpTargetDirectory": ""
     },
 
-    "//6": "LDAP Configuration",
+    "//6": ["LDAP Configuration",
+            "HINT: please also consider to set the global forbidClientAccountCreation: true if you are using LDAP!"
+        ],
     "ldap": {
         "enabled": false,
         "searchDn": "cn",

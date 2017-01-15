@@ -66,6 +66,14 @@ Template.topicElement.helpers({
             // we handle this gracefully with this empty exception handler
         }
         return "";
+    },
+
+
+    classForEdit() {
+        return this.isEditable ? "btnEditTopic" : "";
+    },
+    cursorForEdit() {
+        return this.isEditable ? "pointer" : "";
     }
 });
 
@@ -129,8 +137,11 @@ Template.topicElement.events({
         if (!this.minutesID) {
             return;
         }
-
+        if (getSelection().toString()) {    // don't fire while selection is ongoing
+            return;
+        }
         Session.set("topicEditTopicId", this.topic._id);
+        $("#dlgAddTopic").modal("show");
     },
 
     'click .addTopicInfoItem'(evt) {

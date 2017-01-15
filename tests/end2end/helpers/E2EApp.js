@@ -3,6 +3,8 @@ import { E2EGlobal } from './E2EGlobal'
 
 
 export class E2EApp {
+    static titlePrefix = "4Minitz!";
+
     // Calls the server method to clean database and create fresh test users
     static resetMyApp (skipUsers) {
         try {
@@ -28,6 +30,7 @@ export class E2EApp {
             E2EGlobal.waitSomeTime();
         }
         E2EApp._currentlyLoggedInUser = "";
+        expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
     };
 
     static loginLdapUserWithCredentials(username, password, autoLogout) {
@@ -103,7 +106,7 @@ export class E2EApp {
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
-        if (browser.getTitle() != "4minitz!") {
+        if (browser.getTitle() != E2EApp.titlePrefix) {
             throw new Error("App not loaded. Unexpected title "+browser.getTitle()+". Please run app with 'meteor npm run test:end2end:server'")
         }
     };
@@ -133,6 +136,7 @@ export class E2EApp {
         if (! E2EApp.isOnStartPage()) {
             E2EGlobal.saveScreenshot("gotoStartPage2");
         }
+        expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
         expect (E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
     };
 

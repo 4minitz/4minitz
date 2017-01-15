@@ -22,6 +22,7 @@ import 'bootstrap/js/transition';
 import 'bootstrap/js/collapse'
 
 // bootstrap datetime picker
+import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css';
 import 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min';
 
 // material design

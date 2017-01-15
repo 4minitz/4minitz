@@ -216,6 +216,7 @@ These settings will only affect future uploads.
 future uploads. So a value of 10485760 will mean 10 MB 
 (as 10 * 1024 * 1024 = 10485760).  
 * If you want to find out how many attachments exist at all and how
-much storage space they occupy, you may open the client statistics.
-Open the about box and click on the 4Minitz logo to show/hide the
+much storage space they occupy, you may open the server statistics
+at the client.
+Just open the about box and click on the 4Minitz logo to show/hide the
 server statistics.

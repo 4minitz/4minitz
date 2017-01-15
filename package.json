@@ -1,7 +1,7 @@
 {
   "name": "4Minitz",
-  "version": "0.7.0",
-  "description": "Simply the best app for taking minutes!  ;-)",
+  "version": "v0.9.0-develop",
+  "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
   "directories": {
     "doc": "doc",
@@ -27,19 +27,19 @@
     "type": "git",
     "url": "git+https://github.com/4minitz/4minitz.git"
   },
-  "author": "4minitz Team",
+  "author": "4Minitz Team",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/4minitz/4minitz/issues"
   },
-  "homepage": "https://github.com/4minitz/4minitz#readme",
+  "homepage": "https://www.4minitz.com",
   "dependencies": {
     "arrive": "^2.3.1",
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-preset-stage-3": "^6.5.0",
     "bcrypt": "^0.8.7",
     "bootstrap-material-design": "^0.5.10",
-    "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.37",
+    "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.44",
     "faker": "^3.1.0",
     "fibers": "^1.0.13",
     "fs-extra": "^0.30.0",

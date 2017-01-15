@@ -1,4 +1,5 @@
 <template name="topicInfoItem">
+    {{triggerAddDetails}}
     <div class="panel topicInfoItem">
         <div class="panel-heading {{topicStateClass}}" role="tab" id="headingOne" style="position: relative;">
             {{#if detailsArray.length}}
@@ -12,7 +13,7 @@
                 </a>
             {{/if}}
             <h4 class="panel-title">
-                <div class="checkbox">
+                <div class="checkbox" style="font-size: 110%;">
                     <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
                         {{#if isActionItem}}
                             <input type="checkbox" class="checkbox btnToggleAIState" id="btnToggleAIState_{{infoItem._id}}" {{checkedState}} {{disabledState}}>
@@ -21,23 +22,23 @@
                         {{/if}}
                     </label>
 
-
-                    {{#if isActionItem}}
-                        <a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"
-                           href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">
-                            {{infoItem.subject}} {{responsiblesHelper}}
-                            {{#if infoItem.priority}}Prio:{{infoItem.priority}}{{/if}}
-                            Due: {{infoItem.duedate}}
-                        </a>
-                    {{else}}
-                        {{infoItem.subject}}
-                    {{/if}}
-
-                    <span class="labels">
-                        <!-- Labels -->
-                        {{#each getLabels}}
-                            <span class="label" style="background-color: {{color}}; color: {{fontColor}}">{{name}}</span>
-                        {{/each}}
+                    <span id="{{classForEdit}}" style="cursor: {{cursorForEdit}};">
+                        {{#if isActionItem}}
+                            <!--<a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"-->
+                               <!--href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">-->
+                                {{infoItem.subject}} {{responsiblesHelper}}
+                                {{#if infoItem.priority}}Prio:{{infoItem.priority}}{{/if}}
+                                Due: {{infoItem.duedate}}
+                            <!--</a>-->
+                        {{else}}
+                            {{infoItem.subject}}
+                        {{/if}}
+                        <span class="labels">
+                            <!-- Labels -->
+                            {{#each getLabels}}
+                                <span class="label" style="background-color: {{color}}; color: {{fontColor}}">{{name}}</span>
+                            {{/each}}
+                        </span>
                     </span>
 
                     <!-- New-Topic-Label -->
@@ -58,9 +59,9 @@
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </a>
 
-                                <a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link" title="Edit item">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
+                                <!--<a id="btnEditInfoItem" href="#" data-toggle="modal" data-target="#dlgAddInfoItem" class="panel-link" title="Edit item">-->
+                                    <!--<span class="glyphicon glyphicon-pencil"></span>-->
+                                <!--</a>-->
                                 <a id="btnDelInfoItem" href="#" class="panel-link" title="Delete item">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
@@ -74,26 +75,35 @@
         <div id="collapse-{{currentCollapseId}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body actionItemDetails">
                 {{#each detailsArray}}
-                    <p class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
+                    <div class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                         <div>
                             <label for="detailInput_{{../currentCollapseId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
-                            <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign pull-right"
-                                  id="detailInputMarkdownHint_{{../currentCollapseId}}_{{@index}}"
-                                  style="display: none; color: darkgray; font-size: 120%; cursor: pointer;"></span>
+                            <span id="detailActions_{{../currentCollapseId}}_{{@index}}"
+                                  class="pull-right pull-right-icons detailActions"
+                                  style="display: none;">
+                                <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon">
+                                </span>
+                                <span class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
+                                      data-id="{{../currentCollapseId}}_{{@index}}">
+                                </span>
+                            </span>
 
-                </div>
+                        </div>
                         <div style="padding-left: 10px;" class="detailText" data-id="{{../currentCollapseId}}_{{@index}}">
-                            <span id="detailText_{{../currentCollapseId}}_{{@index}}" data-id="{{../currentCollapseId}}_{{@index}}" data-text="{{this.text}}">
+                            <span id="detailText_{{../currentCollapseId}}_{{@index}}"
+                                  style="font-size: 120%;"
+                                  data-id="{{../currentCollapseId}}_{{@index}}"
+                                  data-text="{{this.text}}">
                                 {{#markdown}}{{this.text}}{{/markdown}}
                             </span>
 
                             <textarea id="detailInput_{{../currentCollapseId}}_{{@index}}"
                                       rows="1" data-id="{{../currentCollapseId}}_{{@index}}"
                                       class="form-control detailInput"
-                                      style="display: none; font-size: 14px;"
+                                      style="display: none; font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
                                       placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
                         </div>
-                    </p>
+                    </div>
                 {{/each}}
                 {{#if isEditable}}
                 <a href="#" class="addDetail hidden-print">Add details</a>

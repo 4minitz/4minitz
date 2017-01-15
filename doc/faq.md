@@ -47,7 +47,7 @@ See first chapter of the [user doc](user/usermanual.md). This triangle warns you
  **Important: Changes to an existing label (even deleting it!) will change all past meeting minutes that used this label.**
  
 ### Is there a fast way to create a label during a minute?
- If you enter an action item or info item subject with a "#string" (with preceding space!) in it, this string will be added as new label to the meeting series an is available in all future meeting series. The color code will be gray.
+ If you enter an action item or info item subject with a "#string" (with preceding space!) in it, this string will be added as new label to the meeting series and is available in all future meeting series. The color code will be gray.
  For example enter the following text to an action item or info item subject: **"This is my new item #Important"**. From now on you will have the "Important" label in you label selection list.
  
  Power users may add an additional color code by providing an RGB hex color code like so: **"This is my new item #Important#ff0000"**
@@ -73,10 +73,20 @@ It is not possible to un-finalize a meeting minute, if a newer meeting already h
 
 ### How can I send an action item to a person that has no 4Minitz account
 Simply enter the persons mail address to the "Responsible" field.
-It will be available in the type ahead drop down box in the future.
+It will be available in the type ahead drop down box in the future meetings.
 
-### I'm curious. Can I have some server statistics?
+### Can I see who un-finalized and the re-finalized a meeting minutes?
+Yes. Inside the mmeting minute hover over this (example) text:
+`Version 3. Finalized on 2017-01-11 09:09:54 by user1` and you'll see
+the finalize history:
+
+ ![Finalize History](./figures/finalize_history.png)
+
+### Can I speed up my workflow with some keyboard shortcuts?
+Currently we have:
+* `Ctrl+Alt+T` - to open the "Add new Topic" dialog in a meeting.
+
+### I'm curious! Can I have some server statistics?
 Yes, open the about dialog and click on the 4Minitz logo. This
 will show / hide the current server statistics and show how many
 users, meeting series, minutes and attachments the server stores.
-

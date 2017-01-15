@@ -1,3 +1,5 @@
+import moment from 'moment/moment';
+
 import { Meteor } from 'meteor/meteor';
 
 import { Minutes } from '/imports/minutes'
@@ -26,8 +28,15 @@ Template.topicInfoItemEdit.onCreated(function () {
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
+    // Configure DateTimePicker
+    moment.locale('en', {
+        week: { dow: 1 } // Monday is the first day of the week
+    });
+    // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
     this.$('#id_item_duedatePicker').datetimepicker({
-        format: "YYYY-MM-DD"
+        format: "YYYY-MM-DD",
+        // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on some systems...
+        showTodayButton: true
     });
 });
 
@@ -238,7 +247,7 @@ Template.topicInfoItemEdit.events({
         tmpl.find("#id_item_subject").focus();
     },
 
-    'submit #frmDlgAddInfoItem': function(evt, tmpl) {
+    'submit #frmDlgAddInfoItem': async function(evt, tmpl) {
         evt.preventDefault();
         let saveButton = $("#btnInfoItemSave");
         let cancelButton = $("#btnInfoItemCancel");
@@ -295,16 +304,22 @@ Template.topicInfoItemEdit.events({
         }
 
         newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
-        newItem.save((error) => {
-            saveButton.prop("disabled",false);
-            cancelButton.prop("disabled",false);
-            if (error) {
-                Session.set('errorTitle', 'Validation error');
-                Session.set('errorReason', error.reason);
-            } else {
-                $('#dlgAddInfoItem').modal('hide')
+
+        try {
+            let itemAlreadyExists = !!newItem.getId();
+            await newItem.saveAsync();
+            console.log('Successfully saved new item with id: ' + newItem.getId());
+            console.log(newItem.getId());
+            $('#dlgAddInfoItem').modal('hide');
+            if (!itemAlreadyExists) {
+                Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
             }
-        });
+        } catch (e) {
+            Session.set('errorTitle', 'Validation error');
+            Session.set('errorReason', error.reason);
+        }
+        saveButton.prop("disabled",false);
+        cancelButton.prop("disabled",false);
     },
 
     "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {

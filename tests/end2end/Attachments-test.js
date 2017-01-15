@@ -25,7 +25,6 @@ describe('Attachments', function () {
 
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
-        expect(browser.getTitle()).to.equal('4minitz!');
         expect (E2EApp.isLoggedIn()).to.be.true;
 
         _lastMeetingName = getNewMeetingName();

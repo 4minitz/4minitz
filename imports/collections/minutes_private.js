@@ -161,6 +161,11 @@ Meteor.methods({
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
 
+            let topicAlreadyExists = !!aMin.findTopic(doc._id);
+            if (topicAlreadyExists) {
+                throw new Meteor.Error('invalid-argument', 'Topic already exists');
+            }
+
             return MinutesCollection.update(
                 {_id: minutesId, isFinalized: false},
                 {$push: {
