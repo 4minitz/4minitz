@@ -23,7 +23,7 @@ export class TopicsGenerator {
         this.currentMinutesId = null;
     }
 
-    generateNextListForMinutes(minutesId) {
+    generateNextListForMinutes(minutesId, isLastOne = false) {
         this.currentMinutesId = minutesId;
 
         // generate base list for the following minutes
@@ -44,15 +44,32 @@ export class TopicsGenerator {
 
         // append the current topics to the
         // complete topics list
-        this._copyTopicsToSeries();
+        this._copyTopicsToSeries(isLastOne);
 
-
-        return this.currentTopicList;
+        // Here we have to clone the whole topics list to make sure
+        // it will not be modified by the following one...
+        return [...this.currentTopicList].map(topic => {
+            let clone = extend(topic);
+            clone.infoItems = [];
+            topic.infoItems.forEach(item => {
+                let itemClone = extend(item);
+                clone.infoItems.push(itemClone);
+            });
+            return clone;
+        });
     }
 
     _extendExistingTopics() {
         for(let i=0; i<this.currentTopicList.length; i++) {
             let topic = this.currentTopicList[i];
+
+            // close existing topics randomly
+            topic.infoItems.forEach(item => {
+                if (item.itemType === 'actionItem' && faker.random.boolean()) {
+                    item.isOpen = false;
+                }
+            });
+
             let itemsCount = Random.randomNumber(this.config.itemsRange.min, this.config.itemsRange.max);
             let start = itemsCount - topic.infoItems.length;
             for (let j=0; j<start;j++) {
@@ -69,12 +86,12 @@ export class TopicsGenerator {
         }
     }
 
-    _copyTopicsToSeries() {
+    _copyTopicsToSeries(isLastOne = false) {
         this.currentTopicList.forEach(topic => {
             let topicClone = extend(topic);
 
             topicClone.infoItems = topicClone.infoItems.filter(item => {
-                return !item.isOpen;
+                return !item.isOpen || isLastOne;
             });
 
             if (this.seriesTopicIdIndexMap[topic._id] !== undefined) {
@@ -129,7 +146,9 @@ export class TopicsGenerator {
         };
 
         if (isAction) {
-            item.isOpen = faker.random.boolean();
+            // new action-items are always open,
+            // they will be closed in the following minutes randomly.
+            item.isOpen = true;
             item.isNew = false;
             item.responsibles = [];
             item.duedate = DateHelper.formatDateISO8601(faker.date.future());
