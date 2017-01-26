@@ -120,7 +120,6 @@ Template.topicInfoItem.helpers({
     },
 
     isCollapsed() {
-        console.log("_coll "+Template.instance().isTopicCollapsed.get());
         return Template.instance().isTopicCollapsed.get();
     },
 

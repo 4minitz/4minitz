@@ -125,6 +125,7 @@ Meteor.methods({
     },
 
     'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
+        console.log("workflow.finalizeMinute on "+id);
         check(id, String);
         let aMin = new Minutes(id);
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
@@ -139,7 +140,9 @@ Meteor.methods({
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.server_finalizeLastMinute();
             let msAffectedDocs = MeetingSeriesCollection.update(
-                parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
+                parentSeries._id,
+                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}},
+                {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
 
             if (msAffectedDocs !== 1) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series')
@@ -190,10 +193,11 @@ Meteor.methods({
                 throw e;
             }
         }
-
+        console.log("workflow.finalizeMinute DONE.");
     },
 
     'workflow.unfinalizeMinute'(id) {
+        console.log("workflow.unfinalizeMinute on "+id);
         check(id, String);
         let aMin = new Minutes(id);
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
@@ -207,7 +211,9 @@ Meteor.methods({
         try {
             parentSeries.server_unfinalizeLastMinute();
             let msAffectedDocs = MeetingSeriesCollection.update(
-                parentSeries._id, {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
+                parentSeries._id,
+                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}},
+                {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
 
             if (msAffectedDocs !== 1) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series')
@@ -234,6 +240,7 @@ Meteor.methods({
                 throw e;
             }
         }
+        console.log("workflow.unfinalizeMinute DONE.");
     },
 
     'workflow.removeMeetingSeries'(meetingseries_id) {
