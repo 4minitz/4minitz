@@ -5,7 +5,7 @@ import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Attachment } from './attachment'
 
-export let StatisticsCollection = new Mongo.Collection('statistics');
+let StatisticsCollection = new Mongo.Collection('statistics');
 
 if (Meteor.isServer) {
     Meteor.publish('statistics', function () {
