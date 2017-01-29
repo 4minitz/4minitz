@@ -1,4 +1,4 @@
-
+import { _ } from 'meteor/underscore';
 import { UserRoles } from './userroles'
 import { Minutes } from './minutes';
 
@@ -38,7 +38,14 @@ export class Attachment {
         return sumBytes;
     }
 
-    static uploadFile(uploadFilename, minutesObj, uploadTracker, displayErrorCallback) {
+    static uploadFile(uploadFilename, minutesObj, callbacks = {}) {
+        let doNothing = () => {};
+        callbacks = _.extend({
+            onStart: doNothing,
+            onEnd: doNothing,
+            onAbort: doNothing
+        }, callbacks);
+
         let upload = AttachmentsCollection.insert({
             file: uploadFilename,
             streams: 'dynamic',
@@ -50,17 +57,13 @@ export class Attachment {
         }, false);
 
         upload.on('start', function () {
-            uploadTracker.set(this);    // this == current upload object
+            callbacks.onStart(this);    // this == current upload object
         });
         upload.on('end', function (error, fileObj) {
-            if (error) {
-                displayErrorCallback(error);
-            }
-            uploadTracker.set(false);
+            callbacks.onEnd(error, fileObj);
         });
         upload.on('abort', function (error, fileObj) {
-            console.log("Upload of attachment was aborted.");
-            uploadTracker.set(false);
+            callbacks.onAbort(error, fileObj);
         });
 
         upload.start();
