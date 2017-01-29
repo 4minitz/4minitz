@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { ConfirmationDialog } from '../../helpers/confirmationDialog';
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { MeetingSeries } from '/imports/meetingseries'
@@ -56,7 +56,7 @@ Template.minutesList.events({
             "You will have to ask a moderator if you want to join again afterwards.</p>"
         );
 
-        ConfirmationDialog.makeWarningDialogWithTemplate(
+        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             leaveSeriesCallback,
             'Leave Meeting Series',
             dialogTmpl,

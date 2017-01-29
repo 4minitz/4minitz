@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import {ConfirmationDialog} from '../../helpers/confirmationDialog';
+import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { Minutes } from '/imports/minutes'
@@ -142,7 +142,7 @@ Template.minutesAttachments.events({
                 minObj,
                 template.currentUpload,
                 (error) => {
-                    ConfirmationDialog.makeErrorDialog(
+                    ConfirmationDialogFactory.makeErrorDialog(
                         'Error during upload',
                         '' + error
                     ).show();
@@ -155,7 +155,7 @@ Template.minutesAttachments.events({
         evt.preventDefault();
         console.log("Remove Attachment: "+this._id);
 
-        ConfirmationDialog.makeWarningDialogWithTemplate(
+        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             () => {
                 Meteor.call("attachments.remove", this._id);
             },

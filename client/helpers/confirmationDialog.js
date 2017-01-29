@@ -1,73 +1,9 @@
 import { _ } from 'meteor/underscore';
 import { Blaze } from 'meteor/blaze';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 const DIALOG_TEMPLATE = Template.confirmationDialog;
 
 export class ConfirmationDialog {
-
-    /**
-     *
-     * @param onSuccess
-     * @param title
-     * @param template
-     * @param templateData
-     * @param confirmButtonText
-     * @returns {ConfirmationDialog}
-     */
-    static makeSuccessDialogWithTemplate(onSuccess, title, template, templateData, confirmButtonText = 'Confirm') {
-        return new ConfirmationDialog({
-            title: title,
-            template: template,
-            templateData: templateData,
-            confirmButtonText: confirmButtonText,
-            confirmButtonType: 'btn-success',
-            content: ''
-        }, {
-            onSuccess: onSuccess
-        });
-    }
-
-    static makeWarningDialogWithTemplate(onSuccess, title, template, templateData, confirmButtonText = 'Delete') {
-        return new ConfirmationDialog({
-            title: title,
-            template: template,
-            templateData: templateData,
-            confirmButtonText: confirmButtonText,
-            content: ''
-        }, {
-            onSuccess: onSuccess
-        });
-    }
-
-    /**
-     * @param title
-     * @param content
-     * @returns {ConfirmationDialog}
-     */
-    static makeInfoDialog(title, content) {
-        return new ConfirmationDialog({
-            title: title,
-            content: content,
-            confirmButtonText: 'OK',
-            confirmButtonType: 'btn-info',
-            showCancelButton: false
-        });
-    }
-
-    /**
-     * @param title
-     * @param content
-     * @returns {ConfirmationDialog}
-     */
-    static makeErrorDialog(title, content) {
-        return new ConfirmationDialog({
-            title: title,
-            content: content,
-            confirmButtonText: 'OK',
-            showCancelButton: false
-        });
-    }
 
     constructor(options, callbacks = {}) {
         this.options = _.extend({
@@ -136,5 +72,4 @@ export class ConfirmationDialog {
             Blaze.remove(this.dialogTmpl);
         }
     }
-
 }

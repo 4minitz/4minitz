@@ -1,6 +1,6 @@
 import { ReactiveVar } from 'meteor/reactive-var'
 
-import { ConfirmationDialog } from '../../helpers/confirmationDialog';
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { TemplateCreator } from '../../helpers/templateCreator';
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
@@ -161,7 +161,7 @@ Template.topicInfoItem.events({
                 subject: this.infoItem.subject
             };
 
-            ConfirmationDialog.makeWarningDialogWithTemplate(
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 () => { aTopic.removeInfoItem(this.infoItem._id) },
                 'Confirm delete',
                 template,
@@ -287,7 +287,7 @@ Template.topicInfoItem.events({
                     // otherwise we show an confirmation dialog before the deails will be removed
                     let dialogTmpl = TemplateCreator.create(
                         '<p>Do you really want to delete the selected details of the item <strong>{{subject}}</strong>?</p>');
-                    ConfirmationDialog.makeWarningDialogWithTemplate(
+                    ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                         deleteDetails,
                         'Confirm delete',
                         dialogTmpl,
@@ -353,7 +353,7 @@ Template.topicInfoItem.events({
     "mousedown .detailInputMarkdownHint"(evt) {
         evt.preventDefault();
         evt.stopPropagation();
-        ConfirmationDialog
+        ConfirmationDialogFactory
             .makeInfoDialog('Help for Markdown Syntax')
             .setTemplate('markdownHint')
             .show();

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import {ConfirmationDialog} from '../../helpers/confirmationDialog';
+import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { MeetingSeries } from '/imports/meetingseries'
@@ -55,7 +55,7 @@ Template.meetingSeriesEdit.events({
             FlowRouter.go("/");
         };
 
-        ConfirmationDialog.makeWarningDialogWithTemplate(
+        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             deleteSeriesCallback,
             'Confirm delete',
             'confirmationDialogDeleteSeries',

@@ -1,6 +1,6 @@
 import moment from 'moment/moment';
 
-import {ConfirmationDialog} from '../../helpers/confirmationDialog';
+import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { Meteor } from 'meteor/meteor';
@@ -430,7 +430,7 @@ Template.minutesedit.events({
                     + '{{minDate}}</strong>?<br>'
                     + 'It was already sent on {{agendaSentDate}} at {{agendaSentTime}}</p>');
 
-                ConfirmationDialog.makeSuccessDialogWithTemplate(
+                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     sendAgenda,
                     'Confirm sending agenda',
                     dialogTmpl,
@@ -467,7 +467,7 @@ Template.minutesedit.events({
             };
 
             if (GlobalSettings.isEMailDeliveryEnabled()) {
-                ConfirmationDialog.makeSuccessDialogWithTemplate(
+                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
                     'Confirm finalize minutes',
                     'confirmationDialogFinalize',
@@ -525,7 +525,7 @@ Template.minutesedit.events({
                 closedTopicsCount: closedOldTopicsCount
             };
 
-            ConfirmationDialog.makeWarningDialogWithTemplate(
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 deleteMinutesCallback,
                 'Confirm delete',
                 'confirmationDialogDeleteMinutes',

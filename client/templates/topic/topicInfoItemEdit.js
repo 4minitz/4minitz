@@ -2,7 +2,7 @@ import moment from 'moment/moment';
 
 import { Meteor } from 'meteor/meteor';
 
-import { ConfirmationDialog } from '../../helpers/confirmationDialog';
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 
 import { Minutes } from '/imports/minutes'
 import { MeetingSeries } from '/imports/meetingseries'
@@ -382,7 +382,7 @@ Template.topicInfoItemEdit.events({
         if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
             if (! _emailAddressRegExp.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
-                ConfirmationDialog.makeInfoDialog(
+                ConfirmationDialogFactory.makeInfoDialog(
                     'Invalid Responsible',
                     'This is not a valid responsible!\n\nPlease select an **existing user** from the dropdown or enter a **valid email address**.'
                 ).show();
