@@ -40,6 +40,7 @@ export class InfoItem {
 
         _.defaults(source, {
             itemType: 'infoItem',
+            isNew: true,
             isSticky: false,
             labels: []
         });
@@ -53,7 +54,7 @@ export class InfoItem {
 
     // ################### object methods
     invalidateIsNewFlag() {
-        // a normal info item has no isNew-Flag so it is nothing to do here
+        this._infoItemDoc.isNew = false;
     }
 
     getId() {
