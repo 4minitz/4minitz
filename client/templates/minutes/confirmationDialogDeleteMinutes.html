@@ -1,0 +1,12 @@
+<template name="confirmationDialogDeleteMinutes">
+    <p>Do you really want to delete this meeting minute dated on <strong>{{minutesDate}}</strong>?</p>
+    {{#if hasNewTopics}}
+        <p>This will remove <strong>{{newTopicsCount}} Topics</strong>, which were created within this minute.</p>
+    {{/if}}
+    {{#if hasClosedTopics}}
+        <p>
+            {{#if hasNewTopics}}Additionally{{/if}} <strong>{{closedTopicsCount}} topics</strong>
+            will be opened again, which were closed within this minutes.
+        </p>
+    {{/if}}
+</template>

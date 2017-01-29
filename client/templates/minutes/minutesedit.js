@@ -1,5 +1,8 @@
 import moment from 'moment/moment';
 
+import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
+import { TemplateCreator } from '../../helpers/templateCreator';
+
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -420,21 +423,24 @@ Template.minutesedit.events({
 
             if (aMin.getAgendaSentAt()) {
                 let date = aMin.getAgendaSentAt();
+                console.log(date);
 
-                let dialogContent = "<p>Do you really want to sent the agenda for this meeting minute dated on <strong>"
-                    + aMin.date + "</strong>?<br>"
-                    + "It was already sent on " + formatDateISO8601(date) + " at " + date.getHours() + ":" + date.getMinutes() + "</p>";
+                let dialogTmpl = TemplateCreator.create(
+                    '<p>Do you really want to sent the agenda for this meeting minute dated on <strong>'
+                    + '{{minDate}}</strong>?<br>'
+                    + 'It was already sent on {{agendaSentDate}} at {{agendaSentTime}}</p>');
 
-
-                confirmationDialog(
-                    /* callback called if user wants to continue */
+                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     sendAgenda,
-                    /* Dialog content */
-                    dialogContent,
-                    "Confirm sending agenda",
-                    "Send Agenda",
-                    "btn-success"
-                );
+                    'Confirm sending agenda',
+                    dialogTmpl,
+                    {
+                        minDate: aMin.date,
+                        agendaSentDate: moment(date).format('YYYY-MM-DD'),
+                        agendaSentTime: moment(date).format('h:mm')
+                    },
+                    'Send Agenda'
+                ).show();
             } else {
                 await sendAgenda();
             }
@@ -460,25 +466,19 @@ Template.minutesedit.events({
                 }, 500);
             };
 
-            if (GlobalSettings.isEMailDeliveryEnabled()) { // only show confirmation Dialog, if mails can be sent.
-
-                let dialogContent = "<p>Do you really want to finalize this meeting minute dated on <strong>" + aMin.date + "</strong>?";
-                if (aMin.hasOpenActionItems()) {
-                    dialogContent += "<div class='checkbox form-group'><label for='cbSendAI'><input id='cbSendAI' type='checkbox' class='checkbox' " + ((sendActionItems) ? "checked" : "") + "> send action items</label></div>";
-                }
-                dialogContent +=
-                      "<div class='checkbox form-group'><label for='cbSendII'><input id='cbSendII' type='checkbox' class='checkbox' " + ((sendInformationItems) ? "checked" : "") + "> send information items</label></div>"
-                    + "</p>";
-
-                confirmationDialog(
-                    /* callback called if user wants to continue */
+            if (GlobalSettings.isEMailDeliveryEnabled()) {
+                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
-                    /* Dialog content */
-                    dialogContent,
-                    "Confirm finalize minute",
-                    "Finalize",
-                    "btn-success"
-                );
+                    'Confirm finalize minutes',
+                    'confirmationDialogFinalize',
+                    {
+                        minutesDate: aMin.date,
+                        hasOpenActionItems: aMin.hasOpenActionItems(),
+                        sendActionItems: (sendActionItems) ? 'checked' : '',
+                        sendInformationItems: (sendInformationItems) ? 'checked' : ''
+                    },
+                    'Finalize'
+                ).show();
             } else {
                 doFinalize();
             }
@@ -505,33 +505,32 @@ Template.minutesedit.events({
 
             console.log("Remove Meeting Minute " + this._id + " from Series: " + this.meetingSeries_id);
 
-            let dialogContent = "<p>Do you really want to delete this meeting minute dated on <strong>" + aMin.date + "</strong>?</p>";
+            let deleteMinutesCallback = () => {
+                let ms = new MeetingSeries(aMin.meetingSeries_id);
+                // first route to the parent meetingseries then remove the minute.
+                // otherwise the current route would automatically re-routed to the main page because the
+                // minute is not available anymore -> see router.js
+                FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
+                ms.removeMinutesWithId(aMin._id);
+            };
+
             let newTopicsCount = aMin.getNewTopics().length;
-            if (newTopicsCount > 0) {
-                dialogContent += "<p>This will remove <strong>" + newTopicsCount
-                    + " Topics</strong>, which were created within this minute.</p>";
-            }
             let closedOldTopicsCount = aMin.getOldClosedTopics().length;
-            if (closedOldTopicsCount > 0) {
-                let additionally = (newTopicsCount > 0) ? "Additionally " : "";
-                dialogContent += "<p>" + additionally + "<strong>" + closedOldTopicsCount
-                    + " topics</strong> will be opened again, which were closed whithin this minute.</p>"
-            }
 
-            confirmationDialog(
-                /* callback called if user wants to continue */
-                () => {
-                    let ms = new MeetingSeries(aMin.meetingSeries_id);
-                    // first route to the parent meetingseries then remove the minute.
-                    // otherwise the current route would automatically re-routed to the main page because the
-                    // minute is not available anymore -> see router.js
-                    FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
-                    ms.removeMinutesWithId(aMin._id);
-                },
-                /* Dialog content */
-                dialogContent
-            );
+            let tmplData = {
+                minutesDate: aMin.date,
+                hasNewTopics: (newTopicsCount > 0),
+                newTopicsCount: newTopicsCount,
+                hasClosedTopics: (closedOldTopicsCount > 0),
+                closedTopicsCount: closedOldTopicsCount
+            };
 
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                deleteMinutesCallback,
+                'Confirm delete',
+                'confirmationDialogDeleteMinutes',
+                tmplData
+            ).show();
         }
     },
 
