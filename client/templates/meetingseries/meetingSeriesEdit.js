@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
+import {ConfirmationDialog} from '../../helpers/confirmationDialog';
+import { TemplateCreator } from '../../helpers/templateCreator';
+
 import { MeetingSeries } from '/imports/meetingseries'
 import { UsersEditConfig } from './meetingSeriesEditUsers'
 import { UserRoles } from '/imports/userroles'
@@ -45,23 +48,25 @@ Template.meetingSeriesEdit.events({
         $('#dlgEditMeetingSeries').modal('hide');   // hide underlying modal dialog first, otherwise transparent modal layer is locked!
 
         let ms = new MeetingSeries(this._id);
-        let countMinutes = ms.countMinutes();
-        let seriesName = "<strong>" + ms.project + ": " + ms.name + "</strong>";
-        let dialogContent = "<p>Do you really want to delete the meeting series " + seriesName + "?</p>";
-        if (countMinutes !== 0) {
-            let lastMinDate = ms.lastMinutes().date;
-            dialogContent += "<p>This series contains " + countMinutes
-                + " meeting minutes (last minutes of " + lastMinDate + ").</p>";
-        }
+        let minutesCount = ms.countMinutes();
 
-        confirmationDialog(
-            /* callback called if user wants to continue */
-            () => {
-                MeetingSeries.remove(ms);
-                FlowRouter.go("/");
-            },
-            dialogContent
-        );
+        let deleteSeriesCallback = () => {
+            MeetingSeries.remove(ms);
+            FlowRouter.go("/");
+        };
+
+        ConfirmationDialog.makeWarningDialogWithTemplate(
+            deleteSeriesCallback,
+            'Confirm delete',
+            'confirmationDialogDeleteSeries',
+            {
+                project: ms.project,
+                name: ms.name,
+                hasMinutes: (minutesCount !== 0),
+                minutesCount: minutesCount,
+                lastMinutesDate: (minutesCount !== 0) ? ms.lastMinutes().date : false
+            }
+        ).show();
     },
 
 

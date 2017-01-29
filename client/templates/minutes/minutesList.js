@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
+import { ConfirmationDialog } from '../../helpers/confirmationDialog';
+import { TemplateCreator } from '../../helpers/templateCreator';
+
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 import { AttachmentsCollection } from "/imports/collections/attachments_private"
@@ -41,20 +44,28 @@ Template.minutesList.events({
     "click #btnLeaveMeetingSeries": function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
 
-        confirmationDialog(
-            /* callback called if user wants to continue */
-            () => {
-                console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
-                MeetingSeries.leave(ms);
-                FlowRouter.go("/");
-            },
+        let leaveSeriesCallback = () => {
+            console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
+            MeetingSeries.leave(ms);
+            FlowRouter.go("/");
+        };
+
+        let dialogTmpl = TemplateCreator.create(
             "<p>Do you really want to leave the meeting series:<br>" +
-            "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + ms.project + " / " + ms.name + "</b><br>" +
-            "You will have to ask a moderator if you want to join again afterwards.</p>",
-            "Leave Meeting Series",
-            "Leave",
-            "btn-danger"
+            "&nbsp;&nbsp;&nbsp;&nbsp;<b>{{project}} / {{name}}</b><br>" +
+            "You will have to ask a moderator if you want to join again afterwards.</p>"
         );
+
+        ConfirmationDialog.makeWarningDialogWithTemplate(
+            leaveSeriesCallback,
+            'Leave Meeting Series',
+            dialogTmpl,
+            {
+                project: ms.project,
+                name: ms.name
+            },
+            'Leave'
+        ).show();
 
     }
 });
