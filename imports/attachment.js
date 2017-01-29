@@ -38,7 +38,7 @@ export class Attachment {
         return sumBytes;
     }
 
-    static uploadFile(uploadFilename, minutesObj, uploadTracker) {
+    static uploadFile(uploadFilename, minutesObj, uploadTracker, displayErrorCallback) {
         let upload = AttachmentsCollection.insert({
             file: uploadFilename,
             streams: 'dynamic',
@@ -54,15 +54,7 @@ export class Attachment {
         });
         upload.on('end', function (error, fileObj) {
             if (error) {
-                confirmationDialog(
-                    () => {},   // do nothing...
-                    /* Dialog content */
-                    "" + error,
-                    "Error during upload",
-                    "OK",
-                    "btn-danger",
-                    true /* hide cancel button */
-                );
+                displayErrorCallback(error);
             }
             uploadTracker.set(false);
         });

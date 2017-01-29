@@ -1,6 +1,8 @@
-import { Minutes } from '/imports/minutes'
-import { Topic } from '/imports/topic'
-import { InfoItem } from '/imports/infoitem'
+import { Minutes } from '/imports/minutes';
+import { Topic } from '/imports/topic';
+import { InfoItem } from '/imports/infoitem';
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
+import { TemplateCreator } from '../../helpers/templateCreator';
 
 let _minutesId;
 
@@ -89,16 +91,15 @@ Template.topicElement.events({
 
         let aMin = new Minutes(this.minutesID);
 
-        let dialogContent = "<p>Do you really want to delete the topic <strong>" + this.topic.subject + "</strong>?</p>";
-
-        confirmationDialog(
-            /* callback called if user wants to continue */
-            () => {
-                aMin.removeTopic(this.topic._id);
-            },
-            /* Dialog content */
-            dialogContent
+        let dialogTmpl = TemplateCreator.create(
+            '<p>Do you really want to delete the topic <strong>{{subject}}</strong>?</p>'
         );
+        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+            () => { aMin.removeTopic(this.topic._id) },
+            'Confirm delete',
+            dialogTmpl,
+            {subject: this.topic.subject}
+        ).show();
     },
 
     'click .btnToggleState'(evt) {

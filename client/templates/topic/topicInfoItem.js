@@ -1,5 +1,7 @@
 import { ReactiveVar } from 'meteor/reactive-var'
 
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
+import { TemplateCreator } from '../../helpers/templateCreator';
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { InfoItemFactory } from '/imports/InfoItemFactory'
@@ -120,7 +122,6 @@ Template.topicInfoItem.helpers({
     },
 
     isCollapsed() {
-        console.log("_coll "+Template.instance().isTopicCollapsed.get());
         return Template.instance().isTopicCollapsed.get();
     },
 
@@ -154,17 +155,18 @@ Template.topicInfoItem.events({
 
         let aTopic = createTopic(this.minutesID, this.parentTopicId);
         if (aTopic) {
-            let itemType = (this.infoItem.itemType === "infoItem") ? "information" : "action item";
-            let dialogContent = "<p>Do you really want to delete the " + itemType + " <strong>" + this.infoItem.subject + "</strong>?</p>";
+            let template = TemplateCreator.create('Do you really want to delete the {{type}} <strong>{{subject}}</strong>?');
+            let templateData = {
+                type: (this.infoItem.itemType === 'infoItem') ? 'information' : 'action item',
+                subject: this.infoItem.subject
+            };
 
-            confirmationDialog(
-                /* callback called if user wants to continue */
-                () => {
-                    aTopic.removeInfoItem(this.infoItem._id)
-                },
-                /* Dialog content */
-                dialogContent
-            );
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                () => { aTopic.removeInfoItem(this.infoItem._id) },
+                'Confirm delete',
+                template,
+                templateData
+            ).show();
         }
     },
 
@@ -283,15 +285,14 @@ Template.topicInfoItem.events({
                     deleteDetails();
                 } else {
                     // otherwise we show an confirmation dialog before the deails will be removed
-                    let subject = aActionItem.getSubject();
-                    let dialogContent = "<p>Do you really want to delete the selected details of the item "
-                                            + `<strong>${subject}</strong>?</p>`;
-                    confirmationDialog(
-                        /* callback called if user wants to continue */
+                    let dialogTmpl = TemplateCreator.create(
+                        '<p>Do you really want to delete the selected details of the item <strong>{{subject}}</strong>?</p>');
+                    ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                         deleteDetails,
-                        /* Dialog content */
-                        dialogContent
-                    );
+                        'Confirm delete',
+                        dialogTmpl,
+                        {subject: aActionItem.getSubject()}
+                    ).show();
                 }
             }
         }
@@ -352,42 +353,10 @@ Template.topicInfoItem.events({
     "mousedown .detailInputMarkdownHint"(evt) {
         evt.preventDefault();
         evt.stopPropagation();
-        let staticImgPath = Blaze._globalHelpers.pathForImproved("/");
-        let markDownHint =
-                "<pre># Heading Level 1<br>"+
-                "## Heading Level 2<br>"+
-                "Text in **bold** or *italic* or ***bold-italic***<br>" +
-                "Text in ~~striked~~ or ```code```<br>"+
-                "> This is a quote<br>"+
-                "<br>"+
-                "Direct Link https://www.4minitz.com/<br>" +
-                "or named link to [4Minitz!](https://www.4minitz.com/)<br>"+
-                "<br>"+
-                "Numbered List<br>"+
-                "1. Numbered Item<br>"+
-                "1. Numbered Item<br>"+
-                "<br>"+
-                "Bullet List<br>"+
-                "- Item<br>"+
-                "- Item<br>"+
-                "<br>"+
-                "Image: ![](" + staticImgPath + "loading-gears.gif \"Tooltip Text\")<br>"+
-                "<br>"+
-                "| Tables        | Are           | Cool  |<br>"+
-                "| ------------- |:-------------:| -----:|<br>"+
-                "| col 3 is      | right-aligned | $1600 |<br>"+
-                "| col 2 is      | centered      |   $1 |</pre>" +
-                "" +
-                "Link to <a target='_blank' href='https://guides.github.com/features/mastering-markdown/'>Full Markdown Help</a>";
-
-        confirmationDialog(
-            () => {},
-            markDownHint,
-            "Help for Markdown Syntax",
-            "OK",
-            "btn-info",
-            true
-        );
+        ConfirmationDialogFactory
+            .makeInfoDialog('Help for Markdown Syntax')
+            .setTemplate('markdownHint')
+            .show();
 
     }
 });
