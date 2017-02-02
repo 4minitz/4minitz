@@ -83,4 +83,8 @@ Meteor.startup(() => {
         }
         return pathWithTrailingSlash;
     });
+
+    Meteor.call('users.isCurrentUserAdmin', function (error, result) {
+        Session.set("users.isAdmin", result);
+    });
 });
