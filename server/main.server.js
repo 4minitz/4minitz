@@ -45,4 +45,16 @@ Meteor.startup(() => {
             "    the password for user 'demo' is also 'demo'.\n" +
             "    Please check, if this is wanted for your site's installation.\n");
     }
+
+    if (Meteor.settings.adminIDs && Array.isArray(Meteor.settings.adminIDs) && Meteor.settings.adminIDs.length > 0) {
+        console.log("*** Admin IDs:");
+        Meteor.settings.adminIDs.forEach(id => {
+            let user = Meteor.users.findOne(id);
+            if (user) {
+                console.log("    "+user._id+": "+user.username);
+            } else {
+                console.log("    "+id+": unknown ID!");
+            }
+        });
+    }
 });

@@ -10,6 +10,10 @@
     "//2.0": "Switch on/off the possibility to register new users on the login form",
     "forbidClientAccountCreation": false,
 
+    "//2.1": ["Array of userID strings that get the admin role - may be an empty array",
+              "Admins may register users, de-activate users, send broadcast messages, ...",
+              "e.g. ['f879STuD44npgoHe6', 'PWEK6gwvmCrwbm4np']"],
+    "adminIDs": [],
 
     "//2.1 branding": ["Via branding you can configure the 'first impression' of your local installation. ",
         "topLeftLogoHTML: default is text '4Minitz.com', but you may add HTML that can live inside a <a>...</a> tag",

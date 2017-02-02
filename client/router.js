@@ -20,6 +20,15 @@ FlowRouter.route('/login', {
     }
 });
 
+
+FlowRouter.route('/admin', {
+    name: 'admin',
+    action() {
+        BlazeLayout.render('appLayout', {main: 'admin'});
+    }
+});
+
+
 FlowRouter.route('/meetingseries/:_id', {
     name: 'meetingseries',
     action() {
