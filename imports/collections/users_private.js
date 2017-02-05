@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check'
 
 import { User } from '/imports/users';
+import { AdminRegisterUserMailHandler } from '/imports/mail/AdminRegisterUserMailHandler'
 
 Meteor.methods({
     'users.saveSettings'(settings) {
@@ -15,7 +16,7 @@ Meteor.methods({
         console.log(user);
     },
 
-    'users.registerUser'(username, longname, email, password1, password2) {
+    'users.registerUser'(username, longname, email, password1, password2, sendMail, sendPassword) {
         // #Security: Only logged in admin may invoke this method
         if (! Meteor.user().isAdmin) {
             throw new Meteor.Error("Cannot register user", "You are not admin.");
@@ -27,6 +28,8 @@ Meteor.methods({
         }), "Username: at least 3 characters");
         check(password1, String);
         check(password2, String);
+        check(sendMail, Boolean);
+        check(sendPassword, Boolean);
         if (password1 !== password2) {
             throw new Meteor.Error("Cannot register user", "Passwords do not match");
         }
@@ -38,9 +41,14 @@ Meteor.methods({
             return global.emailAddressRegExpTest.test(x);
         }), "EMail address not valid");
 
-        Accounts.createUser({username: username,
-            password: password1,
-            email: email,
-            profile: {name: longname}});
+        let newUserId = Accounts.createUser({username: username,
+                                            password: password1,
+                                            email: email,
+                                            profile: {name: longname}});
+
+        if (Meteor.isServer && newUserId && sendMail) {
+            let mailer = new AdminRegisterUserMailHandler(newUserId, sendPassword, password1);
+            mailer.send();
+        }
     }
 });

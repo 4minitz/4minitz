@@ -34,8 +34,28 @@
                             <input id="id_newUsrPassword2" type="password" class="form-control"
                                    required data-error-msg="Please enter a valid password" autocomplete="off">
                         </div>
-                    </div>
 
+                        {{#if isMailEnabled}}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class='checkbox form-group'>
+                                        <label for='id_regUserSendMail'>
+                                            <input id="id_regUserSendMail" type='checkbox' class='checkbox'>
+                                            Send eMail to new user
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class='checkbox form-group'>
+                                        <label for='id_RegUserSendPassword'>
+                                            <input id="id_RegUserSendPassword" type='checkbox' class='checkbox'>
+                                            Include password in mail
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
                     <div class="modal-footer">
                         <button type="button" id="btnRegisterUserCancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <button type="submit" id="btnRegisterUserSave" class="btn btn-primary btn-raised">Register</button>
