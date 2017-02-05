@@ -9,6 +9,12 @@
             {{/if}}
 
             {{> Template.dynamic template=tab}}
+
+            {{#if loggingIn }}  <!-- Show animation during log in procedure -->
+                <img src="{{pathForImproved "/"}}loading-gears.gif"
+                     style="position: absolute; top: 50%; left: 50%; width: 120px; height: 120px; margin-top: -60px; margin-left: -60px;"
+                >
+            {{/if}}
         </div>
         {{#if showDemoUserHint}}
             <div class="col-md-3">
