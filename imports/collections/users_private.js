@@ -16,8 +16,9 @@ Meteor.methods({
         console.log(user);
     },
 
-    'users.registerUser'(username, longname, email, password1, password2, sendMail, sendPassword) {
-        // #Security: Only logged in admin may invoke this method
+
+    'users.admin.registerUser'(username, longname, email, password1, password2, sendMail, sendPassword) {
+        // #Security: Only logged in admin may invoke this method: users.admin.registerUser
         if (! Meteor.user().isAdmin) {
             throw new Meteor.Error("Cannot register user", "You are not admin.");
         }
@@ -49,6 +50,27 @@ Meteor.methods({
         if (Meteor.isServer && newUserId && sendMail) {
             let mailer = new AdminRegisterUserMailHandler(newUserId, sendPassword, password1);
             mailer.send();
+        }
+    },
+
+
+    "users.admin.ToggleInactiveUser"(userId) {
+        console.log("users.admin.ToggleInactiveUser for "+userId);
+        // #Security: Only logged in admin may invoke this method: users.admin.ToggleInactiveUser
+        if (! Meteor.user().isAdmin) {
+            throw new Meteor.Error("Cannot toggle inactive user", "You are not admin.");
+        }
+        let usr = Meteor.users.findOne(userId);
+        if (usr) {
+            if (usr.isInactive) {
+                Meteor.users.update({ _id: userId }, { $unset: { 'isInactive': '' }});
+            } else {
+                Meteor.users.update({_id: userId}, {$set: { isInactive: true }});
+                // Logout user
+                Meteor.users.update({ _id: userId }, {$set: { "services.resume.loginTokens" : [] }});
+            }
+        } else {
+            console.error("Could not find user:"+userId+" to toggle isInactive");
         }
     }
 });

@@ -1,12 +1,37 @@
-<template name="admin">
+<template name="admin" xmlns="http://www.w3.org/1999/html">
     {{#if currentUser}}
         {{#if currentUser.isAdmin}}
             <h2>Hi Admin!</h2>
-            <button class="btn btn-primary btn-default btn-raised"
-                    data-toggle="modal"
-                    data-target="#dlgAdminRegisterUser">
-                Register User
-            </button>
+
+            <div class="row">
+                <form id="adminUser"></form>
+                <div class="col-md-8">
+                    <div class="form-group label-floating">
+                        <label class="control-label" for="id_meetingname">Filter Users</label>
+                        <input class="form-control" id="id_adminFilterUsers" type="text" autocomplete="off">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary btn-default btn-raised"
+                            data-toggle="modal"
+                            data-target="#dlgAdminRegisterUser">
+                        Register New User...
+                    </button>
+                </div>
+            </div>
+
+            <table class="table"><tbody>
+            {{#each users}}
+                <tr style="background-color: {{inactiveStateColor this}};">
+                    <td>{{this.username}}</td>
+                    <td>{{this.profile.name}}</td>
+                    <td>{{email this}}</td>
+                    <td style="font-family: 'Monaco', 'Courier New', monospace">{{this._id}}</td>
+                    <td>{{inactiveStateText this}} <a id="id_ToggleInactive" href="#">Toggle</a></td>
+                </tr>
+            {{/each}}
+            </tbody></table>
+            <br>
 
             {{> adminRegisterUser}}
         {{/if}}

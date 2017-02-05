@@ -42,7 +42,7 @@ Template.adminRegisterUser.events({
         }
 
         tmpl.$("#btnRegisterUserSave").prop("disabled",true);
-        Meteor.call("users.registerUser",
+        Meteor.call("users.admin.registerUser",
                     uName, uLongName, uMail, uPassword1, uPassword2, sendMail, sendPassword,
                     function (error, result) {
                         if (error) {
