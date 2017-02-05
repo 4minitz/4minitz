@@ -16,6 +16,29 @@ Meteor.methods({
         console.log(user);
     },
 
+    'users.changePassword'(password1, password2) {
+        if (Meteor.isServer) {
+            console.log("users.changePassword for user: "+Meteor.userId());
+            if (! Meteor.userId()) {
+                throw new Meteor.Error("Cannot change password", "User not logged in.");
+            }
+            if (Meteor.user().isLDAPuser) {
+                throw new Meteor.Error("Cannot change password", "Not for LDAP users.");
+            }
+
+            check(password1, String);
+            check(password2, String);
+            if (password1 !== password2) {
+                throw new Meteor.Error("Cannot change password", "Passwords do not match");
+            }
+            if (! /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password1)) {
+                throw new Meteor.Error("Cannot change password", "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)");
+            }
+
+            // #Security: only logged in user can change her own password
+            Accounts.setPassword(Meteor.userId(), password1, {logout: false});
+        }
+    },
 
     'users.admin.registerUser'(username, longname, email, password1, password2, sendMail, sendPassword) {
         // #Security: Only logged in admin may invoke this method: users.admin.registerUser

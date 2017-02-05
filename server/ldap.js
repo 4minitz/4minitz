@@ -45,6 +45,8 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
         if (checkUserInactive && checkUserInactive.isInactive) {
             throw new Meteor.Error(403, "User is inactive");
         }
+        // OK - remember LDAP login
+        Meteor.users.update({_id: checkUserInactive._id}, {$set: {isLDAPuser: true}});
     }
 
     return [searchDn, '=', username, ',', serverDn].join('');

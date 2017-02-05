@@ -48,16 +48,3 @@ Template.admin.events({
         Meteor.call("users.admin.ToggleInactiveUser", this._id);
     }
 });
-
-Template.admin.onCreated(function() {
-    _filterUsers.set("");
-});
-
-Template.admin.onRendered(function() {
-    //add your statement here
-});
-
-Template.admin.onDestroyed(function() {
-    //add your statement here
-});
-

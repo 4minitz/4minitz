@@ -45,7 +45,8 @@ if (Meteor.isServer) {
             return Meteor.users.find(
                 {_id: this.userId},
                 {fields: {'settings': 1,
-                          'isAdmin': 1}});
+                          'isAdmin': 1,
+                          'isLDAPuser': 1}});
         }
     });
 
