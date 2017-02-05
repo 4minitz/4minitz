@@ -1,6 +1,6 @@
 <template name="admin">
     {{#if currentUser}}
-        {{#if isAdmin}}
+        {{#if currentUser.isAdmin}}
             <h2>Hi Admin!</h2>
             <button class="btn btn-primary btn-default btn-raised"
                     data-toggle="modal"

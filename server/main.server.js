@@ -36,7 +36,7 @@ Meteor.startup(() => {
         }
     }
 
-    // Security: warn admin if demo user exists
+    // #Security: warn admin if demo user exists
     let demoUser = Meteor.users.findOne({"username": "demo"});
     if (demoUser) {
         console.log("*** ATTENTION ***\n" +
@@ -46,7 +46,14 @@ Meteor.startup(() => {
             "    Please check, if this is wanted for your site's installation.\n");
     }
 
+    // #Security: first reset all admins, then set "isAdmin:true" for IDs in settings.json
+    Meteor.users.update({isAdmin: true},
+        {$unset: { isAdmin: false }}, {multi: true});
     if (Meteor.settings.adminIDs && Array.isArray(Meteor.settings.adminIDs) && Meteor.settings.adminIDs.length > 0) {
+        // set admins
+        Meteor.users.update({_id: {$in: Meteor.settings.adminIDs}},
+            {$set: { isAdmin: true }},{multi: true});
+
         console.log("*** Admin IDs:");
         Meteor.settings.adminIDs.forEach(id => {
             let user = Meteor.users.findOne(id);

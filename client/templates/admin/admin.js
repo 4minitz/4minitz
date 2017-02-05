@@ -1,7 +1,4 @@
 Template.admin.helpers({
-    "isAdmin"() {
-        return Session.get("users.isAdmin");
-    }
 });
 
 Template.admin.events({

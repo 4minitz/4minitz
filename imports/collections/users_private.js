@@ -1,41 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check'
+
 import { User } from '/imports/users';
-
-if (Meteor.isServer) {
-    let isAdmin = function (id) {
-        if (Meteor.settings.adminIDs &&
-            Array.isArray(Meteor.settings.adminIDs) &&
-            Meteor.settings.adminIDs.length > 0 &&
-            Meteor.settings.adminIDs.indexOf(id) > -1) {
-            return true;
-        }
-        return false;
-    };
-
-    Meteor.methods({
-        // #Security: we make this method server only and we answer the
-        // "isAdmin" question only for he currently logged in user!
-        // So, this method intentionally has no input parameter.
-        'users.isCurrentUserAdmin'() {
-            const id = Meteor.userId();
-            return isAdmin(id);
-        },
-
-        'users.registerUser'(username, longname, email, password) {
-            const id = Meteor.userId();
-            if (! isAdmin(id)) {
-                return;
-            }
-
-            Accounts.createUser({username: username,
-                password: password,
-                email: email,
-                profile: {name: longname}});
-        }
-
-    });
-}
-
 
 Meteor.methods({
     'users.saveSettings'(settings) {
@@ -49,4 +15,32 @@ Meteor.methods({
         console.log(user);
     },
 
+    'users.registerUser'(username, longname, email, password1, password2) {
+        // #Security: Only logged in admin may invoke this method
+        if (! Meteor.user().isAdmin) {
+            throw new Meteor.Error("Cannot register user", "You are not admin.");
+        }
+
+        global.checkWithMsg (username, Match.Where(function (x) {
+            check(x, String);
+            return x.length > 2;
+        }), "Username: at least 3 characters");
+        check(password1, String);
+        check(password2, String);
+        if (password1 !== password2) {
+            throw new Meteor.Error("Cannot register user", "Passwords do not match");
+        }
+        if (! /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password1)) {
+            throw new Meteor.Error("Cannot register user", "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)");
+        }
+        global.checkWithMsg (email, Match.Where(function (x) {
+            check(x, String);
+            return global.emailAddressRegExpTest.test(x);
+        }), "EMail address not valid");
+
+        Accounts.createUser({username: username,
+            password: password1,
+            email: email,
+            profile: {name: longname}});
+    }
 });

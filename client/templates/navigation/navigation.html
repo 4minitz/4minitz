@@ -25,7 +25,7 @@
                     <li><a target="_blank" href="https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md">Help</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#myModal">About</a></li>
                     {{#if currentUser}}
-                        {{#if isAdmin}}
+                        {{#if currentUser.isAdmin}}
                             <li>
                                 <a href="{{pathFor 'admin'}}">Admin</a>
                             </li>
