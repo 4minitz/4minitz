@@ -25,5 +25,8 @@ module.exports = function (ldapSettings, userData) {
         user.profile.name = user.profile.cn;
         delete user.profile.cn;
     }
+    if (userData.isInactive) {
+        user.isInactive = true;
+    }
     return user;
 };
