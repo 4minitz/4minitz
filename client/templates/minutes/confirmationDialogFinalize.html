@@ -1,0 +1,15 @@
+<template name="confirmationDialogFinalize">
+    Do you really want to finalize this meeting minute dated on <strong>{{minutesDate}}</strong>?
+    {{#if hasOpenActionItems}}
+        <div class='checkbox form-group'>
+            <label for='cbSendAI'>
+                <input id='cbSendAI' type='checkbox' class='checkbox' {{sendActionItems}}> send action items
+            </label>
+        </div>
+     {{/if}}
+    <div class='checkbox form-group'>
+        <label for='cbSendII'>
+            <input id='cbSendII' type='checkbox' class='checkbox' {{sendInformationItems}}> send information items
+        </label>
+    </div>
+</template>

@@ -11,9 +11,6 @@ export class ActionItem extends InfoItem{
         if (this._infoItemDoc.isOpen == undefined) {
             this._infoItemDoc.isOpen = true;
         }
-        if (this._infoItemDoc.isNew == undefined) {
-            this._infoItemDoc.isNew = true;
-        }
         if (this._infoItemDoc.responsible == undefined) {
             this._infoItemDoc.responsible = "";
         }
@@ -23,10 +20,6 @@ export class ActionItem extends InfoItem{
     }
 
     // ################### object methods
-
-    invalidateIsNewFlag() {
-        this._infoItemDoc.isNew = false;
-    }
 
     isSticky() {
         return this._infoItemDoc.isOpen;

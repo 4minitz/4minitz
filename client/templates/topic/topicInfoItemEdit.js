@@ -2,6 +2,8 @@ import moment from 'moment/moment';
 
 import { Meteor } from 'meteor/meteor';
 
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
+
 import { Minutes } from '/imports/minutes'
 import { MeetingSeries } from '/imports/meetingseries'
 import { Topic } from '/imports/topic'
@@ -374,21 +376,16 @@ Template.topicInfoItemEdit.events({
         Session.set("topicInfoItemEditInfoItemId", null);
     },
 
-    "select2:selecting #id_selResponsibleActionItem"(evt, tmpl) {
+    "select2:selecting #id_selResponsibleActionItem"(evt) {
         console.log(evt);
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
         if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
             if (! _emailAddressRegExp.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
-                confirmationDialog(
-                    () => {},
-                    "This is not a valid responsible!<br>Please select an <b>existing user</b> from the dropdown or enter a <b>valid email address</b>.",
-                    "Invalid Responsible",
-                    "OK",
-                    "btn-info",
-                    true
-                );
-
+                ConfirmationDialogFactory.makeInfoDialog(
+                    'Invalid Responsible',
+                    'This is not a valid responsible!\n\nPlease select an **existing user** from the dropdown or enter a **valid email address**.'
+                ).show();
                 return false;
             }
         }

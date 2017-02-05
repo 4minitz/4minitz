@@ -261,7 +261,7 @@ describe('Topics', function () {
 
         let firstVisibleInfoitemId = infoitems[0].ELEMENT;
         let firstVisibleInfoItemText = browser.elementIdText(firstVisibleInfoitemId).value;
-        expect(firstVisibleInfoItemText).to.be.equal("InfoItem#1");
+        expect(firstVisibleInfoItemText).to.have.string("InfoItem#1");
     });
 
     it('can collapse and re-expand a topic', function () {

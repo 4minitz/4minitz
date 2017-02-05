@@ -12,9 +12,9 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <!--Security: We are using three curly braces here to give the system admin -->
-                <!--the chance to configure some nice brand logo for his company even with HTML tags -->
-                <!--We asume a sysadmin won't insert any harmful code here-->
+                <!-- #Security: We are using three curly braces here to give the system admin -->
+                <!-- the chance to configure some nice brand logo for his company even with HTML tags -->
+                <!-- We asume a sysadmin won't insert any harmful code here -->
                 <a class="navbar-brand" href="{{pathFor '/'}}">{{{ logoHTML }}}</a>
             </div>
 
@@ -25,6 +25,11 @@
                     <li><a target="_blank" href="https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md">Help</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#myModal">About</a></li>
                     {{#if currentUser}}
+                        {{#if isAdmin}}
+                            <li>
+                                <a href="{{pathFor 'admin'}}">Admin</a>
+                            </li>
+                        {{/if}}
                         <li>
                           <a href="#" id="navbar-signout">
                               <span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{currentUser.username}}&nbsp;&nbsp;(sign out)
