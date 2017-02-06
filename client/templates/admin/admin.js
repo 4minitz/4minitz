@@ -2,8 +2,13 @@
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-let _filterUsers = new ReactiveVar();
-_filterUsers.set("");
+let _filterUsers = new ReactiveVar("");
+let _showInactive = new ReactiveVar(false);
+
+Template.admin.onRendered(function() {
+    _filterUsers.set("");
+    Template.instance().find("#id_adminFilterUsers").focus();
+});
 
 Template.admin.helpers({
     users(){
@@ -14,7 +19,10 @@ Template.admin.helpers({
                      {"emails.0.address": {$regex: filterString, $options: "i"}},
                      {"_id": {$regex: filterString, $options: "i"}}]}
             : {};
-        return Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 50});
+        if (! _showInactive.get()) {
+            filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]}
+        }
+        return Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 250});
     },
 
     "inactiveStateText"(user) {
@@ -47,5 +55,9 @@ Template.admin.events({
     "click #id_ToggleInactive"(evt, tmpl) {
         evt.preventDefault();
         Meteor.call("users.admin.ToggleInactiveUser", this._id);
+    },
+
+    "change #id_adminShowInactive"(evt, tmpl) {
+        _showInactive.set(tmpl.find("#id_adminShowInactive").checked);
     }
 });

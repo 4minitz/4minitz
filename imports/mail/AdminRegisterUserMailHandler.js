@@ -32,8 +32,15 @@ export class AdminRegisterUserMailHandler {
                 "    Your user     : "+this._user.username+"\n"+
                 (this._includePassword ? "    Your password : "+ this._password + "\n": "    Contact admin for password.\n")+
                 "\n" +
+                (this._includePassword ? "Don't forget to change your password after first login!\n": "") +
+                "\n" +
                 "Have fun!\n\n" +
-                "        Your Admin.\n"
+                "        Your Admin.\n" +
+                "\n" +
+                "\n" +
+                "--- \n" +
+                "4Minitz is free open source developed by the 4Minitz team.\n" +
+                "Source is available at https://github.com/4minitz/4minitz\n"
             );
             mailer.send();
         } else {
