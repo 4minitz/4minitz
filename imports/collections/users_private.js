@@ -16,16 +16,18 @@ Meteor.methods({
         console.log(user);
     },
 
-    'users.changePassword'(password1, password2) {
+    'users.admin.changePassword'(userId, password1, password2) {
         if (Meteor.isServer) {
-            console.log("users.changePassword for user: "+Meteor.userId());
+            // #Security: Only logged in admin may invoke this method: users.admin.changePassword
+            console.log("users.admin.changePassword for user: "+Meteor.userId());
             if (! Meteor.userId()) {
                 throw new Meteor.Error("Cannot change password", "User not logged in.");
             }
-            if (Meteor.user().isLDAPuser) {
-                throw new Meteor.Error("Cannot change password", "Not for LDAP users.");
+            if (! Meteor.user().isAdmin) {
+                throw new Meteor.Error("Cannot change password", "You are not admin.");
             }
 
+            check(userId, String);
             check(password1, String);
             check(password2, String);
             if (password1 !== password2) {
@@ -35,13 +37,16 @@ Meteor.methods({
                 throw new Meteor.Error("Cannot change password", "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)");
             }
 
-            // #Security: only logged in user can change her own password
-            Accounts.setPassword(Meteor.userId(), password1, {logout: false});
+            Accounts.setPassword(userId, password1, {logout: false});
         }
     },
 
     'users.admin.registerUser'(username, longname, email, password1, password2, sendMail, sendPassword) {
+        console.log("users.admin.registerUser for user: "+username);
         // #Security: Only logged in admin may invoke this method: users.admin.registerUser
+        if (! Meteor.userId()) {
+            throw new Meteor.Error("Cannot register user", "User not logged in.");
+        }
         if (! Meteor.user().isAdmin) {
             throw new Meteor.Error("Cannot register user", "You are not admin.");
         }
