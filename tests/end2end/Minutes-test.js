@@ -125,8 +125,10 @@ describe('Minutes', function () {
 
         server.call('e2e.updateMeetingSeries', msId, {minutes: []});
 
-        browser.waitForVisible('#flashMessage');
-        let dialogMsgElement = browser.element('#flashMessage').value.ELEMENT;
+        // As there may be multiple flashMessages (visible and non visible)
+        // we are interested in the flashMessage immediately following the minutes Heading
+        browser.waitForVisible('#minutesHeading + #flashMessage');
+        let dialogMsgElement = browser.element('#minutesHeading + #flashMessage').value.ELEMENT;
         let dialogMsgText = browser.elementIdText(dialogMsgElement).value;
         expect(dialogMsgText, 'error message should be displayed').to.have.string('Unfortunately the minute is not linked to its parent series correctly');
     });

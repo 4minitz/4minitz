@@ -1,22 +1,51 @@
+
+import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
+
+let _filterUsers = new ReactiveVar();
+_filterUsers.set("");
+
 Template.admin.helpers({
-    "isAdmin"() {
-        return Session.get("users.isAdmin");
+    users(){
+        let filterString = _filterUsers.get();
+        let filterOptions = filterString.length > 0
+            ? {$or: [{"username": {$regex: filterString, $options: "i"}},
+                     {"profile.name": {$regex: filterString, $options: "i"}},
+                     {"emails.0.address": {$regex: filterString, $options: "i"}},
+                     {"_id": {$regex: filterString, $options: "i"}}]}
+            : {};
+        return Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 50});
+    },
+
+    "inactiveStateText"(user) {
+        if (user.isInactive) {
+            return "Inactive";
+        }
+        return "Active";
+    },
+    "inactiveStateColor"(user) {
+        if (user.isInactive) {
+            return "#F9A2AE";
+        }
+        return "#A2F9EA";
+    },
+
+    "email"(user) {
+        if (user.emails && user.emails.length > 0) {
+            return user.emails[0].address;
+        }
+        return "";
     }
 });
 
 Template.admin.events({
- //add your events here
-});
+    "keyup #id_adminFilterUsers"(evt, tmpl) {
+        let filterString = tmpl.find("#id_adminFilterUsers").value;
+        _filterUsers.set(filterString);
+    },
 
-Template.admin.onCreated(function() {
-    //add your statement here
+    "click #id_ToggleInactive"(evt, tmpl) {
+        evt.preventDefault();
+        Meteor.call("users.admin.ToggleInactiveUser", this._id);
+    }
 });
-
-Template.admin.onRendered(function() {
-    //add your statement here
-});
-
-Template.admin.onDestroyed(function() {
-    //add your statement here
-});
-

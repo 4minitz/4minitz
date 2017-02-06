@@ -24,6 +24,7 @@ let _fetchLDAPUsers = function (connection) {
         filter = `(&(${settings.searchDn}=*)${settings.searchFilter})`,
         scope = 'sub',
         attributes = settings.whiteListedFields,
+        isIncativePred = settings.isInactivePredicate,
         options = {filter, scope, attributes};
 
     return new Promise((resolve, reject) => {
@@ -34,7 +35,18 @@ let _fetchLDAPUsers = function (connection) {
                 let entries = [];
 
                 response.on('searchEntry', function (entry) {
+                    let isIncative = false;
+                    if(isIncativePred) {    // check if at least one inactive predicate matches
+                        Object.keys(isIncativePred).forEach(key => {
+                            if (entry.object[key] === isIncativePred[key]) {
+                                isIncative = true;  // user should not be able to log in
+                            }
+                        });
+                    }
                     entries.push(entry.object);
+                    if (isIncative) {
+                        entries[entries.length-1]["isInactive"] = true;
+                    }
                 });
                 response.on('error', function (error) {
                     reject(error);

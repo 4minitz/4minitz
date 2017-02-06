@@ -25,14 +25,24 @@
                     <li><a target="_blank" href="https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md">Help</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#myModal">About</a></li>
                     {{#if currentUser}}
-                        {{#if isAdmin}}
+                        {{#if currentUser.isAdmin}}
                             <li>
                                 <a href="{{pathFor 'admin'}}">Admin</a>
                             </li>
                         {{/if}}
+
+                        {{#unless currentUser.isLDAPuser}}
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#dlgChangePassword">
+                                Password
+                            </a>
+                        </li>
+                        {{/unless}}
+
                         <li>
                           <a href="#" id="navbar-signout">
-                              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{currentUser.username}}&nbsp;&nbsp;(sign out)
+                              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                              {{currentUser.username}}&nbsp;&nbsp;(sign out)
                           </a>
                         </li>
                     {{/if}}
@@ -42,4 +52,6 @@
     </nav>
 
     {{> aboutDialog }}
+
+    {{> passwordChangeDialog }}
 </template>

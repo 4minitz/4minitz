@@ -36,7 +36,7 @@ Template.meetingSeriesEditUsers.onRendered(function() {
 Template.meetingSeriesEditUsers.helpers({
     userListClean: function () {
         return userlistClean(
-            Meteor.users.find().fetch(),
+            Meteor.users.find({isInactive: {$not: true}}).fetch(),
             _config.users.find().fetch());
     },
     
