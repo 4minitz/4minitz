@@ -30,12 +30,13 @@ Meteor.methods({
         const numberOfMeetingSeries = MeetingSeriesCollection.find().count(),
             numberOfMinutes = MinutesCollection.find().count(),
             numberOfUsers = Meteor.users.find().count(),
+            numberOfActiveUsers = Meteor.users.find({$or: [{isInactive: { $exists: false }}, {isInactive: false}]}).count(),
             numberOfAttachments = Attachment.countAll(),
             numberOfAttachmentMB = Math.floor(Attachment.countAllBytes() / 1024 / 1024)+ " MB";
 
             result = {result: [
-                {   description: "Number of users",
-                    value:  numberOfUsers      },
+                {   description: "Number of users (active)",
+                    value:  numberOfUsers + " ("+numberOfActiveUsers+")"     },
                 {   description: "Number of meeting series",
                     value:  numberOfMeetingSeries      },
                 {   description: "Number of meeting minutes",

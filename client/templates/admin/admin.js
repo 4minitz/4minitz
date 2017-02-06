@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 let _filterUsers = new ReactiveVar();
+_filterUsers.set("");
 
 Template.admin.helpers({
     users(){

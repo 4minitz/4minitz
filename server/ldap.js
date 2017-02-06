@@ -43,10 +43,9 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
     if (Meteor && Meteor.users) {   // skip test during unit tests
         let checkUserInactive = Meteor.users.findOne({username: usernameOrEmail});
         if (checkUserInactive && checkUserInactive.isInactive) {
+            Meteor.users.update({_id: checkUserInactive._id}, {$unset: {isLDAPuser: 0}});
             throw new Meteor.Error(403, "User is inactive");
         }
-        // OK - remember LDAP login
-        Meteor.users.update({_id: checkUserInactive._id}, {$set: {isLDAPuser: true}});
     }
 
     return [searchDn, '=', username, ',', serverDn].join('');
@@ -77,6 +76,12 @@ LDAP.addFields = function (/*person - the ldap entry for that user*/) {
         password: ''
     };
 };
+
+// Called after successful LDAP sign in
+LDAP.onSignIn(function (userDocument, userData, ldapEntry) {
+    Meteor.users.update({_id: userDocument._id}, {$set: {isLDAPuser: true}});
+});
+
 
 LDAP.logging = false;
 LDAP.warn = function(message) {
