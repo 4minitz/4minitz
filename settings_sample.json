@@ -84,7 +84,8 @@
         "serverDn": "OU=people,DC=example,DC=com",
         "serverUrl": "ldaps://ld.example.com:636",
         "allowSelfSignedTLS": false,
-        "whiteListedFields": [ "cn", "department", "employeeNumber", "mail" ],
+        "whiteListedFields": [ "uid", "cn", "department", "employeeNumber", "mail", "mailEnabled" ],
+        "isInactivePredicate": {"mailEnabled": "NO"},
         "autopublishFields": [ "cn" ]
     },
 

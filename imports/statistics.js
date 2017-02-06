@@ -35,6 +35,7 @@ export const Statistics = SchemaClass.create({
             const numberOfMeetingSeries = MeetingSeriesCollection.find().count(),
                 numberOfMinutes = MinutesCollection.find().count(),
                 numberOfUsers = Meteor.users.find().count(),
+                numberOfActiveUsers = Meteor.users.find({$or: [{isInactive: { $exists: false }}, {isInactive: false}]}).count(),
                 numberOfAttachments = Attachment.countAll(),
                 numberOfAttachmentMB = Math.floor(Attachment.countAllBytes() / 1024 / 1024)+ " MB";
 
@@ -42,6 +43,9 @@ export const Statistics = SchemaClass.create({
 
             let statistics = new Statistics();
             statistics.result = [{
+                description: "Number of users (active)",
+                value: numberOfUsers + " (" + numberOfActiveUsers + ")"
+            }, {
                 description: "Number of users",
                 value: numberOfUsers.toString()
             }, {

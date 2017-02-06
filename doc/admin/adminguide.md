@@ -125,16 +125,17 @@ the "TO:" field. Disable this option in public or demo mode!
 #### Available configuration options
 See your settings.json file:
 
-| Setting           | Default | Explanation                                                                 |
-|-------------------|---------|-----------------------------------------------------------------------------|
-| enabled           | false   | Enables & disables LDAP login                                               |
-| searchDn          | "cn"    | The attribute used as username                                              |
-| searchFilter      | ""      | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
-| serverDn          | ""      | Your server base dn, e.g. "dc=example,dc=com"                               |
-| serverUrl         | ""      | Server url, e.g. "ldaps://ldap.example.com:1234                             |
-| whiteListedFields | []      | Attributes that are copied into the user's profile property                 |
-| autopublishFields | []      | Meteor will publish these fields automatically on users                     |
-| allowSelfSignedTLS| false   | If enabled, self-signed certs will be allowed for the Meteor server process |
+| Setting             | Default | Explanation                                                                 |
+|---------------------|---------|-----------------------------------------------------------------------------|
+| enabled             | false   | Enables & disables LDAP login                                               |
+| searchDn            | "cn"    | The attribute used as username                                              |
+| searchFilter        | ""      | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
+| serverDn            | ""      | Your server base dn, e.g. "dc=example,dc=com"                               |
+| serverUrl           | ""      | Server url, e.g. "ldaps://ldap.example.com:1234                             |
+| whiteListedFields   | []      | Attributes that are copied into the user's profile property                 |
+| autopublishFields   | []      | Meteor will publish these fields automatically on users                     |
+| isInactivePredicate | []      | If one of these key/value pairs matches a user key/value pair, this user become isInactive - and can not log in|
+| allowSelfSignedTLS  | false   | If enabled, self-signed certs will be allowed for the Meteor server process |
 
 Once you have configured 4minitz to allow LDAP login, all your 
 users should be able to login with their LDAP username & passwords. On 
