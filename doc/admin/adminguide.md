@@ -97,7 +97,50 @@ Take a look at ```settings_sample.json``` at the top level folder of 4Minitz.
  You may rename this file to ```settings.json``` and then edit its contents to your need.
 Afterwards launch the 4Minitz server with this settings.json either via the
 ```runapp.sh``` skript or via ```meteor --production --settings settings.json --port 3100``` 
+
+### How to become a frontend admin?
+Some admin functionality can also be reached when you 
+logged in  to the 4Minitz frontend via your browser.
+Click the "Admin" nav bar menu entry to show possible 
+options. On the admin view you may, for example:
+
+* **Register new users** for standard login.
+  (Sorry, no LDAP registering!). When you
+   filled all necessary fields, you can specifiy
+   if the new user will receive a welcome eMail with
+   her login credentials.
+* **Show and filter** all registered users
+* **De/Activate user accounts.** Inactive users will
+  not be able to log in the the WebApp anymore. But
+  their account is still visible in all finalized protocols.
+  Nevertheless other users can not invite inactive
+  users to meetings or make inactive users responsible 
+  for an action item.
  
+Multiple user accounts can be specified as frontend admin. 
+To make 4Minitz recognize you as admin, enter your
+database user ID string to the `settings.json` key array `adminIDs`.
+For example:
+   
+`"adminIDs": ["vwuhsQmghXSfqZ3f3", "5yEzZhQ6or44weojX"],`
+
+ On server restart the server will log all admin account names
+ to the server console.
+ 
+ **But how do I find out my own user ID?**
+ 
+ First login to the frontend with a registered user account.
+ Then you have two options:
+ 
+ * either enter the following to your browser console:
+  `Meteor.userId()` and press enter.
+ * or open the 4Minitz About dialog and perform a 
+   mouse double click right after the text 
+   "About 4Minitz". Then your (previous invisible) user ID
+   will show up selected - ready for copy & paste.
+   
+   ![About Box with selected user ID](./figures/about_my_user_id.png)
+
 ### Database configuration
 
 Database related configuration is collected under the ```db``` object in your settings.json. These options are available:

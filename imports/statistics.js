@@ -46,9 +46,6 @@ export const Statistics = SchemaClass.create({
                 description: "Number of users (active)",
                 value: numberOfUsers + " (" + numberOfActiveUsers + ")"
             }, {
-                description: "Number of users",
-                value: numberOfUsers.toString()
-            }, {
                 description: "Number of meeting series",
                 value: numberOfMeetingSeries.toString()
             }, {
