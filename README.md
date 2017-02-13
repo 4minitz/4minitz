@@ -45,15 +45,27 @@ You can see whats on our development roadmap and what stories are currently in w
 4minitz is realized with the [Meteor JS Framework](http://www.meteor.com). So, first install the current version of meteor:
 
     curl https://install.meteor.com/ | sh
+    meteor --version
 
-### Quick Installation of 4Minitz    
+You'll need root rights for that. As a non-root user you may install
+meteor by:
+
+    git git clone --depth 1 --recursive https://github.com/meteor/meteor.git
+    cd meteor
+    meteor --version
+
+On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
+
+### Quick Installation of 4Minitz (Linux & MacOS)    
 **Attention:** This installation mode is for quick testing only.
-It is intended for developers and so it has some security drawbacks 
-and also consumes some amount of extra RAM (>700 MB)). Don't miss the 
-[Admin Guide](doc/admin/adminguide.md)
-with a more comprehensive coverage of the installation topic!
+It is intended for developers and so it has some security drawbacks (No
+password protection for MongoDB) and also consumes some amount of extra RAM
+(>700 MB)). Don't miss the [Admin Guide](doc/admin/adminguide.md)
+with a more comprehensive coverage of the real production installation topic!
 
-    git clone --depth 1 https://github.com/4minitz/4minitz.git
+OK, here we go! For a quick test installation perform:
+
+    git clone --depth 1 https://github.com/4minitz/4minitz.git --branch master --single-branch
     cd 4minitz
     ./runapp.sh
 

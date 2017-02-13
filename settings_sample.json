@@ -31,7 +31,7 @@
         "topLeftLogoHTML": "4Minitz.com",
         "showGithubCorner": true,
         "showInfoOnLogin": true,
-        "createDemoAccount": true
+        "createDemoAccount": false
     },
 
     "//3": "below option configures if and how to send E-Mails",
