@@ -31,7 +31,7 @@ meteor npm install --production
 
 #### Build 4Minitz docker image
 cd ../../../..                  # pwd => .docker
-docker build -t $dockerimage .
+docker build --no-cache -t $dockerimage .
 echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
 echo "docker push $dockerimage"
 

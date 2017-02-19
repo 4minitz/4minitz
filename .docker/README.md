@@ -1,4 +1,4 @@
-## How to build a dockerfile for a 4Minitz demo server
+## How to build a docker image for a 4Minitz demo server
 
 Hint: The BUILD.sh script below will not work on Windows.
 Use MacOS or Linux to build a docker image.
@@ -15,11 +15,6 @@ that are officially supported by docker.
 1. Push the tagged images to docker hub
     ````
     docker push derwok/4minitz
-    docker push derwok/4minitz:0
-   docker push derwok/4minitz:0.8
-   docker push derwok/4minitz:0.8.1
-   docker push derwok/4minitz:master
-   docker push derwok/4minitz:stable
    ````
 
 Afterwards the image can be used via:

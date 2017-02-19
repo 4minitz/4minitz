@@ -40,8 +40,58 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 You can see whats on our development roadmap and what stories are currently in work in the
  [4Minitz Backlog](https://github.com/4minitz/4minitz/projects/1)
 
+
+
 ## Quick Start
-### Prerequisites
+You have two options to quickly evaluate a local demo 
+installation at your site.
+
+1. Use our ready-to-go docker image (recommended!) or
+1. Install meteor. Then build and run 4Minitz locally
+
+
+### Option 1: Use 4Minitz docker image (Linux, Mac & Windows)
+**Attention:** Option 1 is for quick testing only.
+Don't miss the [Admin Guide](doc/admin/adminguide.md)
+with a more comprehensive coverage of the real production
+installation topic!
+
+The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
+node.js version and MongoDB and thus has no external dependecies.
+
+1. Install [docker](https://docs.docker.com/engine/installation/)
+2. In a directory where you have write access run:
+```
+docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 derwok/4minitz
+```
+You can reach 4Minitz via the default port 3100 by opening 
+[http://localhost:3100](http://localhost:3100) in your browser
+
+The docker container will write all data to your local host
+machine into `./4minitz_storage`. Here you will find 
+* **4minitz_settings.json** - adapt server settings here. Then "Ctrl+c" 
+  and restart the 4Minitz container.
+* **log** - here are MongoDB and 4Minitz logs - if something does not work.
+* **attachments** - all attachments that have been uploaded
+  to meeting minutes are stored here.
+* **4minitz_mongodb** - MongoDB "--dbpath"
+     
+If a new version of 4Minitz is released, you may keep the above storage 
+directory. Simply Ctr+c the running container, and perform a `docker pull
+derwok/4minitz`. 
+When you re-launch the container afterwards, all clients will get 
+the new WebApp version automatically via meteors hot-code push.
+
+
+
+### Option 2: Clone, build & run your own (Linux, Mac)
+**Attention:** Option 2 is for quick testing only.
+It is intended for developers and so it has some security drawbacks (No
+password protection for MongoDB) and also consumes some amount of extra RAM
+(>700 MB)). Don't miss the [Admin Guide](doc/admin/adminguide.md)
+with a more comprehensive coverage of the real production installation topic!
+
+#### Prerequisites
 4minitz is realized with the [Meteor JS Framework](http://www.meteor.com). So, first install the current version of meteor:
 
     curl https://install.meteor.com/ | sh
@@ -53,24 +103,21 @@ meteor by:
     git clone --depth 1 --recursive https://github.com/meteor/meteor.git
     cd meteor
     meteor --version
+    sudo ln -s ./meteor /usr/local/bin/meteor
 
 On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
 
-### Quick Installation of 4Minitz (Linux & MacOS)    
-**Attention:** This installation mode is for quick testing only.
-It is intended for developers and so it has some security drawbacks (No
-password protection for MongoDB) and also consumes some amount of extra RAM
-(>700 MB)). Don't miss the [Admin Guide](doc/admin/adminguide.md)
-with a more comprehensive coverage of the real production installation topic!
-
+#### Quick Installation of 4Minitz   
 OK, here we go! For a quick test installation perform:
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git --branch master --single-branch
     cd 4minitz
+    cp settings_sample.json settings.json
     ./runapp.sh
 
 Wait some time for meteor to finish downloading and building. 
-You can reach 4Minitz via the default port 3100 by opening [http://localhost:3100](http://localhost:3100) in your browser
+You can reach 4Minitz via the default port 3100 by opening 
+[http://localhost:3100](http://localhost:3100) in your browser
 
 **Hint:** There exists a settings_sample.json file that has quite a few configuration options
 (like sending eMails etc.). Don't miss the [Admin Guide](doc/admin/adminguide.md) with more details
