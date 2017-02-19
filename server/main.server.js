@@ -20,7 +20,7 @@ Meteor.startup(() => {
 
 
 Meteor.startup(() => {
-    // Make sure that all server side markdown rendering quotes all HTML <TAGs>
+    // #Security: Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({
         sanitize: true
     });

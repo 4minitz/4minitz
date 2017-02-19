@@ -50,7 +50,7 @@ You can see whats on our development roadmap and what stories are currently in w
 You'll need root rights for that. As a non-root user you may install
 meteor by:
 
-    git git clone --depth 1 --recursive https://github.com/meteor/meteor.git
+    git clone --depth 1 --recursive https://github.com/meteor/meteor.git
     cd meteor
     meteor --version
 
