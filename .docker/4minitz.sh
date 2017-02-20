@@ -2,6 +2,19 @@
 
 basedir4min=/4minitz_storage
 settingsfile=$basedir4min/4minitz_settings.json
+mongodatadir=$basedir4min/4minitz_mongodb
+logdir=$basedir4min/log
+
+function signalhandler {
+    echo ""
+    echo ""
+    echo "STOP received."
+    echo "Shutting down mongodb..."
+    mongod --shutdown --dbpath=$mongodatadir
+    exit 0
+}
+trap signalhandler SIGHUP SIGINT SIGTERM
+
 
 if [ -f "$settingsfile" ]
 then
@@ -27,12 +40,14 @@ else
     exit 1
 fi
 
-mkdir $basedir4min/4minitz_mongodb
-mkdir $basedir4min/log
-mongod --dbpath=$basedir4min/4minitz_mongodb --logpath $basedir4min/log/mongodb.log &
+mkdir $mongodatadir 2> /dev/null
+mkdir $logdir 2> /dev/null
+mongod --fork --dbpath=$mongodatadir --logpath $logdir/mongodb.log
 
 #wait for mongodb to be ready
+echo "Waiting for mongodb to be ready..."
 while ! /usr/bin/mongo --eval "db.version()" > /dev/null 2>&1; do sleep 0.1; done
+echo "Mongodb is ready."
 
 cd /4minitz_bin/bundle
 
@@ -55,6 +70,17 @@ echo "*   host browser via:             *"
 echo "*   http://localhost:3100         *"
 echo "***********************************"
 echo ""
+echo "******"
+echo "Logging to $logdir/4minitz.log"
+echo ""
+echo "******"
+echo "You can stop this service by:"
+echo "Ctrl+c or 'docker stop [CONTAINERID]'"
 echo ""
 
-node main.js | tee $basedir4min/log/4minitz.log
+echo "------------------------------- New 4Minitz!" >> ${logdir}/4minitz.log
+# Important: The bg "&" execution of 'node' together with 'wait' ensures that
+# the 'docker stop' SIGINT is properly routed to the signal trap of
+# this wrapper script. So we can shutdown mongodb in the signalhandler()
+node main.js >> ${logdir}/4minitz.log 2>&1 &
+wait

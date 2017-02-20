@@ -38,11 +38,6 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 * [CLA Assist](https://cla-assistant.io/4minitz/4minitz) - Manages signing of our Contributor License Agreements 
 
 
-## Backlog
-You can see whats on our development roadmap and what stories are currently in work in the
- 
-
-
 
 ## Quick Start
 You have two options to quickly evaluate a local demo 

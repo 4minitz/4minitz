@@ -45,4 +45,7 @@ COPY 4minitz_bin /4minitz_bin
 COPY 4minitz.sh /
 COPY 4minitz_settings.json /
 
-CMD ./4minitz.sh
+# Important: do NOT use: 'CMD ./4minitz.sh' - this will result in
+# a /bin/sh child process /bin/bash with a PID!=1 - so, the SIGINT
+# signal will not go through to our launcher script
+CMD ["/4minitz.sh"]
