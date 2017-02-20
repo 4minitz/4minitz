@@ -1,3 +1,9 @@
+
+master/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=master)](https://travis-ci.org/4minitz/4minitz)
+develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=develop)](https://travis-ci.org/4minitz/4minitz)
+[![Code Climate](https://codeclimate.com/github/4minitz/4minitz/badges/gpa.svg)](https://codeclimate.com/github/4minitz/4minitz)
+[![CLA assistant](https://cla-assistant.io/readme/badge/4minitz/4minitz)](https://cla-assistant.io/4minitz/4minitz)
+
 # 4Minitz!
 
 *Simply the best free webapp for taking meeting minutes.*
@@ -24,21 +30,17 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 * [Admin Guide](doc/admin/adminguide.md)
 * [Developer Doc](doc/developer/developermanual.md)
 
-## Build status (by [TravisCI](https://travis-ci.org))
-|Branch|  |
-|---|---|
-|master|[![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=master)](https://travis-ci.org/4minitz/4minitz)|
-|develop|[![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=develop)](https://travis-ci.org/4minitz/4minitz)|
+## External Project Links
+* [4Minitz Backlog](https://github.com/4minitz/4minitz/projects/1) - organizes our project TODOs
+* [4Minitz Demo Server](https://www.4minitz.com) - well, our Demo server ;-)
+* [TravisCI](https://travis-ci.org/4minitz/4minitz) - Runs unit and end2end tests on each commit
+* [Code Climate](https://codeclimate.com/github/4minitz/4minitz) - Keeps an eye on our code quality 
+* [CLA Assist](https://cla-assistant.io/4minitz/4minitz) - Manages signing of our Contributor License Agreements 
 
-## Code Climate
-
-4Minitz uses code climate to track its code quality.
-
-[![Code Climate](https://codeclimate.com/github/4minitz/4minitz/badges/gpa.svg)](https://codeclimate.com/github/4minitz/4minitz)
 
 ## Backlog
 You can see whats on our development roadmap and what stories are currently in work in the
- [4Minitz Backlog](https://github.com/4minitz/4minitz/projects/1)
+ 
 
 
 
