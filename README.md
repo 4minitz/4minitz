@@ -2,7 +2,9 @@
 master/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=master)](https://travis-ci.org/4minitz/4minitz)
 develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=develop)](https://travis-ci.org/4minitz/4minitz)
 [![Code Climate](https://codeclimate.com/github/4minitz/4minitz/badges/gpa.svg)](https://codeclimate.com/github/4minitz/4minitz)
+[![Docker Pulls](https://img.shields.io/docker/pulls/derwok/4minitz.svg)](https://hub.docker.com/r/derwok/4minitz/)
 [![CLA assistant](https://cla-assistant.io/readme/badge/4minitz/4minitz)](https://cla-assistant.io/4minitz/4minitz)
+
 
 # 4Minitz!
 
@@ -36,6 +38,7 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 * [TravisCI](https://travis-ci.org/4minitz/4minitz) - Runs unit and end2end tests on each commit
 * [Code Climate](https://codeclimate.com/github/4minitz/4minitz) - Keeps an eye on our code quality 
 * [CLA Assist](https://cla-assistant.io/4minitz/4minitz) - Manages signing of our Contributor License Agreements 
+* [Docker Hub](https://hub.docker.com/r/derwok/4minitz/) - Spin up your own 4Minitz server in seconds 
 
 
 

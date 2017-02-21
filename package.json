@@ -4,9 +4,9 @@
   "4minitz": {
     "//": "This is some app specific info",
     "branch": "develop",
-    "commitlong": "d0410262777777b6f0e9be02ba1971aaf69c2278",
-    "commitshort": "d04102",
-    "releasedate": "2017-02-19"
+    "commitlong": "8289f943177e38409320682d9a9b07fd2f00cfd4",
+    "commitshort": "8289f9",
+    "releasedate": "2017-02-20"
   },
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
