@@ -10,7 +10,8 @@ const MONGO_URL = 'mongodb://localhost:3101/meteor';
 const CONFIG = {
     minutesCount: 5,
     topicsRange: {min: 3, max: 10},
-    itemsRange: {min: 1, max: 8}
+    itemsRange: {min: 1, max: 8},
+    detailsSentenceRange: {min: 7, max: 23} // number of sentences per detail
 };
 
 

@@ -1,19 +1,21 @@
 import { Random } from '../lib/random';
 import { DateHelper } from '../lib/date-helper';
 let faker = require('faker');
-let extend = require("xtend");
+let extend = require('clone');//require("xtend");
 
 export class TopicsGenerator {
 
     /**
      *
-     * @param config                            - Configuration
-     * @param config.topicsRange {object}       - Range of topics per minutes
-     * @param config.topicsRange.min {number}   - min. value
-     * @param config.topicsRange.max {number}   - max. value
-     * @param config.itemsRange {object}        - Range of items per topic
-     * @param config.itemsRange.min {number}   - min. value
-     * @param config.itemsRange.max {number}   - max. value
+     * @param config                                    - Configuration
+     * @param config.topicsRange {object}               - Range of topics per minutes
+     * @param config.topicsRange.min {number}           - min. value
+     * @param config.topicsRange.max {number}           - max. value
+     * @param config.itemsRange {object}                - Range of items per topic
+     * @param config.itemsRange.min {number}            - min. value
+     * @param config.itemsRange.max {number}            - max. value
+     * @param config.detailsSentenceRange.min {number}  - min. value
+     * @param config.detailsSentenceRange.max {number}  - max. value
      */
     constructor(config) {
         this.config = config;
@@ -21,10 +23,12 @@ export class TopicsGenerator {
         this.seriesTopicIdIndexMap = {};
         this.currentTopicList = [];
         this.currentMinutesId = null;
+        this.minutesDate = null;
     }
 
-    generateNextListForMinutes(minutesId, isLastOne = false) {
+    generateNextListForMinutes(minutesId, minutesDate, isLastOne = false) {
         this.currentMinutesId = minutesId;
+        this.minutesDate = minutesDate;
 
         // generate base list for the following minutes
         // basing on the previous list
@@ -63,10 +67,13 @@ export class TopicsGenerator {
         for(let i=0; i<this.currentTopicList.length; i++) {
             let topic = this.currentTopicList[i];
 
-            // close existing topics randomly
+            // close action items and add details, randomly
             topic.infoItems.forEach(item => {
                 if (item.itemType === 'actionItem' && faker.random.boolean()) {
                     item.isOpen = false;
+                }
+                if (faker.random.boolean()) {
+                    item.details.push(this._generateADetail());
                 }
             });
 
@@ -142,7 +149,7 @@ export class TopicsGenerator {
             createdInMinute: this.currentMinutesId,
             labels: [],
             subject: faker.lorem.sentence(),
-            details: []
+            details: [this._generateADetail()]
         };
 
         if (isAction) {
@@ -155,6 +162,13 @@ export class TopicsGenerator {
         }
 
         return item;
+    }
+
+    _generateADetail() {
+        return {
+            date: DateHelper.formatDateISO8601(this.minutesDate),
+            text: faker.lorem.sentences(faker.random.number(this.config.detailsSentenceRange))
+        }
     }
 
     static _isCompletelyClosed(topic) {

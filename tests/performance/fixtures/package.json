@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "clone": "^2.1.0",
     "xtend": "^4.0.1"
   }
 }

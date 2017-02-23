@@ -47,7 +47,7 @@ export class MinutesGenerator {
             _id: id,
             meetingSeries_id: this.parentSeriesId,
             date: this.constructor._formatDate(this.nextMinutesDate),
-            topics: topicsGenerator.generateNextListForMinutes(id, isLastOne),
+            topics: topicsGenerator.generateNextListForMinutes(id, this.nextMinutesDate, isLastOne),
             visibleFor: [this.user._id],
             participants: [{userId: this.user._id, present:false, minuteKeeper: false}],
             createdAt: new Date(),
