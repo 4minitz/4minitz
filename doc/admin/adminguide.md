@@ -1,118 +1,201 @@
 # 4Minitz Admin Guide
 
-## Installation
+# Installation
 
-### Prerequisites
-Install current version of meteor (which will install node & mongodb if not present):
+## Whats wrong with the 'Quick Installation'?    
 
+The [quick installation](../../README.md#quick-installation-of-4minitz) 
+has the advantage that you don't have to
+install node and you don't have to mess with a MongoDB database, as 
+both tools come with the meteor development tool as sub packages.
 
-    curl https://install.meteor.com/ | sh
-
-### Quick Installation    
-**Attention:** This installation mode is for *quick testing only*.
-It is intended for developers and so it has some security drawbacks 
-and also consumes some amount of extra RAM (>700 MB)).
-See production installation below for the "pro way" of doing it.
-
-**If you tested and liked 4Minitz, then we recommend the "Production Installation" chapter below**
-
-    git clone --depth 1 https://github.com/4minitz/4minitz.git
-    cd 4minitz
-    cp settings_sample.json settings.json
-    ./runapp.sh
-
-Wait some time for meteor to finish downloading and building. 
-You can reach 4minitz via the default port 3100 by opening [http://localhost:3100](http://localhost:3100) in your browser
-
-If you want to run 4Minitz on a different port than the default port, you can do so by providing the port the the above runapp.sh script like so:
-
-    ./runapp.sh 4321
-
-Note: you might need sudo rights to open a port below 1024.
-
-**Attention:**
-This quick installation has the advantage that you don't have to
-install node, you don't have to mess with a MongoDB database, as 
-both tools come with meteor as sub packages.
-But while the quick installation mode is - well - quick, it has some
+But while the quick installation mode is - well... - quick, it has some
 drawbacks:
 
- 1. It uses meteor's own MongoDB where it sets up users & collections that
+ 1. It uses meteor's own MongoDB where it sets up collections that
    are accesible to everyone who has shell access to the PC the database is
-   running on. Nevertheless as of this writing the DB port is not opened to
+   running on. So, no login is needed to access the DB.
+   Nevertheless as of this writing the DB port is not opened to
    the outside world. So, if you are the only person that can login 
    to the machine - may be you are fine with this.
- 1. The meteor tool is a build environment. Among many other things meteor
+ 1. The meteor tool is a development tool. Among many other things meteor
    watches the source files of 4Minitz and rebuilds on changes. This
    is great for developers. But it comes to the price of some extra need
    from RAM. Recent measurements showed, 4Minitz needs about 700 MB of RAM
    when launched via meteor vs. 90 MB of RAM when directly launched via node
    without meteor build support. So, if your (virtual?) machine has enough
-   RAM - may be you are fine with this.
+   RAM - may be you are fine with this, too.
 
 In all other cases - read on and chose the "Production Installation" way.
 
+## Production Building, Installation & Running
 
-### Production Installation
-[This Chapter is 'Work-in-Progress']
+### Prerequisites
+#### C++11 compiler
+As of version 1.4 meteor needs to build some binary npm packages during build phase. Make sure you have a C++11 compiler in your path, as this is needed by the node eco system of modules.
+
+**On MacOS** make sure you have up-to-date XCode commandline installed. To do so launch `gcc` from the commandline. If it is not installed, it 
+will tell you what to do.
+
+**On Linux** perform a `gcc --version` should at least deliver a **"4.8.x"**.
+ If your gcc is older, consult your Linux distribution how-tos on how to upgrade. A good version switcher is [update-alternatives](https://linux.die.net/man/8/update-alternatives).
+
+**On Windows** install the MS Visual Studio Community Edition to get an up-to-date commandline C++ compiler.
+
+#### Installation of Git
+To obtain the sources you may download the current [source ZIP from github](https://github.com/4minitz/4minitz/releases).
+
+But the prefered way is to clone the sources via git. So, make sure that `git --version` shows a version 2.x and produces 
+no error on your machine. ;-)
+
+#### Installation of Meteor
+4minitz is realized with the [Meteor JS Framework](http://www.meteor.com). 
+So, to be able to build the sources in a runnable server, first 
+install the current version of the meteor build tool:
+
+    curl https://install.meteor.com/ | sh
+    meteor --version
+
+You'll need root rights for the above. As a non-root user you may install
+meteor by:
+
+    git git clone --depth 1 --recursive https://github.com/meteor/meteor.git
+    cd meteor
+    meteor --version
+
+On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
+
+
+#### Installation of MongoDB
 After you installed meteor (see above), you should install and launch a
-separate MongoDB instance. Make sure you secured access by username and
-password. This instance may or may not be on the same machine as 4Minitz.
-There are lots of how-to on installing MongoDB out there.
+separate MongoDB instance. Make sure you secure the access by username and
+password. This MongoDB instance may or may not be on the same machine as 4Minitz.
+There are lots of how-to on [installing MongoDB out there](https://docs.mongodb.com/manual/installation/).
 
-Then perform the following steps:
+As a first hint this might help:
 
-    git clone --depth 1 https://github.com/4minitz/4minitz.git
+    mongod --dbpath=/path/to/my/datadirecotry
+
+This should make the mongodb available on the default port 27017 so that the following mongo URL should work:
+
+    export MONGO_URL='mongodb://localhost:27017/'
+ 
+**Attention** The above configuration does not enforce secure SSL communication to your mongodb. So if you run mongoDB and 4Minitz on 
+ different machines you should take a look at the [MongoDB Transport Enryption](https://docs.mongodb.com/manual/core/security-transport-encryption/) doc.
+ 
+**Attention** The above configuration does not enforce users to log in. 
+See the [MongoDB Enable Auth](https://docs.mongodb.com/manual/tutorial/enable-authentication/) doc for information on this topic 
+
+### Building and Running of 4Minitz
+**Note:** *The following steps assume you have no local node / npm installed.
+So, we use the meteor bundled node / npm for building and running 4Minitz.
+If you have a suited node / npm installed (as of this writing: 
+Node 4.6.2 is needed), you may use ```npm``` instead of ```meteor npm```
+ and ```node``` instead of ```meteor node``` in the steps below.*
+
+Perform the following steps to build an run the 4Minitz server:
+
+    git clone --depth 1 https://github.com/4minitz/4minitz.git --branch master --single-branch
     
     cd 4minitz
+    meteor npm install
     mkdir ../4minitz_bin
     meteor build ../4minitz_bin --directory
     cp settings_sample.json ../4minitz_bin/bundle/settings.json
 
-    cd ../4minitz_bin/bundle
-    meteor npm install
+    cd ../4minitz_bin/bundle/programs/server
+    meteor npm install --production
+    
+    cd ../..
     nano settings.json
 
 Now you should configure your settings.json to your needs.
-Then set the following environment variables (where 21181 is the
-port where MongoDB listens and 61405 will be the port where
-4Minitz will be reachable):
 
-    export MONGO_URL='mongodb://MONGOUSER:MONGOPASSWORD@localhost:21181/'
+Then set the following environment variables (where 27017 is the
+port where MongoDB listens and 61405 will be the port where
+4Minitz will be reachable via web browser):
+
+    export MONGO_URL='mongodb://MONGOUSER:MONGOPASSWORD@localhost:27017/'
     export PORT=61405
     export ROOT_URL='http://4minitz.example.com:61405'
     export METEOR_SETTINGS=$(cat ./settings.json)
 
-Now you can launch the 4Minitz WebApp:
+Now you can launch the 4Minitz server:
 
     meteor node main.js
 
-Now you should reach your 4Minitz instance via:
+You should be able to reach your 4Minitz instance via:
 
+    http://localhost:61405
+    or
     http://4minitz.example.com:61405
 
 
 ## Configuration with settings.json
-Take a look at ```settings_sample.json``` at the top level folder of 4Minitz.
- You may rename this file to ```settings.json``` and then edit its contents to your need.
-Afterwards launch the 4Minitz server with this settings.json either via the
-```runapp.sh``` skript or via ```meteor --production --settings settings.json --port 3100``` 
+Take a look at ```settings_sample.json``` at the top level folder of 
+4Minitz.  You may rename this file to ```settings.json``` and then edit
+its contents to your need.
+
+If you already have a running production server as described above: don't
+forget to refresh changes of your settings.json into the environment 
+variable: ```export METEOR_SETTINGS=$(cat ./settings.json)```. Then
+ re-start your 4Minitz server with ```meteor node main.js```.
+
+### How to become a frontend admin?
+Some admin functionality can also be reached when you 
+logged in  to the 4Minitz frontend via your browser.
+Click the "Admin" nav bar menu entry to show possible 
+options. On the admin view you may, for example:
+
+* **Register new users** for standard login.
+  (Sorry, no LDAP registering!). When you
+   filled all necessary fields, you can specifiy
+   if the new user will receive a welcome eMail with
+   her login credentials.
+* **Show and filter** all registered users
+* **De/Activate user accounts.** Inactive users will
+  not be able to log in the the WebApp anymore. But
+  their account is still visible in all finalized protocols.
+  Nevertheless other users cannot invite inactive
+  users to meetings or make inactive users responsible 
+  for an action item.
  
+Multiple user accounts can be specified as frontend admin. 
+To make 4Minitz recognize you as admin, enter your
+database user ID string to the `settings.json` key array `adminIDs`.
+For example:
+   
+`"adminIDs": ["vwuhsQmghXSfqZ3f3", "5yEzZhQ6or44weojX"],`
+
+ On server-side a restart off the server will log all admin account names
+ to the server console.
+ 
+ **But how do I find out my own user ID to make me admin?**
+ 
+ First login to the frontend with a registered user account.
+ Then you have two options:
+ 
+ * either enter the following to your browser's JavaScript console:
+  `Meteor.userId()` and press enter.
+ * or open the 4Minitz About box and perform a 
+   mouse double click right after the text 
+   "About 4Minitz". Then your (previous invisible) user ID
+   will show up selected - ready for copy & paste.
+   
+   ![About Box with selected user ID](./figures/about_my_user_id.png)
+
 ### Database configuration
 
 Database related configuration is collected under the ```db``` object in your settings.json. These options are available:
 
 * ```mongodumpTargetDirectory```: The output directory where 4minitz will store the database contents before
-  the database schema is updated. If this is not set or empty no backup will be created.
+  the database schema is migrated (updated). If this is not set or empty no backup will be created.
 
 
 ### Configuration for sending emails
 
 You can send emails either via smtp or [mailgun](http://www.mailgun.com/). To enable email sending you have to provide
 your custom settings.json file where you have to define your smtp settings or mailgun api key.
-Then simply run the application and pass your settings file as program argument:
-
-    meteor --production --settings path/to/settings.json
 
 See /settings_sample.json for an example. Do not forget to set "enableMailDelivery" to true and set "mailDeliverer"
 to either "mailgun" or "smtp" - not both as seen in the example file!
@@ -125,16 +208,17 @@ the "TO:" field. Disable this option in public or demo mode!
 #### Available configuration options
 See your settings.json file:
 
-| Setting           | Default | Explanation                                                                 |
-|-------------------|---------|-----------------------------------------------------------------------------|
-| enabled           | false   | Enables & disables LDAP login                                               |
-| searchDn          | "cn"    | The attribute used as username                                              |
-| searchFilter      | ""      | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
-| serverDn          | ""      | Your server base dn, e.g. "dc=example,dc=com"                               |
-| serverUrl         | ""      | Server url, e.g. "ldaps://ldap.example.com:1234                             |
-| whiteListedFields | []      | Attributes that are copied into the user's profile property                 |
-| autopublishFields | []      | Meteor will publish these fields automatically on users                     |
-| allowSelfSignedTLS| false   | If enabled, self-signed certs will be allowed for the Meteor server process |
+| Setting             | Default | Explanation                                                                 |
+|---------------------|---------|-----------------------------------------------------------------------------|
+| enabled             | false   | Enables & disables LDAP login                                               |
+| searchDn            | "cn"    | The attribute used as username                                              |
+| searchFilter        | ""      | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
+| serverDn            | ""      | Your server base dn, e.g. "dc=example,dc=com"                               |
+| serverUrl           | ""      | Server url, e.g. "ldaps://ldap.example.com:1234                             |
+| whiteListedFields   | []      | Attributes that are copied into the user's profile property                 |
+| autopublishFields   | []      | Meteor will publish these fields automatically on users                     |
+| isInactivePredicate | []      | If one of these key/value pairs matches a user key/value pair, this user become isInactive - and can not log in|
+| allowSelfSignedTLS  | false   | If enabled, self-signed certs will be allowed for the Meteor server process |
 
 Once you have configured 4minitz to allow LDAP login, all your 
 users should be able to login with their LDAP username & passwords. On 
@@ -180,7 +264,7 @@ important to note that comparison is done __case-insensitive__ as
 If this feature is switched on, users may upload binary attachments
 to a non-finalized meeting protocol. This is especially cool as
 users may login to the current meeting minutes with their smart
-device, take a snapshot - e.g. of a filled white board - and then directly
+phone, take a snapshot - e.g. of a filled white board - and then directly
 upload the photo to the current meeting minutes.
 
 For detailed setting options for binary attachments take a look at the 
@@ -220,3 +304,23 @@ much storage space they occupy, you may open the server statistics
 at the client.
 Just open the about box and click on the 4Minitz logo to show/hide the
 server statistics.
+
+## Safety and Security
+
+### Safety and Backup
+To ensure that you do not suffer from loss of data, make sure to
+backup your database and your attachment directory.
+
+#### Backup of MongoDB data
+TODO 
+
+#### Backup of uploaded attachments
+TODO
+
+### Security
+
+#### MongoDB security
+https://docs.mongodb.com/manual/tutorial/configure-ssl/
+mongod --sslMode requireSSL --sslPEMKeyFile <pem> --sslCAFile <ca>
+
+

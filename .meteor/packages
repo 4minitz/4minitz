@@ -52,3 +52,4 @@ arillo:flow-router-helpers
 
 # Important: ostrio:files must be added after accounts package
 ostrio:files
+jagi:astronomy

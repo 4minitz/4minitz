@@ -8,7 +8,7 @@ import '/imports/meetingseries';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
-import '/imports/collections/statistics_private';
+import '/imports/statistics';
 import '/imports/collections/attachments_private'
 
 
@@ -20,7 +20,7 @@ Meteor.startup(() => {
 
 
 Meteor.startup(() => {
-    // Make sure that all server side markdown rendering quotes all HTML <TAGs>
+    // #Security: Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({
         sanitize: true
     });
@@ -36,7 +36,7 @@ Meteor.startup(() => {
         }
     }
 
-    // Security: warn admin if demo user exists
+    // #Security: warn admin if demo user exists
     let demoUser = Meteor.users.findOne({"username": "demo"});
     if (demoUser) {
         console.log("*** ATTENTION ***\n" +

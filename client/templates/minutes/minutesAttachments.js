@@ -140,12 +140,23 @@ Template.minutesAttachments.events({
             Attachment.uploadFile(
                 uploadFilename,
                 minObj,
-                template.currentUpload,
-                (error) => {
-                    ConfirmationDialogFactory.makeErrorDialog(
-                        'Error during upload',
-                        '' + error
-                    ).show();
+                {
+                    onStart: (fileUploadObj) => {
+                        template.currentUpload.set(fileUploadObj);
+                    },
+                    onEnd: (error) => {
+                        if (error) {
+                            ConfirmationDialogFactory.makeErrorDialog(
+                                'Error during upload',
+                                '' + error
+                            ).show();
+                        }
+                        template.currentUpload.set(false);
+                    },
+                    onAbort: () => {
+                        console.log("Upload of attachment was aborted.");
+                        template.currentUpload.set(false);
+                    }
                 }
             );
         }

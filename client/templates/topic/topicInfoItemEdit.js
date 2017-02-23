@@ -150,7 +150,10 @@ var getRemainingUsers = function (participants) {
     }
 
     // format return object suiting for select2.js
-    let users = Meteor.users.find({_id: {$nin: participantsIds}}).fetch();
+    let users = Meteor.users.find(
+        {$and: [{_id: {$nin: participantsIds}},
+                {isInactive: {$not: true}}]}).fetch();
+
     for (let i in users) {
         let usertext = users[i].username;
         if (users[i].profile && users[i].profile.name && users[i].profile.name !== "") {

@@ -36,7 +36,7 @@ if [ ! -f ./settings.json ]; then
     echo "ERROR!"
     echo "Could not find settings.json in:"
     echo "    " $SCRIPTPATH
-    echo "Please rename settings_sample.json to settings.json"
+    echo "Please copy settings_sample.json to settings.json"
     echo "and adapt settings.json to your needs."
     echo "Then retry to run this script"
     echo ""
@@ -47,7 +47,18 @@ fi
 meteor --version
 
 # Install the needed dependencies
-meteor npm install
+meteor npm install --production
+
+echo ""
+echo "WARNING!"
+echo "This script is only for quick testing and not"
+echo "for production use. It stores all data in an"
+echo "unprotected MongoDB database and needs way too"
+echo "much RAM."
+echo "To run a production server consult the admin guide:"
+echo "https://github.com/4minitz/4minitz/blob/master/doc/admin/adminguide.md"
+echo ""
+
 
 # Run app on specific port
 meteor --production --settings settings.json --port $PORT4APP

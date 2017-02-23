@@ -5,9 +5,9 @@ Template.navigation.onRendered(function() {
 });
 
 Template.navigation.helpers({
-  "logoHTML": function () {
-    return GlobalSettings.getBrandingLogoHTML();
-  }
+    "logoHTML": function () {
+      return GlobalSettings.getBrandingLogoHTML();
+    }
 });
 
 Template.navigation.events({

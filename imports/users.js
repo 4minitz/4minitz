@@ -33,4 +33,4 @@ export const userSettings = {
         meetingSeries:     'showQuickHelp_meetingSeries',
         meeting:           'showQuickHelp_meeting'
     }
-}
+};
