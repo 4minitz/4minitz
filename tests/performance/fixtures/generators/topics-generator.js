@@ -165,8 +165,9 @@ export class TopicsGenerator {
     }
 
     _generateADetail() {
+        let date = (this.minutesDate) ? this.minutesDate : new Date();
         return {
-            date: DateHelper.formatDateISO8601(this.minutesDate),
+            date: DateHelper.formatDateISO8601(date),
             text: faker.lorem.sentences(faker.random.number(this.config.detailsSentenceRange))
         }
     }
