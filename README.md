@@ -51,10 +51,11 @@ installation at your site.
 
 
 ### Option 1: Use 4Minitz docker image (Linux, Mac & Windows)
-**Attention:** Option 1 is for quick testing only.
+**Attention:** Option 1 is only one possibility of running a production
+server.
 Don't miss the [Admin Guide](doc/admin/adminguide.md)
 with a more comprehensive coverage of the real production
-installation topic!
+building & installation topic!
 
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
 node.js version and MongoDB and thus has no external dependecies.
@@ -67,21 +68,8 @@ docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 derw
 You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser
 
-The docker container will write all data to your local host
-machine into `./4minitz_storage`. Here you will find 
-* **4minitz_settings.json** - adapt server settings here. Then "Ctrl+c" 
-  and restart the 4Minitz container.
-* **log** - here are MongoDB and 4Minitz logs - if something does not work.
-* **attachments** - all attachments that have been uploaded
-  to meeting minutes are stored here.
-* **4minitz_mongodb** - MongoDB "--dbpath"
-     
-If a new version of 4Minitz is released, you may keep the above storage 
-directory. Simply Ctr+c the running container, and perform a `docker pull
-derwok/4minitz`. 
-When you re-launch the container afterwards, all clients will get 
-the new WebApp version automatically via meteors hot-code push.
-
+See the admin guide for
+[how to configure your 4Minitz docker server](doc/admin/adminguide.md#production-running---with-docker).
 
 
 ### Option 2: Clone, build & run your own (Linux, Mac)
