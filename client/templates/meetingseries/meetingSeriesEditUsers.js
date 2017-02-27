@@ -85,8 +85,14 @@ Template.meetingSeriesEditUsers.helpers({
         }
         rolesHTML += '</select>';
         return rolesHTML;
-    } 
-    
+    },
+
+    displayUsername(userObj) {
+        if (userObj.profile && userObj.profile.name) {
+            return userObj.profile.name + " ("+ userObj.username+ ")";
+        }
+        return userObj.username;
+    }
 });
 
 
