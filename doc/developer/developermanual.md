@@ -48,20 +48,23 @@ and http://info.meteor.com/blog/full-app-testing-in-meteor
 
 ### End2End Tests
 
-End-to-End tests are stored in directory ```tests/end2end/``` and use the [chimp package](https://chimp.readme.io), which first needs to be installed globally.
+End-to-End tests are stored in directory ```tests/end2end/``` 
+and use the [chimp package](https://chimp.readme.io), 
+which first needs to be installed globally (`sudo npm install -g chimp`).
 Hint: The chimp package needs an installed Chrome browser.
 To run the e2e tests, you need to run the server in "end2end" mode. 
 
     npm run test:end2end:server
 
 This will set some specific e2e settings from ```settings-test-end2end.json```. 
-Then run the chimp tests use once mode or in watch mode with an installed 
+Then run the chimp tests use `once` mode or in `watch` mode with an installed 
 Chrome instance
 
     npm run test:end2end:once
     npm run test:end2end:watch
 
-or run them headless with phantomjs, which is included in our test runner chimp
+or run them headless with phantomjs, 
+which is included in our test runner chimp
 
     npm run test:end2end:headless
 

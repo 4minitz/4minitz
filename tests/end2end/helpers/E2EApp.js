@@ -17,15 +17,16 @@ export class E2EApp {
 
     static isLoggedIn () {
         try {
-            browser.waitForExist('#navbar-signout', 2000);         // browser = WebdriverIO instance
+            browser.waitForExist('#navbar-usermenu', 2000);         // browser = WebdriverIO instance
         } catch (e) {
             // give browser some time, on fresh login
         }
-        return browser.isExisting('#navbar-signout');
+        return browser.isExisting('#navbar-usermenu');
     };
 
     static logoutUser () {
         if (E2EApp.isLoggedIn()) {
+            browser.click('#navbar-usermenu');
             browser.click('#navbar-signout');
             E2EGlobal.waitSomeTime();
         }
