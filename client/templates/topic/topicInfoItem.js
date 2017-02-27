@@ -41,6 +41,12 @@ let resizeTextarea = (element) => {
     $(document).scrollTop(scrollPos);
 };
 
+Meteor.sleep = function(ms) {
+    return new Promise(function(resolve, reject) {
+        setTimeout(resolve, ms);
+    });
+};
+
 let addNewDetails = async (tmpl) => {
     tmpl.$('#collapse-' + tmpl.data.currentCollapseId).collapse('show');
 
@@ -50,12 +56,15 @@ let addNewDetails = async (tmpl) => {
 
     aItem.addDetails();
     await  aItem.save();
-    let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
-    tmpl.$('.detailRow').find('.detailActions').last().show();
 
-    inputEl.parent().css('margin', '0 0 25px 0');
-    inputEl.show();
-    inputEl.focus();
+    // Defer opening new details editor to give DOM some time for its expand animation
+    Meteor.setTimeout(function () {
+        let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
+        tmpl.$('.detailRow').find('.detailActions').last().show();
+        inputEl.parent().css('margin', '0 0 25px 0');
+        inputEl.show();
+        inputEl.focus();
+    }, 250);
 };
 
 
@@ -67,7 +76,7 @@ Template.topicInfoItem.helpers({
             let tmpl = Template.instance();
             Meteor.setTimeout(() => {
                 addNewDetails(tmpl, itemId);
-            }, 300); // we need this delay otherwise the input field will be made hidden immediately
+            }, 1300); // we need this delay otherwise the input field will be made hidden immediately
         }
         // do not return anything! This will be rendered on the page!
         return '';
