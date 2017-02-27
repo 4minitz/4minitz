@@ -5,6 +5,7 @@ import { GlobalSettings } from '/imports/GlobalSettings';
 import '/imports/broadcastmessage'
 import '/imports/minutes';
 import '/imports/meetingseries';
+import {BroadcastMessageCollection} from '/imports/collections/broadcastmessage_private';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
@@ -45,4 +46,18 @@ Meteor.startup(() => {
             "    the password for user 'demo' is also 'demo'.\n" +
             "    Please check, if this is wanted for your site's installation.\n");
     }
+
+    // If we find no admin broadcast messages, we create an INactive one for
+    // easy re-activating.
+    if (BroadcastMessageCollection.find().count() === 0) {
+        message = "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
+            "Downtime will be about 4 Minutes. Just submit open dialogs. " +
+            "Then nothing is lost. You may finalize meetings later.";
+        BroadcastMessageCollection.insert({
+            text: message,
+            isActive: false,
+            createdAt: new Date(),
+            dismissForUserIDs: []});
+    }
 });
+

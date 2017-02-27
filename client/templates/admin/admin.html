@@ -1,59 +1,22 @@
-<template name="admin" xmlns="http://www.w3.org/1999/html">
+<template name="admin">
     {{#if currentUser}}
         {{#if currentUser.isAdmin}}
-            <h2>Hi Admin!</h2>
+            <ul class="nav nav-tabs">
+                <li id="tab_users" data-template="tabAdminUsers" role="presentation" class="{{isTabActive 'tab_users'}}">
+                    <a href="#">
+                        Users</a>
+                </li>
+                <li id="tab_messages" data-template="tabAdminMessages" role="presentation" class="{{isTabActive 'tab_messages'}}">
+                    <a href="#">
+                        Messages</a>
+                </li>
+            </ul>
+            <p>
 
-            <div class="row">
-                <form id="adminUser"></form>
-                <div class="col-md-7">
-                    <div class="form-group label-floating">
-                        <label class="control-label" for="id_meetingname">Filter Users</label>
-                        <input class="form-control" id="id_adminFilterUsers" type="text" autocomplete="off">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class='checkbox form-group'>
-                        <label for='id_adminShowInactive'>
-                            <input id="id_adminShowInactive" type='checkbox' class='checkbox'>
-                            Show Inactive
-                        </label>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-primary btn-default btn-raised"
-                            data-toggle="modal"
-                            data-target="#dlgAdminRegisterUser">
-                        Register New User...
-                    </button>
-                </div>
+            </p>
+            <div class="active">
+                {{> Template.dynamic template=tab}}
             </div>
-
-            <table class="table">
-            <thead>
-                <tr>
-                    <td>User</td>
-                    <td>Long Name</td>
-                    <td>EMail</td>
-                    <td>ID</td>
-                    <td title="LDAP user or Standard user">L/S</td>
-                    <td>In/Active</td>
-                </tr>
-            </thead>
-            <tbody>
-            {{#each users}}
-                <tr style="background-color: {{inactiveStateColor this}};">
-                    <td>{{this.username}}</td>
-                    <td>{{this.profile.name}}</td>
-                    <td><a href="mailto:{{email this}}">{{email this}}</a></td>
-                    <td style="font-family: 'Monaco', 'Courier New', monospace">{{this._id}}</td>
-                    <td>{{#if this.isLDAPuser}}L{{else}}S{{/if}}</td>
-                    <td>{{inactiveStateText this}} <a id="id_ToggleInactive" href="#">Toggle</a></td>
-                </tr>
-            {{/each}}
-            </tbody></table>
-            <br>
-
-            {{> adminRegisterUser}}
-        {{/if}}
-    {{/if}}
+        {{/if}} <!--isAdmin-->
+    {{/if}}  <!--currentUser-->
 </template>

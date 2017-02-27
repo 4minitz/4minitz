@@ -2,62 +2,32 @@
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-let _filterUsers = new ReactiveVar("");
-let _showInactive = new ReactiveVar(false);
 
-Template.admin.onRendered(function() {
-    _filterUsers.set("");
-    Template.instance().find("#id_adminFilterUsers").focus();
+
+Template.admin.onCreated(function() {
+    // The default Tab
+    this.activeTabTemplate = new ReactiveVar("tabAdminUsers");
+    this.activeTabId = new ReactiveVar("tab_users");
 });
 
 Template.admin.helpers({
-    users(){
-        let filterString = _filterUsers.get();
-        let filterOptions = filterString.length > 0
-            ? {$or: [{"username": {$regex: filterString, $options: "i"}},
-                     {"profile.name": {$regex: filterString, $options: "i"}},
-                     {"emails.0.address": {$regex: filterString, $options: "i"}},
-                     {"_id": {$regex: filterString, $options: "i"}}]}
-            : {};
-        if (! _showInactive.get()) {
-            filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]}
-        }
-        return Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 250});
+    // give active tab some CSS highlighting
+    isTabActive: function (tabId) {
+        return (Template.instance().activeTabId.get() === tabId) ? 'active' : '';
     },
 
-    "inactiveStateText"(user) {
-        if (user.isInactive) {
-            return "Inactive";
-        }
-        return "Active";
-    },
-    "inactiveStateColor"(user) {
-        if (user.isInactive) {
-            return "#F9A2AE";
-        }
-        return "#A2F9EA";
+    tab: function() {
+        return Template.instance().activeTabTemplate.get();
     },
 
-    "email"(user) {
-        if (user.emails && user.emails.length > 0) {
-            return user.emails[0].address;
-        }
-        return "";
-    }
 });
 
 Template.admin.events({
-    "keyup #id_adminFilterUsers"(evt, tmpl) {
-        let filterString = tmpl.find("#id_adminFilterUsers").value;
-        _filterUsers.set(filterString);
-    },
+    // Switch between tabs via user click on <li>
+    "click .nav-tabs li": function(event, tmpl) {
+        let currentTab = $(event.target).closest("li");
 
-    "click #id_ToggleInactive"(evt, tmpl) {
-        evt.preventDefault();
-        Meteor.call("users.admin.ToggleInactiveUser", this._id);
-    },
-
-    "change #id_adminShowInactive"(evt, tmpl) {
-        _showInactive.set(tmpl.find("#id_adminShowInactive").checked);
+        tmpl.activeTabId.set(currentTab.attr('id'));
+        tmpl.activeTabTemplate.set(currentTab.data("template"));
     }
 });
