@@ -8,7 +8,7 @@ import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 import { AttachmentsCollection } from "/imports/collections/attachments_private"
 
-Template.minutesList.helpers({
+Template.tabMinutesList.helpers({
     buttonBackground: function () {
         return (this.isFinalized) ? "default" : "info";
     },
@@ -40,7 +40,7 @@ Template.minutesList.helpers({
     }
 });
 
-Template.minutesList.events({
+Template.tabMinutesList.events({
     "click #btnLeaveMeetingSeries": function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
 
