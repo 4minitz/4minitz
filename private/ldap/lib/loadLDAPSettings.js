@@ -30,16 +30,6 @@ let _property = function (property, object) {
     });
 };
 
-let _setSelfSigned = function (ldapSettings) {
-    return new Promise((resolve) => {
-        let allowSelfSignedTLS = ldapSettings.allowSelfSignedTLS;
-        if (allowSelfSignedTLS) {
-            process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-        }
-        resolve(ldapSettings);
-    });
-};
-
 
 let loadLDAPSettings = function (filename) {
     return new Promise((resolve, reject) => {
@@ -48,7 +38,6 @@ let loadLDAPSettings = function (filename) {
             .then(settings => {
                 return _property('ldap', settings)
             })
-            .then(_setSelfSigned)
             .then(resolve)
             .catch(reject);
     });
