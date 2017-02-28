@@ -99,6 +99,7 @@ export class E2ETopics {
 
         E2EGlobal.waitSomeTime();
         if (autoCloseDetailInput) {
+            E2EGlobal.waitSomeTime(600);
             browser.keys(['Escape']);
             E2EGlobal.waitSomeTime();
         }
