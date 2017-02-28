@@ -10,7 +10,10 @@ import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
 import '/imports/statistics';
-import '/imports/collections/attachments_private'
+import '/imports/collections/attachments_private';
+
+import cron from 'node-cron';
+import importUsers from '/imports/ldap/import';
 
 
 Meteor.startup(() => {
@@ -58,6 +61,17 @@ Meteor.startup(() => {
             isActive: false,
             createdAt: new Date(),
             dismissForUserIDs: []});
+    }
+
+    if (GlobalSettings.hasImportUsersCronTab()) {
+        const crontab = GlobalSettings.getImportUsersCronTab(),
+            mongoUrl = process.env.MONGO_URL,
+            ldapSettings = GlobalSettings.getLDAPSettings();
+
+        console.log('Configuring cron job');
+        cron.schedule(crontab, function () {
+            importUsers(ldapSettings, mongoUrl);
+        });
     }
 });
 

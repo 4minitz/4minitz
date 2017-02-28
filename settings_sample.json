@@ -86,7 +86,8 @@
         "allowSelfSignedTLS": false,
         "whiteListedFields": [ "uid", "cn", "department", "employeeNumber", "mail", "mailEnabled" ],
         "isInactivePredicate": {"mailEnabled": "NO"},
-        "autopublishFields": [ "cn" ]
+        "autopublishFields": [ "cn" ],
+        "importCronTab": false
     },
 
     "//7": ["Upload attachment configuration",

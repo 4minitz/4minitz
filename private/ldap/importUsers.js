@@ -1,5 +1,5 @@
-let loadLDAPSettings = require('./lib/loadLDAPSettings'),
-    importUsers = require('./lib/import'),
+let loadLDAPSettings = require('../../imports/ldap/loadLDAPSettings'),
+    importUsers = require('../../imports/ldap/import'),
     optionParser = require('node-getopt').create([
         ['s', 'settings=[ARG]', '4minitz Meteor settings file'],
         ['m', 'mongourl=[ARG]', 'Mongo DB url'],
