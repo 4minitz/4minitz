@@ -28,7 +28,7 @@ let ldapSearchResponseWithError = {
     }
 };
 
-const getLDAPUsers = proxyquire('../../../../private/ldap/lib/getLDAPUsers', {
+const getLDAPUsers = proxyquire('../../../../imports/ldap/getLDAPUsers', {
     'ldapjs': ldap
 });
 
