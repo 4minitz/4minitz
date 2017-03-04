@@ -230,10 +230,9 @@ describe('Minutes', function () {
             expect(Meteor.callPromise.calledWithExactly('minutes.update', sentObj, undefined)).to.be.true;
         });
 
-        it('updates the changed property of the minute object', async function (done) {
+        it('updates the changed property of the minute object', async function () {
             await minute.update(updateDocPart);
             expect(minute.date).to.equal(updateDocPart.date);
-            done();
         });
 
     });
