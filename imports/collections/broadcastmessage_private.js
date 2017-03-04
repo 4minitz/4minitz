@@ -40,7 +40,7 @@ Meteor.methods({
         }
         console.log("Dismissing BroadcastMessages for user: "+Meteor.userId());
 
-        BroadcastMessageCollection.find().forEach(msg => {
+        BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
             BroadcastMessageCollection.update(
                 {_id: msg._id},
                 {$addToSet: {dismissForUserIDs: Meteor.userId()}})

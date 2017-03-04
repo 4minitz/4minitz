@@ -269,6 +269,7 @@ See your settings.json file:
 | autopublishFields   | []      | Meteor will publish these fields automatically on users                     |
 | isInactivePredicate | []      | If one of these key/value pairs matches a user key/value pair, this user become isInactive - and can not log in|
 | allowSelfSignedTLS  | false   | If enabled, self-signed certs will be allowed for the Meteor server process |
+| importCronTab       | false   | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
 
 Once you have configured 4minitz to allow LDAP login, all your 
 users should be able to login with their LDAP username & passwords. On 
