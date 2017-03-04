@@ -2,6 +2,7 @@
 master/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=master)](https://travis-ci.org/4minitz/4minitz)
 develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=develop)](https://travis-ci.org/4minitz/4minitz)
 [![Code Climate](https://codeclimate.com/github/4minitz/4minitz/badges/gpa.svg)](https://codeclimate.com/github/4minitz/4minitz)
+[![dependencies Status](https://david-dm.org/4minitz/4minitz/status.svg)](https://david-dm.org/4minitz/4minitz)
 [![Docker Pulls](https://img.shields.io/docker/pulls/derwok/4minitz.svg)](https://hub.docker.com/r/derwok/4minitz/)
 [![CLA assistant](https://cla-assistant.io/readme/badge/4minitz/4minitz)](https://cla-assistant.io/4minitz/4minitz)
 
