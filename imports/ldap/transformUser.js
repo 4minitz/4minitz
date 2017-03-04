@@ -19,6 +19,7 @@ module.exports = function (ldapSettings, userData) {
 
     let user = {
         createdAt: new Date(),
+        isInactive: false,
         emails: tmpEMailArray,
         username: username.toLowerCase(),
         profile: _.pick(userData, _.without(ldapSettings.whiteListedFields, 'mail'))
