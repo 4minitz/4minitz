@@ -42,7 +42,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it('can submit the form by pressing enter in the meetingname input', function () {
+    it.skip('can submit the form by pressing enter in the meetingname input', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #2.7182818284";
         let initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -83,7 +83,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it('can submit the form by pressing enter in the project name input', function () {
+    it.skip('can submit the form by pressing enter in the project name input', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #4";
         let initialCount = E2EMeetingSeries.countMeetingSeries();
