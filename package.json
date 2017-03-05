@@ -50,7 +50,7 @@
     "fibers": "^1.0.13",
     "fs-extra": "^2.0.0",
     "git-rev-sync": "^1.5.1",
-    "jquery": "^2.1.4",
+    "jquery": "^3.1.1",
     "jquery-ui": "^1.12.1",
     "jquery-ui-touch-punch": "^0.2.3",
     "ldapjs": "^1.0.0",

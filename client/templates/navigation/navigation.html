@@ -30,12 +30,15 @@
                     <li><a href="#" data-toggle="modal" data-target="#dlgAbout">
                         About</a>
                     </li>
+
+                    <!--User DropDown Menu-->
                     {{#if currentUser}}
                         <li class="dropdown">
-                            <a href="#" id="navbar-usermenu" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" id="navbar-usermenu" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                                 {{displayUsername}}
-                                <b class="caret"></b></a>
+                                <b class="caret"></b>
+                            </a>
                             <ul class="dropdown-menu">
                                 {{#if currentUser.isAdmin}}
                                     <li><a href="{{pathFor 'admin'}}">
