@@ -11,6 +11,11 @@ describe('Topics', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -22,17 +27,6 @@ describe('Topics', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
-    });
 
     it('can add a topic to minutes', function () {
         E2ETopics.addTopicToMinutes('some topic');

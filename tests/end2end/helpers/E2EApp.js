@@ -126,6 +126,7 @@ export class E2EApp {
     // We can't use "launchApp" here, as this resets the browser
     // so we click on the "Logo" icon
     static gotoStartPage () {
+        browser.keys(['Escape']);   // close eventually open modal dialog
         try {
             browser.waitForExist('a.navbar-brand', 2000);
         } catch (e) {

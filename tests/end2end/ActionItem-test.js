@@ -43,6 +43,11 @@ describe('ActionItems', function () {
         return actionItemName;
     }
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("make sure test user is logged in, create series and add minutes", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -54,12 +59,6 @@ describe('ActionItems', function () {
 
         aTopicName = getNewTopicName();
         E2ETopics.addTopicToMinutes(aTopicName);
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
     });
 
     it('can add an info item', function () {

@@ -9,18 +9,10 @@ describe('MeetingSeries', function () {
         expect (E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
     });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
-    });
-    
 
     it('can create a first meeting series', function () {
         let aProjectName = "E2E Project";
