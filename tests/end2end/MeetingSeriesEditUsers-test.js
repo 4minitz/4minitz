@@ -430,7 +430,7 @@ describe('MeetingSeries Editor Users', function () {
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EGlobal.waitSomeTime(600);         // wait for dialog's animation
 
         E2EApp.loginUser(1);
         E2EGlobal.waitSomeTime(100);
