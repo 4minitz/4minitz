@@ -8,6 +8,7 @@ let _showInactive = new ReactiveVar(false);
 Template.tabAdminUsers.onRendered(function() {
     _filterUsers.set("");
     Template.instance().find("#id_adminFilterUsers").focus();
+    Template.instance().find("#id_adminShowInactive").checked = _showInactive.get();
 });
 
 Template.tabAdminUsers.helpers({

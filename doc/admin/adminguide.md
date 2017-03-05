@@ -216,7 +216,7 @@ For example:
    
 `"adminIDs": ["vwuhsQmghXSfqZ3f3", "5yEzZhQ6or44weojX"],`
 
- On server-side a restart off the server will log all admin account names
+ On server-side a restart of the server will log all admin account names
  to the server console.
  
  **But how do I find out my own user ID to make me admin?**

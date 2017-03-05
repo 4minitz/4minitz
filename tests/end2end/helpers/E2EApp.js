@@ -126,6 +126,11 @@ export class E2EApp {
     // We can't use "launchApp" here, as this resets the browser
     // so we click on the "Logo" icon
     static gotoStartPage () {
+        try {
+            browser.waitForExist('a.navbar-brand', 2000);
+        } catch (e) {
+            E2EApp.launchApp();
+        }
         browser.click('a.navbar-brand');
         E2EGlobal.waitSomeTime();
         // check post-condition
