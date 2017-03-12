@@ -13,21 +13,20 @@ describe('LDAP', function () {
         return aMeetingNameBase + aMeetingCounter;
     };
 
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
+    beforeEach("make sure test user is logged out and on the start page", function () {
+        E2EApp.logoutUser();
+        expect(E2EApp.isLoggedIn()).to.be.false;
     });
 
     after("clear database and login user", function () {
         E2EApp.launchApp();
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
-    });
-    
-    beforeEach("make sure test user is logged out and on the start page", function () {
-        E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
     });
 
     it('ldap user can login with his credentials', function () {

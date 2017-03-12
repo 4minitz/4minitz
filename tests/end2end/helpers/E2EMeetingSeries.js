@@ -37,7 +37,8 @@ export class E2EMeetingSeries {
 
     static createMeetingSeries (aProj, aName, keepOpenMSEditor, switchInput) {
         this.editMeetingSeriesForm(aProj, aName,  switchInput);
-            
+        E2EGlobal.waitSomeTime();
+
         browser.click('#btnAddInvite');
         E2EGlobal.waitSomeTime(500);  // double time for dialog + panel switch!
 

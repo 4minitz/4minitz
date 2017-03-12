@@ -25,7 +25,7 @@ Template.meetingSeriesDetails.onCreated(function () {
         }
     });
 
-    this.activeTabTemplate = new ReactiveVar("minutesList");
+    this.activeTabTemplate = new ReactiveVar("tabMinutesList");
     this.activeTabId = new ReactiveVar("tab_minutes");
 });
 
@@ -65,7 +65,7 @@ Template.meetingSeriesDetails.helpers({
         let ms = new MeetingSeries(_meetingSeriesID);
 
         switch (tab) {
-            case "minutesList":
+            case "tabMinutesList":
                 return {
                     minutes: ms.getAllMinutes(),
                     meetingSeriesId: _meetingSeriesID

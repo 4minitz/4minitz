@@ -37,7 +37,7 @@ let users = [{
     password: 'p@ssw0rd'
 }];
 
-const saveUsers = proxyquire('../../../../private/ldap/lib/saveUsers', {
+const saveUsers = proxyquire('../../../../imports/ldap/saveUsers', {
     'mongodb': { MongoClient, '@noCallThru': true},
     'randomstring': { generate, '@noCallThru': true}
 });

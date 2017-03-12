@@ -7,6 +7,26 @@ before(function() {
     console.log("End2End Settings:");
     console.log("# of test users:", E2EGlobal.SETTINGS.e2eTestUsers.length);
 
+    // We re-construct the browser.click() method to save a screenshot
+    // with a unique ID if click() fails.
+    browser.click_org = browser.click;
+    browser.click = function (...args) {
+        try {
+            browser.click_org(...args);
+        } catch (e) {
+            let id = Math.random().toString(36).substr(2, 5);
+            console.log("browser.click() target not found - see screenshot with ID: "+id);
+            E2EGlobal.saveScreenshot("click-error_"+id);
+            throw e;
+        }
+    };
+
+    // Some E2E tests run more robust on "large" width screen
+    browser.setViewportSize({
+        width: 1024,
+        height: browser.getViewportSize("height")
+    });
+
     E2EApp.resetMyApp();
     E2EApp.launchApp();
     E2EGlobal.saveScreenshot("UserShouldBeLoggedIn0");

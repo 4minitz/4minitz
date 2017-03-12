@@ -23,6 +23,16 @@ describe('Attachments', function () {
         return _meetingNameBase + _meetingCounter;
     };
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+
+        _localPublicDir = server.call('e2e.getServerCurrentWorkingDir');  // call meteor server method
+        _localPublicDir += "/../web.browser/app/"; // location of files from "/public" directory
+        _staticLocalFilename = _localPublicDir + "favicon.ico";
+    });
+
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -31,23 +41,6 @@ describe('Attachments', function () {
         _lastMeetingSeriesID = E2EMeetingSeries.createMeetingSeries(_projectName, _lastMeetingName);
         _lastMinutesID = E2EMinutes.addMinutesToMeetingSeries(_projectName, _lastMeetingName);
     });
-
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-
-        _localPublicDir = server.call('e2e.getServerCurrentWorkingDir');  // call meteor server method
-        _localPublicDir += "/../web.browser/app/"; // location of files from "/public" directory
-        _staticLocalFilename = _localPublicDir + "favicon.ico";
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
-    });
-
 
     // ******************
     // * MODERATOR TESTS

@@ -13,6 +13,11 @@ describe('Send agenda', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
+    before("reload page and reset app", function () {
+        E2EApp.launchApp();
+        E2EApp.resetMyApp(true);
+    });
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EMails.resetSentMailsDb();
 
@@ -24,12 +29,6 @@ describe('Send agenda', function () {
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    });
-
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
     });
 
     after("clear database", function () {

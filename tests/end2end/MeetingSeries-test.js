@@ -9,18 +9,10 @@ describe('MeetingSeries', function () {
         expect (E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
     });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
-    });
-    
 
     it('can create a first meeting series', function () {
         let aProjectName = "E2E Project";
@@ -42,7 +34,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it('can submit the form by pressing enter in the meetingname input', function () {
+    it.skip('can submit the form by pressing enter in the meetingname input', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #2.7182818284";
         let initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -83,7 +75,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it('can submit the form by pressing enter in the project name input', function () {
+    it.skip('can submit the form by pressing enter in the project name input', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #4";
         let initialCount = E2EMeetingSeries.countMeetingSeries();

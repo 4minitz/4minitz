@@ -10,7 +10,7 @@
                 {{# with userRoleObj this._id}}
                     <tr id="id_userRow">
                         <td style="vertical-align: middle;" id="id_userName">
-                            {{getUser.username}}
+                            {{displayUsername getUser}}
                         </td>
                         <td style="vertical-align: middle;" id="id_userRole" class="form-group">
                             {{#if userIsReadOnly}}

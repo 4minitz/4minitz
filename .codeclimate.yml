@@ -23,3 +23,6 @@ ratings:
 exclude_paths:
 - test/
 - tests/
+- "server/migrations.js"
+- "imports/GlobalSettings.js"
+- "server/migrate_v*.js"

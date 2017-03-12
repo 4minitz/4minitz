@@ -2,9 +2,9 @@
 
 # Installation
 
-## Whats wrong with the 'Quick Installation'?    
+## Whats wrong with the 'Quick Installation' (Option 2)?    
 
-The [quick installation](../../README.md#quick-installation-of-4minitz) 
+The [quick installation](../../README.md#quick-installation-of-4minitz) (Option 2)
 has the advantage that you don't have to
 install node and you don't have to mess with a MongoDB database, as 
 both tools come with the meteor development tool as sub packages.
@@ -28,14 +28,57 @@ drawbacks:
 
 In all other cases - read on and chose the "Production Installation" way.
 
-## Production Building, Installation & Running
+## Production Running - with Docker
+The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
+node.js version and MongoDB and thus has no external dependecies.
 
+1. Install [docker](https://docs.docker.com/engine/installation/)
+2. In a directory where you have write access run:
+```
+docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 derwok/4minitz
+```
+You can reach 4Minitz via the default port 3100 by opening 
+[http://localhost:3100](http://localhost:3100) in your browser
+
+The docker container will write all data to your local host
+machine into `./4minitz_storage` outside of the container.
+Here you will find 
+* **4minitz_settings.json** - adapt server settings here. Then "Ctrl+c" 
+  and restart the 4Minitz container.
+* **log** - here are MongoDB and 4Minitz logs - if something does not work.
+* **attachments** - all attachments that have been uploaded
+  to meeting minutes are stored here.
+* **4minitz_mongodb** - MongoDB "--dbpath"
+     
+If a new version of 4Minitz is released, you may keep the above storage 
+directory. Simply Ctr+c the running container, and perform a `docker pull
+derwok/4minitz`. 
+When you re-launch the container afterwards, all clients will get 
+the new WebApp version automatically via meteors hot-code push.
+
+**Security Hints:**
+1. The embedded mongoDB inside the docker container is not protected
+ by user/password, so make sure nobody else is allowed to attach /
+  exec commands to your running container
+1. The outside host directory `./4minitz_storage` should only
+  be read/write accessible by the 4minitz admin. Otherwise unauthorized
+  users may see attachments, copy the database or change settings.json.
+1. Do not allow users to connect directly to your 4Minitz container.
+  Instead configure a reverse proxy with TSL / https: to make sure
+  that all traffic between client and server is encrypted.
+
+
+
+## Production Building, Installation & Running
+If you can not (or don't want to) use the ready-to-run docker image
+(see above), you can instead build and run your own 4Minitz server
+from source.
+ 
 ### Prerequisites
 #### C++11 compiler
 As of version 1.4 meteor needs to build some binary npm packages during build phase. Make sure you have a C++11 compiler in your path, as this is needed by the node eco system of modules.
 
-**On MacOS** make sure you have up-to-date XCode commandline installed. To do so launch `gcc` from the commandline. If it is not installed, it 
-will tell you what to do.
+**On MacOS** make sure you have up-to-date XCode commandline installed. To do so launch `gcc` from the commandline. If it is not installed, it will tell you what to do.
 
 **On Linux** perform a `gcc --version` should at least deliver a **"4.8.x"**.
  If your gcc is older, consult your Linux distribution how-tos on how to upgrade. A good version switcher is [update-alternatives](https://linux.die.net/man/8/update-alternatives).
@@ -120,11 +163,12 @@ port where MongoDB listens and 61405 will be the port where
     export ROOT_URL='http://4minitz.example.com:61405'
     export METEOR_SETTINGS=$(cat ./settings.json)
 
-Now you can launch the 4Minitz server:
+Now, inside the `/4minitz_bin/bundle/programs/server` directory,
+you must launch the 4Minitz server:
 
     meteor node main.js
 
-You should be able to reach your 4Minitz instance via:
+Now, you should be able to reach your 4Minitz instance via:
 
     http://localhost:61405
     or
@@ -133,7 +177,7 @@ You should be able to reach your 4Minitz instance via:
 
 ## Configuration with settings.json
 Take a look at ```settings_sample.json``` at the top level folder of 
-4Minitz.  You may rename this file to ```settings.json``` and then edit
+4Minitz.  You may copy this file to ```settings.json``` and then edit
 its contents to your need.
 
 If you already have a running production server as described above: don't
@@ -159,6 +203,11 @@ options. On the admin view you may, for example:
   Nevertheless other users cannot invite inactive
   users to meetings or make inactive users responsible 
   for an action item.
+* **Send broadcast Messages** to all users. E.g., you
+  may send a warning if you do maintenance (backup, anybody?)
+  to the 4Minitz server. You can (re-)brodcast, activate,
+  remove broadcast messages. Or you may inform users of
+  cool features of an updated version.
  
 Multiple user accounts can be specified as frontend admin. 
 To make 4Minitz recognize you as admin, enter your
@@ -167,7 +216,7 @@ For example:
    
 `"adminIDs": ["vwuhsQmghXSfqZ3f3", "5yEzZhQ6or44weojX"],`
 
- On server-side a restart off the server will log all admin account names
+ On server-side a restart of the server will log all admin account names
  to the server console.
  
  **But how do I find out my own user ID to make me admin?**
@@ -183,6 +232,7 @@ For example:
    will show up selected - ready for copy & paste.
    
    ![About Box with selected user ID](./figures/about_my_user_id.png)
+
 
 ### Database configuration
 
@@ -219,6 +269,7 @@ See your settings.json file:
 | autopublishFields   | []      | Meteor will publish these fields automatically on users                     |
 | isInactivePredicate | []      | If one of these key/value pairs matches a user key/value pair, this user become isInactive - and can not log in|
 | allowSelfSignedTLS  | false   | If enabled, self-signed certs will be allowed for the Meteor server process |
+| importCronTab       | false   | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
 
 Once you have configured 4minitz to allow LDAP login, all your 
 users should be able to login with their LDAP username & passwords. On 

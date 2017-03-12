@@ -99,6 +99,7 @@ export class E2ETopics {
 
         E2EGlobal.waitSomeTime();
         if (autoCloseDetailInput) {
+            E2EGlobal.waitSomeTime(600);
             browser.keys(['Escape']);
             E2EGlobal.waitSomeTime();
         }
@@ -306,7 +307,7 @@ export class E2ETopics {
             doBeforeSubmit(selFocusedInput);
         }
         browser.keys(['Escape']);
-        E2EGlobal.waitSomeTime(250);
+        E2EGlobal.waitSomeTime(400);
     }
 
     static editDetailsForActionItem(topicIndex, infoItemIndex, detailIndex, detailsText) {

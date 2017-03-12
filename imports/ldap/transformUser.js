@@ -14,10 +14,14 @@ module.exports = function (ldapSettings, userData) {
         verified: true,
         fromLDAP: true
     }];
+
+    let username = userData[searchDn] || '';
+
     let user = {
         createdAt: new Date(),
+        isInactive: false,
         emails: tmpEMailArray,
-        username: userData[searchDn],
+        username: username.toLowerCase(),
         profile: _.pick(userData, _.without(ldapSettings.whiteListedFields, 'mail'))
     };
     // copy over the LDAP user's long name from "cn" field to the meteor accounts long name field

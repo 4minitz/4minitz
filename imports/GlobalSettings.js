@@ -79,6 +79,20 @@ export class GlobalSettings {
         return Meteor.absoluteUrl(path);
     }
 
+    static hasImportUsersCronTab() {
+        return !!(Meteor.settings.ldap && Meteor.settings.ldap.importCronTab);
+    }
+
+    static getImportUsersCronTab() {
+        if (Meteor.settings.ldap) {
+            return Meteor.settings.ldap.importCronTab;
+        }
+    }
+
+    static getLDAPSettings() {
+        return Meteor.settings.ldap;
+    }
+
     static isTrustedIntranetInstallation() {
         // returns false instead of undefined
         return !!Meteor.settings.trustedIntranetInstallation;

@@ -14,6 +14,11 @@ describe('MeetingSeries Editor Users', function () {
     let aMeetingName;
 
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -23,19 +28,6 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
     });
-
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
-    });
-
 
 
     it('has one moderator per default', function () {
@@ -74,7 +66,7 @@ describe('MeetingSeries Editor Users', function () {
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         expect(Object.keys(usersAndRoles)).to.have.length(2); // still two!
 
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -94,7 +86,7 @@ describe('MeetingSeries Editor Users', function () {
         let currentUser = E2EApp.getCurrentUser(); // but current user should still be there
         expect(usersAndRoles[currentUser]).to.be.ok;
 
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -107,7 +99,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[currentUser]).to.be.ok;
         expect(usersAndRoles[currentUser].isDeletable).to.be.false;
 
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -120,7 +112,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[currentUser]).to.be.ok;
         expect(usersAndRoles[currentUser].isReadOnly).to.be.true;
 
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -136,7 +128,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user2].isDeletable).to.be.true;
         expect(usersAndRoles[user2].isReadOnly).to.be.false;
 
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -165,7 +157,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user2].isDeletable).to.be.true;
         expect(usersAndRoles[user2].isReadOnly).to.be.false;
 
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -200,7 +192,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user3].isDeletable, "user3").to.be.true;
         expect(usersAndRoles[user3].isReadOnly, "user3").to.be.false;
 
-        browser.keys(['Escape']);
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -352,7 +344,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[addedUserName].isDeletable).to.be.true;
         expect(usersAndRoles[addedUserName].isReadOnly).to.be.false;
 
-        browser.keys(['Escape']);
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -372,7 +364,7 @@ describe('MeetingSeries Editor Users', function () {
             expect(usrName).not.to.equal(user2);
         }
 
-        browser.keys(['Escape']);
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -398,7 +390,7 @@ describe('MeetingSeries Editor Users', function () {
 
         expect(suggestedUserArray).to.include(user2);
 
-        browser.keys(['Escape']);
+        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -423,7 +415,7 @@ describe('MeetingSeries Editor Users', function () {
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         browser.elementIdClick(usersAndRoles[user2].deleteElemId);
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EGlobal.waitSomeTime(1000);         // wait for dialog's animation
 
         E2EMinutes.gotoLatestMinutes();
         participantsInfo = new E2EMinutesParticipants();
@@ -438,7 +430,7 @@ describe('MeetingSeries Editor Users', function () {
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
         browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EGlobal.waitSomeTime(600);         // wait for dialog's animation
 
         E2EApp.loginUser(1);
         E2EGlobal.waitSomeTime(100);

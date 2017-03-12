@@ -34,6 +34,11 @@ describe('Sticky Info Items', function () {
         return aInfoItemName;
     };
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("make sure test user is logged in, create series and add minutes", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -52,17 +57,6 @@ describe('Sticky Info Items', function () {
         }, 1);
     });
 
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
-    });
 
     it('is possible to toggle the sticky-state of info items', function () {
         E2ETopics.toggleInfoItemStickyState(1, 1);

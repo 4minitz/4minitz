@@ -1,15 +1,11 @@
-let optionParser = require('node-getopt').create([
+let loadLDAPSettings = require('../../imports/ldap/loadLDAPSettings'),
+    importUsers = require('../../imports/ldap/import'),
+    optionParser = require('node-getopt').create([
         ['s', 'settings=[ARG]', '4minitz Meteor settings file'],
         ['m', 'mongourl=[ARG]', 'Mongo DB url'],
         ['h', 'help', 'Display this help']
     ]),
-
-    loadLDAPSettings = require('./lib/loadLDAPSettings'),
-    getLDAPUsers = require('./lib/getLDAPUsers'),
-    saveUsers = require('./lib/saveUsers');
-
-
-let arg = optionParser.bindHelp().parseSystem();
+    arg = optionParser.bindHelp().parseSystem();
 
 // check preconditions
 // we need a meteor settings file for the ldap settings and we
@@ -37,20 +33,8 @@ if (!mongoUrl) {
     process.exit(1);
 }
 
-let report = function (bulkResult) {
-    let inserted = bulkResult.nUpserted,
-        updated = bulkResult.nModified;
-
-    console.log(`Successfully inserted ${inserted} users and updated ${updated} users.`);
-};
-
 loadLDAPSettings(meteorSettingsFile)
-    .then(getLDAPUsers)
-    .then(data => {
-        return saveUsers(data.settings, mongoUrl, data.users);
-    })
-    .then(report)
+    .then(ldapSettings => importUsers(ldapSettings, mongoUrl))
     .catch(error => {
-        console.warn('An error occurred:');
-        console.warn(error);
+        console.warn(`An error occurred while reading the settings file: ${error}`);
     });

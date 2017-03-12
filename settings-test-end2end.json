@@ -62,7 +62,8 @@
         "serverUrl": "ldap://localhost:1389",
         "allowSelfSignedTLS": true,
         "whiteListedFields": [ "cn", "mail" ],
-        "autopublishFields": [ "cn" ]
+        "autopublishFields": [ "cn" ],
+        "importCronTab": "*/5 * * * *"
     },
 
     "ldapForumSys": {
@@ -73,7 +74,10 @@
         "serverUrl": "ldap://ldap.forumsys.com",
         "allowSelfSignedTLS": true,
         "whiteListedFields": [ "uid", "cn", "mail" ],
-        "autopublishFields": [ "uid", "cn" ]
+        "autopublishFields": [ "uid", "cn" ],
+
+        "//": "Set to false to disable",
+        "importCronTab": false
     },
 
     "attachments": {

@@ -2,7 +2,20 @@
 
 dockerimage=derwok/4minitz
 
-echo "Usage: ./BUILD.sh [LIST OF TAGS] - e.g., ./BUILD.sh 1 1.9 1.9.3"
+echo "Usage: ./BUILD.sh [--imagename USER/IMAGE] [LIST OF TAGS]"
+echo "       e.g.: ./BUILD.sh 1 1.9 1.9.3"
+echo "       e.g.: ./BUILD.sh --imagename johndoe/4minitz 1 1.9 1.9.3"
+echo "       The default image name is '$dockerimage'"
+echo ""
+
+#### Commandline parsing
+if [ "$1" == "--imagename" ]; then
+  dockerimage=$2
+  shift 2
+fi
+echo "Target Image Name: '$dockerimage'"
+echo ""
+
 
 #### Prepare settings.json
 settingsfile=./4minitz_settings.json
