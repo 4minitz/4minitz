@@ -7,7 +7,7 @@ before(function() {
     console.log("End2End Settings:");
     console.log("# of test users:", E2EGlobal.SETTINGS.e2eTestUsers.length);
 
-    // We re-construct the browser.click() method to save a screenshot
+    // We refactor the browser.click() method to save a screenshot
     // with a unique ID if click() fails.
     browser.click_org = browser.click;
     browser.click = function (...args) {
@@ -15,8 +15,21 @@ before(function() {
             browser.click_org(...args);
         } catch (e) {
             let id = Math.random().toString(36).substr(2, 5);
-            console.log("browser.click() target not found - see screenshot with ID: "+id);
-            E2EGlobal.saveScreenshot("click-error_"+id);
+            console.log(`browser.click() target "${args[0]}" not found - see screenshot with ID: ${id}`);
+            E2EGlobal.saveScreenshot(`click-error_${id}`);
+            throw e;
+        }
+    };
+    // We refactor the browser.waitForVisible() method to save a screenshot
+    // with a unique ID if waitForVisible() fails.
+    browser.waitForVisible_org = browser.waitForVisible;
+    browser.waitForVisible = function (...args) {
+        try {
+            browser.waitForVisible_org(...args);
+        } catch (e) {
+            let id = Math.random().toString(36).substr(2, 5);
+            console.log(`browser.waitForVisible() target "${args[0]}" not found - see screenshot with ID: ${id}`);
+            E2EGlobal.saveScreenshot(`waitForVisible-error_${id}`);
             throw e;
         }
     };

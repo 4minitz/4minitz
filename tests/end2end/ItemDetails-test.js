@@ -231,8 +231,7 @@ describe('Item Details', function () {
         browser.keys(['Enter']);
         let selector = "select.user-role-select";
         let usrRoleOption = browser.selectByValue(selector, "Invited");
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
 
         E2EApp.loginUser(1);
@@ -263,9 +262,7 @@ describe('Item Details', function () {
         browser.keys(['Enter']);
         let selector = "select.user-role-select";
         let usrRoleOption = browser.selectByValue(selector, "Invited");
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
-
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
