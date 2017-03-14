@@ -94,7 +94,7 @@ describe('Sticky Info Items', function () {
         expect(E2ETopics.countTopicsForMinute(), "the new minute should have no topics").to.equal(0);
     });
 
-    it('ensures that the sticky-status of a finalized minute can not be modified', function () {
+    it('ensures that the sticky-status of an info item in a finalized minute can not be modified', function () {
         E2EMinutes.finalizeCurrentMinutes();
 
         E2ETopics.toggleInfoItemStickyState(1, 1);
@@ -104,8 +104,7 @@ describe('Sticky Info Items', function () {
         E2ETopics.toggleInfoItemStickyState(1, 1);
         E2EMinutes.finalizeCurrentMinutes();
 
-
-        expect(E2ETopics.isInfoItemSticky(1, 1), "sticky item should not have changed state").to.be.true;
+        expect(E2ETopics.isInfoItemSticky(1, 1), "sticky item should have changed state").to.be.true;
     });
 
     it('can not change the sticky status of info-items on the topics page of the meeting series', function () {

@@ -40,7 +40,7 @@ export class E2EMinutes {
                 E2EApp.confirmationDialogAnswer(true);
             }
         }
-        E2EGlobal.waitSomeTime(600);
+        E2EGlobal.waitSomeTime(1000);
 };
 
 

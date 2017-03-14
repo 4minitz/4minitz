@@ -82,7 +82,7 @@ describe('Info Items', function () {
 
         let selDetails = E2ETopics.getInfoItemSelector(1, 1) + ".detailRow:nth-child(1) ";
         let selFocusedInput = selDetails + ".detailInput";
-        browser.waitForVisible(selFocusedInput);
+        browser.waitForVisible(selFocusedInput, 1000);
 
         browser.keys(detailsText);
         browser.keys(['Escape']); // Save the details
