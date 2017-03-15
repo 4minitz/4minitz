@@ -138,6 +138,7 @@ export class E2EMinutes {
             return false;
         }
         browser.click(selector);
+        E2EGlobal.waitSomeTime();
     }
 }
 
