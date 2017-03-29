@@ -24,6 +24,8 @@ var _minutesID; // the ID of these minutes
  */
 var orphanFlashMessage = null;
 
+let filterClosedTopics = new ReactiveVar(false);
+
 /**
  * togglePrintView
  * Prepares the DOM view for printing - on and off
@@ -335,7 +337,11 @@ Template.minutesedit.helpers({
 
     getTopicsListConfig: function() {
         let aMin = new Minutes(_minutesID);
-        return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
+        let filteredTopics = aMin.topics;
+        if (filterClosedTopics.get()){
+            filteredTopics = aMin.topics.filter((topic) => topic.isOpen);
+        }
+        return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
     mobileButton() {
@@ -365,6 +371,11 @@ Template.minutesedit.events({
     "click #btnHideHelp": function () {
         const user = new User();
         user.storeSetting(userSettings.showQuickHelp.meeting, false);
+    },
+
+    "click #checkHideClosedTopics": function(evt) {
+        let isChecked = evt.target.checked;
+        filterClosedTopics.set(isChecked);
     },
 
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
