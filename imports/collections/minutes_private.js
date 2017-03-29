@@ -147,7 +147,7 @@ Meteor.methods({
         }
     },
 
-    'minutes.addTopic'(minutesId, doc) {
+    'minutes.addTopic'(minutesId, doc, insertPlacementTop) {
         check(minutesId, String);
         console.log(`addTopic to minute: ${minutesId}`);
 
@@ -168,15 +168,23 @@ Meteor.methods({
                 throw new Meteor.Error('invalid-argument', 'Topic already exists');
             }
 
+
+            let topicModifier = {
+                topics: {
+                    $each: [ doc ]
+                }
+            };
+
+            if (insertPlacementTop)
+            {
+                topicModifier.topics.$position = 0;
+            }
+
             return MinutesCollection.update(
                 {_id: minutesId, isFinalized: false},
-                {$push: {
-                    topics: {
-                        $each: [ doc ],
-                        $position: 0
-                    }
-                }}
+                {$push: topicModifier}
             );
+
         } else {
             throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
         }

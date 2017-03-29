@@ -173,7 +173,7 @@ export class Minutes {
         })
     }
 
-    async upsertTopic(topicDoc) {
+    async upsertTopic(topicDoc, insertPlacementTop = true) {
         let i = undefined;
 
         if (! topicDoc._id) {             // brand-new topic
@@ -182,15 +182,12 @@ export class Minutes {
             i = this._findTopicIndex(topicDoc._id); // try to find it
         }
 
-        if (i == undefined) {                      // topic not in array
-            this.topics.unshift(topicDoc);  // add to front of array
-            return Meteor.callPromise('minutes.addTopic', this._id, topicDoc);
+        if (i === undefined) {                      // topic not in array
+            return Meteor.callPromise('minutes.addTopic', this._id, topicDoc, insertPlacementTop);
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
             return Meteor.callPromise('minutes.updateTopic', topicDoc._id, topicDoc);
         }
-
-
     }
 
     /**
