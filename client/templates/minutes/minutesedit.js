@@ -359,36 +359,37 @@ Template.minutesedit.helpers({
         const user = new User();
         return user.getSetting(userSettings.showQuickHelp.meeting, true);
     },
-	previousMinutes : function() {
-		let prevMinutes = null;
-		let aMin = new Minutes(_minutesID);
+    
+    previousMinutes : function() {
+        let prevMinutes = null;
+        let aMin = new Minutes(_minutesID);
         if (aMin) {
-			let meetingSeries = aMin.parentMeetingSeries();
-			let arrayPosition = meetingSeries.minutes.indexOf(_minutesID);
-			if (arrayPosition > 0){
-				let prevMinutesID = meetingSeries.minutes[arrayPosition - 1];
-				prevMinutes = new Minutes(prevMinutesID);
-				let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  prevMinutes._id });
-				return "Previous: <a id='btnPreviousMinutesNavigation' href='" + route + "'>" + prevMinutes.date + "</a> &nbsp;&nbsp;";
-			}
-		}
-	},
-	
-	nextMinutes : function() {
-		let nextMinutes = null;
-		let aMin = new Minutes(_minutesID);
+            let meetingSeries = aMin.parentMeetingSeries();
+            let arrayPosition = meetingSeries.minutes.indexOf(_minutesID);
+            if (arrayPosition > 0){
+                let prevMinutesID = meetingSeries.minutes[arrayPosition - 1];
+                prevMinutes = new Minutes(prevMinutesID);
+                let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  prevMinutes._id });
+                return "Previous: <a id='btnPreviousMinutesNavigation' href='" + route + "'>" + prevMinutes.date + "</a> &nbsp;&nbsp;";
+            }
+        }
+    },
+    
+    nextMinutes : function() {
+        let nextMinutes = null;
+        let aMin = new Minutes(_minutesID);
         if (aMin) {
-			let meetingSeries = aMin.parentMeetingSeries();
-			let arrayPosition = meetingSeries.minutes.indexOf(_minutesID);
-			if ((arrayPosition > -1) && (arrayPosition < meetingSeries.minutes.length)) {
-				let nextMinutesID = meetingSeries.minutes[arrayPosition + 1];
-				nextMinutes = new Minutes(nextMinutesID);
-				let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  nextMinutes._id });
-				return "Next: <a id='btnNextMinutesNavigation' href='" + route + "'>" + nextMinutes.date + "</a>";
+            let meetingSeries = aMin.parentMeetingSeries();
+            let arrayPosition = meetingSeries.minutes.indexOf(_minutesID);
+            if ((arrayPosition > -1) && (arrayPosition < meetingSeries.minutes.length)) {
+                let nextMinutesID = meetingSeries.minutes[arrayPosition + 1];
+                nextMinutes = new Minutes(nextMinutesID);
+                let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  nextMinutes._id });
+                return "Next: <a id='btnNextMinutesNavigation' href='" + route + "'>" + nextMinutes.date + "</a>";
 
-			}
-		}
-	}
+            }
+        }
+    }
 });
 
 Template.minutesedit.events({
