@@ -1,8 +1,8 @@
-import { E2EGlobal } from './helpers/E2EGlobal'
-import { E2EApp } from './helpers/E2EApp'
-import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMinutes } from './helpers/E2EMinutes'
-
+import { E2EGlobal } from './helpers/E2EGlobal';
+import { E2EApp } from './helpers/E2EApp';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2ETopics } from './helpers/E2ETopics';
 
 describe('Minutes', function () {
 
@@ -148,6 +148,29 @@ describe('Minutes', function () {
 
         result = browser.getValue('input[id="editGlobalNotes"]');
         expect(result).to.equal(aGlobalNote);
+    });
+
+    it('hide closed topics', function () {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name #7";
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        E2ETopics.addTopicToMinutes("topic #1");
+        E2ETopics.addTopicToMinutes("topic #2");
+        E2ETopics.addTopicToMinutes("topic #3");
+        E2ETopics.addTopicToMinutes("topic #4");
+
+        E2EGlobal.waitSomeTime(700);
+
+        E2ETopics.toggleTopic(1);
+        E2ETopics.toggleTopic(2);
+
+        browser.click("#checkHideClosedTopicsLabel");
+
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
 
 
     });
@@ -157,7 +180,6 @@ describe('Minutes', function () {
         let aMeetingName = "Meeting Name PrevNext";
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.finalizeCurrentMinutes();
         let firstDate = E2EMinutes.getCurrentMinutesDate();
@@ -177,5 +199,26 @@ describe('Minutes', function () {
         browser.click("#btnNextMinutesNavigation");
         currentdate = E2EMinutes.getCurrentMinutesDate();
         expect(currentdate).to.equal(thirdDate);
+    });
+
+    it('hide closed topics by click', function () {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name #8";
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+
+        E2ETopics.addTopicToMinutes("topic #1");
+        E2ETopics.addTopicToMinutes("topic #2");
+        E2ETopics.addTopicToMinutes("topic #3");
+        E2ETopics.addTopicToMinutes("topic #4");
+
+        browser.click("#checkHideClosedTopicsLabel");
+        expect(E2ETopics.countTopicsForMinute()).to.equal(4);
+
+        E2ETopics.toggleTopic(1);
+        expect(E2ETopics.countTopicsForMinute()).to.equal(3);
     });
 });
