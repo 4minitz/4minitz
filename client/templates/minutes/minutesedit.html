@@ -136,30 +136,37 @@
 
                     {{> minutesAttachments minutes}}
 
+                    <div class="row">
                     {{#unless isFinalized}}
                         {{#if isModeratorOfParentSeries}}
-                            <!--ADD TOPIC button-->
-                            <button id="id_showAddTopicDialog" type="button"
-                                    class="btn btn-primary btn-lg btn-raised hidden-print" data-toggle="modal"
-                                    data-target="#dlgAddTopic"
-                                    title="Add new topic to top of list [Ctrl+Alt+T]"
-                                    accesskey="t">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
-                                <span class="hidden-xs">Add</span> Topic
-                            </button>
+                            <div class="col-md-3">
+                                <!--ADD TOPIC button-->
+                                <button id="id_showAddTopicDialog" type="button"
+                                        class="btn btn-primary btn-lg btn-raised hidden-print" data-toggle="modal"
+                                        data-target="#dlgAddTopic"
+                                        title="Add new topic to top of list [Ctrl+Alt+T]"
+                                        accesskey="t">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
+                                    <span class="hidden-xs">Add</span> Topic
+                                </button>
+                            </div>
                         {{/if}}
                     {{/unless}}
 
-                    <!--Responsive Expand / Collapse All buttons-->
-                    <button id="btnCollapseAll" type="button" class="btn btn-default {{mobileButton}} hidden-print">
-                        {{#if isReadOnly}}
-                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            Collapse Topics
-                        {{else}}
-                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            <span class="hidden-xs">Collapse Topics</span>
-                        {{/if}}
-                    </button>
+                    <div class="col-md-3">
+                        <!--Responsive Expand / Collapse All buttons-->
+                        <button id="btnCollapseAll" type="button" class="btn btn-default {{mobileButton}} hidden-print">
+                            {{#if isReadOnly}}
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                                Collapse Topics
+                            {{else}}
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                                <span class="hidden-xs">Collapse Topics</span>
+                            {{/if}}
+                        </button>
+                    </div>
+
+                    <div class="col-md-3">
                     <button id="btnExpandAll" type="button" class="btn btn-default {{mobileButton}} hidden-print">
                         {{#if isReadOnly}}
                             <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
@@ -169,7 +176,12 @@
                             <span class="hidden-xs">Expand Topics</span>
                         {{/if}}
                     </button>
+                    </div>
 
+                    <div class="col-md-3 checkbox">
+                        <label style="color: black" id="checkHideClosedTopicsLabel"><input type="checkbox" id="checkHideClosedTopics" class="checkbox"/> Hide closed topics</label>
+                    </div>
+                    </div>
                 </form>
             </div>
 
