@@ -151,5 +151,31 @@ describe('Minutes', function () {
 
 
     });
+	
+	it('can navigate to previous and next minutes within a minutes', function () {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name #1";
 
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.finalizeCurrentMinutes();
+		let firstDate = E2EMinutes.getCurrentMinutesDate();
+		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.finalizeCurrentMinutes();
+		let secondDate = E2EMinutes.getCurrentMinutesDate();
+		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        let thirdDate = E2EMinutes.getCurrentMinutesDate();
+		
+		expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(3);
+		
+		E2EMinutes.gotoLatestMinutes();
+		browser.click("#btnPreviousMinutesNavigation");
+		let currentdate = E2EMinutes.getCurrentMinutesDate();
+		expect(currentdate).to.equal(secondDate);
+		
+		browser.click("#btnNextMinutesNavigation");
+		currentdate = E2EMinutes.getCurrentMinutesDate();
+		expect(currentdate).to.equal(thirdDate);
+    });
 });

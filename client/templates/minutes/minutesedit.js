@@ -369,7 +369,7 @@ Template.minutesedit.helpers({
 				let prevMinutesID = meetingSeries.minutes[arrayPosition - 1];
 				prevMinutes = new Minutes(prevMinutesID);
 				let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  prevMinutes._id });
-				return "Previous: <a href='" + route + "'>" + prevMinutes.date + "</a> &nbsp;&nbsp;";
+				return "Previous: <a id='btnPreviousMinutesNavigation' href='" + route + "'>" + prevMinutes.date + "</a> &nbsp;&nbsp;";
 			}
 		}
 	},
@@ -384,7 +384,7 @@ Template.minutesedit.helpers({
 				let nextMinutesID = meetingSeries.minutes[arrayPosition + 1];
 				nextMinutes = new Minutes(nextMinutesID);
 				let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  nextMinutes._id });
-				return "Next: <a href='" + route + "'>" + nextMinutes.date + "</a>";
+				return "Next: <a id='btnNextMinutesNavigation' href='" + route + "'>" + nextMinutes.date + "</a>";
 
 			}
 		}
