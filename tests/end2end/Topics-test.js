@@ -27,10 +27,17 @@ describe('Topics', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-
     it('can add a topic to minutes', function () {
         E2ETopics.addTopicToMinutes('some topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
+    });
+
+    it('can add a topic to minutes at the end of topics list', function() {
+        const testTopicName = 'some topic at the end';
+        E2ETopics.addTopicToMinutes('some topic');
+        E2ETopics.addTopicToMinutesAtEnd(testTopicName);
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+        expect(E2ETopics.getLastTopicForMinute() === testTopicName);
     });
 
     it('can submit a new topic by pressing enter on the topic title input', function () {

@@ -33,3 +33,20 @@ Template.topicsList.helpers({
     }
 
 });
+
+Template.topicsList.events({
+    'submit #addTopicForm': function(evt, tmpl) {
+        evt.preventDefault();
+        let topicDoc = {};
+        topicDoc.subject = tmpl.find("#addTopicField").value;
+
+        let aTopic = new Topic(tmpl.data.minutesId, topicDoc);
+
+        aTopic.saveAtBottom().catch(error => {
+            tmpl.find("#addTopicField").value = topicDoc.subject;
+            Session.set('errorTitle', 'Validation error');
+            Session.set('errorReason', error.reason);
+        });
+        tmpl.find("#addTopicField").value = "";
+    }
+});
