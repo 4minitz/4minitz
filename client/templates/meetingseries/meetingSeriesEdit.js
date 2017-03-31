@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
-import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UsersEditConfig } from './meetingSeriesEditUsers'

@@ -1,7 +1,6 @@
 import moment from 'moment/moment';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
-import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -467,15 +466,10 @@ Template.minutesedit.events({
                 let date = aMin.getAgendaSentAt();
                 console.log(date);
 
-                let dialogTmpl = TemplateCreator.create(
-                    '<p>Do you really want to sent the agenda for this meeting minute dated on <strong>'
-                    + '{{minDate}}</strong>?<br>'
-                    + 'It was already sent on {{agendaSentDate}} at {{agendaSentTime}}</p>');
-
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     sendAgenda,
                     'Confirm sending agenda',
-                    dialogTmpl,
+                    'confirmSendAgenda',
                     {
                         minDate: aMin.date,
                         agendaSentDate: moment(date).format('YYYY-MM-DD'),

@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
-import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
@@ -171,7 +170,7 @@ Template.minutesAttachments.events({
                 Meteor.call("attachments.remove", this._id);
             },
             'Confirm delete',
-            TemplateCreator.create('Do you really want to delete the attachment<br><b>{{name}}</b>?'),
+            'confirmDeleteAttachment',
             {name: this.name}
         ).show();
     },
