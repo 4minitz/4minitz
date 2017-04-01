@@ -257,6 +257,10 @@ export class Topic {
         return this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
+    async saveAtBottom() {
+        return this._parentMinutes.upsertTopic(this._topicDoc, false);
+    }
+
     toggleState () {    // open/close
         this._topicDoc.isOpen = !this._topicDoc.isOpen;
         return Meteor.callPromise('minutes.updateTopic', this._topicDoc._id, { isOpen: this._topicDoc.isOpen });
