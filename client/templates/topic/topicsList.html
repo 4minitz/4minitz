@@ -3,11 +3,13 @@
         {{#each getTopics}}
             {{> topicElement getTopicElement}}
         {{/each}}
-        <form id="addTopicForm">
-            <div class="form-group label-placeholder">
-                <label for="addTopicField" class="control-label">ADD TOPIC</label>
-                <input type="text" class="form-control" id="addTopicField">
-            </div>
-        </form>
+        {{#unless isReadOnlyMode}}
+            <form id="addTopicForm">
+                <div class="form-group label-placeholder">
+                    <label for="addTopicField" class="control-label">ADD TOPIC</label>
+                    <input type="text" class="form-control" id="addTopicField">
+                </div>
+            </form>
+        {{/unless}}
     </div>
 </template>
