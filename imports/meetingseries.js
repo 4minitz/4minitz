@@ -282,7 +282,7 @@ export class MeetingSeries {
         // And then remove the old meeting series role from these users
         let oldVisibleForArray = this.visibleFor;
         let removedUserIDs = oldVisibleForArray.filter((usrID) => {
-            return newVisibleForArray.indexOf(usrID) == -1
+            return newVisibleForArray.indexOf(usrID) === -1
         });
         removedUserIDs.forEach((removedUserID) => {
             let ur = new UserRoles(removedUserID);
@@ -292,6 +292,21 @@ export class MeetingSeries {
 
         this.visibleFor = newVisibleForArray;
         Minutes.syncVisibility(this._id, this.visibleFor);
+    }
+
+    /**
+     * Overwrite the current "informedUsers" array with new user Ids & mail addresses
+     * Propagate array to last minutes if these are not finalized, yet
+     * Needs a "save()" afterwards to persist
+     * @param {Array} newInformedUsersArray
+     */
+    setInformedUsers(newInformedUsersArray) {
+        this.informedUsers = newInformedUsersArray;
+        let lastMinutes = this.lastMinutes();
+        if (lastMinutes && !lastMinutes.isFinalized) {
+            lastMinutes.informedUsers = newInformedUsersArray;
+            lastMinutes.save();
+        }
     }
 
     isCurrentUserModerator() {

@@ -26,6 +26,7 @@ export const MinutesSchema = new SimpleSchema({
     finalizedBy: {type: String, optional: true},
     finalizedVersion: {type: Number, optional: true, defaultValue: 0},
     finalizedHistory: {type: [String], optional: true, defaultValue: []},
-    visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id}
+    visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id},
+    informedUsers: {type: [String], optional: true} // element may be userID or EMail address
 });
 

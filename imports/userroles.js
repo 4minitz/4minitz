@@ -90,16 +90,15 @@ export class UserRoles {
         return (currentRole && currentRole <= UserRoles.USERROLES.Moderator);
     }
 
-    isInvitedTo(aMeetingSeriesID) {
-        const currentRole = this.currentRoleFor (aMeetingSeriesID);
-        return (currentRole && currentRole <= UserRoles.USERROLES.Invited);
-    }
-
     isUploaderFor(aMeetingSeriesID) {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
         return (currentRole && currentRole <= UserRoles.USERROLES.Uploader);
     }
 
+    isInvitedTo(aMeetingSeriesID) {
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Invited);
+    }
 
     isInformedAbout(aMeetingSeriesID) {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
@@ -147,5 +146,5 @@ UserRoles.USERROLES = {
     "Moderator":   "01"
     , "Uploader":  "05"
     , "Invited":   "10"
-    //, "Informed":  "20"   // TODO implement later
+    , "Informed":  "66"
 };
