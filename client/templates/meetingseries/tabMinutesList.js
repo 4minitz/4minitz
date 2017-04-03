@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
@@ -50,16 +49,10 @@ Template.tabMinutesList.events({
             FlowRouter.go("/");
         };
 
-        let dialogTmpl = TemplateCreator.create(
-            "<p>Do you really want to leave the meeting series:<br>" +
-            "&nbsp;&nbsp;&nbsp;&nbsp;<b>{{project}} / {{name}}</b><br>" +
-            "You will have to ask a moderator if you want to join again afterwards.</p>"
-        );
-
         ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             leaveSeriesCallback,
             'Leave Meeting Series',
-            dialogTmpl,
+            'confirmLeaveMeetingSeries',
             {
                 project: ms.project,
                 name: ms.name

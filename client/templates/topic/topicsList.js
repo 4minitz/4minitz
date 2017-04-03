@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 
-import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 
 
@@ -30,6 +29,10 @@ Template.topicsList.helpers({
             currentCollapseId: collapseID++,  // each topic item gets its own collapseID,
             parentMeetingSeriesId: config.parentMeetingSeriesId
         };
+    },
+    
+    isReadOnlyMode: function() {
+        return Template.instance().data.isReadonly;
     }
 
 });
@@ -37,6 +40,11 @@ Template.topicsList.helpers({
 Template.topicsList.events({
     'submit #addTopicForm': function(evt, tmpl) {
         evt.preventDefault();
+
+        if (tmpl.data.isReadonly) {
+            throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
+        }
+
         let topicDoc = {};
         topicDoc.subject = tmpl.find("#addTopicField").value;
 

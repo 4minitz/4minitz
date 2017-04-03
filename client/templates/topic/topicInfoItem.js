@@ -1,7 +1,6 @@
 import { ReactiveVar } from 'meteor/reactive-var'
 
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import { TemplateCreator } from '../../helpers/templateCreator';
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { InfoItemFactory } from '/imports/InfoItemFactory'
@@ -164,7 +163,6 @@ Template.topicInfoItem.events({
 
         let aTopic = createTopic(this.minutesID, this.parentTopicId);
         if (aTopic) {
-            let template = TemplateCreator.create('Do you really want to delete the {{type}} <strong>{{subject}}</strong>?');
             let templateData = {
                 type: (this.infoItem.itemType === 'infoItem') ? 'information' : 'action item',
                 subject: this.infoItem.subject
@@ -173,7 +171,7 @@ Template.topicInfoItem.events({
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 () => { aTopic.removeInfoItem(this.infoItem._id) },
                 'Confirm delete',
-                template,
+                'confirmDeleteItem',
                 templateData
             ).show();
         }
@@ -294,12 +292,10 @@ Template.topicInfoItem.events({
                     deleteDetails();
                 } else {
                     // otherwise we show an confirmation dialog before the deails will be removed
-                    let dialogTmpl = TemplateCreator.create(
-                        '<p>Do you really want to delete the selected details of the item <strong>{{subject}}</strong>?</p>');
                     ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                         deleteDetails,
                         'Confirm delete',
-                        dialogTmpl,
+                        'confirmDeleteDetails',
                         {subject: aActionItem.getSubject()}
                     ).show();
                 }

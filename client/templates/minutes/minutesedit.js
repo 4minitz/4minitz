@@ -1,7 +1,6 @@
 import moment from 'moment/moment';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
-import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -16,20 +15,22 @@ import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
 
-var _minutesID; // the ID of these minutes
+let _minutesID; // the ID of these minutes
 
 /**
  *
  * @type {FlashMessage}
  */
-var orphanFlashMessage = null;
+let orphanFlashMessage = null;
+
+let filterClosedTopics = new ReactiveVar(false);
 
 /**
  * togglePrintView
  * Prepares the DOM view for printing - on and off
  * @param switchOn - optional (if missing, function toggles on <=> off)
  */
-var togglePrintView = function (switchOn) {
+let togglePrintView = function (switchOn) {
     if (switchOn === undefined) {   // toggle on <=> off
         Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
     } else {
@@ -65,12 +66,12 @@ var togglePrintView = function (switchOn) {
 
 // Automatically restore view after printing
 (function() {
-    var afterPrint = function() {
+    let afterPrint = function() {
         togglePrintView(false);
     };
 
     if (window.matchMedia) {
-        var mediaQueryList = window.matchMedia('print');
+        let mediaQueryList = window.matchMedia('print');
         mediaQueryList.addListener(function(mql) {
             if (! mql.matches) {
                 afterPrint();
@@ -140,17 +141,17 @@ Template.minutesedit.onDestroyed(function() {
     handleTemplatesGlobalKeyboardShortcuts(false);
 });
 
-var isMinuteFinalized = function () {
+let isMinuteFinalized = function () {
     let aMin = new Minutes(_minutesID);
     return (aMin && aMin.isFinalized);
 };
 
-var isModerator = function () {
+let isModerator = function () {
     let aMin = new Minutes(_minutesID);
     return (aMin && aMin.isCurrentUserModerator());
 };
 
-var toggleTopicSorting = function () {
+let toggleTopicSorting = function () {
     let topicList = $('#topicPanel'),
         isFinalized = isMinuteFinalized();
 
@@ -163,7 +164,7 @@ var toggleTopicSorting = function () {
     }
 };
 
-var updateTopicSorting = function () {
+let updateTopicSorting = function () {
     let sorting = $('#topicPanel').find('> div.well'),
         minute = new Minutes(_minutesID),
         newTopicSorting = [];
@@ -179,13 +180,13 @@ var updateTopicSorting = function () {
 };
 
 
-var openPrintDialog = function () {
-    var ua = navigator.userAgent.toLowerCase();
-    var isAndroid = ua.indexOf("android") > -1;
+let openPrintDialog = function () {
+    let ua = navigator.userAgent.toLowerCase();
+    let isAndroid = ua.indexOf("android") > -1;
 
     if (isAndroid) {
         // https://developers.google.com/cloud-print/docs/gadget
-        var gadget = new cloudprint.Gadget();
+        let gadget = new cloudprint.Gadget();
         gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
         gadget.openPrintDialog();
     } else {
@@ -193,8 +194,8 @@ var openPrintDialog = function () {
     }
 };
 
-var sendActionItems = true;
-var sendInformationItems = true;
+let sendActionItems = true;
+let sendInformationItems = true;
 
 Template.minutesedit.helpers({
     authenticating() {
@@ -335,7 +336,11 @@ Template.minutesedit.helpers({
 
     getTopicsListConfig: function() {
         let aMin = new Minutes(_minutesID);
-        return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
+        let filteredTopics = aMin.topics;
+        if (filterClosedTopics.get()){
+            filteredTopics = aMin.topics.filter((topic) => topic.isOpen);
+        }
+        return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
     mobileButton() {
@@ -358,6 +363,37 @@ Template.minutesedit.helpers({
     showQuickHelp: function() {
         const user = new User();
         return user.getSetting(userSettings.showQuickHelp.meeting, true);
+    },
+    
+    previousMinutes : function() {
+        let prevMinutes = null;
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            let meetingSeries = aMin.parentMeetingSeries();
+            let arrayPosition = meetingSeries.minutes.indexOf(_minutesID);
+            if (arrayPosition > 0){
+                let prevMinutesID = meetingSeries.minutes[arrayPosition - 1];
+                prevMinutes = new Minutes(prevMinutesID);
+                let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  prevMinutes._id });
+                return "Previous: <a id='btnPreviousMinutesNavigation' href='" + route + "'>" + prevMinutes.date + "</a> &nbsp;&nbsp;";
+            }
+        }
+    },
+    
+    nextMinutes : function() {
+        let nextMinutes = null;
+        let aMin = new Minutes(_minutesID);
+        if (aMin) {
+            let meetingSeries = aMin.parentMeetingSeries();
+            let arrayposition = meetingSeries.minutes.indexOf(_minutesID);
+            let nextMinuteArrayPosition = arrayposition + 1;
+            if ((nextMinuteArrayPosition > -1) && (nextMinuteArrayPosition < meetingSeries.minutes.length)) {
+                let nextMinutesID = meetingSeries.minutes[nextMinuteArrayPosition];
+                nextMinutes = new Minutes(nextMinutesID);
+                let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  nextMinutes._id });
+                return "Next: <a id='btnNextMinutesNavigation' href='" + route + "'>" + nextMinutes.date + "</a>";
+            }
+        }
     }
 });
 
@@ -365,6 +401,11 @@ Template.minutesedit.events({
     "click #btnHideHelp": function () {
         const user = new User();
         user.storeSetting(userSettings.showQuickHelp.meeting, false);
+    },
+
+    "click #checkHideClosedTopics": function(evt) {
+        let isChecked = evt.target.checked;
+        filterClosedTopics.set(isChecked);
     },
 
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
@@ -425,15 +466,10 @@ Template.minutesedit.events({
                 let date = aMin.getAgendaSentAt();
                 console.log(date);
 
-                let dialogTmpl = TemplateCreator.create(
-                    '<p>Do you really want to sent the agenda for this meeting minute dated on <strong>'
-                    + '{{minDate}}</strong>?<br>'
-                    + 'It was already sent on {{agendaSentDate}} at {{agendaSentTime}}</p>');
-
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     sendAgenda,
                     'Confirm sending agenda',
-                    dialogTmpl,
+                    'confirmSendAgenda',
                     {
                         minDate: aMin.date,
                         agendaSentDate: moment(date).format('YYYY-MM-DD'),
