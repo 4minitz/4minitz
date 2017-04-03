@@ -5,7 +5,7 @@
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 
-require('../../../lib/helpers');
+require('../../../../lib/helpers');
 
 let MinutesCollection = {
 };
@@ -17,7 +17,7 @@ let GlobalSettings = {};
 
 const {
         MigrateV7
-    } = proxyquire('../../../server/migrate_v7', {
+    } = proxyquire('../../../../server/migrations/migrate_v7', {
         '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
         '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
         '/imports/GlobalSettings': { GlobalSettings, '@noCallThru': true}

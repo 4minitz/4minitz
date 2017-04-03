@@ -1,4 +1,3 @@
-import { MeetingSeries } from '../../imports/meetingseries';
 import { MinutesCollection } from '/imports/collections/minutes_private';
 import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
 
@@ -7,7 +6,7 @@ import { MeetingSeriesCollection } from '/imports/collections/meetingseries_priv
 export class MigrateV10 {
 
     static up() {
-        let allSeries = MeetingSeries.find();
+        let allSeries = MeetingSeriesCollection.find();
         allSeries.forEach(series => {
             (new MigrateSeriesUp(series)).run();
         });
