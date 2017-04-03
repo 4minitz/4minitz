@@ -109,11 +109,9 @@ Template.meetingSeriesEditUsers.events({
         let roleValue = UserRoles.USERROLES[roleString];
 
         let changedUser = _config.users.findOne(this._userId);
-        console.log("JSON1: "+JSON.stringify(changedUser,null,2));
         changedUser.roles[_config.meetingSeriesID] = [roleValue];
         _config.users.update(this._userId, {$set: {roles: changedUser.roles}});
         changedUser = _config.users.findOne(this._userId);
-        console.log("JSON2: "+JSON.stringify(changedUser,null,2));
     },
 
     'submit #form-add-user': function(evt, tmpl) {

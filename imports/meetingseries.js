@@ -102,7 +102,8 @@ export class MeetingSeries {
             meetingSeries_id: this._id,
             date: formatDateISO8601(newMinutesDate),
             topics: topics,
-            visibleFor: this.visibleFor             // freshly created minutes inherit visibility of their series
+            visibleFor: this.visibleFor,             // freshly created minutes inherit visibility of their series
+            informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
         });
         
         min.refreshParticipants(false); // do not save to DB!

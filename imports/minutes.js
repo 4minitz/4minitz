@@ -242,12 +242,17 @@ export class Minutes {
 
     /**
      * Gets all persons who want to be
-     * informed about this minute.
+     * informed about this minute:
+     * (visibleFor + informedUsers)
      *
      * @returns {string[]} of user ids
      */
     getPersonsInformed() {
-       return this.visibleFor;
+        let informed = this.visibleFor;
+        if (this.informedUsers) {
+            informed = informed.concat(this.informedUsers);
+        }
+       return informed;
     }
 
     /**
@@ -381,6 +386,25 @@ export class Minutes {
         }
 
         return this.participants;
+    }
+
+    /**
+     * Returns the list of informed users and adds the name of
+     * each informed if a userCollection is given.
+     * @param userCollection to query for the participants name.
+     * @returns {Array}
+     */
+    getInformed(userCollection) {
+        if (userCollection) {
+            console.log("--->"+this.informedUsers);
+            return this.informedUsers.map(informed => {
+                let user = userCollection.findOne(informed);
+                informed = {id: informed, name: user.username};
+                return informed;
+            });
+        }
+
+        return this.informedUsers;
     }
 
 

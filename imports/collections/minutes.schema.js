@@ -18,15 +18,14 @@ export const MinutesSchema = new SimpleSchema({
     topics: {type: [TopicSchema], defaultValue: []},
     createdAt: {type: Date},
     agendaSentAt: {type: Date, optional: true},
+    visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id},                        // array of user IDs
+    informedUsers: {type: [String], regEx: SimpleSchema.RegEx.Id, defaultValue: []},   // array of user IDs
     participants: {type: [ParticipantsSchema], defaultValue: []},
     participantsAdditional: {type: String, defaultValue: "", optional: true},
-    // agenda: {type: String, defaultValue: ""},
     isFinalized: {type: Boolean, defaultValue: false},
     finalizedAt: {type: Date, optional: true},
     finalizedBy: {type: String, optional: true},
     finalizedVersion: {type: Number, optional: true, defaultValue: 0},
-    finalizedHistory: {type: [String], optional: true, defaultValue: []},
-    visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id},
-    informedUsers: {type: [String], optional: true} // element may be userID or EMail address
+    finalizedHistory: {type: [String], optional: true, defaultValue: []}
 });
 
