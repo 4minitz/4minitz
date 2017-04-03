@@ -128,24 +128,32 @@ export class MeetingSeries {
         }
     }
 
+    /**
+     * Fetches the first minutes of this series.
+     * @returns {Minutes|false}
+     */
+    firstMinutes() {
+        const oldMinutesFirst = false;
+        return this._getCornerMintues(1, oldMinutesFirst);
+    }
+
     lastMinutes () {
-        if (!this.minutes || this.minutes.length === 0) {
-            return false;
-        }
-        let lastMin = Minutes.findAllIn(this.minutes, 1).fetch();
-        if (lastMin && lastMin.length === 1) {
-            return lastMin[0];
-        }
-        return false;
+        const lastMinutesFirst = true;
+        return this._getCornerMintues(1, lastMinutesFirst);
     }
 
     secondLastMinutes () {
-        if (!this.minutes || this.minutes.length < 2) {
+        const lastMinutesFirst = true;
+        return this._getCornerMintues(2, lastMinutesFirst);
+    }
+
+    _getCornerMintues(offset, lastMinutesFirst) {
+        if (!this.minutes || this.minutes.length < offset) {
             return false;
         }
-        let secondLastMin = Minutes.findAllIn(this.minutes, 2).fetch();
-        if (secondLastMin && secondLastMin.length === 2) {
-            return secondLastMin[1];
+        let min = Minutes.findAllIn(this.minutes, offset, lastMinutesFirst).fetch();
+        if (min && min.length === offset) {
+            return min[offset-1];
         }
         return false;
     }

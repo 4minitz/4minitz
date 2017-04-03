@@ -1,4 +1,4 @@
-import { MinutesCollection } from '/imports/collections/minutes_private'
+import { MinutesCollection } from '/imports/collections/minutes_private';
 
 // remove minutes.isUnfinalized
 // add minutes.finalizedVersion

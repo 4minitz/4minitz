@@ -29,12 +29,13 @@ export class Minutes {
         return MinutesCollection.findOne(...args);
     }
 
-    static findAllIn(MinutesIDArray, limit) {
-        if (!MinutesIDArray || MinutesIDArray.length == 0) {
+    static findAllIn(MinutesIDArray, limit, lastMintuesFirst = true) {
+        if (!MinutesIDArray || MinutesIDArray.length === 0) {
             return [];
         }
 
-        let options = {sort: {date: -1}};
+        let sort = (lastMintuesFirst) ? -1 : 1;
+        let options = {sort: {date: sort}};
         if (limit) {
             options["limit"] = limit;
         }
@@ -85,6 +86,21 @@ export class Minutes {
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
     }
 
+    nextMinutes() {
+        return this._getNeighborMintues(1);
+    }
+
+    _getNeighborMintues(offset) {
+        let parentSeries = this.parentMeetingSeries();
+        let myPosition = parentSeries.minutes.indexOf(this._id);
+        let neighborPosition = myPosition + offset;
+        if (neighborPosition > -1 && neighborPosition < parentSeries.minutes.length) {
+            let neighborMinutesId = parentSeries.minutes[neighborPosition];
+            return new Minutes(neighborMinutesId);
+        }
+        return false;
+    }
+
     toString () {
         return "Minutes: "+JSON.stringify(this, null, 4);
     }
@@ -104,7 +120,7 @@ export class Minutes {
     // This also does a minimal update of collection!
     async removeTopic(id) {
         let i = this._findTopicIndex(id);
-        if (i != undefined) {
+        if (i !== undefined) {
             this.topics.splice(i, 1);
             return Meteor.callPromise('minutes.removeTopic', id);
         }
@@ -112,7 +128,7 @@ export class Minutes {
 
     findTopic(id) {
         let i = this._findTopicIndex(id);
-        if (i != undefined) {
+        if (i !== undefined) {
             return this.topics[i];
         }
         return undefined;
