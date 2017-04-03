@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "clone": "^2.1.0",
+    "node-getopt": "^0.2.3",
     "xtend": "^4.0.1"
   }
 }
