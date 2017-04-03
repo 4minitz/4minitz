@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
 import { Topic } from './topic'
-import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
@@ -282,7 +281,7 @@ export class MeetingSeries {
         // And then remove the old meeting series role from these users
         let oldVisibleForArray = this.visibleFor;
         let removedUserIDs = oldVisibleForArray.filter((usrID) => {
-            return newVisibleForArray.indexOf(usrID) == -1
+            return newVisibleForArray.indexOf(usrID) === -1
         });
         removedUserIDs.forEach((removedUserID) => {
             let ur = new UserRoles(removedUserID);
@@ -384,7 +383,7 @@ export class MeetingSeries {
      */
     addAdditionalResponsible(newResponsible) {
         // remove newResponsible if already present
-        var index = this.additionalResponsibles.indexOf(newResponsible);
+        let index = this.additionalResponsibles.indexOf(newResponsible);
         if (index !== -1) {
             this.additionalResponsibles.splice(index, 1);
         }

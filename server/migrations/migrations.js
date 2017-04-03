@@ -1,5 +1,5 @@
 import { Migrations } from 'meteor/percolate:migrations';
-import { backupMongo } from './mongoBackup';
+import { backupMongo } from '../mongoBackup';
 import { Meteor} from 'meteor/meteor';
 
 import moment from 'moment/moment';
