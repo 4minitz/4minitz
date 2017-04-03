@@ -168,6 +168,7 @@ Meteor.methods({
                 throw new Meteor.Error('invalid-argument', 'Topic already exists');
             }
 
+            doc.createdInMinute = minutesId;
 
             let topicModifier = {
                 topics: {
