@@ -75,7 +75,7 @@ Meteor.methods({
         if (! Meteor.userId()) {
             throw new Meteor.Error("Not logged in.");
         }
-        if (Meteor.userId() == otherUserId) {
+        if (Meteor.userId() === otherUserId) {
             return; // silently swallow: user may never change own role!
         }
         
@@ -94,7 +94,7 @@ Meteor.methods({
         if (! Meteor.userId()) {
             throw new Meteor.Error("Not logged in.");
         }
-        if (Meteor.userId() == otherUserId) {
+        if (Meteor.userId() === otherUserId) {
             return; // silently swallow: user may never change own role!
         }
 

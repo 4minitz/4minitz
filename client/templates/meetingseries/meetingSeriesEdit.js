@@ -156,8 +156,7 @@ Template.meetingSeriesEdit.events({
         ms = new MeetingSeries(meetingSeriesId);
         ms.project = aProject;
         ms.name = aName;
-        ms.setInformedUsers(allInformedArray);
-        ms.setVisibleUsers(allVisiblesArray);   // this also removes the roles of removed users
+        ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users
         ms.save();
 
         // Hide modal dialog
