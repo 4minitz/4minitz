@@ -328,7 +328,7 @@ export class MeetingSeries {
 
         // close topic if it is completely closed (not just marked as discussed)
         let topic = new Topic(this, topicDoc);
-        this.topics[i].isOpen = (!topic.isClosed());
+        this.topics[i].isOpen = (!topic.isClosedAndHasNoOpenAIs());
     }
 
     findTopic(id) {
@@ -464,7 +464,7 @@ export class MeetingSeries {
 
             // copy additional the tailored topic to our open topic list
             topic.tailorTopic();
-            if (!topic.isClosed()) {
+            if (!topic.isClosedAndHasNoOpenAIs()) {
                 topic.getDocument().isOpen = true;
                 this.openTopics.unshift(topic.getDocument());
             }

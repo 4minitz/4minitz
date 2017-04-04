@@ -1,3 +1,13 @@
 <template name="confirmDeleteTopic">
-    <p>Do you really want to delete the topic <strong>{{subject}}</strong>?</p>
+    {{#if deleteAllowed}}
+        <p>Do you really want to delete the topic <strong>{{subject}}</strong>?</p>
+    {{else}}
+        <p>
+            It is not possible to delete the topic <strong>{{subject}}</strong> because the topic was
+            created in a previous minutes.
+        </p>
+        <p>
+            Do you want to close the topic {{#if hasOpenActionItems}}together with all related action items {{/if}}instead?
+        </p>
+    {{/if}}
 </template>

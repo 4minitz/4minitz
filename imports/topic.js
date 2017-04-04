@@ -157,8 +157,12 @@ export class Topic {
      *
      * @returns {boolean}
      */
-    isClosed() {
+    isClosedAndHasNoOpenAIs() {
         return (!this.getDocument().isOpen && !this.hasOpenActionItem() && !this.isRecurring());
+    }
+
+    isDeleteAllowed() {
+        return (this.getDocument().createdInMinute === this._parentMinutes._id);
     }
 
     isRecurring() {
@@ -179,7 +183,7 @@ export class Topic {
         } else {
             i = subElementsHelper.findIndexById(topicItemDoc._id, this.getInfoItems())
         }
-        if (i == undefined) {                      // topicItem not in array
+        if (i === undefined) {                      // topicItem not in array
             this.getInfoItems().unshift(topicItemDoc);  // add to front of array
         } else {
             this.getInfoItems()[i] = topicItemDoc;      // overwrite in place
@@ -199,7 +203,7 @@ export class Topic {
     async removeInfoItem(id) {
         let i = subElementsHelper.findIndexById(id, this.getInfoItems());
 
-        if (i != undefined) {
+        if (i !== undefined) {
             this.getInfoItems().splice(i, 1);
             return this.save();
         }
@@ -226,7 +230,7 @@ export class Topic {
      */
     findInfoItem(id) {
         let i = subElementsHelper.findIndexById(id, this.getInfoItems());
-        if (i != undefined) {
+        if (i !== undefined) {
             return InfoItemFactory.createInfoItem(this, this.getInfoItems()[i]);
         }
         return undefined;
@@ -261,9 +265,17 @@ export class Topic {
         return this._parentMinutes.upsertTopic(this._topicDoc, false);
     }
 
-    toggleState () {    // open/close
+    async toggleState () {    // open/close
         this._topicDoc.isOpen = !this._topicDoc.isOpen;
-        return Meteor.callPromise('minutes.updateTopic', this._topicDoc._id, { isOpen: this._topicDoc.isOpen });
+        return await Meteor.callPromise('minutes.updateTopic', this._topicDoc._id, { isOpen: this._topicDoc.isOpen });
+    }
+
+    async closeTopicAndAllOpenActionItems() {
+        this._topicDoc.isOpen = false;
+        this.getOpenActionItems().forEach(item => {
+            item.isOpen = false;
+        });
+        await this.save();
     }
 
     hasOpenActionItem() {
