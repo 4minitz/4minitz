@@ -41,7 +41,7 @@ export class UserRoles {
     // **************************** STATIC METHODS
     static allRolesNumerical() {
         let rolesNum = [];
-        for (var key in UserRoles.USERROLES) {
+        for (let key in UserRoles.USERROLES) {
             rolesNum.push(UserRoles.USERROLES[key]);
         }
         return rolesNum;
@@ -52,8 +52,8 @@ export class UserRoles {
     }
 
     static role2Text(roleValue) {
-        for (var key in UserRoles.USERROLES) {
-            if (UserRoles.USERROLES[key] == roleValue) {
+        for (let key in UserRoles.USERROLES) {
+            if (UserRoles.USERROLES[key] === roleValue) {
                 return key;
             }
         }
@@ -90,16 +90,15 @@ export class UserRoles {
         return (currentRole && currentRole <= UserRoles.USERROLES.Moderator);
     }
 
-    isInvitedTo(aMeetingSeriesID) {
-        const currentRole = this.currentRoleFor (aMeetingSeriesID);
-        return (currentRole && currentRole <= UserRoles.USERROLES.Invited);
-    }
-
     isUploaderFor(aMeetingSeriesID) {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
         return (currentRole && currentRole <= UserRoles.USERROLES.Uploader);
     }
 
+    isInvitedTo(aMeetingSeriesID) {
+        const currentRole = this.currentRoleFor (aMeetingSeriesID);
+        return (currentRole && currentRole <= UserRoles.USERROLES.Invited);
+    }
 
     isInformedAbout(aMeetingSeriesID) {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
@@ -118,7 +117,11 @@ export class UserRoles {
     }
 
     currentRoleTextFor (aMeetingSeriesID) {
-        return UserRoles.role2Text(this._userRoles[aMeetingSeriesID]);
+        if (this._userRoles[aMeetingSeriesID] && this._userRoles[aMeetingSeriesID].length > 0) {
+            // use only the first role element from the array
+            return UserRoles.role2Text(this._userRoles[aMeetingSeriesID][0]);
+        }
+        return "Unknown Role";
     }
 
     getUser() {
@@ -147,5 +150,5 @@ UserRoles.USERROLES = {
     "Moderator":   "01"
     , "Uploader":  "05"
     , "Invited":   "10"
-    //, "Informed":  "20"   // TODO implement later
+    , "Informed":  "66"
 };

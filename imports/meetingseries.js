@@ -102,7 +102,8 @@ export class MeetingSeries {
             meetingSeries_id: this._id,
             date: formatDateISO8601(newMinutesDate),
             topics: topics,
-            visibleFor: this.visibleFor             // freshly created minutes inherit visibility of their series
+            visibleFor: this.visibleFor,             // freshly created minutes inherit visibility of their series
+            informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
         });
         
         min.refreshParticipants(false); // do not save to DB!
@@ -269,8 +270,9 @@ export class MeetingSeries {
      * Overwrite the current "visibleFor" array with new user Ids
      * Needs a "save()" afterwards to persist
      * @param {Array} newVisibleForArray
+     * @param {Array} newInformedUsersArray
      */
-    setVisibleUsers(newVisibleForArray) {
+    setVisibleAndInformedUsers(newVisibleForArray, newInformedUsersArray) {
         if (!this._id) {
             throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using addVisibleUser()");
         }
@@ -278,21 +280,39 @@ export class MeetingSeries {
             throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
         }
 
-        // Collect all removed users where the meeting series is not visible anymore
+        // Clean-up roles
+        // Collect all removed users where the meeting series is not visible and not informed anymore
         // And then remove the old meeting series role from these users
-        let oldVisibleForArray = this.visibleFor;
-        let removedUserIDs = oldVisibleForArray.filter((usrID) => {
-            return newVisibleForArray.indexOf(usrID) == -1
+        let oldUserArray = this.visibleFor;
+        if (this.informedUsers) {
+            oldUserArray = oldUserArray.concat(this.informedUsers);
+        }
+        let newUserArray = newVisibleForArray;
+        newUserArray = newUserArray.concat(newInformedUsersArray);
+
+        let removedUserIDs = oldUserArray.filter((usrID) => {
+            return newUserArray.indexOf(usrID) === -1
         });
         removedUserIDs.forEach((removedUserID) => {
             let ur = new UserRoles(removedUserID);
             ur.removeAllRolesForMeetingSeries(this._id);
         });
 
-
+        // persist new user arrays to meeting series
+        this.informedUsers = newInformedUsersArray;
         this.visibleFor = newVisibleForArray;
+
+        // sync visibility for *all* minutes (to allow publish & subscribe)
         Minutes.syncVisibility(this._id, this.visibleFor);
+
+        // sync informed only to *not finalized* minutes (do not change the past!)
+        let lastMinutes = this.lastMinutes();
+        if (lastMinutes && !lastMinutes.isFinalized) {
+            lastMinutes.informedUsers = newInformedUsersArray;
+            lastMinutes.save();
+        }
     }
+
 
     isCurrentUserModerator() {
         let ur = new UserRoles();

@@ -5,6 +5,8 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2EMinutesParticipants } from './helpers/E2EMinutesParticipants'
+import { E2EMails } from './helpers/E2EMails'
+import { E2ETopics } from './helpers/E2ETopics'
 
 
 describe('MeetingSeries Editor Users', function () {
@@ -436,4 +438,61 @@ describe('MeetingSeries Editor Users', function () {
 
         E2EApp.loginUser();
     });
+
+    // this test does only make sense if mail delivery is enabled
+    if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
+        it('ensures informed user gets minutes email', function () {
+            let currentUser = E2EApp.getCurrentUser();
+            let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+            E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
+            E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
+
+            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+            E2ETopics.addTopicToMinutes('some topic');
+            E2EMinutes.finalizeCurrentMinutes(/*autoConfirmDialog*/true);
+            E2EGlobal.waitSomeTime(1000);
+
+            let recipients = E2EMails.getAllRecipients();
+            expect(recipients).to.have.length(2);
+            expect(recipients).to.include.members(
+                [E2EGlobal.SETTINGS.e2eTestEmails[0],
+                E2EGlobal.SETTINGS.e2eTestEmails[1]]);
+        });
+    }
+
+    it('ensures informed user can not see meeting series @watch', function () {
+        E2EApp.loginUser(1);
+        let initialMScount = E2EMeetingSeries.countMeetingSeries();
+        E2EApp.loginUser();
+
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
+
+        E2EApp.loginUser(1);
+        expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialMScount);
+
+        E2EApp.loginUser();
+    });
+
+    it('ensures downgraded to informed user can not see meeting series anymore @watch', function () {
+        let currentUser = E2EApp.getCurrentUser();
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
+        E2EApp.loginUser(1);
+        let initialMScount = E2EMeetingSeries.countMeetingSeries();
+
+        E2EApp.loginUser();
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        let roleSelector = "select.user-role-select";
+        browser.selectByValue(roleSelector, E2EGlobal.USERROLES.Informed);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
+        E2EApp.loginUser(1);
+        expect(E2EMeetingSeries.countMeetingSeries(), "MS count should be minus one").to.equal(initialMScount - 1);
+
+        E2EApp.loginUser();
+    });
+
 });

@@ -7,13 +7,14 @@ import { Attachment } from '../attachment';
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
-    constructor(sender, recipients, minute, topics, meetingSeries, participants, template = 'publishInfoItems') {
+    constructor(sender, recipients, minute, topics, meetingSeries, participants, informed, template = 'publishInfoItems') {
         super(sender, recipients, minute, template);
         this._topics = topics;
         this._sender = sender;
         this._minute = minute;
         this._meetingSeries = meetingSeries;
         this._participants = participants;
+        this._informed = informed;
     }
 
     _getSubject() {
@@ -68,8 +69,9 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             meetingSeriesProject: this._meetingSeries.project,
             meetingSeriesURL: GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeries._id),
             minuteUrl: GlobalSettings.getRootUrl("minutesedit/" + this._minute._id),
-            presentParticipants: this._participantsArrayToString(presentParticipants),
-            absentParticipants: this._participantsArrayToString(absentParticipants),
+            presentParticipants: this._userArrayToString(presentParticipants),
+            absentParticipants: this._userArrayToString(absentParticipants),
+            informedUsers: this._userArrayToString(this._informed),
             participantsAdditional: this._minute.participantsAdditional,
             discussedTopics: discussedTopics,
             skippedTopics: skippedTopics,
@@ -78,19 +80,9 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
         };
     }
 
-    _participantsArrayToString(participants) {
-        let str = "";
-        let first = true;
-        participants.forEach(participant => {
-            if (first) {
-                first = false;
-            } else {
-                str += ", ";
-            }
-            str += participant.name;
-        });
-
-        return str;
+    _userArrayToString(users) {
+        return users.map(function(user){
+            return user.name;
+        }).join(", ");
     }
-
 }

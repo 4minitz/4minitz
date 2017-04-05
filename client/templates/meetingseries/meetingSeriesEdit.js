@@ -88,11 +88,18 @@ Template.meetingSeriesEdit.events({
             delete user._id;
             Template.instance().userEditConfig.users.insert(user);
         }
+        // now the same for the informed users
+        for (let i in this.informedUsers) {
+            let user = Meteor.users.findOne(this.informedUsers[i]);
+            user._idOrg = user._id;
+            delete user._id;
+            Template.instance().userEditConfig.users.insert(user);
+        }
     },
 
     "shown.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
         // switch to "invited users" tab once, if desired
-        if (Session.get("meetingSeriesEdit.showUsersPanel") == true) {
+        if (Session.get("meetingSeriesEdit.showUsersPanel") === true) {
             Session.set("meetingSeriesEdit.showUsersPanel", false);
             $("#btnShowHideInvitedUsers").click();
             Meteor.setTimeout(function () {
@@ -120,12 +127,12 @@ Template.meetingSeriesEdit.events({
         let nameNode = tmpl.$("#id_meetingname");
         projectNode.parent().removeClass("has-error");
         nameNode.parent().removeClass("has-error");
-        if (aProject == "") {
+        if (aProject === "") {
             projectNode.parent().addClass("has-error");
             projectNode.focus();
             return;
         }
-        if (aName == "") {
+        if (aName === "") {
             nameNode.parent().addClass("has-error");
             nameNode.focus();
             return;
@@ -133,6 +140,7 @@ Template.meetingSeriesEdit.events({
 
         let usersWithRolesAfterEdit = Template.instance().userEditConfig.users.find().fetch();
         let allVisiblesArray = [];
+        let allInformedArray = [];
         let meetingSeriesId = this._id;
         for (let i in usersWithRolesAfterEdit) {
             let usrAfterEdit = usersWithRolesAfterEdit[i];
@@ -140,13 +148,15 @@ Template.meetingSeriesEdit.events({
             ur.saveRoleForMeetingSeries(meetingSeriesId, usrAfterEdit.roles[meetingSeriesId]);
             if (UserRoles.isVisibleRole(usrAfterEdit.roles[meetingSeriesId])) {
                 allVisiblesArray.push(usrAfterEdit._idOrg);  // Attention: get back to Id of Meteor.users collection
+            } else {
+                allInformedArray.push(usrAfterEdit._idOrg);  // Attention: get back to Id of Meteor.users collection
             }
         }
 
         ms = new MeetingSeries(meetingSeriesId);
         ms.project = aProject;
         ms.name = aName;
-        ms.setVisibleUsers(allVisiblesArray);   // this also removes the roles of removed users
+        ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users
         ms.save();
 
         // Hide modal dialog

@@ -65,7 +65,7 @@ Template.meetingSeriesEditUsers.helpers({
     // Eg. logged in user shall not change herself Moderator => Invited
     // or currently logged in user shall not be able to delete herself from list
     userIsReadOnly: function () {
-        return _config.currentUserReadOnly && (this._user._idOrg == Meteor.userId());
+        return _config.currentUserReadOnly && (this._user._idOrg === Meteor.userId());
     }, 
 
     // generate the "<select>" HTML with possible roles and the
@@ -78,7 +78,7 @@ Template.meetingSeriesEditUsers.helpers({
         for (let i in rolesText) {
             let role = rolesText[i];
             let startTag = "<option value='"+role+"'>";
-            if (role == currentRole) {
+            if (role === currentRole) {
                 startTag = '<option value="'+role+'" selected="selected">'
             }
             rolesHTML += startTag+role+"</option>";
@@ -105,12 +105,13 @@ Template.meetingSeriesEditUsers.events({
 
     // when role select changes, update role in temp. client-only user collection
     "change .user-role-select": function (evt, tmpl) {
-        var roleString = $(evt.target).val();
+        let roleString = $(evt.target).val();
         let roleValue = UserRoles.USERROLES[roleString];
 
         let changedUser = _config.users.findOne(this._userId);
         changedUser.roles[_config.meetingSeriesID] = [roleValue];
         _config.users.update(this._userId, {$set: {roles: changedUser.roles}});
+        changedUser = _config.users.findOne(this._userId);
     },
 
     'submit #form-add-user': function(evt, tmpl) {

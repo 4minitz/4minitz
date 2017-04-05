@@ -73,7 +73,7 @@ Meteor.methods({
         check(id, String);
         delete doc._id; // otherwise collection.update will fail
 
-        if (id == undefined || id == "") {
+        if (id === undefined || id === "") {
             return;
         }
 
@@ -124,7 +124,7 @@ Meteor.methods({
         }
 
         let modifierDoc = {};
-        for (var property in doc) {
+        for (let property in doc) {
             if (doc.hasOwnProperty(property)) {
                 modifierDoc['topics.$.' + property] = doc[property];
             }
