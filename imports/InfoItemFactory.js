@@ -1,7 +1,3 @@
-/**
- * Created by felix on 10.05.16.
- */
-
 import { InfoItem } from './infoitem';
 import { ActionItem } from './actionitem';
 

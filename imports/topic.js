@@ -201,10 +201,15 @@ export class Topic {
 
 
     async removeInfoItem(id) {
-        let i = subElementsHelper.findIndexById(id, this.getInfoItems());
+        let index = subElementsHelper.findIndexById(id, this.getInfoItems());
+        let item = this.getInfoItems()[index];
+        if (InfoItem.isActionItem(item) && !InfoItem.isCreatedInMinutes(item, this._parentMinutes._id)) {
+            throw new Meteor.Error('Cannot remove item', 'It is not allowed to remove an action item which was not ' +
+                'created within the current minutes');
+        }
 
-        if (i !== undefined) {
-            this.getInfoItems().splice(i, 1);
+        if (index !== undefined) {
+            this.getInfoItems().splice(index, 1);
             return this.save();
         }
     }

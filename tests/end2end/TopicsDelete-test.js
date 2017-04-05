@@ -80,4 +80,14 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
         browser.click('#confirmationDialogOK');
     });
 
+    it('closes the action item instead of deleting it', function () {
+        E2ETopics.deleteInfoItem(1, 2, true);
+        expect(E2ETopics.isActionItemClosed(1, 2), "the AI should be closed").to.be.true;
+    });
+
+    it('unpins the sticky info item instead of deleting it', function () {
+        E2ETopics.deleteInfoItem(1, 1, true);
+        expect(E2ETopics.isInfoItemSticky(1, 1)).to.be.false;
+    });
+
 });

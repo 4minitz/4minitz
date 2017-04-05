@@ -1,3 +1,17 @@
 <template name="confirmDeleteItem">
-    Do you really want to delete the {{type}} <strong>{{subject}}</strong>?
+    {{#if deleteAllowed}}
+        <p>Do you really want to delete the {{type}} <strong>{{subject}}</strong>?</p>
+    {{else}}
+        <p>
+            It is not possible to delete the {{type}} <strong>{{subject}}</strong> because the {{type}} was
+            created in a previous minutes.
+        </p>
+        <p>
+            {{#if isActionItem}}
+                Do you want to close the action item instead?
+            {{else}}
+                Do you want to unpin the sticky info item instead?
+            {{/if}}
+        </p>
+    {{/if}}
 </template>
