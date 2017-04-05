@@ -164,7 +164,7 @@ Template.topicInfoItem.events({
         let aTopic = createTopic(this.minutesID, this.parentTopicId);
         if (aTopic) {
             let item = aTopic.findInfoItem(this.infoItem._id);
-            let isDeleteAllowed = item.isDeleteAllowed(this.minutesId);
+            let isDeleteAllowed = item.isDeleteAllowed(this.minutesID);
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {

@@ -151,20 +151,4 @@ describe('Sticky Info Items', function () {
         expect(E2ETopics.isInfoItemSticky(1, 1), "the info item should be still sticky").to.be.true;
     });
 
-    it('removes a sticky-info-item from the topic list of the meeting series if this item was removed within ' +
-        'the last-finalized-minute', function () {
-
-        E2ETopics.toggleInfoItemStickyState(1, 1);
-        E2EMinutes.finalizeCurrentMinutes();
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-
-        E2ETopics.deleteInfoItem(1, 1, true);
-        E2EMinutes.finalizeCurrentMinutes();
-
-        E2EMinutes.gotoParentMeetingSeries();
-        E2EMeetingSeries.gotoTabTopics();
-
-        expect(E2ETopics.countItemsForTopic(1), "the info item of the topic should have been removed").to.equal(0);
-    });
-
 });
