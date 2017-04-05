@@ -71,5 +71,6 @@ E2EGlobal.SETTINGS = require('../../../settings-test-end2end.json');
 E2EGlobal.USERROLES = {
     Moderator:   "Moderator",
     Invited:   "Invited",
-    Uploader:  "Uploader"
+    Uploader:  "Uploader",
+    Informed:  "Informed"
 };

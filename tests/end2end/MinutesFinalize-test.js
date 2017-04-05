@@ -40,7 +40,6 @@ describe('Minutes Finalize', function () {
     });
 
     // this test does only make sense if mail delivery is enabled
-    // so we have to wait until the mail system can be mocked
     if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
         it('asks if emails should be sent before finalizing the minute', function () {
             aMeetingCounter++;
