@@ -3,7 +3,7 @@ export class ResponsiblePreparer {
     constructor(minutes, currentTopicOrItem, usersCollection, freeTextValidator = undefined) {
         this.minutes = minutes;
         this.parentSeries = minutes.parentMeetingSeries();
-        this.currentTopioc = currentTopicOrItem;
+        this.currentTopicOrItem = currentTopicOrItem;
         this.usersCollection = usersCollection;
         this.freeTextValidator = freeTextValidator;
 
@@ -47,9 +47,8 @@ export class ResponsiblePreparer {
 
 
         // add the responsibles from current topic
-        let topic = this.currentTopioc;
-        if (topic && topic.hasResponsibles()) {
-            this.buffer = this.buffer.concat(topic._topicDoc.responsibles);
+        if (this.currentTopicOrItem && this.currentTopicOrItem.hasResponsibles()) {
+            this.buffer = this.buffer.concat(this.currentTopicOrItem._topicDoc.responsibles);
         }
 
         // copy buffer to possibleResponsibles
