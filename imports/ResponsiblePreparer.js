@@ -1,32 +1,40 @@
-let _emailAddressRegExp = global.emailAddressRegExpTest;
-
 export class ResponsiblePreparer {
 
-    constructor(minutes, currentTopicOrItem, usersCollection, onlyValidMailAddressesAllowed = false) {
+    constructor(minutes, currentTopicOrItem, usersCollection, freeTextValidator = undefined) {
         this.minutes = minutes;
         this.parentSeries = minutes.parentMeetingSeries();
         this.currentTopioc = currentTopicOrItem;
         this.usersCollection = usersCollection;
-        this.onlyValidMailAddressesAllowed = onlyValidMailAddressesAllowed;
+        this.freeTextValidator = freeTextValidator;
 
         this.possibleResponsibles = [];          // sorted later on
         this.possibleResponsiblesUnique = {};    // ensure uniqueness
         this.buffer = [];                        // userIds and names from different sources, may have doubles
+
+        this.remainingUsers = [];
     }
 
     getPossibleResponsibles() {
-        let possibleResponsibles = this.possibleResponsibles;
-        let possibleResponsiblesUnique = this.possibleResponsiblesUnique;
-        let buffer = this.buffer;
+        return this.possibleResponsibles;
+    }
 
+    getRemainingUsers() {
+        return this.remainingUsers;
+    }
+
+    prepareResponsibles() {
+        this._preparePossibleResponsibles();
+        this._prepareRemainingUsers();
+    }
+
+    _preparePossibleResponsibles() {
         // add regular participants from current minutes
-        let aMin = this.minutes;
-        for (let i in aMin.participants) {
-            this._addUserIdToBuffer(aMin.participants[i].userId);
+        for (let i in this.minutes.participants) {
+            this._addUserIdToBuffer(this.minutes.participants[i].userId);
         }
 
         // add the "additional participants" from current minutes as simple strings
-        let participantsAdditional = aMin.participantsAdditional;
+        let participantsAdditional = this.minutes.participantsAdditional;
         if (participantsAdditional) {
             let splitted = participantsAdditional.split(/[,;]/);
             for (let i in splitted) {
@@ -41,15 +49,15 @@ export class ResponsiblePreparer {
         // add the responsibles from current topic
         let topic = this.currentTopioc;
         if (topic && topic.hasResponsibles()) {
-            buffer = buffer.concat(topic._topicDoc.responsibles);
+            this.buffer = this.buffer.concat(topic._topicDoc.responsibles);
         }
 
         // copy buffer to possibleResponsibles
         // but take care for uniqueness
-        for (let i in buffer) {
-            let aResponsibleId = buffer[i];
-            if (! possibleResponsiblesUnique[aResponsibleId]) { // not seen?
-                possibleResponsiblesUnique[aResponsibleId] = true;
+        for (let i in this.buffer) {
+            let aResponsibleId = this.buffer[i];
+            if (! this.possibleResponsiblesUnique[aResponsibleId]) { // not seen?
+                this.possibleResponsiblesUnique[aResponsibleId] = true;
                 let aResponsibleName = aResponsibleId;
                 let aUser = this.usersCollection.findOne(aResponsibleId);
                 if (aUser) {
@@ -58,11 +66,9 @@ export class ResponsiblePreparer {
                         aResponsibleName += " - "+aUser.profile.name;
                     }
                 }
-                possibleResponsibles.push({id: aResponsibleId, text: aResponsibleName});
+                this.possibleResponsibles.push({id: aResponsibleId, text: aResponsibleName});
             }
         }
-
-        return possibleResponsibles;
     }
 
     _addUserIdToBuffer(userid) {
@@ -76,19 +82,41 @@ export class ResponsiblePreparer {
     }
 
     _isValidFreeTextElement(text) {
-        return (!this.onlyValidMailAddressesAllowed || _emailAddressRegExp.test(text));
+        return (!this.freeTextValidator || this.freeTextValidator(text));
     }
 
     _addFormerResponsiblesFromParentSeries() {
         if (!this.parentSeries.additionalResponsibles) {
             return;
         }
-        if (this.onlyValidMailAddressesAllowed) {
+        if (this.freeTextValidator) {
             this.parentSeries.additionalResponsibles.forEach(resp => {
                 this._addFreeTextElementToBuffer(resp);
             });
         } else {
             this.buffer = this.buffer.concat(this.parentSeries.additionalResponsibles);
+        }
+    }
+
+    _prepareRemainingUsers() {
+        let participantsIds = [];
+        for (let i in this.possibleResponsibles) {
+            if (this.possibleResponsibles[i].id && this.possibleResponsibles[i].id.length > 15) {   // Meteor _ids default to 17 chars
+                participantsIds.push(this.possibleResponsibles[i].id);
+            }
+        }
+
+        // format return object suiting for select2.js
+        let users = this.usersCollection.find(
+            {$and: [{_id: {$nin: participantsIds}},
+                {isInactive: {$not: true}}]}).fetch();
+
+        for (let i in users) {
+            let usertext = users[i].username;
+            if (users[i].profile && users[i].profile.name && users[i].profile.name !== "") {
+                usertext += " - "+users[i].profile.name;
+            }
+            this.remainingUsers.push ({id: users[i]._id, text: usertext});
         }
     }
 }

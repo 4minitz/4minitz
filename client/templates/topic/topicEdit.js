@@ -30,43 +30,15 @@ let getEditTopic = function() {
     return new Topic(_minutesID, topicId);
 };
 
-let getPossibleResponsibles = function() {
-    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditTopic(), Meteor.users);
-    return preparer.getPossibleResponsibles();
-};
-
-// get those registered users that are not already added to select2 via
-// getPossibleResponsibles()
-let getRemainingUsers = function (participants) {
-    let participantsIds = [];
-    let remainingUsers = [];
-    console.log(participants);
-    for (let i in participants) {
-        if (participants[i].id && participants[i].id.length > 15) {   // Meteor _ids default to 17 chars
-            participantsIds.push(participants[i].id);
-        }
-    }
-
-    // format return object suiting for select2.js
-    let users = Meteor.users.find(
-        {$and: [{_id: {$nin: participantsIds}},
-               {isInactive: {$not: true}}]}).fetch();
-    for (let i in users) {
-        let usertext = users[i].username;
-        if (users[i].profile && users[i].profile.name && users[i].profile.name !== "") {
-            usertext += " - "+users[i].profile.name;
-        }
-        remainingUsers.push ({id: users[i]._id, text: usertext});
-    }
-    return remainingUsers;
-};
-
 function configureSelect2Responsibles() {
+    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditTopic(), Meteor.users);
+    preparer.prepareResponsibles();
+
     let selectResponsibles = $('#id_selResponsible');
     selectResponsibles.find('optgroup')     // clear all <option>s
         .remove();
-    let possResp = getPossibleResponsibles();
-    let remainingUsers = getRemainingUsers(possResp);
+    let possResp = preparer.getPossibleResponsibles();
+    let remainingUsers = preparer.getRemainingUsers();
     let selectOptions = [{
         text: "Participants",
         children: possResp
