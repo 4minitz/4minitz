@@ -4,6 +4,8 @@ import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
 
+import { ResponsiblePreparer } from '/imports/ResponsiblePreparer';
+
 import { $ } from 'meteor/jquery';
 
 Session.setDefault("topicEditTopicId", null);
@@ -18,72 +20,24 @@ Template.topicEdit.onCreated(function () {
     _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 });
 
-var getEditTopic = function() {
+let getEditTopic = function() {
     let topicId = Session.get("topicEditTopicId");
 
-    if (_minutesID == null ||  topicId == null) {
+    if (_minutesID === null ||  topicId === null) {
         return false;
     }
 
     return new Topic(_minutesID, topicId);
 };
 
-var getPossibleResponsibles = function() {
-    let possibleResponsibles = [];          // sorted later on
-    let possibleResponsiblesUnique = {};    // ensure uniqueness
-    let buffer = [];                        // userIds and names from different sources, may have doubles
-
-    // add regular participants from current minutes
-    let aMin = new Minutes(_minutesID);
-    for (let i in aMin.participants) {
-        buffer.push(aMin.participants[i].userId);
-    }
-
-    // add the "additional participants" from current minutes as simple strings
-    let participantsAdditional = aMin.participantsAdditional;
-    if (participantsAdditional) {
-        let splitted = participantsAdditional.split(/[,;]/);
-        for (let i in splitted) {
-            buffer.push(splitted[i].trim());
-        }
-    }
-
-    // add former responsibles from the parent meeting series
-    if (_meetingSeries && _meetingSeries.additionalResponsibles) {
-        buffer = buffer.concat(_meetingSeries.additionalResponsibles);
-    }
-
-
-    // add the responsibles from current topic
-    let topic = getEditTopic();
-    if (topic && topic.hasResponsibles()) {
-        buffer = buffer.concat(topic._topicDoc.responsibles);
-    }
-
-    // copy buffer to possibleResponsibles
-    // but take care for uniqueness
-    for (let i in buffer) {
-        let aResponsibleId = buffer[i];
-        if (! possibleResponsiblesUnique[aResponsibleId]) { // not seen?
-            possibleResponsiblesUnique[aResponsibleId] = true;
-            let aResponsibleName = aResponsibleId;
-            let aUser = Meteor.users.findOne(aResponsibleId);
-            if (aUser) {
-                aResponsibleName = aUser.username;
-                if (aUser.profile && aUser.profile.name && aUser.profile.name !== "") {
-                    aResponsibleName += " - "+aUser.profile.name;
-                }
-            }
-            possibleResponsibles.push({id: aResponsibleId, text: aResponsibleName});
-        }
-    }
-
-    return possibleResponsibles;
+let getPossibleResponsibles = function() {
+    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditTopic(), Meteor.users);
+    return preparer.getPossibleResponsibles();
 };
 
 // get those registered users that are not already added to select2 via
 // getPossibleResponsibles()
-var getRemainingUsers = function (participants) {
+let getRemainingUsers = function (participants) {
     let participantsIds = [];
     let remainingUsers = [];
     console.log(participants);
