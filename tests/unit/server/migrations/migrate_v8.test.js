@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 
-require('../../../lib/helpers');
+require('../../../../lib/helpers');
 
 class MeteorError {}
 let Meteor = {
@@ -21,7 +21,7 @@ let GlobalSettings = {};
 
 const {
         MigrateV8
-    } = proxyquire('../../../server/migrate_v8', {
+    } = proxyquire('../../../../server/migrations/migrate_v8', {
         'meteor/meteor': { Meteor, '@noCallThru': true},
         '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
         '/imports/GlobalSettings': { GlobalSettings, '@noCallThru': true}

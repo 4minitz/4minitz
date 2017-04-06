@@ -36,7 +36,7 @@ let MeetingSeriesCollection = {
 
 const {
     MigrateV5
-    } = proxyquire('../../../server/migrate_v5', {
+    } = proxyquire('../../../../server/migrations/migrate_v5', {
     '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
     '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
 });

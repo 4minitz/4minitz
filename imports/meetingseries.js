@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
 import { Topic } from './topic'
-import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
@@ -130,24 +129,32 @@ export class MeetingSeries {
         }
     }
 
+    /**
+     * Fetches the first minutes of this series.
+     * @returns {Minutes|false}
+     */
+    firstMinutes() {
+        const oldMinutesFirst = false;
+        return this._getCornerMintues(1, oldMinutesFirst);
+    }
+
     lastMinutes () {
-        if (!this.minutes || this.minutes.length === 0) {
-            return false;
-        }
-        let lastMin = Minutes.findAllIn(this.minutes, 1).fetch();
-        if (lastMin && lastMin.length === 1) {
-            return lastMin[0];
-        }
-        return false;
+        const lastMinutesFirst = true;
+        return this._getCornerMintues(1, lastMinutesFirst);
     }
 
     secondLastMinutes () {
-        if (!this.minutes || this.minutes.length < 2) {
+        const lastMinutesFirst = true;
+        return this._getCornerMintues(2, lastMinutesFirst);
+    }
+
+    _getCornerMintues(offset, lastMinutesFirst) {
+        if (!this.minutes || this.minutes.length < offset) {
             return false;
         }
-        let secondLastMin = Minutes.findAllIn(this.minutes, 2).fetch();
-        if (secondLastMin && secondLastMin.length === 2) {
-            return secondLastMin[1];
+        let min = Minutes.findAllIn(this.minutes, offset, lastMinutesFirst).fetch();
+        if (min && min.length === offset) {
+            return min[offset-1];
         }
         return false;
     }
@@ -341,7 +348,7 @@ export class MeetingSeries {
 
         // close topic if it is completely closed (not just marked as discussed)
         let topic = new Topic(this, topicDoc);
-        this.topics[i].isOpen = (!topic.isClosed());
+        this.topics[i].isOpen = (!topic.isClosedAndHasNoOpenAIs());
     }
 
     findTopic(id) {
@@ -404,7 +411,7 @@ export class MeetingSeries {
      */
     addAdditionalResponsible(newResponsible) {
         // remove newResponsible if already present
-        var index = this.additionalResponsibles.indexOf(newResponsible);
+        let index = this.additionalResponsibles.indexOf(newResponsible);
         if (index !== -1) {
             this.additionalResponsibles.splice(index, 1);
         }
@@ -477,7 +484,7 @@ export class MeetingSeries {
 
             // copy additional the tailored topic to our open topic list
             topic.tailorTopic();
-            if (!topic.isClosed()) {
+            if (!topic.isClosedAndHasNoOpenAIs()) {
                 topic.getDocument().isOpen = true;
                 this.openTopics.unshift(topic.getDocument());
             }

@@ -41,7 +41,7 @@ let resizeTextarea = (element) => {
 };
 
 Meteor.sleep = function(ms) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
         setTimeout(resolve, ms);
     });
 };
@@ -163,17 +163,51 @@ Template.topicInfoItem.events({
 
         let aTopic = createTopic(this.minutesID, this.parentTopicId);
         if (aTopic) {
-            let templateData = {
-                type: (this.infoItem.itemType === 'infoItem') ? 'information' : 'action item',
-                subject: this.infoItem.subject
-            };
+            let item = aTopic.findInfoItem(this.infoItem._id);
+            let isDeleteAllowed = item.isDeleteAllowed(this.minutesID);
 
-            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                () => { aTopic.removeInfoItem(this.infoItem._id) },
-                'Confirm delete',
-                'confirmDeleteItem',
-                templateData
-            ).show();
+            if (item.isSticky() || isDeleteAllowed) {
+                let templateData = {
+                    type: (item.isActionItem()) ? 'action item' : 'information',
+                    isActionItem: item.isActionItem(),
+                    subject: this.infoItem.subject,
+                    deleteAllowed: isDeleteAllowed
+                };
+
+                let title = 'Confirm delete';
+                let button = 'Delete';
+                if (!isDeleteAllowed) {
+                    title = (item.isActionItem()) ? 'Close action item?' : 'Unpin info item?';
+                    button = (item.isActionItem()) ? 'Close action item' : 'Unpin info item';
+                }
+
+                let action = () => {
+                    if (isDeleteAllowed) {
+                        aTopic.removeInfoItem(this.infoItem._id)
+                    } else {
+                        if (item.isActionItem()) item.toggleState();
+                        else item.toggleSticky();
+                        item.save();
+                    }
+                };
+
+                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                    action,
+                    title,
+                    'confirmDeleteItem',
+                    templateData,
+                    button
+                ).show();
+            } else {
+                ConfirmationDialogFactory.makeInfoDialog(
+                    'Cannot delete item',
+                    'It is not possible to delete this item because it was created in a previous minutes.' +
+                        ((item.isActionItem())
+                            ? ' This action item is already closed,'
+                            : ' This info item is already un-pinned') +
+                    ' so it won\'t be copied to the following minutes'
+                ).show();
+            }
         }
     },
 
@@ -218,7 +252,7 @@ Template.topicInfoItem.events({
 
 
     // Keep <a href=...> as clickable links inside detailText markdown
-    'click .detailText a'(evt, tmpl) {
+    'click .detailText a'(evt) {
         evt.stopPropagation();
     },
 
