@@ -124,8 +124,12 @@
                         </div>
                     </div>
                     <div>
-                      {{{previousMinutes}}}
-                      {{{ nextMinutes}}}
+                        {{#if previousMinutes}}
+                            Previous: <a id="btnPreviousMinutesNavigation" href="{{minutesPath previousMinutes._id}}">{{previousMinutes.date}}</a> &nbsp;&nbsp;
+                        {{/if}}
+                        {{#if nextMinutes}}
+                            Next: <a id="btnNextMinutesNavigation" href="{{minutesPath nextMinutes._id}}">{{nextMinutes.date}}</a>
+                        {{/if}}
                     </div>
                     <div class="form-group">
                         <label for="editGlobalNotes">Global Note</label>
