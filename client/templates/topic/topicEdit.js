@@ -4,7 +4,7 @@ import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
 
-import { ResponsiblePreparer } from '/imports/ResponsiblePreparer';
+import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 
 import { $ } from 'meteor/jquery';
 
@@ -32,7 +32,6 @@ let getEditTopic = function() {
 
 function configureSelect2Responsibles() {
     let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditTopic(), Meteor.users);
-    preparer.prepareResponsibles();
 
     let selectResponsibles = $('#id_selResponsible');
     selectResponsibles.find('optgroup')     // clear all <option>s
@@ -110,7 +109,7 @@ Template.topicEdit.events({
         Session.set("topicEditTopicId", null);
     },
 
-    "show.bs.modal #dlgAddTopic": function (evt, tmpl) {
+    "show.bs.modal #dlgAddTopic": function () {
         configureSelect2Responsibles();
         let saveButton = $("#btnTopicSave");
         let cancelButton = $("#btnTopicCancel");
@@ -119,20 +118,20 @@ Template.topicEdit.events({
     },
 
     "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
-        $('#dlgAddTopic input').trigger("change");    // ensure new values trigger placeholder animation
+        $('#dlgAddTopic').find('input').trigger("change");    // ensure new values trigger placeholder animation
         tmpl.find("#id_subject").focus();
     },
 
-    "select2:selecting #id_selResponsible"(evt, tmpl) {
+    "select2:selecting #id_selResponsible"(evt) {
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
     },
 
-    "select2:select #id_selResponsible"(evt, tmpl) {
+    "select2:select #id_selResponsible"(evt) {
         console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
         let respId = evt.params.data.id;
         let respName = evt.params.data.text;
         let aUser = Meteor.users.findOne(respId);
-        if (! aUser && respId == respName) {    // we have a free-text user here!
+        if (! aUser && respId === respName) {    // we have a free-text user here!
             _meetingSeries.addAdditionalResponsible(respName);
             _meetingSeries.save();
         }

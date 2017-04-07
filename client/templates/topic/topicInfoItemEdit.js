@@ -11,10 +11,9 @@ import { InfoItem } from '/imports/infoitem'
 import { ActionItem } from '/imports/actionitem'
 import { Label } from '/imports/label'
 
-import { ResponsiblePreparer } from '/imports/ResponsiblePreparer';
+import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 
 import { $ } from 'meteor/jquery';
-import submitOnEnter from '../../helpers/submitOnEnter';
 
 Session.setDefault("topicInfoItemEditTopicId", null);
 Session.setDefault("topicInfoItemEditInfoItemId", null);
@@ -86,7 +85,6 @@ function configureSelect2Responsibles() {
         return _emailAddressRegExp.test(text);
     };
     let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditInfoItem(), Meteor.users, freeTextValidator);
-    preparer.prepareResponsibles();
 
     let selectResponsibles = $('#id_selResponsibleActionItem');
     selectResponsibles.find('optgroup')     // clear all <option>s
@@ -303,7 +301,7 @@ Template.topicInfoItemEdit.events({
     "select2:selecting #id_selResponsibleActionItem"(evt) {
         console.log(evt);
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
-        if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
+        if (evt.params.args.data.id === evt.params.args.data.text) { // we have a free-text entry
             if (! _emailAddressRegExp.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
                 ConfirmationDialogFactory.makeInfoDialog(
@@ -316,12 +314,12 @@ Template.topicInfoItemEdit.events({
         return true;
     },
 
-    "select2:select #id_selResponsibleActionItem"(evt, tmpl) {
+    "select2:select #id_selResponsibleActionItem"(evt) {
         console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
         let respId = evt.params.data.id;
         let respName = evt.params.data.text;
         let aUser = Meteor.users.findOne(respId);
-        if (! aUser && respId == respName &&    // we have a free-text user here!
+        if (! aUser && respId === respName &&    // we have a free-text user here!
             _emailAddressRegExp.test(respName)) { // only take valid mail addresses
             _meetingSeries.addAdditionalResponsible(respName);
             _meetingSeries.save();

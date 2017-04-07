@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import _ from 'underscore';
 import  faker from 'faker';
 
-import { ResponsiblePreparer } from '../../../imports/ResponsiblePreparer';
+import { ResponsiblePreparer } from '../../../../imports/client/ResponsiblePreparer';
 
 let generateId = () => {
     return faker.random.uuid();
@@ -63,6 +63,7 @@ describe('ResponsiblePreparer', function() {
         };
 
         preparer = new ResponsiblePreparer(fakeMinutes, fakeTopicOrItem, fakeUserCollection);
+        preparer._init();
     });
 
     describe('#getPossibleResponsibles', function() {
@@ -80,7 +81,7 @@ describe('ResponsiblePreparer', function() {
         });
 
         it('returns all participants of the current minutes', function() {
-            preparer.prepareResponsibles();
+            preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(2);
             expect(result).to.deep.include({id: USER_1._id, text: `${USER_1.username} - ${USER_1.profile.name}`});
@@ -90,7 +91,7 @@ describe('ResponsiblePreparer', function() {
 
         it('returns the additional responsible, too', function() {
             fakeMinutes.participantsAdditional = `${ADDITIONAL_RESP_TEXT}, ${ADDITIONAL_RESP_MAIL}`;
-            preparer.prepareResponsibles();
+            preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(4);
             expect(result).to.deep.include({id: ADDITIONAL_RESP_TEXT, text: ADDITIONAL_RESP_TEXT});
@@ -99,7 +100,7 @@ describe('ResponsiblePreparer', function() {
 
         it('returns the former responsible, too', function () {
             fakeParentSeries.additionalResponsibles = [FORMER_RESP_TEXT, FORMER_RESP_MAIL];
-            preparer.prepareResponsibles();
+            preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(4);
             expect(result).to.deep.include({id: FORMER_RESP_TEXT, text: FORMER_RESP_TEXT});
@@ -110,7 +111,7 @@ describe('ResponsiblePreparer', function() {
             fakeMinutes.participantsAdditional = `${ADDITIONAL_RESP_TEXT}, ${ADDITIONAL_RESP_MAIL}`;
             fakeParentSeries.additionalResponsibles = [FORMER_RESP_TEXT, FORMER_RESP_MAIL];
             preparer.freeTextValidator = (text) => { return text.indexOf('@') !== -1 };
-            preparer.prepareResponsibles();
+            preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(4);
             expect(result).to.deep.include({id: ADDITIONAL_RESP_MAIL, text: ADDITIONAL_RESP_MAIL});
@@ -122,7 +123,7 @@ describe('ResponsiblePreparer', function() {
                 {id: 'free-text-entry', text: 'free-text-entry'},
                 {id: USER_2._id, text: USER_2.name}
             ];
-            preparer.prepareResponsibles();
+            preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(3);
         });
@@ -136,16 +137,15 @@ describe('ResponsiblePreparer', function() {
                 {id: 'free-text-entry', text: 'free-text-entry'},
                 {id: USER_2._id, text: USER_2.name}
             ];
+            preparer._prepareRemainingUsers();
         });
 
         it('returns all users which were not part of the possible responsible', function() {
-            preparer.prepareResponsibles();
             let result = preparer.getRemainingUsers();
             expect(result).to.have.length(2);
         });
 
         it('returns the correct users in the desired format', function() {
-            preparer.prepareResponsibles();
             let result = preparer.getRemainingUsers();
             expect(result).to.deep.include({id: USER_1._id, text: `${USER_1.username} - ${USER_1.profile.name}`});
             expect(result).to.deep.include({id: USER_3._id, text: `${USER_3.username} - ${USER_3.profile.name}`});

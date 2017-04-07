@@ -10,11 +10,14 @@ export class ResponsiblePreparer {
         this.currentElement = currentTopicOrItem;
         this.usersCollection = usersCollection;
         this.freeTextValidator = freeTextValidator;
+        this._init();
+        this._prepareResponsibles();
+    }
 
+    _init() {
         this.possibleResponsibles = [];          // sorted later on
         this.possibleResponsiblesUnique = {};    // ensure uniqueness
         this.buffer = [];                        // userIds and names from different sources, may have doubles
-
         this.remainingUsers = [];
     }
 
@@ -32,7 +35,7 @@ export class ResponsiblePreparer {
         return this.remainingUsers;
     }
 
-    prepareResponsibles() {
+    _prepareResponsibles() {
         this._preparePossibleResponsibles();
         this._prepareRemainingUsers();
     }
