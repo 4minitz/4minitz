@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor';
-
 import { addCustomValidator } from '../../helpers/customFieldValidator'
 
 import { MeetingSeries } from '/imports/meetingseries'
@@ -8,7 +6,7 @@ import { Label } from '/imports/label'
 import { ColorHelper } from '/imports/ColorHelper'
 
 let initColorPicker = (selector) => {
-    Meteor.setTimeout(function() {
+    setTimeout(function() {
         $(selector).pickAColor({
             showSavedColors         : false,
             showAdvanced            : false,

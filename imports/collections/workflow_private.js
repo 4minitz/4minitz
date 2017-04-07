@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-let fs = undefined;
+let fs;
 if (Meteor.isServer) {
-    fs = require('fs-extra');
+    fs = require('fs-extra'); // eslint-disable-line global-require
 }
 
 import { Minutes } from '../minutes';
@@ -96,7 +96,7 @@ Meteor.methods({
 
     'workflow.removeMinute'(minutes_id) {
         check(minutes_id, String);
-        if (minutes_id == undefined || minutes_id == "") {
+        if (minutes_id === undefined || minutes_id === "") {
             throw new Meteor.Error('illegal-arguments', 'Minutes id required');
         }
         console.log('workflow.removeMinute: '+minutes_id);
@@ -222,7 +222,7 @@ Meteor.methods({
             let doc = {
                 finalizedAt: new Date(),
                 finalizedBy: Meteor.user().username,
-                isFinalized: false,
+                isFinalized: false
             };
             // update aMin object to generate new history entry
             Object.assign(aMin, doc);
@@ -246,7 +246,7 @@ Meteor.methods({
     'workflow.removeMeetingSeries'(meetingseries_id) {
         console.log("workflow.removeMeetingSeries: "+meetingseries_id);
         check(meetingseries_id, String);
-        if (meetingseries_id == undefined || meetingseries_id == "")
+        if (meetingseries_id === undefined || meetingseries_id === "")
             return;
 
         checkUserAvailableAndIsModeratorOf(meetingseries_id);
@@ -285,7 +285,7 @@ Meteor.methods({
         // check(meetingSeries_id, Meteor.Collection.ObjectID);
         check(meetingSeries_id, String);
         console.log("meetingseries.leave:"+meetingSeries_id);
-        if (meetingSeries_id == undefined || meetingSeries_id == "")
+        if (meetingSeries_id === undefined || meetingSeries_id === "")
             return;
 
         checkUserMayLeave(meetingSeries_id);
