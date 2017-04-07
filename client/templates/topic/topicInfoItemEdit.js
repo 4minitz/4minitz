@@ -11,8 +11,9 @@ import { InfoItem } from '/imports/infoitem'
 import { ActionItem } from '/imports/actionitem'
 import { Label } from '/imports/label'
 
+import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
+
 import { $ } from 'meteor/jquery';
-import submitOnEnter from '../../helpers/submitOnEnter';
 
 Session.setDefault("topicInfoItemEditTopicId", null);
 Session.setDefault("topicInfoItemEditInfoItemId", null);
@@ -46,7 +47,7 @@ let getRelatedTopic = function() {
     let minutesId = _minutesID;
     let topicId = Session.get("topicInfoItemEditTopicId");
 
-    if (minutesId == null ||  topicId == null) {
+    if (minutesId === null ||  topicId === null) {
         return false;
     }
 
@@ -78,100 +79,18 @@ let toggleItemMode = function (type, tmpl) {
 };
 
 
-var getPossibleResponsibles = function() {
-    let possibleResponsibles = [];          // sorted later on
-    let possibleResponsiblesUnique = {};    // ensure uniqueness
-    let buffer = [];                        // userIds and names from different sources, may have doubles
-
-    // add regular participants from current minutes
-    let aMin = new Minutes(_minutesID);
-    for (let i in aMin.participants) {
-        buffer.push(aMin.participants[i].userId);
-    }
-
-    // add the "additional participants" from current minutes as simple strings
-    let participantsAdditional = aMin.participantsAdditional;
-    if (participantsAdditional) {
-        let splitted = participantsAdditional.split(/[,;]/);
-        for (let i in splitted) {
-            let partAdd = splitted[i].trim();
-            if (_emailAddressRegExp.test(partAdd)) {
-                buffer.push(splitted[i].trim());
-            }
-        }
-    }
-
-    // add former responsibles from the parent meeting series
-    if (_meetingSeries && _meetingSeries.additionalResponsibles) {
-        _meetingSeries.additionalResponsibles.forEach(resp => {
-            if (_emailAddressRegExp.test(resp)) {
-                buffer.push(resp);
-            }
-        });
-    }
-
-    // add the responsibles from current item
-    let editItem = getEditInfoItem();
-    if (editItem && editItem.hasResponsibles()) {
-        buffer = buffer.concat(editItem._infoItemDoc.responsibles);
-    }
-
-    // copy buffer to possibleResponsibles
-    // but take care for uniqueness
-    for (let i in buffer) {
-        let aResponsibleId = buffer[i];
-        if (! possibleResponsiblesUnique[aResponsibleId]) { // not seen?
-            possibleResponsiblesUnique[aResponsibleId] = true;
-            let aResponsibleName = aResponsibleId;
-            let aUser = Meteor.users.findOne(aResponsibleId);
-            if (aUser) {
-                aResponsibleName = aUser.username;
-                if (aUser.profile && aUser.profile.name && aUser.profile.name !== "") {
-                    aResponsibleName += " - "+aUser.profile.name;
-                }
-            }
-            possibleResponsibles.push({id: aResponsibleId, text: aResponsibleName});
-        }
-    }
-
-    return possibleResponsibles;
-};
-
-
-// get those registered users that are not already added to select2 via
-// getPossibleResponsibles()
-var getRemainingUsers = function (participants) {
-    let participantsIds = [];
-    let remainingUsers = [];
-    for (let i in participants) {
-        if (participants[i].id && participants[i].id.length > 15) {   // Meteor _ids default to 17 chars
-            participantsIds.push(participants[i].id);
-        }
-    }
-
-    // format return object suiting for select2.js
-    let users = Meteor.users.find(
-        {$and: [{_id: {$nin: participantsIds}},
-                {isInactive: {$not: true}}]}).fetch();
-
-    for (let i in users) {
-        let usertext = users[i].username;
-        if (users[i].profile && users[i].profile.name && users[i].profile.name !== "") {
-            usertext += " - "+users[i].profile.name;
-        }
-        remainingUsers.push ({id: users[i]._id, text: usertext});
-    }
-    return remainingUsers;
-};
-
-
 function configureSelect2Responsibles() {
     console.log("-----------ConfigureSelect2!");
+    let freeTextValidator = (text) => {
+        return _emailAddressRegExp.test(text);
+    };
+    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditInfoItem(), Meteor.users, freeTextValidator);
+
     let selectResponsibles = $('#id_selResponsibleActionItem');
     selectResponsibles.find('optgroup')     // clear all <option>s
         .remove();
-    let possResp = getPossibleResponsibles();
-    let remainingUsers = getRemainingUsers(possResp);
+    let possResp = preparer.getPossibleResponsibles();
+    let remainingUsers = preparer.getRemainingUsers();
     let selectOptions = [{
         text: "Participants",
         children: possResp
@@ -382,7 +301,7 @@ Template.topicInfoItemEdit.events({
     "select2:selecting #id_selResponsibleActionItem"(evt) {
         console.log(evt);
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
-        if (evt.params.args.data.id == evt.params.args.data.text) { // we have a free-text entry
+        if (evt.params.args.data.id === evt.params.args.data.text) { // we have a free-text entry
             if (! _emailAddressRegExp.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
                 ConfirmationDialogFactory.makeInfoDialog(
@@ -395,12 +314,12 @@ Template.topicInfoItemEdit.events({
         return true;
     },
 
-    "select2:select #id_selResponsibleActionItem"(evt, tmpl) {
+    "select2:select #id_selResponsibleActionItem"(evt) {
         console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
         let respId = evt.params.data.id;
         let respName = evt.params.data.text;
         let aUser = Meteor.users.findOne(respId);
-        if (! aUser && respId == respName &&    // we have a free-text user here!
+        if (! aUser && respId === respName &&    // we have a free-text user here!
             _emailAddressRegExp.test(respName)) { // only take valid mail addresses
             _meetingSeries.addAdditionalResponsible(respName);
             _meetingSeries.save();
