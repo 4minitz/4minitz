@@ -90,6 +90,10 @@ export class Minutes {
         return this._getNeighborMintues(1);
     }
 
+    previousMinutes() {
+        return this._getNeighborMintues(-1);
+    }
+
     _getNeighborMintues(offset) {
         let parentSeries = this.parentMeetingSeries();
         let myPosition = parentSeries.minutes.indexOf(this._id);
