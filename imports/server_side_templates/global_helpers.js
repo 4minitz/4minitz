@@ -2,7 +2,15 @@ import { Meteor } from 'meteor/meteor';
 
 export var GlobalHelpers = {
     'markdown2html': function(text) {
-        let html = Markdown(text);
+        let html = "<pre>"+text+"</pre>";
+        try {
+            html = Markdown(text);
+        } catch (e) {
+            console.error(e);
+            console.error("Could not convert markdown to html for:");
+            console.error(text);
+            throw e;
+        }
 
         // as we embed markdown under a <li> tag in emails we
         // don't want <p> tags to destroy the layout...
