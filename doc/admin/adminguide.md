@@ -251,7 +251,17 @@ See /settings_sample.json for an example. Do not forget to set "enableMailDelive
 to either "mailgun" or "smtp" - not both as seen in the example file!
 
 If you enable the option "trustedIntranetEvironment" the finalize-info-email will be sent once with all recipients in
-the "TO:" field. Disable this option in public or demo mode!
+the "TO:" field. This makes it easy for recipients to "Reply to all". But it
+may be a security hole in an untrusted environment. So, disable this option in public or demo mode!
+
+The sender address in an email (FROM: and REPLY-TO:) will be set depending on
+* defaultEMailSenderAddress
+* fallbackEMailSenderAddress and
+* if the sending user has an email specified in her profile.
+
+The following diagram will show the decision tree:
+![Decision diagram for email sender](./figures/email_sender.png)
+
 
 ### LDAP Configuration
 
