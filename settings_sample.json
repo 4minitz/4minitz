@@ -51,13 +51,24 @@
         "defaultEMailSenderAddress": "noreply@yourdomain.com",
 
         "//3.4": [
+            "defaultEMailSenderExceptionDomains: an array of domains.",
+            "For these domains the defaultEMailSenderAddress will NOT be used.",
+            "Use case: Inside your intranet you want to send mails from real user names of you company.",
+            "But if you cooperate with users from other companies inside your 4Minitz, these",
+            "users will get trouble sending mail from your 4Minitz to mail addresses",
+            "inside their company with their mail address in FROM: header.",
+            "This really looks like spam, so it will probably be blocked!."
+        ],
+        "defaultEMailSenderExceptionDomains": ["yourdomain.de", "yourdomain.de"],
+
+        "//3.5": [
                 "fallbackEMailSenderAddress: if sending user has no mail address specified in the user profile,",
                 "this will be 'FROM:' sender.",
                 "If defaultEMailSenderAddress is set empty this field must be set with a valid email address.",
                 "If this setting is empty and user has no mail address in profile, sending eMail will fail!",
                 "(see admin guide for the decision tree)."
             ],
-        "fallbackEMailSenderAddress": "",
+        "fallbackEMailSenderAddress": "noreply@yourdomain.com",
 
         "smtp": {
             "mailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/"

@@ -109,6 +109,20 @@ export class GlobalSettings {
             ? Meteor.settings.email.defaultEMailSenderAddress
             : undefined;
 
+        if (address
+            && alternativeSender
+            && Meteor.settings.email
+            && Meteor.settings.email.defaultEMailSenderExceptionDomains
+            && Meteor.settings.email.defaultEMailSenderExceptionDomains.length > 0) {
+            let senderDomain = alternativeSender.replace(/^.*@/, "").toLowerCase();   // me@mycompany.com => mycompany.com
+            for (let i=0; i<Meteor.settings.email.defaultEMailSenderExceptionDomains.length; i++) {
+                if (Meteor.settings.email.defaultEMailSenderExceptionDomains[i].toLowerCase() === senderDomain) {
+                    address = alternativeSender;
+                    break;
+                }
+            }
+        }
+
         if (address !== undefined) {        // we have default from settings
             if (address === "") {           // but it's empty!
                 return (alternativeSender)  // luckily we have a real user profile mail
