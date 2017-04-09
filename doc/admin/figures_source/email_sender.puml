@@ -1,0 +1,38 @@
+@startuml
+!include style.puml
+
+start
+
+if (__defaultEMailSenderAddress__ is set to valid mail address) then (no)
+    if (Sending user's mail address
+            set in profile) then (no)
+        if (__fallbackEMailSenderAddress__ specified) then (no)
+            :**ERROR!**
+            No mail sent!;
+        else (yes)
+            :FROM: __fallbackEMailSenderAddress__
+            REPLY-TO: __fallbackEMailSenderAddress__;
+        endif
+    else (yes)
+        :FROM: sending user's mail
+        REPLY-TO: sending user's mail;
+    endif
+else (yes)
+    if (Sending user's mail address
+         set in profile) then (no)
+        if (__fallbackEMailSenderAddress__ specified) then (no)
+            :**ERROR!**
+            No mail sent!;
+        else (yes)
+            :FROM: __defaultEMailSenderAddress__
+            REPLY-TO: __defaultEMailSenderAddress__;
+        endif
+    else (yes)
+        :FROM: __defaultEMailSenderAddress__
+        REPLY-TO: sending user's mail;
+    endif
+endif
+
+stop
+
+@enduml

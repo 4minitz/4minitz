@@ -1,6 +1,6 @@
 {
-    "//1": "below option ensures that embedded links in E-Mails point back to your server",
-    "ROOT_URL": "http://www.your-domain.com",
+    "//1": "below option ensures that embedded links in E-Mails and attachments point back to your server",
+    "ROOT_URL": "http://www.your-domain.com:3100",
 
     "//2": ["below option switches off some privacy settings in trusted environments",
                 "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
@@ -10,6 +10,10 @@
     "//2.0": "Switch on/off the possibility to register new users on the login form",
     "forbidClientAccountCreation": false,
 
+    "//2.1": ["Array of userID strings that get the admin role - may be an empty array",
+              "Admins may register users, de-activate users, send broadcast messages, ...",
+              "e.g. ['f879STuD44npgoHe6', 'PWEK6gwvmCrwbm4np']"],
+    "adminIDs": [],
 
     "//2.1 branding": ["Via branding you can configure the 'first impression' of your local installation. ",
         "topLeftLogoHTML: default is text '4Minitz.com', but you may add HTML that can live inside a <a>...</a> tag",
@@ -33,12 +37,38 @@
     "//3": "below option configures if and how to send E-Mails",
     "email": {
         "//3.1": "Switch on/off E-Mail sending",
-        "enableMailDelivery": true,
+        "enableMailDelivery": false,
         "//3.2": "Choose one of the below mail deliver methods",
         "mailDeliverer": "mailgun|smtp",
 
-        "defaultEMailSenderAddress": "default@email.de",
-        "fallbackEMailSenderAddress": "if defaultEMailSenderAddress is left open this field must be set with a valid email address",
+        "//3.3": [
+            "defaultEMailSenderAddress: if this is an empty string, the sending users mail address will",
+            "be the 'FROM:' sender of the email. If you specify an email address here, this mail address",
+            "will be the 'FROM:' sender of each mails, and the sending user will be inserted to the 'REPLY-TO:' field",
+            "If you set this to empty, please specify fallbackEMailSenderAddress!",
+            "(see admin guide for the decision tree)."
+        ],
+        "defaultEMailSenderAddress": "noreply@yourdomain.com",
+
+        "//3.4": [
+            "defaultEMailSenderExceptionDomains: an array of domains.",
+            "For these domains the defaultEMailSenderAddress will NOT be used.",
+            "Use case: Inside your intranet you want to send mails from real user names of you company.",
+            "But if you cooperate with users from other companies inside your 4Minitz, these",
+            "users will get trouble sending mail from your 4Minitz to mail addresses",
+            "inside their company with their mail address in FROM: header.",
+            "This really looks like spam, so it will probably be blocked!."
+        ],
+        "defaultEMailSenderExceptionDomains": ["yourdomain.de", "yourdomain.de"],
+
+        "//3.5": [
+                "fallbackEMailSenderAddress: if sending user has no mail address specified in the user profile,",
+                "this will be 'FROM:' sender.",
+                "If defaultEMailSenderAddress is set empty this field must be set with a valid email address.",
+                "If this setting is empty and user has no mail address in profile, sending eMail will fail!",
+                "(see admin guide for the decision tree)."
+            ],
+        "fallbackEMailSenderAddress": "noreply@yourdomain.com",
 
         "smtp": {
             "mailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/"
@@ -67,7 +97,7 @@
 
     "//5": "MongoDB configuration",
     "db": {
-        "mongodumpTargetDirectory": ""
+        "mongodumpTargetDirectory": "4minitz_storage/mongodump"
     },
 
     "//6": ["LDAP Configuration",
@@ -80,8 +110,10 @@
         "serverDn": "OU=people,DC=example,DC=com",
         "serverUrl": "ldaps://ld.example.com:636",
         "allowSelfSignedTLS": false,
-        "whiteListedFields": [ "cn", "department", "employeeNumber", "mail" ],
-        "autopublishFields": [ "cn" ]
+        "whiteListedFields": [ "uid", "cn", "department", "employeeNumber", "mail", "mailEnabled" ],
+        "isInactivePredicate": {"mailEnabled": "NO"},
+        "autopublishFields": [ "cn" ],
+        "importCronTab": false
     },
 
     "//7": ["Upload attachment configuration",
@@ -96,7 +128,7 @@
         ],
     "attachments": {
         "enabled": true,
-        "storagePath": "attachments",
+        "storagePath": "4minitz_storage/attachments",
         "allowExtensions": ".*",
         "denyExtensions":  "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
         "maxFileSize": 10485760

@@ -7,7 +7,7 @@ let fs = {
     '@noCallThru': true
 };
 
-const loadLDAPSettings = proxyquire('../../../../private/ldap/lib/loadLDAPSettings', {
+const loadLDAPSettings = proxyquire('../../../../imports/ldap/loadLDAPSettings', {
     'fs': fs
 });
 
@@ -81,34 +81,6 @@ describe('loadLDAPSettings', function () {
                 } catch (error) {
                     done(error);
                 }
-            });
-    });
-
-    it('sets the process env to allow self signed tls certificates', function (done) {
-        let settings = {
-                ldap: {
-                    allowSelfSignedTLS: true
-                }
-            },
-            settingsJson = JSON.stringify(settings);
-
-        fs.readFile = asyncStubs.returns(2, settingsJson);
-
-        // enable rejection of unauthorized TLS certificates
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
-        expect(process.env.NODE_TLS_REJECT_UNAUTHORIZED).to.equal('1');
-
-        loadLDAPSettings('ldapSettings.json')
-            .then(() => {
-                try {
-                    expect(process.env.NODE_TLS_REJECT_UNAUTHORIZED).to.equal('0');
-                    done();
-                } catch (error) {
-                    done(error);
-                }
-            })
-            .catch((error) => {
-                done(new Error(error));
             });
     });
 });

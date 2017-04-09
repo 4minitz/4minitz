@@ -1,0 +1,65 @@
+<template name="tabMinutesList">
+    <div class="clearfix">
+        {{#if isModeratorOfParentSeries}}
+        <div class="pull-right">
+            <!-- "Create New Minutes" button for "Moderators"-->
+            <fieldset {{addMinutesDisabled}}>   <!-- dynamically set disabled=true -->
+                <a href="{{pathFor 'minutesadd' _id=meetingSeriesId}}"
+                        id="btnAddMinutes" class="btn btn-success btn-raised">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Create New Minutes"></span>
+                    Create New Minutes
+                </a>
+            </fieldset>
+        </div>
+        {{else}}
+            <div class="pull-right">
+                <!-- "Leave Meeting Series" button for "Invited"-->
+                <a id="btnLeaveMeetingSeries" class="btn btn-default btn-raised">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="Leave Meeting Series"></span>
+                    Leave Meeting Series
+                </a>
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="well">
+        <table class="table table-striped">
+            <thead style="font-weight: bold;">
+                <td>Date</td>
+                <td>
+                    <span class="hidden-xs">Finalized</span>
+                    <span class="glyphicon glyphicon-ok visible-xs" aria-hidden="true" aria-label="Finalized"></span>
+                </td>
+                <td>Participants</td>
+            </thead>
+            <tbody>
+            {{#each minutes}}
+            <tr id="id_MinuteRow">
+                <td>
+                    <a href="{{pathFor 'minutesedit' _id=_id}}" id="id_linkToMinutes" style="white-space: nowrap;"
+                       data-toggle="tooltip" title="{{globalNote}}">
+                        {{date}}
+                    </a>
+                </td>
+                <td style="vertical-align: top;">
+                    {{#if isFinalized}}
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalized"></span>
+                        V{{finalizedVersion}}
+                        ({{finalizedBy}})
+                    {{else}}
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" aria-label="Finalized"></span>
+                        V{{finalizedVersion}}
+                    {{/if}}
+                    {{#if hasAttachments}}
+                        <span class="glyphicon glyphicon-paperclip" aria-hidden="true" aria-label="HasAttachments"></span>
+                    {{/if}}
+                </td>
+                <td>
+                    {{getPresentParticipantNames 60}}  <!-- Limit to max. 60 chars -->
+                </td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</template>

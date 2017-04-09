@@ -5,9 +5,15 @@ Template.navigation.onRendered(function() {
 });
 
 Template.navigation.helpers({
-  "logoHTML": function () {
-    return GlobalSettings.getBrandingLogoHTML();
-  }
+    "logoHTML": function () {
+      return GlobalSettings.getBrandingLogoHTML();
+    },
+    displayUsername() {
+        if (Meteor.user().profile && Meteor.user().profile.name) {
+            return Meteor.user().profile.name;
+        }
+        return Meteor.user().username;
+    }
 });
 
 Template.navigation.events({

@@ -12,6 +12,13 @@ export class E2ETopics {
         E2ETopics.submitTopicDialog();
     };
 
+    static addTopicToMinutesAtEnd (aTopic, aResonsible) {
+        browser.waitForVisible("#addTopicField");
+        browser.click("#addTopicField");
+
+        E2ETopics.insertTopicDataAtEnd(aTopic, aResonsible);
+        E2ETopics.submitTopicAtEnd();
+    }
     
     static openEditTopicForMinutes(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnEditTopic";
@@ -80,8 +87,30 @@ export class E2ETopics {
         }
     }
 
+    static insertTopicDataAtEnd(subject, responsible) {
+        try {
+            browser.waitForVisible('#addTopicField');
+        }
+        catch (e) {
+            return false;
+        }
+        E2EGlobal.waitSomeTime();
+
+        if (subject) {
+            browser.setValue('#addTopicField', subject);
+        }
+        if (responsible) {
+            E2ETopics.responsible2TopicEnterFreetext(responsible);
+        }
+    }
+
     static submitTopicDialog() {
         browser.click("#btnTopicSave");
+        E2EGlobal.waitSomeTime(700);
+    }
+
+    static submitTopicAtEnd() {
+        browser.keys("Enter");
         E2EGlobal.waitSomeTime(700);
     }
 
@@ -99,6 +128,7 @@ export class E2ETopics {
 
         E2EGlobal.waitSomeTime();
         if (autoCloseDetailInput) {
+            E2EGlobal.waitSomeTime(600);
             browser.keys(['Escape']);
             E2EGlobal.waitSomeTime();
         }
@@ -306,7 +336,7 @@ export class E2ETopics {
             doBeforeSubmit(selFocusedInput);
         }
         browser.keys(['Escape']);
-        E2EGlobal.waitSomeTime(250);
+        E2EGlobal.waitSomeTime(400);
     }
 
     static editDetailsForActionItem(topicIndex, infoItemIndex, detailIndex, detailsText) {
@@ -349,6 +379,11 @@ export class E2ETopics {
         let topics = E2ETopics.getTopicsForMinute();
         return (topics.length) ? topics.length : 0;
     };
+
+    static getLastTopicForMinute() {
+        let topics = E2ETopics.getTopicsForMinute();
+        return topics[topics.length-1];
+    }
 
     static getItemsForTopic (topicIndexOrSelectorForParentElement) {
         let parentSel = topicIndexOrSelectorForParentElement;

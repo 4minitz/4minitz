@@ -29,12 +29,13 @@ export class Minutes {
         return MinutesCollection.findOne(...args);
     }
 
-    static findAllIn(MinutesIDArray, limit) {
-        if (!MinutesIDArray || MinutesIDArray.length == 0) {
+    static findAllIn(MinutesIDArray, limit, lastMintuesFirst = true) {
+        if (!MinutesIDArray || MinutesIDArray.length === 0) {
             return [];
         }
 
-        let options = {sort: {date: -1}};
+        let sort = (lastMintuesFirst) ? -1 : 1;
+        let options = {sort: {date: sort}};
         if (limit) {
             options["limit"] = limit;
         }
@@ -85,6 +86,25 @@ export class Minutes {
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
     }
 
+    nextMinutes() {
+        return this._getNeighborMintues(1);
+    }
+
+    previousMinutes() {
+        return this._getNeighborMintues(-1);
+    }
+
+    _getNeighborMintues(offset) {
+        let parentSeries = this.parentMeetingSeries();
+        let myPosition = parentSeries.minutes.indexOf(this._id);
+        let neighborPosition = myPosition + offset;
+        if (neighborPosition > -1 && neighborPosition < parentSeries.minutes.length) {
+            let neighborMinutesId = parentSeries.minutes[neighborPosition];
+            return new Minutes(neighborMinutesId);
+        }
+        return false;
+    }
+
     toString () {
         return "Minutes: "+JSON.stringify(this, null, 4);
     }
@@ -104,7 +124,7 @@ export class Minutes {
     // This also does a minimal update of collection!
     async removeTopic(id) {
         let i = this._findTopicIndex(id);
-        if (i != undefined) {
+        if (i !== undefined) {
             this.topics.splice(i, 1);
             return Meteor.callPromise('minutes.removeTopic', id);
         }
@@ -112,7 +132,7 @@ export class Minutes {
 
     findTopic(id) {
         let i = this._findTopicIndex(id);
-        if (i != undefined) {
+        if (i !== undefined) {
             return this.topics[i];
         }
         return undefined;
@@ -173,7 +193,7 @@ export class Minutes {
         })
     }
 
-    async upsertTopic(topicDoc) {
+    async upsertTopic(topicDoc, insertPlacementTop = true) {
         let i = undefined;
 
         if (! topicDoc._id) {             // brand-new topic
@@ -182,15 +202,12 @@ export class Minutes {
             i = this._findTopicIndex(topicDoc._id); // try to find it
         }
 
-        if (i == undefined) {                      // topic not in array
-            this.topics.unshift(topicDoc);  // add to front of array
-            return Meteor.callPromise('minutes.addTopic', this._id, topicDoc);
+        if (i === undefined) {                      // topic not in array
+            return Meteor.callPromise('minutes.addTopic', this._id, topicDoc, insertPlacementTop);
         } else {
             this.topics[i] = topicDoc;      // overwrite in place
             return Meteor.callPromise('minutes.updateTopic', topicDoc._id, topicDoc);
         }
-
-
     }
 
     /**
@@ -245,12 +262,17 @@ export class Minutes {
 
     /**
      * Gets all persons who want to be
-     * informed about this minute.
+     * informed about this minute:
+     * (visibleFor + informedUsers)
      *
      * @returns {string[]} of user ids
      */
     getPersonsInformed() {
-       return this.visibleFor;
+        let informed = this.visibleFor;
+        if (this.informedUsers) {
+            informed = informed.concat(this.informedUsers);
+        }
+       return informed;
     }
 
     /**
@@ -384,6 +406,29 @@ export class Minutes {
         }
 
         return this.participants;
+    }
+
+    /**
+     * Returns the list of informed users and adds the name of
+     * each informed if a userCollection is given.
+     * @param userCollection to query for the participants name.
+     * @returns {Array}
+     */
+    getInformed(userCollection) {
+        if (this.informedUsers)
+        {
+            if (userCollection) {
+                return this.informedUsers.map(informed => {
+                    let user = userCollection.findOne(informed);
+                    informed = {id: informed, name: user.username};
+                    return informed;
+                });
+            } else {
+                return this.informedUsers;
+            }
+        }
+
+        return [];
     }
 
 

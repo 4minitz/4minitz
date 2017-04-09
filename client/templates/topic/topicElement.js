@@ -1,6 +1,7 @@
-import { Minutes } from '/imports/minutes'
-import { Topic } from '/imports/topic'
-import { InfoItem } from '/imports/infoitem'
+import { Minutes } from '/imports/minutes';
+import { Topic } from '/imports/topic';
+import { InfoItem } from '/imports/infoitem';
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 
 let _minutesId;
 
@@ -89,16 +90,35 @@ Template.topicElement.events({
 
         let aMin = new Minutes(this.minutesID);
 
-        let dialogContent = "<p>Do you really want to delete the topic <strong>" + this.topic.subject + "</strong>?</p>";
+        let topic = new Topic(this.minutesID, this.topic);
+        const deleteAllowed = topic.isDeleteAllowed();
 
-        confirmationDialog(
-            /* callback called if user wants to continue */
-            () => {
-                aMin.removeTopic(this.topic._id);
-            },
-            /* Dialog content */
-            dialogContent
-        );
+        if (!topic.isClosedAndHasNoOpenAIs() || deleteAllowed) {
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                () => {
+                    if (deleteAllowed) {
+                        aMin.removeTopic(this.topic._id);
+                    } else {
+                        topic.closeTopicAndAllOpenActionItems();
+                    }
+                },
+                deleteAllowed ? 'Confirm delete' : 'Close topic?',
+                'confirmDeleteTopic',
+                {
+                    deleteAllowed: topic.isDeleteAllowed(),
+                    hasOpenActionItems: topic.hasOpenActionItem(),
+                    subject: topic.getSubject()
+                },
+                deleteAllowed ? 'Delete' : 'Close topic and actions'
+            ).show();
+        } else {
+            ConfirmationDialogFactory.makeInfoDialog(
+                'Cannot delete topic',
+                'It is not possible to delete this topic because it was created in a previous minutes. ' +
+                'The selected topic is already closed and has no open action items, so it won\'t be copied to the ' +
+                'following minutes'
+            ).show();
+        }
     },
 
     'click .btnToggleState'(evt) {

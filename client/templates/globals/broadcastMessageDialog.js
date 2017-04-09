@@ -6,7 +6,9 @@ Template.broadcastMessageDialog.helpers({
 
     // just a little reactive trigger to show the modal msg dialog
     "showBroadcastMessages": function () {
-        const msgCount = BroadcastMessage.find().count();
+        const msgCount = BroadcastMessage.find(
+            {$and: [{isActive: true},
+                    {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
         if (msgCount > 0) {
             Meteor.setTimeout(function () {
                 $('#broadcastMessage').modal('show');
@@ -21,7 +23,10 @@ Template.broadcastMessageDialog.helpers({
     },
 
     "broadcastMessages": function () {
-        return BroadcastMessage.find({ dismissForUserIDs: { $nin: [Meteor.userId()] } }, {sort: {createdAt: -1}});
+        return BroadcastMessage.find(
+            {$and: [{isActive: true}
+                    , {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}
+            , {sort: {createdAt: -1}});
     },
 
     "formatTimeStamp": function (date) {

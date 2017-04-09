@@ -23,6 +23,13 @@ Template.login.helpers({
         return Session.get("currentLoginForm");
     },
 
+    tabActive: function(tabFormName) {
+        if (Session.get("currentLoginForm") === tabFormName) {
+            return "active";
+        }
+        return "";
+    },
+
     showInfoOnLogin: function () {
         return (!Meteor.userId() && GlobalSettings.showInfoOnLogin());
     },

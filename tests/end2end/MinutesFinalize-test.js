@@ -13,23 +13,16 @@ describe('Minutes Finalize', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
-    });
-    
 
     it('can finalize minutes', function () {
         aMeetingCounter++;
@@ -47,7 +40,6 @@ describe('Minutes Finalize', function () {
     });
 
     // this test does only make sense if mail delivery is enabled
-    // so we have to wait until the mail system can be mocked
     if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
         it('asks if emails should be sent before finalizing the minute', function () {
             aMeetingCounter++;
@@ -93,7 +85,12 @@ describe('Minutes Finalize', function () {
         // check that nothing happens if the add minutes button will be pressed
         const urlBefore = browser.getUrl();
         expect(browser.isExisting('#btnAddMinutes'), "btnAddMinutes should be there").to.be.true;
-        browser.click("#btnAddMinutes");
+        try {
+            browser.click("#btnAddMinutes");
+        } catch (e) {
+            // Intentionally left empty
+            // We expect the above click to fail, as button is disabled
+        }
         E2EGlobal.waitSomeTime(750);
         expect(browser.getUrl(), "Route should not have changed").to.equal(urlBefore);
         expect(

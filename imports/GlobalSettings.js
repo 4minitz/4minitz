@@ -79,6 +79,20 @@ export class GlobalSettings {
         return Meteor.absoluteUrl(path);
     }
 
+    static hasImportUsersCronTab() {
+        return !!(Meteor.settings.ldap && Meteor.settings.ldap.importCronTab);
+    }
+
+    static getImportUsersCronTab() {
+        if (Meteor.settings.ldap) {
+            return Meteor.settings.ldap.importCronTab;
+        }
+    }
+
+    static getLDAPSettings() {
+        return Meteor.settings.ldap;
+    }
+
     static isTrustedIntranetInstallation() {
         // returns false instead of undefined
         return !!Meteor.settings.trustedIntranetInstallation;
@@ -95,11 +109,25 @@ export class GlobalSettings {
             ? Meteor.settings.email.defaultEMailSenderAddress
             : undefined;
 
-        if (address !== undefined) {
-            if (address === "") {
-                return (alternativeSender)
-                    ? alternativeSender
-                    : GlobalSettings.getFallbackEMailSenderAddress();
+        if (address
+            && alternativeSender
+            && Meteor.settings.email
+            && Meteor.settings.email.defaultEMailSenderExceptionDomains
+            && Meteor.settings.email.defaultEMailSenderExceptionDomains.length > 0) {
+            let senderDomain = alternativeSender.replace(/^.*@/, "").toLowerCase();   // me@mycompany.com => mycompany.com
+            for (let i=0; i<Meteor.settings.email.defaultEMailSenderExceptionDomains.length; i++) {
+                if (Meteor.settings.email.defaultEMailSenderExceptionDomains[i].toLowerCase() === senderDomain) {
+                    address = alternativeSender;
+                    break;
+                }
+            }
+        }
+
+        if (address !== undefined) {        // we have default from settings
+            if (address === "") {           // but it's empty!
+                return (alternativeSender)  // luckily we have a real user profile mail
+                    ? alternativeSender     // we take it!
+                    : GlobalSettings.getFallbackEMailSenderAddress();   // nope. use fallback!
             } else {
                 return address;
             }

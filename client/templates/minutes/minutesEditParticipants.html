@@ -6,7 +6,7 @@
             {{else}}
                 <span class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"></span>
             {{/if}}
-            Participants
+            Participants (& Informed)
         </label>
 
         <!-- Expanded variant of participant list -->
@@ -22,9 +22,9 @@
 
                         <span id="id_username" style="color: black;">
                             {{#if isModeratorOfParentSeries this.userId}}
-                                <b>{{userNameForId this.userId}}</b>    <!-- make moderators bold -->
+                                <b>{{getUserDisplayName this.userId}}</b>    <!-- make moderators bold -->
                             {{else}}
-                                {{userNameForId this.userId}}
+                                {{getUserDisplayName this.userId}}
                             {{/if}}
                         </span>
                     </label>
@@ -35,6 +35,12 @@
                 <input id="edtParticipantsAdditional" type="text" class="form-control"
                        placeholder="Additional Participants..."
                        value="{{participantsAdditional}}" {{disableUIControl}}>
+                {{#if hasInformedUsers}}
+                    <div style="margin-top: 1em;">
+                        <label>Informed Users:</label>
+                        <span style="font-size: 120%;">{{getInformedUsers}}</span>
+                    </div>
+                {{/if}}
             </div>
 
 

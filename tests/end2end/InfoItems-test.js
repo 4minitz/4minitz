@@ -32,6 +32,11 @@ describe('Info Items', function () {
         return aAINameBase + aAICounter;
     };
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("make sure test user is logged in, create series and add minutes", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -43,18 +48,6 @@ describe('Info Items', function () {
 
         aTopicName = getNewTopicName();
         E2ETopics.addTopicToMinutes(aTopicName);
-    });
-
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
     });
 
     it('can add an info item', function () {
@@ -89,7 +82,7 @@ describe('Info Items', function () {
 
         let selDetails = E2ETopics.getInfoItemSelector(1, 1) + ".detailRow:nth-child(1) ";
         let selFocusedInput = selDetails + ".detailInput";
-        browser.waitForVisible(selFocusedInput);
+        browser.waitForVisible(selFocusedInput, 1000);
 
         browser.keys(detailsText);
         browser.keys(['Escape']); // Save the details

@@ -13,6 +13,10 @@ describe('Minutes Participants', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
 
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
@@ -23,18 +27,6 @@ describe('Minutes Participants', function () {
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    });
-
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
     });
 
 
@@ -56,8 +48,7 @@ describe('Minutes Participants', function () {
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         // now create some new minutes
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -78,8 +69,7 @@ describe('Minutes Participants', function () {
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMinutes.gotoLatestMinutes();
 
@@ -101,8 +91,7 @@ describe('Minutes Participants', function () {
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMinutes.gotoLatestMinutes();
         // finalized minutes have their participants collapsed, by default.
@@ -123,8 +112,7 @@ describe('Minutes Participants', function () {
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMinutes.gotoLatestMinutes();
         let minId = E2EMinutes.getCurrentMinutesId();
@@ -171,8 +159,7 @@ describe('Minutes Participants', function () {
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
         E2EMinutes.gotoLatestMinutes();
@@ -190,8 +177,7 @@ describe('Minutes Participants', function () {
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
@@ -242,8 +228,7 @@ describe('Minutes Participants', function () {
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMinutes.gotoLatestMinutes();
         let participantsInfo = new E2EMinutesParticipants();

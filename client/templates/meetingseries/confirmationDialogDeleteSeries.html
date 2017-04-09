@@ -1,0 +1,6 @@
+<template name="confirmationDialogDeleteSeries">
+    <p>Do you really want to delete the meeting series <strong>{{project}}: {{name}}</strong>?</p>
+    {{#if hasMinutes}}
+        <p>This series contains {{minutesCount}} meeting minutes (last minutes of {{lastMinutesDate}}).</p>
+    {{/if}}
+</template>

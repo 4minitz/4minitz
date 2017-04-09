@@ -1,10 +1,12 @@
 <template name="aboutDialog">
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="dlgAbout" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">About 4Minitz</h4>
+                    <h4 class="modal-title">About 4Minitz
+                        <span style="color: white; font-size: 75%;">{{currentUser._id}}</span>
+                    </h4>
                 </div>
                 <div class="modal-body">
                     <div class="container col-md-12">
@@ -17,9 +19,12 @@
                                 <b>4Minitz</b>
                                 {{#with gitVersionInfo}}
                                     {{#if tag}}
-                                        {{tag}}<br>
+                                        <b>{{tag}}</b>
                                     {{/if}}
-                                    Branch: {{branch}} ({{commitshort}})<br>
+                                    {{#if date}}
+                                        {{date}}
+                                    {{/if}}
+                                    <br>Branch: {{branch}} ({{commitshort}})<br>
                                 {{/with}}
                                 (C) 2015-2017 4Minitz-Team<br>
                                 Licensed under the <a href="https://github.com/4minitz/4minitz/blob/develop/LICENSE.md" target="_blank">MIT-License</a><br>

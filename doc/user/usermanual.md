@@ -36,6 +36,7 @@ If you are a moderator of a meeting series you can...
 * uninvite users
 * promote users to the moderator role of this meeting series
 * unpromote users from moderator role to normal invited status
+* specify who is informed
 
 After you press the "+ Add" button in the above dialog, 4Minitz will automatically open the "Meeting Series Properties Editor". Here you can invite other users to your meeting series. For more details see next chapter.
 
@@ -57,7 +58,19 @@ The meeting series editor allows a moderator to
  
  ![Edit Invited](./figures/edit_meeting_series_invited.png)
  
- *Note: Changes to invited users of a meeting series will be propagated to all existing and future meeting minutes of this series.*
+ *Note: Changes to invited users of a meeting series will only be propagated future meeting minutes of this series.*
+
+ ### Table of Roles and Rights
+ | Role          | Gets EMail   | May Read    | May Upload |   May Edit/Finalize   |
+ | ------------- |:------------:|:-----------:|:-----------:|:-------------:|
+ | Moderator     | Yes          | Yes         |     Yes     | Yes         |
+ | Uploader      | Yes          | Yes         |     Yes     | No          |
+ | Invited       | Yes          | Yes         |     No      | No          |
+ | Informed      | Yes          | No          |     No      | No          |
+ | Others        | No           | No          |  No         | No ;-)      |
+
+ * The 'Informed' user only gets the final meeting minutes protocol email.
+   But not the agenda email.
  
  ![Image](./figures/edit_meeting_series_labels.png)
   
@@ -86,7 +99,7 @@ The icons on a topic allow the following operations:
 
 * **"Plus"** will add a **child item** to the topic. This feature will be described in the chapter "Take Meeting Minutes".
 * **"Circle Arrow"** will switch the topic to a **recurring topic** that will be part of any future meetings
-* **"Pen"** will allow the moderator to *edit this topic's** subject or the responsible
+* **Click on title text** will allow the moderator to *edit this topic's** subject or the responsible
 * **"Trash"** will **delete** this topic after a security question
 * **"Up-Down-Arrow"** allows reordering the topics via **drag'n'drop**
 
@@ -96,7 +109,7 @@ All open topics of the current meeting minutes will be send by EMail to all invi
 
 ![Send Agenda Button](./figures/send_agenda.png)
 
-
+The agenda will *not* be sent to "informed" users.
 
 ## Take Meeting Minutes
 During a meeting a moderator may add
@@ -120,7 +133,7 @@ The icons on an info item allow the following operations:
 
 * **"Plus"** will **add details** to the item. This feature will be described in the chapter "Adding Details".
 * **"Pin"** will switch the topic to a **as pinned topic** that will be propagated to the next meeting, of the parent topic is also propagated
-* **"Pen"** will allow the moderator to *edit this items** details
+* **Click on title text** will allow the moderator to *edit this items** details
 * **"Trash"** will **delete** this item after a security question
   
  
@@ -132,7 +145,7 @@ An action item will be propagated together with its parent topic to the next mee
 The icons on an action item allow the following operations:
 
 * **"Plus"** will **add details** to the item. This feature will be described in the chapter "Adding Details".
-* **"Pen"** will allow the moderator to *edit this items** details
+* **Click on title text** will allow the moderator to *edit this items** details
 * **"Trash"** will **delete** this item after a security question  
 
 
@@ -217,6 +230,7 @@ in the webbrowser first, to open an attachment by clicking the name.
 | Moderator     | Yes            |       Yes      | Yes           |
 | Uploader      | Yes            | Only her own!  | Yes           |
 | Invited       | No             |        No      | Yes           |
+| Informed      | No             |        No      | No            |
 | Others        | No             |        No      | No ;-)        |
 
 

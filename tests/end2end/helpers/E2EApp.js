@@ -17,15 +17,16 @@ export class E2EApp {
 
     static isLoggedIn () {
         try {
-            browser.waitForExist('#navbar-signout', 2000);         // browser = WebdriverIO instance
+            browser.waitForExist('#navbar-usermenu', 2000);         // browser = WebdriverIO instance
         } catch (e) {
             // give browser some time, on fresh login
         }
-        return browser.isExisting('#navbar-signout');
+        return browser.isExisting('#navbar-usermenu');
     };
 
     static logoutUser () {
         if (E2EApp.isLoggedIn()) {
+            browser.click('#navbar-usermenu');
             browser.click('#navbar-signout');
             E2EGlobal.waitSomeTime();
         }
@@ -125,6 +126,12 @@ export class E2EApp {
     // We can't use "launchApp" here, as this resets the browser
     // so we click on the "Logo" icon
     static gotoStartPage () {
+        browser.keys(['Escape']);   // close eventually open modal dialog
+        try {
+            browser.waitForExist('a.navbar-brand', 2000);
+        } catch (e) {
+            E2EApp.launchApp();
+        }
         browser.click('a.navbar-brand');
         E2EGlobal.waitSomeTime();
         // check post-condition

@@ -1,15 +1,19 @@
 import { Meteor } from 'meteor/meteor';
-import { handleMigration } from './migrations';
+import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/GlobalSettings';
 
 import '/imports/broadcastmessage'
 import '/imports/minutes';
 import '/imports/meetingseries';
+import {BroadcastMessageCollection} from '/imports/collections/broadcastmessage_private';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
-import '/imports/collections/statistics_private';
-import '/imports/collections/attachments_private'
+import '/imports/statistics';
+import '/imports/collections/attachments_private';
+
+import cron from 'node-cron';
+import importUsers from '/imports/ldap/import';
 
 
 Meteor.startup(() => {
@@ -20,7 +24,7 @@ Meteor.startup(() => {
 
 
 Meteor.startup(() => {
-    // Make sure that all server side markdown rendering quotes all HTML <TAGs>
+    // #Security: Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({
         sanitize: true
     });
@@ -36,7 +40,7 @@ Meteor.startup(() => {
         }
     }
 
-    // Security: warn admin if demo user exists
+    // #Security: warn admin if demo user exists
     let demoUser = Meteor.users.findOne({"username": "demo"});
     if (demoUser) {
         console.log("*** ATTENTION ***\n" +
@@ -45,4 +49,29 @@ Meteor.startup(() => {
             "    the password for user 'demo' is also 'demo'.\n" +
             "    Please check, if this is wanted for your site's installation.\n");
     }
+
+    // If we find no admin broadcast messages, we create an INactive one for
+    // easy re-activating.
+    if (BroadcastMessageCollection.find().count() === 0) {
+        let message = "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
+            "Downtime will be about 4 Minutes. Just submit open dialogs. " +
+            "Then nothing is lost. You may finalize meetings later.";
+        BroadcastMessageCollection.insert({
+            text: message,
+            isActive: false,
+            createdAt: new Date(),
+            dismissForUserIDs: []});
+    }
+
+    if (GlobalSettings.hasImportUsersCronTab()) {
+        const crontab = GlobalSettings.getImportUsersCronTab(),
+            mongoUrl = process.env.MONGO_URL,
+            ldapSettings = GlobalSettings.getLDAPSettings();
+
+        console.log('Configuring cron job');
+        cron.schedule(crontab, function () {
+            importUsers(ldapSettings, mongoUrl);
+        });
+    }
 });
+

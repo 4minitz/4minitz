@@ -1,25 +1,19 @@
-import { E2EGlobal } from './helpers/E2EGlobal'
-import { E2EApp } from './helpers/E2EApp'
-import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMinutes } from './helpers/E2EMinutes'
-
+import { E2EGlobal } from './helpers/E2EGlobal';
+import { E2EApp } from './helpers/E2EApp';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2ETopics } from './helpers/E2ETopics';
 
 describe('Minutes', function () {
+
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
-    });
-
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
     });
 
 
@@ -125,8 +119,10 @@ describe('Minutes', function () {
 
         server.call('e2e.updateMeetingSeries', msId, {minutes: []});
 
-        browser.waitForVisible('#flashMessage');
-        let dialogMsgElement = browser.element('#flashMessage').value.ELEMENT;
+        // As there may be multiple flashMessages (visible and non visible)
+        // we are interested in the flashMessage immediately following the minutes Heading
+        browser.waitForVisible('#minutesHeading + #flashMessage');
+        let dialogMsgElement = browser.element('#minutesHeading + #flashMessage').value.ELEMENT;
         let dialogMsgText = browser.elementIdText(dialogMsgElement).value;
         expect(dialogMsgText, 'error message should be displayed').to.have.string('Unfortunately the minute is not linked to its parent series correctly');
     });
@@ -152,8 +148,77 @@ describe('Minutes', function () {
 
         result = browser.getValue('input[id="editGlobalNotes"]');
         expect(result).to.equal(aGlobalNote);
+    });
+
+    it('hide closed topics', function () {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name #7";
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        E2ETopics.addTopicToMinutes("topic #1");
+        E2ETopics.addTopicToMinutes("topic #2");
+        E2ETopics.addTopicToMinutes("topic #3");
+        E2ETopics.addTopicToMinutes("topic #4");
+
+        E2EGlobal.waitSomeTime(700);
+
+        E2ETopics.toggleTopic(1);
+        E2ETopics.toggleTopic(2);
+
+        browser.click("#checkHideClosedTopicsLabel");
+
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
 
 
     });
+    
+    it('can navigate to previous and next minutes within a minutes', function () {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name PrevNext";
 
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.finalizeCurrentMinutes();
+        let firstDate = E2EMinutes.getCurrentMinutesDate();
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.finalizeCurrentMinutes();
+        let secondDate = E2EMinutes.getCurrentMinutesDate();
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        let thirdDate = E2EMinutes.getCurrentMinutesDate();
+        
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(3);
+        
+        E2EMinutes.gotoLatestMinutes();
+        browser.click("#btnPreviousMinutesNavigation");
+        let currentdate = E2EMinutes.getCurrentMinutesDate();
+        expect(currentdate).to.equal(secondDate);
+        
+        browser.click("#btnNextMinutesNavigation");
+        currentdate = E2EMinutes.getCurrentMinutesDate();
+        expect(currentdate).to.equal(thirdDate);
+    });
+
+    it('hide closed topics by click', function () {
+        let aProjectName = "E2E Minutes";
+        let aMeetingName = "Meeting Name #8";
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+
+        E2ETopics.addTopicToMinutes("topic #1");
+        E2ETopics.addTopicToMinutes("topic #2");
+        E2ETopics.addTopicToMinutes("topic #3");
+        E2ETopics.addTopicToMinutes("topic #4");
+
+        browser.click("#checkHideClosedTopicsLabel");
+        expect(E2ETopics.countTopicsForMinute()).to.equal(4);
+
+        E2ETopics.toggleTopic(1);
+        expect(E2ETopics.countTopicsForMinute()).to.equal(3);
+    });
 });
