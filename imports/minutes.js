@@ -415,16 +415,20 @@ export class Minutes {
      * @returns {Array}
      */
     getInformed(userCollection) {
-        if (userCollection) {
-            console.log("--->"+this.informedUsers);
-            return this.informedUsers.map(informed => {
-                let user = userCollection.findOne(informed);
-                informed = {id: informed, name: user.username};
-                return informed;
-            });
+        if (this.informedUsers)
+        {
+            if (userCollection) {
+                return this.informedUsers.map(informed => {
+                    let user = userCollection.findOne(informed);
+                    informed = {id: informed, name: user.username};
+                    return informed;
+                });
+            } else {
+                return this.informedUsers;
+            }
         }
 
-        return this.informedUsers;
+        return [];
     }
 
 
