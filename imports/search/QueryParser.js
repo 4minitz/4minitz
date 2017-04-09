@@ -182,7 +182,7 @@ export class QueryParser {
             let matchingIds = (this.queryLabelIdsByName)
                 ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
                 : true;
-            if (matchingIds === true || (matchingIds !== null && matchingIds.length > 0)) {
+            if (matchingIds === true || (matchingIds !== null && matchingIds.length > 0)) {
                 this.currentLabel = completeLabel;
             } else {
                 // the current token does not match any labels
