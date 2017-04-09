@@ -1,10 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private'
 
-if (Meteor.settings.isEnd2EndTest) {
-    require('/client/debug/findEventHandlers');
-}
-
 // initialize
 //  * twitter bootstrap
 //  * bootstrap-datetimepicker
