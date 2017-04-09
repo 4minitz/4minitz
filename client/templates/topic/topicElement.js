@@ -93,7 +93,7 @@ Template.topicElement.events({
         let topic = new Topic(this.minutesID, this.topic);
         const deleteAllowed = topic.isDeleteAllowed();
 
-        if (!topic.isClosedAndHasNoOpenAIs() || deleteAllowed) {
+        if (!topic.isClosedAndHasNoOpenAIs() || deleteAllowed) {
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 () => {
                     if (deleteAllowed) {

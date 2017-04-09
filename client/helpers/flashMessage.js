@@ -112,7 +112,7 @@ Template.registerHelper('errorTitle', () => {
         if (duration !== -1) {
             let closeId = Session.get('errorId');
             setTimeout(() => {
-                if (closeId === null || closeId === currentlyVisibleFlashMessage) {
+                if (closeId === null || closeId === currentlyVisibleFlashMessage) {
                     FlashMessage.hide();
                 }
             }, duration);
