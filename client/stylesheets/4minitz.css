@@ -19,7 +19,10 @@
     top: 10px;
     right: 10px;
     z-index: 1000;
-    background-color: rgba(255,0,0, 0.5);
+
+    /* fallback color for browsers that don't understand rgba */
+    background-color: rgb(148, 0, 0);
+    background-color: rgba(255, 0, 0, 0.5);
     padding: 5px;
 }
 
@@ -29,7 +32,7 @@
 
 /* highlight active nav-tabs item */
 ul.nav-tabs {
-    background-color: rgba(255, 255, 255, 0.0);
+    background-color: transparent;
     border-bottom: .333rem solid transparent;
 }
 ul.nav-tabs li.active {
