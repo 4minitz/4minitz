@@ -1,14 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 
 export var GlobalHelpers = {
-    'markdown2html': function(text) {
+    'markdown2html': function(text = "") {
+        text = text.toString();
+
         let html = "<pre>"+text+"</pre>";
         try {
             html = Markdown(text);
         } catch (e) {
-            console.error(e);
-            console.error("Could not convert markdown to html for:");
-            console.error(text);
+            console.log(e);
+            console.log("Could not convert markdown to html for:");
+            console.log(text);
             throw e;
         }
 
