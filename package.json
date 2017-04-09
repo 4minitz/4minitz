@@ -3,10 +3,10 @@
   "version": "v0.9.0",
   "4minitz": {
     "//": "This is some app specific info",
-    "4m_branch": "develop",
-    "4m_commitlong": "8763849eef50f334cc251d34eaf429839dbd325f",
-    "4m_commitshort": "8763849",
-    "4m_releasedate": "2017-04-03"
+    "4m_branch": "master",
+    "4m_commitlong": "20ddd51076eb90c7db71c8edc53b16097d52d2c4",
+    "4m_commitshort": "20ddd51",
+    "4m_releasedate": "2017-04-09"
   },
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
