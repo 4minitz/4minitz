@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes'
 import { Topic } from './topic'
-import { InfoItem } from './infoitem'
 import { UserRoles } from './userroles'
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
@@ -102,7 +101,8 @@ export class MeetingSeries {
             meetingSeries_id: this._id,
             date: formatDateISO8601(newMinutesDate),
             topics: topics,
-            visibleFor: this.visibleFor             // freshly created minutes inherit visibility of their series
+            visibleFor: this.visibleFor,             // freshly created minutes inherit visibility of their series
+            informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
         });
         
         min.refreshParticipants(false); // do not save to DB!
@@ -129,24 +129,32 @@ export class MeetingSeries {
         }
     }
 
+    /**
+     * Fetches the first minutes of this series.
+     * @returns {Minutes|false}
+     */
+    firstMinutes() {
+        const oldMinutesFirst = false;
+        return this._getCornerMintues(1, oldMinutesFirst);
+    }
+
     lastMinutes () {
-        if (!this.minutes || this.minutes.length === 0) {
-            return false;
-        }
-        let lastMin = Minutes.findAllIn(this.minutes, 1).fetch();
-        if (lastMin && lastMin.length === 1) {
-            return lastMin[0];
-        }
-        return false;
+        const lastMinutesFirst = true;
+        return this._getCornerMintues(1, lastMinutesFirst);
     }
 
     secondLastMinutes () {
-        if (!this.minutes || this.minutes.length < 2) {
+        const lastMinutesFirst = true;
+        return this._getCornerMintues(2, lastMinutesFirst);
+    }
+
+    _getCornerMintues(offset, lastMinutesFirst) {
+        if (!this.minutes || this.minutes.length < offset) {
             return false;
         }
-        let secondLastMin = Minutes.findAllIn(this.minutes, 2).fetch();
-        if (secondLastMin && secondLastMin.length === 2) {
-            return secondLastMin[1];
+        let min = Minutes.findAllIn(this.minutes, offset, lastMinutesFirst).fetch();
+        if (min && min.length === offset) {
+            return min[offset-1];
         }
         return false;
     }
@@ -269,8 +277,9 @@ export class MeetingSeries {
      * Overwrite the current "visibleFor" array with new user Ids
      * Needs a "save()" afterwards to persist
      * @param {Array} newVisibleForArray
+     * @param {Array} newInformedUsersArray
      */
-    setVisibleUsers(newVisibleForArray) {
+    setVisibleAndInformedUsers(newVisibleForArray, newInformedUsersArray) {
         if (!this._id) {
             throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using addVisibleUser()");
         }
@@ -278,21 +287,39 @@ export class MeetingSeries {
             throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
         }
 
-        // Collect all removed users where the meeting series is not visible anymore
+        // Clean-up roles
+        // Collect all removed users where the meeting series is not visible and not informed anymore
         // And then remove the old meeting series role from these users
-        let oldVisibleForArray = this.visibleFor;
-        let removedUserIDs = oldVisibleForArray.filter((usrID) => {
-            return newVisibleForArray.indexOf(usrID) == -1
+        let oldUserArray = this.visibleFor;
+        if (this.informedUsers) {
+            oldUserArray = oldUserArray.concat(this.informedUsers);
+        }
+        let newUserArray = newVisibleForArray;
+        newUserArray = newUserArray.concat(newInformedUsersArray);
+
+        let removedUserIDs = oldUserArray.filter((usrID) => {
+            return newUserArray.indexOf(usrID) === -1
         });
         removedUserIDs.forEach((removedUserID) => {
             let ur = new UserRoles(removedUserID);
             ur.removeAllRolesForMeetingSeries(this._id);
         });
 
-
+        // persist new user arrays to meeting series
+        this.informedUsers = newInformedUsersArray;
         this.visibleFor = newVisibleForArray;
+
+        // sync visibility for *all* minutes (to allow publish & subscribe)
         Minutes.syncVisibility(this._id, this.visibleFor);
+
+        // sync informed only to *not finalized* minutes (do not change the past!)
+        let lastMinutes = this.lastMinutes();
+        if (lastMinutes && !lastMinutes.isFinalized) {
+            lastMinutes.informedUsers = newInformedUsersArray;
+            lastMinutes.save();
+        }
     }
+
 
     isCurrentUserModerator() {
         let ur = new UserRoles();
@@ -321,7 +348,7 @@ export class MeetingSeries {
 
         // close topic if it is completely closed (not just marked as discussed)
         let topic = new Topic(this, topicDoc);
-        this.topics[i].isOpen = (!topic.isClosed());
+        this.topics[i].isOpen = (!topic.isClosedAndHasNoOpenAIs());
     }
 
     findTopic(id) {
@@ -384,7 +411,7 @@ export class MeetingSeries {
      */
     addAdditionalResponsible(newResponsible) {
         // remove newResponsible if already present
-        var index = this.additionalResponsibles.indexOf(newResponsible);
+        let index = this.additionalResponsibles.indexOf(newResponsible);
         if (index !== -1) {
             this.additionalResponsibles.splice(index, 1);
         }
@@ -457,7 +484,7 @@ export class MeetingSeries {
 
             // copy additional the tailored topic to our open topic list
             topic.tailorTopic();
-            if (!topic.isClosed()) {
+            if (!topic.isClosedAndHasNoOpenAIs()) {
                 topic.getDocument().isOpen = true;
                 this.openTopics.unshift(topic.getDocument());
             }

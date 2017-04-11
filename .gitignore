@@ -1,3 +1,4 @@
+.DS_Store
 .meteor/local
 .meteor/meteorite
 .idea/
@@ -10,3 +11,4 @@ tests/snapshots
 tests/mongodump
 tests/e2e_downloads
 public/fonts/glyphicons-halflings-regular.*
+*.json.bak

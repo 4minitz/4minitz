@@ -73,7 +73,7 @@ Meteor.methods({
         check(id, String);
         delete doc._id; // otherwise collection.update will fail
 
-        if (id == undefined || id == "") {
+        if (id === undefined || id === "") {
             return;
         }
 
@@ -124,7 +124,7 @@ Meteor.methods({
         }
 
         let modifierDoc = {};
-        for (var property in doc) {
+        for (let property in doc) {
             if (doc.hasOwnProperty(property)) {
                 modifierDoc['topics.$.' + property] = doc[property];
             }
@@ -168,6 +168,7 @@ Meteor.methods({
                 throw new Meteor.Error('invalid-argument', 'Topic already exists');
             }
 
+            doc.createdInMinute = minutesId;
 
             let topicModifier = {
                 topics: {
@@ -204,18 +205,23 @@ Meteor.methods({
 
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
-        if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            // Ensure user can not update finalized minutes
-
-            return MinutesCollection.update(
-                {_id: aMin._id, isFinalized: false},
-                {$pull: {
-                    topics: { _id: topicId }
-                }}
-            );
-        } else {
-            throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
+        if (!userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
+            throw new Meteor.Error("Cannot delete topic", "You are not moderator of the parent meeting series.");
         }
+
+        // Ensure only topics created within the current minutes (=the last not-finalized one) can be deleted
+        let topic = aMin.findTopic(topicId);
+        if (topic.createdInMinute !== aMin._id) {
+            throw new Meteor.Error("Cannot delete topic", "The topic was not created in this minutes.");
+        }
+
+        // Ensure user can not update finalized minutes
+        return MinutesCollection.update(
+            {_id: aMin._id, isFinalized: false},
+            {$pull: {
+                topics: { _id: topicId }
+            }}
+        );
     },
 
     'minutes.syncVisibility'(parentSeriesID, visibleForArray) {

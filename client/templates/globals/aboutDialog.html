@@ -19,9 +19,12 @@
                                 <b>4Minitz</b>
                                 {{#with gitVersionInfo}}
                                     {{#if tag}}
-                                        {{tag}}<br>
+                                        <b>{{tag}}</b>
                                     {{/if}}
-                                    Branch: {{branch}} ({{commitshort}})<br>
+                                    {{#if date}}
+                                        {{date}}
+                                    {{/if}}
+                                    <br>Branch: {{branch}} ({{commitshort}})<br>
                                 {{/with}}
                                 (C) 2015-2017 4Minitz-Team<br>
                                 Licensed under the <a href="https://github.com/4minitz/4minitz/blob/develop/LICENSE.md" target="_blank">MIT-License</a><br>

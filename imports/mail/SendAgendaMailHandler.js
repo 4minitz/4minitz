@@ -7,8 +7,13 @@ import { Attachment } from '../attachment';
 export class SendAgendaMailHandler extends InfoItemsMailHandler {
 
     constructor(sender, minute) {
-        super(sender, minute.getPersonsInformedWithEmail(Meteor.users), minute, minute.getTopicsWithoutItems(),
-            minute.parentMeetingSeries(), minute.getParticipants(Meteor.users), 'sendAgenda');
+        super(sender
+            , minute.getPersonsInformedWithEmail(Meteor.users)
+            , minute, minute.getTopicsWithoutItems()
+            , minute.parentMeetingSeries()
+            , minute.getParticipants(Meteor.users)
+            , minute.getInformed(Meteor.users)
+            , 'sendAgenda');
     }
 
     _getSubject() {
@@ -29,7 +34,7 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             meetingSeriesProject: this._meetingSeries.project,
             meetingSeriesURL: GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeries._id),
             minuteUrl: GlobalSettings.getRootUrl("minutesedit/" + this._minute._id),
-            participants: this._participantsArrayToString(this._participants),
+            participants: this._userArrayToString(this._participants),
             participantsAdditional: this._minute.participantsAdditional,
             topics: this._topics,
             attachments: attachments

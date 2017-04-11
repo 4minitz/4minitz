@@ -6,13 +6,13 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
-require('../../../lib/helpers');
+require('../../../../lib/helpers');
 
 let MinutesCollection = {
 };
 
 const {
         MigrateV9
-    } = proxyquire('../../../server/migrate_v9', {
+    } = proxyquire('../../../../server/migrations/migrate_v9', {
         '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true}
     });

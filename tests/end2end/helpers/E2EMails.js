@@ -19,7 +19,6 @@ export class E2EMails {
         mails.forEach(mail => {
             recipients = recipients.concat(mail.to);
         });
-        console.log(recipients);
         return recipients;
     }
 }

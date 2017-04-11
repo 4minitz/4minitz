@@ -364,35 +364,20 @@ Template.minutesedit.helpers({
         const user = new User();
         return user.getSetting(userSettings.showQuickHelp.meeting, true);
     },
+
+    minutesPath: function(minutesId) {
+        return Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  minutesId });
+    },
     
     previousMinutes : function() {
-        let prevMinutes = null;
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            let meetingSeries = aMin.parentMeetingSeries();
-            let arrayPosition = meetingSeries.minutes.indexOf(_minutesID);
-            if (arrayPosition > 0){
-                let prevMinutesID = meetingSeries.minutes[arrayPosition - 1];
-                prevMinutes = new Minutes(prevMinutesID);
-                let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  prevMinutes._id });
-                return "Previous: <a id='btnPreviousMinutesNavigation' href='" + route + "'>" + prevMinutes.date + "</a> &nbsp;&nbsp;";
-            }
-        }
+        return aMin.previousMinutes();
     },
     
     nextMinutes : function() {
-        let nextMinutes = null;
         let aMin = new Minutes(_minutesID);
         if (aMin) {
-            let meetingSeries = aMin.parentMeetingSeries();
-            let arrayposition = meetingSeries.minutes.indexOf(_minutesID);
-            let nextMinuteArrayPosition = arrayposition + 1;
-            if ((nextMinuteArrayPosition > -1) && (nextMinuteArrayPosition < meetingSeries.minutes.length)) {
-                let nextMinutesID = meetingSeries.minutes[nextMinuteArrayPosition];
-                nextMinutes = new Minutes(nextMinutesID);
-                let route = Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  nextMinutes._id });
-                return "Next: <a id='btnNextMinutesNavigation' href='" + route + "'>" + nextMinutes.date + "</a>";
-            }
+            return aMin.nextMinutes();
         }
     }
 });
@@ -570,7 +555,7 @@ Template.minutesedit.events({
         }
     },
 
-    "click #btnCollapseAll": function (evt, tmpl) {
+    "click #btnCollapseAll": function () {
         let aMin = new Minutes(_minutesID);
         let sessionCollapse = {};
         for (let topicIndex in aMin.topics) {
@@ -580,7 +565,7 @@ Template.minutesedit.events({
         Session.set("minutesedit.collapsetopics."+_minutesID, sessionCollapse);
     },
 
-    "click #btnExpandAll": function (evt, tmpl) {
+    "click #btnExpandAll": function () {
         Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
     },
 

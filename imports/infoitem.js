@@ -1,8 +1,3 @@
-/**
- * Created by felix on 09.05.16.
- */
-
-import { Topic } from './topic'
 import { Label } from './label'
 import { _ } from 'meteor/underscore';
 
@@ -52,6 +47,10 @@ export class InfoItem {
         return (infoItemDoc.itemType === 'actionItem');
     }
 
+    static isCreatedInMinutes(infoItemDoc, minutesId) {
+        return (infoItemDoc.createdInMinute === minutesId);
+    }
+
     // ################### object methods
     invalidateIsNewFlag() {
         this._infoItemDoc.isNew = false;
@@ -63,6 +62,10 @@ export class InfoItem {
 
     isSticky() {
         return this._infoItemDoc.isSticky;
+    }
+
+    isDeleteAllowed(currentMinutesId) {
+        return this._infoItemDoc.createdInMinute === currentMinutesId;
     }
 
     toggleSticky() {
@@ -156,7 +159,7 @@ export class InfoItem {
 
     addLabelByName(labelName, meetingSeriesId) {
         let label = Label.createLabelByName(meetingSeriesId, labelName);
-        if (null == label) {
+        if (null === label) {
             label = new Label({name: labelName});
             label.save(meetingSeriesId);
         }

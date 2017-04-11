@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { handleMigration } from './migrations';
+import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/GlobalSettings';
 
 import '/imports/broadcastmessage'
@@ -53,7 +53,7 @@ Meteor.startup(() => {
     // If we find no admin broadcast messages, we create an INactive one for
     // easy re-activating.
     if (BroadcastMessageCollection.find().count() === 0) {
-        message = "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
+        let message = "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
             "Downtime will be about 4 Minutes. Just submit open dialogs. " +
             "Then nothing is lost. You may finalize meetings later.";
         BroadcastMessageCollection.insert({

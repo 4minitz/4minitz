@@ -56,5 +56,14 @@ Template.topicsList.events({
             Session.set('errorReason', error.reason);
         });
         tmpl.find("#addTopicField").value = "";
+
+        // Scroll "add topic" edit field into view
+        // We need a timeout here, to give meteor time to add the new topic field first
+        Meteor.setTimeout(function () {
+            let elem = document.getElementById("addTopicToBottomDIV");
+            if (elem) {
+                elem.scrollIntoView(false); // false => bottom will be aligned
+            }
+        }, 1);
     }
 });

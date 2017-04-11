@@ -21,12 +21,12 @@ let Meteor = {};
 let backupMongo = sinon.spy();
 let join = sinon.stub().returns('outputdir');
 
-const { handleMigration } = proxyquire('../../../server/migrations', {
+const { handleMigration } = proxyquire('../../../../server/migrations/migrations', {
     'meteor/percolate:migrations': { Migrations, '@noCallThru': true},
     'moment/moment': moment,
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'path': { join, '@noCallThru': true},
-    './mongoBackup': { backupMongo, '@noCallThru': true}
+    '../mongoBackup': { backupMongo, '@noCallThru': true}
 });
 
 describe('Migrations', function () {

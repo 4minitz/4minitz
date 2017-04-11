@@ -1,0 +1,6 @@
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName Comic Sans MS
+hide circle
+' skinparam shadowing false
