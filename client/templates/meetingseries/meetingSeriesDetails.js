@@ -3,11 +3,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
-import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 import { User, userSettings } from '/imports/users'
 
-import { TopicListConfig } from '../topic/topicsList'
 import { TabItemsConfig } from './tabItems'
 import { TabTopicsConfig } from './tabTopics'
 
@@ -97,7 +95,7 @@ Template.meetingSeriesDetails.events({
         user.storeSetting(userSettings.showQuickHelp.meetingSeries, false);
     },
     "click .nav-tabs li": function(event, tmpl) {
-        var currentTab = $(event.target).closest("li");
+        let currentTab = $(event.target).closest("li");
 
         tmpl.activeTabId.set(currentTab.attr('id'));
         tmpl.activeTabTemplate.set(currentTab.data("template"));

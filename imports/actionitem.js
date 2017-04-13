@@ -8,13 +8,13 @@ export class ActionItem extends InfoItem{
 
         this._infoItemDoc.itemType = 'actionItem';
 
-        if (this._infoItemDoc.isOpen == undefined) {
+        if (this._infoItemDoc.isOpen === undefined) {
             this._infoItemDoc.isOpen = true;
         }
-        if (this._infoItemDoc.responsible == undefined) {
+        if (this._infoItemDoc.responsible === undefined) {
             this._infoItemDoc.responsible = "";
         }
-        if (this._infoItemDoc.priority == undefined) {
+        if (this._infoItemDoc.priority === undefined) {
             this._infoItemDoc.priority = "";
         }
     }
@@ -78,11 +78,11 @@ export class ActionItem extends InfoItem{
 
             let responsibles = this._infoItemDoc.responsibles;
             let mailArray = [];
-            for (let i in responsibles) {
+            responsibles.forEach(responsible => {
                 let userEMailFromDB = "";
                 let userNameFromDB = "";
-                if (responsibles[i].length > 15) {  // maybe DB Id or free text
-                    let user = Meteor.users.findOne(responsibles[i]);
+                if (responsible.length > 15) {  // maybe DB Id or free text
+                    let user = Meteor.users.findOne(responsible);
                     if (user) {
                         userNameFromDB = user.username;
                         if (user.emails && user.emails.length) {
@@ -93,14 +93,14 @@ export class ActionItem extends InfoItem{
                 if (userEMailFromDB) {     // user DB match!
                     mailArray.push(userEMailFromDB);
                 } else {
-                    let freetextMail = responsibles[i].trim();
+                    let freetextMail = responsible.trim();
                     if (/\S+@\S+\.\S+/.test(freetextMail)) {    // check valid mail anystring@anystring.anystring
                         mailArray.push(freetextMail);
                     } else {
                         console.log("WARNING: Invalid mail address for responsible: >"+freetextMail+"< "+userNameFromDB);
                     }
                 }
-            }
+            });
             return mailArray;
         }
         return [];
@@ -114,10 +114,10 @@ export class ActionItem extends InfoItem{
 
         let responsibles = this._infoItemDoc.responsibles;
         let responsiblesString = "";
-        for (let i in responsibles) {
+        responsibles.forEach(responsible => {
             let userNameFromDB = "";
-            if (responsibles[i].length > 15) {  // maybe DB Id or free text
-                let user = Meteor.users.findOne(responsibles[i]);
+            if (responsible.length > 15) {  // maybe DB Id or free text
+                let user = Meteor.users.findOne(responsible);
                 if (user) {
                     userNameFromDB = user.username;
                 }
@@ -125,9 +125,9 @@ export class ActionItem extends InfoItem{
             if (userNameFromDB) {     // user DB match!
                 responsiblesString += userNameFromDB + ", ";
             } else {
-                responsiblesString += responsibles[i] + ", ";
+                responsiblesString += responsible + ", ";
             }
-        }
+        });
         responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
         return responsiblesString;
     }
