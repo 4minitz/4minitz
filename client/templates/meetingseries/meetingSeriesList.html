@@ -30,7 +30,6 @@
             {{#if isModeratorOfSeries}}
                 <span class="glyphicon glyphicon-user"></span>
             {{/if}}
-            {{#with lastMinutes}}
                 {{#if lastMinutes}}
                     (<span class="hidden-xs">last minutes of </span><a href="{{pathFor 'minutesedit' _id=lastMinutes._id}}">{{lastMinutes.date}}</a>
                     {{#if lastMinutes.isFinalized}}
@@ -39,7 +38,6 @@
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" aria-label="Not finalized"></span>)
                     {{/if}}
                 {{/if}}
-            {{/with}}
             <span class="badge">{{countMinutes}}</span>
         </li>
 </template>
