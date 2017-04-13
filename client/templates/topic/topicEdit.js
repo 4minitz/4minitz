@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
+import { Label } from '/imports/label'
 
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 
@@ -60,6 +61,36 @@ function configureSelect2Responsibles() {
     selectResponsibles.trigger("change");
 }
 
+function configureSelect2Labels() {
+    let aMin = new Minutes(_minutesID);
+    let aSeries = aMin.parentMeetingSeries();
+
+    let selectLabels = $('#id_item_selLabels');
+    selectLabels.find('option')     // clear all <option>s
+        .remove();
+
+    let selectOptions = [];
+
+    aSeries.getAvailableLabels().forEach(label => {
+        selectOptions.push ({id: label._id, text: label.name});
+    });
+
+    selectLabels.select2({
+        placeholder: 'Select...',
+        tags: true,                     // Allow freetext adding
+        tokenSeparators: [',', ';'],
+        data: selectOptions             // push <option>s data
+    });
+
+
+    // select the options that where stored with this topic last time
+    let editItem = getEditInfoItem();
+    if (editItem) {
+        selectLabels.val(editItem.getLabelsRawArray());
+    }
+    selectLabels.trigger("change");
+}
+
 Template.topicEdit.helpers({
     'getTopicSubject': function() {
         let topic = getEditTopic();
@@ -81,8 +112,23 @@ Template.topicEdit.events({
             _.extend(topicDoc, editTopic._topicDoc);
         }
 
+        let labels = tmpl.$("#id_item_selLabels").val();
+        if (!labels) labels = [];
+        let aMinute = new Minutes(_minutesID);
+        let aSeries = aMinute.parentMeetingSeries();
+        labels = labels.map(labelId => {
+            let label = Label.createLabelById(aSeries, labelId);
+            if (null === label) {
+                // we have no such label -> it's brand new
+                label = new Label({name: labelId});
+                label.save(aSeries._id);
+            }
+            return label.getId();
+        });
+
         topicDoc.subject = tmpl.find("#id_subject").value;
         topicDoc.responsibles = $('#id_selResponsible').val();
+        topicDoc.labels = labels;
 
         let aTopic = new Topic(_minutesID, topicDoc);
 
@@ -111,6 +157,10 @@ Template.topicEdit.events({
 
     "show.bs.modal #dlgAddTopic": function () {
         configureSelect2Responsibles();
+        let selectLabels = $('#id_item_selLabels');
+        if (selectLabels) {
+            selectLabels.val([]).trigger("change");
+        }
         let saveButton = $("#btnTopicSave");
         let cancelButton = $("#btnTopicCancel");
         saveButton.prop("disabled",false);
@@ -120,6 +170,7 @@ Template.topicEdit.events({
     "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
         $('#dlgAddTopic').find('input').trigger("change");    // ensure new values trigger placeholder animation
         tmpl.find("#id_subject").focus();
+        configureSelect2Labels();
     },
 
     "select2:selecting #id_selResponsible"(evt) {

@@ -118,7 +118,7 @@ function configureSelect2Labels() {
     let aMin = new Minutes(_minutesID);
     let aSeries = aMin.parentMeetingSeries();
 
-    let selectLabels = $('#id_item_selLabels');
+    let selectLabels = $('#id_item_selLabelsActionItem');
     selectLabels.find('option')     // clear all <option>s
         .remove();
 
@@ -191,7 +191,7 @@ Template.topicInfoItemEdit.events({
             _.extend(doc, editItem._infoItemDoc);
         }
 
-        let labels = tmpl.$("#id_item_selLabels").val();
+        let labels = tmpl.$("#id_item_selLabelsActionItem").val();
         if (!labels) labels = [];
         let aMinute = new Minutes(_minutesID);
         let aSeries = aMinute.parentMeetingSeries();
@@ -274,7 +274,7 @@ Template.topicInfoItemEdit.events({
             if (selectResponsibles) {
                 selectResponsibles.val([]).trigger("change");
             }
-            let selectLabels = $('#id_item_selLabels');
+            let selectLabels = $('#id_item_selLabelsActionItem');
             if (selectLabels) {
                 selectLabels.val([]).trigger("change");
             }

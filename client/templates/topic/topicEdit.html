@@ -15,6 +15,12 @@
                             <input id="id_subject" type="text" class="form-control" value="{{getTopicSubject}}"
                                    required data-error-msg="Please enter a valid subject" autocomplete="off">
                         </div>
+                        <div class="form-group form-group-labels">
+                            <label for="id_item_selLabels" class="control-label" style="color: teal;">Labels</label>
+                            <select id="id_item_selLabels" multiple="multiple" style="width:100%;">
+                                <!--Options will be filled in by show.bs.modal event handler-->
+                            </select>
+                        </div>
                         <div class="form-group form-group-responsibles">
                             <label for="id_selResponsible" class="control-label" style="color: teal;">Responsible</label>
                             <select id="id_selResponsible" multiple="multiple" style="width:100%;">
