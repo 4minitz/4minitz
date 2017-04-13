@@ -57,25 +57,8 @@ export class ActionItem extends InfoItem{
         return "";
     }
 
-    /**
-     * Checks whether this topic has associated responsibles
-     * or not. This method must have the same name as the
-     * topic.hasResponsibles method.
-     *
-     * @return {boolean}
-     */
     hasResponsibles() {
         return (this._infoItemDoc.responsibles && this._infoItemDoc.responsibles.length);
-    }
-    /**
-     * Returns all responsibles associated with this
-     * topic. This method must have the same name as the
-     * topic.getResponsibles method.
-     *
-     * @return {Array}
-     */
-    getResponsibles() {
-        return this._infoItemDoc.responsibles;
     }
 
     getResponsibleRawArray() {
