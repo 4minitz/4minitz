@@ -41,6 +41,9 @@ describe('ResponsiblePreparer', function() {
             },
             hasResponsibles: function() {
                 return this._topicDoc.responsibles.length > 0;
+            },
+            getResponsibles: function() {
+                return this._topicDoc.responsibles;
             }
         };
         fakeUserCollection = {
