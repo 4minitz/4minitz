@@ -13,14 +13,15 @@ import { TabTopicsConfig } from './tabTopics'
 let _meetingSeriesID;   // the parent meeting object of this minutes
 
 Template.meetingSeriesDetails.onCreated(function () {
+    this.seriesReady = new ReactiveVar();
+
     this.autorun(() => {
         _meetingSeriesID = FlowRouter.getParam('_id');
         this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
 
-        let usrRoles = new UserRoles();
-        if (!usrRoles.hasViewRoleFor(_meetingSeriesID)) {
-            FlowRouter.go('/');
-        }
+        let subscriptionHandle = this.subscribe('meetingSeries', _meetingSeriesID);
+
+        this.seriesReady.set(subscriptionHandle.ready());
     });
 
     this.activeTabTemplate = new ReactiveVar("tabMinutesList");
@@ -35,6 +36,16 @@ Template.meetingSeriesDetails.onRendered(function () {
 });
 
 Template.meetingSeriesDetails.helpers({
+    authenticating() {
+        const subscriptionReady = Template.instance().seriesReady.get();
+        return Meteor.loggingIn() || !subscriptionReady;
+    },
+    redirectIfNotAllowed() {
+        let usrRoles = new UserRoles();
+        if (!usrRoles.hasViewRoleFor(_meetingSeriesID)) {
+            FlowRouter.go('/');
+        }
+    },
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);
     },
