@@ -46,8 +46,11 @@
             <div class="help panel panel-default">
                 <div class="panel-heading">Quick Help</div>
                 <div class="panel-body">
-                    <p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>
-                    <a href="#" id="btnHideHelp">OK, hide</a>
+                    <p>Here you may create new minutes for the current meeting series or
+                        click on a date link of existing minutes.</p>
+                    {{#unless currentUser.isDemoUser}}
+                        <a href="#" class="hidehelp">OK, hide</a>
+                    {{/unless}}
                 </div>
             </div>
         {{/if}}

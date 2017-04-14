@@ -1,3 +1,5 @@
+import { Accounts } from 'meteor/accounts-base'
+
 import { FlashMessage } from '../../helpers/flashMessage';
 
 let showError = function (evt, error) {
@@ -15,6 +17,10 @@ Template.passwordChangeDialog.events({
         if (!Meteor.user()) {
             return;
         }
+        if (Meteor.user.isDemoUser) {
+            return;
+        }
+
         Session.set('errorTitle', null);
         Session.set('errorReason', null);
 
