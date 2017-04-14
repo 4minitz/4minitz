@@ -7,11 +7,15 @@ import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 import { AttachmentsCollection } from "/imports/collections/attachments_private"
 
-Template.tabMinutesList.helpers({
-    buttonBackground: function () {
-        return (this.isFinalized) ? "default" : "info";
-    },
+let displayErrorIfNecessary = error => {
+    if (error) {
+        // display error
+        Session.set("errorTitle", error.error);
+        Session.set("errorReason", error.reason);
+    }
+};
 
+Template.tabMinutesList.helpers({
     meetingSeriesId: function () {
         return this.meetingSeriesId;
     },
@@ -25,10 +29,6 @@ Template.tabMinutesList.helpers({
         }
     },
 
-    isDeleteAllowed: function () {
-        return (!this.isFinalized);
-    },
-
     isModeratorOfParentSeries: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(this.meetingSeriesId);
@@ -40,12 +40,29 @@ Template.tabMinutesList.helpers({
 });
 
 Template.tabMinutesList.events({
+    "click #btnAddMinutes": function(evt) {
+        evt.preventDefault();
+        let newMinutesId;
+        let ms = new MeetingSeries(this.meetingSeriesId);
+        ms.addNewMinutes(
+            // optimistic ui callback
+            newMinutesID => {
+                newMinutesId = newMinutesID
+            },
+            // server callback
+            displayErrorIfNecessary
+        );
+        if (newMinutesId) { // optimistic ui callback should have been called by now
+            FlowRouter.redirect('/minutesedit/' + newMinutesId);
+        }
+    },
+
     "click #btnLeaveMeetingSeries": function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
 
         let leaveSeriesCallback = () => {
             console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
-            MeetingSeries.leave(ms);
+            MeetingSeries.leave(ms).catch(displayErrorIfNecessary);
             FlowRouter.go("/");
         };
 

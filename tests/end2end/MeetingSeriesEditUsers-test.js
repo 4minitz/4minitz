@@ -460,7 +460,8 @@ describe('MeetingSeries Editor Users', function () {
         });
     }
 
-    it('ensures informed user can not see meeting series @watch', function () {
+    it('ensures informed user can not see meeting series', function () {
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);  // close with cancel
         E2EApp.loginUser(1);
         let initialMScount = E2EMeetingSeries.countMeetingSeries();
         E2EApp.loginUser();
@@ -476,7 +477,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EApp.loginUser();
     });
 
-    it('ensures downgraded to informed user can not see meeting series anymore @watch', function () {
+    it('ensures downgraded to informed user can not see meeting series anymore', function () {
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);

@@ -78,7 +78,7 @@ export class ResponsiblePreparer {
 
     _addResponsiblesFromCurrentElement() {
         if (this.currentElement && this.currentElement.hasResponsibles()) {
-            this.buffer = this.buffer.concat(this.currentElement._topicDoc.responsibles);
+            this.buffer = this.buffer.concat(this.currentElement.getResponsibles());
         }
     }
 
