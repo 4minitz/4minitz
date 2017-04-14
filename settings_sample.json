@@ -59,7 +59,7 @@
             "inside their company with their mail address in FROM: header.",
             "This really looks like spam, so it will probably be blocked!."
         ],
-        "defaultEMailSenderExceptionDomains": ["yourdomain.de", "yourdomain.de"],
+        "defaultEMailSenderExceptionDomains": ["yourdomain.de", "yourdomain.com"],
 
         "//3.5": [
                 "fallbackEMailSenderAddress: if sending user has no mail address specified in the user profile,",

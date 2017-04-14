@@ -1,12 +1,12 @@
 {
   "name": "4Minitz",
-  "version": "v1.0.0-develop",
+  "version": "v0.9.1",
   "4minitz": {
     "//": "This is some app specific info",
-    "4m_branch": "develop",
-    "4m_commitlong": "1e4ef88e6dc9c021e7aab3621beb9a9f23b5acf4",
-    "4m_commitshort": "1e4ef88",
-    "4m_releasedate": "2017-04-09"
+    "4m_branch": "master",
+    "4m_commitlong": "ac848ae068d3c0a70e10664e300162ffe47bdd6f",
+    "4m_commitshort": "ac848ae",
+    "4m_releasedate": "2017-04-14"
   },
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
@@ -48,7 +48,8 @@
     "babel-register": "^6.24.0",
     "bcrypt": "^1.0.2",
     "bootstrap-material-design": "^0.5.10",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.44",
+    "faker": "^3.1.0",
     "fibers": "^1.0.13",
     "fs-extra": "~2.0.0",
     "git-rev-sync": "^1.9.0",
@@ -71,8 +72,7 @@
     "babel-preset-es2015": "^6.6.0",
     "babel-register": "^6.8.0",
     "chai": "^3.5.0",
-    "faker": "^4.1.0",
-    "mocha": "^3.2.0",
+    "mocha": "^2.4.5",
     "proxyquire": "^1.7.7",
     "sinon": "^1.17.4",
     "sinon-as-promised": "^4.0.0",

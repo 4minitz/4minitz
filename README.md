@@ -21,6 +21,8 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 * Track open action items and unfinished topics across meetings
 * Full privacy: Host your own server - it's easy!
 
+[![4Minitz Screen Shot](./doc/4minitz_screenshot.png | width=600)](./doc/4minitz_screenshot.png)
+
 **Important: 4Minitz is currently WIP and not yet ready for mission critical usage. 
 Nevertheless, quite a few features are working stable already and you can head over to our
 [4Minitz Demo Server](https://www.4minitz.com) and and play around or install the current 
