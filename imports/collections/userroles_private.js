@@ -39,14 +39,15 @@ if (Meteor.isServer) {
         }
     });
 
-    // #Security: Publish some fields only for the logged in user
+    // #Security: Publish some extra fields - but only for the logged in user
     Meteor.publish('userSettings', function () {
         if(this.userId) {
             return Meteor.users.find(
                 {_id: this.userId},
                 {fields: {'settings': 1,
                           'isAdmin': 1,
-                          'isLDAPuser': 1}});
+                          'isLDAPuser': 1,
+                          'isDemoUser': 1}});
         }
     });
 

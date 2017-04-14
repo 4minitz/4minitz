@@ -46,10 +46,12 @@
                                     </li>
                                 {{/if}}
                                 {{#unless currentUser.isLDAPuser}}
-                                    <li><a href="#" data-toggle="modal" data-target="#dlgChangePassword">
-                                        Change Password</a>
-                                    </li>
-                                    <li class="divider"></li>
+                                    {{#unless currentUser.isDemoUser}}
+                                        <li><a href="#" data-toggle="modal" data-target="#dlgChangePassword">
+                                            Change Password</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                    {{/unless}}
                                 {{/unless}}
 
                                 <li><a href="#" id="navbar-signout">
