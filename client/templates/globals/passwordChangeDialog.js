@@ -17,7 +17,7 @@ Template.passwordChangeDialog.events({
         if (!Meteor.user()) {
             return;
         }
-        if (Meteor.user.isDemoUser) {
+        if (Meteor.user().isDemoUser) {
             return;
         }
 
