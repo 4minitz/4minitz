@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
-require('../../../lib/helpers');
+require('../../../../lib/helpers');
 
 let MinutesCollection = {
 };
@@ -16,7 +16,7 @@ let MeetingSeriesCollection = {
 
 const {
         MigrateV2
-    } = proxyquire('../../../server/migrate_v2', {
+    } = proxyquire('../../../../server/migrations/migrate_v2', {
     '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
         '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
     });

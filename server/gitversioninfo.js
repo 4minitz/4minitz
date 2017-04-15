@@ -13,9 +13,10 @@ try {
 
 VERSION_INFO = {
     tag: packagejson.version ? packagejson.version : "???",
-    branch: packagejson["4minitz"].branch ? packagejson["4minitz"].branch : "???",
-    commitlong: packagejson["4minitz"].commitlong ? packagejson["4minitz"].commitlong : "???",
-    commitshort: packagejson["4minitz"].commitshort ? packagejson["4minitz"].commitshort : "???"
+    branch: packagejson["4minitz"]["4m_branch"] ? packagejson["4minitz"]["4m_branch"] : "???",
+    commitlong: packagejson["4minitz"]["4m_commitlong"] ? packagejson["4minitz"]["4m_commitlong"] : "???",
+    commitshort: packagejson["4minitz"]["4m_commitshort"] ? packagejson["4minitz"]["4m_commitshort"] : "???",
+    date: packagejson["4minitz"]["4m_releasedate"] ? packagejson["4minitz"]["4m_releasedate"] : ""
 };
 
 Meteor.methods({
@@ -30,7 +31,8 @@ Meteor.methods({
             VERSION_INFO.commitlong = git.long();
             VERSION_INFO.branch = git.branch();
             VERSION_INFO.tag = git.tag();
-            if (VERSION_INFO.tag == VERSION_INFO.commitlong) {  // no tag found!
+            VERSION_INFO.date = global.formatDateISO8601(git.date());
+            if (VERSION_INFO.tag === VERSION_INFO.commitlong) {  // no tag found!
                 delete VERSION_INFO.tag;
             }
 

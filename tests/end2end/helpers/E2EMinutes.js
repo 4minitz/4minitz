@@ -40,6 +40,7 @@ export class E2EMinutes {
                 E2EApp.confirmationDialogAnswer(true);
             }
         }
+        E2EGlobal.waitSomeTime(1000);
 };
 
 
@@ -137,6 +138,7 @@ export class E2EMinutes {
             return false;
         }
         browser.click(selector);
+        E2EGlobal.waitSomeTime();
     }
 }
 

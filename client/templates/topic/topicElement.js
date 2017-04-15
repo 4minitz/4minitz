@@ -2,7 +2,6 @@ import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
 import { InfoItem } from '/imports/infoitem';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import { TemplateCreator } from '../../helpers/templateCreator';
 
 let _minutesId;
 
@@ -91,15 +90,35 @@ Template.topicElement.events({
 
         let aMin = new Minutes(this.minutesID);
 
-        let dialogTmpl = TemplateCreator.create(
-            '<p>Do you really want to delete the topic <strong>{{subject}}</strong>?</p>'
-        );
-        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-            () => { aMin.removeTopic(this.topic._id) },
-            'Confirm delete',
-            dialogTmpl,
-            {subject: this.topic.subject}
-        ).show();
+        let topic = new Topic(this.minutesID, this.topic);
+        const deleteAllowed = topic.isDeleteAllowed();
+
+        if (!topic.isClosedAndHasNoOpenAIs() || deleteAllowed) {
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                () => {
+                    if (deleteAllowed) {
+                        aMin.removeTopic(this.topic._id);
+                    } else {
+                        topic.closeTopicAndAllOpenActionItems();
+                    }
+                },
+                deleteAllowed ? 'Confirm delete' : 'Close topic?',
+                'confirmDeleteTopic',
+                {
+                    deleteAllowed: topic.isDeleteAllowed(),
+                    hasOpenActionItems: topic.hasOpenActionItem(),
+                    subject: topic.getSubject()
+                },
+                deleteAllowed ? 'Delete' : 'Close topic and actions'
+            ).show();
+        } else {
+            ConfirmationDialogFactory.makeInfoDialog(
+                'Cannot delete topic',
+                'It is not possible to delete this topic because it was created in a previous minutes. ' +
+                'The selected topic is already closed and has no open action items, so it won\'t be copied to the ' +
+                'following minutes'
+            ).show();
+        }
     },
 
     'click .btnToggleState'(evt) {

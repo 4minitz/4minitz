@@ -157,8 +157,12 @@ export class Topic {
      *
      * @returns {boolean}
      */
-    isClosed() {
+    isClosedAndHasNoOpenAIs() {
         return (!this.getDocument().isOpen && !this.hasOpenActionItem() && !this.isRecurring());
+    }
+
+    isDeleteAllowed() {
+        return (this.getDocument().createdInMinute === this._parentMinutes._id);
     }
 
     isRecurring() {
@@ -179,7 +183,7 @@ export class Topic {
         } else {
             i = subElementsHelper.findIndexById(topicItemDoc._id, this.getInfoItems())
         }
-        if (i == undefined) {                      // topicItem not in array
+        if (i === undefined) {                      // topicItem not in array
             this.getInfoItems().unshift(topicItemDoc);  // add to front of array
         } else {
             this.getInfoItems()[i] = topicItemDoc;      // overwrite in place
@@ -197,10 +201,15 @@ export class Topic {
 
 
     async removeInfoItem(id) {
-        let i = subElementsHelper.findIndexById(id, this.getInfoItems());
+        let index = subElementsHelper.findIndexById(id, this.getInfoItems());
+        let item = this.getInfoItems()[index];
+        if (InfoItem.isActionItem(item) && !InfoItem.isCreatedInMinutes(item, this._parentMinutes._id)) {
+            throw new Meteor.Error('Cannot remove item', 'It is not allowed to remove an action item which was not ' +
+                'created within the current minutes');
+        }
 
-        if (i != undefined) {
-            this.getInfoItems().splice(i, 1);
+        if (index !== undefined) {
+            this.getInfoItems().splice(index, 1);
             return this.save();
         }
     }
@@ -226,7 +235,7 @@ export class Topic {
      */
     findInfoItem(id) {
         let i = subElementsHelper.findIndexById(id, this.getInfoItems());
-        if (i != undefined) {
+        if (i !== undefined) {
             return InfoItemFactory.createInfoItem(this, this.getInfoItems()[i]);
         }
         return undefined;
@@ -257,9 +266,21 @@ export class Topic {
         return this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
-    toggleState () {    // open/close
+    async saveAtBottom() {
+        return this._parentMinutes.upsertTopic(this._topicDoc, false);
+    }
+
+    async toggleState () {    // open/close
         this._topicDoc.isOpen = !this._topicDoc.isOpen;
-        return Meteor.callPromise('minutes.updateTopic', this._topicDoc._id, { isOpen: this._topicDoc.isOpen });
+        return await Meteor.callPromise('minutes.updateTopic', this._topicDoc._id, { isOpen: this._topicDoc.isOpen });
+    }
+
+    async closeTopicAndAllOpenActionItems() {
+        this._topicDoc.isOpen = false;
+        this.getOpenActionItems().forEach(item => {
+            item.isOpen = false;
+        });
+        await this.save();
     }
 
     hasOpenActionItem() {
@@ -270,9 +291,27 @@ export class Topic {
         return this._topicDoc;
     }
 
+    /**
+     * Checks whether this topic has associated responsibles
+     * or not. This method must have the same name as the
+     * actionItem.hasResponsibles method.
+     *
+     * @return {boolean}
+     */
     hasResponsibles () {
         let responsibles = this._topicDoc.responsibles;
         return (responsibles && responsibles.length > 0);
+    }
+
+    /**
+     * Returns all responsibles associated with this
+     * topic. This method must have the same name as the
+     * actionItem.getResponsibles method.
+     *
+     * @return {Array}
+     */
+    getResponsibles() {
+        return this._topicDoc.responsibles;
     }
     
     getResponsiblesString() {

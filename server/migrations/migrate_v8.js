@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
 
 // MeetingSeries: add responsiblesFreeText field

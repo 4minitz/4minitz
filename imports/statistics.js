@@ -41,7 +41,7 @@ export const Statistics = SchemaClass.create({
 
             StatisticsCollection.remove({});
 
-            let statistics = new Statistics();
+            let statistics = this;
             statistics.result = [{
                 description: "Number of users (active)",
                 value: numberOfUsers + " (" + numberOfActiveUsers + ")"

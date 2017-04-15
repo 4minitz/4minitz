@@ -7,6 +7,7 @@ export const MeetingSeriesSchema = new SimpleSchema({
     name: {type: String},
     createdAt: {type: Date},
     visibleFor: {type: [String], regEx: SimpleSchema.RegEx.Id},
+    informedUsers: {type: [String], optional: true}, // element may be userID or EMail address
     // todo: make this a date?
     lastMinutesDate: {type: String},
     minutes: {type: [String], defaultValue: []},

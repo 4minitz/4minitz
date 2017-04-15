@@ -1,5 +1,5 @@
 import { Migrations } from 'meteor/percolate:migrations';
-import { backupMongo } from './mongoBackup';
+import { backupMongo } from '../mongoBackup';
 import { Meteor} from 'meteor/meteor';
 
 import moment from 'moment/moment';
@@ -14,6 +14,8 @@ import { MigrateV6 } from './migrate_v6'
 import { MigrateV7 } from './migrate_v7'
 import { MigrateV8 } from './migrate_v8'
 import { MigrateV9 } from './migrate_v9'
+import { MigrateV10 } from './migrate_v10'
+import { MigrateV11 } from './migrate_v11'
 
 Migrations.add({version: 1, up() {MigrateV1.up();}, down() {MigrateV1.down();}});
 Migrations.add({version: 2, up() {MigrateV2.up();}, down() {MigrateV2.down();}});
@@ -24,6 +26,8 @@ Migrations.add({version: 6, up() {MigrateV6.up();}, down() {MigrateV6.down();}})
 Migrations.add({version: 7, up() {MigrateV7.up();}, down() {MigrateV7.down();}});
 Migrations.add({version: 8, up() {MigrateV8.up();}, down() {MigrateV8.down();}});
 Migrations.add({version: 9, up() {MigrateV9.up();}, down() {MigrateV9.down();}});
+Migrations.add({version: 10, up() {MigrateV10.up();}, down() {MigrateV10.down();}});
+Migrations.add({version: 11, up() {MigrateV11.up();}, down() {MigrateV11.down();}});
 
 // ----------------------------------------------------------------
 function findLatestVersion() {

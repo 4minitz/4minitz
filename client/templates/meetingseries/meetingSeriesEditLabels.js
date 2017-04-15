@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor';
-
 import { addCustomValidator } from '../../helpers/customFieldValidator'
 
 import { MeetingSeries } from '/imports/meetingseries'
@@ -7,15 +5,19 @@ import { Label } from '/imports/label'
 
 import { ColorHelper } from '/imports/ColorHelper'
 
-Template.meetingSeriesEditLabels.onRendered(function () {
+let initColorPicker = (selector) => {
     setTimeout(function() {
-        $('.pick-a-color').pickAColor({
+        $(selector).pickAColor({
             showSavedColors         : false,
             showAdvanced            : false,
             inlineDropdown          : false
         });
         $('.hex-pound').hide();
-    }, 100);
+    }, 50);
+};
+
+Template.meetingSeriesEditLabels.onRendered(function () {
+    initColorPicker('.pick-a-color');
 
     addCustomValidator(
         ".label-color-field",
@@ -136,13 +138,6 @@ Template.meetingSeriesEditLabels.events({
         let label = new Label(labelDoc);
         label.save(tmpl.data.meetingSeriesId);
         // Add Color Picker to the new label.
-        Meteor.setTimeout(function() {
-            $('.pick-a-color:nth-child(1)').pickAColor({
-                showSavedColors         : false,
-                showAdvanced            : false,
-                inlineDropdown          : false
-            });
-            $('.hex-pound').hide();
-        }, 50);
+        initColorPicker('.pick-a-color:nth-child(1)');
     }
 });

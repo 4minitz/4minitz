@@ -94,7 +94,7 @@ describe('Sticky Info Items', function () {
         expect(E2ETopics.countTopicsForMinute(), "the new minute should have no topics").to.equal(0);
     });
 
-    it('ensures that the sticky-status of a finalized minute can not be modified', function () {
+    it('ensures that the sticky-status of an info item in a finalized minute can not be modified', function () {
         E2EMinutes.finalizeCurrentMinutes();
 
         E2ETopics.toggleInfoItemStickyState(1, 1);
@@ -104,8 +104,7 @@ describe('Sticky Info Items', function () {
         E2ETopics.toggleInfoItemStickyState(1, 1);
         E2EMinutes.finalizeCurrentMinutes();
 
-
-        expect(E2ETopics.isInfoItemSticky(1, 1), "sticky item should not have changed state").to.be.true;
+        expect(E2ETopics.isInfoItemSticky(1, 1), "sticky item should have changed state").to.be.true;
     });
 
     it('can not change the sticky status of info-items on the topics page of the meeting series', function () {
@@ -150,22 +149,6 @@ describe('Sticky Info Items', function () {
             .to.have.string(newInfoItemName);
 
         expect(E2ETopics.isInfoItemSticky(1, 1), "the info item should be still sticky").to.be.true;
-    });
-
-    it('removes a sticky-info-item from the topic list of the meeting series if this item was removed within ' +
-        'the last-finalized-minute', function () {
-
-        E2ETopics.toggleInfoItemStickyState(1, 1);
-        E2EMinutes.finalizeCurrentMinutes();
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-
-        E2ETopics.deleteInfoItem(1, 1, true);
-        E2EMinutes.finalizeCurrentMinutes();
-
-        E2EMinutes.gotoParentMeetingSeries();
-        E2EMeetingSeries.gotoTabTopics();
-
-        expect(E2ETopics.countItemsForTopic(1), "the info item of the topic should have been removed").to.equal(0);
     });
 
 });

@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 
-import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 
 
@@ -30,6 +29,41 @@ Template.topicsList.helpers({
             currentCollapseId: collapseID++,  // each topic item gets its own collapseID,
             parentMeetingSeriesId: config.parentMeetingSeriesId
         };
+    },
+    
+    isReadOnlyMode: function() {
+        return Template.instance().data.isReadonly;
     }
 
+});
+
+Template.topicsList.events({
+    'submit #addTopicForm': function(evt, tmpl) {
+        evt.preventDefault();
+
+        if (tmpl.data.isReadonly) {
+            throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
+        }
+
+        let topicDoc = {};
+        topicDoc.subject = tmpl.find("#addTopicField").value;
+
+        let aTopic = new Topic(tmpl.data.minutesId, topicDoc);
+
+        aTopic.saveAtBottom().catch(error => {
+            tmpl.find("#addTopicField").value = topicDoc.subject;
+            Session.set('errorTitle', 'Validation error');
+            Session.set('errorReason', error.reason);
+        });
+        tmpl.find("#addTopicField").value = "";
+
+        // Scroll "add topic" edit field into view
+        // We need a timeout here, to give meteor time to add the new topic field first
+        Meteor.setTimeout(function () {
+            let elem = document.getElementById("addTopicToBottomDIV");
+            if (elem) {
+                elem.scrollIntoView(false); // false => bottom will be aligned
+            }
+        }, 1);
+    }
 });

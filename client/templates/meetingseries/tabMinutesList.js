@@ -2,17 +2,20 @@ import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import { TemplateCreator } from '../../helpers/templateCreator';
 
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 import { AttachmentsCollection } from "/imports/collections/attachments_private"
 
-Template.tabMinutesList.helpers({
-    buttonBackground: function () {
-        return (this.isFinalized) ? "default" : "info";
-    },
+let displayErrorIfNecessary = error => {
+    if (error) {
+        // display error
+        Session.set("errorTitle", error.error);
+        Session.set("errorReason", error.reason);
+    }
+};
 
+Template.tabMinutesList.helpers({
     meetingSeriesId: function () {
         return this.meetingSeriesId;
     },
@@ -26,10 +29,6 @@ Template.tabMinutesList.helpers({
         }
     },
 
-    isDeleteAllowed: function () {
-        return (!this.isFinalized);
-    },
-
     isModeratorOfParentSeries: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(this.meetingSeriesId);
@@ -41,25 +40,36 @@ Template.tabMinutesList.helpers({
 });
 
 Template.tabMinutesList.events({
+    "click #btnAddMinutes": function(evt) {
+        evt.preventDefault();
+        let newMinutesId;
+        let ms = new MeetingSeries(this.meetingSeriesId);
+        ms.addNewMinutes(
+            // optimistic ui callback
+            newMinutesID => {
+                newMinutesId = newMinutesID
+            },
+            // server callback
+            displayErrorIfNecessary
+        );
+        if (newMinutesId) { // optimistic ui callback should have been called by now
+            FlowRouter.redirect('/minutesedit/' + newMinutesId);
+        }
+    },
+
     "click #btnLeaveMeetingSeries": function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
 
         let leaveSeriesCallback = () => {
             console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
-            MeetingSeries.leave(ms);
+            MeetingSeries.leave(ms).catch(displayErrorIfNecessary);
             FlowRouter.go("/");
         };
-
-        let dialogTmpl = TemplateCreator.create(
-            "<p>Do you really want to leave the meeting series:<br>" +
-            "&nbsp;&nbsp;&nbsp;&nbsp;<b>{{project}} / {{name}}</b><br>" +
-            "You will have to ask a moderator if you want to join again afterwards.</p>"
-        );
 
         ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             leaveSeriesCallback,
             'Leave Meeting Series',
-            dialogTmpl,
+            'confirmLeaveMeetingSeries',
             {
                 project: ms.project,
                 name: ms.name

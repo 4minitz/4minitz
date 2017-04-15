@@ -1,5 +1,3 @@
-
-import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 
@@ -18,7 +16,7 @@ Template.admin.helpers({
 
     tab: function() {
         return Template.instance().activeTabTemplate.get();
-    },
+    }
 
 });
 
