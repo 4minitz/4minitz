@@ -121,6 +121,7 @@ export class TopicsGenerator {
 
         return {
             _id: Random.generateId(),
+            createdInMinute: this.currentMinutesId,
             subject: faker.commerce.department() + ' - ' + faker.commerce.productName(),
             responsibles: [],
             isOpen: faker.random.boolean(),

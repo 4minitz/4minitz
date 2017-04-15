@@ -54,6 +54,13 @@ describe('TopicsGenerator', function() {
             }
         });
 
+        it('sets the createdInMinute attribute for topics correctly', function() {
+            const MIN_ID = 'AaBbCcDd01';
+            generator.currentMinutesId = MIN_ID;
+            let topic = generator._generateANewTopic();
+            expect(topic.createdInMinute).to.equal(MIN_ID);
+        });
+
     });
 
     describe('#_copyTopicsToSeries', function() {
