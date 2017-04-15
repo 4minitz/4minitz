@@ -17,7 +17,7 @@
   "scripts": {
     "test": "npm run test:unit",
     "test:ci": "npm run test:unit && npm run test:integration:headless && npm run test:end2end:headless",
-    "test:unit": "node ./node_modules/mocha/bin/mocha './tests/unit/**/*.test.js' --compilers js:babel-register --require tests/unit/babel",
+    "test:unit": "node ./node_modules/mocha/bin/mocha './tests/unit/**/*.test.js' --compilers js:babel-register --require tests/unit/babel && npm run test:fixtures:seed-minutes:unit",
     "test:integration": "npm run test:integration:browser",
     "test:integration:headless": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3200 --allow-incompatible-update",
     "test:integration:browser": "meteor test --driver-package practicalmeteor:mocha --port 3200",
@@ -28,6 +28,8 @@
     "test:end2end:once": "chimp .meteor/chimp_config.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
     "test:end2end:watch": "chimp .meteor/chimp_config.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch",
     "test:end2end:watchheadless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs --watch",
+    "test:fixtures:seed-minutes:unit": "node ./node_modules/mocha/bin/mocha  --recursive tests/performance/fixtures/tests/ --compilers js:babel-register --require tests/performance/fixtures/tests/babel",
+    "fixtures:seed-minutes": "node ./node_modules/babel-cli/bin/babel-node.js --presets=es2015,stage-3 tests/performance/fixtures/insertMeetingSeries.js",
     "postinstall": "node programs/postInstall.js"
   },
   "repository": {
@@ -79,6 +81,11 @@
     "sinon-chai": "^2.8.0",
     "travis-ci": "^2.1.1",
     "tree-kill": "^1.1.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "babel-cli": "^6.18.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-stage-3": "^6.17.0",
+    "clone": "^2.1.0",
+    "xtend": "^4.0.1"
   }
 }
