@@ -46,7 +46,7 @@
                         <a id="btnDelTopic" href="#" class="panel-link" title="Delete topic">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
-                        <span class="topicDragDropHandle glyphicon glyphicon-sort"></span>
+                        <span class="topicDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
                     {{/if}}
                 </span>
                 <br clear="all">
@@ -55,7 +55,7 @@
 
         {{#unless isCollapsed}}
             <div style="margin-left: 20px; padding-left: 5px;">
-                <div class="panel-group" id="disabled-accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
                     {{#each topic.infoItems}}
                         {{> topicInfoItem getInfoItem @index}}
                     {{/each}}

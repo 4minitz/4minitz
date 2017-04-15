@@ -122,7 +122,7 @@ a:focus {
 }
 
 
-.topicDragDropHandle:hover {
+.dragDropHandle:hover {
     cursor: move; /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;
@@ -130,7 +130,7 @@ a:focus {
 }
 
 /* (Optional) Apply a "closed-hand" cursor during drag operation. */
-.topicDragDropHandle:active {
+.dragDropHandle:active {
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;

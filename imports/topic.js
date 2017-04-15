@@ -257,6 +257,10 @@ export class Topic {
         });
     }
 
+    setItems(items) {
+        this._topicDoc.infoItems = items;
+    }
+
     getSubject() {
         return this._topicDoc.subject;
     }

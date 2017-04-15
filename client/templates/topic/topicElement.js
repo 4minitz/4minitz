@@ -1,12 +1,45 @@
 import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
-import { InfoItem } from '/imports/infoitem';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 
 let _minutesId;
 
+let updateItemSorting = (evt, targetObj) => {
+    let item = targetObj.item,
+        sorting = item.parent().find('> .topicInfoItem'),
+        topic = new Topic(_minutesId, item.attr('data-parent-id')),
+        newItemSorting = [];
+
+    console.log(topic);
+
+    for (let i = 0; i < sorting.length; ++i) {
+        let itemId = $(sorting[i]).attr('data-id');
+        let item = topic.findInfoItem(itemId);
+
+        newItemSorting.push(item.getDocument());
+    }
+
+    console.log(newItemSorting);
+
+    topic.setItems(newItemSorting);
+    topic.save();
+};
+
 Template.topicElement.onCreated(function () {
     _minutesId = Template.instance().data.minutesID;
+
+    $(document).arrive('.itemPanel', () => {
+        $('.itemPanel').sortable({
+            appendTo: document.body,
+            axis: 'y',
+            opacity: 0.5,
+            disabled: false,
+            handle: '.itemDragDropHandle',
+            update: updateItemSorting
+        });
+
+        //toggleTopicSorting();
+    });
 });
 
 Template.topicElement.helpers({
