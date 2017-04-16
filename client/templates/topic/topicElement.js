@@ -1,16 +1,19 @@
 import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
+import { FlashMessage } from '../../helpers/flashMessage';
 
 let _minutesId;
 
-let updateItemSorting = (evt, targetObj) => {
-    let item = targetObj.item,
+let onError = (error) => {
+    (new FlashMessage('Error', error.reason)).show();
+};
+
+let updateItemSorting = (evt, ui) => {
+    let item = ui.item,
         sorting = item.parent().find('> .topicInfoItem'),
         topic = new Topic(_minutesId, item.attr('data-parent-id')),
         newItemSorting = [];
-
-    console.log(topic);
 
     for (let i = 0; i < sorting.length; ++i) {
         let itemId = $(sorting[i]).attr('data-id');
@@ -19,10 +22,11 @@ let updateItemSorting = (evt, targetObj) => {
         newItemSorting.push(item.getDocument());
     }
 
-    console.log(newItemSorting);
-
     topic.setItems(newItemSorting);
-    topic.save();
+    topic.save().catch(error => {
+        $('.itemPanel').sortable( "cancel" );
+        onError(error)
+    });
 };
 
 Template.topicElement.onCreated(function () {
@@ -37,8 +41,6 @@ Template.topicElement.onCreated(function () {
             handle: '.itemDragDropHandle',
             update: updateItemSorting
         });
-
-        //toggleTopicSorting();
     });
 });
 
@@ -130,9 +132,9 @@ Template.topicElement.events({
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 () => {
                     if (deleteAllowed) {
-                        aMin.removeTopic(this.topic._id);
+                        aMin.removeTopic(this.topic._id).catch(onError);
                     } else {
-                        topic.closeTopicAndAllOpenActionItems();
+                        topic.closeTopicAndAllOpenActionItems().catch(onError);
                     }
                 },
                 deleteAllowed ? 'Confirm delete' : 'Close topic?',
@@ -163,7 +165,7 @@ Template.topicElement.events({
         console.log("Toggle topic state ("+this.topic.isOpen+"): "+this.topic._id+" from minutes "+this.minutesID);
         let aTopic = new Topic(this.minutesID, this.topic._id);
         if (aTopic) {
-            aTopic.toggleState();
+            aTopic.toggleState().catch(onError);
         }
     },
 
@@ -180,7 +182,7 @@ Template.topicElement.events({
         let aTopic = new Topic(this.minutesID, this.topic._id);
         if (aTopic) {
             aTopic.toggleRecurring();
-            aTopic.save();
+            aTopic.save().catch(onError);
         }
     },
 
