@@ -1,17 +1,10 @@
-import moment from 'moment/moment';
 
-const MIN_DURATION_TIME = 1200;
-let currentlyVisibleFlashMessage = null;
-let countWaitingMessages = 0;
+const DEFAULT_MESSAGE = 'Sorry, an unexpected error has occurred.';
 
 export class FlashMessage {
     constructor(title, message, type = 'alert-danger', duration = 5000) {
-        this.title = title;
-        this.message = message;
-        this.type = type;
-        this.duration = duration;
-        this.id = Random.id();
-        this.start = null;
+        this._setValues(title, message, type, duration);
+        this.currentNotification = null;
     }
 
     /**
@@ -24,13 +17,23 @@ export class FlashMessage {
      * @param duration
      */
     replace(title, message, type = 'alert-danger', duration = 5000) {
-        this.title = title;
-        this.message = message;
-        this.type = type;
+        this._setValues(title, message, type, duration);
+        this._updateNotification();
+    }
+
+    _updateNotification() {
+        this.currentNotification.update('title', this.title);
+        this.currentNotification.update('message', this.message);
+        this.currentNotification.update('type', this.type);
+        this.currentNotification.update('delay', this.duration);
+    }
+
+    _setValues(title, message, type = 'alert-danger', duration = 5000) {
+        if (duration === -1) duration = 0;
+        this.title = `<strong>${title}</strong>`;
+        this.message = message || DEFAULT_MESSAGE;
+        this.type = type.substr(6);
         this.duration = duration;
-        this.id = Random.id();
-        countWaitingMessages++;
-        this.showAndReplace();
     }
 
     /**
@@ -41,85 +44,35 @@ export class FlashMessage {
      * @returns {FlashMessage}
      */
     show() {
-        countWaitingMessages++;
-        if (null == currentlyVisibleFlashMessage) {
-            this.showAndReplace();
-        } else {
-            let duration = countWaitingMessages * MIN_DURATION_TIME;
-            setTimeout(() => {
-                this.showAndReplace();
-            }, duration);
-        }
+        this.currentNotification = $.notify(this._createOptions(), this._createSettings());
         return this;
     }
 
-    /**
-     * Shows the flash message immediately
-     * disregarded if any message is currently
-     * displayed.
-     */
-    showAndReplace() {
-        countWaitingMessages--;
-        this.start = moment();
-        currentlyVisibleFlashMessage = this.id;
-        Session.set('errorId', this.id);
-        Session.set('errorTitle', this.title);
-        Session.set('errorReason', this.message);
-        Session.set('errorType', this.type);
-        Session.set('errorDuration', this.duration);
+    _createOptions() {
+        return {
+            title: this.title,
+            message: this.message
+        }
     }
 
-    /**
-     * Hides the current FlashMessage object. If
-     * the duration time is less than the MIN_DURATION_TIME
-     * the message will be displayed until the MIN_DURATION_TIME
-     * is reached.
-     */
-    hideMe() {
-        if (null === this.start) { return; }
-        let now = moment();
-        let displayingTime = now.diff(this.start);
-        if (displayingTime > MIN_DURATION_TIME) {
-            this.constructor.hide();
-        } else {
-            let delay = MIN_DURATION_TIME - displayingTime;
-            setTimeout(() => {
-                this.constructor.hide();
-            }, delay);
+    _createSettings() {
+        return {
+            delay: this.duration,
+            type: this.type
         }
     }
 
     /**
-     * Hides the currently shown flash message
-     * immediately.
+     * Hides the current FlashMessage object immediately.
      */
-    static hide() {
-        currentlyVisibleFlashMessage = null;
-        Session.set('errorTitle', false);
-        Session.set('errorType', 'alert-danger');
-        Session.set('errorDuration', 5000);
+    hideMe() {
+        if (null === this.currentNotification) return;
+        this.currentNotification.close();
     }
 }
 
 Template.registerHelper('errorTitle', () => {
-    let title = Session.get("errorTitle");
-
-    if (title) {
-        let duration = Session.get('errorDuration');
-        if (!duration) {
-            duration = 5000;
-        }
-        if (duration !== -1) {
-            let closeId = Session.get('errorId');
-            setTimeout(() => {
-                if (closeId === null || closeId === currentlyVisibleFlashMessage) {
-                    FlashMessage.hide();
-                }
-            }, duration);
-        }
-    }
-
-    return title;
+    return false;
 });
 
 Template.registerHelper('errorMessage', () => {
