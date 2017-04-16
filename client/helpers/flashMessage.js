@@ -1,8 +1,24 @@
 
 const DEFAULT_MESSAGE = 'Sorry, an unexpected error has occurred.';
 
+const TYPES = {
+    SUCCESS: 'success',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger'
+};
+
 export class FlashMessage {
-    constructor(title, message, type = 'alert-danger', duration = 5000) {
+
+    /**
+     *
+     * @return {{SUCCESS: string, INFO: string, WARNING: string, DANGER: string}}
+     */
+    static TYPES() {
+        return TYPES;
+    }
+
+    constructor(title, message, type = TYPES.DANGER, duration = 5000) {
         this._setValues(title, message, type, duration);
         this.currentNotification = null;
     }
@@ -16,7 +32,7 @@ export class FlashMessage {
      * @param type
      * @param duration
      */
-    replace(title, message, type = 'alert-danger', duration = 5000) {
+    replace(title, message, type = TYPES.DANGER, duration = 5000) {
         this._setValues(title, message, type, duration);
         this._updateNotification();
     }
@@ -28,11 +44,11 @@ export class FlashMessage {
         this.currentNotification.update('delay', this.duration);
     }
 
-    _setValues(title, message, type = 'alert-danger', duration = 5000) {
+    _setValues(title, message, type = TYPES.DANGER, duration = 5000) {
         if (duration === -1) duration = 0;
         this.title = `<strong>${title}</strong>`;
         this.message = message || DEFAULT_MESSAGE;
-        this.type = type.substr(6);
+        this.type = type.replace('alert-', '');
         this.duration = duration;
     }
 

@@ -488,7 +488,7 @@ Template.minutesedit.events({
                 Meteor.setTimeout(() => {
                     aMin.finalize(sendActionItems, sendInformationItems);
                     tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
-                    (new FlashMessage('OK', 'This meeting minutes were successfully finalized', 'alert-success', 3000)).show();
+                    (new FlashMessage('OK', 'This meeting minutes were successfully finalized', FlashMessage.TYPES().SUCCESS, 3000)).show();
                     msg.hideMe();
                     toggleTopicSorting();
                     Session.set("participants.expand", false);
