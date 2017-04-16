@@ -74,7 +74,8 @@ export class FlashMessage {
     _createSettings() {
         return {
             delay: this.duration,
-            type: this.type
+            type: this.type,
+            z_index: 5031
         }
     }
 
