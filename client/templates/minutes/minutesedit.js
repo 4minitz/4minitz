@@ -25,6 +25,10 @@ let orphanFlashMessage = null;
 
 let filterClosedTopics = new ReactiveVar(false);
 
+let onError = (error) => {
+    (new FlashMessage('Error', error.reason)).show();
+};
+
 /**
  * togglePrintView
  * Prepares the DOM view for printing - on and off
@@ -176,7 +180,10 @@ let updateTopicSorting = function () {
         newTopicSorting.push(topic);
     }
 
-    minute.update({topics: newTopicSorting});
+    minute.update({topics: newTopicSorting}).catch(error => {
+        $('#topicPanel').sortable( "cancel" );
+        onError(error);
+    });
 };
 
 
@@ -415,7 +422,7 @@ Template.minutesedit.events({
                 return;
             }
 
-            aMin.update({date: aDate});
+            aMin.update({date: aDate}).catch(onError);
         }
     },
 
@@ -424,7 +431,7 @@ Template.minutesedit.events({
         let aMin = new Minutes(_minutesID);
         if (aMin) {
             let globalNote = tmpl.find("#editGlobalNotes").value;
-            aMin.update({globalNote: globalNote});
+            aMin.update({globalNote: globalNote}).catch(onError);
         }
     },
 
@@ -442,7 +449,7 @@ Template.minutesedit.events({
                     let message = "Agenda was sent to " + result + " recipients successfully";
                     (new FlashMessage('OK', message, 'alert-success')).show();
                 } catch (error) {
-                    (new FlashMessage('Error', error.reason)).show();
+                    onError(error);
                 }
                 sendBtn.prop('disabled', false);
             };
@@ -532,7 +539,7 @@ Template.minutesedit.events({
                 // otherwise the current route would automatically re-routed to the main page because the
                 // minute is not available anymore -> see router.js
                 FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
-                ms.removeMinutesWithId(aMin._id);
+                ms.removeMinutesWithId(aMin._id).catch(onError);
             };
 
             let newTopicsCount = aMin.getNewTopics().length;
