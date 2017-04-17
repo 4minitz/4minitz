@@ -12,7 +12,7 @@ function clearForm(template) {
 function escapeHandler(event) {
     event.preventDefault();
 
-    let escapeWasPressed = event.key == 'Escape';
+    let escapeWasPressed = event.key === 'Escape';
 
     // for browsers that do not support event.key yet
     escapeWasPressed |= event.keyCode === 27;
@@ -51,7 +51,7 @@ Template.meetingSeriesAdd.helpers({
 });
 
 Template.meetingSeriesAdd.events({
-    "click #btnAddInvite" (event, template) {
+    "submit #id_meetingSeriesAddForm" (event, template) {
         event.preventDefault();
         let aProject = template.find("#id_meetingproject").value;
         let aName = template.find("#id_meetingname").value;
