@@ -514,6 +514,7 @@ Template.minutesedit.events({
                     processFinalize,
                     'Proceed without participants',
                     'confirmationDialogProceedWithoutPresentParticipants',
+                    {},
                     'Proceed'
                 ).show();
             }
