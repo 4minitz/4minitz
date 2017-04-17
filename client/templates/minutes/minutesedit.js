@@ -494,23 +494,40 @@ Template.minutesedit.events({
                 }, 500);
             };
 
-            if (GlobalSettings.isEMailDeliveryEnabled()) {
-                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
-                    doFinalize,
-                    'Confirm finalize minutes',
-                    'confirmationDialogFinalize',
-                    {
-                        minutesDate: aMin.date,
-                        hasOpenActionItems: aMin.hasOpenActionItems(),
-                        sendActionItems: (sendActionItems) ? 'checked' : '',
-                        sendInformationItems: (sendInformationItems) ? 'checked' : ''
-                    },
-                    'Finalize'
-                ).show();
-            } else {
-                doFinalize();
-            }
+            let processFinalize = function(){
+                if (GlobalSettings.isEMailDeliveryEnabled()) {
+                    ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                        doFinalize,
+                        'Confirm finalize minutes',
+                        'confirmationDialogFinalize',
+                        {
+                            minutesDate: aMin.date,
+                            hasOpenActionItems: aMin.hasOpenActionItems(),
+                            sendActionItems: (sendActionItems) ? 'checked' : '',
+                            sendInformationItems: (sendInformationItems) ? 'checked' : ''
+                        },
+                        'Finalize'
+                    ).show();
+                } else {
+                    doFinalize();
+                }
+            };
 
+            let noParticipantsPresent = true;
+            aMin.participants.forEach(p => {if(p.present == true) noParticipantsPresent = false;});
+
+            if(noParticipantsPresent == true){
+                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                    processFinalize,
+                    'Proceed without participants',
+                    'confirmationDialogProceedWithoutPresentParticipants',
+                    {},
+                    'Proceed'
+                ).show();
+            }
+            else {
+                processFinalize();
+            }
         }
     },
 
