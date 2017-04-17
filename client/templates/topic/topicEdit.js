@@ -84,7 +84,7 @@ function configureSelect2Labels() {
 
 
     // select the options that where stored with this topic last time
-    let editItem = getEditInfoItem();
+    let editItem = getEditTopic();
     if (editItem) {
         selectLabels.val(editItem.getLabelsRawArray());
     }
@@ -131,6 +131,7 @@ Template.topicEdit.events({
         topicDoc.labels = labels;
 
         let aTopic = new Topic(_minutesID, topicDoc);
+        aTopic.extractLabelsFromTopic(aMinute.parentMeetingSeries());
 
         try {
             await aTopic.save();
