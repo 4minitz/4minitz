@@ -31,7 +31,11 @@ Template.meetingSeriesDetails.onCreated(function () {
 Template.meetingSeriesDetails.onRendered(function () {
     if (this.showSettingsDialog) {
         Session.set("meetingSeriesEdit.showUsersPanel", true);
-        $('#dlgEditMeetingSeries').modal('show');
+
+        // Defer opening the meeting series settings dialog after rendering of the template
+        window.setTimeout(function () {
+            $('#dlgEditMeetingSeries').modal('show');
+        }, 10);
     }
 });
 
