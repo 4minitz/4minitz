@@ -8,18 +8,18 @@ that are officially supported by docker.
 1. Install [docker](https://docs.docker.com/engine/installation/)
 1. Inside the '.docker' directory run `./BUILD.sh` with an optional list of tags. E.g.: 
     ````
-    ./BUILD.sh 0 0.8 0.8.1 master stable
+    ./BUILD.sh 0 0.8 0.8.1 master stable latest
     ./BUILD.sh 0.9.x develop unstable edge
     ./BUILD.sh --imagename johndoe/4minitzdemo 0.9.x develop unstable edge
     ````
     
 1. Push the tagged images to docker hub
     ````
-    docker push derwok/4minitz
+    docker push 4minitz/4minitz
     docker push johndoe/4minitzdemo
    ````
 
 Afterwards the image can be used via:
 
-    docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 derwok/4minitz:stable
+    docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz:stable
     docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 johndoe/4minitzdemo
