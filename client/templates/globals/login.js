@@ -36,16 +36,27 @@ Template.login.helpers({
 
     showDemoUserHint: function () {
         return (!Meteor.userId() && GlobalSettings.createDemoAccount());
-    }
+    },
+
+    legalNoticeEnabled: function () {
+        return Meteor.settings.public.branding.legalNotice.enabled;
+    },
+    legalNoticeLinktext: function () {
+        return Meteor.settings.public.branding.legalNotice.linkText;
+    },
 });
 
 Template.login.events({
     "click .nav-tabs li": function(event) {
-        var currentTab = $(event.target).closest("li");
+        let currentTab = $(event.target).closest("li");
 
         currentTab.addClass("active");
         $(".nav-tabs li").not(currentTab).removeClass("active");
 
         Session.set("currentLoginForm", currentTab.data("template"));
+    },
+
+    "click #btnLegalNotice": function () {
+        FlowRouter.go('/legalnotice');
     }
 });

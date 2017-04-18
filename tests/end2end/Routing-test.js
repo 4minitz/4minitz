@@ -58,4 +58,32 @@ describe('Routing', function () {
         expect(headerText).to.have.string("Minutes for " + aProjectName);
     });
 
+
+    it('ensures that legal notice route shows expected text @watch', function () {
+        expect(browser.isVisible("div#divLegalNotice"), "legal notice should be invisible").to.be.false;
+        browser.keys(['Escape']);   // close eventually open modal dialog
+        E2EGlobal.waitSomeTime();
+
+        // Force to switch route
+        browser.url(E2EGlobal.SETTINGS.e2eUrl+"/legalnotice");
+        expect(browser.getUrl(), "on 'legal notice' route").to.contain("/legalnotice");
+        expect(browser.isVisible("div#divLegalNotice"), "legal notice should be visible").to.be.true;
+        expect(browser.getText("div#divLegalNotice"), "check text in legal notice route")
+            .to.contain("THE DEMO SERVICE AVAILABLE VIA");
+    });
+
+
+    it('ensures that legal notice route is reachable on login screen via About dialog @watch', function () {
+        E2EGlobal.waitSomeTime(1500);
+        browser.keys(['Escape']);   // close open edit meeting series dialog
+        E2EGlobal.waitSomeTime();
+        E2EApp.logoutUser();
+
+        // open about dialog and trigger legal notice link
+        expect(browser.getUrl(), "on normal route").not.to.contain("/legalnotice");
+        browser.click("#btnAbout");
+        E2EGlobal.waitSomeTime();
+        browser.click("#btnLegalNotice");
+        expect(browser.getUrl(), "on 'legal notice' route").to.contain("/legalnotice");
+    });
 });
