@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Markdown } from 'meteor/perak:markdown';
 import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private'
 
 // initialize
