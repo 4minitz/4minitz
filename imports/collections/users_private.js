@@ -16,6 +16,24 @@ Meteor.methods({
         console.log(user);
     },
 
+    'users.editProfile'(eMail, longName) {
+        if (Meteor.isServer) {
+            const user = new User();
+            console.log(user);
+            check(eMail, String);
+            check(longName, String);
+
+            if (!global.emailAddressRegExpTest.test(eMail)) {
+                throw new Meteor.Error("Invalid E-Mail", "Not a valid E-Mail address");
+            }
+
+            const id = Meteor.userId();
+            Meteor.users.update(id, {$set: {'emails.0.address': eMail, 'profile.name': longName}});
+            console.log(eMail, longName);
+            console.log(user);
+        }
+    },
+
     'users.admin.changePassword'(userId, password1, password2) {
         if (Meteor.isServer) {
             // #Security: Only logged in admin may invoke this method: users.admin.changePassword
