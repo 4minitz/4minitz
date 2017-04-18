@@ -59,7 +59,7 @@ describe('Routing', function () {
     });
 
 
-    it('ensures that legal notice route shows expected text @watch', function () {
+    it('ensures that "legal notice" route shows expected text', function () {
         expect(browser.isVisible("div#divLegalNotice"), "legal notice should be invisible").to.be.false;
         browser.keys(['Escape']);   // close eventually open modal dialog
         E2EGlobal.waitSomeTime();
@@ -73,7 +73,7 @@ describe('Routing', function () {
     });
 
 
-    it('ensures that legal notice route is reachable on login screen via About dialog @watch', function () {
+    it('ensures that "legal notice" route is reachable on login screen via About dialog', function () {
         E2EGlobal.waitSomeTime(1500);
         browser.keys(['Escape']);   // close open edit meeting series dialog
         E2EGlobal.waitSomeTime();
