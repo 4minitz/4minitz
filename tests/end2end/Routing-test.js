@@ -25,6 +25,13 @@ describe('Routing', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
     });
 
+    after("clear database and login user", function () {
+        E2EApp.launchApp();
+        E2EApp.loginUser();
+        expect(E2EApp.isLoggedIn()).to.be.true;
+    });
+
+    
     it('ensures that following a URL to a meeting series will relocate to the requested series after sign-in', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         const url = browser.getUrl();
