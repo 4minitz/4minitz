@@ -321,7 +321,7 @@ Template.topicInfoItem.events({
                 };
 
                 let oldText = aActionItem.getDetailsAt(index).text;
-                if (!oldText || oldText === "") {
+                if (!oldText) {
                     // use case: Adding details and leaving the input field without entering any text should go silently.
                     deleteDetails();
                 } else {

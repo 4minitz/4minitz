@@ -119,11 +119,9 @@ Template.minutesEditParticipants.events({
     "change #edtParticipantsAdditional" (evt, tmpl) {
         console.log("Trigger!");
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            console.log("   Min!");
-            let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
-            aMin.update({participantsAdditional: theParticipant});
-        }
+        console.log("   Min!");
+        let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
+        aMin.update({participantsAdditional: theParticipant});
     },
 
     "click #btnParticipantsExpand" () {

@@ -18,7 +18,7 @@ export class UserRoles {
             this._userId = Meteor.userId();
         }
         
-        let currentUser = null; 
+        let currentUser; 
         if (userCollection) {
             currentUser = userCollection.findOne(this._userId);
         } else {
