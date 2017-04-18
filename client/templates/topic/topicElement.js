@@ -164,9 +164,7 @@ Template.topicElement.events({
 
         console.log("Toggle topic state ("+this.topic.isOpen+"): "+this.topic._id+" from minutes "+this.minutesID);
         let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            aTopic.toggleState().catch(onError);
-        }
+        aTopic.toggleState().catch(onError);
     },
 
     'click .js-toggle-recurring'(evt) {
@@ -180,10 +178,8 @@ Template.topicElement.events({
         }
 
         let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            aTopic.toggleRecurring();
-            aTopic.save().catch(onError);
-        }
+        aTopic.toggleRecurring();
+        aTopic.save().catch(onError);
     },
 
     'click #btnEditTopic'(evt) {
