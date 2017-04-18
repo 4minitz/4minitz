@@ -325,6 +325,16 @@ export class Topic {
         return false;
     }
 
+    getLabelsString() {
+        let labels = this._topicDoc.labels;
+        let labelsString = "";
+        for (let i in labels) {
+            labelsString += labels[i] + ", ";
+        }
+        labelsString = labelsString.slice(0, -2);   // remove last ", "
+        return labelsString;
+    }
+
     getLabelsRawArray() {
         if (!this._topicDoc.labels) {
             return [];
