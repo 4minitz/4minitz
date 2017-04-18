@@ -113,7 +113,7 @@ export class TopicsFilter {
                 return doc.isOpen === false;
             case 'new':
                 return doc.isNew;
-            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
+            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
         }
     }
 
