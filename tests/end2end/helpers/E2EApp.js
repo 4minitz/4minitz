@@ -128,7 +128,7 @@ export class E2EApp {
     static gotoStartPage () {
         browser.keys(['Escape']);   // close eventually open modal dialog
         try {
-            browser.waitForExist('a.navbar-brand', 2000);
+            browser.waitForExist('a.navbar-brand', 2500);
         } catch (e) {
             E2EApp.launchApp();
         }
