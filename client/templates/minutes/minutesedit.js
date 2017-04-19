@@ -191,7 +191,7 @@ let openPrintDialog = function () {
     let ua = navigator.userAgent.toLowerCase();
     let isAndroid = ua.indexOf("android") > -1;
 
-    if (isAndroid) {
+    if (isAndroid && cloudprint && cloudprint.Gadget) {
         // https://developers.google.com/cloud-print/docs/gadget
         let gadget = new cloudprint.Gadget();
         gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
