@@ -1,11 +1,6 @@
-
-
-// Convenience and helper class to manage access rights
-// Needs "meteor add alanning:roles"
-
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-
+import { Roles } from 'meteor/alanning:roles';
 import  './collections/userroles_private';
 import { MeetingSeries } from './meetingseries';
 

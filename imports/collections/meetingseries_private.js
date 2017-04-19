@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries';
 import { MeetingSeriesSchema } from './meetingseries.schema';
+import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from './../GlobalSettings';
 import { formatDateISO8601 } from '/lib/helpers';
