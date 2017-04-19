@@ -64,7 +64,6 @@ let getEditInfoItem = function() {
 
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
-    Session.set("topicInfoItemType", type);
     switch (type) {
         case "actionItem":
             actionItemOnlyElements.show();
@@ -80,7 +79,6 @@ let toggleItemMode = function (type, tmpl) {
 
 
 function configureSelect2Responsibles() {
-    console.log("-----------ConfigureSelect2!");
     let freeTextValidator = (text) => {
         return _emailAddressRegExp.test(text);
     };
@@ -149,10 +147,6 @@ Template.topicInfoItemEdit.helpers({
         return (getEditInfoItem() !== false);
     },
 
-    disableTypeChange: function () {
-        return (getEditInfoItem()) ? "disabled" : "";
-    },
-
     getTopicSubject: function () {
         let topic = getRelatedTopic();
         return (topic) ? topic._topicDoc.subject : "";
@@ -165,12 +159,6 @@ Template.topicInfoItemEdit.helpers({
 });
 
 Template.topicInfoItemEdit.events({
-    'click .type': function(evt, tmpl) {
-        let type = evt.target.value;
-        toggleItemMode(type, tmpl);
-        tmpl.find("#id_item_subject").focus();
-    },
-
     'submit #frmDlgAddInfoItem': async function(evt, tmpl) {
         evt.preventDefault();
         let saveButton = $("#btnInfoItemSave");
@@ -182,7 +170,7 @@ Template.topicInfoItemEdit.events({
             throw new Meteor.Error("IllegalState: We have no related topic object!");
         }
 
-        let type = tmpl.find('input[name="id_type"]:checked').value;
+        let type = Session.get("topicInfoItemType");
         let newSubject = tmpl.find('#id_item_subject').value;
 
         let editItem = getEditInfoItem();
@@ -266,7 +254,6 @@ Template.topicInfoItemEdit.events({
         // set type: edit existing item
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? "actionItem" : "infoItem";
-            tmpl.find('#type_' + type).checked = true;
             toggleItemMode(type, tmpl);
         } else {  // adding a new item
             configureSelect2Responsibles();
@@ -278,6 +265,7 @@ Template.topicInfoItemEdit.events({
             if (selectLabels) {
                 selectLabels.val([]).trigger("change");
             }
+            toggleItemMode(Session.get("topicInfoItemType"), tmpl);
         }
     },
 
