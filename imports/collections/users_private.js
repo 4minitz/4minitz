@@ -3,7 +3,7 @@ import { check } from 'meteor/check'
 
 import { User } from '/imports/users';
 import { AdminRegisterUserMailHandler } from '/imports/mail/AdminRegisterUserMailHandler'
-import { emailAddressRegExpTest } from '/lib/helpers';
+import { emailAddressRegExpTest, checkWithMsg } from '/lib/helpers';
 
 Meteor.methods({
     'users.saveSettings'(settings) {
@@ -52,7 +52,7 @@ Meteor.methods({
             throw new Meteor.Error("Cannot register user", "You are not admin.");
         }
 
-        global.checkWithMsg (username, Match.Where(function (x) {
+        checkWithMsg(username, Match.Where(function (x) {
             check(x, String);
             return x.length > 2;
         }), "Username: at least 3 characters");
@@ -66,7 +66,7 @@ Meteor.methods({
         if (! /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password1)) {
             throw new Meteor.Error("Cannot register user", "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)");
         }
-        global.checkWithMsg (email, Match.Where(function (x) {
+        checkWithMsg(email, Match.Where(function (x) {
             check(x, String);
             return emailAddressRegExpTest.test(x);
         }), "EMail address not valid");
