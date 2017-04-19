@@ -230,10 +230,9 @@ describe('Minutes', function () {
             expect(Meteor.callPromise.calledWithExactly('minutes.update', sentObj, undefined)).to.be.true;
         });
 
-        it('updates the changed property of the minute object', async function (done) {
+        it('updates the changed property of the minute object', async function () {
             await minute.update(updateDocPart);
             expect(minute.date).to.equal(updateDocPart.date);
-            done();
         });
 
     });
@@ -404,26 +403,21 @@ describe('Minutes', function () {
         });
 
         it('adds a new topic to the topic array', function () {
-            let oldLength = minute.topics.length;
             minute.upsertTopic(topicDoc);
-            expect(minute.topics).to.have.length(oldLength+1);
+            expect(Meteor.callPromise.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('minutes.addTopic', sinon.match.string, topicDoc));
         });
 
-        it('generates a id for a brand new topic', function() {
-            minute.upsertTopic(topicDoc);
-            expect(minute.topics[0]._id).to.not.be.empty;
-        });
-
-        it('adds a new topic which already has a id', function () {
+        it('adds a new topic which already has an id', function () {
             topicDoc._id = "myId";
             minute.upsertTopic(topicDoc);
-            expect(minute.topics, "size of the topic array should be increased by one").to.have.length(1);
-            expect(minute.topics[0]._id, "the id should not have changed").to.equal(topicDoc._id);
+            expect(Meteor.callPromise.calledOnce).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('minutes.addTopic', topicDoc._id, topicDoc));
         });
 
         it('updates an existing topic correctly', function () {
             topicDoc._id = "myId";
-            minute.upsertTopic(topicDoc);
+            minute.topics.unshift(topicDoc);
             topicDoc.subject = "changedSubject";
             minute.upsertTopic(topicDoc);
             expect(minute.topics, "update an existing topic should not change the size of the topics array").to.have.length(1);

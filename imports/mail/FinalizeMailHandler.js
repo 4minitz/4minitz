@@ -67,7 +67,8 @@ export class FinalizeMailHandler {
             this._minute,
             topics,
             this._minute.parentMeetingSeries(),
-            this._minute.getParticipants(Meteor.users)
+            this._minute.getParticipants(Meteor.users),
+            this._minute.getInformed(Meteor.users)
         );
         mailHandler.send();
     }

@@ -48,20 +48,23 @@ and http://info.meteor.com/blog/full-app-testing-in-meteor
 
 ### End2End Tests
 
-End-to-End tests are stored in directory ```tests/end2end/``` and use the [chimp package](https://chimp.readme.io), which first needs to be installed globally.
+End-to-End tests are stored in directory ```tests/end2end/``` 
+and use the [chimp package](https://chimp.readme.io), 
+which first needs to be installed globally (`sudo npm install -g chimp`).
 Hint: The chimp package needs an installed Chrome browser.
 To run the e2e tests, you need to run the server in "end2end" mode. 
 
     npm run test:end2end:server
 
 This will set some specific e2e settings from ```settings-test-end2end.json```. 
-Then run the chimp tests use once mode or in watch mode with an installed 
+Then run the chimp tests use `once` mode or in `watch` mode with an installed 
 Chrome instance
 
     npm run test:end2end:once
     npm run test:end2end:watch
 
-or run them headless with phantomjs, which is included in our test runner chimp
+or run them headless with phantomjs, 
+which is included in our test runner chimp
 
     npm run test:end2end:headless
 
@@ -85,7 +88,21 @@ Travis-CI. To debug red testcases on Travis-CI, all screenshots are
 uploaded as "artifacts" to our Amazon AWS S3 storage. After a Travis build
 has completed, you can watch all created screenshots via this URL:
 [http://s3files.4minitz.com/4minitz/4minitz](http://s3files.4minitz.com/4minitz/4minitz)
+
  
+## Database Seeding
+ 
+Sometimes it is necessary that there are some test data available in the database. Therefore you can use our
+minutes seeding tool. This tool allows to insert a meeting series with dummy entries. The series contains
+a custom amount of minutes containing a custom amount of topics and items.
+
+Simply execute:
+    
+    npm run fixtures:seed-minutes
+    
+The parameter `--help` displays all command-line options:
+
+    npm run fixtures:seed-minutes -- --help
 
 ## Coding - Where to start
 Our work-horses are the classes in /imports/ (e.g. meetingseries.js, minutes.js).

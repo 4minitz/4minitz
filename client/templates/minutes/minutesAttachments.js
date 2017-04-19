@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
+import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
+
 import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 import { AttachmentsCollection } from '/imports/collections/attachments_private'
@@ -134,21 +136,43 @@ Template.minutesAttachments.events({
             const uploadFilename = e.currentTarget.files[0];
             console.log("Uploading... "+uploadFilename);
             let minObj = new Minutes(_minutesID);
-            Attachment.uploadFile(uploadFilename, minObj, template.currentUpload);
+            Attachment.uploadFile(
+                uploadFilename,
+                minObj,
+                {
+                    onStart: (fileUploadObj) => {
+                        template.currentUpload.set(fileUploadObj);
+                    },
+                    onEnd: (error) => {
+                        if (error) {
+                            ConfirmationDialogFactory.makeErrorDialog(
+                                'Error during upload',
+                                '' + error
+                            ).show();
+                        }
+                        template.currentUpload.set(false);
+                    },
+                    onAbort: () => {
+                        console.log("Upload of attachment was aborted.");
+                        template.currentUpload.set(false);
+                    }
+                }
+            );
         }
     },
 
-    "click #btnDelAttachment": function (evt, tmpl) {
+    "click #btnDelAttachment": function (evt) {
         evt.preventDefault();
         console.log("Remove Attachment: "+this._id);
-        confirmationDialog(
-            /* callback called if user wants to continue */
+
+        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             () => {
                 Meteor.call("attachments.remove", this._id);
             },
-            /* Dialog content */
-            "Do you really want to delete the attachment<br><b>"+this.name+"</b>?"
-        );
+            'Confirm delete',
+            'confirmDeleteAttachment',
+            {name: this.name}
+        ).show();
     },
 
     "click #btnToggleUpload": function (e) {

@@ -5,25 +5,25 @@
 # but you can also edit it by hand.
 
 dispatch:phantomjs-tests@=0.0.5
-accounts-password@1.3.3
+accounts-password@1.3.4
 useraccounts:bootstrap
 meteor-base@1.0.4
 mobile-experience@1.0.4
-mongo@1.1.14
+mongo@1.1.16
 blaze-html-templates@1.0.4
 session@1.1.7
 jquery@1.11.10
-tracker@1.1.1
-logging@1.1.16
+tracker@1.1.2
+logging@1.1.17
 reload@1.1.11
 random@1.0.10
 ejson@1.0.13
 spacebars@1.0.12
-check@1.2.4
-standard-minifier-css@1.3.2
-standard-minifier-js@1.2.1
+check@1.2.5
+standard-minifier-css@1.3.4
+standard-minifier-js@1.2.3
 es5-shim@4.6.15
-ecmascript@0.6.1
+ecmascript@0.6.3
 msavin:mongol
 practicalmeteor:mocha
 alanning:roles
@@ -33,22 +33,23 @@ percolate:migrations
 dispatch:mocha-phantomjs
 sergeyt:typeahead
 email@1.1.18
-http@1.2.10
+http@1.2.12
 markdown@1.0.11
 reactive-var@1.0.11
 natestrauser:select2
 
 felixble:server-templates
-less@2.7.8
+less@2.7.9
 fourseven:scss
 perak:markdown
 rcy:pick-a-color
 meteorhacks:subs-manager
 babrahams:accounts-ldap
-shell-server@0.2.1
+shell-server@0.2.3
 kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
 
 # Important: ostrio:files must be added after accounts package
 ostrio:files
+jagi:astronomy

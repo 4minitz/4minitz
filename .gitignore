@@ -1,10 +1,14 @@
+.DS_Store
 .meteor/local
 .meteor/meteorite
-.idea
+.idea/
+.docker/4minitz_settings.json
+.docker/4minitz_bin
 node_modules
 npm-debug.log
 settings.json
-tests/snapshots
+tests/snapshots/*.png
 tests/mongodump
 tests/e2e_downloads
 public/fonts/glyphicons-halflings-regular.*
+*.json.bak

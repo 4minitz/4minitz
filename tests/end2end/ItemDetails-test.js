@@ -34,6 +34,11 @@ describe('Item Details', function () {
         return aAINameBase + aAICounter;
     };
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("make sure test user is logged in, create series and add minutes", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -50,18 +55,6 @@ describe('Item Details', function () {
             subject: infoItemName,
             itemType: "actionItem"
         }, 1);
-    });
-
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
     });
 
     it('can add details to an Action Item', function() {
@@ -238,8 +231,7 @@ describe('Item Details', function () {
         browser.keys(['Enter']);
         let selector = "select.user-role-select";
         let usrRoleOption = browser.selectByValue(selector, "Invited");
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
 
         E2EApp.loginUser(1);
@@ -270,9 +262,7 @@ describe('Item Details', function () {
         browser.keys(['Enter']);
         let selector = "select.user-role-select";
         let usrRoleOption = browser.selectByValue(selector, "Invited");
-        browser.click("#btnMeetingSeriesSave"); // save & close editor dialog
-        E2EGlobal.waitSomeTime();         // wait for dialog's animation
-
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);

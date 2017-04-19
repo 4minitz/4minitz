@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
+import { MeetingSeries } from './../meetingseries';
+import { Minutes } from './../minutes';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { UserRoles } from "./../userroles";
 import { GlobalSettings } from "./../GlobalSettings"

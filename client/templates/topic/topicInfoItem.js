@@ -1,5 +1,6 @@
 import { ReactiveVar } from 'meteor/reactive-var'
 
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { Minutes } from '/imports/minutes'
 import { Topic } from '/imports/topic'
 import { InfoItemFactory } from '/imports/InfoItemFactory'
@@ -39,6 +40,12 @@ let resizeTextarea = (element) => {
     $(document).scrollTop(scrollPos);
 };
 
+Meteor.sleep = function(ms) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, ms);
+    });
+};
+
 let addNewDetails = async (tmpl) => {
     tmpl.$('#collapse-' + tmpl.data.currentCollapseId).collapse('show');
 
@@ -48,12 +55,15 @@ let addNewDetails = async (tmpl) => {
 
     aItem.addDetails();
     await  aItem.save();
-    let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
-    tmpl.$('.detailRow').find('.detailActions').last().show();
 
-    inputEl.parent().css('margin', '0 0 25px 0');
-    inputEl.show();
-    inputEl.focus();
+    // Defer opening new details editor to give DOM some time for its expand animation
+    Meteor.setTimeout(function () {
+        let inputEl = tmpl.$('.detailRow').find('.detailInput').last().show();
+        tmpl.$('.detailRow').find('.detailActions').last().show();
+        inputEl.parent().css('margin', '0 0 25px 0');
+        inputEl.show();
+        inputEl.focus();
+    }, 250);
 };
 
 
@@ -64,8 +74,8 @@ Template.topicInfoItem.helpers({
             Session.set('topicInfoItem.triggerAddDetailsForItem', null);
             let tmpl = Template.instance();
             Meteor.setTimeout(() => {
-                addNewDetails(tmpl, itemId);
-            }, 300); // we need this delay otherwise the input field will be made hidden immediately
+                addNewDetails(tmpl);
+            }, 1300); // we need this delay otherwise the input field will be made hidden immediately
         }
         // do not return anything! This will be rendered on the page!
         return '';
@@ -120,7 +130,6 @@ Template.topicInfoItem.helpers({
     },
 
     isCollapsed() {
-        console.log("_coll "+Template.instance().isTopicCollapsed.get());
         return Template.instance().isTopicCollapsed.get();
     },
 
@@ -154,17 +163,51 @@ Template.topicInfoItem.events({
 
         let aTopic = createTopic(this.minutesID, this.parentTopicId);
         if (aTopic) {
-            let itemType = (this.infoItem.itemType === "infoItem") ? "information" : "action item";
-            let dialogContent = "<p>Do you really want to delete the " + itemType + " <strong>" + this.infoItem.subject + "</strong>?</p>";
+            let item = aTopic.findInfoItem(this.infoItem._id);
+            let isDeleteAllowed = item.isDeleteAllowed(this.minutesID);
 
-            confirmationDialog(
-                /* callback called if user wants to continue */
-                () => {
-                    aTopic.removeInfoItem(this.infoItem._id)
-                },
-                /* Dialog content */
-                dialogContent
-            );
+            if (item.isSticky() || isDeleteAllowed) {
+                let templateData = {
+                    type: (item.isActionItem()) ? 'action item' : 'information',
+                    isActionItem: item.isActionItem(),
+                    subject: this.infoItem.subject,
+                    deleteAllowed: isDeleteAllowed
+                };
+
+                let title = 'Confirm delete';
+                let button = 'Delete';
+                if (!isDeleteAllowed) {
+                    title = (item.isActionItem()) ? 'Close action item?' : 'Unpin info item?';
+                    button = (item.isActionItem()) ? 'Close action item' : 'Unpin info item';
+                }
+
+                let action = () => {
+                    if (isDeleteAllowed) {
+                        aTopic.removeInfoItem(this.infoItem._id)
+                    } else {
+                        if (item.isActionItem()) item.toggleState();
+                        else item.toggleSticky();
+                        item.save();
+                    }
+                };
+
+                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                    action,
+                    title,
+                    'confirmDeleteItem',
+                    templateData,
+                    button
+                ).show();
+            } else {
+                ConfirmationDialogFactory.makeInfoDialog(
+                    'Cannot delete item',
+                    'It is not possible to delete this item because it was created in a previous minutes.' +
+                        ((item.isActionItem())
+                            ? ' This action item is already closed,'
+                            : ' This info item is already un-pinned') +
+                    ' so it won\'t be copied to the following minutes'
+                ).show();
+            }
         }
     },
 
@@ -209,7 +252,7 @@ Template.topicInfoItem.events({
 
 
     // Keep <a href=...> as clickable links inside detailText markdown
-    'click .detailText a'(evt, tmpl) {
+    'click .detailText a'(evt) {
         evt.stopPropagation();
     },
 
@@ -278,20 +321,17 @@ Template.topicInfoItem.events({
                 };
 
                 let oldText = aActionItem.getDetailsAt(index).text;
-                if (!oldText || oldText === "") {
+                if (!oldText) {
                     // use case: Adding details and leaving the input field without entering any text should go silently.
                     deleteDetails();
                 } else {
                     // otherwise we show an confirmation dialog before the deails will be removed
-                    let subject = aActionItem.getSubject();
-                    let dialogContent = "<p>Do you really want to delete the selected details of the item "
-                                            + `<strong>${subject}</strong>?</p>`;
-                    confirmationDialog(
-                        /* callback called if user wants to continue */
+                    ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                         deleteDetails,
-                        /* Dialog content */
-                        dialogContent
-                    );
+                        'Confirm delete',
+                        'confirmDeleteDetails',
+                        {subject: aActionItem.getSubject()}
+                    ).show();
                 }
             }
         }
@@ -352,42 +392,10 @@ Template.topicInfoItem.events({
     "mousedown .detailInputMarkdownHint"(evt) {
         evt.preventDefault();
         evt.stopPropagation();
-        let staticImgPath = Blaze._globalHelpers.pathForImproved("/");
-        let markDownHint =
-                "<pre># Heading Level 1<br>"+
-                "## Heading Level 2<br>"+
-                "Text in **bold** or *italic* or ***bold-italic***<br>" +
-                "Text in ~~striked~~ or ```code```<br>"+
-                "> This is a quote<br>"+
-                "<br>"+
-                "Direct Link https://www.4minitz.com/<br>" +
-                "or named link to [4Minitz!](https://www.4minitz.com/)<br>"+
-                "<br>"+
-                "Numbered List<br>"+
-                "1. Numbered Item<br>"+
-                "1. Numbered Item<br>"+
-                "<br>"+
-                "Bullet List<br>"+
-                "- Item<br>"+
-                "- Item<br>"+
-                "<br>"+
-                "Image: ![](" + staticImgPath + "loading-gears.gif \"Tooltip Text\")<br>"+
-                "<br>"+
-                "| Tables        | Are           | Cool  |<br>"+
-                "| ------------- |:-------------:| -----:|<br>"+
-                "| col 3 is      | right-aligned | $1600 |<br>"+
-                "| col 2 is      | centered      |   $1 |</pre>" +
-                "" +
-                "Link to <a target='_blank' href='https://guides.github.com/features/mastering-markdown/'>Full Markdown Help</a>";
-
-        confirmationDialog(
-            () => {},
-            markDownHint,
-            "Help for Markdown Syntax",
-            "OK",
-            "btn-info",
-            true
-        );
+        ConfirmationDialogFactory
+            .makeInfoDialog('Help for Markdown Syntax')
+            .setTemplate('markdownHint')
+            .show();
 
     }
 });

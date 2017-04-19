@@ -50,7 +50,7 @@ export class E2EMeetingSeriesEditor {
     static closeMeetingSeriesEditor(save = true) {
         let selector = (save) ? '#btnMeetingSeriesSave' : '#btnMeetinSeriesEditCancel';
         browser.click(selector);
-        E2EGlobal.waitSomeTime(400);
+        E2EGlobal.waitSomeTime(save ? 750 : 300);
     }
 
 

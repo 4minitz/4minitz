@@ -1,7 +1,6 @@
 import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
@@ -43,6 +42,11 @@ describe('ActionItems', function () {
         return actionItemName;
     }
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("make sure test user is logged in, create series and add minutes", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -54,12 +58,6 @@ describe('ActionItems', function () {
 
         aTopicName = getNewTopicName();
         E2ETopics.addTopicToMinutes(aTopicName);
-    });
-
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
     });
 
     it('can add an info item', function () {
@@ -80,6 +78,30 @@ describe('ActionItems', function () {
         let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
+    });
+
+    it('can edit an existing action item', function() {
+        let topicIndex = 1;
+        const actionItemName = getNewAIName();
+        const updatedActionItemName = actionItemName + ' CHANGED!';
+
+        E2ETopics.addInfoItemToTopic({
+            subject: actionItemName,
+            itemType: "actionItem",
+            responsible: "user1"
+        }, topicIndex);
+
+        E2EGlobal.waitSomeTime();
+
+        E2ETopics.editInfoItemForTopic(topicIndex, 1, {subject: updatedActionItemName});
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
+
+        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+
+        expect(actionItemExpandElementText, "AI text should have changed").to.have.string(updatedActionItemName);
     });
 
     it('can add an action item by pressing enter in the topic field', function () {

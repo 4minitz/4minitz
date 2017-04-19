@@ -1,11 +1,47 @@
-import { Minutes } from '/imports/minutes'
-import { Topic } from '/imports/topic'
-import { InfoItem } from '/imports/infoitem'
+import { Minutes } from '/imports/minutes';
+import { Topic } from '/imports/topic';
+import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
+import { FlashMessage } from '../../helpers/flashMessage';
 
 let _minutesId;
 
+let onError = (error) => {
+    (new FlashMessage('Error', error.reason)).show();
+};
+
+let updateItemSorting = (evt, ui) => {
+    let item = ui.item,
+        sorting = item.parent().find('> .topicInfoItem'),
+        topic = new Topic(_minutesId, item.attr('data-parent-id')),
+        newItemSorting = [];
+
+    for (let i = 0; i < sorting.length; ++i) {
+        let itemId = $(sorting[i]).attr('data-id');
+        let item = topic.findInfoItem(itemId);
+
+        newItemSorting.push(item.getDocument());
+    }
+
+    topic.setItems(newItemSorting);
+    topic.save().catch(error => {
+        $('.itemPanel').sortable( "cancel" );
+        onError(error)
+    });
+};
+
 Template.topicElement.onCreated(function () {
     _minutesId = Template.instance().data.minutesID;
+
+    $(document).arrive('.itemPanel', () => {
+        $('.itemPanel').sortable({
+            appendTo: document.body,
+            axis: 'y',
+            opacity: 0.5,
+            disabled: false,
+            handle: '.itemDragDropHandle',
+            update: updateItemSorting
+        });
+    });
 });
 
 Template.topicElement.helpers({
@@ -89,16 +125,35 @@ Template.topicElement.events({
 
         let aMin = new Minutes(this.minutesID);
 
-        let dialogContent = "<p>Do you really want to delete the topic <strong>" + this.topic.subject + "</strong>?</p>";
+        let topic = new Topic(this.minutesID, this.topic);
+        const deleteAllowed = topic.isDeleteAllowed();
 
-        confirmationDialog(
-            /* callback called if user wants to continue */
-            () => {
-                aMin.removeTopic(this.topic._id);
-            },
-            /* Dialog content */
-            dialogContent
-        );
+        if (!topic.isClosedAndHasNoOpenAIs() || deleteAllowed) {
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                () => {
+                    if (deleteAllowed) {
+                        aMin.removeTopic(this.topic._id).catch(onError);
+                    } else {
+                        topic.closeTopicAndAllOpenActionItems().catch(onError);
+                    }
+                },
+                deleteAllowed ? 'Confirm delete' : 'Close topic?',
+                'confirmDeleteTopic',
+                {
+                    deleteAllowed: topic.isDeleteAllowed(),
+                    hasOpenActionItems: topic.hasOpenActionItem(),
+                    subject: topic.getSubject()
+                },
+                deleteAllowed ? 'Delete' : 'Close topic and actions'
+            ).show();
+        } else {
+            ConfirmationDialogFactory.makeInfoDialog(
+                'Cannot delete topic',
+                'It is not possible to delete this topic because it was created in a previous minutes. ' +
+                'The selected topic is already closed and has no open action items, so it won\'t be copied to the ' +
+                'following minutes'
+            ).show();
+        }
     },
 
     'click .btnToggleState'(evt) {
@@ -109,9 +164,7 @@ Template.topicElement.events({
 
         console.log("Toggle topic state ("+this.topic.isOpen+"): "+this.topic._id+" from minutes "+this.minutesID);
         let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            aTopic.toggleState();
-        }
+        aTopic.toggleState().catch(onError);
     },
 
     'click .js-toggle-recurring'(evt) {
@@ -125,10 +178,8 @@ Template.topicElement.events({
         }
 
         let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            aTopic.toggleRecurring();
-            aTopic.save();
-        }
+        aTopic.toggleRecurring();
+        aTopic.save().catch(onError);
     },
 
     'click #btnEditTopic'(evt) {

@@ -1,5 +1,7 @@
 import moment from 'moment/moment';
 
+import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
+
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -13,20 +15,26 @@ import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
 
-var _minutesID; // the ID of these minutes
+let _minutesID; // the ID of these minutes
 
 /**
  *
  * @type {FlashMessage}
  */
-var orphanFlashMessage = null;
+let orphanFlashMessage = null;
+
+let filterClosedTopics = new ReactiveVar(false);
+
+let onError = (error) => {
+    (new FlashMessage('Error', error.reason)).show();
+};
 
 /**
  * togglePrintView
  * Prepares the DOM view for printing - on and off
  * @param switchOn - optional (if missing, function toggles on <=> off)
  */
-var togglePrintView = function (switchOn) {
+let togglePrintView = function (switchOn) {
     if (switchOn === undefined) {   // toggle on <=> off
         Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
     } else {
@@ -62,12 +70,12 @@ var togglePrintView = function (switchOn) {
 
 // Automatically restore view after printing
 (function() {
-    var afterPrint = function() {
+    let afterPrint = function() {
         togglePrintView(false);
     };
 
     if (window.matchMedia) {
-        var mediaQueryList = window.matchMedia('print');
+        let mediaQueryList = window.matchMedia('print');
         mediaQueryList.addListener(function(mql) {
             if (! mql.matches) {
                 afterPrint();
@@ -137,17 +145,17 @@ Template.minutesedit.onDestroyed(function() {
     handleTemplatesGlobalKeyboardShortcuts(false);
 });
 
-var isMinuteFinalized = function () {
+let isMinuteFinalized = function () {
     let aMin = new Minutes(_minutesID);
     return (aMin && aMin.isFinalized);
 };
 
-var isModerator = function () {
+let isModerator = function () {
     let aMin = new Minutes(_minutesID);
     return (aMin && aMin.isCurrentUserModerator());
 };
 
-var toggleTopicSorting = function () {
+let toggleTopicSorting = function () {
     let topicList = $('#topicPanel'),
         isFinalized = isMinuteFinalized();
 
@@ -160,7 +168,7 @@ var toggleTopicSorting = function () {
     }
 };
 
-var updateTopicSorting = function () {
+let updateTopicSorting = function () {
     let sorting = $('#topicPanel').find('> div.well'),
         minute = new Minutes(_minutesID),
         newTopicSorting = [];
@@ -172,17 +180,20 @@ var updateTopicSorting = function () {
         newTopicSorting.push(topic);
     }
 
-    minute.update({topics: newTopicSorting});
+    minute.update({topics: newTopicSorting}).catch(error => {
+        $('#topicPanel').sortable( "cancel" );
+        onError(error);
+    });
 };
 
 
-var openPrintDialog = function () {
-    var ua = navigator.userAgent.toLowerCase();
-    var isAndroid = ua.indexOf("android") > -1;
+let openPrintDialog = function () {
+    let ua = navigator.userAgent.toLowerCase();
+    let isAndroid = ua.indexOf("android") > -1;
 
     if (isAndroid) {
         // https://developers.google.com/cloud-print/docs/gadget
-        var gadget = new cloudprint.Gadget();
+        let gadget = new cloudprint.Gadget();
         gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
         gadget.openPrintDialog();
     } else {
@@ -190,8 +201,8 @@ var openPrintDialog = function () {
     }
 };
 
-var sendActionItems = true;
-var sendInformationItems = true;
+let sendActionItems = true;
+let sendInformationItems = true;
 
 Template.minutesedit.helpers({
     authenticating() {
@@ -332,7 +343,11 @@ Template.minutesedit.helpers({
 
     getTopicsListConfig: function() {
         let aMin = new Minutes(_minutesID);
-        return new TopicListConfig(aMin.topics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
+        let filteredTopics = aMin.topics;
+        if (filterClosedTopics.get()){
+            filteredTopics = aMin.topics.filter((topic) => topic.isOpen);
+        }
+        return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
     mobileButton() {
@@ -355,6 +370,20 @@ Template.minutesedit.helpers({
     showQuickHelp: function() {
         const user = new User();
         return user.getSetting(userSettings.showQuickHelp.meeting, true);
+    },
+
+    minutesPath: function(minutesId) {
+        return Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  minutesId });
+    },
+    
+    previousMinutes : function() {
+        let aMin = new Minutes(_minutesID);
+        return aMin.previousMinutes();
+    },
+    
+    nextMinutes : function() {
+        let aMin = new Minutes(_minutesID);
+        return aMin.nextMinutes();
     }
 });
 
@@ -364,178 +393,178 @@ Template.minutesedit.events({
         user.storeSetting(userSettings.showQuickHelp.meeting, false);
     },
 
+    "click #checkHideClosedTopics": function(evt) {
+        let isChecked = evt.target.checked;
+        filterClosedTopics.set(isChecked);
+    },
+
     "dp.change #id_minutesdatePicker": function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            if (aMin.isFinalized || ! aMin.isCurrentUserModerator()) {
-                // event will be called on page load
-                // if the meeting is already finalized ...
-                // or the current user is not a moderator ...
-                // nothing has to be updated
-                return;
-            }
-
-            let dateNode = tmpl.$("#id_minutesdateInput");
-            let aDate = tmpl.find("#id_minutesdateInput").value;
-
-
-            dateNode.parent().removeClass("has-error");
-            if (!aMin.parentMeetingSeries().isMinutesDateAllowed(aMin._id, aDate)) {
-                dateNode.parent().addClass("has-error");
-                tmpl.find("#id_minutesdateInput").value = aMin.date;
-                return;
-            }
-
-            aMin.update({date: aDate});
+        if (aMin.isFinalized || ! aMin.isCurrentUserModerator()) {
+            // event will be called on page load
+            // if the meeting is already finalized ...
+            // or the current user is not a moderator ...
+            // nothing has to be updated
+            return;
         }
+
+        let dateNode = tmpl.$("#id_minutesdateInput");
+        let aDate = tmpl.find("#id_minutesdateInput").value;
+
+
+        dateNode.parent().removeClass("has-error");
+        if (!aMin.parentMeetingSeries().isMinutesDateAllowed(aMin._id, aDate)) {
+            dateNode.parent().addClass("has-error");
+            tmpl.find("#id_minutesdateInput").value = aMin.date;
+            return;
+        }
+
+        aMin.update({date: aDate}).catch(onError);
     },
 
     "change #editGlobalNotes" (evt, tmpl) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            let globalNote = tmpl.find("#editGlobalNotes").value;
-            aMin.update({globalNote: globalNote});
-        }
+        let globalNote = tmpl.find("#editGlobalNotes").value;
+        aMin.update({globalNote: globalNote}).catch(onError);
     },
 
     'click #btn_sendAgenda': async function(evt, tmpl) {
         evt.preventDefault();
         let sendBtn = tmpl.$("#btn_sendAgenda");
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            console.log("Send agenda: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+        console.log("Send agenda: " + aMin._id + " from series: " + aMin.meetingSeries_id);
 
-            let sendAgenda = async () => {
-                sendBtn.prop('disabled', true);
-                try {
-                    let result = await aMin.sendAgenda();
-                    let message = "Agenda was sent to " + result + " recipients successfully";
-                    (new FlashMessage('OK', message, 'alert-success')).show();
-                } catch (error) {
-                    (new FlashMessage('Error', error.reason)).show();
-                }
-                sendBtn.prop('disabled', false);
-            };
-
-            if (aMin.getAgendaSentAt()) {
-                let date = aMin.getAgendaSentAt();
-
-                let dialogContent = "<p>Do you really want to sent the agenda for this meeting minute dated on <strong>"
-                    + aMin.date + "</strong>?<br>"
-                    + "It was already sent on " + formatDateISO8601(date) + " at " + date.getHours() + ":" + date.getMinutes() + "</p>";
-
-
-                confirmationDialog(
-                    /* callback called if user wants to continue */
-                    sendAgenda,
-                    /* Dialog content */
-                    dialogContent,
-                    "Confirm sending agenda",
-                    "Send Agenda",
-                    "btn-success"
-                );
-            } else {
-                await sendAgenda();
+        let sendAgenda = async () => {
+            sendBtn.prop('disabled', true);
+            try {
+                let result = await aMin.sendAgenda();
+                let message = "Agenda was sent to " + result + " recipients successfully";
+                (new FlashMessage('OK', message, 'alert-success')).show();
+            } catch (error) {
+                onError(error);
             }
+            sendBtn.prop('disabled', false);
+        };
+
+        if (aMin.getAgendaSentAt()) {
+            let date = aMin.getAgendaSentAt();
+            console.log(date);
+
+            ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                sendAgenda,
+                'Confirm sending agenda',
+                'confirmSendAgenda',
+                {
+                    minDate: aMin.date,
+                    agendaSentDate: moment(date).format('YYYY-MM-DD'),
+                    agendaSentTime: moment(date).format('h:mm')
+                },
+                'Send Agenda'
+            ).show();
+        } else {
+            await sendAgenda();
         }
     },
 
     'click #btn_finalizeMinutes': function(evt, tmpl) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+        console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
 
-            let doFinalize = function () {
+        let doFinalize = function () {
+            tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
+            let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
+            // Force closing the dialog before starting the finalize process
+            Meteor.setTimeout(() => {
+                aMin.finalize(sendActionItems, sendInformationItems);
                 tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
-                let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
-                // Force closing the dialog before starting the finalize process
-                Meteor.setTimeout(() => {
-                    aMin.finalize(sendActionItems, sendInformationItems);
-                    tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
-                    msg.replace('OK', 'This meeting minutes were successfully finalized', 'alert-success', 3000);
-                    toggleTopicSorting();
-                    Session.set("participants.expand", false);
-                }, 500);
-            };
+                msg.replace('OK', 'This meeting minutes were successfully finalized', 'alert-success', 3000);
+                toggleTopicSorting();
+                Session.set("participants.expand", false);
+            }, 500);
+        };
 
-            if (GlobalSettings.isEMailDeliveryEnabled()) { // only show confirmation Dialog, if mails can be sent.
-
-                let dialogContent = "<p>Do you really want to finalize this meeting minute dated on <strong>" + aMin.date + "</strong>?";
-                if (aMin.hasOpenActionItems()) {
-                    dialogContent += "<div class='checkbox form-group'><label for='cbSendAI'><input id='cbSendAI' type='checkbox' class='checkbox' " + ((sendActionItems) ? "checked" : "") + "> send action items</label></div>";
-                }
-                dialogContent +=
-                      "<div class='checkbox form-group'><label for='cbSendII'><input id='cbSendII' type='checkbox' class='checkbox' " + ((sendInformationItems) ? "checked" : "") + "> send information items</label></div>"
-                    + "</p>";
-
-                confirmationDialog(
-                    /* callback called if user wants to continue */
+        let processFinalize = function(){
+            if (GlobalSettings.isEMailDeliveryEnabled()) {
+                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
-                    /* Dialog content */
-                    dialogContent,
-                    "Confirm finalize minute",
-                    "Finalize",
-                    "btn-success"
-                );
+                    'Confirm finalize minutes',
+                    'confirmationDialogFinalize',
+                    {
+                        minutesDate: aMin.date,
+                        hasOpenActionItems: aMin.hasOpenActionItems(),
+                        sendActionItems: (sendActionItems) ? 'checked' : '',
+                        sendInformationItems: (sendInformationItems) ? 'checked' : ''
+                    },
+                    'Finalize'
+                ).show();
             } else {
                 doFinalize();
             }
+        };
 
+        let noParticipantsPresent = true;
+        aMin.participants.forEach(p => {if(p.present == true) noParticipantsPresent = false;});
+
+        if(noParticipantsPresent == true){
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                processFinalize,
+                'Proceed without participants',
+                'confirmationDialogProceedWithoutPresentParticipants',
+                {},
+                'Proceed'
+            ).show();
+        }
+        else {
+            processFinalize();
         }
     },
 
     'click #btn_unfinalizeMinutes': function(evt) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            console.log("Un-Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
-            aMin.unfinalize();
+        console.log("Un-Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+        aMin.unfinalize();
 
-            toggleTopicSorting();
-            Session.set("participants.expand", true);
-        }
+        toggleTopicSorting();
+        Session.set("participants.expand", true);
     },
 
     'click #btn_deleteMinutes': function(evt) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
+        console.log("Remove Meeting Minute " + this._id + " from Series: " + this.meetingSeries_id);
 
-            console.log("Remove Meeting Minute " + this._id + " from Series: " + this.meetingSeries_id);
+        let deleteMinutesCallback = () => {
+            let ms = new MeetingSeries(aMin.meetingSeries_id);
+            // first route to the parent meetingseries then remove the minute.
+            // otherwise the current route would automatically re-routed to the main page because the
+            // minute is not available anymore -> see router.js
+            FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
+            ms.removeMinutesWithId(aMin._id).catch(onError);
+        };
 
-            let dialogContent = "<p>Do you really want to delete this meeting minute dated on <strong>" + aMin.date + "</strong>?</p>";
-            let newTopicsCount = aMin.getNewTopics().length;
-            if (newTopicsCount > 0) {
-                dialogContent += "<p>This will remove <strong>" + newTopicsCount
-                    + " Topics</strong>, which were created within this minute.</p>";
-            }
-            let closedOldTopicsCount = aMin.getOldClosedTopics().length;
-            if (closedOldTopicsCount > 0) {
-                let additionally = (newTopicsCount > 0) ? "Additionally " : "";
-                dialogContent += "<p>" + additionally + "<strong>" + closedOldTopicsCount
-                    + " topics</strong> will be opened again, which were closed whithin this minute.</p>"
-            }
+        let newTopicsCount = aMin.getNewTopics().length;
+        let closedOldTopicsCount = aMin.getOldClosedTopics().length;
 
-            confirmationDialog(
-                /* callback called if user wants to continue */
-                () => {
-                    let ms = new MeetingSeries(aMin.meetingSeries_id);
-                    // first route to the parent meetingseries then remove the minute.
-                    // otherwise the current route would automatically re-routed to the main page because the
-                    // minute is not available anymore -> see router.js
-                    FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
-                    ms.removeMinutesWithId(aMin._id);
-                },
-                /* Dialog content */
-                dialogContent
-            );
+        let tmplData = {
+            minutesDate: aMin.date,
+            hasNewTopics: (newTopicsCount > 0),
+            newTopicsCount: newTopicsCount,
+            hasClosedTopics: (closedOldTopicsCount > 0),
+            closedTopicsCount: closedOldTopicsCount
+        };
 
-        }
+        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+            deleteMinutesCallback,
+            'Confirm delete',
+            'confirmationDialogDeleteMinutes',
+            tmplData
+        ).show();
     },
 
-    "click #btnCollapseAll": function (evt, tmpl) {
+    "click #btnCollapseAll": function () {
         let aMin = new Minutes(_minutesID);
         let sessionCollapse = {};
         for (let topicIndex in aMin.topics) {
@@ -545,7 +574,7 @@ Template.minutesedit.events({
         Session.set("minutesedit.collapsetopics."+_minutesID, sessionCollapse);
     },
 
-    "click #btnExpandAll": function (evt, tmpl) {
+    "click #btnExpandAll": function () {
         Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
     },
 

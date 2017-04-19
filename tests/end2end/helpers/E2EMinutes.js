@@ -1,6 +1,7 @@
 import { E2EGlobal } from './E2EGlobal'
 import { E2EApp } from './E2EApp'
 import { E2EMeetingSeries } from './E2EMeetingSeries'
+import {E2EMinutesParticipants} from './E2EMinutesParticipants'
 
 
 export class E2EMinutes {
@@ -33,6 +34,8 @@ export class E2EMinutes {
      *                      default: true
      */
     static finalizeCurrentMinutes (confirmDialog) {
+        let participantsInfo = new E2EMinutesParticipants();
+        participantsInfo.setUserPresence(E2EApp.getCurrentUser(),true);
         browser.waitForVisible("#btn_finalizeMinutes");
         browser.click("#btn_finalizeMinutes");
         if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
@@ -40,7 +43,34 @@ export class E2EMinutes {
                 E2EApp.confirmationDialogAnswer(true);
             }
         }
-};
+        E2EGlobal.waitSomeTime(1000);
+    };
+
+    /**
+     * Finalizes the current minute, when no participants present
+     *
+     * @param confirmDialog should the dialog be confirmed automatically
+     *                      default: true
+     *        processFinalize is true, when you want to proceed finalizing Minutes without participants
+     */
+    static finalizeCurrentMinutesWithoutParticipants (confirmDialog, processFinalize) {
+        browser.waitForVisible("#btn_finalizeMinutes");
+        browser.click("#btn_finalizeMinutes");
+        if(processFinalize == true) {
+            browser.waitForVisible("#confirmationDialogOK");
+            browser.click("#confirmationDialogOK");
+            if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
+                if (confirmDialog === undefined || confirmDialog) {
+                    E2EApp.confirmationDialogAnswer(true);
+                }
+            }
+            E2EGlobal.waitSomeTime(1000);
+        }
+        else {
+            browser.waitForVisible("#confirmationDialogCancel");
+            browser.click("#confirmationDialogCancel");
+        }
+    };
 
 
     static  unfinalizeCurrentMinutes () {
@@ -137,6 +167,7 @@ export class E2EMinutes {
             return false;
         }
         browser.click(selector);
+        E2EGlobal.waitSomeTime();
     }
 }
 

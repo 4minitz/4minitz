@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Minutes } from '/imports/minutes'
@@ -16,6 +17,21 @@ let isModeratorOfParentSeries = function (userId) {
     return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
 };
 
+let userNameForId = function (userId) {
+    let usr = Meteor.users.findOne(userId);
+    if (usr) {
+        let showName = usr.username;
+        // If we have a long name for the user: prepend it!
+        if (usr.profile && usr.profile.name && usr.profile.name !== "") {
+            showName = usr.profile.name + " ("+showName+")";
+        }
+        return showName;
+
+    } else {
+        return "Unknown User ("+userId+")";
+    }
+};
+
 
 Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
@@ -29,19 +45,8 @@ Template.minutesEditParticipants.onCreated(function() {
 });
 
 Template.minutesEditParticipants.helpers({
-    userNameForId (userId) {
-        let usr = Meteor.users.findOne(userId);
-        if (usr) {
-            let showName = usr.username;
-            // If we have a long name for the user: prepend it!
-            if (usr.profile && usr.profile.name && usr.profile.name !== "") {
-                showName = usr.profile.name + " ("+showName+")";
-            }
-            return showName;
-
-        } else {
-            return "Unknown User ("+userId+")";
-        }
+    getUserDisplayName (userId) {
+        return userNameForId(userId);
     },
 
     isModeratorOfParentSeries (userId) {
@@ -83,6 +88,23 @@ Template.minutesEditParticipants.helpers({
         if (! Session.get("global.isMobileWidth")) {
             return "padding-left: 1.5em;";
         }
+    },
+
+    hasInformedUsers() {
+        let aMin = new Minutes(_minutesID);
+        return (aMin.informedUsers && aMin.informedUsers.length > 0);
+    },
+
+    getInformedUsers() {
+        let aMin = new Minutes(_minutesID);
+        let informedNames = "";
+        if (aMin.informedUsers && aMin.informedUsers.length > 0) {
+            aMin.informedUsers.forEach(id => {
+                informedNames = informedNames + userNameForId(id) + ", ";
+            });
+            informedNames = informedNames.slice(0, -2); // remove last ", "
+        }
+        return informedNames;
     }
 });
 
@@ -97,11 +119,9 @@ Template.minutesEditParticipants.events({
     "change #edtParticipantsAdditional" (evt, tmpl) {
         console.log("Trigger!");
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            console.log("   Min!");
-            let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
-            aMin.update({participantsAdditional: theParticipant});
-        }
+        console.log("   Min!");
+        let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
+        aMin.update({participantsAdditional: theParticipant});
     },
 
     "click #btnParticipantsExpand" () {

@@ -37,7 +37,8 @@ export class E2EMeetingSeries {
 
     static createMeetingSeries (aProj, aName, keepOpenMSEditor, switchInput) {
         this.editMeetingSeriesForm(aProj, aName,  switchInput);
-            
+        E2EGlobal.waitSomeTime();
+
         browser.click('#btnAddInvite');
         E2EGlobal.waitSomeTime(500);  // double time for dialog + panel switch!
 
@@ -111,6 +112,7 @@ export class E2EMeetingSeries {
             return false;   // we have no meeting series at all!
         }
         browser.click(selector);
+        E2EGlobal.waitSomeTime();
     }
 
     static gotoTabItems() {
@@ -121,15 +123,6 @@ export class E2EMeetingSeries {
             return false;   // we have no meeting series at all!
         }
         browser.click(selector);
-    }
-
-    static gotoTabItems() {
-        let selector = '#tab_items';
-        try {
-            browser.waitForExist(selector);
-        } catch (e) {
-            return false;   // we have no meeting series at all!
-        }
-        browser.click(selector);
+        E2EGlobal.waitSomeTime();
     }
 }

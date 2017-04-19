@@ -10,6 +10,11 @@ describe('Routing', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
+    before("reload page and reset app", function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
@@ -20,18 +25,13 @@ describe('Routing', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
     });
 
-    before("reload page", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.launchApp();
-        }
+    after("clear database and login user", function () {
+        E2EApp.launchApp();
+        E2EApp.loginUser();
+        expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    after("clear database", function () {
-        if (E2EGlobal.browserIsPhantomJS()) {
-            E2EApp.resetMyApp(true);
-        }
-    });
-
+    
     it('ensures that following a URL to a meeting series will relocate to the requested series after sign-in', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         const url = browser.getUrl();
@@ -65,4 +65,32 @@ describe('Routing', function () {
         expect(headerText).to.have.string("Minutes for " + aProjectName);
     });
 
+
+    it('ensures that "legal notice" route shows expected text', function () {
+        expect(browser.isVisible("div#divLegalNotice"), "legal notice should be invisible").to.be.false;
+        browser.keys(['Escape']);   // close eventually open modal dialog
+        E2EGlobal.waitSomeTime();
+
+        // Force to switch route
+        browser.url(E2EGlobal.SETTINGS.e2eUrl+"/legalnotice");
+        expect(browser.getUrl(), "on 'legal notice' route").to.contain("/legalnotice");
+        expect(browser.isVisible("div#divLegalNotice"), "legal notice should be visible").to.be.true;
+        expect(browser.getText("div#divLegalNotice"), "check text in legal notice route")
+            .to.contain("THE DEMO SERVICE AVAILABLE VIA");
+    });
+
+
+    it('ensures that "legal notice" route is reachable on login screen via About dialog', function () {
+        E2EGlobal.waitSomeTime(1500);
+        browser.keys(['Escape']);   // close open edit meeting series dialog
+        E2EGlobal.waitSomeTime();
+        E2EApp.logoutUser();
+
+        // open about dialog and trigger legal notice link
+        expect(browser.getUrl(), "on normal route").not.to.contain("/legalnotice");
+        browser.click("#btnAbout");
+        E2EGlobal.waitSomeTime();
+        browser.click("#btnLegalNotice");
+        expect(browser.getUrl(), "on 'legal notice' route").to.contain("/legalnotice");
+    });
 });

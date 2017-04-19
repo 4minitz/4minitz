@@ -3,11 +3,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries'
-import { Minutes } from '/imports/minutes'
 import { UserRoles } from '/imports/userroles'
 import { User, userSettings } from '/imports/users'
 
-import { TopicListConfig } from '../topic/topicsList'
 import { TabItemsConfig } from './tabItems'
 import { TabTopicsConfig } from './tabTopics'
 
@@ -15,28 +13,43 @@ import { TabTopicsConfig } from './tabTopics'
 let _meetingSeriesID;   // the parent meeting object of this minutes
 
 Template.meetingSeriesDetails.onCreated(function () {
+    this.seriesReady = new ReactiveVar();
+
     this.autorun(() => {
         _meetingSeriesID = FlowRouter.getParam('_id');
         this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
 
-        let usrRoles = new UserRoles();
-        if (!usrRoles.hasViewRoleFor(_meetingSeriesID)) {
-            FlowRouter.go('/');
-        }
+        let subscriptionHandle = this.subscribe('meetingSeries', _meetingSeriesID);
+
+        this.seriesReady.set(subscriptionHandle.ready());
     });
 
-    this.activeTabTemplate = new ReactiveVar("minutesList");
+    this.activeTabTemplate = new ReactiveVar("tabMinutesList");
     this.activeTabId = new ReactiveVar("tab_minutes");
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
     if (this.showSettingsDialog) {
         Session.set("meetingSeriesEdit.showUsersPanel", true);
-        $('#dlgEditMeetingSeries').modal('show');
+
+        // Defer opening the meeting series settings dialog after rendering of the template
+        window.setTimeout(function () {
+            $('#dlgEditMeetingSeries').modal('show');
+        }, 500);
     }
 });
 
 Template.meetingSeriesDetails.helpers({
+    authenticating() {
+        const subscriptionReady = Template.instance().seriesReady.get();
+        return Meteor.loggingIn() || !subscriptionReady;
+    },
+    redirectIfNotAllowed() {
+        let usrRoles = new UserRoles();
+        if (!usrRoles.hasViewRoleFor(_meetingSeriesID)) {
+            FlowRouter.go('/');
+        }
+    },
     meetingSeries: function() {
         return new MeetingSeries(_meetingSeriesID);
     },
@@ -65,7 +78,7 @@ Template.meetingSeriesDetails.helpers({
         let ms = new MeetingSeries(_meetingSeriesID);
 
         switch (tab) {
-            case "minutesList":
+            case "tabMinutesList":
                 return {
                     minutes: ms.getAllMinutes(),
                     meetingSeriesId: _meetingSeriesID
@@ -97,7 +110,7 @@ Template.meetingSeriesDetails.events({
         user.storeSetting(userSettings.showQuickHelp.meetingSeries, false);
     },
     "click .nav-tabs li": function(event, tmpl) {
-        var currentTab = $(event.target).closest("li");
+        let currentTab = $(event.target).closest("li");
 
         tmpl.activeTabId.set(currentTab.attr('id'));
         tmpl.activeTabTemplate.set(currentTab.data("template"));
