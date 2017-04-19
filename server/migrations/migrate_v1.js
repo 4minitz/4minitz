@@ -1,8 +1,6 @@
 import { MinutesCollection } from '/imports/collections/minutes_private';
 import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
-import { formatDateISO8601 } from '/lib/helpers';
-
-console.log('formatdate', formatDateISO8601);
+import { formatDateISO8601, currentDatePlusDeltaDays } from '/lib/helpers';
 
 export class MigrateV1 {
 

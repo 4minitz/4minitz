@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { formatDateISO8601, subElementsHelper } from '../../../lib/helpers';
+import { formatDateISO8601, subElementsHelper, currentDatePlusDeltaDays } from '../../../lib/helpers';
 
 describe('formatDateISO8601 helper', function () {
     it('formats date to string', function () {
