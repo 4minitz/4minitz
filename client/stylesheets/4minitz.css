@@ -26,9 +26,22 @@
     padding: 5px;
 }
 
+.panel-dropper:link {
+    color: grey;
+}
+.panel-dropper:hover {
+    color: teal;
+}
+
+
 .panel-link:hover, .panel-link:link {
     color: inherit;
 }
+
+.panel-menu:hover {
+    background: #eee !important;
+}
+
 
 /* highlight active nav-tabs item */
 ul.nav-tabs {
@@ -121,12 +134,20 @@ a:focus {
     text-decoration: none;
 }
 
+.dragDropHandle {
+    color: grey;
+}
+
+.dragDropHandle:link {
+    color: grey;
+}
 
 .dragDropHandle:hover {
     cursor: move; /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
+    color: black;
 }
 
 /* (Optional) Apply a "closed-hand" cursor during drag operation. */

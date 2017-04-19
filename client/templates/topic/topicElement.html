@@ -30,22 +30,53 @@
                 <!-- Manipulation Menu Icons -->
                 <span class="pull-right pull-right-icons hidden-print">
                     {{#if isEditable}}
-                        <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link" data-toggle="modal" data-target="#dlgAddInfoItem" title="Add item to topic">
-                            <span class="glyphicon glyphicon-plus"></span>
+                        <a href="#" class="panel-dropper dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-option-vertical"></span>
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link panel-menu"
+                                   data-toggle="modal" data-target="#dlgAddInfoItem" title="Add info item to topic">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Add Info Item
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link panel-menu"
+                                   data-toggle="modal" data-target="#dlgAddInfoItem" title="Add action item to topic">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Add Action Item
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a id="btnEditTopic" href="#" class="panel-link panel-menu" title="Edit topic">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    Edit Topic
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="js-toggle-recurring panel-link panel-menu" title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
+                                    <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
+                                    Set Recurring
+                                </a>
+                            </li>
+                            <li>
+                                <a id="btnDelTopic" href="#" class="panel-link panel-menu" title="Delete topic">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Delete Topic
+                                </a>
+                            </li>
+                        </ul>
                     {{/if}}
-                    {{#if showRecurringIcon}}
-                        <a href="#" class="js-toggle-recurring panel-link" title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
+
+
+                    {{#if topic.isRecurring}}
+                        <a href="#" class="js-toggle-recurring panel-link" title="Set as not-recurring topic">
                             <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                         </a>
                     {{/if}}
                     {{#if isEditable}}
-                        <!--<a id="btnEditTopic" href="#" data-toggle="modal" data-target="#dlgAddTopic" class="panel-link" title="Edit topic">-->
-                            <!--<span class="glyphicon glyphicon-pencil"></span>-->
-                        <!--</a>-->
-                        <a id="btnDelTopic" href="#" class="panel-link" title="Delete topic">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </a>
                         <span class="topicDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
                     {{/if}}
                 </span>
