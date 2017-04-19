@@ -74,7 +74,7 @@ Template.topicInfoItem.helpers({
             Session.set('topicInfoItem.triggerAddDetailsForItem', null);
             let tmpl = Template.instance();
             Meteor.setTimeout(() => {
-                addNewDetails(tmpl, itemId);
+                addNewDetails(tmpl);
             }, 1300); // we need this delay otherwise the input field will be made hidden immediately
         }
         // do not return anything! This will be rendered on the page!
