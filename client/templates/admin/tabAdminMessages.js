@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private';
+import { formatDateISO8601Time } from '/lib/helpers';
 
 Template.tabAdminMessages.onCreated(function() {
     //add your statement here
@@ -27,7 +28,7 @@ Template.tabAdminMessages.helpers({
     },
 
     "formatTimeStamp": function (date) {
-        return global.formatDateISO8601Time(date);
+        return formatDateISO8601Time(date);
     }
 });
 
