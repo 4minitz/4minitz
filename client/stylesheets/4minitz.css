@@ -33,12 +33,16 @@
     color: teal;
 }
 
+.panel-link {
+    padding: 0.5em 0 !important;
+    margin-left: 0;
+}
 
 .panel-link:hover, .panel-link:link {
     color: inherit;
 }
 
-.panel-menu:hover {
+.panel-link:hover {
     background: #eee !important;
 }
 
@@ -71,7 +75,7 @@ a:focus {
 /* .panel-heading sets the default background which can only be
    overwritten with the !important flag  */
 .panel-heading.actionitem-open {
-    background-color: #77CCCC !important;
+    background-color: #88dddd !important;
 }
 
 .panel-heading.actionitem-closed {
@@ -197,4 +201,10 @@ input.pick-a-color {
 
 .align-with-input {
     bottom: -25px;
+}
+
+/* used to indent topic content like infoitems / action items */
+.leftIndent {
+    margin-left: 20px;
+    padding-left: 5px;
 }

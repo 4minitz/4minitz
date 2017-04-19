@@ -35,14 +35,14 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link panel-menu"
+                                <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link"
                                    data-toggle="modal" data-target="#dlgAddInfoItem" title="Add info item to topic">
                                     <span class="glyphicon glyphicon-info-sign"></span>
                                     Add Info Item
                                 </a>
                             </li>
                             <li>
-                                <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicActionItem panel-link panel-menu"
+                                <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicActionItem panel-link"
                                    data-toggle="modal" data-target="#dlgAddInfoItem" title="Add action item to topic">
                                     <span class="glyphicon glyphicon-check"></span>
                                     Add Action Item
@@ -50,20 +50,20 @@
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a id="btnEditTopic" href="#" class="panel-link panel-menu" title="Edit topic">
+                                <a id="btnEditTopic" href="#" class="panel-link" title="Edit topic">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     Edit Topic
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="js-toggle-recurring panel-link panel-menu"
+                                <a href="#" class="js-toggle-recurring panel-link"
                                    title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
                                     <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                                     {{#if topic.isRecurring}}Unset{{else}}Set{{/if}} Recurring
                                 </a>
                             </li>
                             <li>
-                                <a id="btnDelTopic" href="#" class="panel-link panel-menu" title="Delete topic">
+                                <a id="btnDelTopic" href="#" class="panel-link" title="Delete topic">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     Delete Topic
                                 </a>
@@ -86,7 +86,7 @@
         </div>
 
         {{#unless isCollapsed}}
-            <div style="margin-left: 20px; padding-left: 5px;">
+            <div class="{{leftIndentOnDesktop}}">
                 <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
                     {{#each topic.infoItems}}
                         {{> topicInfoItem getInfoItem @index}}
