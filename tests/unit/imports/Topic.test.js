@@ -49,18 +49,20 @@ global.Random = {
     }
 };
 
+Helpers['@noCallThru'] = true;
+
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
+    '/lib/helpers': Helpers,
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './helpers/promisedMethods': { null, '@noCallThru': true},
     './collections/minutes_private': { null, '@noCallThru': true},
 });
 
-Helpers['@noCallThru'] = true;
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {

@@ -31,7 +31,7 @@ describe('InfoItem', function() {
             _infoItems: [],
             upsertInfoItem: sinon.stub(),
             findInfoItem: function(id) {
-                let index = subElementsHelper.findIndexById(id, this._infoItems);
+                let index = Helpers.subElementsHelper.findIndexById(id, this._infoItems);
                 if (index == undefined) return undefined;
                 return new InfoItem(this, this._infoItems[index]);
             },
