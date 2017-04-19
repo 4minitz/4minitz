@@ -2,10 +2,9 @@
  * Created by felix on 18.05.16.
  */
 import { expect } from 'chai';
+import * as Helpers from '../../../../lib/helpers';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
-
-require('../../../../lib/helpers');
 
 let MinutesCollection = {
 
@@ -37,11 +36,14 @@ let MeetingSeriesCollection = {
     }
 };
 
+Helpers['@noCallThru'] = true;
+
 const {
         MigrateV1
     } = proxyquire('../../../../server/migrations/migrate_v1', {
-    '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-        '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
+        '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
+        '/lib/helpers': Helpers
     });
 
 /**

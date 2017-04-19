@@ -1,5 +1,6 @@
 import { Label } from './label'
 import { _ } from 'meteor/underscore';
+import { formatDateISO8601 } from '/lib/helpers';
 
 /**
  * A InfoItem is a sub-element of

@@ -2,8 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries';
 import { MeetingSeriesSchema } from './meetingseries.schema';
-import { UserRoles } from "./../userroles";
-import { GlobalSettings } from "./../GlobalSettings"
+import { UserRoles } from './../userroles';
+import { GlobalSettings } from './../GlobalSettings';
+import { formatDateISO8601 } from '/lib/helpers';
 
 export let MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {

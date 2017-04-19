@@ -1,8 +1,8 @@
-/**
- * Created by felix on 18.05.16.
- */
-import { MinutesCollection } from '/imports/collections/minutes_private'
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
+import { MinutesCollection } from '/imports/collections/minutes_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { formatDateISO8601 } from '/lib/helpers';
+
+console.log('formatdate', formatDateISO8601);
 
 export class MigrateV1 {
 
@@ -26,12 +26,10 @@ export class MigrateV1 {
 
             topic.priority = '';
             topic.duedate = currentDatePlusDeltaDays(7, date);
-            topic.details = [
-                {
-                    date: formatDateISO8601(date),
-                    text: ''
-                }
-            ];
+            topic.details = [{
+                date: formatDateISO8601(date),
+                text: ''
+            }];
             delete topic.infoItems;
 
             return topic;
@@ -80,7 +78,7 @@ export class MigrateV1 {
 
             series.openTopics.forEach(iterateTopics('openTopics'));
             series.closedTopics.forEach(iterateTopics('closedTopics'));
-        })
+        });
     }
 
 }

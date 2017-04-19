@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
-import { Minutes } from './minutes'
-import { Topic } from './topic'
-import { UserRoles } from './userroles'
+import { Minutes } from './minutes';
+import { Topic } from './topic';
+import { UserRoles } from './userroles';
+import { formatDateISO8601 } from '/lib/helpers';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
 import moment from 'moment/moment';
