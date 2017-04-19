@@ -3,6 +3,7 @@ import { check } from 'meteor/check'
 
 import { User } from '/imports/users';
 import { AdminRegisterUserMailHandler } from '/imports/mail/AdminRegisterUserMailHandler'
+import { emailAddressRegExpTest } from '/lib/helpers';
 
 Meteor.methods({
     'users.saveSettings'(settings) {
@@ -67,7 +68,7 @@ Meteor.methods({
         }
         global.checkWithMsg (email, Match.Where(function (x) {
             check(x, String);
-            return global.emailAddressRegExpTest.test(x);
+            return emailAddressRegExpTest.test(x);
         }), "EMail address not valid");
 
         let newUserId = Accounts.createUser({username: username,
