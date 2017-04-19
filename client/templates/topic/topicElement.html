@@ -30,21 +30,21 @@
                 <!-- Manipulation Menu Icons -->
                 <span class="pull-right pull-right-icons hidden-print">
                     {{#if isEditable}}
-                        <a href="#" class="panel-dropper dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" id="btnTopicDropdownMenu" class="panel-dropper dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-option-vertical"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link panel-menu"
                                    data-toggle="modal" data-target="#dlgAddInfoItem" title="Add info item to topic">
-                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <span class="glyphicon glyphicon-info-sign"></span>
                                     Add Info Item
                                 </a>
                             </li>
                             <li>
                                 <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicActionItem panel-link panel-menu"
                                    data-toggle="modal" data-target="#dlgAddInfoItem" title="Add action item to topic">
-                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <span class="glyphicon glyphicon-check"></span>
                                     Add Action Item
                                 </a>
                             </li>
@@ -56,9 +56,10 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="js-toggle-recurring panel-link panel-menu" title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
+                                <a href="#" class="js-toggle-recurring panel-link panel-menu"
+                                   title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
                                     <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
-                                    Set Recurring
+                                    {{#if topic.isRecurring}}Unset{{else}}Set{{/if}} Recurring
                                 </a>
                             </li>
                             <li>

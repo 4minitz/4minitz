@@ -155,7 +155,7 @@ describe('Info Items', function () {
 
     it('can submit an info item by pressing enter in the topic field', function () {
         let topicIndex = 1;
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "infoItem");
 
         const infoItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({

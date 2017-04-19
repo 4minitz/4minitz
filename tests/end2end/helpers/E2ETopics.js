@@ -34,9 +34,10 @@ export class E2ETopics {
     }
 
     static deleteTopic(topicIndex, confirmDialog) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
         browser.waitForVisible(selector);
         browser.click(selector);
+        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic");
         if (confirmDialog === undefined) {
             return;
         }
@@ -114,15 +115,21 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime(700);
     }
 
-    static openInfoItemDialog(topicIndex) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .addTopicInfoItem";
+    static openInfoItemDialog(topicIndex, type="infoItem") {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
 
         browser.waitForVisible(selector);
         browser.click(selector);
+        let typeClass = ".addTopicInfoItem";
+        if (type === "actionItem") {
+            typeClass = ".addTopicActionItem";
+        }
+        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") "+typeClass);
     }
 
     static addInfoItemToTopic (infoItemDoc, topicIndex, autoCloseDetailInput = true) {
-        this.openInfoItemDialog(topicIndex);
+        let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
+        this.openInfoItemDialog(topicIndex, type);
         this.insertInfoItemDataIntoDialog(infoItemDoc);
         this.submitInfoItemDialog();
 
@@ -177,12 +184,6 @@ export class E2ETopics {
 
         browser.setValue('#id_item_subject', infoItemDoc.subject);
 
-        if (!isEditMode) {
-            let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
-            let radioBtnSelector = "#label_" + type;
-            browser.waitForExist(radioBtnSelector);
-            browser.click(radioBtnSelector);
-        }
         E2EGlobal.waitSomeTime();
 
         //todo: set other fields (duedate, details)
@@ -208,13 +209,16 @@ export class E2ETopics {
     }
 
     static toggleRecurringTopic(topicIndex) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring";
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
         try {
-            browser.waitForVisible(selector);
+            // we use the "_org" / non screen shot version here intentionally,
+            // as we often expect the 'recurring icon' to be hidden!
+            browser.waitForVisible_org(selector);
         } catch(e) {
             return false;
         }
         browser.click(selector);
+        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring");
     }
 
     static isTopicClosed(topicIndex) {
@@ -226,13 +230,13 @@ export class E2ETopics {
     static isTopicRecurring(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring span";
         try {
-            browser.waitForVisible(selector);
+            // we use the "_org" / non screen shot version here intentionally,
+            // as we often expect the 'recurring icon' to be hidden!
+            browser.waitForVisible_org(selector);
+            return true;
         } catch(e) {
             return false;
         }
-        let element = browser.element(selector);
-        let classes = element.getAttribute('class');
-        return (classes.indexOf('active-icon') > 1);
     }
 
     static toggleActionItem(topicIndex, infoItemIndex) {
