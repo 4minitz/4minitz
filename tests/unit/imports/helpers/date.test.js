@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { formatDateISO8601, currentDatePlusDeltaDays } from '../../../imports/helpers/date';
+import { formatDateISO8601, currentDatePlusDeltaDays } from '../../../../imports/helpers/date';
 
 describe('formatDateISO8601 helper', function () {
     it('formats date to string', function () {
