@@ -16,7 +16,7 @@ import { GlobalSettings } from './../GlobalSettings';
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Make sure the user is logged in before changing collections
     if (!Meteor.userId()) {
-        throw new Meteor.Error('not-authorized');
+        throw new Meteor.Error('not-authorized', 'You are not authorized to perform this action.');
     }
 
     // Ensure user can not update documents of other users

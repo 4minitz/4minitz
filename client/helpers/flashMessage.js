@@ -87,17 +87,3 @@ export class FlashMessage {
         this.currentNotification.close();
     }
 }
-
-Template.registerHelper('errorTitle', () => {
-    return false;
-});
-
-Template.registerHelper('errorMessage', () => {
-    return Session.get("errorReason");
-});
-
-Template.registerHelper('errorType', () => {
-    let type = Session.get("errorType");
-    if (!type) type = 'alert-danger';
-    return type;
-});

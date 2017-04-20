@@ -1,19 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-
-import { MeetingSeries } from '/imports/meetingseries'
-import { UserRoles } from '/imports/userroles'
-import { AttachmentsCollection } from "/imports/collections/attachments_private"
-
-let displayErrorIfNecessary = error => {
-    if (error) {
-        // display error
-        Session.set("errorTitle", error.error);
-        Session.set("errorReason", error.reason);
-    }
-};
+import { MeetingSeries } from '/imports/meetingseries';
+import { UserRoles } from '/imports/userroles';
+import { AttachmentsCollection } from "/imports/collections/attachments_private";
+import { handleError } from '/client/helpers/handleError';
 
 Template.tabMinutesList.helpers({
     meetingSeriesId: function () {
@@ -50,7 +41,9 @@ Template.tabMinutesList.events({
                 newMinutesId = newMinutesID
             },
             // server callback
-            displayErrorIfNecessary
+            (error) => {
+                if(error) handleError(error);
+            }
         );
         if (newMinutesId) { // optimistic ui callback should have been called by now
             FlowRouter.redirect('/minutesedit/' + newMinutesId);
@@ -62,7 +55,7 @@ Template.tabMinutesList.events({
 
         let leaveSeriesCallback = () => {
             console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
-            MeetingSeries.leave(ms).catch(displayErrorIfNecessary);
+            MeetingSeries.leave(ms).catch(handleError());
             FlowRouter.go("/");
         };
 
