@@ -5,9 +5,9 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
+import * as Helpers from '../../../lib/helpers';
 
 require('sinon-as-promised');
-require('../../../lib/helpers');
 
 let MinutesCollection = {
     find: sinon.stub(),
@@ -46,6 +46,7 @@ let ActionItem = function (topic, doc) {
 };
 
 
+Helpers['@noCallThru'] = true;
 const {
     Minutes
     } = proxyquire('../../../imports/minutes', {
@@ -56,6 +57,7 @@ const {
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './actionitem': { ActionItem, '@noCallThru': true},
+    '/lib/helpers': Helpers,
     'meteor/underscore': { _, '@noCallThru': true}
 });
 

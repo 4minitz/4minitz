@@ -110,6 +110,12 @@ Template.topicElement.helpers({
     },
     cursorForEdit() {
         return this.isEditable ? "pointer" : "";
+    },
+
+    leftIndentOnDesktop() {
+        if (! Session.get("global.isMobileWidth")) {
+            return "leftIndent"
+        }
     }
 });
 
@@ -164,9 +170,7 @@ Template.topicElement.events({
 
         console.log("Toggle topic state ("+this.topic.isOpen+"): "+this.topic._id+" from minutes "+this.minutesID);
         let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            aTopic.toggleState().catch(onError);
-        }
+        aTopic.toggleState().catch(onError);
     },
 
     'click .js-toggle-recurring'(evt) {
@@ -180,10 +184,8 @@ Template.topicElement.events({
         }
 
         let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            aTopic.toggleRecurring();
-            aTopic.save().catch(onError);
-        }
+        aTopic.toggleRecurring();
+        aTopic.save().catch(onError);
     },
 
     'click #btnEditTopic'(evt) {
@@ -200,11 +202,22 @@ Template.topicElement.events({
     },
 
     'click .addTopicInfoItem'(evt) {
+        console.log("Info!");
         evt.preventDefault();
         // will be called before the modal dialog is shown
 
         Session.set("topicInfoItemEditTopicId", this.topic._id);
+        Session.set("topicInfoItemType", "infoItem");
     },
+    'click .addTopicActionItem'(evt) {
+        console.log("Action!");
+        evt.preventDefault();
+        // will be called before the modal dialog is shown
+
+        Session.set("topicInfoItemEditTopicId", this.topic._id);
+        Session.set("topicInfoItemType", "actionItem");
+    },
+
 
     'click #btnTopicExpandCollapse'(evt) {
         console.log("btnTopicExpandCollapse()"+this.topic._id);

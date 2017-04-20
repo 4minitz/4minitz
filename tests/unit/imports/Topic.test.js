@@ -1,9 +1,8 @@
 import { expect } from 'chai';
+import * as Helpers from '../../../lib/helpers';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
-
-require('../../../lib/helpers');
 
 class MeteorError {}
 let Meteor = {
@@ -50,11 +49,14 @@ global.Random = {
     }
 };
 
+Helpers['@noCallThru'] = true;
+
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
+    '/lib/helpers': Helpers,
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './helpers/promisedMethods': { null, '@noCallThru': true},
@@ -65,6 +67,7 @@ const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
     'meteor/underscore': { _, '@noCallThru': true},
+    '/lib/helpers': Helpers,
     './topic': { Topic, '@noCallThru': true}
 });
 

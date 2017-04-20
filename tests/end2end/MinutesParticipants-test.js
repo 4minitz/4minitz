@@ -135,7 +135,7 @@ describe('Minutes Participants', function () {
 
         let minId = E2EMinutes.getCurrentMinutesId();
         let parts = E2EMinutesParticipants.getPresentParticipantsFromServer(minId);
-        expect(parts).to.equal(additionalUser);
+        expect(parts).to.contains(additionalUser);
     });
 
 
