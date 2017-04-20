@@ -142,7 +142,6 @@ describe('User Profile/Password editing', function () {
             E2EGlobal.waitSomeTime();
             E2EUser.editProfile(longName, email, false);
             E2EGlobal.waitSomeTime(3000);
-            expect(browser.isVisible('#frmDlgEditProfile')).to.be.true;
             browser.click('#btnEditProfileCancel');
             E2EGlobal.waitSomeTime();
             expect(E2EUser.checkProfileChanged(longName,email).value).to.be.false;

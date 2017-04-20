@@ -24,7 +24,7 @@ Template.profileEditDialog.events({
 
         tmpl.$("#btnEditProfileSave").prop("disabled",true);
 
-        Meteor.call('users.editProfile', uEmailAddress,uLongName, function (error, result) {
+        Meteor.call('users.editProfile', Meteor.userId(), uEmailAddress,uLongName, function (error, result) {
             if (error) {
                 tmpl.$("#btnEditProfileSave").prop("disabled",false);
                 console.log(error);

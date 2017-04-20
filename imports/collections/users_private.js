@@ -16,10 +16,8 @@ Meteor.methods({
         console.log(user);
     },
 
-    'users.editProfile'(eMail, longName) {
+    'users.editProfile'(userId, eMail, longName) {
         if (Meteor.isServer) {
-            const user = new User();
-            console.log(user);
             check(eMail, String);
             check(longName, String);
 
@@ -27,10 +25,17 @@ Meteor.methods({
                 throw new Meteor.Error("Invalid E-Mail", "Not a valid E-Mail address");
             }
 
-            const id = Meteor.userId();
-            Meteor.users.update(id, {$set: {'emails.0.address': eMail, 'profile.name': longName}});
+            if (! Meteor.userId()) {
+                throw new Meteor.Error("Cannot edit profile", "User not logged in.");
+            }
+
+            if (!Meteor.user().isAdmin) {
+                if (Meteor.userId() != userId) {
+                    throw new Meteor.Error("Cannot edit profile", "You are not admin or you are trying to change someone else's profile");
+                }
+            }
+            Meteor.users.update(userId, {$set: {'emails.0.address': eMail, 'profile.name': longName}});
             console.log(eMail, longName);
-            console.log(user);
         }
     },
 
