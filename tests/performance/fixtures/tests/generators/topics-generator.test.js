@@ -138,8 +138,8 @@ describe('TopicsGenerator', function() {
     describe('#_extendExistingTopics', function() {
 
         const CONFIG = {
-            topicsRange: {min: 3, max: 4},
-            itemsRange: {min: 7, max: 20}
+            topicsRange: {min: 1, max: 3},
+            itemsRange: {min: 1, max: 3}
         };
         /** @type {TopicsGenerator} */
         let generator;
@@ -164,17 +164,6 @@ describe('TopicsGenerator', function() {
                         {_id: '1.2', itemType: 'infoItem', details: []},
                         {_id: '1.3', isOpen: true, itemType: 'actionItem', details: []},
                         {_id: '1.4', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.5', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.6', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.7', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.8', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.9', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.10', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.11', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.12', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.13', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.14', isOpen: true, itemType: 'actionItem', details: []},
-                        {_id: '1.15', isOpen: true, itemType: 'actionItem', details: []}
                     ]
                 }
             ];

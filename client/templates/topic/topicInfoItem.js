@@ -85,6 +85,10 @@ Template.topicInfoItem.helpers({
         return (this.infoItem.itemType === 'actionItem');
     },
 
+    isInfoItem: function() {
+        return (this.infoItem.itemType === 'infoItem');
+    },
+
     detailsArray: function () {
         return (this.infoItem.details) ? this.infoItem.details : [];
     },
@@ -133,10 +137,6 @@ Template.topicInfoItem.helpers({
         return Template.instance().isTopicCollapsed.get();
     },
 
-    showPinItem() {
-        return (this.infoItem.itemType === 'infoItem' && ( this.isEditable || this.infoItem.isSticky) );
-    },
-
     responsiblesHelper() {
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
         if (aInfoItem instanceof ActionItem) {
@@ -147,7 +147,7 @@ Template.topicInfoItem.helpers({
         return "";
     },
 
-    classForEdit() {
+    idForEdit() {
         return this.isEditable ? "btnEditInfoItem" : "";
     },
     cursorForEdit() {
