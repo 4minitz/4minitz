@@ -1,8 +1,6 @@
 import { GlobalSettings } from '/imports/GlobalSettings';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-
-Template.navigation.onRendered(function() {
-});
+import { AccountsTemplates } from 'meteor/useraccounts:core';
 
 Template.navigation.helpers({
     "logoHTML": function () {

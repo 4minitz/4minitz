@@ -5,14 +5,18 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
+import * as Helpers from '../../../lib/helpers';
 
 let Topic = {};
 let Label = {};
+
+Helpers['@noCallThru'] = true;
 
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
     'meteor/underscore': { _, '@noCallThru': true},
+    '/lib/helpers': Helpers,
     './topic': { Topic, '@noCallThru': true},
     './label': { Label, '@noCallThru': true}
 });
@@ -27,7 +31,7 @@ describe('InfoItem', function() {
             _infoItems: [],
             upsertInfoItem: sinon.stub(),
             findInfoItem: function(id) {
-                let index = subElementsHelper.findIndexById(id, this._infoItems);
+                let index = Helpers.subElementsHelper.findIndexById(id, this._infoItems);
                 if (index == undefined) return undefined;
                 return new InfoItem(this, this._infoItems[index]);
             },

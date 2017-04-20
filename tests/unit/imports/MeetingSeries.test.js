@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as Helpers from '../../../lib/helpers';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
@@ -12,6 +13,7 @@ let Minutes = {};
 let Topic = {};
 let UserRoles = {};
 let PromisedMethods = {};
+Helpers['@noCallThru'] = true;
 
 const {
     MeetingSeries
@@ -22,6 +24,7 @@ const {
     './minutes': { Minutes, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './userroles': { UserRoles, '@noCallThru': true},
+    '/lib/helpers': Helpers,
     'meteor/underscore': { _, '@noCallThru': true}
 });
 

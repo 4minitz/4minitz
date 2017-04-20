@@ -22,14 +22,11 @@
                         {{/if}}
                     </label>
 
-                    <span id="{{classForEdit}}" style="cursor: {{cursorForEdit}};">
+                    <span id="{{idForEdit}}" style="cursor: {{cursorForEdit}};">
                         {{#if isActionItem}}
-                            <!--<a role="button" class="panel-link expandDetails" data-toggle="collapse" data-parent="#accordion"-->
-                               <!--href="#collapse-{{currentCollapseId}}" aria-expanded="true" aria-controls="collapseOne">-->
                                 {{infoItem.subject}} {{responsiblesHelper}}
                                 {{#if infoItem.priority}}Prio:{{infoItem.priority}}{{/if}}
                                 Due: {{infoItem.duedate}}
-                            <!--</a>-->
                         {{else}}
                             {{infoItem.subject}}
                         {{/if}}
@@ -46,24 +43,53 @@
                         <span class="badge">New</span>
                     {{/if}}
 
-                    <!-- Manipulation Menu Icons -->
-                        <span class="pull-right pull-right-icons hidden-print">
-                            {{#if showPinItem}}
-                                <a href="#" class="panel-link btnPinInfoItem"  title="Set as pinned info item">
-                                    <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
-                                </a>
-                            {{/if}}
+                    <!-- Manipulation Drop-Down Menu -->
+                    <span class="pull-right pull-right-icons hidden-print">
+                        {{#if isEditable}}
+                            <a href="#" id="btnItemDropdownMenu" class="panel-dropper dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-option-vertical"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#" class="addDetail panel-link" title="Add details to item">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Add Details
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#" id="btnEditInfoItem" class="panel-link" title="Edit item">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        Edit Item
+                                    </a>
+                                </li>
+                                {{#if isInfoItem}}
+                                    <li>
+                                        <a href="#" class="btnPinInfoItem panel-link"
+                                           title="{{#if infoItem.isSticky}}Set as non-pinned info item{{else}}Set as pinned info item{{/if}}">
+                                            <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
+                                            {{#if infoItem.isSticky}}Unset{{else}}Set{{/if}} Pinned
+                                        </a>
+                                    </li>
+                                {{/if}}
+                                <li>
+                                    <a id="btnDelInfoItem" href="#" class="panel-link" title="Delete item">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        Delete Item
+                                    </a>
+                                </li>
+                            </ul>
+                        {{/if}}
 
-                            {{#if isEditable}}
-                                <a href="#" class="panel-link addDetail" title="Add details to action item">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </a>
+                        {{#if infoItem.isSticky}}
+                            <a href="#" class="panel-link btnPinInfoItem" title="Set as unpinned info item">
+                                    <span class="glyphicon glyphicon-pushpin sticky-item active-icon"></span>
+                            </a>
+                        {{/if}}
 
-                                <a id="btnDelInfoItem" href="#" class="panel-link" title="Delete item">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
+                        {{#if isEditable}}
                                 <span class="itemDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
-                            {{/if}}
+                        {{/if}}
                         </span>
                 </div>
 

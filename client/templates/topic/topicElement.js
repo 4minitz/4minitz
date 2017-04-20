@@ -110,6 +110,12 @@ Template.topicElement.helpers({
     },
     cursorForEdit() {
         return this.isEditable ? "pointer" : "";
+    },
+
+    leftIndentOnDesktop() {
+        if (! Session.get("global.isMobileWidth")) {
+            return "leftIndent"
+        }
     }
 });
 
@@ -196,11 +202,22 @@ Template.topicElement.events({
     },
 
     'click .addTopicInfoItem'(evt) {
+        console.log("Info!");
         evt.preventDefault();
         // will be called before the modal dialog is shown
 
         Session.set("topicInfoItemEditTopicId", this.topic._id);
+        Session.set("topicInfoItemType", "infoItem");
     },
+    'click .addTopicActionItem'(evt) {
+        console.log("Action!");
+        evt.preventDefault();
+        // will be called before the modal dialog is shown
+
+        Session.set("topicInfoItemEditTopicId", this.topic._id);
+        Session.set("topicInfoItemType", "actionItem");
+    },
+
 
     'click #btnTopicExpandCollapse'(evt) {
         console.log("btnTopicExpandCollapse()"+this.topic._id);
