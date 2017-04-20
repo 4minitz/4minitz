@@ -15,6 +15,7 @@ import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import { emailAddressRegExpTest, currentDatePlusDeltaDays } from '/lib/helpers';
 
 import { $ } from 'meteor/jquery';
+import { handleError } from '/client/helpers/handleError';
 
 
 Session.setDefault("topicInfoItemEditTopicId", null);
@@ -162,10 +163,6 @@ Template.topicInfoItemEdit.helpers({
 Template.topicInfoItemEdit.events({
     'submit #frmDlgAddInfoItem': async function(evt, tmpl) {
         evt.preventDefault();
-        let saveButton = $("#btnInfoItemSave");
-        let cancelButton = $("#btnInfoItemCancel");
-        saveButton.prop("disabled",true);
-        cancelButton.prop("disabled",true);
 
         if (!getRelatedTopic()) {
             throw new Meteor.Error("IllegalState: We have no related topic object!");
@@ -217,22 +214,13 @@ Template.topicInfoItemEdit.events({
         }
 
         newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
-
-        try {
-            let itemAlreadyExists = !!newItem.getId();
-            await newItem.saveAsync();
-            console.log('Successfully saved new item with id: ' + newItem.getId());
-            console.log(newItem.getId());
-            $('#dlgAddInfoItem').modal('hide');
-            if (!itemAlreadyExists) {
-                Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
-            }
-        } catch (e) {
-            Session.set('errorTitle', 'Validation error');
-            Session.set('errorReason', error.reason);
+        let itemAlreadyExists = !!newItem.getId();
+        newItem.saveAsync().catch(handleError);
+        console.log('Successfully saved new item with id: ' + newItem.getId());
+        $('#dlgAddInfoItem').modal('hide');
+        if (!itemAlreadyExists) {
+            Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
         }
-        saveButton.prop("disabled",false);
-        cancelButton.prop("disabled",false);
     },
 
     "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
@@ -279,9 +267,6 @@ Template.topicInfoItemEdit.events({
     },
 
     "hidden.bs.modal #dlgAddInfoItem": function () {
-        Session.set('errorTitle', null);
-        Session.set('errorReason', null);
-
         // reset the session var to indicate that edit mode has been closed
         Session.set("topicInfoItemEditTopicId", null);
         Session.set("topicInfoItemEditInfoItemId", null);

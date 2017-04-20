@@ -55,8 +55,8 @@ export class MeetingSeries {
     }
 
 
-    save(optimisticUICallback, skipTopics = true) {
-        let doc = (skipTopics) ? _.omit(this, 'topics', 'openTopics') : this;
+    save(optimisticUICallback) {
+        let doc = this;
         if (this._id) {
             return Meteor.callPromise("meetingseries.update", doc);
         } else {

@@ -1,7 +1,7 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { $ } from 'meteor/jquery';
-
 import { MeetingSeries } from '/imports/meetingseries';
+import { handleError } from '/client/helpers/handleError';
 
 function clearForm(template) {
     template.find("#id_meetingproject").value = "";
@@ -22,7 +22,7 @@ function escapeHandler(event) {
     }
 }
 
-async function addMeetingSeries(template, optimisticUICallback, doClearForm = true) {
+function addMeetingSeries(template, optimisticUICallback) {
 
     let aProject = template.find("#id_meetingproject").value;
     let aName = template.find("#id_meetingname").value;
@@ -33,15 +33,7 @@ async function addMeetingSeries(template, optimisticUICallback, doClearForm = tr
         createdAt: new Date()
     });
 
-    try {
-        await ms.save(optimisticUICallback);
-        if (doClearForm) {
-            clearForm(template);
-        }
-    } catch (error) {
-        Session.set('errorTitle', 'Error');
-        Session.set('errorReason', error.reason);
-    }
+    ms.saveAsync(optimisticUICallback).catch(handleError);
 }
 
 Template.meetingSeriesAdd.helpers({
@@ -63,7 +55,7 @@ Template.meetingSeriesAdd.events({
 
         addMeetingSeries(template, (id) => {
             FlowRouter.go('/meetingseries/' + id + '?edit=true');
-        }, false);
+        });
     },
 
     "hidden.bs.collapse #collapseMeetingSeriesAdd"(evt, tmpl) {
