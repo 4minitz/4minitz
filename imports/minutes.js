@@ -82,7 +82,6 @@ export class Minutes {
             if (this.topics === undefined) {
                 this.topics = [];
             }
-            //Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
             Meteor.call("workflow.addMinutes", this, optimisticUICallback, serverCallback);
         }
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);

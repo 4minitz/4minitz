@@ -472,18 +472,19 @@ Template.minutesedit.events({
         let aMin = new Minutes(_minutesID);
         console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
 
-        let doFinalize = function () {
-            tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
-            let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
-            // Force closing the dialog before starting the finalize process
-            Meteor.setTimeout(() => {
-                aMin.finalize(sendActionItems, sendInformationItems);
+            let doFinalize = function () {
                 tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
-                msg.replace('OK', 'This meeting minutes were successfully finalized', 'alert-success', 3000);
-                toggleTopicSorting();
-                Session.set("participants.expand", false);
-            }, 500);
-        };
+                let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
+                // Force closing the dialog before starting the finalize process
+                Meteor.setTimeout(() => {
+                    aMin.finalize(sendActionItems, sendInformationItems);
+                    tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
+                    (new FlashMessage('OK', 'This meeting minutes were successfully finalized', FlashMessage.TYPES().SUCCESS, 3000)).show();
+                    msg.hideMe();
+                    toggleTopicSorting();
+                    Session.set("participants.expand", false);
+                }, 500);
+            };
 
         let processFinalize = function(){
             if (GlobalSettings.isEMailDeliveryEnabled()) {
@@ -505,9 +506,11 @@ Template.minutesedit.events({
         };
 
         let noParticipantsPresent = true;
-        aMin.participants.forEach(p => {if(p.present == true) noParticipantsPresent = false;});
+        aMin.participants.forEach(p => {
+            if(p.present) noParticipantsPresent = false;
+        });
 
-        if(noParticipantsPresent == true){
+        if(noParticipantsPresent){
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 processFinalize,
                 'Proceed without participants',

@@ -3,12 +3,8 @@ import { Meteor } from 'meteor/meteor';
 
 import { GlobalSettings } from '/imports/config/GlobalSettings'
 import { FlashMessage } from '../../helpers/flashMessage';
+import { handleError } from '../../helpers/handleError';
 
-
-let showError = function (evt, error) {
-    (new FlashMessage('Error', error.reason)).show();
-    evt.preventDefault();
-};
 
 Template.adminRegisterUser.helpers({
     isMailEnabled() {
@@ -17,7 +13,7 @@ Template.adminRegisterUser.helpers({
 });
 
 Template.adminRegisterUser.events({
-    "submit #frmDlgRegisterUser"(evt, tmpl) {
+    "submit #frmDlgRegisterUser"(evt) {
         evt.preventDefault();
     },
 
@@ -25,8 +21,6 @@ Template.adminRegisterUser.events({
         if (! Meteor.user().isAdmin) {
             return;
         }
-        Session.set('errorTitle', null);
-        Session.set('errorReason', null);
 
         let uName = tmpl.find("#id_newUsrName").value;
         let uLongName = tmpl.find("#id_newUsrLongName").value;
@@ -44,11 +38,12 @@ Template.adminRegisterUser.events({
         tmpl.$("#btnRegisterUserSave").prop("disabled",true);
         Meteor.call("users.admin.registerUser",
                     uName, uLongName, uMail, uPassword1, uPassword2, sendMail, sendPassword,
-                    function (error, result) {
+                    function (error) {
                         if (error) {
                             tmpl.$("#btnRegisterUserSave").prop("disabled",false);
                             console.log(error);
-                            showError(evt, error);
+                            evt.preventDefault();
+                            handleError(error);
                         } else {
                             (new FlashMessage('OK', "Registered new user: "+uName, 'alert-success', 3000)).show();
                             Meteor.setTimeout(function () {
@@ -56,11 +51,6 @@ Template.adminRegisterUser.events({
                             }, 3000);
                         }
                     });
-    },
-
-    "hidden.bs.modal #dlgAdminRegisterUser": function () {
-        Session.set('errorTitle', null);
-        Session.set('errorReason', null);
     },
 
     "show.bs.modal #dlgAdminRegisterUser": function (evt, tmpl) {

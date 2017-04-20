@@ -1,14 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes';
-import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
-import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
-export var MinutesCollection = new Mongo.Collection("minutes",
+export let MinutesCollection = new Mongo.Collection("minutes",
     {
         transform: function (doc) {
             return new Minutes(doc);
@@ -120,7 +118,7 @@ Meteor.methods({
 
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
+            throw new Meteor.Error('not-authorized', 'You are not authorized to perform this action.');
         }
 
         let modifierDoc = {};
@@ -153,7 +151,7 @@ Meteor.methods({
 
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
+            throw new Meteor.Error('not-authorized', 'You are not authorized to perform this action.');
         }
 
         let aMin = new Minutes(minutesId);
