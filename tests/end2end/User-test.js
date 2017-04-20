@@ -134,8 +134,8 @@ describe('User Profile/Password editing', function () {
 
     it('User profile is not changed, if pressing Cancel', function () {
         if (E2EApp.isLoggedIn()) {
-            let longName = 'longname';
-            let email = 'test@test.de';
+            let longName = 'cancellongname';
+            let email = 'canceltest@test.de';
             browser.click('#navbar-usermenu');
             E2EGlobal.waitSomeTime();
             browser.click('#navbar-dlgEditProfile');
