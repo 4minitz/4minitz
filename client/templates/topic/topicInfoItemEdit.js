@@ -12,7 +12,8 @@ import { ActionItem } from '/imports/actionitem'
 import { Label } from '/imports/label'
 
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
-import { emailAddressRegExpTest, currentDatePlusDeltaDays } from '/imports/helpers/date';
+import { currentDatePlusDeltaDays } from '/imports/helpers/date';
+import { emailAddressRegExpTest } from '/imports/helpers/email';
 
 import { $ } from 'meteor/jquery';
 
