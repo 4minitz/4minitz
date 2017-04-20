@@ -506,9 +506,11 @@ Template.minutesedit.events({
         };
 
         let noParticipantsPresent = true;
-        aMin.participants.forEach(p => {if(p.present == true) noParticipantsPresent = false;});
+        aMin.participants.forEach(p => {
+            if(p.present) noParticipantsPresent = false;
+        });
 
-        if(noParticipantsPresent == true){
+        if(noParticipantsPresent){
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 processFinalize,
                 'Proceed without participants',
