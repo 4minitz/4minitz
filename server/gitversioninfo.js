@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { formatDateISO8601 } from '/lib/date';
+import { formatDateISO8601 } from '/imports/helpers/date';
 
 let packagejson;
 try {

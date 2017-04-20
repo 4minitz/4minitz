@@ -3,7 +3,7 @@ import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries';
 import { Topic } from './topic';
 import { ActionItem } from './actionitem';
-import { emailAddressRegExpMatch, formatDateISO8601Time, subElementsHelper } from '/lib/date';
+import { emailAddressRegExpMatch, formatDateISO8601Time, subElementsHelper } from '/imports/helpers/date';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
 import './collections/workflow_private';

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private';
-import { formatDateISO8601Time } from '/lib/date';
+import { formatDateISO8601Time } from '/imports/helpers/date';
 
 // Dear admin,
 // This class can be used via the 'meteor shell' command from the server backend.

@@ -6,7 +6,7 @@ import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { Attachment } from '/imports/attachment';
-import { msToHHMMSS, formatDateISO8601Time } from '/lib/date';
+import { msToHHMMSS, formatDateISO8601Time } from '/imports/helpers/date';
 
 let _minutesID; // the ID of these minutes
 

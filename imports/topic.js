@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { subElementsHelper } from '/lib/date';
+import { subElementsHelper } from '/imports/helpers/date';
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';

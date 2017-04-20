@@ -3,7 +3,7 @@ import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes';
 import { Topic } from './topic';
 import { UserRoles } from './userroles';
-import { formatDateISO8601, subElementsHelper } from '/lib/date';
+import { formatDateISO8601, subElementsHelper } from '/imports/helpers/date';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
 import moment from 'moment/moment';

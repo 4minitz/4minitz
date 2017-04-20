@@ -3,7 +3,7 @@ import { check } from 'meteor/check'
 
 import { User } from '/imports/users';
 import { AdminRegisterUserMailHandler } from '/imports/mail/AdminRegisterUserMailHandler'
-import { emailAddressRegExpTest, checkWithMsg } from '/lib/date';
+import { emailAddressRegExpTest, checkWithMsg } from '/imports/helpers/date';
 
 Meteor.methods({
     'users.saveSettings'(settings) {

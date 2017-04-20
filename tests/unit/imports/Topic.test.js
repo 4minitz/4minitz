@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as Helpers from '../../../lib/date';
+import * as Helpers from '../../../imports/helpers/date';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
@@ -56,7 +56,7 @@ const {
     } = proxyquire('../../../imports/topic', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
-    '/lib/date': Helpers,
+    '/imports/helpers/date': Helpers,
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './helpers/promisedMethods': { null, '@noCallThru': true},
@@ -67,7 +67,7 @@ const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
     'meteor/underscore': { _, '@noCallThru': true},
-    '/lib/date': Helpers,
+    '/imports/helpers/date': Helpers,
     './topic': { Topic, '@noCallThru': true}
 });
 
