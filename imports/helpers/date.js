@@ -68,14 +68,3 @@ export const subElementsHelper = {
         return undefined;
     }
 };
-
-export const checkWithMsg = (variable, pattern, message) => {
-    try {
-        check(variable, pattern);
-    } catch (err) {
-        if (message) {
-            throw new Meteor.Error("Parameter check failed.", message);
-        }
-        throw err;
-    }
-};
