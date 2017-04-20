@@ -21,18 +21,6 @@ If your local installation of 4Minitz allows login via LDAP, you never need to r
 
 If your local installation has no LDAP configured, or you are using our demo server at http://www.4minitz.com, you may click on "Register" to create a new user. The E-Mail you enter will be used to send meeting minutes or action items to you.
 
-## Edit Profile
-
-If you are a non-LDAP user, you can edit your profile by clicking the button "Edit Profile":
-
-![edit_profile_button](./figures/edit_profile_button.png)
-
-You can change your:
- * long name ()
- * E-Mail address (required) 
- 
-![edit_profile_button](./figures/edit_profile.png)
-
 
 ## Create a Meeting Series
 A meeting series comprises of a project name and a meeting name.
@@ -172,12 +160,6 @@ TODO
 ## Finalize Meeting
 
 ![Finalize Button](./figures/finalize_meeting_minutes.png)
-
-Make sure you haven't forgotten to select participants before finalizing the Minutes. A warning message will be shown, if no participants are selected. You can cancel finalizing and add them or confirm ans proceed without 
-participants:
-
-![Warning_on_finalize](./figures/warning_no_participants_on_finalize.png)
-
 
 ![Finalize Dialog](./figures/finalize_meeting_minutes_dialog.png)
 

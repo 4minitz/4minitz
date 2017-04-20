@@ -193,7 +193,7 @@ options. On the admin view you may, for example:
 
 * **Register new users** for standard login.
   (Sorry, no LDAP registering!). When you
-   filled all necessary fields, you can specify
+   filled all necessary fields, you can specifiy
    if the new user will receive a welcome eMail with
    her login credentials.
 * **Show and filter** all registered users
