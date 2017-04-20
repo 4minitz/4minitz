@@ -1,4 +1,4 @@
-import { GlobalSettings } from '/imports/GlobalSettings';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 

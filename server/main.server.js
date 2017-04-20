@@ -3,7 +3,8 @@ import { Accounts } from 'meteor/accounts-base';
 import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
-import { GlobalSettings } from '/imports/GlobalSettings';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
+import '/imports/config/accounts';
 
 import '/imports/broadcastmessage';
 import '/imports/minutes';

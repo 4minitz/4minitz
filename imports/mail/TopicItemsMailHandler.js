@@ -1,7 +1,7 @@
 
 import { TemplateRenderer } from './../server_side_templates/TemplateRenderer'
 import { MailFactory } from './MailFactory'
-import { GlobalSettings } from './../GlobalSettings'
+import { GlobalSettings } from '../config/GlobalSettings'
 import { InfoItemFactory } from '../InfoItemFactory'
 import { Topic } from '../topic'
 

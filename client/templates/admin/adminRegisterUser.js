@@ -1,7 +1,7 @@
 
 import { Meteor } from 'meteor/meteor';
 
-import { GlobalSettings } from '/imports/GlobalSettings'
+import { GlobalSettings } from '/imports/config/GlobalSettings'
 import { FlashMessage } from '../../helpers/flashMessage';
 
 

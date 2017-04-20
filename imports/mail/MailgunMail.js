@@ -1,5 +1,5 @@
 import { Mail } from './Mail';
-import { GlobalSettings } from './../GlobalSettings'
+import { GlobalSettings } from '../config/GlobalSettings'
 
 export class MailgunMail extends Mail {
 

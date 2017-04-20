@@ -24,5 +24,5 @@ const {
     } = proxyquire('../../../../server/migrations/migrate_v8', {
         'meteor/meteor': { Meteor, '@noCallThru': true},
         '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
-        '/imports/GlobalSettings': { GlobalSettings, '@noCallThru': true}
+        '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true}
     });

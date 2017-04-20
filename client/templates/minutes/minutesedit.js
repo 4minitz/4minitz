@@ -12,7 +12,7 @@ import { UserRoles } from '/imports/userroles';
 import { User, userSettings } from '/imports/users';
 
 import { TopicListConfig } from '../topic/topicsList';
-import { GlobalSettings } from '/imports/GlobalSettings';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
 
 let _minutesID; // the ID of these minutes
@@ -375,12 +375,12 @@ Template.minutesedit.helpers({
     minutesPath: function(minutesId) {
         return Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  minutesId });
     },
-    
+
     previousMinutes : function() {
         let aMin = new Minutes(_minutesID);
         return aMin.previousMinutes();
     },
-    
+
     nextMinutes : function() {
         let aMin = new Minutes(_minutesID);
         return aMin.nextMinutes();

@@ -1,6 +1,6 @@
 import { MinutesCollection } from '/imports/collections/minutes_private'
 import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
-import { GlobalSettings } from '/imports/GlobalSettings'
+import { GlobalSettings } from '/imports/config/GlobalSettings'
 
 // adds the label field to meeting series, topics and info items
 export class MigrateV7 {

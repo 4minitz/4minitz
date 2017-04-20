@@ -6,7 +6,7 @@ import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
-import { GlobalSettings } from './../GlobalSettings';
+import { GlobalSettings } from '../config/GlobalSettings';
 
 export var MinutesCollection = new Mongo.Collection("minutes",
     {

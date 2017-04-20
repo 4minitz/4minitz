@@ -1,4 +1,4 @@
-import { GlobalSettings } from './../GlobalSettings'
+import { GlobalSettings } from '../config/GlobalSettings'
 import { MailgunMail } from './MailgunMail'
 import { MeteorMail } from './MeteorMail'
 import { TestMail } from './TestMail'
