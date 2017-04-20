@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import * as Helpers from '../../../lib/helpers';
+import * as DateHelpers from '../../../imports/helpers/date';
+import * as SubElements from '../../../imports/helpers/subElements';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
@@ -49,14 +50,15 @@ global.Random = {
     }
 };
 
-Helpers['@noCallThru'] = true;
+SubElements['@noCallThru'] = true;
+DateHelpers['@noCallThru'] = true;
 
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
-    '/lib/helpers': Helpers,
+    '/imports/helpers/subElements': SubElements,
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './helpers/promisedMethods': { null, '@noCallThru': true},
@@ -67,7 +69,7 @@ const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
     'meteor/underscore': { _, '@noCallThru': true},
-    '/lib/helpers': Helpers,
+    '/imports/helpers/date': DateHelpers,
     './topic': { Topic, '@noCallThru': true}
 });
 

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { InfoItemsMailHandler } from './InfoItemsMailHandler';
-import { GlobalSettings } from './../GlobalSettings';
+import { GlobalSettings } from '../config/GlobalSettings';
 import { Attachment } from '../attachment';
 
 export class SendAgendaMailHandler extends InfoItemsMailHandler {

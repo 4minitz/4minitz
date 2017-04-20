@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FLowRouter } from 'meteor/kadira:flow-router';
-import { GlobalSettings } from '/imports/GlobalSettings';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
 
 const ldapEnabled = Meteor.settings.public.ldapEnabled;
 

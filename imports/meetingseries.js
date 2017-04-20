@@ -3,7 +3,8 @@ import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes';
 import { Topic } from './topic';
 import { UserRoles } from './userroles';
-import { formatDateISO8601, subElementsHelper } from '/lib/helpers';
+import { formatDateISO8601 } from '/imports/helpers/date';
+import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
 import moment from 'moment/moment';
@@ -55,8 +56,8 @@ export class MeetingSeries {
     }
 
 
-    save(optimisticUICallback, skipTopics = true) {
-        let doc = (skipTopics) ? _.omit(this, 'topics', 'openTopics') : this;
+    save(optimisticUICallback) {
+        let doc = this;
         if (this._id) {
             return Meteor.callPromise("meetingseries.update", doc);
         } else {
@@ -105,7 +106,7 @@ export class MeetingSeries {
             visibleFor: this.visibleFor,             // freshly created minutes inherit visibility of their series
             informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
         });
-        
+
         min.refreshParticipants(false); // do not save to DB!
         min.save(optimisticUICallback, serverCallback);
     }

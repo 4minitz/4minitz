@@ -2,7 +2,7 @@
  * Created by felix on 18.05.16.
  */
 import { expect } from 'chai';
-import * as Helpers from '../../../../lib/helpers';
+import * as Helpers from '../../../../imports/helpers/date';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
@@ -43,7 +43,7 @@ const {
     } = proxyquire('../../../../server/migrations/migrate_v1', {
         '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
         '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
-        '/lib/helpers': Helpers
+        '/imports/helpers/date': Helpers
     });
 
 /**

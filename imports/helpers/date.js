@@ -1,6 +1,3 @@
-export const emailAddressRegExpTest = /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/;
-export const emailAddressRegExpMatch = /([a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z0-9._-]{2,})/gi;
-
 /**
  *
  * @param {Date} aDate
@@ -44,38 +41,4 @@ export const currentDatePlusDeltaDays = (deltaDays, currentDate) => {
         aDate.setDate(aDate.getDate() + deltaDays);
     }
     return formatDateISO8601(aDate);
-};
-
-export const subElementsHelper = {
-    findIndexById: function(id, elements, attributeName) {
-        if (!attributeName) {
-            attributeName = '_id';
-        }
-        let i;
-        for (i = 0; i < elements.length; i++) {
-            if (id === elements[i][attributeName]) {
-                return i;
-            }
-        }
-        return undefined;
-    },
-
-    getElementById: function(id, elements, attributeName) {
-        let i = subElementsHelper.findIndexById(id, elements, attributeName);
-        if (i != undefined) {
-            return elements[i];
-        }
-        return undefined;
-    }
-};
-
-export const checkWithMsg = (variable, pattern, message) => {
-    try {
-        check(variable, pattern);
-    } catch (err) {
-        if (message) {
-            throw new Meteor.Error("Parameter check failed.", message);
-        }
-        throw err;
-    }
 };

@@ -5,7 +5,7 @@ import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
-require('./../../lib/helpers');
+require('../../imports/helpers/date');
 
 
 describe('ActionItems Responsibles', function () {

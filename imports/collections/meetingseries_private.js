@@ -4,8 +4,8 @@ import { MeetingSeries } from './../meetingseries';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
-import { GlobalSettings } from './../GlobalSettings';
-import { formatDateISO8601 } from '/lib/helpers';
+import { GlobalSettings } from '../config/GlobalSettings';
+import { formatDateISO8601 } from '/imports/helpers/date';
 
 export let MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {
@@ -34,7 +34,7 @@ Meteor.methods({
 
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
-            throw new Meteor.Error('not-authorized');
+            throw new Meteor.Error('not-authorized', 'You are not authorized to perform this action.');
         }
 
         // the user should not be able to define the date when this series was create - or should he?
