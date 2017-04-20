@@ -5,7 +5,7 @@ import { MeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from './../GlobalSettings';
-import { formatDateISO8601 } from '/lib/helpers';
+import { formatDateISO8601 } from '/lib/date';
 
 export let MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
     {

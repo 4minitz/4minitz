@@ -4,7 +4,7 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 import { E2EMinutes } from './helpers/E2EMinutes';
 import { E2ETopics } from './helpers/E2ETopics';
 
-import { formatDateISO8601 } from './../../lib/helpers';
+import { formatDateISO8601 } from '../../lib/date';
 
 
 describe('Info Items', function () {

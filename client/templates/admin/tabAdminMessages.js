@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private';
-import { formatDateISO8601Time } from '/lib/helpers';
+import { formatDateISO8601Time } from '/lib/date';
 
 Template.tabAdminMessages.onCreated(function() {
     //add your statement here

@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
-import * as Helpers from '../../../lib/helpers';
+import * as Helpers from '../../../lib/date';
 
 require('sinon-as-promised');
 
@@ -57,7 +57,7 @@ const {
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './actionitem': { ActionItem, '@noCallThru': true},
-    '/lib/helpers': Helpers,
+    '/lib/date': Helpers,
     'meteor/underscore': { _, '@noCallThru': true}
 });
 

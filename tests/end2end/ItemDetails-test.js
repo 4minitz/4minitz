@@ -5,7 +5,7 @@ import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor';
 import { E2EMinutes } from './helpers/E2EMinutes';
 import { E2ETopics } from './helpers/E2ETopics';
 
-import { formatDateISO8601 } from './../../lib/helpers';
+import { formatDateISO8601 } from '../../lib/date';
 
 
 describe('Item Details', function () {

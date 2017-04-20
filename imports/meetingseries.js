@@ -3,7 +3,7 @@ import { MeetingSeriesCollection } from './collections/meetingseries_private';
 import { Minutes } from './minutes';
 import { Topic } from './topic';
 import { UserRoles } from './userroles';
-import { formatDateISO8601, subElementsHelper } from '/lib/helpers';
+import { formatDateISO8601, subElementsHelper } from '/lib/date';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
 import moment from 'moment/moment';
@@ -105,7 +105,7 @@ export class MeetingSeries {
             visibleFor: this.visibleFor,             // freshly created minutes inherit visibility of their series
             informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
         });
-        
+
         min.refreshParticipants(false); // do not save to DB!
         min.save(optimisticUICallback, serverCallback);
     }

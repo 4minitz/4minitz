@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { subElementsHelper } from '/lib/helpers';
+import { subElementsHelper } from '/lib/date';
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
@@ -318,7 +318,7 @@ export class Topic {
     getResponsibles() {
         return this._topicDoc.responsibles;
     }
-    
+
     getResponsiblesString() {
         if (!this.hasResponsibles()) {
             return "";

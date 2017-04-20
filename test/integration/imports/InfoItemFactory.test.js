@@ -6,7 +6,7 @@ import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { InfoItemFactory } from '/imports/InfoItemFactory';
 
-import '/lib/helpers';
+import '/lib/date';
 
 describe('InfoItemFactory', function () {
 

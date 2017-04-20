@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { BroadcastMessage } from '/imports/broadcastmessage';
-import { formatDateISO8601Time } from '/lib/helpers';
+import { formatDateISO8601Time } from '/lib/date';
 
 Template.broadcastMessageDialog.helpers({
 

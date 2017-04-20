@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
-require('../../../../lib/helpers');
+require('../../../../lib/date');
 
 const FIRST_MIN_ID = '#Min01';
 const SND_MIN_ID = '#Min02';

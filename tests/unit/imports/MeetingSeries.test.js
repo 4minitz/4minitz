@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as Helpers from '../../../lib/helpers';
+import * as Helpers from '../../../lib/date';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
@@ -24,7 +24,7 @@ const {
     './minutes': { Minutes, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './userroles': { UserRoles, '@noCallThru': true},
-    '/lib/helpers': Helpers,
+    '/lib/date': Helpers,
     'meteor/underscore': { _, '@noCallThru': true}
 });
 
@@ -51,7 +51,7 @@ describe('MeetingSeries', function () {
             expect(ms.name).to.equal(meetingSeries.name);
         });
     });
-    
+
     describe('#getMinimumAllowedDateForMinutes', function () {
         let series;
 
