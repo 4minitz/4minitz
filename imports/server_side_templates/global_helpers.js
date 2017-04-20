@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Markdown } from 'meteor/perak:markdown';
 
 export var GlobalHelpers = {
     'markdown2html': function(text = "") {

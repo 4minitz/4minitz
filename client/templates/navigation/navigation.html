@@ -27,7 +27,7 @@
                     <li><a target="_blank" href="https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md">
                         Help</a>
                     </li>
-                    <li><a href="#" data-toggle="modal" data-target="#dlgAbout">
+                    <li><a id="btnAbout" href="#" data-toggle="modal" data-target="#dlgAbout">
                         About</a>
                     </li>
 
@@ -46,10 +46,12 @@
                                     </li>
                                 {{/if}}
                                 {{#unless currentUser.isLDAPuser}}
-                                    <li><a href="#" data-toggle="modal" data-target="#dlgChangePassword">
-                                        Change Password</a>
-                                    </li>
-                                    <li class="divider"></li>
+                                    {{#unless currentUser.isDemoUser}}
+                                        <li><a href="#" data-toggle="modal" data-target="#dlgChangePassword">
+                                            Change Password</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                    {{/unless}}
                                 {{/unless}}
 
                                 <li><a href="#" id="navbar-signout">

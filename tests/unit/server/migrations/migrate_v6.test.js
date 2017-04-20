@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 
-require('../../../../lib/helpers');
+require('../../../../imports/helpers/date');
 
 class MeteorError {}
 let Meteor = {

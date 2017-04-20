@@ -41,7 +41,6 @@ node_js:
   - "6.10.0"
 
 before_install:
-  - mkdir ./tests/snapshots
   - curl https://install.meteor.com | /bin/sh
   - npm install -g chimp@0.45.0
 

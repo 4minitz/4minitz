@@ -37,7 +37,14 @@ export class GlobalSettings {
         Meteor.settings.public.branding.createDemoAccount =
             (Meteor.settings.branding && Meteor.settings.branding.createDemoAccount !== undefined)
                 ? Meteor.settings.branding.createDemoAccount
-                : false;    // Security: if this setting is not present, we will *NOT* create a demo user account!
+                : false;    // #Security: if this setting is not present, we will *NOT* create a demo user account!
+
+        Meteor.settings.public.branding.legalNotice =
+            (Meteor.settings.branding && Meteor.settings.branding.legalNotice !== undefined)
+                ? Meteor.settings.branding.legalNotice
+                : { enabled: false,
+                    linkText: "",
+                    content: [""]};
 
         Meteor.settings.public.attachments = {};
         Meteor.settings.public.attachments.enabled =

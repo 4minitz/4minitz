@@ -4,7 +4,7 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
-require('./../../lib/helpers');
+require('../../imports/helpers/date');
 
 
 describe('ActionItems', function () {
@@ -106,7 +106,7 @@ describe('ActionItems', function () {
 
     it('can add an action item by pressing enter in the topic field', function () {
         let topicIndex = 1;
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
@@ -127,7 +127,7 @@ describe('ActionItems', function () {
 
     it('can add an action item by pressing enter in the priority field', function () {
         let topicIndex = 1;
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({

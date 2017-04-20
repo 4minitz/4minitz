@@ -2,10 +2,11 @@ import { Meteor } from 'meteor/meteor';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 
-import { Minutes } from '/imports/minutes'
-import { UserRoles } from '/imports/userroles'
-import { AttachmentsCollection } from '/imports/collections/attachments_private'
-import { Attachment } from '/imports/attachment'
+import { Minutes } from '/imports/minutes';
+import { UserRoles } from '/imports/userroles';
+import { AttachmentsCollection } from '/imports/collections/attachments_private';
+import { Attachment } from '/imports/attachment';
+import { msToHHMMSS, formatDateISO8601Time } from '/imports/helpers/date';
 
 let _minutesID; // the ID of these minutes
 
@@ -110,7 +111,7 @@ Template.minutesAttachments.helpers({
         if (Template.instance().currentUpload.get()
             && Template.instance().currentUpload.get().state.get() == "active") {
             let time = Template.instance().currentUpload.get().estimateTime.get();
-            time = global.msToHHMMSS(time);
+            time = msToHHMMSS(time);
             return time+ " remaining";
         }
         return "";
@@ -124,7 +125,7 @@ Template.minutesAttachments.helpers({
 
     uploadTimestamp() {
         let file = this.fetch()[0]; // this is an attachment cursor in this context, so get "first" object of array
-        return (global.formatDateISO8601Time(file.meta.timestamp));
+        return (formatDateISO8601Time(file.meta.timestamp));
     }
 });
 

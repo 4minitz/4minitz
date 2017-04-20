@@ -1,51 +1,56 @@
 <template name="meetingSeriesDetails">
+    {{#if authenticating}}
+        {{> loading}}
+    {{else}}
+        {{redirectIfNotAllowed}}
+        {{#with meetingSeries}}
+            <!--Include modal dialog for edit meeting series -->
+            {{> meetingSeriesEdit this}}
 
-    {{#with meetingSeries}}
-        <!--Include modal dialog for edit meeting series -->
-        {{> meetingSeriesEdit this}}
+            <h2 class="header">
+                <span class="hidden-xs">Meeting Series:</span>
+                {{project}} - {{name}}
+                {{#if isModerator}}
+                    <a href="#" data-toggle="modal" data-target="#dlgEditMeetingSeries"
+                       id="btnEditMeetingSeries"
+                       class="pull-right"
+                       title="Configure Meeting Series">
 
-        <h2 class="header">
-            <span class="hidden-xs">Meeting Series:</span>
-            {{project}} - {{name}}
-            {{#if isModerator}}
-                <a href="#" data-toggle="modal" data-target="#dlgEditMeetingSeries"
-                   id="btnEditMeetingSeries"
-                   class="pull-right"
-                   title="Configure Meeting Series">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true" aria-label="Edit Meeting Series"></span>
+                    </a>
+                {{/if}}
+            </h2>
+        {{/with}}
 
-                    <span class="glyphicon glyphicon-cog" aria-hidden="true" aria-label="Edit Meeting Series"></span>
-                </a>
-            {{/if}}
-        </h2>
-    {{/with}}
-
-    {{> error}}
-
-    <ul class="nav nav-tabs">
-        <li id="tab_minutes" data-template="tabMinutesList" role="presentation" class="{{isTabActive 'tab_minutes'}}"><a href="#">Minutes</a></li>
-        <li id="tab_topics" data-template="tabTopics" data-action="topics" role="presentation" class="{{isTabActive 'tab_topics'}}"><a href="#">Topics</a></li>
-        <li id="tab_items" data-template="tabItems" data-action="items" role="presentation" class="{{isTabActive 'tab_items'}}"><a href="#">Items</a></li>
-    </ul>
-    <div class="active">
-        {{> Template.dynamic template=tab data=tabData}}
-    </div>
-
-    <p></p>
-    <a class="btn btn-primary btn-raised" href="{{pathFor '/'}}">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="Go Back"></span>
-        Go Back
-    </a>
-
-    <br>
-    <br>
-
-    {{#if showQuickHelp}}
-        <div class="help panel panel-default">
-            <div class="panel-heading">Quick Help</div>
-            <div class="panel-body">
-                <p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>
-                <a href="#" id="btnHideHelp">OK, hide</a>
-            </div>
+        <ul class="nav nav-tabs">
+            <li id="tab_minutes" data-template="tabMinutesList" role="presentation" class="{{isTabActive 'tab_minutes'}}"><a href="#">Minutes</a></li>
+            <li id="tab_topics" data-template="tabTopics" data-action="topics" role="presentation" class="{{isTabActive 'tab_topics'}}"><a href="#">Topics</a></li>
+            <li id="tab_items" data-template="tabItems" data-action="items" role="presentation" class="{{isTabActive 'tab_items'}}"><a href="#">Items</a></li>
+        </ul>
+        <div class="active">
+            {{> Template.dynamic template=tab data=tabData}}
         </div>
+
+        <p></p>
+        <a class="btn btn-primary btn-raised" href="{{pathFor '/'}}">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="Go Back"></span>
+            Go Back
+        </a>
+
+        <br>
+        <br>
+
+        {{#if showQuickHelp}}
+            <div class="help panel panel-default">
+                <div class="panel-heading">Quick Help</div>
+                <div class="panel-body">
+                    <p>Here you may create new minutes for the current meeting series or
+                        click on a date link of existing minutes.</p>
+                    {{#unless currentUser.isDemoUser}}
+                        <a href="#" class="hidehelp">OK, hide</a>
+                    {{/unless}}
+                </div>
+            </div>
+        {{/if}}
     {{/if}}
 </template>

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
+import { subElementsHelper } from '/imports/helpers/subElements';
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
@@ -257,6 +258,10 @@ export class Topic {
         });
     }
 
+    setItems(items) {
+        this._topicDoc.infoItems = items;
+    }
+
     getSubject() {
         return this._topicDoc.subject;
     }
@@ -313,7 +318,7 @@ export class Topic {
     getResponsibles() {
         return this._topicDoc.responsibles;
     }
-    
+
     getResponsiblesString() {
         if (!this.hasResponsibles()) {
             return "";

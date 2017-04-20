@@ -1,4 +1,4 @@
-import { GlobalSettings } from "/imports/GlobalSettings";
+import { GlobalSettings } from "/imports/config/GlobalSettings";
 let recalcMobileWidth = function () {
     if ($(window).width() < 768) {
         Session.set("global.isMobileWidth", true);

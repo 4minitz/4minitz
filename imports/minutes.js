@@ -1,8 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { MinutesCollection } from './collections/minutes_private';
-import { MeetingSeries } from './meetingseries'
-import { Topic } from './topic'
-import { ActionItem } from './actionitem'
+import { MeetingSeries } from './meetingseries';
+import { Topic } from './topic';
+import { ActionItem } from './actionitem';
+import { formatDateISO8601Time } from '/imports/helpers/date';
+import { emailAddressRegExpMatch } from '/imports/helpers/email';
+import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
 import './collections/workflow_private';
@@ -19,7 +22,7 @@ export class Minutes {
             _.extend(this, source);
         }
     }
-    
+
     // ################### static methods
     static find(...args) {
         return MinutesCollection.find(...args);
@@ -55,7 +58,7 @@ export class Minutes {
 
 
     // ################### object methods
-    
+
     async update (docPart, callback) {
         console.log("Minutes.update()");
         _.extend(docPart, {_id: this._id});
@@ -80,7 +83,6 @@ export class Minutes {
             if (this.topics === undefined) {
                 this.topics = [];
             }
-            //Meteor.call("minutes.insert", this, optimisticUICallback, serverCallback);
             Meteor.call("workflow.addMinutes", this, optimisticUICallback, serverCallback);
         }
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
@@ -298,7 +300,7 @@ export class Minutes {
 
         // search for mail addresses in additional participants and add them to recipients
         if (this.participantsAdditional) {
-            let addMails = this.participantsAdditional.match(global.emailAddressRegExpMatch);
+            let addMails = this.participantsAdditional.match(emailAddressRegExpMatch);
             if (addMails) { // addMails is null if there is no substring matching the email regular expression
                 addMails.forEach(additionalMail => {
                     recipientResult.push(

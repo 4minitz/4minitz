@@ -24,7 +24,6 @@
                 </a>
             </h2>
 
-            {{> error}}
             <p></p>
 
             <div class="well">
@@ -207,7 +206,9 @@
                             Click 'Finalize Minutes' to send the minutes to the invited users and the action items to
                             their responsibles.
                         </p>
-                        <a href="#" id="btnHideHelp">OK, hide</a>
+                        {{#unless currentUser.isDemoUser}}
+                            <a href="#" class="hidehelp">OK, hide</a>
+                        {{/unless}}
                     </div>
                 </div>
             {{/if}}
