@@ -16,6 +16,10 @@
                             </div>
 
                             <div class="col-md-9">
+                                {{#if legalNoticeEnabled}}
+                                    <a id="btnLegalNotice" href="#">{{legalNoticeLinktext}}</a><br><br>
+                                {{/if}}
+
                                 <b>4Minitz</b>
                                 {{#with gitVersionInfo}}
                                     {{#if tag}}
@@ -27,7 +31,8 @@
                                     <br>Branch: {{branch}} ({{commitshort}})<br>
                                 {{/with}}
                                 (C) 2015-2017 4Minitz-Team<br>
-                                Licensed under the <a href="https://github.com/4minitz/4minitz/blob/develop/LICENSE.md" target="_blank">MIT-License</a><br>
+                                Licensed under the
+                                <a href="https://github.com/4minitz/4minitz/blob/develop/LICENSE.md" target="_blank">MIT-License</a><br>
                                 <a href="https://github.com/4minitz/4minitz" target="_blank">Fork us on GitHub</a>
                                 <br>
 
@@ -36,13 +41,15 @@
                                 {{/if}}
 
                                 <div style="margin-top: 0.75em;">
-                                    <b style="color: darkgray;">Main Contributors</b><br>
-                                    Felix Blechschmitt, Wolfram Esser, Michael Gerhäuser<br>
+                                    <b style="color: darkgray;">Active Maintainers</b><br>
+                                    &nbsp;&nbsp;Felix Blechschmitt, Wolfram Esser, Michael Gerhäuser<br>
                                 </div>
 
                                 <div style="margin-top: 0.75em;">
-                                    <b style="color: darkgray;">Further Contributions By</b><br>
-                                    Lisa Brückbauer, Daniel Frank<br>
+                                    <b style="color: darkgray;">Thanks To All Our Contributors</b><br>
+                                    &nbsp;&nbsp;<a href="https://github.com/4minitz/4minitz/graphs/contributors" target="_blank">
+                                        List of all contributors
+                                    </a><br>
                                 </div>
 
                                 <div style="margin-top: 0.75em; overflow: hidden;">
@@ -61,6 +68,7 @@
     <li><a target="_blank" href="https://github.com/DispatchMe/meteor-mocha-phantomjs/">dispatch:mocha-phantomjs</a></li>
     <li><a target="_blank" href="https://github.com/felixble/meteor-server-templates">felixble:server-templates</a></li>
     <li><a target="_blank" href="https://github.com/FezVrasta/bootstrap-material-design">fezvrasta:bootstrap-material-design</a></li>
+    <li><a target="_blank" href="https://github.com/jagi/astronomy">jagi:astronomy</a></li>
     <li><a target="_blank" href="https://github.com/jquery/jquery">jquery:jquery</a></li>
     <li><a target="_blank" href="https://github.com/jquery/jquery-ui">jquery:jquery-ui</a></li>
     <li><a target="_blank" href="https://github.com/kadirahq/flow-router">kadirahq:flow-router</a></li>

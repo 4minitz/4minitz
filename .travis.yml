@@ -5,7 +5,7 @@ env:
   global:
     - CXX=g++-4.8
   matrix:
-    - TEST="tests/end2end/Ac* tests/end2end/I* tests/end2end/L* tests/end2end/U*"
+    - TEST="tests/end2end/Ac* tests/end2end/I* tests/end2end/L*"
     - TEST="tests/end2end/Mee*"
     - TEST="tests/end2end/At* tests/end2end/Mi*"
     - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
@@ -41,7 +41,6 @@ node_js:
   - "6.10.0"
 
 before_install:
-  - mkdir ./tests/snapshots
   - curl https://install.meteor.com | /bin/sh
   - npm install -g chimp@0.45.0
 

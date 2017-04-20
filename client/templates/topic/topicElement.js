@@ -1,12 +1,47 @@
 import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
-import { InfoItem } from '/imports/infoitem';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
+import { FlashMessage } from '../../helpers/flashMessage';
 
 let _minutesId;
 
+let onError = (error) => {
+    (new FlashMessage('Error', error.reason)).show();
+};
+
+let updateItemSorting = (evt, ui) => {
+    let item = ui.item,
+        sorting = item.parent().find('> .topicInfoItem'),
+        topic = new Topic(_minutesId, item.attr('data-parent-id')),
+        newItemSorting = [];
+
+    for (let i = 0; i < sorting.length; ++i) {
+        let itemId = $(sorting[i]).attr('data-id');
+        let item = topic.findInfoItem(itemId);
+
+        newItemSorting.push(item.getDocument());
+    }
+
+    topic.setItems(newItemSorting);
+    topic.save().catch(error => {
+        $('.itemPanel').sortable( "cancel" );
+        onError(error)
+    });
+};
+
 Template.topicElement.onCreated(function () {
     _minutesId = Template.instance().data.minutesID;
+
+    $(document).arrive('.itemPanel', () => {
+        $('.itemPanel').sortable({
+            appendTo: document.body,
+            axis: 'y',
+            opacity: 0.5,
+            disabled: false,
+            handle: '.itemDragDropHandle',
+            update: updateItemSorting
+        });
+    });
 });
 
 Template.topicElement.helpers({
@@ -75,6 +110,12 @@ Template.topicElement.helpers({
     },
     cursorForEdit() {
         return this.isEditable ? "pointer" : "";
+    },
+
+    leftIndentOnDesktop() {
+        if (! Session.get("global.isMobileWidth")) {
+            return "leftIndent"
+        }
     }
 });
 
@@ -97,9 +138,9 @@ Template.topicElement.events({
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 () => {
                     if (deleteAllowed) {
-                        aMin.removeTopic(this.topic._id);
+                        aMin.removeTopic(this.topic._id).catch(onError);
                     } else {
-                        topic.closeTopicAndAllOpenActionItems();
+                        topic.closeTopicAndAllOpenActionItems().catch(onError);
                     }
                 },
                 deleteAllowed ? 'Confirm delete' : 'Close topic?',
@@ -129,9 +170,7 @@ Template.topicElement.events({
 
         console.log("Toggle topic state ("+this.topic.isOpen+"): "+this.topic._id+" from minutes "+this.minutesID);
         let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            aTopic.toggleState();
-        }
+        aTopic.toggleState().catch(onError);
     },
 
     'click .js-toggle-recurring'(evt) {
@@ -145,10 +184,8 @@ Template.topicElement.events({
         }
 
         let aTopic = new Topic(this.minutesID, this.topic._id);
-        if (aTopic) {
-            aTopic.toggleRecurring();
-            aTopic.save();
-        }
+        aTopic.toggleRecurring();
+        aTopic.save().catch(onError);
     },
 
     'click #btnEditTopic'(evt) {
@@ -165,11 +202,22 @@ Template.topicElement.events({
     },
 
     'click .addTopicInfoItem'(evt) {
+        console.log("Info!");
         evt.preventDefault();
         // will be called before the modal dialog is shown
 
         Session.set("topicInfoItemEditTopicId", this.topic._id);
+        Session.set("topicInfoItemType", "infoItem");
     },
+    'click .addTopicActionItem'(evt) {
+        console.log("Action!");
+        evt.preventDefault();
+        // will be called before the modal dialog is shown
+
+        Session.set("topicInfoItemEditTopicId", this.topic._id);
+        Session.set("topicInfoItemType", "actionItem");
+    },
+
 
     'click #btnTopicExpandCollapse'(evt) {
         console.log("btnTopicExpandCollapse()"+this.topic._id);

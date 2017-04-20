@@ -5,9 +5,11 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
+import * as Helpers from '../../../imports/helpers/date';
+import * as EmailHelpers from '../../../imports/helpers/email';
+import * as SubElements from '../../../imports/helpers/subElements';
 
 require('sinon-as-promised');
-require('../../../lib/helpers');
 
 let MinutesCollection = {
     find: sinon.stub(),
@@ -46,6 +48,9 @@ let ActionItem = function (topic, doc) {
 };
 
 
+Helpers['@noCallThru'] = true;
+SubElements['@noCallThru'] = true;
+EmailHelpers['@noCallThru'] = true;
 const {
     Minutes
     } = proxyquire('../../../imports/minutes', {
@@ -56,6 +61,9 @@ const {
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './actionitem': { ActionItem, '@noCallThru': true},
+    '/imports/helpers/date': Helpers,
+    '/imports/helpers/email': EmailHelpers,
+    '/imports/helpers/subElements': SubElements,
     'meteor/underscore': { _, '@noCallThru': true}
 });
 

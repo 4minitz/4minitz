@@ -17,7 +17,9 @@
             <p>With 4Minitz you can create minutes for meetings.</p>
             <p>First create a new meeting series and invite some other users.<br>
                 Then create meeting minutes on multiple dates for your meeting series.</p>
-                <a href="#" class="hidehelp">OK, hide</a>
+                {{#unless currentUser.isDemoUser}}
+                    <a href="#" class="hidehelp">OK, hide</a>
+                {{/unless}}
             </div>
         </div>
     {{/if}}

@@ -26,6 +26,14 @@ FlowRouter.route('/admin', {
     }
 });
 
+FlowRouter.route('/legalnotice', {
+    name: 'legalNotice',
+    action() {
+        BlazeLayout.render('legalNotice');
+    }
+});
+
+
 
 FlowRouter.route('/meetingseries/:_id', {
     name: 'meetingseries',

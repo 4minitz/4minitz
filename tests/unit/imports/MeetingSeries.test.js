@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import * as DateHelpers from '../../../imports/helpers/date';
+import * as SubElements from '../../../imports/helpers/subElements';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
@@ -12,6 +14,8 @@ let Minutes = {};
 let Topic = {};
 let UserRoles = {};
 let PromisedMethods = {};
+DateHelpers['@noCallThru'] = true;
+SubElements['@noCallThru'] = true;
 
 const {
     MeetingSeries
@@ -22,6 +26,8 @@ const {
     './minutes': { Minutes, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './userroles': { UserRoles, '@noCallThru': true},
+    '/imports/helpers/date': DateHelpers,
+    '/imports/helpers/subElements': SubElements,
     'meteor/underscore': { _, '@noCallThru': true}
 });
 
@@ -48,7 +54,7 @@ describe('MeetingSeries', function () {
             expect(ms.name).to.equal(meetingSeries.name);
         });
     });
-    
+
     describe('#getMinimumAllowedDateForMinutes', function () {
         let series;
 

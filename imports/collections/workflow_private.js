@@ -11,12 +11,12 @@ import { MeetingSeriesCollection } from './meetingseries_private';
 import { MinutesCollection } from './minutes_private';
 import { AttachmentsCollection, calculateAndCreateStoragePath} from './attachments_private';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
-import { GlobalSettings } from './../GlobalSettings';
+import { GlobalSettings } from '../config/GlobalSettings';
 
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Make sure the user is logged in before changing collections
     if (!Meteor.userId()) {
-        throw new Meteor.Error('not-authorized');
+        throw new Meteor.Error('not-authorized', 'You are not authorized to perform this action.');
     }
 
     // Ensure user can not update documents of other users

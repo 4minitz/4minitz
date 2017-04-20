@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as Helpers from '../../../imports/helpers/date';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 import _ from 'underscore';
@@ -15,10 +16,13 @@ let Meteor = {
     Error: MeteorError
 };
 
+Helpers['@noCallThru'] = true;
+
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
     'meteor/underscore': { _, '@noCallThru': true},
+    '/imports/helpers/date': Helpers,
     './topic': { Topic, '@noCallThru': true},
     './label': { Label, '@noCallThru': true}
 });

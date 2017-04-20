@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private'
+import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private';
+import { formatDateISO8601Time } from '/imports/helpers/date';
 
 // Dear admin,
 // This class can be used via the 'meteor shell' command from the server backend.
@@ -58,7 +59,7 @@ export class BroadcastMessage {
             let allMsgs = [];
             BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
                 let oneMsg = "Message: "+msg._id+" "+
-                            global.formatDateISO8601Time(msg.createdAt) +
+                            formatDateISO8601Time(msg.createdAt) +
                             " dismissed:"+msg.dismissForUserIDs.length +
                             "\n" + msg.text;
                 console.log(oneMsg);

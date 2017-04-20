@@ -8,7 +8,7 @@ if (Meteor.isServer) {
 
 import { Meteor } from 'meteor/meteor';
 
-import { GlobalSettings } from '/imports/GlobalSettings'
+import { GlobalSettings } from '/imports/config/GlobalSettings'
 import { UserRoles } from '../userroles'
 import { MeetingSeries } from '../meetingseries';
 import { Minutes } from '../minutes';
