@@ -3,7 +3,8 @@ import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeries } from './meetingseries';
 import { Topic } from './topic';
 import { ActionItem } from './actionitem';
-import { emailAddressRegExpMatch, formatDateISO8601Time, subElementsHelper } from '/imports/helpers/date';
+import { emailAddressRegExpMatch, formatDateISO8601Time } from '/imports/helpers/date';
+import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
 import './collections/workflow_private';
@@ -299,7 +300,7 @@ export class Minutes {
 
         // search for mail addresses in additional participants and add them to recipients
         if (this.participantsAdditional) {
-            let addMails = this.participantsAdditional.match(global.emailAddressRegExpMatch);
+            let addMails = this.participantsAdditional.match(emailAddressRegExpMatch);
             if (addMails) { // addMails is null if there is no substring matching the email regular expression
                 addMails.forEach(additionalMail => {
                     recipientResult.push(
