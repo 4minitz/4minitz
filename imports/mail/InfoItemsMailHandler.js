@@ -24,6 +24,8 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
     _sendMail() {
         let mailSubject = this._getSubject();
 
+        console.log(this);
+
         // Generate responsibles strings for all topics
         this._topics.forEach(topic => {
             let aTopicObj = new Topic (this._minute._id, topic);
@@ -31,6 +33,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             if (aTopicObj.hasResponsibles()) {
                 topic.responsiblesString = "("+aTopicObj.getResponsiblesString()+")";
             }
+            topic.labels = aTopicObj.getLabelsString(topic);
         });
 
         this._buildMail(

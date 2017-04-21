@@ -441,4 +441,29 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
+    it('check whether labelselectionfield exists', function() {
+        browser.waitForVisible("#id_showAddTopicDialog");
+        browser.click("#id_showAddTopicDialog");
+
+        expect(browser.waitForExist("#id_item_selLabels")).to.be.true;
+    });
+
+    it('add label to topic via selection field', function() {
+        let labelName = 'testLabel';
+        E2ETopics.addTopicWithLabelToMinutes('topic', labelName);
+        E2EGlobal.waitSomeTime(500);
+
+        expect(browser.waitForExist(".labels")).to.be.true;
+        expect(browser.getText(".label")).to.equal(labelName);
+    });
+
+    it('add label to topic via textbox', function() {
+        let labelName = 'testLabel';
+        E2ETopics.addTopicToMinutes('topic #' + labelName);
+        E2EGlobal.waitSomeTime(500);
+
+        expect(browser.waitForExist(".labels")).to.be.true;
+        expect(browser.getText(".label")).to.equal(labelName);
+    });
+
 });

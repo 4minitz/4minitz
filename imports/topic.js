@@ -5,6 +5,7 @@ import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
+import { Label } from './label'
 import { _ } from 'meteor/underscore';
 
 import './helpers/promisedMethods';
@@ -296,6 +297,65 @@ export class Topic {
         return this._topicDoc;
     }
 
+    getLabels(meetingSeriesId) {
+        this._topicDoc.labels = this.getLabelsRawArray().filter(labelId => {
+            return (null !== Label.createLabelById(meetingSeriesId, labelId));
+        });
+
+        return this.getLabelsRawArray().map(labelId => {
+            return Label.createLabelById(meetingSeriesId, labelId);
+
+        })
+    }
+
+    addLabelByName(labelName, meetingSeriesId) {
+        let label = Label.createLabelByName(meetingSeriesId, labelName);
+        if (null === label) {
+            label = new Label({name: labelName});
+            label.save(meetingSeriesId);
+        }
+
+        if (!this.hasLabelWithId(label.getId())) {
+            this._topicDoc.labels.push(label.getId());
+        }
+    }
+
+    hasLabelWithId(labelId) {
+        let i;
+        for (i = 0; i < this._topicDoc.labels.length; i++) {
+            if (this._topicDoc.labels[i] === labelId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    getLabelsString(topic) {
+        let labels = topic.labels;
+        let labelsString = "";
+
+        let aMinute = new Minutes(topic.createdInMinute);
+        let aSeries = aMinute.parentMeetingSeries();
+
+        labels = labels.map(labelId => {
+            return Label.createLabelById(aSeries._id, labelId);
+        })
+
+        for (let i in labels) {
+            labelsString += "#" + labels[i]._labelDoc.name+ ", ";
+        }
+        labelsString = labelsString.slice(0, -2);   // remove last ", "
+        return labelsString;
+    }
+
+    getLabelsRawArray() {
+        if (!this._topicDoc.labels) {
+            return [];
+        }
+        return this._topicDoc.labels;
+    }
+
+
     /**
      * Checks whether this topic has associated responsibles
      * or not. This method must have the same name as the
@@ -344,6 +404,17 @@ export class Topic {
         return responsiblesString;
     }
 
+    extractLabelsFromTopic(meetingSeriesId) {
+        const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
+        let match;
+
+        while(match = regEx.exec(this._topicDoc.subject)) {
+            let labelName = match[2];
+            this.addLabelByName(labelName, meetingSeriesId);
+            this._removeLabelFromTopic(labelName);
+        }
+    }
+
     // ################### private methods
     /**
      * Overwrites the simple properties (subject, responsible)
@@ -356,5 +427,11 @@ export class Topic {
         this._topicDoc.responsibles = updateTopicDoc.responsibles;
         this._topicDoc.isNew = updateTopicDoc.isNew;
         this._topicDoc.isRecurring = updateTopicDoc.isRecurring;
+    }
+
+    _removeLabelFromTopic(labelName) {
+        this._topicDoc.subject = this._topicDoc.subject.replace("#" + labelName + " ", "");
+        this._topicDoc.subject = this._topicDoc.subject.replace(" #" + labelName, "");
+        this._topicDoc.subject = this._topicDoc.subject.replace("#" + labelName, "");
     }
 }
