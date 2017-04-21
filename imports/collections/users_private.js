@@ -22,11 +22,6 @@ Meteor.methods({
         if (Meteor.isServer) {
             check(eMail, String);
             check(longName, String);
-
-            if (!global.emailAddressRegExpTest.test(eMail)) {
-                throw new Meteor.Error("Invalid E-Mail", "Not a valid E-Mail address");
-            }
-
             if (! Meteor.userId()) {
                 throw new Meteor.Error("Cannot edit profile", "User not logged in.");
             }
@@ -36,6 +31,11 @@ Meteor.methods({
                     throw new Meteor.Error("Cannot edit profile", "You are not admin or you are trying to change someone else's profile");
                 }
             }
+            
+            if (! emailAddressRegExpTest.test(eMail)) {
+                throw new Meteor.Error("Invalid E-Mail", "Not a valid E-Mail address");
+            }
+            
             Meteor.users.update(userId, {$set: {'emails.0.address': eMail, 'profile.name': longName}});
             console.log(eMail, longName);
         }

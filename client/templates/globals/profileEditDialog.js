@@ -1,24 +1,36 @@
-import { FlashMessage } from '../../helpers/flashMessage';
 import { Meteor } from 'meteor/meteor';
+import { FlashMessage } from '../../helpers/flashMessage';
+import { addCustomValidator } from '../../helpers/customFieldValidator'; 
+import { emailAddressRegExpTest } from '/imports/helpers/email';
 
 let showError = function (evt, error) {
     (new FlashMessage('Error', error.reason)).show();
     evt.preventDefault();
 };
 
+let checkEMailIsValid = (email) => {
+    return emailAddressRegExpTest.test(eMail);
+};
+
+Template.profileEditDialog.onRendered(function() { 
+    addCustomValidator( 
+        "#id_emailAddress", 
+        (value) => { return checkPasswordMatchesPattern(value) }, 
+        'Not a valid E-Mail address'); 
+}); 
 
 Template.profileEditDialog.events({
     "submit #frmDlgEditProfile"(evt, tmpl) {
         evt.preventDefault();
-    },
 
-    "click #btnEditProfileSave"(evt, tmpl) {
         if (!Meteor.user()) {
             return;
         }
-        Session.set('errorTitle', null);
-        Session.set('errorReason', null);
 
+        if (Meteor.user().isDemoUser) { 
+            return; 
+        } 
+        
         let uLongName = tmpl.find("#id_longName").value;
         let uEmailAddress = tmpl.find("#id_emailAddress").value;
 
@@ -39,11 +51,6 @@ Template.profileEditDialog.events({
 
     },
 
-    "hidden.bs.modal #dlgEditProfile": function () {
-        Session.set('errorTitle', null);
-        Session.set('errorReason', null);
-    },
-
     "show.bs.modal #dlgEditProfile": function (evt, tmpl) {
         let usr = Meteor.users.findOne(Meteor.userId());
         if (usr.profile){
@@ -56,6 +63,4 @@ Template.profileEditDialog.events({
     "shown.bs.modal #dlgEditProfile": function (evt, tmpl) {
         tmpl.find("#id_longName").focus();
     }
-
-
 });

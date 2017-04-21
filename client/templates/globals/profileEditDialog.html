@@ -6,7 +6,6 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
                 </div>
-                {{> error}}
                 <form id="frmDlgEditProfile">
                     <div class="modal-body">
                         <div class="form-group ">
@@ -16,7 +15,7 @@
                         <div class="form-group ">
                             <label for="id_emailAddress" class="control-label">E-Mail</label>
                             <input id="id_emailAddress" type="text" class="form-control"
-                                   required data-error-msg="Please enter a valid E-Mail address" autocomplete="off">
+                                   required autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer">
