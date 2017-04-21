@@ -80,3 +80,18 @@ Meteor.startup(() => {
         return pathWithTrailingSlash;
     });
 });
+
+window.onbeforeunload = function (e) {
+    if(Meteor.status().connected == true) {
+        e.cancel();
+    }
+    var message = "Do you really want to leave 4Minitz?",
+        e = e || window.event;
+    // For IE and Firefox
+    if (e) {
+        e.returnValue = message;
+    }
+
+    // For Safari
+    return message;
+};
