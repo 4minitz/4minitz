@@ -45,15 +45,6 @@ Template.topicElement.onCreated(function () {
 });
 
 Template.topicElement.helpers({
-    getLabels: function() {
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        return aTopic.getLabels(this.parentMeetingSeriesId)
-            .map(labelObj => {
-                let doc = labelObj.getDocument();
-                doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
-                return doc;
-            });
-    },
 
     checkedState: function () {
         if (this.topic.isOpen) {
