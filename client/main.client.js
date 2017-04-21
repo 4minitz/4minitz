@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private'
+import { Markdown } from 'meteor/perak:markdown';
+import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private';
+import '/imports/config/accounts';
 
 // initialize
 //  * twitter bootstrap

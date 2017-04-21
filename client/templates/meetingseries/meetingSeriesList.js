@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor';
-
 import { MeetingSeries } from '/imports/meetingseries'
 import { UserRoles } from '/imports/userroles'
 import { User, userSettings } from '/imports/users'
@@ -16,19 +14,9 @@ Template.meetingSeriesList.helpers({
 });
 
 Template.meetingSeriesOverview.helpers({
-    addMinutesPath: function () {
-        let ms = new MeetingSeries(this._id);
-        return (ms.addNewMinutesAllowed()) ? "/minutesadd/" + this._id : "";
-    },
-
-    addMinutesNotAllowed: function () {
-        let ms = new MeetingSeries(this._id);
-        return !ms.addNewMinutesAllowed();
-    },
-
     isModeratorOfSeries: function () {
         let usrRole = new UserRoles();
-        return usrRole.isModeratorOf(this._id);
+        return usrRole.isModeratorOf(Template.instance().data._id);
     }
 });
 

@@ -74,7 +74,7 @@ Template.topicInfoItem.helpers({
             Session.set('topicInfoItem.triggerAddDetailsForItem', null);
             let tmpl = Template.instance();
             Meteor.setTimeout(() => {
-                addNewDetails(tmpl, itemId);
+                addNewDetails(tmpl);
             }, 1300); // we need this delay otherwise the input field will be made hidden immediately
         }
         // do not return anything! This will be rendered on the page!
@@ -83,6 +83,10 @@ Template.topicInfoItem.helpers({
 
     isActionItem: function() {
         return (this.infoItem.itemType === 'actionItem');
+    },
+
+    isInfoItem: function() {
+        return (this.infoItem.itemType === 'infoItem');
     },
 
     detailsArray: function () {
@@ -133,10 +137,6 @@ Template.topicInfoItem.helpers({
         return Template.instance().isTopicCollapsed.get();
     },
 
-    showPinItem() {
-        return (this.infoItem.itemType === 'infoItem' && ( this.isEditable || this.infoItem.isSticky) );
-    },
-
     responsiblesHelper() {
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
         if (aInfoItem instanceof ActionItem) {
@@ -147,7 +147,7 @@ Template.topicInfoItem.helpers({
         return "";
     },
 
-    classForEdit() {
+    idForEdit() {
         return this.isEditable ? "btnEditInfoItem" : "";
     },
     cursorForEdit() {
@@ -321,7 +321,7 @@ Template.topicInfoItem.events({
                 };
 
                 let oldText = aActionItem.getDetailsAt(index).text;
-                if (!oldText || oldText === "") {
+                if (!oldText) {
                     // use case: Adding details and leaving the input field without entering any text should go silently.
                     deleteDetails();
                 } else {

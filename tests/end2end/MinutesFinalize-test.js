@@ -1,10 +1,8 @@
-
-import { E2EGlobal } from './helpers/E2EGlobal'
-import { E2EApp } from './helpers/E2EApp'
-import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMinutes } from './helpers/E2EMinutes'
-import { E2ETopics } from './helpers/E2ETopics'
-
+import { E2EGlobal } from './helpers/E2EGlobal';
+import { E2EApp } from './helpers/E2EApp';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2ETopics } from './helpers/E2ETopics';
 
 describe('Minutes Finalize', function () {
 
@@ -254,4 +252,36 @@ describe('Minutes Finalize', function () {
         let currentDateISO = E2EGlobal.formatDateISO8601(new Date());
         expect(E2EMinutes.getMinutesId(currentDateISO)).to.be.ok;
     });
+
+
+    it('cancel finalize Minutes, when no participants are present and warning-box appears', function () {
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.false;
+        E2EMinutes.finalizeCurrentMinutesWithoutParticipants(true, false);
+
+        expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.false;
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
+    });
+
+    it('process finalize Minutes, when no participants are present and warning-box appears', function () {
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.false;
+        E2EMinutes.finalizeCurrentMinutesWithoutParticipants(true, true);
+
+        expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.true;
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
+    });
+
 });

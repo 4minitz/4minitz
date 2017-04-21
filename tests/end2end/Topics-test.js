@@ -100,7 +100,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
 
-        var topics = E2ETopics.getTopicsForMinute();
+        const topics = E2ETopics.getTopicsForMinute();
         let elementId = topics[0].ELEMENT;
         let visibleText = browser.elementIdText(elementId).value;
 
@@ -114,7 +114,7 @@ describe('Topics', function () {
 
         browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
-        var topics = E2ETopics.getTopicsForMinute();
+        const topics = E2ETopics.getTopicsForMinute();
         let elementId = topics[0].ELEMENT;
         let visibleText = browser.elementIdText(elementId).value;
 
@@ -133,7 +133,7 @@ describe('Topics', function () {
         browser.moveToObject('#topicPanel .well:nth-child(1)');
         browser.buttonUp();
 
-        var topics = E2ETopics.getTopicsForMinute();
+        const topics = E2ETopics.getTopicsForMinute();
         let elementId = topics[0].ELEMENT;
         let visibleText = browser.elementIdText(elementId).value;
 
@@ -151,14 +151,14 @@ describe('Topics', function () {
         browser.click('#tab_topics');
         E2EGlobal.waitSomeTime();
 
-        var topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
+        const topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
         let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
         browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
-        var topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
+        const topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
         let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
         expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
@@ -171,14 +171,14 @@ describe('Topics', function () {
 
         E2EMinutes.finalizeCurrentMinutes();
 
-        var topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
+        const topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
         let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
         browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
-        var topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
+        const topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
         let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
         expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
@@ -206,7 +206,7 @@ describe('Topics', function () {
         E2EGlobal.waitSomeTime();
 
         E2EMinutes.gotoLatestMinutes();
-        var topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
+        const topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
         let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
         let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
@@ -229,7 +229,7 @@ describe('Topics', function () {
         browser.moveToObject('#topicPanel .well:nth-child(1)');
         browser.buttonUp();
 
-        var topicsBeforeReload = E2ETopics.getTopicsForMinute();
+        const topicsBeforeReload = E2ETopics.getTopicsForMinute();
         let firstElementBeforeReload = topicsBeforeReload[0].ELEMENT;
         let visibleTextBeforeReload = browser.elementIdText(firstElementBeforeReload).value;
         expect(visibleTextBeforeReload).to.have.string('some topic');
@@ -237,7 +237,7 @@ describe('Topics', function () {
         browser.refresh();
         E2EGlobal.waitSomeTime(2500); // phantom.js needs some time here...
 
-        var topicsAfterReload = E2ETopics.getTopicsForMinute();
+        const topicsAfterReload = E2ETopics.getTopicsForMinute();
         let firstElementAfterReload = topicsAfterReload[0].ELEMENT;
         let visibleTextAfterReload = browser.elementIdText(firstElementAfterReload).value;
         expect(visibleTextAfterReload).to.have.string('some topic');
@@ -382,7 +382,7 @@ describe('Topics', function () {
         E2EMinutes.finalizeCurrentMinutes();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        var topicsOfNewMinute = E2ETopics.getTopicsForMinute();
+        const topicsOfNewMinute = E2ETopics.getTopicsForMinute();
         let firstElement = topicsOfNewMinute[0].ELEMENT;
         let visibleText = browser.elementIdText(firstElement).value;
         expect(visibleText).to.have.string(myTopicSubject);
@@ -441,28 +441,4 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
-    it('check whether labelselectionfield exists', function() {
-        browser.waitForVisible("#id_showAddTopicDialog");
-        browser.click("#id_showAddTopicDialog");
-
-        expect(browser.waitForExist("#id_item_selLabels")).to.be.true;
-    });
-
-    it('add label to topic via selection field', function() {
-        let labelName = 'testLabel';
-        E2ETopics.addTopicWithLabelToMinutes('topic', labelName);
-        E2EGlobal.waitSomeTime(500);
-
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".label")).to.equal(labelName);
-    });
-
-    it('add label to topic via textbox', function() {
-        let labelName = 'testLabel';
-        E2ETopics.addTopicToMinutes('topic #' + labelName);
-        E2EGlobal.waitSomeTime(500);
-
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".label")).to.equal(labelName);
-    });
 });

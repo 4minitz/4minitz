@@ -78,6 +78,7 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
 
         // close dialog otherwise beforeEach-hook will fail!
         browser.click('#confirmationDialogOK');
+        E2EGlobal.waitSomeTime();
     });
 
     it('closes the action item instead of deleting it', function () {

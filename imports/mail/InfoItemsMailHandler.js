@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { TopicItemsMailHandler } from './TopicItemsMailHandler'
-import { GlobalSettings } from './../GlobalSettings'
+import { GlobalSettings } from '../config/GlobalSettings'
 import { Topic } from './../topic'
 import { Attachment } from '../attachment';
 
@@ -23,6 +23,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
     _sendMail() {
         let mailSubject = this._getSubject();
+
         // Generate responsibles strings for all topics
         this._topics.forEach(topic => {
             let aTopicObj = new Topic (this._minute._id, topic);
@@ -30,9 +31,8 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             if (aTopicObj.hasResponsibles()) {
                 topic.responsiblesString = "("+aTopicObj.getResponsiblesString()+")";
             }
-            topic.labels = aTopicObj.getLabelsString(topic);
         });
-        
+
         this._buildMail(
             mailSubject,
             this._getEmailData()
