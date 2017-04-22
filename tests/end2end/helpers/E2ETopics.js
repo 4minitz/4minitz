@@ -53,7 +53,8 @@ export class E2ETopics {
     }
 
     static label2TopicEnterFreetext(labelName) {
-        browser.element("#id_item_selLabels").click();
+        browser.element('#id_subject').click();
+        browser.keys("\uE004"); // Tab to reach next input field => labels
         browser.keys(labelName+"\uE007"); // plus ENTER
     }
 
@@ -104,6 +105,7 @@ export class E2ETopics {
     static insertTopicDataWithLabelIntoDialog(subject, label) {
         try {
             browser.waitForVisible('#id_subject');
+            browser.waitForVisible('#id_item_selLabels');
         } catch (e) {
             return false;
         }

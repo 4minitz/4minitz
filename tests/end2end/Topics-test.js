@@ -446,6 +446,7 @@ describe('Topics', function () {
         browser.click("#id_showAddTopicDialog");
 
         expect(browser.waitForExist("#id_item_selLabels")).to.be.true;
+        browser.click("#btnTopicCancel");
     });
 
     it('add label to topic via selection field', function() {
