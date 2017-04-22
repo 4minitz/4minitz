@@ -24,8 +24,6 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
     _sendMail() {
         let mailSubject = this._getSubject();
 
-        console.log(this);
-
         // Generate responsibles strings for all topics
         this._topics.forEach(topic => {
             let aTopicObj = new Topic (this._minute._id, topic);

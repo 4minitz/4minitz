@@ -64,7 +64,7 @@ export class E2ETopics {
         // browser.element(".form-group-responsibles .select2-selection").click();
         // ... so we take this as workaround: click into first select2 then Tab/Tab to the next one
 
-        browser.element("#id_selResponsible").click();
+        browser.element(".form-group-labels .select2-selection").click();
         browser.keys("\uE004\uE004"); // 2 x Tab to reach next select2
 
         let texts = theText.split(",");
