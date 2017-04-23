@@ -469,4 +469,17 @@ describe('Topics', function () {
         expect(browser.getText(".label")).to.equal(labelName);
     });
 
+    it('add label to topic and check if topic is displayed in topic tab of meeting series', function() {
+        let labelName = 'testLabel';
+        E2ETopics.addTopicToMinutes('topic #' + labelName);
+        E2EGlobal.waitSomeTime(500);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeries.gotoTabTopics();
+
+        expect(browser.waitForExist(".labels")).to.be.true;
+        expect(browser.getText(".labels .label")).to.equal(labelName);
+    });
+
 });
