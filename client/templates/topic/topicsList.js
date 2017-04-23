@@ -47,9 +47,11 @@ Template.topicsList.events({
 
         let topicDoc = {};
         topicDoc.subject = tmpl.find("#addTopicField").value;
+        topicDoc.responsibles = [];
 
         let aTopic = new Topic(tmpl.data.minutesId, topicDoc);
         aTopic.extractLabelsFromTopic(this.parentMeetingSeriesId);
+        aTopic.extractResponsiblesFromTopic();
 
         aTopic.saveAtBottom().catch(error => {
             tmpl.find("#addTopicField").value = topicDoc.subject; // set desired value again!
