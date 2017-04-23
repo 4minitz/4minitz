@@ -444,8 +444,10 @@ describe('Topics', function () {
     it('check whether labelselectionfield exists', function() {
         browser.waitForVisible("#id_showAddTopicDialog");
         browser.click("#id_showAddTopicDialog");
+        E2EGlobal.waitSomeTime(350);
 
         expect(browser.waitForExist("#id_item_selLabels")).to.be.true;
+        E2EGlobal.waitSomeTime(350);
         browser.click("#btnTopicCancel");
     });
 
