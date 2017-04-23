@@ -441,4 +441,45 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
+    it('check whether labelselectionfield exists', function() {
+        browser.waitForVisible("#id_showAddTopicDialog");
+        browser.click("#id_showAddTopicDialog");
+        E2EGlobal.waitSomeTime(350);
+
+        expect(browser.waitForExist("#id_item_selLabels")).to.be.true;
+        E2EGlobal.waitSomeTime(350);
+        browser.click("#btnTopicCancel");
+    });
+
+    it('add label to topic via selection field', function() {
+        let labelName = 'testLabel';
+        E2ETopics.addTopicWithLabelToMinutes('topic', labelName);
+        E2EGlobal.waitSomeTime(500);
+
+        expect(browser.waitForExist(".labels")).to.be.true;
+        expect(browser.getText(".label")).to.equal(labelName);
+    });
+
+    it('add label to topic via textbox', function() {
+        let labelName = 'testLabel';
+        E2ETopics.addTopicToMinutes('topic #' + labelName);
+        E2EGlobal.waitSomeTime(500);
+
+        expect(browser.waitForExist(".labels")).to.be.true;
+        expect(browser.getText(".label")).to.equal(labelName);
+    });
+
+    it('add label to topic and check if topic is displayed in topic tab of meeting series', function() {
+        let labelName = 'testLabel';
+        E2ETopics.addTopicToMinutes('topic #' + labelName);
+        E2EGlobal.waitSomeTime(500);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeries.gotoTabTopics();
+
+        expect(browser.waitForExist(".labels")).to.be.true;
+        expect(browser.getText(".labels .label")).to.equal(labelName);
+    });
+
 });
