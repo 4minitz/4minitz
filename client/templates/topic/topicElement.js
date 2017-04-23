@@ -46,8 +46,10 @@ Template.topicElement.onCreated(function () {
 
 Template.topicElement.helpers({
     getLabels: function() {
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        return aTopic.getLabels(this.parentMeetingSeriesId)
+        let tmplData = Template.instance().data;
+        let parentElement = (tmplData.minutesID) ? tmplData.minutesID : tmplData.parentMeetingSeriesId;
+        let aTopic = new Topic(parentElement, this.topic._id);
+        return aTopic.getLabels(tmplData.parentMeetingSeriesId)
             .map(labelObj => {
                 let doc = labelObj.getDocument();
                 doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
