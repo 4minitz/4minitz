@@ -61,9 +61,26 @@
     text-align: justify;
 }
 
+.panel-dropper {
+    color: grey;
+}
+.panel-dropper:hover {
+    color: teal;
+}
+
+.panel-link {
+    padding: 0.5em 0 !important;
+    margin-left: 0;
+}
+
 .panel-link:hover, .panel-link:link {
     color: inherit;
 }
+
+.panel-link:hover {
+    background: #eee !important;
+}
+
 
 /* highlight active nav-tabs item */
 ul.nav-tabs {
@@ -93,7 +110,7 @@ a:focus {
 /* .panel-heading sets the default background which can only be
    overwritten with the !important flag  */
 .panel-heading.actionitem-open {
-    background-color: #77CCCC !important;
+    background-color: #88dddd !important;
 }
 
 .panel-heading.actionitem-closed {
@@ -156,16 +173,24 @@ a:focus {
     text-decoration: none;
 }
 
+.dragDropHandle {
+    color: grey;
+}
 
-.topicDragDropHandle:hover {
+.dragDropHandle:link {
+    color: grey;
+}
+
+.dragDropHandle:hover {
     cursor: move; /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
+    color: black;
 }
 
 /* (Optional) Apply a "closed-hand" cursor during drag operation. */
-.topicDragDropHandle:active {
+.dragDropHandle:active {
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
@@ -211,4 +236,10 @@ input.pick-a-color {
 
 .align-with-input {
     bottom: -25px;
+}
+
+/* used to indent topic content like infoitems / action items */
+.leftIndent {
+    margin-left: 20px;
+    padding-left: 5px;
 }

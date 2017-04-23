@@ -139,7 +139,7 @@ export class ItemsFilter {
                 return item.isNew;
             case 'sticky':
                 return item.isSticky;
-            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
+            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
         }
     }
 

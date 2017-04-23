@@ -127,8 +127,9 @@ export class E2EApp {
     // so we click on the "Logo" icon
     static gotoStartPage () {
         browser.keys(['Escape']);   // close eventually open modal dialog
+        E2EGlobal.waitSomeTime();
         try {
-            browser.waitForExist('a.navbar-brand', 2000);
+            browser.waitForExist('a.navbar-brand', 2500);
         } catch (e) {
             E2EApp.launchApp();
         }

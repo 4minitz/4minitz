@@ -12,8 +12,12 @@ import { ActionItem } from '/imports/actionitem'
 import { Label } from '/imports/label'
 
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
+import { currentDatePlusDeltaDays } from '/imports/helpers/date';
+import { emailAddressRegExpTest } from '/imports/helpers/email';
 
 import { $ } from 'meteor/jquery';
+import { handleError } from '/client/helpers/handleError';
+
 
 Session.setDefault("topicInfoItemEditTopicId", null);
 Session.setDefault("topicInfoItemEditInfoItemId", null);
@@ -21,7 +25,6 @@ Session.setDefault("topicInfoItemType", "infoItem");
 
 let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for performance reasons!
-let _emailAddressRegExp = global.emailAddressRegExpTest;
 
 Template.topicInfoItemEdit.onCreated(function () {
     _minutesID = this.data;
@@ -64,7 +67,6 @@ let getEditInfoItem = function() {
 
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
-    Session.set("topicInfoItemType", type);
     switch (type) {
         case "actionItem":
             actionItemOnlyElements.show();
@@ -80,9 +82,8 @@ let toggleItemMode = function (type, tmpl) {
 
 
 function configureSelect2Responsibles() {
-    console.log("-----------ConfigureSelect2!");
     let freeTextValidator = (text) => {
-        return _emailAddressRegExp.test(text);
+        return emailAddressRegExpTest.test(text);
     };
     let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditInfoItem(), Meteor.users, freeTextValidator);
 
@@ -149,10 +150,6 @@ Template.topicInfoItemEdit.helpers({
         return (getEditInfoItem() !== false);
     },
 
-    disableTypeChange: function () {
-        return (getEditInfoItem()) ? "disabled" : "";
-    },
-
     getTopicSubject: function () {
         let topic = getRelatedTopic();
         return (topic) ? topic._topicDoc.subject : "";
@@ -165,24 +162,14 @@ Template.topicInfoItemEdit.helpers({
 });
 
 Template.topicInfoItemEdit.events({
-    'click .type': function(evt, tmpl) {
-        let type = evt.target.value;
-        toggleItemMode(type, tmpl);
-        tmpl.find("#id_item_subject").focus();
-    },
-
     'submit #frmDlgAddInfoItem': async function(evt, tmpl) {
         evt.preventDefault();
-        let saveButton = $("#btnInfoItemSave");
-        let cancelButton = $("#btnInfoItemCancel");
-        saveButton.prop("disabled",true);
-        cancelButton.prop("disabled",true);
 
         if (!getRelatedTopic()) {
             throw new Meteor.Error("IllegalState: We have no related topic object!");
         }
 
-        let type = tmpl.find('input[name="id_type"]:checked').value;
+        let type = Session.get("topicInfoItemType");
         let newSubject = tmpl.find('#id_item_subject').value;
 
         let editItem = getEditInfoItem();
@@ -228,22 +215,13 @@ Template.topicInfoItemEdit.events({
         }
 
         newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
-
-        try {
-            let itemAlreadyExists = !!newItem.getId();
-            await newItem.saveAsync();
-            console.log('Successfully saved new item with id: ' + newItem.getId());
-            console.log(newItem.getId());
-            $('#dlgAddInfoItem').modal('hide');
-            if (!itemAlreadyExists) {
-                Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
-            }
-        } catch (e) {
-            Session.set('errorTitle', 'Validation error');
-            Session.set('errorReason', error.reason);
+        let itemAlreadyExists = !!newItem.getId();
+        newItem.saveAsync().catch(handleError);
+        console.log('Successfully saved new item with id: ' + newItem.getId());
+        $('#dlgAddInfoItem').modal('hide');
+        if (!itemAlreadyExists) {
+            Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
         }
-        saveButton.prop("disabled",false);
-        cancelButton.prop("disabled",false);
     },
 
     "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
@@ -266,7 +244,6 @@ Template.topicInfoItemEdit.events({
         // set type: edit existing item
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? "actionItem" : "infoItem";
-            tmpl.find('#type_' + type).checked = true;
             toggleItemMode(type, tmpl);
         } else {  // adding a new item
             configureSelect2Responsibles();
@@ -278,6 +255,7 @@ Template.topicInfoItemEdit.events({
             if (selectLabels) {
                 selectLabels.val([]).trigger("change");
             }
+            toggleItemMode(Session.get("topicInfoItemType"), tmpl);
         }
     },
 
@@ -290,9 +268,6 @@ Template.topicInfoItemEdit.events({
     },
 
     "hidden.bs.modal #dlgAddInfoItem": function () {
-        Session.set('errorTitle', null);
-        Session.set('errorReason', null);
-
         // reset the session var to indicate that edit mode has been closed
         Session.set("topicInfoItemEditTopicId", null);
         Session.set("topicInfoItemEditInfoItemId", null);
@@ -302,7 +277,7 @@ Template.topicInfoItemEdit.events({
         console.log(evt);
         console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
         if (evt.params.args.data.id === evt.params.args.data.text) { // we have a free-text entry
-            if (! _emailAddressRegExp.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
+            if (! emailAddressRegExpTest.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
                 ConfirmationDialogFactory.makeInfoDialog(
                     'Invalid Responsible',
@@ -320,7 +295,7 @@ Template.topicInfoItemEdit.events({
         let respName = evt.params.data.text;
         let aUser = Meteor.users.findOne(respId);
         if (! aUser && respId === respName &&    // we have a free-text user here!
-            _emailAddressRegExp.test(respName)) { // only take valid mail addresses
+            emailAddressRegExpTest.test(respName)) { // only take valid mail addresses
             _meetingSeries.addAdditionalResponsible(respName);
             _meetingSeries.save();
         }

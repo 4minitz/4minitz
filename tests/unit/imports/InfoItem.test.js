@@ -1,18 +1,20 @@
-/**
- * Created by felix on 18.05.16.
- */
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
+import * as Helpers from '../../../imports/helpers/date';
+import { subElementsHelper } from '../../../imports/helpers/subElements';
 
 let Topic = {};
 let Label = {};
+
+Helpers['@noCallThru'] = true;
 
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
     'meteor/underscore': { _, '@noCallThru': true},
+    '/imports/helpers/date': Helpers,
     './topic': { Topic, '@noCallThru': true},
     './label': { Label, '@noCallThru': true}
 });

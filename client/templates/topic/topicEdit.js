@@ -1,12 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
-
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
-
 import { $ } from 'meteor/jquery';
+import { handleError } from '/client/helpers/handleError';
 
 Session.setDefault("topicEditTopicId", null);
 
@@ -70,10 +68,6 @@ Template.topicEdit.helpers({
 Template.topicEdit.events({
     "submit #frmDlgAddTopic": async function (evt, tmpl) {
         evt.preventDefault();
-        let saveButton = $("#btnTopicSave");
-        let cancelButton = $("#btnTopicCancel");
-        saveButton.prop("disabled",true);
-        cancelButton.prop("disabled",true);
 
         let editTopic = getEditTopic();
         let topicDoc = {};
@@ -85,19 +79,8 @@ Template.topicEdit.events({
         topicDoc.responsibles = $('#id_selResponsible').val();
 
         let aTopic = new Topic(_minutesID, topicDoc);
-
-        try {
-            await aTopic.save();
-
-            saveButton.prop("disabled",false);
-            cancelButton.prop("disabled",false);
-            $('#dlgAddTopic').modal('hide');
-        } catch (error) {
-            saveButton.prop("disabled",false);
-            cancelButton.prop("disabled",false);
-            Session.set('errorTitle', 'Validation error');
-            Session.set('errorReason', error.reason);
-        }
+        aTopic.save().catch(handleError);
+        $('#dlgAddTopic').modal('hide');
     },
 
     "hidden.bs.modal #dlgAddTopic": function (evt, tmpl) {

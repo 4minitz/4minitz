@@ -18,7 +18,7 @@ let Meteor = {
 
 const {
     GlobalSettings
-    } = proxyquire('../../../imports/GlobalSettings', {
+    } = proxyquire('../../../imports/config/GlobalSettings', {
     'meteor/meteor': { Meteor, '@noCallThru': true}
 });
 

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { MailFactory } from './MailFactory'
-import { GlobalSettings } from './../GlobalSettings'
+import { GlobalSettings } from '../config/GlobalSettings'
 
 export class AdminRegisterUserMailHandler {
     constructor(newUserId, includePassword, password) {

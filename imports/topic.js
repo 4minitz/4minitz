@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
+import { subElementsHelper } from '/imports/helpers/subElements';
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
@@ -257,6 +258,10 @@ export class Topic {
         });
     }
 
+    setItems(items) {
+        this._topicDoc.infoItems = items;
+    }
+
     getSubject() {
         return this._topicDoc.subject;
     }
@@ -291,11 +296,29 @@ export class Topic {
         return this._topicDoc;
     }
 
+    /**
+     * Checks whether this topic has associated responsibles
+     * or not. This method must have the same name as the
+     * actionItem.hasResponsibles method.
+     *
+     * @return {boolean}
+     */
     hasResponsibles () {
         let responsibles = this._topicDoc.responsibles;
         return (responsibles && responsibles.length > 0);
     }
-    
+
+    /**
+     * Returns all responsibles associated with this
+     * topic. This method must have the same name as the
+     * actionItem.getResponsibles method.
+     *
+     * @return {Array}
+     */
+    getResponsibles() {
+        return this._topicDoc.responsibles;
+    }
+
     getResponsiblesString() {
         if (!this.hasResponsibles()) {
             return "";

@@ -4,11 +4,10 @@
         <div class="pull-right">
             <!-- "Create New Minutes" button for "Moderators"-->
             <fieldset {{addMinutesDisabled}}>   <!-- dynamically set disabled=true -->
-                <a href="{{pathFor 'minutesadd' _id=meetingSeriesId}}"
-                        id="btnAddMinutes" class="btn btn-success btn-raised">
+                <button id="btnAddMinutes" class="btn btn-success btn-raised">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Create New Minutes"></span>
                     Create New Minutes
-                </a>
+                </button>
             </fieldset>
         </div>
         {{else}}

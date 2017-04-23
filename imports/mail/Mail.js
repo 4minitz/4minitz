@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { GlobalSettings } from './../GlobalSettings'
+import { GlobalSettings } from '../config/GlobalSettings'
 
 export class Mail {
 

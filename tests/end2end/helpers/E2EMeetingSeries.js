@@ -40,7 +40,7 @@ export class E2EMeetingSeries {
         E2EGlobal.waitSomeTime();
 
         browser.click('#btnAddInvite');
-        E2EGlobal.waitSomeTime(500);  // double time for dialog + panel switch!
+        E2EGlobal.waitSomeTime(1000);  // additional time for deferred dialog open + panel switch!
 
         let meetingSeriesID = browser.getUrl();
         meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
