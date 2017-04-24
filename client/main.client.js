@@ -84,16 +84,17 @@ Meteor.startup(() => {
 });
 
 window.onbeforeunload = function (e) {
+    let event = e || window.event;
+
     if(Meteor.status().connected) {
-        e.cancel();
-    }
-    const message = "Do you really want to leave 4Minitz?",
-        e = e || window.event;
-    // For IE and Firefox
-    if (e) {
-        e.returnValue = message;
+        event.cancel();
     }
 
+    const message = "Do you really want to leave 4Minitz?";
+    // For IE and Firefox
+    if (event) {
+        event.returnValue = message;
+    }
     // For Safari
     return message;
 };
