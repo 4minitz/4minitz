@@ -86,7 +86,7 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
         expect(E2ETopics.isActionItemClosed(1, 2), "the AI should be closed").to.be.true;
     });
 
-    it('closes the action item instead of deleting it even it was recently edited @watch', function() {
+    it('closes the action item instead of deleting it even it was recently edited', function() {
         const topicIndex = 1,
             itemIndex = 2,
             UPDATED_SUBJECT = `${EXISTING_ACTION} (updated)`;
