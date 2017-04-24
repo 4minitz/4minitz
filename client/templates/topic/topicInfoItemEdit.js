@@ -67,6 +67,8 @@ let getEditInfoItem = function() {
 
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
+    Session.set("topicInfoItemType", type);
+
     switch (type) {
         case "actionItem":
             actionItemOnlyElements.show();
@@ -76,6 +78,7 @@ let toggleItemMode = function (type, tmpl) {
             actionItemOnlyElements.hide();
             break;
         default:
+            Session.set("topicInfoItemType", null);
             throw new Meteor.Error("Unknown type!");
     }
 };
@@ -225,8 +228,8 @@ Template.topicInfoItemEdit.events({
         }
     },
 
+    // will be called before the dialog is shown
     "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
-        // will be called before the dialog is shown
         // at this point we clear the view
         let saveButton = $("#btnInfoItemSave");
         let cancelButton = $("#btnInfoItemCancel");
@@ -272,6 +275,7 @@ Template.topicInfoItemEdit.events({
         // reset the session var to indicate that edit mode has been closed
         Session.set("topicInfoItemEditTopicId", null);
         Session.set("topicInfoItemEditInfoItemId", null);
+        Session.set("topicInfoItemType", null);
     },
 
     "select2:selecting #id_selResponsibleActionItem"(evt) {
