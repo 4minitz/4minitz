@@ -200,10 +200,10 @@ describe('Info Items', function () {
         expect(infoItemExpandElementText, "Info item subject text should match after edit").to.have.string("New Item Subject");
 
         // Check new label
-        selector = "#topicPanel .well:nth-child(" + topicIndex + ") .label";
-        expect(browser.isVisible(selector), "Info item should be visible after edit").to.be.true;
-        infoItemExpandElement = browser.element(selector).value.ELEMENT;
+        let newLabelSelector = "#topicPanel .well:nth-child(" + topicIndex + ") .label:nth-child(1)";
+        expect(browser.isVisible(newLabelSelector), "New label should be visible").to.be.true;
+        infoItemExpandElement = browser.element(newLabelSelector).value.ELEMENT;
         infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
-        expect(infoItemExpandElementText, "Info item label text should match after edit").to.have.string("Decision");
+        expect(infoItemExpandElementText, "New label text should match").to.have.string("Decision");
     });
 });
