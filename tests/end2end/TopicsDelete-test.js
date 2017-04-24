@@ -86,6 +86,15 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
         expect(E2ETopics.isActionItemClosed(1, 2), "the AI should be closed").to.be.true;
     });
 
+    it('closes the action item instead of deleting it even it was recently edited @watch', function() {
+        const topicIndex = 1,
+            itemIndex = 2,
+            UPDATED_SUBJECT = `${EXISTING_ACTION} (updated)`;
+        E2ETopics.editInfoItemForTopic(topicIndex, itemIndex, {subject: UPDATED_SUBJECT});
+        E2ETopics.deleteInfoItem(topicIndex, itemIndex, true);
+        expect(E2ETopics.isActionItemClosed(topicIndex, 2), "the AI should be closed").to.be.true;
+    });
+
     it('unpins the sticky info item instead of deleting it', function () {
         E2ETopics.deleteInfoItem(1, 1, true);
         expect(E2ETopics.isInfoItemSticky(1, 1)).to.be.false;
