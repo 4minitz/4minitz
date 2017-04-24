@@ -191,9 +191,10 @@ Template.topicInfoItemEdit.events({
             }
             return label.getId();
         });
-
         doc.subject = newSubject;
-        doc.createdInMinute = _minutesID;
+        if (!doc.createdInMinute) {
+            doc.createdInMinute = _minutesID;
+        }
         doc.labels = labels;
 
         let newItem;
