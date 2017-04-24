@@ -1,15 +1,30 @@
 <template name="connectionInfo">
     {{#unless connectionStatus.connected}}
         <div class="connection-info">
-            <a href="#" id="btnConnectionLost">
-                <span class="glyphicon glyphicon-warning-sign"
-                      style="color: yellow; font-size: 200%;"
-                      title="Connection Lost!
-           Status: {{connectionStatus.status}}
-           Retry Count: {{connectionStatus.retryCount}}
-           Retry Time: {{connectionWaitTime}} sec.
-           Reason: {{connectionStatus.reason}}
-Click to reconnect."></span></a>
+
+            <div class="smallMarginBottom">
+                <span class="connection-warning warningsign">
+                    <a href="#" id="btnConnectionLost">
+                        <span class="glyphicon glyphicon-warning-sign"
+                              style="color: yellow; font-size: 200%;"
+                              title="Connection Lost!
+                   Status: {{connectionStatus.status}}
+                   Retry Count: {{connectionStatus.retryCount}}
+                   Retry Time: {{connectionWaitTime}} sec.
+                   Reason: {{connectionStatus.reason}}
+                   Click to reconnect."></span></a>
+                </span>
+            </div>
+
+            <span id="btnWarningExpandCollapse" class="glyphicon connection-warning btn-warning-expand" aria-hidden="true">
+                <p class="btn-warning-expand-text">i</p>
+            </span>
+            <div id="warningMessage" class="connection-warning connection-warning-text" >
+                You have lost connection to the 4Minitz server.
+                    You will lose unsaved data if you close your browser.
+                    Click icon for reconnection attempt.
+                    If problem persist, contact server admin.
+            </div>
         </div>
     {{/unless}}
 
