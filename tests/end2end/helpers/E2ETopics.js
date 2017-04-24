@@ -209,7 +209,7 @@ export class E2ETopics {
         E2EApp.confirmationDialogAnswer(confirmDialog);
     }
 
-    static insertInfoItemDataIntoDialog(infoItemDoc, isEditMode) {
+    static insertInfoItemDataIntoDialog(infoItemDoc) {
         try {
             browser.waitForVisible('#id_item_subject');
         } catch (e) {
@@ -217,19 +217,21 @@ export class E2ETopics {
         }
         E2EGlobal.waitSomeTime(500);
 
-        browser.setValue('#id_item_subject', infoItemDoc.subject);
-
-        E2EGlobal.waitSomeTime();
-
-        //todo: set other fields (duedate, details)
-
+        if (infoItemDoc.subject) {
+            browser.setValue('#id_item_subject', infoItemDoc.subject);
+        }
+        if (infoItemDoc.label) {
+            E2ETopics.labelEnterFreetext(infoItemDoc.label);
+        }
         if (infoItemDoc.responsible) {
             E2ETopics.responsible2ItemEnterFreetext(infoItemDoc.responsible);
         }
-
         if (infoItemDoc.priority) {
             browser.setValue('#id_item_priority', infoItemDoc.priority);
         }
+
+        //todo: set other fields (duedate)
+
     }
 
     static submitInfoItemDialog() {
