@@ -238,8 +238,10 @@ input.pick-a-color {
     bottom: -25px;
 }
 
-/* used to indent topic content like infoitems / action items */
-.leftIndent {
-    margin-left: 20px;
-    padding-left: 5px;
+@media (min-width: 768px) {
+    /* used to indent topic content like infoitems / action items */
+    .leftIndent-desktop {
+        margin-left: 20px;
+        padding-left: 5px;
+    }
 }

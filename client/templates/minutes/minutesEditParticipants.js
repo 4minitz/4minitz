@@ -84,12 +84,6 @@ Template.minutesEditParticipants.helpers({
         }
     },
 
-    useStylePadding() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "padding-left: 1.5em;";
-        }
-    },
-
     hasInformedUsers() {
         let aMin = new Minutes(_minutesID);
         return (aMin.informedUsers && aMin.informedUsers.length > 0);

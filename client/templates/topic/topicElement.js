@@ -121,12 +121,6 @@ Template.topicElement.helpers({
     },
     cursorForEdit() {
         return this.isEditable ? "pointer" : "";
-    },
-
-    leftIndentOnDesktop() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "leftIndent"
-        }
     }
 });
 
