@@ -87,10 +87,8 @@ Template.minutesEditParticipants.helpers({
     switch2MultiColumn() {
         let aMin = new Minutes(_minutesID);
 
-        if (!Session.get("global.isMobileWidth")) {
-            if (aMin.participants.length > 7) {
-                return "multicolumn";
-            }
+        if (aMin.participants.length > 7) {
+            return "multicolumn";
         }
     },
 
