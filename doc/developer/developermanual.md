@@ -5,10 +5,10 @@
 * For generating the UML figures in this doc we use [PlantUML](http://plantuml.com/)
   (respective the [PlantUML plugin](https://plugins.jetbrains.com/plugin/7017?pr=) for JetBrains products)
 * We use ES2015 (ES6) as we make progress in learning it.
-* Before merging new features, read our ["Definition of Done"] ()
+* Before merging new features, read our ["Definition of Done"](#dod)
 
 
-## DoD - Our "Definition of Done"
+## <a name="dod">DoD - Our "Definition of Done"</a>
 * __Acceptance critera__: from the user story are checked and work OK
 * __Responsiveness:__ Your user story shall look great on small (<= 480px width) and large (>1000px) screens
 * __Unit- and integration tests:__ do cover your new code

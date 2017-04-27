@@ -404,6 +404,15 @@ export class Topic {
         return responsiblesString;
     }
 
+    addResponsible(responsibleName) {
+        let user = Meteor.users.findOne(responsibleName);
+        if (user) {
+            responsibleName = user.username;
+        }
+
+        this._topicDoc.responsibles.push(responsibleName);
+    }
+
     extractLabelsFromTopic(meetingSeriesId) {
         const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
         let match;
@@ -412,6 +421,17 @@ export class Topic {
             let labelName = match[2];
             this.addLabelByName(labelName, meetingSeriesId);
             this._removeLabelFromTopic(labelName);
+        }
+    }
+
+    extractResponsiblesFromTopic() {
+        const regEx = /(^|[\s.,;])@([a-zA-z]+[^\s.,;]*)/g;
+        let match;
+
+        while(match = regEx.exec(this._topicDoc.subject)) {
+            let responsibleName = match[2];
+            this.addResponsible(responsibleName);
+            this._removeResponsibleFromTopic(responsibleName);
         }
     }
 
@@ -433,5 +453,11 @@ export class Topic {
         this._topicDoc.subject = this._topicDoc.subject.replace("#" + labelName + " ", "");
         this._topicDoc.subject = this._topicDoc.subject.replace(" #" + labelName, "");
         this._topicDoc.subject = this._topicDoc.subject.replace("#" + labelName, "");
+    }
+
+    _removeResponsibleFromTopic(responsibleName) {
+        this._topicDoc.subject = this._topicDoc.subject.replace("@" + responsibleName + " ", "");
+        this._topicDoc.subject = this._topicDoc.subject.replace(" @" + responsibleName, "");
+        this._topicDoc.subject = this._topicDoc.subject.replace("@" + responsibleName, "");
     }
 }

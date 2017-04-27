@@ -19,11 +19,46 @@
     top: 10px;
     right: 10px;
     z-index: 1000;
+    text-align: right;
+    padding-top:5px;
+    width: 275px;
+}
+
+.smallMarginBottom {
+    margin-bottom: 11px;
+}
+
+.connection-warning {
+    padding: 5px;
+    margin-top: 1px;
+    color: yellow;
+    position: relative;
+    font-weight:bold;
 
     /* fallback color for browsers that don't understand rgba */
     background-color: rgb(148, 0, 0);
-    background-color: rgba(255, 0, 0, 0.5);
-    padding: 5px;
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
+.warningsign {
+    padding: 20px 10px 5px 10px;
+}
+
+.btn-warning-expand {
+    display: inline-block;
+    width: 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.btn-warning-expand-text {
+    text-align: center;
+    margin: -3px 0px 3px 0px;
+}
+
+.connection-warning-text {
+    text-align: justify;
 }
 
 .panel-dropper {
@@ -207,4 +242,12 @@ input.pick-a-color {
 .leftIndent {
     margin-left: 20px;
     padding-left: 5px;
+}
+
+@media (min-width: 768px) {
+    .multicolumn {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
 }
