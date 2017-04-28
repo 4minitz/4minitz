@@ -84,6 +84,14 @@ Template.minutesEditParticipants.helpers({
         }
     },
 
+    switch2MultiColumn() {
+        let aMin = new Minutes(_minutesID);
+
+        if (aMin.participants.length > 7) {
+            return "multicolumn";
+        }
+    },
+
     useStylePadding() {
         if (! Session.get("global.isMobileWidth")) {
             return "padding-left: 1.5em;";
