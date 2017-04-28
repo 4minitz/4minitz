@@ -1,4 +1,8 @@
+.panel-heading label {
+    cursor: pointer;
+    padding-top: 12px;
+}
 
-    .padding-for-mobile {
-        padding-left: 1.5em
-    }
+#attachements-panel {
+    margin-bottom: 15px;
+}
