@@ -63,9 +63,7 @@ Template.passwordChangeDialog.events({
                 tmpl.find("#id_oldPassword").value = "";
                 tmpl.find("#id_newPassword1").value = "";
                 tmpl.find("#id_newPassword2").value = "";
-                Meteor.setTimeout(function () {
-                    $('#dlgChangePassword').modal("hide");
-                }, 2000);
+                $('#dlgChangePassword').modal("hide");
             }
         });
     },
