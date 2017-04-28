@@ -77,13 +77,6 @@ Template.minutesEditParticipants.helpers({
         }
     },
 
-    // some responsive CSS tweaking
-    useClassWell() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "well";
-        }
-    },
-
     hasInformedUsers() {
         let aMin = new Minutes(_minutesID);
         return (aMin.informedUsers && aMin.informedUsers.length > 0);

@@ -59,13 +59,6 @@ Template.minutesAttachments.helpers({
         return Template.instance().currentUpload.get();
     },
 
-    // some responsive CSS tweaking
-    useClassWell() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "well";
-        }
-    },
-
     showUploadButton() {
         let min = new Minutes(_minutesID);
         let ur = new UserRoles();
