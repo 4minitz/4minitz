@@ -6,3 +6,7 @@
 #attachements-panel {
     margin-bottom: 15px;
 }
+
+.checkbox-hide-topics {
+    margin-top: 15px !important; /* unfortunately, we need the important-flag to overwrite the checkbox style */
+}
