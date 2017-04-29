@@ -350,13 +350,6 @@ Template.minutesedit.helpers({
         return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
-    mobileButton() {
-        if (Session.get("global.isMobileWidth")) {
-            return "btn-xs";
-        }
-        return "";
-    },
-
     isReadOnly() {
         return (isMinuteFinalized() || !isModerator());
     },
