@@ -121,6 +121,10 @@ a:focus {
     background-color: #ffffff !important;
 }
 
+.panel-heading.bright {
+    background-color: #ffffff !important;
+}
+
 .username-label {
     font-size: 120%;
     line-height: 250%;
@@ -238,10 +242,12 @@ input.pick-a-color {
     bottom: -25px;
 }
 
-/* used to indent topic content like infoitems / action items */
-.leftIndent {
-    margin-left: 20px;
-    padding-left: 5px;
+@media (min-width: 768px) {
+    /* used to indent topic content like infoitems / action items */
+    .leftIndent-desktop {
+        margin-left: 20px;
+        padding-left: 5px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -250,4 +256,25 @@ input.pick-a-color {
         -moz-column-count: 2;
         column-count: 2;
     }
+}
+@media (min-width: 768px) {
+    .padding-for-collabsable {
+        padding-left: 1.5em
+    }
+}
+
+.force-no-padding-top {
+    padding-top: 0 !important;
+}
+
+.text-black {
+    color: black;
+}
+
+.large-font {
+    font-size: 125%;
+}
+
+.default-margin-top {
+    margin-top: 15px;
 }
