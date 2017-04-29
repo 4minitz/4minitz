@@ -21,7 +21,7 @@
 
 
     {{#if isAttachmentsExpanded}}
-        <div class="panel-body" style="padding-top: 0;">
+        <div class="panel-body force-no-padding-top">
             <div class="padding-for-collabsable" id="id_participants">
 
                 {{#with currentUpload}}     <!-- Upload in progress? -->
@@ -56,7 +56,7 @@
                 <ol>
                     <!-- Strange! Without binding the context via .each only {{name}} works, but not {{link}} -->
                     {{#each attachments.each}}
-                            <li style="font-size: 130%;">
+                            <li class="large-font">
                                 <!--Delete this Atachment-->
                                 {{#if showAttachmentRemoveButton}}
                                     <button id="btnDelAttachment" type="button" class="btn btn-xs btn-danger hidden-print">×</button>
