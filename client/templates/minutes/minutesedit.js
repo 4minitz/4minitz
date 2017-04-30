@@ -345,8 +345,14 @@ Template.minutesedit.helpers({
         let aMin = new Minutes(_minutesID);
         let filteredTopics = aMin.topics;
         if (filterClosedTopics.get()){
-            filteredTopics = aMin.topics.filter((topic) => topic.isOpen);
+            filteredTopics = aMin.topics.filter((topic) => (topic.isOpen) && (!topic.isSkipped));
         }
+        else {
+            if (!isModerator()) {
+                filteredTopics = aMin.topics.filter((topic) => !topic.isSkipped);
+            }
+        }
+            
         return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 

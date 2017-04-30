@@ -66,7 +66,7 @@ Template.topicElement.helpers({
     },
 
     disabledState: function () {
-        if (this.isEditable) {
+        if ((this.isEditable) && (!this.topic.isSkipped)) {
             return "";
         } else {
             return {disabled: "disabled"};
@@ -119,6 +119,11 @@ Template.topicElement.helpers({
     classForEdit() {
         return this.isEditable ? "btnEditTopic" : "";
     },
+    
+    classForSkippedTopics() {
+        return this.topic.isSkipped ? "strikethrough" : "";
+    },
+    
     cursorForEdit() {
         return this.isEditable ? "pointer" : "";
     }
@@ -190,6 +195,22 @@ Template.topicElement.events({
 
         let aTopic = new Topic(this.minutesID, this.topic._id);
         aTopic.toggleRecurring();
+        aTopic.save().catch(onError);
+    },
+    
+    'click .js-toggle-skipped'(evt) {
+        evt.preventDefault();
+        
+        if (!this.isEditable) {
+            return;
+        }
+
+        if (!this.minutesID) {
+            return;
+        }
+        
+        let aTopic = new Topic(this.minutesID, this.topic._id);
+        aTopic.toggleSkip();
         aTopic.save().catch(onError);
     },
 
