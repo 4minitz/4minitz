@@ -43,9 +43,8 @@ Template.profileEditDialog.events({
                 showError(evt, error);
             } else {
                 (new FlashMessage('OK', "Profile edited.", 'alert-success', 2000)).show();
-                Meteor.setTimeout(function () {
-                    $('#dlgEditProfile').modal("hide");
-                }, 2000);
+
+                $('#dlgEditProfile').modal("hide");
             }
         });
 
