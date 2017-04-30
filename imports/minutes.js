@@ -216,8 +216,10 @@ export class Minutes {
      *
      * @returns ActionItem[]
      */
-    getOpenActionItems() {
-        return this.topics.reduce((acc, topicDoc) => {
+    getOpenActionItems(includeSkippedTopics = true) {
+        let nonSkippedTopics = (includeSkippedTopics ? this.topics : this.topics.filter(topic => !topic.isSkipped));
+        
+        return nonSkippedTopics.reduce((acc, topicDoc) => {
             let topic = new Topic(this, topicDoc);
             let actionItemDocs = topic.getOpenActionItems();
             return acc.concat(

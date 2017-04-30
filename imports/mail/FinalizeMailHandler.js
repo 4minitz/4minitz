@@ -35,7 +35,7 @@ export class FinalizeMailHandler {
         // create map recipient->mailHandler and add all AIs to the
         // mail handler for this recipient
         let userMailHandlerMap = new Map();
-        let actionItems = this._minute.getOpenActionItems();
+        let actionItems = this._minute.getOpenActionItems(false); // false-parameter makes skipped Topics being not included in the Mail
         actionItems.forEach(item => {
             item.getResponsibleEMailArray().forEach(recipient => {
                 if (!userMailHandlerMap.has(recipient)) {
