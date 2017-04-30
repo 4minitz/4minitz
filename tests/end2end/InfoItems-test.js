@@ -174,4 +174,36 @@ describe('Info Items', function () {
         expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
     });
 
+    it('can edit an info item', function () {
+        let topicIndex = 1;
+        E2ETopics.addInfoItemToTopic({
+            subject: "Old Item Subject",
+            itemType: "infoItem",
+            label: "Proposal"
+        }, topicIndex);
+        E2EGlobal.waitSomeTime();
+
+        E2ETopics.openInfoItemEditor(topicIndex, 1);
+        E2EGlobal.waitSomeTime();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: "New Item Subject",
+            itemType: "infoItem",
+            label: "Decision"
+        });
+        E2ETopics.submitInfoItemDialog();
+
+        // Check new subject text
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        expect(browser.isVisible(selector), "Info item should be visible after edit").to.be.true;
+        let infoItemExpandElement = browser.element(selector).value.ELEMENT;
+        let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
+        expect(infoItemExpandElementText, "Info item subject text should match after edit").to.have.string("New Item Subject");
+
+        // Check new label
+        let newLabelSelector = "#topicPanel .well:nth-child(" + topicIndex + ") .label:nth-child(1)";
+        expect(browser.isVisible(newLabelSelector), "New label should be visible").to.be.true;
+        infoItemExpandElement = browser.element(newLabelSelector).value.ELEMENT;
+        infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
+        expect(infoItemExpandElementText, "New label text should match").to.have.string("Decision");
+    });
 });

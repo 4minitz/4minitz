@@ -6,9 +6,9 @@ Template.connectionInfo.helpers({
     },
 
     connectionWaitTime() {
-        var secondsToRetry = (Meteor.status().retryTime - (new Date()).getTime())/1000;
+        const secondsToRetry = (Meteor.status().retryTime - (new Date()).getTime())/1000;
         return Math.round(secondsToRetry);
-    }
+    },
 });
 
 Template.connectionInfo.events({
@@ -16,5 +16,11 @@ Template.connectionInfo.events({
         evt.preventDefault();
         console.log("Trying to reconnect...");
         Meteor.reconnect();
+    },
+
+    "click #btnWarningExpandCollapse": function (evt) {
+        evt.preventDefault();
+        let warningMessage = document.getElementById("warningMessage");
+        warningMessage.style.display = (warningMessage.style.display === "none") ? "inline-block" : "none";
     }
 });

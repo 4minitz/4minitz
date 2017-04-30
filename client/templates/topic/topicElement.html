@@ -20,6 +20,12 @@
                 <h3 id="{{classForEdit}}" style="display: inline; cursor: {{cursorForEdit}};">
                     {{topic.subject}}
                     {{responsiblesHelper}}
+                    <span class="labels">
+                        <!-- Labels -->
+                        {{#each getLabels}}
+                            <span class="label" style="background-color: {{color}}; color: {{fontColor}}">{{name}}</span>
+                        {{/each}}
+                    </span>
                 </h3>
 
                 <!-- New-Topic-Label -->
@@ -86,7 +92,7 @@
         </div>
 
         {{#unless isCollapsed}}
-            <div class="{{leftIndentOnDesktop}}">
+            <div class="leftIndent-desktop">
                 <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
                     {{#each topic.infoItems}}
                         {{> topicInfoItem getInfoItem @index}}

@@ -55,8 +55,8 @@ describe('Topics Responsibles', function () {
         E2ETopics.addTopicToMinutes('TOP-1', user1+","+user2);
 
         E2ETopics.openEditTopicForMinutes(1);
-        browser.element(".select2-selection__choice__remove").click();  // remove first user
-        browser.element(".select2-selection").click();
+        browser.element(".form-group-responsibles .select2-selection__choice__remove").click(); // remove first user
+        browser.element(".form-group-responsibles .select2-selection").click();
         browser.click("#btnTopicSave");
         E2EGlobal.waitSomeTime();
 
@@ -77,7 +77,7 @@ describe('Topics Responsibles', function () {
         E2ETopics.addTopicToMinutes('TOP-1', "");
 
         E2ETopics.openEditTopicForMinutes(1);
-        browser.element(".select2-selection").click();
+        browser.element(".form-group-responsibles .select2-selection").click();
         E2EGlobal.waitSomeTime();
         browser.keys("1\uE015\uE007");  // "1" (end of user1 string) + CursorDown + Enter
         browser.click("#btnTopicSave");
@@ -96,7 +96,7 @@ describe('Topics Responsibles', function () {
 
         E2ETopics.openEditTopicForMinutes(1);
         E2EGlobal.waitSomeTime();
-        browser.element(".select2-selection").click();
+        browser.element(".form-group-responsibles .select2-selection").click();
         browser.keys("3\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
         E2EGlobal.waitSomeTime();
         browser.click("#btnTopicSave");
@@ -120,7 +120,7 @@ describe('Topics Responsibles', function () {
 
         E2EGlobal.saveScreenshot("additional-responsible-2");
 
-        browser.element(".select2-selection").click();
+        browser.element(".form-group-responsibles .select2-selection").click();
         // We only send the beginning of the name, to ensure the drop-down is used for selection!
         browser.keys("Add\uE015\uE007");  // + CursorDown + Enter
 

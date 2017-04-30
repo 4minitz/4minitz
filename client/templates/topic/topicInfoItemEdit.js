@@ -67,6 +67,8 @@ let getEditInfoItem = function() {
 
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
+    Session.set("topicInfoItemType", type);
+
     switch (type) {
         case "actionItem":
             actionItemOnlyElements.show();
@@ -76,6 +78,7 @@ let toggleItemMode = function (type, tmpl) {
             actionItemOnlyElements.hide();
             break;
         default:
+            Session.set("topicInfoItemType", null);
             throw new Meteor.Error("Unknown type!");
     }
 };
@@ -119,7 +122,7 @@ function configureSelect2Labels() {
     let aMin = new Minutes(_minutesID);
     let aSeries = aMin.parentMeetingSeries();
 
-    let selectLabels = $('#id_item_selLabels');
+    let selectLabels = $('#id_item_selLabelsActionItem');
     selectLabels.find('option')     // clear all <option>s
         .remove();
 
@@ -178,7 +181,7 @@ Template.topicInfoItemEdit.events({
             _.extend(doc, editItem._infoItemDoc);
         }
 
-        let labels = tmpl.$("#id_item_selLabels").val();
+        let labels = tmpl.$("#id_item_selLabelsActionItem").val();
         if (!labels) labels = [];
         let aMinute = new Minutes(_minutesID);
         let aSeries = aMinute.parentMeetingSeries();
@@ -191,9 +194,10 @@ Template.topicInfoItemEdit.events({
             }
             return label.getId();
         });
-
         doc.subject = newSubject;
-        doc.createdInMinute = _minutesID;
+        if (!doc.createdInMinute) {
+            doc.createdInMinute = _minutesID;
+        }
         doc.labels = labels;
 
         let newItem;
@@ -224,8 +228,8 @@ Template.topicInfoItemEdit.events({
         }
     },
 
+    // will be called before the dialog is shown
     "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
-        // will be called before the dialog is shown
         // at this point we clear the view
         let saveButton = $("#btnInfoItemSave");
         let cancelButton = $("#btnInfoItemCancel");
@@ -251,7 +255,7 @@ Template.topicInfoItemEdit.events({
             if (selectResponsibles) {
                 selectResponsibles.val([]).trigger("change");
             }
-            let selectLabels = $('#id_item_selLabels');
+            let selectLabels = $('#id_item_selLabelsActionItem');
             if (selectLabels) {
                 selectLabels.val([]).trigger("change");
             }
@@ -271,6 +275,7 @@ Template.topicInfoItemEdit.events({
         // reset the session var to indicate that edit mode has been closed
         Session.set("topicInfoItemEditTopicId", null);
         Session.set("topicInfoItemEditInfoItemId", null);
+        Session.set("topicInfoItemType", null);
     },
 
     "select2:selecting #id_selResponsibleActionItem"(evt) {

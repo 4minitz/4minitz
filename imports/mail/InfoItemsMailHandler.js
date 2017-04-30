@@ -31,6 +31,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             if (aTopicObj.hasResponsibles()) {
                 topic.responsiblesString = "("+aTopicObj.getResponsiblesString()+")";
             }
+            topic.labels = aTopicObj.getLabelsString(topic);
         });
 
         this._buildMail(

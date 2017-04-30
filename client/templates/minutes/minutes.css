@@ -1,0 +1,16 @@
+.panel-heading label {
+    cursor: pointer;
+    padding-top: 12px;
+}
+
+#participants-panel {
+    margin-top: 15px;
+}
+
+#attachements-panel {
+    margin-bottom: 15px;
+}
+
+.checkbox-hide-topics {
+    margin-top: 15px !important; /* unfortunately, we need the important-flag to overwrite the checkbox style */
+}

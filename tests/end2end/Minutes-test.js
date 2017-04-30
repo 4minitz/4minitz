@@ -102,7 +102,7 @@ describe('Minutes', function () {
         expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
     });
 
-    it('displays an error message if the minute is not linked to the parent series @watch', function() {
+    it('displays an error message if the minute is not linked to the parent series', function() {
         let aProjectName = "E2E Minutes";
         let aMeetingName = "Meeting Name #6";
 
@@ -150,7 +150,7 @@ describe('Minutes', function () {
         expect(result).to.equal(aGlobalNote);
     });
 
-    it('hide closed topics', function () {
+    it('hide closed topics @watch', function () {
         let aProjectName = "E2E Minutes";
         let aMeetingName = "Meeting Name #7";
 
@@ -201,7 +201,7 @@ describe('Minutes', function () {
         expect(currentdate).to.equal(thirdDate);
     });
 
-    it('hide closed topics by click', function () {
+    it('hide closed topics by click @watch', function () {
         let aProjectName = "E2E Minutes";
         let aMeetingName = "Meeting Name #8";
 

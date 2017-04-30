@@ -52,23 +52,11 @@ Template.minutesAttachments.helpers({
 
     attachmentsCount() {
         const count = Attachment.countForMinutes(_minutesID);
-        return count == 1 ? count + " file" : count + " files";
+        return count === 1 ? count + " file" : count + " files";
     },
 
     currentUpload() {
         return Template.instance().currentUpload.get();
-    },
-
-    // some responsive CSS tweaking
-    useClassWell() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "well";
-        }
-    },
-    useStylePadding() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "padding-left: 1.5em;";
-        }
     },
 
     showUploadButton() {

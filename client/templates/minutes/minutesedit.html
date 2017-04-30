@@ -142,9 +142,8 @@
                     {{> minutesAttachments minutes}}
 
                     <div class="row">
-                    {{#unless isFinalized}}
-                        {{#if isModeratorOfParentSeries}}
-                            <div class="col-md-3">
+                        {{#unless isReadOnly}}
+                            <div class="col-sm-3 col-xs-6">
                                 <!--ADD TOPIC button-->
                                 <button id="id_showAddTopicDialog" type="button"
                                         class="btn btn-primary btn-lg btn-raised hidden-print" data-toggle="modal"
@@ -155,37 +154,38 @@
                                     <span class="hidden-xs">Add</span> Topic...
                                 </button>
                             </div>
-                        {{/if}}
-                    {{/unless}}
+                            <div class="checkbox-hide-topics visible-xs col-xs-6 checkbox">
+                                <label class="text-black">
+                                    <input type="checkbox" id="checkHideClosedTopics" class="checkbox"/>Hide closed
+                                </label>
+                            </div>
+                        {{/unless}}
 
-                    <div class="col-md-3">
-                        <!--Responsive Expand / Collapse All buttons-->
-                        <button id="btnCollapseAll" type="button" class="btn btn-default {{mobileButton}} hidden-print">
-                            {{#if isReadOnly}}
+                        <div class="clearfix visible-xs"></div>
+
+                        <div class="col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} col-xs-6">
+                            <!--Responsive Expand / Collapse All buttons-->
+                            <button id="btnCollapseAll" type="button" class="btn btn-default hidden-print">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                                Collapse Topics
-                            {{else}}
-                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                                <span class="hidden-xs">Collapse Topics</span>
-                            {{/if}}
-                        </button>
-                    </div>
+                                Collapse<span class="hidden-xs hidden-sm"> Topics</span>
+                            </button>
+                        </div>
 
-                    <div class="col-md-3">
-                    <button id="btnExpandAll" type="button" class="btn btn-default {{mobileButton}} hidden-print">
-                        {{#if isReadOnly}}
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            Expand Topics
-                        {{else}}
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            <span class="hidden-xs">Expand Topics</span>
-                        {{/if}}
-                    </button>
-                    </div>
+                        <div class="col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} col-xs-6">
+                            <button id="btnExpandAll" type="button" class="btn btn-default hidden-print">
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                Expand<span class="hidden-xs hidden-sm"> Topics</span>
+                            </button>
+                        </div>
 
-                    <div class="col-md-3 checkbox">
-                        <label style="color: black" id="checkHideClosedTopicsLabel"><input type="checkbox" id="checkHideClosedTopics" class="checkbox"/> Hide closed topics</label>
-                    </div>
+                        <div class="clearfix visible-xs"></div>
+
+                        <div class="checkbox-hide-topics col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} {{#unless isReadOnly}}hidden-xs{{/unless}} checkbox">
+                            <label class="text-black" id="checkHideClosedTopicsLabel">
+                                <input type="checkbox" id="checkHideClosedTopics" class="checkbox"/>
+                                Hide closed<span class="hidden-sm"> topics</span>
+                            </label>
+                        </div>
                     </div>
                 </form>
             </div>
