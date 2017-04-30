@@ -75,7 +75,10 @@ export class FlashMessage {
         return {
             delay: this.duration,
             type: this.type,
-            z_index: 5031
+            z_index: 5031,
+            onClosed: () => {
+                this.currentNotification = null;
+            }
         }
     }
 

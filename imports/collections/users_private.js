@@ -26,7 +26,7 @@ Meteor.methods({
         }
 
         if (!Meteor.user().isAdmin) {
-            if (Meteor.userId() != userId) {
+            if (Meteor.userId() !== userId) {
                 throw new Meteor.Error("Cannot edit profile", "You are not admin or you are trying to change someone else's profile");
             }
         }
@@ -40,7 +40,6 @@ Meteor.methods({
         }
         
         Meteor.users.update(userId, {$set: {'emails.0.address': eMail, 'profile.name': longName}});
-        console.log(eMail, longName);
     },
 
     'users.admin.changePassword'(userId, password1, password2) {

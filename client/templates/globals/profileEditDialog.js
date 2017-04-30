@@ -9,13 +9,13 @@ let showError = function (evt, error) {
 };
 
 let checkEMailIsValid = (email) => {
-    return emailAddressRegExpTest.test(eMail);
+    return emailAddressRegExpTest.test(email);
 };
 
 Template.profileEditDialog.onRendered(function() { 
     addCustomValidator( 
         "#id_emailAddress", 
-        (value) => { return checkPasswordMatchesPattern(value) }, 
+        (value) => { return checkEMailIsValid(value) },
         'Not a valid E-Mail address'); 
 }); 
 
@@ -36,7 +36,7 @@ Template.profileEditDialog.events({
 
         tmpl.$("#btnEditProfileSave").prop("disabled",true);
 
-        Meteor.call('users.editProfile', Meteor.userId(), uEmailAddress,uLongName, function (error, result) {
+        Meteor.call('users.editProfile', Meteor.userId(), uEmailAddress,uLongName, function (error) {
             if (error) {
                 tmpl.$("#btnEditProfileSave").prop("disabled",false);
                 console.log(error);
