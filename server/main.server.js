@@ -63,7 +63,7 @@ Meteor.startup(() => {
     });
 
     handleMigration();
-    // Migrations.migrateTo(11);     // Plz. keep this comment for manual testing... ;-)
+    //Migrations.migrateTo(12);     // Plz. keep this comment for manual testing... ;-)
 
     handleDemoUserAccount();
 

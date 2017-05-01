@@ -101,13 +101,11 @@ export class InfoItem {
             throw new Meteor.Error("invalid-argument", "Empty details are not allowed. Use #removeDetails() " +
                 "to delete an element");
         }
-        if(minuteId != this._infoItemDoc.details[index].createdInMinute){
-            this._infoItemDoc.details[index].createdInMinute = minuteId;
-            this._infoItemDoc.details[index]._id = Random.id();
+        if (text != this._infoItemDoc.details[index].text){
+            let date = formatDateISO8601(new Date());
+            this._infoItemDoc.details[index].date = date;
+            this._infoItemDoc.details[index].text = text;
         }
-        let date = formatDateISO8601(new Date());
-        this._infoItemDoc.details[index].text = text;
-        this._infoItemDoc.details[index].date = date;
     }
 
     getDetails() {
