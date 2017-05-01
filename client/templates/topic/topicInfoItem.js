@@ -53,7 +53,7 @@ let addNewDetails = async (tmpl) => {
     let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
     let aItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
 
-    aItem.addDetails();
+    aItem.addDetails(aMin._id);
     await  aItem.save();
 
     // Defer opening new details editor to give DOM some time for its expand animation
@@ -308,7 +308,7 @@ Template.topicInfoItem.events({
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
             let index = detailId.split('_')[2]; // detail id is: <collapseId>_<index>
             if (text !== "") {
-                aActionItem.updateDetails(index, text);
+                aActionItem.updateDetails(index, text, aMin._id);
                 aActionItem.save();
             } else {
                 let deleteDetails = () => {

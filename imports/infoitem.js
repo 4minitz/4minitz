@@ -77,7 +77,7 @@ export class InfoItem {
         return this._infoItemDoc.subject;
     }
 
-    addDetails(text) {
+    addDetails(minuteId, text) {
         if (text === undefined) text = "";
 
         let date = formatDateISO8601(new Date());
@@ -85,6 +85,8 @@ export class InfoItem {
             this._infoItemDoc.details = [];
         }
         this._infoItemDoc.details.push({
+            _id: Random.id(),
+            createdInMinute: minuteId,
             date: date,
             text: text
         })
@@ -94,13 +96,18 @@ export class InfoItem {
         this._infoItemDoc.details.splice(index, 1);
     }
 
-    updateDetails(index, text) {
+    updateDetails(index, text, minuteId) {
         if (text === "") {
             throw new Meteor.Error("invalid-argument", "Empty details are not allowed. Use #removeDetails() " +
                 "to delete an element");
         }
-
+        if(minuteId != this._infoItemDoc.details[index].createdInMinute){
+            this._infoItemDoc.details[index].createdInMinute = minuteId;
+            this._infoItemDoc.details[index]._id = Random.id();
+        }
+        let date = formatDateISO8601(new Date());
         this._infoItemDoc.details[index].text = text;
+        this._infoItemDoc.details[index].date = date;
     }
 
     getDetails() {
