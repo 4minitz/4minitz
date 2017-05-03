@@ -38,52 +38,39 @@ class MigrateSeriesUp {
     run() {
         let minutes = this.series.firstMinutes();
         while (minutes) {
-            if(minutes.topics) {
                 if (minutes == this.series.firstMinutes()) {
-                minutes = this._updateTopicsOfMinutes(minutes);
+                    minutes = this._updateTopicsOfMinutes(minutes);
                 }
                 else {
                     let prevMinutes = minutes.previousMinutes();
-                    let sameTopics = false;
-                    let sameItems = false;
+                    // find topics/items/details that occur in a current minute, but were created in a prev. minute
                     minutes.topics.forEach(topic => {
-                        //same Topics?
                         if (prevMinutes.topics) {
-                            prevMinutes.topics.forEach(prevTopic => {
-                                if (topic._id == prevTopic._id) {
-                                    sameTopics = true;
-                                }
-                                if (sameTopics) {
-                                    //same Items?
+                            let prevTopic = prevMinutes.topics.find(prevTopic => topic._id === prevTopic._id); 
+                            if (prevTopic !== undefined) {
+                                if (prevTopic.items){
                                     topic.infoItems.forEach(infoItem => {
-                                        prevTopic.infoItems.forEach(prevInfoItem => {
-                                            if (infoItem._id == prevInfoItem._id) {
-                                                sameItems = true;
-                                            }
-                                            if (sameItems) {
-                                                infoItem.details.forEach(detail => {
-                                                    prevInfoItem.details.forEach(prevDetail => {
-                                                        //same detail-text?
-                                                        if (detail.text == prevDetail.text) {
-                                                            this._updateDetail(detail, minutes._id, prevDetail);
-                                                        }
-                                                    })
+                                        let prevInfoItem = prevTopic.topics.find(prevInfoItem => infoItem._id === prevInfoItem._id);
+                                        if (prevInfoItem !== undefined) {
+                                            infoItem.details.forEach(detail => {
+                                                prevInfoItem.details.forEach(prevDetail => {
+                                                    //same detail-text?
+                                                    if (detail.text == prevDetail.text) {
+                                                        this._updateDetail(detail, minutes._id, prevDetail);
+                                                    }
                                                 })
-                                            }
-                                        })
+                                            })
+                                        }
                                     })
-
                                 }
 
-                            })
+                            }
                         }
                     })
-
                     minutes = this._updateTopicsOfMinutes(minutes);
                 }
                 saveMinutes(minutes);
                 minutes = minutes.nextMinutes();
-            }
         }
         this._updateTopicsOfSeries();
         saveSeries(this.series);
@@ -119,12 +106,14 @@ class MigrateSeriesUp {
         if (!minutesId) {
             throw new Meteor.Error('illegal-state', 'Cannot update topic with unknown minutes id');
         }
+        // for details that were created in a prev. minute but an item is pinned and they occur in the following minute
         if (!prevDetail) {
             if(!detail._id){
                 detail._id = Random.id();
                 detail.createdInMinute = minutesId;
             }
         }
+        //for new created details
         else{
             detail._id = prevDetail._id;
             detail.createdInMinute = prevDetail.createdInMinute;
@@ -177,6 +166,7 @@ export class MigrateV12 {
                 })
             })
         });
+        return topics;
     }
 
 }
