@@ -36,6 +36,9 @@ Meteor.methods({
             if (VERSION_INFO.tag === VERSION_INFO.commitlong) {  // no tag found!
                 delete VERSION_INFO.tag;
             }
+            if (VERSION_INFO.branch.startsWith("Detached")) {
+                VERSION_INFO.branch = "Specific Commit"
+            }
 
             console.log("git version: "+JSON.stringify(VERSION_INFO, null, 4));
 
