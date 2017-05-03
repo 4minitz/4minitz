@@ -150,7 +150,7 @@ describe('Minutes', function () {
         expect(result).to.equal(aGlobalNote);
     });
 
-    it('hide closed topics @watch', function () {
+    it('hide closed topics', function () {
         let aProjectName = "E2E Minutes";
         let aMeetingName = "Meeting Name #7";
 
@@ -201,7 +201,7 @@ describe('Minutes', function () {
         expect(currentdate).to.equal(thirdDate);
     });
 
-    it('hide closed topics by click @watch', function () {
+    it('hide closed topics by click', function () {
         let aProjectName = "E2E Minutes";
         let aMeetingName = "Meeting Name #8";
 
