@@ -47,10 +47,12 @@ export class Minutes {
             options);
     }
 
+    // method
     static remove(id) {
         return Meteor.callPromise("workflow.removeMinute", id);
     }
 
+    // method
     static async syncVisibility(parentSeriesID, visibleForArray) {
         return Meteor.callPromise("minutes.syncVisibility", parentSeriesID, visibleForArray);
     }
@@ -59,6 +61,7 @@ export class Minutes {
 
     // ################### object methods
 
+    // method
     async update (docPart, callback) {
         console.log("Minutes.update()");
         _.extend(docPart, {_id: this._id});
@@ -72,6 +75,7 @@ export class Minutes {
         }
     }
 
+    // method
     save (optimisticUICallback, serverCallback) {
         console.log("Minutes.save()");
         if (this.createdAt === undefined) {
@@ -124,6 +128,7 @@ export class Minutes {
     }
 
     // This also does a minimal update of collection!
+    // method
     async removeTopic(id) {
         let i = this._findTopicIndex(id);
         if (i !== undefined) {
@@ -195,6 +200,7 @@ export class Minutes {
         })
     }
 
+    // method
     async upsertTopic(topicDoc, insertPlacementTop = true) {
         let i = undefined;
 
@@ -228,6 +234,7 @@ export class Minutes {
         }, /* initial value */[]);
     }
 
+    // method
     /**
      * Finalizes this minute by calling
      * the workflow-server-method.
@@ -239,6 +246,7 @@ export class Minutes {
         return Meteor.callPromise('workflow.finalizeMinute', this._id, sendActionItems, sendInfoItems);
     }
 
+    // method
     /**
      * Unfinalizes this minutes by calling
      * the workflow-server-method.
@@ -247,6 +255,7 @@ export class Minutes {
         return Meteor.callPromise('workflow.unfinalizeMinute', this._id);
     }
 
+    // method
     sendAgenda() {
         return Meteor.callPromise('minutes.sendAgenda', this._id);
     }
@@ -318,6 +327,7 @@ export class Minutes {
     }
 
 
+    // method?
     /**
      * Sync all users of .visibleFor into .participants
      * This method adds and removes users from the .participants list.
@@ -381,6 +391,7 @@ export class Minutes {
     }
 
 
+    // method?
     /**
      * Change presence of a single participant. Immediately updates .participants array
      * TODO Reactive performance may be better if we only update one array element in DB
