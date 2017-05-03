@@ -469,6 +469,18 @@ describe('Topics', function () {
         expect(browser.getText(".label")).to.equal(labelName);
     });
 
+    it('add more (2) labels to topic via textbox', function() {
+        const topicName = 'testTopic'
+        const labelName1 = 'testLabel1';
+        const labelName2 = 'testLabel2';
+        E2ETopics.addTopicToMinutes(topicName + ' #' + labelName1 + ' #' + labelName2);
+        E2EGlobal.waitSomeTime(500);
+
+        expect(browser.waitForExist(".labels")).to.be.true;
+        expect(browser.getText(".labels .label:nth-child(1)")).to.equal(labelName1);
+        expect(browser.getText(".labels .label:nth-child(2)")).to.equal(labelName2);
+    });
+
     it('add label to topic and check if topic is displayed in topic tab of meeting series', function() {
         let labelName = 'testLabel';
         E2ETopics.addTopicToMinutes('topic #' + labelName);
@@ -495,6 +507,21 @@ describe('Topics', function () {
         expect(browser.getText(".label")).to.equal(labelName);
     });
 
+    it('can add a topic with more (2) labels to minutes at the end of topics list', function() {
+        const testTopicName = 'some topic at the end';
+        const labelName1 = 'testLabel1';
+        const labelName2 = 'testLabel2';
+        E2ETopics.addTopicToMinutes('some topic on top');
+        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " #" + labelName1 + " #" + labelName2);
+        E2EGlobal.waitSomeTime(500);
+
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+        expect(E2ETopics.getLastTopicForMinute() === testTopicName);
+        expect(browser.waitForExist(".labels")).to.be.true;
+        expect(browser.getText(".labels .label:nth-child(1)")).to.equal(labelName1);
+        expect(browser.getText(".labels .label:nth-child(2)")).to.equal(labelName2);
+    });
+
     it('can add a topic with responsible to minutes at the end of topics list', function() {
         const testTopicName = 'some topic at the end';
         const responsibleName = 'TestResponsible';
@@ -507,6 +534,21 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
         expect (topicHeadingText).to.contain(responsibleName);
+    });
+
+    it('can add a topic with more (2) responsible to minutes at the end of topics list', function() {
+        const testTopicName = 'some topic at the end';
+        const responsibleName1 = 'TestResponsible1';
+        const responsibleName2 = 'TestResponsible2';
+        E2ETopics.addTopicToMinutes('some topic on top');
+        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " @" + responsibleName1 + " @" + responsibleName2);
+        E2EGlobal.waitSomeTime(500);
+
+        let topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
+
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+        expect(E2ETopics.getLastTopicForMinute() === testTopicName);
+        expect (topicHeadingText).to.contain(responsibleName1, responsibleName2);
     });
 
     it('can add a topic with label and responsible to minutes at the end of topics list', function() {
