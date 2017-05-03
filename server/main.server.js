@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base'
+import { Accounts } from 'meteor/accounts-base';
+import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
-import { GlobalSettings } from '/imports/GlobalSettings';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
+import '/imports/config/accounts';
 
-import '/imports/broadcastmessage'
+import '/imports/broadcastmessage';
 import '/imports/minutes';
 import '/imports/meetingseries';
 import {BroadcastMessageCollection} from '/imports/collections/broadcastmessage_private';

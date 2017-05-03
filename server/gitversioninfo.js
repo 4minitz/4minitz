@@ -1,4 +1,5 @@
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
+import { formatDateISO8601 } from '/imports/helpers/date';
 
 let packagejson;
 try {
@@ -31,9 +32,12 @@ Meteor.methods({
             VERSION_INFO.commitlong = git.long();
             VERSION_INFO.branch = git.branch();
             VERSION_INFO.tag = git.tag();
-            VERSION_INFO.date = global.formatDateISO8601(git.date());
+            VERSION_INFO.date = formatDateISO8601(git.date());
             if (VERSION_INFO.tag === VERSION_INFO.commitlong) {  // no tag found!
                 delete VERSION_INFO.tag;
+            }
+            if (VERSION_INFO.branch.startsWith("Detached")) {
+                VERSION_INFO.branch = "Specific Commit"
             }
 
             console.log("git version: "+JSON.stringify(VERSION_INFO, null, 4));

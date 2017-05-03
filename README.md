@@ -3,7 +3,7 @@ master/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=master
 develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=develop)](https://travis-ci.org/4minitz/4minitz)
 [![Code Climate](https://codeclimate.com/github/4minitz/4minitz/badges/gpa.svg)](https://codeclimate.com/github/4minitz/4minitz)
 [![dependencies Status](https://david-dm.org/4minitz/4minitz/status.svg)](https://david-dm.org/4minitz/4minitz)
-[![Docker Pulls](https://img.shields.io/docker/pulls/derwok/4minitz.svg)](https://hub.docker.com/r/derwok/4minitz/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/4minitz/4minitz.svg)](https://hub.docker.com/r/4minitz/4minitz/)
 [![CLA assistant](https://cla-assistant.io/readme/badge/4minitz/4minitz)](https://cla-assistant.io/4minitz/4minitz)
 
 
@@ -21,7 +21,10 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 * Track open action items and unfinished topics across meetings
 * Full privacy: Host your own server - it's easy!
 
-[![4Minitz Screen Shot](./doc/4minitz_screenshot.png | width=600)](./doc/4minitz_screenshot.png)
+<a href="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png" width="500" ></a>
+
+*(Click to enlarge screenshot)*
+
 
 **Important: 4Minitz is currently WIP and not yet ready for mission critical usage. 
 Nevertheless, quite a few features are working stable already and you can head over to our
@@ -41,7 +44,7 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 * [TravisCI](https://travis-ci.org/4minitz/4minitz) - Runs unit and end2end tests on each commit
 * [Code Climate](https://codeclimate.com/github/4minitz/4minitz) - Keeps an eye on our code quality 
 * [CLA Assist](https://cla-assistant.io/4minitz/4minitz) - Manages signing of our Contributor License Agreements 
-* [Docker Hub](https://hub.docker.com/r/derwok/4minitz/) - Spin up your own 4Minitz server in seconds 
+* [Docker Hub](https://hub.docker.com/r/4minitz/4minitz/) - Spin up your own 4Minitz server in seconds 
 
 
 
@@ -66,7 +69,7 @@ node.js version and MongoDB and thus has no external dependecies.
 1. Install [docker](https://docs.docker.com/engine/installation/)
 2. In a directory where you have write access run:
 ```
-docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 derwok/4minitz
+docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz
 ```
 You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser

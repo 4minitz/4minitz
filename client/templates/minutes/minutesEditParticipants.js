@@ -77,19 +77,6 @@ Template.minutesEditParticipants.helpers({
         }
     },
 
-    // some responsive CSS tweaking
-    useClassWell() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "well";
-        }
-    },
-
-    useStylePadding() {
-        if (! Session.get("global.isMobileWidth")) {
-            return "padding-left: 1.5em;";
-        }
-    },
-
     hasInformedUsers() {
         let aMin = new Minutes(_minutesID);
         return (aMin.informedUsers && aMin.informedUsers.length > 0);
@@ -105,6 +92,14 @@ Template.minutesEditParticipants.helpers({
             informedNames = informedNames.slice(0, -2); // remove last ", "
         }
         return informedNames;
+    },
+
+    switch2MultiColumn() {
+        let aMin = new Minutes(_minutesID);
+
+        if (aMin.participants.length > 7) {
+            return "multicolumn";
+        }
     }
 });
 
@@ -119,11 +114,9 @@ Template.minutesEditParticipants.events({
     "change #edtParticipantsAdditional" (evt, tmpl) {
         console.log("Trigger!");
         let aMin = new Minutes(_minutesID);
-        if (aMin) {
-            console.log("   Min!");
-            let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
-            aMin.update({participantsAdditional: theParticipant});
-        }
+        console.log("   Min!");
+        let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
+        aMin.update({participantsAdditional: theParticipant});
     },
 
     "click #btnParticipantsExpand" () {

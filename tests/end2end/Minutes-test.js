@@ -115,14 +115,14 @@ describe('Minutes', function () {
 
         E2EGlobal.waitSomeTime(2000); // wait until parent check will be enabled
 
-        expect(browser.isVisible('#flashMessage'), 'flash message should not be visible before un-linking the minute').to.be.false;
+        let messageSelector = '[data-notify="container"]';
+
+        expect(browser.isVisible(messageSelector), 'flash message should not be visible before un-linking the minute').to.be.false;
 
         server.call('e2e.updateMeetingSeries', msId, {minutes: []});
 
-        // As there may be multiple flashMessages (visible and non visible)
-        // we are interested in the flashMessage immediately following the minutes Heading
-        browser.waitForVisible('#minutesHeading + #flashMessage');
-        let dialogMsgElement = browser.element('#minutesHeading + #flashMessage').value.ELEMENT;
+        browser.waitForVisible(messageSelector);
+        let dialogMsgElement = browser.element(messageSelector).value.ELEMENT;
         let dialogMsgText = browser.elementIdText(dialogMsgElement).value;
         expect(dialogMsgText, 'error message should be displayed').to.have.string('Unfortunately the minute is not linked to its parent series correctly');
     });

@@ -1,8 +1,7 @@
-
 import { Meteor } from 'meteor/meteor';
-
-import { GlobalSettings } from '/imports/GlobalSettings'
-import { UserRoles } from "./../userroles"
+import { Roles } from 'meteor/alanning:roles';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
+import { UserRoles } from './../userroles';
 
 if (Meteor.isServer) {
     // #Security: first reset all admins, then set "isAdmin:true" for IDs in settings.json
@@ -79,7 +78,7 @@ Meteor.methods({
         if (Meteor.userId() === otherUserId) {
             return; // silently swallow: user may never change own role!
         }
-        
+
         // #Security: Ensure user is moderator of affected meeting series
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(meetingSeriesId)) {

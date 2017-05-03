@@ -16,19 +16,68 @@
 
 .connection-info {
     position: fixed;
-    top: 10px;
+    top: 13px;
     right: 10px;
+    text-align: right;
+    padding-top:5px;
+    width: 250px;
+    font-weight: bold;
+    color: yellow;
     z-index: 1000;
 
     /* fallback color for browsers that don't understand rgba */
     background-color: rgb(148, 0, 0);
-    background-color: rgba(255, 0, 0, 0.5);
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
+.btn-warning-expand {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 134%;
+    cursor: pointer;
+    cursor: hand;
+    margin-top: 6px;
+    padding: 2px 6px 2px 1px;
+}
+
+.remove-symbol {
+    padding: 3px 2px 2px 6px;
+    font-size:93%;
+}
+
+.connection-warning-text {
+    margin-top: 37px;
     padding: 5px;
+    text-align: justify;
+    width: 250px;
+}
+
+.btn-reconnect {
+    padding: 30px;
+}
+
+.panel-dropper {
+    color: grey;
+}
+.panel-dropper:hover {
+    color: teal;
+}
+
+.panel-link {
+    padding: 0.5em 0 !important;
+    margin-left: 0;
 }
 
 .panel-link:hover, .panel-link:link {
     color: inherit;
 }
+
+.panel-link:hover {
+    background: #eee !important;
+}
+
 
 /* highlight active nav-tabs item */
 ul.nav-tabs {
@@ -58,7 +107,7 @@ a:focus {
 /* .panel-heading sets the default background which can only be
    overwritten with the !important flag  */
 .panel-heading.actionitem-open {
-    background-color: #77CCCC !important;
+    background-color: #88dddd !important;
 }
 
 .panel-heading.actionitem-closed {
@@ -66,6 +115,10 @@ a:focus {
 }
 
 .panel-heading.infoitem {
+    background-color: #ffffff !important;
+}
+
+.panel-heading.bright {
     background-color: #ffffff !important;
 }
 
@@ -121,16 +174,24 @@ a:focus {
     text-decoration: none;
 }
 
+.dragDropHandle {
+    color: grey;
+}
 
-.topicDragDropHandle:hover {
+.dragDropHandle:link {
+    color: grey;
+}
+
+.dragDropHandle:hover {
     cursor: move; /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
+    color: black;
 }
 
 /* (Optional) Apply a "closed-hand" cursor during drag operation. */
-.topicDragDropHandle:active {
+.dragDropHandle:active {
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
@@ -176,4 +237,41 @@ input.pick-a-color {
 
 .align-with-input {
     bottom: -25px;
+}
+
+@media (min-width: 768px) {
+    /* used to indent topic content like infoitems / action items */
+    .leftIndent-desktop {
+        margin-left: 20px;
+        padding-left: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .multicolumn {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+@media (min-width: 768px) {
+    .padding-for-collabsable {
+        padding-left: 1.5em
+    }
+}
+
+.force-no-padding-top {
+    padding-top: 0 !important;
+}
+
+.text-black {
+    color: black;
+}
+
+.large-font {
+    font-size: 125%;
+}
+
+.default-margin-top {
+    margin-top: 15px;
 }

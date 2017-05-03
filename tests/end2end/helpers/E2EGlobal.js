@@ -41,7 +41,7 @@ export class E2EGlobal {
     };
 
     static browserIsPhantomJS () {
-        return (E2EGlobal.browserName() == "phantomjs")
+        return (E2EGlobal.browserName() === "phantomjs")
     };
 
     static isCheckboxSelected(selector) {

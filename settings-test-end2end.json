@@ -8,6 +8,24 @@
     "trustedIntranetInstallation": true,
     "forbidClientAccountCreation": false,
 
+    "branding": {
+        "legalNotice": {
+            "enabled": true,
+            "linkText": "Legal Notice (Impressum)",
+            "content": [
+                "<h1>Legal Notice</h1>",
+                "<p><b>Your 4Minitz Service provider is:</b></p>",
+                "<p style='margin-left: 20px;'>John Doe<br>24, Legal St.<br>91056 Erlangen<br></p>",
+                "<h1>Disclaimer</h1>",
+                "<p>THE DEMO SERVICE AVAILABLE VIA 4MINITZ.COM IS PROVIDED AS IS,",
+                "WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,",
+                "REACHABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE SERVICE PROVIDERS, AUTHORS OR COPYRIGHT HOLDERS ",
+                "BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,",
+                "ARISING FROM, OUT OF OR IN CONNECTION WITH THE SERVICE OR THE USE OR OTHER DEALINGS IN THE SERVICE.</p>"
+            ]
+        }
+    },
+
     "defaultLabels": [
         {
             "name": "Status:RED",

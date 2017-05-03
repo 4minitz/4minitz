@@ -60,7 +60,7 @@ Meteor.methods({
             return;
         }
 
-        console.log("New BroadcastMessage "+id+" from Admin: >" + message+"<");
+        console.log("New BroadcastMessage from Admin: >" + message+"<");
 
         const id = BroadcastMessageCollection.insert({
             text: message,

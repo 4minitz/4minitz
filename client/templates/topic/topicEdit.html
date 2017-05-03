@@ -7,13 +7,18 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Edit Topic</h4>
                 </div>
-                {{> error}}
                 <form id="frmDlgAddTopic">
                     <div class="modal-body">
                         <div class="form-group label-floating">
                             <label for="id_subject" class="control-label">Subject of Topic (mandatory)</label>
                             <input id="id_subject" type="text" class="form-control" value="{{getTopicSubject}}"
                                    required data-error-msg="Please enter a valid subject" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_item_selLabels" class="control-label" style="color: teal;">Labels</label>
+                            <select id="id_item_selLabels" multiple="multiple" style="width:100%;">
+                                <!--Options will be filled in by show.bs.modal event handler-->
+                            </select>
                         </div>
                         <div class="form-group form-group-responsibles">
                             <label for="id_selResponsible" class="control-label" style="color: teal;">Responsible</label>

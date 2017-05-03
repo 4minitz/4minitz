@@ -21,6 +21,18 @@ If your local installation of 4Minitz allows login via LDAP, you never need to r
 
 If your local installation has no LDAP configured, or you are using our demo server at http://www.4minitz.com, you may click on "Register" to create a new user. The E-Mail you enter will be used to send meeting minutes or action items to you.
 
+## Edit Profile / Change Password
+
+If you are a non-LDAP user, you can edit your profile by clicking the button "Edit Profile" or "Change Password":
+
+![edit_profile_button](./figures/edit_profile_button.png)
+
+You can change your:
+ * long name ()
+ * E-Mail address (required) 
+ 
+![edit_profile_button](./figures/edit_profile.png)
+
 
 ## Create a Meeting Series
 A meeting series comprises of a project name and a meeting name.
@@ -95,17 +107,22 @@ If the moderator wants to change the order of the topic it is possible to drag'n
 
 ![Topic Drag Drop Handle](./figures/topic_dragdrop_handle.png)
 
-The icons on a topic allow the following operations:
+If you click the "three dots" menu icon 
 
-* **"Plus"** will add a **child item** to the topic. This feature will be described in the chapter "Take Meeting Minutes".
-* **"Circle Arrow"** will switch the topic to a **recurring topic** that will be part of any future meetings
-* **Click on title text** will allow the moderator to *edit this topic's** subject or the responsible
-* **"Trash"** will **delete** this topic after a security question
-* **"Up-Down-Arrow"** allows reordering the topics via **drag'n'drop**
+![Three Dot Menu Icon](./figures/three_dot_menu.png)
+
+the topic menu will allow you to:
+
+* **"Add Info Item"** will add a info item to the topic. An information item is information that is going to be published with your meeting minutes to all invited persons. This feature will be described in the chapter "Take Meeting Minutes"
+* **"Add Action Item"** will add an action item to the topic. An action item is a ToDo that is sent to its responsible. This feature will be described in the chapter "Take Meeting Minutes"
+* **Edit Topic** (or click on topic subject text) will allow the moderator to edit this topic's subject, label or the responsible
+* **"Set Recurring"** will switch the topic to a recurring topic that will be part of any future meetings
+* **"Delete Topic"** will delete this topic after a security question
+* **"Up-Down-Arrow"** allows reordering the topics via drag'n'drop
 
 
 ## Send Agenda to Participants
-All open topics of the current meeting minutes will be send by EMail to all invited users (and moderators) of the current meeting series if the moderator clicks the button:
+All open (non skipped) topics of the current meeting minutes will be send by EMail to all invited users (and moderators) of the current meeting series if the moderator clicks the button:
 
 ![Send Agenda Button](./figures/send_agenda.png)
 
@@ -116,7 +133,7 @@ During a meeting a moderator may add
 * child **Information Items** to topics and
 * child **Action Items** to topics
 
-by clicking the "Plus" icon on a topic.
+by clicking the corresponding menu entry on the topic "three dot" menu.
  
 ### Information Items
 Information Items are children of topics and will be sent as part of the meeting protocol to all invited users on finalize.
@@ -129,30 +146,31 @@ Information items will not be propagated to the next meeting unless the "pinned 
 
 For details on when topics are propagated to the next meeting see the "Finalize Meeting" chapter. 
 
-The icons on an info item allow the following operations:
+The menu entries in the "three dot" info item menu allow the following operations:
 
-* **"Plus"** will **add details** to the item. This feature will be described in the chapter "Adding Details".
-* **"Pin"** will switch the topic to a **as pinned topic** that will be propagated to the next meeting, of the parent topic is also propagated
-* **Click on title text** will allow the moderator to *edit this items** details
-* **"Trash"** will **delete** this item after a security question
+* **"Add Details"** will add details to the item. This feature will be described in the chapter "Adding Details".
+* **Edit Item** will allow the moderator to edit this items properties (like subject, label)
+* **"Set Pinned"** will switch the topic to a pinned topic that will be propagated to the next meeting, if the parent topic is also propagated
+* **"Delete Item"** will delete this item after a security question. Info Items from previous meeting can not be deleted - they can only be set to "unpinned" state. So you will get rid of them in the next meeting. 
   
  
 ### Action Items
-Action Items are children of topics and will be sent only to the entered responsible(s) on finalize of the meeting minutes.
+Action Items are children of topics and will be sent to the entered responsible(s) in a seperate mail when the moderator finalizea the meeting minutes.
 
 An action item will be propagated together with its parent topic to the next meeting unless the action item is checked as "done".
 
-The icons on an action item allow the following operations:
+The menu entries in the "three dot" action item menu allow the following operations:
 
-* **"Plus"** will **add details** to the item. This feature will be described in the chapter "Adding Details".
-* **Click on title text** will allow the moderator to *edit this items** details
-* **"Trash"** will **delete** this item after a security question  
-
+* **"Add Details"** will add details to the item. This feature will be described in the chapter "Adding Details".
+* **Edit Item** will allow the moderator to edit this action items properties (like subject, label, responsible)
+* **"Delete Item"** will delete this item after a security question. Action Items from a previous meeting can not be deleted - they can only be set to "done". So you will get rid of them in the next meeting.
 
 ### Adding Details
-By clicking the "Plus" icon on Information Items and Action Items it is possible to add details to them.
+By clicking the "Add Details" menu on Information Items and Action Items it is possible to add details to them.
 
 In the details editor it is possible to use markdown syntax to create rich text formatting like headings, bold, italic, bullet lists, etc.
+
+TODO: describe markdown
 
 ### Expand and Collapse
 TODO
@@ -160,6 +178,12 @@ TODO
 ## Finalize Meeting
 
 ![Finalize Button](./figures/finalize_meeting_minutes.png)
+
+Make sure you haven't forgotten to select participants before finalizing the Minutes. A warning message will be shown, if no participants are selected. You can cancel finalizing and add them or confirm ans proceed without 
+participants:
+
+![Warning_on_finalize](./figures/warning_no_participants_on_finalize.png)
+
 
 ![Finalize Dialog](./figures/finalize_meeting_minutes_dialog.png)
 
@@ -178,9 +202,12 @@ Afterwards your systems print dialog is opened.
 
 
 ## Unfinalize Meeting
-The latest finalized meeting minutes can be un-finalized to make corrections / changes to the already finalized minutes. Simply press the "Pen" button next to the finalize time stamp:
+The latest finalized meeting minutes can be un-finalized to make corrections / changes to the already finalized minutes. Simply press the **"Pen" button** next to the finalize time stamp:
 
-Once the moderator creates new minutes on top of the finalized last minutes, it is not possible to un-finalized the last finalized minutes anymore.
+![Un-Finalize Metting](./figures/unfinalize_pen.png)
+
+
+Once the moderator creates new minutes on top of the finalized last minutes, it is not possible to un-finalize the last finalized minutes anymore.
 
 ## Upload Binary Attachments
 It is possible to attach binary uploads to the current non-finalized

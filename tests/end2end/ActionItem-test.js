@@ -4,7 +4,7 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
-require('./../../lib/helpers');
+require('../../imports/helpers/date');
 
 
 describe('ActionItems', function () {
@@ -104,9 +104,49 @@ describe('ActionItems', function () {
         expect(actionItemExpandElementText, "AI text should have changed").to.have.string(updatedActionItemName);
     });
 
+
+    // This was broken before bugfix of github issue #228
+    it('can edit an existing action item after an info item was added', function() {
+        let topicIndex = 1;
+        const actionItemName = getNewAIName();
+        const updatedActionItemName = actionItemName + ' CHANGED!';
+
+        E2ETopics.addInfoItemToTopic({      // create the initial action item
+            subject: actionItemName,
+            itemType: "actionItem",
+            responsible: E2EGlobal.SETTINGS.e2eTestUsers[0],
+        }, topicIndex);
+        E2EGlobal.waitSomeTime();
+
+        E2ETopics.addInfoItemToTopic({      // create a following info item (inserted BEFORE AI!)
+            subject: "New Infoitem",
+            itemType: "infoItem",
+            label: "Proposal"
+        }, topicIndex);
+        E2EGlobal.waitSomeTime();
+
+        const newResponsible = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let actionItemIndex = 2;    // II was inserted before AI!
+        E2ETopics.editInfoItemForTopic(topicIndex, actionItemIndex,
+            {
+                subject: updatedActionItemName,
+                itemType: "actionItem",
+                responsible: newResponsible,
+            });
+
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem:nth-child(" + actionItemIndex + ")";
+        expect(browser.isVisible(selector), "Action item should be visible after edit").to.be.true;
+
+        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        expect(actionItemExpandElementText, "AI subject text should have changed after edit").to.have.string(updatedActionItemName);
+        expect(actionItemExpandElementText, "AI responsible should have changed after edit").to.contain(newResponsible);
+    });
+
+
     it('can add an action item by pressing enter in the topic field', function () {
         let topicIndex = 1;
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
@@ -127,7 +167,7 @@ describe('ActionItems', function () {
 
     it('can add an action item by pressing enter in the priority field', function () {
         let topicIndex = 1;
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({

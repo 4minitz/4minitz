@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { TopicItemsMailHandler } from './TopicItemsMailHandler'
-import { GlobalSettings } from './../GlobalSettings'
+import { GlobalSettings } from '../config/GlobalSettings'
 import { Topic } from './../topic'
 import { Attachment } from '../attachment';
 
@@ -31,8 +31,9 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             if (aTopicObj.hasResponsibles()) {
                 topic.responsiblesString = "("+aTopicObj.getResponsiblesString()+")";
             }
+            topic.labels = aTopicObj.getLabelsString(topic);
         });
-        
+
         this._buildMail(
             mailSubject,
             this._getEmailData()

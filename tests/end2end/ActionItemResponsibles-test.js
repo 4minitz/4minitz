@@ -5,7 +5,7 @@ import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
-require('./../../lib/helpers');
+require('../../imports/helpers/date');
 
 
 describe('ActionItems Responsibles', function () {
@@ -65,7 +65,7 @@ describe('ActionItems Responsibles', function () {
         let topicIndex = 1;
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
 
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
@@ -89,7 +89,7 @@ describe('ActionItems Responsibles', function () {
         let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
 
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
@@ -112,7 +112,7 @@ describe('ActionItems Responsibles', function () {
     it('can add an action item with a free-text EMail-responsible', function () {
         let topicIndex = 1;
         let emailUser = "noreply@4minitz.com";
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
@@ -135,7 +135,7 @@ describe('ActionItems Responsibles', function () {
     it('prohibits non-email-string as free-text responsible', function () {
         let topicIndex = 1;
         let illegalUserName = "NonEMailResponsible";
-        E2ETopics.openInfoItemDialog(topicIndex);
+        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({

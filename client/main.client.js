@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private'
+import { Markdown } from 'meteor/perak:markdown';
+import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private';
+import '/imports/config/accounts';
 
 // initialize
 //  * twitter bootstrap
@@ -80,3 +82,19 @@ Meteor.startup(() => {
         return pathWithTrailingSlash;
     });
 });
+
+window.onbeforeunload = function (e) {
+    let event = e || window.event;
+
+    if(Meteor.status().connected) {
+        event.cancel();
+    }
+
+    const message = "Do you really want to leave 4Minitz?";
+    // For IE and Firefox
+    if (event) {
+        event.returnValue = message;
+    }
+    // For Safari
+    return message;
+};

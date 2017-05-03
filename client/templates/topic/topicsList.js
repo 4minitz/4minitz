@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-
 import { Topic } from '/imports/topic'
+import { handleError } from '/client/helpers/handleError';
 
 
 export class TopicListConfig {
@@ -47,13 +47,15 @@ Template.topicsList.events({
 
         let topicDoc = {};
         topicDoc.subject = tmpl.find("#addTopicField").value;
+        topicDoc.responsibles = [];
 
         let aTopic = new Topic(tmpl.data.minutesId, topicDoc);
+        aTopic.extractLabelsFromTopic(this.parentMeetingSeriesId);
+        aTopic.extractResponsiblesFromTopic();
 
         aTopic.saveAtBottom().catch(error => {
-            tmpl.find("#addTopicField").value = topicDoc.subject;
-            Session.set('errorTitle', 'Validation error');
-            Session.set('errorReason', error.reason);
+            tmpl.find("#addTopicField").value = topicDoc.subject; // set desired value again!
+            handleError(error);
         });
         tmpl.find("#addTopicField").value = "";
 

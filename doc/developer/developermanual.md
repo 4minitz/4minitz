@@ -5,10 +5,10 @@
 * For generating the UML figures in this doc we use [PlantUML](http://plantuml.com/)
   (respective the [PlantUML plugin](https://plugins.jetbrains.com/plugin/7017?pr=) for JetBrains products)
 * We use ES2015 (ES6) as we make progress in learning it.
-* Before merging new features, read our ["Definition of Done"] ()
+* Before merging new features, read our ["Definition of Done"](#dod)
 
 
-## DoD - Our "Definition of Done"
+## <a name="dod">DoD - Our "Definition of Done"</a>
 * __Acceptance critera__: from the user story are checked and work OK
 * __Responsiveness:__ Your user story shall look great on small (<= 480px width) and large (>1000px) screens
 * __Unit- and integration tests:__ do cover your new code
@@ -88,7 +88,21 @@ Travis-CI. To debug red testcases on Travis-CI, all screenshots are
 uploaded as "artifacts" to our Amazon AWS S3 storage. After a Travis build
 has completed, you can watch all created screenshots via this URL:
 [http://s3files.4minitz.com/4minitz/4minitz](http://s3files.4minitz.com/4minitz/4minitz)
+
  
+## Database Seeding
+ 
+Sometimes it is necessary that there are some test data available in the database. Therefore you can use our
+minutes seeding tool. This tool allows to insert a meeting series with dummy entries. The series contains
+a custom amount of minutes containing a custom amount of topics and items.
+
+Simply execute:
+    
+    npm run fixtures:seed-minutes
+    
+The parameter `--help` displays all command-line options:
+
+    npm run fixtures:seed-minutes -- --help
 
 ## Coding - Where to start
 Our work-horses are the classes in /imports/ (e.g. meetingseries.js, minutes.js).

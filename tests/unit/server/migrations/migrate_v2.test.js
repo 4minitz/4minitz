@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
-require('../../../../lib/helpers');
+require('../../../../imports/helpers/date');
 
 let MinutesCollection = {
 };

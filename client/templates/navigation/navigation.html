@@ -1,6 +1,5 @@
 
 <template name="navigation">
-
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -27,7 +26,7 @@
                     <li><a target="_blank" href="https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md">
                         Help</a>
                     </li>
-                    <li><a href="#" data-toggle="modal" data-target="#dlgAbout">
+                    <li><a id="btnAbout" href="#" data-toggle="modal" data-target="#dlgAbout">
                         About</a>
                     </li>
 
@@ -47,13 +46,15 @@
                                 {{/if}}
                                 {{#unless currentUser.isLDAPuser}}
                                     {{#unless currentUser.isDemoUser}}
-                                        <li><a href="#" data-toggle="modal" data-target="#dlgChangePassword">
-                                            Change Password</a>
-                                        </li>
-                                        <li class="divider"></li>
+                                      <li><a href="#" data-toggle="modal" data-target="#dlgEditProfile" id="navbar-dlgEditProfile">
+                                          Edit Profile</a>
+                                      </li>
+                                      <li><a href="#" data-toggle="modal" data-target="#dlgChangePassword" id="navbar-dlgChangePassword">
+                                          Change Password</a>
+                                      </li>
+                                      <li class="divider"></li>
                                     {{/unless}}
                                 {{/unless}}
-
                                 <li><a href="#" id="navbar-signout">
                                     Sign Out</a>
                                 </li>
@@ -68,4 +69,7 @@
     {{> aboutDialog }}
 
     {{> passwordChangeDialog }}
+
+    {{> profileEditDialog }}
+
 </template>

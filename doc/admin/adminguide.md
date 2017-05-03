@@ -35,7 +35,7 @@ node.js version and MongoDB and thus has no external dependecies.
 1. Install [docker](https://docs.docker.com/engine/installation/)
 2. In a directory where you have write access run:
 ```
-docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 derwok/4minitz
+docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz
 ```
 You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser
@@ -52,7 +52,7 @@ Here you will find
      
 If a new version of 4Minitz is released, you may keep the above storage 
 directory. Simply Ctr+c the running container, and perform a `docker pull
-derwok/4minitz`. 
+4minitz/4minitz`. 
 When you re-launch the container afterwards, all clients will get 
 the new WebApp version automatically via meteors hot-code push.
 
@@ -193,7 +193,7 @@ options. On the admin view you may, for example:
 
 * **Register new users** for standard login.
   (Sorry, no LDAP registering!). When you
-   filled all necessary fields, you can specifiy
+   filled all necessary fields, you can specify
    if the new user will receive a welcome eMail with
    her login credentials.
 * **Show and filter** all registered users
