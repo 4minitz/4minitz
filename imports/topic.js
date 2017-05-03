@@ -415,10 +415,10 @@ export class Topic {
 
     extractLabelsFromTopic(meetingSeriesId) {
         const regEx = new RegExp(/(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g);
-        let topicString = this._topicDoc.subject;
+        let subjectString = this._topicDoc.subject;
         let match;
 
-        while (match = regEx.exec(topicString)) {
+        while (match = regEx.exec(subjectString)) {
             let labelName = match[2];
             this.addLabelByName(labelName, meetingSeriesId);
             this._removeLabelFromTopic(labelName);
@@ -427,10 +427,10 @@ export class Topic {
 
     extractResponsiblesFromTopic() {
         const regEx = new RegExp(/(^|[\s.,;])@([a-zA-z]+[^\s.,;]*)/g);
-        let topicString = this._topicDoc.subject;
+        let subjectString = this._topicDoc.subject;
         let match;
 
-        while (match = regEx.exec(topicString)) {
+        while (match = regEx.exec(subjectString)) {
             let responsibleName = match[2];
             this.addResponsible(responsibleName);
             this._removeResponsibleFromTopic(responsibleName);
