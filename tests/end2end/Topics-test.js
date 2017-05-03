@@ -507,7 +507,7 @@ describe('Topics', function () {
         expect(browser.getText(".label")).to.equal(labelName);
     });
 
-    it('can add a topic with more (2) labels to minutes at the end of topics list @watch', function() {
+    it('can add a topic with more (2) labels to minutes at the end of topics list', function() {
         const testTopicName = 'some topic at the end';
         const labelName1 = 'testLabel1';
         const labelName2 = 'testLabel2';
@@ -536,7 +536,7 @@ describe('Topics', function () {
         expect (topicHeadingText).to.contain(responsibleName);
     });
 
-    it('can add a topic with more (2) responsible to minutes at the end of topics list @watch', function() {
+    it('can add a topic with more (2) responsible to minutes at the end of topics list', function() {
         const testTopicName = 'some topic at the end';
         const responsibleName1 = 'TestResponsible1';
         const responsibleName2 = 'TestResponsible2';
