@@ -94,9 +94,12 @@
         {{#unless isCollapsed}}
             <div class="leftIndent-desktop">
                 <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
-                    {{#each topic.infoItems}}
+                    {{#each getItems}}
                         {{> topicInfoItem getInfoItem @index}}
                     {{/each}}
+                    {{#if showMoreButton}}
+                        <br><a href="" class="show-more-items">Show more items ...</a>
+                    {{/if}}
                 </div>
             </div>
         {{/unless}}

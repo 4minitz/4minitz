@@ -2,6 +2,7 @@ import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { FlashMessage } from '../../helpers/flashMessage';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 let _minutesId;
 
@@ -29,8 +30,13 @@ let updateItemSorting = (evt, ui) => {
     });
 };
 
+const INITIAL_ITEMS_LIMIT = 4;
+
 Template.topicElement.onCreated(function () {
-    _minutesId = Template.instance().data.minutesID;
+    let tmplData = Template.instance().data;
+    _minutesId = tmplData.minutesID;
+
+    this.isItemsLimited = new ReactiveVar(tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT);
 
     $(document).arrive('.itemPanel', () => {
         $('.itemPanel').sortable({
@@ -45,6 +51,20 @@ Template.topicElement.onCreated(function () {
 });
 
 Template.topicElement.helpers({
+    getItems: function() {
+        let tmpl = Template.instance();
+        if (tmpl.isItemsLimited.get()) {
+            return tmpl.data.topic.infoItems.slice(0, INITIAL_ITEMS_LIMIT);
+        } else {
+            return tmpl.data.topic.infoItems;
+        }
+    },
+
+    showMoreButton: function() {
+        let tmpl = Template.instance();
+        return tmpl.isItemsLimited.get();
+    },
+
     getLabels: function() {
         let tmplData = Template.instance().data;
         let parentElement = (tmplData.minutesID) ? tmplData.minutesID : tmplData.parentMeetingSeriesId;
@@ -126,6 +146,10 @@ Template.topicElement.helpers({
 
 
 Template.topicElement.events({
+    'click .show-more-items'(evt, tmpl) {
+        evt.preventDefault();
+        tmpl.isItemsLimited.set(false);
+    },
     'click #btnDelTopic'(evt) {
         evt.preventDefault();
 
