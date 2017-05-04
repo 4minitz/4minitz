@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Topic } from '/imports/topic'
 import { handleError } from '/client/helpers/handleError';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 
 export class TopicListConfig {
@@ -12,12 +13,34 @@ export class TopicListConfig {
     }
 }
 
+Template.topicsList.onCreated(function() {
+    const limited = new ReactiveVar(1);
+    this.isItemsLimited = limited;
+    window.onscroll = function() {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            limited.set(limited.get() + 1); // TODO: remove event listener if max topic count is reached
+        }
+    };
+});
+
+Template.topicsList.onRendered(function() {
+    let scrollbarVisible = document.body.offsetHeight > window.innerHeight;
+    if (scrollbarVisible) console.log('visible');
+    else {
+        console.log('scrollbar not visible');
+        const tmpl = Template.instance();
+        Meteor.defer(() => {
+            tmpl.isItemsLimited.set(2); // TODO: What if two items do not require the scrollbar ?!
+        });
+    }
+});
+
 let collapseID = 0;
 Template.topicsList.helpers({
 
     'getTopics': function() {
         let config =Template.instance().data;
-        return config.topics;
+        return config.topics.slice(0, Template.instance().isItemsLimited.get());
     },
 
     getTopicElement: function () {
