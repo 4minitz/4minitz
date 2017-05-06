@@ -180,10 +180,12 @@ export class Topic {
         return this.getDocument().isSkipped;
     }
     
-    toggleSkip() {
+    toggleSkip(forceOpenTopic = true) {
         this.getDocument().isSkipped = !this.isSkipped();
-        if (this.isSkipped() && (!this._topicDoc.isOpen)) { // topic has been set to skip, so it will be automatically set as open
-            this.toggleState();
+        if (forceOpenTopic) {
+            if (this.isSkipped() && (!this._topicDoc.isOpen)) { // topic has been set to skip, so it will be automatically set as open
+                this.toggleState();
+            }
         }
     }
 
