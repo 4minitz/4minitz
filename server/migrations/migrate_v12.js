@@ -99,7 +99,7 @@ class MigrateSeriesUp {
         if (!minutesId) {
             throw new Meteor.Error('illegal-state', 'Cannot update topic with unknown minutes id');
         }
-        // for details that were created in a prev. minute but an item is pinned and they occur in the following minute
+        //for new created details
         if (!prevDetail) {
             if(!detail._id){
                 detail._id = Random.id();
@@ -107,7 +107,7 @@ class MigrateSeriesUp {
                 this.topicParentMinuteMap[detail.text+infoItem._id] = [detail._id, detail.createdInMinute];
             }
         }
-        //for new created details
+        // for details that were created in a prev. minute but an item is pinned and they occur in the following minute
         else{
             detail._id = prevDetail._id;
             detail.createdInMinute = prevDetail.createdInMinute;
@@ -122,7 +122,6 @@ class MigrateSeriesUp {
                 infoItem.details.forEach(detail =>{
                     detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id][1];
                     detail._id = this.topicParentMinuteMap[detail.text+infoItem._id][0];
-
                 })
             })
         });
@@ -131,7 +130,6 @@ class MigrateSeriesUp {
                 infoItem.details.forEach(detail =>{
                     detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id][1];
                     detail._id = this.topicParentMinuteMap[detail.text+infoItem._id][0];
-
                 })
             })
         });
