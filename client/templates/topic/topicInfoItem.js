@@ -308,7 +308,7 @@ Template.topicInfoItem.events({
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
             let index = detailId.split('_')[2]; // detail id is: <collapseId>_<index>
             if (text !== "") {
-                aActionItem.updateDetails(index, text, aMin._id);
+                aActionItem.updateDetails(index, text);
                 aActionItem.save();
             } else {
                 let deleteDetails = () => {

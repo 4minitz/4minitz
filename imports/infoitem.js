@@ -96,7 +96,7 @@ export class InfoItem {
         this._infoItemDoc.details.splice(index, 1);
     }
 
-    updateDetails(index, text, minuteId) {
+    updateDetails(index, text) {
         if (text === "") {
             throw new Meteor.Error("invalid-argument", "Empty details are not allowed. Use #removeDetails() " +
                 "to delete an element");
