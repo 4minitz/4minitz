@@ -32,7 +32,7 @@ describe('Migrate Version 12', function () {
                 _id: '#T01',
                 infoItems:[{
                     _id: '#I01',
-                    details: [{text: 'd1'}, {text:'d2'}]
+                    details: [{text: 'd1'}, {text:'d22'}, {text:'d6'}]
                 },{
                     _id: '#I02',
                     details: [{text: 'd3'}, {text:'d4'}]
@@ -75,14 +75,36 @@ describe('Migrate Version 12', function () {
         fakeMeetingSeries = {
             _id: '#MS01',
             topics: [{
-                _id: '#T01'
+                _id: '#T01',
+                infoItems:[{
+                    _id: '#I01',
+                    details: [{text: 'd1'}, {text:'d22'}, {text:'d6'}]
+                },{
+                    _id: '#I02',
+                    details: [{text: 'd3'}, {text:'d4'}]
+                }]
             }, {
-                _id: '#T02'
+                _id: '#T02',
+                infoItems:[{
+                    _id: '#I03',
+                    details: [{text: 'd5'}]
+                }]
             }],
             openTopics: [{
-                _id: '#T02'
+                _id: '#T02',
+                infoItems:[{
+                    _id: '#I03',
+                    details: [{text: 'd5'}]
+                }]
             }, {
-                _id: '#T01'
+                _id: '#T01',
+                infoItems:[{
+                    _id: '#I01',
+                    details: [{text: 'd1'}, {text:'d22'}, {text:'d6'}]
+                },{
+                    _id: '#I02',
+                    details: [{text: 'd3'}, {text:'d4'}]
+                }]
             }],
             firstMinutes: () => {
                 return firstFakeMinute;
@@ -121,15 +143,15 @@ describe('Migrate Version 12', function () {
                     infoItem.details.forEach(checkDetailHasProperty_id);
                 })
             });
-            /*sndFakeMinute.topics.forEach(topic =>{
+            sndFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
                     infoItem.details.forEach(checkDetailHasProperty_createdInMinute);
                     infoItem.details.forEach(checkDetailHasProperty_id);
                 })
-            });*/
+            });
         });
 
-        /*it('sets the createdInMinutes and _id attribute for all topics in the meeting series', function() {
+        it('sets the createdInMinutes and _id attribute for all topics in the meeting series', function() {
             MigrateV12.up();
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
@@ -145,24 +167,29 @@ describe('Migrate Version 12', function () {
             });
         });
 
-        it('sets the correct id for the createdInMinute-attribute', function() {
+        it('sets the correct createdInMinute-attribute for all details in minutes and meetingSeries', function() {
             MigrateV12.up();
-            // detail created in minute in 1 minute
+            // detail was created in 1st minute => createdInMinute = 1st Minute
             expect(firstFakeMinute.topics[0].infoItems[0].details[0].createdInMinute).to.equal(FIRST_MIN_ID);
-            // detail created in 1 minute => in 2. minute
+            // detail created in 1st minute occured in 2nd Minute => createdInMinute = 1st Minute
             expect(sndFakeMinute.topics[0].infoItems[0].details[0].createdInMinute).to.equal(FIRST_MIN_ID);
             expect(fakeMeetingSeries.topics[0].infoItems[0].details[0].createdInMinute).to.equal(FIRST_MIN_ID);
             expect(fakeMeetingSeries.openTopics[1].infoItems[0].details[0].createdInMinute).to.equal(FIRST_MIN_ID);
-
+            // detail created in 2nd minute => createdInMinute = 2nd Minute
             expect(sndFakeMinute.topics[1].infoItems[0].details[0].createdInMinute).to.equal(SND_MIN_ID);
             expect(fakeMeetingSeries.topics[1].infoItems[0].details[0].createdInMinute).to.equal(SND_MIN_ID);
             expect(fakeMeetingSeries.openTopics[0].infoItems[0].details[0].createdInMinute).to.equal(SND_MIN_ID);
+            //a new detail was added to an infoItem from an old minute in a new minute => createdInMinute = 2nd Minute
+            expect(sndFakeMinute.topics[0].infoItems[0].details[2].createdInMinute).to.equal(SND_MIN_ID);
+        });
 
-            expect(firstFakeMinute.topics[0].infoItems[0].details[1].createdInMinute).to.equal(FIRST_MIN_ID);
-            //detail was changed in 2nd minute
-            expect(sndFakeMinute.topics[0].infoItems[0].details[1].createdInMinute).to.equal(SND_MIN_ID);
-
-        });*/
+        it('sets the correct _id attribute for all details in minutes and meetingSeries', function() {
+            MigrateV12.up();
+            let detailIdInFirstMinute = firstFakeMinute.topics[0].infoItems[0].details[0]._id;
+            expect(sndFakeMinute.topics[0].infoItems[0].details[0]._id).to.equal(detailIdInFirstMinute);
+            expect(fakeMeetingSeries.topics[0].infoItems[0].details[0]._id).to.equal(detailIdInFirstMinute);
+            expect(fakeMeetingSeries.openTopics[1].infoItems[0].details[0]._id).to.equal(detailIdInFirstMinute);
+        });
 
     });
 
@@ -178,7 +205,7 @@ describe('Migrate Version 12', function () {
             fakeMeetingSeries.openTopics.forEach(addCreatedInMinuteFakeAttribute);
         });
 
-       /* it('removes the createdInMinute-attribute', function() {
+        it('removes the createdInMinute and _id-attribute', function() {
             MigrateV12.down();
 
             let checkDetailHasNoAttribute_createdInMinute = detail => {
@@ -212,7 +239,7 @@ describe('Migrate Version 12', function () {
                     infoItem.details.forEach(checkDetailHasNoAttribute_id);
                 })
             });
-        });*/
+        });
 
     });
 

@@ -28,7 +28,6 @@ function saveMinutes(minutes) {
 }
 
 
-
 class MigrateSeriesUp {
     constructor(series) {
         this.topicParentMinuteMap = {};
@@ -48,21 +47,20 @@ class MigrateSeriesUp {
                         if (prevMinutes.topics) {
                             let prevTopic = prevMinutes.topics.find(prevTopic => topic._id === prevTopic._id); 
                             if (prevTopic !== undefined) {
-                                if (prevTopic.items){
-                                    topic.infoItems.forEach(infoItem => {
-                                        let prevInfoItem = prevTopic.topics.find(prevInfoItem => infoItem._id === prevInfoItem._id);
-                                        if (prevInfoItem !== undefined) {
-                                            infoItem.details.forEach(detail => {
-                                                prevInfoItem.details.forEach(prevDetail => {
-                                                    //same detail-text?
-                                                    if (detail.text == prevDetail.text) {
-                                                        this._updateDetail(detail, minutes._id, prevDetail);
-                                                    }
-                                                })
+                                topic.infoItems.forEach(infoItem => {
+                                    let prevInfoItem = prevTopic.infoItems.find(prevInfoItem => infoItem._id === prevInfoItem._id);
+                                    if (prevInfoItem !== undefined) {
+                                        infoItem.details.forEach(detail => {
+                                            prevInfoItem.details.forEach(prevDetail => {
+                                                //same detail-text?
+                                                if (detail.text == prevDetail.text) {
+                                                    this._updateDetail(detail, infoItem, minutes._id, prevDetail);
+                                                }
                                             })
-                                        }
-                                    })
-                                }
+                                        })
+
+                                    }
+                                })
 
                             }
                         }
@@ -76,10 +74,6 @@ class MigrateSeriesUp {
         saveSeries(this.series);
     }
 
-    /**
-     * @param minutes {Minutes}
-     * @private
-     */
     _updateTopicsOfMinutes(minutes) {
         minutes.topics.forEach(topic => {
             this._updateTopic(topic, minutes._id);
@@ -89,20 +83,19 @@ class MigrateSeriesUp {
 
     _updateTopic(topic, minutesId) {
         topic.infoItems.forEach(infoItem => {
-            this._updateInfoItem(infoItem, topic._id);
+            this._updateInfoItem(infoItem, minutesId);
         });
         return topic;
     }
 
     _updateInfoItem(infoItem, minutesId){
         infoItem.details.forEach(detail => {
-            this._updateDetail(detail, minutesId);
+            this._updateDetail(detail, infoItem, minutesId);
         });
-
         return infoItem;
     }
 
-    _updateDetail(detail, minutesId, prevDetail){
+    _updateDetail(detail, infoItem, minutesId, prevDetail){
         if (!minutesId) {
             throw new Meteor.Error('illegal-state', 'Cannot update topic with unknown minutes id');
         }
@@ -111,23 +104,36 @@ class MigrateSeriesUp {
             if(!detail._id){
                 detail._id = Random.id();
                 detail.createdInMinute = minutesId;
+                this.topicParentMinuteMap[detail.text+infoItem._id] = [detail._id, detail.createdInMinute];
             }
         }
         //for new created details
         else{
             detail._id = prevDetail._id;
             detail.createdInMinute = prevDetail.createdInMinute;
+            this.topicParentMinuteMap[detail.text+infoItem._id] = [detail._id, detail.createdInMinute];
         }
         return detail;
-
     }
 
     _updateTopicsOfSeries() {
         this.series.topics.forEach(topic => {
-            this._updateTopic(topic, false /*all topics should already exist in map!*/);
+            topic.infoItems.forEach(infoItem =>{
+                infoItem.details.forEach(detail =>{
+                    detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id][1];
+                    detail._id = this.topicParentMinuteMap[detail.text+infoItem._id][0];
+
+                })
+            })
         });
         this.series.openTopics.forEach(topic => {
-            this._updateTopic(topic, false /*all topics should already exist in map!*/);
+            topic.infoItems.forEach(infoItem =>{
+                infoItem.details.forEach(detail =>{
+                    detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id][1];
+                    detail._id = this.topicParentMinuteMap[detail.text+infoItem._id][0];
+
+                })
+            })
         });
     }
 }
