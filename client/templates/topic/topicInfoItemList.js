@@ -33,8 +33,8 @@ let updateItemSorting = (evt, ui) => {
     });
 };
 
-Template.topicInfoItemList.onRendered(function () {
-    $('.itemPanel').sortable({
+function initializeDragAndDrop(tmpl) {
+    tmpl.$('.itemPanel').sortable({
         appendTo: document.body,
         axis: 'y',
         opacity: 0.5,
@@ -42,6 +42,12 @@ Template.topicInfoItemList.onRendered(function () {
         handle: '.itemDragDropHandle',
         update: updateItemSorting
     });
+}
+
+Template.topicInfoItemList.onRendered(function () {
+    if (Template.instance().data.isEditable) {
+        initializeDragAndDrop(this);
+    }
 });
 
 Template.topicInfoItemList.helpers({
