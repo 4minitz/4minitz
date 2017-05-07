@@ -5,15 +5,15 @@ export class MigrateV12 {
 
     static _upgradeTopics(topics) {
         topics.forEach(topic => {
-			if (topic.isSkipped === undefined) {
-				topic.isSkipped = false;
-			}
+            if (topic.isSkipped === undefined) {
+                topic.isSkipped = false;
+            }
         });
     }
 
     static _downgradeTopics(topics) {
         topics.forEach(topic => {
-			delete topic.isSkipped;
+            delete topic.isSkipped;
         });
     }
 

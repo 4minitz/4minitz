@@ -83,7 +83,7 @@ describe('Migrate Version 12', function () {
 
         let checkTopicHasProperty = topic => {
             expect(topic).to.have.ownProperty('isSkipped');
-			expect(topic.isSkipped).to.be.false;
+            expect(topic.isSkipped).to.be.false;
         };
 
         it('sets the isSkipped attribute for all topics in all minutes', function() {

@@ -11,9 +11,9 @@ describe('Topics Skip', function () {
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
-	
-	const nonSkippedTopicName = 'Non-skipped Topic #1';
-	const skippedTopicName = 'Skipped Topic #2';
+    
+    const nonSkippedTopicName = 'Non-skipped Topic #1';
+    const skippedTopicName = 'Skipped Topic #2';
 
     before("reload page and reset app", function () {
         E2EApp.resetMyApp(true);
@@ -29,48 +29,48 @@ describe('Topics Skip', function () {
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-		
-		E2ETopics.addTopicToMinutes(skippedTopicName);
-		E2ETopics.addTopicToMinutes(nonSkippedTopicName);
-		expect(E2ETopics.countTopicsForMinute()).to.equal(2);
-		
-		expect(E2ETopics.isTopicSkipped(1)).to.be.false;
-		expect(E2ETopics.isTopicSkipped(2)).to.be.false;
+        
+        E2ETopics.addTopicToMinutes(skippedTopicName);
+        E2ETopics.addTopicToMinutes(nonSkippedTopicName);
+        expect(E2ETopics.countTopicsForMinute()).to.equal(2);
+        
+        expect(E2ETopics.isTopicSkipped(1)).to.be.false;
+        expect(E2ETopics.isTopicSkipped(2)).to.be.false;
     });
-	
-	it('Can skip and unskip topic', function () {
-		let skipAndUnskipTopicViaUI = (useDropdownMenu) => {
-			E2ETopics.toggleSkipTopic(2, true); //skip
-			expect(E2ETopics.isTopicSkipped(1)).to.be.false;
-			expect(E2ETopics.isTopicSkipped(2)).to.be.true;
-			E2ETopics.toggleSkipTopic(2, useDropdownMenu); //unskip
-			expect(E2ETopics.isTopicSkipped(1)).to.be.false;
-			expect(E2ETopics.isTopicSkipped(2)).to.be.false;
-		};
-		
-		//Check skip & unskip via dropdown menu
-		skipAndUnskipTopicViaUI(true);
-		//Check unskip by directly pressing the skip icon
-		skipAndUnskipTopicViaUI(false);
-	});
-	
-	it('Skipping closed topics will open them and they cannot be closed again', function () {
+    
+    it('Can skip and unskip topic', function () {
+        let skipAndUnskipTopicViaUI = (useDropdownMenu) => {
+            E2ETopics.toggleSkipTopic(2, true); //skip
+            expect(E2ETopics.isTopicSkipped(1)).to.be.false;
+            expect(E2ETopics.isTopicSkipped(2)).to.be.true;
+            E2ETopics.toggleSkipTopic(2, useDropdownMenu); //unskip
+            expect(E2ETopics.isTopicSkipped(1)).to.be.false;
+            expect(E2ETopics.isTopicSkipped(2)).to.be.false;
+        };
+        
+        //Check skip & unskip via dropdown menu
+        skipAndUnskipTopicViaUI(true);
+        //Check unskip by directly pressing the skip icon
+        skipAndUnskipTopicViaUI(false);
+    });
+    
+    it('Skipping closed topics will open them and they cannot be closed again', function () {
         E2ETopics.toggleTopic(2);
-		expect(E2ETopics.isTopicClosed(2)).to.be.true;
-		
-		E2ETopics.toggleSkipTopic(2);
-		expect(E2ETopics.isTopicSkipped(2)).to.be.true;
-		expect(E2ETopics.isTopicClosed(2)).to.be.false; // topic has been opened again
-		
-		E2ETopics.toggleTopic(2);
-		expect(E2ETopics.isTopicClosed(2)).to.be.false; // topic has not been opened again, since the checkbox is not editable
-	});
-	
-	it('Skipped topics will not be included in agenda mails', function () { 
+        expect(E2ETopics.isTopicClosed(2)).to.be.true;
+        
+        E2ETopics.toggleSkipTopic(2);
+        expect(E2ETopics.isTopicSkipped(2)).to.be.true;
+        expect(E2ETopics.isTopicClosed(2)).to.be.false; // topic has been opened again
+        
+        E2ETopics.toggleTopic(2);
+        expect(E2ETopics.isTopicClosed(2)).to.be.false; // topic has not been opened again, since the checkbox is not editable
+    });
+    
+    it('Skipped topics will not be included in agenda mails', function () { 
         E2EMails.resetSentMailsDb();
-		
-		E2ETopics.toggleSkipTopic(2, true);
-		browser.waitForVisible('#btn_sendAgenda');
+        
+        E2ETopics.toggleSkipTopic(2, true);
+        browser.waitForVisible('#btn_sendAgenda');
         browser.click('#btn_sendAgenda');
 
         E2EGlobal.waitSomeTime();
@@ -78,103 +78,103 @@ describe('Topics Skip', function () {
         let sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);
         
-		let sentMail = sentMails[0];     
+        let sentMail = sentMails[0];     
         expect(sentMail.html, 'the email should contain the subject of the topic').to.have.string(nonSkippedTopicName);
-		expect(sentMail.html, 'the email should not contain the subject of the skipped topic').to.not.have.string(skippedTopicName);
-	});
-	
-	it('Skipped topics will not be included in info item mails', function () { 
-		const skippedInfoItemTitle = "This is an Infoitem within a skipped Topic";
-		const nonSkippedInfoItemTitle = "This is an Infoitem within a non-skipped Topic"
-		
-		E2EMails.resetSentMailsDb();
-		E2ETopics.toggleSkipTopic(2, true);      
-		E2ETopics.addInfoItemToTopic({
+        expect(sentMail.html, 'the email should not contain the subject of the skipped topic').to.not.have.string(skippedTopicName);
+    });
+    
+    it('Skipped topics will not be included in info item mails', function () { 
+        const skippedInfoItemTitle = "This is an Infoitem within a skipped Topic";
+        const nonSkippedInfoItemTitle = "This is an Infoitem within a non-skipped Topic"
+        
+        E2EMails.resetSentMailsDb();
+        E2ETopics.toggleSkipTopic(2, true);      
+        E2ETopics.addInfoItemToTopic({
             subject: nonSkippedInfoItemTitle,
             itemType: "infoItem"
-        }, 1);		
-		E2ETopics.addInfoItemToTopic({
-				subject: skippedInfoItemTitle,
-				itemType: "infoItem"
-		}, 2);
-			
-		E2EMinutes.finalizeCurrentMinutes(true);
+        }, 1);      
+        E2ETopics.addInfoItemToTopic({
+                subject: skippedInfoItemTitle,
+                itemType: "infoItem"
+        }, 2);
+            
+        E2EMinutes.finalizeCurrentMinutes(true);
         E2EGlobal.waitSomeTime();
 
         let sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);    
-		let sentMail = sentMails[0];   		
-		expect(sentMail.html, "the email should contain the title of the non-skipped Topic's InfoItem").to.have.string(nonSkippedInfoItemTitle);
-		expect(sentMail.html, "the email should not contain the title of the skipped Topic's InfoItem").to.not.have.string(skippedInfoItemTitle);
-	});
-	
-	it('Skipped topics will not be included in action item mails', function () { 
-		const skippedActionItemTitle = "This is an ActionItem within a skipped Topic";
-		const nonSkippedActionItemTitle = "This is an ActionItem within a non-skipped Topic"
+        let sentMail = sentMails[0];        
+        expect(sentMail.html, "the email should contain the title of the non-skipped Topic's InfoItem").to.have.string(nonSkippedInfoItemTitle);
+        expect(sentMail.html, "the email should not contain the title of the skipped Topic's InfoItem").to.not.have.string(skippedInfoItemTitle);
+    });
+    
+    it('Skipped topics will not be included in action item mails', function () { 
+        const skippedActionItemTitle = "This is an ActionItem within a skipped Topic";
+        const nonSkippedActionItemTitle = "This is an ActionItem within a non-skipped Topic"
 
-		E2EMails.resetSentMailsDb();		
-		E2ETopics.toggleSkipTopic(2, true); 
-		E2ETopics.addInfoItemToTopic({
+        E2EMails.resetSentMailsDb();        
+        E2ETopics.toggleSkipTopic(2, true); 
+        E2ETopics.addInfoItemToTopic({
             subject: nonSkippedActionItemTitle,
             itemType: "actionItem",
-			responsible: E2EApp.getCurrentUser()
-        }, 1);		
-		E2ETopics.addInfoItemToTopic({
-				subject: skippedActionItemTitle,
-				itemType: "actionItem",
-				responsible: E2EApp.getCurrentUser()
-		}, 2);
-		
-		E2EMinutes.finalizeCurrentMinutes(true);
+            responsible: E2EApp.getCurrentUser()
+        }, 1);      
+        E2ETopics.addInfoItemToTopic({
+                subject: skippedActionItemTitle,
+                itemType: "actionItem",
+                responsible: E2EApp.getCurrentUser()
+        }, 2);
+        
+        E2EMinutes.finalizeCurrentMinutes(true);
         E2EGlobal.waitSomeTime();
 
         let sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'two mail should be sent. One for the ActionItems, the other for the InfoItems').to.have.length(2);  
-		let sentMail = sentMails[0]; //ActionItem Mail will be sent first
-		expect(sentMail.html, "the email should contain the title of the non-skipped Topic's ActionItem").to.have.string(nonSkippedActionItemTitle);
-		expect(sentMail.html, "the email should not contain the title of the skipped Topic's ActionItem").to.not.have.string(skippedActionItemTitle);	
-	});
-	
-	it('Skipped topics can only be seen by the moderator', function () {
-		E2ETopics.toggleSkipTopic(2, true);
-		//Moderator can see Topic
-		let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
-		expect(browser.isVisible(selector)).to.be.true;
-		
-		//Add another participant
-		E2EMinutes.gotoParentMeetingSeries();
-		E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        let sentMail = sentMails[0]; //ActionItem Mail will be sent first
+        expect(sentMail.html, "the email should contain the title of the non-skipped Topic's ActionItem").to.have.string(nonSkippedActionItemTitle);
+        expect(sentMail.html, "the email should not contain the title of the skipped Topic's ActionItem").to.not.have.string(skippedActionItemTitle);   
+    });
+    
+    it('Skipped topics can only be seen by the moderator', function () {
+        E2ETopics.toggleSkipTopic(2, true);
+        //Moderator can see Topic
+        let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
+        expect(browser.isVisible(selector)).to.be.true;
+        
+        //Add another participant
+        E2EMinutes.gotoParentMeetingSeries();
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save	
-		//check if new non-moderator-participant can see skipped topic
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save  
+        //check if new non-moderator-participant can see skipped topic
         E2EApp.loginUser(1);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime();
         E2EMinutes.gotoLatestMinutes();
-		expect(browser.isVisible(selector)).to.be.false;
+        expect(browser.isVisible(selector)).to.be.false;
 
         E2EApp.loginUser();
 
-	});
-	
-	it('Hide closed Topics button will also hide skipped topics', function () {
-		E2ETopics.toggleSkipTopic(2, true);
-		let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
-		expect(browser.isVisible(selector)).to.be.true;
-		browser.click("#checkHideClosedTopicsLabel");
-		E2EGlobal.waitSomeTime();
-		expect(browser.isVisible(selector)).to.be.false;
-		browser.click("#checkHideClosedTopicsLabel");
-	});
-	
-	it('Skipped topics will appear unskipped in the next minute', function () { 
-		E2ETopics.toggleSkipTopic(2, true);
-		expect(E2ETopics.isTopicSkipped(2)).to.be.true;
-		E2EMinutes.finalizeCurrentMinutes(true);
-		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-		E2EMinutes.gotoLatestMinutes();
-		expect(E2ETopics.isTopicSkipped(2)).to.be.false;
-	});
+    });
+    
+    it('Hide closed Topics button will also hide skipped topics', function () {
+        E2ETopics.toggleSkipTopic(2, true);
+        let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
+        expect(browser.isVisible(selector)).to.be.true;
+        browser.click("#checkHideClosedTopicsLabel");
+        E2EGlobal.waitSomeTime();
+        expect(browser.isVisible(selector)).to.be.false;
+        browser.click("#checkHideClosedTopicsLabel");
+    });
+    
+    it('Skipped topics will appear unskipped in the next minute', function () { 
+        E2ETopics.toggleSkipTopic(2, true);
+        expect(E2ETopics.isTopicSkipped(2)).to.be.true;
+        E2EMinutes.finalizeCurrentMinutes(true);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        expect(E2ETopics.isTopicSkipped(2)).to.be.false;
+    });
 });
