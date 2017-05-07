@@ -20,9 +20,21 @@ let getMeetingSeriesId = (parentElementId) => {
     }
 };
 
+let topicParentCache = {};
+
 let createTopic = (parentElementId, topicId) => {
-    if (!parentElementId || !topicId) return undefined;
-    return new Topic(parentElementId, topicId);
+    if (!parentElementId || !topicId) {
+        return undefined;
+    }
+
+    let parentElement = parentElementId;
+    if (topicParentCache[parentElementId]) {
+        parentElement = topicParentCache[parentElementId];
+    }
+
+    let topic = new Topic(parentElement, topicId);
+
+    topicParentCache[parentElementId] = topic._parentMinutes;
 };
 
 let findInfoItem = (parentElementId, topicId, infoItemId) => {
