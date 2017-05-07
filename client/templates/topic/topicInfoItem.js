@@ -33,8 +33,8 @@ let createTopic = (parentElementId, topicId) => {
     }
 
     let topic = new Topic(parentElement, topicId);
-
     topicParentCache[parentElementId] = topic._parentMinutes;
+    return topic;
 };
 
 let findInfoItem = (parentElementId, topicId, infoItemId) => {
