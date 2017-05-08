@@ -53,8 +53,8 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             return !topic.isOpen;
         });
 
-        let skippedTopics = this._topics.filter(topic => {
-            return topic.isOpen;
+        let outstandingTopics = this._topics.filter(topic => {
+            return (topic.isOpen && !topic.isSkipped);
         });
 
         let attachments = Attachment.findForMinutes(this._minute._id).fetch();
@@ -75,7 +75,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             informedUsers: this._userArrayToString(this._informed),
             participantsAdditional: this._minute.participantsAdditional,
             discussedTopics: discussedTopics,
-            skippedTopics: skippedTopics,
+            skippedTopics: outstandingTopics,
             finalizedVersion: this._minute.finalizedVersion,
             attachments: attachments
         };

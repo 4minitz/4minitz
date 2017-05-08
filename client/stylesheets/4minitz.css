@@ -275,3 +275,8 @@ input.pick-a-color {
 .default-margin-top {
     margin-top: 15px;
 }
+
+/* used for skipped topics */
+.strikethrough {
+    text-decoration: line-through;
+}

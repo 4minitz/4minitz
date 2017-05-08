@@ -117,6 +117,7 @@ the topic menu will allow you to:
 * **"Add Action Item"** will add an action item to the topic. An action item is a ToDo that is sent to its responsible. This feature will be described in the chapter "Take Meeting Minutes"
 * **Edit Topic** (or click on topic subject text) will allow the moderator to edit this topic's subject, label or the responsible
 * **"Set Recurring"** will switch the topic to a recurring topic that will be part of any future meetings
+* **"Set Skip"** will mark a topic as to be skipped. Skipped topics will not be part of the current minute and are hidden for everyone except the moderator. In the next minute a skipped topic will automatically appear as normal.
 * **"Delete Topic"** will delete this topic after a security question
 * **"Up-Down-Arrow"** allows reordering the topics via drag'n'drop
 

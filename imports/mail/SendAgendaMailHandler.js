@@ -27,6 +27,8 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             let usr = Meteor.users.findOne(file.userId);
             return file.username = usr.username;
         });
+        
+        let unSkippedTopics = this._topics.filter(topic => !topic.isSkipped);
         return {
             minutesDate: this._minute.date,
             minutesGlobalNote: this._minute.globalNote,
@@ -36,7 +38,7 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             minuteUrl: GlobalSettings.getRootUrl("minutesedit/" + this._minute._id),
             participants: this._userArrayToString(this._participants),
             participantsAdditional: this._minute.participantsAdditional,
-            topics: this._topics,
+            topics: unSkippedTopics,
             attachments: attachments
         };
     }

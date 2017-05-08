@@ -90,12 +90,15 @@ export class MeetingSeries {
 
         let topics = [];
 
-        // copy open topics from this meeting series & set isNew=false
+        // copy open topics from this meeting series & set isNew=false, isSkipped=false
         if (this.openTopics) {
             topics = this.openTopics;
             topics.forEach((topicDoc) => {
                 let topic = new Topic(this, topicDoc);
                 topic.invalidateIsNewFlag();
+                if (topic.isSkipped()) {
+                    topic.toggleSkip();
+                }
             });
         }
 
@@ -477,6 +480,8 @@ export class MeetingSeries {
         // iterate backwards through the topics of the minute
         for (let i = minutes.topics.length; i-- > 0;) {
             let topicDoc = minutes.topics[i];
+            topicDoc.isSkipped = false;
+            
             let topicDocCopy = _.extend({}, topicDoc);
             // pass a copy to our topic object, so this can be tailored for the open topics list
             // without manipulating the original document

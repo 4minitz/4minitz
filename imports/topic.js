@@ -43,7 +43,8 @@ function resolveTopic(parentElement, source) {
         isOpen: true,
         isNew: true,
         isRecurring: false,
-        labels: []
+        labels: [],
+        isSkipped: false
     });
 
     return source;
@@ -173,6 +174,19 @@ export class Topic {
 
     toggleRecurring() {
         this.getDocument().isRecurring = !this.isRecurring();
+    }
+    
+    isSkipped() {
+        return this.getDocument().isSkipped;
+    }
+    
+    toggleSkip(forceOpenTopic = true) {
+        this.getDocument().isSkipped = !this.isSkipped();
+        if (forceOpenTopic) {
+            if (this.isSkipped() && (!this._topicDoc.isOpen)) { // topic has been set to skip, so it will be automatically set as open
+                this.toggleState();
+            }
+        }
     }
 
     async upsertInfoItem(topicItemDoc, saveChanges) {
