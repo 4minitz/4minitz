@@ -53,7 +53,7 @@ let addNewDetails = async (tmpl) => {
     let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
     let aItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
 
-    aItem.addDetails();
+    aItem.addDetails(aMin._id);
     await  aItem.save();
 
     // Defer opening new details editor to give DOM some time for its expand animation
