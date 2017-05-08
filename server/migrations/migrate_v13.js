@@ -1,7 +1,7 @@
 import { MinutesCollection } from '/imports/collections/minutes_private'
 import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
 
-export class MigrateV12 {
+export class MigrateV13 {
 
     static _upgradeTopics(topics) {
         topics.forEach(topic => {
@@ -19,7 +19,7 @@ export class MigrateV12 {
 
     static up() {
         MinutesCollection.find().forEach(minute => {
-            MigrateV12._upgradeTopics(minute.topics);
+            MigrateV13._upgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
             MinutesCollection.update(
@@ -34,8 +34,8 @@ export class MigrateV12 {
         });
 
         MeetingSeriesCollection.find().forEach(series => {
-            MigrateV12._upgradeTopics(series.openTopics);
-            MigrateV12._upgradeTopics(series.topics);
+            MigrateV13._upgradeTopics(series.openTopics);
+            MigrateV13._upgradeTopics(series.topics);
 
             MeetingSeriesCollection.update(
                 series._id,
@@ -52,7 +52,7 @@ export class MigrateV12 {
 
     static down() {
         MinutesCollection.find().forEach(minute => {
-            MigrateV12._downgradeTopics(minute.topics);
+            MigrateV13._downgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
             MinutesCollection.update(
@@ -67,8 +67,8 @@ export class MigrateV12 {
         });
 
         MeetingSeriesCollection.find().forEach(series => {
-            MigrateV12._downgradeTopics(series.openTopics);
-            MigrateV12._downgradeTopics(series.topics);
+            MigrateV13._downgradeTopics(series.openTopics);
+            MigrateV13._downgradeTopics(series.topics);
 
             MeetingSeriesCollection.update(
                 series._id,

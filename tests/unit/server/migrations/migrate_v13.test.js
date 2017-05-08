@@ -15,13 +15,13 @@ let MeetingSeriesCollection = {
 };
 
 const {
-        MigrateV12
-    } = proxyquire('../../../../server/migrations/migrate_v12', {
+        MigrateV13
+    } = proxyquire('../../../../server/migrations/migrate_v13', {
         '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
     '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
     });
 
-describe('Migrate Version 12', function () {
+describe('Migrate Version 13', function () {
 
     let firstFakeMinute, sndFakeMinute, fakeMeetingSeries;
 
@@ -87,13 +87,13 @@ describe('Migrate Version 12', function () {
         };
 
         it('sets the isSkipped attribute for all topics in all minutes', function() {
-            MigrateV12.up();
+            MigrateV13.up();
             firstFakeMinute.topics.forEach(checkTopicHasProperty);
             sndFakeMinute.topics.forEach(checkTopicHasProperty);
         });
 
         it('sets the isSkipped attribute for all topics in the meeting series', function() {
-            MigrateV12.up();
+            MigrateV13.up();
             fakeMeetingSeries.topics.forEach(checkTopicHasProperty);
             fakeMeetingSeries.openTopics.forEach(checkTopicHasProperty);
         });
@@ -112,7 +112,7 @@ describe('Migrate Version 12', function () {
         });
 
         it('removes the isSkipped-attribute', function() {
-            MigrateV12.down();
+            MigrateV13.down();
 
             let checkTopicHasNoAttribute = topic => {
                 expect(topic).not.have.ownProperty('isSkipped');
