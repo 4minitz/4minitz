@@ -37,17 +37,12 @@ class MigrateSeriesUp {
     run() {
         let minutes = this.series.firstMinutes();
         while (minutes) {
-            if (minutes == this.series.firstMinutes()) {
-                minutes = this._updateTopicsOfMinutes(minutes);
-            }
-            else {
-                let prevMinutes = minutes.previousMinutes();
+            let prevMinutes = minutes.previousMinutes();
+            if (prevMinutes){
                 // find topics/items/details that occur in a current minute, but were created in a prev. minute
-                if (prevMinutes){
-                    this._updatePreviousCreatedTopicItemDetails(minutes,prevMinutes);
-                }
-                minutes = this._updateTopicsOfMinutes(minutes);
+                this._updatePreviousCreatedTopicItemDetails(minutes,prevMinutes);
             }
+            minutes = this._updateTopicsOfMinutes(minutes);
             saveMinutes(minutes);
             minutes = minutes.nextMinutes();
         }
