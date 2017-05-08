@@ -9,39 +9,14 @@ let onError = (error) => {
     (new FlashMessage('Error', error.reason)).show();
 };
 
-let updateItemSorting = (evt, ui) => {
-    let item = ui.item,
-        sorting = item.parent().find('> .topicInfoItem'),
-        topic = new Topic(_minutesId, item.attr('data-parent-id')),
-        newItemSorting = [];
-
-    for (let i = 0; i < sorting.length; ++i) {
-        let itemId = $(sorting[i]).attr('data-id');
-        let item = topic.findInfoItem(itemId);
-
-        newItemSorting.push(item.getDocument());
-    }
-
-    topic.setItems(newItemSorting);
-    topic.save().catch(error => {
-        $('.itemPanel').sortable( "cancel" );
-        onError(error)
-    });
-};
+const INITIAL_ITEMS_LIMIT = 4;
 
 Template.topicElement.onCreated(function () {
-    _minutesId = Template.instance().data.minutesID;
+    let tmplData = Template.instance().data;
+    _minutesId = tmplData.minutesID;
 
-    $(document).arrive('.itemPanel', () => {
-        $('.itemPanel').sortable({
-            appendTo: document.body,
-            axis: 'y',
-            opacity: 0.5,
-            disabled: false,
-            handle: '.itemDragDropHandle',
-            update: updateItemSorting
-        });
-    });
+    this.isItemsLimited = new ReactiveVar(tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT);
+    this.isCollapsed = new ReactiveVar(false);
 });
 
 Template.topicElement.helpers({
@@ -73,22 +48,6 @@ Template.topicElement.helpers({
         }
     },
 
-    // helper will be called within the each-infoItem block
-    // so this refers to the current infoItem
-    getInfoItem: function (index) {
-        let parentTopicId = Template.instance().data.topic._id;
-        let parentElement = (Template.instance().data.minutesID)
-            ? Template.instance().data.minutesID : Template.instance().data.parentMeetingSeriesId;
-
-        return {
-            infoItem: this,
-            parentTopicId: parentTopicId,
-            isEditable: Template.instance().data.isEditable,
-            minutesID: parentElement,//Template.instance().data.minutesID,
-            currentCollapseId: parentTopicId+"_"+index  // each topic item gets its own collapseID
-        };
-    },
-
     // determine if this topic shall be rendered collapsed
     isCollapsed() {
         let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
@@ -115,6 +74,11 @@ Template.topicElement.helpers({
         return "";
     },
 
+    getData() {
+        let data = Template.instance().data;
+        data.parentMeetingSeriesId = this.parentMeetingSeriesId;
+        return data;
+    },
 
     classForEdit() {
         return this.isEditable ? "btnEditTopic" : "";
