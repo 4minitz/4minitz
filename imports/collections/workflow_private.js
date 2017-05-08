@@ -22,7 +22,7 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Ensure user can not update documents of other users
     let userRoles = new UserRoles(Meteor.userId());
     if (!userRoles.isModeratorOf(meetingSeriesId)) {
-        throw new Meteor.Error("Cannot modify this minutes/series", "You are not moderator of the meeting series.");
+        throw new Meteor.Error('Cannot modify this minutes/series', 'You are not moderator of the meeting series.');
     }
 }
 
@@ -35,10 +35,10 @@ function checkUserMayLeave(meetingSeriesId) {
     // Ensure user can not update documents of other users
     let userRoles = new UserRoles(Meteor.userId());
     if (userRoles.isModeratorOf(meetingSeriesId)) {
-        throw new Meteor.Error("Cannot leave this meeting series", "Moderators may only be removed by other moderators.");
+        throw new Meteor.Error('Cannot leave this meeting series', 'Moderators may only be removed by other moderators.');
     }
     if (! userRoles.isInvitedTo(meetingSeriesId)) {
-        throw new Meteor.Error("Cannot leave this meeting series", "You are not invited to this meeting series.");
+        throw new Meteor.Error('Cannot leave this meeting series', 'You are not invited to this meeting series.');
     }
 }
 
@@ -53,7 +53,7 @@ Meteor.methods({
         let parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
         if (!parentMeetingSeries.addNewMinutesAllowed()) {
             // last minutes is not finalized!
-            throw new Meteor.Error("Cannot create new Minutes", "Last Minutes must be finalized first.");
+            throw new Meteor.Error('Cannot create new Minutes', 'Last Minutes must be finalized first.');
         }
 
         // It also not allowed to insert a new minute dated before the last finalized one
@@ -96,7 +96,7 @@ Meteor.methods({
 
     'workflow.removeMinute'(minutes_id) {
         check(minutes_id, String);
-        if (minutes_id === undefined || minutes_id === "") {
+        if (minutes_id === undefined || minutes_id === '') {
             throw new Meteor.Error('illegal-arguments', 'Minutes id required');
         }
         console.log('workflow.removeMinute: '+minutes_id);
@@ -110,13 +110,13 @@ Meteor.methods({
             MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutes_id}});
 
             // remove all uploaded attachments for meeting series, if any exist
-            if (Meteor.isServer && AttachmentsCollection.find({"meta.meetingminutes_id": minutes_id}).count() > 0) {
-                AttachmentsCollection.remove({"meta.meetingminutes_id": minutes_id},
+            if (Meteor.isServer && AttachmentsCollection.find({'meta.meetingminutes_id': minutes_id}).count() > 0) {
+                AttachmentsCollection.remove({'meta.meetingminutes_id': minutes_id},
                     function (error) {
                         if (error) {
-                            console.error("File wasn't removed, error: " + error.reason)
+                            console.error('File wasn\'t removed, error: ' + error.reason);
                         } else {
-                            console.log("OK, removed linked attachments.");
+                            console.log('OK, removed linked attachments.');
                         }
                     }
                 );
@@ -125,7 +125,7 @@ Meteor.methods({
     },
 
     'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
-        console.log("workflow.finalizeMinute on "+id);
+        console.log('workflow.finalizeMinute on '+id);
         check(id, String);
         let aMin = new Minutes(id);
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
@@ -145,7 +145,7 @@ Meteor.methods({
                 {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
 
             if (msAffectedDocs !== 1) {
-                throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series')
+                throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
             }
 
             // then we tag the minute as finalized
@@ -166,15 +166,15 @@ Meteor.methods({
                 history = [];
             }
             history.push(aMin.getFinalizedString());
-            doc["finalizedHistory"] = history;
-            console.log(history.join("\n"));
+            doc['finalizedHistory'] = history;
+            console.log(history.join('\n'));
 
             let affectedDocs = MinutesCollection.update(id, {$set: doc});
 
             if (affectedDocs === 1 && !Meteor.isClient) {
                 if (!GlobalSettings.isEMailDeliveryEnabled()) {
-                    console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set " +
-                        "enableMailDelivery to true in your settings.json file");
+                    console.log('Skip sending mails because email delivery is not enabled. To enable email delivery set ' +
+                        'enableMailDelivery to true in your settings.json file');
                     return;
                 }
 
@@ -193,11 +193,11 @@ Meteor.methods({
                 throw e;
             }
         }
-        console.log("workflow.finalizeMinute DONE.");
+        console.log('workflow.finalizeMinute DONE.');
     },
 
     'workflow.unfinalizeMinute'(id) {
-        console.log("workflow.unfinalizeMinute on "+id);
+        console.log('workflow.unfinalizeMinute on '+id);
         check(id, String);
         let aMin = new Minutes(id);
         checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
@@ -205,7 +205,7 @@ Meteor.methods({
         // it is not allowed to un-finalize a minute if it is not the last finalized one
         let parentSeries = aMin.parentMeetingSeries();
         if (!parentSeries.isUnfinalizeMinutesAllowed(id)) {
-            throw new Meteor.Error("not-allowed", "This minutes is not allowed to be un-finalized.");
+            throw new Meteor.Error('not-allowed', 'This minutes is not allowed to be un-finalized.');
         }
 
         try {
@@ -216,7 +216,7 @@ Meteor.methods({
                 {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
 
             if (msAffectedDocs !== 1) {
-                throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series')
+                throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
             }
 
             let doc = {
@@ -231,7 +231,7 @@ Meteor.methods({
                 history = [];
             }
             history.push(aMin.getFinalizedString());
-            doc["finalizedHistory"] = history;
+            doc['finalizedHistory'] = history;
 
             return MinutesCollection.update(id, {$set: doc});
         } catch(e) {
@@ -240,13 +240,13 @@ Meteor.methods({
                 throw e;
             }
         }
-        console.log("workflow.unfinalizeMinute DONE.");
+        console.log('workflow.unfinalizeMinute DONE.');
     },
 
     'workflow.removeMeetingSeries'(meetingseries_id) {
-        console.log("workflow.removeMeetingSeries: "+meetingseries_id);
+        console.log('workflow.removeMeetingSeries: '+meetingseries_id);
         check(meetingseries_id, String);
-        if (meetingseries_id === undefined || meetingseries_id === "")
+        if (meetingseries_id === undefined || meetingseries_id === '')
             return;
 
         checkUserAvailableAndIsModeratorOf(meetingseries_id);
@@ -260,32 +260,32 @@ Meteor.methods({
 
         // remove all uploaded attachments for meeting series, if any exist
         if (Meteor.isServer &&
-            AttachmentsCollection.find({"meta.parentseries_id": meetingseries_id}).count() > 0) {
-            AttachmentsCollection.remove({"meta.parentseries_id": meetingseries_id},
+            AttachmentsCollection.find({'meta.parentseries_id': meetingseries_id}).count() > 0) {
+            AttachmentsCollection.remove({'meta.parentseries_id': meetingseries_id},
                 function (error) {
                     if (error) {
-                        console.error("File wasn't removed, error: " + error.reason)
+                        console.error('File wasn\'t removed, error: ' + error.reason);
                     } else {
-                        console.log("OK, removed linked attachments.");
+                        console.log('OK, removed linked attachments.');
                     }
                 }
             );
             // remove the meeting series attachment dir
             let storagePath = calculateAndCreateStoragePath();
-            storagePath += "/"+meetingseries_id;
+            storagePath += '/'+meetingseries_id;
             fs.remove(storagePath, function (err) {
                 if (err) {
-                    console.error("Could not remove attachment dir:"+storagePath);
+                    console.error('Could not remove attachment dir:'+storagePath);
                 }
-            })
+            });
         }
     },
 
     'workflow.leaveMeetingSeries'(meetingSeries_id) {
         // check(meetingSeries_id, Meteor.Collection.ObjectID);
         check(meetingSeries_id, String);
-        console.log("meetingseries.leave:"+meetingSeries_id);
-        if (meetingSeries_id === undefined || meetingSeries_id === "")
+        console.log('meetingseries.leave:'+meetingSeries_id);
+        if (meetingSeries_id === undefined || meetingSeries_id === '')
             return;
 
         checkUserMayLeave(meetingSeries_id);

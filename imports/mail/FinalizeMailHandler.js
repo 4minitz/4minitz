@@ -1,9 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
-import { ActionItemsMailHandler } from './ActionItemsMailHandler'
-import { InfoItemsMailHandler } from './InfoItemsMailHandler'
-import { Minutes } from './../minutes'
-import { ActionItem } from './../actionitem'
+import { ActionItemsMailHandler } from './ActionItemsMailHandler';
+import { InfoItemsMailHandler } from './InfoItemsMailHandler';
+import { Minutes } from './../minutes';
 
 export class FinalizeMailHandler {
 

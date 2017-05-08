@@ -1,11 +1,11 @@
-import { ReactiveVar } from 'meteor/reactive-var'
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import { Minutes } from '/imports/minutes'
-import { Topic } from '/imports/topic'
-import { InfoItemFactory } from '/imports/InfoItemFactory'
-import { ActionItem } from '/imports/actionitem'
-import { InfoItem } from '/imports/infoitem'
+import { Minutes } from '/imports/minutes';
+import { Topic } from '/imports/topic';
+import { InfoItemFactory } from '/imports/InfoItemFactory';
+import { ActionItem } from '/imports/actionitem';
+import { InfoItem } from '/imports/infoitem';
 
 Template.topicInfoItem.onCreated(function () {
     this.isTopicCollapsed = new ReactiveVar(true);
@@ -36,7 +36,7 @@ let findInfoItem = (parentElementId, topicId, infoItemId) => {
 let resizeTextarea = (element) => {
     let scrollPos = $(document).scrollTop();
     element.css('height', 'auto');
-    element.css('height', element.prop('scrollHeight') + "px");
+    element.css('height', element.prop('scrollHeight') + 'px');
     $(document).scrollTop(scrollPos);
 };
 
@@ -109,27 +109,27 @@ Template.topicInfoItem.helpers({
 
     topicStateClass: function () {
         if (this.infoItem.itemType !== 'actionItem') {
-            return "infoitem";
+            return 'infoitem';
         } else if (this.infoItem.isOpen) {
-            return "actionitem-open";
+            return 'actionitem-open';
         } else {
-            return "actionitem-closed";
+            return 'actionitem-closed';
         }
     },
 
     checkedState: function () {
         if (this.infoItem.itemType === 'infoItem' || this.infoItem.isOpen) {
-            return "";
+            return '';
         } else {
-            return {checked: "checked"};
+            return {checked: 'checked'};
         }
     },
 
     disabledState: function () {
         if (this.isEditable) {
-            return "";
+            return '';
         } else {
-            return {disabled: "disabled"};
+            return {disabled: 'disabled'};
         }
     },
 
@@ -141,17 +141,17 @@ Template.topicInfoItem.helpers({
         let aInfoItem = findInfoItem(this.minutesID, this.parentTopicId, this.infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             if (aInfoItem.hasResponsibles()) {
-                return "(" + aInfoItem.getResponsibleNameString() + ")";
+                return '(' + aInfoItem.getResponsibleNameString() + ')';
             }
         }
-        return "";
+        return '';
     },
 
     idForEdit() {
-        return this.isEditable ? "btnEditInfoItem" : "";
+        return this.isEditable ? 'btnEditInfoItem' : '';
     },
     cursorForEdit() {
-        return this.isEditable ? "pointer" : "";
+        return this.isEditable ? 'pointer' : '';
     }
 });
 
@@ -183,7 +183,7 @@ Template.topicInfoItem.events({
 
                 let action = () => {
                     if (isDeleteAllowed) {
-                        aTopic.removeInfoItem(this.infoItem._id)
+                        aTopic.removeInfoItem(this.infoItem._id);
                     } else {
                         if (item.isActionItem()) item.toggleState();
                         else item.toggleSticky();
@@ -245,9 +245,9 @@ Template.topicInfoItem.events({
             return;
         }
 
-        Session.set("topicInfoItemEditTopicId", this.parentTopicId);
-        Session.set("topicInfoItemEditInfoItemId", this.infoItem._id);
-        $("#dlgAddInfoItem").modal("show");
+        Session.set('topicInfoItemEditTopicId', this.parentTopicId);
+        Session.set('topicInfoItemEditInfoItemId', this.infoItem._id);
+        $('#dlgAddInfoItem').modal('show');
     },
 
 
@@ -272,7 +272,7 @@ Template.topicInfoItem.events({
         let inputEl = tmpl.$('#detailInput_' + detailId);
         let detailActionsId = tmpl.$('#detailActions_' + detailId);
 
-        if (inputEl.val() !== "") {
+        if (inputEl.val() !== '') {
             return;
         }
 
@@ -302,12 +302,12 @@ Template.topicInfoItem.events({
 
         let text = inputEl.val().trim();
 
-        if (text === "" || (text !== textEl.attr('data-text'))) {
+        if (text === '' || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(tmpl.data.minutesID);
             let aTopic = new Topic(aMin, tmpl.data.parentTopicId);
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, tmpl.data.infoItem._id);
             let index = detailId.split('_')[2]; // detail id is: <collapseId>_<index>
-            if (text !== "") {
+            if (text !== '') {
                 aActionItem.updateDetails(index, text);
                 aActionItem.save();
             } else {
@@ -336,7 +336,7 @@ Template.topicInfoItem.events({
             }
         }
 
-        inputEl.val("");
+        inputEl.val('');
         inputEl.hide();
         detailActionsEl.hide();
 
@@ -367,16 +367,16 @@ Template.topicInfoItem.events({
         resizeTextarea(inputEl);
     },
 
-    "hide.bs.collapse"(evt, tmpl) {
+    'hide.bs.collapse'(evt, tmpl) {
         tmpl.isTopicCollapsed.set(true);
     },
-    "show.bs.collapse"(evt, tmpl) {
+    'show.bs.collapse'(evt, tmpl) {
         tmpl.isTopicCollapsed.set(false);
     },
 
     // Important! We have to use "mousedown" instead of "click" here.
     // -> for more details see next event handler
-    "mousedown .detailInputDelete"(evt, tmpl) {
+    'mousedown .detailInputDelete'(evt, tmpl) {
         evt.preventDefault();
         evt.stopPropagation();
         let detailId = evt.currentTarget.getAttribute('data-id');
@@ -389,7 +389,7 @@ Template.topicInfoItem.events({
     // Otherwise the detailsEdit textarea will loose focus and trigger
     // its blur-event which in turn makes the markdownhint icon invisible
     // which in turn swallow the click event - and nothing happens on click.
-    "mousedown .detailInputMarkdownHint"(evt) {
+    'mousedown .detailInputMarkdownHint'(evt) {
         evt.preventDefault();
         evt.stopPropagation();
         ConfirmationDialogFactory

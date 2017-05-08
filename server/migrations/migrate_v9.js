@@ -23,9 +23,9 @@ export class MigrateV9 {
                 {
                     $unset: { isUnfinalized: 0 },
                     $set: {
-                        "finalizedVersion": minute.finalizedVersion,
-                        "finalizedHistory": minute.finalizedHistory
-                        }
+                        'finalizedVersion': minute.finalizedVersion,
+                        'finalizedHistory': minute.finalizedHistory
+                    }
                 },
                 {bypassCollection2: true}
             );
@@ -39,7 +39,7 @@ export class MigrateV9 {
                 minute._id,
                 {
                     $set: {
-                        "isUnfinalized": ! minute.isFinalized
+                        'isUnfinalized': ! minute.isFinalized
                     }
                 },
                 {bypassCollection2: true}
@@ -48,7 +48,7 @@ export class MigrateV9 {
         // delete the participantsAdditional attribute from all minutes
         MinutesCollection.update({}, 
             {$unset: { finalizedVersion: 0,
-                       finalizedHistory: 0}},
+                finalizedHistory: 0}},
             {multi: true, bypassCollection2: true});
     }
 }

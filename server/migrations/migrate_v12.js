@@ -6,8 +6,8 @@ function saveSeries(series) {
         series._id,
         {
             $set: {
-                "topics": series.topics,
-                "openTopics": series.openTopics
+                'topics': series.topics,
+                'openTopics': series.openTopics
             }
         },
         { bypassCollection2: true }
@@ -20,7 +20,7 @@ function saveMinutes(minutes) {
         minutes._id,
         {
             $set: {
-                "topics": minutes.topics,
+                'topics': minutes.topics,
             }
         },
         { bypassCollection2: true }
@@ -53,7 +53,7 @@ class MigrateSeriesUp {
     _updatePreviousCreatedTopicItemDetails(minutes, prevMinutes){
         minutes.topics.forEach(topic => {
             this._updatePreviousCreatedItemDetails(topic, prevMinutes.topics, minutes._id);
-        })
+        });
     }
 
     _updatePreviousCreatedItemDetails(topic, prevTopics, minutesId){
@@ -62,7 +62,7 @@ class MigrateSeriesUp {
         if (!prevTopic) return;
         topic.infoItems.forEach(infoItem => {
             this._updatePreviousCreatedDetails(infoItem, prevTopic.infoItems, minutesId);
-        })
+        });
     }
 
     _updatePreviousCreatedDetails(infoItem, prevItems, minutesId){
@@ -71,7 +71,7 @@ class MigrateSeriesUp {
         if (!prevInfoItem) return;
         infoItem.details.forEach(detail =>{
             this._compareDetails(detail, prevInfoItem.details, infoItem, minutesId);
-        })
+        });
     }
 
     _compareDetails(detail, prevDetails, infoItem, minutesId){
@@ -80,7 +80,7 @@ class MigrateSeriesUp {
             if (detail.text === prevDetail.text) {
                 this._updateDetail(detail, infoItem, minutesId, prevDetail);
             }
-        })
+        });
     }
 
     _updateTopicsOfMinutes(minutes) {
@@ -131,16 +131,16 @@ class MigrateSeriesUp {
                 infoItem.details.forEach(detail =>{
                     detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id].createdInMinute;
                     detail._id = this.topicParentMinuteMap[detail.text+infoItem._id].id;
-                })
-            })
+                });
+            });
         });
         this.series.openTopics.forEach(topic => {
             topic.infoItems.forEach(infoItem =>{
                 infoItem.details.forEach(detail =>{
                     detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id].createdInMinute;
                     detail._id = this.topicParentMinuteMap[detail.text+infoItem._id].id;
-                })
-            })
+                });
+            });
         });
     }
 }
@@ -176,8 +176,8 @@ export class MigrateV12 {
                 item.details.forEach(detail =>{
                     delete detail._id;
                     delete detail.createdInMinute;
-                })
-            })
+                });
+            });
         });
         return topics;
     }

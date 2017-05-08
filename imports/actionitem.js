@@ -12,10 +12,10 @@ export class ActionItem extends InfoItem{
             this._infoItemDoc.isOpen = true;
         }
         if (this._infoItemDoc.responsible === undefined) {
-            this._infoItemDoc.responsible = "";
+            this._infoItemDoc.responsible = '';
         }
         if (this._infoItemDoc.priority === undefined) {
-            this._infoItemDoc.priority = "";
+            this._infoItemDoc.priority = '';
         }
     }
 
@@ -35,7 +35,7 @@ export class ActionItem extends InfoItem{
     getDateFromDetails (index) {
         if (index === undefined) index = 0;
         let details = this._infoItemDoc.details;
-        if (details.length > index && details[index].hasOwnProperty("date")) {
+        if (details.length > index && details[index].hasOwnProperty('date')) {
             return details[index].date;
         }
         return false;
@@ -51,10 +51,10 @@ export class ActionItem extends InfoItem{
     getTextFromDetails (index) {
         if (index === undefined) index = 0;
         let details = this._infoItemDoc.details;
-        if (details && details.length > 0 && details[index].hasOwnProperty("text")) {
+        if (details && details.length > 0 && details[index].hasOwnProperty('text')) {
             return details[index].text;
         }
-        return "";
+        return '';
     }
 
     /**
@@ -96,8 +96,8 @@ export class ActionItem extends InfoItem{
             let responsibles = this._infoItemDoc.responsibles;
             let mailArray = [];
             responsibles.forEach(responsible => {
-                let userEMailFromDB = "";
-                let userNameFromDB = "";
+                let userEMailFromDB = '';
+                let userNameFromDB = '';
                 if (responsible.length > 15) {  // maybe DB Id or free text
                     let user = Meteor.users.findOne(responsible);
                     if (user) {
@@ -114,7 +114,7 @@ export class ActionItem extends InfoItem{
                     if (/\S+@\S+\.\S+/.test(freetextMail)) {    // check valid mail anystring@anystring.anystring
                         mailArray.push(freetextMail);
                     } else {
-                        console.log("WARNING: Invalid mail address for responsible: >"+freetextMail+"< "+userNameFromDB);
+                        console.log('WARNING: Invalid mail address for responsible: >'+freetextMail+'< '+userNameFromDB);
                     }
                 }
             });
@@ -126,13 +126,13 @@ export class ActionItem extends InfoItem{
 
     getResponsibleNameString() {
         if (!this.hasResponsibles()) {
-            return "";
+            return '';
         }
 
         let responsibles = this._infoItemDoc.responsibles;
-        let responsiblesString = "";
+        let responsiblesString = '';
         responsibles.forEach(responsible => {
-            let userNameFromDB = "";
+            let userNameFromDB = '';
             if (responsible.length > 15) {  // maybe DB Id or free text
                 let user = Meteor.users.findOne(responsible);
                 if (user) {
@@ -140,9 +140,9 @@ export class ActionItem extends InfoItem{
                 }
             }
             if (userNameFromDB) {     // user DB match!
-                responsiblesString += userNameFromDB + ", ";
+                responsiblesString += userNameFromDB + ', ';
             } else {
-                responsiblesString += responsible + ", ";
+                responsiblesString += responsible + ', ';
             }
         });
         responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "

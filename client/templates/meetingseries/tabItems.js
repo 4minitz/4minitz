@@ -1,9 +1,4 @@
-import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
-
-import { Minutes } from '/imports/minutes';
-import { Topic } from '/imports/topic';
-import { Label } from '/imports/label';
 
 import { ItemsFilter } from '/imports/search/ItemsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -29,7 +24,7 @@ const FILTERS = [
 ];
 
 Template.tabItems.onCreated(function() {
-    this.topicFilterQuery = new ReactiveVar("");
+    this.topicFilterQuery = new ReactiveVar('');
     let myTemplate = Template.instance();
     this.topicFilterHandler = (query) => {
         myTemplate.topicFilterQuery.set(query);
@@ -77,7 +72,7 @@ Template.tabItems.helpers({
             parentTopicId: this.parentTopicId,
             isEditable: false,
             minutesID: Template.instance().data.parentMeetingSeriesId,
-            currentCollapseId: this.parentTopicId + "_" + index  // each topic item gets its own collapseID
+            currentCollapseId: this.parentTopicId + '_' + index  // each topic item gets its own collapseID
         };
     }
 

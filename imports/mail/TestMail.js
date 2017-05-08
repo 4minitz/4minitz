@@ -1,6 +1,6 @@
 import { Mail } from './Mail';
 
-export var TestMailCollection = new Mongo.Collection("testemails");
+export let TestMailCollection = new Mongo.Collection('testemails');
 
 export class TestMail extends Mail{
 

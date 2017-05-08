@@ -9,11 +9,11 @@ AccountsTemplates.removeField('email');
 
 AccountsTemplates.addFields([
     {
-        _id: "username",
-        type: "text",
-        displayName: "User name",
+        _id: 'username',
+        type: 'text',
+        displayName: 'User name',
         placeholder: {
-            signUp: "(min. 3 chars)"
+            signUp: '(min. 3 chars)'
         },
         required: true,
         minLength: 3
@@ -21,16 +21,16 @@ AccountsTemplates.addFields([
     {
         _id: 'name',
         type: 'text',
-        displayName: "Name, Company",
+        displayName: 'Name, Company',
         placeholder: {
-            signUp: "John Doe, Happy Corp."
+            signUp: 'John Doe, Happy Corp.'
         },
     },
     {
         _id: 'email',
         type: 'email',
         required: true,
-        displayName: "Email",
+        displayName: 'Email',
         re: /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/,
         errStr: 'Invalid email'
     },
@@ -39,7 +39,7 @@ AccountsTemplates.addFields([
         _id: 'password',
         type: 'password',
         placeholder: {
-            signUp: "min. 6 chars (digit, lower & upper)"
+            signUp: 'min. 6 chars (digit, lower & upper)'
         },
         required: true,
         minLength: 6,
@@ -60,7 +60,7 @@ if (Meteor.isServer) {
     Accounts.validateLoginAttempt(function(attempt) {
         if(attempt.user && attempt.user.isInactive) {
             attempt.allowed = false;
-            throw new Meteor.Error(403, "User account is inactive!");
+            throw new Meteor.Error(403, 'User account is inactive!');
         }
         return true;
     });

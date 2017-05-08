@@ -1,6 +1,6 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TopicSchema } from './topic.schema';
-import { LabelSchema } from './label.schema'
+import { LabelSchema } from './label.schema';
 
 export const MeetingSeriesSchema = new SimpleSchema({
     project: {type: String},
