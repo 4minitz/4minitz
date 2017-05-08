@@ -63,3 +63,56 @@ export const Statistics = SchemaClass.create({
         }
     }
 });
+
+
+// Generate some statistics for non-testing meeting series.
+// logs results to console
+// @param minTopicsCount {Number} only meeting series with at least so much minutes are considered
+// @param minTopicsCount {Number} only meeting series with at least so much finalized topics are considered
+let statisticsDetails = function (minMinutesCount = 2, minTopicsCount = 5) {
+    let MS = MeetingSeriesCollection.find();
+    let MScount = 0;
+    let MinutesCount = 0;
+    let TopicCount = 0;
+    let TopicMax = 0;
+    let ItemCount = 0;
+    let ItemMax = 0;
+    let DetailCount = 0;
+    let DetailMax = 0;
+
+    MS.forEach(ms => {
+        if (ms.minutes && ms.minutes.length >= minMinutesCount && ms.topics && ms.topics.length >= minTopicsCount) {
+            MScount++;
+            TopicCount += ms.topics.length;
+            if (ms.topics.length > TopicMax) {
+                TopicMax = ms.topics.length;
+            }
+            MinutesCount += ms.minutes.length;
+
+            ms.topics.forEach(top => {
+                ItemCount += top.infoItems.length;
+                if (top.infoItems.length > ItemMax) {
+                    ItemMax = top.infoItems.length;
+                }
+                top.infoItems.forEach(item => {
+                    if (item.details) {
+                        DetailCount += item.details.length;
+                        if (item.details.length > DetailMax) {
+                            DetailMax = item.details.length;
+                        }
+                    }
+                })
+            });
+        }
+    });
+    console.log("# MeetingSeries: ", MScount);
+    console.log("# Minutes      : ", MinutesCount);
+    console.log("# Topics       : ", TopicCount, "  max: ", TopicMax, "  mean: ", (TopicCount/MScount).toFixed(1));
+    console.log("# Items        : ", ItemCount, "  max: ", ItemMax, "  mean: ", (ItemCount/TopicCount).toFixed(1));
+    console.log("# Details      : ", DetailCount, "  max: ", DetailMax, "  mean: ", (DetailCount/ItemCount).toFixed(1));
+};
+
+
+if (Meteor.isServer) {
+    // statisticsDetails()
+}
