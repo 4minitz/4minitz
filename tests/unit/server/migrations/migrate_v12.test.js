@@ -127,26 +127,21 @@ describe('Migrate Version 12', function () {
 
     describe('#up', function () {
 
-        let checkDetailHasProperty_createdInMinute = detail => {
+        let checkDetailHasProperties = (detail) => {
             expect(detail).to.have.ownProperty('createdInMinute');
-        };
-
-        let checkDetailHasProperty_id = detail => {
             expect(detail).to.have.ownProperty('_id');
-        };
+        }
 
         it('sets the createdInMinutes and _id attribute for all topics in all minutes', function() {
             MigrateV12.up();
             firstFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasProperty_createdInMinute);
-                    infoItem.details.forEach(checkDetailHasProperty_id);
+                    infoItem.details.forEach(checkDetailHasProperties);
                 })
             });
             sndFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasProperty_createdInMinute);
-                    infoItem.details.forEach(checkDetailHasProperty_id);
+                    infoItem.details.forEach(checkDetailHasProperties);
                 })
             });
         });
@@ -155,14 +150,12 @@ describe('Migrate Version 12', function () {
             MigrateV12.up();
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasProperty_createdInMinute);
-                    infoItem.details.forEach(checkDetailHasProperty_id);
+                    infoItem.details.forEach(checkDetailHasProperties);
                 })
             });
             fakeMeetingSeries.openTopics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasProperty_createdInMinute);
-                    infoItem.details.forEach(checkDetailHasProperty_id);
+                    infoItem.details.forEach(checkDetailHasProperties);
                 })
             });
         });
@@ -207,36 +200,29 @@ describe('Migrate Version 12', function () {
 
         it('removes the createdInMinute and _id-attribute', function() {
             MigrateV12.down();
-
-            let checkDetailHasNoAttribute_createdInMinute = detail => {
+            let checkDetailHasNoProperties = (detail) => {
                 expect(detail).not.have.ownProperty('createdInMinute');
-            };
-            let checkDetailHasNoAttribute_id = detail => {
                 expect(detail).not.have.ownProperty('_id');
-            };
+            }
 
             firstFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasNoAttribute_createdInMinute);
-                    infoItem.details.forEach(checkDetailHasNoAttribute_id);
+                    infoItem.details.forEach(checkDetailHasNoProperties);
                 })
             });
             sndFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasNoAttribute_createdInMinute);
-                    infoItem.details.forEach(checkDetailHasNoAttribute_id);
+                    infoItem.details.forEach(checkDetailHasNoProperties);
                 })
             });
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasNoAttribute_createdInMinute);
-                    infoItem.details.forEach(checkDetailHasNoAttribute_id);
+                    infoItem.details.forEach(checkDetailHasNoProperties);
                 })
             });
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasNoAttribute_createdInMinute);
-                    infoItem.details.forEach(checkDetailHasNoAttribute_id);
+                    infoItem.details.forEach(checkDetailHasNoProperties);
                 })
             });
         });

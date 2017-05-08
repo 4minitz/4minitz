@@ -68,6 +68,7 @@ const {
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/random': { Random, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     '/imports/helpers/date': DateHelpers,
     './topic': { Topic, '@noCallThru': true}

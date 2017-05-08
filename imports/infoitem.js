@@ -1,6 +1,7 @@
 import { Label } from './label'
 import { _ } from 'meteor/underscore';
 import { formatDateISO8601 } from '/imports/helpers/date';
+import { Random } from 'meteor/random';
 
 /**
  * A InfoItem is a sub-element of
@@ -101,7 +102,7 @@ export class InfoItem {
             throw new Meteor.Error("invalid-argument", "Empty details are not allowed. Use #removeDetails() " +
                 "to delete an element");
         }
-        if (text != this._infoItemDoc.details[index].text){
+        if (text !== this._infoItemDoc.details[index].text){
             let date = formatDateISO8601(new Date());
             this._infoItemDoc.details[index].date = date;
             this._infoItemDoc.details[index].text = text;

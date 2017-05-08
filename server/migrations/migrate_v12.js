@@ -37,41 +37,55 @@ class MigrateSeriesUp {
     run() {
         let minutes = this.series.firstMinutes();
         while (minutes) {
-                if (minutes == this.series.firstMinutes()) {
-                    minutes = this._updateTopicsOfMinutes(minutes);
+            if (minutes == this.series.firstMinutes()) {
+                minutes = this._updateTopicsOfMinutes(minutes);
+            }
+            else {
+                let prevMinutes = minutes.previousMinutes();
+                // find topics/items/details that occur in a current minute, but were created in a prev. minute
+                if (prevMinutes){
+                    this._updatePreviousCreatedTopicItemDetails(minutes,prevMinutes);
                 }
-                else {
-                    let prevMinutes = minutes.previousMinutes();
-                    // find topics/items/details that occur in a current minute, but were created in a prev. minute
-                    minutes.topics.forEach(topic => {
-                        if (prevMinutes.topics) {
-                            let prevTopic = prevMinutes.topics.find(prevTopic => topic._id === prevTopic._id); 
-                            if (prevTopic !== undefined) {
-                                topic.infoItems.forEach(infoItem => {
-                                    let prevInfoItem = prevTopic.infoItems.find(prevInfoItem => infoItem._id === prevInfoItem._id);
-                                    if (prevInfoItem !== undefined) {
-                                        infoItem.details.forEach(detail => {
-                                            prevInfoItem.details.forEach(prevDetail => {
-                                                //same detail-text?
-                                                if (detail.text == prevDetail.text) {
-                                                    this._updateDetail(detail, infoItem, minutes._id, prevDetail);
-                                                }
-                                            })
-                                        })
-
-                                    }
-                                })
-
-                            }
-                        }
-                    })
-                    minutes = this._updateTopicsOfMinutes(minutes);
-                }
-                saveMinutes(minutes);
-                minutes = minutes.nextMinutes();
+                minutes = this._updateTopicsOfMinutes(minutes);
+            }
+            saveMinutes(minutes);
+            minutes = minutes.nextMinutes();
         }
         this._updateTopicsOfSeries();
         saveSeries(this.series);
+    }
+
+    _updatePreviousCreatedTopicItemDetails(minutes, prevMinutes){
+        minutes.topics.forEach(topic => {
+            this._updatePreviousCreatedItemDetails(topic, prevMinutes.topics, minutes._id);
+        })
+    }
+
+    _updatePreviousCreatedItemDetails(topic, prevTopics, minutesId){
+        if (!prevTopics) return;
+        let prevTopic = prevTopics.find(prevTopic => topic._id === prevTopic._id);
+        if (!prevTopic) return;
+        topic.infoItems.forEach(infoItem => {
+            this._updatePreviousCreatedDetails(infoItem, prevTopic.infoItems, minutesId);
+        })
+    }
+
+    _updatePreviousCreatedDetails(infoItem, prevItems, minutesId){
+        if(!prevItems) return;
+        let prevInfoItem = prevItems.find(prevInfoItem => infoItem._id === prevInfoItem._id);
+        if (!prevInfoItem) return;
+        infoItem.details.forEach(detail =>{
+            this._compareDetails(detail, prevInfoItem.details, infoItem, minutesId);
+        })
+    }
+
+    _compareDetails(detail, prevDetails, infoItem, minutesId){
+        prevDetails.forEach(prevDetail => {
+            //same detail-text?
+            if (detail.text === prevDetail.text) {
+                this._updateDetail(detail, infoItem, minutesId, prevDetail);
+            }
+        })
     }
 
     _updateTopicsOfMinutes(minutes) {
@@ -104,14 +118,14 @@ class MigrateSeriesUp {
             if(!detail._id){
                 detail._id = Random.id();
                 detail.createdInMinute = minutesId;
-                this.topicParentMinuteMap[detail.text+infoItem._id] = [detail._id, detail.createdInMinute];
+                this.topicParentMinuteMap[detail.text+infoItem._id] = {id: detail._id, createdInMinute: detail.createdInMinute};
             }
         }
         // for details that were created in a prev. minute but an item is pinned and they occur in the following minute
         else{
             detail._id = prevDetail._id;
             detail.createdInMinute = prevDetail.createdInMinute;
-            this.topicParentMinuteMap[detail.text+infoItem._id] = [detail._id, detail.createdInMinute];
+            this.topicParentMinuteMap[detail.text+infoItem._id] = {id: detail._id, createdInMinute: detail.createdInMinute};
         }
         return detail;
     }
@@ -120,16 +134,16 @@ class MigrateSeriesUp {
         this.series.topics.forEach(topic => {
             topic.infoItems.forEach(infoItem =>{
                 infoItem.details.forEach(detail =>{
-                    detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id][1];
-                    detail._id = this.topicParentMinuteMap[detail.text+infoItem._id][0];
+                    detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id].createdInMinute;
+                    detail._id = this.topicParentMinuteMap[detail.text+infoItem._id].id;
                 })
             })
         });
         this.series.openTopics.forEach(topic => {
             topic.infoItems.forEach(infoItem =>{
                 infoItem.details.forEach(detail =>{
-                    detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id][1];
-                    detail._id = this.topicParentMinuteMap[detail.text+infoItem._id][0];
+                    detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id].createdInMinute;
+                    detail._id = this.topicParentMinuteMap[detail.text+infoItem._id].id;
                 })
             })
         });
@@ -172,5 +186,4 @@ export class MigrateV12 {
         });
         return topics;
     }
-
 }
