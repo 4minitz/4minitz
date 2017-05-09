@@ -42,6 +42,8 @@ describe('Migrate Version 12', function () {
                 infoItems:[{
                     _id: '#I03',
                     details: [{text: 'd5'}]
+                },{
+                    _id: '#I04'
                 }]
             }],
             nextMinutes: () => {
@@ -88,6 +90,8 @@ describe('Migrate Version 12', function () {
                 infoItems:[{
                     _id: '#I03',
                     details: [{text: 'd5'}]
+                },{
+                    _id: '#I04'
                 }]
             }],
             openTopics: [{
@@ -95,6 +99,8 @@ describe('Migrate Version 12', function () {
                 infoItems:[{
                     _id: '#I03',
                     details: [{text: 'd5'}]
+                },{
+                    _id: '#I04'
                 }]
             }, {
                 _id: '#T01',
@@ -136,12 +142,16 @@ describe('Migrate Version 12', function () {
             MigrateV12.up();
             firstFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasProperties);
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasProperties);
+                    }
                 })
             });
             sndFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasProperties);
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasProperties);
+                    }
                 })
             });
         });
@@ -150,12 +160,16 @@ describe('Migrate Version 12', function () {
             MigrateV12.up();
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasProperties);
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasProperties);
+                    }
                 })
             });
             fakeMeetingSeries.openTopics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasProperties);
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasProperties);
+                    }
                 })
             });
         });
@@ -203,30 +217,36 @@ describe('Migrate Version 12', function () {
             let checkDetailHasNoProperties = (detail) => {
                 expect(detail).not.have.ownProperty('createdInMinute');
                 expect(detail).not.have.ownProperty('_id');
-            }
+            };
 
             firstFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasNoProperties);
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperties);
+                    }
                 })
             });
             sndFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasNoProperties);
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperties);
+                    }
                 })
             });
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasNoProperties);
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperties);
+                    }
                 })
             });
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
-                    infoItem.details.forEach(checkDetailHasNoProperties);
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperties);
+                    }
                 })
             });
         });
-
     });
-
 });

@@ -73,8 +73,7 @@ class MigrateSeriesUp {
     _updatePreviousCreatedDetails(infoItem, prevItems, minutesId){
         if(!prevItems) return;
         let prevInfoItem = prevItems.find(prevInfoItem => infoItem._id === prevInfoItem._id);
-        if (!prevInfoItem) return;
-        if (prevInfoItem.details === undefined) return;
+        if (!prevInfoItem || !prevInfoItem.details) return;
         forEachDetail(infoItem, detail =>{
             this._compareDetails(detail, prevInfoItem.details, infoItem, minutesId);
         })
