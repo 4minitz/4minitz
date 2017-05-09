@@ -15,8 +15,8 @@
     "test": "test"
   },
   "scripts": {
-    "eslint": "./node_modules/.bin/eslint client/** imports/** server/**",
-    "eslint:fix": "./node_modules/.bin/eslint --fix client/** imports/** server/**",
+    "eslint": "eslint client/** imports/** server/**",
+    "eslint:fix": "eslint --fix client/** imports/** server/**",
     "test": "npm run test:unit",
     "test:ci": "npm run test:unit && npm run test:integration:headless && npm run test:end2end:headless",
     "test:unit": "node ./node_modules/mocha/bin/mocha './tests/unit/**/*.test.js' --compilers js:babel-register --require tests/unit/babel && npm run test:fixtures:seed-minutes:unit",
