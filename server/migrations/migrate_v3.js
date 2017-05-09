@@ -1,5 +1,5 @@
-import { MinutesCollection } from '/imports/collections/minutes_private'
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
+import { MinutesCollection } from '/imports/collections/minutes_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
 
 // convert the participants fields
 export class MigrateV3 {
@@ -11,7 +11,7 @@ export class MigrateV3 {
                 if (infoItem.isSticky === undefined) {
                     infoItem.isSticky = false;
                 }
-            })
+            });
         });
     }
 
@@ -20,7 +20,7 @@ export class MigrateV3 {
         topics.forEach(topic => {
             topic.infoItems.forEach(infoItem => {
                 delete infoItem.isSticky;
-            })
+            });
         });
     }
 
@@ -34,7 +34,7 @@ export class MigrateV3 {
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
@@ -49,13 +49,13 @@ export class MigrateV3 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 
     static down() {
@@ -67,7 +67,7 @@ export class MigrateV3 {
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
@@ -82,12 +82,12 @@ export class MigrateV3 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 }

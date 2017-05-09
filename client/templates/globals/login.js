@@ -21,14 +21,14 @@ Template.login.helpers({
     },
 
     tab: function() {
-        return Session.get("currentLoginForm");
+        return Session.get('currentLoginForm');
     },
 
     tabActive: function(tabFormName) {
-        if (Session.get("currentLoginForm") === tabFormName) {
-            return "active";
+        if (Session.get('currentLoginForm') === tabFormName) {
+            return 'active';
         }
-        return "";
+        return '';
     },
 
     showInfoOnLogin: function () {
@@ -48,16 +48,16 @@ Template.login.helpers({
 });
 
 Template.login.events({
-    "click .nav-tabs li": function(event) {
-        let currentTab = $(event.target).closest("li");
+    'click .nav-tabs li': function(event) {
+        let currentTab = $(event.target).closest('li');
 
-        currentTab.addClass("active");
-        $(".nav-tabs li").not(currentTab).removeClass("active");
+        currentTab.addClass('active');
+        $('.nav-tabs li').not(currentTab).removeClass('active');
 
-        Session.set("currentLoginForm", currentTab.data("template"));
+        Session.set('currentLoginForm', currentTab.data('template'));
     },
 
-    "click #btnLegalNotice": function () {
+    'click #btnLegalNotice': function () {
         FlowRouter.go('/legalnotice');
     }
 });

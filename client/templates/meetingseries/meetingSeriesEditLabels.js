@@ -1,9 +1,9 @@
-import { addCustomValidator } from '../../helpers/customFieldValidator'
+import { addCustomValidator } from '../../helpers/customFieldValidator';
 
-import { MeetingSeries } from '/imports/meetingseries'
-import { Label } from '/imports/label'
+import { MeetingSeries } from '/imports/meetingseries';
+import { Label } from '/imports/label';
 
-import { ColorHelper } from '/imports/ColorHelper'
+import { ColorHelper } from '/imports/ColorHelper';
 
 let initColorPicker = (selector) => {
     setTimeout(function() {
@@ -20,8 +20,8 @@ Template.meetingSeriesEditLabels.onRendered(function () {
     initColorPicker('.pick-a-color');
 
     addCustomValidator(
-        ".label-color-field",
-        (value) => { return ColorHelper.isValidHexColorString(value) },
+        '.label-color-field',
+        (value) => { return ColorHelper.isValidHexColorString(value); },
         'Invalid hex color value');
 });
 
@@ -54,8 +54,8 @@ function saveLabel(tmpl, context) {
     row.find('.view-display').show();
     row.find('.view-edit').hide();
 
-    let labelName = row.find("[name='labelName']").val();
-    let labelColor = row.find("[name='labelColor-" + labelId + "']").val();
+    let labelName = row.find('[name=\'labelName\']').val();
+    let labelColor = row.find('[name=\'labelColor-' + labelId + '\']').val();
 
     if (labelColor.substr(0, 1) !== '#') {
         labelColor = '#' + labelColor;
@@ -79,7 +79,7 @@ Template.meetingSeriesEditLabels.events({
         let row = tmpl.$('#row-label-' + labelId);
         row.find('.view-display').hide();
         row.find('.view-edit').show();
-        row.find("[name='labelName']").focus();
+        row.find('[name=\'labelName\']').focus();
 
     },
 
@@ -90,8 +90,8 @@ Template.meetingSeriesEditLabels.events({
 
         // reset the values
         let aLabel = Label.createLabelById(tmpl.data.meetingSeriesId, labelId);
-        let labelName = row.find("[name='labelName']");
-        let labelColor = row.find("[name='labelColor-" + labelId + "']");
+        let labelName = row.find('[name=\'labelName\']');
+        let labelColor = row.find('[name=\'labelColor-' + labelId + '\']');
         labelName.val(aLabel.getName());
         labelColor.val(aLabel.getColor().substr(1));
         labelColor.focus();
@@ -131,8 +131,8 @@ Template.meetingSeriesEditLabels.events({
 
     'click .evt-btn-add-label': function (evt, tmpl) {
         let labelDoc = {
-            name: "NewLabel",
-            color: "#cccccc"
+            name: 'NewLabel',
+            color: '#cccccc'
         };
 
         let label = new Label(labelDoc);

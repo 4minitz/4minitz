@@ -1,9 +1,4 @@
-import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
-
-import { Minutes } from '/imports/minutes';
-import { Topic } from '/imports/topic';
-import { Label } from '/imports/label';
 
 import { TopicsFilter } from '/imports/search/TopicsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -11,7 +6,6 @@ import { FilterControlConfig } from '../globals/ui-controls/filterControl';
 import { TOPIC_KEYWORDS } from '/imports/search/FilterKeywords';
 
 import { TopicListConfig } from '../topic/topicsList';
-import { TabItemsConfig } from './tabItems';
 
 import { createLabelIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
@@ -30,7 +24,7 @@ const FILTERS = [
 ];
 
 Template.tabTopics.onCreated(function() {
-    this.topicFilterQuery = new ReactiveVar("");
+    this.topicFilterQuery = new ReactiveVar('');
     let myTemplate = Template.instance();
     this.topicFilterHandler = (query) => {
         myTemplate.topicFilterQuery.set(query);

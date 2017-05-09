@@ -32,11 +32,11 @@ export class MeetingSeries {
     }
 
     static async remove(meetingSeries) {
-        return Meteor.callPromise("workflow.removeMeetingSeries", meetingSeries._id);
+        return Meteor.callPromise('workflow.removeMeetingSeries', meetingSeries._id);
     }
 
     static async leave(meetingSeries) {
-        return Meteor.callPromise("workflow.leaveMeetingSeries", meetingSeries._id);
+        return Meteor.callPromise('workflow.leaveMeetingSeries', meetingSeries._id);
     }
 
     static getAllVisibleIDsForUser (userId) {
@@ -49,7 +49,7 @@ export class MeetingSeries {
     // ################### object methods
 
     async removeMinutesWithId(minutesId) {
-        console.log("removeMinutesWithId: " + minutesId);
+        console.log('removeMinutesWithId: ' + minutesId);
 
         await Minutes.remove(minutesId);
         return this.updateLastMinutesDateAsync();
@@ -59,9 +59,9 @@ export class MeetingSeries {
     save(optimisticUICallback) {
         let doc = this;
         if (this._id) {
-            return Meteor.callPromise("meetingseries.update", doc);
+            return Meteor.callPromise('meetingseries.update', doc);
         } else {
-            return Meteor.callPromise("meetingseries.insert", doc, optimisticUICallback);
+            return Meteor.callPromise('meetingseries.insert', doc, optimisticUICallback);
         }
     }
 
@@ -70,7 +70,7 @@ export class MeetingSeries {
     }
 
     toString () {
-        return "MeetingSeries: "+JSON.stringify(this, null, 4);
+        return 'MeetingSeries: '+JSON.stringify(this, null, 4);
     }
 
     log () {
@@ -78,7 +78,7 @@ export class MeetingSeries {
     }
 
     addNewMinutes (optimisticUICallback, serverCallback) {
-        console.log("addNewMinutes()");
+        console.log('addNewMinutes()');
 
         // The new Minutes object should be dated after the latest existing one
         let newMinutesDate = new Date();
@@ -266,7 +266,7 @@ export class MeetingSeries {
     }
 
     isMinutesDateAllowed(minutesId, date) {
-        if (typeof date === "string") {
+        if (typeof date === 'string') {
             date = new Date(date);
         }
 
@@ -286,10 +286,10 @@ export class MeetingSeries {
      */
     setVisibleAndInformedUsers(newVisibleForArray, newInformedUsersArray) {
         if (!this._id) {
-            throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using addVisibleUser()");
+            throw new Meteor.Error('MeetingSeries not saved.', 'Call save() before using addVisibleUser()');
         }
         if (!$.isArray(newVisibleForArray)) {
-            throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
+            throw new Meteor.Error('setVisibleUsers()', 'must provide an array!');
         }
 
         // Clean-up roles
@@ -303,7 +303,7 @@ export class MeetingSeries {
         newUserArray = newUserArray.concat(newInformedUsersArray);
 
         let removedUserIDs = oldUserArray.filter((usrID) => {
-            return newUserArray.indexOf(usrID) === -1
+            return newUserArray.indexOf(usrID) === -1;
         });
         removedUserIDs.forEach((removedUserID) => {
             let ur = new UserRoles(removedUserID);
@@ -374,7 +374,7 @@ export class MeetingSeries {
             let left = (caseSensitive) ? label.name : label.name.toUpperCase();
             let right = (caseSensitive) ? name : name.toUpperCase();
             return left.indexOf(right) !== -1;
-        })
+        });
     }
 
     removeLabel(id) {
@@ -436,7 +436,7 @@ export class MeetingSeries {
             this.topics.forEach(topicDoc => {
                 topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
                     return infoItemDoc.createdInMinute !== minutes._id;
-                })
+                });
             });
 
             this._copyTopicsToSeries(secondLastMinute);
@@ -505,7 +505,7 @@ export class MeetingSeries {
                 return !(indexInMinute === undefined);
             }
             return true;
-        })
+        });
     }
 
 }

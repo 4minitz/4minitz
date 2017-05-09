@@ -1,4 +1,4 @@
-import { Label } from './label'
+import { Label } from './label';
 import { _ } from 'meteor/underscore';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import { Random } from 'meteor/random';
@@ -13,7 +13,7 @@ export class InfoItem {
 
     constructor(parentTopic, source) {
         if (!parentTopic || !source)
-            throw new Meteor.Error("It is not allowed to create a InfoItem without the parentTopicId and the source");
+            throw new Meteor.Error('It is not allowed to create a InfoItem without the parentTopicId and the source');
 
         this._parentTopic = undefined;
         this._infoItemDoc = undefined;
@@ -22,7 +22,7 @@ export class InfoItem {
             this._parentTopic = parentTopic;
         }
         if (!this._parentTopic) {
-            throw new Meteor.Error("No parent Topic given!");
+            throw new Meteor.Error('No parent Topic given!');
         }
 
         if (typeof source === 'string') {   // we may have an ID here.
@@ -79,7 +79,7 @@ export class InfoItem {
     }
 
     addDetails(minuteId, text) {
-        if (text === undefined) text = "";
+        if (text === undefined) text = '';
 
         let date = formatDateISO8601(new Date());
         if (!this._infoItemDoc.details) {
@@ -90,7 +90,7 @@ export class InfoItem {
             createdInMinute: minuteId,
             date: date,
             text: text
-        })
+        });
     }
 
     removeDetails(index) {
@@ -98,9 +98,9 @@ export class InfoItem {
     }
 
     updateDetails(index, text) {
-        if (text === "") {
-            throw new Meteor.Error("invalid-argument", "Empty details are not allowed. Use #removeDetails() " +
-                "to delete an element");
+        if (text === '') {
+            throw new Meteor.Error('invalid-argument', 'Empty details are not allowed. Use #removeDetails() ' +
+                'to delete an element');
         }
         if (text !== this._infoItemDoc.details[index].text){
             let date = formatDateISO8601(new Date());
@@ -161,7 +161,7 @@ export class InfoItem {
         return this.getLabelsRawArray().map(labelId => {
             return Label.createLabelById(meetingSeriesId, labelId);
 
-        })
+        });
     }
 
     addLabelByName(labelName, meetingSeriesId) {
@@ -194,7 +194,7 @@ export class InfoItem {
     }
 
     toString () {
-        return "InfoItem: " + JSON.stringify(this._infoItemDoc, null, 4);
+        return 'InfoItem: ' + JSON.stringify(this._infoItemDoc, null, 4);
     }
 
     log () {
@@ -213,9 +213,9 @@ export class InfoItem {
     }
 
     _removeLabelFromSubject(labelName) {
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace("#" + labelName + " ", "");
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace(" #" + labelName, "");
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace("#" + labelName, "");
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace('#' + labelName + ' ', '');
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace(' #' + labelName, '');
+        this._infoItemDoc.subject = this._infoItemDoc.subject.replace('#' + labelName, '');
     }
 
 }

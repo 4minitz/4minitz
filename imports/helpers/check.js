@@ -6,7 +6,7 @@ export const checkWithMsg = (variable, pattern, message) => {
         check(variable, pattern);
     } catch (err) {
         if (message) {
-            throw new Meteor.Error("Parameter check failed.", message);
+            throw new Meteor.Error('Parameter check failed.', message);
         }
         throw err;
     }

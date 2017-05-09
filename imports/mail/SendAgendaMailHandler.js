@@ -17,7 +17,7 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix() + " (Agenda)";
+        return this._getSubjectPrefix() + ' (Agenda)';
     }
 
 
@@ -34,8 +34,8 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             minutesGlobalNote: this._minute.globalNote,
             meetingSeriesName: this._meetingSeries.name,
             meetingSeriesProject: this._meetingSeries.project,
-            meetingSeriesURL: GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeries._id),
-            minuteUrl: GlobalSettings.getRootUrl("minutesedit/" + this._minute._id),
+            meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeries._id),
+            minuteUrl: GlobalSettings.getRootUrl('minutesedit/' + this._minute._id),
             participants: this._userArrayToString(this._participants),
             participantsAdditional: this._minute.participantsAdditional,
             topics: unSkippedTopics,

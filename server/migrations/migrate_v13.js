@@ -1,5 +1,5 @@
-import { MinutesCollection } from '/imports/collections/minutes_private'
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
+import { MinutesCollection } from '/imports/collections/minutes_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
 
 export class MigrateV13 {
 
@@ -26,7 +26,7 @@ export class MigrateV13 {
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
@@ -41,13 +41,13 @@ export class MigrateV13 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 
     static down() {
@@ -59,7 +59,7 @@ export class MigrateV13 {
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
@@ -74,12 +74,12 @@ export class MigrateV13 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 }

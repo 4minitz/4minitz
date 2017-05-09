@@ -1,16 +1,15 @@
-import { Meteor } from 'meteor/meteor';
 import { Markdown } from 'meteor/perak:markdown';
 
-export var GlobalHelpers = {
-    'markdown2html': function(text = "") {
+export let GlobalHelpers = {
+    'markdown2html': function(text = '') {
         text = text.toString();
 
-        let html = "<pre>"+text+"</pre>";
+        let html = '<pre>'+text+'</pre>';
         try {
             html = Markdown(text);
         } catch (e) {
             console.log(e);
-            console.log("Could not convert markdown to html for:");
+            console.log('Could not convert markdown to html for:');
             console.log(text);
             throw e;
         }
@@ -18,7 +17,7 @@ export var GlobalHelpers = {
         // as we embed markdown under a <li> tag in emails we
         // don't want <p> tags to destroy the layout...
         // so we replace "<p>....</p>" to "....<br>"
-        html = html.replace(/<p>(.*?)<\/p>/gi, "$1<br>");
+        html = html.replace(/<p>(.*?)<\/p>/gi, '$1<br>');
 
         return Spacebars.SafeString(html);
     },

@@ -3,7 +3,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
-import { AttachmentsCollection } from "/imports/collections/attachments_private";
+import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { handleError } from '/client/helpers/handleError';
 
 Template.tabMinutesList.helpers({
@@ -26,19 +26,19 @@ Template.tabMinutesList.helpers({
     },
 
     hasAttachments() {
-        return !!AttachmentsCollection.findOne({"meta.meetingminutes_id": this._id});
+        return !!AttachmentsCollection.findOne({'meta.meetingminutes_id': this._id});
     }
 });
 
 Template.tabMinutesList.events({
-    "click #btnAddMinutes": function(evt) {
+    'click #btnAddMinutes': function(evt) {
         evt.preventDefault();
         let newMinutesId;
         let ms = new MeetingSeries(this.meetingSeriesId);
         ms.addNewMinutes(
             // optimistic ui callback
             newMinutesID => {
-                newMinutesId = newMinutesID
+                newMinutesId = newMinutesID;
             },
             // server callback
             (error) => {
@@ -50,13 +50,13 @@ Template.tabMinutesList.events({
         }
     },
 
-    "click #btnLeaveMeetingSeries": function () {
+    'click #btnLeaveMeetingSeries': function () {
         let ms = new MeetingSeries(this.meetingSeriesId);
 
         let leaveSeriesCallback = () => {
-            console.log("User: "+Meteor.user().username+" is leaving Meeting Series: " + this.meetingSeriesId);
+            console.log('User: '+Meteor.user().username+' is leaving Meeting Series: ' + this.meetingSeriesId);
             MeetingSeries.leave(ms).catch(handleError());
-            FlowRouter.go("/");
+            FlowRouter.go('/');
         };
 
         ConfirmationDialogFactory.makeWarningDialogWithTemplate(

@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import { MinutesCollection } from './collections/minutes_private';
 import { MeetingSeriesCollection } from './collections/meetingseries_private';
-import { Attachment } from './attachment'
+import { Attachment } from './attachment';
 
 let StatisticsCollection = new Mongo.Collection('statistics');
 
@@ -37,25 +37,25 @@ export const Statistics = SchemaClass.create({
                 numberOfUsers = Meteor.users.find().count(),
                 numberOfActiveUsers = Meteor.users.find({$or: [{isInactive: { $exists: false }}, {isInactive: false}]}).count(),
                 numberOfAttachments = Attachment.countAll(),
-                numberOfAttachmentMB = Math.floor(Attachment.countAllBytes() / 1024 / 1024)+ " MB";
+                numberOfAttachmentMB = Math.floor(Attachment.countAllBytes() / 1024 / 1024)+ ' MB';
 
             StatisticsCollection.remove({});
 
             let statistics = this;
             statistics.result = [{
-                description: "Number of users (active)",
-                value: numberOfUsers + " (" + numberOfActiveUsers + ")"
+                description: 'Number of users (active)',
+                value: numberOfUsers + ' (' + numberOfActiveUsers + ')'
             }, {
-                description: "Number of meeting series",
+                description: 'Number of meeting series',
                 value: numberOfMeetingSeries.toString()
             }, {
-                description: "Number of meeting minutes",
+                description: 'Number of meeting minutes',
                 value: numberOfMinutes.toString()
             }, {
-                description: "Number of attachments",
+                description: 'Number of attachments',
                 value: numberOfAttachments.toString()
             }, {
-                description: "Attachments size",
+                description: 'Attachments size',
                 value: numberOfAttachmentMB.toString()
             }];
 
@@ -101,15 +101,15 @@ let statisticsDetails = function (minMinutesCount = 2, minTopicsCount = 5) {
                             DetailMax = item.details.length;
                         }
                     }
-                })
+                });
             });
         }
     });
-    console.log("# MeetingSeries: ", MScount);
-    console.log("# Minutes      : ", MinutesCount);
-    console.log("# Topics       : ", TopicCount, "  max: ", TopicMax, "  mean: ", (TopicCount/MScount).toFixed(1));
-    console.log("# Items        : ", ItemCount, "  max: ", ItemMax, "  mean: ", (ItemCount/TopicCount).toFixed(1));
-    console.log("# Details      : ", DetailCount, "  max: ", DetailMax, "  mean: ", (DetailCount/ItemCount).toFixed(1));
+    console.log('# MeetingSeries: ', MScount);
+    console.log('# Minutes      : ', MinutesCount);
+    console.log('# Topics       : ', TopicCount, '  max: ', TopicMax, '  mean: ', (TopicCount/MScount).toFixed(1));
+    console.log('# Items        : ', ItemCount, '  max: ', ItemMax, '  mean: ', (ItemCount/TopicCount).toFixed(1));
+    console.log('# Details      : ', DetailCount, '  max: ', DetailMax, '  mean: ', (DetailCount/ItemCount).toFixed(1));
 };
 
 

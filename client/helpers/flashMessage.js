@@ -68,7 +68,7 @@ export class FlashMessage {
         return {
             title: this.title,
             message: this.message
-        }
+        };
     }
 
     _createSettings() {
@@ -79,7 +79,7 @@ export class FlashMessage {
             onClosed: () => {
                 this.currentNotification = null;
             }
-        }
+        };
     }
 
     /**

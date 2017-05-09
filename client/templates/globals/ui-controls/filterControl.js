@@ -21,7 +21,7 @@ export class FilterControlConfig {
 }
 
 const MATCH_CASE = 'do:match-case ';
-const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`,"g");
+const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`,'g');
 
 let toggleMatchCase = function (enable, input) {
     if (enable) {
@@ -38,7 +38,7 @@ let performSearch = function(query, tmpl) {
 
     // toogle Match Case Checkbox
     let caseSensitive = (query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length-1)) !== -1);
-    tmpl.$('#cbCaseSensitiveFilter').prop("checked", caseSensitive);
+    tmpl.$('#cbCaseSensitiveFilter').prop('checked', caseSensitive);
 
     // change filters dropdown
     if (tmpl.data.config.filters) {
@@ -46,7 +46,7 @@ let performSearch = function(query, tmpl) {
         if (matchingFilter) {
             matchingFilter.selected = true;
         } else {
-            tmpl.find("#noFilter").selected = true;
+            tmpl.find('#noFilter').selected = true;
         }
     }
 };

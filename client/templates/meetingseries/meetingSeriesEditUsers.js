@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 
-import { addCustomValidator } from '../../helpers/customFieldValidator'
+import { addCustomValidator } from '../../helpers/customFieldValidator';
 
-import { UserRoles } from '/imports/userroles'
-import { userlistClean, addNewUser, checkUserName } from './meetingSeriesEditUsersHelpers'
+import { UserRoles } from '/imports/userroles';
+import { userlistClean, addNewUser, checkUserName } from './meetingSeriesEditUsersHelpers';
 
-var _config;    // of type: UsersEditConfig
+let _config;    // of type: UsersEditConfig
 
 
 export class UsersEditConfig {
@@ -29,7 +29,7 @@ Template.meetingSeriesEditUsers.onRendered(function() {
             return false;
         }
         return checkUserName(value, _config);
-    }, '')
+    }, '');
 });
 
 
@@ -77,11 +77,11 @@ Template.meetingSeriesEditUsers.helpers({
         let rolesText = UserRoles.allRolesText();
         for (let i in rolesText) {
             let role = rolesText[i];
-            let startTag = "<option value='"+role+"'>";
+            let startTag = '<option value=\''+role+'\'>';
             if (role === currentRole) {
-                startTag = '<option value="'+role+'" selected="selected">'
+                startTag = '<option value="'+role+'" selected="selected">';
             }
-            rolesHTML += startTag+role+"</option>";
+            rolesHTML += startTag+role+'</option>';
         }
         rolesHTML += '</select>';
         return rolesHTML;
@@ -89,7 +89,7 @@ Template.meetingSeriesEditUsers.helpers({
 
     displayUsername(userObj) {
         if (userObj.profile && userObj.profile.name) {
-            return userObj.profile.name + " ("+ userObj.username+ ")";
+            return userObj.profile.name + ' ('+ userObj.username+ ')';
         }
         return userObj.username;
     }
@@ -97,14 +97,14 @@ Template.meetingSeriesEditUsers.helpers({
 
 
 Template.meetingSeriesEditUsers.events({
-    "click #btnDeleteUser": function (evt, tmpl) {
+    'click #btnDeleteUser': function (evt, tmpl) {
         evt.preventDefault();
         _config.users.remove({_id: this._userId});
     },
 
 
     // when role select changes, update role in temp. client-only user collection
-    "change .user-role-select": function (evt, tmpl) {
+    'change .user-role-select': function (evt, tmpl) {
         let roleString = $(evt.target).val();
         let roleValue = UserRoles.USERROLES[roleString];
 
@@ -115,11 +115,11 @@ Template.meetingSeriesEditUsers.events({
 
     'submit #form-add-user': function(evt, tmpl) {
         evt.preventDefault();
-        let newUserName = tmpl.find("#edt_AddUser").value;
+        let newUserName = tmpl.find('#edt_AddUser').value;
         addNewUser(newUserName, _config);
 
         $('.typeahead')
-            .typeahead('val', "")
+            .typeahead('val', '')
             .typeahead('close');
     },
 
@@ -137,7 +137,7 @@ Template.meetingSeriesEditUsers.events({
             evt.stopPropagation();
             evt.preventDefault();
             $('.typeahead')
-                .typeahead('val', "")
+                .typeahead('val', '')
                 .typeahead('close');
             return false;
         }
@@ -145,9 +145,9 @@ Template.meetingSeriesEditUsers.events({
     },
 
     // a typeahead suggestion was selected from drop-down menu
-    "typeahead:select": function (evt, tmpl, selected) {
+    'typeahead:select': function (evt, tmpl, selected) {
         let newUserName = selected.value.toString();
-        $('.typeahead').typeahead('val', "");
+        $('.typeahead').typeahead('val', '');
         addNewUser(newUserName, _config);
     }
 });

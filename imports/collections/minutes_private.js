@@ -6,7 +6,7 @@ import { MinutesSchema } from './minutes.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
-export let MinutesCollection = new Mongo.Collection("minutes",
+export let MinutesCollection = new Mongo.Collection('minutes',
     {
         transform: function (doc) {
             return new Minutes(doc);
@@ -40,8 +40,8 @@ Meteor.methods({
         let aMin = new Minutes(id);
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             if (!GlobalSettings.isEMailDeliveryEnabled()) {
-                console.log("Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file");
-                throw new Meteor.Error("Cannot send agenda", "Email delivery is not enabled in your 4minitz installation.");
+                console.log('Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file');
+                throw new Meteor.Error('Cannot send agenda', 'Email delivery is not enabled in your 4minitz installation.');
             }
 
             if (!Meteor.isClient) {
@@ -57,7 +57,7 @@ Meteor.methods({
                 return sendAgendaMailHandler.getCountRecipients();
             }
         } else {
-            throw new Meteor.Error("Cannot send agenda", "You are not moderator of the parent meeting series.");
+            throw new Meteor.Error('Cannot send agenda', 'You are not moderator of the parent meeting series.');
         }
     },
 
@@ -71,7 +71,7 @@ Meteor.methods({
         check(id, String);
         delete doc._id; // otherwise collection.update will fail
 
-        if (id === undefined || id === "") {
+        if (id === undefined || id === '') {
             return;
         }
 
@@ -98,7 +98,7 @@ Meteor.methods({
 
             return MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
         } else {
-            throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
+            throw new Meteor.Error('Cannot update minutes', 'You are not moderator of the parent meeting series.');
         }
     },
 
@@ -141,7 +141,7 @@ Meteor.methods({
                 {$set: modifierDoc}
             );
         } else {
-            throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
+            throw new Meteor.Error('Cannot update minutes', 'You are not moderator of the parent meeting series.');
         }
     },
 
@@ -185,7 +185,7 @@ Meteor.methods({
             );
 
         } else {
-            throw new Meteor.Error("Cannot update minutes", "You are not moderator of the parent meeting series.");
+            throw new Meteor.Error('Cannot update minutes', 'You are not moderator of the parent meeting series.');
         }
     },
 
@@ -204,13 +204,13 @@ Meteor.methods({
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
         if (!userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
-            throw new Meteor.Error("Cannot delete topic", "You are not moderator of the parent meeting series.");
+            throw new Meteor.Error('Cannot delete topic', 'You are not moderator of the parent meeting series.');
         }
 
         // Ensure only topics created within the current minutes (=the last not-finalized one) can be deleted
         let topic = aMin.findTopic(topicId);
         if (topic.createdInMinute !== aMin._id) {
-            throw new Meteor.Error("Cannot delete topic", "The topic was not created in this minutes.");
+            throw new Meteor.Error('Cannot delete topic', 'The topic was not created in this minutes.');
         }
 
         // Ensure user can not update finalized minutes
@@ -237,7 +237,7 @@ Meteor.methods({
                 });
             }
         } else {
-            throw new Meteor.Error("Cannot sync visibility of minutes", "You are not moderator of the parent meeting series.");
+            throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }
     }
 });

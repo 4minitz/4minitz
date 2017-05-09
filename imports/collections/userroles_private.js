@@ -12,13 +12,13 @@ if (Meteor.isServer) {
         Meteor.users.update({_id: {$in: Meteor.settings.adminIDs}},
             {$set: { isAdmin: true }},{multi: true});
 
-        console.log("*** Admin IDs:");
+        console.log('*** Admin IDs:');
         Meteor.settings.adminIDs.forEach(id => {
             let user = Meteor.users.findOne(id);
             if (user) {
-                console.log("    "+user._id+": "+user.username);
+                console.log('    '+user._id+': '+user.username);
             } else {
-                console.log("    "+id+": unknown ID!");
+                console.log('    '+id+': unknown ID!');
             }
         });
     }
@@ -27,8 +27,8 @@ if (Meteor.isServer) {
     let publishFields = {'username': 1, 'roles': 1};
     // #Security: only publish email address in trusted intranet environment
     if(GlobalSettings.isTrustedIntranetInstallation()) {
-        publishFields["emails"] = 1;
-        publishFields["profile.name"] = 1;
+        publishFields['emails'] = 1;
+        publishFields['profile.name'] = 1;
     }
     Meteor.publish('userListSimple', function () {
         if(this.userId) {
@@ -44,9 +44,9 @@ if (Meteor.isServer) {
             return Meteor.users.find(
                 {_id: this.userId},
                 {fields: {'settings': 1,
-                          'isAdmin': 1,
-                          'isLDAPuser': 1,
-                          'isDemoUser': 1}});
+                    'isAdmin': 1,
+                    'isLDAPuser': 1,
+                    'isDemoUser': 1}});
         }
     });
 
@@ -71,9 +71,9 @@ if (Meteor.isClient) {
 
 Meteor.methods({
     'userroles.saveRoleForMeetingSeries'(otherUserId, meetingSeriesId, newRole) {
-        if (Meteor.isServer) {console.log("Method: userroles.saveRoleForMeetingSeries ", otherUserId, meetingSeriesId, newRole);}
+        if (Meteor.isServer) {console.log('Method: userroles.saveRoleForMeetingSeries ', otherUserId, meetingSeriesId, newRole);}
         if (! Meteor.userId()) {
-            throw new Meteor.Error("Not logged in.");
+            throw new Meteor.Error('Not logged in.');
         }
         if (Meteor.userId() === otherUserId) {
             return; // silently swallow: user may never change own role!
@@ -85,14 +85,14 @@ Meteor.methods({
             Roles.removeUsersFromRoles(otherUserId, UserRoles.allRolesNumerical(), meetingSeriesId);
             Roles.addUsersToRoles(otherUserId, newRole, meetingSeriesId);
         } else {
-            throw new Meteor.Error("Cannot set roles for meeting series", "You are not moderator of this meeting series.");
+            throw new Meteor.Error('Cannot set roles for meeting series', 'You are not moderator of this meeting series.');
         }
     },
 
     'userroles.removeAllRolesForMeetingSeries' (otherUserId, meetingSeriesId) {
-        if (Meteor.isServer) {console.log("Method: userroles.removeAllRolesForMeetingSeries ", otherUserId, meetingSeriesId);}
+        if (Meteor.isServer) {console.log('Method: userroles.removeAllRolesForMeetingSeries ', otherUserId, meetingSeriesId);}
         if (! Meteor.userId()) {
-            throw new Meteor.Error("Not logged in.");
+            throw new Meteor.Error('Not logged in.');
         }
         if (Meteor.userId() === otherUserId) {
             return; // silently swallow: user may never change own role!
@@ -103,7 +103,7 @@ Meteor.methods({
         if (userRoles.isModeratorOf(meetingSeriesId)) {
             Roles.removeUsersFromRoles(otherUserId, UserRoles.allRolesNumerical(), meetingSeriesId);
         } else {
-            throw new Meteor.Error("Cannot set roles for meeting series", "You are not moderator of this meeting series.");
+            throw new Meteor.Error('Cannot set roles for meeting series', 'You are not moderator of this meeting series.');
         }
     }
 });

@@ -1,7 +1,4 @@
-import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
-import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import { FlashMessage } from '../../helpers/flashMessage';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 const INITIAL_ITEMS_LIMIT = 4;
@@ -28,8 +25,8 @@ let updateItemSorting = (evt, ui) => {
 
     topic.setItems(newItemSorting);
     topic.save().catch(error => {
-        $('.itemPanel').sortable( "cancel" );
-        onError(error)
+        $('.itemPanel').sortable( 'cancel' );
+        onError(error);
     });
 };
 
@@ -77,7 +74,7 @@ Template.topicInfoItemList.helpers({
             parentTopicId: parentTopicId,
             isEditable: Template.instance().data.isEditable,
             minutesID: parentElement,
-            currentCollapseId: parentTopicId+"_"+index  // each topic item gets its own collapseID
+            currentCollapseId: parentTopicId+'_'+index  // each topic item gets its own collapseID
         };
     }
 });

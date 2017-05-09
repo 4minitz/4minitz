@@ -43,7 +43,7 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
     if (Meteor && Meteor.users) {   // skip this during unit tests
         let checkUserInactive = Meteor.users.findOne({username: usernameOrEmail});
         if (checkUserInactive && checkUserInactive.isInactive) {
-            throw new Meteor.Error(403, "User is inactive");
+            throw new Meteor.Error(403, 'User is inactive');
         }
     }
 
@@ -62,7 +62,7 @@ LDAP.filter = function (isEmailAddress, usernameOrEmail) {
     }
 
     const searchValue = (isEmailAddress) ? usernameOrEmail.split('@')[0] : usernameOrEmail;
-    const filter = Meteor.settings.ldap.searchFilter || "";
+    const filter = Meteor.settings.ldap.searchFilter || '';
 
     return ['(&(', searchField, '=', searchValue, ')', filter ,')'].join('');
 };

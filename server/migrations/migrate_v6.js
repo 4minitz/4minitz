@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { MinutesCollection } from '/imports/collections/minutes_private'
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
+import { MinutesCollection } from '/imports/collections/minutes_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
 
 // ActionItems: convert the responsible (string) => responsibles (array) fields
 export class MigrateV6 {
@@ -10,7 +10,7 @@ export class MigrateV6 {
             topic.infoItems.forEach(item => {
                 item.responsibles = [];
                 if (item.responsible) {
-                    let resp = item.responsible.split(",");
+                    let resp = item.responsible.split(',');
                     resp.forEach((oneResp, index, array) => {
                         oneResp = oneResp.trim();
                         // let's try if this is a valid username. 
@@ -31,7 +31,7 @@ export class MigrateV6 {
     static _downgradeTopics(topics) {
         topics.forEach(topic => {
             topic.infoItems.forEach(item => {
-                item.responsible = "";
+                item.responsible = '';
                 if (item.responsibles && item.responsibles.length) {
                     item.responsible = item.responsibles.join();
                 }
@@ -60,13 +60,13 @@ export class MigrateV6 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 
     static down() {
@@ -89,12 +89,12 @@ export class MigrateV6 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 }

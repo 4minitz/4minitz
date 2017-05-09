@@ -9,7 +9,7 @@ module.exports = {
                 return label.map(label => { return label._id; });
             }
             return null;
-        }
+        };
     },
 
     createUserIdsReceiver: function getUserIdsByName(userName) {

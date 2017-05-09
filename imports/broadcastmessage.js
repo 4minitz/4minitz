@@ -23,7 +23,7 @@ export class BroadcastMessage {
     }
 
     static dismissForMe() {
-        Meteor.call("broadcastmessage.dismiss");
+        Meteor.call('broadcastmessage.dismiss');
     }
 
     // ************************
@@ -32,40 +32,40 @@ export class BroadcastMessage {
     static show(message, active=true)
     {
         if (Meteor.isServer) {
-            Meteor.call("broadcastmessage.show", message, active)
+            Meteor.call('broadcastmessage.show', message, active);
         }
     }
 
     static removeAll () {
         if (Meteor.isServer) {
-            console.log("Remove All BroadcastMessages.");
+            console.log('Remove All BroadcastMessages.');
             BroadcastMessageCollection.remove({});
         }
     }
 
     static remove (id) {
-        if (!id || id == "") {
+        if (!id || id == '') {
             return;
         }
         if (Meteor.isServer) {
-            console.log("Remove BroadcastMessage: " + id);
+            console.log('Remove BroadcastMessage: ' + id);
             BroadcastMessageCollection.remove({_id: id});
         }
     }
 
     static listAll () {
         if (Meteor.isServer) {
-            console.log("List All BroadcastMessages.");
+            console.log('List All BroadcastMessages.');
             let allMsgs = [];
             BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
-                let oneMsg = "Message: "+msg._id+" "+
+                let oneMsg = 'Message: '+msg._id+' '+
                             formatDateISO8601Time(msg.createdAt) +
-                            " dismissed:"+msg.dismissForUserIDs.length +
-                            "\n" + msg.text;
+                            ' dismissed:'+msg.dismissForUserIDs.length +
+                            '\n' + msg.text;
                 console.log(oneMsg);
                 allMsgs.push(oneMsg);
             });
-            console.log("---");
+            console.log('---');
             return allMsgs;
         }
     }
