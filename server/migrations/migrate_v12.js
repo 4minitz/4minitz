@@ -27,6 +27,11 @@ function saveMinutes(minutes) {
     );
 }
 
+function forEachDetail(infoItem, operation) {
+    if (infoItem.details) {
+        infoItem.details.forEach(operation);
+    }
+}
 
 class MigrateSeriesUp {
     constructor(series) {
@@ -69,7 +74,8 @@ class MigrateSeriesUp {
         if(!prevItems) return;
         let prevInfoItem = prevItems.find(prevInfoItem => infoItem._id === prevInfoItem._id);
         if (!prevInfoItem) return;
-        infoItem.details.forEach(detail =>{
+        if (prevInfoItem.details === undefined) return;
+        forEachDetail(infoItem, detail =>{
             this._compareDetails(detail, prevInfoItem.details, infoItem, minutesId);
         })
     }
@@ -98,7 +104,7 @@ class MigrateSeriesUp {
     }
 
     _updateInfoItem(infoItem, minutesId){
-        infoItem.details.forEach(detail => {
+        forEachDetail(infoItem, detail => {
             this._updateDetail(detail, infoItem, minutesId);
         });
         return infoItem;
@@ -128,18 +134,18 @@ class MigrateSeriesUp {
     _updateTopicsOfSeries() {
         this.series.topics.forEach(topic => {
             topic.infoItems.forEach(infoItem =>{
-                infoItem.details.forEach(detail =>{
+                forEachDetail(infoItem, detail =>{
                     detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id].createdInMinute;
                     detail._id = this.topicParentMinuteMap[detail.text+infoItem._id].id;
-                })
+                });
             })
         });
         this.series.openTopics.forEach(topic => {
             topic.infoItems.forEach(infoItem =>{
-                infoItem.details.forEach(detail =>{
+                forEachDetail(infoItem, detail =>{
                     detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id].createdInMinute;
                     detail._id = this.topicParentMinuteMap[detail.text+infoItem._id].id;
-                })
+                });
             })
         });
     }
@@ -172,11 +178,11 @@ export class MigrateV12 {
     static _downgradeTopics(topics) {
         // remove field _id and createdInMinute for each detail in infoItem in each topic
         topics.forEach(topic => {
-            topic.infoItems.forEach(item => {
-                item.details.forEach(detail =>{
+            topic.infoItems.forEach(infoItem => {
+                forEachDetail(infoItem, detail =>{
                     delete detail._id;
                     delete detail.createdInMinute;
-                })
+                });
             })
         });
         return topics;
