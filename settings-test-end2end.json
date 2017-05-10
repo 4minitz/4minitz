@@ -7,6 +7,9 @@
 
     "trustedIntranetInstallation": true,
     "forbidClientAccountCreation": false,
+    "sendVerificationEmail": true,
+    "showResendVerificationEmailLink": true,
+    "showForgotPasswordLink": true,
 
     "branding": {
         "legalNotice": {
