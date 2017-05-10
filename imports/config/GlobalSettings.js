@@ -70,6 +70,21 @@ export class GlobalSettings {
                 ? Meteor.settings.forbidClientAccountCreation
                 : false;
 
+        Meteor.settings.public.sendVerificationEmail =
+            (Meteor.settings.sendVerificationEmail !== undefined)
+                ? Meteor.settings.sendVerificationEmail
+                : false;
+
+        Meteor.settings.public.showResendVerificationEmailLink =
+            (Meteor.settings.showResendVerificationEmailLink !== undefined)
+                ? Meteor.settings.showResendVerificationEmailLink
+                : false;
+
+        Meteor.settings.public.showForgotPasswordLink =
+            (Meteor.settings.showForgotPasswordLink !== undefined)
+                ? Meteor.settings.showForgotPasswordLink
+                : false;
+
         // enforce slash "/" at the end
         if (Meteor.settings.attachments && Meteor.settings.attachments.storagePath) {
             if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {

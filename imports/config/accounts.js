@@ -55,9 +55,17 @@ if (Meteor.isServer) {
                                         ? Meteor.settings.forbidClientAccountCreation
                                         : false),
 
-        sendVerificationEmail: true,
-        showResendVerificationEmailLink: true,
-        showForgotPasswordLink: true
+        sendVerificationEmail: (Meteor.settings.sendVerificationEmail
+            ? Meteor.settings.sendVerificationEmail
+            : false),
+
+        showResendVerificationEmailLink: (Meteor.settings.showResendVerificationEmailLink
+            ? Meteor.settings.showResendVerificationEmailLink
+            : false),
+
+        showForgotPasswordLink: (Meteor.settings.showForgotPasswordLink
+            ? Meteor.settings.showForgotPasswordLink
+            : false)
     });
 
     // #Security: Do not allow "isInactive" users to log in
@@ -75,9 +83,17 @@ if (Meteor.isServer) {
                                         ? Meteor.settings.public.forbidClientAccountCreation
                                         : false),
 
-        sendVerificationEmail: true,
-        showResendVerificationEmailLink: true,
-        showForgotPasswordLink: true
+        sendVerificationEmail: (Meteor.settings.public.sendVerificationEmail
+            ? Meteor.settings.public.sendVerificationEmail
+            : false),
+
+        showResendVerificationEmailLink: (Meteor.settings.public.showResendVerificationEmailLink
+            ? Meteor.settings.public.showResendVerificationEmailLink
+            : false),
+
+        showForgotPasswordLink: (Meteor.settings.public.showForgotPasswordLink
+            ? Meteor.settings.public.showForgotPasswordLink
+            : false)
     });
 }
 
