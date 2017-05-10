@@ -53,7 +53,11 @@ if (Meteor.isServer) {
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.forbidClientAccountCreation
                                         ? Meteor.settings.forbidClientAccountCreation
-                                        : false)
+                                        : false),
+
+        sendVerificationEmail: true,
+        showResendVerificationEmailLink: true,
+        showForgotPasswordLink: true
     });
 
     // #Security: Do not allow "isInactive" users to log in
@@ -69,7 +73,11 @@ if (Meteor.isServer) {
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.public.forbidClientAccountCreation
                                         ? Meteor.settings.public.forbidClientAccountCreation
-                                        : false)
+                                        : false),
+
+        sendVerificationEmail: true,
+        showResendVerificationEmailLink: true,
+        showForgotPasswordLink: true
     });
 }
 

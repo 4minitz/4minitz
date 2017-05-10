@@ -33,6 +33,20 @@ FlowRouter.route('/legalnotice', {
     }
 });
 
+FlowRouter.route( '/#/verify-email/:token', {
+    name: 'verify-email',
+    action( params ) {
+        Accounts.verifyEmail( params.token, ( error ) =>{
+            if ( error ) {
+                Bert.alert( error.reason, 'danger' );
+            } else {
+                FlowRouter.go( '/' );
+                Bert.alert( 'Email verified! Thanks!', 'success' );
+            }
+        });
+    }
+});
+
 
 
 FlowRouter.route('/meetingseries/:_id', {
