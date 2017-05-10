@@ -1,4 +1,4 @@
-import { MinutesCollection } from '/imports/collections/minutes_private'
+import { MinutesCollection } from '/imports/collections/minutes_private';
 
 // convert the participants fields
 export class MigrateV2 {
@@ -6,7 +6,7 @@ export class MigrateV2 {
     static up() {
         MinutesCollection.find().forEach(minute => {
             if (!minute.participants) {
-                minute.participants = "";
+                minute.participants = '';
             }
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
@@ -14,9 +14,9 @@ export class MigrateV2 {
                 minute._id,
                 {
                     $set: {
-                        "participantsAdditional": minute.participants,
-                        "participants": []
-                        }
+                        'participantsAdditional': minute.participants,
+                        'participants': []
+                    }
                 },
                 {bypassCollection2: true}
             );
@@ -30,7 +30,7 @@ export class MigrateV2 {
                 minute._id,
                 {
                     $set: {
-                        "participants": minute.participantsAdditional
+                        'participants': minute.participantsAdditional
                     }
                 },
                 {bypassCollection2: true}

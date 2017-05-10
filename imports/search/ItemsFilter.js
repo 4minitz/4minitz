@@ -41,8 +41,8 @@ export class ItemsFilter {
             let token = this._toUpper(searchTokens[i]);
             let subject = this._toUpper(doc.subject);
             let infos = (doc.details)
-                ? this._toUpper(doc.details.reduce((acc, detail) => { return acc + detail.text; }, ""))
-                : "";
+                ? this._toUpper(doc.details.reduce((acc, detail) => { return acc + detail.text; }, ''))
+                : '';
             let prio = (doc.priority) ? this._toUpper(doc.priority) : '';
             let due = (doc.duedate) ? doc.duedate : '';
             if (
@@ -76,39 +76,39 @@ export class ItemsFilter {
             let filter = filterTokens[i];
 
             switch (filter.key) {
-                case ITEM_KEYWORDS.IS.key:
+            case ITEM_KEYWORDS.IS.key:
                 {
                     if (!ItemsFilter._itemMatchesKeyword_IS(doc, filter.value)) {
                         return false;
                     }
                     break;
                 }
-                case ITEM_KEYWORDS.USER.key:
+            case ITEM_KEYWORDS.USER.key:
                 {
                     if (!this._docMatchesKeywords_USER(doc, filter)) {
                         return false;
                     }
                     break;
                 }
-                case ITEM_KEYWORDS.PRIO.key:
+            case ITEM_KEYWORDS.PRIO.key:
                 {
                     if (!( doc.priority && doc.priority.startsWith(filter.value))) {
                         return false;
                     }
                     break;
                 }
-                case ITEM_KEYWORDS.DUE.key:
+            case ITEM_KEYWORDS.DUE.key:
                 {
                     if (!( doc.duedate && doc.duedate.startsWith(filter.value))) {
                         return false;
                     }
                     break;
                 }
-                case ITEM_KEYWORDS.DO.key:
+            case ITEM_KEYWORDS.DO.key:
                 {
                     break;
                 }
-                default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
+            default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
             }
         }
 
@@ -117,7 +117,7 @@ export class ItemsFilter {
 
     _docMatchesKeywords_USER(doc, filter) {
         if (!doc.responsibles) { return false; }
-        let respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp }, "");
+        let respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp; }, '');
         return ( (filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0)
                     || (filter.value && this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1) );
     }
@@ -126,20 +126,20 @@ export class ItemsFilter {
 
     static _itemMatchesKeyword_IS(item, value) {
         switch (value) {
-            case 'open':
-                return item.isOpen;
-            case 'closed':
+        case 'open':
+            return item.isOpen;
+        case 'closed':
                 // explicit comparison required to skip info items (which has no isOpen property)
-                return item.isOpen === false;
-            case 'info':
-                return item.itemType === 'infoItem';
-            case 'action':
-                return item.itemType === 'actionItem';
-            case 'new':
-                return item.isNew;
-            case 'sticky':
-                return item.isSticky;
-            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
+            return item.isOpen === false;
+        case 'info':
+            return item.itemType === 'infoItem';
+        case 'action':
+            return item.itemType === 'actionItem';
+        case 'new':
+            return item.isNew;
+        case 'sticky':
+            return item.isSticky;
+        default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
         }
     }
 

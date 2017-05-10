@@ -36,7 +36,7 @@ let loadLDAPSettings = function (filename) {
         _readSettingsFile(filename)
             .then(_parseJSON)
             .then(settings => {
-                return _property('ldap', settings)
+                return _property('ldap', settings);
             })
             .then(resolve)
             .catch(reject);

@@ -7,7 +7,7 @@ import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { formatDateISO8601 } from '/imports/helpers/date';
 
-export let MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
+export let MeetingSeriesCollection = new Mongo.Collection('meetingSeries',
     {
         // inject methods of class MeetingSeries to all returned collection docs
         transform: function (doc) {
@@ -30,7 +30,7 @@ MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
 
 Meteor.methods({
     'meetingseries.insert'(doc, optimisticUICallback) {
-        console.log("meetingseries.insert");
+        console.log('meetingseries.insert');
 
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
@@ -85,7 +85,7 @@ Meteor.methods({
             return;
         }
 
-        console.log("meetingseries.update:", doc.minutes);
+        console.log('meetingseries.update:', doc.minutes);
 
         let id = doc._id;
         check(id, String);
@@ -107,7 +107,7 @@ Meteor.methods({
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
         if (!userRoles.isModeratorOf(id)) {
-            throw new Meteor.Error("Cannot update meeting series", "You are not moderator of this meeting series.");
+            throw new Meteor.Error('Cannot update meeting series', 'You are not moderator of this meeting series.');
         }
 
         try {

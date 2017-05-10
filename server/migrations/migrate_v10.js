@@ -6,8 +6,8 @@ function saveSeries(series) {
         series._id,
         {
             $set: {
-                "topics": series.topics,
-                "openTopics": series.openTopics
+                'topics': series.topics,
+                'openTopics': series.openTopics
             }
         },
         { bypassCollection2: true }
@@ -20,7 +20,7 @@ function saveMinutes(minutes) {
         minutes._id,
         {
             $set: {
-                "topics": minutes.topics,
+                'topics': minutes.topics,
             }
         },
         { bypassCollection2: true }
@@ -57,7 +57,7 @@ class MigrateSeriesUp {
 
     _updateTopic(topic, minutesId) {
         if (this._isExistingTopic(topic._id)) {
-            topic.createdInMinute = this.topicParentMinuteMap[topic._id]
+            topic.createdInMinute = this.topicParentMinuteMap[topic._id];
         } else {
             if (!minutesId) {
                 throw new Meteor.Error('illegal-state', 'Cannot update topic with unknown minutes id');

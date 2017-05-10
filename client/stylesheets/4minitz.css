@@ -16,49 +16,46 @@
 
 .connection-info {
     position: fixed;
-    top: 10px;
+    top: 13px;
     right: 10px;
-    z-index: 1000;
     text-align: right;
     padding-top:5px;
-    width: 275px;
-}
-
-.smallMarginBottom {
-    margin-bottom: 11px;
-}
-
-.connection-warning {
-    padding: 5px;
-    margin-top: 1px;
+    width: 250px;
+    font-weight: bold;
     color: yellow;
-    position: relative;
-    font-weight:bold;
+    z-index: 1000;
 
     /* fallback color for browsers that don't understand rgba */
     background-color: rgb(148, 0, 0);
     background-color: rgba(255, 0, 0, 0.7);
 }
 
-.warningsign {
-    padding: 20px 10px 5px 10px;
-}
-
 .btn-warning-expand {
     display: inline-block;
-    width: 24px;
-    border-radius: 12px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 134%;
     cursor: pointer;
     cursor: hand;
+    margin-top: 6px;
+    padding: 2px 6px 2px 1px;
 }
 
-.btn-warning-expand-text {
-    text-align: center;
-    margin: -3px 0px 3px 0px;
+.remove-symbol {
+    padding: 3px 2px 2px 6px;
+    font-size:93%;
 }
 
 .connection-warning-text {
+    margin-top: 37px;
+    padding: 5px;
     text-align: justify;
+    width: 250px;
+}
+
+.btn-reconnect {
+    padding: 30px;
 }
 
 .panel-dropper {
@@ -277,4 +274,9 @@ input.pick-a-color {
 
 .default-margin-top {
     margin-top: 15px;
+}
+
+/* used for skipped topics */
+.strikethrough {
+    text-decoration: line-through;
 }

@@ -1,24 +1,24 @@
 import { _ } from 'meteor/underscore';
-import { UserRoles } from './userroles'
+import { UserRoles } from './userroles';
 import { Minutes } from './minutes';
 
-import {AttachmentsCollection} from "./collections/attachments_private";
+import {AttachmentsCollection} from './collections/attachments_private';
 
 export class Attachment {
     constructor(attachmentID) {
         this._roles = new UserRoles(this.userId);
         if (!this._roles) {
-            console.log("Could not retrieve roles for ", this.userId);
+            console.log('Could not retrieve roles for ', this.userId);
         }
         this._file = AttachmentsCollection.findOne(attachmentID);
         if (!this._file) {
-            throw new Error("Attachment(): Could not retrieve attachment for ID "+attachmentID);
+            throw new Error('Attachment(): Could not retrieve attachment for ID '+attachmentID);
         }
     }
 
     // ********** static methods ****************
     static findForMinutes(minID) {
-        return AttachmentsCollection.find({"meta.meetingminutes_id": minID});
+        return AttachmentsCollection.find({'meta.meetingminutes_id': minID});
     }
 
     static countAll() {

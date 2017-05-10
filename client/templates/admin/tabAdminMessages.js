@@ -7,7 +7,7 @@ Template.tabAdminMessages.onCreated(function() {
 });
 
 Template.tabAdminMessages.onRendered(function() {
-    Template.instance().find("#id_adminMessage").focus();
+    Template.instance().find('#id_adminMessage').focus();
 });
 
 Template.tabAdminMessages.onDestroyed(function() {
@@ -20,53 +20,53 @@ Template.tabAdminMessages.helpers({
         return BroadcastMessageCollection.find({}, {sort: {createdAt: -1}});
     },
 
-    "inactiveStateColor"(message) {
+    'inactiveStateColor'(message) {
         if (message.isActive) {
-            return "#A2F9EA";
+            return '#A2F9EA';
         }
-        return "#ffced9";
+        return '#ffced9';
     },
 
-    "formatTimeStamp": function (date) {
+    'formatTimeStamp': function (date) {
         return formatDateISO8601Time(date);
     }
 });
 
 Template.tabAdminMessages.events({
-    "submit #frmAdminMessages"(evt, tmpl) {
+    'submit #frmAdminMessages'(evt, tmpl) {
         evt.preventDefault();
-        let message = tmpl.find("#id_adminMessage").value;
-        Meteor.call("broadcastmessage.show", message);
-        tmpl.find("#id_adminMessage").value = "";
+        let message = tmpl.find('#id_adminMessage').value;
+        Meteor.call('broadcastmessage.show', message);
+        tmpl.find('#id_adminMessage').value = '';
     },
 
-    "click #btnRemoveMessage"(evt, tmpl) {
+    'click #btnRemoveMessage'(evt) {
         evt.preventDefault();
-        Meteor.call("broadcastmessage.remove", this._id);
+        Meteor.call('broadcastmessage.remove', this._id);
     },
 
-    "click #btnTogglaActiveMessage"(evt, tmpl) {
+    'click #btnTogglaActiveMessage'(evt) {
         evt.preventDefault();
-        Meteor.call("broadcastmessage.toggleActive", this._id);
+        Meteor.call('broadcastmessage.toggleActive', this._id);
     },
 
-    "click #btnDismissingUsers"(evt, tmpl) {
+    'click #btnDismissingUsers'(evt) {
         evt.preventDefault();
         let userIds = this.dismissForUserIDs;
-        let userNames = "#Dismissing Users: "+this.dismissForUserIDs.length+"\n";
+        let userNames = '#Dismissing Users: '+this.dismissForUserIDs.length+'\n';
         userIds.forEach(usrId => {
             let user = Meteor.users.findOne(usrId);
             if (user) {
-                userNames += user.username + " ";
-                userNames += (user.profile && user.profile.name) ? user.profile.name + "\n" : "\n";
+                userNames += user.username + ' ';
+                userNames += (user.profile && user.profile.name) ? user.profile.name + '\n' : '\n';
             }
         });
         alert(userNames);
     },
 
-    "click #btnReShow"(evt, tmpl) {
+    'click #btnReShow'(evt, tmpl) {
         evt.preventDefault();
-        tmpl.find("#id_adminMessage").value = this.text;
-        tmpl.find("#id_adminMessage").focus();
+        tmpl.find('#id_adminMessage').value = this.text;
+        tmpl.find('#id_adminMessage').focus();
     }
 });

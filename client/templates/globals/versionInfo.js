@@ -1,7 +1,7 @@
 Template.versionInfo.helpers({
- gitVersionInfo: function () {
-     return Session.get("gitVersionInfo");
- }
+    gitVersionInfo: function () {
+        return Session.get('gitVersionInfo');
+    }
 });
 
 Template.versionInfo.events({
@@ -15,10 +15,10 @@ Template.versionInfo.onCreated(function() {
 Template.versionInfo.onRendered(function() {
     Meteor.call('gitVersionInfo', function (error, result) {
         if (!error) {
-            Session.set("gitVersionInfo", result);
+            Session.set('gitVersionInfo', result);
         }
         else {
-            console.log("err:"+error);
+            console.log('err:'+error);
         }
     });
 });

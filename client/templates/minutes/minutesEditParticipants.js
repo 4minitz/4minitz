@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Minutes } from '/imports/minutes'
-import { UserRoles } from '/imports/userroles'
+import { Minutes } from '/imports/minutes';
+import { UserRoles } from '/imports/userroles';
 
 let _minutesID; // the ID of these minutes
 
@@ -22,25 +22,25 @@ let userNameForId = function (userId) {
     if (usr) {
         let showName = usr.username;
         // If we have a long name for the user: prepend it!
-        if (usr.profile && usr.profile.name && usr.profile.name !== "") {
-            showName = usr.profile.name + " ("+showName+")";
+        if (usr.profile && usr.profile.name && usr.profile.name !== '') {
+            showName = usr.profile.name + ' ('+showName+')';
         }
         return showName;
 
     } else {
-        return "Unknown User ("+userId+")";
+        return 'Unknown User ('+userId+')';
     }
 };
 
 
 Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
-    console.log("Template minutesEditParticipants created with minutesID "+_minutesID);
+    console.log('Template minutesEditParticipants created with minutesID '+_minutesID);
 
     // Calculate initial expanded/collapsed state
-    Session.set("participants.expand", false);
+    Session.set('participants.expand', false);
     if (isEditable()) {
-        Session.set("participants.expand", true);
+        Session.set('participants.expand', true);
     }
 });
 
@@ -54,7 +54,7 @@ Template.minutesEditParticipants.helpers({
     },
     
     isParticipantsExpanded() {
-        return Session.get("participants.expand");
+        return Session.get('participants.expand');
     },
     
     collapsedParticipantsNames() {
@@ -64,16 +64,16 @@ Template.minutesEditParticipants.helpers({
 
     checkedStatePresent() {
         if (this.present) {
-            return {checked: "checked"};
+            return {checked: 'checked'};
         }
         return {};
     },
 
     disableUIControl() {
         if (isEditable()) {
-            return "";
+            return '';
         } else {
-            return {disabled: "disabled"};
+            return {disabled: 'disabled'};
         }
     },
 
@@ -84,10 +84,10 @@ Template.minutesEditParticipants.helpers({
 
     getInformedUsers() {
         let aMin = new Minutes(_minutesID);
-        let informedNames = "";
+        let informedNames = '';
         if (aMin.informedUsers && aMin.informedUsers.length > 0) {
             aMin.informedUsers.forEach(id => {
-                informedNames = informedNames + userNameForId(id) + ", ";
+                informedNames = informedNames + userNameForId(id) + ', ';
             });
             informedNames = informedNames.slice(0, -2); // remove last ", "
         }
@@ -98,28 +98,28 @@ Template.minutesEditParticipants.helpers({
         let aMin = new Minutes(_minutesID);
 
         if (aMin.participants.length > 7) {
-            return "multicolumn";
+            return 'multicolumn';
         }
     }
 });
 
 
 Template.minutesEditParticipants.events({
-    "click #btnTogglePresent" (evt, tmpl) {
+    'click #btnTogglePresent' (evt, tmpl) {
         let min = new Minutes(_minutesID);
         let indexInParticipantsArray = evt.target.dataset.index;
         let checkedState = evt.target.checked;
         min.updateParticipantPresent(indexInParticipantsArray, checkedState);
     },
-    "change #edtParticipantsAdditional" (evt, tmpl) {
-        console.log("Trigger!");
+    'change #edtParticipantsAdditional' (evt, tmpl) {
+        console.log('Trigger!');
         let aMin = new Minutes(_minutesID);
-        console.log("   Min!");
-        let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
+        console.log('   Min!');
+        let theParticipant = tmpl.find('#edtParticipantsAdditional').value;
         aMin.update({participantsAdditional: theParticipant});
     },
 
-    "click #btnParticipantsExpand" () {
-        Session.set("participants.expand", !Session.get("participants.expand"));
+    'click #btnParticipantsExpand' () {
+        Session.set('participants.expand', !Session.get('participants.expand'));
     }
 });

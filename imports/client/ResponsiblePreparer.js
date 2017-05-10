@@ -111,7 +111,7 @@ export class ResponsiblePreparer {
 
     static _formatUser(user) {
         let usertext = user.username;
-        if (user.profile && user.profile.name && user.profile.name !== "") {
+        if (user.profile && user.profile.name && user.profile.name !== '') {
             usertext += ` - ${user.profile.name}`;
         }
         return usertext;

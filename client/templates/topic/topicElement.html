@@ -18,7 +18,9 @@
                 </label>
 
                 <h3 id="{{classForEdit}}" style="display: inline; cursor: {{cursorForEdit}};">
+                    <span class="{{classForSkippedTopics}}">
                     {{topic.subject}}
+                    </span>
                     {{responsiblesHelper}}
                     <span class="labels">
                         <!-- Labels -->
@@ -69,6 +71,13 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="#" class="js-toggle-skipped panel-link"
+                                   title="{{#if topic.isSkipped}}Set as non-skipped topic{{else}}Set as skipped topic{{/if}}">
+                                    <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
+                                    {{#if topic.isSkipped}}Unset{{else}}Set{{/if}} Skip
+                                </a>
+                            </li>                           
+                            <li>
                                 <a id="btnDelTopic" href="#" class="panel-link" title="Delete topic">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     Delete Topic
@@ -83,6 +92,11 @@
                             <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                         </a>
                     {{/if}}
+                    {{#if topic.isSkipped}}
+                        <a href="#" id="topicIsSkippedIcon" class="js-toggle-skipped panel-link" title="Set as not-skipped topic">
+                            <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
+                        </a>
+                    {{/if}}                 
                     {{#if isEditable}}
                         <span class="topicDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
                     {{/if}}
@@ -92,13 +106,7 @@
         </div>
 
         {{#unless isCollapsed}}
-            <div class="leftIndent-desktop">
-                <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
-                    {{#each topic.infoItems}}
-                        {{> topicInfoItem getInfoItem @index}}
-                    {{/each}}
-                </div>
-            </div>
+            {{> topicInfoItemList getData}}
         {{/unless}}
     </div>
 </template>

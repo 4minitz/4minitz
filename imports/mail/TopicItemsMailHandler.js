@@ -1,9 +1,9 @@
 
-import { TemplateRenderer } from './../server_side_templates/TemplateRenderer'
-import { MailFactory } from './MailFactory'
-import { GlobalSettings } from '../config/GlobalSettings'
-import { InfoItemFactory } from '../InfoItemFactory'
-import { Topic } from '../topic'
+import { TemplateRenderer } from './../server_side_templates/TemplateRenderer';
+import { MailFactory } from './MailFactory';
+import { GlobalSettings } from '../config/GlobalSettings';
+import { InfoItemFactory } from '../InfoItemFactory';
+import { Topic } from '../topic';
 
 export class TopicItemsMailHandler {
 
@@ -12,7 +12,7 @@ export class TopicItemsMailHandler {
         this._sender = sender;
         this._minute = minute;
         this._templateName = templateName;
-        this._currentRecipient = "";
+        this._currentRecipient = '';
         this._sendOneMailToAllRecipients = GlobalSettings.isTrustedIntranetInstallation();
     }
 
@@ -45,7 +45,7 @@ export class TopicItemsMailHandler {
                 return (typeof recipient === 'string')
                     ? recipient
                     : recipient.address;
-            })
+            });
         }
     }
 
@@ -54,8 +54,8 @@ export class TopicItemsMailHandler {
     }
 
     _getSubjectPrefix() {
-        return "[" + this._minute.parentMeetingSeries().project + "] "
-            + this._minute.parentMeetingSeries().name + " on "
+        return '[' + this._minute.parentMeetingSeries().project + '] '
+            + this._minute.parentMeetingSeries().name + ' on '
             + this._minute.date;
     }
 
@@ -80,7 +80,7 @@ export class TopicItemsMailHandler {
                 } else {
                     result += ', ';
                 }
-                result += "#"+label.getName();
+                result += '#'+label.getName();
             });
             return result;
         });
@@ -92,7 +92,7 @@ export class TopicItemsMailHandler {
     _getTmplRenderer() {
         let recipientsName = (this._currentRecipient.hasOwnProperty('name'))
             ? this._currentRecipient.name
-            : "";
+            : '';
         return (new TemplateRenderer(this._templateName, 'server_templates/email')).addData('name', recipientsName);
     }
 

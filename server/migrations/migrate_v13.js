@@ -1,33 +1,25 @@
 import { MinutesCollection } from '/imports/collections/minutes_private';
 import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
 
-// convert the participants fields
-export class MigrateV3 {
+export class MigrateV13 {
 
     static _upgradeTopics(topics) {
-        // add new field isSticky for each infoItem in each topic
         topics.forEach(topic => {
-            topic.infoItems.forEach(infoItem => {
-                if (infoItem.isSticky === undefined) {
-                    infoItem.isSticky = false;
-                }
-            });
+            if (topic.isSkipped === undefined) {
+                topic.isSkipped = false;
+            }
         });
     }
 
     static _downgradeTopics(topics) {
-        // remove field isSticky for each infoItem in each topic
         topics.forEach(topic => {
-            topic.infoItems.forEach(infoItem => {
-                delete infoItem.isSticky;
-            });
+            delete topic.isSkipped;
         });
     }
 
-
     static up() {
         MinutesCollection.find().forEach(minute => {
-            MigrateV3._upgradeTopics(minute.topics);
+            MigrateV13._upgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
             MinutesCollection.update(
@@ -42,8 +34,8 @@ export class MigrateV3 {
         });
 
         MeetingSeriesCollection.find().forEach(series => {
-            MigrateV3._upgradeTopics(series.openTopics);
-            MigrateV3._upgradeTopics(series.topics);
+            MigrateV13._upgradeTopics(series.openTopics);
+            MigrateV13._upgradeTopics(series.topics);
 
             MeetingSeriesCollection.update(
                 series._id,
@@ -60,7 +52,7 @@ export class MigrateV3 {
 
     static down() {
         MinutesCollection.find().forEach(minute => {
-            MigrateV3._downgradeTopics(minute.topics);
+            MigrateV13._downgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
             MinutesCollection.update(
@@ -75,8 +67,8 @@ export class MigrateV3 {
         });
 
         MeetingSeriesCollection.find().forEach(series => {
-            MigrateV3._downgradeTopics(series.openTopics);
-            MigrateV3._downgradeTopics(series.topics);
+            MigrateV13._downgradeTopics(series.openTopics);
+            MigrateV13._downgradeTopics(series.topics);
 
             MeetingSeriesCollection.update(
                 series._id,

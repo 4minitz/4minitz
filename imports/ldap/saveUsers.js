@@ -40,15 +40,15 @@ let _insertUsers = function (db, users) {
             _.each(users, user => {
                 if (user && user.username && user.emails[0] && user.emails[0].address) {
                     user.isLDAPuser = true;
-                    let usrRegExp = new RegExp("^"+RegExp.escape(user.username)+"$", "i");
+                    let usrRegExp = new RegExp('^'+RegExp.escape(user.username)+'$', 'i');
                     bulk.find({username: usrRegExp}).upsert().updateOne({
                         $setOnInsert: {
                             _id: random.generate(randomStringConfig),
                             // by setting this only on insert we won't log out everyone
                             // everytime we sync the users
                             services: {
-                                password: {bcrypt: ""},
-                                resume: {"loginTokens": []}
+                                password: {bcrypt: ''},
+                                resume: {'loginTokens': []}
                             }
                         },
                         $set: user

@@ -1,5 +1,5 @@
-import { MinutesCollection } from '/imports/collections/minutes_private'
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
+import { MinutesCollection } from '/imports/collections/minutes_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
 
 // add the isRecurring field to all topics
 export class MigrateV5 {
@@ -28,7 +28,7 @@ export class MigrateV5 {
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
@@ -43,13 +43,13 @@ export class MigrateV5 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 
     static down() {
@@ -61,7 +61,7 @@ export class MigrateV5 {
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
@@ -76,12 +76,12 @@ export class MigrateV5 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 }

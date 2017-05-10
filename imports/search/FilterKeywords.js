@@ -5,7 +5,7 @@ let isKeyword = function(token) {
         return true;
     }
     let arr = token.split(':');
-    return ( arr.length == 2 && this.isAllowedValueForKey(arr[0], arr[1]) );
+    return ( arr.length === 2 && this.isAllowedValueForKey(arr[0], arr[1]) );
 };
 
 let getKeyWordFromToken = function(token, queryUserIdByName) {
@@ -17,7 +17,7 @@ let getKeyWordFromToken = function(token, queryUserIdByName) {
         if (queryUserIdByName) {
             ids = queryUserIdByName(value);
             if (value === 'me') {
-                value = "";
+                value = '';
             }
         }
     } else {

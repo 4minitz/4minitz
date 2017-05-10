@@ -1,4 +1,10 @@
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
+import {ReactiveVar} from 'meteor/reactive-var';
+
+Template.connectionInfo.onCreated(function() {
+    this.currentSymbol = new ReactiveVar(false);
+});
+
 
 Template.connectionInfo.helpers({
     connectionStatus() {
@@ -9,18 +15,27 @@ Template.connectionInfo.helpers({
         const secondsToRetry = (Meteor.status().retryTime - (new Date()).getTime())/1000;
         return Math.round(secondsToRetry);
     },
+
+    currentSymbol: function() {
+        return Template.instance().currentSymbol.get();
+    }
+
+
 });
 
 Template.connectionInfo.events({
-    "click #btnConnectionLost": function (evt, tmpl) {
+
+    'click #btnWarningExpandCollapse': function (evt, tmpl) {
         evt.preventDefault();
-        console.log("Trying to reconnect...");
-        Meteor.reconnect();
+        let warningMessage = document.getElementById('warningMessage');
+        warningMessage.style.display = (warningMessage.style.display === 'none') ? 'inline-block' : 'none';
+        tmpl.currentSymbol.set(!tmpl.currentSymbol.get());
     },
 
-    "click #btnWarningExpandCollapse": function (evt) {
+    'click #btnReconnect': function (evt) {
         evt.preventDefault();
-        let warningMessage = document.getElementById("warningMessage");
-        warningMessage.style.display = (warningMessage.style.display === "none") ? "inline-block" : "none";
+        console.log('Trying to reconnect...');
+        Meteor.reconnect();
     }
+
 });

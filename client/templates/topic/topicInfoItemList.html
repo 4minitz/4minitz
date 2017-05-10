@@ -1,0 +1,9 @@
+<template name="topicInfoItemList">
+    <div class="leftIndent-desktop">
+        <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
+            {{#each topic.infoItems}}
+                {{> topicInfoItem getInfoItem @index}}
+            {{/each}}
+        </div>
+    </div>
+</template>

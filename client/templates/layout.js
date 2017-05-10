@@ -1,7 +1,7 @@
-import { GlobalSettings } from "/imports/config/GlobalSettings";
+import { GlobalSettings } from '/imports/config/GlobalSettings';
 
 Template.appLayout.helpers({
-    "showGitHubCorner": function () {
+    'showGitHubCorner': function () {
         return GlobalSettings.showGithubCorner();
     }
 });

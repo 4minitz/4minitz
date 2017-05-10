@@ -5,7 +5,7 @@ import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
-import { Label } from './label'
+import { Label } from './label';
 import { _ } from 'meteor/underscore';
 
 import './helpers/promisedMethods';
@@ -35,7 +35,7 @@ function resolveTopic(parentElement, source) {
 
         source = parentElement.findTopic(source);
         if (!source) {
-            throw new Meteor.Error("Runtime Error, could not find topic!");
+            throw new Meteor.Error('Runtime Error, could not find topic!');
         }
     }
 
@@ -43,7 +43,8 @@ function resolveTopic(parentElement, source) {
         isOpen: true,
         isNew: true,
         isRecurring: false,
-        labels: []
+        labels: [],
+        isSkipped: false
     });
 
     return source;
@@ -105,7 +106,7 @@ export class Topic {
 
     // ################### object methods
     toString () {
-        return "Topic: "+JSON.stringify(this._topicDoc, null, 4);
+        return 'Topic: '+JSON.stringify(this._topicDoc, null, 4);
     }
 
     log () {
@@ -174,6 +175,19 @@ export class Topic {
     toggleRecurring() {
         this.getDocument().isRecurring = !this.isRecurring();
     }
+    
+    isSkipped() {
+        return this.getDocument().isSkipped;
+    }
+    
+    toggleSkip(forceOpenTopic = true) {
+        this.getDocument().isSkipped = !this.isSkipped();
+        if (forceOpenTopic) {
+            if (this.isSkipped() && (!this._topicDoc.isOpen)) { // topic has been set to skip, so it will be automatically set as open
+                this.toggleState();
+            }
+        }
+    }
 
     async upsertInfoItem(topicItemDoc, saveChanges) {
         if (saveChanges === undefined) {
@@ -183,7 +197,7 @@ export class Topic {
         if (! topicItemDoc._id) {             // brand-new topicItem
             topicItemDoc._id = Random.id();   // create our own local _id here!
         } else {
-            i = subElementsHelper.findIndexById(topicItemDoc._id, this.getInfoItems())
+            i = subElementsHelper.findIndexById(topicItemDoc._id, this.getInfoItems());
         }
         if (i === undefined) {                      // topicItem not in array
             this.getInfoItems().unshift(topicItemDoc);  // add to front of array
@@ -250,7 +264,7 @@ export class Topic {
     getOnlyInfoItems() {
         return this.getInfoItems().filter((item) => {
             return !InfoItem.isActionItem(item);
-        })
+        });
     }
 
     getOpenActionItems() {
@@ -305,7 +319,7 @@ export class Topic {
         return this.getLabelsRawArray().map(labelId => {
             return Label.createLabelById(meetingSeriesId, labelId);
 
-        })
+        });
     }
 
     addLabelByName(labelName, meetingSeriesId) {
@@ -332,17 +346,17 @@ export class Topic {
 
     getLabelsString(topic) {
         let labels = topic.labels;
-        let labelsString = "";
+        let labelsString = '';
 
         let aMinute = new Minutes(topic.createdInMinute);
         let aSeries = aMinute.parentMeetingSeries();
 
         labels = labels.map(labelId => {
             return Label.createLabelById(aSeries._id, labelId);
-        })
+        });
 
         for (let i in labels) {
-            labelsString += "#" + labels[i]._labelDoc.name+ ", ";
+            labelsString += '#' + labels[i]._labelDoc.name+ ', ';
         }
         labelsString = labelsString.slice(0, -2);   // remove last ", "
         return labelsString;
@@ -381,13 +395,13 @@ export class Topic {
 
     getResponsiblesString() {
         if (!this.hasResponsibles()) {
-            return "";
+            return '';
         }
 
         let responsibles = this._topicDoc.responsibles;
-        let responsiblesString = "";
+        let responsiblesString = '';
         for (let i in responsibles) {
-            let userNameFromDB = "";
+            let userNameFromDB = '';
             if (responsibles[i].length > 15) {  // maybe DB Id or free text
                 let user = Meteor.users.findOne(responsibles[i]);
                 if (user) {
@@ -395,9 +409,9 @@ export class Topic {
                 }
             }
             if (userNameFromDB) {     // user DB match!
-                responsiblesString += userNameFromDB + ", ";
+                responsiblesString += userNameFromDB + ', ';
             } else {
-                responsiblesString += responsibles[i] + ", ";
+                responsiblesString += responsibles[i] + ', ';
             }
         }
         responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
@@ -414,10 +428,11 @@ export class Topic {
     }
 
     extractLabelsFromTopic(meetingSeriesId) {
-        const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
+        const regEx = new RegExp(/(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g);
+        let subjectString = this._topicDoc.subject;
         let match;
 
-        while(match = regEx.exec(this._topicDoc.subject)) {
+        while (match = regEx.exec(subjectString)) {
             let labelName = match[2];
             this.addLabelByName(labelName, meetingSeriesId);
             this._removeLabelFromTopic(labelName);
@@ -425,10 +440,11 @@ export class Topic {
     }
 
     extractResponsiblesFromTopic() {
-        const regEx = /(^|[\s.,;])@([a-zA-z]+[^\s.,;]*)/g;
+        const regEx = new RegExp(/(^|[\s.,;])@([a-zA-z]+[^\s.,;]*)/g);
+        let subjectString = this._topicDoc.subject;
         let match;
 
-        while(match = regEx.exec(this._topicDoc.subject)) {
+        while (match = regEx.exec(subjectString)) {
             let responsibleName = match[2];
             this.addResponsible(responsibleName);
             this._removeResponsibleFromTopic(responsibleName);
@@ -450,14 +466,14 @@ export class Topic {
     }
 
     _removeLabelFromTopic(labelName) {
-        this._topicDoc.subject = this._topicDoc.subject.replace("#" + labelName + " ", "");
-        this._topicDoc.subject = this._topicDoc.subject.replace(" #" + labelName, "");
-        this._topicDoc.subject = this._topicDoc.subject.replace("#" + labelName, "");
+        this._topicDoc.subject = this._topicDoc.subject.replace('#' + labelName + ' ', '');
+        this._topicDoc.subject = this._topicDoc.subject.replace(' #' + labelName, '');
+        this._topicDoc.subject = this._topicDoc.subject.replace('#' + labelName, '');
     }
 
     _removeResponsibleFromTopic(responsibleName) {
-        this._topicDoc.subject = this._topicDoc.subject.replace("@" + responsibleName + " ", "");
-        this._topicDoc.subject = this._topicDoc.subject.replace(" @" + responsibleName, "");
-        this._topicDoc.subject = this._topicDoc.subject.replace("@" + responsibleName, "");
+        this._topicDoc.subject = this._topicDoc.subject.replace('@' + responsibleName + ' ', '');
+        this._topicDoc.subject = this._topicDoc.subject.replace(' @' + responsibleName, '');
+        this._topicDoc.subject = this._topicDoc.subject.replace('@' + responsibleName, '');
     }
 }

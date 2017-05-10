@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { BroadcastMessageSchema } from './broadcastmessages.schema';
 
-export let BroadcastMessageCollection = new Mongo.Collection("broadcastmessage");
+export let BroadcastMessageCollection = new Mongo.Collection('broadcastmessage');
 BroadcastMessageCollection.attachSchema(BroadcastMessageSchema);
 
 if (Meteor.isServer) {
@@ -34,33 +34,33 @@ if (Meteor.isClient) {
 
 
 Meteor.methods({
-    "broadcastmessage.dismiss": function () {
+    'broadcastmessage.dismiss': function () {
         if (! Meteor.userId()) {
             return;
         }
-        console.log("Dismissing BroadcastMessages for user: "+Meteor.userId());
+        console.log('Dismissing BroadcastMessages for user: '+Meteor.userId());
 
         BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
             BroadcastMessageCollection.update(
                 {_id: msg._id},
-                {$addToSet: {dismissForUserIDs: Meteor.userId()}})
-            }
+                {$addToSet: {dismissForUserIDs: Meteor.userId()}});
+        }
         );
     },
 
-    "broadcastmessage.show": function (message, active=true) {
+    'broadcastmessage.show': function (message, active=true) {
         if (! Meteor.userId()) {
             return;
         }
         // #Security: Only admin may broadcast messages
         if (! Meteor.user().isAdmin) {
-            throw new Meteor.Error("Cannot broadcast message", "You are not admin.");
+            throw new Meteor.Error('Cannot broadcast message', 'You are not admin.');
         }
         if (! message) {
             return;
         }
 
-        console.log("New BroadcastMessage from Admin: >" + message+"<");
+        console.log('New BroadcastMessage from Admin: >' + message+'<');
 
         const id = BroadcastMessageCollection.insert({
             text: message,
@@ -70,27 +70,27 @@ Meteor.methods({
         return id;
     },
 
-    "broadcastmessage.remove": function (messageId) {
-        console.log("broadcastmessage.remove: "+messageId);
+    'broadcastmessage.remove': function (messageId) {
+        console.log('broadcastmessage.remove: '+messageId);
         if (! Meteor.userId()) {
             return;
         }
         // #Security: Only admin may remove messages
         if (! Meteor.user().isAdmin) {
-            throw new Meteor.Error("Cannot remove message", "You are not admin.");
+            throw new Meteor.Error('Cannot remove message', 'You are not admin.');
         }
 
         BroadcastMessageCollection.remove(messageId);
     },
 
-    "broadcastmessage.toggleActive": function (messageId) {
-        console.log("broadcastmessage.toggleActive: "+messageId);
+    'broadcastmessage.toggleActive': function (messageId) {
+        console.log('broadcastmessage.toggleActive: '+messageId);
         if (! Meteor.userId()) {
             return;
         }
         // #Security: Only admin may remove messages
         if (! Meteor.user().isAdmin) {
-            throw new Meteor.Error("Cannot remove message", "You are not admin.");
+            throw new Meteor.Error('Cannot remove message', 'You are not admin.');
         }
 
         let msg = BroadcastMessageCollection.findOne(messageId);

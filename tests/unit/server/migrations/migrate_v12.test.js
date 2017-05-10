@@ -1,0 +1,252 @@
+import { expect } from 'chai';
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
+
+require('../../../../imports/helpers/date');
+
+const FIRST_MIN_ID = '#Min01';
+const SND_MIN_ID = '#Min02';
+
+let MinutesCollection = {
+    update: sinon.stub()
+};
+let MeetingSeriesCollection = {
+    update: sinon.stub()
+};
+
+const {
+        MigrateV12
+    } = proxyquire('../../../../server/migrations/migrate_v12', {
+        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
+    '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+    });
+
+describe('Migrate Version 12', function () {
+
+    let firstFakeMinute, sndFakeMinute, fakeMeetingSeries;
+
+    beforeEach(function () {
+        sndFakeMinute = {
+            _id: SND_MIN_ID,
+            topics: [{
+                _id: '#T01',
+                infoItems:[{
+                    _id: '#I01',
+                    details: [{text: 'd1'}, {text:'d22'}, {text:'d6'}]
+                },{
+                    _id: '#I02',
+                    details: [{text: 'd3'}, {text:'d4'}]
+                }]
+            }, {
+                _id: '#T02',
+                infoItems:[{
+                    _id: '#I03',
+                    details: [{text: 'd5'}]
+                },{
+                    _id: '#I04'
+                }]
+            }],
+            nextMinutes: () => {
+                return false;
+            },
+            previousMinutes : () => {
+                return firstFakeMinute;
+            }
+        };
+
+        firstFakeMinute = {
+            _id: FIRST_MIN_ID,
+            topics: [{
+                _id: '#T01',
+                infoItems:[{
+                    _id: '#I01',
+                    details: [{text: 'd1'}, {text:'d22'}]
+                },{
+                    _id: '#I02',
+                    details: [{text: 'd3'}, {text:'d4'}]
+                }]
+            }],
+            nextMinutes: () => {
+                return sndFakeMinute;
+            },
+            previousMinutes: () => {
+                return false;
+            }
+        };
+
+        fakeMeetingSeries = {
+            _id: '#MS01',
+            topics: [{
+                _id: '#T01',
+                infoItems:[{
+                    _id: '#I01',
+                    details: [{text: 'd1'}, {text:'d22'}, {text:'d6'}]
+                },{
+                    _id: '#I02',
+                    details: [{text: 'd3'}, {text:'d4'}]
+                }]
+            }, {
+                _id: '#T02',
+                infoItems:[{
+                    _id: '#I03',
+                    details: [{text: 'd5'}]
+                },{
+                    _id: '#I04'
+                }]
+            }],
+            openTopics: [{
+                _id: '#T02',
+                infoItems:[{
+                    _id: '#I03',
+                    details: [{text: 'd5'}]
+                },{
+                    _id: '#I04'
+                }]
+            }, {
+                _id: '#T01',
+                infoItems:[{
+                    _id: '#I01',
+                    details: [{text: 'd1'}, {text:'d22'}, {text:'d6'}]
+                },{
+                    _id: '#I02',
+                    details: [{text: 'd3'}, {text:'d4'}]
+                }]
+            }],
+            firstMinutes: () => {
+                return firstFakeMinute;
+            }
+        };
+
+        MeetingSeriesCollection.find = () => {
+            return [fakeMeetingSeries];
+        };
+
+        MinutesCollection.find = () => {
+            return [firstFakeMinute, sndFakeMinute];
+        };
+    });
+
+    afterEach(function () {
+        MinutesCollection.update.reset();
+        MeetingSeriesCollection.update.reset();
+    });
+
+    describe('#up', function () {
+
+        let checkDetailHasProperties = (detail) => {
+            expect(detail).to.have.ownProperty('createdInMinute');
+            expect(detail).to.have.ownProperty('_id');
+        }
+
+        it('sets the createdInMinutes and _id attribute for all topics in all minutes', function() {
+            MigrateV12.up();
+            firstFakeMinute.topics.forEach(topic =>{
+                topic.infoItems.forEach(infoItem =>{
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasProperties);
+                    }
+                })
+            });
+            sndFakeMinute.topics.forEach(topic =>{
+                topic.infoItems.forEach(infoItem =>{
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasProperties);
+                    }
+                })
+            });
+        });
+
+        it('sets the createdInMinutes and _id attribute for all topics in the meeting series', function() {
+            MigrateV12.up();
+            fakeMeetingSeries.topics.forEach(topic =>{
+                topic.infoItems.forEach(infoItem =>{
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasProperties);
+                    }
+                })
+            });
+            fakeMeetingSeries.openTopics.forEach(topic =>{
+                topic.infoItems.forEach(infoItem =>{
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasProperties);
+                    }
+                })
+            });
+        });
+
+        it('sets the correct createdInMinute-attribute for all details in minutes and meetingSeries', function() {
+            MigrateV12.up();
+            // detail was created in 1st minute => createdInMinute = 1st Minute
+            expect(firstFakeMinute.topics[0].infoItems[0].details[0].createdInMinute).to.equal(FIRST_MIN_ID);
+            // detail created in 1st minute occured in 2nd Minute => createdInMinute = 1st Minute
+            expect(sndFakeMinute.topics[0].infoItems[0].details[0].createdInMinute).to.equal(FIRST_MIN_ID);
+            expect(fakeMeetingSeries.topics[0].infoItems[0].details[0].createdInMinute).to.equal(FIRST_MIN_ID);
+            expect(fakeMeetingSeries.openTopics[1].infoItems[0].details[0].createdInMinute).to.equal(FIRST_MIN_ID);
+            // detail created in 2nd minute => createdInMinute = 2nd Minute
+            expect(sndFakeMinute.topics[1].infoItems[0].details[0].createdInMinute).to.equal(SND_MIN_ID);
+            expect(fakeMeetingSeries.topics[1].infoItems[0].details[0].createdInMinute).to.equal(SND_MIN_ID);
+            expect(fakeMeetingSeries.openTopics[0].infoItems[0].details[0].createdInMinute).to.equal(SND_MIN_ID);
+            //a new detail was added to an infoItem from an old minute in a new minute => createdInMinute = 2nd Minute
+            expect(sndFakeMinute.topics[0].infoItems[0].details[2].createdInMinute).to.equal(SND_MIN_ID);
+        });
+
+        it('sets the correct _id attribute for all details in minutes and meetingSeries', function() {
+            MigrateV12.up();
+            let detailIdInFirstMinute = firstFakeMinute.topics[0].infoItems[0].details[0]._id;
+            expect(sndFakeMinute.topics[0].infoItems[0].details[0]._id).to.equal(detailIdInFirstMinute);
+            expect(fakeMeetingSeries.topics[0].infoItems[0].details[0]._id).to.equal(detailIdInFirstMinute);
+            expect(fakeMeetingSeries.openTopics[1].infoItems[0].details[0]._id).to.equal(detailIdInFirstMinute);
+        });
+
+    });
+
+    describe('#down', function () {
+
+        beforeEach(function() {
+            let addCreatedInMinuteFakeAttribute = (topic) => {
+                topic.createdInMinute = 'fakeID';
+            };
+            firstFakeMinute.topics.forEach(addCreatedInMinuteFakeAttribute);
+            sndFakeMinute.topics.forEach(addCreatedInMinuteFakeAttribute);
+            fakeMeetingSeries.topics.forEach(addCreatedInMinuteFakeAttribute);
+            fakeMeetingSeries.openTopics.forEach(addCreatedInMinuteFakeAttribute);
+        });
+
+        it('removes the createdInMinute and _id-attribute', function() {
+            MigrateV12.down();
+            let checkDetailHasNoProperties = (detail) => {
+                expect(detail).not.have.ownProperty('createdInMinute');
+                expect(detail).not.have.ownProperty('_id');
+            };
+
+            firstFakeMinute.topics.forEach(topic =>{
+                topic.infoItems.forEach(infoItem =>{
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperties);
+                    }
+                })
+            });
+            sndFakeMinute.topics.forEach(topic =>{
+                topic.infoItems.forEach(infoItem =>{
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperties);
+                    }
+                })
+            });
+            fakeMeetingSeries.topics.forEach(topic =>{
+                topic.infoItems.forEach(infoItem =>{
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperties);
+                    }
+                })
+            });
+            fakeMeetingSeries.topics.forEach(topic =>{
+                topic.infoItems.forEach(infoItem =>{
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperties);
+                    }
+                })
+            });
+        });
+    });
+});

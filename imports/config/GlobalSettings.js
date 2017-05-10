@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
 
 /**
  * Wrapper to access our Global Settings.
@@ -25,7 +25,7 @@ export class GlobalSettings {
         Meteor.settings.public.branding.topLeftLogoHTML =
             (Meteor.settings.branding && Meteor.settings.branding.topLeftLogoHTML !== undefined)
                 ? Meteor.settings.branding.topLeftLogoHTML
-                : "4Minitz.com";
+                : '4Minitz.com';
         Meteor.settings.public.branding.showGithubCorner =
             (Meteor.settings.branding && Meteor.settings.branding.showGithubCorner !== undefined)
             ? Meteor.settings.branding.showGithubCorner
@@ -43,8 +43,8 @@ export class GlobalSettings {
             (Meteor.settings.branding && Meteor.settings.branding.legalNotice !== undefined)
                 ? Meteor.settings.branding.legalNotice
                 : { enabled: false,
-                    linkText: "",
-                    content: [""]};
+                    linkText: '',
+                    content: ['']};
 
         Meteor.settings.public.attachments = {};
         Meteor.settings.public.attachments.enabled =
@@ -55,11 +55,11 @@ export class GlobalSettings {
         Meteor.settings.public.attachments.allowExtensions =
             (Meteor.settings.attachments && Meteor.settings.attachments.allowExtensions !== undefined)
                 ? Meteor.settings.attachments.allowExtensions
-                : ".*";
+                : '.*';
         Meteor.settings.public.attachments.denyExtensions =
             (Meteor.settings.attachments && Meteor.settings.attachments.denyExtensions !== undefined)
                 ? Meteor.settings.attachments.denyExtensions
-                : "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh";
+                : 'exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh';
         Meteor.settings.public.attachments.maxFileSize =
             (Meteor.settings.attachments && Meteor.settings.attachments.maxFileSize !== undefined)
                 ? Meteor.settings.attachments.maxFileSize
@@ -73,7 +73,7 @@ export class GlobalSettings {
         // enforce slash "/" at the end
         if (Meteor.settings.attachments && Meteor.settings.attachments.storagePath) {
             if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {
-                Meteor.settings.attachments.storagePath = Meteor.settings.attachments.storagePath + "/";
+                Meteor.settings.attachments.storagePath = Meteor.settings.attachments.storagePath + '/';
             }
         }
     }
@@ -121,7 +121,7 @@ export class GlobalSettings {
             && Meteor.settings.email
             && Meteor.settings.email.defaultEMailSenderExceptionDomains
             && Meteor.settings.email.defaultEMailSenderExceptionDomains.length > 0) {
-            let senderDomain = alternativeSender.replace(/^.*@/, "").toLowerCase();   // me@mycompany.com => mycompany.com
+            let senderDomain = alternativeSender.replace(/^.*@/, '').toLowerCase();   // me@mycompany.com => mycompany.com
             for (let i=0; i<Meteor.settings.email.defaultEMailSenderExceptionDomains.length; i++) {
                 if (Meteor.settings.email.defaultEMailSenderExceptionDomains[i].toLowerCase() === senderDomain) {
                     address = alternativeSender;
@@ -131,7 +131,7 @@ export class GlobalSettings {
         }
 
         if (address !== undefined) {        // we have default from settings
-            if (address === "") {           // but it's empty!
+            if (address === '') {           // but it's empty!
                 return (alternativeSender)  // luckily we have a real user profile mail
                     ? alternativeSender     // we take it!
                     : GlobalSettings.getFallbackEMailSenderAddress();   // nope. use fallback!
@@ -163,14 +163,14 @@ export class GlobalSettings {
             return Meteor.settings.email.mailDeliverer;
         }
 
-        return "smtp";
+        return 'smtp';
     }
 
     static getSMTPMailUrl() {
         if (Meteor.settings.email && Meteor.settings.email.smtp && Meteor.settings.email.smtp.mailUrl) {
             return Meteor.settings.email.smtp.mailUrl;
         }
-        return "";
+        return '';
     }
 
     static getMailgunSettings() {

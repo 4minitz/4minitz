@@ -18,9 +18,12 @@ let Meteor = {
 
 Helpers['@noCallThru'] = true;
 
+const Random = {id: () => {}};
+
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/random': { Random, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     '/imports/helpers/date': Helpers,
     './topic': { Topic, '@noCallThru': true},

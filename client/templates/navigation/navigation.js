@@ -3,8 +3,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 
 Template.navigation.helpers({
-    "logoHTML": function () {
-      return GlobalSettings.getBrandingLogoHTML();
+    'logoHTML': function () {
+        return GlobalSettings.getBrandingLogoHTML();
     },
     displayUsername() {
         if (Meteor.user().profile && Meteor.user().profile.name) {
@@ -15,11 +15,11 @@ Template.navigation.helpers({
 });
 
 Template.navigation.events({
-  "click li #navbar-signout": function(event) {
-    event.preventDefault();
-    if (Meteor.userId()) {
-      AccountsTemplates.logout();
-      FlowRouter.go("/");
+    'click li #navbar-signout': function(event) {
+        event.preventDefault();
+        if (Meteor.userId()) {
+            AccountsTemplates.logout();
+            FlowRouter.go('/');
+        }
     }
-  }
 });
