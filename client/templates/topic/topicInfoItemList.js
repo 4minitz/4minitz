@@ -5,7 +5,8 @@ const INITIAL_ITEMS_LIMIT = 4;
 let _minutesId;
 
 Template.topicInfoItemList.onCreated(function () {
-    let tmplData = Template.instance().data;
+    let tmplData = this.data;
+    this.infoItems = new ReactiveVar([]);
     _minutesId = tmplData.minutesID;
     this.isItemsLimited = new ReactiveVar(tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT);
 });
@@ -41,10 +42,28 @@ function initializeDragAndDrop(tmpl) {
     });
 }
 
+function asyncItemsPush(reactiveVar, currentItemCount, allItems, topicId) {
+    reactiveVar.set([...allItems.slice(0, currentItemCount)]);
+    currentItemCount++;
+
+    if (currentItemCount >= allItems.length) {
+        console.log(`topic ${topicId} finished`);
+        return;
+    }
+
+    Meteor.setTimeout(() => {
+        asyncItemsPush(reactiveVar, currentItemCount, allItems, topicId);
+    }, 50);
+}
+
 Template.topicInfoItemList.onRendered(function () {
     if (Template.instance().data.isEditable) {
         initializeDragAndDrop(this);
     }
+
+    let tmpl = Template.instance();
+    let topic = tmpl.data.topic;
+    asyncItemsPush(tmpl.infoItems, 1, topic.infoItems, topic._id);
 });
 
 Template.topicInfoItemList.helpers({
@@ -60,6 +79,11 @@ Template.topicInfoItemList.helpers({
     showMoreButton: function() {
         let tmpl = Template.instance();
         return tmpl.isItemsLimited.get();
+    },
+
+    infoItems() {
+        let tmpl = Template.instance();
+        return tmpl.infoItems.get();
     },
 
     // helper will be called within the each-infoItem block
