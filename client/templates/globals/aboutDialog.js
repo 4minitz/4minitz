@@ -4,14 +4,6 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 let showStatistics = new ReactiveVar(false);
 
 Template.aboutDialog.onRendered(function() {
-    Meteor.call('gitVersionInfo', function (error, result) {
-        if (!error) {
-            Session.set('gitVersionInfo', result);
-        }
-        else {
-            console.log('err:'+error);
-        }
-    });
 });
 
 Template.aboutDialog.helpers({
@@ -39,5 +31,16 @@ Template.aboutDialog.events({
         $('#dlgAbout').modal('hide');
         $('.modal-backdrop').remove();  // The backdrop was sticky - we remove it manually...
         FlowRouter.go('/legalnotice');
-    }
+    },
+
+    'show.bs.modal #dlgAbout': function (evt, tmpl) {
+        Meteor.call('gitVersionInfo', function (error, result) {
+            if (!error) {
+                Session.set('gitVersionInfo', result);
+            }
+            else {
+                console.log('err:'+error);
+            }
+        });
+    },
 });

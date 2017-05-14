@@ -22,7 +22,11 @@ VERSION_INFO = {
 
 Meteor.methods({
     gitVersionInfo: function () {
-        return VERSION_INFO;
+        if(this.userId) {   // #Security: not logged in users should not know version of server
+            return VERSION_INFO;
+        } else {
+            return undefined;
+        }
     },
 
     gitVersionInfoUpdate: function () {
