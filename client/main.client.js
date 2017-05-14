@@ -56,6 +56,13 @@ $(document).arrive('input', {
 
 // as soon as the document is loaded initialize material design
 $(document).ready(() => {
+    $.material.checkboxOriginal = $.material.checkbox;
+    $.material.checkbox = function(selector) {
+        let $input = $((selector) ? selector : this.options.checkboxElements);
+        if (!$input.next() || !$input.next().hasClass('checkbox-material')) {
+            this.checkboxOriginal(selector);
+        }
+    };
     $.material.init();
 });
 
