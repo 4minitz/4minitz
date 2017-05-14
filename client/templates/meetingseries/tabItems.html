@@ -1,4 +1,6 @@
 <template name="tabItems">
     {{> filterControl config=getTopicFilterConfig}}
-    {{> topicInfoItemList getInfoItemListContext}}
+    <div class="panel-group" id="itemPanel">
+        {{> topicInfoItemList getInfoItemListContext}}
+    </div>
 </template>
