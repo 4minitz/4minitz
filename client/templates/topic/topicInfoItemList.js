@@ -5,6 +5,7 @@ import { Minutes } from '/imports/minutes';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import {InfoItemFactory} from "../../../imports/InfoItemFactory";
+import { handleError } from '../../helpers/handleError';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -141,9 +142,7 @@ Template.topicInfoItemList.helpers({
         if (itemId && itemId === tmpl.data.items[index]._id) {
             Session.set('topicInfoItem.triggerAddDetailsForItem', null);
             Meteor.setTimeout(() => {
-                addNewDetails(tmpl, index)
-                // todo properly report errors
-                    .catch(console.error);
+                addNewDetails(tmpl, index).catch(handleError);
             }, 1300); // we need this delay otherwise the input field will be made hidden immediately
         }
         // do not return anything! This will be rendered on the page!
@@ -285,15 +284,11 @@ Template.topicInfoItemList.events({
 
                 let action = () => {
                     if (isDeleteAllowed) {
-                        aTopic.removeInfoItem(infoItem._id)
-                        // todo properly report errors
-                            .catch(console.error);
+                        aTopic.removeInfoItem(infoItem._id).catch(handleError);
                     } else {
                         if (item.isActionItem()) item.toggleState();
                         else item.toggleSticky();
-                        item.save()
-                        // todo properly report errors
-                            .catch(console.error);
+                        item.save().catch(handleError);
                     }
                 };
 
@@ -331,9 +326,7 @@ Template.topicInfoItemList.events({
         const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             aInfoItem.toggleState();
-            aInfoItem.save()
-            // todo properly report errors
-                .catch(console.error);
+            aInfoItem.save().catch(handleError);
         }
     },
 
@@ -352,9 +345,7 @@ Template.topicInfoItemList.events({
         let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof InfoItem) {
             aInfoItem.toggleSticky();
-            aInfoItem.save()
-            // todo properly report errors
-                .catch(console.error);
+            aInfoItem.save().catch(handleError);
         }
     },
 
@@ -426,9 +417,7 @@ Template.topicInfoItemList.events({
         }
 
         let index = $(evt.currentTarget).data('index');
-        addNewDetails(tmpl, index)
-            // todo properly report errors
-            .catch(console.error);
+        addNewDetails(tmpl, index).catch(handleError);
     },
 
     'blur .detailInput'(evt, tmpl) {
@@ -457,15 +446,11 @@ Template.topicInfoItemList.events({
             let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
             if (text !== '') {
                 aActionItem.updateDetails(detailIndex, text);
-                aActionItem.save()
-                // todo properly report errors
-                    .catch(console.error);
+                aActionItem.save().catch(handleError);
             } else {
                 let deleteDetails = () => {
                     aActionItem.removeDetails(detailIndex);
-                    aActionItem.save()
-                    // todo properly report errors
-                        .catch(console.error);
+                    aActionItem.save().catch(handleError);
                     let detailsCount = aActionItem.getDetails().length;
                     if (detailsCount === 0) {
                         tmpl.$('#collapse-' + infoItem._id).collapse('hide');
