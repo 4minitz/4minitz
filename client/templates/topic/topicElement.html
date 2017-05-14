@@ -106,7 +106,9 @@
         </div>
 
         {{#unless isCollapsed}}
-            {{> topicInfoItemList getData}}
+            <div class="leftIndent-desktop">
+                {{> topicInfoItemList getData}}
+            </div>
         {{/unless}}
     </div>
 </template>

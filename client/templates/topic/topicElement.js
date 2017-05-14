@@ -2,6 +2,7 @@ import { Minutes } from '/imports/minutes';
 import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { FlashMessage } from '../../helpers/flashMessage';
+import { TopicInfoItemListContext } from './topicInfoItemList';
 
 let _minutesId;
 
@@ -75,9 +76,14 @@ Template.topicElement.helpers({
     },
 
     getData() {
-        let data = Template.instance().data;
-        data.parentMeetingSeriesId = this.parentMeetingSeriesId;
-        return data;
+        const data = Template.instance().data;
+        const parentElement = (data.minutesID) ? data.minutesID : data.parentMeetingSeriesId;
+        return TopicInfoItemListContext.createContextForItemsOfOneTopic(
+            data.topic.infoItems,
+            !data.isEditable,
+            parentElement,
+            data.topic._id
+        );
     },
 
     classForEdit() {

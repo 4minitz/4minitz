@@ -1,154 +1,152 @@
 <template name="topicInfoItemList">
-    <div class="leftIndent-desktop">
-        <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
-            {{#each infoItem in topic.infoItems}}
-                {{triggerAddDetails @index}}
-                <div class="panel topicInfoItem" data-id="{{infoItem._id}}" data-parent-id="{{topic._id}}">
-                    <div class="panel-heading {{topicStateClass @index}}" role="tab" id="headingOne" style="position: relative;">
-                        {{#if hasDetails @index}}
-                            <a role="button" class="expandDetails hidden-print expand-collapse-triangle"
-                               data-toggle="collapse" data-parent="#accordion"
-                               data-index="{{@index}}"
-                               href="#collapse-{{infoItem._id}}"
-                               style="position: absolute; top:0; left: 0; color: grey;">
-                                {{#if isCollapsed @index}}
-                                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                                {{else}}
-                                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                {{/if}}
-                            </a>
-                        {{/if}}
-                        <h4 class="panel-title">
-                            <div class="checkbox" style="font-size: 110%;">
-                                <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
-                                    {{#if isActionItem @index}}
-                                        <input type="checkbox" class="checkbox btnToggleAIState" data-index="{{@index}}"
-                                               id="btnToggleAIState_{{infoItem._id}}" {{checkedState @index}} {{disabledState @index}}>
-                                    {{else}}
-                                        <span class="glyphicon glyphicon-info-sign" style="cursor: auto"></span>
-                                    {{/if}}
-                                </label>
-
-                                <span id="{{idForEdit}}" style="cursor: {{cursorForEdit}};" data-index="{{@index}}">
-                                    {{#if isActionItem @index}}
-                                        {{infoItem.subject}} {{responsiblesHelper @index}}
-                                        {{#if infoItem.priority}}Prio:{{infoItem.priority}}{{/if}}
-                                        Due: {{infoItem.duedate}}
-                                    {{else}}
-                                        {{infoItem.subject}}
-                                    {{/if}}
-                                    <span class="labels">
-                                        <!-- Labels -->
-                                        {{#each label in getLabels @index}}
-                                            <span class="label" style="background-color: {{color}}; color: {{fontColor}}">{{label.name}}</span>
-                                        {{/each}}
-                                    </span>
-                                </span>
-
-                                <!-- New-Topic-Label -->
-                                {{#if infoItem.isNew}}
-                                    <span class="badge">New</span>
-                                {{/if}}
-
-                                <!-- Manipulation Drop-Down Menu -->
-                                <span class="pull-right pull-right-icons hidden-print">
-                                    {{#if isEditable}}
-                                        <a href="#" id="btnItemDropdownMenu" class="panel-dropper dropdown-toggle"
-                                           data-toggle="dropdown">
-                                            <span class="glyphicon glyphicon-option-vertical"></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="#" class="addDetail panel-link" title="Add details to item" data-index="{{@index}}">
-                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                    Add Details
-                                                </a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="#" id="btnEditInfoItem" class="panel-link" title="Edit item" data-index="{{@index}}">
-                                                    <span class="glyphicon glyphicon-pencil"></span>
-                                                    Edit Item
-                                                </a>
-                                            </li>
-                                            {{#if isInfoItem @index}}
-                                                <li>
-                                                    <a href="#" class="btnPinInfoItem panel-link"
-                                                       data-index="{{@index}}"
-                                                       title="{{#if infoItem.isSticky}}Set as non-pinned info item{{else}}Set as pinned info item{{/if}}">
-                                                        <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
-                                                        {{#if infoItem.isSticky}}Unset{{else}}Set{{/if}} Pinned
-                                                    </a>
-                                                </li>
-                                            {{/if}}
-                                            <li>
-                                                <a id="btnDelInfoItem" href="#" data-index="{{@index}}" class="panel-link" title="Delete item">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                    Delete Item
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    {{/if}}
-
-                                    {{#if infoItem.isSticky}}
-                                        <a href="#" class="panel-link btnPinInfoItem" title="Set as unpinned info item" data-index="{{@index}}">
-                                            <span class="glyphicon glyphicon-pushpin sticky-item active-icon"></span>
-                                        </a>
-                                    {{/if}}
-
-                                    {{#if isEditable}}
-                                        <span class="itemDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
-                                    {{/if}}
-                                </span>
-                            </div>
-                        </h4>
-                    </div>
-
-                    <div id="collapse-{{infoItem._id}}" class="panel-collapse collapse" role="tabpanel"
-                         aria-labelledby="headingOne">
-                        <div id="id-details-{{infoItem._id}}" class="panel-body actionItemDetails">
-                            {{#let itemIndex=@index itemId=infoItem._id}}
-                                {{#each detailsArray itemIndex}}
-                                    <div class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
-                                        <div>
-                                            <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
-                                            <span id="detailActions_{{itemId}}_{{@index}}"
-                                                  class="pull-right pull-right-icons detailActions"
-                                                  style="display: none;">
-                                                <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"></span>
-                                                <span class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
-                                                    data-id="{{itemId}}_{{@index}}"></span>
-                                            </span>
-
-                                        </div>
-                                        <div style="padding-left: 10px;" class="detailText"
-                                             data-id="{{itemId}}_{{@index}}">
-                                            <span id="detailText_{{itemId}}_{{@index}}"
-                                                  style="font-size: 120%;"
-                                                  data-id="{{itemId}}_{{@index}}"
-                                                  data-text="{{this.text}}">
-                                                {{#markdown}}{{this.text}}{{/markdown}}
-                                            </span>
-
-                                            <textarea id="detailInput_{{itemId}}_{{@index}}"
-                                                      rows="1"
-                                                      data-id="{{itemId}}_{{@index}}"
-                                                      data-item="{{itemIndex}}"
-                                                      data-index="{{@index}}"
-                                                      class="form-control detailInput"
-                                                      style="display: none; font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
-                                                      placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
-                                        </div>
-                                    </div>
-                                {{/each}}
-                            {{/let}}
-                            {{#if isEditable}}
-                                <a href="#" data-index="{{@index}}" class="addDetail hidden-print">Add details</a>
+    <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
+        {{#each infoItem in items}}
+            {{triggerAddDetails @index}}
+            <div class="panel topicInfoItem" data-id="{{infoItem._id}}" data-topic-parent-id="{{topicParentId}}" data-parent-id="{{infoItem.parentTopicId}}">
+                <div class="panel-heading {{topicStateClass @index}}" role="tab" id="headingOne" style="position: relative;">
+                    {{#if hasDetails @index}}
+                        <a role="button" class="expandDetails hidden-print expand-collapse-triangle"
+                           data-toggle="collapse" data-parent="#accordion"
+                           data-index="{{@index}}"
+                           href="#collapse-{{infoItem._id}}"
+                           style="position: absolute; top:0; left: 0; color: grey;">
+                            {{#if isCollapsed @index}}
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                            {{else}}
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                             {{/if}}
+                        </a>
+                    {{/if}}
+                    <h4 class="panel-title">
+                        <div class="checkbox" style="font-size: 110%;">
+                            <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
+                                {{#if isActionItem @index}}
+                                    <input type="checkbox" class="checkbox btnToggleAIState" data-index="{{@index}}"
+                                           id="btnToggleAIState_{{infoItem._id}}" {{checkedState @index}} {{disabledState @index}}>
+                                {{else}}
+                                    <span class="glyphicon glyphicon-info-sign" style="cursor: auto"></span>
+                                {{/if}}
+                            </label>
+
+                            <span id="{{idForEdit}}" style="cursor: {{cursorForEdit}};" data-index="{{@index}}">
+                                {{#if isActionItem @index}}
+                                    {{infoItem.subject}} {{responsiblesHelper @index}}
+                                    {{#if infoItem.priority}}Prio:{{infoItem.priority}}{{/if}}
+                                    Due: {{infoItem.duedate}}
+                                {{else}}
+                                    {{infoItem.subject}}
+                                {{/if}}
+                                <span class="labels">
+                                    <!-- Labels -->
+                                    {{#each label in getLabels @index}}
+                                        <span class="label" style="background-color: {{color}}; color: {{fontColor}}">{{label.name}}</span>
+                                    {{/each}}
+                                </span>
+                            </span>
+
+                            <!-- New-Topic-Label -->
+                            {{#if infoItem.isNew}}
+                                <span class="badge">New</span>
+                            {{/if}}
+
+                            <!-- Manipulation Drop-Down Menu -->
+                            <span class="pull-right pull-right-icons hidden-print">
+                                {{#unless isReadonly}}
+                                    <a href="#" id="btnItemDropdownMenu" class="panel-dropper dropdown-toggle"
+                                       data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-option-vertical"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#" class="addDetail panel-link" title="Add details to item" data-index="{{@index}}">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                                Add Details
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li>
+                                            <a href="#" id="btnEditInfoItem" class="panel-link" title="Edit item" data-index="{{@index}}">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                                Edit Item
+                                            </a>
+                                        </li>
+                                        {{#if isInfoItem @index}}
+                                            <li>
+                                                <a href="#" class="btnPinInfoItem panel-link"
+                                                   data-index="{{@index}}"
+                                                   title="{{#if infoItem.isSticky}}Set as non-pinned info item{{else}}Set as pinned info item{{/if}}">
+                                                    <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
+                                                    {{#if infoItem.isSticky}}Unset{{else}}Set{{/if}} Pinned
+                                                </a>
+                                            </li>
+                                        {{/if}}
+                                        <li>
+                                            <a id="btnDelInfoItem" href="#" data-index="{{@index}}" class="panel-link" title="Delete item">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                                Delete Item
+                                            </a>
+                                        </li>
+                                    </ul>
+                                {{/unless}}
+
+                                {{#if infoItem.isSticky}}
+                                    <a href="#" class="panel-link btnPinInfoItem" title="Set as unpinned info item" data-index="{{@index}}">
+                                        <span class="glyphicon glyphicon-pushpin sticky-item active-icon"></span>
+                                    </a>
+                                {{/if}}
+
+                                {{#unless isReadonly}}
+                                    <span class="itemDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
+                                {{/unless}}
+                            </span>
                         </div>
+                    </h4>
+                </div>
+
+                <div id="collapse-{{infoItem._id}}" class="panel-collapse collapse" role="tabpanel"
+                     aria-labelledby="headingOne">
+                    <div id="id-details-{{infoItem._id}}" class="panel-body actionItemDetails">
+                        {{#let itemIndex=@index itemId=infoItem._id}}
+                            {{#each detailsArray itemIndex}}
+                                <div class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
+                                    <div>
+                                        <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
+                                        <span id="detailActions_{{itemId}}_{{@index}}"
+                                              class="pull-right pull-right-icons detailActions"
+                                              style="display: none;">
+                                            <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"></span>
+                                            <span class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
+                                                data-id="{{itemId}}_{{@index}}"></span>
+                                        </span>
+
+                                    </div>
+                                    <div style="padding-left: 10px;" class="detailText"
+                                         data-id="{{itemId}}_{{@index}}">
+                                        <span id="detailText_{{itemId}}_{{@index}}"
+                                              style="font-size: 120%;"
+                                              data-id="{{itemId}}_{{@index}}"
+                                              data-text="{{this.text}}">
+                                            {{#markdown}}{{this.text}}{{/markdown}}
+                                        </span>
+
+                                        <textarea id="detailInput_{{itemId}}_{{@index}}"
+                                                  rows="1"
+                                                  data-id="{{itemId}}_{{@index}}"
+                                                  data-item="{{itemIndex}}"
+                                                  data-index="{{@index}}"
+                                                  class="form-control detailInput"
+                                                  style="display: none; font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
+                                                  placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        {{/let}}
+                        {{#unless isReadonly}}
+                            <a href="#" data-index="{{@index}}" class="addDetail hidden-print">Add details</a>
+                        {{/unless}}
                     </div>
                 </div>
-            {{/each}}
-        </div>
+            </div>
+        {{/each}}
     </div>
 </template>
