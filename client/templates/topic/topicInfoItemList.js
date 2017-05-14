@@ -107,7 +107,7 @@ let addNewDetails = async (tmpl, index) => {
         return;
     }
     let aMin = new Minutes(context.topicParentId);
-    let infoItem = tmpl.data.topic.infoItems[index];
+    let infoItem = context.items[index];
     let aTopic = new Topic(aMin, infoItem.parentTopicId);
     let aItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
@@ -347,9 +347,9 @@ Template.topicInfoItemList.events({
         }
 
         let index = $(evt.currentTarget).data('index');
-        let infoItem = this.topic.infoItems[index];
+        let infoItem = context.items[index];
 
-        let aInfoItem = findInfoItem(this.minutesID, this.topic._id, infoItem._id);
+        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof InfoItem) {
             aInfoItem.toggleSticky();
             aInfoItem.save()

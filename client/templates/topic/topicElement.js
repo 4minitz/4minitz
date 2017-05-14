@@ -84,9 +84,6 @@ Template.topicElement.helpers({
             parentElement,
             data.topic._id
         );
-        /*let data = Template.instance().data;
-        data.parentMeetingSeriesId = this.parentMeetingSeriesId;
-        return data;*/
     },
 
     classForEdit() {
