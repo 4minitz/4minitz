@@ -6,6 +6,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import {InfoItemFactory} from "../../../imports/InfoItemFactory";
 import { handleError } from '../../helpers/handleError';
+import { formatDateISO8601 } from '/imports/helpers/date';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -156,6 +157,13 @@ Template.topicInfoItemList.helpers({
         if (infoItem.itemType !== 'actionItem') {
             return 'infoitem';
         } else if (infoItem.isOpen) {
+            let todayDate = formatDateISO8601(new Date());
+            if (infoItem.duedate && infoItem.duedate === todayDate) {
+                return 'actionitem-open-due-today';
+            }
+            if (infoItem.duedate && infoItem.duedate < todayDate) {
+                return 'actionitem-open-due-over';
+            }
             return 'actionitem-open';
         } else {
             return 'actionitem-closed';
@@ -206,6 +214,16 @@ Template.topicInfoItemList.helpers({
             return {disabled: 'disabled'};
         } else {
             return '';
+        }
+    },
+
+    cursorForEdit() {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        if (context.isReadonly) {
+            return '';
+        } else {
+            return 'pointer';
         }
     },
 

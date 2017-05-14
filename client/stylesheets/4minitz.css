@@ -109,7 +109,12 @@ a:focus {
 .panel-heading.actionitem-open {
     background-color: #88dddd !important;
 }
-
+.panel-heading.actionitem-open-due-today {
+    background-color: #ffffcc !important;
+}
+.panel-heading.actionitem-open-due-over {
+    background-color: #ffdddd !important;
+}
 .panel-heading.actionitem-closed {
     background-color: #DDDDDD !important;
 }
