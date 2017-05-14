@@ -188,11 +188,15 @@ export class Minutes {
         });
     }
 
-    getTopicsWithoutItems() {
-        return this.topics.map((topicDoc) => {
-            topicDoc.infoItems = [];
-            return topicDoc;
-        });
+    getOpenTopicsWithoutItems() {
+        return this.topics
+            .filter(topicDoc => {
+                return topicDoc.isOpen;
+            })
+            .map(topicDoc => {
+                topicDoc.infoItems = [];
+                return topicDoc;
+            });
     }
 
     async upsertTopic(topicDoc, insertPlacementTop = true) {

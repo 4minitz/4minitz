@@ -9,7 +9,7 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
     constructor(sender, minute) {
         super(sender
             , minute.getPersonsInformedWithEmail(Meteor.users)
-            , minute, minute.getTopicsWithoutItems()
+            , minute, minute.getOpenTopicsWithoutItems()
             , minute.parentMeetingSeries()
             , minute.getParticipants(Meteor.users)
             , minute.getInformed(Meteor.users)
