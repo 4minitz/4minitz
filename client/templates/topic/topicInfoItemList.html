@@ -1,9 +1,9 @@
 <template name="topicInfoItemList">
     <div class="leftIndent-desktop">
         <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
-            {{#each infoItem in topic.infoItems}}
+            {{#each infoItem in items}}
                 {{triggerAddDetails @index}}
-                <div class="panel topicInfoItem" data-id="{{infoItem._id}}" data-parent-id="{{topic._id}}">
+                <div class="panel topicInfoItem" data-id="{{infoItem._id}}" data-topic-parent-id="{{topicParentId}}" data-parent-id="{{infoItem.parentTopicId}}">
                     <div class="panel-heading {{topicStateClass @index}}" role="tab" id="headingOne" style="position: relative;">
                         {{#if hasDetails @index}}
                             <a role="button" class="expandDetails hidden-print expand-collapse-triangle"
@@ -52,7 +52,7 @@
 
                                 <!-- Manipulation Drop-Down Menu -->
                                 <span class="pull-right pull-right-icons hidden-print">
-                                    {{#if isEditable}}
+                                    {{#unless isReadonly}}
                                         <a href="#" id="btnItemDropdownMenu" class="panel-dropper dropdown-toggle"
                                            data-toggle="dropdown">
                                             <span class="glyphicon glyphicon-option-vertical"></span>
@@ -88,7 +88,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    {{/if}}
+                                    {{/unless}}
 
                                     {{#if infoItem.isSticky}}
                                         <a href="#" class="panel-link btnPinInfoItem" title="Set as unpinned info item" data-index="{{@index}}">
@@ -96,9 +96,9 @@
                                         </a>
                                     {{/if}}
 
-                                    {{#if isEditable}}
+                                    {{#unless isReadonly}}
                                         <span class="itemDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
-                                    {{/if}}
+                                    {{/unless}}
                                 </span>
                             </div>
                         </h4>
@@ -142,9 +142,9 @@
                                     </div>
                                 {{/each}}
                             {{/let}}
-                            {{#if isEditable}}
+                            {{#unless isReadonly}}
                                 <a href="#" data-index="{{@index}}" class="addDetail hidden-print">Add details</a>
-                            {{/if}}
+                            {{/unless}}
                         </div>
                     </div>
                 </div>
