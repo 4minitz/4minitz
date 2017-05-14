@@ -23,6 +23,7 @@
                                 {{#if isActionItem @index}}
                                     <input type="checkbox" class="checkbox btnToggleAIState" data-index="{{@index}}"
                                            id="btnToggleAIState_{{infoItem._id}}" {{checkedState @index}} {{disabledState @index}}>
+                                    <span class="checkbox-material"><span class="check"></span></span>
                                 {{else}}
                                     <span class="glyphicon glyphicon-info-sign" style="cursor: auto"></span>
                                 {{/if}}
@@ -100,6 +101,7 @@
                                 {{/unless}}
                             </span>
                         </div>
+                        <div class="clearfix"></div>
                     </h4>
                 </div>
 
