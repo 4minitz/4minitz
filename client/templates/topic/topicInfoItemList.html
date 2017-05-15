@@ -105,10 +105,11 @@
                     </h4>
                 </div>
 
-                <div id="collapse-{{infoItem._id}}" class="panel-collapse collapse" role="tabpanel"
+                <div id="collapse-{{infoItem._id}}" class="panel-collapse collapse" role="tabpanel" data-index="{{@index}}"
                      aria-labelledby="headingOne">
                     <div id="id-details-{{infoItem._id}}" class="panel-body actionItemDetails">
                         {{#let itemIndex=@index itemId=infoItem._id}}
+                            {{#unless isCollapsed itemIndex}}
                             {{#each detailsArray itemIndex}}
                                 <div class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                                     <div>
@@ -142,6 +143,7 @@
                                     </div>
                                 </div>
                             {{/each}}
+                            {{/unless}}
                         {{/let}}
                         {{#unless isReadonly}}
                             <a href="#" data-index="{{@index}}" class="addDetail hidden-print">Add details</a>
