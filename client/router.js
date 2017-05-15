@@ -33,20 +33,27 @@ FlowRouter.route('/legalnotice', {
     }
 });
 
-FlowRouter.route( '/#/verify-email/:token', {
+
+FlowRouter.route( '/verify-email/:token', {
     name: 'verify-email',
     action( params ) {
         Accounts.verifyEmail( params.token, ( error ) =>{
             if ( error ) {
-                Bert.alert( error.reason, 'danger' );
+                alert(error.reason);
             } else {
                 FlowRouter.go( '/' );
-                Bert.alert( 'Email verified! Thanks!', 'success' );
+                alert('Email verified! Thanks!');
             }
         });
     }
 });
 
+FlowRouter.route( '/reset-password/:token', {
+    name: 'reset-password',
+    action() {
+        BlazeLayout.render('resetPassword');
+    }
+});
 
 
 FlowRouter.route('/meetingseries/:_id', {
