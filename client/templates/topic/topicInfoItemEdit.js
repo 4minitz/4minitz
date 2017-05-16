@@ -174,6 +174,7 @@ Template.topicInfoItemEdit.events({
 
         let type = Session.get('topicInfoItemType');
         let newSubject = tmpl.find('#id_item_subject').value;
+        let newDetail = tmpl.find('#id_item_detailInput').value;
 
         let editItem = getEditInfoItem();
         let doc = {};
@@ -194,6 +195,12 @@ Template.topicInfoItemEdit.events({
             }
             return label.getId();
         });
+
+        if (newDetail) {
+            editItem.addDetails(aMinute._id, newDetail);
+            tmpl.find('#id_item_detailInput').value = "";
+        }
+
         doc.subject = newSubject;
         if (!doc.createdInMinute) {
             doc.createdInMinute = _minutesID;
@@ -304,5 +311,15 @@ Template.topicInfoItemEdit.events({
             _meetingSeries.addAdditionalResponsible(respName);
             _meetingSeries.save();
         }
+    },
+
+    'click .detailInputMarkdownHint'(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        ConfirmationDialogFactory
+            .makeInfoDialog('Help for Markdown Syntax')
+            .setTemplate('markdownHint')
+            .show();
+
     }
 });
