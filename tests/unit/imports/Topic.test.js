@@ -61,8 +61,8 @@ const {
     '/imports/helpers/subElements': SubElements,
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
-    './helpers/promisedMethods': { null, '@noCallThru': true},
-    './collections/minutes_private': { null, '@noCallThru': true},
+    './helpers/promisedMethods': { "null": null, '@noCallThru': true},
+    './collections/minutes_private': { "null": null, '@noCallThru': true},
 });
 
 const {

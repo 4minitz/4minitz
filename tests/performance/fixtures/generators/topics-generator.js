@@ -127,6 +127,7 @@ export class TopicsGenerator {
             isOpen: faker.random.boolean(),
             isNew: false,
             isRecurring: false,
+            isSkipped: false,
             labels: [],
             infoItems: items
         };
@@ -168,6 +169,8 @@ export class TopicsGenerator {
     _generateADetail() {
         let date = (this.minutesDate) ? this.minutesDate : new Date();
         return {
+            _id: Random.generateId(),
+            createdInMinute: this.currentMinutesId,
             date: DateHelper.formatDateISO8601(date),
             text: faker.lorem.sentences(faker.random.number(this.config.detailsSentenceRange))
         }

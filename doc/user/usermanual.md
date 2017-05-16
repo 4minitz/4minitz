@@ -160,6 +160,12 @@ Action Items are children of topics and will be sent to the entered responsible(
 
 An action item will be propagated together with its parent topic to the next meeting unless the action item is checked as "done".
 
+The color of the action items background gives the following information:
+* green: normal open action item
+* yellow: the action item is due TODAY
+* red: the action item is over due
+* grey: the action item is closed
+
 The menu entries in the "three dot" action item menu allow the following operations:
 
 * **"Add Details"** will add details to the item. This feature will be described in the chapter "Adding Details".
