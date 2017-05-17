@@ -1,9 +1,21 @@
 <template name="home">
 
-  {{#unless currentUser.emails.[0].verified}}
-    <p class="alert alert-warning">You need to verify your email address before.
-        <a href="" class="resend-verification-link">Resend verification link</a>.
-    </p>
+  {{#if sendVerificationEmailEnabled}}
+      {{#unless currentUser.emails.[0].verified}}
+          <p class="alert alert-warning">You need to verify your email address before.
+              <a href="" class="resend-verification-link">Resend verification link</a>.
+          </p>
+      {{else}}
+          {{#if currentUser}}
+              {{> meetingSeriesList}}
+          {{else}}
+              <!-- This login template embedding is for security only... -->
+              <!-- Normally the router.js decides to render the login template if no user is logged in -->
+              {{> login}}
+
+          {{/if}}
+      {{/unless}}
+
   {{else}}
 
     {{#if currentUser}}
@@ -15,5 +27,6 @@
       {{> login}}
 
     {{/if}}
-  {{/unless}}
+  {{/if}}
+
 </template>
