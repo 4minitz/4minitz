@@ -95,13 +95,13 @@
             "apiUrl": "https://api.mailgun.net/v3"
         },
 
-        "//3.6": "Send an e-mail with a verification token to new user",
+        "//3.6": "Send an e-mail with a verification token to new user when enableMailDelivery:true",
         "sendVerificationEmail": false,
 
-        "//3.7": "Enable form to resend the verification token to users e-mail",
+        "//3.7": "Enable form to resend the verification token to users e-mail when enableMailDelivery:true",
         "showResendVerificationEmailLink": false,
 
-        "//3.8": "Enable form to perform user password reset",
+        "//3.8": "Enable form to perform user password reset when enableMailDelivery:true",
         "showForgotPasswordLink": false
     },
 

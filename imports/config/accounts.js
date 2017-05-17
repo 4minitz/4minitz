@@ -55,15 +55,15 @@ if (Meteor.isServer) {
                                         ? Meteor.settings.forbidClientAccountCreation
                                         : false),
 
-        sendVerificationEmail: (Meteor.settings.email.sendVerificationEmail
+        sendVerificationEmail: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.sendVerificationEmail
             ? Meteor.settings.email.sendVerificationEmail
             : false),
 
-        showResendVerificationEmailLink: (Meteor.settings.email.showResendVerificationEmailLink
+        showResendVerificationEmailLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showResendVerificationEmailLink
             ? Meteor.settings.email.showResendVerificationEmailLink
             : false),
 
-        showForgotPasswordLink: (Meteor.settings.email.showForgotPasswordLink
+        showForgotPasswordLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showForgotPasswordLink
             ? Meteor.settings.email.showForgotPasswordLink
             : false)
     });
@@ -83,15 +83,15 @@ if (Meteor.isServer) {
                                         ? Meteor.settings.public.forbidClientAccountCreation
                                         : false),
 
-        sendVerificationEmail: (Meteor.settings.public.sendVerificationEmail
+        sendVerificationEmail: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.sendVerificationEmail
             ? Meteor.settings.public.sendVerificationEmail
             : false),
 
-        showResendVerificationEmailLink: (Meteor.settings.public.showResendVerificationEmailLink
+        showResendVerificationEmailLink: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.showResendVerificationEmailLink
             ? Meteor.settings.public.showResendVerificationEmailLink
             : false),
 
-        showForgotPasswordLink: (Meteor.settings.public.showForgotPasswordLink
+        showForgotPasswordLink: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.showForgotPasswordLink
             ? Meteor.settings.public.showForgotPasswordLink
             : false)
     });
