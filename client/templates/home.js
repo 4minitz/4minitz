@@ -1,3 +1,4 @@
+import {FlashMessage} from "../helpers/flashMessage";
 Template.home.created = function () {
     //add your statement here 
 };
@@ -6,10 +7,11 @@ Template.home.events({
     'click .resend-verification-link' () {
         Meteor.call('sendVerificationLink', (error) => {
             if (error) {
-                alert(error.reason);
+                (new FlashMessage('Error', error.reason)).show();
             } else {
                 let email = Meteor.user().emails[0].address;
-                alert("Verification sent to " + email + "");
+                let message = 'Verification sent to ' + email;
+                (new FlashMessage('', message, 'alert-success')).show();
             }
         });
     }

@@ -1,5 +1,6 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+import {FlashMessage} from "./helpers/flashMessage";
 
 FlowRouter.route('/', {
     action() {
@@ -39,10 +40,10 @@ FlowRouter.route( '/verify-email/:token', {
     action( params ) {
         Accounts.verifyEmail( params.token, ( error ) =>{
             if ( error ) {
-                alert(error.reason);
+                (new FlashMessage('Error', error.reason)).show();
             } else {
                 FlowRouter.go( '/' );
-                alert('Email verified! Thanks!');
+                (new FlashMessage('', 'Email verified', 'alert-success')).show();
             }
         });
     }
