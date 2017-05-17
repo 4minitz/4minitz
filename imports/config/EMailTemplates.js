@@ -1,7 +1,7 @@
-import { GlobalSettings } from '../config/GlobalSettings';
 import { Accounts } from 'meteor/accounts-base'
+import {GlobalSettings} from "./GlobalSettings";
 
-Accounts.emailTemplates.siteName = '4Minitz';
+Accounts.emailTemplates.siteName = GlobalSettings.getSiteName();
 Accounts.emailTemplates.from     = Accounts.emailTemplates.siteName + "<" + GlobalSettings.getDefaultEmailSenderAddress() + ">";
 
 Accounts.emailTemplates.verifyEmail = {

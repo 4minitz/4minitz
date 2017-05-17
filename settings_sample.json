@@ -50,6 +50,9 @@
         }
     },
 
+    "//2.2": "Change name of site",
+    "siteName": "4Minitz",
+
     "//3": "below option configures if and how to send E-Mails",
     "email": {
         "//3.1": "Switch on/off E-Mail sending",

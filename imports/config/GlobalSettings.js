@@ -126,6 +126,13 @@ export class GlobalSettings {
         return Meteor.settings.defaultLabels;
     }
 
+    static getSiteName() {
+        if (!Meteor.settings.siteName) {
+            return "4Minitz";
+        }
+        return Meteor.settings.siteName;
+    }
+
     static getDefaultEmailSenderAddress(alternativeSender) {
         let address = (Meteor.settings.email)
             ? Meteor.settings.email.defaultEMailSenderAddress
