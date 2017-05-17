@@ -3,6 +3,12 @@ Template.home.created = function () {
     //add your statement here 
 };
 
+Template.home.helpers({
+    sendVerificationEmailEnabled(){
+        return Meteor.settings.public.sendVerificationEmail;
+    }
+});
+
 Template.home.events({
     'click .resend-verification-link' () {
         Meteor.call('sendVerificationLink', (error) => {
