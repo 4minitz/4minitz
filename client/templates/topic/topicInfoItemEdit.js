@@ -31,6 +31,7 @@ Template.topicInfoItemEdit.onCreated(function () {
     console.log('Template topicEdit created with minutesID '+_minutesID);
     let aMin = new Minutes(_minutesID);
     _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
+    this.collapseState = new ReactiveVar(false);
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
@@ -161,6 +162,10 @@ Template.topicInfoItemEdit.helpers({
     getTopicItemType: function () {
         let type = Session.get('topicInfoItemType');
         return (type === 'infoItem') ? 'Information' : 'Action Item';
+    },
+
+    collapseState: function() {
+        return Template.instance().collapseState.get();
     }
 });
 
@@ -196,11 +201,6 @@ Template.topicInfoItemEdit.events({
             return label.getId();
         });
 
-        if (newDetail) {
-            editItem.addDetails(aMinute._id, newDetail);
-            tmpl.find('#id_item_detailInput').value = "";
-        }
-
         doc.subject = newSubject;
         if (!doc.createdInMinute) {
             doc.createdInMinute = _minutesID;
@@ -229,6 +229,14 @@ Template.topicInfoItemEdit.events({
         let itemAlreadyExists = !!newItem.getId();
         newItem.saveAsync().catch(handleError);
         console.log('Successfully saved new item with id: ' + newItem.getId());
+        if (newDetail) {
+            newItem.addDetails(aMinute._id, newDetail);
+            newItem.saveAsync().catch(handleError);
+            let details = newItem.getDetails();
+            let detailItem = newItem.getDetailsAt(details.length-1);
+            console.log('Successfully saved new detail with id: ' + detailItem._id);
+            tmpl.find('#id_item_detailInput').value = "";
+        }
         $('#dlgAddInfoItem').modal('hide');
         if (!itemAlreadyExists) {
             Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
@@ -321,5 +329,18 @@ Template.topicInfoItemEdit.events({
             .setTemplate('markdownHint')
             .show();
 
+    },
+
+    'click #btnExpandCollapse': function (evt, tmpl) {
+        evt.preventDefault();
+
+        let detailsArea = document.getElementById('id_item_detailInput');
+        detailsArea.style.display = (detailsArea.style.display ==='none') ? 'inline-block' : 'none';
+        tmpl.collapseState.set(!tmpl.collapseState.get());
+
+        /*Code aus anderem js
+        let warningMessage = document.getElementById('warningMessage');
+        warningMessage.style.display = (warningMessage.style.display === 'none') ? 'inline-block' : 'none';
+        tmpl.currentSymbol.set(!tmpl.currentSymbol.get());*/
     }
 });

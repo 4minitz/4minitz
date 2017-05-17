@@ -26,16 +26,31 @@
                         </div>
 
                         <div class="form-group form-group-labels">
+                            <a role="button" id="btnExpandCollapse" class="expandDetails hidden-print expand-collapse-triangle"
+                               data-toggle="collapse"
+                               href="#"
+                               style="position: absolute; margin-left: -16px; margin-top: 12px; color: grey;">
+                                {{#if collapseState }}
+                                    <span class="glyphicon glyphicon-triangle-right"></span>
+                                {{else}}
+                                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                {{/if}}
+                            </a>
+                            <span class="pull-right pull-right-icons detailActions detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon" style="margin-top: 11px;"></span>
+                            <label for="id_item_detailInput" class="control-label" style="color: teal;">Add new details</label>
+                            <textarea id="id_item_detailInput"
+                                      class="form-control"
+                                      style="font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
+                                      placeholder="You may use Markdown to edit."></textarea>
+                        </div>
+
+                        <div class="form-group form-group-labels">
                             <label for="id_item_selLabelsActionItem" class="control-label" style="color: teal;">Labels</label>
                             <select id="id_item_selLabelsActionItem" multiple="multiple" style="width:100%;">
                                 <!--Options will be filled in by show.bs.modal event handler-->
                             </select>
                         </div>
-                        <div class="form-group label-floating">
-                            <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"></span>
-                            <label for="id_item_detailInput" class="control-label">Add new detail</label>
-                            <textarea id="id_item_detailInput" class="form-control" ></textarea>
-                        </div>
+
                         <div class="actionItemOnly" style="display: none;">
                             <div class="row">
                                 <div class="col-md-12">

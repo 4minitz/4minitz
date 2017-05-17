@@ -142,9 +142,9 @@ Template.topicInfoItemList.helpers({
         const tmpl = Template.instance();
         if (itemId && itemId === tmpl.data.items[index]._id) {
             Session.set('topicInfoItem.triggerAddDetailsForItem', null);
-            Meteor.setTimeout(() => {
+            /*Meteor.setTimeout(() => {
                 addNewDetails(tmpl, index).catch(handleError);
-            }, 1300); // we need this delay otherwise the input field will be made hidden immediately
+            }, 100); // we need this delay otherwise the input field will be made hidden immediately*/
         }
         // do not return anything! This will be rendered on the page!
         return '';
