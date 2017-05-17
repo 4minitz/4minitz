@@ -50,15 +50,6 @@
         }
     },
 
-    "//2.2": "Send an e-mail with a verification token to new user",
-    "sendVerificationEmail": false,
-
-    "//2.3": "Enable form to resend the verification token to users e-mail",
-    "showResendVerificationEmailLink": false,
-
-    "//2.4": "Enable form to perform user password reset",
-    "showForgotPasswordLink": false,
-
     "//3": "below option configures if and how to send E-Mails",
     "email": {
         "//3.1": "Switch on/off E-Mail sending",
@@ -102,7 +93,16 @@
             "apiKey": "Your mailgun api key",
             "domain": "Your mailgun domain",
             "apiUrl": "https://api.mailgun.net/v3"
-        }
+        },
+
+        "//3.6": "Send an e-mail with a verification token to new user",
+        "sendVerificationEmail": false,
+
+        "//3.7": "Enable form to resend the verification token to users e-mail",
+        "showResendVerificationEmailLink": false,
+
+        "//3.8": "Enable form to perform user password reset",
+        "showForgotPasswordLink": false
     },
 
     "//4": "below option to configure default labels. These will be copied to all newly added meeting series",

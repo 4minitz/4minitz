@@ -71,18 +71,18 @@ export class GlobalSettings {
                 : false;
 
         Meteor.settings.public.sendVerificationEmail =
-            (Meteor.settings.sendVerificationEmail !== undefined)
-                ? Meteor.settings.sendVerificationEmail
+            (Meteor.settings.email && Meteor.settings.email.sendVerificationEmail !== undefined)
+                ? Meteor.settings.email.sendVerificationEmail
                 : false;
 
         Meteor.settings.public.showResendVerificationEmailLink =
-            (Meteor.settings.showResendVerificationEmailLink !== undefined)
-                ? Meteor.settings.showResendVerificationEmailLink
+            (Meteor.settings.email && Meteor.settings.email.showResendVerificationEmailLink !== undefined)
+                ? Meteor.settings.email.showResendVerificationEmailLink
                 : false;
 
         Meteor.settings.public.showForgotPasswordLink =
-            (Meteor.settings.showForgotPasswordLink !== undefined)
-                ? Meteor.settings.showForgotPasswordLink
+            (Meteor.settings.email && Meteor.settings.email.showForgotPasswordLink !== undefined)
+                ? Meteor.settings.email.showForgotPasswordLink
                 : false;
 
         // enforce slash "/" at the end

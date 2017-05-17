@@ -7,9 +7,6 @@
 
     "trustedIntranetInstallation": true,
     "forbidClientAccountCreation": false,
-    "sendVerificationEmail": true,
-    "showResendVerificationEmailLink": true,
-    "showForgotPasswordLink": true,
 
     "branding": {
         "legalNotice": {
@@ -68,7 +65,10 @@
         "//": "E-Mails will not actually be sent because there is no smtp configuration given",
         "enableMailDelivery": true,
         "mailDeliverer": "test",
-        "defaultEMailSenderAddress": "default@email.de"
+        "defaultEMailSenderAddress": "default@email.de",
+        "sendVerificationEmail": true,
+        "showResendVerificationEmailLink": true,
+        "showForgotPasswordLink": true
     },
 
     "db": {

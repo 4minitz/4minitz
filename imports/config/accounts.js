@@ -55,16 +55,16 @@ if (Meteor.isServer) {
                                         ? Meteor.settings.forbidClientAccountCreation
                                         : false),
 
-        sendVerificationEmail: (Meteor.settings.sendVerificationEmail
-            ? Meteor.settings.sendVerificationEmail
+        sendVerificationEmail: (Meteor.settings.email.sendVerificationEmail
+            ? Meteor.settings.email.sendVerificationEmail
             : false),
 
-        showResendVerificationEmailLink: (Meteor.settings.showResendVerificationEmailLink
-            ? Meteor.settings.showResendVerificationEmailLink
+        showResendVerificationEmailLink: (Meteor.settings.email.showResendVerificationEmailLink
+            ? Meteor.settings.email.showResendVerificationEmailLink
             : false),
 
-        showForgotPasswordLink: (Meteor.settings.showForgotPasswordLink
-            ? Meteor.settings.showForgotPasswordLink
+        showForgotPasswordLink: (Meteor.settings.email.showForgotPasswordLink
+            ? Meteor.settings.email.showForgotPasswordLink
             : false)
     });
 
