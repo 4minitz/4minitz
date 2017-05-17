@@ -65,10 +65,7 @@
         "//": "E-Mails will not actually be sent because there is no smtp configuration given",
         "enableMailDelivery": true,
         "mailDeliverer": "test",
-        "defaultEMailSenderAddress": "default@email.de",
-        "sendVerificationEmail": true,
-        "showResendVerificationEmailLink": true,
-        "showForgotPasswordLink": true
+        "defaultEMailSenderAddress": "default@email.de"
     },
 
     "db": {
