@@ -1,5 +1,5 @@
-import { MinutesCollection } from '/imports/collections/minutes_private'
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
+import { MinutesCollection } from '/imports/collections/minutes_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
 
 // Topics: convert the responsible (string) => responsibles (array) fields
 export class MigrateV4 {
@@ -41,7 +41,7 @@ export class MigrateV4 {
                 meeting._id,
                 {
                     $set: {topics:    meeting.topics,
-                          openTopics: meeting.openTopics}
+                        openTopics: meeting.openTopics}
                 },
                 {bypassCollection2: true}
             );
@@ -84,7 +84,7 @@ export class MigrateV4 {
                 meeting._id,
                 {
                     $set: {topics:     meeting.topics,
-                           openTopics: meeting.openTopics}
+                        openTopics: meeting.openTopics}
                 },
                 {bypassCollection2: true}
             );

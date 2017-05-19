@@ -1,4 +1,4 @@
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
 
 // MeetingSeries: add responsiblesFreeText field
 export class MigrateV8 {
@@ -8,12 +8,12 @@ export class MigrateV8 {
                 series._id,
                 {
                     $set: {
-                        "additionalResponsibles": []
+                        'additionalResponsibles': []
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 
     static down() {
@@ -22,11 +22,11 @@ export class MigrateV8 {
                 series._id,
                 {
                     $unset: {
-                        "additionalResponsibles": ""
+                        'additionalResponsibles': ''
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 }

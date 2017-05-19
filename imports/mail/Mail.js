@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { GlobalSettings } from '../config/GlobalSettings'
+import { GlobalSettings } from '../config/GlobalSettings';
 
 export class Mail {
 
@@ -33,14 +33,14 @@ export class Mail {
         try {
             this._sendMail();
         } catch(error) {
-            console.log("#Email could not be sent successfully to: " + this._recipients);
-            console.log("\tEmail subject: " + this._subject);
-            console.log("\tError: " + error);
+            console.log('#Email could not be sent successfully to: ' + this._recipients);
+            console.log('\tEmail subject: ' + this._subject);
+            console.log('\tError: ' + error);
             return;
         }
 
-        console.log("#Email was sent successfully to: " + this._recipients);
-        console.log("\tEmail subject: " + this._subject);
+        console.log('#Email was sent successfully to: ' + this._recipients);
+        console.log('\tEmail subject: ' + this._subject);
     }
 
     _sendMail() {

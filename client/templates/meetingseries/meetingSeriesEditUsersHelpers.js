@@ -1,31 +1,31 @@
 
-import { UserRoles } from '/imports/userroles'
+import { UserRoles } from '/imports/userroles';
 
 let longName2shortName = {};
 
 // For adding of users:
 // build list of available users that are not already shown in user editor
-export var userlistClean = function (allUsers,substractUsers) {
+export let userlistClean = function (allUsers,substractUsers) {
     let resultUsers = [];
 
     // build a dict with username => user object
     let indexedSubstractUsers = {};
     for (let i in substractUsers) {
         let sUser = substractUsers[i];
-        indexedSubstractUsers[sUser["username"]] = sUser;
+        indexedSubstractUsers[sUser['username']] = sUser;
     }
 
     // copy all users to result, if NOT in indexedSubstractUsers
     for (let i in allUsers) {
         let aUser = allUsers[i];
-        if (indexedSubstractUsers[aUser["username"]] == undefined) {
-            let longname = "";
-            if (aUser.profile && aUser.profile.name && aUser.profile.name !== "") {
-                longname = " - "+aUser.profile.name;
+        if (indexedSubstractUsers[aUser['username']] === undefined) {
+            let longname = '';
+            if (aUser.profile && aUser.profile.name && aUser.profile.name !== '') {
+                longname = ' - '+aUser.profile.name;
             }
-            resultUsers.push(aUser["username"]+longname);
+            resultUsers.push(aUser['username']+longname);
             // create lookup dict to convert the long LDAP names back to unique short usernames
-            longName2shortName[aUser["username"]+longname] = aUser["username"];
+            longName2shortName[aUser['username']+longname] = aUser['username'];
         }
     }
 
@@ -35,20 +35,20 @@ export var userlistClean = function (allUsers,substractUsers) {
 export function checkUserName(newUserName, config) {
     // convert the LDAP long name back to the short unique username
     newUserName = longName2shortName[newUserName];
-    let addedUser = Meteor.users.findOne({"username": newUserName});
+    let addedUser = Meteor.users.findOne({'username': newUserName});
     let result = {
         addedUser: addedUser,
         valid: false,
         errorMsg: ''
     };
     if (!addedUser) {
-        result.errorMsg = "This is not a registered user name";
+        result.errorMsg = 'This is not a registered user name';
         return result;
     }
-    let alreadyInEditor = config.users.findOne({"username": newUserName});
+    let alreadyInEditor = config.users.findOne({'username': newUserName});
     if (alreadyInEditor) {
-        result.errorMsg = "This user name is already in list";
-        return result
+        result.errorMsg = 'This user name is already in list';
+        return result;
     }
 
     result.valid = true;
@@ -62,10 +62,8 @@ export function checkUserName(newUserName, config) {
  * This user will get the role "Invited" for the current meeting series.
  * To enable "Cancel" of editor, this role is kept in the temporary
  * collection until "Save".
- *
- * @param newUserName
  */
-export var addNewUser = function (newUserName, config) {
+export let addNewUser = function (newUserName, config) {
     if (!newUserName) {
         return;
     }

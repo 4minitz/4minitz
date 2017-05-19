@@ -4,19 +4,19 @@ import { Meteor} from 'meteor/meteor';
 export class MigrateV11 {
 
     static up() {
-        let demoUser = Meteor.users.findOne({"username": "demo"});
+        let demoUser = Meteor.users.findOne({'username': 'demo'});
         if (demoUser) {
-            Meteor.users.update({"username": "demo"}, {$set: {isDemoUser: true}});
+            Meteor.users.update({'username': 'demo'}, {$set: {isDemoUser: true}});
             if (demoUser.isInactive === undefined) {
-                Meteor.users.update({"username": "demo"}, {$set: {isInactive: false}});
+                Meteor.users.update({'username': 'demo'}, {$set: {isInactive: false}});
             }
         }
     }
 
     static down() {
-        let demoUser = Meteor.users.findOne({"username": "demo"});
+        let demoUser = Meteor.users.findOne({'username': 'demo'});
         if (demoUser) {
-            Meteor.users.update({"username": "demo"}, {$unset: {isDemoUser: false}});
+            Meteor.users.update({'username': 'demo'}, {$unset: {isDemoUser: false}});
         }
     }
 }

@@ -1,6 +1,6 @@
 import { _ } from 'meteor/underscore';
 
-import { ItemsFilter } from './ItemsFilter'
+import { ItemsFilter } from './ItemsFilter';
 
 import { TOPIC_KEYWORDS } from './FilterKeywords';
 
@@ -64,32 +64,32 @@ export class TopicsFilter {
             let filter = filterTokens[i];
 
             switch (filter.key) {
-                case TOPIC_KEYWORDS.IS.key:
+            case TOPIC_KEYWORDS.IS.key:
                 {
                     if (!this.constructor._docMatchesKeyword_IS(doc, filter.value)) {
                         return false;
                     }
                     break;
                 }
-                case TOPIC_KEYWORDS.HAS.key:
+            case TOPIC_KEYWORDS.HAS.key:
                 {
                     if (!this._docMatchesKeyword_HAS(doc, filter.value)) {
                         return false;
                     }
                     break;
                 }
-                case TOPIC_KEYWORDS.USER.key:
+            case TOPIC_KEYWORDS.USER.key:
                 {
                     if (!this._docMatchesKeywords_USER(doc, filter)) {
                         return false;
                     }
                     break;
                 }
-                case TOPIC_KEYWORDS.DO.key:
+            case TOPIC_KEYWORDS.DO.key:
                 {
                     break;
                 }
-                default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
+            default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
             }
         }
 
@@ -98,7 +98,7 @@ export class TopicsFilter {
 
     _docMatchesKeywords_USER(doc, filter) {
         if (!doc.responsibles) { return false; }
-        let respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp }, "");
+        let respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp; }, '');
         return ( (filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0)
                     || (filter.value && this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1) );
     }
@@ -106,23 +106,23 @@ export class TopicsFilter {
 
     static _docMatchesKeyword_IS(doc, value) {
         switch (value) {
-            case 'open':
-                return doc.isOpen;
-            case 'closed':
+        case 'open':
+            return doc.isOpen;
+        case 'closed':
                 // explicit comparison required to skip info items (which has no isOpen property)
-                return doc.isOpen === false;
-            case 'new':
-                return doc.isNew;
-            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
+            return doc.isOpen === false;
+        case 'new':
+            return doc.isNew;
+        default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
         }
     }
 
     _docMatchesKeyword_HAS(doc, value) {
         switch (value) {
-            case 'item':
-                return doc.infoItems.length > 0;
-            case 'info':
-            case 'action':
+        case 'item':
+            return doc.infoItems.length > 0;
+        case 'info':
+        case 'action':
             {
                 let items = this.itemsFilter.filterWithParams(
                     doc.infoItems,
@@ -132,7 +132,7 @@ export class TopicsFilter {
                     [{key: 'is', value: value}]);
                 return items.length > 0;
             }
-            default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
+        default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
         }
     }
 

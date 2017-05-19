@@ -36,33 +36,33 @@ let onError = (error) => {
  */
 let togglePrintView = function (switchOn) {
     if (switchOn === undefined) {   // toggle on <=> off
-        Session.set("minutesedit.PrintViewActive", ! Session.get("minutesedit.PrintViewActive"));
+        Session.set('minutesedit.PrintViewActive', ! Session.get('minutesedit.PrintViewActive'));
     } else {
-        Session.set("minutesedit.PrintViewActive", switchOn);
+        Session.set('minutesedit.PrintViewActive', switchOn);
     }
 
-    if (Session.get("minutesedit.PrintViewActive")) {
+    if (Session.get('minutesedit.PrintViewActive')) {
         // expand all topics, but save current state before!
-        Session.set("minutesedit.collapsetopics-save4print."+_minutesID, Session.get("minutesedit.collapsetopics."+_minutesID));
-        Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+        Session.set('minutesedit.collapsetopics-save4print.'+_minutesID, Session.get('minutesedit.collapsetopics.'+_minutesID));
+        Session.set('minutesedit.collapsetopics.'+_minutesID, undefined);
 
-        Session.set("participants.expand", false);
-        $(".help").hide();
-        Meteor.setTimeout(function(){$(".collapse").addClass("in");}, 100);
+        Session.set('participants.expand', false);
+        $('.help').hide();
+        Meteor.setTimeout(function(){$('.collapse').addClass('in');}, 100);
 
         // give collapsibles some time for animation
-        Meteor.setTimeout(function(){$(".expand-collapse-triangle").hide();}, 350);
+        Meteor.setTimeout(function(){$('.expand-collapse-triangle').hide();}, 350);
         // as material checkboxes do not print correctly...
         // change material checkbox to normal checkbox for printing
-        Meteor.setTimeout(function(){$("div.checkbox").toggleClass('checkbox print-checkbox');}, 360);
+        Meteor.setTimeout(function(){$('div.checkbox').toggleClass('checkbox print-checkbox');}, 360);
         Meteor.setTimeout(function(){openPrintDialog();}, 500);
     } else {
         // change back normal checkboxes to material checkboxes after printing
-        $("div.print-checkbox").toggleClass('checkbox print-checkbox');
-        $(".expand-collapse-triangle").show();
-        $(".collapse").removeClass("in");
+        $('div.print-checkbox').toggleClass('checkbox print-checkbox');
+        $('.expand-collapse-triangle').show();
+        $('.collapse').removeClass('in');
         // restore old topic collapsible state
-        Session.set("minutesedit.collapsetopics."+_minutesID, Session.get("minutesedit.collapsetopics-save4print."+_minutesID));
+        Session.set('minutesedit.collapsetopics.'+_minutesID, Session.get('minutesedit.collapsetopics-save4print.'+_minutesID));
     }
 };
 
@@ -139,7 +139,7 @@ Template.minutesedit.onDestroyed(function() {
     if (orphanFlashMessage !== null) {
         orphanFlashMessage.hideMe();
     }
-    $(window).off("scroll");    // Prohibit accumulating multiple scroll handlers on window
+    $(window).off('scroll');    // Prohibit accumulating multiple scroll handlers on window
     $(document).unbindArrive('#id_minutesdatePicker');
     $(document).unbindArrive('#topicPanel');
     handleTemplatesGlobalKeyboardShortcuts(false);
@@ -181,7 +181,7 @@ let updateTopicSorting = function () {
     }
 
     minute.update({topics: newTopicSorting}).catch(error => {
-        $('#topicPanel').sortable( "cancel" );
+        $('#topicPanel').sortable( 'cancel' );
         onError(error);
     });
 };
@@ -189,12 +189,12 @@ let updateTopicSorting = function () {
 
 let openPrintDialog = function () {
     let ua = navigator.userAgent.toLowerCase();
-    let isAndroid = ua.indexOf("android") > -1;
+    let isAndroid = ua.indexOf('android') > -1;
 
     if (isAndroid && cloudprint && cloudprint.Gadget) {
         // https://developers.google.com/cloud-print/docs/gadget
         let gadget = new cloudprint.Gadget();
-        gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
+        gadget.setPrintDocument('url', $('title').html(), window.location.href, 'utf-8');
         gadget.openPrintDialog();
     } else {
         window.print();
@@ -233,7 +233,7 @@ Template.minutesedit.helpers({
             let datePickerNode = templateInstance.$('#id_minutesdatePicker');
             // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
             datePickerNode.datetimepicker({
-                format: "YYYY-MM-DD",
+                format: 'YYYY-MM-DD',
                 // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on some systems...
                 showTodayButton: true
             });
@@ -245,7 +245,7 @@ Template.minutesedit.helpers({
                     let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
                     if (minDate) {
                         minDate.setDate(minDate.getDate() + 1);
-                        datePickerNode.data("DateTimePicker").minDate(minDate);
+                        datePickerNode.data('DateTimePicker').minDate(minDate);
                     }
                 }
             }
@@ -316,9 +316,9 @@ Template.minutesedit.helpers({
 
     finalizeHistoryTooltip: function (buttontype) {
         let aMin = new Minutes(_minutesID);
-        let tooltip = buttontype ? buttontype+"\n" : "";
+        let tooltip = buttontype ? buttontype+'\n' : '';
         if (aMin.finalizedHistory) {
-            tooltip += "\nHistory:\n"+aMin.finalizedHistory.join("\n");
+            tooltip += '\nHistory:\n'+aMin.finalizedHistory.join('\n');
         }
         return tooltip;
     },
@@ -326,7 +326,7 @@ Template.minutesedit.helpers({
     disableUIControl: function () {
         let aMin = new Minutes(_minutesID);
         let usrRole = new UserRoles();
-        return (aMin.isFinalized || !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())) ? "disabled" : "";
+        return (aMin.isFinalized || !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())) ? 'disabled' : '';
     },
 
     isUnfinalizeAllowed: function () {
@@ -345,8 +345,14 @@ Template.minutesedit.helpers({
         let aMin = new Minutes(_minutesID);
         let filteredTopics = aMin.topics;
         if (filterClosedTopics.get()){
-            filteredTopics = aMin.topics.filter((topic) => topic.isOpen);
+            filteredTopics = aMin.topics.filter((topic) => (topic.isOpen) && (!topic.isSkipped));
         }
+        else {
+            if (!isModerator()) {
+                filteredTopics = aMin.topics.filter((topic) => !topic.isSkipped);
+            }
+        }
+            
         return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
@@ -355,8 +361,8 @@ Template.minutesedit.helpers({
     },
 
     isPrintView() {
-        if (Session.get("minutesedit.PrintViewActive")) {
-            return "btn-info";
+        if (Session.get('minutesedit.PrintViewActive')) {
+            return 'btn-info';
         }
     },
 
@@ -366,7 +372,7 @@ Template.minutesedit.helpers({
     },
 
     minutesPath: function(minutesId) {
-        return Blaze._globalHelpers.pathFor("/minutesedit/:_id", { _id:  minutesId });
+        return Blaze._globalHelpers.pathFor('/minutesedit/:_id', { _id:  minutesId });
     },
 
     previousMinutes : function() {
@@ -381,17 +387,17 @@ Template.minutesedit.helpers({
 });
 
 Template.minutesedit.events({
-    "click #btnHideHelp": function () {
+    'click #btnHideHelp': function () {
         const user = new User();
         user.storeSetting(userSettings.showQuickHelp.meeting, false);
     },
 
-    "click #checkHideClosedTopics": function(evt) {
+    'click #checkHideClosedTopics': function(evt) {
         let isChecked = evt.target.checked;
         filterClosedTopics.set(isChecked);
     },
 
-    "dp.change #id_minutesdatePicker": function (evt, tmpl) {
+    'dp.change #id_minutesdatePicker': function (evt, tmpl) {
         let aMin = new Minutes(_minutesID);
         if (aMin.isFinalized || ! aMin.isCurrentUserModerator()) {
             // event will be called on page load
@@ -401,38 +407,38 @@ Template.minutesedit.events({
             return;
         }
 
-        let dateNode = tmpl.$("#id_minutesdateInput");
-        let aDate = tmpl.find("#id_minutesdateInput").value;
+        let dateNode = tmpl.$('#id_minutesdateInput');
+        let aDate = tmpl.find('#id_minutesdateInput').value;
 
 
-        dateNode.parent().removeClass("has-error");
+        dateNode.parent().removeClass('has-error');
         if (!aMin.parentMeetingSeries().isMinutesDateAllowed(aMin._id, aDate)) {
-            dateNode.parent().addClass("has-error");
-            tmpl.find("#id_minutesdateInput").value = aMin.date;
+            dateNode.parent().addClass('has-error');
+            tmpl.find('#id_minutesdateInput').value = aMin.date;
             return;
         }
 
         aMin.update({date: aDate}).catch(onError);
     },
 
-    "change #editGlobalNotes" (evt, tmpl) {
+    'change #editGlobalNotes' (evt, tmpl) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
-        let globalNote = tmpl.find("#editGlobalNotes").value;
+        let globalNote = tmpl.find('#editGlobalNotes').value;
         aMin.update({globalNote: globalNote}).catch(onError);
     },
 
     'click #btn_sendAgenda': async function(evt, tmpl) {
         evt.preventDefault();
-        let sendBtn = tmpl.$("#btn_sendAgenda");
+        let sendBtn = tmpl.$('#btn_sendAgenda');
         let aMin = new Minutes(_minutesID);
-        console.log("Send agenda: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+        console.log('Send agenda: ' + aMin._id + ' from series: ' + aMin.meetingSeries_id);
 
         let sendAgenda = async () => {
             sendBtn.prop('disabled', true);
             try {
                 let result = await aMin.sendAgenda();
-                let message = "Agenda was sent to " + result + " recipients successfully";
+                let message = 'Agenda was sent to ' + result + ' recipients successfully';
                 (new FlashMessage('OK', message, 'alert-success')).show();
             } catch (error) {
                 onError(error);
@@ -463,21 +469,21 @@ Template.minutesedit.events({
     'click #btn_finalizeMinutes': function(evt, tmpl) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
-        console.log("Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+        console.log('Finalize minutes: ' + aMin._id + ' from series: ' + aMin.meetingSeries_id);
 
-            let doFinalize = function () {
-                tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
-                let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
+        let doFinalize = function () {
+            tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
+            let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
                 // Force closing the dialog before starting the finalize process
-                Meteor.setTimeout(() => {
-                    aMin.finalize(sendActionItems, sendInformationItems);
-                    tmpl.$('#btn_finalizeMinutes').prop("disabled", true);
-                    (new FlashMessage('OK', 'This meeting minutes were successfully finalized', FlashMessage.TYPES().SUCCESS, 3000)).show();
-                    msg.hideMe();
-                    toggleTopicSorting();
-                    Session.set("participants.expand", false);
-                }, 500);
-            };
+            Meteor.setTimeout(() => {
+                aMin.finalize(sendActionItems, sendInformationItems);
+                tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
+                (new FlashMessage('OK', 'This meeting minutes were successfully finalized', FlashMessage.TYPES().SUCCESS, 3000)).show();
+                msg.hideMe();
+                toggleTopicSorting();
+                Session.set('participants.expand', false);
+            }, 500);
+        };
 
         let processFinalize = function(){
             if (GlobalSettings.isEMailDeliveryEnabled()) {
@@ -520,24 +526,24 @@ Template.minutesedit.events({
     'click #btn_unfinalizeMinutes': function(evt) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
-        console.log("Un-Finalize minutes: " + aMin._id + " from series: " + aMin.meetingSeries_id);
+        console.log('Un-Finalize minutes: ' + aMin._id + ' from series: ' + aMin.meetingSeries_id);
         aMin.unfinalize();
 
         toggleTopicSorting();
-        Session.set("participants.expand", true);
+        Session.set('participants.expand', true);
     },
 
     'click #btn_deleteMinutes': function(evt) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
-        console.log("Remove Meeting Minute " + this._id + " from Series: " + this.meetingSeries_id);
+        console.log('Remove Meeting Minute ' + this._id + ' from Series: ' + this.meetingSeries_id);
 
         let deleteMinutesCallback = () => {
             let ms = new MeetingSeries(aMin.meetingSeries_id);
             // first route to the parent meetingseries then remove the minute.
             // otherwise the current route would automatically re-routed to the main page because the
             // minute is not available anymore -> see router.js
-            FlowRouter.go("/meetingseries/"+aMin.meetingSeries_id);
+            FlowRouter.go('/meetingseries/'+aMin.meetingSeries_id);
             ms.removeMinutesWithId(aMin._id).catch(onError);
         };
 
@@ -560,18 +566,18 @@ Template.minutesedit.events({
         ).show();
     },
 
-    "click #btnCollapseAll": function () {
+    'click #btnCollapseAll': function () {
         let aMin = new Minutes(_minutesID);
         let sessionCollapse = {};
         for (let topicIndex in aMin.topics) {
             let topicId = aMin.topics[topicIndex]._id;
             sessionCollapse[topicId] = true;
         }
-        Session.set("minutesedit.collapsetopics."+_minutesID, sessionCollapse);
+        Session.set('minutesedit.collapsetopics.'+_minutesID, sessionCollapse);
     },
 
-    "click #btnExpandAll": function () {
-        Session.set("minutesedit.collapsetopics."+_minutesID, undefined);
+    'click #btnExpandAll': function () {
+        Session.set('minutesedit.collapsetopics.'+_minutesID, undefined);
     },
 
     'click #btn_printMinutes': function(evt) {

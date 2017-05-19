@@ -1,11 +1,11 @@
-import { MeetingSeries } from './meetingseries'
-import { ColorHelper } from './ColorHelper'
+import { MeetingSeries } from './meetingseries';
+import { ColorHelper } from './ColorHelper';
 
 export class Label {
 
     constructor(source) {
         if (!source) {
-            throw new Meteor.Error("It is not allowed to create a Label without the source");
+            throw new Meteor.Error('It is not allowed to create a Label without the source');
         }
 
         _.defaults(source, {
@@ -73,7 +73,7 @@ export class Label {
             return parentMeetingSeries;
         }
 
-        throw new Meteor.Error("Invalid parent meeting series");
+        throw new Meteor.Error('Invalid parent meeting series');
     }
 
     getId() {

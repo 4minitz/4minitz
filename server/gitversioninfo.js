@@ -5,24 +5,28 @@ let packagejson;
 try {
     // The 4minitz package.json is not available after build
     // so let's see, if we have a copy saved...
-    packagejson = require ("/package4min.json");
+    packagejson = require ('/package4min.json');
 } catch (e) {
-    packagejson = require ("/package.json");    // generic fall back
+    packagejson = require ('/package.json');    // generic fall back
 }
 
 
 
 VERSION_INFO = {
-    tag: packagejson.version ? packagejson.version : "???",
-    branch: packagejson["4minitz"]["4m_branch"] ? packagejson["4minitz"]["4m_branch"] : "???",
-    commitlong: packagejson["4minitz"]["4m_commitlong"] ? packagejson["4minitz"]["4m_commitlong"] : "???",
-    commitshort: packagejson["4minitz"]["4m_commitshort"] ? packagejson["4minitz"]["4m_commitshort"] : "???",
-    date: packagejson["4minitz"]["4m_releasedate"] ? packagejson["4minitz"]["4m_releasedate"] : ""
+    tag: packagejson.version ? packagejson.version : '???',
+    branch: packagejson['4minitz']['4m_branch'] ? packagejson['4minitz']['4m_branch'] : '???',
+    commitlong: packagejson['4minitz']['4m_commitlong'] ? packagejson['4minitz']['4m_commitlong'] : '???',
+    commitshort: packagejson['4minitz']['4m_commitshort'] ? packagejson['4minitz']['4m_commitshort'] : '???',
+    date: packagejson['4minitz']['4m_releasedate'] ? packagejson['4minitz']['4m_releasedate'] : ''
 };
 
 Meteor.methods({
     gitVersionInfo: function () {
-        return VERSION_INFO;
+        if(this.userId) {   // #Security: not logged in users should not know version of server
+            return VERSION_INFO;
+        } else {
+            return undefined;
+        }
     },
 
     gitVersionInfoUpdate: function () {
@@ -36,11 +40,11 @@ Meteor.methods({
             if (VERSION_INFO.tag === VERSION_INFO.commitlong) {  // no tag found!
                 delete VERSION_INFO.tag;
             }
-            if (VERSION_INFO.branch.startsWith("Detached")) {
-                VERSION_INFO.branch = "Specific Commit"
+            if (VERSION_INFO.branch.startsWith('Detached')) {
+                VERSION_INFO.branch = 'Specific Commit';
             }
 
-            console.log("git version: "+JSON.stringify(VERSION_INFO, null, 4));
+            console.log('git version: '+JSON.stringify(VERSION_INFO, null, 4));
 
         } catch (e) {
             // silently swallow git-rev-sync errors
@@ -50,4 +54,4 @@ Meteor.methods({
 });
 
 // initialize versioning once on server launch
-Meteor.call("gitVersionInfoUpdate");
+Meteor.call('gitVersionInfoUpdate');

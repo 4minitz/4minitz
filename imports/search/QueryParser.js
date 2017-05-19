@@ -48,7 +48,7 @@ export class QueryParser {
     parse(query) {
         this.query = query;
         this.tokens = query.split(/\s/);
-        this.tokens.forEach(token => { this._parseToken(token) });
+        this.tokens.forEach(token => { this._parseToken(token); });
         // add last label
         if (null !== this.currentLabel) {
             this._addCompleteLabelToken();
@@ -116,13 +116,13 @@ export class QueryParser {
     _parseToken(token) {
         let tokenType = this._getTokenType(token);
         switch (tokenType) {
-            case TOKEN_TYPE_FILTER:
+        case TOKEN_TYPE_FILTER:
             {
                 this._addFilterToken(token);
                 break;
             }
 
-            case TOKEN_TYPE_LABEL:
+        case TOKEN_TYPE_LABEL:
             {
                 let result = this._addLabelToken(token);
                 if (!result) {
@@ -130,12 +130,12 @@ export class QueryParser {
                 }
                 break;
             }
-            case TOKEN_TYPE_SEARCH:
+        case TOKEN_TYPE_SEARCH:
             {
                 this.searchTokens.push(token);
                 break;
             }
-            default: throw new Meteor.Error('illegal-state', `Unknown token type ${tokenType}`)
+        default: throw new Meteor.Error('illegal-state', `Unknown token type ${tokenType}`);
         }
     }
 
@@ -145,7 +145,7 @@ export class QueryParser {
         }
 
         if (this._isLabelToken(token)) {
-            return TOKEN_TYPE_LABEL
+            return TOKEN_TYPE_LABEL;
         }
 
         return TOKEN_TYPE_SEARCH;
@@ -161,7 +161,7 @@ export class QueryParser {
     }
 
     _addFilterToken(token) {
-        this.filterTokens.push(this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName))
+        this.filterTokens.push(this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName));
     }
 
     /**

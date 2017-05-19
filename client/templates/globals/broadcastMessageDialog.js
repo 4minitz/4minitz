@@ -5,7 +5,7 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 Template.broadcastMessageDialog.helpers({
 
     // just a little reactive trigger to show the modal msg dialog
-    "showBroadcastMessages": function () {
+    'showBroadcastMessages': function () {
         const msgCount = BroadcastMessage.find(
             {$and: [{isActive: true},
                     {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
@@ -19,23 +19,23 @@ Template.broadcastMessageDialog.helpers({
             }, 250);
         }
         // do not return anything here, or it will be rendered in the page!!!
-        return "";
+        return '';
     },
 
-    "broadcastMessages": function () {
+    'broadcastMessages': function () {
         return BroadcastMessage.find(
             {$and: [{isActive: true}
                     , {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}
             , {sort: {createdAt: -1}});
     },
 
-    "formatTimeStamp": function (date) {
+    'formatTimeStamp': function (date) {
         return formatDateISO8601Time(date);
     }
 });
 
 Template.broadcastMessageDialog.events({
-    "click #btnDismissBroadcast": function (evt, tmpl) {
+    'click #btnDismissBroadcast': function (evt, tmpl) {
         BroadcastMessage.dismissForMe();
     }
 });

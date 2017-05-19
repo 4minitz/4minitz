@@ -257,6 +257,28 @@ export class E2ETopics {
         browser.click(selector);
         browser.click("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring");
     }
+    
+    static toggleSkipTopic(topicIndex, useDropDownMenu = true)
+    {
+        // The 2nd parameter determines if the skip should be done via the dropdown-menu or by directly clicking the IsSkipped-Icon shown on the topic. 
+        // The latter one will of course only work if the topic is currently skipped
+        if (useDropDownMenu) {
+            let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+            try {
+                // we use the "_org" / non screen shot version here intentionally,
+                // as we often expect the 'recurring icon' to be hidden!
+                browser.waitForVisible_org(selector);
+            } catch(e) {
+                return false;
+            }
+            browser.click(selector);
+            browser.click("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-skipped");
+        }
+        else {
+            E2EGlobal.waitSomeTime();
+            browser.click("#topicPanel .well:nth-child(" + topicIndex + ") #topicIsSkippedIcon");
+        }
+    }
 
     static isTopicClosed(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .btnToggleState";
@@ -265,7 +287,15 @@ export class E2ETopics {
     }
 
     static isTopicRecurring(topicIndex) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring span";
+        return this._isSelectorVisible("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring span");
+    }
+    
+    static isTopicSkipped(topicIndex) {
+        return this._isSelectorVisible("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-skipped span");
+    }
+    
+    static _isSelectorVisible(selector)
+    {
         try {
             // we use the "_org" / non screen shot version here intentionally,
             // as we often expect the 'recurring icon' to be hidden!
@@ -273,7 +303,7 @@ export class E2ETopics {
             return true;
         } catch(e) {
             return false;
-        }
+        }       
     }
 
     static toggleActionItem(topicIndex, infoItemIndex) {

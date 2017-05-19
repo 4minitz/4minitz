@@ -422,6 +422,7 @@ describe('Topics', function () {
             isOpen:false,
             isRecurring:false,
             isNew:true,
+            isSkipped: false,
             infoItems: [],
             labels: []
         };

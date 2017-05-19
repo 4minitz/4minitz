@@ -10,6 +10,7 @@ export const TopicSchema = new SimpleSchema({
     isRecurring: {type: Boolean, defaultValue: false},
     isNew: {type: Boolean, defaultValue: true},
     infoItems: {type: [InfoItemSchema], defaultValue: []},
-    labels: {type: [String], regEx: SimpleSchema.RegEx.Id}
+    labels: {type: [String], regEx: SimpleSchema.RegEx.Id},
+    isSkipped: {type: Boolean, defaultValue: false }
 });
 

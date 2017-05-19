@@ -1,6 +1,6 @@
-import { MinutesCollection } from '/imports/collections/minutes_private'
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
-import { GlobalSettings } from '/imports/config/GlobalSettings'
+import { MinutesCollection } from '/imports/collections/minutes_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
 
 // adds the label field to meeting series, topics and info items
 export class MigrateV7 {
@@ -40,7 +40,7 @@ export class MigrateV7 {
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
@@ -62,14 +62,14 @@ export class MigrateV7 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics,
-                        "availableLabels": defaultLabels
+                        'topics': series.topics,
+                        'openTopics': series.openTopics,
+                        'availableLabels': defaultLabels
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 
     static down() {
@@ -81,7 +81,7 @@ export class MigrateV7 {
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
@@ -96,15 +96,15 @@ export class MigrateV7 {
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     },
                     $unset: {
-                        "availableLabels" : ""
+                        'availableLabels' : ''
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 }

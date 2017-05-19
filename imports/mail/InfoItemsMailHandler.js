@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
-import { TopicItemsMailHandler } from './TopicItemsMailHandler'
-import { GlobalSettings } from '../config/GlobalSettings'
-import { Topic } from './../topic'
+import { TopicItemsMailHandler } from './TopicItemsMailHandler';
+import { GlobalSettings } from '../config/GlobalSettings';
+import { Topic } from './../topic';
 import { Attachment } from '../attachment';
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
@@ -18,7 +18,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix()  + " (Meeting Minutes V"+this._minute.finalizedVersion+")";
+        return this._getSubjectPrefix()  + ' (Meeting Minutes V'+this._minute.finalizedVersion+')';
     }
 
     _sendMail() {
@@ -27,9 +27,9 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
         // Generate responsibles strings for all topics
         this._topics.forEach(topic => {
             let aTopicObj = new Topic (this._minute._id, topic);
-            topic.responsiblesString = "";
+            topic.responsiblesString = '';
             if (aTopicObj.hasResponsibles()) {
-                topic.responsiblesString = "("+aTopicObj.getResponsiblesString()+")";
+                topic.responsiblesString = '('+aTopicObj.getResponsiblesString()+')';
             }
             topic.labels = aTopicObj.getLabelsString(topic);
         });
@@ -53,8 +53,8 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             return !topic.isOpen;
         });
 
-        let skippedTopics = this._topics.filter(topic => {
-            return topic.isOpen;
+        let outstandingTopics = this._topics.filter(topic => {
+            return (topic.isOpen && !topic.isSkipped);
         });
 
         let attachments = Attachment.findForMinutes(this._minute._id).fetch();
@@ -68,14 +68,14 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
             minutesGlobalNote: this._minute.globalNote,
             meetingSeriesName: this._meetingSeries.name,
             meetingSeriesProject: this._meetingSeries.project,
-            meetingSeriesURL: GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeries._id),
-            minuteUrl: GlobalSettings.getRootUrl("minutesedit/" + this._minute._id),
+            meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeries._id),
+            minuteUrl: GlobalSettings.getRootUrl('minutesedit/' + this._minute._id),
             presentParticipants: this._userArrayToString(presentParticipants),
             absentParticipants: this._userArrayToString(absentParticipants),
             informedUsers: this._userArrayToString(this._informed),
             participantsAdditional: this._minute.participantsAdditional,
             discussedTopics: discussedTopics,
-            skippedTopics: skippedTopics,
+            skippedTopics: outstandingTopics,
             finalizedVersion: this._minute.finalizedVersion,
             attachments: attachments
         };
@@ -84,6 +84,6 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
     _userArrayToString(users) {
         return users.map(function(user){
             return user.name;
-        }).join(", ");
+        }).join(', ');
     }
 }

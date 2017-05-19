@@ -61,13 +61,14 @@ const {
     '/imports/helpers/subElements': SubElements,
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
-    './helpers/promisedMethods': { null, '@noCallThru': true},
-    './collections/minutes_private': { null, '@noCallThru': true},
+    './helpers/promisedMethods': { "null": null, '@noCallThru': true},
+    './collections/minutes_private': { "null": null, '@noCallThru': true},
 });
 
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/random': { Random, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     '/imports/helpers/date': DateHelpers,
     './topic': { Topic, '@noCallThru': true}

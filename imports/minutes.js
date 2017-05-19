@@ -40,7 +40,7 @@ export class Minutes {
         let sort = (lastMintuesFirst) ? -1 : 1;
         let options = {sort: {date: sort}};
         if (limit) {
-            options["limit"] = limit;
+            options['limit'] = limit;
         }
         return MinutesCollection.find(
             {_id: {$in: MinutesIDArray}},
@@ -49,12 +49,12 @@ export class Minutes {
 
     // method
     static remove(id) {
-        return Meteor.callPromise("workflow.removeMinute", id);
+        return Meteor.callPromise('workflow.removeMinute', id);
     }
 
     // method
     static async syncVisibility(parentSeriesID, visibleForArray) {
-        return Meteor.callPromise("minutes.syncVisibility", parentSeriesID, visibleForArray);
+        return Meteor.callPromise('minutes.syncVisibility', parentSeriesID, visibleForArray);
     }
 
 
@@ -63,9 +63,9 @@ export class Minutes {
 
     // method
     async update (docPart, callback) {
-        console.log("Minutes.update()");
+        console.log('Minutes.update()');
         _.extend(docPart, {_id: this._id});
-        await Meteor.callPromise ("minutes.update", docPart, callback);
+        await Meteor.callPromise ('minutes.update', docPart, callback);
 
         // merge new doc fragment into this document
         _.extend(this, docPart);
@@ -77,17 +77,17 @@ export class Minutes {
 
     // method
     save (optimisticUICallback, serverCallback) {
-        console.log("Minutes.save()");
+        console.log('Minutes.save()');
         if (this.createdAt === undefined) {
             this.createdAt = new Date();
         }
-        if (this._id && this._id !== "") {
-            Meteor.call("minutes.update", this);
+        if (this._id && this._id !== '') {
+            Meteor.call('minutes.update', this);
         } else {
             if (this.topics === undefined) {
                 this.topics = [];
             }
-            Meteor.call("workflow.addMinutes", this, optimisticUICallback, serverCallback);
+            Meteor.call('workflow.addMinutes', this, optimisticUICallback, serverCallback);
         }
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
     }
@@ -112,7 +112,7 @@ export class Minutes {
     }
 
     toString () {
-        return "Minutes: "+JSON.stringify(this, null, 4);
+        return 'Minutes: '+JSON.stringify(this, null, 4);
     }
 
     log () {
@@ -190,14 +190,18 @@ export class Minutes {
             let topic = new Topic(this, topicDoc);
             topicDoc.infoItems = topic.getOnlyInfoItems();
             return topicDoc;
-        })
+        });
     }
 
-    getTopicsWithoutItems() {
-        return this.topics.map((topicDoc) => {
-            topicDoc.infoItems = [];
-            return topicDoc;
-        })
+    getOpenTopicsWithoutItems() {
+        return this.topics
+            .filter(topicDoc => {
+                return topicDoc.isOpen;
+            })
+            .map(topicDoc => {
+                topicDoc.infoItems = [];
+                return topicDoc;
+            });
     }
 
     // method
@@ -222,8 +226,10 @@ export class Minutes {
      *
      * @returns ActionItem[]
      */
-    getOpenActionItems() {
-        return this.topics.reduce((acc, topicDoc) => {
+    getOpenActionItems(includeSkippedTopics = true) {
+        let nonSkippedTopics = (includeSkippedTopics ? this.topics : this.topics.filter(topic => !topic.isSkipped));
+        
+        return nonSkippedTopics.reduce((acc, topicDoc) => {
             let topic = new Topic(this, topicDoc);
             let actionItemDocs = topic.getOpenActionItems();
             return acc.concat(
@@ -283,7 +289,7 @@ export class Minutes {
         if (this.informedUsers) {
             informed = informed.concat(this.informedUsers);
         }
-       return informed;
+        return informed;
     }
 
     /**
@@ -314,11 +320,11 @@ export class Minutes {
                 addMails.forEach(additionalMail => {
                     recipientResult.push(
                         {
-                            userId: "additionalRecipient",
+                            userId: 'additionalRecipient',
                             name: additionalMail,
                             address: additionalMail
                         }
-                    )
+                    );
                 });
             }
         }
@@ -337,7 +343,7 @@ export class Minutes {
      */
     async refreshParticipants (saveToDB) {
         if (this.isFinalized) {
-            throw new Error("updateParticipants () must not be called on finalized minutes");
+            throw new Error('updateParticipants () must not be called on finalized minutes');
         }
         let changed = false;
 
@@ -451,14 +457,14 @@ export class Minutes {
      * @returns {String} with comma separated list of names
      */
     getPresentParticipantNames(maxChars) {
-        let names = "";
+        let names = '';
 
         this.participants = this.participants || [];
 
         this.participants.forEach(part => {
             if (part.present) {
                 let name = Meteor.users.findOne(part.userId).username;
-                names = names + name + ", ";
+                names = names + name + ', ';
             }
         });
         if (this.participantsAdditional) {
@@ -467,10 +473,10 @@ export class Minutes {
             names = names .slice(0, -2);    // delete last ", "
         }
         if (maxChars && names.length > maxChars) {
-            return names.substr(0, maxChars)+"...";
+            return names.substr(0, maxChars)+'...';
         }
-        if (names === "") {
-            names = "None.";
+        if (names === '') {
+            names = 'None.';
         }
         return names;
     }
@@ -485,11 +491,11 @@ export class Minutes {
     getFinalizedString() {
         if (this.finalizedAt) {
             let finalizedTimestamp = formatDateISO8601Time(this.finalizedAt);
-            let finalizedString = this.isFinalized? "Finalized" : "Unfinalized";
-            let version = this.finalizedVersion ? "Version "+this.finalizedVersion+". " : "";
+            let finalizedString = this.isFinalized? 'Finalized' : 'Unfinalized';
+            let version = this.finalizedVersion ? 'Version '+this.finalizedVersion+'. ' : '';
             return (`${version}${finalizedString} on ${finalizedTimestamp} by ${this.finalizedBy}`);
         } else {
-            return "Never finalized."
+            return 'Never finalized.';
         }
     }
 

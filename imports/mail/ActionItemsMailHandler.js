@@ -1,5 +1,4 @@
-import { TopicItemsMailHandler } from './TopicItemsMailHandler'
-import { ActionItem } from '../actionitem'
+import { TopicItemsMailHandler } from './TopicItemsMailHandler';
 
 export class ActionItemsMailHandler extends TopicItemsMailHandler {
 
@@ -14,14 +13,14 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix() + " (Your Action Items)";
+        return this._getSubjectPrefix() + ' (Your Action Items)';
     }
 
     _sendMail() {
         if (this._sendAIseperately) {
             this._actionItems.forEach(item => {
                 let topicSubject = item.getParentTopic().getSubject();
-                let mailSubject = this._getSubject()+": " + topicSubject;
+                let mailSubject = this._getSubject()+': ' + topicSubject;
 
                 this._buildMail(
                     mailSubject,
@@ -46,7 +45,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
 
     static _createActionItemDataObject(topicSubject, topicId, item) {
         // prevent sending empty details
-        let details = (item.getTextFromDetails() === "") ? [] : item.getDetails();
+        let details = (item.getTextFromDetails() === '') ? [] : item.getDetails();
 
         return {
             _id: item.getDocument()._id,
@@ -58,7 +57,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             priority: item.getPriority(),
             duedate: item.getDuedate(),
             details: details
-        }
+        };
     }
 
 }

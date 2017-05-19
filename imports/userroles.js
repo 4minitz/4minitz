@@ -21,7 +21,7 @@ export class UserRoles {
         }
         
         if (! currentUser) {
-            FlowRouter.go("/");
+            FlowRouter.go('/');
             throw new Meteor.Error('Could not find user for userId:'+this._userId);
         }
 
@@ -116,7 +116,7 @@ export class UserRoles {
             // use only the first role element from the array
             return UserRoles.role2Text(this._userRoles[aMeetingSeriesID][0]);
         }
-        return "Unknown Role";
+        return 'Unknown Role';
     }
 
     getUser() {
@@ -128,12 +128,12 @@ export class UserRoles {
     }
 
     saveRoleForMeetingSeries (aMeetingSeriesID, newRole) {
-        Meteor.call("userroles.saveRoleForMeetingSeries", this._userId, aMeetingSeriesID, newRole);
+        Meteor.call('userroles.saveRoleForMeetingSeries', this._userId, aMeetingSeriesID, newRole);
     }
 
     // remove all roles for the current user for the given meeting series
     removeAllRolesForMeetingSeries(aMeetingSeriesID) {
-        Meteor.call("userroles.removeAllRolesForMeetingSeries", this._userId, aMeetingSeriesID);
+        Meteor.call('userroles.removeAllRolesForMeetingSeries', this._userId, aMeetingSeriesID);
     }
 }
 
@@ -142,8 +142,8 @@ export class UserRoles {
 // and lower values have higher access rights!
 // So, prefix zeroes are important!
 UserRoles.USERROLES = {
-    "Moderator":   "01"
-    , "Uploader":  "05"
-    , "Invited":   "10"
-    , "Informed":  "66"
+    'Moderator':   '01'
+    , 'Uploader':  '05'
+    , 'Invited':   '10'
+    , 'Informed':  '66'
 };

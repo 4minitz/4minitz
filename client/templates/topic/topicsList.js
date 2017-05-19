@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Topic } from '/imports/topic'
+import { Topic } from '/imports/topic';
 import { handleError } from '/client/helpers/handleError';
 
 
@@ -46,7 +46,7 @@ Template.topicsList.events({
         }
 
         let topicDoc = {};
-        topicDoc.subject = tmpl.find("#addTopicField").value;
+        topicDoc.subject = tmpl.find('#addTopicField').value;
         topicDoc.responsibles = [];
 
         let aTopic = new Topic(tmpl.data.minutesId, topicDoc);
@@ -54,15 +54,15 @@ Template.topicsList.events({
         aTopic.extractResponsiblesFromTopic();
 
         aTopic.saveAtBottom().catch(error => {
-            tmpl.find("#addTopicField").value = topicDoc.subject; // set desired value again!
+            tmpl.find('#addTopicField').value = topicDoc.subject; // set desired value again!
             handleError(error);
         });
-        tmpl.find("#addTopicField").value = "";
+        tmpl.find('#addTopicField').value = '';
 
         // Scroll "add topic" edit field into view
         // We need a timeout here, to give meteor time to add the new topic field first
         Meteor.setTimeout(function () {
-            let elem = document.getElementById("addTopicToBottomDIV");
+            let elem = document.getElementById('addTopicToBottomDIV');
             if (elem) {
                 elem.scrollIntoView(false); // false => bottom will be aligned
             }
