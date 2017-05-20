@@ -1,5 +1,4 @@
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
-import { Mongo } from 'meteor/mongo';
 
 import './idValidator';
 import { InfoItemSchema, SimpleInfoItemSchema } from './infoitem.schema';
