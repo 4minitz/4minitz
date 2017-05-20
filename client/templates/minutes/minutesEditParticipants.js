@@ -35,16 +35,7 @@ let userNameForId = function (userId) {
 
 function allParticipantsMarked() {
     let aMin = new Minutes(_minutesID);
-    let allParticipantsPresent = true;
-    aMin.participants.forEach(p => {
-        if(!p.present) {
-            allParticipantsPresent = false;
-        }
-    });
-    if (allParticipantsPresent)
-        return true;
-    else
-        return false;
+    return (aMin.participants.findIndex(p => {return !p.present}) === -1);
 };
 
 Template.minutesEditParticipants.onCreated(function() {
@@ -119,11 +110,7 @@ Template.minutesEditParticipants.helpers({
 
     enoughParticipants(){
         let aMin = new Minutes(_minutesID);
-
-        if (aMin.participants.length > 2){
-            return true;
-        }
-        return false;
+        return (aMin.participants.length > 2);
     },
 
     isChecked(){
@@ -154,7 +141,7 @@ Template.minutesEditParticipants.events({
 
     'click #btnToggleMarkAllNone' (evt, tmpl){
         let aMin = new Minutes(_minutesID);
-        if (allParticipantsMarked()) {  //check all
+        if (allParticipantsMarked()) {
             aMin.changeParticipantsStatus(false);
             tmpl.markedAll.set(false);
         }
