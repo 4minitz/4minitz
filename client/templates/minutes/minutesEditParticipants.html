@@ -15,6 +15,22 @@
             <!-- Expanded variant of participant list -->
             {{#if isParticipantsExpanded}}
                 <div class="padding-for-collabsable" id="id_participants">
+                    {{#if enoughParticipants}}
+                        <div class="checkbox" id="id_markAllNone">
+                            <label class = "checkbox-markAllNone">
+                                <input type="checkbox" class="checkbox"
+                                       name="markAllNone" id="btnToggleMarkAllNone" checked="{{isChecked}}">
+
+                                <span id="id_markAllNone" class="text-black">
+                                    {{#if isChecked}}
+                                        <b>Mark none</b>
+                                    {{else}}
+                                        <b>Mark all</b>
+                                    {{/if}}
+                                </span>
+                            </label>
+                        </div>
+                    {{/if}}
                     <div class = "{{switch2MultiColumn}}">
                         {{#each participants}}
                         <div class="checkbox" id="id_participant">
@@ -35,7 +51,7 @@
                         </div>
                         {{/each}}
                     </div>
-
+                </div>
                     <!--Additional Participants: freetext field-->
                     <input id="edtParticipantsAdditional" type="text" class="form-control"
                            placeholder="Additional Participants..."
@@ -46,7 +62,6 @@
                             <span class="large-font">{{getInformedUsers}}</span>
                         </div>
                     {{/if}}
-                </div>
 
 
             <!-- Collapsed variant of participant list -->

@@ -3,6 +3,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 let _minutesID; // the ID of these minutes
 
@@ -32,6 +33,19 @@ let userNameForId = function (userId) {
     }
 };
 
+function allParticipantsMarked() {
+    let aMin = new Minutes(_minutesID);
+    let allParticipantsPresent = true;
+    aMin.participants.forEach(p => {
+        if(!p.present) {
+            allParticipantsPresent = false;
+        }
+    });
+    if (allParticipantsPresent)
+        return true;
+    else
+        return false;
+};
 
 Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
@@ -42,6 +56,7 @@ Template.minutesEditParticipants.onCreated(function() {
     if (isEditable()) {
         Session.set('participants.expand', true);
     }
+    this.markedAll = new ReactiveVar(allParticipantsMarked());
 });
 
 Template.minutesEditParticipants.helpers({
@@ -100,6 +115,19 @@ Template.minutesEditParticipants.helpers({
         if (aMin.participants.length > 7) {
             return 'multicolumn';
         }
+    },
+
+    enoughParticipants(){
+        let aMin = new Minutes(_minutesID);
+
+        if (aMin.participants.length > 2){
+            return true;
+        }
+        return false;
+    },
+
+    isChecked(){
+        return Template.instance().markedAll.get();
     }
 });
 
@@ -110,6 +138,7 @@ Template.minutesEditParticipants.events({
         let indexInParticipantsArray = evt.target.dataset.index;
         let checkedState = evt.target.checked;
         min.updateParticipantPresent(indexInParticipantsArray, checkedState);
+        tmpl.markedAll.set(allParticipantsMarked());
     },
     'change #edtParticipantsAdditional' (evt, tmpl) {
         console.log('Trigger!');
@@ -121,5 +150,17 @@ Template.minutesEditParticipants.events({
 
     'click #btnParticipantsExpand' () {
         Session.set('participants.expand', !Session.get('participants.expand'));
+    },
+
+    'click #btnToggleMarkAllNone' (evt, tmpl){
+        let aMin = new Minutes(_minutesID);
+        if (allParticipantsMarked()) {  //check all
+            aMin.changeParticipantsStatus(false);
+            tmpl.markedAll.set(false);
+        }
+        else {
+            aMin.changeParticipantsStatus(true);
+            tmpl.markedAll.set(true);
+        }
     }
 });
