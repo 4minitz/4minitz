@@ -2,17 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes';
 import { UserRoles } from './../userroles';
+import { MinutesCollection as MinutesCollectionImport, SimpleMinutesSchema } from './minutes.schema';
 import { MinutesSchema } from './minutes.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
-export let MinutesCollection = new Mongo.Collection('minutes',
-    {
-        transform: function (doc) {
-            return new Minutes(doc);
-        }
-    }
-);
+export const MinutesCollection = MinutesCollectionImport;
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication() {
@@ -25,7 +20,7 @@ if (Meteor.isClient) {
     Meteor.subscribe('minutes');
 }
 
-MinutesCollection.attachSchema(MinutesSchema);
+MinutesCollection.attachSchema(SimpleMinutesSchema);
 
 Meteor.methods({
     'minutes.sendAgenda'(id) {
