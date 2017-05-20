@@ -2,8 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes';
 import { UserRoles } from './../userroles';
-import { MinutesCollection as MinutesCollectionImport, SimpleMinutesSchema } from './minutes.schema';
-import { MinutesSchema } from './minutes.schema';
+import { MinutesCollection as MinutesCollectionImport, MinutesSchema } from './minutes.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
@@ -19,8 +18,6 @@ if (Meteor.isServer) {
 if (Meteor.isClient) {
     Meteor.subscribe('minutes');
 }
-
-MinutesCollection.attachSchema(SimpleMinutesSchema);
 
 Meteor.methods({
     'minutes.sendAgenda'(id) {
@@ -47,7 +44,7 @@ Meteor.methods({
                 let sendAgendaMailHandler = new SendAgendaMailHandler(senderEmail, aMin);
                 sendAgendaMailHandler.send();
 
-                MinutesCollection.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
+                MinutesSchema.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
 
                 return sendAgendaMailHandler.getCountRecipients();
             }
@@ -91,7 +88,7 @@ Meteor.methods({
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
 
-            return MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
+            return MinutesSchema.update({_id: id, isFinalized: false}, {$set: doc});
         } else {
             throw new Meteor.Error('Cannot update minutes', 'You are not moderator of the parent meeting series.');
         }
@@ -131,7 +128,7 @@ Meteor.methods({
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
 
-            return MinutesCollection.update(
+            return MinutesSchema.update(
                 {_id: aMin._id, isFinalized: false, 'topics._id': topicId},
                 {$set: modifierDoc}
             );
@@ -174,7 +171,7 @@ Meteor.methods({
                 topicModifier.topics.$position = 0;
             }
 
-            return MinutesCollection.update(
+            return MinutesSchema.update(
                 {_id: minutesId, isFinalized: false},
                 {$push: topicModifier}
             );
@@ -209,7 +206,7 @@ Meteor.methods({
         }
 
         // Ensure user can not update finalized minutes
-        return MinutesCollection.update(
+        return MinutesSchema.update(
             {_id: aMin._id, isFinalized: false},
             {$pull: {
                 topics: { _id: topicId }
@@ -222,7 +219,7 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
             if (MinutesCollection.find({meetingSeries_id: parentSeriesID}).count() > 0) {
-                MinutesCollection.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+                MinutesSchema.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
 
                 // add missing participants to non-finalized meetings
                 MinutesCollection.find({meetingSeries_id: parentSeriesID}).forEach (min => {

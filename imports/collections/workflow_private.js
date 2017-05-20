@@ -8,7 +8,7 @@ import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
 import { MeetingSeriesCollection } from './meetingseries_private';
-import { MinutesCollection } from './minutes_private';
+import { MinutesSchema, MinutesCollection } from './minutes.schema';
 import { AttachmentsCollection, calculateAndCreateStoragePath} from './attachments_private';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
@@ -66,7 +66,7 @@ Meteor.methods({
         doc.isFinalized = false;
 
         try {
-            let newMinutesID = MinutesCollection.insert(doc);
+            let newMinutesID = MinutesSchema.insert(doc);
             try {
                 parentMeetingSeries.minutes.push(newMinutesID);
                 let affectedDocs = MeetingSeriesCollection.update(
@@ -169,7 +169,7 @@ Meteor.methods({
             doc['finalizedHistory'] = history;
             console.log(history.join('\n'));
 
-            let affectedDocs = MinutesCollection.update(id, {$set: doc});
+            let affectedDocs = MinutesSchema.update(id, {$set: doc});
 
             if (affectedDocs === 1 && !Meteor.isClient) {
                 if (!GlobalSettings.isEMailDeliveryEnabled()) {
@@ -233,7 +233,7 @@ Meteor.methods({
             history.push(aMin.getFinalizedString());
             doc['finalizedHistory'] = history;
 
-            return MinutesCollection.update(id, {$set: doc});
+            return MinutesSchema.update(id, {$set: doc});
         } catch(e) {
             if (!Meteor.isClient) {
                 console.error(e);
@@ -306,7 +306,7 @@ Meteor.methods({
 
         // 3rd.: sync "visibleFor" to minutes that have this meeting series as parent
         if (MinutesCollection.find({meetingSeries_id: meetingSeries_id}).count() > 0) {
-            MinutesCollection.update({meetingSeries_id: meetingSeries_id}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+            MinutesSchema.update({meetingSeries_id: meetingSeries_id}, {$set: {visibleFor: visibleForArray}}, {multi: true});
 
             // refresh participants to non-finalized meetings
             MinutesCollection.find({meetingSeries_id: meetingSeries_id}).forEach (min => {
