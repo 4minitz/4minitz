@@ -5,13 +5,11 @@ import { TopicSchema, SimpleTopicSchema } from './topic.schema';
 import { Minutes } from '../minutes';
 import './idValidator';
 
-export let MinutesCollection = new Mongo.Collection('minutes',
-    {
-        transform: function (doc) {
-            return new Minutes(doc);
-        }
+export let MinutesCollection = new Mongo.Collection('minutes', {
+    transform: function (doc) {
+        return new Minutes(doc);
     }
-);
+});
 
 const ParticipantsSchema = SchemaClass.create({
     name: 'ParticipantsSchema',

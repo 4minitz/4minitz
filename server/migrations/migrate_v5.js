@@ -1,5 +1,5 @@
 import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
 
 // add the isRecurring field to all topics
 export class MigrateV5 {

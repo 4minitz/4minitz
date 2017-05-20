@@ -21,6 +21,7 @@ const {
     MeetingSeries
 } = proxyquire('../../../imports/meetingseries', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    './collections/meetingseries.schema': { MeetingSeriesCollection, '@noCallThru': true},
     './collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
     './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},

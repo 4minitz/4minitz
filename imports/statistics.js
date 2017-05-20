@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import { MinutesCollection } from './collections/minutes_private';
-import { MeetingSeriesCollection } from './collections/meetingseries_private';
+import { MeetingSeriesCollection } from './collections/meetingseries.schema';
 import { Attachment } from './attachment';
 
 let StatisticsCollection = new Mongo.Collection('statistics');

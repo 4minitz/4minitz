@@ -141,8 +141,7 @@ Meteor.methods({
             parentSeries.server_finalizeLastMinute();
             let msAffectedDocs = MeetingSeriesSchema.update(
                 parentSeries._id,
-                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}},
-                {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
+                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});  // skip schema validation on client
 
             if (msAffectedDocs !== 1) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');

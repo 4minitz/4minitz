@@ -1,4 +1,4 @@
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
 
 // MeetingSeries: add responsiblesFreeText field
 export class MigrateV8 {

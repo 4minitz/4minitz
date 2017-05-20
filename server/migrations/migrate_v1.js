@@ -1,5 +1,5 @@
 import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
 import { formatDateISO8601, currentDatePlusDeltaDays } from '/imports/helpers/date';
 
 export class MigrateV1 {

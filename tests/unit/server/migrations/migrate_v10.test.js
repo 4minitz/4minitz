@@ -18,7 +18,7 @@ const {
         MigrateV10
     } = proxyquire('../../../../server/migrations/migrate_v10', {
         '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-    '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+    '/imports/collections/meetingseries.schema': { MeetingSeriesCollection, '@noCallThru': true}
     });
 
 describe('Migrate Version 10', function () {

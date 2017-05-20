@@ -1,5 +1,5 @@
 import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
 
 // Topics: convert the responsible (string) => responsibles (array) fields
 export class MigrateV4 {

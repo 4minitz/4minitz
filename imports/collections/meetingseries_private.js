@@ -1,13 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries';
-import { MeetingSeriesCollection as MeetingSeriesCollectionImport, MeetingSeriesSchema } from './meetingseries.schema';
+import { MeetingSeriesCollection, MeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { formatDateISO8601 } from '/imports/helpers/date';
-
-export let MeetingSeriesCollection = MeetingSeriesCollectionImport;
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {

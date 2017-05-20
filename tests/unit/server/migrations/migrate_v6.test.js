@@ -25,5 +25,5 @@ const {
     } = proxyquire('../../../../server/migrations/migrate_v6', {
         'meteor/meteor': { Meteor, '@noCallThru': true},
         '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-        '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+        '/imports/collections/meetingseries.schema': { MeetingSeriesCollection, '@noCallThru': true}
     });

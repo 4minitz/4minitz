@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { MeetingSeriesCollection } from './collections/meetingseries_private';
+import { MeetingSeriesCollection } from './collections/meetingseries.schema';
 import { Minutes } from './minutes';
 import { Topic } from './topic';
 import { UserRoles } from './userroles';
@@ -7,6 +7,7 @@ import { formatDateISO8601 } from '/imports/helpers/date';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
+import './collections/meetingseries_private';
 import moment from 'moment/moment';
 
 export class MeetingSeries {

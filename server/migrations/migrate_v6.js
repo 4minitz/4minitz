@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
 
 // ActionItems: convert the responsible (string) => responsibles (array) fields
 export class MigrateV6 {

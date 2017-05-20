@@ -1,5 +1,5 @@
 import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
 
 // convert the participants fields
 export class MigrateV3 {
