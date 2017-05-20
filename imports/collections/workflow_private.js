@@ -7,7 +7,7 @@ if (Meteor.isServer) {
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
-import { MeetingSeriesCollection } from './meetingseries_private';
+import { MeetingSeriesCollection, MeetingSeriesSchema } from './meetingseries.schema';
 import { MinutesSchema, MinutesCollection } from './minutes.schema';
 import { AttachmentsCollection, calculateAndCreateStoragePath} from './attachments_private';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
@@ -69,7 +69,7 @@ Meteor.methods({
             let newMinutesID = MinutesSchema.insert(doc);
             try {
                 parentMeetingSeries.minutes.push(newMinutesID);
-                let affectedDocs = MeetingSeriesCollection.update(
+                let affectedDocs = MeetingSeriesSchema.update(
                     parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
                 if (affectedDocs !== 1) {
                     throw new Meteor.Error('runtime-error', 'Update parent meeting series failed - no docs affected');
@@ -107,7 +107,7 @@ Meteor.methods({
         let affectedDocs = MinutesCollection.remove({_id: minutes_id, isFinalized: false});
         if (affectedDocs > 0) {
             // remove the reference in the meeting series minutes array
-            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutes_id}});
+            MeetingSeriesSchema.update(meetingSeriesId, {$pull: {'minutes': minutes_id}});
 
             // remove all uploaded attachments for meeting series, if any exist
             if (Meteor.isServer && AttachmentsCollection.find({'meta.meetingminutes_id': minutes_id}).count() > 0) {
@@ -139,7 +139,7 @@ Meteor.methods({
             // first we copy the topics of the finalize-minute to the parent series
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.server_finalizeLastMinute();
-            let msAffectedDocs = MeetingSeriesCollection.update(
+            let msAffectedDocs = MeetingSeriesSchema.update(
                 parentSeries._id,
                 {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}},
                 {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
@@ -210,7 +210,7 @@ Meteor.methods({
 
         try {
             parentSeries.server_unfinalizeLastMinute();
-            let msAffectedDocs = MeetingSeriesCollection.update(
+            let msAffectedDocs = MeetingSeriesSchema.update(
                 parentSeries._id,
                 {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}},
                 {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
@@ -302,7 +302,7 @@ Meteor.methods({
             visibleForArray.splice(index, 1);
             index = visibleForArray.indexOf(Meteor.userId());
         }
-        MeetingSeriesCollection.update(meetingSeries_id, {$set: {visibleFor: visibleForArray}});
+        MeetingSeriesSchema.update(meetingSeries_id, {$set: {visibleFor: visibleForArray}});
 
         // 3rd.: sync "visibleFor" to minutes that have this meeting series as parent
         if (MinutesCollection.find({meetingSeries_id: meetingSeries_id}).count() > 0) {

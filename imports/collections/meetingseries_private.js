@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries';
-import { MeetingSeriesCollection as MeetingSeriesCollectionImport, SimpleMeetingSeriesSchema } from './meetingseries.schema';
+import { MeetingSeriesCollection as MeetingSeriesCollectionImport, MeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
@@ -18,8 +18,6 @@ if (Meteor.isServer) {
 if (Meteor.isClient) {
     Meteor.subscribe('meetingSeries');
 }
-
-MeetingSeriesCollection.attachSchema(SimpleMeetingSeriesSchema);
 
 Meteor.methods({
     'meetingseries.insert'(doc, optimisticUICallback) {
@@ -53,7 +51,7 @@ Meteor.methods({
         // Every logged in user is allowed to create a new meeting series.
 
         try {
-            let newMeetingSeriesID = MeetingSeriesCollection.insert(doc);
+            let newMeetingSeriesID = MeetingSeriesSchema.insert(doc);
 
             // Make creator of this meeting series the first moderator
             Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
@@ -104,7 +102,7 @@ Meteor.methods({
         }
 
         try {
-            return MeetingSeriesCollection.update(id, {$set: doc});
+            return MeetingSeriesSchema.update(id, {$set: doc});
         } catch(e) {
             if (!Meteor.isClient) {
                 console.error(e);

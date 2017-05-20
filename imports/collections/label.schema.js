@@ -5,10 +5,10 @@ export const LabelSchema = SchemaClass.create({
     name: 'LabelSchema',
     fields: {
         _id: {type: String, validators: [{type: 'meteorId'}]},
-        isDefaultLabel: {type: Boolean, defaultValue: false},
-        isDisabled: {type: Boolean, defaultValue: false},
+        isDefaultLabel: {type: Boolean, default: false},
+        isDisabled: {type: Boolean, default: false},
         name: {type: String},
-        color: {type: String, defaultValue: '#e6e6e6'}
+        color: {type: String, default: '#e6e6e6'}
     }
 })
 

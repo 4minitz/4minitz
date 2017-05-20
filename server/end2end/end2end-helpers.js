@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 let fs = require('fs-extra');
 
-import { MeetingSeriesCollection } from './../../imports/collections/meetingseries_private';
+import { MeetingSeriesCollection, MeetingSeriesSchema } from './../../imports/collections/meetingseries.schema';
 import { MinutesCollection } from './../../imports/collections/minutes_private';
 import { TestMailCollection } from '/imports/mail/TestMail';
 import { Minutes } from './../../imports/minutes';
@@ -83,7 +83,7 @@ if (Meteor.settings.isEnd2EndTest) {
             return aMin.getPresentParticipantNames();
         },
         'e2e.updateMeetingSeries'(id, doc) {
-            MeetingSeriesCollection.update(id, {$set: doc});
+            MeetingSeriesSchema.update(id, {$set: doc});
         },
         'e2e.resetTestMailDB'() {
             TestMailCollection.remove({});

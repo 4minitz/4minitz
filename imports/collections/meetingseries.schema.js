@@ -14,6 +14,7 @@ export let MeetingSeriesCollection = new Mongo.Collection('meetingSeries', {
 
 export const MeetingSeriesSchema = SchemaClass.create({
     name: 'MeetingSeriesSchema',
+    collection: MeetingSeriesCollection,
     fields: {
         project: {type: String},
         name: {type: String},
@@ -22,11 +23,11 @@ export const MeetingSeriesSchema = SchemaClass.create({
         informedUsers: {type: [String], optional: true}, // element may be userID or EMail address
         // todo: make this a date?
         lastMinutesDate: {type: String},
-        minutes: {type: [String], defaultValue: []},
-        openTopics: {type: [TopicSchema], defaultValue: []},
-        topics: {type: [TopicSchema], defaultValue: []},
-        availableLabels: {type: [LabelSchema], defaultValue: []},
-        additionalResponsibles: {type: [String], defaultValue: []}
+        minutes: {type: [String], default: []},
+        openTopics: {type: [TopicSchema], default: []},
+        topics: {type: [TopicSchema], default: []},
+        availableLabels: {type: [LabelSchema], default: []},
+        additionalResponsibles: {type: [String], default: []}
     }
 });
 
