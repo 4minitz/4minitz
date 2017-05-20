@@ -1,20 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { MeetingSeries } from './../meetingseries';
-import { MeetingSeriesSchema } from './meetingseries.schema';
+import { MeetingSeriesCollection as MeetingSeriesCollectionImport, SimpleMeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { formatDateISO8601 } from '/imports/helpers/date';
 
-export let MeetingSeriesCollection = new Mongo.Collection('meetingSeries',
-    {
-        // inject methods of class MeetingSeries to all returned collection docs
-        transform: function (doc) {
-            return new MeetingSeries(doc);
-        }
-    }
-);
+export let MeetingSeriesCollection = MeetingSeriesCollectionImport;
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {
@@ -26,7 +19,7 @@ if (Meteor.isClient) {
     Meteor.subscribe('meetingSeries');
 }
 
-MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
+MeetingSeriesCollection.attachSchema(SimpleMeetingSeriesSchema);
 
 Meteor.methods({
     'meetingseries.insert'(doc, optimisticUICallback) {
