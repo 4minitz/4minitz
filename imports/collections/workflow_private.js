@@ -141,10 +141,10 @@ Meteor.methods({
             parentSeries.server_finalizeLastMinute();
             let msAffectedDocs = MeetingSeriesSchema.update(
                 parentSeries._id,
-                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});  // skip schema validation on client
+                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
-            const atLeastOnTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
-            if (msAffectedDocs !== 1 && atLeastOnTopicExists) {
+            const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
+            if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
             }
 
@@ -212,10 +212,10 @@ Meteor.methods({
             parentSeries.server_unfinalizeLastMinute();
             let msAffectedDocs = MeetingSeriesSchema.update(
                 parentSeries._id,
-                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}},
-                {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
+                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
-            if (msAffectedDocs !== 1) {
+            const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
+            if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
             }
 
