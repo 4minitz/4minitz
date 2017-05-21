@@ -31,8 +31,10 @@ export const MinutesSchema = SchemaClass.create({
         topics: {type: [TopicSchema], default: []},
         createdAt: {type: Date},
         agendaSentAt: {type: Date, optional: true},
-        visibleFor: {type: [String], validators: [{type: 'meteorId'}]},                        // array of user IDs
-        informedUsers: {type: [String], validators: [{type: 'meteorId'}], default: []},   // array of user IDs
+        // array of user IDs
+        visibleFor: {type: [String], validators: [{type: 'meteorId'}]},
+        // array of user IDs
+        informedUsers: {type: [String], validators: [{type: 'meteorId'}], default: []},
         participants: {type: [ParticipantsSchema], default: []},
         participantsAdditional: {type: String, default: '', optional: true},
         isFinalized: {type: Boolean, default: false},

@@ -143,7 +143,8 @@ Meteor.methods({
                 parentSeries._id,
                 {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});  // skip schema validation on client
 
-            if (msAffectedDocs !== 1) {
+            const atLeastOnTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
+            if (msAffectedDocs !== 1 && atLeastOnTopicExists) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
             }
 
