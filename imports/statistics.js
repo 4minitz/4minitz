@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
-import { MinutesCollection } from './collections/minutes_private';
-import { MeetingSeriesCollection } from './collections/meetingseries.schema';
+import { MinutesSchema } from './collections/minutes.schema';
+import { MeetingSeriesSchema } from './collections/meetingseries.schema';
 import { Attachment } from './attachment';
 
 let StatisticsCollection = new Mongo.Collection('statistics');
@@ -32,8 +32,8 @@ export const Statistics = SchemaClass.create({
     },
     meteorMethods: {
         update() {
-            const numberOfMeetingSeries = MeetingSeriesCollection.find().count(),
-                numberOfMinutes = MinutesCollection.find().count(),
+            const numberOfMeetingSeries = MeetingSeriesSchema.find().count(),
+                numberOfMinutes = MinutesSchema.find().count(),
                 numberOfUsers = Meteor.users.find().count(),
                 numberOfActiveUsers = Meteor.users.find({$or: [{isInactive: { $exists: false }}, {isInactive: false}]}).count(),
                 numberOfAttachments = Attachment.countAll(),
@@ -70,7 +70,7 @@ export const Statistics = SchemaClass.create({
 // @param minTopicsCount {Number} only meeting series with at least so much minutes are considered
 // @param minTopicsCount {Number} only meeting series with at least so much finalized topics are considered
 let statisticsDetails = function (minMinutesCount = 2, minTopicsCount = 5) {
-    let MS = MeetingSeriesCollection.find();
+    let MS = MeetingSeriesSchema.find();
     let MScount = 0;
     let MinutesCount = 0;
     let TopicCount = 0;

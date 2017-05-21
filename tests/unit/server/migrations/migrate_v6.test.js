@@ -14,16 +14,14 @@ let Meteor = {
     Error: MeteorError
 };
 
-let MinutesCollection = {
-};
+let MinutesSchema = {};
 
-let MeetingSeriesCollection = {
-};
+let MeetingSeriesSchema = {};
 
 const {
         MigrateV6
     } = proxyquire('../../../../server/migrations/migrate_v6', {
         'meteor/meteor': { Meteor, '@noCallThru': true},
-        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-        '/imports/collections/meetingseries.schema': { MeetingSeriesCollection, '@noCallThru': true}
+        '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+        '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true}
     });

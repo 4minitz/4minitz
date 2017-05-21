@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { MinutesCollection } from './collections/minutes_private';
+import { MinutesSchema } from './collections/minutes.schema';
 import { MeetingSeries } from './meetingseries';
 import { Topic } from './topic';
 import { ActionItem } from './actionitem';
@@ -7,6 +7,8 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 import { emailAddressRegExpMatch } from '/imports/helpers/email';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
+
+import './collections/minutes_private';
 import './helpers/promisedMethods';
 import './collections/workflow_private';
 
@@ -25,11 +27,11 @@ export class Minutes {
 
     // ################### static methods
     static find(...args) {
-        return MinutesCollection.find(...args);
+        return MinutesSchema.getCollection().find(...args);
     }
 
     static findOne(...args) {
-        return MinutesCollection.findOne(...args);
+        return MinutesSchema.getCollection().findOne(...args);
     }
 
     static findAllIn(MinutesIDArray, limit, lastMintuesFirst = true) {
@@ -42,7 +44,7 @@ export class Minutes {
         if (limit) {
             options['limit'] = limit;
         }
-        return MinutesCollection.find(
+        return Minutes.find(
             {_id: {$in: MinutesIDArray}},
             options);
     }

@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { BroadcastMessageCollection } from '/imports/collections/broadcastmessages.schema';
+import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
 // Dear admin,
@@ -15,11 +15,11 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 export class BroadcastMessage {
 
     static find(...args) {
-        return BroadcastMessageCollection.find(...args);
+        return BroadcastMessageSchema.find(...args);
     }
 
     static findOne(...args) {
-        return BroadcastMessageCollection.findOne(...args);
+        return BroadcastMessageSchema.findOne(...args);
     }
 
     static dismissForMe() {
@@ -39,7 +39,7 @@ export class BroadcastMessage {
     static removeAll () {
         if (Meteor.isServer) {
             console.log('Remove All BroadcastMessages.');
-            BroadcastMessageCollection.remove({});
+            BroadcastMessageSchema.remove({});
         }
     }
 
@@ -49,7 +49,7 @@ export class BroadcastMessage {
         }
         if (Meteor.isServer) {
             console.log('Remove BroadcastMessage: ' + id);
-            BroadcastMessageCollection.remove({_id: id});
+            BroadcastMessageSchema.remove({_id: id});
         }
     }
 
@@ -57,7 +57,7 @@ export class BroadcastMessage {
         if (Meteor.isServer) {
             console.log('List All BroadcastMessages.');
             let allMsgs = [];
-            BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
+            BroadcastMessageSchema.find({isActive: true}).forEach(msg => {
                 let oneMsg = 'Message: '+msg._id+' '+
                             formatDateISO8601Time(msg.createdAt) +
                             ' dismissed:'+msg.dismissForUserIDs.length +

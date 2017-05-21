@@ -1,5 +1,5 @@
-import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
+import { MinutesSchema } from '/imports/collections/minutes.schema';
+import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { formatDateISO8601, currentDatePlusDeltaDays } from '/imports/helpers/date';
 
 export class MigrateV1 {
@@ -38,7 +38,7 @@ export class MigrateV1 {
     }
 
     static _updateTopics(modifyTopic) {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
 
             minute.topics.forEach((topic, index) => {
                 topic = modifyTopic(topic, minute);
@@ -46,7 +46,7 @@ export class MigrateV1 {
                 let sel = 'topics.' + index;
                 let setNewTopic = {};
                 setNewTopic[sel] = topic;
-                MinutesCollection.update(
+                MinutesSchema.getCollection().update(
                     minute._id,
                     {
                         $set: setNewTopic
@@ -57,7 +57,7 @@ export class MigrateV1 {
     }
 
     static _updateMeetingSeries(modifyTopic) {
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
 
             let iterateTopics = (propertyName) => {
                 return (topic, index) => {
@@ -66,7 +66,7 @@ export class MigrateV1 {
                     let sel = propertyName + '.' + index;
                     let setNewTopic = {};
                     setNewTopic[sel] = topic;
-                    MeetingSeriesCollection.update(
+                    MeetingSeriesSchema.getCollection().update(
                         series._id,
                         {
                             $set: setNewTopic

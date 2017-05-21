@@ -1,5 +1,5 @@
-import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
+import { MinutesSchema } from '/imports/collections/minutes.schema';
+import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 
 // adds the label field to meeting series, topics and info items
@@ -32,22 +32,19 @@ export class MigrateV7 {
 
     static up() {
 
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.find().forEach(minute => {
             MigrateV7._upgradeTopics(minute.topics);
 
-            // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
-                minute._id,
-                {
+            // We use getCollection() here to skip .clean & .validate to allow empty string values
+            MinutesSchema.getCollection().update(
+                minute._id, {
                     $set: {
                         'topics': minute.topics
                     }
-                },
-                {bypassCollection2: true}
-            );
+                });
         });
 
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.find().forEach(series => {
             MigrateV7._upgradeTopics(series.openTopics);
             MigrateV7._upgradeTopics(series.topics);
 
@@ -58,43 +55,38 @@ export class MigrateV7 {
                 label.isDisabled = false;
             });
 
-            MeetingSeriesCollection.update(
-                series._id,
-                {
+            // We use getCollection() here to skip .clean & .validate to allow empty string values
+            MeetingSeriesSchema.getCollection().update(
+                series._id, {
                     $set: {
                         'topics': series.topics,
                         'openTopics': series.openTopics,
                         'availableLabels': defaultLabels
                     }
-                },
-                {bypassCollection2: true}
-            );
+                });
         });
     }
 
     static down() {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.find().forEach(minute => {
             MigrateV7._downgradeTopics(minute.topics);
 
-            // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
-                minute._id,
-                {
+            // We use getCollection() here to skip .clean & .validate to allow empty string values
+            MinutesSchema.getCollection().update(
+                minute._id, {
                     $set: {
                         'topics': minute.topics
                     }
-                },
-                {bypassCollection2: true}
-            );
+                });
         });
 
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.find().forEach(series => {
             MigrateV7._downgradeTopics(series.openTopics);
             MigrateV7._downgradeTopics(series.topics);
 
-            MeetingSeriesCollection.update(
-                series._id,
-                {
+            // We use getCollection() here to skip .clean & .validate to allow empty string values
+            MeetingSeriesSchema.getCollection().update(
+                series._id, {
                     $set: {
                         'topics': series.topics,
                         'openTopics': series.openTopics
@@ -102,9 +94,7 @@ export class MigrateV7 {
                     $unset: {
                         'availableLabels' : ''
                     }
-                },
-                {bypassCollection2: true}
-            );
+                });
         });
     }
 }

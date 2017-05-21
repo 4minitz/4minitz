@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 let fs = require('fs-extra');
 
-import { MeetingSeriesCollection, MeetingSeriesSchema } from './../../imports/collections/meetingseries.schema';
-import { MinutesCollection } from './../../imports/collections/minutes_private';
+import { MeetingSeriesSchema } from './../../imports/collections/meetingseries.schema';
+import { MinutesSchema } from './../../imports/collections/minutes.schema';
 import { TestMailCollection } from '/imports/mail/TestMail';
 import { Minutes } from './../../imports/minutes';
 import { AttachmentsCollection, calculateAndCreateStoragePath } from '/imports/collections/attachments_private';
-import { BroadcastMessageCollection } from '/imports/collections/broadcastmessages.schema';
+import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
@@ -19,7 +19,7 @@ if (Meteor.settings.isEnd2EndTest) {
             AttachmentsCollection.remove({});
             console.log('Count AttachmentsCollection after reset:'+AttachmentsCollection.find().count());
             // remove the meeting series attachment dir
-            MeetingSeriesCollection.find().fetch().forEach(ms => {
+            MeetingSeriesSchema.getCollection().find().fetch().forEach(ms => {
                 let storagePath = calculateAndCreateStoragePath();
                 storagePath += '/'+ms._id;
                 fs.remove(storagePath, function (err) {
@@ -30,13 +30,13 @@ if (Meteor.settings.isEnd2EndTest) {
                     }
                 });
             });
-            MeetingSeriesCollection.remove({});
-            console.log('Count MeetingSeries after reset:'+MeetingSeriesCollection.find().count());
-            MinutesCollection.remove({});
-            console.log('Count Minutes after reset:'+MinutesCollection.find().count());
+            MeetingSeriesSchema.remove({});
+            console.log('Count MeetingSeries after reset:'+MeetingSeriesSchema.find().count());
+            MinutesSchema.remove({});
+            console.log('Count Minutes after reset:'+MinutesSchema.find().count());
             TestMailCollection.remove({});
             console.log('Count saved test mails after reset:'+TestMailCollection.find().count());
-            BroadcastMessageCollection.remove({});
+            BroadcastMessageSchema.remove({});
 
             if (!skipUsers) {
                 // Reset users and create our e2e test users
@@ -63,11 +63,11 @@ if (Meteor.settings.isEnd2EndTest) {
         },
         'e2e.countMeetingSeriesInMongDB'() {
             console.log('-------------------------- E2E-METHOD: countMeetingSeries');
-            return MeetingSeriesCollection.find({}).count();
+            return MeetingSeriesSchema.find({}).count();
         },
         'e2e.countMinutesInMongoDB'() {
             console.log('-------------------------- E2E-METHOD: countMinutesSeries');
-            return MinutesCollection.find({}).count();
+            return MinutesSchema.find({}).count();
         },
         'e2e.countAttachmentsInMongoDB'() {
             console.log('-------------------------- E2E-METHOD: countAttachmentsInMongoDB');

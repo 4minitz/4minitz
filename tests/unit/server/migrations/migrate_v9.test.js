@@ -8,11 +8,11 @@ import sinon from 'sinon';
 
 require('../../../../imports/helpers/date');
 
-let MinutesCollection = {
+let MinutesSchema = {
 };
 
 const {
         MigrateV9
     } = proxyquire('../../../../server/migrations/migrate_v9', {
-        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true}
+        '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true}
     });

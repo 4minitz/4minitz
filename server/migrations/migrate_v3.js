@@ -1,5 +1,5 @@
-import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
+import { MinutesSchema } from '/imports/collections/minutes.schema';
+import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 
 // convert the participants fields
 export class MigrateV3 {
@@ -26,11 +26,11 @@ export class MigrateV3 {
 
 
     static up() {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV3._upgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
+            MinutesSchema.getCollection().update(
                 minute._id,
                 {
                     $set: {
@@ -41,11 +41,11 @@ export class MigrateV3 {
             );
         });
 
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV3._upgradeTopics(series.openTopics);
             MigrateV3._upgradeTopics(series.topics);
 
-            MeetingSeriesCollection.update(
+            MeetingSeriesSchema.getCollection().update(
                 series._id,
                 {
                     $set: {
@@ -59,11 +59,11 @@ export class MigrateV3 {
     }
 
     static down() {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV3._downgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
+            MinutesSchema.getCollection().update(
                 minute._id,
                 {
                     $set: {
@@ -74,11 +74,11 @@ export class MigrateV3 {
             );
         });
 
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV3._downgradeTopics(series.openTopics);
             MigrateV3._downgradeTopics(series.topics);
 
-            MeetingSeriesCollection.update(
+            MeetingSeriesSchema.getCollection().update(
                 series._id,
                 {
                     $set: {

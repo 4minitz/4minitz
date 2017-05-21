@@ -1,13 +1,9 @@
-/**
- * Created by felix on 18.05.16.
- */
 import { expect } from 'chai';
 import * as Helpers from '../../../../imports/helpers/date';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
-let MinutesCollection = {
-
+let MinutesSchema = {
     minutes: [],
 
     find: function() {
@@ -20,9 +16,9 @@ let MinutesCollection = {
         this.minutes.push(minute);
     }
 };
+MinutesSchema.getCollection = _ => MinutesSchema;
 
-let MeetingSeriesCollection = {
-
+let MeetingSeriesSchema = {
     series: [],
 
     find: function() {
@@ -35,14 +31,15 @@ let MeetingSeriesCollection = {
         this.series.push(aSeries);
     }
 };
+MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
 
 Helpers['@noCallThru'] = true;
 
 const {
         MigrateV1
     } = proxyquire('../../../../server/migrations/migrate_v1', {
-        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-        '/imports/collections/meetingseries.schema': { MeetingSeriesCollection, '@noCallThru': true},
+        '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+        '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
         '/imports/helpers/date': Helpers
     });
 
@@ -55,9 +52,9 @@ const {
  *        was modified correctly.
  */
 let checkUpdateMinuteCall = (minute, checkUpdatedTopic) => {
-    expect(MinutesCollection.update.calledOnce).to.be.true;
+    expect(MinutesSchema.update.calledOnce).to.be.true;
 
-    let updateCall = MinutesCollection.update.getCall(0);
+    let updateCall = MinutesSchema.update.getCall(0);
     expect(updateCall.args[0]).to.equal(minute._id);
 
     let updateSetter = updateCall.args[1].$set;
@@ -76,10 +73,10 @@ let checkUpdateMinuteCall = (minute, checkUpdatedTopic) => {
  *        was modified correctly.
  */
 let checkUpdateMeetingSeriesCall = (series, checkUpdatedTopic) => {
-    expect(MeetingSeriesCollection.update.callCount).to.equal(2);
+    expect(MeetingSeriesSchema.update.callCount).to.equal(2);
 
     // first call on open topics
-    let firstCall = MeetingSeriesCollection.update.getCall(0);
+    let firstCall = MeetingSeriesSchema.update.getCall(0);
     expect(firstCall.args[0]).to.equal(series._id);
 
     let updateSetter1 = firstCall.args[1].$set;
@@ -89,7 +86,7 @@ let checkUpdateMeetingSeriesCall = (series, checkUpdatedTopic) => {
     checkUpdatedTopic(updTopic);
 
     // second call on closed topics
-    let sndCall = MeetingSeriesCollection.update.getCall(1);
+    let sndCall = MeetingSeriesSchema.update.getCall(1);
     expect(sndCall.args[0]).to.equal(series._id);
 
     let updateSetter2 = sndCall.args[1].$set;
@@ -137,15 +134,15 @@ describe('Migrate Version 1', function () {
             ]
         };
 
-        MinutesCollection.insert(minute);
-        MeetingSeriesCollection.insert(series);
+        MinutesSchema.insert(minute);
+        MeetingSeriesSchema.insert(series);
     });
 
     afterEach(function () {
-        MinutesCollection.update.reset();
-        MeetingSeriesCollection.update.reset();
-        MeetingSeriesCollection.series = [];
-        MinutesCollection.minutes = [];
+        MinutesSchema.update.reset();
+        MeetingSeriesSchema.update.reset();
+        MeetingSeriesSchema.series = [];
+        MinutesSchema.minutes = [];
     });
 
     describe('#up', function () {

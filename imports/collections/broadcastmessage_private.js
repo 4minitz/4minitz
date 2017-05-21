@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 
-import { BroadCastMessageCollection, BroadcastMessageSchema } from './broadcastmessages.schema';
+import { BroadcastMessageSchema } from './broadcastmessages.schema';
 
 if (Meteor.isServer) {
     Meteor.publish('broadcastmessage', function () {
         if(this.userId) {
             // publish only messages, that the current user has NOT yet dismissed
-            return BroadcastMessageCollection.find(
+            return BroadcastMessageSchema.find(
                 {$and: [{isActive: true},
                         {dismissForUserIDs: { $nin: [this.userId] } }]});
         }
@@ -18,7 +18,7 @@ if (Meteor.isServer) {
         if(this.userId) {
             let usr = Meteor.users.findOne(this.userId);
             if (usr.isAdmin) {
-                return BroadcastMessageCollection.find({});
+                return BroadcastMessageSchema.find({});
             }
         }
     });
@@ -37,7 +37,7 @@ Meteor.methods({
         }
         console.log('Dismissing BroadcastMessages for user: '+Meteor.userId());
 
-        BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
+        BroadcastMessageSchema.find({isActive: true}).forEach(msg => {
             BroadcastMessageSchema.update(
                 {_id: msg._id},
                 {$addToSet: {dismissForUserIDs: Meteor.userId()}});
@@ -77,7 +77,7 @@ Meteor.methods({
             throw new Meteor.Error('Cannot remove message', 'You are not admin.');
         }
 
-        BroadcastMessageCollection.remove(messageId);
+        BroadcastMessageSchema.remove(messageId);
     },
 
     'broadcastmessage.toggleActive': function (messageId) {
@@ -90,7 +90,7 @@ Meteor.methods({
             throw new Meteor.Error('Cannot remove message', 'You are not admin.');
         }
 
-        let msg = BroadcastMessageCollection.findOne(messageId);
+        let msg = BroadcastMessageSchema.findOne(messageId);
         if (msg) {
             if (msg.isActive) {
                 BroadcastMessageSchema.update(messageId,

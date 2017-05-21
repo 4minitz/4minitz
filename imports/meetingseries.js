@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { MeetingSeriesCollection } from './collections/meetingseries.schema';
+import { MeetingSeriesSchema } from './collections/meetingseries.schema';
 import { Minutes } from './minutes';
 import { Topic } from './topic';
 import { UserRoles } from './userroles';
@@ -16,7 +16,7 @@ export class MeetingSeries {
             return;
 
         if (typeof source === 'string') {   // we may have an ID here.
-            source = MeetingSeriesCollection.findOne(source);
+            source = MeetingSeriesSchema.getCollection().findOne(source);
         }
         if (typeof source === 'object') { // inject class methods in plain collection document
             _.extend(this, source);
@@ -25,11 +25,11 @@ export class MeetingSeries {
 
     // ################### static methods
     static find(...args) {
-        return MeetingSeriesCollection.find(...args);
+        return MeetingSeriesSchema.getCollection().find(...args);
     }
 
     static findOne(...args) {
-        return MeetingSeriesCollection.findOne(...args);
+        return MeetingSeriesSchema.getCollection().findOne(...args);
     }
 
     static async remove(meetingSeries) {
@@ -42,7 +42,7 @@ export class MeetingSeries {
 
     static getAllVisibleIDsForUser (userId) {
         // we return an array with just a list of visible meeting series IDs
-        return MeetingSeriesCollection
+        return MeetingSeriesSchema
             .find({visibleFor: {$in: [userId]}}, {_id:1})
             .map(function(item){ return item._id; });
     }

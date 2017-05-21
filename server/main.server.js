@@ -9,7 +9,7 @@ import '/imports/config/accounts';
 import '/imports/broadcastmessage';
 import '/imports/minutes';
 import '/imports/meetingseries';
-import {BroadcastMessageCollection, BroadcastMessageSchema} from '/imports/collections/broadcastmessages.schema';
+import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
@@ -69,7 +69,7 @@ Meteor.startup(() => {
 
     // If we find no admin broadcast messages, we create an INactive one for
     // easy re-activating.
-    if (BroadcastMessageCollection.find().count() === 0) {
+    if (BroadcastMessageSchema.find().count() === 0) {
         let message = 'Warning: 4Minitz will be down for maintenance in *4 Minutes*. ' +
             'Downtime will be about 4 Minutes. Just submit open dialogs. ' +
             'Then nothing is lost. You may finalize meetings later.';

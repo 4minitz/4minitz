@@ -6,7 +6,7 @@ import { LabelSchema } from './label.schema';
 import { MeetingSeries } from '../meetingseries';
 import './idValidator';
 
-export let MeetingSeriesCollection = new Mongo.Collection('meetingSeries', {
+let MeetingSeriesCollection = new Mongo.Collection('meetingSeries', {
     transform: function (doc) {
         return new MeetingSeries(doc);
     }

@@ -5,7 +5,7 @@ import { TopicSchema } from './topic.schema';
 import { Minutes } from '../minutes';
 import './idValidator';
 
-export let MinutesCollection = new Mongo.Collection('minutes', {
+let MinutesCollection = new Mongo.Collection('minutes', {
     transform: function (doc) {
         return new Minutes(doc);
     }

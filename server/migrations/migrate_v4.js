@@ -1,11 +1,11 @@
-import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries.schema';
+import { MinutesSchema } from '/imports/collections/minutes.schema';
+import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 
 // Topics: convert the responsible (string) => responsibles (array) fields
 export class MigrateV4 {
 
     static up() {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             minute.topics.forEach(topic => {
                 topic.responsibles = [];
                 if (topic.responsible) {
@@ -14,7 +14,7 @@ export class MigrateV4 {
             });
 
             // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
+            MinutesSchema.getCollection().update(
                 minute._id,
                 {
                     $set: {topics: minute.topics}
@@ -22,7 +22,7 @@ export class MigrateV4 {
                 {bypassCollection2: true}
             );
         });
-        MeetingSeriesCollection.find().forEach(meeting => {
+        MeetingSeriesSchema.getCollection().find().forEach(meeting => {
             meeting.topics.forEach(topic => {
                 topic.responsibles = [];
                 if (topic.responsible) {
@@ -37,7 +37,7 @@ export class MigrateV4 {
             });
 
             // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MeetingSeriesCollection.update(
+            MeetingSeriesSchema.getCollection().update(
                 meeting._id,
                 {
                     $set: {topics:    meeting.topics,
@@ -50,13 +50,13 @@ export class MigrateV4 {
     }
 
     static down() {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             minute.topics.forEach(topic => {
                 delete topic.responsibles;
             });
 
             // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
+            MinutesSchema.getCollection().update(
                 minute._id,
                 {
                     $set: {topics: minute.topics}
@@ -65,7 +65,7 @@ export class MigrateV4 {
             );
         });
 
-        MeetingSeriesCollection.find().forEach(meeting => {
+        MeetingSeriesSchema.getCollection().find().forEach(meeting => {
             meeting.topics.forEach(topic => {
                 if (topic.responsibles) {
                     topic.responsible = topic.responsibles.join();
@@ -80,7 +80,7 @@ export class MigrateV4 {
             });
 
             // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MeetingSeriesCollection.update(
+            MeetingSeriesSchema.getCollection().update(
                 meeting._id,
                 {
                     $set: {topics:     meeting.topics,

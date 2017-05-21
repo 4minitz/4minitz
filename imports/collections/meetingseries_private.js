@@ -1,7 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
-import { MeetingSeries } from './../meetingseries';
-import { MeetingSeriesCollection, MeetingSeriesSchema } from './meetingseries.schema';
+import { MeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
@@ -9,7 +7,7 @@ import { formatDateISO8601 } from '/imports/helpers/date';
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {
-        return MeetingSeriesCollection.find(
+        return MeetingSeriesSchema.find(
             {visibleFor: {$in: [this.userId]}});
     });
 }
