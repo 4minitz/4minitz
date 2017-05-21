@@ -1,9 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { BroadcastMessageSchema } from './broadcastmessages.schema';
-
-export let BroadcastMessageCollection = new Mongo.Collection('broadcastmessage');
-BroadcastMessageCollection.attachSchema(BroadcastMessageSchema);
+import { BroadCastMessageCollection, BroadcastMessageSchema } from './broadcastmessages.schema';
 
 if (Meteor.isServer) {
     Meteor.publish('broadcastmessage', function () {
@@ -41,7 +38,7 @@ Meteor.methods({
         console.log('Dismissing BroadcastMessages for user: '+Meteor.userId());
 
         BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
-            BroadcastMessageCollection.update(
+            BroadcastMessageSchema.update(
                 {_id: msg._id},
                 {$addToSet: {dismissForUserIDs: Meteor.userId()}});
         }
@@ -62,7 +59,7 @@ Meteor.methods({
 
         console.log('New BroadcastMessage from Admin: >' + message+'<');
 
-        const id = BroadcastMessageCollection.insert({
+        const id = BroadcastMessageSchema.insert({
             text: message,
             isActive: active,
             createdAt: new Date(),
@@ -96,10 +93,10 @@ Meteor.methods({
         let msg = BroadcastMessageCollection.findOne(messageId);
         if (msg) {
             if (msg.isActive) {
-                BroadcastMessageCollection.update(messageId,
+                BroadcastMessageSchema.update(messageId,
                     {$set: {isActive: false}});
             } else {
-                BroadcastMessageCollection.update(messageId,
+                BroadcastMessageSchema.update(messageId,
                     {$set: {isActive: true, createdAt: new Date(), dismissForUserIDs: []}});
             }
         }

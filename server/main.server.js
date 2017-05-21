@@ -9,7 +9,7 @@ import '/imports/config/accounts';
 import '/imports/broadcastmessage';
 import '/imports/minutes';
 import '/imports/meetingseries';
-import {BroadcastMessageCollection} from '/imports/collections/broadcastmessage_private';
+import {BroadcastMessageCollection, BroadcastMessageSchema} from '/imports/collections/broadcastmessages.schema';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
@@ -73,7 +73,7 @@ Meteor.startup(() => {
         let message = 'Warning: 4Minitz will be down for maintenance in *4 Minutes*. ' +
             'Downtime will be about 4 Minutes. Just submit open dialogs. ' +
             'Then nothing is lost. You may finalize meetings later.';
-        BroadcastMessageCollection.insert({
+        BroadcastMessageSchema.insert({
             text: message,
             isActive: false,
             createdAt: new Date(),
