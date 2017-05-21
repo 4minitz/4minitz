@@ -1,4 +1,5 @@
 import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { FlashMessage } from '../../helpers/flashMessage';
@@ -96,6 +97,11 @@ Template.topicElement.helpers({
     
     cursorForEdit() {
         return this.isEditable ? 'pointer' : '';
+    },
+    
+    showMenu() {
+        return ((this.isEditable) || // Context: Current non-finalized Minute
+            (!this.minutesID && !this.topic.isOpen && new MeetingSeries(this.parentMeetingSeriesId).isCurrentUserModerator())); // Context: Closed Topic within MeetingSeries, user is moderator;
     }
 });
 
@@ -224,5 +230,21 @@ Template.topicElement.events({
         }
         collapseState[this.topic._id] = ! collapseState[this.topic._id];
         Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
+    },
+    
+    'click #btnReopenTopic'(evt) {
+        evt.preventDefault();
+        let reopenTopic = () => {
+            Meteor.call('workflow.reopenTopicFromMeetingSeries', this.parentMeetingSeriesId, this.topic._id);
+        };
+        ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+            reopenTopic,
+            'Re-open Topic',
+            'confirmReOpenTopic',
+            {
+                topicSubject: Template.instance().data.topic.subject
+            },
+            'Re-open'
+        ).show(); 
     }
 });
