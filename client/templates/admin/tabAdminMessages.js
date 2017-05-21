@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private';
+import { BroadcastMessageCollection } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
 Template.tabAdminMessages.onCreated(function() {

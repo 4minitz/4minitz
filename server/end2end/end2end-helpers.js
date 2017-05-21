@@ -6,7 +6,7 @@ import { MinutesCollection } from './../../imports/collections/minutes_private';
 import { TestMailCollection } from '/imports/mail/TestMail';
 import { Minutes } from './../../imports/minutes';
 import { AttachmentsCollection, calculateAndCreateStoragePath } from '/imports/collections/attachments_private';
-import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private';
+import { BroadcastMessageCollection } from '/imports/collections/broadcastmessages.schema';
 
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
