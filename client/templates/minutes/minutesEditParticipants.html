@@ -21,7 +21,7 @@
                                 <label class = "checkbox-markAllNone">
                                     <input type="checkbox" class="checkbox"
                                            name="markAllNone" id="btnToggleMarkAllNone" checked="{{isChecked}}">
-                                    <span id="id_markAllNone" class="text-black">
+                                    <span id="id_markAllNone" class="text-black" style="color: teal">
                                         <b>{{#if isChecked}}
                                             Mark none
                                         {{else}}
@@ -51,7 +51,6 @@
                         </div>
                         {{/each}}
                     </div>
-                </div>
                     <!--Additional Participants: freetext field-->
                     <input id="edtParticipantsAdditional" type="text" class="form-control"
                            placeholder="Additional Participants..."
@@ -62,7 +61,7 @@
                             <span class="large-font">{{getInformedUsers}}</span>
                         </div>
                     {{/if}}
-
+                </div>
 
             <!-- Collapsed variant of participant list -->
             {{else}}

@@ -419,11 +419,12 @@ export class Minutes {
      * Change presence of a all participants in a Minute
      * @param isPresent new state of presence
      */
-    changeParticipantsStatus(isPresent)
+    async changeParticipantsStatus(isPresent)
     {
-        for (var index = 0; index < this.participants.length; index++){
-            this.updateParticipantPresent(index, isPresent);
+        for (var index = 0; index < this.participants.length; index++) {
+            this.participants[index].present = isPresent;
         }
+        return this.update({participants: this.participants});
     }
 
     /**

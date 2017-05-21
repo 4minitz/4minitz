@@ -4,6 +4,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { handleError } from '/client/helpers/handleError';
 
 let _minutesID; // the ID of these minutes
 
@@ -142,11 +143,11 @@ Template.minutesEditParticipants.events({
     'click #btnToggleMarkAllNone' (evt, tmpl){
         let aMin = new Minutes(_minutesID);
         if (allParticipantsMarked()) {
-            aMin.changeParticipantsStatus(false);
+            aMin.changeParticipantsStatus(false).catch(handleError);
             tmpl.markedAll.set(false);
         }
         else {
-            aMin.changeParticipantsStatus(true);
+            aMin.changeParticipantsStatus(true).catch(handleError);
             tmpl.markedAll.set(true);
         }
     }
