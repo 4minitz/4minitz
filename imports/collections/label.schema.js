@@ -10,17 +10,4 @@ export const LabelSchema = SchemaClass.create({
         name: {type: String},
         color: {type: String, default: '#e6e6e6'}
     }
-})
-
-
-// simple schema, deprecated, will soon be removed
-
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-
-export const SimpleLabelSchema = new SimpleSchema({
-    _id: {type: String, regEx: SimpleSchema.RegEx.Id},
-    isDefaultLabel: {type: Boolean, defaultValue: false},
-    isDisabled: {type: Boolean, defaultValue: false},
-    name: {type: String},
-    color: {type: String, defaultValue: '#e6e6e6'}
 });
