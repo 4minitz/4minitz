@@ -1,8 +1,8 @@
-import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { MinutesSchema } from '/imports/collections/minutes.schema';
+import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 
 function saveSeries(series) {
-    MeetingSeriesCollection.update(
+    MeetingSeriesSchema.getCollection().update(
         series._id,
         {
             $set: {
@@ -16,7 +16,7 @@ function saveSeries(series) {
 
 function saveMinutes(minutes) {
     // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-    MinutesCollection.update(
+    MinutesSchema.getCollection().update(
         minutes._id,
         {
             $set: {
@@ -156,19 +156,19 @@ export class MigrateV12 {
 
     static up() {
         console.log('% Progress - updating all topics. This might take several minutes...');
-        let allSeries = MeetingSeriesCollection.find();
+        let allSeries = MeetingSeriesSchema.getCollection().find();
         allSeries.forEach(series => {
             (new MigrateSeriesUp(series)).run();
         });
     }
 
     static down() {
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             series.topics = MigrateV12._downgradeTopics(series.topics);
             series.openTopics = MigrateV12._downgradeTopics(series.openTopics);
             saveSeries(series);
         });
-        MinutesCollection.find().forEach(minutes => {
+        MinutesSchema.getCollection().find().forEach(minutes => {
             minutes.topics = MigrateV12._downgradeTopics(minutes.topics);
             saveMinutes(minutes);
         });

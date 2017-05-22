@@ -7,8 +7,8 @@ if (Meteor.isServer) {
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { UserRoles } from './../userroles';
-import { MeetingSeriesCollection } from './meetingseries_private';
-import { MinutesCollection } from './minutes_private';
+import { MeetingSeriesSchema } from './meetingseries.schema';
+import { MinutesSchema } from './minutes.schema';
 import { AttachmentsCollection, calculateAndCreateStoragePath} from './attachments_private';
 import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
@@ -66,16 +66,16 @@ Meteor.methods({
         doc.isFinalized = false;
 
         try {
-            let newMinutesID = MinutesCollection.insert(doc);
+            let newMinutesID = MinutesSchema.insert(doc);
             try {
                 parentMeetingSeries.minutes.push(newMinutesID);
-                let affectedDocs = MeetingSeriesCollection.update(
+                let affectedDocs = MeetingSeriesSchema.update(
                     parentMeetingSeries._id, {$set: {minutes: parentMeetingSeries.minutes}});
                 if (affectedDocs !== 1) {
                     throw new Meteor.Error('runtime-error', 'Update parent meeting series failed - no docs affected');
                 }
             } catch (e) {
-                MinutesCollection.remove({_id: newMinutesID});
+                MinutesSchema.remove({_id: newMinutesID});
                 console.error(e);
                 throw e;
             }
@@ -104,10 +104,10 @@ Meteor.methods({
         let meetingSeriesId = aMin.parentMeetingSeriesID();
         checkUserAvailableAndIsModeratorOf(meetingSeriesId);
 
-        let affectedDocs = MinutesCollection.remove({_id: minutes_id, isFinalized: false});
+        let affectedDocs = MinutesSchema.remove({_id: minutes_id, isFinalized: false});
         if (affectedDocs > 0) {
             // remove the reference in the meeting series minutes array
-            MeetingSeriesCollection.update(meetingSeriesId, {$pull: {'minutes': minutes_id}});
+            MeetingSeriesSchema.update(meetingSeriesId, {$pull: {'minutes': minutes_id}});
 
             // remove all uploaded attachments for meeting series, if any exist
             if (Meteor.isServer && AttachmentsCollection.find({'meta.meetingminutes_id': minutes_id}).count() > 0) {
@@ -139,12 +139,12 @@ Meteor.methods({
             // first we copy the topics of the finalize-minute to the parent series
             let parentSeries = aMin.parentMeetingSeries();
             parentSeries.server_finalizeLastMinute();
-            let msAffectedDocs = MeetingSeriesCollection.update(
+            let msAffectedDocs = MeetingSeriesSchema.update(
                 parentSeries._id,
-                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}},
-                {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
+                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
-            if (msAffectedDocs !== 1) {
+            const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
+            if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
             }
 
@@ -169,7 +169,7 @@ Meteor.methods({
             doc['finalizedHistory'] = history;
             console.log(history.join('\n'));
 
-            let affectedDocs = MinutesCollection.update(id, {$set: doc});
+            let affectedDocs = MinutesSchema.update(id, {$set: doc});
 
             if (affectedDocs === 1 && !Meteor.isClient) {
                 if (!GlobalSettings.isEMailDeliveryEnabled()) {
@@ -210,12 +210,12 @@ Meteor.methods({
 
         try {
             parentSeries.server_unfinalizeLastMinute();
-            let msAffectedDocs = MeetingSeriesCollection.update(
+            let msAffectedDocs = MeetingSeriesSchema.update(
                 parentSeries._id,
-                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}},
-                {bypassCollection2: !Meteor.isServer});  // skip schema validation on client
+                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
 
-            if (msAffectedDocs !== 1) {
+            const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
+            if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
                 throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
             }
 
@@ -233,7 +233,7 @@ Meteor.methods({
             history.push(aMin.getFinalizedString());
             doc['finalizedHistory'] = history;
 
-            return MinutesCollection.update(id, {$set: doc});
+            return MinutesSchema.update(id, {$set: doc});
         } catch(e) {
             if (!Meteor.isClient) {
                 console.error(e);
@@ -253,10 +253,10 @@ Meteor.methods({
 
         // first we remove all containing minutes to make sure we don't get orphans
         // deleting all minutes of one series is allowed, even if they are finalized.
-        MinutesCollection.remove({meetingSeries_id: meetingseries_id});
+        MinutesSchema.remove({meetingSeries_id: meetingseries_id});
 
         // then we remove the meeting series document itself
-        MeetingSeriesCollection.remove(meetingseries_id);
+        MeetingSeriesSchema.remove(meetingseries_id);
 
         // remove all uploaded attachments for meeting series, if any exist
         if (Meteor.isServer &&
@@ -302,14 +302,14 @@ Meteor.methods({
             visibleForArray.splice(index, 1);
             index = visibleForArray.indexOf(Meteor.userId());
         }
-        MeetingSeriesCollection.update(meetingSeries_id, {$set: {visibleFor: visibleForArray}});
+        MeetingSeriesSchema.update(meetingSeries_id, {$set: {visibleFor: visibleForArray}});
 
         // 3rd.: sync "visibleFor" to minutes that have this meeting series as parent
-        if (MinutesCollection.find({meetingSeries_id: meetingSeries_id}).count() > 0) {
-            MinutesCollection.update({meetingSeries_id: meetingSeries_id}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+        if (MinutesSchema.find({meetingSeries_id: meetingSeries_id}).count() > 0) {
+            MinutesSchema.update({meetingSeries_id: meetingSeries_id}, {$set: {visibleFor: visibleForArray}}, {multi: true});
 
             // refresh participants to non-finalized meetings
-            MinutesCollection.find({meetingSeries_id: meetingSeries_id}).forEach (min => {
+            MinutesSchema.getCollection().find({meetingSeries_id: meetingSeries_id}).forEach (min => {
                 if (!min.isFinalized) {
                     min.refreshParticipants(true);
                 }

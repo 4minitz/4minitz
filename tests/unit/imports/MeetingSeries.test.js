@@ -5,7 +5,7 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
 
-let MeetingSeriesCollection = {};
+let MeetingSeriesSchema = {};
 let Meteor = {
     call: sinon.stub(),
     callPromise: sinon.stub()
@@ -21,7 +21,8 @@ const {
     MeetingSeries
 } = proxyquire('../../../imports/meetingseries', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
-    './collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
+    './collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
+    './collections/meetingseries_private': { MeetingSeriesSchema, '@noCallThru': true},
     './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},

@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { MinutesCollection } from './collections/minutes_private';
+import { MinutesSchema } from './collections/minutes.schema';
 import { MeetingSeries } from './meetingseries';
 import { Topic } from './topic';
 import { ActionItem } from './actionitem';
@@ -7,6 +7,8 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 import { emailAddressRegExpMatch } from '/imports/helpers/email';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
+
+import './collections/minutes_private';
 import './helpers/promisedMethods';
 import './collections/workflow_private';
 
@@ -25,11 +27,11 @@ export class Minutes {
 
     // ################### static methods
     static find(...args) {
-        return MinutesCollection.find(...args);
+        return MinutesSchema.getCollection().find(...args);
     }
 
     static findOne(...args) {
-        return MinutesCollection.findOne(...args);
+        return MinutesSchema.getCollection().findOne(...args);
     }
 
     static findAllIn(MinutesIDArray, limit, lastMintuesFirst = true) {
@@ -42,15 +44,17 @@ export class Minutes {
         if (limit) {
             options['limit'] = limit;
         }
-        return MinutesCollection.find(
+        return Minutes.find(
             {_id: {$in: MinutesIDArray}},
             options);
     }
 
+    // method
     static remove(id) {
         return Meteor.callPromise('workflow.removeMinute', id);
     }
 
+    // method
     static async syncVisibility(parentSeriesID, visibleForArray) {
         return Meteor.callPromise('minutes.syncVisibility', parentSeriesID, visibleForArray);
     }
@@ -59,6 +63,7 @@ export class Minutes {
 
     // ################### object methods
 
+    // method
     async update (docPart, callback) {
         console.log('Minutes.update()');
         _.extend(docPart, {_id: this._id});
@@ -72,6 +77,7 @@ export class Minutes {
         }
     }
 
+    // method
     save (optimisticUICallback, serverCallback) {
         console.log('Minutes.save()');
         if (this.createdAt === undefined) {
@@ -89,14 +95,14 @@ export class Minutes {
     }
 
     nextMinutes() {
-        return this._getNeighborMintues(1);
+        return this._getNeighborMinutes(1);
     }
 
     previousMinutes() {
-        return this._getNeighborMintues(-1);
+        return this._getNeighborMinutes(-1);
     }
 
-    _getNeighborMintues(offset) {
+    _getNeighborMinutes(offset) {
         let parentSeries = this.parentMeetingSeries();
         let myPosition = parentSeries.minutes.indexOf(this._id);
         let neighborPosition = myPosition + offset;
@@ -124,6 +130,7 @@ export class Minutes {
     }
 
     // This also does a minimal update of collection!
+    // method
     async removeTopic(id) {
         let i = this._findTopicIndex(id);
         if (i !== undefined) {
@@ -199,6 +206,7 @@ export class Minutes {
             });
     }
 
+    // method
     async upsertTopic(topicDoc, insertPlacementTop = true) {
         let i = undefined;
 
@@ -234,6 +242,7 @@ export class Minutes {
         }, /* initial value */[]);
     }
 
+    // method
     /**
      * Finalizes this minute by calling
      * the workflow-server-method.
@@ -245,6 +254,7 @@ export class Minutes {
         return Meteor.callPromise('workflow.finalizeMinute', this._id, sendActionItems, sendInfoItems);
     }
 
+    // method
     /**
      * Unfinalizes this minutes by calling
      * the workflow-server-method.
@@ -253,6 +263,7 @@ export class Minutes {
         return Meteor.callPromise('workflow.unfinalizeMinute', this._id);
     }
 
+    // method
     sendAgenda() {
         return Meteor.callPromise('minutes.sendAgenda', this._id);
     }
@@ -324,6 +335,7 @@ export class Minutes {
     }
 
 
+    // method?
     /**
      * Sync all users of .visibleFor into .participants
      * This method adds and removes users from the .participants list.
@@ -387,6 +399,7 @@ export class Minutes {
     }
 
 
+    // method?
     /**
      * Change presence of a single participant. Immediately updates .participants array
      * TODO Reactive performance may be better if we only update one array element in DB

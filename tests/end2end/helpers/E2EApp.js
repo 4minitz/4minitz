@@ -71,7 +71,7 @@ export class E2EApp {
                 }
 
                 browser.keys(['Enter']);
-                E2EGlobal.waitSomeTime();
+                E2EGlobal.waitSomeTime(2000);
 
                 if (browser.isExisting('.at-error.alert.alert-danger')) {
                     throw new Error ("Unknown user or wrong password.")
