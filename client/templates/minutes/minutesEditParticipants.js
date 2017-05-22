@@ -3,6 +3,8 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { handleError } from '/client/helpers/handleError';
 
 let _minutesID; // the ID of these minutes
 
@@ -32,6 +34,10 @@ let userNameForId = function (userId) {
     }
 };
 
+function allParticipantsMarked() {
+    let aMin = new Minutes(_minutesID);
+    return (aMin.participants.findIndex(p => {return !p.present}) === -1);
+};
 
 Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
@@ -42,6 +48,7 @@ Template.minutesEditParticipants.onCreated(function() {
     if (isEditable()) {
         Session.set('participants.expand', true);
     }
+    this.markedAll = new ReactiveVar(allParticipantsMarked());
 });
 
 Template.minutesEditParticipants.helpers({
@@ -100,6 +107,15 @@ Template.minutesEditParticipants.helpers({
         if (aMin.participants.length > 7) {
             return 'multicolumn';
         }
+    },
+
+    enoughParticipants(){
+        let aMin = new Minutes(_minutesID);
+        return (aMin.participants.length > 2);
+    },
+
+    isChecked(){
+        return Template.instance().markedAll.get();
     }
 });
 
@@ -110,6 +126,7 @@ Template.minutesEditParticipants.events({
         let indexInParticipantsArray = evt.target.dataset.index;
         let checkedState = evt.target.checked;
         min.updateParticipantPresent(indexInParticipantsArray, checkedState);
+        tmpl.markedAll.set(allParticipantsMarked());
     },
     'change #edtParticipantsAdditional' (evt, tmpl) {
         console.log('Trigger!');
@@ -121,5 +138,17 @@ Template.minutesEditParticipants.events({
 
     'click #btnParticipantsExpand' () {
         Session.set('participants.expand', !Session.get('participants.expand'));
+    },
+
+    'click #btnToggleMarkAllNone' (evt, tmpl){
+        let aMin = new Minutes(_minutesID);
+        if (allParticipantsMarked()) {
+            aMin.changeParticipantsStatus(false).catch(handleError);
+            tmpl.markedAll.set(false);
+        }
+        else {
+            aMin.changeParticipantsStatus(true).catch(handleError);
+            tmpl.markedAll.set(true);
+        }
     }
 });
