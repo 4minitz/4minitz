@@ -149,6 +149,13 @@ function configureSelect2Labels() {
     selectLabels.trigger('change');
 }
 
+let resizeTextarea = (element) => {
+    let scrollPos = $(document).scrollTop();
+    element.css('height', 'auto');
+    element.css('height', element.prop('scrollHeight') + 'px');
+    $(document).scrollTop(scrollPos);
+};
+
 Template.topicInfoItemEdit.helpers({
     isEditMode: function () {
         return (getEditInfoItem() !== false);
@@ -337,10 +344,15 @@ Template.topicInfoItemEdit.events({
         let detailsArea = document.getElementById('id_item_detailInput');
         detailsArea.style.display = (detailsArea.style.display ==='none') ? 'inline-block' : 'none';
         tmpl.collapseState.set(!tmpl.collapseState.get());
+    },
 
-        /*Code aus anderem js
-        let warningMessage = document.getElementById('warningMessage');
-        warningMessage.style.display = (warningMessage.style.display === 'none') ? 'inline-block' : 'none';
-        tmpl.currentSymbol.set(!tmpl.currentSymbol.get());*/
+    'keypress .id_item_detailInput'(evt, tmpl) {
+        let inputEl = tmpl.$(`#id_item_detailInput`);
+        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
+            evt.preventDefault();
+        }
+
+        resizeTextarea(inputEl);
     }
+
 });
