@@ -14,6 +14,7 @@ import {BroadcastMessageCollection} from '/imports/collections/broadcastmessage_
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
+import '/server/sendResetPasswordMail';
 import '/imports/statistics';
 import '/imports/collections/attachments_private';
 
