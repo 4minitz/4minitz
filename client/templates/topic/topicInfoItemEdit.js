@@ -151,29 +151,12 @@ function configureSelect2Labels() {
 
 let resizeTextarea = (element) => {
 
-    let b = element.val().match(/\n/gi);
+    let newLineRegEx = new RegExp(/\n/g);
+    let textAreaValue = element.val();
+    let occurrences;
 
-    console.log(b);
-
-    var r = parseInt((element.val().length + 10) / element.cols, 10);
-
-    console.log(element.val().length + 10);
-    console.log(element.cols);
-/*
-    if (r>0) element.rows = r; else element.rows = 1;
-
-    if(b) element.rows += b.length;
-    element.rows++;
-*/
-    console.log(element.rows);
-
-    element.css('rows', 4)
-
-    /*
-    let scrollPos = $(document).scrollTop();
-    element.css('height', 'auto');
-    element.css('height', element.prop('scrollHeight') + 'px');
-    $(document).scrollTop(scrollPos);*/
+    occurrences = (textAreaValue.match(newLineRegEx) || []).length;
+    element.attr('rows', occurrences+1);
 };
 
 Template.topicInfoItemEdit.helpers({
@@ -366,23 +349,13 @@ Template.topicInfoItemEdit.events({
         tmpl.collapseState.set(!tmpl.collapseState.get());
     },
 
-    'keypress #id_item_detailInput': function (evt, tmpl) {
+    'keyup #id_item_detailInput': function (evt, tmpl) {
         let inputEl = tmpl.$(`#id_item_detailInput`);
 
-        resizeTextarea(inputEl);
+        if (evt.which === 13/*Enter*/ || evt.which === 8/*Backspace*/ || evt.which === 46/*Delete*/) {
+            resizeTextarea(inputEl);
 
-        console.log(inputEl);
-/*
-        if (evt.which === 13 ) {
-         var rows = inputEl.rows;
-         rows++;
-            inputEl[0].rows(rows);
-         }*/
-
-
-
-
-
+        }
 
     }
 
