@@ -25,6 +25,7 @@
                                    data-error-msg="Please enter a valid subject" autocomplete="off">
                         </div>
 
+                        {{#unless isEditMode}}
                         <div class="form-group form-group-labels">
                             <a id="btnExpandCollapse" class="expandDetails hidden-print expand-collapse-triangle"
                                data-toggle="collapse"
@@ -45,6 +46,7 @@
                                       style="font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
                                       placeholder="You may use Markdown to edit."></textarea>
                         </div>
+                        {{/unless}}
 
                         <div class="form-group form-group-labels">
                             <label for="id_item_selLabelsActionItem" class="control-label" style="color: teal;">Labels</label>

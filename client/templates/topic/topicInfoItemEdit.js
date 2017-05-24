@@ -150,10 +150,30 @@ function configureSelect2Labels() {
 }
 
 let resizeTextarea = (element) => {
+
+    let b = element.val().match(/\n/gi);
+
+    console.log(b);
+
+    var r = parseInt((element.val().length + 10) / element.cols, 10);
+
+    console.log(element.val().length + 10);
+    console.log(element.cols);
+/*
+    if (r>0) element.rows = r; else element.rows = 1;
+
+    if(b) element.rows += b.length;
+    element.rows++;
+*/
+    console.log(element.rows);
+
+    element.css('rows', 4)
+
+    /*
     let scrollPos = $(document).scrollTop();
     element.css('height', 'auto');
     element.css('height', element.prop('scrollHeight') + 'px');
-    $(document).scrollTop(scrollPos);
+    $(document).scrollTop(scrollPos);*/
 };
 
 Template.topicInfoItemEdit.helpers({
@@ -346,13 +366,24 @@ Template.topicInfoItemEdit.events({
         tmpl.collapseState.set(!tmpl.collapseState.get());
     },
 
-    'keypress .id_item_detailInput'(evt, tmpl) {
+    'keypress #id_item_detailInput': function (evt, tmpl) {
         let inputEl = tmpl.$(`#id_item_detailInput`);
-        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
-            evt.preventDefault();
-        }
 
         resizeTextarea(inputEl);
+
+        console.log(inputEl);
+/*
+        if (evt.which === 13 ) {
+         var rows = inputEl.rows;
+         rows++;
+            inputEl[0].rows(rows);
+         }*/
+
+
+
+
+
+
     }
 
 });
