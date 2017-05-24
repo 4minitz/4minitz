@@ -164,6 +164,12 @@ export class E2EApp {
         }
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
     };
+
+    static resetPassword(emailAdress) {
+        browser.click("#at-forgotPwd");
+        browser.setValue('#at-field-email', emailAdress);
+        browser.click('#at-btn');
+    }
 }
 
 E2EApp._currentlyLoggedInUser = "";
