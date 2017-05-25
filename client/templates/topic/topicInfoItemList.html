@@ -2,12 +2,14 @@
     <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
         {{#each infoItem in items}}
             {{triggerAddDetails @index}}
-            <div class="panel topicInfoItem" data-id="{{infoItem._id}}" data-topic-parent-id="{{topicParentId}}" data-parent-id="{{infoItem.parentTopicId}}">
+            <div class="panel topicInfoItem"
+                 data-id="{{infoItem._id}}"
+                 data-topic-parent-id="{{topicParentId}}"
+                 data-parent-id="{{infoItem.parentTopicId}}">
                 <div class="panel-heading {{topicStateClass @index}}" role="tab" id="headingOne" style="position: relative;">
                     {{#if hasDetails @index}}
                         <a role="button" class="expandDetails hidden-print expand-collapse-triangle"
                            data-toggle="collapse" data-parent="#accordion"
-                           data-index="{{@index}}"
                            href="#collapse-{{infoItem._id}}"
                            style="position: absolute; top:0; left: 0; color: grey;">
                             {{#if isCollapsed @index}}
@@ -106,7 +108,8 @@
                 </div>
 
                 <div id="collapse-{{infoItem._id}}" class="panel-collapse collapse" role="tabpanel"
-                     aria-labelledby="headingOne">
+                     aria-labelledby="headingOne"
+                     data-index="{{@index}}">
                     <div id="id-details-{{infoItem._id}}" class="panel-body actionItemDetails">
                         {{#let itemIndex=@index itemId=infoItem._id}}
                             {{#each detailsArray itemIndex}}
