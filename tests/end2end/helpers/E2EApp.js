@@ -133,6 +133,10 @@ export class E2EApp {
         } catch (e) {
             E2EApp.launchApp();
         }
+        // Just in case we have not already a user logged in, we do it here!
+        if (! E2EApp.isLoggedIn()) {
+            E2EApp.loginUser(0, false);
+        }
         browser.click('a.navbar-brand');
         E2EGlobal.waitSomeTime();
         // check post-condition
