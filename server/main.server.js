@@ -5,6 +5,7 @@ import { Markdown } from 'meteor/perak:markdown';
 import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import '/imports/config/accounts';
+import '/imports/config/EMailTemplates';
 
 import '/imports/broadcastmessage';
 import '/imports/minutes';
@@ -13,6 +14,7 @@ import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.s
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
+import '/server/sendResetPasswordMail';
 import '/imports/statistics';
 import '/imports/collections/attachments_private';
 
