@@ -1,4 +1,4 @@
-import { MinutesCollection } from '/imports/collections/minutes_private';
+import { MinutesSchema } from '/imports/collections/minutes.schema';
 
 // remove minutes.isUnfinalized
 // add minutes.finalizedVersion
@@ -6,7 +6,7 @@ import { MinutesCollection } from '/imports/collections/minutes_private';
 export class MigrateV9 {
 
     static up() {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             if (!minute.finalizedVersion) {
                 minute.finalizedVersion = 0;
                 if (minute.isFinalized) {
@@ -18,7 +18,7 @@ export class MigrateV9 {
             }
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
+            MinutesSchema.getCollection().update(
                 minute._id,
                 {
                     $unset: { isUnfinalized: 0 },
@@ -34,8 +34,8 @@ export class MigrateV9 {
 
     static down() {
         // We switch off bypassCollection2 here to avoid useless schema exceptions
-        MinutesCollection.find().forEach(minute => {
-            MinutesCollection.update(
+        MinutesSchema.getCollection().find().forEach(minute => {
+            MinutesSchema.getCollection().update(
                 minute._id,
                 {
                     $set: {
@@ -46,7 +46,7 @@ export class MigrateV9 {
             );
         });
         // delete the participantsAdditional attribute from all minutes
-        MinutesCollection.update({}, 
+        MinutesSchema.getCollection().update({},
             {$unset: { finalizedVersion: 0,
                 finalizedHistory: 0}},
             {multi: true, bypassCollection2: true});

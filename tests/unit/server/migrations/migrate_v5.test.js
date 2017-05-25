@@ -4,8 +4,7 @@ import sinon from 'sinon';
 
 
 
-let MinutesCollection = {
-
+let MinutesSchema = {
     minutes: [],
 
     find: function() {
@@ -18,9 +17,9 @@ let MinutesCollection = {
         this.minutes.push(minute);
     }
 };
+MinutesSchema.getCollection = _ => MinutesSchema;
 
-let MeetingSeriesCollection = {
-
+let MeetingSeriesSchema = {
     series: [],
 
     find: function() {
@@ -33,12 +32,13 @@ let MeetingSeriesCollection = {
         this.series.push(aSeries);
     }
 };
+MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
 
 const {
     MigrateV5
     } = proxyquire('../../../../server/migrations/migrate_v5', {
-    '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-    '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+    '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+    '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true}
 });
 
 describe('Migrate Version 5', function () {
@@ -71,15 +71,15 @@ describe('Migrate Version 5', function () {
             ]
         };
 
-        MinutesCollection.insert(minute);
-        MeetingSeriesCollection.insert(series);
+        MinutesSchema.insert(minute);
+        MeetingSeriesSchema.insert(series);
     });
 
     afterEach(function () {
-        MinutesCollection.update.reset();
-        MeetingSeriesCollection.update.reset();
-        MeetingSeriesCollection.series = [];
-        MinutesCollection.minutes = [];
+        MinutesSchema.update.reset();
+        MeetingSeriesSchema.update.reset();
+        MeetingSeriesSchema.series = [];
+        MinutesSchema.minutes = [];
     });
 
     describe('#up', function() {
@@ -88,7 +88,7 @@ describe('Migrate Version 5', function () {
             MigrateV5.up();
 
             expect(minute.topics[0].isRecurring, "isRecurring flag should be added").to.be.false;
-            expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
+            expect(MinutesSchema.update.calledOnce, 'MinutesSchema.update should be called once').to.be.true;
         });
 
         it('adds the isRecurring flag for each topic in meeting series collection', function () {
@@ -96,7 +96,7 @@ describe('Migrate Version 5', function () {
 
             expect(series.openTopics[0].isRecurring, "isRecurring flag should be added of the topics in the openTopics array").to.be.false;
             expect(series.topics[0].isRecurring, "isRecurring flag should be added of the topics in the topics array").to.be.false;
-            expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
+            expect(MinutesSchema.update.calledOnce, 'MinutesSchema.update should be called once').to.be.true;
         });
 
     });
@@ -113,7 +113,7 @@ describe('Migrate Version 5', function () {
             MigrateV5.down();
 
             expect(minute.topics[0].isRecurring, "isRecurring flag should be removed").to.be.undefined;
-            expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
+            expect(MinutesSchema.update.calledOnce, 'MinutesSchema.update should be called once').to.be.true;
         });
 
         it('removes the isRecurring flag for each topic in meeting series collection', function () {
@@ -121,7 +121,7 @@ describe('Migrate Version 5', function () {
 
             expect(series.openTopics[0].isRecurring, "isRecurring flag should be removed from the topics in the openTopics array").to.be.undefined;
             expect(series.topics[0].isRecurring, "isRecurring flag should be removed from the topics in the topics array").to.be.undefined;
-            expect(MeetingSeriesCollection.update.calledOnce, 'MeetingSeriesCollection.update should be called once').to.be.true;
+            expect(MeetingSeriesSchema.update.calledOnce, 'MeetingSeriesSchema.update should be called once').to.be.true;
         });
 
     });
