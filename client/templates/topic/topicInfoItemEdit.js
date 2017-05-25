@@ -237,8 +237,9 @@ Template.topicInfoItemEdit.events({
         cancelButton.prop('disabled',false);
 
         let editItem = getEditInfoItem();
-        let infoItem = tmpl.find("#id_item_subject");
-        infoItem.value = (editItem) ? editItem._infoItemDoc.subject : "Info";
+
+        let itemSubject = tmpl.find("#id_item_subject");
+        itemSubject.value = (editItem) ? editItem._infoItemDoc.subject : '';
 
         tmpl.find('#id_item_priority').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : '';
@@ -260,7 +261,14 @@ Template.topicInfoItemEdit.events({
             if (selectLabels) {
                 selectLabels.val([]).trigger('change');
             }
-            toggleItemMode(Session.get('topicInfoItemType'), tmpl);
+            let infoItemType = Session.get('topicInfoItemType');
+            toggleItemMode(infoItemType, tmpl);
+
+            if(infoItemType === 'infoItem') {
+                itemSubject.value = "Info";
+            } else {
+                itemSubject.value = '';
+            }
         }
     },
 
