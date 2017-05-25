@@ -357,11 +357,11 @@ Meteor.methods({
             }
         }
         
-        MeetingSeriesCollection.update(
+        MeetingSeriesSchema.update(
                 {_id: meetingSeries_id, 'topics._id': topic_id},
                 {$set: modifierDoc}
         );
-        MeetingSeriesCollection.update(
+        MeetingSeriesSchema.update(
                 {_id: meetingSeries_id, 'topics._id': topic_id},
                 {$push: modifierOpenDoc}
         );
