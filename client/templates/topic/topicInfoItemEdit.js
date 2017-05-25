@@ -237,7 +237,8 @@ Template.topicInfoItemEdit.events({
         cancelButton.prop('disabled',false);
 
         let editItem = getEditInfoItem();
-        tmpl.find('#id_item_subject').value = (editItem) ? editItem._infoItemDoc.subject : '';
+        let infoItem = tmpl.find("#id_item_subject");
+        infoItem.value = (editItem) ? editItem._infoItemDoc.subject : "Info";
 
         tmpl.find('#id_item_priority').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : '';
@@ -267,7 +268,9 @@ Template.topicInfoItemEdit.events({
         // ensure new values trigger placeholder animation
         $('#id_item_subject').trigger('change');
         $('#id_item_priority').trigger('change');
-        tmpl.find('#id_item_subject').focus();
+        let itemSubject = tmpl.find('#id_item_subject');
+        itemSubject.focus();
+        itemSubject.select();
         configureSelect2Labels();
     },
 
