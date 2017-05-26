@@ -3,3 +3,8 @@
     font-size: 120%;
     cursor: pointer;
 }
+
+.collapseExpandDetails {
+    margin-left: -16px;
+    margin-top: 12px;
+}

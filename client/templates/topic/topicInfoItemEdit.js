@@ -156,7 +156,10 @@ let resizeTextarea = (element) => {
     let occurrences;
 
     occurrences = (textAreaValue.match(newLineRegEx) || []).length;
-    element.attr('rows', occurrences+1);
+
+    //limit of textarea size
+    if(occurrences < 15)
+        element.attr('rows', occurrences+1);
 };
 
 Template.topicInfoItemEdit.helpers({
@@ -189,7 +192,11 @@ Template.topicInfoItemEdit.events({
 
         let type = Session.get('topicInfoItemType');
         let newSubject = tmpl.find('#id_item_subject').value;
-        let newDetail = tmpl.find('#id_item_detailInput').value;
+        let newDetail;
+
+        if(getEditInfoItem() === false) {
+            newDetail = tmpl.find('#id_item_detailInput').value;
+        }
 
         let editItem = getEditInfoItem();
         let doc = {};
@@ -239,7 +246,7 @@ Template.topicInfoItemEdit.events({
         let itemAlreadyExists = !!newItem.getId();
         newItem.saveAsync().catch(handleError);
         console.log('Successfully saved new item with id: ' + newItem.getId());
-        if (newDetail) {
+        if (getEditInfoItem() === false) {
             newItem.addDetails(aMinute._id, newDetail);
             newItem.saveAsync().catch(handleError);
             let details = newItem.getDetails();
@@ -354,9 +361,6 @@ Template.topicInfoItemEdit.events({
 
         if (evt.which === 13/*Enter*/ || evt.which === 8/*Backspace*/ || evt.which === 46/*Delete*/) {
             resizeTextarea(inputEl);
-
         }
-
     }
-
 });

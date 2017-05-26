@@ -7,7 +7,7 @@ import { E2ETopics } from './helpers/E2ETopics';
 import { formatDateISO8601 } from '../../imports/helpers/date';
 
 
-describe('Info Items', function () {
+describe('Info Items @watch', function () {
     const aProjectName = "E2E Info Items";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
@@ -66,31 +66,6 @@ describe('Info Items', function () {
         let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
 
         expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
-    });
-
-    it('places the cursor in the new details field after adding one item to directly add details', function() {
-        const detailsText = 'Directly added details';
-        let topicIndex = 1;
-        const infoItemName = getNewAIName();
-        E2ETopics.addInfoItemToTopic({
-            subject: infoItemName,
-            itemType: "infoItem"
-        }, topicIndex, /* do not close detail input */false);
-
-        E2EGlobal.waitSomeTime();
-
-        let selDetails = E2ETopics.getInfoItemSelector(1, 1) + ".detailRow:nth-child(1) ";
-        let selFocusedInput = selDetails + ".detailInput";
-        browser.waitForVisible(selFocusedInput, 1000);
-
-        browser.keys(detailsText);
-        browser.keys(['Escape']); // Save the details
-        E2EGlobal.waitSomeTime(250);
-
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
-        expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
     });
 
     it('shows security question before deleting info items', function () {
