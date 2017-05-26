@@ -344,13 +344,26 @@ Meteor.methods({
             throw new Meteor.Error('illegal-arguments', 'topic is already open');
         }
         
-        //Reopen existing topic & Move to open topics
+        //Reopen existing topic
         topicDoc.isOpen = true;
-        
+
+        // Only sticky infoItems shall be part of
+        // - meeting series "openTopics" and
+        // - already started minutes
+        let cleanedItems = [];
+        topicDoc.infoItems.map(item => {
+            if (item.itemType === 'infoItem' && item.isSticky) {
+                cleanedItems.push(item);
+            }
+        });
+        let cleanedTopicDoc = {};
+        Object.assign(cleanedTopicDoc, topicDoc);
+        cleanedTopicDoc.infoItems = cleanedItems;
+
         let modifierDoc = {};
-        let modifierOpenDoc = {
-            openTopics: topicDoc
-        }
+        let modifierOpenCleanedDoc = {
+            openTopics: cleanedTopicDoc
+        };
         for (let property in topicDoc) {
             if (topicDoc.hasOwnProperty(property)) {
                 modifierDoc['topics.$.' + property] = topicDoc[property];
@@ -363,13 +376,13 @@ Meteor.methods({
         );
         MeetingSeriesSchema.update(
                 {_id: meetingSeries_id, 'topics._id': topic_id},
-                {$push: modifierOpenDoc}
+                {$push: modifierOpenCleanedDoc}
         );
         
-        //Write to currently unfinalized Minute, if existant
+        //Write to currently unfinalized Minute, if existent
         let lastMinute = meetingSeries.lastMinutes();
         if (lastMinute && !lastMinute.isFinalized) {
-            Meteor.call('minutes.addTopic', lastMinute._id, topicDoc, true);
+            Meteor.call('minutes.addTopic', lastMinute._id, cleanedTopicDoc, true);
         }
     }
 });
