@@ -12,10 +12,10 @@
                            data-toggle="collapse" data-parent="#accordion"
                            href="#collapse-{{infoItem._id}}"
                            style="position: absolute; top:0; left: 0; color: grey;">
-                            {{#if isCollapsed @index}}
-                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            {{else}}
+                            {{#if isExpanded infoItem._id}}
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            {{else}}
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                             {{/if}}
                         </a>
                     {{/if}}
@@ -109,7 +109,7 @@
 
                 <div id="collapse-{{infoItem._id}}" class="panel-collapse collapse" role="tabpanel"
                      aria-labelledby="headingOne"
-                     data-index="{{@index}}">
+                     data-itemid="{{infoItem._id}}">
                     <div id="id-details-{{infoItem._id}}" class="panel-body actionItemDetails">
                         {{#let itemIndex=@index itemId=infoItem._id}}
                             {{#each detailsArray itemIndex}}
