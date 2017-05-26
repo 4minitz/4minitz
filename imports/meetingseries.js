@@ -497,16 +497,6 @@ export class MeetingSeries {
                 this.openTopics.unshift(topic.getDocument());
             }
         }
-
-        // delete all open topics from msTopicList which are not part of the currently
-        // finalized minute -> they were deleted within this minute
-        this.topics = this.topics.filter(topic => {
-            if (topic.isOpen) {
-                let indexInMinute = subElementsHelper.findIndexById(topic._id, minutes.topics);
-                return !(indexInMinute === undefined);
-            }
-            return true;
-        });
     }
 
 }
