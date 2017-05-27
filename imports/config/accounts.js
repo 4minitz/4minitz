@@ -53,7 +53,19 @@ if (Meteor.isServer) {
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.forbidClientAccountCreation
                                         ? Meteor.settings.forbidClientAccountCreation
-                                        : false)
+                                        : false),
+
+        sendVerificationEmail: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.sendVerificationEmail
+            ? Meteor.settings.email.sendVerificationEmail
+            : false),
+
+        showResendVerificationEmailLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showResendVerificationEmailLink
+            ? Meteor.settings.email.showResendVerificationEmailLink
+            : false),
+
+        showForgotPasswordLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showForgotPasswordLink
+            ? Meteor.settings.email.showForgotPasswordLink
+            : false)
     });
 
     // #Security: Do not allow "isInactive" users to log in
@@ -69,7 +81,19 @@ if (Meteor.isServer) {
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.public.forbidClientAccountCreation
                                         ? Meteor.settings.public.forbidClientAccountCreation
-                                        : false)
+                                        : false),
+
+        sendVerificationEmail: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.sendVerificationEmail
+            ? Meteor.settings.public.sendVerificationEmail
+            : false),
+
+        showResendVerificationEmailLink: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.showResendVerificationEmailLink
+            ? Meteor.settings.public.showResendVerificationEmailLink
+            : false),
+
+        showForgotPasswordLink: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.showForgotPasswordLink
+            ? Meteor.settings.public.showForgotPasswordLink
+            : false)
     });
 }
 

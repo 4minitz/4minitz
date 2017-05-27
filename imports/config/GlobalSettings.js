@@ -70,6 +70,21 @@ export class GlobalSettings {
                 ? Meteor.settings.forbidClientAccountCreation
                 : false;
 
+        Meteor.settings.public.sendVerificationEmail =
+            (Meteor.settings.email && Meteor.settings.email.sendVerificationEmail !== undefined)
+                ? Meteor.settings.email.sendVerificationEmail
+                : false;
+
+        Meteor.settings.public.showResendVerificationEmailLink =
+            (Meteor.settings.email && Meteor.settings.email.showResendVerificationEmailLink !== undefined)
+                ? Meteor.settings.email.showResendVerificationEmailLink
+                : false;
+
+        Meteor.settings.public.showForgotPasswordLink =
+            (Meteor.settings.email && Meteor.settings.email.showForgotPasswordLink !== undefined)
+                ? Meteor.settings.email.showForgotPasswordLink
+                : false;
+
         // enforce slash "/" at the end
         if (Meteor.settings.attachments && Meteor.settings.attachments.storagePath) {
             if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {
@@ -109,6 +124,13 @@ export class GlobalSettings {
         if (!Meteor.settings.defaultLabels) return [];
 
         return Meteor.settings.defaultLabels;
+    }
+
+    static getSiteName() {
+        if (!Meteor.settings.siteName) {
+            return "4Minitz";
+        }
+        return Meteor.settings.siteName;
     }
 
     static getDefaultEmailSenderAddress(alternativeSender) {

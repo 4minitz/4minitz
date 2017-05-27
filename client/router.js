@@ -1,5 +1,6 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+import {FlashMessage} from "./helpers/flashMessage";
 
 FlowRouter.route('/', {
     action() {
@@ -33,6 +34,27 @@ FlowRouter.route('/legalnotice', {
     }
 });
 
+
+FlowRouter.route( '/verify-email/:token', {
+    name: 'verify-email',
+    action( params ) {
+        Accounts.verifyEmail( params.token, ( error ) =>{
+            if ( error ) {
+                (new FlashMessage('Error', error.reason)).show();
+            } else {
+                FlowRouter.go( '/' );
+                (new FlashMessage('', 'Email verified', 'alert-success')).show();
+            }
+        });
+    }
+});
+
+FlowRouter.route( '/reset-password/:token', {
+    name: 'reset-password',
+    action() {
+        BlazeLayout.render('resetPassword');
+    }
+});
 
 
 FlowRouter.route('/meetingseries/:_id', {

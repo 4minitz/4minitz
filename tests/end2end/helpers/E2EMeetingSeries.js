@@ -103,6 +103,17 @@ export class E2EMeetingSeries {
         }
         throw new Error("Could not find Meeting Series '"+compareText+"'");
     };
+    
+    static gotoTabMinutes() {
+        let selector = '#tab_minutes';
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return false;   // we have no meeting series at all!
+        }
+        browser.click(selector);
+        E2EGlobal.waitSomeTime();
+    }   
 
     static gotoTabTopics() {
         let selector = '#tab_topics';

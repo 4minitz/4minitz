@@ -6,6 +6,7 @@ if (Meteor.isServer) {
 
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
+import { Topic } from '../topic';
 import { UserRoles } from './../userroles';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { MinutesSchema } from './minutes.schema';
@@ -314,6 +315,74 @@ Meteor.methods({
                     min.refreshParticipants(true);
                 }
             });
+        }
+    },
+    
+        
+    'workflow.reopenTopicFromMeetingSeries'(meetingSeries_id, topic_id) {
+        //ensure parameters are complete
+        check(meetingSeries_id, String);
+        if (meetingSeries_id === undefined || meetingSeries_id === '') {
+            throw new Meteor.Error('illegal-arguments', 'meetingSeries id required');
+        }
+        check(topic_id, String);
+        if (topic_id === undefined || topic_id === '') {
+            throw new Meteor.Error('illegal-arguments', 'topic id required');
+        }       
+        
+        //ensure user is logged in and moderator
+        checkUserAvailableAndIsModeratorOf(meetingSeries_id);
+        
+        //ensure parameters are valid
+        let meetingSeries = new MeetingSeries(meetingSeries_id);        
+        let topicDoc = meetingSeries.findTopic(topic_id);
+        if (topicDoc === undefined) {
+            throw new Meteor.Error('illegal-arguments', 'topic could not been found within given meeting series');
+        }
+        
+        if (topicDoc.isOpen) {
+            throw new Meteor.Error('illegal-arguments', 'topic is already open');
+        }
+        
+        //Reopen existing topic
+        topicDoc.isOpen = true;
+
+        // Only sticky infoItems shall be part of
+        // - meeting series "openTopics" and
+        // - already started minutes
+        let cleanedItems = [];
+        topicDoc.infoItems.map(item => {
+            if (item.itemType === 'infoItem' && item.isSticky) {
+                cleanedItems.push(item);
+            }
+        });
+        let cleanedTopicDoc = {};
+        Object.assign(cleanedTopicDoc, topicDoc);
+        cleanedTopicDoc.infoItems = cleanedItems;
+
+        let modifierDoc = {};
+        let modifierOpenCleanedDoc = {
+            openTopics: cleanedTopicDoc
+        };
+        for (let property in topicDoc) {
+            if (topicDoc.hasOwnProperty(property)) {
+                modifierDoc['topics.$.' + property] = topicDoc[property];
+            }
+        }
+        
+        MeetingSeriesSchema.update(
+                {_id: meetingSeries_id, 'topics._id': topic_id},
+                {$set: modifierDoc}
+        );
+        MeetingSeriesSchema.update(
+                {_id: meetingSeries_id, 'topics._id': topic_id},
+                {$push: modifierOpenCleanedDoc}
+        );
+        
+        //Write to currently unfinalized Minute, if existent
+        let lastMinute = meetingSeries.lastMinutes();
+        if (lastMinute && !lastMinute.isFinalized) {
+            Meteor.call('minutes.addTopic', lastMinute._id, cleanedTopicDoc, true);
         }
     }
 });
