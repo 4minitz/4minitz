@@ -6,6 +6,7 @@ import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory
 import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
+import {RoleChangeMailHandler} from "../../../imports/mail/RoleChangeMailHandler";
 
 
 Template.meetingSeriesEdit.onCreated(function() {
@@ -121,6 +122,7 @@ Template.meetingSeriesEdit.events({
 
         let aProject = tmpl.find('#id_meetingproject').value;
         let aName = tmpl.find('#id_meetingname').value;
+        let notifyOnRoleChange = tmpl.find("#btnRoleChange").checked;
 
         // validate form and show errors - necessary for browsers which do not support form-validation
         let projectNode = tmpl.$('#id_meetingproject');
@@ -138,14 +140,55 @@ Template.meetingSeriesEdit.events({
             return;
         }
 
+
+        let usersBeforeEdit = this.visibleFor.concat(this.informedUsers);
         let usersWithRolesAfterEdit = Template.instance().userEditConfig.users.find().fetch();
         let allVisiblesArray = [];
         let allInformedArray = [];
         let meetingSeriesId = this._id;
+
+        if(notifyOnRoleChange) {
+            let usersWithRolesAfterEditForEmails = usersWithRolesAfterEdit.slice();
+
+            for (let i in usersBeforeEdit) {
+                let oldUserId = usersBeforeEdit[i];
+                let oldUserWithRole = new UserRoles(oldUserId);
+                let oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
+                let matchingUser = usersWithRolesAfterEditForEmails.find( function (user) {
+                    return oldUserWithRole._userId === user._idOrg;
+                });
+
+                if(matchingUser === undefined) {
+                    let mailer = new RoleChangeMailHandler(oldUserWithRole.getUser()._id, oldUserRole, undefined, Meteor.user(), meetingSeriesId);
+                    mailer.send();
+                    break;
+                } else {
+                    let index = usersWithRolesAfterEditForEmails.indexOf(matchingUser);
+                    let newUserWithRole = new UserRoles(matchingUser._idOrg);
+                    let newUserRole = matchingUser.roles[meetingSeriesId][0];
+
+                    if(newUserRole !== oldUserRole) {
+                        let mailer = new RoleChangeMailHandler(newUserWithRole.getUser()._id, oldUserRole, newUserRole, Meteor.user(), meetingSeriesId);
+                        mailer.send();
+                    }
+                    usersWithRolesAfterEditForEmails.splice(index, 1);
+                }
+            }
+            console.log("Remaining Users -> newly added")
+            for(let i in usersWithRolesAfterEditForEmails){
+                console.log(usersWithRolesAfterEditForEmails[i]);
+                let newUser = usersWithRolesAfterEditForEmails[i];
+                let newUserRole = newUser.roles[meetingSeriesId][0];
+                let mailer = new RoleChangeMailHandler(newUser._idOrg, undefined, newUserRole, Meteor.user(), meetingSeriesId);
+                mailer.send();
+            }
+        }
+
         for (let i in usersWithRolesAfterEdit) {
             let usrAfterEdit = usersWithRolesAfterEdit[i];
-            let ur = new UserRoles(usrAfterEdit._idOrg);     // Attention: get back to Id of Meteor.users collection
-            ur.saveRoleForMeetingSeries(meetingSeriesId, usrAfterEdit.roles[meetingSeriesId]);
+            let newRole = new UserRoles(usrAfterEdit._idOrg);     // Attention: get back to Id of Meteor.users collection
+
+            newRole.saveRoleForMeetingSeries(meetingSeriesId, usrAfterEdit.roles[meetingSeriesId]);
             if (UserRoles.isVisibleRole(usrAfterEdit.roles[meetingSeriesId])) {
                 allVisiblesArray.push(usrAfterEdit._idOrg);  // Attention: get back to Id of Meteor.users collection
             } else {

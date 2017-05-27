@@ -7,7 +7,7 @@ import { MailFactory } from './MailFactory'
 import { GlobalSettings } from '../config/GlobalSettings'
 import {UserRoles as userroles} from "../userroles";
 
-export class RoleChangedMailHandler {
+export class RoleChangeMailHandler {
     constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
         this._oldRole = oldRole;
         this._newRole = newRole;
@@ -28,19 +28,25 @@ export class RoleChangedMailHandler {
 
         let emailTo = this._user.emails[0].address;
 
-        //console.log(adminFrom);
-        //console.log(emailTo);
-        let oldUserRole = userroles.role2Text(this._oldRole);
-        let newUserRole = userroles.role2Text(this._newRole[0]);
 
-        if(oldUserRole === undefined)
+        let oldUserRole;
+        let newUserRole;
+        if(this._oldRole === undefined) {
             oldUserRole = "None";
-        if(newUserRole === undefined)
-            newUserRole = "None"
+        } else {
+            oldUserRole = userroles.role2Text(this._oldRole);
+        }
+
+        if(this._newRole === undefined) {
+            newUserRole = "None";
+        } else {
+            newUserRole = userroles.role2Text(this._newRole);
+        }
 
         let name = "";
+        //console.log(this._user);
         if(this._user.profile === undefined) {
-            name = "NO PROFILE FOUND";
+            name = this._user.username;
         }
         else {
             name =  this._user.profile.name;
@@ -52,14 +58,14 @@ export class RoleChangedMailHandler {
             "Your new role is           : " +  newUserRole + "\n"+
             "The change was performed by: " + this._moderator.username + "\n"  +
             "\n" +
-            '        Your Admin.\n' +
+            'Your Admin.\n' +
             "\n" +
             "\n" +
             "--- \n" +
             "4Minitz is free open source developed by the 4Minitz team.\n" +
             "Source is available at https://github.com/4minitz/4minitz\n");
 
-
+        /*
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(adminFrom, emailTo);
             mailer.setSubject("Your role changed");
@@ -82,5 +88,6 @@ export class RoleChangedMailHandler {
         } else {
             console.error("Could not send admin register mail. User has no mail address: "+this._user._id);
         }
+        */
     }
 }
