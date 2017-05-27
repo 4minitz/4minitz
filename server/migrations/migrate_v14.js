@@ -5,9 +5,9 @@ export class MigrateV14 {
     static up() {
         let demoUser = Meteor.users.findOne({'username': 'demo'});
         if (demoUser) {
-            Meteor.users.update({'username': 'demo'}, {$set: {'emails[0].vrified': true}});
+            Meteor.users.update({'username': 'demo'}, {$set: {'emails.0.verified': true}});
             if (demoUser.emails[0].verified === undefined) {
-                Meteor.users.update({'username': 'demo'}, {$set: {'emails[0].verified': true}});
+                Meteor.users.update({'username': 'demo'}, {$set: {'emails.0.verified': true}});
             }
         }
     }
@@ -15,7 +15,7 @@ export class MigrateV14 {
     static down() {
         let demoUser = Meteor.users.findOne({'username': 'demo'});
         if (demoUser) {
-            Meteor.users.update({'username': 'demo'}, {$set: {'emails[0].verified': false}});
+            Meteor.users.update({'username': 'demo'}, {$set: {'emails.0.verified': false}});
         }
     }
 
