@@ -70,9 +70,15 @@ if (Meteor.isServer) {
 
     // #Security: Do not allow "isInactive" users to log in
     Accounts.validateLoginAttempt(function(attempt) {
-        if(attempt.user && attempt.user.isInactive) {
-            attempt.allowed = false;
-            throw new Meteor.Error(403, 'User account is inactive!');
+        if(attempt.user) {
+            if (attempt.user.isInactive) {
+                attempt.allowed = false;
+                throw new Meteor.Error(403, 'User account is inactive!');
+            }
+            else if (!attempt.user.emails[0].verified) {
+                attempt.allowed = false;
+                throw new Meteor.Error(403, 'User account is not verified!');
+            }
         }
         return true;
     });
