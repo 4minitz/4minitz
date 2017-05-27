@@ -34,7 +34,10 @@ Template.topicInfoItemList.onCreated(function () {
     /** @type {TopicInfoItemListContext} */
     let tmplData = Template.instance().data;
     this.isItemsLimited = new ReactiveVar(tmplData.items.length > INITIAL_ITEMS_LIMIT);
-    this.isItemCollapsed = new ReactiveVar(tmplData.items.map(v => true));
+
+    // Dict maps Item._id => true/false, where true := "expanded state"
+    // per default: everything is undefined => collapsed!
+    this.isItemExpanded = new ReactiveVar({});
 });
 
 let updateItemSorting = (evt, ui) => {
@@ -179,9 +182,9 @@ Template.topicInfoItemList.helpers({
         return getDetails(Template.instance(), index);
     },
 
-    isCollapsed(index) {
-        let allItemsCollapseState = Template.instance().isItemCollapsed.get();
-        return allItemsCollapseState[index];
+    isExpanded(itemID) {
+        let allItemsExpandedState = Template.instance().isItemExpanded.get();
+        return allItemsExpandedState[itemID];
     },
 
     isActionItem: function(index) {
@@ -523,16 +526,16 @@ Template.topicInfoItemList.events({
     },
 
     'hide.bs.collapse'(evt, tmpl) {
-        let index = $(evt.currentTarget).data('index');
-        let collapseStates = tmpl.isItemCollapsed.get();
-        collapseStates[index] = true;
-        tmpl.isItemCollapsed.set(collapseStates);
+        let itemID = $(evt.currentTarget).data('itemid');
+        let expandStates = tmpl.isItemExpanded.get();
+        expandStates[itemID] = false;
+        tmpl.isItemExpanded.set(expandStates);
     },
     'show.bs.collapse'(evt, tmpl) {
-        let index = $(evt.currentTarget).data('index');
-        let collapseStates = tmpl.isItemCollapsed.get();
-        collapseStates[index] = false;
-        tmpl.isItemCollapsed.set(collapseStates);
+        let itemID = $(evt.currentTarget).data('itemid');
+        let expandStates = tmpl.isItemExpanded.get();
+        expandStates[itemID] = true;
+        tmpl.isItemExpanded.set(expandStates);
     },
 
     // Important! We have to use "mousedown" instead of "click" here.
