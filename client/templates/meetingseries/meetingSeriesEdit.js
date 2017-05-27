@@ -161,7 +161,6 @@ Template.meetingSeriesEdit.events({
                 if(matchingUser === undefined) {
                     let mailer = new RoleChangeMailHandler(oldUserWithRole.getUser()._id, oldUserRole, undefined, Meteor.user(), meetingSeriesId);
                     mailer.send();
-                    break;
                 } else {
                     let index = usersWithRolesAfterEditForEmails.indexOf(matchingUser);
                     let newUserWithRole = new UserRoles(matchingUser._idOrg);
@@ -174,7 +173,6 @@ Template.meetingSeriesEdit.events({
                     usersWithRolesAfterEditForEmails.splice(index, 1);
                 }
             }
-            console.log("Remaining Users -> newly added")
             for(let i in usersWithRolesAfterEditForEmails){
                 console.log(usersWithRolesAfterEditForEmails[i]);
                 let newUser = usersWithRolesAfterEditForEmails[i];
@@ -183,6 +181,8 @@ Template.meetingSeriesEdit.events({
                 mailer.send();
             }
         }
+
+        console.log(usersWithRolesAfterEdit);
 
         for (let i in usersWithRolesAfterEdit) {
             let usrAfterEdit = usersWithRolesAfterEdit[i];
