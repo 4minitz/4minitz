@@ -12,18 +12,17 @@ export class AdminNewVersionMailHandler {
     send() {
         let adminFrom = GlobalSettings.getDefaultEmailSenderAddress();
 
-        let adminMails = [];
         let admins = Meteor.users.find({isAdmin: true}).fetch();
-        admins.map(adm => {adminMails.push(adm.emails[0].address)});
-
-        if (Meteor.settings.email.enableMailDelivery) {
+        if (Meteor.settings.email.enableMailDelivery && admins.length > 0) {
+            let adminMails = [];
+            admins.map(adm => {adminMails.push(adm.emails[0].address)});
             let mailer = MailFactory.getMailer(adminFrom, adminMails.join(","));
             mailer.setSubject('[4Minitz] Newer version exists');
             mailer.setText('Hello Admin,\n'+
                 '\n'+
                 'It seems you are running an outdated version of 4Minitz.\n'+
                 '\n'+
-                'Your 4Minitz instance on:' + GlobalSettings.getRootUrl()+'\n' +
+                'Your 4Minitz instance on: ' + GlobalSettings.getRootUrl()+'\n' +
                 'has version: '+this._myVersion+'\n'+
                 '\n'+
                 'Newest version available is: '+this._masterVersion+'\n'+
@@ -43,7 +42,7 @@ export class AdminNewVersionMailHandler {
             );
             mailer.send();
         } else {
-            console.error('Could not send admin register mail. User has no mail address: '+this._user._id);
+            console.error('Could not send admin new version mail. Mail is disabled or no admins specified.');
         }
     }
 }

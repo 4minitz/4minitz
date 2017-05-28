@@ -16,7 +16,7 @@ if (!myServerID) {
     ServerCollection.insert(myServerID);
 }
 let myVersion = VERSION_INFO.tag;
-const url = 'https://develop.4minitz.com/updatecheck/'+myServerID.value+'/'+myVersion;
+const url = 'https://www.4minitz.com/version/updatecheck/'+myServerID.value+'/'+myVersion;
 
 let updateCheck = function () {
     HTTP.get(url, {}, function (error, result) {

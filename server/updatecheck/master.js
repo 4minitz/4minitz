@@ -4,7 +4,7 @@ import { UpdateChecksCollection } from '/imports/collections/server_private'
 
 // #Security: The rate limiter ensures that nobody can flood our
 // server with useless queries. Next query from same IP Address
-// will be handled after MINWAIT_SECONDS
+// will be handled after MINWAIT_MINUTES
 const MINWAIT_MINUTES = 60;
 let ipaddress2timeMS = {};
 let rateLimitOK = function (ip) {
