@@ -127,6 +127,7 @@ Template.topicEdit.events({
 
         let aTopic = new Topic(_minutesID, topicDoc);
         aTopic.extractLabelsFromTopic(aMinute.parentMeetingSeries());
+        aTopic.extractResponsiblesFromTopic();
         aTopic.save().catch(handleError);
         $('#dlgAddTopic').modal('hide');
     },
