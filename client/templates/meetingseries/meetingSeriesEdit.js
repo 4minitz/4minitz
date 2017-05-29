@@ -154,10 +154,12 @@ Template.meetingSeriesEdit.events({
                 let oldUserId = usersBeforeEdit[i];
                 let oldUserWithRole = new UserRoles(oldUserId);
                 let oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
+                // Search in after edit users whether the users still exists
                 let matchingUser = usersWithRolesAfterEditForEmails.find( function (user) {
                     return oldUserWithRole._userId === user._idOrg;
                 });
 
+                // If he does not, his role was removed
                 if(matchingUser === undefined) {
                     let mailer = new RoleChangeMailHandler(oldUserWithRole.getUser()._id, oldUserRole, undefined, Meteor.user(), meetingSeriesId);
                     mailer.send();
@@ -166,6 +168,7 @@ Template.meetingSeriesEdit.events({
                     let newUserWithRole = new UserRoles(matchingUser._idOrg);
                     let newUserRole = matchingUser.roles[meetingSeriesId][0];
 
+                    // Roles have changed
                     if(newUserRole !== oldUserRole) {
                         let mailer = new RoleChangeMailHandler(newUserWithRole.getUser()._id, oldUserRole, newUserRole, Meteor.user(), meetingSeriesId);
                         mailer.send();
@@ -173,16 +176,14 @@ Template.meetingSeriesEdit.events({
                     usersWithRolesAfterEditForEmails.splice(index, 1);
                 }
             }
+            // The remaining users in the after-edit-array -> got added
             for(let i in usersWithRolesAfterEditForEmails){
-                console.log(usersWithRolesAfterEditForEmails[i]);
                 let newUser = usersWithRolesAfterEditForEmails[i];
                 let newUserRole = newUser.roles[meetingSeriesId][0];
                 let mailer = new RoleChangeMailHandler(newUser._idOrg, undefined, newUserRole, Meteor.user(), meetingSeriesId);
                 mailer.send();
             }
         }
-
-        console.log(usersWithRolesAfterEdit);
 
         for (let i in usersWithRolesAfterEdit) {
             let usrAfterEdit = usersWithRolesAfterEdit[i];

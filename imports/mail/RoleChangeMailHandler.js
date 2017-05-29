@@ -44,7 +44,6 @@ export class RoleChangeMailHandler {
         }
 
         let name = "";
-        //console.log(this._user);
         if(this._user.profile === undefined) {
             name = this._user.username;
         }
@@ -56,16 +55,8 @@ export class RoleChangeMailHandler {
             "Your role in this Meeting changed: " + GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeriesId) + "\n"+
             "Your old role was          : " +  oldUserRole + "\n"+
             "Your new role is           : " +  newUserRole + "\n"+
-            "The change was performed by: " + this._moderator.username + "\n"  +
-            "\n" +
-            'Your Admin.\n' +
-            "\n" +
-            "\n" +
-            "--- \n" +
-            "4Minitz is free open source developed by the 4Minitz team.\n" +
-            "Source is available at https://github.com/4minitz/4minitz\n");
+            "The change was performed by: " + this._moderator.username);
 
-        /*
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(adminFrom, emailTo);
             mailer.setSubject("Your role changed");
@@ -76,7 +67,7 @@ export class RoleChangeMailHandler {
                 "The change was performed by: " + this._moderator + "\n"  +
 
                 "\n" +
-                "        Your Admin.\n" +
+                "Your Admin.\n" +
                 "\n" +
                 "\n" +
                 "--- \n" +
@@ -88,6 +79,5 @@ export class RoleChangeMailHandler {
         } else {
             console.error("Could not send admin register mail. User has no mail address: "+this._user._id);
         }
-        */
     }
 }
