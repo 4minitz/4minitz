@@ -26,13 +26,16 @@ describe('MeetingSeries Security', function () {
         E2ESecurity.replaceMethodOnClientSide(methodName);
         
         let noOfMeetingSeries = server.call('e2e.countMeetingSeriesInMongDB');
-        
-        E2ESecurity.callMethodWithCallback(true, "meetingseries.insert", {project: aProjectName, name: aMeetingName});
+
+        E2ESecurity.executeMethode("meetingseries.insert", {project: aProjectName, name: aMeetingName}, done);
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(noOfMeetingSeries);
-        
-        
+
         E2EApp.loginUser();
-        E2ESecurity.callMethodWithCallback(false, "meetingseries.insert", {project: aProjectName, name: aMeetingName});
-        expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(noOfMeetingSeries + 1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
+        E2ESecurity.executeMethode("meetingseries.insert", {project: aProjectName, name: aMeetingName}, done);
+        expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(noOfMeetingSeries+1);
+        done();
+        E2EApp.logoutUser();
+
     });
 });

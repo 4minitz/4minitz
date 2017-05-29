@@ -35,7 +35,7 @@ describe('LDAP', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    it('ldap user can NOT reset password @watch', function () {
+    it('ldap user can NOT reset password ', function () {
         E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
         E2EApp.logoutUser();
 
