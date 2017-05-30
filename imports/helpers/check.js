@@ -11,3 +11,11 @@ export const checkWithMsg = (variable, pattern, message) => {
         throw err;
     }
 };
+
+export const instanceCheck = (variable, type) => {
+    const isValidSeries = variable instanceof type;
+
+    if (!isValidSeries) {
+        throw new Meteor.Error('invalid-type', `Not a valid ${typeof type}`);
+    }
+};

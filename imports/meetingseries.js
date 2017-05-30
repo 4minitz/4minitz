@@ -49,6 +49,10 @@ export class MeetingSeries {
 
     // ################### object methods
 
+    getRecord() {
+        return MeetingSeriesSchema.findOne(this._id);
+    }
+
     async removeMinutesWithId(minutesId) {
         console.log('removeMinutesWithId: ' + minutesId);
 
@@ -115,6 +119,9 @@ export class MeetingSeries {
         min.save(optimisticUICallback, serverCallback);
     }
 
+    /**
+     * @deprecated Use MinutesFinder instead
+     */
     getAllMinutes () {
         return Minutes.findAllIn(this.minutes);
     }

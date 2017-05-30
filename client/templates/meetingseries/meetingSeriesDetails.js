@@ -3,6 +3,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from '/imports/userroles';
 import { User, userSettings } from '/imports/users';
 
@@ -59,11 +60,6 @@ Template.meetingSeriesDetails.helpers({
         return user.getSetting(userSettings.showQuickHelp.meetingSeries, true);
     },
 
-    minutes: function() {
-        let ms = new MeetingSeries(_meetingSeriesID);
-        return ms.getAllMinutes();
-    },
-
     isTabActive: function (tabId) {
         return (Template.instance().activeTabId.get() === tabId) ? 'active' : '';
     },
@@ -80,7 +76,7 @@ Template.meetingSeriesDetails.helpers({
         switch (tab) {
         case 'tabMinutesList':
             return {
-                minutes: ms.getAllMinutes(),
+                minutes: MinutesFinder.allMinutesOfMeetingSeries(ms.getRecord()),
                 meetingSeriesId: _meetingSeriesID
             };
 
