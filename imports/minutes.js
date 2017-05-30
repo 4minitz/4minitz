@@ -470,28 +470,26 @@ export class Minutes {
      * @returns {String} with comma separated list of names
      */
     getPresentParticipantNames(maxChars) {
-        let names = '';
-
+        // todo: does this member have to be updated?
         this.participants = this.participants || [];
+        const additionalParticipants = this.participantsAdditional || [];
 
-        this.participants.forEach(part => {
-            if (part.present) {
-                let name = Meteor.users.findOne(part.userId).username;
-                names = names + name + ', ';
-            }
-        });
-        if (this.participantsAdditional) {
-            names = names + this.participantsAdditional;
-        } else {
-            names = names .slice(0, -2);    // delete last ", "
-        }
+        const presentParticipantIds = this.participants
+            .filter(p => p.present)
+            .map(p => p.userId);
+
+        const presentParticipants = Meteor.users.find({_id: {$in: presentParticipantIds}});
+
+        let names = presentParticipants
+            .map(p => p.username)
+            .concat(additionalParticipants)
+            .join(', ');
+
         if (maxChars && names.length > maxChars) {
-            return names.substr(0, maxChars)+'...';
+            return names.substr(0, maxChars) + '...';
         }
-        if (names === '') {
-            names = 'None.';
-        }
-        return names;
+
+        return names || 'None.';
     }
 
     checkParent() {
