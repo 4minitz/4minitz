@@ -14,7 +14,7 @@ describe('MeetingSeries Security', function () {
         E2EApp.launchApp();
     });
 
-    it('can not insert a new MeetingSerie if not logged in @watch', function (done) {
+    it('can not insert a new MeetingSerie if not logged in @watch', function () {
         const methodName = 'meetingseries.insert';
         
         expect(E2EApp.isLoggedIn()).to.be.false;
@@ -27,15 +27,13 @@ describe('MeetingSeries Security', function () {
         
         let noOfMeetingSeries = server.call('e2e.countMeetingSeriesInMongDB');
 
-        E2ESecurity.executeMethode("meetingseries.insert", {project: aProjectName, name: aMeetingName}, done);
+        E2ESecurity.executeMethode("meetingseries.insert", {project: aProjectName, name: aMeetingName});
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(noOfMeetingSeries);
 
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.executeMethode("meetingseries.insert", {project: aProjectName, name: aMeetingName}, done);
+        E2ESecurity.executeMethode("meetingseries.insert", {project: aProjectName, name: aMeetingName});
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(noOfMeetingSeries+1);
-        done();
-        E2EApp.logoutUser();
 
     });
 });

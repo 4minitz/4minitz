@@ -18,7 +18,7 @@ export class E2ESecurity {
         }, methodName);
     }
 
-    static executeMethode(methodName, methodParameters, done){
+    static executeMethode(methodName, methodParameters){
         browser.timeoutsAsyncScript(5000);
         let result = browser.executeAsync((methodName, methodParameters, done) => {
             Meteor.call(methodName, methodParameters, _ => {}, (error, result) => {
