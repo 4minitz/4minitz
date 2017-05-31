@@ -6,6 +6,7 @@ if (Meteor.isServer) {
 
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 import { Topic } from '../topic';
 import { UserRoles } from './../userroles';
 import { MeetingSeriesSchema } from './meetingseries.schema';
@@ -380,7 +381,7 @@ Meteor.methods({
         );
         
         //Write to currently unfinalized Minute, if existent
-        let lastMinute = meetingSeries.lastMinutes();
+        let lastMinute = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
         if (lastMinute && !lastMinute.isFinalized) {
             Meteor.call('minutes.addTopic', lastMinute._id, cleanedTopicDoc, true);
         }
