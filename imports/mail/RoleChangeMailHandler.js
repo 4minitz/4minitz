@@ -20,29 +20,13 @@ export class RoleChangeMailHandler {
     }
 
     send() {
-        let emailFrom = Meteor.user().emails;
-        emailFrom = this._moderator.emails;
+        let emailFrom = this._moderator.emails;
         let adminFrom = (emailFrom && emailFrom.length > 0)
             ? emailFrom[0].address
             : GlobalSettings.getDefaultEmailSenderAddress();
-
         let emailTo = this._user.emails[0].address;
 
-
-        let oldUserRole;
-        let newUserRole;
-        if(this._oldRole === undefined) {
-            oldUserRole = "None";
-        } else {
-            oldUserRole = userroles.role2Text(this._oldRole);
-        }
-
-        if(this._newRole === undefined) {
-            newUserRole = "None";
-        } else {
-            newUserRole = userroles.role2Text(this._newRole);
-        }
-
+        // set parameter
         let name = "";
         if(this._user.profile === undefined) {
             name = this._user.username;
@@ -51,12 +35,20 @@ export class RoleChangeMailHandler {
             name =  this._user.profile.name;
         }
 
-        console.log("Hello " + name + ", \n"+
-            "Your role in this Meeting changed: " + GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeriesId) + "\n"+
-            "Your old role was          : " +  oldUserRole + "\n"+
-            "Your new role is           : " +  newUserRole + "\n"+
-            "The change was performed by: " + this._moderator.username);
+        if(this._oldRole == undefined) {
+            this._oldRole = "None";
+        } else {
+            this._oldRole = userroles.role2Text(this._oldRole);
+        }
 
+        if(this._newRole == undefined) {
+            this._newRole = "None";
+        } else {
+            this._newRole = userroles.role2Text(this._newRole);
+        }
+
+
+        // generate mail
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(adminFrom, emailTo);
             mailer.setSubject("Your role changed");
@@ -64,11 +56,10 @@ export class RoleChangeMailHandler {
                 "Your role in this Meeting changed: " + GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeriesId) + "\n"+
                 "Your old role was          : " + this._oldRole + "\n"+
                 "Your new role is           : " + this._newRole + "\n"+
-                "The change was performed by: " + this._moderator + "\n"  +
+                "The change was performed by: " + this._moderator.username + "\n"  +
 
                 "\n" +
                 "Your Admin.\n" +
-                "\n" +
                 "\n" +
                 "--- \n" +
                 "4Minitz is free open source developed by the 4Minitz team.\n" +
