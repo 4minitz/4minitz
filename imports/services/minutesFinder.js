@@ -46,4 +46,26 @@ export class MinutesFinder {
         const descendingByDate = true;
         return this._getCornerMinutes(meetingSeries, 2, descendingByDate);
     }
+
+    static _getNeighborMinutes(minutes, offset) {
+        const parentSeries = minutes.parentMeetingSeries(),
+            myPosition = parentSeries.minutes.indexOf(minutes._id),
+            neighborPosition = myPosition + offset;
+
+        if (neighborPosition > -1 && neighborPosition < parentSeries.minutes.length) {
+            let neighborMinutesId = parentSeries.minutes[neighborPosition];
+            return new Minutes(neighborMinutesId);
+        }
+
+        return false;
+    }
+
+    static nextMinutes(minutes) {
+        return this._getNeighborMinutes(minutes, 1);
+    }
+
+    static previousMinutes(minutes) {
+        return this._getNeighborMinutes(minutes, -1);
+    }
+
 }

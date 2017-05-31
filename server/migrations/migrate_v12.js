@@ -4,27 +4,23 @@ import { MinutesFinder } from '/imports/services/minutesFinder';
 
 function saveSeries(series) {
     MeetingSeriesSchema.getCollection().update(
-        series._id,
-        {
+        series._id, {
             $set: {
                 'topics': series.topics,
                 'openTopics': series.openTopics
             }
-        },
-        { bypassCollection2: true }
+        }
     );
 }
 
 function saveMinutes(minutes) {
     // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
     MinutesSchema.getCollection().update(
-        minutes._id,
-        {
+        minutes._id, {
             $set: {
                 'topics': minutes.topics,
             }
-        },
-        { bypassCollection2: true }
+        }
     );
 }
 
@@ -43,14 +39,14 @@ class MigrateSeriesUp {
     run() {
         let minutes = MinutesFinder.firstMinutesOfMeetingSeries(this.series);
         while (minutes) {
-            let prevMinutes = minutes.previousMinutes();
+            let prevMinutes = MinutesFinder.previousMinutes(minutes);
             if (prevMinutes){
                 // find topics/items/details that occur in a current minute, but were created in a prev. minute
                 this._updatePreviousCreatedTopicItemDetails(minutes,prevMinutes);
             }
             minutes = this._updateTopicsOfMinutes(minutes);
             saveMinutes(minutes);
-            minutes = minutes.nextMinutes();
+            minutes = MinutesFinder.nextMinutes(minutes);
         }
         this._updateTopicsOfSeries();
         saveSeries(this.series);

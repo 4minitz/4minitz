@@ -33,7 +33,7 @@ class MigrateSeriesUp {
         while (minutes) {
             minutes = this._updateTopicsOfMinutes(minutes);
             saveMinutes(minutes);
-            minutes = minutes.nextMinutes();
+            minutes = MinutesFinder.nextMinutes(minutes);
         }
         this._updateTopicsOfSeries();
         saveSeries(this.series);

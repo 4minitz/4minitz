@@ -94,25 +94,6 @@ export class Minutes {
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
     }
 
-    nextMinutes() {
-        return this._getNeighborMinutes(1);
-    }
-
-    previousMinutes() {
-        return this._getNeighborMinutes(-1);
-    }
-
-    _getNeighborMinutes(offset) {
-        let parentSeries = this.parentMeetingSeries();
-        let myPosition = parentSeries.minutes.indexOf(this._id);
-        let neighborPosition = myPosition + offset;
-        if (neighborPosition > -1 && neighborPosition < parentSeries.minutes.length) {
-            let neighborMinutesId = parentSeries.minutes[neighborPosition];
-            return new Minutes(neighborMinutesId);
-        }
-        return false;
-    }
-
     toString () {
         return 'Minutes: '+JSON.stringify(this, null, 4);
     }

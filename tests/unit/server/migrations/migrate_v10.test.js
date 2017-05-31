@@ -18,9 +18,14 @@ let MeetingSeriesSchema = {
 MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
 
 let MinutesFinder = {
-    result: undefined,
+    firstMinutesResult: undefined,
     firstMinutesOfMeetingSeries() {
-        return this.result;
+        return this.firstMinutesResult;
+    },
+    nextMinutesResult: {},
+    nextMinutes(minutes) {
+        console.log(`finding next minutes of ${minutes._id}: ${this.nextMinutesResult[minutes._id]}`);
+        return this.nextMinutesResult[minutes._id];
     }
 };
 
@@ -43,20 +48,14 @@ describe('Migrate Version 10', function () {
                 _id: '#T01'
             }, {
                 _id: '#T02'
-            }],
-            nextMinutes: () => {
-                return false;
-            }
+            }]
         };
 
         firstFakeMinute = {
             _id: FIRST_MIN_ID,
             topics: [{
                 _id: '#T01'
-            }],
-            nextMinutes: () => {
-                return sndFakeMinute;
-            }
+            }]
         };
 
         fakeMeetingSeries = {
@@ -73,7 +72,9 @@ describe('Migrate Version 10', function () {
             }]
         };
 
-        MinutesFinder.result = firstFakeMinute;
+        MinutesFinder.firstMinutesResult = firstFakeMinute;
+        MinutesFinder.nextMinutesResult[SND_MIN_ID] = false;
+        MinutesFinder.nextMinutesResult[FIRST_MIN_ID] = sndFakeMinute;
 
         MeetingSeriesSchema.find = () => {
             return [fakeMeetingSeries];
