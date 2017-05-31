@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { MailFactory } from './MailFactory'
 import { GlobalSettings } from '../config/GlobalSettings'
 import {UserRoles as userroles} from "../userroles";
+import {MeetingSeries} from "../meetingseries";
 
 export class RoleChangeMailHandler {
     constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
@@ -27,12 +28,14 @@ export class RoleChangeMailHandler {
         let emailTo = this._user.emails[0].address;
 
         // set parameter
-        let name = "";
+        let meetingSeries = new MeetingSeries(this._meetingSeriesId)
+        let meetingName = meetingSeries.name;
+
+        let userName = "";
         if(this._user.profile === undefined) {
-            name = this._user.username;
-        }
-        else {
-            name =  this._user.profile.name;
+            userName = this._user.username;
+        } else {
+            userName =  this._user.profile.name;
         }
 
         if(this._oldRole == undefined) {
@@ -52,11 +55,11 @@ export class RoleChangeMailHandler {
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(adminFrom, emailTo);
             mailer.setSubject("Your role changed");
-            mailer.setText("Hello " + name + ", \n"+
-                "Your role in this Meeting changed: " + GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeriesId) + "\n"+
-                "Your old role was          : " + this._oldRole + "\n"+
-                "Your new role is           : " + this._newRole + "\n"+
-                "The change was performed by: " + this._moderator.username + "\n"  +
+            mailer.setText("Hello " + userName + ", \n"+
+                "Your was changed in the meeting series \"" + meetingName + "\" (" + GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeriesId) + ")\n"+
+                "Your old role was\t\t : " + this._oldRole + "\n"+
+                "Your new role is\t\t : " + this._newRole + "\n"+
+                "The change was performed by : " + this._moderator.username + "\n"  +
 
                 "\n" +
                 "Your Admin.\n" +
