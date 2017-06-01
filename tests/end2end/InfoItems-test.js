@@ -7,7 +7,7 @@ import { E2ETopics } from './helpers/E2ETopics';
 import { formatDateISO8601 } from '../../imports/helpers/date';
 
 
-describe('Info Items @watch', function () {
+describe('Info Items', function () {
     const aProjectName = "E2E Info Items";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";

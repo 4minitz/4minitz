@@ -245,13 +245,11 @@ Template.topicInfoItemEdit.events({
         newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
         let itemAlreadyExists = !!newItem.getId();
         newItem.saveAsync().catch(handleError);
-        console.log('Successfully saved new item with id: ' + newItem.getId());
-        if (getEditInfoItem() === false) {
+        if (getEditInfoItem() === false && newDetail) {
             newItem.addDetails(aMinute._id, newDetail);
             newItem.saveAsync().catch(handleError);
             let details = newItem.getDetails();
             let detailItem = newItem.getDetailsAt(details.length-1);
-            console.log('Successfully saved new detail with id: ' + detailItem._id);
             tmpl.find('#id_item_detailInput').value = "";
         }
         $('#dlgAddInfoItem').modal('hide');
