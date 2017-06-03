@@ -12,3 +12,5 @@ tests/mongodump
 tests/e2e_downloads
 public/fonts/glyphicons-halflings-regular.*
 *.json.bak
+
+4minitz\.iml

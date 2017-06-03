@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private';
+import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
 Template.tabAdminMessages.onCreated(function() {
@@ -17,7 +17,7 @@ Template.tabAdminMessages.onDestroyed(function() {
 
 Template.tabAdminMessages.helpers({
     messages() {
-        return BroadcastMessageCollection.find({}, {sort: {createdAt: -1}});
+        return BroadcastMessageSchema.find({}, {sort: {createdAt: -1}});
     },
 
     'inactiveStateColor'(message) {

@@ -1,6 +1,3 @@
-/**
- * Created by felix on 19.05.16.
- */
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
@@ -11,10 +8,12 @@ import * as SubElements from '../../../imports/helpers/subElements';
 
 require('sinon-as-promised');
 
-let MinutesCollection = {
+let MinutesSchema = {
     find: sinon.stub(),
     findOne: sinon.stub()
 };
+
+MinutesSchema.getCollection = _ => MinutesSchema;
 
 class MeteorError {}
 
@@ -55,7 +54,8 @@ const {
     Minutes
     } = proxyquire('../../../imports/minutes', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
-    './collections/minutes_private': { MinutesCollection, '@noCallThru': true},
+    './collections/minutes_private': { MinutesSchema, '@noCallThru': true},
+    './collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
     './collections/workflow_private': { "null": null, '@noCallThru': true},
     './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
@@ -87,8 +87,8 @@ describe('Minutes', function () {
     });
 
     afterEach(function () {
-        MinutesCollection.find.reset();
-        MinutesCollection.findOne.reset();
+        MinutesSchema.find.reset();
+        MinutesSchema.findOne.reset();
         Meteor.call.reset();
         Meteor.callPromise.reset();
         isCurrentUserModeratorStub.reset();
@@ -105,8 +105,8 @@ describe('Minutes', function () {
         it('fetches the minute from the database if the id was given', function() {
 
             new Minutes(minutesDoc._id);
-            expect(MinutesCollection.findOne.calledOnce, "findOne should be called once").to.be.true;
-            expect(MinutesCollection.findOne.calledWith(minutesDoc._id), "findOne should be called with the id").to.be.true;
+            expect(MinutesSchema.findOne.calledOnce, "findOne should be called once").to.be.true;
+            expect(MinutesSchema.findOne.calledWith(minutesDoc._id), "findOne should be called with the id").to.be.true;
         });
 
         it('throws exception if constructor will be called without any arguments', function () {
@@ -127,14 +127,14 @@ describe('Minutes', function () {
 
         it('#find', function () {
             Minutes.find("myArg");
-            expect(MinutesCollection.find.calledOnce, "find-Method should be called once").to.be.true;
-            expect(MinutesCollection.find.calledWithExactly("myArg"), "arguments should be passed").to.be.true;
+            expect(MinutesSchema.find.calledOnce, "find-Method should be called once").to.be.true;
+            expect(MinutesSchema.find.calledWithExactly("myArg"), "arguments should be passed").to.be.true;
         });
 
         it('#findOne', function () {
             Minutes.findOne("myArg");
-            expect(MinutesCollection.findOne.calledOnce, "findOne-Method should be called once").to.be.true;
-            expect(MinutesCollection.findOne.calledWithExactly("myArg"), "arguments should be passed").to.be.true;
+            expect(MinutesSchema.findOne.calledOnce, "findOne-Method should be called once").to.be.true;
+            expect(MinutesSchema.findOne.calledWithExactly("myArg"), "arguments should be passed").to.be.true;
         });
 
         describe('#findAllIn', function () {
@@ -149,12 +149,12 @@ describe('Minutes', function () {
 
             it('calls the find-Method of the Collection', function () {
                 Minutes.findAllIn(minIdArray, limit);
-                expect(MinutesCollection.find.calledOnce, "find-Method should be called once").to.be.true;
+                expect(MinutesSchema.find.calledOnce, "find-Method should be called once").to.be.true;
             });
 
             it('sets the id selector correctly', function () {
                 Minutes.findAllIn(minIdArray, limit);
-                let selector = MinutesCollection.find.getCall(0).args[0];
+                let selector = MinutesSchema.find.getCall(0).args[0];
                 expect(selector, "Selector has the property _id").to.have.ownProperty('_id');
                 expect(selector._id, '_id-selector has propery $in').to.have.ownProperty('$in');
                 expect(selector._id.$in, 'idArray should be passed').to.deep.equal(minIdArray);
@@ -163,14 +163,14 @@ describe('Minutes', function () {
             it('sets the option correctly (sort, no limit)', function () {
                 let expectedOption = { sort: {date: -1} };
                 Minutes.findAllIn(minIdArray);
-                let options = MinutesCollection.find.getCall(0).args[1];
+                let options = MinutesSchema.find.getCall(0).args[1];
                 expect(options).to.deep.equal(expectedOption);
             });
 
             it('sets the option correctly (sort and limit)', function () {
                 let expectedOption = { sort: {date: -1}, limit: limit };
                 Minutes.findAllIn(minIdArray, limit);
-                let options = MinutesCollection.find.getCall(0).args[1];
+                let options = MinutesSchema.find.getCall(0).args[1];
                 expect(options).to.deep.equal(expectedOption);
             });
 

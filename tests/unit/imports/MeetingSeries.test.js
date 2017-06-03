@@ -5,7 +5,7 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
 
-let MeetingSeriesCollection = {};
+let MeetingSeriesSchema = {};
 let Meteor = {
     call: sinon.stub(),
     callPromise: sinon.stub()
@@ -14,6 +14,12 @@ let Minutes = {};
 let Topic = {};
 let UserRoles = {};
 let PromisedMethods = {};
+let MinutesFinder = {
+    result: undefined,
+    lastMinutesOfMeetingSeries() {
+        return this.result;
+    }
+};
 DateHelpers['@noCallThru'] = true;
 SubElements['@noCallThru'] = true;
 
@@ -21,14 +27,16 @@ const {
     MeetingSeries
 } = proxyquire('../../../imports/meetingseries', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
-    './collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
+    './collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
+    './collections/meetingseries_private': { MeetingSeriesSchema, '@noCallThru': true},
     './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './userroles': { UserRoles, '@noCallThru': true},
     '/imports/helpers/date': DateHelpers,
     '/imports/helpers/subElements': SubElements,
-    'meteor/underscore': { _, '@noCallThru': true}
+    'meteor/underscore': { _, '@noCallThru': true},
+    '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}
 });
 
 describe('MeetingSeries', function () {
@@ -77,11 +85,7 @@ describe('MeetingSeries', function () {
         it('retrieves the date of the lastMinutes() if no id is given', function () {
             let expectedDate = new Date();
 
-            sinon.stub(series, "lastMinutes", function () {
-                return {
-                    date: expectedDate
-                }
-            });
+            MinutesFinder.result = {date: expectedDate};
 
             var actualDate = series.getMinimumAllowedDateForMinutes();
 

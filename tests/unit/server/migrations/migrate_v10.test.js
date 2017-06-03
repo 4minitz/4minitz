@@ -7,18 +7,34 @@ require('../../../../imports/helpers/date');
 const FIRST_MIN_ID = '#Min01';
 const SND_MIN_ID = '#Min02';
 
-let MinutesCollection = {
+let MinutesSchema = {
     update: sinon.stub()
 };
-let MeetingSeriesCollection = {
+MinutesSchema.getCollection = _ => MeetingSeriesSchema;
+
+let MeetingSeriesSchema = {
     update: sinon.stub()
+};
+MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
+
+let MinutesFinder = {
+    firstMinutesResult: undefined,
+    firstMinutesOfMeetingSeries() {
+        return this.firstMinutesResult;
+    },
+    nextMinutesResult: {},
+    nextMinutes(minutes) {
+        console.log(`finding next minutes of ${minutes._id}: ${this.nextMinutesResult[minutes._id]}`);
+        return this.nextMinutesResult[minutes._id];
+    }
 };
 
 const {
         MigrateV10
     } = proxyquire('../../../../server/migrations/migrate_v10', {
-        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-    '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+        '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+        '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
+        '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}
     });
 
 describe('Migrate Version 10', function () {
@@ -32,20 +48,14 @@ describe('Migrate Version 10', function () {
                 _id: '#T01'
             }, {
                 _id: '#T02'
-            }],
-            nextMinutes: () => {
-                return false;
-            }
+            }]
         };
 
         firstFakeMinute = {
             _id: FIRST_MIN_ID,
             topics: [{
                 _id: '#T01'
-            }],
-            nextMinutes: () => {
-                return sndFakeMinute;
-            }
+            }]
         };
 
         fakeMeetingSeries = {
@@ -59,24 +69,25 @@ describe('Migrate Version 10', function () {
                 _id: '#T02'
             }, {
                 _id: '#T01'
-            }],
-            firstMinutes: () => {
-                return firstFakeMinute;
-            }
+            }]
         };
 
-        MeetingSeriesCollection.find = () => {
+        MinutesFinder.firstMinutesResult = firstFakeMinute;
+        MinutesFinder.nextMinutesResult[SND_MIN_ID] = false;
+        MinutesFinder.nextMinutesResult[FIRST_MIN_ID] = sndFakeMinute;
+
+        MeetingSeriesSchema.find = () => {
             return [fakeMeetingSeries];
         };
 
-        MinutesCollection.find = () => {
+        MinutesSchema.find = () => {
             return [firstFakeMinute, sndFakeMinute];
         };
     });
 
     afterEach(function () {
-        MinutesCollection.update.reset();
-        MeetingSeriesCollection.update.reset();
+        MinutesSchema.update.reset();
+        MeetingSeriesSchema.update.reset();
     });
 
     describe('#up', function () {

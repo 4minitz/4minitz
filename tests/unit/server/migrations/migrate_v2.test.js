@@ -8,15 +8,13 @@ import sinon from 'sinon';
 
 require('../../../../imports/helpers/date');
 
-let MinutesCollection = {
-};
+let MinutesSchema = {};
 
-let MeetingSeriesCollection = {
-};
+let MeetingSeriesSchema = {};
 
 const {
         MigrateV2
     } = proxyquire('../../../../server/migrations/migrate_v2', {
-    '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-        '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+        '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+        '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true}
     });

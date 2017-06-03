@@ -6,6 +6,7 @@ import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory
 import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
+import { MinutesFinder } from "/imports/services/minutesFinder";
 
 
 Template.meetingSeriesEdit.onCreated(function() {
@@ -63,7 +64,7 @@ Template.meetingSeriesEdit.events({
                 name: ms.name,
                 hasMinutes: (minutesCount !== 0),
                 minutesCount: minutesCount,
-                lastMinutesDate: (minutesCount !== 0) ? ms.lastMinutes().date : false
+                lastMinutesDate: (minutesCount !== 0) ? MinutesFinder.lastMinutesOfMeetingSeries(ms).date : false
             }
         ).show();
     },

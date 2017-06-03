@@ -59,5 +59,9 @@ Template.login.events({
 
     'click #btnLegalNotice': function () {
         FlowRouter.go('/legalnotice');
+    },
+
+    'click #tab_standard': function() {
+        AccountsTemplates.setState('signIn');
     }
 });

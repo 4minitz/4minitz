@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { MinutesCollection } from './collections/minutes_private';
+import { MinutesSchema } from './collections/minutes.schema';
 import { MeetingSeries } from './meetingseries';
 import { Topic } from './topic';
 import { ActionItem } from './actionitem';
@@ -7,6 +7,8 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 import { emailAddressRegExpMatch } from '/imports/helpers/email';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
+
+import './collections/minutes_private';
 import './helpers/promisedMethods';
 import './collections/workflow_private';
 
@@ -25,11 +27,11 @@ export class Minutes {
 
     // ################### static methods
     static find(...args) {
-        return MinutesCollection.find(...args);
+        return MinutesSchema.getCollection().find(...args);
     }
 
     static findOne(...args) {
-        return MinutesCollection.findOne(...args);
+        return MinutesSchema.getCollection().findOne(...args);
     }
 
     static findAllIn(MinutesIDArray, limit, lastMintuesFirst = true) {
@@ -42,15 +44,17 @@ export class Minutes {
         if (limit) {
             options['limit'] = limit;
         }
-        return MinutesCollection.find(
+        return Minutes.find(
             {_id: {$in: MinutesIDArray}},
             options);
     }
 
+    // method
     static remove(id) {
         return Meteor.callPromise('workflow.removeMinute', id);
     }
 
+    // method
     static async syncVisibility(parentSeriesID, visibleForArray) {
         return Meteor.callPromise('minutes.syncVisibility', parentSeriesID, visibleForArray);
     }
@@ -59,6 +63,7 @@ export class Minutes {
 
     // ################### object methods
 
+    // method
     async update (docPart, callback) {
         console.log('Minutes.update()');
         _.extend(docPart, {_id: this._id});
@@ -72,6 +77,7 @@ export class Minutes {
         }
     }
 
+    // method
     save (optimisticUICallback, serverCallback) {
         console.log('Minutes.save()');
         if (this.createdAt === undefined) {
@@ -86,25 +92,6 @@ export class Minutes {
             Meteor.call('workflow.addMinutes', this, optimisticUICallback, serverCallback);
         }
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
-    }
-
-    nextMinutes() {
-        return this._getNeighborMintues(1);
-    }
-
-    previousMinutes() {
-        return this._getNeighborMintues(-1);
-    }
-
-    _getNeighborMintues(offset) {
-        let parentSeries = this.parentMeetingSeries();
-        let myPosition = parentSeries.minutes.indexOf(this._id);
-        let neighborPosition = myPosition + offset;
-        if (neighborPosition > -1 && neighborPosition < parentSeries.minutes.length) {
-            let neighborMinutesId = parentSeries.minutes[neighborPosition];
-            return new Minutes(neighborMinutesId);
-        }
-        return false;
     }
 
     toString () {
@@ -124,6 +111,7 @@ export class Minutes {
     }
 
     // This also does a minimal update of collection!
+    // method
     async removeTopic(id) {
         let i = this._findTopicIndex(id);
         if (i !== undefined) {
@@ -199,6 +187,7 @@ export class Minutes {
             });
     }
 
+    // method
     async upsertTopic(topicDoc, insertPlacementTop = true) {
         let i = undefined;
 
@@ -234,6 +223,7 @@ export class Minutes {
         }, /* initial value */[]);
     }
 
+    // method
     /**
      * Finalizes this minute by calling
      * the workflow-server-method.
@@ -245,6 +235,7 @@ export class Minutes {
         return Meteor.callPromise('workflow.finalizeMinute', this._id, sendActionItems, sendInfoItems);
     }
 
+    // method
     /**
      * Unfinalizes this minutes by calling
      * the workflow-server-method.
@@ -253,6 +244,7 @@ export class Minutes {
         return Meteor.callPromise('workflow.unfinalizeMinute', this._id);
     }
 
+    // method
     sendAgenda() {
         return Meteor.callPromise('minutes.sendAgenda', this._id);
     }
@@ -324,6 +316,7 @@ export class Minutes {
     }
 
 
+    // method?
     /**
      * Sync all users of .visibleFor into .participants
      * This method adds and removes users from the .participants list.
@@ -387,6 +380,7 @@ export class Minutes {
     }
 
 
+    // method?
     /**
      * Change presence of a single participant. Immediately updates .participants array
      * TODO Reactive performance may be better if we only update one array element in DB
@@ -414,6 +408,17 @@ export class Minutes {
         }
 
         return this.participants;
+    }
+    /**
+     * Change presence of a all participants in a Minute
+     * @param isPresent new state of presence
+     */
+    async changeParticipantsStatus(isPresent)
+    {
+        for (var index = 0; index < this.participants.length; index++) {
+            this.participants[index].present = isPresent;
+        }
+        return this.update({participants: this.participants});
     }
 
     /**
@@ -446,28 +451,26 @@ export class Minutes {
      * @returns {String} with comma separated list of names
      */
     getPresentParticipantNames(maxChars) {
-        let names = '';
-
+        // todo: does this member have to be updated?
         this.participants = this.participants || [];
+        const additionalParticipants = this.participantsAdditional || [];
 
-        this.participants.forEach(part => {
-            if (part.present) {
-                let name = Meteor.users.findOne(part.userId).username;
-                names = names + name + ', ';
-            }
-        });
-        if (this.participantsAdditional) {
-            names = names + this.participantsAdditional;
-        } else {
-            names = names .slice(0, -2);    // delete last ", "
-        }
+        const presentParticipantIds = this.participants
+            .filter(p => p.present)
+            .map(p => p.userId);
+
+        const presentParticipants = Meteor.users.find({_id: {$in: presentParticipantIds}});
+
+        let names = presentParticipants
+            .map(p => p.username)
+            .concat(additionalParticipants)
+            .join(', ');
+
         if (maxChars && names.length > maxChars) {
-            return names.substr(0, maxChars)+'...';
+            return names.substr(0, maxChars) + '...';
         }
-        if (names === '') {
-            names = 'None.';
-        }
-        return names;
+
+        return names || 'None.';
     }
 
     checkParent() {

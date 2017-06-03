@@ -7,18 +7,29 @@ require('../../../../imports/helpers/date');
 const FIRST_MIN_ID = '#Min01';
 const SND_MIN_ID = '#Min02';
 
-let MinutesCollection = {
+let MinutesSchema = {
     update: sinon.stub()
 };
-let MeetingSeriesCollection = {
+MinutesSchema.getCollection = _ => MinutesSchema;
+
+let MeetingSeriesSchema = {
     update: sinon.stub()
+};
+MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
+
+let MinutesFinder = {
+    result: undefined,
+    firstMinutesOfMeetingSeries() {
+        return this.result;
+    }
 };
 
 const {
         MigrateV13
     } = proxyquire('../../../../server/migrations/migrate_v13', {
-        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-    '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+        '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+    '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
+    '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}
     });
 
 describe('Migrate Version 13', function () {
@@ -59,24 +70,23 @@ describe('Migrate Version 13', function () {
                 _id: '#T02'
             }, {
                 _id: '#T01'
-            }],
-            firstMinutes: () => {
-                return firstFakeMinute;
-            }
+            }]
         };
 
-        MeetingSeriesCollection.find = () => {
+        MinutesFinder.result = firstFakeMinute;
+
+        MeetingSeriesSchema.find = () => {
             return [fakeMeetingSeries];
         };
 
-        MinutesCollection.find = () => {
+        MinutesSchema.find = () => {
             return [firstFakeMinute, sndFakeMinute];
         };
     });
 
     afterEach(function () {
-        MinutesCollection.update.reset();
-        MeetingSeriesCollection.update.reset();
+        MinutesSchema.update.reset();
+        MeetingSeriesSchema.update.reset();
     });
 
     describe('#up', function () {

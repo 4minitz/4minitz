@@ -27,8 +27,6 @@ ecmascript@0.7.2
 msavin:mongol
 practicalmeteor:mocha
 alanning:roles
-aldeed:simple-schema
-aldeed:collection2
 percolate:migrations
 dispatch:mocha-phantomjs
 sergeyt:typeahead
@@ -54,3 +52,4 @@ arillo:flow-router-helpers
 ostrio:files
 jagi:astronomy
 mouse0270:bootstrap-notify
+meteorhacks:picker

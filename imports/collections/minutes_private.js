@@ -1,31 +1,20 @@
 import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
 import { Minutes } from '../minutes';
 import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
-export let MinutesCollection = new Mongo.Collection('minutes',
-    {
-        transform: function (doc) {
-            return new Minutes(doc);
-        }
-    }
-);
-
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication() {
         // publish only minutes visible for this user
-        return MinutesCollection.find(
+        return MinutesSchema.find(
             {visibleFor: {$in: [this.userId]}});
     });
 }
 if (Meteor.isClient) {
     Meteor.subscribe('minutes');
 }
-
-MinutesCollection.attachSchema(MinutesSchema);
 
 Meteor.methods({
     'minutes.sendAgenda'(id) {
@@ -52,7 +41,7 @@ Meteor.methods({
                 let sendAgendaMailHandler = new SendAgendaMailHandler(senderEmail, aMin);
                 sendAgendaMailHandler.send();
 
-                MinutesCollection.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
+                MinutesSchema.update({_id: aMin._id, isFinalized: false}, {$set: {agendaSentAt: new Date()}});
 
                 return sendAgendaMailHandler.getCountRecipients();
             }
@@ -96,7 +85,7 @@ Meteor.methods({
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
 
-            return MinutesCollection.update({_id: id, isFinalized: false}, {$set: doc});
+            return MinutesSchema.update({_id: id, isFinalized: false}, {$set: doc});
         } else {
             throw new Meteor.Error('Cannot update minutes', 'You are not moderator of the parent meeting series.');
         }
@@ -128,7 +117,7 @@ Meteor.methods({
             }
         }
 
-        let minDoc = MinutesCollection.findOne({isFinalized: false, 'topics._id': topicId});
+        let minDoc = MinutesSchema.findOne({isFinalized: false, 'topics._id': topicId});
         let aMin = new Minutes(minDoc);
 
         // Ensure user can not update documents of other users
@@ -136,7 +125,7 @@ Meteor.methods({
         if (userRoles.isModeratorOf(aMin.parentMeetingSeriesID())) {
             // Ensure user can not update finalized minutes
 
-            return MinutesCollection.update(
+            return MinutesSchema.update(
                 {_id: aMin._id, isFinalized: false, 'topics._id': topicId},
                 {$set: modifierDoc}
             );
@@ -179,7 +168,7 @@ Meteor.methods({
                 topicModifier.topics.$position = 0;
             }
 
-            return MinutesCollection.update(
+            return MinutesSchema.update(
                 {_id: minutesId, isFinalized: false},
                 {$push: topicModifier}
             );
@@ -198,7 +187,7 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized');
         }
 
-        let minDoc = MinutesCollection.findOne({isFinalized: false, 'topics._id': topicId});
+        let minDoc = MinutesSchema.findOne({isFinalized: false, 'topics._id': topicId});
         let aMin = new Minutes(minDoc);
 
         // Ensure user can not update documents of other users
@@ -214,7 +203,7 @@ Meteor.methods({
         }
 
         // Ensure user can not update finalized minutes
-        return MinutesCollection.update(
+        return MinutesSchema.update(
             {_id: aMin._id, isFinalized: false},
             {$pull: {
                 topics: { _id: topicId }
@@ -226,11 +215,11 @@ Meteor.methods({
         check(parentSeriesID, String);
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
-            if (MinutesCollection.find({meetingSeries_id: parentSeriesID}).count() > 0) {
-                MinutesCollection.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+            if (MinutesSchema.find({meetingSeries_id: parentSeriesID}).count() > 0) {
+                MinutesSchema.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
 
                 // add missing participants to non-finalized meetings
-                MinutesCollection.find({meetingSeries_id: parentSeriesID}).forEach (min => {
+                MinutesSchema.getCollection().find({meetingSeries_id: parentSeriesID}).forEach (min => {
                     if (!min.isFinalized) {
                         min.refreshParticipants(true);
                     }

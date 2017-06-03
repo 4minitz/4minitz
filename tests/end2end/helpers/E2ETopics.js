@@ -258,8 +258,7 @@ export class E2ETopics {
         browser.click("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring");
     }
     
-    static toggleSkipTopic(topicIndex, useDropDownMenu = true)
-    {
+    static toggleSkipTopic(topicIndex, useDropDownMenu = true) {
         // The 2nd parameter determines if the skip should be done via the dropdown-menu or by directly clicking the IsSkipped-Icon shown on the topic. 
         // The latter one will of course only work if the topic is currently skipped
         if (useDropDownMenu) {
@@ -294,8 +293,7 @@ export class E2ETopics {
         return this._isSelectorVisible("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-skipped span");
     }
     
-    static _isSelectorVisible(selector)
-    {
+    static _isSelectorVisible(selector) {
         try {
             // we use the "_org" / non screen shot version here intentionally,
             // as we often expect the 'recurring icon' to be hidden!
@@ -304,6 +302,36 @@ export class E2ETopics {
         } catch(e) {
             return false;
         }       
+    }
+    
+    static hasDropDownMenuButton(topicIndex, buttonSelector) {
+        if (!buttonSelector)
+            return false;
+        
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+        try {
+            // we use the "_org" / non screen shot version here intentionally,
+            // as we often expect the 'dropdown icon' to be hidden!
+            browser.waitForVisible_org(selector);
+        } catch(e) {
+            return false;
+        }
+        browser.click(selector);
+        return browser.isVisible("#topicPanel .well:nth-child(" + topicIndex + ") " + buttonSelector);      
+    }
+    
+    static reOpenTopic(topicIndex) {
+        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+        try {
+            // we use the "_org" / non screen shot version here intentionally,
+            // as we often expect the 'recurring icon' to be hidden!
+            browser.waitForVisible_org(selector);
+        } catch(e) {
+            return false;
+        }
+        browser.click(selector);
+        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") #btnReopenTopic");
+        E2EApp.confirmationDialogAnswer(true);
     }
 
     static toggleActionItem(topicIndex, infoItemIndex) {

@@ -267,7 +267,9 @@ Template.topicInfoItemEdit.events({
         cancelButton.prop('disabled',false);
 
         let editItem = getEditInfoItem();
-        tmpl.find('#id_item_subject').value = (editItem) ? editItem._infoItemDoc.subject : '';
+
+        let itemSubject = tmpl.find("#id_item_subject");
+        itemSubject.value = (editItem) ? editItem._infoItemDoc.subject : '';
 
         tmpl.find('#id_item_priority').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : '';
@@ -289,7 +291,14 @@ Template.topicInfoItemEdit.events({
             if (selectLabels) {
                 selectLabels.val([]).trigger('change');
             }
-            toggleItemMode(Session.get('topicInfoItemType'), tmpl);
+            let infoItemType = Session.get('topicInfoItemType');
+            toggleItemMode(infoItemType, tmpl);
+
+            if(infoItemType === 'infoItem') {
+                itemSubject.value = "Info";
+            } else {
+                itemSubject.value = '';
+            }
         }
     },
 
@@ -297,7 +306,9 @@ Template.topicInfoItemEdit.events({
         // ensure new values trigger placeholder animation
         $('#id_item_subject').trigger('change');
         $('#id_item_priority').trigger('change');
-        tmpl.find('#id_item_subject').focus();
+        let itemSubject = tmpl.find('#id_item_subject');
+        itemSubject.focus();
+        itemSubject.select();
         configureSelect2Labels();
     },
 

@@ -71,7 +71,7 @@ export class E2EApp {
                 }
 
                 browser.keys(['Enter']);
-                E2EGlobal.waitSomeTime();
+                E2EGlobal.waitSomeTime(2000);
 
                 if (browser.isExisting('.at-error.alert.alert-danger')) {
                     throw new Error ("Unknown user or wrong password.")
@@ -133,6 +133,10 @@ export class E2EApp {
         } catch (e) {
             E2EApp.launchApp();
         }
+        // Just in case we have not already a user logged in, we do it here!
+        if (! E2EApp.isLoggedIn()) {
+            E2EApp.loginUser(0, false);
+        }
         browser.click('a.navbar-brand');
         E2EGlobal.waitSomeTime();
         // check post-condition
@@ -164,6 +168,12 @@ export class E2EApp {
         }
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
     };
+
+    static resetPassword(emailAdress) {
+        browser.click("#at-forgotPwd");
+        browser.setValue('#at-field-email', emailAdress);
+        browser.click('#at-btn');
+    }
 }
 
 E2EApp._currentlyLoggedInUser = "";

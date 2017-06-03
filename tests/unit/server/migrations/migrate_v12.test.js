@@ -7,18 +7,37 @@ require('../../../../imports/helpers/date');
 const FIRST_MIN_ID = '#Min01';
 const SND_MIN_ID = '#Min02';
 
-let MinutesCollection = {
+let MinutesSchema = {
     update: sinon.stub()
 };
-let MeetingSeriesCollection = {
+MinutesSchema.getCollection = _ => MinutesSchema;
+
+let MeetingSeriesSchema = {
     update: sinon.stub()
+};
+MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
+
+let MinutesFinder = {
+    firstMinutesResult: undefined,
+    firstMinutesOfMeetingSeries() {
+        return this.firstMinutesResult;
+    },
+    nextMinutesResult: {},
+    nextMinutes(minutes) {
+        return this.nextMinutesResult[minutes._id];
+    },
+    previousMinutesResult: {},
+    previousMinutes(minutes) {
+        return this.previousMinutesResult[minutes._id];
+    }
 };
 
 const {
         MigrateV12
     } = proxyquire('../../../../server/migrations/migrate_v12', {
-        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-    '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+        '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+        '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
+        '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}
     });
 
 describe('Migrate Version 12', function () {
@@ -45,13 +64,7 @@ describe('Migrate Version 12', function () {
                 },{
                     _id: '#I04'
                 }]
-            }],
-            nextMinutes: () => {
-                return false;
-            },
-            previousMinutes : () => {
-                return firstFakeMinute;
-            }
+            }]
         };
 
         firstFakeMinute = {
@@ -65,14 +78,14 @@ describe('Migrate Version 12', function () {
                     _id: '#I02',
                     details: [{text: 'd3'}, {text:'d4'}]
                 }]
-            }],
-            nextMinutes: () => {
-                return sndFakeMinute;
-            },
-            previousMinutes: () => {
-                return false;
-            }
+            }]
         };
+
+        MinutesFinder.firstMinutesResult = firstFakeMinute;
+        MinutesFinder.nextMinutesResult[SND_MIN_ID] = false;
+        MinutesFinder.nextMinutesResult[FIRST_MIN_ID] = sndFakeMinute;
+        MinutesFinder.previousMinutesResult[SND_MIN_ID] = firstFakeMinute;
+        MinutesFinder.previousMinutesResult[FIRST_MIN_ID] = false;
 
         fakeMeetingSeries = {
             _id: '#MS01',
@@ -111,24 +124,21 @@ describe('Migrate Version 12', function () {
                     _id: '#I02',
                     details: [{text: 'd3'}, {text:'d4'}]
                 }]
-            }],
-            firstMinutes: () => {
-                return firstFakeMinute;
-            }
+            }]
         };
 
-        MeetingSeriesCollection.find = () => {
+        MeetingSeriesSchema.find = () => {
             return [fakeMeetingSeries];
         };
 
-        MinutesCollection.find = () => {
+        MinutesSchema.find = () => {
             return [firstFakeMinute, sndFakeMinute];
         };
     });
 
     afterEach(function () {
-        MinutesCollection.update.reset();
-        MeetingSeriesCollection.update.reset();
+        MinutesSchema.update.reset();
+        MeetingSeriesSchema.update.reset();
     });
 
     describe('#up', function () {
@@ -136,7 +146,7 @@ describe('Migrate Version 12', function () {
         let checkDetailHasProperties = (detail) => {
             expect(detail).to.have.ownProperty('createdInMinute');
             expect(detail).to.have.ownProperty('_id');
-        }
+        };
 
         it('sets the createdInMinutes and _id attribute for all topics in all minutes', function() {
             MigrateV12.up();

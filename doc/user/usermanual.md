@@ -184,9 +184,12 @@ TODO
 
 ## Finalize Meeting
 
+Select participants that were present before finalizing the Minute. You can use the "Mark all" checkbox for your convenience.
+
+
 ![Finalize Button](./figures/finalize_meeting_minutes.png)
 
-Make sure you haven't forgotten to select participants before finalizing the Minutes. A warning message will be shown, if no participants are selected. You can cancel finalizing and add them or confirm ans proceed without 
+Make sure you haven't forgotten to select participants before finalizing the Minutes. A warning message will be shown, if no participants are selected. You can cancel finalizing and add them or confirm and proceed without 
 participants:
 
 ![Warning_on_finalize](./figures/warning_no_participants_on_finalize.png)

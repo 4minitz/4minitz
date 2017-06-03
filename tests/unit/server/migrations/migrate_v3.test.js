@@ -4,8 +4,7 @@ import sinon from 'sinon';
 
 
 
-let MinutesCollection = {
-
+let MinutesSchema = {
     minutes: [],
 
     find: function() {
@@ -18,9 +17,9 @@ let MinutesCollection = {
         this.minutes.push(minute);
     }
 };
+MinutesSchema.getCollection = _ => MinutesSchema;
 
-let MeetingSeriesCollection = {
-
+let MeetingSeriesSchema = {
     series: [],
 
     find: function() {
@@ -33,12 +32,13 @@ let MeetingSeriesCollection = {
         this.series.push(aSeries);
     }
 };
+MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
 
 const {
     MigrateV3
     } = proxyquire('../../../../server/migrations/migrate_v3', {
-    '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-    '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true}
+    '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+    '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true}
 });
 
 describe('Migrate Version 3', function () {
@@ -78,15 +78,15 @@ describe('Migrate Version 3', function () {
             ]
         };
 
-        MinutesCollection.insert(minute);
-        MeetingSeriesCollection.insert(series);
+        MinutesSchema.insert(minute);
+        MeetingSeriesSchema.insert(series);
     });
 
     afterEach(function () {
-        MinutesCollection.update.reset();
-        MeetingSeriesCollection.update.reset();
-        MeetingSeriesCollection.series = [];
-        MinutesCollection.minutes = [];
+        MinutesSchema.update.reset();
+        MeetingSeriesSchema.update.reset();
+        MeetingSeriesSchema.series = [];
+        MinutesSchema.minutes = [];
     });
 
     describe('#up', function() {
@@ -95,7 +95,7 @@ describe('Migrate Version 3', function () {
             MigrateV3.up();
 
             expect(minute.topics[0].infoItems[0].isSticky, "isSticky flag should be added").to.be.false;
-            expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
+            expect(MinutesSchema.update.calledOnce, 'MinutesSchema.update should be called once').to.be.true;
         });
 
         it('adds the isSticky flag for each info item in meeting series collection', function () {
@@ -103,7 +103,7 @@ describe('Migrate Version 3', function () {
 
             expect(series.openTopics[0].infoItems[0].isSticky, "isSticky flag should be added of the infoItems in the openTopics array").to.be.false;
             expect(series.topics[0].infoItems[0].isSticky, "isSticky flag should be added of the infoItems in the topics array").to.be.false;
-            expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
+            expect(MinutesSchema.update.calledOnce, 'MinutesSchema.update should be called once').to.be.true;
         });
 
     });
@@ -120,7 +120,7 @@ describe('Migrate Version 3', function () {
             MigrateV3.down();
 
             expect(minute.topics[0].infoItems[0].isSticky, "isSticky flag should be removed").to.be.undefined;
-            expect(MinutesCollection.update.calledOnce, 'MinutesCollection.update should be called once').to.be.true;
+            expect(MinutesSchema.update.calledOnce, 'MinutesSchema.update should be called once').to.be.true;
         });
 
         it('removes the isSticky flag for each info item in meeting series collection', function () {
@@ -128,7 +128,7 @@ describe('Migrate Version 3', function () {
 
             expect(series.openTopics[0].infoItems[0].isSticky, "isSticky flag should be removed of the infoItems in the openTopics array").to.be.undefined;
             expect(series.topics[0].infoItems[0].isSticky, "isSticky flag should be removed of the infoItems in the topics array").to.be.undefined;
-            expect(MeetingSeriesCollection.update.calledOnce, 'MeetingSeriesCollection.update should be called once').to.be.true;
+            expect(MeetingSeriesSchema.update.calledOnce, 'MeetingSeriesSchema.update should be called once').to.be.true;
         });
 
     });

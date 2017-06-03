@@ -1,29 +1,26 @@
-import { MinutesCollection } from '/imports/collections/minutes_private';
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private';
+import { MinutesSchema } from '/imports/collections/minutes.schema';
+import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 
 function saveSeries(series) {
-    MeetingSeriesCollection.update(
-        series._id,
-        {
+    MeetingSeriesSchema.getCollection().update(
+        series._id, {
             $set: {
                 'topics': series.topics,
                 'openTopics': series.openTopics
             }
-        },
-        { bypassCollection2: true }
+        }
     );
 }
 
 function saveMinutes(minutes) {
     // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-    MinutesCollection.update(
-        minutes._id,
-        {
+    MinutesSchema.getCollection().update(
+        minutes._id, {
             $set: {
                 'topics': minutes.topics,
             }
-        },
-        { bypassCollection2: true }
+        }
     );
 }
 
@@ -40,16 +37,16 @@ class MigrateSeriesUp {
     }
 
     run() {
-        let minutes = this.series.firstMinutes();
+        let minutes = MinutesFinder.firstMinutesOfMeetingSeries(this.series);
         while (minutes) {
-            let prevMinutes = minutes.previousMinutes();
+            let prevMinutes = MinutesFinder.previousMinutes(minutes);
             if (prevMinutes){
                 // find topics/items/details that occur in a current minute, but were created in a prev. minute
                 this._updatePreviousCreatedTopicItemDetails(minutes,prevMinutes);
             }
             minutes = this._updateTopicsOfMinutes(minutes);
             saveMinutes(minutes);
-            minutes = minutes.nextMinutes();
+            minutes = MinutesFinder.nextMinutes(minutes);
         }
         this._updateTopicsOfSeries();
         saveSeries(this.series);
@@ -156,19 +153,19 @@ export class MigrateV12 {
 
     static up() {
         console.log('% Progress - updating all topics. This might take several minutes...');
-        let allSeries = MeetingSeriesCollection.find();
+        let allSeries = MeetingSeriesSchema.getCollection().find();
         allSeries.forEach(series => {
             (new MigrateSeriesUp(series)).run();
         });
     }
 
     static down() {
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             series.topics = MigrateV12._downgradeTopics(series.topics);
             series.openTopics = MigrateV12._downgradeTopics(series.openTopics);
             saveSeries(series);
         });
-        MinutesCollection.find().forEach(minutes => {
+        MinutesSchema.getCollection().find().forEach(minutes => {
             minutes.topics = MigrateV12._downgradeTopics(minutes.topics);
             saveMinutes(minutes);
         });

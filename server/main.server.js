@@ -4,15 +4,18 @@ import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import '/imports/gitversioninfo'
 import '/imports/config/accounts';
+import '/imports/config/EMailTemplates';
 
 import '/imports/broadcastmessage';
 import '/imports/minutes';
 import '/imports/meetingseries';
-import {BroadcastMessageCollection} from '/imports/collections/broadcastmessage_private';
+import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
 import '/server/ldap';
+import '/server/sendResetPasswordMail';
 import '/imports/statistics';
 import '/imports/collections/attachments_private';
 
@@ -69,11 +72,11 @@ Meteor.startup(() => {
 
     // If we find no admin broadcast messages, we create an INactive one for
     // easy re-activating.
-    if (BroadcastMessageCollection.find().count() === 0) {
+    if (BroadcastMessageSchema.find().count() === 0) {
         let message = 'Warning: 4Minitz will be down for maintenance in *4 Minutes*. ' +
             'Downtime will be about 4 Minutes. Just submit open dialogs. ' +
             'Then nothing is lost. You may finalize meetings later.';
-        BroadcastMessageCollection.insert({
+        BroadcastMessageSchema.insert({
             text: message,
             isActive: false,
             createdAt: new Date(),
