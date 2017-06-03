@@ -4,6 +4,7 @@ import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import '/imports/gitversioninfo'
 import '/imports/config/accounts';
 import '/imports/config/EMailTemplates';
 

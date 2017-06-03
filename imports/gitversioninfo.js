@@ -12,7 +12,7 @@ try {
 
 
 
-VERSION_INFO = {
+export const VERSION_INFO = {
     tag: packagejson.version ? packagejson.version : '???',
     branch: packagejson['4minitz']['4m_branch'] ? packagejson['4minitz']['4m_branch'] : '???',
     commitlong: packagejson['4minitz']['4m_commitlong'] ? packagejson['4minitz']['4m_commitlong'] : '???',
@@ -22,7 +22,8 @@ VERSION_INFO = {
 
 Meteor.methods({
     gitVersionInfo: function () {
-        if(this.userId) {   // #Security: not logged in users should not know version of server
+        // #Security: not logged in users should not know version of server
+        if(this.userId) {
             return VERSION_INFO;
         } else {
             return undefined;
@@ -43,9 +44,6 @@ Meteor.methods({
             if (VERSION_INFO.branch.startsWith('Detached')) {
                 VERSION_INFO.branch = 'Specific Commit';
             }
-
-            console.log('git version: '+JSON.stringify(VERSION_INFO, null, 4));
-
         } catch (e) {
             // silently swallow git-rev-sync errors
             // we have version fallback info from package.json
@@ -55,3 +53,4 @@ Meteor.methods({
 
 // initialize versioning once on server launch
 Meteor.call('gitVersionInfoUpdate');
+console.log('Version: '+JSON.stringify(VERSION_INFO, null, 4));

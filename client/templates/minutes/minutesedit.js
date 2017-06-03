@@ -7,6 +7,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Minutes } from '/imports/minutes';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
 import { User, userSettings } from '/imports/users';
@@ -377,12 +378,12 @@ Template.minutesedit.helpers({
 
     previousMinutes : function() {
         let aMin = new Minutes(_minutesID);
-        return aMin.previousMinutes();
+        return MinutesFinder.previousMinutes(aMin);
     },
 
     nextMinutes : function() {
         let aMin = new Minutes(_minutesID);
-        return aMin.nextMinutes();
+        return MinutesFinder.nextMinutes(aMin);
     }
 });
 

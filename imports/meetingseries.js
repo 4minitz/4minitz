@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { MeetingSeriesSchema } from './collections/meetingseries.schema';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 import { Minutes } from './minutes';
 import { Topic } from './topic';
 import { UserRoles } from './userroles';
@@ -49,6 +50,10 @@ export class MeetingSeries {
 
     // ################### object methods
 
+    getRecord() {
+        return MeetingSeriesSchema.findOne(this._id);
+    }
+
     async removeMinutesWithId(minutesId) {
         console.log('removeMinutesWithId: ' + minutesId);
 
@@ -83,7 +88,7 @@ export class MeetingSeries {
 
         // The new Minutes object should be dated after the latest existing one
         let newMinutesDate = new Date();
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         if (lastMinutes && formatDateISO8601(newMinutesDate) <= lastMinutes.date) {
             let lastMinDate = moment(lastMinutes.date);
             newMinutesDate = lastMinDate.add(1, 'days').toDate();
@@ -115,10 +120,6 @@ export class MeetingSeries {
         min.save(optimisticUICallback, serverCallback);
     }
 
-    getAllMinutes () {
-        return Minutes.findAllIn(this.minutes);
-    }
-
     hasMinute(id) {
         for (let minuteId of this.minutes) {
             if (minuteId === id) {
@@ -135,36 +136,6 @@ export class MeetingSeries {
         }
     }
 
-    /**
-     * Fetches the first minutes of this series.
-     * @returns {Minutes|false}
-     */
-    firstMinutes() {
-        const oldMinutesFirst = false;
-        return this._getCornerMintues(1, oldMinutesFirst);
-    }
-
-    lastMinutes () {
-        const lastMinutesFirst = true;
-        return this._getCornerMintues(1, lastMinutesFirst);
-    }
-
-    secondLastMinutes () {
-        const lastMinutesFirst = true;
-        return this._getCornerMintues(2, lastMinutesFirst);
-    }
-
-    _getCornerMintues(offset, lastMinutesFirst) {
-        if (!this.minutes || this.minutes.length < offset) {
-            return false;
-        }
-        let min = Minutes.findAllIn(this.minutes, offset, lastMinutesFirst).fetch();
-        if (min && min.length === offset) {
-            return min[offset-1];
-        }
-        return false;
-    }
-
     async updateLastMinutesDate (callback) {
         callback = callback || function () {};
 
@@ -179,7 +150,7 @@ export class MeetingSeries {
     async updateLastMinutesDateAsync() {
         let lastMinutesDate;
 
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         if (lastMinutes) {
             lastMinutesDate = lastMinutes.date;
         }
@@ -202,18 +173,18 @@ export class MeetingSeries {
      * @param minutesId
      */
     isUnfinalizeMinutesAllowed(minutesId) {
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
 
         return (lastMinutes && lastMinutes._id === minutesId);
     }
 
     addNewMinutesAllowed() {
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         return (!lastMinutes || lastMinutes.isFinalized);
     }
 
     _getDateOfLatestMinute() {
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
 
         if (lastMinutes) {
             return new Date(lastMinutes.date);
@@ -319,7 +290,7 @@ export class MeetingSeries {
         Minutes.syncVisibility(this._id, this.visibleFor);
 
         // sync informed only to *not finalized* minutes (do not change the past!)
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         if (lastMinutes && !lastMinutes.isFinalized) {
             lastMinutes.informedUsers = newInformedUsersArray;
             lastMinutes.save();
@@ -430,8 +401,8 @@ export class MeetingSeries {
     // ################### server methods: shall only be called within a meteor method
 
     server_unfinalizeLastMinute() {
-        let minutes = this.lastMinutes();
-        let secondLastMinute = this.secondLastMinutes();
+        let minutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
+        let secondLastMinute = MinutesFinder.secondLastMinutesOfMeetingSeries(this);
         if (secondLastMinute) {
             // all fresh created infoItems have to be deleted from the topic list of this series
             this.topics.forEach(topicDoc => {
@@ -450,7 +421,7 @@ export class MeetingSeries {
     }
 
     server_finalizeLastMinute() {
-        this._copyTopicsToSeries(this.lastMinutes());
+        this._copyTopicsToSeries(MinutesFinder.lastMinutesOfMeetingSeries(this));
     }
 
     // ################### private methods
