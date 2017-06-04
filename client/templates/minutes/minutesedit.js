@@ -10,7 +10,6 @@ import { Minutes } from '/imports/minutes';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
-import { User, userSettings } from '/imports/users';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -367,11 +366,6 @@ Template.minutesedit.helpers({
         }
     },
 
-    showQuickHelp: function() {
-        const user = new User();
-        return user.getSetting(userSettings.showQuickHelp.meeting, true);
-    },
-
     minutesPath: function(minutesId) {
         return Blaze._globalHelpers.pathFor('/minutesedit/:_id', { _id:  minutesId });
     },
@@ -388,11 +382,6 @@ Template.minutesedit.helpers({
 });
 
 Template.minutesedit.events({
-    'click #btnHideHelp': function () {
-        const user = new User();
-        user.storeSetting(userSettings.showQuickHelp.meeting, false);
-    },
-
     'click #checkHideClosedTopics': function(evt) {
         let isChecked = evt.target.checked;
         filterClosedTopics.set(isChecked);
