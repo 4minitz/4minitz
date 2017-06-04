@@ -10,19 +10,7 @@
       {{/each}}
     </ul>
 
-    {{#if showQuickHelp}}
-        <div class="help panel panel-default">
-            <div class="panel-heading">Quick Help</div>
-            <div class="panel-body">
-            <p>With 4Minitz you can create minutes for meetings.</p>
-            <p>First create a new meeting series and invite some other users.<br>
-                Then create meeting minutes on multiple dates for your meeting series.</p>
-                {{#unless currentUser.isDemoUser}}
-                    <a href="#" class="hidehelp">OK, hide</a>
-                {{/unless}}
-            </div>
-        </div>
-    {{/if}}
+    {{> quickHelp context='meetingSeriesList' contentTmpl='quickHelpMeetingSeriesList'}}
 </template>
 
 
