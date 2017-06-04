@@ -5,7 +5,6 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { MeetingSeries } from '/imports/meetingseries';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from '/imports/userroles';
-import { User, userSettings } from '/imports/users';
 
 import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
@@ -55,11 +54,6 @@ Template.meetingSeriesDetails.helpers({
         return new MeetingSeries(_meetingSeriesID);
     },
 
-    showQuickHelp: function() {
-        const user = new User();
-        return user.getSetting(userSettings.showQuickHelp.meetingSeries, true);
-    },
-
     isTabActive: function (tabId) {
         return (Template.instance().activeTabId.get() === tabId) ? 'active' : '';
     },
@@ -101,10 +95,6 @@ Template.meetingSeriesDetails.helpers({
 });
 
 Template.meetingSeriesDetails.events({
-    'click #btnHideHelp': function () {
-        const user = new User();
-        user.storeSetting(userSettings.showQuickHelp.meetingSeries, false);
-    },
     'click .nav-tabs li': function(event, tmpl) {
         let currentTab = $(event.target).closest('li');
 
