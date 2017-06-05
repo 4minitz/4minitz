@@ -4,7 +4,7 @@ Template.quickHelp.helpers({
     isQuickHelpVisible() {
         const quickHelpContext = Template.instance().data.context;
         const user = new User();
-        const isDemoUser = user.isDemoUser;
+        const isDemoUser = user.user.isDemoUser;
         return isDemoUser || user.getSetting(userSettings.showQuickHelp[quickHelpContext], true);
     }
 });
