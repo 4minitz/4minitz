@@ -31,10 +31,10 @@
                                data-toggle="collapse"
                                href="#"
                                style="color: grey; text-decoration: none;">
-                                {{#if collapseState }}
-                                    <span class="glyphicon glyphicon-triangle-right collapseExpandDetails"></span>
+                                {{#if collapseState}}
+                                    <span id="collapseExpandFalse" class="glyphicon glyphicon-triangle-bottom collapseExpandDetails"></span>
                                 {{else}}
-                                    <span class="glyphicon glyphicon-triangle-bottom collapseExpandDetails"></span>
+                                    <span id="collapseExpandTrue" class="glyphicon glyphicon-triangle-right collapseExpandDetails"></span>
                                 {{/if}}
                                 <label for="id_item_detailInput" class="control-label" style="color: teal; cursor: pointer;">Add new details</label>
                             </a>

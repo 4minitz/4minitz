@@ -156,7 +156,7 @@ The menu entries in the "three dot" info item menu allow the following operation
   
  
 ### Action Items
-Action Items are children of topics and will be sent to the entered responsible(s) in a seperate mail when the moderator finalizea the meeting minutes.
+Action Items are children of topics and will be sent to the entered responsible(s) in a separate mail when the moderator finalizes the meeting minutes.
 
 An action item will be propagated together with its parent topic to the next meeting unless the action item is checked as "done".
 
@@ -173,7 +173,9 @@ The menu entries in the "three dot" action item menu allow the following operati
 * **"Delete Item"** will delete this item after a security question. Action Items from a previous meeting can not be deleted - they can only be set to "done". So you will get rid of them in the next meeting.
 
 ### Adding Details
-By clicking the "Add Details" menu on Information Items and Action Items it is possible to add details to them.
+Details can be added directly in the dialog of new Information Items and Action Items.
+
+If the Item already exists it is possible to add details to them by clicking the "Add Details" menu on Information Items and Action Items.
 
 In the details editor it is possible to use markdown syntax to create rich text formatting like headings, bold, italic, bullet lists, etc.
 

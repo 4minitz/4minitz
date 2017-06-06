@@ -10,6 +10,7 @@ import { Topic } from '/imports/topic';
 import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { Label } from '/imports/label';
+import { User, userSettings } from '/imports/users';
 
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import { currentDatePlusDeltaDays } from '/imports/helpers/date';
@@ -18,7 +19,6 @@ import { emailAddressRegExpTest } from '/imports/helpers/email';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 
-
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
 Session.setDefault('topicInfoItemType', 'infoItem');
@@ -26,12 +26,16 @@ Session.setDefault('topicInfoItemType', 'infoItem');
 let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for performance reasons!
 
+collapseState = new ReactiveVar(false);
+
 Template.topicInfoItemEdit.onCreated(function () {
     _minutesID = this.data;
     console.log('Template topicEdit created with minutesID '+_minutesID);
     let aMin = new Minutes(_minutesID);
     _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
-    this.collapseState = new ReactiveVar(false);
+
+    const user = new User();
+    this.collapseState = new ReactiveVar(user.getSetting(userSettings.showAddDetail['topicInfoItemEdit'], true));
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
@@ -178,7 +182,8 @@ Template.topicInfoItemEdit.helpers({
     },
 
     collapseState: function() {
-        return Template.instance().collapseState.get();
+        const user = new User();
+        return user.getSetting(userSettings.showAddDetail['topicInfoItemEdit'], true);
     }
 });
 
@@ -277,6 +282,14 @@ Template.topicInfoItemEdit.events({
         tmpl.find('#id_item_duedateInput').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
 
+        const user = new User();
+        tmpl.collapseState.set(user.getSetting(userSettings.showAddDetail['topicInfoItemEdit'], true));
+
+        if(tmpl.collapseState.get() === false) {
+            let detailsArea = tmpl.find('#id_item_detailInput');
+            detailsArea.style.display = 'none';
+        }
+
         // set type: edit existing item
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
@@ -360,9 +373,13 @@ Template.topicInfoItemEdit.events({
     'click #btnExpandCollapse': function (evt, tmpl) {
         evt.preventDefault();
 
-        let detailsArea = document.getElementById('id_item_detailInput');
+        let detailsArea = tmpl.find('#id_item_detailInput');
         detailsArea.style.display = (detailsArea.style.display ==='none') ? 'inline-block' : 'none';
+
         tmpl.collapseState.set(!tmpl.collapseState.get());
+
+        const user = new User();
+        user.storeSetting(userSettings.showAddDetail['topicInfoItemEdit'], tmpl.collapseState.get());
     },
 
     'keyup #id_item_detailInput': function (evt, tmpl) {

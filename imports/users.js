@@ -32,5 +32,9 @@ export const userSettings = {
         meetingSeriesList: 'showQuickHelp_meetingSeriesList',
         meetingSeries:     'showQuickHelp_meetingSeries',
         meeting:           'showQuickHelp_meeting'
+    },
+
+    showAddDetail: {
+        topicInfoItemEdit: 'showAddDetail_topicInfoItemEdit'
     }
 };
