@@ -113,6 +113,10 @@ Template.meetingSeriesEdit.events({
     },
 
     'submit #frmDlgEditMeetingSeries': function(evt, tmpl) {
+        function sendEmail (userId, oldRole, newRole, meetingSeriesId) {
+            Meteor.call('meetingseries.sendRoleChange', userId, oldRole, newRole, meetingSeriesId);
+        }
+
         evt.preventDefault();
         let saveButton = $('#btnMeetingSeriesSave');
         let cancelButton = $('btnMeetinSeriesEditCancel');
@@ -139,7 +143,6 @@ Template.meetingSeriesEdit.events({
             return;
         }
 
-
         let usersBeforeEdit = this.visibleFor.concat(this.informedUsers);
         let usersWithRolesAfterEdit = Template.instance().userEditConfig.users.find().fetch();
         let allVisiblesArray = [];
@@ -147,12 +150,14 @@ Template.meetingSeriesEdit.events({
         let meetingSeriesId = this._id;
 
         if (notifyOnRoleChange) {
-            let usersWithRolesAfterEditForEmails = usersWithRolesAfterEdit.slice();
+            let usersWithRolesAfterEditForEmails = usersWithRolesAfterEdit.slice()
+            let moderator = new UserRoles(Meteor.userId());;
 
             for (let i in usersBeforeEdit) {
                 let oldUserId = usersBeforeEdit[i];
                 let oldUserWithRole = new UserRoles(oldUserId);
                 let oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
+
                 // Search in after edit users whether the users still exists
                 let matchingUser = usersWithRolesAfterEditForEmails.find(function (user) {
                     return oldUserWithRole._userId === user._idOrg;
@@ -160,15 +165,17 @@ Template.meetingSeriesEdit.events({
 
                 // If he does not, his role was removed
                 if (matchingUser === undefined) {
-                    Meteor.call('meetingseries.sendRoleChange', oldUserWithRole.getUser()._id, oldUserRole, undefined, meetingSeriesId);
+                    if(oldUserWithRole._userId != moderator._userId) {
+                        sendEmail(oldUserWithRole.getUser()._id, oldUserRole, undefined, meetingSeriesId);
+                    }
                 } else {
-                    let index = usersWithRolesAfterEditForEmails.indexOf(matchingUser);
                     let newUserWithRole = new UserRoles(matchingUser._idOrg);
                     let newUserRole = matchingUser.roles[meetingSeriesId][0];
+                    let index = usersWithRolesAfterEditForEmails.indexOf(matchingUser);
 
                     // Roles have changed
                     if (newUserRole !== oldUserRole) {
-                        Meteor.call('meetingseries.sendRoleChange', newUserWithRole.getUser()._id, oldUserRole, newUserRole, meetingSeriesId);
+                        sendEmail(newUserWithRole.getUser()._id, oldUserRole, newUserRole, meetingSeriesId);
                     }
                     usersWithRolesAfterEditForEmails.splice(index, 1);
                 }
@@ -177,7 +184,9 @@ Template.meetingSeriesEdit.events({
             for (let i in usersWithRolesAfterEditForEmails) {
                 let newUser = usersWithRolesAfterEditForEmails[i];
                 let newUserRole = newUser.roles[meetingSeriesId][0];
-                Meteor.call('meetingseries.sendRoleChange', newUser._idOrg, undefined, newUserRole, meetingSeriesId);
+                if(moderator._userId != newUser._idOrg) {
+                    sendEmail(newUser._idOrg, undefined, newUserRole, meetingSeriesId);
+                }
             }
         }
 

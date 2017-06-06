@@ -22,7 +22,7 @@ export class RoleChangeMailHandler {
 
     send() {
         let emailFrom = this._moderator.emails;
-        let adminFrom = (emailFrom && emailFrom.length > 0)
+        let modFrom = (emailFrom && emailFrom.length > 0)
             ? emailFrom[0].address
             : GlobalSettings.getDefaultEmailSenderAddress();
         let emailTo = this._user.emails[0].address;
@@ -53,12 +53,12 @@ export class RoleChangeMailHandler {
 
         // generate mail
         if (this._user.emails && this._user.emails.length > 0) {
-            let mailer = MailFactory.getMailer(adminFrom, emailTo);
+            let mailer = MailFactory.getMailer(modFrom, emailTo);
             mailer.setSubject("Your role changed");
             mailer.setText("Hello " + userName + ", \n"+
-                "Your was changed in the meeting series \"" + meetingName + "\" (" + GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeriesId) + ")\n"+
-                "Your old role was\t\t : " + this._oldRole + "\n"+
-                "Your new role is\t\t : " + this._newRole + "\n"+
+                "Your role was changed in the meeting series \"" + meetingName + "\" (" + GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeriesId) + ")\n"+
+                "Your old role was           : " + this._oldRole + "\n"+
+                "Your new role is            : " + this._newRole + "\n"+
                 "The change was performed by : " + this._moderator.username + "\n"  +
 
                 "\n" +

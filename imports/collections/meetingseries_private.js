@@ -121,7 +121,7 @@ Meteor.methods({
         if(userRole.isModeratorOf(meetingSeriesId)){
             if (!GlobalSettings.isEMailDeliveryEnabled()) {
                 console.log('Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file');
-                throw new Meteor.Error('Cannot send agenda', 'Email delivery is not enabled in your 4minitz installation.');
+                throw new Meteor.Error('Cannot send role change mail', 'Email delivery is not enabled in your 4minitz installation.');
             }
 
             if(Meteor.isServer) {

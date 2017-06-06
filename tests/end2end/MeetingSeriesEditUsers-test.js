@@ -498,7 +498,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EApp.loginUser();
     });
 
-    it('ensures participants gets E-Mail on role change', function () {
+    it('ensures participants gets E-Mail on role change @watch', function () {
          // Clear mails
         E2EMails.resetSentMailsDb();
 
@@ -509,8 +509,7 @@ describe('MeetingSeries Editor Users', function () {
 
         //check emais
         let recipients = E2EMails.getAllRecipients();
-        // when the meeting is created an email is sent to the creator of the meeting as well. So we expect 2.
-        expect(recipients).to.have.length(2);
+        expect(recipients).to.have.length(1);
     });
 
     it('ensures participants does not get an E-Mail if roles stay the same', function () {
