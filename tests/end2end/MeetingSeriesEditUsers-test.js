@@ -442,6 +442,7 @@ describe('MeetingSeries Editor Users', function () {
     // this test does only make sense if mail delivery is enabled
     if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
         it('ensures informed user gets minutes email', function () {
+            E2EMails.resetSentMailsDb();
             let currentUser = E2EApp.getCurrentUser();
             let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
             E2EMeetingSeriesEditor.disableEmailForRoleChange();
