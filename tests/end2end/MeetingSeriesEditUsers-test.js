@@ -496,5 +496,40 @@ describe('MeetingSeries Editor Users', function () {
 
         E2EApp.loginUser();
     });
-    
+
+    it('ensures participants gets E-Mail on role change', function () {
+         // Clear mails
+        E2EMails.resetSentMailsDb();
+
+         // Add user
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+        //check emais
+        let recipients = E2EMails.getAllRecipients();
+        // when the meeting is created an email is sent to the creator of the meeting as well. So we expect 2.
+        expect(recipients).to.have.length(2);
+    });
+
+    it('ensures participants does not get an E-Mail if roles stay the same', function () {
+         // Clear mails
+         E2EMails.resetSentMailsDb();
+
+         // Add user
+         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+         E2EMeetingSeriesEditor.disableEmailForRoleChange();
+         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+         // open the dialog without saving roles and save
+         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+         //check emails
+         let recipients = E2EMails.getAllRecipients();
+         expect(recipients).to.have.length(0);
+    });
+
 });
