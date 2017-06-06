@@ -7,10 +7,14 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
 import { MinutesFinder } from "/imports/services/minutesFinder";
+import { Minutes } from '/imports/minutes';
 
 
 Template.meetingSeriesEdit.onCreated(function() {
     let thisMeetingSeriesID = FlowRouter.getParam('_id');
+    //Check if this dialog was not called by a meetingseries but by a minute
+    if (!MeetingSeries.findOne(thisMeetingSeriesID))
+        thisMeetingSeriesID = Minutes.findOne(thisMeetingSeriesID).parentMeetingSeriesID();
 
     // create client-only collection for storage of users attached
     // to this meeting series as input <=> output for the user editor

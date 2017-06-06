@@ -1,5 +1,7 @@
 <template name="minutesEditParticipants">
     <div class="panel default-margin-top">
+        <!--Include modal dialog for edit meeting series -->
+        {{> meetingSeriesEdit parentMeetingSeries}} 
         <div class="panel-heading bright">
             <label for="id_participants" id="btnParticipantsExpand">
                 {{#if isParticipantsExpanded}}
@@ -9,6 +11,11 @@
                 {{/if}}
                 Participants (& Informed)
             </label>
+            {{#if isEditable}}
+                <a href="#" id="btnEditParticipants" class="pull-right" data-toggle="modal" data-target="#dlgEditMeetingSeries">
+                    <span class="glyphicon glyphicon-pencil grey-icon hidden-print"></span>
+                </a>
+            {{/if}}
         </div>
 
         <div class="panel-body force-no-padding-top">
