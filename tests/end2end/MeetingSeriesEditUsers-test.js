@@ -444,6 +444,7 @@ describe('MeetingSeries Editor Users', function () {
         it('ensures informed user gets minutes email', function () {
             let currentUser = E2EApp.getCurrentUser();
             let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+            E2EMeetingSeriesEditor.disableEmailForRoleChange();
             E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
             E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
@@ -495,5 +496,5 @@ describe('MeetingSeries Editor Users', function () {
 
         E2EApp.loginUser();
     });
-
+    
 });

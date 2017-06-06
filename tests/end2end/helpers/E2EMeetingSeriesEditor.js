@@ -4,10 +4,10 @@ import { E2EMeetingSeries } from './E2EMeetingSeries'
 
 
 export class E2EMeetingSeriesEditor {
-    
-    static openMeetingSeriesEditor (aProj, aName, panelName = "base", skipGotoMeetingSeries) {
+
+    static openMeetingSeriesEditor(aProj, aName, panelName = "base", skipGotoMeetingSeries) {
         // Maybe we can save "gotoStartPage => gotoMeetingSeries"?
-        if (! skipGotoMeetingSeries) {
+        if (!skipGotoMeetingSeries) {
             E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
         }
 
@@ -28,7 +28,7 @@ export class E2EMeetingSeriesEditor {
             else if (panelName == "labels") {
                 panelSelector = "#btnShowHideLabels";
             } else {
-                throw "Unsupported panelName: "+panelName;
+                throw "Unsupported panelName: " + panelName;
             }
             browser.waitForExist(panelSelector);
             browser.click(panelSelector);
@@ -37,7 +37,7 @@ export class E2EMeetingSeriesEditor {
     };
 
     // assumes an open meeting series editor
-    static addUserToMeetingSeries (username, role) {
+    static addUserToMeetingSeries(username, role) {
         browser.setValue('#edt_AddUser', username);
         browser.keys(['Enter']);
 
@@ -74,7 +74,7 @@ export class E2EMeetingSeriesEditor {
      * @param colNumDelete  in which 0-based table column is the delete button?
      * @returns {{}}
      */
-    static getUsersAndRoles (colNumUser, colNumRole, colNumDelete) {
+    static getUsersAndRoles(colNumUser, colNumRole, colNumDelete) {
         // grab all user rows
         const elementsUserRows = browser.elements('#id_userRow');
         let usersAndRoles = {};
@@ -84,7 +84,10 @@ export class E2EMeetingSeriesEditor {
         // except for the current user, who has no <select>
         let usrRoleSelected = [];
         // ensure we get an array here - even in case only one value returned from getValue()!
-        try {usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector)); } catch(e) {}
+        try {
+            usrRoleSelected = usrRoleSelected.concat(browser.getValue(selector));
+        } catch (e) {
+        }
 
         let selectNum = 0;
         // the "current user" is read-only and has no <select>
@@ -95,27 +98,29 @@ export class E2EMeetingSeriesEditor {
             let usrName = browser.elementIdText(elementsTD.value[colNumUser].ELEMENT).value;
             let elementsDelete = browser.elementIdElements(elementsTD.value[colNumDelete].ELEMENT, "#btnDeleteUser");
             let usrIsDeletable = elementsDelete.value.length == 1;
-            let usrDeleteElemId = usrIsDeletable? elementsDelete.value[0].ELEMENT : "0";
+            let usrDeleteElemId = usrIsDeletable ? elementsDelete.value[0].ELEMENT : "0";
 
             // for the current user usrRole already contains his read-only role string "Moderator"
             let usrRole = browser.elementIdText(elementsTD.value[colNumRole].ELEMENT).value;
-            let usrIsReadOnly  = true;
+            let usrIsReadOnly = true;
 
             // For all other users we must get their role from the usrRoleSelected array
             // Here we try to find out, if we look at a <select> UI element...
             // Chrome: with '\n' linebreaks we detect a <select> for this user!
             // Phantom.js: Has no linebreaks between <option>s, it just concatenates like "InvitedModerator"
             // so we go for "usrRole.length>10" to detect a non-possible role text...
-            if (usrRole.indexOf("\n") >= 0 || usrRole.length>10) {
+            if (usrRole.indexOf("\n") >= 0 || usrRole.length > 10) {
                 usrRole = usrRoleSelected[selectNum];
                 usrIsReadOnly = false;
                 selectNum += 1;
             }
 
-            usersAndRoles[usrName] = {  role: usrRole,
+            usersAndRoles[usrName] = {
+                role: usrRole,
                 isReadOnly: usrIsReadOnly,
                 isDeletable: usrIsDeletable,
-                deleteElemId: usrDeleteElemId};
+                deleteElemId: usrDeleteElemId
+            };
         }
         // console.log(usersAndRoles);
 
@@ -155,5 +160,11 @@ export class E2EMeetingSeriesEditor {
             }
         }
     }
+
+    static disableEmailForRoleChange() {
+        browser.waitForVisible('#labelRoleChange');
+        browser.click('#labelRoleChange');
+    }
+
 
 }

@@ -121,7 +121,7 @@ Template.meetingSeriesEdit.events({
 
         let aProject = tmpl.find('#id_meetingproject').value;
         let aName = tmpl.find('#id_meetingname').value;
-        let notifyOnRoleChange = tmpl.find("#btnRoleChange").checked;
+        let notifyOnRoleChange = tmpl.find("#checkBoxRoleChange").checked;
 
         // validate form and show errors - necessary for browsers which do not support form-validation
         let projectNode = tmpl.$('#id_meetingproject');
