@@ -140,19 +140,6 @@ let resizeTextarea = (element) => {
 };
 
 Template.topicInfoItemList.helpers({
-    triggerAddDetails: function(index) {
-        let itemId = Session.get('topicInfoItem.triggerAddDetailsForItem');
-        const tmpl = Template.instance();
-        if (itemId && itemId === tmpl.data.items[index]._id) {
-            Session.set('topicInfoItem.triggerAddDetailsForItem', null);
-            /*Meteor.setTimeout(() => {
-                addNewDetails(tmpl, index).catch(handleError);
-            }, 100); // we need this delay otherwise the input field will be made hidden immediately*/
-        }
-        // do not return anything! This will be rendered on the page!
-        return '';
-    },
-
     topicStateClass: function (index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;

@@ -28,6 +28,7 @@
                         {{#unless isEditMode}}
                         <div class="form-group form-group-labels">
                             <a id="btnExpandCollapse" class="expandDetails hidden-print expand-collapse-triangle"
+                               tabindex="-1"
                                data-toggle="collapse"
                                href="#"
                                style="color: grey; text-decoration: none;">
@@ -36,12 +37,12 @@
                                 {{else}}
                                     <span id="collapseExpandTrue" class="glyphicon glyphicon-triangle-right collapseExpandDetails"></span>
                                 {{/if}}
-                                <label for="id_item_detailInput" class="control-label" style="color: teal; cursor: pointer;">Add new details</label>
+                                <label for="id_item_detailInput" class="control-label" style="color: teal; cursor: pointer;">Details</label>
                             </a>
                             <span class="pull-right pull-right-icons detailActions detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"
                                       style="margin-top: 11px;"></span>
                             <textarea id="id_item_detailInput"
-                                      rows="1"
+                                      rows="2"
                                       class="form-control detailInput"
                                       style="font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
                                       placeholder="You may use Markdown to edit."></textarea>

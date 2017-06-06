@@ -35,7 +35,7 @@ Template.topicInfoItemEdit.onCreated(function () {
     _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 
     const user = new User();
-    this.collapseState = new ReactiveVar(user.getSetting(userSettings.showAddDetail['topicInfoItemEdit'], true));
+    this.collapseState = new ReactiveVar(user.getSetting(userSettings.showAddDetail, true));
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
@@ -162,8 +162,12 @@ let resizeTextarea = (element) => {
     occurrences = (textAreaValue.match(newLineRegEx) || []).length;
 
     //limit of textarea size
-    if(occurrences < 15)
-        element.attr('rows', occurrences+1);
+    if(occurrences < 15) {
+        if (occurrences === 0)
+            element.attr('rows', occurrences + 2);
+        else
+            element.attr('rows', occurrences + 1);
+    }
 };
 
 Template.topicInfoItemEdit.helpers({
@@ -183,7 +187,7 @@ Template.topicInfoItemEdit.helpers({
 
     collapseState: function() {
         const user = new User();
-        return user.getSetting(userSettings.showAddDetail['topicInfoItemEdit'], true);
+        return user.getSetting(userSettings.showAddDetail, true);
     }
 });
 
@@ -258,9 +262,6 @@ Template.topicInfoItemEdit.events({
             tmpl.find('#id_item_detailInput').value = "";
         }
         $('#dlgAddInfoItem').modal('hide');
-        if (!itemAlreadyExists) {
-            Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
-        }
     },
 
     // will be called before the dialog is shown
@@ -283,7 +284,7 @@ Template.topicInfoItemEdit.events({
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
 
         const user = new User();
-        tmpl.collapseState.set(user.getSetting(userSettings.showAddDetail['topicInfoItemEdit'], true));
+        tmpl.collapseState.set(user.getSetting(userSettings.showAddDetail, true));
 
         if(tmpl.collapseState.get() === false) {
             let detailsArea = tmpl.find('#id_item_detailInput');
@@ -379,7 +380,7 @@ Template.topicInfoItemEdit.events({
         tmpl.collapseState.set(!tmpl.collapseState.get());
 
         const user = new User();
-        user.storeSetting(userSettings.showAddDetail['topicInfoItemEdit'], tmpl.collapseState.get());
+        user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
     },
 
     'keyup #id_item_detailInput': function (evt, tmpl) {

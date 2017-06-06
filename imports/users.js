@@ -34,7 +34,5 @@ export const userSettings = {
         meeting:           'showQuickHelp_meeting'
     },
 
-    showAddDetail: {
-        topicInfoItemEdit: 'showAddDetail_topicInfoItemEdit'
-    }
+    showAddDetail: 'showAddDetail'
 };
