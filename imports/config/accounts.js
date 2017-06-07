@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 // For possible account configuration see:
 // https://github.com/meteor-useraccounts/core/blob/master/Guide.md#configuration-api
@@ -48,6 +49,19 @@ AccountsTemplates.addFields([
     }
 ]);
 
+let submitHookFunction = function(error, state){
+    if (state === "signUp") {
+        if (error) {
+            window.location.href = Meteor.absoluteUrl("login");
+        }
+    }
+    else if (state === "signIn") {
+        if (!error) {
+            FlowRouter.go('/');
+        }
+    }
+};
+
 if (Meteor.isServer) {
     // #Security: Do not allow registering by anonymous visitors. Configurable via settings.json
     AccountsTemplates.configure({
@@ -65,7 +79,9 @@ if (Meteor.isServer) {
 
         showForgotPasswordLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showForgotPasswordLink
             ? Meteor.settings.email.showForgotPasswordLink
-            : false)
+            : false),
+
+        onSubmitHook: submitHookFunction
     });
 
     // #Security: Do not allow "isInactive" users to log in
@@ -75,7 +91,7 @@ if (Meteor.isServer) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'User account is inactive!');
             }
-            else if (!attempt.user.emails[0].verified) {
+            else if (Meteor.settings.email.sendVerificationEmail && !attempt.user.emails[0].verified) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'User account is not verified!');
             }
@@ -99,7 +115,9 @@ if (Meteor.isServer) {
 
         showForgotPasswordLink: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.showForgotPasswordLink
             ? Meteor.settings.public.showForgotPasswordLink
-            : false)
+            : false),
+
+        onSubmitHook: submitHookFunction
     });
 }
 
