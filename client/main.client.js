@@ -94,7 +94,7 @@ window.onbeforeunload = function (e) {
     let event = e || window.event;
 
     if(Meteor.status().connected) {
-        event.cancel();
+        return;
     }
 
     const message = 'Do you really want to leave 4Minitz?';
