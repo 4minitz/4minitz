@@ -3,13 +3,13 @@
 ## Important Hint
 4Minitz is a client-server webapp. So the client needs the server to permanently store your meeting minutes. Nevertheless the meteor framework allows the client webapp to temporarily work 'offline' and sync the contents as soon as the server is available again.
 
-4Minitz shows a warning icon in the top-right of your browser window to show the "Connection Lost" state:
+4Minitz shows a warning message in the top-right of your browser window to show the "Connection Lost" state:
 
 ![Connection Lost Warning](./figures/connection_lost.png)
 
-In this state you can hover the mouse over the icon to get information about how long the connection is lost and how often the client retried to re-connect. You may click on the warning icon to force an immediate reconnect.
+In this state you can hover the mouse over the top icon to get information about how long the connection is lost and how often the client retried to re-connect. You may click on the button "try to reconnect" to force an immediate reconnect.
  
- **Important:** If you see the above waning icon and you close your webbrowser, or close the tab where 4Minitz is loaded, or if you enter a different URL in the address bar - **You will lose all your unsaved changes!**
+ **Important:** If you see the above waning and you close your webbrowser, or close the tab where 4Minitz is loaded, or if you enter a different URL in the address bar - **You will lose all your unsaved changes!**
  
  So, unless you intentionally work offline, you should stop adding content to 4Minitz and instead check your web browsers internet connection or clarify with a system administrator, why the 4Minitz client lost connection to the 4Minitz server.
 
