@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
-import { FlowRouter } from 'meteor/kadira:flow-router';
 
 // For possible account configuration see:
 // https://github.com/meteor-useraccounts/core/blob/master/Guide.md#configuration-api
@@ -53,11 +52,6 @@ let submitHookFunction = function(error, state){
     if (state === "signUp") {
         if (error) {
             window.location.href = Meteor.absoluteUrl("login");
-        }
-    }
-    else if (state === "signIn") {
-        if (!error) {
-            FlowRouter.go('/');
         }
     }
 };
