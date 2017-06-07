@@ -71,7 +71,7 @@ export class RoleChangeMailHandler {
 
             mailer.send();
         } else {
-            console.error("Could not send admin register mail. User has no mail address: "+this._user._id);
+            console.error("Could not send role change mail. User has no mail address: "+this._user._id);
         }
     }
 }
