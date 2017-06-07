@@ -17,11 +17,19 @@ let MeetingSeriesSchema = {
 };
 MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
 
+let MinutesFinder = {
+    result: undefined,
+    firstMinutesOfMeetingSeries() {
+        return this.result;
+    }
+};
+
 const {
         MigrateV13
     } = proxyquire('../../../../server/migrations/migrate_v13', {
         '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
-    '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true}
+    '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
+    '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}
     });
 
 describe('Migrate Version 13', function () {
@@ -62,11 +70,10 @@ describe('Migrate Version 13', function () {
                 _id: '#T02'
             }, {
                 _id: '#T01'
-            }],
-            firstMinutes: () => {
-                return firstFakeMinute;
-            }
+            }]
         };
+
+        MinutesFinder.result = firstFakeMinute;
 
         MeetingSeriesSchema.find = () => {
             return [fakeMeetingSeries];

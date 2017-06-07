@@ -1,5 +1,6 @@
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 
 function saveSeries(series) {
     MeetingSeriesSchema.getCollection().update(
@@ -28,11 +29,11 @@ class MigrateSeriesUp {
     }
 
     run() {
-        let minutes = this.series.firstMinutes();
+        let minutes = MinutesFinder.firstMinutesOfMeetingSeries(this.series);
         while (minutes) {
             minutes = this._updateTopicsOfMinutes(minutes);
             saveMinutes(minutes);
-            minutes = minutes.nextMinutes();
+            minutes = MinutesFinder.nextMinutes(minutes);
         }
         this._updateTopicsOfSeries();
         saveSeries(this.series);
