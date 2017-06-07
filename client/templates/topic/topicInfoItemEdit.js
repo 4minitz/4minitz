@@ -10,6 +10,7 @@ import { Topic } from '/imports/topic';
 import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { Label } from '/imports/label';
+import { User, userSettings } from '/imports/users';
 
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import { currentDatePlusDeltaDays } from '/imports/helpers/date';
@@ -18,7 +19,6 @@ import { emailAddressRegExpTest } from '/imports/helpers/email';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 
-
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
 Session.setDefault('topicInfoItemType', 'infoItem');
@@ -26,11 +26,16 @@ Session.setDefault('topicInfoItemType', 'infoItem');
 let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for performance reasons!
 
+collapseState = new ReactiveVar(false);
+
 Template.topicInfoItemEdit.onCreated(function () {
     _minutesID = this.data;
     console.log('Template topicEdit created with minutesID '+_minutesID);
     let aMin = new Minutes(_minutesID);
     _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
+
+    const user = new User();
+    this.collapseState = new ReactiveVar(user.getSetting(userSettings.showAddDetail, true));
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
@@ -148,6 +153,23 @@ function configureSelect2Labels() {
     selectLabels.trigger('change');
 }
 
+let resizeTextarea = (element) => {
+
+    let newLineRegEx = new RegExp(/\n/g);
+    let textAreaValue = element.val();
+    let occurrences;
+
+    occurrences = (textAreaValue.match(newLineRegEx) || []).length;
+
+    //limit of textarea size
+    if(occurrences < 15) {
+        if (occurrences === 0)
+            element.attr('rows', occurrences + 2);
+        else
+            element.attr('rows', occurrences + 1);
+    }
+};
+
 Template.topicInfoItemEdit.helpers({
     isEditMode: function () {
         return (getEditInfoItem() !== false);
@@ -161,6 +183,11 @@ Template.topicInfoItemEdit.helpers({
     getTopicItemType: function () {
         let type = Session.get('topicInfoItemType');
         return (type === 'infoItem') ? 'Information' : 'Action Item';
+    },
+
+    collapseState: function() {
+        const user = new User();
+        return user.getSetting(userSettings.showAddDetail, true);
     }
 });
 
@@ -174,6 +201,11 @@ Template.topicInfoItemEdit.events({
 
         let type = Session.get('topicInfoItemType');
         let newSubject = tmpl.find('#id_item_subject').value;
+        let newDetail;
+
+        if(getEditInfoItem() === false) {
+            newDetail = tmpl.find('#id_item_detailInput').value;
+        }
 
         let editItem = getEditInfoItem();
         let doc = {};
@@ -194,6 +226,7 @@ Template.topicInfoItemEdit.events({
             }
             return label.getId();
         });
+
         doc.subject = newSubject;
         if (!doc.createdInMinute) {
             doc.createdInMinute = _minutesID;
@@ -221,11 +254,14 @@ Template.topicInfoItemEdit.events({
         newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
         let itemAlreadyExists = !!newItem.getId();
         newItem.saveAsync().catch(handleError);
-        console.log('Successfully saved new item with id: ' + newItem.getId());
-        $('#dlgAddInfoItem').modal('hide');
-        if (!itemAlreadyExists) {
-            Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
+        if (getEditInfoItem() === false && newDetail) {
+            newItem.addDetails(aMinute._id, newDetail);
+            newItem.saveAsync().catch(handleError);
+            let details = newItem.getDetails();
+            let detailItem = newItem.getDetailsAt(details.length-1);
+            tmpl.find('#id_item_detailInput').value = "";
         }
+        $('#dlgAddInfoItem').modal('hide');
     },
 
     // will be called before the dialog is shown
@@ -246,6 +282,14 @@ Template.topicInfoItemEdit.events({
 
         tmpl.find('#id_item_duedateInput').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
+
+        const user = new User();
+        tmpl.collapseState.set(user.getSetting(userSettings.showAddDetail, true));
+
+        if(tmpl.collapseState.get() === false) {
+            let detailsArea = tmpl.find('#id_item_detailInput');
+            detailsArea.style.display = 'none';
+        }
 
         // set type: edit existing item
         if (editItem) {
@@ -314,6 +358,36 @@ Template.topicInfoItemEdit.events({
             emailAddressRegExpTest.test(respName)) { // only take valid mail addresses
             _meetingSeries.addAdditionalResponsible(respName);
             _meetingSeries.save();
+        }
+    },
+
+    'click .detailInputMarkdownHint'(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        ConfirmationDialogFactory
+            .makeInfoDialog('Help for Markdown Syntax')
+            .setTemplate('markdownHint')
+            .show();
+
+    },
+
+    'click #btnExpandCollapse': function (evt, tmpl) {
+        evt.preventDefault();
+
+        let detailsArea = tmpl.find('#id_item_detailInput');
+        detailsArea.style.display = (detailsArea.style.display ==='none') ? 'inline-block' : 'none';
+
+        tmpl.collapseState.set(!tmpl.collapseState.get());
+
+        const user = new User();
+        user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
+    },
+
+    'keyup #id_item_detailInput': function (evt, tmpl) {
+        let inputEl = tmpl.$(`#id_item_detailInput`);
+
+        if (evt.which === 13/*Enter*/ || evt.which === 8/*Backspace*/ || evt.which === 46/*Delete*/) {
+            resizeTextarea(inputEl);
         }
     }
 });
