@@ -59,7 +59,7 @@ describe('MeetingSeries', function () {
     });
 
     it('can not create meeting series with empty name', function () {
-        const aProjectName = "E2E Project";
+        const aProjectName = "E2E Project - Unknown series";
         const aMeetingName = "";
         const initialCount = E2EMeetingSeries.countMeetingSeries();
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
