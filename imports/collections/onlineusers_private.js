@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { OnlineUsersSchema } from './onlineusers.schema';
+import moment from 'moment/moment';
 
 if (Meteor.isServer) {
     Meteor.publish('onlineUsersForRoute', function (route) {
@@ -24,6 +25,10 @@ Meteor.methods({
             activeRoute:route,
             updatedAt: new Date()
         });
+
+        // remove outdated entries
+        const fiveMinAgo = moment().add(-1,'minutes').toDate();
+        OnlineUsersSchema.remove({updatedAt: {"$lt" : fiveMinAgo}});
     },
     'onlineUsers.leaveRoute'(route) {
         const userId = Meteor.userId();
