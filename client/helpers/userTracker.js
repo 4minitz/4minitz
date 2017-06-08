@@ -1,6 +1,5 @@
+import { Meteor } from 'meteor/meteor';
 import {_} from 'meteor/underscore';
-
-const noop = () => {};
 
 const getVisibilityKeys = () => {
     const keys = {
@@ -37,17 +36,24 @@ const isVisible = () => {
 
 export class UserTracker {
 
-    constructor(onEnterOperation, onLeaveOperation) {
-        this.onEnterOperation = onEnterOperation || noop;
-        this.onLeaveOperation = onLeaveOperation || noop;
+    constructor(activeRoute) {
+        this.activeRoute = activeRoute;
         this.onTabChangeOperation = () => {
-            if (isVisible()) this.onEnterOperation();
-            else this.onLeaveOperation();
+            if (isVisible()) this._setActiveRoute();
+            else this._clearActiveRoute();
         }
     }
 
+    _setActiveRoute() {
+        Meteor.call('onlineUsers.enterRoute', this.activeRoute);
+    }
+
+    _clearActiveRoute() {
+        Meteor.call('onlineUsers.leaveRoute', this.activeRoute);
+    }
+
     onEnter() {
-        this.onEnterOperation();
+        this._setActiveRoute();
 
         addVisiblityListener(this.onTabChangeOperation);
         this._addUnLoadListener();
@@ -60,7 +66,7 @@ export class UserTracker {
 
 
     onLeave() {
-        this.onLeaveOperation();
+        this._clearActiveRoute();
         removeVisiblityListener(this.onTabChangeOperation);
         window.removeEventListener('beforeunload', this.beforeUnloadListener);
     }

@@ -5,6 +5,8 @@ import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
+import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
+import '/imports/collections/onlineusers_private';
 
 let _minutesID; // the ID of these minutes
 
@@ -43,6 +45,10 @@ Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
     console.log('Template minutesEditParticipants created with minutesID '+_minutesID);
 
+    this.autorun(() => {
+        this.subscribe('onlineUsersForRoute', FlowRouter.current().path);
+    });
+
     // Calculate initial expanded/collapsed state
     Session.set('participants.expand', false);
     if (isEditable()) {
@@ -57,9 +63,7 @@ Template.minutesEditParticipants.helpers({
     },
 
     isUserRemotelyConnected (userId) {
-        let aMin = new Minutes(_minutesID);
-        if (!aMin) return false;
-        return aMin.isUserRemotelyConnected(userId);
+        return !!OnlineUsersSchema.findOne({ userId: userId, activeRoute: FlowRouter.current().path });
     },
 
     isModeratorOfParentSeries (userId) {

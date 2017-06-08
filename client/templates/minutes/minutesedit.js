@@ -135,11 +135,7 @@ Template.minutesedit.onCreated(function () {
     Session.set('minutesedit.checkParent', false);
     handleTemplatesGlobalKeyboardShortcuts(true);
 
-    this.userTracker = new UserTracker(() => {
-        Minutes.setUserIsRemotelyConnected(_minutesID);
-    }, () => {
-        Minutes.clearUserIsRemotelyConnected(_minutesID);
-    });
+    this.userTracker = new UserTracker(FlowRouter.current().path);
     this.userTracker.onEnter();
 });
 

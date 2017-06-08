@@ -41,7 +41,6 @@ export const MinutesSchema = SchemaClass.create({
         finalizedAt: {type: Date, optional: true},
         finalizedBy: {type: String, optional: true},
         finalizedVersion: {type: Number, optional: true, default: 0},
-        finalizedHistory: {type: [String], optional: true, default: []},
-        connectedUsers: {type: [String], optional: true, default: []}
+        finalizedHistory: {type: [String], optional: true, default: []}
     }
 });
