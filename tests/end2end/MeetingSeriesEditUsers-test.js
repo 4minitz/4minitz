@@ -442,8 +442,10 @@ describe('MeetingSeries Editor Users', function () {
     // this test does only make sense if mail delivery is enabled
     if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
         it('ensures informed user gets minutes email', function () {
+            E2EMails.resetSentMailsDb();
             let currentUser = E2EApp.getCurrentUser();
             let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+            E2EMeetingSeriesEditor.disableEmailForRoleChange();
             E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
             E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
@@ -494,6 +496,40 @@ describe('MeetingSeries Editor Users', function () {
         expect(E2EMeetingSeries.countMeetingSeries(), "MS count should be minus one").to.equal(initialMScount - 1);
 
         E2EApp.loginUser();
+    });
+
+    it('ensures participants gets E-Mail on role change @watch', function () {
+         // Clear mails
+        E2EMails.resetSentMailsDb();
+
+         // Add user
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+        //check emais
+        let recipients = E2EMails.getAllRecipients();
+        expect(recipients).to.have.length(1);
+    });
+
+    it('ensures participants does not get an E-Mail if roles stay the same', function () {
+         // Clear mails
+         E2EMails.resetSentMailsDb();
+
+         // Add user
+         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+         E2EMeetingSeriesEditor.disableEmailForRoleChange();
+         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+         // open the dialog without saving roles and save
+         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+         //check emails
+         let recipients = E2EMails.getAllRecipients();
+         expect(recipients).to.have.length(0);
     });
 
 });

@@ -116,6 +116,15 @@ Template.minutesEditParticipants.helpers({
 
     isChecked(){
         return Template.instance().markedAll.get();
+    },
+    
+    isEditable() {
+        return isEditable();
+    },
+    
+    parentMeetingSeries() {
+        let aMin = new Minutes(_minutesID);
+        return aMin.parentMeetingSeries();
     }
 });
 
@@ -150,5 +159,9 @@ Template.minutesEditParticipants.events({
             aMin.changeParticipantsStatus(true).catch(handleError);
             tmpl.markedAll.set(true);
         }
+    },
+    
+    'click #btnEditParticipants' (evt, tmpl) {
+        Session.set('meetingSeriesEdit.showUsersPanel', true);
     }
 });

@@ -1,7 +1,6 @@
 <template name="topicInfoItemList">
     <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
         {{#each infoItem in items}}
-            {{triggerAddDetails @index}}
             <div class="panel topicInfoItem"
                  data-id="{{infoItem._id}}"
                  data-topic-parent-id="{{topicParentId}}"
