@@ -217,12 +217,6 @@ Template.topicInfoItemList.helpers({
         }
     },
 
-    idForEdit() {
-        /** @type {TopicInfoItemListContext} */
-        const context = Template.instance().data;
-        return context.is ? '' : 'btnEditInfoItem';
-    },
-
     responsiblesHelper(index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
@@ -266,7 +260,7 @@ Template.topicInfoItemList.events({
     'click #btnDelInfoItem'(evt, tmpl) {
         evt.preventDefault();
 
-        const index = $(evt.currentTarget).data('index');
+        const index = evt.currentTarget.getAttribute('data-index');
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
         let infoItem = context.items[index];
@@ -329,7 +323,7 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        const index = $(evt.currentTarget).data('index');
+        const index = evt.currentTarget.getAttribute('data-index');
         const infoItem = context.items[index];
         const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof ActionItem) {
@@ -347,7 +341,7 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        let index = $(evt.currentTarget).data('index');
+        let index = evt.currentTarget.getAttribute('data-index');
         let infoItem = context.items[index];
 
         let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
@@ -357,7 +351,7 @@ Template.topicInfoItemList.events({
         }
     },
 
-    'click #btnEditInfoItem'(evt, tmpl) {
+    'click .btnEditInfoItem'(evt, tmpl) {
         evt.preventDefault();
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
@@ -369,7 +363,7 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        let index = $(evt.currentTarget).data('index');
+        let index = evt.currentTarget.getAttribute('data-index');
         let infoItem = context.items[index];
 
         Session.set('topicInfoItemEditTopicId', infoItem.parentTopicId);
@@ -424,7 +418,7 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        let index = $(evt.currentTarget).data('index');
+        let index = evt.currentTarget.getAttribute('data-index');
         addNewDetails(tmpl, index).catch(handleError);
     },
 
