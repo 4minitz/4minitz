@@ -27,14 +27,14 @@ handleDemoUserAccount = function () {
         let demoUser = Meteor.users.findOne({$and: [{username: 'demo'}, {isDemoUser: true}]});
         if (!demoUser) {    // we don't have a demo user, but settings demand one
             Accounts.createUser({username: 'demo', password: 'demo', email: '', profile: {name: 'Demo User'}});
-            Meteor.users.update({'username': 'demo'}, {$set: {isDemoUser: true, isInactive: false, 'emails[0].verified': true}});
+            Meteor.users.update({'username': 'demo'}, {$set: {isDemoUser: true, isInactive: false, 'emails.0.verified': true}});
             console.log('*** ATTENTION ***\n    Created demo/demo user account once on startup');
         } else {    // we already have one, let's ensure he is not switched Inactive
             if (demoUser.isInactive) {
                 Meteor.users.update({'username': 'demo'}, {$set: {isInactive: false}});
             }
             if (!demoUser.emails[0].verified) {
-                Meteor.users.update({'username': 'demo'}, {$set: {'emails[0].verified': true}});
+                Meteor.users.update({'username': 'demo'}, {$set: {'emails.0.verified': true}});
             }
         }
     } else {    // we don't want a demo user
