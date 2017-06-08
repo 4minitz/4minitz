@@ -47,6 +47,9 @@
                                         {{getUserDisplayName this.userId}}
                                     {{/if}}
                                 </span>
+                                {{#if isUserRemotelyConnected this.userId}}
+                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                {{/if}}
                             </label>
                         </div>
                         {{/each}}

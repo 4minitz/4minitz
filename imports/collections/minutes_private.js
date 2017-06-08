@@ -228,5 +228,21 @@ Meteor.methods({
         } else {
             throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }
+    },
+
+    'minutes.updateRemotelyConnected'(minutesId, isConnected) {
+        check(minutesId, String);
+        check(isConnected, Boolean);
+        const userId = Meteor.userId();
+
+        if (!userId) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        let operation = (isConnected)
+            ? {$push: { connectedUsers: userId }}
+            : {$pull: { connectedUsers: userId }};
+
+        MinutesSchema.update({_id: minutesId}, operation);
     }
 });

@@ -37,7 +37,7 @@ let userNameForId = function (userId) {
 function allParticipantsMarked() {
     let aMin = new Minutes(_minutesID);
     return (aMin.participants.findIndex(p => {return !p.present}) === -1);
-};
+}
 
 Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
@@ -54,6 +54,12 @@ Template.minutesEditParticipants.onCreated(function() {
 Template.minutesEditParticipants.helpers({
     getUserDisplayName (userId) {
         return userNameForId(userId);
+    },
+
+    isUserRemotelyConnected (userId) {
+        let aMin = new Minutes(_minutesID);
+        if (!aMin) return false;
+        return aMin.isUserRemotelyConnected(userId);
     },
 
     isModeratorOfParentSeries (userId) {

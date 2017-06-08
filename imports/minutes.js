@@ -59,7 +59,17 @@ export class Minutes {
         return Meteor.callPromise('minutes.syncVisibility', parentSeriesID, visibleForArray);
     }
 
+    static setUserIsRemotelyConnected(minutesId) {
+        Minutes._updateUserIsRemotelyConnected(minutesId, true);
+    }
 
+    static clearUserIsRemotelyConnected(minutesId) {
+        Minutes._updateUserIsRemotelyConnected(minutesId, false);
+    }
+
+    static _updateUserIsRemotelyConnected(minutesId, isConnected) {
+        Meteor.call('minutes.updateRemotelyConnected', minutesId, isConnected);
+    }
 
     // ################### object methods
 
@@ -100,6 +110,10 @@ export class Minutes {
 
     log () {
         console.log(this.toString());
+    }
+
+    isUserRemotelyConnected(userId) {
+        return (this.connectedUsers && this.connectedUsers.indexOf(userId) !== -1);
     }
 
     parentMeetingSeries () {
@@ -415,9 +429,7 @@ export class Minutes {
      */
     async changeParticipantsStatus(isPresent)
     {
-        for (var index = 0; index < this.participants.length; index++) {
-            this.participants[index].present = isPresent;
-        }
+        this.participants.forEach(p => p.present = isPresent);
         return this.update({participants: this.participants});
     }
 
