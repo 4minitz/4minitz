@@ -46,6 +46,7 @@ if (Meteor.settings.isEnd2EndTest) {
                     let newPassword = Meteor.settings.e2eTestPasswords[i];
                     let newEmail = Meteor.settings.e2eTestEmails[i];
                     Accounts.createUser({username: newUser, password: newPassword, email: newEmail});
+                    Meteor.users.update({'username': newUser}, {$set: {'emails.0.verified': true}});
                     console.log('Created user: ' + newUser + ' with password: ' + newPassword);
 
                 }
