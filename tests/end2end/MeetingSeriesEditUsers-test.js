@@ -498,7 +498,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EApp.loginUser();
     });
 
-    it('ensures participants gets E-Mail on role change @watch', function () {
+    it('ensures participants gets E-Mail on role change', function () {
          // Clear mails
         E2EMails.resetSentMailsDb();
 
