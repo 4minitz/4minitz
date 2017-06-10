@@ -121,6 +121,8 @@ the topic menu will allow you to:
 * **"Delete Topic"** will delete this topic after a security question
 * **"Up-Down-Arrow"** allows reordering the topics via drag'n'drop
 
+There is also a "three dots" menu icon within the meeting series' overview of topics. 
+This menu is available for already closed Topics and contains the menu entry **"Re-open Topics"**. By using this feature the topic will be opened again and will occur in the next minute respectively the current one, if it is not finished yet.
 
 ## Send Agenda to Participants
 All open (non skipped) topics of the current meeting minutes will be send by EMail to all invited users (and moderators) of the current meeting series if the moderator clicks the button:
