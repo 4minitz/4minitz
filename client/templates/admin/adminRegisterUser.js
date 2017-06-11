@@ -5,7 +5,6 @@ import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { handleError } from '../../helpers/handleError';
 
-
 Template.adminRegisterUser.helpers({
     isMailEnabled() {
         return GlobalSettings.isEMailDeliveryEnabled();
@@ -63,5 +62,4 @@ Template.adminRegisterUser.events({
     'shown.bs.modal #dlgAdminRegisterUser': function (evt, tmpl) {
         tmpl.find('#id_newUsrName').focus();
     }
-
 });

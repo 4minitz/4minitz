@@ -1,9 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
-import '/imports/collections/broadcastmessage_private'
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { BroadcastMessage } from '/imports/broadcastmessage';
+
+Template.broadcastMessageDialog.onCreated(function () {
+        this.subscribe("broadcastmessage");
+});
 
 Template.broadcastMessageDialog.helpers({
 
