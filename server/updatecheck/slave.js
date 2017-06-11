@@ -5,7 +5,7 @@ import { VERSION_INFO } from '/imports/gitversioninfo'
 import { ServerCollection } from '/imports/collections/server_private'
 import { AdminNewVersionMailHandler } from '/imports/mail/AdminNewVersionMailHandler';
 
-const UPDATECHECK_INTERVAL_MINUTES = 30;
+const UPDATECHECK_INTERVAL_MINUTES = 8*60;
 // Make sure this instance has an anonymous server UID
 let myServerID = ServerCollection.findOne({"key": "serverUID"});
 if (!myServerID) {

@@ -45,6 +45,56 @@ Template.meetingSeriesEdit.helpers({
     }
 });
 
+// This function handles notification on role changes if the
+// moderator checked the according check box in the meeting series editor
+// It does so by comparing the users & roles before and after usage of the editor.
+notifyOnRoleChange = function(usersWithRolesAfterEdit, meetingSeriesId) {
+    function sendEmail (userId, oldRole, newRole, meetingSeriesId) {
+        Meteor.call('meetingseries.sendRoleChange', userId, oldRole, newRole, meetingSeriesId);
+    }
+
+    let usersBeforeEdit = this.visibleFor.concat(this.informedUsers);
+    let usersWithRolesAfterEditForEmails = usersWithRolesAfterEdit.slice();
+    let moderator = new UserRoles(Meteor.userId());
+
+    for (let i in usersBeforeEdit) {
+        let oldUserId = usersBeforeEdit[i];
+        let oldUserWithRole = new UserRoles(oldUserId);
+        let oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
+
+        // Search in after edit users whether the users still exists
+        let matchingUser = usersWithRolesAfterEditForEmails.find(function (user) {
+            return oldUserWithRole._userId === user._idOrg;
+        });
+
+        // If he does not, his role was removed
+        if (matchingUser === undefined) {
+            if (oldUserWithRole._userId !== moderator._userId) {
+                sendEmail(oldUserWithRole.getUser()._id, oldUserRole, undefined, meetingSeriesId);
+            }
+        } else {
+            let newUserWithRole = new UserRoles(matchingUser._idOrg);
+            let newUserRole = matchingUser.roles[meetingSeriesId][0];
+            let index = usersWithRolesAfterEditForEmails.indexOf(matchingUser);
+
+            // Roles have changed
+            if (newUserRole !== oldUserRole) {
+                sendEmail(newUserWithRole.getUser()._id, oldUserRole, newUserRole, meetingSeriesId);
+            }
+            usersWithRolesAfterEditForEmails.splice(index, 1);
+        }
+    }
+    // The remaining users in the after-edit-array -> got added
+    for (let i in usersWithRolesAfterEditForEmails) {
+        let newUser = usersWithRolesAfterEditForEmails[i];
+        let newUserRole = newUser.roles[meetingSeriesId][0];
+        if (moderator._userId !== newUser._idOrg) {
+            sendEmail(newUser._idOrg, undefined, newUserRole, meetingSeriesId);
+        }
+    }
+};
+
+
 Template.meetingSeriesEdit.events({
 
     'click #deleteMeetingSeries': function() {
@@ -118,10 +168,6 @@ Template.meetingSeriesEdit.events({
     },
 
     'submit #frmDlgEditMeetingSeries': function(evt, tmpl) {
-        function sendEmail (userId, oldRole, newRole, meetingSeriesId) {
-            Meteor.call('meetingseries.sendRoleChange', userId, oldRole, newRole, meetingSeriesId);
-        }
-
         evt.preventDefault();
         let saveButton = $('#btnMeetingSeriesSave');
         let cancelButton = $('btnMeetinSeriesEditCancel');
@@ -130,7 +176,7 @@ Template.meetingSeriesEdit.events({
 
         let aProject = tmpl.find('#id_meetingproject').value;
         let aName = tmpl.find('#id_meetingname').value;
-        let notifyOnRoleChange = tmpl.find("#checkBoxRoleChange").checked;
+        let modWantsNotifyOnRoleChange = tmpl.find("#checkBoxRoleChange").checked;
 
         // validate form and show errors - necessary for browsers which do not support form-validation
         let projectNode = tmpl.$('#id_meetingproject');
@@ -148,51 +194,13 @@ Template.meetingSeriesEdit.events({
             return;
         }
 
-        let usersBeforeEdit = this.visibleFor.concat(this.informedUsers);
         let usersWithRolesAfterEdit = Template.instance().userEditConfig.users.find().fetch();
         let allVisiblesArray = [];
         let allInformedArray = [];
         let meetingSeriesId = this._id;
 
-        if (notifyOnRoleChange) {
-            let usersWithRolesAfterEditForEmails = usersWithRolesAfterEdit.slice()
-            let moderator = new UserRoles(Meteor.userId());;
-
-            for (let i in usersBeforeEdit) {
-                let oldUserId = usersBeforeEdit[i];
-                let oldUserWithRole = new UserRoles(oldUserId);
-                let oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
-
-                // Search in after edit users whether the users still exists
-                let matchingUser = usersWithRolesAfterEditForEmails.find(function (user) {
-                    return oldUserWithRole._userId === user._idOrg;
-                });
-
-                // If he does not, his role was removed
-                if (matchingUser === undefined) {
-                    if(oldUserWithRole._userId != moderator._userId) {
-                        sendEmail(oldUserWithRole.getUser()._id, oldUserRole, undefined, meetingSeriesId);
-                    }
-                } else {
-                    let newUserWithRole = new UserRoles(matchingUser._idOrg);
-                    let newUserRole = matchingUser.roles[meetingSeriesId][0];
-                    let index = usersWithRolesAfterEditForEmails.indexOf(matchingUser);
-
-                    // Roles have changed
-                    if (newUserRole !== oldUserRole) {
-                        sendEmail(newUserWithRole.getUser()._id, oldUserRole, newUserRole, meetingSeriesId);
-                    }
-                    usersWithRolesAfterEditForEmails.splice(index, 1);
-                }
-            }
-            // The remaining users in the after-edit-array -> got added
-            for (let i in usersWithRolesAfterEditForEmails) {
-                let newUser = usersWithRolesAfterEditForEmails[i];
-                let newUserRole = newUser.roles[meetingSeriesId][0];
-                if(moderator._userId != newUser._idOrg) {
-                    sendEmail(newUser._idOrg, undefined, newUserRole, meetingSeriesId);
-                }
-            }
+        if (modWantsNotifyOnRoleChange) {
+            notifyOnRoleChange.call(this, usersWithRolesAfterEdit, meetingSeriesId);
         }
 
         for (let i in usersWithRolesAfterEdit) {

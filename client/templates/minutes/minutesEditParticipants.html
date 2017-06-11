@@ -22,21 +22,23 @@
             <!-- Expanded variant of participant list -->
             {{#if isParticipantsExpanded}}
                 <div class="padding-for-collabsable" id="id_participants">
-                    {{#if isModeratorOfParentSeries}}
-                        {{#if enoughParticipants}}
-                            <div class="checkbox" id="id_markAllNone">
-                                <label class = "checkbox-markAllNone">
-                                    <input type="checkbox" class="checkbox"
-                                           name="markAllNone" id="btnToggleMarkAllNone" checked="{{isChecked}}">
-                                    <span id="id_markAllNone" class="text-black" style="color: teal">
-                                        <b>{{#if isChecked}}
-                                            Mark none
-                                        {{else}}
-                                            Mark all
-                                        {{/if}}</b>
-                                    </span>
-                                </label>
-                            </div>
+                    {{#if isEditable}}
+                        {{#if isModeratorOfParentSeries}}
+                            {{#if enoughParticipants}}
+                                <div class="checkbox" id="id_markAllNone">
+                                    <label class = "checkbox-markAllNone">
+                                        <input type="checkbox" class="checkbox"
+                                               name="markAllNone" id="btnToggleMarkAllNone" checked="{{isChecked}}">
+                                        <span id="id_markAllNone" class="text-black" style="color: teal">
+                                            <b>{{#if isChecked}}
+                                                Mark none
+                                            {{else}}
+                                                Mark all
+                                            {{/if}}</b>
+                                        </span>
+                                    </label>
+                                </div>
+                            {{/if}}
                         {{/if}}
                     {{/if}}
                     <div class = "{{switch2MultiColumn}}">

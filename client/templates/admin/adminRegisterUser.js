@@ -45,10 +45,8 @@ Template.adminRegisterUser.events({
                             evt.preventDefault();
                             handleError(error);
                         } else {
+                            $('#dlgAdminRegisterUser').modal('hide');
                             (new FlashMessage('OK', 'Registered new user: '+uName, 'alert-success', 3000)).show();
-                            Meteor.setTimeout(function () {
-                                $('#dlgAdminRegisterUser').modal('hide');
-                            }, 3000);
                         }
                     });
     },
