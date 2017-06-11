@@ -11,6 +11,7 @@ import '/imports/config/EMailTemplates';
 import '/imports/broadcastmessage';
 import '/imports/minutes';
 import '/imports/meetingseries';
+import '/imports/collections/broadcastmessage_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
