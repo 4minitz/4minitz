@@ -18,7 +18,7 @@ module.exports = {
                     // suppress the download pop up and directly save download files to disk
                     "download.default_directory": "tests/e2e_downloads"
                 },
-                args: ["headless", "disable-gpu", "window-size=1920x1080"]
+                args: ["headless", "disable-gpu", "window-size=1920x1080", "no-sandbox"``]
             },
             isHeadless: true
         }
