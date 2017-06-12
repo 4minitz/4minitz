@@ -315,7 +315,6 @@ describe('MeetingSeries Editor Users', function () {
         }
 
         expect(suggestedUserArray).to.include.members(otherRegisteredUsers);
-        expect(otherRegisteredUsers).to.include.members(suggestedUserArray);
 
         browser.keys(['Escape']);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
