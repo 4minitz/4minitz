@@ -47,9 +47,9 @@ kadira:blaze-layout
 arillo:flow-router-helpers
 
 # Important: ostrio:files must be added after accounts package
-ostrio:files
 jagi:astronomy
 mouse0270:bootstrap-notify
 dynamic-import
 dispatch:mocha-phantomjs
 dispatch:phantomjs-tests
+ostrio:files@=1.7.13
