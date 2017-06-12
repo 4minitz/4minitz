@@ -30,7 +30,7 @@
                                 {{/if}}
                             </label>
 
-                            <span id="{{idForEdit}}" style="cursor: {{cursorForEdit}};" data-index="{{@index}}">
+                            <span class="btnEditInfoItem" style="cursor: {{cursorForEdit}};" data-index="{{@index}}">
                                 {{#if isActionItem @index}}
                                     {{infoItem.subject}} {{responsiblesHelper @index}}
                                     {{#if infoItem.priority}}Prio:{{infoItem.priority}}{{/if}}
@@ -67,7 +67,7 @@
                                         </li>
                                         <li class="divider"></li>
                                         <li>
-                                            <a href="#" id="btnEditInfoItem" class="panel-link" title="Edit item" data-index="{{@index}}">
+                                            <a href="#" class="btnEditInfoItem panel-link" title="Edit item" data-index="{{@index}}">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                                 Edit Item
                                             </a>

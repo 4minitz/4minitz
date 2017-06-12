@@ -48,7 +48,9 @@ if (Meteor.settings.isEnd2EndTest) {
                     Accounts.createUser({username: newUser, password: newPassword, email: newEmail});
                     Meteor.users.update({'username': newUser}, {$set: {'emails.0.verified': true}});
                     console.log('Created user: ' + newUser + ' with password: ' + newPassword);
-
+                }
+                if (Meteor.settings.e2eAdminUser) {
+                    Meteor.users.update({'username': Meteor.settings.e2eAdminUser}, {$set: {'isAdmin': true}});
                 }
             } else {
                 console.log('skip resetting users');
@@ -97,7 +99,8 @@ if (Meteor.settings.isEnd2EndTest) {
                     from: mail.from,
                     replyTo: mail.replyTo,
                     subject: mail.subject,
-                    html: mail.html
+                    html: mail.html,
+                    text: mail.text
                 };
             });
         }

@@ -25,5 +25,4 @@ export class TestMail extends Mail{
 
         TestMailCollection.insert(config);
     }
-
 }

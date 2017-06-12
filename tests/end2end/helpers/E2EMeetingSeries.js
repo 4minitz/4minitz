@@ -56,6 +56,13 @@ export class E2EMeetingSeries {
 
 
     static getMeetingSeriesId (aProj, aName) {
+        return E2EMeetingSeries.doSomethingWithMeetingSeriesListItem(aProj, aName, 'a', (elemId) => {
+            let linkTarget = browser.elementIdAttribute(elemId, 'href').value;
+            return linkTarget.slice(linkTarget.lastIndexOf("/")+1);
+        });
+    };
+
+    static doSomethingWithMeetingSeriesListItem(aProj, aName, subElementSelector, something) {
         E2EApp.gotoStartPage();
 
         try {
@@ -65,19 +72,17 @@ export class E2EMeetingSeries {
         }
         let compareText = aProj+": "+aName;
 
-        const elements = browser.elements('li.meeting-series-item a');
+        const elements = browser.elements(`li.meeting-series-item ${subElementSelector}`);
 
         for (let i in elements.value) {
             let elemId = elements.value[i].ELEMENT;
             let visibleText = browser.elementIdText(elemId).value;
-            if (visibleText == compareText) {
-                let linkTarget = browser.elementIdAttribute(elemId, 'href').value;
-                return linkTarget.slice(linkTarget.lastIndexOf("/")+1);
+            if (visibleText.startsWith(compareText)) {
+                return something(elemId);
             }
         }
         return false;
-    };
-
+    }
 
     static gotoMeetingSeries (aProj, aName) {
         E2EApp.gotoStartPage();

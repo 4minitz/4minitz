@@ -286,8 +286,9 @@ Template.topicInfoItemEdit.events({
         const user = new User();
         tmpl.collapseState.set(user.getSetting(userSettings.showAddDetail, true));
 
+        let detailsArea = tmpl.find('#id_item_detailInput');
+        detailsArea.setAttribute('rows', 2);
         if(tmpl.collapseState.get() === false) {
-            let detailsArea = tmpl.find('#id_item_detailInput');
             detailsArea.style.display = 'none';
         }
 

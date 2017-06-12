@@ -1,12 +1,18 @@
 import { Meteor } from 'meteor/meteor';
-import { BroadcastMessage } from '/imports/broadcastmessage';
 import { formatDateISO8601Time } from '/imports/helpers/date';
+
+import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
+import { BroadcastMessage } from '/imports/broadcastmessage';
+
+Template.broadcastMessageDialog.onCreated(function () {
+        this.subscribe("broadcastmessage");
+});
 
 Template.broadcastMessageDialog.helpers({
 
     // just a little reactive trigger to show the modal msg dialog
     'showBroadcastMessages': function () {
-        const msgCount = BroadcastMessage.find(
+        const msgCount = BroadcastMessageSchema.find(
             {$and: [{isActive: true},
                     {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
         if (msgCount > 0) {
@@ -23,7 +29,7 @@ Template.broadcastMessageDialog.helpers({
     },
 
     'broadcastMessages': function () {
-        return BroadcastMessage.find(
+        return BroadcastMessageSchema.find(
             {$and: [{isActive: true}
                     , {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}
             , {sort: {createdAt: -1}});
@@ -39,14 +45,3 @@ Template.broadcastMessageDialog.events({
         BroadcastMessage.dismissForMe();
     }
 });
-
-Template.broadcastMessageDialog.onCreated(function () {
-});
-
-Template.broadcastMessageDialog.onRendered(function () {
-});
-
-Template.broadcastMessageDialog.onDestroyed(function () {
-    //add your statement here
-});
-
