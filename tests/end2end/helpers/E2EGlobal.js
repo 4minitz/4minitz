@@ -37,7 +37,7 @@ export class E2EGlobal {
         return yyyy+"-"+mm+"-"+dd;
     };
 
-    static browserName () {
+    static browserName() {
         if (browser &&
             browser._original &&
             browser._original.desiredCapabilities &&
@@ -48,8 +48,32 @@ export class E2EGlobal {
         return "unknown";
     };
 
-    static browserIsPhantomJS () {
+    static browserIsPhantomJS() {
         return (E2EGlobal.browserName() === "phantomjs")
+    };
+
+    static isChrome() {
+        if (browser &&
+            browser.options &&
+            browser.options.desiredCapabilities) {
+            return browser.options.desiredCapabilities.browserName === 'chrome';
+        }
+        console.error("Error: Could not determine if the browser used is chrome!");
+        return false;
+    }
+
+    static isHeadless() {
+        if (browser &&
+            browser.options &&
+            browser.options.desiredCapabilities) {
+            return browser.options.desiredCapabilities.isHeadless;
+        }
+        console.error("Error: Could not determine headlessness of browser!");
+        return false;
+    }
+
+    static browserIsHeadlessChrome() {
+        return E2EGlobal.isChrome() && E2EGlobal.isHeadless();
     };
 
     static isCheckboxSelected(selector) {
