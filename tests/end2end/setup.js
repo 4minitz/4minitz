@@ -7,6 +7,9 @@ before(function() {
     console.log("End2End Settings:");
     console.log("# of test users:", E2EGlobal.SETTINGS.e2eTestUsers.length);
 
+    console.log("Using phantomJS:", E2EGlobal.browserIsPhantomJS());
+    console.log("Using Chrome Headless:", E2EGlobal.browserIsHeadlessChrome());
+
     // We refactor the browser.click() method to save a screenshot
     // with a unique ID if click() fails.
     browser.click_org = browser.click;
