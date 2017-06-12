@@ -1,6 +1,8 @@
 
 TEST="$1"
 
+PATH=$PATH:$HOME/.meteor/
+
 if [ "$TEST" = "unit" ]; then
     echo Run unit and integration test
     npm run test:unit
