@@ -71,7 +71,7 @@ export class E2EApp {
                 }
 
                 browser.keys(['Enter']);
-                E2EGlobal.waitSomeTime();
+                E2EGlobal.waitSomeTime(2000);
 
                 if (browser.isExisting('.at-error.alert.alert-danger')) {
                     throw new Error ("Unknown user or wrong password.")
@@ -86,16 +86,24 @@ export class E2EApp {
 
     /**
      * Logout current user, if necessary, then login a specific test user
-     * @param index of test user from setting. optional.
+     * @param indexOrUsername of test user from setting. optional.
      * @param autoLogout perform logout before login the test user. optional.
      */
-    static loginUser (index, autoLogout) {
-        if (!index) {
-            index = 0;
+    static loginUser (indexOrUsername, autoLogout) {
+        if (!indexOrUsername) {
+            indexOrUsername = 0;
+        }
+        if (typeof indexOrUsername === 'string') {
+            let orgUserName = indexOrUsername;
+            indexOrUsername = E2EGlobal.SETTINGS.e2eTestUsers.indexOf(indexOrUsername);
+            if (indexOrUsername === -1) {
+                console.log("Error {E2EApp.loginUser} : Could not find user "+orgUserName+". Fallback: index=0.");
+                indexOrUsername = 0;
+            }
         }
 
-        let aUser = E2EGlobal.SETTINGS.e2eTestUsers[index];
-        let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[index];
+        let aUser = E2EGlobal.SETTINGS.e2eTestUsers[indexOrUsername];
+        let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[indexOrUsername];
 
         this.loginUserWithCredentials(aUser, aPassword, autoLogout);
     };
@@ -107,7 +115,7 @@ export class E2EApp {
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
-        if (browser.getTitle() != E2EApp.titlePrefix) {
+        if (browser.getTitle() !== E2EApp.titlePrefix) {
             throw new Error("App not loaded. Unexpected title "+browser.getTitle()+". Please run app with 'meteor npm run test:end2end:server'")
         }
     };
@@ -132,6 +140,10 @@ export class E2EApp {
             browser.waitForExist('a.navbar-brand', 2500);
         } catch (e) {
             E2EApp.launchApp();
+        }
+        // Just in case we have not already a user logged in, we do it here!
+        if (! E2EApp.isLoggedIn()) {
+            E2EApp.loginUser(0, false);
         }
         browser.click('a.navbar-brand');
         E2EGlobal.waitSomeTime();
@@ -164,7 +176,12 @@ export class E2EApp {
         }
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
     };
+
+    static resetPassword(emailAdress) {
+        browser.click("#at-forgotPwd");
+        browser.setValue('#at-field-email', emailAdress);
+        browser.click('#at-btn');
+    }
 }
 
 E2EApp._currentlyLoggedInUser = "";
-

@@ -8,11 +8,19 @@ export class E2EGlobal {
         }
         browser.pause(milliseconds);
 
-        let max = 100;
-        while (browser.isVisible('#loading-container') && max > 0) {
-            E2EGlobal.saveScreenshot('loading');
-            browser.pause(100);
-            max--;
+        try {
+            let max = 100;
+            while (browser.isVisible('#loading-container') && max > 0) {
+                E2EGlobal.saveScreenshot('loading');
+                browser.pause(100);
+                max--;
+            }
+        } catch (e) {
+            // intentionally left blank.
+            // sometimes Webdriver.io crashes in checking isVisible() with
+            // 'TypeError: result.value.map is not a function'
+            // In this case we try to keep calm and carry on...
+            // Because it also tells us that there is no loading container  ;-)
         }
     }
 

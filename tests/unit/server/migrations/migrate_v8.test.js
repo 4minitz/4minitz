@@ -14,8 +14,7 @@ let Meteor = {
     Error: MeteorError
 };
 
-let MeetingSeriesCollection = {
-};
+let MeetingSeriesSchema = {};
 
 let GlobalSettings = {};
 
@@ -23,6 +22,6 @@ const {
         MigrateV8
     } = proxyquire('../../../../server/migrations/migrate_v8', {
         'meteor/meteor': { Meteor, '@noCallThru': true},
-        '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
+        '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
         '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true}
     });

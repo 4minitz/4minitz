@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor'
-import {ReactiveVar} from 'meteor/reactive-var'
+import { Meteor } from 'meteor/meteor';
+import {ReactiveVar} from 'meteor/reactive-var';
 
 Template.connectionInfo.onCreated(function() {
     this.currentSymbol = new ReactiveVar(false);
@@ -25,16 +25,16 @@ Template.connectionInfo.helpers({
 
 Template.connectionInfo.events({
 
-    "click #btnWarningExpandCollapse": function (evt, tmpl) {
+    'click #btnWarningExpandCollapse': function (evt, tmpl) {
         evt.preventDefault();
-        let warningMessage = document.getElementById("warningMessage");
-        warningMessage.style.display = (warningMessage.style.display === "none") ? "inline-block" : "none";
+        let warningMessage = document.getElementById('warningMessage');
+        warningMessage.style.display = (warningMessage.style.display === 'none') ? 'inline-block' : 'none';
         tmpl.currentSymbol.set(!tmpl.currentSymbol.get());
     },
 
-    "click #btnReconnect": function (evt, tmpl) {
+    'click #btnReconnect': function (evt) {
         evt.preventDefault();
-        console.log("Trying to reconnect...");
+        console.log('Trying to reconnect...');
         Meteor.reconnect();
     }
 

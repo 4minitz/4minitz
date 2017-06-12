@@ -1,24 +1,16 @@
 import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
-import { MeetingSeries } from './../meetingseries';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { formatDateISO8601 } from '/imports/helpers/date';
-
-export let MeetingSeriesCollection = new Mongo.Collection("meetingSeries",
-    {
-        // inject methods of class MeetingSeries to all returned collection docs
-        transform: function (doc) {
-            return new MeetingSeries(doc);
-        }
-    }
-);
+import {MeetingSeries} from "../meetingseries";
+import {RoleChangeMailHandler} from "../mail/RoleChangeMailHandler";
+import {UserRoles as userroles} from "../userroles";
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {
-        return MeetingSeriesCollection.find(
+        return MeetingSeriesSchema.find(
             {visibleFor: {$in: [this.userId]}});
     });
 }
@@ -26,11 +18,9 @@ if (Meteor.isClient) {
     Meteor.subscribe('meetingSeries');
 }
 
-MeetingSeriesCollection.attachSchema(MeetingSeriesSchema);
-
 Meteor.methods({
     'meetingseries.insert'(doc, optimisticUICallback) {
-        console.log("meetingseries.insert");
+        console.log('meetingseries.insert');
 
         // Make sure the user is logged in before changing collections
         if (!Meteor.userId()) {
@@ -60,7 +50,7 @@ Meteor.methods({
         // Every logged in user is allowed to create a new meeting series.
 
         try {
-            let newMeetingSeriesID = MeetingSeriesCollection.insert(doc);
+            let newMeetingSeriesID = MeetingSeriesSchema.insert(doc);
 
             // Make creator of this meeting series the first moderator
             Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
@@ -85,7 +75,7 @@ Meteor.methods({
             return;
         }
 
-        console.log("meetingseries.update:", doc.minutes);
+        console.log('meetingseries.update:', doc.minutes);
 
         let id = doc._id;
         check(id, String);
@@ -107,16 +97,39 @@ Meteor.methods({
         // Ensure user can not update documents of other users
         let userRoles = new UserRoles(Meteor.userId());
         if (!userRoles.isModeratorOf(id)) {
-            throw new Meteor.Error("Cannot update meeting series", "You are not moderator of this meeting series.");
+            throw new Meteor.Error('Cannot update meeting series', 'You are not moderator of this meeting series.');
         }
 
         try {
-            return MeetingSeriesCollection.update(id, {$set: doc});
+            return MeetingSeriesSchema.update(id, {$set: doc});
         } catch(e) {
             if (!Meteor.isClient) {
                 console.error(e);
                 throw new Meteor.Error('runtime-error', 'Error updating meeting series collection', e);
             }
+        }
+    },
+
+    'meetingseries.sendRoleChange'(userId, oldRole, newRole, meetingSeriesId) {
+        // Make sure the user is logged in before trying to send mails
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        // Ensure user is Moderator of the meeting series
+        let userRole = new UserRoles(Meteor.userId());
+        if(userRole.isModeratorOf(meetingSeriesId)){
+            if (!GlobalSettings.isEMailDeliveryEnabled()) {
+                console.log('Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file');
+                throw new Meteor.Error('Cannot send role change mail', 'Email delivery is not enabled in your 4minitz installation.');
+            }
+
+            if(Meteor.isServer) {
+                let roleChangeMailHandler = new RoleChangeMailHandler(userId, oldRole, newRole, Meteor.user(), meetingSeriesId);
+                roleChangeMailHandler.send();
+            }
+        } else {
+            throw new Meteor.Error('Cannot send E-Mails for role change', 'You are not a moderator of the meeting series.');
         }
     }
 });

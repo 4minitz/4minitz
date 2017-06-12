@@ -7,18 +7,16 @@ import proxyquire from 'proxyquire';
 
 require('../../../../imports/helpers/date');
 
-let MinutesCollection = {
-};
+let MinutesSchema = {};
 
-let MeetingSeriesCollection = {
-};
+let MeetingSeriesSchema = {};
 
 let GlobalSettings = {};
 
 const {
         MigrateV7
     } = proxyquire('../../../../server/migrations/migrate_v7', {
-        '/imports/collections/minutes_private': { MinutesCollection, '@noCallThru': true},
-        '/imports/collections/meetingseries_private': { MeetingSeriesCollection, '@noCallThru': true},
+        '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
+        '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
         '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true}
     });

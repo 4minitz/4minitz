@@ -1,15 +1,10 @@
-import { MeetingSeries } from '/imports/meetingseries'
-import { UserRoles } from '/imports/userroles'
-import { User, userSettings } from '/imports/users'
+import { MeetingSeries } from '/imports/meetingseries';
+import { UserRoles } from '/imports/userroles';
+import { MinutesFinder } from '../../../imports/services/minutesFinder';
 
 Template.meetingSeriesList.helpers({
     meetingSeriesRow: function () {
-      return MeetingSeries.find({}, {sort: {lastMinutesDate: -1}});
-    },
-
-    showQuickHelp: function() {
-        const user = new User();
-        return user.getSetting(userSettings.showQuickHelp.meetingSeriesList, true);
+        return MeetingSeries.find({}, {sort: {lastMinutesDate: -1}});
     }
 });
 
@@ -17,12 +12,10 @@ Template.meetingSeriesOverview.helpers({
     isModeratorOfSeries: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(Template.instance().data._id);
-    }
-});
+    },
 
-Template.meetingSeriesList.events({
-    "click .hidehelp": function () {
-        const user = new User();
-        user.storeSetting(userSettings.showQuickHelp.meetingSeriesList, false);
+    lastMinutes() {
+        const seriesDocumentFromDataContext = this;
+        return MinutesFinder.lastMinutesOfMeetingSeries(seriesDocumentFromDataContext);
     }
 });

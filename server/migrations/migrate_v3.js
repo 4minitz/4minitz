@@ -1,5 +1,5 @@
-import { MinutesCollection } from '/imports/collections/minutes_private'
-import { MeetingSeriesCollection } from '/imports/collections/meetingseries_private'
+import { MinutesSchema } from '/imports/collections/minutes.schema';
+import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 
 // convert the participants fields
 export class MigrateV3 {
@@ -11,7 +11,7 @@ export class MigrateV3 {
                 if (infoItem.isSticky === undefined) {
                     infoItem.isSticky = false;
                 }
-            })
+            });
         });
     }
 
@@ -20,74 +20,74 @@ export class MigrateV3 {
         topics.forEach(topic => {
             topic.infoItems.forEach(infoItem => {
                 delete infoItem.isSticky;
-            })
+            });
         });
     }
 
 
     static up() {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV3._upgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
+            MinutesSchema.getCollection().update(
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
             );
         });
 
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV3._upgradeTopics(series.openTopics);
             MigrateV3._upgradeTopics(series.topics);
 
-            MeetingSeriesCollection.update(
+            MeetingSeriesSchema.getCollection().update(
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 
     static down() {
-        MinutesCollection.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV3._downgradeTopics(minute.topics);
 
             // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesCollection.update(
+            MinutesSchema.getCollection().update(
                 minute._id,
                 {
                     $set: {
-                        "topics": minute.topics
+                        'topics': minute.topics
                     }
                 },
                 {bypassCollection2: true}
             );
         });
 
-        MeetingSeriesCollection.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV3._downgradeTopics(series.openTopics);
             MigrateV3._downgradeTopics(series.topics);
 
-            MeetingSeriesCollection.update(
+            MeetingSeriesSchema.getCollection().update(
                 series._id,
                 {
                     $set: {
-                        "topics": series.topics,
-                        "openTopics": series.openTopics
+                        'topics': series.topics,
+                        'openTopics': series.openTopics
                     }
                 },
                 {bypassCollection2: true}
-            )
-        })
+            );
+        });
     }
 }

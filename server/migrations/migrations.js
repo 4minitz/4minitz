@@ -5,17 +5,20 @@ import { Meteor} from 'meteor/meteor';
 import moment from 'moment/moment';
 import path from 'path';
 
-import { MigrateV1 } from './migrate_v1'
-import { MigrateV2 } from './migrate_v2'
-import { MigrateV3 } from './migrate_v3'
-import { MigrateV4 } from './migrate_v4'
-import { MigrateV5 } from './migrate_v5'
-import { MigrateV6 } from './migrate_v6'
-import { MigrateV7 } from './migrate_v7'
-import { MigrateV8 } from './migrate_v8'
-import { MigrateV9 } from './migrate_v9'
-import { MigrateV10 } from './migrate_v10'
-import { MigrateV11 } from './migrate_v11'
+import { MigrateV1 } from './migrate_v1';
+import { MigrateV2 } from './migrate_v2';
+import { MigrateV3 } from './migrate_v3';
+import { MigrateV4 } from './migrate_v4';
+import { MigrateV5 } from './migrate_v5';
+import { MigrateV6 } from './migrate_v6';
+import { MigrateV7 } from './migrate_v7';
+import { MigrateV8 } from './migrate_v8';
+import { MigrateV9 } from './migrate_v9';
+import { MigrateV10 } from './migrate_v10';
+import { MigrateV11 } from './migrate_v11';
+import { MigrateV12 } from './migrate_v12';
+import { MigrateV13 } from './migrate_v13';
+import { MigrateV14 } from './migrate_v14';
 
 Migrations.add({version: 1, up() {MigrateV1.up();}, down() {MigrateV1.down();}});
 Migrations.add({version: 2, up() {MigrateV2.up();}, down() {MigrateV2.down();}});
@@ -28,6 +31,9 @@ Migrations.add({version: 8, up() {MigrateV8.up();}, down() {MigrateV8.down();}})
 Migrations.add({version: 9, up() {MigrateV9.up();}, down() {MigrateV9.down();}});
 Migrations.add({version: 10, up() {MigrateV10.up();}, down() {MigrateV10.down();}});
 Migrations.add({version: 11, up() {MigrateV11.up();}, down() {MigrateV11.down();}});
+Migrations.add({version: 12, up() {MigrateV12.up();}, down() {MigrateV12.down();}});
+Migrations.add({version: 13, up() {MigrateV13.up();}, down() {MigrateV13.down();}});
+Migrations.add({version: 14, up() {MigrateV14.up();}, down() {MigrateV14.down();}});
 
 // ----------------------------------------------------------------
 function findLatestVersion() {

@@ -9,11 +9,11 @@ AccountsTemplates.removeField('email');
 
 AccountsTemplates.addFields([
     {
-        _id: "username",
-        type: "text",
-        displayName: "User name",
+        _id: 'username',
+        type: 'text',
+        displayName: 'User name',
         placeholder: {
-            signUp: "(min. 3 chars)"
+            signUp: '(min. 3 chars)'
         },
         required: true,
         minLength: 3
@@ -21,16 +21,16 @@ AccountsTemplates.addFields([
     {
         _id: 'name',
         type: 'text',
-        displayName: "Name, Company",
+        displayName: 'Name, Company',
         placeholder: {
-            signUp: "John Doe, Happy Corp."
+            signUp: 'John Doe, Happy Corp.'
         },
     },
     {
         _id: 'email',
         type: 'email',
         required: true,
-        displayName: "Email",
+        displayName: 'Email',
         re: /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/,
         errStr: 'Invalid email'
     },
@@ -39,7 +39,7 @@ AccountsTemplates.addFields([
         _id: 'password',
         type: 'password',
         placeholder: {
-            signUp: "min. 6 chars (digit, lower & upper)"
+            signUp: 'min. 6 chars (digit, lower & upper)'
         },
         required: true,
         minLength: 6,
@@ -48,19 +48,47 @@ AccountsTemplates.addFields([
     }
 ]);
 
+let submitHookFunction = function(error, state){
+    if (state === "signUp") {
+        if (error) {
+            window.location.href = Meteor.absoluteUrl("login");
+        }
+    }
+};
+
 if (Meteor.isServer) {
     // #Security: Do not allow registering by anonymous visitors. Configurable via settings.json
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.forbidClientAccountCreation
                                         ? Meteor.settings.forbidClientAccountCreation
-                                        : false)
+                                        : false),
+
+        sendVerificationEmail: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.sendVerificationEmail
+            ? Meteor.settings.email.sendVerificationEmail
+            : false),
+
+        showResendVerificationEmailLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showResendVerificationEmailLink
+            ? Meteor.settings.email.showResendVerificationEmailLink
+            : false),
+
+        showForgotPasswordLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showForgotPasswordLink
+            ? Meteor.settings.email.showForgotPasswordLink
+            : false),
+
+        onSubmitHook: submitHookFunction
     });
 
     // #Security: Do not allow "isInactive" users to log in
     Accounts.validateLoginAttempt(function(attempt) {
-        if(attempt.user && attempt.user.isInactive) {
-            attempt.allowed = false;
-            throw new Meteor.Error(403, "User account is inactive!");
+        if(attempt.user) {
+            if (attempt.user.isInactive) {
+                attempt.allowed = false;
+                throw new Meteor.Error(403, 'User account is inactive!');
+            }
+            else if (Meteor.settings.email.sendVerificationEmail && !attempt.user.emails[0].verified) {
+                attempt.allowed = false;
+                throw new Meteor.Error(403, 'User account is not verified!');
+            }
         }
         return true;
     });
@@ -69,7 +97,21 @@ if (Meteor.isServer) {
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.public.forbidClientAccountCreation
                                         ? Meteor.settings.public.forbidClientAccountCreation
-                                        : false)
+                                        : false),
+
+        sendVerificationEmail: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.sendVerificationEmail
+            ? Meteor.settings.public.sendVerificationEmail
+            : false),
+
+        showResendVerificationEmailLink: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.showResendVerificationEmailLink
+            ? Meteor.settings.public.showResendVerificationEmailLink
+            : false),
+
+        showForgotPasswordLink: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.showForgotPasswordLink
+            ? Meteor.settings.public.showForgotPasswordLink
+            : false),
+
+        onSubmitHook: submitHookFunction
     });
 }
 

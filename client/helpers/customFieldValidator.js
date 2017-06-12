@@ -1,5 +1,5 @@
 
-export function addCustomValidator(inputFieldSelector, validate, errorMsg = "", event = 'keyup') {
+export function addCustomValidator(inputFieldSelector, validate, errorMsg = '', event = 'keyup') {
     Array.from(document.querySelectorAll(inputFieldSelector)).forEach((element) => {
         element.addEventListener(event, function() {
             let result = validate(this.value);

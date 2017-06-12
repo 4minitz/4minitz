@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { MeetingSeriesCollection } from './collections/meetingseries_private';
+import { MeetingSeriesSchema } from './collections/meetingseries.schema';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 import { Minutes } from './minutes';
 import { Topic } from './topic';
 import { UserRoles } from './userroles';
@@ -7,6 +8,7 @@ import { formatDateISO8601 } from '/imports/helpers/date';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
 import './helpers/promisedMethods';
+import './collections/meetingseries_private';
 import moment from 'moment/moment';
 
 export class MeetingSeries {
@@ -15,7 +17,7 @@ export class MeetingSeries {
             return;
 
         if (typeof source === 'string') {   // we may have an ID here.
-            source = MeetingSeriesCollection.findOne(source);
+            source = MeetingSeriesSchema.getCollection().findOne(source);
         }
         if (typeof source === 'object') { // inject class methods in plain collection document
             _.extend(this, source);
@@ -24,32 +26,36 @@ export class MeetingSeries {
 
     // ################### static methods
     static find(...args) {
-        return MeetingSeriesCollection.find(...args);
+        return MeetingSeriesSchema.getCollection().find(...args);
     }
 
     static findOne(...args) {
-        return MeetingSeriesCollection.findOne(...args);
+        return MeetingSeriesSchema.getCollection().findOne(...args);
     }
 
     static async remove(meetingSeries) {
-        return Meteor.callPromise("workflow.removeMeetingSeries", meetingSeries._id);
+        return Meteor.callPromise('workflow.removeMeetingSeries', meetingSeries._id);
     }
 
     static async leave(meetingSeries) {
-        return Meteor.callPromise("workflow.leaveMeetingSeries", meetingSeries._id);
+        return Meteor.callPromise('workflow.leaveMeetingSeries', meetingSeries._id);
     }
 
     static getAllVisibleIDsForUser (userId) {
         // we return an array with just a list of visible meeting series IDs
-        return MeetingSeriesCollection
+        return MeetingSeriesSchema
             .find({visibleFor: {$in: [userId]}}, {_id:1})
             .map(function(item){ return item._id; });
     }
 
     // ################### object methods
 
+    getRecord() {
+        return MeetingSeriesSchema.findOne(this._id);
+    }
+
     async removeMinutesWithId(minutesId) {
-        console.log("removeMinutesWithId: " + minutesId);
+        console.log('removeMinutesWithId: ' + minutesId);
 
         await Minutes.remove(minutesId);
         return this.updateLastMinutesDateAsync();
@@ -59,9 +65,9 @@ export class MeetingSeries {
     save(optimisticUICallback) {
         let doc = this;
         if (this._id) {
-            return Meteor.callPromise("meetingseries.update", doc);
+            return Meteor.callPromise('meetingseries.update', doc);
         } else {
-            return Meteor.callPromise("meetingseries.insert", doc, optimisticUICallback);
+            return Meteor.callPromise('meetingseries.insert', doc, optimisticUICallback);
         }
     }
 
@@ -70,7 +76,7 @@ export class MeetingSeries {
     }
 
     toString () {
-        return "MeetingSeries: "+JSON.stringify(this, null, 4);
+        return 'MeetingSeries: '+JSON.stringify(this, null, 4);
     }
 
     log () {
@@ -78,11 +84,11 @@ export class MeetingSeries {
     }
 
     addNewMinutes (optimisticUICallback, serverCallback) {
-        console.log("addNewMinutes()");
+        console.log('addNewMinutes()');
 
         // The new Minutes object should be dated after the latest existing one
         let newMinutesDate = new Date();
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         if (lastMinutes && formatDateISO8601(newMinutesDate) <= lastMinutes.date) {
             let lastMinDate = moment(lastMinutes.date);
             newMinutesDate = lastMinDate.add(1, 'days').toDate();
@@ -90,12 +96,15 @@ export class MeetingSeries {
 
         let topics = [];
 
-        // copy open topics from this meeting series & set isNew=false
+        // copy open topics from this meeting series & set isNew=false, isSkipped=false
         if (this.openTopics) {
             topics = this.openTopics;
             topics.forEach((topicDoc) => {
                 let topic = new Topic(this, topicDoc);
                 topic.invalidateIsNewFlag();
+                if (topic.isSkipped()) {
+                    topic.toggleSkip();
+                }
             });
         }
 
@@ -109,10 +118,6 @@ export class MeetingSeries {
 
         min.refreshParticipants(false); // do not save to DB!
         min.save(optimisticUICallback, serverCallback);
-    }
-
-    getAllMinutes () {
-        return Minutes.findAllIn(this.minutes);
     }
 
     hasMinute(id) {
@@ -131,36 +136,6 @@ export class MeetingSeries {
         }
     }
 
-    /**
-     * Fetches the first minutes of this series.
-     * @returns {Minutes|false}
-     */
-    firstMinutes() {
-        const oldMinutesFirst = false;
-        return this._getCornerMintues(1, oldMinutesFirst);
-    }
-
-    lastMinutes () {
-        const lastMinutesFirst = true;
-        return this._getCornerMintues(1, lastMinutesFirst);
-    }
-
-    secondLastMinutes () {
-        const lastMinutesFirst = true;
-        return this._getCornerMintues(2, lastMinutesFirst);
-    }
-
-    _getCornerMintues(offset, lastMinutesFirst) {
-        if (!this.minutes || this.minutes.length < offset) {
-            return false;
-        }
-        let min = Minutes.findAllIn(this.minutes, offset, lastMinutesFirst).fetch();
-        if (min && min.length === offset) {
-            return min[offset-1];
-        }
-        return false;
-    }
-
     async updateLastMinutesDate (callback) {
         callback = callback || function () {};
 
@@ -175,7 +150,7 @@ export class MeetingSeries {
     async updateLastMinutesDateAsync() {
         let lastMinutesDate;
 
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         if (lastMinutes) {
             lastMinutesDate = lastMinutes.date;
         }
@@ -198,18 +173,18 @@ export class MeetingSeries {
      * @param minutesId
      */
     isUnfinalizeMinutesAllowed(minutesId) {
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
 
         return (lastMinutes && lastMinutes._id === minutesId);
     }
 
     addNewMinutesAllowed() {
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         return (!lastMinutes || lastMinutes.isFinalized);
     }
 
     _getDateOfLatestMinute() {
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
 
         if (lastMinutes) {
             return new Date(lastMinutes.date);
@@ -263,7 +238,7 @@ export class MeetingSeries {
     }
 
     isMinutesDateAllowed(minutesId, date) {
-        if (typeof date === "string") {
+        if (typeof date === 'string') {
             date = new Date(date);
         }
 
@@ -283,10 +258,10 @@ export class MeetingSeries {
      */
     setVisibleAndInformedUsers(newVisibleForArray, newInformedUsersArray) {
         if (!this._id) {
-            throw new Meteor.Error("MeetingSeries not saved.", "Call save() before using addVisibleUser()");
+            throw new Meteor.Error('MeetingSeries not saved.', 'Call save() before using addVisibleUser()');
         }
         if (!$.isArray(newVisibleForArray)) {
-            throw new Meteor.Error("setVisibleUsers()", "must provide an array!");
+            throw new Meteor.Error('setVisibleUsers()', 'must provide an array!');
         }
 
         // Clean-up roles
@@ -300,7 +275,7 @@ export class MeetingSeries {
         newUserArray = newUserArray.concat(newInformedUsersArray);
 
         let removedUserIDs = oldUserArray.filter((usrID) => {
-            return newUserArray.indexOf(usrID) === -1
+            return newUserArray.indexOf(usrID) === -1;
         });
         removedUserIDs.forEach((removedUserID) => {
             let ur = new UserRoles(removedUserID);
@@ -315,7 +290,7 @@ export class MeetingSeries {
         Minutes.syncVisibility(this._id, this.visibleFor);
 
         // sync informed only to *not finalized* minutes (do not change the past!)
-        let lastMinutes = this.lastMinutes();
+        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         if (lastMinutes && !lastMinutes.isFinalized) {
             lastMinutes.informedUsers = newInformedUsersArray;
             lastMinutes.save();
@@ -371,7 +346,7 @@ export class MeetingSeries {
             let left = (caseSensitive) ? label.name : label.name.toUpperCase();
             let right = (caseSensitive) ? name : name.toUpperCase();
             return left.indexOf(right) !== -1;
-        })
+        });
     }
 
     removeLabel(id) {
@@ -426,14 +401,14 @@ export class MeetingSeries {
     // ################### server methods: shall only be called within a meteor method
 
     server_unfinalizeLastMinute() {
-        let minutes = this.lastMinutes();
-        let secondLastMinute = this.secondLastMinutes();
+        let minutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
+        let secondLastMinute = MinutesFinder.secondLastMinutesOfMeetingSeries(this);
         if (secondLastMinute) {
             // all fresh created infoItems have to be deleted from the topic list of this series
             this.topics.forEach(topicDoc => {
                 topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
                     return infoItemDoc.createdInMinute !== minutes._id;
-                })
+                });
             });
 
             this._copyTopicsToSeries(secondLastMinute);
@@ -446,7 +421,7 @@ export class MeetingSeries {
     }
 
     server_finalizeLastMinute() {
-        this._copyTopicsToSeries(this.lastMinutes());
+        this._copyTopicsToSeries(MinutesFinder.lastMinutesOfMeetingSeries(this));
     }
 
     // ################### private methods
@@ -477,6 +452,8 @@ export class MeetingSeries {
         // iterate backwards through the topics of the minute
         for (let i = minutes.topics.length; i-- > 0;) {
             let topicDoc = minutes.topics[i];
+            topicDoc.isSkipped = false;
+            
             let topicDocCopy = _.extend({}, topicDoc);
             // pass a copy to our topic object, so this can be tailored for the open topics list
             // without manipulating the original document
@@ -491,16 +468,6 @@ export class MeetingSeries {
                 this.openTopics.unshift(topic.getDocument());
             }
         }
-
-        // delete all open topics from msTopicList which are not part of the currently
-        // finalized minute -> they were deleted within this minute
-        this.topics = this.topics.filter(topic => {
-            if (topic.isOpen) {
-                let indexInMinute = subElementsHelper.findIndexById(topic._id, minutes.topics);
-                return !(indexInMinute === undefined);
-            }
-            return true;
-        })
     }
 
 }

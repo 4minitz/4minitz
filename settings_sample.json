@@ -11,7 +11,8 @@
     "forbidClientAccountCreation": false,
 
     "//2.1": ["Array of userID strings that get the admin role - may be an empty array",
-              "Admins may register users, de-activate users, send broadcast messages, ..."
+              "Admins may register users, de-activate users, send broadcast messages, ...",
+              "All admins will receive 'new version exists' emails if update check finds new version."
               ],
     "adminIDs": ["Th1s1s0nlyADummy1d"],
 
@@ -49,6 +50,9 @@
             ]
         }
     },
+
+    "//2.2": "Change name of site",
+    "siteName": "4Minitz",
 
     "//3": "below option configures if and how to send E-Mails",
     "email": {
@@ -93,7 +97,16 @@
             "apiKey": "Your mailgun api key",
             "domain": "Your mailgun domain",
             "apiUrl": "https://api.mailgun.net/v3"
-        }
+        },
+
+        "//3.6": "Send an e-mail with a verification token to new user when enableMailDelivery:true",
+        "sendVerificationEmail": false,
+
+        "//3.7": "Enable form to resend the verification token to users e-mail when enableMailDelivery:true",
+        "showResendVerificationEmailLink": false,
+
+        "//3.8": "Enable form to perform user password reset when enableMailDelivery:true",
+        "showForgotPasswordLink": true
     },
 
     "//4": "below option to configure default labels. These will be copied to all newly added meeting series",

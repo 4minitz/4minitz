@@ -2,14 +2,11 @@ import { Meteor } from 'meteor/meteor';
 
 import { BroadcastMessageSchema } from './broadcastmessages.schema';
 
-export let BroadcastMessageCollection = new Mongo.Collection("broadcastmessage");
-BroadcastMessageCollection.attachSchema(BroadcastMessageSchema);
-
 if (Meteor.isServer) {
     Meteor.publish('broadcastmessage', function () {
         if(this.userId) {
             // publish only messages, that the current user has NOT yet dismissed
-            return BroadcastMessageCollection.find(
+            return BroadcastMessageSchema.find(
                 {$and: [{isActive: true},
                         {dismissForUserIDs: { $nin: [this.userId] } }]});
         }
@@ -21,48 +18,43 @@ if (Meteor.isServer) {
         if(this.userId) {
             let usr = Meteor.users.findOne(this.userId);
             if (usr.isAdmin) {
-                return BroadcastMessageCollection.find({});
+                return BroadcastMessageSchema.find({});
             }
         }
     });
 }
 
-if (Meteor.isClient) {
-    Meteor.subscribe('broadcastmessage');
-    Meteor.subscribe('broadcastmessageAdmin');
-}
-
 
 Meteor.methods({
-    "broadcastmessage.dismiss": function () {
+    'broadcastmessage.dismiss': function () {
         if (! Meteor.userId()) {
             return;
         }
-        console.log("Dismissing BroadcastMessages for user: "+Meteor.userId());
+        console.log('Dismissing BroadcastMessages for user: '+Meteor.userId());
 
-        BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
-            BroadcastMessageCollection.update(
+        BroadcastMessageSchema.find({isActive: true}).forEach(msg => {
+            BroadcastMessageSchema.update(
                 {_id: msg._id},
-                {$addToSet: {dismissForUserIDs: Meteor.userId()}})
-            }
+                {$addToSet: {dismissForUserIDs: Meteor.userId()}});
+        }
         );
     },
 
-    "broadcastmessage.show": function (message, active=true) {
+    'broadcastmessage.show': function (message, active=true) {
         if (! Meteor.userId()) {
             return;
         }
         // #Security: Only admin may broadcast messages
         if (! Meteor.user().isAdmin) {
-            throw new Meteor.Error("Cannot broadcast message", "You are not admin.");
+            throw new Meteor.Error('Cannot broadcast message', 'You are not admin.');
         }
         if (! message) {
             return;
         }
 
-        console.log("New BroadcastMessage from Admin: >" + message+"<");
+        console.log('New BroadcastMessage from Admin: >' + message+'<');
 
-        const id = BroadcastMessageCollection.insert({
+        const id = BroadcastMessageSchema.insert({
             text: message,
             isActive: active,
             createdAt: new Date(),
@@ -70,36 +62,36 @@ Meteor.methods({
         return id;
     },
 
-    "broadcastmessage.remove": function (messageId) {
-        console.log("broadcastmessage.remove: "+messageId);
+    'broadcastmessage.remove': function (messageId) {
+        console.log('broadcastmessage.remove: '+messageId);
         if (! Meteor.userId()) {
             return;
         }
         // #Security: Only admin may remove messages
         if (! Meteor.user().isAdmin) {
-            throw new Meteor.Error("Cannot remove message", "You are not admin.");
+            throw new Meteor.Error('Cannot remove message', 'You are not admin.');
         }
 
-        BroadcastMessageCollection.remove(messageId);
+        BroadcastMessageSchema.remove(messageId);
     },
 
-    "broadcastmessage.toggleActive": function (messageId) {
-        console.log("broadcastmessage.toggleActive: "+messageId);
+    'broadcastmessage.toggleActive': function (messageId) {
+        console.log('broadcastmessage.toggleActive: '+messageId);
         if (! Meteor.userId()) {
             return;
         }
         // #Security: Only admin may remove messages
         if (! Meteor.user().isAdmin) {
-            throw new Meteor.Error("Cannot remove message", "You are not admin.");
+            throw new Meteor.Error('Cannot remove message', 'You are not admin.');
         }
 
-        let msg = BroadcastMessageCollection.findOne(messageId);
+        let msg = BroadcastMessageSchema.findOne(messageId);
         if (msg) {
             if (msg.isActive) {
-                BroadcastMessageCollection.update(messageId,
+                BroadcastMessageSchema.update(messageId,
                     {$set: {isActive: false}});
             } else {
-                BroadcastMessageCollection.update(messageId,
+                BroadcastMessageSchema.update(messageId,
                     {$set: {isActive: true, createdAt: new Date(), dismissForUserIDs: []}});
             }
         }

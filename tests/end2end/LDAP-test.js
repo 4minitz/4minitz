@@ -35,6 +35,22 @@ describe('LDAP', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
+    it('ldap user can NOT reset password', function () {
+        E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
+        E2EApp.logoutUser();
+
+        browser.click('#tab_standard');
+        E2EGlobal.waitSomeTime();
+        if (browser.isVisible('#at-forgotPwd')) {
+            E2EApp.resetPassword('ldapUser1@example.com');
+            E2EGlobal.waitSomeTime(500);
+            expect('.at-error .alert .alert-danger').to.be.visible;
+        }
+        else {
+            expect('#at-forgotPwd').not.to.be.visible;
+        }
+    });
+
     it('ldap user can create meeting series', function () {
         E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
 

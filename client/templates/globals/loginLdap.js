@@ -18,7 +18,7 @@ function loginCallback(error) {
 }
 
 Template.loginLdap.events({
-    "submit #ldapLoginForm"(event) {
+    'submit #ldapLoginForm'(event) {
         event.preventDefault();
 
         let username = $('#id_ldapUsername').val();

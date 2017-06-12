@@ -1,12 +1,18 @@
 import { Meteor } from 'meteor/meteor';
-import { BroadcastMessage } from '/imports/broadcastmessage';
 import { formatDateISO8601Time } from '/imports/helpers/date';
+
+import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
+import { BroadcastMessage } from '/imports/broadcastmessage';
+
+Template.broadcastMessageDialog.onCreated(function () {
+        this.subscribe("broadcastmessage");
+});
 
 Template.broadcastMessageDialog.helpers({
 
     // just a little reactive trigger to show the modal msg dialog
-    "showBroadcastMessages": function () {
-        const msgCount = BroadcastMessage.find(
+    'showBroadcastMessages': function () {
+        const msgCount = BroadcastMessageSchema.find(
             {$and: [{isActive: true},
                     {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
         if (msgCount > 0) {
@@ -19,34 +25,23 @@ Template.broadcastMessageDialog.helpers({
             }, 250);
         }
         // do not return anything here, or it will be rendered in the page!!!
-        return "";
+        return '';
     },
 
-    "broadcastMessages": function () {
-        return BroadcastMessage.find(
+    'broadcastMessages': function () {
+        return BroadcastMessageSchema.find(
             {$and: [{isActive: true}
                     , {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}
             , {sort: {createdAt: -1}});
     },
 
-    "formatTimeStamp": function (date) {
+    'formatTimeStamp': function (date) {
         return formatDateISO8601Time(date);
     }
 });
 
 Template.broadcastMessageDialog.events({
-    "click #btnDismissBroadcast": function (evt, tmpl) {
+    'click #btnDismissBroadcast': function (evt, tmpl) {
         BroadcastMessage.dismissForMe();
     }
 });
-
-Template.broadcastMessageDialog.onCreated(function () {
-});
-
-Template.broadcastMessageDialog.onRendered(function () {
-});
-
-Template.broadcastMessageDialog.onDestroyed(function () {
-    //add your statement here
-});
-

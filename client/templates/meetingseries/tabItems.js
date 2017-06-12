@@ -1,14 +1,11 @@
-import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
-
-import { Minutes } from '/imports/minutes';
-import { Topic } from '/imports/topic';
-import { Label } from '/imports/label';
 
 import { ItemsFilter } from '/imports/search/ItemsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
 import { FilterControlConfig } from '../globals/ui-controls/filterControl';
 import { ITEM_KEYWORDS } from '/imports/search/FilterKeywords';
+
+import { TopicInfoItemListContext } from '../topic/topicInfoItemList';
 
 import { createLabelIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
@@ -29,7 +26,7 @@ const FILTERS = [
 ];
 
 Template.tabItems.onCreated(function() {
-    this.topicFilterQuery = new ReactiveVar("");
+    this.topicFilterQuery = new ReactiveVar('');
     let myTemplate = Template.instance();
     this.topicFilterHandler = (query) => {
         myTemplate.topicFilterQuery.set(query);
@@ -45,19 +42,19 @@ Template.tabItems.onCreated(function() {
 
 Template.tabItems.helpers({
 
-    'getTopicFilterConfig': function() {
+    getTopicFilterConfig () {
         let tmpl = Template.instance();
         return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS);
     },
 
-    'getInfoItems': function() {
-        let tmpl = Template.instance();
+    getInfoItemListContext () {
+        const tmpl = Template.instance();
 
-        let query = tmpl.topicFilterQuery.get();
+        const query = tmpl.topicFilterQuery.get();
         tmpl.parser.reset();
         tmpl.parser.parse(query);
 
-        let items = tmpl.data.topics.reduce(
+        const items = tmpl.data.topics.reduce(
             (acc, topic) => {
                 return acc.concat(topic.infoItems.map((item) => {
                     item.parentTopicId = topic._id;
@@ -68,17 +65,10 @@ Template.tabItems.helpers({
             []
         );
 
-        return tmpl.itemsFilter.filter(items, tmpl.parser);
-    },
-
-    'infoItemData': function(index) {
-        return {
-            infoItem: this,
-            parentTopicId: this.parentTopicId,
-            isEditable: false,
-            minutesID: Template.instance().data.parentMeetingSeriesId,
-            currentCollapseId: this.parentTopicId + "_" + index  // each topic item gets its own collapseID
-        };
+        return TopicInfoItemListContext.createReadonlyContextForItemsOfDifferentTopics(
+            tmpl.itemsFilter.filter(items, tmpl.parser),
+            tmpl.data.parentMeetingSeriesId
+        )
     }
 
 });

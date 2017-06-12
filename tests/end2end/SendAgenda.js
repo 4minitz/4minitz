@@ -111,6 +111,7 @@ describe('Send agenda', function () {
     it('ensures that the agenda will be sent to all invited', function() {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.disableEmailForRoleChange();
 
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];

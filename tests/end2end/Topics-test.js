@@ -422,6 +422,7 @@ describe('Topics', function () {
             isOpen:false,
             isRecurring:false,
             isNew:true,
+            isSkipped: false,
             infoItems: [],
             labels: []
         };
@@ -456,8 +457,8 @@ describe('Topics', function () {
         E2ETopics.addTopicWithLabelToMinutes('topic', labelName);
         E2EGlobal.waitSomeTime(500);
 
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".label")).to.equal(labelName);
+        expect(browser.waitForExist(".topic-labels")).to.be.true;
+        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
     });
 
     it('add label to topic via textbox', function() {
@@ -465,8 +466,8 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('topic #' + labelName);
         E2EGlobal.waitSomeTime(500);
 
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".label")).to.equal(labelName);
+        expect(browser.waitForExist(".topic-labels")).to.be.true;
+        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
     });
 
     it('add more (2) labels to topic via textbox', function() {
@@ -476,9 +477,9 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes(topicName + ' #' + labelName1 + ' #' + labelName2);
         E2EGlobal.waitSomeTime(500);
 
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".labels .label:nth-child(1)")).to.equal(labelName1);
-        expect(browser.getText(".labels .label:nth-child(2)")).to.equal(labelName2);
+        expect(browser.waitForExist(".topic-labels")).to.be.true;
+        expect(browser.getText(".topic-labels .label:nth-child(1)")).to.equal(labelName1);
+        expect(browser.getText(".topic-labels .label:nth-child(2)")).to.equal(labelName2);
     });
 
     it('add label to topic and check if topic is displayed in topic tab of meeting series', function() {
@@ -490,8 +491,8 @@ describe('Topics', function () {
         E2EMinutes.gotoParentMeetingSeries();
         E2EMeetingSeries.gotoTabTopics();
 
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".labels .label")).to.equal(labelName);
+        expect(browser.waitForExist(".topic-labels")).to.be.true;
+        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
     });
 
     it('can add a topic with label to minutes at the end of topics list', function() {
@@ -503,8 +504,8 @@ describe('Topics', function () {
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".label")).to.equal(labelName);
+        expect(browser.waitForExist(".topic-labels")).to.be.true;
+        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
     });
 
     it('can add a topic with more (2) labels to minutes at the end of topics list', function() {
@@ -518,8 +519,8 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
         expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".labels .label:nth-child(1)")).to.equal(labelName1);
-        expect(browser.getText(".labels .label:nth-child(2)")).to.equal(labelName2);
+        expect(browser.getText(".topic-labels .label:nth-child(1)")).to.equal(labelName1);
+        expect(browser.getText(".topic-labels .label:nth-child(2)")).to.equal(labelName2);
     });
 
     it('can add a topic with responsible to minutes at the end of topics list', function() {
@@ -563,8 +564,8 @@ describe('Topics', function () {
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".label")).to.equal(labelName);
+        expect(browser.waitForExist(".topic-labels")).to.be.true;
+        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
         expect (topicHeadingText).to.contain(responsibleName);
     });
 });

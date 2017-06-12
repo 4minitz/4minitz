@@ -4,8 +4,6 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 import { E2EMinutes } from './helpers/E2EMinutes';
 import { E2ETopics } from './helpers/E2ETopics';
 
-import { formatDateISO8601 } from '../../imports/helpers/date';
-
 
 describe('Info Items', function () {
     const aProjectName = "E2E Info Items";
@@ -66,31 +64,6 @@ describe('Info Items', function () {
         let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
 
         expect(infoItemExpandElementText, "Info item visible text should match").to.have.string(infoItemName);
-    });
-
-    it('places the cursor in the new details field after adding one item to directly add details', function() {
-        const detailsText = 'Directly added details';
-        let topicIndex = 1;
-        const infoItemName = getNewAIName();
-        E2ETopics.addInfoItemToTopic({
-            subject: infoItemName,
-            itemType: "infoItem"
-        }, topicIndex, /* do not close detail input */false);
-
-        E2EGlobal.waitSomeTime();
-
-        let selDetails = E2ETopics.getInfoItemSelector(1, 1) + ".detailRow:nth-child(1) ";
-        let selFocusedInput = selDetails + ".detailInput";
-        browser.waitForVisible(selFocusedInput, 1000);
-
-        browser.keys(detailsText);
-        browser.keys(['Escape']); // Save the details
-        E2EGlobal.waitSomeTime(250);
-
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
-        expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
     });
 
     it('shows security question before deleting info items', function () {
@@ -205,5 +178,45 @@ describe('Info Items', function () {
         infoItemExpandElement = browser.element(newLabelSelector).value.ELEMENT;
         infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
         expect(infoItemExpandElementText, "New label text should match").to.have.string("Decision");
+    });
+
+    it('can edit the 2nd info item after creating three of them', function() {
+        let topicIndex = 1;
+        for (let i=1; i<4; i++) {
+            E2ETopics.addInfoItemToTopic({
+                subject: `Info Item #${i}`,
+                itemType: "infoItem"
+            }, topicIndex);
+            E2EGlobal.waitSomeTime();
+            if (i === 2) { // edit the first (last added) entry after adding the 2nd one.
+                E2ETopics.openInfoItemEditor(topicIndex, 1);
+                E2EGlobal.waitSomeTime();
+                E2ETopics.submitInfoItemDialog();
+            }
+        }
+
+        for (let i=1; i>4; i++) {
+            // Check new subject text
+            const selector = `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(${i})`;
+            expect(browser.isVisible(selector), `Info Item ${i} should be visible`).to.be.true;
+            let infoItemExpandElement = browser.element(selector).value.ELEMENT;
+            let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
+            expect(infoItemExpandElementText, `Info Item ${i} should be added correctly`).to.have.string(`Info Item #${i}`);
+        }
+
+        // Check if the 2nd item can be edited correctly
+        E2ETopics.openInfoItemEditor(topicIndex, 2);
+        E2EGlobal.waitSomeTime();
+        E2ETopics.insertInfoItemDataIntoDialog({
+            subject: 'Info Item #2 - changed',
+            itemType: 'infoItem'
+        });
+        E2ETopics.submitInfoItemDialog();
+
+        const selector = `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(2)`;
+        let infoItemExpandElement = browser.element(selector).value.ELEMENT;
+        let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
+        expect(infoItemExpandElementText, `Info Item 2 should be edited correctly`).to.have.string('Info Item #2 - changed');
+
     });
 });

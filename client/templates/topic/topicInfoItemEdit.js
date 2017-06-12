@@ -4,12 +4,13 @@ import { Meteor } from 'meteor/meteor';
 
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 
-import { Minutes } from '/imports/minutes'
-import { MeetingSeries } from '/imports/meetingseries'
-import { Topic } from '/imports/topic'
-import { InfoItem } from '/imports/infoitem'
-import { ActionItem } from '/imports/actionitem'
-import { Label } from '/imports/label'
+import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
+import { Topic } from '/imports/topic';
+import { InfoItem } from '/imports/infoitem';
+import { ActionItem } from '/imports/actionitem';
+import { Label } from '/imports/label';
+import { User, userSettings } from '/imports/users';
 
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import { currentDatePlusDeltaDays } from '/imports/helpers/date';
@@ -18,19 +19,23 @@ import { emailAddressRegExpTest } from '/imports/helpers/email';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 
-
-Session.setDefault("topicInfoItemEditTopicId", null);
-Session.setDefault("topicInfoItemEditInfoItemId", null);
-Session.setDefault("topicInfoItemType", "infoItem");
+Session.setDefault('topicInfoItemEditTopicId', null);
+Session.setDefault('topicInfoItemEditInfoItemId', null);
+Session.setDefault('topicInfoItemType', 'infoItem');
 
 let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for performance reasons!
 
+collapseState = new ReactiveVar(false);
+
 Template.topicInfoItemEdit.onCreated(function () {
     _minutesID = this.data;
-    console.log("Template topicEdit created with minutesID "+_minutesID);
+    console.log('Template topicEdit created with minutesID '+_minutesID);
     let aMin = new Minutes(_minutesID);
     _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
+
+    const user = new User();
+    this.collapseState = new ReactiveVar(user.getSetting(userSettings.showAddDetail, true));
 });
 
 Template.topicInfoItemEdit.onRendered(function () {
@@ -40,7 +45,7 @@ Template.topicInfoItemEdit.onRendered(function () {
     });
     // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
     this.$('#id_item_duedatePicker').datetimepicker({
-        format: "YYYY-MM-DD",
+        format: 'YYYY-MM-DD',
         // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on some systems...
         showTodayButton: true
     });
@@ -48,7 +53,7 @@ Template.topicInfoItemEdit.onRendered(function () {
 
 let getRelatedTopic = function() {
     let minutesId = _minutesID;
-    let topicId = Session.get("topicInfoItemEditTopicId");
+    let topicId = Session.get('topicInfoItemEditTopicId');
 
     if (minutesId === null ||  topicId === null) {
         return false;
@@ -58,7 +63,7 @@ let getRelatedTopic = function() {
 };
 
 let getEditInfoItem = function() {
-    let id = Session.get("topicInfoItemEditInfoItemId");
+    let id = Session.get('topicInfoItemEditInfoItemId');
 
     if (!id) return false;
 
@@ -67,19 +72,19 @@ let getEditInfoItem = function() {
 
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
-    Session.set("topicInfoItemType", type);
+    Session.set('topicInfoItemType', type);
 
     switch (type) {
-        case "actionItem":
-            actionItemOnlyElements.show();
-            configureSelect2Responsibles();
-            break;
-        case "infoItem":
-            actionItemOnlyElements.hide();
-            break;
-        default:
-            Session.set("topicInfoItemType", null);
-            throw new Meteor.Error("Unknown type!");
+    case 'actionItem':
+        actionItemOnlyElements.show();
+        configureSelect2Responsibles();
+        break;
+    case 'infoItem':
+        actionItemOnlyElements.hide();
+        break;
+    default:
+        Session.set('topicInfoItemType', null);
+        throw new Meteor.Error('Unknown type!');
     }
 };
 
@@ -96,10 +101,10 @@ function configureSelect2Responsibles() {
     let possResp = preparer.getPossibleResponsibles();
     let remainingUsers = preparer.getRemainingUsers();
     let selectOptions = [{
-        text: "Participants",
+        text: 'Participants',
         children: possResp
     }, {
-        text: "Other Users",
+        text: 'Other Users',
         children: remainingUsers
     }];
 
@@ -115,7 +120,7 @@ function configureSelect2Responsibles() {
     if (editItem) {
         selectResponsibles.val(editItem.getResponsibleRawArray());
     }
-    selectResponsibles.trigger("change");
+    selectResponsibles.trigger('change');
 }
 
 function configureSelect2Labels() {
@@ -145,8 +150,25 @@ function configureSelect2Labels() {
     if (editItem) {
         selectLabels.val(editItem.getLabelsRawArray());
     }
-    selectLabels.trigger("change");
+    selectLabels.trigger('change');
 }
+
+let resizeTextarea = (element) => {
+
+    let newLineRegEx = new RegExp(/\n/g);
+    let textAreaValue = element.val();
+    let occurrences;
+
+    occurrences = (textAreaValue.match(newLineRegEx) || []).length;
+
+    //limit of textarea size
+    if(occurrences < 15) {
+        if (occurrences === 0)
+            element.attr('rows', occurrences + 2);
+        else
+            element.attr('rows', occurrences + 1);
+    }
+};
 
 Template.topicInfoItemEdit.helpers({
     isEditMode: function () {
@@ -155,12 +177,17 @@ Template.topicInfoItemEdit.helpers({
 
     getTopicSubject: function () {
         let topic = getRelatedTopic();
-        return (topic) ? topic._topicDoc.subject : "";
+        return (topic) ? topic._topicDoc.subject : '';
     },
 
     getTopicItemType: function () {
-        let type = Session.get("topicInfoItemType");
-        return (type === "infoItem") ? "Information" : "Action Item";
+        let type = Session.get('topicInfoItemType');
+        return (type === 'infoItem') ? 'Information' : 'Action Item';
+    },
+
+    collapseState: function() {
+        const user = new User();
+        return user.getSetting(userSettings.showAddDetail, true);
     }
 });
 
@@ -169,11 +196,16 @@ Template.topicInfoItemEdit.events({
         evt.preventDefault();
 
         if (!getRelatedTopic()) {
-            throw new Meteor.Error("IllegalState: We have no related topic object!");
+            throw new Meteor.Error('IllegalState: We have no related topic object!');
         }
 
-        let type = Session.get("topicInfoItemType");
+        let type = Session.get('topicInfoItemType');
         let newSubject = tmpl.find('#id_item_subject').value;
+        let newDetail;
+
+        if(getEditInfoItem() === false) {
+            newDetail = tmpl.find('#id_item_detailInput').value;
+        }
 
         let editItem = getEditInfoItem();
         let doc = {};
@@ -181,7 +213,7 @@ Template.topicInfoItemEdit.events({
             _.extend(doc, editItem._infoItemDoc);
         }
 
-        let labels = tmpl.$("#id_item_selLabelsActionItem").val();
+        let labels = tmpl.$('#id_item_selLabelsActionItem').val();
         if (!labels) labels = [];
         let aMinute = new Minutes(_minutesID);
         let aSeries = aMinute.parentMeetingSeries();
@@ -194,6 +226,7 @@ Template.topicInfoItemEdit.events({
             }
             return label.getId();
         });
+
         doc.subject = newSubject;
         if (!doc.createdInMinute) {
             doc.createdInMinute = _minutesID;
@@ -202,85 +235,110 @@ Template.topicInfoItemEdit.events({
 
         let newItem;
         switch (type) {
-            case "actionItem":
-                doc.priority = tmpl.find('#id_item_priority').value;
-                doc.responsibles = $('#id_selResponsibleActionItem').val();
-                doc.duedate = tmpl.find('#id_item_duedateInput').value;
+        case 'actionItem':
+            doc.priority = tmpl.find('#id_item_priority').value;
+            doc.responsibles = $('#id_selResponsibleActionItem').val();
+            doc.duedate = tmpl.find('#id_item_duedateInput').value;
 
-                newItem = new ActionItem(getRelatedTopic(), doc);
-                break;
-            case "infoItem":
+            newItem = new ActionItem(getRelatedTopic(), doc);
+            break;
+        case 'infoItem':
             {
                 newItem = new InfoItem(getRelatedTopic(), doc);
                 break;
             }
-            default:
-                throw new Meteor.Error("Unknown type!");
+        default:
+            throw new Meteor.Error('Unknown type!');
         }
 
         newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
         let itemAlreadyExists = !!newItem.getId();
         newItem.saveAsync().catch(handleError);
-        console.log('Successfully saved new item with id: ' + newItem.getId());
-        $('#dlgAddInfoItem').modal('hide');
-        if (!itemAlreadyExists) {
-            Session.set('topicInfoItem.triggerAddDetailsForItem', newItem.getId());
+        if (getEditInfoItem() === false && newDetail) {
+            newItem.addDetails(aMinute._id, newDetail);
+            newItem.saveAsync().catch(handleError);
+            let details = newItem.getDetails();
+            let detailItem = newItem.getDetailsAt(details.length-1);
         }
+        $('#dlgAddInfoItem').modal('hide');
     },
 
     // will be called before the dialog is shown
-    "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
+    'show.bs.modal #dlgAddInfoItem': function (evt, tmpl) {
         // at this point we clear the view
-        let saveButton = $("#btnInfoItemSave");
-        let cancelButton = $("#btnInfoItemCancel");
-        saveButton.prop("disabled",false);
-        cancelButton.prop("disabled",false);
+        let saveButton = $('#btnInfoItemSave');
+        let cancelButton = $('#btnInfoItemCancel');
+        saveButton.prop('disabled',false);
+        cancelButton.prop('disabled',false);
 
         let editItem = getEditInfoItem();
-        tmpl.find("#id_item_subject").value = (editItem) ? editItem._infoItemDoc.subject : "";
+
+        let itemSubject = tmpl.find("#id_item_subject");
+        itemSubject.value = (editItem) ? editItem._infoItemDoc.subject : '';
 
         tmpl.find('#id_item_priority').value =
-            (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : "";
+            (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : '';
 
         tmpl.find('#id_item_duedateInput').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
 
+        const user = new User();
+        tmpl.collapseState.set(user.getSetting(userSettings.showAddDetail, true));
+
+        let detailsArea = tmpl.find('#id_item_detailInput');
+        if (detailsArea) {
+            detailsArea.value = "";
+            detailsArea.setAttribute('rows', 2);
+            if(tmpl.collapseState.get() === false) {
+                detailsArea.style.display = 'none';
+            }
+        }
+
         // set type: edit existing item
         if (editItem) {
-            let type = (editItem instanceof ActionItem) ? "actionItem" : "infoItem";
+            let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
             toggleItemMode(type, tmpl);
         } else {  // adding a new item
             configureSelect2Responsibles();
             let selectResponsibles = $('#id_selResponsibleActionItem');
             if (selectResponsibles) {
-                selectResponsibles.val([]).trigger("change");
+                selectResponsibles.val([]).trigger('change');
             }
             let selectLabels = $('#id_item_selLabelsActionItem');
             if (selectLabels) {
-                selectLabels.val([]).trigger("change");
+                selectLabels.val([]).trigger('change');
             }
-            toggleItemMode(Session.get("topicInfoItemType"), tmpl);
+            let infoItemType = Session.get('topicInfoItemType');
+            toggleItemMode(infoItemType, tmpl);
+
+            if(infoItemType === 'infoItem') {
+                itemSubject.value = "Info";
+            } else {
+                itemSubject.value = '';
+            }
         }
     },
 
-    "shown.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
+    'shown.bs.modal #dlgAddInfoItem': function (evt, tmpl) {
         // ensure new values trigger placeholder animation
-        $('#id_item_subject').trigger("change");
-        $('#id_item_priority').trigger("change");
-        tmpl.find("#id_item_subject").focus();
+        $('#id_item_subject').trigger('change');
+        $('#id_item_priority').trigger('change');
+        let itemSubject = tmpl.find('#id_item_subject');
+        itemSubject.focus();
+        itemSubject.select();
         configureSelect2Labels();
     },
 
-    "hidden.bs.modal #dlgAddInfoItem": function () {
+    'hidden.bs.modal #dlgAddInfoItem': function () {
         // reset the session var to indicate that edit mode has been closed
-        Session.set("topicInfoItemEditTopicId", null);
-        Session.set("topicInfoItemEditInfoItemId", null);
-        Session.set("topicInfoItemType", null);
+        Session.set('topicInfoItemEditTopicId', null);
+        Session.set('topicInfoItemEditInfoItemId', null);
+        Session.set('topicInfoItemType', null);
     },
 
-    "select2:selecting #id_selResponsibleActionItem"(evt) {
+    'select2:selecting #id_selResponsibleActionItem'(evt) {
         console.log(evt);
-        console.log("selecting:"+evt.params.args.data.id + "/"+evt.params.args.data.text);
+        console.log('selecting:'+evt.params.args.data.id + '/'+evt.params.args.data.text);
         if (evt.params.args.data.id === evt.params.args.data.text) { // we have a free-text entry
             if (! emailAddressRegExpTest.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
@@ -294,8 +352,8 @@ Template.topicInfoItemEdit.events({
         return true;
     },
 
-    "select2:select #id_selResponsibleActionItem"(evt) {
-        console.log("select:"+evt.params.data.id + "/"+evt.params.data.text);
+    'select2:select #id_selResponsibleActionItem'(evt) {
+        console.log('select:'+evt.params.data.id + '/'+evt.params.data.text);
         let respId = evt.params.data.id;
         let respName = evt.params.data.text;
         let aUser = Meteor.users.findOne(respId);
@@ -303,6 +361,36 @@ Template.topicInfoItemEdit.events({
             emailAddressRegExpTest.test(respName)) { // only take valid mail addresses
             _meetingSeries.addAdditionalResponsible(respName);
             _meetingSeries.save();
+        }
+    },
+
+    'click .detailInputMarkdownHint'(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        ConfirmationDialogFactory
+            .makeInfoDialog('Help for Markdown Syntax')
+            .setTemplate('markdownHint')
+            .show();
+
+    },
+
+    'click #btnExpandCollapse': function (evt, tmpl) {
+        evt.preventDefault();
+
+        let detailsArea = tmpl.find('#id_item_detailInput');
+        detailsArea.style.display = (detailsArea.style.display ==='none') ? 'inline-block' : 'none';
+
+        tmpl.collapseState.set(!tmpl.collapseState.get());
+
+        const user = new User();
+        user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
+    },
+
+    'keyup #id_item_detailInput': function (evt, tmpl) {
+        let inputEl = tmpl.$(`#id_item_detailInput`);
+
+        if (evt.which === 13/*Enter*/ || evt.which === 8/*Backspace*/ || evt.which === 46/*Delete*/) {
+            resizeTextarea(inputEl);
         }
     }
 });

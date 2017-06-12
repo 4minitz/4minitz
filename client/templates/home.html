@@ -1,12 +1,13 @@
 <template name="home">
 
-  {{#if currentUser}}
-    {{> meetingSeriesList}}
-  {{else}}
+    {{#if currentUser}}
+      {{> meetingSeriesList}}
+    {{else}}
 
-    <!-- This login template embedding is for security only... -->
-    <!-- Normally the router.js decides to render the login template if no user is logged in -->
-    {{> login}}
+      <!-- This login template embedding is for security only... -->
+      <!-- Normally the router.js decides to render the login template if no user is logged in -->
+      {{> login}}
 
-  {{/if}}
+    {{/if}}
+
 </template>

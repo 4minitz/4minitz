@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { ServerTemplate } from 'meteor/felixble:server-templates'
+import { ServerTemplate } from 'meteor/felixble:server-templates';
 import { _ } from 'meteor/underscore';
-import { GlobalHelpers } from './global_helpers'
+import { GlobalHelpers } from './global_helpers';
 
 export class TemplateRenderer {
 
@@ -16,8 +16,8 @@ export class TemplateRenderer {
         let tmplString;
         if (loadTmplFromAssets) {
             let templatePath = (templatePathPrefix)
-                ? templatePathPrefix + "/" + template + ".html"
-                : template + ".html";
+                ? templatePathPrefix + '/' + template + '.html'
+                : template + '.html';
             tmplString = Assets.getText(templatePath);
         } else {
             tmplString = template;

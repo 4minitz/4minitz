@@ -45,7 +45,7 @@ let _fetchLDAPUsers = function (connection) {
                     }
                     entries.push(entry.object);
                     if (isIncative) {
-                        entries[entries.length-1]["isInactive"] = true;
+                        entries[entries.length-1]['isInactive'] = true;
                     }
                 });
                 response.on('error', function (error) {

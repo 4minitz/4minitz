@@ -17,7 +17,7 @@ import 'moment/moment';
 // bootstrap js
 import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/js/transition';
-import 'bootstrap/js/collapse'
+import 'bootstrap/js/collapse';
 
 // bootstrap datetime picker
 import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css';
@@ -56,11 +56,18 @@ $(document).arrive('input', {
 
 // as soon as the document is loaded initialize material design
 $(document).ready(() => {
+    $.material.checkboxOriginal = $.material.checkbox;
+    $.material.checkbox = function(selector) {
+        let $input = $((selector) ? selector : this.options.checkboxElements);
+        if (!$input.next() || !$input.next().hasClass('checkbox-material')) {
+            this.checkboxOriginal(selector);
+        }
+    };
     $.material.init();
 });
 
 Meteor.startup(() => {
-    Meteor.call("gitVersionInfoUpdate");
+    Meteor.call('gitVersionInfoUpdate');
 
     bootstrapAttachementsLiveQuery();
 
@@ -69,15 +76,15 @@ Meteor.startup(() => {
         sanitize: true
     });
 
-    Template.registerHelper("pathForImproved", function(path) {
+    Template.registerHelper('pathForImproved', function(path) {
         // FlowRouters pathFor helper is a little bit inconsistent.
         // for ROOT_URL=http://localhost:3000           it processes "/" => "/"
         // for ROOT_URL=http://localhost:3100/4minitz   it processes "/" => "/4minitz"
         // so sometimes we have a trailing "/" sometimes not.
         // Unfortunately serving an image like so "<img src="//mylogo.png"> does not work!
         let pathWithTrailingSlash = Blaze._globalHelpers.pathFor(path);
-        if (! pathWithTrailingSlash.endsWith("/")) {
-            pathWithTrailingSlash = pathWithTrailingSlash + "/";
+        if (! pathWithTrailingSlash.endsWith('/')) {
+            pathWithTrailingSlash = pathWithTrailingSlash + '/';
         }
         return pathWithTrailingSlash;
     });
@@ -90,7 +97,7 @@ window.onbeforeunload = function (e) {
         event.cancel();
     }
 
-    const message = "Do you really want to leave 4Minitz?";
+    const message = 'Do you really want to leave 4Minitz?';
     // For IE and Firefox
     if (event) {
         event.returnValue = message;

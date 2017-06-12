@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { BroadcastMessageCollection } from '/imports/collections/broadcastmessage_private';
+import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
 // Dear admin,
@@ -15,15 +15,15 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 export class BroadcastMessage {
 
     static find(...args) {
-        return BroadcastMessageCollection.find(...args);
+        return BroadcastMessageSchema.find(...args);
     }
 
     static findOne(...args) {
-        return BroadcastMessageCollection.findOne(...args);
+        return BroadcastMessageSchema.findOne(...args);
     }
 
     static dismissForMe() {
-        Meteor.call("broadcastmessage.dismiss");
+        Meteor.call('broadcastmessage.dismiss');
     }
 
     // ************************
@@ -32,40 +32,40 @@ export class BroadcastMessage {
     static show(message, active=true)
     {
         if (Meteor.isServer) {
-            Meteor.call("broadcastmessage.show", message, active)
+            Meteor.call('broadcastmessage.show', message, active);
         }
     }
 
     static removeAll () {
         if (Meteor.isServer) {
-            console.log("Remove All BroadcastMessages.");
-            BroadcastMessageCollection.remove({});
+            console.log('Remove All BroadcastMessages.');
+            BroadcastMessageSchema.remove({});
         }
     }
 
     static remove (id) {
-        if (!id || id == "") {
+        if (!id || id === '') {
             return;
         }
         if (Meteor.isServer) {
-            console.log("Remove BroadcastMessage: " + id);
-            BroadcastMessageCollection.remove({_id: id});
+            console.log('Remove BroadcastMessage: ' + id);
+            BroadcastMessageSchema.remove({_id: id});
         }
     }
 
     static listAll () {
         if (Meteor.isServer) {
-            console.log("List All BroadcastMessages.");
+            console.log('List All BroadcastMessages.');
             let allMsgs = [];
-            BroadcastMessageCollection.find({isActive: true}).forEach(msg => {
-                let oneMsg = "Message: "+msg._id+" "+
+            BroadcastMessageSchema.find({isActive: true}).forEach(msg => {
+                let oneMsg = 'Message: '+msg._id+' '+
                             formatDateISO8601Time(msg.createdAt) +
-                            " dismissed:"+msg.dismissForUserIDs.length +
-                            "\n" + msg.text;
+                            ' dismissed:'+msg.dismissForUserIDs.length +
+                            '\n' + msg.text;
                 console.log(oneMsg);
                 allMsgs.push(oneMsg);
             });
-            console.log("---");
+            console.log('---');
             return allMsgs;
         }
     }

@@ -1,7 +1,9 @@
 import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { FlashMessage } from '../../helpers/flashMessage';
+import { TopicInfoItemListContext } from './topicInfoItemList';
 
 let _minutesId;
 
@@ -9,39 +11,14 @@ let onError = (error) => {
     (new FlashMessage('Error', error.reason)).show();
 };
 
-let updateItemSorting = (evt, ui) => {
-    let item = ui.item,
-        sorting = item.parent().find('> .topicInfoItem'),
-        topic = new Topic(_minutesId, item.attr('data-parent-id')),
-        newItemSorting = [];
-
-    for (let i = 0; i < sorting.length; ++i) {
-        let itemId = $(sorting[i]).attr('data-id');
-        let item = topic.findInfoItem(itemId);
-
-        newItemSorting.push(item.getDocument());
-    }
-
-    topic.setItems(newItemSorting);
-    topic.save().catch(error => {
-        $('.itemPanel').sortable( "cancel" );
-        onError(error)
-    });
-};
+const INITIAL_ITEMS_LIMIT = 4;
 
 Template.topicElement.onCreated(function () {
-    _minutesId = Template.instance().data.minutesID;
+    let tmplData = Template.instance().data;
+    _minutesId = tmplData.minutesID;
 
-    $(document).arrive('.itemPanel', () => {
-        $('.itemPanel').sortable({
-            appendTo: document.body,
-            axis: 'y',
-            opacity: 0.5,
-            disabled: false,
-            handle: '.itemDragDropHandle',
-            update: updateItemSorting
-        });
-    });
+    this.isItemsLimited = new ReactiveVar(tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT);
+    this.isCollapsed = new ReactiveVar(false);
 });
 
 Template.topicElement.helpers({
@@ -59,39 +36,23 @@ Template.topicElement.helpers({
 
     checkedState: function () {
         if (this.topic.isOpen) {
-            return "";
+            return '';
         } else {
-            return {checked: "checked"};
+            return {checked: 'checked'};
         }
     },
 
     disabledState: function () {
-        if (this.isEditable) {
-            return "";
+        if ((this.isEditable) && (!this.topic.isSkipped)) {
+            return '';
         } else {
-            return {disabled: "disabled"};
+            return {disabled: 'disabled'};
         }
-    },
-
-    // helper will be called within the each-infoItem block
-    // so this refers to the current infoItem
-    getInfoItem: function (index) {
-        let parentTopicId = Template.instance().data.topic._id;
-        let parentElement = (Template.instance().data.minutesID)
-            ? Template.instance().data.minutesID : Template.instance().data.parentMeetingSeriesId;
-
-        return {
-            infoItem: this,
-            parentTopicId: parentTopicId,
-            isEditable: Template.instance().data.isEditable,
-            minutesID: parentElement,//Template.instance().data.minutesID,
-            currentCollapseId: parentTopicId+"_"+index  // each topic item gets its own collapseID
-        };
     },
 
     // determine if this topic shall be rendered collapsed
     isCollapsed() {
-        let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
+        let collapseState = Session.get('minutesedit.collapsetopics.'+_minutesId);
         return collapseState ? collapseState[this.topic._id] : false;
     },
 
@@ -105,22 +66,42 @@ Template.topicElement.helpers({
 
             let aTopic = new Topic(parentElement, this.topic._id);
             if (aTopic.hasResponsibles()) {
-                return "("+aTopic.getResponsiblesString()+")";
+                return '('+aTopic.getResponsiblesString()+')';
             }
         } catch (e) {
             // intentionally left blank.
             // on deletion of a topic blaze once calls this method on the just deleted topic
             // we handle this gracefully with this empty exception handler
         }
-        return "";
+        return '';
     },
 
+    getData() {
+        const data = Template.instance().data;
+        const parentElement = (data.minutesID) ? data.minutesID : data.parentMeetingSeriesId;
+        return TopicInfoItemListContext.createContextForItemsOfOneTopic(
+            data.topic.infoItems,
+            !data.isEditable,
+            parentElement,
+            data.topic._id
+        );
+    },
 
     classForEdit() {
-        return this.isEditable ? "btnEditTopic" : "";
+        return this.isEditable ? 'btnEditTopic' : '';
     },
+    
+    classForSkippedTopics() {
+        return this.topic.isSkipped ? 'strikethrough' : '';
+    },
+    
     cursorForEdit() {
-        return this.isEditable ? "pointer" : "";
+        return this.isEditable ? 'pointer' : '';
+    },
+    
+    showMenu() {
+        return ((this.isEditable) || // Context: Current non-finalized Minute
+            (!this.minutesID && !this.topic.isOpen && new MeetingSeries(this.parentMeetingSeriesId).isCurrentUserModerator())); // Context: Closed Topic within MeetingSeries, user is moderator;
     }
 });
 
@@ -132,7 +113,7 @@ Template.topicElement.events({
         if (!this.minutesID) {
             return;
         }
-        console.log("Delete topics: "+this.topic._id+" from minutes "+this.minutesID);
+        console.log('Delete topics: '+this.topic._id+' from minutes '+this.minutesID);
 
         let aMin = new Minutes(this.minutesID);
 
@@ -173,7 +154,7 @@ Template.topicElement.events({
             return;
         }
 
-        console.log("Toggle topic state ("+this.topic.isOpen+"): "+this.topic._id+" from minutes "+this.minutesID);
+        console.log('Toggle topic state ('+this.topic.isOpen+'): '+this.topic._id+' from minutes '+this.minutesID);
         let aTopic = new Topic(this.minutesID, this.topic._id);
         aTopic.toggleState().catch(onError);
     },
@@ -192,6 +173,22 @@ Template.topicElement.events({
         aTopic.toggleRecurring();
         aTopic.save().catch(onError);
     },
+    
+    'click .js-toggle-skipped'(evt) {
+        evt.preventDefault();
+        
+        if (!this.isEditable) {
+            return;
+        }
+
+        if (!this.minutesID) {
+            return;
+        }
+        
+        let aTopic = new Topic(this.minutesID, this.topic._id);
+        aTopic.toggleSkip();
+        aTopic.save().catch(onError);
+    },
 
     'click #btnEditTopic'(evt) {
         evt.preventDefault();
@@ -202,36 +199,52 @@ Template.topicElement.events({
         if (getSelection().toString()) {    // don't fire while selection is ongoing
             return;
         }
-        Session.set("topicEditTopicId", this.topic._id);
-        $("#dlgAddTopic").modal("show");
+        Session.set('topicEditTopicId', this.topic._id);
+        $('#dlgAddTopic').modal('show');
     },
 
     'click .addTopicInfoItem'(evt) {
-        console.log("Info!");
+        console.log('Info!');
         evt.preventDefault();
         // will be called before the modal dialog is shown
 
-        Session.set("topicInfoItemEditTopicId", this.topic._id);
-        Session.set("topicInfoItemType", "infoItem");
+        Session.set('topicInfoItemEditTopicId', this.topic._id);
+        Session.set('topicInfoItemType', 'infoItem');
     },
     'click .addTopicActionItem'(evt) {
-        console.log("Action!");
+        console.log('Action!');
         evt.preventDefault();
         // will be called before the modal dialog is shown
 
-        Session.set("topicInfoItemEditTopicId", this.topic._id);
-        Session.set("topicInfoItemType", "actionItem");
+        Session.set('topicInfoItemEditTopicId', this.topic._id);
+        Session.set('topicInfoItemType', 'actionItem');
     },
 
 
     'click #btnTopicExpandCollapse'(evt) {
-        console.log("btnTopicExpandCollapse()"+this.topic._id);
+        console.log('btnTopicExpandCollapse()'+this.topic._id);
         evt.preventDefault();
-        let collapseState = Session.get("minutesedit.collapsetopics."+_minutesId);
+        let collapseState = Session.get('minutesedit.collapsetopics.'+_minutesId);
         if (!collapseState) {
             collapseState = {};
         }
         collapseState[this.topic._id] = ! collapseState[this.topic._id];
-        Session.set("minutesedit.collapsetopics."+_minutesId, collapseState);
+        Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
+    },
+    
+    'click #btnReopenTopic'(evt) {
+        evt.preventDefault();
+        let reopenTopic = () => {
+            Meteor.call('workflow.reopenTopicFromMeetingSeries', this.parentMeetingSeriesId, this.topic._id);
+        };
+        ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+            reopenTopic,
+            'Re-open Topic',
+            'confirmReOpenTopic',
+            {
+                topicSubject: Template.instance().data.topic.subject
+            },
+            'Re-open'
+        ).show(); 
     }
 });
