@@ -401,6 +401,17 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime();
     }
 
+    static addFirstDetailsToNewActionItem(infoItemDoc, topicIndex, detailName, autoCloseDetailInput = true) {
+        let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
+        this.openInfoItemDialog(topicIndex, type);
+        this.insertInfoItemDataIntoDialog(infoItemDoc);
+
+        browser.setValue('#id_item_detailInput', detailName);
+
+        this.submitInfoItemDialog();
+    }
+
+
     /**
      * Adds details to an action item.
      *
