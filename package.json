@@ -85,7 +85,7 @@
     "faker": "^4.1.0",
     "mocha": "^3.4.2",
     "proxyquire": "^1.7.7",
-    "sinon": "^2.3.4",
+    "sinon": "^1",
     "sinon-as-promised": "^4.0.0",
     "sinon-chai": "^2.8.0",
     "travis-ci": "^2.1.1",
