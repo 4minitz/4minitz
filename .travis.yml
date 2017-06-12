@@ -5,10 +5,11 @@ env:
   global:
     - CXX=g++-4.8
   matrix:
-    - TEST="tests/end2end/Ac* tests/end2end/Ad* tests/end2end/I* tests/end2end/L* tests/end2end/U*"
-    - TEST="tests/end2end/Mee*"
-    - TEST="tests/end2end/At* tests/end2end/Mi*"
-    - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
+    - TEST="tests/end2end/Ac*
+#    - TEST="tests/end2end/Ac* tests/end2end/Ad* tests/end2end/I* tests/end2end/L* tests/end2end/U*"
+#    - TEST="tests/end2end/Mee*"
+#    - TEST="tests/end2end/At* tests/end2end/Mi*"
+#    - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
     - TEST="unit"
 
 addons:
