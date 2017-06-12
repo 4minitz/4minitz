@@ -1,5 +1,7 @@
 dist: trusty
 language: node_js
+addons:
+  chrome: stable
 
 env:
   global:
