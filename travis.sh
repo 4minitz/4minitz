@@ -2,7 +2,7 @@
 TEST="$1"
 
 if [ "$TEST" = "unit" ]; then
-    echo Run unit and integration teststr
+    echo Run unit and integration test
     npm run test:unit
     UNIT=$?
     npm run test:integration:headless
