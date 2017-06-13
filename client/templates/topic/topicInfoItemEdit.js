@@ -259,7 +259,6 @@ Template.topicInfoItemEdit.events({
             newItem.saveAsync().catch(handleError);
             let details = newItem.getDetails();
             let detailItem = newItem.getDetailsAt(details.length-1);
-            tmpl.find('#id_item_detailInput').value = "";
         }
         $('#dlgAddInfoItem').modal('hide');
     },
@@ -287,9 +286,12 @@ Template.topicInfoItemEdit.events({
         tmpl.collapseState.set(user.getSetting(userSettings.showAddDetail, true));
 
         let detailsArea = tmpl.find('#id_item_detailInput');
-        detailsArea.setAttribute('rows', 2);
-        if(tmpl.collapseState.get() === false) {
-            detailsArea.style.display = 'none';
+        if (detailsArea) {
+            detailsArea.value = "";
+            detailsArea.setAttribute('rows', 2);
+            if(tmpl.collapseState.get() === false) {
+                detailsArea.style.display = 'none';
+            }
         }
 
         // set type: edit existing item

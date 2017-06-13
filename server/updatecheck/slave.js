@@ -17,8 +17,7 @@ if (!myServerID) {
 }
 let myVersion = VERSION_INFO.tag;
 const url = 'https://www.4minitz.com/version/updatecheck/'+myServerID.value+'/'+myVersion;
-
-let updateCheck = function () {
+let updateCheck = function (forceReport) {
     HTTP.get(url, {}, function (error, result) {
         if (error || !result.data || !result.data.tag) {
             // Swallow silently.
@@ -34,8 +33,8 @@ let updateCheck = function () {
                 lastReportedVersion = lastReported.value;
             }
 
-            // only report, if we have not yet reported for this new master version
-            if (masterVersion !== lastReportedVersion) {
+            // only report, if forced or we have not yet reported for this new master version
+            if (forceReport || masterVersion !== lastReportedVersion) {
                 console.log("*** ATTENTION ***");
                 console.log("    Your 4Minitz version seems outdated.");
                 console.log("    Your version    : "+myVersion);
@@ -48,9 +47,13 @@ let updateCheck = function () {
                         "value": masterVersion},
                     {upsert: true}
                 );
-
-                let mailer = new AdminNewVersionMailHandler(myVersion, masterVersion);
-                mailer.send();
+                try {
+                    let mailer = new AdminNewVersionMailHandler(myVersion, masterVersion);
+                    mailer.send();
+                } catch (e) {
+                    console.log("Could not send 'New version exists' eMail.");
+                    console.log(e);
+                }
             }
         }
     });
@@ -60,5 +63,5 @@ let updateCheck = function () {
 // Admin may disable updateCheck by settings.json globally via:
 // "updateCheck": false,
 if (Meteor.settings.updateCheck !== false) {
-    updateCheck();  // call first time at server start
+    updateCheck(true);  // call first time at server start - with "forceReport"
 }
