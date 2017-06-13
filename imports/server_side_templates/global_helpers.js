@@ -28,7 +28,8 @@ export let GlobalHelpers = {
     },
 
     'style': function(filename) {
-        let style = Assets.getText(filename);
+        //  Assets cannot be imported!
+        let style = Assets.getText(filename); //eslint-disable-line
         return Spacebars.SafeString(`<style>${style}</style>`);
     }
 };

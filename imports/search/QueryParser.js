@@ -1,4 +1,4 @@
-import { _ } from 'meteor/underscore';
+import { Meteor } from 'meteor/meteor';
 
 const TOKEN_TYPE_SEARCH = 1;
 const TOKEN_TYPE_FILTER = 2;

@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 import { MeetingSeriesSchema } from './collections/meetingseries.schema';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { Minutes } from './minutes';
@@ -7,6 +8,7 @@ import { UserRoles } from './userroles';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
+import { $ } from 'meteor/jquery';
 import './helpers/promisedMethods';
 import './collections/meetingseries_private';
 import moment from 'moment/moment';

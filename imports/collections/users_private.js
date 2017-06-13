@@ -1,15 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
+import { Accounts } from 'meteor/accounts-base';
+import { check, Match } from 'meteor/check';
 
-import { User } from '/imports/users';
 import { AdminRegisterUserMailHandler } from '/imports/mail/AdminRegisterUserMailHandler';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 import { checkWithMsg } from '/imports/helpers/check';
 
 Meteor.methods({
     'users.saveSettings'(settings) {
-        const user = new User();
-
         const id = Meteor.userId();
         Meteor.users.update(id, { $set: {settings} });
         console.log(`saved settings for user ${id}: ${settings}`);

@@ -1,4 +1,8 @@
 import moment from 'moment/moment';
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 
@@ -191,9 +195,9 @@ let openPrintDialog = function () {
     let ua = navigator.userAgent.toLowerCase();
     let isAndroid = ua.indexOf('android') > -1;
 
-    if (isAndroid && cloudprint && cloudprint.Gadget) {
+    if (isAndroid && cloudprint && cloudprint.Gadget) { //eslint-disable-line
         // https://developers.google.com/cloud-print/docs/gadget
-        let gadget = new cloudprint.Gadget();
+        let gadget = new cloudprint.Gadget(); //eslint-disable-line
         gadget.setPrintDocument('url', $('title').html(), window.location.href, 'utf-8');
         gadget.openPrintDialog();
     } else {

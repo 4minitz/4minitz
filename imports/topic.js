@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-
+import { Random } from 'meteor/random';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';

@@ -1,4 +1,4 @@
-
+import { Meteor } from 'meteor/meteor';
 import { UserRoles } from '/imports/userroles';
 
 let longName2shortName = {};

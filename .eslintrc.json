@@ -7,7 +7,10 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": false
+        }
     },
     "rules": {
         "indent": [
@@ -25,6 +28,7 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-console": ["off"]
     }
 }

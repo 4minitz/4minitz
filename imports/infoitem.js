@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Label } from './label';
 import { _ } from 'meteor/underscore';
 import { formatDateISO8601 } from '/imports/helpers/date';
@@ -118,7 +119,7 @@ export class InfoItem {
     }
 
     getDetailsAt(index) {
-        if (!this._infoItemDoc.details || index < 0 || index >= this._infoItemDoc.details.length) {
+        if (!this._infoItemDoc.details || index < 0 || index >= this._infoItemDoc.details.length) {
             throw new Meteor.Error('index-out-of-bounds');
         }
 

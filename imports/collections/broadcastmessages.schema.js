@@ -1,3 +1,4 @@
+import { Mongo } from 'meteor/mongo';
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import './idValidator';
 

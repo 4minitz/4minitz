@@ -1,4 +1,4 @@
-
+import { Meteor } from 'meteor/meteor';
 import { TemplateRenderer } from './../server_side_templates/TemplateRenderer';
 import { MailFactory } from './MailFactory';
 import { GlobalSettings } from '../config/GlobalSettings';
