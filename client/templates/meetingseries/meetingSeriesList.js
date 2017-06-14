@@ -1,3 +1,4 @@
+import { Template } from 'meteor/templating';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
 import { MinutesFinder } from '../../../imports/services/minutesFinder';

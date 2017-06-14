@@ -1,10 +1,11 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
 Template.tabAdminMessages.onCreated(function() {
-    this.subscribe("broadcastmessage");
-    this.subscribe("broadcastmessageAdmin");
+    this.subscribe('broadcastmessage');
+    this.subscribe('broadcastmessageAdmin');
 });
 
 Template.tabAdminMessages.onRendered(function() {

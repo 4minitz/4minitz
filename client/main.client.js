@@ -1,7 +1,10 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
 import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private';
 import '/imports/config/accounts';
+import { $ } from 'meteor/jquery';
 
 // initialize
 //  * twitter bootstrap

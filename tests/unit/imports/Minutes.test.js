@@ -50,10 +50,12 @@ let ActionItem = function (topic, doc) {
 Helpers['@noCallThru'] = true;
 SubElements['@noCallThru'] = true;
 EmailHelpers['@noCallThru'] = true;
+const Random = {id: () => {}};
 const {
     Minutes
     } = proxyquire('../../../imports/minutes', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    'meteor/random': { Random, '@noCallThru': true},
     './collections/minutes_private': { MinutesSchema, '@noCallThru': true},
     './collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
     './collections/workflow_private': { "null": null, '@noCallThru': true},

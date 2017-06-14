@@ -31,10 +31,23 @@ let MinutesFinder = {
         return this.previousMinutesResult[minutes._id];
     }
 };
+class MeteorError {}
+let Meteor = {
+    Error: MeteorError
+};
+
+const Random = {
+    i: 1,
+    id: function() {
+        return this.i++;
+    }
+};
 
 const {
         MigrateV12
     } = proxyquire('../../../../server/migrations/migrate_v12', {
+        'meteor/meteor': { Meteor, '@noCallThru': true},
+        'meteor/random': { Random, '@noCallThru': true},
         '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
         '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
         '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}

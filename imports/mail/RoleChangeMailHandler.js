@@ -3,10 +3,10 @@
  */
 import { Meteor } from 'meteor/meteor';
 
-import { MailFactory } from './MailFactory'
-import { GlobalSettings } from '../config/GlobalSettings'
-import {UserRoles as userroles} from "../userroles";
-import {MeetingSeries} from "../meetingseries";
+import { MailFactory } from './MailFactory';
+import { GlobalSettings } from '../config/GlobalSettings';
+import {UserRoles as userroles} from '../userroles';
+import {MeetingSeries} from '../meetingseries';
 
 export class RoleChangeMailHandler {
     constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
@@ -16,7 +16,7 @@ export class RoleChangeMailHandler {
         this._meetingSeriesId = meetingSeriesId;
         this._user = Meteor.users.findOne(userId);
         if (!this._user) {
-            throw new Meteor.Error("Send Role Change Mail", "Could not find user: "+ userId);
+            throw new Meteor.Error('Send Role Change Mail', 'Could not find user: '+ userId);
         }
     }
 
@@ -28,10 +28,10 @@ export class RoleChangeMailHandler {
         let emailTo = this._user.emails[0].address;
 
         // set parameter
-        let meetingSeries = new MeetingSeries(this._meetingSeriesId)
+        let meetingSeries = new MeetingSeries(this._meetingSeriesId);
         let meetingName = meetingSeries.name;
 
-        let userName = "";
+        let userName = '';
         if(this._user.profile === undefined) {
             userName = this._user.username;
         } else {
@@ -39,13 +39,13 @@ export class RoleChangeMailHandler {
         }
 
         if(this._oldRole == undefined) {
-            this._oldRole = "None";
+            this._oldRole = 'None';
         } else {
             this._oldRole = userroles.role2Text(this._oldRole);
         }
 
         if(this._newRole == undefined) {
-            this._newRole = "None";
+            this._newRole = 'None';
         } else {
             this._newRole = userroles.role2Text(this._newRole);
         }
@@ -54,24 +54,24 @@ export class RoleChangeMailHandler {
         // generate mail
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(modFrom, emailTo);
-            mailer.setSubject("Your role changed");
-            mailer.setText("Hello " + userName + ", \n"+
-                "Your role was changed in the meeting series \"" + meetingName + "\" (" + GlobalSettings.getRootUrl("meetingseries/" + this._meetingSeriesId) + ")\n"+
-                "Your old role was           : " + this._oldRole + "\n"+
-                "Your new role is            : " + this._newRole + "\n"+
-                "The change was performed by : " + this._moderator.username + "\n"  +
+            mailer.setSubject('Your role changed');
+            mailer.setText('Hello ' + userName + ', \n'+
+                'Your role was changed in the meeting series "' + meetingName + '" (' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n'+
+                'Your old role was           : ' + this._oldRole + '\n'+
+                'Your new role is            : ' + this._newRole + '\n'+
+                'The change was performed by : ' + this._moderator.username + '\n'  +
 
-                "\n" +
-                "Your Admin.\n" +
-                "\n" +
-                "--- \n" +
-                "4Minitz is free open source developed by the 4Minitz team.\n" +
-                "Source is available at https://github.com/4minitz/4minitz\n"
+                '\n' +
+                'Your Admin.\n' +
+                '\n' +
+                '--- \n' +
+                '4Minitz is free open source developed by the 4Minitz team.\n' +
+                'Source is available at https://github.com/4minitz/4minitz\n'
             );
 
             mailer.send();
         } else {
-            console.error("Could not send eMail for role change. User has no mail address: "+this._user._id);
+            console.error('Could not send eMail for role change. User has no mail address: '+this._user._id);
         }
     }
 }

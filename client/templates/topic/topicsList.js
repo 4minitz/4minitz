@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 import { Topic } from '/imports/topic';
 import { handleError } from '/client/helpers/handleError';
 

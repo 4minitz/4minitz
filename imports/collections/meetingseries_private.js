@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
+import { check } from 'meteor/check';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { formatDateISO8601 } from '/imports/helpers/date';
-import {MeetingSeries} from "../meetingseries";
-import {RoleChangeMailHandler} from "../mail/RoleChangeMailHandler";
-import {UserRoles as userroles} from "../userroles";
+import {RoleChangeMailHandler} from '../mail/RoleChangeMailHandler';
 
 if (Meteor.isServer) {
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {

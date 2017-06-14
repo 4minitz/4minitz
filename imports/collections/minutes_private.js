@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { Minutes } from '../minutes';
 import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';

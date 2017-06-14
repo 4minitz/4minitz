@@ -69,7 +69,7 @@ export const Statistics = SchemaClass.create({
 // logs results to console
 // @param minTopicsCount {Number} only meeting series with at least so much minutes are considered
 // @param minTopicsCount {Number} only meeting series with at least so much finalized topics are considered
-let statisticsDetails = function (minMinutesCount = 2, minTopicsCount = 5) {
+let statisticsDetails = function (minMinutesCount = 2, minTopicsCount = 5) { //eslint-disable-line
     let MS = MeetingSeriesSchema.find();
     let MScount = 0;
     let MinutesCount = 0;
