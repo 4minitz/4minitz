@@ -19,7 +19,7 @@ describe('MeetingSeries Security', function () {
         E2EApp.launchApp();
     });
 
-    it('can not insert a new MeetingSerie if not logged in @watch', function () {
+    it('can not insert a new MeetingSerie if not logged in', function () {
         let aProjectName = "Hacker Project #1";
         let aMeetingName = "Hacker Meeting #1";
         E2EApp.logoutUser();
@@ -30,19 +30,19 @@ describe('MeetingSeries Security', function () {
         
         let noOfMeetingSeries = server.call('e2e.countMeetingSeriesInMongDB');
 
-        E2ESecurity.executeMethode(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(noOfMeetingSeries);
 
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.executeMethode(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(noOfMeetingSeries+1);
 
     });
-    it('can not delete a new MeetingSerie if not logged in @watch', function () {
+    it('can not delete a new MeetingSerie if not logged in', function () {
         let aProjectName = "Hacker Project #2";
         let aMeetingName = "Hacker Meeting #2";
-        E2ESecurity.executeMethode(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
         let meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
         let countMeetingSeries = server.call('e2e.countMeetingSeriesInMongDB');
 
@@ -51,27 +51,27 @@ describe('MeetingSeries Security', function () {
         expect(E2EApp.isLoggedIn()).to.be.false;
         E2ESecurity.expectMethodToExist(removeMeetingSeriesMethod);
         E2ESecurity.replaceMethodOnClientSide(removeMeetingSeriesMethod);
-        E2ESecurity.executeMethode(removeMeetingSeriesMethod, meetingSeriesID);
+        E2ESecurity.executeMethod(removeMeetingSeriesMethod, meetingSeriesID);
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(countMeetingSeries);
 
         //logged in but not Moderator
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.executeMethode(removeMeetingSeriesMethod, meetingSeriesID);
+        E2ESecurity.executeMethod(removeMeetingSeriesMethod, meetingSeriesID);
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(countMeetingSeries);
 
         // logged in and is Moderator
         E2EApp.logoutUser();
         E2EApp.loginUser(0);
-        E2ESecurity.executeMethode(removeMeetingSeriesMethod, meetingSeriesID);
+        E2ESecurity.executeMethod(removeMeetingSeriesMethod, meetingSeriesID);
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(countMeetingSeries-1);
 
     });
 
-    it('can not update a MeetingSerie if not logged in @watch', function () {
+    it('can not update a MeetingSerie if not logged in', function () {
         let aProjectName = "Hacker Project #3";
         let aMeetingName = "Hacker Meeting #3";
-        E2ESecurity.executeMethode(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
         let meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
         let meetingSeriesName = (server.call('e2e.findMeetingSeries', meetingSeriesID)).name;
 
@@ -80,20 +80,20 @@ describe('MeetingSeries Security', function () {
         expect(E2EApp.isLoggedIn()).to.be.false;
         E2ESecurity.expectMethodToExist(updateMeetingSeriesMethod);
         E2ESecurity.replaceMethodOnClientSide(updateMeetingSeriesMethod);
-        E2ESecurity.executeMethode(updateMeetingSeriesMethod, {_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
+        E2ESecurity.executeMethod(updateMeetingSeriesMethod, {_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
         expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).name).to.equal(meetingSeriesName);
 
         //logged in but not Moderator
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.executeMethode(updateMeetingSeriesMethod,{_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
+        E2ESecurity.executeMethod(updateMeetingSeriesMethod,{_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
         expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).name).to.equal(meetingSeriesName);
 
         // logged in and is Moderator
         E2EApp.logoutUser();
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.executeMethode(updateMeetingSeriesMethod,{_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
+        E2ESecurity.executeMethod(updateMeetingSeriesMethod,{_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
         expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).name).not.to.equal(meetingSeriesName);
     });
 
