@@ -73,7 +73,7 @@ describe('MeetingSeries Security', function () {
         let aMeetingName = "Hacker Meeting #3";
         E2ESecurity.executeMethode(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
         let meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
-        let meetingSeriesName = (server.call('e2e.findMeetingSerie', meetingSeriesID)).name;
+        let meetingSeriesName = (server.call('e2e.findMeetingSeries', meetingSeriesID)).name;
 
         //not logged in
         E2EApp.logoutUser();
@@ -81,20 +81,20 @@ describe('MeetingSeries Security', function () {
         E2ESecurity.expectMethodToExist(updateMeetingSeriesMethod);
         E2ESecurity.replaceMethodOnClientSide(updateMeetingSeriesMethod);
         E2ESecurity.executeMethode(updateMeetingSeriesMethod, {_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
-        expect((server.call('e2e.findMeetingSerie', meetingSeriesID)).name).to.equal(meetingSeriesName);
+        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).name).to.equal(meetingSeriesName);
 
         //logged in but not Moderator
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.executeMethode(updateMeetingSeriesMethod,{_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
-        expect((server.call('e2e.findMeetingSerie', meetingSeriesID)).name).to.equal(meetingSeriesName);
+        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).name).to.equal(meetingSeriesName);
 
         // logged in and is Moderator
         E2EApp.logoutUser();
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.executeMethode(updateMeetingSeriesMethod,{_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
-        expect((server.call('e2e.findMeetingSerie', meetingSeriesID)).name).not.to.equal(meetingSeriesName);
+        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).name).not.to.equal(meetingSeriesName);
     });
 
     });
