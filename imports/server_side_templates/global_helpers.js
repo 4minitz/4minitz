@@ -1,4 +1,5 @@
 import { Markdown } from 'meteor/perak:markdown';
+import { Spacebars } from 'meteor/spacebars';
 
 export let GlobalHelpers = {
     'markdown2html': function(text = '') {

@@ -7,10 +7,7 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": false
-        }
+        "sourceType": "module"
     },
     "rules": {
         "indent": [
