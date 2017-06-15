@@ -100,8 +100,7 @@ if (Meteor.settings.isEnd2EndTest) {
                 };
             });
         },
-        'e2e.findMeetingSerie'(MSid){
-            console.log (MeetingSeriesSchema.getCollection().findOne(MSid));
+        'e2e.findMeetingSeries'(MSid){
             return MeetingSeriesSchema.getCollection().findOne(MSid);
         }
     });
