@@ -1,3 +1,4 @@
+import { $ } from 'meteor/jquery';
 
 const DEFAULT_MESSAGE = 'Sorry, an unexpected error has occurred.';
 
@@ -47,7 +48,7 @@ export class FlashMessage {
     _setValues(title, message, type = TYPES.DANGER, duration = 5000) {
         if (duration === -1) duration = 0;
         this.title = `<strong>${title}</strong>`;
-        this.message = message || DEFAULT_MESSAGE;
+        this.message = message || DEFAULT_MESSAGE;
         this.type = type.replace('alert-', '');
         this.duration = duration;
     }

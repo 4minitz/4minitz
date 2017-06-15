@@ -1,4 +1,6 @@
 import { _ } from 'meteor/underscore';
+import { $ } from 'meteor/jquery';
+import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 
 const DIALOG_TEMPLATE = Template.confirmationDialog;

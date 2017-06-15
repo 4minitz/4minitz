@@ -23,6 +23,7 @@ const Random = {id: () => {}};
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/random': { Random, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     '/imports/helpers/date': Helpers,

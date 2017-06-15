@@ -1,5 +1,8 @@
 import { Meteor } from 'meteor/meteor';
+import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 

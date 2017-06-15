@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { addCustomValidator } from '../../helpers/customFieldValidator'; 
 import { emailAddressRegExpTest } from '/imports/helpers/email';

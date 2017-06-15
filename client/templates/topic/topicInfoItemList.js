@@ -1,10 +1,14 @@
 import { Topic } from '/imports/topic';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { Minutes } from '/imports/minutes';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import {InfoItemFactory} from "../../../imports/InfoItemFactory";
+import {InfoItemFactory} from '../../../imports/InfoItemFactory';
 import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
 
@@ -56,7 +60,7 @@ let updateItemSorting = (evt, ui) => {
     topic.setItems(newItemSorting);
     topic.save().catch(error => {
         $('.itemPanel').sortable( 'cancel' );
-        onError(error);
+        handleError(error);
     });
 };
 
@@ -440,7 +444,7 @@ Template.topicInfoItemList.events({
 
         let text = inputEl.val().trim();
 
-        if (text === '' || (text !== textEl.attr('data-text'))) {
+        if (text === '' || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(context.topicParentId);
             let aTopic = new Topic(aMin, infoItem.parentTopicId);
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
