@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Minutes } from '/imports/minutes';
@@ -36,8 +38,8 @@ let userNameForId = function (userId) {
 
 function allParticipantsMarked() {
     let aMin = new Minutes(_minutesID);
-    return (aMin.participants.findIndex(p => {return !p.present}) === -1);
-};
+    return (aMin.participants.findIndex(p => {return !p.present;}) === -1);
+}
 
 Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
@@ -161,7 +163,7 @@ Template.minutesEditParticipants.events({
         }
     },
     
-    'click #btnEditParticipants' (evt, tmpl) {
+    'click #btnEditParticipants' () {
         Session.set('meetingSeriesEdit.showUsersPanel', true);
     }
 });

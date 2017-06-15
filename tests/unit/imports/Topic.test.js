@@ -43,7 +43,7 @@ class Minutes {
 let dummyMinute = new Minutes(minuteId);
 let dummySeries = new MeetingSeries(meetingSeriesId);
 
-global.Random = {
+const Random = {
     i: 1,
     id: function() {
         return this.i++;
@@ -54,11 +54,20 @@ SubElements['@noCallThru'] = true;
 DateHelpers['@noCallThru'] = true;
 
 const {
+    Label
+} = proxyquire('../../../imports/label', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
+    'meteor/underscore': { _, '@noCallThru': true},
+});
+
+const {
         Topic
     } = proxyquire('../../../imports/topic', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    'meteor/random': { Random, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     '/imports/helpers/subElements': SubElements,
+    './label': { Label, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './helpers/promisedMethods': { "null": null, '@noCallThru': true},
@@ -68,6 +77,7 @@ const {
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/random': { Random, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     '/imports/helpers/date': DateHelpers,

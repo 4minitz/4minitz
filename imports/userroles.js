@@ -56,7 +56,7 @@ export class UserRoles {
     }
 
     static removeAllRolesFor(aMeetingSeriesID) {
-        ms = new MeetingSeries(aMeetingSeriesID);
+        const ms = new MeetingSeries(aMeetingSeriesID);
         let affectedUsers = ms.visibleFor;
         if (affectedUsers && affectedUsers.length > 0) {
             Roles.removeUsersFromRoles(affectedUsers, UserRoles.allRolesNumerical(), aMeetingSeriesID);

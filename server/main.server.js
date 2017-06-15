@@ -4,7 +4,7 @@ import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
-import '/imports/gitversioninfo'
+import '/imports/gitversioninfo';
 import '/imports/config/accounts';
 import '/imports/config/EMailTemplates';
 
@@ -23,7 +23,7 @@ import '/imports/collections/attachments_private';
 import cron from 'node-cron';
 import importUsers from '/imports/ldap/import';
 
-handleDemoUserAccount = function () {
+let handleDemoUserAccount = function () {
     if (GlobalSettings.createDemoAccount()) {
         let demoUser = Meteor.users.findOne({$and: [{username: 'demo'}, {isDemoUser: true}]});
         if (!demoUser) {    // we don't have a demo user, but settings demand one

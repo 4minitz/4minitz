@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 
 import { ItemsFilter } from './ItemsFilter';
@@ -132,7 +133,7 @@ export class TopicsFilter {
                     [{key: 'is', value: value}]);
                 return items.length > 0;
             }
-        default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
+        default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
         }
     }
 

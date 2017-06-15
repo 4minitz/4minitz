@@ -78,7 +78,7 @@ LDAP.addFields = function (/*person - the ldap entry for that user*/) {
 
 // Called after successful LDAP sign in
 if (LDAP.onSignIn) {    // not available in unit test environment
-    LDAP.onSignIn(function (userDocument, userData, ldapEntry) {
+    LDAP.onSignIn(function (userDocument) {
         Meteor.users.update({_id: userDocument._id}, {$set: {isLDAPuser: true}});
     });
 }

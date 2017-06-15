@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 let fs = require('fs-extra');
 
 import { MeetingSeriesSchema } from './../../imports/collections/meetingseries.schema';

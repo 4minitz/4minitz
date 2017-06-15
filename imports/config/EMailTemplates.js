@@ -1,12 +1,12 @@
-import { Accounts } from 'meteor/accounts-base'
-import {GlobalSettings} from "./GlobalSettings";
+import { Accounts } from 'meteor/accounts-base';
+import {GlobalSettings} from './GlobalSettings';
 
 Accounts.emailTemplates.siteName = GlobalSettings.getSiteName();
-Accounts.emailTemplates.from     = Accounts.emailTemplates.siteName + "<" + GlobalSettings.getDefaultEmailSenderAddress() + ">";
+Accounts.emailTemplates.from     = Accounts.emailTemplates.siteName + '<' + GlobalSettings.getDefaultEmailSenderAddress() + '>';
 
 Accounts.emailTemplates.verifyEmail = {
     subject() {
-        return "[" + Accounts.emailTemplates.siteName + "] Verify Your Email Address";
+        return '[' + Accounts.emailTemplates.siteName + '] Verify Your Email Address';
     },
     text( user, url ) {
         let emailAddress   = user.emails[0].address,
@@ -22,7 +22,7 @@ Accounts.emailTemplates.verifyEmail = {
 
 Accounts.emailTemplates.resetPassword = {
     subject() {
-        return "[" + Accounts.emailTemplates.siteName + "] Reset Your Password";
+        return '[' + Accounts.emailTemplates.siteName + '] Reset Your Password';
     },
     text( user, url ) {
         let emailAddress   = user.emails[0].address,

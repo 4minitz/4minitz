@@ -1,3 +1,4 @@
+import { Random} from 'meteor/random';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { GlobalSettings } from '/imports/config/GlobalSettings';

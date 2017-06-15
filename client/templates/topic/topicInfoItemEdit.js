@@ -1,6 +1,8 @@
 import moment from 'moment/moment';
 
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 
@@ -17,6 +19,8 @@ import { currentDatePlusDeltaDays } from '/imports/helpers/date';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 
 import { $ } from 'meteor/jquery';
+import { _ } from 'meteor/underscore';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
@@ -25,8 +29,6 @@ Session.setDefault('topicInfoItemType', 'infoItem');
 
 let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for performance reasons!
-
-collapseState = new ReactiveVar(false);
 
 Template.topicInfoItemEdit.onCreated(function () {
     _minutesID = this.data;
@@ -252,13 +254,11 @@ Template.topicInfoItemEdit.events({
         }
 
         newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
-        let itemAlreadyExists = !!newItem.getId();
         newItem.saveAsync().catch(handleError);
         if (getEditInfoItem() === false && newDetail) {
             newItem.addDetails(aMinute._id, newDetail);
+            // TODO: Here we have two save operations almost parallel! Add the details before saving the item at the first place.
             newItem.saveAsync().catch(handleError);
-            let details = newItem.getDetails();
-            let detailItem = newItem.getDetailsAt(details.length-1);
         }
         $('#dlgAddInfoItem').modal('hide');
     },
@@ -273,7 +273,7 @@ Template.topicInfoItemEdit.events({
 
         let editItem = getEditInfoItem();
 
-        let itemSubject = tmpl.find("#id_item_subject");
+        let itemSubject = tmpl.find('#id_item_subject');
         itemSubject.value = (editItem) ? editItem._infoItemDoc.subject : '';
 
         tmpl.find('#id_item_priority').value =
@@ -287,7 +287,7 @@ Template.topicInfoItemEdit.events({
 
         let detailsArea = tmpl.find('#id_item_detailInput');
         if (detailsArea) {
-            detailsArea.value = "";
+            detailsArea.value = '';
             detailsArea.setAttribute('rows', 2);
             if(tmpl.collapseState.get() === false) {
                 detailsArea.style.display = 'none';
@@ -312,7 +312,7 @@ Template.topicInfoItemEdit.events({
             toggleItemMode(infoItemType, tmpl);
 
             if(infoItemType === 'infoItem') {
-                itemSubject.value = "Info";
+                itemSubject.value = 'Info';
             } else {
                 itemSubject.value = '';
             }
@@ -387,7 +387,7 @@ Template.topicInfoItemEdit.events({
     },
 
     'keyup #id_item_detailInput': function (evt, tmpl) {
-        let inputEl = tmpl.$(`#id_item_detailInput`);
+        let inputEl = tmpl.$('#id_item_detailInput');
 
         if (evt.which === 13/*Enter*/ || evt.which === 8/*Backspace*/ || evt.which === 46/*Delete*/) {
             resizeTextarea(inputEl);
