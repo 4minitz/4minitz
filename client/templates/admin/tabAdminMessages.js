@@ -1,19 +1,16 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
 Template.tabAdminMessages.onCreated(function() {
-    //add your statement here
+    this.subscribe('broadcastmessage');
+    this.subscribe('broadcastmessageAdmin');
 });
 
 Template.tabAdminMessages.onRendered(function() {
     Template.instance().find('#id_adminMessage').focus();
 });
-
-Template.tabAdminMessages.onDestroyed(function() {
-    //add your statement here
-});
-
 
 Template.tabAdminMessages.helpers({
     messages() {

@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { MeetingSeries } from '/imports/meetingseries';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from '/imports/userroles';
-import { User, userSettings } from '/imports/users';
 
 import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
@@ -54,16 +57,6 @@ Template.meetingSeriesDetails.helpers({
         return new MeetingSeries(_meetingSeriesID);
     },
 
-    showQuickHelp: function() {
-        const user = new User();
-        return user.getSetting(userSettings.showQuickHelp.meetingSeries, true);
-    },
-
-    minutes: function() {
-        let ms = new MeetingSeries(_meetingSeriesID);
-        return ms.getAllMinutes();
-    },
-
     isTabActive: function (tabId) {
         return (Template.instance().activeTabId.get() === tabId) ? 'active' : '';
     },
@@ -80,7 +73,7 @@ Template.meetingSeriesDetails.helpers({
         switch (tab) {
         case 'tabMinutesList':
             return {
-                minutes: ms.getAllMinutes(),
+                minutes: MinutesFinder.allMinutesOfMeetingSeries(ms.getRecord()),
                 meetingSeriesId: _meetingSeriesID
             };
 
@@ -105,10 +98,6 @@ Template.meetingSeriesDetails.helpers({
 });
 
 Template.meetingSeriesDetails.events({
-    'click #btnHideHelp': function () {
-        const user = new User();
-        user.storeSetting(userSettings.showQuickHelp.meetingSeries, false);
-    },
     'click .nav-tabs li': function(event, tmpl) {
         let currentTab = $(event.target).closest('li');
 

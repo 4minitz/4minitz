@@ -174,7 +174,7 @@ export class E2ETopics {
     }
 
     static openInfoItemEditor(topicIndex, infoItemIndex) {
-        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnEditInfoItem";
+        let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + ".btnEditInfoItem";
 
         browser.waitForVisible(selector);
         browser.click(selector);

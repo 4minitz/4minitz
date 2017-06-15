@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 import { MinutesSchema } from './collections/minutes.schema';
 import { MeetingSeries } from './meetingseries';
 import { Topic } from './topic';
@@ -92,25 +93,6 @@ export class Minutes {
             Meteor.call('workflow.addMinutes', this, optimisticUICallback, serverCallback);
         }
         this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
-    }
-
-    nextMinutes() {
-        return this._getNeighborMinutes(1);
-    }
-
-    previousMinutes() {
-        return this._getNeighborMinutes(-1);
-    }
-
-    _getNeighborMinutes(offset) {
-        let parentSeries = this.parentMeetingSeries();
-        let myPosition = parentSeries.minutes.indexOf(this._id);
-        let neighborPosition = myPosition + offset;
-        if (neighborPosition > -1 && neighborPosition < parentSeries.minutes.length) {
-            let neighborMinutesId = parentSeries.minutes[neighborPosition];
-            return new Minutes(neighborMinutesId);
-        }
-        return false;
     }
 
     toString () {
@@ -470,28 +452,26 @@ export class Minutes {
      * @returns {String} with comma separated list of names
      */
     getPresentParticipantNames(maxChars) {
-        let names = '';
-
+        // todo: does this member have to be updated?
         this.participants = this.participants || [];
+        const additionalParticipants = this.participantsAdditional || [];
 
-        this.participants.forEach(part => {
-            if (part.present) {
-                let name = Meteor.users.findOne(part.userId).username;
-                names = names + name + ', ';
-            }
-        });
-        if (this.participantsAdditional) {
-            names = names + this.participantsAdditional;
-        } else {
-            names = names .slice(0, -2);    // delete last ", "
-        }
+        const presentParticipantIds = this.participants
+            .filter(p => p.present)
+            .map(p => p.userId);
+
+        const presentParticipants = Meteor.users.find({_id: {$in: presentParticipantIds}});
+
+        let names = presentParticipants
+            .map(p => p.username)
+            .concat(additionalParticipants)
+            .join(', ');
+
         if (maxChars && names.length > maxChars) {
-            return names.substr(0, maxChars)+'...';
+            return names.substr(0, maxChars) + '...';
         }
-        if (names === '') {
-            names = 'None.';
-        }
-        return names;
+
+        return names || 'None.';
     }
 
     checkParent() {

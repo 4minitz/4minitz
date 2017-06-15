@@ -1,4 +1,4 @@
-
+import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -53,7 +53,7 @@ Template.tabAdminUsers.events({
         _filterUsers.set(filterString);
     },
 
-    'click #id_ToggleInactive'(evt, tmpl) {
+    'click #id_ToggleInactive'(evt) {
         evt.preventDefault();
         Meteor.call('users.admin.ToggleInactiveUser', this._id);
     },

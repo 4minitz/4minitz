@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 
 import { addCustomValidator } from '../../helpers/customFieldValidator';
 
@@ -97,14 +99,14 @@ Template.meetingSeriesEditUsers.helpers({
 
 
 Template.meetingSeriesEditUsers.events({
-    'click #btnDeleteUser': function (evt, tmpl) {
+    'click #btnDeleteUser': function (evt) {
         evt.preventDefault();
         _config.users.remove({_id: this._userId});
     },
 
 
     // when role select changes, update role in temp. client-only user collection
-    'change .user-role-select': function (evt, tmpl) {
+    'change .user-role-select': function (evt) {
         let roleString = $(evt.target).val();
         let roleValue = UserRoles.USERROLES[roleString];
 

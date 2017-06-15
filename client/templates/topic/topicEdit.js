@@ -1,4 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { _ } from 'meteor/underscore';
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
@@ -127,6 +130,7 @@ Template.topicEdit.events({
 
         let aTopic = new Topic(_minutesID, topicDoc);
         aTopic.extractLabelsFromTopic(aMinute.parentMeetingSeries());
+        aTopic.extractResponsiblesFromTopic();
         aTopic.save().catch(handleError);
         $('#dlgAddTopic').modal('hide');
     },

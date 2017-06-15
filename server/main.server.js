@@ -4,12 +4,14 @@ import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import '/imports/gitversioninfo';
 import '/imports/config/accounts';
 import '/imports/config/EMailTemplates';
 
 import '/imports/broadcastmessage';
 import '/imports/minutes';
 import '/imports/meetingseries';
+import '/imports/collections/broadcastmessage_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
@@ -21,16 +23,19 @@ import '/imports/collections/attachments_private';
 import cron from 'node-cron';
 import importUsers from '/imports/ldap/import';
 
-handleDemoUserAccount = function () {
+let handleDemoUserAccount = function () {
     if (GlobalSettings.createDemoAccount()) {
         let demoUser = Meteor.users.findOne({$and: [{username: 'demo'}, {isDemoUser: true}]});
         if (!demoUser) {    // we don't have a demo user, but settings demand one
             Accounts.createUser({username: 'demo', password: 'demo', email: '', profile: {name: 'Demo User'}});
-            Meteor.users.update({'username': 'demo'}, {$set: {isDemoUser: true, isInactive: false}});
+            Meteor.users.update({'username': 'demo'}, {$set: {isDemoUser: true, isInactive: false, 'emails.0.verified': true}});
             console.log('*** ATTENTION ***\n    Created demo/demo user account once on startup');
         } else {    // we already have one, let's ensure he is not switched Inactive
             if (demoUser.isInactive) {
                 Meteor.users.update({'username': 'demo'}, {$set: {isInactive: false}});
+            }
+            if (!demoUser.emails[0].verified) {
+                Meteor.users.update({'username': 'demo'}, {$set: {'emails.0.verified': true}});
             }
         }
     } else {    // we don't want a demo user

@@ -1,7 +1,13 @@
 <template name="connectionInfo">
     {{#unless connectionStatus.connected}}
 
-            <span id="btnWarningExpandCollapse" class="connection-info btn-warning-expand" aria-hidden="true">
+            <span id="btnWarningExpandCollapse" class="connection-info btn-warning-expand" aria-hidden="true"
+              title="Connection Lost!
+        Status: {{connectionStatus.status}}
+        Retry Count: {{connectionStatus.retryCount}}
+        Retry Time: {{connectionWaitTime}} sec.
+        Reason: {{connectionStatus.reason}}
+        Click to reconnect.">
                 {{#if currentSymbol }}
                     <span class="glyphicon glyphicon-warning-sign"></span>
                 {{else}}
@@ -15,13 +21,8 @@
                 Please contact your sever admin if this problem persists.
                 <a href="#" id="btnReconnect" class="btn-reconnect">
                     <span class="btn btn-secondary btn-raised"
-                          style="color:yellow; font-size:100%; font-weight:bold; background:darkred;"
-                          title="Connection Lost!
-        Status: {{connectionStatus.status}}
-        Retry Count: {{connectionStatus.retryCount}}
-        Retry Time: {{connectionWaitTime}} sec.
-        Reason: {{connectionStatus.reason}}
-        Click to reconnect.">Try Reconnect
+                          style="color:yellow; font-size:100%; font-weight:bold; background:darkred;">
+                    Try To Reconnect
                     </span>
                 </a>
             </div>

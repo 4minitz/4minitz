@@ -1,4 +1,5 @@
 import { Markdown } from 'meteor/perak:markdown';
+import { Spacebars } from 'meteor/spacebars';
 
 export let GlobalHelpers = {
     'markdown2html': function(text = '') {
@@ -28,7 +29,8 @@ export let GlobalHelpers = {
     },
 
     'style': function(filename) {
-        let style = Assets.getText(filename);
+        //  Assets cannot be imported!
+        let style = Assets.getText(filename); //eslint-disable-line
         return Spacebars.SafeString(`<style>${style}</style>`);
     }
 };

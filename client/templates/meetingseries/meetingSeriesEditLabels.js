@@ -1,3 +1,5 @@
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 import { addCustomValidator } from '../../helpers/customFieldValidator';
 
 import { MeetingSeries } from '/imports/meetingseries';

@@ -1,5 +1,8 @@
+import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
-
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 
 Template.admin.onCreated(function() {
@@ -9,6 +12,12 @@ Template.admin.onCreated(function() {
 });
 
 Template.admin.helpers({
+    redirectIfNotAllowed() {
+        if (!Meteor.user() || !Meteor.user().isAdmin) {
+            FlowRouter.go('/');
+        }
+    },
+
     // give active tab some CSS highlighting
     isTabActive: function (tabId) {
         return (Template.instance().activeTabId.get() === tabId) ? 'active' : '';

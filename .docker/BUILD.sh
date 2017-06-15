@@ -23,17 +23,12 @@ echo ""
 
 #### Prepare settings.json
 settingsfile=./4minitz_settings.json
-if [ -f "$settingsfile" ]
-then
-    echo "$settingsfile found on your local host directory."
-else
-    echo "Patching $settingsfile"
-    cp ../settings_sample.json $settingsfile
-    sed -i '' 's/"ROOT_URL": "[^\"]*"/"ROOT_URL": "http:\/\/localhost:3100"/' $settingsfile
-    sed -i '' 's/"topLeftLogoHTML": "[^\"]*"/"topLeftLogoHTML": "4Minitz [Docker]"/' $settingsfile
-    sed -i '' 's/"mongodumpTargetDirectory": "[^\"]*"/"mongodumpTargetDirectory": "\/4minitz_storage\/mongodump"/' $settingsfile
-    sed -i '' 's/"storagePath": "[^\"]*"/"storagePath": "\/4minitz_storage\/attachments"/' $settingsfile
-fi
+echo "Patching $settingsfile"
+cp ../settings_sample.json $settingsfile
+sed -i '' 's/"ROOT_URL": "[^\"]*"/"ROOT_URL": "http:\/\/localhost:3100"/' $settingsfile
+sed -i '' 's/"topLeftLogoHTML": "[^\"]*"/"topLeftLogoHTML": "4Minitz [Docker]"/' $settingsfile
+sed -i '' 's/"mongodumpTargetDirectory": "[^\"]*"/"mongodumpTargetDirectory": "\/4minitz_storage\/mongodump"/' $settingsfile
+sed -i '' 's/"storagePath": "[^\"]*"/"storagePath": "\/4minitz_storage\/attachments"/' $settingsfile
 
 
 #### Build 4Minitz with meteor
@@ -43,12 +38,12 @@ meteor npm install
 meteor build .docker/4minitz_bin --directory
 # Our package.json will not be available - unless we copy it over to the image
 cp package.json .docker/4minitz_bin/bundle/programs/server/package4min.json
-cd .docker/4minitz_bin/bundle/programs/server
+cd .docker/4minitz_bin/bundle/programs/server || exit 1
 meteor npm install --production
 
 #### Build 4Minitz docker image
-cd ../../../..                  # pwd => .docker
-docker build --no-cache -t $baseimagetag .
+cd ../../../.. || exit 1                 # pwd => .docker
+docker build --no-cache -t "$baseimagetag" .
 echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
 echo "docker push $baseimagetag"
 pushlist="docker push $baseimagetag"
@@ -57,9 +52,9 @@ pushlist="docker push $baseimagetag"
 for var in "$@"
 do
     imgtag=$dockerproject:$var
-    docker tag $baseimagetag $imgtag
+    docker tag "$baseimagetag" "$imgtag"
     pushcmd="docker push $imgtag"
-    echo $pushcmd
+    echo "$pushcmd"
     pushlist="$pushlist && $pushcmd"
 done
 echo "---------"

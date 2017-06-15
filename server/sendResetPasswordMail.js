@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 
 // We wrap the original Accounts.sendResetPasswordEmail to perform
 // a check for user.isLDAPuser in advance. Because LDAP users

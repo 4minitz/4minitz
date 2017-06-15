@@ -1,4 +1,8 @@
 import moment from 'moment/moment';
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 
@@ -7,9 +11,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Minutes } from '/imports/minutes';
+import { MinutesFinder } from '/imports/services/minutesFinder';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
-import { User, userSettings } from '/imports/users';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -191,9 +195,9 @@ let openPrintDialog = function () {
     let ua = navigator.userAgent.toLowerCase();
     let isAndroid = ua.indexOf('android') > -1;
 
-    if (isAndroid && cloudprint && cloudprint.Gadget) {
+    if (isAndroid && cloudprint && cloudprint.Gadget) { //eslint-disable-line
         // https://developers.google.com/cloud-print/docs/gadget
-        let gadget = new cloudprint.Gadget();
+        let gadget = new cloudprint.Gadget(); //eslint-disable-line
         gadget.setPrintDocument('url', $('title').html(), window.location.href, 'utf-8');
         gadget.openPrintDialog();
     } else {
@@ -366,32 +370,22 @@ Template.minutesedit.helpers({
         }
     },
 
-    showQuickHelp: function() {
-        const user = new User();
-        return user.getSetting(userSettings.showQuickHelp.meeting, true);
-    },
-
     minutesPath: function(minutesId) {
         return Blaze._globalHelpers.pathFor('/minutesedit/:_id', { _id:  minutesId });
     },
 
     previousMinutes : function() {
         let aMin = new Minutes(_minutesID);
-        return aMin.previousMinutes();
+        return MinutesFinder.previousMinutes(aMin);
     },
 
     nextMinutes : function() {
         let aMin = new Minutes(_minutesID);
-        return aMin.nextMinutes();
+        return MinutesFinder.nextMinutes(aMin);
     }
 });
 
 Template.minutesedit.events({
-    'click #btnHideHelp': function () {
-        const user = new User();
-        user.storeSetting(userSettings.showQuickHelp.meeting, false);
-    },
-
     'click #checkHideClosedTopics': function(evt) {
         let isChecked = evt.target.checked;
         filterClosedTopics.set(isChecked);

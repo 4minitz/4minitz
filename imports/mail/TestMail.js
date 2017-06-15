@@ -1,3 +1,4 @@
+import { Mongo } from 'meteor/mongo';
 import { Mail } from './Mail';
 
 export let TestMailCollection = new Mongo.Collection('testemails');
@@ -25,5 +26,4 @@ export class TestMail extends Mail{
 
         TestMailCollection.insert(config);
     }
-
 }

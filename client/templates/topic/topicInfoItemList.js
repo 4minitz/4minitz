@@ -1,10 +1,14 @@
 import { Topic } from '/imports/topic';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { Minutes } from '/imports/minutes';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import {InfoItemFactory} from "../../../imports/InfoItemFactory";
+import {InfoItemFactory} from '../../../imports/InfoItemFactory';
 import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
 
@@ -34,7 +38,10 @@ Template.topicInfoItemList.onCreated(function () {
     /** @type {TopicInfoItemListContext} */
     let tmplData = Template.instance().data;
     this.isItemsLimited = new ReactiveVar(tmplData.items.length > INITIAL_ITEMS_LIMIT);
-    this.isItemCollapsed = new ReactiveVar(tmplData.items.map(v => true));
+
+    // Dict maps Item._id => true/false, where true := "expanded state"
+    // per default: everything is undefined => collapsed!
+    this.isItemExpanded = new ReactiveVar({});
 });
 
 let updateItemSorting = (evt, ui) => {
@@ -53,7 +60,7 @@ let updateItemSorting = (evt, ui) => {
     topic.setItems(newItemSorting);
     topic.save().catch(error => {
         $('.itemPanel').sortable( 'cancel' );
-        onError(error);
+        handleError(error);
     });
 };
 
@@ -137,19 +144,6 @@ let resizeTextarea = (element) => {
 };
 
 Template.topicInfoItemList.helpers({
-    triggerAddDetails: function(index) {
-        let itemId = Session.get('topicInfoItem.triggerAddDetailsForItem');
-        const tmpl = Template.instance();
-        if (itemId && itemId === tmpl.data.items[index]._id) {
-            Session.set('topicInfoItem.triggerAddDetailsForItem', null);
-            Meteor.setTimeout(() => {
-                addNewDetails(tmpl, index).catch(handleError);
-            }, 1300); // we need this delay otherwise the input field will be made hidden immediately
-        }
-        // do not return anything! This will be rendered on the page!
-        return '';
-    },
-
     topicStateClass: function (index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
@@ -179,9 +173,9 @@ Template.topicInfoItemList.helpers({
         return getDetails(Template.instance(), index);
     },
 
-    isCollapsed(index) {
-        let allItemsCollapseState = Template.instance().isItemCollapsed.get();
-        return allItemsCollapseState[index];
+    isExpanded(itemID) {
+        let allItemsExpandedState = Template.instance().isItemExpanded.get();
+        return allItemsExpandedState[itemID];
     },
 
     isActionItem: function(index) {
@@ -227,12 +221,6 @@ Template.topicInfoItemList.helpers({
         }
     },
 
-    idForEdit() {
-        /** @type {TopicInfoItemListContext} */
-        const context = Template.instance().data;
-        return context.is ? '' : 'btnEditInfoItem';
-    },
-
     responsiblesHelper(index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
@@ -276,7 +264,7 @@ Template.topicInfoItemList.events({
     'click #btnDelInfoItem'(evt, tmpl) {
         evt.preventDefault();
 
-        const index = $(evt.currentTarget).data('index');
+        const index = evt.currentTarget.getAttribute('data-index');
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
         let infoItem = context.items[index];
@@ -339,7 +327,7 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        const index = $(evt.currentTarget).data('index');
+        const index = evt.currentTarget.getAttribute('data-index');
         const infoItem = context.items[index];
         const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof ActionItem) {
@@ -357,7 +345,7 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        let index = $(evt.currentTarget).data('index');
+        let index = evt.currentTarget.getAttribute('data-index');
         let infoItem = context.items[index];
 
         let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
@@ -367,7 +355,7 @@ Template.topicInfoItemList.events({
         }
     },
 
-    'click #btnEditInfoItem'(evt, tmpl) {
+    'click .btnEditInfoItem'(evt, tmpl) {
         evt.preventDefault();
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
@@ -379,7 +367,7 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        let index = $(evt.currentTarget).data('index');
+        let index = evt.currentTarget.getAttribute('data-index');
         let infoItem = context.items[index];
 
         Session.set('topicInfoItemEditTopicId', infoItem.parentTopicId);
@@ -434,7 +422,7 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        let index = $(evt.currentTarget).data('index');
+        let index = evt.currentTarget.getAttribute('data-index');
         addNewDetails(tmpl, index).catch(handleError);
     },
 
@@ -456,7 +444,7 @@ Template.topicInfoItemList.events({
 
         let text = inputEl.val().trim();
 
-        if (text === '' || (text !== textEl.attr('data-text'))) {
+        if (text === '' || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(context.topicParentId);
             let aTopic = new Topic(aMin, infoItem.parentTopicId);
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
@@ -523,16 +511,16 @@ Template.topicInfoItemList.events({
     },
 
     'hide.bs.collapse'(evt, tmpl) {
-        let index = $(evt.currentTarget).data('index');
-        let collapseStates = tmpl.isItemCollapsed.get();
-        collapseStates[index] = true;
-        tmpl.isItemCollapsed.set(collapseStates);
+        let itemID = $(evt.currentTarget).data('itemid');
+        let expandStates = tmpl.isItemExpanded.get();
+        expandStates[itemID] = false;
+        tmpl.isItemExpanded.set(expandStates);
     },
     'show.bs.collapse'(evt, tmpl) {
-        let index = $(evt.currentTarget).data('index');
-        let collapseStates = tmpl.isItemCollapsed.get();
-        collapseStates[index] = false;
-        tmpl.isItemCollapsed.set(collapseStates);
+        let itemID = $(evt.currentTarget).data('itemid');
+        let expandStates = tmpl.isItemExpanded.get();
+        expandStates[itemID] = true;
+        tmpl.isItemExpanded.set(expandStates);
     },
 
     // Important! We have to use "mousedown" instead of "click" here.

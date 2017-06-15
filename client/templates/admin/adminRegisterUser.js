@@ -1,10 +1,10 @@
-
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { handleError } from '../../helpers/handleError';
-
 
 Template.adminRegisterUser.helpers({
     isMailEnabled() {
@@ -45,10 +45,8 @@ Template.adminRegisterUser.events({
                             evt.preventDefault();
                             handleError(error);
                         } else {
+                            $('#dlgAdminRegisterUser').modal('hide');
                             (new FlashMessage('OK', 'Registered new user: '+uName, 'alert-success', 3000)).show();
-                            Meteor.setTimeout(function () {
-                                $('#dlgAdminRegisterUser').modal('hide');
-                            }, 3000);
                         }
                     });
     },
@@ -65,5 +63,4 @@ Template.adminRegisterUser.events({
     'shown.bs.modal #dlgAdminRegisterUser': function (evt, tmpl) {
         tmpl.find('#id_newUsrName').focus();
     }
-
 });
