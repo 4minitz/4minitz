@@ -19,7 +19,7 @@ describe('MeetingSeries Security', function () {
         E2EApp.launchApp();
     });
 
-    it('can not insert a new MeetingSerie if not logged in ', function () {
+    it('can not insert a new MeetingSerie if not logged in', function () {
         let aProjectName = "Hacker Project #1";
         let aMeetingName = "Hacker Meeting #1";
         E2EApp.logoutUser();
@@ -39,7 +39,7 @@ describe('MeetingSeries Security', function () {
         expect(server.call('e2e.countMeetingSeriesInMongDB')).to.equal(noOfMeetingSeries+1);
 
     });
-    it('can not delete a new MeetingSerie if not logged in ', function () {
+    it('can not delete a new MeetingSerie if not logged in', function () {
         let aProjectName = "Hacker Project #2";
         let aMeetingName = "Hacker Meeting #2";
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
@@ -68,7 +68,7 @@ describe('MeetingSeries Security', function () {
 
     });
 
-    it('can not update a MeetingSerie if not logged in ', function () {
+    it('can not update a MeetingSerie if not logged in', function () {
         let aProjectName = "Hacker Project #3";
         let aMeetingName = "Hacker Meeting #3";
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
