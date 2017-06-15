@@ -15,8 +15,8 @@ export class AdminNewVersionMailHandler {
         let admins = Meteor.users.find({isAdmin: true}).fetch();
         if (Meteor.settings.email.enableMailDelivery && admins.length > 0) {
             let adminMails = [];
-            admins.map(adm => {adminMails.push(adm.emails[0].address)});
-            let mailer = MailFactory.getMailer(adminFrom, adminMails.join(","));
+            admins.map(adm => {adminMails.push(adm.emails[0].address);});
+            let mailer = MailFactory.getMailer(adminFrom, adminMails.join(','));
             mailer.setSubject('[4Minitz] Newer version exists');
             mailer.setText('Hello Admin,\n'+
                 '\n'+

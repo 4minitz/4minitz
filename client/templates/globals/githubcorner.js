@@ -1,4 +1,5 @@
 import moment from 'moment/moment';
+import { Template } from 'meteor/templating';
 
 Template.githubcorner.helpers({
     isChristmasTime: function () {

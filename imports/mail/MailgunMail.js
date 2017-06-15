@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Mail } from './Mail';
 import { GlobalSettings } from '../config/GlobalSettings';
 

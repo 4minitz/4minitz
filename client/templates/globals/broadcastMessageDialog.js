@@ -1,11 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { formatDateISO8601Time } from '/imports/helpers/date';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { BroadcastMessage } from '/imports/broadcastmessage';
 
 Template.broadcastMessageDialog.onCreated(function () {
-        this.subscribe("broadcastmessage");
+    this.subscribe('broadcastmessage');
 });
 
 Template.broadcastMessageDialog.helpers({
@@ -41,7 +43,8 @@ Template.broadcastMessageDialog.helpers({
 });
 
 Template.broadcastMessageDialog.events({
-    'click #btnDismissBroadcast': function (evt, tmpl) {
+    'click #btnDismissBroadcast': function (evt) {
+        evt.preventDefault();
         BroadcastMessage.dismissForMe();
     }
 });

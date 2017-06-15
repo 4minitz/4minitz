@@ -6,7 +6,7 @@ export class MigrateV14 {
         let demoUser = Meteor.users.findOne({'$and': [
             {'username': 'demo'},
             {'isDemoUser': true}
-            ]});
+        ]});
         if (demoUser) {
             Meteor.users.update({'username': 'demo'}, {$set: {'emails.0.verified': true}});
         }

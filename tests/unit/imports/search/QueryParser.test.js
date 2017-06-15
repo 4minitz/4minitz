@@ -1,7 +1,11 @@
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import _ from 'underscore';
+
+class MeteorError {}
+let Meteor = {
+    Error: MeteorError
+};
 
 const {
     ITEM_KEYWORDS
@@ -12,7 +16,8 @@ const {
 const {
     QueryParser
     } = proxyquire('../../../../imports/search/QueryParser', {
-    'meteor/underscore': { _, '@noCallThru': true}
+    'meteor/underscore': { _, '@noCallThru': true},
+    'meteor/meteor': { Meteor, '@noCallThru': true}
 });
 
 describe("QueryParser", function() {

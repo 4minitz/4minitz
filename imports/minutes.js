@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 import { MinutesSchema } from './collections/minutes.schema';
 import { MeetingSeries } from './meetingseries';
 import { Topic } from './topic';

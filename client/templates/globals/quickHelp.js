@@ -1,3 +1,4 @@
+import { Template } from 'meteor/templating';
 import { User, userSettings } from '/imports/users';
 
 Template.quickHelp.helpers({

@@ -3,6 +3,11 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
 
+class MeteorError {}
+let Meteor = {
+    Error: MeteorError
+};
+
 const {
     ITEM_KEYWORDS
     } = proxyquire('../../../../imports/search/FilterKeywords', {
@@ -19,6 +24,7 @@ const {
     ItemsFilter
     } = proxyquire('../../../../imports/search/ItemsFilter', {
     'meteor/underscore': { _, '@noCallThru': true},
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     './FilterKeywords': { ITEM_KEYWORDS, '@noCallThru': true}
 });
 
@@ -26,6 +32,7 @@ const {
     TopicsFilter
     } = proxyquire('../../../../imports/search/TopicsFilter', {
     'meteor/underscore': { _, '@noCallThru': true},
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     './FilterKeywords': { TOPIC_KEYWORDS, '@noCallThru': true},
     './ItemsFilter': { ItemsFilter, '@noCallThru': true}
 });
