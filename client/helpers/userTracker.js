@@ -39,8 +39,12 @@ export class UserTracker {
     constructor(activeRoute) {
         this.activeRoute = activeRoute;
         this.onTabChangeOperation = () => {
-            if (isVisible()) this._setActiveRoute();
-            else this._clearActiveRoute();
+            if (isVisible()) {
+                this._setActiveRoute();
+            }
+            else {
+                this._clearActiveRoute();
+            }
         }
     }
 

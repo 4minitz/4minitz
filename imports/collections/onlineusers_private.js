@@ -20,15 +20,20 @@ Meteor.methods({
         const userId = Meteor.userId();
         checkRouteParamAndAuthorization(route, userId);
 
-        OnlineUsersSchema.insert({
+        OnlineUsersSchema.getCollection().update({
+            userId: userId,
+            activeRoute:route
+        }, {
             userId: userId,
             activeRoute:route,
             updatedAt: new Date()
+        }, {
+            upsert: true
         });
 
         // remove outdated entries
-        const fiveMinAgo = moment().add(-1,'minutes').toDate();
-        OnlineUsersSchema.remove({updatedAt: {"$lt" : fiveMinAgo}});
+        const threeMinAgo = moment().add(-3,'minutes').toDate();
+        OnlineUsersSchema.remove({updatedAt: {"$lt" : threeMinAgo}});
     },
     'onlineUsers.leaveRoute'(route) {
         const userId = Meteor.userId();
