@@ -1,21 +1,16 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
+import { Accounts } from 'meteor/accounts-base';
+import { check, Match } from 'meteor/check';
 
-import { User } from '/imports/users';
 import { AdminRegisterUserMailHandler } from '/imports/mail/AdminRegisterUserMailHandler';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 import { checkWithMsg } from '/imports/helpers/check';
 
 Meteor.methods({
     'users.saveSettings'(settings) {
-        const user = new User();
-        console.log(user);
-
         const id = Meteor.userId();
         Meteor.users.update(id, { $set: {settings} });
         console.log(`saved settings for user ${id}: ${settings}`);
-        console.log(settings);
-        console.log(user);
     },
 
     'users.editProfile'(userId, eMail, longName) {
@@ -100,6 +95,8 @@ Meteor.methods({
             password: password1,
             email: email,
             profile: {name: longname}});
+
+        Meteor.users.update({'username': username}, {$set: {'emails.0.verified': true}});
 
         if (Meteor.isServer && newUserId && sendMail) {
             let mailer = new AdminRegisterUserMailHandler(newUserId, sendPassword, password1);

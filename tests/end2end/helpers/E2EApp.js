@@ -86,16 +86,24 @@ export class E2EApp {
 
     /**
      * Logout current user, if necessary, then login a specific test user
-     * @param index of test user from setting. optional.
+     * @param indexOrUsername of test user from setting. optional.
      * @param autoLogout perform logout before login the test user. optional.
      */
-    static loginUser (index, autoLogout) {
-        if (!index) {
-            index = 0;
+    static loginUser (indexOrUsername, autoLogout) {
+        if (!indexOrUsername) {
+            indexOrUsername = 0;
+        }
+        if (typeof indexOrUsername === 'string') {
+            let orgUserName = indexOrUsername;
+            indexOrUsername = E2EGlobal.SETTINGS.e2eTestUsers.indexOf(indexOrUsername);
+            if (indexOrUsername === -1) {
+                console.log("Error {E2EApp.loginUser} : Could not find user "+orgUserName+". Fallback: index=0.");
+                indexOrUsername = 0;
+            }
         }
 
-        let aUser = E2EGlobal.SETTINGS.e2eTestUsers[index];
-        let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[index];
+        let aUser = E2EGlobal.SETTINGS.e2eTestUsers[indexOrUsername];
+        let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[indexOrUsername];
 
         this.loginUserWithCredentials(aUser, aPassword, autoLogout);
     };
@@ -107,7 +115,7 @@ export class E2EApp {
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
-        if (browser.getTitle() != E2EApp.titlePrefix) {
+        if (browser.getTitle() !== E2EApp.titlePrefix) {
             throw new Error("App not loaded. Unexpected title "+browser.getTitle()+". Please run app with 'meteor npm run test:end2end:server'")
         }
     };
@@ -177,4 +185,3 @@ export class E2EApp {
 }
 
 E2EApp._currentlyLoggedInUser = "";
-

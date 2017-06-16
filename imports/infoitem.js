@@ -1,14 +1,15 @@
-import { Label } from './label';
-import { _ } from 'meteor/underscore';
-import { formatDateISO8601 } from '/imports/helpers/date';
-import { Random } from 'meteor/random';
-
 /**
  * A InfoItem is a sub-element of
  * a topic which has a subject,
  * a date when is was created
  * and a list of associated tags.
  */
+import { Meteor } from 'meteor/meteor';
+import { Label } from './label';
+import { _ } from 'meteor/underscore';
+import { formatDateISO8601 } from '/imports/helpers/date';
+import { Random } from 'meteor/random';
+
 export class InfoItem {
 
     constructor(parentTopic, source) {
@@ -118,7 +119,7 @@ export class InfoItem {
     }
 
     getDetailsAt(index) {
-        if (!this._infoItemDoc.details || index < 0 || index >= this._infoItemDoc.details.length) {
+        if (!this._infoItemDoc.details || index < 0 || index >= this._infoItemDoc.details.length) {
             throw new Meteor.Error('index-out-of-bounds');
         }
 
@@ -205,7 +206,7 @@ export class InfoItem {
         const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
         let match;
 
-        while(match = regEx.exec(this._infoItemDoc.subject)) {
+        while((match = regEx.exec(this._infoItemDoc.subject)) !== null) {
             let labelName = match[2];
             this.addLabelByName(labelName, meetingSeriesId);
             this._removeLabelFromSubject(labelName);

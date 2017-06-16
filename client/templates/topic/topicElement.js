@@ -1,4 +1,9 @@
 import { Minutes } from '/imports/minutes';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { $ } from 'meteor/jquery';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';

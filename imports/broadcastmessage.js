@@ -44,7 +44,7 @@ export class BroadcastMessage {
     }
 
     static remove (id) {
-        if (!id || id == '') {
+        if (!id || id === '') {
             return;
         }
         if (Meteor.isServer) {

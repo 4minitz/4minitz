@@ -1,4 +1,8 @@
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 let showStatistics = new ReactiveVar(false);
@@ -33,7 +37,7 @@ Template.aboutDialog.events({
         FlowRouter.go('/legalnotice');
     },
 
-    'show.bs.modal #dlgAbout': function (evt, tmpl) {
+    'show.bs.modal #dlgAbout': function () {
         Meteor.call('gitVersionInfo', function (error, result) {
             if (!error) {
                 Session.set('gitVersionInfo', result);

@@ -3,13 +3,13 @@
 ## Important Hint
 4Minitz is a client-server webapp. So the client needs the server to permanently store your meeting minutes. Nevertheless the meteor framework allows the client webapp to temporarily work 'offline' and sync the contents as soon as the server is available again.
 
-4Minitz shows a warning icon in the top-right of your browser window to show the "Connection Lost" state:
+4Minitz shows a warning message in the top-right of your browser window to show the "Connection Lost" state:
 
 ![Connection Lost Warning](./figures/connection_lost.png)
 
-In this state you can hover the mouse over the icon to get information about how long the connection is lost and how often the client retried to re-connect. You may click on the warning icon to force an immediate reconnect.
+In this state you can hover the mouse over the top icon to get information about how long the connection is lost and how often the client retried to re-connect. You may click on the button "try to reconnect" to force an immediate reconnect.
  
- **Important:** If you see the above waning icon and you close your webbrowser, or close the tab where 4Minitz is loaded, or if you enter a different URL in the address bar - **You will lose all your unsaved changes!**
+ **Important:** If you see the above waning and you close your webbrowser, or close the tab where 4Minitz is loaded, or if you enter a different URL in the address bar - **You will lose all your unsaved changes!**
  
  So, unless you intentionally work offline, you should stop adding content to 4Minitz and instead check your web browsers internet connection or clarify with a system administrator, why the 4Minitz client lost connection to the 4Minitz server.
 
@@ -121,6 +121,8 @@ the topic menu will allow you to:
 * **"Delete Topic"** will delete this topic after a security question
 * **"Up-Down-Arrow"** allows reordering the topics via drag'n'drop
 
+There is also a "three dots" menu icon within the meeting series' overview of topics. 
+This menu is available for already closed Topics and contains the menu entry **"Re-open Topics"**. By using this feature the topic will be opened again and will occur in the next minute respectively the current one, if it is not finished yet.
 
 ## Send Agenda to Participants
 All open (non skipped) topics of the current meeting minutes will be send by EMail to all invited users (and moderators) of the current meeting series if the moderator clicks the button:
@@ -156,7 +158,7 @@ The menu entries in the "three dot" info item menu allow the following operation
   
  
 ### Action Items
-Action Items are children of topics and will be sent to the entered responsible(s) in a seperate mail when the moderator finalizea the meeting minutes.
+Action Items are children of topics and will be sent to the entered responsible(s) in a separate mail when the moderator finalizes the meeting minutes.
 
 An action item will be propagated together with its parent topic to the next meeting unless the action item is checked as "done".
 
@@ -173,7 +175,9 @@ The menu entries in the "three dot" action item menu allow the following operati
 * **"Delete Item"** will delete this item after a security question. Action Items from a previous meeting can not be deleted - they can only be set to "done". So you will get rid of them in the next meeting.
 
 ### Adding Details
-By clicking the "Add Details" menu on Information Items and Action Items it is possible to add details to them.
+Details can be added directly in the dialog of new Information Items and Action Items.
+
+If the Item already exists it is possible to add details to them by clicking the "Add Details" menu on Information Items and Action Items.
 
 In the details editor it is possible to use markdown syntax to create rich text formatting like headings, bold, italic, bullet lists, etc.
 

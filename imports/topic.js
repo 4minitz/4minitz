@@ -1,5 +1,9 @@
+/**
+ * A Topic is an Agenda Topic which can
+ * have multiple sub-items called InfoItem.
+ */
 import { Meteor } from 'meteor/meteor';
-
+import { Random } from 'meteor/random';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
@@ -50,10 +54,6 @@ function resolveTopic(parentElement, source) {
     return source;
 }
 
-/**
- * A Topic is an Agenda Topic which can
- * have multiple sub-items called InfoItem.
- */
 export class Topic {
 
     /**
@@ -432,7 +432,7 @@ export class Topic {
         let subjectString = this._topicDoc.subject;
         let match;
 
-        while (match = regEx.exec(subjectString)) {
+        while ((match = regEx.exec(subjectString)) !== null) {
             let labelName = match[2];
             this.addLabelByName(labelName, meetingSeriesId);
             this._removeLabelFromTopic(labelName);
@@ -444,7 +444,7 @@ export class Topic {
         let subjectString = this._topicDoc.subject;
         let match;
 
-        while (match = regEx.exec(subjectString)) {
+        while ((match = regEx.exec(subjectString)) !== null) {
             let responsibleName = match[2];
             this.addResponsible(responsibleName);
             this._removeResponsibleFromTopic(responsibleName);

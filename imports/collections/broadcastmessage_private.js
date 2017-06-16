@@ -24,11 +24,6 @@ if (Meteor.isServer) {
     });
 }
 
-if (Meteor.isClient) {
-    Meteor.subscribe('broadcastmessage');
-    Meteor.subscribe('broadcastmessageAdmin');
-}
-
 
 Meteor.methods({
     'broadcastmessage.dismiss': function () {
