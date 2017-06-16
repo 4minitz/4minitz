@@ -32,8 +32,8 @@ Meteor.methods({
         });
 
         // remove outdated entries
-        const threeMinAgo = moment().add(-3,'minutes').toDate();
-        OnlineUsersSchema.remove({updatedAt: {"$lt" : threeMinAgo}});
+        const aMinAgo = moment().add(-1,'minutes').toDate();
+        OnlineUsersSchema.remove({updatedAt: {"$lt" : aMinAgo}});
     },
     'onlineUsers.leaveRoute'(route) {
         const userId = Meteor.userId();

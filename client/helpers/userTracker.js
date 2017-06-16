@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import {_} from 'meteor/underscore';
 
+const KEEP_ALIVE_INTERVAL_IN_MS = 30 * 1000;
+
 const getVisibilityKeys = () => {
     const keys = {
         hidden: "visibilitychange",
@@ -41,9 +43,11 @@ export class UserTracker {
         this.onTabChangeOperation = () => {
             if (isVisible()) {
                 this._setActiveRoute();
+                this._startTimer();
             }
             else {
                 this._clearActiveRoute();
+                this._stopTimer();
             }
         }
     }
@@ -58,9 +62,13 @@ export class UserTracker {
 
     onEnter() {
         this._setActiveRoute();
-
+        this._startTimer();
         addVisiblityListener(this.onTabChangeOperation);
         this._addUnLoadListener();
+    }
+
+    _startTimer() {
+        this.timerHandler = Meteor.setInterval(_.bind(this._setActiveRoute, this), KEEP_ALIVE_INTERVAL_IN_MS);
     }
 
     _addUnLoadListener() {
@@ -71,8 +79,12 @@ export class UserTracker {
 
     onLeave() {
         this._clearActiveRoute();
+        this._stopTimer();
         removeVisiblityListener(this.onTabChangeOperation);
         window.removeEventListener('beforeunload', this.beforeUnloadListener);
     }
 
+    _stopTimer() {
+        Meteor.clearInterval(this.timerHandler);
+    }
 }
