@@ -20,16 +20,19 @@ Meteor.methods({
         const userId = Meteor.userId();
         checkRouteParamAndAuthorization(route, userId);
 
-        OnlineUsersSchema.getCollection().update({
-            userId: userId,
-            activeRoute:route
-        }, {
+        const doc = {
             userId: userId,
             activeRoute:route,
             updatedAt: new Date()
-        }, {
-            upsert: true
-        });
+        };
+        const selector = { userId: userId, activeRoute:route };
+        const existingDoc = OnlineUsersSchema.findOne(selector);
+
+        if (existingDoc) {
+            OnlineUsersSchema.update(selector, doc);
+        } else {
+            OnlineUsersSchema.insert(doc);
+        }
 
         // remove outdated entries
         const aMinAgo = moment().add(-1,'minutes').toDate();
