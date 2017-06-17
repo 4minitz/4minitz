@@ -57,17 +57,20 @@ describe('Item Details', function () {
         }, 1);
     });
 
-    it('can add first details to a new Action Item @watch', function() {
-        let topicIndex = 1;
+    it('can add first details to a new Action Item', function() {
+        const detailsText = 'First Details for Info Item';
         E2ETopics.addFirstDetailsToNewActionItem({
             subject: getNewAIName(),
             itemType: "infoItem"
-        },'First Details', topicIndex);
+        },1 , detailsText);
+
+        browser.element(".expandDetails ").click();
 
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nFirst Details');
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
     });
 
     it('can add details to an Action Item', function() {
