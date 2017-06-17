@@ -57,14 +57,16 @@ describe('Item Details', function () {
         }, 1);
     });
 
-    it('can add first details to a new Action Item', function() {
+    it('can add first details to a new Info Item', function() {
         const detailsText = 'First Details for Info Item';
-        E2ETopics.addFirstDetailsToNewActionItem({
+        E2ETopics.addFirstDetailsToNewInfoItem({
             subject: getNewAIName(),
             itemType: "infoItem"
         },1 , detailsText);
 
+        E2EGlobal.waitSomeTime();
         browser.element(".expandDetails ").click();
+        E2EGlobal.waitSomeTime();
 
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
