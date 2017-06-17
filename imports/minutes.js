@@ -60,8 +60,6 @@ export class Minutes {
         return Meteor.callPromise('minutes.syncVisibility', parentSeriesID, visibleForArray);
     }
 
-
-
     // ################### object methods
 
     // method
@@ -416,9 +414,7 @@ export class Minutes {
      */
     async changeParticipantsStatus(isPresent)
     {
-        for (var index = 0; index < this.participants.length; index++) {
-            this.participants[index].present = isPresent;
-        }
+        this.participants.forEach(p => p.present = isPresent);
         return this.update({participants: this.participants});
     }
 
