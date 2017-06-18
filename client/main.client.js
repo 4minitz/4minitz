@@ -40,6 +40,11 @@ import 'jquery-ui/ui/widgets/sortable';
 
 import 'jquery-ui-touch-punch/jquery.ui.touch-punch';
 
+if (Meteor.settings.isEnd2EndTest) {
+    require('/imports/client/no-animations.css');
+    $.support.transition = false;
+}
+
 $(document).arrive('input', {
     onceOnly: false
 }, function () {

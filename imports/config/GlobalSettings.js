@@ -85,6 +85,8 @@ export class GlobalSettings {
                 ? Meteor.settings.email.showForgotPasswordLink
                 : false;
 
+        Meteor.settings.public.isEnd2EndTest = Meteor.settings.isEnd2EndTest;
+
         // enforce slash "/" at the end
         if (Meteor.settings.attachments && Meteor.settings.attachments.storagePath) {
             if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {
