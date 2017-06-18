@@ -103,6 +103,9 @@ if (Meteor.settings.isEnd2EndTest) {
                     text: mail.text
                 };
             });
+        },
+        'e2e.removeAllBroadcasts'() {
+            BroadcastMessageSchema.remove({});
         }
     });
 }

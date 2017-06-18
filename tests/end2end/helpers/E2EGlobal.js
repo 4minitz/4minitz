@@ -24,11 +24,30 @@ export class E2EGlobal {
                 predicate();
                 return;
             } catch (e) {}
-            browser.pause(this.pollingInterval);
+            browser.pause(E2EGlobal.pollingInterval);
             current = new Date();
         }
 
         throw new Error('waitUntil timeout');
+    }
+
+    static clickWithRetry(selector, timeout = 10000) {
+        const start = new Date();
+        let current = new Date();
+
+        while (current - start < timeout) {
+            try {
+                browser.click(selector);
+                return;
+            } catch (e) {
+                if (!e.toString().includes('Other element would receive the click')) {
+                    throw e;
+                }
+            }
+            browser.pause(E2EGlobal.pollingInterval);
+            current = new Date();
+        }
+        throw new Error(`clickWithRetry ${selector} timeout`);
     }
 
     static waitSomeTime (milliseconds) {

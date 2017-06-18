@@ -17,17 +17,18 @@ export class E2EApp {
 
     static isLoggedIn () {
         try {
-            browser.waitForExist('#navbar-usermenu', 2000);         // browser = WebdriverIO instance
+            browser.waitForExist('#navbar-usermenu', 5000);         // browser = WebdriverIO instance
         } catch (e) {
             // give browser some time, on fresh login
+            E2EGlobal.saveScreenshot('isLoggedIn_failed');
         }
         return browser.isExisting('#navbar-usermenu');
     };
 
     static logoutUser () {
         if (E2EApp.isLoggedIn()) {
-            browser.click('#navbar-usermenu');
-            browser.click('#navbar-signout');
+            E2EGlobal.clickWithRetry('#navbar-usermenu');
+            E2EGlobal.clickWithRetry('#navbar-signout');
             E2EGlobal.waitSomeTime();
         }
         E2EApp._currentlyLoggedInUser = "";
@@ -50,36 +51,43 @@ export class E2EApp {
         if (autoLogout) {
             E2EApp.logoutUser();
         }
-        try {    // try to log in
-            browser.click(tab);
-            E2EGlobal.waitSomeTime();
+        try {
+            browser.waitForVisible(tab, 5000);
+            E2EGlobal.clickWithRetry(tab);
 
             let tabIsStandard = browser.isExisting('#at-field-username_and_email');
             let userWantsStandard = tab === '#tab_standard';
             let tabIsLdap = browser.isExisting('#id_ldapUsername');
             let userWantsLdap = tab === '#tab_ldap';
 
-            if ((tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap)) {
-                if (tabIsStandard) {
-                    browser.setValue('input[id="at-field-username_and_email"]', username);
-                    browser.setValue('input[id="at-field-password"]', password);
-                }
+            browser.waitUntil(_ => (tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap), 5000);
 
-                if (tabIsLdap) {
-                    browser.setValue('input[id="id_ldapUsername"]', username);
-                    browser.setValue('input[id="id_ldapPassword"]', password);
-                }
-
-                browser.keys(['Enter']);
-                E2EGlobal.waitSomeTime(2000);
-
-                if (browser.isExisting('.at-error.alert.alert-danger')) {
-                    throw new Error ("Unknown user or wrong password.")
-                }
-                E2EApp.isLoggedIn();
-                E2EApp._currentlyLoggedInUser = username;
+            if (tabIsStandard) {
+                E2EGlobal.setValueSafe('input[id="at-field-username_and_email"]', username);
+                E2EGlobal.setValueSafe('input[id="at-field-password"]', password);
             }
+
+            if (tabIsLdap) {
+                E2EGlobal.setValueSafe('input[id="id_ldapUsername"]', username);
+                E2EGlobal.setValueSafe('input[id="id_ldapPassword"]', password);
+            }
+
+            browser.keys(['Enter']);
+
+            browser.waitUntil(_ => {
+                const userMenuExists = browser.isExisting('#navbar-usermenu'),
+                    loginErrorAlertExists = browser.isExisting('.at-error.alert.alert-danger');
+
+                return userMenuExists || loginErrorAlertExists;
+            }, 4000);
+
+            if (browser.isExisting('.at-error.alert.alert-danger')) {
+                throw new Error ("Unknown user or wrong password.")
+            }
+            E2EApp.isLoggedIn();
+            E2EApp._currentlyLoggedInUser = username;
         } catch (e) {
+            E2EGlobal.saveScreenshot('loginUserWithCredentials_failed');
             throw new Error (`Login failed for user ${username} with ${password}\nwith ${e}`);
         }
     }
