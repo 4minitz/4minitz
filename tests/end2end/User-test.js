@@ -3,7 +3,7 @@ import { E2EApp } from './helpers/E2EApp'
 import { E2EUser } from './helpers/E2EUser'
 
 
-describe('@watch User Profile/Password editing', function () {
+describe('User Profile/Password editing', function () {
 
     const waitUntilTimeout = 10000;
 
