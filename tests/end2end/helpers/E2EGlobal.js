@@ -1,6 +1,36 @@
 
 
 export class E2EGlobal {
+    static setValueSafe(selector, string, retries = 5) {
+        let currentValue = browser.getValue(selector),
+            count = 0;
+
+        while (count < retries && currentValue !== string) {
+            browser.setValue(selector, string);
+            currentValue = browser.getValue(selector);
+            count++;
+        }
+    }
+
+    static pollingInterval = 250;
+
+    static waitUntil(predicate, timeout = 10000) {
+        const start = new Date();
+        let current = new Date();
+
+        let i = 0;
+        while (current - start < timeout) {
+            try {
+                predicate();
+                return;
+            } catch (e) {}
+            browser.pause(this.pollingInterval);
+            current = new Date();
+        }
+
+        throw new Error('waitUntil timeout');
+    }
+
     static waitSomeTime (milliseconds) {
         if (!milliseconds) {
             // bootstrap fade animation time is 250ms, so give this some more...  ;-)
