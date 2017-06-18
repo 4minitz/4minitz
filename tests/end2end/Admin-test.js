@@ -22,6 +22,10 @@ describe('Admin View', function () {
         expect (E2EApp.isLoggedIn()).to.be.true;
     });
 
+    after('log in user1', function () {
+        E2EApp.gotoStartPage();
+        E2EApp.loginUser(0);
+    });
 
     it('can not access admin menu or route for non-admin user', function () {
         expect(E2EAdmin.clickAdminMenu(), 'click admin menu').to.be.false;
