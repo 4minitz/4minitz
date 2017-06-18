@@ -8,7 +8,6 @@ export class E2EUser {
         E2EGlobal.setValueSafe('input#id_newPassword2', newPassword2);
 
         browser.keys(['Enter']);
-        E2EGlobal.waitSomeTime();
     }
 
     static editProfile(longName, eMail, saveParameter = true) {

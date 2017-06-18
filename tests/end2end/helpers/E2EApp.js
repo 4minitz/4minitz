@@ -115,11 +115,11 @@ export class E2EApp {
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
-        if (browser.getTitle() !== E2EApp.titlePrefix) {
-            throw new Error("App not loaded. Unexpected title "+browser.getTitle()+". Please run app with 'meteor npm run test:end2end:server'")
+        const title = browser.getTitle();
+        if (title !== E2EApp.titlePrefix) {
+            throw new Error(`App not loaded. Unexpected title ${title}. Please run app with 'meteor npm run test:end2end:server'`);
         }
     };
-
 
     static isOnStartPage () {
         // post-condition
@@ -157,7 +157,7 @@ export class E2EApp {
             E2EGlobal.saveScreenshot("gotoStartPage2");
         }
         expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
-        expect (E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
+        expect(E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
     };
 
     static confirmationDialogCheckMessage (containedText) {
