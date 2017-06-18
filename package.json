@@ -29,7 +29,7 @@
     "test:end2end:headless": "chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/ -- $TEST_FILES",
     "test:end2end:once": "chimp .meteor/chimp_config.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/",
     "test:end2end:watch": "chimp .meteor/chimp_config.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch",
-    "test:end2end:watchheadless": "chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --browser=phantomjs --watch",
+    "test:end2end:watchheadless": "chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch",
     "test:fixtures:seed-minutes:unit": "node ./node_modules/mocha/bin/mocha  --recursive tests/performance/fixtures/tests/ --compilers js:babel-register --require tests/performance/fixtures/tests/babel",
     "fixtures:seed-minutes": "node ./node_modules/babel-cli/bin/babel-node.js --presets=es2015,stage-3 tests/performance/fixtures/insertMeetingSeries.js",
     "postinstall": "node programs/postInstall.js"
