@@ -79,7 +79,7 @@ export class E2EApp {
                     loginErrorAlertExists = browser.isExisting('.at-error.alert.alert-danger');
 
                 return userMenuExists || loginErrorAlertExists;
-            }, 4000);
+            }, 8000);
 
             if (browser.isExisting('.at-error.alert.alert-danger')) {
                 throw new Error ("Unknown user or wrong password.")
