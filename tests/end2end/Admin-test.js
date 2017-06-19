@@ -92,6 +92,7 @@ describe('Admin View', function () {
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
             , "message dialog should be invisible for admin").to.be.false;
         E2EAdmin.sendNewBroadcastMessage(message);
+        browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 2000);
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
             , "message dialog should be visible for admin").to.be.true;
         expect(browser.getText(E2EAdmin.selectorMap.dlgAllMessages)
@@ -99,7 +100,8 @@ describe('Admin View', function () {
 
         // Dismiss by admin user
         browser.click(E2EAdmin.selectorMap.btnDismissAllMessages);
-        E2EGlobal.waitSomeTime();
+        const isNotVisible = true;
+        browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 2000, isNotVisible);
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
             , "message dialog should be invisible for admin after dismiss").to.be.false;
 
@@ -109,6 +111,8 @@ describe('Admin View', function () {
         browser.click(E2EAdmin.selectorMap.btnDismissAllMessages);
         const waitForInvisible = true;
         browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 3000, waitForInvisible);
+        expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
+            , "message dialog should be visible for admin").to.be.false;
     });
 
 
