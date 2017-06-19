@@ -39,18 +39,11 @@ export class E2EApp {
         this.loginUserWithCredentials(username, password, autoLogout, '#tab_ldap');
     }
 
-    static loginUserWithCredentials(username, password, autoLogout, tab) {
-        if (autoLogout === undefined) {
-            autoLogout = true;
-        }
-
-        if (tab === undefined) {
-            tab = '#tab_standard';
-        }
-
+    static loginUserWithCredentials(username, password, autoLogout = true, tab = '#tab_standard') {
         if (autoLogout) {
             E2EApp.logoutUser();
         }
+
         try {
             browser.waitForVisible(tab, 5000);
             E2EGlobal.clickWithRetry(tab);
@@ -81,7 +74,8 @@ export class E2EApp {
                 return userMenuExists || loginErrorAlertExists;
             }, 8000);
 
-            if (browser.isExisting('.alert.alert-danger')) {
+            if (browser.isExisting('.alert.alert-danger') &&
+                browser.getHTML('.alert.alert-danger').includes('403')) {
                 throw new Error ("Unknown user or wrong password.")
             }
             E2EApp.isLoggedIn();
