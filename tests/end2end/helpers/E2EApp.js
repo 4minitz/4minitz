@@ -76,12 +76,12 @@ export class E2EApp {
 
             browser.waitUntil(_ => {
                 const userMenuExists = browser.isExisting('#navbar-usermenu'),
-                    loginErrorAlertExists = browser.isExisting('.at-error.alert.alert-danger');
+                    loginErrorAlertExists = browser.isExisting('.alert.alert-danger');
 
                 return userMenuExists || loginErrorAlertExists;
             }, 8000);
 
-            if (browser.isExisting('.at-error.alert.alert-danger')) {
+            if (browser.isExisting('.alert.alert-danger')) {
                 throw new Error ("Unknown user or wrong password.")
             }
             E2EApp.isLoggedIn();
