@@ -39,6 +39,24 @@ export class E2EApp {
         this.loginUserWithCredentials(username, password, autoLogout, '#tab_ldap');
     }
 
+    static loginFailed() {
+        const standardLoginErrorAlertExists = browser.isExisting('.at-error.alert.alert-danger'),
+            generalAlertExists = browser.isExisting('.alert.alert-danger');
+        let generalAlertShowsLoginFailure = false;
+
+        try {
+            generalAlertShowsLoginFailure = browser.getHTML('.alert.alert-danger').includes('403');
+        } catch (e) {
+            const expectedError = `An element could not be located on the page using the given search parameters (".alert.alert-danger")`;
+            if (!e.toString().includes(expectedError)) {
+                throw e;
+            }
+        }
+
+        return standardLoginErrorAlertExists ||
+            (generalAlertExists && generalAlertShowsLoginFailure);
+    }
+
     static loginUserWithCredentials(username, password, autoLogout = true, tab = '#tab_standard') {
         if (autoLogout) {
             E2EApp.logoutUser();
@@ -68,15 +86,12 @@ export class E2EApp {
             browser.keys(['Enter']);
 
             browser.waitUntil(_ => {
-                const userMenuExists = browser.isExisting('#navbar-usermenu'),
-                    loginErrorAlertExists = browser.isExisting('.alert.alert-danger');
-
-                return userMenuExists || loginErrorAlertExists;
+                const userMenuExists = browser.isExisting('#navbar-usermenu');
+                return userMenuExists || E2EApp.loginFailed();
             }, 8000);
 
-            if (browser.isExisting('.alert.alert-danger') &&
-                browser.getHTML('.alert.alert-danger').includes('403')) {
-                throw new Error ("Unknown user or wrong password.")
+            if (E2EApp.loginFailed()) {
+                throw new Error ("Unknown user or wrong password.");
             }
             E2EApp.isLoggedIn();
             E2EApp._currentlyLoggedInUser = username;
