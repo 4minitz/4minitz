@@ -3,11 +3,26 @@
 export class E2EGlobal {
     static setValueSafe(selector, string, retries = 5) {
         let currentValue = browser.getValue(selector),
+            isInteractable = true,
             count = 0;
 
         while (count < retries && currentValue !== string) {
-            browser.setValue(selector, string);
-            currentValue = browser.getValue(selector);
+            try {
+                isInteractable = true;
+                browser.setValue(selector, string);
+            } catch (e) {
+                const message = e.toString(),
+                    notInteractable = message.includes('Element is not currently interactable and may not be manipulated');
+
+                if (!notInteractable) {
+                    throw e;
+                }
+                isInteractable = false;
+            }
+
+            if (!isInteractable) {
+                currentValue = browser.getValue(selector);
+            }
             count++;
         }
     }
@@ -41,10 +56,9 @@ export class E2EGlobal {
                 return;
             } catch (e) {
                 const message = e.toString(),
-                    otherElementReceivesClick = message.includes('Other element would receive the click'),
-                    notInteractable = message.includes('Element is not currently interactable and may not be manipulated');
+                    otherElementReceivesClick = message.includes('Other element would receive the click');
 
-                if (!(otherElementReceivesClick || notInteractable)) {
+                if (!otherElementReceivesClick) {
                     throw e;
                 }
             }
