@@ -88,7 +88,7 @@ export class E2EApp {
             browser.waitUntil(_ => {
                 const userMenuExists = browser.isExisting('#navbar-usermenu');
                 return userMenuExists || E2EApp.loginFailed();
-            }, 8000);
+            }, 20000);
 
             if (E2EApp.loginFailed()) {
                 throw new Error ("Unknown user or wrong password.");
