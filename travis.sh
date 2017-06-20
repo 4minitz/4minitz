@@ -1,8 +1,10 @@
 
 TEST="$1"
 
+PATH=$PATH:$HOME/.meteor/
+
 if [ "$TEST" = "unit" ]; then
-    echo Run unit and integration teststr
+    echo Run unit and integration test
     npm run test:unit
     UNIT=$?
     npm run test:integration:headless
@@ -35,7 +37,7 @@ done
 sleep 10
 
 echo Start end2end test runner
-chimp --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=phantomjs -- $TEST tests/end2end/setup.js
+chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=chrome -- $TEST tests/end2end/setup.js
 
 CHIMP_RESULT=$?
 

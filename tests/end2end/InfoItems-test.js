@@ -132,9 +132,12 @@ describe('Info Items', function () {
 
         const infoItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
-            subject: infoItemName + "\n",
+            subject: infoItemName,
             itemType: "infoItem"
         });
+
+        const subjectInput = browser.$('#id_item_subject');
+        subjectInput.keys('Enter');
 
         E2EGlobal.waitSomeTime();
 

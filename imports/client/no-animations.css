@@ -1,0 +1,5 @@
+*,
+*:after,
+*:before {
+    transition: none !important;
+}

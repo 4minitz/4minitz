@@ -35,10 +35,12 @@ before(function() {
     };
 
     // Some E2E tests run more robust on "large" width screen
-    browser.setViewportSize({
-        width: 1024,
-        height: browser.getViewportSize("height")
-    });
+    if (E2EGlobal.browserIsPhantomJS()) {
+        browser.setViewportSize({
+            width: 1024,
+            height: browser.getViewportSize("height")
+        });
+    }
 
     E2EApp.resetMyApp();
     E2EApp.launchApp();
