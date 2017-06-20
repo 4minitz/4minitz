@@ -157,6 +157,8 @@ export class E2ETopics {
             typeClass = ".addTopicActionItem";
         }
         browser.click("#topicPanel .well:nth-child(" + topicIndex + ") "+typeClass);
+
+        browser.waitForVisible('#id_item_subject', 5000);
     }
 
     static addInfoItemToTopic (infoItemDoc, topicIndex, autoCloseDetailInput = true) {
@@ -210,12 +212,9 @@ export class E2ETopics {
     }
 
     static insertInfoItemDataIntoDialog(infoItemDoc) {
-        try {
-            browser.waitForVisible('#id_item_subject');
-        } catch (e) {
-            return false;
+        if (!browser.isVisible('#id_item_subject')) {
+            throw new Error('Info item dialog is not visible');
         }
-        E2EGlobal.waitSomeTime(500);
 
         if (infoItemDoc.subject) {
             E2EGlobal.setValueSafe('#id_item_subject', infoItemDoc.subject);
@@ -231,7 +230,6 @@ export class E2ETopics {
         }
 
         //todo: set other fields (duedate)
-
     }
 
     static submitInfoItemDialog() {

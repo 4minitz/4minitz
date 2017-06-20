@@ -6,18 +6,26 @@ export class E2EGlobal {
             isInteractable = true,
             count = 0;
 
+        if (string.includes('\n')) {
+            throw new Error('Entering newlines with setValueSafe is not supported.');
+        }
+
+        browser.waitForVisible(selector);
+
         while (count < retries && currentValue !== string) {
             try {
                 isInteractable = true;
                 browser.setValue(selector, string);
             } catch (e) {
                 const message = e.toString(),
-                    notInteractable = message.includes('Element is not currently interactable and may not be manipulated');
+                    notInteractable = message.includes('Element is not currently interactable and may not be manipulated'),
+                    cannotFocusElement = message.includes('Cannot focus element');
 
-                if (!notInteractable) {
+                if (notInteractable || cannotFocusElement) {
+                    isInteractable = false;
+                } else {
                     throw e;
                 }
-                isInteractable = false;
             }
 
             if (!isInteractable) {
