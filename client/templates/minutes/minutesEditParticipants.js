@@ -1,10 +1,14 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
+import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
+import '/imports/collections/onlineusers_private';
 
 let _minutesID; // the ID of these minutes
 
@@ -36,12 +40,16 @@ let userNameForId = function (userId) {
 
 function allParticipantsMarked() {
     let aMin = new Minutes(_minutesID);
-    return (aMin.participants.findIndex(p => {return !p.present}) === -1);
-};
+    return (aMin.participants.findIndex(p => {return !p.present;}) === -1);
+}
 
 Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
     console.log('Template minutesEditParticipants created with minutesID '+_minutesID);
+
+    this.autorun(() => {
+        this.subscribe('onlineUsersForRoute', FlowRouter.current().path);
+    });
 
     // Calculate initial expanded/collapsed state
     Session.set('participants.expand', false);
@@ -54,6 +62,10 @@ Template.minutesEditParticipants.onCreated(function() {
 Template.minutesEditParticipants.helpers({
     getUserDisplayName (userId) {
         return userNameForId(userId);
+    },
+
+    isUserRemotelyConnected (userId) {
+        return !!OnlineUsersSchema.findOne({ userId: userId, activeRoute: FlowRouter.current().path });
     },
 
     isModeratorOfParentSeries (userId) {
@@ -117,11 +129,11 @@ Template.minutesEditParticipants.helpers({
     isChecked(){
         return Template.instance().markedAll.get();
     },
-    
+
     isEditable() {
         return isEditable();
     },
-    
+
     parentMeetingSeries() {
         let aMin = new Minutes(_minutesID);
         return aMin.parentMeetingSeries();
@@ -160,8 +172,8 @@ Template.minutesEditParticipants.events({
             tmpl.markedAll.set(true);
         }
     },
-    
-    'click #btnEditParticipants' (evt, tmpl) {
+
+    'click #btnEditParticipants' () {
         Session.set('meetingSeriesEdit.showUsersPanel', true);
     }
 });

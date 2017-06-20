@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 
 // For possible account configuration see:
@@ -49,9 +50,9 @@ AccountsTemplates.addFields([
 ]);
 
 let submitHookFunction = function(error, state){
-    if (state === "signUp") {
+    if (state === 'signUp') {
         if (error) {
-            window.location.href = Meteor.absoluteUrl("login");
+            window.location.href = Meteor.absoluteUrl('login');
         }
     }
 };

@@ -1,4 +1,5 @@
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Template } from 'meteor/templating';
 
 import { TopicsFilter } from '/imports/search/TopicsFilter';
 import { QueryParser } from '/imports/search/QueryParser';

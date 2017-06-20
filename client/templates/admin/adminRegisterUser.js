@@ -1,5 +1,6 @@
-
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';

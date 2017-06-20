@@ -130,7 +130,7 @@ export class GlobalSettings {
 
     static getSiteName() {
         if (!Meteor.settings.siteName) {
-            return "4Minitz";
+            return '4Minitz';
         }
         return Meteor.settings.siteName;
     }

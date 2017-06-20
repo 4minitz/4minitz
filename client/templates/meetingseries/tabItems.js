@@ -1,4 +1,5 @@
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Template } from 'meteor/templating';
 
 import { ItemsFilter } from '/imports/search/ItemsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -68,7 +69,7 @@ Template.tabItems.helpers({
         return TopicInfoItemListContext.createReadonlyContextForItemsOfDifferentTopics(
             tmpl.itemsFilter.filter(items, tmpl.parser),
             tmpl.data.parentMeetingSeriesId
-        )
+        );
     }
 
 });

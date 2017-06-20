@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 let fs;
 if (Meteor.isServer) {
     fs = require('fs-extra'); // eslint-disable-line global-require
@@ -7,7 +8,6 @@ if (Meteor.isServer) {
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { MinutesFinder } from '/imports/services/minutesFinder';
-import { Topic } from '../topic';
 import { UserRoles } from './../userroles';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { MinutesSchema } from './minutes.schema';

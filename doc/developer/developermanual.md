@@ -13,6 +13,7 @@
 * __Responsiveness:__ Your user story shall look great on small (<= 480px width) and large (>1000px) screens
 * __Unit- and integration tests:__ do cover your new code
 * __Documentation updated:__ the developer doc and the user doc are updated
+* __Code Quality:__ the code passes our eslint rules and no eslint errors will be thrown
 * __No client-side exceptions:__ Check your user story and watch the browser console
 * __No server-side exceptions:__ Check your user story and the meteor console
 * __No open issues:__ on your user story
@@ -88,6 +89,22 @@ Travis-CI. To debug red testcases on Travis-CI, all screenshots are
 uploaded as "artifacts" to our Amazon AWS S3 storage. After a Travis build
 has completed, you can watch all created screenshots via this URL:
 [http://s3files.4minitz.com/4minitz/4minitz](http://s3files.4minitz.com/4minitz/4minitz)
+
+## Code Quality
+We use [eslint](http://eslint.org/) to make static code analysis to keep our code quality constantly high. Our set of
+rules is defined in the [.eslintrc.json](../../.eslintrc.json) configuration file.
+
+You can run eslint to check the code by executing the npm script `eslint`:
+
+    npm run eslint
+    
+Some rules can be applied automatically like correcting file indention or transforming double quoted literals into
+single quoted ones (yes we use single quotes like recommended in the 
+[Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#features-strings-use-single-quotes) 
+together with template strings if necessary). To automatically fix all those errors which can be fixed automatically
+run the npm script `eslint:fix`:
+
+    npm run eslint:fix
 
  
 ## Database Seeding

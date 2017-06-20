@@ -1,4 +1,8 @@
 import moment from 'moment/moment';
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 
@@ -14,6 +18,7 @@ import { UserRoles } from '/imports/userroles';
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
+import { UserTracker } from '../../helpers/userTracker';
 
 let _minutesID; // the ID of these minutes
 
@@ -133,6 +138,9 @@ Template.minutesedit.onCreated(function () {
 
     Session.set('minutesedit.checkParent', false);
     handleTemplatesGlobalKeyboardShortcuts(true);
+
+    this.userTracker = new UserTracker(FlowRouter.current().path);
+    this.userTracker.onEnter();
 });
 
 Template.minutesedit.onDestroyed(function() {
@@ -143,6 +151,7 @@ Template.minutesedit.onDestroyed(function() {
     $(document).unbindArrive('#id_minutesdatePicker');
     $(document).unbindArrive('#topicPanel');
     handleTemplatesGlobalKeyboardShortcuts(false);
+    this.userTracker.onLeave();
 });
 
 let isMinuteFinalized = function () {
@@ -191,9 +200,9 @@ let openPrintDialog = function () {
     let ua = navigator.userAgent.toLowerCase();
     let isAndroid = ua.indexOf('android') > -1;
 
-    if (isAndroid && cloudprint && cloudprint.Gadget) {
+    if (isAndroid && cloudprint && cloudprint.Gadget) { //eslint-disable-line
         // https://developers.google.com/cloud-print/docs/gadget
-        let gadget = new cloudprint.Gadget();
+        let gadget = new cloudprint.Gadget(); //eslint-disable-line
         gadget.setPrintDocument('url', $('title').html(), window.location.href, 'utf-8');
         gadget.openPrintDialog();
     } else {

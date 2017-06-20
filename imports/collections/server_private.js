@@ -1,4 +1,4 @@
-import { Mongo } from 'meteor/mongo'
+import { Mongo } from 'meteor/mongo';
 
 // Here we will store server key/value pairs.
 // e.g. unique installation ID

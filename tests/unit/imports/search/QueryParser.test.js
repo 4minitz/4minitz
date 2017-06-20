@@ -1,7 +1,11 @@
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import _ from 'underscore';
+
+class MeteorError {}
+let Meteor = {
+    Error: MeteorError
+};
 
 const {
     ITEM_KEYWORDS
@@ -12,7 +16,8 @@ const {
 const {
     QueryParser
     } = proxyquire('../../../../imports/search/QueryParser', {
-    'meteor/underscore': { _, '@noCallThru': true}
+    'meteor/underscore': { _, '@noCallThru': true},
+    'meteor/meteor': { Meteor, '@noCallThru': true}
 });
 
 describe("QueryParser", function() {
@@ -67,7 +72,7 @@ describe("QueryParser", function() {
 
         expect(searchTokens).to.contain('hello');
         expect(searchTokens).to.contain('world');
-        expect(filterTokens).to.contain({key: 'is', value: 'open', ids: []});
+        expect(filterTokens).to.deep.contain({key: 'is', value: 'open', ids: []});
         expect(labelTokens).to.contain('my label');
     });
 
@@ -104,7 +109,7 @@ describe("QueryParser", function() {
             expect(searchTokens, "should contain 2 search tokens").to.have.length(2);
 
             expect(labelTokens[0].token).to.equal('my label');
-            expect(labelTokens).to.contain({token: 'my label', ids: ['my label-8']});
+            expect(labelTokens).to.deep.contain({token: 'my label', ids: ['my label-8']});
         })
 
     });

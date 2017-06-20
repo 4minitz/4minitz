@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { LDAP } from 'meteor/babrahams:accounts-ldap';
 import { FlashMessage } from '/client/helpers/flashMessage';
 import $ from 'jquery';
 

@@ -1,7 +1,10 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
 import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private';
 import '/imports/config/accounts';
+import { $ } from 'meteor/jquery';
 
 // initialize
 //  * twitter bootstrap
@@ -99,7 +102,7 @@ window.onbeforeunload = function (e) {
     let event = e || window.event;
 
     if(Meteor.status().connected) {
-        event.cancel();
+        return;
     }
 
     const message = 'Do you really want to leave 4Minitz?';
