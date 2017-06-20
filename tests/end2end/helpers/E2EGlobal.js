@@ -40,7 +40,11 @@ export class E2EGlobal {
                 browser.click(selector);
                 return;
             } catch (e) {
-                if (!e.toString().includes('Other element would receive the click')) {
+                const message = e.toString(),
+                    otherElementReceivesClick = message.includes('Other element would receive the click'),
+                    notInteractable = message.includes('Element is not currently interactable and may not be manipulated');
+
+                if (!(otherElementReceivesClick || notInteractable)) {
                     throw e;
                 }
             }
