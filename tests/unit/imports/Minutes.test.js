@@ -6,8 +6,6 @@ import * as Helpers from '../../../imports/helpers/date';
 import * as EmailHelpers from '../../../imports/helpers/email';
 import * as SubElements from '../../../imports/helpers/subElements';
 
-require('sinon-as-promised');
-
 let MinutesSchema = {
     find: sinon.stub(),
     findOne: sinon.stub()
@@ -89,13 +87,13 @@ describe('Minutes', function () {
     });
 
     afterEach(function () {
-        MinutesSchema.find.reset();
-        MinutesSchema.findOne.reset();
-        Meteor.call.reset();
-        Meteor.callPromise.reset();
-        isCurrentUserModeratorStub.reset();
-        updateLastMinutesDateStub.reset();
-        topicGetOpenActionItemsStub.reset();
+        MinutesSchema.find.resetHistory();
+        MinutesSchema.findOne.resetHistory();
+        Meteor.call.resetHistory();
+        Meteor.callPromise.resetHistory();
+        isCurrentUserModeratorStub.resetHistory();
+        updateLastMinutesDateStub.resetHistory();
+        topicGetOpenActionItemsStub.resetHistory();
     });
 
     describe('#constructor', function () {
