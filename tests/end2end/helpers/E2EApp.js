@@ -162,7 +162,7 @@ export class E2EApp {
         if (! E2EApp.isLoggedIn()) {
             E2EApp.loginUser(0, false);
         }
-        browser.click('a.navbar-brand');
+        E2EGlobal.clickWithRetry('a.navbar-brand', 3000);
         E2EGlobal.waitSomeTime();
         // check post-condition
         if (! E2EApp.isOnStartPage()) {

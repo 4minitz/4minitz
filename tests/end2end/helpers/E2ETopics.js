@@ -139,6 +139,9 @@ export class E2ETopics {
 
     static submitTopicDialog() {
         browser.click("#btnTopicSave");
+
+        const waitForInvisible = true;
+        browser.waitForVisible('#dlgAddTopic', 3000, waitForInvisible);
         E2EGlobal.waitSomeTime(700);
     }
 
