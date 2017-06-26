@@ -4,12 +4,10 @@ TEST="$1"
 PATH=$PATH:$HOME/.meteor/
 
 if [ "$TEST" = "unit" ]; then
-    echo Run unit and integration test
+    echo Run unit test
     npm run test:unit
     UNIT=$?
-    npm run test:integration:headless
-    INT=$?
-    exit $(($UNIT + $INT))
+    exit $(($UNIT))
 fi
 
 echo Run end2end tests: "$TEST"

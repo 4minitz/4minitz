@@ -1,6 +1,6 @@
 import { E2EApp } from './helpers/E2EApp';
 
-describe('TemplateRendererIntegration @watch', function () {
+describe('TemplateRendererIntegration', function () {
 
     before("reload page and reset app", function () {
         E2EApp.resetMyApp(true);

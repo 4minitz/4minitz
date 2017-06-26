@@ -11,7 +11,7 @@
 ## <a name="dod">DoD - Our "Definition of Done"</a>
 * __Acceptance critera__: from the user story are checked and work OK
 * __Responsiveness:__ Your user story shall look great on small (<= 480px width) and large (>1000px) screens
-* __Unit- and integration tests:__ do cover your new code
+* __Unit tests:__ do cover your new code
 * __Documentation updated:__ the developer doc and the user doc are updated
 * __Code Quality:__ the code passes our eslint rules and no eslint errors will be thrown
 * __No client-side exceptions:__ Check your user story and watch the browser console
@@ -31,21 +31,6 @@ Unit tests are stored in ```tests/unit```. They are implemented so they do not u
 to execute unit tests run
 
     npm run test:unit
-
-### Integration Tests
-
-In order to execute integration tests you need to either run the meteor test server
-
-    npm run test:integration:browser
-
-and open localhost:3000 in your browser to run the tests or run
-
-    npm run test:integration:headless
-
-to run them headless, e.g. on a CI. Both will start a meteor test instance on port 3200.
-
-Further information  on testing with meteor can be found at http://guide.meteor.com/testing.html
-and http://info.meteor.com/blog/full-app-testing-in-meteor
 
 ### End2End Tests
 
