@@ -139,6 +139,9 @@ export class E2ETopics {
 
     static submitTopicDialog() {
         browser.click("#btnTopicSave");
+
+        const waitForInvisible = true;
+        browser.waitForVisible('#dlgAddTopic', 3000, waitForInvisible);
         E2EGlobal.waitSomeTime(700);
     }
 
@@ -150,7 +153,7 @@ export class E2ETopics {
     static openInfoItemDialog(topicIndex, type="infoItem") {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
 
-        browser.waitForVisible(selector);
+        browser.waitForVisible(selector, 2000);
         browser.click(selector);
         let typeClass = ".addTopicInfoItem";
         if (type === "actionItem") {
