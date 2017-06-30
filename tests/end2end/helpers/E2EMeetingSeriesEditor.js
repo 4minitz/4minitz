@@ -13,11 +13,11 @@ export class E2EMeetingSeriesEditor {
 
         // Open dialog
         browser.waitForVisible('#btnEditMeetingSeries', 1000);
-        browser.click('#btnEditMeetingSeries');
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.clickWithRetry('#btnEditMeetingSeries', 3000);
+
         // Check if dialog is there?
-        browser.waitForVisible('#btnMeetingSeriesSave', 1000);
-        browser.click("#btnShowHideBaseConfig");
+        browser.waitForVisible('#btnMeetingSeriesSave', 3000);
+        E2EGlobal.clickWithRetry("#btnShowHideBaseConfig", 3000);
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
         if (panelName && panelName != "base") {
