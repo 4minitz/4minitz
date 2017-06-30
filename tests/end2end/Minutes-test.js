@@ -182,12 +182,11 @@ describe('Minutes', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.finalizeCurrentMinutes();
-        let firstDate = E2EMinutes.getCurrentMinutesDate();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.finalizeCurrentMinutes();
-        let secondDate = E2EMinutes.getCurrentMinutesDate();
+        const secondDate = E2EMinutes.getCurrentMinutesDate();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        let thirdDate = E2EMinutes.getCurrentMinutesDate();
+        const thirdDate = E2EMinutes.getCurrentMinutesDate();
         
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(3);
         
