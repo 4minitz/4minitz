@@ -27,7 +27,7 @@ const MeteorMethods = {};
 let Meteor = {
     userId: sinon.stub(),
     user: sinon.stub(),
-    defer: fn => fn(),
+    defer: sinon.stub().callsArg(0),
     methods: m => Object.assign(MeteorMethods, m),
     isClient: false,
     callPromise: sinon.stub().resolves(true),
