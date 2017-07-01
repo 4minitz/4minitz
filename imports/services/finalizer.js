@@ -9,6 +9,8 @@ import { FinalizeMailHandler } from '/imports/mail/FinalizeMailHandler';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
+import { MinutesFinder } from '/imports/services/minutesFinder';
+
 import '/imports/helpers/promisedMethods';
 
 // todo merge with finalizer copy
@@ -113,7 +115,7 @@ Meteor.methods({
 
         // it is not allowed to un-finalize a minute if it is not the last finalized one
         let parentSeries = minutes.parentMeetingSeries();
-        if (!parentSeries.isUnfinalizeMinutesAllowed(id)) {
+        if (!Finalizer.isUnfinalizeMinutesAllowed(id)) {
             throw new Meteor.Error('not-allowed', 'This minutes is not allowed to be un-finalized.');
         }
 
@@ -158,7 +160,15 @@ export class Finalizer {
     }
 
     static finalizedInfo(minutesId) {
-        const minutes = new Minutes(minutesId);
+        const minutes = MinutesSchema.findOne(minutesId);
         return compileFinalizedInfo(minutes);
+    }
+
+    static isUnfinalizeMinutesAllowed(minutesId) {
+        const minutes = MinutesSchema.findOne(minutesId),
+            meetingSeries = MeetingSeriesSchema.findOne(minutes.meetingSeries_id),
+            lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
+
+        return (lastMinutes && lastMinutes._id === minutesId);
     }
 }

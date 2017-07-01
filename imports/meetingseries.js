@@ -168,18 +168,6 @@ export class MeetingSeries {
         return Meteor.callPromise('meetingseries.update', updateInfo);
     }
 
-    /**
-     * A minutes is only allowed to be un-finalized
-     * if it is the last one.
-     *
-     * @param minutesId
-     */
-    isUnfinalizeMinutesAllowed(minutesId) {
-        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
-
-        return (lastMinutes && lastMinutes._id === minutesId);
-    }
-
     addNewMinutesAllowed() {
         let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         return (!lastMinutes || lastMinutes.isFinalized);

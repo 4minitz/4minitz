@@ -7,16 +7,18 @@ import * as DateHelpers from '../../../../imports/helpers/date';
 
 let MinutesSchema = {
     update: sinon.stub(),
+    findOne: sinon.stub()
 };
 
 let MeetingSeriesSchema = {
     update: sinon.stub(),
+    findOne: sinon.stub()
 };
 
 const Minutes = sinon.stub();
 const check = sinon.stub();
 const UserRoles = sinon.stub();
-const FinalizeMailHandler = _ => {};
+const FinalizeMailHandler = sinon.stub();
 const MeteorError = (err, details) => {
     const e = new Error(err);
     e.details = details;
@@ -29,7 +31,7 @@ let Meteor = {
     user: sinon.stub(),
     defer: sinon.stub().callsArg(0),
     methods: m => Object.assign(MeteorMethods, m),
-    isClient: false,
+    isClient: true,
     callPromise: sinon.stub().resolves(true),
     Error: MeteorError
 };
@@ -42,20 +44,42 @@ const GlobalSettings = {
     getDefaultEmailSenderAddress: sinon.stub().returns('noreply@example.com')
 };
 
+const MinutesFinder = {
+    lastMinutesOfMeetingSeries: sinon.stub()
+};
+
 const {
     Finalizer
 } = proxyquire('../../../../imports/services/finalizer', {
-    'meteor/meteor': { Meteor, '@noCallThru': true},
-    'meteor/check': { check, '@noCallThru': true},
-    '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
-    '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
-    '/imports/minutes': { Minutes, '@noCallThru': true},
-    '/imports/userroles': { UserRoles, '@noCallThru': true},
-    '/imports/helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
-    '/imports/mail/FinalizeMailHandler': { FinalizeMailHandler, '@noCallThru': true},
-    '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true},
-    '/imports/helpers/date': DateHelpers
+    'meteor/meteor': { Meteor, '@noCallThru': true },
+    'meteor/check': { check, '@noCallThru': true },
+    '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true },
+    '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true },
+    '/imports/minutes': { Minutes, '@noCallThru': true },
+    '/imports/userroles': { UserRoles, '@noCallThru': true },
+    '/imports/helpers/promisedMethods': { PromisedMethods, '@noCallThru': true },
+    '/imports/mail/FinalizeMailHandler': { FinalizeMailHandler, '@noCallThru': true },
+    '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true },
+    '/imports/helpers/date': DateHelpers,
+    '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true }
 });
+
+function verifyPropertyOfMinutesUpdate(minutes, property, value) {
+    sinon.assert.calledWith(
+        // stub to check
+        MinutesSchema.update,
+        // first parameter should equal the minutes id
+        sinon.match(minutes._id),
+        // second parameter should be an object of the form
+        // {
+        //   $set: {
+        //     property: value
+        //   }
+        // }
+        sinon.match.has('$set', sinon.match.has(property, value))
+    );
+}
+
 
 describe('workflow.finalizeMinute', function () {
     const finalizeMeteorMethod = MeteorMethods['workflow.finalizeMinute'],
@@ -95,6 +119,8 @@ describe('workflow.finalizeMinute', function () {
     });
 
     afterEach(function () {
+        Meteor.isClient = true;
+
         Minutes.reset();
         MinutesSchema.update.reset();
         UserRoles.reset();
@@ -130,37 +156,34 @@ describe('workflow.finalizeMinute', function () {
         }
     });
 
-    function verifyPropertyOfMinutesUpdate(property, value) {
-        sinon.assert.calledWith(
-            // stub to check
-            MinutesSchema.update,
-            // first parameter should equal the minutes id
-            sinon.match(minutes._id),
-            // second parameter should be an object of the form
-            // {
-            //   $set: {
-            //     property: value
-            //   }
-            // }
-            sinon.match.has('$set', sinon.match.has(property, value))
-        );
-    }
+    it('throws an exception if the minute is already finalized', function () {
+        minutes.isFinalized = true;
+
+        try {
+            finalizeMeteorMethod(minutes._id);
+        } catch (e) {
+            const expectedErrorMessage = 'runtime-error';
+            const expectedDetails = 'The minute is already finalized';
+            expect(e.message).to.deep.equal(expectedErrorMessage);
+            expect(e.details).to.deep.equal(expectedDetails);
+        }
+    });
 
     it('sets the isFinalized property of the minutes to true', function () {
         finalizeMeteorMethod(minutes._id);
-        verifyPropertyOfMinutesUpdate('isFinalized', true);
+        verifyPropertyOfMinutesUpdate(minutes, 'isFinalized', true);
     });
 
     it('sets the finalizedBy property to the user that is currently logged in', function () {
         finalizeMeteorMethod(minutes._id);
-        verifyPropertyOfMinutesUpdate('finalizedBy', user.username);
+        verifyPropertyOfMinutesUpdate(minutes, 'finalizedBy', user.username);
     });
 
     it('sets the finalizedVersion to 1 if it did not exist before', function () {
         finalizeMeteorMethod(minutes._id);
 
         const expectedVersion = 1;
-        verifyPropertyOfMinutesUpdate('finalizedVersion', expectedVersion);
+        verifyPropertyOfMinutesUpdate(minutes, 'finalizedVersion', expectedVersion);
     });
 
     it('increments the finalizedVersion if it did exist before', function () {
@@ -168,7 +191,133 @@ describe('workflow.finalizeMinute', function () {
         finalizeMeteorMethod(minutes._id);
 
         const expectedVersion = 22;
-        verifyPropertyOfMinutesUpdate('finalizedVersion', expectedVersion);
+        verifyPropertyOfMinutesUpdate(minutes, 'finalizedVersion', expectedVersion);
+    });
+
+    it('sends mails if minute update was successfull and method is called on server', function () {
+        Meteor.isClient = false;
+        MinutesSchema.update.returns(1);
+        GlobalSettings.isEMailDeliveryEnabled.returns(true);
+        const mailHandlerInstance = {
+            sendMails: sinon.stub()
+        };
+        FinalizeMailHandler.returns(mailHandlerInstance);
+
+        finalizeMeteorMethod(minutes._id, false, true);
+
+        FinalizeMailHandler.reset();
+
+        sinon.assert.calledOnce(mailHandlerInstance.sendMails);
+        sinon.assert.calledWith(mailHandlerInstance.sendMails, false, true);
+    })
+});
+
+describe('workflow.unfinalizeMinute', function () {
+    const unfinalizeMeteorMethod = MeteorMethods['workflow.unfinalizeMinute'],
+        user = {
+            username: 'me'
+        };
+    let minutes, meetingSeries;
+
+    beforeEach(function () {
+        const minutesId = 'AaBbCc02';
+
+        meetingSeries = {
+            openTopics: [],
+            topics: [],
+            minutes: [minutesId],
+            isUnfinalizeMinutesAllowed: sinon.stub().returns(true),
+            server_unfinalizeLastMinute: sinon.stub()
+        };
+        MeetingSeriesSchema.findOne.returns(meetingSeries);
+
+        minutes = {
+            meetingSeries_id: 'AaBbCc01',
+            _id: minutesId,
+            date: '2016-05-06',
+            createdAt: new Date(),
+            topics: [],
+            isFinalized: false,
+            participants: '',
+            agenda: '',
+            parentMeetingSeriesID: sinon.stub().returns(12),
+            parentMeetingSeries: sinon.stub().returns(meetingSeries)
+        };
+        Minutes.returns(minutes);
+        MinutesSchema.findOne.returns(minutes);
+
+        const userRoles = {
+            isModeratorOf: sinon.stub().returns(true)
+        };
+        UserRoles.returns(userRoles);
+
+        MinutesFinder.lastMinutesOfMeetingSeries.returns(minutes);
+
+        Meteor.userId.returns('12');
+        Meteor.user.returns(user);
+    });
+
+    afterEach(function () {
+        Meteor.isClient = true;
+
+        Minutes.reset();
+        MinutesSchema.update.reset();
+        MinutesSchema.findOne.reset();
+        MeetingSeriesSchema.findOne.reset();
+        UserRoles.reset();
+        Meteor.userId.reset();
+        Meteor.user.reset();
+    });
+
+    it('sets isFinalized to false', function () {
+        unfinalizeMeteorMethod(minutes._id);
+        verifyPropertyOfMinutesUpdate(minutes, 'isFinalized', false);
+    });
+
+    it('throws an exception if the minutes is not the last one of the series', function () {
+        MinutesFinder.lastMinutesOfMeetingSeries.returns({_id: 'some-other-minutes'});
+
+        try {
+            unfinalizeMeteorMethod(minutes._id);
+        } catch (e) {
+            const expectedErrorMessage = 'not-allowed';
+            const expectedDetails = 'This minutes is not allowed to be un-finalized.';
+            expect(e.message).to.deep.equal(expectedErrorMessage);
+            expect(e.details).to.deep.equal(expectedDetails);
+        }
+    });
+
+    it('throws an exception if the user is not logged in', function () {
+        Meteor.userId.reset();
+        Meteor.userId.returns();
+
+        try {
+            unfinalizeMeteorMethod(minutes._id);
+        } catch (e) {
+            const expectedErrorMessage = 'not-authorized';
+            const expectedDetails = 'You are not authorized to perform this action.';
+            expect(e.message).to.deep.equal(expectedErrorMessage);
+            expect(e.details).to.deep.equal(expectedDetails);
+        }
+    });
+
+    it('throws an exception if the user is not authorized', function () {
+        UserRoles.reset();
+        UserRoles.returns({isModeratorOf: sinon.stub().returns(false)});
+
+        try {
+            unfinalizeMeteorMethod(minutes._id);
+        } catch (e) {
+            const expectedErrorMessage = 'Cannot modify this minutes/series';
+            const expectedDetails = 'You are not a moderator of the meeting series.';
+            expect(e.message).to.deep.equal(expectedErrorMessage);
+            expect(e.details).to.deep.equal(expectedDetails);
+        }
+    });
+
+    it('sets the finalizedBy property to the user that is currently logged in', function () {
+        unfinalizeMeteorMethod(minutes._id);
+        verifyPropertyOfMinutesUpdate(minutes, 'finalizedBy', user.username);
     });
 });
 
@@ -220,11 +369,11 @@ describe('Finalizer', function () {
 
         beforeEach(function () {
             minutes = {};
-            Minutes.returns(minutes);
+            MinutesSchema.findOne.returns(minutes);
         });
 
         afterEach(function () {
-            Minutes.reset();
+            MinutesSchema.findOne.reset();
         });
 
         it('returns that the minutes was never finalized if it was never finalized', function () {
@@ -280,6 +429,45 @@ describe('Finalizer', function () {
 
             const expectedResult = 'Version 13. Finalized on 2017-07-01 14:04:00 by me';
             expect(result).to.deep.equal(expectedResult);
+        });
+    });
+
+    describe('#isUnfinalizeMinutesAllowed', function () {
+        let meetingSeries, minutes;
+
+        beforeEach(function () {
+            const minutesId = 'some-fance-minutes-id';
+            minutes = {
+                _id: minutesId
+            };
+            meetingSeries = {};
+
+            MeetingSeriesSchema.findOne.returns(meetingSeries);
+            MinutesSchema.findOne.returns(minutes);
+
+            MinutesFinder.lastMinutesOfMeetingSeries.returns({});
+        });
+
+        afterEach(function () {
+            MinutesSchema.findOne.reset();
+            MeetingSeriesSchema.findOne.reset();
+            MinutesFinder.lastMinutesOfMeetingSeries.reset();
+        });
+
+        it('returns true if the given minutes id belongs to the last minutes in the series', function () {
+            MinutesFinder.lastMinutesOfMeetingSeries.returns(minutes);
+            const result = Finalizer.isUnfinalizeMinutesAllowed(minutes._id);
+            expect(result).to.be.true;
+        });
+
+        it('returns false if there is some other minutes that is the last minutes in the series', function () {
+            const someOtherMinutes = {
+                _id: 'some-other-minutes'
+            };
+            MinutesFinder.lastMinutesOfMeetingSeries.returns(someOtherMinutes);
+
+            const result = Finalizer.isUnfinalizeMinutesAllowed(minutes._id);
+            expect(result).to.be.false;
         });
     });
 });

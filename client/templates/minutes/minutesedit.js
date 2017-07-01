@@ -340,8 +340,7 @@ Template.minutesedit.helpers({
     },
 
     isUnfinalizeAllowed: function () {
-        let aMin = new Minutes(_minutesID);
-        return aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(_minutesID);
+        return Finalizer.isUnfinalizeMinutesAllowed(_minutesID);
     },
 
     isModeratorOfParentSeries: function () {
