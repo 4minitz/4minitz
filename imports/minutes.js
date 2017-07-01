@@ -4,7 +4,6 @@ import { MinutesSchema } from './collections/minutes.schema';
 import { MeetingSeries } from './meetingseries';
 import { Topic } from './topic';
 import { ActionItem } from './actionitem';
-import { formatDateISO8601Time } from '/imports/helpers/date';
 import { emailAddressRegExpMatch } from '/imports/helpers/email';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
@@ -220,27 +219,6 @@ export class Minutes {
                 })
             );
         }, /* initial value */[]);
-    }
-
-    // method
-    /**
-     * Finalizes this minute by calling
-     * the workflow-server-method.
-     *
-     * @param sendActionItems default: true
-     * @param sendInfoItems default: true
-     */
-    finalize(sendActionItems, sendInfoItems) {
-        return Meteor.callPromise('workflow.finalizeMinute', this._id, sendActionItems, sendInfoItems);
-    }
-
-    // method
-    /**
-     * Unfinalizes this minutes by calling
-     * the workflow-server-method.
-     */
-    unfinalize() {
-        return Meteor.callPromise('workflow.unfinalizeMinute', this._id);
     }
 
     // method
@@ -474,17 +452,6 @@ export class Minutes {
         let parent = this.parentMeetingSeries();
         if (!parent.hasMinute(this._id)) {
             throw new Meteor.Error('runtime-error', 'Minute is an orphan!');
-        }
-    }
-
-    getFinalizedString() {
-        if (this.finalizedAt) {
-            let finalizedTimestamp = formatDateISO8601Time(this.finalizedAt);
-            let finalizedString = this.isFinalized? 'Finalized' : 'Unfinalized';
-            let version = this.finalizedVersion ? 'Version '+this.finalizedVersion+'. ' : '';
-            return (`${version}${finalizedString} on ${finalizedTimestamp} by ${this.finalizedBy}`);
-        } else {
-            return 'Never finalized.';
         }
     }
 

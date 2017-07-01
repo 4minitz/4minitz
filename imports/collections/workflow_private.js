@@ -12,9 +12,8 @@ import { UserRoles } from './../userroles';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { MinutesSchema } from './minutes.schema';
 import { AttachmentsCollection, calculateAndCreateStoragePath} from './attachments_private';
-import { FinalizeMailHandler } from '../mail/FinalizeMailHandler';
-import { GlobalSettings } from '../config/GlobalSettings';
 
+// todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Make sure the user is logged in before changing collections
     if (!Meteor.userId()) {
@@ -124,125 +123,6 @@ Meteor.methods({
                 );
             }
         }
-    },
-
-    'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
-        console.log('workflow.finalizeMinute on '+id);
-        check(id, String);
-        let aMin = new Minutes(id);
-        checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
-
-        try {
-            // check if minute is already finalized
-            if (aMin.isFinalized) {
-                throw new Meteor.Error('runtime-error', 'The minute is already finalized');
-            }
-
-            // first we copy the topics of the finalize-minute to the parent series
-            let parentSeries = aMin.parentMeetingSeries();
-            parentSeries.server_finalizeLastMinute();
-            let msAffectedDocs = MeetingSeriesSchema.update(
-                parentSeries._id,
-                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
-
-            const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
-            if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
-                throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
-            }
-
-            // then we tag the minute as finalized
-            let version = 1;
-            if (aMin.finalizedVersion) {
-                version = aMin.finalizedVersion + 1;
-            }
-            let doc = {
-                finalizedAt: new Date(),
-                finalizedBy: Meteor.user().username,
-                isFinalized: true,
-                finalizedVersion: version
-            };
-            // update aMin object to generate new history entry
-            Object.assign(aMin, doc);
-            let history = aMin.finalizedHistory;
-            if (! aMin.finalizedHistory) {
-                history = [];
-            }
-            history.push(aMin.getFinalizedString());
-            doc['finalizedHistory'] = history;
-            console.log(history.join('\n'));
-
-            let affectedDocs = MinutesSchema.update(id, {$set: doc});
-
-            if (affectedDocs === 1 && !Meteor.isClient) {
-                if (!GlobalSettings.isEMailDeliveryEnabled()) {
-                    console.log('Skip sending mails because email delivery is not enabled. To enable email delivery set ' +
-                        'enableMailDelivery to true in your settings.json file');
-                    return;
-                }
-
-                let emails = Meteor.user().emails;
-                Meteor.defer(() => { // server background tasks after successfully updated the minute doc
-                    let senderEmail = (emails && emails.length > 0)
-                        ? emails[0].address
-                        : GlobalSettings.getDefaultEmailSenderAddress();
-                    let finalizeMailHandler = new FinalizeMailHandler(aMin, senderEmail);
-                    finalizeMailHandler.sendMails(sendActionItems, sendInfoItems);
-                });
-            }
-        } catch(e) {
-            if (!Meteor.isClient) {
-                console.error(e);
-                throw e;
-            }
-        }
-        console.log('workflow.finalizeMinute DONE.');
-    },
-
-    'workflow.unfinalizeMinute'(id) {
-        console.log('workflow.unfinalizeMinute on '+id);
-        check(id, String);
-        let aMin = new Minutes(id);
-        checkUserAvailableAndIsModeratorOf(aMin.parentMeetingSeriesID());
-
-        // it is not allowed to un-finalize a minute if it is not the last finalized one
-        let parentSeries = aMin.parentMeetingSeries();
-        if (!parentSeries.isUnfinalizeMinutesAllowed(id)) {
-            throw new Meteor.Error('not-allowed', 'This minutes is not allowed to be un-finalized.');
-        }
-
-        try {
-            parentSeries.server_unfinalizeLastMinute();
-            let msAffectedDocs = MeetingSeriesSchema.update(
-                parentSeries._id,
-                {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
-
-            const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
-            if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
-                throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
-            }
-
-            let doc = {
-                finalizedAt: new Date(),
-                finalizedBy: Meteor.user().username,
-                isFinalized: false
-            };
-            // update aMin object to generate new history entry
-            Object.assign(aMin, doc);
-            let history = aMin.finalizedHistory;
-            if (! aMin.finalizedHistory) {
-                history = [];
-            }
-            history.push(aMin.getFinalizedString());
-            doc['finalizedHistory'] = history;
-
-            return MinutesSchema.update(id, {$set: doc});
-        } catch(e) {
-            if (!Meteor.isClient) {
-                console.error(e);
-                throw e;
-            }
-        }
-        console.log('workflow.unfinalizeMinute DONE.');
     },
 
     'workflow.removeMeetingSeries'(meetingseries_id) {
