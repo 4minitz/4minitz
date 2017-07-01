@@ -9,6 +9,8 @@ import { FinalizeMailHandler } from '/imports/mail/FinalizeMailHandler';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
+import '/imports/helpers/promisedMethods';
+
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Make sure the user is logged in before changing collections
