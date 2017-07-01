@@ -63,6 +63,9 @@ describe('workflow.finalizeMinute', function () {
             openTopics: [],
             topics: [],
             server_finalizeLastMinute: sinon.stub()
+        },
+        user = {
+            username: 'me'
         };
     let minutes;
 
@@ -88,11 +91,12 @@ describe('workflow.finalizeMinute', function () {
 
         Meteor.userId.returns('12');
 
-        Meteor.user.returns({username: 'me'});
+        Meteor.user.returns(user);
     });
 
     afterEach(function () {
         Minutes.reset();
+        MinutesSchema.update.reset();
         UserRoles.reset();
         Meteor.userId.reset();
         Meteor.user.reset();
@@ -126,8 +130,45 @@ describe('workflow.finalizeMinute', function () {
         }
     });
 
-    it('workflow.finalizeMinute', function () {
+    function verifyPropertyOfMinutesUpdate(property, value) {
+        sinon.assert.calledWith(
+            // stub to check
+            MinutesSchema.update,
+            // first parameter should equal the minutes id
+            sinon.match(minutes._id),
+            // second parameter should be an object of the form
+            // {
+            //   $set: {
+            //     property: value
+            //   }
+            // }
+            sinon.match.has('$set', sinon.match.has(property, value))
+        );
+    }
+
+    it('sets the isFinalized property of the minutes to true', function () {
         finalizeMeteorMethod(minutes._id);
+        verifyPropertyOfMinutesUpdate('isFinalized', true);
+    });
+
+    it('sets the finalizedBy property to the user that is currently logged in', function () {
+        finalizeMeteorMethod(minutes._id);
+        verifyPropertyOfMinutesUpdate('finalizedBy', user.username);
+    });
+
+    it('sets the finalizedVersion to 1 if it did not exist before', function () {
+        finalizeMeteorMethod(minutes._id);
+
+        const expectedVersion = 1;
+        verifyPropertyOfMinutesUpdate('finalizedVersion', expectedVersion);
+    });
+
+    it('increments the finalizedVersion if it did exist before', function () {
+        minutes.finalizedVersion = 21;
+        finalizeMeteorMethod(minutes._id);
+
+        const expectedVersion = 22;
+        verifyPropertyOfMinutesUpdate('finalizedVersion', expectedVersion);
     });
 });
 
