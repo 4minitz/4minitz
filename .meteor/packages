@@ -50,6 +50,4 @@ arillo:flow-router-helpers
 jagi:astronomy
 mouse0270:bootstrap-notify
 dynamic-import
-dispatch:mocha-phantomjs
-dispatch:phantomjs-tests
 ostrio:files
