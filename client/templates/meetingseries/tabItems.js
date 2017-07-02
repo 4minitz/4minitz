@@ -45,7 +45,7 @@ Template.tabItems.helpers({
 
     getTopicFilterConfig () {
         let tmpl = Template.instance();
-        return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS);
+        return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS, ITEM_KEYWORDS, 'Item-Filter');
     },
 
     getInfoItemListContext () {
