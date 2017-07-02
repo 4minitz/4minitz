@@ -60,6 +60,18 @@ Template.minutesEditParticipants.onCreated(function() {
 });
 
 Template.minutesEditParticipants.helpers({
+    participantsSorted() {
+        let aMin = new Minutes(_minutesID);
+        let partSorted = aMin.participants;
+        partSorted.forEach(p => {
+            p["displayName"] = userNameForId(p.userId);
+        });
+        partSorted = partSorted.sort(function(a,b) {
+            return (a.displayName > b.displayName) ? 1 : ((b.displayName > a.displayName) ? -1 : 0);
+        } );
+        return partSorted;
+    },
+
     getUserDisplayName (userId) {
         return userNameForId(userId);
     },
@@ -144,15 +156,13 @@ Template.minutesEditParticipants.helpers({
 Template.minutesEditParticipants.events({
     'click #btnTogglePresent' (evt, tmpl) {
         let min = new Minutes(_minutesID);
-        let indexInParticipantsArray = evt.target.dataset.index;
+        let userId = evt.target.dataset.userid;
         let checkedState = evt.target.checked;
-        min.updateParticipantPresent(indexInParticipantsArray, checkedState);
+        min.updateParticipantPresent(userId, checkedState);
         tmpl.markedAll.set(allParticipantsMarked());
     },
     'change #edtParticipantsAdditional' (evt, tmpl) {
-        console.log('Trigger!');
         let aMin = new Minutes(_minutesID);
-        console.log('   Min!');
         let theParticipant = tmpl.find('#edtParticipantsAdditional').value;
         aMin.update({participantsAdditional: theParticipant});
     },
