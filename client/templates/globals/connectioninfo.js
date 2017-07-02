@@ -2,12 +2,27 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import {ReactiveVar} from 'meteor/reactive-var';
 
+let connectionLost = false;
+
 Template.connectionInfo.onCreated(function() {
     this.currentSymbol = new ReactiveVar(false);
 });
 
 
 Template.connectionInfo.helpers({
+    connectionLost() {
+        console.log(connectionLost);
+        if (!Meteor.status().connected) {
+            if (connectionLost === false) { // delay & fade in  - only once per connection lost!
+                $('#connectionLostWarning').hide().delay(2000).fadeIn('slow');
+                connectionLost = true;
+            }
+            return true;
+        }
+        connectionLost = false;
+        return false;
+    },
+
     connectionStatus() {
         return Meteor.status();
     },

@@ -1,13 +1,13 @@
 <template name="connectionInfo">
-    {{#unless connectionStatus.connected}}
-
+    {{#if connectionLost}}
+        <div id="connectionLostWarning">
             <span id="btnWarningExpandCollapse" class="connection-info btn-warning-expand" aria-hidden="true"
               title="Connection Lost!
-        Status: {{connectionStatus.status}}
-        Retry Count: {{connectionStatus.retryCount}}
-        Retry Time: {{connectionWaitTime}} sec.
-        Reason: {{connectionStatus.reason}}
-        Click to reconnect.">
+                    Status: {{connectionStatus.status}}
+                    Retry Count: {{connectionStatus.retryCount}}
+                    Retry Time: {{connectionWaitTime}} sec.
+                    Reason: {{connectionStatus.reason}}
+                    Click to reconnect.">
                 {{#if currentSymbol }}
                     <span class="glyphicon glyphicon-warning-sign"></span>
                 {{else}}
@@ -16,7 +16,7 @@
             </span>
 
             <div id="warningMessage" class="connection-info connection-warning-text" aria-hidden="true">
-                You have lost the connection to the 4Minitz server.
+                <b>You have lost the connection to the 4Minitz server.</b>
                 If you close your browser, unsaved data might be lost.
                 Please contact your sever admin if this problem persists.
                 <a href="#" id="btnReconnect" class="btn-reconnect">
@@ -26,7 +26,7 @@
                     </span>
                 </a>
             </div>
-
-    {{/unless}}
+        </div>
+    {{/if}}
 
 </template>

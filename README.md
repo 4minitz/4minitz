@@ -46,7 +46,8 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 * [CLA Assist](https://cla-assistant.io/4minitz/4minitz) - Manages signing of our Contributor License Agreements 
 * [Docker Hub](https://hub.docker.com/r/4minitz/4minitz/) - Spin up your own 4Minitz server in seconds 
 
-
+## 4Minitz is proudly sponsored by
+<a href="http://www.methodpark.de"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/sponsor_methodpark.png" height="100" alt="Method Park"></a>
 
 ## Quick Start
 You have two options to quickly evaluate a local demo 
