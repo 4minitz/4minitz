@@ -16,6 +16,7 @@ let MeetingSeriesSchema = {
 };
 
 const Minutes = sinon.stub();
+const Topics = sinon.stub();
 const check = sinon.stub();
 const UserRoles = sinon.stub();
 const FinalizeMailHandler = sinon.stub();
@@ -45,7 +46,8 @@ const GlobalSettings = {
 };
 
 const MinutesFinder = {
-    lastMinutesOfMeetingSeries: sinon.stub()
+    lastMinutesOfMeetingSeries: sinon.stub(),
+    secondLastMinutesOfMeetingSeries: sinon.stub()
 };
 
 const {
@@ -56,6 +58,7 @@ const {
     '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true },
     '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true },
     '/imports/minutes': { Minutes, '@noCallThru': true },
+    '/imports/topic': { Topics, '@noCallThru': true },
     '/imports/userroles': { UserRoles, '@noCallThru': true },
     '/imports/helpers/promisedMethods': { PromisedMethods, '@noCallThru': true },
     '/imports/mail/FinalizeMailHandler': { FinalizeMailHandler, '@noCallThru': true },
@@ -85,13 +88,12 @@ describe('workflow.finalizeMinute', function () {
     const finalizeMeteorMethod = MeteorMethods['workflow.finalizeMinute'],
         fakeMeetingSeries = {
             openTopics: [],
-            topics: [],
-            server_finalizeLastMinute: sinon.stub()
+            topics: []
         },
         user = {
             username: 'me'
         };
-    let minutes;
+    let minutes, secondToLastMinutes;
 
     beforeEach(function () {
         minutes = {
@@ -101,12 +103,18 @@ describe('workflow.finalizeMinute', function () {
             createdAt: new Date(),
             topics: [],
             isFinalized: false,
-            participants: '',
-            agenda: '',
             parentMeetingSeriesID: sinon.stub().returns(12),
             parentMeetingSeries: sinon.stub().returns(fakeMeetingSeries)
         };
         Minutes.returns(minutes);
+
+        secondToLastMinutes = {
+            meetingSeries_id: 'AaBbCc01',
+            _id: 'AaBbCc02',
+            date: '2016-05-06',
+            topics: []
+        };
+        MinutesFinder.lastMinutesOfMeetingSeries.returns(minutes);
 
         const userRoles = {
             isModeratorOf: sinon.stub().returns(true)
@@ -122,6 +130,7 @@ describe('workflow.finalizeMinute', function () {
         Meteor.isClient = true;
 
         Minutes.reset();
+        MinutesFinder.lastMinutesOfMeetingSeries.reset();
         MinutesSchema.update.reset();
         UserRoles.reset();
         Meteor.userId.reset();
@@ -217,7 +226,7 @@ describe('workflow.unfinalizeMinute', function () {
         user = {
             username: 'me'
         };
-    let minutes, meetingSeries;
+    let minutes, secondToLastMinutes, meetingSeries;
 
     beforeEach(function () {
         const minutesId = 'AaBbCc02';
@@ -225,9 +234,7 @@ describe('workflow.unfinalizeMinute', function () {
         meetingSeries = {
             openTopics: [],
             topics: [],
-            minutes: [minutesId],
-            isUnfinalizeMinutesAllowed: sinon.stub().returns(true),
-            server_unfinalizeLastMinute: sinon.stub()
+            minutes: [minutesId]
         };
         MeetingSeriesSchema.findOne.returns(meetingSeries);
 
@@ -246,12 +253,21 @@ describe('workflow.unfinalizeMinute', function () {
         Minutes.returns(minutes);
         MinutesSchema.findOne.returns(minutes);
 
+        secondToLastMinutes = {
+            meetingSeries_id: 'AaBbCc01',
+            _id: 'AaBbCc02',
+            date: '2016-05-06',
+            topics: []
+        };
+        MinutesFinder.secondLastMinutesOfMeetingSeries.returns(secondToLastMinutes);
+
         const userRoles = {
             isModeratorOf: sinon.stub().returns(true)
         };
         UserRoles.returns(userRoles);
 
         MinutesFinder.lastMinutesOfMeetingSeries.returns(minutes);
+        MinutesFinder.secondLastMinutesOfMeetingSeries.returns(secondToLastMinutes);
 
         Meteor.userId.returns('12');
         Meteor.user.returns(user);
@@ -261,6 +277,8 @@ describe('workflow.unfinalizeMinute', function () {
         Meteor.isClient = true;
 
         Minutes.reset();
+        MinutesFinder.lastMinutesOfMeetingSeries.reset();
+        MinutesFinder.secondLastMinutesOfMeetingSeries.reset();
         MinutesSchema.update.reset();
         MinutesSchema.findOne.reset();
         MeetingSeriesSchema.findOne.reset();
