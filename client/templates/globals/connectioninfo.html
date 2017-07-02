@@ -1,6 +1,6 @@
 <template name="connectionInfo">
     {{#if connectionLost}}
-        <div id="connectionLostWarning">
+        <div id="connectionLostWarning" style="display: none;">
             <span id="btnWarningExpandCollapse" class="connection-info btn-warning-expand" aria-hidden="true"
               title="Connection Lost!
                     Status: {{connectionStatus.status}}
