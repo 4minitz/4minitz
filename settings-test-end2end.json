@@ -8,6 +8,7 @@
 
     "trustedIntranetInstallation": true,
     "forbidClientAccountCreation": false,
+    "updateCheck": false,
 
     "branding": {
         "legalNotice": {
