@@ -76,6 +76,15 @@ describe("QueryParser", function() {
         expect(labelTokens).to.contain('my label');
     });
 
+    it('identifies the due-keyword correctly', function() {
+        const QUERY = 'hello due:2017 world';
+        parser.parse(QUERY);
+
+        const filterTokens = parser.getFilterTokens();
+        expect(filterTokens, "should contain 1 filter tokens").to.have.length(1);
+        expect(filterTokens).to.deep.contain({key: 'due', value: '2017', ids: []});
+    });
+
     it('can query if a specific keyword is set', function() {
         const QUERY = "hello is:open world #my label";
         parser.parse(QUERY);
