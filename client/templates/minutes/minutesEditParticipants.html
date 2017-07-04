@@ -42,12 +42,11 @@
                         {{/if}}
                     {{/if}}
                     <div class = "{{switch2MultiColumn}}">
-                        {{#each participants}}
+                        {{#each participantsSorted}}
                         <div class="checkbox" id="id_participant">
                             <label>
-                                <!--With @index we transfer the array index to the checkbox event handler-->
                                 <input type="checkbox" class="checkbox"
-                                       name="present" id="btnTogglePresent" data-index="{{@index}}"
+                                       name="present" id="btnTogglePresent" data-userid="{{this.userId}}"
                                         {{checkedStatePresent}} {{disableUIControl}}>
                                 <span id="id_username" class="text-black">
                                     {{#if isModeratorOfParentSeries this.userId}}

@@ -2,41 +2,56 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import {ReactiveVar} from 'meteor/reactive-var';
 
-let connectionLost = false;
+let templateInstance;   // allow showDelay() to access the template
 
 Template.connectionInfo.onCreated(function() {
     this.currentSymbol = new ReactiveVar(false);
+    this.connectionLost = new ReactiveVar(false);
 });
 
+// We delay the display of connection info dialog to make sure
+// the connection lost lasts longer than xx secs.
+// This should prevent flashing of this warning during app bootstrapping
+let showWithDelay = function () {
+    if (!Meteor.status().connected) {
+        $('#connectionLostWarning').fadeIn('slow');
+        // the reactive var triggers connectionLost() helper, which will trigger blaze to show
+        templateInstance.connectionLost.set(true);
+    }
+};
 
 Template.connectionInfo.helpers({
     connectionLost() {
-        console.log(connectionLost);
+        templateInstance = Template.instance();
+        let cl = Template.instance().connectionLost.get();
+
         if (!Meteor.status().connected) {
-            if (connectionLost === false) { // delay & fade in  - only once per connection lost!
-                $('#connectionLostWarning').hide().delay(2000).fadeIn('slow');
-                connectionLost = true;
+            if (cl === false) { // delay & fade in  - only once per connection lost!
+                Meteor.setTimeout(showWithDelay, 3000);
             }
-            return true;
+        } else {
+            if (cl === true) {
+                Template.instance().connectionLost.set(false);
+            }
         }
-        connectionLost = false;
-        return false;
+        return Template.instance().connectionLost.get();
     },
+
 
     connectionStatus() {
         return Meteor.status();
     },
+
 
     connectionWaitTime() {
         const secondsToRetry = (Meteor.status().retryTime - (new Date()).getTime())/1000;
         return Math.round(secondsToRetry);
     },
 
+
     currentSymbol: function() {
         return Template.instance().currentSymbol.get();
     }
-
-
 });
 
 Template.connectionInfo.events({
