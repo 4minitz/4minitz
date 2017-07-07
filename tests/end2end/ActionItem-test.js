@@ -175,7 +175,7 @@ describe('ActionItems', function () {
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
             subject: actionItemName,
-            priority: 'low',
+            priority: 5,
             itemType: "actionItem"
         });
 
