@@ -168,7 +168,7 @@ describe('ActionItems', function () {
         expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
     });
 
-    it('can add an action item by pressing enter in the priority field', function () {
+    it('can add an action item by pressing enter in the priority field @watch', function () {
         let topicIndex = 1;
         E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
@@ -185,6 +185,7 @@ describe('ActionItems', function () {
         E2EGlobal.waitSomeTime();
 
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        browser.waitForVisible(selector);
         expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
 
         let actionItemExpandElement = browser.element(selector).value.ELEMENT;
