@@ -1,11 +1,3 @@
-let fs;
-let path;
-
-if (Meteor.isServer) {
-    fs = require('fs-extra');   // trows an error on client
-    path = require('path');
-}
-
 import { Meteor } from 'meteor/meteor';
 
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -16,43 +8,17 @@ import { Attachment } from '../attachment';
 
 import { FilesCollection } from 'meteor/ostrio:files';
 
-// Security: html downloads from server might allow XSS
+// #Security: html downloads from server might allow XSS
 // see https://github.com/VeliovGroup/Meteor-Files/issues/289
 const FORBIDDEN_FILENAME_EXTENSIONS = 'html|htm|swf';
-// const FORBIDDEN_FILENAME_EXTENSIONS = "swf";
-
-
-export let calculateAndCreateStoragePath = function (fileObj) {
-    if (Meteor.isServer) {
-        let absAttachmentStoragePath = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
-            ? Meteor.settings.attachments.storagePath
-            : 'attachments';
-        // make path absolute
-        if (!path.isAbsolute(absAttachmentStoragePath)) {
-            absAttachmentStoragePath = path.resolve(absAttachmentStoragePath);
-        }
-        // optionally: append sub directory for parent meeting series
-        if (fileObj && fileObj.meta && fileObj.meta.parentseries_id) {
-            absAttachmentStoragePath =  absAttachmentStoragePath + '/' + fileObj.meta.parentseries_id;
-        }
-
-        // create target dir for attachment storage if it does not exist
-        fs.ensureDirSync(absAttachmentStoragePath, function (err) {
-            if (err) {
-                console.error('ERROR: Could not create path for attachment upload: '+absAttachmentStoragePath);
-            }
-        });
-        return absAttachmentStoragePath;
-    }
-};
 
 export let AttachmentsCollection = new FilesCollection({
     collectionName: 'AttachmentsCollection',
     allowClientCode: false, // Disallow attachments remove() call from clients
-    permissions: parseInt('0600', 8),      // Security: make uploaded files "chmod 600' only readable for server user
-    storagePath: calculateAndCreateStoragePath,
+    permissions: parseInt('0600', 8),      // #Security: make uploaded files "chmod 600' only readable for server user
+    storagePath: Meteor.isServer ? calculateAndCreateStoragePath : undefined,
 
-    // Security: onBeforeUpload
+    // #Security: onBeforeUpload
     // Here we check for upload rights of user and if the file is within in defined limits
     // regarding file size and file extension. User must have upload role or better for meeting series.
     // This will be run in method context on client and(!) server by the Meteor-Files package
@@ -66,7 +32,7 @@ export let AttachmentsCollection = new FilesCollection({
         if (! Meteor.userId()) {
             return 'Upload not allowed. No user logged in.';
         }
-        if (file.meta == undefined || file.meta.meetingminutes_id == undefined) {
+        if (file.meta === undefined || file.meta.meetingminutes_id === undefined) {
             return 'Upload not allowed. File has no target meeting series.';
         }
         // see if user has the uploader role - or better - for this meeting series
@@ -89,7 +55,7 @@ export let AttachmentsCollection = new FilesCollection({
             return 'Please upload file with max. ' + maxMB + ' MB.';
         }
         // Check for non-allowed file extensions
-        if (Meteor.settings.public.attachments.denyExtensions != undefined) {
+        if (Meteor.settings.public.attachments.denyExtensions !== undefined) {
             const denyRE = new RegExp(Meteor.settings.public.attachments.denyExtensions, 'i');
             const fobiddenRE = new RegExp(FORBIDDEN_FILENAME_EXTENSIONS, 'i');
             if (denyRE.test(file.extension) || fobiddenRE.test(file.extension)) {
@@ -97,7 +63,7 @@ export let AttachmentsCollection = new FilesCollection({
             }
         }
         // If allowExtensions is undefined, every extension is allowed!
-        if (Meteor.settings.public.attachments.allowExtensions == undefined) {
+        if (Meteor.settings.public.attachments.allowExtensions === undefined) {
             return true;
         }
         // Check for allowed file extensions
@@ -118,7 +84,7 @@ export let AttachmentsCollection = new FilesCollection({
     }
     ,
 
-    // Security: downloadCallback
+    // #Security: downloadCallback
     // Here we check for download rights of user, which equals to the "invited" role - or better.
     // This will be run in method context on client and(!) server by the Meteor-Files package
     // So, server will always perform the last ultimate check!
@@ -127,7 +93,7 @@ export let AttachmentsCollection = new FilesCollection({
             console.log('Attachment download prohibited. User not logged in.');
             return false;
         }
-        if (file.meta == undefined || file.meta.meetingminutes_id == undefined) {
+        if (file.meta === undefined || file.meta.meetingminutes_id === undefined) {
             console.log('Attachment download prohibited. File without parent meeting series.');
             return false;
         }
@@ -191,7 +157,7 @@ if (Meteor.isClient) {
 
 
 Meteor.methods({
-    // Security: onBeforeRemove
+    // #Security: onBeforeRemove
     // Here we check for remove rights of user. User must have
     //   - either: moderator role for meeting series
     //   - or: uploader role for meeting series and this file was uploaded by user
@@ -208,7 +174,7 @@ Meteor.methods({
                 return false;
             }
             // we must ensure a known meeting minutes id, otherwise we can not check sufficient user role afterwards
-            if (file.meta == undefined || file.meta.meetingminutes_id == undefined) {
+            if (file.meta === undefined || file.meta.meetingminutes_id === undefined) {
                 console.log('Attachment removal prohibited. File without meetingminutes_id.');
                 return false;
             }
@@ -230,34 +196,3 @@ Meteor.methods({
         }
     }
 });
-
-
-
-// check storagePath for attachments once at bootstrapping
-if (Meteor.isServer) {
-    if (Meteor.settings.attachments && Meteor.settings.attachments.enabled) {
-        console.log('Attachments upload feature: ENABLED');
-        let settingsPath = calculateAndCreateStoragePath(null);
-        let absoluteTargetPath = path.resolve(settingsPath);
-        console.log('attachmentsStoragePath:'+absoluteTargetPath);
-
-        fs.access(absoluteTargetPath, fs.W_OK, function(err) {
-            if(err){
-                console.error('*** ERROR*** No write access to attachmentsStoragePath');
-                console.error('             Uploads can not be saved.');
-                console.error('             Ensure write access to path specified in your settings.json');
-                console.error('             Current attachments.storagePath setting is: '+settingsPath);
-                if (! path.isAbsolute(settingsPath)) {
-                    console.error('             Which maps to: '+absoluteTargetPath);
-                }
-                // Now switch off feature!
-                Meteor.settings.attachments.enabled = false;
-                console.log('Attachments upload feature: DISABLED');
-            } else {
-                console.log('OK, has write access to attachmentsStoragePath');
-            }
-        });
-    } else {
-        console.log('Attachments upload feature: DISABLED');
-    }
-}

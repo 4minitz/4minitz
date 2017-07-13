@@ -6,7 +6,7 @@ import { MeetingSeriesSchema } from './../../imports/collections/meetingseries.s
 import { MinutesSchema } from './../../imports/collections/minutes.schema';
 import { TestMailCollection } from '/imports/mail/TestMail';
 import { Minutes } from './../../imports/minutes';
-import { AttachmentsCollection, calculateAndCreateStoragePath } from '/imports/collections/attachments_private';
+import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 
 // Security: ensure that these methods only exist in End2End testing mode
@@ -21,15 +21,7 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log('Count AttachmentsCollection after reset:'+AttachmentsCollection.find().count());
             // remove the meeting series attachment dir
             MeetingSeriesSchema.getCollection().find().fetch().forEach(ms => {
-                let storagePath = calculateAndCreateStoragePath();
-                storagePath += '/'+ms._id;
-                fs.remove(storagePath, function (err) {
-                    if (err) {
-                        // swallow silently...
-                        // console.log(err);
-                        // console.log("Could not delete: "+storagePath);
-                    }
-                });
+                removeMeetingSeriesAttachmentDir(ms._id);
             });
             MeetingSeriesSchema.remove({});
             console.log('Count MeetingSeries after reset:'+MeetingSeriesSchema.find().count());
