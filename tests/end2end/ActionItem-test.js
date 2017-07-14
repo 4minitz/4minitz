@@ -168,7 +168,7 @@ describe('ActionItems', function () {
         expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
     });
 
-    it('can add an action item by pressing enter in the priority field @watch', function () {
+    it('can add an action item by pressing enter in the priority field', function () {
         let topicIndex = 1;
         E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
