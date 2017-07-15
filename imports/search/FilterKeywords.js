@@ -53,7 +53,7 @@ export const ITEM_KEYWORDS = {
         key: 'do',
         values: ['match-case'],
         format: 'do:<value>',
-        description: "Specifies how the search will be applied.",
+        description: 'Specifies how the search will be applied.',
         example: '"do:match-case" turns on the case sensitive search.'
     },
     PRIO: {
@@ -104,7 +104,7 @@ export const TOPIC_KEYWORDS = {
         key: 'do',
         values: ['match-case'],
         format: 'do:<value>',
-        description: "Specifies how the search will be applied.",
+        description: 'Specifies how the search will be applied.',
         example: '"do:match-case" turns on the case sensitive search.'
     },
     USER: {

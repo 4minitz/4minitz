@@ -56,7 +56,7 @@ export class RoleChangeMailHandler {
             let mailer = MailFactory.getMailer(modFrom, emailTo);
             mailer.setSubject(`[4Minitz] Your role has changed for ${meetingProject}:${meetingName}`);
             mailer.setText('Hello ' + userName + ', \n'+
-                'Your role has changed for meeting series "' + meetingProject + ":" + meetingName + '"\n"+' +
+                'Your role has changed for meeting series "' + meetingProject + ':' + meetingName + '"\n"+' +
                 '(' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n'+
                 'Your old role was           : ' + this._oldRole + '\n'+
                 'Your new role is            : ' + this._newRole + '\n'+

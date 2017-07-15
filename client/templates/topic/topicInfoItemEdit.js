@@ -245,10 +245,10 @@ Template.topicInfoItemEdit.events({
             newItem = new ActionItem(getRelatedTopic(), doc);
             break;
         case 'infoItem':
-            {
-                newItem = new InfoItem(getRelatedTopic(), doc);
-                break;
-            }
+        {
+            newItem = new InfoItem(getRelatedTopic(), doc);
+            break;
+        }
         default:
             throw new Meteor.Error('Unknown type!');
         }

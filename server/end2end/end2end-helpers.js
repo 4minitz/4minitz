@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-let fs = require('fs-extra');
 
 import { MeetingSeriesSchema } from './../../imports/collections/meetingseries.schema';
 import { MinutesSchema } from './../../imports/collections/minutes.schema';
@@ -21,7 +20,7 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log('Count AttachmentsCollection after reset:'+AttachmentsCollection.find().count());
             // remove the meeting series attachment dir
             MeetingSeriesSchema.getCollection().find().fetch().forEach(ms => {
-                removeMeetingSeriesAttachmentDir(ms._id);
+                removeMeetingSeriesAttachmentDir(ms._id); //eslint-disable-line
             });
             MeetingSeriesSchema.remove({});
             console.log('Count MeetingSeries after reset:'+MeetingSeriesSchema.find().count());
@@ -55,7 +54,7 @@ if (Meteor.settings.isEnd2EndTest) {
         },
         'e2e.getServerAttachmentsDir'() {
             console.log('-------------------------- E2E-METHOD: getServerAttachmentsDir');
-            return calculateAndCreateStoragePath();
+            return calculateAndCreateStoragePath(); //eslint-disable-line
         },
         'e2e.countMeetingSeriesInMongDB'() {
             console.log('-------------------------- E2E-METHOD: countMeetingSeries');

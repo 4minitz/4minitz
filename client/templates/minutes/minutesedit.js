@@ -473,7 +473,7 @@ Template.minutesedit.events({
         let doFinalize = function () {
             tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
             let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
-                // Force closing the dialog before starting the finalize process
+            // Force closing the dialog before starting the finalize process
             Meteor.setTimeout(() => {
                 aMin.finalize(sendActionItems, sendInformationItems);
                 tmpl.$('#btn_finalizeMinutes').prop('disabled', true);

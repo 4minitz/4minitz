@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { OnlineUsersSchema } from './onlineusers.schema';
+import { check } from 'meteor/check';
 import moment from 'moment/moment';
 
 if (Meteor.isServer) {
@@ -27,7 +28,7 @@ Meteor.methods({
 
         // remove outdated entries
         const aMinAgo = moment().add(-1,'minutes').toDate();
-        OnlineUsersSchema.remove({updatedAt: {"$lt" : aMinAgo}});
+        OnlineUsersSchema.remove({updatedAt: {'$lt' : aMinAgo}});
     },
     'onlineUsers.leaveRoute'(route) {
         const userId = Meteor.userId();
