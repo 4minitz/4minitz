@@ -33,8 +33,18 @@ Meteor.methods({
         if (Meteor.user().isLDAPuser) {
             throw new Meteor.Error('LDAP-Users cannot change profile', 'LDAP-Users may not change their longname or their E-Mail-address');
         }
-        
+
+        let userMailOrigin = Meteor.user().emails[0].address;
+
         Meteor.users.update(userId, {$set: {'emails.0.address': eMail, 'profile.name': longName}});
+
+        if (userMailOrigin !== eMail) {
+            Meteor.users.update(userId, {$set: {'emails.0.verified': false}});
+            if (Meteor.isServer && Meteor.settings.public.sendVerificationEmail ) {
+                Accounts.sendVerificationEmail(Meteor.user());
+            }
+        }
+
     },
 
     'users.admin.changePassword'(userId, password1, password2) {

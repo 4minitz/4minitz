@@ -191,7 +191,7 @@ describe('Attachments', function () {
     // This only works in Chrome. Chrome is configured via .meteor/chimp_config.js to
     // show no pop up dialog on saving, but instead save directly to a known target directory
     it('can download attachment via URL (as invited) - DESKTOP-CHROME-ONLY', function () {
-        if (! E2EGlobal.browserIsPhantomJS()) {
+        if (!E2EGlobal.browserIsPhantomJS() && !E2EGlobal.browserIsHeadlessChrome()) {
             E2EAttachments.uploadFile(_staticLocalFilename);
             E2EAttachments.switchToUserWithDifferentRole(E2EGlobal.USERROLES.Invited, _projectName, _lastMeetingName);
 

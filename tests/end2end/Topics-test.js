@@ -44,7 +44,10 @@ describe('Topics', function () {
         browser.waitForVisible("#id_showAddTopicDialog");
         browser.click("#id_showAddTopicDialog");
 
-        E2ETopics.insertTopicDataIntoDialog("some topic\n");
+        E2ETopics.insertTopicDataIntoDialog("some topic");
+
+        const subjectInput = browser.$('#id_subject');
+        subjectInput.keys('Enter');
 
         E2EGlobal.waitSomeTime(700);
 

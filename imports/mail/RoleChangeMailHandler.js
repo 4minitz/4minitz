@@ -27,8 +27,8 @@ export class RoleChangeMailHandler {
             : GlobalSettings.getDefaultEmailSenderAddress();
         let emailTo = this._user.emails[0].address;
 
-        // set parameter
         let meetingSeries = new MeetingSeries(this._meetingSeriesId);
+        let meetingProject = meetingSeries.project;
         let meetingName = meetingSeries.name;
 
         let userName = '';
@@ -38,13 +38,13 @@ export class RoleChangeMailHandler {
             userName =  this._user.profile.name;
         }
 
-        if(this._oldRole == undefined) {
+        if(this._oldRole === undefined) {
             this._oldRole = 'None';
         } else {
             this._oldRole = userroles.role2Text(this._oldRole);
         }
 
-        if(this._newRole == undefined) {
+        if(this._newRole === undefined) {
             this._newRole = 'None';
         } else {
             this._newRole = userroles.role2Text(this._newRole);
@@ -54,13 +54,16 @@ export class RoleChangeMailHandler {
         // generate mail
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(modFrom, emailTo);
-            mailer.setSubject('Your role changed');
+            mailer.setSubject(`[4Minitz] Your role has changed for ${meetingProject}:${meetingName}`);
             mailer.setText('Hello ' + userName + ', \n'+
-                'Your role was changed in the meeting series "' + meetingName + '" (' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n'+
+                'Your role has changed for meeting series "' + meetingProject + ":" + meetingName + '"\n"+' +
+                '(' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n'+
                 'Your old role was           : ' + this._oldRole + '\n'+
                 'Your new role is            : ' + this._newRole + '\n'+
                 'The change was performed by : ' + this._moderator.username + '\n'  +
-
+                '\n' +
+                'For a comprehensive list of rights for each role see:\n' +
+                'https://github.com/4minitz/4minitz/blob/master/doc/user/usermanual.md#table-of-roles-and-rights\n' +
                 '\n' +
                 'Your Admin.\n' +
                 '\n' +

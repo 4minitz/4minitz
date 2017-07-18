@@ -21,7 +21,7 @@ describe('mongoBackup', function () {
     describe('#backupMongo', function () {
 
         beforeEach(function () {
-            spawn.reset();
+            spawn.resetHistory();
         });
 
         it('uses mongodump to create a backup', function () {

@@ -57,6 +57,24 @@ describe('Item Details', function () {
         }, 1);
     });
 
+    it('can add first details to a new Info Item', function() {
+        const detailsText = 'First Details for Info Item';
+        E2ETopics.addFirstDetailsToNewInfoItem({
+            subject: getNewAIName(),
+            itemType: "infoItem"
+        },1 , detailsText);
+
+        E2EGlobal.waitSomeTime();
+        browser.element(".expandDetails ").click();
+        E2EGlobal.waitSomeTime();
+
+        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+
+        expect(browser.elementIdText(firstItemOfNewTopic).value)
+            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+    });
+
     it('can add details to an Action Item', function() {
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
 

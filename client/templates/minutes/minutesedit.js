@@ -18,6 +18,7 @@ import { UserRoles } from '/imports/userroles';
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
+import { UserTracker } from '../../helpers/userTracker';
 
 let _minutesID; // the ID of these minutes
 
@@ -137,6 +138,9 @@ Template.minutesedit.onCreated(function () {
 
     Session.set('minutesedit.checkParent', false);
     handleTemplatesGlobalKeyboardShortcuts(true);
+
+    this.userTracker = new UserTracker(FlowRouter.current().path);
+    this.userTracker.onEnter();
 });
 
 Template.minutesedit.onDestroyed(function() {
@@ -147,6 +151,7 @@ Template.minutesedit.onDestroyed(function() {
     $(document).unbindArrive('#id_minutesdatePicker');
     $(document).unbindArrive('#topicPanel');
     handleTemplatesGlobalKeyboardShortcuts(false);
+    this.userTracker.onLeave();
 });
 
 let isMinuteFinalized = function () {

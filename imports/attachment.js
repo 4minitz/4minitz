@@ -73,7 +73,7 @@ export class Attachment {
     // ********** object methods ****************
     isUploaderAndFileOwner () {
         return this._roles.isUploaderFor(this._file.meta.parentseries_id)
-            && (this._roles.getUserID() == this._file.userId);
+            && (this._roles.getUserID() === this._file.userId);
     }
 
     isModerator () {

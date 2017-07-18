@@ -44,24 +44,38 @@ let isAllowedValueForKey = function(key, value) {
 export const ITEM_KEYWORDS = {
     IS: {
         key: 'is',
-        values: ['open', 'closed', 'info', 'action', 'new', 'sticky']
+        values: ['open', 'closed', 'info', 'action', 'new', 'sticky'],
+        format: 'is:<property>',
+        description: 'Finds items which have the specified property.',
+        example: '"is:open is:action" finds all open action items.'
     },
     DO: {
         key: 'do',
-        values: ['match-case']
+        values: ['match-case'],
+        format: 'do:<value>',
+        description: "Specifies how the search will be applied.",
+        example: '"do:match-case" turns on the case sensitive search.'
     },
     PRIO: {
         key: 'prio',
-        values: '*'
+        values: '*',
+        format: 'prio:<value>',
+        description: 'Finds items which have the given priority.',
+        example: '"prio:HIGH" finds items with the priority "HIGH"'
     },
     DUE: {
         key: 'due',
-        values: '*'
+        values: '*',
+        format: 'prio:<YYYY-MM-DD>',
+        description: 'Finds action items which are due on the given date.',
+        example: '"due:2017-07" finds all action items which are due in july of 2017'
     },
     USER: {
         key: '@',
         values: '*',
-        format: '@username'
+        format: '@<username>',
+        description: 'Finds all action items assigned to the given user.',
+        example: '"@john" finds all action items assigned to the user john'
     },
 
     isKeyword: isKeyword,
@@ -74,20 +88,31 @@ export const ITEM_KEYWORDS = {
 export const TOPIC_KEYWORDS = {
     IS: {
         key: 'is',
-        values: ['open', 'closed', 'new']
+        values: ['open', 'closed', 'new'],
+        format: 'is:<property>',
+        description: 'Finds topics which have the specified property.',
+        example: '"is:new is:open" finds all new open topics.'
     },
     HAS: {
         key: 'has',
-        values: ['item', 'action', 'info']
+        values: ['item', 'action', 'info'],
+        format: 'has:<type>',
+        description: 'Finds topics which contain items of the specified type.',
+        example: '"has:action" finds topics which have action items.'
     },
     DO: {
         key: 'do',
-        values: ['match-case']
+        values: ['match-case'],
+        format: 'do:<value>',
+        description: "Specifies how the search will be applied.",
+        example: '"do:match-case" turns on the case sensitive search.'
     },
     USER: {
         key: '@',
         values: '*',
-        format: '@username'
+        format: '@username',
+        description: 'Finds all action items assigned to the given user.',
+        example: '"@john" finds all topics assigned to the user john'
     },
 
     isKeyword: isKeyword,

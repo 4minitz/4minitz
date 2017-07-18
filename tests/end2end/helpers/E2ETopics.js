@@ -96,7 +96,7 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime();
         
         if (subject) {
-            browser.setValue('#id_subject', subject);
+            E2EGlobal.setValueSafe('#id_subject', subject);
         }
         if (responsible) {
             E2ETopics.responsible2TopicEnterFreetext(responsible);
@@ -113,7 +113,7 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime();
 
         if (subject) {
-            browser.setValue('#id_subject', subject);
+            E2EGlobal.setValueSafe('#id_subject', subject);
         }
         if(label) {
             E2ETopics.label2TopicEnterFreetext(label);
@@ -130,7 +130,7 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime();
 
         if (subject) {
-            browser.setValue('#addTopicField', subject);
+            E2EGlobal.setValueSafe('#addTopicField', subject);
         }
         if (responsible) {
             E2ETopics.responsible2TopicEnterFreetext(responsible);
@@ -139,6 +139,9 @@ export class E2ETopics {
 
     static submitTopicDialog() {
         browser.click("#btnTopicSave");
+
+        const waitForInvisible = true;
+        browser.waitForVisible('#dlgAddTopic', 6000, waitForInvisible);
         E2EGlobal.waitSomeTime(700);
     }
 
@@ -150,13 +153,15 @@ export class E2ETopics {
     static openInfoItemDialog(topicIndex, type="infoItem") {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
 
-        browser.waitForVisible(selector);
+        browser.waitForVisible(selector, 2000);
         browser.click(selector);
         let typeClass = ".addTopicInfoItem";
         if (type === "actionItem") {
             typeClass = ".addTopicActionItem";
         }
         browser.click("#topicPanel .well:nth-child(" + topicIndex + ") "+typeClass);
+
+        browser.waitForVisible('#id_item_subject', 5000);
     }
 
     static addInfoItemToTopic (infoItemDoc, topicIndex, autoCloseDetailInput = true) {
@@ -210,15 +215,12 @@ export class E2ETopics {
     }
 
     static insertInfoItemDataIntoDialog(infoItemDoc) {
-        try {
-            browser.waitForVisible('#id_item_subject');
-        } catch (e) {
-            return false;
+        if (!browser.isVisible('#id_item_subject')) {
+            throw new Error('Info item dialog is not visible');
         }
-        E2EGlobal.waitSomeTime(500);
 
         if (infoItemDoc.subject) {
-            browser.setValue('#id_item_subject', infoItemDoc.subject);
+            E2EGlobal.setValueSafe('#id_item_subject', infoItemDoc.subject);
         }
         if (infoItemDoc.label) {
             E2ETopics.labelEnterFreetext(infoItemDoc.label);
@@ -227,11 +229,10 @@ export class E2ETopics {
             E2ETopics.responsible2ItemEnterFreetext(infoItemDoc.responsible);
         }
         if (infoItemDoc.priority) {
-            browser.setValue('#id_item_priority', infoItemDoc.priority);
+            E2EGlobal.setValueSafe('#id_item_priority', infoItemDoc.priority);
         }
 
         //todo: set other fields (duedate)
-
     }
 
     static submitInfoItemDialog() {
@@ -401,6 +402,15 @@ export class E2ETopics {
         E2EGlobal.waitSomeTime();
     }
 
+    static addFirstDetailsToNewInfoItem(infoItemDoc, topicIndex, detailsText, autoCloseDetailInput = true) {
+        let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
+        this.openInfoItemDialog(topicIndex, type);
+        this.insertInfoItemDataIntoDialog(infoItemDoc);
+
+        browser.setValue('#id_item_detailInput', detailsText);
+        this.submitInfoItemDialog();
+    }
+
     /**
      * Adds details to an action item.
      *
@@ -433,7 +443,7 @@ export class E2ETopics {
             console.error('Could not add details. Input field not visible');
             return false;
         }
-        browser.setValue(selFocusedInput, detailsText);
+        E2EGlobal.setValueSafe(selFocusedInput, detailsText);
         if (doBeforeSubmit) {
             doBeforeSubmit(selFocusedInput);
         }
@@ -462,7 +472,7 @@ export class E2ETopics {
         } catch (e) {
             return false;
         }
-        browser.setValue(selFocusedInput, detailsText);
+        E2EGlobal.setValueSafe(selFocusedInput, detailsText);
         browser.keys(['Escape']);
     }
 
