@@ -114,6 +114,7 @@ export class E2EMinutes {
     };
 
     static getCurrentMinutesDate() {
+        browser.waitForVisible('#id_minutesdateInput');
         return browser.getValue('#id_minutesdateInput');
     }
 

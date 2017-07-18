@@ -65,7 +65,7 @@ Meteor.methods({
             return;
         }
 
-        // Security & Consistency:
+        // #Security & Consistency:
         // delete properties which should not be modified by the client
         // these properties are only allowed to be modified serverside by workflow_private methods
         delete doc.finalizedAt;

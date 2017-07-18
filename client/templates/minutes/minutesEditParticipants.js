@@ -7,6 +7,8 @@ import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
+import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
+import '/imports/collections/onlineusers_private';
 
 let _minutesID; // the ID of these minutes
 
@@ -45,6 +47,10 @@ Template.minutesEditParticipants.onCreated(function() {
     _minutesID = FlowRouter.getParam('_id');
     console.log('Template minutesEditParticipants created with minutesID '+_minutesID);
 
+    this.autorun(() => {
+        this.subscribe('onlineUsersForRoute', FlowRouter.current().path);
+    });
+
     // Calculate initial expanded/collapsed state
     Session.set('participants.expand', false);
     if (isEditable()) {
@@ -54,8 +60,24 @@ Template.minutesEditParticipants.onCreated(function() {
 });
 
 Template.minutesEditParticipants.helpers({
+    participantsSorted() {
+        let aMin = new Minutes(_minutesID);
+        let partSorted = aMin.participants;
+        partSorted.forEach(p => {
+            p["displayName"] = userNameForId(p.userId);
+        });
+        partSorted = partSorted.sort(function(a,b) {
+            return (a.displayName > b.displayName) ? 1 : ((b.displayName > a.displayName) ? -1 : 0);
+        } );
+        return partSorted;
+    },
+
     getUserDisplayName (userId) {
         return userNameForId(userId);
+    },
+
+    isUserRemotelyConnected (userId) {
+        return !!OnlineUsersSchema.findOne({ userId: userId, activeRoute: FlowRouter.current().path });
     },
 
     isModeratorOfParentSeries (userId) {
@@ -119,11 +141,11 @@ Template.minutesEditParticipants.helpers({
     isChecked(){
         return Template.instance().markedAll.get();
     },
-    
+
     isEditable() {
         return isEditable();
     },
-    
+
     parentMeetingSeries() {
         let aMin = new Minutes(_minutesID);
         return aMin.parentMeetingSeries();
@@ -134,15 +156,13 @@ Template.minutesEditParticipants.helpers({
 Template.minutesEditParticipants.events({
     'click #btnTogglePresent' (evt, tmpl) {
         let min = new Minutes(_minutesID);
-        let indexInParticipantsArray = evt.target.dataset.index;
+        let userId = evt.target.dataset.userid;
         let checkedState = evt.target.checked;
-        min.updateParticipantPresent(indexInParticipantsArray, checkedState);
+        min.updateParticipantPresent(userId, checkedState);
         tmpl.markedAll.set(allParticipantsMarked());
     },
     'change #edtParticipantsAdditional' (evt, tmpl) {
-        console.log('Trigger!');
         let aMin = new Minutes(_minutesID);
-        console.log('   Min!');
         let theParticipant = tmpl.find('#edtParticipantsAdditional').value;
         aMin.update({participantsAdditional: theParticipant});
     },
@@ -162,7 +182,7 @@ Template.minutesEditParticipants.events({
             tmpl.markedAll.set(true);
         }
     },
-    
+
     'click #btnEditParticipants' () {
         Session.set('meetingSeriesEdit.showUsersPanel', true);
     }

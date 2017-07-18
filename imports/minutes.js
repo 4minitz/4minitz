@@ -60,8 +60,6 @@ export class Minutes {
         return Meteor.callPromise('minutes.syncVisibility', parentSeriesID, visibleForArray);
     }
 
-
-
     // ################### object methods
 
     // method
@@ -385,12 +383,24 @@ export class Minutes {
     /**
      * Change presence of a single participant. Immediately updates .participants array
      * TODO Reactive performance may be better if we only update one array element in DB
-     * @param index of the participant in the participant array
+     * @param userid of the participant in the participant array
      * @param isPresent new state of presence
      */
-    async updateParticipantPresent(index, isPresent) {
-        this.participants[index].present = isPresent;
-        return this.update({participants: this.participants});
+    async updateParticipantPresent(userid, isPresent) {
+        let index = -1;
+        if (this.participants) {
+            for (let i=0; i < this.participants.length; i++) {
+                if (this.participants[i].userId === userid) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index > -1) {
+                this.participants[index].present = isPresent;
+                return this.update({participants: this.participants});
+            }
+        }
+        return false;
     }
 
     /**
@@ -416,9 +426,7 @@ export class Minutes {
      */
     async changeParticipantsStatus(isPresent)
     {
-        for (var index = 0; index < this.participants.length; index++) {
-            this.participants[index].present = isPresent;
-        }
+        this.participants.forEach(p => p.present = isPresent);
         return this.update({participants: this.participants});
     }
 

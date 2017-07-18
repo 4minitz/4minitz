@@ -60,6 +60,32 @@ const {
     'meteor/underscore': { _, '@noCallThru': true},
 });
 
+
+
+const {
+    InfoItem
+} = proxyquire('../../../imports/infoitem', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
+    'meteor/random': { Random, '@noCallThru': true},
+    'meteor/underscore': { _, '@noCallThru': true},
+    '/imports/helpers/date': DateHelpers,
+    './label': { Label, '@noCallThru': true}
+});
+
+const {
+    ActionItem
+} = proxyquire('../../../imports/actionitem', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
+    './infoitem': { InfoItem, '@noCallThru': true}
+});
+
+const {
+    InfoItemFactory
+} = proxyquire('../../../imports/InfoItemFactory', {
+    './infoitem': { InfoItem, '@noCallThru': true},
+    './actionitem': { ActionItem, '@noCallThru': true}
+});
+
 const {
         Topic
     } = proxyquire('../../../imports/topic', {
@@ -68,20 +94,12 @@ const {
     'meteor/underscore': { _, '@noCallThru': true},
     '/imports/helpers/subElements': SubElements,
     './label': { Label, '@noCallThru': true},
+    './infoitem': { InfoItem, '@noCallThru': true},
+    './InfoItemFactory': { InfoItemFactory, '@noCallThru': true},
     './minutes': { Minutes, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './helpers/promisedMethods': { "null": null, '@noCallThru': true},
     './collections/minutes_private': { "null": null, '@noCallThru': true},
-});
-
-const {
-    InfoItem
-    } = proxyquire('../../../imports/infoitem', {
-    'meteor/meteor': { Meteor, '@noCallThru': true},
-    'meteor/random': { Random, '@noCallThru': true},
-    'meteor/underscore': { _, '@noCallThru': true},
-    '/imports/helpers/date': DateHelpers,
-    './topic': { Topic, '@noCallThru': true}
 });
 
 describe('Topic', function() {

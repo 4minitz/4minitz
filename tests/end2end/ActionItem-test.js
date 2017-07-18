@@ -150,9 +150,12 @@ describe('ActionItems', function () {
 
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
-            subject: actionItemName + "\n",
+            subject: actionItemName,
             itemType: "actionItem"
         });
+
+        const subjectInput = browser.$('#id_item_subject');
+        subjectInput.keys('Enter');
 
         E2EGlobal.waitSomeTime();
 
@@ -172,9 +175,12 @@ describe('ActionItems', function () {
         const actionItemName = getNewAIName();
         E2ETopics.insertInfoItemDataIntoDialog({
             subject: actionItemName,
-            priority: 'low' + "\n",
+            priority: 'low',
             itemType: "actionItem"
         });
+
+        const subjectInput = browser.$('#id_item_priority');
+        subjectInput.keys('Enter');
 
         E2EGlobal.waitSomeTime();
 

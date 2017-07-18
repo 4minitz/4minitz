@@ -15,6 +15,7 @@ import '/imports/collections/broadcastmessage_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
+import '/imports/collections/onlineusers_private';
 import '/server/ldap';
 import '/server/sendResetPasswordMail';
 import '/imports/statistics';

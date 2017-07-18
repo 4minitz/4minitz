@@ -64,8 +64,15 @@ describe('LDAP', function () {
     });
 
     it('ldap user will be rejected if the password is wrong', function () {
-        E2EApp.loginLdapUserWithCredentials('ldapUser1', 'wrongPassword', false);
+        let loginUnexpectedlySucceeded = false;
+        try {
+            E2EApp.loginLdapUserWithCredentials('ldapUser1', 'wrongPassword', false);
+            loginUnexpectedlySucceeded = true;
+        } catch (e) {
+            expect(e.toString()).to.include('Unknown user or wrong password.');
+        }
 
+        expect(loginUnexpectedlySucceeded).to.be.false;
         expect(E2EApp.isLoggedIn()).to.be.false;
     });
 

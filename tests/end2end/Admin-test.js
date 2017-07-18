@@ -7,21 +7,23 @@ import { E2EAdmin } from './helpers/E2EAdmin';
 
 
 describe('Admin View', function () {
-    const aProjectName = 'E2E Admin Route';
-    let aMeetingCounter = 0;
-    let aMeetingNameBase = 'Meeting Name #';
-    let aMeetingName;
-    
     before('reload page and reset app', function () {
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach('goto start page and make sure test user is logged in. Also create two topics', function () {
-        E2EApp.gotoStartPage();
-        expect (E2EApp.isLoggedIn()).to.be.true;
+    beforeEach('goto start page and make sure test user is logged in', function () {
+        server.call('e2e.removeAllBroadcasts');
+        E2EApp.launchApp();
+        E2EApp.loginUser(0);
+        expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
+    after('log in user1', function () {
+        server.call('e2e.removeAllBroadcasts');
+        E2EApp.launchApp();
+        E2EApp.loginUser(0, true);
+    });
 
     it('can not access admin menu or route for non-admin user', function () {
         expect(E2EAdmin.clickAdminMenu(), 'click admin menu').to.be.false;
@@ -90,6 +92,7 @@ describe('Admin View', function () {
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
             , "message dialog should be invisible for admin").to.be.false;
         E2EAdmin.sendNewBroadcastMessage(message);
+        browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 2000);
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
             , "message dialog should be visible for admin").to.be.true;
         expect(browser.getText(E2EAdmin.selectorMap.dlgAllMessages)
@@ -97,19 +100,19 @@ describe('Admin View', function () {
 
         // Dismiss by admin user
         browser.click(E2EAdmin.selectorMap.btnDismissAllMessages);
-        E2EGlobal.waitSomeTime();
+        const isNotVisible = true;
+        browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 2000, isNotVisible);
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
             , "message dialog should be invisible for admin after dismiss").to.be.false;
 
         // Now check display & dismiss by normal user
         E2EApp.loginUser("user1", true);
-        E2EGlobal.waitSomeTime();
-        expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
-            , "message dialog should be visible for normal user").to.be.true;
+        browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 3000);
         browser.click(E2EAdmin.selectorMap.btnDismissAllMessages);
-        E2EGlobal.waitSomeTime();
+        const waitForInvisible = true;
+        browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 3000, waitForInvisible);
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
-            , "message dialog should be invisible for normal user after dismiss").to.be.false;
+            , "message dialog should be visible for admin").to.be.false;
     });
 
 
