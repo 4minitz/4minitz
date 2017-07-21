@@ -17,15 +17,17 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
         return this._getSubjectPrefix()  + ' (Meeting Minutes V'+this._minute.finalizedVersion+')';
     }
 
-    _sendMail() {
+    _sendMail(mailData) {
+        if (mailData === undefined)
+            mailData = DocumentGeneration.getDocumentData(this);
         let mailSubject = this._getSubject();
 
         DocumentGeneration.generateResponsibleStringsForTopic(this);
 
         this._buildMail(
             mailSubject,
-            DocumentGeneration.getDocumentData(this)
-        );
+            mailData
+        );        
     }
 
     _userArrayToString(users) {

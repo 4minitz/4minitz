@@ -15,6 +15,10 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             , minute.getInformed(Meteor.users)
             , 'sendAgenda');
     }
+    
+    _sendMail() {
+        super._sendMail(this._getEmailData());
+    }    
 
     _getSubject() {
         return this._getSubjectPrefix() + ' (Agenda)';
