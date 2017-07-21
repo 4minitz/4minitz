@@ -1,9 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
-import { GlobalSettings } from '../config/GlobalSettings';
-import { Topic } from './../topic';
-import { Attachment } from '../attachment';
+import { DocumentGeneration } from '../documentGeneration';
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
@@ -24,61 +20,12 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
     _sendMail() {
         let mailSubject = this._getSubject();
 
-        // Generate responsibles strings for all topics
-        this._topics.forEach(topic => {
-            let aTopicObj = new Topic (this._minute._id, topic);
-            topic.responsiblesString = '';
-            if (aTopicObj.hasResponsibles()) {
-                topic.responsiblesString = '('+aTopicObj.getResponsiblesString()+')';
-            }
-            topic.labels = aTopicObj.getLabelsString(topic);
-        });
+        DocumentGeneration.generateResponsibleStringsForTopic(this);
 
         this._buildMail(
             mailSubject,
-            this._getEmailData()
+            DocumentGeneration.getDocumentData(this)
         );
-    }
-
-    _getEmailData() {
-        let presentParticipants = this._participants.filter(participant => {
-            return participant.present;
-        });
-
-        let absentParticipants = this._participants.filter(participant => {
-            return !participant.present;
-        });
-
-        let discussedTopics = this._topics.filter(topic => {
-            return !topic.isOpen;
-        });
-
-        let outstandingTopics = this._topics.filter(topic => {
-            return (topic.isOpen && !topic.isSkipped);
-        });
-
-        let attachments = Attachment.findForMinutes(this._minute._id).fetch();
-        attachments.forEach((file) => {
-            let usr = Meteor.users.findOne(file.userId);
-            return file.username = usr.username;
-        });
-
-        return {
-            minutesDate: this._minute.date,
-            minutesGlobalNote: this._minute.globalNote,
-            meetingSeriesName: this._meetingSeries.name,
-            meetingSeriesProject: this._meetingSeries.project,
-            meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeries._id),
-            minuteUrl: GlobalSettings.getRootUrl('minutesedit/' + this._minute._id),
-            presentParticipants: this._userArrayToString(presentParticipants),
-            absentParticipants: this._userArrayToString(absentParticipants),
-            informedUsers: this._userArrayToString(this._informed),
-            participantsAdditional: this._minute.participantsAdditional,
-            discussedTopics: discussedTopics,
-            skippedTopics: outstandingTopics,
-            finalizedVersion: this._minute.finalizedVersion,
-            attachments: attachments
-        };
     }
 
     _userArrayToString(users) {

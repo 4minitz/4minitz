@@ -14,6 +14,7 @@ import { Minutes } from '/imports/minutes';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
+import { DocumentGeneration } from '/imports/documentGeneration';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -361,7 +362,7 @@ Template.minutesedit.helpers({
                 filteredTopics = aMin.topics.filter((topic) => !topic.isSkipped);
             }
         }
-            
+
         return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
@@ -387,6 +388,10 @@ Template.minutesedit.helpers({
     nextMinutes : function() {
         let aMin = new Minutes(_minutesID);
         return MinutesFinder.nextMinutes(aMin);
+    },
+
+    isDocumentGenerationAllowed : function () {
+        return Meteor.settings.public.docGeneration.enabled === true;
     }
 });
 
@@ -582,6 +587,11 @@ Template.minutesedit.events({
     'click #btn_printMinutes': function(evt) {
         evt.preventDefault();
         togglePrintView();
+    },
+
+    'click #btn_downloadMinutes': function(evt) {
+        evt.preventDefault();
+        DocumentGeneration.downloadMinuteProtocol(_minutesID);
     }
 });
 
