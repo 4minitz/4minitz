@@ -168,21 +168,15 @@ describe('ActionItems', function () {
         expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
     });
 
-    it('can add an action item by pressing enter in the priority field', function () {
+    it('can add an action item and set the priority field', function () {
         let topicIndex = 1;
-        E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
-        E2ETopics.insertInfoItemDataIntoDialog({
+        E2ETopics.addInfoItemToTopic({
             subject: actionItemName,
             priority: 5,
             itemType: "actionItem"
-        });
-
-        const subjectInput = browser.$('#id_item_priority');
-        subjectInput.keys('Enter');
-
-        E2EGlobal.waitSomeTime();
+        }, topicIndex);
 
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
         browser.waitForVisible(selector);
