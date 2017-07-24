@@ -123,8 +123,12 @@ export class ActionItem extends InfoItem{
         return [];
     }
 
-
-    getResponsibleNameString() {
+    /**
+     * Get comma separated list of responsibles with human readable user name (for all registered users)
+     * @param prefix - optional, e.g. '@'
+     * @returns {string}
+     */
+    getResponsiblesString(prefix = "") {
         if (!this.hasResponsibles()) {
             return '';
         }
@@ -140,9 +144,9 @@ export class ActionItem extends InfoItem{
                 }
             }
             if (userNameFromDB) {     // user DB match!
-                responsiblesString += userNameFromDB + ', ';
+                responsiblesString += prefix+userNameFromDB + ', ';
             } else {
-                responsiblesString += responsible + ', ';
+                responsiblesString += prefix+responsible + ', ';
             }
         });
         responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "

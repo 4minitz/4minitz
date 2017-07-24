@@ -64,6 +64,14 @@ export class TopicItemsMailHandler {
         let tmplRenderer = this._getTmplRenderer();
         tmplRenderer.addDataObject(emailData);
         let context = this;
+        tmplRenderer.addHelper('doneActionItemClass', function() {
+            if (this.isOpen !== undefined && this.isOpen === false) {
+                return "doneActionItem";
+            }
+        });
+        tmplRenderer.addHelper('isActionItem', function() {
+            return (this.itemType === 'actionItem');
+        });
         tmplRenderer.addHelper('hasLabels', function() {
             return (this.labels.length > 0);
         });

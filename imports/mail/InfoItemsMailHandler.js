@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { Topic } from './../topic';
+import { ActionItem } from './../actionitem';
 import { Attachment } from '../attachment';
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
@@ -32,6 +33,16 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
                 topic.responsiblesString = '('+aTopicObj.getResponsiblesString()+')';
             }
             topic.labels = aTopicObj.getLabelsString(topic);
+
+            // inject responsible as readable short user names to all action items
+            for (let i = 0; i < topic.infoItems.length; i++) {
+                if (topic.infoItems[i].itemType === 'actionItem') {
+                    let anActionItemObj = new ActionItem(topic, topic.infoItems[i]);
+                    if (anActionItemObj.hasResponsibles()) {
+                        topic.infoItems[i].responsiblesString = '('+anActionItemObj.getResponsiblesString('@')+')';
+                    }
+                }
+            }
         });
 
         this._buildMail(

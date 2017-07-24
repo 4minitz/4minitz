@@ -163,18 +163,6 @@ export class Minutes {
         return false;
     }
 
-    /**
-     * Returns tailored topics which
-     * does only contain info items.
-     */
-    getTopicsWithOnlyInfoItems() {
-        return this.topics.map((topicDoc) => {
-            let topic = new Topic(this, topicDoc);
-            topicDoc.infoItems = topic.getOnlyInfoItems();
-            return topicDoc;
-        });
-    }
-
     getOpenTopicsWithoutItems() {
         return this.topics
             .filter(topicDoc => {

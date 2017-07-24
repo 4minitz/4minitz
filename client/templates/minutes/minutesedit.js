@@ -488,7 +488,7 @@ Template.minutesedit.events({
             if (GlobalSettings.isEMailDeliveryEnabled()) {
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
-                    'Confirm finalize minutes',
+                    'Confirm Finalize Minutes',
                     'confirmationDialogFinalize',
                     {
                         minutesDate: aMin.date,
