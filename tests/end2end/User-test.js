@@ -107,7 +107,7 @@ describe('User Profile/Password editing', function () {
     it('User can successefully change his profile', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
         let longName = 'longname';
-        let email = 'test@test.de';
+        let email = 'profiletest@test.de';
         browser.click('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         browser.click('#navbar-dlgEditProfile');
@@ -144,10 +144,10 @@ describe('User Profile/Password editing', function () {
         browser.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
     });
 
-    it('User can save his profile with an empty LongName', function () {
+    it('User can save his profile with an empty LongName @watch', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
         let longName = '';
-        let email = 'test@test.de';
+        let email = 'longnametest@test.de';
         browser.click('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         browser.click('#navbar-dlgEditProfile');
