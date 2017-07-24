@@ -48,7 +48,7 @@ export class Attachment {
 
         let upload = AttachmentsCollection.insert({
             file: uploadFilename,
-            streams: 1,
+            streams: 'dynamic',
             chunkSize: 'dynamic',
             meta: {
                 meetingminutes_id: minutesObj._id,
