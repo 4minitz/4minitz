@@ -144,7 +144,7 @@ describe('User Profile/Password editing', function () {
         browser.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
     });
 
-    it('User can save his profile with an empty LongName @watch', function () {
+    it('User can save his profile with an empty LongName', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
         let longName = '';
         let email = 'longnametest@test.de';
