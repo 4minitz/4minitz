@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { InfoItemsMailHandler } from './InfoItemsMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { Attachment } from '../attachment';
+import { DocumentGeneration } from '../documentGeneration';
 
 export class SendAgendaMailHandler extends InfoItemsMailHandler {
 
@@ -26,12 +27,6 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
 
 
     _getEmailData() {
-        let attachments = Attachment.findForMinutes(this._minute._id).fetch();
-        attachments.forEach((file) => {
-            let usr = Meteor.users.findOne(file.userId);
-            return file.username = usr.username;
-        });
-        
         let unSkippedTopics = this._topics.filter(topic => !topic.isSkipped);
         return {
             minutesDate: this._minute.date,
@@ -43,7 +38,7 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             participants: this._userArrayToString(this._participants),
             participantsAdditional: this._minute.participantsAdditional,
             topics: unSkippedTopics,
-            attachments: attachments
+            attachments: DocumentGeneration.getAttachmentsFromMinute(this._minute._id)
         };
     }
 

@@ -48,6 +48,17 @@ export class DocumentGeneration {
         });
     }
 
+    static getAttachmentsFromMinute(minuteID) {
+        if (minuteID) {
+            let attachments = Attachment.findForMinutes(minuteID).fetch();
+            attachments.forEach((file) => {
+                let usr = Meteor.users.findOne(file.userId);
+                return file.username = usr.username;
+            });
+            return attachments;
+        }
+    }
+
     static getDocumentData(context) {
         let presentParticipants = context._participants.filter(participant => {
             return participant.present;
@@ -65,12 +76,6 @@ export class DocumentGeneration {
             return (topic.isOpen && !topic.isSkipped);
         });
 
-        let attachments = Attachment.findForMinutes(context._minute._id).fetch();
-        attachments.forEach((file) => {
-            let usr = Meteor.users.findOne(file.userId);
-            return file.username = usr.username;
-        });
-
         return {
             minutesDate: context._minute.date,
             minutesGlobalNote: context._minute.globalNote,
@@ -85,7 +90,7 @@ export class DocumentGeneration {
             discussedTopics: discussedTopics,
             skippedTopics: outstandingTopics,
             finalizedVersion: context._minute.finalizedVersion,
-            attachments: attachments
+            attachments: this.getAttachmentsFromMinute(context._minute._id)
         };
     }
 
