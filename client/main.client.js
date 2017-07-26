@@ -43,11 +43,6 @@ import 'jquery-ui/ui/widgets/sortable';
 
 import 'jquery-ui-touch-punch/jquery.ui.touch-punch';
 
-if (Meteor.settings.public.isEnd2EndTest) {
-    require('/imports/client/no-animations.css');
-    $.support.transition = false;
-}
-
 $(document).arrive('input', {
     onceOnly: false
 }, function () {
@@ -73,6 +68,12 @@ $(document).ready(() => {
     };
     $.material.init();
 });
+
+// remove the modal dialog completely on route changes
+window.onpopstate = _ => {
+    $('.modal-backdrop').remove();
+    $('.modal').hide();
+};
 
 Meteor.startup(() => {
     Meteor.call('gitVersionInfoUpdate');

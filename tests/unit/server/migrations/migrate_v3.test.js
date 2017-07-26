@@ -35,10 +35,16 @@ let MeetingSeriesSchema = {
 MeetingSeriesSchema.getCollection = _ => MeetingSeriesSchema;
 
 const {
-    MigrateV3
-    } = proxyquire('../../../../server/migrations/migrate_v3', {
+    MigrateItems
+} = proxyquire('../../../../server/migrations/helpers/migrateItems', {
     '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
     '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true}
+});
+
+const {
+    MigrateV3
+    } = proxyquire('../../../../server/migrations/migrate_v3', {
+    './helpers/migrateItems': { MigrateItems, '@noCallThru': true}
 });
 
 describe('Migrate Version 3', function () {

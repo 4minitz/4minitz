@@ -1,9 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-let fs;
-if (Meteor.isServer) {
-    fs = require('fs-extra'); // eslint-disable-line global-require
-}
 
 import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
@@ -152,14 +148,7 @@ Meteor.methods({
                     }
                 }
             );
-            // remove the meeting series attachment dir
-            let storagePath = calculateAndCreateStoragePath();
-            storagePath += '/'+meetingseries_id;
-            fs.remove(storagePath, function (err) {
-                if (err) {
-                    console.error('Could not remove attachment dir:'+storagePath);
-                }
-            });
+            removeMeetingSeriesAttachmentDir(meetingseries_id);
         }
     },
 

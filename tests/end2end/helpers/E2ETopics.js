@@ -229,7 +229,8 @@ export class E2ETopics {
             E2ETopics.responsible2ItemEnterFreetext(infoItemDoc.responsible);
         }
         if (infoItemDoc.priority) {
-            E2EGlobal.setValueSafe('#id_item_priority', infoItemDoc.priority);
+            const nthChild = infoItemDoc.priority;
+            browser.click(`#id_item_priority option:nth-child(${nthChild})`);
         }
 
         //todo: set other fields (duedate)

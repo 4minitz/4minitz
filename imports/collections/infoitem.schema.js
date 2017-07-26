@@ -22,9 +22,12 @@ export const InfoItemSchema = SchemaClass.create({
         subject: {type: String},
         isOpen: {type: Boolean, optional: true},                            // action item
         isNew: {type: Boolean, optional: true},                             // action item
-        responsibles: {type: [String], default: [], optional: true},   // action item
-        priority: {type: String, default: '', optional: true},         // action item
+        responsibles: {type: [String], default: [], optional: true},        // action item
+        priority: {type: Number, optional: true, validators: [              // action item
+            { type: 'gte', param: 1 },
+            { type: 'lte', param: 5 }
+        ]},
         duedate: {type: String, optional: true},                            // action item
-        details: {type: [DetailsSchema], default: [], optional: true}  // action item
+        details: {type: [DetailsSchema], default: [], optional: true}
     }
 });

@@ -21,7 +21,7 @@ export class AdminRegisterUserMailHandler {
 
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(adminFrom, this._user.emails[0].address);
-            mailer.setSubject('Your new account at our 4Minitz server');
+            mailer.setSubject('[4Minitz] Your new account at our server');
             mailer.setText('Hello ' + this._user.profile.name+ ', \n'+
                 '\n'+
                 'Welcome to our 4Minitz WebApp.\n' +
