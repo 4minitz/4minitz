@@ -73,6 +73,8 @@ describe('Minutes Participants', function () {
 
         E2EMinutes.gotoLatestMinutes();
 
+        browser.waitForVisible('#btnParticipantsExpand', 3000);
+
         let participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(3);
         expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "currentUser").to.be.ok;
