@@ -107,7 +107,7 @@ describe('User Profile/Password editing', function () {
     it('User can successefully change his profile', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
         let longName = 'longname';
-        let email = 'profiletest@test.de';
+        let email = 'test@test.de';
         browser.click('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         browser.click('#navbar-dlgEditProfile');
@@ -147,7 +147,7 @@ describe('User Profile/Password editing', function () {
     it('User can save his profile with an empty LongName', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
         let longName = '';
-        let email = 'longnametest@test.de';
+        let email = 'test@test.de';
         browser.click('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         browser.click('#navbar-dlgEditProfile');
@@ -160,6 +160,18 @@ describe('User Profile/Password editing', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
         let longName = 'longname';
         let email = '';
+        browser.click('#navbar-usermenu');
+        E2EGlobal.waitSomeTime();
+        browser.click('#navbar-dlgEditProfile');
+        E2EGlobal.waitSomeTime();
+        E2EUser.editProfile(longName, email);
+        E2EGlobal.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
+    });
+
+    it('User can change his longname without editing his Email', function () {
+        expect(E2EApp.isLoggedIn()).to.be.true;
+        let longName = 'longnameChanged';
+        let email = E2EUser.getUserEmail();
         browser.click('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         browser.click('#navbar-dlgEditProfile');
