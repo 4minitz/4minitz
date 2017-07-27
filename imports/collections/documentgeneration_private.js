@@ -8,8 +8,9 @@ import { DocumentGeneration } from './../documentGeneration';
 Meteor.methods({
     'documentgeneration.createHTML'(minuteID) {
         //Check DocumentGeneration is enabled and user has rights to continue
-        if (Meteor.settings.public.docGeneration.enabled !== true)
+        if (Meteor.settings.public.docGeneration.enabled !== true) {
             return;
+        }
 
         if (!Meteor.userId()) {
             throw new Meteor.Error('not-authorized', 'You are not authorized to perform this action.');

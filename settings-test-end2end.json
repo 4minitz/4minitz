@@ -109,8 +109,8 @@
         "///": "maxFileSize:80000 allows upload of favicon.ico, but not mstile-310x150.png",
         "maxFileSize": 80000
     },
-	
-	"docGeneration": {
+
+    "docGeneration": {
         "enabled": true
-	}
+    }
 }

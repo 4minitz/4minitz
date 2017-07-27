@@ -591,7 +591,7 @@ Template.minutesedit.events({
 
     'click #btn_downloadMinutes': function(evt) {
         evt.preventDefault();
-        DocumentGeneration.downloadMinuteProtocol(_minutesID);
+        DocumentGeneration.downloadMinuteProtocol(_minutesID).catch(onError);
     }
 });
 

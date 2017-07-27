@@ -19,9 +19,9 @@ export class DocumentGeneration {
 
         const filename = currentMinute.parentMeetingSeries().getRecord().name + '-' + Minutes.findOne(minuteID).date + '.html';
 
-        if (window.navigator.msSaveOrOpenBlob)  // necessary for Internet Explorer, since it does'nt support the download-attribute for anchors
+        if (window.navigator.msSaveOrOpenBlob) { // necessary for Internet Explorer, since it does'nt support the download-attribute for anchors
             window.navigator.msSaveBlob(fileBlob, filename);
-        else {
+        } else {
             let fileurl  = window.URL.createObjectURL(fileBlob);
 
             let a = document.createElement('a');
@@ -53,7 +53,7 @@ export class DocumentGeneration {
             let attachments = Attachment.findForMinutes(minuteID).fetch();
             attachments.forEach((file) => {
                 let usr = Meteor.users.findOne(file.userId);
-                return file.username = usr.username;
+                file.username = usr.username;
             });
             return attachments;
         }
@@ -103,17 +103,7 @@ export class DocumentGeneration {
             let infoItemId = this._id;
             let infoItem = InfoItemFactory.createInfoItem(parentTopic, infoItemId);
             let labels = infoItem.getLabels(context._minute.parentMeetingSeriesID());
-            let result = '';
-            let first = true;
-            labels.forEach(label => {
-                if (first) {
-                    first = false;
-                } else {
-                    result += ', ';
-                }
-                result += '#'+label.getName();
-            });
-            return result;
+            return labels.map(label => '#' + label.getName()).join(', ');
         });
     }
 }
