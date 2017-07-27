@@ -3,7 +3,14 @@ import { Minutes } from '../minutes';
 
 export class MinutesFinder {
     static allMinutesOfMeetingSeries(meetingSeries, limit, descendingByDate = true) {
+
+        if (meetingSeries === undefined) {
+            return [];
+        }
+
         const minutesIds = meetingSeries.minutes;
+
+
         if (!Array.isArray(minutesIds) || minutesIds.length === 0) {
             return [];
         }

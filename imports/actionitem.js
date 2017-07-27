@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-
 import { InfoItem } from './infoitem';
+import {Priority} from './priority';
 
 export class ActionItem extends InfoItem{
     constructor(parentTopic, source) {   // constructs obj from item ID or document
@@ -15,7 +15,7 @@ export class ActionItem extends InfoItem{
             this._infoItemDoc.responsible = '';
         }
         if (this._infoItemDoc.priority === undefined) {
-            this._infoItemDoc.priority = '';
+            this._infoItemDoc.priority = Priority.GET_DEFAULT_PRIORITY();
         }
     }
 
@@ -149,9 +149,17 @@ export class ActionItem extends InfoItem{
         return responsiblesString;
     }
 
+    setPriority(priority) {
+        if (priority instanceof Priority) {
+            this._infoItemDoc.priority = priority.value;
+        } else {
+            this.setPriority(new Priority(priority));
+        }
+    }
+
     getPriority() {
         let prio = this._infoItemDoc.priority;
-        return (prio) ? prio : '';
+        return (prio) ? new Priority(prio) : '';
     }
 
     getDuedate() {

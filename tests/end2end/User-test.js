@@ -168,6 +168,7 @@ describe('User Profile/Password editing', function () {
         E2EGlobal.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
     });
 
+
     it('User can change his longname without editing his Email', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
         let longName = 'longnameChanged';
@@ -178,5 +179,19 @@ describe('User Profile/Password editing', function () {
         E2EGlobal.waitSomeTime();
         E2EUser.editProfile(longName, email);
         E2EGlobal.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
+
+    it('Clicking the back button closes the password change dialog', function () {
+        expect(E2EApp.isLoggedIn()).to.be.true;
+        browser.click('#navbar-usermenu');
+        browser.waitForVisible('#navbar-dlgEditProfile');
+
+        browser.click('#navbar-dlgEditProfile');
+        browser.waitForVisible('#dlgEditProfile');
+
+        browser.back();
+
+        const waitForInvisible = true;
+        browser.waitForVisible('#dlgEditProfile', 10000, waitForInvisible);
+
     });
 });
