@@ -179,6 +179,7 @@ describe('User Profile/Password editing', function () {
         E2EGlobal.waitSomeTime();
         E2EUser.editProfile(longName, email);
         E2EGlobal.waitUntil(_ => !E2EUser.checkProfileChanged(longName,email).value, waitUntilTimeout);
+    });
 
     it('Clicking the back button closes the password change dialog', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
