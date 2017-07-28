@@ -102,6 +102,13 @@ if (Meteor.settings.isEnd2EndTest) {
         },
         'e2e.findMeetingSeries'(MSid){
             return MeetingSeriesSchema.getCollection().findOne(MSid);
+        },
+        'e2e.getUserRole'(MSid, i){
+            let usr = Meteor.users.findOne({username: Meteor.settings.e2eTestUsers[i]});
+            return usr.roles[MSid][0];
+        },
+        'e2e.findMinute'(minuteID){
+            return MinutesSchema.getCollection().findOne(minuteID);
         }
     });
 }
