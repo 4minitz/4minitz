@@ -51,6 +51,13 @@
                                     <span class="glyphicon glyphicon-print" aria-hidden="true"
                                           aria-label="Print View"></span>
                                 </button>
+                                {{#if isDocumentGenerationAllowed}}
+                                    <button type="button" id="btn_downloadMinutes" class="btn hidden-print"
+                                            title="Download Minute">
+                                        <span class="glyphicon glyphicon-download" aria-hidden="true"
+                                              aria-label="Download Minute"></span>
+                                    </button>
+                                {{/if}}
                             </div>
                         {{else}}  <!--NOT isFinalized-->
                             {{#if isModeratorOfParentSeries}}

@@ -32,6 +32,12 @@ export class E2EUser {
         }, longName, email);
     }
 
+    static getUserEmail(){
+         return browser.execute(function () {
+             return Meteor.user().emails[0].address;
+        }).value;
+    }
+
 }
 
 
