@@ -20,6 +20,7 @@ import '/server/ldap';
 import '/server/sendResetPasswordMail';
 import '/imports/statistics';
 import '/imports/collections/attachments_private';
+import '/imports/collections/documentgeneration_private';
 
 import '/imports/services/finalizer';
 
