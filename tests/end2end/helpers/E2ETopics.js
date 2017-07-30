@@ -141,7 +141,7 @@ export class E2ETopics {
         browser.click("#btnTopicSave");
 
         const waitForInvisible = true;
-        browser.waitForVisible('#dlgAddTopic', 6000, waitForInvisible);
+        browser.waitForVisible('#dlgAddTopic', 10000, waitForInvisible);
         E2EGlobal.waitSomeTime(700);
     }
 
@@ -229,7 +229,8 @@ export class E2ETopics {
             E2ETopics.responsible2ItemEnterFreetext(infoItemDoc.responsible);
         }
         if (infoItemDoc.priority) {
-            E2EGlobal.setValueSafe('#id_item_priority', infoItemDoc.priority);
+            const nthChild = infoItemDoc.priority;
+            browser.click(`#id_item_priority option:nth-child(${nthChild})`);
         }
 
         //todo: set other fields (duedate)

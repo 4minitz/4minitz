@@ -98,6 +98,9 @@ if (Meteor.settings.isEnd2EndTest) {
         },
         'e2e.removeAllBroadcasts'() {
             BroadcastMessageSchema.remove({});
+        },
+        'e2e.findMeetingSeries'(MSid){
+            return MeetingSeriesSchema.getCollection().findOne(MSid);
         }
     });
 }

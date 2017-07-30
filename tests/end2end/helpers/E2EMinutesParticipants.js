@@ -24,12 +24,16 @@ export class E2EMinutesParticipants {
     static expand() {
         if (E2EMinutesParticipants.isCollapsed()) {
             browser.click("#btnParticipantsExpand");
+            browser.waitForVisible('#id_participants', 2000);
         }
     }
 
     static collapse() {
         if (E2EMinutesParticipants.isExpanded()) {
             browser.click("#btnParticipantsExpand");
+
+            const waitForInvisible = true;
+            browser.waitForVisible('#id_participants', 2000, waitForInvisible);
         }
     }
 

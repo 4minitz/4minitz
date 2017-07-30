@@ -55,12 +55,12 @@ export class RoleChangeMailHandler {
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(modFrom, emailTo);
             mailer.setSubject(`[4Minitz] Your role has changed for ${meetingProject}:${meetingName}`);
-            mailer.setText('Hello ' + userName + ', \n'+
-                'Your role has changed for meeting series "' + meetingProject + ':' + meetingName + '"\n"+' +
-                '(' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n'+
-                'Your old role was           : ' + this._oldRole + '\n'+
-                'Your new role is            : ' + this._newRole + '\n'+
-                'The change was performed by : ' + this._moderator.username + '\n'  +
+            mailer.setText('Hello ' + userName + ', \n\n'+
+                'Your role has changed for meeting series "' + meetingProject + ':' + meetingName + '\n' +
+                '(' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n\n'+
+                '    Your old role was           : ' + this._oldRole + '\n'+
+                '    Your new role is            : ' + this._newRole + '\n'+
+                '    The change was performed by : ' + this._moderator.username + '\n'  +
                 '\n' +
                 'For a comprehensive list of rights for each role see:\n' +
                 'https://github.com/4minitz/4minitz/blob/master/doc/user/usermanual.md#table-of-roles-and-rights\n' +

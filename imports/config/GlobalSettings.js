@@ -65,6 +65,12 @@ export class GlobalSettings {
                 ? Meteor.settings.attachments.maxFileSize
                 : 10 * 1024 * 1024; // default: 10 MB
 
+        Meteor.settings.public.docGeneration = {};
+        Meteor.settings.public.docGeneration.enabled =
+            (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled !== undefined)
+                ? Meteor.settings.docGeneration.enabled
+                : false;
+
         Meteor.settings.public.forbidClientAccountCreation =
             (Meteor.settings.forbidClientAccountCreation !== undefined)
                 ? Meteor.settings.forbidClientAccountCreation

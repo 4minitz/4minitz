@@ -66,12 +66,17 @@ export class E2EApp {
             browser.waitForVisible(tab, 5000);
             E2EGlobal.clickWithRetry(tab);
 
-            let tabIsStandard = browser.isExisting('#at-field-username_and_email');
-            let userWantsStandard = tab === '#tab_standard';
-            let tabIsLdap = browser.isExisting('#id_ldapUsername');
-            let userWantsLdap = tab === '#tab_ldap';
+            browser.waitUntil(_ => {
+                let tabIsStandard = browser.isExisting('#at-field-username_and_email');
+                let userWantsStandard = tab === '#tab_standard';
+                let tabIsLdap = browser.isExisting('#id_ldapUsername');
+                let userWantsLdap = tab === '#tab_ldap';
 
-            browser.waitUntil(_ => (tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap), 5000);
+                return (tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap);
+            }, 5000);
+
+            let tabIsStandard = browser.isExisting('#at-field-username_and_email');
+            let tabIsLdap = browser.isExisting('#id_ldapUsername');
 
             if (tabIsStandard) {
                 E2EGlobal.setValueSafe('input[id="at-field-username_and_email"]', username);
@@ -162,7 +167,7 @@ export class E2EApp {
         if (! E2EApp.isLoggedIn()) {
             E2EApp.loginUser(0, false);
         }
-        E2EGlobal.clickWithRetry('a.navbar-brand', 3000);
+        E2EGlobal.clickWithRetry('a.navbar-brand', 6000);
         E2EGlobal.waitSomeTime();
         // check post-condition
         if (! E2EApp.isOnStartPage()) {

@@ -72,7 +72,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group label-floating">
                                         <label for="id_item_priority" class="control-label">Priority</label>
-                                        <input id="id_item_priority" type="text" class="form-control">
+                                        <select id="id_item_priority" class="form-control">
+                                            {{#each getPriorities}}
+                                                <option value="{{this.value}}">{{this.toString}}</option>
+                                            {{/each}}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">

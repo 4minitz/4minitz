@@ -100,7 +100,8 @@ function initializeDragAndDrop(tmpl) {
 function getDetails(tmpl, infoItemIndex) {
     /** @type {TopicInfoItemListContext} */
     const context = tmpl.data;
-    return context.items[infoItemIndex].details || [];
+    const item = context.items[infoItemIndex];
+    return (item) ? item.details || [] : [];
 }
 
 Template.topicInfoItemList.onRendered(function () {
@@ -148,9 +149,9 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         let infoItem = context.items[index];
-        if (infoItem.itemType !== 'actionItem') {
+        if (infoItem && infoItem.itemType !== 'actionItem') {
             return 'infoitem';
-        } else if (infoItem.isOpen) {
+        } else if (infoItem && infoItem.isOpen) {
             let todayDate = formatDateISO8601(new Date());
             if (infoItem.duedate && infoItem.duedate === todayDate) {
                 return 'actionitem-open-due-today';
@@ -181,20 +182,22 @@ Template.topicInfoItemList.helpers({
     isActionItem: function(index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
-        return (context.items[index].itemType === 'actionItem');
+        const item = context.items[index];
+        return (item && item.itemType === 'actionItem');
     },
 
     isInfoItem: function(index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
-        return (context.items[index].itemType === 'infoItem');
+        const item = context.items[index];
+        return (item && context.items[index].itemType === 'infoItem');
     },
 
     checkedState: function (index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         let infoItem = context.items[index];
-        if (infoItem.itemType === 'infoItem' || infoItem.isOpen) {
+        if (infoItem && infoItem.itemType === 'infoItem' || infoItem.isOpen) {
             return '';
         } else {
             return {checked: 'checked'};
@@ -225,6 +228,9 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
+        if (!infoItem) {
+            return;
+        }
         let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             if (aInfoItem.hasResponsibles()) {
@@ -238,6 +244,9 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
+        if (!infoItem) {
+            return;
+        }
         let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
         if (!aInfoItem) {
             return;

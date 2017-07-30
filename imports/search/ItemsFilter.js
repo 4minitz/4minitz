@@ -44,12 +44,11 @@ export class ItemsFilter {
             let infos = (doc.details)
                 ? this._toUpper(doc.details.reduce((acc, detail) => { return acc + detail.text; }, ''))
                 : '';
-            let prio = (doc.priority) ? this._toUpper(doc.priority) : '';
             let due = (doc.duedate) ? doc.duedate : '';
             if (
                 (subject.indexOf(token) === -1
                 && infos.indexOf(token) === -1
-                && prio.indexOf(token) === -1
+                && doc.priority !== parseInt(token, 10)
                 && due.indexOf(token) === -1)
             ) {
                 return false;
@@ -93,7 +92,7 @@ export class ItemsFilter {
             }
             case ITEM_KEYWORDS.PRIO.key:
             {
-                if (!( doc.priority && doc.priority.startsWith(filter.value))) {
+                if (!( doc.priority && doc.priority === parseInt(filter.value, 10))) {
                     return false;
                 }
                 break;
