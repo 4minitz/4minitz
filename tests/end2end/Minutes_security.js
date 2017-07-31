@@ -173,6 +173,7 @@ describe('MeetingSeries Security', function () {
         const aMeetingName = "MinuteDelete as moderator";
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
         const minuteID =  E2EMinutes.getCurrentMinutesId();
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
 
@@ -210,7 +211,7 @@ describe('MeetingSeries Security', function () {
         expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
     });
 
-    it('can not delete a Minute as an invited user @watch', function () {
+    it('can not delete a Minute as an invited user', function () {
         const aProjectName = "MinuteDelete as an invited user";
         const aMeetingName = "MinuteDelete as as an invited user";
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
