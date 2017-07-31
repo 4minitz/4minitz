@@ -70,7 +70,7 @@ $(document).ready(() => {
 });
 
 // remove the modal dialog completely on route changes
-window.onpopstate = _ => {
+window.onpopstate = () => {
     $('.modal-backdrop').remove();
     $('.modal').hide();
 };
