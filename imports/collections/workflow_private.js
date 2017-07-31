@@ -62,6 +62,11 @@ Meteor.methods({
         }
 
         doc.isFinalized = false;
+        doc.createdAt = new Date();
+        delete doc.finalizedAt;
+        doc.isFinalized = false;
+        doc.finalizedVersion = 0;
+        doc.finalizedHistory = [];
 
         try {
             let newMinutesID = MinutesSchema.insert(doc);
