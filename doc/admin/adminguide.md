@@ -30,7 +30,7 @@ In all other cases - read on and chose the "Production Installation" way.
 
 ## Production Running - with Docker
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
-node.js version and MongoDB and thus has no external dependecies.
+node.js version and MongoDB and thus has no external dependencies.
 
 1. Install [docker](https://docs.docker.com/engine/installation/)
 2. In a directory where you have write access run:
