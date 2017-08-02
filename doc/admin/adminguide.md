@@ -32,16 +32,56 @@ In all other cases - read on and chose the "Production Installation" way.
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
 node.js version and MongoDB and thus has no external dependencies.
 
+### Setup on Linux and Mac
+
 1. Install [docker](https://docs.docker.com/engine/installation/)
 2. In a directory where you have write access run:
 ```
 docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz
 ```
+
+Omit the next section and continue with the section [Use your 4minitz container](#use-your-4minitz-container).
+
+### Setup on Windows
+
+The following snippets should be run inside a PowerShell (indicated by a `PS>` prompt)
+or a bash shell inside a Docker container (indicated by a `root#` prompt).
+
+1. Install [docker](https://docs.docker.com/engine/installation/)
+2. Open up a powershell and pull the 4minitz image from the Docker hub
+```
+PS> docker pull 4minitz/4minitz
+```
+3. Create a container instance called `4minitz-storage`
+```
+PS> docker create -v /4minitz_storage --name 4minitz-storage 4minitz/4minitz
+```
+4. If you want to edit the configuration, especially after updating your 4minitz images, you should do so in an up-to-date 4minitz container by spawning a bash shell into it. For now it suffices to simply start the volume container, install vim and edit the config file `4minitz_settings.json`:
+```
+PS> $container = docker ps -q -l
+PS> docker start $docker
+PS> docker exec -ti $docker /bin/bash
+root# apt-get update && apt-get install vim -y
+root# vim /4minitz_storage/4minitz_settings.json
+root# exit
+PS> docker stop $docker
+```
+4. Now you can use this data volume container in a 4minitz container:
+```
+PS> docker run -it --rm --volumes-from 4minitz-storage -p 3100:3333 4minitz/4minitz
+```
+
+See [this guide](https://docs.docker.com/engine/tutorials/dockervolumes/#backup-restore-or-migrate-data-volumes) on how to backup and restore the data in your data volume container.
+
+
+### Use your 4minitz container
+
 You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser
 
 The docker container will write all data to your local host
-machine into `./4minitz_storage` outside of the container.
+machine into `./4minitz_storage` outside of the container
+(Linux and Mac) or in your data volume container (Windows).
 Here you will find 
 * **4minitz_settings.json** - adapt server settings here. Then "Ctrl+c" 
   and restart the 4Minitz container.
@@ -49,10 +89,12 @@ Here you will find
 * **attachments** - all attachments that have been uploaded
   to meeting minutes are stored here.
 * **4minitz_mongodb** - MongoDB "--dbpath"
-     
+
+
+### Updating your 4minitz Docker container
+
 If a new version of 4Minitz is released, you may keep the above storage 
-directory. Simply Ctr+c the running container, and perform a `docker pull
-4minitz/4minitz`. 
+directory or data volume container. Simply Ctr+c the running container, and perform a `docker pull 4minitz/4minitz`. 
 When you re-launch the container afterwards, all clients will get 
 the new WebApp version automatically via meteors hot-code push.
 
@@ -60,9 +102,10 @@ the new WebApp version automatically via meteors hot-code push.
 1. The embedded mongoDB inside the docker container is not protected
  by user/password, so make sure nobody else is allowed to attach /
   exec commands to your running container
-1. The outside host directory `./4minitz_storage` should only
-  be read/write accessible by the 4minitz admin. Otherwise unauthorized
-  users may see attachments, copy the database or change settings.json.
+1. The outside host directory `./4minitz_storage` or docker volume container
+   should only be read/write accessible by the 4minitz admin. Otherwise 
+   unauthorized users may see attachments, copy the database or change 
+   settings.json.
 1. Do not allow users to connect directly to your 4Minitz container.
   Instead configure a reverse proxy with TSL / https: to make sure
   that all traffic between client and server is encrypted.

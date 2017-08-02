@@ -67,14 +67,6 @@ building & installation topic!
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
 node.js version and MongoDB and thus has no external dependecies.
 
-1. Install [docker](https://docs.docker.com/engine/installation/)
-2. In a directory where you have write access run:
-```
-docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz
-```
-You can reach 4Minitz via the default port 3100 by opening 
-[http://localhost:3100](http://localhost:3100) in your browser
-
 See the admin guide for
 [how to configure your 4Minitz docker server](doc/admin/adminguide.md#production-running---with-docker).
 
