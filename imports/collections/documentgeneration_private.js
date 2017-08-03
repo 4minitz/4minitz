@@ -22,9 +22,8 @@ Meteor.methods({
             throw new Meteor.Error('Cannot download this minute', 'You are not invited to the meeting series.');
         }
 
-        let topics = minute.getTopicsWithOnlyInfoItems();
         let documentHandler = {
-            _topics: topics,
+            _topics: minute.topics,
             _minute: minute,
             _meetingSeries: minute.parentMeetingSeries(),
             _participants: minute.getParticipants(Meteor.users),
