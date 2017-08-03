@@ -1,3 +1,8 @@
+
+.doneActionItem {
+    text-decoration: line-through;
+}
+
 @media only screen {
     html {
         min-height: 100%;

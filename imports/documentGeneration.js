@@ -1,3 +1,9 @@
+/**
+ * This class collects helper methods for HTML meeting minutes to
+ *    - download meeting minute files as HTML
+ *    - send meeting minutes as HTML eMails
+ */
+
 import { Meteor } from 'meteor/meteor';
 
 import { Minutes } from './minutes';
@@ -5,6 +11,7 @@ import { Topic } from './topic';
 import { Attachment } from './attachment';
 import { GlobalSettings } from './config/GlobalSettings';
 import { InfoItemFactory } from './InfoItemFactory';
+import { ActionItem } from './actionitem';
 
 import './helpers/promisedMethods';
 
@@ -45,6 +52,16 @@ export class DocumentGeneration {
                 topic.responsiblesString = '('+aTopicObj.getResponsiblesString()+')';
             }
             topic.labels = aTopicObj.getLabelsString(topic);
+
+            // inject responsibles as readable short user names to all action items of this topic
+            for (let i = 0; i < topic.infoItems.length; i++) {
+                if (topic.infoItems[i].itemType === 'actionItem') {
+                    let anActionItemObj = new ActionItem(topic, topic.infoItems[i]);
+                    if (anActionItemObj.hasResponsibles()) {
+                        topic.infoItems[i].responsiblesString = '('+anActionItemObj.getResponsiblesString('@')+')';
+                    }
+                }
+            }
         });
     }
 
@@ -104,6 +121,14 @@ export class DocumentGeneration {
             let infoItem = InfoItemFactory.createInfoItem(parentTopic, infoItemId);
             let labels = infoItem.getLabels(context._minute.parentMeetingSeriesID());
             return labels.map(label => '#' + label.getName()).join(', ');
+        });
+        template.addHelper('doneActionItemClass', function() {
+            if (this.isOpen !== undefined && this.isOpen === false) {
+                return "doneActionItem";
+            }
+        });
+        template.addHelper('isActionItem', function() {
+            return (this.itemType === 'actionItem');
         });
     }
 }

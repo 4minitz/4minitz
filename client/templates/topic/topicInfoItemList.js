@@ -234,7 +234,7 @@ Template.topicInfoItemList.helpers({
         let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             if (aInfoItem.hasResponsibles()) {
-                return '(' + aInfoItem.getResponsibleNameString() + ')';
+                return '(' + aInfoItem.getResponsiblesString() + ')';
             }
         }
         return '';
