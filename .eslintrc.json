@@ -26,6 +26,7 @@
             "error",
             "always"
         ],
+        "no-useless-escape": ["off"],
         "no-console": ["off"]
     }
 }

@@ -2,8 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { TemplateRenderer } from './../server_side_templates/TemplateRenderer';
 import { MailFactory } from './MailFactory';
 import { GlobalSettings } from '../config/GlobalSettings';
-import { InfoItemFactory } from '../InfoItemFactory';
-import { Topic } from '../topic';
+import { DocumentGeneration } from '../documentGeneration';
 
 export class TopicItemsMailHandler {
 
@@ -63,35 +62,7 @@ export class TopicItemsMailHandler {
         this._getMailer().setSubject(subject);
         let tmplRenderer = this._getTmplRenderer();
         tmplRenderer.addDataObject(emailData);
-        let context = this;
-        tmplRenderer.addHelper('doneActionItemClass', function() {
-            if (this.isOpen !== undefined && this.isOpen === false) {
-                return "doneActionItem";
-            }
-        });
-        tmplRenderer.addHelper('isActionItem', function() {
-            return (this.itemType === 'actionItem');
-        });
-        tmplRenderer.addHelper('hasLabels', function() {
-            return (this.labels.length > 0);
-        });
-        tmplRenderer.addHelper('formatLabels', function(parentTopicId) {
-            let parentTopic = new Topic(context._minute, parentTopicId);
-            let infoItemId = this._id;
-            let infoItem = InfoItemFactory.createInfoItem(parentTopic, infoItemId);
-            let labels = infoItem.getLabels(context._minute.parentMeetingSeriesID());
-            let result = '';
-            let first = true;
-            labels.forEach(label => {
-                if (first) {
-                    first = false;
-                } else {
-                    result += ', ';
-                }
-                result += '#'+label.getName();
-            });
-            return result;
-        });
+        DocumentGeneration.addHelperForHTMLMail(tmplRenderer, this);
 
         this._getMailer().setHtml(tmplRenderer.render());
         this._getMailer().send();

@@ -9,8 +9,8 @@ if (Meteor.settings.isEnd2EndTest) {
     Meteor.methods({
         'e2e-render-template'(template, data) {
             const textFile = 'myTextFile';
-            const getTextSaved = Assets.getText;
-            Assets.getText = () => {
+            const getTextSaved = Assets.getText; //eslint-disable-line
+            Assets.getText = () => {  //eslint-disable-line
                 return textFile;
             };
 
@@ -21,12 +21,12 @@ if (Meteor.settings.isEnd2EndTest) {
             });
             tmplRenderer.addHelper('time', () => date);
             const result = tmplRenderer.render();
-            Assets.getText = getTextSaved;
+            Assets.getText = getTextSaved; //eslint-disable-line
             return {
                 date: date,
                 textFile: textFile,
                 result: result
-            }
+            };
         }
     });
 }

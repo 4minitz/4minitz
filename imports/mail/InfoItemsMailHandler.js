@@ -1,10 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
-import { GlobalSettings } from '../config/GlobalSettings';
-import { Topic } from './../topic';
-import { ActionItem } from './../actionitem';
-import { Attachment } from '../attachment';
+import { DocumentGeneration } from '../documentGeneration';
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
@@ -22,74 +17,17 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
         return this._getSubjectPrefix()  + ' (Meeting Minutes V'+this._minute.finalizedVersion+')';
     }
 
-    _sendMail() {
+    _sendMail(mailData) {
+        if (mailData === undefined)
+            mailData = DocumentGeneration.getDocumentData(this);
         let mailSubject = this._getSubject();
 
-        // Generate responsibles strings for all topics
-        this._topics.forEach(topic => {
-            let aTopicObj = new Topic (this._minute._id, topic);
-            topic.responsiblesString = '';
-            if (aTopicObj.hasResponsibles()) {
-                topic.responsiblesString = '('+aTopicObj.getResponsiblesString()+')';
-            }
-            topic.labels = aTopicObj.getLabelsString(topic);
-
-            // inject responsible as readable short user names to all action items
-            for (let i = 0; i < topic.infoItems.length; i++) {
-                if (topic.infoItems[i].itemType === 'actionItem') {
-                    let anActionItemObj = new ActionItem(topic, topic.infoItems[i]);
-                    if (anActionItemObj.hasResponsibles()) {
-                        topic.infoItems[i].responsiblesString = '('+anActionItemObj.getResponsiblesString('@')+')';
-                    }
-                }
-            }
-        });
+        DocumentGeneration.generateResponsibleStringsForTopic(this);
 
         this._buildMail(
             mailSubject,
-            this._getEmailData()
-        );
-    }
-
-    _getEmailData() {
-        let presentParticipants = this._participants.filter(participant => {
-            return participant.present;
-        });
-
-        let absentParticipants = this._participants.filter(participant => {
-            return !participant.present;
-        });
-
-        let discussedTopics = this._topics.filter(topic => {
-            return !topic.isOpen;
-        });
-
-        let outstandingTopics = this._topics.filter(topic => {
-            return (topic.isOpen && !topic.isSkipped);
-        });
-
-        let attachments = Attachment.findForMinutes(this._minute._id).fetch();
-        attachments.forEach((file) => {
-            let usr = Meteor.users.findOne(file.userId);
-            return file.username = usr.username;
-        });
-
-        return {
-            minutesDate: this._minute.date,
-            minutesGlobalNote: this._minute.globalNote,
-            meetingSeriesName: this._meetingSeries.name,
-            meetingSeriesProject: this._meetingSeries.project,
-            meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeries._id),
-            minuteUrl: GlobalSettings.getRootUrl('minutesedit/' + this._minute._id),
-            presentParticipants: this._userArrayToString(presentParticipants),
-            absentParticipants: this._userArrayToString(absentParticipants),
-            informedUsers: this._userArrayToString(this._informed),
-            participantsAdditional: this._minute.participantsAdditional,
-            discussedTopics: discussedTopics,
-            skippedTopics: outstandingTopics,
-            finalizedVersion: this._minute.finalizedVersion,
-            attachments: attachments
-        };
+            mailData
+        );        
     }
 
     _userArrayToString(users) {
