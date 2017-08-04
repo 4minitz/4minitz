@@ -56,12 +56,11 @@ PS> docker pull 4minitz/4minitz
 ```
 PS> docker create -v /4minitz_storage --name 4minitz-storage 4minitz/4minitz
 ```
-4. If you want to edit the configuration, especially after updating your 4minitz images, you should do so in an up-to-date 4minitz container by spawning a bash shell into it. For now it suffices to simply start the volume container, install nano and edit the config file `4minitz_settings.json`:
+4. If you want to edit the configuration, especially after updating your 4minitz images, you should do so in an up-to-date 4minitz container by spawning a bash shell into it. For now it suffices to simply start the volume container and edit the config file `4minitz_settings.json`:
 ```
 PS> $container = docker ps -q -l
 PS> docker start $docker
 PS> docker exec -ti $docker /bin/bash
-root# apt-get update && apt-get install nano -y
 root# nano /4minitz_storage/4minitz_settings.json
 root# exit
 PS> docker stop $docker
