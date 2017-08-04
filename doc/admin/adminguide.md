@@ -44,8 +44,7 @@ Omit the next section and continue with the section [Use your 4minitz container]
 
 ### Setup on Windows
 
-The following snippets should be run inside a PowerShell (indicated by a `PS>` prompt)
-or a bash shell inside a Docker container (indicated by a `root#` prompt).
+On Microsoft Windows 10 Professional or Enterprise 64-bit you can run 4minitz inside a docker container. The following snippets should be run inside a PowerShell (indicated by a `PS>` prompt) or a bash shell inside a Docker container (indicated by a `root#` prompt).
 
 1. Install [docker](https://docs.docker.com/engine/installation/)
 2. Open up a powershell and pull the 4minitz image from the Docker hub
