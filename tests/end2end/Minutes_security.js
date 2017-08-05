@@ -12,6 +12,7 @@ describe('MeetingSeries Security', function () {
     const addMinutes = "workflow.addMinutes";
     const removeMinute = "workflow.removeMinute";
     const finalizeMinute = "workflow.finalizeMinute";
+    const unfinalizeMinute = "workflow.unfinalizeMinute";
 
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
@@ -236,7 +237,7 @@ describe('MeetingSeries Security', function () {
         expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
     });
 
-
+    //workflow.finalizeMinute
     it('can finalize a Minute if Moderator ', function () {
         const aProjectName = "MinuteFinalize as moderator";
         const aMeetingName = "MinuteFinalize as moderator";
@@ -302,6 +303,98 @@ describe('MeetingSeries Security', function () {
         E2ESecurity.replaceMethodOnClientSide(finalizeMinute);
         E2ESecurity.executeMethod(finalizeMinute, minuteID);
         expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
+    });
+
+    //workflow.unfinalizeMinute
+    it('can unfinalize a Minute if Moderator ', function () {
+        const aProjectName = "MinuteUnfinalize as moderator";
+        const aMeetingName = "MinuteUnfinalize as moderator";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID =  E2EMinutes.getCurrentMinutesId();
+
+        E2ESecurity.executeMethod(finalizeMinute, minuteID);
+        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
+        E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
+
+    });
+
+    it('can not unfinalize a Minute if not logged in ', function () {
+        const aProjectName = "MinuteUnfinalize as not logged in";
+        const aMeetingName = "MinuteUnfinalize as not logged in";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        E2ESecurity.executeMethod(finalizeMinute, minuteID);
+
+        E2EApp.logoutUser();
+        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
+        E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
+    });
+
+    it('can not unfinalize a Minute if not invited to a Meeting Serie ', function () {
+        const aProjectName = "MinuteUnfinalize as not invited to MS";
+        const aMeetingName = "MinuteUnfinalize as not invited to MS";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        E2ESecurity.executeMethod(finalizeMinute, minuteID);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(1);
+        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
+        E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
+    });
+
+    it('can not unfinalize a Minute as an invited user ', function () {
+        const aProjectName = "MinuteUnfinalize as an invited user";
+        const aMeetingName = "MinuteUnfinalize as an invited user";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        E2ESecurity.executeMethod(finalizeMinute, minuteID);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(1);
+        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
+        E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
+    });
+
+    it('can not unfinalize a Minute as a Moderator if it is not the last one ', function () {
+        const aProjectName = "MinuteUnfinalize for not last Minute";
+        const aMeetingName = "MinuteUnfinalize for not last Minute";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID_1 =  E2EMinutes.getCurrentMinutesId();
+        E2ESecurity.executeMethod(finalizeMinute, minuteID_1);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID_2 =  E2EMinutes.getCurrentMinutesId();
+
+        E2ESecurity.executeMethod(finalizeMinute, minuteID_2);
+        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
+        E2ESecurity.executeMethod(unfinalizeMinute, minuteID_1);
+        expect((server.call('e2e.findMinute', minuteID_1)).isFinalized).to.be.true;
+
     });
 
     });
