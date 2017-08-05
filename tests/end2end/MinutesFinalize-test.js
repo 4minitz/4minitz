@@ -62,7 +62,7 @@ describe('Minutes Finalize', function () {
             expect(browser.isExisting('#cbSendII')).to.be.true;
 
             // close dialog otherwise beforeEach-hook will fail!
-            E2EApp.confirmationDialogAnswer(false, "failingtest");
+            E2EApp.confirmationDialogAnswer(false);
             E2EGlobal.waitSomeTime(300);   // make next test happy
         });
     }

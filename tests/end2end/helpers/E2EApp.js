@@ -188,7 +188,7 @@ export class E2EApp {
             .to.contain(containedText);
     };
 
-    static confirmationDialogAnswer (pressOK, title) {
+    static confirmationDialogAnswer (pressOK) {
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
         browser.waitForVisible('#confirmationDialogOK', 1000);
         if (pressOK) {

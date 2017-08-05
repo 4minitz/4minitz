@@ -124,7 +124,7 @@ export class DocumentGeneration {
         });
         template.addHelper('doneActionItemClass', function() {
             if (this.isOpen !== undefined && this.isOpen === false) {
-                return "doneActionItem";
+                return 'doneActionItem';
             }
         });
         template.addHelper('isActionItem', function() {

@@ -6,6 +6,7 @@ import { Mongo } from 'meteor/mongo';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
+import { handleError } from '/client/helpers/handleError';
 
 import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
@@ -109,11 +110,11 @@ Template.meetingSeriesEdit.events({
         let minutesCount = ms.countMinutes();
 
         let deleteSeriesCallback = () => {
-            MeetingSeries.remove(ms);
+            MeetingSeries.remove(ms).catch(handleError);
             FlowRouter.go('/');
         };
 
-        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        const confirmationDialog = ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             deleteSeriesCallback,
             'Confirm delete',
             'confirmationDialogDeleteSeries',
@@ -124,7 +125,12 @@ Template.meetingSeriesEdit.events({
                 minutesCount: minutesCount,
                 lastMinutesDate: (minutesCount !== 0) ? MinutesFinder.lastMinutesOfMeetingSeries(ms).date : false
             }
-        ).show();
+        );
+
+        Meteor.setTimeout(() => {
+            confirmationDialog.show();
+        }, 0);
+
     },
 
 

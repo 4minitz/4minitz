@@ -128,7 +128,7 @@ export class ActionItem extends InfoItem{
      * @param prefix - optional, e.g. '@'
      * @returns {string}
      */
-    getResponsiblesString(prefix = "") {
+    getResponsiblesString(prefix = '') {
         if (!this.hasResponsibles()) {
             return '';
         }
