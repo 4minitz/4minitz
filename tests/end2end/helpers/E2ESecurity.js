@@ -29,11 +29,12 @@ export class E2ESecurity {
     
     //Due to the asynchronous execution of most meteor methods and the necessarity to check their specific results within security-e2e-tests it is necessary
     //to wrap these method calls with the following function, allowing for an emulated synchronous usage of these methods.
-    static executeMethod(methodName, methodParameters){
+    static executeMethod(methodName, ...methodParameters) {
         E2ESecurity.expectMethodToExist(methodName);
         browser.timeoutsAsyncScript(5000);
         let result = browser.executeAsync((methodName, methodParameters, done) => {
-            Meteor.call(methodName, methodParameters, _ => {}, (error, result) => {
+            Meteor.apply(methodName, methodParameters, _ => {
+            }, (error, result) => {
                 done({error, result});
             });
         }, methodName, methodParameters);
