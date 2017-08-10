@@ -168,5 +168,16 @@ describe('MeetingSeries Editor', function () {
         E2EGlobal.waitSomeTime(); // give dialog animation time
     });
 
+    it('can delete a meeting series', function() {
+        const initialCount = E2EMeetingSeries.countMeetingSeries();
+
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
+        browser.click('#deleteMeetingSeries');
+        E2EGlobal.waitSomeTime(); // give dialog animation time
+        E2EApp.confirmationDialogAnswer(true);
+
+        expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialCount - 1);
+    });
+
 
 });

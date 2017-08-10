@@ -7,7 +7,7 @@ import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from './../userroles';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { MinutesSchema } from './minutes.schema';
-import { AttachmentsCollection, calculateAndCreateStoragePath} from './attachments_private';
+import { AttachmentsCollection } from './attachments_private';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -148,7 +148,7 @@ Meteor.methods({
                     }
                 }
             );
-            removeMeetingSeriesAttachmentDir(meetingseries_id);
+            removeMeetingSeriesAttachmentDir(meetingseries_id); //eslint-disable-line
         }
     },
 
@@ -241,12 +241,12 @@ Meteor.methods({
         }
         
         MeetingSeriesSchema.update(
-                {_id: meetingSeries_id, 'topics._id': topic_id},
-                {$set: modifierDoc}
+            {_id: meetingSeries_id, 'topics._id': topic_id},
+            {$set: modifierDoc}
         );
         MeetingSeriesSchema.update(
-                {_id: meetingSeries_id, 'topics._id': topic_id},
-                {$push: modifierOpenCleanedDoc}
+            {_id: meetingSeries_id, 'topics._id': topic_id},
+            {$push: modifierOpenCleanedDoc}
         );
         
         //Write to currently unfinalized Minute, if existent

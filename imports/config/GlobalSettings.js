@@ -28,8 +28,8 @@ export class GlobalSettings {
                 : '4Minitz.com';
         Meteor.settings.public.branding.showGithubCorner =
             (Meteor.settings.branding && Meteor.settings.branding.showGithubCorner !== undefined)
-            ? Meteor.settings.branding.showGithubCorner
-            : true;
+                ? Meteor.settings.branding.showGithubCorner
+                : true;
         Meteor.settings.public.branding.showInfoOnLogin =
             (Meteor.settings.branding && Meteor.settings.branding.showInfoOnLogin !== undefined)
                 ? Meteor.settings.branding.showInfoOnLogin

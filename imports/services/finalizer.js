@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { _ } from 'meteor/underscore';
 
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesSchema } from '/imports/collections/minutes.schema';

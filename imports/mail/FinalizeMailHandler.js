@@ -60,12 +60,11 @@ export class FinalizeMailHandler {
     _sendInfoItems() {
         let recipients = this._minute.getPersonsInformedWithEmail(Meteor.users);
 
-        let topics = this._minute.getTopicsWithOnlyInfoItems();
         let mailHandler = new InfoItemsMailHandler(
             this._senderAddress,
             recipients,
             this._minute,
-            topics,
+            this._minute.topics,
             this._minute.parentMeetingSeries(),
             this._minute.getParticipants(Meteor.users),
             this._minute.getInformed(Meteor.users)

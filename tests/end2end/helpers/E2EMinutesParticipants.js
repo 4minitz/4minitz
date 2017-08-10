@@ -1,8 +1,4 @@
-
-import { E2EGlobal } from './E2EGlobal'
-import { E2EApp } from './E2EApp'
-import { E2EMeetingSeries } from './E2EMeetingSeries'
-
+import {E2EGlobal} from './E2EGlobal';
 
 export class E2EMinutesParticipants {
     
@@ -14,6 +10,7 @@ export class E2EMinutesParticipants {
 
     // ******************** STATIC Methods
     static isExpanded() {
+        E2EGlobal.waitSomeTime(750);
         return browser.isExisting("#edtParticipantsAdditional");
     }
 
@@ -24,7 +21,7 @@ export class E2EMinutesParticipants {
     static expand() {
         if (E2EMinutesParticipants.isCollapsed()) {
             browser.click("#btnParticipantsExpand");
-            browser.waitForVisible('#id_participants', 2000);
+            browser.waitForVisible('#id_participants');
         }
     }
 
@@ -33,7 +30,7 @@ export class E2EMinutesParticipants {
             browser.click("#btnParticipantsExpand");
 
             const waitForInvisible = true;
-            browser.waitForVisible('#id_participants', 2000, waitForInvisible);
+            browser.waitForVisible('#id_participants', 10000, waitForInvisible);
         }
     }
 

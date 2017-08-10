@@ -8,7 +8,7 @@ if (Meteor.isServer) {
             // publish only messages, that the current user has NOT yet dismissed
             return BroadcastMessageSchema.find(
                 {$and: [{isActive: true},
-                        {dismissForUserIDs: { $nin: [this.userId] } }]});
+                    {dismissForUserIDs: { $nin: [this.userId] } }]});
         }
     });
 

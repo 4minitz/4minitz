@@ -478,7 +478,7 @@ Template.minutesedit.events({
         let doFinalize = function () {
             tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
             let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
-                // Force closing the dialog before starting the finalize process
+            // Force closing the dialog before starting the finalize process
             Meteor.setTimeout(() => {
                 Finalizer.finalize(aMin._id, sendActionItems, sendInformationItems);
                 tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
@@ -493,7 +493,7 @@ Template.minutesedit.events({
             if (GlobalSettings.isEMailDeliveryEnabled()) {
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
-                    'Confirm finalize minutes',
+                    'Confirm Finalize Minutes',
                     'confirmationDialogFinalize',
                     {
                         minutesDate: aMin.date,
