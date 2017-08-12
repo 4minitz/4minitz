@@ -12,35 +12,68 @@ import { Attachment } from './attachment';
 import { GlobalSettings } from './config/GlobalSettings';
 import { InfoItemFactory } from './InfoItemFactory';
 import { ActionItem } from './actionitem';
+import { DocumentsCollection } from './collections/documentgeneration_private.js';
 
 import './helpers/promisedMethods';
 
 export class DocumentGeneration {
     // ********** static methods ****************
-    static async downloadMinuteProtocol(minuteID) {
-        //Create HTML
-        let htmldata = await Meteor.callPromise('documentgeneration.createHTML', minuteID);
-        let currentMinute = new Minutes(minuteID);
-        //Download File
-        let fileBlob = new Blob([htmldata], {type:'octet/stream'});
-
-        const filename = currentMinute.parentMeetingSeries().getRecord().name + '-' + Minutes.findOne(minuteID).date + '.html';
-
-        if (window.navigator.msSaveOrOpenBlob) { // necessary for Internet Explorer, since it does'nt support the download-attribute for anchors
-            window.navigator.msSaveBlob(fileBlob, filename);
+    static async downloadMinuteProtocol(minuteID, noProtocolExistsDialog) {
+        // This function checks if a protocol for this minute has been generated. 
+        // If this is the case the protocol will be downloaded
+        // Otherwise an HTML document may be generated on-the-fly
+        let minprotocol = DocumentGeneration.getProtocolForMinute(minuteID);
+        if (minprotocol) {
+            window.location = minprotocol.link() + '?download=true';
         } else {
-            let fileurl  = window.URL.createObjectURL(fileBlob);
+            let generateAndDownloadHTML = async function() {
+                let minuteID = FlowRouter.getParam('_id'); //eslint-disable-line
+                
+                //Create HTML
+                let htmldata = await Meteor.callPromise('documentgeneration.createHTML', minuteID);
+                let currentMinute = new Minutes(minuteID);
+                //Download File
+                let fileBlob = new Blob([htmldata], {type:'octet/stream'});
 
-            let a = document.createElement('a');
-            document.body.appendChild(a);
-            a.style = 'display: none';
-            a.href = fileurl;
-            a.download = filename;
-            a.click();
+                const filename = DocumentGeneration.calcFileNameforMinute(currentMinute) + '.html';
 
-            setTimeout(function () {
-                window.URL.revokeObjectURL(fileurl);
-            }, 250);
+                if (window.navigator.msSaveOrOpenBlob) { // necessary for Internet Explorer, since it does'nt support the download-attribute for anchors
+                    window.navigator.msSaveBlob(fileBlob, filename);
+                } else {
+                    let fileurl  = window.URL.createObjectURL(fileBlob);
+
+                    let a = document.createElement('a');
+                    document.body.appendChild(a);
+                    a.style = 'display: none';
+                    a.href = fileurl;
+                    a.download = filename;
+                    a.click();
+
+                    setTimeout(function () {
+                        window.URL.revokeObjectURL(fileurl);
+                    }, 250);
+                }
+            };
+            noProtocolExistsDialog(generateAndDownloadHTML);
+        }
+    }
+    static getProtocolForMinute(minuteId) {
+        return DocumentsCollection.findOne({'meta.minuteId': minuteId});
+    }
+
+    static saveProtocol(minutesObj) {
+        return Meteor.callPromise('documentgeneration.createAndStoreFile', minutesObj);
+    }
+
+    static removeProtocol(minutesObj) {
+        return Meteor.callPromise('documentgeneration.removeFile', minutesObj);
+    }
+
+    static calcFileNameforMinute(minutesObj) {
+        if (minutesObj) {
+            let fileName = minutesObj.parentMeetingSeries().getRecord().name;
+            fileName = fileName + '-' + minutesObj.date;
+            return fileName;
         }
     }
     // ********** static methods for generation of HTML Document ****************

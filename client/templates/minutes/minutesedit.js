@@ -591,7 +591,18 @@ Template.minutesedit.events({
 
     'click #btn_downloadMinutes': function(evt) {
         evt.preventDefault();
-        DocumentGeneration.downloadMinuteProtocol(_minutesID).catch(onError);
+
+        let noProtocolExistsDialog = (downloadHTML) => {
+            ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                downloadHTML,
+                'Confirm generate protocol',
+                'confirmationDialogGenerateHTMLProtocol',
+                {},
+                'Download'
+            ).show();
+        };
+
+        DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
     }
 });
 
