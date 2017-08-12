@@ -5,7 +5,6 @@ import { _ } from 'meteor/underscore';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { Minutes } from '/imports/minutes';
-import { Topic } from '/imports/topic';
 import { UserRoles } from '/imports/userroles';
 import { FinalizeMailHandler } from '/imports/mail/FinalizeMailHandler';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -14,6 +13,7 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 
 import '/imports/helpers/promisedMethods';
+import {TopicsCopier} from './topicCopier';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -76,32 +76,8 @@ function compileFinalizedInfo(minutes) {
  * @private
  */
 function copyTopicsToSeries(meetingSeries, minutes) {
-    // clear open topics of this series (the minute contains all relevant open topics)
-    meetingSeries.openTopics = [];
-    meetingSeries.topics.forEach((topicDoc) => {
-        let topic = new Topic(meetingSeries, topicDoc);
-        topic.invalidateIsNewFlag();
-    });
-
-    // iterate backwards through the topics of the minute
-    for (let i = minutes.topics.length; i-- > 0;) {
-        let topicDoc = minutes.topics[i];
-        topicDoc.isSkipped = false;
-
-        let topicDocCopy = _.extend({}, topicDoc);
-        // pass a copy to our topic object, so this can be tailored for the open topics list
-        // without manipulating the original document
-        let topic = new Topic(minutes._id, topicDocCopy);
-
-        meetingSeries.upsertTopic(topicDoc, /*merge*/ true);
-
-        // copy additional the tailored topic to our open topic list
-        topic.tailorTopic();
-        if (!topic.isClosedAndHasNoOpenAIs()) {
-            topic.getDocument().isOpen = true;
-            meetingSeries.openTopics.unshift(topic.getDocument());
-        }
-    }
+    let topicCopier = new TopicsCopier(meetingSeries);
+    topicCopier.mergeTopics(minutes.topics);
 }
 
 function unfinalizeLastMinutes(meetingSeries) {

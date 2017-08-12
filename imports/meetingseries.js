@@ -99,10 +99,12 @@ export class MeetingSeries {
         let topics = [];
 
         // copy open topics from this meeting series & set isNew=false, isSkipped=false
-        if (this.openTopics) {
-            topics = this.openTopics;
+        const openTopics = this.topics.filter(topic => topic.isOpen);
+        if (openTopics) {
+            topics = openTopics;
             topics.forEach((topicDoc) => {
                 let topic = new Topic(this, topicDoc);
+                topic.tailorTopic();
                 topic.invalidateIsNewFlag();
                 if (topic.isSkipped()) {
                     topic.toggleSkip();
