@@ -517,8 +517,8 @@ Template.minutesedit.events({
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 processFinalize,
                 'Proceed without participants',
-                'confirmationDialogProceedWithoutPresentParticipants',
-                {},
+                'confirmPlainText',
+                { plainText: 'No invited user is checked as participant of this meeting. Are you sure you want to finalize the meeting?'},
                 'Proceed'
             ).show();
         }
@@ -596,8 +596,8 @@ Template.minutesedit.events({
             ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                 downloadHTML,
                 'Confirm generate protocol',
-                'confirmationDialogGenerateHTMLProtocol',
-                {},
+                'confirmPlainText',
+                { plainText: 'There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?'},
                 'Download'
             ).show();
         };
