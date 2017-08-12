@@ -13,7 +13,7 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 
 import { MinutesFinder } from '/imports/services/minutesFinder';
 
-import { DocumentGeneration } from '/imports/documentGeneration.js';
+import { DocumentGeneration } from '/imports/documentGeneration';
 import '/imports/helpers/promisedMethods';
 
 // todo merge with finalizer copy
