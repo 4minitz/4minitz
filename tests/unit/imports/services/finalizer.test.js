@@ -35,7 +35,8 @@ let Meteor = {
     methods: m => Object.assign(MeteorMethods, m),
     isClient: true,
     callPromise: sinon.stub().resolves(true),
-    Error: MeteorError
+    Error: MeteorError,
+    settings: { 'public': { docGeneration: { enabled: true}}}
 };
 
 let PromisedMethods = {};
@@ -49,6 +50,11 @@ const GlobalSettings = {
 const MinutesFinder = {
     lastMinutesOfMeetingSeries: sinon.stub(),
     secondLastMinutesOfMeetingSeries: sinon.stub()
+};
+
+const DocumentGeneration = {
+    saveProtocol: sinon.stub(),
+    removeProtocol: sinon.stub()
 };
 
 const {
@@ -66,7 +72,8 @@ const {
     '/imports/mail/FinalizeMailHandler': { FinalizeMailHandler, '@noCallThru': true },
     '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true },
     '/imports/helpers/date': DateHelpers,
-    '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true }
+    '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true },
+    '/imports/documentGeneration': { DocumentGeneration,  '@noCallThru': true }
 });
 
 function verifyPropertyOfMinutesUpdate(minutes, property, value) {
