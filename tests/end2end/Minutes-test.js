@@ -73,6 +73,7 @@ describe('Minutes', function () {
 
         // Now delete it!
         E2EMinutes.gotoMinutes(myDate);
+        browser.waitForVisible('#btn_deleteMinutes');
         browser.click("#btn_deleteMinutes");
         E2EApp.confirmationDialogAnswer(true);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
