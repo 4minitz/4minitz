@@ -65,6 +65,7 @@ export class TopicsCopier {
         acceptingTopicDoc.responsibles = resistantTopicDoc.responsibles;
         acceptingTopicDoc.isNew = resistantTopicDoc.isNew;
         acceptingTopicDoc.isRecurring = resistantTopicDoc.isRecurring;
+        acceptingTopicDoc.isOpen = resistantTopicDoc.isOpen;
 
         // loop backwards through topic items and upsert them in the accepting one
         for (let i = resistantTopicDoc.infoItems.length; i-- > 0;) {

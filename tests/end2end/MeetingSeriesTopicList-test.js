@@ -193,6 +193,7 @@ describe('MeetingSeries complete Topic list', function () {
 		// the topic should have been copied to the latest minute
 		E2EMeetingSeries.gotoTabMinutes();
 		E2EMinutes.gotoLatestMinutes();
+		E2EGlobal.waitSomeTime();
 		expect(E2ETopics.countTopicsForMinute()).to.equal(1);
 	});	
 	
