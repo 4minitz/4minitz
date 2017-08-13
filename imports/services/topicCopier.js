@@ -73,7 +73,7 @@ export class TopicsCopier {
             if (index === undefined) {
                 acceptingTopicDoc.infoItems.unshift(infoDoc);
             } else {
-                acceptingTopicDoc.infoItems[i] = infoDoc;
+                acceptingTopicDoc.infoItems[index] = infoDoc;
             }
         }
 
