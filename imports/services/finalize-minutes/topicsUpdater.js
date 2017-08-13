@@ -47,4 +47,14 @@ export class TopicsUpdater {
         TopicSchema.remove({ parentId: this.meetingSeriesId });
     }
 
+    reOpenTopic(topicId) {
+        const affectedDocuments = TopicSchema.update(
+            { parentId: this.meetingSeriesId, _id: topicId },
+            { isOpen: true }
+        );
+        if (affectedDocuments !== 1) {
+            throw new Meteor.Error('runtime-error', 'Could not re-open topic.');
+        }
+    }
+
 }
