@@ -91,6 +91,9 @@ function unfinalizeLastMinutes(meetingSeries) {
             });
         });
 
+        // remove topics from the meeting series which were created within the to-unfinalize minutes
+        meetingSeries.topics = meetingSeries.topics.filter(topicDoc => topicDoc.createdInMinute !== minutes._id);
+
         copyTopicsToSeries(meetingSeries, secondLastMinute);
     } else {
         // if we un-finalize our fist minute it is save to delete all open topics
