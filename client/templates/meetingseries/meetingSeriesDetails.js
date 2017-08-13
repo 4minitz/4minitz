@@ -11,6 +11,7 @@ import { UserRoles } from '/imports/userroles';
 
 import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
+import {TopicsFinder} from '../../../imports/services/topicsFinder';
 
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
@@ -66,9 +67,10 @@ Template.meetingSeriesDetails.helpers({
     },
 
     tabData: function() {
-        let tmpl = Template.instance();
-        let tab = tmpl.activeTabTemplate.get();
-        let ms = new MeetingSeries(_meetingSeriesID);
+        const tmpl = Template.instance();
+        const tab = tmpl.activeTabTemplate.get();
+        const ms = new MeetingSeries(_meetingSeriesID);
+        const topics = TopicsFinder.allTopicsOfMeetingSeries(_meetingSeriesID); // ms.topics;
 
         switch (tab) {
         case 'tabMinutesList':
@@ -79,12 +81,12 @@ Template.meetingSeriesDetails.helpers({
 
         case 'tabTopics':
         {
-            return new TabTopicsConfig(ms.topics, _meetingSeriesID);
+            return new TabTopicsConfig(topics, _meetingSeriesID);
         }
 
         case 'tabItems':
         {
-            return new TabItemsConfig(ms.topics, _meetingSeriesID);
+            return new TabItemsConfig(topics, _meetingSeriesID);
         }
 
         default: throw new Meteor.Error('illegal-state', 'Unknown tab: ' + tab);

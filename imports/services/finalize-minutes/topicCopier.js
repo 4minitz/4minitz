@@ -1,42 +1,11 @@
 import {subElementsHelper} from '../../helpers/subElements';
-
-
-class TopicsUpdater {
-
-    constructor(meetingSeries) {
-        this.meetingSeries = meetingSeries;
-    }
-
-    invalidateIsNewFlagOfAllTopicsAndItems() {
-        this.meetingSeries.topics.forEach((topicDoc) => {
-            topicDoc.isNew = false;
-            topicDoc.infoItems.forEach(itemDoc => {
-                itemDoc.isNew = false;
-            });
-        });
-    }
-
-    getTopicById(topicId) {
-        const index = subElementsHelper.findIndexById(topicId, this.meetingSeries.topics);
-        return (index === undefined) ? false : this.meetingSeries.topics[index];
-    }
-
-    upsertTopic(topicDoc) {
-        const index = subElementsHelper.findIndexById(topicDoc._id, this.meetingSeries.topics);
-        if (index === undefined) {
-            this.meetingSeries.topics.unshift(topicDoc);  // add to front of array
-        } else {
-            this.meetingSeries.topics[index] = topicDoc;
-        }
-    }
-
-}
+import {TopicsUpdater} from './topicsUpdater';
 
 export class TopicsCopier {
 
     constructor(meetingSeries) {
         this.meetingSeries = meetingSeries;
-        this.topicsUpdater = new TopicsUpdater(meetingSeries);
+        this.topicsUpdater = new TopicsUpdater(meetingSeries._id);
     }
 
     mergeTopics(minutesTopics) {

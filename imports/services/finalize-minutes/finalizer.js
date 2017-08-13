@@ -14,6 +14,7 @@ import { MinutesFinder } from '/imports/services/minutesFinder';
 
 import '/imports/helpers/promisedMethods';
 import {TopicsCopier} from './topicCopier';
+import {TopicsUpdater} from './topicsUpdater';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -83,23 +84,16 @@ function copyTopicsToSeries(meetingSeries, minutes) {
 function unfinalizeLastMinutes(meetingSeries) {
     let minutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
     let secondLastMinute = MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
+    const topicsUpdater = new TopicsUpdater(meetingSeries._id);
     if (secondLastMinute) {
-        // all fresh created infoItems have to be deleted from the topic list of this series
-        meetingSeries.topics.forEach(topicDoc => {
-            topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
-                return infoItemDoc.createdInMinute !== minutes._id;
-            });
-        });
-
-        // remove topics from the meeting series which were created within the to-unfinalize minutes
-        meetingSeries.topics = meetingSeries.topics.filter(topicDoc => topicDoc.createdInMinute !== minutes._id);
+        topicsUpdater.removeTopicsCreatedInMinutes(minutes._id);
+        topicsUpdater.removeTopicItemsCreatedInMinutes(minutes._id);
 
         copyTopicsToSeries(meetingSeries, secondLastMinute);
     } else {
         // if we un-finalize our fist minute it is save to delete all open topics
         // because they are stored inside this minute
-        meetingSeries.openTopics = [];
-        meetingSeries.topics = [];
+        topicsUpdater.removeAllTopics();
     }
 }
 
@@ -123,14 +117,6 @@ Meteor.methods({
         // first we copy the topics of the finalize-minute to the parent series
         let parentSeries = minutes.parentMeetingSeries();
         finalizeLastMinutes(parentSeries);
-        let msAffectedDocs = MeetingSeriesSchema.update(
-            parentSeries._id,
-            {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
-
-        const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
-        if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
-            throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
-        }
 
         // then we tag the minute as finalized
         let version = minutes.finalizedVersion + 1 || 1;
@@ -171,14 +157,6 @@ Meteor.methods({
         }
 
         unfinalizeLastMinutes(parentSeries);
-        let msAffectedDocs = MeetingSeriesSchema.update(
-            parentSeries._id,
-            {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
-
-        const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
-        if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
-            throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
-        }
 
         let doc = {
             finalizedAt: new Date(),
