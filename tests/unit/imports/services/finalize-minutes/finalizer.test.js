@@ -3,7 +3,7 @@ import proxyquire from 'proxyquire';
 import _ from 'underscore';
 import sinon from 'sinon';
 
-import * as DateHelpers from '../../../../imports/helpers/date';
+import * as DateHelpers from '../../../../../imports/helpers/date';
 
 
 let MinutesSchema = {
@@ -53,7 +53,7 @@ const MinutesFinder = {
 
 const {
     Finalizer
-} = proxyquire('../../../../imports/services/finalizer', {
+} = proxyquire('../../../../../imports/services/finalize-minutes/finalizer', {
     'meteor/meteor': { Meteor, '@noCallThru': true },
     'meteor/underscore': { _, '@noCallThru': true },
     'meteor/check': { check, '@noCallThru': true },

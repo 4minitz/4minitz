@@ -1,4 +1,4 @@
-import {subElementsHelper} from '../helpers/subElements';
+import {subElementsHelper} from '../../helpers/subElements';
 
 
 class TopicsUpdater {
