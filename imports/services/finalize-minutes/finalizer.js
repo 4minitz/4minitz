@@ -13,8 +13,7 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 
 import '/imports/helpers/promisedMethods';
-import {TopicsCopier} from './topicCopier';
-import {TopicsUpdater} from './topicsUpdater';
+import {TopicsFinalizer} from './topicsFinalizer';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -59,48 +58,6 @@ function compileFinalizedInfo(minutes) {
     return (`${version}${finalizedString} on ${finalizedTimestamp} by ${minutes.finalizedBy}`);
 }
 
-/**
- * Copies the topics from the given
- * minute to this series.
- *
- * This is necessary for both, finalizing a
- * minute and un-finalizing a minute.
- *
- * When finalizing this method will be called
- * with the minute which will be finalized.
- * When un-finalizing a minute this will be called
- * with the 2nd last minute to revert the
- * previous state.
- *
- * @param minutes
- * @param meetingSeries
- * @private
- */
-function copyTopicsToSeries(meetingSeries, minutes) {
-    let topicCopier = new TopicsCopier(meetingSeries);
-    topicCopier.mergeTopics(minutes.topics);
-}
-
-function unfinalizeLastMinutes(meetingSeries) {
-    let minutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
-    let secondLastMinute = MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
-    const topicsUpdater = new TopicsUpdater(meetingSeries._id);
-    if (secondLastMinute) {
-        topicsUpdater.removeTopicsCreatedInMinutes(minutes._id);
-        topicsUpdater.removeTopicItemsCreatedInMinutes(minutes._id);
-
-        copyTopicsToSeries(meetingSeries, secondLastMinute);
-    } else {
-        // if we un-finalize our fist minute it is save to delete all open topics
-        // because they are stored inside this minute
-        topicsUpdater.removeAllTopics();
-    }
-}
-
-function finalizeLastMinutes(meetingSeries) {
-    copyTopicsToSeries(meetingSeries, MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries));
-}
-
 Meteor.methods({
     'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
         console.log('workflow.finalizeMinute on ' + id);
@@ -115,8 +72,7 @@ Meteor.methods({
         checkUserAvailableAndIsModeratorOf(minutes.parentMeetingSeriesID());
 
         // first we copy the topics of the finalize-minute to the parent series
-        let parentSeries = minutes.parentMeetingSeries();
-        finalizeLastMinutes(parentSeries);
+        TopicsFinalizer.mergeTopicsForFinalize(minutes.parentMeetingSeries());
 
         // then we tag the minute as finalized
         let version = minutes.finalizedVersion + 1 || 1;
@@ -156,7 +112,7 @@ Meteor.methods({
             throw new Meteor.Error('not-allowed', 'This minutes is not allowed to be un-finalized.');
         }
 
-        unfinalizeLastMinutes(parentSeries);
+        TopicsFinalizer.mergeTopicsForUnfinalize(parentSeries);
 
         let doc = {
             finalizedAt: new Date(),

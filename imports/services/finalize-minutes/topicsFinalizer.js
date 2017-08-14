@@ -1,11 +1,36 @@
 import {subElementsHelper} from '../../helpers/subElements';
 import {TopicsUpdater} from './topicsUpdater';
+import {MinutesFinder} from '../minutesFinder';
 
-export class TopicsCopier {
+const createTopicsUpdater = (meetingSeriesId) => {
+    return new TopicsUpdater(meetingSeriesId);
+};
+
+export class TopicsFinalizer {
+
+    static mergeTopicsForFinalize(meetingSeries) {
+        const topicsFinalizer = new TopicsFinalizer(meetingSeries);
+        const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
+        topicsFinalizer.mergeTopics(lastMinutes.topics);
+    }
+
+    static mergeTopicsForUnfinalize(meetingSeries) {
+        const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
+        const secondLastMinutes = MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
+        const topicsUpdater = createTopicsUpdater(meetingSeries._id);
+        if (secondLastMinutes) {
+            topicsUpdater.removeTopicsCreatedInMinutes(lastMinutes._id);
+            topicsUpdater.removeTopicItemsCreatedInMinutes(lastMinutes._id);
+            const topicsFinalizer = new TopicsFinalizer(meetingSeries);
+            topicsFinalizer.mergeTopics(secondLastMinutes.topics);
+        } else {
+            topicsUpdater.removeAllTopics();
+        }
+    }
 
     constructor(meetingSeries) {
         this.meetingSeries = meetingSeries;
-        this.topicsUpdater = new TopicsUpdater(meetingSeries._id);
+        this.topicsUpdater = createTopicsUpdater(meetingSeries._id);
     }
 
     mergeTopics(minutesTopics) {
@@ -24,7 +49,7 @@ export class TopicsCopier {
         if (existingTopicDoc) {
             topicDoc = this._mergeTopicDocs(existingTopicDoc, topicDoc);
         }
-        topicDoc.isOpen = !(TopicsCopier.isTopicClosedAndHasNoOpenAIs(topicDoc));
+        topicDoc.isOpen = !(TopicsFinalizer.isTopicClosedAndHasNoOpenAIs(topicDoc));
         this.topicsUpdater.upsertTopic(topicDoc);
     }
 
@@ -50,7 +75,7 @@ export class TopicsCopier {
         // delete all sticky items listed in the this topic but not in the updateTopicDoc
         // (these were deleted during the last minute)
         acceptingTopicDoc.infoItems = acceptingTopicDoc.infoItems.filter(itemDoc => {
-            if (TopicsCopier.isStickyItem(itemDoc)) {
+            if (TopicsFinalizer.isStickyItem(itemDoc)) {
                 let indexInResistantTopic = subElementsHelper.findIndexById(itemDoc._id, resistantTopicDoc.infoItems);
                 return !(indexInResistantTopic === undefined);
             }

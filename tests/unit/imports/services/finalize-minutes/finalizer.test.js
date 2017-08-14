@@ -51,28 +51,11 @@ const MinutesFinder = {
     secondLastMinutesOfMeetingSeries: sinon.stub()
 };
 
-const TopicsFinder = {
-    allNewTopicsOfMeetingSeries: sinon.stub().returns([]),
-    getTopicById: sinon.stub(),
-    allTopicsOfMeetingSeriesWithAtLeastOneItemCreatedInMinutes: sinon.stub().returns([])
-};
-const TopicSchema = {
-    upsert: sinon.stub(),
-    remove: sinon.stub()
-};
 
-const {
-    TopicsUpdater
-} =  proxyquire('../../../../../imports/services/finalize-minutes/topicsUpdater', {
-    '/imports/collections/topic.schema': { TopicSchema, '@noCallThru': true },
-    '../topicsFinder': { TopicsFinder, '@noCallThru': true }
-});
-
-const {
-    TopicsCopier
-} =  proxyquire('../../../../../imports/services/finalize-minutes/topicCopier', {
-    './topicsUpdater': { TopicsUpdater, '@noCallThru': true }
-});
+const TopicsFinalizer = {
+    mergeTopicsForFinalize: sinon.stub(),
+    mergeTopicsForUnfinalize: sinon.stub()
+};
 
 const {
     Finalizer
@@ -90,8 +73,7 @@ const {
     '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true },
     '/imports/helpers/date': DateHelpers,
     '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true },
-    './topicCopier': { TopicsCopier, '@noCallThru': true },
-    './topicsUpdater': { TopicsUpdater, '@noCallThru': true }
+    './topicsFinalizer': { TopicsFinalizer, '@noCallThru': true }
 });
 
 function verifyPropertyOfMinutesUpdate(minutes, property, value) {
