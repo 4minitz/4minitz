@@ -105,7 +105,10 @@ if (Meteor.settings.isEnd2EndTest) {
         },
         'e2e.getUserRole'(MSid, i){
             let usr = Meteor.users.findOne({username: Meteor.settings.e2eTestUsers[i]});
-            return usr.roles[MSid][0];
+            if (usr.roles && usr.roles[MSid] && usr.roles[MSid][0]){
+                return usr.roles[MSid][0];
+            }
+            else return null;
         },
         'e2e.findMinute'(minuteID){
             return MinutesSchema.getCollection().findOne(minuteID);
