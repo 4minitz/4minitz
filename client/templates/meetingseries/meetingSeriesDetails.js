@@ -70,7 +70,7 @@ Template.meetingSeriesDetails.helpers({
         const tmpl = Template.instance();
         const tab = tmpl.activeTabTemplate.get();
         const ms = new MeetingSeries(_meetingSeriesID);
-        const topics = TopicsFinder.allTopicsOfMeetingSeries(_meetingSeriesID); // ms.topics;
+        const topics = TopicsFinder.allTopicsOfMeetingSeries(_meetingSeriesID).reverse(); // ms.topics;
 
         switch (tab) {
         case 'tabMinutesList':
