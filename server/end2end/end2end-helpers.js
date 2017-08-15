@@ -6,7 +6,9 @@ import { MinutesSchema } from './../../imports/collections/minutes.schema';
 import { TestMailCollection } from '/imports/mail/TestMail';
 import { Minutes } from './../../imports/minutes';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
+import { DocumentsCollection } from '/imports/collections/documentgeneration_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
+import { DocumentGeneration } from '/imports/documentGeneration';
 
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
@@ -29,6 +31,9 @@ if (Meteor.settings.isEnd2EndTest) {
             TestMailCollection.remove({});
             console.log('Count saved test mails after reset:'+TestMailCollection.find().count());
             BroadcastMessageSchema.remove({});
+            DocumentsCollection.remove({});
+            console.log('Count Protocls after reset:' + DocumentsCollection.find().count());
+            resetDocumentStorageDirectory(); //eslint-disable-line
 
             if (!skipUsers) {
                 // Reset users and create our e2e test users
@@ -101,6 +106,39 @@ if (Meteor.settings.isEnd2EndTest) {
         },
         'e2e.findMeetingSeries'(MSid){
             return MeetingSeriesSchema.getCollection().findOne(MSid);
+        },
+        'e2e.countProtocolsInMongoDB'() {
+            console.log('-------------------------- E2E-METHOD: countProtocolsInMongoDB');
+            return DocumentsCollection.find({}).count();
+        },
+        'e2e.setSettingsForProtocolGeneration'(format) {
+            console.log('-------------------------- E2E-METHOD: setSettingsForProtocolGeneration');
+            //This method sets the document generation to specific settings.
+            //An empty format parameter will lead to deactivation of the document generation
+            if (!Meteor.settings.docGeneration) {
+                Meteor.settings.docGeneration = {};
+            }
+            if (!Meteor.settings.public.docGeneration) {
+                Meteor.settings.public.docGeneration = {};
+            }
+
+            Meteor.settings.docGeneration.enabled = !!format;
+            Meteor.settings.public.docGeneration.enabled = Meteor.settings.docGeneration.enabled;
+
+            if (format) {
+                Meteor.settings.docGeneration.format = format;
+                Meteor.settings.public.docGeneration.format = Meteor.settings.docGeneration.format;
+            }
+        },
+        'e2e.getProtocolStoragePathForMinute'(minuteId) {
+            console.log('-------------------------- E2E-METHOD: getProtocolStoragePathForMinute');
+            let protocol = DocumentGeneration.getProtocolForMinute(minuteId);
+            return (protocol ? protocol.path : undefined);
+        },
+        'e2e.getProtocolLinkForMinute'(minuteId) {
+            console.log('-------------------------- E2E-METHOD: getProtocolLinkForMinute');
+            let protocol = DocumentGeneration.getProtocolForMinute(minuteId);
+            return (protocol ? protocol.link() : undefined);
         }
     });
 }

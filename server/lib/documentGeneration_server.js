@@ -5,20 +5,14 @@ const path = require('path');
 
 createDocumentStoragePath = function (fileObj) { //eslint-disable-line
     if (Meteor.isServer) { 
-        let absoluteDocumentPath = Meteor.settings.docGeneration && Meteor.settings.docGeneration.targetDocPath 
-            ? Meteor.settings.docGeneration.targetDocPath 
-            : 'protocols'; 
-        // make path absolute 
-        if (!path.isAbsolute(absoluteDocumentPath)) { 
-            absoluteDocumentPath = path.resolve(absoluteDocumentPath); 
-        } 
+        let absoluteDocumentPath = getDocumentStorageRootDirectory();
         // optionally: append sub directory for parent meeting series and year if a minute is given
         if (fileObj && fileObj.meta && fileObj.meta.minuteId) {
             absoluteDocumentPath =  absoluteDocumentPath + '/' + fileObj.meta.meetingSeriesId; 
             let minuteYear = new Date(fileObj.meta.minuteDate).getFullYear(); 
             absoluteDocumentPath =  absoluteDocumentPath + '/' + minuteYear;
         }
-        // create target dir for attachment storage if it does not exist 
+        // create target dir for document storage if it does not exist 
         fs.ensureDirSync(absoluteDocumentPath, function (err) { 
             if (err) { 
                 console.error('ERROR: Could not create path for protocol storage: ' + absoluteDocumentPath); 
@@ -27,6 +21,27 @@ createDocumentStoragePath = function (fileObj) { //eslint-disable-line
         return absoluteDocumentPath; 
     }
 };
+
+//This function will delete the DocumentStoragePath with each subdirectory in it
+//It is used within the E2E-Tests to reset the app
+resetDocumentStorageDirectory = function() { //eslint-disable-line
+    let storagePath = getDocumentStorageRootDirectory();
+    if (fs.existsSync(storagePath)) {
+        fs.emptyDir(storagePath);
+    }
+};
+
+let getDocumentStorageRootDirectory = () => {
+    let absoluteDocumentPath = Meteor.settings.docGeneration && Meteor.settings.docGeneration.targetDocPath 
+        ? Meteor.settings.docGeneration.targetDocPath 
+        : 'protocols'; 
+    // make path absolute 
+    if (!path.isAbsolute(absoluteDocumentPath)) { 
+        absoluteDocumentPath = path.resolve(absoluteDocumentPath); 
+    }
+    return absoluteDocumentPath;
+};
+
 // check storagePath for protocols once at server bootstrapping
 if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
     console.log('Document generation feature: ENABLED');

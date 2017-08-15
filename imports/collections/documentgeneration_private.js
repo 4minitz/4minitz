@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { MeetingSeries } from '../meetingseries';
+import { MeetingSeries } from './../meetingseries';
 import { Minutes } from './../minutes';
 import { UserRoles } from './../userroles';
 import { TemplateRenderer } from './../server_side_templates/TemplateRenderer';
@@ -203,12 +203,13 @@ Meteor.methods({
     },
 
     'documentgeneration.removeFile'(minutesObj) {
-        //Security checks will be done in the onBeforeRemove-Hook
-        DocumentsCollection.remove({'meta.minuteId': minutesObj._id}, function (error) {
-            if (error) {
-                throw new Meteor.Error('Protocol could not be deleted, error: ' + error.reason);
-            }
-        });
-
+        if (Meteor.isServer) {
+            //Security checks will be done in the onBeforeRemove-Hook
+            DocumentsCollection.remove({'meta.minuteId': minutesObj._id}, function (error) {
+                if (error) {
+                    throw new Meteor.Error('Protocol could not be deleted, error: ' + error.reason);
+                }
+            });
+        }
     }
 });
