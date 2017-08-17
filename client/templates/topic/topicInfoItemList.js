@@ -16,6 +16,12 @@ const INITIAL_ITEMS_LIMIT = 4;
 
 export class TopicInfoItemListContext {
 
+    static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(items, resolveSeriesForItem) {
+        const context = new TopicInfoItemListContext(items, true, null);
+        context.getSeriesId = resolveSeriesForItem;
+        return context;
+    }
+
     static createReadonlyContextForItemsOfDifferentTopics(items, meetingSeriesId) {
         return new TopicInfoItemListContext(items, true, meetingSeriesId);
     }
@@ -30,7 +36,9 @@ export class TopicInfoItemListContext {
             return item;
         });
         this.isReadonly = isReadonly;
-        this.topicParentId = topicParentId;
+        this.getSeriesId = (itemId) => {
+            return topicParentId;
+        }
     }
 }
 
@@ -115,8 +123,8 @@ let addNewDetails = async (tmpl, index) => {
     if (context.isReadonly) {
         return;
     }
-    let aMin = new Minutes(context.topicParentId);
     let infoItem = context.items[index];
+    let aMin = new Minutes(context.getSeriesId(infoItem._id));
     let aTopic = new Topic(aMin, infoItem.parentTopicId);
     let aItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
@@ -225,7 +233,7 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
-        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+        let aInfoItem = findInfoItem(context.getSeriesId(infoItem._id), infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             if (aInfoItem.hasResponsibles()) {
                 return '(' + aInfoItem.getResponsibleNameString() + ')';
@@ -238,11 +246,11 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
-        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+        let aInfoItem = findInfoItem(context.getSeriesId(infoItem._id), infoItem.parentTopicId, infoItem._id);
         if (!aInfoItem) {
             return;
         }
-        return aInfoItem.getLabels(getMeetingSeriesId(context.topicParentId))
+        return aInfoItem.getLabels(getMeetingSeriesId(context.getSeriesId(infoItem._id)))
             .map(labelObj => {
                 let doc = labelObj.getDocument();
                 doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
@@ -268,10 +276,10 @@ Template.topicInfoItemList.events({
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
         let infoItem = context.items[index];
-        let aTopic = createTopic(context.topicParentId, infoItem.parentTopicId);
+        let aTopic = createTopic(context.getSeriesId(infoItem._id), infoItem.parentTopicId);
         if (aTopic && !context.isReadonly) {
             let item = aTopic.findInfoItem(infoItem._id);
-            let isDeleteAllowed = item.isDeleteAllowed(context.topicParentId);
+            let isDeleteAllowed = item.isDeleteAllowed(context.getSeriesId(infoItem._id));
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {
@@ -329,7 +337,7 @@ Template.topicInfoItemList.events({
 
         const index = evt.currentTarget.getAttribute('data-index');
         const infoItem = context.items[index];
-        const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+        const aInfoItem = findInfoItem(context.getSeriesId(infoItem._id), infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof ActionItem) {
             aInfoItem.toggleState();
             aInfoItem.save().catch(handleError);
@@ -348,7 +356,7 @@ Template.topicInfoItemList.events({
         let index = evt.currentTarget.getAttribute('data-index');
         let infoItem = context.items[index];
 
-        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+        let aInfoItem = findInfoItem(context.getSeriesId(infoItem._id), infoItem.parentTopicId, infoItem._id);
         if (aInfoItem instanceof InfoItem) {
             aInfoItem.toggleSticky();
             aInfoItem.save().catch(handleError);
@@ -445,7 +453,7 @@ Template.topicInfoItemList.events({
         let text = inputEl.val().trim();
 
         if (text === '' || (text !== textEl.attr('data-text'))) {
-            let aMin = new Minutes(context.topicParentId);
+            let aMin = new Minutes(context.getSeriesId(infoItem._id));
             let aTopic = new Topic(aMin, infoItem.parentTopicId);
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
