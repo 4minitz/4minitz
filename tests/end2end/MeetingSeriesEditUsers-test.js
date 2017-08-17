@@ -462,7 +462,7 @@ describe('MeetingSeries Editor Users', function () {
     }
 
     it('ensures informed user can not see meeting series', function () {
-        this.timeout(80000);
+        this.timeout(100000);
 
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);  // close with cancel
         E2EApp.loginUser(1);
@@ -481,7 +481,7 @@ describe('MeetingSeries Editor Users', function () {
     });
 
     it('ensures downgraded to informed user can not see meeting series anymore', function () {
-        this.timeout(80000);
+        this.timeout(100000);
 
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
