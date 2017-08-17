@@ -48,21 +48,26 @@ Template.actionItemList.helpers({
     },
 
     getInfoItemListContext () {
-        let minutes = Minutes.find({visibleFor: {$in: [this.userId]}});
+        let minutes = Minutes.find({visibleFor: {$in: [Meteor.userId()]}}).fetch();
 
         let myActionItems = [];
-        const actionItemSeriesIdMap = {}
-        for (minute in minutes) {
+        const actionItemSeriesIdMap = {};
+        minutes.forEach(minute => {
             let topics = minute.topics;
-            for (topic in topics) {
-                let actionitems = topics.actionitems;
-                for (actionitem in actionitems) {
+            topics.forEach(topic => {
+                let actionitems = topic.infoItems.filter(item => item.itemType === 'actionItem');
+                actionitems.forEach(actionitem => {
                     myActionItems.push(actionitem);
                     actionItemSeriesIdMap[actionitem._id] = minute.meetingSeries_id
-                }
-            }
-        }
+                });
+            });
+        });
 
-        return new TopicInfoItemListContext(myActionItems, true);
+        return TopicInfoItemListContext.createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
+            myActionItems,
+            (itemId => {
+                return actionItemSeriesIdMap[itemId];
+            })
+        )
     }
 });
