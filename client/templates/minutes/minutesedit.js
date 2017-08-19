@@ -14,6 +14,9 @@ import { Minutes } from '/imports/minutes';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
+import { DocumentGeneration } from '/imports/documentGeneration';
+
+import { Finalizer } from '/imports/services/finalizer';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -319,8 +322,7 @@ Template.minutesedit.helpers({
     },
 
     getFinalizedText: function () {
-        let aMin = new Minutes(_minutesID);
-        return aMin.getFinalizedString();
+        return Finalizer.finalizedInfo(_minutesID);
     },
 
     finalizeHistoryTooltip: function (buttontype) {
@@ -339,8 +341,7 @@ Template.minutesedit.helpers({
     },
 
     isUnfinalizeAllowed: function () {
-        let aMin = new Minutes(_minutesID);
-        return aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(_minutesID);
+        return Finalizer.isUnfinalizeMinutesAllowed(_minutesID);
     },
 
     isModeratorOfParentSeries: function () {
@@ -361,7 +362,7 @@ Template.minutesedit.helpers({
                 filteredTopics = aMin.topics.filter((topic) => !topic.isSkipped);
             }
         }
-            
+
         return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
@@ -387,6 +388,10 @@ Template.minutesedit.helpers({
     nextMinutes : function() {
         let aMin = new Minutes(_minutesID);
         return MinutesFinder.nextMinutes(aMin);
+    },
+
+    isDocumentGenerationAllowed : function () {
+        return Meteor.settings.public.docGeneration.enabled === true;
     }
 });
 
@@ -473,9 +478,9 @@ Template.minutesedit.events({
         let doFinalize = function () {
             tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
             let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
-                // Force closing the dialog before starting the finalize process
+            // Force closing the dialog before starting the finalize process
             Meteor.setTimeout(() => {
-                aMin.finalize(sendActionItems, sendInformationItems);
+                Finalizer.finalize(aMin._id, sendActionItems, sendInformationItems);
                 tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
                 (new FlashMessage('OK', 'This meeting minutes were successfully finalized', FlashMessage.TYPES().SUCCESS, 3000)).show();
                 msg.hideMe();
@@ -488,7 +493,7 @@ Template.minutesedit.events({
             if (GlobalSettings.isEMailDeliveryEnabled()) {
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
-                    'Confirm finalize minutes',
+                    'Confirm Finalize Minutes',
                     'confirmationDialogFinalize',
                     {
                         minutesDate: aMin.date,
@@ -526,7 +531,7 @@ Template.minutesedit.events({
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
         console.log('Un-Finalize minutes: ' + aMin._id + ' from series: ' + aMin.meetingSeries_id);
-        aMin.unfinalize();
+        Finalizer.unfinalize(aMin._id);
 
         toggleTopicSorting();
         Session.set('participants.expand', true);
@@ -582,6 +587,11 @@ Template.minutesedit.events({
     'click #btn_printMinutes': function(evt) {
         evt.preventDefault();
         togglePrintView();
+    },
+
+    'click #btn_downloadMinutes': function(evt) {
+        evt.preventDefault();
+        DocumentGeneration.downloadMinuteProtocol(_minutesID).catch(onError);
     }
 });
 

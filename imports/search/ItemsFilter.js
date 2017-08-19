@@ -77,37 +77,37 @@ export class ItemsFilter {
 
             switch (filter.key) {
             case ITEM_KEYWORDS.IS.key:
-                {
-                    if (!ItemsFilter._itemMatchesKeyword_IS(doc, filter.value)) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!ItemsFilter._itemMatchesKeyword_IS(doc, filter.value)) {
+                    return false;
                 }
+                break;
+            }
             case ITEM_KEYWORDS.USER.key:
-                {
-                    if (!this._docMatchesKeywords_USER(doc, filter)) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!this._docMatchesKeywords_USER(doc, filter)) {
+                    return false;
                 }
+                break;
+            }
             case ITEM_KEYWORDS.PRIO.key:
-                {
-                    if (!( doc.priority && doc.priority === parseInt(filter.value, 10))) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!( doc.priority && doc.priority === parseInt(filter.value, 10))) {
+                    return false;
                 }
+                break;
+            }
             case ITEM_KEYWORDS.DUE.key:
-                {
-                    if (!( doc.duedate && doc.duedate.startsWith(filter.value))) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!( doc.duedate && doc.duedate.startsWith(filter.value))) {
+                    return false;
                 }
+                break;
+            }
             case ITEM_KEYWORDS.DO.key:
-                {
-                    break;
-                }
+            {
+                break;
+            }
             default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
             }
         }
@@ -129,7 +129,7 @@ export class ItemsFilter {
         case 'open':
             return item.isOpen;
         case 'closed':
-                // explicit comparison required to skip info items (which has no isOpen property)
+            // explicit comparison required to skip info items (which has no isOpen property)
             return item.isOpen === false;
         case 'info':
             return item.itemType === 'infoItem';

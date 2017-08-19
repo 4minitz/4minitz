@@ -53,7 +53,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             topicSubject: topicSubject,
             itemSubject: item.getSubject(),
             labels: item.getLabelsRawArray(),
-            responsibles: item.getResponsibleNameString(),
+            responsibles: item.getResponsiblesString(),
             priority: item.getPriority(),
             duedate: item.getDuedate(),
             details: details

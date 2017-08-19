@@ -45,7 +45,6 @@ let ActionItem = function (topic, doc) {
 };
 
 
-Helpers['@noCallThru'] = true;
 SubElements['@noCallThru'] = true;
 EmailHelpers['@noCallThru'] = true;
 const Random = {id: () => {}};
@@ -61,7 +60,6 @@ const {
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './actionitem': { ActionItem, '@noCallThru': true},
-    '/imports/helpers/date': Helpers,
     '/imports/helpers/email': EmailHelpers,
     '/imports/helpers/subElements': SubElements,
     'meteor/underscore': { _, '@noCallThru': true}
@@ -444,38 +442,6 @@ describe('Minutes', function () {
             let sentDoc = callArgs[1];
             expect(callArgs[1], 'minutes id should be sent to the meteor method').to.equal(minutesDoc._id);
             expect(callArgs[2], 'topic-doc should be sent to the meteor method').to.equal(topicDoc);
-        });
-
-    });
-
-    describe('#finalize', function () {
-
-        it('calls the meteor method workflow.finalizeMinute', function() {
-            minute.finalize();
-
-            expect(Meteor.callPromise.calledOnce).to.be.true;
-        });
-
-        it('sends the id to the meteor method workflow.finalizeMinute', function () {
-            minute.finalize();
-
-            expect(Meteor.callPromise.calledWith('workflow.finalizeMinute', minutesDoc._id)).to.be.true;
-        });
-
-    });
-
-    describe('#unfinalize', function () {
-
-        it('calls the meteor method workflow.unfinalizeMinute', function() {
-            minute.unfinalize();
-
-            expect(Meteor.callPromise.calledOnce).to.be.true;
-        });
-
-        it('sends the id to the meteor method workflow.unfinalizeMinute', function () {
-            minute.unfinalize();
-
-            expect(Meteor.callPromise.calledWithExactly('workflow.unfinalizeMinute', minutesDoc._id)).to.be.true;
         });
 
     });

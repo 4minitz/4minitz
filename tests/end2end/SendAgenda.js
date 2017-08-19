@@ -146,7 +146,7 @@ describe('Send agenda', function () {
         browser.waitForVisible('#btn_sendAgenda');
         browser.click('#btn_sendAgenda');
 
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(3000);
 
         let sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);

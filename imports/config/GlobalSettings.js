@@ -28,8 +28,8 @@ export class GlobalSettings {
                 : '4Minitz.com';
         Meteor.settings.public.branding.showGithubCorner =
             (Meteor.settings.branding && Meteor.settings.branding.showGithubCorner !== undefined)
-            ? Meteor.settings.branding.showGithubCorner
-            : true;
+                ? Meteor.settings.branding.showGithubCorner
+                : true;
         Meteor.settings.public.branding.showInfoOnLogin =
             (Meteor.settings.branding && Meteor.settings.branding.showInfoOnLogin !== undefined)
                 ? Meteor.settings.branding.showInfoOnLogin
@@ -64,6 +64,12 @@ export class GlobalSettings {
             (Meteor.settings.attachments && Meteor.settings.attachments.maxFileSize !== undefined)
                 ? Meteor.settings.attachments.maxFileSize
                 : 10 * 1024 * 1024; // default: 10 MB
+
+        Meteor.settings.public.docGeneration = {};
+        Meteor.settings.public.docGeneration.enabled =
+            (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled !== undefined)
+                ? Meteor.settings.docGeneration.enabled
+                : false;
 
         Meteor.settings.public.forbidClientAccountCreation =
             (Meteor.settings.forbidClientAccountCreation !== undefined)

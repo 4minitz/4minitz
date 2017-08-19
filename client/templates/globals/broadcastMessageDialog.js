@@ -16,7 +16,7 @@ Template.broadcastMessageDialog.helpers({
     'showBroadcastMessages': function () {
         const msgCount = BroadcastMessageSchema.find(
             {$and: [{isActive: true},
-                    {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
+                {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
         if (msgCount > 0) {
             Meteor.setTimeout(function () {
                 $('#broadcastMessage').modal('show');
@@ -33,7 +33,7 @@ Template.broadcastMessageDialog.helpers({
     'broadcastMessages': function () {
         return BroadcastMessageSchema.find(
             {$and: [{isActive: true}
-                    , {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}
+                , {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}
             , {sort: {createdAt: -1}});
     },
 
