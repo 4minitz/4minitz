@@ -1,13 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 
-import { MeetingSeries } from './../meetingseries';
 import { Minutes } from './../minutes';
 import { UserRoles } from './../userroles';
 import { TemplateRenderer } from './../server_side_templates/TemplateRenderer';
 import { DocumentGeneration } from './../documentGeneration';
 
 import { FilesCollection } from 'meteor/ostrio:files';
-
+import { extendedPublishSubscribeHandler } from './../helpers/extendedPublishSubscribe';
 
 export let DocumentsCollection = new FilesCollection({
     collectionName: 'DocumentsCollection',
@@ -90,37 +89,10 @@ export let DocumentsCollection = new FilesCollection({
 });
 
 
-if (Meteor.isServer) {
-    Meteor.publish('files.protocols.all', function () {
-        // We publish only those protocols that are bound to
-        // a meeting series that is visible for the current user
-        let meetingSeriesIDs = MeetingSeries.getAllVisibleIDsForUser(this.userId);
-        return DocumentsCollection.find(
-            {'meta.meetingSeriesId': {$in: meetingSeriesIDs}}
-        ).cursor;
-    });
-}
-
 export let bootstrapProtocolsLiveQuery = () => {};
+extendedPublishSubscribeHandler.publishByVisibleMeetingSeries('files.protocols.all',DocumentsCollection, 'meta.meetingSeriesId');
+bootstrapProtocolsLiveQuery = extendedPublishSubscribeHandler.subscribeWithMeetingSeriesLiveQuery('files.protocols.all');
 
-if (Meteor.isClient) {
-    Meteor.subscribe('files.protocols.all');
-
-    bootstrapProtocolsLiveQuery = () => {
-        //For explanations on the purpose of this construct see the analogous "attachments_private.js" bootstrapAttachmentsLiveQuery
-        let meetingSeriesLiveQuery = MeetingSeries.find();
-        meetingSeriesLiveQuery.observe(
-            {
-                'added': function () {
-                    Meteor.subscribe('files.protocols.all');
-                },
-                'changed': function () {
-                    Meteor.subscribe('files.protocols.all');
-                }
-            }
-        );
-    };
-}
 
 Meteor.methods({
     'documentgeneration.createHTML'(minuteID) {
