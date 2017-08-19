@@ -183,11 +183,12 @@ describe('Info Items', function () {
         expect(infoItemExpandElementText, "New label text should match").to.have.string("Decision");
     });
 
-    it('can edit the 2nd info item after creating three of them', function() {
+    it('can edit the 2nd info item after creating three of them @watch', function() {
         let topicIndex = 1;
+        let subject = aAINameBase;
         for (let i=1; i<4; i++) {
             E2ETopics.addInfoItemToTopic({
-                subject: `Info Item #${i}`,
+                subject: subject + i,
                 itemType: "infoItem"
             }, topicIndex);
             E2EGlobal.waitSomeTime();
@@ -204,14 +205,14 @@ describe('Info Items', function () {
             expect(browser.isVisible(selector), `Info Item ${i} should be visible`).to.be.true;
             let infoItemExpandElement = browser.element(selector).value.ELEMENT;
             let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
-            expect(infoItemExpandElementText, `Info Item ${i} should be added correctly`).to.have.string(`Info Item #${i}`);
+            expect(infoItemExpandElementText, `Info Item ${i} should be added correctly`).to.have.string(subject + i);
         }
 
         // Check if the 2nd item can be edited correctly
         E2ETopics.openInfoItemEditor(topicIndex, 2);
         E2EGlobal.waitSomeTime();
         E2ETopics.insertInfoItemDataIntoDialog({
-            subject: 'Info Item #2 - changed',
+            subject: subject + '2 - changed',
             itemType: 'infoItem'
         });
         E2ETopics.submitInfoItemDialog();
@@ -219,7 +220,7 @@ describe('Info Items', function () {
         const selector = `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(2)`;
         let infoItemExpandElement = browser.element(selector).value.ELEMENT;
         let infoItemExpandElementText = browser.elementIdText(infoItemExpandElement).value;
-        expect(infoItemExpandElementText, `Info Item 2 should be edited correctly`).to.have.string('Info Item #2 - changed');
+        expect(infoItemExpandElementText, `Info Item 2 should be edited correctly`).to.have.string(subject +'2 - changed');
 
     });
 });
