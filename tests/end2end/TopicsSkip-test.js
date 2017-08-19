@@ -12,8 +12,8 @@ describe('Topics Skip', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     
-    const nonSkippedTopicName = 'Non-skipped Topic #1';
-    const skippedTopicName = 'Skipped Topic #2';
+    const nonSkippedTopicName = 'Non-skipped Topic No 1';
+    const skippedTopicName = 'Skipped Topic No 2';
 
     before("reload page and reset app", function () {
         E2EApp.resetMyApp(true);
@@ -66,7 +66,7 @@ describe('Topics Skip', function () {
         expect(E2ETopics.isTopicClosed(2)).to.be.false; // topic has not been opened again, since the checkbox is not editable
     });
     
-    it('Skipped topics will not be included in agenda mails', function () { 
+    it('Skipped topics will not be included in agenda mails', function () {
         E2EMails.resetSentMailsDb();
         
         E2ETopics.toggleSkipTopic(2, true);

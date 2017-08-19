@@ -14,11 +14,11 @@ describe('Sticky Info Items', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name No. ";
+    let aTopicNameBase = "Topic Name No ";
     let aTopicName;
     let aInfoItemName = "";
     let aAICounter = 0;
-    let aAINameBase = "Info Item Name No. ";
+    let aAINameBase = "Info Item Name No ";
 
     let getNewMeetingName = () => {
         aMeetingCounter++;
