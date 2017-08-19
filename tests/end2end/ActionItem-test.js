@@ -13,10 +13,10 @@ describe('ActionItems', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name #";
+    let aTopicNameBase = "Topic Name No. ";
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Action Item Name #";
+    let aAINameBase = "Action Item Name No. ";
 
     let getNewMeetingName = () => {
         aMeetingCounter++;
