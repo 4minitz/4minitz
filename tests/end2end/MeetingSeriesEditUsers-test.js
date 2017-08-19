@@ -467,6 +467,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);  // close with cancel
         E2EApp.loginUser(1);
         let initialMScount = E2EMeetingSeries.countMeetingSeries();
+        E2EGlobal.waitSomeTime(500);
         E2EApp.loginUser();
 
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
@@ -477,6 +478,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EApp.loginUser(1);
         expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialMScount);
 
+        E2EGlobal.waitSomeTime(500);
         E2EApp.loginUser();
     });
 
@@ -489,6 +491,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
         E2EApp.loginUser(1);
         let initialMScount = E2EMeetingSeries.countMeetingSeries();
+        E2EGlobal.waitSomeTime(500);
 
         E2EApp.loginUser();
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
@@ -497,7 +500,8 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
         E2EApp.loginUser(1);
         expect(E2EMeetingSeries.countMeetingSeries(), "MS count should be minus one").to.equal(initialMScount - 1);
-
+        E2EGlobal.waitSomeTime(500);
+        
         E2EApp.loginUser();
     });
 
