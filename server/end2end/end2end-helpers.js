@@ -116,6 +116,11 @@ if (Meteor.settings.isEnd2EndTest) {
         'e2e.getUserId'(i){
             let usr = Meteor.users.findOne({username: Meteor.settings.e2eTestUsers[i]});
             return usr._id;
+        },
+        'e2e.countTopicsInMongoDB'(minuteID) {
+            console.log('-------------------------- E2E-METHOD: countTopics');
+            let minId = MinutesSchema.getCollection().findOne(minuteID);
+            return minId.topics.length;
         }
     });
 }

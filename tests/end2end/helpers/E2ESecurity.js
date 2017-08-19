@@ -40,4 +40,18 @@ export class E2ESecurity {
         }, methodName, methodParameters);
         console.log(`Results are in: error = ${result.value.error}, result = ${result.value.result}`);
     }
+
+    static countRecordsInMiniMongo(collectionName) {
+        return browser.execute((collectionName) => {
+            let collectionpointer = Meteor.Collection.get(collectionName);
+            return collectionpointer ? collectionpointer.find().count() : 0;
+        }, collectionName).value;
+    }
+
+    static returnMeteorId(){
+        let id = browser.execute(function () {
+            return Random.id();
+        });
+        return id.value;
+    }
 }
