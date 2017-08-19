@@ -14,10 +14,10 @@ describe('Item Details', function () {
     let aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name #";
+    let aTopicNameBase = "Topic Name No ";
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Item Name #";
+    let aAINameBase = "Item Name No ";
 
     let infoItemName;
 

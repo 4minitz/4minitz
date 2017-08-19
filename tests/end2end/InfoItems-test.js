@@ -183,7 +183,7 @@ describe('Info Items', function () {
         expect(infoItemExpandElementText, "New label text should match").to.have.string("Decision");
     });
 
-    it('can edit the 2nd info item after creating three of them @watch', function() {
+    it('can edit the 2nd info item after creating three of them', function() {
         let topicIndex = 1;
         let subject = aAINameBase;
         for (let i=1; i<4; i++) {
