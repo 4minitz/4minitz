@@ -434,7 +434,7 @@ export class Topic {
     }
 
     extractLabelsFromTopic(meetingSeriesId) {
-        const regEx = new RegExp(/(^|[\s.,;])#([0-9a-zA-z]+[^\s.,;]*)/g);
+        const regEx = new RegExp(/(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g);
         let subjectString = this._topicDoc.subject;
         let match;
 
