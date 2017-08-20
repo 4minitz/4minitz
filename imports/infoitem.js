@@ -203,10 +203,11 @@ export class InfoItem {
     }
 
     extractLabelsFromSubject(meetingSeriesId) {
-        const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
+        const regEx = /(^|[\s.,;])#([0-9a-zA-z]+[^\s.,;]*)/g;
+        let subjectString = this._infoItemDoc.subject;
         let match;
 
-        while((match = regEx.exec(this._infoItemDoc.subject)) !== null) {
+        while((match = regEx.exec(subjectString)) !== null) {
             let labelName = match[2];
             this.addLabelByName(labelName, meetingSeriesId);
             this._removeLabelFromSubject(labelName);
