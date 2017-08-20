@@ -69,6 +69,12 @@ $(document).ready(() => {
     $.material.init();
 });
 
+// remove the modal dialog completely on route changes
+window.onpopstate = () => {
+    $('.modal-backdrop').remove();
+    $('.modal').hide();
+};
+
 Meteor.startup(() => {
     Meteor.call('gitVersionInfoUpdate');
 

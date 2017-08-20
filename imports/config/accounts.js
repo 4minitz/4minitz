@@ -61,8 +61,8 @@ if (Meteor.isServer) {
     // #Security: Do not allow registering by anonymous visitors. Configurable via settings.json
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.forbidClientAccountCreation
-                                        ? Meteor.settings.forbidClientAccountCreation
-                                        : false),
+            ? Meteor.settings.forbidClientAccountCreation
+            : false),
 
         sendVerificationEmail: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.sendVerificationEmail
             ? Meteor.settings.email.sendVerificationEmail
@@ -97,8 +97,8 @@ if (Meteor.isServer) {
 } else {
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.public.forbidClientAccountCreation
-                                        ? Meteor.settings.public.forbidClientAccountCreation
-                                        : false),
+            ? Meteor.settings.public.forbidClientAccountCreation
+            : false),
 
         sendVerificationEmail: (Meteor.settings.public.enableMailDelivery === true && Meteor.settings.public.sendVerificationEmail
             ? Meteor.settings.public.sendVerificationEmail

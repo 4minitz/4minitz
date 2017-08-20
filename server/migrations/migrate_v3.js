@@ -15,6 +15,6 @@ export class MigrateV3 {
     static down() {
         new MigrateItems((infoItem) => {
             delete infoItem.isSticky;
-        })
+        });
     }
 }

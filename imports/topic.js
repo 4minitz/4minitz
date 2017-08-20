@@ -267,6 +267,12 @@ export class Topic {
         });
     }
 
+    getOnlyActionItems() {
+        return this._topicDoc.infoItems.filter((infoItemDoc) => {
+            return InfoItem.isActionItem(infoItemDoc);
+        });
+    }
+
     getOpenActionItems() {
         return this._topicDoc.infoItems.filter((infoItemDoc) => {
             return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;

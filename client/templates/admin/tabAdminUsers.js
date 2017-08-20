@@ -16,9 +16,9 @@ Template.tabAdminUsers.helpers({
         let filterString = _filterUsers.get();
         let filterOptions = filterString.length > 0
             ? {$or: [{'username': {$regex: filterString, $options: 'i'}},
-                     {'profile.name': {$regex: filterString, $options: 'i'}},
-                     {'emails.0.address': {$regex: filterString, $options: 'i'}},
-                     {'_id': {$regex: filterString, $options: 'i'}}]}
+                {'profile.name': {$regex: filterString, $options: 'i'}},
+                {'emails.0.address': {$regex: filterString, $options: 'i'}},
+                {'_id': {$regex: filterString, $options: 'i'}}]}
             : {};
         if (! _showInactive.get()) {
             filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]};

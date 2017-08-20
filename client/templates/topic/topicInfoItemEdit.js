@@ -249,10 +249,10 @@ Template.topicInfoItemEdit.events({
             newItem.setPriority(new Priority(tmpl.find('#id_item_priority').value));
             break;
         case 'infoItem':
-            {
-                newItem = new InfoItem(getRelatedTopic(), doc);
-                break;
-            }
+        {
+            newItem = new InfoItem(getRelatedTopic(), doc);
+            break;
+        }
         default:
             throw new Meteor.Error('Unknown type!');
         }
