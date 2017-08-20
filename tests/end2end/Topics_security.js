@@ -60,44 +60,23 @@ describe('Topics Security', function () {
         expect((server.call('e2e.countTopicsInMongoDB', minuteID))).to.equal(numberOfTopics);
     });
 
-    it('Invited user can not insert a new Topic ', function () {
-        const aProjectName = "AddTopic as invited";
-        const aMeetingName = "AddTopic as invited";
+
+    it('Informed/Invited users can not insert a new Topic ', function () {
+        const aProjectName = "AddTopic as informed/invited";
+        const aMeetingName = "AddTopic as informed/invited";
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
 
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
-
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-        const subject = 'Topic Invited';
-        const numberOfTopics = server.call('e2e.countTopicsInMongoDB', minuteID);
-        const id = E2ESecurity.returnMeteorId();
-
-        E2EApp.logoutUser();
-        E2EApp.loginUser(1);
-        E2ESecurity.replaceMethodOnClientSide(addTopic);
-        E2ESecurity.executeMethod(addTopic, minuteID, {subject: subject, labels: Array(0), _id: id});
-        expect((server.call('e2e.countTopicsInMongoDB', minuteID))).to.equal(numberOfTopics);
-    });
-
-    it('Informed user can not insert a new Topic ', function () {
-        const aProjectName = "AddTopic as informed";
-        const aMeetingName = "AddTopic as informed";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Invited);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.gotoLatestMinutes();
         const minuteID =  E2EMinutes.getCurrentMinutesId();
-        const subject = 'Topic Informed';
+        const subject = 'Topic Informed/Invited';
         const numberOfTopics = server.call('e2e.countTopicsInMongoDB', minuteID);
         const id = E2ESecurity.returnMeteorId();
 
@@ -105,7 +84,16 @@ describe('Topics Security', function () {
         E2EApp.loginUser(1);
         E2ESecurity.replaceMethodOnClientSide(addTopic);
         E2ESecurity.executeMethod(addTopic, minuteID, {subject: subject, labels: Array(0), _id: id});
-        expect((server.call('e2e.countTopicsInMongoDB', minuteID))).to.equal(numberOfTopics);
+        expect((server.call('e2e.countTopicsInMongoDB', minuteID)),
+            'Invited user can not insert a topic').to.equal(numberOfTopics);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(2);
+        E2ESecurity.replaceMethodOnClientSide(addTopic);
+        E2ESecurity.executeMethod(addTopic, minuteID, {subject: subject, labels: Array(0), _id: id});
+        expect((server.call('e2e.countTopicsInMongoDB', minuteID)),
+            'Informed user can not insert a topic').to.equal(numberOfTopics);
+
     });
 
     //minutes.updateTopic
@@ -129,6 +117,64 @@ describe('Topics Security', function () {
         E2ESecurity.replaceMethodOnClientSide(updateTopic);
         E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
         expect((server.call('e2e.findTopic', minuteID, 0)).subject).to.equal(newSubject);
+    });
+
+    it('Not logged in can not update a Topic', function () {
+        const aProjectName = "UpdateTopic as not logged in";
+        const aMeetingName = "UpdateTopic as not logged in";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const oldSubject = 'Topic Not logged in';
+        const newSubject = 'Updated Subject';
+        const id = E2ESecurity.returnMeteorId();
+
+        E2ESecurity.executeMethod(addTopic, minuteID, {subject: oldSubject, labels: Array(0), _id: id});
+        const topicID = (server.call('e2e.findTopic', minuteID, 0))._id;
+
+        E2EApp.logoutUser();
+        E2ESecurity.replaceMethodOnClientSide(updateTopic);
+        E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
+        expect((server.call('e2e.findTopic', minuteID, 0)).subject).to.equal(oldSubject);
+    });
+
+    it('Informed/Invited user in can not update a Topic', function () {
+        const aProjectName = "UpdateTopic as informed/invited";
+        const aMeetingName = "UpdateTopic as informed/invited";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Invited);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const oldSubject = 'Topic informed/invited';
+        const newSubject = 'Updated Subject';
+        const id = E2ESecurity.returnMeteorId();
+
+        E2ESecurity.executeMethod(addTopic, minuteID, {subject: oldSubject, labels: Array(0), _id: id});
+        const topicID = (server.call('e2e.findTopic', minuteID, 0))._id;
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(1);
+        E2ESecurity.replaceMethodOnClientSide(updateTopic);
+        E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
+        expect((server.call('e2e.findTopic', minuteID, 0)).subject,
+            'Invited user can not update a topic').to.equal(oldSubject);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(2);
+        E2ESecurity.replaceMethodOnClientSide(updateTopic);
+        E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
+        expect((server.call('e2e.findTopic', minuteID, 0)).subject,
+            'Informed user can not update a topic').to.equal(oldSubject);
     });
 
 

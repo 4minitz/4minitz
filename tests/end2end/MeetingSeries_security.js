@@ -114,22 +114,22 @@ describe('MeetingSeries Security', function () {
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Informed);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
-       /* expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
+        expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
             'Moderator should have a MS published').to.equal(1);
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
-            'Invited user should have a MS published').to.equal(0);
+            'Invited user should have a MS published').to.equal(1);
 
         E2EApp.logoutUser();
         E2EApp.loginUser(2);
         expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
-            'Informed user should not have a MS published').to.equal(1);
+            'Informed user should not have a MS published').to.equal(0);
 
         E2EApp.logoutUser();
         expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
-            'Not logged in user should not have a MS published').to.equal(0);*/
+            'Not logged in user should not have a MS published').to.equal(0);
 
     });
 
