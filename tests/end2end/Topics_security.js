@@ -111,7 +111,7 @@ describe('Topics Security', function () {
     //minutes.updateTopic
     //Meteor.call("minutes.updateTopic", '8BRfdsRgm4M3ETnwJ', {subject: "erwqewtwtwt", labels: Array(0)});
 
-    /*it('Moderator can update a Topic @watch', function () {
+    it('Moderator can update a Topic ', function () {
         const aProjectName = "UpdateTopic as moderator";
         const aMeetingName = "UpdateTopic as moderator";
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
@@ -120,16 +120,16 @@ describe('Topics Security', function () {
         E2EMinutes.gotoLatestMinutes();
         const minuteID =  E2EMinutes.getCurrentMinutesId();
         const subject = 'Topic Moderator';
-        const numberOfTopics = server.call('e2e.countTopicsInMongoDB', minuteID);
+        const newSubject = 'Updated Subject';
         const id = E2ESecurity.returnMeteorId();
-        const topicID = (server.call('e2e.findTopic', minuteID, 0))._id;
 
         E2ESecurity.executeMethod(addTopic, minuteID, {subject: subject, labels: Array(0), _id: id});
+        const topicID = (server.call('e2e.findTopic', minuteID, 0))._id;
 
         E2ESecurity.replaceMethodOnClientSide(updateTopic);
-        E2ESecurity.executeMethod(updateTopic, topicID, {subject: 'Updated Subject'});
-        expect((server.call('e2e.findTopic', minuteID, 0)).subject).to.equal('Updated Subject');
-    });*/
+        E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
+        expect((server.call('e2e.findTopic', minuteID, 0)).subject).to.equal(newSubject);
+    });
 
 
     });
