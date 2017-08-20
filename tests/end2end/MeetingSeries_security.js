@@ -2,6 +2,7 @@ import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2ESecurity } from './helpers/E2ESecurity'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
+import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 
 describe('MeetingSeries Security', function () {
     const insertMeetingSeriesMethod = "meetingseries.insert";
@@ -99,6 +100,37 @@ describe('MeetingSeries Security', function () {
         E2ESecurity.executeMethod(updateMeetingSeriesMethod,{_id: meetingSeriesID, name: 'Changed Hacker Project #3'});
         expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).name,
             'Meeting Series can be updated if user is logged in and a moderator').not.to.equal(meetingSeriesName);
+    });
+
+    it('Non-invited/non-logged in users have no unexpected MS published ', function () {
+        const aProjectName = "Publish MS Project #1";
+        const aMeetingName = "Publish MS Meeting #1";
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Informed);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
+
+       /* expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
+            'Moderator should have a MS published').to.equal(1);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(1);
+        expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
+            'Invited user should have a MS published').to.equal(0);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(2);
+        expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
+            'Informed user should not have a MS published').to.equal(1);
+
+        E2EApp.logoutUser();
+        expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
+            'Not logged in user should not have a MS published').to.equal(0);*/
+
     });
 
     });

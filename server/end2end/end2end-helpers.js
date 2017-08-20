@@ -121,6 +121,10 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log('-------------------------- E2E-METHOD: countTopics');
             let minId = MinutesSchema.getCollection().findOne(minuteID);
             return minId.topics.length;
+        },
+        'e2e.findTopic'(minuteID, i){
+            let min = MinutesSchema.getCollection().findOne(minuteID);
+            return min.topics[i];
         }
     });
 }
