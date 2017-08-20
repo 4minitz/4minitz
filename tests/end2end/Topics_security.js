@@ -11,6 +11,7 @@ describe('Topics Security', function () {
     const addTopic = 'minutes.addTopic';
     const updateTopic = 'minutes.updateTopic';
     const removeTopic = 'minutes.removeTopic';
+    const reopenTopic = 'workflow.reopenTopicFromMeetingSeries';
 
 
     beforeEach("goto start page and make sure test user is logged in", function () {
@@ -100,18 +101,18 @@ describe('Topics Security', function () {
         const id = E2ESecurity.returnMeteorId();
 
         E2ESecurity.executeMethod(addTopic, minuteID, {subject: oldSubject, labels: Array(0), _id: id});
-        const topicID = (server.call('e2e.findTopic', minuteID, 0))._id;
+        const topicID = (server.call('e2e.getTopics', minuteID))[0]._id;
 
         E2EApp.logoutUser();
         E2ESecurity.replaceMethodOnClientSide(updateTopic);
         E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
-        expect((server.call('e2e.findTopic', minuteID, 0)).subject,
+        expect((server.call('e2e.getTopics', minuteID))[0].subject,
             'not logged in user can not update a topic').to.equal(oldSubject);
 
         E2EApp.loginUser();
         E2ESecurity.replaceMethodOnClientSide(updateTopic);
         E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
-        expect((server.call('e2e.findTopic', minuteID, 0)).subject,
+        expect((server.call('e2e.getTopics', minuteID))[0].subject,
             'Moderator can update a topic').to.equal(newSubject);
     });
 
@@ -136,20 +137,20 @@ describe('Topics Security', function () {
         const id = E2ESecurity.returnMeteorId();
 
         E2ESecurity.executeMethod(addTopic, minuteID, {subject: oldSubject, labels: Array(0), _id: id});
-        const topicID = (server.call('e2e.findTopic', minuteID, 0))._id;
+        const topicID = (server.call('e2e.getTopics', minuteID))[0]._id;
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
         E2ESecurity.replaceMethodOnClientSide(updateTopic);
         E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
-        expect((server.call('e2e.findTopic', minuteID, 0)).subject,
+        expect((server.call('e2e.getTopics', minuteID))[0].subject,
             'Invited user can not update a topic').to.equal(oldSubject);
 
         E2EApp.logoutUser();
         E2EApp.loginUser(2);
         E2ESecurity.replaceMethodOnClientSide(updateTopic);
         E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
-        expect((server.call('e2e.findTopic', minuteID, 0)).subject,
+        expect((server.call('e2e.getTopics', minuteID))[0].subject,
             'Informed user can not update a topic').to.equal(oldSubject);
     });
 
@@ -168,7 +169,7 @@ describe('Topics Security', function () {
 
         E2ESecurity.executeMethod(addTopic, minuteID, {subject: subject, labels: Array(0), _id: id});
         const numberOfTopics = server.call('e2e.countTopicsInMongoDB', minuteID);
-        const topicID = (server.call('e2e.findTopic', minuteID, 0))._id;
+        const topicID = (server.call('e2e.getTopics', minuteID))[0]._id;
 
         E2EApp.logoutUser();
         E2ESecurity.replaceMethodOnClientSide(removeTopic);
@@ -203,7 +204,7 @@ describe('Topics Security', function () {
 
         E2ESecurity.executeMethod(addTopic, minuteID, {subject: subject, labels: Array(0), _id: id});
         const numberOfTopics = server.call('e2e.countTopicsInMongoDB', minuteID);
-        const topicID = (server.call('e2e.findTopic', minuteID, 0))._id;
+        const topicID = (server.call('e2e.getTopics', minuteID))[0]._id;
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
@@ -220,6 +221,33 @@ describe('Topics Security', function () {
             'Informed user can not delete a topic').to.equal(numberOfTopics);
     });
 
+    //'workflow.reopenTopicFromMeetingSeries'
+    //  Meteor.call('workflow.reopenTopicFromMeetingSeries', 'ayDoAvbsRhW54hxJu', 'nYKMmsFBHspQ7m32y')
+    it('Moderator can reopen a topic @watch', function () {
+        const aProjectName = "ReopenTopic as moderator";
+        const aMeetingName = "ReopenTopic as moderator";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const subject = 'Topic moderator';
+        const id = E2ESecurity.returnMeteorId();
+
+        E2ESecurity.executeMethod(addTopic, minuteID, {subject: subject, labels: Array(0), _id: id});
+        const topicID = (server.call('e2e.getTopics', minuteID))[0]._id;
+        E2ESecurity.executeMethod(updateTopic, topicID, {isOpen: false});
+        expect((server.call('e2e.getTopics', minuteID))[0].isOpen,).to.equal(false);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized,).to.equal(true);
+
+        E2ESecurity.replaceMethodOnClientSide(reopenTopic);
+        E2ESecurity.executeMethod(reopenTopic, meetingSeriesID, topicID);
+        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).topics[0].isOpen,).to.equal(true);
+
+    });
 
 
 

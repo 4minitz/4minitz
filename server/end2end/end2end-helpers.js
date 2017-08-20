@@ -121,9 +121,9 @@ if (Meteor.settings.isEnd2EndTest) {
             let minId = MinutesSchema.getCollection().findOne(minuteID);
             return minId.topics.length;
         },
-        'e2e.findTopic'(minuteID, i){
+        'e2e.getTopics'(minuteID){
             let min = MinutesSchema.getCollection().findOne(minuteID);
-            return min.topics[i];
+            return min.topics;
         }
     });
 }
