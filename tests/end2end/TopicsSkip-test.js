@@ -126,7 +126,7 @@ describe('Topics Skip', function () {
         }, 2);
         
         E2EMinutes.finalizeCurrentMinutes(true);
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(750);
 
         let sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'two mail should be sent. One for the ActionItems, the other for the InfoItems').to.have.length(2);  
