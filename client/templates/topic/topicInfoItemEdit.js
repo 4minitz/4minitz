@@ -23,6 +23,7 @@ import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
+import {LabelExtractor} from '../../../imports/services/labelExtractor';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -257,7 +258,9 @@ Template.topicInfoItemEdit.events({
             throw new Meteor.Error('Unknown type!');
         }
 
-        newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
+        const labelExtractor = new LabelExtractor(newSubject, aMinute.parentMeetingSeries()._id);
+        newItem.addLabelsById(labelExtractor.getExtractedLabelIds());
+        newItem.setSubject(labelExtractor.getCleanedString());
         newItem.saveAsync().catch(handleError);
         if (getEditInfoItem() === false && newDetail) {
             newItem.addDetails(aMinute._id, newDetail);
