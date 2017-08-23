@@ -31,6 +31,13 @@ Template.meetingSeriesEdit.onCreated(function() {
         thisMeetingSeriesID,                                // the meeting series id
         _attachedUsersCollection);                          // collection of attached users
 
+    /*
+    if (thisMeetingSeriesID !== null) {
+        MeetingSeriesCollection.update({_id : thisMeetingSeriesID}, {$set:{isEditedBy : Meteor.userId(), isEditedDate: new Date()}});
+    }
+    */
+
+
     // Hint: collection will be filled in the "show.bs.modal" event below
 });
 
