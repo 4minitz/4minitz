@@ -72,10 +72,10 @@ Template.meetingSeriesDetails.helpers({
 
         switch (tab) {
         case 'tabMinutesList':
-                return {
-                    minutes: MinutesFinder.allMinutesOfMeetingSeries(ms.getRecord()),
-                    meetingSeriesId: _meetingSeriesID
-                }
+            return {
+               minutes: MinutesFinder.allMinutesOfMeetingSeries(ms.getRecord()),
+               meetingSeriesId: _meetingSeriesID
+            };
 
         case 'tabTopics':
             {
