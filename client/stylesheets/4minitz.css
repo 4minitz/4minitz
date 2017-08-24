@@ -285,6 +285,7 @@ input.pick-a-color {
 .meetingSeriesSearchbar input{
     margin: 5px 0 0 1px;
     width: 233px;
+    height: 30px;
 }
 @media (min-width: 600px){
     .meetingSeriesSearchbar{

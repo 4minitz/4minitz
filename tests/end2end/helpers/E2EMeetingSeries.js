@@ -108,7 +108,7 @@ export class E2EMeetingSeries {
         }
         throw new Error("Could not find Meeting Series '"+compareText+"'");
     };
-    
+
     static gotoTabMinutes() {
         let selector = '#tab_minutes';
         try {
@@ -118,7 +118,7 @@ export class E2EMeetingSeries {
         }
         browser.click(selector);
         E2EGlobal.waitSomeTime();
-    }   
+    }
 
     static gotoTabTopics() {
         let selector = '#tab_topics';
@@ -141,4 +141,23 @@ export class E2EMeetingSeries {
         browser.click(selector);
         E2EGlobal.waitSomeTime();
     }
+
+    static searchMeetingSeries (query) {
+        E2EApp.gotoStartPage();
+
+        if (browser.isVisible('input[id="id_MeetingSeriesSearch"]')) {
+           browser.setValue('input[id="id_MeetingSeriesSearch"]', query);
+        }
+        E2EGlobal.waitSomeTime();
+    };
+
+    static visibleMeetingSeriesSearch() {
+        E2EApp.gotoStartPage();
+        return browser.isVisible('input[id="id_MeetingSeriesSearch"]');
+    };
+
+    static visibleWarning() {
+        E2EApp.gotoStartPage();
+        return browser.isVisible('span[id="id_noresults"]');
+    };
 }

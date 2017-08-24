@@ -6,7 +6,7 @@ import { Session } from 'meteor/session';
 
 Template.meetingSeriesList.helpers({
     meetingSeriesRow: function () {
-        if (Session.get('search-query') === undefined) {
+        if ((Session.get('search-query') === '') || (Session.get('search-query') === undefined)) {
             return MeetingSeries.find({}, {sort: {lastMinutesDate: -1}});
         }else{
             if(Template.meetingSeriesSearch.searchResults().count()>0){

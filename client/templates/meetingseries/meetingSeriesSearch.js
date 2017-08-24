@@ -11,8 +11,9 @@ Template.meetingSeriesSearch.events({
 });
 
 Template.meetingSeriesSearch.searchResults = function () {
-    let keyword  = Session.get("search-query");
-    let query = new RegExp( keyword, 'i' );
+    let wholeString = Session.get("search-query");
+    let split = wholeString.match(/\w+/g);
+    let query = new RegExp(split.join("|"), 'i');
     let results = MeetingSeries.find({$or:[{'name': query}, {'project': query}]});
     return results;
 }
