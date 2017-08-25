@@ -223,7 +223,7 @@ describe('Topics Security', function () {
 
     //'workflow.reopenTopicFromMeetingSeries'
     //  Meteor.call('workflow.reopenTopicFromMeetingSeries', 'ayDoAvbsRhW54hxJu', 'nYKMmsFBHspQ7m32y')
-    it('Moderator can reopen a topic @watch', function () {
+    it('Moderator can reopen a topic ', function () {
         const aProjectName = "ReopenTopic as moderator";
         const aMeetingName = "ReopenTopic as moderator";
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});

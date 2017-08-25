@@ -103,6 +103,17 @@ describe('MeetingSeries Security', function () {
     });
 
     it('Non-invited/non-logged in users have no unexpected MS published ', function () {
+        expect (E2EApp.isLoggedIn()).to.be.true;
+        const MSuser1 = E2ESecurity.countRecordsInMiniMongo('meetingSeries');
+        E2EApp.logoutUser();
+        E2EApp.loginUser(1);
+        const MSuser2 = E2ESecurity.countRecordsInMiniMongo('meetingSeries');
+        E2EApp.logoutUser();
+        E2EApp.loginUser(2);
+        const MSuser3 = E2ESecurity.countRecordsInMiniMongo('meetingSeries');
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser();
         const aProjectName = "Publish MS Project #1";
         const aMeetingName = "Publish MS Meeting #1";
 
@@ -115,17 +126,17 @@ describe('MeetingSeries Security', function () {
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
-            'Moderator should have a MS published').to.equal(1);
+            'Moderator should have a MS published').to.equal(MSuser1+1);
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
-            'Invited user should have a MS published').to.equal(1);
+            'Invited user should have a MS published').to.equal(MSuser2+1);
 
         E2EApp.logoutUser();
         E2EApp.loginUser(2);
         expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
-            'Informed user should not have a MS published').to.equal(0);
+            'Informed user should not have a MS published').to.equal(MSuser3);
 
         E2EApp.logoutUser();
         expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
