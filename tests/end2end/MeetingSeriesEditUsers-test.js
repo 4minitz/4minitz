@@ -22,6 +22,11 @@ describe('MeetingSeries Editor Users', function () {
     });
 
     beforeEach("goto start page and make sure test user is logged in", function () {
+        if (aMeetingCounter % 10 === 0) {
+            E2EApp.resetMyApp(false);
+            E2EApp.launchApp();
+        }
+
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
 
