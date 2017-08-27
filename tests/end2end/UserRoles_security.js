@@ -142,5 +142,15 @@ describe('UserRoles Security', function () {
     });
 
 
+    it('Non-logged in users have no users collection published ', function () {
+        const minutesUser1 = E2ESecurity.countRecordsInMiniMongo('users');
+        expect(E2ESecurity.countRecordsInMiniMongo('users'),
+            'Moderator should have users collection published').to.equal(minutesUser1);
+
+        E2EApp.logoutUser();
+        expect (E2EApp.isLoggedIn()).to.be.false;
+        expect(E2ESecurity.countRecordsInMiniMongo('users'),
+            'Not logged in user should not have users collection published').to.equal(0);
+    });
 
     });
