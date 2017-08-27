@@ -273,7 +273,7 @@ describe('Topics Security', function () {
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Informed);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
