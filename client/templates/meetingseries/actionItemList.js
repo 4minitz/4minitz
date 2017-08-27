@@ -11,8 +11,7 @@ import { TopicInfoItemListContext } from '../topic/topicInfoItemList';
 import { createLabelIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 
-import { Mongo } from 'meteor/mongo'
-import { Minutes } from '/imports/minutes';
+import { MeetingSeries } from '/imports/meetingseries';
 
 export class TabItemsConfig {
     constructor (topics, parentMeetingSeriesId) {
@@ -48,26 +47,37 @@ Template.actionItemList.helpers({
     },
 
     getInfoItemListContext () {
-        let minutes = Minutes.find({visibleFor: {$in: [Meteor.userId()]}}).fetch();
+        let meetingSeries = MeetingSeries.find({visibleFor: {$in: [Meteor.userId()]}}).fetch();
 
         let myActionItems = [];
         const actionItemSeriesIdMap = {};
-        minutes.forEach(minute => {
-            let topics = minute.topics;
+
+        meetingSeries.forEach(meetingSerie => {
+            let topics = meetingSerie.topics;
             topics.forEach(topic => {
-                let actionitems = topic.infoItems.filter(item => item.itemType === 'actionItem');
-                actionitems.forEach(actionitem => {
-                    myActionItems.push(actionitem);
-                    actionItemSeriesIdMap[actionitem._id] = minute.meetingSeries_id
-                });
-            });
+                let actionItems = topic.infoItems.filter(item => item.itemType === 'actionItem' && item.responsibles.includes(Meteor.userId()));
+                actionItems.forEach(actionItem => {
+                    myActionItems.push(actionItem);
+                    actionItemSeriesIdMap[actionItem._id] = meetingSerie._id;
+                })
+            })
         });
+
+        //das soll open und closed items filtern. -> funktioniert nicht! und seite baut auch nicht.
+        //const tmpl = Template.instance();
+        //let newActionItems = tmpl.itemsFilter.filter(myActionItems, tmpl.parser);
+        //console.log(newActionItems);
+
+
+        //das soll nach datum sortieren. -> funktioniert nicht! und seite baut auch nicht.
+        //myActionItems = myActionItems.find({}, {sort: {duedate: -1}});
+
 
         return TopicInfoItemListContext.createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
             myActionItems,
             (itemId => {
                 return actionItemSeriesIdMap[itemId];
             })
-        )
+        );
     }
 });
