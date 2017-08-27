@@ -155,6 +155,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.replaceMethodOnClientSide(addMinutes);
         E2ESecurity.executeMethod(addMinutes, {meetingSeries_id: meetingSeriesID, date: date, visibleFor:[userid]});
         expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
@@ -175,6 +176,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.replaceMethodOnClientSide(addMinutes);
         E2ESecurity.executeMethod(addMinutes, {meetingSeries_id: meetingSeriesID, date: date, visibleFor:[userid]});
         expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
@@ -226,6 +228,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.replaceMethodOnClientSide(removeMinute);
         E2ESecurity.executeMethod(removeMinute, minuteID);
         expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
@@ -251,6 +254,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.replaceMethodOnClientSide(removeMinute);
         E2ESecurity.executeMethod(removeMinute, minuteID);
         expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
@@ -303,6 +307,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.replaceMethodOnClientSide(finalizeMinute);
         E2ESecurity.executeMethod(finalizeMinute, minuteID);
         expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
@@ -327,6 +332,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.replaceMethodOnClientSide(finalizeMinute);
         E2ESecurity.executeMethod(finalizeMinute, minuteID);
         expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
@@ -382,6 +388,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
         E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
         expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
@@ -407,6 +414,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
+        expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
         E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
         expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
@@ -465,6 +473,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser();
+        expect(E2EApp.isLoggedIn()).to.be.true;
         const aProjectName = "Publish Minutes Project #2";
         const aMeetingName = "Publish Minutes Meeting #2";
 
@@ -496,6 +505,7 @@ describe('MeetingSeries Security', function () {
 
         E2EApp.logoutUser();
         E2EApp.loginUser();
+        expect(E2EApp.isLoggedIn()).to.be.true;
         const aProjectName = "Publish Minutes Project #3";
         const aMeetingName = "Publish Minutes Meeting #3";
 
