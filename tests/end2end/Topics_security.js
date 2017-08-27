@@ -16,7 +16,6 @@ describe('Topics Security', function () {
 
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
-        E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
@@ -29,6 +28,7 @@ describe('Topics Security', function () {
     it('Moderator can insert a new Topic, not logged in can not insert a topic', function () {
         const aProjectName = "AddTopic as moderator";
         const aMeetingName = "AddTopic as moderator";
+        expect (E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -85,12 +85,14 @@ describe('Topics Security', function () {
         expect((server.call('e2e.countTopicsInMongoDB', minuteID)),
             'Informed user can not insert a topic').to.equal(numberOfTopics);
 
+        E2EApp.loginUser();
     });
 
     //minutes.updateTopic
     it('Moderator can update a Topic, not logged in user can not update a topic', function () {
         const aProjectName = "UpdateTopic as moderator";
         const aMeetingName = "UpdateTopic as moderator";
+        expect (E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -152,11 +154,14 @@ describe('Topics Security', function () {
         E2ESecurity.executeMethod(updateTopic, topicID, {subject: newSubject});
         expect((server.call('e2e.getTopics', minuteID))[0].subject,
             'Informed user can not update a topic').to.equal(oldSubject);
+
+        E2EApp.loginUser();
     });
 
     //minutes.removeTopic
     // Meteor.call('minutes.removeTopic', 'RjcaFN2mwxvFEwLyH')
     it('Moderator can delete a Topic, not logged in can not delete a topic', function () {
+        expect (E2EApp.isLoggedIn()).to.be.true;
         const aProjectName = "RemoveTopic as moderator";
         const aMeetingName = "RemoveTopic as moderator";
         E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
@@ -219,10 +224,12 @@ describe('Topics Security', function () {
         E2ESecurity.executeMethod(removeTopic, topicID);
         expect((server.call('e2e.countTopicsInMongoDB', minuteID)),
             'Informed user can not delete a topic').to.equal(numberOfTopics);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser();
     });
 
     //'workflow.reopenTopicFromMeetingSeries'
-    //  Meteor.call('workflow.reopenTopicFromMeetingSeries', 'ayDoAvbsRhW54hxJu', 'nYKMmsFBHspQ7m32y')
     it('Moderator can reopen a topic ', function () {
         const aProjectName = "ReopenTopic as moderator";
         const aMeetingName = "ReopenTopic as moderator";
@@ -243,12 +250,61 @@ describe('Topics Security', function () {
         E2EMinutes.finalizeCurrentMinutes();
         expect((server.call('e2e.findMinute', minuteID)).isFinalized,).to.equal(true);
 
+        E2EApp.logoutUser();
         E2ESecurity.replaceMethodOnClientSide(reopenTopic);
         E2ESecurity.executeMethod(reopenTopic, meetingSeriesID, topicID);
-        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).topics[0].isOpen,).to.equal(true);
+        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).topics[0].isOpen,
+            'Not logged in can not reopen a topic').to.equal(false);
+
+        E2EApp.loginUser();
+        E2ESecurity.executeMethod(reopenTopic, meetingSeriesID, topicID);
+        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).topics[0].isOpen,
+            'Moderator can reopen a topic').to.equal(true);
 
     });
 
+    it('Invited/Informed user can not reopen a topic ', function () {
+        const aProjectName = "ReopenTopic as invited";
+        const aMeetingName = "ReopenTopic as invited";
+        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
+
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.gotoLatestMinutes();
+        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const subject = 'Topic invited';
+        const id = E2ESecurity.returnMeteorId();
+
+        E2ESecurity.executeMethod(addTopic, minuteID, {subject: subject, labels: Array(0), _id: id});
+        const topicID = (server.call('e2e.getTopics', minuteID))[0]._id;
+        E2ESecurity.executeMethod(updateTopic, topicID, {isOpen: false});
+        expect((server.call('e2e.getTopics', minuteID))[0].isOpen,).to.equal(false);
+
+        E2EMinutes.finalizeCurrentMinutes();
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized,).to.equal(true);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(1);
+        E2ESecurity.replaceMethodOnClientSide(reopenTopic);
+        E2ESecurity.executeMethod(reopenTopic, meetingSeriesID, topicID);
+        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).topics[0].isOpen,
+            'Invited user can not reopen a topic').to.equal(false);
+
+        E2EApp.logoutUser();
+        E2EApp.loginUser(2);
+        E2ESecurity.executeMethod(reopenTopic, meetingSeriesID, topicID);
+        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).topics[0].isOpen,
+            'Informed user can not reopen a topic').to.equal(false);
+
+        E2EApp.loginUser();
+    });
 
 
 

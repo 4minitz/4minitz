@@ -489,7 +489,7 @@ describe('MeetingSeries Security', function () {
         E2EApp.loginUser();
     });
 
-    it('Informed users should have no unexpected Minutes published @watch', function () {
+    it('Informed users should have no unexpected Minutes published ', function () {
         E2EApp.loginUser(2);
         expect (E2EApp.isLoggedIn()).to.be.true;
         const minutesUser3 = E2ESecurity.countRecordsInMiniMongo('minutes');
