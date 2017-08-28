@@ -5,455 +5,352 @@ import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 
+const insertMeetingSeriesMethod = 'meetingseries.insert';
+const updateMinutes = 'minutes.update';
+const addMinutes = 'workflow.addMinutes';
+const removeMinute = 'workflow.removeMinute';
+const finalizeMinute = 'workflow.finalizeMinute';
+const unfinalizeMinute = 'workflow.unfinalizeMinute';
 
-describe('MeetingSeries Security', function () {
-    const insertMeetingSeriesMethod = "meetingseries.insert";
-    const updateMinutes = "minutes.update";
-    const addMinutes = "workflow.addMinutes";
-    const removeMinute = "workflow.removeMinute";
-    const finalizeMinute = "workflow.finalizeMinute";
-    const unfinalizeMinute = "workflow.unfinalizeMinute";
+let createMeetingSeriesAndMinute = (name) => {
+    E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: name, name: name});
+    E2EMinutes.addMinutesToMeetingSeries(name, name);
+    E2EMinutes.gotoLatestMinutes();
+    return {
+        min_id : E2EMinutes.getCurrentMinutesId(),
+        date : E2EMinutes.getCurrentMinutesDate(),
+    };
+};
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+let tryFinalizeMinute = (minuteID, expectToEqual) => {
+    E2ESecurity.replaceMethodOnClientSide(finalizeMinute);
+    E2ESecurity.executeMethod(finalizeMinute, minuteID);
+    if (expectToEqual)
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
+    else
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
+};
+
+let createMeetingSeries = (name) => {
+    E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: name, name: name});
+    return {
+        ms_id: E2EMeetingSeries.getMeetingSeriesId(name, name)
+    };
+};
+
+let tryUpdateCurrentMinuteDate = (minuteID, newDate, expectToEqualDate) => {
+    E2ESecurity.replaceMethodOnClientSide(updateMinutes);
+    E2ESecurity.executeMethod(updateMinutes, {_id: minuteID, date: newDate});
+    expect((server.call('e2e.findMinute', minuteID)).date).to.equal(expectToEqualDate);
+};
+
+let tryAddNewMinute = (meetingSeriesID, date, expectToEqualNumberMinutes, userid) => {
+    E2ESecurity.replaceMethodOnClientSide(addMinutes);
+    E2ESecurity.executeMethod(addMinutes, {meetingSeries_id: meetingSeriesID, date: date, visibleFor:[userid]});
+    expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(expectToEqualNumberMinutes);
+};
+
+let tryRemoveMinute = (minuteID, expectToEqualNumberMinutes) => {
+    E2ESecurity.replaceMethodOnClientSide(removeMinute);
+    E2ESecurity.executeMethod(removeMinute, minuteID);
+    expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(expectToEqualNumberMinutes);
+};
+
+let tryUnfinalizeMinute = (minuteID, expectToEqual) => {
+    E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
+    E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
+    if (expectToEqual)
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
+    else
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
+};
+
+let inviteUserToMeetingSerie = (MSname, role, userIndex) => {
+    E2EMeetingSeriesEditor.openMeetingSeriesEditor(MSname, MSname, 'invited');
+    let user = E2EGlobal.SETTINGS.e2eTestUsers[userIndex];
+    if (role === 'Invited')
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user, E2EGlobal.USERROLES.Invited);
+    else
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user, E2EGlobal.USERROLES.Informed);
+    E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+};
+
+describe('Minutes Method Security', function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
-
-    before("reload page and reset app", function () {
+    before('reload page and reset app', function () {
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
     //minute.update
-    it('can update a Minute if moderator', function () {
+    it('can update a Minute if moderator ', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteUpdate as moderator";
-        const aMeetingName = "MinuteUpdate as moderator";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const name = 'MinuteUpdate as moderator';
         const newMinuteDate = '01.01.2000';
+        const min = createMeetingSeriesAndMinute(name);
+        tryUpdateCurrentMinuteDate(min.min_id, newMinuteDate, newMinuteDate);
 
-        E2ESecurity.replaceMethodOnClientSide(updateMinutes);
-        E2ESecurity.executeMethod(updateMinutes, {_id: minuteID, date: newMinuteDate});
-        expect((server.call('e2e.findMinute', minuteID)).date).to.equal(newMinuteDate);
     });
 
-    it('can not update a Minute if not logged in', function () {
-        const aProjectName = "MinuteUpdate as not logged in";
-        const aMeetingName = "MinuteUpdate as not logged in";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-        const minuteDate = E2EMinutes.getCurrentMinutesDate();
+    it('can not update a Minute if not logged in ', function () {
+        const name = 'MinuteUpdate as not logged in';
+        const min = createMeetingSeriesAndMinute(name);
         const newMinuteDate = '01.01.2000';
-
         E2EApp.logoutUser();
         expect(E2EApp.isLoggedIn()).to.be.false;
-        E2ESecurity.replaceMethodOnClientSide(updateMinutes);
-        E2ESecurity.executeMethod(updateMinutes, {_id: minuteID, date: newMinuteDate});
-        expect((server.call('e2e.findMinute', minuteID)).date).to.equal(minuteDate);
+        tryUpdateCurrentMinuteDate(min.min_id, newMinuteDate, min.date);
         E2EApp.loginUser();
+
     });
 
     it('can not update a Minute if not invited to a Meeting Serie', function () {
-        const aProjectName = "MinuteUpdate as not invited to MS";
-        const aMeetingName = "MinuteUpdate as not invited to MS";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-        const minuteDate = E2EMinutes.getCurrentMinutesDate();
+        const name = 'MinuteUpdate as not invited to MS';
+        const min = createMeetingSeriesAndMinute(name);
         const newMinuteDate = '01.01.2000';
-
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(updateMinutes);
-        E2ESecurity.executeMethod(updateMinutes, {_id: minuteID, date: newMinuteDate});
-        expect((server.call('e2e.findMinute', minuteID)).date).to.equal(minuteDate);
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+
+        tryUpdateCurrentMinuteDate(min.min_id, newMinuteDate, min.date);
+        E2EApp.loginUser(0, true);
+
     });
 
-    it('can not update a Minute as an invited user', function () {
-        expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteUpdate as Invited";
-        const aMeetingName = "MinuteUpdate as Invited";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-        const minuteDate = E2EMinutes.getCurrentMinutesDate();
+    it('can not update a Minute as an invited user ', function () {
+        const name = 'MinuteUpdate as Invited';
+        const min = createMeetingSeriesAndMinute(name);
         const newMinuteDate = '01.01.2000';
+        inviteUserToMeetingSerie(name, 'Invited', 1);
 
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(updateMinutes);
-        E2ESecurity.executeMethod(updateMinutes, {_id: minuteID, date: newMinuteDate});
-        expect((server.call('e2e.findMinute', minuteID)).date).to.equal(minuteDate);
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+
+        tryUpdateCurrentMinuteDate(min.min_id, newMinuteDate, min.date);
+        E2EApp.loginUser(0, true);
+
     });
 
     //addMinute
     it('can not add a new Minute if not logged in', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteAdd as not logged in";
-        const aMeetingName = "MinuteAdd as not logged in";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteAdd as not logged in';
+        const ms = createMeetingSeries(name);
 
-        const meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
         const userid = server.call('e2e.getUserId', 0);
-        const date = '29.07.2017';
 
         E2EApp.logoutUser();
         expect(E2EApp.isLoggedIn()).to.be.false;
-        E2ESecurity.replaceMethodOnClientSide(addMinutes);
-        E2ESecurity.executeMethod(addMinutes, {meetingSeries_id: meetingSeriesID, date: date, visibleFor:[userid]});
-        expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
+        tryAddNewMinute(ms.ms_id, '29.07.2017', numberOfMinutes, userid);
         E2EApp.loginUser();
     });
 
     it('can add a new Minute if a moderator', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteAdd as moderator";
-        const aMeetingName = "MinuteAdd as moderator";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-
-        const meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
+        const name = 'MinuteAdd as moderator';
+        const ms = createMeetingSeries(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
         const userid = server.call('e2e.getUserId', 0);
-        const date = '2017-07-29';
 
-        E2ESecurity.replaceMethodOnClientSide(addMinutes);
-        E2ESecurity.executeMethod(addMinutes, {meetingSeries_id: meetingSeriesID, date: date, visibleFor:[userid]});
-        expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes+1);
+        tryAddNewMinute(ms.ms_id, '29.07.2017', numberOfMinutes+1, userid);
     });
 
-    it('can not add a new Minute as an invited user ', function () {
-        const aProjectName = "MinuteAdd as invited user";
-        const aMeetingName = "MinuteAdd as invited user";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
-
-        const meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
+    it('can not add a new Minute as an invited user', function () {
+        const name = 'MinuteAdd as invited user';
+        const ms = createMeetingSeries(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
         const userid = server.call('e2e.getUserId', 1);
-        const date = '2017-07-29';
+        inviteUserToMeetingSerie(name, 'Invited', 1);
 
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(addMinutes);
-        E2ESecurity.executeMethod(addMinutes, {meetingSeries_id: meetingSeriesID, date: date, visibleFor:[userid]});
-        expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        tryAddNewMinute(ms.ms_id, '29.07.2017', numberOfMinutes, userid);
+        E2EApp.loginUser(0, true);
     });
 
     it('can not add a new Minute if not invited to a Meeting Serie', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteAdd as not invited to MS";
-        const aMeetingName = "MinuteAdd as not invited to MS";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-
-        const meetingSeriesID = E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName);
+        const name = 'MinuteAdd as not invited to MS';
+        const ms = createMeetingSeries(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
         const userid = server.call('e2e.getUserId', 1);
-        const date = '2017-07-29';
 
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(addMinutes);
-        E2ESecurity.executeMethod(addMinutes, {meetingSeries_id: meetingSeriesID, date: date, visibleFor:[userid]});
-        expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        tryAddNewMinute(ms.ms_id, '29.07.2017', numberOfMinutes, userid);
+        E2EApp.loginUser(0, true);
     });
 
     //workflow.removeMinute
     it('can delete a Minute if a moderator', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteDelete as moderator";
-        const aMeetingName = "MinuteDelete as moderator";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const name = 'MinuteDelete as moderator';
+        const min = createMeetingSeriesAndMinute(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
 
-        E2ESecurity.replaceMethodOnClientSide(removeMinute);
-        E2ESecurity.executeMethod(removeMinute, minuteID);
-        expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes-1);
+        tryRemoveMinute(min.min_id, numberOfMinutes-1);
     });
 
     it('can not delete a Minute if not logged in', function () {
-        const aProjectName = "MinuteDelete as not logged in";
-        const aMeetingName = "MinuteDelete as not logged in";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const name = 'MinuteDelete as not logged in';
+        const min = createMeetingSeriesAndMinute(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
 
         E2EApp.logoutUser();
-        E2ESecurity.replaceMethodOnClientSide(removeMinute);
-        E2ESecurity.executeMethod(removeMinute, minuteID);
-        expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
+        tryRemoveMinute(min.min_id, numberOfMinutes);
         E2EApp.loginUser();
     });
 
     it('can not delete a Minute if not invited to a Meeting Serie', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteDelete as not invited to MS";
-        const aMeetingName = "MinuteDelete as not invited to MS";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const name = 'MinuteDelete as not invited to MS';
+        const min = createMeetingSeriesAndMinute(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
 
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(removeMinute);
-        E2ESecurity.executeMethod(removeMinute, minuteID);
-        expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        tryRemoveMinute(min.min_id, numberOfMinutes)
+        E2EApp.loginUser(0, true);
     });
 
     it('can not delete a Minute as an invited user', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteDelete as an invited user";
-        const aMeetingName = "MinuteDelete as as an invited user";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
-
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const name = 'MinuteDelete as an invited user';
+        const min = createMeetingSeriesAndMinute(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
+        inviteUserToMeetingSerie(name, 'Invited', 1);
 
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(removeMinute);
-        E2ESecurity.executeMethod(removeMinute, minuteID);
-        expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(numberOfMinutes);
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        tryRemoveMinute(min.min_id, numberOfMinutes)
+        E2EApp.loginUser(0, true);
     });
 
     //workflow.finalizeMinute
-    it('can finalize a Minute if Moderator ', function () {
+    it('can finalize a Minute if Moderator', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteFinalize as moderator";
-        const aMeetingName = "MinuteFinalize as moderator";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteFinalize as moderator';
+        const min = createMeetingSeriesAndMinute(name);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-
-        E2ESecurity.replaceMethodOnClientSide(finalizeMinute);
-        E2ESecurity.executeMethod(finalizeMinute, minuteID);
-        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
-
+        tryFinalizeMinute(min.min_id, true);
     });
 
     it('can not finalize a Minute if not logged in ', function () {
-        const aProjectName = "MinuteFinalize as not logged in";
-        const aMeetingName = "MinuteFinalize as not logged in";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
-
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
+        const name = 'MinuteFinalize as not logged in';
+        const min = createMeetingSeriesAndMinute(name);
 
         E2EApp.logoutUser();
-        E2ESecurity.replaceMethodOnClientSide(finalizeMinute);
-        E2ESecurity.executeMethod(finalizeMinute, minuteID);
-        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
+        expect(E2EApp.isLoggedIn()).to.be.false;
+        tryFinalizeMinute(min.min_id, false);
         E2EApp.loginUser();
     });
 
-    it('can not finalize a Minute if not invited to a Meeting Serie', function () {
+    it('can not finalize a Minute if not invited to a Meeting Serie ', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteFinalize as not invited to MS";
-        const aMeetingName = "MinuteFinalize as not invited to MS";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteFinalize as not invited to MS';
+        const min = createMeetingSeriesAndMinute(name);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(finalizeMinute);
-        E2ESecurity.executeMethod(finalizeMinute, minuteID);
-        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        tryFinalizeMinute(min.min_id, false);
+        E2EApp.loginUser(0, true);
     });
 
-    it('can not finalize a Minute as an invited user', function () {
+    it('can not finalize a Minute as an invited user ', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteFinalize as an invited user";
-        const aMeetingName = "MinuteFinalize as an invited user";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteFinalize as an invited user';
+        const min = createMeetingSeriesAndMinute(name);
+        inviteUserToMeetingSerie(name, 'Invited', 1);
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
-
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(finalizeMinute);
-        E2ESecurity.executeMethod(finalizeMinute, minuteID);
-        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        tryFinalizeMinute(min.min_id, false);
+        E2EApp.loginUser(0, true);
     });
 
     //workflow.unfinalizeMinute
     it('can unfinalize a Minute if Moderator ', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteUnfinalize as moderator";
-        const aMeetingName = "MinuteUnfinalize as moderator";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteUnfinalize as moderator';
+        const min = createMeetingSeriesAndMinute(name);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-
-        E2ESecurity.executeMethod(finalizeMinute, minuteID);
-        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
-        E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
-        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
-
+        E2ESecurity.executeMethod(finalizeMinute, min.min_id);
+        tryUnfinalizeMinute(min.min_id, false);
     });
 
     it('can not unfinalize a Minute if not logged in ', function () {
-        const aProjectName = "MinuteUnfinalize as not logged in";
-        const aMeetingName = "MinuteUnfinalize as not logged in";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteUnfinalize as not logged in';
+        const min = createMeetingSeriesAndMinute(name);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-        E2ESecurity.executeMethod(finalizeMinute, minuteID);
-
+        E2ESecurity.executeMethod(finalizeMinute, min.min_id);
         E2EApp.logoutUser();
-        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
-        E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
-        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
+        expect(E2EApp.isLoggedIn()).to.be.false;
+        tryUnfinalizeMinute(min.min_id, true);
         E2EApp.loginUser();
     });
 
     it('can not unfinalize a Minute if not invited to a Meeting Serie ', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteUnfinalize as not invited to MS";
-        const aMeetingName = "MinuteUnfinalize as not invited to MS";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteUnfinalize as not invited to MS';
+        const min = createMeetingSeriesAndMinute(name);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-        E2ESecurity.executeMethod(finalizeMinute, minuteID);
-
-        E2EApp.logoutUser();
+        E2ESecurity.executeMethod(finalizeMinute, min.min_id);
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
-        E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
-        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        tryUnfinalizeMinute(min.min_id, true);
+        E2EApp.loginUser(0, true);
     });
 
     it('can not unfinalize a Minute as an invited user ', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteUnfinalize as an invited user";
-        const aMeetingName = "MinuteUnfinalize as an invited user";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteUnfinalize as an invited user';
+        const min = createMeetingSeriesAndMinute(name);
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+        inviteUserToMeetingSerie(name, 'Invited', 1);
+        E2ESecurity.executeMethod(finalizeMinute, min.min_id);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID =  E2EMinutes.getCurrentMinutesId();
-        E2ESecurity.executeMethod(finalizeMinute, minuteID);
-
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
-        E2ESecurity.executeMethod(unfinalizeMinute, minuteID);
-        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        tryUnfinalizeMinute(min.min_id, true);
+        E2EApp.loginUser(0, true);
     });
 
     it('can not unfinalize a Minute as a Moderator if it is not the last one ', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "MinuteUnfinalize for not last Minute";
-        const aMeetingName = "MinuteUnfinalize for not last Minute";
-        E2ESecurity.executeMethod(insertMeetingSeriesMethod, {project: aProjectName, name: aMeetingName});
+        const name = 'MinuteUnfinalize for not last Minute';
+        const minute_1 = createMeetingSeriesAndMinute(name);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.gotoLatestMinutes();
-        const minuteID_1 =  E2EMinutes.getCurrentMinutesId();
-        E2ESecurity.executeMethod(finalizeMinute, minuteID_1);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2ESecurity.executeMethod(finalizeMinute, minute_1.min_id);
+        E2EMinutes.addMinutesToMeetingSeries(name, name);
         E2EMinutes.gotoLatestMinutes();
         const minuteID_2 =  E2EMinutes.getCurrentMinutesId();
-
         E2ESecurity.executeMethod(finalizeMinute, minuteID_2);
-        E2ESecurity.replaceMethodOnClientSide(unfinalizeMinute);
-        E2ESecurity.executeMethod(unfinalizeMinute, minuteID_1);
-        expect((server.call('e2e.findMinute', minuteID_1)).isFinalized).to.be.true;
 
+        tryUnfinalizeMinute(minute_1.min_id, true);
+    });
+
+});
+
+describe('Minute Publish & Subscribe Security', function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
+        E2EApp.gotoStartPage();
+        expect(E2EApp.isLoggedIn()).to.be.true;
+    });
+
+    before('reload page and reset app', function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
     });
 
     it('Non-logged in users have no unexpected Minutes published ', function () {
         const minutesUser1 = E2ESecurity.countRecordsInMiniMongo('minutes');
+        const name = 'Publish Minutes Project #1';
+        const min = createMeetingSeriesAndMinute(name);
+        tryFinalizeMinute(min.min_id, true);
 
-        const aProjectName = "Publish Minutes Project #1";
-        const aMeetingName = "Publish Minutes Meeting #1";
-
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.finalizeCurrentMinutes();
-
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(name, name);
 
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
             'Moderator should have 2 Minutes published').to.equal(minutesUser1+2);
@@ -462,40 +359,31 @@ describe('MeetingSeries Security', function () {
         expect (E2EApp.isLoggedIn()).to.be.false;
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
             'Not logged in user should not have Minutes published').to.equal(0);
+
+        E2EApp.loginUser();
     });
-
-
 
     it('Invited users should have Minutes published ', function () {
         E2EApp.loginUser(1);
         expect (E2EApp.isLoggedIn()).to.be.true;
         const minutesUser2 = E2ESecurity.countRecordsInMiniMongo('minutes');
 
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        E2EApp.loginUser(0, true);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "Publish Minutes Project #2";
-        const aMeetingName = "Publish Minutes Meeting #2";
+        const name = 'Publish Minutes Project #2';
 
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
+        const min = createMeetingSeriesAndMinute(name);
+        inviteUserToMeetingSerie(name, 'Invited', 1);
+        tryFinalizeMinute(min.min_id, true);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.addMinutesToMeetingSeries(name, name);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-
-        E2EApp.logoutUser();
         E2EApp.loginUser(1);
         expect (E2EApp.isLoggedIn()).to.be.true;
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
             'Invited user should have 2 Minutes published').to.equal(minutesUser2+2);
 
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        E2EApp.loginUser(0,true);
     });
 
     it('Informed users should have no unexpected Minutes published ', function () {
@@ -503,31 +391,22 @@ describe('MeetingSeries Security', function () {
         expect (E2EApp.isLoggedIn()).to.be.true;
         const minutesUser3 = E2ESecurity.countRecordsInMiniMongo('minutes');
 
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        E2EApp.loginUser(0, true);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        const aProjectName = "Publish Minutes Project #3";
-        const aMeetingName = "Publish Minutes Meeting #3";
+        const name = 'Publish Minutes Project #3';
 
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        const user3 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Informed);
-        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
+        const min = createMeetingSeriesAndMinute(name);
+        inviteUserToMeetingSerie(name, 'Informed', 2);
+        tryFinalizeMinute(min.min_id, true);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.finalizeCurrentMinutes();
+        E2EMinutes.addMinutesToMeetingSeries(name, name);
 
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-
-        E2EApp.logoutUser();
         E2EApp.loginUser(2);
         expect (E2EApp.isLoggedIn()).to.be.true;
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
             'Informed user should not have Minutes published').to.equal(minutesUser3);
 
-        E2EApp.logoutUser();
-        E2EApp.loginUser();
+        E2EApp.loginUser(0,true);
     });
 
-    });
+});
