@@ -9,6 +9,7 @@ import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { TopicInfoItemListContext } from './topicInfoItemList';
+import {LabelResolver} from '../../../imports/services/labelResolver';
 
 let _minutesId;
 
@@ -29,9 +30,7 @@ Template.topicElement.onCreated(function () {
 Template.topicElement.helpers({
     getLabels: function() {
         let tmplData = Template.instance().data;
-        let parentElement = (tmplData.minutesID) ? tmplData.minutesID : tmplData.parentMeetingSeriesId;
-        let aTopic = new Topic(parentElement, this.topic._id);
-        return aTopic.getLabels(tmplData.parentMeetingSeriesId)
+        return LabelResolver.resolveLabels(this.topic.labels, tmplData.parentMeetingSeriesId)
             .map(labelObj => {
                 let doc = labelObj.getDocument();
                 doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';

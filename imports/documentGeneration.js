@@ -10,10 +10,10 @@ import { Minutes } from './minutes';
 import { Topic } from './topic';
 import { Attachment } from './attachment';
 import { GlobalSettings } from './config/GlobalSettings';
-import { InfoItemFactory } from './InfoItemFactory';
 import { ActionItem } from './actionitem';
 
 import './helpers/promisedMethods';
+import {LabelResolver} from './services/labelResolver';
 
 export class DocumentGeneration {
     // ********** static methods ****************
@@ -51,7 +51,9 @@ export class DocumentGeneration {
             if (aTopicObj.hasResponsibles()) {
                 topic.responsiblesString = '('+aTopicObj.getResponsiblesString()+')';
             }
-            topic.labelsString = aTopicObj.getLabelsString(topic);
+            console.dir(context);
+            topic.labelsString =
+                LabelResolver.resolveAndformatLabelsString(aTopicObj.getLabelsRawArray(), context._meetingSeries._id);
 
             // inject responsibles as readable short user names to all action items of this topic
             for (let i = 0; i < topic.infoItems.length; i++) {
@@ -115,12 +117,8 @@ export class DocumentGeneration {
         template.addHelper('hasLabels', function() {
             return (this.labels.length > 0);
         });
-        template.addHelper('formatLabels', function(parentTopicId) {
-            let parentTopic = new Topic(context._minute, parentTopicId);
-            let infoItemId = this._id;
-            let infoItem = InfoItemFactory.createInfoItem(parentTopic, infoItemId);
-            let labels = infoItem.getLabels(context._minute.parentMeetingSeriesID());
-            return labels.map(label => '#' + label.getName()).join(', ');
+        template.addHelper('formatLabels', function() {
+            return LabelResolver.resolveAndformatLabelsString(this.labels, context._minute.parentMeetingSeriesID());
         });
         template.addHelper('doneActionItemClass', function() {
             if (this.isOpen !== undefined && this.isOpen === false) {

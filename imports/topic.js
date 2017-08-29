@@ -321,17 +321,6 @@ export class Topic {
         return this._topicDoc;
     }
 
-    getLabels(meetingSeriesId) {
-        this._topicDoc.labels = this.getLabelsRawArray().filter(labelId => {
-            return (null !== Label.createLabelById(meetingSeriesId, labelId));
-        });
-
-        return this.getLabelsRawArray().map(labelId => {
-            return Label.createLabelById(meetingSeriesId, labelId);
-
-        });
-    }
-
     addLabelsByIds(labelIds) {
         labelIds.forEach(id => {
             if (!this.hasLabelWithId(id)) {
@@ -348,24 +337,6 @@ export class Topic {
             }
         }
         return false;
-    }
-
-    getLabelsString(topic) {
-        let labels = topic.labels;
-        let labelsString = '';
-
-        let aMinute = new Minutes(topic.createdInMinute);
-        let aSeries = aMinute.parentMeetingSeries();
-
-        labels = labels.map(labelId => {
-            return Label.createLabelById(aSeries._id, labelId);
-        });
-
-        for (let i in labels) {
-            labelsString += '#' + labels[i]._labelDoc.name+ ', ';
-        }
-        labelsString = labelsString.slice(0, -2);   // remove last ", "
-        return labelsString;
     }
 
     getLabelsRawArray() {
