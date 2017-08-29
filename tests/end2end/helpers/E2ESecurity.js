@@ -49,9 +49,8 @@ export class E2ESecurity {
     }
 
     static returnMeteorId(){
-        let id = browser.execute(function () {
+        return browser.execute(function () {
             return Random.id();
-        });
-        return id.value;
+        }).value;
     }
 }

@@ -42,7 +42,7 @@ let inviteUserToMeetingSerie = (MSname, role, userIndex) => {
     E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
 };
 
-describe('MeetingSeries Security', function () {
+describe('MeetingSeries Methods Security', function () {
     beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
