@@ -100,6 +100,18 @@ describe('MeetingSeries Security', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
         tryUpdateMeetingSeriesName(ms_id, newName, newName, 'Meeting Series can be updated if user is logged in and a moderator');
     });
+});
+
+describe('MeetingSeries Publish & Subscribe Security', function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
+        E2EApp.gotoStartPage();
+        expect(E2EApp.isLoggedIn()).to.be.true;
+    });
+
+    before('reload page and reset app', function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
 
     it('Non-logged in users have no unexpected MS published ', function () {
         const msUser1 = E2ESecurity.countRecordsInMiniMongo('meetingSeries');
