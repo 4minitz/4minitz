@@ -44,7 +44,7 @@ export class LabelExtractor {
             if (this.string.indexOf(labelString) !== -1) {
                 this._addLabel(label);
             }
-        })
+        });
     }
 
     _extractAndCreatedNewLabels() {
