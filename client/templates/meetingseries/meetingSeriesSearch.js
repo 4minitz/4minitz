@@ -12,8 +12,10 @@ Template.meetingSeriesSearch.events({
 
 Template.meetingSeriesSearch.searchResults = function () {
     let wholeString = Session.get('search-query');
-    let split = wholeString.match(/\w+/g);
+    let split = wholeString.match(/[^\s]+/g);
+    if (!split) {
+        split = [];
+    }
     let query = new RegExp(split.join('|'), 'i');
-    let results = MeetingSeries.find({$or:[{'name': query}, {'project': query}]});
-    return results;
+    return MeetingSeries.find({$or:[{'name': query}, {'project': query}]});
 };
