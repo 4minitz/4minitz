@@ -39,7 +39,7 @@ describe('MeetingSeries Methods Security', function () {
 
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.tryDeleteMeetingSeries(ms_id, meetingSeriesCount, 'Meeting Series can not be deleted if user is not a moderator');
+        E2ESecurity.tryDeleteMeetingSeries(ms_id, meetingSeriesCount, 'Meeting Series can not be deleted if user is not invited to a MS');
 
         E2EApp.loginUser(2);
         expect(E2EApp.isLoggedIn()).to.be.true;

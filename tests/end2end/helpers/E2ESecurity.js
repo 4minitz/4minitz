@@ -87,10 +87,7 @@ export class E2ESecurity {
     static tryFinalizeMinute = (minuteID, expectToBeFinalized) => {
         E2ESecurity.replaceMethodOnClientSide(E2ESecurity.finalizeMinute);
         E2ESecurity.executeMethod(E2ESecurity.finalizeMinute, minuteID);
-        if (expectToBeFinalized)
-            expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
-        else
-            expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.equal(expectToBeFinalized);
     };
 
     static createMeetingSeries = (name) => {
@@ -117,13 +114,10 @@ export class E2ESecurity {
         expect((server.call('e2e.countMinutesInMongoDB'))).to.equal(expectToEqualNumberMinutes);
     };
 
-    static tryUnfinalizeMinute = (minuteID, expectToBeFinalized) => {
+    static tryUnfinalizeMinute = (minuteID, expectToBeUnfinalized) => {
         E2ESecurity.replaceMethodOnClientSide(E2ESecurity.unfinalizeMinute);
         E2ESecurity.executeMethod(E2ESecurity.unfinalizeMinute, minuteID);
-        if (expectToBeFinalized)
-            expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.true;
-        else
-            expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.be.false;
+        expect((server.call('e2e.findMinute', minuteID)).isFinalized).to.equal(expectToBeUnfinalized);
     };
 
     static inviteUserToMeetingSerie = (MSname, role, userIndex) => {

@@ -93,9 +93,7 @@ describe('Users Publish & Subscribe Security', function () {
     });
 
     it('Non-logged in users have no users collection published', function () {
-        const minutesUser1 = E2ESecurity.countRecordsInMiniMongo('users');
-        expect(E2ESecurity.countRecordsInMiniMongo('users'),
-            'Moderator should have users collection published').to.equal(minutesUser1);
+        expect(E2ESecurity.countRecordsInMiniMongo('users') > 0).to.be.true;
 
         E2EApp.logoutUser();
         expect (E2EApp.isLoggedIn()).to.be.false;
