@@ -369,31 +369,6 @@ export class Topic {
         return this._topicDoc.responsibles;
     }
 
-    getResponsiblesString() {
-        if (!this.hasResponsibles()) {
-            return '';
-        }
-
-        let responsibles = this._topicDoc.responsibles;
-        let responsiblesString = '';
-        for (let i in responsibles) {
-            let userNameFromDB = '';
-            if (responsibles[i].length > 15) {  // maybe DB Id or free text
-                let user = Meteor.users.findOne(responsibles[i]);
-                if (user) {
-                    userNameFromDB = user.username;
-                }
-            }
-            if (userNameFromDB) {     // user DB match!
-                responsiblesString += userNameFromDB + ', ';
-            } else {
-                responsiblesString += responsibles[i] + ', ';
-            }
-        }
-        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
-        return responsiblesString;
-    }
-
     addResponsible(responsibleName) {
         let user = Meteor.users.findOne(responsibleName);
         if (user) {
