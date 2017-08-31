@@ -9,7 +9,6 @@ import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
-import { Label } from './label';
 import { _ } from 'meteor/underscore';
 
 import './helpers/promisedMethods';

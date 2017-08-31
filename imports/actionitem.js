@@ -79,10 +79,7 @@ export class ActionItem extends InfoItem{
     }
 
     getResponsibleRawArray() {
-        if (!this.hasResponsibles()) {
-            return [];
-        }
-        return this._infoItemDoc.responsibles;
+        return (this.hasResponsibles()) ? this._infoItemDoc.responsibles : [];
     }
 
     // this should only be called from server.
@@ -121,36 +118,6 @@ export class ActionItem extends InfoItem{
             return mailArray;
         }
         return [];
-    }
-
-    /**
-     * Get comma separated list of responsibles with human readable user name (for all registered users)
-     * @param prefix - optional, e.g. '@'
-     * @returns {string}
-     */
-    getResponsiblesString(prefix = '') {
-        if (!this.hasResponsibles()) {
-            return '';
-        }
-
-        let responsibles = this._infoItemDoc.responsibles;
-        let responsiblesString = '';
-        responsibles.forEach(responsible => {
-            let userNameFromDB = '';
-            if (responsible.length > 15) {  // maybe DB Id or free text
-                let user = Meteor.users.findOne(responsible);
-                if (user) {
-                    userNameFromDB = user.username;
-                }
-            }
-            if (userNameFromDB) {     // user DB match!
-                responsiblesString += prefix+userNameFromDB + ', ';
-            } else {
-                responsiblesString += prefix+responsible + ', ';
-            }
-        });
-        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
-        return responsiblesString;
     }
 
     setPriority(priority) {

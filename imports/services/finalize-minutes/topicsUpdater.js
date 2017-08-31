@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import {TopicsFinder} from '../topicsFinder';
 
@@ -37,7 +38,7 @@ export class TopicsUpdater {
         TopicsFinder.allTopicsOfMeetingSeriesWithAtLeastOneItemCreatedInMinutes(this.meetingSeriesId, minutesId)
             .forEach((topicDoc) => {
                 topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
-                    return infoItemDoc.createdInMinute !== minutes._id;
+                    return infoItemDoc.createdInMinute !== minutesId;
                 });
                 this.upsertTopic(topicDoc);
             });

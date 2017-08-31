@@ -10,6 +10,7 @@ import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFacto
 import { FlashMessage } from '../../helpers/flashMessage';
 import { TopicInfoItemListContext } from './topicInfoItemList';
 import {LabelResolver} from '../../../imports/services/labelResolver';
+import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 
 let _minutesId;
 
@@ -66,12 +67,8 @@ Template.topicElement.helpers({
 
     responsiblesHelper() {
         try {
-            let parentElement = (this.minutesID) ? this.minutesID : this.parentMeetingSeriesId;
-
-            let aTopic = new Topic(parentElement, this.topic._id);
-            if (aTopic.hasResponsibles()) {
-                return '('+aTopic.getResponsiblesString()+')';
-            }
+            const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(this.topic.responsibles);
+            return (responsible) ? `(${responsible})` : '';
         } catch (e) {
             // intentionally left blank.
             // on deletion of a topic blaze once calls this method on the just deleted topic

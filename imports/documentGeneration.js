@@ -7,13 +7,12 @@
 import { Meteor } from 'meteor/meteor';
 
 import { Minutes } from './minutes';
-import { Topic } from './topic';
 import { Attachment } from './attachment';
 import { GlobalSettings } from './config/GlobalSettings';
-import { ActionItem } from './actionitem';
 
 import './helpers/promisedMethods';
 import {LabelResolver} from './services/labelResolver';
+import {ResponsibleResolver} from './services/responsibleResolver';
 
 export class DocumentGeneration {
     // ********** static methods ****************
@@ -46,24 +45,17 @@ export class DocumentGeneration {
     // ********** static methods for generation of HTML Document ****************
     static generateResponsibleStringsForTopic(context) {
         context._topics.forEach(topic => {
-            let aTopicObj = new Topic (context._minute._id, topic);
-            topic.responsiblesString = '';
-            if (aTopicObj.hasResponsibles()) {
-                topic.responsiblesString = '('+aTopicObj.getResponsiblesString()+')';
-            }
-            console.dir(context);
-            topic.labelsString =
-                LabelResolver.resolveAndformatLabelsString(aTopicObj.getLabelsRawArray(), context._meetingSeries._id);
+            const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(topic.responsibles);
+            topic.responsiblesString = (responsible) ?  `(${responsible})` : '';
+            topic.labelsString = LabelResolver.resolveAndformatLabelsString(topic.labels, context._meetingSeries._id);
 
-            // inject responsibles as readable short user names to all action items of this topic
-            for (let i = 0; i < topic.infoItems.length; i++) {
-                if (topic.infoItems[i].itemType === 'actionItem') {
-                    let anActionItemObj = new ActionItem(topic, topic.infoItems[i]);
-                    if (anActionItemObj.hasResponsibles()) {
-                        topic.infoItems[i].responsiblesString = '('+anActionItemObj.getResponsiblesString('@')+')';
-                    }
+            // inject responsible as readable short user names to all action items of this topic
+            topic.infoItems.forEach((item) => {
+                if (item.itemType === 'actionItem') {
+                    const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(item.responsibles, '@');
+                    item.responsiblesString = (responsible) ?  `(${responsible})` : '';
                 }
-            }
+            });
         });
     }
 

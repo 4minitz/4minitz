@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import { Mongo } from 'meteor/mongo';
 
