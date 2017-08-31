@@ -63,15 +63,13 @@ Template.actionItemList.helpers({
             })
         });
 
-        //das soll open und closed items filtern. -> funktioniert nicht! und seite baut auch nicht.
-        //const tmpl = Template.instance();
-        //let newActionItems = tmpl.itemsFilter.filter(myActionItems, tmpl.parser);
-        //console.log(newActionItems);
+        const tmpl = Template.instance();
+        const query = tmpl.topicFilterQuery.get();
+        tmpl.parser.reset();
+        tmpl.parser.parse(query);
+        myActionItems = tmpl.itemsFilter.filter(myActionItems, tmpl.parser);
 
-
-        //das soll nach datum sortieren. -> funktioniert nicht! und seite baut auch nicht.
-        //myActionItems = myActionItems.find({}, {sort: {duedate: -1}});
-
+        myActionItems.sort(function(a, b){return new Date(a.duedate)- new Date(b.duedate);});
 
         return TopicInfoItemListContext.createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
             myActionItems,

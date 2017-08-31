@@ -17,12 +17,14 @@ export class FilterControlConfig {
      * @param filters
      * @param filterKeywords
      * @param filterName
+     * @param defaultFilter
      */
-    constructor(callback, filters, filterKeywords, filterName) {
+    constructor(callback, filters, filterKeywords, filterName, defaultFilter) {
         this.callback = callback;
         this.filters = filters;
         this.filterKeywords = filterKeywords;
         this.filterName = filterName;
+        this.defaultFilter = defaultFilter;
     }
 }
 
