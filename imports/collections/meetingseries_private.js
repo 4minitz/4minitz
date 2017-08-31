@@ -110,6 +110,32 @@ Meteor.methods({
         }
     },
 
+    'meetingseries.removeEdit'(doc) {
+        if (!doc) {
+            console.log('meetingseries.update: no data given');
+            return;
+        }
+
+        console.log('meetingseries.removeEdit:', doc._id);
+
+        let id = doc._id;
+        check(id, String);
+        delete doc._id; // otherwise collection.update will fail
+        if (!id) {
+            return;
+        }
+
+        try {
+            return MeetingSeriesSchema.update({_id: id}, {$unset: {isEditedBy: "", isEditedDate: ""}});
+        }
+        catch(e) {
+            if (!Meteor.isClient) {
+                console.error(e);
+                throw new Meteor.Error('runtime-error', 'Error remove edit fields in meeting series collection', e);
+            }
+        }
+    },
+
     'meetingseries.sendRoleChange'(userId, oldRole, newRole, meetingSeriesId) {
         // Make sure the user is logged in before trying to send mails
         if (!Meteor.userId()) {

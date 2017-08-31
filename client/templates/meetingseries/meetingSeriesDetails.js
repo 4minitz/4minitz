@@ -94,6 +94,30 @@ Template.meetingSeriesDetails.helpers({
     isModerator: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(_meetingSeriesID);
+    },
+
+    isMeetingSeriesEdited: function () {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        if (ms.isEditedBy === undefined && ms.isEditedDate === undefined)
+            return false;
+        if (ms.isEditedBy === null && ms.isEditedDate === null)
+            return false;
+        else if (ms.isEditedBy === Meteor.userId())
+            return false;
+        else
+            return true;
+    },
+
+    meetingSeriesEditedBy() {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        let user = Meteor.users.findOne({_id: ms.isEditedBy});
+
+        return user.username;
+    },
+
+    meetingSeriesEditedDate() {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        return ms.isEditedDate;
     }
 });
 

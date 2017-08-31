@@ -18,6 +18,9 @@
 
                         <span class="glyphicon glyphicon-cog" aria-hidden="true" aria-label="Edit Meeting Series"></span>
                     </a>
+                    {{#if isMeetingSeriesEdited}}
+                        <span style="color:firebrick" class="glyphicon glyphicon-warning-sign pull-right" title="Edited by {{meetingSeriesEditedBy}} (at {{meetingSeriesEditedDate}})"></span>
+                    {{/if}}
                 {{/if}}
             </h2>
         {{/with}}

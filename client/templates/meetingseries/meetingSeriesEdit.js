@@ -30,14 +30,6 @@ Template.meetingSeriesEdit.onCreated(function() {
         true,                                               // current user can not be edited
         thisMeetingSeriesID,                                // the meeting series id
         _attachedUsersCollection);                          // collection of attached users
-
-    /*
-    if (thisMeetingSeriesID !== null) {
-        MeetingSeriesCollection.update({_id : thisMeetingSeriesID}, {$set:{isEditedBy : Meteor.userId(), isEditedDate: new Date()}});
-    }
-    */
-
-
     // Hint: collection will be filled in the "show.bs.modal" event below
 });
 
@@ -144,6 +136,58 @@ Template.meetingSeriesEdit.events({
     // "show" event is fired shortly before BootStrap modal dialog will pop up
     // We fill the temp. client-side only user database for the user editor on this event
     'show.bs.modal #dlgEditMeetingSeries': function (evt, tmpl) {
+
+        let lockState = false;
+
+        if ((tmpl.data.isEditedBy !== undefined && tmpl.data.isEditedDate !== undefined)) {
+            lockState = true;
+
+            let resetEdited = function () {
+                lockState = false;
+
+                /*
+                MeetingSeriesSchema.update({_id: tmpl.data._id}, {$unset: {isEditedBy: "", isEditedDate: ""}});
+                let ms = new MeetingSeries(tmpl.data._id);
+                console.log(ms);
+                */
+
+                let ms = new MeetingSeries(tmpl.data._id);
+                ms.removeEdit();
+                console.log(ms);
+
+                delete tmpl.data.isEditedBy;
+                delete tmpl.data.isEditedDate;
+                $('#dlgEditMeetingSeries').modal('show');
+            }
+
+            let user = Meteor.users.findOne({_id: tmpl.data.isEditedBy});
+
+            let tmplData = {
+                isEditedBy: user.username,
+                isEditedDate: tmpl.data.isEditedDate
+            };
+
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                resetEdited,
+                'Edit despite existing editing',
+                'confirmationDialogResetEdit',
+                tmplData,
+                'Edit anyway'
+                ).show();
+        }
+
+        if (lockState === true) {
+            evt.preventDefault();
+            return
+        }
+
+        const ms = new MeetingSeries(tmpl.data._id);
+        if (ms.isEditedBy === undefined && ms.isEditedDate === undefined) {
+            ms.isEditedBy = Meteor.userId();
+            ms.isEditedDate = new Date();
+            ms.save()
+        }
+
         // Make sure these init values are filled in a close/re-open scenario
         $('#btnMeetingSeriesSave').prop('disabled',false);
         $('#btnMeetinSeriesEditCancel').prop('disabled',false);
