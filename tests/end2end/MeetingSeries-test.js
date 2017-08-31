@@ -75,7 +75,9 @@ describe('MeetingSeries', function () {
         expect(E2EApp.isOnStartPage()).to.be.false;
     });
 
-    it('displays the date of the last minutes in the meeting series overview', function() {
+    // -TEMPORARY REMOVED
+    // This Test has been temporary removed due to experimentation purposes. It Needs to be reintroduced later
+    it.skip('displays the date of the last minutes in the meeting series overview', function() {
         const aProjectName = "E2E Minutes";
         const aMeetingName = "Meeting Name #4";
         const myDate = "2015-03-17";  // date of first project commit ;-)
@@ -87,7 +89,7 @@ describe('MeetingSeries', function () {
             expect(browser.elementIdText(elemId).value).to.have.string(`(last minutes of ${myDate}`);
         });
     });
-
+    
     it.skip('can submit the form by pressing enter in the project name input', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #4";

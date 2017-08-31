@@ -7,15 +7,42 @@ import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import {RoleChangeMailHandler} from '../mail/RoleChangeMailHandler';
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
 
 if (Meteor.isServer) {
+    // this will publish a light-weighted overview of the meeting series, necessary for the meeting series list
     Meteor.publish('meetingSeries', function meetingSeriesPublication() {
         return MeetingSeriesSchema.find(
-            {visibleFor: {$in: [this.userId]}});
+            {visibleFor: {$in: [this.userId]}},
+            {
+                fields: {
+                    'project' : 1,
+                    'name' : 1,
+                    'minutes' : 1
+                }
+            }
+        );
     });
+    
+    //this will publish the full information for a single meeting series 
+    Meteor.publish('meetingSeriesDetails', function meetingSeriesPublication(meetingSeriesId) {
+        if (meetingSeriesId) {
+            return MeetingSeriesSchema.find(
+                { $and: [{visibleFor: {$in: [this.userId]}}, {_id: meetingSeriesId}]});
+        }
+        
+        return this.ready();
+    });
+    
 }
+
 if (Meteor.isClient) {
     Meteor.subscribe('meetingSeries');
+
+    Tracker.autorun(() => {
+        Meteor.subscribe('meetingSeriesDetails', Session.get('showDetailsForMeetingSeriesId'));
+    });
 }
 
 Meteor.methods({
