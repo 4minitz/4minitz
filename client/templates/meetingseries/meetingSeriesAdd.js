@@ -41,7 +41,10 @@ function addMeetingSeries(template, optimisticUICallback) {
 Template.meetingSeriesAdd.helpers({
     isExpanded: function () {
         return Session.get('meetingSeriesAdd.isExpanded');
-    }
+    },
+    meetingSeriesAmountBiggerFour: function () {
+        return MeetingSeries.find().count() > 4;
+    },
 });
 
 Template.meetingSeriesAdd.events({
@@ -70,5 +73,5 @@ Template.meetingSeriesAdd.events({
         tmpl.find('#id_meetingproject').focus();
         Session.set('meetingSeriesAdd.isExpanded', true);
         document.addEventListener('keyup', escapeHandler);
-    }
+    },
 });

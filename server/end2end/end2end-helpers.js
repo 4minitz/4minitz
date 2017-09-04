@@ -100,7 +100,35 @@ if (Meteor.settings.isEnd2EndTest) {
             BroadcastMessageSchema.remove({});
         },
         'e2e.findMeetingSeries'(MSid){
+            console.log('-------------------------- E2E-METHOD: findMeetingSeries');
             return MeetingSeriesSchema.getCollection().findOne(MSid);
+        },
+        'e2e.getUserRole'(MSid, i){
+            console.log('-------------------------- E2E-METHOD: getUserRole');
+            let usr = Meteor.users.findOne({username: Meteor.settings.e2eTestUsers[i]});
+            if (usr.roles && usr.roles[MSid] && usr.roles[MSid][0]){
+                return usr.roles[MSid][0];
+            }
+            return null;
+        },
+        'e2e.findMinute'(minuteID){
+            console.log('-------------------------- E2E-METHOD: findMinute');
+            return MinutesSchema.getCollection().findOne(minuteID);
+        },
+        'e2e.getUserId'(i){
+            console.log('-------------------------- E2E-METHOD: getUserId');
+            let usr = Meteor.users.findOne({username: Meteor.settings.e2eTestUsers[i]});
+            return usr._id;
+        },
+        'e2e.countTopicsInMongoDB'(minuteID) {
+            console.log('-------------------------- E2E-METHOD: countTopicsInMongoDB');
+            let minId = MinutesSchema.getCollection().findOne(minuteID);
+            return minId.topics.length;
+        },
+        'e2e.getTopics'(minuteID){
+            console.log('-------------------------- E2E-METHOD: getTopics');
+            let min = MinutesSchema.getCollection().findOne(minuteID);
+            return min.topics;
         }
     });
 }

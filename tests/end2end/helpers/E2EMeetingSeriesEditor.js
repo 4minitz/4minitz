@@ -42,7 +42,12 @@ export class E2EMeetingSeriesEditor {
         browser.keys(['Enter']);
 
         if (role) {
-            let selector = "select.user-role-select";
+            //Get Index of user's row in table
+            let index = browser.execute((username) => {
+                return $("tr:contains('" + username + "')").index();
+            }, username).value;
+            index += 1; //increase by one since nth-child will start by 1 whereas index starts by 0
+            let selector = "tr:nth-child(" + index + ")" + ' select.user-role-select';
             browser.selectByValue(selector, role);
         }
     };
