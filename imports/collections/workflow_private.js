@@ -185,7 +185,10 @@ Meteor.methods({
             // refresh participants to non-finalized meetings
             MinutesSchema.getCollection().find({meetingSeries_id: meetingSeries_id}).forEach (min => {
                 if (!min.isFinalized) {
-                    min.refreshParticipants(true);
+                    let newparticipants = min.generateNewParticipants();
+                    if (newparticipants) { //Write participants to database if they have changed
+                        MinutesSchema.update({_id: min._id}, {$set: {participants: newparticipants}});
+                    }
                 }
             });
         }

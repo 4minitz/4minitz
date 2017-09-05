@@ -212,7 +212,7 @@ Meteor.methods({
         );
     },
 
-    'minutes.syncVisibility'(parentSeriesID, visibleForArray) {
+    'minutes.syncVisibilityAndParticipants'(parentSeriesID, visibleForArray) {
         check(parentSeriesID, String);
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
@@ -222,7 +222,10 @@ Meteor.methods({
                 // add missing participants to non-finalized meetings
                 MinutesSchema.getCollection().find({meetingSeries_id: parentSeriesID}).forEach (min => {
                     if (!min.isFinalized) {
-                        min.refreshParticipants(true);
+                        let newparticipants = min.generateNewParticipants();
+                        if (newparticipants) { //Write participants to database if they have changed
+                            MinutesSchema.update({_id: min._id}, {$set: {participants: newparticipants}});
+                        }
                     }
                 });
             }

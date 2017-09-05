@@ -118,7 +118,7 @@ export class MeetingSeries {
             informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
         });
 
-        min.refreshParticipants(false); // do not save to DB!
+        min.generateNewParticipants();
         min.save(optimisticUICallback, serverCallback);
     }
 
