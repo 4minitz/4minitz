@@ -42,10 +42,12 @@ export class E2ETopics {
     }
 
     static deleteTopic(topicIndex, confirmDialog) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
-        browser.waitForVisible(selector);
-        browser.click(selector);
-        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic");
+        const selectorMenu = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+        browser.waitForVisible(selectorMenu);
+        browser.click(selectorMenu);
+        const selectorDeleteBtn = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
+        browser.waitForVisible(selectorDeleteBtn);
+        browser.click(selectorDeleteBtn);
         if (confirmDialog === undefined) {
             return;
         }
@@ -206,6 +208,7 @@ export class E2ETopics {
         browser.waitForVisible(selOpenMenu);
         browser.click(selOpenMenu);
         let selDelete = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnDelInfoItem";
+        browser.waitForVisible(selDelete);
         browser.click(selDelete);
 
         if (confirmDialog === undefined) {
