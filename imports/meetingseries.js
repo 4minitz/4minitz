@@ -102,7 +102,7 @@ export class MeetingSeries {
         // copy open topics from this meeting series & set isNew=false, isSkipped=false
         const openTopics = TopicsFinder.allOpenTopicsOfMeetingSeries(this._id);
         if (openTopics) {
-            topics = openTopics; //this.openTopics;
+            topics = openTopics;
             topics.forEach((topicDoc) => {
                 let topic = new Topic(this, topicDoc);
                 topic.tailorTopic();

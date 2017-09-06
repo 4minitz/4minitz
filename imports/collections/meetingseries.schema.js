@@ -25,8 +25,6 @@ export const MeetingSeriesSchema = SchemaClass.create({
         // todo: make this a date?
         lastMinutesDate: {type: String},
         minutes: {type: [String], default: []},
-        openTopics: {type: [TopicSchema], default: []},
-        topics: {type: [TopicSchema], default: []},
         availableLabels: {type: [LabelSchema], default: []},
         additionalResponsibles: {type: [String], default: []}
     }
