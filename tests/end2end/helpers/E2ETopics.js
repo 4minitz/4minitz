@@ -45,8 +45,8 @@ export class E2ETopics {
         const selectorMenu = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
         browser.waitForVisible(selectorMenu);
         browser.click(selectorMenu);
-        browser.waitForVisible(selectorDeleteBtn);
         const selectorDeleteBtn = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
+        browser.waitForVisible(selectorDeleteBtn);
         browser.click(selectorDeleteBtn);
         if (confirmDialog === undefined) {
             return;
