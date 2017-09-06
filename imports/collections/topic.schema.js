@@ -25,13 +25,8 @@ export const TopicSchema = SchemaClass.create({
     }
 });
 
-// todo: limit publish to specific series
 if (Meteor.isServer) {
-    Meteor.publish('topics', function () {
-        return TopicSchema.find();
+    Meteor.publish('topics', function (meetingSeriesId) {
+        return TopicSchema.find({ parentId: meetingSeriesId });
     });
-}
-// todo: subscribe directly in template
-if (Meteor.isClient) {
-    Meteor.subscribe('topics');
 }

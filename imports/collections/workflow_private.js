@@ -135,6 +135,10 @@ Meteor.methods({
         // deleting all minutes of one series is allowed, even if they are finalized.
         MinutesSchema.remove({meetingSeries_id: meetingseries_id});
 
+        // then we delete all topics related to this series
+        const topicsUpdater = new MeetingSeriesTopicsUpdater(meetingseries_id);
+        topicsUpdater.removeAllTopics();
+
         // then we remove the meeting series document itself
         MeetingSeriesSchema.remove(meetingseries_id);
 

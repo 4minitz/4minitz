@@ -7,6 +7,7 @@ import { TestMailCollection } from '/imports/mail/TestMail';
 import { Minutes } from './../../imports/minutes';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
+import { TopicSchema } from '/imports/collections/topic.schema';
 
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
@@ -29,6 +30,7 @@ if (Meteor.settings.isEnd2EndTest) {
             TestMailCollection.remove({});
             console.log('Count saved test mails after reset:'+TestMailCollection.find().count());
             BroadcastMessageSchema.remove({});
+            TopicSchema.remove({});
 
             if (!skipUsers) {
                 // Reset users and create our e2e test users

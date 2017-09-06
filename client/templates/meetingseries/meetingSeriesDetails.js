@@ -22,10 +22,12 @@ Template.meetingSeriesDetails.onCreated(function () {
     this.autorun(() => {
         _meetingSeriesID = FlowRouter.getParam('_id');
         this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
-
         let subscriptionHandle = this.subscribe('meetingSeries', _meetingSeriesID);
-
         this.seriesReady.set(subscriptionHandle.ready());
+
+        // subscribe topics for this series, too. If we do this in the tabs templates directly
+        // the subscription will be un-subscribed and subscribed again when switching between both tabs.
+        this.subscribe('topics', _meetingSeriesID);
     });
 
     this.activeTabTemplate = new ReactiveVar('tabMinutesList');
