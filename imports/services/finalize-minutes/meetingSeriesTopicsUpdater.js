@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import {TopicsFinder} from '../topicsFinder';
 
-export class TopicsUpdater {
+export class MeetingSeriesTopicsUpdater {
 
     constructor(meetingSeriesId) {
         this.meetingSeriesId = meetingSeriesId;
@@ -23,6 +23,7 @@ export class TopicsUpdater {
     }
 
     upsertTopic(topicDoc) {
+        topicDoc.parentId = this.meetingSeriesId;
         const topicId = topicDoc._id;
         TopicSchema.upsert(
             { parentId: this.meetingSeriesId, _id: topicId },

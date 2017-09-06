@@ -8,7 +8,7 @@ import { UserRoles } from './../userroles';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { MinutesSchema } from './minutes.schema';
 import { AttachmentsCollection } from './attachments_private';
-import {TopicsUpdater} from '../services/finalize-minutes/topicsUpdater';
+import {MeetingSeriesTopicsUpdater} from '../services/finalize-minutes/meetingSeriesTopicsUpdater';
 import {Topic} from '../topic';
 
 // todo merge with finalizer copy
@@ -205,7 +205,7 @@ Meteor.methods({
         //ensure user is logged in and moderator
         checkUserAvailableAndIsModeratorOf(meetingSeries_id);
 
-        const topicsUpdater = new TopicsUpdater(meetingSeries_id);
+        const topicsUpdater = new MeetingSeriesTopicsUpdater(meetingSeries_id);
         topicsUpdater.reOpenTopic(topic_id);
         
         //Write to currently unfinalized Minute, if existent

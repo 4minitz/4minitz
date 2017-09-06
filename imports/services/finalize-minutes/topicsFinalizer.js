@@ -1,9 +1,9 @@
 import {subElementsHelper} from '../../helpers/subElements';
-import {TopicsUpdater} from './topicsUpdater';
+import {MeetingSeriesTopicsUpdater} from './meetingSeriesTopicsUpdater';
 import {MinutesFinder} from '../minutesFinder';
 
 const createTopicsUpdater = (meetingSeriesId) => {
-    return new TopicsUpdater(meetingSeriesId);
+    return new MeetingSeriesTopicsUpdater(meetingSeriesId);
 };
 
 export class TopicsFinalizer {
