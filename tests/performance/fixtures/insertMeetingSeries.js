@@ -47,6 +47,10 @@ async function main() {
         meetingSeriesGenerator.addAllMinutes(minutes, topicsGenerator.seriesTopicList);
 
         await mongoDb.insertOne(Collections.MeetingSeries, series);
+        await mongoDb.insertMany(Collections.Topcis, topicsGenerator.seriesTopicList.map(topic => {
+            topic.parentId = series._id;
+            return topic;
+        }));
         let count = (await mongoDb.insertMany(Collections.Minutes, minutes)).insertedCount;
 
 
