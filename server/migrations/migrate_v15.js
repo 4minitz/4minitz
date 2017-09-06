@@ -1,4 +1,4 @@
-import {MigrateItems} from './helpers/migrateItems';
+import {MigrateItemsPre16} from './helpers/migrateItems';
 
 const DEFAULT_PRIORITY = 3;
 
@@ -24,7 +24,7 @@ const convertOldPriority = (priority) => {
 export class MigrateV15 {
 
     static up() {
-        new MigrateItems((infoItem) => {
+        new MigrateItemsPre16((infoItem) => {
             if (isActionItem(infoItem)) {
                 infoItem.priority = convertOldPriority(infoItem.priority);
             } else {
@@ -34,7 +34,7 @@ export class MigrateV15 {
     }
 
     static down() {
-        new MigrateItems((infoItem) => {
+        new MigrateItemsPre16((infoItem) => {
             if (isActionItem(infoItem)) {
                 infoItem.priority = infoItem.priority.toString();
             }
