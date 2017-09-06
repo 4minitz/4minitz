@@ -159,6 +159,7 @@ export class TopicsGenerator {
             // they will be closed in the following minutes randomly.
             item.isOpen = true;
             item.isNew = false;
+            item.priority = 3;
             item.responsibles = [];
             item.duedate = DateHelper.formatDateISO8601(faker.date.future());
         }
