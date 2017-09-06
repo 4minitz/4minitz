@@ -45,6 +45,7 @@ export class E2ETopics {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
         browser.waitForVisible(selector);
         browser.click(selector);
+        E2EGlobal.waitSomeTime();
         browser.click("#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic");
         if (confirmDialog === undefined) {
             return;
@@ -205,6 +206,7 @@ export class E2ETopics {
         let selOpenMenu = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnItemDropdownMenu";
         browser.waitForVisible(selOpenMenu);
         browser.click(selOpenMenu);
+        E2EGlobal.waitSomeTime();
         let selDelete = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnDelInfoItem";
         browser.click(selDelete);
 
