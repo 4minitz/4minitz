@@ -206,10 +206,10 @@ export class E2ETopics {
     static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
         let selOpenMenu = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnItemDropdownMenu";
         browser.waitForVisible(selOpenMenu);
-        browser.click(selOpenMenu);
+        E2EGlobal.clickWithRetry(selOpenMenu);
         let selDelete = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnDelInfoItem";
         browser.waitForVisible(selDelete);
-        browser.click(selDelete);
+        E2EGlobal.clickWithRetry(selDelete);
 
         if (confirmDialog === undefined) {
             return;

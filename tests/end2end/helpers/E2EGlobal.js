@@ -55,6 +55,9 @@ export class E2EGlobal {
     }
 
     static clickWithRetry(selector, timeout = 10000) {
+        browser.scroll(selector);
+        E2EGlobal.waitSomeTime(1000);
+
         const start = new Date();
         let current = new Date();
 
