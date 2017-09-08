@@ -44,10 +44,10 @@ export class E2ETopics {
     static deleteTopic(topicIndex, confirmDialog) {
         const selectorMenu = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
         browser.waitForVisible(selectorMenu);
-        browser.click(selectorMenu);
+        E2EGlobal.clickWithRetry(selectorMenu);
         const selectorDeleteBtn = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
         browser.waitForVisible(selectorDeleteBtn);
-        browser.click(selectorDeleteBtn);
+        E2EGlobal.clickWithRetry(selectorDeleteBtn);
         if (confirmDialog === undefined) {
             return;
         }
@@ -433,7 +433,7 @@ export class E2ETopics {
         } catch (e) {
             return false;
         }
-        browser.click(selOpenMenu);
+        E2EGlobal.clickWithRetry(selOpenMenu);
 
         let selAddDetails = selectInfoItem + ".addDetail";
         browser.click(selAddDetails);
