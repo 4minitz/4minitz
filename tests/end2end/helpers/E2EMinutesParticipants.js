@@ -105,6 +105,7 @@ export class E2EMinutesParticipants {
     setUserPresence(username, presence) {
         let currentSelectState = browser.elementIdSelected(this._participantsAndPresence[username].checkboxElemId).value;
         if (currentSelectState != presence) {
+            browser.scroll('#id_participants');
             browser.elementIdClick(this._participantsAndPresence[username].userElemId)
         }
         this.updateUsersAndPresence();
