@@ -20,14 +20,14 @@ export class E2EMinutesParticipants {
 
     static expand() {
         if (E2EMinutesParticipants.isCollapsed()) {
-            browser.click("#btnParticipantsExpand");
+            E2EGlobal.clickWithRetry("#btnParticipantsExpand");
             browser.waitForVisible('#id_participants');
         }
     }
 
     static collapse() {
         if (E2EMinutesParticipants.isExpanded()) {
-            browser.click("#btnParticipantsExpand");
+            E2EGlobal.clickWithRetry("#btnParticipantsExpand");
 
             const waitForInvisible = true;
             browser.waitForVisible('#id_participants', 10000, waitForInvisible);

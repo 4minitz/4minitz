@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
@@ -42,7 +41,7 @@ describe('MeetingSeries Editor', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetinSeriesEditCancel')).to.be.true;
-        browser.click('#btnMeetinSeriesEditCancel');
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
         E2EGlobal.waitSomeTime(); // give dialog animation time
         // Now dialog should be gone
         expect(browser.isVisible('#btnMeetinSeriesEditCancel')).to.be.false;
@@ -55,7 +54,7 @@ describe('MeetingSeries Editor', function () {
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
-        browser.click("#deleteMeetingSeries");
+        E2EGlobal.clickWithRetry("#deleteMeetingSeries");
         E2EApp.confirmationDialogAnswer(true);
 
         expect(E2EMeetingSeries.countMeetingSeries()).to.equal(countAfterCreate -1);
@@ -68,7 +67,7 @@ describe('MeetingSeries Editor', function () {
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
-        browser.click("#deleteMeetingSeries");
+        E2EGlobal.clickWithRetry("#deleteMeetingSeries");
         E2EApp.confirmationDialogAnswer(false);
 
         expect(E2EMeetingSeries.countMeetingSeries()).to.equal(countAfterCreate);
@@ -91,7 +90,7 @@ describe('MeetingSeries Editor', function () {
 
         // Now delete meeting series with attached Minutes
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
-        browser.click("#deleteMeetingSeries");
+        E2EGlobal.clickWithRetry("#deleteMeetingSeries");
         E2EApp.confirmationDialogAnswer(true);
 
         // Meeting series and attached minutes should be gone
@@ -105,17 +104,17 @@ describe('MeetingSeries Editor', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         browser.setValue('input[id="id_meetingproject"]', "");  // empty input
         browser.setValue('input[id="id_meetingname"]', "");     // empty input
-        browser.click("#btnMeetingSeriesSave");     // try to save
+        E2EGlobal.clickWithRetry("#btnMeetingSeriesSave");     // try to save
         expect(browser.isVisible("#btnMeetingSeriesSave")).to.be.true;  // dialog still open!
 
         browser.setValue('input[id="id_meetingproject"]', "XXX");
         browser.setValue('input[id="id_meetingname"]', "");     // empty input
-        browser.click("#btnMeetingSeriesSave");     // try to save
+        E2EGlobal.clickWithRetry("#btnMeetingSeriesSave");     // try to save
         expect(browser.isVisible("#btnMeetingSeriesSave")).to.be.true;  // dialog still open!
 
         browser.setValue('input[id="id_meetingproject"]', "");  // empty input
         browser.setValue('input[id="id_meetingname"]', "XXX");
-        browser.click("#btnMeetingSeriesSave");     // try to save
+        E2EGlobal.clickWithRetry("#btnMeetingSeriesSave");     // try to save
         expect(browser.isVisible("#btnMeetingSeriesSave")).to.be.true;  // dialog still open!
 
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);  // close with cancel
@@ -140,14 +139,14 @@ describe('MeetingSeries Editor', function () {
         browser.setValue('input[id="id_meetingproject"]', aProjectName+" Changed!");
         browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
 
-        browser.click('#btnEditMSClose');
+        E2EGlobal.clickWithRetry('#btnEditMSClose');
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "base", true);
         expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(aProjectName);
         expect(browser.getValue('input[id="id_meetingname"]')).to.equal(aMeetingName);
 
-        browser.click('#btnEditMSClose');
+        E2EGlobal.clickWithRetry('#btnEditMSClose');
         E2EGlobal.waitSomeTime(); // give dialog animation time
     });
 
@@ -157,14 +156,14 @@ describe('MeetingSeries Editor', function () {
         browser.setValue('input[id="id_meetingproject"]', aProjectName+" Changed!");
         browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
 
-        browser.click('#btnMeetinSeriesEditCancel');
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "base", true);
         expect(browser.getValue('input[id="id_meetingproject"]')).to.equal(aProjectName);
         expect(browser.getValue('input[id="id_meetingname"]')).to.equal(aMeetingName);
 
-        browser.click('#btnMeetinSeriesEditCancel');
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
         E2EGlobal.waitSomeTime(); // give dialog animation time
     });
 
@@ -172,7 +171,7 @@ describe('MeetingSeries Editor', function () {
         const initialCount = E2EMeetingSeries.countMeetingSeries();
 
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
-        browser.click('#deleteMeetingSeries');
+        E2EGlobal.clickWithRetry('#deleteMeetingSeries');
         E2EGlobal.waitSomeTime(); // give dialog animation time
         E2EApp.confirmationDialogAnswer(true);
 

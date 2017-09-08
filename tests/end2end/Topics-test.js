@@ -42,7 +42,7 @@ describe('Topics', function () {
 
     it('can submit a new topic by pressing enter on the topic title input', function () {
         browser.waitForVisible("#id_showAddTopicDialog");
-        browser.click("#id_showAddTopicDialog");
+        E2EGlobal.clickWithRetry("#id_showAddTopicDialog");
 
         E2ETopics.insertTopicDataIntoDialog("some topic");
 
@@ -151,7 +151,7 @@ describe('Topics', function () {
         E2EMinutes.finalizeCurrentMinutes();
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
 
-        browser.click('#tab_topics');
+        E2EGlobal.clickWithRetry('#tab_topics');
         E2EGlobal.waitSomeTime();
 
         const topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
@@ -257,7 +257,7 @@ describe('Topics', function () {
         expect(infoitems.length).to.be.equal(2);
 
         // collapse top-most topic
-        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        E2EGlobal.clickWithRetry('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
         infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(1);
 
@@ -273,8 +273,8 @@ describe('Topics', function () {
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
 
         // collapse & re-expand top-most topic
-        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
-        browser.click('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        E2EGlobal.clickWithRetry('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
+        E2EGlobal.clickWithRetry('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
         let infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(2);
     });
@@ -287,7 +287,7 @@ describe('Topics', function () {
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
 
         // collapse & re-expand top-most topic
-        browser.click('#btnCollapseAll');
+        E2EGlobal.clickWithRetry('#btnCollapseAll');
         let infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(0);
     });
@@ -300,8 +300,8 @@ describe('Topics', function () {
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
 
         // collapse & re-expand top-most topic
-        browser.click('#btnCollapseAll');
-        browser.click('#btnExpandAll');
+        E2EGlobal.clickWithRetry('#btnCollapseAll');
+        E2EGlobal.clickWithRetry('#btnExpandAll');
         let infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(2);
     });
@@ -447,12 +447,12 @@ describe('Topics', function () {
 
     it('check whether labelselectionfield exists', function() {
         browser.waitForVisible("#id_showAddTopicDialog");
-        browser.click("#id_showAddTopicDialog");
+        E2EGlobal.clickWithRetry("#id_showAddTopicDialog");
         E2EGlobal.waitSomeTime(350);
 
         expect(browser.waitForExist("#id_item_selLabels")).to.be.true;
         E2EGlobal.waitSomeTime(350);
-        browser.click("#btnTopicCancel");
+        E2EGlobal.clickWithRetry("#btnTopicCancel");
     });
 
     it('add label to topic via selection field', function() {

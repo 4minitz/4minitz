@@ -88,9 +88,9 @@ describe('Routing', function () {
 
         // open about dialog and trigger legal notice link
         expect(browser.getUrl(), "on normal route").not.to.contain("/legalnotice");
-        browser.click("#btnAbout");
+        E2EGlobal.clickWithRetry("#btnAbout");
         E2EGlobal.waitSomeTime();
-        browser.click("#btnLegalNotice");
+        E2EGlobal.clickWithRetry("#btnLegalNotice");
         expect(browser.getUrl(), "on 'legal notice' route").to.contain("/legalnotice");
     });
 });

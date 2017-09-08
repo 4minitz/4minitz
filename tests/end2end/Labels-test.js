@@ -121,10 +121,10 @@ describe('Labels', function () {
 
             let labelId = E2EMeetingSeriesEditor.changeLabel(labelName, renamedLabel, changedColor, false);
             let selLabelRow = '#row-label-' + labelId;
-            browser.click(selLabelRow + ' .evt-btn-edit-cancel');
+            E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-cancel');
 
             // open editor again
-            browser.click(selLabelRow + ' .evt-btn-edit-label');
+            E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-label');
             let newLabelNameValue = browser.getValue(selLabelRow + " [name='labelName']");
             expect(newLabelNameValue, "label name should be restored").to.equal(labelName);
 
