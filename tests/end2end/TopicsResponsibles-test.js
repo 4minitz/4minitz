@@ -1,7 +1,6 @@
 import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 import { E2EMinutes } from './helpers/E2EMinutes'
 import { E2ETopics } from './helpers/E2ETopics'
 
@@ -57,7 +56,7 @@ describe('Topics Responsibles', function () {
         E2ETopics.openEditTopicForMinutes(1);
         browser.element(".form-group-responsibles .select2-selection__choice__remove").click(); // remove first user
         browser.element(".form-group-responsibles .select2-selection").click();
-        browser.click("#btnTopicSave");
+        E2EGlobal.clickWithRetry("#btnTopicSave");
         E2EGlobal.waitSomeTime();
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
@@ -80,7 +79,7 @@ describe('Topics Responsibles', function () {
         browser.element(".form-group-responsibles .select2-selection").click();
         E2EGlobal.waitSomeTime();
         browser.keys("1\uE015\uE007");  // "1" (end of user1 string) + CursorDown + Enter
-        browser.click("#btnTopicSave");
+        E2EGlobal.clickWithRetry("#btnTopicSave");
         E2EGlobal.waitSomeTime(500);
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
@@ -99,7 +98,7 @@ describe('Topics Responsibles', function () {
         browser.element(".form-group-responsibles .select2-selection").click();
         browser.keys("3\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
         E2EGlobal.waitSomeTime();
-        browser.click("#btnTopicSave");
+        E2EGlobal.clickWithRetry("#btnTopicSave");
         E2EGlobal.waitSomeTime(500);
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
@@ -126,7 +125,7 @@ describe('Topics Responsibles', function () {
 
         E2EGlobal.saveScreenshot("additional-responsible-3");
 
-        browser.click("#btnTopicSave");
+        E2EGlobal.clickWithRetry("#btnTopicSave");
         E2EGlobal.waitSomeTime();
 
         E2EGlobal.saveScreenshot("additional-responsible-4");
