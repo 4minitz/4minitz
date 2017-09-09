@@ -77,7 +77,7 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
         expect(dialogContentTitle).to.have.string('Cannot delete topic');
 
         // close dialog otherwise beforeEach-hook will fail!
-        browser.click('#confirmationDialogOK');
+        E2EGlobal.clickWithRetry('#confirmationDialogOK');
         E2EGlobal.waitSomeTime();
     });
 

@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './E2EGlobal'
 import { E2EApp } from './E2EApp'
 
@@ -21,7 +20,7 @@ export class E2EMeetingSeries {
 
         // is "create MeetingSeries dialog" closed?
         if (!browser.isVisible('input[id="id_meetingproject"]')) {
-            browser.click('#btnNewMeetingSeries');  // open
+            E2EGlobal.clickWithRetry('#btnNewMeetingSeries');  // open
             E2EGlobal.waitSomeTime();
             browser.waitForVisible('input[id="id_meetingproject"]');
         }
@@ -39,7 +38,7 @@ export class E2EMeetingSeries {
         this.editMeetingSeriesForm(aProj, aName,  switchInput);
         E2EGlobal.waitSomeTime();
 
-        browser.click('#btnAddInvite');
+        E2EGlobal.clickWithRetry('#btnAddInvite');
         E2EGlobal.waitSomeTime(1000);  // additional time for deferred dialog open + panel switch!
 
         let meetingSeriesID = browser.getUrl();
@@ -47,7 +46,7 @@ export class E2EMeetingSeries {
         meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
 
         if (! keepOpenMSEditor && browser.isVisible("#btnMeetinSeriesEditCancel")) {
-            browser.click('#btnMeetinSeriesEditCancel');
+            E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
             E2EGlobal.waitSomeTime();
             E2EApp.gotoStartPage();
         }
@@ -116,7 +115,7 @@ export class E2EMeetingSeries {
         } catch (e) {
             return false;   // we have no meeting series at all!
         }
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         E2EGlobal.waitSomeTime();
     }
 
@@ -127,7 +126,7 @@ export class E2EMeetingSeries {
         } catch (e) {
             return false;   // we have no meeting series at all!
         }
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         E2EGlobal.waitSomeTime();
     }
 
@@ -138,7 +137,7 @@ export class E2EMeetingSeries {
         } catch (e) {
             return false;   // we have no meeting series at all!
         }
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         E2EGlobal.waitSomeTime();
     }
 

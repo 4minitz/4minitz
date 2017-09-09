@@ -39,7 +39,7 @@ describe('LDAP', function () {
         E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
         E2EApp.logoutUser();
 
-        browser.click('#tab_standard');
+        E2EGlobal.clickWithRetry('#tab_standard');
         E2EGlobal.waitSomeTime();
         if (browser.isVisible('#at-forgotPwd')) {
             E2EApp.resetPassword('ldapUser1@example.com');

@@ -71,7 +71,7 @@ describe('Topics Skip', function () {
         
         E2ETopics.toggleSkipTopic(2, true);
         browser.waitForVisible('#btn_sendAgenda');
-        browser.click('#btn_sendAgenda');
+        E2EGlobal.clickWithRetry('#btn_sendAgenda');
 
         E2EGlobal.waitSomeTime();
 
@@ -163,10 +163,10 @@ describe('Topics Skip', function () {
         E2ETopics.toggleSkipTopic(2, true);
         let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
         expect(browser.isVisible(selector)).to.be.true;
-        browser.click("#checkHideClosedTopicsLabel");
+        E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
         E2EGlobal.waitSomeTime();
         expect(browser.isVisible(selector)).to.be.false;
-        browser.click("#checkHideClosedTopicsLabel");
+        E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
     });
     
     it('Skipped topics will appear unskipped in the next minute', function () { 

@@ -172,7 +172,7 @@ export class E2EApp {
         // check post-condition
         if (! E2EApp.isOnStartPage()) {
             E2EGlobal.saveScreenshot("gotoStartPage1");
-            browser.click('a.navbar-brand');
+            E2EGlobal.clickWithRetry('a.navbar-brand');
             E2EGlobal.waitSomeTime(1500);
         }
         if (! E2EApp.isOnStartPage()) {
@@ -192,17 +192,17 @@ export class E2EApp {
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
         browser.waitForVisible('#confirmationDialogOK', 1000);
         if (pressOK) {
-            browser.click("#confirmationDialogOK");
+            E2EGlobal.clickWithRetry("#confirmationDialogOK");
         } else {
-            browser.click("#confirmationDialogCancel");
+            E2EGlobal.clickWithRetry("#confirmationDialogCancel");
         }
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
     };
 
     static resetPassword(emailAdress) {
-        browser.click("#at-forgotPwd");
+        E2EGlobal.clickWithRetry("#at-forgotPwd");
         browser.setValue('#at-field-email', emailAdress);
-        browser.click('#at-btn');
+        E2EGlobal.clickWithRetry('#at-btn');
     }
 }
 

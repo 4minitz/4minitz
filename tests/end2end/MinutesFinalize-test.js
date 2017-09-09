@@ -84,7 +84,7 @@ describe('Minutes Finalize', function () {
         const urlBefore = browser.getUrl();
         expect(browser.isExisting('#btnAddMinutes'), "btnAddMinutes should be there").to.be.true;
         try {
-            browser.click("#btnAddMinutes");
+            E2EGlobal.clickWithRetry("#btnAddMinutes");
         } catch (e) {
             // Intentionally left empty
             // We expect the above click to fail, as button is disabled
@@ -109,13 +109,13 @@ describe('Minutes Finalize', function () {
         // No finalize here!
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         browser.waitForVisible("#btnAddMinutes");
-        browser.click("a#id_linkToMinutes");        // goto first available minutes
+        E2EGlobal.clickWithRetry("a#id_linkToMinutes");        // goto first available minutes
         // Now finalize!
         E2EMinutes.finalizeCurrentMinutes();
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
 
         // check if button is clicked, it does add 2nd minutes
-        browser.click("#btnAddMinutes");
+        E2EGlobal.clickWithRetry("#btnAddMinutes");
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(countInitialMinutes +2);
     });
