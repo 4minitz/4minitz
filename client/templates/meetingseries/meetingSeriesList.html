@@ -1,18 +1,23 @@
 <template name="meetingSeriesList">
     {{> meetingSeriesAdd}}
-
+    {{#if meetingSeriesAmountBiggerFour}}
+        {{> meetingSeriesSearch}}
+    {{/if}}
     <br>
     <br>
 
     <ul class="list-group" style="font-size: 130%;">
-      {{#each meetingSeriesRow}}
-        {{> meetingSeriesOverview}}
-      {{/each}}
+        {{#if meetingSeriesRow}}
+            {{#each meetingSeriesRow}}
+                {{> meetingSeriesOverview}}
+            {{/each}}
+        {{else}}
+            <span id="id_noresults">No Results for this input..</span>
+        {{/if}}
     </ul>
 
     {{> quickHelp context='meetingSeriesList' contentTmpl='quickHelpMeetingSeriesList'}}
 </template>
-
 
 <template name="meetingSeriesOverview">
         <li class="list-group-item meeting-series-item" style="padding-bottom: 10px;">

@@ -66,12 +66,17 @@ export class E2EApp {
             browser.waitForVisible(tab, 5000);
             E2EGlobal.clickWithRetry(tab);
 
-            let tabIsStandard = browser.isExisting('#at-field-username_and_email');
-            let userWantsStandard = tab === '#tab_standard';
-            let tabIsLdap = browser.isExisting('#id_ldapUsername');
-            let userWantsLdap = tab === '#tab_ldap';
+            browser.waitUntil(_ => {
+                let tabIsStandard = browser.isExisting('#at-field-username_and_email');
+                let userWantsStandard = tab === '#tab_standard';
+                let tabIsLdap = browser.isExisting('#id_ldapUsername');
+                let userWantsLdap = tab === '#tab_ldap';
 
-            browser.waitUntil(_ => (tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap), 5000);
+                return (tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap);
+            }, 5000);
+
+            let tabIsStandard = browser.isExisting('#at-field-username_and_email');
+            let tabIsLdap = browser.isExisting('#id_ldapUsername');
 
             if (tabIsStandard) {
                 E2EGlobal.setValueSafe('input[id="at-field-username_and_email"]', username);
@@ -162,12 +167,12 @@ export class E2EApp {
         if (! E2EApp.isLoggedIn()) {
             E2EApp.loginUser(0, false);
         }
-        E2EGlobal.clickWithRetry('a.navbar-brand', 3000);
+        E2EGlobal.clickWithRetry('a.navbar-brand', 6000);
         E2EGlobal.waitSomeTime();
         // check post-condition
         if (! E2EApp.isOnStartPage()) {
             E2EGlobal.saveScreenshot("gotoStartPage1");
-            browser.click('a.navbar-brand');
+            E2EGlobal.clickWithRetry('a.navbar-brand');
             E2EGlobal.waitSomeTime(1500);
         }
         if (! E2EApp.isOnStartPage()) {
@@ -183,21 +188,21 @@ export class E2EApp {
             .to.contain(containedText);
     };
 
-    static confirmationDialogAnswer (pressOK, title) {
+    static confirmationDialogAnswer (pressOK) {
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
         browser.waitForVisible('#confirmationDialogOK', 1000);
         if (pressOK) {
-            browser.click("#confirmationDialogOK");
+            E2EGlobal.clickWithRetry("#confirmationDialogOK");
         } else {
-            browser.click("#confirmationDialogCancel");
+            E2EGlobal.clickWithRetry("#confirmationDialogCancel");
         }
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
     };
 
     static resetPassword(emailAdress) {
-        browser.click("#at-forgotPwd");
+        E2EGlobal.clickWithRetry("#at-forgotPwd");
         browser.setValue('#at-field-email', emailAdress);
-        browser.click('#at-btn');
+        E2EGlobal.clickWithRetry('#at-btn');
     }
 }
 

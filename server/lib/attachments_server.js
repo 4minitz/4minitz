@@ -7,10 +7,10 @@
 
 import { Meteor } from 'meteor/meteor';
 
-fs = require('fs-extra');
-path = require('path');
+const fs = require('fs-extra');
+const path = require('path');
 
-calculateAndCreateStoragePath = function (fileObj) {
+calculateAndCreateStoragePath = function (fileObj) { //eslint-disable-line
     if (Meteor.isServer) {
         let absAttachmentStoragePath = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
             ? Meteor.settings.attachments.storagePath
@@ -35,13 +35,13 @@ calculateAndCreateStoragePath = function (fileObj) {
 };
 
 
-removeMeetingSeriesAttachmentDir = function (meetingseries_id) {
+removeMeetingSeriesAttachmentDir = function (meetingseries_id) { //eslint-disable-line
     if (meetingseries_id.length > 0) {  // ensure "attachment root" is not deleted
-        let storagePath = calculateAndCreateStoragePath();
+        let storagePath = calculateAndCreateStoragePath(); //eslint-disable-line
         storagePath += '/'+meetingseries_id;
         fs.remove(storagePath, function (err) {
             if (err) {
-                console.error('Could not remove attachment dir:'+storagePath+" of meeting series with ID:"+meetingseries_id);
+                console.error('Could not remove attachment dir:'+storagePath+' of meeting series with ID:'+meetingseries_id);
             }
         });
     }
@@ -51,7 +51,7 @@ removeMeetingSeriesAttachmentDir = function (meetingseries_id) {
 // check storagePath for attachments once at server bootstrapping
 if (Meteor.settings.attachments && Meteor.settings.attachments.enabled) {
     console.log('Attachments upload feature: ENABLED');
-    let settingsPath = calculateAndCreateStoragePath(null);
+    let settingsPath = calculateAndCreateStoragePath(null); //eslint-disable-line
     let absoluteTargetPath = path.resolve(settingsPath);
     console.log('attachmentsStoragePath:'+absoluteTargetPath);
 

@@ -5,10 +5,10 @@ const KEEP_ALIVE_INTERVAL_IN_MS = 30 * 1000;
 
 const getVisibilityKeys = () => {
     const keys = {
-        hidden: "visibilitychange",
-        webkitHidden: "webkitvisibilitychange",
-        mozHidden: "mozvisibilitychange",
-        msHidden: "msvisibilitychange"
+        hidden: 'visibilitychange',
+        webkitHidden: 'webkitvisibilitychange',
+        mozHidden: 'mozvisibilitychange',
+        msHidden: 'msvisibilitychange'
     };
     let stateKey, eventKey;
 
@@ -49,7 +49,7 @@ export class UserTracker {
                 this._clearActiveRoute();
                 this._stopTimer();
             }
-        }
+        };
     }
 
     _setActiveRoute() {

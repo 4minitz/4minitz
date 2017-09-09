@@ -165,16 +165,20 @@ export class InfoItem {
         });
     }
 
-    addLabelByName(labelName, meetingSeriesId) {
-        let label = Label.createLabelByName(meetingSeriesId, labelName);
-        if (null === label) {
-            label = new Label({name: labelName});
-            label.save(meetingSeriesId);
-        }
+    setSubject(newSubject) {
+        this._infoItemDoc.subject = newSubject;
+    }
 
-        if (!this.hasLabelWithId(label.getId())) {
-            this._infoItemDoc.labels.push(label.getId());
-        }
+    /**
+     *
+     * @param labelIds {string[]}
+     */
+    addLabelsById(labelIds) {
+        labelIds.forEach(id => {
+            if (!this.hasLabelWithId(id)) {
+                this._infoItemDoc.labels.push(id);
+            }
+        });
     }
 
     hasLabelWithId(labelId) {
@@ -200,23 +204,6 @@ export class InfoItem {
 
     log () {
         console.log(this.toString());
-    }
-
-    extractLabelsFromSubject(meetingSeriesId) {
-        const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
-        let match;
-
-        while((match = regEx.exec(this._infoItemDoc.subject)) !== null) {
-            let labelName = match[2];
-            this.addLabelByName(labelName, meetingSeriesId);
-            this._removeLabelFromSubject(labelName);
-        }
-    }
-
-    _removeLabelFromSubject(labelName) {
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace('#' + labelName + ' ', '');
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace(' #' + labelName, '');
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace('#' + labelName, '');
     }
 
 }

@@ -46,12 +46,11 @@ export class ItemsFilter {
             let infos = (doc.details)
                 ? this._toUpper(doc.details.reduce((acc, detail) => { return acc + detail.text; }, ''))
                 : '';
-            let prio = (doc.priority) ? this._toUpper(doc.priority) : '';
             let due = (doc.duedate) ? doc.duedate : '';
             if (
                 (subject.indexOf(token) === -1
                 && infos.indexOf(token) === -1
-                && prio.indexOf(token) === -1
+                && doc.priority !== parseInt(token, 10)
                 && due.indexOf(token) === -1)
             ) {
                 return false;
@@ -80,37 +79,37 @@ export class ItemsFilter {
 
             switch (filter.key) {
             case ITEM_KEYWORDS.IS.key:
-                {
-                    if (!ItemsFilter._itemMatchesKeyword_IS(doc, filter.value)) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!ItemsFilter._itemMatchesKeyword_IS(doc, filter.value)) {
+                    return false;
                 }
+                break;
+            }
             case ITEM_KEYWORDS.USER.key:
-                {
-                    if (!this._docMatchesKeywords_USER(doc, filter)) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!this._docMatchesKeywords_USER(doc, filter)) {
+                    return false;
                 }
+                break;
+            }
             case ITEM_KEYWORDS.PRIO.key:
-                {
-                    if (!( doc.priority && doc.priority.startsWith(filter.value))) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!( doc.priority && doc.priority === parseInt(filter.value, 10))) {
+                    return false;
                 }
+                break;
+            }
             case ITEM_KEYWORDS.DUE.key:
-                {
-                    if (!( doc.duedate && doc.duedate.startsWith(filter.value))) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!( doc.duedate && doc.duedate.startsWith(filter.value))) {
+                    return false;
                 }
+                break;
+            }
             case ITEM_KEYWORDS.DO.key:
-                {
-                    break;
-                }
+            {
+                break;
+            }
             default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
             }
         }
@@ -132,7 +131,7 @@ export class ItemsFilter {
         case 'open':
             return item.isOpen;
         case 'closed':
-                // explicit comparison required to skip info items (which has no isOpen property)
+            // explicit comparison required to skip info items (which has no isOpen property)
             return item.isOpen === false;
         case 'info':
             return item.itemType === 'infoItem';

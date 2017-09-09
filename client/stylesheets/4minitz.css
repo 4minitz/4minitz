@@ -249,16 +249,13 @@ input.pick-a-color {
         margin-left: 20px;
         padding-left: 5px;
     }
-}
 
-@media (min-width: 768px) {
     .multicolumn {
         -webkit-column-count: 2;
         -moz-column-count: 2;
         column-count: 2;
     }
-}
-@media (min-width: 768px) {
+
     .padding-for-collabsable {
         padding-left: 1.5em
     }
@@ -293,4 +290,16 @@ input.pick-a-color {
 
 a.linkMeetingSerie:hover {
     color: black;
+}
+
+.meetingSeriesSearchbar input{
+    margin: 5px 0 0 1px;
+    width: 233px;
+    height: 30px;
+}
+@media (min-width: 600px){
+    .meetingSeriesSearchbar{
+        float: right;
+        margin: 10px 15px 0 0;
+    }
 }

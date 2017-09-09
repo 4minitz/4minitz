@@ -78,14 +78,14 @@ Template.meetingSeriesDetails.helpers({
             };
 
         case 'tabTopics':
-            {
-                return new TabTopicsConfig(ms.topics, _meetingSeriesID);
-            }
+        {
+            return new TabTopicsConfig(ms.topics, _meetingSeriesID);
+        }
 
         case 'tabItems':
-            {
-                return new TabItemsConfig(ms.topics, _meetingSeriesID);
-            }
+        {
+            return new TabItemsConfig(ms.topics, _meetingSeriesID);
+        }
 
         default: throw new Meteor.Error('illegal-state', 'Unknown tab: ' + tab);
         }

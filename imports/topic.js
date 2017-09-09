@@ -267,6 +267,12 @@ export class Topic {
         });
     }
 
+    getOnlyActionItems() {
+        return this._topicDoc.infoItems.filter((infoItemDoc) => {
+            return InfoItem.isActionItem(infoItemDoc);
+        });
+    }
+
     getOpenActionItems() {
         return this._topicDoc.infoItems.filter((infoItemDoc) => {
             return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;
@@ -275,6 +281,10 @@ export class Topic {
 
     setItems(items) {
         this._topicDoc.infoItems = items;
+    }
+
+    setSubject(subject) {
+        this._topicDoc.subject = subject;
     }
 
     getSubject() {
@@ -322,16 +332,12 @@ export class Topic {
         });
     }
 
-    addLabelByName(labelName, meetingSeriesId) {
-        let label = Label.createLabelByName(meetingSeriesId, labelName);
-        if (null === label) {
-            label = new Label({name: labelName});
-            label.save(meetingSeriesId);
-        }
-
-        if (!this.hasLabelWithId(label.getId())) {
-            this._topicDoc.labels.push(label.getId());
-        }
+    addLabelsByIds(labelIds) {
+        labelIds.forEach(id => {
+            if (!this.hasLabelWithId(id)) {
+                this._topicDoc.labels.push(id);
+            }
+        });
     }
 
     hasLabelWithId(labelId) {
@@ -427,18 +433,6 @@ export class Topic {
         this._topicDoc.responsibles.push(responsibleName);
     }
 
-    extractLabelsFromTopic(meetingSeriesId) {
-        const regEx = new RegExp(/(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g);
-        let subjectString = this._topicDoc.subject;
-        let match;
-
-        while ((match = regEx.exec(subjectString)) !== null) {
-            let labelName = match[2];
-            this.addLabelByName(labelName, meetingSeriesId);
-            this._removeLabelFromTopic(labelName);
-        }
-    }
-
     extractResponsiblesFromTopic() {
         const regEx = new RegExp(/(^|[\s.,;])@([a-zA-z]+[^\s.,;]*)/g);
         let subjectString = this._topicDoc.subject;
@@ -463,12 +457,6 @@ export class Topic {
         this._topicDoc.responsibles = updateTopicDoc.responsibles;
         this._topicDoc.isNew = updateTopicDoc.isNew;
         this._topicDoc.isRecurring = updateTopicDoc.isRecurring;
-    }
-
-    _removeLabelFromTopic(labelName) {
-        this._topicDoc.subject = this._topicDoc.subject.replace('#' + labelName + ' ', '');
-        this._topicDoc.subject = this._topicDoc.subject.replace(' #' + labelName, '');
-        this._topicDoc.subject = this._topicDoc.subject.replace('#' + labelName, '');
     }
 
     _removeResponsibleFromTopic(responsibleName) {

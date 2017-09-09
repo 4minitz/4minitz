@@ -70,11 +70,11 @@ describe('Send agenda', function () {
 
     it('ensures that a confirmation dialog is shown before sending the agenda a second time', function() {
         browser.waitForVisible('#btn_sendAgenda');
-        browser.click('#btn_sendAgenda');
+        E2EGlobal.clickWithRetry('#btn_sendAgenda');
 
         E2EGlobal.waitSomeTime();
 
-        browser.click('#btn_sendAgenda');
+        E2EGlobal.clickWithRetry('#btn_sendAgenda');
 
         let selectorDialog = "#confirmDialog";
 
@@ -96,7 +96,7 @@ describe('Send agenda', function () {
         }, 1);
 
         browser.waitForVisible('#btn_sendAgenda');
-        browser.click('#btn_sendAgenda');
+        E2EGlobal.clickWithRetry('#btn_sendAgenda');
 
         E2EGlobal.waitSomeTime();
 
@@ -127,7 +127,7 @@ describe('Send agenda', function () {
         E2EMinutes.gotoLatestMinutes();
 
         browser.waitForVisible('#btn_sendAgenda');
-        browser.click('#btn_sendAgenda');
+        E2EGlobal.clickWithRetry('#btn_sendAgenda');
 
         E2EGlobal.waitSomeTime();
 
@@ -144,9 +144,9 @@ describe('Send agenda', function () {
         browser.setValue('#edtParticipantsAdditional', additionalUser);
 
         browser.waitForVisible('#btn_sendAgenda');
-        browser.click('#btn_sendAgenda');
+        E2EGlobal.clickWithRetry('#btn_sendAgenda');
 
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(3000);
 
         let sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);

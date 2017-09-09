@@ -12,6 +12,7 @@ import { Topic } from '/imports/topic';
 import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { Label } from '/imports/label';
+import { Priority } from '/imports/priority';
 import { User, userSettings } from '/imports/users';
 
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
@@ -22,6 +23,7 @@ import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
+import {LabelExtractor} from '../../../imports/services/labelExtractor';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -173,6 +175,9 @@ let resizeTextarea = (element) => {
 };
 
 Template.topicInfoItemEdit.helpers({
+    getPriorities: function() {
+        return Priority.GET_PRIORITIES();
+    },
     isEditMode: function () {
         return (getEditInfoItem() !== false);
     },
@@ -238,22 +243,24 @@ Template.topicInfoItemEdit.events({
         let newItem;
         switch (type) {
         case 'actionItem':
-            doc.priority = tmpl.find('#id_item_priority').value;
             doc.responsibles = $('#id_selResponsibleActionItem').val();
             doc.duedate = tmpl.find('#id_item_duedateInput').value;
 
             newItem = new ActionItem(getRelatedTopic(), doc);
+            newItem.setPriority(new Priority(tmpl.find('#id_item_priority').value));
             break;
         case 'infoItem':
-            {
-                newItem = new InfoItem(getRelatedTopic(), doc);
-                break;
-            }
+        {
+            newItem = new InfoItem(getRelatedTopic(), doc);
+            break;
+        }
         default:
             throw new Meteor.Error('Unknown type!');
         }
 
-        newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
+        const labelExtractor = new LabelExtractor(newSubject, aMinute.parentMeetingSeries()._id);
+        newItem.addLabelsById(labelExtractor.getExtractedLabelIds());
+        newItem.setSubject(labelExtractor.getCleanedString());
         newItem.saveAsync().catch(handleError);
         if (getEditInfoItem() === false && newDetail) {
             newItem.addDetails(aMinute._id, newDetail);
@@ -276,8 +283,8 @@ Template.topicInfoItemEdit.events({
         let itemSubject = tmpl.find('#id_item_subject');
         itemSubject.value = (editItem) ? editItem._infoItemDoc.subject : '';
 
-        tmpl.find('#id_item_priority').value =
-            (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : '';
+        tmpl.find('#id_item_priority').value = (editItem && (editItem instanceof ActionItem))
+            ? editItem._infoItemDoc.priority : Priority.GET_DEFAULT_PRIORITY().value;
 
         tmpl.find('#id_item_duedateInput').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);

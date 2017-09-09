@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
@@ -72,6 +71,8 @@ describe('Minutes Participants', function () {
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMinutes.gotoLatestMinutes();
+
+        browser.waitForVisible('#btnParticipantsExpand', 3000);
 
         let participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(3);
@@ -246,7 +247,7 @@ describe('Minutes Participants', function () {
         let participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(1);
         
-        browser.click("#btnEditParticipants");
+        E2EGlobal.clickWithRetry("#btnEditParticipants");
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);

@@ -64,7 +64,7 @@ Template.minutesEditParticipants.helpers({
         let aMin = new Minutes(_minutesID);
         let partSorted = aMin.participants;
         partSorted.forEach(p => {
-            p["displayName"] = userNameForId(p.userId);
+            p['displayName'] = userNameForId(p.userId);
         });
         partSorted = partSorted.sort(function(a,b) {
             return (a.displayName > b.displayName) ? 1 : ((b.displayName > a.displayName) ? -1 : 0);
