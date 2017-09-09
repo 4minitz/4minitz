@@ -168,7 +168,7 @@ describe('Item Details', function () {
     it('does not revert changes when input field receives click-event during input', function () {
         let doBeforeSubmit = (inputElement) => {
            // perform click event on the input field after setting the text and before submitting the changes
-            browser.click(inputElement);
+            E2EGlobal.clickWithRetry(inputElement);
         };
 
         E2ETopics.addDetailsToActionItem(1, 1, 'First Details', doBeforeSubmit);
@@ -302,7 +302,7 @@ describe('Item Details', function () {
     it('can follow a-hyperlink in details', function() {
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details with link to http://www.google.com');
 
-        browser.click(".detailText a");
+        E2EGlobal.clickWithRetry(".detailText a");
         E2EGlobal.waitSomeTime();
         console.log("new URL after click:"+browser.getUrl());
         expect(browser.getUrl()).to.contain.string("google");

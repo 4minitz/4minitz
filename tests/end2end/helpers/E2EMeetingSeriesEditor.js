@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './E2EGlobal'
 import { E2EMeetingSeries } from './E2EMeetingSeries'
 
@@ -31,7 +30,7 @@ export class E2EMeetingSeriesEditor {
                 throw "Unsupported panelName: " + panelName;
             }
             browser.waitForExist(panelSelector);
-            browser.click(panelSelector);
+            E2EGlobal.clickWithRetry(panelSelector);
             E2EGlobal.waitSomeTime();  // wait for panel animation
         }
     };
@@ -54,7 +53,7 @@ export class E2EMeetingSeriesEditor {
 
     static closeMeetingSeriesEditor(save = true) {
         let selector = (save) ? '#btnMeetingSeriesSave' : '#btnMeetinSeriesEditCancel';
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         E2EGlobal.waitSomeTime(save ? 750 : 300);
     }
 
@@ -137,7 +136,7 @@ export class E2EMeetingSeriesEditor {
         let selLabelRow = '#row-label-' + labelId;
 
         // open label editor for labelId
-        browser.click(selLabelRow + ' .evt-btn-edit-label');
+        E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-label');
 
         browser.setValue(selLabelRow + " [name='labelName']", newLabelName);
         if (newLabelColor) {
@@ -145,7 +144,7 @@ export class E2EMeetingSeriesEditor {
         }
 
         if (autoSaveLabelChange) {
-            browser.click(selLabelRow + ' .evt-btn-edit-save');
+            E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-save');
 
             E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
         }
@@ -168,7 +167,7 @@ export class E2EMeetingSeriesEditor {
 
     static disableEmailForRoleChange() {
         browser.waitForVisible('#labelRoleChange');
-        browser.click('#labelRoleChange');
+        E2EGlobal.clickWithRetry('#labelRoleChange');
     }
 
 
