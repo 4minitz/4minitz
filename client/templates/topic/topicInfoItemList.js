@@ -19,6 +19,8 @@ export class TopicInfoItemListContext {
     static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(items, resolveSeriesForItem) {
         const context = new TopicInfoItemListContext(items, true, null);
         context.getSeriesId = resolveSeriesForItem;
+
+        context.hasLink = true;
         return context;
     }
 
@@ -257,6 +259,17 @@ Template.topicInfoItemList.helpers({
 
                 return doc;
             });
+    },
+
+    getLink: function(index) {
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        return Blaze._globalHelpers.pathForImproved('/meetingseries/' + context.getSeriesId(infoItem._id));
+    },
+
+    showLinks: function() {
+        const context = Template.instance().data;
+        return context.hasLink;
     }
 });
 

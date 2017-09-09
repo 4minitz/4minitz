@@ -284,3 +284,13 @@ input.pick-a-color {
 .strikethrough {
     text-decoration: line-through;
 }
+
+.linkMeetingSerie{
+    color: grey;
+    font-size: 80%;
+    vertical-align: bottom;
+}
+
+a.linkMeetingSerie:hover {
+    color: black;
+}

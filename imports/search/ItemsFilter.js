@@ -34,7 +34,9 @@ export class ItemsFilter {
     }
 
     _toUpper(str) {
-        return (this.isCaseSensitive) ? str : str.toUpperCase();
+        if(typeof str === 'string')
+            return (this.isCaseSensitive) ? str : str.toUpperCase();
+        return str.toString();
     }
 
     docMatchesSearchTokens(doc, searchTokens) {

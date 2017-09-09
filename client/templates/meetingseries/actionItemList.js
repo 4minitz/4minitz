@@ -43,7 +43,7 @@ Template.actionItemList.onCreated(function() {
 Template.actionItemList.helpers({
     getTopicFilterConfig () {
         let tmpl = Template.instance();
-        return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS, ITEM_KEYWORDS, 'Item-Filter');
+        return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS, ITEM_KEYWORDS, 'Item-Filter', 'is:action is:open');
     },
 
     getInfoItemListContext () {
@@ -67,6 +67,7 @@ Template.actionItemList.helpers({
         const query = tmpl.topicFilterQuery.get();
         tmpl.parser.reset();
         tmpl.parser.parse(query);
+
         myActionItems = tmpl.itemsFilter.filter(myActionItems, tmpl.parser);
 
         myActionItems.sort(function(a, b){return new Date(a.duedate)- new Date(b.duedate);});
