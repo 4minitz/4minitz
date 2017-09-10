@@ -98,7 +98,18 @@ export class E2EApp {
             if (E2EApp.loginFailed()) {
                 throw new Error ("Unknown user or wrong password.");
             }
-            E2EApp.isLoggedIn();
+
+            if (! E2EApp.isLoggedIn()) {
+                console.log("loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()");
+                browser.execute( function() {
+                    Meteor.loginWithPassword(username, password);
+                });
+                browser.waitUntil(_ => {
+                    const userMenuExists = browser.isExisting('#navbar-usermenu');
+                    return userMenuExists || E2EApp.loginFailed();
+                }, 5000);
+            }
+
             E2EApp._currentlyLoggedInUser = username;
         } catch (e) {
             E2EGlobal.saveScreenshot('loginUserWithCredentials_failed');
