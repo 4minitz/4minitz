@@ -84,7 +84,7 @@ export class DocumentGeneration {
             if (aTopicObj.hasResponsibles()) {
                 topic.responsiblesString = '('+aTopicObj.getResponsiblesString()+')';
             }
-            topic.labels = aTopicObj.getLabelsString(topic);
+            topic.labelsString = aTopicObj.getLabelsString(topic);
 
             // inject responsibles as readable short user names to all action items of this topic
             for (let i = 0; i < topic.infoItems.length; i++) {

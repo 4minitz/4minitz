@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './helpers/E2EGlobal';
 import { E2EApp } from './helpers/E2EApp';
 import { E2EMails } from './helpers/E2EMails'
@@ -99,7 +98,7 @@ describe('Admin View', function () {
             , "check broadcast message text").to.contain(message);
 
         // Dismiss by admin user
-        browser.click(E2EAdmin.selectorMap.btnDismissAllMessages);
+        E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.btnDismissAllMessages);
         const isNotVisible = true;
         browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 2000, isNotVisible);
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)
@@ -108,7 +107,7 @@ describe('Admin View', function () {
         // Now check display & dismiss by normal user
         E2EApp.loginUser("user1", true);
         browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 3000);
-        browser.click(E2EAdmin.selectorMap.btnDismissAllMessages);
+        E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.btnDismissAllMessages);
         const waitForInvisible = true;
         browser.waitForVisible(E2EAdmin.selectorMap.dlgAllMessages, 3000, waitForInvisible);
         expect(browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages)

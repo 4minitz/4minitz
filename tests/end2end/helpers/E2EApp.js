@@ -98,7 +98,18 @@ export class E2EApp {
             if (E2EApp.loginFailed()) {
                 throw new Error ("Unknown user or wrong password.");
             }
-            E2EApp.isLoggedIn();
+
+            if (! E2EApp.isLoggedIn()) {
+                console.log("loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()");
+                browser.execute( function() {
+                    Meteor.loginWithPassword(username, password);
+                });
+                browser.waitUntil(_ => {
+                    const userMenuExists = browser.isExisting('#navbar-usermenu');
+                    return userMenuExists || E2EApp.loginFailed();
+                }, 5000);
+            }
+
             E2EApp._currentlyLoggedInUser = username;
         } catch (e) {
             E2EGlobal.saveScreenshot('loginUserWithCredentials_failed');
@@ -172,7 +183,7 @@ export class E2EApp {
         // check post-condition
         if (! E2EApp.isOnStartPage()) {
             E2EGlobal.saveScreenshot("gotoStartPage1");
-            browser.click('a.navbar-brand');
+            E2EGlobal.clickWithRetry('a.navbar-brand');
             E2EGlobal.waitSomeTime(1500);
         }
         if (! E2EApp.isOnStartPage()) {
@@ -192,17 +203,17 @@ export class E2EApp {
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
         browser.waitForVisible('#confirmationDialogOK', 1000);
         if (pressOK) {
-            browser.click("#confirmationDialogOK");
+            E2EGlobal.clickWithRetry("#confirmationDialogOK");
         } else {
-            browser.click("#confirmationDialogCancel");
+            E2EGlobal.clickWithRetry("#confirmationDialogCancel");
         }
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
     };
 
     static resetPassword(emailAdress) {
-        browser.click("#at-forgotPwd");
+        E2EGlobal.clickWithRetry("#at-forgotPwd");
         browser.setValue('#at-field-email', emailAdress);
-        browser.click('#at-btn');
+        E2EGlobal.clickWithRetry('#at-btn');
     }
 }
 

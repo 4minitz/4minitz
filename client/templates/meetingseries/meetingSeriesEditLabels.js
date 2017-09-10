@@ -132,6 +132,7 @@ Template.meetingSeriesEditLabels.events({
     },
 
     'click .evt-btn-add-label': function (evt, tmpl) {
+        evt.preventDefault();
         let labelDoc = {
             name: 'NewLabel',
             color: '#cccccc'

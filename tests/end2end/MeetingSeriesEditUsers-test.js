@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
@@ -71,7 +70,7 @@ describe('MeetingSeries Editor Users', function () {
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         expect(Object.keys(usersAndRoles)).to.have.length(2); // still two!
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -91,7 +90,7 @@ describe('MeetingSeries Editor Users', function () {
         let currentUser = E2EApp.getCurrentUser(); // but current user should still be there
         expect(usersAndRoles[currentUser]).to.be.ok;
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -104,7 +103,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[currentUser]).to.be.ok;
         expect(usersAndRoles[currentUser].isDeletable).to.be.false;
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -117,7 +116,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[currentUser]).to.be.ok;
         expect(usersAndRoles[currentUser].isReadOnly).to.be.true;
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -133,7 +132,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user2].isDeletable).to.be.true;
         expect(usersAndRoles[user2].isReadOnly).to.be.false;
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -161,7 +160,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user2].isDeletable).to.be.true;
         expect(usersAndRoles[user2].isReadOnly).to.be.false;
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -195,7 +194,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user3].isDeletable, "user3").to.be.true;
         expect(usersAndRoles[user3].isReadOnly, "user3").to.be.false;
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -341,7 +340,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[addedUserName].isDeletable).to.be.true;
         expect(usersAndRoles[addedUserName].isReadOnly).to.be.false;
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -361,7 +360,7 @@ describe('MeetingSeries Editor Users', function () {
             expect(usrName).not.to.equal(user2);
         }
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -387,7 +386,7 @@ describe('MeetingSeries Editor Users', function () {
 
         expect(suggestedUserArray).to.include(user2);
 
-        browser.click("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -433,7 +432,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime();
 
-        browser.click("#btnLeaveMeetingSeries"); // leave meeting series
+        E2EGlobal.clickWithRetry("#btnLeaveMeetingSeries"); // leave meeting series
         E2EApp.confirmationDialogAnswer(true);
         expect(E2EMeetingSeries.countMeetingSeries(),
                 "minus-one visible series after leave").to.equal(initialMSCount -1);

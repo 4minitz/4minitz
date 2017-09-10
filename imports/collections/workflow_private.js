@@ -61,6 +61,10 @@ Meteor.methods({
         }
 
         doc.isFinalized = false;
+        doc.createdAt = new Date();
+        delete doc.finalizedAt;
+        doc.finalizedVersion = 0;
+        doc.finalizedHistory = [];
 
         try {
             let newMinutesID = MinutesSchema.insert(doc);
@@ -99,15 +103,18 @@ Meteor.methods({
         console.log('workflow.removeMinute: '+minutes_id);
         let aMin = new Minutes(minutes_id);
         let meetingSeriesId = aMin.parentMeetingSeriesID();
+
         checkUserAvailableAndIsModeratorOf(meetingSeriesId);
 
         let affectedDocs = MinutesSchema.remove({_id: minutes_id, isFinalized: false});
         if (affectedDocs > 0) {
+
             // remove the reference in the meeting series minutes array
             MeetingSeriesSchema.update(meetingSeriesId, {$pull: {'minutes': minutes_id}});
 
             // remove all uploaded attachments for meeting series, if any exist
             if (Meteor.isServer && AttachmentsCollection.find({'meta.meetingminutes_id': minutes_id}).count() > 0) {
+
                 AttachmentsCollection.remove({'meta.meetingminutes_id': minutes_id},
                     function (error) {
                         if (error) {
@@ -126,19 +133,15 @@ Meteor.methods({
         check(meetingseries_id, String);
         if (meetingseries_id === undefined || meetingseries_id === '')
             return;
-
         checkUserAvailableAndIsModeratorOf(meetingseries_id);
-
         // first we remove all containing minutes to make sure we don't get orphans
         // deleting all minutes of one series is allowed, even if they are finalized.
         MinutesSchema.remove({meetingSeries_id: meetingseries_id});
 
         // then we remove the meeting series document itself
         MeetingSeriesSchema.remove(meetingseries_id);
-
         // remove all uploaded attachments for meeting series, if any exist
-        if (Meteor.isServer &&
-            AttachmentsCollection.find({'meta.parentseries_id': meetingseries_id}).count() > 0) {
+        if (Meteor.isServer && AttachmentsCollection.find({'meta.parentseries_id': meetingseries_id}).count() > 0) {
             AttachmentsCollection.remove({'meta.parentseries_id': meetingseries_id},
                 function (error) {
                     if (error) {
