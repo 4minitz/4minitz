@@ -56,13 +56,13 @@ Template.profileEditDialog.events({
                 Meteor.logoutOtherClients();
                 Meteor.logout();
             };
-
+            
             if (Meteor.user().emails[0].address !== uEmailAddress) {
                 ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                     changeUserMail,
                     'Confirm changing user mail',
-                    'confirmChangeUserMail',
-                    '',
+                    'confirmPlainText',
+                    { plainText: 'You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue.'},
                     'Sign off & Re-Verify'
                 ).show();
             }

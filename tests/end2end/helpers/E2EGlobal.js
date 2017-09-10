@@ -56,6 +56,7 @@ export class E2EGlobal {
 
     static clickWithRetry(selector, timeout = 10000) {
         browser.scroll(selector);
+        E2EGlobal.waitSomeTime(100);
 
         const start = new Date();
         let current = new Date();
@@ -66,12 +67,14 @@ export class E2EGlobal {
                 return;
             } catch (e) {
                 const message = e.toString(),
-                    otherElementReceivesClick = message.includes('Other element would receive the click');
+                    retryMakesSense = message.includes('Other element would receive the click')
+                                   || message.includes('Element is not clickable at point');
 
-                if (!otherElementReceivesClick) {
+                if (!retryMakesSense) {
                     throw e;
                 }
             }
+            browser.scroll(selector);
             browser.pause(E2EGlobal.pollingInterval);
             current = new Date();
         }
