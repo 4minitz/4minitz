@@ -29,6 +29,7 @@ RUN groupadd --gid 1000 node \
         openssh-client \
         wget \
         xz-utils \
+        nano \
     && rm -rf /var/lib/apt/lists/* \
     \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
