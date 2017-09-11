@@ -1,7 +1,6 @@
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import { Mongo } from 'meteor/mongo';
 
-import { TopicSchema } from './topic.schema';
 import { LabelSchema } from './label.schema';
 import { MeetingSeries } from '../meetingseries';
 import './idValidator';

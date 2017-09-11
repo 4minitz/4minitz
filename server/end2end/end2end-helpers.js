@@ -148,7 +148,7 @@ if (Meteor.settings.isEnd2EndTest) {
             let protocol = DocumentGeneration.getProtocolForMinute(minuteId);
             return (protocol ? protocol.link() : undefined);
         },
-          'e2e.getUserRole'(MSid, i){
+        'e2e.getUserRole'(MSid, i){
             console.log('-------------------------- E2E-METHOD: getUserRole');
             let usr = Meteor.users.findOne({username: Meteor.settings.e2eTestUsers[i]});
             if (usr.roles && usr.roles[MSid] && usr.roles[MSid][0]){
