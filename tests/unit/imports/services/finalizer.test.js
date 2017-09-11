@@ -97,7 +97,8 @@ describe('workflow.finalizeMinute', function () {
     const finalizeMeteorMethod = MeteorMethods['workflow.finalizeMinute'],
         fakeMeetingSeries = {
             openTopics: [],
-            topics: []
+            topics: [],
+            updateLastMinutesFieldsAsync: sinon.stub()
         },
         user = {
             username: 'me'
@@ -243,7 +244,8 @@ describe('workflow.unfinalizeMinute', function () {
         meetingSeries = {
             openTopics: [],
             topics: [],
-            minutes: [minutesId]
+            minutes: [minutesId],
+            updateLastMinutesFieldsAsync: sinon.stub()
         };
         MeetingSeriesSchema.findOne.returns(meetingSeries);
 

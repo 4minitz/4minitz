@@ -60,7 +60,7 @@ export class MeetingSeries {
         console.log('removeMinutesWithId: ' + minutesId);
 
         await Minutes.remove(minutesId);
-        return this.updateLastMinutesDateAsync();
+        return this.updateLastMinutesFieldsAsync();
     }
 
 
@@ -138,33 +138,27 @@ export class MeetingSeries {
         }
     }
 
-    async updateLastMinutesDate (callback) {
+    async updateLastMinutesFields (callback) {
         callback = callback || function () {};
 
         try {
-            let result = await this.updateLastMinutesDateAsync();
+            let result = await this.updateLastMinutesFieldsAsync();
             callback(undefined, result);
         } catch (error) {
             callback(error);
         }
     }
 
-    async updateLastMinutesDateAsync() {
-        let lastMinutesDate;
+    async updateLastMinutesFieldsAsync() {
+        let updateInfo = {
+            _id: this._id
+        };
 
         let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
-        if (lastMinutes) {
-            lastMinutesDate = lastMinutes.date;
-        }
-
-        if (!lastMinutesDate) {
-            return;
-        }
-
-        let updateInfo = {
-            _id: this._id,
-            lastMinutesDate
-        };
+        updateInfo.lastMinutesDate = lastMinutes ? lastMinutes.date : '';
+        updateInfo.lastMinutesId = lastMinutes ? lastMinutes._id : null;
+        updateInfo.lastMinutesFinalized = lastMinutes ? lastMinutes.isFinalized : false;
+        
         return Meteor.callPromise('meetingseries.update', updateInfo);
     }
 

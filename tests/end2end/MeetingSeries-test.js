@@ -75,9 +75,7 @@ describe('MeetingSeries', function () {
         expect(E2EApp.isOnStartPage()).to.be.false;
     });
 
-    // -TEMPORARY REMOVED
-    // This Test has been temporary removed due to experimentation purposes. It Needs to be reintroduced later
-    it.skip('displays the date of the last minutes in the meeting series overview', function() {
+    it('displays the date of the last minutes in the meeting series overview', function() {
         const aProjectName = "E2E Minutes";
         const aMeetingName = "Meeting Name #4";
         const myDate = "2015-03-17";  // date of first project commit ;-)

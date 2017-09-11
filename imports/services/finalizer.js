@@ -176,6 +176,9 @@ Meteor.methods({
             sendFinalizationMail(minutes, sendActionItems, sendInfoItems);
         }
 
+        //update meeting series fields to correctly resemble the finalized status of the minute
+        parentSeries.updateLastMinutesFieldsAsync();
+
         // save protocol if enabled
         if (Meteor.settings.public.docGeneration.enabled) {
             DocumentGeneration.saveProtocol(minutes);
@@ -226,7 +229,12 @@ Meteor.methods({
         }
 
         console.log('workflow.unfinalizeMinute DONE.');
-        return MinutesSchema.update(id, {$set: doc});
+        let result = MinutesSchema.update(id, {$set: doc});
+
+        //update meeting series fields to correctly resemble the finalized status of the minute
+        parentSeries.updateLastMinutesFieldsAsync();
+
+        return result;
     }
 });
 

@@ -24,6 +24,14 @@ export const MeetingSeriesSchema = SchemaClass.create({
         informedUsers: {type: [String], optional: true},
         // todo: make this a date?
         lastMinutesDate: {type: String},
+        lastMinutesFinalized: {type: Boolean, default: false},
+        lastMinutesId: {type: String, optional: true, validators: 
+            [{type: 'or',
+                param: [
+                    {type: 'null'},
+                    {type: 'meteorId'}                    
+                ]
+            }]},
         minutes: {type: [String], default: []},
         openTopics: {type: [TopicSchema], default: []},
         topics: {type: [TopicSchema], default: []},

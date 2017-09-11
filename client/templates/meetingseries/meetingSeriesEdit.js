@@ -107,7 +107,6 @@ Template.meetingSeriesEdit.events({
         $('#dlgEditMeetingSeries').modal('hide');   // hide underlying modal dialog first, otherwise transparent modal layer is locked!
 
         let ms = new MeetingSeries(this._id);
-        let minutesCount = ms.countMinutes();
 
         let deleteSeriesCallback = () => {
             MeetingSeries.remove(ms).catch(handleError);
@@ -121,9 +120,9 @@ Template.meetingSeriesEdit.events({
             {
                 project: ms.project,
                 name: ms.name,
-                hasMinutes: (minutesCount !== 0),
-                minutesCount: minutesCount,
-                lastMinutesDate: (minutesCount !== 0) ? MinutesFinder.lastMinutesOfMeetingSeries(ms).date : false
+                hasMinutes: (ms.minutes.length !== 0),
+                minutesCount: ms.minutes.length,
+                lastMinutesDate: (ms.minutes.length !== 0) ? ms.lastMinutesDate : false
             }
         );
 

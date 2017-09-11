@@ -71,7 +71,7 @@ export class Minutes {
         _.extend(this, docPart);
 
         if (docPart.hasOwnProperty('date')) {
-            return this.parentMeetingSeries().updateLastMinutesDateAsync();
+            return this.parentMeetingSeries().updateLastMinutesFieldsAsync();
         }
     }
 
@@ -89,7 +89,7 @@ export class Minutes {
             }
             Meteor.call('workflow.addMinutes', this, optimisticUICallback, serverCallback);
         }
-        this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
+        this.parentMeetingSeries().updateLastMinutesFields(serverCallback);
     }
 
     toString () {

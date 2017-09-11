@@ -17,7 +17,10 @@ if (Meteor.isServer) {
                 fields: {
                     'project' : 1,
                     'name' : 1,
-                    'minutes' : 1
+                    'minutes' : 1,
+                    'lastMinutesDate' : 1,
+                    'lastMinutesFinalized' : 1,
+                    'lastMinutesId' : 1
                 }
             }
         );
