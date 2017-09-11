@@ -13,6 +13,8 @@ export const TopicSchema = SchemaClass.create({
     fields: {
         _id: {type: String, validators: [{type: 'meteorId'}]},
         parentId: {type: String, validators: [{type: 'meteorId'}], optional: true}, // should make this mandatory?
+        createdAt: {type: Date},
+        updatedAt: {type: Date},
         createdInMinute: {type: String, validators: [{type: 'meteorId'}]},
         subject: {type: String},
         responsibles: {type: [String], default: [], optional: true},
