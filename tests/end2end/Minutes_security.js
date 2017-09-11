@@ -4,7 +4,7 @@ import { E2EMinutes } from './helpers/E2EMinutes';
 
 const newMinuteDate = '01.01.2000';
 
-describe('Minutes Method Security @watch', function () {
+describe('Minutes Method Security', function () {
     beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
@@ -183,7 +183,7 @@ describe('Minutes Method Security @watch', function () {
     });
 
     //workflow.unfinalizeMinute
-    it('can unfinalize a Minute if Moderator @watch', function () {
+    it('can unfinalize a Minute if Moderator', function () {
         const name = 'MinuteUnfinalize as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 

@@ -10,6 +10,7 @@ import { DocumentsCollection } from '/imports/collections/documentgeneration_pri
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import { DocumentGeneration } from '/imports/documentGeneration';
+import {TopicsFinder} from '../../imports/services/topicsFinder';
 
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
@@ -106,9 +107,13 @@ if (Meteor.settings.isEnd2EndTest) {
         'e2e.removeAllBroadcasts'() {
             BroadcastMessageSchema.remove({});
         },
-        'e2e.findMeetingSeries'(MSid){
+        'e2e.findMeetingSeries'(MSid) {
             console.log('-------------------------- E2E-METHOD: findMeetingSeries');
             return MeetingSeriesSchema.getCollection().findOne(MSid);
+        },
+        'e2e.getTopicsOfMeetingSeries'(MSid) {
+            console.log('-------------------------- E2E-METHOD: getTopicsOfMeetingSeries');
+            return TopicsFinder.allTopicsOfMeetingSeries(MSid);
         },
         'e2e.countProtocolsInMongoDB'() {
             console.log('-------------------------- E2E-METHOD: countProtocolsInMongoDB');
