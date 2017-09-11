@@ -13,7 +13,7 @@ export class E2EMinutes {
     static addMinutesToMeetingSeries (aProj, aName, aDate) {
         E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
         browser.waitForVisible("#btnAddMinutes");
-        browser.click("#btnAddMinutes");
+        E2EGlobal.clickWithRetry("#btnAddMinutes");
         E2EGlobal.waitSomeTime(700); // give route change time
 
         let minutesID = browser.getUrl();
@@ -37,7 +37,7 @@ export class E2EMinutes {
         let participantsInfo = new E2EMinutesParticipants();
         participantsInfo.setUserPresence(E2EApp.getCurrentUser(),true);
         browser.waitForVisible("#btn_finalizeMinutes");
-        browser.click("#btn_finalizeMinutes");
+        E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
         if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
             if (confirmDialog === undefined || confirmDialog) {
                 E2EApp.confirmationDialogAnswer(true);
@@ -55,10 +55,10 @@ export class E2EMinutes {
      */
     static finalizeCurrentMinutesWithoutParticipants (confirmDialog, processFinalize) {
         browser.waitForVisible("#btn_finalizeMinutes");
-        browser.click("#btn_finalizeMinutes");
+        E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
         if(processFinalize == true) {
             browser.waitForVisible("#confirmationDialogOK");
-            browser.click("#confirmationDialogOK");
+            E2EGlobal.clickWithRetry("#confirmationDialogOK");
             if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
                 if (confirmDialog === undefined || confirmDialog) {
                     E2EApp.confirmationDialogAnswer(true);
@@ -68,14 +68,14 @@ export class E2EMinutes {
         }
         else {
             browser.waitForVisible("#confirmationDialogCancel");
-            browser.click("#confirmationDialogCancel");
+            E2EGlobal.clickWithRetry("#confirmationDialogCancel");
         }
     };
 
 
     static  unfinalizeCurrentMinutes () {
         browser.waitForVisible('#btn_unfinalizeMinutes');
-        browser.click('#btn_unfinalizeMinutes');
+        E2EGlobal.clickWithRetry('#btn_unfinalizeMinutes');
     };
 
 
@@ -167,7 +167,7 @@ export class E2EMinutes {
         } catch (e) {
             return false;
         }
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         E2EGlobal.waitSomeTime();
     }
 }

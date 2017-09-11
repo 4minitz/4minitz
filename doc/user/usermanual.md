@@ -223,6 +223,16 @@ The latest finalized meeting minutes can be un-finalized to make corrections / c
 
 Once the moderator creates new minutes on top of the finalized last minutes, it is not possible to un-finalize the last finalized minutes anymore.
 
+
+## Download minute protocols
+The app offers the possibility of automatic generation of minute protocols by finalizing them. This applies only if this feature has been enabled in the settings.
+
+These protocls can  be downloaded by any user having the invited role or a higher one for the specific meeting series.
+In order to do this, press the download button in the upper right corner shown in finalized minutes.
+
+If the feature is enabled but no protocol has been created for a specific minute (e.g. if the feature has been enabled after finalizing a minute) then by clicking on the download button a confirmation dialog opens. It will offer you to download an dynamically generated HTML protocol as a substitution. This protocol will not be stored on the server.
+
+
 ## Upload Binary Attachments
 It is possible to attach binary uploads to the current non-finalized
 meeting minutes. You need to have the moderator or the uploader role 

@@ -2,11 +2,11 @@ import { Meteor } from 'meteor/meteor';
 
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { UserRoles } from '../userroles';
-import { MeetingSeries } from '../meetingseries';
 import { Minutes } from '../minutes';
 import { Attachment } from '../attachment';
 
 import { FilesCollection } from 'meteor/ostrio:files';
+import { extendedPublishSubscribeHandler } from './../helpers/extendedPublishSubscribe';
 
 // #Security: html downloads from server might allow XSS
 // see https://github.com/VeliovGroup/Meteor-Files/issues/289
@@ -110,50 +110,9 @@ export let AttachmentsCollection = new FilesCollection({
 });
 
 
-if (Meteor.isServer) {
-    Meteor.publish('files.attachments.all', function () {
-        // We publish only those attachments that are bound to
-        // a meeting series that is visible for the current user
-        let meetingSeriesIDs = MeetingSeries.getAllVisibleIDsForUser(this.userId);
-        return AttachmentsCollection.find(
-            {'meta.parentseries_id': {$in: meetingSeriesIDs}}
-        ).cursor;
-    });
-}
-
 export let bootstrapAttachementsLiveQuery = () => {};
-
-if (Meteor.isClient) {
-    Meteor.subscribe('files.attachments.all');
-
-    bootstrapAttachementsLiveQuery = () => {
-        // In case the user is invited to an existing meeting series
-        // from her point of view a meeting series is added.
-        // We re-subscribe to the attachments collection in this case,
-        // to force that already existing attachments of this new
-        // meeting series are sent from server to this client.
-        // This live query lives happily til the end of the world...  ;-)
-        let meetingSeriesLiveQuery = MeetingSeries.find();
-        meetingSeriesLiveQuery.observe(
-            {
-                // "added" is for OTHER users, that are invited to existing meeting series
-                'added': function () {
-                    Meteor.subscribe('files.attachments.all');
-                },
-                // "changed" is for THIS user, while she creates a new meeting series for herself.
-                // Such a series is first added (in client) and the "added" event above fires in the client
-                // but at this time point the "visibleFor" field may not yet been set properly on the server.
-                // So the server re-publish does not regard this meeting series as visible during
-                // calculation of visible attachments.
-                // So, we also register for the "changed" event to re-subscribe also when visibility changes
-                // on the server side.
-                'changed': function () {
-                    Meteor.subscribe('files.attachments.all');
-                }
-            }
-        );
-    };
-}
+extendedPublishSubscribeHandler.publishByVisibleMeetingSeries('files.attachments.all',AttachmentsCollection, 'meta.parentseries_id');
+bootstrapAttachementsLiveQuery = extendedPublishSubscribeHandler.subscribeWithMeetingSeriesLiveQuery('files.attachments.all');
 
 
 Meteor.methods({

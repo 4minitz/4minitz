@@ -35,7 +35,8 @@ let Meteor = {
     methods: m => Object.assign(MeteorMethods, m),
     isClient: true,
     callPromise: sinon.stub().resolves(true),
-    Error: MeteorError
+    Error: MeteorError,
+    settings: { 'public': { docGeneration: { enabled: true}}}
 };
 
 let PromisedMethods = {};
@@ -57,6 +58,11 @@ const TopicsFinalizer = {
     mergeTopicsForUnfinalize: sinon.stub()
 };
 
+const DocumentGeneration = {
+    saveProtocol: sinon.stub(),
+    removeProtocol: sinon.stub()
+};
+
 const {
     Finalizer
 } = proxyquire('../../../../../imports/services/finalize-minutes/finalizer', {
@@ -73,7 +79,8 @@ const {
     '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true },
     '/imports/helpers/date': DateHelpers,
     '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true },
-    './topicsFinalizer': { TopicsFinalizer, '@noCallThru': true }
+    './topicsFinalizer': { TopicsFinalizer, '@noCallThru': true },
+    '/imports/documentGeneration': { DocumentGeneration,  '@noCallThru': true }
 });
 
 function verifyPropertyOfMinutesUpdate(minutes, property, value) {

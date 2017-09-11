@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './E2EGlobal'
 import { E2EApp } from './E2EApp'
 
@@ -6,7 +5,7 @@ import { E2EApp } from './E2EApp'
 export class E2ETopics {
     static addTopicToMinutes (aTopic, aResponsible) {
         browser.waitForVisible("#id_showAddTopicDialog");
-        browser.click("#id_showAddTopicDialog");
+        E2EGlobal.clickWithRetry("#id_showAddTopicDialog");
 
         E2ETopics.insertTopicDataIntoDialog(aTopic, aResponsible);
         E2ETopics.submitTopicDialog();
@@ -14,7 +13,7 @@ export class E2ETopics {
 
     static addTopicWithLabelToMinutes (aTopic,label) {
         browser.waitForVisible("#id_showAddTopicDialog");
-        browser.click("#id_showAddTopicDialog");
+        E2EGlobal.clickWithRetry("#id_showAddTopicDialog");
 
         E2ETopics.insertTopicDataWithLabelIntoDialog(aTopic, label);
         E2ETopics.submitTopicDialog();
@@ -22,7 +21,7 @@ export class E2ETopics {
 
     static addTopicToMinutesAtEnd (aTopic, aResonsible) {
         browser.waitForVisible("#addTopicField");
-        browser.click("#addTopicField");
+        E2EGlobal.clickWithRetry("#addTopicField");
 
         E2ETopics.insertTopicDataAtEnd(aTopic, aResonsible);
         E2ETopics.submitTopicAtEnd();
@@ -31,7 +30,7 @@ export class E2ETopics {
     static openEditTopicForMinutes(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnEditTopic";
         browser.waitForVisible(selector);
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         E2EGlobal.waitSomeTime(500);
     }
 
@@ -42,10 +41,12 @@ export class E2ETopics {
     }
 
     static deleteTopic(topicIndex, confirmDialog) {
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
-        browser.waitForVisible(selector);
-        browser.click(selector);
-        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic");
+        const selectorMenu = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+        browser.waitForVisible(selectorMenu);
+        E2EGlobal.clickWithRetry(selectorMenu);
+        const selectorDeleteBtn = "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
+        browser.waitForVisible(selectorDeleteBtn);
+        E2EGlobal.clickWithRetry(selectorDeleteBtn);
         if (confirmDialog === undefined) {
             return;
         }
@@ -138,7 +139,7 @@ export class E2ETopics {
     }
 
     static submitTopicDialog() {
-        browser.click("#btnTopicSave");
+        E2EGlobal.clickWithRetry("#btnTopicSave");
 
         const waitForInvisible = true;
         browser.waitForVisible('#dlgAddTopic', 10000, waitForInvisible);
@@ -154,12 +155,12 @@ export class E2ETopics {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
 
         browser.waitForVisible(selector, 2000);
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         let typeClass = ".addTopicInfoItem";
         if (type === "actionItem") {
             typeClass = ".addTopicActionItem";
         }
-        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") "+typeClass);
+        E2EGlobal.clickWithRetry("#topicPanel .well:nth-child(" + topicIndex + ") "+typeClass);
 
         browser.waitForVisible('#id_item_subject', 5000);
     }
@@ -182,7 +183,7 @@ export class E2ETopics {
         let selector = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + ".btnEditInfoItem";
 
         browser.waitForVisible(selector);
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
 
         E2EGlobal.waitSomeTime();
     }
@@ -197,16 +198,17 @@ export class E2ETopics {
     static addLabelToItem(topicIndex, infoItemIndex, labelName) {
         E2ETopics.openInfoItemEditor(topicIndex, infoItemIndex);
         E2ETopics.labelEnterFreetext(labelName);
-        browser.click("#btnInfoItemSave");
+        E2EGlobal.clickWithRetry("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
     }
 
     static deleteInfoItem(topicIndex, infoItemIndex, confirmDialog) {
         let selOpenMenu = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnItemDropdownMenu";
         browser.waitForVisible(selOpenMenu);
-        browser.click(selOpenMenu);
+        E2EGlobal.clickWithRetry(selOpenMenu);
         let selDelete = E2ETopics.getInfoItemSelector(topicIndex, infoItemIndex) + "#btnDelInfoItem";
-        browser.click(selDelete);
+        browser.waitForVisible(selDelete);
+        E2EGlobal.clickWithRetry(selDelete);
 
         if (confirmDialog === undefined) {
             return;
@@ -230,21 +232,21 @@ export class E2ETopics {
         }
         if (infoItemDoc.priority) {
             const nthChild = infoItemDoc.priority;
-            browser.click(`#id_item_priority option:nth-child(${nthChild})`);
+            E2EGlobal.clickWithRetry(`#id_item_priority option:nth-child(${nthChild})`);
         }
 
         //todo: set other fields (duedate)
     }
 
     static submitInfoItemDialog() {
-        browser.click("#btnInfoItemSave");
+        E2EGlobal.clickWithRetry("#btnInfoItemSave");
         E2EGlobal.waitSomeTime(700);
     }
 
     static toggleTopic(topicIndex) {
         let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .labelTopicCb";
         browser.waitForVisible(selector);
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
     }
 
     static toggleRecurringTopic(topicIndex) {
@@ -256,8 +258,8 @@ export class E2ETopics {
         } catch(e) {
             return false;
         }
-        browser.click(selector);
-        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring");
+        E2EGlobal.clickWithRetry(selector);
+        E2EGlobal.clickWithRetry("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring");
     }
     
     static toggleSkipTopic(topicIndex, useDropDownMenu = true) {
@@ -272,12 +274,12 @@ export class E2ETopics {
             } catch(e) {
                 return false;
             }
-            browser.click(selector);
-            browser.click("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-skipped");
+            E2EGlobal.clickWithRetry(selector);
+            E2EGlobal.clickWithRetry("#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-skipped");
         }
         else {
             E2EGlobal.waitSomeTime();
-            browser.click("#topicPanel .well:nth-child(" + topicIndex + ") #topicIsSkippedIcon");
+            E2EGlobal.clickWithRetry("#topicPanel .well:nth-child(" + topicIndex + ") #topicIsSkippedIcon");
         }
     }
 
@@ -318,7 +320,7 @@ export class E2ETopics {
         } catch(e) {
             return false;
         }
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         return browser.isVisible("#topicPanel .well:nth-child(" + topicIndex + ") " + buttonSelector);      
     }
     
@@ -331,8 +333,8 @@ export class E2ETopics {
         } catch(e) {
             return false;
         }
-        browser.click(selector);
-        browser.click("#topicPanel .well:nth-child(" + topicIndex + ") #btnReopenTopic");
+        E2EGlobal.clickWithRetry(selector);
+        E2EGlobal.clickWithRetry("#topicPanel .well:nth-child(" + topicIndex + ") #btnReopenTopic");
         E2EApp.confirmationDialogAnswer(true);
     }
 
@@ -341,7 +343,7 @@ export class E2ETopics {
 
         let selector = selectInfoItem + ".checkboxLabel";
         browser.waitForVisible(selector);
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
     }
 
     static isActionItemClosed(topicIndex, infoItemIndex) {
@@ -358,10 +360,10 @@ export class E2ETopics {
         } catch (e) {
             return false;
         }
-        browser.click(selectorOpenMenu);
+        E2EGlobal.clickWithRetry(selectorOpenMenu);
 
         let selector = selectInfoItem + ".btnPinInfoItem";
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
     }
 
     static isInfoItemSticky(topicIndex, infoItemIndex) {
@@ -387,7 +389,7 @@ export class E2ETopics {
         try {
             browser.waitForVisible(selectorForInfoItem + ".detailRow");
         } catch (e) {
-            browser.click(selOpenDetails);
+            E2EGlobal.clickWithRetry(selOpenDetails);
         }
     }
 
@@ -430,10 +432,10 @@ export class E2ETopics {
         } catch (e) {
             return false;
         }
-        browser.click(selOpenMenu);
+        E2EGlobal.clickWithRetry(selOpenMenu);
 
         let selAddDetails = selectInfoItem + ".addDetail";
-        browser.click(selAddDetails);
+        E2EGlobal.clickWithRetry(selAddDetails);
 
         let newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex);
         let selDetails = selectInfoItem + ".detailRow:nth-child(" + newId + ") ";
@@ -465,7 +467,7 @@ export class E2ETopics {
             console.log("detailText not visible");
             return false;
         }
-        browser.click(selEditDetails);
+        E2EGlobal.clickWithRetry(selEditDetails);
 
         let selFocusedInput = selDetails + ".detailInput";
         try {
