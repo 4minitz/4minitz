@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { InfoItem } from './infoitem';
 import {Priority} from './priority';
 
@@ -79,78 +78,7 @@ export class ActionItem extends InfoItem{
     }
 
     getResponsibleRawArray() {
-        if (!this.hasResponsibles()) {
-            return [];
-        }
-        return this._infoItemDoc.responsibles;
-    }
-
-    // this should only be called from server.
-    // because EMails are not propagated to the client!
-    getResponsibleEMailArray() {
-        if (Meteor.isServer) {
-            if (!this.hasResponsibles()) {
-                return [];
-            }
-
-            let responsibles = this._infoItemDoc.responsibles;
-            let mailArray = [];
-            responsibles.forEach(responsible => {
-                let userEMailFromDB = '';
-                let userNameFromDB = '';
-                if (responsible.length > 15) {  // maybe DB Id or free text
-                    let user = Meteor.users.findOne(responsible);
-                    if (user) {
-                        userNameFromDB = user.username;
-                        if (user.emails && user.emails.length) {
-                            userEMailFromDB = user.emails[0].address;
-                        }
-                    }
-                }
-                if (userEMailFromDB) {     // user DB match!
-                    mailArray.push(userEMailFromDB);
-                } else {
-                    let freetextMail = responsible.trim();
-                    if (/\S+@\S+\.\S+/.test(freetextMail)) {    // check valid mail anystring@anystring.anystring
-                        mailArray.push(freetextMail);
-                    } else {
-                        console.log('WARNING: Invalid mail address for responsible: >'+freetextMail+'< '+userNameFromDB);
-                    }
-                }
-            });
-            return mailArray;
-        }
-        return [];
-    }
-
-    /**
-     * Get comma separated list of responsibles with human readable user name (for all registered users)
-     * @param prefix - optional, e.g. '@'
-     * @returns {string}
-     */
-    getResponsiblesString(prefix = '') {
-        if (!this.hasResponsibles()) {
-            return '';
-        }
-
-        let responsibles = this._infoItemDoc.responsibles;
-        let responsiblesString = '';
-        responsibles.forEach(responsible => {
-            let userNameFromDB = '';
-            if (responsible.length > 15) {  // maybe DB Id or free text
-                let user = Meteor.users.findOne(responsible);
-                if (user) {
-                    userNameFromDB = user.username;
-                }
-            }
-            if (userNameFromDB) {     // user DB match!
-                responsiblesString += prefix+userNameFromDB + ', ';
-            } else {
-                responsiblesString += prefix+responsible + ', ';
-            }
-        });
-        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
-        return responsiblesString;
+        return (this.hasResponsibles()) ? this._infoItemDoc.responsibles : [];
     }
 
     setPriority(priority) {

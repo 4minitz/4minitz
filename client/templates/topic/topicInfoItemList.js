@@ -11,6 +11,8 @@ import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFacto
 import {InfoItemFactory} from '../../../imports/InfoItemFactory';
 import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
+import {LabelResolver} from '../../../imports/services/labelResolver';
+import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -246,13 +248,8 @@ Template.topicInfoItemList.helpers({
         if (!infoItem) {
             return;
         }
-        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
-        if (aInfoItem instanceof ActionItem) {
-            if (aInfoItem.hasResponsibles()) {
-                return '(' + aInfoItem.getResponsiblesString() + ')';
-            }
-        }
-        return '';
+        const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(infoItem.responsibles);
+        return (responsible) ? `(${responsible})` : '';
     },
 
     getLabels: function(index) {
@@ -262,11 +259,7 @@ Template.topicInfoItemList.helpers({
         if (!infoItem) {
             return;
         }
-        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
-        if (!aInfoItem) {
-            return;
-        }
-        return aInfoItem.getLabels(getMeetingSeriesId(context.topicParentId))
+        return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.topicParentId))
             .map(labelObj => {
                 let doc = labelObj.getDocument();
                 doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';

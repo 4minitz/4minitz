@@ -22,7 +22,7 @@ import '/imports/statistics';
 import '/imports/collections/attachments_private';
 import '/imports/collections/documentgeneration_private';
 
-import '/imports/services/finalizer';
+import '/imports/services/finalize-minutes/finalizer';
 
 import cron from 'node-cron';
 import importUsers from '/imports/ldap/import';

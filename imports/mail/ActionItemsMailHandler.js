@@ -1,4 +1,5 @@
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
+import {ResponsibleResolver} from '../services/responsibleResolver';
 
 export class ActionItemsMailHandler extends TopicItemsMailHandler {
 
@@ -53,7 +54,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             topicSubject: topicSubject,
             itemSubject: item.getSubject(),
             labels: item.getLabelsRawArray(),
-            responsibles: item.getResponsiblesString(),
+            responsibles: ResponsibleResolver.resolveAndformatResponsiblesString(item.getResponsibleRawArray()),
             priority: item.getPriority(),
             duedate: item.getDuedate(),
             details: details
