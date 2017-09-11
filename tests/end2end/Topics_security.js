@@ -23,7 +23,7 @@ describe('Topics Methods Security', function () {
         const topicId = E2ESecurity.returnMeteorId();
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryAddNewTopic(topicSubject, topicId, min.min_id, 0, 'not logged in user can not insert a topic');
 
         E2EApp.loginUser();
@@ -58,7 +58,7 @@ describe('Topics Methods Security', function () {
         E2ESecurity.executeMethod(E2ESecurity.addTopic, min.min_id, {subject: topicSubject, labels: Array(0), _id: topicId});
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryUpdateTopicSubject(newSubject, topicId, min.min_id, topicSubject, 'not logged in user can not update a topic');
 
         E2EApp.loginUser();
@@ -94,7 +94,7 @@ describe('Topics Methods Security', function () {
         expect(server.call('e2e.countTopicsInMongoDB', min.min_id)).to.equal(1);
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryRemoveTopic(topicId, min.min_id, 1, 'not logged in user can not delete a topic');
 
         E2EApp.loginUser();
@@ -136,7 +136,7 @@ describe('Topics Methods Security', function () {
         expect((server.call('e2e.findMinute', min.min_id)).isFinalized).to.equal(true);
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryReopenTopic(topicId, min.ms_id, false, 'Not logged in can not reopen a topic');
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
