@@ -4,6 +4,12 @@ import { UserRoles } from '/imports/userroles';
 import { MinutesFinder } from '../../../imports/services/minutesFinder';
 import { Session } from 'meteor/session';
 
+Template.meetingSeriesList.onCreated(function () {
+    this.autorun(() => {
+        this.subscribe('meetingSeriesOverview');
+    });
+});
+
 Template.meetingSeriesList.helpers({
     meetingSeriesRow: function () {
         if ((Session.get('search-query') === '') || (Session.get('search-query') === undefined)) {

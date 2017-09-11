@@ -134,9 +134,12 @@ Template.minutesedit.onCreated(function () {
 
     this.autorun(() => {
         _minutesID = FlowRouter.getParam('_id');
-        let subscriptionHandle = this.subscribe('minutes', _minutesID);
-
-        this.minutesReady.set(subscriptionHandle.ready());
+        let aMin = new Minutes(_minutesID);
+        this.subscribe('meetingSeriesDetails', aMin.parentMeetingSeriesID());
+        this.subscribe('minutes', aMin.parentMeetingSeriesID(), _minutesID);
+        this.subscribe('files.attachments.all', aMin.parentMeetingSeriesID(), _minutesID);        
+        this.subscribe('files.protocols.all', aMin.parentMeetingSeriesID(), _minutesID);
+        this.minutesReady.set(this.subscriptionsReady());
     });
 
     Session.set('minutesedit.checkParent', false);

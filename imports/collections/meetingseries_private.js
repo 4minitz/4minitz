@@ -7,12 +7,10 @@ import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import {RoleChangeMailHandler} from '../mail/RoleChangeMailHandler';
-import { Session } from 'meteor/session';
-import { Tracker } from 'meteor/tracker';
 
 if (Meteor.isServer) {
     // this will publish a light-weighted overview of the meeting series, necessary for the meeting series list
-    Meteor.publish('meetingSeries', function meetingSeriesPublication() {
+    Meteor.publish('meetingSeriesOverview', function meetingSeriesPublication() {
         return MeetingSeriesSchema.find(
             {visibleFor: {$in: [this.userId]}},
             {
@@ -35,14 +33,6 @@ if (Meteor.isServer) {
         return this.ready();
     });
     
-}
-
-if (Meteor.isClient) {
-    Meteor.subscribe('meetingSeries');
-
-    Tracker.autorun(() => {
-        Meteor.subscribe('meetingSeriesDetails', Session.get('showDetailsForMeetingSeriesId'));
-    });
 }
 
 Meteor.methods({

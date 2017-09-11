@@ -2,12 +2,9 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import {FlashMessage} from './helpers/flashMessage';
 import { Accounts } from 'meteor/accounts-base';
-import { Session } from 'meteor/session';
 
 FlowRouter.route('/', {
     action() {
-        Session.set('showDetailsForMinuteId', undefined);
-        Session.set('showDetailsForMeetingSeriesId', undefined);
         BlazeLayout.render('appLayout', {main: 'home'});
     }
 });
@@ -63,16 +60,14 @@ FlowRouter.route( '/reset-password/:token', {
 
 FlowRouter.route('/meetingseries/:_id', {
     name: 'meetingseries',
-    action(params) {
-        Session.set('showDetailsForMeetingSeriesId',params._id);
+    action() {
         BlazeLayout.render('appLayout', {main: 'meetingSeriesDetails'});
     }
 });
 
 FlowRouter.route('/minutesedit/:_id', {
     name: 'minutesedit',
-    action(params) {
-        Session.set('showDetailsForMinuteId',params._id);
+    action() {
         BlazeLayout.render('appLayout', {main: 'minutesedit'});
     }
 });

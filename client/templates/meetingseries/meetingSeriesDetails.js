@@ -22,9 +22,10 @@ Template.meetingSeriesDetails.onCreated(function () {
         _meetingSeriesID = FlowRouter.getParam('_id');
         this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
 
-        let subscriptionHandle = this.subscribe('meetingSeries', _meetingSeriesID);
-
-        this.seriesReady.set(subscriptionHandle.ready());
+        this.subscribe('meetingSeriesDetails', _meetingSeriesID);
+        this.subscribe('minutes', _meetingSeriesID);
+        this.subscribe('files.attachments.all', _meetingSeriesID); //Attachments have to be subscribed at this point, since each minute will show an icon indicating if they're containing attachments
+        this.seriesReady.set(this.subscriptionsReady());
     });
 
     this.activeTabTemplate = new ReactiveVar('tabMinutesList');

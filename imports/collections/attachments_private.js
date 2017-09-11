@@ -6,7 +6,6 @@ import { Minutes } from '../minutes';
 import { Attachment } from '../attachment';
 
 import { FilesCollection } from 'meteor/ostrio:files';
-import { extendedPublishSubscribeHandler } from './../helpers/extendedPublishSubscribe';
 
 // #Security: html downloads from server might allow XSS
 // see https://github.com/VeliovGroup/Meteor-Files/issues/289
@@ -110,9 +109,18 @@ export let AttachmentsCollection = new FilesCollection({
 });
 
 
-export let bootstrapAttachementsLiveQuery = () => {};
-extendedPublishSubscribeHandler.publishByVisibleMeetingSeries('files.attachments.all',AttachmentsCollection, 'meta.parentseries_id');
-bootstrapAttachementsLiveQuery = extendedPublishSubscribeHandler.subscribeWithMeetingSeriesLiveQuery('files.attachments.all');
+if (Meteor.isServer) {
+    Meteor.publish('files.attachments.all', function (meetingSeriesId, minuteId) {
+        if (meetingSeriesId) {
+            let userRole = new UserRoles(this.userId);
+            if (userRole.hasViewRoleFor(meetingSeriesId)) {
+                const query = minuteId ? {'meta.meetingminutes_id': minuteId} : {'meta.parentseries_id': meetingSeriesId};
+                return AttachmentsCollection.find(query).cursor;
+            }
+        }
+        return this.ready();
+    });
+}
 
 
 Meteor.methods({
