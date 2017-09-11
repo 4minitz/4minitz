@@ -216,19 +216,7 @@ Meteor.methods({
         check(parentSeriesID, String);
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
-            if (MinutesSchema.find({meetingSeries_id: parentSeriesID}).count() > 0) {
-                MinutesSchema.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
-
-                // add missing participants to non-finalized meetings
-                MinutesSchema.getCollection().find({meetingSeries_id: parentSeriesID}).forEach (min => {
-                    if (!min.isFinalized) {
-                        let newparticipants = min.generateNewParticipants();
-                        if (newparticipants) { //Write participants to database if they have changed
-                            MinutesSchema.update({_id: min._id}, {$set: {participants: newparticipants}});
-                        }
-                    }
-                });
-            }
+            Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(parentSeriesID, visibleForArray);
         } else {
             throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }

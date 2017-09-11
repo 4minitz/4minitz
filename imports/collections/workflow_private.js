@@ -179,19 +179,7 @@ Meteor.methods({
         MeetingSeriesSchema.update(meetingSeries_id, {$set: {visibleFor: visibleForArray}});
 
         // 3rd.: sync "visibleFor" to minutes that have this meeting series as parent
-        if (MinutesSchema.find({meetingSeries_id: meetingSeries_id}).count() > 0) {
-            MinutesSchema.update({meetingSeries_id: meetingSeries_id}, {$set: {visibleFor: visibleForArray}}, {multi: true});
-
-            // refresh participants to non-finalized meetings
-            MinutesSchema.getCollection().find({meetingSeries_id: meetingSeries_id}).forEach (min => {
-                if (!min.isFinalized) {
-                    let newparticipants = min.generateNewParticipants();
-                    if (newparticipants) { //Write participants to database if they have changed
-                        MinutesSchema.update({_id: min._id}, {$set: {participants: newparticipants}});
-                    }
-                }
-            });
-        }
+        Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(meetingSeries_id, visibleForArray);
     },
     
         

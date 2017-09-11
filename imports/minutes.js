@@ -59,6 +59,22 @@ export class Minutes {
         return Meteor.callPromise('minutes.syncVisibilityAndParticipants', parentSeriesID, visibleForArray);
     }
 
+    static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(parentSeriesID, visibleForArray) {
+        if (MinutesSchema.find({meetingSeries_id: parentSeriesID}).count() > 0) {
+            MinutesSchema.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+
+            // add missing participants to non-finalized meetings
+            MinutesSchema.getCollection().find({meetingSeries_id: parentSeriesID}).forEach (min => {
+                if (!min.isFinalized) {
+                    let newparticipants = min.generateNewParticipants();
+                    if (newparticipants) { //Write participants to database if they have changed
+                        MinutesSchema.update({_id: min._id}, {$set: {participants: newparticipants}});
+                    }
+                }
+            });
+        }
+    }
+
     // ################### object methods
 
     // method
