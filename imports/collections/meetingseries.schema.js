@@ -1,7 +1,6 @@
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import { Mongo } from 'meteor/mongo';
 
-import { TopicSchema } from './topic.schema';
 import { LabelSchema } from './label.schema';
 import { MeetingSeries } from '../meetingseries';
 import './idValidator';
@@ -25,8 +24,6 @@ export const MeetingSeriesSchema = SchemaClass.create({
         // todo: make this a date?
         lastMinutesDate: {type: String},
         minutes: {type: [String], default: []},
-        openTopics: {type: [TopicSchema], default: []},
-        topics: {type: [TopicSchema], default: []},
         availableLabels: {type: [LabelSchema], default: []},
         additionalResponsibles: {type: [String], default: []}
     }

@@ -9,7 +9,6 @@ import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
-import { Label } from './label';
 import { _ } from 'meteor/underscore';
 
 import './helpers/promisedMethods';
@@ -321,17 +320,6 @@ export class Topic {
         return this._topicDoc;
     }
 
-    getLabels(meetingSeriesId) {
-        this._topicDoc.labels = this.getLabelsRawArray().filter(labelId => {
-            return (null !== Label.createLabelById(meetingSeriesId, labelId));
-        });
-
-        return this.getLabelsRawArray().map(labelId => {
-            return Label.createLabelById(meetingSeriesId, labelId);
-
-        });
-    }
-
     addLabelsByIds(labelIds) {
         labelIds.forEach(id => {
             if (!this.hasLabelWithId(id)) {
@@ -348,24 +336,6 @@ export class Topic {
             }
         }
         return false;
-    }
-
-    getLabelsString(topic) {
-        let labels = topic.labels;
-        let labelsString = '';
-
-        let aMinute = new Minutes(topic.createdInMinute);
-        let aSeries = aMinute.parentMeetingSeries();
-
-        labels = labels.map(labelId => {
-            return Label.createLabelById(aSeries._id, labelId);
-        });
-
-        for (let i in labels) {
-            labelsString += '#' + labels[i]._labelDoc.name+ ', ';
-        }
-        labelsString = labelsString.slice(0, -2);   // remove last ", "
-        return labelsString;
     }
 
     getLabelsRawArray() {
@@ -397,31 +367,6 @@ export class Topic {
      */
     getResponsibles() {
         return this._topicDoc.responsibles;
-    }
-
-    getResponsiblesString() {
-        if (!this.hasResponsibles()) {
-            return '';
-        }
-
-        let responsibles = this._topicDoc.responsibles;
-        let responsiblesString = '';
-        for (let i in responsibles) {
-            let userNameFromDB = '';
-            if (responsibles[i].length > 15) {  // maybe DB Id or free text
-                let user = Meteor.users.findOne(responsibles[i]);
-                if (user) {
-                    userNameFromDB = user.username;
-                }
-            }
-            if (userNameFromDB) {     // user DB match!
-                responsiblesString += userNameFromDB + ', ';
-            } else {
-                responsiblesString += responsibles[i] + ', ';
-            }
-        }
-        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
-        return responsiblesString;
     }
 
     addResponsible(responsibleName) {

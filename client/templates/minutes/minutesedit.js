@@ -16,7 +16,7 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
 import { DocumentGeneration } from '/imports/documentGeneration';
 
-import { Finalizer } from '/imports/services/finalizer';
+import { Finalizer } from '/imports/services/finalize-minutes/finalizer';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';

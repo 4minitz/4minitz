@@ -4,6 +4,7 @@ let mongo = require('mongodb').MongoClient;
 export const Collections = {
     MeetingSeries: 'meetingSeries',
     Minutes: 'minutes',
+    Topcis: 'topics',
     Users: 'users'
 };
 
