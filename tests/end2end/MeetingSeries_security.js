@@ -19,7 +19,7 @@ describe('MeetingSeries Methods Security', function () {
         const name = 'Insert a MeetingSerie';
         const meetingSeriesCount = server.call('e2e.countMeetingSeriesInMongDB');
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryInsertMeetingSeries(name, meetingSeriesCount, 'Meeting Series can not be added if user is not logged in');
 
         E2EApp.loginUser();
@@ -34,7 +34,7 @@ describe('MeetingSeries Methods Security', function () {
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 2);
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryDeleteMeetingSeries(ms_id, meetingSeriesCount, 'Meeting Series can not be deleted if user is not logged in');
 
         E2EApp.loginUser(1);
@@ -57,7 +57,7 @@ describe('MeetingSeries Methods Security', function () {
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 2);
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryUpdateMeetingSeriesName(ms_id, newName, oldName, 'Meeting Series can not be updated if user is not logged in');
 
         E2EApp.loginUser(1);
@@ -94,7 +94,7 @@ describe('MeetingSeries Publish & Subscribe Security', function () {
             'Moderator should have a MS published').to.equal(msUser1+1);
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         expect(E2ESecurity.countRecordsInMiniMongo('meetingSeries'),
             'Not logged in user should not have a MS published').to.equal(0);
         E2EApp.loginUser();

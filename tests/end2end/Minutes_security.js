@@ -4,7 +4,7 @@ import { E2EMinutes } from './helpers/E2EMinutes';
 
 const newMinuteDate = '01.01.2000';
 
-describe('Minutes Method Security', function () {
+describe('Minutes Method Security @watch', function () {
     beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
@@ -26,7 +26,8 @@ describe('Minutes Method Security', function () {
         const name = 'MinuteUpdate as not logged in';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryUpdateCurrentMinuteDate(min.min_id, newMinuteDate, min.date);
         E2EApp.loginUser();
 
@@ -64,7 +65,7 @@ describe('Minutes Method Security', function () {
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryAddNewMinute(ms_id, '29.07.2017', numberOfMinutes, 0);
         E2EApp.loginUser();
     });
@@ -138,7 +139,7 @@ describe('Minutes Method Security', function () {
 
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.tryRemoveMinute(min.min_id, numberOfMinutes)
+        E2ESecurity.tryRemoveMinute(min.min_id, numberOfMinutes);
         E2EApp.loginUser();
     });
 
@@ -155,7 +156,7 @@ describe('Minutes Method Security', function () {
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryFinalizeMinute(min.min_id, false);
         E2EApp.loginUser();
     });
@@ -182,7 +183,7 @@ describe('Minutes Method Security', function () {
     });
 
     //workflow.unfinalizeMinute
-    it('can unfinalize a Minute if Moderator', function () {
+    it('can unfinalize a Minute if Moderator @watch', function () {
         const name = 'MinuteUnfinalize as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
@@ -196,7 +197,7 @@ describe('Minutes Method Security', function () {
 
         E2ESecurity.executeMethod(E2ESecurity.finalizeMinute, min.min_id);
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryUnfinalizeMinute(min.min_id, true);
         E2EApp.loginUser();
     });
@@ -263,7 +264,7 @@ describe('Minute Publish & Subscribe Security', function () {
             'Moderator should have 2 Minutes published').to.equal(minutesUser1+2);
 
         E2EApp.logoutUser();
-        expect (E2EApp.isLoggedIn()).to.be.false;
+        expect (E2EApp.isNotLoggedIn()).to.be.true;
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
             'Not logged in user should not have Minutes published').to.equal(0);
 

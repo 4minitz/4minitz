@@ -25,6 +25,18 @@ export class E2EApp {
         return browser.isExisting('#navbar-usermenu');
     };
 
+    // We need a separate isNotLoggedIn() as the isLoggedIn() returns too quick on "!isLoggedIn()"
+    static isNotLoggedIn () {
+        try {
+            browser.waitForExist('#tab_standard', 5000);         // browser = WebdriverIO instance
+        } catch (e) {
+            // give browser some time, on fresh login
+            E2EGlobal.saveScreenshot('isNotLoggedIn_failed');
+        }
+        return browser.isExisting('#tab_standard');
+    };
+
+
     static logoutUser () {
         if (E2EApp.isLoggedIn()) {
             E2EGlobal.clickWithRetry('#navbar-usermenu');
