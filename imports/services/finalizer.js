@@ -13,6 +13,7 @@ import { formatDateISO8601Time } from '/imports/helpers/date';
 
 import { MinutesFinder } from '/imports/services/minutesFinder';
 
+import { DocumentGeneration } from '/imports/documentGeneration';
 import '/imports/helpers/promisedMethods';
 
 // todo merge with finalizer copy
@@ -175,6 +176,11 @@ Meteor.methods({
             sendFinalizationMail(minutes, sendActionItems, sendInfoItems);
         }
 
+        // save protocol if enabled
+        if (Meteor.settings.public.docGeneration.enabled) {
+            DocumentGeneration.saveProtocol(minutes);
+        }
+
         console.log('workflow.finalizeMinute DONE.');
     },
 
@@ -213,6 +219,11 @@ Meteor.methods({
         let history = minutes.finalizedHistory || [];
         history.push(compileFinalizedInfo(minutes));
         doc.finalizedHistory = history;
+
+        // remove protocol if enabled
+        if (Meteor.settings.public.docGeneration.enabled) {
+            DocumentGeneration.removeProtocol(minutes);
+        }
 
         console.log('workflow.unfinalizeMinute DONE.');
         return MinutesSchema.update(id, {$set: doc});

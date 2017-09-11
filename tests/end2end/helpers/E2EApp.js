@@ -25,6 +25,18 @@ export class E2EApp {
         return browser.isExisting('#navbar-usermenu');
     };
 
+    // We need a separate isNotLoggedIn() as the isLoggedIn() returns too quick on "!isLoggedIn()"
+    static isNotLoggedIn () {
+        try {
+            browser.waitForExist('#tab_standard', 5000);         // browser = WebdriverIO instance
+        } catch (e) {
+            // give browser some time, on fresh login
+            E2EGlobal.saveScreenshot('isNotLoggedIn_failed');
+        }
+        return browser.isExisting('#tab_standard');
+    };
+
+
     static logoutUser () {
         if (E2EApp.isLoggedIn()) {
             E2EGlobal.clickWithRetry('#navbar-usermenu');
@@ -73,7 +85,7 @@ export class E2EApp {
                 let userWantsLdap = tab === '#tab_ldap';
 
                 return (tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap);
-            }, 5000);
+            }, 7500, 'The login screen could not been loaded in time');
 
             let tabIsStandard = browser.isExisting('#at-field-username_and_email');
             let tabIsLdap = browser.isExisting('#id_ldapUsername');
@@ -93,12 +105,23 @@ export class E2EApp {
             browser.waitUntil(_ => {
                 const userMenuExists = browser.isExisting('#navbar-usermenu');
                 return userMenuExists || E2EApp.loginFailed();
-            }, 20000);
+            }, 20000, 'The login could not been processed in time');
 
             if (E2EApp.loginFailed()) {
                 throw new Error ("Unknown user or wrong password.");
             }
-            E2EApp.isLoggedIn();
+
+            if (! E2EApp.isLoggedIn()) {
+                console.log("loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()");
+                browser.execute( function() {
+                    Meteor.loginWithPassword(username, password);
+                });
+                browser.waitUntil(_ => {
+                    const userMenuExists = browser.isExisting('#navbar-usermenu');
+                    return userMenuExists || E2EApp.loginFailed();
+                }, 5000);
+            }
+
             E2EApp._currentlyLoggedInUser = username;
         } catch (e) {
             E2EGlobal.saveScreenshot('loginUserWithCredentials_failed');

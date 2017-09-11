@@ -3,7 +3,13 @@
     "env": {
         "browser": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "mocha": true,
+        "jasmine": true
+    },
+    "globals": {
+        "server": true,
+        "browser": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {

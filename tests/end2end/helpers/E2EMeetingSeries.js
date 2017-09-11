@@ -99,7 +99,9 @@ export class E2EMeetingSeries {
         for (let i in elements.value) {
             let elemId = elements.value[i].ELEMENT;
             let visibleText = browser.elementIdText(elemId).value;
-            if (visibleText == compareText) {
+            if (visibleText === compareText) {
+                browser.execute("arguments[0].scrollIntoView();", elements.value[i]);
+                E2EGlobal.waitSomeTime(100);
                 browser.elementIdClick(elemId);
                 E2EGlobal.waitSomeTime();
                 return true;

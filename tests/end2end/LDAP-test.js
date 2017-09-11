@@ -20,7 +20,7 @@ describe('LDAP', function () {
 
     beforeEach("make sure test user is logged out and on the start page", function () {
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
     });
 
     after("clear database and login user", function () {
@@ -73,7 +73,7 @@ describe('LDAP', function () {
         }
 
         expect(loginUnexpectedlySucceeded).to.be.false;
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
     });
 
     it('ldap user can not log in with the standard login form', function () {
@@ -85,6 +85,6 @@ describe('LDAP', function () {
 
         expect(login).to.throw(message);
 
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
     });
 });

@@ -20,7 +20,7 @@ describe('User Profile/Password editing', function () {
 
     it('Buttons Change Password and Edit Profile are not visible for an LDAP user', function () {
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
 
         E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
         expect(E2EApp.isLoggedIn()).to.be.true;
@@ -33,7 +33,7 @@ describe('User Profile/Password editing', function () {
         E2EGlobal.clickWithRetry('#navbar-usermenu');
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2EApp.loginUser();
     });
 
@@ -56,7 +56,7 @@ describe('User Profile/Password editing', function () {
 
         //try ty to log in with new password
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2EApp.loginUserWithCredentials(E2EGlobal.SETTINGS.e2eTestUsers[0], newPassword, false);
         expect(E2EApp.isLoggedIn()).to.be.true;
         //reset password to the old one
