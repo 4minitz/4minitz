@@ -170,7 +170,8 @@ export class E2ESecurity {
     static tryReopenTopic = (topicID, meetingSeriesID, expectToBeOpened, testName) => {
         E2ESecurity.replaceMethodOnClientSide(E2ESecurity.reopenTopic);
         E2ESecurity.executeMethod(E2ESecurity.reopenTopic, meetingSeriesID, topicID);
-        expect((server.call('e2e.findMeetingSeries', meetingSeriesID)).topics[0].isOpen, testName).to.equal(expectToBeOpened);
+        const topicsOfSeries = server.call('e2e.getTopicsOfMeetingSeries', meetingSeriesID);
+        expect(topicsOfSeries[0].isOpen, testName).to.equal(expectToBeOpened);
     };
 
     static tryUpdateRole = (meetingSeriesID, userIndex, newRole, expectToEqual) => {

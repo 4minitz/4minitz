@@ -3,7 +3,7 @@ import proxyquire from 'proxyquire';
 import _ from 'underscore';
 import sinon from 'sinon';
 
-import * as DateHelpers from '../../../../imports/helpers/date';
+import * as DateHelpers from '../../../../../imports/helpers/date';
 
 
 let MinutesSchema = {
@@ -52,6 +52,12 @@ const MinutesFinder = {
     secondLastMinutesOfMeetingSeries: sinon.stub()
 };
 
+
+const TopicsFinalizer = {
+    mergeTopicsForFinalize: sinon.stub(),
+    mergeTopicsForUnfinalize: sinon.stub()
+};
+
 const DocumentGeneration = {
     saveProtocol: sinon.stub(),
     removeProtocol: sinon.stub()
@@ -59,7 +65,7 @@ const DocumentGeneration = {
 
 const {
     Finalizer
-} = proxyquire('../../../../imports/services/finalizer', {
+} = proxyquire('../../../../../imports/services/finalize-minutes/finalizer', {
     'meteor/meteor': { Meteor, '@noCallThru': true },
     'meteor/underscore': { _, '@noCallThru': true },
     'meteor/check': { check, '@noCallThru': true },
@@ -73,6 +79,7 @@ const {
     '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true },
     '/imports/helpers/date': DateHelpers,
     '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true },
+    './topicsFinalizer': { TopicsFinalizer, '@noCallThru': true },
     '/imports/documentGeneration': { DocumentGeneration,  '@noCallThru': true }
 });
 

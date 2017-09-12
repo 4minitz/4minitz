@@ -1,7 +1,14 @@
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 
-export class MigrateItems {
+/**
+ * Migrates all items of topics within minutes AND series.
+ *
+ * CAUTION: Since MigrationV16 the meeting series topics are stored in their own
+ * collection and not as subdocuments of the meeting series anymore. This means that
+ * we have to adjust this class if we want to use it for later migrations, too.
+ */
+export class MigrateItemsPre16 {
 
     constructor(convertItem) {
         this.convertItem = convertItem;

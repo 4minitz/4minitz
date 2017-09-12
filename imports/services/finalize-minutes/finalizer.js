@@ -1,11 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
 
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { Minutes } from '/imports/minutes';
-import { Topic } from '/imports/topic';
 import { UserRoles } from '/imports/userroles';
 import { FinalizeMailHandler } from '/imports/mail/FinalizeMailHandler';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -15,6 +13,7 @@ import { MinutesFinder } from '/imports/services/minutesFinder';
 
 import { DocumentGeneration } from '/imports/documentGeneration';
 import '/imports/helpers/promisedMethods';
+import {TopicsFinalizer} from './topicsFinalizer';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -59,76 +58,6 @@ function compileFinalizedInfo(minutes) {
     return (`${version}${finalizedString} on ${finalizedTimestamp} by ${minutes.finalizedBy}`);
 }
 
-/**
- * Copies the topics from the given
- * minute to this series.
- *
- * This is necessary for both, finalizing a
- * minute and un-finalizing a minute.
- *
- * When finalizing this method will be called
- * with the minute which will be finalized.
- * When un-finalizing a minute this will be called
- * with the 2nd last minute to revert the
- * previous state.
- *
- * @param minutes
- * @param meetingSeries
- * @private
- */
-function copyTopicsToSeries(meetingSeries, minutes) {
-    // clear open topics of this series (the minute contains all relevant open topics)
-    meetingSeries.openTopics = [];
-    meetingSeries.topics.forEach((topicDoc) => {
-        let topic = new Topic(meetingSeries, topicDoc);
-        topic.invalidateIsNewFlag();
-    });
-
-    // iterate backwards through the topics of the minute
-    for (let i = minutes.topics.length; i-- > 0;) {
-        let topicDoc = minutes.topics[i];
-        topicDoc.isSkipped = false;
-
-        let topicDocCopy = _.extend({}, topicDoc);
-        // pass a copy to our topic object, so this can be tailored for the open topics list
-        // without manipulating the original document
-        let topic = new Topic(minutes._id, topicDocCopy);
-
-        meetingSeries.upsertTopic(topicDoc, /*merge*/ true);
-
-        // copy additional the tailored topic to our open topic list
-        topic.tailorTopic();
-        if (!topic.isClosedAndHasNoOpenAIs()) {
-            topic.getDocument().isOpen = true;
-            meetingSeries.openTopics.unshift(topic.getDocument());
-        }
-    }
-}
-
-function unfinalizeLastMinutes(meetingSeries) {
-    let minutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
-    let secondLastMinute = MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
-    if (secondLastMinute) {
-        // all fresh created infoItems have to be deleted from the topic list of this series
-        meetingSeries.topics.forEach(topicDoc => {
-            topicDoc.infoItems = topicDoc.infoItems.filter(infoItemDoc => {
-                return infoItemDoc.createdInMinute !== minutes._id;
-            });
-        });
-
-        copyTopicsToSeries(meetingSeries, secondLastMinute);
-    } else {
-        // if we un-finalize our fist minute it is save to delete all open topics
-        // because they are stored inside this minute
-        meetingSeries.openTopics = [];
-        meetingSeries.topics = [];
-    }
-}
-
-function finalizeLastMinutes(meetingSeries) {
-    copyTopicsToSeries(meetingSeries, MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries));
-}
-
 Meteor.methods({
     'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
         console.log('workflow.finalizeMinute on ' + id);
@@ -143,16 +72,7 @@ Meteor.methods({
         checkUserAvailableAndIsModeratorOf(minutes.parentMeetingSeriesID());
 
         // first we copy the topics of the finalize-minute to the parent series
-        let parentSeries = minutes.parentMeetingSeries();
-        finalizeLastMinutes(parentSeries);
-        let msAffectedDocs = MeetingSeriesSchema.update(
-            parentSeries._id,
-            {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
-
-        const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
-        if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
-            throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
-        }
+        TopicsFinalizer.mergeTopicsForFinalize(minutes.parentMeetingSeries());
 
         // then we tag the minute as finalized
         let version = minutes.finalizedVersion + 1 || 1;
@@ -200,15 +120,7 @@ Meteor.methods({
             throw new Meteor.Error('not-allowed', 'This minutes is not allowed to be un-finalized.');
         }
 
-        unfinalizeLastMinutes(parentSeries);
-        let msAffectedDocs = MeetingSeriesSchema.update(
-            parentSeries._id,
-            {$set: {topics: parentSeries.topics, openTopics: parentSeries.openTopics}});
-
-        const atLeastOneTopicExists = parentSeries.openTopics.length !== 0 || parentSeries.topics.length !== 0;
-        if (msAffectedDocs !== 1 && atLeastOneTopicExists) {
-            throw new Meteor.Error('runtime-error', 'Unknown error occurred when updating topics of parent series');
-        }
+        TopicsFinalizer.mergeTopicsForUnfinalize(parentSeries);
 
         let doc = {
             finalizedAt: new Date(),

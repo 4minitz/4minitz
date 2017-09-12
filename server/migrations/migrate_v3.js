@@ -1,10 +1,10 @@
-import {MigrateItems} from './helpers/migrateItems';
+import {MigrateItemsPre16} from './helpers/migrateItems';
 
 // convert the participants fields
 export class MigrateV3 {
 
     static up() {
-        new MigrateItems((infoItem => {
+        new MigrateItemsPre16((infoItem => {
             if (infoItem.isSticky === undefined) {
                 infoItem.isSticky = false;
             }
@@ -13,7 +13,7 @@ export class MigrateV3 {
     }
 
     static down() {
-        new MigrateItems((infoItem) => {
+        new MigrateItemsPre16((infoItem) => {
             delete infoItem.isSticky;
         });
     }

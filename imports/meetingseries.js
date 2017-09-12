@@ -12,6 +12,7 @@ import { $ } from 'meteor/jquery';
 import './helpers/promisedMethods';
 import './collections/meetingseries_private';
 import moment from 'moment/moment';
+import {TopicsFinder} from './services/topicsFinder';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -99,10 +100,12 @@ export class MeetingSeries {
         let topics = [];
 
         // copy open topics from this meeting series & set isNew=false, isSkipped=false
-        if (this.openTopics) {
-            topics = this.openTopics;
+        const openTopics = TopicsFinder.allOpenTopicsOfMeetingSeries(this._id);
+        if (openTopics) {
+            topics = openTopics;
             topics.forEach((topicDoc) => {
                 let topic = new Topic(this, topicDoc);
+                topic.tailorTopic();
                 topic.invalidateIsNewFlag();
                 if (topic.isSkipped()) {
                     topic.toggleSkip();
