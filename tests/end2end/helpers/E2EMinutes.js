@@ -139,6 +139,7 @@ export class E2EMinutes {
             let visibleText = browser.elementIdText(elemId).value;
             if (visibleText == aDate) {
                 browser.elementIdClick(elemId);
+                E2EGlobal.waitSomeTime();
                 return true;
             }
         }

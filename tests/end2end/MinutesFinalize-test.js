@@ -167,7 +167,6 @@ describe('Minutes Finalize', function () {
         // Now leave and re-enter minutes to trigger fresh render
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.gotoMinutes(myDate);
-        E2EGlobal.waitSomeTime();
         finalizedText = browser.getText('#txt_FinalizedBy');
         expect(finalizedText).to.contain(currentUsername);
     });
