@@ -160,12 +160,14 @@ describe('Minutes Finalize', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
         E2EMinutes.finalizeCurrentMinutes();
+        E2EGlobal.waitSomeTime();
         let finalizedText = browser.getText('#txt_FinalizedBy');
         expect(finalizedText).to.contain(currentUsername);
 
         // Now leave and re-enter minutes to trigger fresh render
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.gotoMinutes(myDate);
+        E2EGlobal.waitSomeTime();
         finalizedText = browser.getText('#txt_FinalizedBy');
         expect(finalizedText).to.contain(currentUsername);
     });
