@@ -131,15 +131,21 @@ let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
 
 Template.minutesedit.onCreated(function () {
     this.minutesReady = new ReactiveVar();
+    this.currentMinuteLoaded = new ReactiveVar();
 
     this.autorun(() => {
         _minutesID = FlowRouter.getParam('_id');
-        let aMin = new Minutes(_minutesID);
-        this.subscribe('meetingSeriesDetails', aMin.parentMeetingSeriesID());
-        this.subscribe('minutes', aMin.parentMeetingSeriesID(), _minutesID);
-        this.subscribe('files.attachments.all', aMin.parentMeetingSeriesID(), _minutesID);        
-        this.subscribe('files.protocols.all', aMin.parentMeetingSeriesID(), _minutesID);
-        this.minutesReady.set(this.subscriptionsReady());
+
+        this.currentMinuteLoaded.set(this.subscribe('minutes', undefined, _minutesID));
+        if (this.currentMinuteLoaded.get().ready()) {
+            let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
+            this.subscribe('minutes', meetingSeriesId);
+            this.subscribe('meetingSeriesDetails', meetingSeriesId);
+            this.subscribe('files.attachments.all', meetingSeriesId, _minutesID);        
+            this.subscribe('files.protocols.all', meetingSeriesId, _minutesID);
+            
+            this.minutesReady.set(this.subscriptionsReady());
+        }
     });
 
     Session.set('minutesedit.checkParent', false);

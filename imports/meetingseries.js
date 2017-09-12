@@ -152,12 +152,15 @@ export class MeetingSeries {
         }
     }
 
-    async updateLastMinutesFieldsAsync() {
+    async updateLastMinutesFieldsAsync(lastMinuteDoc) {
         let updateInfo = {
             _id: this._id
         };
+        
+        let lastMinutes = lastMinuteDoc ? 
+            lastMinuteDoc :
+            MinutesFinder.lastMinutesOfMeetingSeries(this);
 
-        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
         updateInfo.lastMinutesDate = lastMinutes ? lastMinutes.date : '';
         updateInfo.lastMinutesId = lastMinutes ? lastMinutes._id : null;
         updateInfo.lastMinutesFinalized = lastMinutes ? lastMinutes.isFinalized : false;

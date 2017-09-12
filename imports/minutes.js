@@ -64,14 +64,16 @@ export class Minutes {
     // method
     async update (docPart, callback) {
         console.log('Minutes.update()');
+        const parentMeetingSeries = this.parentMeetingSeries();
+
         _.extend(docPart, {_id: this._id});
         await Meteor.callPromise ('minutes.update', docPart, callback);
 
         // merge new doc fragment into this document
         _.extend(this, docPart);
 
-        if (docPart.hasOwnProperty('date')) {
-            return this.parentMeetingSeries().updateLastMinutesFieldsAsync();
+        if (docPart.hasOwnProperty('date') || docPart.hasOwnProperty('isFinalized')) {
+            return await parentMeetingSeries.updateLastMinutesFieldsAsync(this);
         }
     }
 
