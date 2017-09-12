@@ -97,7 +97,7 @@ Meteor.methods({
         }
 
         //update meeting series fields to correctly resemble the finalized status of the minute
-        parentSeries.updateLastMinutesFieldsAsync();
+        minutes.parentMeetingSeries().updateLastMinutesFieldsAsync();
 
         // save protocol if enabled
         if (Meteor.settings.public.docGeneration.enabled) {
