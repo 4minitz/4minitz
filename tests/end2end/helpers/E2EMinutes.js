@@ -159,6 +159,7 @@ export class E2EMinutes {
         const firstElementId = elements.value[0].ELEMENT;
 
         browser.elementIdClick(firstElementId);
+        E2EGlobal.waitSomeTime();
     };
 
     static gotoParentMeetingSeries () {
