@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <style>
+    .btn{
+        white-space:normal !important;
+        word-wrap: break-word;
+    }
+
     .btn-4minitz, .btn-4minitz:active, .btn-4minitz:visited {
         background-color: teal !important;
         color: white;
@@ -16,8 +21,13 @@
 
     .btn-4minitz:hover {
         background-color: #004b4b !important;
+        color: white !important;
     }
 
+    .featurelist {
+        font-size: 130%;
+        list-style-type: '✔ ';
+    }
 
     .github-corner:hover .octo-arm {
         animation: octocat-wave 560ms ease-in-out
@@ -66,16 +76,17 @@
 
         <div class="row" style="margin-top: 0.5em;">
             <div class="col-md-2 col-md-offset-4" style="margin-top: 0.5em;">
-                <a class="btn btn-lg btn-4minitz btn-block" href="https://demo.4minitz.com" role="button">
-                    Try 4Minitz</a>
-            </div>
-            <div class="col-md-2" style="margin-top: 0.5em;">
                 <a class="btn btn-lg btn-danger btn-block" href="#demovideo" role="button">
                     Watch Video</a>
             </div>
+            <div class="col-md-2" style="margin-top: 0.5em;">
+                <a class="btn btn-lg btn-4minitz btn-block" href="https://demo.4minitz.com" role="button">
+                    Try 4Minitz</a>
+            </div>
         </div>
+
         <div class="row">
-            <div class="col-md-2 col-md-offset-4" style="margin-top: 0.5em;">
+            <div class="col-md-2 col-md-offset-2" style="margin-top: 0.5em;">
                 <a class="btn btn-lg btn-default btn-block" href="https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md" role="button">
                     Read Doc</a>
             </div>
@@ -83,7 +94,16 @@
                 <a class="btn btn-lg btn-default btn-block" href="https://github.com/4minitz/4minitz/blob/develop/doc/faq.md" role="button">
                     Read FAQ</a>
             </div>
+            <div class="col-md-2" style="margin-top: 0.5em;">
+                <a class="btn btn-lg btn-default btn-block" href="https://github.com/4minitz/4minitz/blob/develop/doc/admin/adminguide.md" role="button">
+                    Install Now</a>
+            </div>
+            <div class="col-md-2" style="margin-top: 0.5em;">
+                <a class="btn btn-lg btn-default btn-block" href="https://github.com/4minitz/4minitz/" role="button">
+                    Fork Source</a>
+            </div>
         </div>
+
 
         <div class="row" style="margin-top: 3em;">
             <div class="col-md-4">
@@ -166,6 +186,75 @@
     </div>
 
 
+    <div class="well" style="margin-top: 2em; background-color: #C6E9E7;">
+        <div class="row" style="margin-top: 2em;">
+            <h3 style="text-align: center;">User Features</h3>
+            <div class="col-md-8 col-md-offset-2">
+                <ul class="featurelist">
+                    <li>Realtime updates for remote participants</li>
+                    <li>Secure role concept for invited people</li>
+                    <ul>
+                        <li>Moderator: May edit and delete stuff</li>
+                        <li>Uploader: May only view stuff, but may also upload files</li>
+                        <li>Invited: Only view stuff</li>
+                        <li>Informed: No web access, but will receive minutes via mail</li>
+                        <li>Additional: One-time participant, will only receive minutes mail</li>
+                    </ul>
+                    <li>Business approved workflow</li>
+                    <ul>
+                        <li>Prepare and send agenda</li>
+                        <li>Mark present people (one click)</li>
+                        <li>Document information and action items</li>
+                        <li>Stick customized label categories</li>
+                        <li>Finalize meeting and send protocol</li>
+                        <li>Open follow-up meeting</li>
+                        <li>Track all open topics and action items</li>
+                    </ul>
+                    <li>Clear hierarchical structure: Topics &gt; Information / Action Items &gt; Details</li>
+                    <li>Drag'n'Drop to re-order topics and items</li>
+                    <li>Quick entry mode for new topics</li>
+                    <li>Recurring topics (for standard agenda)</li>
+                    <li>Skip topic once (for special agenda)</li>
+                    <li>Version number for re-finalized meetings</li>
+                    <li>Older meeting minutes cannot be changed</li>
+                    <li>Admin Mode: Register & block users, broadcast messages</li>
+                    <li>Admin cannot see meeting contents (except: via database dump)</li>
+                    <li>Label Editor: per meeting series labels & colors</li>
+                    <li>Markdown Editor for details (Easy entry of bold, italic, bullet lists, ...)</li>
+                    <li>Upload file attachments (e.g., Powerpoints) to meeting minutes</li>
+                    <li>Download finalized meeting protocols for personal backup</li>
+                    <li>Search all-time topic history</li>
+                    <li>My Action Items: Shows my AI across multiple meeting series</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 2em;">
+            <h3 style="text-align: center;">Technical Features</h3>
+            <div class="col-md-8 col-md-offset-2">
+                <ul class="featurelist">
+                    <li>Only two external dependencies: Node.js and MongoDB</li>
+                    <li>Docker deployment for quick testing and production use</li>
+                    <li>LDAP / ActiveDirectory support (user import and authentication)</li>
+                    <li>SMTP for sending agenda, meeting minutes and a</li>
+                    <li>Many configuration options. E.g.:</li>
+                    <ul>
+                        <li>Binary upload: switch on/off, specify server path, ...</li>
+                        <li>User self registering: switch on/off</li>
+                        <li>Enforce EMail verification: switch on/off</li>
+                        <li>Regular LDAP imports (without password!)</li>
+                        <li>Download generated protocols: switch on/off</li>
+                    </ul>
+                    <li>Responsive UI - works on desktops, tablets and smart phones</li>
+                    <li>Free &amp; open source software: host your own!</li>
+                    <li>Very open <a href="https://github.com/4minitz/4minitz/blob/develop/LICENSE.md">
+                        MIT License</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
     <div class="well" style="margin-top: 2em; background-color: #C6E9E7; text-align: center;">
         <a href="impress.html">Impress</a> <br><br>
         Coded with ❤️  &nbsp;by the <a href="https://github.com/4minitz/4minitz/graphs/contributors">4Minitz Team</a>
@@ -186,5 +275,8 @@
         </a>
     </div>
 </div>
+
+
+
 </body>
 </html>
