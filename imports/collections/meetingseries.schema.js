@@ -24,8 +24,8 @@ export const MeetingSeriesSchema = SchemaClass.create({
         // todo: make this a date?
         lastMinutesDate: {type: String},
         lastMinutesFinalized: {type: Boolean, default: false},
-        lastMinutesId: {type: String, optional: true, validators: 
-            [{type: 'or',
+        lastMinutesId: {type: String, optional: true, validators: [
+            {type: 'or',
                 param: [
                     {type: 'null'},
                     {type: 'meteorId'}                    

@@ -11,7 +11,6 @@ import { handleError } from '/client/helpers/handleError';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
-import { MinutesFinder } from '/imports/services/minutesFinder';
 import { Minutes } from '/imports/minutes';
 
 

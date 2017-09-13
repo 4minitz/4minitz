@@ -6,6 +6,7 @@ import { TemplateRenderer } from './../server_side_templates/TemplateRenderer';
 import { DocumentGeneration } from './../documentGeneration';
 
 import { FilesCollection } from 'meteor/ostrio:files';
+import { extendedPublishSubscribeHandler } from './../helpers/extendedPublishSubscribe';
 
 export let DocumentsCollection = new FilesCollection({
     collectionName: 'DocumentsCollection',
@@ -87,18 +88,7 @@ export let DocumentsCollection = new FilesCollection({
     }
 });
 
-if (Meteor.isServer) {
-    Meteor.publish('files.protocols.all', function (meetingSeriesId, minuteId) {
-        if (meetingSeriesId) {
-            let userRole = new UserRoles(this.userId);
-            if (userRole.hasViewRoleFor(meetingSeriesId)) {
-                const query = minuteId ? {'meta.minuteId': minuteId} : {'meta.meetingSeriesId': meetingSeriesId};
-                return DocumentsCollection.find(query).cursor;
-            }
-        }
-        return this.ready();
-    });
-}
+extendedPublishSubscribeHandler.publishByMeetingSeriesOrMinute('files.protocols.all', DocumentsCollection, 'meta.meetingSeriesId', 'meta.minuteId');
 
 Meteor.methods({
     'documentgeneration.createHTML'(minuteID) {
