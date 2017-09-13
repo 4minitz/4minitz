@@ -5,7 +5,6 @@
  * and a list of associated tags.
  */
 import { Meteor } from 'meteor/meteor';
-import { Label } from './label';
 import { _ } from 'meteor/underscore';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import { Random } from 'meteor/random';
@@ -152,17 +151,6 @@ export class InfoItem {
 
     getDocument() {
         return this._infoItemDoc;
-    }
-
-    getLabels(meetingSeriesId) {
-        this._infoItemDoc.labels = this.getLabelsRawArray().filter(labelId => {
-            return (null !== Label.createLabelById(meetingSeriesId, labelId));
-        });
-
-        return this.getLabelsRawArray().map(labelId => {
-            return Label.createLabelById(meetingSeriesId, labelId);
-
-        });
     }
 
     setSubject(newSubject) {

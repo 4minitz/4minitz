@@ -8,7 +8,9 @@ import { Minutes } from './../../imports/minutes';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { DocumentsCollection } from '/imports/collections/documentgeneration_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
+import { TopicSchema } from '/imports/collections/topic.schema';
 import { DocumentGeneration } from '/imports/documentGeneration';
+import {TopicsFinder} from '../../imports/services/topicsFinder';
 
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
@@ -31,6 +33,7 @@ if (Meteor.settings.isEnd2EndTest) {
             TestMailCollection.remove({});
             console.log('Count saved test mails after reset:'+TestMailCollection.find().count());
             BroadcastMessageSchema.remove({});
+            TopicSchema.remove({});
             DocumentsCollection.remove({});
             console.log('Count Protocls after reset:' + DocumentsCollection.find().count());
             resetDocumentStorageDirectory(); //eslint-disable-line
@@ -104,9 +107,13 @@ if (Meteor.settings.isEnd2EndTest) {
         'e2e.removeAllBroadcasts'() {
             BroadcastMessageSchema.remove({});
         },
-        'e2e.findMeetingSeries'(MSid){
+        'e2e.findMeetingSeries'(MSid) {
             console.log('-------------------------- E2E-METHOD: findMeetingSeries');
             return MeetingSeriesSchema.getCollection().findOne(MSid);
+        },
+        'e2e.getTopicsOfMeetingSeries'(MSid) {
+            console.log('-------------------------- E2E-METHOD: getTopicsOfMeetingSeries');
+            return TopicsFinder.allTopicsOfMeetingSeries(MSid);
         },
         'e2e.countProtocolsInMongoDB'() {
             console.log('-------------------------- E2E-METHOD: countProtocolsInMongoDB');
@@ -141,7 +148,7 @@ if (Meteor.settings.isEnd2EndTest) {
             let protocol = DocumentGeneration.getProtocolForMinute(minuteId);
             return (protocol ? protocol.link() : undefined);
         },
-          'e2e.getUserRole'(MSid, i){
+        'e2e.getUserRole'(MSid, i){
             console.log('-------------------------- E2E-METHOD: getUserRole');
             let usr = Meteor.users.findOne({username: Meteor.settings.e2eTestUsers[i]});
             if (usr.roles && usr.roles[MSid] && usr.roles[MSid][0]){

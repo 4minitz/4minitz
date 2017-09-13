@@ -25,6 +25,7 @@ SubElements['@noCallThru'] = true;
 
 const Random = {id: () => {}};
 const jQuery = {};
+const TopicsFinder = {};
 
 const {
     MeetingSeries
@@ -41,6 +42,7 @@ const {
     '/imports/helpers/date': DateHelpers,
     '/imports/helpers/subElements': SubElements,
     'meteor/underscore': { _, '@noCallThru': true},
+    './services/topicsFinder': { TopicsFinder, '@noCallThru': true},
     '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}
 });
 

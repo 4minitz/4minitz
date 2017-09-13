@@ -20,6 +20,7 @@ import { MigrateV12 } from './migrate_v12';
 import { MigrateV13 } from './migrate_v13';
 import { MigrateV14 } from './migrate_v14';
 import { MigrateV15 } from './migrate_v15';
+import { MigrateV16 } from './migrate_v16';
 
 Migrations.add({version: 1, up() {MigrateV1.up();}, down() {MigrateV1.down();}});
 Migrations.add({version: 2, up() {MigrateV2.up();}, down() {MigrateV2.down();}});
@@ -36,6 +37,7 @@ Migrations.add({version: 12, up() {MigrateV12.up();}, down() {MigrateV12.down();
 Migrations.add({version: 13, up() {MigrateV13.up();}, down() {MigrateV13.down();}});
 Migrations.add({version: 14, up() {MigrateV14.up();}, down() {MigrateV14.down();}});
 Migrations.add({version: 15, up() {MigrateV15.up();}, down() {MigrateV15.down();}});
+Migrations.add({version: 16, up() {MigrateV16.up();}, down() {MigrateV16.down();}});
 
 // ----------------------------------------------------------------
 function findLatestVersion() {
