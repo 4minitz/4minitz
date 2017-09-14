@@ -139,6 +139,7 @@ export class E2EMinutes {
             let visibleText = browser.elementIdText(elemId).value;
             if (visibleText == aDate) {
                 browser.elementIdClick(elemId);
+                E2EGlobal.waitSomeTime();
                 return true;
             }
         }
@@ -158,6 +159,7 @@ export class E2EMinutes {
         const firstElementId = elements.value[0].ELEMENT;
 
         browser.elementIdClick(firstElementId);
+        E2EGlobal.waitSomeTime();
     };
 
     static gotoParentMeetingSeries () {

@@ -1,8 +1,13 @@
 import { Template } from 'meteor/templating';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
-import { MinutesFinder } from '../../../imports/services/minutesFinder';
 import { Session } from 'meteor/session';
+
+Template.meetingSeriesList.onCreated(function () {
+    this.autorun(() => {
+        this.subscribe('meetingSeriesOverview');
+    });
+});
 
 Template.meetingSeriesList.helpers({
     meetingSeriesRow: function () {
@@ -25,10 +30,5 @@ Template.meetingSeriesOverview.helpers({
     isModeratorOfSeries: function () {
         let usrRole = new UserRoles();
         return usrRole.isModeratorOf(Template.instance().data._id);
-    },
-
-    lastMinutes() {
-        const seriesDocumentFromDataContext = this;
-        return MinutesFinder.lastMinutesOfMeetingSeries(seriesDocumentFromDataContext);
     }
 });
