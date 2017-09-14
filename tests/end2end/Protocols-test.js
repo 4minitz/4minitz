@@ -71,6 +71,9 @@ describe('Protocols', function () {
         expect(E2EProtocols.checkProtocolFileForMinuteExits(_lastMinutesID), 'A Protocol has been saved on file system').to.be.true;
 
         E2EMinutes.unfinalizeCurrentMinutes();
+
+        E2EGlobal.waitSomeTime(5000);
+
         expect(browser.isExisting('#btn_unfinalizeMinutes'),'Minute has been unfinalized').to.be.false;
         expect(E2EProtocols.countProtocolsInMongoDB(), 'The Protocol has been deleted in database').to.equal(numberOfProtocolsBefore - 1);
         expect(E2EProtocols.checkProtocolFileForMinuteExits(_lastMinutesID), 'The Protocol has been deleted on file system').to.be.false;
