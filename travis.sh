@@ -3,6 +3,12 @@ TEST="$1"
 
 PATH=$PATH:$HOME/.meteor/
 
+if [ "$TRAVIS" = "true"]; then
+    BUILD=$TRAVIS_BUILD_NUMBER
+    JOB=$TRAVIS_JOB_NUMBER
+    echo Find screenshots here: http://s3files.4minitz.com/4minitz/4minitz/$BUILD/$BUILD.$JOB/tests/snapshots
+fi
+
 if [ "$TEST" = "unit" ]; then
     echo Run unit test
     npm run test:unit

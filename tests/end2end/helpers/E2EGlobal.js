@@ -172,6 +172,16 @@ export class E2EGlobal {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
         filename = (!filename) ? dateStr : dateStr + "_" + filename;
         browser.saveScreenshot('./tests/snapshots/' + filename + ".png");
+
+        const weAreOnTravis = !!process.env.TRAVIS;
+        if (weAreOnTravis) {
+            const baseUrl = 'http://4minitz2.s3.amazonaws.com/4minitz/4minitz/',
+                build = process.env.TRAVIS_BUILD_NUMBER || 1,
+                job = process.env.TRAVIS_JOB_NUMBER || 1,
+                url = baseUrl + '/' + build + '/' + build + '.' + job + '/tests/snapshots/' + filename + '.png';
+
+            console.log('Screenshot taken: ', url);
+        }
     }
 }
 
