@@ -18,7 +18,7 @@
                 </label>
 
                 <h3 id="{{classForEdit}}" style="display: inline; cursor: {{cursorForEdit}};" data-toggle="tooltip"
-                    title="Updated {{formatDateISO8601Time topic.updatedAt}} by {{topic.updatedBy}}">
+                    title="{{formateUpdatedHint topic.updatedAt topic.updatedBy}}">
                     <span class="{{classForSkippedTopics}}">
                     {{topic.subject}}
                     {{responsiblesHelper}}

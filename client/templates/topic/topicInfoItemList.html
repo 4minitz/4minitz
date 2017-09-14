@@ -20,7 +20,7 @@
                     {{/if}}
                     <h4 class="panel-title">
                         <div class="checkbox" style="font-size: 110%;" data-toggle="tooltip"
-                             title="Updated {{formatDateISO8601Time infoItem.updatedAt}} by {{infoItem.updatedBy}}">
+                             title="{{formateUpdatedHint infoItem.updatedAt infoItem.updatedBy}}">
                             <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
                                 {{#if isActionItem @index}}
                                     <input type="checkbox" class="checkbox btnToggleAIState" data-index="{{@index}}"
@@ -117,7 +117,7 @@
                                     <div>
                                         <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate">
                                             <strong data-toggle="tooltip"
-                                                    title="Updated {{formatDateISO8601Time this.updatedAt}} by {{this.updatedBy}}">{{this.date}}</strong>
+                                                    title="{{formateUpdatedHint this.updatedAt this.updatedBy}}">{{this.date}}</strong>
                                         </label>
                                         <span id="detailActions_{{itemId}}_{{@index}}"
                                               class="pull-right pull-right-icons detailActions"
