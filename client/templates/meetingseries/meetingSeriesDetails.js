@@ -22,12 +22,14 @@ Template.meetingSeriesDetails.onCreated(function () {
     this.autorun(() => {
         _meetingSeriesID = FlowRouter.getParam('_id');
         this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
-        let subscriptionHandle = this.subscribe('meetingSeries', _meetingSeriesID);
-        this.seriesReady.set(subscriptionHandle.ready());
 
+        this.subscribe('meetingSeriesDetails', _meetingSeriesID);
+        this.subscribe('minutes', _meetingSeriesID);
+        this.subscribe('files.attachments.all', _meetingSeriesID); //Attachments have to be subscribed at this point, since each minute will show an icon indicating if they're containing attachments
         // subscribe topics for this series, too. If we do this in the tabs templates directly
         // the subscription will be un-subscribed and subscribed again when switching between both tabs.
         this.subscribe('topics', _meetingSeriesID);
+        this.seriesReady.set(this.subscriptionsReady());
     });
 
     this.activeTabTemplate = new ReactiveVar('tabMinutesList');

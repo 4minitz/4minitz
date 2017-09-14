@@ -160,6 +160,7 @@ describe('Minutes Finalize', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
         E2EMinutes.finalizeCurrentMinutes();
+        E2EGlobal.waitSomeTime();
         let finalizedText = browser.getText('#txt_FinalizedBy');
         expect(finalizedText).to.contain(currentUsername);
 

@@ -1,16 +1,19 @@
 import { Template } from 'meteor/templating';
 import { MeetingSeries } from '/imports/meetingseries';
 
-Template.meetingSeriesList.onCreated(function () {
-    this.searchQuery = new ReactiveVar('');
-});
-
 function getFilteredSeries(queryString) {
     const split = queryString.match(/[^\s]+/g) || [],
         query = new RegExp(split.join('|'), 'i');
 
     return MeetingSeries.find({ $or: [{ 'name': query }, { 'project': query }] });
 }
+
+Template.meetingSeriesList.onCreated(function () {
+    this.searchQuery = new ReactiveVar('');
+    this.autorun(() => {
+        this.subscribe('meetingSeriesOverview');
+    });
+});
 
 Template.meetingSeriesList.helpers({
     meetingSeriesRow() {

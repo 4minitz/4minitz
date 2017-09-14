@@ -87,7 +87,7 @@ describe('MeetingSeries', function () {
             expect(browser.elementIdText(elemId).value).to.have.string(`(last minutes of ${myDate}`);
         });
     });
-
+    
     it.skip('can submit the form by pressing enter in the project name input', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #4";
