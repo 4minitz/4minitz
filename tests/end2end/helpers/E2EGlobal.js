@@ -178,7 +178,7 @@ export class E2EGlobal {
             const baseUrl = 'http://4minitz2.s3.amazonaws.com/4minitz/4minitz/',
                 build = process.env.TRAVIS_BUILD_NUMBER || 1,
                 job = process.env.TRAVIS_JOB_NUMBER || 1,
-                url = baseUrl + '/' + build + '/' + build + '.' + job + '/tests/snapshots/' + filename + '.png';
+                url = baseUrl + '/' + build + '/' + job + '/tests/snapshots/' + filename + '.png';
 
             console.log('Screenshot taken: ', url);
         }
