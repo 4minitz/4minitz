@@ -37,6 +37,16 @@ let users = [{
         cn: 'anotherLdapUser2',
         mail: 'anotherLdapUser2@example.com'
     }
+}, {
+  dn: 'cn=inactiveUser1,dc=example,dc=com',
+  password: 'ldapPwd',
+  attributes: {
+      objectclass: ['organization', 'top'],
+      userAccountControl: 514,
+      o: 'example',
+      cn: 'inactiveUser1',
+      mail: 'inactiveUser1@example.com'
+  }
 }];
 
 let server = ldap.createServer();

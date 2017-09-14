@@ -19,7 +19,7 @@ let _createLDAPClient = function (settings) {
 
 const inactivityStrategies = {
     userAccountControl(inactivitySettings, entry) {
-        const uac = entry.object.userAccountControl,
+        const uac = entry.object.userAccountControl || 0,
             flagIsSet = uac & 2;
         
         return !!flagIsSet;
@@ -49,8 +49,7 @@ let _fetchLDAPUsers = function (connection) {
         searchDn = settings.propertyMap.username,
         filter = `(&(${searchDn}=*)${settings.searchFilter})`,
         scope = 'sub',
-        attributes = settings.whiteListedFields,
-        isIncativePred = settings.isInactivePredicate,
+        attributes = settings.whiteListedFields.concat(['userAccountControl']),
         options = {filter, scope, attributes};
 
     return new Promise((resolve, reject) => {
