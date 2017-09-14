@@ -28,7 +28,7 @@ drawbacks:
 
 In all other cases - read on and chose the "Production Installation" way.
 
-## Production Running - with Docker
+## Production Server Setup - with Docker
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
 node.js version and MongoDB and thus has no external dependencies.
 
@@ -309,18 +309,18 @@ The following diagram will show the decision tree:
 #### Available configuration options
 See your settings.json file:
 
-| Setting             | Default | Explanation                                                                 |
-|---------------------|---------|-----------------------------------------------------------------------------|
-| enabled             | false   | Enables & disables LDAP login                                               |
-| searchDn            | "cn"    | The attribute used as username                                              |
-| searchFilter        | ""      | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
-| serverDn            | ""      | Your server base dn, e.g. "dc=example,dc=com"                               |
-| serverUrl           | ""      | Server url, e.g. "ldaps://ldap.example.com:1234                             |
-| whiteListedFields   | []      | Attributes that are copied into the user's profile property                 |
-| autopublishFields   | []      | Meteor will publish these fields automatically on users                     |
-| isInactivePredicate | []      | If one of these key/value pairs matches a user key/value pair, this user become isInactive - and can not log in|
-| allowSelfSignedTLS  | false   | If enabled, self-signed certs will be allowed for the Meteor server process |
-| importCronTab       | false   | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
+| Setting             | Default                          | Explanation                                                                 |
+|---------------------|----------------------------------|-----------------------------------------------------------------------------|
+| enabled             | false                            | Enables & disables LDAP login                                               |
+| propertyMap         | {username: 'cn', email: 'mail' } | Map important attributes from ldap to user database                         |
+| searchFilter        | ""                               | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
+| serverDn            | ""                               | Your server base dn, e.g. "dc=example,dc=com"                               |
+| serverUrl           | ""                               | Server url, e.g. "ldaps://ldap.example.com:1234                             |
+| whiteListedFields   | []                               | Attributes that are copied into the user's profile property                 |
+| autopublishFields   | []                               | Meteor will publish these fields automatically on users                     |
+| isInactivePredicate | []                               | If one of these key/value pairs matches a user key/value pair, this user become isInactive - and can not log in|
+| allowSelfSignedTLS  | false                            | If enabled, self-signed certs will be allowed for the Meteor server process |
+| importCronTab       | false                            | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
 
 Once you have configured 4minitz to allow LDAP login, all your 
 users should be able to login with their LDAP username & passwords. On 
