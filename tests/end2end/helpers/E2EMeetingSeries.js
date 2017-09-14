@@ -41,15 +41,16 @@ export class E2EMeetingSeries {
         E2EGlobal.clickWithRetry('#btnAddInvite');
         E2EGlobal.waitSomeTime(1000);  // additional time for deferred dialog open + panel switch!
 
+        let meetingSeriesID = browser.getUrl();
+        meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
+        meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
+
         if (! keepOpenMSEditor) {
             E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
             E2EGlobal.waitSomeTime();
             E2EApp.gotoStartPage();
         }
 
-        let meetingSeriesID = browser.getUrl();
-        meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
-        meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
         return meetingSeriesID;
     };
 
