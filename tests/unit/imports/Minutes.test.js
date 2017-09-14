@@ -190,7 +190,7 @@ describe('Minutes', function () {
 
     });
 
-    describe('#syncVisibility', function () {
+    describe('#syncVisibilityAndParticipants', function () {
 
         let visibleForArray, parentSeriesId;
 
@@ -202,14 +202,14 @@ describe('Minutes', function () {
             parentSeriesId = minute.meetingSeries_id;
         });
 
-        it('calls the meteor method minutes.syncVisibility', function () {
+        it('calls the meteor method minutes.syncVisibilityAndParticipants', function () {
             Minutes.syncVisibility(parentSeriesId, visibleForArray);
             expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
-        it('sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibility', function () {
+        it('sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibilityAndParticipants', function () {
             Minutes.syncVisibility(parentSeriesId, visibleForArray);
-            expect(Meteor.callPromise.calledWithExactly('minutes.syncVisibility', parentSeriesId, visibleForArray)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('minutes.syncVisibilityAndParticipants', parentSeriesId, visibleForArray)).to.be.true;
         });
 
     });
