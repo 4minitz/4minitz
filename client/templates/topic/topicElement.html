@@ -1,5 +1,5 @@
 <template name="topicElement">
-    <div class="well" data-id="{{topic._id}}" style="position: relative;">
+    <div class="well" data-id="{{topic._id}}" style="position: relative;" >
 
         <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
         {{#if topic.infoItems.length}}
@@ -13,11 +13,12 @@
         {{/if}}
         <div>
             <div class="checkbox">
-                <label for="btnToggleState_{{topic._id}}" class="labelTopicCb">
+                <label for="btnToggleState_{{topic._id}}" class="labelTopicCb" >
                     <input type="checkbox" class="checkbox btnToggleState" id="btnToggleState_{{topic._id}}" {{checkedState}} {{disabledState}}>
                 </label>
 
-                <h3 id="{{classForEdit}}" style="display: inline; cursor: {{cursorForEdit}};">
+                <h3 id="{{classForEdit}}" style="display: inline; cursor: {{cursorForEdit}};" data-toggle="tooltip"
+                    title="Updated {{formatDateISO8601Time topic.updatedAt}} by {{topic.updatedBy}}">
                     <span class="{{classForSkippedTopics}}">
                     {{topic.subject}}
                     {{responsiblesHelper}}

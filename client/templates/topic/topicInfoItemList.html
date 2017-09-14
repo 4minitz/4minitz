@@ -19,7 +19,8 @@
                         </a>
                     {{/if}}
                     <h4 class="panel-title">
-                        <div class="checkbox" style="font-size: 110%;">
+                        <div class="checkbox" style="font-size: 110%;" data-toggle="tooltip"
+                             title="Updated {{formatDateISO8601Time infoItem.updatedAt}} by {{infoItem.updatedBy}}">
                             <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
                                 {{#if isActionItem @index}}
                                     <input type="checkbox" class="checkbox btnToggleAIState" data-index="{{@index}}"
@@ -114,7 +115,10 @@
                             {{#each detailsArray itemIndex}}
                                 <div class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                                     <div>
-                                        <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
+                                        <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate">
+                                            <strong data-toggle="tooltip"
+                                                    title="Updated {{formatDateISO8601Time this.updatedAt}} by {{this.updatedBy}}">{{this.date}}</strong>
+                                        </label>
                                         <span id="detailActions_{{itemId}}_{{@index}}"
                                               class="pull-right pull-right-icons detailActions"
                                               style="display: none;">

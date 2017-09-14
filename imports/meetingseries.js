@@ -125,6 +125,10 @@ export class MeetingSeries {
         min.save(optimisticUICallback, serverCallback);
     }
 
+    upsertTopic() {
+        // TODO: refactor topic class and make this method obsolete
+    }
+
     hasMinute(id) {
         for (let minuteId of this.minutes) {
             if (minuteId === id) {
