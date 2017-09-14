@@ -306,6 +306,7 @@ export class Topic {
 
     async closeTopicAndAllOpenActionItems() {
         this._topicDoc.isOpen = false;
+        this._topicDoc.isRecurring = false;
         this.getOpenActionItems().forEach(item => {
             item.isOpen = false;
         });
