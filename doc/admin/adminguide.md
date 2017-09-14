@@ -318,7 +318,7 @@ See your settings.json file:
 | serverUrl           | ""                               | Server url, e.g. "ldaps://ldap.example.com:1234                             |
 | whiteListedFields   | []                               | Attributes that are copied into the user's profile property                 |
 | autopublishFields   | []                               | Meteor will publish these fields automatically on users                     |
-| isInactivePredicate | []                               | If one of these key/value pairs matches a user key/value pair, this user become isInactive - and can not log in|
+| inactiveUsers       | {strategy: 'none'}               | Available strategies: 'none', 'userAccountControl' and 'property'. See below for details|
 | allowSelfSignedTLS  | false                            | If enabled, self-signed certs will be allowed for the Meteor server process |
 | importCronTab       | false                            | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
 
@@ -329,6 +329,18 @@ long names) are copied into the 4minitz user database. Password lookup
 happens over LDAP, so no passwords or hashes are stored for LDAP users 
 in the 4minitz user database. This is needed to store e.g. user access 
 rights for meeting minutes.
+
+#### Available strategies to detect inactive users
+
+* 'none': No attempts are made to detect inactive users. All users in
+your LDAP directory will be imported and will be able to login to 4minitz.
+* 'property': You can provide a key-value map in a property called
+'properties'. If any of the ldap attributes that has the same value as the
+given value the user is considered to be inactive and won't be able to login
+to 4minitz.
+* 'userAccountControl': Checks the *userAccountControl* ldap attribute and
+sets the user to inactive if bit 2 of this flag is set. See
+[MSDN](https://msdn.microsoft.com/en-us/library/ms680832(VS.85).aspx) for details.
 
 #### Importing LDAP users to the 4minitz user database
 All LDAP users that have logged in at least once will show up in the 

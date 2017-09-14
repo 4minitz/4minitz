@@ -17,6 +17,31 @@ let _createLDAPClient = function (settings) {
     });
 };
 
+const inactivityStrategies = {
+    userAccountControl(inactivitySettings, entry) {
+        const uac = entry.object.userAccountControl,
+            flagIsSet = uac & 2;
+        
+        return !!flagIsSet;
+    },
+    property(inactivitySettings, entry) {
+        const inactiveProperties = inactivitySettings.properties;
+
+        return Object.keys(inactiveProperties).reduce((result, key) => {
+            return result || (entry.object[key] === inactiveProperties[key]);
+        }, false);
+    },
+    none() {
+        return false;
+    }
+}
+
+function isInactive(inactivitySettings, entry) {
+    const strategy = inactivitySettings.strategy;
+
+    return inactivityStrategies[strategy](inactivitySettings, entry);
+}
+
 let _fetchLDAPUsers = function (connection) {
     let client = connection.client,
         settings = connection.settings,
@@ -36,18 +61,9 @@ let _fetchLDAPUsers = function (connection) {
                 let entries = [];
 
                 response.on('searchEntry', function (entry) {
-                    let isIncative = false;
-                    if(isIncativePred) {    // check if at least one inactive predicate matches
-                        Object.keys(isIncativePred).forEach(key => {
-                            if (entry.object[key] === isIncativePred[key]) {
-                                isIncative = true;  // user should not be able to log in
-                            }
-                        });
-                    }
-                    entries.push(entry.object);
-                    if (isIncative) {
-                        entries[entries.length-1]['isInactive'] = true;
-                    }
+                    const userIsInactive = isInactive(settings.inactiveUsers, entry),
+                        userData = Object.assign({}, entry.object, {isInactive: userIsInactive});
+                    entries.push(userData);
                 });
                 response.on('error', function (error) {
                     reject(error);

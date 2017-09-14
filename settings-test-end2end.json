@@ -81,14 +81,15 @@
             "longname": "cn",
             "email": "mail"
         },
-        "***deprecated***": "use propertyMap instead",
-        "searchDn": "cn",
         "searchFilter": "",
         "serverDn": "DC=example,DC=com",
         "serverUrl": "ldap://localhost:1389",
         "allowSelfSignedTLS": true,
         "whiteListedFields": [ "cn", "mail" ],
         "autopublishFields": [ "cn" ],
+        "inactiveUsers": {
+            "strategy": "userAccountControl"
+        },
         "importCronTab": "*/5 * * * *"
     },
 
