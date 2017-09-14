@@ -1,7 +1,7 @@
 import { MinutesSchema } from '/imports/collections/minutes.schema';
+import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import {MinutesFinder} from '../../imports/services/minutesFinder';
-import moment from 'moment';
 
 // add "createdAt" and "updatedAt" field for topics
 // --> updates all existing topics in all minutes and the topics collection!
@@ -14,14 +14,29 @@ export class MigrateV17 {
     }
 
     static down() {
-        TopicSchema.getCollection().update({}, { $unset: { updatedAt: '', createdAt: '' } });
+        const transformTopic = topic => {
+            delete topic.createdAt;
+            delete topic.updatedAt;
+            topic.infoItems = topic.infoItems.map(item => {
+                delete item.createdAt;
+                delete item.updatedAt;
+                item.details = item.details.map(detail => {
+                    delete detail.createdAt;
+                    delete detail.updatedAt;
+                    return detail;
+                });
+                return item;
+            });
+            return topic;
+        };
+
+        TopicSchema.find().forEach(topic => {
+            topic = transformTopic(topic);
+            TopicSchema.getCollection().update(topic._id, { $set: topic });
+        });
 
         MinutesSchema.find().forEach(minutes => {
-            minutes.topics = minutes.topics.map(topic => {
-                delete topic.updatedAt;
-                delete topic.createdAt;
-                return topic;
-            });
+            minutes.topics = minutes.topics.map(transformTopic);
             updateTopicFieldOfMinutes(minutes);
         });
     }
@@ -38,7 +53,7 @@ class MinutesIterator {
         let allSeries = MeetingSeriesSchema.find();
         allSeries.forEach(series => {
             this._iterateOverMinutesOfSeries(series);
-            this.minutesHandler.finishedSeries(series);
+            this.minutesHandler.finishedSeries();
         });
     }
 
@@ -57,6 +72,8 @@ class MinutesHandler {
     constructor() {
         this.currentMinutes = null;
         this.finalizedTopicsDictionary = {};
+        this.finalizedItemsDictionary = {};
+        this.finalizedItemDetailsDictionary = {};
         this.realisticCreatedAtDate = null;
     }
 
@@ -70,7 +87,7 @@ class MinutesHandler {
             const topic = this.finalizedTopicsDictionary[key];
             TopicSchema.getCollection().update(
                 topic._id,
-                { $set: { updatedAt: topic.updatedAt, createdAt: topic.createdAt } }
+                { $set: { updatedAt: topic.updatedAt, createdAt: topic.createdAt, infoItems: topic.infoItems } }
             );
         });
     }
@@ -78,35 +95,44 @@ class MinutesHandler {
     nextMinutes(minutes) {
         this.currentMinutes = minutes;
         this.realisticCreatedAtDate = this._calcRealisticCreatedAtDate();
-        minutes.topics.map(topic => {
+        minutes.topics = minutes.topics.map(topic => {
+            topic.infoItems = topic.infoItems.map(item => this._handleInfoItem(item));
             return this._handleTopic(topic);
         });
         updateTopicFieldOfMinutes(minutes);
     }
 
     _calcRealisticCreatedAtDate() {
-        const createdAtDate = moment(this.currentMinutes.createdAt);
-        const minutesDate = moment(this.currentMinutes.date);
-        return (createdAtDate.diff(minutesDate) > 0) ? createdAtDate.date() : minutesDate.toDate();
+        return this.currentMinutes.createdAt;
+    }
+
+    _handleInfoItem(item) {
+        item.details = item.details.map(detail => {
+            return this._handleElement(detail, this.finalizedItemDetailsDictionary);
+        });
+        return this._handleElement(item, this.finalizedItemsDictionary);
     }
 
     _handleTopic(topic) {
-        if (this._isKnownTopic(topic)) {
-            topic.createdAt = this.finalizedTopicsDictionary[topic._id].createdAt;
-            topic.updatedAt = this.finalizedTopicsDictionary[topic._id].updatedAt;
-        } else {
-            topic.createdAt = this.realisticCreatedAtDate;
-            topic.updatedAt = this.realisticCreatedAtDate;
-        }
-
-        if (this.currentMinutes.isFinalized) {
-            this.finalizedTopicsDictionary[topic._id] = topic;
-        }
-        return topic;
+        return this._handleElement(topic, this.finalizedTopicsDictionary);
     }
 
-    _isKnownTopic(topic) {
-        return !!this.finalizedTopicsDictionary[topic._id];
+    _handleElement(element, dictionary) {
+        if (MinutesHandler._isKnownElement(element._id, dictionary)) {
+            element.createdAt = dictionary[element._id].createdAt;
+            element.updatedAt = dictionary[element._id].updatedAt;
+        } else {
+            element.createdAt = this.realisticCreatedAtDate;
+            element.updatedAt = this.realisticCreatedAtDate;
+        }
+        if (this.currentMinutes.isFinalized) {
+            dictionary[element._id] = element;
+        }
+        return element;
+    }
+
+    static _isKnownElement(id, dictionary) {
+        return !!dictionary[id];
     }
 
 }
