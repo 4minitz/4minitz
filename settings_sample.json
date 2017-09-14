@@ -134,7 +134,11 @@
         ],
     "ldap": {
         "enabled": false,
-        "searchDn": "cn",
+        "propertyMap": {
+            "username": "uid",
+            "longname": "cn",
+            "email": "mail"
+        },
         "searchFilter": "(objectClass=user)",
         "serverDn": "OU=people,DC=example,DC=com",
         "serverUrl": "ldaps://ld.example.com:636",

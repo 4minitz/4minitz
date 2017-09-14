@@ -76,6 +76,12 @@
 
     "ldap": {
         "enabled": true,
+        "propertyMap": {
+            "username": "cn",
+            "longname": "cn",
+            "email": "mail"
+        },
+        "***deprecated***": "use propertyMap instead",
         "searchDn": "cn",
         "searchFilter": "",
         "serverDn": "DC=example,DC=com",
