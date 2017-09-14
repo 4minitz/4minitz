@@ -1,7 +1,7 @@
 <template name="meetingSeriesList">
     {{> meetingSeriesAdd}}
     {{#if meetingSeriesAmountBiggerFour}}
-        {{> meetingSeriesSearch}}
+        {{> meetingSeriesSearch updateSearchQuery=updateSearchQuery}}
     {{/if}}
     <br>
     <br>
