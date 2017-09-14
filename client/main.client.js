@@ -58,6 +58,14 @@ $(document).arrive('input', {
     }
 });
 
+$(document).arrive('.clear-on-escape', function () {
+    $(this).keydown((event) => {
+        if(event.which === 27 /*ESC*/) {
+            $(this).val('');
+        }
+    });
+});
+
 // as soon as the document is loaded initialize material design
 $(document).ready(() => {
     $.material.checkboxOriginal = $.material.checkbox;

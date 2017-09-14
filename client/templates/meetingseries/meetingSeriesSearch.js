@@ -1,5 +1,4 @@
 import { Template } from 'meteor/templating';
-import { MeetingSeries } from '/imports/meetingseries';
 
 Template.meetingSeriesSearch.events({
     'keyup .meetingSeriesSearchbar': function (event) {
