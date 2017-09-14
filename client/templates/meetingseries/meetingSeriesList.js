@@ -1,34 +1,42 @@
 import { Template } from 'meteor/templating';
 import { MeetingSeries } from '/imports/meetingseries';
-import { UserRoles } from '/imports/userroles';
-import { MinutesFinder } from '../../../imports/services/minutesFinder';
-import { Session } from 'meteor/session';
+
+Template.meetingSeriesList.onCreated(function () {
+    this.searchQuery = new ReactiveVar('');
+});
+
+function getFilteredSeries(queryString) {
+    const split = queryString.match(/[^\s]+/g) || [],
+        query = new RegExp(split.join('|'), 'i');
+
+    return MeetingSeries.find({ $or: [{ 'name': query }, { 'project': query }] });
+}
 
 Template.meetingSeriesList.helpers({
-    meetingSeriesRow: function () {
-        if ((Session.get('search-query') === '') || (Session.get('search-query') === undefined)) {
-            return MeetingSeries.find({}, {sort: {lastMinutesDate: -1}});
-        }else{
-            if(Template.meetingSeriesSearch.searchResults().count()>0){
-                return Template.meetingSeriesSearch.searchResults();
-            }else{
+    meetingSeriesRow() {
+        const searchQuery = Template.instance().searchQuery.get();
+
+        if (searchQuery === '') {
+            return MeetingSeries.find({}, { sort: { lastMinutesDate: -1 } });
+        } else {
+            const results = getFilteredSeries(searchQuery);
+            if (results.count() > 0) {
+                return results;
+            } else {
                 return false;
             }
         }
     },
-    meetingSeriesAmountBiggerFour: function () {
+
+    meetingSeriesAmountBiggerFour() {
         return MeetingSeries.find().count() > 4;
     },
-});
 
-Template.meetingSeriesOverview.helpers({
-    isModeratorOfSeries: function () {
-        let usrRole = new UserRoles();
-        return usrRole.isModeratorOf(Template.instance().data._id);
-    },
+    updateSearchQuery() {
+        const tpl = Template.instance();
 
-    lastMinutes() {
-        const seriesDocumentFromDataContext = this;
-        return MinutesFinder.lastMinutesOfMeetingSeries(seriesDocumentFromDataContext);
+        return (query) => {
+            tpl.searchQuery.set(query);
+        };
     }
 });
