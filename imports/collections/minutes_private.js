@@ -111,6 +111,9 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized', 'You are not authorized to perform this action.');
         }
 
+        doc.updatedAt = new Date();
+        doc.updatedBy = Meteor.user().username;
+
         let modifierDoc = {};
         for (let property in doc) {
             if (doc.hasOwnProperty(property)) {
@@ -157,6 +160,10 @@ Meteor.methods({
             }
 
             doc.createdInMinute = minutesId;
+            doc.createdAt = new Date();
+            doc.createdBy = Meteor.user().username;
+            doc.updatedAt = new Date();
+            doc.updatedBy = Meteor.user().username;
 
             let topicModifier = {
                 topics: {

@@ -291,7 +291,6 @@ export class Topic {
     }
 
     async save() {
-        // this will update the entire topics array from the parent minutes!
         return this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
@@ -402,6 +401,8 @@ export class Topic {
         this._topicDoc.responsibles = updateTopicDoc.responsibles;
         this._topicDoc.isNew = updateTopicDoc.isNew;
         this._topicDoc.isRecurring = updateTopicDoc.isRecurring;
+        this._topicDoc.updatedAt = updateTopicDoc.updatedAt;
+        this._topicDoc.updatedBy = updateTopicDoc.updatedBy;
     }
 
     _removeResponsibleFromTopic(responsibleName) {

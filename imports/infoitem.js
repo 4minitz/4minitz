@@ -36,6 +36,10 @@ export class InfoItem {
         }
 
         _.defaults(source, {
+            createdAt: new Date(),
+            createdBy: Meteor.user().username,
+            updatedAt: new Date(),
+            updatedBy: Meteor.user().username,
             itemType: 'infoItem',
             isNew: true,
             isSticky: false,
@@ -88,6 +92,10 @@ export class InfoItem {
         this._infoItemDoc.details.push({
             _id: Random.id(),
             createdInMinute: minuteId,
+            createdAt: new Date(),
+            createdBy: Meteor.user().username,
+            updatedAt: new Date(),
+            updatedBy: Meteor.user().username,
             date: date,
             text: text
         });
@@ -103,9 +111,10 @@ export class InfoItem {
                 'to delete an element');
         }
         if (text !== this._infoItemDoc.details[index].text){
-            let date = formatDateISO8601(new Date());
-            this._infoItemDoc.details[index].date = date;
+            this._infoItemDoc.details[index].date = formatDateISO8601(new Date());
             this._infoItemDoc.details[index].text = text;
+            this._infoItemDoc.details[index].updatedAt = new Date();
+            this._infoItemDoc.details[index].updatedBy = Meteor.user().username;
         }
     }
 
@@ -138,6 +147,8 @@ export class InfoItem {
 
     async saveAsync() {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
+        this._infoItemDoc.updatedAt = new Date();
+        this._infoItemDoc.updatedBy = Meteor.user().username;
         this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(this._infoItemDoc);
     }
 

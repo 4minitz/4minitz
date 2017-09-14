@@ -64,6 +64,7 @@ Meteor.methods({
 
         doc.isFinalized = false;
         doc.createdAt = new Date();
+        doc.createdBy = Meteor.user().username;
         delete doc.finalizedAt;
         doc.finalizedVersion = 0;
         doc.finalizedHistory = [];
