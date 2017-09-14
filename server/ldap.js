@@ -41,10 +41,14 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
     // If users have been imported with importUsers.js and "isInactivePredicate" was used to
     // make some users isInactive==true - we stop them from logging in here.
     if (Meteor && Meteor.users) {   // skip this during unit tests
-        let checkUserInactive = Meteor.users.findOne({username: usernameOrEmail});
-        if (checkUserInactive && checkUserInactive.isInactive) {
+        const uid = username.toLowerCase(),
+            user = Meteor.users.findOne({username: uid});
+            
+        if (user && user.isInactive) {
             throw new Meteor.Error(403, 'User is inactive');
         }
+
+        return user.profile.dn;
     }
 
     return [searchDn, '=', username, ',', serverDn].join('');
