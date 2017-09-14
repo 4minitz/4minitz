@@ -30,12 +30,12 @@ export class MigrateV17 {
             return topic;
         };
 
-        TopicSchema.find().forEach(topic => {
+        TopicSchema.getCollection().find().forEach(topic => {
             topic = transformTopic(topic);
             TopicSchema.getCollection().update(topic._id, { $set: topic });
         });
 
-        MinutesSchema.find().forEach(minutes => {
+        MinutesSchema.getCollection().find().forEach(minutes => {
             minutes.topics = minutes.topics.map(transformTopic);
             updateTopicFieldOfMinutes(minutes);
         });
@@ -50,7 +50,7 @@ class MinutesIterator {
     }
 
     iterate() {
-        let allSeries = MeetingSeriesSchema.find();
+        let allSeries = MeetingSeriesSchema.getCollection().find();
         allSeries.forEach(series => {
             this._iterateOverMinutesOfSeries(series);
             this.minutesHandler.finishedSeries();
