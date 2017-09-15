@@ -125,6 +125,10 @@ export class MeetingSeries {
         min.save(optimisticUICallback, serverCallback);
     }
 
+    upsertTopic() {
+        // TODO: refactor topic class and make this method obsolete
+    }
+
     hasMinute(id) {
         for (let minuteId of this.minutes) {
             if (minuteId === id) {
@@ -291,35 +295,6 @@ export class MeetingSeries {
     isCurrentUserModerator() {
         let ur = new UserRoles();
         return ur.isModeratorOf(this._id);
-    }
-
-    upsertTopic(topicDoc, mergeTopic) {
-        let i = undefined;
-        if (! topicDoc._id) {             // brand-new topic
-            throw new Meteor.Error('Runtime error, it is not allowed to create a new topic in a meeting series');
-        } else {
-            i = subElementsHelper.findIndexById(topicDoc._id, this.topics); // try to find it
-        }
-
-        if (i === undefined) {                      // topic not in array
-            this.topics.unshift(topicDoc);  // add to front of array
-            i = 0;
-        } else {
-            if (mergeTopic) {
-                let msTopic = new Topic(this, this.topics[i]);
-                msTopic.merge(topicDoc);
-            } else {
-                this.topics[i] = topicDoc;      // overwrite in place
-            }
-        }
-
-        // close topic if it is completely closed (not just marked as discussed)
-        let topic = new Topic(this, topicDoc);
-        this.topics[i].isOpen = (!topic.isClosedAndHasNoOpenAIs());
-    }
-
-    findTopic(id) {
-        return subElementsHelper.getElementById(id, this.topics);
     }
 
     findLabel(id) {
