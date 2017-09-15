@@ -39,20 +39,20 @@
                 <!-- Manipulation Drop-Down Menu -->
                 <span class="pull-right pull-right-icons hidden-print">
                     {{#if showMenu}}
-                        <a href="#" id="btnTopicDropdownMenu" class="panel-dropper dropdown-toggle" data-toggle="dropdown">
+                        <a  id="btnTopicDropdownMenu" class="panel-dropper dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-option-vertical"></span>
                         </a>
                         <ul class="dropdown-menu">
                             {{#if isEditable}}
                                 <li>
-                                    <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link"
+                                    <a  id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link"
                                        data-toggle="modal" data-target="#dlgAddInfoItem" title="Add info item to topic">
                                         <span class="glyphicon glyphicon-info-sign"></span>
                                         Add Info Item
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" id="addTopicInfoItem_{{topic._id}}" class="addTopicActionItem panel-link"
+                                    <a  id="addTopicInfoItem_{{topic._id}}" class="addTopicActionItem panel-link"
                                        data-toggle="modal" data-target="#dlgAddInfoItem" title="Add action item to topic">
                                         <span class="glyphicon glyphicon-check"></span>
                                         Add Action Item
@@ -60,34 +60,34 @@
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a id="btnEditTopic" href="#" class="panel-link" title="Edit topic">
+                                    <a id="btnEditTopic"  class="panel-link" title="Edit topic">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                         Edit Topic
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="js-toggle-recurring panel-link"
+                                    <a  class="js-toggle-recurring panel-link"
                                        title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
                                         <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                                         {{#if topic.isRecurring}}Unset{{else}}Set{{/if}} Recurring
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="js-toggle-skipped panel-link"
+                                    <a  class="js-toggle-skipped panel-link"
                                        title="{{#if topic.isSkipped}}Set as non-skipped topic{{else}}Set as skipped topic{{/if}}">
                                         <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
                                         {{#if topic.isSkipped}}Unset{{else}}Set{{/if}} Skip
                                     </a>
                                 </li>                           
                                 <li>
-                                    <a id="btnDelTopic" href="#" class="panel-link" title="Delete topic">
+                                    <a id="btnDelTopic"  class="panel-link" title="Delete topic">
                                         <span class="glyphicon glyphicon-trash"></span>
                                         Delete Topic
                                     </a>
                                 </li>
                             {{else}}
                                 <li>
-                                    <a id="btnReopenTopic" href="#" class="panel-link" title="Reopen topic">
+                                    <a id="btnReopenTopic"  class="panel-link" title="Reopen topic">
                                         <span class="glyphicon glyphicon-share-alt"></span>
                                         Re-open Topic
                                     </a>
@@ -98,12 +98,12 @@
 
 
                     {{#if topic.isRecurring}}
-                        <a href="#" class="js-toggle-recurring panel-link" title="Set as not-recurring topic">
+                        <a  class="js-toggle-recurring panel-link" title="Set as not-recurring topic">
                             <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                         </a>
                     {{/if}}
                     {{#if topic.isSkipped}}
-                        <a href="#" id="topicIsSkippedIcon" class="js-toggle-skipped panel-link" title="Set as not-skipped topic">
+                        <a  id="topicIsSkippedIcon" class="js-toggle-skipped panel-link" title="Set as not-skipped topic">
                             <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
                         </a>
                     {{/if}}                 

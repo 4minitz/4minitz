@@ -45,11 +45,12 @@ export class E2EMeetingSeries {
         meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
         meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
 
-        if (! keepOpenMSEditor && browser.isVisible("#btnMeetinSeriesEditCancel")) {
+        if (! keepOpenMSEditor) {
             E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
             E2EGlobal.waitSomeTime();
             E2EApp.gotoStartPage();
         }
+
         return meetingSeriesID;
     };
 

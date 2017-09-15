@@ -61,7 +61,7 @@ export class MeetingSeries {
         console.log('removeMinutesWithId: ' + minutesId);
 
         await Minutes.remove(minutesId);
-        return this.updateLastMinutesDateAsync();
+        return this.updateLastMinutesFieldsAsync();
     }
 
 
@@ -121,7 +121,7 @@ export class MeetingSeries {
             informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
         });
 
-        min.refreshParticipants(false); // do not save to DB!
+        min.generateNewParticipants();
         min.save(optimisticUICallback, serverCallback);
     }
 
@@ -145,33 +145,30 @@ export class MeetingSeries {
         }
     }
 
-    async updateLastMinutesDate (callback) {
+    async updateLastMinutesFields (callback) {
         callback = callback || function () {};
 
         try {
-            let result = await this.updateLastMinutesDateAsync();
+            let result = await this.updateLastMinutesFieldsAsync();
             callback(undefined, result);
         } catch (error) {
             callback(error);
         }
     }
 
-    async updateLastMinutesDateAsync() {
-        let lastMinutesDate;
-
-        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
-        if (lastMinutes) {
-            lastMinutesDate = lastMinutes.date;
-        }
-
-        if (!lastMinutesDate) {
-            return;
-        }
-
+    async updateLastMinutesFieldsAsync(lastMinuteDoc) {
         let updateInfo = {
-            _id: this._id,
-            lastMinutesDate
+            _id: this._id
         };
+        
+        let lastMinutes = lastMinuteDoc ? 
+            lastMinuteDoc :
+            MinutesFinder.lastMinutesOfMeetingSeries(this);
+
+        updateInfo.lastMinutesDate = lastMinutes ? lastMinutes.date : '';
+        updateInfo.lastMinutesId = lastMinutes ? lastMinutes._id : null;
+        updateInfo.lastMinutesFinalized = lastMinutes ? lastMinutes.isFinalized : false;
+        
         return Meteor.callPromise('meetingseries.update', updateInfo);
     }
 

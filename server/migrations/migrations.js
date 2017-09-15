@@ -5,7 +5,7 @@ import { Meteor} from 'meteor/meteor';
 import moment from 'moment/moment';
 import path from 'path';
 
-const LAST_MIGRATION = 16;
+const LAST_MIGRATION = 18;
 
 for (let i=1; i<=LAST_MIGRATION; i++) {
     const migration = require(`./migrate_v${i}`)[`MigrateV${i}`];
