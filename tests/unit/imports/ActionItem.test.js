@@ -13,7 +13,10 @@ class MeteorError {}
 
 let Meteor = {
     call: sinon.stub(),
-    Error: MeteorError
+    Error: MeteorError,
+    user: () => {
+        return {username: 'unit-test'};
+    }
 };
 
 Helpers['@noCallThru'] = true;

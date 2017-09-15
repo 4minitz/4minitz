@@ -24,13 +24,13 @@ let Meteor = {
 let PromisedMethods = {};
 
 let isCurrentUserModeratorStub = sinon.stub();
-let updateLastMinutesDateStub = sinon.stub();
-let updateLastMinutesDateAsyncStub = sinon.stub().resolves(true);
+let updateLastMinutesFieldsStub = sinon.stub();
+let updateLastMinutesFieldsAsyncStub = sinon.stub().resolves(true);
 let MeetingSeries = function(seriesId) {
     this._id = seriesId;
     this.isCurrentUserModerator = isCurrentUserModeratorStub;
-    this.updateLastMinutesDate = updateLastMinutesDateStub;
-    this.updateLastMinutesDateAsync = updateLastMinutesDateAsyncStub;
+    this.updateLastMinutesFields = updateLastMinutesFieldsStub;
+    this.updateLastMinutesFieldsAsync = updateLastMinutesFieldsAsyncStub;
 };
 
 let topicGetOpenActionItemsStub = sinon.stub().returns([]);
@@ -90,7 +90,7 @@ describe('Minutes', function () {
         Meteor.call.resetHistory();
         Meteor.callPromise.resetHistory();
         isCurrentUserModeratorStub.resetHistory();
-        updateLastMinutesDateStub.resetHistory();
+        updateLastMinutesFieldsStub.resetHistory();
         topicGetOpenActionItemsStub.resetHistory();
     });
 

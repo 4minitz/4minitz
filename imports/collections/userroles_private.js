@@ -70,8 +70,8 @@ if (Meteor.isClient) {
 
 
 Meteor.methods({
-    'userroles.saveRoleForMeetingSeries'(otherUserId, meetingSeriesId, newRoleArray) {
-        if (Meteor.isServer) {console.log('Method: userroles.saveRoleForMeetingSeries ', otherUserId, meetingSeriesId, newRoleArray);}
+    'userroles.saveRoleForMeetingSeries'(otherUserId, meetingSeriesId, newRole) {
+        if (Meteor.isServer) {console.log('Method: userroles.saveRoleForMeetingSeries ', otherUserId, meetingSeriesId, newRole);}
         if (! Meteor.userId()) {
             throw new Meteor.Error('Not logged in.');
         }
@@ -80,17 +80,20 @@ Meteor.methods({
         }
 
         // check if newRole is an allowed role
+        if (!Array.isArray(newRole)) {  // unify input. maybe array or string
+            newRole = [newRole];
+        }
         const allowedRoles = Object.keys(UserRoles.USERROLES).map(key => UserRoles.USERROLES[key]);
-        let newRole = newRoleArray[0];
-        if (allowedRoles.indexOf(newRole) === -1) {
-            throw new Meteor.Error('Unknown role value: '+newRoleArray);
+        let newRoleString = newRole[0];
+        if (allowedRoles.indexOf(newRoleString) === -1) {
+            throw new Meteor.Error('Unknown role value: '+newRole);
         }
 
         // #Security: Ensure user is moderator of affected meeting series
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(meetingSeriesId)) {
             Roles.removeUsersFromRoles(otherUserId, UserRoles.allRolesNumerical(), meetingSeriesId);
-            Roles.addUsersToRoles(otherUserId, newRoleArray, meetingSeriesId);
+            Roles.addUsersToRoles(otherUserId, newRole, meetingSeriesId);
         } else {
             throw new Meteor.Error('Cannot set roles for meeting series', 'You are not moderator of this meeting series.');
         }

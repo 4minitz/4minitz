@@ -2,8 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
-import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private';
-import { bootstrapProtocolsLiveQuery } from '/imports/collections/documentgeneration_private';
 import '/imports/config/accounts';
 import { $ } from 'meteor/jquery';
 
@@ -58,6 +56,14 @@ $(document).arrive('input', {
     }
 });
 
+$(document).arrive('.clear-on-escape', function () {
+    $(this).keydown((event) => {
+        if(event.which === 27 /*ESC*/) {
+            $(this).val('');
+        }
+    });
+});
+
 // as soon as the document is loaded initialize material design
 $(document).ready(() => {
     $.material.checkboxOriginal = $.material.checkbox;
@@ -78,9 +84,6 @@ window.onpopstate = () => {
 
 Meteor.startup(() => {
     Meteor.call('gitVersionInfoUpdate');
-
-    bootstrapAttachementsLiveQuery();
-    bootstrapProtocolsLiveQuery();
 
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({

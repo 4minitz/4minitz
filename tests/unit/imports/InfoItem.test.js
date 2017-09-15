@@ -12,7 +12,10 @@ Helpers['@noCallThru'] = true;
 
 class MeteorError {}
 let Meteor = {
-    Error: MeteorError
+    Error: MeteorError,
+    user: () => {
+        return {username: 'unit-test'};
+    }
 };
 
 const Random = {id: () => {}};

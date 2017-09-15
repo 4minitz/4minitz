@@ -121,39 +121,6 @@ export class Topic {
     }
 
     /**
-     * Merges all changes of the updateTopicDoc
-     * into the current topic doc.
-     * This means:
-     *  - overwrite the simple properties (subject, responsible)
-     *  - add new InfoItems / AIs
-     *  - update existing InfoItems / AIs
-     *  - delete sticky items which where deleted within the updateTopicDoc
-     *
-     * @param updateTopicDoc
-     */
-    merge(updateTopicDoc) {
-        this._overwritePrimitiveProperties(updateTopicDoc);
-        let myTopicDoc = this._topicDoc;
-
-        // loop backwards through topic items
-        for (let i = updateTopicDoc.infoItems.length; i-- > 0;) {
-            let infoDoc = updateTopicDoc.infoItems[i];
-            this.upsertInfoItem(infoDoc, false);
-        }
-
-        // delete all sticky items listed in the this topic but not in the updateTopicDoc
-        // (these were deleted during the last minute)
-        myTopicDoc.infoItems = myTopicDoc.infoItems.filter(itemDoc => {
-            let item = InfoItemFactory.createInfoItem(this, itemDoc);
-            if (item.isSticky()) {
-                let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, updateTopicDoc.infoItems);
-                return !(indexInMinutesTopicDoc === undefined);
-            }
-            return true;
-        });
-    }
-
-    /**
      * A topic is closed if it is not open
      * and has no more open AIs.
      *
@@ -291,7 +258,6 @@ export class Topic {
     }
 
     async save() {
-        // this will update the entire topics array from the parent minutes!
         return this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
@@ -392,18 +358,6 @@ export class Topic {
     }
 
     // ################### private methods
-    /**
-     * Overwrites the simple properties (subject, responsible)
-     * with the properties of the source document.
-     *
-     * @param updateTopicDoc
-     */
-    _overwritePrimitiveProperties(updateTopicDoc) {
-        this._topicDoc.subject = updateTopicDoc.subject;
-        this._topicDoc.responsibles = updateTopicDoc.responsibles;
-        this._topicDoc.isNew = updateTopicDoc.isNew;
-        this._topicDoc.isRecurring = updateTopicDoc.isRecurring;
-    }
 
     _removeResponsibleFromTopic(responsibleName) {
         this._topicDoc.subject = this._topicDoc.subject.replace('@' + responsibleName + ' ', '');
