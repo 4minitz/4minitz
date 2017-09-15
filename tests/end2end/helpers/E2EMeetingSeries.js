@@ -3,8 +3,10 @@ import { E2EApp } from './E2EApp'
 
 
 export class E2EMeetingSeries {
-    static countMeetingSeries () {
-        E2EApp.gotoStartPage();
+    static countMeetingSeries (gotToStartPage = true) {
+        if (gotToStartPage) {
+            E2EApp.gotoStartPage();
+        }
         try {
             browser.waitForExist('li.meeting-series-item');
         } catch (e) {
@@ -154,12 +156,10 @@ export class E2EMeetingSeries {
     };
 
     static visibleMeetingSeriesSearch() {
-        E2EApp.gotoStartPage();
         return browser.isVisible('input[id="id_MeetingSeriesSearch"]');
     };
 
     static visibleWarning() {
-        E2EApp.gotoStartPage();
         return browser.isVisible('span[id="id_noresults"]');
     };
 }
