@@ -88,11 +88,7 @@ export let DocumentsCollection = new FilesCollection({
     }
 });
 
-
-export let bootstrapProtocolsLiveQuery = () => {};
-extendedPublishSubscribeHandler.publishByVisibleMeetingSeries('files.protocols.all',DocumentsCollection, 'meta.meetingSeriesId');
-bootstrapProtocolsLiveQuery = extendedPublishSubscribeHandler.subscribeWithMeetingSeriesLiveQuery('files.protocols.all');
-
+extendedPublishSubscribeHandler.publishByMeetingSeriesOrMinute('files.protocols.all', DocumentsCollection, 'meta.meetingSeriesId', 'meta.minuteId');
 
 Meteor.methods({
     'documentgeneration.createHTML'(minuteID) {

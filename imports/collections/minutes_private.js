@@ -7,14 +7,17 @@ import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
 if (Meteor.isServer) {
-    Meteor.publish('minutes', function minutesPublication() {
-        // publish only minutes visible for this user
-        return MinutesSchema.find(
-            {visibleFor: {$in: [this.userId]}});
-    });
-}
-if (Meteor.isClient) {
-    Meteor.subscribe('minutes');
+    Meteor.publish('minutes', function minutesPublication(meetingSeriesId, minuteId) { 
+        if (minuteId) { 
+            return MinutesSchema.find( 
+                { $and: [{visibleFor: {$in: [this.userId]}}, {_id: minuteId}]}); 
+        }
+        if (meetingSeriesId) { 
+            return MinutesSchema.find( 
+                { $and: [{visibleFor: {$in: [this.userId]}}, {meetingSeries_id: meetingSeriesId}]}); 
+        } 
+        return this.ready(); 
+    }); 
 }
 
 Meteor.methods({
