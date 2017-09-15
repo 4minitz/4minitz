@@ -46,7 +46,7 @@ let _fetchLDAPUsers = function (connection) {
     let client = connection.client,
         settings = connection.settings,
         base = settings.serverDn,
-        searchDn = settings.propertyMap.username,
+        searchDn = settings.propertyMap && settings.propertyMap.username,
         filter = `(&(${searchDn}=*)${settings.searchFilter})`,
         scope = 'sub',
         attributes = settings.whiteListedFields.concat(['userAccountControl']),

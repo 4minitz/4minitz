@@ -11,7 +11,7 @@ let ldap = {
 let ldapSearchResponseWithResult = {
     on: (event, callback) => {
         if (event === 'searchEntry') {
-            callback({object: true});
+            callback({object: {uid: 'foo'}});
         }
 
         if (event === 'end') {
@@ -33,8 +33,19 @@ const getLDAPUsers = proxyquire('../../../../imports/ldap/getLDAPUsers', {
 });
 
 describe('getLDAPUsers', function () {
+    let settings;
+
+    const expectedSuccessfulResult = [{uid: 'foo', isInactive: false}];
+
     beforeEach(function () {
         ldap.createClient.reset();
+        settings = {
+            propertyMap: {},
+            whiteListedFields: [],
+            inactiveUsers: {
+                strategy: 'none'
+            }
+        };
     });
 
     it('uses ldapjs to connect to ldap and gets users', function (done) {
@@ -44,24 +55,24 @@ describe('getLDAPUsers', function () {
         };
         ldap.createClient.returns(client);
 
-        getLDAPUsers({})
+        getLDAPUsers(settings)
             .then((result) => {
                 try {
-                    expect(result.users).to.deep.equal([true]);
+                    expect(result.users).to.deep.equal(expectedSuccessfulResult);
                     done();
                 } catch (error) {
                     done(error);
                 }
             })
             .catch((error) => {
-                done(new Error(error));
+                done(error);
             });
     });
 
     it('handles connection errors to ldap properly', function (done) {
         ldap.createClient.throws(new Error('Some connection error'));
 
-        getLDAPUsers({})
+        getLDAPUsers(settings)
             .then((result) => {
                 done(new Error(`Unexpected result: ${result}`));
             })
@@ -82,7 +93,7 @@ describe('getLDAPUsers', function () {
         };
         ldap.createClient.returns(client);
 
-        getLDAPUsers({})
+        getLDAPUsers(settings)
             .then((result) => {
                 done(new Error(`Unexpected result: ${result}`));
             })
@@ -103,7 +114,7 @@ describe('getLDAPUsers', function () {
         };
         ldap.createClient.returns(client);
 
-        getLDAPUsers({})
+        getLDAPUsers(settings)
             .then((result) => {
                 done(new Error(`Unexpected result: ${result}`));
             })
@@ -124,10 +135,10 @@ describe('getLDAPUsers', function () {
         };
         ldap.createClient.returns(client);
 
-        getLDAPUsers({})
+        getLDAPUsers(settings)
             .then((result) => {
                 try {
-                    expect(result.users).to.deep.equal([true]);
+                    expect(result.users).to.deep.equal(expectedSuccessfulResult);
                     done();
                 } catch (error) {
                     done(error);
