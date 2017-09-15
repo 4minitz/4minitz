@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { MeetingSeries } from '/imports/meetingseries';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 function getFilteredSeries(queryString) {
     const split = queryString.match(/[^\s]+/g) || [],
