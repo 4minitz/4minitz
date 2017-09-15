@@ -28,8 +28,10 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
         return '';
     }
 
-    const serverDn = Meteor.settings.ldap.serverDn;
-    const searchDn = Meteor.settings.ldap.propertyMap.username;
+    const ldapSettings = Meteor.settings.ldap || {},
+        serverDn = ldapSettings.serverDn,
+        propertyMap = ldapSettings.propertyMap || {},
+        searchDn = ldapSettings.searchDn || propertyMap.username;
 
     if (!serverDn || !searchDn) {
         return '';
@@ -59,7 +61,9 @@ LDAP.filter = function (isEmailAddress, usernameOrEmail) {
         return '';
     }
 
-    const searchField = Meteor.settings.ldap.propertyMap.username;
+    const ldapSettings = Meteor.settings.ldap || {},
+        propertyMap = ldapSettings.propertyMap || {},
+        searchField = ldapSettings.searchDn || propertyMap.username;
 
     if (!searchField) {
         return '';
