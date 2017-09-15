@@ -25,8 +25,8 @@ let MinutesFinder = {
 };
 
 const {
-    MigrateV17
-    } = proxyquire('../../../../server/migrations/migrate_v17', {
+    MigrateV18
+    } = proxyquire('../../../../server/migrations/migrate_v18', {
     '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
     '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
     '/imports/collections/topic.schema': { TopicSchema, '@noCallThru': true},
@@ -104,7 +104,7 @@ describe('Migrate Version 17', function () {
         });
 
         it('calls the update method of the topics collection for each different topic and sets the new fields', function() {
-            MigrateV17.up();
+            MigrateV18.up();
             expect(TopicSchema.update.callCount).to.equal(2);
 
             itemFirstAndSecondMinutes.createdAt = expectedDateForElementsCreatedInFirstMinutes;
@@ -130,7 +130,7 @@ describe('Migrate Version 17', function () {
         });
 
         it('sets the createdAt/updatedAt fields for all items of each topic in the topics collection', function() {
-            MigrateV17.up();
+            MigrateV18.up();
 
             const argsFirstCall = TopicSchema.update.firstCall.args;
 
@@ -139,7 +139,7 @@ describe('Migrate Version 17', function () {
         });
 
         it('sets the createdAt/updatedAt fields for all items of each topic in the topics collection', function() {
-            MigrateV17.up();
+            MigrateV18.up();
 
             const argsFirstCall = TopicSchema.update.firstCall.args;
             const itemsOfFirstTopic = argsFirstCall[1].$set.infoItems;
@@ -149,7 +149,7 @@ describe('Migrate Version 17', function () {
         });
 
         it('updates each minutes and sets the createdAt/updatedAt fields for each topic', function() {
-            MigrateV17.up();
+            MigrateV18.up();
             expect(MinutesSchema.update.callCount).to.equal(2);
 
             const argsFirstCall = MinutesSchema.update.firstCall.args;
@@ -174,7 +174,7 @@ describe('Migrate Version 17', function () {
         });
 
         it('sets the createdAt/updatedAt field for all items of each topic in the minutes collection', function() {
-            MigrateV17.up();
+            MigrateV18.up();
 
             const argsFirstCall = MinutesSchema.update.firstCall.args;
             const argsSecondCall = MinutesSchema.update.secondCall.args;
@@ -196,7 +196,7 @@ describe('Migrate Version 17', function () {
         });
 
         it('sets the createdAt/updatedAt field for all details of the items of a topic in the minutes collection', function() {
-            MigrateV17.up();
+            MigrateV18.up();
 
             const argsFirstCall = MinutesSchema.update.firstCall.args;
             const argsSecondCall = MinutesSchema.update.secondCall.args;
@@ -231,14 +231,14 @@ describe('Migrate Version 17', function () {
         });
 
         it('deletes createdAt/updatedAt fields of all documents stored in the topics collection', function() {
-            MigrateV17.down();
+            MigrateV18.down();
             expect(TopicSchema.update.callCount).to.equal(2);
             expect(TopicSchema.update.calledWith(topicFirstMinutes._id, {$set: topicFirstMinutes})).to.be.true;
             expect(TopicSchema.update.calledWith(topicFirstAndSecondMinutes._id, {$set: topicFirstAndSecondMinutes})).to.be.true;
         });
 
         it('deletes createdAt/updatedAt fields of all documents stored in each minutes and updates them', function() {
-            MigrateV17.down();
+            MigrateV18.down();
             expect(MinutesSchema.update.calledTwice).to.be.true;
             const { firstCall, secondCall } = MinutesSchema.update;
             expect(firstCall.args[0]).to.equal(firstMinutes._id);

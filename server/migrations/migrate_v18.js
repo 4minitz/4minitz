@@ -5,7 +5,7 @@ import {MinutesFinder} from '../../imports/services/minutesFinder';
 
 // add "createdAt" and "updatedAt" field for topics
 // --> updates all existing topics in all minutes and the topics collection!
-export class MigrateV17 {
+export class MigrateV18 {
 
     static up() {
         const minutesHandler = new MinutesHandler();
