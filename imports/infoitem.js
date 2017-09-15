@@ -36,10 +36,6 @@ export class InfoItem {
         }
 
         _.defaults(source, {
-            createdAt: new Date(),
-            createdBy: Meteor.user().username,
-            updatedAt: new Date(),
-            updatedBy: Meteor.user().username,
             itemType: 'infoItem',
             isNew: true,
             isSticky: false,
@@ -147,6 +143,10 @@ export class InfoItem {
 
     async saveAsync() {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
+        if (!this._infoItemDoc._id) { // it is a new one
+            this._infoItemDoc.createdAt = new Date();
+            this._infoItemDoc.createdBy = Meteor.user().username;
+        }
         this._infoItemDoc.updatedAt = new Date();
         this._infoItemDoc.updatedBy = Meteor.user().username;
         this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(this._infoItemDoc);
