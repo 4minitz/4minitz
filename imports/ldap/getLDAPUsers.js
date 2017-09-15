@@ -46,10 +46,11 @@ let _fetchLDAPUsers = function (connection) {
     let client = connection.client,
         settings = connection.settings,
         base = settings.serverDn,
-        searchDn = settings.propertyMap && settings.propertyMap.username,
+        searchDn = settings.propertyMap && settings.propertyMap.username || 'cn',
         filter = `(&(${searchDn}=*)${settings.searchFilter})`,
         scope = 'sub',
-        attributes = settings.whiteListedFields.concat(['userAccountControl']),
+        whiteListedFields = settings.whiteListedFields || [],
+        attributes = whiteListedFields.concat(['userAccountControl']),
         options = {filter, scope, attributes};
 
     return new Promise((resolve, reject) => {
