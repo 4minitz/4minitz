@@ -221,6 +221,19 @@ Template.topicElement.events({
         Session.set('topicInfoItemType', 'actionItem');
     },
 
+    'submit .addItemForm' (evt, tmpl) {
+        evt.preventDefault();
+
+        if (!tmpl.data.isEditable) {
+            throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
+        }
+
+        const itemDoc = {
+            subject: tmpl.find('.add-item-field').value,
+            responsibles: []
+        };
+
+    },
 
     'click #btnTopicExpandCollapse'(evt) {
         console.log('btnTopicExpandCollapse()'+this.topic._id);
