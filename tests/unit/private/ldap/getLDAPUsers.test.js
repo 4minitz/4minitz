@@ -149,4 +149,90 @@ describe('getLDAPUsers', function () {
             });
 
     });
+
+    describe('inactive user detection strategy: none', function () {
+        const activeUsers = [{isInactive: false, uid: 'foo'}];
+        it('returns user object with isInactive property set to false', function (done) {
+            const settings = {
+                    inactiveUsers: {
+                        strategy: 'none'
+                    }
+                };
+
+            let client = {
+                search: asyncStubs.returns(2, ldapSearchResponseWithResult),
+                unbind: asyncStubs.returnsError(0, 'Some error')
+            };
+            ldap.createClient.returns(client);
+
+            getLDAPUsers(settings)
+                    .then((result) => {
+                        try {
+                            expect(result.users).to.deep.equal(activeUsers);
+                            done();
+                        } catch (error) {
+                            done(error);
+                        }
+                    })
+                    .catch((error) => {
+                        done(error2);
+                    });
+        });
+    });
+
+    describe('inactive user detection strategy: UAC', function () {
+        const activeUsers = false,
+            inactiveUsers = true,
+            ldapSearchResponseWithGivenUACValue = (uac) => {
+                return {
+                    on: (event, callback) => {
+                        if (event === 'searchEntry') {
+                            callback({object: {userAccountControl: uac}});
+                        }
+                
+                        if (event === 'end') {
+                            callback();
+                        }
+                    }
+                }
+            },
+            generateTestCase = (value, expectedResult) => {
+                return function (done) {
+                    const settings = {
+                        inactiveUsers: {
+                            strategy: 'userAccountControl'
+                        }
+                    };
+
+                    client = {
+                        search: asyncStubs.returns(2, ldapSearchResponseWithGivenUACValue(value)),
+                        unbind: asyncStubs.returnsError(0, 'Some error')
+                    };
+                    ldap.createClient.returns(client);
+
+                    getLDAPUsers(settings)
+                        .then((result) => {
+                            try {
+                                expect(result.users[0].isInactive).to.equal(expectedResult);
+                                done();
+                            } catch (error) {
+                                done(error);
+                            }
+                        })
+                        .catch((error) => done(error));
+                }
+            };
+
+        let client;
+        
+        beforeEach(function () {
+            ldap.createClient.reset();
+        });
+
+        for (let i = 0; i < 32; ++i) {
+            const value = Math.pow(2, i),
+                expectedResult = (i === 1 ? inactiveUsers : activeUsers);
+            it(`uAC property set to ${value}: returns user object with isInactive === ${expectedResult}`, generateTestCase(value, expectedResult));
+        }
+    });
 });
