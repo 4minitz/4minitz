@@ -20,11 +20,13 @@ export class MigrateV18 {
             topic.infoItems = topic.infoItems.map(item => {
                 delete item.createdAt;
                 delete item.updatedAt;
-                item.details = item.details.map(detail => {
-                    delete detail.createdAt;
-                    delete detail.updatedAt;
-                    return detail;
-                });
+                if (item.details) {
+                    item.details = item.details.map(detail => {
+                        delete detail.createdAt;
+                        delete detail.updatedAt;
+                        return detail;
+                    });
+                }
                 return item;
             });
             return topic;
@@ -107,9 +109,11 @@ class MinutesHandler {
     }
 
     _handleInfoItem(item) {
-        item.details = item.details.map(detail => {
-            return this._handleElement(detail, this.finalizedItemDetailsDictionary);
-        });
+        if (item.details) {
+            item.details = item.details.map(detail => {
+                return this._handleElement(detail, this.finalizedItemDetailsDictionary);
+            });
+        }
         return this._handleElement(item, this.finalizedItemsDictionary);
     }
 
