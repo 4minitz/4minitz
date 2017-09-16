@@ -285,7 +285,7 @@ input.pick-a-color {
 .linkMeetingSerie{
     color: grey;
     font-size: 80%;
-    vertical-align: bottom;
+    vertical-align: sub;
 }
 
 a.linkMeetingSerie:hover {

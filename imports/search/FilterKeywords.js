@@ -66,7 +66,7 @@ export const ITEM_KEYWORDS = {
     DUE: {
         key: 'due',
         values: '*',
-        format: 'prio:<YYYY-MM-DD>',
+        format: 'due:<YYYY-MM-DD>',
         description: 'Finds action items which are due on the given date.',
         example: '"due:2017-07" finds all action items which are due in july of 2017'
     },
