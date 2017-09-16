@@ -96,7 +96,7 @@ describe('Users Publish & Subscribe Security', function () {
         expect(E2ESecurity.countRecordsInMiniMongo('users') > 0).to.be.true;
 
         E2EApp.logoutUser();
-        expect (E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         expect(E2ESecurity.countRecordsInMiniMongo('users'),
             'Not logged in user should not have users collection published').to.equal(0);
         E2EApp.loginUser();

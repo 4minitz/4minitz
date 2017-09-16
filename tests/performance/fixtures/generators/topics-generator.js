@@ -16,6 +16,7 @@ export class TopicsGenerator {
      * @param config.itemsRange.max {number}            - max. value
      * @param config.detailsSentenceRange.min {number}  - min. value
      * @param config.detailsSentenceRange.max {number}  - max. value
+     * @param config.username {string}                  - username
      */
     constructor(config) {
         this.config = config;
@@ -122,6 +123,10 @@ export class TopicsGenerator {
         return {
             _id: Random.generateId(),
             createdInMinute: this.currentMinutesId,
+            createdAt: new Date(),
+            createdBy: this.config.username,
+            updatedAt: new Date(),
+            updatedBy: this.config.username,
             subject: faker.commerce.department() + ' - ' + faker.commerce.productName(),
             responsibles: [],
             isOpen: faker.random.boolean(),
@@ -146,6 +151,10 @@ export class TopicsGenerator {
         let isAction = faker.random.boolean();
         let item = {
             _id: Random.generateId(),
+            createdAt: new Date(),
+            createdBy: this.config.username,
+            updatedAt: new Date(),
+            updatedBy: this.config.username,
             itemType: (isAction) ? 'actionItem' : 'infoItem',
             isSticky: false,
             createdInMinute: this.currentMinutesId,
@@ -171,6 +180,10 @@ export class TopicsGenerator {
         let date = (this.minutesDate) ? this.minutesDate : new Date();
         return {
             _id: Random.generateId(),
+            createdAt: new Date(),
+            createdBy: this.config.username,
+            updatedAt: new Date(),
+            updatedBy: this.config.username,
             createdInMinute: this.currentMinutesId,
             date: DateHelper.formatDateISO8601(date),
             text: faker.lorem.sentences(faker.random.number(this.config.detailsSentenceRange))

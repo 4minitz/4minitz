@@ -70,6 +70,10 @@ export class GlobalSettings {
             (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled !== undefined)
                 ? Meteor.settings.docGeneration.enabled
                 : false;
+        Meteor.settings.public.docGeneration.format = 
+            (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled !== undefined)
+                ? Meteor.settings.docGeneration.format
+                : 'html';
 
         Meteor.settings.public.forbidClientAccountCreation =
             (Meteor.settings.forbidClientAccountCreation !== undefined)

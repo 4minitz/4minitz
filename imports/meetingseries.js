@@ -12,6 +12,7 @@ import { $ } from 'meteor/jquery';
 import './helpers/promisedMethods';
 import './collections/meetingseries_private';
 import moment from 'moment/moment';
+import {TopicsFinder} from './services/topicsFinder';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -60,7 +61,7 @@ export class MeetingSeries {
         console.log('removeMinutesWithId: ' + minutesId);
 
         await Minutes.remove(minutesId);
-        return this.updateLastMinutesDateAsync();
+        return this.updateLastMinutesFieldsAsync();
     }
 
 
@@ -99,10 +100,12 @@ export class MeetingSeries {
         let topics = [];
 
         // copy open topics from this meeting series & set isNew=false, isSkipped=false
-        if (this.openTopics) {
-            topics = this.openTopics;
+        const openTopics = TopicsFinder.allOpenTopicsOfMeetingSeries(this._id);
+        if (openTopics) {
+            topics = openTopics;
             topics.forEach((topicDoc) => {
                 let topic = new Topic(this, topicDoc);
+                topic.tailorTopic();
                 topic.invalidateIsNewFlag();
                 if (topic.isSkipped()) {
                     topic.toggleSkip();
@@ -118,8 +121,12 @@ export class MeetingSeries {
             informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
         });
 
-        min.refreshParticipants(false); // do not save to DB!
+        min.generateNewParticipants();
         min.save(optimisticUICallback, serverCallback);
+    }
+
+    upsertTopic() {
+        // TODO: refactor topic class and make this method obsolete
     }
 
     hasMinute(id) {
@@ -138,33 +145,30 @@ export class MeetingSeries {
         }
     }
 
-    async updateLastMinutesDate (callback) {
+    async updateLastMinutesFields (callback) {
         callback = callback || function () {};
 
         try {
-            let result = await this.updateLastMinutesDateAsync();
+            let result = await this.updateLastMinutesFieldsAsync();
             callback(undefined, result);
         } catch (error) {
             callback(error);
         }
     }
 
-    async updateLastMinutesDateAsync() {
-        let lastMinutesDate;
-
-        let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
-        if (lastMinutes) {
-            lastMinutesDate = lastMinutes.date;
-        }
-
-        if (!lastMinutesDate) {
-            return;
-        }
-
+    async updateLastMinutesFieldsAsync(lastMinuteDoc) {
         let updateInfo = {
-            _id: this._id,
-            lastMinutesDate
+            _id: this._id
         };
+        
+        let lastMinutes = lastMinuteDoc ? 
+            lastMinuteDoc :
+            MinutesFinder.lastMinutesOfMeetingSeries(this);
+
+        updateInfo.lastMinutesDate = lastMinutes ? lastMinutes.date : '';
+        updateInfo.lastMinutesId = lastMinutes ? lastMinutes._id : null;
+        updateInfo.lastMinutesFinalized = lastMinutes ? lastMinutes.isFinalized : false;
+        
         return Meteor.callPromise('meetingseries.update', updateInfo);
     }
 
@@ -291,35 +295,6 @@ export class MeetingSeries {
     isCurrentUserModerator() {
         let ur = new UserRoles();
         return ur.isModeratorOf(this._id);
-    }
-
-    upsertTopic(topicDoc, mergeTopic) {
-        let i = undefined;
-        if (! topicDoc._id) {             // brand-new topic
-            throw new Meteor.Error('Runtime error, it is not allowed to create a new topic in a meeting series');
-        } else {
-            i = subElementsHelper.findIndexById(topicDoc._id, this.topics); // try to find it
-        }
-
-        if (i === undefined) {                      // topic not in array
-            this.topics.unshift(topicDoc);  // add to front of array
-            i = 0;
-        } else {
-            if (mergeTopic) {
-                let msTopic = new Topic(this, this.topics[i]);
-                msTopic.merge(topicDoc);
-            } else {
-                this.topics[i] = topicDoc;      // overwrite in place
-            }
-        }
-
-        // close topic if it is completely closed (not just marked as discussed)
-        let topic = new Topic(this, topicDoc);
-        this.topics[i].isOpen = (!topic.isClosedAndHasNoOpenAIs());
-    }
-
-    findTopic(id) {
-        return subElementsHelper.getElementById(id, this.topics);
     }
 
     findLabel(id) {

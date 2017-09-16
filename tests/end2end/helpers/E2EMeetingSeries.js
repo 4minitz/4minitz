@@ -3,8 +3,10 @@ import { E2EApp } from './E2EApp'
 
 
 export class E2EMeetingSeries {
-    static countMeetingSeries () {
-        E2EApp.gotoStartPage();
+    static countMeetingSeries (gotToStartPage = true) {
+        if (gotToStartPage) {
+            E2EApp.gotoStartPage();
+        }
         try {
             browser.waitForExist('li.meeting-series-item');
         } catch (e) {
@@ -45,11 +47,12 @@ export class E2EMeetingSeries {
         meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
         meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
 
-        if (! keepOpenMSEditor && browser.isVisible("#btnMeetinSeriesEditCancel")) {
+        if (! keepOpenMSEditor) {
             E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
             E2EGlobal.waitSomeTime();
             E2EApp.gotoStartPage();
         }
+
         return meetingSeriesID;
     };
 
@@ -99,7 +102,9 @@ export class E2EMeetingSeries {
         for (let i in elements.value) {
             let elemId = elements.value[i].ELEMENT;
             let visibleText = browser.elementIdText(elemId).value;
-            if (visibleText == compareText) {
+            if (visibleText === compareText) {
+                browser.execute("arguments[0].scrollIntoView();", elements.value[i]);
+                E2EGlobal.waitSomeTime(100);
                 browser.elementIdClick(elemId);
                 E2EGlobal.waitSomeTime();
                 return true;
@@ -151,12 +156,10 @@ export class E2EMeetingSeries {
     };
 
     static visibleMeetingSeriesSearch() {
-        E2EApp.gotoStartPage();
         return browser.isVisible('input[id="id_MeetingSeriesSearch"]');
     };
 
     static visibleWarning() {
-        E2EApp.gotoStartPage();
         return browser.isVisible('span[id="id_noresults"]');
     };
 }

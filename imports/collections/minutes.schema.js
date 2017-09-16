@@ -30,6 +30,7 @@ export const MinutesSchema = SchemaClass.create({
         globalNote: {type: String, default: '', optional: true},
         topics: {type: [TopicSchema], default: []},
         createdAt: {type: Date},
+        createdBy: {type: String, optional: true},
         agendaSentAt: {type: Date, optional: true},
         // array of user IDs
         visibleFor: {type: [String], validators: [{type: 'meteorId'}]},

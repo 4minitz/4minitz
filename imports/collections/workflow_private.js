@@ -8,6 +8,8 @@ import { UserRoles } from './../userroles';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { MinutesSchema } from './minutes.schema';
 import { AttachmentsCollection } from './attachments_private';
+import {MeetingSeriesTopicsUpdater} from '../services/finalize-minutes/meetingSeriesTopicsUpdater';
+import {Topic} from '../topic';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -62,6 +64,7 @@ Meteor.methods({
 
         doc.isFinalized = false;
         doc.createdAt = new Date();
+        doc.createdBy = Meteor.user().username;
         delete doc.finalizedAt;
         doc.finalizedVersion = 0;
         doc.finalizedHistory = [];
@@ -138,6 +141,10 @@ Meteor.methods({
         // deleting all minutes of one series is allowed, even if they are finalized.
         MinutesSchema.remove({meetingSeries_id: meetingseries_id});
 
+        // then we delete all topics related to this series
+        const topicsUpdater = new MeetingSeriesTopicsUpdater(meetingseries_id);
+        topicsUpdater.removeAllTopics();
+
         // then we remove the meeting series document itself
         MeetingSeriesSchema.remove(meetingseries_id);
         // remove all uploaded attachments for meeting series, if any exist
@@ -179,16 +186,7 @@ Meteor.methods({
         MeetingSeriesSchema.update(meetingSeries_id, {$set: {visibleFor: visibleForArray}});
 
         // 3rd.: sync "visibleFor" to minutes that have this meeting series as parent
-        if (MinutesSchema.find({meetingSeries_id: meetingSeries_id}).count() > 0) {
-            MinutesSchema.update({meetingSeries_id: meetingSeries_id}, {$set: {visibleFor: visibleForArray}}, {multi: true});
-
-            // refresh participants to non-finalized meetings
-            MinutesSchema.getCollection().find({meetingSeries_id: meetingSeries_id}).forEach (min => {
-                if (!min.isFinalized) {
-                    min.refreshParticipants(true);
-                }
-            });
-        }
+        Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(meetingSeries_id, visibleForArray);
     },
     
         
@@ -205,57 +203,18 @@ Meteor.methods({
         
         //ensure user is logged in and moderator
         checkUserAvailableAndIsModeratorOf(meetingSeries_id);
-        
-        //ensure parameters are valid
-        let meetingSeries = new MeetingSeries(meetingSeries_id);        
-        let topicDoc = meetingSeries.findTopic(topic_id);
-        if (topicDoc === undefined) {
-            throw new Meteor.Error('illegal-arguments', 'topic could not been found within given meeting series');
-        }
-        
-        if (topicDoc.isOpen) {
-            throw new Meteor.Error('illegal-arguments', 'topic is already open');
-        }
-        
-        //Reopen existing topic
-        topicDoc.isOpen = true;
 
-        // Only sticky infoItems shall be part of
-        // - meeting series "openTopics" and
-        // - already started minutes
-        let cleanedItems = [];
-        topicDoc.infoItems.map(item => {
-            if (item.itemType === 'infoItem' && item.isSticky) {
-                cleanedItems.push(item);
-            }
-        });
-        let cleanedTopicDoc = {};
-        Object.assign(cleanedTopicDoc, topicDoc);
-        cleanedTopicDoc.infoItems = cleanedItems;
-
-        let modifierDoc = {};
-        let modifierOpenCleanedDoc = {
-            openTopics: cleanedTopicDoc
-        };
-        for (let property in topicDoc) {
-            if (topicDoc.hasOwnProperty(property)) {
-                modifierDoc['topics.$.' + property] = topicDoc[property];
-            }
-        }
-        
-        MeetingSeriesSchema.update(
-            {_id: meetingSeries_id, 'topics._id': topic_id},
-            {$set: modifierDoc}
-        );
-        MeetingSeriesSchema.update(
-            {_id: meetingSeries_id, 'topics._id': topic_id},
-            {$push: modifierOpenCleanedDoc}
-        );
+        const topicsUpdater = new MeetingSeriesTopicsUpdater(meetingSeries_id);
+        topicsUpdater.reOpenTopic(topic_id);
         
         //Write to currently unfinalized Minute, if existent
+        const meetingSeries = new MeetingSeries(meetingSeries_id);
         let lastMinute = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
         if (lastMinute && !lastMinute.isFinalized) {
-            Meteor.call('minutes.addTopic', lastMinute._id, cleanedTopicDoc, true);
+            const topicDoc = topicsUpdater.getTopicById(topic_id);
+            const topicObject = new Topic(meetingSeries, topicDoc);
+            topicObject.tailorTopic();
+            Meteor.call('minutes.addTopic', lastMinute._id, topicObject.getDocument(), true);
         }
     }
 });

@@ -25,21 +25,19 @@ export class MeetingSeriesGenerator {
             visibleFor: [this.user._id],
             availableLabels: [],
             minutes: [],
-            openTopics: [],
-            topics: [],
             additionalResponsibles: []
         };
         return this.series;
     }
 
-    addAllMinutes(minutes, seriesTopicList = []) {
+    addAllMinutes(minutes) {
         minutes.forEach(_.bind(this.addMinutes, this));
-        this.series.topics = seriesTopicList;
     }
 
     addMinutes(aMinutes) {
         this.series.minutes.push(aMinutes._id);
         this.series.lastMinutesDate = aMinutes.date;
+        this.series.lastMinutesId = aMinutes._id;
+        this.series.lastMinutesFinalized = aMinutes.isFinalized;
     }
-
 }

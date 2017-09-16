@@ -4,7 +4,7 @@
         <div class="col-md-7">
             <div class="form-group label-floating">
                 <label class="control-label" for="id_adminFilterUsers">Filter Users</label>
-                <input class="form-control" id="id_adminFilterUsers" type="text" autocomplete="off">
+                <input class="form-control clear-on-escape" id="id_adminFilterUsers" type="text" autocomplete="off">
             </div>
         </div>
         <div class="col-md-2">
@@ -44,7 +44,7 @@
                 <td><a href="mailto:{{email this}}">{{email this}}</a></td>
                 <td style="font-family: 'Monaco', 'Courier New', monospace">{{this._id}}</td>
                 <td>{{#if this.isLDAPuser}}L{{else}}S{{/if}}</td>
-                <td>{{inactiveStateText this}} <a id="id_ToggleInactive" href="#">Toggle</a></td>
+                <td>{{inactiveStateText this}} <a id="id_ToggleInactive" >Toggle</a></td>
             </tr>
         {{/each}}
         </tbody></table>

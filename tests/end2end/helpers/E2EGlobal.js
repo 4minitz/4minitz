@@ -56,6 +56,7 @@ export class E2EGlobal {
 
     static clickWithRetry(selector, timeout = 10000) {
         browser.scroll(selector);
+        E2EGlobal.waitSomeTime(100);
 
         const start = new Date();
         let current = new Date();
@@ -66,12 +67,14 @@ export class E2EGlobal {
                 return;
             } catch (e) {
                 const message = e.toString(),
-                    otherElementReceivesClick = message.includes('Other element would receive the click');
+                    retryMakesSense = message.includes('Other element would receive the click')
+                                   || message.includes('Element is not clickable at point');
 
-                if (!otherElementReceivesClick) {
+                if (!retryMakesSense) {
                     throw e;
                 }
             }
+            browser.scroll(selector);
             browser.pause(E2EGlobal.pollingInterval);
             current = new Date();
         }
@@ -169,6 +172,16 @@ export class E2EGlobal {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
         filename = (!filename) ? dateStr : dateStr + "_" + filename;
         browser.saveScreenshot('./tests/snapshots/' + filename + ".png");
+
+        const weAreOnTravis = !!process.env.TRAVIS;
+        if (weAreOnTravis) {
+            const baseUrl = 'http://4minitz2.s3.amazonaws.com/4minitz/4minitz/',
+                build = process.env.TRAVIS_BUILD_NUMBER || 1,
+                job = process.env.TRAVIS_JOB_NUMBER || 1,
+                url = baseUrl + '/' + build + '/' + job + '/tests/snapshots/' + filename + '.png';
+
+            console.log('Screenshot taken: ', url);
+        }
     }
 }
 

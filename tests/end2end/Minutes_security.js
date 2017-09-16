@@ -1,6 +1,8 @@
 import { E2EApp } from './helpers/E2EApp';
 import { E2ESecurity } from './helpers/E2ESecurity';
 import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EGlobal } from './helpers/E2EGlobal';
 
 const newMinuteDate = '01.01.2000';
 
@@ -26,7 +28,8 @@ describe('Minutes Method Security', function () {
         const name = 'MinuteUpdate as not logged in';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryUpdateCurrentMinuteDate(min.min_id, newMinuteDate, min.date);
         E2EApp.loginUser();
 
@@ -64,7 +67,7 @@ describe('Minutes Method Security', function () {
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryAddNewMinute(ms_id, '29.07.2017', numberOfMinutes, 0);
         E2EApp.loginUser();
     });
@@ -138,7 +141,7 @@ describe('Minutes Method Security', function () {
 
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.tryRemoveMinute(min.min_id, numberOfMinutes)
+        E2ESecurity.tryRemoveMinute(min.min_id, numberOfMinutes);
         E2EApp.loginUser();
     });
 
@@ -155,7 +158,7 @@ describe('Minutes Method Security', function () {
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryFinalizeMinute(min.min_id, false);
         E2EApp.loginUser();
     });
@@ -196,7 +199,7 @@ describe('Minutes Method Security', function () {
 
         E2ESecurity.executeMethod(E2ESecurity.finalizeMinute, min.min_id);
         E2EApp.logoutUser();
-        expect(E2EApp.isLoggedIn()).to.be.false;
+        expect(E2EApp.isNotLoggedIn()).to.be.true;
         E2ESecurity.tryUnfinalizeMinute(min.min_id, true);
         E2EApp.loginUser();
     });
@@ -252,7 +255,6 @@ describe('Minute Publish & Subscribe Security', function () {
     });
 
     it('Non-logged in users have no unexpected Minutes published', function () {
-        const minutesUser1 = E2ESecurity.countRecordsInMiniMongo('minutes');
         const name = 'Publish Minutes Project #1';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2ESecurity.tryFinalizeMinute(min.min_id, true);
@@ -260,10 +262,10 @@ describe('Minute Publish & Subscribe Security', function () {
         E2EMinutes.addMinutesToMeetingSeries(name, name);
 
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
-            'Moderator should have 2 Minutes published').to.equal(minutesUser1+2);
+            'Moderator should have 2 Minutes published').to.equal(2);
 
         E2EApp.logoutUser();
-        expect (E2EApp.isLoggedIn()).to.be.false;
+        expect (E2EApp.isNotLoggedIn()).to.be.true;
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
             'Not logged in user should not have Minutes published').to.equal(0);
 
@@ -271,11 +273,6 @@ describe('Minute Publish & Subscribe Security', function () {
     });
 
     it('Invited users should have Minutes published', function () {
-        E2EApp.loginUser(1);
-        expect (E2EApp.isLoggedIn()).to.be.true;
-        const minutesUser2 = E2ESecurity.countRecordsInMiniMongo('minutes');
-
-        E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
         const name = 'Publish Minutes Project #2';
 
@@ -284,36 +281,17 @@ describe('Minute Publish & Subscribe Security', function () {
         E2ESecurity.tryFinalizeMinute(min.min_id, true);
 
         E2EMinutes.addMinutesToMeetingSeries(name, name);
+        expect(E2ESecurity.countRecordsInMiniMongo('minutes'), 'Moderator should have 2 Minutes published').to.equal(2);
 
         E2EApp.loginUser(1);
         expect (E2EApp.isLoggedIn()).to.be.true;
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
-            'Invited user should have 2 Minutes published').to.equal(minutesUser2+2);
-
-        E2EApp.loginUser();
-    });
-
-    it('Informed users should have no unexpected Minutes published', function () {
-        E2EApp.loginUser(2);
-        expect (E2EApp.isLoggedIn()).to.be.true;
-        const minutesUser3 = E2ESecurity.countRecordsInMiniMongo('minutes');
-
-        E2EApp.loginUser();
-        expect(E2EApp.isLoggedIn()).to.be.true;
-        const name = 'Publish Minutes Project #3';
-
-        const min = E2ESecurity.createMeetingSeriesAndMinute(name);
-        E2ESecurity.inviteUserToMeetingSerie(name, 'Informed', 2);
-        E2ESecurity.tryFinalizeMinute(min.min_id, true);
-
-        E2EMinutes.addMinutesToMeetingSeries(name, name);
-
-        E2EApp.loginUser(2);
-        expect (E2EApp.isLoggedIn()).to.be.true;
+            'Invited user should have no Minutes published when not within a Meeting Series').to.equal(0);
+        E2EMeetingSeries.gotoMeetingSeries(name, name);
+        E2EGlobal.waitSomeTime();
         expect(E2ESecurity.countRecordsInMiniMongo('minutes'),
-            'Informed user should not have Minutes published').to.equal(minutesUser3);
+            'Invited user should have 2 Minutes published').to.equal(2);
 
         E2EApp.loginUser();
     });
-
 });
