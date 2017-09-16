@@ -109,11 +109,7 @@ export let AttachmentsCollection = new FilesCollection({
     }
 });
 
-
-export let bootstrapAttachementsLiveQuery = () => {};
-extendedPublishSubscribeHandler.publishByVisibleMeetingSeries('files.attachments.all',AttachmentsCollection, 'meta.parentseries_id');
-bootstrapAttachementsLiveQuery = extendedPublishSubscribeHandler.subscribeWithMeetingSeriesLiveQuery('files.attachments.all');
-
+extendedPublishSubscribeHandler.publishByMeetingSeriesOrMinute('files.attachments.all', AttachmentsCollection, 'meta.parentseries_id', 'meta.meetingminutes_id');
 
 Meteor.methods({
     // #Security: onBeforeRemove

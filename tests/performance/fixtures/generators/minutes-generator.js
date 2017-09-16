@@ -51,6 +51,7 @@ export class MinutesGenerator {
             visibleFor: [this.user._id],
             participants: [{userId: this.user._id, present:false, minuteKeeper: false}],
             createdAt: new Date(),
+            createdBy: this.user.username,
             isFinalized: !isLastOne,
             globalNote: '',
             participantsAdditional: '',

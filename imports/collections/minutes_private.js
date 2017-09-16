@@ -7,14 +7,17 @@ import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
 if (Meteor.isServer) {
-    Meteor.publish('minutes', function minutesPublication() {
-        // publish only minutes visible for this user
-        return MinutesSchema.find(
-            {visibleFor: {$in: [this.userId]}});
-    });
-}
-if (Meteor.isClient) {
-    Meteor.subscribe('minutes');
+    Meteor.publish('minutes', function minutesPublication(meetingSeriesId, minuteId) { 
+        if (minuteId) { 
+            return MinutesSchema.find( 
+                { $and: [{visibleFor: {$in: [this.userId]}}, {_id: minuteId}]}); 
+        }
+        if (meetingSeriesId) { 
+            return MinutesSchema.find( 
+                { $and: [{visibleFor: {$in: [this.userId]}}, {meetingSeries_id: meetingSeriesId}]}); 
+        } 
+        return this.ready(); 
+    }); 
 }
 
 Meteor.methods({
@@ -111,6 +114,9 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized', 'You are not authorized to perform this action.');
         }
 
+        doc.updatedAt = new Date();
+        doc.updatedBy = Meteor.user().username;
+
         let modifierDoc = {};
         for (let property in doc) {
             if (doc.hasOwnProperty(property)) {
@@ -157,6 +163,10 @@ Meteor.methods({
             }
 
             doc.createdInMinute = minutesId;
+            doc.createdAt = new Date();
+            doc.createdBy = Meteor.user().username;
+            doc.updatedAt = new Date();
+            doc.updatedBy = Meteor.user().username;
 
             let topicModifier = {
                 topics: {
@@ -212,20 +222,11 @@ Meteor.methods({
         );
     },
 
-    'minutes.syncVisibility'(parentSeriesID, visibleForArray) {
+    'minutes.syncVisibilityAndParticipants'(parentSeriesID, visibleForArray) {
         check(parentSeriesID, String);
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
-            if (MinutesSchema.find({meetingSeries_id: parentSeriesID}).count() > 0) {
-                MinutesSchema.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
-
-                // add missing participants to non-finalized meetings
-                MinutesSchema.getCollection().find({meetingSeries_id: parentSeriesID}).forEach (min => {
-                    if (!min.isFinalized) {
-                        min.refreshParticipants(true);
-                    }
-                });
-            }
+            Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(parentSeriesID, visibleForArray);
         } else {
             throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }

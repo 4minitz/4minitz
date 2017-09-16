@@ -56,7 +56,23 @@ export class Minutes {
 
     // method
     static async syncVisibility(parentSeriesID, visibleForArray) {
-        return Meteor.callPromise('minutes.syncVisibility', parentSeriesID, visibleForArray);
+        return Meteor.callPromise('minutes.syncVisibilityAndParticipants', parentSeriesID, visibleForArray);
+    }
+
+    static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(parentSeriesID, visibleForArray) {
+        if (MinutesSchema.find({meetingSeries_id: parentSeriesID}).count() > 0) {
+            MinutesSchema.update({meetingSeries_id: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
+
+            // add missing participants to non-finalized meetings
+            MinutesSchema.getCollection().find({meetingSeries_id: parentSeriesID}).forEach (min => {
+                if (!min.isFinalized) {
+                    let newparticipants = min.generateNewParticipants();
+                    if (newparticipants) { //Write participants to database if they have changed
+                        MinutesSchema.update({_id: min._id}, {$set: {participants: newparticipants}});
+                    }
+                }
+            });
+        }
     }
 
     // ################### object methods
@@ -64,14 +80,16 @@ export class Minutes {
     // method
     async update (docPart, callback) {
         console.log('Minutes.update()');
+        const parentMeetingSeries = this.parentMeetingSeries();
+
         _.extend(docPart, {_id: this._id});
         await Meteor.callPromise ('minutes.update', docPart, callback);
 
         // merge new doc fragment into this document
         _.extend(this, docPart);
 
-        if (docPart.hasOwnProperty('date')) {
-            return this.parentMeetingSeries().updateLastMinutesDateAsync();
+        if (docPart.hasOwnProperty('date') || docPart.hasOwnProperty('isFinalized')) {
+            return await parentMeetingSeries.updateLastMinutesFieldsAsync(this);
         }
     }
 
@@ -89,7 +107,7 @@ export class Minutes {
             }
             Meteor.call('workflow.addMinutes', this, optimisticUICallback, serverCallback);
         }
-        this.parentMeetingSeries().updateLastMinutesDate(serverCallback);
+        this.parentMeetingSeries().updateLastMinutesFields(serverCallback);
     }
 
     toString () {
@@ -286,62 +304,48 @@ export class Minutes {
      * Sync all users of .visibleFor into .participants
      * This method adds and removes users from the .participants list.
      * But it does not change attributes (e.g. .present) of untouched users
+     * It will not write the new Participants into the database. 
+     * Instead it returns an array containing the new participants. If the participants have not changed it will return "undefined"
      * Throws an exception if this minutes are finalized
-     * @param saveToDB internal saving can be skipped
+     * 
+     * @returns {Array}
      */
-    async refreshParticipants (saveToDB) {
+    generateNewParticipants () {
         if (this.isFinalized) {
-            throw new Error('updateParticipants () must not be called on finalized minutes');
+            throw new Error('generateNewParticipants () must not be called on finalized minutes');
         }
         let changed = false;
 
-        // ********************** PHASE-1
-        // Add new, not-yet known entries from .visibleFor to .participants
-        // construct lookup dict
-        if (!this.participants) {
-            this.participants = [];
-        }
         let participantDict = {};
-        this.participants.forEach(participant => {
-            participantDict[participant.userId] = true;
-        });
+        if (this.participants) {
+            this.participants.forEach(participant => {
+                participantDict[participant.userId] = participant;
+            });
+        }
 
-        this.visibleFor.forEach(userId => {
+        let newParticipants = this.visibleFor.map(userId => {
             if (!participantDict[userId]) {
-                this.participants.push({
+                // Participant has been added, insert with default values
+                changed = true;
+                return {
                     userId: userId,
                     present: false,
                     minuteKeeper: false
-                });
-                changed = true;
-            }
-        });
-
-        // ********************** PHASE-2
-        // Remove entries from .participants that are not in .visibleFor anymore
-        // construct lookup dict
-        if (!this.visibleFor) {
-            this.visibleFor = [];
-        }
-        let visibleForDict = {};
-        this.visibleFor.forEach(visUserId => {
-            visibleForDict[visUserId] = true;
-        });
-
-        let newParticipants = [];
-        this.participants.forEach(participant => {
-            if (visibleForDict[participant.userId]) {
-                newParticipants.push(participant);
+                };
             } else {
-                // here a former participant is removed
-                changed = true;
+                // Participant stays without changes
+                let participant = participantDict[userId];
+                delete participantDict[userId];
+                return participant;
             }
         });
+        this.participants = newParticipants;
 
-        // only save if desired and we did change something
-        if (saveToDB && changed) {
-            return this.update({participants: newParticipants}); // update only participants array!
-        }
+        //Now the participantsDict contains only the participants that have been removed. If there are any the database has to be updated
+        changed = changed || (Object.keys(participantDict).length > 0);
+
+        // only return new paricipants if they have changed
+        return changed ? newParticipants : undefined;
     }
 
 

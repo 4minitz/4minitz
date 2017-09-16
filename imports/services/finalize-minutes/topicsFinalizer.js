@@ -53,6 +53,15 @@ export class TopicsFinalizer {
         this.topicsUpdater.upsertTopic(topicDoc);
     }
 
+    /**
+     * Merges all changes of the updateTopicDoc
+     * into the current topic doc.
+     * This means:
+     *  - overwrite the simple properties (subject, responsible)
+     *  - add new InfoItems / AIs
+     *  - update existing InfoItems / AIs
+     *  - delete sticky items which where deleted within the updateTopicDoc
+     */
     _mergeTopicDocs(acceptingTopicDoc, resistantTopicDoc) {
         // overwrite primitive properties
         acceptingTopicDoc.subject = resistantTopicDoc.subject;
@@ -60,6 +69,8 @@ export class TopicsFinalizer {
         acceptingTopicDoc.isNew = resistantTopicDoc.isNew;
         acceptingTopicDoc.isRecurring = resistantTopicDoc.isRecurring;
         acceptingTopicDoc.isOpen = resistantTopicDoc.isOpen;
+        acceptingTopicDoc.updatedAt = resistantTopicDoc.updatedAt;
+        acceptingTopicDoc.updatedBy = resistantTopicDoc.updatedBy;
 
         // loop backwards through topic items and upsert them in the accepting one
         for (let i = resistantTopicDoc.infoItems.length; i-- > 0;) {

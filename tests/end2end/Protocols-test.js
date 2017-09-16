@@ -3,10 +3,6 @@ import { E2EApp } from './helpers/E2EApp';
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 import { E2EMinutes } from './helpers/E2EMinutes';
 import { E2EProtocols } from './helpers/E2EProtocols';
-import { E2EAttachments } from './helpers/E2EAttachments';
-
-const path = require('path');
-const fs = require('fs-extra');
 
 describe('Protocols', function () {
     const _projectName = 'E2E Protocols';
@@ -71,6 +67,9 @@ describe('Protocols', function () {
         expect(E2EProtocols.checkProtocolFileForMinuteExits(_lastMinutesID), 'A Protocol has been saved on file system').to.be.true;
 
         E2EMinutes.unfinalizeCurrentMinutes();
+
+        E2EGlobal.waitSomeTime(5000);
+
         expect(browser.isExisting('#btn_unfinalizeMinutes'),'Minute has been unfinalized').to.be.false;
         expect(E2EProtocols.countProtocolsInMongoDB(), 'The Protocol has been deleted in database').to.equal(numberOfProtocolsBefore - 1);
         expect(E2EProtocols.checkProtocolFileForMinuteExits(_lastMinutesID), 'The Protocol has been deleted on file system').to.be.false;
