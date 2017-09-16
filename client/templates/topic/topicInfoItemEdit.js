@@ -9,9 +9,7 @@ import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFacto
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
-import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
-import { Label } from '/imports/label';
 import { Priority } from '/imports/priority';
 import { User, userSettings } from '/imports/users';
 
@@ -23,7 +21,7 @@ import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
-import {LabelExtractor} from '../../../imports/services/labelExtractor';
+import {createItem} from './helpers/create-item';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -205,68 +203,33 @@ Template.topicInfoItemEdit.events({
         if (!getRelatedTopic()) {
             throw new Meteor.Error('IllegalState: We have no related topic object!');
         }
+        const editItem = getEditInfoItem();
 
-        let type = Session.get('topicInfoItemType');
-        let newSubject = tmpl.find('#id_item_subject').value;
-        let newDetail;
+        const type = Session.get('topicInfoItemType');
+        const newSubject = tmpl.find('#id_item_subject').value;
+        const newDetail = (!editItem) ? tmpl.find('#id_item_detailInput').value : false;
+        const labels = tmpl.$('#id_item_selLabelsActionItem').val();;
 
-        if(getEditInfoItem() === false) {
-            newDetail = tmpl.find('#id_item_detailInput').value;
-        }
-
-        let editItem = getEditInfoItem();
         let doc = {};
         if (editItem) {
             _.extend(doc, editItem._infoItemDoc);
         }
-
-        let labels = tmpl.$('#id_item_selLabelsActionItem').val();
-        if (!labels) labels = [];
-        let aMinute = new Minutes(_minutesID);
-        let aSeries = aMinute.parentMeetingSeries();
-        labels = labels.map(labelId => {
-            let label = Label.createLabelById(aSeries, labelId);
-            if (null === label) {
-                // we have no such label -> it's brand new
-                label = new Label({name: labelId});
-                label.save(aSeries._id);
-            }
-            return label.getId();
-        });
-
         doc.subject = newSubject;
-        if (!doc.createdInMinute) {
-            doc.createdInMinute = _minutesID;
-        }
-        doc.labels = labels;
 
-        let newItem;
-        switch (type) {
-        case 'actionItem':
+        if (type === 'actionItem') {
             doc.responsibles = $('#id_selResponsibleActionItem').val();
             doc.duedate = tmpl.find('#id_item_duedateInput').value;
-
-            newItem = new ActionItem(getRelatedTopic(), doc);
-            newItem.setPriority(new Priority(tmpl.find('#id_item_priority').value));
-            break;
-        case 'infoItem':
-        {
-            newItem = new InfoItem(getRelatedTopic(), doc);
-            break;
-        }
-        default:
-            throw new Meteor.Error('Unknown type!');
+            doc.priority = tmpl.find('#id_item_priority').value
         }
 
-        const labelExtractor = new LabelExtractor(newSubject, aMinute.parentMeetingSeries()._id);
-        newItem.addLabelsById(labelExtractor.getExtractedLabelIds());
-        newItem.setSubject(labelExtractor.getCleanedString());
+        const minutes = new Minutes(_minutesID);
+        const newItem = createItem(doc, getRelatedTopic(), _minutesID, minutes.parentMeetingSeries(), type, labels);
+
+        if (newDetail) {
+            newItem.addDetails(minutes._id, newDetail);
+        }
+
         newItem.saveAsync().catch(handleError);
-        if (getEditInfoItem() === false && newDetail) {
-            newItem.addDetails(aMinute._id, newDetail);
-            // TODO: Here we have two save operations almost parallel! Add the details before saving the item at the first place.
-            newItem.saveAsync().catch(handleError);
-        }
         $('#dlgAddInfoItem').modal('hide');
     },
 

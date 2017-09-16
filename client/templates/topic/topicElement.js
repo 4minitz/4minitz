@@ -11,6 +11,8 @@ import { FlashMessage } from '../../helpers/flashMessage';
 import { TopicInfoItemListContext } from './topicInfoItemList';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import { handleError } from '../../helpers/handleError';
+import {createItem} from './helpers/create-item';
 
 let _minutesId;
 
@@ -230,9 +232,18 @@ Template.topicElement.events({
 
         const itemDoc = {
             subject: tmpl.find('.add-item-field').value,
-            responsibles: []
+            responsibles: [],
+            createdInMinute: this.minutesID
         };
 
+        const topic = new Topic(this.minutesID, this.topic);
+        const minutes = new Minutes(this.minutesID);
+        const newItem = createItem(itemDoc, topic, this.minutesID, minutes.parentMeetingSeries());
+        newItem.saveAtBottom().catch(error => {
+            tmpl.find('.add-item-field').value = itemDoc.subject; // set desired value again!
+            handleError(error);
+        });
+        tmpl.find('.add-item-field').value = '';
     },
 
     'click #btnTopicExpandCollapse'(evt) {

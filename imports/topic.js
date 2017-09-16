@@ -155,7 +155,7 @@ export class Topic {
         }
     }
 
-    async upsertInfoItem(topicItemDoc, saveChanges) {
+    async upsertInfoItem(topicItemDoc, saveChanges, insertPlacementTop = true) {
         if (saveChanges === undefined) {
             saveChanges = true;
         }
@@ -166,7 +166,11 @@ export class Topic {
             i = subElementsHelper.findIndexById(topicItemDoc._id, this.getInfoItems());
         }
         if (i === undefined) {                      // topicItem not in array
-            this.getInfoItems().unshift(topicItemDoc);  // add to front of array
+            if (insertPlacementTop) {
+                this.getInfoItems().unshift(topicItemDoc);
+            }  else {
+                this.getInfoItems().push(topicItemDoc);
+            }
         } else {
             this.getInfoItems()[i] = topicItemDoc;      // overwrite in place
         }
