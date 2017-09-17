@@ -28,20 +28,58 @@ drawbacks:
 
 In all other cases - read on and chose the "Production Installation" way.
 
-## Production Running - with Docker
+## Production Server Setup - with Docker
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
-node.js version and MongoDB and thus has no external dependecies.
+node.js version and MongoDB and thus has no external dependencies.
+
+### Setup on Linux and Mac
 
 1. Install [docker](https://docs.docker.com/engine/installation/)
 2. In a directory where you have write access run:
 ```
 docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz
 ```
+
+Omit the next section and continue with the section [Use your 4minitz container](#use-your-4minitz-container).
+
+### Setup on Windows
+
+On Microsoft Windows 10 Professional or Enterprise 64-bit you can run 4minitz inside a docker container. The following snippets should be run inside a PowerShell (indicated by a `PS>` prompt) or a bash shell inside a Docker container (indicated by a `root#` prompt).
+
+1. Install [docker](https://docs.docker.com/engine/installation/)
+2. Open up a powershell and pull the 4minitz image from the Docker hub
+```
+PS> docker pull 4minitz/4minitz
+```
+3. Create a container instance called `4minitz-storage`
+```
+PS> docker create -v /4minitz_storage --name 4minitz-storage 4minitz/4minitz
+```
+4. If you want to edit the configuration, especially after updating your 4minitz images, you should do so in an up-to-date 4minitz container by spawning a bash shell into it. For now it suffices to simply start the volume container and edit the config file `4minitz_settings.json`:
+```
+PS> $docker = docker ps -q -l
+PS> docker start $docker
+PS> docker exec -ti $docker /bin/bash
+root# nano /4minitz_storage/4minitz_settings.json
+root# exit
+PS> docker stop $docker
+```
+4. Now you can use this data volume container in a 4minitz container:
+```
+PS> docker run -it --rm --volumes-from 4minitz-storage -p 3100:3333 4minitz/4minitz
+```
+
+See [this guide](https://docs.docker.com/engine/tutorials/dockervolumes/#backup-restore-or-migrate-data-volumes) on how to backup and restore the data in your data volume container.
+
+
+### Use your 4minitz container
+
 You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser
 
 The docker container will write all data to your local host
-machine into `./4minitz_storage` outside of the container.
+machine into `./4minitz_storage` outside of the container
+(Linux and Mac) or in your data volume container (Windows).
 Here you will find 
 * **4minitz_settings.json** - adapt server settings here. Then "Ctrl+c" 
   and restart the 4Minitz container.
@@ -49,10 +87,12 @@ Here you will find
 * **attachments** - all attachments that have been uploaded
   to meeting minutes are stored here.
 * **4minitz_mongodb** - MongoDB "--dbpath"
-     
+
+
+### Updating your 4minitz Docker container
+
 If a new version of 4Minitz is released, you may keep the above storage 
-directory. Simply Ctr+c the running container, and perform a `docker pull
-4minitz/4minitz`. 
+directory or data volume container. Simply Ctr+c the running container, and perform a `docker pull 4minitz/4minitz`. 
 When you re-launch the container afterwards, all clients will get 
 the new WebApp version automatically via meteors hot-code push.
 
@@ -60,9 +100,10 @@ the new WebApp version automatically via meteors hot-code push.
 1. The embedded mongoDB inside the docker container is not protected
  by user/password, so make sure nobody else is allowed to attach /
   exec commands to your running container
-1. The outside host directory `./4minitz_storage` should only
-  be read/write accessible by the 4minitz admin. Otherwise unauthorized
-  users may see attachments, copy the database or change settings.json.
+1. The outside host directory `./4minitz_storage` or docker volume container
+   should only be read/write accessible by the 4minitz admin. Otherwise 
+   unauthorized users may see attachments, copy the database or change 
+   settings.json.
 1. Do not allow users to connect directly to your 4Minitz container.
   Instead configure a reverse proxy with TSL / https: to make sure
   that all traffic between client and server is encrypted.
@@ -268,18 +309,18 @@ The following diagram will show the decision tree:
 #### Available configuration options
 See your settings.json file:
 
-| Setting             | Default | Explanation                                                                 |
-|---------------------|---------|-----------------------------------------------------------------------------|
-| enabled             | false   | Enables & disables LDAP login                                               |
-| searchDn            | "cn"    | The attribute used as username                                              |
-| searchFilter        | ""      | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
-| serverDn            | ""      | Your server base dn, e.g. "dc=example,dc=com"                               |
-| serverUrl           | ""      | Server url, e.g. "ldaps://ldap.example.com:1234                             |
-| whiteListedFields   | []      | Attributes that are copied into the user's profile property                 |
-| autopublishFields   | []      | Meteor will publish these fields automatically on users                     |
-| isInactivePredicate | []      | If one of these key/value pairs matches a user key/value pair, this user become isInactive - and can not log in|
-| allowSelfSignedTLS  | false   | If enabled, self-signed certs will be allowed for the Meteor server process |
-| importCronTab       | false   | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
+| Setting             | Default                          | Explanation                                                                 |
+|---------------------|----------------------------------|-----------------------------------------------------------------------------|
+| enabled             | false                            | Enables & disables LDAP login                                               |
+| propertyMap         | {username: 'cn', email: 'mail' } | Map important attributes from ldap to user database                         |
+| searchFilter        | ""                               | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
+| serverDn            | ""                               | Your server base dn, e.g. "dc=example,dc=com"                               |
+| serverUrl           | ""                               | Server url, e.g. "ldaps://ldap.example.com:1234                             |
+| whiteListedFields   | []                               | Attributes that are copied into the user's profile property                 |
+| autopublishFields   | []                               | Meteor will publish these fields automatically on users                     |
+| inactiveUsers       | {strategy: 'none'}               | Available strategies: 'none', 'userAccountControl' and 'property'. See below for details|
+| allowSelfSignedTLS  | false                            | If enabled, self-signed certs will be allowed for the Meteor server process |
+| importCronTab       | false                            | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
 
 Once you have configured 4minitz to allow LDAP login, all your 
 users should be able to login with their LDAP username & passwords. On 
@@ -288,6 +329,18 @@ long names) are copied into the 4minitz user database. Password lookup
 happens over LDAP, so no passwords or hashes are stored for LDAP users 
 in the 4minitz user database. This is needed to store e.g. user access 
 rights for meeting minutes.
+
+#### Available strategies to detect inactive users
+
+* 'none': No attempts are made to detect inactive users. All users in
+your LDAP directory will be imported and will be able to login to 4minitz.
+* 'property': You can provide a key-value map in a property called
+'properties'. If any of the ldap attributes that has the same value as the
+given value the user is considered to be inactive and won't be able to login
+to 4minitz.
+* 'userAccountControl': Checks the *userAccountControl* ldap attribute and
+sets the user to inactive if bit 2 of this flag is set. See
+[MSDN](https://msdn.microsoft.com/en-us/library/ms680832(VS.85).aspx) for details.
 
 #### Importing LDAP users to the 4minitz user database
 All LDAP users that have logged in at least once will show up in the 

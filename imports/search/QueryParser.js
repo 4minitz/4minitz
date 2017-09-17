@@ -1,4 +1,4 @@
-import { _ } from 'meteor/underscore';
+import { Meteor } from 'meteor/meteor';
 
 const TOKEN_TYPE_SEARCH = 1;
 const TOKEN_TYPE_FILTER = 2;
@@ -117,24 +117,24 @@ export class QueryParser {
         let tokenType = this._getTokenType(token);
         switch (tokenType) {
         case TOKEN_TYPE_FILTER:
-            {
-                this._addFilterToken(token);
-                break;
-            }
+        {
+            this._addFilterToken(token);
+            break;
+        }
 
         case TOKEN_TYPE_LABEL:
-            {
-                let result = this._addLabelToken(token);
-                if (!result) {
-                    this.searchTokens.push(token);
-                }
-                break;
-            }
-        case TOKEN_TYPE_SEARCH:
-            {
+        {
+            let result = this._addLabelToken(token);
+            if (!result) {
                 this.searchTokens.push(token);
-                break;
             }
+            break;
+        }
+        case TOKEN_TYPE_SEARCH:
+        {
+            this.searchTokens.push(token);
+            break;
+        }
         default: throw new Meteor.Error('illegal-state', `Unknown token type ${tokenType}`);
         }
     }

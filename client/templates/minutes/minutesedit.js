@@ -1,4 +1,8 @@
 import moment from 'moment/moment';
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 
@@ -10,10 +14,14 @@ import { Minutes } from '/imports/minutes';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
+import { DocumentGeneration } from '/imports/documentGeneration';
+
+import { Finalizer } from '/imports/services/finalize-minutes/finalizer';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
+import { UserTracker } from '../../helpers/userTracker';
 
 let _minutesID; // the ID of these minutes
 
@@ -123,16 +131,28 @@ let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
 
 Template.minutesedit.onCreated(function () {
     this.minutesReady = new ReactiveVar();
+    this.currentMinuteLoaded = new ReactiveVar();
 
     this.autorun(() => {
         _minutesID = FlowRouter.getParam('_id');
-        let subscriptionHandle = this.subscribe('minutes', _minutesID);
 
-        this.minutesReady.set(subscriptionHandle.ready());
+        this.currentMinuteLoaded.set(this.subscribe('minutes', undefined, _minutesID));
+        if (this.currentMinuteLoaded.get().ready()) {
+            let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
+            this.subscribe('minutes', meetingSeriesId);
+            this.subscribe('meetingSeriesDetails', meetingSeriesId);
+            this.subscribe('files.attachments.all', meetingSeriesId, _minutesID);        
+            this.subscribe('files.protocols.all', meetingSeriesId, _minutesID);
+            
+            this.minutesReady.set(this.subscriptionsReady());
+        }
     });
 
     Session.set('minutesedit.checkParent', false);
     handleTemplatesGlobalKeyboardShortcuts(true);
+
+    this.userTracker = new UserTracker(FlowRouter.current().path);
+    this.userTracker.onEnter();
 });
 
 Template.minutesedit.onDestroyed(function() {
@@ -143,6 +163,7 @@ Template.minutesedit.onDestroyed(function() {
     $(document).unbindArrive('#id_minutesdatePicker');
     $(document).unbindArrive('#topicPanel');
     handleTemplatesGlobalKeyboardShortcuts(false);
+    this.userTracker.onLeave();
 });
 
 let isMinuteFinalized = function () {
@@ -191,9 +212,9 @@ let openPrintDialog = function () {
     let ua = navigator.userAgent.toLowerCase();
     let isAndroid = ua.indexOf('android') > -1;
 
-    if (isAndroid && cloudprint && cloudprint.Gadget) {
+    if (isAndroid && cloudprint && cloudprint.Gadget) { //eslint-disable-line
         // https://developers.google.com/cloud-print/docs/gadget
-        let gadget = new cloudprint.Gadget();
+        let gadget = new cloudprint.Gadget(); //eslint-disable-line
         gadget.setPrintDocument('url', $('title').html(), window.location.href, 'utf-8');
         gadget.openPrintDialog();
     } else {
@@ -265,11 +286,11 @@ Template.minutesedit.helpers({
             toggleTopicSorting();
         });
 
-        // enable the parent series check after 2 seconds delay to make sure
+        // enable the parent series check after 2.5 seconds delay to make sure
         // there was enough time to update the meeting series
         Meteor.setTimeout(function() {
             Session.set('minutesedit.checkParent', true);
-        }, 2000);
+        }, 2500);
     },
 
     checkParentSeries: function() {
@@ -310,8 +331,7 @@ Template.minutesedit.helpers({
     },
 
     getFinalizedText: function () {
-        let aMin = new Minutes(_minutesID);
-        return aMin.getFinalizedString();
+        return Finalizer.finalizedInfo(_minutesID);
     },
 
     finalizeHistoryTooltip: function (buttontype) {
@@ -330,8 +350,7 @@ Template.minutesedit.helpers({
     },
 
     isUnfinalizeAllowed: function () {
-        let aMin = new Minutes(_minutesID);
-        return aMin.parentMeetingSeries().isUnfinalizeMinutesAllowed(_minutesID);
+        return Finalizer.isUnfinalizeMinutesAllowed(_minutesID);
     },
 
     isModeratorOfParentSeries: function () {
@@ -352,7 +371,7 @@ Template.minutesedit.helpers({
                 filteredTopics = aMin.topics.filter((topic) => !topic.isSkipped);
             }
         }
-            
+
         return new TopicListConfig(filteredTopics, _minutesID, /*readonly*/ (isMinuteFinalized() || !isModerator()), aMin.parentMeetingSeriesID());
     },
 
@@ -378,6 +397,10 @@ Template.minutesedit.helpers({
     nextMinutes : function() {
         let aMin = new Minutes(_minutesID);
         return MinutesFinder.nextMinutes(aMin);
+    },
+
+    isDocumentGenerationAllowed : function () {
+        return Meteor.settings.public.docGeneration.enabled === true;
     }
 });
 
@@ -464,9 +487,9 @@ Template.minutesedit.events({
         let doFinalize = function () {
             tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
             let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
-                // Force closing the dialog before starting the finalize process
+            // Force closing the dialog before starting the finalize process
             Meteor.setTimeout(() => {
-                aMin.finalize(sendActionItems, sendInformationItems);
+                Finalizer.finalize(aMin._id, sendActionItems, sendInformationItems);
                 tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
                 (new FlashMessage('OK', 'This meeting minutes were successfully finalized', FlashMessage.TYPES().SUCCESS, 3000)).show();
                 msg.hideMe();
@@ -479,7 +502,7 @@ Template.minutesedit.events({
             if (GlobalSettings.isEMailDeliveryEnabled()) {
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
-                    'Confirm finalize minutes',
+                    'Confirm Finalize Minutes',
                     'confirmationDialogFinalize',
                     {
                         minutesDate: aMin.date,
@@ -503,8 +526,8 @@ Template.minutesedit.events({
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 processFinalize,
                 'Proceed without participants',
-                'confirmationDialogProceedWithoutPresentParticipants',
-                {},
+                'confirmPlainText',
+                { plainText: 'No invited user is checked as participant of this meeting. Are you sure you want to finalize the meeting?'},
                 'Proceed'
             ).show();
         }
@@ -517,7 +540,7 @@ Template.minutesedit.events({
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
         console.log('Un-Finalize minutes: ' + aMin._id + ' from series: ' + aMin.meetingSeries_id);
-        aMin.unfinalize();
+        Finalizer.unfinalize(aMin._id);
 
         toggleTopicSorting();
         Session.set('participants.expand', true);
@@ -573,6 +596,22 @@ Template.minutesedit.events({
     'click #btn_printMinutes': function(evt) {
         evt.preventDefault();
         togglePrintView();
+    },
+
+    'click #btn_downloadMinutes': function(evt) {
+        evt.preventDefault();
+
+        let noProtocolExistsDialog = (downloadHTML) => {
+            ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                downloadHTML,
+                'Confirm generate protocol',
+                'confirmPlainText',
+                { plainText: 'There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?'},
+                'Download'
+            ).show();
+        };
+
+        DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
     }
 });
 

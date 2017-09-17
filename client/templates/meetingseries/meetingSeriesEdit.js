@@ -1,12 +1,16 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
+import { Mongo } from 'meteor/mongo';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
+import { handleError } from '/client/helpers/handleError';
 
 import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
-import { MinutesFinder } from "/imports/services/minutesFinder";
 import { Minutes } from '/imports/minutes';
 
 
@@ -48,7 +52,7 @@ Template.meetingSeriesEdit.helpers({
 // This function handles notification on role changes if the
 // moderator checked the according check box in the meeting series editor
 // It does so by comparing the users & roles before and after usage of the editor.
-notifyOnRoleChange = function(usersWithRolesAfterEdit, meetingSeriesId) {
+const notifyOnRoleChange = function(usersWithRolesAfterEdit, meetingSeriesId) {
     function sendEmail (userId, oldRole, newRole, meetingSeriesId) {
         Meteor.call('meetingseries.sendRoleChange', userId, oldRole, newRole, meetingSeriesId);
     }
@@ -102,25 +106,29 @@ Template.meetingSeriesEdit.events({
         $('#dlgEditMeetingSeries').modal('hide');   // hide underlying modal dialog first, otherwise transparent modal layer is locked!
 
         let ms = new MeetingSeries(this._id);
-        let minutesCount = ms.countMinutes();
 
         let deleteSeriesCallback = () => {
-            MeetingSeries.remove(ms);
+            MeetingSeries.remove(ms).catch(handleError);
             FlowRouter.go('/');
         };
 
-        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        const confirmationDialog = ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             deleteSeriesCallback,
             'Confirm delete',
             'confirmationDialogDeleteSeries',
             {
                 project: ms.project,
                 name: ms.name,
-                hasMinutes: (minutesCount !== 0),
-                minutesCount: minutesCount,
-                lastMinutesDate: (minutesCount !== 0) ? MinutesFinder.lastMinutesOfMeetingSeries(ms).date : false
+                hasMinutes: (ms.minutes.length !== 0),
+                minutesCount: ms.minutes.length,
+                lastMinutesDate: (ms.minutes.length !== 0) ? ms.lastMinutesDate : false
             }
-        ).show();
+        );
+
+        Meteor.setTimeout(() => {
+            confirmationDialog.show();
+        }, 0);
+
     },
 
 
@@ -176,7 +184,7 @@ Template.meetingSeriesEdit.events({
 
         let aProject = tmpl.find('#id_meetingproject').value;
         let aName = tmpl.find('#id_meetingname').value;
-        let modWantsNotifyOnRoleChange = tmpl.find("#checkBoxRoleChange").checked;
+        let modWantsNotifyOnRoleChange = tmpl.find('#checkBoxRoleChange').checked;
 
         // validate form and show errors - necessary for browsers which do not support form-validation
         let projectNode = tmpl.$('#id_meetingproject');
@@ -215,7 +223,7 @@ Template.meetingSeriesEdit.events({
             }
         }
 
-        ms = new MeetingSeries(meetingSeriesId);
+        const ms = new MeetingSeries(meetingSeriesId);
         ms.project = aProject;
         ms.name = aName;
         ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users

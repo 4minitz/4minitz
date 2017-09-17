@@ -1,6 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-
 import { InfoItem } from './infoitem';
+import {Priority} from './priority';
 
 export class ActionItem extends InfoItem{
     constructor(parentTopic, source) {   // constructs obj from item ID or document
@@ -15,7 +14,7 @@ export class ActionItem extends InfoItem{
             this._infoItemDoc.responsible = '';
         }
         if (this._infoItemDoc.priority === undefined) {
-            this._infoItemDoc.priority = '';
+            this._infoItemDoc.priority = Priority.GET_DEFAULT_PRIORITY();
         }
     }
 
@@ -79,79 +78,20 @@ export class ActionItem extends InfoItem{
     }
 
     getResponsibleRawArray() {
-        if (!this.hasResponsibles()) {
-            return [];
-        }
-        return this._infoItemDoc.responsibles;
+        return (this.hasResponsibles()) ? this._infoItemDoc.responsibles : [];
     }
 
-    // this should only be called from server.
-    // because EMails are not propagated to the client!
-    getResponsibleEMailArray() {
-        if (Meteor.isServer) {
-            if (!this.hasResponsibles()) {
-                return [];
-            }
-
-            let responsibles = this._infoItemDoc.responsibles;
-            let mailArray = [];
-            responsibles.forEach(responsible => {
-                let userEMailFromDB = '';
-                let userNameFromDB = '';
-                if (responsible.length > 15) {  // maybe DB Id or free text
-                    let user = Meteor.users.findOne(responsible);
-                    if (user) {
-                        userNameFromDB = user.username;
-                        if (user.emails && user.emails.length) {
-                            userEMailFromDB = user.emails[0].address;
-                        }
-                    }
-                }
-                if (userEMailFromDB) {     // user DB match!
-                    mailArray.push(userEMailFromDB);
-                } else {
-                    let freetextMail = responsible.trim();
-                    if (/\S+@\S+\.\S+/.test(freetextMail)) {    // check valid mail anystring@anystring.anystring
-                        mailArray.push(freetextMail);
-                    } else {
-                        console.log('WARNING: Invalid mail address for responsible: >'+freetextMail+'< '+userNameFromDB);
-                    }
-                }
-            });
-            return mailArray;
+    setPriority(priority) {
+        if (priority instanceof Priority) {
+            this._infoItemDoc.priority = priority.value;
+        } else {
+            this.setPriority(new Priority(priority));
         }
-        return [];
-    }
-
-
-    getResponsibleNameString() {
-        if (!this.hasResponsibles()) {
-            return '';
-        }
-
-        let responsibles = this._infoItemDoc.responsibles;
-        let responsiblesString = '';
-        responsibles.forEach(responsible => {
-            let userNameFromDB = '';
-            if (responsible.length > 15) {  // maybe DB Id or free text
-                let user = Meteor.users.findOne(responsible);
-                if (user) {
-                    userNameFromDB = user.username;
-                }
-            }
-            if (userNameFromDB) {     // user DB match!
-                responsiblesString += userNameFromDB + ', ';
-            } else {
-                responsiblesString += responsible + ', ';
-            }
-        });
-        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
-        return responsiblesString;
     }
 
     getPriority() {
         let prio = this._infoItemDoc.priority;
-        return (prio) ? prio : '';
+        return (prio) ? new Priority(prio) : '';
     }
 
     getDuedate() {

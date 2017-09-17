@@ -17,15 +17,49 @@ let _createLDAPClient = function (settings) {
     });
 };
 
+const inactivityStrategies = {
+    userAccountControl(inactivitySettings, entry) {
+        const uac = entry.object.userAccountControl || 0,
+            flagIsSet = uac & 2;
+        
+        return !!flagIsSet;
+    },
+    property(inactivitySettings, entry) {
+        const inactiveProperties = inactivitySettings.properties;
+
+        return Object.keys(inactiveProperties).reduce((result, key) => {
+            return result || (entry.object[key] === inactiveProperties[key]);
+        }, false);
+    },
+    none() {
+        return false;
+    }
+}
+
+function isInactive(inactivitySettings, entry) {
+    const strategy = inactivitySettings && inactivitySettings.strategy || 'none',
+        strategyFunction = inactivityStrategies[strategy] || inactivityStrategies.none;
+
+    return strategyFunction(inactivitySettings, entry);
+}
+
 let _fetchLDAPUsers = function (connection) {
     let client = connection.client,
         settings = connection.settings,
         base = settings.serverDn,
-        filter = `(&(${settings.searchDn}=*)${settings.searchFilter})`,
+        searchDn = settings.propertyMap && settings.propertyMap.username || 'cn',
+        filter = `(&(${searchDn}=*)${settings.searchFilter})`,
         scope = 'sub',
-        attributes = settings.whiteListedFields,
-        isIncativePred = settings.isInactivePredicate,
+        whiteListedFields = settings.whiteListedFields || [],
+        attributes = whiteListedFields.concat(['userAccountControl']),
         options = {filter, scope, attributes};
+    
+    if (settings.isInactivePredicate && !settings.inactiveUsers) {
+        settings.inactiveUsers = {
+            strategy: 'property',
+            properties: settings.isInactivePredicate
+        };
+    }
 
     return new Promise((resolve, reject) => {
         try {
@@ -35,18 +69,9 @@ let _fetchLDAPUsers = function (connection) {
                 let entries = [];
 
                 response.on('searchEntry', function (entry) {
-                    let isIncative = false;
-                    if(isIncativePred) {    // check if at least one inactive predicate matches
-                        Object.keys(isIncativePred).forEach(key => {
-                            if (entry.object[key] === isIncativePred[key]) {
-                                isIncative = true;  // user should not be able to log in
-                            }
-                        });
-                    }
-                    entries.push(entry.object);
-                    if (isIncative) {
-                        entries[entries.length-1]['isInactive'] = true;
-                    }
+                    const userIsInactive = isInactive(settings.inactiveUsers, entry),
+                        userData = Object.assign({}, entry.object, {isInactive: userIsInactive});
+                    entries.push(userData);
                 });
                 response.on('error', function (error) {
                     reject(error);

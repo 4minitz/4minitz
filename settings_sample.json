@@ -134,13 +134,17 @@
         ],
     "ldap": {
         "enabled": false,
-        "searchDn": "cn",
+        "propertyMap": {
+            "username": "uid",
+            "longname": "cn",
+            "email": "mail"
+        },
         "searchFilter": "(objectClass=user)",
         "serverDn": "OU=people,DC=example,DC=com",
         "serverUrl": "ldaps://ld.example.com:636",
         "allowSelfSignedTLS": false,
         "whiteListedFields": [ "uid", "cn", "department", "employeeNumber", "mail", "mailEnabled" ],
-        "isInactivePredicate": {"mailEnabled": "NO"},
+        "inactiveUsers": {"strategy": "none"},
         "autopublishFields": [ "cn" ],
         "importCronTab": false
     },
@@ -161,5 +165,18 @@
         "allowExtensions": ".*",
         "denyExtensions":  "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
         "maxFileSize": 10485760
-    }
+    },
+
+    "//8": ["Document Generation", 
+            "enabled: true|false to switch on/off downloading minute protocols", 
+            "format: string indicating the file format to be used for protocols. Currently supported: html", 
+            "targetDocPath: relative path based on the app's private/assets folder, alternatively", 
+            "               assign absolute path. Ensure write access for meteor users!" 
+        ], 
+         
+  "docGeneration": { 
+        "enabled": true, 
+        "format": "html", 
+        "targetDocPath": "4minitz_storage/protocols" 
+  } 
 }

@@ -1,6 +1,86 @@
 
 
 export class E2EGlobal {
+    static setValueSafe(selector, string, retries = 5) {
+        let currentValue = browser.getValue(selector),
+            isInteractable = true,
+            count = 0;
+
+        if (string.includes('\n')) {
+            throw new Error('Entering newlines with setValueSafe is not supported.');
+        }
+
+        browser.waitForVisible(selector);
+
+        while (count < retries && currentValue !== string) {
+            try {
+                isInteractable = true;
+                browser.setValue(selector, string);
+            } catch (e) {
+                const message = e.toString(),
+                    notInteractable = message.includes('Element is not currently interactable and may not be manipulated'),
+                    cannotFocusElement = message.includes('Cannot focus element');
+
+                if (notInteractable || cannotFocusElement) {
+                    isInteractable = false;
+                } else {
+                    throw e;
+                }
+            }
+
+            if (!isInteractable) {
+                currentValue = browser.getValue(selector);
+            }
+            count++;
+        }
+    }
+
+    static pollingInterval = 250;
+
+    static waitUntil(predicate, timeout = 10000) {
+        const start = new Date();
+        let current = new Date();
+
+        let i = 0;
+        while (current - start < timeout) {
+            try {
+                predicate();
+                return;
+            } catch (e) {}
+            browser.pause(E2EGlobal.pollingInterval);
+            current = new Date();
+        }
+
+        throw new Error('waitUntil timeout');
+    }
+
+    static clickWithRetry(selector, timeout = 10000) {
+        browser.scroll(selector);
+        E2EGlobal.waitSomeTime(100);
+
+        const start = new Date();
+        let current = new Date();
+
+        while (current - start < timeout) {
+            try {
+                browser.click(selector);
+                return;
+            } catch (e) {
+                const message = e.toString(),
+                    retryMakesSense = message.includes('Other element would receive the click')
+                                   || message.includes('Element is not clickable at point');
+
+                if (!retryMakesSense) {
+                    throw e;
+                }
+            }
+            browser.scroll(selector);
+            browser.pause(E2EGlobal.pollingInterval);
+            current = new Date();
+        }
+        throw new Error(`clickWithRetry ${selector} timeout`);
+    }
+
     static waitSomeTime (milliseconds) {
         if (!milliseconds) {
             // bootstrap fade animation time is 250ms, so give this some more...  ;-)
@@ -37,7 +117,7 @@ export class E2EGlobal {
         return yyyy+"-"+mm+"-"+dd;
     };
 
-    static browserName () {
+    static browserName() {
         if (browser &&
             browser._original &&
             browser._original.desiredCapabilities &&
@@ -48,8 +128,32 @@ export class E2EGlobal {
         return "unknown";
     };
 
-    static browserIsPhantomJS () {
+    static browserIsPhantomJS() {
         return (E2EGlobal.browserName() === "phantomjs")
+    };
+
+    static isChrome() {
+        if (browser &&
+            browser.options &&
+            browser.options.desiredCapabilities) {
+            return browser.options.desiredCapabilities.browserName === 'chrome';
+        }
+        console.error("Error: Could not determine if the browser used is chrome!");
+        return false;
+    }
+
+    static isHeadless() {
+        if (browser &&
+            browser.options &&
+            browser.options.desiredCapabilities) {
+            return browser.options.desiredCapabilities.isHeadless;
+        }
+        console.error("Error: Could not determine headlessness of browser!");
+        return false;
+    }
+
+    static browserIsHeadlessChrome() {
+        return E2EGlobal.isChrome() && E2EGlobal.isHeadless();
     };
 
     static isCheckboxSelected(selector) {
@@ -68,6 +172,16 @@ export class E2EGlobal {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
         filename = (!filename) ? dateStr : dateStr + "_" + filename;
         browser.saveScreenshot('./tests/snapshots/' + filename + ".png");
+
+        const weAreOnTravis = !!process.env.TRAVIS;
+        if (weAreOnTravis) {
+            const baseUrl = 'http://4minitz2.s3.amazonaws.com/4minitz/4minitz/',
+                build = process.env.TRAVIS_BUILD_NUMBER || 1,
+                job = process.env.TRAVIS_JOB_NUMBER || 1,
+                url = baseUrl + '/' + build + '/' + job + '/tests/snapshots/' + filename + '.png';
+
+            console.log('Screenshot taken: ', url);
+        }
     }
 }
 

@@ -4,7 +4,7 @@ import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
-import '/imports/gitversioninfo'
+import '/imports/gitversioninfo';
 import '/imports/config/accounts';
 import '/imports/config/EMailTemplates';
 
@@ -15,15 +15,19 @@ import '/imports/collections/broadcastmessage_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import '/imports/collections/users_private';
 import '/imports/collections/userroles_private';
+import '/imports/collections/onlineusers_private';
 import '/server/ldap';
 import '/server/sendResetPasswordMail';
 import '/imports/statistics';
 import '/imports/collections/attachments_private';
+import '/imports/collections/documentgeneration_private';
+
+import '/imports/services/finalize-minutes/finalizer';
 
 import cron from 'node-cron';
 import importUsers from '/imports/ldap/import';
 
-handleDemoUserAccount = function () {
+let handleDemoUserAccount = function () {
     if (GlobalSettings.createDemoAccount()) {
         let demoUser = Meteor.users.findOne({$and: [{username: 'demo'}, {isDemoUser: true}]});
         if (!demoUser) {    // we don't have a demo user, but settings demand one

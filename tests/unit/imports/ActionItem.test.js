@@ -13,7 +13,10 @@ class MeteorError {}
 
 let Meteor = {
     call: sinon.stub(),
-    Error: MeteorError
+    Error: MeteorError,
+    user: () => {
+        return {username: 'unit-test'};
+    }
 };
 
 Helpers['@noCallThru'] = true;
@@ -23,6 +26,7 @@ const Random = {id: () => {}};
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/random': { Random, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
     '/imports/helpers/date': Helpers,

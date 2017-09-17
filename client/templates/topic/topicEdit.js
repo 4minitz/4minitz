@@ -1,4 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { _ } from 'meteor/underscore';
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
@@ -6,6 +9,7 @@ import { Label } from '/imports/label';
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
+import {createTopic} from './helpers/create-topic';
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -122,12 +126,9 @@ Template.topicEdit.events({
 
         topicDoc.subject = tmpl.find('#id_subject').value;
         topicDoc.responsibles = $('#id_selResponsible').val();
-
         topicDoc.labels = labels;
 
-        let aTopic = new Topic(_minutesID, topicDoc);
-        aTopic.extractLabelsFromTopic(aMinute.parentMeetingSeries());
-        aTopic.extractResponsiblesFromTopic();
+        const aTopic = createTopic(_minutesID, aSeries._id, topicDoc);
         aTopic.save().catch(handleError);
         $('#dlgAddTopic').modal('hide');
     },

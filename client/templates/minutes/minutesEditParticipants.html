@@ -12,8 +12,8 @@
                 Participants (& Informed)
             </label>
             {{#if isEditable}}
-                <a href="#" id="btnEditParticipants" class="pull-right" data-toggle="modal" data-target="#dlgEditMeetingSeries">
-                    <span class="glyphicon glyphicon-pencil grey-icon hidden-print"></span>
+                <a  id="btnEditParticipants" class="pull-right" data-toggle="modal" data-target="#dlgEditMeetingSeries">
+                    <span class="glyphicon glyphicon-cog grey-icon hidden-print" title="Edit invited users."></span>
                 </a>
             {{/if}}
         </div>
@@ -42,12 +42,11 @@
                         {{/if}}
                     {{/if}}
                     <div class = "{{switch2MultiColumn}}">
-                        {{#each participants}}
+                        {{#each participantsSorted}}
                         <div class="checkbox" id="id_participant">
                             <label>
-                                <!--With @index we transfer the array index to the checkbox event handler-->
                                 <input type="checkbox" class="checkbox"
-                                       name="present" id="btnTogglePresent" data-index="{{@index}}"
+                                       name="present" id="btnTogglePresent" data-userid="{{this.userId}}"
                                         {{checkedStatePresent}} {{disableUIControl}}>
                                 <span id="id_username" class="text-black">
                                     {{#if isModeratorOfParentSeries this.userId}}
@@ -56,6 +55,10 @@
                                         {{getUserDisplayName this.userId}}
                                     {{/if}}
                                 </span>
+                                {{#if isUserRemotelyConnected this.userId}}
+                                    <span class="glyphicon glyphicon-eye-open"
+                                          aria-hidden="true" title="This user is watching (remotely)"></span>
+                                {{/if}}
                             </label>
                         </div>
                         {{/each}}

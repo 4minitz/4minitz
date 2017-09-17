@@ -1,15 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
+import { Accounts } from 'meteor/accounts-base';
+import { check, Match } from 'meteor/check';
 
-import { User } from '/imports/users';
 import { AdminRegisterUserMailHandler } from '/imports/mail/AdminRegisterUserMailHandler';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 import { checkWithMsg } from '/imports/helpers/check';
 
 Meteor.methods({
     'users.saveSettings'(settings) {
-        const user = new User();
-
         const id = Meteor.userId();
         Meteor.users.update(id, { $set: {settings} });
         console.log(`saved settings for user ${id}: ${settings}`);
@@ -35,8 +33,25 @@ Meteor.methods({
         if (Meteor.user().isLDAPuser) {
             throw new Meteor.Error('LDAP-Users cannot change profile', 'LDAP-Users may not change their longname or their E-Mail-address');
         }
-        
+
+        const hasMailChanged = eMail !== Meteor.user().emails[0].address;
+
+        if (hasMailChanged){
+            let ifEmailExists = Meteor.users.findOne({'emails.0.address': eMail});
+            if (ifEmailExists !== undefined){
+                throw new Meteor.Error('Invalid E-Mail', 'E-Mail address already in use');
+            }
+        }
+
         Meteor.users.update(userId, {$set: {'emails.0.address': eMail, 'profile.name': longName}});
+
+        if (hasMailChanged) {
+            Meteor.users.update(userId, {$set: {'emails.0.verified': false}});
+            if (Meteor.isServer && Meteor.settings.public.sendVerificationEmail ) {
+                Accounts.sendVerificationEmail(Meteor.user());
+            }
+        }
+
     },
 
     'users.admin.changePassword'(userId, password1, password2) {

@@ -28,8 +28,8 @@ export class GlobalSettings {
                 : '4Minitz.com';
         Meteor.settings.public.branding.showGithubCorner =
             (Meteor.settings.branding && Meteor.settings.branding.showGithubCorner !== undefined)
-            ? Meteor.settings.branding.showGithubCorner
-            : true;
+                ? Meteor.settings.branding.showGithubCorner
+                : true;
         Meteor.settings.public.branding.showInfoOnLogin =
             (Meteor.settings.branding && Meteor.settings.branding.showInfoOnLogin !== undefined)
                 ? Meteor.settings.branding.showInfoOnLogin
@@ -65,6 +65,16 @@ export class GlobalSettings {
                 ? Meteor.settings.attachments.maxFileSize
                 : 10 * 1024 * 1024; // default: 10 MB
 
+        Meteor.settings.public.docGeneration = {};
+        Meteor.settings.public.docGeneration.enabled =
+            (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled !== undefined)
+                ? Meteor.settings.docGeneration.enabled
+                : false;
+        Meteor.settings.public.docGeneration.format = 
+            (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled !== undefined)
+                ? Meteor.settings.docGeneration.format
+                : 'html';
+
         Meteor.settings.public.forbidClientAccountCreation =
             (Meteor.settings.forbidClientAccountCreation !== undefined)
                 ? Meteor.settings.forbidClientAccountCreation
@@ -84,6 +94,8 @@ export class GlobalSettings {
             (Meteor.settings.email && Meteor.settings.email.showForgotPasswordLink !== undefined)
                 ? Meteor.settings.email.showForgotPasswordLink
                 : false;
+
+        Meteor.settings.public.isEnd2EndTest = Meteor.settings.isEnd2EndTest;
 
         // enforce slash "/" at the end
         if (Meteor.settings.attachments && Meteor.settings.attachments.storagePath) {
@@ -128,7 +140,7 @@ export class GlobalSettings {
 
     static getSiteName() {
         if (!Meteor.settings.siteName) {
-            return "4Minitz";
+            return '4Minitz';
         }
         return Meteor.settings.siteName;
     }

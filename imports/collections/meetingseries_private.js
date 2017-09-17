@@ -1,21 +1,41 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
+import { check } from 'meteor/check';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { Roles } from 'meteor/alanning:roles';
 import { UserRoles } from './../userroles';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { formatDateISO8601 } from '/imports/helpers/date';
-import {MeetingSeries} from "../meetingseries";
-import {RoleChangeMailHandler} from "../mail/RoleChangeMailHandler";
-import {UserRoles as userroles} from "../userroles";
+import {RoleChangeMailHandler} from '../mail/RoleChangeMailHandler';
 
 if (Meteor.isServer) {
-    Meteor.publish('meetingSeries', function meetingSeriesPublication() {
+    // this will publish a light-weighted overview of the meeting series, necessary for the meeting series list
+    Meteor.publish('meetingSeriesOverview', function meetingSeriesPublication() {
         return MeetingSeriesSchema.find(
-            {visibleFor: {$in: [this.userId]}});
+            {visibleFor: {$in: [this.userId]}},
+            {
+                fields: {
+                    'project' : 1,
+                    'name' : 1,
+                    'minutes' : 1,
+                    'lastMinutesDate' : 1,
+                    'lastMinutesFinalized' : 1,
+                    'lastMinutesId' : 1
+                }
+            }
+        );
     });
-}
-if (Meteor.isClient) {
-    Meteor.subscribe('meetingSeries');
+    
+    //this will publish the full information for a single meeting series 
+    Meteor.publish('meetingSeriesDetails', function meetingSeriesPublication(meetingSeriesId) {
+        if (meetingSeriesId) {
+            return MeetingSeriesSchema.find(
+                { $and: [{visibleFor: {$in: [this.userId]}}, {_id: meetingSeriesId}]});
+        }
+        
+        return this.ready();
+    });
+    
 }
 
 Meteor.methods({

@@ -19,7 +19,8 @@
                         </a>
                     {{/if}}
                     <h4 class="panel-title">
-                        <div class="checkbox" style="font-size: 110%;">
+                        <div class="checkbox" style="font-size: 110%;" data-toggle="tooltip"
+                             title="{{formateUpdatedHint infoItem.updatedAt infoItem.updatedBy}}">
                             <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
                                 {{#if isActionItem @index}}
                                     <input type="checkbox" class="checkbox btnToggleAIState" data-index="{{@index}}"
@@ -54,27 +55,27 @@
                             <!-- Manipulation Drop-Down Menu -->
                             <span class="pull-right pull-right-icons hidden-print">
                                 {{#unless isReadonly}}
-                                    <a href="#" id="btnItemDropdownMenu" class="panel-dropper dropdown-toggle"
+                                    <a  id="btnItemDropdownMenu" class="panel-dropper dropdown-toggle"
                                        data-toggle="dropdown">
                                         <span class="glyphicon glyphicon-option-vertical"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#" class="addDetail panel-link" title="Add details to item" data-index="{{@index}}">
+                                            <a  class="addDetail panel-link" title="Add details to item" data-index="{{@index}}">
                                                 <span class="glyphicon glyphicon-plus"></span>
                                                 Add Details
                                             </a>
                                         </li>
                                         <li class="divider"></li>
                                         <li>
-                                            <a href="#" class="btnEditInfoItem panel-link" title="Edit item" data-index="{{@index}}">
+                                            <a  class="btnEditInfoItem panel-link" title="Edit item" data-index="{{@index}}">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                                 Edit Item
                                             </a>
                                         </li>
                                         {{#if isInfoItem @index}}
                                             <li>
-                                                <a href="#" class="btnPinInfoItem panel-link"
+                                                <a  class="btnPinInfoItem panel-link"
                                                    data-index="{{@index}}"
                                                    title="{{#if infoItem.isSticky}}Set as non-pinned info item{{else}}Set as pinned info item{{/if}}">
                                                     <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
@@ -83,7 +84,7 @@
                                             </li>
                                         {{/if}}
                                         <li>
-                                            <a id="btnDelInfoItem" href="#" data-index="{{@index}}" class="panel-link" title="Delete item">
+                                            <a id="btnDelInfoItem"  data-index="{{@index}}" class="panel-link" title="Delete item">
                                                 <span class="glyphicon glyphicon-trash"></span>
                                                 Delete Item
                                             </a>
@@ -92,7 +93,7 @@
                                 {{/unless}}
 
                                 {{#if infoItem.isSticky}}
-                                    <a href="#" class="panel-link btnPinInfoItem" title="Set as unpinned info item" data-index="{{@index}}">
+                                    <a  class="panel-link btnPinInfoItem" title="Set as unpinned info item" data-index="{{@index}}">
                                         <span class="glyphicon glyphicon-pushpin sticky-item active-icon"></span>
                                     </a>
                                 {{/if}}
@@ -114,7 +115,10 @@
                             {{#each detailsArray itemIndex}}
                                 <div class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
                                     <div>
-                                        <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate"><strong>{{this.date}}</strong></label>
+                                        <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate">
+                                            <strong data-toggle="tooltip"
+                                                    title="{{formateUpdatedHint this.updatedAt this.updatedBy}}">{{this.date}}</strong>
+                                        </label>
                                         <span id="detailActions_{{itemId}}_{{@index}}"
                                               class="pull-right pull-right-icons detailActions"
                                               style="display: none;">
@@ -146,7 +150,7 @@
                             {{/each}}
                         {{/let}}
                         {{#unless isReadonly}}
-                            <a href="#" data-index="{{@index}}" class="addDetail hidden-print">Add details</a>
+                            <a  data-index="{{@index}}" class="addDetail hidden-print">Add details</a>
                         {{/unless}}
                     </div>
                 </div>

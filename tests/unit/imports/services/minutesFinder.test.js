@@ -37,7 +37,7 @@ describe('MinutesFinder', function() {
     let MeetingSeries;
 
     const setupNonEmptySeries = function () {
-        MinutesCollection.find.reset();
+        MinutesCollection.find.resetHistory();
         MinutesSchema.getCollection = _ => MinutesCollection;
 
         MeetingSeries = {
@@ -46,7 +46,7 @@ describe('MinutesFinder', function() {
     };
 
     const setupEmptySeries = function () {
-        MinutesCollection.find.reset();
+        MinutesCollection.find.resetHistory();
         MinutesSchema.getCollection = _ => EmptyMinutesCollection;
 
         MeetingSeries = {

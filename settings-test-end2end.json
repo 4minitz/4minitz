@@ -8,6 +8,7 @@
 
     "trustedIntranetInstallation": true,
     "forbidClientAccountCreation": false,
+    "updateCheck": false,
 
     "branding": {
         "legalNotice": {
@@ -75,13 +76,20 @@
 
     "ldap": {
         "enabled": true,
-        "searchDn": "cn",
+        "propertyMap": {
+            "username": "cn",
+            "longname": "cn",
+            "email": "mail"
+        },
         "searchFilter": "",
         "serverDn": "DC=example,DC=com",
         "serverUrl": "ldap://localhost:1389",
         "allowSelfSignedTLS": true,
         "whiteListedFields": [ "cn", "mail" ],
         "autopublishFields": [ "cn" ],
+        "inactiveUsers": {
+            "strategy": "userAccountControl"
+        },
         "importCronTab": "*/5 * * * *"
     },
 
@@ -107,5 +115,11 @@
         "denyExtensions":  "gif|exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
         "///": "maxFileSize:80000 allows upload of favicon.ico, but not mstile-310x150.png",
         "maxFileSize": 80000
-    }    
+    },
+
+  "docGeneration": { 
+        "enabled": true, 
+        "format": "html", 
+        "targetDocPath": "protocols_e2e"
+  }
 }

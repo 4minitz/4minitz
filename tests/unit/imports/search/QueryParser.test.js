@@ -1,7 +1,11 @@
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import _ from 'underscore';
+
+class MeteorError {}
+let Meteor = {
+    Error: MeteorError
+};
 
 const {
     ITEM_KEYWORDS
@@ -12,7 +16,8 @@ const {
 const {
     QueryParser
     } = proxyquire('../../../../imports/search/QueryParser', {
-    'meteor/underscore': { _, '@noCallThru': true}
+    'meteor/underscore': { _, '@noCallThru': true},
+    'meteor/meteor': { Meteor, '@noCallThru': true}
 });
 
 describe("QueryParser", function() {
@@ -69,6 +74,15 @@ describe("QueryParser", function() {
         expect(searchTokens).to.contain('world');
         expect(filterTokens).to.deep.contain({key: 'is', value: 'open', ids: []});
         expect(labelTokens).to.contain('my label');
+    });
+
+    it('identifies the due-keyword correctly', function() {
+        const QUERY = 'hello due:2017 world';
+        parser.parse(QUERY);
+
+        const filterTokens = parser.getFilterTokens();
+        expect(filterTokens, "should contain 1 filter tokens").to.have.length(1);
+        expect(filterTokens).to.deep.contain({key: 'due', value: '2017', ids: []});
     });
 
     it('can query if a specific keyword is set', function() {

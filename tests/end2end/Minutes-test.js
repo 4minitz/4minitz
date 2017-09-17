@@ -73,7 +73,7 @@ describe('Minutes', function () {
 
         // Now delete it!
         E2EMinutes.gotoMinutes(myDate);
-        browser.click("#btn_deleteMinutes");
+        E2EGlobal.clickWithRetry("#btn_deleteMinutes");
         E2EApp.confirmationDialogAnswer(true);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
@@ -95,7 +95,7 @@ describe('Minutes', function () {
 
         // Now trigger delete!
         E2EMinutes.gotoMinutes(myDate);
-        browser.click("#btn_deleteMinutes");
+        E2EGlobal.clickWithRetry("#btn_deleteMinutes");
         E2EApp.confirmationDialogAnswer(false);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
@@ -137,7 +137,7 @@ describe('Minutes', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
         browser.setValue('input[id="editGlobalNotes"]', aGlobalNote);
-        browser.click('#btnParticipantsExpand');
+        E2EGlobal.clickWithRetry('#btnParticipantsExpand');
 
         let result = browser.getValue('input[id="editGlobalNotes"]');
         expect(result).to.equal(aGlobalNote);
@@ -168,7 +168,7 @@ describe('Minutes', function () {
         E2ETopics.toggleTopic(1);
         E2ETopics.toggleTopic(2);
 
-        browser.click("#checkHideClosedTopicsLabel");
+        E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
 
@@ -182,21 +182,20 @@ describe('Minutes', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.finalizeCurrentMinutes();
-        let firstDate = E2EMinutes.getCurrentMinutesDate();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.finalizeCurrentMinutes();
-        let secondDate = E2EMinutes.getCurrentMinutesDate();
+        const secondDate = E2EMinutes.getCurrentMinutesDate();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-        let thirdDate = E2EMinutes.getCurrentMinutesDate();
+        const thirdDate = E2EMinutes.getCurrentMinutesDate();
         
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(3);
         
         E2EMinutes.gotoLatestMinutes();
-        browser.click("#btnPreviousMinutesNavigation");
+        E2EGlobal.clickWithRetry("#btnPreviousMinutesNavigation");
         let currentdate = E2EMinutes.getCurrentMinutesDate();
         expect(currentdate).to.equal(secondDate);
         
-        browser.click("#btnNextMinutesNavigation");
+        E2EGlobal.clickWithRetry("#btnNextMinutesNavigation");
         currentdate = E2EMinutes.getCurrentMinutesDate();
         expect(currentdate).to.equal(thirdDate);
     });
@@ -215,7 +214,7 @@ describe('Minutes', function () {
         E2ETopics.addTopicToMinutes("topic #3");
         E2ETopics.addTopicToMinutes("topic #4");
 
-        browser.click("#checkHideClosedTopicsLabel");
+        E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
         expect(E2ETopics.countTopicsForMinute()).to.equal(4);
 
         E2ETopics.toggleTopic(1);

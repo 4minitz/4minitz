@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
-import { bootstrapAttachementsLiveQuery } from '/imports/collections/attachments_private';
 import '/imports/config/accounts';
+import { $ } from 'meteor/jquery';
 
 // initialize
 //  * twitter bootstrap
@@ -54,6 +56,14 @@ $(document).arrive('input', {
     }
 });
 
+$(document).arrive('.clear-on-escape', function () {
+    $(this).keydown((event) => {
+        if(event.which === 27 /*ESC*/) {
+            $(this).val('');
+        }
+    });
+});
+
 // as soon as the document is loaded initialize material design
 $(document).ready(() => {
     $.material.checkboxOriginal = $.material.checkbox;
@@ -66,10 +76,14 @@ $(document).ready(() => {
     $.material.init();
 });
 
+// remove the modal dialog completely on route changes
+window.onpopstate = () => {
+    $('.modal-backdrop').remove();
+    $('.modal').hide();
+};
+
 Meteor.startup(() => {
     Meteor.call('gitVersionInfoUpdate');
-
-    bootstrapAttachementsLiveQuery();
 
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({
@@ -94,7 +108,7 @@ window.onbeforeunload = function (e) {
     let event = e || window.event;
 
     if(Meteor.status().connected) {
-        event.cancel();
+        return;
     }
 
     const message = 'Do you really want to leave 4Minitz?';

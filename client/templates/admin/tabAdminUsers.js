@@ -1,4 +1,4 @@
-
+import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -16,9 +16,9 @@ Template.tabAdminUsers.helpers({
         let filterString = _filterUsers.get();
         let filterOptions = filterString.length > 0
             ? {$or: [{'username': {$regex: filterString, $options: 'i'}},
-                     {'profile.name': {$regex: filterString, $options: 'i'}},
-                     {'emails.0.address': {$regex: filterString, $options: 'i'}},
-                     {'_id': {$regex: filterString, $options: 'i'}}]}
+                {'profile.name': {$regex: filterString, $options: 'i'}},
+                {'emails.0.address': {$regex: filterString, $options: 'i'}},
+                {'_id': {$regex: filterString, $options: 'i'}}]}
             : {};
         if (! _showInactive.get()) {
             filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]};
@@ -53,7 +53,7 @@ Template.tabAdminUsers.events({
         _filterUsers.set(filterString);
     },
 
-    'click #id_ToggleInactive'(evt, tmpl) {
+    'click #id_ToggleInactive'(evt) {
         evt.preventDefault();
         Meteor.call('users.admin.ToggleInactiveUser', this._id);
     },

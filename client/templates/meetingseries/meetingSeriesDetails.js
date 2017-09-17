@@ -1,4 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
@@ -8,6 +11,7 @@ import { UserRoles } from '/imports/userroles';
 
 import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
+import {TopicsFinder} from '../../../imports/services/topicsFinder';
 
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
@@ -19,9 +23,13 @@ Template.meetingSeriesDetails.onCreated(function () {
         _meetingSeriesID = FlowRouter.getParam('_id');
         this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
 
-        let subscriptionHandle = this.subscribe('meetingSeries', _meetingSeriesID);
-
-        this.seriesReady.set(subscriptionHandle.ready());
+        this.subscribe('meetingSeriesDetails', _meetingSeriesID);
+        this.subscribe('minutes', _meetingSeriesID);
+        this.subscribe('files.attachments.all', _meetingSeriesID); //Attachments have to be subscribed at this point, since each minute will show an icon indicating if they're containing attachments
+        // subscribe topics for this series, too. If we do this in the tabs templates directly
+        // the subscription will be un-subscribed and subscribed again when switching between both tabs.
+        this.subscribe('topics', _meetingSeriesID);
+        this.seriesReady.set(this.subscriptionsReady());
     });
 
     this.activeTabTemplate = new ReactiveVar('tabMinutesList');
@@ -63,9 +71,10 @@ Template.meetingSeriesDetails.helpers({
     },
 
     tabData: function() {
-        let tmpl = Template.instance();
-        let tab = tmpl.activeTabTemplate.get();
-        let ms = new MeetingSeries(_meetingSeriesID);
+        const tmpl = Template.instance();
+        const tab = tmpl.activeTabTemplate.get();
+        const ms = new MeetingSeries(_meetingSeriesID);
+        const topics = TopicsFinder.allTopicsOfMeetingSeries(_meetingSeriesID);
 
         switch (tab) {
         case 'tabMinutesList':
@@ -75,14 +84,14 @@ Template.meetingSeriesDetails.helpers({
             };
 
         case 'tabTopics':
-            {
-                return new TabTopicsConfig(ms.topics, _meetingSeriesID);
-            }
+        {
+            return new TabTopicsConfig(topics, _meetingSeriesID);
+        }
 
         case 'tabItems':
-            {
-                return new TabItemsConfig(ms.topics, _meetingSeriesID);
-            }
+        {
+            return new TabItemsConfig(topics, _meetingSeriesID);
+        }
 
         default: throw new Meteor.Error('illegal-state', 'Unknown tab: ' + tab);
         }

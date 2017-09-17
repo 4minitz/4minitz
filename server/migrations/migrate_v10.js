@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesFinder } from '/imports/services/minutesFinder';

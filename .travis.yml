@@ -1,4 +1,4 @@
-sudo: required
+dist: trusty
 language: node_js
 
 env:
@@ -7,11 +7,12 @@ env:
   matrix:
     - TEST="tests/end2end/Ac* tests/end2end/Ad* tests/end2end/I* tests/end2end/L* tests/end2end/U*"
     - TEST="tests/end2end/Mee*"
-    - TEST="tests/end2end/At* tests/end2end/Mi*"
+    - TEST="tests/end2end/At* tests/end2end/Mi* tests/end2end/P*"
     - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
     - TEST="unit"
 
 addons:
+  chrome: stable
   artifacts:
     # This uploads all headless screen shots generated with:
     #   browser.saveScreenshot("my-testcase");
@@ -42,7 +43,14 @@ node_js:
 
 before_install:
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp@0.45.0
+  - npm install -g chimp@0.49.0
+
+# we run chrome headless but we still need xvfb for keycode conversions
+# Error: unknown error: an X display is required for keycode conversions, consider using Xvfb
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
 
 script:
   - ./travis.sh "$TEST"

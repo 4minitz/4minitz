@@ -1,4 +1,5 @@
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Template } from 'meteor/templating';
 
 import { TopicsFilter } from '/imports/search/TopicsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -40,7 +41,7 @@ Template.tabTopics.onCreated(function() {
 Template.tabTopics.helpers({
 
     'getTopicFilterConfig': function() {
-        return new FilterControlConfig(Template.instance().topicFilterHandler, FILTERS);
+        return new FilterControlConfig(Template.instance().topicFilterHandler, FILTERS, TOPIC_KEYWORDS, 'Topic-Filter');
     },
 
     'topicViewData': function() {

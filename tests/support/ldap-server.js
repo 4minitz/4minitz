@@ -19,6 +19,34 @@ let users = [{
         cn: 'ldapUser2',
         mail: 'ldapUser2@example.com'
     }
+}, {
+    dn: 'cn=anotherLdapUser1,ou=germany,ou=europe,dc=example,dc=com',
+    password: 'ldapPwd',
+    attributes: {
+        objectclass: ['organization', 'top'],
+        o: 'example',
+        cn: 'anotherLdapUser1',
+        mail: 'anotherLdapUser1@example.com'
+    }
+}, {
+    dn: 'cn=anotherLdapUser2,ou=japan,ou=asia,dc=example,dc=com',
+    password: 'ldapPwd',
+    attributes: {
+        objectclass: ['organization', 'top'],
+        o: 'example',
+        cn: 'anotherLdapUser2',
+        mail: 'anotherLdapUser2@example.com'
+    }
+}, {
+  dn: 'cn=inactiveUser1,dc=example,dc=com',
+  password: 'ldapPwd',
+  attributes: {
+      objectclass: ['organization', 'top'],
+      userAccountControl: 514,
+      o: 'example',
+      cn: 'inactiveUser1',
+      mail: 'inactiveUser1@example.com'
+  }
 }];
 
 let server = ldap.createServer();
@@ -47,7 +75,7 @@ server.bind('dc=example,dc=com', function (req, res, next) {
     }
 
     if (matchingUsers.length == 0) {
-        return next(new ldap.NoSuchObjectError(db));
+        return next(new ldap.NoSuchObjectError(dn));
     }
 
     let user = matchingUsers[0];

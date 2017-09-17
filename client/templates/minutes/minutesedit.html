@@ -2,7 +2,7 @@
     {{#if authenticating}}
         {{> loading}}
     {{else}}
-        {{#if canShow}}
+        {{#if and canShow Template.subscriptionsReady}}
             {{!
                 This will not display any content instead it will check if the minute is linked to the parent series
                 and display an error message reactively.
@@ -51,6 +51,13 @@
                                     <span class="glyphicon glyphicon-print" aria-hidden="true"
                                           aria-label="Print View"></span>
                                 </button>
+                                {{#if isDocumentGenerationAllowed}}
+                                    <button type="button" id="btn_downloadMinutes" class="btn hidden-print"
+                                            title="Download Minutes">
+                                        <span class="glyphicon glyphicon-download" aria-hidden="true"
+                                              aria-label="Download Minutes"></span>
+                                    </button>
+                                {{/if}}
                             </div>
                         {{else}}  <!--NOT isFinalized-->
                             {{#if isModeratorOfParentSeries}}

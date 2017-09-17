@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 
 import { ItemsFilter } from './ItemsFilter';
@@ -65,30 +66,30 @@ export class TopicsFilter {
 
             switch (filter.key) {
             case TOPIC_KEYWORDS.IS.key:
-                {
-                    if (!this.constructor._docMatchesKeyword_IS(doc, filter.value)) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!this.constructor._docMatchesKeyword_IS(doc, filter.value)) {
+                    return false;
                 }
+                break;
+            }
             case TOPIC_KEYWORDS.HAS.key:
-                {
-                    if (!this._docMatchesKeyword_HAS(doc, filter.value)) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!this._docMatchesKeyword_HAS(doc, filter.value)) {
+                    return false;
                 }
+                break;
+            }
             case TOPIC_KEYWORDS.USER.key:
-                {
-                    if (!this._docMatchesKeywords_USER(doc, filter)) {
-                        return false;
-                    }
-                    break;
+            {
+                if (!this._docMatchesKeywords_USER(doc, filter)) {
+                    return false;
                 }
+                break;
+            }
             case TOPIC_KEYWORDS.DO.key:
-                {
-                    break;
-                }
+            {
+                break;
+            }
             default: throw new Meteor.Error('illegal-state', `Unknown filter keyword: ${filter.key}`);
             }
         }
@@ -109,7 +110,7 @@ export class TopicsFilter {
         case 'open':
             return doc.isOpen;
         case 'closed':
-                // explicit comparison required to skip info items (which has no isOpen property)
+            // explicit comparison required to skip info items (which has no isOpen property)
             return doc.isOpen === false;
         case 'new':
             return doc.isNew;
@@ -123,16 +124,16 @@ export class TopicsFilter {
             return doc.infoItems.length > 0;
         case 'info':
         case 'action':
-            {
-                let items = this.itemsFilter.filterWithParams(
-                    doc.infoItems,
-                    this.isCaseSensitive,
-                    [],
-                    [],
-                    [{key: 'is', value: value}]);
-                return items.length > 0;
-            }
-        default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${filter.value}`);
+        {
+            let items = this.itemsFilter.filterWithParams(
+                doc.infoItems,
+                this.isCaseSensitive,
+                [],
+                [],
+                [{key: 'is', value: value}]);
+            return items.length > 0;
+        }
+        default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
         }
     }
 

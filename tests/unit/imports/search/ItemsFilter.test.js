@@ -1,7 +1,11 @@
 import { expect } from 'chai';
 import proxyquire from 'proxyquire';
-import sinon from 'sinon';
 import _ from 'underscore';
+
+class MeteorError {}
+let Meteor = {
+    Error: MeteorError
+};
 
 const {
     ITEM_KEYWORDS
@@ -13,6 +17,7 @@ const {
     ItemsFilter
     } = proxyquire('../../../../imports/search/ItemsFilter', {
     'meteor/underscore': { _, '@noCallThru': true},
+    'meteor/meteor': { Meteor, '@noCallThru': true},
     './FilterKeywords': { ITEM_KEYWORDS, '@noCallThru': true}
 });
 
@@ -30,11 +35,11 @@ describe('ItemsFilter', function() {
             {subject: "one.two", labels: [], itemType: 'actionItem', isOpen:true},
             {subject: "two.one", labels: ['L1'], itemType: 'infoItem'},
             {subject: "two.two", labels: [], itemType: 'infoItem'},
-            {subject: "two.three", labels: ['L1'], itemType: 'actionItem', isOpen:true},
+            {subject: "two.three", labels: ['L1'], itemType: 'actionItem', isOpen:true, duedate: '2017-06-09'},
             {subject: "three.one", labels: [], itemType: 'infoItem'},
             {subject: "three.two", labels: [], itemType: 'infoItem'},
             {subject: "three.three", labels: [], itemType: 'infoItem'},
-            {subject: "three.four", labels: [], itemType: 'actionItem', isOpen:false}
+            {subject: "three.four", labels: [], itemType: 'actionItem', isOpen:false, duedate: '2017-05-30'}
         ];
     });
 
@@ -109,6 +114,13 @@ describe('ItemsFilter', function() {
         let res2 = itemsFilter.filter(items, parser);
 
         expect(res2, "The order of the filter tokens should not matter").have.length(2);
+    });
+
+    it('can filter items depending on their due date', function() {
+        parser.filterTokens.push({key: 'due', value: '2017-'});
+        let res = itemsFilter.filter(items, parser);
+
+        expect(res, "Length of the result items array should be 2").have.length(2);
     });
 
 });

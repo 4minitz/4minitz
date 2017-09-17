@@ -28,10 +28,15 @@ let MinutesFinder = {
         return this.nextMinutesResult[minutes._id];
     }
 };
+class MeteorError {}
+let Meteor = {
+    Error: MeteorError
+};
 
 const {
         MigrateV10
     } = proxyquire('../../../../server/migrations/migrate_v10', {
+        'meteor/meteor': { Meteor, '@noCallThru': true},
         '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
         '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
         '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}

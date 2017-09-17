@@ -20,25 +20,42 @@ before(function() {
             throw e;
         }
     };
+
     // We refactor the browser.waitForVisible() method to save a screenshot
     // with a unique ID if waitForVisible() fails.
     browser.waitForVisible_org = browser.waitForVisible;
-    browser.waitForVisible = function (...args) {
+    browser.waitForVisible = function (selector, timeout = 10000, ...args) {
         try {
-            browser.waitForVisible_org(...args);
+            browser.waitForVisible_org(selector, timeout, ...args);
         } catch (e) {
             let id = Math.random().toString(36).substr(2, 5);
-            console.log(`browser.waitForVisible() target "${args[0]}" not found - see screenshot with ID: ${id}`);
+            console.log(`browser.waitForVisible() target "${selector}" not found - see screenshot with ID: ${id}`);
             E2EGlobal.saveScreenshot(`waitForVisible-error_${id}`);
             throw e;
         }
     };
 
+    // We refactor the browser.click() method to save a screenshot
+    // with a unique ID if click() fails.
+    browser.elementIdClick_org = browser.elementIdClick;
+    browser.elementIdClick = function (...args) {
+        try {
+            browser.elementIdClick_org(...args);
+        } catch (e) {
+            let id = Math.random().toString(36).substr(2, 5);
+            console.log(`browser.elementIdClick() target "${args[0]}" not found - see screenshot with ID: ${id}`);
+            E2EGlobal.saveScreenshot(`clickId-error_${id}`);
+            throw e;
+        }
+    };
+
     // Some E2E tests run more robust on "large" width screen
-    browser.setViewportSize({
-        width: 1024,
-        height: browser.getViewportSize("height")
-    });
+    if (E2EGlobal.browserIsPhantomJS()) {
+        browser.setViewportSize({
+            width: 1024,
+            height: browser.getViewportSize("height")
+        });
+    }
 
     E2EApp.resetMyApp();
     E2EApp.launchApp();

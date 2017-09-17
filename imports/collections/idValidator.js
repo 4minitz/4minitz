@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { Validator } from 'meteor/jagi:astronomy';
-import { Match } from 'meteor/check';
 
 const regExId = /^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{17}$/;
 

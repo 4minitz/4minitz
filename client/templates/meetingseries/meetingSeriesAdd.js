@@ -1,4 +1,6 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { MeetingSeries } from '/imports/meetingseries';
 import { handleError } from '/client/helpers/handleError';
@@ -39,7 +41,10 @@ function addMeetingSeries(template, optimisticUICallback) {
 Template.meetingSeriesAdd.helpers({
     isExpanded: function () {
         return Session.get('meetingSeriesAdd.isExpanded');
-    }
+    },
+    meetingSeriesAmountBiggerFour: function () {
+        return MeetingSeries.find().count() > 4;
+    },
 });
 
 Template.meetingSeriesAdd.events({
@@ -68,5 +73,5 @@ Template.meetingSeriesAdd.events({
         tmpl.find('#id_meetingproject').focus();
         Session.set('meetingSeriesAdd.isExpanded', true);
         document.addEventListener('keyup', escapeHandler);
-    }
+    },
 });

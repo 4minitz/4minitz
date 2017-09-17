@@ -28,8 +28,10 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
         return '';
     }
 
-    const serverDn = Meteor.settings.ldap.serverDn;
-    const searchDn = Meteor.settings.ldap.searchDn;
+    const ldapSettings = Meteor.settings.ldap || {},
+        serverDn = ldapSettings.serverDn,
+        propertyMap = ldapSettings.propertyMap || {},
+        searchDn = ldapSettings.searchDn || propertyMap.username;
 
     if (!serverDn || !searchDn) {
         return '';
@@ -41,9 +43,15 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
     // If users have been imported with importUsers.js and "isInactivePredicate" was used to
     // make some users isInactive==true - we stop them from logging in here.
     if (Meteor && Meteor.users) {   // skip this during unit tests
-        let checkUserInactive = Meteor.users.findOne({username: usernameOrEmail});
-        if (checkUserInactive && checkUserInactive.isInactive) {
+        const uid = username.toLowerCase(),
+            user = Meteor.users.findOne({username: uid});
+
+        if (user && user.isInactive) {
             throw new Meteor.Error(403, 'User is inactive');
+        }
+
+        if (user && user.profile && user.profile.dn) {
+            return user.profile.dn;
         }
     }
 
@@ -55,7 +63,9 @@ LDAP.filter = function (isEmailAddress, usernameOrEmail) {
         return '';
     }
 
-    const searchField = Meteor.settings.ldap.searchDn;
+    const ldapSettings = Meteor.settings.ldap || {},
+        propertyMap = ldapSettings.propertyMap || {},
+        searchField = ldapSettings.searchDn || propertyMap.username;
 
     if (!searchField) {
         return '';
@@ -78,7 +88,7 @@ LDAP.addFields = function (/*person - the ldap entry for that user*/) {
 
 // Called after successful LDAP sign in
 if (LDAP.onSignIn) {    // not available in unit test environment
-    LDAP.onSignIn(function (userDocument, userData, ldapEntry) {
+    LDAP.onSignIn(function (userDocument) {
         Meteor.users.update({_id: userDocument._id}, {$set: {isLDAPuser: true}});
     });
 }

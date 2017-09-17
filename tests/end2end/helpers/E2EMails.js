@@ -1,4 +1,4 @@
-
+import {E2EGlobal} from './E2EGlobal';
 
 export class E2EMails {
 
@@ -7,6 +7,7 @@ export class E2EMails {
     }
 
     static getAllSentMails() {
+        E2EGlobal.waitSomeTime(700);
         return server.call('e2e.findSentMails');
     }
 

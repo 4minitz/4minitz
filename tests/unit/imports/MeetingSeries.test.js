@@ -23,10 +23,16 @@ let MinutesFinder = {
 DateHelpers['@noCallThru'] = true;
 SubElements['@noCallThru'] = true;
 
+const Random = {id: () => {}};
+const jQuery = {};
+const TopicsFinder = {};
+
 const {
     MeetingSeries
 } = proxyquire('../../../imports/meetingseries', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    'meteor/random': { Random, '@noCallThru': true},
+    'meteor/jquery': { jQuery, '@noCallThru': true},
     './collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true},
     './collections/meetingseries_private': { MeetingSeriesSchema, '@noCallThru': true},
     './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
@@ -36,6 +42,7 @@ const {
     '/imports/helpers/date': DateHelpers,
     '/imports/helpers/subElements': SubElements,
     'meteor/underscore': { _, '@noCallThru': true},
+    './services/topicsFinder': { TopicsFinder, '@noCallThru': true},
     '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true}
 });
 

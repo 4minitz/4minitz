@@ -1,8 +1,4 @@
-
-import { E2EGlobal } from './E2EGlobal'
-import { E2EApp } from './E2EApp'
-import { E2EMeetingSeries } from './E2EMeetingSeries'
-
+import {E2EGlobal} from './E2EGlobal';
 
 export class E2EMinutesParticipants {
     
@@ -14,6 +10,7 @@ export class E2EMinutesParticipants {
 
     // ******************** STATIC Methods
     static isExpanded() {
+        E2EGlobal.waitSomeTime(750);
         return browser.isExisting("#edtParticipantsAdditional");
     }
 
@@ -23,13 +20,17 @@ export class E2EMinutesParticipants {
 
     static expand() {
         if (E2EMinutesParticipants.isCollapsed()) {
-            browser.click("#btnParticipantsExpand");
+            E2EGlobal.clickWithRetry("#btnParticipantsExpand");
+            browser.waitForVisible('#id_participants');
         }
     }
 
     static collapse() {
         if (E2EMinutesParticipants.isExpanded()) {
-            browser.click("#btnParticipantsExpand");
+            E2EGlobal.clickWithRetry("#btnParticipantsExpand");
+
+            const waitForInvisible = true;
+            browser.waitForVisible('#id_participants', 10000, waitForInvisible);
         }
     }
 
@@ -104,6 +105,7 @@ export class E2EMinutesParticipants {
     setUserPresence(username, presence) {
         let currentSelectState = browser.elementIdSelected(this._participantsAndPresence[username].checkboxElemId).value;
         if (currentSelectState != presence) {
+            browser.scroll('#id_participants');
             browser.elementIdClick(this._participantsAndPresence[username].userElemId)
         }
         this.updateUsersAndPresence();

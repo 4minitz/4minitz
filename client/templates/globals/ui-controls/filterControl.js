@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import {ConfirmationDialogFactory} from '../../../helpers/confirmationDialogFactory';
 
 export class FilterControlConfig {
 
@@ -13,10 +15,14 @@ export class FilterControlConfig {
      *
      * @param {FilterCallback} callback - The callback triggered after the search query has changed
      * @param filters
+     * @param filterKeywords
+     * @param filterName
      */
-    constructor(callback, filters) {
+    constructor(callback, filters, filterKeywords, filterName) {
         this.callback = callback;
         this.filters = filters;
+        this.filterKeywords = filterKeywords;
+        this.filterName = filterName;
     }
 }
 
@@ -109,5 +115,28 @@ Template.filterControl.events({
         );
         performSearch(input.value, tmpl);
         focusInputField(tmpl);
+    },
+
+    'click #filter-usage': function(evt, tmpl) {
+        evt.preventDefault();
+        const keywords = tmpl.data.config.filterKeywords;
+        const keywordArray = Object.keys(keywords)
+            .filter(key => (typeof keywords[key] !== 'function'))
+            .map(key => {
+                const object = keywords[key];
+                if (object.values === '*') {
+                    object.values = 'any text';
+                }
+                return object;
+            });
+        ConfirmationDialogFactory
+            .makeInfoDialog(`Usage for ${tmpl.data.config.filterName}`)
+            .setTemplate(
+                'filterUsage',
+                {
+                    keywords: keywordArray
+                }
+            )
+            .show();
     }
 });

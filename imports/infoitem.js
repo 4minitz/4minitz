@@ -1,14 +1,14 @@
-import { Label } from './label';
-import { _ } from 'meteor/underscore';
-import { formatDateISO8601 } from '/imports/helpers/date';
-import { Random } from 'meteor/random';
-
 /**
  * A InfoItem is a sub-element of
  * a topic which has a subject,
  * a date when is was created
  * and a list of associated tags.
  */
+import { Meteor } from 'meteor/meteor';
+import { _ } from 'meteor/underscore';
+import { formatDateISO8601 } from '/imports/helpers/date';
+import { Random } from 'meteor/random';
+
 export class InfoItem {
 
     constructor(parentTopic, source) {
@@ -88,6 +88,10 @@ export class InfoItem {
         this._infoItemDoc.details.push({
             _id: Random.id(),
             createdInMinute: minuteId,
+            createdAt: new Date(),
+            createdBy: Meteor.user().username,
+            updatedAt: new Date(),
+            updatedBy: Meteor.user().username,
             date: date,
             text: text
         });
@@ -103,9 +107,10 @@ export class InfoItem {
                 'to delete an element');
         }
         if (text !== this._infoItemDoc.details[index].text){
-            let date = formatDateISO8601(new Date());
-            this._infoItemDoc.details[index].date = date;
+            this._infoItemDoc.details[index].date = formatDateISO8601(new Date());
             this._infoItemDoc.details[index].text = text;
+            this._infoItemDoc.details[index].updatedAt = new Date();
+            this._infoItemDoc.details[index].updatedBy = Meteor.user().username;
         }
     }
 
@@ -118,7 +123,7 @@ export class InfoItem {
     }
 
     getDetailsAt(index) {
-        if (!this._infoItemDoc.details || index < 0 || index >= this._infoItemDoc.details.length) {
+        if (!this._infoItemDoc.details || index < 0 || index >= this._infoItemDoc.details.length) {
             throw new Meteor.Error('index-out-of-bounds');
         }
 
@@ -138,6 +143,12 @@ export class InfoItem {
 
     async saveAsync() {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
+        if (!this._infoItemDoc._id) { // it is a new one
+            this._infoItemDoc.createdAt = new Date();
+            this._infoItemDoc.createdBy = Meteor.user().username;
+        }
+        this._infoItemDoc.updatedAt = new Date();
+        this._infoItemDoc.updatedBy = Meteor.user().username;
         this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(this._infoItemDoc);
     }
 
@@ -153,27 +164,20 @@ export class InfoItem {
         return this._infoItemDoc;
     }
 
-    getLabels(meetingSeriesId) {
-        this._infoItemDoc.labels = this.getLabelsRawArray().filter(labelId => {
-            return (null !== Label.createLabelById(meetingSeriesId, labelId));
-        });
-
-        return this.getLabelsRawArray().map(labelId => {
-            return Label.createLabelById(meetingSeriesId, labelId);
-
-        });
+    setSubject(newSubject) {
+        this._infoItemDoc.subject = newSubject;
     }
 
-    addLabelByName(labelName, meetingSeriesId) {
-        let label = Label.createLabelByName(meetingSeriesId, labelName);
-        if (null === label) {
-            label = new Label({name: labelName});
-            label.save(meetingSeriesId);
-        }
-
-        if (!this.hasLabelWithId(label.getId())) {
-            this._infoItemDoc.labels.push(label.getId());
-        }
+    /**
+     *
+     * @param labelIds {string[]}
+     */
+    addLabelsById(labelIds) {
+        labelIds.forEach(id => {
+            if (!this.hasLabelWithId(id)) {
+                this._infoItemDoc.labels.push(id);
+            }
+        });
     }
 
     hasLabelWithId(labelId) {
@@ -199,23 +203,6 @@ export class InfoItem {
 
     log () {
         console.log(this.toString());
-    }
-
-    extractLabelsFromSubject(meetingSeriesId) {
-        const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
-        let match;
-
-        while(match = regEx.exec(this._infoItemDoc.subject)) {
-            let labelName = match[2];
-            this.addLabelByName(labelName, meetingSeriesId);
-            this._removeLabelFromSubject(labelName);
-        }
-    }
-
-    _removeLabelFromSubject(labelName) {
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace('#' + labelName + ' ', '');
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace(' #' + labelName, '');
-        this._infoItemDoc.subject = this._infoItemDoc.subject.replace('#' + labelName, '');
     }
 
 }

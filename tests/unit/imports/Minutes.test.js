@@ -6,8 +6,6 @@ import * as Helpers from '../../../imports/helpers/date';
 import * as EmailHelpers from '../../../imports/helpers/email';
 import * as SubElements from '../../../imports/helpers/subElements';
 
-require('sinon-as-promised');
-
 let MinutesSchema = {
     find: sinon.stub(),
     findOne: sinon.stub()
@@ -26,13 +24,13 @@ let Meteor = {
 let PromisedMethods = {};
 
 let isCurrentUserModeratorStub = sinon.stub();
-let updateLastMinutesDateStub = sinon.stub();
-let updateLastMinutesDateAsyncStub = sinon.stub().resolves(true);
+let updateLastMinutesFieldsStub = sinon.stub();
+let updateLastMinutesFieldsAsyncStub = sinon.stub().resolves(true);
 let MeetingSeries = function(seriesId) {
     this._id = seriesId;
     this.isCurrentUserModerator = isCurrentUserModeratorStub;
-    this.updateLastMinutesDate = updateLastMinutesDateStub;
-    this.updateLastMinutesDateAsync = updateLastMinutesDateAsyncStub;
+    this.updateLastMinutesFields = updateLastMinutesFieldsStub;
+    this.updateLastMinutesFieldsAsync = updateLastMinutesFieldsAsyncStub;
 };
 
 let topicGetOpenActionItemsStub = sinon.stub().returns([]);
@@ -47,13 +45,14 @@ let ActionItem = function (topic, doc) {
 };
 
 
-Helpers['@noCallThru'] = true;
 SubElements['@noCallThru'] = true;
 EmailHelpers['@noCallThru'] = true;
+const Random = {id: () => {}};
 const {
     Minutes
     } = proxyquire('../../../imports/minutes', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    'meteor/random': { Random, '@noCallThru': true},
     './collections/minutes_private': { MinutesSchema, '@noCallThru': true},
     './collections/minutes.schema': { MinutesSchema, '@noCallThru': true},
     './collections/workflow_private': { "null": null, '@noCallThru': true},
@@ -61,7 +60,6 @@ const {
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
     './actionitem': { ActionItem, '@noCallThru': true},
-    '/imports/helpers/date': Helpers,
     '/imports/helpers/email': EmailHelpers,
     '/imports/helpers/subElements': SubElements,
     'meteor/underscore': { _, '@noCallThru': true}
@@ -87,13 +85,13 @@ describe('Minutes', function () {
     });
 
     afterEach(function () {
-        MinutesSchema.find.reset();
-        MinutesSchema.findOne.reset();
-        Meteor.call.reset();
-        Meteor.callPromise.reset();
-        isCurrentUserModeratorStub.reset();
-        updateLastMinutesDateStub.reset();
-        topicGetOpenActionItemsStub.reset();
+        MinutesSchema.find.resetHistory();
+        MinutesSchema.findOne.resetHistory();
+        Meteor.call.resetHistory();
+        Meteor.callPromise.resetHistory();
+        isCurrentUserModeratorStub.resetHistory();
+        updateLastMinutesFieldsStub.resetHistory();
+        topicGetOpenActionItemsStub.resetHistory();
     });
 
     describe('#constructor', function () {
@@ -192,7 +190,7 @@ describe('Minutes', function () {
 
     });
 
-    describe('#syncVisibility', function () {
+    describe('#syncVisibilityAndParticipants', function () {
 
         let visibleForArray, parentSeriesId;
 
@@ -204,14 +202,14 @@ describe('Minutes', function () {
             parentSeriesId = minute.meetingSeries_id;
         });
 
-        it('calls the meteor method minutes.syncVisibility', function () {
+        it('calls the meteor method minutes.syncVisibilityAndParticipants', function () {
             Minutes.syncVisibility(parentSeriesId, visibleForArray);
             expect(Meteor.callPromise.calledOnce).to.be.true;
         });
 
-        it('sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibility', function () {
+        it('sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibilityAndParticipants', function () {
             Minutes.syncVisibility(parentSeriesId, visibleForArray);
-            expect(Meteor.callPromise.calledWithExactly('minutes.syncVisibility', parentSeriesId, visibleForArray)).to.be.true;
+            expect(Meteor.callPromise.calledWithExactly('minutes.syncVisibilityAndParticipants', parentSeriesId, visibleForArray)).to.be.true;
         });
 
     });
@@ -444,38 +442,6 @@ describe('Minutes', function () {
             let sentDoc = callArgs[1];
             expect(callArgs[1], 'minutes id should be sent to the meteor method').to.equal(minutesDoc._id);
             expect(callArgs[2], 'topic-doc should be sent to the meteor method').to.equal(topicDoc);
-        });
-
-    });
-
-    describe('#finalize', function () {
-
-        it('calls the meteor method workflow.finalizeMinute', function() {
-            minute.finalize();
-
-            expect(Meteor.callPromise.calledOnce).to.be.true;
-        });
-
-        it('sends the id to the meteor method workflow.finalizeMinute', function () {
-            minute.finalize();
-
-            expect(Meteor.callPromise.calledWith('workflow.finalizeMinute', minutesDoc._id)).to.be.true;
-        });
-
-    });
-
-    describe('#unfinalize', function () {
-
-        it('calls the meteor method workflow.unfinalizeMinute', function() {
-            minute.unfinalize();
-
-            expect(Meteor.callPromise.calledOnce).to.be.true;
-        });
-
-        it('sends the id to the meteor method workflow.unfinalizeMinute', function () {
-            minute.unfinalize();
-
-            expect(Meteor.callPromise.calledWithExactly('workflow.unfinalizeMinute', minutesDoc._id)).to.be.true;
         });
 
     });

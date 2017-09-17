@@ -1,9 +1,16 @@
 import { Minutes } from '/imports/minutes';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { $ } from 'meteor/jquery';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { TopicInfoItemListContext } from './topicInfoItemList';
+import {LabelResolver} from '../../../imports/services/labelResolver';
+import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 
 let _minutesId;
 
@@ -24,9 +31,7 @@ Template.topicElement.onCreated(function () {
 Template.topicElement.helpers({
     getLabels: function() {
         let tmplData = Template.instance().data;
-        let parentElement = (tmplData.minutesID) ? tmplData.minutesID : tmplData.parentMeetingSeriesId;
-        let aTopic = new Topic(parentElement, this.topic._id);
-        return aTopic.getLabels(tmplData.parentMeetingSeriesId)
+        return LabelResolver.resolveLabels(this.topic.labels, tmplData.parentMeetingSeriesId)
             .map(labelObj => {
                 let doc = labelObj.getDocument();
                 doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
@@ -62,12 +67,8 @@ Template.topicElement.helpers({
 
     responsiblesHelper() {
         try {
-            let parentElement = (this.minutesID) ? this.minutesID : this.parentMeetingSeriesId;
-
-            let aTopic = new Topic(parentElement, this.topic._id);
-            if (aTopic.hasResponsibles()) {
-                return '('+aTopic.getResponsiblesString()+')';
-            }
+            const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(this.topic.responsibles);
+            return (responsible) ? `(${responsible})` : '';
         } catch (e) {
             // intentionally left blank.
             // on deletion of a topic blaze once calls this method on the just deleted topic

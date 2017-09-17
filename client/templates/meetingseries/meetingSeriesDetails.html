@@ -11,21 +11,22 @@
                 <span class="hidden-xs">Meeting Series:</span>
                 {{project}} - {{name}}
                 {{#if isModerator}}
-                    <a href="#" data-toggle="modal" data-target="#dlgEditMeetingSeries"
+                    <a  data-toggle="modal" data-target="#dlgEditMeetingSeries"
                        id="btnEditMeetingSeries"
                        class="pull-right"
                        title="Configure Meeting Series">
 
-                        <span class="glyphicon glyphicon-cog" aria-hidden="true" aria-label="Edit Meeting Series"></span>
+                        <span class="glyphicon glyphicon-cog" title="Edit meeting series attributes."
+                              aria-hidden="true" aria-label="Edit Meeting Series"></span>
                     </a>
                 {{/if}}
             </h2>
         {{/with}}
 
         <ul class="nav nav-tabs">
-            <li id="tab_minutes" data-template="tabMinutesList" role="presentation" class="{{isTabActive 'tab_minutes'}}"><a href="#">Minutes</a></li>
-            <li id="tab_topics" data-template="tabTopics" data-action="topics" role="presentation" class="{{isTabActive 'tab_topics'}}"><a href="#">Topics</a></li>
-            <li id="tab_items" data-template="tabItems" data-action="items" role="presentation" class="{{isTabActive 'tab_items'}}"><a href="#">Items</a></li>
+            <li id="tab_minutes" data-template="tabMinutesList" role="presentation" class="{{isTabActive 'tab_minutes'}}"><a >Minutes</a></li>
+            <li id="tab_topics" data-template="tabTopics" data-action="topics" role="presentation" class="{{isTabActive 'tab_topics'}}"><a >Topics</a></li>
+            <li id="tab_items" data-template="tabItems" data-action="items" role="presentation" class="{{isTabActive 'tab_items'}}"><a >Items</a></li>
         </ul>
         <div class="active">
             {{> Template.dynamic template=tab data=tabData}}

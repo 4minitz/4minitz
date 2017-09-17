@@ -1,4 +1,3 @@
-
 import { E2EGlobal } from './E2EGlobal'
 import { E2EMeetingSeries } from './E2EMeetingSeries'
 
@@ -13,11 +12,11 @@ export class E2EMeetingSeriesEditor {
 
         // Open dialog
         browser.waitForVisible('#btnEditMeetingSeries', 1000);
-        browser.click('#btnEditMeetingSeries');
-        E2EGlobal.waitSomeTime(750); // give dialog animation time
+        E2EGlobal.clickWithRetry('#btnEditMeetingSeries', 3000);
+
         // Check if dialog is there?
-        browser.waitForVisible('#btnMeetingSeriesSave', 1000);
-        browser.click("#btnShowHideBaseConfig");
+        browser.waitForVisible('#btnMeetingSeriesSave', 3000);
+        E2EGlobal.clickWithRetry("#btnShowHideBaseConfig", 3000);
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
         if (panelName && panelName != "base") {
@@ -31,7 +30,7 @@ export class E2EMeetingSeriesEditor {
                 throw "Unsupported panelName: " + panelName;
             }
             browser.waitForExist(panelSelector);
-            browser.click(panelSelector);
+            E2EGlobal.clickWithRetry(panelSelector);
             E2EGlobal.waitSomeTime();  // wait for panel animation
         }
     };
@@ -42,14 +41,19 @@ export class E2EMeetingSeriesEditor {
         browser.keys(['Enter']);
 
         if (role) {
-            let selector = "select.user-role-select";
+            //Get Index of user's row in table
+            let index = browser.execute((username) => {
+                return $("tr:contains('" + username + "')").index();
+            }, username).value;
+            index += 1; //increase by one since nth-child will start by 1 whereas index starts by 0
+            let selector = "tr:nth-child(" + index + ")" + ' select.user-role-select';
             browser.selectByValue(selector, role);
         }
     };
 
     static closeMeetingSeriesEditor(save = true) {
         let selector = (save) ? '#btnMeetingSeriesSave' : '#btnMeetinSeriesEditCancel';
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
         E2EGlobal.waitSomeTime(save ? 750 : 300);
     }
 
@@ -132,7 +136,7 @@ export class E2EMeetingSeriesEditor {
         let selLabelRow = '#row-label-' + labelId;
 
         // open label editor for labelId
-        browser.click(selLabelRow + ' .evt-btn-edit-label');
+        E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-label');
 
         browser.setValue(selLabelRow + " [name='labelName']", newLabelName);
         if (newLabelColor) {
@@ -140,7 +144,7 @@ export class E2EMeetingSeriesEditor {
         }
 
         if (autoSaveLabelChange) {
-            browser.click(selLabelRow + ' .evt-btn-edit-save');
+            E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-save');
 
             E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
         }
@@ -163,7 +167,7 @@ export class E2EMeetingSeriesEditor {
 
     static disableEmailForRoleChange() {
         browser.waitForVisible('#labelRoleChange');
-        browser.click('#labelRoleChange');
+        E2EGlobal.clickWithRetry('#labelRoleChange');
     }
 
 

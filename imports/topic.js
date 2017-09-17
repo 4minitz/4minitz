@@ -1,11 +1,14 @@
+/**
+ * A Topic is an Agenda Topic which can
+ * have multiple sub-items called InfoItem.
+ */
 import { Meteor } from 'meteor/meteor';
-
+import { Random } from 'meteor/random';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { Minutes } from './minutes';
 import { MeetingSeries } from './meetingseries';
 import { InfoItemFactory } from './InfoItemFactory';
 import { InfoItem } from './infoitem';
-import { Label } from './label';
 import { _ } from 'meteor/underscore';
 
 import './helpers/promisedMethods';
@@ -50,10 +53,6 @@ function resolveTopic(parentElement, source) {
     return source;
 }
 
-/**
- * A Topic is an Agenda Topic which can
- * have multiple sub-items called InfoItem.
- */
 export class Topic {
 
     /**
@@ -118,39 +117,6 @@ export class Topic {
         this._topicDoc.infoItems.forEach(infoItemDoc => {
             let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
             infoItem.invalidateIsNewFlag();
-        });
-    }
-
-    /**
-     * Merges all changes of the updateTopicDoc
-     * into the current topic doc.
-     * This means:
-     *  - overwrite the simple properties (subject, responsible)
-     *  - add new InfoItems / AIs
-     *  - update existing InfoItems / AIs
-     *  - delete sticky items which where deleted within the updateTopicDoc
-     *
-     * @param updateTopicDoc
-     */
-    merge(updateTopicDoc) {
-        this._overwritePrimitiveProperties(updateTopicDoc);
-        let myTopicDoc = this._topicDoc;
-
-        // loop backwards through topic items
-        for (let i = updateTopicDoc.infoItems.length; i-- > 0;) {
-            let infoDoc = updateTopicDoc.infoItems[i];
-            this.upsertInfoItem(infoDoc, false);
-        }
-
-        // delete all sticky items listed in the this topic but not in the updateTopicDoc
-        // (these were deleted during the last minute)
-        myTopicDoc.infoItems = myTopicDoc.infoItems.filter(itemDoc => {
-            let item = InfoItemFactory.createInfoItem(this, itemDoc);
-            if (item.isSticky()) {
-                let indexInMinutesTopicDoc = subElementsHelper.findIndexById(itemDoc._id, updateTopicDoc.infoItems);
-                return !(indexInMinutesTopicDoc === undefined);
-            }
-            return true;
         });
     }
 
@@ -267,6 +233,12 @@ export class Topic {
         });
     }
 
+    getOnlyActionItems() {
+        return this._topicDoc.infoItems.filter((infoItemDoc) => {
+            return InfoItem.isActionItem(infoItemDoc);
+        });
+    }
+
     getOpenActionItems() {
         return this._topicDoc.infoItems.filter((infoItemDoc) => {
             return InfoItem.isActionItem(infoItemDoc) && infoItemDoc.isOpen;
@@ -277,12 +249,15 @@ export class Topic {
         this._topicDoc.infoItems = items;
     }
 
+    setSubject(subject) {
+        this._topicDoc.subject = subject;
+    }
+
     getSubject() {
         return this._topicDoc.subject;
     }
 
     async save() {
-        // this will update the entire topics array from the parent minutes!
         return this._parentMinutes.upsertTopic(this._topicDoc);
     }
 
@@ -297,6 +272,7 @@ export class Topic {
 
     async closeTopicAndAllOpenActionItems() {
         this._topicDoc.isOpen = false;
+        this._topicDoc.isRecurring = false;
         this.getOpenActionItems().forEach(item => {
             item.isOpen = false;
         });
@@ -311,27 +287,12 @@ export class Topic {
         return this._topicDoc;
     }
 
-    getLabels(meetingSeriesId) {
-        this._topicDoc.labels = this.getLabelsRawArray().filter(labelId => {
-            return (null !== Label.createLabelById(meetingSeriesId, labelId));
+    addLabelsByIds(labelIds) {
+        labelIds.forEach(id => {
+            if (!this.hasLabelWithId(id)) {
+                this._topicDoc.labels.push(id);
+            }
         });
-
-        return this.getLabelsRawArray().map(labelId => {
-            return Label.createLabelById(meetingSeriesId, labelId);
-
-        });
-    }
-
-    addLabelByName(labelName, meetingSeriesId) {
-        let label = Label.createLabelByName(meetingSeriesId, labelName);
-        if (null === label) {
-            label = new Label({name: labelName});
-            label.save(meetingSeriesId);
-        }
-
-        if (!this.hasLabelWithId(label.getId())) {
-            this._topicDoc.labels.push(label.getId());
-        }
     }
 
     hasLabelWithId(labelId) {
@@ -342,24 +303,6 @@ export class Topic {
             }
         }
         return false;
-    }
-
-    getLabelsString(topic) {
-        let labels = topic.labels;
-        let labelsString = '';
-
-        let aMinute = new Minutes(topic.createdInMinute);
-        let aSeries = aMinute.parentMeetingSeries();
-
-        labels = labels.map(labelId => {
-            return Label.createLabelById(aSeries._id, labelId);
-        });
-
-        for (let i in labels) {
-            labelsString += '#' + labels[i]._labelDoc.name+ ', ';
-        }
-        labelsString = labelsString.slice(0, -2);   // remove last ", "
-        return labelsString;
     }
 
     getLabelsRawArray() {
@@ -393,31 +336,6 @@ export class Topic {
         return this._topicDoc.responsibles;
     }
 
-    getResponsiblesString() {
-        if (!this.hasResponsibles()) {
-            return '';
-        }
-
-        let responsibles = this._topicDoc.responsibles;
-        let responsiblesString = '';
-        for (let i in responsibles) {
-            let userNameFromDB = '';
-            if (responsibles[i].length > 15) {  // maybe DB Id or free text
-                let user = Meteor.users.findOne(responsibles[i]);
-                if (user) {
-                    userNameFromDB = user.username;
-                }
-            }
-            if (userNameFromDB) {     // user DB match!
-                responsiblesString += userNameFromDB + ', ';
-            } else {
-                responsiblesString += responsibles[i] + ', ';
-            }
-        }
-        responsiblesString = responsiblesString.slice(0, -2);   // remove last ", "
-        return responsiblesString;
-    }
-
     addResponsible(responsibleName) {
         let user = Meteor.users.findOne(responsibleName);
         if (user) {
@@ -427,24 +345,12 @@ export class Topic {
         this._topicDoc.responsibles.push(responsibleName);
     }
 
-    extractLabelsFromTopic(meetingSeriesId) {
-        const regEx = new RegExp(/(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g);
-        let subjectString = this._topicDoc.subject;
-        let match;
-
-        while (match = regEx.exec(subjectString)) {
-            let labelName = match[2];
-            this.addLabelByName(labelName, meetingSeriesId);
-            this._removeLabelFromTopic(labelName);
-        }
-    }
-
     extractResponsiblesFromTopic() {
         const regEx = new RegExp(/(^|[\s.,;])@([a-zA-z]+[^\s.,;]*)/g);
         let subjectString = this._topicDoc.subject;
         let match;
 
-        while (match = regEx.exec(subjectString)) {
+        while ((match = regEx.exec(subjectString)) !== null) {
             let responsibleName = match[2];
             this.addResponsible(responsibleName);
             this._removeResponsibleFromTopic(responsibleName);
@@ -452,24 +358,6 @@ export class Topic {
     }
 
     // ################### private methods
-    /**
-     * Overwrites the simple properties (subject, responsible)
-     * with the properties of the source document.
-     *
-     * @param updateTopicDoc
-     */
-    _overwritePrimitiveProperties(updateTopicDoc) {
-        this._topicDoc.subject = updateTopicDoc.subject;
-        this._topicDoc.responsibles = updateTopicDoc.responsibles;
-        this._topicDoc.isNew = updateTopicDoc.isNew;
-        this._topicDoc.isRecurring = updateTopicDoc.isRecurring;
-    }
-
-    _removeLabelFromTopic(labelName) {
-        this._topicDoc.subject = this._topicDoc.subject.replace('#' + labelName + ' ', '');
-        this._topicDoc.subject = this._topicDoc.subject.replace(' #' + labelName, '');
-        this._topicDoc.subject = this._topicDoc.subject.replace('#' + labelName, '');
-    }
 
     _removeResponsibleFromTopic(responsibleName) {
         this._topicDoc.subject = this._topicDoc.subject.replace('@' + responsibleName + ' ', '');

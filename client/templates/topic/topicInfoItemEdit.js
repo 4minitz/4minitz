@@ -1,6 +1,8 @@
 import moment from 'moment/moment';
 
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 
@@ -10,6 +12,7 @@ import { Topic } from '/imports/topic';
 import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { Label } from '/imports/label';
+import { Priority } from '/imports/priority';
 import { User, userSettings } from '/imports/users';
 
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
@@ -17,7 +20,10 @@ import { currentDatePlusDeltaDays } from '/imports/helpers/date';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 
 import { $ } from 'meteor/jquery';
+import { _ } from 'meteor/underscore';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
+import {LabelExtractor} from '../../../imports/services/labelExtractor';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -25,8 +31,6 @@ Session.setDefault('topicInfoItemType', 'infoItem');
 
 let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for performance reasons!
-
-collapseState = new ReactiveVar(false);
 
 Template.topicInfoItemEdit.onCreated(function () {
     _minutesID = this.data;
@@ -171,6 +175,9 @@ let resizeTextarea = (element) => {
 };
 
 Template.topicInfoItemEdit.helpers({
+    getPriorities: function() {
+        return Priority.GET_PRIORITIES();
+    },
     isEditMode: function () {
         return (getEditInfoItem() !== false);
     },
@@ -236,29 +243,29 @@ Template.topicInfoItemEdit.events({
         let newItem;
         switch (type) {
         case 'actionItem':
-            doc.priority = tmpl.find('#id_item_priority').value;
             doc.responsibles = $('#id_selResponsibleActionItem').val();
             doc.duedate = tmpl.find('#id_item_duedateInput').value;
 
             newItem = new ActionItem(getRelatedTopic(), doc);
+            newItem.setPriority(new Priority(tmpl.find('#id_item_priority').value));
             break;
         case 'infoItem':
-            {
-                newItem = new InfoItem(getRelatedTopic(), doc);
-                break;
-            }
+        {
+            newItem = new InfoItem(getRelatedTopic(), doc);
+            break;
+        }
         default:
             throw new Meteor.Error('Unknown type!');
         }
 
-        newItem.extractLabelsFromSubject(aMinute.parentMeetingSeries());
-        let itemAlreadyExists = !!newItem.getId();
+        const labelExtractor = new LabelExtractor(newSubject, aMinute.parentMeetingSeries()._id);
+        newItem.addLabelsById(labelExtractor.getExtractedLabelIds());
+        newItem.setSubject(labelExtractor.getCleanedString());
         newItem.saveAsync().catch(handleError);
         if (getEditInfoItem() === false && newDetail) {
             newItem.addDetails(aMinute._id, newDetail);
+            // TODO: Here we have two save operations almost parallel! Add the details before saving the item at the first place.
             newItem.saveAsync().catch(handleError);
-            let details = newItem.getDetails();
-            let detailItem = newItem.getDetailsAt(details.length-1);
         }
         $('#dlgAddInfoItem').modal('hide');
     },
@@ -273,11 +280,11 @@ Template.topicInfoItemEdit.events({
 
         let editItem = getEditInfoItem();
 
-        let itemSubject = tmpl.find("#id_item_subject");
+        let itemSubject = tmpl.find('#id_item_subject');
         itemSubject.value = (editItem) ? editItem._infoItemDoc.subject : '';
 
-        tmpl.find('#id_item_priority').value =
-            (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.priority : '';
+        tmpl.find('#id_item_priority').value = (editItem && (editItem instanceof ActionItem))
+            ? editItem._infoItemDoc.priority : Priority.GET_DEFAULT_PRIORITY().value;
 
         tmpl.find('#id_item_duedateInput').value =
             (editItem && (editItem instanceof ActionItem)) ? editItem._infoItemDoc.duedate : currentDatePlusDeltaDays(7);
@@ -287,7 +294,7 @@ Template.topicInfoItemEdit.events({
 
         let detailsArea = tmpl.find('#id_item_detailInput');
         if (detailsArea) {
-            detailsArea.value = "";
+            detailsArea.value = '';
             detailsArea.setAttribute('rows', 2);
             if(tmpl.collapseState.get() === false) {
                 detailsArea.style.display = 'none';
@@ -312,7 +319,7 @@ Template.topicInfoItemEdit.events({
             toggleItemMode(infoItemType, tmpl);
 
             if(infoItemType === 'infoItem') {
-                itemSubject.value = "Info";
+                itemSubject.value = 'Info';
             } else {
                 itemSubject.value = '';
             }
@@ -387,7 +394,7 @@ Template.topicInfoItemEdit.events({
     },
 
     'keyup #id_item_detailInput': function (evt, tmpl) {
-        let inputEl = tmpl.$(`#id_item_detailInput`);
+        let inputEl = tmpl.$('#id_item_detailInput');
 
         if (evt.which === 13/*Enter*/ || evt.which === 8/*Backspace*/ || evt.which === 46/*Delete*/) {
             resizeTextarea(inputEl);

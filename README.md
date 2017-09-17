@@ -9,7 +9,7 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 
 # 4Minitz!
 
-*Simply the best free webapp for taking meeting minutes.*
+*Simply ~~the best~~ a decent free webapp for taking meeting minutes.*
 
 * Create a meeting series and invite others
 * Specify moderators, invited and informed users
@@ -26,11 +26,6 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 *(Click to enlarge screenshot)*
 
 
-**Important: 4Minitz is currently WIP and not yet ready for mission critical usage. 
-Nevertheless, quite a few features are working stable already and you can head over to our
-[4Minitz Demo Server](https://www.4minitz.com) and and play around or install the current 
-version on your own server (see below)** 
-
 Documentation is "continously" not finished... Nevertheless these WIP docs may be of help:
 
 * [FAQ - Frequently Asked Questions](doc/faq.md)
@@ -46,7 +41,8 @@ Documentation is "continously" not finished... Nevertheless these WIP docs may b
 * [CLA Assist](https://cla-assistant.io/4minitz/4minitz) - Manages signing of our Contributor License Agreements 
 * [Docker Hub](https://hub.docker.com/r/4minitz/4minitz/) - Spin up your own 4Minitz server in seconds 
 
-
+## 4Minitz is proudly sponsored by
+<a href="http://www.methodpark.de"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/sponsor_methodpark.png" height="50px" alt="Method Park"></a>
 
 ## Quick Start
 You have two options to quickly evaluate a local demo 
@@ -66,14 +62,6 @@ building & installation topic!
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
 node.js version and MongoDB and thus has no external dependecies.
 
-1. Install [docker](https://docs.docker.com/engine/installation/)
-2. In a directory where you have write access run:
-```
-docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz
-```
-You can reach 4Minitz via the default port 3100 by opening 
-[http://localhost:3100](http://localhost:3100) in your browser
-
 See the admin guide for
 [how to configure your 4Minitz docker server](doc/admin/adminguide.md#production-running---with-docker).
 
@@ -91,6 +79,8 @@ with a more comprehensive coverage of the real production installation topic!
     curl https://install.meteor.com/ | sh
     meteor --version
 
+To download fresh code form github you will need `git` in your path.
+
 You'll need root rights for that. As a non-root user you may install
 meteor by:
 
@@ -100,8 +90,9 @@ meteor by:
     sudo ln -s ./meteor /usr/local/bin/meteor
 
 On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
+As experienced Windows admin you sure can transfor the below steps for Linux and Mac to your OS.
 
-#### Quick Installation of 4Minitz   
+#### Quick Installation of 4Minitz (Linux & Mac)   
 OK, here we go! For a quick test installation perform:
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git --branch master --single-branch

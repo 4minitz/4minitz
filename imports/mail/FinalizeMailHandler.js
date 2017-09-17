@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { ActionItemsMailHandler } from './ActionItemsMailHandler';
 import { InfoItemsMailHandler } from './InfoItemsMailHandler';
 import { Minutes } from './../minutes';
+import {ResponsibleResolver} from '../services/responsibleResolver';
 
 export class FinalizeMailHandler {
 
@@ -36,7 +37,8 @@ export class FinalizeMailHandler {
         let userMailHandlerMap = new Map();
         let actionItems = this._minute.getOpenActionItems(false); // false-parameter makes skipped Topics being not included in the Mail
         actionItems.forEach(item => {
-            item.getResponsibleEMailArray().forEach(recipient => {
+            const recipients = ResponsibleResolver.resolveEmailAddressesForResponsibles(item.getResponsibleRawArray());
+            recipients.forEach(recipient => {
                 if (!userMailHandlerMap.has(recipient)) {
                     userMailHandlerMap.set(
                         recipient,
@@ -60,12 +62,11 @@ export class FinalizeMailHandler {
     _sendInfoItems() {
         let recipients = this._minute.getPersonsInformedWithEmail(Meteor.users);
 
-        let topics = this._minute.getTopicsWithOnlyInfoItems();
         let mailHandler = new InfoItemsMailHandler(
             this._senderAddress,
             recipients,
             this._minute,
-            topics,
+            this._minute.topics,
             this._minute.parentMeetingSeries(),
             this._minute.getParticipants(Meteor.users),
             this._minute.getInformed(Meteor.users)

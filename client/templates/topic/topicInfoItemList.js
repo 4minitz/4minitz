@@ -1,12 +1,18 @@
 import { Topic } from '/imports/topic';
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { Minutes } from '/imports/minutes';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import {InfoItemFactory} from "../../../imports/InfoItemFactory";
+import {InfoItemFactory} from '../../../imports/InfoItemFactory';
 import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
+import {LabelResolver} from '../../../imports/services/labelResolver';
+import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -56,7 +62,7 @@ let updateItemSorting = (evt, ui) => {
     topic.setItems(newItemSorting);
     topic.save().catch(error => {
         $('.itemPanel').sortable( 'cancel' );
-        onError(error);
+        handleError(error);
     });
 };
 
@@ -82,6 +88,21 @@ let findInfoItem = (parentElementId, topicId, infoItemId) => {
     return undefined;
 };
 
+const performActionForItem = (evt, tmpl, action) => {
+    evt.preventDefault();
+    /** @type {TopicInfoItemListContext} */
+    const context = tmpl.data;
+
+    if (context.isReadonly) {
+        return;
+    }
+
+    const index = evt.currentTarget.getAttribute('data-index');
+    const infoItem = context.items[index];
+    const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+    action(aInfoItem);
+};
+
 function initializeDragAndDrop(tmpl) {
     tmpl.$('.itemPanel').sortable({
         appendTo: document.body,
@@ -96,7 +117,8 @@ function initializeDragAndDrop(tmpl) {
 function getDetails(tmpl, infoItemIndex) {
     /** @type {TopicInfoItemListContext} */
     const context = tmpl.data;
-    return context.items[infoItemIndex].details || [];
+    const item = context.items[infoItemIndex];
+    return (item) ? item.details || [] : [];
 }
 
 Template.topicInfoItemList.onRendered(function () {
@@ -144,9 +166,9 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         let infoItem = context.items[index];
-        if (infoItem.itemType !== 'actionItem') {
+        if (infoItem && infoItem.itemType !== 'actionItem') {
             return 'infoitem';
-        } else if (infoItem.isOpen) {
+        } else if (infoItem && infoItem.isOpen) {
             let todayDate = formatDateISO8601(new Date());
             if (infoItem.duedate && infoItem.duedate === todayDate) {
                 return 'actionitem-open-due-today';
@@ -177,20 +199,22 @@ Template.topicInfoItemList.helpers({
     isActionItem: function(index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
-        return (context.items[index].itemType === 'actionItem');
+        const item = context.items[index];
+        return (item && item.itemType === 'actionItem');
     },
 
     isInfoItem: function(index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
-        return (context.items[index].itemType === 'infoItem');
+        const item = context.items[index];
+        return (item && context.items[index].itemType === 'infoItem');
     },
 
     checkedState: function (index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         let infoItem = context.items[index];
-        if (infoItem.itemType === 'infoItem' || infoItem.isOpen) {
+        if (infoItem && infoItem.itemType === 'infoItem' || infoItem.isOpen) {
             return '';
         } else {
             return {checked: 'checked'};
@@ -221,24 +245,21 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
-        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
-        if (aInfoItem instanceof ActionItem) {
-            if (aInfoItem.hasResponsibles()) {
-                return '(' + aInfoItem.getResponsibleNameString() + ')';
-            }
+        if (!infoItem) {
+            return;
         }
-        return '';
+        const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(infoItem.responsibles);
+        return (responsible) ? `(${responsible})` : '';
     },
 
     getLabels: function(index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
-        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
-        if (!aInfoItem) {
+        if (!infoItem) {
             return;
         }
-        return aInfoItem.getLabels(getMeetingSeriesId(context.topicParentId))
+        return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.topicParentId))
             .map(labelObj => {
                 let doc = labelObj.getDocument();
                 doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
@@ -258,22 +279,16 @@ Template.topicInfoItemList.events({
     // INFO ITEM EVENTS
 
     'click #btnDelInfoItem'(evt, tmpl) {
-        evt.preventDefault();
-
-        const index = evt.currentTarget.getAttribute('data-index');
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
-        let infoItem = context.items[index];
-        let aTopic = createTopic(context.topicParentId, infoItem.parentTopicId);
-        if (aTopic && !context.isReadonly) {
-            let item = aTopic.findInfoItem(infoItem._id);
+        performActionForItem(evt, tmpl, (item) => {
             let isDeleteAllowed = item.isDeleteAllowed(context.topicParentId);
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {
                     type: (item.isActionItem()) ? 'action item' : 'information',
                     isActionItem: item.isActionItem(),
-                    subject: infoItem.subject,
+                    subject: item.getSubject(),
                     deleteAllowed: isDeleteAllowed
                 };
 
@@ -286,7 +301,7 @@ Template.topicInfoItemList.events({
 
                 let action = () => {
                     if (isDeleteAllowed) {
-                        aTopic.removeInfoItem(infoItem._id).catch(handleError);
+                        item.getParentTopic().removeInfoItem(item.getId()).catch(handleError);
                     } else {
                         if (item.isActionItem()) item.toggleState();
                         else item.toggleSticky();
@@ -311,44 +326,25 @@ Template.topicInfoItemList.events({
                     ' so it won\'t be copied to the following minutes'
                 ).show();
             }
-        }
+        });
     },
 
     'click .btnToggleAIState'(evt, tmpl) {
-        evt.preventDefault();
-        /** @type {TopicInfoItemListContext} */
-        const context = tmpl.data;
-
-        if (context.isReadonly) {
-            return;
-        }
-
-        const index = evt.currentTarget.getAttribute('data-index');
-        const infoItem = context.items[index];
-        const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
-        if (aInfoItem instanceof ActionItem) {
-            aInfoItem.toggleState();
-            aInfoItem.save().catch(handleError);
-        }
+        performActionForItem(evt, tmpl, (item) => {
+            if (item instanceof ActionItem) {
+                item.toggleState();
+                item.save().catch(handleError);
+            }
+        });
     },
 
     'click .btnPinInfoItem'(evt, tmpl) {
-        evt.preventDefault();
-        /** @type {TopicInfoItemListContext} */
-        const context = tmpl.data;
-
-        if (context.isReadonly) {
-            return;
-        }
-
-        let index = evt.currentTarget.getAttribute('data-index');
-        let infoItem = context.items[index];
-
-        let aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
-        if (aInfoItem instanceof InfoItem) {
-            aInfoItem.toggleSticky();
-            aInfoItem.save().catch(handleError);
-        }
+        performActionForItem(evt, tmpl, (item) => {
+            if (item instanceof InfoItem) {
+                item.toggleSticky();
+                item.save().catch(handleError);
+            }
+        });
     },
 
     'click .btnEditInfoItem'(evt, tmpl) {
@@ -440,7 +436,7 @@ Template.topicInfoItemList.events({
 
         let text = inputEl.val().trim();
 
-        if (text === '' || (text !== textEl.attr('data-text'))) {
+        if (text === '' || (text !== textEl.attr('data-text'))) {
             let aMin = new Minutes(context.topicParentId);
             let aTopic = new Topic(aMin, infoItem.parentTopicId);
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);

@@ -1,4 +1,5 @@
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Template } from 'meteor/templating';
 
 import { ItemsFilter } from '/imports/search/ItemsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -44,7 +45,7 @@ Template.tabItems.helpers({
 
     getTopicFilterConfig () {
         let tmpl = Template.instance();
-        return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS);
+        return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS, ITEM_KEYWORDS, 'Item-Filter');
     },
 
     getInfoItemListContext () {
@@ -63,12 +64,14 @@ Template.tabItems.helpers({
             },
             /* initial value */
             []
-        );
+        ).sort((itemL, itemR) => {
+            return itemR.updatedAt.getTime() - itemL.updatedAt.getTime();
+        });
 
         return TopicInfoItemListContext.createReadonlyContextForItemsOfDifferentTopics(
             tmpl.itemsFilter.filter(items, tmpl.parser),
             tmpl.data.parentMeetingSeriesId
-        )
+        );
     }
 
 });

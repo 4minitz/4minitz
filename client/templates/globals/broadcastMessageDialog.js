@@ -1,11 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { formatDateISO8601Time } from '/imports/helpers/date';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { BroadcastMessage } from '/imports/broadcastmessage';
 
 Template.broadcastMessageDialog.onCreated(function () {
-        this.subscribe("broadcastmessage");
+    this.subscribe('broadcastmessage');
 });
 
 Template.broadcastMessageDialog.helpers({
@@ -14,7 +16,7 @@ Template.broadcastMessageDialog.helpers({
     'showBroadcastMessages': function () {
         const msgCount = BroadcastMessageSchema.find(
             {$and: [{isActive: true},
-                    {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
+                {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
         if (msgCount > 0) {
             Meteor.setTimeout(function () {
                 $('#broadcastMessage').modal('show');
@@ -31,7 +33,7 @@ Template.broadcastMessageDialog.helpers({
     'broadcastMessages': function () {
         return BroadcastMessageSchema.find(
             {$and: [{isActive: true}
-                    , {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}
+                , {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}
             , {sort: {createdAt: -1}});
     },
 
@@ -41,7 +43,8 @@ Template.broadcastMessageDialog.helpers({
 });
 
 Template.broadcastMessageDialog.events({
-    'click #btnDismissBroadcast': function (evt, tmpl) {
+    'click #btnDismissBroadcast': function (evt) {
+        evt.preventDefault();
         BroadcastMessage.dismissForMe();
     }
 });

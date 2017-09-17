@@ -1,3 +1,5 @@
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 import { addCustomValidator } from '../../helpers/customFieldValidator';
 
 import { MeetingSeries } from '/imports/meetingseries';
@@ -130,6 +132,7 @@ Template.meetingSeriesEditLabels.events({
     },
 
     'click .evt-btn-add-label': function (evt, tmpl) {
+        evt.preventDefault();
         let labelDoc = {
             name: 'NewLabel',
             color: '#cccccc'

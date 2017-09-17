@@ -1,5 +1,6 @@
-
 import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
@@ -36,18 +37,18 @@ Template.adminRegisterUser.events({
 
         tmpl.$('#btnRegisterUserSave').prop('disabled',true);
         Meteor.call('users.admin.registerUser',
-                    uName, uLongName, uMail, uPassword1, uPassword2, sendMail, sendPassword,
-                    function (error) {
-                        if (error) {
-                            tmpl.$('#btnRegisterUserSave').prop('disabled',false);
-                            console.log(error);
-                            evt.preventDefault();
-                            handleError(error);
-                        } else {
-                            $('#dlgAdminRegisterUser').modal('hide');
-                            (new FlashMessage('OK', 'Registered new user: '+uName, 'alert-success', 3000)).show();
-                        }
-                    });
+            uName, uLongName, uMail, uPassword1, uPassword2, sendMail, sendPassword,
+            function (error) {
+                if (error) {
+                    tmpl.$('#btnRegisterUserSave').prop('disabled',false);
+                    console.log(error);
+                    evt.preventDefault();
+                    handleError(error);
+                } else {
+                    $('#dlgAdminRegisterUser').modal('hide');
+                    (new FlashMessage('OK', 'Registered new user: '+uName, 'alert-success', 3000)).show();
+                }
+            });
     },
 
     'show.bs.modal #dlgAdminRegisterUser': function (evt, tmpl) {
