@@ -340,32 +340,4 @@ export class Topic {
         return this._topicDoc.responsibles;
     }
 
-    addResponsible(responsibleName) {
-        let user = Meteor.users.findOne(responsibleName);
-        if (user) {
-            responsibleName = user.username;
-        }
-
-        this._topicDoc.responsibles.push(responsibleName);
-    }
-
-    extractResponsiblesFromTopic() {
-        const regEx = new RegExp(/(^|[\s.,;])@([a-zA-z]+[^\s.,;]*)/g);
-        let subjectString = this._topicDoc.subject;
-        let match;
-
-        while ((match = regEx.exec(subjectString)) !== null) {
-            let responsibleName = match[2];
-            this.addResponsible(responsibleName);
-            this._removeResponsibleFromTopic(responsibleName);
-        }
-    }
-
-    // ################### private methods
-
-    _removeResponsibleFromTopic(responsibleName) {
-        this._topicDoc.subject = this._topicDoc.subject.replace('@' + responsibleName + ' ', '');
-        this._topicDoc.subject = this._topicDoc.subject.replace(' @' + responsibleName, '');
-        this._topicDoc.subject = this._topicDoc.subject.replace('@' + responsibleName, '');
-    }
 }
