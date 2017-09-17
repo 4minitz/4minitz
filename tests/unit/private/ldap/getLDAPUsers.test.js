@@ -147,8 +147,76 @@ describe('getLDAPUsers', function () {
             .catch((error) => {
                 done(new Error(error));
             });
-
     });
+
+    describe('legacy inactive user detction settings', function (done) {
+        let client;
+
+        beforeEach(function () {
+            ldap.createClient.reset();
+        });
+
+        const ldapSearchResult = (activeValue) => {
+                return {
+                    on: (event, callback) => {
+                        if (event === 'searchEntry') {
+                            callback({ object: { active: activeValue } });
+                        }
+
+                        if (event === 'end') {
+                            callback();
+                        }
+                    }
+                };
+            },
+            settings = {
+                isInactivePredicate: {
+                    active: 'no'
+                }
+            };
+
+        it('returns user object with isInactive property set to true', function (done) {
+            let client = {
+                search: asyncStubs.returns(2, ldapSearchResult('no')),
+                unbind: asyncStubs.returnsError(0, 'Some error')
+            };
+            ldap.createClient.returns(client);
+
+            getLDAPUsers(settings)
+                .then((result) => {
+                    try {
+                        expect(result.users[0].isInactive).to.deep.equal(true);
+                        done();
+                    } catch (error) {
+                        done(error);
+                    }
+                })
+                .catch((error) => {
+                    done(error2);
+                });
+        });
+
+
+        it('returns user object with isInactive property set to false', function (done) {
+            let client = {
+                search: asyncStubs.returns(2, ldapSearchResult('yes')),
+                unbind: asyncStubs.returnsError(0, 'Some error')
+            };
+            ldap.createClient.returns(client);
+
+            getLDAPUsers(settings)
+                .then((result) => {
+                    try {
+                        expect(result.users[0].isInactive).to.deep.equal(false);
+                        done();
+                    } catch (error) {
+                        done(error);
+                    }
+                })
+                .catch((error) => {
+                    done(error2);
+                });
+        });    });
 
     describe('inactive user detection strategy: none', function (done) {
         const activeUsers = [{ isInactive: false, uid: 'foo' }];

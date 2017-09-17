@@ -53,6 +53,13 @@ let _fetchLDAPUsers = function (connection) {
         whiteListedFields = settings.whiteListedFields || [],
         attributes = whiteListedFields.concat(['userAccountControl']),
         options = {filter, scope, attributes};
+    
+    if (settings.isInactivePredicate && !settings.inactiveUsers) {
+        settings.inactiveUsers = {
+            strategy: 'property',
+            properties: settings.isInactivePredicate
+        };
+    }
 
     return new Promise((resolve, reject) => {
         try {
