@@ -76,13 +76,20 @@
 
     "ldap": {
         "enabled": true,
-        "searchDn": "cn",
+        "propertyMap": {
+            "username": "cn",
+            "longname": "cn",
+            "email": "mail"
+        },
         "searchFilter": "",
         "serverDn": "DC=example,DC=com",
         "serverUrl": "ldap://localhost:1389",
         "allowSelfSignedTLS": true,
         "whiteListedFields": [ "cn", "mail" ],
         "autopublishFields": [ "cn" ],
+        "inactiveUsers": {
+            "strategy": "userAccountControl"
+        },
         "importCronTab": "*/5 * * * *"
     },
 
