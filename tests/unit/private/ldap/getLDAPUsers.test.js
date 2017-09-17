@@ -11,7 +11,7 @@ let ldap = {
 let ldapSearchResponseWithResult = {
     on: (event, callback) => {
         if (event === 'searchEntry') {
-            callback({object: {uid: 'foo'}});
+            callback({ object: { uid: 'foo' } });
         }
 
         if (event === 'end') {
@@ -35,7 +35,7 @@ const getLDAPUsers = proxyquire('../../../../imports/ldap/getLDAPUsers', {
 describe('getLDAPUsers', function () {
     let settings;
 
-    const expectedSuccessfulResult = [{uid: 'foo', isInactive: false}];
+    const expectedSuccessfulResult = [{ uid: 'foo', isInactive: false }];
 
     beforeEach(function () {
         ldap.createClient.reset();
@@ -150,14 +150,14 @@ describe('getLDAPUsers', function () {
 
     });
 
-    describe('inactive user detection strategy: none', function () {
-        const activeUsers = [{isInactive: false, uid: 'foo'}];
+    describe('inactive user detection strategy: none', function (done) {
+        const activeUsers = [{ isInactive: false, uid: 'foo' }];
         it('returns user object with isInactive property set to false', function (done) {
             const settings = {
-                    inactiveUsers: {
-                        strategy: 'none'
-                    }
-                };
+                inactiveUsers: {
+                    strategy: 'none'
+                }
+            };
 
             let client = {
                 search: asyncStubs.returns(2, ldapSearchResponseWithResult),
@@ -166,30 +166,59 @@ describe('getLDAPUsers', function () {
             ldap.createClient.returns(client);
 
             getLDAPUsers(settings)
-                    .then((result) => {
-                        try {
-                            expect(result.users).to.deep.equal(activeUsers);
-                            done();
-                        } catch (error) {
-                            done(error);
-                        }
-                    })
-                    .catch((error) => {
-                        done(error2);
-                    });
+                .then((result) => {
+                    try {
+                        expect(result.users).to.deep.equal(activeUsers);
+                        done();
+                    } catch (error) {
+                        done(error);
+                    }
+                })
+                .catch((error) => {
+                    done(error2);
+                });
+        });
+
+        it('uses the none strategy if an invalid strategy is given', function (done) {
+            const settings = {
+                inactiveUsers: {
+                    strategy: 'doesnotexist'
+                }
+            };
+
+            let client = {
+                search: asyncStubs.returns(2, ldapSearchResponseWithResult),
+                unbind: asyncStubs.returnsError(0, 'Some error')
+            };
+            ldap.createClient.returns(client);
+
+            getLDAPUsers(settings)
+                .then((result) => {
+                    try {
+                        expect(result.users).to.deep.equal(activeUsers);
+                        done();
+                    } catch (error) {
+                        done(error);
+                    }
+                })
+                .catch((error) => {
+                    done(error2);
+                });
         });
     });
 
     describe('inactive user detection strategy: UAC', function () {
+        let client;
+
         const activeUsers = false,
             inactiveUsers = true,
             ldapSearchResponseWithGivenUACValue = (uac) => {
                 return {
                     on: (event, callback) => {
                         if (event === 'searchEntry') {
-                            callback({object: {userAccountControl: uac}});
+                            callback({ object: { userAccountControl: uac } });
                         }
-                
+
                         if (event === 'end') {
                             callback();
                         }
@@ -223,8 +252,6 @@ describe('getLDAPUsers', function () {
                 }
             };
 
-        let client;
-        
         beforeEach(function () {
             ldap.createClient.reset();
         });
@@ -234,5 +261,83 @@ describe('getLDAPUsers', function () {
                 expectedResult = (i === 1 ? inactiveUsers : activeUsers);
             it(`uAC property set to ${value}: returns user object with isInactive === ${expectedResult}`, generateTestCase(value, expectedResult));
         }
+    });
+
+    describe('inactive user detection strategy: property', function () {
+        let client;
+
+        beforeEach(function () {
+            ldap.createClient.reset();
+        });
+
+        const ldapSearchResponseWithGivenAttribute = (attribute, value) => {
+                return {
+                    on: (event, callback) => {
+                        if (event === 'searchEntry') {
+                            callback({ object: { [attribute]: value } });
+                        }
+
+                        if (event === 'end') {
+                            callback();
+                        }
+                    }
+                };
+            };
+
+        it('returns isInactive == true if given property is set to requested value', function (done) {
+            const settings = {
+                inactiveUsers: {
+                    strategy: 'property',
+                    properties: {
+                        active: '1'
+                    }
+                }
+            };
+
+            client = {
+                search: asyncStubs.returns(2, ldapSearchResponseWithGivenAttribute('active', '1')),
+                unbind: asyncStubs.returnsError(0, 'Some error')
+            };
+            ldap.createClient.returns(client);
+
+            getLDAPUsers(settings)
+                .then((result) => {
+                    try {
+                        expect(result.users[0].isInactive).to.equal(true);
+                        done();
+                    } catch (error) {
+                        done(error);
+                    }
+                })
+                .catch((error) => done(error));
+        });
+
+        it('returns isInactive == false if given property is not set to requested value', function (done) {
+            const settings = {
+                inactiveUsers: {
+                    strategy: 'property',
+                    properties: {
+                        active: '1'
+                    }
+                }
+            };
+
+            client = {
+                search: asyncStubs.returns(2, ldapSearchResponseWithGivenAttribute('active', '2')),
+                unbind: asyncStubs.returnsError(0, 'Some error')
+            };
+            ldap.createClient.returns(client);
+
+            getLDAPUsers(settings)
+                .then((result) => {
+                    try {
+                        expect(result.users[0].isInactive).to.equal(false);
+                        done();
+                    } catch (error) {
+                        done(error);
+                    }
+                })
+                .catch((error) => done(error));
+        });
     });
 });

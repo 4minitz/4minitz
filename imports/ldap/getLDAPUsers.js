@@ -37,9 +37,10 @@ const inactivityStrategies = {
 }
 
 function isInactive(inactivitySettings, entry) {
-    const strategy = inactivitySettings.strategy;
+    const strategy = inactivitySettings.strategy,
+        strategyFunction = inactivityStrategies[strategy] || inactivityStrategies.none;
 
-    return inactivityStrategies[strategy](inactivitySettings, entry);
+    return strategyFunction(inactivitySettings, entry);
 }
 
 let _fetchLDAPUsers = function (connection) {
