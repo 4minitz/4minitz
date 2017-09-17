@@ -20,15 +20,20 @@ echo "Docker Project   : '$dockerproject'"
 echo "Target Base Image: '$baseimagetag'"
 echo ""
 
+#### Patch package.json with current git branch & version
+pushd ../private
+./releasePrep.sh
+popd
 
 #### Prepare settings.json
 settingsfile=./4minitz_settings.json
-echo "Patching $settingsfile"
 cp ../settings_sample.json $settingsfile
+echo "Patching $settingsfile"
 sed -i '' 's/"ROOT_URL": "[^\"]*"/"ROOT_URL": "http:\/\/localhost:3100"/' $settingsfile
 sed -i '' 's/"topLeftLogoHTML": "[^\"]*"/"topLeftLogoHTML": "4Minitz [Docker]"/' $settingsfile
 sed -i '' 's/"mongodumpTargetDirectory": "[^\"]*"/"mongodumpTargetDirectory": "\/4minitz_storage\/mongodump"/' $settingsfile
 sed -i '' 's/"storagePath": "[^\"]*"/"storagePath": "\/4minitz_storage\/attachments"/' $settingsfile
+sed -i '' 's/"targetDocPath": "[^\"]*"/"targetDocPath": "\/4minitz_storage\/protocols"/' $settingsfile
 
 
 #### Build 4Minitz with meteor
