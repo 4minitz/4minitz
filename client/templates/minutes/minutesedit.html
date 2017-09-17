@@ -2,7 +2,7 @@
     {{#if authenticating}}
         {{> loading}}
     {{else}}
-        {{#if canShow}}
+        {{#if and canShow Template.subscriptionsReady}}
             {{!
                 This will not display any content instead it will check if the minute is linked to the parent series
                 and display an error message reactively.
