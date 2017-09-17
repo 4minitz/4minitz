@@ -120,7 +120,7 @@
                 {{> topicInfoItemList getData}}
             </div>
         {{/unless}}
-        {{#unless isCollapsed}}
+        {{#unless and isCollapsed topic.infoItems.length}}
             {{#if isEditable}}
                 <form class="addItemForm leftIndent-desktop">
                     <div class="form-group label-placeholder" style="padding-bottom: 1em;">

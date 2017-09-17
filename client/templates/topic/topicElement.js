@@ -244,6 +244,13 @@ Template.topicElement.events({
             handleError(error);
         });
         tmpl.find('.add-item-field').value = '';
+
+        let collapseState = Session.get('minutesedit.collapsetopics.'+_minutesId);
+        if (!collapseState) {
+            collapseState = {};
+        }
+        collapseState[this.topic._id] = false;
+        Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
     },
 
     'click #btnTopicExpandCollapse'(evt) {
