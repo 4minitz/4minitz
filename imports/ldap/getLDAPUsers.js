@@ -37,7 +37,7 @@ const inactivityStrategies = {
 }
 
 function isInactive(inactivitySettings, entry) {
-    const strategy = inactivitySettings.strategy,
+    const strategy = inactivitySettings && inactivitySettings.strategy || 'none',
         strategyFunction = inactivityStrategies[strategy] || inactivityStrategies.none;
 
     return strategyFunction(inactivitySettings, entry);
