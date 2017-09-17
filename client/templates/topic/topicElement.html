@@ -119,11 +119,12 @@
             <div class="leftIndent-desktop">
                 {{> topicInfoItemList getData}}
             </div>
-
+        {{/unless}}
+        {{#unless isCollapsed}}
             {{#if isEditable}}
                 <form class="addItemForm leftIndent-desktop">
                     <div class="form-group label-placeholder" style="padding-bottom: 1em;">
-                        <label for="addItemField_{{topic._id}}" class="control-label">ADD ITEM (to end of list)</label>
+                        <label for="addItemField_{{topic._id}}" class="control-label">Add Info Item. Append @username to add an Action Item.</label>
                         <input type="text" class="form-control add-item-field" id="addItemField_{{topic._id}}" autocomplete="off">
                     </div>
                 </form>

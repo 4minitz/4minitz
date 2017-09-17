@@ -3,6 +3,7 @@ import {InfoItem} from '../../../../imports/infoitem';
 import {LabelExtractor} from '../../../../imports/services/labelExtractor';
 import {Label} from '../../../../imports/label';
 import {Priority} from '../../../../imports/priority';
+import {ResponsibleExtractor} from '../../../../imports/services/responsibleExtractor';
 
 
 export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type = 'infoItem', labels = []) {
@@ -42,5 +43,17 @@ export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type 
     newItem.setSubject(labelExtractor.getCleanedString());
 
     return newItem;
+}
 
+export function detectTypeAndCreateItem(itemDoc, parentTopic, minutesId, meetingSeries) {
+    const responsibleExtractor = new ResponsibleExtractor(itemDoc.subject, true);
+    let type = 'infoItem';
+    const extractedResponsible = responsibleExtractor.getExtractedResponsible();
+    if (extractedResponsible.length > 0) {
+        type = 'actionItem';
+        itemDoc.responsibles = itemDoc.responsibles || [];
+        itemDoc.responsibles = itemDoc.responsibles.concat(extractedResponsible);
+        itemDoc.subject = responsibleExtractor.getCleanedString();
+    }
+    return createItem(itemDoc, parentTopic, minutesId, meetingSeries, type);
 }

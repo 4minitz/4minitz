@@ -12,7 +12,7 @@ import { TopicInfoItemListContext } from './topicInfoItemList';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 import { handleError } from '../../helpers/handleError';
-import {createItem} from './helpers/create-item';
+import {detectTypeAndCreateItem} from './helpers/create-item';
 
 let _minutesId;
 
@@ -238,7 +238,7 @@ Template.topicElement.events({
 
         const topic = new Topic(this.minutesID, this.topic);
         const minutes = new Minutes(this.minutesID);
-        const newItem = createItem(itemDoc, topic, this.minutesID, minutes.parentMeetingSeries());
+        const newItem = detectTypeAndCreateItem(itemDoc, topic, this.minutesID, minutes.parentMeetingSeries());
         newItem.saveAtBottom().catch(error => {
             tmpl.find('.add-item-field').value = itemDoc.subject; // set desired value again!
             handleError(error);

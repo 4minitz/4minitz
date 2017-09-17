@@ -36,7 +36,7 @@ export const formatDateISO8601 = aDate => {
 };
 
 export const currentDatePlusDeltaDays = (deltaDays, currentDate) => {
-    var aDate = (currentDate) ? currentDate : new Date();
+    const aDate = (currentDate) ? currentDate : new Date();
     if (deltaDays) {
         aDate.setDate(aDate.getDate() + deltaDays);
     }
