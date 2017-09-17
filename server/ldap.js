@@ -50,7 +50,9 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
             throw new Meteor.Error(403, 'User is inactive');
         }
 
-        return user.profile.dn;
+        if (user && user.profile && user.profile.dn) {
+            return user.profile.dn;
+        }
     }
 
     return [searchDn, '=', username, ',', serverDn].join('');
