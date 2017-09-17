@@ -45,8 +45,7 @@ describe('Migrate Version 17', function () {
             details: [{_id: 'Detail_AaBbCc01'}]
         };
         itemSecondMinutes = {
-            _id: 'Item_AaBbCc02',
-            details: [{_id: 'Detail_AaBbCc02'}]
+            _id: 'Item_AaBbCc02'
         };
 
         topicFirstAndSecondMinutes = {
@@ -211,7 +210,7 @@ describe('Migrate Version 17', function () {
             expect(items2ndCall[0].details[0].createdAt).to.equal(expectedDateForElementsCreatedInFirstMinutes);
             expect(items2ndCall[0].details[0].updatedAt).to.equal(expectedDateForElementsCreatedInFirstMinutes);
         });
-
+        
     });
 
     describe('#down', function() {
