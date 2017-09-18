@@ -286,11 +286,11 @@ Template.minutesedit.helpers({
             toggleTopicSorting();
         });
 
-        // enable the parent series check after 2 seconds delay to make sure
+        // enable the parent series check after 2.5 seconds delay to make sure
         // there was enough time to update the meeting series
         Meteor.setTimeout(function() {
             Session.set('minutesedit.checkParent', true);
-        }, 2000);
+        }, 2500);
     },
 
     checkParentSeries: function() {

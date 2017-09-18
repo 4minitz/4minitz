@@ -9,7 +9,7 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 
 # 4Minitz!
 
-*Simply the best free webapp for taking meeting minutes.*
+*Simply ~~the best~~ a decent free webapp for taking meeting minutes.*
 
 * Create a meeting series and invite others
 * Specify moderators, invited and informed users
@@ -25,11 +25,6 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 
 *(Click to enlarge screenshot)*
 
-
-**Important: 4Minitz is currently WIP and not yet ready for mission critical usage. 
-Nevertheless, quite a few features are working stable already and you can head over to our
-[4Minitz Demo Server](https://www.4minitz.com) and and play around or install the current 
-version on your own server (see below)** 
 
 Documentation is "continously" not finished... Nevertheless these WIP docs may be of help:
 
@@ -84,6 +79,8 @@ with a more comprehensive coverage of the real production installation topic!
     curl https://install.meteor.com/ | sh
     meteor --version
 
+To download fresh code form github you will need `git` in your path.
+
 You'll need root rights for that. As a non-root user you may install
 meteor by:
 
@@ -93,8 +90,9 @@ meteor by:
     sudo ln -s ./meteor /usr/local/bin/meteor
 
 On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
+As experienced Windows admin you sure can transfor the below steps for Linux and Mac to your OS.
 
-#### Quick Installation of 4Minitz   
+#### Quick Installation of 4Minitz (Linux & Mac)   
 OK, here we go! For a quick test installation perform:
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git --branch master --single-branch
