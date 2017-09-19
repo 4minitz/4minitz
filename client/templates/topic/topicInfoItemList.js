@@ -210,6 +210,21 @@ Template.topicInfoItemList.helpers({
         return (item && context.items[index].itemType === 'infoItem');
     },
 
+    isDetailNew: function(indexs) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const item = context.items[indexs.hash.infoIndex];
+        const detail = item.details[indexs.hash.detailIndex];
+
+        console.log("=====");
+        console.log(context);
+        console.log(item);
+        console.log(detail);
+        console.log("=====");
+
+        return detail.createdInMinute === context.topicParentId;
+    },
+
     checkedState: function (index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
