@@ -401,7 +401,11 @@ Template.minutesedit.helpers({
 
     isDocumentGenerationAllowed : function () {
         return Meteor.settings.public.docGeneration.enabled === true;
-    }
+    },
+
+    theProtocol : function () {
+        return DocumentGeneration.getProtocolForMinute(_minutesID);
+    },
 });
 
 Template.minutesedit.events({

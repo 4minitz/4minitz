@@ -52,11 +52,14 @@
                                           aria-label="Print View"></span>
                                 </button>
                                 {{#if isDocumentGenerationAllowed}}
-                                    <button type="button" id="btn_downloadMinutes" class="btn hidden-print"
-                                            title="Download Minutes">
-                                        <span class="glyphicon glyphicon-download" aria-hidden="true"
-                                              aria-label="Download Minutes"></span>
-                                    </button>
+                                    {{#with theProtocol}}
+                                        <a class= "btn hidden-print" href="{{link}}?download=true"
+                                           target="_parent" type="{{type}}" download="{{name}}"
+                                            title="Download minutes as file">
+                                            <span class="glyphicon glyphicon-download" aria-hidden="true"
+                                                  aria-label="Download Minutes"></span>
+                                        </a>
+                                    {{/with}}
                                 {{/if}}
                             </div>
                         {{else}}  <!--NOT isFinalized-->
