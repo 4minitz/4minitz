@@ -602,7 +602,7 @@ Template.minutesedit.events({
         togglePrintView();
     },
 
-    'click #btn_downloadMinutes': function(evt) {
+    'click #btn_dynamicallyGenerateProtocol': function(evt) {
         evt.preventDefault();
 
         let noProtocolExistsDialog = (downloadHTML) => {
@@ -614,7 +614,7 @@ Template.minutesedit.events({
                 'Download'
             ).show();
         };
-
+        
         DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
     }
 });
