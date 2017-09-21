@@ -139,6 +139,11 @@
             "longname": "cn",
             "email": "mail"
         },
+        "//1": "Optional, will perform bind with these credentials before searching for users",
+        "authentication": {
+            "userDn": "admin",
+            "password": "password"
+        },
         "searchFilter": "(objectClass=user)",
         "serverDn": "OU=people,DC=example,DC=com",
         "serverUrl": "ldaps://ld.example.com:636",
