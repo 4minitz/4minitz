@@ -71,6 +71,15 @@ Meteor.methods({
 
         checkUserAvailableAndIsModeratorOf(minutes.parentMeetingSeriesID());
 
+        // We have to remember the sort order of the current minute
+        // to restore this order in the next future meeting minute
+        if (minutes.topics) {
+            for (let i=0; i<minutes.topics.length; i++) {
+                minutes.topics[i].sortOrder = i;
+            }
+            minutes.save();
+        }
+
         // first we copy the topics of the finalize-minute to the parent series
         TopicsFinalizer.mergeTopicsForFinalize(minutes.parentMeetingSeries());
 

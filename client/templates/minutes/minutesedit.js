@@ -401,7 +401,11 @@ Template.minutesedit.helpers({
 
     isDocumentGenerationAllowed : function () {
         return Meteor.settings.public.docGeneration.enabled === true;
-    }
+    },
+
+    theProtocol : function () {
+        return DocumentGeneration.getProtocolForMinute(_minutesID);
+    },
 });
 
 Template.minutesedit.events({
@@ -598,7 +602,7 @@ Template.minutesedit.events({
         togglePrintView();
     },
 
-    'click #btn_downloadMinutes': function(evt) {
+    'click #btn_dynamicallyGenerateProtocol': function(evt) {
         evt.preventDefault();
 
         let noProtocolExistsDialog = (downloadHTML) => {
@@ -610,7 +614,7 @@ Template.minutesedit.events({
                 'Download'
             ).show();
         };
-
+        
         DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
     }
 });
