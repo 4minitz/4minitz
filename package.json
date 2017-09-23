@@ -83,6 +83,7 @@
     "eslint": "^4.4.1",
     "faker": "^4.1.0",
     "mocha": "^3.5.0",
+    "npm-license-crawler": "^0.1.5",
     "proxyquire": "^1.8.0",
     "sinon": "^3",
     "sinon-chai": "^2.13.0",
