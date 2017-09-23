@@ -51,7 +51,14 @@ let users = [{
 
 let server = ldap.createServer();
 
-server.search('dc=example,dc=com', function(req, res, next) {
+function authorize(req, res, next) {
+    if (!req.connection.ldap.bindDN.equals('cn=ldapUser1,dc=example,dc=com'))
+        return next(new ldap.InsufficientAccessRightsError());
+
+    return next();
+}
+
+server.search('dc=example,dc=com', authorize, function(req, res, next) {
     let matches = _.filter(users, user => req.filter.matches(user.attributes));
     _.each(matches, match => res.send(match));
 

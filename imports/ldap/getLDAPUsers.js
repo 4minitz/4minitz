@@ -17,6 +17,32 @@ let _createLDAPClient = function (settings) {
     });
 };
 
+let _bind = function (connection) {
+    return new Promise((resolve, reject) => {
+        const client = connection.client,
+            settings = connection.settings,
+            auth = settings.authentication,
+            userDn = auth && auth.userDn,
+            password = auth && auth.password;
+
+        // no authentication details provided
+        // => the ldap server probably allows anonymous access
+        if (!userDn || !password) {
+            resolve(connection);
+            return;
+        }
+
+        client.bind(userDn, password, (error, response) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+
+            resolve(connection);
+        });
+    });
+};
+
 const inactivityStrategies = {
     userAccountControl(inactivitySettings, entry) {
         const uac = entry.object.userAccountControl || 0,
@@ -103,6 +129,7 @@ let _closeLDAPClient = function (connection) {
 let getLDAPUsers = function (settings) {
     return new Promise((resolve, reject) => {
         _createLDAPClient(settings)
+            .then(_bind)
             .then(_fetchLDAPUsers)
             .then(_closeLDAPClient)
             .then(resolve)

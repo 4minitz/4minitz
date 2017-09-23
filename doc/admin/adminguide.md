@@ -313,6 +313,7 @@ See your settings.json file:
 |---------------------|----------------------------------|-----------------------------------------------------------------------------|
 | enabled             | false                            | Enables & disables LDAP login                                               |
 | propertyMap         | {username: 'cn', email: 'mail' } | Map important attributes from ldap to user database                         |
+| authentication      | {}                               | Perform a bind before importing users from LDAP. Optional.                  |
 | searchFilter        | ""                               | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
 | serverDn            | ""                               | Your server base dn, e.g. "dc=example,dc=com"                               |
 | serverUrl           | ""                               | Server url, e.g. "ldaps://ldap.example.com:1234                             |
@@ -329,6 +330,18 @@ long names) are copied into the 4minitz user database. Password lookup
 happens over LDAP, so no passwords or hashes are stored for LDAP users 
 in the 4minitz user database. This is needed to store e.g. user access 
 rights for meeting minutes.
+
+#### Authentication
+
+To perform a bind before importing users from LDAP you can provide
+a user dn and a password with the authentication property. E.g.
+
+```
+  "authentication": {
+    "userDn": "cn=admin, ou=Admins, dc=example, dc=com",
+    "password": "p@ssw0rd"
+  }
+```
 
 #### Available strategies to detect inactive users
 
