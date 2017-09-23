@@ -1,4 +1,4 @@
-/**import { E2EGlobal } from './helpers/E2EGlobal'
+import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMinutes } from './helpers/E2EMinutes'
@@ -21,26 +21,44 @@ describe('MyActionItems Tab', function () {
 
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
-
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-    it("can filter the list of items", function () {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item with information', itemType: "actionItem"}, 1);
+    it("can filter my action items from all meeting series @watch", function () {
 
+        this.timeout(400000);
+        var meetingName = aMeetingName + '1';
+        E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #1');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #1', itemType: "actionItem"}, 1);
         E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #2');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #2', itemType: "actionItem"}, 1);
+        E2EMinutes.finalizeCurrentMinutes();
+
+        meetingName = aMeetingName + '2';
+        E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #3');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #3', itemType: "actionItem"}, 1);
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #4');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #4', itemType: "actionItem"}, 1);
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2EApp.gotoStartPage();
 
         E2EMeetingSeries.gotoTabItems();
 
-        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have three items").to.equal(3);
+        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have four items").to.equal(4);
 
-        browser.setValue('#inputFilter', 'information');
-        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have now two items").to.equal(2);
+        /**browser.setValue('#inputFilter', 'information');
+        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have now two items").to.equal(2);**/
     });
-});**/
+});
