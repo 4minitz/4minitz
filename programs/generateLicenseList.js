@@ -28,7 +28,7 @@ function downloadToStream(project, url) {
                 get(location, callback);
             } else if (response.statusCode === 404) {
                 console.log(`404: ${url} not found`);
-                resolve({project, stream: null, url});
+                resolve({project, url});
             } else {
                 resolve({project, stream: response, url});
             }
@@ -38,35 +38,32 @@ function downloadToStream(project, url) {
     });
 }
 
-function* streamYielder(streams) {
-    yield* streams;
-}
-
-function synchronousStreamCollector(generator, outStream) {
-    let next = generator.next();
-    if (!next.done && next.value) {
-        next.value
-            .then(({project, stream, url}) => {
-                const underlineProject = Array(project.length).join('='),
-                    licenseSeparator = Array(80).join('=');
-
-                outStream.write(`${project}\n${underlineProject}\n\n${url}\n\n`);
-                if (stream !== null) {
-                    console.log(`Writing license of ${project}`);
-
-                    stream.pipe(outStream, {end: false});
-                    stream.on('end', () => {
-                        outStream.write(`\n\n${licenseSeparator}\n\n`);
-                        synchronousStreamCollector(generator, outStream);
-                    });
-                } else {
-                    console.log(`NO LICENSE TEXT FOUND FOR ${project}`);
-                    outStream.write(`\n\n${licenseSeparator}\n\n`);
-                    synchronousStreamCollector(generator, outStream);
-                }
-            })
-            .catch(console.error);
+function streamCollector(streams, index, outStream) {
+    if (index >= streams.length) {
+        return;
     }
+
+    streams[index]
+        .then(({project, stream, url}) => {
+            const underlineProject = Array(project.length).join('='),
+                licenseSeparator = Array(80).join('=');
+
+            outStream.write(`${project}\n${underlineProject}\n\n${url}\n\n`);
+            if (stream) {
+                console.log(`Writing license of ${project}`);
+
+                stream.pipe(outStream, {end: false});
+                stream.on('end', () => {
+                    outStream.write(`\n\n${licenseSeparator}\n\n`);
+                    streamCollector(streams, index + 1, outStream);
+                });
+            } else {
+                console.log(`NO LICENSE TEXT FOUND FOR ${project}`);
+                outStream.write(`\n\n${licenseSeparator}\n\n`);
+                streamCollector(streams, index + 1, outStream);
+            }
+        })
+        .catch(console.error);
 }
 
 crawler.dumpLicenses(options, (error, res) => {
@@ -79,5 +76,5 @@ crawler.dumpLicenses(options, (error, res) => {
     let streams = Object.keys(res)
         .map(project => downloadToStream(project, res[project].licenseUrl));
     
-    synchronousStreamCollector(streamYielder(streams), output);
+    streamCollector(streams, 0, output);
 });
