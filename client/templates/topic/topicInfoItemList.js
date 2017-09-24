@@ -13,6 +13,8 @@ import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import { MinutesFinder } from '../../../imports/services/minutesFinder';
+import { MeetingSeries } from '../../../imports/meetingseries';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -216,13 +218,11 @@ Template.topicInfoItemList.helpers({
         const item = context.items[indexs.hash.infoIndex];
         const detail = item.details[indexs.hash.detailIndex];
 
-        console.log("=====");
-        console.log(context);
-        console.log(item);
-        console.log(detail);
-        console.log("=====");
+        const lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')
+            ? context.topicParentId
+            : MinutesFinder.lastMinutesOfMeetingSeries(new MeetingSeries(context.topicParentId))._id;
 
-        return detail.createdInMinute === context.topicParentId;
+        return detail.createdInMinute === lastFinalizedMinuteId;
     },
 
     checkedState: function (index) {
