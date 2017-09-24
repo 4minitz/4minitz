@@ -5,6 +5,13 @@ Template.registerHelper('formatDateISO8601Time', (date) => {
     return formatDateISO8601Time(date);
 });
 
-Template.registerHelper('formateUpdatedHint', (date, username) => {
-    return `Updated ${formatDateISO8601Time(date)}` + ((username) ? ` by ${username}` : '');
+Template.registerHelper('formateUpdatedHint', (dateCreate, userCreate, dateUpd, userUpd) => {
+    const dateCreateStr = formatDateISO8601Time(dateCreate);
+    const dateUpdStr = formatDateISO8601Time(dateUpd);
+
+    let tooltip = `Created ${dateCreateStr}` + ((userCreate) ? ` by ${userCreate}` : '');
+    if (dateUpd && dateUpdStr > dateCreateStr) {
+        tooltip = tooltip + `\nUpdated ${dateUpdStr}` + ((userUpd) ? ` by ${userUpd}` : '');
+    }
+    return tooltip;
 });
