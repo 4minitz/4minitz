@@ -1,11 +1,7 @@
 const crawler = require('npm-license-crawler'),
     http = require('http'),
     https = require('https'),
-    fs = require('fs'),
-    Readable = require('stream').Readable,
-    options = {
-        start: ['.']
-    };
+    fs = require('fs');
 
 function get(url, callback) {
     if (url.indexOf('https') === 0) {
@@ -26,8 +22,9 @@ function downloadToStream(project, url) {
             if (response.statusCode >= 300 && response.statusCode < 400) {
                 const location = response.headers.location;
                 get(location, callback);
-            } else if (response.statusCode === 404) {
-                console.log(`404: ${url} not found`);
+            // handle client and server errors
+            } else if (response.statusCode >= 400) {
+                console.log(`${response.statusCode}: ${url} not found`);
                 resolve({project, url});
             } else {
                 resolve({project, stream: response, url});
@@ -66,7 +63,7 @@ function streamCollector(streams, index, outStream) {
         .catch(console.error);
 }
 
-crawler.dumpLicenses(options, (error, res) => {
+crawler.dumpLicenses({start: ['.']}, (error, res) => {
     if (error) {
         console.error("Error:", error);
         return;
