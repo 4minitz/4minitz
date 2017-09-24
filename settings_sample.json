@@ -1,6 +1,6 @@
 {
     "//1": "below option ensures that embedded links in E-Mails and attachments point back to your server",
-    "ROOT_URL": "http://www.your-domain.com:3100",
+    "ROOT_URL": "http://www.your-domain.com:3100/",
 
     "//2": ["below option switches off some privacy settings in trusted environments",
                 "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
