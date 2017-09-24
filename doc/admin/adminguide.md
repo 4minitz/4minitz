@@ -26,9 +26,9 @@ drawbacks:
    without meteor build support. So, if your (virtual?) machine has enough
    RAM - may be you are fine with this, too.
 
-In all other cases - read on and chose the "Production Installation" way.
+In all other cases - read on and choose the "Production Installation" way.
 
-## Production Server Setup - with Docker
+## Production Server Setup with Docker
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
 node.js version and MongoDB and thus has no external dependencies.
 
@@ -110,7 +110,7 @@ the new WebApp version automatically via meteors hot-code push.
 
 
 
-## Production Building, Installation & Running
+## Production Server by Building From Source
 If you can not (or don't want to) use the ready-to-run docker image
 (see above), you can instead build and run your own 4Minitz server
 from source.
@@ -123,8 +123,6 @@ As of version 1.4 meteor needs to build some binary npm packages during build ph
 
 **On Linux** perform a `gcc --version` should at least deliver a **"4.8.x"**.
  If your gcc is older, consult your Linux distribution how-tos on how to upgrade. A good version switcher is [update-alternatives](https://linux.die.net/man/8/update-alternatives).
-
-**On Windows** install the MS Visual Studio Community Edition to get an up-to-date commandline C++ compiler.
 
 #### Installation of Git
 To obtain the sources you may download the current [source ZIP from github](https://github.com/4minitz/4minitz/releases).
@@ -282,6 +280,16 @@ Database related configuration is collected under the ```db``` object in your se
 * ```mongodumpTargetDirectory```: The output directory where 4minitz will store the database contents before
   the database schema is migrated (updated). If this is not set or empty no backup will be created.
 
+### Get informed about updates
+The 4Minitz team will try to improve the 4Minitz code base. From time to time there may be also an important security fix. Per default your 4Minitz server will ask our master server regularly (about every 8 hrs.) what the current official stable version is. Your server will send your admin an eMail if your server found out such a newer version exists.
+
+The update check will be active if...
+
+1. You did *not* disable the update check like so: `updateCheck: false`
+2. You properly configured sending of EMails & SMPT server (`enableMailDelivery`)
+3. You configured at least one admin ID (`adminIDs`) and the admin user has a valid mail address  
+
+**Important Privacy Note** The "new version" mail will be generated and sent to you by *YOUR OWN* 4Minitz server. Your personal data (like admin mail address) will newer leave your server.
 
 ### Configuration for sending emails
 
@@ -436,15 +444,33 @@ server statistics.
 
 ### Safety and Backup
 To ensure that you do not suffer from loss of data, make sure to
-backup your database and your attachment directory.
+backup your database and your static files directories.
 
 #### Backup of MongoDB data
-TODO 
+You may create a backup of your MongoDB database like so:
 
-#### Backup of uploaded attachments
-TODO
+
+#### Backup of uploaded attachments / generated documents
+When your 4Minitz server launches it will print two absolute pathes for you, if you have attachments and document generatin enabled. For example:
+
+```
+I20170924-12:52:32.302(2)? Attachments upload feature: ENABLED
+I20170924-12:52:32.348(2)? attachmentsStoragePath:/home/4minzer/www/attachments_4mindev
+I20170924-12:52:32.350(2)? Document generation feature: ENABLED
+I20170924-12:52:32.350(2)? Document Storage Path: /home/4minzer/www/protocols_4mindev
+```
+
+Please ensure that these directories are included in your regular backups.
+
 
 ### Security
+#### Password security
+4Minitz uses the meteor [accounts-password](https://docs.meteor.com/api/passwords.html) package. According to the docs passwords are
+
+* Hashed on the client. And only the hash is transferred to the server
+* The server then uses salting and bcrypt2 to store the password in the user database.
+
+So, the plain text password never leaves the client. But also the hashed password that is transferred to the server could allow a replay attach. So **make sure your 4Minitz Server is only reachable via SSL**!!! This is also a good idea to protect data content from curious eyes.   
 
 #### MongoDB security
 https://docs.mongodb.com/manual/tutorial/configure-ssl/
