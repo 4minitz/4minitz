@@ -4,10 +4,15 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 function getFilteredSeries(queryString) {
-    const split = queryString.match(/[^\s]+/g) || [],
-        query = new RegExp(split.join('|'), 'i');
-
-    return MeetingSeries.find({ $or: [{ 'name': query }, { 'project': query }] });
+    const split = queryString.trim().match(/[^\s]+/g) || [],
+        queries = split.map(singleQuery => {
+            const regex = new RegExp(singleQuery, 'i');
+            return {
+                $or: [{name: regex}, {project: regex}]
+            };
+        });
+    
+    return MeetingSeries.find({ $and: queries });
 }
 
 Template.meetingSeriesList.onCreated(function () {
@@ -27,7 +32,7 @@ Template.meetingSeriesList.helpers({
     meetingSeriesRow() {
         const searchQuery = Template.instance().searchQuery.get();
 
-        if (searchQuery === '') {
+        if (searchQuery.trim() === '') {
             return MeetingSeries.find({}, { sort: { lastMinutesDate: -1 } });
         } else {
             const results = getFilteredSeries(searchQuery);
