@@ -2,7 +2,7 @@ import { E2EApp } from './helpers/E2EApp';
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 
 
-describe('@watch MeetingSeriesSearch', function () {
+describe('MeetingSeriesSearch', function () {
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
@@ -40,19 +40,19 @@ describe('@watch MeetingSeriesSearch', function () {
     it('can search for name', function () {
         bootstrapSeries();
         E2EMeetingSeries.searchMeetingSeries('#3');
-        expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(1).to.be.ok;
+        expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(1);
     });
 
     it('can search for project', function () {
         bootstrapSeries();
         E2EMeetingSeries.searchMeetingSeries('Project3');
-        expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(1).to.be.ok;
+        expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(1);
     });
 
     it('can search with many parameters', function () {
         bootstrapSeries();
         E2EMeetingSeries.searchMeetingSeries('#1 Project3 5');
-        expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(3).to.be.ok;
+        expect(E2EMeetingSeries.countMeetingSeries(false)).to.equal(0);
     });
 
     it('can notice if nothing is found', function () {
