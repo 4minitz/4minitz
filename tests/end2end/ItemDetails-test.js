@@ -57,7 +57,7 @@ describe('Item Details', function () {
         }, 1);
     });
 
-    it('can add first details to a new Info Item', function() {
+    it('can add first details to a new Info Item @watch', function() {
         const detailsText = 'First Details for Info Item';
         E2ETopics.addFirstDetailsToNewInfoItem({
             subject: getNewAIName(),
@@ -72,7 +72,7 @@ describe('Item Details', function () {
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
 
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+            .to.have.string(formatDateISO8601(new Date()) + ' New+\n' + detailsText);
     });
 
     it('can add details to an Action Item', function() {
@@ -81,7 +81,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New+\nNew Details');
     });
 
     it('can add details to an Info Item, too', function() {
@@ -96,7 +96,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+            .to.have.string(formatDateISO8601(new Date()) + ' New+\n' + detailsText);
     });
 
     it('can add a second detail to an Action Item', function () {
@@ -106,9 +106,9 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, "First added detail should be displayed")
-            .to.have.string(formatDateISO8601(new Date()) + '\nFirst Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New+\nFirst Details');
         expect(browser.elementIdText(firstItemOfNewTopic).value, "2nd added detail should be displayed, too")
-            .to.have.string(formatDateISO8601(new Date()) + '\nSecond Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New+\nSecond Details');
     });
 
     it('can add details to the 2nd AI of the same topic persistent', function() {
