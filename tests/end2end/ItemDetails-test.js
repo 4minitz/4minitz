@@ -148,7 +148,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
         expect(browser.elementIdText(sndItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + "Updated Details");
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + "Updated Details");
     });
 
     it('does not remove details when AI will be updated with the edit dialog', function () {
@@ -162,7 +162,7 @@ describe('Item Details', function () {
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         let completeAIText = browser.elementIdText(firstItemOfNewTopic).value;
         expect(completeAIText, "Subject of AI should have changed").to.have.string(newSubject);
-        expect(completeAIText, "AI should still contain the details").to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+        expect(completeAIText, "AI should still contain the details").to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
 
     it('does not revert changes when input field receives click-event during input', function () {
@@ -176,7 +176,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, "Added detail should be displayed")
-            .to.have.string(formatDateISO8601(new Date()) + '\nFirst Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' +'\nFirst Details');
     });
 
     it('can change existing details', function () {
