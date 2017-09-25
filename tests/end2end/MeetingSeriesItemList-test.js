@@ -66,7 +66,7 @@ describe('MeetingSeries Items list', function () {
         E2ETopics.expandDetailsForNthInfoItem(1);
 
         expect(E2ETopics.getNthItemFromItemList(0).value)
-            .to.have.string(formatDateISO8601(new Date()) + ' New+\nAmazing details for this information item');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nAmazing details for this information item');
     });
 
 });

@@ -57,7 +57,7 @@ describe('Item Details', function () {
         }, 1);
     });
 
-    it('can add first details to a new Info Item @watch', function() {
+    it('can add first details to a new Info Item', function() {
         const detailsText = 'First Details for Info Item';
         E2ETopics.addFirstDetailsToNewInfoItem({
             subject: getNewAIName(),
@@ -72,7 +72,7 @@ describe('Item Details', function () {
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
 
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + ' New+\n' + detailsText);
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
     });
 
     it('can add details to an Action Item', function() {
@@ -81,7 +81,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + ' New+\nNew Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
 
     it('can add details to an Info Item, too', function() {
@@ -96,7 +96,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + ' New+\n' + detailsText);
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
     });
 
     it('can add a second detail to an Action Item', function () {
@@ -106,9 +106,9 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, "First added detail should be displayed")
-            .to.have.string(formatDateISO8601(new Date()) + ' New+\nFirst Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nFirst Details');
         expect(browser.elementIdText(firstItemOfNewTopic).value, "2nd added detail should be displayed, too")
-            .to.have.string(formatDateISO8601(new Date()) + ' New+\nSecond Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nSecond Details');
     });
 
     it('can add details to the 2nd AI of the same topic persistent', function() {
@@ -187,7 +187,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details (changed)');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details (changed)');
     });
 
     it('shows an confirmation dialog when removing existing details', function() {
@@ -237,7 +237,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
 
     it('ensures that only moderator can add details', function () {
@@ -264,7 +264,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.not.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+            .to.not.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
 
         E2EApp.loginUser();
     });
@@ -294,7 +294,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nOld Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nOld Details');
 
         E2EApp.loginUser();
     });
