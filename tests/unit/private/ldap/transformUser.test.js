@@ -15,7 +15,9 @@ describe('transformUser', function () {
 
     it('uses the configured attribute as username', function () {
         let ldapSettings = {
-                searchDn: 'attr'
+                propertyMap: {
+                    username: 'attr'
+                }
             },
             userData = {
                 cn: 'wrongUsername',

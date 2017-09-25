@@ -10,7 +10,7 @@ import { E2EMinutes } from './E2EMinutes'
 export class E2EAttachments {
     static expandAttachmentsArea() {
         browser.waitForExist("#btn2AttachmentsExpand");
-        browser.click("#btn2AttachmentsExpand");
+        E2EGlobal.clickWithRetry("#btn2AttachmentsExpand");
         E2EGlobal.waitSomeTime();
     }
 

@@ -22,7 +22,7 @@ import '/imports/statistics';
 import '/imports/collections/attachments_private';
 import '/imports/collections/documentgeneration_private';
 
-import '/imports/services/finalizer';
+import '/imports/services/finalize-minutes/finalizer';
 
 import cron from 'node-cron';
 import importUsers from '/imports/ldap/import';
@@ -62,8 +62,32 @@ let handleDemoUserAccount = function () {
 };
 
 
+let syncRootUrl = function () {
+    if (!Meteor.settings) {
+        console.log("*** Warning: no settings specified. Running in 'WTF' mode.");
+        return;
+    }
+
+    if (!Meteor.settings.ROOT_URL) {
+        console.log("*** Warning: No ROOT_URL specified in settings.json.");
+        console.log("             Links in EMails and file download may not work.");
+        console.log("             Grabbing ROOT_URL from env variable.");
+    }
+
+    // We sync the two sources of ROOT_URL with a preference on Meteor.settings from settings.json
+    // process.env.ROOT_URL will be set to localhost:port by meteor if not specified by the user.
+    // So, process.env.ROOT_URL should always contain a value
+    if (Meteor.settings.ROOT_URL) {
+        process.env.ROOT_URL = Meteor.settings.ROOT_URL;
+    } else {
+        Meteor.settings.ROOT_URL = process.env.ROOT_URL;
+    }
+};
 
 Meteor.startup(() => {
+    syncRootUrl();
+    console.log("*** ROOT_URL: "+Meteor.settings.ROOT_URL);
+
     GlobalSettings.publishSettings();
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
     console.log('WebApp current working directory:'+process.cwd());

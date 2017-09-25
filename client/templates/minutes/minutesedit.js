@@ -16,7 +16,7 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
 import { DocumentGeneration } from '/imports/documentGeneration';
 
-import { Finalizer } from '/imports/services/finalizer';
+import { Finalizer } from '/imports/services/finalize-minutes/finalizer';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -131,12 +131,21 @@ let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
 
 Template.minutesedit.onCreated(function () {
     this.minutesReady = new ReactiveVar();
+    this.currentMinuteLoaded = new ReactiveVar();
 
     this.autorun(() => {
         _minutesID = FlowRouter.getParam('_id');
-        let subscriptionHandle = this.subscribe('minutes', _minutesID);
 
-        this.minutesReady.set(subscriptionHandle.ready());
+        this.currentMinuteLoaded.set(this.subscribe('minutes', undefined, _minutesID));
+        if (this.currentMinuteLoaded.get().ready()) {
+            let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
+            this.subscribe('minutes', meetingSeriesId);
+            this.subscribe('meetingSeriesDetails', meetingSeriesId);
+            this.subscribe('files.attachments.all', meetingSeriesId, _minutesID);        
+            this.subscribe('files.protocols.all', meetingSeriesId, _minutesID);
+            
+            this.minutesReady.set(this.subscriptionsReady());
+        }
     });
 
     Session.set('minutesedit.checkParent', false);
@@ -277,11 +286,11 @@ Template.minutesedit.helpers({
             toggleTopicSorting();
         });
 
-        // enable the parent series check after 2 seconds delay to make sure
+        // enable the parent series check after 2.5 seconds delay to make sure
         // there was enough time to update the meeting series
         Meteor.setTimeout(function() {
             Session.set('minutesedit.checkParent', true);
-        }, 2000);
+        }, 2500);
     },
 
     checkParentSeries: function() {
@@ -392,7 +401,11 @@ Template.minutesedit.helpers({
 
     isDocumentGenerationAllowed : function () {
         return Meteor.settings.public.docGeneration.enabled === true;
-    }
+    },
+
+    theProtocol : function () {
+        return DocumentGeneration.getProtocolForMinute(_minutesID);
+    },
 });
 
 Template.minutesedit.events({
@@ -517,8 +530,8 @@ Template.minutesedit.events({
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 processFinalize,
                 'Proceed without participants',
-                'confirmationDialogProceedWithoutPresentParticipants',
-                {},
+                'confirmPlainText',
+                { plainText: 'No invited user is checked as participant of this meeting. Are you sure you want to finalize the meeting?'},
                 'Proceed'
             ).show();
         }
@@ -589,9 +602,20 @@ Template.minutesedit.events({
         togglePrintView();
     },
 
-    'click #btn_downloadMinutes': function(evt) {
+    'click #btn_dynamicallyGenerateProtocol': function(evt) {
         evt.preventDefault();
-        DocumentGeneration.downloadMinuteProtocol(_minutesID).catch(onError);
+
+        let noProtocolExistsDialog = (downloadHTML) => {
+            ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                downloadHTML,
+                'Confirm generate protocol',
+                'confirmPlainText',
+                { plainText: 'There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?'},
+                'Download'
+            ).show();
+        };
+        
+        DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
     }
 });
 

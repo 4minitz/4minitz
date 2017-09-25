@@ -26,14 +26,14 @@
                     <li><a target="_blank" href="https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md">
                         Help</a>
                     </li>
-                    <li><a id="btnAbout" href="#" data-toggle="modal" data-target="#dlgAbout">
+                    <li><a id="btnAbout"  data-toggle="modal" data-target="#dlgAbout">
                         About</a>
                     </li>
 
                     <!--User DropDown Menu-->
                     {{#if currentUser}}
                         <li class="dropdown">
-                            <a href="#" id="navbar-usermenu" class="dropdown-toggle" data-toggle="dropdown">
+                            <a  id="navbar-usermenu" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                                 {{displayUsername}}
                                 <b class="caret"></b>
@@ -46,16 +46,16 @@
                                 {{/if}}
                                 {{#unless currentUser.isLDAPuser}}
                                     {{#unless currentUser.isDemoUser}}
-                                      <li><a href="#" data-toggle="modal" data-target="#dlgEditProfile" id="navbar-dlgEditProfile">
+                                      <li><a  data-toggle="modal" data-target="#dlgEditProfile" id="navbar-dlgEditProfile">
                                           Edit Profile</a>
                                       </li>
-                                      <li><a href="#" data-toggle="modal" data-target="#dlgChangePassword" id="navbar-dlgChangePassword">
+                                      <li><a  data-toggle="modal" data-target="#dlgChangePassword" id="navbar-dlgChangePassword">
                                           Change Password</a>
                                       </li>
                                       <li class="divider"></li>
                                     {{/unless}}
                                 {{/unless}}
-                                <li><a href="#" id="navbar-signout">
+                                <li><a  id="navbar-signout">
                                     Sign Out</a>
                                 </li>
                             </ul>

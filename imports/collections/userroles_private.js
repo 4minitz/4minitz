@@ -79,6 +79,16 @@ Meteor.methods({
             return; // silently swallow: user may never change own role!
         }
 
+        // check if newRole is an allowed role
+        if (!Array.isArray(newRole)) {  // unify input. maybe array or string
+            newRole = [newRole];
+        }
+        const allowedRoles = Object.keys(UserRoles.USERROLES).map(key => UserRoles.USERROLES[key]);
+        let newRoleString = newRole[0];
+        if (allowedRoles.indexOf(newRoleString) === -1) {
+            throw new Meteor.Error('Unknown role value: '+newRole);
+        }
+
         // #Security: Ensure user is moderator of affected meeting series
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(meetingSeriesId)) {

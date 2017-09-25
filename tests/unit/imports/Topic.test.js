@@ -9,7 +9,10 @@ class MeteorError {}
 let Meteor = {
     call: sinon.stub(),
     Error: MeteorError,
-    callPromise: sinon.stub()
+    callPromise: sinon.stub(),
+    user: () => {
+        return {username: 'unit-test'};
+    }
 };
 
 const meetingSeriesId = "AaBbCcDd01";
@@ -17,7 +20,6 @@ class MeetingSeries {
     constructor(id) {
         this._id = id;
     }
-    upsertTopic() {}
     static findOne(id) {
         if (id === meetingSeriesId) {
             return dummySeries;

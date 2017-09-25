@@ -31,13 +31,13 @@ export class E2EAdmin {
 
     static clickAdminMenu () {
         if (E2EApp.isLoggedIn()) {
-            browser.click('#navbar-usermenu');
+            E2EGlobal.clickWithRetry('#navbar-usermenu');
             if (browser.isExisting('#navbar-admin')) {
-                browser.click('#navbar-admin');
+                E2EGlobal.clickWithRetry('#navbar-admin');
                 E2EGlobal.waitSomeTime();
                 return true;
             }
-            browser.click('#navbar-usermenu');  // close open menu
+            E2EGlobal.clickWithRetry('#navbar-usermenu');  // close open menu
         }
         return false;
     }
@@ -49,9 +49,9 @@ export class E2EAdmin {
 
     static switchToTab(tabName) {
         if (tabName === "Users") {
-            browser.click(E2EAdmin.selectorMap.tabUsers)
+            E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.tabUsers)
         } else if (tabName === "Messages") {
-            browser.click(E2EAdmin.selectorMap.tabMessages)
+            E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.tabMessages)
         } else {
             throw new Exception("Unknown admin tab: "+tabName);
         }
@@ -61,7 +61,7 @@ export class E2EAdmin {
     static setShowInactive(showInactive) {
         if (showInactive !== E2EGlobal.isCheckboxSelected(E2EAdmin.selectorMap.chkShowInactiveUsers)) {
             // With material design we can only toggle a checkbox via click on it's label
-            browser.click(E2EAdmin.selectorMap.labShowInactiveUsers);
+            E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.labShowInactiveUsers);
         }
     }
 
@@ -74,7 +74,7 @@ export class E2EAdmin {
             index = 1;
         }
         let selector = E2EAdmin.selectorMap.btnToggleUserInactive+':nth-child('+index+')';
-        browser.click(selector);
+        E2EGlobal.clickWithRetry(selector);
     }
 
     static sendNewBroadcastMessage(message) {
@@ -85,7 +85,7 @@ export class E2EAdmin {
     }
 
     static registerNewUser(username, longname, email, password) {
-        browser.click(E2EAdmin.selectorMap.btnRegisterNewUser);
+        E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.btnRegisterNewUser);
         E2EGlobal.waitSomeTime(500);
 
         browser.setValue(E2EAdmin.selectorMap.inpNewUser_username, username);
@@ -94,7 +94,7 @@ export class E2EAdmin {
         browser.setValue(E2EAdmin.selectorMap.inpNewUser_password1, password);
         browser.setValue(E2EAdmin.selectorMap.inpNewUser_password2, password);
 
-        browser.click(E2EAdmin.selectorMap.btnNewUser_Save);
+        E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.btnNewUser_Save);
         E2EGlobal.waitSomeTime(500);
     }
 }

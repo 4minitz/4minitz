@@ -25,7 +25,8 @@ const CONFIG = {
     minutesCount: parseInt(arg.options['minutes-count'], 10) || 5,
     topicsRange: RangeHelper.convertRangeToMinMaxObject(arg.options['topics-range'], {min: 3, max: 10}),
     itemsRange: RangeHelper.convertRangeToMinMaxObject(arg.options['items-range'], {min: 1, max: 8}),
-    detailsSentenceRange: RangeHelper.convertRangeToMinMaxObject(arg.options['details-range'], {min: 7, max: 23}) // number of sentences per detail
+    detailsSentenceRange: RangeHelper.convertRangeToMinMaxObject(arg.options['details-range'], {min: 7, max: 23}), // number of sentences per detail
+    username: USERNAME
 };
 
 
@@ -47,6 +48,10 @@ async function main() {
         meetingSeriesGenerator.addAllMinutes(minutes, topicsGenerator.seriesTopicList);
 
         await mongoDb.insertOne(Collections.MeetingSeries, series);
+        await mongoDb.insertMany(Collections.Topcis, topicsGenerator.seriesTopicList.map(topic => {
+            topic.parentId = series._id;
+            return topic;
+        }));
         let count = (await mongoDb.insertMany(Collections.Minutes, minutes)).insertedCount;
 
 

@@ -1,33 +1,24 @@
 <template name="meetingSeriesList">
-    {{> meetingSeriesAdd}}
+    {{#if authenticating}}
+        {{> loading}}
+    {{else}}
+        {{> meetingSeriesAdd}}
+        {{#if meetingSeriesAmountBiggerFour}}
+            {{> meetingSeriesSearch updateSearchQuery=updateSearchQuery}}
+        {{/if}}
+        <br>
+        <br>
 
-    <br>
-    <br>
-
-    <ul class="list-group" style="font-size: 130%;">
-      {{#each meetingSeriesRow}}
-        {{> meetingSeriesOverview}}
-      {{/each}}
-    </ul>
-
-    {{> quickHelp context='meetingSeriesList' contentTmpl='quickHelpMeetingSeriesList'}}
-</template>
-
-
-<template name="meetingSeriesOverview">
-        <li class="list-group-item meeting-series-item" style="padding-bottom: 10px;">
-            <a href="{{pathFor 'meetingseries' _id=this._id}}">{{project}}: {{name}}</a>
-            {{#if isModeratorOfSeries}}
-                <span class="glyphicon glyphicon-user"></span>
+        <ul class="list-group" style="font-size: 130%;">
+            {{#if meetingSeriesRow}}
+                {{#each meetingSeriesRow}}
+                    {{> meetingSeriesOverview}}
+                {{/each}}
+            {{else}}
+                <span id="id_noresults">No Results for this input..</span>
             {{/if}}
-                {{#if lastMinutes}}
-                    (<span class="hidden-xs">last minutes of </span><a href="{{pathFor 'minutesedit' _id=lastMinutes._id}}">{{lastMinutes.date}}</a>
-                    {{#if lastMinutes.isFinalized}}
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="Finalized"></span>)
-                    {{else}}
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" aria-label="Not finalized"></span>)
-                    {{/if}}
-                {{/if}}
-            <span class="badge">{{countMinutes}}</span>
-        </li>
+        </ul>
+
+        {{> quickHelp context='meetingSeriesList' contentTmpl='quickHelpMeetingSeriesList'}}
+    {{/if}}
 </template>

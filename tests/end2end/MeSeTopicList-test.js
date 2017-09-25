@@ -193,6 +193,7 @@ describe('MeetingSeries complete Topic list', function () {
 		// the topic should have been copied to the latest minute
 		E2EMeetingSeries.gotoTabMinutes();
 		E2EMinutes.gotoLatestMinutes();
+		E2EGlobal.waitSomeTime();
 		expect(E2ETopics.countTopicsForMinute()).to.equal(1);
 	});	
 	
@@ -406,6 +407,25 @@ describe('MeetingSeries complete Topic list', function () {
             let items = E2ETopics.getItemsForTopic(1);
             let firstItemElement = items[0].ELEMENT;
             expect(browser.elementIdText(firstItemElement).value).to.have.string("New");
+        });
+
+        it('removes the topic from the meeting series topics list if it was created int the un-finalized minutes', function() {
+            // add a second minute
+            E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+            // add a new topic
+            E2ETopics.addTopicToMinutes('some other topic');
+            E2ETopics.addInfoItemToTopic({subject: 'with information'}, 1);
+            E2ETopics.addInfoItemToTopic({subject: 'with an action item', itemType: "actionItem"}, 1);
+
+            E2EMinutes.finalizeCurrentMinutes();
+            E2EMinutes.unfinalizeCurrentMinutes();
+
+            E2EMinutes.gotoParentMeetingSeries();
+
+            E2EMeetingSeries.gotoTabTopics();
+
+            expect(E2ETopics.countTopicsForMinute()).to.equal(1);
         });
 
     });

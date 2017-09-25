@@ -3,7 +3,7 @@ import proxyquire from 'proxyquire';
 import _ from 'underscore';
 import sinon from 'sinon';
 
-import * as DateHelpers from '../../../../imports/helpers/date';
+import * as DateHelpers from '../../../../../imports/helpers/date';
 
 
 let MinutesSchema = {
@@ -16,7 +16,11 @@ let MeetingSeriesSchema = {
     findOne: sinon.stub()
 };
 
-const Minutes = sinon.stub();
+let Minutes = sinon.stub();
+//let Minutes = {
+//    save: sinon.stub(),
+//};
+
 const Topics = sinon.stub();
 const check = sinon.stub();
 const UserRoles = sinon.stub();
@@ -35,7 +39,8 @@ let Meteor = {
     methods: m => Object.assign(MeteorMethods, m),
     isClient: true,
     callPromise: sinon.stub().resolves(true),
-    Error: MeteorError
+    Error: MeteorError,
+    settings: { 'public': { docGeneration: { enabled: true}}}
 };
 
 let PromisedMethods = {};
@@ -51,9 +56,20 @@ const MinutesFinder = {
     secondLastMinutesOfMeetingSeries: sinon.stub()
 };
 
+
+const TopicsFinalizer = {
+    mergeTopicsForFinalize: sinon.stub(),
+    mergeTopicsForUnfinalize: sinon.stub()
+};
+
+const DocumentGeneration = {
+    saveProtocol: sinon.stub(),
+    removeProtocol: sinon.stub()
+};
+
 const {
     Finalizer
-} = proxyquire('../../../../imports/services/finalizer', {
+} = proxyquire('../../../../../imports/services/finalize-minutes/finalizer', {
     'meteor/meteor': { Meteor, '@noCallThru': true },
     'meteor/underscore': { _, '@noCallThru': true },
     'meteor/check': { check, '@noCallThru': true },
@@ -66,7 +82,9 @@ const {
     '/imports/mail/FinalizeMailHandler': { FinalizeMailHandler, '@noCallThru': true },
     '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true },
     '/imports/helpers/date': DateHelpers,
-    '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true }
+    '/imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true },
+    './topicsFinalizer': { TopicsFinalizer, '@noCallThru': true },
+    '/imports/documentGeneration': { DocumentGeneration,  '@noCallThru': true }
 });
 
 function verifyPropertyOfMinutesUpdate(minutes, property, value) {
@@ -90,7 +108,8 @@ describe('workflow.finalizeMinute', function () {
     const finalizeMeteorMethod = MeteorMethods['workflow.finalizeMinute'],
         fakeMeetingSeries = {
             openTopics: [],
-            topics: []
+            topics: [],
+            updateLastMinutesFieldsAsync: sinon.stub()
         },
         user = {
             username: 'me'
@@ -106,7 +125,8 @@ describe('workflow.finalizeMinute', function () {
             topics: [],
             isFinalized: false,
             parentMeetingSeriesID: sinon.stub().returns(12),
-            parentMeetingSeries: sinon.stub().returns(fakeMeetingSeries)
+            parentMeetingSeries: sinon.stub().returns(fakeMeetingSeries),
+            save: sinon.stub()
         };
         Minutes.returns(minutes);
 
@@ -236,7 +256,8 @@ describe('workflow.unfinalizeMinute', function () {
         meetingSeries = {
             openTopics: [],
             topics: [],
-            minutes: [minutesId]
+            minutes: [minutesId],
+            updateLastMinutesFieldsAsync: sinon.stub()
         };
         MeetingSeriesSchema.findOne.returns(meetingSeries);
 
