@@ -132,7 +132,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
         expect(browser.elementIdText(sndItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
     });
 
     it('can edit the details of the 2nd AI of the same topic', function() {
