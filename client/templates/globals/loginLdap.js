@@ -10,7 +10,7 @@ function loginCallback(error) {
         (new FlashMessage('Login error', error.message)).show();
     }
 
-    let routeName = FlowRouter.current().route.getName();
+    let routeName = FlowRouter.current().route.name;
     if (routeName === 'login' || routeName === 'signup' || routeName === 'home') {
         FlowRouter.go('home');
     }
