@@ -9,7 +9,7 @@ export class MeetingSeriesTopicsUpdater {
     }
 
     invalidateIsNewFlagOfAllTopicsAndItems() {
-        TopicsFinder.allNewTopicsOfMeetingSeries(this.meetingSeriesId).forEach((topicDoc) => {
+        TopicsFinder.allTopicsOfMeetingSeries(this.meetingSeriesId).forEach((topicDoc) => {
             topicDoc.isNew = false;
             topicDoc.infoItems.forEach(itemDoc => {
                 itemDoc.isNew = false;
