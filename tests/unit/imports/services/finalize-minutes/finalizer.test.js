@@ -125,7 +125,8 @@ describe('workflow.finalizeMinute', function () {
             topics: [],
             isFinalized: false,
             parentMeetingSeriesID: sinon.stub().returns(12),
-            parentMeetingSeries: sinon.stub().returns(fakeMeetingSeries)
+            parentMeetingSeries: sinon.stub().returns(fakeMeetingSeries),
+            save: sinon.stub()
         };
         Minutes.returns(minutes);
 
@@ -199,24 +200,24 @@ describe('workflow.finalizeMinute', function () {
         }
     });
 
-    xit('sets the isFinalized property of the minutes to true', function () {
+    it('sets the isFinalized property of the minutes to true', function () {
         finalizeMeteorMethod(minutes._id);
         verifyPropertyOfMinutesUpdate(minutes, 'isFinalized', true);
     });
 
-    xit('sets the finalizedBy property to the user that is currently logged in', function () {
+    it('sets the finalizedBy property to the user that is currently logged in', function () {
         finalizeMeteorMethod(minutes._id);
         verifyPropertyOfMinutesUpdate(minutes, 'finalizedBy', user.username);
     });
 
-    xit('sets the finalizedVersion to 1 if it did not exist before', function () {
+    it('sets the finalizedVersion to 1 if it did not exist before', function () {
         finalizeMeteorMethod(minutes._id);
 
         const expectedVersion = 1;
         verifyPropertyOfMinutesUpdate(minutes, 'finalizedVersion', expectedVersion);
     });
 
-    xit('increments the finalizedVersion if it did exist before', function () {
+    it('increments the finalizedVersion if it did exist before', function () {
         minutes.finalizedVersion = 21;
         finalizeMeteorMethod(minutes._id);
 
@@ -224,7 +225,7 @@ describe('workflow.finalizeMinute', function () {
         verifyPropertyOfMinutesUpdate(minutes, 'finalizedVersion', expectedVersion);
     });
 
-    xit('sends mails if minute update was successfull and method is called on server', function () {
+    it('sends mails if minute update was successfull and method is called on server', function () {
         Meteor.isClient = false;
         MinutesSchema.update.returns(1);
         GlobalSettings.isEMailDeliveryEnabled.returns(true);
