@@ -22,11 +22,13 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 * Full privacy: Host your own server - it's easy!
 
 <a href="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png" width="500" ></a>
+
 *(Click to enlarge screen shot)*
 
 <br>
 
 [![4Minitz Demo Video](doc/4Minitz_Youtube_Thumbnail.png)](https://www.youtube.com/watch?v=v28q6AaEySQ)
+
 *(Click to play Demo Video)*
 
 Documentation is "continuously" not finished... Nevertheless these WIP docs may be of help:
