@@ -13,7 +13,7 @@ But while the quick installation mode is - well... - quick, it has some
 drawbacks:
 
  1. It uses meteor's own MongoDB where it sets up collections that
-   are accesible to everyone who has shell access to the PC the database is
+   are accessible to everyone who has shell access to the PC the database is
    running on. So, no login is needed to access the DB.
    Nevertheless as of this writing the DB port is not opened to
    the outside world. So, if you are the only person that can login 
@@ -26,13 +26,13 @@ drawbacks:
    without meteor build support. So, if your (virtual?) machine has enough
    RAM - may be you are fine with this, too.
 
-In all other cases - read on and chose the "Production Installation" way.
+In all other cases - read on and choose the "Production Installation" way.
 
-## Production Server Setup - with Docker
+## Production Server Setup with Docker
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
 node.js version and MongoDB and thus has no external dependencies.
 
-### Setup on Linux and Mac
+### Docker Setup on Linux and Mac
 
 1. Install [docker](https://docs.docker.com/engine/installation/)
 2. In a directory where you have write access run:
@@ -42,7 +42,7 @@ docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4min
 
 Omit the next section and continue with the section [Use your 4minitz container](#use-your-4minitz-container).
 
-### Setup on Windows
+### Docker Setup on Windows
 
 On Microsoft Windows 10 Professional or Enterprise 64-bit you can run 4minitz inside a docker container. The following snippets should be run inside a PowerShell (indicated by a `PS>` prompt) or a bash shell inside a Docker container (indicated by a `root#` prompt).
 
@@ -72,7 +72,7 @@ PS> docker run -it --rm --volumes-from 4minitz-storage -p 3100:3333 4minitz/4min
 See [this guide](https://docs.docker.com/engine/tutorials/dockervolumes/#backup-restore-or-migrate-data-volumes) on how to backup and restore the data in your data volume container.
 
 
-### Use your 4minitz container
+### Use your 4minitz Docker container
 
 You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser
@@ -110,7 +110,7 @@ the new WebApp version automatically via meteors hot-code push.
 
 
 
-## Production Building, Installation & Running
+## Production Server by Building From Source
 If you can not (or don't want to) use the ready-to-run docker image
 (see above), you can instead build and run your own 4Minitz server
 from source.
@@ -123,8 +123,6 @@ As of version 1.4 meteor needs to build some binary npm packages during build ph
 
 **On Linux** perform a `gcc --version` should at least deliver a **"4.8.x"**.
  If your gcc is older, consult your Linux distribution how-tos on how to upgrade. A good version switcher is [update-alternatives](https://linux.die.net/man/8/update-alternatives).
-
-**On Windows** install the MS Visual Studio Community Edition to get an up-to-date commandline C++ compiler.
 
 #### Installation of Git
 To obtain the sources you may download the current [source ZIP from github](https://github.com/4minitz/4minitz/releases).
@@ -165,7 +163,7 @@ This should make the mongodb available on the default port 27017 so that the fol
     export MONGO_URL='mongodb://localhost:27017/'
  
 **Attention** The above configuration does not enforce secure SSL communication to your mongodb. So if you run mongoDB and 4Minitz on 
- different machines you should take a look at the [MongoDB Transport Enryption](https://docs.mongodb.com/manual/core/security-transport-encryption/) doc.
+ different machines you should take a look at the [MongoDB Transport Encryption](https://docs.mongodb.com/manual/core/security-transport-encryption/) doc.
  
 **Attention** The above configuration does not enforce users to log in. 
 See the [MongoDB Enable Auth](https://docs.mongodb.com/manual/tutorial/enable-authentication/) doc for information on this topic 
@@ -183,6 +181,7 @@ Perform the following steps to build an run the 4Minitz server:
     
     cd 4minitz
     meteor npm install
+    # if the above fails, install node > v6.x and run 'npm install'
     mkdir ../4minitz_bin
     meteor build ../4minitz_bin --directory
     cp settings_sample.json ../4minitz_bin/bundle/settings.json
@@ -227,9 +226,9 @@ variable: ```export METEOR_SETTINGS=$(cat ./settings.json)```. Then
  re-start your 4Minitz server with ```meteor node main.js```.
 
 ### How to become a frontend admin?
-Some admin functionality can also be reached when you 
+Some frontend admin functionality can also be reached when you 
 logged in  to the 4Minitz frontend via your browser.
-Click the "Admin" nav bar menu entry to show possible 
+Click the "Admin Tasks" nav bar menu entry to show possible 
 options. On the admin view you may, for example:
 
 * **Register new users** for standard login.
@@ -246,7 +245,7 @@ options. On the admin view you may, for example:
   for an action item.
 * **Send broadcast Messages** to all users. E.g., you
   may send a warning if you do maintenance (backup, anybody?)
-  to the 4Minitz server. You can (re-)brodcast, activate,
+  to the 4Minitz server. You can (re-)broadcast, activate,
   remove broadcast messages. Or you may inform users of
   cool features of an updated version.
  
@@ -282,6 +281,16 @@ Database related configuration is collected under the ```db``` object in your se
 * ```mongodumpTargetDirectory```: The output directory where 4minitz will store the database contents before
   the database schema is migrated (updated). If this is not set or empty no backup will be created.
 
+### Get informed about updates
+The 4Minitz team will try to improve the 4Minitz code base. From time to time there may be also an important security fix. Per default your 4Minitz server will ask our master server regularly (about every 8 hrs.) what the current official stable version is. Your server will send your admin an eMail if your server found out such a newer version exists.
+
+The update check will be active if...
+
+1. You did *not* disable the update check like so: `updateCheck: false`
+2. You properly configured sending of EMails & SMPT server (`enableMailDelivery`)
+3. You configured at least one admin ID (`adminIDs`) and the admin user has a valid mail address  
+
+**Important Privacy Note** The "new version" mail will be generated and sent to you by *YOUR OWN* 4Minitz server. Your personal data (like admin mail address) will newer leave your server.
 
 ### Configuration for sending emails
 
@@ -313,6 +322,7 @@ See your settings.json file:
 |---------------------|----------------------------------|-----------------------------------------------------------------------------|
 | enabled             | false                            | Enables & disables LDAP login                                               |
 | propertyMap         | {username: 'cn', email: 'mail' } | Map important attributes from ldap to user database                         |
+| authentication      | {}                               | Perform a bind before importing users from LDAP. Optional.                  |
 | searchFilter        | ""                               | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
 | serverDn            | ""                               | Your server base dn, e.g. "dc=example,dc=com"                               |
 | serverUrl           | ""                               | Server url, e.g. "ldaps://ldap.example.com:1234                             |
@@ -329,6 +339,18 @@ long names) are copied into the 4minitz user database. Password lookup
 happens over LDAP, so no passwords or hashes are stored for LDAP users 
 in the 4minitz user database. This is needed to store e.g. user access 
 rights for meeting minutes.
+
+#### Authentication
+
+To perform a bind before importing users from LDAP you can provide
+a user dn and a password with the authentication property. E.g.
+
+```
+  "authentication": {
+    "userDn": "cn=admin, ou=Admins, dc=example, dc=com",
+    "password": "p@ssw0rd"
+  }
+```
 
 #### Available strategies to detect inactive users
 
@@ -423,18 +445,46 @@ server statistics.
 
 ### Safety and Backup
 To ensure that you do not suffer from loss of data, make sure to
-backup your database and your attachment directory.
+backup your database and your static files directories.
 
 #### Backup of MongoDB data
-TODO 
+You may create a backup of your MongoDB database like so:
+1. Install the monddb client tools (incl. mongodump)
+1. mongodump -h 127.0.0.1 --port 3101 -d meteor
+1. zip -r backup-4minitz-$(date +%Y-%m-%d_%H%M%S) ./dump
 
-#### Backup of uploaded attachments
-TODO
+To restore a backup from a dump
+1. meteor reset (if you run mongodb from meteor)
+1. mongorestore --host 127.0.0.1 --port 3101 --drop ./dump/
+
+#### Backup of uploaded attachments / generated documents
+When your 4Minitz server launches it will print two absolute pathes for you, if you have attachments and document generation enabled. For example:
+
+```
+I20170924-12:52:32.302(2)? Attachments upload feature: ENABLED
+I20170924-12:52:32.348(2)? attachmentsStoragePath:/home/4minzer/www/attachments_4mindev
+I20170924-12:52:32.350(2)? Document generation feature: ENABLED
+I20170924-12:52:32.350(2)? Document Storage Path: /home/4minzer/www/protocols_4mindev
+```
+
+Please ensure that these directories are included in your regular backups.
+
 
 ### Security
+#### Password security
+4Minitz uses the meteor [accounts-password](https://docs.meteor.com/api/passwords.html) package. According to the docs passwords are
+
+* Hashed on the client. And only the hash is transferred to the server
+* The server then uses salting and bcrypt2 to store the password in the user database.
+
+So, the plain text password never leaves the client. This is good against curious admin eyes. But also the hashed password that is transferred to the server could allow a replay attack. So **make sure your 4Minitz Server is only reachable via SSL**!!! This is also a good idea to protect all other data content from curious eyes.   
 
 #### MongoDB security
-https://docs.mongodb.com/manual/tutorial/configure-ssl/
+If your MongoSB server is on the same machine as the 4Minitz server backend and you protected access to this server (firewall, no public logins), then maybe you are happy without adding credentials to MongoDB and without securing MongoDB via SSL.
+
+In all other cases: Hints for a secure operation of your MongoDB server are explained in the chapter [Installation of MongoDB](#installation-of-mongodb)
+
+See also: https://docs.mongodb.com/manual/tutorial/configure-ssl/
+```
 mongod --sslMode requireSSL --sslPEMKeyFile <pem> --sslCAFile <ca>
-
-
+```

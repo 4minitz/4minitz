@@ -3,6 +3,12 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import {FlashMessage} from './helpers/flashMessage';
 import { Accounts } from 'meteor/accounts-base';
 
+// reset document title on route exit
+// To set a route specific title use a helper in the according template
+resetDocumentTitle = function (context) {
+    document.title = "4Minitz!";
+};
+
 FlowRouter.route('/', {
     action() {
         BlazeLayout.render('appLayout', {main: 'home'});
@@ -69,5 +75,6 @@ FlowRouter.route('/minutesedit/:_id', {
     name: 'minutesedit',
     action() {
         BlazeLayout.render('appLayout', {main: 'minutesedit'});
-    }
+    },
+    triggersExit: [resetDocumentTitle]
 });
