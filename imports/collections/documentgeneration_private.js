@@ -92,6 +92,10 @@ extendedPublishSubscribeHandler.publishByMeetingSeriesOrMinute('files.protocols.
 
 Meteor.methods({
     'documentgeneration.createHTML'(minuteID) {
+        if (Meteor.isClient) {
+            return;
+        }
+
         //Check DocumentGeneration is enabled and user has rights to continue
         if (Meteor.settings.public.docGeneration.enabled !== true) {
             return;
@@ -130,6 +134,10 @@ Meteor.methods({
     },
 
     'documentgeneration.createAndStoreFile'(minutesObj) {
+        if (Meteor.isClient) {
+            return;
+        }
+
         //Security checks will be done in the onBeforeUpload-Hook
 
         //this variable should be overwritten by the specific implementation of storing files based on their format
