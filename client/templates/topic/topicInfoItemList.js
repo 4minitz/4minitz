@@ -218,7 +218,7 @@ Template.topicInfoItemList.helpers({
         const item = context.items[indexs.hash.infoIndex];
         const detail = item.details[indexs.hash.detailIndex];
 
-        const lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')
+        const lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')  //eslint-disable-line
             ? context.topicParentId
             : MinutesFinder.lastMinutesOfMeetingSeries(new MeetingSeries(context.topicParentId))._id;
 
