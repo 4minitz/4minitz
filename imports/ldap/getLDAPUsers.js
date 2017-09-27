@@ -1,4 +1,5 @@
-let ldap = require('ldapjs');
+const ldap = require('ldapjs'),
+    _ = require('lodash');
 
 let _createLDAPClient = function (settings) {
     return new Promise((resolve, reject) => {
@@ -73,13 +74,15 @@ let _fetchLDAPUsers = function (connection) {
     let client = connection.client,
         settings = connection.settings,
         base = settings.serverDn,
-        searchDn = settings.propertyMap && settings.propertyMap.username || 'cn',
+        searchDn = _.get(settings, 'propertyMap.username', 'cn'),
+        userLongNameAttribute = _.get(settings, 'propertyMap.longname', searchDn),
+        emailAttribute = _.get(settings, 'propertyMap.email', searchDn),
         filter = `(&(${searchDn}=*)${settings.searchFilter})`,
         scope = 'sub',
-        whiteListedFields = settings.whiteListedFields || [],
-        attributes = whiteListedFields.concat(['userAccountControl']),
+        whiteListedFields = _.get(settings, 'whiteListedFields', []),
+        attributes = whiteListedFields.concat(['userAccountControl', searchDn, userLongNameAttribute, emailAttribute]),
         options = {filter, scope, attributes};
-    
+
     if (settings.isInactivePredicate && !settings.inactiveUsers) {
         settings.inactiveUsers = {
             strategy: 'property',
