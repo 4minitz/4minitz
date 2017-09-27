@@ -30,11 +30,11 @@ export class E2EProtocols {
     }
 
     static downloadButtonExists() {
-        return browser.isVisible('#btn_downloadMinutes');
+        return browser.isVisible('.btn-download');
     }
 
     static checkDownloadOpensConfirmationDialog() {
-        browser.click('#btn_downloadMinutes');
+        browser.click('.btn-download');
         E2EGlobal.waitSomeTime(750);
         return browser.isVisible('#confirmationDialogOK');
     }

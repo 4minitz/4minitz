@@ -181,10 +181,11 @@ If the Item already exists it is possible to add details to them by clicking the
 
 In the details editor it is possible to use markdown syntax to create rich text formatting like headings, bold, italic, bullet lists, etc.
 
-TODO: describe markdown
+For a complete reference of layout commands see [Markdown Reference](https://guides.github.com/features/mastering-markdown/).   
+
 
 ### Expand and Collapse
-TODO
+Little triangles in the upper left corner of e.g., topics, info items and action items show that there is content below that can be expanded or collapsed.
 
 ## Finalize Meeting
 
@@ -201,9 +202,21 @@ participants:
 
 ![Finalize Dialog](./figures/finalize_meeting_minutes_dialog.png)
 
-* TODO: Topic Propagation
-* TODO: Finalize history
+### Topic Propagation
+  A topic is automatically propagated to the next meeting if one of the following conditions is met:
+  1. the topic is **not "checked"** as "done for this meeting" - or
+  1. the topic is **marked as "recurring"** with the blue circle icon - or
+  1. the topic has at least one **open action item** which is not checked as done.
 
+
+### Finalize history
+Inside the meeting minute hover over this (example) text:
+`Version 3. Finalized on 2017-01-11 09:09:54 by user1` and you'll see
+the finalize history for every version of the protocol:
+
+ ![Finalize History](../figures/finalize_history.png)
+
+ 
 ## Print Meeting Minutes
 With the button "Print Minutes" temporary some view changes are performed for the current minutes like
 * All buttons are hidden

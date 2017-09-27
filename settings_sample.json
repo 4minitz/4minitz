@@ -1,6 +1,6 @@
 {
     "//1": "below option ensures that embedded links in E-Mails and attachments point back to your server",
-    "ROOT_URL": "http://www.your-domain.com:3100",
+    "ROOT_URL": "http://www.your-domain.com:3100/",
 
     "//2": ["below option switches off some privacy settings in trusted environments",
                 "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
@@ -134,13 +134,22 @@
         ],
     "ldap": {
         "enabled": false,
-        "searchDn": "cn",
+        "propertyMap": {
+            "username": "uid",
+            "longname": "cn",
+            "email": "mail"
+        },
+        "//1": "Optional, will perform bind with these credentials before searching for users",
+        "authentication": {
+            "userDn": "admin",
+            "password": "password"
+        },
         "searchFilter": "(objectClass=user)",
         "serverDn": "OU=people,DC=example,DC=com",
         "serverUrl": "ldaps://ld.example.com:636",
         "allowSelfSignedTLS": false,
         "whiteListedFields": [ "uid", "cn", "department", "employeeNumber", "mail", "mailEnabled" ],
-        "isInactivePredicate": {"mailEnabled": "NO"},
+        "inactiveUsers": {"strategy": "none"},
         "autopublishFields": [ "cn" ],
         "importCronTab": false
     },
