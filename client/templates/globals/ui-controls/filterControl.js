@@ -81,7 +81,7 @@ Template.filterControl.onRendered(function() {
     let tmpl = Template.instance();
     Meteor.setTimeout(() => { focusInputField(tmpl); }, 1);
 
-    if(tmpl.data.config.defaultFilter !== null)
+    if(tmpl.data.config.defaultFilter)
         performSearch(tmpl.data.config.defaultFilter, tmpl)
 });
 

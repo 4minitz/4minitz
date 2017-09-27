@@ -109,7 +109,7 @@ const performActionForItem = (evt, tmpl, action) => {
 
     const index = evt.currentTarget.getAttribute('data-index');
     const infoItem = context.items[index];
-    const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+    const aInfoItem = findInfoItem(context.getSeriesId(infoItem._id), infoItem.parentTopicId, infoItem._id);
     action(aInfoItem);
 };
 
@@ -269,7 +269,7 @@ Template.topicInfoItemList.helpers({
         if (!infoItem) {
             return;
         }
-        return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.topicParentId))
+        return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.getSeriesId(infoItem._id)))
             .map(labelObj => {
                 let doc = labelObj.getDocument();
                 doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
@@ -303,7 +303,7 @@ Template.topicInfoItemList.events({
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
         performActionForItem(evt, tmpl, (item) => {
-            let isDeleteAllowed = item.isDeleteAllowed(context.topicParentId);
+            let isDeleteAllowed = item.isDeleteAllowed(context.getSeriesId(infoItem._id));
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {

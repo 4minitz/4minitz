@@ -31,6 +31,8 @@ export const TopicSchema = SchemaClass.create({
 
 if (Meteor.isServer) {
     Meteor.publish('topics', function (meetingSeriesId) {
-        return TopicSchema.find({ parentId: meetingSeriesId });
+        if (typeof meetingSeriesId === 'string') // we have an ID here
+            return TopicSchema.find({ parentId: meetingSeriesId });
+        return TopicSchema.find({ parentId: {$in: meetingSeriesId} }); //we have an whole array here
     });
 }
