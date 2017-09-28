@@ -13,7 +13,7 @@ But while the quick installation mode is - well... - quick, it has some
 drawbacks:
 
  1. It uses meteor's own MongoDB where it sets up collections that
-   are accesible to everyone who has shell access to the PC the database is
+   are accessible to everyone who has shell access to the PC the database is
    running on. So, no login is needed to access the DB.
    Nevertheless as of this writing the DB port is not opened to
    the outside world. So, if you are the only person that can login 
@@ -32,7 +32,7 @@ In all other cases - read on and choose the "Production Installation" way.
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
 node.js version and MongoDB and thus has no external dependencies.
 
-### Setup on Linux and Mac
+### Docker Setup on Linux and Mac
 
 1. Install [docker](https://docs.docker.com/engine/installation/)
 2. In a directory where you have write access run:
@@ -42,7 +42,7 @@ docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4min
 
 Omit the next section and continue with the section [Use your 4minitz container](#use-your-4minitz-container).
 
-### Setup on Windows
+### Docker Setup on Windows
 
 On Microsoft Windows 10 Professional or Enterprise 64-bit you can run 4minitz inside a docker container. The following snippets should be run inside a PowerShell (indicated by a `PS>` prompt) or a bash shell inside a Docker container (indicated by a `root#` prompt).
 
@@ -72,7 +72,7 @@ PS> docker run -it --rm --volumes-from 4minitz-storage -p 3100:3333 4minitz/4min
 See [this guide](https://docs.docker.com/engine/tutorials/dockervolumes/#backup-restore-or-migrate-data-volumes) on how to backup and restore the data in your data volume container.
 
 
-### Use your 4minitz container
+### Use your 4minitz Docker container
 
 You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser
@@ -163,7 +163,7 @@ This should make the mongodb available on the default port 27017 so that the fol
     export MONGO_URL='mongodb://localhost:27017/'
  
 **Attention** The above configuration does not enforce secure SSL communication to your mongodb. So if you run mongoDB and 4Minitz on 
- different machines you should take a look at the [MongoDB Transport Enryption](https://docs.mongodb.com/manual/core/security-transport-encryption/) doc.
+ different machines you should take a look at the [MongoDB Transport Encryption](https://docs.mongodb.com/manual/core/security-transport-encryption/) doc.
  
 **Attention** The above configuration does not enforce users to log in. 
 See the [MongoDB Enable Auth](https://docs.mongodb.com/manual/tutorial/enable-authentication/) doc for information on this topic 
@@ -181,6 +181,7 @@ Perform the following steps to build an run the 4Minitz server:
     
     cd 4minitz
     meteor npm install
+    # if the above fails, install node > v6.x and run 'npm install'
     mkdir ../4minitz_bin
     meteor build ../4minitz_bin --directory
     cp settings_sample.json ../4minitz_bin/bundle/settings.json
@@ -225,9 +226,9 @@ variable: ```export METEOR_SETTINGS=$(cat ./settings.json)```. Then
  re-start your 4Minitz server with ```meteor node main.js```.
 
 ### How to become a frontend admin?
-Some admin functionality can also be reached when you 
+Some frontend admin functionality can also be reached when you 
 logged in  to the 4Minitz frontend via your browser.
-Click the "Admin" nav bar menu entry to show possible 
+Click the "Admin Tasks" nav bar menu entry to show possible 
 options. On the admin view you may, for example:
 
 * **Register new users** for standard login.
@@ -244,7 +245,7 @@ options. On the admin view you may, for example:
   for an action item.
 * **Send broadcast Messages** to all users. E.g., you
   may send a warning if you do maintenance (backup, anybody?)
-  to the 4Minitz server. You can (re-)brodcast, activate,
+  to the 4Minitz server. You can (re-)broadcast, activate,
   remove broadcast messages. Or you may inform users of
   cool features of an updated version.
  
@@ -448,10 +449,16 @@ backup your database and your static files directories.
 
 #### Backup of MongoDB data
 You may create a backup of your MongoDB database like so:
+1. Install the monddb client tools (incl. mongodump)
+1. mongodump -h 127.0.0.1 --port 3101 -d meteor
+1. zip -r backup-4minitz-$(date +%Y-%m-%d_%H%M%S) ./dump
 
+To restore a backup from a dump
+1. meteor reset (if you run mongodb from meteor)
+1. mongorestore --host 127.0.0.1 --port 3101 --drop ./dump/
 
 #### Backup of uploaded attachments / generated documents
-When your 4Minitz server launches it will print two absolute pathes for you, if you have attachments and document generatin enabled. For example:
+When your 4Minitz server launches it will print two absolute pathes for you, if you have attachments and document generation enabled. For example:
 
 ```
 I20170924-12:52:32.302(2)? Attachments upload feature: ENABLED
@@ -470,10 +477,14 @@ Please ensure that these directories are included in your regular backups.
 * Hashed on the client. And only the hash is transferred to the server
 * The server then uses salting and bcrypt2 to store the password in the user database.
 
-So, the plain text password never leaves the client. But also the hashed password that is transferred to the server could allow a replay attach. So **make sure your 4Minitz Server is only reachable via SSL**!!! This is also a good idea to protect data content from curious eyes.   
+So, the plain text password never leaves the client. This is good against curious admin eyes. But also the hashed password that is transferred to the server could allow a replay attack. So **make sure your 4Minitz Server is only reachable via SSL**!!! This is also a good idea to protect all other data content from curious eyes.   
 
 #### MongoDB security
-https://docs.mongodb.com/manual/tutorial/configure-ssl/
+If your MongoSB server is on the same machine as the 4Minitz server backend and you protected access to this server (firewall, no public logins), then maybe you are happy without adding credentials to MongoDB and without securing MongoDB via SSL.
+
+In all other cases: Hints for a secure operation of your MongoDB server are explained in the chapter [Installation of MongoDB](#installation-of-mongodb)
+
+See also: https://docs.mongodb.com/manual/tutorial/configure-ssl/
+```
 mongod --sslMode requireSSL --sslPEMKeyFile <pem> --sslCAFile <ca>
-
-
+```

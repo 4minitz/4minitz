@@ -23,10 +23,15 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 
 <a href="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png" width="500" ></a>
 
-*(Click to enlarge screenshot)*
+*(Click to enlarge screen shot)*
 
+<br>
 
-Documentation is "continously" not finished... Nevertheless these WIP docs may be of help:
+[![4Minitz Demo Video](doc/4Minitz_Youtube_Thumbnail.png)](https://www.youtube.com/watch?v=v28q6AaEySQ)
+
+*(Click to play Demo Video)*
+
+Documentation is "continuously" not finished... Nevertheless these WIP docs may be of help:
 
 * [FAQ - Frequently Asked Questions](doc/faq.md)
 * [User Doc](doc/user/usermanual.md)
@@ -60,7 +65,7 @@ with a more comprehensive coverage of the real production
 building & installation topic!
 
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
-node.js version and MongoDB and thus has no external dependecies.
+node.js version and MongoDB and thus has no external dependencies.
 
 See the admin guide for
 [how to configure your 4Minitz docker server](doc/admin/adminguide.md#production-running---with-docker).
@@ -90,7 +95,7 @@ meteor by:
     sudo ln -s ./meteor /usr/local/bin/meteor
 
 On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
-As experienced Windows admin you sure can transfor the below steps for Linux and Mac to your OS.
+As experienced Windows admin you sure can transfer the below steps for Linux and Mac to your OS.
 
 #### Quick Installation of 4Minitz (Linux & Mac)   
 OK, here we go! For a quick test installation perform:

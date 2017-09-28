@@ -4,8 +4,9 @@
 
     "//2": ["below option switches off some privacy settings in trusted environments",
                 "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
+                "       and will reveal long names and mail addresses of other users",
                 "false: will send separate finalize mails to all participants and keep their privacy"],
-    "trustedIntranetInstallation": false,
+    "trustedIntranetInstallation": true,
 
     "//2.0": "Switch on/off the possibility to register new users on the login form",
     "forbidClientAccountCreation": false,
@@ -130,6 +131,7 @@
     },
 
     "//6": ["LDAP Configuration",
+            "details see admin guide: https://github.com/4minitz/4minitz/blob/develop/doc/admin/adminguide.md",
             "HINT: please also consider to set the global forbidClientAccountCreation: true if you are using LDAP!"
         ],
     "ldap": {

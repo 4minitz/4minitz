@@ -21,7 +21,7 @@ See first chapter of the [user doc](user/usermanual.md). This message warns you 
             +-- Detail (Markdown)
 ```
 
-* **Topics:** are the agenda points that have to be dicussed. Topics can be automatically recurring at every meeting. And can be skipped once. They are usually created before the actual meeting and sent via agenda mail.
+* **Topics:** are the agenda points that have to be discussed. Topics can be automatically recurring at every meeting. And can be skipped once. They are usually created before the actual meeting and sent via agenda mail.
 * **Info Items:** Are usually created during topic discussion. Info items inform the outside world about what was discussed for a specific topic. Labels (e.g., #Decision) allow classification of info items. If one line of text is not enough add details.
 * **Action Items:** Are created during topic discussion. Action items document WHO-WHAT-WHEN if something has to be done to drive a topic forward. Action items keep their parent topic alive until they are all done. If one line of text is not enough add details.
 * **Details:** You can add as many detail nodes to an action/info item as needed. Even in future meetings. Inside details you may use Markdown syntax to add some layout to your details text.  
@@ -95,7 +95,7 @@ It is not possible to un-finalize a meeting minute, if a newer meeting already h
 ### How can I send the agenda or meeting minutes to a person that has no 4Minitz account
  Simply enter the persons mail address to the "Additional Participants" field of the meeting minutes.
  You can mix real names and mail addresses here. Our algorithm grabs everything
- that looks like a mail adress from this field. For example if you enter: 
+ that looks like a mail address from this field. For example if you enter: 
  
  **Additional Participants:** ```Max Mustermann (max@mustermann.com), john@doe.com, Erika Mustermann```
  
@@ -121,20 +121,20 @@ the finalize history:
 ### How do I change my user long name, mail address or password?
 If you have a standard user account click on your username in the menu and choose "Edit Profile" or "Change Password". 
 
-If you do not see these menu entries you are problaby logged in as LDAP / ActiveDirectory user. In this case your user data is hosted on the domain controller or dictionory server. Ask your admin how to change your data.  
+If you do not see these menu entries you are probably logged in as LDAP / ActiveDirectory user. In this case your user data is hosted on the domain controller or dictionary server. Ask your admin how to change your data.  
 
 
 ### How can I unsubscribe from 4Minitz?
 For LDAP / Active Directory users this is not possible.
 
-For "Standard" users currently this procudure has to be taken:
+For "Standard" users currently this procedure has to be taken:
 
 1. Click "Leave Meeting" for all active meeting series where you are invited. Otherwise you will get future meeting minutes.  
-1. Ask your admin to go to the "Admin Tasks" menu, search for your username and click the "Active" toggle. When your account is inactive, you will not be able to login and other users will not be able to select your user as participant for new meetings or responsible for action items. Nevertheless your user will still be in the database to render past meeting minutes correctly. And you wi
+1. Ask your admin to go to the "Admin Tasks" menu, search for your username and click the "In/Active" toggle. When your account is inactive, you will not be able to login and other users will not be able to select your user as participant for new meetings or responsible for action items. Nevertheless your user will still be in the database to render past meeting minutes correctly.
 
 
 ### How can I download a meeting minutes file to my local disk?
-If you want to keep meeting minutes as files on your local drive (backups anymone?) then you might want to download a file with the meeting minutes. On a minutes view click the "download" button top right to download a file. If you do not see the download button, ask your admin to enable this feature (`docGeneration`). 
+If you want to keep meeting minutes as files on your local drive (backups anyone?) then you might want to download a file with the meeting minutes. On a minutes view click the "download" button top right to download a file. If you do not see the download button, ask your admin to enable this feature (`docGeneration`). 
 
 ### Why have action items sometimes different background colour?
 The background color of action items is calculated from the due date.
