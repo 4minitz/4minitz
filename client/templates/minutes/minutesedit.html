@@ -2,6 +2,7 @@
     {{#if authenticating}}
         {{> loading}}
     {{else}}
+        {{setDocumentTitle}}
         {{#if and canShow Template.subscriptionsReady}}
             {{!
                 This will not display any content instead it will check if the minute is linked to the parent series

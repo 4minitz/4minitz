@@ -240,7 +240,7 @@ Once the moderator creates new minutes on top of the finalized last minutes, it 
 ## Download minute protocols
 The app offers the possibility of automatic generation of minute protocols by finalizing them. This applies only if this feature has been enabled in the settings.
 
-These protocls can  be downloaded by any user having the invited role or a higher one for the specific meeting series.
+These protocols can  be downloaded by any user having the invited role or a higher one for the specific meeting series.
 In order to do this, press the download button in the upper right corner shown in finalized minutes.
 
 If the feature is enabled but no protocol has been created for a specific minute (e.g. if the feature has been enabled after finalizing a minute) then by clicking on the download button a confirmation dialog opens. It will offer you to download an dynamically generated HTML protocol as a substitution. This protocol will not be stored on the server.
@@ -285,7 +285,7 @@ attachments from non-finalized meeting minutes.
 
 Currently attachments will not be attached to the sent meeting
 minutes EMail. The recipient will have to open the meeting minutes
-in the webbrowser first, to open an attachment by clicking the name.
+in the web browser first, to open an attachment by clicking the name.
 
 ### Roles and Rights for Attachments
 
