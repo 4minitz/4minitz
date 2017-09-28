@@ -74,11 +74,6 @@ export class MeetingSeries {
         }
     }
 
-    removeEdit() {
-        let doc = this;
-        return Meteor.callPromise('meetingseries.removeEdit', doc);
-    }
-
     async saveAsync(optimisticUICallback) {
         await this.save(optimisticUICallback);
     }

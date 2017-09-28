@@ -97,6 +97,18 @@ const notifyOnRoleChange = function(usersWithRolesAfterEdit, meetingSeriesId) {
     }
 };
 
+function setEditedFields(meetingSeries) {
+    meetingSeries.isEditedBy = Meteor.userId();
+    meetingSeries.isEditedDate = new Date();
+    meetingSeries.save();
+}
+
+function unsetEditedFields(meetingSeries) {
+    meetingSeries.isEditedBy = null;
+    meetingSeries.isEditedDate = null;
+    meetingSeries.save();
+}
+
 
 Template.meetingSeriesEdit.events({
 
@@ -135,28 +147,13 @@ Template.meetingSeriesEdit.events({
     // We fill the temp. client-side only user database for the user editor on this event
     'show.bs.modal #dlgEditMeetingSeries': function (evt, tmpl) {
 
-        let lockState = false;
+        const ms = new MeetingSeries(tmpl.data._id);
 
-        if ((tmpl.data.isEditedBy !== undefined && tmpl.data.isEditedDate !== undefined)) {
-            lockState = true;
-
-            let resetEdited = function () {
-                lockState = false;
-
-                /*
-                MeetingSeriesSchema.update({_id: tmpl.data._id}, {$unset: {isEditedBy: "", isEditedDate: ""}});
-                let ms = new MeetingSeries(tmpl.data._id);
-                console.log(ms);
-                */
-
-                let ms = new MeetingSeries(tmpl.data._id);
-                ms.removeEdit();
-                console.log(ms);
-
-                delete tmpl.data.isEditedBy;
-                delete tmpl.data.isEditedDate;
+        if ((ms.isEditedBy != undefined && ms.isEditedDate != undefined)) {
+            let unset = function () {
+                unsetEditedFields(ms);
                 $('#dlgEditMeetingSeries').modal('show');
-            }
+            };
 
             let user = Meteor.users.findOne({_id: tmpl.data.isEditedBy});
 
@@ -166,24 +163,18 @@ Template.meetingSeriesEdit.events({
             };
 
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                resetEdited,
+                unset,
                 'Edit despite existing editing',
                 'confirmationDialogResetEdit',
                 tmplData,
                 'Edit anyway'
                 ).show();
-        }
 
-        if (lockState === true) {
             evt.preventDefault();
-            return
+            return;
         }
-
-        const ms = new MeetingSeries(tmpl.data._id);
-        if (ms.isEditedBy === undefined && ms.isEditedDate === undefined) {
-            ms.isEditedBy = Meteor.userId();
-            ms.isEditedDate = new Date();
-            ms.save()
+        else {
+            setEditedFields(ms);
         }
 
         // Make sure these init values are filled in a close/re-open scenario
@@ -279,6 +270,7 @@ Template.meetingSeriesEdit.events({
         ms.name = aName;
         ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users
         ms.save();
+        unsetEditedFields(ms);
 
         // Hide modal dialog
         saveButton.prop('disabled',false);
@@ -286,12 +278,20 @@ Template.meetingSeriesEdit.events({
         $('#dlgEditMeetingSeries').modal('hide');
     },
 
-
     'click #btnMeetingSeriesSave': function (evt, tmpl) {
         evt.preventDefault();
         // Unfortunately the form.submit()-function does not trigger the
         // validation process
         tmpl.$('#submitMeetingSeriesEditForm').click();
+    },
+
+    'click #btnMeetinSeriesEditCancel,#btnEditMSClose': function (evt, tmpl) {
+        evt.preventDefault();
+
+        const ms = new MeetingSeries(tmpl.data._id);
+        unsetEditedFields(ms);
+
+        $('#dlgEditMeetingSeries').modal('hide');
     },
 
     // Prevent the last open panel to be collapsible
