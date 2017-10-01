@@ -174,6 +174,18 @@ let resizeTextarea = (element) => {
     }
 };
 
+function setEditedFields(editItem) {
+    editItem._infoItemDoc.isEditedBy = Meteor.userId();
+    editItem._infoItemDoc.isEditedDate = new Date();
+    editItem.save();
+}
+
+function unsetEditedFields(editItem) {
+    editItem._infoItemDoc.isEditedBy = null;
+    editItem._infoItemDoc.isEditedDate = null;
+    editItem.save();
+}
+
 Template.topicInfoItemEdit.helpers({
     getPriorities: function() {
         return Priority.GET_PRIORITIES();
@@ -305,6 +317,35 @@ Template.topicInfoItemEdit.events({
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
             toggleItemMode(type, tmpl);
+
+            if ((editItem._infoItemDoc.isEditedBy != undefined && editItem._infoItemDoc.isEditedDate != undefined)) {
+                let unset = function () {
+                    unsetEditedFields(editItem);
+                    $('#dlgAddInfoItem').modal('show');
+                };
+
+                let user = Meteor.users.findOne({_id: editItem._infoItemDoc.isEditedBy});
+
+                let tmplData = {
+                    isEditedBy: user.username,
+                    isEditedDate: editItem._infoItemDoc.isEditedDate
+                };
+
+                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                    unset,
+                    'Edit despite existing editing',
+                    'confirmationDialogResetEdit',
+                    tmplData,
+                    'Edit anyway'
+                ).show();
+
+                evt.preventDefault();
+                return;
+            }
+            else {
+                setEditedFields(editItem);
+            }
+
         } else {  // adding a new item
             configureSelect2Responsibles();
             let selectResponsibles = $('#id_selResponsibleActionItem');
@@ -391,6 +432,15 @@ Template.topicInfoItemEdit.events({
 
         const user = new User();
         user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
+    },
+
+    'click #btnInfoItemCancel,#btnEditMSClose': function (evt, tmpl) {
+        evt.preventDefault();
+
+        let editItem = getEditInfoItem();
+        unsetEditedFields(editItem);
+
+        $('#dlgAddInfoItem').modal('hide');
     },
 
     'keyup #id_item_detailInput': function (evt, tmpl) {

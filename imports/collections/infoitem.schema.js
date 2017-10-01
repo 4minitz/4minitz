@@ -36,6 +36,8 @@ export const InfoItemSchema = SchemaClass.create({
             { type: 'lte', param: 5 }
         ]},
         duedate: {type: String, optional: true},                            // action item
-        details: {type: [DetailsSchema], default: [], optional: true}
+        details: {type: [DetailsSchema], default: [], optional: true},
+        isEditedBy: {type: String, optional: true},
+        isEditedDate: {type: Date, optional: true}
     }
 });
