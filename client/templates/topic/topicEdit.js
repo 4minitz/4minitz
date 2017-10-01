@@ -7,6 +7,7 @@ import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Label } from '/imports/label';
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
+import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
@@ -93,6 +94,19 @@ function configureSelect2Labels() {
     selectLabels.trigger('change');
 }
 
+function setEditedFields(topic) {
+    topic._topicDoc.isEditedBy = Meteor.userId();
+    topic._topicDoc.isEditedDate = new Date();
+    console.log(topic);
+    topic.save();
+}
+
+function unsetEditedFields(topic) {
+    topic._topicDoc.isEditedBy = null;
+    topic._topicDoc.isEditedDate = null;
+    topic.save();
+}
+
 Template.topicEdit.helpers({
     'getTopicSubject': function() {
         let topic = getEditTopic();
@@ -107,6 +121,7 @@ Template.topicEdit.events({
         let editTopic = getEditTopic();
         let topicDoc = {};
         if (editTopic) {
+            unsetEditedFields(editTopic);
             _.extend(topicDoc, editTopic._topicDoc);
         }
 
@@ -142,7 +157,37 @@ Template.topicEdit.events({
         Session.set('topicEditTopicId', null);
     },
 
-    'show.bs.modal #dlgAddTopic': function () {
+    'show.bs.modal #dlgAddTopic': function (evt) {
+        const topic = getEditTopic();
+
+        if ((topic._topicDoc.isEditedBy != undefined && topic._topicDoc.isEditedDate != undefined)) {
+            let unset = function () {
+                unsetEditedFields(topic);
+                $('#dlgAddTopic').modal('show');
+            };
+
+            let user = Meteor.users.findOne({_id: topic._topicDoc.isEditedBy});
+
+            let tmplData = {
+                isEditedBy: user.username,
+                isEditedDate: topic._topicDoc.isEditedDate
+            };
+
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                unset,
+                'Edit despite existing editing',
+                'confirmationDialogResetEdit',
+                tmplData,
+                'Edit anyway'
+            ).show();
+
+            evt.preventDefault();
+            return;
+        }
+        else {
+            setEditedFields(topic);
+        }
+
         configureSelect2Responsibles();
         let selectLabels = $('#id_item_selLabels');
         if (selectLabels) {
@@ -159,6 +204,15 @@ Template.topicEdit.events({
         $('#dlgAddTopic').find('input').trigger('change');    // ensure new values trigger placeholder animation
         tmpl.find('#id_subject').focus();
         configureSelect2Labels();
+    },
+
+    'click #btnTopicCancel, .close': function (evt) {
+        evt.preventDefault();
+
+        const topic = getEditTopic();
+        unsetEditedFields(topic);
+
+        $('#dlgAddTopic').modal('hide');
     },
 
     'select2:selecting #id_selResponsible'(evt) {
