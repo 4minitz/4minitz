@@ -434,7 +434,7 @@ Template.topicInfoItemEdit.events({
         user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
     },
 
-    'click #btnInfoItemCancel,#btnEditMSClose': function (evt, tmpl) {
+    'click #btnInfoItemCancel, .close': function (evt, tmpl) {
         evt.preventDefault();
 
         let editItem = getEditInfoItem();
