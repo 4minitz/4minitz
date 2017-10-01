@@ -7,7 +7,9 @@ export class TopicsFinder {
     }
 
     static allOpenTopicsOfMeetingSeries(meetingSeriesId) {
-        return TopicSchema.getCollection().find({ parentId: meetingSeriesId, isOpen: true }).fetch();
+        return TopicSchema.getCollection().find(
+            { parentId: meetingSeriesId, isOpen: true },
+            { sort: {sortOrder: 1} }).fetch();  // restore the sort order of the previous meeting minutes
     }
 
     static allNewTopicsOfMeetingSeries(meetingSeriesId) {

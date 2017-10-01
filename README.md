@@ -9,7 +9,7 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 
 # 4Minitz!
 
-*Simply the best free webapp for taking meeting minutes.*
+*Simply ~~the best~~ a decent free webapp for taking meeting minutes.*
 
 * Create a meeting series and invite others
 * Specify moderators, invited and informed users
@@ -23,15 +23,15 @@ develop/ [![Build Status](https://travis-ci.org/4minitz/4minitz.svg?branch=devel
 
 <a href="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png" width="500" ></a>
 
-*(Click to enlarge screenshot)*
+*(Click to enlarge screen shot)*
 
+<br>
 
-**Important: 4Minitz is currently WIP and not yet ready for mission critical usage. 
-Nevertheless, quite a few features are working stable already and you can head over to our
-[4Minitz Demo Server](https://www.4minitz.com) and and play around or install the current 
-version on your own server (see below)** 
+[![4Minitz Demo Video](doc/4Minitz_Youtube_Thumbnail.png)](https://www.youtube.com/watch?v=v28q6AaEySQ)
 
-Documentation is "continously" not finished... Nevertheless these WIP docs may be of help:
+*(Click to play Demo Video)*
+
+Documentation is "continuously" not finished... Nevertheless these WIP docs may be of help:
 
 * [FAQ - Frequently Asked Questions](doc/faq.md)
 * [User Doc](doc/user/usermanual.md)
@@ -65,7 +65,7 @@ with a more comprehensive coverage of the real production
 building & installation topic!
 
 The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
-node.js version and MongoDB and thus has no external dependecies.
+node.js version and MongoDB and thus has no external dependencies.
 
 See the admin guide for
 [how to configure your 4Minitz docker server](doc/admin/adminguide.md#production-running---with-docker).
@@ -84,6 +84,8 @@ with a more comprehensive coverage of the real production installation topic!
     curl https://install.meteor.com/ | sh
     meteor --version
 
+To download fresh code form github you will need `git` in your path.
+
 You'll need root rights for that. As a non-root user you may install
 meteor by:
 
@@ -93,8 +95,9 @@ meteor by:
     sudo ln -s ./meteor /usr/local/bin/meteor
 
 On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
+As experienced Windows admin you sure can transfer the below steps for Linux and Mac to your OS.
 
-#### Quick Installation of 4Minitz   
+#### Quick Installation of 4Minitz (Linux & Mac)   
 OK, here we go! For a quick test installation perform:
 
     git clone --depth 1 https://github.com/4minitz/4minitz.git --branch master --single-branch

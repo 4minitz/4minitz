@@ -2,8 +2,12 @@
 module.exports = {
     doNothing() {},
 
-    returns(positionOfCallback, dataToReturn) {
+    returns(positionOfCallback, dataToReturn, parameterCollector) {
         return function () {
+            if (Array.isArray(parameterCollector)) {
+                parameterCollector.push(arguments);
+            }
+            
             let callback = arguments[positionOfCallback];
             callback(null, dataToReturn);
         };

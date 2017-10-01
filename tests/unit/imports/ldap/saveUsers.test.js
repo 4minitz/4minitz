@@ -29,7 +29,6 @@ let updateOne = {
     updateOne: sinon.stub()
 };
 
-let settings = {};
 let mongoUrl = 'mongodb://host:port/db';
 let users = [{
     cn: 'username',
@@ -43,6 +42,8 @@ const saveUsers = proxyquire('../../../../imports/ldap/saveUsers', {
 });
 
 describe('saveUsers', function () {
+    let settings;
+  
     beforeEach(function () {
         MongoClient.connect = asyncStubs.doNothing();
         bulk.find.reset();
@@ -50,6 +51,14 @@ describe('saveUsers', function () {
         db.close.reset();
         upsert.upsert.reset();
         updateOne.updateOne.reset();
+
+        settings = {
+            propertyMap: {},
+            whiteListedFields: [],
+            inactiveUsers: {
+                strategy: 'none'
+            }
+        };
     });
 
     it('inserts users into database', function (done) {
