@@ -229,6 +229,7 @@ Template.topicInfoItemEdit.events({
         let editItem = getEditInfoItem();
         let doc = {};
         if (editItem) {
+            unsetEditedFields(editItem);
             _.extend(doc, editItem._infoItemDoc);
         }
 
