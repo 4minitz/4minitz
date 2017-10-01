@@ -18,7 +18,7 @@ export class TopicsFinder {
 
     static allTopicsOfMeetingSeriesWithAtLeastOneItemCreatedInMinutes(meetingSeriesId, minutesId) {
         return TopicSchema.getCollection()
-            .find({ parentId: meetingSeriesId, 'infoItems.XAnLTZscJTffTz7nW': minutesId }).fetch();
+            .find({ parentId: meetingSeriesId, 'infoItems.createdInMinute': minutesId }).fetch();
     }
 
     static getTopicById(topicId, meetingSeriesId) {
