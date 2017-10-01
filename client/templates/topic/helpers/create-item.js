@@ -21,6 +21,10 @@ export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type 
         itemDoc.createdInMinute = minutesId;
     }
 
+    if (!itemDoc.subject) {
+        throw new Meteor.Error('illegal-argument', 'Please add a subject for the new item');
+    }
+
     let newItem;
     switch (type) {
         case 'actionItem':
