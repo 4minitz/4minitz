@@ -232,7 +232,7 @@ Template.topicElement.events({
         const topicId = this.topic._id;
         const inputEl = tmpl.$(`#addItemField_${topicId}`);
         resizeTextarea(inputEl);
-        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
+        if (!(evt.which === 13/*enter*/ && evt.ctrlKey)) {
             return;
         }
 
