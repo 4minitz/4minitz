@@ -143,18 +143,57 @@ Meteor.methods({
         //this variable should be overwritten by the specific implementation of storing files based on their format
         //for this purpose they'll receive two parameters: the html-content as a string and the minute as a object
         let storeFile = undefined; 
+        let fileName = DocumentGeneration.calcFileNameforMinute(minutesObj);
+        let metaData = { 
+            minuteId: minutesObj._id,
+            meetingSeriesId: minutesObj.parentMeetingSeriesID(),
+            minuteDate: minutesObj.date
+        };
 
         // implementation of html storing
         if (Meteor.settings.public.docGeneration.format === 'html') {
-            storeFile = (htmldata, minutesObj) => {
+            storeFile = (htmldata, fileName, metaData) => {
                 DocumentsCollection.write(new Buffer(htmldata), 
-                    {   fileName: DocumentGeneration.calcFileNameforMinute(minutesObj) + '.html',
+                    {   fileName:  fileName + '.html',
                         type: 'text/html',
-                        meta: { 
-                            minuteId: minutesObj._id,
-                            meetingSeriesId: minutesObj.parentMeetingSeriesID(),
-                            minuteDate: minutesObj.date
+                        meta: metaData
+                    }, function (error) {
+                        if (error) {
+                            throw new Meteor.Error(error);
                         }
+                    }
+                );
+            };
+        }
+
+        // implementation of pdf storing
+        if (Meteor.settings.public.docGeneration.format === 'pdf') {
+            storeFile = (htmldata, fileName, metaData) => {
+                const fs = require('fs-extra');
+                if (!fs.existsSync(Meteor.settings.docGeneration.pathToWkhtmltopdf)) {
+                    throw new Meteor.Error('runtime-error', 'Binary wkhtmltopdf not found at: ' + Meteor.settings.docGeneration.pathToWkhtmltopdf);
+                }
+                
+                //Safe file as html
+                const tempFileName = getDocumentStorageRootDirectory() + '/TemporaryProtocol.html'; //eslint-disable-line
+                fs.outputFileSync(tempFileName, htmldata);
+
+                //Safe file as pdf
+                const exec = require('child_process').execSync;
+                let exePath = '"' + Meteor.settings.docGeneration.pathToWkhtmltopdf + '"';
+                let outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol.pdf'; //eslint-disable-line
+                let additionalArguments = ' --no-outline --print-media-type --no-background';
+
+                exec(exePath + additionalArguments + ' "'+ tempFileName + '" "' +  outputPath + '"', {
+                    stdio: 'ignore' //surpress progess messages from pdf generation in server console
+                });
+
+                //Safe file in FilesCollection
+                DocumentsCollection.addFile(outputPath, 
+                    {
+                        fileName: fileName + '.pdf',
+                        type: 'application/pdf',
+                        meta: metaData
                     }, function (error) {
                         if (error) {
                             throw new Meteor.Error(error);
@@ -171,7 +210,7 @@ Meteor.methods({
         //generate and store protocol
         Meteor.call('documentgeneration.createHTML', minutesObj._id, (error, result) => {
             if ((result) && (Meteor.isServer)) {
-                storeFile(result, minutesObj);
+                storeFile(result, fileName, metaData);
             } else {
                 throw new Meteor.Error('runtime-error', error.reason);
             }
