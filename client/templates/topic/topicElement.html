@@ -124,8 +124,11 @@
             {{#if isEditable}}
                 <form class="addItemForm leftIndent-desktop">
                     <div class="form-group label-placeholder" style="padding-bottom: 1em;">
-                        <label for="addItemField_{{topic._id}}" class="control-label">Add Info Item. Append @username to add an Action Item.</label>
-                        <input type="text" class="form-control add-item-field" id="addItemField_{{topic._id}}" autocomplete="off">
+                        <label for="addItemField_{{topic._id}}" class="control-label">Add Info Item. Append @username to add an Action Item. Press Enter to append details. Press Ctrl+Enter to submit.</label>
+                        <textarea id="addItemField_{{topic._id}}"
+                                  rows="1"
+                                  class="form-control add-item-field"></textarea>
+
                     </div>
                 </form>
             {{/if}}

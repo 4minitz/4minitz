@@ -13,6 +13,7 @@ import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
+import {resizeTextarea} from './helpers/resize-textarea';
 
 let _minutesId;
 
@@ -223,15 +224,25 @@ Template.topicElement.events({
         Session.set('topicInfoItemType', 'actionItem');
     },
 
-    'submit .addItemForm' (evt, tmpl) {
-        evt.preventDefault();
-
+    'keypress .addItemForm' (evt, tmpl) {
         if (!tmpl.data.isEditable) {
             throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
         }
 
+        const topicId = this.topic._id;
+        const inputEl = tmpl.$(`#addItemField_${topicId}`);
+        resizeTextarea(inputEl);
+        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
+            return;
+        }
+
+        const inputText = tmpl.find('.add-item-field').value;
+        const splitIndex = inputText.indexOf('\n');
+        const subject = (splitIndex === -1) ? inputText : inputText.substring(0, splitIndex);
+        const detail = (splitIndex === -1) ? '' : inputText.substring(splitIndex + 1).trim();
+
         const itemDoc = {
-            subject: tmpl.find('.add-item-field').value,
+            subject: subject,
             responsibles: [],
             createdInMinute: this.minutesID
         };
@@ -239,6 +250,9 @@ Template.topicElement.events({
         const topic = new Topic(this.minutesID, this.topic);
         const minutes = new Minutes(this.minutesID);
         const newItem = detectTypeAndCreateItem(itemDoc, topic, this.minutesID, minutes.parentMeetingSeries());
+        if (detail) {
+            newItem.addDetails(this.minutesID, detail);
+        }
         newItem.saveAtBottom().catch(error => {
             tmpl.find('.add-item-field').value = itemDoc.subject; // set desired value again!
             handleError(error);
@@ -251,6 +265,13 @@ Template.topicElement.events({
         }
         collapseState[this.topic._id] = false;
         Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
+    },
+
+    'keyup .detailInput'(evt, tmpl) {
+        //const inputEl = tmpl.$('.add-item-field');
+        let topicId = this.topic._id;
+        const inputEl = tmpl.$(`#addItemField_${topicId}`);
+        resizeTextarea(inputEl);
     },
 
     'click #btnTopicExpandCollapse'(evt) {
