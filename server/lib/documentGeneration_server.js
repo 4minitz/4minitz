@@ -62,27 +62,29 @@ if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
         } else {
             console.log('OK, has write access to Document Storage Path');
             //Check pdf binaries
-            if (Meteor.settings.docGeneration.format === 'pdf') {
-                if (!Meteor.settings.docGeneration.pathToWkhtmltopdf) {
-                    console.error('*** ERROR*** No path for wkhtmltopdf is assigned within settings.json.');
-                    console.error('             Only HTML protocols can be generated.');
-                    Meteor.settings.docGeneration.format === 'html';
-                } else {
-                    if (!fs.existsSync(Meteor.settings.docGeneration.pathToWkhtmltopdf)) {
-                        console.error('*** ERROR*** Missing binary for wkhtmltopdf at path: ' + Meteor.settings.docGeneration.pathToWkhtmltopdf);
-                        console.error('             Only HTML protocols can be generated.');
-                        Meteor.settings.docGeneration.format === 'html';
-                    } else {
-                        if ((Meteor.settings.docGeneration.pathToGhostscript) && (!fs.existsSync(Meteor.settings.docGeneration.pathToGhostscript))) {
-                            console.error('*** ERROR*** Missing binary for ghostscript at path: ' + Meteor.settings.docGeneration.pathToGhostscript);
-                            console.error('             No PDF/A protocols can be generated. Instead regular PDFs will be generated.');
-                            delete Meteor.settings.docGeneration.pathToGhostscript;
-                        }
-                    }
+            if ((Meteor.settings.docGeneration.format === 'pdf') || (Meteor.settings.docGeneration.format === 'pdfa')) {
+                checkCondition((Meteor.settings.docGeneration.pathToWkhtmltopdf), 'No path for wkhtmltopdf is assigned within settings.json.');
+                checkCondition(fs.existsSync(Meteor.settings.docGeneration.pathToWkhtmltopdf), 'Missing binary for wkhtmltopdf at path: ' + Meteor.settings.docGeneration.pathToWkhtmltopdf);
+                if (Meteor.settings.docGeneration.format === 'pdfa') {
+                    checkCondition((Meteor.settings.docGeneration.pathToGhostscript), 'No path for ghostscript is assigned within settings.json.');
+                    checkCondition(fs.existsSync(Meteor.settings.docGeneration.pathToGhostscript), 'Missing binary for ghostscript at path: ' + Meteor.settings.docGeneration.pathToGhostscript);
+                    checkCondition((Meteor.settings.docGeneration.pathToPDFADefinitionFile) && ((Meteor.settings.docGeneration.ICCProfileType === 'rgb') || (Meteor.settings.docGeneration.ICCProfileType === 'cmyk')), 
+                        'Both a path to a pdfa definition file and a valid ICC profile type have to be assigned in the settings.json');
+                    checkCondition(fs.existsSync(Meteor.settings.docGeneration.pathToPDFADefinitionFile), 'Could not find PDFA definition file at path: ' + Meteor.settings.docGeneration.pathToPDFADefinitionFile);
                 }
             }
         }
     });
 } else {
     console.log('Document generation feature: DISABLED');
+}
+
+let checkCondition = (condition, errorMessage) => {
+    if (Meteor.settings.docGeneration.enabled) {
+        if (!condition) {
+            console.error('*** ERROR*** '+ errorMessage);
+            console.error('             Protocol generation will be disabled!');
+            Meteor.settings.docGeneration.enabled = false;
+        }
+    }
 }

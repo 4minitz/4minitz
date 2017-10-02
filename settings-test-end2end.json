@@ -123,9 +123,11 @@
 
   "docGeneration": { 
         "enabled": true, 
-        "format": "pdf", 
+        "format": "pdfa", 
         "targetDocPath": "protocols_e2e",
         "pathToWkhtmltopdf": "C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe",
-        "pathToGhostscript": "C:/Program Files/gs/gs9.21/bin/gswin64c.exe"
+        "pathToGhostscript": "C:/Program Files/gs/gs9.21/bin/gswin64c.exe",
+        "pathToPDFADefinitionFile": "C:/Program Files/gs/gs9.21/lib/PDFA_def.ps",
+        "ICCProfileType" : "rgb"
   }
 }

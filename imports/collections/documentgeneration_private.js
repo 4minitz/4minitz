@@ -167,7 +167,7 @@ Meteor.methods({
         }
 
         // implementation of pdf storing
-        if (Meteor.settings.public.docGeneration.format === 'pdf') {
+        if ((Meteor.settings.public.docGeneration.format === 'pdf') || (Meteor.settings.public.docGeneration.format === 'pdfa')){
             storeFile = (htmldata, fileName, metaData) => {
                 const fs = require('fs-extra');
                 if (!fs.existsSync(Meteor.settings.docGeneration.pathToWkhtmltopdf)) {
@@ -187,6 +187,28 @@ Meteor.methods({
                 exec(exePath + additionalArguments + ' "'+ tempFileName + '" "' +  outputPath + '"', {
                     stdio: 'ignore' //surpress progess messages from pdf generation in server console
                 });
+
+                //Safe file as pdf-a
+                if (Meteor.settings.public.docGeneration.format === 'pdfa') {
+                    if (!fs.existsSync(Meteor.settings.docGeneration.pathToGhostscript)) {
+                        throw new Meteor.Error('runtime-error', 'Binary ghostscript not found at: ' + Meteor.settings.docGeneration.pathToGhostscript);
+                    }
+                    if (!fs.existsSync(Meteor.settings.docGeneration.pathToPDFADefinitionFile)) {
+                        throw new Meteor.Error('runtime-error', 'PDFA definition file not found at: ' + Meteor.settings.docGeneration.pathToPDFADefinitionFile);
+                    }
+
+                    exePath = '"' + Meteor.settings.docGeneration.pathToGhostscript + '"';
+                    let icctype = Meteor.settings.docGeneration.ICCProfileType.toUpperCase();
+                    let inputPath = outputPath;
+                    outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol-A.pdf'; //eslint-disable-line
+                    additionalArguments = ' -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE' +
+                        ' -dColorConversionStrategy=/' + icctype + 
+                        ' -sProcessColorModel=Device' + icctype + 
+                        ' -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile=';
+                    exec(exePath + additionalArguments + '"' + outputPath + '" "' + Meteor.settings.docGeneration.pathToPDFADefinitionFile + '" "' + inputPath +  '"', {
+                        stdio: 'ignore' //surpress progess messages from pdf generation in server console
+                    });
+                }
 
                 //Safe file in FilesCollection
                 DocumentsCollection.addFile(outputPath, 
