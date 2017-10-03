@@ -220,7 +220,7 @@ Template.topicInfoItemList.helpers({
 
         const lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')  //eslint-disable-line
             ? context.topicParentId
-            : MinutesFinder.lastMinutesOfMeetingSeries(new MeetingSeries(context.topicParentId))._id;
+            : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(new MeetingSeries(context.topicParentId))._id;
 
         return detail.createdInMinute === lastFinalizedMinuteId;
     },
