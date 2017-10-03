@@ -103,21 +103,24 @@ describe('Protocols', function () {
         expect(E2EProtocols.checkDownloadOpensConfirmationDialog(), 'Confirmation Dialog is opened').to.be.true;
     });
 
-    it('Trying to download an existent protocol shows no confirmation dialog', function () {
+    it('Trying to download an existant protocol shows no confirmation dialog', function () {
         E2EProtocols.setSettingsForProtocolGeneration('html');
+        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
         E2EMinutes.finalizeCurrentMinutes();
+        browser.scroll('.navbar-header'); //without this the "Minutes finalized" toast would be right above the download button
         E2EGlobal.waitSomeTime(750);
-        expect(E2EProtocols.countProtocolsInMongoDB() > 0, 'A protocol has been created').to.be.true;
+        expect(E2EProtocols.countProtocolsInMongoDB(), 'Protocol has been saved in database').to.equal(numberOfProtocolsBefore + 1);
         expect(E2EProtocols.checkDownloadOpensConfirmationDialog(), 'No Confirmation Dialog is opened').to.be.false;
     });
 
     it('Trying to download an protocol with an direct link should work with proper permissions', function () {
         E2EProtocols.setSettingsForProtocolGeneration('html');
+        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
         E2EMinutes.finalizeCurrentMinutes();
         E2EGlobal.waitSomeTime(750);
-        expect(E2EProtocols.countProtocolsInMongoDB() > 0, 'A protocol has been created').to.be.true;
+        expect(E2EProtocols.countProtocolsInMongoDB(), 'Protocol has been saved in database').to.equal(numberOfProtocolsBefore + 1);
 
         browser.execute((link) => {
             window.location = link;
@@ -130,10 +133,11 @@ describe('Protocols', function () {
 
     it('Trying to download an protocol with an direct link should not work when logged out', function () {
         E2EProtocols.setSettingsForProtocolGeneration('html');
+        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
         E2EMinutes.finalizeCurrentMinutes();
         E2EGlobal.waitSomeTime(750);
-        expect(E2EProtocols.countProtocolsInMongoDB() > 0, 'A protocol has been created').to.be.true;
+        expect(E2EProtocols.countProtocolsInMongoDB(), 'Protocol has been saved in database').to.equal(numberOfProtocolsBefore + 1);
 
         E2EApp.logoutUser();
         browser.execute((link) => {
@@ -147,10 +151,11 @@ describe('Protocols', function () {
 
     it('Trying to download an protocol with an direct link should not work when loggin in but no permissions', function () {
         E2EProtocols.setSettingsForProtocolGeneration('html');
+        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
         E2EMinutes.finalizeCurrentMinutes();
         E2EGlobal.waitSomeTime(750);
-        expect(E2EProtocols.countProtocolsInMongoDB() > 0, 'A protocol has been created').to.be.true;
+        expect(E2EProtocols.countProtocolsInMongoDB(), 'Protocol has been saved in database').to.equal(numberOfProtocolsBefore + 1);
 
         E2EApp.logoutUser();
         E2EApp.loginUser(1);
