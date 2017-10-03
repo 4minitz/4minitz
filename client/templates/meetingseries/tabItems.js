@@ -64,7 +64,9 @@ Template.tabItems.helpers({
             },
             /* initial value */
             []
-        );
+        ).sort((itemL, itemR) => {
+            return itemR.updatedAt.getTime() - itemL.updatedAt.getTime();
+        });
 
         return TopicInfoItemListContext.createReadonlyContextForItemsOfDifferentTopics(
             tmpl.itemsFilter.filter(items, tmpl.parser),

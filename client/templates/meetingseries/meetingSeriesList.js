@@ -1,34 +1,58 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { MeetingSeries } from '/imports/meetingseries';
-import { UserRoles } from '/imports/userroles';
-import { MinutesFinder } from '../../../imports/services/minutesFinder';
-import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
+
+function getFilteredSeries(queryString) {
+    const split = queryString.trim().match(/[^\s]+/g) || [],
+        queries = split.map(singleQuery => {
+            const regex = new RegExp(singleQuery, 'i');
+            return {
+                $or: [{name: regex}, {project: regex}]
+            };
+        });
+    
+    return MeetingSeries.find({ $and: queries });
+}
+
+Template.meetingSeriesList.onCreated(function () {
+    this.seriesReady = new ReactiveVar();
+    this.searchQuery = new ReactiveVar('');
+    this.autorun(() => {
+        this.subscribe('meetingSeriesOverview');
+        this.seriesReady.set(this.subscriptionsReady());
+    });
+});
 
 Template.meetingSeriesList.helpers({
-    meetingSeriesRow: function () {
-        if ((Session.get('search-query') === '') || (Session.get('search-query') === undefined)) {
-            return MeetingSeries.find({}, {sort: {lastMinutesDate: -1}});
-        }else{
-            if(Template.meetingSeriesSearch.searchResults().count()>0){
-                return Template.meetingSeriesSearch.searchResults();
-            }else{
+    authenticating() {
+        const subscriptionReady = Template.instance().seriesReady.get();
+        return Meteor.loggingIn() || !subscriptionReady;
+    },
+    meetingSeriesRow() {
+        const searchQuery = Template.instance().searchQuery.get();
+
+        if (searchQuery.trim() === '') {
+            return MeetingSeries.find({}, { sort: { lastMinutesDate: -1 } });
+        } else {
+            const results = getFilteredSeries(searchQuery);
+            if (results.count() > 0) {
+                return results;
+            } else {
                 return false;
             }
         }
     },
-    meetingSeriesAmountBiggerFour: function () {
+
+    meetingSeriesAmountBiggerFour() {
         return MeetingSeries.find().count() > 4;
     },
-});
 
-Template.meetingSeriesOverview.helpers({
-    isModeratorOfSeries: function () {
-        let usrRole = new UserRoles();
-        return usrRole.isModeratorOf(Template.instance().data._id);
-    },
+    updateSearchQuery() {
+        const tpl = Template.instance();
 
-    lastMinutes() {
-        const seriesDocumentFromDataContext = this;
-        return MinutesFinder.lastMinutesOfMeetingSeries(seriesDocumentFromDataContext);
+        return (query) => {
+            tpl.searchQuery.set(query);
+        };
     }
 });

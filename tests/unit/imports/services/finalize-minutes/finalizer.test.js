@@ -16,7 +16,11 @@ let MeetingSeriesSchema = {
     findOne: sinon.stub()
 };
 
-const Minutes = sinon.stub();
+let Minutes = sinon.stub();
+//let Minutes = {
+//    save: sinon.stub(),
+//};
+
 const Topics = sinon.stub();
 const check = sinon.stub();
 const UserRoles = sinon.stub();
@@ -104,7 +108,8 @@ describe('workflow.finalizeMinute', function () {
     const finalizeMeteorMethod = MeteorMethods['workflow.finalizeMinute'],
         fakeMeetingSeries = {
             openTopics: [],
-            topics: []
+            topics: [],
+            updateLastMinutesFieldsAsync: sinon.stub()
         },
         user = {
             username: 'me'
@@ -120,7 +125,8 @@ describe('workflow.finalizeMinute', function () {
             topics: [],
             isFinalized: false,
             parentMeetingSeriesID: sinon.stub().returns(12),
-            parentMeetingSeries: sinon.stub().returns(fakeMeetingSeries)
+            parentMeetingSeries: sinon.stub().returns(fakeMeetingSeries),
+            save: sinon.stub()
         };
         Minutes.returns(minutes);
 
@@ -250,7 +256,8 @@ describe('workflow.unfinalizeMinute', function () {
         meetingSeries = {
             openTopics: [],
             topics: [],
-            minutes: [minutesId]
+            minutes: [minutesId],
+            updateLastMinutesFieldsAsync: sinon.stub()
         };
         MeetingSeriesSchema.findOne.returns(meetingSeries);
 

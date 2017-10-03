@@ -37,6 +37,7 @@ export class MeetingSeriesGenerator {
     addMinutes(aMinutes) {
         this.series.minutes.push(aMinutes._id);
         this.series.lastMinutesDate = aMinutes.date;
+        this.series.lastMinutesId = aMinutes._id;
+        this.series.lastMinutesFinalized = aMinutes.isFinalized;
     }
-
 }
