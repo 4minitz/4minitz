@@ -83,8 +83,8 @@ let checkCondition = (condition, errorMessage) => {
     if (Meteor.settings.docGeneration.enabled) {
         if (!condition) {
             console.error('*** ERROR*** '+ errorMessage);
-            console.error('             Protocol generation will be disabled!');
+            console.error('             Document generation feature: DISABLED');
             Meteor.settings.docGeneration.enabled = false;
         }
     }
-}
+};

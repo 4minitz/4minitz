@@ -205,11 +205,16 @@ Meteor.methods({
                         ' -dColorConversionStrategy=/' + icctype + 
                         ' -sProcessColorModel=Device' + icctype + 
                         ' -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile=';
-                    exec(exePath + additionalArguments + '"' + outputPath + '" "' + Meteor.settings.docGeneration.pathToPDFADefinitionFile + '" "' + inputPath +  '"', {
-                        stdio: 'ignore' //surpress progess messages from pdf generation in server console
-                    });
+                    
+                    try {
+                        exec(exePath + additionalArguments + '"' + outputPath + '" "' + Meteor.settings.docGeneration.pathToPDFADefinitionFile + '" "' + inputPath +  '"', {
+                            stdio: 'ignore' //surpress progess messages from pdf generation in server console
+                        });    
+                    } catch (error) {
+                        throw new Meteor.Error('runtime-error', 'Unknown error at PDF generation. Could not execute ghostscript properly.');
+                    }
                 }
-
+                
                 //Safe file in FilesCollection
                 DocumentsCollection.addFile(outputPath, 
                     {
@@ -230,13 +235,8 @@ Meteor.methods({
         }
 
         //generate and store protocol
-        Meteor.call('documentgeneration.createHTML', minutesObj._id, (error, result) => {
-            if ((result) && (Meteor.isServer)) {
-                storeFile(result, fileName, metaData);
-            } else {
-                throw new Meteor.Error('runtime-error', error.reason);
-            }
-        });
+        let htmldata = Meteor.call('documentgeneration.createHTML', minutesObj._id); // this one will run synchronous
+        storeFile(htmldata, fileName, metaData);
     },
 
     'documentgeneration.removeFile'(minutesObj) {
