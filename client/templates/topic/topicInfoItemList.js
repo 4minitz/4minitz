@@ -46,6 +46,11 @@ Template.topicInfoItemList.onCreated(function () {
     // Dict maps Item._id => true/false, where true := "expanded state"
     // per default: everything is undefined => collapsed!
     this.isItemExpanded = new ReactiveVar({});
+
+    // get last finalized Minute for details's new label
+    this.lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')  //eslint-disable-line
+        ? tmplData.topicParentId
+        : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(new MeetingSeries(tmplData.topicParentId))._id;
 });
 
 let updateItemSorting = (evt, ui) => {
@@ -218,11 +223,7 @@ Template.topicInfoItemList.helpers({
         const item = context.items[indexs.hash.infoIndex];
         const detail = item.details[indexs.hash.detailIndex];
 
-        const lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')  //eslint-disable-line
-            ? context.topicParentId
-            : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(new MeetingSeries(context.topicParentId))._id;
-
-        return detail.createdInMinute === lastFinalizedMinuteId;
+        return detail.createdInMinute === Template.instance().lastFinalizedMinuteId;
     },
 
     checkedState: function (index) {
