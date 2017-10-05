@@ -229,8 +229,7 @@ Template.topicElement.events({
             throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
         }
 
-        const topicId = this.topic._id;
-        const inputEl = tmpl.$(`#addItemField_${topicId}`);
+        const inputEl = tmpl.$('.add-item-field');
         resizeTextarea(inputEl);
         if (!(evt.which === 13/*enter*/ && evt.ctrlKey)) {
             return;
@@ -267,8 +266,7 @@ Template.topicElement.events({
         Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
     },
 
-    'keyup .detailInput'(evt, tmpl) {
-        //const inputEl = tmpl.$('.add-item-field');
+    'keyup .addItemForm'(evt, tmpl) {
         let topicId = this.topic._id;
         const inputEl = tmpl.$(`#addItemField_${topicId}`);
         resizeTextarea(inputEl);
