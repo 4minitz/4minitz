@@ -213,10 +213,17 @@ Meteor.methods({
                     } catch (error) {
                         throw new Meteor.Error('runtime-error', 'Unknown error at PDF generation. Could not execute ghostscript properly.');
                     }
+
+                    fs.unlink(inputPath);
                 }
-                
+                fs.unlink(tempFileName);
+
+                // Now move file to it's meetingseries directory
+                let finalOutputPath = createDocumentStoragePath({meta: metaData}) + '\\' + fileName + '.pdf'; //eslint-disable-line
+                fs.moveSync(outputPath, finalOutputPath);
+
                 //Safe file in FilesCollection
-                DocumentsCollection.addFile(outputPath, 
+                DocumentsCollection.addFile(finalOutputPath, 
                     {
                         fileName: fileName + '.pdf',
                         type: 'application/pdf',
@@ -235,8 +242,16 @@ Meteor.methods({
         }
 
         //generate and store protocol
-        let htmldata = Meteor.call('documentgeneration.createHTML', minutesObj._id); // this one will run synchronous
-        storeFile(htmldata, fileName, metaData);
+        try {
+            let htmldata = Meteor.call('documentgeneration.createHTML', minutesObj._id); // this one will run synchronous
+            storeFile(htmldata, fileName, metaData);
+        } catch (error) {
+            console.error('Protocol generation failed:');
+            console.error(error.reason);
+            throw new Meteor.Error(error.reason);
+        }
+        
+        
     },
 
     'documentgeneration.removeFile'(minutesObj) {
