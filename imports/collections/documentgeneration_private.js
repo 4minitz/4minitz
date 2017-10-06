@@ -133,11 +133,11 @@ Meteor.methods({
         return tmplRenderer.render();
     },
 
-    'documentgeneration.createAndStoreFile'(minutesObj) {
+    'documentgeneration.createAndStoreFile'(minutesId) {
         if (Meteor.isClient) {
             return;
         }
-
+        let minutesObj = new Minutes(minutesId);
         //Security checks will be done in the onBeforeUpload-Hook
 
         //this variable should be overwritten by the specific implementation of storing files based on their format
@@ -171,7 +171,7 @@ Meteor.methods({
             storeFile = (htmldata, fileName, metaData) => {
                 const fs = require('fs-extra');
                 if (!fs.existsSync(Meteor.settings.docGeneration.pathToWkhtmltopdf)) {
-                    throw new Meteor.Error('runtime-error', 'Binary wkhtmltopdf not found at: ' + Meteor.settings.docGeneration.pathToWkhtmltopdf);
+                    throw new Meteor.Error('runtime-error', 'Error at PDF generation: Binary wkhtmltopdf not found at: ' + Meteor.settings.docGeneration.pathToWkhtmltopdf);
                 }
                 
                 //Safe file as html
@@ -191,10 +191,10 @@ Meteor.methods({
                 //Safe file as pdf-a
                 if (Meteor.settings.public.docGeneration.format === 'pdfa') {
                     if (!fs.existsSync(Meteor.settings.docGeneration.pathToGhostscript)) {
-                        throw new Meteor.Error('runtime-error', 'Binary ghostscript not found at: ' + Meteor.settings.docGeneration.pathToGhostscript);
+                        throw new Meteor.Error('runtime-error', 'Error at PDF generation: Binary ghostscript not found at: ' + Meteor.settings.docGeneration.pathToGhostscript);
                     }
                     if (!fs.existsSync(Meteor.settings.docGeneration.pathToPDFADefinitionFile)) {
-                        throw new Meteor.Error('runtime-error', 'PDFA definition file not found at: ' + Meteor.settings.docGeneration.pathToPDFADefinitionFile);
+                        throw new Meteor.Error('runtime-error', 'Error at PDF generation: PDFA definition file not found at: ' + Meteor.settings.docGeneration.pathToPDFADefinitionFile);
                     }
 
                     exePath = '"' + Meteor.settings.docGeneration.pathToGhostscript + '"';
@@ -246,18 +246,16 @@ Meteor.methods({
             let htmldata = Meteor.call('documentgeneration.createHTML', minutesObj._id); // this one will run synchronous
             storeFile(htmldata, fileName, metaData);
         } catch (error) {
-            console.error('Protocol generation failed:');
+            console.error('Error at Protocol generation:');
             console.error(error.reason);
             throw new Meteor.Error(error.reason);
         }
-        
-        
     },
 
-    'documentgeneration.removeFile'(minutesObj) {
+    'documentgeneration.removeFile'(minutesId) {
         if (Meteor.isServer) {
             //Security checks will be done in the onBeforeRemove-Hook
-            DocumentsCollection.remove({'meta.minuteId': minutesObj._id}, function (error) {
+            DocumentsCollection.remove({'meta.minuteId': minutesId}, function (error) {
                 if (error) {
                     throw new Meteor.Error('Protocol could not be deleted, error: ' + error.reason);
                 }

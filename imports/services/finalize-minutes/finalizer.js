@@ -108,11 +108,6 @@ Meteor.methods({
         //update meeting series fields to correctly resemble the finalized status of the minute
         minutes.parentMeetingSeries().updateLastMinutesFieldsAsync();
 
-        // save protocol if enabled
-        if (Meteor.settings.public.docGeneration.enabled) {
-            DocumentGeneration.saveProtocol(minutes);
-        }
-
         console.log('workflow.finalizeMinute DONE.');
     },
 
@@ -144,11 +139,6 @@ Meteor.methods({
         history.push(compileFinalizedInfo(minutes));
         doc.finalizedHistory = history;
 
-        // remove protocol if enabled
-        if (Meteor.settings.public.docGeneration.enabled) {
-            DocumentGeneration.removeProtocol(minutes);
-        }
-
         console.log('workflow.unfinalizeMinute DONE.');
         let result = MinutesSchema.update(id, {$set: doc});
 
@@ -161,12 +151,25 @@ Meteor.methods({
 
 
 export class Finalizer {
-    static finalize(minutesId, sendActionItems, sendInfoItems) {
-        Meteor.callPromise('workflow.finalizeMinute', minutesId, sendActionItems, sendInfoItems);
+    static finalize(minutesId, sendActionItems, sendInfoItems, onErrorCallback) {
+        Meteor.call('workflow.finalizeMinute', minutesId, sendActionItems, sendInfoItems);
+        // save protocol if enabled
+        if (Meteor.settings.public.docGeneration.enabled) {
+            Meteor.call('documentgeneration.createAndStoreFile', minutesId, (error) => {
+                if (error) {
+                    error.reason = error.reason ? error.reason : error.error;
+                    onErrorCallback(error);
+                }
+            });
+        }
     }
 
     static unfinalize(minutesId) {
-        Meteor.callPromise('workflow.unfinalizeMinute', minutesId);
+        Meteor.call('workflow.unfinalizeMinute', minutesId);
+        // remove protocol if enabled
+        if (Meteor.settings.public.docGeneration.enabled) {
+            Meteor.call('documentgeneration.removeFile', minutesId);
+        }
     }
 
     static finalizedInfo(minutesId) {
