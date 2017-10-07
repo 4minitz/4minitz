@@ -64,14 +64,14 @@ let handleDemoUserAccount = function () {
 
 let syncRootUrl = function () {
     if (!Meteor.settings) {
-        console.log("*** Warning: no settings specified. Running in 'WTF' mode.");
+        console.log('*** Warning: no settings specified. Running in \'WTF\' mode.');
         return;
     }
 
     if (!Meteor.settings.ROOT_URL) {
-        console.log("*** Warning: No ROOT_URL specified in settings.json.");
-        console.log("             Links in EMails and file download may not work.");
-        console.log("             Grabbing ROOT_URL from env variable.");
+        console.log('*** Warning: No ROOT_URL specified in settings.json.');
+        console.log('             Links in EMails and file download may not work.');
+        console.log('             Grabbing ROOT_URL from env variable.');
     }
 
     // We sync the two sources of ROOT_URL with a preference on Meteor.settings from settings.json
@@ -86,7 +86,7 @@ let syncRootUrl = function () {
 
 Meteor.startup(() => {
     syncRootUrl();
-    console.log("*** ROOT_URL: "+Meteor.settings.ROOT_URL);
+    console.log('*** ROOT_URL: '+Meteor.settings.ROOT_URL);
 
     GlobalSettings.publishSettings();
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
