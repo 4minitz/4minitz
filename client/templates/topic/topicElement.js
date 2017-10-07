@@ -102,12 +102,12 @@ Template.topicElement.helpers({
     }
 });
 
-const editTopicEventHandler = (evt, manipulateTopic) => {
+const editTopicEventHandler = (evt, context, manipulateTopic) => {
     evt.preventDefault();
-    if (!this.minutesID || !this.isEditable) {
+    if (!context.minutesID || !context.isEditable) {
         return;
     }
-    const aTopic = new Topic(this.minutesID, this.topic._id);
+    const aTopic = new Topic(context.minutesID, context.topic._id);
     manipulateTopic(aTopic);
 };
 
@@ -159,20 +159,20 @@ Template.topicElement.events({
     },
 
     'click .btnToggleState'(evt) {
-        editTopicEventHandler(evt, (aTopic) => {
+        editTopicEventHandler(evt, this, (aTopic) => {
             aTopic.toggleState().catch(onError)
         });
     },
 
     'click .js-toggle-recurring'(evt) {
-        editTopicEventHandler(evt, (aTopic) => {
+        editTopicEventHandler(evt, this, (aTopic) => {
             aTopic.toggleRecurring();
             aTopic.save().catch(onError);
         });
     },
     
     'click .js-toggle-skipped'(evt) {
-        editTopicEventHandler(evt, (aTopic) => {
+        editTopicEventHandler(evt, this, (aTopic) => {
             aTopic.toggleSkip();
             aTopic.save().catch(onError);
         });
