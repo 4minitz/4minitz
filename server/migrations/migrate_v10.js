@@ -2,25 +2,15 @@ import { Meteor } from 'meteor/meteor';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesFinder } from '/imports/services/minutesFinder';
+import {updateTopicsOfSeriesPre16} from './helpers/updateSeries';
+import {updateTopicsOfMinutes} from './helpers/updateMinutes';
 
 function saveSeries(series) {
-    MeetingSeriesSchema.getCollection().update(
-        series._id, {
-            $set: {
-                'topics': series.topics,
-                'openTopics': series.openTopics
-            }
-        });
+    updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
 }
 
 function saveMinutes(minutes) {
-    // We getCollection() here to skip .clean & .validate to allow empty string values
-    MinutesSchema.getCollection().update(
-        minutes._id, {
-            $set: {
-                'topics': minutes.topics,
-            }
-        });
+    updateTopicsOfMinutes(minutes, MinutesSchema.getCollection());
 }
 
 class MigrateSeriesUp {
