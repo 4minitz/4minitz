@@ -1,4 +1,4 @@
-/**import { E2EGlobal } from './helpers/E2EGlobal'
+import { E2EGlobal } from './helpers/E2EGlobal'
 import { E2EApp } from './helpers/E2EApp'
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
 import { E2EMinutes } from './helpers/E2EMinutes'
@@ -8,7 +8,6 @@ describe('MyActionItems Tab', function () {
     const aProjectName = "MyActionItems Tab";
     let aMeetingCounter = 0;
     let aMeetingNameBase = "Meeting Name #";
-    let aMeetingName;
 
     before("reload page and reset app", function () {
         E2EApp.resetMyApp(true);
@@ -18,29 +17,58 @@ describe('MyActionItems Tab', function () {
     beforeEach("goto start page and make sure test user is logged in", function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
-
-        aMeetingCounter++;
-        aMeetingName = aMeetingNameBase + aMeetingCounter;
-
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-    it("can filter the list of items", function () {
-        E2ETopics.addTopicToMinutes('some topic');
-        E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: "actionItem"}, 1);
-        E2ETopics.addInfoItemToTopic({subject: 'some action item with information', itemType: "actionItem"}, 1);
+    it("can filter my action items from all meeting series", function () {
 
+        this.timeout(120000);
+
+        let meetingName = aMeetingNameBase + '1';
+        E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #1');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #1', itemType: "actionItem", responsible: E2EApp.getCurrentUser()}, 1);
         E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMinutes.gotoParentMeetingSeries();
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #2');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #2', itemType: "actionItem", responsible: E2EApp.getCurrentUser()}, 1);
+        E2EMinutes.finalizeCurrentMinutes();
 
-        E2EMeetingSeries.gotoTabItems();
+        meetingName = aMeetingNameBase + '2';
+        E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
 
-        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have three items").to.equal(3);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #3');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #3', itemType: "actionItem", responsible: E2EApp.getCurrentUser()}, 1);
+        E2EMinutes.finalizeCurrentMinutes();
 
-        browser.setValue('#inputFilter', 'information');
-        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have now two items").to.equal(2);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #4');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #4', itemType: "actionItem", responsible: E2EApp.getCurrentUser()}, 1);
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2EApp.gotoStartPage();
+        E2EApp.gotoActionItemsTab();
+
+        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have four items").to.equal(4);
     });
-});**/
+
+    it("can filter my action items from all action items", function () {
+        let meetingName = aMeetingNameBase + '1';
+        E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
+        E2ETopics.addTopicToMinutes('topic #1');
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #2', itemType: "actionItem", responsible: E2EApp.getCurrentUser()}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #1', itemType: "actionItem", responsible: (E2EApp.getCurrentUser() + ',' + E2EGlobal.SETTINGS.e2eTestUsers[1])}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'action item  #2', itemType: "actionItem", responsible: E2EGlobal.SETTINGS.e2eTestUsers[2]}, 1);
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2EApp.gotoStartPage();
+        E2EApp.gotoActionItemsTab();
+
+        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have two items").to.equal(2);
+    });
+});

@@ -12,6 +12,8 @@ import { createLabelIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 
 import { MeetingSeries } from '/imports/meetingseries';
+import { Meteor } from 'meteor/meteor';
+import { TopicSchema } from '/imports/collections/topic.schema';
 
 export class TabItemsConfig {
     constructor (topics, parentMeetingSeriesId) {
@@ -38,6 +40,9 @@ Template.actionItemList.onCreated(function() {
         createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
         createUserIdsReceiver
     );
+
+    let meetingSeriesIDs = MeetingSeries.find().map(function(item){ return item._id; });
+    this.subscribe('topics', meetingSeriesIDs);
 });
 
 Template.actionItemList.helpers({
@@ -47,20 +52,16 @@ Template.actionItemList.helpers({
     },
 
     getInfoItemListContext () {
-        let meetingSeries = MeetingSeries.find({visibleFor: {$in: [Meteor.userId()]}}).fetch();
-
         let myActionItems = [];
         const actionItemSeriesIdMap = {};
 
-        meetingSeries.forEach(meetingSerie => {
-            let topics = meetingSerie.topics;
-            topics.forEach(topic => {
-                let actionItems = topic.infoItems.filter(item => item.itemType === 'actionItem' && item.responsibles.includes(Meteor.userId()));
-                actionItems.forEach(actionItem => {
-                    myActionItems.push(actionItem);
-                    actionItemSeriesIdMap[actionItem._id] = meetingSerie._id;
-                })
-            })
+        let topics = TopicSchema.getCollection().find().fetch();
+        topics.forEach(topic => {
+            let actionItems = topic.infoItems.filter(item => item.itemType === 'actionItem' && item.responsibles.includes(Meteor.userId()));
+            actionItems.forEach(actionItem => {
+                myActionItems.push(actionItem);
+                actionItemSeriesIdMap[actionItem._id] = topic.parentId;
+            });
         });
 
         const tmpl = Template.instance();
