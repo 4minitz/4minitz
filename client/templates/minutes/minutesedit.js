@@ -226,6 +226,13 @@ let sendActionItems = true;
 let sendInformationItems = true;
 
 Template.minutesedit.helpers({
+    setDocumentTitle() {
+        let min = new Minutes(_minutesID);
+        let ms = min.parentMeetingSeries();
+        document.title = `4M! ${ms.name} [${ms.project}] ${min.date}`;
+        // Hint: this will be resetted on router's exit hook (see router.js).
+    },
+
     authenticating() {
         const subscriptionReady = Template.instance().minutesReady.get();
         return Meteor.loggingIn() || !subscriptionReady;
@@ -286,11 +293,11 @@ Template.minutesedit.helpers({
             toggleTopicSorting();
         });
 
-        // enable the parent series check after 2 seconds delay to make sure
+        // enable the parent series check after 2.5 seconds delay to make sure
         // there was enough time to update the meeting series
         Meteor.setTimeout(function() {
             Session.set('minutesedit.checkParent', true);
-        }, 2000);
+        }, 2500);
     },
 
     checkParentSeries: function() {
@@ -401,7 +408,11 @@ Template.minutesedit.helpers({
 
     isDocumentGenerationAllowed : function () {
         return Meteor.settings.public.docGeneration.enabled === true;
-    }
+    },
+
+    theProtocol : function () {
+        return DocumentGeneration.getProtocolForMinute(_minutesID);
+    },
 });
 
 Template.minutesedit.events({
@@ -598,7 +609,7 @@ Template.minutesedit.events({
         togglePrintView();
     },
 
-    'click #btn_downloadMinutes': function(evt) {
+    'click #btn_dynamicallyGenerateProtocol': function(evt) {
         evt.preventDefault();
 
         let noProtocolExistsDialog = (downloadHTML) => {
@@ -610,7 +621,7 @@ Template.minutesedit.events({
                 'Download'
             ).show();
         };
-
+        
         DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
     }
 });

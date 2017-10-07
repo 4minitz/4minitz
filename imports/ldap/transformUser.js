@@ -1,13 +1,16 @@
 let _ = require('underscore');
 
 module.exports = function (ldapSettings, userData) {
-    let searchDn = ldapSettings.searchDn || 'cn';
+    ldapSettings.propertyMap = ldapSettings.propertyMap || {};
+    const usernameAttribute = ldapSettings.searchDn || ldapSettings.propertyMap.username || 'cn',
+        longnameAttribute = ldapSettings.propertyMap.longname,
+        mailAttribute = ldapSettings.propertyMap.email || 'mail';
 
     // userData.mail may be a string with one mail address or an array.
     // Nevertheless we are only interested in the first mail address here - if there should be more...
-    let tmpEMail = userData.mail;
-    if (Array.isArray(userData.mail)) {
-        tmpEMail = userData.mail[0];
+    let tmpEMail = userData[mailAttribute];
+    if (Array.isArray(tmpEMail)) {
+        tmpEMail = tmpEMail[0];
     }
     let tmpEMailArray = [{
         address: tmpEMail,
@@ -15,20 +18,24 @@ module.exports = function (ldapSettings, userData) {
         fromLDAP: true
     }];
 
-    let username = userData[searchDn] || '';
+    let username = userData[usernameAttribute] || '';
+
+    const whiteListedFields = ldapSettings.whiteListedFields || [];
+    const profileFields = whiteListedFields.concat(['dn']);
 
     let user = {
         createdAt: new Date(),
         isInactive: false,
         emails: tmpEMailArray,
         username: username.toLowerCase(),
-        profile: _.pick(userData, _.without(ldapSettings.whiteListedFields, 'mail'))
+        profile: _.pick(userData, _.without(profileFields, 'mail'))
     };
+
     // copy over the LDAP user's long name from "cn" field to the meteor accounts long name field
-    if (user.profile.cn) {
-        user.profile.name = user.profile.cn;
-        delete user.profile.cn;
+    if (longnameAttribute) {
+        user.profile.name = userData[longnameAttribute];
     }
+
     if (userData.isInactive) {
         user.isInactive = true;
     }
