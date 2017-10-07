@@ -52,7 +52,10 @@ export class MigrateV4 {
     static down() {
         MinutesSchema.getCollection().find().forEach(minute => {
             minute.topics.forEach(topic => {
-                delete topic.responsibles;
+                if (topic.responsibles) {
+                    topic.responsible = topic.responsibles.join();
+                    delete topic.responsibles;
+                }
             });
 
             // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values
