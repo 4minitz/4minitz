@@ -303,7 +303,7 @@ Template.topicInfoItemList.events({
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
         performActionForItem(evt, tmpl, (item) => {
-            let isDeleteAllowed = item.isDeleteAllowed(context.getSeriesId(infoItem._id));
+            let isDeleteAllowed = item.isDeleteAllowed(context.getSeriesId(item._id));
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {

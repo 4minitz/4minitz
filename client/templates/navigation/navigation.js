@@ -23,5 +23,9 @@ Template.navigation.events({
             AccountsTemplates.logout();
             FlowRouter.go('/');
         }
+    },
+
+    'click .navbar-brand': function() {
+        Session.set('gotoMeetingSeriesTab', true);
     }
 });

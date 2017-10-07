@@ -34,6 +34,7 @@ describe('MyActionItems Tab', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
         E2ETopics.addTopicToMinutes('topic #2');
         E2ETopics.addInfoItemToTopic({subject: 'action item  #2', itemType: "actionItem", responsible: E2EApp.getCurrentUser()}, 1);
+        E2ETopics.toggleActionItem(1, 1);
         E2EMinutes.finalizeCurrentMinutes();
 
         meetingName = aMeetingNameBase + '2';

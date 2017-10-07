@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Session } from 'meteor/session';
 
 Template.home.created = function () {
     //add your statement here 
@@ -18,7 +19,15 @@ Template.home.helpers({
     },
 
     tab: function() {
-        return Template.instance().activeTabTemplate.get();
+        let meetingSeriesTab = Session.get('gotoMeetingSeriesTab');
+        if(meetingSeriesTab) {
+            Template.instance().activeTabId.set('tab_meetings');
+            Template.instance().activeTabTemplate.set('meetingSeriesList');
+            Session.set('gotoMeetingSeriesTab', false);
+        }
+        else {
+            return Template.instance().activeTabTemplate.get();
+        }
     }
 });
 
