@@ -16,7 +16,7 @@ export class MigrateV19 {
                         top._id,
                         {$set: {sortOrder: i}});
                     i = i +1;
-                })
+                });
             }
         });
     }

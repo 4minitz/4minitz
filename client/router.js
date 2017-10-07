@@ -5,8 +5,8 @@ import { Accounts } from 'meteor/accounts-base';
 
 // reset document title on route exit
 // To set a route specific title use a helper in the according template
-resetDocumentTitle = function (context) {
-    document.title = "4Minitz!";
+const resetDocumentTitle = function () {
+    document.title = '4Minitz!';
 };
 
 FlowRouter.route('/', {
