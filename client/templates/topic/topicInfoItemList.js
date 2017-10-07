@@ -13,6 +13,7 @@ import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import {labelSetFontColor} from './helpers/label-set-font-color';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -260,12 +261,7 @@ Template.topicInfoItemList.helpers({
             return;
         }
         return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.topicParentId))
-            .map(labelObj => {
-                let doc = labelObj.getDocument();
-                doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
-
-                return doc;
-            });
+            .map(labelSetFontColor);
     }
 });
 
