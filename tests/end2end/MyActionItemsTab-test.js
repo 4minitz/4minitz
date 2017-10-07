@@ -53,7 +53,7 @@ describe('MyActionItems Tab', function () {
         E2EApp.gotoStartPage();
         E2EApp.gotoActionItemsTab();
 
-        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have four items").to.equal(4);
+        expect(E2ETopics.countItemsForTopic('#itemPanel'), "Items list should have four items").to.equal(3);
     });
 
     it("can filter my action items from all action items", function () {
