@@ -482,9 +482,9 @@ Template.topicInfoItemList.events({
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
             let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+            unsetEditedFields(aActionItem, detailIndex);
             if (text !== '') {
                 aActionItem.updateDetails(detailIndex, text);
-                unsetEditedFields(aActionItem, detailIndex);
                 aActionItem.save().catch(handleError);
             } else {
                 let deleteDetails = () => {
