@@ -64,13 +64,13 @@ if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
             //Check pdf binaries
             if ((Meteor.settings.docGeneration.format === 'pdf') || (Meteor.settings.docGeneration.format === 'pdfa')) {
                 checkCondition((Meteor.settings.docGeneration.pathToWkhtmltopdf), 'No path for wkhtmltopdf is assigned within settings.json.');
-                checkCondition(fs.existsSync(Meteor.settings.docGeneration.pathToWkhtmltopdf), 'Missing binary for wkhtmltopdf at path: ' + Meteor.settings.docGeneration.pathToWkhtmltopdf);
+                checkFileExists(Meteor.settings.docGeneration.pathToWkhtmltopdf, 'binary for wkhtmltopdf');
                 if (Meteor.settings.docGeneration.format === 'pdfa') {
                     checkCondition((Meteor.settings.docGeneration.pathToGhostscript), 'No path for ghostscript is assigned within settings.json.');
-                    checkCondition(fs.existsSync(Meteor.settings.docGeneration.pathToGhostscript), 'Missing binary for ghostscript at path: ' + Meteor.settings.docGeneration.pathToGhostscript);
+                    checkFileExists(Meteor.settings.docGeneration.pathToGhostscript, 'binary for ghostscript');
                     checkCondition((Meteor.settings.docGeneration.pathToPDFADefinitionFile) && ((Meteor.settings.docGeneration.ICCProfileType === 'rgb') || (Meteor.settings.docGeneration.ICCProfileType === 'cmyk')), 
                         'Both a path to a pdfa definition file and a valid ICC profile type have to be assigned in the settings.json');
-                    checkCondition(fs.existsSync(Meteor.settings.docGeneration.pathToPDFADefinitionFile), 'Could not find PDFA definition file at path: ' + Meteor.settings.docGeneration.pathToPDFADefinitionFile);
+                    checkFileExists(Meteor.settings.docGeneration.pathToPDFADefinitionFile, 'PDFA definition file');
                 }
             }
         }
@@ -87,4 +87,8 @@ let checkCondition = (condition, errorMessage) => {
             Meteor.settings.docGeneration.enabled = false;
         }
     }
+};
+
+let checkFileExists = (filepath, filename) => {
+    checkCondition(fs.existsSync(filepath), 'Missing ' + filename + ' at path: ' + filepath);
 };
