@@ -73,19 +73,19 @@ export class MigrateV10 {
 
     static up() {
         console.log('% Progress - updating all topics. This might take several minutes...');
-        let allSeries = MeetingSeriesSchema.find();
+        let allSeries = MeetingSeriesSchema.getCollection().find();
         allSeries.forEach(series => {
             (new MigrateSeriesUp(series)).run();
         });
     }
 
     static down() {
-        MeetingSeriesSchema.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             series.topics = MigrateV10._downgradeTopics(series.topics);
             series.openTopics = MigrateV10._downgradeTopics(series.openTopics);
             saveSeries(series);
         });
-        MinutesSchema.find().forEach(minutes => {
+        MinutesSchema.getCollection().find().forEach(minutes => {
             minutes.topics = MigrateV10._downgradeTopics(minutes.topics);
             saveMinutes(minutes);
         });
