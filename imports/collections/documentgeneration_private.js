@@ -219,7 +219,7 @@ Meteor.methods({
                 fs.unlink(tempFileName);
 
                 // Now move file to it's meetingseries directory
-                let finalOutputPath = createDocumentStoragePath({meta: metaData}) + '\\' + fileName + '.pdf'; //eslint-disable-line
+                let finalOutputPath = createDocumentStoragePath({meta: metaData}) + '/' + fileName + '.pdf'; //eslint-disable-line
                 fs.moveSync(outputPath, finalOutputPath);
 
                 //Safe file in FilesCollection
