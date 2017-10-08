@@ -161,6 +161,18 @@ let resizeTextarea = (element) => {
     $(document).scrollTop(scrollPos);
 };
 
+function setEditedFields(aActionItem, index) {
+    aActionItem._infoItemDoc.details[index].isEditedBy = Meteor.userId();
+    aActionItem._infoItemDoc.details[index].isEditedDate = new Date();
+    aActionItem.save();
+}
+
+function unsetEditedFields(aActionItem, index) {
+    aActionItem._infoItemDoc.details[index].isEditedBy = null;
+    aActionItem._infoItemDoc.details[index].isEditedDate = null;
+    aActionItem.save();
+}
+
 Template.topicInfoItemList.helpers({
     topicStateClass: function (index) {
         /** @type {TopicInfoItemListContext} */
@@ -395,14 +407,45 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        textEl.hide();
-        inputEl.show();
-        detailActionsId.show();
+        let index = inputEl.data('item');
+        let infoItem = context.items[index];
+        let aMin = new Minutes(context.topicParentId);
+        let aTopic = new Topic(aMin, infoItem.parentTopicId);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
-        inputEl.val(textEl.attr('data-text'));
-        inputEl.parent().css('margin', '0 0 25px 0');
-        inputEl.focus();
-        resizeTextarea(inputEl);
+        let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+
+        if ((aActionItem._infoItemDoc.details[index].isEditedBy != undefined && aActionItem._infoItemDoc.details[index].isEditedDate != undefined)) {
+            let unset = function () {
+                unsetEditedFields(aActionItem, detailIndex);
+            };
+
+            let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[index].isEditedBy});
+
+            let tmplData = {
+                isEditedBy: user.username,
+                isEditedDate: aActionItem._infoItemDoc.details[index].isEditedDate
+            };
+
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                unset,
+                'Edit despite existing editing',
+                'confirmationDialogResetDetailEdit',
+                tmplData,
+                'Edit anyway'
+            ).show();
+        }
+        else {
+            setEditedFields(aActionItem, detailIndex);
+            textEl.hide();
+            inputEl.show();
+            detailActionsId.show();
+
+            inputEl.val(textEl.attr('data-text'));
+            inputEl.parent().css('margin', '0 0 25px 0');
+            inputEl.focus();
+            resizeTextarea(inputEl);
+        }
     },
 
     'click .addDetail'(evt, tmpl) {
@@ -444,6 +487,7 @@ Template.topicInfoItemList.events({
             let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
             if (text !== '') {
                 aActionItem.updateDetails(detailIndex, text);
+                unsetEditedFields(aActionItem, detailIndex);
                 aActionItem.save().catch(handleError);
             } else {
                 let deleteDetails = () => {

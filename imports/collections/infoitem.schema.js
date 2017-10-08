@@ -11,7 +11,9 @@ const DetailsSchema = SchemaClass.create({
         updatedBy: {type: String, optional: true},
         createdInMinute: {type: String, validators: [{type: 'meteorId'}]},
         date: String,
-        text: {type: String, default: '', optional: true}
+        text: {type: String, default: '', optional: true},
+        isEditedBy: {type: String, optional: true},
+        isEditedDate: {type: Date, optional: true}
     }
 });
 
