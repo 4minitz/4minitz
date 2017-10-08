@@ -16,6 +16,11 @@ import {TopicsFinder} from '../../../imports/services/topicsFinder';
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
 
+const isModerator = () => {
+    const usrRole = new UserRoles();
+    return usrRole.isModeratorOf(_meetingSeriesID);
+};
+
 Template.meetingSeriesDetails.onCreated(function () {
     this.seriesReady = new ReactiveVar();
 
@@ -37,7 +42,7 @@ Template.meetingSeriesDetails.onCreated(function () {
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
-    if (this.showSettingsDialog) {
+    if (this.showSettingsDialog && isModerator()) {
         Session.set('meetingSeriesEdit.showUsersPanel', true);
 
         // Defer opening the meeting series settings dialog after rendering of the template
@@ -98,8 +103,7 @@ Template.meetingSeriesDetails.helpers({
     },
 
     isModerator: function () {
-        let usrRole = new UserRoles();
-        return usrRole.isModeratorOf(_meetingSeriesID);
+        return isModerator();
     }
 });
 
