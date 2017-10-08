@@ -225,6 +225,25 @@ let openPrintDialog = function () {
 let sendActionItems = true;
 let sendInformationItems = true;
 
+// function checkIfEditExist(aMin) {
+let checkIfEditExist = function (aMin) {
+    for (let topic of aMin.topics) {
+        if (topic.isEditedBy != undefined || topic.isEditedDate != undefined) {
+            return true;
+        }
+        for (let infoItem of topic.infoItems) {
+            if (infoItem.isEditedBy != undefined || infoItem.isEditedDate != undefined) {
+                return true;
+            }
+            for (let detail of infoItem.details) {
+                if (detail.isEditedBy != undefined || detail.isEditedDate != undefined) {
+                    return true;
+                }
+            }
+        }
+    }
+};
+
 Template.minutesedit.helpers({
     setDocumentTitle() {
         let min = new Minutes(_minutesID);
@@ -528,6 +547,21 @@ Template.minutesedit.events({
             }
         };
 
+        let checkEditingBeforeFinalize = function(){
+            if (checkIfEditExist(aMin)) {
+                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                    processFinalize,
+                    'Edit warning',
+                    'confirmPlainText',
+                    { plainText: 'This minute has elements that are still edited. Are you sure you want to finalize the meeting?'},
+                    'Proceed'
+                ).show();
+            }
+            else {
+                processFinalize();
+            }
+        };
+
         let noParticipantsPresent = true;
         aMin.participants.forEach(p => {
             if(p.present) noParticipantsPresent = false;
@@ -535,7 +569,7 @@ Template.minutesedit.events({
 
         if(noParticipantsPresent){
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                processFinalize,
+                checkEditingBeforeFinalize,
                 'Proceed without participants',
                 'confirmPlainText',
                 { plainText: 'No invited user is checked as participant of this meeting. Are you sure you want to finalize the meeting?'},
@@ -543,7 +577,7 @@ Template.minutesedit.events({
             ).show();
         }
         else {
-            processFinalize();
+            checkEditingBeforeFinalize();
         }
     },
 
