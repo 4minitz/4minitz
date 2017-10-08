@@ -323,6 +323,7 @@ See your settings.json file:
 | enabled             | false                            | Enables & disables LDAP login                                               |
 | propertyMap         | {username: 'cn', email: 'mail' } | Map important attributes from ldap to user database                         |
 | authentication      | {}                               | Perform a bind before importing users from LDAP. Optional.                  |
+| bindWith            | "dn"                             | Alternative bind usernames. Default is "dn" (as demanded by RFC4511). Can be set to "mail" because some LDAP servers use emails as bind names instead of dns. |
 | searchFilter        | ""                               | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
 | serverDn            | ""                               | Your server base dn, e.g. "dc=example,dc=com"                               |
 | serverUrl           | ""                               | Server url, e.g. "ldaps://ldap.example.com:1234                             |
