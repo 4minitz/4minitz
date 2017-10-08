@@ -13,6 +13,8 @@ import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import {labelSetFontColor} from './helpers/label-set-font-color';
+import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -272,12 +274,7 @@ Template.topicInfoItemList.helpers({
             return;
         }
         return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.topicParentId))
-            .map(labelObj => {
-                let doc = labelObj.getDocument();
-                doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
-
-                return doc;
-            });
+            .map(labelSetFontColor);
     }
 });
 
@@ -575,12 +572,7 @@ Template.topicInfoItemList.events({
     // its blur-event which in turn makes the markdownhint icon invisible
     // which in turn swallow the click event - and nothing happens on click.
     'mousedown .detailInputMarkdownHint'(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        ConfirmationDialogFactory
-            .makeInfoDialog('Help for Markdown Syntax')
-            .setTemplate('markdownHint')
-            .show();
+        handlerShowMarkdownHint(evt);
 
     }
 });

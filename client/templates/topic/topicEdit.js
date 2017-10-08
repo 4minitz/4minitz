@@ -11,6 +11,8 @@ import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
+import {configureSelect2Labels} from './helpers/configure-select2-labels';
+import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -64,36 +66,6 @@ function configureSelect2Responsibles() {
     selectResponsibles.trigger('change');
 }
 
-function configureSelect2Labels() {
-    let aMin = new Minutes(_minutesID);
-    let aSeries = aMin.parentMeetingSeries();
-
-    let selectLabels = $('#id_item_selLabels');
-    selectLabels.find('option')     // clear all <option>s
-        .remove();
-
-    let selectOptions = [];
-
-    aSeries.getAvailableLabels().forEach(label => {
-        selectOptions.push ({id: label._id, text: label.name});
-    });
-
-    selectLabels.select2({
-        placeholder: 'Select...',
-        tags: true,                     // Allow freetext adding
-        tokenSeparators: [',', ';'],
-        data: selectOptions             // push <option>s data
-    });
-
-
-    // select the options that where stored with this topic last time
-    let editItem = getEditTopic();
-    if (editItem) {
-        selectLabels.val(editItem.getLabelsRawArray());
-    }
-    selectLabels.trigger('change');
-}
-
 function setEditedFields(topic) {
     topic._topicDoc.isEditedBy = Meteor.userId();
     topic._topicDoc.isEditedDate = new Date();
@@ -129,15 +101,7 @@ Template.topicEdit.events({
         if (!labels) labels = [];
         let aMinute = new Minutes(_minutesID);
         let aSeries = aMinute.parentMeetingSeries();
-        labels = labels.map(labelId => {
-            let label = Label.createLabelById(aSeries, labelId);
-            if (null === label) {
-            // we have no such label -> it's brand new
-                label = new Label({name: labelId});
-                label.save(aSeries._id);
-            }
-            return label.getId();
-        });
+        labels = convertOrCreateLabelsFromStrings(labels, aSeries);
 
         topicDoc.subject = tmpl.find('#id_subject').value;
         topicDoc.responsibles = $('#id_selResponsible').val();
@@ -193,7 +157,7 @@ Template.topicEdit.events({
         if (selectLabels) {
             selectLabels.val([]).trigger('change');
         }
-        configureSelect2Labels();
+        configureSelect2Labels(_minutesID, '#id_item_selLabels', getEditTopic());
         let saveButton = $('#btnTopicSave');
         let cancelButton = $('#btnTopicCancel');
         saveButton.prop('disabled',false);
@@ -203,7 +167,6 @@ Template.topicEdit.events({
     'shown.bs.modal #dlgAddTopic': function (evt, tmpl) {
         $('#dlgAddTopic').find('input').trigger('change');    // ensure new values trigger placeholder animation
         tmpl.find('#id_subject').focus();
-        configureSelect2Labels();
     },
 
     'click #btnTopicCancel, .close': function (evt) {
@@ -220,7 +183,6 @@ Template.topicEdit.events({
     },
 
     'select2:select #id_selResponsible'(evt) {
-        console.log('select:'+evt.params.data.id + '/'+evt.params.data.text);
         let respId = evt.params.data.id;
         let respName = evt.params.data.text;
         let aUser = Meteor.users.findOne(respId);
