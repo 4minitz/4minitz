@@ -170,9 +170,13 @@ Meteor.methods({
         if ((Meteor.settings.public.docGeneration.format === 'pdf') || (Meteor.settings.public.docGeneration.format === 'pdfa')){
             storeFile = (htmldata, fileName, metaData) => {
                 const fs = require('fs-extra');
-                if (!fs.existsSync(Meteor.settings.docGeneration.pathToWkhtmltopdf)) {
-                    throw new Meteor.Error('runtime-error', 'Error at PDF generation: Binary wkhtmltopdf not found at: ' + Meteor.settings.docGeneration.pathToWkhtmltopdf);
-                }
+
+                let checkFileExists = (filepath, fileNameForErrorMsg) => {
+                    if (!fs.existsSync(filepath)) {
+                        throw new Meteor.Error('runtime-error', 'Error at PDF generation: ' + fileNameForErrorMsg + ' not found at: ' + filepath);
+                    }
+                };
+                checkFileExists(Meteor.settings.docGeneration.pathToWkhtmltopdf, 'Binary wkhtmltopdf');
                 
                 //Safe file as html
                 const tempFileName = getDocumentStorageRootDirectory() + '/TemporaryProtocol.html'; //eslint-disable-line
@@ -190,12 +194,8 @@ Meteor.methods({
 
                 //Safe file as pdf-a
                 if (Meteor.settings.public.docGeneration.format === 'pdfa') {
-                    if (!fs.existsSync(Meteor.settings.docGeneration.pathToGhostscript)) {
-                        throw new Meteor.Error('runtime-error', 'Error at PDF generation: Binary ghostscript not found at: ' + Meteor.settings.docGeneration.pathToGhostscript);
-                    }
-                    if (!fs.existsSync(Meteor.settings.docGeneration.pathToPDFADefinitionFile)) {
-                        throw new Meteor.Error('runtime-error', 'Error at PDF generation: PDFA definition file not found at: ' + Meteor.settings.docGeneration.pathToPDFADefinitionFile);
-                    }
+                    checkFileExists(Meteor.settings.docGeneration.pathToGhostscript, 'Binary ghostscript');
+                    checkFileExists(Meteor.settings.docGeneration.pathToPDFADefinitionFile, 'PDFA definition file');
 
                     exePath = '"' + Meteor.settings.docGeneration.pathToGhostscript + '"';
                     let icctype = Meteor.settings.docGeneration.ICCProfileType.toUpperCase();
