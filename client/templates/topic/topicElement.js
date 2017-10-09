@@ -129,7 +129,7 @@ Template.topicElement.events({
     },
 
     'focus .topic-element'(evt, tmpl) {
-        console.log('focus');
+        tmpl.$('.topic-element').addClass('focus');
         $('.addItemForm').css('display', 'none');
         showHideItemInput(tmpl);
     },
@@ -138,6 +138,7 @@ Template.topicElement.events({
         const nextElement = evt.relatedTarget;
         const topicElement = tmpl.find('.topic-element');
         if (!nextElement || !topicElement.contains(nextElement)) {
+            tmpl.$('.topic-element').removeClass('focus');
             showHideItemInput(tmpl, false);
         }
     },
