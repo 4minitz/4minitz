@@ -1,5 +1,5 @@
 <template name="topicElement">
-    <div class="well" data-id="{{topic._id}}" style="position: relative;" >
+    <div class="well topic-element" data-id="{{topic._id}}" style="position: relative;" tabindex="0">
 
         <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
         {{#if topic.infoItems.length}}
@@ -122,12 +122,12 @@
         {{/unless}}
         {{#unless and isCollapsed topic.infoItems.length}}
             {{#if isEditable}}
-                <form class="addItemForm leftIndent-desktop">
+                <form class="addItemForm leftIndent-desktop" style="display: none;">
                     <div class="form-group label-placeholder" style="padding-bottom: 1em;">
-                        <label for="addItemField_{{topic._id}}" class="control-label">Add Info Item. Append @username to add an Action Item. Press Enter to append details. Press Ctrl+Enter to submit.</label>
                         <textarea id="addItemField_{{topic._id}}"
                                   rows="1"
-                                  class="form-control add-item-field"></textarea>
+                                  class="form-control add-item-field"
+                                  placeholder="Add Info Item. Append @username to add an Action Item. Press Enter to append details. Press Ctrl+Enter to submit."></textarea>
 
                     </div>
                 </form>

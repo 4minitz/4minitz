@@ -109,8 +109,39 @@ Template.topicElement.helpers({
     }
 });
 
+const showHideItemInput = (tmpl, show = true) => {
+    tmpl.$('.addItemForm').css('display', (show) ? 'block' : 'none');
+    if (show) {
+        resizeTextarea(tmpl.$('.add-item-field'));
+    }
+};
 
 Template.topicElement.events({
+    'mouseover .topic-element'(evt, tmpl) {
+        showHideItemInput(tmpl);
+    },
+    'mouseout .topic-element'(evt, tmpl) {
+        const activeElement = document.activeElement;
+        const topicElement = tmpl.find('.topic-element');
+        if (!activeElement || !topicElement.contains(activeElement)) {
+            showHideItemInput(tmpl, false);
+        }
+    },
+
+    'focus .topic-element'(evt, tmpl) {
+        console.log('focus');
+        $('.addItemForm').css('display', 'none');
+        showHideItemInput(tmpl);
+    },
+
+    'focusout .topic-element'(evt, tmpl) {
+        const nextElement = evt.relatedTarget;
+        const topicElement = tmpl.find('.topic-element');
+        if (!nextElement || !topicElement.contains(nextElement)) {
+            showHideItemInput(tmpl, false);
+        }
+    },
+
     'click #btnDelTopic'(evt) {
         evt.preventDefault();
 
@@ -215,6 +246,7 @@ Template.topicElement.events({
         Session.set('topicInfoItemEditTopicId', this.topic._id);
         Session.set('topicInfoItemType', 'infoItem');
     },
+
     'click .addTopicActionItem'(evt) {
         console.log('Action!');
         evt.preventDefault();
@@ -224,18 +256,17 @@ Template.topicElement.events({
         Session.set('topicInfoItemType', 'actionItem');
     },
 
-    'keypress .addItemForm' (evt, tmpl) {
+    'blur .addItemForm' (evt, tmpl) {
         if (!tmpl.data.isEditable) {
             throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
         }
 
-        const inputEl = tmpl.$('.add-item-field');
-        resizeTextarea(inputEl);
-        if (!(evt.which === 13/*enter*/ && evt.ctrlKey)) {
+        const inputText = tmpl.find('.add-item-field').value;
+
+        if (inputText === '') {
             return;
         }
 
-        const inputText = tmpl.find('.add-item-field').value;
         const splitIndex = inputText.indexOf('\n');
         const subject = (splitIndex === -1) ? inputText : inputText.substring(0, splitIndex);
         const detail = (splitIndex === -1) ? '' : inputText.substring(splitIndex + 1).trim();
@@ -257,6 +288,7 @@ Template.topicElement.events({
             handleError(error);
         });
         tmpl.find('.add-item-field').value = '';
+        resizeTextarea(tmpl.$('.add-item-field'));
 
         let collapseState = Session.get('minutesedit.collapsetopics.'+_minutesId);
         if (!collapseState) {
@@ -266,10 +298,18 @@ Template.topicElement.events({
         Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
     },
 
-    'keyup .addItemForm'(evt, tmpl) {
-        let topicId = this.topic._id;
-        const inputEl = tmpl.$(`#addItemField_${topicId}`);
+    'keypress .addItemForm' (evt, tmpl) {
+        const inputEl = tmpl.$('.add-item-field');
+        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
+            evt.preventDefault();
+            inputEl.blur();
+        }
+
         resizeTextarea(inputEl);
+    },
+
+    'keyup .addItemForm'(evt, tmpl) {
+        resizeTextarea(tmpl.$('.add-item-field'));
     },
 
     'click #btnTopicExpandCollapse'(evt) {
