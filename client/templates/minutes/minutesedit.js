@@ -20,6 +20,7 @@ import { Finalizer } from '/imports/services/finalize-minutes/finalizer';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import { TestRunner } from '/imports/client/TestRunner';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { UserTracker } from '../../helpers/userTracker';
 
@@ -533,18 +534,7 @@ Template.minutesedit.events({
             if(p.present) noParticipantsPresent = false;
         });
 
-        if(noParticipantsPresent){
-            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                processFinalize,
-                'Proceed without participants',
-                'confirmPlainText',
-                { plainText: 'No invited user is checked as participant of this meeting. Are you sure you want to finalize the meeting?'},
-                'Proceed'
-            ).show();
-        }
-        else {
-            processFinalize();
-        }
+        TestRunner.run(TestRunner.TRIGGERS.finalize, aMin, processFinalize);
     },
 
     'click #btn_unfinalizeMinutes': function(evt) {
