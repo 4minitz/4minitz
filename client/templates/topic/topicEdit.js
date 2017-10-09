@@ -35,24 +35,44 @@ let getEditTopic = function() {
 
 function configureSelect2Responsibles() {
     let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditTopic(), Meteor.users);
-
     let selectResponsibles = $('#id_selResponsible');
     selectResponsibles.find('optgroup')     // clear all <option>s
         .remove();
     let possResp = preparer.getPossibleResponsibles();
-    let remainingUsers = preparer.getRemainingUsers();
+    console.log(possResp)
+    //let remainingUsers = preparer.getRemainingUsers();
     let selectOptions = [{
         text: 'Participants',
         children: possResp
-    }, {
-        text: 'Other Users',
-        children: remainingUsers
     }];
     selectResponsibles.select2({
         placeholder: 'Select...',
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
-        data: selectOptions             // push <option>s data
+        ajax: {
+            transport: function(params, success, failure) {
+                Meteor.call('respSearch', params.data.q, function(err, results) {
+                    if (err) {
+                        failure(err);
+                        return;
+                    }
+
+                    success(results);
+                });
+            },
+            processResults: function(data) {
+                var results = [];
+                _.each(data.results, function (result) {
+                    results.push({
+                        id: result._id,
+                        text: result.username
+                    });
+                });
+                return {
+                    results:
+                        [{text:'Other Users', children: results}]
+                };
+            }}
     });
 
     // select the options that where stored with this topic last time

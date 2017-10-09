@@ -230,5 +230,26 @@ Meteor.methods({
         } else {
             throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }
+    },
+
+    'respSearch' (partialName) {
+        check(partialName, String);
+
+        var results = Meteor.users.find({
+            username: {
+                '$regex': '^' + partialName,
+                '$options': 'i'
+            }
+        }, {
+            limit: 10,
+            fields: {
+                _id: 1,
+                username: 1
+            }
+        }).fetch();
+
+        return {
+            results: results
+        };
     }
 });
