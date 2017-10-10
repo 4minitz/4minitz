@@ -132,11 +132,10 @@ Template.topicElement.events({
 
     'focus .topic-element'(evt, tmpl) {
         tmpl.$('.topic-element').addClass('focus');
-        $('.addItemForm').css('display', 'none');
         showHideItemInput(tmpl);
     },
 
-    'focusout .topic-element'(evt, tmpl) {
+    'blur .topic-element'(evt, tmpl) {
         if (savingNewItem) {
             savingNewItem = false;
             return;
@@ -145,7 +144,7 @@ Template.topicElement.events({
         const topicElement = tmpl.find('.topic-element');
         if (!nextElement || !topicElement.contains(nextElement)) {
             tmpl.$('.topic-element').removeClass('focus');
-            showHideItemInput(tmpl, false);
+            Meteor.setTimeout(() => { showHideItemInput(tmpl, false); }, 500);
         }
     },
 
