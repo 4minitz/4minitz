@@ -116,6 +116,8 @@ const showHideItemInput = (tmpl, show = true) => {
     }
 };
 
+let savingNewItem = false;
+
 Template.topicElement.events({
     'mouseover .topic-element'(evt, tmpl) {
         showHideItemInput(tmpl);
@@ -135,6 +137,10 @@ Template.topicElement.events({
     },
 
     'focusout .topic-element'(evt, tmpl) {
+        if (savingNewItem) {
+            savingNewItem = false;
+            return;
+        }
         const nextElement = evt.relatedTarget;
         const topicElement = tmpl.find('.topic-element');
         if (!nextElement || !topicElement.contains(nextElement)) {
@@ -268,6 +274,7 @@ Template.topicElement.events({
             return;
         }
 
+        savingNewItem = true;
         const splitIndex = inputText.indexOf('\n');
         const subject = (splitIndex === -1) ? inputText : inputText.substring(0, splitIndex);
         const detail = (splitIndex === -1) ? '' : inputText.substring(splitIndex + 1).trim();
@@ -289,6 +296,7 @@ Template.topicElement.events({
             handleError(error);
         });
         tmpl.find('.add-item-field').value = '';
+        tmpl.$('.add-item-field').focus();
         resizeTextarea(tmpl.$('.add-item-field'));
 
         let collapseState = Session.get('minutesedit.collapsetopics.'+_minutesId);
@@ -310,6 +318,13 @@ Template.topicElement.events({
     },
 
     'keyup .addItemForm'(evt, tmpl) {
+        const inputEl = tmpl.$('.add-item-field');
+        console.log(evt.which);
+        if (evt.which === 27/*escape*/) {
+            inputEl.val('');
+            inputEl.blur();
+        }
+
         resizeTextarea(tmpl.$('.add-item-field'));
     },
 
