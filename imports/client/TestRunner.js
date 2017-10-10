@@ -50,7 +50,6 @@ export class TestRunner {
         if (errors.length === 0) {
             callbackOnSuccess();
         } else {
-            // TODO: Write errors into template and put the callbackOnSuccess into the confirmationDialogFactorys successcallback
             errors.forEach(error => console.log(error));
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 callbackOnSuccess,
@@ -76,18 +75,17 @@ class TestCase {
     static createTestCases() {
         // to add tests simply push a new TestCase Object to the testCases property
 
-        // no topics in minute
-        TestCase.testCases.push(new TestCase(
-            'No topics in minute',
+        // no topics in minute (F) (A)
+        TestCase.testCases.push(new TestCase('No topics in minute',
             [TestRunner.TRIGGERS.finalize, TestRunner.TRIGGERS.sendAgenda],
             () => {return true;},
             (minute) => {
-                if ((!minute.topics) || (minute.topics.length === 0))
+                if (!minute.topics || minute.topics.length === 0)
                     return 'This minute has no topics';
             }
         ));
 
-        // no participant marked as present
+        // no participant marked as present (F)
         TestCase.testCases.push(new TestCase('No participants marked as present',
             TestRunner.TRIGGERS.finalize,
             () => {return true;},
@@ -101,5 +99,93 @@ class TestCase {
                     return 'No participant is marked as present'
             }
         ));
+
+        // no topics checked (F)
+        TestCase.testCases.push(new TestCase('No topic is checked',
+            TestRunner.TRIGGERS.finalize,
+            () => {return true;},
+            (minute) => {
+                if(minute.topics.length < 0) return;
+                let noTopicChecked = true;
+                minute.topics.forEach(topic => {
+                        if(!topic.isOpen) noTopicChecked = false;
+                    }
+                );
+                if(noTopicChecked)
+                    return 'No topic is checked'
+            }
+        ));
+
+        // topic checked but no children (F)
+        TestCase.testCases.push(new TestCase('A topic is checked but has no children',
+            TestRunner.TRIGGERS.finalize,
+            () => {return true;},
+            (minute) => {
+                if(minute.topics.length < 0) return;
+
+                let checkedButChildren = false;
+                minute.topics.forEach(topic => {
+                        if(topic.isOpen) return;
+                        if(!topic.infoItems || topic.infoItems.length === 0) checkedButChildren = true;
+                    }
+                );
+                if(checkedButChildren)
+                    return 'A topic is checked but has no children'
+            }
+        ));
+
+        // action item with no responsible (F)
+        TestCase.testCases.push(new TestCase('Action item has no responsible',
+            TestRunner.TRIGGERS.finalize,
+            () => {return true;},
+            (minute) => {
+                if(minute.topics.length < 0) return;
+
+                let actionItemWithoutResponsible = false;
+                minute.topics.forEach(topic => {
+                    topic.infoItems.forEach(infoItem => {
+                            if(infoItem.itemType === "actionItem" && ((!infoItem.responsibles) || (infoItem.responsibles.length === 0)))
+                                actionItemWithoutResponsible = true;
+                        });
+                });
+                if(actionItemWithoutResponsible)
+                    return 'An action item has no responsible'
+                }
+            ));
+
+        // Topic checked, but no updated or new content (F)
+        /* uncomment when details get a isNew-Property for easier code
+        TestCase.testCases.push(new TestCase('Topic is checked, but has no updated or new content',
+            TestRunner.TRIGGERS.finalize,
+            () => {return true;},
+            (minute) => {
+                if(minute.topics.length < 0) return;
+                let noNewContent = true;
+                minute.topics.forEach(topic => {
+                    console.log(topic)
+                    if(topic.isNew) { // topic is new
+                        noNewContent = false;
+                        return;
+                    }
+
+                    topic.infoItems.forEach(infoItem => {
+                        if(infoItem.isNew) { // infoItem is new
+                            noNewContent = false;
+                            return;
+                        }
+
+                        if(!infoItem.isSticky) return; // only sticky infoItems can have new content in their details
+                            infoItem.details.forEach(detail => { // detail is new
+                               if(detail.isNew)
+                                   noNewContent = true;
+                            });
+
+                        });
+                });
+                if(!noNewContent)
+                    return 'A topic is checked but has no new content'
+            }
+        ));
+        */
     }
 }

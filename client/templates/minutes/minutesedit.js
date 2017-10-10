@@ -471,6 +471,8 @@ Template.minutesedit.events({
             sendBtn.prop('disabled', false);
         };
 
+        TestRunner.run(TestRunner.TRIGGERS.sendAgenda, aMin, sendAgenda);
+
         if (aMin.getAgendaSentAt()) {
             let date = aMin.getAgendaSentAt();
             console.log(date);
