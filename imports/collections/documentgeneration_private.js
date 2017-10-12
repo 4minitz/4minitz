@@ -186,7 +186,11 @@ Meteor.methods({
                 const exec = require('child_process').execSync;
                 let exePath = '"' + Meteor.settings.docGeneration.pathToWkhtmltopdf + '"';
                 let outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol.pdf'; //eslint-disable-line
-                let additionalArguments = ' --no-outline --print-media-type --no-background';
+
+                let additionalArguments = '';
+                if (Meteor.settings.docGeneration.wkhtmltopdfParameters && (Meteor.settings.docGeneration.wkhtmltopdfParameters !== '')) {
+                    additionalArguments = ' ' + Meteor.settings.docGeneration.wkhtmltopdfParameters.trim();
+                }
 
                 exec(exePath + additionalArguments + ' "'+ tempFileName + '" "' +  outputPath + '"', {
                     stdio: 'ignore' //surpress progess messages from pdf generation in server console
