@@ -1,7 +1,6 @@
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
 
 Template.home.created = function () {

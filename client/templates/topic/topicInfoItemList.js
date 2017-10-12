@@ -15,6 +15,7 @@ import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 import {labelSetFontColor} from './helpers/label-set-font-color';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
+import { Blaze } from 'meteor/blaze';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -42,9 +43,9 @@ export class TopicInfoItemListContext {
             return item;
         });
         this.isReadonly = isReadonly;
-        this.getSeriesId = (itemId) => {
+        this.getSeriesId = () => {
             return topicParentId;
-        }
+        };
     }
 }
 
