@@ -51,26 +51,45 @@ function configureSelect2Responsibles() {
         tokenSeparators: [',', ';'],
         ajax: {
             transport: function(params, success, failure) {
-                Meteor.call('respSearch', params.data.q, function(err, results) {
+                Meteor.call('respSearch', params.data.q, _minutesID, function(err, results) {
                     if (err) {
                         failure(err);
                         return;
                     }
-
                     success(results);
                 });
             },
             processResults: function(data) {
-                var results = [];
+                var results_participants = [];
+                var results_other = [];
                 _.each(data.results, function (result) {
-                    results.push({
+                    if (result.isParticipant == true) {
+                        results_participants.push({
+                            id: result.userId,
+                            text: result.name
+                        });
+                    }
+                    else results_other.push({
                         id: result._id,
                         text: result.username
                     });
                 });
+                // save the return value (when participants/other user are empty -> do not show a group-name
+                let returnValues = [];
+                if (results_participants.length == 0 && results_other.length == 0)
+                    returnValues = [];
+                else if (results_participants.length == 0)
+                    returnValues = [{text:'Other Users', children: results_other}];
+                else if (results_other.length == 0)
+                    returnValues = [{text:'Participants', children: results_participants}];
+                else
+                    returnValues = [
+                        {text:'Participants', children: results_participants},
+                        {text:'Other Users', children: results_other}
+                    ];
+
                 return {
-                    results:
-                        [{text:'Other Users', children: results}]
+                    results:returnValues
                 };
             }}
     });
