@@ -57,7 +57,8 @@ Template.actionItemList.helpers({
 
         let topics = TopicSchema.getCollection().find().fetch();
         topics.forEach(topic => {
-            let actionItems = topic.infoItems.filter(item => item.itemType === 'actionItem' && item.responsibles.includes(Meteor.userId()));
+            let actionItems = topic.infoItems.filter(item => item.itemType === 'actionItem'
+                && item.responsibles && item.responsibles.includes(Meteor.userId()));
             actionItems.forEach(actionItem => {
                 myActionItems.push(actionItem);
                 actionItemSeriesIdMap[actionItem._id] = topic.parentId;
