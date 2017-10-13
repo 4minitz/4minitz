@@ -15,10 +15,19 @@ import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 import {labelSetFontColor} from './helpers/label-set-font-color';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
+import { Blaze } from 'meteor/blaze';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
 export class TopicInfoItemListContext {
+
+    static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(items, resolveSeriesForItem) {
+        const context = new TopicInfoItemListContext(items, true, null);
+        context.getSeriesId = resolveSeriesForItem;
+
+        context.hasLink = true;
+        return context;
+    }
 
     static createReadonlyContextForItemsOfDifferentTopics(items, meetingSeriesId) {
         return new TopicInfoItemListContext(items, true, meetingSeriesId);
@@ -34,7 +43,9 @@ export class TopicInfoItemListContext {
             return item;
         });
         this.isReadonly = isReadonly;
-        this.topicParentId = topicParentId;
+        this.getSeriesId = () => {
+            return topicParentId;
+        };
     }
 }
 
@@ -101,7 +112,7 @@ const performActionForItem = (evt, tmpl, action) => {
 
     const index = evt.currentTarget.getAttribute('data-index');
     const infoItem = context.items[index];
-    const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+    const aInfoItem = findInfoItem(context.getSeriesId(infoItem._id), infoItem.parentTopicId, infoItem._id);
     action(aInfoItem);
 };
 
@@ -135,8 +146,8 @@ let addNewDetails = async (tmpl, index) => {
     if (context.isReadonly) {
         return;
     }
-    let aMin = new Minutes(context.topicParentId);
     let infoItem = context.items[index];
+    let aMin = new Minutes(context.getSeriesId(infoItem._id));
     let aTopic = new Topic(aMin, infoItem.parentTopicId);
     let aItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
@@ -261,8 +272,21 @@ Template.topicInfoItemList.helpers({
         if (!infoItem) {
             return;
         }
-        return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.topicParentId))
+        return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.getSeriesId(infoItem._id)))
             .map(labelSetFontColor);
+    },
+
+    getLink: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        return Blaze._globalHelpers.pathForImproved('/meetingseries/' + context.getSeriesId(infoItem._id));
+    },
+
+    showLinks: function() {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        return context.hasLink;
     }
 });
 
@@ -279,7 +303,7 @@ Template.topicInfoItemList.events({
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
         performActionForItem(evt, tmpl, (item) => {
-            let isDeleteAllowed = item.isDeleteAllowed(context.topicParentId);
+            let isDeleteAllowed = item.isDeleteAllowed(context.getSeriesId(item._infoItemDoc._id));
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {
@@ -434,7 +458,7 @@ Template.topicInfoItemList.events({
         let text = inputEl.val().trim();
 
         if (text === '' || (text !== textEl.attr('data-text'))) {
-            let aMin = new Minutes(context.topicParentId);
+            let aMin = new Minutes(context.getSeriesId(infoItem._id));
             let aTopic = new Topic(aMin, infoItem.parentTopicId);
             let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
