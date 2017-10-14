@@ -15,6 +15,7 @@ import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 import {labelSetFontColor} from './helpers/label-set-font-color';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
+import {IsEditedService} from "../../../imports/services/isEditedService";
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -166,12 +167,6 @@ let resizeTextarea = (element) => {
 function setEditedFields(aActionItem, index) {
     aActionItem._infoItemDoc.details[index].isEditedBy = Meteor.userId();
     aActionItem._infoItemDoc.details[index].isEditedDate = new Date();
-    aActionItem.save();
-}
-
-function unsetEditedFields(aActionItem, index) {
-    aActionItem._infoItemDoc.details[index].isEditedBy = null;
-    aActionItem._infoItemDoc.details[index].isEditedDate = null;
     aActionItem.save();
 }
 
@@ -414,7 +409,7 @@ Template.topicInfoItemList.events({
 
         if ((aActionItem._infoItemDoc.details[index].isEditedBy != undefined && aActionItem._infoItemDoc.details[index].isEditedDate != undefined)) {
             let unset = function () {
-                unsetEditedFields(aActionItem, detailIndex);
+                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
             };
 
             let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[index].isEditedBy});
@@ -476,13 +471,14 @@ Template.topicInfoItemList.events({
 
         let text = inputEl.val().trim();
 
-        if (text === '' || (text !== textEl.attr('data-text'))) {
-            let aMin = new Minutes(context.topicParentId);
-            let aTopic = new Topic(aMin, infoItem.parentTopicId);
-            let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+        let aMin = new Minutes(context.topicParentId);
+        let aTopic = new Topic(aMin, infoItem.parentTopicId);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+        let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+        
+        IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
 
-            let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
-            unsetEditedFields(aActionItem, detailIndex);
+        if (text === '' || (text !== textEl.attr('data-text'))) {
             if (text !== '') {
                 aActionItem.updateDetails(detailIndex, text);
                 aActionItem.save().catch(handleError);
