@@ -75,7 +75,9 @@ export class MigrateV1 {
             };
 
             series.openTopics.forEach(iterateTopics('openTopics'));
-            series.closedTopics.forEach(iterateTopics('closedTopics'));
+            if (series.closedTopics) {
+                series.closedTopics.forEach(iterateTopics('closedTopics'));
+            }
         });
     }
 

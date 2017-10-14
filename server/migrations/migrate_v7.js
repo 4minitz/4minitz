@@ -33,7 +33,7 @@ export class MigrateV7 {
 
     static up() {
 
-        MinutesSchema.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV7._upgradeTopics(minute.topics);
 
             // We use getCollection() here to skip .clean & .validate to allow empty string values
@@ -45,7 +45,7 @@ export class MigrateV7 {
                 });
         });
 
-        MeetingSeriesSchema.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV7._upgradeTopics(series.openTopics);
             MigrateV7._upgradeTopics(series.topics);
 
@@ -69,7 +69,7 @@ export class MigrateV7 {
     }
 
     static down() {
-        MinutesSchema.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV7._downgradeTopics(minute.topics);
 
             // We use getCollection() here to skip .clean & .validate to allow empty string values
@@ -81,7 +81,7 @@ export class MigrateV7 {
                 });
         });
 
-        MeetingSeriesSchema.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV7._downgradeTopics(series.openTopics);
             MigrateV7._downgradeTopics(series.topics);
 

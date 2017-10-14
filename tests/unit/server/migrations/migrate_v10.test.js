@@ -8,9 +8,10 @@ const FIRST_MIN_ID = '#Min01';
 const SND_MIN_ID = '#Min02';
 
 let MinutesSchema = {
-    update: sinon.stub()
+    update: sinon.stub(),
+    find: sinon.stub()
 };
-MinutesSchema.getCollection = _ => MeetingSeriesSchema;
+MinutesSchema.getCollection = _ => MinutesSchema;
 
 let MeetingSeriesSchema = {
     update: sinon.stub()
@@ -85,13 +86,12 @@ describe('Migrate Version 10', function () {
             return [fakeMeetingSeries];
         };
 
-        MinutesSchema.find = () => {
-            return [firstFakeMinute, sndFakeMinute];
-        };
+        MinutesSchema.find.returns([firstFakeMinute, sndFakeMinute]);
     });
 
     afterEach(function () {
         MinutesSchema.update.reset();
+        MinutesSchema.find.reset();
         MeetingSeriesSchema.update.reset();
     });
 
