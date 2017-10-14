@@ -13,6 +13,7 @@ import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
+import {IsEditedService} from "../../../imports/services/isEditedService";
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -72,12 +73,6 @@ function setEditedFields(topic) {
     topic.save();
 }
 
-function unsetEditedFields(topic) {
-    topic._topicDoc.isEditedBy = null;
-    topic._topicDoc.isEditedDate = null;
-    topic.save();
-}
-
 Template.topicEdit.helpers({
     'getTopicSubject': function() {
         let topic = getEditTopic();
@@ -92,7 +87,7 @@ Template.topicEdit.events({
         let editTopic = getEditTopic();
         let topicDoc = {};
         if (editTopic) {
-            unsetEditedFields(editTopic);
+            IsEditedService.removeIsEditedTopic(_minutesID, editTopic._topicDoc._id);
             _.extend(topicDoc, editTopic._topicDoc);
         }
 
@@ -125,7 +120,7 @@ Template.topicEdit.events({
 
         if ((topic._topicDoc.isEditedBy != undefined && topic._topicDoc.isEditedDate != undefined)) {
             let unset = function () {
-                unsetEditedFields(topic);
+                IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id);
                 $('#dlgAddTopic').modal('show');
             };
 
@@ -172,7 +167,7 @@ Template.topicEdit.events({
         evt.preventDefault();
 
         const topic = getEditTopic();
-        unsetEditedFields(topic);
+        IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id);
 
         $('#dlgAddTopic').modal('hide');
     },
