@@ -22,12 +22,12 @@ export class MigrateV5 {
 
 
     static up() {
-        MinutesSchema.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV5._upgradeTopics(minute.topics);
             updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
         });
 
-        MeetingSeriesSchema.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV5._upgradeTopics(series.openTopics);
             MigrateV5._upgradeTopics(series.topics);
             updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
@@ -35,12 +35,12 @@ export class MigrateV5 {
     }
 
     static down() {
-        MinutesSchema.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV5._downgradeTopics(minute.topics);
             updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
         });
 
-        MeetingSeriesSchema.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV5._downgradeTopics(series.openTopics);
             MigrateV5._downgradeTopics(series.topics);
             updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());

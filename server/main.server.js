@@ -80,6 +80,7 @@ let syncRootUrl = function () {
     // So, process.env.ROOT_URL should always contain a value
     if (Meteor.settings.ROOT_URL) {
         process.env.ROOT_URL = Meteor.settings.ROOT_URL;
+        __meteor_runtime_config__.ROOT_URL = Meteor.settings.ROOT_URL; //eslint-disable-line
     } else {
         Meteor.settings.ROOT_URL = process.env.ROOT_URL;
     }

@@ -17,12 +17,14 @@ export class FilterControlConfig {
      * @param filters
      * @param filterKeywords
      * @param filterName
+     * @param defaultFilter
      */
-    constructor(callback, filters, filterKeywords, filterName) {
+    constructor(callback, filters, filterKeywords, filterName, defaultFilter) {
         this.callback = callback;
         this.filters = filters;
         this.filterKeywords = filterKeywords;
         this.filterName = filterName;
+        this.defaultFilter = defaultFilter;
     }
 }
 
@@ -78,6 +80,9 @@ Template.filterControl.onCreated(function() {
 Template.filterControl.onRendered(function() {
     let tmpl = Template.instance();
     Meteor.setTimeout(() => { focusInputField(tmpl); }, 1);
+
+    if(tmpl.data.config.defaultFilter)
+        performSearch(tmpl.data.config.defaultFilter, tmpl);
 });
 
 Template.filterControl.helpers({

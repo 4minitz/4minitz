@@ -133,28 +133,105 @@ Meteor.methods({
         return tmplRenderer.render();
     },
 
-    'documentgeneration.createAndStoreFile'(minutesObj) {
+    'documentgeneration.createAndStoreFile'(minutesId) {
         if (Meteor.isClient) {
             return;
         }
-
+        let minutesObj = new Minutes(minutesId);
         //Security checks will be done in the onBeforeUpload-Hook
 
         //this variable should be overwritten by the specific implementation of storing files based on their format
         //for this purpose they'll receive two parameters: the html-content as a string and the minute as a object
         let storeFile = undefined; 
+        let fileName = DocumentGeneration.calcFileNameforMinute(minutesObj);
+        let metaData = { 
+            minuteId: minutesObj._id,
+            meetingSeriesId: minutesObj.parentMeetingSeriesID(),
+            minuteDate: minutesObj.date
+        };
 
         // implementation of html storing
         if (Meteor.settings.public.docGeneration.format === 'html') {
-            storeFile = (htmldata, minutesObj) => {
+            storeFile = (htmldata, fileName, metaData) => {
                 DocumentsCollection.write(new Buffer(htmldata), 
-                    {   fileName: DocumentGeneration.calcFileNameforMinute(minutesObj) + '.html',
+                    {   fileName:  fileName + '.html',
                         type: 'text/html',
-                        meta: { 
-                            minuteId: minutesObj._id,
-                            meetingSeriesId: minutesObj.parentMeetingSeriesID(),
-                            minuteDate: minutesObj.date
+                        meta: metaData
+                    }, function (error) {
+                        if (error) {
+                            throw new Meteor.Error(error);
                         }
+                    }
+                );
+            };
+        }
+
+        // implementation of pdf storing
+        if ((Meteor.settings.public.docGeneration.format === 'pdf') || (Meteor.settings.public.docGeneration.format === 'pdfa')){
+            storeFile = (htmldata, fileName, metaData) => {
+                const fs = require('fs-extra');
+
+                let checkFileExists = (filepath, fileNameForErrorMsg) => {
+                    if (!fs.existsSync(filepath)) {
+                        throw new Meteor.Error('runtime-error', 'Error at PDF generation: ' + fileNameForErrorMsg + ' not found at: ' + filepath);
+                    }
+                };
+                checkFileExists(Meteor.settings.docGeneration.pathToWkhtmltopdf, 'Binary wkhtmltopdf');
+                
+                //Safe file as html
+                const tempFileName = getDocumentStorageRootDirectory() + '/TemporaryProtocol.html'; //eslint-disable-line
+                fs.outputFileSync(tempFileName, htmldata);
+
+                //Safe file as pdf
+                const exec = require('child_process').execSync;
+                let exePath = '"' + Meteor.settings.docGeneration.pathToWkhtmltopdf + '"';
+                let outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol.pdf'; //eslint-disable-line
+
+                let additionalArguments = '';
+                if (Meteor.settings.docGeneration.wkhtmltopdfParameters && (Meteor.settings.docGeneration.wkhtmltopdfParameters !== '')) {
+                    additionalArguments = ' ' + Meteor.settings.docGeneration.wkhtmltopdfParameters.trim();
+                }
+
+                exec(exePath + additionalArguments + ' "'+ tempFileName + '" "' +  outputPath + '"', {
+                    stdio: 'ignore' //surpress progess messages from pdf generation in server console
+                });
+
+                //Safe file as pdf-a
+                if (Meteor.settings.public.docGeneration.format === 'pdfa') {
+                    checkFileExists(Meteor.settings.docGeneration.pathToGhostscript, 'Binary ghostscript');
+                    checkFileExists(Meteor.settings.docGeneration.pathToPDFADefinitionFile, 'PDFA definition file');
+
+                    exePath = '"' + Meteor.settings.docGeneration.pathToGhostscript + '"';
+                    let icctype = Meteor.settings.docGeneration.ICCProfileType.toUpperCase();
+                    let inputPath = outputPath;
+                    outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol-A.pdf'; //eslint-disable-line
+                    additionalArguments = ' -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE' +
+                        ' -dColorConversionStrategy=/' + icctype + 
+                        ' -sProcessColorModel=Device' + icctype + 
+                        ' -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile=';
+                    
+                    try {
+                        exec(exePath + additionalArguments + '"' + outputPath + '" "' + Meteor.settings.docGeneration.pathToPDFADefinitionFile + '" "' + inputPath +  '"', {
+                            stdio: 'ignore' //surpress progess messages from pdf generation in server console
+                        });    
+                    } catch (error) {
+                        throw new Meteor.Error('runtime-error', 'Unknown error at PDF generation. Could not execute ghostscript properly.');
+                    }
+
+                    fs.unlink(inputPath);
+                }
+                fs.unlink(tempFileName);
+
+                // Now move file to it's meetingseries directory
+                let finalOutputPath = createDocumentStoragePath({meta: metaData}) + '/' + fileName + '.pdf'; //eslint-disable-line
+                fs.moveSync(outputPath, finalOutputPath);
+
+                //Safe file in FilesCollection
+                DocumentsCollection.addFile(finalOutputPath, 
+                    {
+                        fileName: fileName + '.pdf',
+                        type: 'application/pdf',
+                        meta: metaData
                     }, function (error) {
                         if (error) {
                             throw new Meteor.Error(error);
@@ -169,19 +246,20 @@ Meteor.methods({
         }
 
         //generate and store protocol
-        Meteor.call('documentgeneration.createHTML', minutesObj._id, (error, result) => {
-            if ((result) && (Meteor.isServer)) {
-                storeFile(result, minutesObj);
-            } else {
-                throw new Meteor.Error('runtime-error', error.reason);
-            }
-        });
+        try {
+            let htmldata = Meteor.call('documentgeneration.createHTML', minutesObj._id); // this one will run synchronous
+            storeFile(htmldata, fileName, metaData);
+        } catch (error) {
+            console.error('Error at Protocol generation:');
+            console.error(error.reason);
+            throw new Meteor.Error(error.reason);
+        }
     },
 
-    'documentgeneration.removeFile'(minutesObj) {
+    'documentgeneration.removeFile'(minutesId) {
         if (Meteor.isServer) {
             //Security checks will be done in the onBeforeRemove-Hook
-            DocumentsCollection.remove({'meta.minuteId': minutesObj._id}, function (error) {
+            DocumentsCollection.remove({'meta.minuteId': minutesId}, function (error) {
                 if (error) {
                     throw new Meteor.Error('Protocol could not be deleted, error: ' + error.reason);
                 }

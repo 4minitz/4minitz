@@ -4,6 +4,7 @@ import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import {IsEditedService} from "../../../imports/services/isEditedService";
+import { Session } from 'meteor/session';
 
 Template.navigation.helpers({
     'logoHTML': function () {
@@ -27,5 +28,9 @@ Template.navigation.events({
             AccountsTemplates.logout();
             FlowRouter.go('/');
         }
+    },
+
+    'click .navbar-brand': function() {
+        Session.set('gotoMeetingSeriesTab', true);
     }
 });
