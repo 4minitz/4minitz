@@ -148,12 +148,6 @@ let resizeTextarea = (element) => {
     }
 };
 
-function setEditedFields(editItem) {
-    editItem._infoItemDoc.isEditedBy = Meteor.userId();
-    editItem._infoItemDoc.isEditedDate = new Date();
-    editItem.save();
-}
-
 Template.topicInfoItemEdit.helpers({
     getPriorities: function() {
         return Priority.GET_PRIORITIES();
@@ -305,7 +299,7 @@ Template.topicInfoItemEdit.events({
                 return;
             }
             else {
-                setEditedFields(editItem);
+                IsEditedService.setIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
             }
 
         } else {  // adding a new item

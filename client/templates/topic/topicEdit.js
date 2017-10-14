@@ -67,12 +67,6 @@ function configureSelect2Responsibles() {
     selectResponsibles.trigger('change');
 }
 
-function setEditedFields(topic) {
-    topic._topicDoc.isEditedBy = Meteor.userId();
-    topic._topicDoc.isEditedDate = new Date();
-    topic.save();
-}
-
 Template.topicEdit.helpers({
     'getTopicSubject': function() {
         let topic = getEditTopic();
@@ -143,7 +137,7 @@ Template.topicEdit.events({
             return;
         }
         else {
-            setEditedFields(topic);
+            IsEditedService.setIsEditedTopic(_minutesID, topic._topicDoc._id);
         }
 
         configureSelect2Responsibles();

@@ -98,12 +98,6 @@ const notifyOnRoleChange = function(usersWithRolesAfterEdit, meetingSeriesId) {
     }
 };
 
-function setEditedFields(meetingSeries) {
-    meetingSeries.isEditedBy = Meteor.userId();
-    meetingSeries.isEditedDate = new Date();
-    meetingSeries.save();
-}
-
 Template.meetingSeriesEdit.events({
 
     'click #deleteMeetingSeries': function() {
@@ -168,7 +162,7 @@ Template.meetingSeriesEdit.events({
             return;
         }
         else {
-            setEditedFields(ms);
+            IsEditedService.setIsEditedMeetingSerie(ms._id);
         }
 
         // Make sure these init values are filled in a close/re-open scenario

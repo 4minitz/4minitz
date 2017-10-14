@@ -164,12 +164,6 @@ let resizeTextarea = (element) => {
     $(document).scrollTop(scrollPos);
 };
 
-function setEditedFields(aActionItem, index) {
-    aActionItem._infoItemDoc.details[index].isEditedBy = Meteor.userId();
-    aActionItem._infoItemDoc.details[index].isEditedDate = new Date();
-    aActionItem.save();
-}
-
 Template.topicInfoItemList.helpers({
     topicStateClass: function (index) {
         /** @type {TopicInfoItemListContext} */
@@ -428,7 +422,7 @@ Template.topicInfoItemList.events({
             ).show();
         }
         else {
-            setEditedFields(aActionItem, detailIndex);
+            IsEditedService.setIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
             textEl.hide();
             inputEl.show();
             detailActionsId.show();
