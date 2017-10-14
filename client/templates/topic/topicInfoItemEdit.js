@@ -27,6 +27,7 @@ import {LabelExtractor} from '../../../imports/services/labelExtractor';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
+import {IsEditedService} from "../../../imports/services/isEditedService";
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -153,12 +154,6 @@ function setEditedFields(editItem) {
     editItem.save();
 }
 
-function unsetEditedFields(editItem) {
-    editItem._infoItemDoc.isEditedBy = null;
-    editItem._infoItemDoc.isEditedDate = null;
-    editItem.save();
-}
-
 Template.topicInfoItemEdit.helpers({
     getPriorities: function() {
         return Priority.GET_PRIORITIES();
@@ -202,7 +197,7 @@ Template.topicInfoItemEdit.events({
         let editItem = getEditInfoItem();
         let doc = {};
         if (editItem) {
-            unsetEditedFields(editItem);
+            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
             _.extend(doc, editItem._infoItemDoc);
         }
 
@@ -287,7 +282,7 @@ Template.topicInfoItemEdit.events({
 
             if ((editItem._infoItemDoc.isEditedBy != undefined && editItem._infoItemDoc.isEditedDate != undefined)) {
                 let unset = function () {
-                    unsetEditedFields(editItem);
+                    IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
                     $('#dlgAddInfoItem').modal('show');
                 };
 
@@ -393,9 +388,7 @@ Template.topicInfoItemEdit.events({
 
     'click #btnInfoItemCancel, .close': function (evt, tmpl) {
         evt.preventDefault();
-
-        let editItem = getEditInfoItem();
-        unsetEditedFields(editItem);
+        IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
 
         $('#dlgAddInfoItem').modal('hide');
     },
