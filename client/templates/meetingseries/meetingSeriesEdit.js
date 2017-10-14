@@ -12,6 +12,7 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
 import { Minutes } from '/imports/minutes';
+import {IsEditedService} from "../../../imports/services/isEditedService";
 
 
 Template.meetingSeriesEdit.onCreated(function() {
@@ -103,13 +104,6 @@ function setEditedFields(meetingSeries) {
     meetingSeries.save();
 }
 
-function unsetEditedFields(meetingSeries) {
-    meetingSeries.isEditedBy = null;
-    meetingSeries.isEditedDate = null;
-    meetingSeries.save();
-}
-
-
 Template.meetingSeriesEdit.events({
 
     'click #deleteMeetingSeries': function() {
@@ -151,7 +145,7 @@ Template.meetingSeriesEdit.events({
 
         if ((ms.isEditedBy != undefined && ms.isEditedDate != undefined)) {
             let unset = function () {
-                unsetEditedFields(ms);
+                IsEditedService.removeIsEditedMeetingSerie(ms._id);
                 $('#dlgEditMeetingSeries').modal('show');
             };
 
@@ -270,7 +264,7 @@ Template.meetingSeriesEdit.events({
         ms.name = aName;
         ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users
         ms.save();
-        unsetEditedFields(ms);
+        IsEditedService.removeIsEditedMeetingSerie(ms._id);
 
         // Hide modal dialog
         saveButton.prop('disabled',false);
@@ -289,7 +283,7 @@ Template.meetingSeriesEdit.events({
         evt.preventDefault();
 
         const ms = new MeetingSeries(tmpl.data._id);
-        unsetEditedFields(ms);
+        IsEditedService.removeIsEditedMeetingSerie(ms._id);
 
         $('#dlgEditMeetingSeries').modal('hide');
     },

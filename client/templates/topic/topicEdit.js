@@ -69,7 +69,6 @@ function configureSelect2Responsibles() {
 function setEditedFields(topic) {
     topic._topicDoc.isEditedBy = Meteor.userId();
     topic._topicDoc.isEditedDate = new Date();
-    console.log(topic);
     topic.save();
 }
 
