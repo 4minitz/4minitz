@@ -471,26 +471,28 @@ Template.minutesedit.events({
             sendBtn.prop('disabled', false);
         };
 
-        TestRunner.run(TestRunner.TRIGGERS.sendAgenda, aMin, sendAgenda);
+        let agendaCheckDate = async() => {
+            if (aMin.getAgendaSentAt()) {
+                let date = aMin.getAgendaSentAt();
+                console.log(date);
 
-        if (aMin.getAgendaSentAt()) {
-            let date = aMin.getAgendaSentAt();
-            console.log(date);
-
-            ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
-                sendAgenda,
-                'Confirm sending agenda',
-                'confirmSendAgenda',
-                {
-                    minDate: aMin.date,
-                    agendaSentDate: moment(date).format('YYYY-MM-DD'),
-                    agendaSentTime: moment(date).format('h:mm')
-                },
-                'Send Agenda'
-            ).show();
-        } else {
-            await sendAgenda();
+                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                    sendAgenda,
+                    'Confirm sending agenda',
+                    'confirmSendAgenda',
+                    {
+                        minDate: aMin.date,
+                        agendaSentDate: moment(date).format('YYYY-MM-DD'),
+                        agendaSentTime: moment(date).format('h:mm')
+                    },
+                    'Send Agenda'
+                ).show();
+            } else {
+                await sendAgenda();
+            }
         }
+
+        TestRunner.run(TestRunner.TRIGGERS.sendAgenda, aMin, agendaCheckDate);
     },
 
     'click #btn_finalizeMinutes': function(evt, tmpl) {
@@ -530,11 +532,6 @@ Template.minutesedit.events({
                 doFinalize();
             }
         };
-
-        let noParticipantsPresent = true;
-        aMin.participants.forEach(p => {
-            if(p.present) noParticipantsPresent = false;
-        });
 
         TestRunner.run(TestRunner.TRIGGERS.finalize, aMin, processFinalize);
     },
