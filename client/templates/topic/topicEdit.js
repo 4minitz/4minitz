@@ -6,7 +6,6 @@ import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Label } from '/imports/label';
-import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
@@ -34,24 +33,17 @@ let getEditTopic = function() {
 };
 
 function configureSelect2Responsibles() {
-    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditTopic(), Meteor.users);
     let selectResponsibles = $('#id_selResponsible');
     selectResponsibles.find('optgroup')     // clear all <option>s
         .remove();
-    let possResp = preparer.getPossibleResponsibles();
-    console.log(possResp)
-    //let remainingUsers = preparer.getRemainingUsers();
-    let selectOptions = [{
-        text: 'Participants',
-        children: possResp
-    }];
+
     selectResponsibles.select2({
         placeholder: 'Select...',
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
         ajax: {
             transport: function(params, success, failure) {
-                Meteor.call('respSearch', params.data.q, _minutesID, function(err, results) {
+                Meteor.call('responsiblesSearch', params.data.q, _minutesID, function(err, results) {
                     if (err) {
                         failure(err);
                         return;
@@ -60,10 +52,10 @@ function configureSelect2Responsibles() {
                 });
             },
             processResults: function(data) {
-                var results_participants = [];
-                var results_other = [];
+                let results_participants = [];
+                let results_other = [];
                 _.each(data.results, function (result) {
-                    if (result.isParticipant == true) {
+                    if (result.isParticipant === true) {
                         results_participants.push({
                             id: result.userId,
                             text: result.name
@@ -76,17 +68,10 @@ function configureSelect2Responsibles() {
                 });
                 // save the return value (when participants/other user are empty -> do not show a group-name
                 let returnValues = [];
-                if (results_participants.length == 0 && results_other.length == 0)
-                    returnValues = [];
-                else if (results_participants.length == 0)
-                    returnValues = [{text:'Other Users', children: results_other}];
-                else if (results_other.length == 0)
-                    returnValues = [{text:'Participants', children: results_participants}];
-                else
-                    returnValues = [
-                        {text:'Participants', children: results_participants},
-                        {text:'Other Users', children: results_other}
-                    ];
+                if (results_participants.length > 0)
+                    returnValues.push({text:'Participants', children: results_participants});
+                if (results_other.length > 0)
+                    returnValues.push({text:'Other Users', children: results_other});
 
                 return {
                     results:returnValues

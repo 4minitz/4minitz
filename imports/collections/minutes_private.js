@@ -232,63 +232,52 @@ Meteor.methods({
         }
     },
 
-    'respSearch' (partialName, minuteID) {
+    'responsiblesSearch' (partialName, minuteID) {
         check(partialName, String);
         let minute = new Minutes(minuteID);
         let participants = minute.getParticipants(Meteor.users);
+        let participantsAdditional = minute.participantsAdditional;
 
         let results_participants = []; // get all the participants for the minute
+        let partipantsNames = [];
+        if (participantsAdditional) {
+            participantsAdditional.split(/[,;]/).forEach(freeText => {
+                participants.push({name: freeText.trim(), userId:freeText.trim()});
+            });
+        }
+
         participants.forEach( participant =>{
-            if (participant.name.startsWith(partialName)) {
+            if (participant.profile && participant.profile.name && participant.profile.name !== '') {
+                participant.name += ` - ${participant.profile.name}`;
+            }
+            if (participant.name.toLowerCase().includes(partialName.toLowerCase())) {
                 participant['isParticipant'] = true;
                 results_participants.push(participant);
+                partipantsNames.push(participant.name);
             }
         });
 
         let results_otherUser = Meteor.users.find({ // find other user
             username: {
-                '$regex': '^' + partialName,
+                '$regex': partialName,
                 '$options': 'i'
             }
         }, {
-            limit: 10+results_participants.length, //we want to show 10 "Other user"
-                                                    // as it is not known, is a user a participant or not -> get 10+participants
+            limit: 10 + results_participants.length, //we want to show 10 "Other user"
+            // as it is not known, if a user a participant or not -> get 10+participants
             fields: {
                 _id: 1,
                 username: 1
             }
         }).fetch();
 
-        let foundUser_final = [];
-
-        results_otherUser.forEach(otherUser => {
-            otherUser['isDuplicate'] = false;}
-        );
-
-        if (results_participants.length !== 0) { // check if "other user" already in participants list
-            results_otherUser.forEach(otherUser => {
-                results_participants.forEach(participant => {
-                    if (otherUser.username == participant.name)
-                        otherUser['isDuplicate'] = true;
-                })
-            });
-        }
-
-        results_participants.forEach(participant => { // push all the participants to result
-            foundUser_final.push(participant);
+        results_otherUser = results_otherUser.filter(user => { //remove duplicates
+            return !(partipantsNames.includes(user.username));
         });
-
-        results_otherUser.forEach(otherUser =>{ //push only "not duplicates" from other user and max. 10
-            if (foundUser_final.length == (results_participants.length + 10))
-                return;
-            else if (otherUser.isDuplicate == false) {
-                otherUser['isParticipant'] = false;
-                foundUser_final.push(otherUser);
-            }
-        });
+        results_otherUser = results_otherUser.slice(0,10); // limit to 10 records
 
         return {
-            results: foundUser_final
+            results: results_participants.concat(results_otherUser)
         };
     }
 });

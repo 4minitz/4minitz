@@ -384,6 +384,7 @@ export class Minutes {
             return this.participants.map(participant => {
                 let user = userCollection.findOne(participant.userId);
                 participant.name = user.username;
+                participant.profile = user.profile;
                 return participant;
             });
         }
