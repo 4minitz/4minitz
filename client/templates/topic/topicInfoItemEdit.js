@@ -28,6 +28,7 @@ import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 import {IsEditedService} from "../../../imports/services/isEditedService";
+import {formatDateISO8601Time} from "../../../imports/helpers/date";
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -284,7 +285,7 @@ Template.topicInfoItemEdit.events({
 
                 let tmplData = {
                     isEditedBy: user.username,
-                    isEditedDate: editItem._infoItemDoc.isEditedDate
+                    isEditedDate: formatDateISO8601Time(editItem._infoItemDoc.isEditedDate)
                 };
 
                 ConfirmationDialogFactory.makeWarningDialogWithTemplate(

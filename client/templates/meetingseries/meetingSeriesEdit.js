@@ -13,6 +13,7 @@ import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
 import { Minutes } from '/imports/minutes';
 import {IsEditedService} from "../../../imports/services/isEditedService";
+import {formatDateISO8601Time} from "../../../imports/helpers/date";
 
 
 Template.meetingSeriesEdit.onCreated(function() {
@@ -147,7 +148,7 @@ Template.meetingSeriesEdit.events({
 
             let tmplData = {
                 isEditedBy: user.username,
-                isEditedDate: tmpl.data.isEditedDate
+                isEditedDate: formatDateISO8601Time(tmpl.data.isEditedDate)
             };
 
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(

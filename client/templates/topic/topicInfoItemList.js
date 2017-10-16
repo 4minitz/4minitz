@@ -17,6 +17,7 @@ import {labelSetFontColor} from './helpers/label-set-font-color';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 import { Blaze } from 'meteor/blaze';
 import {IsEditedService} from "../../../imports/services/isEditedService";
+import {formatDateISO8601Time} from "../../../imports/helpers/date";
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -434,7 +435,7 @@ Template.topicInfoItemList.events({
 
             let tmplData = {
                 isEditedBy: user.username,
-                isEditedDate: aActionItem._infoItemDoc.details[index].isEditedDate
+                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[index].isEditedDate)
             };
 
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(

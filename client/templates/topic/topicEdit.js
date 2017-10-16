@@ -14,6 +14,7 @@ import {createTopic} from './helpers/create-topic';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
 import {IsEditedService} from "../../../imports/services/isEditedService";
+import {formatDateISO8601Time} from "../../../imports/helpers/date";
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -122,7 +123,7 @@ Template.topicEdit.events({
 
             let tmplData = {
                 isEditedBy: user.username,
-                isEditedDate: topic._topicDoc.isEditedDate
+                isEditedDate: formatDateISO8601Time(topic._topicDoc.isEditedDate)
             };
 
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
