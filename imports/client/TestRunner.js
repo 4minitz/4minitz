@@ -50,16 +50,11 @@ export class TestRunner {
         if (errors.length === 0) {
             callbackOnSuccess();
         } else {
-            let errorList = "";
-            errors.forEach(error => {
-                console.log(error)
-                errorList += '-' + error + '\n';
-            });
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 callbackOnSuccess,
-                'Minute quality warning',
-                'confirmPlainText',
-                { plainText: 'Got some errors bois \n' + errorList + 'Do you want to proceed?'},
+                'Minute quality assurance',
+                'confirmMinuteQualityAssurance',
+                { errors: errors },
                 'Proceed'
             ).show();
         }

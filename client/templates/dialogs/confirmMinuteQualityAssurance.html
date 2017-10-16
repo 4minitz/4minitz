@@ -1,0 +1,9 @@
+<template name="confirmMinuteQualityAssurance">
+    <p>There are several issues with your minute! </p>
+    <ul>
+        {{#each errors}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    <p>Do you want to proceed?</p>
+</template>
