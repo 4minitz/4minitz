@@ -113,32 +113,34 @@ Template.topicEdit.events({
     'show.bs.modal #dlgAddTopic': function (evt) {
         const topic = getEditTopic();
 
-        if ((topic._topicDoc.isEditedBy != undefined && topic._topicDoc.isEditedDate != undefined)) {
-            let unset = function () {
-                IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id);
-                $('#dlgAddTopic').modal('show');
-            };
+        if (topic !== false) {
+            if ((topic._topicDoc.isEditedBy != undefined && topic._topicDoc.isEditedDate != undefined)) {
+                let unset = function () {
+                    IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id);
+                    $('#dlgAddTopic').modal('show');
+                };
 
-            let user = Meteor.users.findOne({_id: topic._topicDoc.isEditedBy});
+                let user = Meteor.users.findOne({_id: topic._topicDoc.isEditedBy});
 
-            let tmplData = {
-                isEditedBy: user.username,
-                isEditedDate: formatDateISO8601Time(topic._topicDoc.isEditedDate)
-            };
+                let tmplData = {
+                    isEditedBy: user.username,
+                    isEditedDate: formatDateISO8601Time(topic._topicDoc.isEditedDate)
+                };
 
-            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                unset,
-                'Edit despite existing editing',
-                'confirmationDialogResetEdit',
-                tmplData,
-                'Edit anyway'
-            ).show();
+                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                    unset,
+                    'Edit despite existing editing',
+                    'confirmationDialogResetEdit',
+                    tmplData,
+                    'Edit anyway'
+                ).show();
 
-            evt.preventDefault();
-            return;
-        }
-        else {
-            IsEditedService.setIsEditedTopic(_minutesID, topic._topicDoc._id);
+                evt.preventDefault();
+                return;
+            }
+            else {
+                IsEditedService.setIsEditedTopic(_minutesID, topic._topicDoc._id);
+            }
         }
 
         configureSelect2Responsibles();
