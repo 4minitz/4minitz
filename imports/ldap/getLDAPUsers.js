@@ -79,8 +79,9 @@ let _fetchLDAPUsers = function (connection) {
         emailAttribute = _.get(settings, 'propertyMap.email', searchDn),
         filter = `(&(${searchDn}=*)${settings.searchFilter})`,
         scope = 'sub',
+        bindWith = _.get(settings, 'bindWith', 'dn');
         whiteListedFields = _.get(settings, 'whiteListedFields', []),
-        attributes = whiteListedFields.concat(['userAccountControl', searchDn, userLongNameAttribute, emailAttribute]),
+        attributes = whiteListedFields.concat(['userAccountControl', searchDn, userLongNameAttribute, emailAttribute, bindWith]),
         options = {filter, scope, attributes};
 
     if (settings.isInactivePredicate && !settings.inactiveUsers) {

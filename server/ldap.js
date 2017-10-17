@@ -59,6 +59,10 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
             return usernameOrEmail;
         }
 
+        if (bindWith && bindWith !== 'dn') {
+            return user.profile[bindWith];
+        }
+
         if (user && user.profile && user.profile.dn) {
             return user.profile.dn;
         }
