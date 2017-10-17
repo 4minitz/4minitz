@@ -192,7 +192,7 @@ Template.topicInfoItemEdit.events({
         let editItem = getEditInfoItem();
         let doc = {};
         if (editItem) {
-            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
+            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId', true));
             _.extend(doc, editItem._infoItemDoc);
         }
 
@@ -277,7 +277,7 @@ Template.topicInfoItemEdit.events({
 
             if ((editItem._infoItemDoc.isEditedBy != undefined && editItem._infoItemDoc.isEditedDate != undefined)) {
                 let unset = function () {
-                    IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
+                    IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
                     $('#dlgAddInfoItem').modal('show');
                 };
 
@@ -383,7 +383,7 @@ Template.topicInfoItemEdit.events({
 
     'click #btnInfoItemCancel, .close': function (evt, tmpl) {
         evt.preventDefault();
-        IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
+        IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), false);
 
         $('#dlgAddInfoItem').modal('hide');
     },

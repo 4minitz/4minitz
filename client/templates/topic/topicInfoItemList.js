@@ -428,7 +428,7 @@ Template.topicInfoItemList.events({
 
         if ((aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined && aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined)) {
             let unset = function () {
-                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
+                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
             };
 
             let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[detailIndex].isEditedBy});
@@ -495,13 +495,13 @@ Template.topicInfoItemList.events({
         let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
         let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
         
-        IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
+        IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
 
         if (text === '' || (text !== textEl.attr('data-text'))) {
             if (text !== '') {
                 aActionItem.updateDetails(detailIndex, text);
                 aActionItem.save().catch(handleError);
-                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
+                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
             } else {
                 let deleteDetails = () => {
                     aActionItem.removeDetails(detailIndex);

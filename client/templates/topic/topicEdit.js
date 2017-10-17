@@ -82,7 +82,7 @@ Template.topicEdit.events({
         let editTopic = getEditTopic();
         let topicDoc = {};
         if (editTopic) {
-            IsEditedService.removeIsEditedTopic(_minutesID, editTopic._topicDoc._id);
+            IsEditedService.removeIsEditedTopic(_minutesID, editTopic._topicDoc._id, true);
             _.extend(topicDoc, editTopic._topicDoc);
         }
 
@@ -116,7 +116,7 @@ Template.topicEdit.events({
         if (topic !== false) {
             if ((topic._topicDoc.isEditedBy != undefined && topic._topicDoc.isEditedDate != undefined)) {
                 let unset = function () {
-                    IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id);
+                    IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, true);
                     $('#dlgAddTopic').modal('show');
                 };
 
@@ -164,7 +164,7 @@ Template.topicEdit.events({
         evt.preventDefault();
 
         const topic = getEditTopic();
-        IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id);
+        IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
 
         $('#dlgAddTopic').modal('hide');
     },

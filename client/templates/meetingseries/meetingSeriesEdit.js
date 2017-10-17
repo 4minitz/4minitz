@@ -140,7 +140,7 @@ Template.meetingSeriesEdit.events({
 
         if ((ms.isEditedBy != undefined && ms.isEditedDate != undefined)) {
             let unset = function () {
-                IsEditedService.removeIsEditedMeetingSerie(ms._id);
+                IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
                 $('#dlgEditMeetingSeries').modal('show');
             };
 
@@ -259,7 +259,7 @@ Template.meetingSeriesEdit.events({
         ms.name = aName;
         ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users
         ms.save();
-        IsEditedService.removeIsEditedMeetingSerie(ms._id);
+        IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
 
         // Hide modal dialog
         saveButton.prop('disabled',false);
@@ -278,7 +278,7 @@ Template.meetingSeriesEdit.events({
         evt.preventDefault();
 
         const ms = new MeetingSeries(tmpl.data._id);
-        IsEditedService.removeIsEditedMeetingSerie(ms._id);
+        IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
 
         $('#dlgEditMeetingSeries').modal('hide');
     },
