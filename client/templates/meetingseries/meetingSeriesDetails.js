@@ -12,6 +12,7 @@ import { UserRoles } from '/imports/userroles';
 import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
 import {TopicsFinder} from '../../../imports/services/topicsFinder';
+import {formatDateISO8601Time} from "../../../imports/helpers/date";
 
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
@@ -127,7 +128,7 @@ Template.meetingSeriesDetails.helpers({
 
     meetingSeriesEditedDate() {
         let ms = new MeetingSeries(_meetingSeriesID);
-        return ms.isEditedDate;
+        return formatDateISO8601Time(ms.isEditedDate);
     }
 });
 
