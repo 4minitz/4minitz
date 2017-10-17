@@ -39,10 +39,7 @@ export class E2EMinutes {
         browser.waitForVisible("#btn_finalizeMinutes");
         E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
 
-        E2EGlobal.waitSomeTime(300);
-        if(browser.isVisible('#minuteQualityAssuranceDialog')) {
-            E2EApp.confirmationDialogAnswer(true);
-        }
+        E2EMinutes.confirmQualityAssuranceDialog();
 
         if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
             if (confirmDialog === undefined || confirmDialog) {
@@ -63,10 +60,7 @@ export class E2EMinutes {
         browser.waitForVisible("#btn_finalizeMinutes");
         E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
 
-        E2EGlobal.waitSomeTime(300);
-        if(browser.isVisible('#minuteQualityAssuranceDialog')) {
-            E2EApp.confirmationDialogAnswer(true);
-        }
+        E2EMinutes.confirmQualityAssuranceDialog();
         if(processFinalize == true) {
             browser.waitForVisible("#confirmationDialogOK");
             E2EGlobal.clickWithRetry("#confirmationDialogOK");
@@ -83,6 +77,12 @@ export class E2EMinutes {
         }
     };
 
+    static confirmQualityAssuranceDialog(){
+        E2EGlobal.waitSomeTime();
+        if(browser.isVisible('#minuteQualityAssuranceDialog')) {
+            E2EApp.confirmationDialogAnswer(true);
+        }
+    }
 
     static  unfinalizeCurrentMinutes () {
         browser.waitForVisible('#btn_unfinalizeMinutes');

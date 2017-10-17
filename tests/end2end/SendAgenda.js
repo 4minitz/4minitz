@@ -72,9 +72,11 @@ describe('Send agenda', function () {
         browser.waitForVisible('#btn_sendAgenda');
         E2EGlobal.clickWithRetry('#btn_sendAgenda');
 
-        E2EGlobal.waitSomeTime();
+        E2EMinutes.confirmQualityAssuranceDialog();
 
         E2EGlobal.clickWithRetry('#btn_sendAgenda');
+
+        E2EMinutes.confirmQualityAssuranceDialog();
 
         let selectorDialog = "#confirmDialog";
 
