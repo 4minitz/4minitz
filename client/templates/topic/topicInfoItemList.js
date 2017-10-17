@@ -420,22 +420,22 @@ Template.topicInfoItemList.events({
 
         let index = inputEl.data('item');
         let infoItem = context.items[index];
-        let aMin = new Minutes(context.topicParentId);
+        let aMin = new Minutes(context.items[0].createdInMinute);
         let aTopic = new Topic(aMin, infoItem.parentTopicId);
         let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
         let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
 
-        if ((aActionItem._infoItemDoc.details[index].isEditedBy != undefined && aActionItem._infoItemDoc.details[index].isEditedDate != undefined)) {
+        if ((aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined && aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined)) {
             let unset = function () {
                 IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
             };
 
-            let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[index].isEditedBy});
+            let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[detailIndex].isEditedBy});
 
             let tmplData = {
                 isEditedBy: user.username,
-                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[index].isEditedDate)
+                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate)
             };
 
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
@@ -490,7 +490,7 @@ Template.topicInfoItemList.events({
 
         let text = inputEl.val().trim();
 
-        let aMin = new Minutes(context.topicParentId);
+        let aMin = new Minutes(context.items[0].createdInMinute);
         let aTopic = new Topic(aMin, infoItem.parentTopicId);
         let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
         let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
@@ -501,6 +501,7 @@ Template.topicInfoItemList.events({
             if (text !== '') {
                 aActionItem.updateDetails(detailIndex, text);
                 aActionItem.save().catch(handleError);
+                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
             } else {
                 let deleteDetails = () => {
                     aActionItem.removeDetails(detailIndex);
