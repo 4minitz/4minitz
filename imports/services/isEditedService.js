@@ -90,7 +90,7 @@ function removeIsEditedTop(minutesId, topicId, any) {
         topic._topicDoc.isEditedDate = null;
     }
     else {
-        if (ms.isEditedBy === Meteor.userId()) {
+        if (topic._topicDoc.isEditedBy === Meteor.userId()) {
             topic._topicDoc.isEditedBy = null;
             topic._topicDoc.isEditedDate = null;
         }
@@ -117,7 +117,7 @@ function removeIsEditedII(minutesId, topicId, infoItemId, any) {
         infoItem._infoItemDoc.isEditedDate = null;
     }
     else {
-        if (ms.isEditedBy === Meteor.userId()) {
+        if (infoItem._infoItemDoc.isEditedBy === Meteor.userId()) {
             infoItem._infoItemDoc.isEditedBy = null;
             infoItem._infoItemDoc.isEditedDate = null;
         }
@@ -145,7 +145,7 @@ function removeIsEditedDet(minutesId, topicId, infoItemId, detailIdx, any) {
         infoItem._infoItemDoc.details[detailIdx].isEditedDate = null;
     }
     else {
-        if (ms.isEditedBy === Meteor.userId()) {
+        if (infoItem._infoItemDoc.details[detailIdx].isEditedBy === Meteor.userId()) {
             infoItem._infoItemDoc.details[detailIdx].isEditedBy = null;
             infoItem._infoItemDoc.details[detailIdx].isEditedDate = null;
         }
