@@ -20,7 +20,7 @@ import { Finalizer } from '/imports/services/finalize-minutes/finalizer';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
-import { TestRunner } from '/imports/client/TestRunner';
+import { QualityTestRunner } from '/imports/client/QualityTestRunner';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { UserTracker } from '../../helpers/userTracker';
 
@@ -490,9 +490,9 @@ Template.minutesedit.events({
             } else {
                 await sendAgenda();
             }
-        }
+        };
 
-        TestRunner.run(TestRunner.TRIGGERS.sendAgenda, aMin, agendaCheckDate);
+        QualityTestRunner.run(QualityTestRunner.TRIGGERS.sendAgenda, aMin, agendaCheckDate);
     },
 
     'click #btn_finalizeMinutes': function(evt, tmpl) {
@@ -533,7 +533,7 @@ Template.minutesedit.events({
             }
         };
 
-        TestRunner.run(TestRunner.TRIGGERS.finalize, aMin, processFinalize);
+        QualityTestRunner.run(QualityTestRunner.TRIGGERS.finalize, aMin, processFinalize);
     },
 
     'click #btn_unfinalizeMinutes': function(evt) {

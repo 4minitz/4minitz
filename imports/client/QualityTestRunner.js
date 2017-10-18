@@ -1,25 +1,32 @@
 /* USAGE INSTRUCTION:
- To call tests: simply import the TestRunner into your .js file and use the run method of this class
+ To call tests: simply import the QualityTestRunner into your .js file and use the run method of this class
  To add tests: have a look at the TestCase class. Simply add more tests by expanding the createTestCases-Method.
- To add new scenarios triggering tests: simply add an unique identifier for your scenario to TestRunner.TRIGGERS, then create your tests.
+ To add new scenarios triggering tests: simply add an unique identifier for your scenario to QualityTestRunner.TRIGGERS, then create your tests.
  */
 import {ConfirmationDialogFactory} from '../../client/helpers/confirmationDialogFactory';
 
-export class TestRunner {
+export class QualityTestRunner {
     static TRIGGERS = { // if you want to add new scenarios triggering test, add one unique string identifier here.
         finalize: 'finalize',
         sendAgenda: 'sendAgenda'
     };
 
-    static generateList(selectedTrigger){
-        if (TestCase.testCases.length === 0) {
-            TestCase.createTestCases();
+    static generateList() {
+        if (QualityTestCase.testCases.length === 0) {
+            QualityTestCase.createTestCases();
+        }
+
+        return QualityTestCase.testCases;
+    }
+
+    static generateSpecificList(selectedTrigger){
+        if (QualityTestCase.testCases.length === 0) {
+            QualityTestCase.createTestCases();
         }
 
         //filter test cases
-        let selectedTests = TestCase.testCases.filter((testCase) => {
-            return (testCase.triggers.includes(selectedTrigger) &&
-            (testCase.condition()));
+        let selectedTests = QualityTestCase.testCases.filter((testCase) => {
+            return (testCase.triggers.includes(selectedTrigger));
         });
 
         return selectedTests;
@@ -27,12 +34,12 @@ export class TestRunner {
 
     static run(selectedTrigger, testObject, callbackOnSuccess) {
         //create test cases
-        if (TestCase.testCases.length === 0) {
-            TestCase.createTestCases();
+        if (QualityTestCase.testCases.length === 0) {
+            QualityTestCase.createTestCases();
         }
 
         //filter test cases
-        let selectedTests = TestCase.testCases.filter((testCase) => {
+        let selectedTests = QualityTestCase.testCases.filter((testCase) => {
             return (testCase.triggers.includes(selectedTrigger) &&
             (testCase.condition()));
         });
@@ -61,7 +68,7 @@ export class TestRunner {
     }
 }
 
-class TestCase {
+class QualityTestCase {
     static testCases = [];
 
     constructor(testName, triggers, condition, test) {
@@ -75,8 +82,8 @@ class TestCase {
         // to add tests simply push a new TestCase Object to the testCases property
 
         // no topics in minute (F) (A)
-        TestCase.testCases.push(new TestCase('No topics in minute',
-            [TestRunner.TRIGGERS.finalize, TestRunner.TRIGGERS.sendAgenda],
+        QualityTestCase.testCases.push(new QualityTestCase('No topics in minute',
+            [QualityTestRunner.TRIGGERS.finalize, QualityTestRunner.TRIGGERS.sendAgenda],
             () => {return true;},
             (minute) => {
                 if (!minute.topics || minute.topics.length === 0)
@@ -85,57 +92,54 @@ class TestCase {
         ));
 
         // no participant marked as present (F)
-        TestCase.testCases.push(new TestCase('No participants marked as present',
-            TestRunner.TRIGGERS.finalize,
+        QualityTestCase.testCases.push(new QualityTestCase('No participants marked as present',
+            QualityTestRunner.TRIGGERS.finalize,
             () => {return true;},
             (minute) => {
                 let noParticipantsPresent = true;
                 minute.participants.forEach(p => {
                     if(p.present) noParticipantsPresent = false;
-                    }
-                );
+                });
                 if(noParticipantsPresent)
-                    return 'No participant is marked as present'
+                    return 'No participant is marked as present';
             }
         ));
 
         // no topics checked (F)
-        TestCase.testCases.push(new TestCase('No topic is checked',
-            TestRunner.TRIGGERS.finalize,
+        QualityTestCase.testCases.push(new QualityTestCase('No topic is checked',
+            QualityTestRunner.TRIGGERS.finalize,
             () => {return true;},
             (minute) => {
                 if(minute.topics.length < 0) return;
                 let noTopicChecked = true;
                 minute.topics.forEach(topic => {
-                        if(!topic.isOpen) noTopicChecked = false;
-                    }
-                );
+                    if(!topic.isOpen) noTopicChecked = false;
+                });
                 if(noTopicChecked)
-                    return 'No topic is checked'
+                    return 'No topic is checked';
             }
         ));
 
         // topic checked but no children (F)
-        TestCase.testCases.push(new TestCase('A topic is checked but has no children',
-            TestRunner.TRIGGERS.finalize,
+        QualityTestCase.testCases.push(new QualityTestCase('A topic is checked but has no children',
+            QualityTestRunner.TRIGGERS.finalize,
             () => {return true;},
             (minute) => {
                 if(minute.topics.length < 0) return;
 
                 let checkedButChildren = false;
                 minute.topics.forEach(topic => {
-                        if(topic.isOpen) return;
-                        if(!topic.infoItems || topic.infoItems.length === 0) checkedButChildren = true;
-                    }
-                );
+                    if(topic.isOpen) return;
+                    if(!topic.infoItems || topic.infoItems.length === 0) checkedButChildren = true;
+                });
                 if(checkedButChildren)
-                    return 'A topic is checked but has no children'
+                    return 'A topic is checked as discussed but has no children';
             }
         ));
 
         // action item with no responsible (F)
-        TestCase.testCases.push(new TestCase('Action item has no responsible',
-            TestRunner.TRIGGERS.finalize,
+        QualityTestCase.testCases.push(new QualityTestCase('Action item has no responsible',
+            QualityTestRunner.TRIGGERS.finalize,
             () => {return true;},
             (minute) => {
                 if(minute.topics.length < 0) return;
@@ -143,19 +147,18 @@ class TestCase {
                 let actionItemWithoutResponsible = false;
                 minute.topics.forEach(topic => {
                     topic.infoItems.forEach(infoItem => {
-                            if(infoItem.itemType === "actionItem" && ((!infoItem.responsibles) || (infoItem.responsibles.length === 0)))
-                                actionItemWithoutResponsible = true;
-                        });
+                        if(infoItem.itemType === 'actionItem' && ((!infoItem.responsibles) || (infoItem.responsibles.length === 0)))
+                            actionItemWithoutResponsible = true;
+                    });
                 });
                 if(actionItemWithoutResponsible)
-                    return 'An action item has no responsible'
-                }
-            ));
+                    return 'An action item has no responsible';
+            }));
 
         // Topic checked, but no updated or new content (F)
         /* uncomment when details get a isNew-Property for easier code
-        TestCase.testCases.push(new TestCase('Topic is checked, but has no updated or new content',
-            TestRunner.TRIGGERS.finalize,
+         QualityTestCase.testCases.push(new QualityTestCase('Topic is checked, but has no updated or new content',
+         QualityTestRunner.TRIGGERS.finalize,
             () => {return true;},
             (minute) => {
                 if(minute.topics.length < 0) return;
