@@ -11,6 +11,7 @@ import { FlashMessage } from '../../helpers/flashMessage';
 import { TopicInfoItemListContext } from './topicInfoItemList';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import {labelSetFontColor} from './helpers/label-set-font-color';
 import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
@@ -34,12 +35,7 @@ Template.topicElement.onCreated(function () {
 Template.topicElement.helpers({
     getLabels: function() {
         let tmplData = Template.instance().data;
-        return LabelResolver.resolveLabels(this.topic.labels, tmplData.parentMeetingSeriesId)
-            .map(labelObj => {
-                let doc = labelObj.getDocument();
-                doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
-                return doc;
-            });
+        return LabelResolver.resolveLabels(this.topic.labels, tmplData.parentMeetingSeriesId).map(labelSetFontColor);
     },
 
     checkedState: function () {
@@ -109,6 +105,19 @@ Template.topicElement.helpers({
     }
 });
 
+const editTopicEventHandler = (evt, context, manipulateTopic) => {
+    evt.preventDefault();
+    if (!context.minutesID || !context.isEditable) {
+        return;
+    }
+    const aTopic = new Topic(context.minutesID, context.topic._id);
+    manipulateTopic(aTopic);
+};
+
+const openAddItemDialog = (itemType, topicId) => {
+    Session.set('topicInfoItemEditTopicId', topicId);
+    Session.set('topicInfoItemType', itemType);
+};
 const showHideItemInput = (tmpl, show = true) => {
     tmpl.$('.addItemForm').css('display', (show) ? 'block' : 'none');
     if (show) {
@@ -190,54 +199,28 @@ Template.topicElement.events({
     },
 
     'click .btnToggleState'(evt) {
-        evt.preventDefault();
-        if (!this.minutesID) {
-            return;
-        }
-
-        console.log('Toggle topic state ('+this.topic.isOpen+'): '+this.topic._id+' from minutes '+this.minutesID);
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        aTopic.toggleState().catch(onError);
+        editTopicEventHandler(evt, this, (aTopic) => {
+            aTopic.toggleState().catch(onError)
+        });
     },
 
     'click .js-toggle-recurring'(evt) {
-        evt.preventDefault();
-        if (!this.isEditable) {
-            return;
-        }
-
-        if (!this.minutesID) {
-            return;
-        }
-
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        aTopic.toggleRecurring();
-        aTopic.save().catch(onError);
+        editTopicEventHandler(evt, this, (aTopic) => {
+            aTopic.toggleRecurring();
+            aTopic.save().catch(onError);
+        });
     },
     
     'click .js-toggle-skipped'(evt) {
-        evt.preventDefault();
-        
-        if (!this.isEditable) {
-            return;
-        }
-
-        if (!this.minutesID) {
-            return;
-        }
-        
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        aTopic.toggleSkip();
-        aTopic.save().catch(onError);
+        editTopicEventHandler(evt, this, (aTopic) => {
+            aTopic.toggleSkip();
+            aTopic.save().catch(onError);
+        });
     },
 
     'click #btnEditTopic'(evt) {
         evt.preventDefault();
-
-        if (!this.minutesID) {
-            return;
-        }
-        if (getSelection().toString()) {    // don't fire while selection is ongoing
+        if (!this.minutesID || getSelection().toString()) { // don't fire while selection is ongoing
             return;
         }
         Session.set('topicEditTopicId', this.topic._id);
@@ -245,21 +228,15 @@ Template.topicElement.events({
     },
 
     'click .addTopicInfoItem'(evt) {
-        console.log('Info!');
         evt.preventDefault();
         // will be called before the modal dialog is shown
-
-        Session.set('topicInfoItemEditTopicId', this.topic._id);
-        Session.set('topicInfoItemType', 'infoItem');
+        openAddItemDialog('infoItem', this.topic._id);
     },
 
     'click .addTopicActionItem'(evt) {
-        console.log('Action!');
         evt.preventDefault();
         // will be called before the modal dialog is shown
-
-        Session.set('topicInfoItemEditTopicId', this.topic._id);
-        Session.set('topicInfoItemType', 'actionItem');
+        openAddItemDialog('actionItem', this.topic._id);
     },
 
     'blur .addItemForm' (evt, tmpl) {

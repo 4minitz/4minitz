@@ -54,14 +54,6 @@ export class DocumentGeneration {
         return DocumentsCollection.findOne({'meta.minuteId': minuteId});
     }
 
-    static saveProtocol(minutesObj) {
-        return Meteor.callPromise('documentgeneration.createAndStoreFile', minutesObj);
-    }
-
-    static removeProtocol(minutesObj) {
-        return Meteor.callPromise('documentgeneration.removeFile', minutesObj);
-    }
-
     static calcFileNameforMinute(minutesObj) {
         if (minutesObj) {
             let fileName = minutesObj.parentMeetingSeries().getRecord().name;

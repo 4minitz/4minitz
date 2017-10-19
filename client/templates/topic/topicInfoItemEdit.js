@@ -22,6 +22,9 @@ import { _ } from 'meteor/underscore';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
 import {createItem} from './helpers/create-item';
+import {configureSelect2Labels} from './helpers/configure-select2-labels';
+import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
+import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -125,36 +128,6 @@ function configureSelect2Responsibles() {
     selectResponsibles.trigger('change');
 }
 
-function configureSelect2Labels() {
-    let aMin = new Minutes(_minutesID);
-    let aSeries = aMin.parentMeetingSeries();
-
-    let selectLabels = $('#id_item_selLabelsActionItem');
-    selectLabels.find('option')     // clear all <option>s
-        .remove();
-
-    let selectOptions = [];
-
-    aSeries.getAvailableLabels().forEach(label => {
-        selectOptions.push ({id: label._id, text: label.name});
-    });
-
-    selectLabels.select2({
-        placeholder: 'Select...',
-        tags: true,                     // Allow freetext adding
-        tokenSeparators: [',', ';'],
-        data: selectOptions             // push <option>s data
-    });
-
-
-    // select the options that where stored with this topic last time
-    let editItem = getEditInfoItem();
-    if (editItem) {
-        selectLabels.val(editItem.getLabelsRawArray());
-    }
-    selectLabels.trigger('change');
-}
-
 let resizeTextarea = (element) => {
 
     let newLineRegEx = new RegExp(/\n/g);
@@ -208,12 +181,13 @@ Template.topicInfoItemEdit.events({
         const type = Session.get('topicInfoItemType');
         const newSubject = tmpl.find('#id_item_subject').value;
         const newDetail = (!editItem) ? tmpl.find('#id_item_detailInput').value : false;
-        const labels = tmpl.$('#id_item_selLabelsActionItem').val();;
+        const labels = tmpl.$('#id_item_selLabelsActionItem').val();
 
         let doc = {};
         if (editItem) {
             _.extend(doc, editItem._infoItemDoc);
         }
+
         doc.subject = newSubject;
 
         if (type === 'actionItem') {
@@ -264,6 +238,7 @@ Template.topicInfoItemEdit.events({
             }
         }
 
+        configureSelect2Labels(_minutesID, '#id_item_selLabelsActionItem', getEditInfoItem());
         // set type: edit existing item
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
@@ -296,7 +271,6 @@ Template.topicInfoItemEdit.events({
         let itemSubject = tmpl.find('#id_item_subject');
         itemSubject.focus();
         itemSubject.select();
-        configureSelect2Labels();
     },
 
     'hidden.bs.modal #dlgAddInfoItem': function () {
@@ -307,8 +281,6 @@ Template.topicInfoItemEdit.events({
     },
 
     'select2:selecting #id_selResponsibleActionItem'(evt) {
-        console.log(evt);
-        console.log('selecting:'+evt.params.args.data.id + '/'+evt.params.args.data.text);
         if (evt.params.args.data.id === evt.params.args.data.text) { // we have a free-text entry
             if (! emailAddressRegExpTest.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
@@ -323,7 +295,6 @@ Template.topicInfoItemEdit.events({
     },
 
     'select2:select #id_selResponsibleActionItem'(evt) {
-        console.log('select:'+evt.params.data.id + '/'+evt.params.data.text);
         let respId = evt.params.data.id;
         let respName = evt.params.data.text;
         let aUser = Meteor.users.findOne(respId);
@@ -335,13 +306,7 @@ Template.topicInfoItemEdit.events({
     },
 
     'click .detailInputMarkdownHint'(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        ConfirmationDialogFactory
-            .makeInfoDialog('Help for Markdown Syntax')
-            .setTemplate('markdownHint')
-            .show();
-
+        handlerShowMarkdownHint(evt);
     },
 
     'click #btnExpandCollapse': function (evt, tmpl) {

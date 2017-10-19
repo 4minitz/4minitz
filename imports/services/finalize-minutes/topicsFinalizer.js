@@ -11,7 +11,8 @@ export class TopicsFinalizer {
     static mergeTopicsForFinalize(meetingSeries) {
         const topicsFinalizer = new TopicsFinalizer(meetingSeries);
         const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
-        topicsFinalizer.mergeTopics(lastMinutes.topics);
+        const secondLastMinutes = MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
+        topicsFinalizer.mergeTopics(lastMinutes.topics, secondLastMinutes._id);
     }
 
     static mergeTopicsForUnfinalize(meetingSeries) {
@@ -33,8 +34,14 @@ export class TopicsFinalizer {
         this.topicsUpdater = createTopicsUpdater(meetingSeries._id);
     }
 
-    mergeTopics(minutesTopics) {
-        this.topicsUpdater.invalidateIsNewFlagOfAllTopicsAndItems();
+    mergeTopics(minutesTopics, minIdContainingTopicsToInvalidateIsNew = false) {
+        if (minIdContainingTopicsToInvalidateIsNew) {
+            // we have to set all isNew-Flags in the topics collection to `false` since we want that all elements
+            // created in the to-finalize protocol should be flagged as new.
+            // But we should only look at the topics presented in the last-finalized protocol because all other
+            // elements are already "invalidated".
+            this.topicsUpdater.invalidateIsNewFlagOfTopicsPresentedInMinutes(minIdContainingTopicsToInvalidateIsNew);
+        }
 
         // iterate backwards through the topics of the minute
         for (let i = minutesTopics.length; i-- > 0;) {

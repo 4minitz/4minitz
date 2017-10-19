@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
+import {updateTopicsOfSeriesPre16} from './helpers/updateSeries';
+import {updateTopicsOfMinutes} from './helpers/updateMinutes';
 
 // ActionItems: convert the responsible (string) => responsibles (array) fields
 export class MigrateV6 {
@@ -43,50 +45,26 @@ export class MigrateV6 {
     static up() {
         MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV6._upgradeTopics(minute.topics);
-
-            // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesSchema.getCollection().update(
-                minute._id,
-                {$set: {topics: minute.topics}},
-            );
+            updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
         });
 
         MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV6._upgradeTopics(series.openTopics);
             MigrateV6._upgradeTopics(series.topics);
-
-            MeetingSeriesSchema.getCollection().update(
-                series._id, {
-                    $set: {
-                        'topics': series.topics,
-                        'openTopics': series.openTopics
-                    }
-                });
+            updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
         });
     }
 
     static down() {
         MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV6._downgradeTopics(minute.topics);
-
-            // We switch on bypassCollection2 here, to skip .clean & .validate to allow empty string values
-            MinutesSchema.getCollection().update(
-                minute._id,
-                {$set: {topics: minute.topics}},
-            );
+            updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
         });
 
         MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV6._downgradeTopics(series.openTopics);
             MigrateV6._downgradeTopics(series.topics);
-
-            MeetingSeriesSchema.getCollection().update(
-                series._id, {
-                    $set: {
-                        'topics': series.topics,
-                        'openTopics': series.openTopics
-                    }
-                });
+            updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
         });
     }
 }

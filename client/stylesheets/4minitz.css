@@ -286,6 +286,16 @@ input.pick-a-color {
     text-decoration: line-through;
 }
 
+.linkMeetingSerie{
+    color: grey;
+    font-size: 80%;
+    vertical-align: sub;
+}
+
+a.linkMeetingSerie:hover {
+    color: black;
+}
+
 .meetingSeriesSearchbar input{
     margin: 5px 0 0 1px;
     width: 233px;
