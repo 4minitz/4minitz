@@ -4,6 +4,8 @@ import {LabelExtractor} from '../../../../imports/services/labelExtractor';
 import {Label} from '../../../../imports/label';
 import {Priority} from '../../../../imports/priority';
 import {ResponsibleExtractor} from '../../../../imports/services/responsibleExtractor';
+import {extractDateFromString} from '../../../../imports/helpers/date';
+import {StringUtils} from '../../../../imports/helpers/string-utils';
 
 
 export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type = 'infoItem', labels = []) {
@@ -28,6 +30,19 @@ export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type 
     let newItem;
     switch (type) {
         case 'actionItem':
+            // extract duedate
+            const duedate = extractDateFromString(itemDoc.subject);
+            if (duedate) {
+                itemDoc.duedate = duedate;
+                itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
+            }
+            // extract priority
+            const prio = Priority.extractPriorityFromString(itemDoc.subject);
+            if (prio) {
+                itemDoc.priority = prio.value;
+                itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
+            }
+
             newItem = new ActionItem(parentTopic, itemDoc);
             if (itemDoc.priority) {
                 newItem.setPriority(new Priority(itemDoc.priority));

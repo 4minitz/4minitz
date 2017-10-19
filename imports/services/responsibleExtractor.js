@@ -1,4 +1,5 @@
 import { emailAddressRegExpTest } from '../helpers/email';
+import {StringUtils} from '../helpers/string-utils';
 
 export class ResponsibleExtractor {
 
@@ -50,9 +51,7 @@ export class ResponsibleExtractor {
     }
 
     _removeResponsibleFromString(responsibleName) {
-        this.string = this.string.replace('@' + responsibleName + ' ', '');
-        this.string = this.string.replace(' @' + responsibleName, '');
-        this.string = this.string.replace('@' + responsibleName, '');
+        this.string = StringUtils.eraseSubstring(this.string, `@${responsibleName}`);
     }
 
 }

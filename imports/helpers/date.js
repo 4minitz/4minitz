@@ -42,3 +42,9 @@ export const currentDatePlusDeltaDays = (deltaDays, currentDate) => {
     }
     return formatDateISO8601(aDate);
 };
+
+export const extractDateFromString = (string) => {
+    const regEx = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/g;
+    let match = regEx.exec(string);
+    return (match !== null) ? match[0] : false;
+};
