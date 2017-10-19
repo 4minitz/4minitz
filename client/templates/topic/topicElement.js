@@ -200,7 +200,7 @@ Template.topicElement.events({
 
     'click .btnToggleState'(evt) {
         editTopicEventHandler(evt, this, (aTopic) => {
-            aTopic.toggleState().catch(onError)
+            aTopic.toggleState().catch(onError);
         });
     },
 

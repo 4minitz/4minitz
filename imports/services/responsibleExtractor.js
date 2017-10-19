@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { emailAddressRegExpTest } from '../helpers/email';
 import {StringUtils} from '../helpers/string-utils';
 

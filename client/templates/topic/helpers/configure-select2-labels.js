@@ -1,4 +1,5 @@
 import {Minutes} from '../../../../imports/minutes';
+import $ from 'jquery';
 
 export const configureSelect2Labels = (minutesId, elementSelector, editItem) => {
     const aMin = new Minutes(minutesId);

@@ -1,23 +1,16 @@
+import { Meteor } from 'meteor/meteor';
 import {ActionItem} from '../../../../imports/actionitem';
 import {InfoItem} from '../../../../imports/infoitem';
 import {LabelExtractor} from '../../../../imports/services/labelExtractor';
-import {Label} from '../../../../imports/label';
 import {Priority} from '../../../../imports/priority';
 import {ResponsibleExtractor} from '../../../../imports/services/responsibleExtractor';
 import {extractDateFromString} from '../../../../imports/helpers/date';
 import {StringUtils} from '../../../../imports/helpers/string-utils';
+import {convertOrCreateLabelsFromStrings} from './convert-or-create-label-from-string';
 
 
 export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type = 'infoItem', labels = []) {
-    itemDoc.labels = labels.map(labelId => {
-        let label = Label.createLabelById(meetingSeries, labelId);
-        if (null === label) {
-            // we have no such label -> it's brand new
-            label = new Label({name: labelId});
-            label.save(meetingSeries._id);
-        }
-        return label.getId();
-    });
+    itemDoc.labels = convertOrCreateLabelsFromStrings(labels, meetingSeries);
 
     if (!itemDoc.createdInMinute) {
         itemDoc.createdInMinute = minutesId;
@@ -29,32 +22,34 @@ export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type 
 
     let newItem;
     switch (type) {
-        case 'actionItem':
-            // extract duedate
-            const duedate = extractDateFromString(itemDoc.subject);
-            if (duedate) {
-                itemDoc.duedate = duedate;
-                itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
-            }
-            // extract priority
-            const prio = Priority.extractPriorityFromString(itemDoc.subject);
-            if (prio) {
-                itemDoc.priority = prio.value;
-                itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
-            }
-
-            newItem = new ActionItem(parentTopic, itemDoc);
-            if (itemDoc.priority) {
-                newItem.setPriority(new Priority(itemDoc.priority));
-            }
-            break;
-        case 'infoItem':
-        {
-            newItem = new InfoItem(parentTopic, itemDoc);
-            break;
+    case 'actionItem':
+    {
+        // extract duedate
+        const duedate = extractDateFromString(itemDoc.subject);
+        if (duedate) {
+            itemDoc.duedate = duedate;
+            itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
         }
-        default:
-            throw new Meteor.Error('Unknown type!');
+        // extract priority
+        const prio = Priority.extractPriorityFromString(itemDoc.subject);
+        if (prio) {
+            itemDoc.priority = prio.value;
+            itemDoc.subject = StringUtils.eraseSubstring(itemDoc.subject, duedate);
+        }
+
+        newItem = new ActionItem(parentTopic, itemDoc);
+        if (itemDoc.priority) {
+            newItem.setPriority(new Priority(itemDoc.priority));
+        }
+        break;
+    }
+    case 'infoItem':
+    {
+        newItem = new InfoItem(parentTopic, itemDoc);
+        break;
+    }
+    default:
+        throw new Meteor.Error('Unknown type!');
     }
 
     const labelExtractor = new LabelExtractor(itemDoc.subject, meetingSeries._id);

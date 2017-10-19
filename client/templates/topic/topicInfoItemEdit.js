@@ -23,7 +23,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
 import {createItem} from './helpers/create-item';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
-import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
@@ -193,7 +192,7 @@ Template.topicInfoItemEdit.events({
         if (type === 'actionItem') {
             doc.responsibles = $('#id_selResponsibleActionItem').val();
             doc.duedate = tmpl.find('#id_item_duedateInput').value;
-            doc.priority = tmpl.find('#id_item_priority').value
+            doc.priority = tmpl.find('#id_item_priority').value;
         }
 
         const minutes = new Minutes(_minutesID);
