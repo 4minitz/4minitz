@@ -15,13 +15,6 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { Meteor } from 'meteor/meteor';
 import { TopicSchema } from '/imports/collections/topic.schema';
 
-export class TabItemsConfig {
-    constructor (topics, parentMeetingSeriesId) {
-        this.topics = topics;
-        this.parentMeetingSeriesId = parentMeetingSeriesId;
-    }
-}
-
 const FILTERS = [
     {text: 'Open Action Items', value: 'is:action is:open'},
     {text: 'Closed Action Items', value: 'is:action is:closed'},
