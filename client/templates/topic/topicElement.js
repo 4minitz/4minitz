@@ -24,6 +24,10 @@ let onError = (error) => {
 
 const INITIAL_ITEMS_LIMIT = 4;
 
+const isFeatureShowItemInputFieldOnDemandEnabled = () => {
+    return !(Meteor.settings && Meteor.settings.public && Meteor.settings.public.isEnd2EndTest);
+};
+
 Template.topicElement.onCreated(function () {
     let tmplData = Template.instance().data;
     _minutesId = tmplData.minutesID;
@@ -33,6 +37,10 @@ Template.topicElement.onCreated(function () {
 });
 
 Template.topicElement.helpers({
+    hideAddItemInputField() {
+        return isFeatureShowItemInputFieldOnDemandEnabled();
+    },
+
     getLabels: function() {
         let tmplData = Template.instance().data;
         return LabelResolver.resolveLabels(this.topic.labels, tmplData.parentMeetingSeriesId).map(labelSetFontColor);
@@ -119,6 +127,10 @@ const openAddItemDialog = (itemType, topicId) => {
     Session.set('topicInfoItemType', itemType);
 };
 const showHideItemInput = (tmpl, show = true) => {
+    if (!isFeatureShowItemInputFieldOnDemandEnabled()) {
+        return;
+    }
+
     tmpl.$('.addItemForm').css('display', (show) ? 'block' : 'none');
     if (show) {
         resizeTextarea(tmpl.$('.add-item-field'));

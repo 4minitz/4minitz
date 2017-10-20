@@ -122,7 +122,7 @@
         {{/unless}}
         {{#unless and isCollapsed topic.infoItems.length}}
             {{#if isEditable}}
-                <form class="addItemForm leftIndent-desktop" style="display: none;">
+                <form class="addItemForm leftIndent-desktop" style="{{#if hideAddItemInputField}}display: none;{{/if}}">
                     <div class="form-group label-placeholder" style="padding-bottom: 1em;">
                         <textarea id="addItemField_{{topic._id}}"
                                   rows="1"
