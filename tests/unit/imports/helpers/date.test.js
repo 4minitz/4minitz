@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { formatDateISO8601, currentDatePlusDeltaDays } from '../../../../imports/helpers/date';
+import {formatDateISO8601, currentDatePlusDeltaDays, extractDateFromString} from '../../../../imports/helpers/date';
 
 describe('formatDateISO8601 helper', function () {
     it('formats date to string', function () {
@@ -32,5 +32,13 @@ describe('currentDatePlusDeltaDays helper', function () {
         var nextDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()-35);
 
         expect(currentDatePlusDeltaDays(-35)).to.equal(formatDateISO8601(nextDay));
+    });
+});
+
+describe('extractDateFromString', function() {
+    it('returns the extracted date', function() {
+        const stringWithDate = 'Hello 2017-11-13';
+        const dateString = extractDateFromString(stringWithDate);
+        expect(dateString).to.equal('2017-11-13');
     });
 });

@@ -13,6 +13,7 @@ import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import {resizeTextarea} from './helpers/resize-textarea';
 import {labelSetFontColor} from './helpers/label-set-font-color';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 import { Blaze } from 'meteor/blaze';
@@ -165,13 +166,6 @@ let addNewDetails = async (tmpl, index) => {
         inputEl.show();
         inputEl.focus();
     }, 250);
-};
-
-let resizeTextarea = (element) => {
-    let scrollPos = $(document).scrollTop();
-    element.css('height', 'auto');
-    element.css('height', element.prop('scrollHeight') + 'px');
-    $(document).scrollTop(scrollPos);
 };
 
 Template.topicInfoItemList.helpers({
