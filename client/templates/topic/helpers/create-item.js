@@ -22,8 +22,7 @@ export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type 
 
     let newItem;
     switch (type) {
-    case 'actionItem':
-    {
+    case 'actionItem': {
         // extract duedate
         const duedate = extractDateFromString(itemDoc.subject);
         if (duedate) {
@@ -43,8 +42,7 @@ export function createItem(itemDoc, parentTopic, minutesId, meetingSeries, type 
         }
         break;
     }
-    case 'infoItem':
-    {
+    case 'infoItem': {
         newItem = new InfoItem(parentTopic, itemDoc);
         break;
     }

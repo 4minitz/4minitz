@@ -280,7 +280,7 @@ Template.topicElement.events({
             newItem.addDetails(this.minutesID, detail);
         }
         newItem.saveAtBottom().catch(error => {
-            tmpl.find('.add-item-field').value = itemDoc.subject; // set desired value again!
+            tmpl.find('.add-item-field').value = inputText; // set desired value again!
             handleError(error);
         });
         tmpl.find('.add-item-field').value = '';
