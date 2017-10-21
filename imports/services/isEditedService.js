@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import '/imports/helpers/promisedMethods';
 
-import { MinutesSchema } from "../collections/minutes.schema";
-import { Minutes } from "../minutes";
-import { MeetingSeriesSchema } from "../collections/meetingseries.schema";
-import { MeetingSeries } from "../meetingseries";
-import {Topic} from "../topic";
+import { MinutesSchema } from '../collections/minutes.schema';
+import { Minutes } from '../minutes';
+import { MeetingSeriesSchema } from '../collections/meetingseries.schema';
+import { MeetingSeries } from '../meetingseries';
+import {Topic} from '../topic';
 
 function setIsEditedMS(msId) {
     let ms = new MeetingSeries(msId);
@@ -17,18 +17,23 @@ function setIsEditedMS(msId) {
 }
 
 function removeIsEditedMS(msId, any) {
+    let unset = false;
     let ms = new MeetingSeries(msId);
+
     if (any === true) {
-        ms.isEditedBy = null;
-        ms.isEditedDate = null;
+        unset = true
     }
     else {
         if (ms.isEditedBy === Meteor.userId()) {
-            ms.isEditedBy = null;
-            ms.isEditedDate = null;
+            unset = true;
         }
     }
-    ms.save();
+
+    if (unset === true) {
+        ms.isEditedBy = null;
+        ms.isEditedDate = null;
+        ms.save();
+    }
 }
 
 function removeIsEditedMin(minuteId, any) {
@@ -83,19 +88,24 @@ function setIsEditedTop(minutesId, topicId) {
 }
 
 function removeIsEditedTop(minutesId, topicId, any) {
+    let unset = false;
     let topic = new Topic(minutesId, topicId);
 
     if (any === true) {
-        topic._topicDoc.isEditedBy = null;
-        topic._topicDoc.isEditedDate = null;
+        unset = true;
     }
     else {
         if (topic._topicDoc.isEditedBy === Meteor.userId()) {
-            topic._topicDoc.isEditedBy = null;
-            topic._topicDoc.isEditedDate = null;
+            unset = true;
         }
     }
-    topic.save();
+
+    if (unset === true) {
+        topic._topicDoc.isEditedBy = null;
+        topic._topicDoc.isEditedDate = null;
+        topic.save();
+    }
+
 }
 
 function setIsEditedII(minutesId, topicId, infoItemId) {
@@ -109,21 +119,26 @@ function setIsEditedII(minutesId, topicId, infoItemId) {
 }
 
 function removeIsEditedII(minutesId, topicId, infoItemId, any) {
+    let unset = false;
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
 
     if (any === true) {
-        infoItem._infoItemDoc.isEditedBy = null;
-        infoItem._infoItemDoc.isEditedDate = null;
+        unset = true
     }
     else {
         if (infoItem._infoItemDoc.isEditedBy === Meteor.userId()) {
-            infoItem._infoItemDoc.isEditedBy = null;
-            infoItem._infoItemDoc.isEditedDate = null;
+            unset = true;
         }
     }
 
-    infoItem.save();
+    if (unset === true) {
+        infoItem._infoItemDoc.isEditedBy = null;
+        infoItem._infoItemDoc.isEditedDate = null;
+        infoItem.save();
+    }
+
+
 }
 
 function setIsEditedDet(minutesId, topicId, infoItemId, detailIdx) {
@@ -137,77 +152,82 @@ function setIsEditedDet(minutesId, topicId, infoItemId, detailIdx) {
 }
 
 function removeIsEditedDet(minutesId, topicId, infoItemId, detailIdx, any) {
+    let unset = false;
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
 
     if (any === true) {
-        infoItem._infoItemDoc.details[detailIdx].isEditedBy = null;
-        infoItem._infoItemDoc.details[detailIdx].isEditedDate = null;
+        unset = true;
     }
     else {
         if (infoItem._infoItemDoc.details[detailIdx].isEditedBy === Meteor.userId()) {
-            infoItem._infoItemDoc.details[detailIdx].isEditedBy = null;
-            infoItem._infoItemDoc.details[detailIdx].isEditedDate = null;
+            unset = true;
         }
     }
 
-    infoItem.save();
+    if(unset === true) {
+        infoItem._infoItemDoc.details[detailIdx].isEditedBy = null;
+        infoItem._infoItemDoc.details[detailIdx].isEditedDate = null;
+        infoItem.save();
+    }
+
+
 }
 
 Meteor.methods({
 
     'workflow.setIsEditedMeetingSerie'(msId) {
-        console.log("workflow.setIsEditedMeetingSerie on " + msId);
+        console.log('workflow.setIsEditedMeetingSerie on ' + msId);
         setIsEditedMS(msId);
-        console.log("workflow.setIsEditedMeetingSerie DONE");
+        console.log('workflow.setIsEditedMeetingSerie DONE');
     },
 
     'workflow.removeIsEditedMeetingSerie'(msId, any) {
-        console.log("workflow.removeIsEditedMeetingSerie on " + msId);
+        console.log('workflow.removeIsEditedMeetingSerie on ' + msId);
         removeIsEditedMS(msId, any);
-        console.log("workflow.removeIsEditedMeetingSerie DONE");
+        console.log('workflow.removeIsEditedMeetingSerie DONE');
     },
 
     'workflow.removeIsEditedMinute'(minuteId, any) {
-        console.log("workflow.removeIsEditedMinute on " + minuteId);
+        console.log('workflow.removeIsEditedMinute on ' + minuteId);
         removeIsEditedMin(minuteId, any);
-        console.log("workflow.removeIsEditedMinute DONE");
+        console.log('workflow.removeIsEditedMinute DONE');
     },
 
     'workflow.setIsEditedTopic'(minutesId, topicId) {
-        console.log("workflow.setIsEditedTopic on " + topicId);
+        console.log('workflow.setIsEditedTopic on ' + topicId);
         setIsEditedTop(minutesId, topicId);
-        console.log("workflow.setIsEditedTopic DONE");
+        console.log('workflow.setIsEditedTopic DONE');
     },
 
     'workflow.removeIsEditedTopic'(minutesId, topicId, any) {
-        console.log("workflow.removeIsEditedTopic on " + topicId);
+        console.log('workflow.removeIsEditedTopic on ' + topicId);
         removeIsEditedTop(minutesId, topicId, any);
-        console.log("workflow.removeIsEditedTopic DONE");
+        console.log('workflow.removeIsEditedTopic DONE');
     },
 
     'workflow.setIsEditedInfoItem'(minutesId, topicId, infoItemId) {
-        console.log("workflow.setIsEditedInfoItem on " + infoItemId);
+        console.log('workflow.setIsEditedInfoItem on ' + infoItemId);
         setIsEditedII(minutesId, topicId, infoItemId);
-        console.log("workflow.setIsEditedInfoItem DONE");
+        console.log('workflow.setIsEditedInfoItem DONE');
     },
 
     'workflow.removeIsEditedInfoItem'(minutesId, topicId, infoItemId, any) {
-        console.log("workflow.removeIsEditedInfoItem on " + infoItemId);
+        console.log('workflow.removeIsEditedInfoItem on ' + infoItemId);
         removeIsEditedII(minutesId, topicId, infoItemId, any);
-        console.log("workflow.removeIsEditedTopic DONE");
+        console.log('workflow.removeIsEditedTopic DONE');
     },
 
     'workflow.setIsEditedDetail'(minutesId, topicId, infoItemId, detailIdx) {
-        console.log("workflow.setIsEditedDetail on " + infoItemId + "." + detailIdx);
+        console.log('workflow.setIsEditedDetail on ' + infoItemId + '.' + detailIdx);
         setIsEditedDet(minutesId, topicId, infoItemId, detailIdx);
-        console.log("workflow.setIsEditedDetail DONE");
+        console.log('workflow.setIsEditedDetail DONE');
     },
 
     'workflow.removeIsEditedDetail'(minutesId, topicId, infoItemId, detailIdx, any) {
-        console.log("workflow.removeIsEditedDetail on " + infoItemId + "." + detailIdx);
+        console.log('workflow.removeIsEditedDetail on ' + infoItemId + '.' + detailIdx);
         removeIsEditedDet(minutesId, topicId, infoItemId, detailIdx, any);
-        console.log("workflow.removeIsEditedTopic DONE");
+        console.log('workflow.removeIsEditedTopic DONE');
     }
 });
 
