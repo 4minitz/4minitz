@@ -21,7 +21,7 @@ function removeIsEditedMS(msId, any) {
     let ms = new MeetingSeries(msId);
 
     if (any === true) {
-        unset = true
+        unset = true;
     }
     else {
         if (ms.isEditedBy === Meteor.userId()) {
@@ -124,7 +124,7 @@ function removeIsEditedII(minutesId, topicId, infoItemId, any) {
     let infoItem = topic.findInfoItem(infoItemId);
 
     if (any === true) {
-        unset = true
+        unset = true;
     }
     else {
         if (infoItem._infoItemDoc.isEditedBy === Meteor.userId()) {
@@ -236,7 +236,7 @@ export class IsEditedService {
 
         let allMs = MeetingSeriesSchema.getCollection().find();
         allMs.forEach(meetingSerie => {
-           Meteor.callPromise('workflow.removeIsEditedMeetingSerie', meetingSerie._id, false);
+            Meteor.callPromise('workflow.removeIsEditedMeetingSerie', meetingSerie._id, false);
         });
 
         let allMinutes = MinutesSchema.getCollection().find();
