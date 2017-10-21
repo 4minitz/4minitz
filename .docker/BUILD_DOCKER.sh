@@ -53,4 +53,4 @@ echo "---------"
 echo "$pushlist"
 
 #### Clean up
-# rm -rf ../.deploy/4minitz_bin
+rm -rf ../.deploy/4minitz_bin
