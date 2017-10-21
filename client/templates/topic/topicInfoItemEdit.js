@@ -149,6 +149,12 @@ let resizeTextarea = (element) => {
     }
 };
 
+function closePopupAndUnsetIsEdited() {
+    IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), false);
+
+    $('#dlgAddInfoItem').modal('hide');
+}
+
 Template.topicInfoItemEdit.helpers({
     getPriorities: function() {
         return Priority.GET_PRIORITIES();
@@ -189,10 +195,11 @@ Template.topicInfoItemEdit.events({
             newDetail = tmpl.find('#id_item_detailInput').value;
         }
 
+        IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId', true));
+
         let editItem = getEditInfoItem();
         let doc = {};
         if (editItem) {
-            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId', true));
             _.extend(doc, editItem._infoItemDoc);
         }
 
@@ -274,6 +281,8 @@ Template.topicInfoItemEdit.events({
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
             toggleItemMode(type, tmpl);
+
+            console.log(editItem);
 
             if ((editItem._infoItemDoc.isEditedBy != undefined && editItem._infoItemDoc.isEditedDate != undefined)) {
                 let unset = function () {
@@ -381,19 +390,20 @@ Template.topicInfoItemEdit.events({
         user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
     },
 
-    'click #btnInfoItemCancel, .close': function (evt, tmpl) {
+    'click #btnInfoItemCancel': function (evt, tmpl) {
         evt.preventDefault();
-        IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), false);
+        closePopupAndUnsetIsEdited();
+    },
 
-        $('#dlgAddInfoItem').modal('hide');
+    'click .close': function (evt, tmpl) {
+        evt.preventDefault();
+        closePopupAndUnsetIsEdited();
     },
 
     'keyup': function (evt, tmpl) {
         evt.preventDefault();
         if (evt.keyCode === 27) {
-            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), false);
-
-            $('#dlgAddInfoItem').modal('hide');
+            closePopupAndUnsetIsEdited();
         }
     },
 

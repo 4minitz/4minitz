@@ -68,6 +68,13 @@ function configureSelect2Responsibles() {
     selectResponsibles.trigger('change');
 }
 
+function closePopupAndUnsetIsEdited() {
+    const topic = getEditTopic();
+    IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
+
+    $('#dlgAddTopic').modal('hide');
+}
+
 Template.topicEdit.helpers({
     'getTopicSubject': function() {
         let topic = getEditTopic();
@@ -160,22 +167,22 @@ Template.topicEdit.events({
         tmpl.find('#id_subject').focus();
     },
 
-    'click #btnTopicCancel, .close': function (evt) {
+    'click #btnTopicCancel': function (evt) {
         evt.preventDefault();
 
-        const topic = getEditTopic();
-        IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
+        closePopupAndUnsetIsEdited();
+    },
 
-        $('#dlgAddTopic').modal('hide');
+    'click .close': function (evt) {
+        evt.preventDefault();
+
+        closePopupAndUnsetIsEdited();
     },
 
     'keyup': function (evt, tmpl) {
         evt.preventDefault();
         if (evt.keyCode === 27) {
-            const topic = getEditTopic();
-            IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
-
-            $('#dlgAddTopic').modal('hide');
+            closePopupAndUnsetIsEdited();
         }
     },
 
