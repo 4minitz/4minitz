@@ -4,7 +4,7 @@ MAINTAINER 4Minitz-Team <4minitz@gmx.de>
 
 #### Install Node.js
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 4.7.3
+ENV NODE_VERSION 4.8.4
 
 RUN groupadd --gid 1000 node \
     && useradd --uid 1000 --gid node --shell /bin/bash --create-home node \
