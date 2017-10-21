@@ -169,6 +169,16 @@ Template.topicEdit.events({
         $('#dlgAddTopic').modal('hide');
     },
 
+    'keyup': function (evt, tmpl) {
+        evt.preventDefault();
+        if (evt.keyCode === 27) {
+            const topic = getEditTopic();
+            IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
+
+            $('#dlgAddTopic').modal('hide');
+        }
+    },
+
     'select2:selecting #id_selResponsible'(evt) {
         console.log('selecting:'+evt.params.args.data.id + '/'+evt.params.args.data.text);
     },

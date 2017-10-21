@@ -388,6 +388,15 @@ Template.topicInfoItemEdit.events({
         $('#dlgAddInfoItem').modal('hide');
     },
 
+    'keyup': function (evt, tmpl) {
+        evt.preventDefault();
+        if (evt.keyCode === 27) {
+            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), false);
+
+            $('#dlgAddInfoItem').modal('hide');
+        }
+    },
+
     'keyup #id_item_detailInput': function (evt, tmpl) {
         let inputEl = tmpl.$('#id_item_detailInput');
 

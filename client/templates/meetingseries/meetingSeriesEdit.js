@@ -283,6 +283,16 @@ Template.meetingSeriesEdit.events({
         $('#dlgEditMeetingSeries').modal('hide');
     },
 
+    'keyup': function (evt, tmpl) {
+        evt.preventDefault();
+        if (evt.keyCode === 27) {
+            const ms = new MeetingSeries(tmpl.data._id);
+            IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
+
+            $('#dlgEditMeetingSeries').modal('hide');
+        }
+    },
+
     // Prevent the last open panel to be collapsible
     'click .panel-heading a': function (evt) {
         if($(evt.target).parents('.panel').children('.panel-collapse').hasClass('in')){
