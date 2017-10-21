@@ -4,7 +4,7 @@ dockerproject=4minitz/4minitz
 commitshort=$(git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
 baseimagetag=$dockerproject:gitcommit-$commitshort
 
-echo "Usage: ./BUILD.sh [--imagename USER/IMAGE] [LIST OF TAGS]"
+echo "Usage: ./BUILD_DOCKER.sh [--imagename USER/IMAGE] [LIST OF TAGS]"
 echo "       e.g.: ./BUILD.sh master stable latest 0.9.1"
 echo "       e.g.: ./BUILD.sh develop unstable"
 echo "       e.g.: ./BUILD.sh --imagename johndoe/4minitz master stable latest 0.9.1"
@@ -20,11 +20,6 @@ echo "Docker Project   : '$dockerproject'"
 echo "Target Base Image: '$baseimagetag'"
 echo ""
 
-#### Patch package.json with current git branch & version
-pushd ../private
-./releasePrep.sh
-popd
-
 #### Prepare settings.json
 settingsfile=./4minitz_settings.json
 cp ../settings_sample.json $settingsfile
@@ -35,19 +30,11 @@ sed -i '' 's/"mongodumpTargetDirectory": "[^\"]*"/"mongodumpTargetDirectory": "\
 sed -i '' 's/"storagePath": "[^\"]*"/"storagePath": "\/4minitz_storage\/attachments"/' $settingsfile
 sed -i '' 's/"targetDocPath": "[^\"]*"/"targetDocPath": "\/4minitz_storage\/protocols"/' $settingsfile
 
-
 #### Build 4Minitz with meteor
-cd ..                           # pwd => "/" of 4minitz project
-mkdir .docker/4minitz_bin
-meteor npm install
-meteor build .docker/4minitz_bin --directory
-# Our package.json will not be available - unless we copy it over to the image
-cp package.json .docker/4minitz_bin/bundle/programs/server/package4min.json
-cd .docker/4minitz_bin/bundle/programs/server || exit 1
-meteor npm install --production
+(cd .. && ./BUILD_DEPLOY.sh)
+mv ../.deploy/4minitz_bin . || exit 1
 
 #### Build 4Minitz docker image
-cd ../../../.. || exit 1                 # pwd => .docker
 docker build --no-cache -t "$baseimagetag" .
 echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
 echo "docker push $baseimagetag"
@@ -66,4 +53,4 @@ echo "---------"
 echo "$pushlist"
 
 #### Clean up
-rm -rf 4minitz_bin
+# rm -rf ../.deploy/4minitz_bin
