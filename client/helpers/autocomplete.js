@@ -13,14 +13,16 @@ const setTextcompleteOptions = (textcomplete) => {
     });
 };
 
-const createStrategy = (id, startCharacter, dataSource, objectToString) => {
+const createStrategy = (id, startCharacter, fetchData, objectToString) => {
     return {
         id: 'labels',
         match: new RegExp(`(^|\\s)${startCharacter}(\\S*)$`),
         search: function (term, callback) {
-            const result = dataSource
-                .filter(obj => objectToString(obj).startsWith(term));
-            callback(result);
+            fetchData((data) => {
+                const result = data
+                    .filter(obj => objectToString(obj).startsWith(term));
+                callback(result);
+            });
         },
         template: function (obj) {
             return objectToString(obj);
@@ -38,10 +40,10 @@ export const setupAutocomplete = (element, strategies) => {
     setTextcompleteOptions(textcomplete);
 };
 
-export const createLabelStrategy = (availableLabels) => {
-    return createStrategy('labels', '#', availableLabels, (obj) => obj.name);
+export const createLabelStrategy = (fetchData) => {
+    return createStrategy('labels', '#', fetchData, (obj) => obj.name);
 };
 
-export const createResponsibleStrategy = (responsibles) => {
-    return createStrategy('responsibles', '@', responsibles, (obj) => obj.text);
+export const createResponsibleStrategy = (fetchData) => {
+    return createStrategy('responsibles', '@', fetchData, (obj) => obj.text);
 };

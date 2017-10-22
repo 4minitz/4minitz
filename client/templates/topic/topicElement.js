@@ -37,22 +37,29 @@ Template.topicElement.onCreated(function () {
 
     this.isItemsLimited = new ReactiveVar(tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT);
     this.isCollapsed = new ReactiveVar(false);
+    this.availableLabelsReactive = new ReactiveVar([]);
+    this.responsiblesReactive = new ReactiveVar([]);
+    this.autorun(() => {
+        const availableLabels = (new MeetingSeries(tmplData.parentMeetingSeriesId)).getAvailableLabels();
+        this.availableLabelsReactive.set(availableLabels);
+        const freeTextValidator = (text) => {
+            return emailAddressRegExpTest.test(text);
+        };
+        const responsiblePreparer =
+            new ResponsiblePreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
+        const responsibles =
+            responsiblePreparer.getPossibleResponsibles().concat(responsiblePreparer.getRemainingUsers());
+        this.responsiblesReactive.set(responsibles);
+    });
 });
 
 Template.topicElement.onRendered(function() {
-    const tmplData = Template.instance().data;
-
-    let freeTextValidator = (text) => {
-        return emailAddressRegExpTest.test(text);
+    const createFetcher = (reactiveVar) => {
+        return (callback) => { callback(reactiveVar.get()) }
     };
-    const responsiblePreparer =
-        new ResponsiblePreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
-    const responsibles = responsiblePreparer.getPossibleResponsibles().concat(responsiblePreparer.getRemainingUsers());
-
-    const availableLabels = (new MeetingSeries(tmplData.parentMeetingSeriesId)).getAvailableLabels();
     const strategies = [
-        createLabelStrategy(availableLabels),
-        createResponsibleStrategy(responsibles)
+        createLabelStrategy(createFetcher(this.availableLabelsReactive)),
+        createResponsibleStrategy(createFetcher(this.responsiblesReactive))
     ];
     $('.add-item-field').each(function() {
         setupAutocomplete(this, strategies);
