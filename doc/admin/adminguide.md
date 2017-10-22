@@ -443,6 +443,34 @@ at the client.
 Just open the about box and click on the 4Minitz logo to show/hide the
 server statistics.
 
+### Configuring protocol generation
+By using this feature for each finalized minute a protocol is automatically generated and saved on the file system.
+There are three different file formats you can select of: HTML, PDF and PDF/A (2-B).
+
+For the detailed settings options take a look at
+```settings_sample.json``` section ```docGeneration```.
+
+**A few additional hints:**
+* Only the minutes finalized after the activation of this feature will generate a protocol. Previously finalized minutes will not have a protocol. Instead by clicking on the download button of these minutes you will be asked if you wish to dynamically generate a HTML protocol. These protocol is however only intended for downloading and will not be stored on the server.
+* The setting "pathToWkhtmltopdf" is only relevant **for the formats PDF and PDF/A**. In order to use these you have to install wkhtmltopdf from here: 
+https://wkhtmltopdf.org/ 
+After installing it you have to assign the full path to it's executable in your settings.json.
+* You can configure the **PDF (and therefore the PDF/A)** generation in various ways by using the command line switches of wkhtmltopdf, e.g. to define page margins or page numbering.
+You can add any desired switch by adding them to the property "wkhtmltopdfParameters" in your settings.json. For a full list of switches you may have a look here: https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
+* The settings "pathToGhostscript", "pathToPDFADefinitionFile", and "ICCProfileType" **only apply for the PDF/A format**. To use these you first have to install ghostscript: 
+https://www.ghostscript.com/download/
+After this you will need to define a proper so called definition file for PDF/A generation. Ghostscript comes with one sample file you may usually find in "ghostscript/lib/PDFA_def". This file only needs one adjustment in order to be used for 4Minitz: You have to assign the path to a proper ICC Profile File on your local file system. You may use any ICC Profile based on the RGB or the CMYK colour scheme. After that is done you can assign the path to the ghostscript executable, the path to your definition file and the colour scheme of your ICC Profile to the respective settings.
+
+**Troubleshooting:**
+* There is a known issue with **wkhtmltopdf** running on **OS/X** making the font to appear tiny. Therefore when using an Mac OS/X to host 4Minitz you should consider adding the following switches, which should solve this issue: "--dpi 380 --disable-smart-shrinking"
+* There is another isuee with **wkhtmltopdf** appearing mainly on **headless server**: Since wkhtmltopdf needs an X server to run properly it may fail document generation with an error stating that **"cannot connect to X server"**. In order to solve this you need to follow these steps:
+1. Install xvfb e.g. by this command: 
+sudo apt-get install xvfb
+2. Adapt the settings.json file you are using for 4Minitz:
+In the "pathToWkhtmltopdf" assign the path to the xvfb executable like this: "/usr/bin/xvfb-run"
+Now change the "wkhtmltopdfParameters" to this:  "--server-args=\\"-screen 0, 1024x768x24\\" <Add_Here_The_Path_To_wkhtmltopdf> <Add_Here_Any_Additional_Parameters_You_Like_To_Use_For_wkhtmltopdf>"
+
+
 ## Safety and Security
 
 ### Safety and Backup

@@ -52,6 +52,13 @@
                                 <span class="badge">New</span>
                             {{/if}}
 
+                            {{#if showLinks}}
+                                <span class="pull-right">
+                                    <span class="linkMeetingSerie glyphicon glyphicon-menu-right"></span>
+                                    <a class="linkMeetingSerie" href="{{getLink @index}}">Meeting series</a>
+                                </span>
+                            {{/if}}
+
                             <!-- Manipulation Drop-Down Menu -->
                             <span class="pull-right pull-right-icons hidden-print">
                                 {{#unless isReadonly}}
