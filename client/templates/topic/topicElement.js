@@ -15,6 +15,7 @@ import {labelSetFontColor} from './helpers/label-set-font-color';
 import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
+import {setupLabelsAutocomplete} from '../../helpers/autocomplete/labels-autocomplete';
 
 let _minutesId;
 
@@ -34,6 +35,15 @@ Template.topicElement.onCreated(function () {
 
     this.isItemsLimited = new ReactiveVar(tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT);
     this.isCollapsed = new ReactiveVar(false);
+});
+
+Template.topicElement.onRendered(function() {
+    let tmplData = Template.instance().data;
+
+    const availableLabels = (new MeetingSeries(tmplData.parentMeetingSeriesId)).getAvailableLabels();
+    $('.add-item-field').each(function() {
+        setupLabelsAutocomplete(this, availableLabels)
+    });
 });
 
 Template.topicElement.helpers({
