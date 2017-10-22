@@ -15,7 +15,9 @@ import {labelSetFontColor} from './helpers/label-set-font-color';
 import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
-import {setupLabelsAutocomplete} from '../../helpers/autocomplete/labels-autocomplete';
+import {setupAutocomplete, createLabelStrategy, createResponsibleStrategy} from '../../helpers/autocomplete';
+import {ResponsiblePreparer} from '../../../imports/client/ResponsiblePreparer';
+import { emailAddressRegExpTest } from '/imports/helpers/email';
 
 let _minutesId;
 
@@ -38,11 +40,22 @@ Template.topicElement.onCreated(function () {
 });
 
 Template.topicElement.onRendered(function() {
-    let tmplData = Template.instance().data;
+    const tmplData = Template.instance().data;
+
+    let freeTextValidator = (text) => {
+        return emailAddressRegExpTest.test(text);
+    };
+    const responsiblePreparer =
+        new ResponsiblePreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
+    const responsibles = responsiblePreparer.getPossibleResponsibles().concat(responsiblePreparer.getRemainingUsers());
 
     const availableLabels = (new MeetingSeries(tmplData.parentMeetingSeriesId)).getAvailableLabels();
+    const strategies = [
+        createLabelStrategy(availableLabels),
+        createResponsibleStrategy(responsibles)
+    ];
     $('.add-item-field').each(function() {
-        setupLabelsAutocomplete(this, availableLabels)
+        setupAutocomplete(this, strategies);
     });
 });
 
