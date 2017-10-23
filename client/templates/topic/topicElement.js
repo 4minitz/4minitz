@@ -39,18 +39,20 @@ Template.topicElement.onCreated(function () {
     this.isCollapsed = new ReactiveVar(false);
     this.availableLabelsReactive = new ReactiveVar([]);
     this.responsiblesReactive = new ReactiveVar([]);
-    this.autorun(() => {
-        const availableLabels = (new MeetingSeries(tmplData.parentMeetingSeriesId)).getAvailableLabels();
-        this.availableLabelsReactive.set(availableLabels);
-        const freeTextValidator = (text) => {
-            return emailAddressRegExpTest.test(text);
-        };
-        const responsiblePreparer =
-            new ResponsiblePreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
-        const responsibles =
-            responsiblePreparer.getPossibleResponsibles().concat(responsiblePreparer.getRemainingUsers());
-        this.responsiblesReactive.set(responsibles);
-    });
+    if (tmplData.isEditable) {
+        this.autorun(() => {
+            const availableLabels = (new MeetingSeries(tmplData.parentMeetingSeriesId)).getAvailableLabels();
+            this.availableLabelsReactive.set(availableLabels);
+            const freeTextValidator = (text) => {
+                return emailAddressRegExpTest.test(text);
+            };
+            const responsiblePreparer =
+                new ResponsiblePreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
+            const responsibles =
+                responsiblePreparer.getPossibleResponsibles().concat(responsiblePreparer.getRemainingUsers());
+            this.responsiblesReactive.set(responsibles);
+        });
+    }
 });
 
 Template.topicElement.onRendered(function() {
