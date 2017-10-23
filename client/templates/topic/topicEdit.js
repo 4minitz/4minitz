@@ -58,12 +58,12 @@ function configureSelect2Responsibles() {
                     if (result.isParticipant === true) {
                         results_participants.push({
                             id: result.userId,
-                            text: result.name
+                            text: result.fullname
                         });
                     }
                     else results_other.push({
                         id: result._id,
-                        text: result.username
+                        text: result.fullname
                     });
                 });
                 // save the return value (when participants/other user are empty -> do not show a group-name

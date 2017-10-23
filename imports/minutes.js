@@ -464,4 +464,15 @@ export class Minutes {
     _findTopicIndex(id) {
         return subElementsHelper.findIndexById(id, this.topics);
     }
+
+    formatResponsibles(responsible, usernameField, isProfileAvaliable) {
+        if (isProfileAvaliable && responsible.profile && responsible.profile.name && responsible.profile.name !== '') {
+            responsible.fullname = responsible[usernameField] +` - ${responsible.profile.name}`;
+        }
+        else {
+            responsible.fullname = responsible[usernameField];
+        }
+        return responsible;
+    }
+
 }

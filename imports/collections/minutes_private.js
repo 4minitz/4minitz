@@ -245,36 +245,42 @@ Meteor.methods({
                 participants.push({name: freeText.trim(), userId:freeText.trim()});
             });
         }
-
         participants.forEach( participant =>{
-            if (participant.profile && participant.profile.name && participant.profile.name !== '') {
-                participant.name += ` - ${participant.profile.name}`;
-            }
-            if (participant.name.toLowerCase().includes(partialName.toLowerCase())) {
+            participant = minute.formatResponsibles(participant,'name', true);
+            if (participant.fullname.toLowerCase().includes(partialName.toLowerCase())) {
                 participant['isParticipant'] = true;
                 results_participants.push(participant);
                 partipantsNames.push(participant.name);
             }
         });
+        let searchSettings = {username: {'$regex': partialName, '$options': 'i'}};
+        let searchFields = {_id: 1, username: 1};
+        if (GlobalSettings.isTrustedIntranetInstallation()){
+            searchSettings = {$or :
+                [
+                    {username: {'$regex': partialName, '$options': 'i'}},
+                    {'profile.name': {'$regex': partialName, '$options': 'i'}}
+                ]
+            };
+            searchFields= {_id: 1, username: 1, 'profile.name': 1};
+        }
 
-        let results_otherUser = Meteor.users.find({ // find other user
-            username: {
-                '$regex': partialName,
-                '$options': 'i'
-            }
-        }, {
-            limit: 10 + results_participants.length, //we want to show 10 "Other user"
-            // as it is not known, if a user a participant or not -> get 10+participants
-            fields: {
-                _id: 1,
-                username: 1
-            }
+        let results_otherUser = Meteor.users.find(
+            searchSettings,
+            {
+                limit: 10 + results_participants.length, //we want to show 10 "Other user"
+                // as it is not known, if a user a participant or not -> get 10+participants
+                fields: searchFields
         }).fetch();
 
         results_otherUser = results_otherUser.filter(user => { //remove duplicates
             return !(partipantsNames.includes(user.username));
         });
         results_otherUser = results_otherUser.slice(0,10); // limit to 10 records
+
+        results_otherUser.forEach( otherUser => {
+            otherUser = minute.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
+        });
 
         return {
             results: results_participants.concat(results_otherUser)

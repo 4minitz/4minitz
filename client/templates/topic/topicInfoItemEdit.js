@@ -92,31 +92,51 @@ let toggleItemMode = function (type, tmpl) {
     }
 };
 
-
 function configureSelect2Responsibles() {
-    let freeTextValidator = (text) => {
-        return emailAddressRegExpTest.test(text);
-    };
-    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditInfoItem(), Meteor.users, freeTextValidator);
-
     let selectResponsibles = $('#id_selResponsibleActionItem');
     selectResponsibles.find('optgroup')     // clear all <option>s
         .remove();
-    let possResp = preparer.getPossibleResponsibles();
-    let remainingUsers = preparer.getRemainingUsers();
-    let selectOptions = [{
-        text: 'Participants',
-        children: possResp
-    }, {
-        text: 'Other Users',
-        children: remainingUsers
-    }];
 
     selectResponsibles.select2({
         placeholder: 'Select...',
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
-        data: selectOptions             // push <option>s data
+        ajax: {
+            transport: function(params, success, failure) {
+                Meteor.call('responsiblesSearch', params.data.q, _minutesID, function(err, results) {
+                    if (err) {
+                        failure(err);
+                        return;
+                    }
+                    success(results);
+                });
+            },
+            processResults: function(data) {
+                let results_participants = [];
+                let results_other = [];
+                _.each(data.results, function (result) {
+                    if (result.isParticipant === true) {
+                        results_participants.push({
+                            id: result.userId,
+                            text: result.fullname
+                        });
+                    }
+                    else results_other.push({
+                        id: result._id,
+                        text: result.fullname
+                    });
+                });
+                // save the return value (when participants/other user are empty -> do not show a group-name
+                let returnValues = [];
+                if (results_participants.length > 0)
+                    returnValues.push({text:'Participants', children: results_participants});
+                if (results_other.length > 0)
+                    returnValues.push({text:'Other Users', children: results_other});
+
+                return {
+                    results:returnValues
+                };
+            }}
     });
 
     // select the options that where stored with this topic last time
