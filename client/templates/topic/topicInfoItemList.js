@@ -44,6 +44,7 @@ export class TopicInfoItemListContext {
             return item;
         });
         this.isReadonly = isReadonly;
+        this.topicParentId = topicParentId;
         this.getSeriesId = () => {
             return topicParentId;
         };
