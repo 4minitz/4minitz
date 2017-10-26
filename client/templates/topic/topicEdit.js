@@ -42,8 +42,9 @@ function configureSelect2Responsibles() {
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
         ajax: {
+            delay: 50,
             transport: function(params, success, failure) {
-                Meteor.call('responsiblesSearch', params.data.q, _minutesID, function(err, results) {
+                Meteor.call('responsiblesSearch', params.data.q, _minutesID, true, function(err, results) {
                     if (err) {
                         failure(err);
                         return;
