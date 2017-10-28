@@ -96,13 +96,16 @@ function configureSelect2Responsibles() {
     let selectResponsibles = $('#id_selResponsibleActionItem');
     selectResponsibles.find('optgroup')     // clear all <option>s
         .remove();
+    let delayTime = 50;
+    if (Meteor.settings.public.isEnd2EndTest)
+        delayTime = 0;
 
     selectResponsibles.select2({
         placeholder: 'Select...',
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
         ajax: {
-            delay: 50,
+            delay: delayTime,
             transport: function(params, success, failure) {
                 Meteor.call('responsiblesSearch', params.data.q, _minutesID, false, function(err, results) {
                     if (err) {
