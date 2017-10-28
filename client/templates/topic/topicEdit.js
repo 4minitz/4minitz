@@ -6,14 +6,13 @@ import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
-import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
 import {IsEditedService} from "../../../imports/services/isEditedService";
-import {formatDateISO8601Time} from "../../../imports/helpers/date";
+import {isEditedHandling} from "../../helpers/isEditedHelpers";
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -120,33 +119,17 @@ Template.topicEdit.events({
         const topic = getEditTopic();
 
         if (topic !== false) {
-            if ((topic._topicDoc.isEditedBy != undefined && topic._topicDoc.isEditedDate != undefined)) {
-                let unset = function () {
-                    IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, true);
-                    $('#dlgAddTopic').modal('show');
-                };
 
-                let user = Meteor.users.findOne({_id: topic._topicDoc.isEditedBy});
-
-                let tmplData = {
-                    isEditedBy: user.username,
-                    isEditedDate: formatDateISO8601Time(topic._topicDoc.isEditedDate)
-                };
-
-                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                    unset,
-                    'Edit despite existing editing',
-                    'confirmationDialogResetEdit',
-                    tmplData,
-                    'Edit anyway'
-                ).show();
-
-                evt.preventDefault();
-                return;
-            }
-            else {
+            const element = topic._topicDoc;
+            const unset = function () {
+                IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, true);
+                $('#dlgAddTopic').modal('show');
+            };
+            const setIsEdited = () => {
                 IsEditedService.setIsEditedTopic(_minutesID, topic._topicDoc._id);
-            }
+            };
+
+            isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
         }
 
         configureSelect2Responsibles();

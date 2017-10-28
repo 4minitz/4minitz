@@ -29,6 +29,7 @@ import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-labe
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 import {IsEditedService} from "../../../imports/services/isEditedService";
 import {formatDateISO8601Time} from "../../../imports/helpers/date";
+import {isEditedHandling} from "../../helpers/isEditedHelpers";
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -195,7 +196,8 @@ Template.topicInfoItemEdit.events({
             newDetail = tmpl.find('#id_item_detailInput').value;
         }
 
-        IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId', true));
+        if (Session.get('topicInfoItemEditInfoItemId') !== null)
+            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
 
         let editItem = getEditInfoItem();
         let doc = {};
@@ -282,35 +284,16 @@ Template.topicInfoItemEdit.events({
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
             toggleItemMode(type, tmpl);
 
-            console.log(editItem);
-
-            if ((editItem._infoItemDoc.isEditedBy != undefined && editItem._infoItemDoc.isEditedDate != undefined)) {
-                let unset = function () {
-                    IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
-                    $('#dlgAddInfoItem').modal('show');
-                };
-
-                let user = Meteor.users.findOne({_id: editItem._infoItemDoc.isEditedBy});
-
-                let tmplData = {
-                    isEditedBy: user.username,
-                    isEditedDate: formatDateISO8601Time(editItem._infoItemDoc.isEditedDate)
-                };
-
-                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                    unset,
-                    'Edit despite existing editing',
-                    'confirmationDialogResetEdit',
-                    tmplData,
-                    'Edit anyway'
-                ).show();
-
-                evt.preventDefault();
-                return;
-            }
-            else {
+            const element = editItem._infoItemDoc;
+            const unset = function () {
+                IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
+                $('#dlgAddInfoItem').modal('show');
+            };
+            const setIsEdited = () => {
                 IsEditedService.setIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
-            }
+            };
+
+            isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
 
         } else {  // adding a new item
             configureSelect2Responsibles();

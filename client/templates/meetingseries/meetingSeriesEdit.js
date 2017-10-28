@@ -14,6 +14,7 @@ import { UserRoles } from '/imports/userroles';
 import { Minutes } from '/imports/minutes';
 import {IsEditedService} from "../../../imports/services/isEditedService";
 import {formatDateISO8601Time} from "../../../imports/helpers/date";
+import {isEditedHandling} from "../../helpers/isEditedHelpers";
 
 
 Template.meetingSeriesEdit.onCreated(function() {
@@ -138,33 +139,16 @@ Template.meetingSeriesEdit.events({
 
         const ms = new MeetingSeries(tmpl.data._id);
 
-        if ((ms.isEditedBy != undefined && ms.isEditedDate != undefined)) {
-            let unset = function () {
-                IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
-                $('#dlgEditMeetingSeries').modal('show');
-            };
-
-            let user = Meteor.users.findOne({_id: tmpl.data.isEditedBy});
-
-            let tmplData = {
-                isEditedBy: user.username,
-                isEditedDate: formatDateISO8601Time(tmpl.data.isEditedDate)
-            };
-
-            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                unset,
-                'Edit despite existing editing',
-                'confirmationDialogResetEdit',
-                tmplData,
-                'Edit anyway'
-                ).show();
-
-            evt.preventDefault();
-            return;
-        }
-        else {
+        const element = ms;
+        const unset = function () {
+            IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
+            $('#dlgEditMeetingSeries').modal('show');
+        };
+        const setIsEdited = () => {
             IsEditedService.setIsEditedMeetingSerie(ms._id);
-        }
+        };
+
+        isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
 
         // Make sure these init values are filled in a close/re-open scenario
         $('#btnMeetingSeriesSave').prop('disabled',false);
