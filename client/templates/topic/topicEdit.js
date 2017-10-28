@@ -185,11 +185,7 @@ Template.topicEdit.events({
             closePopupAndUnsetIsEdited();
         }
     },
-
-    'select2:selecting #id_selResponsible'(evt) {
-        console.log('selecting:'+evt.params.args.data.id + '/'+evt.params.args.data.text);
-    },
-
+    
     'select2:select #id_selResponsible'(evt) {
         let respId = evt.params.data.id;
         let respName = evt.params.data.text;
