@@ -107,16 +107,9 @@ Template.meetingSeriesDetails.helpers({
         return isModerator();
     },
 
-    isMeetingSeriesEdited: function () {
+    isMeetingSeriesEditedByAnotherUser: function () {
         let ms = new MeetingSeries(_meetingSeriesID);
-        if (ms.isEditedBy === undefined && ms.isEditedDate === undefined)
-            return false;
-        if (ms.isEditedBy === null && ms.isEditedDate === null)
-            return false;
-        else if (ms.isEditedBy === Meteor.userId())
-            return false;
-        else
-            return true;
+        return ms.isEditedBy !== Meteor.userId();
     },
 
     meetingSeriesEditedBy() {
