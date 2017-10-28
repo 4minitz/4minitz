@@ -7,7 +7,7 @@ import { MeetingSeriesSchema } from '../collections/meetingseries.schema';
 import { MeetingSeries } from '../meetingseries';
 import {Topic} from '../topic';
 
-function setIsEditedMS(msId) {
+function setIsEditedMeetingSerie(msId) {
     let ms = new MeetingSeries(msId);
 
     ms.isEditedBy = Meteor.userId();
@@ -16,7 +16,7 @@ function setIsEditedMS(msId) {
     ms.save();
 }
 
-function removeIsEditedMS(msId, ignoreLock) {
+function removeIsEditedMeetingSerie(msId, ignoreLock) {
     let unset = false;
     let ms = new MeetingSeries(msId);
 
@@ -36,7 +36,7 @@ function removeIsEditedMS(msId, ignoreLock) {
     }
 }
 
-function removeIsEditedMin(minuteId, ignoreLock) {
+function removeIsEditedMinute(minuteId, ignoreLock) {
     let minute = new Minutes(minuteId);
     for (let topic of minute.topics) {
         if (ignoreLock === true) {
@@ -78,7 +78,7 @@ function removeIsEditedMin(minuteId, ignoreLock) {
     minute.save();
 }
 
-function setIsEditedTop(minutesId, topicId) {
+function setIsEditedTopic(minutesId, topicId) {
     let topic = new Topic(minutesId, topicId);
 
     topic._topicDoc.isEditedBy = Meteor.userId();
@@ -87,7 +87,7 @@ function setIsEditedTop(minutesId, topicId) {
     topic.save();
 }
 
-function removeIsEditedTop(minutesId, topicId, ignoreLock) {
+function removeIsEditedTopic(minutesId, topicId, ignoreLock) {
     let unset = false;
     let topic = new Topic(minutesId, topicId);
 
@@ -108,7 +108,7 @@ function removeIsEditedTop(minutesId, topicId, ignoreLock) {
 
 }
 
-function setIsEditedII(minutesId, topicId, infoItemId) {
+function setIsEditedInfoItem(minutesId, topicId, infoItemId) {
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
 
@@ -118,7 +118,7 @@ function setIsEditedII(minutesId, topicId, infoItemId) {
     infoItem.save();
 }
 
-function removeIsEditedII(minutesId, topicId, infoItemId, ignoreLock) {
+function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
     let unset = false;
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
@@ -141,7 +141,7 @@ function removeIsEditedII(minutesId, topicId, infoItemId, ignoreLock) {
 
 }
 
-function setIsEditedDet(minutesId, topicId, infoItemId, detailIdx) {
+function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
 
@@ -151,7 +151,7 @@ function setIsEditedDet(minutesId, topicId, infoItemId, detailIdx) {
     infoItem.save();
 }
 
-function removeIsEditedDet(minutesId, topicId, infoItemId, detailIdx, ignoreLock) {
+function removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreLock) {
     let unset = false;
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
@@ -177,39 +177,39 @@ function removeIsEditedDet(minutesId, topicId, infoItemId, detailIdx, ignoreLock
 Meteor.methods({
 
     'workflow.setIsEditedMeetingSerie'(msId) {
-        setIsEditedMS(msId);
+        setIsEditedMeetingSerie(msId);
     },
 
     'workflow.removeIsEditedMeetingSerie'(msId, ignoreLock) {
-        removeIsEditedMS(msId, ignoreLock);
+        removeIsEditedMeetingSerie(msId, ignoreLock);
     },
 
     'workflow.removeIsEditedMinute'(minuteId, ignoreLock) {
-        removeIsEditedMin(minuteId, ignoreLock);
+        removeIsEditedMinute(minuteId, ignoreLock);
     },
 
     'workflow.setIsEditedTopic'(minutesId, topicId) {
-        setIsEditedTop(minutesId, topicId);
+        setIsEditedTopic(minutesId, topicId);
     },
 
     'workflow.removeIsEditedTopic'(minutesId, topicId, ignoreLock) {
-        removeIsEditedTop(minutesId, topicId, ignoreLock);
+        removeIsEditedTopic(minutesId, topicId, ignoreLock);
     },
 
     'workflow.setIsEditedInfoItem'(minutesId, topicId, infoItemId) {
-        setIsEditedII(minutesId, topicId, infoItemId);
+        setIsEditedInfoItem(minutesId, topicId, infoItemId);
     },
 
     'workflow.removeIsEditedInfoItem'(minutesId, topicId, infoItemId, ignoreLock) {
-        removeIsEditedII(minutesId, topicId, infoItemId, ignoreLock);
+        removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock);
     },
 
     'workflow.setIsEditedDetail'(minutesId, topicId, infoItemId, detailIdx) {
-        setIsEditedDet(minutesId, topicId, infoItemId, detailIdx);
+        setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx);
     },
 
     'workflow.removeIsEditedDetail'(minutesId, topicId, infoItemId, detailIdx, ignoreLock) {
-        removeIsEditedDet(minutesId, topicId, infoItemId, detailIdx, ignoreLock);
+        removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreLock);
     }
 });
 
