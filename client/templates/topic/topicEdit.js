@@ -5,7 +5,6 @@ import { _ } from 'meteor/underscore';
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
-import { Label } from '/imports/label';
 import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 import { $ } from 'meteor/jquery';
