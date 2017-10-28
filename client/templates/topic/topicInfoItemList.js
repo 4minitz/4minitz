@@ -494,10 +494,10 @@ Template.topicInfoItemList.events({
         textEl.show();
     },
 
-    'keypress .detailInput'(evt, tmpl) {
+    'keydown .detailInput'(evt, tmpl) {
         let detailId = evt.currentTarget.getAttribute('data-id');
         let inputEl = tmpl.$(`#detailInput_${detailId}`);
-        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
+        if (evt.which === 13/*enter*/ && ( evt.ctrlKey || evt.metaKey)) {
             evt.preventDefault();
             inputEl.blur();
         }
