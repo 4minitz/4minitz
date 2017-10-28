@@ -177,57 +177,39 @@ function removeIsEditedDet(minutesId, topicId, infoItemId, detailIdx, any) {
 Meteor.methods({
 
     'workflow.setIsEditedMeetingSerie'(msId) {
-        console.log('workflow.setIsEditedMeetingSerie on ' + msId);
         setIsEditedMS(msId);
-        console.log('workflow.setIsEditedMeetingSerie DONE');
     },
 
     'workflow.removeIsEditedMeetingSerie'(msId, any) {
-        console.log('workflow.removeIsEditedMeetingSerie on ' + msId);
         removeIsEditedMS(msId, any);
-        console.log('workflow.removeIsEditedMeetingSerie DONE');
     },
 
     'workflow.removeIsEditedMinute'(minuteId, any) {
-        console.log('workflow.removeIsEditedMinute on ' + minuteId);
         removeIsEditedMin(minuteId, any);
-        console.log('workflow.removeIsEditedMinute DONE');
     },
 
     'workflow.setIsEditedTopic'(minutesId, topicId) {
-        console.log('workflow.setIsEditedTopic on ' + topicId);
         setIsEditedTop(minutesId, topicId);
-        console.log('workflow.setIsEditedTopic DONE');
     },
 
     'workflow.removeIsEditedTopic'(minutesId, topicId, any) {
-        console.log('workflow.removeIsEditedTopic on ' + topicId);
         removeIsEditedTop(minutesId, topicId, any);
-        console.log('workflow.removeIsEditedTopic DONE');
     },
 
     'workflow.setIsEditedInfoItem'(minutesId, topicId, infoItemId) {
-        console.log('workflow.setIsEditedInfoItem on ' + infoItemId);
         setIsEditedII(minutesId, topicId, infoItemId);
-        console.log('workflow.setIsEditedInfoItem DONE');
     },
 
     'workflow.removeIsEditedInfoItem'(minutesId, topicId, infoItemId, any) {
-        console.log('workflow.removeIsEditedInfoItem on ' + infoItemId);
         removeIsEditedII(minutesId, topicId, infoItemId, any);
-        console.log('workflow.removeIsEditedTopic DONE');
     },
 
     'workflow.setIsEditedDetail'(minutesId, topicId, infoItemId, detailIdx) {
-        console.log('workflow.setIsEditedDetail on ' + infoItemId + '.' + detailIdx);
         setIsEditedDet(minutesId, topicId, infoItemId, detailIdx);
-        console.log('workflow.setIsEditedDetail DONE');
     },
 
     'workflow.removeIsEditedDetail'(minutesId, topicId, infoItemId, detailIdx, any) {
-        console.log('workflow.removeIsEditedDetail on ' + infoItemId + '.' + detailIdx);
         removeIsEditedDet(minutesId, topicId, infoItemId, detailIdx, any);
-        console.log('workflow.removeIsEditedTopic DONE');
     }
 });
 
