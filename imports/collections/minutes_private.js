@@ -243,7 +243,7 @@ Meteor.methods({
         let foundPartipantsNames = [];
         let allPartipantsNames = [];
 
-        if (participantsAdditional) {
+        if (participantsAdditional && freeTextValidator) {
             participantsAdditional.split(/[,;]/).forEach(freeText => {
                 participants.push({name: freeText.trim(), userId:freeText.trim()});
             });
@@ -290,15 +290,16 @@ Meteor.methods({
                 limit: 10 + results_participants.length, //we want to show 10 "Other user"
                 // as it is not known, if a user a participant or not -> get 10+participants
                 fields: searchFields
-        }).fetch();
+            }
+        ).fetch();
 
         results_otherUser = results_otherUser.filter(user => { //remove duplicates
             return !(foundPartipantsNames.includes(user.username));
         });
         results_otherUser = results_otherUser.slice(0,10); // limit to 10 records
 
-        results_otherUser.forEach( otherUser => {
-            otherUser = minute.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
+        results_otherUser = results_otherUser.map(otherUser => {
+            return minute.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
         });
 
         return {

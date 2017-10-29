@@ -36,9 +36,7 @@ function configureSelect2Responsibles() {
     let selectResponsibles = $('#id_selResponsible');
     selectResponsibles.find('optgroup')     // clear all <option>s
         .remove();
-    let delayTime = 50;
-    if (Meteor.settings.public.isEnd2EndTest)
-        delayTime = 0;
+    let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
     selectResponsibles.select2({
         placeholder: 'Select...',
@@ -59,7 +57,7 @@ function configureSelect2Responsibles() {
                 let results_participants = [];
                 let results_other = [];
                 _.each(data.results, function (result) {
-                    if (result.isParticipant === true) {
+                    if (result.isParticipant) {
                         results_participants.push({
                             id: result.userId,
                             text: result.fullname
