@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import { _ } from 'meteor/underscore';
+
 export function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID) {
     selectResponsibles.select2({
         placeholder: 'Select...',
