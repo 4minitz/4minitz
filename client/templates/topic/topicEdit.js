@@ -9,6 +9,7 @@ import { Label } from '/imports/label';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
+import {select2search} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -38,48 +39,7 @@ function configureSelect2Responsibles() {
         .remove();
     let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
-    selectResponsibles.select2({
-        placeholder: 'Select...',
-        tags: true,                     // Allow freetext adding
-        tokenSeparators: [',', ';'],
-        ajax: {
-            delay: delayTime,
-            transport: function(params, success, failure) {
-                Meteor.call('responsiblesSearch', params.data.q, _minutesID, true, function(err, results) {
-                    if (err) {
-                        failure(err);
-                        return;
-                    }
-                    success(results);
-                });
-            },
-            processResults: function(data) {
-                let results_participants = [];
-                let results_other = [];
-                _.each(data.results, function (result) {
-                    if (result.isParticipant) {
-                        results_participants.push({
-                            id: result.userId,
-                            text: result.fullname
-                        });
-                    }
-                    else results_other.push({
-                        id: result._id,
-                        text: result.fullname
-                    });
-                });
-                // save the return value (when participants/other user are empty -> do not show a group-name
-                let returnValues = [];
-                if (results_participants.length > 0)
-                    returnValues.push({text:'Participants', children: results_participants});
-                if (results_other.length > 0)
-                    returnValues.push({text:'Other Users', children: results_other});
-
-                return {
-                    results:returnValues
-                };
-            }}
-    });
+    select2search(selectResponsibles, delayTime, true, _minutesID);
 
     // select the options that where stored with this topic last time
     let topic = getEditTopic();

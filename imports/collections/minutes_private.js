@@ -275,8 +275,8 @@ Meteor.methods({
         let searchSettings = {username: {'$regex': partialName, '$options': 'i'}};
         let searchFields = {_id: 1, username: 1};
         if (GlobalSettings.isTrustedIntranetInstallation()){
-            searchSettings = {$or :
-                [
+            searchSettings = {
+                $or : [
                     {username: {'$regex': partialName, '$options': 'i'}},
                     {'profile.name': {'$regex': partialName, '$options': 'i'}}
                 ]
