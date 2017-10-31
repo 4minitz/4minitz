@@ -35,7 +35,7 @@ let getEditTopic = function() {
 
 function configureSelect2Responsibles() {
     let selectResponsibles = $('#id_selResponsible');
-    selectResponsibles.find('optgroup')     // clear all <option>s
+    selectResponsibles.find('option')     // clear all <option>s
         .remove();
     let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
@@ -44,6 +44,15 @@ function configureSelect2Responsibles() {
     // select the options that where stored with this topic last time
     let topic = getEditTopic();
     if (topic && topic._topicDoc && topic._topicDoc.responsibles) {
+        topic._topicDoc.responsibles.forEach(responsibleId => {
+            let responsibleUser = Meteor.users.findOne(responsibleId);
+            if (!responsibleUser) { //free text user
+                responsibleUser = {fullname: responsibleId};
+            } else {
+                (new Minutes(_minutesID)).formatResponsibles(responsibleUser, 'username', responsibleUser.profile);
+            }
+            selectResponsibles.append('<option value="' + responsibleId + '" selected="selected">' + responsibleUser.fullname + '</option>');
+        });
         selectResponsibles.val(topic._topicDoc.responsibles);
     }
     selectResponsibles.trigger('change');
