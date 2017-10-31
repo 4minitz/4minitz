@@ -249,7 +249,7 @@ Meteor.methods({
             });
         }
         participants.forEach( participant =>{
-            participant = minute.formatResponsibles(participant,'name', true);
+            participant = Minutes.formatResponsibles(participant,'name', true);
             if (participant.fullname.toLowerCase().includes(partialName.toLowerCase())) {
                 participant['isParticipant'] = true;
                 results_participants.push(participant);
@@ -299,7 +299,7 @@ Meteor.methods({
         results_otherUser = results_otherUser.slice(0,10); // limit to 10 records
 
         results_otherUser = results_otherUser.map(otherUser => {
-            return minute.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
+            return Minutes.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
         });
 
         return {

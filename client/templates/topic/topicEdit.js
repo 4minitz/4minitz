@@ -49,7 +49,7 @@ function configureSelect2Responsibles() {
             if (!responsibleUser) { //free text user
                 responsibleUser = {fullname: responsibleId};
             } else {
-                (new Minutes(_minutesID)).formatResponsibles(responsibleUser, 'username', responsibleUser.profile);
+                Minutes.formatResponsibles(responsibleUser, 'username', responsibleUser.profile);
             }
             selectResponsibles.append('<option value="' + responsibleId + '" selected="selected">' + responsibleUser.fullname + '</option>');
         });
