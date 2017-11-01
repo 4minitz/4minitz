@@ -2,9 +2,8 @@ const fs = require('fs');
 const EJSON = require('mongodb-extended-json');
 
 class ExpImpTopics {
-    static getData (db, msDoc) {
+    static getData (db, msID, userIDs) {
         return new Promise((resolve, reject) => {
-            const msID = msDoc._id;
             db.collection('topics')
                 .find({parentId: msID})
                 .toArray()
@@ -13,7 +12,7 @@ class ExpImpTopics {
                         const topFile = msID+"_topics.json";
                         fs.writeFileSync(topFile, EJSON.stringify(doc,null,2));
                         console.log("Saved: "+topFile + " with "+doc.length+" topics");
-                        resolve(db);
+                        resolve({db, userIDs});
                     } else {
                         reject ("Unknown meeting series ID: "+ msID);
                     }

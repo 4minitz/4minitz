@@ -2,9 +2,8 @@ const fs = require('fs');
 const EJSON = require('mongodb-extended-json');
 
 class ExpImpMinutes {
-    static getData (db, msDoc) {
+    static getData (db, msID, userIDs) {
         return new Promise((resolve, reject) => {
-            const msID = msDoc._id;
             db.collection('minutes')
                 .find({meetingSeries_id: msID})
                 .toArray()
@@ -13,7 +12,22 @@ class ExpImpMinutes {
                         const minFile = msID+"_minutes.json";
                         fs.writeFileSync(minFile, EJSON.stringify(doc,null,2));
                         console.log("Saved: "+minFile + " with "+doc.length+" minutes");
-                        resolve({db, msDoc: msDoc});
+
+                        // Collect additional invited / informed users from older minutes
+                        doc.map(min => {
+                            min.visibleFor.map(userID => {      // should be identical to meeting series
+                                userIDs[userID] = 1;
+                            });
+                            min.informedUsers.map(userID => {   // should be identical to meeting series
+                                userIDs[userID] = 1;
+                            });
+                            min.participants.map(part => {      // might differ from meeting series users!
+                                console.log("???"+part.userId);
+                                userIDs[part.userId] = 1;
+                            });
+                        });
+
+                        resolve({db, userIDs});
                     } else {
                         reject ("Unknown meeting series ID: "+ msID);
                     }

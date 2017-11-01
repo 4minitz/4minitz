@@ -1,5 +1,11 @@
+/*
+    Export a meeting series with all depending collection data to multiple files.
+    Usage example:
+                    node  exportMeetingSeries.js -m mongodb://localhost:3101/meteor --id icwrCdJjqWpoH9ugQ
+ */
 
-// Hinweis auf Attachments!
+// Path for Attachments
+// Path for Protocols
 
 let mongo = require('mongodb').MongoClient;
 let ExpImpSchema = require('../imports/server/exportimport/expImpSchema');
@@ -8,10 +14,11 @@ let ExpImpMinutes = require('../imports/server/exportimport/expImpMinutes');
 let ExpImpTopics = require('../imports/server/exportimport/expImpTopics');
 let ExpImpFileAttachments = require('../imports/server/exportimport/expImpFilesAttachments');
 let ExpImpFileDocuments = require('../imports/server/exportimport/expImpFilesDocuments');
+let ExpImpUsers = require('../imports/server/exportimport/expImpUsers');
 
 let optionParser = require('node-getopt').create([
-    ['i', 'id=[ARG]', 'ID of meeting series'],
-    ['m', 'mongourl=[ARG]', 'Mongo DB url'],
+    ['i', 'id=[ARG]', 'ID of meeting series, e.g. icwrCdJjqWpoH9ugQ'],
+    ['m', 'mongourl=[ARG]', 'Mongo DB url, e.g. mongodb://localhost:3101/meteor'],
     ['h', 'help', 'Display this help']
 ]);
 let arg = optionParser.bindHelp().parseSystem();
@@ -40,12 +47,13 @@ let _connectMongo = function (mongoUrl) {
 
 
 _connectMongo(mongoUrl)
-    .then(db            => {return ExpImpSchema.exportCheck(db, meetingseriesID);})
-    .then(db            => {return ExpImpMeetingSeries.getData(db, meetingseriesID);})
-    .then(({db, msDoc}) => {return ExpImpMinutes.getData(db, msDoc);})
-    .then(({db, msDoc}) => {return ExpImpTopics.getData(db, msDoc);})
-    .then(db            => {return ExpImpFileAttachments.getData(db, meetingseriesID);})
-    .then(db            => {return ExpImpFileDocuments.getData(db, meetingseriesID);})
+    .then(db              => {return ExpImpSchema.exportCheck(db, meetingseriesID);})
+    .then(db              => {return ExpImpMeetingSeries.getData(db, meetingseriesID);})
+    .then(({db, userIDs}) => {return ExpImpMinutes.getData(db, meetingseriesID, userIDs);})
+    .then(({db, userIDs}) => {return ExpImpTopics.getData(db, meetingseriesID, userIDs);})
+    .then(({db, userIDs}) => {return ExpImpFileAttachments.getData(db, meetingseriesID, userIDs);})
+    .then(({db, userIDs}) => {return ExpImpFileDocuments.getData(db, meetingseriesID, userIDs);})
+    .then(({db, userIDs}) => {return ExpImpUsers.getData(db, meetingseriesID, userIDs);})
     .then(db            => db.close())
     .catch(error => {
         console.log("Error: "+error);
