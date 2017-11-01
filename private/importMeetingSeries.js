@@ -1,5 +1,5 @@
 /*
-    Export a meeting series with all depending collection data to multiple files.
+    Import a meeting series with all depending collection data to multiple files.
     Usage example:
                     node  exportMeetingSeries.js -m mongodb://localhost:3101/meteor --id icwrCdJjqWpoH9ugQ
  */
@@ -43,15 +43,16 @@ let _connectMongo = function (mongoUrl) {
 };
 
 console.log("");
-console.log("*** 4Minitz MeetingSeries Export Tool *** (made for schema version: "+ExpImpSchema.MADE_FOR_SCHEMA+")");
+console.log("*** 4Minitz MeetingSeries Import Tool *** (made for schema version: "+ExpImpSchema.MADE_FOR_SCHEMA+")");
 _connectMongo(mongoUrl)
-    .then(db              => {return ExpImpSchema.exportCheck(db, meetingseriesID);})
-    .then(db              => {return ExpImpMeetingSeries.doExport(db, meetingseriesID);})
-    .then(({db, userIDs}) => {return ExpImpMinutes.doExport(db, meetingseriesID, userIDs);})
-    .then(({db, userIDs}) => {return ExpImpTopics.doExport(db, meetingseriesID, userIDs);})
-    .then(({db, userIDs}) => {return ExpImpFileAttachments.doExport(db, meetingseriesID, userIDs);})
-    .then(({db, userIDs}) => {return ExpImpFileDocuments.doExport(db, meetingseriesID, userIDs);})
-    .then(({db, userIDs}) => {return ExpImpUsers.doExport(db, meetingseriesID, userIDs);})
+    .then(db              => {return ExpImpSchema.importCheck(db, meetingseriesID);})
+    .then(db              => {return ExpImpUsers.preImportCheck(db, meetingseriesID);})
+    .then(({db, usrMap})  => {return ExpImpMeetingSeries.doImport(db, meetingseriesID, usrMap);})
+    .then(({db, usrMap})  => {return ExpImpMinutes.doImport(db, meetingseriesID, usrMap);})
+//    .then(({db, userIDs}) => {return ExpImpTopics.getData(db, meetingseriesID, userIDs);})
+//    .then(({db, userIDs}) => {return ExpImpFileAttachments.getData(db, meetingseriesID, userIDs);})
+//    .then(({db, userIDs}) => {return ExpImpFileDocuments.getData(db, meetingseriesID, userIDs);})
+//    .then(({db, userIDs}) => {return ExpImpUsers.getData(db, meetingseriesID, userIDs);})
     .then(db            => db.close())
     .catch(error => {
         console.log("Error: "+error);

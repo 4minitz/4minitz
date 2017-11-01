@@ -2,14 +2,18 @@ const fs = require('fs');
 const EJSON = require('mongodb-extended-json');
 
 class ExpImpFilesDocuments {
-    static getData (db, msID, userIDs) {
+    static get FILENAME_POSTFIX() {
+        return "_filesDocuments.json";
+    }
+
+    static doExport (db, msID, userIDs) {
         return new Promise((resolve, reject) => {
             db.collection('DocumentsCollection')
                 .find({"meta.meetingSeriesId": msID})
                 .toArray()
                 .then(doc => {
                     if (doc) {
-                        const docFile = msID+"_filesDocuments.json";
+                        const docFile = msID + ExpImpFilesDocuments.FILENAME_POSTFIX;
                         fs.writeFileSync(docFile, EJSON.stringify(doc,null,2));
                         console.log("Saved: "+docFile + " with "+doc.length+" protocol documents");
                         if (doc[0]) {
@@ -18,7 +22,7 @@ class ExpImpFilesDocuments {
                         }
                         resolve({db, userIDs});
                     } else {
-                        reject ("Unknown meeting series ID: "+ msID);
+                        return reject ("Unknown meeting series ID: "+ msID);
                     }
                  });
         });
