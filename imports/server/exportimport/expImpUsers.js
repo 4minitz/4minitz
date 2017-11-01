@@ -63,7 +63,12 @@ class ExpImpUsers {
             }
             let usrMapCount = Object.keys(usrMap).length;
             console.log("Found "+usrMapCount+" users in "+mapFile);
-            let usrMapTargetIDs = Object.keys(usrMap).map(key => usrMap[key]);
+            let usrMapTargetIDs = [];
+            Object.keys(usrMap).map(key => {
+                if (key !== usrMap[key]) {
+                    usrMapTargetIDs.push(usrMap[key])
+                }
+            });
 
             db.collection('users')
                 .find({ _id : { $in : usrMapTargetIDs } })
@@ -71,8 +76,9 @@ class ExpImpUsers {
                 .then(doc => {
                     if (doc) {
                         console.log("Found "+doc.length + " target users in current user DB.");
-                        if (doc.length !== usrMapCount) {
-                            return reject ("Not all target users found in current user DB: "+usrMapTargetIDs);
+                        console.log("Will copy over "+(usrMapCount-usrMapTargetIDs.length) + " export users to current user DB.");
+                        if (doc.length !== usrMapTargetIDs.length) {
+                            return reject ("Not all to-be patched target users found in current user DB: "+usrMapTargetIDs);
                         }
                         resolve({db, usrMap});
                     } else {
@@ -82,6 +88,40 @@ class ExpImpUsers {
         });
     }
 
+    static doImport (db, msID, usrMap) {
+        return new Promise((resolve, reject) => {
+            const usrFile = msID + ExpImpUsers.FILENAME_POSTFIX;
+            let AllUsersDoc = undefined;
+            try {
+                AllUsersDoc = EJSON.parse(fs.readFileSync(usrFile, 'utf8'));
+                if (!AllUsersDoc) {
+                    return reject("Could not read user file "+usrFile);
+                }
+            } catch (e) {
+                return reject("Could not read user file "+usrFile+"\n"+e);
+            }
+
+            // Replace old user IDs with new users IDs
+            for(let u=0; u<AllUsersDoc.length; u++) {
+                if (usrMap[AllUsersDoc[u]._id] === AllUsersDoc[u]._id) { // before/after ID are same!
+                    return db.collection('users')
+                        .insert(AllUsersDoc[u])                         // insert this user!
+                        .then(function (res) {
+                            if (res.result.ok === 1 && res.result.n === AllUsersDoc.length) {
+                                console.log("OK, inserted "+res.result.n+" users.");
+                                resolve({db, usrMap});
+                            } else {
+                                reject("Could not insert user. "+res);
+                            }
+                        });
+                }
+            }
+        });
+    }
+
+    static userClone(userDoc) {
+
+    }
 }
 
 module.exports = ExpImpUsers;

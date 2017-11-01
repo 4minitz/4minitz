@@ -44,15 +44,29 @@ let _connectMongo = function (mongoUrl) {
 
 console.log("");
 console.log("*** 4Minitz MeetingSeries Import Tool *** (made for schema version: "+ExpImpSchema.MADE_FOR_SCHEMA+")");
+console.log("*** ATTENTION ***");
+console.log("- This script will import a meeting series and all dependecies to your DB.");
+console.log("- This script has to change existing user roles, so users can access the new data.");
+console.log("- This script may overwrite edited data if you import the same data multiple times.");
+console.log("So, this script is DANGEROUS!!!");
+console.log("Experts only!");
+console.log("Seriously!");
+console.log("");
+console.log("TL;DR - Make sure you have a backup!");
+console.log("        e.g.: mongodump -h 127.0.0.1 --port 3101 -d meteor");
+console.log("");
+console.log("Press ENTER to continue - or Ctrl+C to quit...");
+require('child_process').spawnSync("read _ ", {shell: true, stdio: [0, 1, 2]});
+
 _connectMongo(mongoUrl)
-    .then(db              => {return ExpImpSchema.importCheck(db, meetingseriesID);})
+    .then(db              => {return ExpImpSchema.preImportCheck(db, meetingseriesID);})
     .then(db              => {return ExpImpUsers.preImportCheck(db, meetingseriesID);})
     .then(({db, usrMap})  => {return ExpImpMeetingSeries.doImport(db, meetingseriesID, usrMap);})
     .then(({db, usrMap})  => {return ExpImpMinutes.doImport(db, meetingseriesID, usrMap);})
-//    .then(({db, userIDs}) => {return ExpImpTopics.getData(db, meetingseriesID, userIDs);})
-//    .then(({db, userIDs}) => {return ExpImpFileAttachments.getData(db, meetingseriesID, userIDs);})
-//    .then(({db, userIDs}) => {return ExpImpFileDocuments.getData(db, meetingseriesID, userIDs);})
-//    .then(({db, userIDs}) => {return ExpImpUsers.getData(db, meetingseriesID, userIDs);})
+    .then(({db, usrMap})  => {return ExpImpTopics.doImport(db, meetingseriesID, usrMap);})
+    .then(({db, usrMap})  => {return ExpImpFileAttachments.doImport(db, meetingseriesID, usrMap);})
+    .then(({db, usrMap})  => {return ExpImpFileDocuments.doImport(db, meetingseriesID, usrMap);})
+    .then(({db, usrMap})  => {return ExpImpUsers.doImport(db, meetingseriesID, usrMap);})
     .then(db            => db.close())
     .catch(error => {
         console.log("Error: "+error);

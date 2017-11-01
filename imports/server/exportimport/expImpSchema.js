@@ -36,7 +36,7 @@ class ExpImpSchema {
         });
     };
 
-    static importCheck (db, msID, force=false) {
+    static preImportCheck (db, msID, force=false) {
         return new Promise((resolve, reject) => {
             db.collection('migrations')
                 .findOne()

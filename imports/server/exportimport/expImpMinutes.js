@@ -59,11 +59,10 @@ class ExpImpMinutes {
                     return reject("Could not read minutes file "+minFile);
                 }
             } catch (e) {
-                return reject("Could not read minutes file "+minFile);
+                return reject("Could not read minutes file "+minFile+"\n"+e);
             }
 
             // Replace old user IDs with new users IDs
-            // let minIDs = [];
             let minIDs;
             ({minIDs, minDoc} = ExpImpMinutes.patchUsers(minDoc, usrMap));
 
@@ -75,7 +74,7 @@ class ExpImpMinutes {
                         .then(function (res) {
                             if (res.result.ok === 1 && res.result.n === minDoc.length) {
                                 console.log("OK, inserted "+res.result.n+" meeting minutes.");
-                                resolve(db);
+                                resolve({db, usrMap});
                             } else {
                                 reject("Could not insert meeting minutes");
                             }

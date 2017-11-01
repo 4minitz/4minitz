@@ -26,43 +26,36 @@ class ExpImpTopics {
 
     static doImport (db, msID, usrMap) {
         return new Promise((resolve, reject) => {
-            const minFile = msID + ExpImpMinutes.FILENAME_POSTFIX;
-            let minDoc = undefined;
+            const topFile = msID + ExpImpTopics.FILENAME_POSTFIX;
+            let AllTopicsDoc = undefined;
             try {
-                minDoc = EJSON.parse(fs.readFileSync(minFile, 'utf8'));
-                if (!minDoc) {
-                    return reject("Could not read minutes file "+minFile);
+                AllTopicsDoc = EJSON.parse(fs.readFileSync(topFile, 'utf8'));
+                if (!AllTopicsDoc) {
+                    return reject("Could not read topic file "+topFile);
                 }
             } catch (e) {
-                return reject("Could not read minutes file "+minFile);
+                return reject("Could not read topic file "+topFile+"\n"+e);
             }
 
             // Replace old user IDs with new users IDs
-            let minIDs = [];
-            for (let m = 0; m<minDoc.length; m++) {                 // iterate all minutes
-                minIDs.push(minDoc[m]._id);
-                for (let i=0; minDoc[m].visibleFor&&i<minDoc[m].visibleFor.length; i++) {
-                    minDoc[m].visibleFor[i] = usrMap[minDoc[m].visibleFor[i]];
-                }
-                for (let i=0; minDoc[m].informedUsers&&i<minDoc[m].informedUsers.length; i++) {
-                    minDoc[m].informedUsers[i] = usrMap[minDoc[m].informedUsers[i]];
-                }
-                for (let i=0; minDoc[m].participants&&i<minDoc[m].participants.length; i++) {
-                    minDoc[m].participants[i].userId = usrMap[minDoc[m].participants[i].userId];
-                }
+            let topicIDs = [];
+            for(let t=0; t<AllTopicsDoc.length; t++) {
+                topicIDs.push(AllTopicsDoc[t]._id);
+                AllTopicsDoc[t] = ExpImpTopics.patchUsers(AllTopicsDoc[t], usrMap);
             }
 
-            return db.collection('minutes')
-                .deleteMany({ _id : { $in : minIDs } })     // delete existing minutes with same IDs
+
+            return db.collection('topics')
+                .deleteMany({ _id : { $in : topicIDs } })     // delete existing topics with same IDs
                 .then(function (res) {
-                    return db.collection('minutes')
-                        .insertMany(minDoc)                         // insert imported minutes
+                    return db.collection('topics')
+                        .insertMany(AllTopicsDoc)                         // insert imported minutes
                         .then(function (res) {
-                            if (res.result.ok === 1 && res.result.n === minDoc.length) {
-                                console.log("OK, inserted "+res.result.n+" meeting minutes.");
-                                resolve(db);
+                            if (res.result.ok === 1 && res.result.n === AllTopicsDoc.length) {
+                                console.log("OK, inserted "+res.result.n+" topics.");
+                                resolve({db, usrMap});
                             } else {
-                                reject("Could not insert meeting minutes");
+                                reject("Could not insert topics");
                             }
                         });
                 });
