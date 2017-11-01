@@ -1,4 +1,5 @@
 const fs = require('fs');
+const EJSON = require('mongodb-extended-json');
 
 class ExpImpMinutes {
     static getData (db, msDoc) {
@@ -10,7 +11,7 @@ class ExpImpMinutes {
                 .then(doc => {
                     if (doc) {
                         const minFile = msID+"_minutes.json";
-                        fs.writeFileSync(minFile, JSON.stringify(doc,null,2));
+                        fs.writeFileSync(minFile, EJSON.stringify(doc,null,2));
                         console.log("Saved: "+minFile + " with "+doc.length+" minutes");
                         resolve({db, msDoc: msDoc});
                     } else {

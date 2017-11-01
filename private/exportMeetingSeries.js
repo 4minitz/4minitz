@@ -1,14 +1,13 @@
 
-// npm i --save mongodb-extended-json
-// https://www.npmjs.com/package/mongodb-extended-json
-// Schema Check on Export and on Import!!!
-// write xxxxx_schema.json
 // Hinweis auf Attachments!
 
 let mongo = require('mongodb').MongoClient;
+let ExpImpSchema = require('../imports/server/exportimport/expImpSchema');
 let ExpImpMeetingSeries = require('../imports/server/exportimport/expImpMeetingseries');
 let ExpImpMinutes = require('../imports/server/exportimport/expImpMinutes');
 let ExpImpTopics = require('../imports/server/exportimport/expImpTopics');
+let ExpImpFileAttachments = require('../imports/server/exportimport/expImpFilesAttachments');
+let ExpImpFileDocuments = require('../imports/server/exportimport/expImpFilesDocuments');
 
 let optionParser = require('node-getopt').create([
     ['i', 'id=[ARG]', 'ID of meeting series'],
@@ -41,10 +40,13 @@ let _connectMongo = function (mongoUrl) {
 
 
 _connectMongo(mongoUrl)
+    .then(db            => {return ExpImpSchema.exportCheck(db, meetingseriesID);})
     .then(db            => {return ExpImpMeetingSeries.getData(db, meetingseriesID);})
     .then(({db, msDoc}) => {return ExpImpMinutes.getData(db, msDoc);})
     .then(({db, msDoc}) => {return ExpImpTopics.getData(db, msDoc);})
-    .then(({db, msDoc}) => db.close())
+    .then(db            => {return ExpImpFileAttachments.getData(db, meetingseriesID);})
+    .then(db            => {return ExpImpFileDocuments.getData(db, meetingseriesID);})
+    .then(db            => db.close())
     .catch(error => {
         console.log("Error: "+error);
         console.log("Press Ctrl+C to stop.");
