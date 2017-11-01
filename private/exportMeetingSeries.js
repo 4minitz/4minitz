@@ -4,9 +4,6 @@
                     node  exportMeetingSeries.js -m mongodb://localhost:3101/meteor --id icwrCdJjqWpoH9ugQ
  */
 
-// Path for Attachments
-// Path for Protocols
-
 let mongo = require('mongodb').MongoClient;
 let ExpImpSchema = require('../imports/server/exportimport/expImpSchema');
 let ExpImpMeetingSeries = require('../imports/server/exportimport/expImpMeetingseries');
@@ -45,7 +42,8 @@ let _connectMongo = function (mongoUrl) {
     });
 };
 
-
+console.log("");
+console.log("*** 4Minitz MeetingSeries Export Tool ***");
 _connectMongo(mongoUrl)
     .then(db              => {return ExpImpSchema.exportCheck(db, meetingseriesID);})
     .then(db              => {return ExpImpMeetingSeries.getData(db, meetingseriesID);})

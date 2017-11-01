@@ -22,7 +22,6 @@ class ExpImpMinutes {
                                 userIDs[userID] = 1;
                             });
                             min.participants.map(part => {      // might differ from meeting series users!
-                                console.log("???"+part.userId);
                                 userIDs[part.userId] = 1;
                             });
                         });
