@@ -94,16 +94,26 @@ let toggleItemMode = function (type, tmpl) {
 
 function configureSelect2Responsibles() {
     let selectResponsibles = $('#id_selResponsibleActionItem');
-    selectResponsibles.find('optgroup')     // clear all <option>s
+    selectResponsibles.find('option')     // clear all <option>s
         .remove();
     let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
     select2search(selectResponsibles, delayTime, false, _minutesID);
 
-    // select the options that where stored with this topic last time
+    //select the options that where stored with this item last time
     let editItem = getEditInfoItem();
-    if (editItem) {
-        selectResponsibles.val(editItem.getResponsibleRawArray());
+    let data = {options: []};
+    if (editItem && editItem._infoItemDoc && editItem._infoItemDoc.responsibles) {
+        editItem._infoItemDoc.responsibles.forEach(responsibleId => {
+            let responsibleUser = Meteor.users.findOne(responsibleId);
+            if (!responsibleUser) { //free text user
+                responsibleUser = {fullname: responsibleId};
+            } else {
+                Minutes.formatResponsibles(responsibleUser, 'username', responsibleUser.profile);
+            }
+            data.options.push({optionId: responsibleId, optionText: responsibleUser.fullname});
+        });
+        Blaze.renderWithData(Template['optionsElement'], data, document.getElementById('id_selResponsibleActionItem'));
     }
     selectResponsibles.trigger('change');
 }

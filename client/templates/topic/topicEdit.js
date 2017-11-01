@@ -43,6 +43,7 @@ function configureSelect2Responsibles() {
 
     // select the options that where stored with this topic last time
     let topic = getEditTopic();
+    let data = {options: []};
     if (topic && topic._topicDoc && topic._topicDoc.responsibles) {
         topic._topicDoc.responsibles.forEach(responsibleId => {
             let responsibleUser = Meteor.users.findOne(responsibleId);
@@ -51,9 +52,9 @@ function configureSelect2Responsibles() {
             } else {
                 Minutes.formatResponsibles(responsibleUser, 'username', responsibleUser.profile);
             }
-            selectResponsibles.append('<option value="' + responsibleId + '" selected="selected">' + responsibleUser.fullname + '</option>');
+            data.options.push({optionId: responsibleId, optionText: responsibleUser.fullname});
         });
-        selectResponsibles.val(topic._topicDoc.responsibles);
+        Blaze.renderWithData(Template['optionsElement'], data, document.getElementById('id_selResponsible'));
     }
     selectResponsibles.trigger('change');
 }
