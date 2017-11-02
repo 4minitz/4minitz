@@ -16,10 +16,10 @@ class ExpImpMeetingSeries {
                          const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;
                          fs.writeFileSync(msFile, EJSON.stringify(doc,null,2));
                          console.log("Saved: "+msFile);
-                         doc.visibleFor.map(userID => {
+                         doc.visibleFor && doc.visibleFor.map(userID => {
                              userIDs[userID] = 1;
                          });
-                         doc.informedUsers.map(userID => {
+                         doc.informedUsers && doc.informedUsers.map(userID => {
                              userIDs[userID] = 1;
                          });
                          resolve({db, userIDs});

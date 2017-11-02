@@ -35,11 +35,11 @@ class ExpImpUsers {
                             if (userIDsFromDB[usrID]) {
                                 // default: sourceUserID === destinationUserID
                                 // This means, users are copied from source DB to destination DB
-                                userIDsOuputMap[usrID] = userIDsOuputMap[usrID];
+                                userIDsOuputMap[usrID] = usrID;
                             }
                         });
                         const mapFile = msID + ExpImpUsers.MAPNAME_POSTFIX;
-                        fs.writeFileSync(mapFile, EJSON.stringify(userIDsOuputMap,null,2));
+                        fs.writeFileSync(mapFile, JSON.stringify(userIDsOuputMap,null,2));
                         console.log("Saved: "+mapFile);
                         console.log("       *** IMPORTANT!!! EDIT USER MAP FILE BEFORE IMPORT!!!");
 
@@ -56,7 +56,7 @@ class ExpImpUsers {
             const mapFile = msID + ExpImpUsers.MAPNAME_POSTFIX;
             let usrMap = undefined;
             try {
-                usrMap = EJSON.parse(fs.readFileSync(mapFile, 'utf8'));
+                usrMap = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
                 if (!usrMap) {
                     return reject("Could not read user map file "+mapFile);
                 }
@@ -66,23 +66,38 @@ class ExpImpUsers {
             let usrMapCount = Object.keys(usrMap).length;
             console.log("Found "+usrMapCount+" users in "+mapFile);
             let usrMapTargetIDs = [];
+            let usrCopyIDs = [];
             Object.keys(usrMap).map(key => {
-                if (key !== usrMap[key]) {
-                    usrMapTargetIDs.push(usrMap[key])
+                if (key !== usrMap[key]) {              // key/value different...
+                    usrMapTargetIDs.push(usrMap[key])   // map to existing user
+                } else {
+                    usrCopyIDs.push(key);               // copy user from export DB => import DB
                 }
             });
 
+            // Check#1: All "link targets" should exist
             db.collection('users')
                 .find({ _id : { $in : usrMapTargetIDs } })
                 .toArray()
                 .then(doc => {
                     if (doc) {
                         console.log("Found "+doc.length + " target users in current user DB.");
-                        console.log("Will copy over "+(usrMapCount-usrMapTargetIDs.length) + " export users to current user DB.");
+                        console.log("Will copy over "+usrCopyIDs.length + " export users to current user DB.");
                         if (doc.length !== usrMapTargetIDs.length) {
                             return reject ("Not all to-be patched target users found in current user DB: "+usrMapTargetIDs);
                         }
-                        resolve({db, usrMap});
+                        // Check#2: All copy-users MUST NOT exist!
+                        db.collection('users')
+                            .find({ _id : { $in : usrCopyIDs } })
+                            .toArray()
+                            .then(shouldBeEmpty => {
+                                if (shouldBeEmpty && shouldBeEmpty.length > 0) {
+                                    let errorUsers = shouldBeEmpty.map(usr => {return {_id: usr._id, username: usr.username}});
+                                    return reject (shouldBeEmpty.length+" to-be copied user(s) already exists:\n"+JSON.stringify(errorUsers));
+                                } else {
+                                    resolve({db, usrMap});
+                                }
+                            });
                     } else {
                         return reject ("Could not find users: ", usrMapTargetIDs);
                     }
