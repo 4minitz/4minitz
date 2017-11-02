@@ -33,7 +33,9 @@ class ExpImpUsers {
                         // But only with REAL DB users (skip free text users)
                         userIDsFlat.map(usrID => {
                             if (userIDsFromDB[usrID]) {
-                                userIDsOuputMap[usrID] = "ReplaceWithTargetUserID";
+                                // default: sourceUserID === destinationUserID
+                                // This means, users are copied from source DB to destination DB
+                                userIDsOuputMap[usrID] = userIDsOuputMap[usrID];
                             }
                         });
                         const mapFile = msID + ExpImpUsers.MAPNAME_POSTFIX;
@@ -91,36 +93,50 @@ class ExpImpUsers {
     static doImport (db, msID, usrMap) {
         return new Promise((resolve, reject) => {
             const usrFile = msID + ExpImpUsers.FILENAME_POSTFIX;
-            let AllUsersDoc = undefined;
+            let allUsersDoc = undefined;
             try {
-                AllUsersDoc = EJSON.parse(fs.readFileSync(usrFile, 'utf8'));
-                if (!AllUsersDoc) {
+                allUsersDoc = EJSON.parse(fs.readFileSync(usrFile, 'utf8'));
+                if (!allUsersDoc) {
                     return reject("Could not read user file "+usrFile);
                 }
             } catch (e) {
                 return reject("Could not read user file "+usrFile+"\n"+e);
             }
 
-            // Replace old user IDs with new users IDs
-            for(let u=0; u<AllUsersDoc.length; u++) {
-                if (usrMap[AllUsersDoc[u]._id] === AllUsersDoc[u]._id) { // before/after ID are same!
-                    return db.collection('users')
-                        .insert(AllUsersDoc[u])                         // insert this user!
-                        .then(function (res) {
-                            if (res.result.ok === 1 && res.result.n === AllUsersDoc.length) {
-                                console.log("OK, inserted "+res.result.n+" users.");
-                                resolve({db, usrMap});
-                            } else {
-                                reject("Could not insert user. "+res);
-                            }
-                        });
+            // We have some sequential DB inserts/updates from two cases now.
+            // We chain them in a Promise chain.
+            let promiseChain = [];
+            for(let u=0; u<allUsersDoc.length; u++) {
+                if (allUsersDoc[u]._id === usrMap[allUsersDoc[u]._id]) { // before/after ID are same in mapping file!
+                    promiseChain.push(                 // Case#1: clone this user from source DB => target DB!
+                        db.collection('users')
+                        .insert(allUsersDoc[u]));
+                } else {
+                    promiseChain.push(                 // Case#2: only update user role for existing user in target DB
+                        db.collection('users')
+                            .findOne({"_id": usrMap[allUsersDoc[u]._id]})   // find the user in target DB
+                             .then(function (usr) {
+                                 let roleValueForMS = allUsersDoc[u].roles[msID];
+                                 if (roleValueForMS && roleValueForMS.length > 0) { // user needs role for import meeting series?
+                                     let roles = usr.roles ? usr.roles : {};
+                                     roles[msID] = roleValueForMS;
+                                     return db.collection('users')                 // upsert role field
+                                        .update({_id: usr._id}, {$set: {roles: roles}});
+                                 }
+                            }));
                 }
             }
+
+            // Now execute the chain.
+            Promise.all(promiseChain)
+                .then(function (res) {
+                    // console.log(res);
+                    resolve(db);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
         });
-    }
-
-    static userClone(userDoc) {
-
     }
 }
 

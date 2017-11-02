@@ -37,6 +37,7 @@ let _connectMongo = function (mongoUrl) {
             if (error) {
                 reject(error);
             }
+            closeDB = db;
             resolve(db);
         });
     });
@@ -58,6 +59,7 @@ console.log("");
 console.log("Press ENTER to continue - or Ctrl+C to quit...");
 require('child_process').spawnSync("read _ ", {shell: true, stdio: [0, 1, 2]});
 
+var closeDB = undefined;
 _connectMongo(mongoUrl)
     .then(db              => {return ExpImpSchema.preImportCheck(db, meetingseriesID);})
     .then(db              => {return ExpImpUsers.preImportCheck(db, meetingseriesID);})
@@ -67,7 +69,7 @@ _connectMongo(mongoUrl)
     .then(({db, usrMap})  => {return ExpImpFileAttachments.doImport(db, meetingseriesID, usrMap);})
     .then(({db, usrMap})  => {return ExpImpFileDocuments.doImport(db, meetingseriesID, usrMap);})
     .then(({db, usrMap})  => {return ExpImpUsers.doImport(db, meetingseriesID, usrMap);})
-    .then(db            => db.close())
+    .then(db            => closeDB.close())
     .catch(error => {
         console.log("Error: "+error);
         console.log("Press Ctrl+C to stop.");
