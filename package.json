@@ -65,6 +65,7 @@
     "moment": "^2.18.1",
     "mongo-uri": "^0.1.2",
     "mongodb": "^2.2.31",
+    "mongodb-extended-json": "^1.10.0",
     "node-cron": "^1.2.1",
     "node-getopt": "^0.2.3",
     "path": "^0.12.7",
