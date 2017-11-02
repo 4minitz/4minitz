@@ -217,11 +217,6 @@ Template.topicInfoItemList.helpers({
         return (item && context.items[index].itemType === 'infoItem');
     },
 
-    isDetailNew: function(createdInMinute) {
-        /** @type {TopicInfoItemListContext} */
-        return createdInMinute === Template.instance().lastFinalizedMinuteId;
-    },
-
     checkedState: function (index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
