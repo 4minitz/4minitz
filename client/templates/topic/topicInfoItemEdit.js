@@ -24,7 +24,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
 import {LabelExtractor} from '../../../imports/services/labelExtractor';
 import {select2search} from '/imports/client/ResponsibleSearch';
-import { Blaze } from 'meteor/blaze';
 import {addResponsibleOptions} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
