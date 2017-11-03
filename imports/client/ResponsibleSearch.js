@@ -3,6 +3,7 @@ import { _ } from 'meteor/underscore';
 import { Minutes } from '/imports/minutes';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
+import { $ } from 'meteor/jquery';
 
 function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID) {
     selectResponsibles.select2({
