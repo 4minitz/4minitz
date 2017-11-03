@@ -188,7 +188,7 @@
          
   "docGeneration": { 
         "enabled": true, 
-        "format": "pdf", 
+        "format": "html",
         "targetDocPath": "4minitz_storage/protocols",
         "pathToWkhtmltopdf": "/usr/local/bin/wkhtmltopdf",
         "wkhtmltopdfParameters" : "--no-outline --print-media-type --no-background",

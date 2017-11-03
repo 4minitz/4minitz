@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 
 import { Minutes } from './../minutes';
 import { UserRoles } from './../userroles';
@@ -221,9 +222,8 @@ Meteor.methods({
                     fs.unlink(inputPath);
                 }
                 fs.unlink(tempFileName);
-
                 // Now move file to it's meetingseries directory
-                let finalOutputPath = createDocumentStoragePath({meta: metaData}) + '/' + fileName + '.pdf'; //eslint-disable-line
+                let finalOutputPath = createDocumentStoragePath({meta: metaData}) + '/' + Random.id() + '.pdf'; //eslint-disable-line
                 fs.moveSync(outputPath, finalOutputPath);
 
                 //Safe file in FilesCollection
@@ -251,8 +251,9 @@ Meteor.methods({
             storeFile(htmldata, fileName, metaData);
         } catch (error) {
             console.error('Error at Protocol generation:');
-            console.error(error.reason);
-            throw new Meteor.Error(error.reason);
+            let errormsg = error.reason ? error.reason : error; 
+            console.error(errormsg);
+            throw new Meteor.Error('runtime-error', errormsg.message);
         }
     },
 

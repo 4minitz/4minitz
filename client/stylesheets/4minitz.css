@@ -41,6 +41,10 @@
     padding: 2px 6px 2px 1px;
 }
 
+.focus {
+    border: 2px dashed #00bcff !important;
+}
+
 .remove-symbol {
     padding: 3px 2px 2px 6px;
     font-size:93%;
