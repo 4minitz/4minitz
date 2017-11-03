@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import {formatDateISO8601Time} from "../../imports/helpers/date";
-import {ConfirmationDialogFactory} from "./confirmationDialogFactory";
+import {formatDateISO8601Time} from '../../imports/helpers/date';
+import {ConfirmationDialogFactory} from './confirmationDialogFactory';
 
 export function isEditedHandling(element, unset, setIsEdited, evt, confirmationDialogTemplate) {
     if ((element.isEditedBy != undefined && element.isEditedDate != undefined)) {

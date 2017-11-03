@@ -16,9 +16,9 @@ import {ResponsibleResolver} from '../../../imports/services/responsibleResolver
 import {labelSetFontColor} from './helpers/label-set-font-color';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 import { Blaze } from 'meteor/blaze';
-import {IsEditedService} from "../../../imports/services/isEditedService";
-import {formatDateISO8601Time} from "../../../imports/helpers/date";
-import {isEditedHandling} from "../../helpers/isEditedHelpers";
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {formatDateISO8601Time} from '../../../imports/helpers/date';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -176,6 +176,17 @@ let resizeTextarea = (element) => {
     element.css('height', element.prop('scrollHeight') + 'px');
     $(document).scrollTop(scrollPos);
 };
+
+function makeDetailEditable(textEl, inputEl, detailActionsId) {
+    textEl.hide();
+    inputEl.show();
+    detailActionsId.show();
+
+    inputEl.val(textEl.attr('data-text'));
+    inputEl.parent().css('margin', '0 0 25px 0');
+    inputEl.focus();
+    resizeTextarea(inputEl);
+}
 
 Template.topicInfoItemList.helpers({
     topicStateClass: function (index) {
@@ -449,14 +460,7 @@ Template.topicInfoItemList.events({
         }
         else {
             IsEditedService.setIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
-            textEl.hide();
-            inputEl.show();
-            detailActionsId.show();
-
-            inputEl.val(textEl.attr('data-text'));
-            inputEl.parent().css('margin', '0 0 25px 0');
-            inputEl.focus();
-            resizeTextarea(inputEl);
+            makeDetailEditable(textEl, inputEl, detailActionsId);
         }
 
         const element = aActionItem._infoItemDoc.details[detailIndex];
@@ -465,14 +469,7 @@ Template.topicInfoItemList.events({
         };
         const setIsEdited = () => {
             IsEditedService.setIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
-            textEl.hide();
-            inputEl.show();
-            detailActionsId.show();
-
-            inputEl.val(textEl.attr('data-text'));
-            inputEl.parent().css('margin', '0 0 25px 0');
-            inputEl.focus();
-            resizeTextarea(inputEl);
+            makeDetailEditable(textEl, inputEl, detailActionsId);
         };
 
         isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetDetail');

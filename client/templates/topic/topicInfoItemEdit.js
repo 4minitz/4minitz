@@ -11,7 +11,6 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
 import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
-import { Label } from '/imports/label';
 import { Priority } from '/imports/priority';
 import { User, userSettings } from '/imports/users';
 
@@ -27,9 +26,8 @@ import {LabelExtractor} from '../../../imports/services/labelExtractor';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
-import {IsEditedService} from "../../../imports/services/isEditedService";
-import {formatDateISO8601Time} from "../../../imports/helpers/date";
-import {isEditedHandling} from "../../helpers/isEditedHelpers";
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -373,17 +371,17 @@ Template.topicInfoItemEdit.events({
         user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
     },
 
-    'click #btnInfoItemCancel': function (evt, tmpl) {
+    'click #btnInfoItemCancel': function (evt) {
         evt.preventDefault();
         closePopupAndUnsetIsEdited();
     },
 
-    'click .close': function (evt, tmpl) {
+    'click .close': function (evt) {
         evt.preventDefault();
         closePopupAndUnsetIsEdited();
     },
 
-    'keyup': function (evt, tmpl) {
+    'keyup': function (evt) {
         evt.preventDefault();
         if (evt.keyCode === 27) {
             closePopupAndUnsetIsEdited();

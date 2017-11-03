@@ -12,7 +12,7 @@ import { UserRoles } from '/imports/userroles';
 import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
 import {TopicsFinder} from '../../../imports/services/topicsFinder';
-import {formatDateISO8601Time} from "../../../imports/helpers/date";
+import {formatDateISO8601Time} from '../../../imports/helpers/date';
 
 
 let _meetingSeriesID;   // the parent meeting object of this minutes

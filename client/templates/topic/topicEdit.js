@@ -11,8 +11,8 @@ import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
-import {IsEditedService} from "../../../imports/services/isEditedService";
-import {isEditedHandling} from "../../helpers/isEditedHelpers";
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -161,7 +161,7 @@ Template.topicEdit.events({
         closePopupAndUnsetIsEdited();
     },
 
-    'keyup': function (evt, tmpl) {
+    'keyup': function (evt) {
         evt.preventDefault();
         if (evt.keyCode === 27) {
             closePopupAndUnsetIsEdited();

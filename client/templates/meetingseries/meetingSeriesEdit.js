@@ -12,9 +12,8 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
 import { Minutes } from '/imports/minutes';
-import {IsEditedService} from "../../../imports/services/isEditedService";
-import {formatDateISO8601Time} from "../../../imports/helpers/date";
-import {isEditedHandling} from "../../helpers/isEditedHelpers";
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
 
 
 Template.meetingSeriesEdit.onCreated(function() {
