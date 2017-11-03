@@ -4,7 +4,7 @@ import { Minutes } from '/imports/minutes';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 
-export function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID) {
+function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID) {
     selectResponsibles.select2({
         placeholder: 'Select...',
         tags: true,                     // Allow freetext adding
@@ -49,7 +49,13 @@ export function select2search(selectResponsibles, delayTime, freeTextValidator, 
     });
 }
 
-export function addResponsibleOptions(SelectResponsibleElementID, topicOrItemDoc){
+export function configureSelect2Responsibles(SelectResponsibleElementID, topicOrItemDoc, freeTextValidator, _minutesID) {
+    let selectResponsibles = $('#'+SelectResponsibleElementID);
+    selectResponsibles.find('option')     // clear all <option>s
+        .remove();
+    let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
+
+    select2search(selectResponsibles, delayTime, freeTextValidator, _minutesID);
     let data = {options: []};
     if (topicOrItemDoc !== undefined) {
         topicOrItemDoc.responsibles.forEach(responsibleId => {
@@ -63,4 +69,5 @@ export function addResponsibleOptions(SelectResponsibleElementID, topicOrItemDoc
         });
         Blaze.renderWithData(Template['optionsElement'], data, document.getElementById(SelectResponsibleElementID));
     }
+    selectResponsibles.trigger('change');
 }

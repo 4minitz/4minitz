@@ -9,8 +9,7 @@ import { Label } from '/imports/label';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
-import {select2search} from '/imports/client/ResponsibleSearch';
-import {addResponsibleOptions} from '/imports/client/ResponsibleSearch';
+import {configureSelect2Responsibles} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -33,18 +32,6 @@ let getEditTopic = function() {
 
     return new Topic(_minutesID, topicId);
 };
-
-function configureSelect2Responsibles() {
-    let selectResponsibles = $('#id_selResponsible');
-    selectResponsibles.find('option')     // clear all <option>s
-        .remove();
-    let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
-
-    select2search(selectResponsibles, delayTime, true, _minutesID);
-    let topic = getEditTopic();
-    addResponsibleOptions('id_selResponsible', topic._topicDoc);
-    selectResponsibles.trigger('change');
-}
 
 function configureSelect2Labels() {
     let aMin = new Minutes(_minutesID);
@@ -126,7 +113,8 @@ Template.topicEdit.events({
     },
 
     'show.bs.modal #dlgAddTopic': function () {
-        configureSelect2Responsibles();
+        let topic = getEditTopic();
+        configureSelect2Responsibles('id_selResponsible', topic._topicDoc, true, _minutesID);
         let selectLabels = $('#id_item_selLabels');
         if (selectLabels) {
             selectLabels.val([]).trigger('change');

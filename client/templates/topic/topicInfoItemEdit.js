@@ -23,8 +23,7 @@ import { _ } from 'meteor/underscore';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
 import {LabelExtractor} from '../../../imports/services/labelExtractor';
-import {select2search} from '/imports/client/ResponsibleSearch';
-import {addResponsibleOptions} from '/imports/client/ResponsibleSearch';
+import {configureSelect2Responsibles} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -78,11 +77,11 @@ let getEditInfoItem = function() {
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
     Session.set('topicInfoItemType', type);
-
+    let editItem = getEditInfoItem();
     switch (type) {
     case 'actionItem':
         actionItemOnlyElements.show();
-        configureSelect2Responsibles();
+        configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, false, _minutesID);
         break;
     case 'infoItem':
         actionItemOnlyElements.hide();
@@ -92,18 +91,6 @@ let toggleItemMode = function (type, tmpl) {
         throw new Meteor.Error('Unknown type!');
     }
 };
-
-function configureSelect2Responsibles() {
-    let selectResponsibles = $('#id_selResponsibleActionItem');
-    selectResponsibles.find('option')     // clear all <option>s
-        .remove();
-    let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
-
-    select2search(selectResponsibles, delayTime, false, _minutesID);
-    let editItem = getEditInfoItem();
-    addResponsibleOptions('id_selResponsibleActionItem', editItem._infoItemDoc);
-    selectResponsibles.trigger('change');
-}
 
 function configureSelect2Labels() {
     let aMin = new Minutes(_minutesID);
@@ -284,7 +271,7 @@ Template.topicInfoItemEdit.events({
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
             toggleItemMode(type, tmpl);
         } else {  // adding a new item
-            configureSelect2Responsibles();
+            configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, false, _minutesID);
             let selectResponsibles = $('#id_selResponsibleActionItem');
             if (selectResponsibles) {
                 selectResponsibles.val([]).trigger('change');
