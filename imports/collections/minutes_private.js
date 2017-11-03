@@ -5,6 +5,7 @@ import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
+import { MeetingSeries } from '../meetingseries';
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication(meetingSeriesId, minuteId) { 
@@ -230,5 +231,79 @@ Meteor.methods({
         } else {
             throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }
+    },
+
+    'responsiblesSearch' (partialName, minuteID, freeTextValidator) {
+        check(partialName, String);
+        let minute = new Minutes(minuteID);
+        let participants = minute.getParticipants(Meteor.users);
+        let participantsAdditional = minute.participantsAdditional;
+        let meetingSeries = new MeetingSeries(minute.meetingSeries_id);
+        let results_participants = []; // get all the participants for the minute
+        let foundPartipantsNames = [];
+        let allPartipantsNames = [];
+
+        if (participantsAdditional && freeTextValidator) {
+            participantsAdditional.split(/[,;]/).forEach(freeText => {
+                participants.push({name: freeText.trim(), userId:freeText.trim()});
+            });
+        }
+        participants.forEach( participant =>{
+            participant = Minutes.formatResponsibles(participant,'name', true);
+            if (participant.fullname.toLowerCase().includes(partialName.toLowerCase())) {
+                participant['isParticipant'] = true;
+                results_participants.push(participant);
+                foundPartipantsNames.push(participant.name);
+            }
+            allPartipantsNames.push(participant.name);
+        });
+
+        if(freeTextValidator) {
+            let freeTextResponsibles = meetingSeries.additionalResponsibles;
+            freeTextResponsibles = freeTextResponsibles.filter(user => { //get freetext responsibles
+                return !(allPartipantsNames.includes(user));
+            });
+
+            freeTextResponsibles.forEach(freetextUser => { //create a Responsibles Object
+                if (freetextUser.toLowerCase().includes(partialName.toLowerCase())) {
+                    results_participants.push({fullname: freetextUser, userId: freetextUser, 'isParticipant': true});
+                    foundPartipantsNames.push(freetextUser.fullname);
+                }
+            });
+        }
+
+        let searchSettings = {username: {'$regex': partialName, '$options': 'i'}};
+        let searchFields = {_id: 1, username: 1};
+        if (GlobalSettings.isTrustedIntranetInstallation()){
+            searchSettings = {
+                $or : [
+                    {username: {'$regex': partialName, '$options': 'i'}},
+                    {'profile.name': {'$regex': partialName, '$options': 'i'}}
+                ]
+            };
+            searchFields= {_id: 1, username: 1, 'profile.name': 1};
+        }
+
+        let results_otherUser = Meteor.users.find(
+            searchSettings,
+            {
+                limit: 10 + results_participants.length, //we want to show 10 "Other user"
+                // as it is not known, if a user a participant or not -> get 10+participants
+                fields: searchFields
+            }
+        ).fetch();
+
+        results_otherUser = results_otherUser.filter(user => { //remove duplicates
+            return !(foundPartipantsNames.includes(user.username));
+        });
+        results_otherUser = results_otherUser.slice(0,10); // limit to 10 records
+
+        results_otherUser = results_otherUser.map(otherUser => {
+            return Minutes.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
+        });
+
+        return {
+            results: results_participants.concat(results_otherUser)
+        };
     }
 });
