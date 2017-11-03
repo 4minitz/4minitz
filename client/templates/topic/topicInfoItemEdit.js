@@ -24,6 +24,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
 import {LabelExtractor} from '../../../imports/services/labelExtractor';
 import {select2search} from '/imports/client/ResponsibleSearch';
+import { Blaze } from 'meteor/blaze';
+import {addResponsibleOptions} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -99,22 +101,8 @@ function configureSelect2Responsibles() {
     let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
     select2search(selectResponsibles, delayTime, false, _minutesID);
-
-    //select the options that where stored with this item last time
     let editItem = getEditInfoItem();
-    let data = {options: []};
-    if (editItem && editItem._infoItemDoc && editItem._infoItemDoc.responsibles) {
-        editItem._infoItemDoc.responsibles.forEach(responsibleId => {
-            let responsibleUser = Meteor.users.findOne(responsibleId);
-            if (!responsibleUser) { //free text user
-                responsibleUser = {fullname: responsibleId};
-            } else {
-                Minutes.formatResponsibles(responsibleUser, 'username', responsibleUser.profile);
-            }
-            data.options.push({optionId: responsibleId, optionText: responsibleUser.fullname});
-        });
-        Blaze.renderWithData(Template['optionsElement'], data, document.getElementById('id_selResponsibleActionItem'));
-    }
+    addResponsibleOptions('id_selResponsibleActionItem', editItem._infoItemDoc);
     selectResponsibles.trigger('change');
 }
 

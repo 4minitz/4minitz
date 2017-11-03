@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
+import { Minutes } from '/imports/minutes';
 
 export function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID) {
     selectResponsibles.select2({
@@ -44,4 +45,20 @@ export function select2search(selectResponsibles, delayTime, freeTextValidator, 
                 };
             }}
     });
+}
+
+export function addResponsibleOptions(SelectResponsibleElementID, topicOrItemDoc){
+    let data = {options: []};
+    if (topicOrItemDoc !== undefined) {
+        topicOrItemDoc.responsibles.forEach(responsibleId => {
+            let responsibleUser = Meteor.users.findOne(responsibleId);
+            if (!responsibleUser) { //free text user
+                responsibleUser = {fullname: responsibleId};
+            } else {
+                Minutes.formatResponsibles(responsibleUser, 'username', responsibleUser.profile);
+            }
+            data.options.push({optionId: responsibleId, optionText: responsibleUser.fullname});
+        });
+        Blaze.renderWithData(Template['optionsElement'], data, document.getElementById(SelectResponsibleElementID));
+    }
 }

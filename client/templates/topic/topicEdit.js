@@ -10,6 +10,7 @@ import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
 import {select2search} from '/imports/client/ResponsibleSearch';
+import {addResponsibleOptions} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -40,22 +41,8 @@ function configureSelect2Responsibles() {
     let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
     select2search(selectResponsibles, delayTime, true, _minutesID);
-
-    // select the options that where stored with this topic last time
     let topic = getEditTopic();
-    let data = {options: []};
-    if (topic && topic._topicDoc && topic._topicDoc.responsibles) {
-        topic._topicDoc.responsibles.forEach(responsibleId => {
-            let responsibleUser = Meteor.users.findOne(responsibleId);
-            if (!responsibleUser) { //free text user
-                responsibleUser = {fullname: responsibleId};
-            } else {
-                Minutes.formatResponsibles(responsibleUser, 'username', responsibleUser.profile);
-            }
-            data.options.push({optionId: responsibleId, optionText: responsibleUser.fullname});
-        });
-        Blaze.renderWithData(Template['optionsElement'], data, document.getElementById('id_selResponsible'));
-    }
+    addResponsibleOptions('id_selResponsible', topic._topicDoc);
     selectResponsibles.trigger('change');
 }
 
