@@ -9,6 +9,7 @@ import { Label } from '/imports/label';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
+import {convertOrCreateLabelsFromStrings} from '/client/templates/topic/helpers/convert-or-create-label-from-string';
 import {configureSelect2Responsibles} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicEditTopicId', null);
