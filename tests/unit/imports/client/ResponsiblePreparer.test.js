@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import _ from 'underscore';
 import  faker from 'faker';
 
-import { ResponsiblePreparer } from '../../../../imports/client/ResponsiblePreparer';
+import { ResponsiblePreparer } from '../../../../imports/helpers/ResponsiblePreparer';
 
 let generateId = () => {
     return faker.random.uuid();
