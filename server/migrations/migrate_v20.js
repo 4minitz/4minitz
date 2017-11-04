@@ -2,13 +2,13 @@ import { TopicSchema } from '/imports/collections/topic.schema';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 
 function saveMinutes(minutes) {
-    // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
     MinutesSchema.getCollection().update(
         minutes._id, {
             $set: {
                 'topics': minutes.topics,
             }
-        }
+        },
+        {bypassCollection2: true}
     );
 }
 
@@ -18,7 +18,8 @@ function saveTopics(topics) {
             $set: {
                 'infoItems': topics.infoItems,
             }
-        }
+        },
+        {bypassCollection2: true}
     );
 }
 
@@ -34,13 +35,7 @@ function forEachDetailInTopics(topics, operation){
 
 function forEachDetailInMinutes(minutes, operation) {
     minutes.forEach(min => {
-        min.topics.forEach(topic => {
-            topic.infoItems.forEach(infoItem => {
-                if(infoItem.details) {
-                    infoItem.details.forEach(operation);
-                }
-            });
-        });
+        forEachDetailInTopics(min.topics, operation);
     });
 }
 
@@ -57,8 +52,7 @@ export class MigrateV20 {
         let allMinutes = MinutesSchema.getCollection().find();
         allMinutes.forEach(min => {
             forEachDetailInTopics(min.topics, detail => {
-                let isNew = (detail.createdInMinute === min._id);
-                detail.isNew = isNew;
+                detail.isNew = (detail.createdInMinute === min._id);
             });
         });
         saveMinutes(allMinutes);
