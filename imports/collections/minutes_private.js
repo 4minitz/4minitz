@@ -311,12 +311,10 @@ Meteor.methods({
     },
 */
 
-    'responsiblesSearch' (partialName, minuteID, freeTextValidator, topicid) {
+    'responsiblesSearch' (partialName, minuteID, freeTextValidator, topicOrItem) {
         check(partialName, String);
         let minute = new Minutes(minuteID);
-        let topic = minute.findTopic(topicid);
-        let preparer = new ResponsiblePreparer(minute, topic, Meteor.users);
-
+        let preparer = new ResponsiblePreparer(minute, topicOrItem, Meteor.users, freeTextValidator);
         let participants = preparer.getPossibleResponsibles();
         let results_participants = []; // get all the participants for the minute
         let foundPartipantsNames = [];

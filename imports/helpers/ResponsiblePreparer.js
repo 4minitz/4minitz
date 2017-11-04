@@ -138,7 +138,7 @@ export class ResponsiblePreparer {
 
         return this.usersCollection.find(
             {$and: [{_id: {$nin: participantsIds}},
-                {isInactive: {$not: true}}]}).fetch();
+                {isInactive: {$ne: true}}]}).fetch();
     }
 
     static _responsibleMightBeID(value) {
