@@ -552,38 +552,6 @@ Template.minutesedit.events({
             }
         };
 
-        let checkEditingBeforeFinalize = function(){
-            if (checkIfEditExist(aMin)) {
-                ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                    processFinalize,
-                    'Edit warning',
-                    'confirmPlainText',
-                    { plainText: 'This minute has elements that are still edited. Are you sure you want to finalize the meeting?'},
-                    'Proceed'
-                ).show();
-            }
-            else {
-                processFinalize();
-            }
-        };
-
-        let noParticipantsPresent = true;
-        aMin.participants.forEach(p => {
-            if(p.present) noParticipantsPresent = false;
-        });
-
-        if(noParticipantsPresent){
-            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                checkEditingBeforeFinalize,
-                'Proceed without participants',
-                'confirmPlainText',
-                { plainText: 'No invited user is checked as participant of this meeting. Are you sure you want to finalize the meeting?'},
-                'Proceed'
-            ).show();
-        }
-        else {
-            checkEditingBeforeFinalize();
-        }
         QualityTestRunner.run(QualityTestRunner.TRIGGERS.finalize, aMin, processFinalize);
     },
 

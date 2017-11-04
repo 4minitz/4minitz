@@ -172,13 +172,6 @@ let addNewDetails = async (tmpl, index) => {
     }, 250);
 };
 
-let resizeTextarea = (element) => {
-    let scrollPos = $(document).scrollTop();
-    element.css('height', 'auto');
-    element.css('height', element.prop('scrollHeight') + 'px');
-    $(document).scrollTop(scrollPos);
-};
-
 function makeDetailEditable(textEl, inputEl, detailActionsId) {
     textEl.hide();
     inputEl.show();
