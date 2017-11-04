@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { MeetingSeries } from '/imports/meetingseries';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -16,19 +15,10 @@ function getFilteredSeries(queryString) {
 }
 
 Template.meetingSeriesList.onCreated(function () {
-    this.seriesReady = new ReactiveVar();
     this.searchQuery = new ReactiveVar('');
-    this.autorun(() => {
-        this.subscribe('meetingSeriesOverview');
-        this.seriesReady.set(this.subscriptionsReady());
-    });
 });
 
 Template.meetingSeriesList.helpers({
-    authenticating() {
-        const subscriptionReady = Template.instance().seriesReady.get();
-        return Meteor.loggingIn() || !subscriptionReady;
-    },
     meetingSeriesRow() {
         const searchQuery = Template.instance().searchQuery.get();
 

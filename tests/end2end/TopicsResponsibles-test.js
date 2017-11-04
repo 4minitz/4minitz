@@ -96,7 +96,9 @@ describe('Topics Responsibles', function () {
         E2ETopics.openEditTopicForMinutes(1);
         E2EGlobal.waitSomeTime();
         browser.element(".form-group-responsibles .select2-selection").click();
-        browser.keys("3\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
+        browser.keys("3");
+        E2EGlobal.waitSomeTime();
+        browser.keys("\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry("#btnTopicSave");
         E2EGlobal.waitSomeTime(500);

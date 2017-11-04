@@ -227,6 +227,17 @@ export class E2EApp {
         browser.setValue('#at-field-email', emailAdress);
         E2EGlobal.clickWithRetry('#at-btn');
     }
+
+    static gotoActionItemsTab() {
+        let selector = '#tab_actionItems';
+        try {
+            browser.waitForExist(selector);
+        } catch (e) {
+            return false;
+        }
+        E2EGlobal.clickWithRetry(selector);
+        E2EGlobal.waitSomeTime();
+    }
 }
 
 E2EApp._currentlyLoggedInUser = "";

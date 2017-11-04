@@ -1,13 +1,14 @@
 <template name="home">
-
-    {{#if currentUser}}
-      {{> meetingSeriesList}}
+    {{#if authenticating}}
+        {{> loading}}
     {{else}}
-
-      <!-- This login template embedding is for security only... -->
-      <!-- Normally the router.js decides to render the login template if no user is logged in -->
-      {{> login}}
-
+        <ul class="nav nav-tabs">
+            <li id="tab_meetings" data-template="meetingSeriesList" role="presentation" class="{{isTabActive 'tab_meetings'}}"><a>Meetings</a></li>
+            <li id="tab_actionItems" data-template="actionItemList" data-action="actionItems" role="presentation" class="{{isTabActive 'tab_actionItems'}}"><a>Action Items</a></li>
+        </ul>
+        <div class="active">
+            {{> Template.dynamic template=tab}}
+        </div>
     {{/if}}
 
 </template>

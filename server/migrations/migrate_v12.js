@@ -3,27 +3,15 @@ import { Random } from 'meteor/random';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesFinder } from '/imports/services/minutesFinder';
+import {updateTopicsOfSeriesPre16} from './helpers/updateSeries';
+import {updateTopicsOfMinutes} from './helpers/updateMinutes';
 
 function saveSeries(series) {
-    MeetingSeriesSchema.getCollection().update(
-        series._id, {
-            $set: {
-                'topics': series.topics,
-                'openTopics': series.openTopics
-            }
-        }
-    );
+    updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
 }
 
 function saveMinutes(minutes) {
-    // We switch off bypassCollection2 here, to skip .clean & .validate to allow empty string values
-    MinutesSchema.getCollection().update(
-        minutes._id, {
-            $set: {
-                'topics': minutes.topics,
-            }
-        }
-    );
+    updateTopicsOfMinutes(minutes, MinutesSchema.getCollection());
 }
 
 function forEachDetail(infoItem, operation) {
@@ -114,7 +102,7 @@ class MigrateSeriesUp {
         }
         //for new created details
         if (!prevDetail) {
-            if(!detail._id){
+            if(!detail._id) {
                 detail._id = Random.id();
                 detail.createdInMinute = minutesId;
                 this.topicParentMinuteMap[detail.text+infoItem._id] = {id: detail._id, createdInMinute: detail.createdInMinute};
@@ -130,22 +118,16 @@ class MigrateSeriesUp {
     }
 
     _updateTopicsOfSeries() {
-        this.series.topics.forEach(topic => {
+        const updateTopic = (topic) => {
             topic.infoItems.forEach(infoItem =>{
                 forEachDetail(infoItem, detail =>{
                     detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id].createdInMinute;
                     detail._id = this.topicParentMinuteMap[detail.text+infoItem._id].id;
                 });
             });
-        });
-        this.series.openTopics.forEach(topic => {
-            topic.infoItems.forEach(infoItem =>{
-                forEachDetail(infoItem, detail =>{
-                    detail.createdInMinute = this.topicParentMinuteMap[detail.text+infoItem._id].createdInMinute;
-                    detail._id = this.topicParentMinuteMap[detail.text+infoItem._id].id;
-                });
-            });
-        });
+        };
+        this.series.topics.forEach(updateTopic);
+        this.series.openTopics.forEach(updateTopic);
     }
 }
 

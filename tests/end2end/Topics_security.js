@@ -1,5 +1,7 @@
 import { E2EApp } from './helpers/E2EApp';
 import { E2ESecurity } from './helpers/E2ESecurity';
+import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 
 const topicSubject = 'Topic Security';
 const newSubject = 'Updated Subject';
@@ -164,6 +166,70 @@ describe('Topics Methods Security', function () {
         E2EApp.loginUser(2);
         expect(E2EApp.isLoggedIn()).to.be.true;
         E2ESecurity.tryReopenTopic(topicId, min.ms_id, false, 'Informed user can not reopen a topic');
+        E2EApp.loginUser();
+    });
+});
+
+describe('Topics Publish & Subscribe Security', function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
+        E2EApp.gotoStartPage();
+        expect(E2EApp.isLoggedIn()).to.be.true;
+    });
+
+    before('reload page and reset app', function () {
+        E2EApp.resetMyApp(true);
+        E2EApp.launchApp();
+    });
+
+    it('Non-logged in users have no unexpected Topics from MeetingSeries published', function () {
+        const name = 'Publish Topics Project #1';
+        const min = E2ESecurity.createMeetingSeriesAndMinute(name);
+        const topicId = E2ESecurity.returnMeteorId();
+        E2ESecurity.executeMethod(E2ESecurity.addTopic, min.min_id, {subject: topicSubject, labels: Array(0), _id: topicId});
+        E2ESecurity.tryFinalizeMinute(min.min_id, true);
+
+        const min2 = E2ESecurity.createMeetingSeriesAndMinute(name);
+        const topicId2 = E2ESecurity.returnMeteorId();
+        E2ESecurity.executeMethod(E2ESecurity.addTopic, min2.min_id, {subject: topicSubject, labels: Array(0), _id: topicId2});
+
+        expect(E2ESecurity.countRecordsInMiniMongo('topics'),
+            'Moderator should have no Topics published when not within a Meeting Series').to.equal(0);
+        E2EMinutes.gotoParentMeetingSeries();
+
+        expect(E2ESecurity.countRecordsInMiniMongo('topics'),
+            'Moderator should have 1 Topic published').to.equal(1);
+
+        E2EApp.logoutUser();
+        expect (E2EApp.isNotLoggedIn()).to.be.true;
+        expect(E2ESecurity.countRecordsInMiniMongo('topics'),
+            'Not logged in user should not have Topics published').to.equal(0);
+
+        E2EApp.loginUser();
+    });
+
+    it('Invited users should have Topics from MeetingSeries published', function () {
+        expect(E2EApp.isLoggedIn()).to.be.true;
+        const name = 'Publish Topics Project #2';
+
+        const min = E2ESecurity.createMeetingSeriesAndMinute(name);
+        E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
+
+        const topicId = E2ESecurity.returnMeteorId();
+        E2ESecurity.executeMethod(E2ESecurity.addTopic, min.min_id, {subject: topicSubject, labels: Array(0), _id: topicId});
+        E2ESecurity.tryFinalizeMinute(min.min_id, true);
+
+        E2EMinutes.addMinutesToMeetingSeries(name, name);
+        E2ESecurity.executeMethod(E2ESecurity.addTopic, min.min_id, {subject: topicSubject, labels: Array(0), _id: topicId});
+
+        E2EApp.loginUser(1);
+        expect (E2EApp.isLoggedIn()).to.be.true;
+        expect(E2ESecurity.countRecordsInMiniMongo('topics'),
+            'Invited user should have no Topics published when not within a Meeting Series').to.equal(0);
+
+        E2EMeetingSeries.gotoMeetingSeries(name, name);
+        expect(E2ESecurity.countRecordsInMiniMongo('topics'),
+            'Invited user should have 1 Topic published').to.equal(1);
+
         E2EApp.loginUser();
     });
 });

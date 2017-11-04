@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import {TopicsFinder} from '../topicsFinder';
+import {Minutes} from '../../minutes';
 
 export class MeetingSeriesTopicsUpdater {
 
@@ -8,8 +9,12 @@ export class MeetingSeriesTopicsUpdater {
         this.meetingSeriesId = meetingSeriesId;
     }
 
-    invalidateIsNewFlagOfAllTopicsAndItems() {
-        TopicsFinder.allTopicsOfMeetingSeries(this.meetingSeriesId).forEach((topicDoc) => {
+    invalidateIsNewFlagOfTopicsPresentedInMinutes(minutesId) {
+        const minutes = new Minutes(minutesId);
+        const topicIds = minutes.topics.map(topicDoc => {
+            return topicDoc._id;
+        });
+        TopicsFinder.allTopicsIdentifiedById(topicIds).forEach((topicDoc) => {
             topicDoc.isNew = false;
             topicDoc.infoItems.forEach(itemDoc => {
                 itemDoc.isNew = false;

@@ -1,5 +1,6 @@
 import { InfoItem } from './infoitem';
 import {Priority} from './priority';
+import {currentDatePlusDeltaDays} from './helpers/date';
 
 export class ActionItem extends InfoItem{
     constructor(parentTopic, source) {   // constructs obj from item ID or document
@@ -14,7 +15,10 @@ export class ActionItem extends InfoItem{
             this._infoItemDoc.responsible = '';
         }
         if (this._infoItemDoc.priority === undefined) {
-            this._infoItemDoc.priority = Priority.GET_DEFAULT_PRIORITY();
+            this._infoItemDoc.priority = Priority.GET_DEFAULT_PRIORITY().value;
+        }
+        if (!this._infoItemDoc.duedate) {
+            this._infoItemDoc.duedate = currentDatePlusDeltaDays(7);
         }
     }
 

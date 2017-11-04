@@ -41,6 +41,10 @@
     padding: 2px 6px 2px 1px;
 }
 
+.focus {
+    border: 2px dashed #00bcff !important;
+}
+
 .remove-symbol {
     padding: 3px 2px 2px 6px;
     font-size:93%;
@@ -280,6 +284,16 @@ input.pick-a-color {
 /* used for skipped topics */
 .strikethrough {
     text-decoration: line-through;
+}
+
+.linkMeetingSerie{
+    color: grey;
+    font-size: 80%;
+    vertical-align: sub;
+}
+
+a.linkMeetingSerie:hover {
+    color: black;
 }
 
 .meetingSeriesSearchbar input{
