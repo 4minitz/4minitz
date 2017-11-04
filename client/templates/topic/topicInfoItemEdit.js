@@ -155,10 +155,6 @@ Template.topicInfoItemEdit.events({
         const newDetail = (!editItem) ? tmpl.find('#id_item_detailInput').value : false;
         const labels = tmpl.$('#id_item_selLabelsActionItem').val();
 
-        if(getEditInfoItem() === false) {
-            newDetail = tmpl.find('#id_item_detailInput').value;
-        }
-
         if (Session.get('topicInfoItemEditInfoItemId') !== null)
             IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
 

@@ -226,25 +226,6 @@ let openPrintDialog = function () {
 let sendActionItems = true;
 let sendInformationItems = true;
 
-// function checkIfEditExist(aMin) {
-let checkIfEditExist = function (aMin) {
-    for (let topic of aMin.topics) {
-        if (topic.isEditedBy != undefined || topic.isEditedDate != undefined) {
-            return true;
-        }
-        for (let infoItem of topic.infoItems) {
-            if (infoItem.isEditedBy != undefined || infoItem.isEditedDate != undefined) {
-                return true;
-            }
-            for (let detail of infoItem.details) {
-                if (detail.isEditedBy != undefined || detail.isEditedDate != undefined) {
-                    return true;
-                }
-            }
-        }
-    }
-};
-
 Template.minutesedit.helpers({
     setDocumentTitle() {
         let min = new Minutes(_minutesID);
