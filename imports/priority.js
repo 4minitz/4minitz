@@ -18,6 +18,15 @@ export class Priority {
         return Object.keys(PRIORITY_MAP).map(value => new Priority(value));
     }
 
+    static extractPriorityFromString(string) {
+        const regEx = /prio:([1-5])/g;
+        let match = regEx.exec(string);
+        if (match !== null) {
+            return new Priority(match[1]);
+        }
+        return false;
+    }
+
     constructor(value) {
         assert(value >= 1 && value < 6, `invalid priority value: ${value}`);
         this.value = parseInt(value,10);

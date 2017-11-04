@@ -38,6 +38,9 @@ export class E2EMinutes {
         participantsInfo.setUserPresence(E2EApp.getCurrentUser(),true);
         browser.waitForVisible("#btn_finalizeMinutes");
         E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
+
+        E2EMinutes.confirmQualityAssuranceDialog();
+
         if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
             if (confirmDialog === undefined || confirmDialog) {
                 E2EApp.confirmationDialogAnswer(true);
@@ -56,9 +59,9 @@ export class E2EMinutes {
     static finalizeCurrentMinutesWithoutParticipants (confirmDialog, processFinalize) {
         browser.waitForVisible("#btn_finalizeMinutes");
         E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
+
         if(processFinalize == true) {
-            browser.waitForVisible("#confirmationDialogOK");
-            E2EGlobal.clickWithRetry("#confirmationDialogOK");
+            E2EMinutes.confirmQualityAssuranceDialog();
             if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
                 if (confirmDialog === undefined || confirmDialog) {
                     E2EApp.confirmationDialogAnswer(true);
@@ -72,6 +75,12 @@ export class E2EMinutes {
         }
     };
 
+    static confirmQualityAssuranceDialog(){
+        E2EGlobal.waitSomeTime();
+        if(browser.isVisible('#minuteQualityAssuranceDialog')) {
+            E2EApp.confirmationDialogAnswer(true);
+        }
+    }
 
     static  unfinalizeCurrentMinutes () {
         browser.waitForVisible('#btn_unfinalizeMinutes');

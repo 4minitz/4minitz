@@ -20,6 +20,7 @@ import { Finalizer } from '/imports/services/finalize-minutes/finalizer';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import { QualityTestRunner } from '/imports/client/QualityTestRunner';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { UserTracker } from '../../helpers/userTracker';
 
@@ -489,24 +490,28 @@ Template.minutesedit.events({
             sendBtn.prop('disabled', false);
         };
 
-        if (aMin.getAgendaSentAt()) {
-            let date = aMin.getAgendaSentAt();
-            console.log(date);
+        let agendaCheckDate = async() => {
+            if (aMin.getAgendaSentAt()) {
+                let date = aMin.getAgendaSentAt();
+                console.log(date);
 
-            ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
-                sendAgenda,
-                'Confirm sending agenda',
-                'confirmSendAgenda',
-                {
-                    minDate: aMin.date,
-                    agendaSentDate: moment(date).format('YYYY-MM-DD'),
-                    agendaSentTime: moment(date).format('h:mm')
-                },
-                'Send Agenda'
-            ).show();
-        } else {
-            await sendAgenda();
-        }
+                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                    sendAgenda,
+                    'Confirm sending agenda',
+                    'confirmSendAgenda',
+                    {
+                        minDate: aMin.date,
+                        agendaSentDate: moment(date).format('YYYY-MM-DD'),
+                        agendaSentTime: moment(date).format('h:mm')
+                    },
+                    'Send Agenda'
+                ).show();
+            } else {
+                await sendAgenda();
+            }
+        };
+
+        QualityTestRunner.run(QualityTestRunner.TRIGGERS.sendAgenda, aMin, agendaCheckDate);
     },
 
     'click #btn_finalizeMinutes': function(evt, tmpl) {
@@ -579,6 +584,7 @@ Template.minutesedit.events({
         else {
             checkEditingBeforeFinalize();
         }
+        QualityTestRunner.run(QualityTestRunner.TRIGGERS.finalize, aMin, processFinalize);
     },
 
     'click #btn_unfinalizeMinutes': function(evt) {

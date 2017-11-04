@@ -9,12 +9,10 @@ import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFacto
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
-import { InfoItem } from '/imports/infoitem';
 import { ActionItem } from '/imports/actionitem';
 import { Priority } from '/imports/priority';
 import { User, userSettings } from '/imports/users';
 
-import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import { currentDatePlusDeltaDays } from '/imports/helpers/date';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 
@@ -22,12 +20,12 @@ import { $ } from 'meteor/jquery';
 import { _ } from 'meteor/underscore';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
-import {LabelExtractor} from '../../../imports/services/labelExtractor';
+import {createItem} from './helpers/create-item';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
-import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 import {IsEditedService} from '../../../imports/services/isEditedService';
 import {isEditedHandling} from '../../helpers/isEditedHelpers';
+import {configureSelect2Responsibles} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -81,11 +79,11 @@ let getEditInfoItem = function() {
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
     Session.set('topicInfoItemType', type);
-
+    let editItem = getEditInfoItem();
     switch (type) {
     case 'actionItem':
         actionItemOnlyElements.show();
-        configureSelect2Responsibles();
+        configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, false, _minutesID);
         break;
     case 'infoItem':
         actionItemOnlyElements.hide();
@@ -95,41 +93,6 @@ let toggleItemMode = function (type, tmpl) {
         throw new Meteor.Error('Unknown type!');
     }
 };
-
-
-function configureSelect2Responsibles() {
-    let freeTextValidator = (text) => {
-        return emailAddressRegExpTest.test(text);
-    };
-    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditInfoItem(), Meteor.users, freeTextValidator);
-
-    let selectResponsibles = $('#id_selResponsibleActionItem');
-    selectResponsibles.find('optgroup')     // clear all <option>s
-        .remove();
-    let possResp = preparer.getPossibleResponsibles();
-    let remainingUsers = preparer.getRemainingUsers();
-    let selectOptions = [{
-        text: 'Participants',
-        children: possResp
-    }, {
-        text: 'Other Users',
-        children: remainingUsers
-    }];
-
-    selectResponsibles.select2({
-        placeholder: 'Select...',
-        tags: true,                     // Allow freetext adding
-        tokenSeparators: [',', ';'],
-        data: selectOptions             // push <option>s data
-    });
-
-    // select the options that where stored with this topic last time
-    let editItem = getEditInfoItem();
-    if (editItem) {
-        selectResponsibles.val(editItem.getResponsibleRawArray());
-    }
-    selectResponsibles.trigger('change');
-}
 
 let resizeTextarea = (element) => {
 
@@ -185,10 +148,12 @@ Template.topicInfoItemEdit.events({
         if (!getRelatedTopic()) {
             throw new Meteor.Error('IllegalState: We have no related topic object!');
         }
+        const editItem = getEditInfoItem();
 
-        let type = Session.get('topicInfoItemType');
-        let newSubject = tmpl.find('#id_item_subject').value;
-        let newDetail;
+        const type = Session.get('topicInfoItemType');
+        const newSubject = tmpl.find('#id_item_subject').value;
+        const newDetail = (!editItem) ? tmpl.find('#id_item_detailInput').value : false;
+        const labels = tmpl.$('#id_item_selLabelsActionItem').val();
 
         if(getEditInfoItem() === false) {
             newDetail = tmpl.find('#id_item_detailInput').value;
@@ -197,51 +162,27 @@ Template.topicInfoItemEdit.events({
         if (Session.get('topicInfoItemEditInfoItemId') !== null)
             IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
 
-        let editItem = getEditInfoItem();
         let doc = {};
         if (editItem) {
             _.extend(doc, editItem._infoItemDoc);
         }
 
-        let labels = tmpl.$('#id_item_selLabelsActionItem').val();
-        if (!labels) labels = [];
-        let aMinute = new Minutes(_minutesID);
-        let aSeries = aMinute.parentMeetingSeries();
-        labels = convertOrCreateLabelsFromStrings(labels, aSeries);
-
         doc.subject = newSubject;
-        if (!doc.createdInMinute) {
-            doc.createdInMinute = _minutesID;
-        }
-        doc.labels = labels;
 
-        let newItem;
-        switch (type) {
-        case 'actionItem':
+        if (type === 'actionItem') {
             doc.responsibles = $('#id_selResponsibleActionItem').val();
             doc.duedate = tmpl.find('#id_item_duedateInput').value;
-
-            newItem = new ActionItem(getRelatedTopic(), doc);
-            newItem.setPriority(new Priority(tmpl.find('#id_item_priority').value));
-            break;
-        case 'infoItem':
-        {
-            newItem = new InfoItem(getRelatedTopic(), doc);
-            break;
-        }
-        default:
-            throw new Meteor.Error('Unknown type!');
+            doc.priority = tmpl.find('#id_item_priority').value;
         }
 
-        const labelExtractor = new LabelExtractor(newSubject, aMinute.parentMeetingSeries()._id);
-        newItem.addLabelsById(labelExtractor.getExtractedLabelIds());
-        newItem.setSubject(labelExtractor.getCleanedString());
+        const minutes = new Minutes(_minutesID);
+        const newItem = createItem(doc, getRelatedTopic(), _minutesID, minutes.parentMeetingSeries(), type, labels);
+
+        if (newDetail) {
+            newItem.addDetails(minutes._id, newDetail);
+        }
+
         newItem.saveAsync().catch(handleError);
-        if (getEditInfoItem() === false && newDetail) {
-            newItem.addDetails(aMinute._id, newDetail);
-            // TODO: Here we have two save operations almost parallel! Add the details before saving the item at the first place.
-            newItem.saveAsync().catch(handleError);
-        }
         $('#dlgAddInfoItem').modal('hide');
     },
 
@@ -294,7 +235,7 @@ Template.topicInfoItemEdit.events({
             isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
 
         } else {  // adding a new item
-            configureSelect2Responsibles();
+            configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, false, _minutesID);
             let selectResponsibles = $('#id_selResponsibleActionItem');
             if (selectResponsibles) {
                 selectResponsibles.val([]).trigger('change');
