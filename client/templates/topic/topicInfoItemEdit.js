@@ -148,15 +148,14 @@ Template.topicInfoItemEdit.events({
         if (!getRelatedTopic()) {
             throw new Meteor.Error('IllegalState: We have no related topic object!');
         }
+        if (Session.get('topicInfoItemEditInfoItemId') !== null)
+            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
         const editItem = getEditInfoItem();
 
         const type = Session.get('topicInfoItemType');
         const newSubject = tmpl.find('#id_item_subject').value;
         const newDetail = (!editItem) ? tmpl.find('#id_item_detailInput').value : false;
         const labels = tmpl.$('#id_item_selLabelsActionItem').val();
-
-        if (Session.get('topicInfoItemEditInfoItemId') !== null)
-            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
 
         let doc = {};
         if (editItem) {
