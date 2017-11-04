@@ -150,6 +150,46 @@ describe('Minutes Finalize', function () {
         expect(browser.isExisting("#btn_deleteMinutes")).to.be.true;
     });
 
+    it('removes all fresh info items when finalizing the second minutes', function() {
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
+        let myDate = "2015-03-17";  // date of first project commit ;-)
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
+
+        E2ETopics.addTopicToMinutes('Topic');
+        E2ETopics.addInfoItemToTopic({
+            subject: 'Old Info Item',
+            itemType: 'infoItem'
+        }, 1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
+        E2ETopics.addInfoItemToTopic({
+            subject: 'New Info Item',
+            itemType: 'infoItem'
+        }, 1);
+
+        E2EMinutes.finalizeCurrentMinutes();
+
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.gotoTabTopics();
+
+        expect(E2ETopics.countItemsForTopic(1), "Topic should have two items").to.equal(2);
+
+        E2EMeetingSeries.gotoTabMinutes();
+        E2EMinutes.gotoLatestMinutes();
+
+        E2EMinutes.unfinalizeCurrentMinutes();
+
+        E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.gotoTabTopics();
+
+        expect(E2ETopics.countItemsForTopic(1), "Topic should have one items").to.equal(1);
+    });
+
 
     it('does show name of user that did finalize', function () {
         aMeetingCounter++;

@@ -66,6 +66,8 @@ export class E2EMinutesParticipants {
          }
      */
     updateUsersAndPresence() {
+        // scroll to top to make sure the page will not scroll if any element disappears (e.g. item input field)
+        browser.scroll(0, 0);
         E2EMinutesParticipants.expand();
 
         this._participantsAndPresence = {};

@@ -33,7 +33,7 @@ let _bind = function (connection) {
             return;
         }
 
-        client.bind(userDn, password, (error, response) => {
+        client.bind(userDn, password, (error) => {
             if (error) {
                 reject(error);
                 return;
@@ -61,7 +61,7 @@ const inactivityStrategies = {
     none() {
         return false;
     }
-}
+};
 
 function isInactive(inactivitySettings, entry) {
     const strategy = inactivitySettings && inactivitySettings.strategy || 'none',

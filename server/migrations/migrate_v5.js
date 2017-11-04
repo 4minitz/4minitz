@@ -1,5 +1,7 @@
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
+import {updateTopicsOfMinutes} from './helpers/updateMinutes';
+import {updateTopicsOfSeriesPre16} from './helpers/updateSeries';
 
 // add the isRecurring field to all topics
 export class MigrateV5 {
@@ -20,56 +22,28 @@ export class MigrateV5 {
 
 
     static up() {
-        MinutesSchema.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV5._upgradeTopics(minute.topics);
-
-            // We use getCollection() here to skip .clean & .validate to allow empty string values
-            MinutesSchema.getCollection().update(
-                minute._id, {
-                    $set: {
-                        'topics': minute.topics
-                    }
-                });
+            updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
         });
 
-        MeetingSeriesSchema.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV5._upgradeTopics(series.openTopics);
             MigrateV5._upgradeTopics(series.topics);
-
-            MeetingSeriesSchema.getCollection().update(
-                series._id, {
-                    $set: {
-                        'topics': series.topics,
-                        'openTopics': series.openTopics
-                    }
-                });
+            updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
         });
     }
 
     static down() {
-        MinutesSchema.find().forEach(minute => {
+        MinutesSchema.getCollection().find().forEach(minute => {
             MigrateV5._downgradeTopics(minute.topics);
-
-            // We use getCollection() here to skip .clean & .validate to allow empty string values
-            MinutesSchema.getCollection().update(
-                minute._id, {
-                    $set: {
-                        'topics': minute.topics
-                    }
-                });
+            updateTopicsOfMinutes(minute, MinutesSchema.getCollection());
         });
 
-        MeetingSeriesSchema.find().forEach(series => {
+        MeetingSeriesSchema.getCollection().find().forEach(series => {
             MigrateV5._downgradeTopics(series.openTopics);
             MigrateV5._downgradeTopics(series.topics);
-
-            MeetingSeriesSchema.getCollection().update(
-                series._id, {
-                    $set: {
-                        'topics': series.topics,
-                        'openTopics': series.openTopics
-                    }
-                });
+            updateTopicsOfSeriesPre16(series, MeetingSeriesSchema.getCollection());
         });
     }
 }

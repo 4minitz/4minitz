@@ -155,7 +155,7 @@ export class Topic {
         }
     }
 
-    async upsertInfoItem(topicItemDoc, saveChanges) {
+    async upsertInfoItem(topicItemDoc, saveChanges, insertPlacementTop = true) {
         if (saveChanges === undefined) {
             saveChanges = true;
         }
@@ -166,7 +166,11 @@ export class Topic {
             i = subElementsHelper.findIndexById(topicItemDoc._id, this.getInfoItems());
         }
         if (i === undefined) {                      // topicItem not in array
-            this.getInfoItems().unshift(topicItemDoc);  // add to front of array
+            if (insertPlacementTop) {
+                this.getInfoItems().unshift(topicItemDoc);
+            }  else {
+                this.getInfoItems().push(topicItemDoc);
+            }
         } else {
             this.getInfoItems()[i] = topicItemDoc;      // overwrite in place
         }
@@ -336,32 +340,4 @@ export class Topic {
         return this._topicDoc.responsibles;
     }
 
-    addResponsible(responsibleName) {
-        let user = Meteor.users.findOne(responsibleName);
-        if (user) {
-            responsibleName = user.username;
-        }
-
-        this._topicDoc.responsibles.push(responsibleName);
-    }
-
-    extractResponsiblesFromTopic() {
-        const regEx = new RegExp(/(^|[\s.,;])@([a-zA-z]+[^\s.,;]*)/g);
-        let subjectString = this._topicDoc.subject;
-        let match;
-
-        while ((match = regEx.exec(subjectString)) !== null) {
-            let responsibleName = match[2];
-            this.addResponsible(responsibleName);
-            this._removeResponsibleFromTopic(responsibleName);
-        }
-    }
-
-    // ################### private methods
-
-    _removeResponsibleFromTopic(responsibleName) {
-        this._topicDoc.subject = this._topicDoc.subject.replace('@' + responsibleName + ' ', '');
-        this._topicDoc.subject = this._topicDoc.subject.replace(' @' + responsibleName, '');
-        this._topicDoc.subject = this._topicDoc.subject.replace('@' + responsibleName, '');
-    }
 }

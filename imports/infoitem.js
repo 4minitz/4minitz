@@ -142,7 +142,7 @@ export class InfoItem {
         }
     }
 
-    async saveAsync() {
+    async saveAsync(insertPlacementTop = true) {
         // caution: this will update the entire topics array from the parent minutes of the parent topic!
         if (!this._infoItemDoc._id) { // it is a new one
             this._infoItemDoc.createdAt = new Date();
@@ -150,7 +150,11 @@ export class InfoItem {
         }
         this._infoItemDoc.updatedAt = new Date();
         this._infoItemDoc.updatedBy = Meteor.user().username;
-        this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(this._infoItemDoc);
+        this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(this._infoItemDoc, true, insertPlacementTop);
+    }
+
+    async saveAtBottom() {
+        return this.saveAsync(false);
     }
 
     getParentTopic() {
