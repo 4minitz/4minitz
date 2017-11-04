@@ -25,7 +25,9 @@ function saveTopics(topics) {
 function forEachDetailInTopics(topics, operation){
     topics.forEach(topic =>{
         topic.infoItems.forEach(infoItem => {
-            infoItem.details.forEach(operation);
+            if(infoItem.details) {
+                infoItem.details.forEach(operation);
+            }
         });
     });
 }
@@ -34,7 +36,9 @@ function forEachDetailInMinutes(minutes, operation) {
     minutes.forEach(min => {
         min.topics.forEach(topic => {
             topic.infoItems.forEach(infoItem => {
-                infoItem.details.forEach(operation);
+                if(infoItem.details) {
+                    infoItem.details.forEach(operation);
+                }
             });
         });
     });

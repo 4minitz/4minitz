@@ -137,10 +137,10 @@ describe('Migrate Version 20', function () {
             expect(firstFakeMinute.topics[0].infoItems[0].details[0].isNew).to.equal(true);
             expect(firstFakeMinute.topics[0].infoItems[1].details[0].isNew).to.equal(true);
             expect(firstFakeMinute.topics[0].infoItems[1].details[1].isNew).to.equal(true);
-            expect(firstFakeMinute.topics[1].infoItems[1].details[0].isNew).to.equal(true);
+            expect(firstFakeMinute.topics[1].infoItems[0].details[0].isNew).to.equal(true);
 
-            expect(sndFakeMinute.topics[0].infoItems[0].details[0].isNew).to.equal(true);
-            expect(sndFakeMinute.topics[0].infoItems[0].details[1].isNew).to.equal(false);
+            expect(sndFakeMinute.topics[0].infoItems[0].details[0].isNew).to.equal(false);
+            expect(sndFakeMinute.topics[0].infoItems[0].details[1].isNew).to.equal(true);
         });
 
     });
@@ -149,14 +149,16 @@ describe('Migrate Version 20', function () {
         beforeEach(function () {
             let addIsNewToDetail = (topic) => {
                 topic.infoItems.forEach(infoItem => {
-                    infoItem.details.forEach(detail => {
-                        detail.isNew = true;
-                    });
+                    if(infoItem.details) {
+                        infoItem.details.forEach(detail => {
+                            detail.isNew = true;
+                        });
+                    }
                 });
             };
             firstFakeMinute.topics.forEach(addIsNewToDetail);
             sndFakeMinute.topics.forEach(addIsNewToDetail);
-            fakeTopic.forEach(addIsNewToDetail);
+            addIsNewToDetail(fakeTopic);
         });
 
         it('removes the isNew attribute', function() {
@@ -166,15 +168,22 @@ describe('Migrate Version 20', function () {
             };
 
             let checkTopics = (topic) => {
-                topic.forEach(infoItem => {
-                    infoItem.details.forEach(checkDetailHasNoProperty);
+                topic.infoItems.forEach(infoItem => {
+                    if(infoItem.details) {
+                        infoItem.details.forEach(checkDetailHasNoProperty);
+                    }
                 });
             };
 
             firstFakeMinute.topics.forEach(checkTopics);
             sndFakeMinute.topics.forEach(checkTopics);
-            fakeTopic.forEach(checkTopics);
-        });
+            checkTopics(fakeTopic);
 
+            fakeTopic.infoItems.forEach(infoItem => {
+                if(infoItem.details) {
+                    infoItem.details.forEach(checkDetailHasNoProperty);
+                }
+            });
+        });
     });
 });
