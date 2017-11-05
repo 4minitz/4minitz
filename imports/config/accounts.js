@@ -75,7 +75,7 @@ if (Meteor.isServer) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'User account is inactive!');
             }
-            else if (Meteor.settings.email.sendVerificationEmail && !attempt.user.emails[0].verified) {
+            else if (GlobalSettings.sendVerificationEmail() && !attempt.user.emails[0].verified) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'User account is not verified!');
             }
