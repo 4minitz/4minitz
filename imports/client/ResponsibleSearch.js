@@ -4,7 +4,7 @@ import { Minutes } from '/imports/minutes';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { $ } from 'meteor/jquery';
-import {ParticipantsPreparer} from './ParticipantsPreparer'
+import {ParticipantsPreparer} from './ParticipantsPreparer';
 
 function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID, topicOrItem) {
     let minute = new Minutes(minuteID);
