@@ -10,9 +10,13 @@ let Meteor = {
     }
 };
 let LDAP = {};
+let LdapSettings = {
+    ldapEnabled: sinon.stub()
+};
 
 const { ldap } = proxyquire('../../../server/ldap', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    '/imports/config/LdapSettings': { LdapSettings, '@noCallThru': true},
     'meteor/babrahams:accounts-ldap': { LDAP, '@noCallThru': true},
 });
 
@@ -24,6 +28,9 @@ describe('ldap', function () {
                     enabled: true
                 }
             };
+
+            LdapSettings.ldapEnabled.reset();
+            LdapSettings.ldapEnabled.returns(true);
         });
 
         it('generates a dn based on the configuration and the given username', function () {
@@ -54,17 +61,9 @@ describe('ldap', function () {
             expect(result).to.equal('test=username,dc=example,dc=com');
         });
 
-        it('returns an empty string if the configuration is missing', function () {
-            delete Meteor.settings;
-
-            let result = LDAP.bindValue();
-
-            expect(result).to.equal('');
-        });
-
         it('returns an empty string if the ldap configuration is missing', function () {
             delete Meteor.settings.ldap;
-
+            
             let result = LDAP.bindValue();
 
             expect(result).to.equal('');
@@ -162,14 +161,6 @@ describe('ldap', function () {
             let result = LDAP.filter(isEmail, username);
 
             expect(result).to.equal('(&(test=username)(objectClass=user))');
-        });
-
-        it('returns an empty string if the configuration is missing', function () {
-            delete Meteor.settings;
-
-            let result = LDAP.filter();
-
-            expect(result).to.equal('');
         });
 
         it('returns an empty string if the ldap configuration is missing', function () {

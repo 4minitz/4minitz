@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { LdapSettings } from '/imports/config/LdapSettings';
 import _ from 'lodash';
 
 function getSetting(path, def = undefined) {
@@ -108,6 +109,8 @@ export class GlobalSettings {
                 Meteor.settings.attachments.storagePath = Meteor.settings.attachments.storagePath + '/';
             }
         }
+
+        LdapSettings.publish();
     }
 
     static getAdminIDs() {
@@ -143,7 +146,7 @@ export class GlobalSettings {
     }
 
     static getLDAPSettings() {
-        return Meteor.settings.ldap;
+        return Meteor.settings.ldap || {};
     }
 
     static isTrustedIntranetInstallation() {
