@@ -4,6 +4,7 @@ import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import { LdapSettings } from '/imports/config/LdapSettings';
 import '/imports/gitversioninfo';
 import '/imports/config/accounts';
 import '/imports/config/EMailTemplates';
@@ -90,6 +91,8 @@ Meteor.startup(() => {
     console.log('*** ROOT_URL: '+Meteor.settings.ROOT_URL);
 
     GlobalSettings.publishSettings();
+    LdapSettings.loadSettingsAndPerformSanityCheck();
+
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
     console.log('WebApp current working directory:'+process.cwd());
 

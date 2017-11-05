@@ -324,8 +324,8 @@ See your settings.json file:
 | propertyMap         | {username: 'cn', email: 'mail' } | Map important attributes from ldap to user database                         |
 | authentication      | {}                               | Perform a bind before importing users from LDAP. Optional.                  |
 | searchFilter        | ""                               | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
-| serverDn            | ""                               | Your server base dn, e.g. "dc=example,dc=com"                               |
-| serverUrl           | ""                               | Server url, e.g. "ldaps://ldap.example.com:1234                             |
+| serverDn            | undefined                        | Your server base dn, e.g. "dc=example,dc=com"                               |
+| serverUrl           | undefined                        | Server url, e.g. "ldaps://ldap.example.com:1234                             |
 | whiteListedFields   | []                               | Attributes that are copied into the user's profile property                 |
 | autopublishFields   | []                               | Meteor will publish these fields automatically on users                     |
 | inactiveUsers       | {strategy: 'none'}               | Available strategies: 'none', 'userAccountControl' and 'property'. See below for details|
