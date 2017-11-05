@@ -110,6 +110,16 @@ export class GlobalSettings {
         }
     }
 
+    static getAdminIDs() {
+        const adminIDs = [];
+
+        if (Meteor.settings.adminIDs && Array.isArray(Meteor.settings.adminIDs)) {
+            adminIDs.concat(Meteor.settings.adminIDs)
+        }
+
+        return adminIDs;
+    }
+
     static forbidClientAccountCreation() {
         return getSetting('forbidClientAccountCreation', false);
     }
