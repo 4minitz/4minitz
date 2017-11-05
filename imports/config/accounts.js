@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
 
 // For possible account configuration see:
 // https://github.com/meteor-useraccounts/core/blob/master/Guide.md#configuration-api
@@ -60,22 +61,10 @@ let submitHookFunction = function(error, state){
 if (Meteor.isServer) {
     // #Security: Do not allow registering by anonymous visitors. Configurable via settings.json
     AccountsTemplates.configure({
-        forbidClientAccountCreation: (Meteor.settings.forbidClientAccountCreation
-            ? Meteor.settings.forbidClientAccountCreation
-            : false),
-
-        sendVerificationEmail: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.sendVerificationEmail
-            ? Meteor.settings.email.sendVerificationEmail
-            : false),
-
-        showResendVerificationEmailLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showResendVerificationEmailLink
-            ? Meteor.settings.email.showResendVerificationEmailLink
-            : false),
-
-        showForgotPasswordLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showForgotPasswordLink
-            ? Meteor.settings.email.showForgotPasswordLink
-            : false),
-
+        forbidClientAccountCreation: GlobalSettings.forbidClientAccountCreation(),
+        sendVerificationEmail: GlobalSettings.sendVerificationEmail(),
+        showResendVerificationEmailLink: GlobalSettings.showResendVerificationEmailLink(),
+        showForgotPasswordLink: GlobalSettings.showForgotPasswordLink(),
         onSubmitHook: submitHookFunction
     });
 
