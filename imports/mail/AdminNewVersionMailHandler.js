@@ -13,7 +13,7 @@ export class AdminNewVersionMailHandler {
         let adminFrom = GlobalSettings.getDefaultEmailSenderAddress();
 
         let admins = Meteor.users.find({isAdmin: true}).fetch();
-        if (Meteor.settings.email.enableMailDelivery && admins.length > 0) {
+        if (GlobalSettings.isEMailDeliveryEnabled() && admins.length > 0) {
             let adminMails = [];
             admins.map(adm => {adminMails.push(adm.emails[0].address);});
             let mailer = MailFactory.getMailer(adminFrom, adminMails.join(','));
