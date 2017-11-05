@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import _ from 'underscore';
 import  faker from 'faker';
 
-import { ResponsiblePreparer } from '../../../../imports/helpers/ResponsiblePreparer';
+import { ParticipantsPreparer } from '../../../../imports/client/ParticipantsPreparer';
 
 let generateId = () => {
     return faker.random.uuid();
@@ -22,7 +22,7 @@ const USER_1 = createUser(generateId(), 'user1', 'First User');
 const USER_2 = createUser(generateId(), 'user2', 'Second User');
 const USER_3 = createUser(generateId(), 'user3', 'Third User');
 
-describe('ResponsiblePreparer', function() {
+describe('ParticipantsPreparer', function() {
 
     let preparer, fakeMinutes, fakeParentSeries, fakeTopicOrItem, fakeUserCollection;
 
@@ -65,7 +65,7 @@ describe('ResponsiblePreparer', function() {
             }
         };
 
-        preparer = new ResponsiblePreparer(fakeMinutes, fakeTopicOrItem, fakeUserCollection);
+        preparer = new ParticipantsPreparer(fakeMinutes, fakeTopicOrItem, fakeUserCollection);
         preparer._init();
     });
 
@@ -129,29 +129,6 @@ describe('ResponsiblePreparer', function() {
             preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(3);
-        });
-
-    });
-
-    describe('#getRemainingUsers', function() {
-
-        beforeEach(function() {
-            preparer.possibleResponsibles = [
-                {id: 'free-text-entry', text: 'free-text-entry'},
-                {id: USER_2._id, text: USER_2.name}
-            ];
-            preparer._prepareRemainingUsers();
-        });
-
-        it('returns all users which were not part of the possible responsible', function() {
-            let result = preparer.getRemainingUsers();
-            expect(result).to.have.length(2);
-        });
-
-        it('returns the correct users in the desired format', function() {
-            let result = preparer.getRemainingUsers();
-            expect(result).to.deep.include({id: USER_1._id, text: `${USER_1.username} - ${USER_1.profile.name}`});
-            expect(result).to.deep.include({id: USER_3._id, text: `${USER_3.username} - ${USER_3.profile.name}`});
         });
 
     });

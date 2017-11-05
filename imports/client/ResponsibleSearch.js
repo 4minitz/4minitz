@@ -4,8 +4,12 @@ import { Minutes } from '/imports/minutes';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { $ } from 'meteor/jquery';
+import {ParticipantsPreparer} from './ParticipantsPreparer'
 
 function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID, topicOrItem) {
+    let minute = new Minutes(minuteID);
+    let preparer = new ParticipantsPreparer(minute, topicOrItem, Meteor.users, freeTextValidator);
+    let participants = preparer.getPossibleResponsibles();
     selectResponsibles.select2({
         placeholder: 'Select...',
         tags: true,                     // Allow freetext adding
@@ -13,7 +17,7 @@ function select2search(selectResponsibles, delayTime, freeTextValidator, minuteI
         ajax: {
             delay: delayTime,
             transport: function(params, success, failure) {
-                Meteor.call('responsiblesSearch', params.data.q, minuteID, freeTextValidator, topicOrItem, function(err, results) {
+                Meteor.call('responsiblesSearch', params.data.q, participants, function(err, results) {
                     if (err) {
                         failure(err);
                         return;

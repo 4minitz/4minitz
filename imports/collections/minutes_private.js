@@ -5,8 +5,6 @@ import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
-import { MeetingSeries } from '../meetingseries';
-import { ResponsiblePreparer } from '../helpers/ResponsiblePreparer';
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication(meetingSeriesId, minuteId) { 
@@ -311,11 +309,8 @@ Meteor.methods({
     },
 */
 
-    'responsiblesSearch' (partialName, minuteID, freeTextValidator, topicOrItem) {
+    'responsiblesSearch' (partialName, participants) {
         check(partialName, String);
-        let minute = new Minutes(minuteID);
-        let preparer = new ResponsiblePreparer(minute, topicOrItem, Meteor.users, freeTextValidator);
-        let participants = preparer.getPossibleResponsibles();
         let results_participants = []; // get all the participants for the minute
         let foundPartipantsNames = [];
 

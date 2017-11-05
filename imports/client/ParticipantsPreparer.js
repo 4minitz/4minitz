@@ -1,4 +1,4 @@
-export class ResponsiblePreparer {
+export class ParticipantsPreparer {
 
     /**
      * @typedef {{id: string, text: string}} ResponsibleObject
@@ -18,7 +18,6 @@ export class ResponsiblePreparer {
         this.possibleResponsibles = [];          // sorted later on
         this.possibleResponsiblesUnique = {};    // ensure uniqueness
         this.buffer = [];                        // userIds and names from different sources, may have doubles
-        this.remainingUsers = [];
     }
 
     /**
@@ -37,7 +36,6 @@ export class ResponsiblePreparer {
 
     _prepareResponsibles() {
         this._preparePossibleResponsibles();
-        this._prepareRemainingUsers();
     }
 
     _preparePossibleResponsibles() {
@@ -106,7 +104,7 @@ export class ResponsiblePreparer {
             }
         }
 
-        return {id: user._id, text: ResponsiblePreparer._formatUser(user)};
+        return {id: user._id, text: ParticipantsPreparer._formatUser(user)};
     }
 
     static _formatUser(user) {
@@ -123,31 +121,7 @@ export class ResponsiblePreparer {
         }
     }
 
-    _prepareRemainingUsers() {
-        let users = this._fetchUsersWhichAreNoPossibleResponsible();
-        this._addUsersToRemainingList(users);
-    }
-
-    _fetchUsersWhichAreNoPossibleResponsible() {
-        let participantsIds = [];
-        this.possibleResponsibles.forEach(possibleResponsible => {
-            if (ResponsiblePreparer._responsibleMightBeID(possibleResponsible)) {
-                participantsIds.push(possibleResponsible.id);
-            }
-        });
-
-        return this.usersCollection.find(
-            {$and: [{_id: {$nin: participantsIds}},
-                {isInactive: {$ne: true}}]}).fetch();
-    }
-
     static _responsibleMightBeID(value) {
         return (value.id && value.id.length > 15);   // Meteor _ids default to 17 chars
-    }
-
-    _addUsersToRemainingList(users) {
-        users.forEach(user => {
-            this.remainingUsers.push(this._createResponsibleObject(user));
-        });
     }
 }
