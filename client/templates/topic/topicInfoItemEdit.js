@@ -78,10 +78,13 @@ let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
     Session.set('topicInfoItemType', type);
     let editItem = getEditInfoItem();
+    let freeTextValidator = (text) => {
+        return emailAddressRegExpTest.test(text);
+    };
     switch (type) {
     case 'actionItem':
         actionItemOnlyElements.show();
-        configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, false, _minutesID);
+        configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, freeTextValidator, _minutesID, editItem);
         break;
     case 'infoItem':
         actionItemOnlyElements.hide();
@@ -208,7 +211,11 @@ Template.topicInfoItemEdit.events({
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
             toggleItemMode(type, tmpl);
         } else {  // adding a new item
-            configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, false, _minutesID);
+            let freeTextValidator = (text) => {
+                return emailAddressRegExpTest.test(text);
+            };
+            let editItem = getEditInfoItem();
+            configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, freeTextValidator, _minutesID, editItem);
             let selectResponsibles = $('#id_selResponsibleActionItem');
             if (selectResponsibles) {
                 selectResponsibles.val([]).trigger('change');
