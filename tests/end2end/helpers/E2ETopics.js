@@ -71,7 +71,9 @@ export class E2ETopics {
 
         let texts = theText.split(",");
         for (let i in texts) {
-            browser.keys(texts[i]+"\uE007"); // plus ENTER
+            browser.keys(texts[i]);
+            E2EGlobal.waitSomeTime(300);
+            browser.keys("\uE007"); // plus ENTER
         }
     }
 

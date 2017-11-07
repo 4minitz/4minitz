@@ -107,7 +107,7 @@ Template.topicEdit.events({
 
     'show.bs.modal #dlgAddTopic': function () {
         let topic = getEditTopic();
-        configureSelect2Responsibles('id_selResponsible', topic._topicDoc, true, _minutesID);
+        configureSelect2Responsibles('id_selResponsible', topic._topicDoc, false, _minutesID, topic);
         let selectLabels = $('#id_item_selLabels');
         if (selectLabels) {
             selectLabels.val([]).trigger('change');
