@@ -175,12 +175,29 @@ export class E2EGlobal {
 
         const weAreOnTravis = !!process.env.TRAVIS;
         if (weAreOnTravis) {
-            const baseUrl = 'http://4minitz2.s3.amazonaws.com/4minitz/4minitz/',
+            const baseUrl = 'http://4minitz2.s3.amazonaws.com/4minitz/4minitz',
                 build = process.env.TRAVIS_BUILD_NUMBER || 1,
                 job = process.env.TRAVIS_JOB_NUMBER || 1,
                 url = baseUrl + '/' + build + '/' + job + '/tests/snapshots/' + filename + '.png';
 
             console.log('Screenshot taken: ', url);
+        }
+    }
+
+    static sendKeysWithPause(...keysAndPauses) {
+        function isOdd(num) {
+            return num % 2;
+        }
+
+        const keys = keysAndPauses.filter((_, index) => !isOdd(index)),
+            pauses = keysAndPauses.filter((_, index) => isOdd(index)),
+            numberOfKeys = keys.length;
+        
+        for (let i = 0; i < numberOfKeys; ++i) {
+            browser.keys(keys[i]);
+            E2EGlobal.waitSomeTime(pauses[i] || 250);
+
+            E2EGlobal.saveScreenshot(`keys-with-pause-${i}`);
         }
     }
 }
