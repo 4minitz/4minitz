@@ -71,6 +71,7 @@ export class E2EGlobal {
                                    || message.includes('Element is not clickable at point');
 
                 if (!retryMakesSense) {
+                    console.log(`Unexpected exception: ${e}`);
                     throw e;
                 }
             }
