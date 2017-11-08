@@ -115,7 +115,7 @@ Template.topicEdit.events({
         Session.set('topicEditTopicId', null);
     },
 
-    'show.bs.modal #dlgAddTopic': function () {
+    'show.bs.modal #dlgAddTopic': function (evt) {
         let topic = getEditTopic();
 
         if (topic !== false) {
