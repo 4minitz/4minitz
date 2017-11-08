@@ -33,6 +33,8 @@ export const MeetingSeriesSchema = SchemaClass.create({
             }]},
         minutes: {type: [String], default: []},
         availableLabels: {type: [LabelSchema], default: []},
-        additionalResponsibles: {type: [String], default: []}
+        additionalResponsibles: {type: [String], default: []},
+        isEditedBy: {type: String, optional: true},
+        isEditedDate: {type: Date, optional: true}
     }
 });

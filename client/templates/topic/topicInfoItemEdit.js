@@ -23,6 +23,8 @@ import { handleError } from '/client/helpers/handleError';
 import {createItem} from './helpers/create-item';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
 import {configureSelect2Responsibles} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
@@ -112,6 +114,12 @@ let resizeTextarea = (element) => {
     }
 };
 
+function closePopupAndUnsetIsEdited() {
+    IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), false);
+
+    $('#dlgAddInfoItem').modal('hide');
+}
+
 Template.topicInfoItemEdit.helpers({
     getPriorities: function() {
         return Priority.GET_PRIORITIES();
@@ -143,6 +151,8 @@ Template.topicInfoItemEdit.events({
         if (!getRelatedTopic()) {
             throw new Meteor.Error('IllegalState: We have no related topic object!');
         }
+        if (Session.get('topicInfoItemEditInfoItemId') !== null)
+            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
         const editItem = getEditInfoItem();
 
         const type = Session.get('topicInfoItemType');
@@ -210,6 +220,18 @@ Template.topicInfoItemEdit.events({
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
             toggleItemMode(type, tmpl);
+
+            const element = editItem._infoItemDoc;
+            const unset = function () {
+                IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
+                $('#dlgAddInfoItem').modal('show');
+            };
+            const setIsEdited = () => {
+                IsEditedService.setIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
+            };
+
+            isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
+
         } else {  // adding a new item
             let freeTextValidator = (text) => {
                 return emailAddressRegExpTest.test(text);
@@ -290,6 +312,23 @@ Template.topicInfoItemEdit.events({
 
         const user = new User();
         user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
+    },
+
+    'click #btnInfoItemCancel': function (evt) {
+        evt.preventDefault();
+        closePopupAndUnsetIsEdited();
+    },
+
+    'click .close': function (evt) {
+        evt.preventDefault();
+        closePopupAndUnsetIsEdited();
+    },
+
+    'keyup': function (evt) {
+        evt.preventDefault();
+        if (evt.keyCode === 27) {
+            closePopupAndUnsetIsEdited();
+        }
     },
 
     'keyup #id_item_detailInput': function (evt, tmpl) {
