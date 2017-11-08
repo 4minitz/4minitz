@@ -13,6 +13,8 @@ import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import { MinutesFinder } from '../../../imports/services/minutesFinder';
+import { MeetingSeries } from '../../../imports/meetingseries';
 import {resizeTextarea} from './helpers/resize-textarea';
 import {labelSetFontColor} from './helpers/label-set-font-color';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
@@ -59,6 +61,11 @@ Template.topicInfoItemList.onCreated(function () {
     // Dict maps Item._id => true/false, where true := "expanded state"
     // per default: everything is undefined => collapsed!
     this.isItemExpanded = new ReactiveVar({});
+
+    // get last finalized Minute for details's new label
+    this.lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')  //eslint-disable-line
+        ? tmplData.topicParentId
+        : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(new MeetingSeries(tmplData.topicParentId))._id;
 });
 
 let updateItemSorting = (evt, ui) => {
