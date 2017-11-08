@@ -1,7 +1,7 @@
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import './idValidator';
 
-const DetailsSchema = SchemaClass.create({
+export const DetailsSchema = SchemaClass.create({
     name: 'DetailsSchema',
     fields: {
         _id: {type: String, validators: [{type: 'meteorId'}]},
@@ -10,6 +10,7 @@ const DetailsSchema = SchemaClass.create({
         updatedAt: {type: Date},
         updatedBy: {type: String, optional: true},
         createdInMinute: {type: String, validators: [{type: 'meteorId'}]},
+        isNew: {type: Boolean, optional: true},
         date: String,
         text: {type: String, default: '', optional: true},
         isEditedBy: {type: String, optional: true},

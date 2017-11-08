@@ -5,6 +5,7 @@ import { _ } from 'meteor/underscore';
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
+import { Label } from '/imports/label';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
@@ -114,8 +115,8 @@ Template.topicEdit.events({
         Session.set('topicEditTopicId', null);
     },
 
-    'show.bs.modal #dlgAddTopic': function (evt) {
-        const topic = getEditTopic();
+    'show.bs.modal #dlgAddTopic': function () {
+        let topic = getEditTopic();
 
         if (topic !== false) {
 
@@ -131,7 +132,7 @@ Template.topicEdit.events({
             isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
         }
 
-        configureSelect2Responsibles('id_selResponsible', topic._topicDoc, true, _minutesID);
+        configureSelect2Responsibles('id_selResponsible', topic._topicDoc, false, _minutesID, topic);
         let selectLabels = $('#id_item_selLabels');
         if (selectLabels) {
             selectLabels.val([]).trigger('change');
