@@ -4,7 +4,8 @@ module.exports = function (ldapSettings, userData) {
     ldapSettings.propertyMap = ldapSettings.propertyMap || {};
     const usernameAttribute = ldapSettings.searchDn || ldapSettings.propertyMap.username || 'cn',
         longnameAttribute = ldapSettings.propertyMap.longname,
-        mailAttribute = ldapSettings.propertyMap.email || 'mail';
+        mailAttribute = ldapSettings.propertyMap.email || 'mail',
+        bindWith = ldapSettings.bindWith || 'dn';
 
     // userData.mail may be a string with one mail address or an array.
     // Nevertheless we are only interested in the first mail address here - if there should be more...
@@ -19,16 +20,16 @@ module.exports = function (ldapSettings, userData) {
     }];
 
     let username = userData[usernameAttribute] || '';
-
+console.log('bind with', bindWith);
     const whiteListedFields = ldapSettings.whiteListedFields || [];
-    const profileFields = whiteListedFields.concat(['dn']);
+    const profileFields = whiteListedFields.concat(['dn', bindWith]);
 
     let user = {
         createdAt: new Date(),
         isInactive: false,
         emails: tmpEMailArray,
         username: username.toLowerCase(),
-        profile: _.pick(userData, _.without(profileFields, 'mail'))
+        profile: _.pick(userData, profileFields)
     };
 
     // copy over the LDAP user's long name from "cn" field to the meteor accounts long name field
