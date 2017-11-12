@@ -93,7 +93,8 @@ export class InfoItem {
             updatedAt: new Date(),
             updatedBy: Meteor.user().username,
             date: date,
-            text: text
+            text: text,
+            isNew: true
         });
     }
 

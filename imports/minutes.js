@@ -384,6 +384,7 @@ export class Minutes {
             return this.participants.map(participant => {
                 let user = userCollection.findOne(participant.userId);
                 participant.name = user.username;
+                participant.profile = user.profile;
                 return participant;
             });
         }
@@ -463,4 +464,15 @@ export class Minutes {
     _findTopicIndex(id) {
         return subElementsHelper.findIndexById(id, this.topics);
     }
+
+    static formatResponsibles(responsible, usernameField, isProfileAvaliable) {
+        if (isProfileAvaliable && responsible.profile && responsible.profile.name) {
+            responsible.fullname = responsible[usernameField] +` - ${responsible.profile.name}`;
+        }
+        else {
+            responsible.fullname = responsible[usernameField];
+        }
+        return responsible;
+    }
+
 }

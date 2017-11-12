@@ -133,8 +133,12 @@
                                             <span class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
                                                 data-id="{{itemId}}_{{@index}}"></span>
                                         </span>
-
+                                        <!-- New-Topic-Label -->
+                                        {{#if this.isNew}}
+                                            <span class="badge">New</span>
+                                        {{/if}}
                                     </div>
+
                                     <div style="padding-left: 10px;" class="detailText"
                                          data-id="{{itemId}}_{{@index}}">
                                         <span id="detailText_{{itemId}}_{{@index}}"

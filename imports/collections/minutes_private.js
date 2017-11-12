@@ -230,5 +230,54 @@ Meteor.methods({
         } else {
             throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }
+    },
+
+    'responsiblesSearch' (partialName, participants) {
+        check(partialName, String);
+        let results_participants = []; // get all the participants for the minute
+        let foundPartipantsNames = [];
+
+        participants.forEach( participant =>{
+            if (participant.text.toLowerCase().includes(partialName.toLowerCase())) {
+                participant['isParticipant'] = true;
+                results_participants.push(participant);
+                let name = participant.text.split(/[ - ]/);
+                foundPartipantsNames.push(name[0]);
+            }
+        });
+
+        let searchSettings = {username: {'$regex': partialName, '$options': 'i'}};
+        let searchFields = {_id: 1, username: 1};
+        if (GlobalSettings.isTrustedIntranetInstallation()){
+            searchSettings = {
+                $or : [
+                    {username: {'$regex': partialName, '$options': 'i'}},
+                    {'profile.name': {'$regex': partialName, '$options': 'i'}}
+                ]
+            };
+            searchFields= {_id: 1, username: 1, 'profile.name': 1};
+        }
+
+        let results_otherUser = Meteor.users.find(
+            searchSettings,
+            {
+                limit: 10 + results_participants.length, //we want to show 10 "Other user"
+                // as it is not known, if a user a participant or not -> get 10+participants
+                fields: searchFields
+            }
+        ).fetch();
+
+        results_otherUser = results_otherUser.filter(user => { //remove duplicates
+            return !(foundPartipantsNames.includes(user.username));
+        });
+        results_otherUser = results_otherUser.slice(0,10); // limit to 10 records
+
+        results_otherUser = results_otherUser.map(otherUser => {
+            return Minutes.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
+        });
+        console.log(results_participants.concat(results_otherUser));
+        return {
+            results: results_participants.concat(results_otherUser)
+        };
     }
 });

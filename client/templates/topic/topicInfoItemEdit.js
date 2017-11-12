@@ -13,7 +13,6 @@ import { ActionItem } from '/imports/actionitem';
 import { Priority } from '/imports/priority';
 import { User, userSettings } from '/imports/users';
 
-import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
 import { currentDatePlusDeltaDays } from '/imports/helpers/date';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 
@@ -24,6 +23,9 @@ import { handleError } from '/client/helpers/handleError';
 import {createItem} from './helpers/create-item';
 import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
+import {configureSelect2Responsibles} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -77,11 +79,14 @@ let getEditInfoItem = function() {
 let toggleItemMode = function (type, tmpl) {
     let actionItemOnlyElements = tmpl.$('.actionItemOnly');
     Session.set('topicInfoItemType', type);
-
+    let editItem = getEditInfoItem();
+    let freeTextValidator = (text) => {
+        return emailAddressRegExpTest.test(text);
+    };
     switch (type) {
     case 'actionItem':
         actionItemOnlyElements.show();
-        configureSelect2Responsibles();
+        configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, freeTextValidator, _minutesID, editItem);
         break;
     case 'infoItem':
         actionItemOnlyElements.hide();
@@ -91,41 +96,6 @@ let toggleItemMode = function (type, tmpl) {
         throw new Meteor.Error('Unknown type!');
     }
 };
-
-
-function configureSelect2Responsibles() {
-    let freeTextValidator = (text) => {
-        return emailAddressRegExpTest.test(text);
-    };
-    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditInfoItem(), Meteor.users, freeTextValidator);
-
-    let selectResponsibles = $('#id_selResponsibleActionItem');
-    selectResponsibles.find('optgroup')     // clear all <option>s
-        .remove();
-    let possResp = preparer.getPossibleResponsibles();
-    let remainingUsers = preparer.getRemainingUsers();
-    let selectOptions = [{
-        text: 'Participants',
-        children: possResp
-    }, {
-        text: 'Other Users',
-        children: remainingUsers
-    }];
-
-    selectResponsibles.select2({
-        placeholder: 'Select...',
-        tags: true,                     // Allow freetext adding
-        tokenSeparators: [',', ';'],
-        data: selectOptions             // push <option>s data
-    });
-
-    // select the options that where stored with this topic last time
-    let editItem = getEditInfoItem();
-    if (editItem) {
-        selectResponsibles.val(editItem.getResponsibleRawArray());
-    }
-    selectResponsibles.trigger('change');
-}
 
 let resizeTextarea = (element) => {
 
@@ -143,6 +113,12 @@ let resizeTextarea = (element) => {
             element.attr('rows', occurrences + 1);
     }
 };
+
+function closePopupAndUnsetIsEdited() {
+    IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), false);
+
+    $('#dlgAddInfoItem').modal('hide');
+}
 
 Template.topicInfoItemEdit.helpers({
     getPriorities: function() {
@@ -175,6 +151,8 @@ Template.topicInfoItemEdit.events({
         if (!getRelatedTopic()) {
             throw new Meteor.Error('IllegalState: We have no related topic object!');
         }
+        if (Session.get('topicInfoItemEditInfoItemId') !== null)
+            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
         const editItem = getEditInfoItem();
 
         const type = Session.get('topicInfoItemType');
@@ -242,8 +220,24 @@ Template.topicInfoItemEdit.events({
         if (editItem) {
             let type = (editItem instanceof ActionItem) ? 'actionItem' : 'infoItem';
             toggleItemMode(type, tmpl);
+
+            const element = editItem._infoItemDoc;
+            const unset = function () {
+                IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
+                $('#dlgAddInfoItem').modal('show');
+            };
+            const setIsEdited = () => {
+                IsEditedService.setIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'));
+            };
+
+            isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
+
         } else {  // adding a new item
-            configureSelect2Responsibles();
+            let freeTextValidator = (text) => {
+                return emailAddressRegExpTest.test(text);
+            };
+            let editItem = getEditInfoItem();
+            configureSelect2Responsibles('id_selResponsibleActionItem', editItem._infoItemDoc, freeTextValidator, _minutesID, editItem);
             let selectResponsibles = $('#id_selResponsibleActionItem');
             if (selectResponsibles) {
                 selectResponsibles.val([]).trigger('change');
@@ -318,6 +312,23 @@ Template.topicInfoItemEdit.events({
 
         const user = new User();
         user.storeSetting(userSettings.showAddDetail, tmpl.collapseState.get());
+    },
+
+    'click #btnInfoItemCancel': function (evt) {
+        evt.preventDefault();
+        closePopupAndUnsetIsEdited();
+    },
+
+    'click .close': function (evt) {
+        evt.preventDefault();
+        closePopupAndUnsetIsEdited();
+    },
+
+    'keyup': function (evt) {
+        evt.preventDefault();
+        if (evt.keyCode === 27) {
+            closePopupAndUnsetIsEdited();
+        }
     },
 
     'keyup #id_item_detailInput': function (evt, tmpl) {

@@ -45,6 +45,21 @@ function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
     });
 }
 
+function removeIsEdited(aMin) {
+    for (let topic of aMin.topics) {
+        topic.isEditedBy = null;
+        topic.isEditedDate = null;
+        for (let infoItem of topic.infoItems) {
+            infoItem.isEditedBy = null;
+            infoItem.isEditedDate = null;
+            for (let detail of infoItem.details) {
+                detail.isEditedBy = null;
+                detail.isEditedDate = null;
+            }
+        }
+    }
+}
+
 function compileFinalizedInfo(minutes) {
     if (!minutes.finalizedAt) {
         return 'Never finalized';
@@ -67,6 +82,8 @@ Meteor.methods({
         if (minutes.isFinalized) {
             throw new Meteor.Error('runtime-error', 'The minute is already finalized');
         }
+
+        removeIsEdited(minutes);
 
         checkUserAvailableAndIsModeratorOf(minutes.parentMeetingSeriesID());
 

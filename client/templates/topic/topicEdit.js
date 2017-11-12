@@ -5,12 +5,14 @@ import { _ } from 'meteor/underscore';
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
-import { ResponsiblePreparer } from '/imports/client/ResponsiblePreparer';
+import { Label } from '/imports/label';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
-import {configureSelect2Labels} from './helpers/configure-select2-labels';
-import {convertOrCreateLabelsFromStrings} from './helpers/convert-or-create-label-from-string';
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
+import {convertOrCreateLabelsFromStrings} from '/client/templates/topic/helpers/convert-or-create-label-from-string';
+import {configureSelect2Responsibles} from '/imports/client/ResponsibleSearch';
 
 Session.setDefault('topicEditTopicId', null);
 
@@ -34,34 +36,41 @@ let getEditTopic = function() {
     return new Topic(_minutesID, topicId);
 };
 
-function configureSelect2Responsibles() {
-    let preparer = new ResponsiblePreparer(new Minutes(_minutesID), getEditTopic(), Meteor.users);
+function configureSelect2Labels() {
+    let aMin = new Minutes(_minutesID);
+    let aSeries = aMin.parentMeetingSeries();
 
-    let selectResponsibles = $('#id_selResponsible');
-    selectResponsibles.find('optgroup')     // clear all <option>s
+    let selectLabels = $('#id_item_selLabels');
+    selectLabels.find('option')     // clear all <option>s
         .remove();
-    let possResp = preparer.getPossibleResponsibles();
-    let remainingUsers = preparer.getRemainingUsers();
-    let selectOptions = [{
-        text: 'Participants',
-        children: possResp
-    }, {
-        text: 'Other Users',
-        children: remainingUsers
-    }];
-    selectResponsibles.select2({
+
+    let selectOptions = [];
+
+    aSeries.getAvailableLabels().forEach(label => {
+        selectOptions.push ({id: label._id, text: label.name});
+    });
+
+    selectLabels.select2({
         placeholder: 'Select...',
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
         data: selectOptions             // push <option>s data
     });
 
+
     // select the options that where stored with this topic last time
-    let topic = getEditTopic();
-    if (topic && topic._topicDoc && topic._topicDoc.responsibles) {
-        selectResponsibles.val(topic._topicDoc.responsibles);
+    let editItem = getEditTopic();
+    if (editItem) {
+        selectLabels.val(editItem.getLabelsRawArray());
     }
-    selectResponsibles.trigger('change');
+    selectLabels.trigger('change');
+}
+
+function closePopupAndUnsetIsEdited() {
+    const topic = getEditTopic();
+    IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
+
+    $('#dlgAddTopic').modal('hide');
 }
 
 Template.topicEdit.helpers({
@@ -78,6 +87,7 @@ Template.topicEdit.events({
         let editTopic = getEditTopic();
         let topicDoc = {};
         if (editTopic) {
+            IsEditedService.removeIsEditedTopic(_minutesID, editTopic._topicDoc._id, true);
             _.extend(topicDoc, editTopic._topicDoc);
         }
 
@@ -105,8 +115,24 @@ Template.topicEdit.events({
         Session.set('topicEditTopicId', null);
     },
 
-    'show.bs.modal #dlgAddTopic': function () {
-        configureSelect2Responsibles();
+    'show.bs.modal #dlgAddTopic': function (evt) {
+        let topic = getEditTopic();
+
+        if (topic !== false) {
+
+            const element = topic._topicDoc;
+            const unset = function () {
+                IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, true);
+                $('#dlgAddTopic').modal('show');
+            };
+            const setIsEdited = () => {
+                IsEditedService.setIsEditedTopic(_minutesID, topic._topicDoc._id);
+            };
+
+            isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
+        }
+
+        configureSelect2Responsibles('id_selResponsible', topic._topicDoc, false, _minutesID, topic);
         let selectLabels = $('#id_item_selLabels');
         if (selectLabels) {
             selectLabels.val([]).trigger('change');
@@ -123,6 +149,25 @@ Template.topicEdit.events({
         tmpl.find('#id_subject').focus();
     },
 
+    'click #btnTopicCancel': function (evt) {
+        evt.preventDefault();
+
+        closePopupAndUnsetIsEdited();
+    },
+
+    'click .close': function (evt) {
+        evt.preventDefault();
+
+        closePopupAndUnsetIsEdited();
+    },
+
+    'keyup': function (evt) {
+        evt.preventDefault();
+        if (evt.keyCode === 27) {
+            closePopupAndUnsetIsEdited();
+        }
+    },
+    
     'select2:select #id_selResponsible'(evt) {
         let respId = evt.params.data.id;
         let respName = evt.params.data.text;

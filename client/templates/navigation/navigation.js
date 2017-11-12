@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
+import {IsEditedService} from '../../../imports/services/isEditedService';
 import { Session } from 'meteor/session';
 
 Template.navigation.helpers({
@@ -21,6 +22,9 @@ Template.navigation.events({
     'click li #navbar-signout': function(event) {
         event.preventDefault();
         if (Meteor.userId()) {
+
+            IsEditedService.removeIsEditedOnLogout();
+
             AccountsTemplates.logout();
             FlowRouter.go('/');
         }
