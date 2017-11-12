@@ -20,7 +20,7 @@ module.exports = function (ldapSettings, userData) {
     }];
 
     let username = userData[usernameAttribute] || '';
-console.log('bind with', bindWith);
+
     const whiteListedFields = ldapSettings.whiteListedFields || [];
     const profileFields = whiteListedFields.concat(['dn', bindWith]);
 
