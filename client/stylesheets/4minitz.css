@@ -147,12 +147,12 @@ a:focus {
     }
 }
 
-.sticky-item {
-    -webkit-transform: rotate(315deg); /* Safari and Chrome */
-    -moz-transform: rotate(315deg);   /* Firefox */
-    -ms-transform: rotate(315deg);   /* IE 9 */
-    -o-transform: rotate(315deg);   /* Opera */
-    transform: rotate(315deg);
+.not-sticky-item {
+    -webkit-transform: rotate(45deg); /* Safari and Chrome */
+    -moz-transform: rotate(45deg);   /* Firefox */
+    -ms-transform: rotate(45deg);   /* IE 9 */
+    -o-transform: rotate(45deg);   /* Opera */
+    transform: rotate(45deg);
 }
 
 .active-icon {
@@ -163,8 +163,11 @@ a:focus {
     color: grey;
 }
 
-/* glyphicon menu buttons */
-.pull-right-icons .glyphicon {
+.larger-icon {
+    font-size: 150%;
+}
+
+.pull-right-icons .fa {
     padding: 0.3em;
     margin-left: 0.5em;
     font-size: 16px;

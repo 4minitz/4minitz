@@ -42,14 +42,14 @@
                                         <a href="" id="btn_unfinalizeMinutes" class="btn btn-default hidden-print"
                                            data-toggle="tooltip"
                                            title="{{finalizeHistoryTooltip "Click to Un-Finalize Minutes"}}">
-                                            <span class="glyphicon glyphicon-pencil"></span>
+                                            <span class="fa fa-pencil"></span>
                                         </a>
                                     {{/if}}
                                 {{/if}}
                                 <!--Print Button #1 of 3-->
                                 <button type="button" id="btn_printMinutes" class="btn {{isPrintView}} hidden-print"
                                         title="Print Minutes">
-                                    <span class="glyphicon glyphicon-print" aria-hidden="true"
+                                    <span class="fa fa-print" aria-hidden="true"
                                           aria-label="Print View"></span>
                                 </button>
                                 {{#if isDocumentGenerationAllowed}}
@@ -58,13 +58,13 @@
                                             <a class= "btn hidden-print btn-download" href="{{link}}?download=true"
                                                 target="_parent" type="{{type}}" download="{{name}}"
                                                 title="Download minutes as file">
-                                                <span class="glyphicon glyphicon-download" aria-hidden="true"
+                                                <span class="fa fa-download" aria-hidden="true"
                                                     aria-label="Download Minutes"></span>
                                             </a>
                                         {{/with}}
                                     {{else}} <!--No Protocol exists, offer to dynamically generate one -->
                                         <a class="btn hidden-print btn-download" id="btn_dynamicallyGenerateProtocol">
-                                            <span class="glyphicon glyphicon-download" aria-hidden="true"
+                                            <span class="fa fa-download" aria-hidden="true"
                                                 aria-label="Download Minutes"></span>
                                         </a>
                                     {{/if}}
@@ -76,7 +76,7 @@
                                     <!--Send Agenda Button-->
                                     <button type="button" id="btn_sendAgenda"
                                             class="btn btn-lg btn-raised hidden-print">
-                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"
+                                        <span class="fa fa-envelope" aria-hidden="true"
                                               aria-label="Send Agenda"></span>
                                         Send Agenda
                                     </button>
@@ -85,7 +85,7 @@
                                     <button type="button" id="btn_printMinutes"
                                             class="btn btn-lg btn-raised {{isPrintView}} hidden-print"
                                             title="Print Minutes">
-                                        <span class="glyphicon glyphicon-print" aria-hidden="true"
+                                        <span class="fa fa-print" aria-hidden="true"
                                               aria-label="Print View"></span>
                                         Print Minutes
                                     </button>
@@ -96,7 +96,7 @@
                                             class="btn btn-success btn-lg btn-raised hidden-print"
                                             data-toggle="tooltip"
                                             title="{{finalizeHistoryTooltip "Click to Finalize Minutes"}}">
-                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"
+                                        <span class="fa fa-check" aria-hidden="true"
                                               aria-label="Finalize Minutes"></span>
                                         Finalize Minutes
                                     </button>
@@ -104,7 +104,7 @@
                                     <!--Delete Minutes Button-->
                                     <button type="button" id="btn_deleteMinutes"
                                             class="btn btn-danger btn-lg btn-raised hidden-print">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"
+                                        <span class="fa fa-trash-alt" aria-hidden="true"
                                               aria-label="Delete Minutes"></span>
                                         Delete Minutes
                                     </button>
@@ -118,7 +118,7 @@
                                     <button type="button" id="btn_printMinutes"
                                             class="btn btn-lg btn-raised {{isPrintView}} hidden-print"
                                             title="Print Minutes">
-                                        <span class="glyphicon glyphicon-print" aria-hidden="true"
+                                        <span class="fa fa-print" aria-hidden="true"
                                               aria-label="Print View"></span>
                                         Print Minutes
                                     </button>
@@ -134,7 +134,7 @@
                                     <input id="id_minutesdateInput" type='text' class="form-control"
                                            value="{{minutes.date}}" {{disableUIControl}}/>
                                     <span class="input-group-addon hidden-print">
-                                <span class="glyphicon glyphicon-calendar" style="cursor: pointer"></span>
+                                <span class="fa-calendar-alt" style="cursor: pointer"></span>
                             </span>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
                                         data-target="#dlgAddTopic"
                                         title="Add new topic to top of list [Ctrl+Alt+T]"
                                         accesskey="t">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Add Topic"></span>
+                                    <span class="fa fa-plus" aria-hidden="true" aria-label="Add Topic"></span>
                                     <span class="hidden-xs">Add</span> Topic...
                                 </button>
                             </div>
@@ -184,14 +184,14 @@
                         <div class="col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} col-xs-6">
                             <!--Responsive Expand / Collapse All buttons-->
                             <button id="btnCollapseAll" type="button" class="btn btn-default hidden-print">
-                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                                <span class="fa fa-caret-right larger-icon" aria-hidden="true"></span>
                                 Collapse<span class="hidden-xs hidden-sm"> Topics</span>
                             </button>
                         </div>
 
                         <div class="col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} col-xs-6">
                             <button id="btnExpandAll" type="button" class="btn btn-default hidden-print">
-                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                <span class="fa fa-caret-down larger-icon" aria-hidden="true"></span>
                                 Expand<span class="hidden-xs hidden-sm"> Topics</span>
                             </button>
                         </div>

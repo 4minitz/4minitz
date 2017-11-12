@@ -5,9 +5,9 @@
         {{#if topic.infoItems.length}}
             <span id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;" class="expand-collapse-triangle hidden-print">
                 {{#if isCollapsed}}
-                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                    <span class="fa fa-caret-right larger-icon" aria-hidden="true"></span>
                 {{else}}
-                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                    <span class="fa fa-caret-down larger-icon" aria-hidden="true"></span>
                 {{/if}}
             </span>
         {{/if}}
@@ -40,55 +40,55 @@
                 <span class="pull-right pull-right-icons hidden-print">
                     {{#if showMenu}}
                         <a  id="btnTopicDropdownMenu" class="panel-dropper dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-option-vertical"></span>
+                            <span class="fa fa-ellipsis-v"></span>
                         </a>
                         <ul class="dropdown-menu">
                             {{#if isEditable}}
                                 <li>
                                     <a  id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link"
                                        data-toggle="modal" data-target="#dlgAddInfoItem" title="Add info item to topic">
-                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                        <span class="fa fa-info-circle"></span>
                                         Add Info Item
                                     </a>
                                 </li>
                                 <li>
                                     <a  id="addTopicInfoItem_{{topic._id}}" class="addTopicActionItem panel-link"
                                        data-toggle="modal" data-target="#dlgAddInfoItem" title="Add action item to topic">
-                                        <span class="glyphicon glyphicon-check"></span>
+                                        <span class="fa fa-check-square"></span>
                                         Add Action Item
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
                                     <a id="btnEditTopic"  class="panel-link" title="Edit topic">
-                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        <span class="fa fa-pencil"></span>
                                         Edit Topic
                                     </a>
                                 </li>
                                 <li>
                                     <a  class="js-toggle-recurring panel-link"
                                        title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
-                                        <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
+                                        <span class="fa fa-redo-alt {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                                         {{#if topic.isRecurring}}Unset{{else}}Set{{/if}} Recurring
                                     </a>
                                 </li>
                                 <li>
                                     <a  class="js-toggle-skipped panel-link"
                                        title="{{#if topic.isSkipped}}Set as non-skipped topic{{else}}Set as skipped topic{{/if}}">
-                                        <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
+                                        <span class="fa fa-eye-slash {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
                                         {{#if topic.isSkipped}}Unset{{else}}Set{{/if}} Skip
                                     </a>
                                 </li>                           
                                 <li>
                                     <a id="btnDelTopic"  class="panel-link" title="Delete topic">
-                                        <span class="glyphicon glyphicon-trash"></span>
+                                        <span class="fa fa-trash-alt"></span>
                                         Delete Topic
                                     </a>
                                 </li>
                             {{else}}
                                 <li>
                                     <a id="btnReopenTopic"  class="panel-link" title="Reopen topic">
-                                        <span class="glyphicon glyphicon-share-alt"></span>
+                                        <span class="fa fa-share"></span>
                                         Re-open Topic
                                     </a>
                                 </li>                           
@@ -99,16 +99,16 @@
 
                     {{#if topic.isRecurring}}
                         <a  class="js-toggle-recurring panel-link" title="Set as not-recurring topic">
-                            <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
+                            <span class="fa fa-redo-alt {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                         </a>
                     {{/if}}
                     {{#if topic.isSkipped}}
                         <a  id="topicIsSkippedIcon" class="js-toggle-skipped panel-link" title="Set as not-skipped topic">
-                            <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
+                            <span class="fa fa-eye-slash {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
                         </a>
                     {{/if}}                 
                     {{#if isEditable}}
-                        <span class="topicDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
+                        <span class="topicDragDropHandle dragDropHandle fa fa-arrows-alt-v"></span>
                     {{/if}}
                 </span>
                 <br clear="all">
