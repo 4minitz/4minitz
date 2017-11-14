@@ -434,7 +434,7 @@ Template.topicInfoItemList.events({
 
         let index = inputEl.data('item');
         let infoItem = context.items[index];
-        let aMin = new Minutes(context.items[0].createdInMinute);
+        let aMin = new Minutes(context.topicParentId);
         let aTopic = new Topic(aMin, infoItem.parentTopicId);
         let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
