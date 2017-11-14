@@ -508,7 +508,7 @@ Template.topicInfoItemList.events({
 
         let text = inputEl.val().trim();
 
-        let aMin = new Minutes(context.items[0].createdInMinute);
+        let aMin = new Minutes(context.topicParentId);
         let aTopic = new Topic(aMin, infoItem.parentTopicId);
         let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
         let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
