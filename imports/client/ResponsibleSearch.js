@@ -4,8 +4,12 @@ import { Minutes } from '/imports/minutes';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { $ } from 'meteor/jquery';
+import {ParticipantsPreparer} from './ParticipantsPreparer';
 
-function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID) {
+function select2search(selectResponsibles, delayTime, freeTextValidator, minuteID, topicOrItem) {
+    let minute = new Minutes(minuteID);
+    let preparer = new ParticipantsPreparer(minute, topicOrItem, Meteor.users, freeTextValidator);
+    let participants = preparer.getPossibleResponsibles();
     selectResponsibles.select2({
         placeholder: 'Select...',
         tags: true,                     // Allow freetext adding
@@ -13,7 +17,7 @@ function select2search(selectResponsibles, delayTime, freeTextValidator, minuteI
         ajax: {
             delay: delayTime,
             transport: function(params, success, failure) {
-                Meteor.call('responsiblesSearch', params.data.q, minuteID, freeTextValidator, function(err, results) {
+                Meteor.call('responsiblesSearch', params.data.q, participants, function(err, results) {
                     if (err) {
                         failure(err);
                         return;
@@ -27,8 +31,8 @@ function select2search(selectResponsibles, delayTime, freeTextValidator, minuteI
                 _.each(data.results, function (result) {
                     if (result.isParticipant) {
                         results_participants.push({
-                            id: result.userId,
-                            text: result.fullname
+                            id: result.id,
+                            text: result.text
                         });
                     }
                     else results_other.push({
@@ -50,13 +54,13 @@ function select2search(selectResponsibles, delayTime, freeTextValidator, minuteI
     });
 }
 
-export function configureSelect2Responsibles(SelectResponsibleElementID, topicOrItemDoc, freeTextValidator, _minutesID) {
+export function configureSelect2Responsibles(SelectResponsibleElementID, topicOrItemDoc, freeTextValidator, _minutesID, topicOrItem) {
     let selectResponsibles = $('#'+SelectResponsibleElementID);
     selectResponsibles.find('option')     // clear all <option>s
         .remove();
     let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
-    select2search(selectResponsibles, delayTime, freeTextValidator, _minutesID);
+    select2search(selectResponsibles, delayTime, freeTextValidator, _minutesID, topicOrItem);
     let data = {options: []};
     if (topicOrItemDoc !== undefined) {
         topicOrItemDoc.responsibles.forEach(responsibleId => {

@@ -105,6 +105,35 @@ class QualityTestCase {
             }
         ));
 
+        // an item is still edited (F)
+        QualityTestCase.testCases.push(new QualityTestCase('An item is still edited',
+            QualityTestRunner.TRIGGERS.finalize,
+            () => {return true;},
+            (minute) => {
+                let itemIsEdited = false;
+                for (let topic of minute.topics) {
+                    if (topic.isEditedBy != undefined || topic.isEditedDate != undefined) {
+                        itemIsEdited = true;
+                        break;
+                    }
+                    for (let infoItem of topic.infoItems) {
+                        if (infoItem.isEditedBy != undefined || infoItem.isEditedDate != undefined) {
+                            itemIsEdited = true;
+                            break;
+                        }
+                        for (let detail of infoItem.details) {
+                            if (detail.isEditedBy != undefined || detail.isEditedDate != undefined) {
+                                itemIsEdited = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(itemIsEdited)
+                    return 'An item is still edited';
+            }
+        ));
+
         // no topics checked (F)
         QualityTestCase.testCases.push(new QualityTestCase('No topic is checked',
             QualityTestRunner.TRIGGERS.finalize,
@@ -154,6 +183,9 @@ class QualityTestCase {
                 if(actionItemWithoutResponsible)
                     return 'An action item has no responsible';
             }));
+
+
+
 
         // Topic checked, but no updated or new content (F)
         /* uncomment when details get a isNew-Property for easier code

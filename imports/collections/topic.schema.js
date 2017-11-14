@@ -27,6 +27,8 @@ export const TopicSchema = SchemaClass.create({
         labels: {type: [String], validators: [{type: 'meteorId'}]},
         isSkipped: {type: Boolean, default: false },
         sortOrder: {type: Number, optional: true, default: 0},
+        isEditedBy: {type: String, optional: true},
+        isEditedDate: {type: Date, optional: true}
     }
 });
 
