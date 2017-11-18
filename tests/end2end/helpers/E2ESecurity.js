@@ -49,7 +49,7 @@ export class E2ESecurity {
     //to wrap these method calls with the following function, allowing for an emulated synchronous usage of these methods.
     static executeMethod(methodName, ...methodParameters) {
         E2ESecurity.expectMethodToExist(methodName);
-        browser.timeoutsAsyncScript(5000);
+        browser.timeouts("script", 5000);
         let result = browser.executeAsync((methodName, methodParameters, done) => {
             Meteor.apply(methodName, methodParameters, _ => {
             }, (error, result) => {
