@@ -49,14 +49,18 @@ export class E2ESecurity {
     //to wrap these method calls with the following function, allowing for an emulated synchronous usage of these methods.
     static executeMethod(methodName, ...methodParameters) {
         E2ESecurity.expectMethodToExist(methodName);
-        browser.timeoutsAsyncScript(5000);
-        let result = browser.executeAsync((methodName, methodParameters, done) => {
-            Meteor.apply(methodName, methodParameters, _ => {
-            }, (error, result) => {
-                done({error, result});
-            });
-        }, methodName, methodParameters);
-        console.log(`Results are in: error = ${result.value.error}, result = ${result.value.result}`);
+        browser.timeouts("script", 5000);
+        try {
+            let result = browser.executeAsync((methodName, methodParameters, done) => {
+                Meteor.apply(methodName, methodParameters, _ => {
+                }, (error, result) => {
+                    done({error, result});
+                });
+            }, methodName, methodParameters);
+            console.log(`Results are in: error = ${result.value.error}, result = ${result.value.result}`);
+        } catch (e) {
+            console.log("Exception: "+e.message);
+        }
     }
 
     static countRecordsInMiniMongo(collectionName) {
