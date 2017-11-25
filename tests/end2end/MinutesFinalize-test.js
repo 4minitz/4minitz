@@ -350,7 +350,7 @@ describe('Minutes Finalize', function () {
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        let detailsNew = "Updated Details";
+        let detailsNew = 'Updated Details';
         E2ETopics.editDetailsForActionItem(1, 1, 1, detailsNew);
 
         let itemsOfTopic = E2ETopics.getItemsForTopic(1);
