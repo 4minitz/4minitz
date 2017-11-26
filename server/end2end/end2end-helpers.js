@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Migrations } from 'meteor/percolate:migrations';
 
 import { MeetingSeriesSchema } from './../../imports/collections/meetingseries.schema';
 import { MinutesSchema } from './../../imports/collections/minutes.schema';
