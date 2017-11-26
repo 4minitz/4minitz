@@ -4,6 +4,10 @@ import {E2EMinutes} from './helpers/E2EMinutes';
 import {E2ETopics} from './helpers/E2ETopics';
 import {E2EGlobal} from './helpers/E2EGlobal';
 
+// This test might be helpful if there is a bug with our migrations
+// The tests creates a series with two minutes containing action and info items
+// After that you can migrate down to a specific version and migrate up step by step. After each step
+// the amount of items will be count
 describe.skip('Migrations', function () {
 
     const aProjectName = "Migrations";
@@ -27,7 +31,7 @@ describe.skip('Migrations', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-    it('should not change meeting series topics history when migration down and up @watch', function() {
+    it('should not change meeting series topics history when migration down and up', function() {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addInfoItemToTopic({subject: 'information'}, 1);
         E2ETopics.addInfoItemToTopic({subject: 'action item', itemType: 'actionItem'}, 1);
@@ -61,14 +65,14 @@ describe.skip('Migrations', function () {
         E2EGlobal.waitSomeTime(500);
 
         const startAtVersion = 17;
-        server.call('e2e.tiggerMigration', startAtVersion);
+        server.call('e2e.triggerMigration', startAtVersion);
 
         for (let i=startAtVersion+1; i<=21; i++) {
-            server.call('e2e.tiggerMigration', i);
+            server.call('e2e.triggerMigration', i);
             console.log('migrated to version ' + i);
             E2EGlobal.waitSomeTime(1000);
+            checkHistory();
         }
-        checkHistory();
     });
 
 });

@@ -47,7 +47,7 @@ describe('Migrate Version 21', function() {
                     { _id: topic2, infoItems: [{ _id: 'item#2.1', isNew: true }] }
                 ]
             };
-            const sndMinutes = {
+            const secondMinutes = {
                 _id: 'min#02',
                 isFinalized: true,
                 topics: [
@@ -55,7 +55,7 @@ describe('Migrate Version 21', function() {
                     { _id: topic2, infoItems: [{ _id: 'item#1.2', isNew: true }] }
                 ]
             };
-            const trdMinutes = {
+            const thirdMinutes = {
                 _id: 'min#03',
                 isFinalized: false,
                 topics: [
@@ -74,9 +74,9 @@ describe('Migrate Version 21', function() {
             TopicsFinder.allTopicsOfMeetingSeries.withArgs(meetingSeries._id).returns(topicsOfFirstSeries);
 
             MinutesFinder.firstMinutesOfMeetingSeries.withArgs(meetingSeries).returns(firstMinutes);
-            MinutesFinder.nextMinutes.withArgs(firstMinutes).returns(sndMinutes);
-            MinutesFinder.nextMinutes.withArgs(sndMinutes).returns(trdMinutes);
-            MinutesFinder.nextMinutes.withArgs(trdMinutes).returns(false);
+            MinutesFinder.nextMinutes.withArgs(firstMinutes).returns(secondMinutes);
+            MinutesFinder.nextMinutes.withArgs(secondMinutes).returns(thirdMinutes);
+            MinutesFinder.nextMinutes.withArgs(thirdMinutes).returns(false);
         });
 
         afterEach(function() {

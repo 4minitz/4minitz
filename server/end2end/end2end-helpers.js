@@ -176,8 +176,8 @@ if (Meteor.settings.isEnd2EndTest) {
             let min = MinutesSchema.getCollection().findOne(minuteID);
             return min.topics;
         },
-        'e2e.tiggerMigration'(version) {
-            console.log('-------------------------- E2E-METHOD: tiggerMigration');
+        'e2e.triggerMigration'(version) {
+            console.log('-------------------------- E2E-METHOD: triggerMigration');
             Migrations.migrateTo(version);
         }
     });
