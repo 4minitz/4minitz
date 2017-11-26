@@ -61,6 +61,7 @@ class MinutesHandler {
     }
 
     _updateTopicsOfMeetingSeries(series) {
+        let recoveredItemsCounter = 0;
         const topicsInCollection = TopicsFinder.allTopicsOfMeetingSeries(series._id);
         topicsInCollection.forEach(topicInCollection => {
             topicInCollection.infoItems.forEach(item => {
@@ -71,13 +72,16 @@ class MinutesHandler {
                 item.isNew = false;
                 item.details.forEach(detail => detail.isNew = false);
             });
-            console.log(`MigrationV21: Recovered ${missingItems.length} missing items`);
-            topicInCollection.infoItems = topicInCollection.infoItems.concat(missingItems);
-            TopicSchema.getCollection().update(
-                topicInCollection._id,
-                { $set: { infoItems: topicInCollection.infoItems } }
-            );
+            if (missingItems.length > 0) {
+                topicInCollection.infoItems = topicInCollection.infoItems.concat(missingItems);
+                TopicSchema.getCollection().update(
+                    topicInCollection._id,
+                    {$set: {infoItems: topicInCollection.infoItems}}
+                );
+                recoveredItemsCounter += missingItems.length;
+            }
         });
+        console.log(`MigrationV21: Recovered ${recoveredItemsCounter} missing items`);
     }
 
     nextMinutes(minutes) {
