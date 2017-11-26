@@ -9,9 +9,14 @@ import {TopicsFinder} from '../../imports/services/topicsFinder';
 export class MigrateV21 {
 
     static up() {
+        console.log('*** Running Migration V21 ***');
+        console.log('Migration V21 recovers info items which are missing in the topics collection due to a bug ' +
+            'introduced in migration v18');
+        console.log('For details see: https://github.com/4minitz/4minitz/issues/374');
         const minutesHandler = new MinutesHandler();
         const minutesIterator = new MinutesIterator(minutesHandler);
         minutesIterator.iterate();
+        console.log('*** Finished Migration V21 ***');
     }
 
     static down() {
@@ -66,6 +71,7 @@ class MinutesHandler {
                 item.isNew = false;
                 item.details.forEach(detail => detail.isNew = false);
             });
+            console.log(`MigrationV21: Recovered ${missingItems.length} missing items`);
             topicInCollection.infoItems = topicInCollection.infoItems.concat(missingItems);
             TopicSchema.getCollection().update(
                 topicInCollection._id,
