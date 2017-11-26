@@ -67,10 +67,19 @@ class MinutesHandler {
             topicInCollection.infoItems.forEach(item => {
                 delete this.itemsDictionary[item._id];
             });
-            const missingItems = Object.keys(this.itemsDictionary).map(key => this.itemsDictionary[key]);
+            const missingItems = Object.keys(this.itemsDictionary)
+                .filter(key => this.itemsDictionary[key].parentTopicId === topicInCollection._id)
+                .map(key => {
+                    const item = this.itemsDictionary[key];
+                    delete item.parentTopicId;
+                    return item;
+                })
+                .reverse();
             missingItems.forEach(item => {
                 item.isNew = false;
-                item.details.forEach(detail => detail.isNew = false);
+                if (item.details) {
+                    item.details.forEach(detail => detail.isNew = false);
+                }
             });
             if (missingItems.length > 0) {
                 topicInCollection.infoItems = topicInCollection.infoItems.concat(missingItems);
@@ -88,7 +97,10 @@ class MinutesHandler {
         if (minutes.isFinalized) {
             const itemsDict = this.itemsDictionary;
             minutes.topics = minutes.topics.map(topic => {
-                topic.infoItems.forEach(item => itemsDict[item._id] = item);
+                topic.infoItems.forEach(item => {
+                    item.parentTopicId = topic._id;
+                    itemsDict[item._id] = item
+                });
                 return topic;
             });
         }
