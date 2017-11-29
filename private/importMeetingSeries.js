@@ -16,6 +16,7 @@ let ExpImpUsers = require('../imports/server/exportimport/expImpUsers');
 let optionParser = require('node-getopt').create([
     ['i', 'id=[ARG]', 'ID of meeting series, e.g. icwrCdJjqWpoH9ugQ'],
     ['m', 'mongourl=[ARG]', 'Mongo DB url, e.g. mongodb://localhost:3101/meteor'],
+    ['f', 'force', 'Force import even if schema mismatch'],
     ['h', 'help', 'Display this help']
 ]);
 let arg = optionParser.bindHelp().parseSystem();
@@ -61,7 +62,7 @@ require('child_process').spawnSync("read _ ", {shell: true, stdio: [0, 1, 2]});
 
 var closeDB = undefined;
 _connectMongo(mongoUrl)
-    .then(db              => {return ExpImpSchema.preImportCheck(db, meetingseriesID);})
+    .then(db              => {return ExpImpSchema.preImportCheck(db, meetingseriesID, arg.options.force);})
     .then(db              => {return ExpImpUsers.preImportCheck(db, meetingseriesID);})
     .then(({db, usrMap})  => {return ExpImpMeetingSeries.doImport(db, meetingseriesID, usrMap);})
     .then(({db, usrMap})  => {return ExpImpMinutes.doImport(db, meetingseriesID, usrMap);})

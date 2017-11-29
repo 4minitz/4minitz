@@ -3,28 +3,28 @@ const EJSON = require('mongodb-extended-json');
 
 class ExpImpFilesAttachments {
     static get FILENAME_POSTFIX() {
-        return "_filesAttachments.json";
+        return '_filesAttachments.json';
     }
 
     static doExport (db, msID, userIDs) {
         return new Promise((resolve, reject) => {
             db.collection('AttachmentsCollection')
-                .find({"meta.parentseries_id": msID})
+                .find({'meta.parentseries_id': msID})
                 .toArray()
                 .then(doc => {
                     if (doc) {
                         const attFile = msID + ExpImpFilesAttachments.FILENAME_POSTFIX;
                         fs.writeFileSync(attFile, EJSON.stringify(doc,null,2));
-                        console.log("Saved: "+attFile + " with "+doc.length+" file attachments");
+                        console.log('Saved: '+attFile + ' with '+doc.length+' file attachments');
                         if (doc[0]) {
-                            console.log("      *** Hint *** Please manually copy all files below:");
-                            console.log("      "+doc[0]._storagePath);
+                            console.log('      *** Hint *** Please manually copy all files below:');
+                            console.log('      '+doc[0]._storagePath);
                         }
                         resolve({db, userIDs});
                     } else {
-                        return reject ("Unknown meeting series ID: "+ msID);
+                        return reject ('Unknown meeting series ID: '+ msID);
                     }
-                 });
+                });
         });
     }
 
@@ -35,10 +35,10 @@ class ExpImpFilesAttachments {
             try {
                 AllAttachmentsDoc = EJSON.parse(fs.readFileSync(attachmentFile, 'utf8'));
                 if (!AllAttachmentsDoc) {
-                    return reject("Could not read attachment file "+attachmentFile);
+                    return reject('Could not read attachment file '+attachmentFile);
                 }
             } catch (e) {
-                return reject("Could not read attachment file "+attachmentFile+"\n"+e);
+                return reject('Could not read attachment file '+attachmentFile+'\n'+e);
             }
 
             // Replace old user IDs with new users IDs
@@ -52,14 +52,17 @@ class ExpImpFilesAttachments {
             return db.collection('AttachmentsCollection')
                 .deleteMany({ _id : { $in : attachmentIDs } })     // delete existing attachments with same IDs
                 .then(function (res) {
+                    if (res.result && ! res.result.ok) {
+                        console.log(res);
+                    }
                     return db.collection('AttachmentsCollection')
                         .insertMany(AllAttachmentsDoc)                         // insert imported minutes
                         .then(function (res) {
                             if (res.result.ok === 1 && res.result.n === AllAttachmentsDoc.length) {
-                                console.log("OK, inserted "+res.result.n+" attachments meta data.");
+                                console.log('OK, inserted '+res.result.n+' attachments meta data.');
                                 resolve({db, usrMap});
                             } else {
-                                reject("Could not insert attachment meta data");
+                                reject('Could not insert attachment meta data');
                             }
                         });
                 });
