@@ -3,7 +3,7 @@ const EJSON = require('mongodb-extended-json');
 
 class ExpImpSchema {
     static get MADE_FOR_SCHEMA() {
-        return 20;
+        return 21;
     }
 
     static get FILENAME_POSTFIX() {
