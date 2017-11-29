@@ -3,6 +3,7 @@ import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import {MinutesFinder} from '../../imports/services/minutesFinder';
 import {updateTopicsOfMinutes} from './helpers/updateMinutes';
+import {MinutesIterator} from './helpers/minutesIterator';
 
 // add "createdAt" and "updatedAt" field for topics
 // --> updates all existing topics in all minutes and the topics collection!
@@ -10,7 +11,7 @@ export class MigrateV18 {
 
     static up() {
         const minutesHandler = new MinutesHandler();
-        const minutesIterator = new MinutesIterator(minutesHandler);
+        const minutesIterator = new MinutesIterator(minutesHandler, MinutesFinder, MeetingSeriesSchema);
         minutesIterator.iterate();
     }
 
@@ -42,30 +43,6 @@ export class MigrateV18 {
             minutes.topics = minutes.topics.map(transformTopic);
             updateTopicFieldOfMinutes(minutes);
         });
-    }
-
-}
-
-class MinutesIterator {
-
-    constructor(minutesHandler) {
-        this.minutesHandler = minutesHandler;
-    }
-
-    iterate() {
-        let allSeries = MeetingSeriesSchema.getCollection().find();
-        allSeries.forEach(series => {
-            this._iterateOverMinutesOfSeries(series);
-            this.minutesHandler.finishedSeries();
-        });
-    }
-
-    _iterateOverMinutesOfSeries(series) {
-        let minutes = MinutesFinder.firstMinutesOfMeetingSeries(series);
-        while (minutes) {
-            this.minutesHandler.nextMinutes(minutes);
-            minutes = MinutesFinder.nextMinutes(minutes);
-        }
     }
 
 }
