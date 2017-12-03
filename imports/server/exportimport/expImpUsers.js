@@ -48,7 +48,7 @@ class ExpImpUsers {
                                 let thisUser = ExpImpUsers.searchUser(allUsersDoc, usrID);
                                 userIDsOuputMap[usrID] = {
                                     'newID': usrID,
-                                    'hint': thisUser.username +" "+thisUser.profile.name
+                                    'hint': thisUser.username +' '+thisUser.profile.name
                                 };
                             }
                         });

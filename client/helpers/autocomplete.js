@@ -28,7 +28,7 @@ const createStrategy = (id, startCharacter, fetchData, objectToString, objectToS
             objectToStringId = (objectToStringId) ? objectToStringId : objectToString;
             return `$1${startCharacter}${objectToStringId(obj)} `;
         }
-    }
+    };
 };
 
 export const setupAutocomplete = (element, strategies) => {

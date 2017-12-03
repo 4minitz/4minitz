@@ -41,7 +41,7 @@ const queryOtherResponsibles = async (queryTerm, reactiveResponsibles, participa
                     id: resp._id,
                     text: resp.fullname,
                     stringIdentifier: resp.username
-                }
+                };
             });
         participants = reactiveResponsibles.get();
         reactiveResponsibles.set(participants.concat(others));
@@ -83,8 +83,8 @@ Template.topicElement.onRendered(function() {
             if (queryVar) {
                 queryVar.set(term);
             }
-            callback(reactiveVar.get())
-        }
+            callback(reactiveVar.get());
+        };
     };
     const strategies = [
         createLabelStrategy(createFetcher(this.availableLabelsReactive)),
