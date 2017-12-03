@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { emailAddressRegExpTest } from '../helpers/email';
 import {StringUtils} from '../helpers/string-utils';
+import {_} from 'meteor/underscore';
 
 export class ResponsibleExtractor {
 
@@ -10,6 +11,7 @@ export class ResponsibleExtractor {
         this.acceptOnlyValidEmailAsFreeText = acceptOnlyValidEmailAsFreeText;
 
         this._extractResponsible();
+        this._pruneDuplicates();
     }
 
     getExtractedResponsible() {
@@ -53,6 +55,10 @@ export class ResponsibleExtractor {
 
     _removeResponsibleFromString(responsibleName) {
         this.string = StringUtils.eraseSubstring(this.string, `@${responsibleName}`);
+    }
+
+    _pruneDuplicates() {
+        this.extractedResponsible = _.uniq(this.extractedResponsible);
     }
 
 }
