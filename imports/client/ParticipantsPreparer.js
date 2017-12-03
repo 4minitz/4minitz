@@ -100,11 +100,11 @@ export class ParticipantsPreparer {
         if (typeof userIdOrFreeTextOrUserObject === 'string') {
             user = this.usersCollection.findOne(userIdOrFreeTextOrUserObject);
             if (!user) {
-                return {id: userIdOrFreeTextOrUserObject, text: userIdOrFreeTextOrUserObject};
+                return {id: userIdOrFreeTextOrUserObject, text: userIdOrFreeTextOrUserObject, stringIdentifier: userIdOrFreeTextOrUserObject};
             }
         }
 
-        return {id: user._id, text: ParticipantsPreparer._formatUser(user)};
+        return {id: user._id, text: ParticipantsPreparer._formatUser(user), stringIdentifier: user.username};
     }
 
     static _formatUser(user) {

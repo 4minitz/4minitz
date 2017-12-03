@@ -17,6 +17,7 @@ import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
 import {setupAutocomplete, createLabelStrategy, createResponsibleStrategy} from '../../helpers/autocomplete';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
+import {ParticipantsPreparer} from '../../../imports/client/ParticipantsPreparer';
 
 let _minutesId;
 
@@ -30,6 +31,26 @@ const isFeatureShowItemInputFieldOnDemandEnabled = () => {
     return !(Meteor.settings && Meteor.settings.public && Meteor.settings.public.isEnd2EndTest);
 };
 
+const queryOtherResponsibles = async (queryTerm, reactiveResponsibles, participants) => {
+    try {
+        const result = await Meteor.callPromise('responsiblesSearch', queryTerm, participants);
+        const others = result.results
+            .filter(respo => !respo.isParticipant)
+            .map(resp => {
+                return {
+                    id: resp._id,
+                    text: resp.fullname,
+                    stringIdentifier: resp.username
+                }
+            });
+        participants = reactiveResponsibles.get();
+        reactiveResponsibles.set(participants.concat(others));
+    } catch(e) {
+        console.error('Error querying other possible responsibles');
+        console.error(e);
+    }
+};
+
 Template.topicElement.onCreated(function () {
     let tmplData = Template.instance().data;
     _minutesId = tmplData.minutesID;
@@ -38,6 +59,7 @@ Template.topicElement.onCreated(function () {
     this.isCollapsed = new ReactiveVar(false);
     this.availableLabelsReactive = new ReactiveVar([]);
     this.responsiblesReactive = new ReactiveVar([]);
+    this.queryForResponsiblesFilter = new ReactiveVar('');
     if (tmplData.isEditable) {
         this.autorun(() => {
             const availableLabels = (new MeetingSeries(tmplData.parentMeetingSeriesId)).getAvailableLabels();
@@ -45,22 +67,28 @@ Template.topicElement.onCreated(function () {
             const freeTextValidator = (text) => {
                 return emailAddressRegExpTest.test(text);
             };
-            /*const responsiblePreparer =
-                new ResponsiblePreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
+            const participantsPreparer =
+                new ParticipantsPreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
             const responsibles =
-                responsiblePreparer.getPossibleResponsibles().concat(responsiblePreparer.getRemainingUsers());*/
-            this.responsiblesReactive.set([]);
+                participantsPreparer.getPossibleResponsibles(); // .concat(responsiblePreparer.getRemainingUsers());
+            queryOtherResponsibles(this.queryForResponsiblesFilter.get(), this.responsiblesReactive, responsibles);
+            this.responsiblesReactive.set(responsibles);
         });
     }
 });
 
 Template.topicElement.onRendered(function() {
-    const createFetcher = (reactiveVar) => {
-        return (callback) => { callback(reactiveVar.get()) }
+    const createFetcher = (reactiveVar, queryVar) => {
+        return (callback, term) => {
+            if (queryVar) {
+                queryVar.set(term);
+            }
+            callback(reactiveVar.get())
+        }
     };
     const strategies = [
         createLabelStrategy(createFetcher(this.availableLabelsReactive)),
-        createResponsibleStrategy(createFetcher(this.responsiblesReactive))
+        createResponsibleStrategy(createFetcher(this.responsiblesReactive, this.queryForResponsiblesFilter))
     ];
     $('.add-item-field').each(function() {
         setupAutocomplete(this, strategies);

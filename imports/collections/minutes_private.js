@@ -263,7 +263,8 @@ Meteor.methods({
             {
                 limit: 10 + results_participants.length, //we want to show 10 "Other user"
                 // as it is not known, if a user a participant or not -> get 10+participants
-                fields: searchFields
+                fields: searchFields,
+                sort: {username: 1}
             }
         ).fetch();
 
@@ -275,7 +276,6 @@ Meteor.methods({
         results_otherUser = results_otherUser.map(otherUser => {
             return Minutes.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
         });
-        console.log(results_participants.concat(results_otherUser));
         return {
             results: results_participants.concat(results_otherUser)
         };

@@ -3,17 +3,14 @@ import Textcomplete from '../../node_modules/textcomplete/lib/textcomplete';
 
 const setTextcompleteOptions = (textcomplete) => {
     textcomplete.on('rendered', function () {
-        if (textcomplete.dropdown.items.length === 1) {
-            // Automatically select the only item.
-            textcomplete.dropdown.select(textcomplete.dropdown.items[0]);
-        } else if (textcomplete.dropdown.items.length > 1) {
+        if (textcomplete.dropdown.items.length >= 1) {
             // Activate the first item by default.
             textcomplete.dropdown.items[0].activate();
         }
     });
 };
 
-const createStrategy = (id, startCharacter, fetchData, objectToString) => {
+const createStrategy = (id, startCharacter, fetchData, objectToString, objectToStringId) => {
     return {
         id: 'labels',
         match: new RegExp(`(^|\\s)${startCharacter}(\\S*)$`),
@@ -22,13 +19,14 @@ const createStrategy = (id, startCharacter, fetchData, objectToString) => {
                 const result = data
                     .filter(obj => objectToString(obj).startsWith(term));
                 callback(result);
-            });
+            }, term);
         },
         template: function (obj) {
             return objectToString(obj);
         },
         replace: function (obj) {
-            return `$1${startCharacter}${objectToString(obj)} `;
+            objectToStringId = (objectToStringId) ? objectToStringId : objectToString;
+            return `$1${startCharacter}${objectToStringId(obj)} `;
         }
     }
 };
@@ -45,5 +43,5 @@ export const createLabelStrategy = (fetchData) => {
 };
 
 export const createResponsibleStrategy = (fetchData) => {
-    return createStrategy('responsibles', '@', fetchData, (obj) => obj.text);
+    return createStrategy('responsibles', '@', fetchData, (obj) => obj.text, (obj) => obj.stringIdentifier);
 };
