@@ -27,13 +27,6 @@ export class ParticipantsPreparer {
         return this.possibleResponsibles;
     }
 
-    /**
-     * @return {ResponsibleObject[]}
-     */
-    getRemainingUsers() {
-        return this.remainingUsers;
-    }
-
     _prepareResponsibles() {
         this._preparePossibleResponsibles();
     }
@@ -119,9 +112,5 @@ export class ParticipantsPreparer {
         if (!this.freeTextValidator || this.freeTextValidator(text)) {
             this.buffer.push(text);
         }
-    }
-
-    static _responsibleMightBeID(value) {
-        return (value.id && value.id.length > 15);   // Meteor _ids default to 17 chars
     }
 }
