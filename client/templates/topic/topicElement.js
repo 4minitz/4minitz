@@ -16,7 +16,6 @@ import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
 import {setupAutocomplete, createLabelStrategy, createResponsibleStrategy} from '../../helpers/autocomplete';
-import {ResponsiblePreparer} from '../../../imports/client/ResponsiblePreparer';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 
 let _minutesId;
@@ -46,11 +45,11 @@ Template.topicElement.onCreated(function () {
             const freeTextValidator = (text) => {
                 return emailAddressRegExpTest.test(text);
             };
-            const responsiblePreparer =
+            /*const responsiblePreparer =
                 new ResponsiblePreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
             const responsibles =
-                responsiblePreparer.getPossibleResponsibles().concat(responsiblePreparer.getRemainingUsers());
-            this.responsiblesReactive.set(responsibles);
+                responsiblePreparer.getPossibleResponsibles().concat(responsiblePreparer.getRemainingUsers());*/
+            this.responsiblesReactive.set([]);
         });
     }
 });
