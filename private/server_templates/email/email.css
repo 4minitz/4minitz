@@ -3,6 +3,20 @@
     text-decoration: line-through;
 }
 
+p.item {
+    Margin: 0;
+    Margin-bottom: 10px;
+    color: #555;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.3;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    text-align: left
+}
+
 @media only screen {
     html {
         min-height: 100%;

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Migrations } from 'meteor/percolate:migrations';
 
 import { MeetingSeriesSchema } from './../../imports/collections/meetingseries.schema';
 import { MinutesSchema } from './../../imports/collections/minutes.schema';
@@ -174,6 +175,10 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log('-------------------------- E2E-METHOD: getTopics');
             let min = MinutesSchema.getCollection().findOne(minuteID);
             return min.topics;
+        },
+        'e2e.triggerMigration'(version) {
+            console.log('-------------------------- E2E-METHOD: triggerMigration');
+            Migrations.migrateTo(version);
         }
     });
 }

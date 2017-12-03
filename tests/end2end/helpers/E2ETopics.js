@@ -71,14 +71,18 @@ export class E2ETopics {
 
         let texts = theText.split(",");
         for (let i in texts) {
-            browser.keys(texts[i]+"\uE007"); // plus ENTER
+            browser.keys(texts[i]);
+            E2EGlobal.waitSomeTime(300);
+            browser.keys("\uE007"); // plus ENTER
         }
     }
 
     static responsible2TopicEnterFreetext(theText) {
         browser.element('#id_subject').click();
         browser.keys("\uE004\uE004"); // Tab to reach next input field => labels
-        browser.keys(theText+"\uE007"); // plus ENTER
+        browser.keys(theText);
+        E2EGlobal.waitSomeTime();
+        browser.keys("\uE007"); // plus ENTER
     }
 
     static labelEnterFreetext(theText) {

@@ -326,9 +326,9 @@ Template.topicElement.events({
         Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
     },
 
-    'keypress .addItemForm' (evt, tmpl) {
+    'keydown .addItemForm' (evt, tmpl) {
         const inputEl = tmpl.$('.add-item-field');
-        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
+        if (evt.which === 13/*enter*/ && ( evt.ctrlKey || evt.metaKey)) {
             evt.preventDefault();
             inputEl.blur();
         }

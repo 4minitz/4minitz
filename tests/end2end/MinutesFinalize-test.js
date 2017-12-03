@@ -295,7 +295,7 @@ describe('Minutes Finalize', function () {
     });
 
 
-    it('cancel finalize Minutes, when no participants are present and warning-box appears', function () {
+    it('cancel finalize Minutes, when warning-box appears', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -310,7 +310,7 @@ describe('Minutes Finalize', function () {
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
     });
 
-    it('process finalize Minutes, when no participants are present and warning-box appears', function () {
+    it('process finalize Minutes, when warning-box appears', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
@@ -323,6 +323,39 @@ describe('Minutes Finalize', function () {
 
         expect(browser.isExisting('#btn_unfinalizeMinutes')).to.be.true;
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
+    });
+
+    it('update detail on pinned and not discussed item in next minute after finalizing item origin minute @watch', function () {
+        aMeetingCounter++;
+        aMeetingName = aMeetingNameBase + aMeetingCounter;
+
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        let aTopicName = 'Topic';
+        let infoItemName = 'Info Item';
+        E2ETopics.addTopicToMinutes(aTopicName);
+        E2ETopics.addInfoItemToTopic({
+            subject: infoItemName,
+            itemType: 'infoItem'
+        }, 1);
+
+        let details = 'Details';
+        E2ETopics.addDetailsToActionItem(1, 1, details);
+
+        E2ETopics.toggleInfoItemStickyState(1,1);
+        E2EMinutes.finalizeCurrentMinutesWithoutParticipants(true, true);
+
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+
+        let detailsNew = 'Updated Details';
+        E2ETopics.editDetailsForActionItem(1, 1, 1, detailsNew);
+
+        let itemsOfTopic = E2ETopics.getItemsForTopic(1);
+        let item = itemsOfTopic[0].ELEMENT;
+        expect(browser.elementIdText(item).value).to.have.string(detailsNew);
     });
 
 });

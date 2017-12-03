@@ -32,10 +32,16 @@ sed -i '' 's/"targetDocPath": "[^\"]*"/"targetDocPath": "\/4minitz_storage\/prot
 
 #### Build 4Minitz with meteor
 (cd .. && ./BUILD_DEPLOY.sh)
+rm -rf ./4minitz_bin
 mv ../.deploy/4minitz_bin . || exit 1
 
 #### Build 4Minitz docker image
-docker build --no-cache -t "$baseimagetag" .
+docker build \
+        --no-cache -t "$baseimagetag" \
+        --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
+        --build-arg VCS_REF=`git rev-parse --short HEAD` \
+        --build-arg VERSION=`git describe --tags --abbrev=0` \
+        .
 echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
 echo "docker push $baseimagetag"
 pushlist="docker push $baseimagetag"
@@ -53,4 +59,4 @@ echo "---------"
 echo "$pushlist"
 
 #### Clean up
-rm -rf ../.deploy/4minitz_bin
+rm -rf ./4minitz_bin

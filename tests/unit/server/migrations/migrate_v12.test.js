@@ -168,14 +168,14 @@ describe('Migrate Version 12', function () {
                     if(infoItem.details) {
                         infoItem.details.forEach(checkDetailHasProperties);
                     }
-                })
+                });
             });
             sndFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
                     if(infoItem.details) {
                         infoItem.details.forEach(checkDetailHasProperties);
                     }
-                })
+                });
             });
         });
 
@@ -186,14 +186,14 @@ describe('Migrate Version 12', function () {
                     if(infoItem.details) {
                         infoItem.details.forEach(checkDetailHasProperties);
                     }
-                })
+                });
             });
             fakeMeetingSeries.openTopics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
                     if(infoItem.details) {
                         infoItem.details.forEach(checkDetailHasProperties);
                     }
-                })
+                });
             });
         });
 
@@ -247,28 +247,28 @@ describe('Migrate Version 12', function () {
                     if(infoItem.details) {
                         infoItem.details.forEach(checkDetailHasNoProperties);
                     }
-                })
+                });
             });
             sndFakeMinute.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
                     if(infoItem.details) {
                         infoItem.details.forEach(checkDetailHasNoProperties);
                     }
-                })
+                });
             });
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
                     if(infoItem.details) {
                         infoItem.details.forEach(checkDetailHasNoProperties);
                     }
-                })
+                });
             });
             fakeMeetingSeries.topics.forEach(topic =>{
                 topic.infoItems.forEach(infoItem =>{
                     if(infoItem.details) {
                         infoItem.details.forEach(checkDetailHasNoProperties);
                     }
-                })
+                });
             });
         });
     });

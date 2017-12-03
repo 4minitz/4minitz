@@ -2,6 +2,22 @@ FROM mongo:3.4
 
 MAINTAINER 4Minitz-Team <4minitz@gmx.de>
 
+#### Build-time metadata as defined at http://label-schema.org
+# For layer details see: https://microbadger.com/images/4minitz/4minitz
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="4Minitz" \
+      org.label-schema.description="Simply a decent free webapp for taking meeting minutes" \
+      org.label-schema.url="https://www.4minitz.com/" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/4minitz/4minitz" \
+      org.label-schema.vendor="4Minitz-Team" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0"
+
+
 #### Install Node.js
 ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_VERSION 4.8.4
