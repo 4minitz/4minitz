@@ -275,7 +275,6 @@ Meteor.methods({
         results_otherUser = results_otherUser.map(otherUser => {
             return Minutes.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
         });
-        console.log(results_participants.concat(results_otherUser));
         return {
             results: results_participants.concat(results_otherUser)
         };
