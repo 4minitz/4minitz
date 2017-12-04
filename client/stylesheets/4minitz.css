@@ -85,6 +85,13 @@
     background: #eee !important;
 }
 
+.panel-link.disabled {
+    color: #CCCCCC !important;
+}
+
+.panel-link.disabled:hover {
+    cursor: default;
+}
 
 /* highlight active nav-tabs item */
 ul.nav-tabs {
