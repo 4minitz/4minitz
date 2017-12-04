@@ -5,23 +5,11 @@ export class ItemsConverter {
 
     static async convertItem(infoOrActionItem) {
         if (infoOrActionItem instanceof ActionItem) {
-            await ItemsConverter.convertActionToInfoItem(infoOrActionItem);
+            infoOrActionItem._infoItemDoc.itemType = 'infoItem';
         } else if (infoOrActionItem instanceof InfoItem) {
-            await ItemsConverter.convertInfoToActionItem(infoOrActionItem);
+            infoOrActionItem._infoItemDoc.itemType = 'actionItem';
         }
-    }
-
-    static async convertInfoToActionItem(infoItem) {
-        infoItem._infoItemDoc.itemType = 'actionItem';
-        const convertedActionItem = new ActionItem(infoItem.getParentTopic(), infoItem.getDocument());
-        await convertedActionItem.save();
-
-    }
-
-    static async convertActionToInfoItem(actionItem) {
-        actionItem._infoItemDoc.itemType = 'infoItem';
-        const convertedInfoItem = new InfoItem(actionItem.getParentTopic(), actionItem.getDocument());
-        await convertedInfoItem.save();
+        await infoOrActionItem.save();
     }
 
     static isConversionAllowed(itemDoc, currentMinutesId) {
