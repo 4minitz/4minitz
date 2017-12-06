@@ -62,7 +62,7 @@
     "lodash": "^4.17.4",
     "md5-file": "^3.2.3",
     "meteor-node-stubs": "^0.3.2",
-    "moment": "^2.19.1",
+    "moment": "^2.19.3",
     "mongo-uri": "^0.1.2",
     "mongodb": "^2.2.33",
     "mongodb-extended-json": "^1.10.0",
