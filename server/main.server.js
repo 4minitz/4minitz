@@ -24,6 +24,7 @@ import '/imports/collections/attachments_private';
 import '/imports/collections/documentgeneration_private';
 
 import '/imports/services/finalize-minutes/finalizer';
+import '/imports/services/isEditedService';
 
 import cron from 'node-cron';
 import importUsers from '/imports/ldap/import';

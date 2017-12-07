@@ -13,10 +13,15 @@ import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import { MinutesFinder } from '../../../imports/services/minutesFinder';
+import { MeetingSeries } from '../../../imports/meetingseries';
 import {resizeTextarea} from './helpers/resize-textarea';
 import {labelSetFontColor} from './helpers/label-set-font-color';
 import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 import { Blaze } from 'meteor/blaze';
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {formatDateISO8601Time} from '../../../imports/helpers/date';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -59,6 +64,11 @@ Template.topicInfoItemList.onCreated(function () {
     // Dict maps Item._id => true/false, where true := "expanded state"
     // per default: everything is undefined => collapsed!
     this.isItemExpanded = new ReactiveVar({});
+
+    // get last finalized Minute for details's new label
+    this.lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')  //eslint-disable-line
+        ? tmplData.topicParentId
+        : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(new MeetingSeries(tmplData.topicParentId))._id;
 });
 
 let updateItemSorting = (evt, ui) => {
@@ -168,6 +178,17 @@ let addNewDetails = async (tmpl, index) => {
         inputEl.focus();
     }, 250);
 };
+
+function makeDetailEditable(textEl, inputEl, detailActionsId) {
+    textEl.hide();
+    inputEl.show();
+    detailActionsId.show();
+
+    inputEl.val(textEl.attr('data-text'));
+    inputEl.parent().css('margin', '0 0 25px 0');
+    inputEl.focus();
+    resizeTextarea(inputEl);
+}
 
 Template.topicInfoItemList.helpers({
     topicStateClass: function (index) {
@@ -411,14 +432,49 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        textEl.hide();
-        inputEl.show();
-        detailActionsId.show();
+        let index = inputEl.data('item');
+        let infoItem = context.items[index];
+        let aMin = new Minutes(context.topicParentId);
+        let aTopic = new Topic(aMin, infoItem.parentTopicId);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
-        inputEl.val(textEl.attr('data-text'));
-        inputEl.parent().css('margin', '0 0 25px 0');
-        inputEl.focus();
-        resizeTextarea(inputEl);
+        let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+
+        if ((aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined && aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined)) {
+            let unset = function () {
+                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
+            };
+
+            let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[detailIndex].isEditedBy});
+
+            let tmplData = {
+                isEditedBy: user.username,
+                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate)
+            };
+
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                unset,
+                'Edit despite existing editing',
+                'confirmationDialogResetDetailEdit',
+                tmplData,
+                'Edit anyway'
+            ).show();
+        }
+        else {
+            IsEditedService.setIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
+            makeDetailEditable(textEl, inputEl, detailActionsId);
+        }
+
+        const element = aActionItem._infoItemDoc.details[detailIndex];
+        const unset = function () {
+            IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
+        };
+        const setIsEdited = () => {
+            IsEditedService.setIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
+            makeDetailEditable(textEl, inputEl, detailActionsId);
+        };
+
+        isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetDetail');
     },
 
     'click .addDetail'(evt, tmpl) {
@@ -452,15 +508,18 @@ Template.topicInfoItemList.events({
 
         let text = inputEl.val().trim();
 
-        if (text === '' || (text !== textEl.attr('data-text'))) {
-            let aMin = new Minutes(context.getSeriesId(infoItem._id));
-            let aTopic = new Topic(aMin, infoItem.parentTopicId);
-            let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+        let aMin = new Minutes(context.topicParentId);
+        let aTopic = new Topic(aMin, infoItem.parentTopicId);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+        let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+        
+        IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
 
-            let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+        if (text === '' || (text !== textEl.attr('data-text'))) {
             if (text !== '') {
                 aActionItem.updateDetails(detailIndex, text);
                 aActionItem.save().catch(handleError);
+                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
             } else {
                 let deleteDetails = () => {
                     aActionItem.removeDetails(detailIndex);

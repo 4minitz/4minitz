@@ -12,6 +12,7 @@ import { UserRoles } from '/imports/userroles';
 import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
 import {TopicsFinder} from '../../../imports/services/topicsFinder';
+import {formatDateISO8601Time} from '../../../imports/helpers/date';
 
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
@@ -104,6 +105,25 @@ Template.meetingSeriesDetails.helpers({
 
     isModerator: function () {
         return isModerator();
+    },
+
+    isMeetingSeriesEditedByAnotherUser: function () {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        if (ms.isEditedBy == undefined && ms.isEditedDate == undefined)
+            return false;
+        return ms.isEditedBy !== Meteor.userId();
+    },
+
+    meetingSeriesEditedBy() {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        let user = Meteor.users.findOne({_id: ms.isEditedBy});
+
+        return user.username;
+    },
+
+    meetingSeriesEditedDate() {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        return formatDateISO8601Time(ms.isEditedDate);
     }
 });
 

@@ -72,7 +72,7 @@ describe('Item Details', function () {
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
 
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
     });
 
     it('can add details to an Action Item', function() {
@@ -81,7 +81,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
 
     it('can add details to an Info Item, too', function() {
@@ -96,7 +96,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
     });
 
     it('can add a second detail to an Action Item', function () {
@@ -106,9 +106,9 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, "First added detail should be displayed")
-            .to.have.string(formatDateISO8601(new Date()) + '\nFirst Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nFirst Details');
         expect(browser.elementIdText(firstItemOfNewTopic).value, "2nd added detail should be displayed, too")
-            .to.have.string(formatDateISO8601(new Date()) + '\nSecond Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nSecond Details');
     });
 
     it('can add details to the 2nd AI of the same topic persistent', function() {
@@ -132,7 +132,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
         expect(browser.elementIdText(sndItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + detailsText);
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
     });
 
     it('can edit the details of the 2nd AI of the same topic', function() {
@@ -148,7 +148,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
         expect(browser.elementIdText(sndItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\n' + "Updated Details");
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + "Updated Details");
     });
 
     it('does not remove details when AI will be updated with the edit dialog', function () {
@@ -162,7 +162,7 @@ describe('Item Details', function () {
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         let completeAIText = browser.elementIdText(firstItemOfNewTopic).value;
         expect(completeAIText, "Subject of AI should have changed").to.have.string(newSubject);
-        expect(completeAIText, "AI should still contain the details").to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+        expect(completeAIText, "AI should still contain the details").to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
 
     it('does not revert changes when input field receives click-event during input', function () {
@@ -176,7 +176,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, "Added detail should be displayed")
-            .to.have.string(formatDateISO8601(new Date()) + '\nFirst Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' +'\nFirst Details');
     });
 
     it('can change existing details', function () {
@@ -187,7 +187,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details (changed)');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details (changed)');
     });
 
     it('shows an confirmation dialog when removing existing details', function() {
@@ -237,7 +237,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
 
     it('ensures that only moderator can add details', function () {
@@ -264,7 +264,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.not.have.string(formatDateISO8601(new Date()) + '\nNew Details');
+            .to.not.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
 
         E2EApp.loginUser();
     });
@@ -294,7 +294,7 @@ describe('Item Details', function () {
         let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
         let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nOld Details');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nOld Details');
 
         E2EApp.loginUser();
     });

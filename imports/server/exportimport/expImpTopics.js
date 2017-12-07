@@ -3,7 +3,7 @@ const EJSON = require('mongodb-extended-json');
 
 class ExpImpTopics {
     static get FILENAME_POSTFIX() {
-        return "_topics.json";
+        return '_topics.json';
     }
 
     static doExport (db, msID, userIDs) {
@@ -15,12 +15,12 @@ class ExpImpTopics {
                     if (doc) {
                         const topFile = msID + ExpImpTopics.FILENAME_POSTFIX;
                         fs.writeFileSync(topFile, EJSON.stringify(doc,null,2));
-                        console.log("Saved: "+topFile + " with "+doc.length+" topics");
+                        console.log('Saved: '+topFile + ' with '+doc.length+' topics');
                         resolve({db, userIDs});
                     } else {
-                        return reject ("Unknown meeting series ID: "+ msID);
+                        return reject ('Unknown meeting series ID: '+ msID);
                     }
-                 });
+                });
         });
     }
 
@@ -31,10 +31,10 @@ class ExpImpTopics {
             try {
                 AllTopicsDoc = EJSON.parse(fs.readFileSync(topFile, 'utf8'));
                 if (!AllTopicsDoc) {
-                    return reject("Could not read topic file "+topFile);
+                    return reject('Could not read topic file '+topFile);
                 }
             } catch (e) {
-                return reject("Could not read topic file "+topFile+"\n"+e);
+                return reject('Could not read topic file '+topFile+'\n'+e);
             }
 
             // Replace old user IDs with new users IDs
@@ -48,14 +48,17 @@ class ExpImpTopics {
             return db.collection('topics')
                 .deleteMany({ _id : { $in : topicIDs } })     // delete existing topics with same IDs
                 .then(function (res) {
+                    if (res.result && ! res.result.ok) {
+                        console.log(res);
+                    }
                     return db.collection('topics')
                         .insertMany(AllTopicsDoc)                         // insert imported minutes
                         .then(function (res) {
                             if (res.result.ok === 1 && res.result.n === AllTopicsDoc.length) {
-                                console.log("OK, inserted "+res.result.n+" topics.");
+                                console.log('OK, inserted '+res.result.n+' topics.');
                                 resolve({db, usrMap});
                             } else {
-                                reject("Could not insert topics");
+                                reject('Could not insert topics');
                             }
                         });
                 });

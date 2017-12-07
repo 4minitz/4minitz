@@ -78,16 +78,13 @@ describe('Topics Responsibles', function () {
         E2ETopics.openEditTopicForMinutes(1);
         browser.element(".form-group-responsibles .select2-selection").click();
         E2EGlobal.waitSomeTime();
-        browser.keys("1\uE015\uE007");  // "1" (end of user1 string) + CursorDown + Enter
+        E2EGlobal.sendKeysWithPause("1", 200, "\uE015\uE007");
         E2EGlobal.clickWithRetry("#btnTopicSave");
         E2EGlobal.waitSomeTime(500);
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
         expect (topicHeadingText).to.contain(user1);
     });
-
-
-
 
     it('can add a responsible from user collection that is not a participant', function () {
         let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
@@ -96,17 +93,13 @@ describe('Topics Responsibles', function () {
         E2ETopics.openEditTopicForMinutes(1);
         E2EGlobal.waitSomeTime();
         browser.element(".form-group-responsibles .select2-selection").click();
-        browser.keys("3");
-        E2EGlobal.waitSomeTime();
-        browser.keys("\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.sendKeysWithPause("3", 200, "\uE015\uE007");  // "3" (end of user3 string) + CursorDown + Enter
         E2EGlobal.clickWithRetry("#btnTopicSave");
         E2EGlobal.waitSomeTime(500);
 
         let topicHeadingText = browser.element("#topicPanel .well:nth-child(1) h3").getText();
         expect (topicHeadingText).to.contain(user3);
     });
-
 
     it('can add a responsible from drop-down that is an additional participant', function () {
         let additionalParticipant = "Additional Participant";
@@ -123,7 +116,7 @@ describe('Topics Responsibles', function () {
 
         browser.element(".form-group-responsibles .select2-selection").click();
         // We only send the beginning of the name, to ensure the drop-down is used for selection!
-        browser.keys("Add\uE015\uE007");  // + CursorDown + Enter
+        E2EGlobal.sendKeysWithPause("Addi", 300, "\uE015\uE007");  // + CursorDown + Enter
 
         E2EGlobal.saveScreenshot("additional-responsible-3");
 

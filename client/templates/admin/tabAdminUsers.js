@@ -4,6 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 let _filterUsers = new ReactiveVar('');
 let _showInactive = new ReactiveVar(false);
+let _visibleCount = new ReactiveVar(0);
 
 Template.tabAdminUsers.onRendered(function() {
     _filterUsers.set('');
@@ -23,7 +24,9 @@ Template.tabAdminUsers.helpers({
         if (! _showInactive.get()) {
             filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]};
         }
-        return Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 250});
+        let userCursor = Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 250});
+        _visibleCount.set(userCursor.count());
+        return userCursor;
     },
 
     'inactiveStateText'(user) {
@@ -44,6 +47,17 @@ Template.tabAdminUsers.helpers({
             return user.emails[0].address;
         }
         return '';
+    },
+
+    'userCountAll'() {
+        if (_showInactive.get()) {
+            return Meteor.users.find({}).count();
+        }
+        return Meteor.users.find({isInactive: {$not: true}}).count();
+    },
+
+    'userCountVisible'() {
+        return _visibleCount.get()+0;
     }
 });
 

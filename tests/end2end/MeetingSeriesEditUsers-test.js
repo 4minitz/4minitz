@@ -258,12 +258,12 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Moderator);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3);
 
-        browser.keys(['Escape']);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
 
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
-        browser.keys(['Escape']);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
 
         expect(Object.keys(usersAndRoles)).to.have.length(1);
@@ -274,7 +274,7 @@ describe('MeetingSeries Editor Users', function () {
     it('allows new invited user to access old minutes', function () {
         let myDate = "2015-03-17";  // date of first project commit ;-)
 
-        browser.keys(['Escape']);   // cancel editor
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         E2EGlobal.waitSomeTime();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
 
@@ -293,7 +293,7 @@ describe('MeetingSeries Editor Users', function () {
 
 
     it('prohibits user with no access role to see meeting series', function () {
-        browser.keys(['Escape']);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
 
         E2EApp.loginUser(1);
@@ -320,7 +320,7 @@ describe('MeetingSeries Editor Users', function () {
 
         expect(suggestedUserArray).to.include.members(otherRegisteredUsers);
 
-        browser.keys(['Escape']);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 

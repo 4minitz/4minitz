@@ -5,7 +5,6 @@ import { UserRoles } from './../userroles';
 import { MinutesSchema } from './minutes.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
-import { MeetingSeries } from '../meetingseries';
 
 if (Meteor.isServer) {
     Meteor.publish('minutes', function minutesPublication(meetingSeriesId, minuteId) { 
@@ -233,44 +232,19 @@ Meteor.methods({
         }
     },
 
-    'responsiblesSearch' (partialName, minuteID, freeTextValidator) {
+    'responsiblesSearch' (partialName, participants) {
         check(partialName, String);
-        let minute = new Minutes(minuteID);
-        let participants = minute.getParticipants(Meteor.users);
-        let participantsAdditional = minute.participantsAdditional;
-        let meetingSeries = new MeetingSeries(minute.meetingSeries_id);
         let results_participants = []; // get all the participants for the minute
         let foundPartipantsNames = [];
-        let allPartipantsNames = [];
 
-        if (participantsAdditional && freeTextValidator) {
-            participantsAdditional.split(/[,;]/).forEach(freeText => {
-                participants.push({name: freeText.trim(), userId:freeText.trim()});
-            });
-        }
         participants.forEach( participant =>{
-            participant = Minutes.formatResponsibles(participant,'name', true);
-            if (participant.fullname.toLowerCase().includes(partialName.toLowerCase())) {
+            if (participant.text.toLowerCase().includes(partialName.toLowerCase())) {
                 participant['isParticipant'] = true;
                 results_participants.push(participant);
-                foundPartipantsNames.push(participant.name);
+                let name = participant.text.split(/[ - ]/);
+                foundPartipantsNames.push(name[0]);
             }
-            allPartipantsNames.push(participant.name);
         });
-
-        if(freeTextValidator) {
-            let freeTextResponsibles = meetingSeries.additionalResponsibles;
-            freeTextResponsibles = freeTextResponsibles.filter(user => { //get freetext responsibles
-                return !(allPartipantsNames.includes(user));
-            });
-
-            freeTextResponsibles.forEach(freetextUser => { //create a Responsibles Object
-                if (freetextUser.toLowerCase().includes(partialName.toLowerCase())) {
-                    results_participants.push({fullname: freetextUser, userId: freetextUser, 'isParticipant': true});
-                    foundPartipantsNames.push(freetextUser.fullname);
-                }
-            });
-        }
 
         let searchSettings = {username: {'$regex': partialName, '$options': 'i'}};
         let searchFields = {_id: 1, username: 1};
@@ -301,7 +275,6 @@ Meteor.methods({
         results_otherUser = results_otherUser.map(otherUser => {
             return Minutes.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
         });
-
         return {
             results: results_participants.concat(results_otherUser)
         };
