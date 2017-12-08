@@ -18,6 +18,7 @@ export class MeetingSeriesTopicsUpdater {
             topicDoc.isNew = false;
             topicDoc.infoItems.forEach(itemDoc => {
                 itemDoc.isNew = false;
+                itemDoc.details = itemDoc.details || [];
                 itemDoc.details.forEach(detail => {
                     detail.isNew = false;
                 });
