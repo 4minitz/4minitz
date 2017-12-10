@@ -8,7 +8,7 @@ let users = [{
         objectclass: ['organization', 'top'],
         o: 'example',
         cn: 'ldapUser1',
-        mail: 'ldapUser1@example.com'
+        mail: 'ldap.User1@example.com'
     }
 }, {
     dn: 'cn=ldapUser2,dc=example,dc=com',
@@ -17,7 +17,7 @@ let users = [{
         objectclass: ['organization', 'top'],
         o: 'example',
         cn: 'ldapUser2',
-        mail: 'ldapUser2@example.com'
+        mail: 'ldap.User2@example.com'
     }
 }, {
     dn: 'cn=anotherLdapUser1,ou=germany,ou=europe,dc=example,dc=com',
@@ -26,7 +26,7 @@ let users = [{
         objectclass: ['organization', 'top'],
         o: 'example',
         cn: 'anotherLdapUser1',
-        mail: 'anotherLdapUser1@example.com'
+        mail: 'anotherLdap.User1@example.com'
     }
 }, {
     dn: 'cn=anotherLdapUser2,ou=japan,ou=asia,dc=example,dc=com',
@@ -35,7 +35,7 @@ let users = [{
         objectclass: ['organization', 'top'],
         o: 'example',
         cn: 'anotherLdapUser2',
-        mail: 'anotherLdapUser2@example.com'
+        mail: 'anotherLdap.User2@example.com'
     }
 }, {
   dn: 'cn=inactiveUser1,dc=example,dc=com',
@@ -45,7 +45,7 @@ let users = [{
       userAccountControl: 514,
       o: 'example',
       cn: 'inactiveUser1',
-      mail: 'inactiveUser1@example.com'
+      mail: 'inactive.User1@example.com'
   }
 }];
 
