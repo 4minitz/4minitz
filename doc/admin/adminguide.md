@@ -71,6 +71,31 @@ PS> docker run -it --rm --volumes-from 4minitz-storage -p 3100:3333 4minitz/4min
 
 See [this guide](https://docs.docker.com/engine/tutorials/dockervolumes/#backup-restore-or-migrate-data-volumes) on how to backup and restore the data in your data volume container.
 
+### External MongoDB server with your 4Minitz docker container
+Per default inside the 4Minitz docker container there also runs a MongoDB server that is configured in a way that it stores all data *outside* of the container: in the hosts 4minitz_storage directory.
+
+Nevertheless there may be scenarios where you want to use an already existing MongoDB server and specify a 4Minitz sub-database there. 
+ 
+You may specify an external MongoDB server instead of the MonogDB inside the 4Minitz container by adding e.g. `-e MONGO_URL=mongodb://YOURMONGOSERVER:27017/4minitz'` to your `docker run` command.
+
+**Attention:** One of the biggest problems when using an external MongoDB server is that Docker by default creates a container network, so that a container can not connect e.g. to the launching host or other servers that the host can see. 
+
+For a comprehensive docker network documentation see here:
+https://docs.docker.com/engine/userguide/networking/
+
+Two options to address the network issue:
+
+I. Launch the MongoDB in a second docker container and use a fresh docker network to connect these two:
+```
+$ docker network create mynet
+$ docker run --name mongodb --net mynet IMAGE
+$ docker run --name 4minitz --net mynet IMAGE
+```  
+
+II. Connect the 4Minitz container to the host network with the `--network host` switch
+
+**Hint**: As external networking may be error prone, please ensure to shell into a 4Minitz container by adding `/bin/bash` to the end of your docker command line. Then try to `ping` your external MongoDB server. If this succeeds, you may try to launch 4Minitz with `-e MONGO_URL`.
+
 
 ### Use your 4minitz Docker container
 
