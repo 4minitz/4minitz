@@ -48,6 +48,7 @@ export class E2EMeetingSeries {
         meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
 
         if (! keepOpenMSEditor) {
+            E2EGlobal.waitSomeTime(2500);  // sporadic e2e Travis failures
             E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
             E2EGlobal.waitSomeTime();
             E2EApp.gotoStartPage();
