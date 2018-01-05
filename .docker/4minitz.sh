@@ -70,7 +70,15 @@ echo "Mongodb is ready."
 cd /4minitz_bin/bundle
 
 # export MONGO_URL="mongodb://$MONGO_HOST:27017/"
-export MONGO_URL="mongodb://localhost:27017/"
+if [ -z "${MONGO_URL}" ]
+then
+    echo "** Setting MONGO_URL to default"
+    export MONGO_URL="mongodb://localhost:27017/"
+else
+    echo "** Keeping MONGO_URL from 'docker -e'"
+fi
+echo "MONGO_URL=${MONGO_URL}"
+
 export PORT=3333
 export ROOT_URL='http://localhost:3100'
 export METEOR_SETTINGS=$(cat ${basedir4min}/4minitz_settings.json)
