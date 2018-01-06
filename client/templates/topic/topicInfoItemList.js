@@ -11,6 +11,7 @@ import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFacto
 import {InfoItemFactory} from '../../../imports/InfoItemFactory';
 import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
+import {ItemsConverter} from '../../../imports/services/itemsConverter';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
 import { MinutesFinder } from '../../../imports/services/minutesFinder';
@@ -239,6 +240,16 @@ Template.topicInfoItemList.helpers({
         return (item && context.items[index].itemType === 'infoItem');
     },
 
+    isItemConversationAllowed: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        if (context.isReadonly) {
+            return false;
+        }
+        const item = context.items[index];
+        return item && ItemsConverter.isConversionAllowed(item, context.topicParentId);
+    },
+
     checkedState: function (index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
@@ -373,6 +384,30 @@ Template.topicInfoItemList.events({
                 item.save().catch(handleError);
             }
         });
+    },
+
+    'click .btnConvertInfoItem'(evt, tmpl) {
+        evt.preventDefault();
+        /** @type {TopicInfoItemListContext} */
+        const context = tmpl.data;
+
+        if (context.isReadonly) {
+            return;
+        }
+
+        let index = evt.currentTarget.getAttribute('data-index');
+        let infoItem = context.items[index];
+
+        let item = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+        // if edit is allowed topicParentId == currentMinutesId
+        if (ItemsConverter.isConversionAllowed(item.getDocument(), context.topicParentId)) {
+            ItemsConverter.convertItem(item).catch(handleError);
+        } else {
+            ConfirmationDialogFactory.makeInfoDialog(
+                'Cannot convert item',
+                'It is not possible to convert this item because it was created in a previous minutes.'
+            ).show();
+        }
     },
 
     'click .btnPinInfoItem'(evt, tmpl) {
@@ -512,7 +547,7 @@ Template.topicInfoItemList.events({
         let aTopic = new Topic(aMin, infoItem.parentTopicId);
         let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
         let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
-        
+
         IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
 
         if (text === '' || (text !== textEl.attr('data-text'))) {

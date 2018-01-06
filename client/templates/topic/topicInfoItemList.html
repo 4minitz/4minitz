@@ -80,6 +80,13 @@
                                                 Edit Item
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="#" data-toggle="{{#unless isItemConversationAllowed @index}}tooltip{{/unless}}" class="btnConvertInfoItem panel-link {{#unless isItemConversationAllowed @index}}disabled{{/unless}}"
+                                               title="{{#unless isItemConversationAllowed @index}}Conversion disabled: item exists in past meeting{{/unless}}" data-index="{{@index}}">
+                                                <span class="glyphicon {{#if isInfoItem @index}}glyphicon-check{{else}}glyphicon-info-sign{{/if}}"></span>
+                                                Convert to {{#if isInfoItem @index}}Action{{else}}Info{{/if}}
+                                            </a>
+                                        </li>
                                         {{#if isInfoItem @index}}
                                             <li>
                                                 <a  class="btnPinInfoItem panel-link"
