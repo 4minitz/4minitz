@@ -30,6 +30,13 @@ sed -i '' 's/"mongodumpTargetDirectory": "[^\"]*"/"mongodumpTargetDirectory": "\
 sed -i '' 's/"storagePath": "[^\"]*"/"storagePath": "\/4minitz_storage\/attachments"/' $settingsfile
 sed -i '' 's/"targetDocPath": "[^\"]*"/"targetDocPath": "\/4minitz_storage\/protocols"/' $settingsfile
 
+sed -i '' 's/"format": "[^\"]*"/"format": "pdfa"/' $settingsfile
+sed -i '' 's/"pathToWkhtmltopdf": "[^\"]*"/"pathToWkhtmltopdf": "\/usr\/bin\/xvfb-run"/' $settingsfile
+sed -i '' 's/"wkhtmltopdfParameters": "[^\"]*"/"wkhtmltopdfParameters": "\-\-server-args=\\"-screen 0, 1024x768x24\\" \/usr\/bin\/wkhtmltopdf --no-outline --print-media-type --no-background"/' $settingsfile
+sed -i '' 's/"pathToGhostscript": "[^\"]*"/"pathToGhostscript": "\/usr\/bin\/gs"/' $settingsfile
+sed -i '' 's/"pathToPDFADefinitionFile": "[^\"]*"/"pathToPDFADefinitionFile": "\/PDFA_def.ps"/' $settingsfile
+
+
 #### Build 4Minitz with meteor
 (cd .. && ./BUILD_DEPLOY.sh)
 rm -rf ./4minitz_bin

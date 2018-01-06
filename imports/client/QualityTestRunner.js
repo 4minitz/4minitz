@@ -143,7 +143,7 @@ class QualityTestCase {
                     if(!topic.isOpen) noTopicChecked = false;
                 });
                 if(noTopicChecked)
-                    return 'No topic is marked as \'dicussed\'';
+                    return 'No topic is marked as \'discussed\'';
             }
         ));
 
