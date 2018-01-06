@@ -31,7 +31,8 @@ export const userSettings = {
     showQuickHelp: {
         meetingSeriesList: 'showQuickHelp_meetingSeriesList',
         meetingSeries:     'showQuickHelp_meetingSeries',
-        meeting:           'showQuickHelp_meeting'
+        meeting:           'showQuickHelp_meeting',
+        meetingUpload:     'showQuickHelp_meetingUpload'
     },
 
     showAddDetail: 'showAddDetail'
