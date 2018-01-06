@@ -25,11 +25,9 @@ export class QualityTestRunner {
         }
 
         //filter test cases
-        let selectedTests = QualityTestCase.testCases.filter((testCase) => {
+        return QualityTestCase.testCases.filter((testCase) => {
             return (testCase.triggers.includes(selectedTrigger));
         });
-
-        return selectedTests;
     }
 
     static run(selectedTrigger, testObject, callbackOnSuccess) {
@@ -59,7 +57,7 @@ export class QualityTestRunner {
         } else {
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 callbackOnSuccess,
-                'Minute quality assurance',
+                'Finalize Minutes: Quality Checks',
                 'confirmMinuteQualityAssurance',
                 { errors: errors },
                 'Proceed'
@@ -87,7 +85,7 @@ class QualityTestCase {
             () => {return true;},
             (minute) => {
                 if (!minute.topics || minute.topics.length === 0)
-                    return 'This minute has no topics';
+                    return 'The current minutes have no topics';
             }
         ));
 
@@ -112,17 +110,17 @@ class QualityTestCase {
             (minute) => {
                 let itemIsEdited = false;
                 for (let topic of minute.topics) {
-                    if (topic.isEditedBy != undefined || topic.isEditedDate != undefined) {
+                    if (topic.isEditedBy !== undefined || topic.isEditedDate !== undefined) {
                         itemIsEdited = true;
                         break;
                     }
                     for (let infoItem of topic.infoItems) {
-                        if (infoItem.isEditedBy != undefined || infoItem.isEditedDate != undefined) {
+                        if (infoItem.isEditedBy !== undefined || infoItem.isEditedDate !== undefined) {
                             itemIsEdited = true;
                             break;
                         }
                         for (let detail of infoItem.details) {
-                            if (detail.isEditedBy != undefined || detail.isEditedDate != undefined) {
+                            if (detail.isEditedBy !== undefined || detail.isEditedDate !== undefined) {
                                 itemIsEdited = true;
                                 break;
                             }
@@ -130,7 +128,7 @@ class QualityTestCase {
                     }
                 }
                 if(itemIsEdited)
-                    return 'An item is still edited';
+                    return 'A topic/item/detail is still edited';
             }
         ));
 
@@ -145,7 +143,7 @@ class QualityTestCase {
                     if(!topic.isOpen) noTopicChecked = false;
                 });
                 if(noTopicChecked)
-                    return 'No topic is checked';
+                    return 'No topic is marked as \'dicussed\'';
             }
         ));
 
@@ -162,7 +160,7 @@ class QualityTestCase {
                     if(!topic.infoItems || topic.infoItems.length === 0) checkedButChildren = true;
                 });
                 if(checkedButChildren)
-                    return 'A topic is checked as discussed but has no children';
+                    return 'At least one discussed topic has no items';
             }
         ));
 
@@ -181,7 +179,7 @@ class QualityTestCase {
                     });
                 });
                 if(actionItemWithoutResponsible)
-                    return 'An action item has no responsible';
+                    return 'At least one action item has no responsible';
             }));
 
 
