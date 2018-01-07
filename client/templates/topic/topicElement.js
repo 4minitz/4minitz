@@ -305,16 +305,6 @@ Template.topicElement.events({
         resizeTextarea(inputEl);
     },
 
-    'keyup .addItemForm'(evt, tmpl) {
-        const inputEl = tmpl.$('.add-item-field');
-        if (evt.which === 27/*escape*/) {
-            inputEl.val('');
-            inputEl.blur();
-        }
-
-        resizeTextarea(tmpl.$('.add-item-field'));
-    },
-
     'keydown #btnTopicExpandCollapse'(evt) {
         // since we do not have a link-href the link will not be clicked when hitting enter by default...
         if (evt.which === 13/*enter*/) {

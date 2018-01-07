@@ -599,19 +599,6 @@ Template.topicInfoItemList.events({
         resizeTextarea(inputEl);
     },
 
-    'keyup .detailInput'(evt, tmpl) {
-        let detailId = evt.currentTarget.getAttribute('data-id');
-        let inputEl = tmpl.$(`#detailInput_${detailId}`);
-
-        // escape key will not be handled in keypress callback...
-        if (evt.which === 27/*escape*/) {
-            evt.preventDefault();
-            inputEl.blur();
-        }
-
-        resizeTextarea(inputEl);
-    },
-
     'hide.bs.collapse'(evt, tmpl) {
         let itemID = $(evt.currentTarget).data('itemid');
         let expandStates = tmpl.isItemExpanded.get();
