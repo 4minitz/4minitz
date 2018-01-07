@@ -454,7 +454,7 @@ export class E2ETopics {
         if (doBeforeSubmit) {
             doBeforeSubmit(selFocusedInput);
         }
-        browser.keys(['Escape']);
+        browser.keys(['Tab']);
         E2EGlobal.waitSomeTime(400);
     }
 
@@ -480,7 +480,7 @@ export class E2ETopics {
             return false;
         }
         E2EGlobal.setValueSafe(selFocusedInput, detailsText);
-        browser.keys(['Escape']);
+        browser.keys(['Tab']);
     }
 
     static getTopicsForMinute () {
