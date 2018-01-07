@@ -19,7 +19,7 @@ if (Meteor.settings.isEnd2EndTest) {
     console.log('End2End helpers loaded on server-side!');
 
     Meteor.methods({
-        'e2e.resetMyApp'(skipUsers) {
+        'e2e.resetMyApp'(skipUsersCreation) {
             console.log('-------------------------- E2E-METHOD: resetMyApp ');
             AttachmentsCollection.remove({});
             console.log('Count AttachmentsCollection after reset:'+AttachmentsCollection.find().count());
@@ -39,14 +39,20 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log('Count Protocls after reset:' + DocumentsCollection.find().count());
             resetDocumentStorageDirectory(); //eslint-disable-line
 
-            if (!skipUsers) {
+            if (!skipUsersCreation) {
                 // Reset users and create our e2e test users
                 Meteor.users.remove({});
                 for (let i in Meteor.settings.e2eTestUsers) {
                     let newUser = Meteor.settings.e2eTestUsers[i];
+                    let newUserLongname = Meteor.settings.e2eTestUsersLongname[i];
                     let newPassword = Meteor.settings.e2eTestPasswords[i];
                     let newEmail = Meteor.settings.e2eTestEmails[i];
-                    Accounts.createUser({username: newUser, password: newPassword, email: newEmail});
+                    Accounts.createUser({
+                            username: newUser,
+                            password: newPassword,
+                            email: newEmail,
+                            profile: {name: newUserLongname}
+                    });
                     Meteor.users.update({'username': newUser}, {$set: {'emails.0.verified': true}});
                     console.log('Created user: ' + newUser + ' with password: ' + newPassword);
                 }
