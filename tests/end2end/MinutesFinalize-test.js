@@ -325,7 +325,7 @@ describe('Minutes Finalize', function () {
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
     });
 
-    it('update detail on pinned and not discussed item in next minute after finalizing item origin minute @watch', function () {
+    it('update detail on pinned and not discussed item in next minute after finalizing item origin minute', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
 
