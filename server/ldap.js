@@ -31,7 +31,6 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
     const ldapSettings = Meteor.settings.ldap || {},
         serverDn = ldapSettings.serverDn,
         propertyMap = ldapSettings.propertyMap || {},
-        bindWith = ldapSettings.bindWith || 'dn',
         searchDn = ldapSettings.searchDn || propertyMap.username;
 
     if (!serverDn || !searchDn) {
@@ -49,18 +48,6 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
 
         if (user && user.isInactive) {
             throw new Meteor.Error(403, 'User is inactive');
-        }
-
-        if (bindWith === 'mail') {
-            if (user && Array.isArray(user.emails) && user.emails.length > 0) {
-                return user.emails[0].address;
-            }
-
-            return usernameOrEmail;
-        }
-
-        if (bindWith && bindWith !== 'dn') {
-            return user.profile[bindWith];
         }
 
         if (user && user.profile && user.profile.dn) {

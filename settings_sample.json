@@ -146,8 +146,6 @@
             "userDn": "admin",
             "password": "password"
         },
-        "//2": "Optional, default value is 'dn'. Use 'mail' if the ldap server expects the users mail address for bind",
-        "bindWith": "dn",
         "searchFilter": "(objectClass=user)",
         "serverDn": "OU=people,DC=example,DC=com",
         "serverUrl": "ldaps://ld.example.com:636",

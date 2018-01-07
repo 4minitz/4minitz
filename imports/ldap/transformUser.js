@@ -4,8 +4,7 @@ module.exports = function (ldapSettings, userData) {
     ldapSettings.propertyMap = ldapSettings.propertyMap || {};
     const usernameAttribute = ldapSettings.searchDn || ldapSettings.propertyMap.username || 'cn',
         longnameAttribute = ldapSettings.propertyMap.longname,
-        mailAttribute = ldapSettings.propertyMap.email || 'mail',
-        bindWith = ldapSettings.bindWith || 'dn';
+        mailAttribute = ldapSettings.propertyMap.email || 'mail';
 
     // userData.mail may be a string with one mail address or an array.
     // Nevertheless we are only interested in the first mail address here - if there should be more...
@@ -22,7 +21,7 @@ module.exports = function (ldapSettings, userData) {
     let username = userData[usernameAttribute] || '';
 
     const whiteListedFields = ldapSettings.whiteListedFields || [];
-    const profileFields = whiteListedFields.concat(['dn', bindWith]);
+    const profileFields = whiteListedFields.concat(['dn']);
 
     let user = {
         createdAt: new Date(),
