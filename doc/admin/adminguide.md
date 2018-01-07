@@ -1,6 +1,29 @@
 # 4Minitz Admin Guide
+<!-- HowTo update table of content -->
+<!--    npm install --save markdown-toc -->
+<!--    markdown-toc -i --maxdepth 2 adminguide.md -->
 
+## Table of Content
 
+<!-- toc -->
+
+- [Installation](#installation)
+  * [Whats wrong with the 'Quick Installation' (Option 2)?](#whats-wrong-with-the-quick-installation-option-2)
+  * [Production Server Setup with Docker](#production-server-setup-with-docker)
+  * [Production Server by Building From Source](#production-server-by-building-from-source)
+- [Configuration with settings.json](#configuration-with-settingsjson)
+  * [How to become a frontend admin?](#how-to-become-a-frontend-admin)
+  * [Database configuration](#database-configuration)
+  * [Get informed about updates](#get-informed-about-updates)
+  * [Configuration for sending emails](#configuration-for-sending-emails)
+  * [LDAP Configuration](#ldap-configuration)
+  * [Configuring upload of binary attachments](#configuring-upload-of-binary-attachments)
+  * [Configuring protocol file generation (HTML, PDF, PDF/A)](#configuring-protocol-file-generation-html-pdf-pdfa)
+- [Safety and Security](#safety-and-security)
+  * [Safety and Backup](#safety-and-backup)
+  * [Security](#security)
+
+<!-- tocstop -->
 
 # Installation
 
@@ -242,7 +265,7 @@ Now, you should be able to reach your 4Minitz instance via:
     http://4minitz.example.com:61405
 
 
-## Configuration with settings.json
+# Configuration with settings.json
 Take a look at ```settings_sample.json``` at the top level folder of 
 4Minitz.  You may copy this file to ```settings.json``` and then edit
 its contents to your need.
@@ -252,7 +275,7 @@ forget to refresh changes of your settings.json into the environment
 variable: ```export METEOR_SETTINGS=$(cat ./settings.json)```. Then
  re-start your 4Minitz server with ```meteor node main.js```.
 
-### How to become a frontend admin?
+## How to become a frontend admin?
 Some frontend admin functionality can also be reached when you 
 logged in  to the 4Minitz frontend via your browser.
 Click the "Admin Tasks" nav bar menu entry to show possible 
@@ -301,14 +324,14 @@ For example:
    ![About Box with selected user ID](./figures/about_my_user_id.png)
 
 
-### Database configuration
+## Database configuration
 
 Database related configuration is collected under the ```db``` object in your settings.json. These options are available:
 
 * ```mongodumpTargetDirectory```: The output directory where 4minitz will store the database contents before
   the database schema is migrated (updated). If this is not set or empty no backup will be created.
 
-### Get informed about updates
+## Get informed about updates
 The 4Minitz team will try to improve the 4Minitz code base. From time to time there may be also an important security fix. Per default your 4Minitz server will ask our master server regularly (about every 8 hrs.) what the current official stable version is. Your server will send your admin an eMail if your server found out such a newer version exists.
 
 The update check will be active if...
@@ -319,7 +342,7 @@ The update check will be active if...
 
 **Important Privacy Note** The "new version" mail will be generated and sent to you by *YOUR OWN* 4Minitz server. Your personal data (like admin mail address) will newer leave your server.
 
-### Configuration for sending emails
+## Configuration for sending emails
 
 You can send emails either via SMTP or [mailgun](http://www.mailgun.com/). To enable email sending you have to provide
 your custom settings.json file where you have to define your SMTP settings or MailGun api key.
@@ -338,9 +361,9 @@ The following diagram will show the decision tree:
 ![Decision diagram for email sender](./figures/email_sender.png)
 
 
-### LDAP Configuration
+## LDAP Configuration
 
-#### Available configuration options
+### Available configuration options
 See your settings.json file:
 
 | Setting             | Default                          | Explanation                                                                 |
@@ -365,7 +388,7 @@ happens over LDAP, so no passwords or hashes are stored for LDAP users
 in the 4minitz user database. This is needed to store e.g. user access 
 rights for meeting minutes.
 
-#### Authentication
+### Authentication
 
 To perform a bind before importing users from LDAP you can provide
 a user dn and a password with the authentication property. E.g.
@@ -377,7 +400,7 @@ a user dn and a password with the authentication property. E.g.
   }
 ```
 
-#### Available strategies to detect inactive users
+### Available strategies to detect inactive users
 
 * 'none': No attempts are made to detect inactive users. All users in
 your LDAP directory will be imported and will be able to login to 4minitz.
@@ -389,7 +412,7 @@ to 4minitz.
 sets the user to inactive if bit 2 of this flag is set. See
 [MSDN](https://msdn.microsoft.com/en-us/library/ms680832(VS.85).aspx) for details.
 
-#### Importing LDAP users to the 4minitz user database
+### Importing LDAP users to the 4minitz user database
 All LDAP users that have logged in at least once will show up in the 
 type-ahead drop down lists when inviting users to a meeting series or 
 assigning topics or action items. Users that have never signed in 
@@ -421,7 +444,7 @@ _Note: The LDAP setting "searchDn" and the the 4minitz user database field
 important to note that comparison is done __case-insensitive__ as 
 [meteor considers no case on usernames during login](https://guide.meteor.com/accounts.html#case-sensitivity).
 
-### Configuring Upload of Binary Attachments
+## Configuring upload of binary attachments
 If this feature is switched on, users may upload binary attachments
 to a non-finalized meeting protocol. This is especially cool as
 users may login to the current meeting minutes with their smart
@@ -466,7 +489,7 @@ at the client.
 Just open the about box and click on the 4Minitz logo to show/hide the
 server statistics.
 
-### Configuring protocol generation
+## Configuring protocol file generation (HTML, PDF, PDF/A)
 By using this feature for each finalized minutes a protocol file is automatically generated and archived on the file system of the server for later download.
 There are three different file formats you can select of: HTML, PDF and PDF/A (2-B). PDF/A is an ISO standardized PDF subset for long-time archiving.
 
@@ -491,7 +514,7 @@ After this you will need to define a proper so called definition file for PDF/A 
 * There is a known issue with **wkhtmltopdf** running on **OS/X** making the font to appear tiny. Therefore when using an Mac OS/X to host 4Minitz you should consider adding the following switches, which should solve this issue: "--dpi 380 --disable-smart-shrinking"
 * There is another issue with **wkhtmltopdf** appearing mainly on **headless server**: Since wkhtmltopdf needs an X server to run properly it may fail document generation with an error stating that **"cannot connect to X server"**. In order to solve this you may follow the following steps.
 
-#### Example: Enabling PDF/A protocol generation on Debian Jessie headless server
+### Example: Enabling PDF/A protocol generation on Debian Jessie headless server
 The Docker deployment has PDF/A protocol generation already enabled by default. 
 If you are running a headless Linux server and you are not using docker, for educational purpose we provide a step-by-step guide on how to enable PDF/A protocol generation on **Debian Jessie**. Feel free to transform these steps to other distros.
 
@@ -530,13 +553,15 @@ Now put this section in your settings.json:
   
 When you now restart your 4Minitz server, finalized meeting minutes from now on should also be stored as PDF/A files on your server below the `/home/4min/files/protocols` directory.  
 
-## Safety and Security
+For an in-depth documentation on GhostScripts PDF/A feature, see here: http://svn.ghostscript.com/ghostscript/trunk/gs/doc/Ps2pdf.htm#PDFA
 
-### Safety and Backup
+# Safety and Security
+
+## Safety and Backup
 To ensure that you do not suffer from loss of data, make sure to
 backup your database and your static files directories.
 
-#### Backup of MongoDB data
+### Backup of MongoDB data
 You may create a backup of your MongoDB database like so:
 1. Install the mongodb client tools (incl. mongodump)
 1. mongodump -h 127.0.0.1 --port 3101 -d meteor
@@ -546,7 +571,7 @@ To restore a backup from a dump
 1. meteor reset (if you run mongodb from meteor)
 1. mongorestore --host 127.0.0.1 --port 3101 --drop ./dump/
 
-#### Backup of uploaded attachments / generated documents
+### Backup of uploaded attachments / generated documents
 When your 4Minitz server launches it will print two absolute pathes for you, if you have attachments and document generation enabled. For example:
 
 ```
@@ -559,8 +584,8 @@ I20170924-12:52:32.350(2)? Document Storage Path: /home/4minzer/www/protocols_4m
 Please ensure that these directories are included in your regular backups.
 
 
-### Security
-#### Password security
+## Security
+### Password security
 4Minitz uses the meteor [accounts-password](https://docs.meteor.com/api/passwords.html) package. According to the docs passwords are
 
 * Hashed on the client. And only the hash is transferred to the server
@@ -568,7 +593,7 @@ Please ensure that these directories are included in your regular backups.
 
 So, the plain text password never leaves the client. This is good against curious admin eyes. But also the hashed password that is transferred to the server could allow a replay attack. So **make sure your 4Minitz Server is only reachable via SSL**!!! This is also a good idea to protect all other data content from curious eyes.   
 
-#### MongoDB security
+### MongoDB security
 If your MongoSB server is on the same machine as the 4Minitz server backend and you protected access to this server (firewall, no public logins), then maybe you are happy without adding credentials to MongoDB and without securing MongoDB via SSL.
 
 In all other cases: Hints for a secure operation of your MongoDB server are explained in the chapter [Installation of MongoDB](#installation-of-mongodb)

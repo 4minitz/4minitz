@@ -1,5 +1,31 @@
 # 4Minitz User Manual
 
+<!-- HowTo update table of content -->
+<!--    npm install --save markdown-toc -->
+<!--    markdown-toc -i --maxdepth 2 usermanual.md -->
+
+## Table of Content
+
+<!-- toc -->
+
+- [Important Hint](#important-hint)
+- [Register an Account](#register-an-account)
+- [Edit Profile / Change Password](#edit-profile--change-password)
+- [Create a Meeting Series](#create-a-meeting-series)
+- [Edit Meeting Series Properties](#edit-meeting-series-properties)
+- [Add New Minutes to a Meeting Series](#add-new-minutes-to-a-meeting-series)
+- [Prepare a Meeting](#prepare-a-meeting)
+- [Send Agenda to Participants](#send-agenda-to-participants)
+- [Take Meeting Minutes](#take-meeting-minutes)
+- [Finalize Meeting](#finalize-meeting)
+- [Print Meeting Minutes](#print-meeting-minutes)
+- [Unfinalize Meeting](#unfinalize-meeting)
+- [Download minute protocols](#download-minute-protocols)
+- [Upload Binary Attachments](#upload-binary-attachments)
+- [Search through topics, info items and action items](#search-through-topics-info-items-and-action-items)
+
+<!-- tocstop -->
+
 ## Important Hint
 4Minitz is a client-server webapp. So the client needs the server to permanently store your meeting minutes. Nevertheless the meteor framework allows the client webapp to temporarily work 'offline' and sync the contents as soon as the server is available again.
 
