@@ -2,7 +2,6 @@
     "isEnd2EndTest": true,
     "e2eUrl":               "http://localhost:3100",
     "e2eTestUsers":         ["user1",   "user2", "user3",   "user4", "admin"],
-    "e2eTestUsersLongname": ["user1",   "user2", "user3",   "user4", "admin"],
     "e2eTestPasswords":     ["PwdPwd1", "PwdPwd2", "PwdPwd3","PwdPwd4", "AdmAdm1"],
     "e2eTestEmails":        ["user1@4minitz.com", "user2@4minitz.com", "user3@4minitz.com","user4@4minitz.com", "admin@4minitz.com"],
     "e2eAdminUser":         "admin",

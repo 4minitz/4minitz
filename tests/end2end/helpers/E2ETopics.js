@@ -73,7 +73,7 @@ export class E2ETopics {
         for (let i in texts) {
             browser.keys(texts[i]);
             E2EGlobal.waitSomeTime(300);
-            browser.keys("\uE007"); // plus ENTER
+            browser.keys("\uE015\uE007"); // ARROW_DOWN + ENTER
         }
     }
 
