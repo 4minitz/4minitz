@@ -1,9 +1,41 @@
 import { Meteor } from 'meteor/meteor';
-import './collections/users_private';
+// TODO import './collections/users_private';
 
 export class User {
-    constructor() {
-        this.user = Meteor.user();
+    constructor(source) {
+        if (! source) {                             // Case 1: currently logged in user
+            this.user = Meteor.user();
+            this.id = this.user._id;
+        } else if (typeof source === 'string') {    // Case 2: we assume we have a user ID here.
+            this.id = source;
+            this.user = Meteor.users.findOne(source);
+        }
+        if (typeof source === 'object') {           // Case 3: make deep copy of user object
+            this.user = JSON.parse(JSON.stringify(source));
+            this.id = this.user._id;
+        }
+
+        this.OK = !!this.user;
+    }
+
+    profileNameWithFallback() {
+        if (this.user) {
+            if (this.user.profile && this.user.profile.name) {
+                return this.user.profile.name;
+            } else {
+                return this.user.username;
+            }
+        } else {
+            return 'Unknown ('+ this.id+')';
+        }
+    }
+
+    userNameWithFallback() {
+        if (this.user) {
+            return this.user.username;
+        } else {
+            return 'Unknown ('+ this.id+')';
+        }
     }
 
     storeSetting(key, value) {
