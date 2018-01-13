@@ -73,7 +73,7 @@ export class E2ETopics {
         for (let i in texts) {
             browser.keys(texts[i]);
             E2EGlobal.waitSomeTime(300);
-            browser.keys("\uE007"); // plus ENTER
+            browser.keys("\uE015\uE007"); // ARROW_DOWN + ENTER
         }
     }
 
@@ -454,7 +454,7 @@ export class E2ETopics {
         if (doBeforeSubmit) {
             doBeforeSubmit(selFocusedInput);
         }
-        browser.keys(['Escape']);
+        browser.keys(['Tab']);
         E2EGlobal.waitSomeTime(400);
     }
 
@@ -480,7 +480,7 @@ export class E2ETopics {
             return false;
         }
         E2EGlobal.setValueSafe(selFocusedInput, detailsText);
-        browser.keys(['Escape']);
+        browser.keys(['Tab']);
     }
 
     static getTopicsForMinute () {

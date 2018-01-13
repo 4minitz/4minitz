@@ -11,6 +11,19 @@ echo "       e.g.: ./BUILD.sh --imagename johndoe/4minitz master stable latest 0
 echo "       The default docker project is '$dockerproject'"
 echo ""
 
+#### Check if docker daemon is running
+rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
+dockerstatus=$?
+if [ "$dockerstatus" == "7" ]; then
+    echo ' '
+    echo '*** ERROR'
+    echo '  Could not connect to docker.'
+    echo '  Is the "docker -d" daemon running?'
+    echo '  Will EXIT now!'
+    exit 1
+fi
+
+
 #### Commandline parsing
 if [ "$1" == "--imagename" ]; then
   dockerproject=$2
@@ -29,6 +42,13 @@ sed -i '' 's/"topLeftLogoHTML": "[^\"]*"/"topLeftLogoHTML": "4Minitz [Docker]"/'
 sed -i '' 's/"mongodumpTargetDirectory": "[^\"]*"/"mongodumpTargetDirectory": "\/4minitz_storage\/mongodump"/' $settingsfile
 sed -i '' 's/"storagePath": "[^\"]*"/"storagePath": "\/4minitz_storage\/attachments"/' $settingsfile
 sed -i '' 's/"targetDocPath": "[^\"]*"/"targetDocPath": "\/4minitz_storage\/protocols"/' $settingsfile
+
+sed -i '' 's/"format": "[^\"]*"/"format": "pdfa"/' $settingsfile
+sed -i '' 's/"pathToWkhtmltopdf": "[^\"]*"/"pathToWkhtmltopdf": "\/usr\/bin\/xvfb-run"/' $settingsfile
+sed -i '' 's/"wkhtmltopdfParameters": "[^\"]*"/"wkhtmltopdfParameters": "\-\-server-args=\\"-screen 0, 1024x768x24\\" \/usr\/bin\/wkhtmltopdf --no-outline --print-media-type --no-background"/' $settingsfile
+sed -i '' 's/"pathToGhostscript": "[^\"]*"/"pathToGhostscript": "\/usr\/bin\/gs"/' $settingsfile
+sed -i '' 's/"pathToPDFADefinitionFile": "[^\"]*"/"pathToPDFADefinitionFile": "\/PDFA_def.ps"/' $settingsfile
+
 
 #### Build 4Minitz with meteor
 (cd .. && ./BUILD_DEPLOY.sh)

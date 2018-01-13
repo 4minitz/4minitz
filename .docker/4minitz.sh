@@ -19,6 +19,21 @@ function signalhandler {
 }
 trap signalhandler SIGHUP SIGINT SIGTERM
 
+# Check if storage basedir is existing and accessible
+if [ -d "$basedir4min" ] && [ -x "$basedir4min" ]; then
+    echo "Inside container basedir: $basedir4min - OK"
+else
+    echo ""
+    echo "!!! ERROR !!!"
+    echo "Basedir $basedir4min not accessible inside container."
+    echo "You must launch 'docker run' with a volume. E.g.:"
+    echo "-v \$(pwd)/4minitz_storage:/4minitz_storage"
+    echo "Terminating container now."
+    echo ""
+    exit 1
+fi
+
+
 # Check for other container on same storage directory
 if [ -f "$lockfile" ]
 then
@@ -33,7 +48,7 @@ else
     echo $containerid > $lockfile
 fi
 
-
+# Settings file, initial copy from container to host once
 if [ -f "$settingsfile" ]
 then
     echo "4minitz_settings.json found on your local host directory."
@@ -45,19 +60,7 @@ fi
 echo "You may edit the settings file locally on your host."
 echo "Then restart this docker container."
 
-if [ -d "$basedir4min" ] && [ -x "$basedir4min" ]; then
-    echo "Inside container basedir: $basedir4min - OK"
-else
-    echo ""
-    echo "!!! ERROR !!!"
-    echo "Basedir $basedir4min not accessible inside container."
-    echo "You must launch 'docker run' with a volume. E.g.:"
-    echo "-v \$(pwd)/4minitz_storage:/4minitz_storage"
-    echo "Terminating container now."
-    echo ""
-    exit 1
-fi
-
+# Spin up MongoDB server inside container
 mkdir ${mongodatadir} 2> /dev/null
 mkdir ${logdir} 2> /dev/null
 mongod --fork --dbpath=${mongodatadir} --logpath ${logdir}/mongodb.log
@@ -69,8 +72,16 @@ echo "Mongodb is ready."
 
 cd /4minitz_bin/bundle
 
-# export MONGO_URL="mongodb://$MONGO_HOST:27017/"
-export MONGO_URL="mongodb://localhost:27017/"
+# Respect MONGO_URL if set from 'docker -e' command line
+if [ -z "${MONGO_URL}" ]
+then
+    echo "** Setting MONGO_URL to default"
+    export MONGO_URL="mongodb://localhost:27017/"
+else
+    echo "** Keeping MONGO_URL from 'docker -e'"
+fi
+echo "MONGO_URL=${MONGO_URL}"
+
 export PORT=3333
 export ROOT_URL='http://localhost:3100'
 export METEOR_SETTINGS=$(cat ${basedir4min}/4minitz_settings.json)

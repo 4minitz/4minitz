@@ -138,12 +138,16 @@ Meteor.methods({
         if (Meteor.isClient) {
             return;
         }
+        if (! Meteor.settings.public.docGeneration.enabled) {
+            return;
+        }
+
         let minutesObj = new Minutes(minutesId);
         //Security checks will be done in the onBeforeUpload-Hook
 
         //this variable should be overwritten by the specific implementation of storing files based on their format
         //for this purpose they'll receive two parameters: the html-content as a string and the minute as a object
-        let storeFile = undefined; 
+        let storeFileFunction = undefined;
         let fileName = DocumentGeneration.calcFileNameforMinute(minutesObj);
         let metaData = { 
             minuteId: minutesObj._id,
@@ -153,8 +157,9 @@ Meteor.methods({
 
         // implementation of html storing
         if (Meteor.settings.public.docGeneration.format === 'html') {
-            storeFile = (htmldata, fileName, metaData) => {
-                DocumentsCollection.write(new Buffer(htmldata), 
+            storeFileFunction = (htmldata, fileName, metaData) => {
+                console.log("Protocol generation to file: ", fileName);
+                DocumentsCollection.write(new Buffer(htmldata),
                     {   fileName:  fileName + '.html',
                         type: 'text/html',
                         meta: metaData
@@ -169,9 +174,9 @@ Meteor.methods({
 
         // implementation of pdf storing
         if ((Meteor.settings.public.docGeneration.format === 'pdf') || (Meteor.settings.public.docGeneration.format === 'pdfa')){
-            storeFile = (htmldata, fileName, metaData) => {
+            storeFileFunction = (htmldata, fileName, metaData) => {
                 let finalPDFOutputPath = convertHTML2PDF(htmldata, fileName, metaData);
-
+                console.log("Protocol generation to file: ", finalPDFOutputPath, fileName);
                 DocumentsCollection.addFile(finalPDFOutputPath,
                     {
                         fileName: fileName + '.pdf',
@@ -187,14 +192,14 @@ Meteor.methods({
             };
         }
 
-        if (!storeFile) {
+        if (!storeFileFunction) {
             throw new Meteor.Error('Cannot create protocol', 'The protocol could not be created since the format assigned in the settings.json is not supported: ' + Meteor.settings.public.docGeneration.format);
         }
 
         //generate and store protocol
         try {
             let htmldata = Meteor.call('documentgeneration.createHTML', minutesObj._id); // this one will run synchronous
-            storeFile(htmldata, fileName, metaData);
+            storeFileFunction(htmldata, fileName, metaData);
         } catch (error) {
             console.error('Error at Protocol generation:');
             let errormsg = error.reason ? error.reason : error; 
