@@ -7,7 +7,7 @@ import { ActionItem } from './actionitem';
 import { emailAddressRegExpMatch } from '/imports/helpers/email';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
-import { User } from '/imports/users'
+import { User } from '/imports/user'
 
 import './collections/minutes_private';
 import './helpers/promisedMethods';

@@ -7,7 +7,7 @@ import { MailFactory } from './MailFactory';
 import { GlobalSettings } from '../config/GlobalSettings';
 import {UserRoles as userroles} from '../userroles';
 import {MeetingSeries} from '../meetingseries';
-import { User } from '/imports/users'
+import { User } from '/imports/user'
 
 export class RoleChangeMailHandler {
     constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
