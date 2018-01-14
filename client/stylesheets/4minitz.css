@@ -322,3 +322,21 @@ a.linkMeetingSerie:hover {
 a {
     cursor: pointer;
 }
+
+/* td-ellipsis will prevent line break in <td> and shorten the text with ellipsis instead */
+/* see https://stackoverflow.com/a/30362531/2580805 */
+.td-ellipsis {
+    position: relative;
+}
+.td-ellipsis:before {
+    content: '&nbsp;';
+    visibility: hidden;
+}
+.td-ellipsis span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

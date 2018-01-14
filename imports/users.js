@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-// TODO import './collections/users_private';
 
 export class User {
     constructor(source) {
@@ -18,16 +17,20 @@ export class User {
         this.OK = !!this.user;
     }
 
-    profileNameWithFallback() {
-        if (this.user) {
-            if (this.user.profile && this.user.profile.name) {
-                return this.user.profile.name;
+    static PROFILENAMEWITHFALLBACK(userObject) {
+        if (userObject) {
+            if (userObject.profile && userObject.profile.name) {
+                return userObject.profile.name;
             } else {
-                return this.user.username;
+                return userObject.username;
             }
         } else {
-            return 'Unknown ('+ this.id+')';
+            return 'Unknown ('+ this.id ? this.id : userObject._id +')';
         }
+    }
+
+    profileNameWithFallback() {
+        return User.PROFILENAMEWITHFALLBACK(this.user)
     }
 
     userNameWithFallback() {

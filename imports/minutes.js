@@ -7,6 +7,7 @@ import { ActionItem } from './actionitem';
 import { emailAddressRegExpMatch } from '/imports/helpers/email';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
+import { User } from '/imports/users'
 
 import './collections/minutes_private';
 import './helpers/promisedMethods';
@@ -442,9 +443,12 @@ export class Minutes {
         const presentParticipants = Meteor.users.find({_id: {$in: presentParticipantIds}});
 
         let names = presentParticipants
-            .map(p => p.username)
+            .map(p => {
+                const user = new User(p);
+                return user.profileNameWithFallback();
+            })
             .concat(additionalParticipants)
-            .join(', ');
+            .join('; ');
 
         if (maxChars && names.length > maxChars) {
             return names.substr(0, maxChars) + '...';
