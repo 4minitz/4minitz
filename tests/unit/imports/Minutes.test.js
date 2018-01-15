@@ -59,6 +59,7 @@ const {
     './helpers/promisedMethods': { PromisedMethods, '@noCallThru': true},
     './meetingseries': { MeetingSeries, '@noCallThru': true},
     './topic': { Topic, '@noCallThru': true},
+    '/imports/user': { "null": null, '@noCallThru': true},
     './actionitem': { ActionItem, '@noCallThru': true},
     '/imports/helpers/email': EmailHelpers,
     '/imports/helpers/subElements': SubElements,
