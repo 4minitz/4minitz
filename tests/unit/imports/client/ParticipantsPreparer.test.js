@@ -87,8 +87,8 @@ describe('ParticipantsPreparer', function() {
             preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(2);
-            expect(result).to.deep.include({id: USER_1._id, text: `${USER_1.username} - ${USER_1.profile.name}`});
-            expect(result).to.deep.include({id: USER_2._id, text: `${USER_2.username} - ${USER_2.profile.name}`});
+            expect(result).to.deep.include({id: USER_1._id, text: `${USER_1.username} - ${USER_1.profile.name}`, stringIdentifier: USER_1.username});
+            expect(result).to.deep.include({id: USER_2._id, text: `${USER_2.username} - ${USER_2.profile.name}`, stringIdentifier: USER_2.username});
 
         });
 
@@ -97,8 +97,8 @@ describe('ParticipantsPreparer', function() {
             preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(4);
-            expect(result).to.deep.include({id: ADDITIONAL_RESP_TEXT, text: ADDITIONAL_RESP_TEXT});
-            expect(result).to.deep.include({id: ADDITIONAL_RESP_MAIL, text: ADDITIONAL_RESP_MAIL});
+            expect(result).to.deep.include({id: ADDITIONAL_RESP_TEXT, text: ADDITIONAL_RESP_TEXT, stringIdentifier: ADDITIONAL_RESP_TEXT});
+            expect(result).to.deep.include({id: ADDITIONAL_RESP_MAIL, text: ADDITIONAL_RESP_MAIL, stringIdentifier: ADDITIONAL_RESP_MAIL});
         });
 
         it('returns the former responsible, too', function () {
@@ -106,8 +106,8 @@ describe('ParticipantsPreparer', function() {
             preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(4);
-            expect(result).to.deep.include({id: FORMER_RESP_TEXT, text: FORMER_RESP_TEXT});
-            expect(result).to.deep.include({id: FORMER_RESP_MAIL, text: FORMER_RESP_MAIL});
+            expect(result).to.deep.include({id: FORMER_RESP_TEXT, text: FORMER_RESP_TEXT, stringIdentifier: FORMER_RESP_TEXT});
+            expect(result).to.deep.include({id: FORMER_RESP_MAIL, text: FORMER_RESP_MAIL, stringIdentifier: FORMER_RESP_MAIL});
         });
 
         it('returns only valid entries from the former/additional responsible if desired', function () {
@@ -117,8 +117,8 @@ describe('ParticipantsPreparer', function() {
             preparer._prepareResponsibles();
             let result = preparer.getPossibleResponsibles();
             expect(result).to.have.length(4);
-            expect(result).to.deep.include({id: ADDITIONAL_RESP_MAIL, text: ADDITIONAL_RESP_MAIL});
-            expect(result).to.deep.include({id: FORMER_RESP_MAIL, text: FORMER_RESP_MAIL});
+            expect(result).to.deep.include({id: ADDITIONAL_RESP_MAIL, text: ADDITIONAL_RESP_MAIL, stringIdentifier: ADDITIONAL_RESP_MAIL});
+            expect(result).to.deep.include({id: FORMER_RESP_MAIL, text: FORMER_RESP_MAIL, stringIdentifier: FORMER_RESP_MAIL});
         });
 
         it('returns also the responsible of the current topic/item', function() {

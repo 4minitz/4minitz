@@ -15,6 +15,9 @@ import {labelSetFontColor} from './helpers/label-set-font-color';
 import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
+import {setupAutocomplete, createLabelStrategy, createResponsibleStrategy} from '../../helpers/autocomplete';
+import { emailAddressRegExpTest } from '/imports/helpers/email';
+import {ParticipantsPreparer} from '../../../imports/client/ParticipantsPreparer';
 
 let _minutesId;
 
@@ -28,12 +31,68 @@ const isFeatureShowItemInputFieldOnDemandEnabled = () => {
     return !(Meteor.settings && Meteor.settings.public && Meteor.settings.public.isEnd2EndTest);
 };
 
+const queryOtherResponsibles = async (queryTerm, reactiveResponsibles, participants) => {
+    try {
+        const result = await Meteor.callPromise('responsiblesSearch', queryTerm, participants);
+        const others = result.results
+            .filter(respo => !respo.isParticipant)
+            .map(resp => {
+                return {
+                    id: resp._id,
+                    text: resp.fullname,
+                    stringIdentifier: resp.username
+                };
+            });
+        participants = reactiveResponsibles.get();
+        reactiveResponsibles.set(participants.concat(others));
+    } catch(e) {
+        console.error('Error querying other possible responsibles');
+        console.error(e);
+    }
+};
+
 Template.topicElement.onCreated(function () {
     let tmplData = Template.instance().data;
     _minutesId = tmplData.minutesID;
 
     this.isItemsLimited = new ReactiveVar(tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT);
     this.isCollapsed = new ReactiveVar(false);
+    this.availableLabelsReactive = new ReactiveVar([]);
+    this.responsiblesReactive = new ReactiveVar([]);
+    this.queryForResponsiblesFilter = new ReactiveVar('');
+    if (tmplData.isEditable) {
+        this.autorun(() => {
+            const availableLabels = (new MeetingSeries(tmplData.parentMeetingSeriesId)).getAvailableLabels();
+            this.availableLabelsReactive.set(availableLabels);
+            const freeTextValidator = (text) => {
+                return emailAddressRegExpTest.test(text);
+            };
+            const participantsPreparer =
+                new ParticipantsPreparer(new Minutes(tmplData.minutesID), null, Meteor.users, freeTextValidator);
+            const responsibles =
+                participantsPreparer.getPossibleResponsibles(); // .concat(responsiblePreparer.getRemainingUsers());
+            queryOtherResponsibles(this.queryForResponsiblesFilter.get(), this.responsiblesReactive, responsibles);
+            this.responsiblesReactive.set(responsibles);
+        });
+    }
+});
+
+Template.topicElement.onRendered(function() {
+    const createFetcher = (reactiveVar, queryVar) => {
+        return (callback, term) => {
+            if (queryVar) {
+                queryVar.set(term);
+            }
+            callback(reactiveVar.get());
+        };
+    };
+    const strategies = [
+        createLabelStrategy(createFetcher(this.availableLabelsReactive)),
+        createResponsibleStrategy(createFetcher(this.responsiblesReactive, this.queryForResponsiblesFilter))
+    ];
+    $('.add-item-field').each(function() {
+        setupAutocomplete(this, strategies);
+    });
 });
 
 Template.topicElement.helpers({

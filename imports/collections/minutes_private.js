@@ -263,7 +263,8 @@ Meteor.methods({
             {
                 limit: 10 + results_participants.length, //we want to show 10 "Other user"
                 // as it is not known, if a user a participant or not -> get 10+participants
-                fields: searchFields
+                fields: searchFields,
+                sort: {username: 1}
             }
         ).fetch();
 

@@ -70,7 +70,8 @@
     "node-getopt": "^0.2.3",
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
-    "semver": "^5.4.1"
+    "semver": "^5.4.1",
+    "textcomplete": "^0.14.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
