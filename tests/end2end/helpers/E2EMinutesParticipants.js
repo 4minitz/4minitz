@@ -78,7 +78,7 @@ export class E2EMinutesParticipants {
         }
 
         const participants = browser.elements('#id_participant #id_username');
-        const presence = browser.elements('input#btnTogglePresent');
+        const presence = browser.elements('input.js-toggle-present');
 
         for (let participantIndex in participants.value) {
             let username = browser.elementIdText(participants.value[participantIndex].ELEMENT).value;
