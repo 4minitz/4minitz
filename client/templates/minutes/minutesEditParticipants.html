@@ -43,7 +43,7 @@
                     {{/if}}
                     <div class = "{{switch2MultiColumn}}">
                         {{#each participantsSorted}}
-                        <div class="checkbox" id="id_participant_{{this.userId}}">
+                        <div class="checkbox js-participant-checkbox" id="id_participant_{{this.userId}}">
                             <label>
                                 <input type="checkbox" class="checkbox js-toggle-present"
                                        name="present" id="btnTogglePresent_{{this.userId}}" data-userid="{{this.userId}}"
