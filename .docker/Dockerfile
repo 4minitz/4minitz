@@ -20,7 +20,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 #### Install Node.js
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 4.8.4
+ENV NODE_VERSION 8.9.3
 
 RUN groupadd --gid 1000 node \
     && useradd --uid 1000 --gid node --shell /bin/bash --create-home node \
@@ -46,6 +46,7 @@ RUN groupadd --gid 1000 node \
         wget \
         xz-utils \
         nano \
+        wkhtmltopdf xauth xvfb ghostscript=9.06~dfsg-2+deb8u6 \
     && rm -rf /var/lib/apt/lists/* \
     \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
@@ -54,7 +55,12 @@ RUN groupadd --gid 1000 node \
     && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
     && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
     && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
-    && ln -s /usr/local/bin/node /usr/local/bin/nodejs
+    && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
+    \
+    && cp /usr/share/ghostscript/9.06/lib/PDFA_def.ps / \
+    && cp /usr/share/ghostscript/9.06/iccprofiles/srgb.icc / \
+    && sed -i 's/\/ICCProfile.*/\/ICCProfile \(\/srgb.icc\)/' /PDFA_def.ps \
+    && sed -i 's/\[\ \/Title.*/\[\ \/Title\ \(4Minitz Meeting Minutes\)/' /PDFA_def.ps
 
 
 #### Copy 4Minitz stuff

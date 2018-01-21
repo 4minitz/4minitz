@@ -1,37 +1,22 @@
 import { LDAP } from 'meteor/babrahams:accounts-ldap';
 import { Meteor } from 'meteor/meteor';
+import { LdapSettings } from '/imports/config/LdapSettings';
 
-Meteor.settings = Meteor.settings || {};
-Meteor.settings.ldap = Meteor.settings.ldap || {};
-
-let allowSelfSignedTLS = Meteor.settings.ldap.allowSelfSignedTLS;
+let allowSelfSignedTLS = LdapSettings.allowSelfSignedTLS();
 if (allowSelfSignedTLS) {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 }
 
-LDAP.searchField = Meteor.settings.ldap.searchDn;
+LDAP.searchField = LdapSettings.usernameAttribute()
 LDAP.searchValueType = 'username';
 
-function ldapEnabled() {
-    return !!Meteor.settings &&
-        Meteor.settings.ldap &&
-        Meteor.settings.ldap.enabled;
-}
-
-Meteor.startup(() => {
-    // propagate the ldap enabled flag to the clients
-    Meteor.settings.public.ldapEnabled = ldapEnabled();
-});
-
 LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
-    if (!ldapEnabled()) {
+    if (!LdapSettings.ldapEnabled()) {
         return '';
     }
 
-    const ldapSettings = Meteor.settings.ldap || {},
-        serverDn = ldapSettings.serverDn,
-        propertyMap = ldapSettings.propertyMap || {},
-        searchDn = ldapSettings.searchDn || propertyMap.username;
+    const serverDn = LdapSettings.serverDn(),
+        searchDn = LdapSettings.usernameAttribute();
 
     if (!serverDn || !searchDn) {
         return '';
@@ -59,20 +44,18 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
 };
 
 LDAP.filter = function (isEmailAddress, usernameOrEmail) {
-    if (!ldapEnabled()) {
+    if (!LdapSettings.ldapEnabled()) {
         return '';
     }
 
-    const ldapSettings = Meteor.settings.ldap || {},
-        propertyMap = ldapSettings.propertyMap || {},
-        searchField = ldapSettings.searchDn || propertyMap.username;
+    const searchField = LdapSettings.usernameAttribute();
 
     if (!searchField) {
         return '';
     }
 
     const searchValue = (isEmailAddress) ? usernameOrEmail.split('@')[0] : usernameOrEmail;
-    const filter = Meteor.settings.ldap.searchFilter || '';
+    const filter = LdapSettings.searchFilter();
 
     return ['(&(', searchField, '=', searchValue, ')', filter ,')'].join('');
 };

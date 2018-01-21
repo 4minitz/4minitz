@@ -5,7 +5,6 @@ import { _ } from 'meteor/underscore';
 import { Topic } from '/imports/topic';
 import { Minutes } from '/imports/minutes';
 import { MeetingSeries } from '/imports/meetingseries';
-import { Label } from '/imports/label';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
@@ -87,7 +86,6 @@ Template.topicEdit.events({
         let editTopic = getEditTopic();
         let topicDoc = {};
         if (editTopic) {
-            IsEditedService.removeIsEditedTopic(_minutesID, editTopic._topicDoc._id, true);
             _.extend(topicDoc, editTopic._topicDoc);
         }
 
@@ -100,6 +98,8 @@ Template.topicEdit.events({
         topicDoc.subject = tmpl.find('#id_subject').value;
         topicDoc.responsibles = $('#id_selResponsible').val();
         topicDoc.labels = labels;
+        topicDoc.isEditedBy = null;     // We don't use the IsEditedService here...
+        topicDoc.isEditedDate = null;   // ... as this would save the topic twice to the DB. And it provokes Issue #379
 
         const aTopic = createTopic(_minutesID, aSeries._id, topicDoc);
         aTopic.save().catch(handleError);

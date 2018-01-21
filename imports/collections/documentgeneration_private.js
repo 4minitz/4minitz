@@ -138,12 +138,16 @@ Meteor.methods({
         if (Meteor.isClient) {
             return;
         }
+        if (! Meteor.settings.public.docGeneration.enabled) {
+            return;
+        }
+
         let minutesObj = new Minutes(minutesId);
         //Security checks will be done in the onBeforeUpload-Hook
 
         //this variable should be overwritten by the specific implementation of storing files based on their format
         //for this purpose they'll receive two parameters: the html-content as a string and the minute as a object
-        let storeFile = undefined; 
+        let storeFileFunction = undefined;
         let fileName = DocumentGeneration.calcFileNameforMinute(minutesObj);
         let metaData = { 
             minuteId: minutesObj._id,
@@ -153,8 +157,9 @@ Meteor.methods({
 
         // implementation of html storing
         if (Meteor.settings.public.docGeneration.format === 'html') {
-            storeFile = (htmldata, fileName, metaData) => {
-                DocumentsCollection.write(new Buffer(htmldata), 
+            storeFileFunction = (htmldata, fileName, metaData) => {
+                console.log("Protocol generation to file: ", fileName);
+                DocumentsCollection.write(new Buffer(htmldata),
                     {   fileName:  fileName + '.html',
                         type: 'text/html',
                         meta: metaData
@@ -169,65 +174,10 @@ Meteor.methods({
 
         // implementation of pdf storing
         if ((Meteor.settings.public.docGeneration.format === 'pdf') || (Meteor.settings.public.docGeneration.format === 'pdfa')){
-            storeFile = (htmldata, fileName, metaData) => {
-                const fs = require('fs-extra');
-
-                let checkFileExists = (filepath, fileNameForErrorMsg) => {
-                    if (!fs.existsSync(filepath)) {
-                        throw new Meteor.Error('runtime-error', 'Error at PDF generation: ' + fileNameForErrorMsg + ' not found at: ' + filepath);
-                    }
-                };
-                checkFileExists(Meteor.settings.docGeneration.pathToWkhtmltopdf, 'Binary wkhtmltopdf');
-                
-                //Safe file as html
-                const tempFileName = getDocumentStorageRootDirectory() + '/TemporaryProtocol.html'; //eslint-disable-line
-                fs.outputFileSync(tempFileName, htmldata);
-
-                //Safe file as pdf
-                const exec = require('child_process').execSync;
-                let exePath = '"' + Meteor.settings.docGeneration.pathToWkhtmltopdf + '"';
-                let outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol.pdf'; //eslint-disable-line
-
-                let additionalArguments = '';
-                if (Meteor.settings.docGeneration.wkhtmltopdfParameters && (Meteor.settings.docGeneration.wkhtmltopdfParameters !== '')) {
-                    additionalArguments = ' ' + Meteor.settings.docGeneration.wkhtmltopdfParameters.trim();
-                }
-
-                exec(exePath + additionalArguments + ' "'+ tempFileName + '" "' +  outputPath + '"', {
-                    stdio: 'ignore' //surpress progess messages from pdf generation in server console
-                });
-
-                //Safe file as pdf-a
-                if (Meteor.settings.public.docGeneration.format === 'pdfa') {
-                    checkFileExists(Meteor.settings.docGeneration.pathToGhostscript, 'Binary ghostscript');
-                    checkFileExists(Meteor.settings.docGeneration.pathToPDFADefinitionFile, 'PDFA definition file');
-
-                    exePath = '"' + Meteor.settings.docGeneration.pathToGhostscript + '"';
-                    let icctype = Meteor.settings.docGeneration.ICCProfileType.toUpperCase();
-                    let inputPath = outputPath;
-                    outputPath = getDocumentStorageRootDirectory() + '/TemporaryProtocol-A.pdf'; //eslint-disable-line
-                    additionalArguments = ' -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE' +
-                        ' -dColorConversionStrategy=/' + icctype + 
-                        ' -sProcessColorModel=Device' + icctype + 
-                        ' -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile=';
-                    
-                    try {
-                        exec(exePath + additionalArguments + '"' + outputPath + '" "' + Meteor.settings.docGeneration.pathToPDFADefinitionFile + '" "' + inputPath +  '"', {
-                            stdio: 'ignore' //surpress progess messages from pdf generation in server console
-                        });    
-                    } catch (error) {
-                        throw new Meteor.Error('runtime-error', 'Unknown error at PDF generation. Could not execute ghostscript properly.');
-                    }
-
-                    fs.unlink(inputPath);
-                }
-                fs.unlink(tempFileName);
-                // Now move file to it's meetingseries directory
-                let finalOutputPath = createDocumentStoragePath({meta: metaData}) + '/' + Random.id() + '.pdf'; //eslint-disable-line
-                fs.moveSync(outputPath, finalOutputPath);
-
-                //Safe file in FilesCollection
-                DocumentsCollection.addFile(finalOutputPath, 
+            storeFileFunction = (htmldata, fileName, metaData) => {
+                let finalPDFOutputPath = convertHTML2PDF(htmldata, fileName, metaData);
+                console.log("Protocol generation to file: ", finalPDFOutputPath, fileName);
+                DocumentsCollection.addFile(finalPDFOutputPath,
                     {
                         fileName: fileName + '.pdf',
                         type: 'application/pdf',
@@ -238,17 +188,18 @@ Meteor.methods({
                         }
                     }
                 );
+
             };
         }
 
-        if (!storeFile) {
+        if (!storeFileFunction) {
             throw new Meteor.Error('Cannot create protocol', 'The protocol could not be created since the format assigned in the settings.json is not supported: ' + Meteor.settings.public.docGeneration.format);
         }
 
         //generate and store protocol
         try {
             let htmldata = Meteor.call('documentgeneration.createHTML', minutesObj._id); // this one will run synchronous
-            storeFile(htmldata, fileName, metaData);
+            storeFileFunction(htmldata, fileName, metaData);
         } catch (error) {
             console.error('Error at Protocol generation:');
             let errormsg = error.reason ? error.reason : error; 

@@ -16,10 +16,15 @@ let Meteor = {
     }
 };
 
+const LdapSettings = {
+    publish: sinon.stub()
+};
+
 const {
     GlobalSettings
     } = proxyquire('../../../imports/config/GlobalSettings', {
-    'meteor/meteor': { Meteor, '@noCallThru': true}
+    'meteor/meteor': { Meteor, '@noCallThru': true},
+    '/imports/config/LdapSettings': { LdapSettings, '@noCallThru': true}
 });
 
 describe("GlobalSettings", function () {

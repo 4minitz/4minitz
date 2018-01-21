@@ -107,7 +107,7 @@ Meteor.startup(() => {
 window.onbeforeunload = function (e) {
     let event = e || window.event;
 
-    if(Meteor.status().connected) {
+    if(Meteor.status().connected || Meteor.settings.public.isEnd2EndTest) {
         return;
     }
 

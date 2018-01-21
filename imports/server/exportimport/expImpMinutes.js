@@ -4,7 +4,7 @@ let ExpImpTopics = require('./expImpTopics');
 
 class ExpImpMinutes {
     static get FILENAME_POSTFIX() {
-        return "_minutes.json";
+        return '_minutes.json';
     }
 
     static doExport (db, msID, userIDs) {
@@ -16,7 +16,7 @@ class ExpImpMinutes {
                     if (allMinutesDoc) {
                         const minFile = msID + ExpImpMinutes.FILENAME_POSTFIX;
                         fs.writeFileSync(minFile, EJSON.stringify(allMinutesDoc,null,2));
-                        console.log("Saved: "+minFile + " with "+allMinutesDoc.length+" minutes");
+                        console.log('Saved: '+minFile + ' with '+allMinutesDoc.length+' minutes');
 
                         // Collect additional invited / informed users from older minutes
                         allMinutesDoc.map(min => {
@@ -43,9 +43,9 @@ class ExpImpMinutes {
 
                         resolve({db, userIDs});
                     } else {
-                        return reject ("Unknown meeting series ID: "+ msID);
+                        return reject ('Unknown meeting series ID: '+ msID);
                     }
-                 });
+                });
         });
     }
 
@@ -56,10 +56,10 @@ class ExpImpMinutes {
             try {
                 minDoc = EJSON.parse(fs.readFileSync(minFile, 'utf8'));
                 if (!minDoc) {
-                    return reject("Could not read minutes file "+minFile);
+                    return reject('Could not read minutes file '+minFile);
                 }
             } catch (e) {
-                return reject("Could not read minutes file "+minFile+"\n"+e);
+                return reject('Could not read minutes file '+minFile+'\n'+e);
             }
 
             // Replace old user IDs with new users IDs
@@ -69,14 +69,17 @@ class ExpImpMinutes {
             return db.collection('minutes')
                 .deleteMany({ _id : { $in : minIDs } })     // delete existing minutes with same IDs
                 .then(function (res) {
+                    if (res.result && ! res.result.ok) {
+                        console.log(res);
+                    }
                     return db.collection('minutes')
                         .insertMany(minDoc)                         // insert imported minutes
                         .then(function (res) {
                             if (res.result.ok === 1 && res.result.n === minDoc.length) {
-                                console.log("OK, inserted "+res.result.n+" meeting minutes.");
+                                console.log('OK, inserted '+res.result.n+' meeting minutes.');
                                 resolve({db, usrMap});
                             } else {
-                                reject("Could not insert meeting minutes");
+                                reject('Could not insert meeting minutes');
                             }
                         });
                 });

@@ -1,10 +1,35 @@
 # 4Minitz Admin Guide
+<!-- HowTo update table of content -->
+<!--    npm install --save markdown-toc -->
+<!--    markdown-toc -i --maxdepth 2 adminguide.md -->
+
+## Table of Content
+
+<!-- toc -->
+
+- [Installation](#installation)
+  * [Whats wrong with the 'Quick Installation' (Option 2)?](#whats-wrong-with-the-quick-installation-option-2)
+  * [Production Server Setup with Docker](#production-server-setup-with-docker)
+  * [Production Server by Building From Source](#production-server-by-building-from-source)
+- [Configuration with settings.json](#configuration-with-settingsjson)
+  * [How to become a frontend admin?](#how-to-become-a-frontend-admin)
+  * [Database configuration](#database-configuration)
+  * [Get informed about updates](#get-informed-about-updates)
+  * [Configuration for sending emails](#configuration-for-sending-emails)
+  * [LDAP Configuration](#ldap-configuration)
+  * [Configuring upload of binary attachments](#configuring-upload-of-binary-attachments)
+  * [Configuring protocol file generation (HTML, PDF, PDF/A)](#configuring-protocol-file-generation-html-pdf-pdfa)
+- [Safety and Security](#safety-and-security)
+  * [Safety and Backup](#safety-and-backup)
+  * [Security](#security)
+
+<!-- tocstop -->
 
 # Installation
 
 ## Whats wrong with the 'Quick Installation' (Option 2)?    
 
-The [quick installation](../../README.md#quick-installation-of-4minitz) (Option 2)
+The [quick installation](../../README.md#option-2-clone-build--run-your-own-linux-mac) (Option 2)
 has the advantage that you don't have to
 install node and you don't have to mess with a MongoDB database, as 
 both tools come with the meteor development tool as sub packages.
@@ -40,14 +65,14 @@ node.js version and MongoDB and thus has no external dependencies.
 docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz
 ```
 
-Omit the next section and continue with the section [Use your 4minitz container](#use-your-4minitz-container).
+Omit the next section and continue with the section [Use your 4minitz container](#use-your-4minitz-docker-container).
 
 ### Docker Setup on Windows
 
 On Microsoft Windows 10 Professional or Enterprise 64-bit you can run 4minitz inside a docker container. The following snippets should be run inside a PowerShell (indicated by a `PS>` prompt) or a bash shell inside a Docker container (indicated by a `root#` prompt).
 
 1. Install [docker](https://docs.docker.com/engine/installation/)
-2. Open up a powershell and pull the 4minitz image from the Docker hub
+2. Open up a PowerShell and pull the 4minitz image from the Docker hub
 ```
 PS> docker pull 4minitz/4minitz
 ```
@@ -70,6 +95,31 @@ PS> docker run -it --rm --volumes-from 4minitz-storage -p 3100:3333 4minitz/4min
 ```
 
 See [this guide](https://docs.docker.com/engine/tutorials/dockervolumes/#backup-restore-or-migrate-data-volumes) on how to backup and restore the data in your data volume container.
+
+### External MongoDB server with your 4Minitz docker container
+Per default inside the 4Minitz docker container there also runs a MongoDB server that is configured in a way that it stores all data *outside* of the container: in the hosts 4minitz_storage directory.
+
+Nevertheless there may be scenarios where you want to use an already existing MongoDB server and specify a 4Minitz sub-database there. 
+ 
+You may specify an external MongoDB server instead of the MongoDB inside the 4Minitz container by adding e.g. `-e MONGO_URL=mongodb://YOURMONGOSERVER:27017/4minitz'` to your `docker run` command.
+
+**Attention:** One of the biggest problems when using an external MongoDB server is that Docker by default creates a container network, so that a container can not connect e.g. to the launching host or other servers that the host can see. 
+
+For a comprehensive docker network documentation see here:
+https://docs.docker.com/engine/userguide/networking/
+
+Two options to address the network issue:
+
+I. Launch the MongoDB in a second docker container and use a fresh docker network to connect these two:
+```
+$ docker network create mynet
+$ docker run --name mongodb --net mynet IMAGE
+$ docker run --name 4minitz --net mynet IMAGE
+```  
+
+II. Connect the 4Minitz container to the host network with the `--network host` switch
+
+**Hint**: As external networking may be error prone, please ensure to shell into a 4Minitz container by adding `/bin/bash` to the end of your docker command line. Then try to `ping` your external MongoDB server. If this succeeds, you may try to launch 4Minitz with `-e MONGO_URL`.
 
 
 ### Use your 4minitz Docker container
@@ -215,7 +265,7 @@ Now, you should be able to reach your 4Minitz instance via:
     http://4minitz.example.com:61405
 
 
-## Configuration with settings.json
+# Configuration with settings.json
 Take a look at ```settings_sample.json``` at the top level folder of 
 4Minitz.  You may copy this file to ```settings.json``` and then edit
 its contents to your need.
@@ -225,7 +275,7 @@ forget to refresh changes of your settings.json into the environment
 variable: ```export METEOR_SETTINGS=$(cat ./settings.json)```. Then
  re-start your 4Minitz server with ```meteor node main.js```.
 
-### How to become a frontend admin?
+## How to become a frontend admin?
 Some frontend admin functionality can also be reached when you 
 logged in  to the 4Minitz frontend via your browser.
 Click the "Admin Tasks" nav bar menu entry to show possible 
@@ -274,14 +324,14 @@ For example:
    ![About Box with selected user ID](./figures/about_my_user_id.png)
 
 
-### Database configuration
+## Database configuration
 
 Database related configuration is collected under the ```db``` object in your settings.json. These options are available:
 
 * ```mongodumpTargetDirectory```: The output directory where 4minitz will store the database contents before
   the database schema is migrated (updated). If this is not set or empty no backup will be created.
 
-### Get informed about updates
+## Get informed about updates
 The 4Minitz team will try to improve the 4Minitz code base. From time to time there may be also an important security fix. Per default your 4Minitz server will ask our master server regularly (about every 8 hrs.) what the current official stable version is. Your server will send your admin an eMail if your server found out such a newer version exists.
 
 The update check will be active if...
@@ -292,17 +342,15 @@ The update check will be active if...
 
 **Important Privacy Note** The "new version" mail will be generated and sent to you by *YOUR OWN* 4Minitz server. Your personal data (like admin mail address) will newer leave your server.
 
-### Configuration for sending emails
+## Configuration for sending emails
 
-You can send emails either via smtp or [mailgun](http://www.mailgun.com/). To enable email sending you have to provide
-your custom settings.json file where you have to define your smtp settings or mailgun api key.
+You can send emails either via SMTP or [mailgun](http://www.mailgun.com/). To enable email sending you have to provide
+your custom settings.json file where you have to define your SMTP settings or MailGun api key.
 
-See /settings_sample.json for an example. Do not forget to set "enableMailDelivery" to true and set "mailDeliverer"
-to either "mailgun" or "smtp" - not both as seen in the example file!
+See /settings_sample.json for an example. Do not forget to set `enableMailDelivery` to true and set `mailDeliverer`
+to either `mailgun` or `smtp` - not both as seen in the example file!
 
-If you enable the option "trustedIntranetEvironment" the finalize-info-email will be sent once with all recipients in
-the "TO:" field. This makes it easy for recipients to "Reply to all". But it
-may be a security hole in an untrusted environment. So, disable this option in public or demo mode!
+If you enable the option `trustedIntranetEvironment` the finalize-info-email will be sent once with all recipients in the "TO:" field. This makes it easy for recipients to "Reply to all". But it may be a security hole in an untrusted environment. So, disable this option in public or demo mode!
 
 The sender address in an email (FROM: and REPLY-TO:) will be set depending on
 * defaultEMailSenderAddress
@@ -313,9 +361,9 @@ The following diagram will show the decision tree:
 ![Decision diagram for email sender](./figures/email_sender.png)
 
 
-### LDAP Configuration
+## LDAP Configuration
 
-#### Available configuration options
+### Available configuration options
 See your settings.json file:
 
 | Setting             | Default                          | Explanation                                                                 |
@@ -324,8 +372,8 @@ See your settings.json file:
 | propertyMap         | {username: 'cn', email: 'mail' } | Map important attributes from ldap to user database                         |
 | authentication      | {}                               | Perform a bind before importing users from LDAP. Optional.                  |
 | searchFilter        | ""                               | Additional search filters, e.g. "(objectClass=inetOrgPerson)"               |
-| serverDn            | ""                               | Your server base dn, e.g. "dc=example,dc=com"                               |
-| serverUrl           | ""                               | Server url, e.g. "ldaps://ldap.example.com:1234                             |
+| serverDn            | undefined                        | Your server base dn, e.g. "dc=example,dc=com"                               |
+| serverUrl           | undefined                        | Server url, e.g. "ldaps://ldap.example.com:1234                             |
 | whiteListedFields   | []                               | Attributes that are copied into the user's profile property                 |
 | autopublishFields   | []                               | Meteor will publish these fields automatically on users                     |
 | inactiveUsers       | {strategy: 'none'}               | Available strategies: 'none', 'userAccountControl' and 'property'. See below for details|
@@ -341,7 +389,7 @@ happens over LDAP, so no passwords or hashes are stored for LDAP users
 in the 4minitz user database. This is needed to store e.g. user access 
 rights for meeting minutes.
 
-#### Authentication
+### Authentication
 
 To perform a bind before importing users from LDAP you can provide
 a user dn and a password with the authentication property. E.g.
@@ -353,7 +401,7 @@ a user dn and a password with the authentication property. E.g.
   }
 ```
 
-#### Available strategies to detect inactive users
+### Available strategies to detect inactive users
 
 * 'none': No attempts are made to detect inactive users. All users in
 your LDAP directory will be imported and will be able to login to 4minitz.
@@ -365,7 +413,7 @@ to 4minitz.
 sets the user to inactive if bit 2 of this flag is set. See
 [MSDN](https://msdn.microsoft.com/en-us/library/ms680832(VS.85).aspx) for details.
 
-#### Importing LDAP users to the 4minitz user database
+### Importing LDAP users to the 4minitz user database
 All LDAP users that have logged in at least once will show up in the 
 type-ahead drop down lists when inviting users to a meeting series or 
 assigning topics or action items. Users that have never signed in 
@@ -374,7 +422,7 @@ your LDAP directory to show up in the type-ahead drop downs 4minitz
 comes with a handy import script. __importUsers.js__
  
 If you have configured and tested your LDAP settings in settings.json 
-(i.e., users can log in via LDAP) you may import all usernames and 
+(i.e., users can log in via LDAP) you may import all user names and 
 email addresses (not the password hashes!) from LDAP into the 4minitz 
 user data base with the following script:
 
@@ -397,7 +445,7 @@ _Note: The LDAP setting "searchDn" and the the 4minitz user database field
 important to note that comparison is done __case-insensitive__ as 
 [meteor considers no case on usernames during login](https://guide.meteor.com/accounts.html#case-sensitivity).
 
-### Configuring Upload of Binary Attachments
+## Configuring upload of binary attachments
 If this feature is switched on, users may upload binary attachments
 to a non-finalized meeting protocol. This is especially cool as
 users may login to the current meeting minutes with their smart
@@ -416,7 +464,7 @@ Some hints:
 * If the feature is switched off, it is not possible to upload, remove or
 download attachments via the webapp.
 * Users are not able to see or download attachments for meetings where
-they are not invited. Users are only able to upload attachtments to
+they are not invited. Users are only able to upload attachments to
 meeting series where they have either the moderator or uploader role.
 * If you toggle the feature on => off no files will be deleted. 
 So it's save to switch the feature off temporarily.  
@@ -442,43 +490,81 @@ at the client.
 Just open the about box and click on the 4Minitz logo to show/hide the
 server statistics.
 
-### Configuring protocol generation
-By using this feature for each finalized minute a protocol is automatically generated and saved on the file system.
-There are three different file formats you can select of: HTML, PDF and PDF/A (2-B).
+## Configuring protocol file generation (HTML, PDF, PDF/A)
+By using this feature for each finalized minutes a protocol file is automatically generated and archived on the file system of the server for later download.
+There are three different file formats you can select of: HTML, PDF and PDF/A (2-B). PDF/A is an ISO standardized PDF subset for long-time archiving.
 
 For the detailed settings options take a look at
 ```settings_sample.json``` section ```docGeneration```.
 
 **A few additional hints:**
-* Only the minutes finalized after the activation of this feature will generate a protocol. Previously finalized minutes will not have a protocol. Instead by clicking on the download button of these minutes you will be asked if you wish to dynamically generate a HTML protocol. These protocol is however only intended for downloading and will not be stored on the server.
+* Only the minutes finalized after the activation of this feature will generate a protocol. Previously finalized minutes will not have a protocol. Instead by clicking on the download button of these minutes you will be asked if you wish to dynamically generate a HTML protocol. This protocol is however only intended for downloading and will not be stored on the server.
+
 * The setting "pathToWkhtmltopdf" is only relevant **for the formats PDF and PDF/A**. In order to use these you have to install wkhtmltopdf from here: 
 https://wkhtmltopdf.org/ 
 After installing it you have to assign the full path to it's executable in your settings.json.
+
 * You can configure the **PDF (and therefore the PDF/A)** generation in various ways by using the command line switches of wkhtmltopdf, e.g. to define page margins or page numbering.
 You can add any desired switch by adding them to the property "wkhtmltopdfParameters" in your settings.json. For a full list of switches you may have a look here: https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
+
 * The settings "pathToGhostscript", "pathToPDFADefinitionFile", and "ICCProfileType" **only apply for the PDF/A format**. To use these you first have to install ghostscript: 
 https://www.ghostscript.com/download/
 After this you will need to define a proper so called definition file for PDF/A generation. Ghostscript comes with one sample file you may usually find in "ghostscript/lib/PDFA_def". This file only needs one adjustment in order to be used for 4Minitz: You have to assign the path to a proper ICC Profile File on your local file system. You may use any ICC Profile based on the RGB or the CMYK colour scheme. After that is done you can assign the path to the ghostscript executable, the path to your definition file and the colour scheme of your ICC Profile to the respective settings.
 
 **Troubleshooting:**
 * There is a known issue with **wkhtmltopdf** running on **OS/X** making the font to appear tiny. Therefore when using an Mac OS/X to host 4Minitz you should consider adding the following switches, which should solve this issue: "--dpi 380 --disable-smart-shrinking"
-* There is another isuee with **wkhtmltopdf** appearing mainly on **headless server**: Since wkhtmltopdf needs an X server to run properly it may fail document generation with an error stating that **"cannot connect to X server"**. In order to solve this you need to follow these steps:
-1. Install xvfb e.g. by this command: 
-sudo apt-get install xvfb
-2. Adapt the settings.json file you are using for 4Minitz:
-In the "pathToWkhtmltopdf" assign the path to the xvfb executable like this: "/usr/bin/xvfb-run"
-Now change the "wkhtmltopdfParameters" to this:  "--server-args=\\"-screen 0, 1024x768x24\\" <Add_Here_The_Path_To_wkhtmltopdf> <Add_Here_Any_Additional_Parameters_You_Like_To_Use_For_wkhtmltopdf>"
+* There is another issue with **wkhtmltopdf** appearing mainly on **headless server**: Since wkhtmltopdf needs an X server to run properly it may fail document generation with an error stating that **"cannot connect to X server"**. In order to solve this you may follow the following steps.
 
+### Example: Enabling PDF/A protocol generation on Debian Jessie headless server
+The Docker deployment has PDF/A protocol generation already enabled by default. 
+If you are running a headless Linux server and you are not using docker, for educational purpose we provide a step-by-step guide on how to enable PDF/A protocol generation on **Debian Jessie**. Feel free to transform these steps to other distros.
 
-## Safety and Security
+In the example we assume that you put config stuff in `/home/4min/` directory where you have write access and the running 4Minitz server has read access
 
-### Safety and Backup
+```
+sudo apt-get install -y xauth xvfb wkhtmltopdf ghostscript=9.06~dfsg-2+deb8u6
+
+cp /usr/share/ghostscript/9.06/lib/PDFA_def.ps /home/4min/
+cp /usr/share/ghostscript/9.06/iccprofiles/srgb.icc /home/4min/
+
+sed -i 's/\/ICCProfile.*/\/ICCProfile \(\/srgb.icc\)/' /home/4min/PDFA_def.ps
+sed -i 's/\[\ \/Title.*/\[\ \/Title\ \(4Minitz Meeting Minutes\)/' /home/4min/PDFA_def.ps
+```
+
+**Some explanations:**
+* As 4Minitz uses `wkhtmltopdf` to generate the raw PDFs, and this tool needs Qt and and X-Server, we need xauth & xvfb also. We later-on wkhtmltopdf as child process of xvfb-run
+* GhostScript is needed to convert raw PDF to PDF/A
+* We pin GhostScript to a specific version, so we can ensure that the `cp` commands for PDFA_def.ps find their source files.
+* Afterwards we patch the PDFA_def.ps file with a working color profile.
+  
+Now put this section in your settings.json:
+
+```
+"docGeneration": {
+    "enabled": true, 
+    "format": "pdfa",
+    "targetDocPath": "/home/4min/files/protocols",
+    "pathToWkhtmltopdf": "/usr/bin/xvfb-run",
+    "wkhtmltopdfParameters": "--server-args=\"-screen 0, 1024x768x24\" /usr/bin/wkhtmltopdf --no-outline --print-media-type --no-background",
+    "pathToGhostscript": "/usr/bin/gs",
+    "pathToPDFADefinitionFile": "/home/4min/PDFA_def.ps",
+    "ICCProfileType" : "CMYK"
+}  
+```
+  
+When you now restart your 4Minitz server, finalized meeting minutes from now on should also be stored as PDF/A files on your server below the `/home/4min/files/protocols` directory.  
+
+For an in-depth documentation on GhostScripts PDF/A feature, see here: http://svn.ghostscript.com/ghostscript/trunk/gs/doc/Ps2pdf.htm#PDFA
+
+# Safety and Security
+
+## Safety and Backup
 To ensure that you do not suffer from loss of data, make sure to
 backup your database and your static files directories.
 
-#### Backup of MongoDB data
+### Backup of MongoDB data
 You may create a backup of your MongoDB database like so:
-1. Install the monddb client tools (incl. mongodump)
+1. Install the mongodb client tools (incl. mongodump)
 1. mongodump -h 127.0.0.1 --port 3101 -d meteor
 1. zip -r backup-4minitz-$(date +%Y-%m-%d_%H%M%S) ./dump
 
@@ -486,7 +572,7 @@ To restore a backup from a dump
 1. meteor reset (if you run mongodb from meteor)
 1. mongorestore --host 127.0.0.1 --port 3101 --drop ./dump/
 
-#### Backup of uploaded attachments / generated documents
+### Backup of uploaded attachments / generated documents
 When your 4Minitz server launches it will print two absolute pathes for you, if you have attachments and document generation enabled. For example:
 
 ```
@@ -499,8 +585,8 @@ I20170924-12:52:32.350(2)? Document Storage Path: /home/4minzer/www/protocols_4m
 Please ensure that these directories are included in your regular backups.
 
 
-### Security
-#### Password security
+## Security
+### Password security
 4Minitz uses the meteor [accounts-password](https://docs.meteor.com/api/passwords.html) package. According to the docs passwords are
 
 * Hashed on the client. And only the hash is transferred to the server
@@ -508,7 +594,7 @@ Please ensure that these directories are included in your regular backups.
 
 So, the plain text password never leaves the client. This is good against curious admin eyes. But also the hashed password that is transferred to the server could allow a replay attack. So **make sure your 4Minitz Server is only reachable via SSL**!!! This is also a good idea to protect all other data content from curious eyes.   
 
-#### MongoDB security
+### MongoDB security
 If your MongoSB server is on the same machine as the 4Minitz server backend and you protected access to this server (firewall, no public logins), then maybe you are happy without adding credentials to MongoDB and without securing MongoDB via SSL.
 
 In all other cases: Hints for a secure operation of your MongoDB server are explained in the chapter [Installation of MongoDB](#installation-of-mongodb)

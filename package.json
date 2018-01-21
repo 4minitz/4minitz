@@ -4,9 +4,9 @@
   "4minitz": {
     "//": "This is some app specific info",
     "4m_branch": "develop",
-    "4m_commitlong": "2b7ab61bae184aadd30977100bbf60f0cffdbcac",
-    "4m_commitshort": "2b7ab61b",
-    "4m_releasedate": "2017-10-22"
+    "4m_commitlong": "8bb7c937b9e8bdb536ec918db67b287fc269cf62",
+    "4m_commitshort": "8bb7c937",
+    "4m_releasedate": "2018-01-07"
   },
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
@@ -53,7 +53,7 @@
     "bootstrap-material-design": "^0.5.10",
     "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.47",
     "fibers": "^2.0.0",
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^5.0.0",
     "git-rev-sync": "^1.9.1",
     "jquery": "^3.2.1",
     "jquery-ui": "^1.12.1",
@@ -62,9 +62,9 @@
     "lodash": "^4.17.4",
     "md5-file": "^3.2.3",
     "meteor-node-stubs": "^0.3.2",
-    "moment": "^2.19.1",
+    "moment": "^2.19.3",
     "mongo-uri": "^0.1.2",
-    "mongodb": "^2.2.33",
+    "mongodb": "^3.0.1",
     "mongodb-extended-json": "^1.10.0",
     "node-cron": "^1.2.1",
     "node-getopt": "^0.2.3",

@@ -10,9 +10,17 @@ let Meteor = {
     }
 };
 let LDAP = {};
+let LdapSettings = {
+    ldapEnabled: sinon.stub(),
+    usernameAttribute: sinon.stub(),
+    searchFilter: sinon.stub(),
+    serverDn: sinon.stub(),
+    allowSelfSignedTLS: sinon.stub().returns(false)
+};
 
 const { ldap } = proxyquire('../../../server/ldap', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    '/imports/config/LdapSettings': { LdapSettings, '@noCallThru': true},
     'meteor/babrahams:accounts-ldap': { LDAP, '@noCallThru': true},
 });
 
@@ -24,14 +32,16 @@ describe('ldap', function () {
                     enabled: true
                 }
             };
+
+            LdapSettings.ldapEnabled.reset();
+            LdapSettings.ldapEnabled.returns(true);
+            LdapSettings.serverDn.reset();
+            LdapSettings.serverDn.returns('dc=example,dc=com');
+            LdapSettings.usernameAttribute.reset();
+            LdapSettings.usernameAttribute.returns('test');
         });
 
         it('generates a dn based on the configuration and the given username', function () {
-            _.extend(Meteor.settings.ldap, {
-                searchDn: "test",
-                serverDn: "dc=example,dc=com",
-            });
-
             let isEmail = false;
             let username = 'username';
 
@@ -41,11 +51,6 @@ describe('ldap', function () {
         });
 
         it('removes the host part if an email address is given', function () {
-            _.extend(Meteor.settings.ldap, {
-                searchDn: "test",
-                serverDn: "dc=example,dc=com",
-            });
-
             let isEmail = true;
             let username = 'username@example.com';
 
@@ -54,24 +59,8 @@ describe('ldap', function () {
             expect(result).to.equal('test=username,dc=example,dc=com');
         });
 
-        it('returns an empty string if the configuration is missing', function () {
-            delete Meteor.settings;
-
-            let result = LDAP.bindValue();
-
-            expect(result).to.equal('');
-        });
-
-        it('returns an empty string if the ldap configuration is missing', function () {
-            delete Meteor.settings.ldap;
-
-            let result = LDAP.bindValue();
-
-            expect(result).to.equal('');
-        });
-
         it('returns an empty string if ldap is not enabled', function () {
-            Meteor.settings.ldap.enabled = false;
+            LdapSettings.ldapEnabled.returns(false);
 
             let result = LDAP.bindValue();
 
@@ -79,19 +68,15 @@ describe('ldap', function () {
         });
 
         it('returns an empty string if serverDn is not set', function () {
-            _.extend(Meteor.settings.ldap, {
-                searchDn: "test"
-            });
+            LdapSettings.serverDn.returns('');
 
             let result = LDAP.bindValue();
 
             expect(result).to.equal('');
         });
 
-        it('returns an empty string if searchDn is not set', function () {
-            _.extend(Meteor.settings.ldap, {
-                serverDn: "dc=example,dc=com"
-            });
+        it('returns an empty string if no username attribute mapping is not defined', function () {
+            LdapSettings.usernameAttribute.returns('');
 
             let result = LDAP.bindValue();
 
@@ -101,6 +86,9 @@ describe('ldap', function () {
 
     describe('#filter', function () {
         beforeEach(function () {
+            LdapSettings.usernameAttribute.reset();
+            LdapSettings.searchFilter.reset();
+
             Meteor.settings = {
                 ldap: {
                     enabled: true
@@ -109,11 +97,9 @@ describe('ldap', function () {
         });
 
         it('generates a dn based on the configuration and the given username', function () {
-            _.extend(Meteor.settings.ldap, {
-                searchDn: "test",
-                searchFilter: ""
-            });
-
+            LdapSettings.usernameAttribute.returns('test');
+            LdapSettings.searchFilter.returns('');
+            
             let isEmail = false;
             let username = 'username';
 
@@ -123,10 +109,8 @@ describe('ldap', function () {
         });
 
         it('removes the host part if an email address is given', function () {
-            _.extend(Meteor.settings.ldap, {
-                searchDn: "test",
-                searchFilter: ""
-            });
+            LdapSettings.usernameAttribute.returns('test');
+            LdapSettings.searchFilter.returns('');
 
             let isEmail = true;
             let username = 'username@example.com';
@@ -137,10 +121,8 @@ describe('ldap', function () {
         });
 
         it('still works if searchFilter is undefined', function () {
-            _.extend(Meteor.settings.ldap, {
-                searchDn: "test",
-                searchFilter: undefined
-            });
+            LdapSettings.usernameAttribute.returns('test');
+            LdapSettings.searchFilter.returns(undefined);
 
             let isEmail = false;
             let username = 'username';
@@ -151,10 +133,8 @@ describe('ldap', function () {
         });
 
         it('appends the searchFilter configuration to the filter', function () {
-            _.extend(Meteor.settings.ldap, {
-                searchDn: "test",
-                searchFilter: "(objectClass=user)"
-            });
+            LdapSettings.usernameAttribute.returns('test');
+            LdapSettings.searchFilter.returns('(objectClass=user)');
 
             let isEmail = false;
             let username = 'username';
@@ -162,14 +142,6 @@ describe('ldap', function () {
             let result = LDAP.filter(isEmail, username);
 
             expect(result).to.equal('(&(test=username)(objectClass=user))');
-        });
-
-        it('returns an empty string if the configuration is missing', function () {
-            delete Meteor.settings;
-
-            let result = LDAP.filter();
-
-            expect(result).to.equal('');
         });
 
         it('returns an empty string if the ldap configuration is missing', function () {

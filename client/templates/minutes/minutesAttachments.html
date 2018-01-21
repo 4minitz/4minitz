@@ -14,15 +14,14 @@
 
             Attachments
             {{#unless isAttachmentsExpanded}}
-                ({{attachmentsCount}})
+                ({{attachmentsCountText}})
             {{/unless}}
         </label>
     </div>
 
-
     {{#if isAttachmentsExpanded}}
         <div class="panel-body force-no-padding-top">
-            <div class="padding-for-collabsable" id="id_participants">
+            <div class="padding-for-collabsable" id="id_attachments">
 
                 {{#with currentUpload}}     <!-- Upload in progress? -->
                     <h3 id="progress-basic">
@@ -72,6 +71,9 @@
                     {{/each}}
                 </ol>
             </div>
+            {{#unless attachmentsCount}}
+                {{> quickHelp context='meetingUpload' contentTmpl='quickHelpMeetingUpload'}}
+            {{/unless}}
         </div>
     {{/if}} <!-- isAttachmentsExpanded -->
 </div>

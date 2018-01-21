@@ -21,3 +21,5 @@ public/fonts/glyphicons-halflings-regular.*
 \.deploy/4minitz_bin\.zip
 
 package-lock\.json
+
+4minitz_settings\.json

@@ -40,15 +40,24 @@ export class E2EMeetingSeries {
         this.editMeetingSeriesForm(aProj, aName,  switchInput);
         E2EGlobal.waitSomeTime();
 
+        E2EGlobal.saveScreenshot("createMeetingSeries_0");
         E2EGlobal.clickWithRetry('#btnAddInvite');
+        E2EGlobal.saveScreenshot("createMeetingSeries_1");
         E2EGlobal.waitSomeTime(1000);  // additional time for deferred dialog open + panel switch!
+        E2EGlobal.saveScreenshot("createMeetingSeries_2");
 
         let meetingSeriesID = browser.getUrl();
         meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
         meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
 
         if (! keepOpenMSEditor) {
+            E2EGlobal.saveScreenshot("createMeetingSeries_3");
+            E2EGlobal.waitSomeTime(2500);  // sporadic e2e Travis failures
+            E2EGlobal.saveScreenshot("createMeetingSeries_4");
+            E2EGlobal.waitSomeTime(2500);  // sporadic e2e Travis failures
+            E2EGlobal.saveScreenshot("createMeetingSeries_5");
             E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
+            E2EGlobal.saveScreenshot("createMeetingSeries_6");
             E2EGlobal.waitSomeTime();
             E2EApp.gotoStartPage();
         }

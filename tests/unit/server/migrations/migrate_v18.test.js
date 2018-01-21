@@ -33,7 +33,7 @@ const {
     '../../imports/services/minutesFinder': { MinutesFinder, '@noCallThru': true},
 });
 
-describe('Migrate Version 17', function () {
+describe('Migrate Version 18', function () {
 
     let firstMinutes, secondMinutes,
         topicFirstAndSecondMinutes, topicFirstMinutes, topicSecondMinutes,
