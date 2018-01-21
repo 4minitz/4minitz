@@ -127,7 +127,8 @@ Meteor.startup(() => {
 
         console.log('Configuring cron job for regular LDAP user import.');
         cron.schedule(crontab, function () {
-            importUsers(ldapSettings, mongoUrl);
+            importUsers(ldapSettings, mongoUrl)
+                .catch(() => {});
         });
     }
 });
