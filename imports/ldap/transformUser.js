@@ -28,7 +28,7 @@ module.exports = function (ldapSettings, userData) {
         isInactive: false,
         emails: tmpEMailArray,
         username: username.toLowerCase(),
-        profile: _.pick(userData, profileFields)
+        profile: _.pick(userData, _.without(profileFields, 'mail'))
     };
 
     // copy over the LDAP user's long name from "cn" field to the meteor accounts long name field
