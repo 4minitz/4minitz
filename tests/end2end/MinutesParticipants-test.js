@@ -240,7 +240,7 @@ describe('Minutes Participants', function () {
         E2EMinutes.finalizeCurrentMinutes();
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        expect(browser.getText("tr#id_MinuteRow")).to.contain("user1, user3, Max Mustermann");
+        expect(browser.getText("tr#id_MinuteRow")).to.contain("user1; user3; Max Mustermann");
     });
     
     it('can edit participants from within a minute as a moderator', function () {

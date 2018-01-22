@@ -154,7 +154,7 @@ Template.minutesEditParticipants.helpers({
 
 
 Template.minutesEditParticipants.events({
-    'click #btnTogglePresent' (evt, tmpl) {
+    'click .js-toggle-present' (evt, tmpl) {
         let min = new Minutes(_minutesID);
         let userId = evt.target.dataset.userid;
         let checkedState = evt.target.checked;

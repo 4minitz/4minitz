@@ -7,6 +7,7 @@ import { MailFactory } from './MailFactory';
 import { GlobalSettings } from '../config/GlobalSettings';
 import {UserRoles as userroles} from '../userroles';
 import {MeetingSeries} from '../meetingseries';
+import { User } from '/imports/user'
 
 export class RoleChangeMailHandler {
     constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
@@ -60,7 +61,7 @@ export class RoleChangeMailHandler {
                 '(' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n\n'+
                 '    Your old role was           : ' + this._oldRole + '\n'+
                 '    Your new role is            : ' + this._newRole + '\n'+
-                '    The change was performed by : ' + this._moderator.username + '\n'  +
+                '    The change was performed by : ' + User.PROFILENAMEWITHFALLBACK(this._moderator) + '\n'  +
                 '\n' +
                 'For a comprehensive list of rights for each role see:\n' +
                 'https://github.com/4minitz/4minitz/blob/master/doc/user/usermanual.md#table-of-roles-and-rights\n' +

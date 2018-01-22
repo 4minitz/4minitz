@@ -77,12 +77,13 @@ export class E2EMinutesParticipants {
             this._participantsAndPresence["##additional participants##"] = "";
         }
 
-        const participants = browser.elements('#id_participant #id_username');
-        const presence = browser.elements('input#btnTogglePresent');
+        const participants = browser.elements('.js-participant-checkbox #id_username');
+        const presence = browser.elements('input.js-toggle-present');
 
         for (let participantIndex in participants.value) {
             let username = browser.elementIdText(participants.value[participantIndex].ELEMENT).value;
             let checkboxId = presence.value[participantIndex].ELEMENT;
+
             this._participantsAndPresence[username] = {
                 present: browser.elementIdSelected(checkboxId).value,
                 checkboxElemId: checkboxId,

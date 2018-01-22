@@ -29,6 +29,15 @@ describe('LDAP', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
+    it('import cronjob does not produce errors', function () {
+        const numberOfUsersWithoutLdap = server.call('e2e.removeLdapUsersFromDb');
+
+        server.call('e2e.importLdapUsers');
+
+        const numberOfUsersAfterImport = server.call('e2e.countUsers');
+        expect(numberOfUsersAfterImport).to.be.greaterThan(numberOfUsersWithoutLdap);
+    });
+
     it('ldap user can login with his credentials', function () {
         E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
 
