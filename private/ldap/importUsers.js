@@ -36,5 +36,5 @@ if (!mongoUrl) {
 loadLDAPSettings(meteorSettingsFile)
     .then(ldapSettings => importUsers(ldapSettings, mongoUrl))
     .catch(error => {
-        console.warn(`An error occurred while reading the settings file: ${error}`);
+        console.warn(`An error occurred while reading the settings file or importing users: ${error}`);
     });

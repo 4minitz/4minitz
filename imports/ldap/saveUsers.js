@@ -1,4 +1,5 @@
 let mongo = require('mongodb').MongoClient,
+    mongoUriParser = require('mongo-uri'),
     random = require('randomstring'),
     transformUser = require('./transformUser'),
     _ = require('underscore');
@@ -10,22 +11,14 @@ let _transformUsers = function (settings, users) {
 };
 
 let _connectMongo = function (mongoUrl) {
-    return new Promise((resolve, reject) => {
-        mongo.connect(mongoUrl, (error, db) => {
-            if (error) {
-                reject(error);
-            }
-
-            resolve(db);
-        });
-    });
+    return mongo.connect(mongoUrl);
 };
 
 RegExp.escape= function(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
-let _insertUsers = function (db, users) {
+let _insertUsers = function (client, mongoUri, users) {
     // unique id from the random package also used by minimongo
     // character list: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
     // string length: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
@@ -36,7 +29,8 @@ let _insertUsers = function (db, users) {
 
     return new Promise((resolve, reject) => {
         try {
-            let bulk = db.collection('users').initializeUnorderedBulkOp();
+            const mongoConnection = mongoUriParser.parse(mongoUri);
+            let bulk = client.db(mongoConnection.database).collection('users').initializeUnorderedBulkOp();
             _.each(users, user => {
                 if (user && user.username && user.emails[0] && user.emails[0].address) {
                     user.isLDAPuser = true;
@@ -60,7 +54,7 @@ let _insertUsers = function (db, users) {
             });
             let bulkResult = bulk.execute();
 
-            resolve({db, bulkResult});
+            resolve({client, bulkResult});
         } catch (error) {
             reject(error);
         }
@@ -68,12 +62,12 @@ let _insertUsers = function (db, users) {
 };
 
 let _closeMongo = function (data) {
-    let force = true,
-        db = data.db,
+    let force = false,
+        client = data.client,
         result = data.bulkResult;
 
     return new Promise((resolve) => {
-        db.close(force);
+        client.close(force);
         resolve(result);
     });
 };
@@ -84,8 +78,8 @@ let saveUsers = function (settings, mongoUrl, users) {
 
     return new Promise((resolve, reject) => {
         _connectMongo(mongoUrl)
-            .then(db => {
-                return _insertUsers(db, dbUsers);
+            .then(client => {
+                return _insertUsers(client, mongoUrl, dbUsers);
             })
             .then(_closeMongo)
             .then(resolve)
