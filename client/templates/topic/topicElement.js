@@ -126,30 +126,33 @@ const openAddItemDialog = (itemType, topicId) => {
     Session.set('topicInfoItemEditTopicId', topicId);
     Session.set('topicInfoItemType', itemType);
 };
-const showHideItemInput = (tmpl, show = true) => {
+const showHideItemInput = (tmpl, show = true, then = () => {}) => {
     if (!isFeatureShowItemInputFieldOnDemandEnabled()) {
         return;
     }
 
-    tmpl.$('.addItemForm').css('display', (show) ? 'block' : 'none');
+    const addItemEl = tmpl.$('.addItemForm');
     if (show) {
-        resizeTextarea(tmpl.$('.add-item-field'));
+        addItemEl.show(500);
+        Meteor.setTimeout(() => {
+            resizeTextarea(tmpl.$('.add-item-field'));
+            then();
+            if (addItemEl.is(":visible")) {
+                tmpl.$('.addItemLink').hide();
+            }
+        }, 501);
+    } else {
+        addItemEl.hide(500);
+        Meteor.setTimeout(() => {
+            then();
+            tmpl.$('.addItemLink').show();
+        }, 501);
     }
 };
 
 let savingNewItem = false;
 
 Template.topicElement.events({
-    'mouseover .topic-element'(evt, tmpl) {
-        showHideItemInput(tmpl);
-    },
-    'mouseout .topic-element'(evt, tmpl) {
-        const activeElement = document.activeElement;
-        const topicElement = tmpl.find('.topic-element');
-        if (!activeElement || !topicElement.contains(activeElement)) {
-            showHideItemInput(tmpl, false);
-        }
-    },
 
     'focus .topic-element'(evt, tmpl) {
         tmpl.$('.topic-element').addClass('focus');
@@ -167,6 +170,13 @@ Template.topicElement.events({
             tmpl.$('.topic-element').removeClass('focus');
             Meteor.setTimeout(() => { showHideItemInput(tmpl, false); }, 500);
         }
+    },
+
+    'click .addItemLink'(evt, tmpl) {
+        evt.preventDefault();
+        showHideItemInput(tmpl, true, () => {
+            tmpl.$('.addItemForm textarea').focus();
+        });
     },
 
     'click #btnDelTopic'(evt) {
@@ -306,6 +316,7 @@ Template.topicElement.events({
     },
 
     'keydown #btnTopicExpandCollapse'(evt) {
+        evt.preventDefault();
         // since we do not have a link-href the link will not be clicked when hitting enter by default...
         if (evt.which === 13/*enter*/) {
             evt.currentTarget.click();
