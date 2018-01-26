@@ -29,7 +29,7 @@ describe('LDAP', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    it('import cronjob does not produce errors', function () {
+    xit('import cronjob does not produce errors', function () {
         const numberOfUsersWithoutLdap = server.call('e2e.removeLdapUsersFromDb');
 
         server.call('e2e.importLdapUsers');
