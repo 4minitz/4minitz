@@ -11,7 +11,7 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
 import { ActionItem } from '/imports/actionitem';
 import { Priority } from '/imports/priority';
-import { User, userSettings } from '/imports/users';
+import { User, userSettings } from '/imports/user';
 
 import { currentDatePlusDeltaDays } from '/imports/helpers/date';
 import { emailAddressRegExpTest } from '/imports/helpers/email';

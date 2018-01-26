@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import asyncStubs from '../../../support/lib/asyncStubs';
 
 let MongoClient = {
-    connect: asyncStubs.doNothing(),
+    connect: sinon.stub().resolves()
 };
 
 let generate = sinon.stub().returns('123abc');
@@ -14,10 +14,14 @@ let bulk = {
     execute: sinon.stub()
 };
 
-let db = {
-    collection: sinon.stub().returns({
-        initializeUnorderedBulkOp: sinon.stub().returns(bulk)
-    }),
+let client = {
+    db() {
+        return {
+            collection: sinon.stub().returns({
+                initializeUnorderedBulkOp: sinon.stub().returns(bulk)
+            })
+        };
+    },
     close: sinon.stub()
 };
 
@@ -48,7 +52,7 @@ describe('saveUsers', function () {
         MongoClient.connect = asyncStubs.doNothing();
         bulk.find.reset();
         bulk.execute.reset();
-        db.close.reset();
+        client.close.reset();
         upsert.upsert.reset();
         updateOne.updateOne.reset();
 
@@ -62,7 +66,7 @@ describe('saveUsers', function () {
     });
 
     it('inserts users into database', function (done) {
-        MongoClient.connect = asyncStubs.returns(1, db);
+        MongoClient.connect = sinon.stub().resolves(client);
         upsert.upsert.returns(updateOne);
         bulk.find.returns(upsert);
         bulk.execute.returns('bulk done');
@@ -85,7 +89,7 @@ describe('saveUsers', function () {
     });
 
     it('handles database connection problems', function (done) {
-        MongoClient.connect = asyncStubs.returnsError(1, 'Connection error');
+        MongoClient.connect = sinon.stub().rejects('Connection error');//asyncStubs.returnsError(1, 'Connection error');
 
         saveUsers(settings, mongoUrl, users)
             .then((result) => {
@@ -93,7 +97,7 @@ describe('saveUsers', function () {
             })
             .catch((error) => {
                 try {
-                    expect(error).to.equal('Connection error');
+                    expect(error.toString()).to.equal('Connection error');
                     done();
                 } catch (error) {
                     done(error);

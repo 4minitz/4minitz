@@ -11,6 +11,19 @@ echo "       e.g.: ./BUILD.sh --imagename johndoe/4minitz master stable latest 0
 echo "       The default docker project is '$dockerproject'"
 echo ""
 
+#### Check if docker daemon is running
+rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
+dockerstatus=$?
+if [ "$dockerstatus" == "7" ]; then
+    echo ' '
+    echo '*** ERROR'
+    echo '  Could not connect to docker.'
+    echo '  Is the "docker -d" daemon running?'
+    echo '  Will EXIT now!'
+    exit 1
+fi
+
+
 #### Commandline parsing
 if [ "$1" == "--imagename" ]; then
   dockerproject=$2
