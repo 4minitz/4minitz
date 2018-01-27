@@ -39,11 +39,11 @@ addons:
 #    - $(npm config get prefix)/bin/chimp
 
 node_js:
-  - "8.3.0"
+  - "8.9.3"
 
 before_install:
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp@0.50.2
+  - npm install -g chimp@0.51.0
 
 # we run chrome headless but we still need xvfb for keycode conversions
 # Error: unknown error: an X display is required for keycode conversions, consider using Xvfb
