@@ -64,6 +64,7 @@ export class E2EGlobal {
         while (current - start < timeout) {
             try {
                 browser.click(selector);
+                E2EGlobal.waitSomeTime(100);
                 return;
             } catch (e) {
                 const message = e.toString(),

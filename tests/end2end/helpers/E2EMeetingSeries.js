@@ -40,28 +40,32 @@ export class E2EMeetingSeries {
         this.editMeetingSeriesForm(aProj, aName,  switchInput);
         E2EGlobal.waitSomeTime();
 
-//        E2EGlobal.saveScreenshot("createMeetingSeries_1");
         E2EGlobal.clickWithRetry('#btnAddInvite');
         E2EGlobal.logTimestamp("will open MS Editor");
-        browser.waitForVisible('#btnMeetinSeriesEditCancel', 15000); // will check every 500ms
-        E2EGlobal.logTimestamp("is open: MS Editor");
-//        E2EGlobal.saveScreenshot("createMeetingSeries_2");
+        try {
+            browser.waitForVisible('#btnMeetinSeriesEditCancel', 5000); // will check every 500ms
+            E2EGlobal.logTimestamp("is open: MS Editor");
+        } catch (e) {
+            E2EGlobal.logTimestamp("could not open: MS Editor");
+            if (keepOpenMSEditor) {
+                throw e;
+            }
+        }
         E2EGlobal.waitSomeTime(1000);  // additional time for panel switch!
-        E2EGlobal.saveScreenshot("createMeetingSeries_3");
-
         let meetingSeriesID = browser.getUrl();
         meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
         meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
 
         if (! keepOpenMSEditor) {
-//            E2EGlobal.saveScreenshot("createMeetingSeries_4");
-            E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
-            browser.waitForVisible('#btnMeetinSeriesEditCancel', 15000, true); // will check for IN-VISIBLE!
-//            E2EGlobal.saveScreenshot("createMeetingSeries_6");
+            if (browser.isVisible('#btnMeetinSeriesEditCancel')) {
+                E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
+                browser.waitForVisible('#btnMeetinSeriesEditCancel', 5000, true); // will check for IN-VISIBLE!
+            }
+            // if for miracoulous reasons the MS editor is already gone - we will try to continue...
+            browser.waitForVisible('#btnAddMinutes', 5000); // will check every 500ms
+            E2EGlobal.logTimestamp("MS Editor is closed. Continue.");
             E2EApp.gotoStartPage();
-//            E2EGlobal.saveScreenshot("createMeetingSeries_8");
         }
-//        E2EGlobal.saveScreenshot("createMeetingSeries_9");
         return meetingSeriesID;
     };
 
