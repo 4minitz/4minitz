@@ -46,8 +46,8 @@ chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --pat
 
 CHIMP_RESULT=$?
 
-echo Server log:
-cat server.log
+echo Server log: http://4m.js42.de/4minitz/4minitz/$BUILD/$JOB/server.log
+echo Client log: http://4m.js42.de/4minitz/4minitz/$BUILD/$JOB/client.log
 
 mkdir tests/mongodump
 mongodump -h localhost:3101 -d meteor -o ./tests/mongodump

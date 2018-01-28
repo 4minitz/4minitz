@@ -23,6 +23,9 @@ if (Meteor.settings.isEnd2EndTest) {
     console.log('End2End helpers loaded on server-side!');
 
     Meteor.methods({
+        'e2e.debugLog'(message) {
+            console.log(message);
+        },
         'e2e.resetMyApp'(skipUsersCreation) {
             console.log('-------------------------- E2E-METHOD: resetMyApp ');
             AttachmentsCollection.remove({});
