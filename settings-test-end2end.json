@@ -87,6 +87,7 @@
             "password": "ldapPwd1"
         },
         "searchFilter": "",
+        "importOnLaunch": true,
         "serverDn": "DC=example,DC=com",
         "serverUrl": "ldap://localhost:1389",
         "allowSelfSignedTLS": true,

@@ -377,7 +377,8 @@ See your settings.json file:
 | whiteListedFields   | []                               | Attributes that are copied into the user's profile property                 |
 | autopublishFields   | []                               | Meteor will publish these fields automatically on users                     |
 | inactiveUsers       | {strategy: 'none'}               | Available strategies: 'none', 'userAccountControl' and 'property'. See below for details|
-| allowSelfSignedTLS  | false                            | If enabled, self-signed certs will be allowed for the Meteor server process |
+| allowSelfSignedTLS  | false                            | If true, self-signed certs will be allowed for the Meteor server process |
+| importOnLaunch      | true                             | If true, server will import all LDAP users once at startup that match the searchFilter. |
 | importCronTab       | false                            | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
 
 Once you have configured 4minitz to allow LDAP login, all your 

@@ -120,16 +120,23 @@ Meteor.startup(() => {
             dismissForUserIDs: []});
     }
 
-    if (GlobalSettings.hasImportUsersCronTab()) {
+    if (GlobalSettings.hasImportUsersCronTab() || GlobalSettings.getImportUsersOnLaunch()) {
         const crontab = GlobalSettings.getImportUsersCronTab(),
             mongoUrl = process.env.MONGO_URL,
             ldapSettings = GlobalSettings.getLDAPSettings();
 
-        console.log('Configuring cron job for regular LDAP user import.');
-        cron.schedule(crontab, function () {
+        if (GlobalSettings.getImportUsersOnLaunch()) {
+            console.log('Importing LDAP user on launch. Disable via setting importOnLaunch.');
             importUsers(ldapSettings, mongoUrl)
                 .catch(() => {});
-        });
+        }
+        if (GlobalSettings.hasImportUsersCronTab()) {
+            console.log('Configuring cron job for regular LDAP user import.');
+            cron.schedule(crontab, function () {
+                importUsers(ldapSettings, mongoUrl)
+                    .catch(() => {});
+            });
+        }
     }
 });
 

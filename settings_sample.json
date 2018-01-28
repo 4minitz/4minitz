@@ -153,6 +153,7 @@
         "whiteListedFields": [ "uid", "cn", "department", "employeeNumber", "mail", "mailEnabled" ],
         "inactiveUsers": {"strategy": "none"},
         "autopublishFields": [ "cn" ],
+        "importOnLaunch": true,
         "importCronTab": false
     },
 
