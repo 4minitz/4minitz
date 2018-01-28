@@ -24,6 +24,8 @@ addons:
     paths:
       - $(ls ./tests/snapshots/* | tr "\n" ":")
       - $(ls ./tests/mongodump/meteor/* | tr "\n" ":")
+      - ./server.log
+      - ./client.log
   apt:
     sources:
       - ubuntu-toolchain-r-test
