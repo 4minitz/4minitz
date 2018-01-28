@@ -7,7 +7,7 @@ env:
   matrix:
     - TEST="tests/end2end/Ac* tests/end2end/Ad* tests/end2end/I* tests/end2end/L* tests/end2end/U*"
     - TEST="tests/end2end/Mee* tests/end2end/My*"
-    - TEST="tests/end2end/At* tests/end2end/Mi* tests/end2end/P*"
+    - TEST="tests/end2end/P* tests/end2end/At* tests/end2end/Mi*"
     - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
     - TEST="unit"
 
@@ -39,11 +39,11 @@ addons:
 #    - $(npm config get prefix)/bin/chimp
 
 node_js:
-  - "8.3.0"
+  - "8.9.3"
 
 before_install:
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp@0.50.2
+  - npm install -g chimp@0.51.0
 
 # we run chrome headless but we still need xvfb for keycode conversions
 # Error: unknown error: an X display is required for keycode conversions, consider using Xvfb

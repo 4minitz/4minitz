@@ -64,3 +64,12 @@ before(function() {
     E2EGlobal.saveScreenshot("UserShouldBeLoggedIn1");
     expect(E2EApp.isLoggedIn(), "User is logged in").to.be.true;
 });
+
+afterEach(function() {
+    if (this.currentTest && this.currentTest.state !== 'passed') {
+        E2EGlobal.logTimestamp("TEST FAILED");
+        console.log('!!! FAILED: ', this.currentTest.title, this.currentTest.state);
+        console.log('!!! Saving POST-MORTEM SCREENSHOT:');
+        console.log("!!! ", E2EGlobal.saveScreenshot(`FAILED_POST-MORTEM`));
+    }
+});

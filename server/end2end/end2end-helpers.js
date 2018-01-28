@@ -13,6 +13,10 @@ import { TopicSchema } from '/imports/collections/topic.schema';
 import { DocumentGeneration } from '/imports/documentGeneration';
 import {TopicsFinder} from '../../imports/services/topicsFinder';
 
+import {GlobalSettings} from '../../imports/config/GlobalSettings';
+import importUsers from '../../imports/ldap/import';
+
+
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
     // Meteor.settings.isEnd2EndTest will be set via "--settings settings-test-end2end.json"
@@ -47,9 +51,9 @@ if (Meteor.settings.isEnd2EndTest) {
                     let newPassword = Meteor.settings.e2eTestPasswords[i];
                     let newEmail = Meteor.settings.e2eTestEmails[i];
                     Accounts.createUser({
-                            username: newUser,
-                            password: newPassword,
-                            email: newEmail,
+                        username: newUser,
+                        password: newPassword,
+                        email: newEmail,
                     });
                     Meteor.users.update({'username': newUser}, {$set: {'emails.0.verified': true}});
                     console.log('Created user: ' + newUser + ' with password: ' + newPassword);
@@ -183,6 +187,19 @@ if (Meteor.settings.isEnd2EndTest) {
         'e2e.triggerMigration'(version) {
             console.log('-------------------------- E2E-METHOD: triggerMigration');
             Migrations.migrateTo(version);
+        },
+        'e2e.removeLdapUsersFromDb'() {
+            Meteor.users.remove({isLdapUser: true});
+            return Meteor.call('e2e.countUsers');
+        },
+        'e2e.countUsers'() {
+            return Meteor.users.find().count();
+        },
+        async 'e2e.importLdapUsers'() {
+            const mongoUrl = process.env.MONGO_URL,
+                ldapSettings = GlobalSettings.getLDAPSettings();
+
+            await importUsers(ldapSettings, mongoUrl);
         }
     });
 }

@@ -12,6 +12,7 @@ describe('Topics Responsibles', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });

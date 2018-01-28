@@ -1,5 +1,6 @@
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
 import { DocumentGeneration } from '../documentGeneration';
+import { User } from '/imports/user'
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
@@ -32,7 +33,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
 
     _userArrayToString(users) {
         return users.map(function(user){
-            return user.name;
-        }).join(', ');
+            return User.PROFILENAMEWITHFALLBACK(user);
+        }).join('; ');
     }
 }

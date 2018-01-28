@@ -11,6 +11,7 @@ describe('MeetingSeries', function () {
     });
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
@@ -53,7 +54,7 @@ describe('MeetingSeries', function () {
         const aProjectName = "";
         const aMeetingName = "Meeting Name #2.1";
         const initialCount = E2EMeetingSeries.countMeetingSeries();
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName, true);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialCount);
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
     });
@@ -62,7 +63,7 @@ describe('MeetingSeries', function () {
         const aProjectName = "E2E Project - Unknown series";
         const aMeetingName = "";
         const initialCount = E2EMeetingSeries.countMeetingSeries();
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName, true);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialCount);
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
     });

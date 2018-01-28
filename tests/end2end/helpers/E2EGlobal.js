@@ -64,6 +64,7 @@ export class E2EGlobal {
         while (current - start < timeout) {
             try {
                 browser.click(selector);
+                E2EGlobal.waitSomeTime(100);
                 return;
             } catch (e) {
                 const message = e.toString(),
@@ -116,6 +117,18 @@ export class E2EGlobal {
             mm='0'+mm
         }
         return yyyy+"-"+mm+"-"+dd;
+    };
+
+    static formatTimeISO8601 (aDate) {
+        let isoString = '';
+
+        try {
+            let tzoffset = aDate.getTimezoneOffset() * 60000; //offset in milliseconds
+            isoString = (new Date(aDate - tzoffset)).toISOString().substr(0,19).replace('T',' ');   // YYYY-MM-DD hh:mm:ss
+        } catch (e) {
+            isoString = 'NaN-NaN-NaN 00:00:00';
+        }
+        return isoString;
     };
 
     static browserName() {
@@ -172,7 +185,8 @@ export class E2EGlobal {
     static saveScreenshot(filename) {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
         filename = (!filename) ? dateStr : dateStr + "_" + filename;
-        browser.saveScreenshot('./tests/snapshots/' + filename + ".png");
+        let fullpath = './tests/snapshots/' + filename + ".png";
+        browser.saveScreenshot(fullpath);
 
         const weAreOnTravis = !!process.env.TRAVIS;
         if (weAreOnTravis) {
@@ -183,6 +197,7 @@ export class E2EGlobal {
 
             console.log('Screenshot taken: ', url);
         }
+        return fullpath;
     }
 
     static sendKeysWithPause(...keysAndPauses) {
@@ -200,6 +215,10 @@ export class E2EGlobal {
 
             E2EGlobal.saveScreenshot(`keys-with-pause-${i}`);
         }
+    }
+
+    static logTimestamp(text) {
+        console.log('---', E2EGlobal.formatTimeISO8601(new Date()), text);
     }
 }
 
