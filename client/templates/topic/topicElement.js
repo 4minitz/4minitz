@@ -133,20 +133,16 @@ const showHideItemInput = (tmpl, show = true, then = () => {}) => {
 
     const addItemEl = tmpl.$('.addItemForm');
     if (show) {
-        addItemEl.show(500);
+        addItemEl.show(250);
         Meteor.setTimeout(() => {
             resizeTextarea(tmpl.$('.add-item-field'));
             then();
-            if (addItemEl.is(":visible")) {
-                tmpl.$('.addItemLink').hide();
-            }
-        }, 501);
+            Meteor.setTimeout(() => {
+                tmpl.$('.add-item-field').focus();
+            },50);
+        }, 300);
     } else {
-        addItemEl.hide(500);
-        Meteor.setTimeout(() => {
-            then();
-            tmpl.$('.addItemLink').show();
-        }, 501);
+        addItemEl.hide(250);
     }
 };
 
@@ -155,11 +151,17 @@ let savingNewItem = false;
 Template.topicElement.events({
 
     'focus .topic-element'(evt, tmpl) {
+        if (tmpl.$('.topic-element').hasClass('focus')) {   // guard against multiple nested calls
+            return;
+        }
         tmpl.$('.topic-element').addClass('focus');
         showHideItemInput(tmpl);
     },
 
     'blur .topic-element'(evt, tmpl) {
+        if (! tmpl.$('.topic-element').hasClass('focus')) { // guard against multiple nested calls
+            return;
+        }
         if (savingNewItem) {
             savingNewItem = false;
             return;
@@ -168,15 +170,9 @@ Template.topicElement.events({
         const topicElement = tmpl.find('.topic-element');
         if (!nextElement || !topicElement.contains(nextElement)) {
             tmpl.$('.topic-element').removeClass('focus');
-            Meteor.setTimeout(() => { showHideItemInput(tmpl, false); }, 500);
+            // Meteor.setTimeout(() => { showHideItemInput(tmpl, false); }, 500);
+            showHideItemInput(tmpl, false);
         }
-    },
-
-    'click .addItemLink'(evt, tmpl) {
-        evt.preventDefault();
-        showHideItemInput(tmpl, true, () => {
-            tmpl.$('.addItemForm textarea').focus();
-        });
     },
 
     'click #btnDelTopic'(evt) {
