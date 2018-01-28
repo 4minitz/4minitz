@@ -14,6 +14,7 @@ describe('LDAP', function () {
     };
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
@@ -49,14 +50,14 @@ describe('LDAP', function () {
         E2EApp.logoutUser();
 
         E2EGlobal.clickWithRetry('#tab_standard');
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(600);
         if (browser.isVisible('#at-forgotPwd')) {
             E2EApp.resetPassword('ldapUser1@example.com');
-            E2EGlobal.waitSomeTime(500);
-            expect('.at-error .alert .alert-danger').to.be.visible;
+            E2EGlobal.waitSomeTime(1500);
+            expect(browser.isVisible('.at-error'), 'Error should be visible').to.be.true;
         }
         else {
-            expect('#at-forgotPwd').not.to.be.visible;
+            expect(browser.isVisible('#at-forgotPwd'), 'Change password should be invisible').to.be.false;
         }
     });
 

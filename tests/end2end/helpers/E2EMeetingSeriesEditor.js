@@ -19,12 +19,12 @@ export class E2EMeetingSeriesEditor {
         E2EGlobal.clickWithRetry("#btnShowHideBaseConfig", 3000);
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
-        if (panelName && panelName != "base") {
+        if (panelName && panelName !== "base") {
             let panelSelector = "";
-            if (panelName == "invited") {
+            if (panelName === "invited") {
                 panelSelector = "#btnShowHideInvitedUsers";
             }
-            else if (panelName == "labels") {
+            else if (panelName === "labels") {
                 panelSelector = "#btnShowHideLabels";
             } else {
                 throw "Unsupported panelName: " + panelName;
@@ -101,7 +101,7 @@ export class E2EMeetingSeriesEditor {
             let elementsTD = browser.elementIdElements(elemTRId, "td");
             let usrName = browser.elementIdText(elementsTD.value[colNumUser].ELEMENT).value;
             let elementsDelete = browser.elementIdElements(elementsTD.value[colNumDelete].ELEMENT, "#btnDeleteUser");
-            let usrIsDeletable = elementsDelete.value.length == 1;
+            let usrIsDeletable = elementsDelete.value.length === 1;
             let usrDeleteElemId = usrIsDeletable ? elementsDelete.value[0].ELEMENT : "0";
 
             // for the current user usrRole already contains his read-only role string "Moderator"

@@ -41,22 +41,31 @@ export class E2EMeetingSeries {
         E2EGlobal.waitSomeTime();
 
         E2EGlobal.clickWithRetry('#btnAddInvite');
-        E2EGlobal.waitSomeTime(1000);  // additional time for deferred dialog open + panel switch!
-
+        E2EGlobal.logTimestamp("will open MS Editor");
+        try {
+            browser.waitForVisible('#btnMeetinSeriesEditCancel', 5000); // will check every 500ms
+            E2EGlobal.logTimestamp("is open: MS Editor");
+        } catch (e) {
+            E2EGlobal.logTimestamp("could not open: MS Editor");
+            if (keepOpenMSEditor) {
+                throw e;
+            }
+        }
+        E2EGlobal.waitSomeTime(1000);  // additional time for panel switch!
         let meetingSeriesID = browser.getUrl();
         meetingSeriesID = meetingSeriesID.replace(/^.*\//, "");
         meetingSeriesID = meetingSeriesID.replace(/\?.*$/, "");
 
         if (! keepOpenMSEditor) {
-            E2EGlobal.waitSomeTime(2500);  // sporadic e2e Travis failures
-            E2EGlobal.saveScreenshot("createMeetingSeries_5");
-            E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
-            E2EGlobal.saveScreenshot("createMeetingSeries_6");
-            E2EGlobal.waitSomeTime(2500);  // sporadic e2e Travis failures
-            E2EGlobal.saveScreenshot("createMeetingSeries_7");
+            if (browser.isVisible('#btnMeetinSeriesEditCancel')) {
+                E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
+                browser.waitForVisible('#btnMeetinSeriesEditCancel', 4000, true); // will check for IN-VISIBLE!
+            } else {
+                // if for miracoulous reasons the MS editor is already gone - we will try to continue...
+                E2EGlobal.logTimestamp("MS Editor is closed by miracle. Continue.");
+            }
             E2EApp.gotoStartPage();
         }
-
         return meetingSeriesID;
     };
 
