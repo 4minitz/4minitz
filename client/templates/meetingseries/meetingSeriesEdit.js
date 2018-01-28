@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { Mongo } from 'meteor/mongo';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 import { handleError } from '/client/helpers/handleError';

@@ -1,4 +1,4 @@
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import {FlashMessage} from './helpers/flashMessage';
 import { Accounts } from 'meteor/accounts-base';
