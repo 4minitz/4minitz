@@ -59,7 +59,7 @@ export class E2EMeetingSeries {
         if (! keepOpenMSEditor) {
             if (browser.isVisible('#btnMeetinSeriesEditCancel')) {
                 E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
-                browser.waitForVisible('#btnMeetinSeriesEditCancel', 5000, true); // will check for IN-VISIBLE!
+                browser.waitForVisible('#btnMeetinSeriesEditCancel', 4000, true); // will check for IN-VISIBLE!
             }
             // if for miracoulous reasons the MS editor is already gone - we will try to continue...
             browser.waitForVisible('#btnAddMinutes', 5000); // will check every 500ms
