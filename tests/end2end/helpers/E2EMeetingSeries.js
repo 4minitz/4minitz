@@ -42,9 +42,11 @@ export class E2EMeetingSeries {
 
 //        E2EGlobal.saveScreenshot("createMeetingSeries_1");
         E2EGlobal.clickWithRetry('#btnAddInvite');
-        browser.waitForVisible('#btnMeetinSeriesEditCancel', 10000); // will check every 500ms
+        E2EGlobal.logTimestamp("will open MS Editor");
+        browser.waitForVisible('#btnMeetinSeriesEditCancel', 15000); // will check every 500ms
+        E2EGlobal.logTimestamp("is open: MS Editor");
 //        E2EGlobal.saveScreenshot("createMeetingSeries_2");
-        E2EGlobal.waitSomeTime(1000);  // additional time for deferred dialog open + panel switch!
+        E2EGlobal.waitSomeTime(1000);  // additional time for panel switch!
         E2EGlobal.saveScreenshot("createMeetingSeries_3");
 
         let meetingSeriesID = browser.getUrl();
@@ -54,9 +56,8 @@ export class E2EMeetingSeries {
         if (! keepOpenMSEditor) {
 //            E2EGlobal.saveScreenshot("createMeetingSeries_4");
             E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
+            browser.waitForVisible('#btnMeetinSeriesEditCancel', 15000, true); // will check for IN-VISIBLE!
 //            E2EGlobal.saveScreenshot("createMeetingSeries_6");
-            E2EGlobal.waitSomeTime(2500);  // sporadic e2e Travis failures
-//            E2EGlobal.saveScreenshot("createMeetingSeries_7");
             E2EApp.gotoStartPage();
 //            E2EGlobal.saveScreenshot("createMeetingSeries_8");
         }

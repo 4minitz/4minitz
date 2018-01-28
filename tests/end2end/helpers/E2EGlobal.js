@@ -118,6 +118,18 @@ export class E2EGlobal {
         return yyyy+"-"+mm+"-"+dd;
     };
 
+    static formatTimeISO8601 (aDate) {
+        let isoString = '';
+
+        try {
+            let tzoffset = aDate.getTimezoneOffset() * 60000; //offset in milliseconds
+            isoString = (new Date(aDate - tzoffset)).toISOString().substr(0,19).replace('T',' ');   // YYYY-MM-DD hh:mm:ss
+        } catch (e) {
+            isoString = 'NaN-NaN-NaN 00:00:00';
+        }
+        return isoString;
+    };
+
     static browserName() {
         if (browser &&
             browser._original &&
@@ -202,6 +214,10 @@ export class E2EGlobal {
 
             E2EGlobal.saveScreenshot(`keys-with-pause-${i}`);
         }
+    }
+
+    static logTimestamp(text) {
+        console.log('---', E2EGlobal.formatTimeISO8601(new Date()), text);
     }
 }
 

@@ -67,6 +67,7 @@ before(function() {
 
 afterEach(function() {
     if (this.currentTest && this.currentTest.state !== 'passed') {
+        E2EGlobal.logTimestamp("TEST FAILED");
         console.log('!!! FAILED: ', this.currentTest.title, this.currentTest.state);
         console.log('!!! Saving POST-MORTEM SCREENSHOT:');
         console.log("!!! ", E2EGlobal.saveScreenshot(`FAILED_POST-MORTEM`));
