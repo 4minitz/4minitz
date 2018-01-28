@@ -26,6 +26,7 @@ addons:
       - $(ls ./tests/mongodump/meteor/* | tr "\n" ":")
       - ./server.log
       - ./client.log
+      - $(ls ./versions/* | tr "\n" ":")
   apt:
     sources:
       - ubuntu-toolchain-r-test

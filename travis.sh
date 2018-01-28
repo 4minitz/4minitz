@@ -52,4 +52,10 @@ cat server.log
 mkdir tests/mongodump
 mongodump -h localhost:3101 -d meteor -o ./tests/mongodump
 
+# archive versions
+mkdir versions
+npm ls > ./versions/npm.txt
+chrome --version > ./versions/chrome.txt
+chimp --version > ./versions/chimp.txt
+
 exit $CHIMP_RESULT
