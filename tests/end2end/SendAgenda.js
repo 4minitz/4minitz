@@ -14,6 +14,7 @@ describe('Send agenda', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.launchApp();
         E2EApp.resetMyApp(true);
     });

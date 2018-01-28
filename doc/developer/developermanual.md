@@ -61,7 +61,9 @@ to execute unit tests run
 
 End-to-End tests are stored in directory ```tests/end2end/``` 
 and use the [chimp package](https://chimp.readme.io), 
-which first needs to be installed globally (`sudo npm install -g chimp`).
+which first needs to be installed globally (`sudo npm install -g chimp` - if this 
+makes problems like `Error: EACCES: permission denied, mkdir`, then try:
+ `sudo npm install -g chimp --unsafe-perm=true --allow-root`).
 Hint: The chimp package needs an installed Chrome browser.
 To run the e2e tests, you need to run the server in "end2end" mode. 
 

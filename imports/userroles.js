@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Roles } from 'meteor/alanning:roles';
 import  './collections/userroles_private';
 import { MeetingSeries } from './meetingseries';

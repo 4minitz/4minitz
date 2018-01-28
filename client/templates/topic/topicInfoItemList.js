@@ -23,6 +23,7 @@ import { Blaze } from 'meteor/blaze';
 import {IsEditedService} from '../../../imports/services/isEditedService';
 import {formatDateISO8601Time} from '../../../imports/helpers/date';
 import {isEditedHandling} from '../../helpers/isEditedHelpers';
+import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 
 const INITIAL_ITEMS_LIMIT = 4;
 

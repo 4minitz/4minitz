@@ -8,7 +8,7 @@ import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import { Minutes } from '/imports/minutes';
 import { MinutesFinder } from '/imports/services/minutesFinder';

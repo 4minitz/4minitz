@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import {IsEditedService} from '../../../imports/services/isEditedService';
 import { Session } from 'meteor/session';

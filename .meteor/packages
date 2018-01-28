@@ -40,9 +40,7 @@ rcy:pick-a-color
 meteorhacks:subs-manager
 babrahams:accounts-ldap
 shell-server@0.3.0
-kadira:flow-router
 kadira:blaze-layout
-arillo:flow-router-helpers
 
 # Important: ostrio:files must be added after accounts package
 jagi:astronomy
@@ -50,3 +48,4 @@ mouse0270:bootstrap-notify
 dynamic-import@0.2.0
 ostrio:files
 msavin:mongol
+ostrio:flow-router-extra

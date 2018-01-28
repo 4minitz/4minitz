@@ -24,6 +24,7 @@ describe('Attachments', function () {
     };
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
 
@@ -78,7 +79,7 @@ describe('Attachments', function () {
         // wrong extension
         let fileWithDeniedExtension = _localPublicDir + "loading-gears.gif";
         E2EAttachments.uploadFile(fileWithDeniedExtension);
-        E2EApp.confirmationDialogCheckMessage("Error: Denied file extension.");
+        E2EApp.confirmationDialogCheckMessage("Error: Denied file extension: \"gif\".");
         E2EApp.confirmationDialogAnswer(true);
 
         // to big file size
