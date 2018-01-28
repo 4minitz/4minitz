@@ -36,7 +36,7 @@ export class E2EAttachments {
         } else {
             browser.chooseFile("#btnUploadAttachment", filename);
         }
-        E2EGlobal.waitSomeTime(250);
+        E2EGlobal.waitSomeTime(500);
     }
 
     static getChromeDownloadDirectory() {
