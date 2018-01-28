@@ -172,7 +172,8 @@ export class E2EGlobal {
     static saveScreenshot(filename) {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
         filename = (!filename) ? dateStr : dateStr + "_" + filename;
-        browser.saveScreenshot('./tests/snapshots/' + filename + ".png");
+        let fullpath = './tests/snapshots/' + filename + ".png";
+        browser.saveScreenshot(fullpath);
 
         const weAreOnTravis = !!process.env.TRAVIS;
         if (weAreOnTravis) {
@@ -183,6 +184,7 @@ export class E2EGlobal {
 
             console.log('Screenshot taken: ', url);
         }
+        return fullpath;
     }
 
     static sendKeysWithPause(...keysAndPauses) {
