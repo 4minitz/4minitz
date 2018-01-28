@@ -60,10 +60,10 @@ export class E2EMeetingSeries {
             if (browser.isVisible('#btnMeetinSeriesEditCancel')) {
                 E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
                 browser.waitForVisible('#btnMeetinSeriesEditCancel', 4000, true); // will check for IN-VISIBLE!
+            } else {
+                // if for miracoulous reasons the MS editor is already gone - we will try to continue...
+                E2EGlobal.logTimestamp("MS Editor is closed by miracle. Continue.");
             }
-            // if for miracoulous reasons the MS editor is already gone - we will try to continue...
-            browser.waitForVisible('#btnAddMinutes', 5000); // will check every 500ms
-            E2EGlobal.logTimestamp("MS Editor is closed. Continue.");
             E2EApp.gotoStartPage();
         }
         return meetingSeriesID;
