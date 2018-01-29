@@ -126,37 +126,42 @@ const openAddItemDialog = (itemType, topicId) => {
     Session.set('topicInfoItemEditTopicId', topicId);
     Session.set('topicInfoItemType', itemType);
 };
-const showHideItemInput = (tmpl, show = true) => {
+const showHideItemInput = (tmpl, show = true, then = () => {}) => {
     if (!isFeatureShowItemInputFieldOnDemandEnabled()) {
         return;
     }
 
-    tmpl.$('.addItemForm').css('display', (show) ? 'block' : 'none');
+    const addItemEl = tmpl.$('.addItemForm');
     if (show) {
-        resizeTextarea(tmpl.$('.add-item-field'));
+        addItemEl.show(250);
+        Meteor.setTimeout(() => {
+            resizeTextarea(tmpl.$('.add-item-field'));
+            then();
+            Meteor.setTimeout(() => {
+                tmpl.$('.add-item-field').focus();
+            },50);
+        }, 300);
+    } else {
+        addItemEl.hide(250);
     }
 };
 
 let savingNewItem = false;
 
 Template.topicElement.events({
-    'mouseover .topic-element'(evt, tmpl) {
-        showHideItemInput(tmpl);
-    },
-    'mouseout .topic-element'(evt, tmpl) {
-        const activeElement = document.activeElement;
-        const topicElement = tmpl.find('.topic-element');
-        if (!activeElement || !topicElement.contains(activeElement)) {
-            showHideItemInput(tmpl, false);
-        }
-    },
 
     'focus .topic-element'(evt, tmpl) {
+        if (tmpl.$('.topic-element').hasClass('focus')) {   // guard against multiple nested calls
+            return;
+        }
         tmpl.$('.topic-element').addClass('focus');
         showHideItemInput(tmpl);
     },
 
     'blur .topic-element'(evt, tmpl) {
+        if (! tmpl.$('.topic-element').hasClass('focus')) { // guard against multiple nested calls
+            return;
+        }
         if (savingNewItem) {
             savingNewItem = false;
             return;
@@ -165,7 +170,8 @@ Template.topicElement.events({
         const topicElement = tmpl.find('.topic-element');
         if (!nextElement || !topicElement.contains(nextElement)) {
             tmpl.$('.topic-element').removeClass('focus');
-            Meteor.setTimeout(() => { showHideItemInput(tmpl, false); }, 500);
+            // Meteor.setTimeout(() => { showHideItemInput(tmpl, false); }, 500);
+            showHideItemInput(tmpl, false);
         }
     },
 
@@ -306,6 +312,7 @@ Template.topicElement.events({
     },
 
     'keydown #btnTopicExpandCollapse'(evt) {
+        evt.preventDefault();
         // since we do not have a link-href the link will not be clicked when hitting enter by default...
         if (evt.which === 13/*enter*/) {
             evt.currentTarget.click();
