@@ -44,6 +44,7 @@ export class E2EApp {
             E2EGlobal.waitSomeTime();
         }
         E2EApp._currentlyLoggedInUser = "";
+        E2EGlobal.waitSomeTime(); // give title change time to settle
         expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
     };
 
@@ -160,6 +161,7 @@ export class E2EApp {
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
+        E2EGlobal.waitSomeTime(); // give title change time to settle
         const title = browser.getTitle();
         if (title !== E2EApp.titlePrefix) {
             throw new Error(`App not loaded. Unexpected title ${title}. Please run app with 'meteor npm run test:end2end:server'`);
@@ -201,6 +203,7 @@ export class E2EApp {
         if (! E2EApp.isOnStartPage()) {
             E2EGlobal.saveScreenshot("gotoStartPage2");
         }
+        E2EGlobal.waitSomeTime(); // give title change time to settle
         expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
         expect(E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
     };
