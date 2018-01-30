@@ -7,6 +7,7 @@ import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory
 
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
+import { User } from '/imports/user';
 import { Attachment } from '/imports/attachment';
 import { msToHHMMSS, formatDateISO8601Time } from '/imports/helpers/date';
 
@@ -113,8 +114,8 @@ Template.minutesAttachments.helpers({
 
     uploaderUsername() {
         let file = this.fetch()[0]; // this is an attachment cursor in this context, so get "first" object of array
-        let usr = Meteor.users.findOne(file.userId);
-        return usr.username;
+        let usr = new User(file.userId);
+        return usr.profileNameWithFallback();
     },
 
     uploadTimestamp() {

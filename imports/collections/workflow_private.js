@@ -5,6 +5,7 @@ import { Minutes } from '../minutes';
 import { MeetingSeries } from '../meetingseries';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from './../userroles';
+import { User } from './../user';
 import { MeetingSeriesSchema } from './meetingseries.schema';
 import { MinutesSchema } from './minutes.schema';
 import { AttachmentsCollection } from './attachments_private';
@@ -64,7 +65,7 @@ Meteor.methods({
 
         doc.isFinalized = false;
         doc.createdAt = new Date();
-        doc.createdBy = Meteor.user().username;
+        doc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
         delete doc.finalizedAt;
         doc.finalizedVersion = 0;
         doc.finalizedHistory = [];

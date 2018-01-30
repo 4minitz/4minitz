@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Minutes } from '../minutes';
 import { UserRoles } from './../userroles';
+import { User } from '../user';
 import { MinutesSchema } from './minutes.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
@@ -115,7 +116,7 @@ Meteor.methods({
         }
 
         doc.updatedAt = new Date();
-        doc.updatedBy = Meteor.user().username;
+        doc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
 
         let modifierDoc = {};
         for (let property in doc) {
@@ -164,9 +165,9 @@ Meteor.methods({
 
             doc.createdInMinute = minutesId;
             doc.createdAt = new Date();
-            doc.createdBy = Meteor.user().username;
+            doc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
             doc.updatedAt = new Date();
-            doc.updatedBy = Meteor.user().username;
+            doc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
 
             let topicModifier = {
                 topics: {
@@ -241,7 +242,7 @@ Meteor.methods({
             if (participant.text.toLowerCase().includes(partialName.toLowerCase())) {
                 participant['isParticipant'] = true;
                 results_participants.push(participant);
-                let name = participant.text.split(/[ - ]/);
+                let name = participant.text.split(" - ");
                 foundPartipantsNames.push(name[0]);
             }
         });

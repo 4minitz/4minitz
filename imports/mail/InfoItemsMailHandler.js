@@ -1,6 +1,6 @@
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
 import { DocumentGeneration } from '../documentGeneration';
-import { User } from '/imports/user'
+import { User } from '/imports/user';
 
 export class InfoItemsMailHandler extends TopicItemsMailHandler {
 

@@ -5,6 +5,7 @@ import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
+import { User } from '/imports/user';
 import { FinalizeMailHandler } from '/imports/mail/FinalizeMailHandler';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { formatDateISO8601Time } from '/imports/helpers/date';
@@ -104,7 +105,7 @@ Meteor.methods({
 
         let doc = {
             finalizedAt: new Date(),
-            finalizedBy: Meteor.user().username,
+            finalizedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
             isFinalized: true,
             finalizedVersion: version
         };
@@ -144,7 +145,7 @@ Meteor.methods({
 
         let doc = {
             finalizedAt: new Date(),
-            finalizedBy: Meteor.user().username,
+            finalizedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
             isFinalized: false
         };
 

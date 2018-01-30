@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { User } from '/imports/user'
+import { User } from '/imports/user';
 
 export class ResponsibleResolver {
 

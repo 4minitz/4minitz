@@ -24,6 +24,7 @@ import {IsEditedService} from '../../../imports/services/isEditedService';
 import {formatDateISO8601Time} from '../../../imports/helpers/date';
 import {isEditedHandling} from '../../helpers/isEditedHelpers';
 import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
+import { User } from '/imports/user';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -476,6 +477,7 @@ Template.topicInfoItemList.events({
 
         let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
 
+        // Attention: .isEditedBy and .isEditedDate may be null!
         if ((aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined && aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined)) {
             let unset = function () {
                 IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
@@ -484,7 +486,7 @@ Template.topicInfoItemList.events({
             let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[detailIndex].isEditedBy});
 
             let tmplData = {
-                isEditedBy: user.username,
+                isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
                 isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate)
             };
 

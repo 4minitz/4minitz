@@ -16,7 +16,7 @@ describe('MeetingSeries', function () {
         E2EApp.launchApp();
     });
 
-    it('can create a first meeting series', function () {
+    it('can create a first meeting series @watch', function () {
         const aProjectName = "E2E Project";
         const aMeetingName = "Meeting Name #1";
         const initialCount = E2EMeetingSeries.countMeetingSeries();

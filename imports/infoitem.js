@@ -8,7 +8,7 @@ import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import { Random } from 'meteor/random';
-
+import { User } from '/imports/user';
 export class InfoItem {
 
     constructor(parentTopic, source) {
@@ -89,9 +89,9 @@ export class InfoItem {
             _id: Random.id(),
             createdInMinute: minuteId,
             createdAt: new Date(),
-            createdBy: Meteor.user().username,
+            createdBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
             updatedAt: new Date(),
-            updatedBy: Meteor.user().username,
+            updatedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
             date: date,
             text: text,
             isNew: true
@@ -111,7 +111,7 @@ export class InfoItem {
             this._infoItemDoc.details[index].date = formatDateISO8601(new Date());
             this._infoItemDoc.details[index].text = text;
             this._infoItemDoc.details[index].updatedAt = new Date();
-            this._infoItemDoc.details[index].updatedBy = Meteor.user().username;
+            this._infoItemDoc.details[index].updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
         }
     }
 
@@ -143,13 +143,14 @@ export class InfoItem {
     }
 
     async saveAsync(insertPlacementTop = true) {
-        // caution: this will update the entire topics array from the parent minutes of the parent topic!
+        // caution: this will update the entire topics array from
+        // the parent minutes of the parent topic!
         if (!this._infoItemDoc._id) { // it is a new one
             this._infoItemDoc.createdAt = new Date();
-            this._infoItemDoc.createdBy = Meteor.user().username;
+            this._infoItemDoc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
         }
         this._infoItemDoc.updatedAt = new Date();
-        this._infoItemDoc.updatedBy = Meteor.user().username;
+        this._infoItemDoc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
         this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(this._infoItemDoc, true, insertPlacementTop);
     }
 
