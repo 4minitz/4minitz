@@ -132,13 +132,18 @@ const showHideItemInput = (tmpl, show = true, then = () => {}) => {
     }
 
     const addItemEl = tmpl.$('.addItemForm');
+    const theItemTextarea = tmpl.$('.add-item-field');
     if (show) {
         addItemEl.show(250);
         Meteor.setTimeout(() => {
-            resizeTextarea(tmpl.$('.add-item-field'));
+            resizeTextarea(theItemTextarea);
             then();
+
             Meteor.setTimeout(() => {
-                tmpl.$('.add-item-field').focus();
+                // only focus, if parent topic element fits in view port
+                if (tmpl.$('.topic-element').outerHeight() < window.innerHeight) {
+                    theItemTextarea.focus();
+                }
             },50);
         }, 300);
     } else {
@@ -262,7 +267,8 @@ Template.topicElement.events({
             throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
         }
 
-        const inputText = tmpl.find('.add-item-field').value;
+        const theItemTextarea = tmpl.find('.add-item-field');
+        const inputText = theItemTextarea.value;
 
         if (inputText === '') {
             return;
@@ -286,12 +292,14 @@ Template.topicElement.events({
             newItem.addDetails(this.minutesID, detail);
         }
         newItem.saveAtBottom().catch(error => {
-            tmpl.find('.add-item-field').value = inputText; // set desired value again!
+            theItemTextarea.value = inputText; // set desired value again!
             handleError(error);
         });
-        tmpl.find('.add-item-field').value = '';
-        tmpl.$('.add-item-field').focus();
-        resizeTextarea(tmpl.$('.add-item-field'));
+
+        // Clean & focus for next usage after saving last item
+        theItemTextarea.value = '';
+        resizeTextarea(theItemTextarea);
+        theItemTextarea.focus();
 
         let collapseState = Session.get('minutesedit.collapsetopics.'+_minutesId);
         if (!collapseState) {
