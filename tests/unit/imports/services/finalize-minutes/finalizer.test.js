@@ -210,7 +210,8 @@ describe('workflow.finalizeMinute', function () {
         verifyPropertyOfMinutesUpdate(minutes, 'isFinalized', true);
     });
 
-    xit('sets the finalizedBy property to the user that is currently logged in', function () {
+    it('sets the finalizedBy property to the user that is currently logged in', function () {
+        User.PROFILENAMEWITHFALLBACK.returns(user.username);
         finalizeMeteorMethod(minutes._id);
         verifyPropertyOfMinutesUpdate(minutes, 'finalizedBy', user.username);
     });
@@ -361,7 +362,7 @@ describe('workflow.unfinalizeMinute', function () {
         }
     });
 
-    xit('sets the finalizedBy property to the user that is currently logged in', function () {
+    it('sets the finalizedBy property to the user that is currently logged in', function () {
         unfinalizeMeteorMethod(minutes._id);
         verifyPropertyOfMinutesUpdate(minutes, 'finalizedBy', user.username);
     });
