@@ -126,6 +126,7 @@ const openAddItemDialog = (itemType, topicId) => {
     Session.set('topicInfoItemEditTopicId', topicId);
     Session.set('topicInfoItemType', itemType);
 };
+
 const showHideItemInput = (tmpl, show = true, then = () => {}) => {
     if (!isFeatureShowItemInputFieldOnDemandEnabled()) {
         return;
@@ -155,7 +156,12 @@ let savingNewItem = false;
 
 Template.topicElement.events({
 
-    'focus .topic-element'(evt, tmpl) {
+    'click .topic-element'(evt, tmpl) {
+        // return if the current target is not the original target of the event
+        if (evt.currentTarget.getAttribute('class') !== evt.target.getAttribute('class')) {
+            return;
+        }
+
         if (tmpl.$('.topic-element').hasClass('focus')) {   // guard against multiple nested calls
             return;
         }
@@ -296,17 +302,19 @@ Template.topicElement.events({
             handleError(error);
         });
 
-        // Clean & focus for next usage after saving last item
-        theItemTextarea.value = '';
-        resizeTextarea(theItemTextarea);
-        theItemTextarea.focus();
-
         let collapseState = Session.get('minutesedit.collapsetopics.'+_minutesId);
         if (!collapseState) {
             collapseState = {};
         }
         collapseState[this.topic._id] = false;
         Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
+
+        // Clean & focus for next usage after saving last item
+        theItemTextarea.value = '';
+        resizeTextarea(theItemTextarea);
+        Meteor.setTimeout(() => {
+                theItemTextarea.focus();
+        },100);
     },
 
     'keydown .addItemForm' (evt, tmpl) {
