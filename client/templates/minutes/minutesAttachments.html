@@ -5,10 +5,10 @@
     <div class="panel-heading bright">
         <label for="attachments" id="btnAttachmentsExpand">
             {{#if isAttachmentsExpanded}}
-                <span class="glyphicon glyphicon-triangle-bottom expand-collapse-triangle hidden-print"
+                <span class="fa fa-caret-down larger-icon expand-collapse-triangle hidden-print"
                       id="btn2AttachmentsExpand"></span>
             {{else}}
-                <span class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"
+                <span class="fa fa-caret-right larger-icon expand-collapse-triangle hidden-print"
                       id="btn2AttachmentsExpand"></span>
             {{/if}}
 
@@ -28,13 +28,13 @@
                         Uploading <b>{{file.name}}</b>
                         <button id="btnToggleUpload" type="button" class="btn btn-primary btn-info">
                             {{#if onPause.get}}
-                                <span class="glyphicon glyphicon-play" aria-label="Continue Upload"></span>
+                                <span class="fa fa-play" aria-label="Continue Upload"></span>
                             {{else}}
-                                <span class="glyphicon glyphicon-pause" aria-label="Pause Upload"></span>
+                                <span class="fa fa-pause" aria-label="Pause Upload"></span>
                             {{/if}}
                         </button>
                         <button id="btnAbortUpload" type="button" class="btn btn-primary btn-warning">
-                            <span class="glyphicon glyphicon-remove" aria-label="Abort Upload"></span>
+                            <span class="fa fa-times" aria-label="Abort Upload"></span>
                         </button>
                         {{timeToFinish}}
                     </h3>
@@ -45,7 +45,7 @@
                     <!--UPLOAD... button-->
                     {{#if showUploadButton}}
                         <label id="lblUpload" class="btn btn-default btn-file hidden-print">
-                            <span class="glyphicon glyphicon-upload" aria-label="Start Upload"></span>
+                            <span class="fa fa-upload" aria-label="Start Upload"></span>
                             Upload...
                             <input type="file" id="btnUploadAttachment" style="display: none;">
                         </label>

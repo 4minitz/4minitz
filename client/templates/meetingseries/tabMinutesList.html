@@ -5,7 +5,7 @@
             <!-- "Create New Minutes" button for "Moderators"-->
             <fieldset {{addMinutesDisabled}}>   <!-- dynamically set disabled=true -->
                 <button id="btnAddMinutes" class="btn btn-success btn-raised">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Create New Minutes"></span>
+                    <span class="fa fa-plus" aria-hidden="true" aria-label="Create New Minutes"></span>
                     Create New Minutes
                 </button>
             </fieldset>
@@ -14,7 +14,7 @@
             <div class="pull-right">
                 <!-- "Leave Meeting Series" button for "Invited"-->
                 <a id="btnLeaveMeetingSeries" class="btn btn-default btn-raised">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="Leave Meeting Series"></span>
+                    <span class="fa fa-times" aria-hidden="true" aria-label="Leave Meeting Series"></span>
                     Leave Meeting Series
                 </a>
             </div>
@@ -27,7 +27,7 @@
                 <td style="width: 5%;">Date</td>
                 <td style="width: 5%;">
                     <span class="hidden-xs">Finalized</span>
-                    <span class="glyphicon glyphicon-ok visible-xs" aria-hidden="true" aria-label="Finalized"></span>
+                    <span class="fa fa-check visible-xs" aria-hidden="true" aria-label="Finalized"></span>
                 </td>
                 <td>Participants</td>
             </thead>
@@ -42,17 +42,17 @@
                 </td>
                 <td style="vertical-align: top; white-space: nowrap;">
                     {{#if isFinalized}}
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Minutes are finalized."
+                        <span class="fa fa-check" aria-hidden="true" title="Minutes are finalized."
                               aria-label="Finalized"></span>
                         V{{finalizedVersion}}
                         ({{finalizedBy}})
                     {{else}}
-                        <span class="glyphicon glyphicon-exclamation-sign" title="Minutes are not finalized."
+                        <span class="fa fa-exclamation-circle" title="Minutes are not finalized."
                               aria-hidden="true" aria-label="Finalized"></span>
                         V{{finalizedVersion}}
                     {{/if}}
                     {{#if hasAttachments}}
-                        <span class="glyphicon glyphicon-paperclip" title="Minutes have attachments."
+                        <span class="fa fa-paperclip" title="Minutes have attachments."
                               aria-hidden="true" aria-label="HasAttachments"></span>
                     {{/if}}
                 </td>

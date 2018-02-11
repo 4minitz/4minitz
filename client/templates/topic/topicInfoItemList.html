@@ -12,9 +12,9 @@
                            href="#collapse-{{infoItem._id}}"
                            style="position: absolute; top:0; left: 0; color: grey;">
                             {{#if isExpanded infoItem._id}}
-                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                <span class="fa fa-caret-down larger-icon" aria-hidden="true"></span>
                             {{else}}
-                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                                <span class="fa fa-caret-right larger-icon" aria-hidden="true"></span>
                             {{/if}}
                         </a>
                     {{/if}}
@@ -27,7 +27,7 @@
                                            id="btnToggleAIState_{{infoItem._id}}" {{checkedState @index}} {{disabledState @index}}>
                                     <span class="checkbox-material"><span class="check"></span></span>
                                 {{else}}
-                                    <span class="glyphicon glyphicon-info-sign" style="cursor: auto"></span>
+                                    <span class="fa fa-info-circle" style="cursor: auto"></span>
                                 {{/if}}
                             </label>
 
@@ -54,7 +54,7 @@
 
                             {{#if showLinks}}
                                 <span class="pull-right">
-                                    <span class="linkMeetingSerie glyphicon glyphicon-menu-right"></span>
+                                    <span class="linkMeetingSerie fa fa-chevron-right"></span>
                                     <a class="linkMeetingSerie" href="{{getLink @index}}">Meeting series</a>
                                 </span>
                             {{/if}}
@@ -64,19 +64,19 @@
                                 {{#unless isReadonly}}
                                     <a  id="btnItemDropdownMenu" class="panel-dropper dropdown-toggle"
                                        data-toggle="dropdown">
-                                        <span class="glyphicon glyphicon-option-vertical"></span>
+                                        <span class="fa fa-ellipsis-v"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a  class="addDetail panel-link" title="Add details to item" data-index="{{@index}}">
-                                                <span class="glyphicon glyphicon-plus"></span>
+                                                <span class="fa fa-plus"></span>
                                                 Add Details
                                             </a>
                                         </li>
                                         <li class="divider"></li>
                                         <li>
                                             <a  class="btnEditInfoItem panel-link" title="Edit item" data-index="{{@index}}">
-                                                <span class="glyphicon glyphicon-pencil"></span>
+                                                <span class="fa fa-pencil"></span>
                                                 Edit Item
                                             </a>
                                         </li>
@@ -92,14 +92,14 @@
                                                 <a  class="btnPinInfoItem panel-link"
                                                    data-index="{{@index}}"
                                                    title="{{#if infoItem.isSticky}}Set as non-pinned info item{{else}}Set as pinned info item{{/if}}">
-                                                    <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
+                                                    <span class="fa fa-map-pin {{#if infoItem.isSticky}}active-icon{{else}}not-sticky-item grey-icon{{/if}}"></span>
                                                     {{#if infoItem.isSticky}}Unset{{else}}Set{{/if}} Pinned
                                                 </a>
                                             </li>
                                         {{/if}}
                                         <li>
                                             <a id="btnDelInfoItem"  data-index="{{@index}}" class="panel-link" title="Delete item">
-                                                <span class="glyphicon glyphicon-trash"></span>
+                                                <span class="fa fa-trash-alt"></span>
                                                 Delete Item
                                             </a>
                                         </li>
@@ -108,12 +108,12 @@
 
                                 {{#if infoItem.isSticky}}
                                     <a  class="panel-link btnPinInfoItem" title="Set as unpinned info item" data-index="{{@index}}">
-                                        <span class="glyphicon glyphicon-pushpin sticky-item active-icon"></span>
+                                        <span class="fa fa-map-pin active-icon"></span>
                                     </a>
                                 {{/if}}
 
                                 {{#unless isReadonly}}
-                                    <span class="itemDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
+                                    <span class="itemDragDropHandle dragDropHandle fa fa-arrows-alt-v"></span>
                                 {{/unless}}
                             </span>
                         </div>
@@ -136,8 +136,8 @@
                                         <span id="detailActions_{{itemId}}_{{@index}}"
                                               class="pull-right pull-right-icons detailActions"
                                               style="display: none;">
-                                            <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"></span>
-                                            <span class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
+                                            <span class="detailInputMarkdownHint fa fa-question-circle detailItemIcon"></span>
+                                            <span class="detailInputDelete fa fa-trash-alt detailItemIcon"
                                                 data-id="{{itemId}}_{{@index}}"></span>
                                         </span>
                                         <!-- New-Topic-Label -->
