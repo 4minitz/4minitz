@@ -26,6 +26,7 @@ let updateCheck = function (forceReport) {
             return;
         }
         let masterVersion = result.data.tag;
+        let masterMessage = result.data.message;
         if (semver.lt(myVersion, masterVersion)) {
             // did we already inform about this specific masterVersion?
             let lastReported = ServerCollection.findOne({key: 'lastReportedVersion'});
@@ -40,6 +41,7 @@ let updateCheck = function (forceReport) {
                 console.log('    Your 4Minitz version seems outdated.');
                 console.log('    Your version    : '+myVersion);
                 console.log('    Official version: '+masterVersion);
+                console.log('    Official message: ', masterMessage);
                 console.log('    Please visit: https://github.com/4minitz/4minitz/releases');
                 console.log(' ');
                 ServerCollection.update(
@@ -49,7 +51,7 @@ let updateCheck = function (forceReport) {
                     {upsert: true}
                 );
                 try {
-                    let mailer = new AdminNewVersionMailHandler(myVersion, masterVersion);
+                    let mailer = new AdminNewVersionMailHandler(myVersion, masterVersion, masterMessage);
                     mailer.send();
                 } catch (e) {
                     console.log('Could not send \'New version exists\' eMail.');
