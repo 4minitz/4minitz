@@ -119,7 +119,7 @@ export class E2EMeetingSeries {
                 browser.execute('arguments[0].scrollIntoView();', elements.value[i]);
                 E2EGlobal.waitSomeTime(100);
                 browser.elementIdClick(elemId);
-                E2EGlobal.waitSomeTime();
+                E2EGlobal.waitSomeTime(500);
                 return true;
             }
         }

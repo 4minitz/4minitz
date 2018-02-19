@@ -154,6 +154,7 @@ describe('Minutes Finalize', function () {
     it('removes all fresh info items when finalizing the second minutes', function() {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
+        console.log('removes all fresh#0', aProjectName, aMeetingName);
         let myDate = '2015-03-17';  // date of first project commit ;-)
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
