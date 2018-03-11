@@ -145,7 +145,6 @@ describe('Topics Methods Security', function () {
         E2ESecurity.tryReopenTopic(topicId, min.ms_id, false, 'Not logged in can not reopen a topic');
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.tryReopenTopic(topicId, min.ms_id, true, 'Moderator can reopen a topic');
     });
 
     it('Invited/Informed user can not reopen a topic', function () {
