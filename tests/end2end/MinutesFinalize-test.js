@@ -154,7 +154,6 @@ describe('Minutes Finalize', function () {
     it('removes all fresh info items when finalizing the second minutes', function() {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
-        console.log('removes all fresh#0', aProjectName, aMeetingName);
         let myDate = '2015-03-17';  // date of first project commit ;-)
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
@@ -173,12 +172,9 @@ describe('Minutes Finalize', function () {
             subject: 'New Info Item',
             itemType: 'infoItem'
         }, 1);
-        console.log('removes all fresh#1');
         E2EMinutes.finalizeCurrentMinutes();
 
-        console.log('removes all fresh#2');
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        console.log('removes all fresh#3');
         E2EMeetingSeries.gotoTabTopics();
 
         expect(E2ETopics.countItemsForTopic(1), 'Topic should have two items').to.equal(2);
