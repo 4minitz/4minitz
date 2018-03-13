@@ -152,6 +152,7 @@ describe('Minutes Finalize', function () {
     });
 
     it('removes all fresh info items when unfinalizing the second minutes', function() {
+        this.timeout(150000);
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         console.log('Meeting: ', aProjectName, aMeetingName);
@@ -183,12 +184,12 @@ describe('Minutes Finalize', function () {
         E2EMeetingSeries.gotoTabMinutes();
         E2EMinutes.gotoLatestMinutes();
 
-        console.log('---before unfinalize');
+        E2EGlobal.logTimestamp('before unfinalize');
         E2EMinutes.unfinalizeCurrentMinutes();
 
-        console.log('---before gotoMeetingSeries');
+        E2EGlobal.logTimestamp('before gotoMeetingSeries');
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        console.log('---before gotoTabTopics');
+        E2EGlobal.logTimestamp('before gotoTabTopics');
         E2EMeetingSeries.gotoTabTopics();
 
         expect(E2ETopics.countItemsForTopic(1), 'Topic should have one items').to.equal(1);

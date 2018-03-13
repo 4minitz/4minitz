@@ -20,9 +20,12 @@ describe('MyActionItems Tab', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
+    // **************
+    // ATTENTION!
+    // This test case has expected side effect to next test case!
+    // **************
     it("can filter my action items from all meeting series", function () {
-
-        this.timeout(120000);
+        this.timeout(150000);
 
         let meetingName = aMeetingNameBase + '1';
         E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
