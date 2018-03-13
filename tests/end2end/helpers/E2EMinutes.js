@@ -83,8 +83,10 @@ export class E2EMinutes {
     }
 
     static  unfinalizeCurrentMinutes () {
+        E2EGlobal.waitSomeTime(600);
         browser.waitForVisible('#btn_unfinalizeMinutes');
         E2EGlobal.clickWithRetry('#btn_unfinalizeMinutes');
+        E2EGlobal.waitSomeTime(1000);
     }
 
 
@@ -168,7 +170,7 @@ export class E2EMinutes {
         const firstElementId = elements.value[0].ELEMENT;
 
         browser.elementIdClick(firstElementId);
-        E2EGlobal.waitSomeTime();
+        E2EGlobal.waitSomeTime(500);
     }
 
     static gotoParentMeetingSeries () {

@@ -101,6 +101,7 @@ export class E2EMeetingSeries {
 
     static gotoMeetingSeries (aProj, aName) {
         E2EApp.gotoStartPage();
+        E2EGlobal.waitSomeTime();
 
         let selector = 'li.meeting-series-item a';
         try {
@@ -124,7 +125,6 @@ export class E2EMeetingSeries {
                 if (!currentURL.includes('meetingseries')) {
                     throw new Error('Could not switch to Meeting Series \''+compareText+'\'');
                 }
-
                 return true;
             }
         }

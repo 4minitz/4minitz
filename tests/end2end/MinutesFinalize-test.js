@@ -151,10 +151,11 @@ describe('Minutes Finalize', function () {
         expect(browser.isExisting('#btn_deleteMinutes')).to.be.true;
     });
 
-    it('removes all fresh info items when finalizing the second minutes', function() {
+    it('removes all fresh info items when unfinalizing the second minutes', function() {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
-        let myDate = '2015-03-17';  // date of first project commit ;-)
+        console.log('Meeting: ', aProjectName, aMeetingName);
+        let myDate = '2015-05-14';
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
