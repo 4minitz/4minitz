@@ -12,7 +12,7 @@ env:
     - TEST="unit"
 
 addons:
-  chrome: stable
+  # chrome: stable - don't update chrome! Keep chrome of base image
   artifacts:
     # This uploads all headless screen shots generated with:
     #   browser.saveScreenshot("my-testcase");
