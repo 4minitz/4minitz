@@ -120,6 +120,11 @@ export class E2EMeetingSeries {
                 E2EGlobal.waitSomeTime(100);
                 browser.elementIdClick(elemId);
                 E2EGlobal.waitSomeTime(500);
+                let currentURL = browser.getUrl();
+                if (!currentURL.includes('meetingseries')) {
+                    throw new Error('Could not switch to Meeting Series \''+compareText+'\'');
+                }
+
                 return true;
             }
         }
