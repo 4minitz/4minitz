@@ -1,10 +1,11 @@
 # 4Minitz User Manual
 
+**Be sure to also read our [User FAQ](../faq.md)**
+
+## Table of Content
 <!-- HowTo update table of content -->
 <!--    npm install --save markdown-toc -->
 <!--    markdown-toc -i --maxdepth 2 usermanual.md -->
-
-## Table of Content
 
 <!-- toc -->
 
@@ -141,7 +142,7 @@ the topic menu will allow you to:
 
 * **"Add Info Item"** will add a info item to the topic. An information item is information that is going to be published with your meeting minutes to all invited persons. This feature will be described in the chapter "Take Meeting Minutes"
 * **"Add Action Item"** will add an action item to the topic. An action item is a ToDo that is sent to its responsible. This feature will be described in the chapter "Take Meeting Minutes"
-* **Edit Topic** (or click on topic subject text) will allow the moderator to edit this topic's subject, label or the responsible
+* **"Edit Topic"** (or click on topic subject text) will allow the moderator to edit this topic's subject, label or the responsible
 * **"Set Recurring"** will switch the topic to a recurring topic that will be part of any future meetings
 * **"Set Skip"** will mark a topic as to be skipped. Skipped topics will not be part of the current minute and are hidden for everyone except the moderator. In the next minute a skipped topic will automatically appear as normal.
 * **"Delete Topic"** will delete this topic after a security question
@@ -178,7 +179,8 @@ For details on when topics are propagated to the next meeting see the "Finalize 
 The menu entries in the "three dot" info item menu allow the following operations:
 
 * **"Add Details"** will add details to the item. This feature will be described in the chapter "Adding Details".
-* **Edit Item** will allow the moderator to edit this items properties (like subject, label)
+* **"Edit Item"** will allow the moderator to edit this items properties (like subject, label)
+* **"Convert to Action"** will convert this info item to an action item. But only possible for new items!
 * **"Set Pinned"** will switch the topic to a pinned topic that will be propagated to the next meeting, if the parent topic is also propagated
 * **"Delete Item"** will delete this item after a security question. Info Items from previous meeting can not be deleted - they can only be set to "unpinned" state. So you will get rid of them in the next meeting. 
   
@@ -197,7 +199,8 @@ The color of the action items background gives the following information:
 The menu entries in the "three dot" action item menu allow the following operations:
 
 * **"Add Details"** will add details to the item. This feature will be described in the chapter "Adding Details".
-* **Edit Item** will allow the moderator to edit this action items properties (like subject, label, responsible)
+* **"Edit Item"** will allow the moderator to edit this action items properties (like subject, label, responsible)
+* **"Convert to Info"** will convert this action item to an info item. But only possible for new items!
 * **"Delete Item"** will delete this item after a security question. Action Items from a previous meeting can not be deleted - they can only be set to "done". So you will get rid of them in the next meeting.
 
 ### Adding Details

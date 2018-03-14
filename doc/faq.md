@@ -9,7 +9,7 @@ The 4Minitz webapp is simply "for the minutes".  ;-)
 ### What does the "red warning message" mean?
 See first chapter of the [user doc](user/usermanual.md). This message warns you that your client lost connection to the server. Either the server is down or your internet connection is weak. All changes made from now on are lost if you close your browser window before the connection is re-established and offline syncing could finish.
 
-### Topics, Info Items, Action Items, Details? I don't get it...
+### Topics, Info Items, Action Items, Details? I don't get it...?!
 4Minitz offers the following hierarchy to structure your meeting minutes:
 
 ```
@@ -145,6 +145,9 @@ The background color of action items is calculated from the due date.
 
 
 ### I'm curious! Can I have some server statistics?
-Yes, open the about dialog and click on the 4Minitz logo. This
-will show / hide the current server statistics and show how many
-users, meeting series, minutes and attachments the server stores.
+Yes, open the about dialog and click on the 4Minitz logo. This will show / hide the current server statistics and show how many users, meeting series, minutes and attachments the server stores.
+
+### Dam'it! I created an action item instead of an info item (or vice versa)... how can I keep my work?
+When you created the wrong item type "just now" - in the current open minute - you can open the "three dot" context menu of the item and select "Convert to Action" or "Convert to Info". Then your item type will change.
+
+Bad news: once the meeting is finalized, you can't change the item type anymore. This has technical reasons[TM].  :-)
