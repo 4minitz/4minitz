@@ -12,7 +12,7 @@ env:
     - TEST="unit"
 
 addons:
-  chrome: stable
+  # chrome: stable - don't update chrome! Keep chrome of base image
   artifacts:
     # This uploads all headless screen shots generated with:
     #   browser.saveScreenshot("my-testcase");
@@ -46,7 +46,7 @@ node_js:
 
 before_install:
   - curl https://install.meteor.com | /bin/sh
-  - npm install -g chimp@0.51.0
+  - npm install -g chimp@0.51.1
 
 # we run chrome headless but we still need xvfb for keycode conversions
 # Error: unknown error: an X display is required for keycode conversions, consider using Xvfb

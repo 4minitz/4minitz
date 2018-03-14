@@ -1,19 +1,19 @@
 
-import { E2EGlobal } from './E2EGlobal'
+import { E2EGlobal } from './E2EGlobal';
 
 
 export class E2EApp {
-    static titlePrefix = "4Minitz!";
+    static titlePrefix = '4Minitz!';
 
     // Calls the server method to clean database and create fresh test users
     static resetMyApp (skipUsers) {
         try {
             server.call('e2e.resetMyApp', skipUsers);  // call meteor server method
         } catch (e) {
-            console.log("Exception: "+e);
-            console.log("Did you forget to run the server with '--settings settings-test-end2end.json'?");
+            console.log('Exception: '+e);
+            console.log('Did you forget to run the server with \'--settings settings-test-end2end.json\'?');
         }
-    };
+    }
 
     static isLoggedIn () {
         try {
@@ -23,7 +23,7 @@ export class E2EApp {
             E2EGlobal.saveScreenshot('isLoggedIn_failed');
         }
         return browser.isExisting('#navbar-usermenu');
-    };
+    }
 
     // We need a separate isNotLoggedIn() as the isLoggedIn() returns too quick on "!isLoggedIn()"
     static isNotLoggedIn () {
@@ -34,7 +34,7 @@ export class E2EApp {
             E2EGlobal.saveScreenshot('isNotLoggedIn_failed');
         }
         return browser.isExisting('#tab_standard');
-    };
+    }
 
 
     static logoutUser () {
@@ -43,10 +43,10 @@ export class E2EApp {
             E2EGlobal.clickWithRetry('#navbar-signout');
             E2EGlobal.waitSomeTime();
         }
-        E2EApp._currentlyLoggedInUser = "";
-        E2EGlobal.waitSomeTime(); // give title change time to settle
+        E2EApp._currentlyLoggedInUser = '';
+        E2EGlobal.waitSomeTime(600); // give title change time to settle
         expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
-    };
+    }
 
     static loginLdapUserWithCredentials(username, password, autoLogout) {
         this.loginUserWithCredentials(username, password, autoLogout, '#tab_ldap');
@@ -60,7 +60,7 @@ export class E2EApp {
         try {
             generalAlertShowsLoginFailure = browser.getHTML('.alert.alert-danger').includes('403');
         } catch (e) {
-            const expectedError = `An element could not be located on the page using the given search parameters (".alert.alert-danger")`;
+            const expectedError = 'An element could not be located on the page using the given search parameters (".alert.alert-danger")';
             if (!e.toString().includes(expectedError)) {
                 throw e;
             }
@@ -109,11 +109,11 @@ export class E2EApp {
             }, 20000, 'The login could not been processed in time');
 
             if (E2EApp.loginFailed()) {
-                throw new Error ("Unknown user or wrong password.");
+                throw new Error ('Unknown user or wrong password.');
             }
 
             if (! E2EApp.isLoggedIn()) {
-                console.log("loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()");
+                console.log('loginUserWithCredentials: no success via UI... trying Meteor.loginWithPassword()');
                 browser.execute( function() {
                     Meteor.loginWithPassword(username, password);
                 });
@@ -143,7 +143,7 @@ export class E2EApp {
             let orgUserName = indexOrUsername;
             indexOrUsername = E2EGlobal.SETTINGS.e2eTestUsers.indexOf(indexOrUsername);
             if (indexOrUsername === -1) {
-                console.log("Error {E2EApp.loginUser} : Could not find user "+orgUserName+". Fallback: index=0.");
+                console.log('Error {E2EApp.loginUser} : Could not find user '+orgUserName+'. Fallback: index=0.');
                 indexOrUsername = 0;
             }
         }
@@ -152,21 +152,21 @@ export class E2EApp {
         let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[indexOrUsername];
 
         this.loginUserWithCredentials(aUser, aPassword, autoLogout);
-    };
+    }
 
     static getCurrentUser () {
         return E2EApp._currentlyLoggedInUser;
-    };
+    }
     
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
-        E2EGlobal.waitSomeTime(); // give title change time to settle
+        E2EGlobal.waitSomeTime(600); // give title change time to settle
         const title = browser.getTitle();
         if (title !== E2EApp.titlePrefix) {
             throw new Error(`App not loaded. Unexpected title ${title}. Please run app with 'meteor npm run test:end2end:server'`);
         }
-    };
+    }
 
     static isOnStartPage () {
         // post-condition
@@ -176,7 +176,7 @@ export class E2EApp {
             return false;
         }
         return true;
-    };
+    }
 
     // We can't use "launchApp" here, as this resets the browser
     // so we click on the "Logo" icon
@@ -196,37 +196,37 @@ export class E2EApp {
         E2EGlobal.waitSomeTime();
         // check post-condition
         if (! E2EApp.isOnStartPage()) {
-            E2EGlobal.saveScreenshot("gotoStartPage1");
+            E2EGlobal.saveScreenshot('gotoStartPage1');
             E2EGlobal.clickWithRetry('a.navbar-brand');
             E2EGlobal.waitSomeTime(1500);
         }
         if (! E2EApp.isOnStartPage()) {
-            E2EGlobal.saveScreenshot("gotoStartPage2");
+            E2EGlobal.saveScreenshot('gotoStartPage2');
         }
-        E2EGlobal.waitSomeTime(); // give title change time to settle
+        E2EGlobal.waitSomeTime(600); // give title change time to settle
         expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
-        expect(E2EApp.isOnStartPage(), "gotoStartPage()").to.be.true;
-    };
+        expect(E2EApp.isOnStartPage(), 'gotoStartPage()').to.be.true;
+    }
 
     static confirmationDialogCheckMessage (containedText) {
         E2EGlobal.waitSomeTime();
-        expect(browser.getText("div#confirmDialog"), "Check confirmation messagebox contains text")
+        expect(browser.getText('div#confirmDialog'), 'Check confirmation messagebox contains text')
             .to.contain(containedText);
-    };
+    }
 
     static confirmationDialogAnswer (pressOK) {
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
         browser.waitForVisible('#confirmationDialogOK', 1000);
         if (pressOK) {
-            E2EGlobal.clickWithRetry("#confirmationDialogOK");
+            E2EGlobal.clickWithRetry('#confirmationDialogOK');
         } else {
-            E2EGlobal.clickWithRetry("#confirmationDialogCancel");
+            E2EGlobal.clickWithRetry('#confirmationDialogCancel');
         }
         E2EGlobal.waitSomeTime(1250); // give dialog animation time
-    };
+    }
 
     static resetPassword(emailAdress) {
-        E2EGlobal.clickWithRetry("#at-forgotPwd");
+        E2EGlobal.clickWithRetry('#at-forgotPwd');
         browser.setValue('#at-field-email', emailAdress);
         E2EGlobal.clickWithRetry('#at-btn');
     }
@@ -243,4 +243,4 @@ export class E2EApp {
     }
 }
 
-E2EApp._currentlyLoggedInUser = "";
+E2EApp._currentlyLoggedInUser = '';

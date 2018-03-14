@@ -57,9 +57,9 @@ export class E2ESecurity {
                     done({error, result});
                 });
             }, methodName, methodParameters);
-            console.log(`Results are in: error = ${result.value.error}, result = ${result.value.result}`);
+            // console.log(`Results are in: error = ${result.value.error}, result = ${result.value.result}`);
         } catch (e) {
-            console.log("Exception: "+e.message);
+            console.log("Exception in executeMethod(): "+e.message);
         }
     }
 
@@ -174,6 +174,7 @@ export class E2ESecurity {
     static tryReopenTopic = (topicID, meetingSeriesID, expectToBeOpened, testName) => {
         E2ESecurity.replaceMethodOnClientSide(E2ESecurity.reopenTopic);
         E2ESecurity.executeMethod(E2ESecurity.reopenTopic, meetingSeriesID, topicID);
+        E2EGlobal.waitSomeTime();
         const topicsOfSeries = server.call('e2e.getTopicsOfMeetingSeries', meetingSeriesID);
         expect(topicsOfSeries[0].isOpen, testName).to.equal(expectToBeOpened);
     };

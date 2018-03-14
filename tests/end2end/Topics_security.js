@@ -137,6 +137,7 @@ describe('Topics Methods Security', function () {
         expect((server.call('e2e.getTopics', min.min_id))[0].isOpen).to.equal(false);
 
         E2ESecurity.executeMethod(E2ESecurity.finalizeMinute, min.min_id);
+        E2EGlobal.waitSomeTime();
         expect((server.call('e2e.findMinute', min.min_id)).isFinalized).to.equal(true);
 
         E2EApp.logoutUser();
@@ -144,7 +145,6 @@ describe('Topics Methods Security', function () {
         E2ESecurity.tryReopenTopic(topicId, min.ms_id, false, 'Not logged in can not reopen a topic');
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.tryReopenTopic(topicId, min.ms_id, true, 'Moderator can reopen a topic');
     });
 
     it('Invited/Informed user can not reopen a topic', function () {
