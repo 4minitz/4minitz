@@ -184,12 +184,9 @@ describe('Minutes Finalize', function () {
         E2EMeetingSeries.gotoTabMinutes();
         E2EMinutes.gotoLatestMinutes();
 
-        E2EGlobal.logTimestamp('before unfinalize');
         E2EMinutes.unfinalizeCurrentMinutes();
 
-        E2EGlobal.logTimestamp('before gotoMeetingSeries');
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EGlobal.logTimestamp('before gotoTabTopics');
         E2EMeetingSeries.gotoTabTopics();
 
         expect(E2ETopics.countItemsForTopic(1), 'Topic should have one items').to.equal(1);
