@@ -8,6 +8,7 @@ import { DocumentGeneration } from './../documentGeneration';
 
 import { FilesCollection } from 'meteor/ostrio:files';
 import { extendedPublishSubscribeHandler } from './../helpers/extendedPublishSubscribe';
+import {User} from '../user';
 
 export let DocumentsCollection = new FilesCollection({
     collectionName: 'DocumentsCollection',
@@ -120,8 +121,8 @@ Meteor.methods({
             _informed: minute.getInformed(Meteor.users),
             _userArrayToString: function(users) {
                 return users.map(function(user){
-                    return user.name;
-                }).join(', ');
+                    return User.PROFILENAMEWITHFALLBACK(user);
+                }).join('; ');
             }
         };
 

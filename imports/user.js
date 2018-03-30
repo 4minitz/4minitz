@@ -25,12 +25,12 @@ export class User {
                 return userObject.username;
             }
         } else {
-            return 'Unknown ('+ this.id ? this.id : userObject._id +')';
+            return 'Unknown ('+ userObject._id ? userObject._id : userObject +')';
         }
     }
 
     profileNameWithFallback() {
-        return User.PROFILENAMEWITHFALLBACK(this.user)
+        return User.PROFILENAMEWITHFALLBACK(this.user);
     }
 
     userNameWithFallback() {

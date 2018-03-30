@@ -384,8 +384,12 @@ export class Minutes {
         if (userCollection) {
             return this.participants.map(participant => {
                 let user = userCollection.findOne(participant.userId);
-                participant.name = user.username;
-                participant.profile = user.profile;
+                if (user) {
+                    participant.name = user.username;
+                    participant.profile = user.profile;
+                } else {
+                    participant.name = 'Unknown ' + participant.userId;
+                }
                 return participant;
             });
         }
@@ -414,7 +418,11 @@ export class Minutes {
             if (userCollection) {
                 return this.informedUsers.map(informed => {
                     let user = userCollection.findOne(informed);
-                    informed = {id: informed, name: user.username};
+                    informed = {
+                        id: informed,
+                        name: user ? user.username : 'Unknown ' + informed,
+                        profile: user ? user.profile : null
+                    };
                     return informed;
                 });
             } else {
