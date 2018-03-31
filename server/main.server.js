@@ -126,7 +126,7 @@ Meteor.startup(() => {
             ldapSettings = GlobalSettings.getLDAPSettings();
 
         if (GlobalSettings.getImportUsersOnLaunch()) {
-            console.log('Importing LDAP user on launch. Disable via setting importOnLaunch.');
+            console.log('Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.');
             importUsers(ldapSettings, mongoUrl)
                 .catch(() => {});
         }

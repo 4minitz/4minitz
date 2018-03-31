@@ -136,7 +136,7 @@ export class GlobalSettings {
     }
 
     static hasImportUsersCronTab() {
-        return !!(Meteor.settings.ldap && Meteor.settings.ldap.importCronTab);
+        return !!(Meteor.settings.ldap && Meteor.settings.ldap.enabled && Meteor.settings.ldap.importCronTab);
     }
 
     static getImportUsersCronTab() {
@@ -147,8 +147,12 @@ export class GlobalSettings {
 
     static getImportUsersOnLaunch() {
         if (Meteor.settings.ldap && Meteor.settings.ldap.enabled) {
-            return Meteor.settings.ldap.importOnLaunch;
+            if (Meteor.settings.ldap.importOnLaunch !== undefined) {
+                return Meteor.settings.ldap.importOnLaunch;
+            }
+            return true;
         }
+        return false;
     }
 
 

@@ -87,7 +87,6 @@
             "password": "ldapPwd1"
         },
         "searchFilter": "",
-        "importOnLaunch": true,
         "serverDn": "DC=example,DC=com",
         "serverUrl": "ldap://localhost:1389",
         "allowSelfSignedTLS": true,
@@ -96,6 +95,7 @@
         "inactiveUsers": {
             "strategy": "userAccountControl"
         },
+        "importOnLaunch": true,
         "importCronTab": "*/5 * * * *"
     },
 
