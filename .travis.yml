@@ -42,7 +42,7 @@ addons:
 #    - $(npm config get prefix)/bin/chimp
 
 node_js:
-  - "8.9.3"
+  - "8.9.4"
 
 before_install:
   - curl https://install.meteor.com | /bin/sh
