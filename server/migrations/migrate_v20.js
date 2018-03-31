@@ -2,25 +2,29 @@ import { TopicSchema } from '/imports/collections/topic.schema';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 
 function saveMinutes(minutes) {
-    MinutesSchema.getCollection().update(
-        minutes._id, {
-            $set: {
-                'topics': minutes.topics,
-            }
-        },
-        {bypassCollection2: true}
-    );
+    minutes.forEach(min => {
+        MinutesSchema.getCollection().update(
+            min._id, {
+                $set: {
+                    'topics': min.topics,
+                }
+            },
+            {bypassCollection2: true}
+        );
+    });
 }
 
 function saveTopics(topics) {
-    TopicSchema.getCollection().update(
-        topics._id, {
-            $set: {
-                'infoItems': topics.infoItems,
-            }
-        },
-        {bypassCollection2: true}
-    );
+    topics.forEach(topic => {
+        TopicSchema.getCollection().update(
+            topic._id, {
+                $set: {
+                    'infoItems': topic.infoItems,
+                }
+            },
+            {bypassCollection2: true}
+        );
+    });
 }
 
 function forEachDetailInTopics(topics, operation){
