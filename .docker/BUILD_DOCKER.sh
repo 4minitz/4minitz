@@ -5,9 +5,9 @@ commitshort=$(git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
 baseimagetag=$dockerproject:gitcommit-$commitshort
 
 echo "Usage: ./BUILD_DOCKER.sh [--imagename USER/IMAGE] [LIST OF TAGS]"
-echo "       e.g.: ./BUILD.sh master stable latest 0.9.1"
-echo "       e.g.: ./BUILD.sh develop unstable"
-echo "       e.g.: ./BUILD.sh --imagename johndoe/4minitz master stable latest 0.9.1"
+echo "       e.g.: ./BUILD_DOCKER.sh master stable latest 0.9.1"
+echo "       e.g.: ./BUILD_DOCKER.sh develop unstable"
+echo "       e.g.: ./BUILD_DOCKER.sh --imagename johndoe/4minitz master stable latest 0.9.1"
 echo "       The default docker project is '$dockerproject'"
 echo ""
 
