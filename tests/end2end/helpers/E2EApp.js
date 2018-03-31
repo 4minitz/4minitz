@@ -203,7 +203,7 @@ export class E2EApp {
         if (! E2EApp.isOnStartPage()) {
             E2EGlobal.saveScreenshot('gotoStartPage2');
         }
-        E2EGlobal.waitSomeTime(600); // give title change time to settle
+        E2EGlobal.waitSomeTime(1000); // give title change time to settle
         expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
         expect(E2EApp.isOnStartPage(), 'gotoStartPage()').to.be.true;
     }
