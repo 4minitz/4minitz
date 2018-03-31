@@ -31,6 +31,11 @@ Template.navigation.events({
     },
 
     'click .navbar-brand': function() {
+        // When user clicks app logo
+        // make sure user sees normal login sub template
+        // (and not register / resend...) sub template
+        AccountsTemplates.setState('signIn');
+
         Session.set('gotoMeetingSeriesTab', true);
     }
 });
