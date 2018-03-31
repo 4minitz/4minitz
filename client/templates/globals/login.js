@@ -39,7 +39,10 @@ Template.login.helpers({
     },
 
     showDemoUserHint: function () {
-        return (!Meteor.userId() && GlobalSettings.createDemoAccount());
+        return (!Meteor.userId()
+            && GlobalSettings.createDemoAccount()
+            && AccountsTemplates.getState() === 'signIn'    // only show demo hint on signIn sub-template
+        );
     },
 
     legalNoticeEnabled: function () {
