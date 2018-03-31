@@ -19,8 +19,10 @@ Template.login.onRendered(function () {
 });
 
 Template.login.helpers({
-    ldapEnabled() {
-        return Meteor.settings.public.ldapEnabled;
+
+    showTabSwitcher() {
+        return (Meteor.settings.public.ldapEnabled
+            && !Meteor.settings.public.ldapHideStandardLogin);
     },
 
     tab: function() {

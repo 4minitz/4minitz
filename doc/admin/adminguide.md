@@ -380,6 +380,9 @@ See your settings.json file:
 | allowSelfSignedTLS  | false                            | If true, self-signed certs will be allowed for the Meteor server process |
 | importOnLaunch      | true                             | If true, server will import all LDAP users once at startup that match the searchFilter. |
 | importCronTab       | false                            | If set to a valid crontab string (e.g. `"* 14 5 * * *"` will run every day at 5:14 A.M.), then LDAP users will be imported regularly by the server process. Result is like calling the importsUser.js manually (see below). Syntax for crontab string see: [crontab readme](https://github.com/merencia/node-cron#cron-syntax)|
+| hideStandardLogin   | false                            | If you don't allow non-LDAP users (see `forbidClientAccountCreation` you may hide the standard login tab completely. So you avoid user confusion how to log in.|
+| label4Username      | "Username (LDAP/AD)"             | Specify the username field's label in the login dialog to match your companies wording (e.g., "Windows Username" or "AD-Username e.g, Z0001234")|
+| label4Password      | "Password"                       | Specify the password field's label in the login dialog to match your companies wording (e.g., "Windows Password" or "Domain Password")|
 
 Once you have configured 4minitz to allow LDAP login, all your 
 users should be able to login with their LDAP username & passwords. On 

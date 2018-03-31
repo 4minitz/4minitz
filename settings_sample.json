@@ -154,7 +154,10 @@
         "inactiveUsers": {"strategy": "none"},
         "autopublishFields": [ "cn" ],
         "importOnLaunch": true,
-        "importCronTab": false
+        "importCronTab": false,
+        "hideStandardLogin": false,
+        "label4Username": "Username (LDAP/AD)",
+        "label4Password": "Password"
     },
 
     "//7": ["Upload attachment configuration",

@@ -34,6 +34,21 @@ Meteor.settings.ldap = Object.assign(defaultLdapSettings, Meteor.settings.ldap);
 export class LdapSettings {
     static publish() {
         Meteor.settings.public.ldapEnabled = LdapSettings.ldapEnabled();
+
+        Meteor.settings.public.ldapHideStandardLogin =
+            (LdapSettings.ldapEnabled() && Meteor.settings.ldap.hideStandardLogin !== undefined)
+                ? Meteor.settings.ldap.hideStandardLogin
+                : false;
+
+        Meteor.settings.public.ldapLabel4Username =
+            (Meteor.settings.ldap.label4Username !== undefined)
+                ? Meteor.settings.ldap.label4Username
+                : 'Username (LDAP/AD)';
+
+        Meteor.settings.public.ldapLabel4Password =
+            (Meteor.settings.ldap.label4Password !== undefined)
+                ? Meteor.settings.ldap.label4Password
+                : 'Password';
     }
 
     static loadSettings() {

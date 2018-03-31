@@ -16,6 +16,18 @@ function loginCallback(error) {
     }
 }
 
+Template.loginLdap.helpers({
+    LDAPLabel4Username() {
+        return Meteor.settings.public.ldapLabel4Username;
+    },
+    LDAPLabel4Password() {
+        return Meteor.settings.public.ldapLabel4Password;
+    },
+
+});
+
+// Username
+// Password
 Template.loginLdap.events({
     'submit #ldapLoginForm'(event) {
         event.preventDefault();
