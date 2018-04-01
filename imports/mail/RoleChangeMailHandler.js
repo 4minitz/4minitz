@@ -58,7 +58,7 @@ export class RoleChangeMailHandler {
                 '    The change was performed by : ' + User.PROFILENAMEWITHFALLBACK(this._moderator) + '\n'  +
                 '\n' +
                 'For a comprehensive list of rights for each role see:\n' +
-                'https://github.com/4minitz/4minitz/blob/master/doc/user/usermanual.md#table-of-roles-and-rights\n' +
+                'https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md#table-of-roles-and-rights\n' +
                 '\n' +
                 'Your Admin.\n' +
                 '\n' +
