@@ -9,7 +9,7 @@
                 {{else}}
                     <span class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"></span>
                 {{/if}}
-                Participants (& Informed)
+                {{countParticipantsText}}{{countAdditionalParticipantsText}}{{countInformedText}}
             </label>
             {{#if isEditable}}
                 <a  id="btnEditParticipants" class="pull-right" data-toggle="modal" data-target="#dlgEditMeetingSeries">
@@ -65,7 +65,7 @@
                     </div>
                     <!--Additional Participants: freetext field-->
                     <input id="edtParticipantsAdditional" type="text" class="form-control"
-                           placeholder="Additional Participants..."
+                           placeholder="Additional Participants (separate with ';'). Mail addresses will receive minutes."
                            value="{{participantsAdditional}}" {{disableUIControl}}>
                     {{#if hasInformedUsers}}
                         <div class="default-margin-top">
