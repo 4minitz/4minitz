@@ -52,15 +52,9 @@ AccountsTemplates.addFields([
 ]);
 
 let submitHookFunction = function(error, state){
-    if (state === 'signUp') {
-        if (error) {
-            window.location.href = Meteor.absoluteUrl('login');
-        }
-    } else {
-        // After submitting registration, resend, ...
-        // we want to go back to normal signin sub template
-        Meteor.setTimeout(() => {AccountsTemplates.setState('signIn');}, 3000);
-    }
+    // After submitting registration, resend, ...
+    // we want to go back to normal signin sub template
+    Meteor.setTimeout(() => {AccountsTemplates.setState('signIn');}, 3000);
 };
 
 if (Meteor.isServer) {

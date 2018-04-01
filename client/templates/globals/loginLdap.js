@@ -11,7 +11,7 @@ function loginCallback(error) {
     }
 
     let routeName = FlowRouter.current().route.name;
-    if (routeName === 'login' || routeName === 'signup' || routeName === 'home') {
+    if (routeName === 'signup' || routeName === 'home') {
         FlowRouter.go('home');
     }
 }

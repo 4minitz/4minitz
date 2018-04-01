@@ -15,17 +15,6 @@ FlowRouter.route('/', {
     }
 });
 
-FlowRouter.route('/login', {
-    triggersExit: [
-        function () {
-            FlowRouter.redirect('/');
-        }
-    ],
-    action() {
-        BlazeLayout.render('appLayout', {main: 'login'});
-    }
-});
-
 
 FlowRouter.route('/admin', {
     name: 'admin',
