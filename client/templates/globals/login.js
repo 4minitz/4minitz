@@ -43,6 +43,7 @@ Template.login.helpers({
     showDemoUserHint: function () {
         return (!Meteor.userId()
             && GlobalSettings.createDemoAccount()
+            && Session.get('currentLoginForm') === 'atForm' // only if Standard Login is active
             && AccountsTemplates.getState() === 'signIn'    // only show demo hint on signIn sub-template
         );
     },
