@@ -150,9 +150,17 @@
                     </div>
                     <div class="form-group">
                         <label for="editGlobalNotes">Global Note</label>
+                        {{#unless isReadOnly}}
+                            &nbsp;<span id="btnPinGlobalNote" class="hidden-print" style="cursor: pointer"
+                                  title="{{#if minutes.globalNotePinned}}Set as non-pinned global note{{else}}Set as pinned global note{{/if}}"
+                            >
+                                <span class="glyphicon glyphicon-pushpin {{#if minutes.globalNotePinned}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
+                            </span>
+                        {{/unless}}
                         <input id="editGlobalNotes" type="text" class="form-control"
-                               placeholder="Global note for these minutes..."
+                               placeholder="Global notes for these minutes. Click pin to propagate notes to next minutes."
                                value="{{minutes.globalNote}}"  {{disableUIControl}}>
+
                     </div>
 
                     {{> minutesEditParticipants minutes}}

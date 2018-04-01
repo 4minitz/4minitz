@@ -106,7 +106,7 @@ The meeting series editor allows a moderator to
  | Uploader      | Yes          | Yes         |     Yes     | No          |
  | Invited       | Yes          | Yes         |     No      | No          |
  | Informed      | Yes          | No          |     No      | No          |
- | Others        | No           | No          |  No         | No ;-)      |
+ | "None"        | No           | No          |  No         | No ;-)      |
 
  * The 'Informed' user only gets the final meeting minutes protocol email.
    But not the agenda email.
@@ -150,6 +150,15 @@ the topic menu will allow you to:
 
 There is also a "three dots" menu icon within the meeting series' overview of topics. 
 This menu is available for already closed Topics and contains the menu entry **"Re-open Topics"**. By using this feature the topic will be opened again and will occur in the next minute respectively the current one, if it is not finished yet.
+
+### The Global Notes of a Meeting
+The global notes allow you to write down some stuff that does
+not belong to a specifi topic, but concerns the meeting as a whole.
+Examples might be: *"Kick-off for project XYZ"* or *"First meeting with Alex"*
+
+The global notes will be send with Agenda mail and Finalize mail to invited and informed users.
+
+There might also be situations where you want to have the global note to have equal content between meetings. In this case click the small pin needle above the global note to make it sticky and propagate to the next meeting. Examples for this situation might be: *"Meeting Time: 8:00-10:00 CET in Room '101'"* or *"Meeting Rules: No Phones, No Laptops"*
 
 ## Send Agenda to Participants
 All open (non skipped) topics of the current meeting minutes will be send by EMail to all invited users (and moderators) of the current meeting series if the moderator clicks the button:

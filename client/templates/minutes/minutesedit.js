@@ -413,7 +413,7 @@ Template.minutesedit.helpers({
 
     theProtocol : function () {
         return DocumentGeneration.getProtocolForMinute(_minutesID);
-    },
+    }
 });
 
 Template.minutesedit.events({
@@ -612,6 +612,15 @@ Template.minutesedit.events({
         };
         
         DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
+    },
+
+    'click #btnPinGlobalNote': function (evt, tmpl) {
+        evt.preventDefault();
+        if (!isModerator() || isMinuteFinalized()) {
+            return;
+        }
+        let aMin = new Minutes(_minutesID);
+        aMin.update({globalNotePinned: !aMin.globalNotePinned}).catch(onError);
     }
 });
 
