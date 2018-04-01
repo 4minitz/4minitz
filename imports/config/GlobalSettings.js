@@ -248,7 +248,7 @@ export class GlobalSettings {
 
     static showForgotPasswordLink() {
         const mailEnabled = getSetting('email.enableMailDelivery', false),
-        showForgotPasswordLink = getSetting('email.showForgotPasswordLink', false);
+            showForgotPasswordLink = getSetting('email.showForgotPasswordLink', false);
     
         return mailEnabled && showForgotPasswordLink;
     }

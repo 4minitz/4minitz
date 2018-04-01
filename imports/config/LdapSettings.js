@@ -1,3 +1,9 @@
+
+// ********************************
+// Remember:
+// This class is only useful on server side
+// ********************************
+
 import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 
@@ -26,29 +32,33 @@ const defaultLdapSettings = {
     whiteListedFields: [],
     inactiveUsers: {strategy: 'none'},
     autopublishFields: [],
-    importCronTab: false
+    importCronTab: false,
+    importOnLaunch: true,
+    hideStandardLogin: false,
+    label4Username: 'Username (LDAP/AD)',
+    label4Password: 'Password'
 };
 
-Meteor.settings.ldap = Object.assign(defaultLdapSettings, Meteor.settings.ldap);
+if (Meteor.isServer) {  // server only. Otherwise client will see our defaultLdapSettings
+    Meteor.settings.ldap = Object.assign(defaultLdapSettings, Meteor.settings.ldap);
+}
 
 export class LdapSettings {
     static publish() {
         Meteor.settings.public.ldapEnabled = LdapSettings.ldapEnabled();
 
-        Meteor.settings.public.ldapHideStandardLogin =
-            (LdapSettings.ldapEnabled() && Meteor.settings.ldap.hideStandardLogin !== undefined)
-                ? Meteor.settings.ldap.hideStandardLogin
-                : false;
+        Meteor.settings.public.ldapHideStandardLogin = LdapSettings.ldapHideStandardLogin();
+
 
         Meteor.settings.public.ldapLabel4Username =
             (Meteor.settings.ldap.label4Username !== undefined)
                 ? Meteor.settings.ldap.label4Username
-                : 'Username (LDAP/AD)';
+                : defaultLdapSettings.label4Username;
 
         Meteor.settings.public.ldapLabel4Password =
             (Meteor.settings.ldap.label4Password !== undefined)
                 ? Meteor.settings.ldap.label4Password
-                : 'Password';
+                : defaultLdapSettings.label4Password;
     }
 
     static loadSettings() {
@@ -118,5 +128,11 @@ export class LdapSettings {
 
     static allowSelfSignedTLS() {
         return get('allowSelfSignedTLS', false);
+    }
+
+    static ldapHideStandardLogin() {
+        return ((LdapSettings.ldapEnabled() && Meteor.settings.ldap.hideStandardLogin !== undefined)
+            ? Meteor.settings.ldap.hideStandardLogin
+            : defaultLdapSettings.hideStandardLogin);
     }
 }

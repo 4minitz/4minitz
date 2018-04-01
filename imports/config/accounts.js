@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import { LdapSettings } from '/imports/config/LdapSettings';
 
 // For possible account configuration see:
 // https://github.com/meteor-useraccounts/core/blob/master/Guide.md#configuration-api
@@ -65,14 +66,14 @@ let submitHookFunction = function(error, state){
 if (Meteor.isServer) {
     // #Security: Do not allow registering by anonymous visitors. Configurable via settings.json
     AccountsTemplates.configure({
-        forbidClientAccountCreation: GlobalSettings.forbidClientAccountCreation(),
+        forbidClientAccountCreation: GlobalSettings.forbidClientAccountCreation() || LdapSettings.ldapHideStandardLogin(),
         sendVerificationEmail: GlobalSettings.sendVerificationEmail(),
         showResendVerificationEmailLink: GlobalSettings.showResendVerificationEmailLink(),
         showForgotPasswordLink: GlobalSettings.showForgotPasswordLink(),
         onSubmitHook: submitHookFunction
     });
 
-    // #Security: Do not allow "isInactive" users to log in
+    // #Security: Do not allow standard users log in under some conditions
     Accounts.validateLoginAttempt(function(attempt) {
         if(attempt.user) {
             if (attempt.user.isInactive) {
@@ -82,6 +83,9 @@ if (Meteor.isServer) {
             else if (GlobalSettings.sendVerificationEmail() && !attempt.user.emails[0].verified) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'User account is not verified!');
+            } else if (LdapSettings.ldapHideStandardLogin()) {
+                attempt.allowed = false;
+                throw new Meteor.Error(403, 'Login only via LDAP!');
             }
         }
         return true;
