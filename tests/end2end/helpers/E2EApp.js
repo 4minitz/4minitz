@@ -203,7 +203,16 @@ export class E2EApp {
         if (! E2EApp.isOnStartPage()) {
             E2EGlobal.saveScreenshot('gotoStartPage2');
         }
-        E2EGlobal.waitSomeTime(1000); // give title change time to settle
+
+        // give title change time to settle
+        try {
+            browser.waitUntil(function () {
+                return (browser.getTitle() === E2EApp.titlePrefix);
+            },5000,'Timeout! Title did not change! Will try to re-launchApp().',250);
+        } catch (e) {
+            E2EApp.launchApp();
+            E2EGlobal.waitSomeTime();
+        }
         expect(browser.getTitle()).to.equal(E2EApp.titlePrefix);
         expect(E2EApp.isOnStartPage(), 'gotoStartPage()').to.be.true;
     }
