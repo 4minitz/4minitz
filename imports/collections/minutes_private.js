@@ -242,7 +242,7 @@ Meteor.methods({
             if (participant.text.toLowerCase().includes(partialName.toLowerCase())) {
                 participant['isParticipant'] = true;
                 results_participants.push(participant);
-                let name = participant.text.split(" - ");
+                let name = participant.text.split(' - ');
                 foundPartipantsNames.push(name[0]);
             }
         });

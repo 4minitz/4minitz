@@ -20,8 +20,8 @@ function disableLdap() {
 }
 
 const defaultPropertyMap = {
-    username: "cn",
-    email: "mail"
+    username: 'cn',
+    email: 'mail'
 };
 
 const defaultLdapSettings = {

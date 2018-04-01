@@ -102,7 +102,7 @@ class QualityTestCase {
                     return 'No participant is marked as present';
             }
         ));
-/*
+        /*
         // an item is still edited (F)
         QualityTestCase.testCases.push(new QualityTestCase('An item is still edited',
             QualityTestRunner.TRIGGERS.finalize,

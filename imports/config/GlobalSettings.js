@@ -117,7 +117,7 @@ export class GlobalSettings {
         let adminIDs = [];
 
         if (Meteor.settings.adminIDs && Array.isArray(Meteor.settings.adminIDs)) {
-            adminIDs = adminIDs.concat(Meteor.settings.adminIDs)
+            adminIDs = adminIDs.concat(Meteor.settings.adminIDs);
         }
 
         return adminIDs;

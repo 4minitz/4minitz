@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Random } from 'meteor/random';
 
 import { Minutes } from './../minutes';
 import { UserRoles } from './../userroles';
@@ -159,7 +158,7 @@ Meteor.methods({
         // implementation of html storing
         if (Meteor.settings.public.docGeneration.format === 'html') {
             storeFileFunction = (htmldata, fileName, metaData) => {
-                console.log("Protocol generation to file: ", fileName);
+                console.log('Protocol generation to file: ', fileName);
                 DocumentsCollection.write(new Buffer(htmldata),
                     {   fileName:  fileName + '.html',
                         type: 'text/html',
@@ -176,8 +175,8 @@ Meteor.methods({
         // implementation of pdf storing
         if ((Meteor.settings.public.docGeneration.format === 'pdf') || (Meteor.settings.public.docGeneration.format === 'pdfa')){
             storeFileFunction = (htmldata, fileName, metaData) => {
-                let finalPDFOutputPath = convertHTML2PDF(htmldata, fileName, metaData);
-                console.log("Protocol generation to file: ", finalPDFOutputPath, fileName);
+                let finalPDFOutputPath = convertHTML2PDF(htmldata, fileName, metaData);  //eslint-disable-line
+                console.log('Protocol generation to file: ', finalPDFOutputPath, fileName);
                 DocumentsCollection.addFile(finalPDFOutputPath,
                     {
                         fileName: fileName + '.pdf',

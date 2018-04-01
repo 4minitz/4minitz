@@ -51,7 +51,7 @@ getDocumentStorageRootDirectory = () => { //eslint-disable-line
 };
 
 
-convertHTML2PDF = (htmldata, fileName, metaData) => {
+convertHTML2PDF = (htmldata, fileName, metaData) => {  //eslint-disable-line
     let checkFileExists = (filepath, fileNameForErrorMsg) => {
         if (!fs.existsSync(filepath)) {
             throw new Meteor.Error('runtime-error', 'Error at PDF generation: ' + fileNameForErrorMsg + ' not found at: ' + filepath);

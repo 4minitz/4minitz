@@ -313,7 +313,7 @@ Template.topicElement.events({
         theItemTextarea.value = '';
         resizeTextarea(theItemTextarea);
         Meteor.setTimeout(() => {
-                theItemTextarea.focus();
+            theItemTextarea.focus();
         },100);
     },
 

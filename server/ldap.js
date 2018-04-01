@@ -7,7 +7,7 @@ if (allowSelfSignedTLS) {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 }
 
-LDAP.searchField = LdapSettings.usernameAttribute()
+LDAP.searchField = LdapSettings.usernameAttribute();
 LDAP.searchValueType = 'username';
 
 LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {

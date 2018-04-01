@@ -51,7 +51,6 @@ Meteor.methods({
                 Accounts.sendVerificationEmail(Meteor.user());
             }
         }
-
     },
 
     'users.admin.changePassword'(userId, password1, password2) {

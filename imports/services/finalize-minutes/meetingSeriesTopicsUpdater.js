@@ -68,7 +68,7 @@ export class MeetingSeriesTopicsUpdater {
                 throw new Meteor.Error('runtime-error', 'Could not re-open topic.');
             }
         } catch (e) {
-            console.log("Error in reOpenTopic ", topicId);
+            console.log('Error in reOpenTopic ', topicId);
             console.log(JSON.stringify(e));
             throw new Meteor.Error('runtime-error', 'Could not re-open topic.');
         }

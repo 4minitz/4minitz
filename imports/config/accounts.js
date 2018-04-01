@@ -51,7 +51,7 @@ AccountsTemplates.addFields([
     }
 ]);
 
-let submitHookFunction = function(error, state){
+let submitHookFunction = function(error, state){     //eslint-disable-line
     // After submitting registration, resend, ...
     // we want to go back to normal signin sub template
     Meteor.setTimeout(() => {AccountsTemplates.setState('signIn');}, 3000);
