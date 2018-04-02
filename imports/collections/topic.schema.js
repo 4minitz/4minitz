@@ -38,4 +38,8 @@ if (Meteor.isServer) {
             return TopicSchema.find({ parentId: meetingSeriesIdOrArray });
         return TopicSchema.find({ parentId: {$in: meetingSeriesIdOrArray} }); //we have an whole array here
     });
+
+    Meteor.publish('topicOnlyOne', function (topicID) {
+        return TopicSchema.find({ _id: topicID });
+    });
 }

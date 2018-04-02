@@ -54,8 +54,11 @@
 
                             {{#if showLinks}}
                                 <span class="pull-right">
-                                    <span class="linkMeetingSerie glyphicon glyphicon-menu-right"></span>
-                                    <a class="linkMeetingSerie" href="{{getLink @index}}">Meeting series</a>
+                                    <span class="linkItemContext glyphicon glyphicon-menu-right"></span>
+                                    <a class="linkItemContext" href="{{getLinkToSeries @index}}">Meeting Series</a>
+                                    <br>
+                                    <span class="linkItemContext glyphicon glyphicon-menu-right"></span>
+                                    <a class="linkItemContext" href="{{getLinkToTopic @index}}">Parent Topic</a>
                                 </span>
                             {{/if}}
 

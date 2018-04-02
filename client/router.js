@@ -67,3 +67,11 @@ FlowRouter.route('/minutesedit/:_id', {
     },
     triggersExit: [resetDocumentTitle]
 });
+
+
+FlowRouter.route('/topic/:_id', {
+    name: 'topic',
+    action() {
+        BlazeLayout.render('appLayout', {main: 'topicViewOne'});
+    }
+});

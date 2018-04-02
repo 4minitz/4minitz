@@ -1,0 +1,18 @@
+<template name="topicViewOne">
+    {{#if authenticating}}
+        {{> loading}}
+    {{else}}
+        {{redirectIfNotAllowed}}
+        <h2>
+            Topic of Meeting Series (Last Finalized State):<br>
+            {{#with theMeetingSeries}}
+                <a href="{{pathFor 'meetingseries' _id=_id}}">
+                    {{project}}: {{name}}
+                </a>
+            {{/with}}
+        </h2>
+
+        {{> topicElement theTopic}}
+
+    {{/if}}
+</template>
