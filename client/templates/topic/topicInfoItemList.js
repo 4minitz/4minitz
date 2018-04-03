@@ -323,7 +323,27 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         return context.hasLink;
-    }
+    },
+
+    tooltipForTopic: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        const topicId = context.getTopicId(infoItem._id);
+        const seriesId = context.getSeriesId(infoItem._id);
+        let aTopic = createTopic(seriesId, topicId);
+        return aTopic.getDocument().subject;
+    },
+
+    tooltipForSeries: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        const seriesId = context.getSeriesId(infoItem._id);
+        let ms = new MeetingSeries(seriesId);
+        return ms.project + ':' + ms.name;
+    },
+
 });
 
 

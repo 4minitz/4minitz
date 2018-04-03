@@ -361,4 +361,8 @@ export class MeetingSeries {
         // put newResponsible to front of array
         this.additionalResponsibles.unshift(newResponsible);
     }
+
+    findTopic(topicId) {
+        return TopicsFinder.getTopicById(topicId, this._id);
+    }
 }

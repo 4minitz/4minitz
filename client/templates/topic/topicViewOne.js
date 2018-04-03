@@ -14,15 +14,20 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import { MeetingSeries } from '../../../imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
+import { MinutesFinder } from '../../../imports/services/minutesFinder';
 
-let _topicID;   // this topic ID
-
+let _topicID;           // this topic ID
+let _parentSeriesId;
 Template.topicViewOne.onCreated(function() {
     this.topicReady = new ReactiveVar();
 
     this.autorun(() => {
         _topicID = FlowRouter.getParam('_id');
-        this.subscribe('topicOnlyOne', _topicID);
+        this.subscribe('topicOnlyOne', _topicID, ()=>{  // perform the inner subscription after the outer one is ready
+            let aTopic = TopicSchema.getCollection().findOne({_id: _topicID});
+            _parentSeriesId = aTopic.parentId;
+            this.subscribe('minutes', _parentSeriesId);
+        });
         this.subscribe('meetingSeriesOverview');
         this.topicReady.set(this.subscriptionsReady());
     });
@@ -45,16 +50,14 @@ Template.topicViewOne.helpers({
     },
 
     redirectIfNotAllowed() {
-        let theTopic = TopicSchema.getCollection().findOne({_id: _topicID});
         let usrRoles = new UserRoles();
-        if (!usrRoles.hasViewRoleFor(theTopic.parentId)) {
+        if (!usrRoles.hasViewRoleFor(_parentSeriesId)) {
             FlowRouter.go('/');
         }
     },
 
     theMeetingSeries() {
-        let theTopic = TopicSchema.getCollection().findOne({_id: _topicID});
-        return new MeetingSeries(theTopic.parentId);
+        return new MeetingSeries(_parentSeriesId);
     },
 
     theTopic() {
@@ -64,10 +67,29 @@ Template.topicViewOne.helpers({
             isEditable: false,
             minutesID: null,
             currentCollapseId: 1,  // each topic item gets its own collapseID,
-            parentMeetingSeriesId: theTopic.parentId
+            parentMeetingSeriesId: _parentSeriesId
         };
 
+    },
+
+    dateOfLastFinalizedMinutes() {
+        let ms = new MeetingSeries(_parentSeriesId);
+        let aMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
+        if (aMin) {
+            return aMin.date;
+        }
+        return 'Never';
+    },
+
+    idOfLastFinalizedMinutes() {
+        let ms = new MeetingSeries(_parentSeriesId);
+        let aMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
+        if (aMin) {
+            return aMin._id;
+        }
+        return 'unknown';
     }
+
 });
 
 Template.topicViewOne.events({
