@@ -15,16 +15,16 @@
             <table style="font-size: 125%; margin-bottom: 1.5em; margin-left: 2em;">
                 <tr>
                     <td style="padding-right: 1.5em;">created on:</td>
-                    <td ><b>{{formatDateISO8601Time theTopic.topic.createdAt}}</b> (by {{theTopic.topic.createdBy}})</td>
+                    <td >{{formatDateISO8601Time theTopic.topic.createdAt}} (by {{theTopic.topic.createdBy}})</td>
                 </tr>
                 <tr>
                     <td style="padding-right: 1.5em;">last updated on:</td>
-                    <td ><b>{{formatDateISO8601Time theTopic.topic.updatedAt}}</b> (by {{theTopic.topic.updatedBy}})</td>
+                    <td >{{formatDateISO8601Time theTopic.topic.updatedAt}} (by {{theTopic.topic.updatedBy}})</td>
                 </tr>
                 <tr>
                     <td style="padding-right: 1.5em;">finalized on minutes from:</td>
                     <td ><a href="{{pathFor 'minutesedit' _id=idOfLastFinalizedMinutes}}">
-                        <b>{{dateOfLastFinalizedMinutes}}</b></a></td>
+                        {{dateOfLastFinalizedMinutes}}</a></td>
                 </tr>
             </table>
         {{> topicElement theTopic}}
