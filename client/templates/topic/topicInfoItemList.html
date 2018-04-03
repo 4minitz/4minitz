@@ -54,8 +54,13 @@
 
                             {{#if showLinks}}
                                 <span class="pull-right">
-                                    <span class="linkMeetingSerie glyphicon glyphicon-menu-right"></span>
-                                    <a class="linkMeetingSerie" href="{{getLink @index}}">Meeting series</a>
+                                    <span class="linkItemContext glyphicon glyphicon-menu-right"></span>
+                                    <a class="linkItemContext" href="{{getLinkToTopic @index}}" title="{{tooltipForTopic @index}}">
+                                        Parent Topic</a>
+                                    <br>
+                                    <span class="linkItemContext glyphicon glyphicon-menu-right"></span>
+                                    <a class="linkItemContext" href="{{getLinkToSeries @index}}" title="{{tooltipForSeries @index}}">
+                                        Parent Series</a>
                                 </span>
                             {{/if}}
 

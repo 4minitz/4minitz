@@ -1,0 +1,33 @@
+<template name="topicViewOne">
+    {{#if authenticating}}
+        {{> loading}}
+    {{else}}
+        {{redirectIfNotAllowed}}
+        <h2>
+            Topic of Meeting Series:<br>
+            {{#with theMeetingSeries}}
+                <a href="{{pathFor 'meetingseries' _id=_id}}">
+                    {{project}}: {{name}}
+                </a>
+            {{/with}}
+        </h2>
+        <h3>This Topic was</h3>
+            <table style="font-size: 125%; margin-bottom: 1.5em; margin-left: 2em;">
+                <tr>
+                    <td style="padding-right: 1.5em;">created on:</td>
+                    <td ><b>{{formatDateISO8601Time theTopic.topic.createdAt}}</b> (by {{theTopic.topic.createdBy}})</td>
+                </tr>
+                <tr>
+                    <td style="padding-right: 1.5em;">last updated on:</td>
+                    <td ><b>{{formatDateISO8601Time theTopic.topic.updatedAt}}</b> (by {{theTopic.topic.updatedBy}})</td>
+                </tr>
+                <tr>
+                    <td style="padding-right: 1.5em;">finalized on minutes from:</td>
+                    <td ><a href="{{pathFor 'minutesedit' _id=idOfLastFinalizedMinutes}}">
+                        <b>{{dateOfLastFinalizedMinutes}}</b></a></td>
+                </tr>
+            </table>
+        {{> topicElement theTopic}}
+
+    {{/if}}
+</template>

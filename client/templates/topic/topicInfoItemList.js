@@ -30,9 +30,10 @@ const INITIAL_ITEMS_LIMIT = 4;
 
 export class TopicInfoItemListContext {
 
-    static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(items, resolveSeriesForItem) {
+    static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(items, resolveSeriesForItem, resolveTopicForItem) {
         const context = new TopicInfoItemListContext(items, true, null);
         context.getSeriesId = resolveSeriesForItem;
+        context.getTopicId = resolveTopicForItem;
 
         context.hasLink = true;
         return context;
@@ -305,18 +306,44 @@ Template.topicInfoItemList.helpers({
             .map(labelSetFontColor);
     },
 
-    getLink: function(index) {
+    getLinkToSeries: function(index) {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
         return Blaze._globalHelpers.pathForImproved('/meetingseries/' + context.getSeriesId(infoItem._id));
+    },
+    getLinkToTopic: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        return Blaze._globalHelpers.pathForImproved('/topic/' + context.getTopicId(infoItem._id));
     },
 
     showLinks: function() {
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         return context.hasLink;
-    }
+    },
+
+    tooltipForTopic: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        const topicId = context.getTopicId(infoItem._id);
+        const seriesId = context.getSeriesId(infoItem._id);
+        let aTopic = createTopic(seriesId, topicId);
+        return aTopic.getDocument().subject;
+    },
+
+    tooltipForSeries: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        const seriesId = context.getSeriesId(infoItem._id);
+        let ms = new MeetingSeries(seriesId);
+        return ms.project + ':' + ms.name;
+    },
+
 });
 
 
@@ -632,6 +659,5 @@ Template.topicInfoItemList.events({
     // which in turn swallow the click event - and nothing happens on click.
     'mousedown .detailInputMarkdownHint'(evt) {
         handlerShowMarkdownHint(evt);
-
     }
 });

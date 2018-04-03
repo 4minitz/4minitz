@@ -297,13 +297,13 @@ input.pick-a-color {
     text-decoration: line-through;
 }
 
-.linkMeetingSerie{
+.linkItemContext{
     color: grey;
     font-size: 80%;
     vertical-align: sub;
 }
 
-a.linkMeetingSerie:hover {
+a.linkItemContext:hover {
     color: black;
 }
 

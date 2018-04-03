@@ -47,6 +47,7 @@ Template.actionItemList.helpers({
     getInfoItemListContext () {
         let myActionItems = [];
         const actionItemSeriesIdMap = {};
+        const actionItemTopicIdMap = {};
 
         let topics = TopicSchema.getCollection().find().fetch();
         topics.forEach(topic => {
@@ -55,6 +56,7 @@ Template.actionItemList.helpers({
             actionItems.forEach(actionItem => {
                 myActionItems.push(actionItem);
                 actionItemSeriesIdMap[actionItem._id] = topic.parentId;
+                actionItemTopicIdMap[actionItem._id] = topic._id;
             });
         });
 
@@ -69,9 +71,8 @@ Template.actionItemList.helpers({
 
         return TopicInfoItemListContext.createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
             myActionItems,
-            (itemId => {
-                return actionItemSeriesIdMap[itemId];
-            })
+            itemId => {return actionItemSeriesIdMap[itemId];},
+            itemId => {return actionItemTopicIdMap[itemId];}
         );
     }
 });
