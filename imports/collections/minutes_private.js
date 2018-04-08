@@ -4,6 +4,7 @@ import { Minutes } from '../minutes';
 import { UserRoles } from './../userroles';
 import { User } from '../user';
 import { MinutesSchema } from './minutes.schema';
+import { TopicSchema } from './topic.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
@@ -228,6 +229,7 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
             Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(parentSeriesID, visibleForArray);
+            TopicSchema.update({parentId: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
         } else {
             throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }
