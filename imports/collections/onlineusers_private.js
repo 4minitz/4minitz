@@ -5,7 +5,10 @@ import moment from 'moment/moment';
 
 if (Meteor.isServer) {
     Meteor.publish('onlineUsersForRoute', function (route) {
-        return OnlineUsersSchema.find({activeRoute: route});
+        if (route) {
+            return OnlineUsersSchema.find({activeRoute: route});
+        }
+        return OnlineUsersSchema.find();
     });
 }
 

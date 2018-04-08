@@ -1,10 +1,18 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
 
 let _filterUsers = new ReactiveVar('');
 let _showInactive = new ReactiveVar(false);
+let _showOnline = new ReactiveVar(false);
 let _visibleCount = new ReactiveVar(0);
+
+Template.tabAdminUsers.onCreated(function () {
+    this.autorun(() => {
+        this.subscribe('onlineUsersForRoute');
+    });
+});
 
 Template.tabAdminUsers.onRendered(function() {
     _filterUsers.set('');
@@ -24,6 +32,11 @@ Template.tabAdminUsers.helpers({
         if (! _showInactive.get()) {
             filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]};
         }
+        if (_showOnline.get()) {
+            let onlineusers = OnlineUsersSchema.find().fetch().map(ousr => {return ousr.userId});
+            filterOptions = {$and: [{'_id': {$in: onlineusers}}, filterOptions]};
+        }
+
         let userCursor = Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 250});
         _visibleCount.set(userCursor.count());
         return userCursor;
@@ -74,5 +87,10 @@ Template.tabAdminUsers.events({
 
     'change #id_adminShowInactive'(evt, tmpl) {
         _showInactive.set(tmpl.find('#id_adminShowInactive').checked);
+    },
+
+    'change #id_adminShowOnline'(evt, tmpl) {
+        _showOnline.set(tmpl.find('#id_adminShowOnline').checked);
     }
+
 });
