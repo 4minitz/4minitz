@@ -39,10 +39,10 @@ if (Meteor.isServer) {
     Meteor.publish('topics', function (meetingSeriesIdOrArray) {
         if (typeof meetingSeriesIdOrArray === 'string') // we have an ID here
             return TopicSchema.find({ $and: [{visibleFor: {$in: [this.userId]}}, {parentId: meetingSeriesIdOrArray }]});
-    return TopicSchema.find({
-        $and: [
-            {visibleFor: {$in: [this.userId]}},
-            {parentId: {$in: meetingSeriesIdOrArray} } //we have an whole array here
+        return TopicSchema.find({
+            $and: [
+                {visibleFor: {$in: [this.userId]}},
+                {parentId: {$in: meetingSeriesIdOrArray} } //we have an whole array here
             ]});
     });
 
