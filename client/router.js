@@ -56,6 +56,7 @@ FlowRouter.route( '/reset-password/:token', {
 FlowRouter.route('/meetingseries/:_id', {
     name: 'meetingseries',
     action() {
+        console.log('------ route: /meetingseries/:_id');
         BlazeLayout.render('appLayout', {main: 'meetingSeriesDetails'});
     }
 });

@@ -26,6 +26,7 @@ Template.meetingSeriesDetails.onCreated(function () {
     this.seriesReady = new ReactiveVar();
 
     this.autorun(() => {
+        console.log('--- meetingSeriesDetails.onCreated.autorun()');
         _meetingSeriesID = FlowRouter.getParam('_id');
         this.showSettingsDialog = FlowRouter.getQueryParam('edit') === 'true';
 
@@ -55,12 +56,17 @@ Template.meetingSeriesDetails.onRendered(function () {
 
 Template.meetingSeriesDetails.helpers({
     authenticating() {
+        console.log('------ authenticating()');
+        console.log('----------> authenticating(): Meteor.loggingIn():', Meteor.loggingIn());
+        console.log('----------> authenticating(): subscriptionReady :', subscriptionReady);
         const subscriptionReady = Template.instance().seriesReady.get();
         return Meteor.loggingIn() || !subscriptionReady;
     },
     redirectIfNotAllowed() {
+        console.log('---------redirectIfNotAllowed()');
         let usrRoles = new UserRoles();
         if (!usrRoles.hasViewRoleFor(_meetingSeriesID)) {
+            console.log('--------------> redirectIfNotAllowed(): go /');
             FlowRouter.go('/');
         }
     },
