@@ -124,6 +124,7 @@ Meteor.startup(() => {
         const crontab = GlobalSettings.getImportUsersCronTab(),
             mongoUrl = process.env.MONGO_URL,
             ldapSettings = GlobalSettings.getLDAPSettings();
+        console.log('MONGO_URL:', mongoUrl);
 
         if (GlobalSettings.getImportUsersOnLaunch()) {
             console.log('Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.');

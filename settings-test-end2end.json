@@ -96,7 +96,8 @@
             "strategy": "userAccountControl"
         },
         "importOnLaunch": true,
-        "importCronTab": "*/5 * * * *"
+        "importCronTab": "*/5 * * * *",
+        "hideStandardLogin": false
     },
 
     "ldapForumSys": {
