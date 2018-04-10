@@ -614,7 +614,7 @@ Template.minutesedit.events({
         DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
     },
 
-    'click #btnPinGlobalNote': function (evt, tmpl) {
+    'click #btnPinGlobalNote': function (evt) {
         evt.preventDefault();
         if (!isModerator() || isMinuteFinalized()) {
             return;
