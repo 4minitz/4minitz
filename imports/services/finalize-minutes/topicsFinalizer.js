@@ -2,36 +2,51 @@ import {subElementsHelper} from '../../helpers/subElements';
 import {MeetingSeriesTopicsUpdater} from './meetingSeriesTopicsUpdater';
 import {MinutesFinder} from '../minutesFinder';
 
-const createTopicsUpdater = (meetingSeriesId) => {
-    return new MeetingSeriesTopicsUpdater(meetingSeriesId);
+/**
+ *
+ * @param meetingSeriesId
+ * @param topicsVisibleFor array of user_ids states which user should be able to see these topics
+ * @returns {MeetingSeriesTopicsUpdater}
+ */
+const createTopicsUpdater = (meetingSeriesId, topicsVisibleFor) => {
+    return new MeetingSeriesTopicsUpdater(meetingSeriesId, topicsVisibleFor);
 };
 
 export class TopicsFinalizer {
 
-    static mergeTopicsForFinalize(meetingSeries) {
-        const topicsFinalizer = new TopicsFinalizer(meetingSeries);
+    /**
+     * @param meetingSeries array of user_ids states which user should be able to see these topics
+     * @param topicsVisibleFor
+     */
+    static mergeTopicsForFinalize(meetingSeries, topicsVisibleFor) {
+        const topicsUpdater = createTopicsUpdater(meetingSeries._id, topicsVisibleFor);
+        const topicsFinalizer = new TopicsFinalizer(meetingSeries, topicsUpdater);
         const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
         const secondLastMinutes = MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
         topicsFinalizer.mergeTopics(lastMinutes.topics, secondLastMinutes._id);
     }
 
-    static mergeTopicsForUnfinalize(meetingSeries) {
+    /**
+     * @param meetingSeries array of user_ids states which user should be able to see these topics
+     * @param topicsVisibleFor
+     */
+    static mergeTopicsForUnfinalize(meetingSeries, topicsVisibleFor) {
         const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
         const secondLastMinutes = MinutesFinder.secondLastMinutesOfMeetingSeries(meetingSeries);
-        const topicsUpdater = createTopicsUpdater(meetingSeries._id);
+        const topicsUpdater = createTopicsUpdater(meetingSeries._id, topicsVisibleFor);
         if (secondLastMinutes) {
             topicsUpdater.removeTopicsCreatedInMinutes(lastMinutes._id);
             topicsUpdater.removeTopicItemsCreatedInMinutes(lastMinutes._id);
-            const topicsFinalizer = new TopicsFinalizer(meetingSeries);
+            const topicsFinalizer = new TopicsFinalizer(meetingSeries, topicsUpdater);
             topicsFinalizer.mergeTopics(secondLastMinutes.topics);
         } else {
             topicsUpdater.removeAllTopics();
         }
     }
 
-    constructor(meetingSeries) {
+    constructor(meetingSeries, topicsUpdater) {
         this.meetingSeries = meetingSeries;
-        this.topicsUpdater = createTopicsUpdater(meetingSeries._id);
+        this.topicsUpdater = topicsUpdater;
     }
 
     mergeTopics(minutesTopics, minIdContainingTopicsToInvalidateIsNew = false) {

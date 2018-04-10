@@ -98,7 +98,7 @@ Meteor.methods({
         }
 
         // first we copy the topics of the finalize-minute to the parent series
-        TopicsFinalizer.mergeTopicsForFinalize(minutes.parentMeetingSeries());
+        TopicsFinalizer.mergeTopicsForFinalize(minutes.parentMeetingSeries(), minutes.visibleFor);
 
         // then we tag the minute as finalized
         let version = minutes.finalizedVersion + 1 || 1;
@@ -141,7 +141,7 @@ Meteor.methods({
             throw new Meteor.Error('not-allowed', 'This minutes is not allowed to be un-finalized.');
         }
 
-        TopicsFinalizer.mergeTopicsForUnfinalize(parentSeries);
+        TopicsFinalizer.mergeTopicsForUnfinalize(parentSeries, minutes.visibleFor);
 
         let doc = {
             finalizedAt: new Date(),
