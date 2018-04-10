@@ -325,8 +325,10 @@ Template.topicInfoItemList.helpers({
         const infoItem = context.items[index];
         const topicId = context.getTopicId(infoItem._id);
         const seriesId = context.getSeriesId(infoItem._id);
+        let ms = new MeetingSeries(seriesId);
         let aTopic = createTopic(seriesId, topicId);
-        return aTopic.getDocument().subject;
+        return 'Meeting Series:\n    ' + ms.project + ':' + ms.name +
+            '\nTopic:\n    ' + aTopic.getDocument().subject;
     }
 });
 

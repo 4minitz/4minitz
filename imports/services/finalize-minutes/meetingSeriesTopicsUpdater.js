@@ -5,8 +5,13 @@ import {Minutes} from '../../minutes';
 
 export class MeetingSeriesTopicsUpdater {
 
-    constructor(meetingSeriesId) {
+    /**
+     * @param meetingSeriesId
+     * @param topicsVisibleFor array of user_ids states which user should be able to see these topics
+     */
+    constructor(meetingSeriesId, topicsVisibleFor) {
         this.meetingSeriesId = meetingSeriesId;
+        this.topicsVisibleFor = topicsVisibleFor;
     }
 
     invalidateIsNewFlagOfTopicsPresentedInMinutes(minutesId) {
@@ -34,6 +39,7 @@ export class MeetingSeriesTopicsUpdater {
     upsertTopic(topicDoc) {
         topicDoc.parentId = this.meetingSeriesId;
         const topicId = topicDoc._id;
+        topicDoc.visibleFor = this.topicsVisibleFor;
         TopicSchema.upsert(
             { parentId: this.meetingSeriesId, _id: topicId },
             topicDoc

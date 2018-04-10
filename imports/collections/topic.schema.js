@@ -28,15 +28,21 @@ export const TopicSchema = SchemaClass.create({
         isSkipped: {type: Boolean, default: false },
         sortOrder: {type: Number, optional: true, default: 0},
         isEditedBy: {type: String, optional: true},
-        isEditedDate: {type: Date, optional: true}
+        isEditedDate: {type: Date, optional: true},
+        // visibleFor: array of user IDs; optional since it is only necessary for topics living in the
+        // topics collection. Topics inside a minutes do not have this field
+        visibleFor: {type: [String], validators: [{type: 'meteorId'}], optional: true},
     }
 });
 
 if (Meteor.isServer) {
     Meteor.publish('topics', function (meetingSeriesIdOrArray) {
-        if (typeof meetingSeriesIdOrArray === 'string') // we have an ID here
-            return TopicSchema.find({ parentId: meetingSeriesIdOrArray });
-        return TopicSchema.find({ parentId: {$in: meetingSeriesIdOrArray} }); //we have an whole array here
+        const parentIdSelector = (typeof meetingSeriesIdOrArray === 'string')
+            ? {parentId: meetingSeriesIdOrArray } // we have an ID here
+            : {parentId: {$in: meetingSeriesIdOrArray} };  //we have an whole array of ids here
+        return TopicSchema.find({
+            $and: [ {visibleFor: {$in: [this.userId]}}, parentIdSelector ]
+        });
     });
 
     Meteor.publish('topicOnlyOne', function (topicID) {

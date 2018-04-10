@@ -67,7 +67,7 @@ if (Meteor.isServer) {
         onSubmitHook: submitHookFunction
     });
 
-    // #Security: Do not allow standard users log in under some conditions
+    // #Security: Do not allow standard/LDAP users log in under some conditions
     Accounts.validateLoginAttempt(function(attempt) {
         if(attempt.user) {
             if (attempt.user.isInactive) {
@@ -77,7 +77,7 @@ if (Meteor.isServer) {
             else if (GlobalSettings.sendVerificationEmail() && !attempt.user.emails[0].verified) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'User account is not verified!');
-            } else if (LdapSettings.ldapHideStandardLogin()) {
+            } else if (LdapSettings.ldapHideStandardLogin() && !attempt.user.isLDAPuser) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'Login only via LDAP!');
             }
