@@ -1,8 +1,6 @@
 import { TopicSchema } from '/imports/collections/topic.schema';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 
-const bypass = {bypassCollection2: true};
-
 export class MigrateV23 {
     static migrateTopicCollection() {
         let topics = TopicSchema.find({});
@@ -13,7 +11,7 @@ export class MigrateV23 {
             }
 
             const responsibles = [];
-            TopicSchema.update(topic._id, {$set: {responsibles}}, bypass);
+            TopicSchema.getCollection().update(topic._id, {$set: {responsibles}});
         });
     }
 
@@ -21,7 +19,7 @@ export class MigrateV23 {
         let minutes = MinutesSchema.find({});
         minutes.forEach(minutes => {
             let topics = minutes.topics.map(topic => ({...topic, responsibles: topic.responsibles || []}));
-            MinutesSchema.update(minutes._id, {$set: {topics}}, bypass);
+            MinutesSchema.getCollection().update(minutes._id, {$set: {topics}});
         });
     }
 

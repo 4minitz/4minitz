@@ -4,14 +4,20 @@ import proxyquire from 'proxyquire';
 
 let Meteor = {};
 
-let MinutesSchema = {
-    find: sinon.stub(),
+let MinutesSchemaCollection = {
     update: sinon.spy()
 };
+let MinutesSchema = {
+    find: sinon.stub(),
+    getCollection: sinon.stub()
+};
 
+let TopicSchemaCollection = {
+    update: sinon.spy()
+};
 let TopicSchema = {
     find: sinon.stub(),
-    update: sinon.spy()
+    getCollection: sinon.stub()
 };
 
 const {
@@ -23,8 +29,6 @@ const {
 });
 
 describe('MigrateV23', function () {
-    const bypass = {bypassCollection2: true};
-
     describe('#up', function () {
         const topicWithResponsiblesNull = {
                 responsibles: null
@@ -36,14 +40,18 @@ describe('MigrateV23', function () {
         beforeEach(function () {
             TopicSchema.find.returns([]);
             MinutesSchema.find.returns([]);
+            MinutesSchema.getCollection.returns(MinutesSchemaCollection);
+            TopicSchema.getCollection.returns(TopicSchemaCollection);
         });
 
         afterEach(function () {
             TopicSchema.find.reset();
-            TopicSchema.update.reset();
+            TopicSchema.getCollection.reset();
+            TopicSchemaCollection.update.reset();
 
             MinutesSchema.find.reset();
-            MinutesSchema.update.reset();
+            MinutesSchema.getCollection.reset();
+            MinutesSchemaCollection.update.reset();
         });
 
         it('calls update method for every topic in the topic collection which has no responsibles set', function () {
@@ -53,7 +61,7 @@ describe('MigrateV23', function () {
             MigrateV23.up();
 
             const expectedNumberOfCallsToUpdate = 1;
-            expect(TopicSchema.update.callCount).to.equal(expectedNumberOfCallsToUpdate);
+            expect(TopicSchemaCollection.update.callCount).to.equal(expectedNumberOfCallsToUpdate);
         });
 
         it('converts null in topic collection entries to an empty array', function () {
@@ -61,7 +69,7 @@ describe('MigrateV23', function () {
 
             MigrateV23.up();
 
-            expect(TopicSchema.update.calledWithExactly(undefined, {$set: {responsibles: []}}, bypass)).to.be.true;
+            expect(TopicSchemaCollection.update.calledWithExactly(undefined, {$set: {responsibles: []}})).to.be.true;
         });
 
         it('does not update topics with responsibles already set', function () {
@@ -69,7 +77,7 @@ describe('MigrateV23', function () {
 
             MigrateV23.up();
 
-            expect(TopicSchema.update.called).to.be.false;
+            expect(TopicSchemaCollection.update.called).to.be.false;
         });
 
         it('calls the update method for every minutes which contains at least one topic where the responsibles field is not an array', function () {
@@ -79,7 +87,7 @@ describe('MigrateV23', function () {
             MigrateV23.up();
 
             const expectedNumberOfCallsToUpdate = 1;
-            expect(MinutesSchema.update.callCount).to.equal(expectedNumberOfCallsToUpdate);
+            expect(MinutesSchemaCollection.update.callCount).to.equal(expectedNumberOfCallsToUpdate);
         });
 
         it('converts null in topic collection entries to an empty array', function () {
@@ -88,7 +96,7 @@ describe('MigrateV23', function () {
 
             MigrateV23.up();
 
-            expect(MinutesSchema.update.calledWithExactly(undefined, {$set: {topics: [{responsibles: []}]}}, bypass)).to.be.true;
+            expect(MinutesSchemaCollection.update.calledWithExactly(undefined, {$set: {topics: [{responsibles: []}]}})).to.be.true;
         });
 
         it('does not modify responsibles that already are defined', function () {
@@ -97,7 +105,7 @@ describe('MigrateV23', function () {
 
             MigrateV23.up();
 
-            expect(MinutesSchema.update.calledWithExactly(undefined, {$set: {topics: [topicsWithResponsiblesDefined]}}, bypass)).to.be.true;
+            expect(MinutesSchemaCollection.update.calledWithExactly(undefined, {$set: {topics: [topicsWithResponsiblesDefined]}})).to.be.true;
         });
     });
 });
