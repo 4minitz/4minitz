@@ -15,6 +15,7 @@ import {labelSetFontColor} from './helpers/label-set-font-color';
 import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 let _minutesId;
 
@@ -231,6 +232,10 @@ Template.topicElement.events({
         editTopicEventHandler(evt, this, (aTopic) => {
             aTopic.toggleState().catch(onError);
         });
+    },
+
+    'click #btnShowTopic'() {
+        FlowRouter.go('/topic/'+this.topic._id);
     },
 
     'click .js-toggle-recurring'(evt) {
