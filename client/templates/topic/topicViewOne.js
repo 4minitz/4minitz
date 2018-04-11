@@ -16,8 +16,8 @@ import { MeetingSeries } from '../../../imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
 import { MinutesFinder } from '../../../imports/services/minutesFinder';
 
-let _topicID;           // this topic ID
-let _parentSeriesId;
+let _topicID = undefined;           // this topic ID
+let _parentSeriesId = undefined;
 Template.topicViewOne.onCreated(function() {
     this.topicReady = new ReactiveVar();
 
@@ -25,8 +25,12 @@ Template.topicViewOne.onCreated(function() {
         _topicID = FlowRouter.getParam('_id');
         this.subscribe('topicOnlyOne', _topicID, ()=>{  // perform the inner subscription after the outer one is ready
             let aTopic = TopicSchema.getCollection().findOne({_id: _topicID});
-            _parentSeriesId = aTopic.parentId;
-            this.subscribe('minutes', _parentSeriesId);
+            if (aTopic) {
+                _parentSeriesId = aTopic.parentId;
+                if (_parentSeriesId) {
+                    this.subscribe('minutes', _parentSeriesId);
+                }
+            }
         });
         this.subscribe('meetingSeriesOverview');
         this.topicReady.set(this.subscriptionsReady());
@@ -51,7 +55,7 @@ Template.topicViewOne.helpers({
 
     redirectIfNotAllowed() {
         let usrRoles = new UserRoles();
-        if (!usrRoles.hasViewRoleFor(_parentSeriesId)) {
+        if (_parentSeriesId && !usrRoles.hasViewRoleFor(_parentSeriesId)) {
             FlowRouter.go('/');
         }
     },
@@ -62,6 +66,9 @@ Template.topicViewOne.helpers({
 
     theTopic() {
         let theTopic = TopicSchema.getCollection().findOne({_id: _topicID});
+        if (!_topicID || ! theTopic) {
+            return undefined;
+        }
         return {
             topic: theTopic,
             isEditable: false,
