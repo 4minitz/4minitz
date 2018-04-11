@@ -18,6 +18,9 @@ export class MigrateV23 {
     static migrateMinutesCollection() {
         let minutes = MinutesSchema.find({});
         minutes.forEach(minutes => {
+            // copy over the topics as they are and just replace the responsibles field:
+            //  * keep responsibles if they are set properly
+            //  * set responsibles to [] if they are null
             let topics = minutes.topics.map(topic => ({...topic, responsibles: topic.responsibles || []}));
             MinutesSchema.getCollection().update(minutes._id, {$set: {topics}});
         });
