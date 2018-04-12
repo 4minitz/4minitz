@@ -40,6 +40,7 @@ let handleRejection = function (error) {
     // the NODE_TLS_REJECT_UNAUTHORIZED env is reset
     resetSelfSigned();
     console.warn(`An error occurred: ${error}`);
+    console.warn('Error: '+JSON.stringify(error,null,2));
     throw error;
 };
 
