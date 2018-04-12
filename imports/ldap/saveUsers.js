@@ -11,10 +11,7 @@ let _transformUsers = function (settings, users) {
 };
 
 let _connectMongo = function (mongoUrl) {
-    console.log('---Pre Connect:', mongoUrl, typeof mongoUrl);
-    let m = mongo.connect(mongoUrl);
-    console.log('---Post Connect');
-    return m;
+    return mongo.connect(mongoUrl);
 };
 
 RegExp.escape= function(s) {
