@@ -75,8 +75,16 @@ cd /4minitz_bin/bundle
 # Respect MONGO_URL if set from 'docker -e' command line
 if [ -z "${MONGO_URL}" ]
 then
-    echo "** Setting MONGO_URL to default"
-    export MONGO_URL="mongodb://localhost:27017/"
+    # Let's check if there exists an admin DB with a meetingSeries collection
+    # This ensures backward compatibility with 4Minitz v1.0.2 [stable]
+    if echo -e "use admin\ndb.getCollectionNames()" | mongo | grep -q "\"meetingSeries\""
+    then
+        echo "** Setting MONGO_URL to 4Minitz v1.0 default"
+        export MONGO_URL="mongodb://localhost:27017/admin"
+    else
+        echo "** Setting MONGO_URL to 4Minitz v1.5 default"
+        export MONGO_URL="mongodb://localhost:27017/4minitz"
+    fi
 else
     echo "** Keeping MONGO_URL from 'docker -e'"
 fi

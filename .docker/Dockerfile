@@ -1,4 +1,4 @@
-FROM mongo:3.4
+FROM mongo:3.4.10
 
 MAINTAINER 4Minitz-Team <4minitz@gmx.de>
 
