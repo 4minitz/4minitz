@@ -30,6 +30,7 @@ const INITIAL_ITEMS_LIMIT = 4;
 
 export class TopicInfoItemListContext {
 
+    // called from Meeting Series "actionItemList" view (aka "My Action Items")
     static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(items, resolveSeriesForItem, resolveTopicForItem) {
         const context = new TopicInfoItemListContext(items, true, null);
         context.getSeriesId = resolveSeriesForItem;
@@ -39,21 +40,37 @@ export class TopicInfoItemListContext {
         return context;
     }
 
+    // called from Meeting Series "tabItems" view
     static createReadonlyContextForItemsOfDifferentTopics(items, meetingSeriesId) {
-        return new TopicInfoItemListContext(items, true, meetingSeriesId);
+        const context = new TopicInfoItemListContext(items, true, meetingSeriesId);
+        let mapItemID2topicID = {};
+        items.forEach(item => {
+            mapItemID2topicID[item._id] = item.parentTopicId;
+        });
+        context.getTopicId = itemId => {return mapItemID2topicID[itemId];};
+        context.hasLink = true;
+        return context;
     }
 
+    // called from "topicElement" view
     static createContextForItemsOfOneTopic(items, isReadonly, topicParentId, parentTopicId) {
         return new TopicInfoItemListContext(items, isReadonly, topicParentId, parentTopicId);
     }
 
+    /**
+     * Constructs an item context
+     * @param items list of items
+     * @param isReadonly can user edit the items?
+     * @param topicParentId either minute ID or meeting series ID
+     * @param parentTopicId topic ID
+     */
     constructor (items, isReadonly, topicParentId = null, parentTopicId = null) {
         this.items = (!parentTopicId) ? items : items.map(item => {
             item.parentTopicId = parentTopicId;
             return item;
         });
         this.isReadonly = isReadonly;
-        this.topicParentId = topicParentId;
+        this.topicParentId = topicParentId; // the parent of the topic: either minute or meeting series!
         this.getSeriesId = () => {
             return topicParentId;
         };
