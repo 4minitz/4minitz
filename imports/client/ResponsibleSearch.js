@@ -63,7 +63,8 @@ export function configureSelect2Responsibles(SelectResponsibleElementID, topicOr
     select2search(selectResponsibles, delayTime, freeTextValidator, _minutesID, topicOrItem);
     let data = {options: []};
     if (topicOrItemDoc !== undefined) {
-        topicOrItemDoc.responsibles.forEach(responsibleId => {
+        let responsibles = topicOrItemDoc.responsibles || [];
+        responsibles.forEach(responsibleId => {
             let responsibleUser = Meteor.users.findOne(responsibleId);
             if (!responsibleUser) { //free text user
                 responsibleUser = {fullname: responsibleId};
