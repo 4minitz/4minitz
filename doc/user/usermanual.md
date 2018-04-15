@@ -145,6 +145,11 @@ the topic menu will allow you to:
 * **"Edit Topic"** (or click on topic subject text) will allow the moderator to edit this topic's subject, label or the responsible
 * **"Set Recurring"** will switch the topic to a recurring topic that will be part of any future meetings
 * **"Set Skip"** will mark a topic as to be skipped. Skipped topics will not be part of the current minute and are hidden for everyone except the moderator. In the next minute a skipped topic will automatically appear as normal.
+* **"Show History"** If the topic was ever finalized in previous meeting minutes,
+ this will show the finalized topic content as it is stored in the
+ meeting series. Here you are able to see closed action items of the topic
+ or historical info items that are not any longer visible in the current 
+ meeting minutes. 
 * **"Delete Topic"** will delete this topic after a security question
 * **"Up-Down-Arrow"** allows reordering the topics via drag'n'drop
 
@@ -276,10 +281,12 @@ Once the moderator creates new minutes on top of the finalized last minutes, it 
 
 
 ## Download minute protocols
-The app offers the possibility of automatic generation of minute protocols by finalizing them. This applies only if this feature has been enabled in the settings.
+The app offers the possibility of automatic generation of minute protocols by finalizing them. This applies only if this feature has been enabled by the admin in the settings. Depending on the setting the download format will be HTML or PDF or even PDF/A.
 
-These protocols can  be downloaded by any user having the invited role or a higher one for the specific meeting series.
+These protocols can  be downloaded by any user having the invited role or a higher higher for the specific meeting series.
 In order to do this, press the download button in the upper right corner shown in finalized minutes.
+
+![Download Protocol File](./figures/download_protocol.png)
 
 If the feature is enabled but no protocol has been created for a specific minute (e.g. if the feature has been enabled after finalizing a minute) then by clicking on the download button a confirmation dialog opens. It will offer you to download an dynamically generated HTML protocol as a substitution. This protocol will not be stored on the server.
 
@@ -333,7 +340,7 @@ in the web browser first, to open an attachment by clicking the name.
 | Uploader      | Yes            | Only her own!  | Yes           |
 | Invited       | No             |        No      | Yes           |
 | Informed      | No             |        No      | No            |
-| Others        | No             |        No      | No ;-)        |
+| "None"        | No             |        No      | No ;-)        |
 
 
 ## Search through topics, info items and action items
@@ -371,3 +378,19 @@ In the filter bar you can enter any text that is searched in the topics / items.
   * `is:info` - find only info items
   * `is:open` - find open action items
   * `is:closed` -  find closed action items
+
+On the tab "Items" sometimes you wish to see the context (parent) topic of a specific item. For this simply click on the "Show Topic" link of an item.
+
+## My Action Items
+If you are invited to multiple meeting series, it might happen that you get quite some action items from different meetings. To keep the overview of what is expected from you to do and what are the due dates, you may go to the "My Action Items" tab on the start screen of 4Minitz.
+
+![My Action Items Tab](./figures/my_action_items.png)
+
+All action items on this tab are
+* marked for YOU as responsible
+* still open (default view)
+* sorted by due date
+
+You may also filter to see closed action items or action items with a specific text.
+
+Sometimes the action item is not understandable without the parent topic context where the action item stems from. So, it is possible to navigate from an action item on the "My Action Items" tab to the parent topic by clicking "Show Topic". On this view press the "Go Back" button to navigate back to the "My Action Items" tab.

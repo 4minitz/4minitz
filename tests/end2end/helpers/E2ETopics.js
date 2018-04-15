@@ -492,12 +492,12 @@ export class E2ETopics {
         }
         const elements = browser.elements(selector);
         return elements.value;
-    };
+    }
 
     static countTopicsForMinute () {
         let topics = E2ETopics.getTopicsForMinute();
         return (topics.length) ? topics.length : 0;
-    };
+    }
 
     static getLastTopicForMinute() {
         let topics = E2ETopics.getTopicsForMinute();
