@@ -1,28 +1,17 @@
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import {FlashMessage} from './helpers/flashMessage';
 import { Accounts } from 'meteor/accounts-base';
 
 // reset document title on route exit
 // To set a route specific title use a helper in the according template
-resetDocumentTitle = function (context) {
-    document.title = "4Minitz!";
+const resetDocumentTitle = function () {
+    document.title = '4Minitz!';
 };
 
 FlowRouter.route('/', {
     action() {
         BlazeLayout.render('appLayout', {main: 'home'});
-    }
-});
-
-FlowRouter.route('/login', {
-    triggersExit: [
-        function () {
-            FlowRouter.redirect('/');
-        }
-    ],
-    action() {
-        BlazeLayout.render('appLayout', {main: 'login'});
     }
 });
 
@@ -77,4 +66,12 @@ FlowRouter.route('/minutesedit/:_id', {
         BlazeLayout.render('appLayout', {main: 'minutesedit'});
     },
     triggersExit: [resetDocumentTitle]
+});
+
+
+FlowRouter.route('/topic/:_id', {
+    name: 'topic',
+    action() {
+        BlazeLayout.render('appLayout', {main: 'topicViewOne'});
+    }
 });

@@ -8,7 +8,7 @@ import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory
 
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import { Minutes } from '/imports/minutes';
 import { MinutesFinder } from '/imports/services/minutesFinder';
@@ -20,6 +20,7 @@ import { Finalizer } from '/imports/services/finalize-minutes/finalizer';
 
 import { TopicListConfig } from '../topic/topicsList';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import { QualityTestRunner } from '/imports/client/QualityTestRunner';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { UserTracker } from '../../helpers/userTracker';
 
@@ -412,7 +413,7 @@ Template.minutesedit.helpers({
 
     theProtocol : function () {
         return DocumentGeneration.getProtocolForMinute(_minutesID);
-    },
+    }
 });
 
 Template.minutesedit.events({
@@ -470,24 +471,28 @@ Template.minutesedit.events({
             sendBtn.prop('disabled', false);
         };
 
-        if (aMin.getAgendaSentAt()) {
-            let date = aMin.getAgendaSentAt();
-            console.log(date);
+        let agendaCheckDate = async() => {
+            if (aMin.getAgendaSentAt()) {
+                let date = aMin.getAgendaSentAt();
+                console.log(date);
 
-            ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
-                sendAgenda,
-                'Confirm sending agenda',
-                'confirmSendAgenda',
-                {
-                    minDate: aMin.date,
-                    agendaSentDate: moment(date).format('YYYY-MM-DD'),
-                    agendaSentTime: moment(date).format('h:mm')
-                },
-                'Send Agenda'
-            ).show();
-        } else {
-            await sendAgenda();
-        }
+                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                    sendAgenda,
+                    'Confirm sending agenda',
+                    'confirmSendAgenda',
+                    {
+                        minDate: aMin.date,
+                        agendaSentDate: moment(date).format('YYYY-MM-DD'),
+                        agendaSentTime: moment(date).format('h:mm')
+                    },
+                    'Send Agenda'
+                ).show();
+            } else {
+                await sendAgenda();
+            }
+        };
+
+        QualityTestRunner.run(QualityTestRunner.TRIGGERS.sendAgenda, aMin, agendaCheckDate);
     },
 
     'click #btn_finalizeMinutes': function(evt, tmpl) {
@@ -500,7 +505,7 @@ Template.minutesedit.events({
             let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
             // Force closing the dialog before starting the finalize process
             Meteor.setTimeout(() => {
-                Finalizer.finalize(aMin._id, sendActionItems, sendInformationItems);
+                Finalizer.finalize(aMin._id, sendActionItems, sendInformationItems, onError);
                 tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
                 (new FlashMessage('OK', 'This meeting minutes were successfully finalized', FlashMessage.TYPES().SUCCESS, 3000)).show();
                 msg.hideMe();
@@ -528,23 +533,7 @@ Template.minutesedit.events({
             }
         };
 
-        let noParticipantsPresent = true;
-        aMin.participants.forEach(p => {
-            if(p.present) noParticipantsPresent = false;
-        });
-
-        if(noParticipantsPresent){
-            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-                processFinalize,
-                'Proceed without participants',
-                'confirmPlainText',
-                { plainText: 'No invited user is checked as participant of this meeting. Are you sure you want to finalize the meeting?'},
-                'Proceed'
-            ).show();
-        }
-        else {
-            processFinalize();
-        }
+        QualityTestRunner.run(QualityTestRunner.TRIGGERS.finalize, aMin, processFinalize);
     },
 
     'click #btn_unfinalizeMinutes': function(evt) {
@@ -623,6 +612,15 @@ Template.minutesedit.events({
         };
         
         DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
+    },
+
+    'click #btnPinGlobalNote': function (evt) {
+        evt.preventDefault();
+        if (!isModerator() || isMinuteFinalized()) {
+            return;
+        }
+        let aMin = new Minutes(_minutesID);
+        aMin.update({globalNotePinned: !aMin.globalNotePinned}).catch(onError);
     }
 });
 

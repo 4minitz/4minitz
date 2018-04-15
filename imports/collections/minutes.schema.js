@@ -28,6 +28,7 @@ export const MinutesSchema = SchemaClass.create({
         // todo: make this of type date
         date: {type: String},
         globalNote: {type: String, default: '', optional: true},
+        globalNotePinned: {type: Boolean, default: false, optional: true},
         topics: {type: [TopicSchema], default: []},
         createdAt: {type: Date},
         createdBy: {type: String, optional: true},

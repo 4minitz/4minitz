@@ -13,6 +13,7 @@ describe('MeetingSeries Items list', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
@@ -66,7 +67,7 @@ describe('MeetingSeries Items list', function () {
         E2ETopics.expandDetailsForNthInfoItem(1);
 
         expect(E2ETopics.getNthItemFromItemList(0).value)
-            .to.have.string(formatDateISO8601(new Date()) + '\nAmazing details for this information item');
+            .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nAmazing details for this information item');
     });
 
 });

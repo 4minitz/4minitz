@@ -5,13 +5,13 @@ import { MeetingSeriesSchema } from '/imports/collections/meetingseries.schema';
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
+import { User } from '/imports/user';
 import { FinalizeMailHandler } from '/imports/mail/FinalizeMailHandler';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
 import { MinutesFinder } from '/imports/services/minutesFinder';
 
-import { DocumentGeneration } from '/imports/documentGeneration';
 import '/imports/helpers/promisedMethods';
 import {TopicsFinalizer} from './topicsFinalizer';
 
@@ -46,6 +46,21 @@ function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
     });
 }
 
+function removeIsEdited(aMin) {
+    for (let topic of aMin.topics) {
+        topic.isEditedBy = null;
+        topic.isEditedDate = null;
+        for (let infoItem of topic.infoItems) {
+            infoItem.isEditedBy = null;
+            infoItem.isEditedDate = null;
+            for (let detail of infoItem.details) {
+                detail.isEditedBy = null;
+                detail.isEditedDate = null;
+            }
+        }
+    }
+}
+
 function compileFinalizedInfo(minutes) {
     if (!minutes.finalizedAt) {
         return 'Never finalized';
@@ -69,6 +84,8 @@ Meteor.methods({
             throw new Meteor.Error('runtime-error', 'The minute is already finalized');
         }
 
+        removeIsEdited(minutes);
+
         checkUserAvailableAndIsModeratorOf(minutes.parentMeetingSeriesID());
 
         // We have to remember the sort order of the current minute
@@ -81,14 +98,14 @@ Meteor.methods({
         }
 
         // first we copy the topics of the finalize-minute to the parent series
-        TopicsFinalizer.mergeTopicsForFinalize(minutes.parentMeetingSeries());
+        TopicsFinalizer.mergeTopicsForFinalize(minutes.parentMeetingSeries(), minutes.visibleFor);
 
         // then we tag the minute as finalized
         let version = minutes.finalizedVersion + 1 || 1;
 
         let doc = {
             finalizedAt: new Date(),
-            finalizedBy: Meteor.user().username,
+            finalizedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
             isFinalized: true,
             finalizedVersion: version
         };
@@ -108,11 +125,6 @@ Meteor.methods({
         //update meeting series fields to correctly resemble the finalized status of the minute
         minutes.parentMeetingSeries().updateLastMinutesFieldsAsync();
 
-        // save protocol if enabled
-        if (Meteor.settings.public.docGeneration.enabled) {
-            DocumentGeneration.saveProtocol(minutes);
-        }
-
         console.log('workflow.finalizeMinute DONE.');
     },
 
@@ -129,11 +141,11 @@ Meteor.methods({
             throw new Meteor.Error('not-allowed', 'This minutes is not allowed to be un-finalized.');
         }
 
-        TopicsFinalizer.mergeTopicsForUnfinalize(parentSeries);
+        TopicsFinalizer.mergeTopicsForUnfinalize(parentSeries, minutes.visibleFor);
 
         let doc = {
             finalizedAt: new Date(),
-            finalizedBy: Meteor.user().username,
+            finalizedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
             isFinalized: false
         };
 
@@ -143,11 +155,6 @@ Meteor.methods({
         let history = minutes.finalizedHistory || [];
         history.push(compileFinalizedInfo(minutes));
         doc.finalizedHistory = history;
-
-        // remove protocol if enabled
-        if (Meteor.settings.public.docGeneration.enabled) {
-            DocumentGeneration.removeProtocol(minutes);
-        }
 
         console.log('workflow.unfinalizeMinute DONE.');
         let result = MinutesSchema.update(id, {$set: doc});
@@ -161,12 +168,25 @@ Meteor.methods({
 
 
 export class Finalizer {
-    static finalize(minutesId, sendActionItems, sendInfoItems) {
-        Meteor.callPromise('workflow.finalizeMinute', minutesId, sendActionItems, sendInfoItems);
+    static finalize(minutesId, sendActionItems, sendInfoItems, onErrorCallback) {
+        Meteor.call('workflow.finalizeMinute', minutesId, sendActionItems, sendInfoItems);
+        // save protocol if enabled
+        if (Meteor.settings.public.docGeneration.enabled) {
+            Meteor.call('documentgeneration.createAndStoreFile', minutesId, (error) => {
+                if (error) {
+                    error.reason = error.reason ? error.reason : error.error;
+                    onErrorCallback(error);
+                }
+            });
+        }
     }
 
     static unfinalize(minutesId) {
-        Meteor.callPromise('workflow.unfinalizeMinute', minutesId);
+        Meteor.call('workflow.unfinalizeMinute', minutesId);
+        // remove protocol if enabled
+        if (Meteor.settings.public.docGeneration.enabled) {
+            Meteor.call('documentgeneration.removeFile', minutesId);
+        }
     }
 
     static finalizedInfo(minutesId) {

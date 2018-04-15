@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import { MeetingSeries } from '/imports/meetingseries';
 import { MinutesFinder } from '/imports/services/minutesFinder';
@@ -12,9 +12,22 @@ import { UserRoles } from '/imports/userroles';
 import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
 import {TopicsFinder} from '../../../imports/services/topicsFinder';
+import {formatDateISO8601Time} from '../../../imports/helpers/date';
 
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
+
+const isModerator = () => {
+    const usrRole = new UserRoles();
+    return usrRole.isModeratorOf(_meetingSeriesID);
+};
+
+const rememberLastTab = (tmpl) => {
+    Session.set('meetingSeriesEdit.lastTab', {
+        tabId: tmpl.activeTabId.get(),
+        tabTemplate: tmpl.activeTabTemplate.get()
+    });
+};
 
 Template.meetingSeriesDetails.onCreated(function () {
     this.seriesReady = new ReactiveVar();
@@ -32,12 +45,20 @@ Template.meetingSeriesDetails.onCreated(function () {
         this.seriesReady.set(this.subscriptionsReady());
     });
 
-    this.activeTabTemplate = new ReactiveVar('tabMinutesList');
-    this.activeTabId = new ReactiveVar('tab_minutes');
+    // Did another view request to restore the last tab on this view?
+    if (Session.get('restoreTabAfterBackButton') && Session.get('meetingSeriesEdit.lastTab')) {
+        this.activeTabId = new ReactiveVar(Session.get('meetingSeriesEdit.lastTab').tabId);
+        this.activeTabTemplate = new ReactiveVar(Session.get('meetingSeriesEdit.lastTab').tabTemplate);
+        Session.set('restoreTabAfterBackButton', false);
+    } else {
+        this.activeTabId = new ReactiveVar('tab_minutes');
+        this.activeTabTemplate = new ReactiveVar('tabMinutesList');
+        rememberLastTab(this);
+    }
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
-    if (this.showSettingsDialog) {
+    if (this.showSettingsDialog && isModerator()) {
         Session.set('meetingSeriesEdit.showUsersPanel', true);
 
         // Defer opening the meeting series settings dialog after rendering of the template
@@ -98,8 +119,26 @@ Template.meetingSeriesDetails.helpers({
     },
 
     isModerator: function () {
-        let usrRole = new UserRoles();
-        return usrRole.isModeratorOf(_meetingSeriesID);
+        return isModerator();
+    },
+
+    isMeetingSeriesEditedByAnotherUser: function () {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        if (ms.isEditedBy == undefined && ms.isEditedDate == undefined)
+            return false;
+        return ms.isEditedBy !== Meteor.userId();
+    },
+
+    meetingSeriesEditedBy() {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        let user = Meteor.users.findOne({_id: ms.isEditedBy});
+
+        return user.username;
+    },
+
+    meetingSeriesEditedDate() {
+        let ms = new MeetingSeries(_meetingSeriesID);
+        return formatDateISO8601Time(ms.isEditedDate);
     }
 });
 
@@ -109,5 +148,6 @@ Template.meetingSeriesDetails.events({
 
         tmpl.activeTabId.set(currentTab.attr('id'));
         tmpl.activeTabTemplate.set(currentTab.data('template'));
+        rememberLastTab(tmpl);
     }
 });

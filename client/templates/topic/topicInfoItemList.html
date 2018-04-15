@@ -52,6 +52,14 @@
                                 <span class="badge">New</span>
                             {{/if}}
 
+                            {{#if showLinks}}
+                                <span class="pull-right">
+                                    <span class="linkItemContext glyphicon glyphicon-menu-right"></span>
+                                    <a class="linkItemContext" href="{{getLinkToTopic @index}}" title="{{tooltipForTopic @index}}">
+                                        Show Topic</a>
+                                </span>
+                            {{/if}}
+
                             <!-- Manipulation Drop-Down Menu -->
                             <span class="pull-right pull-right-icons hidden-print">
                                 {{#unless isReadonly}}
@@ -71,6 +79,13 @@
                                             <a  class="btnEditInfoItem panel-link" title="Edit item" data-index="{{@index}}">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                                 Edit Item
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" data-toggle="{{#unless isItemConversationAllowed @index}}tooltip{{/unless}}" class="btnConvertInfoItem panel-link {{#unless isItemConversationAllowed @index}}disabled{{/unless}}"
+                                               title="{{#unless isItemConversationAllowed @index}}Conversion disabled: item exists in past meeting{{/unless}}" data-index="{{@index}}">
+                                                <span class="glyphicon {{#if isInfoItem @index}}glyphicon-check{{else}}glyphicon-info-sign{{/if}}"></span>
+                                                Convert to {{#if isInfoItem @index}}Action{{else}}Info{{/if}}
                                             </a>
                                         </li>
                                         {{#if isInfoItem @index}}
@@ -126,8 +141,12 @@
                                             <span class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
                                                 data-id="{{itemId}}_{{@index}}"></span>
                                         </span>
-
+                                        <!-- New-Topic-Label -->
+                                        {{#if this.isNew}}
+                                            <span class="badge">New</span>
+                                        {{/if}}
                                     </div>
+
                                     <div style="padding-left: 10px;" class="detailText"
                                          data-id="{{itemId}}_{{@index}}">
                                         <span id="detailText_{{itemId}}_{{@index}}"
@@ -144,7 +163,7 @@
                                                   data-index="{{@index}}"
                                                   class="form-control detailInput"
                                                   style="display: none; font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
-                                                  placeholder="You may use Markdown to edit. Press Esc, Ctrl+Enter or Tab to leave."></textarea>
+                                                  placeholder="You may use Markdown to edit. Press Ctrl+Enter or Tab to leave."></textarea>
                                     </div>
                                 </div>
                             {{/each}}

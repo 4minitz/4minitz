@@ -1,7 +1,7 @@
-import { E2EGlobal } from './E2EGlobal'
-import { E2EApp } from './E2EApp'
-import { E2EMeetingSeries } from './E2EMeetingSeries'
-import {E2EMinutesParticipants} from './E2EMinutesParticipants'
+import { E2EGlobal } from './E2EGlobal';
+import { E2EApp } from './E2EApp';
+import { E2EMeetingSeries } from './E2EMeetingSeries';
+import {E2EMinutesParticipants} from './E2EMinutesParticipants';
 
 
 export class E2EMinutes {
@@ -12,20 +12,20 @@ export class E2EMinutes {
      */
     static addMinutesToMeetingSeries (aProj, aName, aDate) {
         E2EMeetingSeries.gotoMeetingSeries(aProj, aName);
-        browser.waitForVisible("#btnAddMinutes");
-        E2EGlobal.clickWithRetry("#btnAddMinutes");
+        browser.waitForVisible('#btnAddMinutes');
+        E2EGlobal.clickWithRetry('#btnAddMinutes');
         E2EGlobal.waitSomeTime(700); // give route change time
 
         let minutesID = browser.getUrl();
-        minutesID = minutesID.replace(/^.*\//, "");
+        minutesID = minutesID.replace(/^.*\//, '');
 
         if (aDate) {
             browser.waitForVisible('#id_minutesdateInput');
-            browser.setValue('#id_minutesdateInput', "");
+            browser.setValue('#id_minutesdateInput', '');
             browser.setValue('#id_minutesdateInput', aDate);
         }
         return minutesID;
-    };
+    }
 
     /**
      * Finalizes the current minute
@@ -36,15 +36,18 @@ export class E2EMinutes {
     static finalizeCurrentMinutes (confirmDialog) {
         let participantsInfo = new E2EMinutesParticipants();
         participantsInfo.setUserPresence(E2EApp.getCurrentUser(),true);
-        browser.waitForVisible("#btn_finalizeMinutes");
-        E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
+        browser.waitForVisible('#btn_finalizeMinutes');
+        E2EGlobal.clickWithRetry('#btn_finalizeMinutes');
+
+        E2EMinutes.confirmQualityAssuranceDialog();
+
         if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
             if (confirmDialog === undefined || confirmDialog) {
                 E2EApp.confirmationDialogAnswer(true);
             }
         }
         E2EGlobal.waitSomeTime(1000);
-    };
+    }
 
     /**
      * Finalizes the current minute, when no participants present
@@ -54,11 +57,11 @@ export class E2EMinutes {
      *        processFinalize is true, when you want to proceed finalizing Minutes without participants
      */
     static finalizeCurrentMinutesWithoutParticipants (confirmDialog, processFinalize) {
-        browser.waitForVisible("#btn_finalizeMinutes");
-        E2EGlobal.clickWithRetry("#btn_finalizeMinutes");
+        browser.waitForVisible('#btn_finalizeMinutes');
+        E2EGlobal.clickWithRetry('#btn_finalizeMinutes');
+
         if(processFinalize == true) {
-            browser.waitForVisible("#confirmationDialogOK");
-            E2EGlobal.clickWithRetry("#confirmationDialogOK");
+            E2EMinutes.confirmQualityAssuranceDialog();
             if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
                 if (confirmDialog === undefined || confirmDialog) {
                     E2EApp.confirmationDialogAnswer(true);
@@ -67,16 +70,24 @@ export class E2EMinutes {
             E2EGlobal.waitSomeTime(1000);
         }
         else {
-            browser.waitForVisible("#confirmationDialogCancel");
-            E2EGlobal.clickWithRetry("#confirmationDialogCancel");
+            browser.waitForVisible('#confirmationDialogCancel');
+            E2EGlobal.clickWithRetry('#confirmationDialogCancel');
         }
-    };
+    }
 
+    static confirmQualityAssuranceDialog(){
+        E2EGlobal.waitSomeTime(600);
+        if(browser.isVisible('#minuteQualityAssuranceDialog')) {
+            E2EApp.confirmationDialogAnswer(true);
+        }
+    }
 
     static  unfinalizeCurrentMinutes () {
+        E2EGlobal.waitSomeTime(600);
         browser.waitForVisible('#btn_unfinalizeMinutes');
         E2EGlobal.clickWithRetry('#btn_unfinalizeMinutes');
-    };
+        E2EGlobal.waitSomeTime(1000);
+    }
 
 
     static countMinutesForSeries (aProj, aName) {
@@ -89,7 +100,7 @@ export class E2EMinutes {
         }
         const elements = browser.elements(selector);
         return elements.value.length;
-    };
+    }
 
 
     static getMinutesId (aDate) {
@@ -107,11 +118,11 @@ export class E2EMinutes {
             let visibleText = browser.elementIdText(elemId).value;
             if (visibleText == aDate) {
                 let linkTarget = browser.elementIdAttribute(elemId, 'href').value;
-                return linkTarget.slice(linkTarget.lastIndexOf("/")+1);
+                return linkTarget.slice(linkTarget.lastIndexOf('/')+1);
             }
         }
         return false;
-    };
+    }
 
     static getCurrentMinutesDate() {
         browser.waitForVisible('#id_minutesdateInput');
@@ -120,7 +131,7 @@ export class E2EMinutes {
 
     static getCurrentMinutesId() {
         let url = browser.getUrl();
-        return url.slice(url.lastIndexOf("/")+1);
+        return url.slice(url.lastIndexOf('/')+1);
     }
 
 
@@ -143,8 +154,8 @@ export class E2EMinutes {
                 return true;
             }
         }
-        throw new Error("Could not find Minutes '"+aDate+"'");
-    };
+        throw new Error('Could not find Minutes \''+aDate+'\'');
+    }
 
     static gotoLatestMinutes () {
         let selector = 'a#id_linkToMinutes';
@@ -159,11 +170,11 @@ export class E2EMinutes {
         const firstElementId = elements.value[0].ELEMENT;
 
         browser.elementIdClick(firstElementId);
-        E2EGlobal.waitSomeTime();
-    };
+        E2EGlobal.waitSomeTime(500);
+    }
 
     static gotoParentMeetingSeries () {
-        let selector = 'a#id_linkToParentSeries'
+        let selector = 'a#id_linkToParentSeries';
         try {
             browser.waitForExist(selector);
         } catch (e) {

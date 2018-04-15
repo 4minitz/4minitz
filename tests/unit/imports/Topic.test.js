@@ -70,6 +70,7 @@ const {
     'meteor/meteor': { Meteor, '@noCallThru': true},
     'meteor/random': { Random, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true},
+    '/imports/user': { "null": null, '@noCallThru': true},
     '/imports/helpers/date': DateHelpers,
     './label': { Label, '@noCallThru': true}
 });

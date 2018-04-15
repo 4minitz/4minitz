@@ -56,10 +56,10 @@ export let AttachmentsCollection = new FilesCollection({
         }
         // Check for non-allowed file extensions
         if (Meteor.settings.public.attachments.denyExtensions !== undefined) {
-            const denyRE = new RegExp(Meteor.settings.public.attachments.denyExtensions, 'i');
-            const fobiddenRE = new RegExp(FORBIDDEN_FILENAME_EXTENSIONS, 'i');
-            if (denyRE.test(file.extension) || fobiddenRE.test(file.extension)) {
-                return 'Denied file extension. Please upload other file type.';
+            const denyRE = new RegExp('^('+Meteor.settings.public.attachments.denyExtensions+')$', 'i');
+            const forbiddenRE = new RegExp('^('+FORBIDDEN_FILENAME_EXTENSIONS+')$', 'i');
+            if (denyRE.test(file.extension) || forbiddenRE.test(file.extension)) {
+                return 'Denied file extension: "'+file.extension+'". Please upload other file type.';
             }
         }
         // If allowExtensions is undefined, every extension is allowed!
@@ -67,7 +67,7 @@ export let AttachmentsCollection = new FilesCollection({
             return true;
         }
         // Check for allowed file extensions
-        const allowRE = new RegExp(Meteor.settings.public.attachments.allowExtensions, 'i');
+        const allowRE = new RegExp('^('+Meteor.settings.public.attachments.allowExtensions+')$', 'i');
         if (allowRE.test(file.extension)) {
             return true;
         }

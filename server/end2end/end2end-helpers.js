@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Migrations } from 'meteor/percolate:migrations';
 
 import { MeetingSeriesSchema } from './../../imports/collections/meetingseries.schema';
 import { MinutesSchema } from './../../imports/collections/minutes.schema';
@@ -12,13 +13,20 @@ import { TopicSchema } from '/imports/collections/topic.schema';
 import { DocumentGeneration } from '/imports/documentGeneration';
 import {TopicsFinder} from '../../imports/services/topicsFinder';
 
+import {GlobalSettings} from '../../imports/config/GlobalSettings';
+import importUsers from '../../imports/ldap/import';
+
+
 // Security: ensure that these methods only exist in End2End testing mode
 if (Meteor.settings.isEnd2EndTest) {
     // Meteor.settings.isEnd2EndTest will be set via "--settings settings-test-end2end.json"
     console.log('End2End helpers loaded on server-side!');
 
     Meteor.methods({
-        'e2e.resetMyApp'(skipUsers) {
+        'e2e.debugLog'(message) {
+            console.log(message);
+        },
+        'e2e.resetMyApp'(skipUsersCreation) {
             console.log('-------------------------- E2E-METHOD: resetMyApp ');
             AttachmentsCollection.remove({});
             console.log('Count AttachmentsCollection after reset:'+AttachmentsCollection.find().count());
@@ -38,14 +46,18 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log('Count Protocls after reset:' + DocumentsCollection.find().count());
             resetDocumentStorageDirectory(); //eslint-disable-line
 
-            if (!skipUsers) {
+            if (!skipUsersCreation) {
                 // Reset users and create our e2e test users
                 Meteor.users.remove({});
                 for (let i in Meteor.settings.e2eTestUsers) {
                     let newUser = Meteor.settings.e2eTestUsers[i];
                     let newPassword = Meteor.settings.e2eTestPasswords[i];
                     let newEmail = Meteor.settings.e2eTestEmails[i];
-                    Accounts.createUser({username: newUser, password: newPassword, email: newEmail});
+                    Accounts.createUser({
+                        username: newUser,
+                        password: newPassword,
+                        email: newEmail,
+                    });
                     Meteor.users.update({'username': newUser}, {$set: {'emails.0.verified': true}});
                     console.log('Created user: ' + newUser + ' with password: ' + newPassword);
                 }
@@ -174,6 +186,23 @@ if (Meteor.settings.isEnd2EndTest) {
             console.log('-------------------------- E2E-METHOD: getTopics');
             let min = MinutesSchema.getCollection().findOne(minuteID);
             return min.topics;
+        },
+        'e2e.triggerMigration'(version) {
+            console.log('-------------------------- E2E-METHOD: triggerMigration');
+            Migrations.migrateTo(version);
+        },
+        'e2e.removeLdapUsersFromDb'() {
+            Meteor.users.remove({isLdapUser: true});
+            return Meteor.call('e2e.countUsers');
+        },
+        'e2e.countUsers'() {
+            return Meteor.users.find().count();
+        },
+        async 'e2e.importLdapUsers'() {
+            const mongoUrl = process.env.MONGO_URL,
+                ldapSettings = GlobalSettings.getLDAPSettings();
+
+            await importUsers(ldapSettings, mongoUrl);
         }
     });
 }

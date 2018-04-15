@@ -1,12 +1,10 @@
-/**
- * Created by Simon on 25.05.2017.
- */
 import { Meteor } from 'meteor/meteor';
 
 import { MailFactory } from './MailFactory';
 import { GlobalSettings } from '../config/GlobalSettings';
 import {UserRoles as userroles} from '../userroles';
 import {MeetingSeries} from '../meetingseries';
+import { User } from '/imports/user';
 
 export class RoleChangeMailHandler {
     constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
@@ -32,45 +30,45 @@ export class RoleChangeMailHandler {
         let meetingName = meetingSeries.name;
 
         let userName = '';
-        if(this._user.profile === undefined) {
-            userName = this._user.username;
-        } else {
+        if(this._user.profile && this._user.profile.name) {
             userName =  this._user.profile.name;
+        } else {
+            userName = this._user.username;
         }
 
-        if(this._oldRole === undefined) {
+        if(this._oldRole == null) { // will be true for undefined OR null
             this._oldRole = 'None';
         } else {
             this._oldRole = userroles.role2Text(this._oldRole);
         }
 
-        if(this._newRole === undefined) {
+        if(this._newRole == null) { // will be true for undefined OR null
             this._newRole = 'None';
         } else {
             this._newRole = userroles.role2Text(this._newRole);
         }
 
-
         // generate mail
         if (this._user.emails && this._user.emails.length > 0) {
-            let mailer = MailFactory.getMailer(modFrom, emailTo);
-            mailer.setSubject(`[4Minitz] Your role has changed for ${meetingProject}:${meetingName}`);
-            mailer.setText('Hello ' + userName + ', \n\n'+
+            const mailText = 'Hello ' + userName + ', \n\n'+
                 'Your role has changed for meeting series "' + meetingProject + ':' + meetingName + '\n' +
                 '(' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n\n'+
                 '    Your old role was           : ' + this._oldRole + '\n'+
                 '    Your new role is            : ' + this._newRole + '\n'+
-                '    The change was performed by : ' + this._moderator.username + '\n'  +
+                '    The change was performed by : ' + User.PROFILENAMEWITHFALLBACK(this._moderator) + '\n'  +
                 '\n' +
                 'For a comprehensive list of rights for each role see:\n' +
-                'https://github.com/4minitz/4minitz/blob/master/doc/user/usermanual.md#table-of-roles-and-rights\n' +
+                'https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md#table-of-roles-and-rights\n' +
                 '\n' +
                 'Your Admin.\n' +
                 '\n' +
                 '--- \n' +
                 '4Minitz is free open source developed by the 4Minitz team.\n' +
-                'Source is available at https://github.com/4minitz/4minitz\n'
-            );
+                'Source is available at https://github.com/4minitz/4minitz\n';
+
+            let mailer = MailFactory.getMailer(modFrom, emailTo);
+            mailer.setSubject(`[4Minitz] Your role has changed for ${meetingProject}:${meetingName}`);
+            mailer.setText(mailText);
 
             mailer.send();
         } else {

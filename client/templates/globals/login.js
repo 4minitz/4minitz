@@ -3,7 +3,7 @@ import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 
 const ldapEnabled = Meteor.settings.public.ldapEnabled;
@@ -19,8 +19,10 @@ Template.login.onRendered(function () {
 });
 
 Template.login.helpers({
-    ldapEnabled() {
-        return Meteor.settings.public.ldapEnabled;
+
+    showTabSwitcher() {
+        return (Meteor.settings.public.ldapEnabled
+            && !Meteor.settings.public.ldapHideStandardLogin);
     },
 
     tab: function() {
@@ -39,7 +41,11 @@ Template.login.helpers({
     },
 
     showDemoUserHint: function () {
-        return (!Meteor.userId() && GlobalSettings.createDemoAccount());
+        return (!Meteor.userId()
+            && GlobalSettings.createDemoAccount()
+            && Session.get('currentLoginForm') === 'atForm' // only if Standard Login is active
+            && AccountsTemplates.getState() === 'signIn'    // only show demo hint on signIn sub-template
+        );
     },
 
     legalNoticeEnabled: function () {

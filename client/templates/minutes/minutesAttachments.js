@@ -7,10 +7,16 @@ import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory
 
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
+import { User } from '/imports/user';
 import { Attachment } from '/imports/attachment';
 import { msToHHMMSS, formatDateISO8601Time } from '/imports/helpers/date';
 
 let _minutesID; // the ID of these minutes
+
+let isModerator = function () {
+    let aMin = new Minutes(_minutesID);
+    return (aMin && aMin.isCurrentUserModerator());
+};
 
 
 Template.minutesAttachments.onCreated(function() {
@@ -20,7 +26,8 @@ Template.minutesAttachments.onCreated(function() {
 
     // Calculate initial expanded/collapsed state
     Session.set('attachments.expand', true);
-    if (Attachment.countForMinutes(_minutesID) === 0) {
+    // Collapse for non-Moderators, if no attachments there
+    if (Attachment.countForMinutes(_minutesID) === 0 && isModerator() === false) {
         Session.set('attachments.expand', false);
     }
 });
@@ -52,9 +59,13 @@ Template.minutesAttachments.helpers({
         return Attachment.findForMinutes(_minutesID);
     },
 
-    attachmentsCount() {
+    attachmentsCountText() {
         const count = Attachment.countForMinutes(_minutesID);
         return count === 1 ? count + ' file' : count + ' files';
+    },
+
+    attachmentsCount() {
+        return Attachment.countForMinutes(_minutesID);
     },
 
     currentUpload() {
@@ -103,8 +114,8 @@ Template.minutesAttachments.helpers({
 
     uploaderUsername() {
         let file = this.fetch()[0]; // this is an attachment cursor in this context, so get "first" object of array
-        let usr = Meteor.users.findOne(file.userId);
-        return usr.username;
+        let usr = new User(file.userId);
+        return usr.profileNameWithFallback();
     },
 
     uploadTimestamp() {

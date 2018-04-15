@@ -13,6 +13,7 @@ describe('Minutes Participants', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
@@ -240,7 +241,7 @@ describe('Minutes Participants', function () {
         E2EMinutes.finalizeCurrentMinutes();
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        expect(browser.getText("tr#id_MinuteRow")).to.contain("user1, user3, Max Mustermann");
+        expect(browser.getText("tr#id_MinuteRow")).to.contain("user1; user3; Max Mustermann");
     });
     
     it('can edit participants from within a minute as a moderator', function () {

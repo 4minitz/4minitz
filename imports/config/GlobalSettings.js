@@ -1,4 +1,10 @@
 import { Meteor } from 'meteor/meteor';
+import { LdapSettings } from '/imports/config/LdapSettings';
+import _ from 'lodash';
+
+function getSetting(path, def = undefined) {
+    return _.get(Meteor.settings, path, def);
+}
 
 /**
  * Wrapper to access our Global Settings.
@@ -103,6 +109,22 @@ export class GlobalSettings {
                 Meteor.settings.attachments.storagePath = Meteor.settings.attachments.storagePath + '/';
             }
         }
+
+        LdapSettings.publish();
+    }
+
+    static getAdminIDs() {
+        let adminIDs = [];
+
+        if (Meteor.settings.adminIDs && Array.isArray(Meteor.settings.adminIDs)) {
+            adminIDs = adminIDs.concat(Meteor.settings.adminIDs);
+        }
+
+        return adminIDs;
+    }
+
+    static forbidClientAccountCreation() {
+        return getSetting('forbidClientAccountCreation', false);
     }
 
     static getRootUrl(path) {
@@ -114,17 +136,28 @@ export class GlobalSettings {
     }
 
     static hasImportUsersCronTab() {
-        return !!(Meteor.settings.ldap && Meteor.settings.ldap.importCronTab);
+        return !!(Meteor.settings.ldap && Meteor.settings.ldap.enabled && Meteor.settings.ldap.importCronTab);
     }
 
     static getImportUsersCronTab() {
-        if (Meteor.settings.ldap) {
+        if (Meteor.settings.ldap && Meteor.settings.ldap.enabled) {
             return Meteor.settings.ldap.importCronTab;
         }
     }
 
+    static getImportUsersOnLaunch() {
+        if (Meteor.settings.ldap && Meteor.settings.ldap.enabled) {
+            if (Meteor.settings.ldap.importOnLaunch !== undefined) {
+                return Meteor.settings.ldap.importOnLaunch;
+            }
+            return true;
+        }
+        return false;
+    }
+
+
     static getLDAPSettings() {
-        return Meteor.settings.ldap;
+        return Meteor.settings.ldap || {};
     }
 
     static isTrustedIntranetInstallation() {
@@ -198,6 +231,26 @@ export class GlobalSettings {
         }
 
         return 'smtp';
+    }
+
+    static sendVerificationEmail() {
+        const mailEnabled = getSetting('email.enableMailDelivery', false),
+            sendVerificationEmail = getSetting('email.sendVerificationEmail', false);
+        return mailEnabled && sendVerificationEmail;
+    }
+
+    static showResendVerificationEmailLink() {
+        const mailEnabled = getSetting('email.enableMailDelivery', false),
+            showResendVerificationEmailLink = getSetting('email.showResendVerificationEmailLink', false);
+        
+        return mailEnabled && showResendVerificationEmailLink;
+    }
+
+    static showForgotPasswordLink() {
+        const mailEnabled = getSetting('email.enableMailDelivery', false),
+            showForgotPasswordLink = getSetting('email.showForgotPasswordLink', false);
+    
+        return mailEnabled && showForgotPasswordLink;
     }
 
     static getSMTPMailUrl() {

@@ -49,14 +49,18 @@ export class E2ESecurity {
     //to wrap these method calls with the following function, allowing for an emulated synchronous usage of these methods.
     static executeMethod(methodName, ...methodParameters) {
         E2ESecurity.expectMethodToExist(methodName);
-        browser.timeoutsAsyncScript(5000);
-        let result = browser.executeAsync((methodName, methodParameters, done) => {
-            Meteor.apply(methodName, methodParameters, _ => {
-            }, (error, result) => {
-                done({error, result});
-            });
-        }, methodName, methodParameters);
-        console.log(`Results are in: error = ${result.value.error}, result = ${result.value.result}`);
+        browser.timeouts("script", 5000);
+        try {
+            let result = browser.executeAsync((methodName, methodParameters, done) => {
+                Meteor.apply(methodName, methodParameters, _ => {
+                }, (error, result) => {
+                    done({error, result});
+                });
+            }, methodName, methodParameters);
+            // console.log(`Results are in: error = ${result.value.error}, result = ${result.value.result}`);
+        } catch (e) {
+            console.log("Exception in executeMethod(): "+e.message);
+        }
     }
 
     static countRecordsInMiniMongo(collectionName) {
@@ -170,6 +174,7 @@ export class E2ESecurity {
     static tryReopenTopic = (topicID, meetingSeriesID, expectToBeOpened, testName) => {
         E2ESecurity.replaceMethodOnClientSide(E2ESecurity.reopenTopic);
         E2ESecurity.executeMethod(E2ESecurity.reopenTopic, meetingSeriesID, topicID);
+        E2EGlobal.waitSomeTime();
         const topicsOfSeries = server.call('e2e.getTopicsOfMeetingSeries', meetingSeriesID);
         expect(topicsOfSeries[0].isOpen, testName).to.equal(expectToBeOpened);
     };

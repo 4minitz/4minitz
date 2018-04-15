@@ -1,18 +1,32 @@
 import { Meteor } from 'meteor/meteor';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import {TopicsFinder} from '../topicsFinder';
+import {Minutes} from '../../minutes';
 
 export class MeetingSeriesTopicsUpdater {
 
-    constructor(meetingSeriesId) {
+    /**
+     * @param meetingSeriesId
+     * @param topicsVisibleFor array of user_ids states which user should be able to see these topics
+     */
+    constructor(meetingSeriesId, topicsVisibleFor) {
         this.meetingSeriesId = meetingSeriesId;
+        this.topicsVisibleFor = topicsVisibleFor;
     }
 
-    invalidateIsNewFlagOfAllTopicsAndItems() {
-        TopicsFinder.allTopicsOfMeetingSeries(this.meetingSeriesId).forEach((topicDoc) => {
+    invalidateIsNewFlagOfTopicsPresentedInMinutes(minutesId) {
+        const minutes = new Minutes(minutesId);
+        const topicIds = minutes.topics.map(topicDoc => {
+            return topicDoc._id;
+        });
+        TopicsFinder.allTopicsIdentifiedById(topicIds).forEach((topicDoc) => {
             topicDoc.isNew = false;
             topicDoc.infoItems.forEach(itemDoc => {
                 itemDoc.isNew = false;
+                itemDoc.details = itemDoc.details || [];
+                itemDoc.details.forEach(detail => {
+                    detail.isNew = false;
+                });
             });
             this.upsertTopic(topicDoc);
         });
@@ -25,6 +39,7 @@ export class MeetingSeriesTopicsUpdater {
     upsertTopic(topicDoc) {
         topicDoc.parentId = this.meetingSeriesId;
         const topicId = topicDoc._id;
+        topicDoc.visibleFor = this.topicsVisibleFor;
         TopicSchema.upsert(
             { parentId: this.meetingSeriesId, _id: topicId },
             topicDoc
@@ -50,13 +65,18 @@ export class MeetingSeriesTopicsUpdater {
     }
 
     reOpenTopic(topicId) {
-        const affectedDocuments = TopicSchema.update(
-            { parentId: this.meetingSeriesId, _id: topicId },
-            { isOpen: true }
-        );
-        if (affectedDocuments !== 1) {
+        try {
+            const affectedDocuments = TopicSchema.update(
+                { parentId: this.meetingSeriesId, _id: topicId },
+                { isOpen: true }
+            );
+            if (affectedDocuments !== 1) {
+                throw new Meteor.Error('runtime-error', 'Could not re-open topic.');
+            }
+        } catch (e) {
+            console.log('Error in reOpenTopic ', topicId);
+            console.log(JSON.stringify(e));
             throw new Meteor.Error('runtime-error', 'Could not re-open topic.');
         }
     }
-
 }

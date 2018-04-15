@@ -14,6 +14,7 @@ describe('Send agenda', function () {
     let aMeetingName;
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.launchApp();
         E2EApp.resetMyApp(true);
     });
@@ -72,9 +73,11 @@ describe('Send agenda', function () {
         browser.waitForVisible('#btn_sendAgenda');
         E2EGlobal.clickWithRetry('#btn_sendAgenda');
 
-        E2EGlobal.waitSomeTime();
+        E2EMinutes.confirmQualityAssuranceDialog();
 
         E2EGlobal.clickWithRetry('#btn_sendAgenda');
+
+        E2EMinutes.confirmQualityAssuranceDialog();
 
         let selectorDialog = "#confirmDialog";
 
@@ -97,6 +100,7 @@ describe('Send agenda', function () {
 
         browser.waitForVisible('#btn_sendAgenda');
         E2EGlobal.clickWithRetry('#btn_sendAgenda');
+        E2EMinutes.confirmQualityAssuranceDialog();
 
         E2EGlobal.waitSomeTime();
 
@@ -128,6 +132,7 @@ describe('Send agenda', function () {
 
         browser.waitForVisible('#btn_sendAgenda');
         E2EGlobal.clickWithRetry('#btn_sendAgenda');
+        E2EMinutes.confirmQualityAssuranceDialog();
 
         E2EGlobal.waitSomeTime();
 
@@ -145,6 +150,7 @@ describe('Send agenda', function () {
 
         browser.waitForVisible('#btn_sendAgenda');
         E2EGlobal.clickWithRetry('#btn_sendAgenda');
+        E2EMinutes.confirmQualityAssuranceDialog();
 
         E2EGlobal.waitSomeTime(3000);
 

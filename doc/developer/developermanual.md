@@ -1,5 +1,30 @@
 # Developer Readme for 4Minitz
 
+<!-- HowTo update table of content -->
+<!--    npm install --save markdown-toc -->
+<!--    markdown-toc -i --maxdepth 2 developermanual.md -->
+
+## Table of Content
+
+<!-- toc -->
+
+- [General Info](#general-info)
+- [DoD - Our "Definition of Done"](#dod---our-definition-of-done)
+- [Running Tests](#running-tests)
+- [Code Quality](#code-quality)
+- [Database Seeding](#database-seeding)
+- [Coding - Where to start](#coding---where-to-start)
+- [Use Cases](#use-cases)
+- [Class Diagrams](#class-diagrams)
+- [Sequence Diagrams](#sequence-diagrams)
+- [Sending E-Mails](#sending-e-mails)
+- [Sending info items and action items](#sending-info-items-and-action-items)
+- [MongoDB Collection Schema](#mongodb-collection-schema)
+- [MongoDB Migrations](#mongodb-migrations)
+- [Accessing the servers root url](#accessing-the-servers-root-url)
+
+<!-- tocstop -->
+
 ## General Info
 * We use this [successful git branching strategy](http://nvie.com/posts/a-successful-git-branching-model/)
 * For generating the UML figures in this doc we use [PlantUML](http://plantuml.com/)
@@ -36,7 +61,9 @@ to execute unit tests run
 
 End-to-End tests are stored in directory ```tests/end2end/``` 
 and use the [chimp package](https://chimp.readme.io), 
-which first needs to be installed globally (`sudo npm install -g chimp`).
+which first needs to be installed globally (`sudo npm install -g chimp` - if this 
+makes problems like `Error: EACCES: permission denied, mkdir`, then try:
+ `sudo npm install -g chimp --unsafe-perm=true --allow-root`).
 Hint: The chimp package needs an installed Chrome browser.
 To run the e2e tests, you need to run the server in "end2end" mode. 
 

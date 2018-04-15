@@ -1,5 +1,6 @@
 import { E2EApp } from './helpers/E2EApp';
 import { E2ESecurity } from './helpers/E2ESecurity';
+import {E2EGlobal} from "./helpers/E2EGlobal";
 
 const newRoleModerator = '01';
 
@@ -10,6 +11,7 @@ describe('UserRoles Method Security', function () {
     });
 
     before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });

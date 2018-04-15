@@ -7,6 +7,7 @@
  */
 import { MeetingSeriesSchema } from '../collections/meetingseries.schema';
 import {Label} from '../label';
+import {StringUtils} from '../helpers/string-utils';
 
 export class LabelExtractor {
 
@@ -74,9 +75,7 @@ export class LabelExtractor {
     }
 
     _removeLabelFromString(labelName) {
-        this.string = this.string.replace('#' + labelName + ' ', '');
-        this.string = this.string.replace(' #' + labelName, '');
-        this.string = this.string.replace('#' + labelName, '');
+        this.string = StringUtils.eraseSubstring(this.string, `#${labelName}`);
     }
 
 }

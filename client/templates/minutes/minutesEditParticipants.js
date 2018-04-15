@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
@@ -38,6 +38,11 @@ let userNameForId = function (userId) {
     }
 };
 
+function countParticipantsMarked() {
+    let aMin = new Minutes(_minutesID);
+    return aMin.participants.filter(p => {return p.present;}).length;
+}
+
 function allParticipantsMarked() {
     let aMin = new Minutes(_minutesID);
     return (aMin.participants.findIndex(p => {return !p.present;}) === -1);
@@ -60,6 +65,47 @@ Template.minutesEditParticipants.onCreated(function() {
 });
 
 Template.minutesEditParticipants.helpers({
+    countParticipantsText () {
+        const count = countParticipantsMarked();
+        if (count === 1) {
+            return '1 Participant';
+        } else {
+            return '' + count + ' Participants';
+        }
+    },
+
+    countAdditionalParticipantsText() {
+        let aMin = new Minutes(_minutesID);
+        let count =  0;
+        if (aMin.participantsAdditional &&  aMin.participantsAdditional.length > 0) {
+            count = aMin.participantsAdditional
+                .split(';')
+                .map(p => {return p.trim();})
+                .filter(p => {return (p.length > 0);})
+                .length;
+        }
+        if (count === 0) {
+            return '';
+        }
+        if (count === 1) {
+            return ', 1 Additional Participant';
+        }
+        return ', ' + count + ' Additional Participants';
+    },
+
+    countInformedText() {
+        let aMin = new Minutes(_minutesID);
+        let count =  aMin.informedUsers ? aMin.informedUsers.length : 0;
+        if (count === 0) {
+            return '';
+        }
+        if (count === 1) {
+            return ', 1 Informed User';
+        }
+        return ', ' + count + ' Informed Users';
+    },
+
+
     participantsSorted() {
         let aMin = new Minutes(_minutesID);
         let partSorted = aMin.participants;
@@ -154,7 +200,7 @@ Template.minutesEditParticipants.helpers({
 
 
 Template.minutesEditParticipants.events({
-    'click #btnTogglePresent' (evt, tmpl) {
+    'click .js-toggle-present' (evt, tmpl) {
         let min = new Minutes(_minutesID);
         let userId = evt.target.dataset.userid;
         let checkedState = evt.target.checked;

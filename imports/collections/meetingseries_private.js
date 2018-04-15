@@ -20,7 +20,8 @@ if (Meteor.isServer) {
                     'minutes' : 1,
                     'lastMinutesDate' : 1,
                     'lastMinutesFinalized' : 1,
-                    'lastMinutesId' : 1
+                    'lastMinutesId' : 1,
+                    'availableLabels' : 1
                 }
             }
         );

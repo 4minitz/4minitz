@@ -11,28 +11,69 @@ import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFacto
 import {InfoItemFactory} from '../../../imports/InfoItemFactory';
 import { handleError } from '../../helpers/handleError';
 import { formatDateISO8601 } from '/imports/helpers/date';
+import {ItemsConverter} from '../../../imports/services/itemsConverter';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import { MinutesFinder } from '../../../imports/services/minutesFinder';
+import { MeetingSeries } from '../../../imports/meetingseries';
+import {resizeTextarea} from './helpers/resize-textarea';
+import {labelSetFontColor} from './helpers/label-set-font-color';
+import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
+import { Blaze } from 'meteor/blaze';
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {formatDateISO8601Time} from '../../../imports/helpers/date';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
+import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
+import { User } from '/imports/user';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
 export class TopicInfoItemListContext {
 
-    static createReadonlyContextForItemsOfDifferentTopics(items, meetingSeriesId) {
-        return new TopicInfoItemListContext(items, true, meetingSeriesId);
+    // called from Meeting Series "actionItemList" view (aka "My Action Items")
+    static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(items, resolveSeriesForItem, resolveTopicForItem) {
+        const context = new TopicInfoItemListContext(items, true, null);
+        context.getSeriesId = resolveSeriesForItem;
+        context.getTopicId = resolveTopicForItem;
+
+        context.hasLink = true;
+        return context;
     }
 
+    // called from Meeting Series "tabItems" view
+    static createReadonlyContextForItemsOfDifferentTopics(items, meetingSeriesId) {
+        const context = new TopicInfoItemListContext(items, true, meetingSeriesId);
+        let mapItemID2topicID = {};
+        items.forEach(item => {
+            mapItemID2topicID[item._id] = item.parentTopicId;
+        });
+        context.getTopicId = itemId => {return mapItemID2topicID[itemId];};
+        context.hasLink = true;
+        return context;
+    }
+
+    // called from "topicElement" view
     static createContextForItemsOfOneTopic(items, isReadonly, topicParentId, parentTopicId) {
         return new TopicInfoItemListContext(items, isReadonly, topicParentId, parentTopicId);
     }
 
+    /**
+     * Constructs an item context
+     * @param items list of items
+     * @param isReadonly can user edit the items?
+     * @param topicParentId either minute ID or meeting series ID
+     * @param parentTopicId topic ID
+     */
     constructor (items, isReadonly, topicParentId = null, parentTopicId = null) {
         this.items = (!parentTopicId) ? items : items.map(item => {
             item.parentTopicId = parentTopicId;
             return item;
         });
         this.isReadonly = isReadonly;
-        this.topicParentId = topicParentId;
+        this.topicParentId = topicParentId; // the parent of the topic: either minute or meeting series!
+        this.getSeriesId = () => {
+            return topicParentId;
+        };
     }
 }
 
@@ -44,6 +85,11 @@ Template.topicInfoItemList.onCreated(function () {
     // Dict maps Item._id => true/false, where true := "expanded state"
     // per default: everything is undefined => collapsed!
     this.isItemExpanded = new ReactiveVar({});
+
+    // get last finalized Minute for details's new label
+    this.lastFinalizedMinuteId = (FlowRouter.getRouteName() === 'minutesedit')  //eslint-disable-line
+        ? tmplData.topicParentId
+        : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(new MeetingSeries(tmplData.topicParentId))._id;
 });
 
 let updateItemSorting = (evt, ui) => {
@@ -99,7 +145,7 @@ const performActionForItem = (evt, tmpl, action) => {
 
     const index = evt.currentTarget.getAttribute('data-index');
     const infoItem = context.items[index];
-    const aInfoItem = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+    const aInfoItem = findInfoItem(context.getSeriesId(infoItem._id), infoItem.parentTopicId, infoItem._id);
     action(aInfoItem);
 };
 
@@ -133,8 +179,8 @@ let addNewDetails = async (tmpl, index) => {
     if (context.isReadonly) {
         return;
     }
-    let aMin = new Minutes(context.topicParentId);
     let infoItem = context.items[index];
+    let aMin = new Minutes(context.getSeriesId(infoItem._id));
     let aTopic = new Topic(aMin, infoItem.parentTopicId);
     let aItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
@@ -154,12 +200,16 @@ let addNewDetails = async (tmpl, index) => {
     }, 250);
 };
 
-let resizeTextarea = (element) => {
-    let scrollPos = $(document).scrollTop();
-    element.css('height', 'auto');
-    element.css('height', element.prop('scrollHeight') + 'px');
-    $(document).scrollTop(scrollPos);
-};
+function makeDetailEditable(textEl, inputEl, detailActionsId) {
+    textEl.hide();
+    inputEl.show();
+    detailActionsId.show();
+
+    inputEl.val(textEl.attr('data-text'));
+    inputEl.parent().css('margin', '0 0 25px 0');
+    inputEl.focus();
+    resizeTextarea(inputEl);
+}
 
 Template.topicInfoItemList.helpers({
     topicStateClass: function (index) {
@@ -208,6 +258,16 @@ Template.topicInfoItemList.helpers({
         const context = Template.instance().data;
         const item = context.items[index];
         return (item && context.items[index].itemType === 'infoItem');
+    },
+
+    isItemConversationAllowed: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        if (context.isReadonly) {
+            return false;
+        }
+        const item = context.items[index];
+        return item && ItemsConverter.isConversionAllowed(item, context.topicParentId);
     },
 
     checkedState: function (index) {
@@ -259,13 +319,41 @@ Template.topicInfoItemList.helpers({
         if (!infoItem) {
             return;
         }
-        return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.topicParentId))
-            .map(labelObj => {
-                let doc = labelObj.getDocument();
-                doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
+        return LabelResolver.resolveLabels(infoItem.labels, getMeetingSeriesId(context.getSeriesId(infoItem._id)))
+            .map(labelSetFontColor);
+    },
 
-                return doc;
-            });
+    getLinkToTopic: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        console.log('index:', index);
+        console.log(infoItem);
+        if (!infoItem) {
+            return;
+        }
+        return Blaze._globalHelpers.pathForImproved('/topic/' + context.getTopicId(infoItem._id));
+    },
+
+    showLinks: function() {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        return context.hasLink;
+    },
+
+    tooltipForTopic: function(index) {
+        /** @type {TopicInfoItemListContext} */
+        const context = Template.instance().data;
+        const infoItem = context.items[index];
+        if (!infoItem) {
+            return;
+        }
+        const topicId = context.getTopicId(infoItem._id);
+        const seriesId = context.getSeriesId(infoItem._id);
+        let ms = new MeetingSeries(seriesId);
+        let aTopic = createTopic(seriesId, topicId);
+        return 'Meeting Series:\n    ' + ms.project + ':' + ms.name +
+            '\nTopic:\n    ' + aTopic.getDocument().subject;
     }
 });
 
@@ -282,7 +370,7 @@ Template.topicInfoItemList.events({
         /** @type {TopicInfoItemListContext} */
         const context = tmpl.data;
         performActionForItem(evt, tmpl, (item) => {
-            let isDeleteAllowed = item.isDeleteAllowed(context.topicParentId);
+            let isDeleteAllowed = item.isDeleteAllowed(context.getSeriesId(item._infoItemDoc._id));
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {
@@ -336,6 +424,30 @@ Template.topicInfoItemList.events({
                 item.save().catch(handleError);
             }
         });
+    },
+
+    'click .btnConvertInfoItem'(evt, tmpl) {
+        evt.preventDefault();
+        /** @type {TopicInfoItemListContext} */
+        const context = tmpl.data;
+
+        if (context.isReadonly) {
+            return;
+        }
+
+        let index = evt.currentTarget.getAttribute('data-index');
+        let infoItem = context.items[index];
+
+        let item = findInfoItem(context.topicParentId, infoItem.parentTopicId, infoItem._id);
+        // if edit is allowed topicParentId == currentMinutesId
+        if (ItemsConverter.isConversionAllowed(item.getDocument(), context.topicParentId)) {
+            ItemsConverter.convertItem(item).catch(handleError);
+        } else {
+            ConfirmationDialogFactory.makeInfoDialog(
+                'Cannot convert item',
+                'It is not possible to convert this item because it was created in a previous minutes.'
+            ).show();
+        }
     },
 
     'click .btnPinInfoItem'(evt, tmpl) {
@@ -395,14 +507,50 @@ Template.topicInfoItemList.events({
             return;
         }
 
-        textEl.hide();
-        inputEl.show();
-        detailActionsId.show();
+        let index = inputEl.data('item');
+        let infoItem = context.items[index];
+        let aMin = new Minutes(context.topicParentId);
+        let aTopic = new Topic(aMin, infoItem.parentTopicId);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
-        inputEl.val(textEl.attr('data-text'));
-        inputEl.parent().css('margin', '0 0 25px 0');
-        inputEl.focus();
-        resizeTextarea(inputEl);
+        let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+
+        // Attention: .isEditedBy and .isEditedDate may be null!
+        if ((aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined && aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined)) {
+            let unset = function () {
+                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
+            };
+
+            let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[detailIndex].isEditedBy});
+
+            let tmplData = {
+                isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
+                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate)
+            };
+
+            ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                unset,
+                'Edit despite existing editing',
+                'confirmationDialogResetDetailEdit',
+                tmplData,
+                'Edit anyway'
+            ).show();
+        }
+        else {
+            IsEditedService.setIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
+            makeDetailEditable(textEl, inputEl, detailActionsId);
+        }
+
+        const element = aActionItem._infoItemDoc.details[detailIndex];
+        const unset = function () {
+            IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
+        };
+        const setIsEdited = () => {
+            IsEditedService.setIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex);
+            makeDetailEditable(textEl, inputEl, detailActionsId);
+        };
+
+        isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetDetail');
     },
 
     'click .addDetail'(evt, tmpl) {
@@ -436,15 +584,18 @@ Template.topicInfoItemList.events({
 
         let text = inputEl.val().trim();
 
-        if (text === '' || (text !== textEl.attr('data-text'))) {
-            let aMin = new Minutes(context.topicParentId);
-            let aTopic = new Topic(aMin, infoItem.parentTopicId);
-            let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+        let aMin = new Minutes(context.topicParentId);
+        let aTopic = new Topic(aMin, infoItem.parentTopicId);
+        let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+        let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
 
-            let detailIndex = detailId.split('_')[1]; // detail id is: <collapseId>_<index>
+        IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
+
+        if (text === '' || (text !== textEl.attr('data-text'))) {
             if (text !== '') {
                 aActionItem.updateDetails(detailIndex, text);
                 aActionItem.save().catch(handleError);
+                IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
             } else {
                 let deleteDetails = () => {
                     aActionItem.removeDetails(detailIndex);
@@ -478,23 +629,10 @@ Template.topicInfoItemList.events({
         textEl.show();
     },
 
-    'keypress .detailInput'(evt, tmpl) {
+    'keydown .detailInput'(evt, tmpl) {
         let detailId = evt.currentTarget.getAttribute('data-id');
         let inputEl = tmpl.$(`#detailInput_${detailId}`);
-        if (evt.which === 13/*enter*/ && evt.ctrlKey) {
-            evt.preventDefault();
-            inputEl.blur();
-        }
-
-        resizeTextarea(inputEl);
-    },
-
-    'keyup .detailInput'(evt, tmpl) {
-        let detailId = evt.currentTarget.getAttribute('data-id');
-        let inputEl = tmpl.$(`#detailInput_${detailId}`);
-
-        // escape key will not be handled in keypress callback...
-        if (evt.which === 27/*escape*/) {
+        if (evt.which === 13/*enter*/ && ( evt.ctrlKey || evt.metaKey)) {
             evt.preventDefault();
             inputEl.blur();
         }
@@ -531,12 +669,6 @@ Template.topicInfoItemList.events({
     // its blur-event which in turn makes the markdownhint icon invisible
     // which in turn swallow the click event - and nothing happens on click.
     'mousedown .detailInputMarkdownHint'(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        ConfirmationDialogFactory
-            .makeInfoDialog('Help for Markdown Syntax')
-            .setTemplate('markdownHint')
-            .show();
-
+        handlerShowMarkdownHint(evt);
     }
 });

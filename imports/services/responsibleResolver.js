@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { User } from '/imports/user';
 
 export class ResponsibleResolver {
 
@@ -45,9 +46,9 @@ export class ResponsibleResolver {
             .map((userIdOrEmail) => {
                 let userNameFromDb = '';
                 if (userIdOrEmail.length > 15) { // maybe DB Id or free text
-                    const user = Meteor.users.findOne(userIdOrEmail);
-                    if (user) {
-                        userNameFromDb = user.username;
+                    const user = new User(userIdOrEmail);
+                    if (user.OK) {
+                        userNameFromDb = user.profileNameWithFallback();
                     }
                 }
                 return prefix + ( (userNameFromDb) ? userNameFromDb : userIdOrEmail );
@@ -61,6 +62,6 @@ export class ResponsibleResolver {
      * @returns {string}
      */
     static resolveAndformatResponsiblesString(responsibleList, prefix = '') {
-        return ResponsibleResolver.resolveResponsibles(responsibleList, prefix).join(', ');
+        return ResponsibleResolver.resolveResponsibles(responsibleList, prefix).join('; ');
     }
 }

@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { Mongo } from 'meteor/mongo';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
 import { handleError } from '/client/helpers/handleError';
@@ -12,6 +12,8 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { UsersEditConfig } from './meetingSeriesEditUsers';
 import { UserRoles } from '/imports/userroles';
 import { Minutes } from '/imports/minutes';
+import {IsEditedService} from '../../../imports/services/isEditedService';
+import {isEditedHandling} from '../../helpers/isEditedHelpers';
 
 
 Template.meetingSeriesEdit.onCreated(function() {
@@ -29,7 +31,6 @@ Template.meetingSeriesEdit.onCreated(function() {
         true,                                               // current user can not be edited
         thisMeetingSeriesID,                                // the meeting series id
         _attachedUsersCollection);                          // collection of attached users
-
     // Hint: collection will be filled in the "show.bs.modal" event below
 });
 
@@ -98,7 +99,6 @@ const notifyOnRoleChange = function(usersWithRolesAfterEdit, meetingSeriesId) {
     }
 };
 
-
 Template.meetingSeriesEdit.events({
 
     'click #deleteMeetingSeries': function() {
@@ -135,6 +135,20 @@ Template.meetingSeriesEdit.events({
     // "show" event is fired shortly before BootStrap modal dialog will pop up
     // We fill the temp. client-side only user database for the user editor on this event
     'show.bs.modal #dlgEditMeetingSeries': function (evt, tmpl) {
+
+        const ms = new MeetingSeries(tmpl.data._id);
+
+        const element = ms;
+        const unset = function () {
+            IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
+            $('#dlgEditMeetingSeries').modal('show');
+        };
+        const setIsEdited = () => {
+            IsEditedService.setIsEditedMeetingSerie(ms._id);
+        };
+
+        isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
+
         // Make sure these init values are filled in a close/re-open scenario
         $('#btnMeetingSeriesSave').prop('disabled',false);
         $('#btnMeetinSeriesEditCancel').prop('disabled',false);
@@ -228,6 +242,7 @@ Template.meetingSeriesEdit.events({
         ms.name = aName;
         ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users
         ms.save();
+        IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
 
         // Hide modal dialog
         saveButton.prop('disabled',false);
@@ -235,12 +250,30 @@ Template.meetingSeriesEdit.events({
         $('#dlgEditMeetingSeries').modal('hide');
     },
 
-
     'click #btnMeetingSeriesSave': function (evt, tmpl) {
         evt.preventDefault();
         // Unfortunately the form.submit()-function does not trigger the
         // validation process
         tmpl.$('#submitMeetingSeriesEditForm').click();
+    },
+
+    'click #btnMeetinSeriesEditCancel,#btnEditMSClose': function (evt, tmpl) {
+        evt.preventDefault();
+
+        const ms = new MeetingSeries(tmpl.data._id);
+        IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
+
+        $('#dlgEditMeetingSeries').modal('hide');
+    },
+
+    'keyup': function (evt, tmpl) {
+        evt.preventDefault();
+        if (evt.keyCode === 27) {
+            const ms = new MeetingSeries(tmpl.data._id);
+            IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
+
+            $('#dlgEditMeetingSeries').modal('hide');
+        }
     },
 
     // Prevent the last open panel to be collapsible

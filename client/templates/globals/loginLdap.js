@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { FlashMessage } from '/client/helpers/flashMessage';
 import $ from 'jquery';
 
@@ -11,11 +11,23 @@ function loginCallback(error) {
     }
 
     let routeName = FlowRouter.current().route.name;
-    if (routeName === 'login' || routeName === 'signup' || routeName === 'home') {
+    if (routeName === 'signup' || routeName === 'home') {
         FlowRouter.go('home');
     }
 }
 
+Template.loginLdap.helpers({
+    LDAPLabel4Username() {
+        return Meteor.settings.public.ldapLabel4Username;
+    },
+    LDAPLabel4Password() {
+        return Meteor.settings.public.ldapLabel4Password;
+    },
+
+});
+
+// Username
+// Password
 Template.loginLdap.events({
     'submit #ldapLoginForm'(event) {
         event.preventDefault();

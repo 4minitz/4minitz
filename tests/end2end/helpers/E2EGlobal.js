@@ -64,6 +64,7 @@ export class E2EGlobal {
         while (current - start < timeout) {
             try {
                 browser.click(selector);
+                E2EGlobal.waitSomeTime(100);
                 return;
             } catch (e) {
                 const message = e.toString(),
@@ -71,6 +72,7 @@ export class E2EGlobal {
                                    || message.includes('Element is not clickable at point');
 
                 if (!retryMakesSense) {
+                    console.log(`Unexpected exception: ${e}`);
                     throw e;
                 }
             }
@@ -115,6 +117,18 @@ export class E2EGlobal {
             mm='0'+mm
         }
         return yyyy+"-"+mm+"-"+dd;
+    };
+
+    static formatTimeISO8601 (aDate) {
+        let isoString = '';
+
+        try {
+            let tzoffset = aDate.getTimezoneOffset() * 60000; //offset in milliseconds
+            isoString = (new Date(aDate - tzoffset)).toISOString().substr(0,19).replace('T',' ');   // YYYY-MM-DD hh:mm:ss
+        } catch (e) {
+            isoString = 'NaN-NaN-NaN 00:00:00';
+        }
+        return isoString;
     };
 
     static browserName() {
@@ -171,17 +185,40 @@ export class E2EGlobal {
     static saveScreenshot(filename) {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
         filename = (!filename) ? dateStr : dateStr + "_" + filename;
-        browser.saveScreenshot('./tests/snapshots/' + filename + ".png");
+        let fullpath = './tests/snapshots/' + filename + ".png";
+        browser.saveScreenshot(fullpath);
 
         const weAreOnTravis = !!process.env.TRAVIS;
         if (weAreOnTravis) {
-            const baseUrl = 'http://4minitz2.s3.amazonaws.com/4minitz/4minitz/',
+            const baseUrl = 'http://4m.js42.de/4minitz/4minitz',
                 build = process.env.TRAVIS_BUILD_NUMBER || 1,
                 job = process.env.TRAVIS_JOB_NUMBER || 1,
                 url = baseUrl + '/' + build + '/' + job + '/tests/snapshots/' + filename + '.png';
 
             console.log('Screenshot taken: ', url);
         }
+        return fullpath;
+    }
+
+    static sendKeysWithPause(...keysAndPauses) {
+        function isOdd(num) {
+            return num % 2;
+        }
+
+        const keys = keysAndPauses.filter((_, index) => !isOdd(index)),
+            pauses = keysAndPauses.filter((_, index) => isOdd(index)),
+            numberOfKeys = keys.length;
+        
+        for (let i = 0; i < numberOfKeys; ++i) {
+            browser.keys(keys[i]);
+            E2EGlobal.waitSomeTime(pauses[i] || 250);
+
+            E2EGlobal.saveScreenshot(`keys-with-pause-${i}`);
+        }
+    }
+
+    static logTimestamp(text) {
+        console.log('---', E2EGlobal.formatTimeISO8601(new Date()), text);
     }
 }
 

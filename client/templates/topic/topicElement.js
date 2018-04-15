@@ -11,6 +11,11 @@ import { FlashMessage } from '../../helpers/flashMessage';
 import { TopicInfoItemListContext } from './topicInfoItemList';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
+import {labelSetFontColor} from './helpers/label-set-font-color';
+import { handleError } from '../../helpers/handleError';
+import {detectTypeAndCreateItem} from './helpers/create-item';
+import {resizeTextarea} from './helpers/resize-textarea';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 let _minutesId;
 
@@ -19,6 +24,10 @@ let onError = (error) => {
 };
 
 const INITIAL_ITEMS_LIMIT = 4;
+
+const isFeatureShowItemInputFieldOnDemandEnabled = () => {
+    return !(Meteor.settings && Meteor.settings.public && Meteor.settings.public.isEnd2EndTest);
+};
 
 Template.topicElement.onCreated(function () {
     let tmplData = Template.instance().data;
@@ -29,14 +38,13 @@ Template.topicElement.onCreated(function () {
 });
 
 Template.topicElement.helpers({
+    hideAddItemInputField() {
+        return isFeatureShowItemInputFieldOnDemandEnabled();
+    },
+
     getLabels: function() {
         let tmplData = Template.instance().data;
-        return LabelResolver.resolveLabels(this.topic.labels, tmplData.parentMeetingSeriesId)
-            .map(labelObj => {
-                let doc = labelObj.getDocument();
-                doc.fontColor = labelObj.hasDarkBackground() ? '#ffffff' : '#000000';
-                return doc;
-            });
+        return LabelResolver.resolveLabels(this.topic.labels, tmplData.parentMeetingSeriesId).map(labelSetFontColor);
     },
 
     checkedState: function () {
@@ -106,8 +114,79 @@ Template.topicElement.helpers({
     }
 });
 
+const editTopicEventHandler = (evt, context, manipulateTopic) => {
+    evt.preventDefault();
+    if (!context.minutesID || !context.isEditable) {
+        return;
+    }
+    const aTopic = new Topic(context.minutesID, context.topic._id);
+    manipulateTopic(aTopic);
+};
+
+const openAddItemDialog = (itemType, topicId) => {
+    Session.set('topicInfoItemEditTopicId', topicId);
+    Session.set('topicInfoItemType', itemType);
+};
+
+const showHideItemInput = (tmpl, show = true, then = () => {}) => {
+    if (!isFeatureShowItemInputFieldOnDemandEnabled()) {
+        return;
+    }
+
+    const addItemEl = tmpl.$('.addItemForm');
+    const theItemTextarea = tmpl.$('.add-item-field');
+    if (show) {
+        addItemEl.show(250);
+        Meteor.setTimeout(() => {
+            resizeTextarea(theItemTextarea);
+            then();
+
+            Meteor.setTimeout(() => {
+                // only focus, if parent topic element fits in view port
+                if (tmpl.$('.topic-element').outerHeight() < window.innerHeight) {
+                    theItemTextarea.focus();
+                }
+            },50);
+        }, 300);
+    } else {
+        addItemEl.hide(250);
+    }
+};
+
+let savingNewItem = false;
 
 Template.topicElement.events({
+
+    'click .topic-element'(evt, tmpl) {
+        // return if the current target is not the original target of the event
+        if (evt.currentTarget.getAttribute('class') !== evt.target.getAttribute('class')) {
+            return;
+        }
+
+        if (tmpl.$('.topic-element').hasClass('focus')) {   // guard against multiple nested calls
+            return;
+        }
+        tmpl.$('.topic-element').addClass('focus');
+        showHideItemInput(tmpl);
+    },
+
+    'blur .topic-element'(evt, tmpl) {
+        if (! tmpl.$('.topic-element').hasClass('focus')) { // guard against multiple nested calls
+            return;
+        }
+        if (savingNewItem) {
+            savingNewItem = false;
+            return;
+        }
+        const nextElement = evt.relatedTarget;
+        const topicElement = tmpl.find('.topic-element');
+        if (!nextElement || !topicElement.contains(nextElement)) {
+            tmpl.$('.topic-element').removeClass('focus');
+            // Meteor.setTimeout(() => { showHideItemInput(tmpl, false); }, 500);
+            showHideItemInput(tmpl, false);
+        }
+    },
+
     'click #btnDelTopic'(evt) {
         evt.preventDefault();
 
@@ -150,54 +229,32 @@ Template.topicElement.events({
     },
 
     'click .btnToggleState'(evt) {
-        evt.preventDefault();
-        if (!this.minutesID) {
-            return;
-        }
+        editTopicEventHandler(evt, this, (aTopic) => {
+            aTopic.toggleState().catch(onError);
+        });
+    },
 
-        console.log('Toggle topic state ('+this.topic.isOpen+'): '+this.topic._id+' from minutes '+this.minutesID);
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        aTopic.toggleState().catch(onError);
+    'click #btnShowTopic'() {
+        FlowRouter.go('/topic/'+this.topic._id);
     },
 
     'click .js-toggle-recurring'(evt) {
-        evt.preventDefault();
-        if (!this.isEditable) {
-            return;
-        }
-
-        if (!this.minutesID) {
-            return;
-        }
-
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        aTopic.toggleRecurring();
-        aTopic.save().catch(onError);
+        editTopicEventHandler(evt, this, (aTopic) => {
+            aTopic.toggleRecurring();
+            aTopic.save().catch(onError);
+        });
     },
     
     'click .js-toggle-skipped'(evt) {
-        evt.preventDefault();
-        
-        if (!this.isEditable) {
-            return;
-        }
-
-        if (!this.minutesID) {
-            return;
-        }
-        
-        let aTopic = new Topic(this.minutesID, this.topic._id);
-        aTopic.toggleSkip();
-        aTopic.save().catch(onError);
+        editTopicEventHandler(evt, this, (aTopic) => {
+            aTopic.toggleSkip();
+            aTopic.save().catch(onError);
+        });
     },
 
     'click #btnEditTopic'(evt) {
         evt.preventDefault();
-
-        if (!this.minutesID) {
-            return;
-        }
-        if (getSelection().toString()) {    // don't fire while selection is ongoing
+        if (!this.minutesID || getSelection().toString()) { // don't fire while selection is ongoing
             return;
         }
         Session.set('topicEditTopicId', this.topic._id);
@@ -205,22 +262,83 @@ Template.topicElement.events({
     },
 
     'click .addTopicInfoItem'(evt) {
-        console.log('Info!');
         evt.preventDefault();
         // will be called before the modal dialog is shown
-
-        Session.set('topicInfoItemEditTopicId', this.topic._id);
-        Session.set('topicInfoItemType', 'infoItem');
+        openAddItemDialog('infoItem', this.topic._id);
     },
+
     'click .addTopicActionItem'(evt) {
-        console.log('Action!');
         evt.preventDefault();
         // will be called before the modal dialog is shown
-
-        Session.set('topicInfoItemEditTopicId', this.topic._id);
-        Session.set('topicInfoItemType', 'actionItem');
+        openAddItemDialog('actionItem', this.topic._id);
     },
 
+    'blur .addItemForm' (evt, tmpl) {
+        if (!tmpl.data.isEditable) {
+            throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
+        }
+
+        const theItemTextarea = tmpl.find('.add-item-field');
+        const inputText = theItemTextarea.value;
+
+        if (inputText === '') {
+            return;
+        }
+
+        savingNewItem = true;
+        const splitIndex = inputText.indexOf('\n');
+        const subject = (splitIndex === -1) ? inputText : inputText.substring(0, splitIndex);
+        const detail = (splitIndex === -1) ? '' : inputText.substring(splitIndex + 1).trim();
+
+        const itemDoc = {
+            subject: subject,
+            responsibles: [],
+            createdInMinute: this.minutesID
+        };
+
+        const topic = new Topic(this.minutesID, this.topic);
+        const minutes = new Minutes(this.minutesID);
+        const newItem = detectTypeAndCreateItem(itemDoc, topic, this.minutesID, minutes.parentMeetingSeries());
+        if (detail) {
+            newItem.addDetails(this.minutesID, detail);
+        }
+        newItem.saveAtBottom().catch(error => {
+            theItemTextarea.value = inputText; // set desired value again!
+            handleError(error);
+        });
+
+        let collapseState = Session.get('minutesedit.collapsetopics.'+_minutesId);
+        if (!collapseState) {
+            collapseState = {};
+        }
+        collapseState[this.topic._id] = false;
+        Session.set('minutesedit.collapsetopics.'+_minutesId, collapseState);
+
+        // Clean & focus for next usage after saving last item
+        theItemTextarea.value = '';
+        resizeTextarea(theItemTextarea);
+        Meteor.setTimeout(() => {
+            theItemTextarea.focus();
+        },100);
+    },
+
+    'keydown .addItemForm' (evt, tmpl) {
+        const inputEl = tmpl.$('.add-item-field');
+        if (evt.which === 13/*enter*/ && ( evt.ctrlKey || evt.metaKey)) {
+            evt.preventDefault();
+            inputEl.blur();
+        }
+
+        resizeTextarea(inputEl);
+    },
+
+    'keydown #btnTopicExpandCollapse'(evt) {
+        evt.preventDefault();
+        // since we do not have a link-href the link will not be clicked when hitting enter by default...
+        if (evt.which === 13/*enter*/) {
+            evt.currentTarget.click();
+        }
+    },
 
     'click #btnTopicExpandCollapse'(evt) {
         console.log('btnTopicExpandCollapse()'+this.topic._id);

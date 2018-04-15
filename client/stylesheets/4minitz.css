@@ -41,6 +41,14 @@
     padding: 2px 6px 2px 1px;
 }
 
+.topic-element {
+    border: 2px dashed transparent !important;
+}
+
+.focus {
+    border: 2px dashed #00bbbb !important;
+}
+
 .remove-symbol {
     padding: 3px 2px 2px 6px;
     font-size:93%;
@@ -77,6 +85,13 @@
     background: #eee !important;
 }
 
+.panel-link.disabled {
+    color: #CCCCCC !important;
+}
+
+.panel-link.disabled:hover {
+    cursor: default;
+}
 
 /* highlight active nav-tabs item */
 ul.nav-tabs {
@@ -282,6 +297,16 @@ input.pick-a-color {
     text-decoration: line-through;
 }
 
+.linkItemContext{
+    color: grey;
+    font-size: 80%;
+    vertical-align: sub;
+}
+
+a.linkItemContext:hover {
+    color: black;
+}
+
 .meetingSeriesSearchbar input{
     margin: 5px 0 0 1px;
     width: 233px;
@@ -296,4 +321,34 @@ input.pick-a-color {
 
 a {
     cursor: pointer;
+}
+
+/* td-ellipsis will prevent line break in <td> and shorten the text with ellipsis instead */
+/* see https://stackoverflow.com/a/30362531/2580805 */
+.td-ellipsis {
+    position: relative;
+}
+.td-ellipsis:before {
+    content: '&nbsp;';
+    visibility: hidden;
+}
+.td-ellipsis span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*
+    Workaround for issue with missing check marks in checkbox in Chrome 63
+    This sets the background to our CI background color and inserts a white checkmark on top of
+    the background color as an SVG image.
+
+    See also related issue https://github.com/FezVrasta/bootstrap-material-design/issues/1189
+*/
+.checkbox input[type=checkbox]:checked + .checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check {
+    background-color: #009688;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
 }

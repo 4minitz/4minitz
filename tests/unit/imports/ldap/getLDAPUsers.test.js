@@ -149,7 +149,7 @@ describe('getLDAPUsers', function () {
             });
     });
 
-    describe('legacy inactive user detction settings', function (done) {
+    describe('legacy inactive user detection settings', function (done) {
         let client;
 
         beforeEach(function () {
@@ -196,6 +196,36 @@ describe('getLDAPUsers', function () {
                 });
         });
 
+        it('adds property map attributes to whitelist automatically', function (done) {
+            const s = Object.assign({}, settings, {
+                propertyMap: {
+                    username: 'someweirdAttribute',
+                    email: 'anEmailAttribute'
+                },
+                whiteListedFields: ['someField']
+            });
+            let parameters = [];
+            let client = {
+                search: asyncStubs.returns(2, ldapSearchResult('no'), parameters),
+                unbind: asyncStubs.returnsError(0, 'Some error')
+            };
+            ldap.createClient.returns(client);
+
+            getLDAPUsers(s)
+                .then((result) => {
+                    try {
+                        const parametersOfFirstCall = parameters[0],
+                            options = parametersOfFirstCall['1'];
+                        expect(options.attributes).to.include.members(['someweirdAttribute', 'anEmailAttribute']);
+                        done();
+                    } catch (error) {
+                        done(error);
+                    }
+                })
+                .catch((error) => {
+                    done(error2);
+                });
+        });
 
         it('returns user object with isInactive property set to false', function (done) {
             let client = {

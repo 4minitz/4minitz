@@ -49,6 +49,14 @@ export class MinutesFinder {
         return this._getCornerMinutes(meetingSeries, 1, descendingByDate);
     }
 
+    static lastFinalizedMinutesOfMeetingSeries(meetingSeries) {
+        let lastMinute = this.lastMinutesOfMeetingSeries(meetingSeries);
+        if(lastMinute.isFinalized)
+            return lastMinute;
+        else
+            return this.secondLastMinutesOfMeetingSeries(meetingSeries);
+    }
+
     static secondLastMinutesOfMeetingSeries(meetingSeries) {
         const descendingByDate = true;
         return this._getCornerMinutes(meetingSeries, 2, descendingByDate);

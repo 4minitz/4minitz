@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
+import { LdapSettings } from '/imports/config/LdapSettings';
 
 // For possible account configuration see:
 // https://github.com/meteor-useraccounts/core/blob/master/Guide.md#configuration-api
@@ -49,46 +51,35 @@ AccountsTemplates.addFields([
     }
 ]);
 
-let submitHookFunction = function(error, state){
-    if (state === 'signUp') {
-        if (error) {
-            window.location.href = Meteor.absoluteUrl('login');
-        }
-    }
+let submitHookFunction = function(error, state){     //eslint-disable-line
+    // After submitting registration, resend, ...
+    // we want to go back to normal signin sub template
+    Meteor.setTimeout(() => {AccountsTemplates.setState('signIn');}, 3000);
 };
 
 if (Meteor.isServer) {
     // #Security: Do not allow registering by anonymous visitors. Configurable via settings.json
     AccountsTemplates.configure({
-        forbidClientAccountCreation: (Meteor.settings.forbidClientAccountCreation
-            ? Meteor.settings.forbidClientAccountCreation
-            : false),
-
-        sendVerificationEmail: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.sendVerificationEmail
-            ? Meteor.settings.email.sendVerificationEmail
-            : false),
-
-        showResendVerificationEmailLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showResendVerificationEmailLink
-            ? Meteor.settings.email.showResendVerificationEmailLink
-            : false),
-
-        showForgotPasswordLink: (Meteor.settings.email.enableMailDelivery === true && Meteor.settings.email.showForgotPasswordLink
-            ? Meteor.settings.email.showForgotPasswordLink
-            : false),
-
+        forbidClientAccountCreation: GlobalSettings.forbidClientAccountCreation() || LdapSettings.ldapHideStandardLogin(),
+        sendVerificationEmail: GlobalSettings.sendVerificationEmail(),
+        showResendVerificationEmailLink: GlobalSettings.showResendVerificationEmailLink(),
+        showForgotPasswordLink: GlobalSettings.showForgotPasswordLink(),
         onSubmitHook: submitHookFunction
     });
 
-    // #Security: Do not allow "isInactive" users to log in
+    // #Security: Do not allow standard/LDAP users log in under some conditions
     Accounts.validateLoginAttempt(function(attempt) {
         if(attempt.user) {
             if (attempt.user.isInactive) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'User account is inactive!');
             }
-            else if (Meteor.settings.email.sendVerificationEmail && !attempt.user.emails[0].verified) {
+            else if (GlobalSettings.sendVerificationEmail() && !attempt.user.emails[0].verified) {
                 attempt.allowed = false;
                 throw new Meteor.Error(403, 'User account is not verified!');
+            } else if (LdapSettings.ldapHideStandardLogin() && !attempt.user.isLDAPuser) {
+                attempt.allowed = false;
+                throw new Meteor.Error(403, 'Login only via LDAP!');
             }
         }
         return true;

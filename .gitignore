@@ -4,6 +4,8 @@
 .idea/
 .docker/4minitz_settings.json
 .docker/4minitz_bin
+.deploy/4minitz_bin/
+
 node_modules
 npm-debug.log
 settings.json
@@ -14,3 +16,10 @@ public/fonts/glyphicons-halflings-regular.*
 *.json.bak
 
 4minitz\.iml
+
+
+\.deploy/4minitz_bin\.zip
+
+package-lock\.json
+
+4minitz_settings\.json

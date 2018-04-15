@@ -4,6 +4,7 @@ import { Markdown } from 'meteor/perak:markdown';
 
 import { handleMigration } from './migrations/migrations';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
+import { LdapSettings } from '/imports/config/LdapSettings';
 import '/imports/gitversioninfo';
 import '/imports/config/accounts';
 import '/imports/config/EMailTemplates';
@@ -23,6 +24,7 @@ import '/imports/collections/attachments_private';
 import '/imports/collections/documentgeneration_private';
 
 import '/imports/services/finalize-minutes/finalizer';
+import '/imports/services/isEditedService';
 
 import cron from 'node-cron';
 import importUsers from '/imports/ldap/import';
@@ -64,14 +66,14 @@ let handleDemoUserAccount = function () {
 
 let syncRootUrl = function () {
     if (!Meteor.settings) {
-        console.log("*** Warning: no settings specified. Running in 'WTF' mode.");
+        console.log('*** Warning: no settings specified. Running in \'WTF\' mode.');
         return;
     }
 
     if (!Meteor.settings.ROOT_URL) {
-        console.log("*** Warning: No ROOT_URL specified in settings.json.");
-        console.log("             Links in EMails and file download may not work.");
-        console.log("             Grabbing ROOT_URL from env variable.");
+        console.log('*** Warning: No ROOT_URL specified in settings.json.');
+        console.log('             Links in EMails and file download may not work.');
+        console.log('             Grabbing ROOT_URL from env variable.');
     }
 
     // We sync the two sources of ROOT_URL with a preference on Meteor.settings from settings.json
@@ -79,6 +81,7 @@ let syncRootUrl = function () {
     // So, process.env.ROOT_URL should always contain a value
     if (Meteor.settings.ROOT_URL) {
         process.env.ROOT_URL = Meteor.settings.ROOT_URL;
+        __meteor_runtime_config__.ROOT_URL = Meteor.settings.ROOT_URL; //eslint-disable-line
     } else {
         Meteor.settings.ROOT_URL = process.env.ROOT_URL;
     }
@@ -86,9 +89,11 @@ let syncRootUrl = function () {
 
 Meteor.startup(() => {
     syncRootUrl();
-    console.log("*** ROOT_URL: "+Meteor.settings.ROOT_URL);
+    console.log('*** ROOT_URL: '+Meteor.settings.ROOT_URL);
 
     GlobalSettings.publishSettings();
+    LdapSettings.loadSettingsAndPerformSanityCheck();
+
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
     console.log('WebApp current working directory:'+process.cwd());
 
@@ -115,15 +120,24 @@ Meteor.startup(() => {
             dismissForUserIDs: []});
     }
 
-    if (GlobalSettings.hasImportUsersCronTab()) {
+    if (GlobalSettings.hasImportUsersCronTab() || GlobalSettings.getImportUsersOnLaunch()) {
         const crontab = GlobalSettings.getImportUsersCronTab(),
             mongoUrl = process.env.MONGO_URL,
             ldapSettings = GlobalSettings.getLDAPSettings();
+        console.log('MONGO_URL:', mongoUrl);
 
-        console.log('Configuring cron job for regular LDAP user import.');
-        cron.schedule(crontab, function () {
-            importUsers(ldapSettings, mongoUrl);
-        });
+        if (GlobalSettings.getImportUsersOnLaunch()) {
+            console.log('Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.');
+            importUsers(ldapSettings, mongoUrl)
+                .catch(() => {});
+        }
+        if (GlobalSettings.hasImportUsersCronTab()) {
+            console.log('Configuring cron job for regular LDAP user import.');
+            cron.schedule(crontab, function () {
+                importUsers(ldapSettings, mongoUrl)
+                    .catch(() => {});
+            });
+        }
     }
 });
 

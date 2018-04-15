@@ -1,15 +1,15 @@
 <template name="topicElement">
-    <div class="well" data-id="{{topic._id}}" style="position: relative;" >
+    <div class="well topic-element" data-id="{{topic._id}}" style="position: relative;" tabindex="0">
 
         <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
         {{#if topic.infoItems.length}}
-            <span id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;" class="expand-collapse-triangle hidden-print">
+            <a tabindex="0" id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;" class="expand-collapse-triangle hidden-print">
                 {{#if isCollapsed}}
                     <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 {{else}}
                     <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 {{/if}}
-            </span>
+            </a>
         {{/if}}
         <div>
             <div class="checkbox">
@@ -80,6 +80,12 @@
                                     </a>
                                 </li>                           
                                 <li>
+                                    <a id="btnShowTopic"  class="panel-link" title="Show complete finalized state of this topic">
+                                        <span class="glyphicon glyphicon-folder-open"></span>
+                                        Show History
+                                    </a>
+                                </li>
+                                <li>
                                     <a id="btnDelTopic"  class="panel-link" title="Delete topic">
                                         <span class="glyphicon glyphicon-trash"></span>
                                         Delete Topic
@@ -119,6 +125,19 @@
             <div class="leftIndent-desktop">
                 {{> topicInfoItemList getData}}
             </div>
+        {{/unless}}
+        {{#unless and isCollapsed topic.infoItems.length}}
+            {{#if isEditable}}
+                <form class="addItemForm leftIndent-desktop" style="{{#if hideAddItemInputField}}display: none;{{/if}}">
+                    <div class="form-group label-placeholder" style="padding-bottom: 1em;">
+                        <textarea id="addItemField_{{topic._id}}"
+                                  rows="1"
+                                  class="form-control add-item-field"
+                                  placeholder="Add Info Item. Append @username to add an Action Item. Press Enter to append details. Press Ctrl+Enter or Tab to submit."></textarea>
+
+                    </div>
+                </form>
+            {{/if}}
         {{/unless}}
     </div>
 </template>

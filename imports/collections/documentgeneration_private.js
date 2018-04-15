@@ -7,6 +7,7 @@ import { DocumentGeneration } from './../documentGeneration';
 
 import { FilesCollection } from 'meteor/ostrio:files';
 import { extendedPublishSubscribeHandler } from './../helpers/extendedPublishSubscribe';
+import {User} from '../user';
 
 export let DocumentsCollection = new FilesCollection({
     collectionName: 'DocumentsCollection',
@@ -119,8 +120,8 @@ Meteor.methods({
             _informed: minute.getInformed(Meteor.users),
             _userArrayToString: function(users) {
                 return users.map(function(user){
-                    return user.name;
-                }).join(', ');
+                    return User.PROFILENAMEWITHFALLBACK(user);
+                }).join('; ');
             }
         };
 
@@ -133,28 +134,35 @@ Meteor.methods({
         return tmplRenderer.render();
     },
 
-    'documentgeneration.createAndStoreFile'(minutesObj) {
+    'documentgeneration.createAndStoreFile'(minutesId) {
         if (Meteor.isClient) {
             return;
         }
+        if (! Meteor.settings.public.docGeneration.enabled) {
+            return;
+        }
 
+        let minutesObj = new Minutes(minutesId);
         //Security checks will be done in the onBeforeUpload-Hook
 
         //this variable should be overwritten by the specific implementation of storing files based on their format
         //for this purpose they'll receive two parameters: the html-content as a string and the minute as a object
-        let storeFile = undefined; 
+        let storeFileFunction = undefined;
+        let fileName = DocumentGeneration.calcFileNameforMinute(minutesObj);
+        let metaData = { 
+            minuteId: minutesObj._id,
+            meetingSeriesId: minutesObj.parentMeetingSeriesID(),
+            minuteDate: minutesObj.date
+        };
 
         // implementation of html storing
         if (Meteor.settings.public.docGeneration.format === 'html') {
-            storeFile = (htmldata, minutesObj) => {
-                DocumentsCollection.write(new Buffer(htmldata), 
-                    {   fileName: DocumentGeneration.calcFileNameforMinute(minutesObj) + '.html',
+            storeFileFunction = (htmldata, fileName, metaData) => {
+                console.log('Protocol generation to file: ', fileName);
+                DocumentsCollection.write(new Buffer(htmldata),
+                    {   fileName:  fileName + '.html',
                         type: 'text/html',
-                        meta: { 
-                            minuteId: minutesObj._id,
-                            meetingSeriesId: minutesObj.parentMeetingSeriesID(),
-                            minuteDate: minutesObj.date
-                        }
+                        meta: metaData
                     }, function (error) {
                         if (error) {
                             throw new Meteor.Error(error);
@@ -164,24 +172,46 @@ Meteor.methods({
             };
         }
 
-        if (!storeFile) {
+        // implementation of pdf storing
+        if ((Meteor.settings.public.docGeneration.format === 'pdf') || (Meteor.settings.public.docGeneration.format === 'pdfa')){
+            storeFileFunction = (htmldata, fileName, metaData) => {
+                let finalPDFOutputPath = convertHTML2PDF(htmldata, fileName, metaData);  //eslint-disable-line
+                console.log('Protocol generation to file: ', finalPDFOutputPath, fileName);
+                DocumentsCollection.addFile(finalPDFOutputPath,
+                    {
+                        fileName: fileName + '.pdf',
+                        type: 'application/pdf',
+                        meta: metaData
+                    }, function (error) {
+                        if (error) {
+                            throw new Meteor.Error(error);
+                        }
+                    }
+                );
+
+            };
+        }
+
+        if (!storeFileFunction) {
             throw new Meteor.Error('Cannot create protocol', 'The protocol could not be created since the format assigned in the settings.json is not supported: ' + Meteor.settings.public.docGeneration.format);
         }
 
         //generate and store protocol
-        Meteor.call('documentgeneration.createHTML', minutesObj._id, (error, result) => {
-            if ((result) && (Meteor.isServer)) {
-                storeFile(result, minutesObj);
-            } else {
-                throw new Meteor.Error('runtime-error', error.reason);
-            }
-        });
+        try {
+            let htmldata = Meteor.call('documentgeneration.createHTML', minutesObj._id); // this one will run synchronous
+            storeFileFunction(htmldata, fileName, metaData);
+        } catch (error) {
+            console.error('Error at Protocol generation:');
+            let errormsg = error.reason ? error.reason : error; 
+            console.error(errormsg);
+            throw new Meteor.Error('runtime-error', errormsg.message);
+        }
     },
 
-    'documentgeneration.removeFile'(minutesObj) {
+    'documentgeneration.removeFile'(minutesId) {
         if (Meteor.isServer) {
             //Security checks will be done in the onBeforeRemove-Hook
-            DocumentsCollection.remove({'meta.minuteId': minutesObj._id}, function (error) {
+            DocumentsCollection.remove({'meta.minuteId': minutesId}, function (error) {
                 if (error) {
                     throw new Meteor.Error('Protocol could not be deleted, error: ' + error.reason);
                 }

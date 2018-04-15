@@ -8,6 +8,7 @@ describe('User Profile/Password editing', function () {
     const waitUntilTimeout = 10000;
 
     before("reload page and reset app", function () {
+        E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });

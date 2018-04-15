@@ -7,6 +7,7 @@ import { ActionItem } from './actionitem';
 import { emailAddressRegExpMatch } from '/imports/helpers/email';
 import { subElementsHelper } from '/imports/helpers/subElements';
 import { _ } from 'meteor/underscore';
+import { User } from '/imports/user';
 
 import './collections/minutes_private';
 import './helpers/promisedMethods';
@@ -383,7 +384,12 @@ export class Minutes {
         if (userCollection) {
             return this.participants.map(participant => {
                 let user = userCollection.findOne(participant.userId);
-                participant.name = user.username;
+                if (user) {
+                    participant.name = user.username;
+                    participant.profile = user.profile;
+                } else {
+                    participant.name = 'Unknown ' + participant.userId;
+                }
                 return participant;
             });
         }
@@ -412,7 +418,11 @@ export class Minutes {
             if (userCollection) {
                 return this.informedUsers.map(informed => {
                     let user = userCollection.findOne(informed);
-                    informed = {id: informed, name: user.username};
+                    informed = {
+                        id: informed,
+                        name: user ? user.username : 'Unknown ' + informed,
+                        profile: user ? user.profile : null
+                    };
                     return informed;
                 });
             } else {
@@ -441,9 +451,12 @@ export class Minutes {
         const presentParticipants = Meteor.users.find({_id: {$in: presentParticipantIds}});
 
         let names = presentParticipants
-            .map(p => p.username)
+            .map(p => {
+                const user = new User(p);
+                return user.profileNameWithFallback();
+            })
             .concat(additionalParticipants)
-            .join(', ');
+            .join('; ');
 
         if (maxChars && names.length > maxChars) {
             return names.substr(0, maxChars) + '...';
@@ -463,4 +476,15 @@ export class Minutes {
     _findTopicIndex(id) {
         return subElementsHelper.findIndexById(id, this.topics);
     }
+
+    static formatResponsibles(responsible, usernameField, isProfileAvaliable) {
+        if (isProfileAvaliable && responsible.profile && responsible.profile.name) {
+            responsible.fullname = responsible[usernameField] +` - ${responsible.profile.name}`;
+        }
+        else {
+            responsible.fullname = responsible[usernameField];
+        }
+        return responsible;
+    }
+
 }

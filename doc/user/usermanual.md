@@ -1,5 +1,32 @@
 # 4Minitz User Manual
 
+**Be sure to also read our [User FAQ](../faq.md)**
+
+## Table of Content
+<!-- HowTo update table of content -->
+<!--    npm install --save markdown-toc -->
+<!--    markdown-toc -i --maxdepth 2 usermanual.md -->
+
+<!-- toc -->
+
+- [Important Hint](#important-hint)
+- [Register an Account](#register-an-account)
+- [Edit Profile / Change Password](#edit-profile--change-password)
+- [Create a Meeting Series](#create-a-meeting-series)
+- [Edit Meeting Series Properties](#edit-meeting-series-properties)
+- [Add New Minutes to a Meeting Series](#add-new-minutes-to-a-meeting-series)
+- [Prepare a Meeting](#prepare-a-meeting)
+- [Send Agenda to Participants](#send-agenda-to-participants)
+- [Take Meeting Minutes](#take-meeting-minutes)
+- [Finalize Meeting](#finalize-meeting)
+- [Print Meeting Minutes](#print-meeting-minutes)
+- [Unfinalize Meeting](#unfinalize-meeting)
+- [Download minute protocols](#download-minute-protocols)
+- [Upload Binary Attachments](#upload-binary-attachments)
+- [Search through topics, info items and action items](#search-through-topics-info-items-and-action-items)
+
+<!-- tocstop -->
+
 ## Important Hint
 4Minitz is a client-server webapp. So the client needs the server to permanently store your meeting minutes. Nevertheless the meteor framework allows the client webapp to temporarily work 'offline' and sync the contents as soon as the server is available again.
 
@@ -79,7 +106,7 @@ The meeting series editor allows a moderator to
  | Uploader      | Yes          | Yes         |     Yes     | No          |
  | Invited       | Yes          | Yes         |     No      | No          |
  | Informed      | Yes          | No          |     No      | No          |
- | Others        | No           | No          |  No         | No ;-)      |
+ | "None"        | No           | No          |  No         | No ;-)      |
 
  * The 'Informed' user only gets the final meeting minutes protocol email.
    But not the agenda email.
@@ -115,14 +142,28 @@ the topic menu will allow you to:
 
 * **"Add Info Item"** will add a info item to the topic. An information item is information that is going to be published with your meeting minutes to all invited persons. This feature will be described in the chapter "Take Meeting Minutes"
 * **"Add Action Item"** will add an action item to the topic. An action item is a ToDo that is sent to its responsible. This feature will be described in the chapter "Take Meeting Minutes"
-* **Edit Topic** (or click on topic subject text) will allow the moderator to edit this topic's subject, label or the responsible
+* **"Edit Topic"** (or click on topic subject text) will allow the moderator to edit this topic's subject, label or the responsible
 * **"Set Recurring"** will switch the topic to a recurring topic that will be part of any future meetings
 * **"Set Skip"** will mark a topic as to be skipped. Skipped topics will not be part of the current minute and are hidden for everyone except the moderator. In the next minute a skipped topic will automatically appear as normal.
+* **"Show History"** If the topic was ever finalized in previous meeting minutes,
+ this will show the finalized topic content as it is stored in the
+ meeting series. Here you are able to see closed action items of the topic
+ or historical info items that are not any longer visible in the current 
+ meeting minutes. 
 * **"Delete Topic"** will delete this topic after a security question
 * **"Up-Down-Arrow"** allows reordering the topics via drag'n'drop
 
 There is also a "three dots" menu icon within the meeting series' overview of topics. 
 This menu is available for already closed Topics and contains the menu entry **"Re-open Topics"**. By using this feature the topic will be opened again and will occur in the next minute respectively the current one, if it is not finished yet.
+
+### The Global Notes of a Meeting
+The global notes allow you to write down some stuff that does
+not belong to a specifi topic, but concerns the meeting as a whole.
+Examples might be: *"Kick-off for project XYZ"* or *"First meeting with Alex"*
+
+The global notes will be send with Agenda mail and Finalize mail to invited and informed users.
+
+There might also be situations where you want to have the global note to have equal content between meetings. In this case click the small pin needle above the global note to make it sticky and propagate to the next meeting. Examples for this situation might be: *"Meeting Time: 8:00-10:00 CET in Room '101'"* or *"Meeting Rules: No Phones, No Laptops"*
 
 ## Send Agenda to Participants
 All open (non skipped) topics of the current meeting minutes will be send by EMail to all invited users (and moderators) of the current meeting series if the moderator clicks the button:
@@ -152,7 +193,8 @@ For details on when topics are propagated to the next meeting see the "Finalize 
 The menu entries in the "three dot" info item menu allow the following operations:
 
 * **"Add Details"** will add details to the item. This feature will be described in the chapter "Adding Details".
-* **Edit Item** will allow the moderator to edit this items properties (like subject, label)
+* **"Edit Item"** will allow the moderator to edit this items properties (like subject, label)
+* **"Convert to Action"** will convert this info item to an action item. But only possible for new items!
 * **"Set Pinned"** will switch the topic to a pinned topic that will be propagated to the next meeting, if the parent topic is also propagated
 * **"Delete Item"** will delete this item after a security question. Info Items from previous meeting can not be deleted - they can only be set to "unpinned" state. So you will get rid of them in the next meeting. 
   
@@ -171,7 +213,8 @@ The color of the action items background gives the following information:
 The menu entries in the "three dot" action item menu allow the following operations:
 
 * **"Add Details"** will add details to the item. This feature will be described in the chapter "Adding Details".
-* **Edit Item** will allow the moderator to edit this action items properties (like subject, label, responsible)
+* **"Edit Item"** will allow the moderator to edit this action items properties (like subject, label, responsible)
+* **"Convert to Info"** will convert this action item to an info item. But only possible for new items!
 * **"Delete Item"** will delete this item after a security question. Action Items from a previous meeting can not be deleted - they can only be set to "done". So you will get rid of them in the next meeting.
 
 ### Adding Details
@@ -238,10 +281,12 @@ Once the moderator creates new minutes on top of the finalized last minutes, it 
 
 
 ## Download minute protocols
-The app offers the possibility of automatic generation of minute protocols by finalizing them. This applies only if this feature has been enabled in the settings.
+The app offers the possibility of automatic generation of minute protocols by finalizing them. This applies only if this feature has been enabled by the admin in the settings. Depending on the setting the download format will be HTML or PDF or even PDF/A.
 
-These protocols can  be downloaded by any user having the invited role or a higher one for the specific meeting series.
+These protocols can  be downloaded by any user having the invited role or a higher higher for the specific meeting series.
 In order to do this, press the download button in the upper right corner shown in finalized minutes.
+
+![Download Protocol File](./figures/download_protocol.png)
 
 If the feature is enabled but no protocol has been created for a specific minute (e.g. if the feature has been enabled after finalizing a minute) then by clicking on the download button a confirmation dialog opens. It will offer you to download an dynamically generated HTML protocol as a substitution. This protocol will not be stored on the server.
 
@@ -295,7 +340,7 @@ in the web browser first, to open an attachment by clicking the name.
 | Uploader      | Yes            | Only her own!  | Yes           |
 | Invited       | No             |        No      | Yes           |
 | Informed      | No             |        No      | No            |
-| Others        | No             |        No      | No ;-)        |
+| "None"        | No             |        No      | No ;-)        |
 
 
 ## Search through topics, info items and action items
@@ -333,3 +378,19 @@ In the filter bar you can enter any text that is searched in the topics / items.
   * `is:info` - find only info items
   * `is:open` - find open action items
   * `is:closed` -  find closed action items
+
+On the tab "Items" sometimes you wish to see the context (parent) topic of a specific item. For this simply click on the "Show Topic" link of an item.
+
+## My Action Items
+If you are invited to multiple meeting series, it might happen that you get quite some action items from different meetings. To keep the overview of what is expected from you to do and what are the due dates, you may go to the "My Action Items" tab on the start screen of 4Minitz.
+
+![My Action Items Tab](./figures/my_action_items.png)
+
+All action items on this tab are
+* marked for YOU as responsible
+* still open (default view)
+* sorted by due date
+
+You may also filter to see closed action items or action items with a specific text.
+
+Sometimes the action item is not understandable without the parent topic context where the action item stems from. So, it is possible to navigate from an action item on the "My Action Items" tab to the parent topic by clicking "Show Topic". On this view press the "Go Back" button to navigate back to the "My Action Items" tab.

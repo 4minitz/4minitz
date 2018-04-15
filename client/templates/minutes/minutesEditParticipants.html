@@ -9,7 +9,7 @@
                 {{else}}
                     <span class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"></span>
                 {{/if}}
-                Participants (& Informed)
+                {{countParticipantsText}}{{countAdditionalParticipantsText}}{{countInformedText}}
             </label>
             {{#if isEditable}}
                 <a  id="btnEditParticipants" class="pull-right" data-toggle="modal" data-target="#dlgEditMeetingSeries">
@@ -43,10 +43,10 @@
                     {{/if}}
                     <div class = "{{switch2MultiColumn}}">
                         {{#each participantsSorted}}
-                        <div class="checkbox" id="id_participant">
+                        <div class="checkbox js-participant-checkbox" id="id_participant_{{this.userId}}">
                             <label>
-                                <input type="checkbox" class="checkbox"
-                                       name="present" id="btnTogglePresent" data-userid="{{this.userId}}"
+                                <input type="checkbox" class="checkbox js-toggle-present"
+                                       name="present" id="btnTogglePresent_{{this.userId}}" data-userid="{{this.userId}}"
                                         {{checkedStatePresent}} {{disableUIControl}}>
                                 <span id="id_username" class="text-black">
                                     {{#if isModeratorOfParentSeries this.userId}}
@@ -65,7 +65,7 @@
                     </div>
                     <!--Additional Participants: freetext field-->
                     <input id="edtParticipantsAdditional" type="text" class="form-control"
-                           placeholder="Additional Participants..."
+                           placeholder="Additional Participants (separate with ';'). Mail addresses will receive minutes."
                            value="{{participantsAdditional}}" {{disableUIControl}}>
                     {{#if hasInformedUsers}}
                         <div class="default-margin-top">

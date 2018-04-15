@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Minutes } from '../minutes';
 import { UserRoles } from './../userroles';
+import { User } from '../user';
 import { MinutesSchema } from './minutes.schema';
+import { TopicSchema } from './topic.schema';
 import { SendAgendaMailHandler } from '../mail/SendAgendaMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 
@@ -115,7 +117,7 @@ Meteor.methods({
         }
 
         doc.updatedAt = new Date();
-        doc.updatedBy = Meteor.user().username;
+        doc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
 
         let modifierDoc = {};
         for (let property in doc) {
@@ -164,9 +166,9 @@ Meteor.methods({
 
             doc.createdInMinute = minutesId;
             doc.createdAt = new Date();
-            doc.createdBy = Meteor.user().username;
+            doc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
             doc.updatedAt = new Date();
-            doc.updatedBy = Meteor.user().username;
+            doc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
 
             let topicModifier = {
                 topics: {
@@ -227,8 +229,57 @@ Meteor.methods({
         let userRoles = new UserRoles(Meteor.userId());
         if (userRoles.isModeratorOf(parentSeriesID)) {
             Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(parentSeriesID, visibleForArray);
+            TopicSchema.update({parentId: parentSeriesID}, {$set: {visibleFor: visibleForArray}}, {multi: true});
         } else {
             throw new Meteor.Error('Cannot sync visibility of minutes', 'You are not moderator of the parent meeting series.');
         }
+    },
+
+    'responsiblesSearch' (partialName, participants) {
+        check(partialName, String);
+        let results_participants = []; // get all the participants for the minute
+        let foundPartipantsNames = [];
+
+        participants.forEach( participant =>{
+            if (participant.text.toLowerCase().includes(partialName.toLowerCase())) {
+                participant['isParticipant'] = true;
+                results_participants.push(participant);
+                let name = participant.text.split(' - ');
+                foundPartipantsNames.push(name[0]);
+            }
+        });
+
+        let searchSettings = {username: {'$regex': partialName, '$options': 'i'}};
+        let searchFields = {_id: 1, username: 1};
+        if (GlobalSettings.isTrustedIntranetInstallation()){
+            searchSettings = {
+                $or : [
+                    {username: {'$regex': partialName, '$options': 'i'}},
+                    {'profile.name': {'$regex': partialName, '$options': 'i'}}
+                ]
+            };
+            searchFields= {_id: 1, username: 1, 'profile.name': 1};
+        }
+
+        let results_otherUser = Meteor.users.find(
+            searchSettings,
+            {
+                limit: 10 + results_participants.length, //we want to show 10 "Other user"
+                // as it is not known, if a user a participant or not -> get 10+participants
+                fields: searchFields
+            }
+        ).fetch();
+
+        results_otherUser = results_otherUser.filter(user => { //remove duplicates
+            return !(foundPartipantsNames.includes(user.username));
+        });
+        results_otherUser = results_otherUser.slice(0,10); // limit to 10 records
+
+        results_otherUser = results_otherUser.map(otherUser => {
+            return Minutes.formatResponsibles(otherUser, 'username', GlobalSettings.isTrustedIntranetInstallation());
+        });
+        return {
+            results: results_participants.concat(results_otherUser)
+        };
     }
 });

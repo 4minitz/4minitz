@@ -67,7 +67,8 @@
         "//": "E-Mails will not actually be sent because there is no smtp configuration given",
         "enableMailDelivery": true,
         "mailDeliverer": "test",
-        "defaultEMailSenderAddress": "default@email.de"
+        "defaultEMailSenderAddress": "default@email.de",
+        "showForgotPasswordLink": true
     },
 
     "db": {
@@ -94,7 +95,9 @@
         "inactiveUsers": {
             "strategy": "userAccountControl"
         },
-        "importCronTab": "*/5 * * * *"
+        "importOnLaunch": true,
+        "importCronTab": "*/5 * * * *",
+        "hideStandardLogin": false
     },
 
     "ldapForumSys": {

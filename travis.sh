@@ -41,15 +41,21 @@ done
 sleep 10
 
 echo Start end2end test runner
+export CHROME_LOG_FILE=$(pwd)/client.log
 chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=chrome -- $TEST tests/end2end/setup.js
 
 CHIMP_RESULT=$?
 
-echo Server log:
-cat server.log
-rm server.log
+echo Server log: http://4m.js42.de/4minitz/4minitz/$BUILD/$JOB/server.log
+echo Client log: http://4m.js42.de/4minitz/4minitz/$BUILD/$JOB/client.log
 
 mkdir tests/mongodump
 mongodump -h localhost:3101 -d meteor -o ./tests/mongodump
+
+# archive versions
+mkdir versions
+npm ls > ./versions/npm.txt
+google-chrome --version > ./versions/chrome.txt
+chimp --version > ./versions/chimp.txt
 
 exit $CHIMP_RESULT

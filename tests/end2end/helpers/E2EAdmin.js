@@ -62,6 +62,7 @@ export class E2EAdmin {
         if (showInactive !== E2EGlobal.isCheckboxSelected(E2EAdmin.selectorMap.chkShowInactiveUsers)) {
             // With material design we can only toggle a checkbox via click on it's label
             E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.labShowInactiveUsers);
+            E2EGlobal.waitSomeTime();
         }
     }
 
@@ -75,6 +76,7 @@ export class E2EAdmin {
         }
         let selector = E2EAdmin.selectorMap.btnToggleUserInactive+':nth-child('+index+')';
         E2EGlobal.clickWithRetry(selector);
+        E2EGlobal.waitSomeTime();
     }
 
     static sendNewBroadcastMessage(message) {

@@ -1,0 +1,11 @@
+<template name="confirmMinuteQualityAssurance">
+    <p id="minuteQualityAssuranceDialog">
+        There are finalize issues with your minutes!
+    </p>
+    <ul>
+        {{#each errors}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    <p>Do you want to proceed with finalizing?</p>
+</template>

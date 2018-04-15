@@ -38,7 +38,7 @@ let Meteor = {
     defer: sinon.stub().callsArg(0),
     methods: m => Object.assign(MeteorMethods, m),
     isClient: true,
-    callPromise: sinon.stub().resolves(true),
+    call: sinon.stub().resolves(true),
     Error: MeteorError,
     settings: { 'public': { docGeneration: { enabled: true}}}
 };
@@ -67,6 +67,10 @@ const DocumentGeneration = {
     removeProtocol: sinon.stub()
 };
 
+const User = {
+    PROFILENAMEWITHFALLBACK: sinon.stub()
+};
+
 const {
     Finalizer
 } = proxyquire('../../../../../imports/services/finalize-minutes/finalizer', {
@@ -78,6 +82,7 @@ const {
     '/imports/minutes': { Minutes, '@noCallThru': true },
     '/imports/topic': { Topics, '@noCallThru': true },
     '/imports/userroles': { UserRoles, '@noCallThru': true },
+    '/imports/user': { User, '@noCallThru': true},
     '/imports/helpers/promisedMethods': { PromisedMethods, '@noCallThru': true },
     '/imports/mail/FinalizeMailHandler': { FinalizeMailHandler, '@noCallThru': true },
     '/imports/config/GlobalSettings': { GlobalSettings, '@noCallThru': true },
@@ -206,6 +211,7 @@ describe('workflow.finalizeMinute', function () {
     });
 
     it('sets the finalizedBy property to the user that is currently logged in', function () {
+        User.PROFILENAMEWITHFALLBACK.returns(user.username);
         finalizeMeteorMethod(minutes._id);
         verifyPropertyOfMinutesUpdate(minutes, 'finalizedBy', user.username);
     });
@@ -373,35 +379,47 @@ describe('Finalizer', function () {
     });
 
     afterEach(function () {
-        Meteor.callPromise.resetHistory();
+        Meteor.call.resetHistory();
         Minutes.reset();
     });
 
     describe('#finalize', function () {
-        it('calls the meteor method workflow.finalizeMinute', function() {
+        it('calls the meteor methods workflow.finalizeMinute and documentgeneration.createAndStoreFile', function() {
             Finalizer.finalize();
 
-            expect(Meteor.callPromise.calledOnce).to.be.true;
+            expect(Meteor.call.calledTwice).to.be.true;
         });
 
         it('sends the id to the meteor method workflow.finalizeMinute', function () {
             Finalizer.finalize(minutesId);
 
-            expect(Meteor.callPromise.calledWith('workflow.finalizeMinute', minutesId)).to.be.true;
+            expect(Meteor.call.calledWith('workflow.finalizeMinute', minutesId)).to.be.true;
+        });
+
+        it('sends the id to the meteor method documentgeneration.createAndStoreFile', function () {
+            Finalizer.finalize(minutesId);
+
+            expect(Meteor.call.calledWith('documentgeneration.createAndStoreFile', minutesId)).to.be.true;
         });
     });
 
     describe('#unfinalize', function () {
-        it('calls the meteor method workflow.unfinalizeMinute', function() {
+        it('calls the meteor methods workflow.unfinalizeMinute and documentgeneration.removeFile', function() {
             Finalizer.unfinalize();
 
-            expect(Meteor.callPromise.calledOnce).to.be.true;
+            expect(Meteor.call.calledTwice).to.be.true;
         });
 
         it('sends the id to the meteor method workflow.unfinalizeMinute', function () {
             Finalizer.unfinalize(minutesId);
 
-            expect(Meteor.callPromise.calledWithExactly('workflow.unfinalizeMinute', minutesId)).to.be.true;
+            expect(Meteor.call.calledWithExactly('workflow.unfinalizeMinute', minutesId)).to.be.true;
+        });
+
+        it('sends the id to the meteor method documentgeneration.removeFile', function () {
+            Finalizer.unfinalize(minutesId);
+
+            expect(Meteor.call.calledWithExactly('documentgeneration.removeFile', minutesId)).to.be.true;
         });
     });
 
