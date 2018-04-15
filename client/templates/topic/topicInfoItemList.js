@@ -327,6 +327,11 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
+        console.log('index:', index);
+        console.log(infoItem);
+        if (!infoItem) {
+            return;
+        }
         return Blaze._globalHelpers.pathForImproved('/topic/' + context.getTopicId(infoItem._id));
     },
 
@@ -340,6 +345,9 @@ Template.topicInfoItemList.helpers({
         /** @type {TopicInfoItemListContext} */
         const context = Template.instance().data;
         const infoItem = context.items[index];
+        if (!infoItem) {
+            return;
+        }
         const topicId = context.getTopicId(infoItem._id);
         const seriesId = context.getSeriesId(infoItem._id);
         let ms = new MeetingSeries(seriesId);
