@@ -15,6 +15,7 @@ import { TopicSchema } from '/imports/collections/topic.schema';
 import { MeetingSeries } from '../../../imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
 import { MinutesFinder } from '../../../imports/services/minutesFinder';
+import {Session} from "meteor/session";
 
 let _topicID = undefined;           // this topic ID
 let _parentSeriesId = undefined;
@@ -100,5 +101,9 @@ Template.topicViewOne.helpers({
 });
 
 Template.topicViewOne.events({
-//add your events here
+    'click #btnGoBack': function () {
+        // tell previous tabbed view to restore the last tab
+        Session.set('restoreTabAfterBackButton', true);
+        window.history.back();
+    }
 });

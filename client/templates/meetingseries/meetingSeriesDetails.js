@@ -22,6 +22,13 @@ const isModerator = () => {
     return usrRole.isModeratorOf(_meetingSeriesID);
 };
 
+const rememberLastTab = (tmpl) => {
+    Session.set('meetingSeriesEdit.lastTab', {
+        tabId: tmpl.activeTabId.get(),
+        tabTemplate: tmpl.activeTabTemplate.get()
+    });
+};
+
 Template.meetingSeriesDetails.onCreated(function () {
     this.seriesReady = new ReactiveVar();
 
@@ -38,8 +45,16 @@ Template.meetingSeriesDetails.onCreated(function () {
         this.seriesReady.set(this.subscriptionsReady());
     });
 
-    this.activeTabTemplate = new ReactiveVar('tabMinutesList');
-    this.activeTabId = new ReactiveVar('tab_minutes');
+    // Did another view request to restore the last tab on this view?
+    if (Session.get('restoreTabAfterBackButton') && Session.get('meetingSeriesEdit.lastTab')) {
+        this.activeTabId = new ReactiveVar(Session.get('meetingSeriesEdit.lastTab').tabId);
+        this.activeTabTemplate = new ReactiveVar(Session.get('meetingSeriesEdit.lastTab').tabTemplate);
+        Session.set('restoreTabAfterBackButton', false);
+    } else {
+        this.activeTabId = new ReactiveVar('tab_minutes');
+        this.activeTabTemplate = new ReactiveVar('tabMinutesList');
+        rememberLastTab(this);
+    }
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
@@ -133,5 +148,6 @@ Template.meetingSeriesDetails.events({
 
         tmpl.activeTabId.set(currentTab.attr('id'));
         tmpl.activeTabTemplate.set(currentTab.data('template'));
+        rememberLastTab(tmpl);
     }
 });
