@@ -5,10 +5,10 @@ import proxyquire from 'proxyquire';
 let Meteor = {};
 
 let MinutesSchemaCollection = {
-    find: sinon.stub(),
     update: sinon.spy()
 };
 let MinutesSchema = {
+    find: sinon.stub(),
     getCollection: sinon.stub()
 };
 
@@ -23,17 +23,19 @@ describe('MigrateV24', function () {
     describe('#up', function () {
         const FakeMinutes = {
             topics: [{
-                infoItems: [{}, {}]
+                infoItems: [{
+                    details: []
+                }]
             }]
         };
 
         beforeEach(function () {
-            MinutesSchemaCollection.find.returns([FakeMinutes]);
+            MinutesSchema.find.returns([FakeMinutes]);
             MinutesSchema.getCollection.returns(MinutesSchemaCollection);
         });
 
         afterEach(function () {
-            MinutesSchemaCollection.find.reset();
+            MinutesSchema.find.reset();
             MinutesSchemaCollection.update.reset();
             MinutesSchema.getCollection.reset();
         });
