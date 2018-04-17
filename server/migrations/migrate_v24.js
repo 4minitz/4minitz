@@ -1,13 +1,18 @@
 import { MinutesSchema } from '/imports/collections/minutes.schema';
 
 export class MigrateV24 {
+    static fixDetails(detail) {
+        return {...detail};
+    }
+
     static fixItem(infoOrActionItem) {
         // the objects we get passed in from the database look fine
         // but if we just store them back in the database they are EJSON
         // objects again. Maybe there is some metadata attached to them?
         // Copying their properties with Object.assign() or using the
         // spread operator gets rid of that metadata.
-        return {...infoOrActionItem};
+        const fixedDetails = infoOrActionItem.details.map(detail => this.fixDetails(detail));
+        return {...infoOrActionItem, details: fixedDetails};
     }
 
     static fixTopic(topic) {
@@ -16,7 +21,7 @@ export class MigrateV24 {
     }
 
     static migrateMinutesCollection() {
-        let minutes = MinutesSchema.getCollection().find({});
+        let minutes = MinutesSchema.find({});
         minutes.forEach(singleMinute => {
             let topics = singleMinute.topics.map(topic => this.fixTopic(topic));
             MinutesSchema.getCollection().update(singleMinute._id, {$set: {topics}});
