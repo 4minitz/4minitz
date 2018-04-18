@@ -5,18 +5,18 @@ import proxyquire from 'proxyquire';
 let Meteor = {};
 
 let MinutesSchemaCollection = {
+    find: sinon.stub(),
     update: sinon.spy()
 };
 let MinutesSchema = {
-    find: sinon.stub(),
     getCollection: sinon.stub()
 };
 
 let TopicSchemaCollection = {
+    find: sinon.stub(),
     update: sinon.spy()
 };
 let TopicSchema = {
-    find: sinon.stub(),
     getCollection: sinon.stub()
 };
 
@@ -38,25 +38,25 @@ describe('MigrateV23', function () {
             };
         
         beforeEach(function () {
-            TopicSchema.find.returns([]);
-            MinutesSchema.find.returns([]);
+            TopicSchemaCollection.find.returns([]);
+            MinutesSchemaCollection.find.returns([]);
             MinutesSchema.getCollection.returns(MinutesSchemaCollection);
             TopicSchema.getCollection.returns(TopicSchemaCollection);
         });
 
         afterEach(function () {
-            TopicSchema.find.reset();
-            TopicSchema.getCollection.reset();
+            TopicSchemaCollection.find.reset();
             TopicSchemaCollection.update.reset();
+            TopicSchema.getCollection.reset();
 
-            MinutesSchema.find.reset();
-            MinutesSchema.getCollection.reset();
+            MinutesSchemaCollection.find.reset();
             MinutesSchemaCollection.update.reset();
+            MinutesSchema.getCollection.reset();
         });
 
         it('calls update method for every topic in the topic collection which has no responsibles set', function () {
             const topics = [topicWithResponsiblesNull, topicsWithResponsiblesDefined];
-            TopicSchema.find.returns(topics);
+            TopicSchemaCollection.find.returns(topics);
 
             MigrateV23.up();
 
@@ -65,7 +65,7 @@ describe('MigrateV23', function () {
         });
 
         it('converts null in topic collection entries to an empty array', function () {
-            TopicSchema.find.returns([topicWithResponsiblesNull]);
+            TopicSchemaCollection.find.returns([topicWithResponsiblesNull]);
 
             MigrateV23.up();
 
@@ -73,7 +73,7 @@ describe('MigrateV23', function () {
         });
 
         it('does not update topics with responsibles already set', function () {
-            TopicSchema.find.returns([topicsWithResponsiblesDefined]);
+            TopicSchemaCollection.find.returns([topicsWithResponsiblesDefined]);
 
             MigrateV23.up();
 
@@ -82,7 +82,7 @@ describe('MigrateV23', function () {
 
         it('calls the update method for every minutes which contains at least one topic where the responsibles field is not an array', function () {
             const minutes = [{topics: [topicWithResponsiblesNull]}];
-            MinutesSchema.find.returns(minutes);
+            MinutesSchemaCollection.find.returns(minutes);
 
             MigrateV23.up();
 
@@ -92,7 +92,7 @@ describe('MigrateV23', function () {
 
         it('converts null in topic collection entries to an empty array', function () {
             const minutesWithATopicWithNull = [{topics: [topicWithResponsiblesNull]}];
-            MinutesSchema.find.returns(minutesWithATopicWithNull);
+            MinutesSchemaCollection.find.returns(minutesWithATopicWithNull);
 
             MigrateV23.up();
 
@@ -101,7 +101,7 @@ describe('MigrateV23', function () {
 
         it('does not modify responsibles that already are defined', function () {
             const minutesWithATopicWithNull = [{topics: [topicsWithResponsiblesDefined]}];
-            MinutesSchema.find.returns(minutesWithATopicWithNull);
+            MinutesSchemaCollection.find.returns(minutesWithATopicWithNull);
 
             MigrateV23.up();
 
