@@ -3,7 +3,7 @@ import { MinutesSchema } from '/imports/collections/minutes.schema';
 
 export class MigrateV23 {
     static migrateTopicCollection() {
-        let topics = TopicSchema.find({});
+        let topics = TopicSchema.getCollection().find({});
 
         topics.forEach(topic => {
             if (Array.isArray(topic.responsibles)) {
@@ -16,7 +16,7 @@ export class MigrateV23 {
     }
 
     static migrateMinutesCollection() {
-        let minutes = MinutesSchema.find({});
+        let minutes = MinutesSchema.getCollection().find({});
         minutes.forEach(minutes => {
             // copy over the topics as they are and just replace the responsibles field:
             //  * keep responsibles if they are set properly
