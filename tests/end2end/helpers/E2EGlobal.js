@@ -93,7 +93,7 @@ export class E2EGlobal {
         try {
             let max = 100;
             while (browser.isVisible('#loading-container') && max > 0) {
-                E2EGlobal.saveScreenshot('loading');
+                // E2EGlobal.saveScreenshot('loading');
                 browser.pause(100);
                 max--;
             }
@@ -212,8 +212,7 @@ export class E2EGlobal {
         for (let i = 0; i < numberOfKeys; ++i) {
             browser.keys(keys[i]);
             E2EGlobal.waitSomeTime(pauses[i] || 250);
-
-            E2EGlobal.saveScreenshot(`keys-with-pause-${i}`);
+            // E2EGlobal.saveScreenshot(`keys-with-pause-${i}`);
         }
     }
 

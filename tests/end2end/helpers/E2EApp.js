@@ -196,7 +196,6 @@ export class E2EApp {
         E2EGlobal.waitSomeTime();
         // check post-condition
         if (! E2EApp.isOnStartPage()) {
-            E2EGlobal.saveScreenshot('gotoStartPage1');
             E2EGlobal.clickWithRetry('a.navbar-brand');
             E2EGlobal.waitSomeTime(1500);
         }
