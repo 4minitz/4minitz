@@ -1,5 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { GlobalSettings } from './GlobalSettings';
+import {Meteor} from "meteor/meteor";
 
 function setupEmailTemplatesForAccounts() {
     Accounts.emailTemplates.siteName = GlobalSettings.getSiteName();
@@ -39,6 +40,8 @@ function setupEmailTemplatesForAccounts() {
 
 }
 
-if (GlobalSettings.isEMailDeliveryEnabled()) {
+// Attention! We can't use GlobalSettings.isEMailDeliveryEnabled() here,
+// as public GlobalSettings are not yet published when we run the following code
+if (Meteor.settings.email.enableMailDelivery) {
     setupEmailTemplatesForAccounts();
 }
