@@ -68,7 +68,7 @@ export class MeetingSeriesTopicsUpdater {
         try {
             const affectedDocuments = TopicSchema.update(
                 { parentId: this.meetingSeriesId, _id: topicId },
-                { isOpen: true }
+                {$set: {isOpen: true }}
             );
             if (affectedDocuments !== 1) {
                 throw new Meteor.Error('runtime-error', 'Could not re-open topic.');
