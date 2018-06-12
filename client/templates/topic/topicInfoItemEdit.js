@@ -146,6 +146,9 @@ Template.topicInfoItemEdit.helpers({
 
 Template.topicInfoItemEdit.events({
     'submit #frmDlgAddInfoItem': async function(evt, tmpl) {
+        let saveButton = $('#btnInfoItemSave');
+        saveButton.prop('disabled',true);
+
         evt.preventDefault();
 
         if (!getRelatedTopic()) {

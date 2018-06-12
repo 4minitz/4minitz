@@ -81,6 +81,8 @@ Template.topicEdit.helpers({
 
 Template.topicEdit.events({
     'submit #frmDlgAddTopic': async function (evt, tmpl) {
+        let saveButton = $('#btnTopicSave');
+        saveButton.prop('disabled',true);
         evt.preventDefault();
 
         let editTopic = getEditTopic();
