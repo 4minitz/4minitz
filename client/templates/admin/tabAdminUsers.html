@@ -54,7 +54,10 @@
                 <td>{{#if this.isLDAPuser}}L{{else}}S{{/if}}</td>
                 <td>{{inactiveStateText this}}
                     {{#unless this.isLDAPuser}}
-                        <a id="id_ToggleInactive" >Toggle</a>
+                        <a id="id_ToggleInactive" title="Toggle active/inactive state. Inactive users can not log in.">Toggle</a>
+                        <a id="id_EditUserProfile" title="Edit User Profile">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
                     {{/unless}}
                 </td>
             </tr>

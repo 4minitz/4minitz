@@ -1,7 +1,10 @@
+import { $ } from 'meteor/jquery';
+
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
+import {Session} from "meteor/session";
 
 let _filterUsers = new ReactiveVar('');
 let _showInactive = new ReactiveVar(false);
@@ -83,6 +86,12 @@ Template.tabAdminUsers.events({
     'click #id_ToggleInactive'(evt) {
         evt.preventDefault();
         Meteor.call('users.admin.ToggleInactiveUser', this._id);
+    },
+
+    'click #id_EditUserProfile'(evt, tmpl) {
+        evt.preventDefault();
+        Session.set('editProfile.userID', this._id);
+        $('#dlgEditProfile').modal('show');
     },
 
     'change #id_adminShowInactive'(evt, tmpl) {

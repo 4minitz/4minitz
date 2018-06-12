@@ -37,5 +37,10 @@ Template.navigation.events({
         AccountsTemplates.setState('signIn');
 
         Session.set('gotoMeetingSeriesTab', true);
+    },
+
+    'click #navbar-dlgEditProfile': function (evt, tmpl) {
+        Session.set('editProfile.userID', undefined);   // per default use "current" user. Admin may edit others
+        tmpl.$('#dlgEditProfile').modal('show');
     }
 });

@@ -29,12 +29,16 @@ Meteor.methods({
         if (! emailAddressRegExpTest.test(eMail)) {
             throw new Meteor.Error('Invalid E-Mail', 'Not a valid E-Mail address');
         }
-        
-        if (Meteor.user().isLDAPuser) {
-            throw new Meteor.Error('LDAP-Users cannot change profile', 'LDAP-Users may not change their longname or their E-Mail-address');
+
+        let targetUser = Meteor.users.findOne({_id: userId});
+        if (!targetUser) {
+            throw new Meteor.Error('Could not find user', 'No user found for ID: '+userId);
         }
 
-        const hasMailChanged = eMail !== Meteor.user().emails[0].address;
+        if (targetUser.isLDAPuser) {
+            throw new Meteor.Error('LDAP-Users cannot change profile', 'LDAP-Users may not change their longname or their E-Mail-address');
+        }
+        const hasMailChanged = eMail !== targetUser.emails[0].address;
 
         if (hasMailChanged){
             let ifEmailExists = Meteor.users.findOne({'emails.0.address': eMail});
@@ -46,9 +50,13 @@ Meteor.methods({
         Meteor.users.update(userId, {$set: {'emails.0.address': eMail, 'profile.name': longName}});
 
         if (hasMailChanged) {
-            Meteor.users.update(userId, {$set: {'emails.0.verified': false}});
-            if (Meteor.isServer && Meteor.settings.public.sendVerificationEmail ) {
-                Accounts.sendVerificationEmail(Meteor.user());
+            if (Meteor.user().isAdmin) {
+                Meteor.users.update(userId, {$set: {'emails.0.verified': true}});
+            } else {
+                Meteor.users.update(userId, {$set: {'emails.0.verified': false}});
+                if (Meteor.isServer && Meteor.settings.public.sendVerificationEmail ) {
+                    Accounts.sendVerificationEmail(userId);
+                }
             }
         }
     },

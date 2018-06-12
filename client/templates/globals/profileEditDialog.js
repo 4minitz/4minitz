@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { addCustomValidator } from '../../helpers/customFieldValidator'; 
 import { emailAddressRegExpTest } from '/imports/helpers/email';
+import {Session} from 'meteor/session';
 
 let checkEMailIsValid = (email) => {
     return emailAddressRegExpTest.test(email);
@@ -18,18 +18,18 @@ Template.profileEditDialog.onRendered(function() {
 });
 
 function updateUserProfile(tmpl) {
-
     let uLongName = tmpl.find('#id_longName').value;
     let uEmailAddress = tmpl.find('#id_emailAddress').value;
 
     tmpl.$('#btnEditProfileSave').prop('disabled',true);
 
-    Meteor.call('users.editProfile', Meteor.userId(), uEmailAddress, uLongName, function (error) {
+    let editUserId = Session.get('editProfile.userID') ? Session.get('editProfile.userID') : Meteor.userId();
+    Meteor.call('users.editProfile', editUserId, uEmailAddress, uLongName, function (error) {
         if (error) {
             (new FlashMessage('Error', error.reason)).show();
         } else {
             (new FlashMessage('OK', 'Profile edited.', 'alert-success', 2000)).show();
-            $('#dlgEditProfile').modal('hide');
+            tmpl.$('#dlgEditProfile').modal('hide');
         }
     });
 
@@ -50,7 +50,8 @@ Template.profileEditDialog.events({
 
         let uEmailAddress = tmpl.find('#id_emailAddress').value;
 
-        if (Meteor.settings.public.sendVerificationEmail) {
+        let userEditsOwnProfile = Session.get('editProfile.userID') === undefined;
+        if (Meteor.settings.public.sendVerificationEmail && userEditsOwnProfile) {
             let changeUserMail = () => {
                 updateUserProfile(tmpl);
                 Meteor.logoutOtherClients();
@@ -76,7 +77,8 @@ Template.profileEditDialog.events({
     },
 
     'show.bs.modal #dlgEditProfile': function (evt, tmpl) {
-        let usr = Meteor.users.findOne(Meteor.userId());
+        let otherUserId = Session.get('editProfile.userID');    // admin edit mode, undefined otherwise
+        let usr = Meteor.users.findOne(otherUserId ? otherUserId : Meteor.userId());
         if (usr.profile){
             tmpl.find('#id_longName').value = usr.profile.name;
         }
