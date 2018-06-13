@@ -82,30 +82,36 @@ Template.topicEdit.helpers({
 Template.topicEdit.events({
     'submit #frmDlgAddTopic': async function (evt, tmpl) {
         let saveButton = $('#btnTopicSave');
-        saveButton.prop('disabled',true);
-        evt.preventDefault();
 
-        let editTopic = getEditTopic();
-        let topicDoc = {};
-        if (editTopic) {
-            _.extend(topicDoc, editTopic._topicDoc);
+        try {
+            saveButton.prop('disabled', true);
+
+            evt.preventDefault();
+
+            let editTopic = getEditTopic();
+            let topicDoc = {};
+            if (editTopic) {
+                _.extend(topicDoc, editTopic._topicDoc);
+            }
+
+            let labels = tmpl.$('#id_item_selLabels').val();
+            if (!labels) labels = [];
+            let aMinute = new Minutes(_minutesID);
+            let aSeries = aMinute.parentMeetingSeries();
+            labels = convertOrCreateLabelsFromStrings(labels, aSeries);
+
+            topicDoc.subject = tmpl.find('#id_subject').value;
+            topicDoc.responsibles = $('#id_selResponsible').val();
+            topicDoc.labels = labels;
+            topicDoc.isEditedBy = null;     // We don't use the IsEditedService here...
+            topicDoc.isEditedDate = null;   // ... as this would save the topic twice to the DB. And it provokes Issue #379
+
+            const aTopic = createTopic(_minutesID, aSeries._id, topicDoc);
+            aTopic.save().catch(handleError);
+            $('#dlgAddTopic').modal('hide');
+        } finally {
+            saveButton.prop('disabled', false);
         }
-
-        let labels = tmpl.$('#id_item_selLabels').val();
-        if (!labels) labels = [];
-        let aMinute = new Minutes(_minutesID);
-        let aSeries = aMinute.parentMeetingSeries();
-        labels = convertOrCreateLabelsFromStrings(labels, aSeries);
-
-        topicDoc.subject = tmpl.find('#id_subject').value;
-        topicDoc.responsibles = $('#id_selResponsible').val();
-        topicDoc.labels = labels;
-        topicDoc.isEditedBy = null;     // We don't use the IsEditedService here...
-        topicDoc.isEditedDate = null;   // ... as this would save the topic twice to the DB. And it provokes Issue #379
-
-        const aTopic = createTopic(_minutesID, aSeries._id, topicDoc);
-        aTopic.save().catch(handleError);
-        $('#dlgAddTopic').modal('hide');
     },
 
     'hidden.bs.modal #dlgAddTopic': function (evt, tmpl) {
