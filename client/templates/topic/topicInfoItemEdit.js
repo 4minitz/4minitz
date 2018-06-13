@@ -147,44 +147,49 @@ Template.topicInfoItemEdit.helpers({
 Template.topicInfoItemEdit.events({
     'submit #frmDlgAddInfoItem': async function(evt, tmpl) {
         let saveButton = $('#btnInfoItemSave');
-        saveButton.prop('disabled',true);
 
-        evt.preventDefault();
+        try {
+            saveButton.prop('disabled', true);
 
-        if (!getRelatedTopic()) {
-            throw new Meteor.Error('IllegalState: We have no related topic object!');
+            evt.preventDefault();
+
+            if (!getRelatedTopic()) {
+                throw new Meteor.Error('IllegalState: We have no related topic object!');
+            }
+            if (Session.get('topicInfoItemEditInfoItemId') !== null)
+                IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
+            const editItem = getEditInfoItem();
+
+            const type = Session.get('topicInfoItemType');
+            const newSubject = tmpl.find('#id_item_subject').value;
+            const newDetail = (!editItem) ? tmpl.find('#id_item_detailInput').value : false;
+            const labels = tmpl.$('#id_item_selLabelsActionItem').val();
+
+            let doc = {};
+            if (editItem) {
+                _.extend(doc, editItem._infoItemDoc);
+            }
+
+            doc.subject = newSubject;
+
+            if (type === 'actionItem') {
+                doc.responsibles = $('#id_selResponsibleActionItem').val();
+                doc.duedate = tmpl.find('#id_item_duedateInput').value;
+                doc.priority = tmpl.find('#id_item_priority').value;
+            }
+
+            const minutes = new Minutes(_minutesID);
+            const newItem = createItem(doc, getRelatedTopic(), _minutesID, minutes.parentMeetingSeries(), type, labels);
+
+            if (newDetail) {
+                newItem.addDetails(minutes._id, newDetail);
+            }
+
+            newItem.saveAsync().catch(handleError);
+            $('#dlgAddInfoItem').modal('hide');
+        } finally {
+            saveButton.prop('disabled', false);
         }
-        if (Session.get('topicInfoItemEditInfoItemId') !== null)
-            IsEditedService.removeIsEditedInfoItem(_minutesID, Session.get('topicInfoItemEditTopicId'), Session.get('topicInfoItemEditInfoItemId'), true);
-        const editItem = getEditInfoItem();
-
-        const type = Session.get('topicInfoItemType');
-        const newSubject = tmpl.find('#id_item_subject').value;
-        const newDetail = (!editItem) ? tmpl.find('#id_item_detailInput').value : false;
-        const labels = tmpl.$('#id_item_selLabelsActionItem').val();
-
-        let doc = {};
-        if (editItem) {
-            _.extend(doc, editItem._infoItemDoc);
-        }
-
-        doc.subject = newSubject;
-
-        if (type === 'actionItem') {
-            doc.responsibles = $('#id_selResponsibleActionItem').val();
-            doc.duedate = tmpl.find('#id_item_duedateInput').value;
-            doc.priority = tmpl.find('#id_item_priority').value;
-        }
-
-        const minutes = new Minutes(_minutesID);
-        const newItem = createItem(doc, getRelatedTopic(), _minutesID, minutes.parentMeetingSeries(), type, labels);
-
-        if (newDetail) {
-            newItem.addDetails(minutes._id, newDetail);
-        }
-
-        newItem.saveAsync().catch(handleError);
-        $('#dlgAddInfoItem').modal('hide');
     },
 
     // will be called before the dialog is shown
