@@ -35,6 +35,13 @@
                 {{#if topic.isNew}}
                     <span class="badge" style="margin-bottom: 5px;">New</span>
                 {{/if}}
+                {{#if isTopicFinallyCompleted}}
+                    <span class="badge"
+                          style="margin-bottom: 5px; background-color: teal;"
+                          title="This topic is finally completed. So it won't be propagated to the next meeting.">
+                       ✔ Completed
+                    </span>
+                {{/if}}
 
                 <!-- Manipulation Drop-Down Menu -->
                 <span class="pull-right pull-right-icons hidden-print">

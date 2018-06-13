@@ -246,10 +246,24 @@ participants:
 ![Finalize Dialog](./figures/finalize_meeting_minutes_dialog.png)
 
 ### Topic Propagation
-  A topic is automatically propagated to the next meeting if one of the following conditions is met:
-  1. the topic is **not "checked"** as "done for this meeting" - or
+**Attention! Here comes one of the "Killer Features"...  ;-)**
+
+A topic is automatically propagated to the next meeting if one of the following conditions is met:
+  1. the topic is **not "checked"** as "dicussed for this meeting" - or
   1. the topic is **marked as "recurring"** with the blue circle icon - or
   1. the topic has at least one **open action item** which is not checked as done.
+
+Contrary, a topic that is "finally completed" is marked with an automatic
+"Completed" label to give a visual clue that it will **not** 
+be propagated to the next meeting.
+
+So, such a "finally completed" topic...
+  1. is checked as dicussed in the current meeting - and
+  1. has no open action items - and 
+  1. is not marked as recurring
+
+![Completed Label](./figures/completed_label.png)
+
 
 
 ### Finalize history

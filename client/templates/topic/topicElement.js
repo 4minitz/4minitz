@@ -38,6 +38,18 @@ Template.topicElement.onCreated(function () {
 });
 
 Template.topicElement.helpers({
+    isTopicFinallyCompleted() {
+        let aTopic = undefined;
+        if (this.minutesID) {                       // on minutes edit view
+            aTopic = new Topic(this.minutesID, this.topic._id);
+        } else if (this.parentMeetingSeriesId) {    // on meeting series topic view
+            aTopic = new Topic(this.parentMeetingSeriesId, this.topic._id);
+        }
+        if (aTopic) {
+            return aTopic.isFinallyCompleted();
+        }
+    },
+
     hideAddItemInputField() {
         return isFeatureShowItemInputFieldOnDemandEnabled();
     },
@@ -200,7 +212,7 @@ Template.topicElement.events({
         let topic = new Topic(this.minutesID, this.topic);
         const deleteAllowed = topic.isDeleteAllowed();
 
-        if (!topic.isClosedAndHasNoOpenAIs() || deleteAllowed) {
+        if (!topic.isFinallyCompleted() || deleteAllowed) {
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 () => {
                     if (deleteAllowed) {
