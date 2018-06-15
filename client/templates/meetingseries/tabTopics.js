@@ -19,8 +19,8 @@ export class TabTopicsConfig {
 }
 
 const FILTERS = [
-    {text: 'Open Topics', value: 'is:open'},
-    {text: 'Closed Topics', value: 'is:closed'},
+    {text: 'Uncompleted Topics', value: 'is:uncompleted'},
+    {text: 'Completed Topics', value: 'is:completed'},
     {text: 'Your Topics', value: '@me'}
 ];
 

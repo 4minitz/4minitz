@@ -88,10 +88,10 @@ export const ITEM_KEYWORDS = {
 export const TOPIC_KEYWORDS = {
     IS: {
         key: 'is',
-        values: ['open', 'closed', 'new'],
+        values: ['uncompleted', 'completed', 'new'],
         format: 'is:<property>',
         description: 'Finds topics which have the specified property.',
-        example: '"is:new is:open" finds all new open topics.'
+        example: '"is:new is:uncompleted" finds all new uncompleted (open) topics.'
     },
     HAS: {
         key: 'has',

@@ -107,11 +107,12 @@ export class TopicsFilter {
 
     static _docMatchesKeyword_IS(doc, value) {
         switch (value) {
+        case 'uncompleted':
         case 'open':
             return doc.isOpen;
+        case 'completed':
         case 'closed':
-            // explicit comparison required to skip info items (which has no isOpen property)
-            return doc.isOpen === false;
+            return !doc.isOpen;
         case 'new':
             return doc.isNew;
         default: throw new Meteor.Error('illegal-state', `Unknown filter value: ${value}`);
