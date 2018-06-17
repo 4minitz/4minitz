@@ -130,22 +130,49 @@ let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
     }
 };
 
+function loadByMinuteId(minuteId) {
+    _minutesID = minuteId;
+
+    this.currentMinuteLoaded.set(this.subscribe('minutes', undefined, _minutesID));
+    if (this.currentMinuteLoaded.get().ready()) {
+        let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
+        this.subscribe('minutes', meetingSeriesId);
+        this.subscribe('meetingSeriesDetails', meetingSeriesId);
+        this.subscribe('files.attachments.all', meetingSeriesId, _minutesID);
+        this.subscribe('files.protocols.all', meetingSeriesId, _minutesID);
+
+        this.minutesReady.set(this.subscriptionsReady());
+    }
+}
+
+function loadLatestMinutesOfMeetingSeries(seriesId) {
+    const self = this;
+    this.subscribe('meetingSeriesDetails', seriesId, function () {
+        const meetingSeries = new MeetingSeries(seriesId);
+
+        const seriesHasMinutes = meetingSeries.minutes && meetingSeries.minutes.length > 0;
+        if (!seriesHasMinutes) {
+            FlowRouter.go(`/meetingseries/${seriesId}`);
+        }
+
+        self.subscribe('minutes', seriesId, undefined, function () {
+            const minutes = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
+
+            FlowRouter.go(`/minutesedit/${minutes._id}`);
+        });
+    });
+}
+
 Template.minutesedit.onCreated(function () {
     this.minutesReady = new ReactiveVar();
     this.currentMinuteLoaded = new ReactiveVar();
 
     this.autorun(() => {
-        _minutesID = FlowRouter.getParam('_id');
-
-        this.currentMinuteLoaded.set(this.subscribe('minutes', undefined, _minutesID));
-        if (this.currentMinuteLoaded.get().ready()) {
-            let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
-            this.subscribe('minutes', meetingSeriesId);
-            this.subscribe('meetingSeriesDetails', meetingSeriesId);
-            this.subscribe('files.attachments.all', meetingSeriesId, _minutesID);        
-            this.subscribe('files.protocols.all', meetingSeriesId, _minutesID);
-            
-            this.minutesReady.set(this.subscriptionsReady());
+        const currentPath = FlowRouter.current();
+        if (currentPath.route.name === 'latest-minutes') {
+            loadLatestMinutesOfMeetingSeries.call(this, FlowRouter.getParam('_id'));
+        } else {
+            loadByMinuteId.call(this, FlowRouter.getParam('_id'));
         }
     });
 

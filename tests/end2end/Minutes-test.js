@@ -6,21 +6,25 @@ import { E2ETopics } from './helpers/E2ETopics';
 
 describe('Minutes', function () {
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    let meetingCounter = 0;
+
+    beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
+
+        meetingCounter++;
     });
 
 
     it('can add first minutes to meeting series', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #1";
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
@@ -30,10 +34,47 @@ describe('Minutes', function () {
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
     });
 
+    it('meetingseries/id/latest will land us on the latest minutes page', function () {
+        const projectName = 'E2E Minutes';
+        const meetingName = `Meeting Name #${meetingCounter}`;
+
+        E2EMeetingSeries.createMeetingSeries(projectName, meetingName);
+        const meetingDate = '1234-05-06';
+        E2EMinutes.addMinutesToMeetingSeries(projectName, meetingName, meetingDate);
+
+        E2EApp.gotoStartPage();
+        E2EGlobal.saveScreenshot('start_page');
+
+        const id = E2EMeetingSeries.getMeetingSeriesId(projectName, meetingName);
+        browser.url(`${E2EGlobal.SETTINGS.e2eUrl}/meetingseries/${id}/latest`);
+
+        E2EGlobal.waitSomeTime(3000);
+        E2EGlobal.saveScreenshot('latest_minutes');
+
+        expect(E2EMinutes.getCurrentMinutesDate()).to.equal(meetingDate);
+    });
+
+    it('meetingseries/id/latest will display the series page if no minutes exist', function () {
+        const projectName = 'E2E Minutes';
+        const meetingName = `Meeting Name #${meetingCounter}`;
+
+        E2EMeetingSeries.createMeetingSeries(projectName, meetingName);
+
+        E2EApp.gotoStartPage();
+
+        const id = E2EMeetingSeries.getMeetingSeriesId(projectName, meetingName);
+        browser.url(`${E2EGlobal.SETTINGS.e2eUrl}/meetingseries/${id}/latest`);
+
+        E2EGlobal.waitSomeTime(3000);
+        E2EGlobal.saveScreenshot('latest_series');
+
+        const expectedHeaderText = `Meeting Series: ${projectName} - ${meetingName}`;
+        expect(browser.getText('.header')).to.equal(expectedHeaderText);
+    });
 
     it('can add further minutes to meeting series', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #2";
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         let countInitialMinutes = E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName);
@@ -47,9 +88,9 @@ describe('Minutes', function () {
 
 
     it('can add minutes for specific date', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #3";
-        let myDate = "2015-03-17";  // date of first project commit ;-)
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
+        let myDate = '2015-03-17';  // date of first project commit ;-)
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
@@ -61,9 +102,9 @@ describe('Minutes', function () {
 
 
     it('can delete unfinalized minutes', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #4";
-        let myDate = "2015-03-17";  // date of first project commit ;-)
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
+        let myDate = '2015-03-17';  // date of first project commit ;-)
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
@@ -74,7 +115,7 @@ describe('Minutes', function () {
 
         // Now delete it!
         E2EMinutes.gotoMinutes(myDate);
-        E2EGlobal.clickWithRetry("#btn_deleteMinutes");
+        E2EGlobal.clickWithRetry('#btn_deleteMinutes');
         E2EApp.confirmationDialogAnswer(true);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
@@ -83,9 +124,9 @@ describe('Minutes', function () {
 
 
     it('can cancel delete of unfinalized minutes', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #5";
-        let myDate = "2015-03-17";  // date of first project commit ;-)
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
+        let myDate = '2015-03-17';  // date of first project commit ;-)
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
@@ -96,7 +137,7 @@ describe('Minutes', function () {
 
         // Now trigger delete!
         E2EMinutes.gotoMinutes(myDate);
-        E2EGlobal.clickWithRetry("#btn_deleteMinutes");
+        E2EGlobal.clickWithRetry('#btn_deleteMinutes');
         E2EApp.confirmationDialogAnswer(false);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(1);
@@ -104,8 +145,8 @@ describe('Minutes', function () {
     });
 
     it('displays an error message if the minute is not linked to the parent series', function() {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #6";
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
@@ -129,9 +170,9 @@ describe('Minutes', function () {
     });
 
     it('can persist global notes', function() {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #6";
-        const aGlobalNote = "Amazing global note";
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
+        const aGlobalNote = 'Amazing global note';
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
 
@@ -152,24 +193,24 @@ describe('Minutes', function () {
     });
 
     it('hide closed topics', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #7";
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        E2ETopics.addTopicToMinutes("topic #1");
-        E2ETopics.addTopicToMinutes("topic #2");
-        E2ETopics.addTopicToMinutes("topic #3");
-        E2ETopics.addTopicToMinutes("topic #4");
+        E2ETopics.addTopicToMinutes('topic #1');
+        E2ETopics.addTopicToMinutes('topic #2');
+        E2ETopics.addTopicToMinutes('topic #3');
+        E2ETopics.addTopicToMinutes('topic #4');
 
         E2EGlobal.waitSomeTime(700);
 
         E2ETopics.toggleTopic(1);
         E2ETopics.toggleTopic(2);
 
-        E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
+        E2EGlobal.clickWithRetry('#checkHideClosedTopicsLabel');
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
 
@@ -177,8 +218,8 @@ describe('Minutes', function () {
     });
     
     it('can navigate to previous and next minutes within a minutes', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name PrevNext";
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = 'Meeting Name PrevNext';
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -192,30 +233,30 @@ describe('Minutes', function () {
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(3);
         
         E2EMinutes.gotoLatestMinutes();
-        E2EGlobal.clickWithRetry("#btnPreviousMinutesNavigation");
+        E2EGlobal.clickWithRetry('#btnPreviousMinutesNavigation');
         let currentdate = E2EMinutes.getCurrentMinutesDate();
         expect(currentdate).to.equal(secondDate);
         
-        E2EGlobal.clickWithRetry("#btnNextMinutesNavigation");
+        E2EGlobal.clickWithRetry('#btnNextMinutesNavigation');
         currentdate = E2EMinutes.getCurrentMinutesDate();
         expect(currentdate).to.equal(thirdDate);
     });
 
     it('hide closed topics by click', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #8";
+        let aProjectName = 'E2E Minutes';
+        let aMeetingName = `Meeting Name #${meetingCounter}`;
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
 
-        E2ETopics.addTopicToMinutes("topic #1");
-        E2ETopics.addTopicToMinutes("topic #2");
-        E2ETopics.addTopicToMinutes("topic #3");
-        E2ETopics.addTopicToMinutes("topic #4");
+        E2ETopics.addTopicToMinutes('topic #1');
+        E2ETopics.addTopicToMinutes('topic #2');
+        E2ETopics.addTopicToMinutes('topic #3');
+        E2ETopics.addTopicToMinutes('topic #4');
 
-        E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
+        E2EGlobal.clickWithRetry('#checkHideClosedTopicsLabel');
         expect(E2ETopics.countTopicsForMinute()).to.equal(4);
 
         E2ETopics.toggleTopic(1);

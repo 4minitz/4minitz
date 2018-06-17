@@ -1,6 +1,6 @@
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
-import {FlashMessage} from './helpers/flashMessage';
+import { FlashMessage } from './helpers/flashMessage';
 import { Accounts } from 'meteor/accounts-base';
 
 // reset document title on route exit
@@ -58,6 +58,14 @@ FlowRouter.route('/meetingseries/:_id', {
     action() {
         BlazeLayout.render('appLayout', {main: 'meetingSeriesDetails'});
     }
+});
+
+FlowRouter.route('/meetingseries/:_id/latest', {
+    name: 'latest-minutes',
+    action() {
+        BlazeLayout.render('appLayout', {main: 'minutesedit'});
+    },
+    triggersExit: [resetDocumentTitle]
 });
 
 FlowRouter.route('/minutesedit/:_id', {
