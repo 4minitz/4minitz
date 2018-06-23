@@ -1,4 +1,4 @@
-let _ = require('underscore');
+let _ = require('lodash');
 
 module.exports = function (ldapSettings, userData) {
     ldapSettings.propertyMap = ldapSettings.propertyMap || {};

@@ -1,13 +1,11 @@
 let mongo = require('mongodb').MongoClient,
     mongoUriParser = require('mongo-uri'),
     random = require('randomstring'),
-    transformUser = require('./transformUser'),
-    _ = require('underscore');
-
+    transformUser = require('./transformUser');
 
 
 let _transformUsers = function (settings, users) {
-    return _.map(users, user => transformUser(settings, user));
+    return users.map(user => transformUser(settings, user));
 };
 
 let _connectMongo = function (mongoUrl) {
@@ -31,7 +29,7 @@ let _insertUsers = function (client, mongoUri, users) {
         try {
             const mongoConnection = mongoUriParser.parse(mongoUri);
             let bulk = client.db(mongoConnection.database).collection('users').initializeUnorderedBulkOp();
-            _.each(users, user => {
+            users.forEach(user => {
                 if (user && user.username && user.emails[0] && user.emails[0].address) {
                     user.isLDAPuser = true;
                     let usrRegExp = new RegExp('^'+RegExp.escape(user.username)+'$', 'i');
