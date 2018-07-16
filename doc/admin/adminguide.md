@@ -89,7 +89,7 @@ root# nano /4minitz_storage/4minitz_settings.json
 root# exit
 PS> docker stop $docker
 ```
-4. Now you can use this data volume container in a 4minitz container:
+5. Now you can use this data volume container in a 4minitz container:
 ```
 PS> docker run -it --rm --volumes-from 4minitz-storage -p 3100:3333 4minitz/4minitz
 ```
