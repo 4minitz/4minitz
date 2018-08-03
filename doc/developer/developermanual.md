@@ -8,20 +8,27 @@
 
 <!-- toc -->
 
-- [General Info](#general-info)
-- [DoD - Our "Definition of Done"](#dod---our-definition-of-done)
-- [Running Tests](#running-tests)
-- [Code Quality](#code-quality)
-- [Database Seeding](#database-seeding)
-- [Coding - Where to start](#coding---where-to-start)
-- [Use Cases](#use-cases)
-- [Class Diagrams](#class-diagrams)
-- [Sequence Diagrams](#sequence-diagrams)
-- [Sending E-Mails](#sending-e-mails)
-- [Sending info items and action items](#sending-info-items-and-action-items)
-- [MongoDB Collection Schema](#mongodb-collection-schema)
-- [MongoDB Migrations](#mongodb-migrations)
-- [Accessing the servers root url](#accessing-the-servers-root-url)
+- [Developer Readme for 4Minitz](#developer-readme-for-4minitz)
+    - [Table of Content](#table-of-content)
+    - [General Info](#general-info)
+    - [<a name="dod">DoD - Our "Definition of Done"</a>](#a-name%22dod%22dod---our-%22definition-of-done%22a)
+    - [Running Tests](#running-tests)
+        - [Preconditions to run tests locally](#preconditions-to-run-tests-locally)
+        - [Unit Tests](#unit-tests)
+        - [End2End Tests](#end2end-tests)
+            - [Headless debugging with screenshots](#headless-debugging-with-screenshots)
+    - [Code Quality](#code-quality)
+    - [Database Seeding](#database-seeding)
+    - [Coding - Where to start](#coding---where-to-start)
+    - [Use Cases](#use-cases)
+    - [Class Diagrams](#class-diagrams)
+    - [Sequence Diagrams](#sequence-diagrams)
+    - [Sending E-Mails](#sending-e-mails)
+        - [Adding a different email deliverer](#adding-a-different-email-deliverer)
+    - [Sending info items and action items](#sending-info-items-and-action-items)
+    - [MongoDB Collection Schema](#mongodb-collection-schema)
+    - [MongoDB Migrations](#mongodb-migrations)
+    - [Accessing the servers root url](#accessing-the-servers-root-url)
 
 <!-- tocstop -->
 
@@ -50,6 +57,19 @@
 
 We use several approaches to test as many aspects of our application as possible.
 
+### Preconditions to run tests locally
+1. Install a global node & npm version from https://nodejs.org/en/ (so that you can run our package.json test runner scripts)
+1. Install C/C++ commandline compiler (so that you can build native node modules with node-gyp)
+   1. **Windows:** Install Microsoft's windows-build-tools using: `npm install --global --production windows-build-tools`
+    from an elevated PowerShell or CMD.exe (run as Administrator)
+   1. **MacOS:** Run in shell: `xcode-select --install`
+2. Install our test runner [Chimp](https://chimp.readme.io) by: 
+   `sudo npm install -g chimp`. If this  makes problems like 
+   `Error: EACCES: permission denied, mkdir`, then try:
+    `sudo npm install -g chimp --unsafe-perm=true --allow-root`.
+3. Chimp End2End tests need an installed chrome browser. 
+
+
 ### Unit Tests
 
 Unit tests are stored in ```tests/unit```. They are implemented so they do not use any meteor dependencies at all. In order
@@ -58,16 +78,11 @@ to execute unit tests run
     npm run test:unit
 
 ### End2End Tests
+End-to-End tests are stored in directory ```tests/end2end/```.
 
-End-to-End tests are stored in directory ```tests/end2end/``` 
-and use the [chimp package](https://chimp.readme.io), 
-which first needs to be installed globally (`sudo npm install -g chimp` - if this 
-makes problems like `Error: EACCES: permission denied, mkdir`, then try:
- `sudo npm install -g chimp --unsafe-perm=true --allow-root`).
-Hint: The chimp package needs an installed Chrome browser.
 To run the e2e tests, you need to run the server in "end2end" mode. 
 
-    npm run test:end2end:server
+    `npm run test:end2end:server`
 
 This will set some specific e2e settings from ```settings-test-end2end.json```. 
 Then run the chimp tests use `once` mode or in `watch` mode with an installed 
