@@ -175,7 +175,7 @@ describe('Topic', function() {
             topicDoc.infoItems.push({
                 isOpen: false
             });
-            topicDoc.infoItems[0].isOpen = true;
+            topicDoc.infoItems[0].isOpen = false;
             expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
         });
 
@@ -183,7 +183,7 @@ describe('Topic', function() {
             topicDoc.infoItems.push({
                 isOpen: false
             });
-            topicDoc.infoItems[0].isOpen = true;
+            topicDoc.infoItems[0].isOpen = false;
             let myTopic = new Topic(dummyMinute._id, topicDoc);
             expect(myTopic.hasOpenActionItem()).to.be.false;
         });
