@@ -6,7 +6,6 @@ export class ItemsConverter {
     static async convertItem(infoOrActionItem) {
         if (infoOrActionItem instanceof ActionItem) {
             infoOrActionItem._infoItemDoc.itemType = 'infoItem';
-            infoOrActionItem._infoItemDoc.isOpen = undefined;
         } else if (infoOrActionItem instanceof InfoItem) {
             infoOrActionItem._infoItemDoc.itemType = 'actionItem';
 
@@ -18,7 +17,7 @@ export class ItemsConverter {
             }
             // As the isSticky attribute is not optional, and action items
             // are not allowed to have isSticky attribute, we set it to false here, without condition.
-            // So, the isSticky state is lost when converting back-and-forth
+            // So, the isSticky state is lost when conferting back-and-forth
             infoOrActionItem._infoItemDoc.isSticky = false;
         }
         await infoOrActionItem.save();
