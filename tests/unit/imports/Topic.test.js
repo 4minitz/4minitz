@@ -176,7 +176,7 @@ describe('Topic', function() {
                 isOpen: false
             });
             topicDoc.infoItems[0].isOpen = true;
-            expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
+            expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
         });
 
         it('returns true if the topic has a closed action item (object method call)', function() {
@@ -185,7 +185,7 @@ describe('Topic', function() {
             });
             topicDoc.infoItems[0].isOpen = true;
             let myTopic = new Topic(dummyMinute._id, topicDoc);
-            expect(myTopic.hasOpenActionItem()).to.be.true;
+            expect(myTopic.hasOpenActionItem()).to.be.false;
         });
 
     });
