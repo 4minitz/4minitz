@@ -23,3 +23,5 @@ public/fonts/glyphicons-halflings-regular.*
 package-lock\.json
 
 4minitz_settings\.json
+
+\.vscode
