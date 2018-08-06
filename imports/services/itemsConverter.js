@@ -19,7 +19,7 @@ export class ItemsConverter {
             }
             // As the isSticky attribute is not optional, and action items
             // are not allowed to have isSticky attribute, we set it to false here, without condition.
-            // So, the isSticky state is lost when conferting back-and-forth
+            // So, the isSticky state is lost when converting back-and-forth
             infoOrActionItem._infoItemDoc.isSticky = false;
         }
         await infoOrActionItem.save();
