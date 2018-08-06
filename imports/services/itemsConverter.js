@@ -7,7 +7,6 @@ export class ItemsConverter {
         if (infoOrActionItem instanceof ActionItem) {
             infoOrActionItem._infoItemDoc.itemType = 'infoItem';
             infoOrActionItem._infoItemDoc.isOpen = undefined;
-            
         } else if (infoOrActionItem instanceof InfoItem) {
             infoOrActionItem._infoItemDoc.itemType = 'actionItem';
 
