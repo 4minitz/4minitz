@@ -1,4 +1,4 @@
-mport {ActionItem} from '../actionitem';
+import {ActionItem} from '../actionitem';
 import {InfoItem} from '../infoitem';
 
 export class ItemsConverter {
