@@ -175,17 +175,17 @@ describe('Topic', function() {
             topicDoc.infoItems.push({
                 isOpen: false
             });
-            topicDoc.infoItems[0].isOpen = false;
-            expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
+            topicDoc.infoItems[0].isOpen = true;
+            expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
         });
 
         it('returns true if the topic has a closed action item (object method call)', function() {
             topicDoc.infoItems.push({
                 isOpen: false
             });
-            topicDoc.infoItems[0].isOpen = false;
+            topicDoc.infoItems[0].isOpen = true;
             let myTopic = new Topic(dummyMinute._id, topicDoc);
-            expect(myTopic.hasOpenActionItem()).to.be.false;
+            expect(myTopic.hasOpenActionItem()).to.be.true;
         });
 
     });
