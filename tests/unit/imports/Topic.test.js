@@ -173,7 +173,8 @@ describe('Topic', function() {
 
         it('returns true if the topic has a closed action item (static method call)', function() {
             topicDoc.infoItems.push({
-                isOpen: false
+                isOpen: false,
+                itemType: "actionItem",
             });
             topicDoc.infoItems[0].isOpen = true;
             expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
@@ -181,7 +182,8 @@ describe('Topic', function() {
 
         it('returns true if the topic has a closed action item (object method call)', function() {
             topicDoc.infoItems.push({
-                isOpen: false
+                isOpen: false,
+                itemType: "actionItem",
             });
             topicDoc.infoItems[0].isOpen = true;
             let myTopic = new Topic(dummyMinute._id, topicDoc);
