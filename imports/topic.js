@@ -96,7 +96,7 @@ export class Topic {
         let infoItemDocs = topicDoc.infoItems;
         let i;
         for (i = 0; i < infoItemDocs.length; i++) {
-            if (infoItemDocs[i].isOpen) {
+            if (infoItemDocs[i].itemType === 'actionItem' &&  infoItemDocs[i].isOpen) {
                 return true;
             }
         }
