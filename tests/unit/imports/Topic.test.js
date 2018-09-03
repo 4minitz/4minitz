@@ -163,33 +163,56 @@ describe('Topic', function() {
             expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
         });
 
+        it('returns true if the topic has at least one open action items', function() {
+            topicDoc.infoItems.push({
+                itemType: "actionItem",
+                isOpen: false
+            });
+            topicDoc.infoItems.push({
+                itemType: "actionItem",
+                isOpen: true
+            });
+
+            expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
+        });
+
         it('returns false if the topic has only closed action items', function() {
             topicDoc.infoItems.push({
+                itemType: "actionItem",
+                isOpen: false
+            });
+            topicDoc.infoItems.push({
+                itemType: "actionItem",
                 isOpen: false
             });
 
             expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
         });
 
-        it('returns true if the topic has a closed action item (static method call)', function() {
+        it('returns false if the topic has only info items (whose open state is unimportant)', function() {
             topicDoc.infoItems.push({
-                isOpen: false,
-                itemType: "actionItem",
+                itemType: "infoItem",
+                isOpen: false
             });
-            topicDoc.infoItems[0].isOpen = true;
-            expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
+            topicDoc.infoItems.push({
+                itemType: "infoItem",
+                isOpen: true
+            });
+            topicDoc.infoItems.push({
+                itemType: "infoItem",
+                // isOpen: keep it "undefined"!!!
+            });
+            expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
         });
 
-        it('returns true if the topic has a closed action item (object method call)', function() {
+        it('returns true if the topic has a open action item (object method call)', function() {
             topicDoc.infoItems.push({
-                isOpen: false,
                 itemType: "actionItem",
+                isOpen: true,
             });
-            topicDoc.infoItems[0].isOpen = true;
             let myTopic = new Topic(dummyMinute._id, topicDoc);
             expect(myTopic.hasOpenActionItem()).to.be.true;
         });
-
     });
 
     describe('#invalidateIsNewFlag', function () {
