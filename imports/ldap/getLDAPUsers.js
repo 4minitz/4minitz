@@ -81,7 +81,7 @@ let _fetchLDAPUsers = function (connection) {
         scope = 'sub',
         whiteListedFields = _.get(settings, 'whiteListedFields', []),
         attributes = whiteListedFields.concat(['userAccountControl', searchDn, userLongNameAttribute, emailAttribute]),
-        options = {filter, scope, attributes};
+        options = {filter, scope, attributes, paged: true};
 
     if (settings.isInactivePredicate && !settings.inactiveUsers) {
         settings.inactiveUsers = {
