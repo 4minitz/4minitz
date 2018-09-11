@@ -448,7 +448,6 @@ Template.minutesedit.events({
 
     'keyup #editGlobalNotes' (evt) {
         evt.preventDefault();
-        console.log("fdv");
         evt.target.style.height=0;
         evt.target.style.overflow = 'hidden';
         evt.target.style.height = evt.target.scrollHeight + 'px';
