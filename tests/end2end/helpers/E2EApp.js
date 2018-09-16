@@ -1,4 +1,10 @@
+// We can't import Meteor here because E2EApp is not something that is run in
+// the Meteor context. But it contains code that injects code into the Meteor
+// context. This means that the Meteor object is used but can't be properly
+// imported.
+// => We need to suppress it.
 
+/*global Meteor*/
 import { E2EGlobal } from './E2EGlobal';
 
 
@@ -79,7 +85,7 @@ export class E2EApp {
             browser.waitForVisible(tab, 5000);
             E2EGlobal.clickWithRetry(tab);
 
-            browser.waitUntil(_ => {
+            browser.waitUntil(() => {
                 let tabIsStandard = browser.isExisting('#at-field-username_and_email');
                 let userWantsStandard = tab === '#tab_standard';
                 let tabIsLdap = browser.isExisting('#id_ldapUsername');
@@ -103,7 +109,7 @@ export class E2EApp {
 
             browser.keys(['Enter']);
 
-            browser.waitUntil(_ => {
+            browser.waitUntil(() => {
                 const userMenuExists = browser.isExisting('#navbar-usermenu');
                 return userMenuExists || E2EApp.loginFailed();
             }, 20000, 'The login could not been processed in time');
@@ -117,7 +123,7 @@ export class E2EApp {
                 browser.execute( function() {
                     Meteor.loginWithPassword(username, password);
                 });
-                browser.waitUntil(_ => {
+                browser.waitUntil(() => {
                     const userMenuExists = browser.isExisting('#navbar-usermenu');
                     return userMenuExists || E2EApp.loginFailed();
                 }, 5000);
@@ -157,7 +163,7 @@ export class E2EApp {
     static getCurrentUser () {
         return E2EApp._currentlyLoggedInUser;
     }
-    
+
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
