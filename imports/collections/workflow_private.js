@@ -96,6 +96,7 @@ Meteor.methods({
                 console.error(e);
                 throw e;
             }
+            console.error(e);
         }
     },
 
