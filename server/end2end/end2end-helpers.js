@@ -6,14 +6,17 @@ import { MeetingSeriesSchema } from './../../imports/collections/meetingseries.s
 import { MinutesSchema } from './../../imports/collections/minutes.schema';
 import { TestMailCollection } from '/imports/mail/TestMail';
 import { Minutes } from './../../imports/minutes';
+import { MeetingSeries } from './../../imports/meetingseries';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { DocumentsCollection } from '/imports/collections/documentgeneration_private';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { TopicSchema } from '/imports/collections/topic.schema';
 import { DocumentGeneration } from '/imports/documentGeneration';
-import {TopicsFinder} from '../../imports/services/topicsFinder';
+import { TopicsFinder } from '../../imports/services/topicsFinder';
 
-import {GlobalSettings} from '../../imports/config/GlobalSettings';
+import { UserRoles } from '../../imports/userroles';
+
+import { GlobalSettings } from '../../imports/config/GlobalSettings';
 import importUsers from '../../imports/ldap/import';
 
 
@@ -22,9 +25,48 @@ if (Meteor.settings.isEnd2EndTest) {
     // Meteor.settings.isEnd2EndTest will be set via "--settings settings-test-end2end.json"
     console.log('End2End helpers loaded on server-side!');
 
+    const addMeetingSeriesFixture = (projectName, seriesName) => {
+        const seriesId = Meteor.call('meetingseries.insert', {
+            project: projectName,
+            name: seriesName
+        });
+
+        const seriesUploader = Meteor.users.findOne({username: 'user2'});
+        const seriesInformed = Meteor.users.findOne({username: 'user3'});
+
+        Meteor.call('userroles.saveRoleForMeetingSeries', seriesUploader._id, seriesId, UserRoles.USERROLES.Uploader);
+        Meteor.call('userroles.saveRoleForMeetingSeries', seriesInformed._id, seriesId, UserRoles.USERROLES.Informed);
+
+        return seriesId;
+    };
+
+    const addMinutesFixture = (seriesId) => {
+        const series = new MeetingSeries(seriesId);
+        series.addNewMinutes();
+
+        const updatedSeries = new MeetingSeries(seriesId);
+        return updatedSeries.minutes[updatedSeries.minutes.length - 1];
+    };
+
     Meteor.methods({
         'e2e.debugLog'(message) {
             console.log(message);
+        },
+        'e2e.setupFixtures'() {
+            // todo: move user creation here from resetMyApp?
+
+            const seriesTeam = 'End2End Test Team';
+            const seriesName = 'End2End Fixture Series';
+
+            const series = addMeetingSeriesFixture(seriesTeam, seriesName);
+            const minutes = addMinutesFixture(series);
+
+            return {
+                seriesTeam,
+                seriesName,
+                series,
+                minutes
+            };
         },
         'e2e.resetMyApp'(skipUsersCreation) {
             console.log('-------------------------- E2E-METHOD: resetMyApp ');

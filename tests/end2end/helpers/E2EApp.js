@@ -21,6 +21,32 @@ export class E2EApp {
         }
     }
 
+    static quickTestSetup() {
+        console.log('-- reset');
+        server.call('e2e.resetMyApp');
+
+        console.log('-- launch');
+        E2EApp.launchApp();
+
+        console.log('-- login');
+        browser.executeAsync(function (done) {
+            //eslint-disable-next-line
+            Meteor.loginWithPassword('user1', 'PwdPwd1', done);
+        });
+
+        console.log('-- setup fixtures');
+        // chimp ddp is a separate connection from the browser. so we have to login
+        // separately for that extra ddp connection with server.call('login', ...)
+        server.call('login', {
+            user: {username: 'user1'},
+            password: 'PwdPwd1'
+        });
+        const testContext = server.call('e2e.setupFixtures');
+        server.call('logout');
+
+        return testContext;
+    }
+
     static isLoggedIn () {
         try {
             browser.waitForExist('#navbar-usermenu', 5000);         // browser = WebdriverIO instance
@@ -164,12 +190,17 @@ export class E2EApp {
         return E2EApp._currentlyLoggedInUser;
     }
 
+    static gotoUrl(url) {
+        browser.url(`${E2EGlobal.SETTINGS.e2eUrl}/${url}`);
+    }
+
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 
         E2EGlobal.waitSomeTime(600); // give title change time to settle
         const title = browser.getTitle();
         if (title !== E2EApp.titlePrefix) {
+            E2EGlobal.saveScreenshot('page_load_failed');
             throw new Error(`App not loaded. Unexpected title ${title}. Please run app with 'meteor npm run test:end2end:server'`);
         }
     }
