@@ -136,12 +136,12 @@ Template.minutesedit.onRendered(function () {
     // For some strange reason, our DOM element is not available immediately
     // (Blaze API tells us differently!) - so, we give it some time to settle
     Meteor.setInterval(function(){
-        let target = tmpl.find("#editGlobalNotes");
+        let target = tmpl.find('#editGlobalNotes');
         if (target) {
             target.style.height=0;
             target.style.overflow = 'auto';
             target.style.height = target.scrollHeight + 'px';
-            target.style.maxHeight = "700px";
+            target.style.maxHeight = '700px';
         }
     }, 50);
 });
@@ -467,7 +467,7 @@ Template.minutesedit.events({
         evt.target.style.height=0;
         evt.target.style.overflow = 'auto';
         evt.target.style.height = evt.target.scrollHeight + 'px';
-        evt.target.style.maxHeight = "700px";
+        evt.target.style.maxHeight = '700px';
     },
 
     'change #editGlobalNotes' (evt, tmpl) {
