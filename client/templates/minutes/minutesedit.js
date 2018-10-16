@@ -445,15 +445,7 @@ Template.minutesedit.events({
 
         aMin.update({date: aDate}).catch(onError);
     },
-
-    'keyup #editGlobalNotes' (evt) {
-        evt.preventDefault();
-        console.log("fdv");
-        evt.target.style.height=0;
-        evt.target.style.overflow = 'hidden';
-        evt.target.style.height = evt.target.scrollHeight + 'px';
-    },
-
+    
     'change #editGlobalNotes' (evt, tmpl) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
