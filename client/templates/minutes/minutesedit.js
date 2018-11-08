@@ -138,7 +138,7 @@ Template.minutesedit.onRendered(function () {
     // For some strange reason, our DOM element is not available immediately
     // (Blaze API tells us differently!) - so, we give it some time to settle
     Meteor.setInterval(function(){
-        let target = tmpl.find("#editGlobalNotes");
+        let target = tmpl.find('#editGlobalNotes');
         if (target) {
             target.style.height=0;
             target.style.overflow = 'auto';
