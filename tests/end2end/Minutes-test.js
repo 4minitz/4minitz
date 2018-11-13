@@ -137,17 +137,17 @@ describe('Minutes', function () {
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        browser.setValue('input[id="editGlobalNotes"]', aGlobalNote);
+        browser.setValue('textarea[id="editGlobalNotes"]', aGlobalNote);
         E2EGlobal.clickWithRetry('#btnParticipantsExpand');
 
-        let result = browser.getValue('input[id="editGlobalNotes"]');
+        let result = browser.getValue('textarea[id="editGlobalNotes"]');
         expect(result).to.equal(aGlobalNote);
 
         browser.refresh();
         E2EGlobal.waitSomeTime(2500); // phantom.js needs some time here...
 
 
-        result = browser.getValue('input[id="editGlobalNotes"]');
+        result = browser.getValue('textarea[id="editGlobalNotes"]');
         expect(result).to.equal(aGlobalNote);
     });
 
