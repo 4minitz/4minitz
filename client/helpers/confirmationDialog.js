@@ -55,6 +55,9 @@ export class ConfirmationDialog {
     _removeDialogOnHide() {
         this.dialog.on('hidden.bs.modal', () => {
             this.hide();
+            if ($('.modal:visible').length) {  
+                $('body').addClass('modal-open'); 
+            } 
         });
     }
 

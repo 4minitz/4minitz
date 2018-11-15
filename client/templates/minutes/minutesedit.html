@@ -157,9 +157,9 @@
                                 <span class="glyphicon glyphicon-pushpin {{#if minutes.globalNotePinned}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
                             </span>
                         {{/unless}}
-                        <input id="editGlobalNotes" type="text" class="form-control"
+                        <textarea id="editGlobalNotes" type="text" class="form-control"
                                placeholder="Global notes for these minutes. Click pin to propagate notes to next minutes."
-                               value="{{minutes.globalNote}}"  {{disableUIControl}}>
+                               value="{{minutes.globalNote}}"  {{disableUIControl}}></textarea> 
 
                     </div>
 

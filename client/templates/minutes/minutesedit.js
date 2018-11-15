@@ -130,6 +130,24 @@ let handleTemplatesGlobalKeyboardShortcuts = function(switchOn) {
     }
 };
 
+
+
+Template.minutesedit.onRendered(function () {
+    let tmpl = this;    // store for second, inner callback
+    // Ugly hack...   :-(
+    // For some strange reason, our DOM element is not available immediately
+    // (Blaze API tells us differently!) - so, we give it some time to settle
+    Meteor.setInterval(function(){
+        let target = tmpl.find('#editGlobalNotes');
+        if (target) {
+            target.style.height=0;
+            target.style.overflow = 'auto';
+            target.style.height = target.scrollHeight + 'px';
+            target.style.maxHeight = '700px';
+        }
+    }, 200);
+});
+
 Template.minutesedit.onCreated(function () {
     this.minutesReady = new ReactiveVar();
     this.currentMinuteLoaded = new ReactiveVar();
