@@ -19,7 +19,7 @@
     "eslint:fix": "eslint --fix client/** imports/** server/**",
     "test": "npm run test:unit",
     "test:ci": "npm run test:unit && npm run test:end2end:headless",
-    "test:unit": "node ./node_modules/mocha/bin/mocha \"'./tests/unit/**/*.test.js'\" --compilers js:babel-register --require tests/unit/babel && npm run test:fixtures:seed-minutes:unit",
+    "test:unit": "node ./node_modules/mocha/bin/mocha \"./tests/unit/**/*.test.js\" --compilers js:babel-register --require tests/unit/babel && npm run test:fixtures:seed-minutes:unit",
     "test:end2end:ldap": "node tests/support/ldap-server.js",
     "test:end2end:meteor": "meteor run --port 3100 --settings ./settings-test-end2end.json",
     "test:end2end:server": "node tests/support/end2end-server.js",
