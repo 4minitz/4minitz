@@ -137,7 +137,7 @@ Template.minutesedit.onRendered(function () {
     // Ugly hack...   :-(
     // For some strange reason, our DOM element is not available immediately
     // (Blaze API tells us differently!) - so, we give it some time to settle
-    Meteor.setInterval(function(){
+    Meteor.setTimeout(function(){
         let target = tmpl.find('#editGlobalNotes');
         if (target) {
             target.style.height=0;
@@ -145,7 +145,7 @@ Template.minutesedit.onRendered(function () {
             target.style.height = target.scrollHeight + 'px';
             target.style.maxHeight = '700px';
         }
-    }, 200);
+    }, 2000);
 });
 
 Template.minutesedit.onCreated(function () {
@@ -462,6 +462,16 @@ Template.minutesedit.events({
         }
 
         aMin.update({date: aDate}).catch(onError);
+    },
+
+    'keyup #editGlobalNotes' (evt, tmpl){
+        let target = tmpl.find('#editGlobalNotes');
+        if (target) {
+            target.style.height=0;
+            target.style.overflow = 'auto';
+            target.style.height = target.scrollHeight + 'px';
+            target.style.maxHeight = '700px';
+        }
     },
 
     'change #editGlobalNotes' (evt, tmpl) {
