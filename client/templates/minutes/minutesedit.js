@@ -469,7 +469,7 @@ Template.minutesedit.events({
         evt.target.style.height=0;
         evt.target.style.overflow = 'auto';
         evt.target.style.height = evt.target.scrollHeight + 'px';
-        evt.target.style.maxHeight = "700px";
+        evt.target.style.maxHeight = '700px';
     },
 
     'change #editGlobalNotes' (evt, tmpl) {
