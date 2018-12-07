@@ -1,13 +1,13 @@
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Minutes } from '/imports/minutes';
 import { MinutesFinder } from '/imports/services/minutesFinder';
-
+import { handleError } from '/client/helpers/handleError';
 export class addMinutes{
     addMinutes(msid,msob) {
         let newMinutesId;
         let meetingSeriesId = msid;
         let ms=msob;
-        console.log('MS ID: ', meetingSeriesId)
+        console.log('MS ID: ', meetingSeriesId);
         ms.addNewMinutes(
             // optimistic ui callback
             newMinutesID => {
@@ -32,4 +32,4 @@ export class addMinutes{
             FlowRouter.redirect('/minutesedit/' + newMinutesId);
         }
     }
-};
+}

@@ -3,13 +3,10 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { MeetingSeries } from '/imports/meetingseries';
-import { Minutes } from '/imports/minutes';
-import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from '/imports/userroles';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { handleError } from '/client/helpers/handleError';
 import { addMinutes } from '../../helpers/addnewminutes';
-let _minutesID;
 
 Template.tabMinutesList.helpers({
     meetingSeriesId: function () {
@@ -38,7 +35,6 @@ Template.tabMinutesList.helpers({
 Template.tabMinutesList.events({
     'click #btnAddMinutes': function(evt) {
         evt.preventDefault();
-        console.log('MS ID: ', this.meetingSeriesId)
         let ms = new MeetingSeries(this.meetingSeriesId);
         let nMin = new addMinutes();
         nMin.addMinutes(this.meetingSeriesId,ms);

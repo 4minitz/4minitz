@@ -468,7 +468,6 @@ Template.minutesedit.events({
     'click #btnAddMinutes': function(evt) {
         evt.preventDefault();
         let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
-        console.log('MS ID: ', meetingSeriesId)
         let ms = new MeetingSeries(meetingSeriesId);
         let nMin = new addMinutes();
         nMin.addMinutes(meetingSeriesId,ms);
