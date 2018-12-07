@@ -147,6 +147,10 @@
                         {{#if nextMinutes}}
                             Next: <a id="btnNextMinutesNavigation" href="{{minutesPath nextMinutes._id}}">{{nextMinutes.date}}</a>
                         {{/if}}
+                        &emsp;
+                        {{#if isFinalized}}
+                           <a id="btnAddMinutes">Create New Minutes</a>
+                        {{/if}}
                     </div>
                     <div class="form-group">
                         <label for="editGlobalNotes">Global Note</label>

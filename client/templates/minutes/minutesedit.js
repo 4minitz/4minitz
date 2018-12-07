@@ -23,6 +23,7 @@ import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { QualityTestRunner } from '/imports/client/QualityTestRunner';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { UserTracker } from '../../helpers/userTracker';
+import { addMinutes } from '../../helpers/addnewminutes';
 
 let _minutesID; // the ID of these minutes
 
@@ -462,6 +463,15 @@ Template.minutesedit.events({
         }
 
         aMin.update({date: aDate}).catch(onError);
+    },
+
+    'click #btnAddMinutes': function(evt) {
+        evt.preventDefault();
+        let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
+        console.log('MS ID: ', meetingSeriesId)
+        let ms = new MeetingSeries(meetingSeriesId);
+        let nMin = new addMinutes();
+        nMin.addMinutes(meetingSeriesId,ms);
     },
 
     'change #editGlobalNotes' (evt, tmpl) {

@@ -8,6 +8,8 @@ import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from '/imports/userroles';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { handleError } from '/client/helpers/handleError';
+import { addMinutes } from '../../helpers/addnewminutes';
+let _minutesID;
 
 Template.tabMinutesList.helpers({
     meetingSeriesId: function () {
@@ -36,31 +38,10 @@ Template.tabMinutesList.helpers({
 Template.tabMinutesList.events({
     'click #btnAddMinutes': function(evt) {
         evt.preventDefault();
-        let newMinutesId;
+        console.log('MS ID: ', this.meetingSeriesId)
         let ms = new MeetingSeries(this.meetingSeriesId);
-        ms.addNewMinutes(
-            // optimistic ui callback
-            newMinutesID => {
-                newMinutesId = newMinutesID;
-            },
-            // server callback
-            (error) => {
-                if(error) handleError(error);
-            }
-        );
-        if (newMinutesId) { // optimistic ui callback should have been called by now
-            let lastFinalizedMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
-            if (lastFinalizedMin && lastFinalizedMin.globalNotePinned) {
-                let aMin = new Minutes(newMinutesId);
-                if (aMin) {
-                    aMin.update({
-                        globalNotePinned: true,
-                        globalNote: lastFinalizedMin.globalNote
-                    });
-                }
-            }
-            FlowRouter.redirect('/minutesedit/' + newMinutesId);
-        }
+        let nMin = new addMinutes();
+        nMin.addMinutes(this.meetingSeriesId,ms);
     },
 
     'click #btnLeaveMeetingSeries': function () {
