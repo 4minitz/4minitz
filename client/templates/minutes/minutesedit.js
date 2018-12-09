@@ -146,6 +146,8 @@ Template.minutesedit.onRendered(function () {
             target.style.maxHeight = '700px';
         }
     }, 2000);
+
+    filterClosedTopics.set(false);
 });
 
 Template.minutesedit.onCreated(function () {

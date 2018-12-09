@@ -181,7 +181,7 @@
                                 </button>
                             </div>
                             <div class="checkbox-hide-topics visible-xs col-xs-6 checkbox hidden-print">
-                                <label class="text-black">
+                                <label class="text-black" title="Temporarily hide discussed/skipped topics from list">
                                     <input type="checkbox" id="checkHideClosedTopics" class="checkbox"/>Hide closed
                                 </label>
                             </div>
@@ -207,7 +207,8 @@
                         <div class="clearfix visible-xs"></div>
 
                         <div class="checkbox-hide-topics col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} {{#unless isReadOnly}}hidden-xs{{/unless}} checkbox">
-                            <label class="text-black" id="checkHideClosedTopicsLabel">
+                            <label class="text-black" id="checkHideClosedTopicsLabel"
+                                   title="Temporarily hide discussed/skipped topics from list">
                                 <input type="checkbox" id="checkHideClosedTopics" class="checkbox"/>
                                 Hide closed<span class="hidden-sm"> topics</span>
                             </label>
