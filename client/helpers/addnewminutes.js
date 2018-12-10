@@ -3,11 +3,10 @@ import { Minutes } from '/imports/minutes';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { handleError } from '/client/helpers/handleError';
 export class addMinutes{
-    addMinutes(msid,msob) {
+    addMinutes(meetingSeriesObject) {
         let newMinutesId;
-        let meetingSeriesId = msid;
-        let ms=msob;
-        console.log('MS ID: ', meetingSeriesId);
+        let ms=meetingSeriesObject;
+        let meetingSeriesId = ms.meetingSeriesId;
         ms.addNewMinutes(
             // optimistic ui callback
             newMinutesID => {
