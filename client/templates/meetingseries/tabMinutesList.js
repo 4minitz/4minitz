@@ -36,8 +36,8 @@ Template.tabMinutesList.events({
     'click #btnAddMinutes': function(evt) {
         evt.preventDefault();
         let ms = new MeetingSeries(this.meetingSeriesId);
-        let nMin = new addMinutes();
-        nMin.addMinutes(this.meetingSeriesId,ms);
+        let nMin = new addMinutes();// Method in addnewminutes helper for creating new minutes
+        nMin.addMinutes(ms);
     },
 
     'click #btnLeaveMeetingSeries': function () {

@@ -466,11 +466,15 @@ Template.minutesedit.events({
     },
 
     'click #btnAddMinutes': function(evt) {
-        evt.preventDefault();
-        let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
-        let ms = new MeetingSeries(meetingSeriesId);
-        let nMin = new addMinutes();
-        nMin.addMinutes(meetingSeriesId,ms);
+        if(confirm('Do you really want to create new minutes?')){
+            evt.preventDefault();
+            let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
+            let ms = new MeetingSeries(meetingSeriesId);
+            let nMin = new addMinutes();// Method in addnewminutes helper for creating new minutes
+            nMin.addMinutes(ms);
+        }
+        else
+        return;
     },
 
     'change #editGlobalNotes' (evt, tmpl) {

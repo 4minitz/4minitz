@@ -146,10 +146,13 @@
                         {{/if}}
                         {{#if nextMinutes}}
                             Next: <a id="btnNextMinutesNavigation" href="{{minutesPath nextMinutes._id}}">{{nextMinutes.date}}</a>
-                        {{/if}}
-                        &emsp;
-                        {{#if isFinalized}}
-                           <a id="btnAddMinutes">Create New Minutes</a>
+                        {{else}}
+                            &emsp;
+                            {{#if isModeratorOfParentSeries}}
+                                {{#if isFinalized}}    
+                                    <a id="btnAddMinutes">Create New Minutes</a>
+                                {{/if}}
+                            {{/if}}
                         {{/if}}
                     </div>
                     <div class="form-group">
