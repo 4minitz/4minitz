@@ -123,6 +123,13 @@ As a moderator you may create new minutes for an existing meeting series by clic
 ![Create New Minutes Button](./figures/create_new_minutes.png)
 
 
+### Create New Minutes from finalized minutes
+As a moderator, if the minute is finalized and is the last minutes of meeting series then you can directly create new minutes by clicking on text link "Create New Minutes" on the finalized minutes page.
+
+![Create New Minutes link](./figures/add_new_minutes.png)
+
+
+
 ## Prepare a Meeting
 In preparation to a meeting the moderator can add topics to the current meeting minutes by clicking the button:
 
