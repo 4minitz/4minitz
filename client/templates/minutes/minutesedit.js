@@ -210,18 +210,54 @@ let toggleTopicSorting = function () {
     }
 };
 
-let updateTopicSorting = function () {
+let updateTopicSorting = function (event, ui) {
+    const draggedTopicID = $(ui.item).attr('data-id');
+    // Attention: In the DOM we only see the currently visible topics.
+    // Some topics may be hidden due to "hide closed topics" feature
     let sorting = $('#topicPanel').find('> div.well'),
         minute = new Minutes(_minutesID),
         newTopicSorting = [];
 
+    // In visible topics find new target pos
+    let newTargetPos = sorting.length -1;
     for (let i = 0; i < sorting.length; ++i) {
-        let topicId = $(sorting[i]).attr('data-id');
-        let topic = minute.findTopic(topicId);
-
+        if ($(sorting[i]).attr('data-id') === draggedTopicID) {
+            newTargetPos = i;
+        }
+    }
+    // In visible topics find ID of the following topic, or '' if dragged to end of list
+    let followerTopicID = '';   // The ID of the topic below the dragged one
+    if (newTargetPos < sorting.length -1) {
+        followerTopicID = $(sorting[newTargetPos+1]).attr('data-id');
+    }
+    // In *all* topics before(!) the drag operation find
+    // * position of dragged topic and
+    // * position of follower after drag operation
+    let oldDragTopicPos = -1;
+    let oldFollowerPos = -1;
+    for (let i = 0; i < minute.topics.length; ++i) {
+        if (minute.topics[i]._id === draggedTopicID) {
+            oldDragTopicPos = i;
+        }
+        if (minute.topics[i]._id === followerTopicID) {
+            oldFollowerPos = i;
+        }
+    }
+    // Perform position change in complete topic array coming from DB
+    // Here we also have currently hidden topics
+    newTopicSorting = minute.topics;
+    let topic = newTopicSorting[oldDragTopicPos];   // remember topic
+    newTopicSorting.splice(oldDragTopicPos, 1);     // remove topic from array
+    if (oldFollowerPos >= 0) {                          // insert before new follower
+        let correction = oldDragTopicPos > oldFollowerPos? 0 : 1;
+        newTopicSorting.splice(oldFollowerPos-correction, 0, topic);
+    } else if (sorting.length < minute.topics.length) { // put at end of visible topics
+        newTopicSorting.splice(sorting.length-2, 0, topic);
+    }
+    else {                                              // insert at the end of all topics
         newTopicSorting.push(topic);
     }
-
+    // Write new sort order to DB
     minute.update({topics: newTopicSorting}).catch(error => {
         $('#topicPanel').sortable( 'cancel' );
         onError(error);
