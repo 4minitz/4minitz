@@ -212,6 +212,10 @@ let toggleTopicSorting = function () {
 
 let updateTopicSorting = function (event, ui) {
     const draggedTopicID = $(ui.item).attr('data-id');
+    if (!draggedTopicID) {
+        return;
+    }
+
     // Attention: In the DOM we only see the currently visible topics.
     // Some topics may be hidden due to "hide closed topics" feature
     let sorting = $('#topicPanel').find('> div.well'),
@@ -251,12 +255,14 @@ let updateTopicSorting = function (event, ui) {
     if (oldFollowerPos >= 0) {                          // insert before new follower
         let correction = oldDragTopicPos > oldFollowerPos? 0 : 1;
         newTopicSorting.splice(oldFollowerPos-correction, 0, topic);
-    } else if (sorting.length < minute.topics.length) { // put at end of visible topics
-        newTopicSorting.splice(sorting.length-2, 0, topic);
+    } else {
+        const lastVisibleTopicId = $(sorting[sorting.length - 2]).attr('data-id');
+        const lastVisibleTopicPos = newTopicSorting.findIndex(t => t._id === lastVisibleTopicId);
+
+        // we want to add the topic AFTER the last visible topic, not before
+        newTopicSorting.splice(lastVisibleTopicPos + 1, 0, topic);
     }
-    else {                                              // insert at the end of all topics
-        newTopicSorting.push(topic);
-    }
+
     // Write new sort order to DB
     minute.update({topics: newTopicSorting}).catch(error => {
         $('#topicPanel').sortable( 'cancel' );
