@@ -237,16 +237,9 @@ let updateTopicSorting = function (event, ui) {
     // In *all* topics before(!) the drag operation find
     // * position of dragged topic and
     // * position of follower after drag operation
-    let oldDragTopicPos = -1;
-    let oldFollowerPos = -1;
-    for (let i = 0; i < minute.topics.length; ++i) {
-        if (minute.topics[i]._id === draggedTopicID) {
-            oldDragTopicPos = i;
-        }
-        if (minute.topics[i]._id === followerTopicID) {
-            oldFollowerPos = i;
-        }
-    }
+    const oldDragTopicPos = minute.topics.findIndex(t => t._id === draggedTopicID);
+    const oldFollowerPos = minute.topics.findIndex(t => t._id === followerTopicID);
+
     // Perform position change in complete topic array coming from DB
     // Here we also have currently hidden topics
     newTopicSorting = minute.topics;
