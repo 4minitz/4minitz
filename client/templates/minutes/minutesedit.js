@@ -210,18 +210,53 @@ let toggleTopicSorting = function () {
     }
 };
 
-let updateTopicSorting = function () {
+let updateTopicSorting = function (event, ui) {
+    const draggedTopicID = $(ui.item).attr('data-id');
+    if (!draggedTopicID) {
+        return;
+    }
+
+    // Attention: In the DOM we only see the currently visible topics.
+    // Some topics may be hidden due to "hide closed topics" feature
     let sorting = $('#topicPanel').find('> div.well'),
         minute = new Minutes(_minutesID),
         newTopicSorting = [];
 
+    // In visible topics find new target pos
+    let newTargetPos = sorting.length -1;
     for (let i = 0; i < sorting.length; ++i) {
-        let topicId = $(sorting[i]).attr('data-id');
-        let topic = minute.findTopic(topicId);
+        if ($(sorting[i]).attr('data-id') === draggedTopicID) {
+            newTargetPos = i;
+        }
+    }
+    // In visible topics find ID of the following topic, or '' if dragged to end of list
+    let followerTopicID = '';   // The ID of the topic below the dragged one
+    if (newTargetPos < sorting.length -1) {
+        followerTopicID = $(sorting[newTargetPos+1]).attr('data-id');
+    }
+    // In *all* topics before(!) the drag operation find
+    // * position of dragged topic and
+    // * position of follower after drag operation
+    const oldDragTopicPos = minute.topics.findIndex(t => t._id === draggedTopicID);
+    const oldFollowerPos = minute.topics.findIndex(t => t._id === followerTopicID);
 
-        newTopicSorting.push(topic);
+    // Perform position change in complete topic array coming from DB
+    // Here we also have currently hidden topics
+    newTopicSorting = minute.topics;
+    let topic = newTopicSorting[oldDragTopicPos];   // remember topic
+    newTopicSorting.splice(oldDragTopicPos, 1);     // remove topic from array
+    if (oldFollowerPos >= 0) {                          // insert before new follower
+        let correction = oldDragTopicPos > oldFollowerPos? 0 : 1;
+        newTopicSorting.splice(oldFollowerPos-correction, 0, topic);
+    } else {
+        const lastVisibleTopicId = $(sorting[sorting.length - 2]).attr('data-id');
+        const lastVisibleTopicPos = newTopicSorting.findIndex(t => t._id === lastVisibleTopicId);
+
+        // we want to add the topic AFTER the last visible topic, not before
+        newTopicSorting.splice(lastVisibleTopicPos + 1, 0, topic);
     }
 
+    // Write new sort order to DB
     minute.update({topics: newTopicSorting}).catch(error => {
         $('#topicPanel').sortable( 'cancel' );
         onError(error);
