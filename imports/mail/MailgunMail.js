@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { HTTP } from 'meteor/http';
 import { Mail } from './Mail';
 import { GlobalSettings } from '../config/GlobalSettings';
 
@@ -34,7 +34,7 @@ export class MailgunMail extends Mail {
         }
 
         // Send the request
-        Meteor.http.post(postURL, options); // do not pass callback so the post request will run synchronously
+        HTTP.post(postURL, options); // do not pass callback so the post request will run synchronously
     }
 
 }
