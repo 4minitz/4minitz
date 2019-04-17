@@ -214,6 +214,8 @@ This should make the mongodb available on the default port 27017 so that the fol
  
 **Attention** The above configuration does not enforce secure SSL communication to your mongodb. So if you run mongoDB and 4Minitz on 
  different machines you should take a look at the [MongoDB Transport Encryption](https://docs.mongodb.com/manual/core/security-transport-encryption/) doc.
+ If the communication to your MongoDB is secured with SSL but you are using a certificate signed by a custom CA you may want to
+ set up the [NODE_EXTRA_CA_CERTS](https://nodejs.org/api/cli.html#cli_node_extra_ca_certs_file) environment variable to prevent connection problems.
  
 **Attention** The above configuration does not enforce users to log in. 
 See the [MongoDB Enable Auth](https://docs.mongodb.com/manual/tutorial/enable-authentication/) doc for information on this topic 
@@ -391,6 +393,11 @@ long names) are copied into the 4minitz user database. Password lookup
 happens over LDAP, so no passwords or hashes are stored for LDAP users 
 in the 4minitz user database. This is needed to store e.g. user access 
 rights for meeting minutes.
+
+If the communication to your LDAP is secured with SSL and you are using a
+ certificate signed by a custom CA you may want to set up the
+ [NODE_EXTRA_CA_CERTS](https://nodejs.org/api/cli.html#cli_node_extra_ca_certs_file)
+ environment variable to prevent connection problems.
 
 ### Authentication
 
