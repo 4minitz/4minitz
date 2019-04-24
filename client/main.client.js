@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
+import { Astro } from 'meteor/jagi:astronomy';
 import '/imports/config/accounts';
 import { $ } from 'meteor/jquery';
 
@@ -89,6 +90,7 @@ Meteor.startup(() => {
     Markdown.setOptions({
         sanitize: true
     });
+    Astro.config.logs.nonExistingField = false; // Turn off warnings about non existing fields.
 
     Template.registerHelper('pathForImproved', function(path) {
         // FlowRouters pathFor helper is a little bit inconsistent.
