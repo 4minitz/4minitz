@@ -91,6 +91,9 @@ let _fetchLDAPUsers = function (connection) {
     }
 
     return new Promise((resolve, reject) => {
+        if (!bases) {
+            reject('No LDAP ServerDN');
+        }
         try {
             bases.forEach(base => {
                 client.search(base, options, (error, response) => {
