@@ -73,7 +73,7 @@ function isInactive(inactivitySettings, entry) {
 let _fetchLDAPUsers = function (connection) {
     let client = connection.client,
         settings = connection.settings,
-        base = settings.serverDn,
+        bases = settings.serverDn,
         searchDn = _.get(settings, 'propertyMap.username', 'cn'),
         userLongNameAttribute = _.get(settings, 'propertyMap.longname', searchDn),
         emailAttribute = _.get(settings, 'propertyMap.email', searchDn),
@@ -92,21 +92,23 @@ let _fetchLDAPUsers = function (connection) {
 
     return new Promise((resolve, reject) => {
         try {
-            client.search(base, options, (error, response) => {
-                if (error) reject(`Search failed: ${error}`);
+            bases.forEach(base => {
+                client.search(base, options, (error, response) => {
+                    if (error) reject(`Search failed: ${error}`);
 
-                let entries = [];
+                    let entries = [];
 
-                response.on('searchEntry', function (entry) {
-                    const userIsInactive = isInactive(settings.inactiveUsers, entry),
-                        userData = Object.assign({}, entry.object, {isInactive: userIsInactive});
-                    entries.push(userData);
-                });
-                response.on('error', function (error) {
-                    reject(error);
-                });
-                response.on('end', function () {
-                    resolve({client, settings, entries});
+                    response.on('searchEntry', function (entry) {
+                        const userIsInactive = isInactive(settings.inactiveUsers, entry),
+                            userData = Object.assign({}, entry.object, {isInactive: userIsInactive});
+                        entries.push(userData);
+                    });
+                    response.on('error', function (error) {
+                        reject(error);
+                    });
+                    response.on('end', function () {
+                        resolve({client, settings, entries});
+                    });
                 });
             });
         } catch (error) {

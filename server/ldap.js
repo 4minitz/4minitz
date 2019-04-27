@@ -18,7 +18,7 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
     const serverDn = LdapSettings.serverDn(),
         searchDn = LdapSettings.usernameAttribute();
 
-    if (!serverDn || !searchDn) {
+    if (!serverDn || !serverDn[0] || !searchDn) {
         return '';
     }
 
@@ -40,7 +40,7 @@ LDAP.bindValue = function (usernameOrEmail, isEmailAddress) {
         }
     }
 
-    return [searchDn, '=', username, ',', serverDn].join('');
+    return [searchDn, '=', username, ',', serverDn[0]].join('');
 };
 
 LDAP.filter = function (isEmailAddress, usernameOrEmail) {
