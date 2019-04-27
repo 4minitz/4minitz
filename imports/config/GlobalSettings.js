@@ -157,6 +157,12 @@ export class GlobalSettings {
 
 
     static getLDAPSettings() {
+        if (Meteor.settings.ldap
+            && Meteor.settings.ldap.serverDn
+            && (typeof (Meteor.settings.ldap.serverDn) === 'string')) {
+            Meteor.settings.ldap.serverDn = [Meteor.settings.ldap.serverDn];
+        }
+
         return Meteor.settings.ldap || {};
     }
 
