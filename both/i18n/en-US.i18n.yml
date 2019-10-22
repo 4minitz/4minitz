@@ -5,11 +5,13 @@ buttons.Cancel: "Cancel"
 buttons.Close: "Close"
 buttons.Register: "Register"
 buttons.Change: "Change"
+buttons.Save: "Save"
 buttons.OK: "OK"
 buttons.Add: "Add"
 buttons.DismissAll: "Dismiss All"
 buttons.Back: "Go Back"
 buttons.Delete: "Delete"
+buttons.Edit: "Edit"
 
 about.Title: "About 4Minitz"
 about.Copyright: "(C) 2015-2019 4Minitz-Team"
@@ -40,6 +42,13 @@ meetingSeries.edit.Invited: "Invited & Informed Users"
 meetingSeries.edit.NotifyRoleChange: "Notify participants on role change"
 meetingSeries.edit.Labels: "Labels"
 meetingSeries.edit.Save: "Save {$spanOpen}Meeting Series{$spanClose}"
+meetingSeries.edit.ConfirmDelete: "Confirm delete"
+meetingSeries.edit.users.error.NotRegistered: "This is not a registered user name"
+meetingSeries.edit.users.error.AlreadyInList: "This user name is already in list"
+meetingSeries.labels.Add: "Add new Label"
+meetingSeries.labels.New: "NewLabel"
+meetingSeries.labels.error.Name: "Please enter a valid label name"
+meetingSeries.labels.error.HexColor: "Invalid hex color value"
 meetingSeries.tab.Minutes: "Minutes"
 meetingSeries.tab.Topics: "Topics"
 meetingSeries.tab.Items: "Items"
@@ -89,10 +98,10 @@ admin.users.EditProfile: "Edit User Profile"
 admin.users.CountSingle: "Showing {$visible} of {$all} user. Use filter to show others."
 admin.users.Count: "Showing {$visible} of {$all} users. Use filter to show others."
 
-navigation.Help: Help
-navigation.About: About
-navigation.AdminTasks: Admin Tasks
-navigation.EditProfile: Edit Profile
-navigation.ChangePassword: Change Password
-navigation.SignOut: Sign Out
-navigation.ToggleNavigation: Toggle Navigation 
+navigation.Help: "Help"
+navigation.About: "About"
+navigation.AdminTasks: "Admin Tasks"
+navigation.EditProfile: "Edit Profile"
+navigation.ChangePassword: "Change Password"
+navigation.SignOut: "Sign Out"
+navigation.ToggleNavigation: "Toggle Navigation"

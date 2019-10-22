@@ -47,10 +47,10 @@ Template.meetingSeriesEdit.helpers({
         return {
             meetingSeriesId: this._id
         };
-    }
+    },
 
     saveButton: function() {
-        return i18n.__('meetingSeries.edit.Save', {purify: string => string}, {spanOpen: '<span class="hidden-xs">', spanClose: '</span>'});
+        return i18n.__('meetingSeries.edit.Save', {spanOpen: '<span class="hidden-xs">', spanClose: '</span>'});
     }
 });
 
@@ -118,7 +118,7 @@ Template.meetingSeriesEdit.events({
 
         const confirmationDialog = ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             deleteSeriesCallback,
-            'Confirm delete',
+            i18n.__('meetingSeries.edit.ConfirmDelete'),
             'confirmationDialogDeleteSeries',
             {
                 project: ms.project,

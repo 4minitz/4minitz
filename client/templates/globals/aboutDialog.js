@@ -27,7 +27,7 @@ Template.aboutDialog.helpers({
     },
 
     contributorsLink: function() {
-        return i18n.__('about.ThanksContributors', {purify: string => string}, {urlOpen: '<a href="https://github.com/4minitz/4minitz/graphs/contributors" target="_blank">', urlClose: '</a>'});
+        return i18n.__('about.ThanksContributors', {urlOpen: '<a href="https://github.com/4minitz/4minitz/graphs/contributors" target="_blank">', urlClose: '</a>'});
     }
 });
 

@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { $ } from 'meteor/jquery';
 import { addCustomValidator } from '../../helpers/customFieldValidator';
 
@@ -24,7 +25,7 @@ Template.meetingSeriesEditLabels.onRendered(function () {
     addCustomValidator(
         '.label-color-field',
         (value) => { return ColorHelper.isValidHexColorString(value); },
-        'Invalid hex color value');
+        i18n.__('meetingSeries.labels.error.HexColor'));
 });
 
 Template.meetingSeriesEditLabels.helpers({
@@ -134,7 +135,7 @@ Template.meetingSeriesEditLabels.events({
     'click .evt-btn-add-label': function (evt, tmpl) {
         evt.preventDefault();
         let labelDoc = {
-            name: 'NewLabel',
+            name: i18n.__('meetingSeries.labels.New'),
             color: '#cccccc'
         };
 

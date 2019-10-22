@@ -5,6 +5,7 @@ import { Markdown } from 'meteor/perak:markdown';
 import { Astro } from 'meteor/jagi:astronomy';
 import '/imports/config/accounts';
 import { $ } from 'meteor/jquery';
+import { i18n } from 'meteor/universe:i18n';
 
 // initialize
 //  * twitter bootstrap
@@ -42,6 +43,11 @@ import 'jquery-ui/ui/widgets/mouse';
 import 'jquery-ui/ui/widgets/sortable';
 
 import 'jquery-ui-touch-punch/jquery.ui.touch-punch';
+
+i18n.setLocale('de-DE');
+i18n.setOptions({
+    purify: string => string
+});
 
 $(document).arrive('input', {
     onceOnly: false
