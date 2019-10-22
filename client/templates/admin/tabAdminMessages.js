@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
+import { i18n } from 'meteor/universe:i18n';
 
 Template.tabAdminMessages.onCreated(function() {
     this.subscribe('broadcastmessage');
@@ -50,7 +51,7 @@ Template.tabAdminMessages.events({
     'click #btnDismissingUsers'(evt) {
         evt.preventDefault();
         let userIds = this.dismissForUserIDs;
-        let userNames = '#Dismissing Users: '+this.dismissForUserIDs.length+'\n';
+        let userNames = i18n.__('admin.message.DismissingUsers', {number: this.dismissForUserIDs.length});
         userIds.forEach(usrId => {
             let user = Meteor.users.findOne(usrId);
             if (user) {

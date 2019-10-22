@@ -14,10 +14,11 @@ import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Meteor } from 'meteor/meteor';
 import { TopicSchema } from '/imports/collections/topic.schema';
+import { i18n } from 'meteor/universe:i18n';
 
 const FILTERS = [
-    {text: 'Open Action Items', value: 'is:action is:open'},
-    {text: 'Closed Action Items', value: 'is:action is:closed'},
+    {text: i18n.__('actionItem.filter.Open'), value: 'is:action is:open'},
+    {text: i18n.__('actionItem.filter.Closed'), value: 'is:action is:closed'},
 ];
 
 Template.actionItemList.onCreated(function() {

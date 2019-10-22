@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
 import {Session} from "meteor/session";
+import { i18n} from "meteor/universe:i18n";
 
 let _filterUsers = new ReactiveVar('');
 let _showInactive = new ReactiveVar(false);
@@ -47,9 +48,9 @@ Template.tabAdminUsers.helpers({
 
     'inactiveStateText'(user) {
         if (user.isInactive) {
-            return 'Inactive';
+            return i18n.__('admin.users.state.Inactive');
         }
-        return 'Active';
+        return i18n.__('admin.users.state.Active');
     },
     'inactiveStateColor'(user) {
         if (user.isInactive) {
@@ -65,15 +66,14 @@ Template.tabAdminUsers.helpers({
         return '';
     },
 
-    'userCountAll'() {
-        if (_showInactive.get()) {
-            return Meteor.users.find({}).count();
-        }
-        return Meteor.users.find({isInactive: {$not: true}}).count();
-    },
+    'userCount'() {
+        let userCountAll = _showInactive.get() ? Meteor.users.find({}).count() : Meteor.users.find({isInactive: {$not: true}}).count();
+        let userCountVisible = _visibleCount.get()+0;
 
-    'userCountVisible'() {
-        return _visibleCount.get()+0;
+        if (userCountVisible == 1) {
+            return i18n.__('admin.users.CountSingle', {visible: userCountVisible, all: userCountAll});
+        }
+        return i18n.__('admin.users.Count', {visible: userCountVisible, all: userCountAll});
     }
 });
 

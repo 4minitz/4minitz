@@ -7,10 +7,10 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" id="btnEditMSClose" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" id="btnEditMSClose" data-dismiss="modal" aria-label="{{__ 'button.Close' }}">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">Edit Meeting Series</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{__ 'meetingSeries.edit.Title' }}</h4>
                 </div>
                 <div class="modal-body">
                     <form id="frmDlgEditMeetingSeries">
@@ -23,19 +23,19 @@
                                         <h4 class="panel-title">
                                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
                                                id="btnShowHideBaseConfig">
-                                                Base Configuration
+                                                {{__ 'meetingSeries.edit.Base' }}
                                             </a>
                                         </h4>
                                     </div>
-                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{__ 'meetingSeries.edit.Base' }}">
                                         <div class="panel-body">
-                                            <label class="control-label" for="id_meetingproject">Team / Project Name</label>
+                                            <label class="control-label" for="id_meetingproject">{{__ 'meetingSeries.edit.TeamName' }}</label>
                                             <input class="form-control" id="id_meetingproject" type="text" value="{{this.project}}" required
-                                                   data-error-msg="Please enter a valid project name" autocomplete="off">
+                                                   data-error-msg="{{__ 'meetingSeries.edit.error.TeamName' }}" autocomplete="off">
 
-                                            <label class="control-label" for="id_meetingname">Meeting Name</label>
+                                            <label class="control-label" for="id_meetingname">{{__ 'meetingSeries.edit.MeetingName' }}</label>
                                             <input class="form-control" id="id_meetingname" type="text" value="{{this.name}}" required
-                                                   data-error-msg="Please enter a valid name for the meeting series" autocomplete="off">
+                                                   data-error-msg="{{__ 'meetingSeries.edit.error.MeetingName' }}" autocomplete="off">
                                         </div>
                                     </div>
                                 </div>
@@ -46,17 +46,17 @@
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
                                             id="btnShowHideInvitedUsers">
-                                                Invited & Informed Users
+                                                {{__ 'meetingSeries.edit.Invited' }}
                                             </a>
                                         </h4>
                                     </div>
-                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{__ 'meetingSeries.edit.Invited' }}">
                                         <div class="panel-body">
                                             {{>meetingSeriesEditUsers userEditConfig}}
                                             <div class="checkbox" id="id_roleChange">
                                                 <label id="labelRoleChange">
                                                     <input type="checkbox" class="checkbox" checked id="checkBoxRoleChange">
-                                                    <span>Notify participants on role change</span>
+                                                    <span>{{__ 'meetingSeries.edit.NotifyRoleChange' }}</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -69,11 +69,11 @@
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"
                                               id="btnShowHideLabels">
-                                                Labels
+                                                {{__ 'meetingSeries.edit.Labels' }}
                                             </a>
                                         </h4>
                                     </div>
-                                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{__ 'meetingSeries.edit.Labels' }}">
                                             {{>meetingSeriesEditLabels labelsConfig}}
                                     </div>
                                 </div>
@@ -89,13 +89,13 @@
                     <!--BUTTONS-->
                     <a  id="deleteMeetingSeries" class="btn btn-danger btn-raised">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        <span class="hidden-xs">Delete</span>
+                        <span class="hidden-xs">{{__ 'buttons.Delete' }}</span>
                     </a>
                     <button type="button" id= "btnMeetinSeriesEditCancel" class="btn btn-default" data-dismiss="modal">
-                        Cancel
+                        {{__ 'buttons.Cancel' }}
                     </button>
                     <button type="button" id="btnMeetingSeriesSave" class="btn btn-primary btn-raised">
-                        Save <span class="hidden-xs">Meeting Series</span>
+                        {{{saveButton}}}
                     </button>
                 </div>
             </div>

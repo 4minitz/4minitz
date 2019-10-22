@@ -48,6 +48,10 @@ Template.meetingSeriesEdit.helpers({
             meetingSeriesId: this._id
         };
     }
+
+    saveButton: function() {
+        return i18n.__('meetingSeries.edit.Save', {purify: string => string}, {spanOpen: '<span class="hidden-xs">', spanClose: '</span>'});
+    }
 });
 
 // This function handles notification on role changes if the
