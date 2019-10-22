@@ -1,0 +1,3 @@
+files:
+  - source: /both/i18n/en-US.i18n.yml
+    translation: /both/i18n/%locale%.i18n.yml
