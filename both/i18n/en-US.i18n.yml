@@ -66,9 +66,7 @@ Profile:
     email: "E-Mail"
     password: "Password"
     passwordRepeat: "Password Repeat"
-    edit: "Edit Profile for"
     ChangePassword:
-        label: "Change Password for"
         oldPassword: "Old Password"
         wrongOldPassword: "Please enter old valid password"
         newPassword: "New Password"

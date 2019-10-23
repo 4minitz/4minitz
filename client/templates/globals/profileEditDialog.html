@@ -4,23 +4,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{__ 'profile.Edit'}} {{currentUser.username}}</h4>
+                    <h4 class="modal-title" id="myModalLabel">Edit Profile for {{currentUser.username}}</h4>
                 </div>
                 <form id="frmDlgEditProfile">
                     <div class="modal-body">
                         <div class="form-group ">
-                            <label for="id_longName" class="control-label">{{__ 'profile.LongName' }}</label>
+                            <label for="id_longName" class="control-label">{{__ 'Profile.longName' }}</label>
                             <input id="id_longName" type="text" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-group ">
-                            <label for="id_emailAddress" class="control-label">{{__ 'profile.EMail' }}</label>
+                            <label for="id_emailAddress" class="control-label">{{__ 'Profile.email' }}</label>
                             <input id="id_emailAddress" type="text" class="form-control"
                                    required autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnEditProfileCancel" class="btn btn-default" data-dismiss="modal">{{__ 'buttons.Cancel' }}</button>
-                        <button type="submit" id="btnEditProfileSave" class="btn btn-primary btn-raised">{{__ 'buttons.Change' }}</button>
+                        <button type="button" id="btnEditProfileCancel" class="btn btn-default" data-dismiss="modal">{{__ 'Buttons.cancel' }}</button>
+                        <button type="submit" id="btnEditProfileSave" class="btn btn-primary btn-raised">{{__ 'Buttons.change' }}</button>
                     </div>
                 </form>
             </div>
