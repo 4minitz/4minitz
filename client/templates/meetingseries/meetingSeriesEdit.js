@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { Mongo } from 'meteor/mongo';
@@ -14,7 +15,6 @@ import { UserRoles } from '/imports/userroles';
 import { Minutes } from '/imports/minutes';
 import {IsEditedService} from '../../../imports/services/isEditedService';
 import {isEditedHandling} from '../../helpers/isEditedHelpers';
-
 
 Template.meetingSeriesEdit.onCreated(function() {
     let thisMeetingSeriesID = FlowRouter.getParam('_id');
@@ -50,7 +50,7 @@ Template.meetingSeriesEdit.helpers({
     },
 
     saveButton: function() {
-        return i18n.__('meetingSeries.edit.Save', {spanOpen: '<span class="hidden-xs">', spanClose: '</span>'});
+        return i18n.__('MeetingSeries.Edit.save', {spanOpen: '<span class="hidden-xs">', spanClose: '</span>'});
     }
 });
 
@@ -118,7 +118,7 @@ Template.meetingSeriesEdit.events({
 
         const confirmationDialog = ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             deleteSeriesCallback,
-            i18n.__('meetingSeries.edit.ConfirmDelete'),
+            i18n.__('MeetingSeries.Edit.confirmDelete'),
             'confirmationDialogDeleteSeries',
             {
                 project: ms.project,

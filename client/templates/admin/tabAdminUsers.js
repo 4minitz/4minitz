@@ -48,9 +48,9 @@ Template.tabAdminUsers.helpers({
 
     'inactiveStateText'(user) {
         if (user.isInactive) {
-            return i18n.__('admin.users.state.Inactive');
+            return i18n.__('Admin.Users.State.inactive');
         }
-        return i18n.__('admin.users.state.Active');
+        return i18n.__('Admin.Users.State.active');
     },
     'inactiveStateColor'(user) {
         if (user.isInactive) {
@@ -71,9 +71,9 @@ Template.tabAdminUsers.helpers({
         let userCountVisible = _visibleCount.get()+0;
 
         if (userCountVisible == 1) {
-            return i18n.__('admin.users.CountSingle', {visible: userCountVisible, all: userCountAll});
+            return i18n.__('Admin.Users.countSingle', {visible: userCountVisible, all: userCountAll});
         }
-        return i18n.__('admin.users.Count', {visible: userCountVisible, all: userCountAll});
+        return i18n.__('Admin.Users.count', {visible: userCountVisible, all: userCountAll});
     }
 });
 

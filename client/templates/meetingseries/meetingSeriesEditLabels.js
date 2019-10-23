@@ -25,7 +25,7 @@ Template.meetingSeriesEditLabels.onRendered(function () {
     addCustomValidator(
         '.label-color-field',
         (value) => { return ColorHelper.isValidHexColorString(value); },
-        i18n.__('meetingSeries.labels.error.HexColor'));
+        i18n.__('MeetingSeries.Labels.Error.hexValue'));
 });
 
 Template.meetingSeriesEditLabels.helpers({
@@ -135,7 +135,7 @@ Template.meetingSeriesEditLabels.events({
     'click .evt-btn-add-label': function (evt, tmpl) {
         evt.preventDefault();
         let labelDoc = {
-            name: i18n.__('meetingSeries.labels.New'),
+            name: i18n.__('MeetingSeries.Labels.new'),
             color: '#cccccc'
         };
 

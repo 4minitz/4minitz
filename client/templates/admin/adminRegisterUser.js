@@ -47,7 +47,7 @@ Template.adminRegisterUser.events({
                     handleError(error);
                 } else {
                     $('#dlgAdminRegisterUser').modal('hide');
-                    (new FlashMessage(i18n.__('buttons.OK'), i18n.__('admin.register.Success', {user: uName}), 'alert-success', 3000)).show();
+                    (new FlashMessage(i18n.__('buttons.OK'), i18n.__('Admin.Register.success', {user: uName}), 'alert-success', 3000)).show();
                 }
             });
     },

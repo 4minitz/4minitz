@@ -26,8 +26,14 @@ Template.aboutDialog.helpers({
         return Meteor.settings.public.branding.legalNotice.linkText;
     },
 
+    licenseLink: function() {
+        // TODO: This strings falls back to en-US. Why?
+        return i18n.__('About.licensedUnder', {hrefOpen: '<a href=\"https://github.com/4minitz/4minitz/blob/develop/LICENSE.md\" target=\"_blank\">', hrefClose: '</a>'});
+    },
+ 
     contributorsLink: function() {
-        return i18n.__('about.ThanksContributors', {urlOpen: '<a href="https://github.com/4minitz/4minitz/graphs/contributors" target="_blank">', urlClose: '</a>'});
+        // TODO: This strings falls back to en-US. Why?
+        return i18n.__('About.thanksContributors', {hrefOpen: '<a href=\"https://github.com/4minitz/4minitz/graphs/contributors\" target=\"_blank\">', hrefClose: '</a>'});
     }
 });
 

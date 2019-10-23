@@ -1,38 +1,38 @@
 <template name="adminRegisterUser">
-    <div class="modal fade" id="dlgAdminRegisterUser" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="{{__ 'admin.register.Label' }}">
+    <div class="modal fade" id="dlgAdminRegisterUser" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="{{__ 'Admin.Register.Label' }}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{__ 'buttons.Close' }}"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{__ 'admin.register.Label' }}</h4>
-                    <h5>{{__ 'admin.register.Hint' }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{__ 'Buttons.close' }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{__ 'Admin.Register.label' }}</h4>
+                    <h5>{{__ 'Admin.Register.hint' }}</h5>
                 </div>
                 <form id="frmDlgRegisterUser">
                     <div class="modal-body">
                         <div class="form-group label-floating">
-                            <label for="id_newUsrName" class="control-label">{{__ 'profile.UserName' }}</label>
+                            <label for="id_newUsrName" class="control-label">{{__ 'Profile.userName' }}</label>
                             <input id="id_newUsrName" type="text" class="form-control"
-                                   required data-error-msg="Please enter a valid username" autocomplete="off">
+                                   required data-error-msg="{{__ 'Profile.Error.name' }}" autocomplete="off">
                         </div>
                         <div class="form-group label-floating">
-                            <label for="id_newUsrLongName" class="control-label">{{__ 'profile.LongName' }}</label>
+                            <label for="id_newUsrLongName" class="control-label">{{__ 'Profile.longName' }}</label>
                             <input id="id_newUsrLongName" type="text" class="form-control"
-                                   required data-error-msg="Please enter a valid long name" autocomplete="off">
+                                   required data-error-msg="{{__ 'Profile.Error.longName' }}" autocomplete="off">
                         </div>
                         <div class="form-group label-floating">
-                            <label for="id_newUsrMail" class="control-label">{{__ 'profile.EMail' }}</label>
+                            <label for="id_newUsrMail" class="control-label">{{__ 'Profile.email' }}</label>
                             <input id="id_newUsrMail" type="text" class="form-control"
-                                   required data-error-msg="Please enter a valid EMail address" autocomplete="off">
+                                   required data-error-msg="{{__ 'Profile.Error.email' }}" autocomplete="off">
                         </div>
                         <div class="form-group label-floating">
-                            <label for="id_newUsrPassword1" class="control-label">{{__ 'profile.Password' }}</label>
+                            <label for="id_newUsrPassword1" class="control-label">{{__ 'Profile.password' }}</label>
                             <input id="id_newUsrPassword1" type="password" class="form-control"
-                                   required data-error-msg="Please enter a valid password" autocomplete="off">
+                                   required data-error-msg="{{__ 'Profile.Error.password' }}" autocomplete="off">
                         </div>
                         <div class="form-group label-floating">
-                            <label for="id_newUsrPassword2" class="control-label">{{__ 'profile.PasswordRepeat' }}</label>
+                            <label for="id_newUsrPassword2" class="control-label">{{__ 'Profile.passwordRepeat' }}</label>
                             <input id="id_newUsrPassword2" type="password" class="form-control"
-                                   required data-error-msg="Please enter a valid password" autocomplete="off">
+                                   required data-error-msg="{{__ 'Profile.Error.password' }}" autocomplete="off">
                         </div>
 
                         {{#if isMailEnabled}}
@@ -41,7 +41,7 @@
                                     <div class='checkbox form-group'>
                                         <label for='id_regUserSendMail'>
                                             <input id="id_regUserSendMail" type='checkbox' class='checkbox' checked>
-                                            {{__ 'admin.register.SendMail' }}
+                                            {{__ 'Admin.Register.sendMail' }}
                                         </label>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                                     <div class='checkbox form-group'>
                                         <label for='id_RegUserSendPassword'>
                                             <input id="id_RegUserSendPassword" type='checkbox' class='checkbox' checked>
-                                            {{__ 'admin.register.IncludePassword' }}
+                                            {{__ 'Admin.Register.includePassword' }}
                                         </label>
                                     </div>
                                 </div>
@@ -57,8 +57,8 @@
                         {{/if}}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnRegisterUserCancel" class="btn btn-default" data-dismiss="modal">{{__ 'buttons.Cancel' }}</button>
-                        <button type="submit" id="btnRegisterUserSave" class="btn btn-primary btn-raised">{{__ 'buttons.Register' }}</button>
+                        <button type="button" id="btnRegisterUserCancel" class="btn btn-default" data-dismiss="modal">{{__ 'Buttons.cancel' }}</button>
+                        <button type="submit" id="btnRegisterUserSave" class="btn btn-primary btn-raised">{{__ 'Buttons.register' }}</button>
                     </div>
                 </form>
             </div>

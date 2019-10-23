@@ -17,8 +17,8 @@ import { TopicSchema } from '/imports/collections/topic.schema';
 import { i18n } from 'meteor/universe:i18n';
 
 const FILTERS = [
-    {text: i18n.__('actionItem.filter.Open'), value: 'is:action is:open'},
-    {text: i18n.__('actionItem.filter.Closed'), value: 'is:action is:closed'},
+    {text: i18n.__('ActionItem.Filter.open'), value: 'is:action is:open'},
+    {text: i18n.__('ActionItem.Filter.closed'), value: 'is:action is:closed'},
 ];
 
 Template.actionItemList.onCreated(function() {

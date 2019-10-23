@@ -44,7 +44,16 @@ import 'jquery-ui/ui/widgets/sortable';
 
 import 'jquery-ui-touch-punch/jquery.ui.touch-punch';
 
-i18n.setLocale('de-DE');
+function getLang () {
+    return (
+        navigator.languages && navigator.languages[0] ||
+        navigator.language ||
+        navigator.browserLanguage ||
+        navigator.userLanguage ||
+        'en-US'
+    );
+}
+i18n.setLocale(getLang());
 i18n.setOptions({
     purify: string => string
 });

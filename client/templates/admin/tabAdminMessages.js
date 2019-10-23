@@ -51,7 +51,7 @@ Template.tabAdminMessages.events({
     'click #btnDismissingUsers'(evt) {
         evt.preventDefault();
         let userIds = this.dismissForUserIDs;
-        let userNames = i18n.__('admin.message.DismissingUsers', {number: this.dismissForUserIDs.length});
+        let userNames = i18n.__('Admin.Message.dismissingUsers', {number: this.dismissForUserIDs.length});
         userIds.forEach(usrId => {
             let user = Meteor.users.findOne(usrId);
             if (user) {

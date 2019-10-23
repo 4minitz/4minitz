@@ -133,7 +133,7 @@ Template.meetingSeriesDetails.helpers({
         let ms = new MeetingSeries(_meetingSeriesID);
         let user = Meteor.users.findOne({_id: ms.isEditedBy});
 
-        return i18n.__('meetingSeries.edit.EditedBy', {user: user.username, date: formatDateISO8601Time(ms.isEditedDate)});
+        return i18n.__('MeetingSeries.Edit.editedBy', {user: user.username, date: formatDateISO8601Time(ms.isEditedDate)});
     }
 });
 

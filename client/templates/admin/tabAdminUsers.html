@@ -3,7 +3,7 @@
         <form id="adminUser"></form>
         <div class="col-md-5">
             <div class="form-group label-floating">
-                <label class="control-label" for="id_adminFilterUsers">{{__ 'admin.users.FilterUsers' }}</label>
+                <label class="control-label" for="id_adminFilterUsers">{{__ 'Admin.Users.filterUsers' }}</label>
                 <input class="form-control clear-on-escape" id="id_adminFilterUsers" type="text" autocomplete="off">
             </div>
         </div>
@@ -11,15 +11,15 @@
             <div class='checkbox form-group'>
                 <label for='id_adminShowInactive'>
                     <input id="id_adminShowInactive" type='checkbox' class='checkbox'>
-                    {{__ 'admin.users.ShowInactive' }}
+                    {{__ 'Admin.Users.showInactive' }}
                 </label>
             </div>
         </div>
         <div class="col-md-2">
             <div class='checkbox form-group'>
-                <label for='id_adminShowOnline' title="{{__'admin.users.online.Title' }}">
+                <label for='id_adminShowOnline' title="{{__'Admin.Users.onlineHint' }}">
                     <input id="id_adminShowOnline" type='checkbox' class='checkbox'>
-                    {{__ 'admin.users.Online' }}
+                    {{__ 'Admin.Users.online' }}
                 </label>
             </div>
         </div>
@@ -28,7 +28,7 @@
                     id="btnAdminRegisterNewUser"
                     data-toggle="modal"
                     data-target="#dlgAdminRegisterUser">
-                {{__ 'admin.register.Button' }}
+                {{__ 'Admin.Register.button' }}
             </button>
         </div>
     </div>
@@ -36,12 +36,12 @@
     <table class="table" id="id_adminUserTable">
         <thead>
         <tr>
-            <td>{{__ 'profile.UserName' }}</td>
-            <td>{{__ 'profile.LongName' }}</td>
-            <td>{{__ 'profile.EMail' }}</td>
-            <td>{{__ 'admin.users.ID' }}</td>
-            <td title="{{__ 'admin.users.type.Title' }}">{{__ 'admin.users.type.Column' }}</td>
-            <td>{{__ 'admin.users.state.Column' }}</td>
+            <td>{{__ 'Profile.userName' }}</td>
+            <td>{{__ 'Profile.longName' }}</td>
+            <td>{{__ 'Profile.email' }}</td>
+            <td>{{__ 'Admin.Users.id' }}</td>
+            <td title="{{__ 'Admin.Users.Type.hint' }}">{{__ 'Admin.Users.Type.column' }}</td>
+            <td>{{__ 'Admin.Users.State.column' }}</td>
         </tr>
         </thead>
         <tbody>
@@ -51,11 +51,11 @@
                 <td>{{this.profile.name}}</td>
                 <td><a href="mailto:{{email this}}">{{email this}}</a></td>
                 <td style="font-family: 'Monaco', 'Courier New', monospace">{{this._id}}</td>
-                <td>{{#if this.isLDAPuser}}{{__ 'admin.users.type.LDAP' }}{{else}}{{__ 'admin.users.type.Standard' }}{{/if}}</td>
+                <td>{{#if this.isLDAPuser}}{{__ 'Admin.Users.Type.ldap' }}{{else}}{{__ 'Admin.Users.Type.standard' }}{{/if}}</td>
                 <td>{{inactiveStateText this}}
                     {{#unless this.isLDAPuser}}
-                        <a id="id_ToggleInactive" title="{{__ 'admin.users.state.Title' }}">{{__ 'admin.users.state.Toggle' }}</a>
-                        <a id="id_EditUserProfile" title="{{__ 'admin.users.EditProfile' }}">
+                        <a id="id_ToggleInactive" title="{{__ 'Admin.Users.State.hint' }}">{{__ 'Admin.Users.State.toggle' }}</a>
+                        <a id="id_EditUserProfile" title="{{__ 'Admin.Users.editProfile' }}">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     {{/unless}}
