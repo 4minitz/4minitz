@@ -25,7 +25,7 @@ About:
 Item:
   addInfo: "Add Info Item"
   addInfoHint: "Add info item to topic"
-  addAction "Add Action Item"
+  addAction: "Add Action Item"
   addActionHint: "Add action item to topic"
   Filter:
     info: "Info Items"
