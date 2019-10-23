@@ -17,8 +17,9 @@ import { TopicSchema } from '/imports/collections/topic.schema';
 import { i18n } from 'meteor/universe:i18n';
 
 const FILTERS = [
-    {text: i18n.__('ActionItem.Filter.open'), value: 'is:action is:open'},
-    {text: i18n.__('ActionItem.Filter.closed'), value: 'is:action is:closed'},
+    // TODO: Why are the filter labels not translated?
+    {text: i18n.__('Item.Filter.open'), value: 'is:action is:open'},
+    {text: i18n.__('Item.Filter.closed'), value: 'is:action is:closed'},
 ];
 
 Template.actionItemList.onCreated(function() {
