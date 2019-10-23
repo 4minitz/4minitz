@@ -18,7 +18,7 @@
             {{initialize}}
 
             <h2 id="minutesHeading" class="header">
-                Minutes for
+                {{__ 'Minutes.title' }}
                 <a id="id_linkToParentSeries" href="{{pathFor 'meetingseries' _id=meetingSeries._id}}"
                    title="{{finalizeHistoryTooltip}}">
                     {{meetingSeries.project}} - {{meetingSeries.name}}
