@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
-import { i18n } from 'meteor/universe:i18n';
 
 Template.tabAdminMessages.onCreated(function() {
     this.subscribe('broadcastmessage');

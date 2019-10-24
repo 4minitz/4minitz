@@ -4,7 +4,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
-import { i18n } from 'meteor/universe:i18n';
 
 let showStatistics = new ReactiveVar(false);
 
@@ -24,16 +23,6 @@ Template.aboutDialog.helpers({
     },
     legalNoticeLinktext: function () {
         return Meteor.settings.public.branding.legalNotice.linkText;
-    },
-
-    licenseLink: function() {
-        // TODO: This strings falls back to en-US. Why?
-        return i18n.__('About.licensedUnder', {hrefOpen: '<a href=\"https://github.com/4minitz/4minitz/blob/develop/LICENSE.md\" target=\"_blank\">', hrefClose: '</a>'});
-    },
- 
-    contributorsLink: function() {
-        // TODO: This strings falls back to en-US. Why?
-        return i18n.__('About.thanksContributors', {hrefOpen: '<a href=\"https://github.com/4minitz/4minitz/graphs/contributors\" target=\"_blank\">', hrefClose: '</a>'});
     }
 });
 

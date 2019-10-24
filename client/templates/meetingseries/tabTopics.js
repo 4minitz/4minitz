@@ -19,13 +19,6 @@ export class TabTopicsConfig {
     }
 }
 
-const FILTERS = [
-    // TODO: Why are the filter labels not translated?
-    {text: i18n.__('Topic.Filter.uncompleted'), value: 'is:uncompleted'},
-    {text: i18n.__('Topic.Filter.completed'), value: 'is:completed'},
-    {text: i18n.__('Topic.Filter.yourTopic'), value: '@me'}
-];
-
 Template.tabTopics.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar('');
     let myTemplate = Template.instance();
@@ -43,6 +36,11 @@ Template.tabTopics.onCreated(function() {
 Template.tabTopics.helpers({
 
     'getTopicFilterConfig': function() {
+        const FILTERS = [
+            {text: i18n.__('Topic.Filter.uncompleted'), value: 'is:uncompleted'},
+            {text: i18n.__('Topic.Filter.completed'), value: 'is:completed'},
+            {text: i18n.__('Topic.Filter.yourTopic'), value: '@me'}
+         ];
         return new FilterControlConfig(Template.instance().topicFilterHandler, FILTERS, TOPIC_KEYWORDS, 'Topic-Filter');
     },
 

@@ -47,10 +47,6 @@ Template.meetingSeriesEdit.helpers({
         return {
             meetingSeriesId: this._id
         };
-    },
-
-    saveButton: function() {
-        return i18n.__('MeetingSeries.Edit.save', {spanOpen: '<span class="hidden-xs">', spanClose: '</span>'});
     }
 });
 

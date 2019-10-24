@@ -19,15 +19,6 @@ export class TabItemsConfig {
     }
 }
 
-const FILTERS = [
-    // TODO: Why are the filter labels not translated?
-    {text: i18n.__('Item.Filter.info'), value: 'is:info'},
-    {text: i18n.__('Item.Filter.action'), value: 'is:action'},
-    {text: i18n.__('Item.Filter.open'), value: 'is:action is:open'},
-    {text: i18n.__('Item.Filter.closed'), value: 'is:action is:closed'},
-    {text: i18n.__('Item.Filter.yourAction'), value: 'is:action @me'}
-];
-
 Template.tabItems.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar('');
     let myTemplate = Template.instance();
@@ -46,6 +37,13 @@ Template.tabItems.onCreated(function() {
 Template.tabItems.helpers({
 
     getTopicFilterConfig () {
+        const FILTERS = [
+            {text: i18n.__('Item.Filter.info'), value: 'is:info'},
+            {text: i18n.__('Item.Filter.action'), value: 'is:action'},
+            {text: i18n.__('Item.Filter.open'), value: 'is:action is:open'},
+            {text: i18n.__('Item.Filter.closed'), value: 'is:action is:closed'},
+            {text: i18n.__('Item.Filter.yourAction'), value: 'is:action @me'}
+        ];
         let tmpl = Template.instance();
         return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS, ITEM_KEYWORDS, 'Item-Filter');
     },

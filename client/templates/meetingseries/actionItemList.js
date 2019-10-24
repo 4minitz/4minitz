@@ -1,5 +1,6 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 
 import { ItemsFilter } from '/imports/search/ItemsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -14,13 +15,6 @@ import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Meteor } from 'meteor/meteor';
 import { TopicSchema } from '/imports/collections/topic.schema';
-import { i18n } from 'meteor/universe:i18n';
-
-const FILTERS = [
-    // TODO: Why are the filter labels not translated?
-    {text: i18n.__('Item.Filter.open'), value: 'is:action is:open'},
-    {text: i18n.__('Item.Filter.closed'), value: 'is:action is:closed'},
-];
 
 Template.actionItemList.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar('');
@@ -42,6 +36,10 @@ Template.actionItemList.onCreated(function() {
 
 Template.actionItemList.helpers({
     getTopicFilterConfig () {
+        const FILTERS = [
+            {text: i18n.__('Item.Filter.open'), value: 'is:action is:open'},
+            {text: i18n.__('Item.Filter.closed'), value: 'is:action is:closed'},
+        ];
         let tmpl = Template.instance();
         return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS, ITEM_KEYWORDS, 'Item-Filter', 'is:action is:open');
     },

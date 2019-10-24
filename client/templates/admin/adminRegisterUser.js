@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
 import { i18n } from 'meteor/universe:i18n';
+import { $ } from 'meteor/jquery';
 
 import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { FlashMessage } from '../../helpers/flashMessage';
