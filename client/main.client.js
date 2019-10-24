@@ -54,9 +54,6 @@ function getLang () {
     );
 }
 i18n.setLocale(getLang());
-i18n.setOptions({
-    purify: string => string
-});
 
 $(document).arrive('input', {
     onceOnly: false

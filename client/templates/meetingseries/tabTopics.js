@@ -40,7 +40,7 @@ Template.tabTopics.helpers({
             {text: i18n.__('Topic.Filter.uncompleted'), value: 'is:uncompleted'},
             {text: i18n.__('Topic.Filter.completed'), value: 'is:completed'},
             {text: i18n.__('Topic.Filter.yourTopic'), value: '@me'}
-         ];
+        ];
         return new FilterControlConfig(Template.instance().topicFilterHandler, FILTERS, TOPIC_KEYWORDS, 'Topic-Filter');
     },
 

@@ -3,26 +3,25 @@
     <!-- MODAL DIALOG: Edit Topic InfoItem -->
     <!-- ********************************* -->
 
-    <div class="modal fade" id="dlgAddInfoItem" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="dlgAddInfoItem" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="{{__ 'Item.ariaLabel' }}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{__ 'Button.close' }}"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">
                         {{#if isEditMode}}
-                            Edit
+                            {{__ 'Item.editItemModal' type=getTopicItemType topic=getTopicSubject}}
                         {{else}}
-                            Add
+                            {{__ 'Item.addItemModal' type=getTopicItemType topic=getTopicSubject}}
                         {{/if}}
-                        {{getTopicItemType}} to {{getTopicSubject}}
                     </h4>
                 </div>
                 <form id="frmDlgAddInfoItem">
                     <div class="modal-body">
                         <div class="form-group label-floating">
-                            <label for="id_item_subject" class="control-label">Subject (mandatory)</label>
+                            <label for="id_item_subject" class="control-label">{{__ 'Item.subject' }}</label>
                             <input id="id_item_subject" type="text" class="form-control" required
-                                   data-error-msg="Please enter a valid subject" autocomplete="off">
+                                   data-error-msg="{{__ 'Item.Error.subject' }}" autocomplete="off">
                         </div>
 
                         {{#unless isEditMode}}
@@ -37,7 +36,7 @@
                                 {{else}}
                                     <span id="collapseExpandTrue" class="glyphicon glyphicon-triangle-right collapseExpandDetails"></span>
                                 {{/if}}
-                                <label for="id_item_detailInput" class="control-label" style="color: teal; cursor: pointer;">Details</label>
+                                <label for="id_item_detailInput" class="control-label" style="color: teal; cursor: pointer;">{{__ 'Item.details' }}</label>
                             </a>
                             <span class="pull-right pull-right-icons detailActions detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"
                                       style="margin-top: 11px;"></span>
@@ -45,12 +44,12 @@
                                       rows="2"
                                       class="form-control detailInput"
                                       style="font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
-                                      placeholder="You may use Markdown to edit."></textarea>
+                                      placeholder="{{__ 'Item.detailPlaceholder' }}"></textarea>
                         </div>
                         {{/unless}}
 
                         <div class="form-group form-group-labels">
-                            <label for="id_item_selLabelsActionItem" class="control-label" style="color: teal;">Labels</label>
+                            <label for="id_item_selLabelsActionItem" class="control-label" style="color: teal;">{{__ 'MeetingSeries.Edit.labels' }}</label>
                             <select id="id_item_selLabelsActionItem" multiple="multiple" style="width:100%;">
                                 <!--Options will be filled in by show.bs.modal event handler-->
                             </select>
@@ -60,7 +59,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group form-group-responsibles">
-                                        <label for="id_selResponsibleActionItem" class="control-label" style="color: teal;">Responsible</label>
+                                        <label for="id_selResponsibleActionItem" class="control-label" style="color: teal;">{{__ 'Topic.responsible' }}</label>
                                         <select id="id_selResponsibleActionItem" multiple="multiple" style="width:100%;">
                                             <!--Options will be filled in by show.bs.modal event handler-->
                                         </select>
@@ -71,7 +70,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group label-floating">
-                                        <label for="id_item_priority" class="control-label">Priority</label>
+                                        <label for="id_item_priority" class="control-label">{{__ 'Item.priority' }}</label>
                                         <select id="id_item_priority" class="form-control">
                                             {{#each getPriorities}}
                                                 <option value="{{this.value}}">{{this.toString}}</option>
@@ -93,8 +92,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button"  id="btnInfoItemCancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit"  id="btnInfoItemSave" class="btn btn-primary btn-raised">Save</button>
+                        <button type="button"  id="btnInfoItemCancel" class="btn btn-default" data-dismiss="modal">{{__ 'Button.cancel' }}</button>
+                        <button type="submit"  id="btnInfoItemSave" class="btn btn-primary btn-raised">{{__ 'Button.save' }}</button>
                     </div>
                 </form>
             </div>
