@@ -12,6 +12,13 @@ Buttons:
   back: "返回"
   delete: "删除"
   edit: "编辑"
+Mail:
+  greeting: "Hello"
+  newAgenda: "We've got a brand new meeting agenda for you:"
+  meeting: "Sitzung"
+  links: "Links"
+  openSeries: "Open Series"
+  openMinutes: "Open Minutes"
 About:
   title: "关于 4Minitz"
   copyright: "(C) 2015-2019 Minitz-团队"
@@ -51,11 +58,17 @@ Item:
   Error:
     subject: "请输入一个有效的主题"
   Filter:
+    title: "Filters"
+    usageHint: "Filter Usage"
     info: "信息项目"
     action: "操作项目"
     open: "打开操作项"
     closed: "已关闭的行动项目"
     yourAction: "您的操作项"
+    placeholder: "Filter"
+    matchCase: "Case"
+    matchCaseHint: "Match Case"
+    matchCaseLong: "Match Case"
   myActionItems: "我的操作项目"
 Topic:
   new: "新建"
@@ -128,6 +141,7 @@ Minutes:
   finalizeHint: "Click to Finalize Minutes"
   printHint: "Print Minutes"
   downloadHint: "Download Minutes as file"
+  agenda: "Agenda"
   sendAgenda: "Send Agenda"
   delete: "Delete Minutes"
   GlobalNotes:
@@ -145,6 +159,7 @@ Minutes:
   versionTag: "v"
   Participants:
     title: "Participants"
+    invited: "Invited"
     solo: "1 Participant"
     additional: "Additional Participants"
     additionalSolo: "1 Additional Participant"
@@ -157,6 +172,7 @@ Minutes:
     informedSolo: "1 Informed User"
 MeetingSeries:
   title: "会议系列"
+  team: "Team / Project"
   new: "新的会议系列"
   leave: "休假会议系列"
   moderator: "你是版主"

@@ -12,6 +12,13 @@ Buttons:
   back: "Zurück"
   delete: "Löschen"
   edit: "Bearbeiten"
+Mail:
+  greeting: "Guten Tag"
+  newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
+  meeting: "Sitzung"
+  links: "Links"
+  openSeries: "Sitzungsreihe öffnen"
+  openMinutes: "Protokoll öffnen"
 About:
   title: "Über 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -51,11 +58,17 @@ Item:
   Error:
     subject: "Bitte geben Sie einen gültigen Betreff ein"
   Filter:
+    title: "Filter"
+    usageHint: "Filternutzung"
     info: "Infos"
     action: "Aufgaben"
     open: "Offene Aufgaben"
     closed: "Erledigte Aufgaben"
     yourAction: "Meine Aufgaben"
+    placeholder: "Filter"
+    matchCase: "Groß-/Kleinschreibung"
+    matchCaseHint: "Groß-/Kleinschreibung beachten"
+    matchCaseLong: "Groß-/Kleinschreibung beachten"
   myActionItems: "Meine Aufgaben"
 Topic:
   new: "Neu"
@@ -97,9 +110,9 @@ Topic:
   illegalAction: "Versuch einer verbotenen Handlung im schreibgeschützten Modus"
   addDetails: "Details hinzufügen"
   addDetailsHint: "Details zum Element hinzufügen"
-  hideClosed: "Abgeschlossene ausblenden"
+  hideClosed: "Fertige ausbl."
   hideClosedHint: "Abgeschlossene/Übersprungene Themen temporär ausblenden"
-  hideClosedLong: "Abgeschlossene Themen ausblenden"
+  hideClosedLong: "Abgeschlossene ausblenden"
   collapse: "Zuklappen"
   collapseLong: "Themen zuklappen"
   expand: "Aufklappen"
@@ -128,6 +141,7 @@ Minutes:
   finalizeHint: "Klicken, um das Protokoll zu beschließen"
   printHint: "Protokoll ausdrucken"
   downloadHint: "Protokoll als Datei herunterladen"
+  agenda: "Tagesordnung"
   sendAgenda: "Tagesordnung verschicken"
   delete: "Protokoll löschen"
   GlobalNotes:
@@ -145,6 +159,7 @@ Minutes:
   versionTag: "v"
   Participants:
     title: "Teilnehmer"
+    invited: "Eingeladen"
     solo: "1 Teilnehmer"
     additional: "Weitere Teilnehmer"
     additionalSolo: "1 weiterer Teilnehmer"
@@ -157,6 +172,7 @@ Minutes:
     informedSolo: "1 informierter Benutzer"
 MeetingSeries:
   title: "Sitzungsreihe"
+  team: "Team / Projekt"
   new: "Neue Sitzungsreihe"
   leave: "Sitzungsreihe verlassen"
   moderator: "Du bist Moderator"

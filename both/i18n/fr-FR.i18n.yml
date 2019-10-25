@@ -12,6 +12,13 @@ Buttons:
   back: "Retour"
   delete: "Supprimer"
   edit: "Editer"
+Mail:
+  greeting: "Hello"
+  newAgenda: "We've got a brand new meeting agenda for you:"
+  meeting: "Sitzung"
+  links: "Links"
+  openSeries: "Open Series"
+  openMinutes: "Open Minutes"
 About:
   title: "A propos de 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -51,11 +58,17 @@ Item:
   Error:
     subject: "Veuillez saisir un sujet valide"
   Filter:
+    title: "Filters"
+    usageHint: "Filter Usage"
     info: "Infos"
     action: "Articles d'action"
     open: "Ouvrir les éléments d'action"
     closed: "Articles d'action fermés"
     yourAction: "Vos éléments d'action"
+    placeholder: "Filter"
+    matchCase: "Case"
+    matchCaseHint: "Match Case"
+    matchCaseLong: "Match Case"
   myActionItems: "Mes éléments d'action"
 Topic:
   new: "Nouveau"
@@ -128,6 +141,7 @@ Minutes:
   finalizeHint: "Click to Finalize Minutes"
   printHint: "Print Minutes"
   downloadHint: "Download Minutes as file"
+  agenda: "Agenda"
   sendAgenda: "Send Agenda"
   delete: "Delete Minutes"
   GlobalNotes:
@@ -145,6 +159,7 @@ Minutes:
   versionTag: "v"
   Participants:
     title: "Participants"
+    invited: "Invited"
     solo: "1 Participant"
     additional: "Additional Participants"
     additionalSolo: "1 Additional Participant"
@@ -157,6 +172,7 @@ Minutes:
     informedSolo: "1 Informed User"
 MeetingSeries:
   title: "Série de réunions"
+  team: "Team / Project"
   new: "Nouvelle série de réunions"
   leave: "Quitter la série de réunions"
   moderator: "Vous êtes modérateur"

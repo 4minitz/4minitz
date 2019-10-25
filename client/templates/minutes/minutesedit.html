@@ -177,11 +177,11 @@
                                         title="{{__ 'Topic.addHint' }}"
                                         accesskey="t">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="{{__ 'Topic.add' }}"></span>
-                                    <span class="hidden-xs">{{__ 'Topic.addLong' }}</span><span class="visible-xs">{{__ 'Topic.addShort' }}</span>
+                                    <span class="hidden-xs hidden-sm">{{__ 'Topic.addLong' }}</span><span class="visible-xs visible-sm">{{__ 'Topic.addShort' }}</span>
                                 </button>
                             </div>
                             <div class="checkbox-hide-topics visible-xs col-xs-6 checkbox hidden-print">
-                                <label class="text-black" title="{{__ 'Minutes.hideClosedHint' }}">
+                                <label class="text-black" title="{{__ 'Topic.hideClosedHint' }}">
                                     <input type="checkbox" id="checkHideClosedTopics" class="checkbox"/>
                                     <span class="hidden-xs hidden-sm">{{__ 'Topic.hideClosedLong' }}</span><span class="visible-xs visible-sm">{{__ 'Topic.hideClosed' }}</span>
                                 </label>
@@ -209,7 +209,7 @@
 
                         <div class="checkbox-hide-topics col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} {{#unless isReadOnly}}hidden-xs{{/unless}} checkbox">
                             <label class="text-black" id="checkHideClosedTopicsLabel"
-                                   title="{{__ 'Minutes.hideClosedHint' }}">
+                                   title="{{__ 'Topic.hideClosedHint' }}">
                                 <input type="checkbox" id="checkHideClosedTopics" class="checkbox"/>
                                 <span class="hidden-xs hidden-sm">{{__ 'Topic.hideClosedLong' }}</span><span class="visible-xs visible-sm">{{__ 'Topic.hideClosed' }}</span>
                             </label>

@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
 import { Astro } from 'meteor/jagi:astronomy';
 import '/imports/config/accounts';
 import { $ } from 'meteor/jquery';
-import { i18n } from 'meteor/universe:i18n';
 
 // initialize
 //  * twitter bootstrap
