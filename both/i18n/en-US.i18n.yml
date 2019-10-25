@@ -16,10 +16,15 @@ Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
   newActionItem: "you have been assigned to the following action items:"
+  newMinutes: "below you'll find the latest meeting minutes."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
+  minutesSubject: "Meeting Minutes"
+  discussedTopics: "Discussed Topics"
+  skippedTopics: "Open Topics"
+  none: "None"
 About:
   title: "About 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -41,6 +46,7 @@ Item:
   addInfo: "Add Info Item"
   addInfoHint: "Add info item to topic"
   editInfo: "Edit Info Item"
+  action: "Action Item"
   addAction: "Add Action Item"
   addActionHint: "Add action item to topic"
   convertToAction: "Convert to Action"
@@ -57,6 +63,8 @@ Item:
   setPinHint: "Set as pinned info item"
   unsetPin: "Unset Pinned"
   unsetPinHint: "Set as non-pinned info item"
+  done: "done"
+  pinned: "pinned"
   Error:
     subject: "Please enter a valid subject"
   Filter:
@@ -129,6 +137,7 @@ Topic:
 Minutes:
   create: "Create New Minutes"
   date: "Date"
+  dateOn: "on"
   title: "Minutes for"
   finalized: "Finalized"
   finalizedHint: "Minutes are finalized"
@@ -159,6 +168,7 @@ Minutes:
     continue: "Continue Upload"
     pause: "Pause Upload"
     abort: "Abort Upload"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Participants"
@@ -173,6 +183,8 @@ Minutes:
     watchingHint: "This user is watching (remotely)"
     informed: "Informed Users"
     informedSolo: "1 Informed User"
+    present: "Present Participants"
+    absent: "Absent"
 MeetingSeries:
   title: "Meeting Series"
   team: "Team / Project"

@@ -15,7 +15,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix() + ' (Your Action Items)';
+        return this._getSubjectPrefix() + ' (' + i18n.__('Item.Filter.yourAction') + ')';
     }
 
     _sendMail() {

@@ -5,6 +5,7 @@
  */
 
 import { Meteor } from 'meteor/meteor';
+import { i18n } from 'meteor/universe:i18n';
 
 import { Minutes } from './minutes';
 import { Attachment } from './attachment';
@@ -107,20 +108,42 @@ export class DocumentGeneration {
         });
 
         return {
+            greetingLabel: i18n.__('Mail.greeting'),
+            meetingLabel: i18n.__('Mail.meeting'),
+            minutesDateLabel: i18n.__('Minutes.date'),
             minutesDate: context._minute.date,
+            minutesGlobalNoteLabel: i18n.__('Minutes.GlobalNotes.title'),
             minutesGlobalNote: context._minute.globalNote,
+            meetingSeriesNameLabel: i18n.__('MeetingSeries.title'),
             meetingSeriesName: context._meetingSeries.name,
+            meetingSeriesProjectLabel: i18n.__('MeetingSeries.team'),
             meetingSeriesProject: context._meetingSeries.project,
             meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + context._meetingSeries._id),
             minuteUrl: GlobalSettings.getRootUrl('minutesedit/' + context._minute._id),
+            presentParticipantsLabel: i18n.__('Minutes.Participants.present'),
             presentParticipants: context._userArrayToString(presentParticipants),
+            absentParticipantsLabel: i18n.__('Minutes.Participants.absent'),
             absentParticipants: context._userArrayToString(absentParticipants),
+            informedUsersLabel: i18n.__('Minutes.Participants.informed'),
             informedUsers: context._userArrayToString(context._informed),
+            participantsAdditionalLabel: i18n.__('Minutes.Participants.additional'),
             participantsAdditional: context._minute.participantsAdditional,
+            discussedTopicsLabel: i18n.__('Mail.discussedTopics'),
             discussedTopics: discussedTopics,
+            skippedTopicsLabel: i18n.__('Mail.skippedTopics'),
             skippedTopics: outstandingTopics,
+            actionItemLabel: i18n.__('Item.action'),
+            noneLabel: i18n.__('Mail.none'),
+            doneLabel: i18n.__('Item.done'),
+            pinnedLabel: i18n.__('Item.pinned'),
+            finalizedVersionLabel: i18n.__('Minutes.version'),
+            finalizedVersionTagLabel: i18n.__('Minutes.versionTag'),
             finalizedVersion: context._minute.finalizedVersion,
-            attachments: this.getAttachmentsFromMinute(context._minute._id)
+            attachmentsLabel: i18n.__('Minutes.attachments'),
+            attachments: this.getAttachmentsFromMinute(context._minute._id),
+            linksLabel: i18n.__('Mail.links'),
+            openSeriesLabel: i18n.__('Mail.openSeries'),
+            openMinutesLabel: i18n.__('Mail.openMinutes')
         };
     }
 

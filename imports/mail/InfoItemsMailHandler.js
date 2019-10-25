@@ -1,3 +1,4 @@
+import { i18n } from 'meteor/universe:i18n';
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
 import { DocumentGeneration } from '../documentGeneration';
 import { User } from '/imports/user';
@@ -15,7 +16,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix()  + ' (Meeting Minutes V'+this._minute.finalizedVersion+')';
+        return this._getSubjectPrefix()  + ' (' + i18n.__('Mail.minutesSubject') + ' ' + i18n.__('Minutes.versionTag') + this._minute.finalizedVersion + ')';
     }
 
     _sendMail(mailData) {
