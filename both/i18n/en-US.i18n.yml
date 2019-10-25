@@ -15,6 +15,7 @@ Buttons:
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
+  newActionItem: "you have been assigned to the following action items:"
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
@@ -50,6 +51,7 @@ Item:
   addDetails: "Add details"
   priority: "Priority"
   due: "Due"
+  dueNone: "none"
   detailPlaceholder: "You may use Markdown to edit. Press Ctrl+Enter or Tab to leave."
   setPin: "Set Pinned"
   setPinHint: "Set as pinned info item"
@@ -71,6 +73,7 @@ Item:
     matchCaseLong: "Match Case"
   myActionItems: "My Action Items"
 Topic:
+  title: "Topic"
   new: "New"
   add: "Add Topic"
   addLong: "Add Topic..."

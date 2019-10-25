@@ -1,3 +1,4 @@
+import { i18n } from 'meteor/universe:i18n';
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
 import {ResponsibleResolver} from '../services/responsibleResolver';
 
@@ -26,6 +27,8 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
                 this._buildMail(
                     mailSubject,
                     {
+                        greetingLabel: i18n.__('Mail.greeting'),
+                        newLabel: i18n.__('Mail.newActionItem'),
                         'actionItems': [ActionItemsMailHandler._createActionItemDataObject(topicSubject, item.getParentTopic()._topicDoc._id, item)]
                     }
                 );
@@ -35,6 +38,8 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             this._buildMail(
                 mailSubject,
                 {
+                    greetingLabel: i18n.__('Mail.greeting'),
+                    newLabel: i18n.__('Mail.newActionItem'),
                     'actionItems': this._actionItems.map(item => {
                         let topicSubject = item.getParentTopic().getSubject();
                         return ActionItemsMailHandler._createActionItemDataObject(topicSubject, item.getParentTopic()._topicDoc._id, item);
@@ -50,13 +55,20 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
 
         return {
             _id: item.getDocument()._id,
+            topicLabel: i18n.__('Topic.title'),
             topicId: topicId,
             topicSubject: topicSubject,
             itemSubject: item.getSubject(),
+            labelsLabel: i18n.__('MeetingSeries.Edit.labels'),
             labels: item.getLabelsRawArray(),
+            responsibleLabel: i18n.__('Topic.responsible'),
             responsibles: ResponsibleResolver.resolveAndformatResponsiblesString(item.getResponsibleRawArray()),
+            priorityLabel: i18n.__('Item.priority'),
             priority: item.getPriority(),
+            dueLabel: i18n.__('Item.due'),
             duedate: item.getDuedate(),
+            dueNoneLabel: i18n.__('Item.dueNone'),
+            detailsLabel: i18n.__('Item.details'),
             details: details
         };
     }
