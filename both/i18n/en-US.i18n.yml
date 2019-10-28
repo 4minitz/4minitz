@@ -59,6 +59,7 @@ Item:
   due: "Due"
   dueNone: "none"
   detailPlaceholder: "You may use Markdown to edit. Press Ctrl+Enter or Tab to leave."
+  markdownHint: "Help for Markdown Syntax"
   setPin: "Set Pinned"
   setPinHint: "Set as pinned info item"
   unsetPin: "Unset Pinned"
@@ -217,6 +218,7 @@ MeetingSeries:
       hexValue: "Invalid hex color value"
     add: "Add new Label"
     new: "NewLabel"
+    select: "Select..."
   Tab:
     minutes: "Minutes"
     topics: "Topics"

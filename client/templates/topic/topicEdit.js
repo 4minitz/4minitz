@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { Session } from 'meteor/session';
 import { _ } from 'meteor/underscore';
 import { Topic } from '/imports/topic';
@@ -50,7 +51,7 @@ function configureSelect2Labels() {
     });
 
     selectLabels.select2({
-        placeholder: 'Select...',
+        placeholder: i18n.__('Labels.select'),
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
         data: selectOptions             // push <option>s data
