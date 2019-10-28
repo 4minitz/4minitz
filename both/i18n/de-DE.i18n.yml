@@ -12,13 +12,20 @@ Buttons:
   back: "Zurück"
   delete: "Löschen"
   edit: "Bearbeiten"
+  hide: "Ok, verstecken"
 Mail:
   greeting: "Guten Tag"
   newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
+  newActionItem: "Ihnen wurden die folgenden Aufgaben zugewiesen:"
+  newMinutes: "nachfolgend finden Sie das aktuelle Protokoll der letzten Sitzung."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Sitzungsreihe öffnen"
   openMinutes: "Protokoll öffnen"
+  minutesSubject: "Sitzungsprotokoll"
+  discussedTopics: "Besprochene Themen"
+  skippedTopics: "Offene Themen"
+  none: "Keine"
 About:
   title: "Über 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -40,6 +47,7 @@ Item:
   addInfo: "Info hinzufügen"
   addInfoHint: "Information zum Thema hinzufügen"
   editInfo: "Info bearbeiten"
+  action: "Aufgaben"
   addAction: "Aufgabe hinzufügen"
   addActionHint: "Aufgabe zum Thema hinzufügen"
   convertToAction: "In Aufgabe umwandeln"
@@ -50,11 +58,15 @@ Item:
   addDetails: "Details hinzufügen"
   priority: "Priorität"
   due: "Fälligkeit"
+  dueNone: "keine"
   detailPlaceholder: "Sie können Markdown zum Bearbeiten verwenden. Drücken Sie Strg+Enter oder Tab zum Verlassen."
+  markdownHint: "Hilfe für Markdown Syntax"
   setPin: "Anheften"
   setPinHint: "Diese Info anheften"
   unsetPin: "Losheften"
   unsetPinHint: "Diese Info losheften"
+  done: "Erledigt"
+  pinned: "angeheftet"
   Error:
     subject: "Bitte geben Sie einen gültigen Betreff ein"
   Filter:
@@ -71,6 +83,7 @@ Item:
     matchCaseLong: "Groß-/Kleinschreibung beachten"
   myActionItems: "Meine Aufgaben"
 Topic:
+  title: "Thema"
   new: "Neu"
   add: "Thema hinzufügen"
   addLong: "Thema hinzufügen..."
@@ -126,6 +139,7 @@ Topic:
 Minutes:
   create: "Neues Protokoll erstellen"
   date: "Datum"
+  dateOn: "am"
   title: "Protokoll von"
   finalized: "Beschlossen"
   finalizedHint: "Protokoll ist beschlossen"
@@ -156,6 +170,7 @@ Minutes:
     continue: "Hochladen fortsetzen"
     pause: "Hochladen pausieren"
     abort: "Hochladen abbrechen"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Teilnehmer"
@@ -170,6 +185,9 @@ Minutes:
     watchingHint: "Dieser Benutzer beobachtet aktuell"
     informed: "Informierte Benutzer"
     informedSolo: "1 informierter Benutzer"
+    present: "Anwesend"
+    absent: "Abwesend"
+    none: "Niemand."
 MeetingSeries:
   title: "Sitzungsreihe"
   team: "Team / Projekt"
@@ -202,6 +220,7 @@ MeetingSeries:
       hexValue: "Ungültiger Hex-Wert"
     add: "Neue Kategorie hinzufügen"
     new: "Kategorie"
+    select: "Wählen..."
   Tab:
     minutes: "Sitzungen"
     topics: "Themen"
@@ -261,6 +280,15 @@ Admin:
       active: "Aktiv"
       inactive: "Inaktiv"
       toggle: "Umschalten"
+Login:
+  Error:
+    title: "Anmeldefehler"
+    username: "Bitte geben Sie Ihren Benutzernamen ein"
+    password: "Bitte geben Sie Ihr Passwort ein"
+  title: "Anmelden"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link \"Registrieren\" klicken."
 Navigation:
   help: "Hilfe"
   about: "Über"
@@ -270,7 +298,9 @@ Navigation:
   signOut: "Abmelden"
   toggleNavigation: "Navigation anzeigen"
   meetings: "Sitzungen"
+  processing: "Deine Anfrage wird bearbeitet..."
 QuickHelp:
+  title: "Schnellhilfe"
   meetingSeries: "<p>Hier können Sie neue Protokolle für die aktuelle Sitzungsreihe erstellen oder über das Datum das entsprechende Protokoll aufrufen.</p>"
   meetingSeriesList: "<p>Mit 4Minitz kannst du Protokolle für Sitzungen erstellen.</p><p>Erstelle zuerst eine neue Sitzungsreihe und lade alle Teilnehmer ein.<br>Anschließend kannst du Protokolle zu dieser Sitzungsreihe anlegen.</p>"
   minutes: "<p>Füge zunächst Themen zu deiner Tagesordnung hinzu, um diese vorab an alle Mitglieder zu verschicken.<br>Während der Sitzung werden alle Themen, die abschließend diskutiert wurden, mit einem Häkchen markiert.<br>Falls...<br>&nbsp;&nbsp; - das Thema nicht als diskutiert markiert oder<br>&nbsp;&nbsp; - dieses als wiederkehrendes Thema gesetzt oder<br>&nbsp;&nbsp; - das Thema eine unerledigte Aufgabe enthält<br>... wird das Thema in der nächsten Sitzung erneut vorgebracht.</p><p>Klicke auf 'Protokoll beschließen', um das Protokoll an die eingeladenen Benutzer und die Aufgaben an ihre Verantwortlichen zu senden.</p>"

@@ -12,13 +12,20 @@ Buttons:
   back: "Terug"
   delete: "Verwijderen"
   edit: "Bewerken"
+  hide: "Ok, hide"
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
+  newActionItem: "you have been assigned to the following action items:"
+  newMinutes: "below you'll find the latest meeting minutes."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
+  minutesSubject: "Meeting Minutes"
+  discussedTopics: "Discussed Topics"
+  skippedTopics: "Open Topics"
+  none: "None"
 About:
   title: "Ongeveer 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -40,6 +47,7 @@ Item:
   addInfo: "Info item toevoegen"
   addInfoHint: "Voeg info item toe aan onderwerp"
   editInfo: "Bewerk Info Item"
+  action: "Action Item"
   addAction: "Actie item toevoegen"
   addActionHint: "Voeg actie item toe aan onderwerp"
   convertToAction: "Converteren naar actie"
@@ -50,11 +58,15 @@ Item:
   addDetails: "Details toevoegen"
   priority: "Prioriteit"
   due: "Vervallen"
+  dueNone: "none"
   detailPlaceholder: "U kunt Markdown gebruiken om te bewerken. Druk op Ctrl+Enter of Tab om te verlaten."
+  markdownHint: "Help for Markdown Syntax"
   setPin: "Vast instellen"
   setPinHint: "Instellen als vastgezet info item"
   unsetPin: "Niet vastgezet"
   unsetPinHint: "Instellen als niet-vastgezet info item"
+  done: "done"
+  pinned: "pinned"
   Error:
     subject: "Voer een geldig onderwerp in"
   Filter:
@@ -71,6 +83,7 @@ Item:
     matchCaseLong: "Match Case"
   myActionItems: "Mijn Actie items"
 Topic:
+  title: "Topic"
   new: "Nieuw"
   add: "Onderwerp toevoegen"
   addLong: "Add Topic..."
@@ -126,6 +139,7 @@ Topic:
 Minutes:
   create: "Nieuwe minuten aanmaken"
   date: "Datum"
+  dateOn: "on"
   title: "Minuten voor"
   finalized: "Gesloten"
   finalizedHint: "Minuten zijn afgerond"
@@ -156,6 +170,7 @@ Minutes:
     continue: "Upload voortzetten"
     pause: "Upload pauzeren"
     abort: "Upload afbreken"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Participants"
@@ -170,6 +185,9 @@ Minutes:
     watchingHint: "This user is watching (remotely)"
     informed: "Informed Users"
     informedSolo: "1 Informed User"
+    present: "Present Participants"
+    absent: "Absent"
+    none: "None."
 MeetingSeries:
   title: "Afspraak Series"
   team: "Team / Project"
@@ -202,6 +220,7 @@ MeetingSeries:
       hexValue: "Ongeldige hex kleurwaarde"
     add: "Nieuw label toevoegen"
     new: "Nieuwslabel"
+    select: "Select..."
   Tab:
     minutes: "Minuten"
     topics: "Onderwerpen"
@@ -261,6 +280,15 @@ Admin:
       active: "Actief"
       inactive: "Inactief"
       toggle: "Wisselen"
+Login:
+  Error:
+    title: "Login error"
+    username: "Please enter your username"
+    password: "Please enter your password"
+  title: "Sign In"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "Help"
   about: "Over"
@@ -270,7 +298,9 @@ Navigation:
   signOut: "Afmelden"
   toggleNavigation: "Navigatie aan/uit"
   meetings: "Vergaderingen"
+  processing: "Processing your content..."
 QuickHelp:
+  title: "Quick Help"
   meetingSeries: "<p>Hier kunt u nieuwe minuten maken voor de huidige vergaderreeks of klikken op een datumlink van bestaande minuten.</p>"
   meetingSeriesList: "<p>Met 4Minitz kunt u minuten maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>maakt vervolgens vergaderminuten aan op meerdere datums voor uw vergaderreeks.</p>"
   minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering te maken<br>tijdens de vergadering markeert een onderwerp met de checkbox om duidelijk te maken dat u erover heeft gesproken.<br>Als het onderwerp...<br>&nbsp;&nbsp; - is niet gemarkeerd als besproken of<br>&nbsp;&nbsp; - is ingesteld als terugkerend onderwerp of<br>&nbsp;&nbsp; - bevat niet-voltooide actieitems<br>... het onderwerp zal opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Goedkeuring minuten afronden' om de notulen naar de uitgenodigde gebruikers en de actieitems naar hun reactiebalen te sturen.</p>"

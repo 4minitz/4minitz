@@ -54,6 +54,7 @@ function getLang () {
     );
 }
 i18n.setLocale(getLang());
+T9n.setLanguage(getLang());
 
 $(document).arrive('input', {
     onceOnly: false

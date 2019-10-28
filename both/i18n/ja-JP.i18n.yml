@@ -12,13 +12,20 @@ Buttons:
   back: "Go Back"
   delete: "Delete"
   edit: "Edit"
+  hide: "Ok, hide"
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
+  newActionItem: "you have been assigned to the following action items:"
+  newMinutes: "below you'll find the latest meeting minutes."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
+  minutesSubject: "Meeting Minutes"
+  discussedTopics: "Discussed Topics"
+  skippedTopics: "Open Topics"
+  none: "None"
 About:
   title: "About 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -40,6 +47,7 @@ Item:
   addInfo: "Add Info Item"
   addInfoHint: "Add info item to topic"
   editInfo: "Edit Info Item"
+  action: "Action Item"
   addAction: "Add Action Item"
   addActionHint: "Add action item to topic"
   convertToAction: "Convert to Action"
@@ -50,11 +58,15 @@ Item:
   addDetails: "Add details"
   priority: "Priority"
   due: "Due"
+  dueNone: "none"
   detailPlaceholder: "You may use Markdown to edit. Press Ctrl+Enter or Tab to leave."
+  markdownHint: "Help for Markdown Syntax"
   setPin: "Set Pinned"
   setPinHint: "Set as pinned info item"
   unsetPin: "Unset Pinned"
   unsetPinHint: "Set as non-pinned info item"
+  done: "done"
+  pinned: "pinned"
   Error:
     subject: "Please enter a valid subject"
   Filter:
@@ -71,6 +83,7 @@ Item:
     matchCaseLong: "Match Case"
   myActionItems: "My Action Items"
 Topic:
+  title: "Topic"
   new: "New"
   add: "Add Topic"
   addLong: "Add Topic..."
@@ -126,6 +139,7 @@ Topic:
 Minutes:
   create: "Create New Minutes"
   date: "Date"
+  dateOn: "on"
   title: "Minutes for"
   finalized: "Finalized"
   finalizedHint: "Minutes are finalized"
@@ -156,6 +170,7 @@ Minutes:
     continue: "Continue Upload"
     pause: "Pause Upload"
     abort: "Abort Upload"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Participants"
@@ -170,6 +185,9 @@ Minutes:
     watchingHint: "This user is watching (remotely)"
     informed: "Informed Users"
     informedSolo: "1 Informed User"
+    present: "Present Participants"
+    absent: "Absent"
+    none: "None."
 MeetingSeries:
   title: "Meeting Series"
   team: "Team / Project"
@@ -202,6 +220,7 @@ MeetingSeries:
       hexValue: "Invalid hex color value"
     add: "Add new Label"
     new: "NewLabel"
+    select: "Select..."
   Tab:
     minutes: "Minutes"
     topics: "Topics"
@@ -261,6 +280,15 @@ Admin:
       active: "Active"
       inactive: "Inactive"
       toggle: "Toggle"
+Login:
+  Error:
+    title: "Login error"
+    username: "Please enter your username"
+    password: "Please enter your password"
+  title: "Sign In"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "Help"
   about: "About"
@@ -270,7 +298,9 @@ Navigation:
   signOut: "Sign Out"
   toggleNavigation: "Toggle Navigation"
   meetings: "Meetings"
+  processing: "Processing your content..."
 QuickHelp:
+  title: "Quick Help"
   meetingSeries: "<p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>"
   meetingSeriesList: "<p>With 4Minitz you can create minutes for meetings.</p><p>First create a new meeting series and invite some other users.<br>Then create meeting minutes on multiple dates for your meeting series.</p>"
   minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"

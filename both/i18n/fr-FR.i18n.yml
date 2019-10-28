@@ -12,13 +12,20 @@ Buttons:
   back: "Retour"
   delete: "Supprimer"
   edit: "Editer"
+  hide: "Ok, hide"
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
+  newActionItem: "you have been assigned to the following action items:"
+  newMinutes: "below you'll find the latest meeting minutes."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
+  minutesSubject: "Meeting Minutes"
+  discussedTopics: "Discussed Topics"
+  skippedTopics: "Open Topics"
+  none: "None"
 About:
   title: "A propos de 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -40,6 +47,7 @@ Item:
   addInfo: "Ajouter un élément"
   addInfoHint: "Ajouter un élément info au sujet"
   editInfo: "Modifier l'élément"
+  action: "Action Item"
   addAction: "Ajouter un élément d'action"
   addActionHint: "Ajouter un élément d'action au sujet"
   convertToAction: "Convertir en action"
@@ -50,11 +58,15 @@ Item:
   addDetails: "Ajouter des détails"
   priority: "Priorité"
   due: "Remise"
+  dueNone: "none"
   detailPlaceholder: "Vous pouvez utiliser Markdown pour modifier. Appuyez sur Ctrl+Enter ou Tab pour quitter."
+  markdownHint: "Help for Markdown Syntax"
   setPin: "Définir épinglé"
   setPinHint: "Définir comme élément d'information épinglé"
   unsetPin: "Non défini épinglé"
   unsetPinHint: "Définir comme élément d'information non épinglé"
+  done: "done"
+  pinned: "pinned"
   Error:
     subject: "Veuillez saisir un sujet valide"
   Filter:
@@ -71,6 +83,7 @@ Item:
     matchCaseLong: "Match Case"
   myActionItems: "Mes éléments d'action"
 Topic:
+  title: "Topic"
   new: "Nouveau"
   add: "Ajouter un sujet"
   addLong: "Add Topic..."
@@ -126,6 +139,7 @@ Topic:
 Minutes:
   create: "Créer un nouveau procès-verbal"
   date: "Date"
+  dateOn: "on"
   title: "Minutes pour"
   finalized: "Finalisé"
   finalizedHint: "Minutes finalisées"
@@ -156,6 +170,7 @@ Minutes:
     continue: "Continuer l'envoi"
     pause: "Pause téléchargement"
     abort: "Annuler l'envoi"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Participants"
@@ -170,6 +185,9 @@ Minutes:
     watchingHint: "This user is watching (remotely)"
     informed: "Informed Users"
     informedSolo: "1 Informed User"
+    present: "Present Participants"
+    absent: "Absent"
+    none: "None."
 MeetingSeries:
   title: "Série de réunions"
   team: "Team / Project"
@@ -202,6 +220,7 @@ MeetingSeries:
       hexValue: "Valeur de couleur hex invalide"
     add: "Ajouter un nouveau label"
     new: "Nouveau label"
+    select: "Select..."
   Tab:
     minutes: "Minutes"
     topics: "Sujets"
@@ -261,6 +280,15 @@ Admin:
       active: "Actif"
       inactive: "Inactif"
       toggle: "Basculer"
+Login:
+  Error:
+    title: "Login error"
+    username: "Please enter your username"
+    password: "Please enter your password"
+  title: "Sign In"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "Aide"
   about: "A propos"
@@ -270,7 +298,9 @@ Navigation:
   signOut: "Se déconnecter"
   toggleNavigation: "Activer la navigation"
   meetings: "Réunions"
+  processing: "Processing your content..."
 QuickHelp:
+  title: "Quick Help"
   meetingSeries: "<p>Ici vous pouvez créer de nouvelles minutes pour la série de réunions en cours ou cliquer sur un lien de date des minutes existantes.</p>"
   meetingSeriesList: "<p>Avec 4Minitz vous pouvez créer des minutes pour les réunions.</p><p>Premièrement créer une nouvelle série de réunions et inviter d'autres utilisateurs.<br>Ensuite, créez des minutes de réunion sur plusieurs dates pour votre série de réunions.</p>"
   minutes: "<p>Ajoutez des sujets pour préparer votre agenda de réunion<br>Pendant la réunion, marquez un sujet avec la case à cocher pour vous faire comprendre que vous en avez discuté.<br>Si le sujet...<br>&nbsp;&nbsp; n'est pas marqué comme discuté ou<br>&nbsp;&nbsp; - est défini comme sujet récurrent ou<br>&nbsp;&nbsp; - contient des éléments d'action non-faits<br>... le sujet sera présenté à nouveau lors de la prochaine réunion.</p><p>Cliquez sur 'Finaliser procès-verbal' pour envoyer les minutes aux utilisateurs invités et les éléments d'action à leurs responsables.</p>"

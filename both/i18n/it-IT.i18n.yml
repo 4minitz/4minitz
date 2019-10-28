@@ -12,13 +12,20 @@ Buttons:
   back: "Torna indietro"
   delete: "Elimina"
   edit: "Modifica"
+  hide: "Ok, hide"
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
+  newActionItem: "you have been assigned to the following action items:"
+  newMinutes: "below you'll find the latest meeting minutes."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
+  minutesSubject: "Meeting Minutes"
+  discussedTopics: "Discussed Topics"
+  skippedTopics: "Open Topics"
+  none: "None"
 About:
   title: "Circa 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -40,6 +47,7 @@ Item:
   addInfo: "Aggiungi Info elemento"
   addInfoHint: "Aggiungi voce all'argomento"
   editInfo: "Modifica Info oggetto"
+  action: "Action Item"
   addAction: "Aggiungi elemento"
   addActionHint: "Aggiungi elemento azione al topic"
   convertToAction: "Converti in azione"
@@ -50,11 +58,15 @@ Item:
   addDetails: "Aggiungi dettagli"
   priority: "Priorità"
   due: "Scade"
+  dueNone: "none"
   detailPlaceholder: "Puoi utilizzare Markdown per modificare. Premi Ctrl+Invio o Tab per uscire."
+  markdownHint: "Help for Markdown Syntax"
   setPin: "Imposta Pinned"
   setPinHint: "Imposta come elemento di info pinnato"
   unsetPin: "Non bloccato"
   unsetPinHint: "Imposta come elemento info non pinnato"
+  done: "done"
+  pinned: "pinned"
   Error:
     subject: "Inserisci un oggetto valido"
   Filter:
@@ -71,6 +83,7 @@ Item:
     matchCaseLong: "Match Case"
   myActionItems: "I miei elementi"
 Topic:
+  title: "Topic"
   new: "Nuovo"
   add: "Aggiungi Topic"
   addLong: "Add Topic..."
@@ -126,6 +139,7 @@ Topic:
 Minutes:
   create: "Crea nuovo processo verbale"
   date: "Data"
+  dateOn: "on"
   title: "Minuti per"
   finalized: "Finalizzato"
   finalizedHint: "Minuti completati"
@@ -156,6 +170,7 @@ Minutes:
     continue: "Continua caricamento"
     pause: "Pausa Upload"
     abort: "Annulla caricamento"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Participants"
@@ -170,6 +185,9 @@ Minutes:
     watchingHint: "This user is watching (remotely)"
     informed: "Informed Users"
     informedSolo: "1 Informed User"
+    present: "Present Participants"
+    absent: "Absent"
+    none: "None."
 MeetingSeries:
   title: "Serie Riunione"
   team: "Team / Project"
@@ -202,6 +220,7 @@ MeetingSeries:
       hexValue: "Valore colore esadecimale non valido"
     add: "Aggiungi nuova etichetta"
     new: "Nuova etichetta"
+    select: "Select..."
   Tab:
     minutes: "Minuti"
     topics: "Argomenti"
@@ -261,6 +280,15 @@ Admin:
       active: "Attivo"
       inactive: "Inattivo"
       toggle: "Commuta"
+Login:
+  Error:
+    title: "Login error"
+    username: "Please enter your username"
+    password: "Please enter your password"
+  title: "Sign In"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "Aiuto"
   about: "Su"
@@ -270,7 +298,9 @@ Navigation:
   signOut: "Esci"
   toggleNavigation: "Navigazione Toggle"
   meetings: "Incontri"
+  processing: "Processing your content..."
 QuickHelp:
+  title: "Quick Help"
   meetingSeries: "<p>Qui puoi creare nuovi minuti per la serie di incontri corrente o fare clic su un link di data dei minuti esistenti.</p>"
   meetingSeriesList: "<p>Con 4Minitz puoi creare minuti per riunioni.</p><p>Crea prima una nuova serie di incontri e invita alcuni altri utenti.<br>Poi crea i minuti di riunione in più date per la tua serie di incontri.</p>"
   minutes: "<p>Aggiungi argomenti per preparare la tua agenda di riunione<br>Durante il segno di incontro un argomento con la casella di controllo per chiarire che ne hai discusso.<br>Se l'argomento...<br>&nbsp;&nbsp; - non è contrassegnato come discusso o<br>&nbsp;&nbsp; - è impostato come argomento ricorrente o<br>&nbsp;&nbsp; - contiene elementi di azione non eseguiti<br>... l'argomento sarà nuovamente presentato nella prossima riunione.</p><p>Clicca su 'Finalizza processo verbale' per inviare i verbali agli utenti invitati e agli elementi dell'azione alle loro risposte.</p>"

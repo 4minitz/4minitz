@@ -12,13 +12,20 @@ Buttons:
   back: "Volver"
   delete: "Eliminar"
   edit: "Editar"
+  hide: "Ok, hide"
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
+  newActionItem: "you have been assigned to the following action items:"
+  newMinutes: "below you'll find the latest meeting minutes."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
+  minutesSubject: "Meeting Minutes"
+  discussedTopics: "Discussed Topics"
+  skippedTopics: "Open Topics"
+  none: "None"
 About:
   title: "Acerca de 4Minitz"
   copyright: "(C) 2015-2019 4Minitz-Team"
@@ -40,6 +47,7 @@ Item:
   addInfo: "Añadir elemento de información"
   addInfoHint: "Añadir elemento de información al tema"
   editInfo: "Editar Info Item"
+  action: "Action Item"
   addAction: "Añadir elemento de acción"
   addActionHint: "Añadir elemento de acción al tema"
   convertToAction: "Convertir a acción"
@@ -50,11 +58,15 @@ Item:
   addDetails: "Añadir detalles"
   priority: "Prioridad"
   due: "Vence"
+  dueNone: "none"
   detailPlaceholder: "Puede usar Markdown para editar. Presione Ctrl+Enter o Tab para salir."
+  markdownHint: "Help for Markdown Syntax"
   setPin: "Fijar anclado"
   setPinHint: "Establecer como elemento de información fijado"
   unsetPin: "Sin fijar anclado"
   unsetPinHint: "Establecer como elemento de información no fijado"
+  done: "done"
+  pinned: "pinned"
   Error:
     subject: "Por favor, introduzca un asunto válido"
   Filter:
@@ -71,6 +83,7 @@ Item:
     matchCaseLong: "Match Case"
   myActionItems: "Mis elementos de acción"
 Topic:
+  title: "Topic"
   new: "Nuevo"
   add: "Añadir tema"
   addLong: "Add Topic..."
@@ -126,6 +139,7 @@ Topic:
 Minutes:
   create: "Crear nuevo Acta"
   date: "Fecha"
+  dateOn: "on"
   title: "Minutos para"
   finalized: "Finalizado"
   finalizedHint: "Minutos finalizados"
@@ -156,6 +170,7 @@ Minutes:
     continue: "Continuar Subida"
     pause: "Pausar subida"
     abort: "Abortar subida"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Participants"
@@ -170,6 +185,9 @@ Minutes:
     watchingHint: "This user is watching (remotely)"
     informed: "Informed Users"
     informedSolo: "1 Informed User"
+    present: "Present Participants"
+    absent: "Absent"
+    none: "None."
 MeetingSeries:
   title: "Serie de reuniones"
   team: "Team / Project"
@@ -202,6 +220,7 @@ MeetingSeries:
       hexValue: "Valor de color hexadecimal inválido"
     add: "Añadir nueva etiqueta"
     new: "NewLabel"
+    select: "Select..."
   Tab:
     minutes: "Minutos"
     topics: "Temas"
@@ -261,6 +280,15 @@ Admin:
       active: "Activo"
       inactive: "Inactivo"
       toggle: "Alternar"
+Login:
+  Error:
+    title: "Login error"
+    username: "Please enter your username"
+    password: "Please enter your password"
+  title: "Sign In"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "Ayuda"
   about: "Acerca"
@@ -270,7 +298,9 @@ Navigation:
   signOut: "Salir"
   toggleNavigation: "Alternar navegación"
   meetings: "Reuniones"
+  processing: "Processing your content..."
 QuickHelp:
+  title: "Quick Help"
   meetingSeries: "<p>Aquí puedes crear nuevos minutos para la serie actual de reuniones o hacer clic en un enlace de fecha de los minutos existentes.</p>"
   meetingSeriesList: ". <p>Con 4Minitz puedes crear minutos para reuniones.</p><p>Primero crea una nueva serie de reuniones e invita a otros usuarios.<br>Luego crea minutos de reunión en varias fechas para tu serie de reuniones.</p>"
   minutes: ". <p>Añadir temas para preparar su agenda de reunión<br>Durante la reunión marque un tema con la casilla de verificación para dejar claro que ha hablado sobre él.<br>Si el tema...<br>&nbsp;&nbsp; - no está marcado como debatido o<br>&nbsp;&nbsp; - se establece como tema recurrente o<br>&nbsp;&nbsp; - contiene elementos de acción no hecho<br>... el tema será presentado de nuevo en la próxima reunión.</p><p>Haga clic en 'Finalizar Minutos' para enviar los minutos a los usuarios invitados y los elementos de acción a sus respuestas.</p>"

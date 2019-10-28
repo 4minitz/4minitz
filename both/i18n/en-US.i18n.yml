@@ -288,7 +288,7 @@ Login:
   title: "Sign In"
   ldap: "LDAP"
   standard: "Standard"
-  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</demo>. Or you may register your own account by clicking on the \"Register\" link below."
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "Help"
   about: "About"

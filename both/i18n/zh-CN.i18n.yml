@@ -12,13 +12,20 @@ Buttons:
   back: "返回"
   delete: "删除"
   edit: "编辑"
+  hide: "Ok, hide"
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
+  newActionItem: "you have been assigned to the following action items:"
+  newMinutes: "below you'll find the latest meeting minutes."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
+  minutesSubject: "Meeting Minutes"
+  discussedTopics: "Discussed Topics"
+  skippedTopics: "Open Topics"
+  none: "None"
 About:
   title: "关于 4Minitz"
   copyright: "(C) 2015-2019 Minitz-团队"
@@ -40,6 +47,7 @@ Item:
   addInfo: "添加信息项目"
   addInfoHint: "将信息项目添加到主题"
   editInfo: "编辑信息项目"
+  action: "Action Item"
   addAction: "添加操作项"
   addActionHint: "添加动作项目到主题"
   convertToAction: "转换为行动"
@@ -50,11 +58,15 @@ Item:
   addDetails: "添加详细信息"
   priority: "优先级"
   due: "到期"
+  dueNone: "none"
   detailPlaceholder: "您可以使用Markdown编辑。按 Ctrl+Enter 或 Tab 离开。"
+  markdownHint: "Help for Markdown Syntax"
   setPin: "设置固定"
   setPinHint: "设置为置頂信息项"
   unsetPin: "取消固定"
   unsetPinHint: "设置为非置頂信息项"
+  done: "done"
+  pinned: "pinned"
   Error:
     subject: "请输入一个有效的主题"
   Filter:
@@ -71,6 +83,7 @@ Item:
     matchCaseLong: "Match Case"
   myActionItems: "我的操作项目"
 Topic:
+  title: "Topic"
   new: "新建"
   add: "添加主题"
   addLong: "Add Topic..."
@@ -126,6 +139,7 @@ Topic:
 Minutes:
   create: "创建新分钟"
   date: "日期"
+  dateOn: "on"
   title: "分钟"
   finalized: "最后完成"
   finalizedHint: "分钟最后确定"
@@ -156,6 +170,7 @@ Minutes:
     continue: "继续上传"
     pause: "暂停上传"
     abort: "中止上传"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Participants"
@@ -170,6 +185,9 @@ Minutes:
     watchingHint: "This user is watching (remotely)"
     informed: "Informed Users"
     informedSolo: "1 Informed User"
+    present: "Present Participants"
+    absent: "Absent"
+    none: "None."
 MeetingSeries:
   title: "会议系列"
   team: "Team / Project"
@@ -202,6 +220,7 @@ MeetingSeries:
       hexValue: "十六进制颜色值无效"
     add: "添加新标签"
     new: "新标签"
+    select: "Select..."
   Tab:
     minutes: "分钟"
     topics: "主题"
@@ -261,6 +280,15 @@ Admin:
       active: "活动中"
       inactive: "非活动"
       toggle: "切换"
+Login:
+  Error:
+    title: "Login error"
+    username: "Please enter your username"
+    password: "Please enter your password"
+  title: "Sign In"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "帮助"
   about: "关于"
@@ -270,7 +298,9 @@ Navigation:
   signOut: "退出"
   toggleNavigation: "切换导航"
   meetings: "会议"
+  processing: "Processing your content..."
 QuickHelp:
+  title: "Quick Help"
   meetingSeries: "<p>在这里您可以为当前会议系列创建新分钟，或点击现有分钟的日期链接。</p>"
   meetingSeriesList: "<p>您可以创建会议分钟。</p><p>首先创建一个新的会议系列，邀请其他用户。<br>然后为您的会议系列创建会议记录。</p>"
   minutes: "<p>添加主题来准备您的会议议程<br>在会议期间标记一个主题，其中要清楚您讨论过的主题。<br>如果主题...<br>&nbsp;&nbsp; - 未标记为讨论或<br>&nbsp;&nbsp; - 被设置为经常性主题，或者<br>&nbsp;&nbsp; - 包含未完成的操作项目<br>... 下一次会议将再次介绍这一专题。</p><p>点击“最后完成分钟”将分钟发送给被邀请的用户和操作项目到他们的响应。</p>"

@@ -12,13 +12,20 @@ Buttons:
   back: "Назад"
   delete: "Удалить"
   edit: "Правка"
+  hide: "Ok, hide"
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
+  newActionItem: "you have been assigned to the following action items:"
+  newMinutes: "below you'll find the latest meeting minutes."
   meeting: "Sitzung"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
+  minutesSubject: "Meeting Minutes"
+  discussedTopics: "Discussed Topics"
+  skippedTopics: "Open Topics"
+  none: "None"
 About:
   title: "О 4Minitz"
   copyright: "С) 2015-2019 4Minitz-Team"
@@ -40,6 +47,7 @@ Item:
   addInfo: "Добавить Инфо"
   addInfoHint: "Добавить элемент информации в тему"
   editInfo: "Изменить элемент"
+  action: "Action Item"
   addAction: "Добавить элемент действия"
   addActionHint: "Добавить элемент действия в тему"
   convertToAction: "Преобразовать в действие"
@@ -50,11 +58,15 @@ Item:
   addDetails: "Добавить детали"
   priority: "Приоритет"
   due: "Срок"
+  dueNone: "none"
   detailPlaceholder: "Вы можете использовать Markdown для редактирования. Нажмите Ctrl+Enter или Tab для выхода."
+  markdownHint: "Help for Markdown Syntax"
   setPin: "Установить Pinned"
   setPinHint: "Установить как прикрепленный элемент"
   unsetPin: "Открепленный"
   unsetPinHint: "Установить как непропинированный элемент информации"
+  done: "done"
+  pinned: "pinned"
   Error:
     subject: "Пожалуйста, введите правильный предмет"
   Filter:
@@ -71,6 +83,7 @@ Item:
     matchCaseLong: "Match Case"
   myActionItems: "Мои действия"
 Topic:
+  title: "Topic"
   new: "Новый"
   add: "Добавить тему"
   addLong: "Add Topic..."
@@ -126,6 +139,7 @@ Topic:
 Minutes:
   create: "Создать новые минуты"
   date: "Дата"
+  dateOn: "on"
   title: "Минут для"
   finalized: "Завершено"
   finalizedHint: "Минут завершены"
@@ -156,6 +170,7 @@ Minutes:
     continue: "Продолжить загрузку"
     pause: "Приостановить загрузку"
     abort: "Отменить загрузку"
+  version: "Version"
   versionTag: "v"
   Participants:
     title: "Participants"
@@ -170,6 +185,9 @@ Minutes:
     watchingHint: "This user is watching (remotely)"
     informed: "Informed Users"
     informedSolo: "1 Informed User"
+    present: "Present Participants"
+    absent: "Absent"
+    none: "None."
 MeetingSeries:
   title: "Серия встреч"
   team: "Team / Project"
@@ -202,6 +220,7 @@ MeetingSeries:
       hexValue: "Недопустимое значение цвета шестнадцатери"
     add: "Добавить новую метку"
     new: "Нобелет"
+    select: "Select..."
   Tab:
     minutes: "Минут"
     topics: "Темы"
@@ -261,6 +280,15 @@ Admin:
       active: "Активно"
       inactive: "Неактивно"
       toggle: "Переключить"
+Login:
+  Error:
+    title: "Login error"
+    username: "Please enter your username"
+    password: "Please enter your password"
+  title: "Sign In"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "Помощь"
   about: "О программе"
@@ -270,7 +298,9 @@ Navigation:
   signOut: "Выйти"
   toggleNavigation: "Переключить навигацию"
   meetings: "Заседания"
+  processing: "Processing your content..."
 QuickHelp:
+  title: "Quick Help"
   meetingSeries: "<p>Здесь вы можете создать новые минуты для текущей серии встреч или нажать на дату ссылки существующих минут.</p>"
   meetingSeriesList: "<p>С 4Minitz вы можете создать минуты для встреч.</p><p>Сначала создайте новую серию встреч и пригласите других пользователей.<br>Затем создайте минуты встречи на несколько дат для вашей серии встреч.</p>"
   minutes: "<p>Добавьте темы для подготовки повестки дня встречи<br>Во время встречи пометить тему с флажок, чтобы очистить вас от этого.<br>Если тема...<br>&nbsp;&nbsp; - не помечен как обсуждаемый или<br>&nbsp;&nbsp; - устанавливается как повторяющаяся тема или<br>&nbsp;&nbsp; - содержит ненужные действия<br>... тема будет представлена на следующем совещании еще раз.</p><p>Нажмите 'Завершить минуты' для отправки минут приглашенным пользователям и действиям их ответчикам.</p>"
