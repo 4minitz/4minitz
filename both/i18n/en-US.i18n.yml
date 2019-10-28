@@ -280,6 +280,15 @@ Admin:
       active: "Active"
       inactive: "Inactive"
       toggle: "Toggle"
+Login:
+  Error:
+    title: "Login error"
+    username: "Please enter your username"
+    password: "Please enter your password"
+  title: "Sign In"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</demo>. Or you may register your own account by clicking on the \"Register\" link below."
 Navigation:
   help: "Help"
   about: "About"
@@ -289,6 +298,7 @@ Navigation:
   signOut: "Sign Out"
   toggleNavigation: "Toggle Navigation"
   meetings: "Meetings"
+  processing: "Processing your content..."
 QuickHelp:
   title: "Quick Help"
   meetingSeries: "<p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>"

@@ -4,9 +4,9 @@
             {{#if showTabSwitcher}}
                 <ul class="nav nav-tabs">
                     <li id="tab_ldap" data-template="loginLdap" role="presentation"
-                        class="{{tabActive 'loginLdap'}}"><a>LDAP</a></li>
+                        class="{{tabActive 'loginLdap'}}"><a>{{__ 'Login.ldap'}}</a></li>
                     <li id="tab_standard" data-template="atForm" role="presentation"
-                        class="{{tabActive 'atForm'}}"><a>Standard</a></li>
+                        class="{{tabActive 'atForm'}}"><a>{{__ 'Login.standard'}}</a></li>
                 </ul>
             {{/if}}
 
@@ -22,9 +22,7 @@
             <div class="col-md-3">
                 <div class="hidden-sm" style="min-height: 150px;"></div>
                 <div class="panel panel-body" style="background: #FFFACD;">
-                    Hint: Demo Mode Active<br>
-                    You may log in with username <b>demo</b> and password <b>demo</b>.
-                    Or you may register your own account by clicking on the "Register" link below.
+                    {{{__ 'Login.demoHint' _purify='string => string'}}}
                 </div>
 
             </div>

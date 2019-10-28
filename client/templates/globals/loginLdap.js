@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { FlashMessage } from '/client/helpers/flashMessage';
 import $ from 'jquery';
@@ -7,7 +8,7 @@ import $ from 'jquery';
 function loginCallback(error) {
     if (error) {
         console.error('An error occurred while trying to log in:', error);
-        (new FlashMessage('Login error', error.message)).show();
+        (new FlashMessage(i18n.__('Login.Error.title'), error.message)).show();
     }
 
     let routeName = FlowRouter.current().route.name;

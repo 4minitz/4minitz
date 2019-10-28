@@ -23,6 +23,8 @@ const meteorPackages = {
     "rcy:pick-a-color":             {licenses: "MIT",      licenseUrl: "https://github.com/lauren/pick-a-color/raw/master/LICENSE"},
     "sergeyt:typeahead":            {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/sergeyt/meteor-typeahead/master/LICENSE"},
     "useraccounts:bootstrap":       {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/meteor-useraccounts/bootstrap/master/LICENSE"},
+    "universe:i18n":                {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/vazco/meteor-universe-i18n/master/LICENSE"},
+    "universe:i18n-blaze":          {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/vazco/universe-i18n-blaze/master/LICENSE"} 
 };
 
 
