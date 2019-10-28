@@ -14,7 +14,7 @@ AccountsTemplates.addFields([
     {
         _id: 'username',
         type: 'text',
-        displayName: 'User name',
+        displayName: 'username',
         placeholder: {
             signUp: '(min. 3 chars)'
         },
@@ -33,7 +33,10 @@ AccountsTemplates.addFields([
         _id: 'email',
         type: 'email',
         required: true,
-        displayName: 'Email',
+        displayName: 'emailAddress',
+        placeholder: {
+            default: 'emailAddress'
+        },
         re: /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/,
         errStr: 'Invalid email'
     },
@@ -42,10 +45,12 @@ AccountsTemplates.addFields([
         _id: 'password',
         type: 'password',
         placeholder: {
+            default: 'password',
             signUp: 'min. 6 chars (digit, lower & upper)'
         },
         required: true,
         minLength: 6,
+        displayName: 'password',
         re: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
         errStr: 'min. 6 chars (min. 1 digit, 1 lower, 1 upper)'
     }
