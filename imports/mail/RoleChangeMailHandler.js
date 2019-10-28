@@ -48,6 +48,7 @@ export class RoleChangeMailHandler {
             this._newRole = userroles.role2Text(this._newRole);
         }
 
+        // TODO: Translate me!
         // generate mail
         if (this._user.emails && this._user.emails.length > 0) {
             const mailText = 'Hello ' + userName + ', \n\n'+
