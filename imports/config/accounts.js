@@ -12,8 +12,10 @@ import { LdapSettings } from '/imports/config/LdapSettings';
 // in which case it will be translated based on the currently selected language. In case you'd like to specify 
 // a key which is not already provided by accounts-t9n you can always map your own keys.
 
+// This maps all our universe:i18n strings to their corresponding meteor/accounts-t9n object. For this, the client
+// needs to download all available localizations at startup, which is set by the environment variable
+// UNIVERSE_I18N_LOCALES='all' (see .docker/4minitz.sh and ./runapp.sh)
 let availLanguages = i18n.getLanguages();
-
 for (var lang of availLanguages) {
     T9n.map(lang, {
         custom: {
