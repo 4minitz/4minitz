@@ -15,7 +15,7 @@ import { TopicSchema } from '/imports/collections/topic.schema';
 import { MeetingSeries } from '../../../imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
 import { MinutesFinder } from '../../../imports/services/minutesFinder';
-import {Session} from "meteor/session";
+import {Session} from 'meteor/session';
 
 let _topicID = undefined;           // this topic ID
 let _parentSeriesId = undefined;

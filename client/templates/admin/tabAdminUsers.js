@@ -1,11 +1,11 @@
 import { $ } from 'meteor/jquery';
 
 import { Template } from 'meteor/templating';
-import { i18n} from "meteor/universe:i18n";
+import { i18n} from 'meteor/universe:i18n';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
-import {Session} from "meteor/session";
+import {Session} from 'meteor/session';
 
 let _filterUsers = new ReactiveVar('');
 let _showInactive = new ReactiveVar(false);
@@ -37,7 +37,7 @@ Template.tabAdminUsers.helpers({
             filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]};
         }
         if (_showOnline.get()) {
-            let onlineusers = OnlineUsersSchema.find().fetch().map(ousr => {return ousr.userId});
+            let onlineusers = OnlineUsersSchema.find().fetch().map(ousr => {return ousr.userId;});
             filterOptions = {$and: [{'_id': {$in: onlineusers}}, filterOptions]};
         }
 

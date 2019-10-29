@@ -55,21 +55,13 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
 
         return {
             _id: item.getDocument()._id,
-            topicLabel: i18n.__('Topic.title'),
-            topicId: topicId,
-            topicSubject: topicSubject,
+            topicLabel: i18n.__('Topic.title'), topicId: topicId, topicSubject: topicSubject,
             itemSubject: item.getSubject(),
-            labelsLabel: i18n.__('MeetingSeries.Edit.labels'),
-            labels: item.getLabelsRawArray(),
-            responsibleLabel: i18n.__('Topic.responsible'),
-            responsibles: ResponsibleResolver.resolveAndformatResponsiblesString(item.getResponsibleRawArray()),
-            priorityLabel: i18n.__('Item.priority'),
-            priority: item.getPriority(),
-            dueLabel: i18n.__('Item.due'),
-            duedate: item.getDuedate(),
-            dueNoneLabel: i18n.__('Item.dueNone'),
-            detailsLabel: i18n.__('Item.details'),
-            details: details
+            labelsLabel: i18n.__('MeetingSeries.Edit.labels'), labels: item.getLabelsRawArray(),
+            responsibleLabel: i18n.__('Topic.responsible'), responsibles: ResponsibleResolver.resolveAndformatResponsiblesString(item.getResponsibleRawArray()),
+            priorityLabel: i18n.__('Item.priority'), priority: item.getPriority(),
+            dueLabel: i18n.__('Item.due'), duedate: item.getDuedate(), dueNoneLabel: i18n.__('Item.dueNone'),
+            detailsLabel: i18n.__('Item.details'), details: details
         };
     }
 

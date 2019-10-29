@@ -1,5 +1,11 @@
 ---
 _splitKey: ':'
+Accounts:
+  usernamePlaceholder: "(min. 3 chars)"
+  nameDisplayName: "Name, Company"
+  namePlaceholder: "John Doe, Happy Corp."
+  passwordPlaceholder: "min. 6 chars (digit, lower & upper)"
+  passwordError: "min. 6 chars (min. 1 digit, 1 lower, 1 upper)"
 Buttons:
   cancel: "Cancelar"
   close: "Fechar"
