@@ -1,5 +1,6 @@
 ---
 _splitKey: ':'
+_locale: 'sv'
 Accounts:
   usernamePlaceholder: "(min. 3 chars)"
   nameDisplayName: "Name, Company"

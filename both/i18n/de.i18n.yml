@@ -1,5 +1,6 @@
 ---
 _splitKey: ':'
+_locale: 'de'
 Accounts:
   usernamePlaceholder: "(min. 3 Zeichen)"
   nameDisplayName: "Name, Firma"
@@ -74,7 +75,7 @@ Item:
   done: "Erledigt"
   pinned: "angeheftet"
   Error:
-    subject: "Bitte geben Sie einen gültigen Betreff ein"
+    subject: "Bitte geben Sie einen gültigen Betreff für dieses Thema an"
   Filter:
     title: "Filter"
     usageHint: "Filternutzung"
