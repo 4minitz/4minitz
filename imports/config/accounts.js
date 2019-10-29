@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { i18n } from 'meteor/universe:i18n';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -11,6 +12,20 @@ import { LdapSettings } from '/imports/config/LdapSettings';
 // in which case it will be translated based on the currently selected language. In case you'd like to specify 
 // a key which is not already provided by accounts-t9n you can always map your own keys.
 
+let availLanguages = i18n.getLanguages();
+
+for (var lang of availLanguages) {
+    T9n.map(lang, {
+        custom: {
+            usernamePlaceholder: i18n.__('Accounts.usernamePlaceholder', {_locale: lang}),
+            nameDisplayName: i18n.__('Accounts.nameDisplayName', {_locale: lang}),
+            namePlaceholder: i18n.__('Accounts.namePlaceholder', {_locale: lang}),
+            passwordPlaceholder: i18n.__('Accounts.passwordPlaceholder', {_locale: lang}),
+            passwordError: i18n.__('Accounts.passwordError', {_locale: lang})
+        }
+    });
+}
+
 AccountsTemplates.removeField('password');
 AccountsTemplates.removeField('email');
 
@@ -20,7 +35,7 @@ AccountsTemplates.addFields([
         type: 'text',
         displayName: 'username',
         placeholder: {
-            signUp: '(min. 3 chars)'
+            signUp: 'custom.usernamePlaceholder'
         },
         required: true,
         minLength: 3
@@ -28,9 +43,9 @@ AccountsTemplates.addFields([
     {
         _id: 'name',
         type: 'text',
-        displayName: 'Name, Company',
+        displayName: 'custom.nameDisplayName',
         placeholder: {
-            signUp: 'John Doe, Happy Corp.'
+            signUp: 'custom.namePlaceholder'
         },
     },
     {
@@ -50,13 +65,13 @@ AccountsTemplates.addFields([
         type: 'password',
         placeholder: {
             default: 'password',
-            signUp: 'min. 6 chars (digit, lower & upper)'
+            signUp: 'custom.passwordPlaceholder'
         },
         required: true,
         minLength: 6,
         displayName: 'password',
         re: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
-        errStr: 'min. 6 chars (min. 1 digit, 1 lower, 1 upper)'
+        errStr: 'custom.passwordError'
     }
 ]);
 
