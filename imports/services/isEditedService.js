@@ -123,23 +123,24 @@ function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
 
-    if (typeof infoItem !== 'undefined' ) {
-        if (ignoreLock === true) {
+    if (typeof infoItem === 'undefined' ) {
+        return;
+    }
+    
+    if (ignoreLock === true) {
+        unset = true;
+    }
+    else {
+        if (infoItem._infoItemDoc.isEditedBy === Meteor.userId()) {
             unset = true;
-        }
-        else {
-            if (infoItem._infoItemDoc.isEditedBy === Meteor.userId()) {
-                unset = true;
-            }
-        }
-
-        if (unset === true) {
-            infoItem._infoItemDoc.isEditedBy = null;
-            infoItem._infoItemDoc.isEditedDate = null;
-            infoItem.save();
         }
     }
 
+    if (unset === true) {
+        infoItem._infoItemDoc.isEditedBy = null;
+        infoItem._infoItemDoc.isEditedDate = null;
+        infoItem.save();
+    }
 }
 
 function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
@@ -157,24 +158,24 @@ function removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreL
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
 
-    if (typeof infoItem !== 'undefined' ) {
-        if (ignoreLock === true) {
+    if (typeof infoItem === 'undefined' ) {
+        return;
+    }
+    
+    if (ignoreLock === true) {
+        unset = true;
+    }
+    else {
+        if (infoItem._infoItemDoc.details[detailIdx].isEditedBy === Meteor.userId()) {
             unset = true;
-        }
-        else {
-            if (infoItem._infoItemDoc.details[detailIdx].isEditedBy === Meteor.userId()) {
-                unset = true;
-            }
-        }
-
-        if(unset === true) {
-            infoItem._infoItemDoc.details[detailIdx].isEditedBy = null;
-            infoItem._infoItemDoc.details[detailIdx].isEditedDate = null;
-            infoItem.save();
         }
     }
 
-
+    if(unset === true) {
+        infoItem._infoItemDoc.details[detailIdx].isEditedBy = null;
+        infoItem._infoItemDoc.details[detailIdx].isEditedDate = null;
+        infoItem.save();
+    }
 }
 
 Meteor.methods({

@@ -67,7 +67,9 @@ function configureSelect2Labels() {
 
 function closePopupAndUnsetIsEdited() {
     const topic = getEditTopic();
-    IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
+    if (typeof topic !== 'undefined') {
+        IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
+    }
 
     $('#dlgAddTopic').modal('hide');
 }
