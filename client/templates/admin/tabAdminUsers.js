@@ -88,7 +88,7 @@ Template.tabAdminUsers.events({
         Meteor.call('users.admin.ToggleInactiveUser', this._id);
     },
 
-    'click #id_EditUserProfile'(evt, tmpl) {
+    'click #id_EditUserProfile'(evt) {
         evt.preventDefault();
         Session.set('editProfile.userID', this._id);
         $('#dlgEditProfile').modal('show');

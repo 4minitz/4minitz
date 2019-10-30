@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { i18n } from 'meteor/universe:i18n';
+import { T9n } from 'meteor/softwarerero:accounts-t9n';
 import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
 import { Astro } from 'meteor/jagi:astronomy';

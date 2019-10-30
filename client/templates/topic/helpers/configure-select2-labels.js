@@ -17,7 +17,7 @@ export const configureSelect2Labels = (minutesId, elementSelector, editItem) => 
     });
 
     selectLabels.select2({
-        placeholder: i18n.__('Labels.select'),
+        placeholder: i18n.__('MeetingSeries.Labels.select'),
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
         data: selectOptions             // push <option>s data

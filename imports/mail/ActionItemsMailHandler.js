@@ -27,8 +27,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
                 this._buildMail(
                     mailSubject,
                     {
-                        greetingLabel: i18n.__('Mail.greeting'),
-                        newLabel: i18n.__('Mail.newActionItem'),
+                        greetingLabel: i18n.__('Mail.greeting'), newLabel: i18n.__('Mail.newActionItem'),
                         'actionItems': [ActionItemsMailHandler._createActionItemDataObject(topicSubject, item.getParentTopic()._topicDoc._id, item)]
                     }
                 );
@@ -38,8 +37,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             this._buildMail(
                 mailSubject,
                 {
-                    greetingLabel: i18n.__('Mail.greeting'),
-                    newLabel: i18n.__('Mail.newActionItem'),
+                    greetingLabel: i18n.__('Mail.greeting'), newLabel: i18n.__('Mail.newActionItem'),
                     'actionItems': this._actionItems.map(item => {
                         let topicSubject = item.getParentTopic().getSubject();
                         return ActionItemsMailHandler._createActionItemDataObject(topicSubject, item.getParentTopic()._topicDoc._id, item);
