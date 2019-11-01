@@ -1,0 +1,203 @@
+{
+    "//1": "below option ensures that embedded links in E-Mails and attachments point back to your server",
+    "ROOT_URL": "http://localhost:3100/",
+
+    "//2": ["below option switches off some privacy settings in trusted environments",
+                "true: will send a finalize mail to all recipients as one(!) mail, so users can reply-to-all",
+                "       and will reveal long names and mail addresses of other users",
+                "false: will send separate finalize mails to all participants and keep their privacy"],
+    "trustedIntranetInstallation": true,
+
+    "//2.0": "Switch on/off the possibility to register new users on the login form",
+    "forbidClientAccountCreation": false,
+
+    "//2.1": ["Array of userID strings that get the admin role - may be an empty array",
+              "Admins may register users, de-activate users, send broadcast messages, ...",
+              "All admins will receive 'new version exists' emails if update check finds new version."
+              ],
+    "adminIDs": ["Th1s1s0nlyADummy1d"],
+
+    "//2.1 branding": ["Via branding you can configure the 'first impression' of your local installation. ",
+        "topLeftLogoHTML: default is text '4Minitz.com', but you may add HTML that can live inside a <a>...</a> tag",
+        "                 You also can embedd a clickable logo image like so: <img src='/mylogo.png'>",
+        "                 Then put the mylogo.png inside /public folder before building or",
+        "                 inside build/programs/web.browser/app after building.",
+        "                 HINT: If you run 4Minitz in a subfolder like https://www.company.com/4minitz",
+        "                 and you have set URL_ROOT accordingly then you have to put the the subfolder",
+        "                 in front of your image URL like so: <img src='/4minitz/mylogo.png'>",
+        "showGithubCorner: default is 'true', but you can switch off the top right github logo",
+        "showInfoOnLogin: Specify if you want to show product info bullets on the login screen. Default is 'true'",
+        "createDemoAccount: Specify if webapp shall create a demo account (user=demo, password=demo), if it not exists",
+        "legalNotice: If enabled, adds a link to the bottom of the login screen and to the about box to show some legal info stuff.",
+        "             This may be switched of for intranet installation. But e.g. in Germany its needed for public available web sites."
+    ],
+    "branding": {
+        "topLeftLogoHTML": "4Minitz.com",
+        "showGithubCorner": false,
+        "showInfoOnLogin": true,
+        "createDemoAccount": false,
+        "legalNotice": {
+            "enabled": false,
+            "linkText": "Legal Notice (Impressum)",
+            "content": ["<h1>Legal Notice</h1>",
+                "<p><b>Your 4Minitz Service provider is:</b></p>",
+                "<p style='margin-left: 20px;'>John Doe<br>24, Legal St.<br>91056 Erlangen<br></p>",
+                "<h1>Disclaimer</h1>",
+                "<p>THE DEMO SERVICE AVAILABLE VIA 4MINITZ.COM IS PROVIDED AS IS,",
+                "WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,",
+                "REACHABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE SERVICE PROVIDERS, AUTHORS OR COPYRIGHT HOLDERS ",
+                "BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,",
+                "ARISING FROM, OUT OF OR IN CONNECTION WITH THE SERVICE OR THE USE OR OTHER DEALINGS IN THE SERVICE.</p>"
+            ]
+        }
+    },
+
+    "//2.2": "Change name of site",
+    "siteName": "4Minitz: Hackathon Edition",
+
+    "//3": "below option configures if and how to send E-Mails",
+    "email": {
+        "//3.1": "Switch on/off E-Mail sending",
+        "enableMailDelivery": false,
+        "//3.2": "Choose one of the below mail deliver methods",
+        "mailDeliverer": "mailgun|smtp",
+
+        "//3.3": [
+            "defaultEMailSenderAddress: if this is an empty string, the sending users mail address will",
+            "be the 'FROM:' sender of the email. If you specify an email address here, this mail address",
+            "will be the 'FROM:' sender of each mails, and the sending user will be inserted to the 'REPLY-TO:' field",
+            "If you set this to empty, please specify fallbackEMailSenderAddress!",
+            "(see admin guide for the decision tree)."
+        ],
+        "defaultEMailSenderAddress": "noreply@yourdomain.com",
+
+        "//3.4": [
+            "defaultEMailSenderExceptionDomains: an array of domains.",
+            "For these domains the defaultEMailSenderAddress will NOT be used.",
+            "Use case: Inside your intranet you want to send mails from real user names of you company.",
+            "But if you cooperate with users from other companies inside your 4Minitz, these",
+            "users will get trouble sending mail from your 4Minitz to mail addresses",
+            "inside their company with their mail address in FROM: header.",
+            "This really looks like spam, so it will probably be blocked!."
+        ],
+        "defaultEMailSenderExceptionDomains": ["yourdomain.de", "yourdomain.com"],
+
+        "//3.5": [
+                "fallbackEMailSenderAddress: if sending user has no mail address specified in the user profile,",
+                "this will be 'FROM:' sender.",
+                "If defaultEMailSenderAddress is set empty this field must be set with a valid email address.",
+                "If this setting is empty and user has no mail address in profile, sending eMail will fail!",
+                "(see admin guide for the decision tree)."
+            ],
+        "fallbackEMailSenderAddress": "noreply@yourdomain.com",
+
+        "smtp": {
+            "mailUrl": "smtp://USERNAME:PASSWORD@HOST:PORT/"
+        },
+        "mailgun": {
+            "apiKey": "Your mailgun api key",
+            "domain": "Your mailgun domain",
+            "apiUrl": "https://api.mailgun.net/v3"
+        },
+
+        "//3.6": "Send an e-mail with a verification token to new user when enableMailDelivery:true",
+        "sendVerificationEmail": false,
+
+        "//3.7": "Enable form to resend the verification token to users e-mail when enableMailDelivery:true",
+        "showResendVerificationEmailLink": false,
+
+        "//3.8": "Enable form to perform user password reset when enableMailDelivery:true",
+        "showForgotPasswordLink": true
+    },
+
+    "//4": "below option to configure default labels. These will be copied to all newly added meeting series",
+    "defaultLabels": [
+        { "name": "Status:RED",     "color": "#ff0000"},
+        { "name": "Status:YELLOW",  "color": "#ffff00"},
+        { "name": "Status:GREEN",   "color": "#008000"},
+        { "name": "Decision",       "color": "#0099ff"},
+        { "name": "Proposal",       "color": "#ffff66"},
+        { "name": "Draft",          "color": "#ffff66"},
+        { "name": "Confidential",   "color": "#cc2222"},
+        { "name": "Unclassified",   "color": "#22cc22"},
+        { "name": "Issue",          "color": "#cc66ff"},
+        { "name": "Milestone",      "color": "#66ff66"},
+        { "name": "Escalation",     "color": "#ff9933"}
+    ],
+
+    "//5": "MongoDB configuration",
+    "db": {
+        "mongodumpTargetDirectory": "4minitz_storage/mongodump"
+    },
+
+    "//6": ["LDAP Configuration",
+            "details see admin guide: https://github.com/4minitz/4minitz/blob/develop/doc/admin/adminguide.md",
+            "HINT: please also consider to set the global forbidClientAccountCreation: true if you are using LDAP!"
+        ],
+    "ldap": {
+        "enabled": false,
+        "propertyMap": {
+            "username": "uid",
+            "longname": "cn",
+            "email": "mail"
+        },
+        "//1": "Optional, will perform bind with these credentials before searching for users",
+        "authentication": {
+            "userDn": "admin",
+            "password": "password"
+        },
+        "searchFilter": "(objectClass=user)",
+        "serverDn": "OU=people,DC=example,DC=com",
+        "serverUrl": "ldaps://ld.example.com:636",
+        "allowSelfSignedTLS": false,
+        "whiteListedFields": [ "uid", "cn", "department", "employeeNumber", "mail", "mailEnabled" ],
+        "inactiveUsers": {"strategy": "none"},
+        "autopublishFields": [ "cn" ],
+        "importOnLaunch": true,
+        "importCronTab": false,
+        "hideStandardLogin": false,
+        "label4Username": "Username (LDAP/AD)",
+        "label4Password": "Password"
+    },
+
+    "//7": ["Upload attachment configuration",
+            "enabled: true|false to switch on/off upload attachment feature",
+            "storagePath: relative path is relative to the app's private/assets folder.",
+            "             when testing in developer mode, meteor will erase dir on re-builds",
+            "             use absolute path for full control. Make sure meteor user has write access!",
+            "allowExtensions: regexp '.*' to allow all extensions or pipe separated list like 'png|jpe?g|gif|pdf|ppt'",
+            "denyExtensions: empty string or regexp pipe separated list like 'exe|bat|sh|scr|app'",
+            "maxFileSize: maximum allowed bytes per upload file"
+
+        ],
+    "attachments": {
+        "enabled": true,
+        "storagePath": "4minitz_storage/attachments",
+        "allowExtensions": ".*",
+        "denyExtensions":  "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh",
+        "maxFileSize": 10485760
+    },
+
+    "//8": ["Document Generation", 
+            "enabled: true|false to switch on/off downloading minute protocols", 
+            "format: string indicating the file format to be used for protocols. Currently supported: html, pdf, pdfa", 
+            "targetDocPath: relative path based on the app's private/assets folder, alternatively", 
+            "               assign absolute path. Ensure write access for meteor users!",
+            "pathToWkhtmltopdf: only applies if format pdf or pdfa is selected. Contains the path to the wkhtmltopdf binary necessary to generate PDF files",
+            "wkhtmltopdfParameters: applies if format pdf or pdfa is selected. Enables you to use the Command Line Switches wkhtmltopdf offers. Read more about it in the AdminDoc",
+            "pathToGhostscript: only applies if format pdfa is selected. Contains the path to the ghostscript binary necessary to generate PDF/A files",
+            "pathToPDFADefinitionFile: only applies if format is pdfa. Contains the path to the PDFA definition file. For further information consult the AdminDoc",
+            "ICCProfileType: only applies if format is pdfa. Represents the type of the icc colour profile assigned in the PDFA definition file. Allowed types: cmyk"
+        ], 
+         
+  "docGeneration": { 
+        "enabled": true, 
+        "format": "html",
+        "targetDocPath": "4minitz_storage/protocols",
+        "pathToWkhtmltopdf": "/usr/local/bin/wkhtmltopdf",
+        "wkhtmltopdfParameters": "--no-outline --print-media-type --no-background",
+        "pathToGhostscript": "/usr/local/bin/gs",
+        "pathToPDFADefinitionFile": "/usr/local/bin/gs/lib/PDFA_def.ps",
+        "ICCProfileType" : "cmyk"
+  } 
+}
