@@ -5,7 +5,7 @@ Accounts:
   usernamePlaceholder: "(min. 3 Zeichen)"
   nameDisplayName: "Name, Firma"
   namePlaceholder: "Max Mustermann, Musterfirma"
-  passwordPlaceholder: "min. 6 Zeichen (Zahl, Kleinbuchstabe, Großbuchstabe)"
+  passwordPlaceholder: "min. 6 Zeichen (Zahl, Klein- & Großbuchstabe)"
   passwordError: "min. 6 Zeichen (und mindestens eine Zahl, ein Kleinbuchstabe und ein Großbuchstabe)"
 Buttons:
   cancel: "Abbrechen"
