@@ -1,15 +1,14 @@
 <template name="filterUsage">
     <p>
-        You can use several keywords to filter the listed elements. All keywords may be combined which filters those
-        items matching all given search parameters.
+        {{__ 'Item.Filter.Usage.body' }}
     </p>
 
     <table class="table">
         <thead>
         <tr>
-            <th>Keyword</th>
-            <th>Format</th>
-            <th>Values</th>
+            <th>{{__ 'Item.Filter.Usage.keyword' }}</th>
+            <th>{{__ 'Item.Filter.Usage.format' }}</th>
+            <th>{{__ 'Item.Filter.Usage.values' }}</th>
         </tr>
         </thead>
         <tbody>
@@ -25,7 +24,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td colspan="2">e.g. {{example}}</td>
+                <td colspan="2">{{__ 'Item.Filter.Usage.eg' }} {{example}}</td>
             </tr>
         {{/each}}
         </tbody>
