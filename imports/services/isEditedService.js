@@ -123,6 +123,10 @@ function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
 
+    if (typeof infoItem === 'undefined' ) {
+        return;
+    }
+    
     if (ignoreLock === true) {
         unset = true;
     }
@@ -137,8 +141,6 @@ function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
         infoItem._infoItemDoc.isEditedDate = null;
         infoItem.save();
     }
-
-
 }
 
 function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
@@ -156,6 +158,10 @@ function removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreL
     let topic = new Topic(minutesId, topicId);
     let infoItem = topic.findInfoItem(infoItemId);
 
+    if (typeof infoItem === 'undefined' ) {
+        return;
+    }
+    
     if (ignoreLock === true) {
         unset = true;
     }
@@ -170,8 +176,6 @@ function removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreL
         infoItem._infoItemDoc.details[detailIdx].isEditedDate = null;
         infoItem.save();
     }
-
-
 }
 
 Meteor.methods({
