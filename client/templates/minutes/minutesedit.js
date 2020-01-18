@@ -485,31 +485,17 @@ Template.minutesedit.events({
 
     'click #btnCreateNewMinutes': function(evt) {
         evt.preventDefault();
-        let newMinutesId;
         let ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
         ms.addNewMinutes(
             // optimistic ui callback
-            newMinutesID => {
-                newMinutesId = newMinutesID;
+            newMinutesId => {
+                FlowRouter.redirect('/minutesedit/' + newMinutesId);
             },
             // server callback
             (error) => {
-                if(error) handleError(error);
+                if (error) handleError(error);
             }
         );
-        if (newMinutesId) { // optimistic ui callback should have been called by now
-            let lastFinalizedMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
-            if (lastFinalizedMin && lastFinalizedMin.globalNotePinned) {
-                let aMin = new Minutes(newMinutesId);
-                if (aMin) {
-                    aMin.update({
-                        globalNotePinned: true,
-                        globalNote: lastFinalizedMin.globalNote
-                    });
-                }
-            }
-            FlowRouter.redirect('/minutesedit/' + newMinutesId);
-        }
     },
 
     'dp.change #id_minutesdatePicker': function (evt, tmpl) {
