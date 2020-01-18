@@ -487,14 +487,11 @@ Template.minutesedit.events({
         evt.preventDefault();
         let ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
         ms.addNewMinutes(
-            // optimistic ui callback
             newMinutesId => {
                 FlowRouter.redirect('/minutesedit/' + newMinutesId);
             },
             // server callback
-            (error) => {
-                if (error) handleError(error);
-            }
+            handleError,
         );
     },
 

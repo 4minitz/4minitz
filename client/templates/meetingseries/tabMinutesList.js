@@ -3,8 +3,6 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { MeetingSeries } from '/imports/meetingseries';
-import { Minutes } from '/imports/minutes';
-import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from '/imports/userroles';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { handleError } from '/client/helpers/handleError';
@@ -38,14 +36,11 @@ Template.tabMinutesList.events({
         evt.preventDefault();
         let ms = new MeetingSeries(this.meetingSeriesId);
         ms.addNewMinutes(
-            // optimistic ui callback
             newMinutesId => {
                 FlowRouter.redirect('/minutesedit/' + newMinutesId);
             },
             // server callback
-            (error) => {
-                if(error) handleError(error);
-            }
+            handleError,
         );
     },
 
