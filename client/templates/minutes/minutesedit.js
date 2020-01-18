@@ -23,6 +23,7 @@ import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { QualityTestRunner } from '/imports/client/QualityTestRunner';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { UserTracker } from '../../helpers/userTracker';
+import {handleError} from '../../helpers/handleError';
 
 let _minutesID; // the ID of these minutes
 
@@ -462,6 +463,11 @@ Template.minutesedit.helpers({
         return MinutesFinder.nextMinutes(aMin);
     },
 
+    displayCreateNextMinutes: function() {
+        return (isModerator() && isMinuteFinalized());
+    },
+
+
     isDocumentGenerationAllowed : function () {
         return Meteor.settings.public.docGeneration.enabled === true;
     },
@@ -475,6 +481,35 @@ Template.minutesedit.events({
     'click #checkHideClosedTopics': function(evt) {
         let isChecked = evt.target.checked;
         filterClosedTopics.set(isChecked);
+    },
+
+    'click #btnCreateNewMinutes': function(evt) {
+        evt.preventDefault();
+        let newMinutesId;
+        let ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
+        ms.addNewMinutes(
+            // optimistic ui callback
+            newMinutesID => {
+                newMinutesId = newMinutesID;
+            },
+            // server callback
+            (error) => {
+                if(error) handleError(error);
+            }
+        );
+        if (newMinutesId) { // optimistic ui callback should have been called by now
+            let lastFinalizedMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
+            if (lastFinalizedMin && lastFinalizedMin.globalNotePinned) {
+                let aMin = new Minutes(newMinutesId);
+                if (aMin) {
+                    aMin.update({
+                        globalNotePinned: true,
+                        globalNote: lastFinalizedMin.globalNote
+                    });
+                }
+            }
+            FlowRouter.redirect('/minutesedit/' + newMinutesId);
+        }
     },
 
     'dp.change #id_minutesdatePicker': function (evt, tmpl) {
