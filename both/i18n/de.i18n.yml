@@ -20,6 +20,24 @@ Buttons:
   delete: "Löschen"
   edit: "Bearbeiten"
   hide: "Ok, verstecken"
+Dialog:
+  confirmDeleteAttachment: "Möchten Sie den Anhang<br><b>{$name}</b> wirklich löschen?"
+  confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements <strong>{$subject}</strong> löschen?"
+  confirmDeleteItemAllowed: "Möchten Sie {$type} <strong>{$subject}</strong> wirklich löschen?"
+  confirmDeleteItemNotAllowed: "Es ist nicht möglich, {$type} <strong>{$subject}</strong> zu löschen, da der {$type} in einer vorherigen Minute erstellt wurde."
+  confirmDeleteItemActionItem: "Möchten Sie stattdessen das Aktionselement schließen?"
+  confirmDeleteItemInfoItem: "Möchtest du stattdessen das klebrige Info-Element aufheben?"
+  ConfirmDeleteTopic:
+    allowed: "Wollen Sie wirklich das Thema <strong>{$subject}</strong> löschen?"
+    notAllowed: "Das Thema <strong>{$subject}</strong> kann nicht gelöscht werden, da das Thema in einer vorherigen Minute erstellt wurde."
+    close: "Möchten Sie das Thema stattdessen schließen?"
+    closeWithActions: "Möchten Sie stattdessen das Thema zusammen mit allen zugehörigen Aktionselementen schließen?"
+  ConfirmLeaveMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich verlassen:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Sie müssen einen Moderator fragen, ob Sie danach wieder beitreten möchten."
+  confirmMinuteQualityAssurance:
+    issues: "Es sind Probleme mit Ihren Minuten fertiggestellt!"
+    proceed: "Möchten Sie mit der Fertigstellung fortfahren?"
+  confirmReOpenTopic: "Möchten Sie wirklich das bereits geschlossene Thema {$topicSubject} erneut öffnen?"
+  confirmSendAgenda: "Möchten Sie wirklich die Tagesordnung für diese Sitzung von <strong>{$minDate}</strong>verschicken?<br>Es wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
 Mail:
   greeting: "Guten Tag"
   newAgenda: "Es gibt eine neue Tagesordnung für Sie:"

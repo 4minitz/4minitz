@@ -20,6 +20,24 @@ Buttons:
   delete: "Elimina"
   edit: "Modifica"
   hide: "Ok, nasconditi"
+Dialog:
+  confirmDeleteAttachment: "Vuoi davvero eliminare l'allegato<br><b>{$name}</b>?"
+  confirmDeleteDetails: "Vuoi davvero eliminare i dettagli selezionati dell'elemento <strong>{$subject}</strong>?"
+  confirmDeleteItemAllowed: "Vuoi davvero eliminare il {$type} <strong>{$subject}</strong>?"
+  confirmDeleteItemNotAllowed: "Non è possibile eliminare {$type} <strong>{$subject}</strong> perché il {$type} è stato creato in un minuto precedente."
+  confirmDeleteItemActionItem: "Vuoi invece chiudere l'elemento dell'azione?"
+  confirmDeleteItemInfoItem: "Vuoi invece sbloccare l'elemento info appiccicoso?"
+  ConfirmDeleteTopic:
+    allowed: "Vuoi davvero eliminare la discussione <strong>{$subject}</strong>?"
+    notAllowed: "Non è possibile eliminare il topic <strong>{$subject}</strong> perché il topic è stato creato in un minuto precedente."
+    close: "Vuoi invece chiudere la discussione?"
+    closeWithActions: "Vuoi invece chiudere l'argomento insieme a tutti gli elementi relativi all'azione?"
+  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmMinuteQualityAssurance:
+    issues: "Ci sono problemi di finalizzazione con i tuoi minuti!"
+    proceed: "Vuoi procedere con la finalizzazione?"
+  confirmReOpenTopic: "Vuoi davvero riaprire la discussione già chiusa {$topicSubject}?"
+  confirmSendAgenda: "Vuoi davvero inviare l'ordine del giorno per questo minuto di riunione datato il <strong>{$minDate}</strong>?<br>È già stato inviato il {$agendaSentDate} alle {$agendaSentTime}"
 Mail:
   greeting: "Ciao"
   newAgenda: "Abbiamo un nuovo ordine del giorno di riunione per te:"

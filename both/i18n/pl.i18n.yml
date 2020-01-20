@@ -20,6 +20,24 @@ Buttons:
   delete: "Usuń"
   edit: "Edytuj"
   hide: "Ok, ukryj"
+Dialog:
+  confirmDeleteAttachment: "Czy na pewno chcesz usunąć załącznik<br><b>{$name}</b>?"
+  confirmDeleteDetails: "Czy na pewno chcesz usunąć wybrane szczegóły elementu <strong>{$subject}</strong>?"
+  confirmDeleteItemAllowed: "Czy na pewno chcesz usunąć {$type} <strong>{$subject}</strong>?"
+  confirmDeleteItemNotAllowed: "Nie można usunąć {$type} <strong>{$subject}</strong> ponieważ {$type} zostało utworzone w poprzednich minutach."
+  confirmDeleteItemActionItem: "Czy chcesz zamiast tego zamknąć element akcji?"
+  confirmDeleteItemInfoItem: "Czy chcesz zamiast tego odpiąć lepką informację?"
+  ConfirmDeleteTopic:
+    allowed: "Czy na pewno chcesz usunąć wątek <strong>{$subject}</strong>?"
+    notAllowed: "Nie można usunąć tematu <strong>{$subject}</strong> ponieważ temat został utworzony w poprzednich minutach."
+    close: "Czy zamiast tego chcesz zamknąć temat?"
+    closeWithActions: "Czy chcesz zamknąć wątek razem ze wszystkimi powiązanymi elementami akcji?"
+  ConfirmLeaveMeetingSeries: "Czy naprawdę chcesz opuścić serię spotkań:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Będziesz musiał zapytać moderatora, czy chcesz dołączyć ponownie później."
+  confirmMinuteQualityAssurance:
+    issues: "Pojawiły się problemy z twoimi minutami!"
+    proceed: "Czy chcesz kontynuować zakończenie?"
+  confirmReOpenTopic: "Czy na pewno chcesz ponownie otworzyć już zamknięty wątek {$topicSubject}?"
+  confirmSendAgenda: "Czy na pewno chcesz wysłać porządek obrad na tę minutę spotkania datowany <strong>{$minDate}</strong>?<br>Został już wysłany {$agendaSentDate} o {$agendaSentTime}"
 Mail:
   greeting: "Witaj"
   newAgenda: "Mamy dla Ciebie nową agendę spotkań:"
