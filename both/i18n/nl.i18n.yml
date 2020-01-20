@@ -20,6 +20,24 @@ Buttons:
   delete: "Verwijderen"
   edit: "Bewerken"
   hide: "Oké, verstop je."
+Dialog:
+  confirmDeleteAttachment: "Wilt u de bijlage<br><b>{$name}</b> echt verwijderen?"
+  confirmDeleteDetails: "Wilt u echt de geselecteerde details van het artikel <strong>{$subject}</strong> verwijderen?"
+  confirmDeleteItemAllowed: "Wilt u de {$type} <strong>{$subject}</strong> echt verwijderen?"
+  confirmDeleteItemNotAllowed: "Het is niet mogelijk om de {$type} <strong>{$subject}</strong> te verwijderen omdat de {$type} is gemaakt in een vorige minuten."
+  confirmDeleteItemActionItem: "Wilt u het actie item in plaats daarvan sluiten?"
+  confirmDeleteItemInfoItem: "Wilt u in plaats daarvan het sticky info item losmaken?"
+  ConfirmDeleteTopic:
+    allowed: "Wilt u deze topic echt verwijderen <strong>{$subject}</strong>?"
+    notAllowed: "Het is niet mogelijk om het onderwerp te verwijderen <strong>{$subject}</strong> omdat het onderwerp is gemaakt in een vorige minuten."
+    close: "Wil je in plaats daarvan de topic afsluiten?"
+    closeWithActions: "Wilt u in plaats daarvan het topic sluiten met alle gerelateerde actie items?"
+  ConfirmLeaveMeetingSeries: "Wil je echt de vergaderreeksen verlaten:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Je moet daarna een moderator vragen als je weer wilt deelnemen."
+  confirmMinuteQualityAssurance:
+    issues: "Er zijn problemen met uw minuten afgerond!"
+    proceed: "Wilt u doorgaan met afsluiten?"
+  confirmReOpenTopic: "Weet je zeker dat je het reeds gesloten topic {$topicSubject} opnieuw wilt openen?"
+  confirmSendAgenda: "Wilt u de agenda voor deze minuut van deze vergadering echt versturen op <strong>{$minDate}</strong>?<br>Het is al verstuurd op {$agendaSentDate} op {$agendaSentTime}"
 Mail:
   greeting: "Hallo"
   newAgenda: "We hebben een nieuwe agenda voor u:"
