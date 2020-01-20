@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { i18n } from 'meteor/universe:i18n';
 import { T9n } from 'meteor/softwarerero:accounts-t9n';
+import { I18nHelper } from '/imports/helpers/i18n';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -110,7 +111,7 @@ if (Meteor.isServer) {
         return true;
     });
 
-} else {
+} else {  // isClient
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.public.forbidClientAccountCreation
             ? Meteor.settings.public.forbidClientAccountCreation
@@ -130,6 +131,14 @@ if (Meteor.isServer) {
 
         onSubmitHook: submitHookFunction
     });
+
+    Accounts.onLogin(function() {
+        // if user has preferred locale in profile, set this locale, otherwise: browser preference
+        I18nHelper.setLanguageLocale();
+    });
+
+    Accounts.onLogout(function() {
+        // reset to browser's locale after logout of user
+        I18nHelper.setLanguageLocale();
+    });
 }
-
-

@@ -49,6 +49,12 @@ If your local installation of 4Minitz allows login via LDAP, you never need to r
 If your local installation has no LDAP configured, or you are using our demo server at http://www.4minitz.com, you may click on "Register" to create a new user. The E-Mail you enter will be used to send meeting minutes or action items to you.
 
 ## Edit Profile / Change Password
+In the user menu you might change various user settings.
+
+E.g. you might change the language of the the user interface.
+Per default 4Minitz will ask your browser for the preferred language.
+If you don't like that default select "Set Language" from the user menu and change to the language locale of your choice.
+If you are not the demo user, your new language preference is persisted in your user profile.
 
 If you are a non-LDAP user, you can edit your profile by clicking the button "Edit Profile" or "Change Password":
 

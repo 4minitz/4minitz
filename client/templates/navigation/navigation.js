@@ -42,5 +42,9 @@ Template.navigation.events({
     'click #navbar-dlgEditProfile': function (evt, tmpl) {
         Session.set('editProfile.userID', undefined);   // per default use "current" user. Admin may edit others
         tmpl.$('#dlgEditProfile').modal('show');
+    },
+
+    'click #navbar-dlgLocale': function (evt, tmpl) {
+        tmpl.$('#dlgLocale').modal('show');
     }
 });

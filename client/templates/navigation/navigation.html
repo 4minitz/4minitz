@@ -52,13 +52,20 @@
                                       <li><a  data-toggle="modal" data-target="#dlgChangePassword" id="navbar-dlgChangePassword">
                                           {{__ 'Navigation.changePassword' }}</a>
                                       </li>
-                                      <li class="divider"></li>
                                     {{/unless}}
                                 {{/unless}}
-                                <li><a  id="navbar-signout">
+                                <li><a id="navbar-dlgLocale">
+                                    Set Language</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a id="navbar-signout">
                                     {{__ 'Navigation.signOut' }}</a>
                                 </li>
                             </ul>
+                        </li>
+                    {{else}} <!-- No User logged in -->
+                        <li><a id="navbar-dlgLocale">
+                            Language</a>
                         </li>
                     {{/if}}  <!--currentUser?-->
                 </ul>
@@ -71,5 +78,7 @@
     {{> passwordChangeDialog }}
 
     {{> profileEditDialog }}
+
+    {{> localeDialog }}
 
 </template>

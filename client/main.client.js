@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { i18n } from 'meteor/universe:i18n';
-import { T9n } from 'meteor/softwarerero:accounts-t9n';
+import { I18nHelper } from '/imports/helpers/i18n';
 import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
 import { Astro } from 'meteor/jagi:astronomy';
@@ -45,18 +44,6 @@ import 'jquery-ui/ui/widgets/sortable';
 
 import 'jquery-ui-touch-punch/jquery.ui.touch-punch';
 
-function getLang () {
-    return (
-        navigator.languages && navigator.languages[0] ||
-        navigator.language ||
-        navigator.browserLanguage ||
-        navigator.userLanguage ||
-        'en-US'
-    );
-}
-i18n.setLocale(getLang());
-T9n.setLanguage(getLang());
-
 $(document).arrive('input', {
     onceOnly: false
 }, function () {
@@ -98,6 +85,9 @@ window.onpopstate = () => {
 };
 
 Meteor.startup(() => {
+    I18nHelper.initialize();
+    I18nHelper.setLanguageLocale();
+
     Meteor.call('gitVersionInfoUpdate');
 
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>
