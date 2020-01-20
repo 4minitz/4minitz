@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { i18n } from 'meteor/universe:i18n';
 import { Session } from 'meteor/session';
 import { _ } from 'meteor/underscore';
 import { Topic } from '/imports/topic';
