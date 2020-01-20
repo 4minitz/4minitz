@@ -85,7 +85,7 @@ describe('MeetingSeries', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
 
         E2EMeetingSeries.doSomethingWithMeetingSeriesListItem(aProjectName, aMeetingName, '', (elemId) => {
-            expect(browser.elementIdText(elemId).value).to.have.string(`(last minutes of ${myDate}`);
+            expect(browser.elementIdText(elemId).value).to.have.string(`(Last Minute: ${myDate}`);
         });
     });
     
