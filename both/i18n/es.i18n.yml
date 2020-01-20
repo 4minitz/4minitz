@@ -20,6 +20,24 @@ Buttons:
   delete: "Eliminar"
   edit: "Editar"
   hide: "Bien, esconde."
+Dialog:
+  confirmDeleteAttachment: "¿Realmente desea eliminar el adjunto<br><b>{$name}</b>?"
+  confirmDeleteDetails: "¿Realmente desea eliminar los detalles seleccionados del elemento <strong>{$subject}</strong>?"
+  confirmDeleteItemAllowed: "¿Realmente desea eliminar el {$type} <strong>{$subject}</strong>?"
+  confirmDeleteItemNotAllowed: "No es posible eliminar el {$type} <strong>{$subject}</strong> porque el {$type} fue creado en minutos anteriores."
+  confirmDeleteItemActionItem: "¿Quiere cerrar el elemento de acción en su lugar?"
+  confirmDeleteItemInfoItem: "¿Quiere desfijar el elemento de información pegajosa en su lugar?"
+  ConfirmDeleteTopic:
+    allowed: "¿Realmente desea eliminar el tema <strong>{$subject}</strong>?"
+    notAllowed: "No es posible eliminar el tema <strong>{$subject}</strong> porque el tema fue creado en minutos anteriores."
+    close: "¿Quieres cerrar el tema en su lugar?"
+    closeWithActions: "¿Quiere cerrar el tema junto con todos los elementos de acción relacionados en su lugar?"
+  ConfirmLeaveMeetingSeries: "¿Realmente desea abandonar la serie de reuniones:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Tendrá que preguntar a un moderador si desea unirse de nuevo después."
+  confirmMinuteQualityAssurance:
+    issues: "¡Hay problemas finales con tus minutas!"
+    proceed: "¿Quiere continuar con la finalización?"
+  confirmReOpenTopic: "¿Realmente desea volver a abrir el tema cerrado {$topicSubject}?"
+  confirmSendAgenda: "¿Realmente desea enviar el orden del día para este minuto de reunión datado el <strong>{$minDate}</strong>?<br>Ya fue enviado el {$agendaSentDate} a las {$agendaSentTime}"
 Mail:
   greeting: "Hola"
   newAgenda: "Tenemos una nueva agenda de reuniones para ti."
