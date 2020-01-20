@@ -43,17 +43,12 @@ export class I18nHelper {
         if (!localeCode) {
             localeCode = I18nHelper._getPreferredUserLocale();
         } else if (Meteor.user() && !Meteor.user().isDemoUser) {
-            if (localeCode === 'auto') {
-                Meteor.users.update({_id: Meteor.userId()}, {$unset: {'profile.locale': ''}});
-                localeCode = I18nHelper._getPreferredBrowserLocale();
-            } else {
-                Meteor.users.update({_id: Meteor.userId()}, {$set: {'profile.locale': localeCode}});
-            }
+            I18nHelper._persistLanguagePreference(localeCode);
         }
         console.log('Switch to language locale: >'+localeCode+'<');
         i18n.setLocale(localeCode)
             .then(resp => {
-                T9n.setLanguage(localeCode)
+                T9n.setLanguage(localeCode);
             })
             .catch(e => {
                 console.log('Error switching to: >'+localeCode+'<');
@@ -94,4 +89,12 @@ export class I18nHelper {
         );
     }
 
+    static _persistLanguagePreference(localeCode) {
+        if (localeCode === 'auto') {
+            Meteor.users.update({_id: Meteor.userId()}, {$unset: {'profile.locale': ''}});
+            localeCode = I18nHelper._getPreferredBrowserLocale();
+        } else {
+            Meteor.users.update({_id: Meteor.userId()}, {$set: {'profile.locale': localeCode}});
+        }
+    }
 }
