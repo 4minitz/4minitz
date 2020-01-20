@@ -20,6 +20,24 @@ Buttons:
   delete: "Sil"
   edit: "Düzenle"
   hide: "Tamam, saklan."
+Dialog:
+  confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
+  confirmDeleteDetails: "Do you really want to delete the selected details of the item <strong>{$subject}</strong>?"
+  confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
+  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} <strong>{$subject}</strong> because the {$type} was created in a previous minutes."
+  confirmDeleteItemActionItem: "Do you want to close the action item instead?"
+  confirmDeleteItemInfoItem: "Do you want to unpin the sticky info item instead?"
+  ConfirmDeleteTopic:
+    allowed: "Do you really want to delete the topic <strong>{$subject}</strong>?"
+    notAllowed: "It is not possible to delete the topic <strong>{$subject}</strong> because the topic was created in a previous minutes."
+    close: "Do you want to close the topic instead?"
+    closeWithActions: "Do you want to close the topic together with all related action items instead?"
+  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmMinuteQualityAssurance:
+    issues: "There are finalize issues with your minutes!"
+    proceed: "Do you want to proceed with finalizing?"
+  confirmReOpenTopic: "Do you really want to re-open the already closed topic {$topicSubject}?"
+  confirmSendAgenda: "Do you really want to sent the agenda for this meeting minute dated on <strong>{$minDate}</strong>?<br>It was already sent on {$agendaSentDate} at {$agendaSentTime}"
 Mail:
   greeting: "Merhaba."
   newAgenda: "Sizin için yepyeni bir toplantı gündemimiz var:"
