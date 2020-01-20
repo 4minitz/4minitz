@@ -20,6 +20,24 @@ Buttons:
   delete: "Supprimer"
   edit: "Editer"
   hide: "Ok, cache"
+Dialog:
+  confirmDeleteAttachment: "Voulez-vous vraiment supprimer la pièce jointe<br><b>{$name}</b>?"
+  confirmDeleteDetails: "Voulez-vous vraiment supprimer les détails sélectionnés de l'élément <strong>{$subject}</strong>?"
+  confirmDeleteItemAllowed: "Voulez-vous vraiment supprimer le {$type} <strong>{$subject}</strong>?"
+  confirmDeleteItemNotAllowed: "Il n'est pas possible de supprimer le {$type} <strong>{$subject}</strong> car le {$type} a été créé dans une minute précédente."
+  confirmDeleteItemActionItem: "Voulez-vous fermer l'élément d'action à la place?"
+  confirmDeleteItemInfoItem: "Voulez-vous désépingler l'élément d'info sticky à la place?"
+  ConfirmDeleteTopic:
+    allowed: "Voulez-vous vraiment supprimer le sujet <strong>{$subject}</strong>?"
+    notAllowed: "Il n'est pas possible de supprimer le sujet <strong>{$subject}</strong> car le sujet a été créé dans une minute précédente."
+    close: "Voulez-vous fermer le sujet à la place ?"
+    closeWithActions: "Voulez-vous fermer le sujet avec tous les éléments d'action connexes à la place?"
+  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmMinuteQualityAssurance:
+    issues: "Il y a des problèmes finalisés avec vos minutes!"
+    proceed: "Voulez-vous poursuivre la finalisation ?"
+  confirmReOpenTopic: "Voulez-vous vraiment rouvrir le sujet déjà fermé {$topicSubject}?"
+  confirmSendAgenda: "Voulez-vous vraiment envoyer l'ordre du jour de cette minute de réunion daté du <strong>{$minDate}</strong>?<br>Il a déjà été envoyé le {$agendaSentDate} à {$agendaSentTime}"
 Mail:
   greeting: "Bonjour"
   newAgenda: "Nous avons un nouveau programme de réunion pour vous:"
