@@ -38,6 +38,7 @@
   (respective the [PlantUML plugin](https://plugins.jetbrains.com/plugin/7017?pr=) for JetBrains products)
 * We use ES2015 (ES6) as we make progress in learning it.
 * Before merging new features, read our ["Definition of Done"](#dod)
+* Translations are managed via [Crowdin](https://crowdin.com/). Don't manually edit any language file other than [both/i18n/en.i18n.yml](../../both/i18n/en.i18n.yml) (see below)!
 
 
 ## <a name="dod">DoD - Our "Definition of Done"</a>
@@ -51,6 +52,7 @@
 * __No open issues:__ on your user story
 * __Create issues:__ if your tests discover issues in other already implemented user stories: write a [github issue](https://github.com/4minitz/4minitz/issues) 
 * __ES2015:__ Where possible we use ES2015 language features
+* __Localization:__ All UI strings are added to [both/i18n/en.i18n.yml](../../both/i18n/en.i18n.yml) with their corresponding ressource key
 
 
 ## Running Tests
@@ -133,6 +135,11 @@ run the npm script `eslint:fix`:
 
     npm run eslint:fix
 
+## Localization
+We use [Crowdin](https://crowdin.com/) for managing translations. Resource keys are added to [both/i18n/en.i18n.yml]
+(../../both/i18n/en.i18n.yml). You can then translate the UI strings within Crowdin, which will in turn commit to
+the branch ``l10n_develop`` and create a PR to ``develop``. Don't manually edit any translation file or it will
+be overwritten with the next PR.
  
 ## Database Seeding
  
