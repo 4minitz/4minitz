@@ -45,8 +45,9 @@ Template.localeDialog.events({
             const select = tmpl.find(locID);
             if (select) {
                 select.selected = true;
+            } else {
+                console.log('Could not find select option: >'+ locID+'<');
             }
-            console.log('Could not find select option: >'+ locID+'<');
         }
     },
 });
