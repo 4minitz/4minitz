@@ -2,7 +2,7 @@ let fs = require('fs');
 let yaml = require('js-yaml');
 
 const en_yaml = __dirname+'/../../both/i18n/en.i18n.yml';
-let anyError = 0;
+let anyErrorExitCodeToShell = 0;
 let globalErrorCount = 0;
 let globalWarningCount = 0;
 
@@ -91,7 +91,7 @@ function checkCodeUsage(extension, keyPattern) {
         if (dictKeysFromYaml[keyFromCode] === undefined) {
             console.log('I18N-ERROR: >'+keyFromCode+'< not found in YAML needed by:');
             console.log(dictKeysFromCode[keyFromCode]+'\n');
-            anyError = 1;
+            anyErrorExitCodeToShell = 1;
             localErrorCount++;
             globalErrorCount++;
         } else {
@@ -111,14 +111,14 @@ try {
     yaml_doc = yaml.safeLoad(fs.readFileSync(en_yaml, 'utf8'));
 } catch (e) {
     console.log(e);
-    anyError = 10;
+    anyErrorExitCodeToShell = 10;
 }
 // Recursively walk the YAML JS object, build key pathes like: 'Admin.Users.State.column'
 if (yaml_doc) {
     buildFullPathes(yaml_doc, '');  // ==> results in dictKeysFromYaml
 } else {
     console.log('Error: could not parse YAML');
-    anyError = 20;
+    anyErrorExitCodeToShell = 20;
 }
 console.log('#keys in YAML: '+Object.keys(dictKeysFromYaml).length);
 console.log('---------------------------------------------');
@@ -133,17 +133,15 @@ checkCodeUsage('.html', /{{__\s*["']([^"']+)/gm);
 
 // ---------------------------------------------------------------  YAML Warnings
 for (const keyFromYaml in dictKeysFromYaml) {
-    if (!keyFromYaml.startsWith('._') && dictKeysFromYaml[keyFromYaml] == 0) {
+    if (!keyFromYaml.startsWith('._') && dictKeysFromYaml[keyFromYaml] === 0) {
         console.log('I18N-Warning: >'+keyFromYaml+'< from YAML never used in code.');
         globalWarningCount++;
     }
 }
-
 
 console.log('');
 console.log('#I18N Errors Total  : '+globalErrorCount);
 console.log('#I18N Warnings Total: '+globalWarningCount);
 console.log('');
 
-
-process.exitCode = anyError;
+process.exitCode = anyErrorExitCodeToShell;
