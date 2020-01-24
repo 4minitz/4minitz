@@ -33,11 +33,20 @@ Dialog:
     close: "Chcete místo toho téma zavřít?"
     closeWithActions: "Chcete místo toho zavřít téma spolu se všemi souvisejícími akčními položkami?"
   ConfirmLeaveMeetingSeries: "Opravdu chcete opustit sérii schůzek:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Budete se muset zeptat moderátora, jestli se chcete připojit později."
-  confirmMinuteQualityAssurance:
+  ConfirmMinuteQualityAssurance:
     issues: "Problémy s vašimi minutami jsou dokončeny!"
     proceed: "Chcete pokračovat s dokončením?"
   confirmReOpenTopic: "Opravdu chcete znovu otevřít již uzavřené téma {$topicSubject}?"
   confirmSendAgenda: "Opravdu chcete odeslat program pro tuto schůzku s datem <strong>{$minDate}</strong>?<br>Byla odeslána již dne {$agendaSentDate} v {$agendaSentTime}"
+  ConfirmDeleteMinutes:
+    really: "Opravdu chcete odstranit tuto hodinu schůzky s datem <strong>{$minutesDate}</strong>?"
+    newTopics: "Tímto odstraníte <strong>{$newTopicsCount} témata</strong>, která byla vytvořena během této minuty."
+    closedTopicsAdditionally: "Navíc bude znovu otevřeno <strong>{$closedTopicsCount} témat</strong> , která byla během těchto minut uzavřena."
+    closedTopics: "<strong>{$closedTopicsCount} témat</strong> bude znovu otevřeno, které byly během této minuty uzavřeny."
+  ConfirmFinalizeMinutes:
+    really: "Opravdu chcete dokončit tuto schůzku s datem <strong>{$minutesDate}</strong>?"
+    sendActionItems: "Odeslat položky akce"
+    sendMinutes: "Odeslat informační položky"
 Mail:
   greeting: "Ahoj."
   newAgenda: "Máme pro vás novou schůzku s novou schůzkou:"
@@ -106,6 +115,12 @@ Item:
     matchCase: "Případ"
     matchCaseHint: "Rozlišovat velikost písmen"
     matchCaseLong: "Rozlišovat velikost písmen"
+    Usage:
+      body: "Můžete použít několik klíčových slov k filtrování uvedených prvků. Všechna klíčová slova mohou být kombinována, které filtrují položky odpovídající všem zadaným parametrům vyhledávání."
+      keyword: "Keyword"
+      format: "Formát"
+      values: "Hodnoty"
+      eg: "např."
   myActionItems: "Moje akční lži"
 Topic:
   title: "Téma"
@@ -174,6 +189,7 @@ Minutes:
   attachmentsHint: "zápis"
   previous: "Předchozí:"
   next: "Další:"
+  history: "Historie"
   unfinalizeHint: "Klepnutím provést zrušení finalizace minut"
   print: "Tisknout minuty"
   finalize: "Finalizovat minuty"

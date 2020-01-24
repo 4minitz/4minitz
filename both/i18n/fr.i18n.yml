@@ -32,12 +32,21 @@ Dialog:
     notAllowed: "Il n'est pas possible de supprimer le sujet <strong>{$subject}</strong> car le sujet a été créé dans une minute précédente."
     close: "Voulez-vous fermer le sujet à la place ?"
     closeWithActions: "Voulez-vous fermer le sujet avec tous les éléments d'action connexes à la place?"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
-  confirmMinuteQualityAssurance:
+  ConfirmLeaveMeetingSeries: "Voulez-vous vraiment quitter la série de réunions:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b></b><br> Vous devez demander à un modérateur si vous voulez vous joindre à nouveau par la suite."
+  ConfirmMinuteQualityAssurance:
     issues: "Il y a des problèmes finalisés avec vos minutes!"
     proceed: "Voulez-vous poursuivre la finalisation ?"
   confirmReOpenTopic: "Voulez-vous vraiment rouvrir le sujet déjà fermé {$topicSubject}?"
   confirmSendAgenda: "Voulez-vous vraiment envoyer l'ordre du jour de cette minute de réunion daté du <strong>{$minDate}</strong>?<br>Il a déjà été envoyé le {$agendaSentDate} à {$agendaSentTime}"
+  ConfirmDeleteMinutes:
+    really: "Voulez-vous vraiment supprimer cette minute de réunion datée du <strong>{$minutesDate}</strong>?"
+    newTopics: "Cela supprimera <strong>{$newTopicsCount} Sujets</strong>, qui ont été créés dans cette minute."
+    closedTopicsAdditionally: "De plus, <strong>{$closedTopicsCount} discussions</strong> seront à nouveau ouvertes, qui ont été fermées dans ces minutes."
+    closedTopics: "<strong>{$closedTopicsCount} discussions</strong> seront ouvertes à nouveau, qui ont été fermées dans ces minutes."
+  ConfirmFinalizeMinutes:
+    really: "Voulez-vous vraiment finaliser cette minute de réunion datée du <strong>{$minutesDate}</strong>?"
+    sendActionItems: "Envoyer les éléments de l'action"
+    sendMinutes: "Envoyer des informations"
 Mail:
   greeting: "Bonjour"
   newAgenda: "Nous avons un nouveau programme de réunion pour vous:"
@@ -106,6 +115,12 @@ Item:
     matchCase: "Cas"
     matchCaseHint: "Correspondance de cas"
     matchCaseLong: "Correspondance de cas"
+    Usage:
+      body: "Vous pouvez utiliser plusieurs mots-clés pour filtrer les éléments listés. Tous les mots-clés peuvent être combinés qui filtrent ces éléments correspondant à tous les paramètres de recherche donnés."
+      keyword: "Keyword"
+      format: "Formater"
+      values: "Valeurs"
+      eg: "par ex."
   myActionItems: "Mes éléments d'action"
 Topic:
   title: "Rubrique"
@@ -174,6 +189,7 @@ Minutes:
   attachmentsHint: "Minutes avec pièces jointes"
   previous: "Précédent:"
   next: "Suivant:"
+  history: "Historique"
   unfinalizeHint: "Cliquez pour dépersonnaliser le procès-verbal"
   print: "Imprimer le procès-verbal"
   finalize: "Finaliser le procès-verbal"

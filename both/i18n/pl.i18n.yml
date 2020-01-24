@@ -33,11 +33,20 @@ Dialog:
     close: "Czy zamiast tego chcesz zamknąć temat?"
     closeWithActions: "Czy chcesz zamknąć wątek razem ze wszystkimi powiązanymi elementami akcji?"
   ConfirmLeaveMeetingSeries: "Czy naprawdę chcesz opuścić serię spotkań:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Będziesz musiał zapytać moderatora, czy chcesz dołączyć ponownie później."
-  confirmMinuteQualityAssurance:
+  ConfirmMinuteQualityAssurance:
     issues: "Pojawiły się problemy z twoimi minutami!"
     proceed: "Czy chcesz kontynuować zakończenie?"
   confirmReOpenTopic: "Czy na pewno chcesz ponownie otworzyć już zamknięty wątek {$topicSubject}?"
   confirmSendAgenda: "Czy na pewno chcesz wysłać porządek obrad na tę minutę spotkania datowany <strong>{$minDate}</strong>?<br>Został już wysłany {$agendaSentDate} o {$agendaSentTime}"
+  ConfirmDeleteMinutes:
+    really: "Czy na pewno chcesz usunąć tę minutę spotkania datowaną <strong>{$minutesDate}</strong>?"
+    newTopics: "Spowoduje to usunięcie <strong>{$newTopicsCount} tematów</strong>, które zostały utworzone w ciągu tej minuty."
+    closedTopicsAdditionally: "Dodatkowo <strong>{$closedTopicsCount} tematów</strong> zostanie ponownie otwartych, które zostały zamknięte w ciągu tych minut."
+    closedTopics: "<strong>{$closedTopicsCount} tematów</strong> zostanie ponownie otwartych, które zostały zamknięte w ciągu tych minut."
+  ConfirmFinalizeMinutes:
+    really: "Czy na pewno chcesz zakończyć tę minutę spotkania datowaną <strong>{$minutesDate}</strong>?"
+    sendActionItems: "Wyślij elementy akcji"
+    sendMinutes: "Wyślij elementy informacji"
 Mail:
   greeting: "Witaj"
   newAgenda: "Mamy dla Ciebie nową agendę spotkań:"
@@ -106,6 +115,12 @@ Item:
     matchCase: "Przypadek"
     matchCaseHint: "Dopasuj wielkość liter"
     matchCaseLong: "Dopasuj wielkość liter"
+    Usage:
+      body: "Możesz użyć kilku słów kluczowych do filtrowania wymienionych elementów. Wszystkie słowa kluczowe mogą być połączone, które filtrują te elementy pasujące do wszystkich parametrów wyszukiwania."
+      keyword: "Keyword"
+      format: "Formatowanie"
+      values: "Wartości"
+      eg: "np."
   myActionItems: "Moje elementy działania"
 Topic:
   title: "Temat"
@@ -174,6 +189,7 @@ Minutes:
   attachmentsHint: "Protokoły mają załączniki"
   previous: "Poprzednie:"
   next: "Następny:"
+  history: "Historia"
   unfinalizeHint: "Kliknij, aby anulować finalizację minut"
   print: "Drukuj protokół"
   finalize: "Finalizowanie minut"
