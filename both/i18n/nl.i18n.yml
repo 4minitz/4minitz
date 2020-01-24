@@ -33,11 +33,20 @@ Dialog:
     close: "Wil je in plaats daarvan de topic afsluiten?"
     closeWithActions: "Wilt u in plaats daarvan het topic sluiten met alle gerelateerde actie items?"
   ConfirmLeaveMeetingSeries: "Wil je echt de vergaderreeksen verlaten:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Je moet daarna een moderator vragen als je weer wilt deelnemen."
-  confirmMinuteQualityAssurance:
+  ConfirmMinuteQualityAssurance:
     issues: "Er zijn problemen met uw minuten afgerond!"
     proceed: "Wilt u doorgaan met afsluiten?"
   confirmReOpenTopic: "Weet je zeker dat je het reeds gesloten topic {$topicSubject} opnieuw wilt openen?"
   confirmSendAgenda: "Wilt u de agenda voor deze minuut van deze vergadering echt versturen op <strong>{$minDate}</strong>?<br>Het is al verstuurd op {$agendaSentDate} op {$agendaSentTime}"
+  ConfirmDeleteMinutes:
+    really: "Wilt u deze minuut van deze vergadering op <strong>{$minutesDate}</strong> echt verwijderen?"
+    newTopics: "Dit verwijdert <strong>{$newTopicsCount} Onderwerpen</strong>, die binnen deze minuut zijn gemaakt."
+    closedTopicsAdditionally: "Bovendien zullen <strong>{$closedTopicsCount} topics</strong> opnieuw worden geopend, die binnen deze minuten zijn gesloten."
+    closedTopics: "<strong>{$closedTopicsCount} topics</strong> zullen opnieuw worden geopend, welke binnen deze minuten zijn gesloten."
+  ConfirmFinalizeMinutes:
+    really: "Weet je zeker dat je deze minuut van de vergadering op <strong>{$minutesDate}</strong> wilt afsluiten?"
+    sendActionItems: "Stuur actie items"
+    sendMinutes: "Stuur informatie items"
 Mail:
   greeting: "Hallo"
   newAgenda: "We hebben een nieuwe agenda voor u:"
@@ -106,6 +115,12 @@ Item:
     matchCase: "Zaak"
     matchCaseHint: "Hoofdlettergevoelig"
     matchCaseLong: "Hoofdlettergevoelig"
+    Usage:
+      body: "U kunt meerdere trefwoorden gebruiken om de elementen in de lijst te filteren. Alle trefwoorden kunnen worden gecombineerd welke items die overeenkomen met de opgegeven zoekparameters filteren."
+      keyword: "Keyword"
+      format: "Formatteren"
+      values: "Waarden"
+      eg: "bijv."
   myActionItems: "Mijn Actie items"
 Topic:
   title: "Onderwerp"
@@ -174,6 +189,7 @@ Minutes:
   attachmentsHint: "Minuten hebben bijlagen"
   previous: "Vorige:"
   next: "Volgende:"
+  history: "Geschiedenis"
   unfinalizeHint: "Klik hier om de minuten te voltooien"
   print: "Afdrukken minuten"
   finalize: "Minuten afronden"

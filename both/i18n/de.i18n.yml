@@ -33,11 +33,20 @@ Dialog:
     close: "Möchten Sie das Thema stattdessen schließen?"
     closeWithActions: "Möchten Sie stattdessen das Thema zusammen mit allen zugehörigen Aktionselementen schließen?"
   ConfirmLeaveMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich verlassen:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Sie müssen einen Moderator fragen, ob Sie danach wieder beitreten möchten."
-  confirmMinuteQualityAssurance:
+  ConfirmMinuteQualityAssurance:
     issues: "Es sind Probleme mit Ihren Minuten fertiggestellt!"
     proceed: "Möchten Sie mit der Fertigstellung fortfahren?"
   confirmReOpenTopic: "Möchten Sie wirklich das bereits geschlossene Thema {$topicSubject} erneut öffnen?"
   confirmSendAgenda: "Möchten Sie wirklich die Tagesordnung für diese Sitzung von <strong>{$minDate}</strong>verschicken?<br>Es wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
+  ConfirmDeleteMinutes:
+    really: "Möchten Sie diese Besprechungsminute wirklich von <strong>{$minutesDate}</strong> löschen?"
+    newTopics: "Dadurch werden <strong>{$newTopicsCount} Themen</strong>entfernt, die innerhalb dieser Minute erstellt wurden."
+    closedTopicsAdditionally: "Zusätzlich werden <strong>{$closedTopicsCount} Themen</strong> wieder geöffnet, die innerhalb dieser Minuten geschlossen wurden."
+    closedTopics: "<strong>{$closedTopicsCount} Themen</strong> werden wieder geöffnet, die innerhalb dieser Minuten geschlossen wurden."
+  ConfirmFinalizeMinutes:
+    really: "Möchten Sie diese Besprechungsminute wirklich abschließen, die auf <strong>{$minutesDate}</strong> datiert ist?"
+    sendActionItems: "Aktionselemente senden"
+    sendMinutes: "Informationsartikel senden"
 Mail:
   greeting: "Guten Tag"
   newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
@@ -106,6 +115,12 @@ Item:
     matchCase: "Groß-/Kleinschreibung"
     matchCaseHint: "Groß-/Kleinschreibung beachten"
     matchCaseLong: "Groß-/Kleinschreibung beachten"
+    Usage:
+      body: "Sie können mehrere Suchbegriffe verwenden, um die aufgelisteten Elemente zu filtern. Alle Suchbegriffe können kombiniert werden, die die Elemente filtern, die mit allen angegebenen Suchparametern übereinstimmen."
+      keyword: "Keyword"
+      format: "Format"
+      values: "Werte"
+      eg: "z. B."
   myActionItems: "Meine Aufgaben"
 Topic:
   title: "Thema"
@@ -174,6 +189,7 @@ Minutes:
   attachmentsHint: "Protokoll enthält Anhänge"
   previous: "Vorheriges:"
   next: "Nächstes:"
+  history: "Verlauf"
   unfinalizeHint: "Beschlossenes Protokoll wieder bearbeiten"
   print: "Protokoll ausdrucken"
   finalize: "Protokoll beschließen"

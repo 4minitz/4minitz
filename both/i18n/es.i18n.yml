@@ -33,11 +33,20 @@ Dialog:
     close: "¿Quieres cerrar el tema en su lugar?"
     closeWithActions: "¿Quiere cerrar el tema junto con todos los elementos de acción relacionados en su lugar?"
   ConfirmLeaveMeetingSeries: "¿Realmente desea abandonar la serie de reuniones:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Tendrá que preguntar a un moderador si desea unirse de nuevo después."
-  confirmMinuteQualityAssurance:
+  ConfirmMinuteQualityAssurance:
     issues: "¡Hay problemas finales con tus minutas!"
     proceed: "¿Quiere continuar con la finalización?"
   confirmReOpenTopic: "¿Realmente desea volver a abrir el tema cerrado {$topicSubject}?"
   confirmSendAgenda: "¿Realmente desea enviar el orden del día para este minuto de reunión datado el <strong>{$minDate}</strong>?<br>Ya fue enviado el {$agendaSentDate} a las {$agendaSentTime}"
+  ConfirmDeleteMinutes:
+    really: "¿Realmente desea eliminar este minuto de reunión datado el <strong>{$minutesDate}</strong>?"
+    newTopics: "Esto eliminará <strong>{$newTopicsCount} temas</strong>que fueron creados en este minuto."
+    closedTopicsAdditionally: "Además, <strong>{$closedTopicsCount} temas</strong> serán abiertos de nuevo, los cuales fueron cerrados en este minuto."
+    closedTopics: "<strong>{$closedTopicsCount} temas</strong> serán abiertos de nuevo, los cuales fueron cerrados en este minuto."
+  ConfirmFinalizeMinutes:
+    really: "¿Realmente desea finalizar este minuto de reunión con fecha de <strong>{$minutesDate}</strong>?"
+    sendActionItems: "Enviar elementos de acción"
+    sendMinutes: "Enviar elementos de información"
 Mail:
   greeting: "Hola"
   newAgenda: "Tenemos una nueva agenda de reuniones para ti."
@@ -106,6 +115,12 @@ Item:
     matchCase: "Caso"
     matchCaseHint: "Caso de coincidencia"
     matchCaseLong: "Caso de coincidencia"
+    Usage:
+      body: "Puede utilizar varias palabras clave para filtrar los elementos listados. Todas las palabras clave pueden combinarse que filtra los elementos que coinciden con todos los parámetros de búsqueda dados."
+      keyword: "Keyword"
+      format: "Formatear"
+      values: "Valores"
+      eg: "ej."
   myActionItems: "Mis elementos de acción"
 Topic:
   title: "Tema"
@@ -174,6 +189,7 @@ Minutes:
   attachmentsHint: "Minutos tienen adjuntos"
   previous: "Anterior:"
   next: "A continuación:"
+  history: "Historial"
   unfinalizeHint: "Pulse para Deshacer-Finalizar minutos"
   print: "Imprimir minutos"
   finalize: "Finalizar minutos"
