@@ -4,27 +4,27 @@ const crawler = require('npm-license-crawler'),
     fs = require('fs');
 
 const meteorPackages = {
-    "meteor":                       {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/meteor/meteor/devel/LICENSE"},
-    "alanning:roles":               {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/alanning/meteor-roles/master/LICENSE"},
-    "babrahams:accounts-ldap":      {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/JackAdams/meteor-accounts-ldap/master/LICENSE"},
-    "felixble:server-templates":    {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/felixble/meteor-server-templates/master/LICENSE.md"},
-    "fourseven:scss":               {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/fourseven/meteor-scss/master/LICENSE.txt"},
-    "jagi:astronomy":               {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/jagi/meteor-astronomy/v2/LICENSE"},
-    "kadira:blaze-layout":          {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/kadirahq/blaze-layout/master/LICENSE"},
-    "ostrio:flow-router-extra":     {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/VeliovGroup/flow-router/master/LICENSE"},
-    "meteorhacks:subs-manager":     {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/kadirahq/subs-manager/master/LICENSE"},
-    "mouse0270:bootstrap-notify":   {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/mouse0270/bootstrap-notify/master/LICENSE"},
+    'meteor':                       {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/meteor/meteor/devel/LICENSE'},
+    'alanning:roles':               {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/alanning/meteor-roles/master/LICENSE'},
+    'babrahams:accounts-ldap':      {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/JackAdams/meteor-accounts-ldap/master/LICENSE'},
+    'felixble:server-templates':    {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/felixble/meteor-server-templates/master/LICENSE.md'},
+    'fourseven:scss':               {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/fourseven/meteor-scss/master/LICENSE.txt'},
+    'jagi:astronomy':               {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/jagi/meteor-astronomy/v2/LICENSE'},
+    'kadira:blaze-layout':          {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/kadirahq/blaze-layout/master/LICENSE'},
+    'ostrio:flow-router-extra':     {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/VeliovGroup/flow-router/master/LICENSE'},
+    'meteorhacks:subs-manager':     {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/kadirahq/subs-manager/master/LICENSE'},
+    'mouse0270:bootstrap-notify':   {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/mouse0270/bootstrap-notify/master/LICENSE'},
     // "msavin:mongol":                {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/MeteorToys/allthings/master/LICENSE.md"},
-    "natestrauser:select2":         {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/nate-strauser/meteor-select2/master/LICENSE.txt"},
-    "ostrio:files":                 {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/LICENSE"},
-    "perak:markdown":               {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/chjj/marked/master/LICENSE"},
-    "percolate:migrations":         {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/percolatestudio/meteor-migrations/master/LICENSE"},
-    "practicalmeteor:mocha":        {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/practicalmeteor/meteor-mocha/meteor/LICENSE"},
-    "rcy:pick-a-color":             {licenses: "MIT",      licenseUrl: "https://github.com/lauren/pick-a-color/raw/master/LICENSE"},
-    "sergeyt:typeahead":            {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/sergeyt/meteor-typeahead/master/LICENSE"},
-    "useraccounts:bootstrap":       {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/meteor-useraccounts/bootstrap/master/LICENSE"},
-    "universe:i18n":                {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/vazco/meteor-universe-i18n/master/LICENSE"},
-    "universe:i18n-blaze":          {licenses: "MIT",      licenseUrl: "https://raw.githubusercontent.com/vazco/universe-i18n-blaze/master/LICENSE"} 
+    'natestrauser:select2':         {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/nate-strauser/meteor-select2/master/LICENSE.txt'},
+    'ostrio:files':                 {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/LICENSE'},
+    'perak:markdown':               {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/chjj/marked/master/LICENSE'},
+    'percolate:migrations':         {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/percolatestudio/meteor-migrations/master/LICENSE'},
+    'practicalmeteor:mocha':        {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/practicalmeteor/meteor-mocha/meteor/LICENSE'},
+    'rcy:pick-a-color':             {licenses: 'MIT',      licenseUrl: 'https://github.com/lauren/pick-a-color/raw/master/LICENSE'},
+    'sergeyt:typeahead':            {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/sergeyt/meteor-typeahead/master/LICENSE'},
+    'useraccounts:bootstrap':       {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/meteor-useraccounts/bootstrap/master/LICENSE'},
+    'universe:i18n':                {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/vazco/meteor-universe-i18n/master/LICENSE'},
+    'universe:i18n-blaze':          {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/vazco/universe-i18n-blaze/master/LICENSE'} 
 };
 
 
@@ -105,26 +105,26 @@ function streamCollector(streams, index, outStream) {
 let licenseCount = {};
 function getSortedKeys(obj) {
     let keys = []; for(let key in obj) keys.push(key);
-    return keys.sort(function(a,b){return obj[b]-obj[a]});
+    return keys.sort(function(a,b){return obj[b]-obj[a];});
 }
 
 crawler.dumpLicenses({start: ['.']}, (error, res) => {
     if (error) {
-        console.error("Error:", error);
+        console.error('Error:', error);
         return;
     }
 
-    let output = fs.createWriteStream("LicensesOfDependencies.txt");
+    let output = fs.createWriteStream('LicensesOfDependencies.txt');
     let streams = Object.keys(res)
         .map(project => downloadToStream(project, res[project].licenseUrl, res[project].licenses));
     
     streamCollector(streams, 0, output);
 
     // Generate & print license counts
-    console.log("********************");
+    console.log('********************');
     Object.assign(res, meteorPackages);
     Object.keys(res).forEach(project => {licenseCount[res[project].licenses] = (licenseCount[res[project].licenses] || 0) + 1;});
     getSortedKeys(licenseCount).forEach(license => console.log(`${license}   ${licenseCount[license]}`));
-    console.log("********************");
+    console.log('********************');
 });
 
