@@ -3,6 +3,8 @@ let yaml = require('js-yaml');
 
 const en_yaml = __dirname+'/../../both/i18n/en.i18n.yml';
 let anyError = 0;
+let globalErrorCount = 0;
+let globalWarningCount = 0;
 
 console.log('Test_I18N_Resources');
 console.log('-------------------');
@@ -44,45 +46,28 @@ function collectFilesRecursive (dir, extension) {
 }
 
 // Recursively iterate a JS object build full pathes of keys
-function iterate(obj, stack) {
+function buildFullPathes(obj, stack, separator='.') {
     for (let property in obj) {
         if (obj.hasOwnProperty(property)) {
             if (typeof obj[property] == 'object') {
                 if (!stack) {
-                    iterate(obj[property], property);
+                    buildFullPathes(obj[property], property);
                 } else {
-                    iterate(obj[property], stack + '.' + property);
+                    buildFullPathes(obj[property], stack + separator + property);
                 }
             } else {
-                dictKeysFromYaml[stack+'.'+property] = 1;
+                dictKeysFromYaml[stack+separator+property] = 0; // Remember leaf!
             }
         }
     }
 }
 
-
-// ---------------------------------------------------------------  YAML
-// Read and parse YAML file to JS object
-let yaml_doc = undefined;
-try {
-    yaml_doc = yaml.safeLoad(fs.readFileSync(en_yaml, 'utf8'));
-} catch (e) {
-    console.log(e);
-    anyError = 10;
-}
-// Recursively walk the YAML JS object, build key pathes like: 'Admin.Users.State.column'
-if (yaml_doc) {
-    iterate(yaml_doc, '');  // ==> results in dictKeysFromYaml
-} else {
-    console.log('Error: could not parse YAML');
-    anyError = 20;
-}
-console.log('#keys in YAML: '+Object.keys(dictKeysFromYaml).length);
-
-
-// ---------------------------------------------------------------  Code
 function checkCodeUsage(extension, keyPattern) {
+    dictKeysFromCode = {};
+    let localErrorCount = 0;
     let files_js = collectFilesRecursive(__dirname+'/../..', extension);
+
+    // Find all i18n __ keys used in this file, according to regexp key pattern provided
     files_js.forEach(jsFile => {
         const content = fs.readFileSync(jsFile, 'utf8');
         const re = keyPattern;
@@ -103,18 +88,62 @@ function checkCodeUsage(extension, keyPattern) {
 
     // Check if needed keys from code exist in YAML
     for (const keyFromCode in dictKeysFromCode) {
-        if (! dictKeysFromYaml[keyFromCode]) {
+        if (dictKeysFromYaml[keyFromCode] === undefined) {
             console.log('I18N-ERROR: >'+keyFromCode+'< not found in YAML needed by:');
             console.log(dictKeysFromCode[keyFromCode]+'\n');
             anyError = 1;
+            localErrorCount++;
+            globalErrorCount++;
+        } else {
+            dictKeysFromYaml[keyFromCode]++;  // increase usage of this key
         }
     }
+    console.log('#I18N Errors for '+extension+': '+localErrorCount);
+    console.log('---------------------------------------------');
+    console.log('');
 }
 
+
+// ---------------------------------------------------------------  YAML
+// Read and parse YAML file to JS object
+let yaml_doc = undefined;
+try {
+    yaml_doc = yaml.safeLoad(fs.readFileSync(en_yaml, 'utf8'));
+} catch (e) {
+    console.log(e);
+    anyError = 10;
+}
+// Recursively walk the YAML JS object, build key pathes like: 'Admin.Users.State.column'
+if (yaml_doc) {
+    buildFullPathes(yaml_doc, '');  // ==> results in dictKeysFromYaml
+} else {
+    console.log('Error: could not parse YAML');
+    anyError = 20;
+}
+console.log('#keys in YAML: '+Object.keys(dictKeysFromYaml).length);
+console.log('---------------------------------------------');
+console.log('');
+
+// ---------------------------------------------------------------  Code Errors
 // js: i18n.__('Admin.Users.State.inactive'); => Admin.Users.State.inactive
 checkCodeUsage('.js', /i18n\.__\s*\(\s*["']([^"']+)/gm);
 
 // html: {{__ 'Dialog.ConfirmDeleteTopic.allowed'}} => Dialog.ConfirmDeleteTopic.allowed
 checkCodeUsage('.html', /{{__\s*["']([^"']+)/gm);
+
+// ---------------------------------------------------------------  YAML Warnings
+for (const keyFromYaml in dictKeysFromYaml) {
+    if (!keyFromYaml.startsWith('._') && dictKeysFromYaml[keyFromYaml] == 0) {
+        console.log('I18N-Warning: >'+keyFromYaml+'< from YAML never used in code.');
+        globalWarningCount++;
+    }
+}
+
+
+console.log('');
+console.log('#I18N Errors Total  : '+globalErrorCount);
+console.log('#I18N Warnings Total: '+globalWarningCount);
+console.log('');
+
 
 process.exitCode = anyError;
