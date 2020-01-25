@@ -22,7 +22,7 @@ services:
     image: 4minitz/4minitz:stable
     restart: always
     ports:
-      - 5000:3333
+      - 3100:3333
     environment:
       - MONGO_URL=mongodb://mongo/4minitz
       - ROOT_URL=http://localhost:3100

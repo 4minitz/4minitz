@@ -26,35 +26,37 @@
 
 # Installation
 
-## What's wrong with the 'Quick Installation' (Option 2)
+## What's wrong with the 'Development Server' in a production environment?
 
-The [quick installation](../../README.md#option-2-clone-build--run-your-own-linux-mac)
-(Option 2) has the advantage that you don't have to install node and you don't
-have to mess with a MongoDB database, as both tools come with the meteor
-development tool as sub packages.
-
-But while the quick installation mode is - well... - quick, it has some
-drawbacks:
+The [development environment](../../README.md#development-environment-linux-mac)
+has the advantage that you don't have to install node and you don't
+have to mess with a MongoDB database directly, as both tools come with the meteor
+development tool. One might be tempted to use this for a production build but
+we strongly discourage you from doing so as this has some serious drawbacks:
 
  1. It uses meteor's own MongoDB where it sets up collections that are
     accessible to everyone who has shell access to the PC the database is
     running on. So, no login is needed to access the DB. Nevertheless as of this
-    writing the DB port is not opened to the outside world. So, if you are the
-    only person that can login to the machine - may be you are fine with this.
+    writing the DB port is not opened to the outside world.
  1. The meteor tool is a development tool. Among many other things meteor
     watches the source files of 4Minitz and rebuilds on changes. This is great
     for developers. But it comes to the price of some extra need from RAM.
     Recent measurements showed, 4Minitz needs about 700 MB of RAM when launched
     via meteor vs. 90 MB of RAM when directly launched via node without meteor
-    build support. So, if your (virtual?) machine has enough RAM - may be you
-    are fine with this, too.
-
-In all other cases - read on and choose the "Production Installation" way.
+    build support.
+ 1. Meteor will update MongoDB regularly with newer releases. Everytime we update
+    the Meteor version used by 4Minitz the data files of your local 4Minitz
+    installation may no longer be compatible with the new MongoDB version that
+    comes with the latest Meteor release. Due to this we highly recommend you
+    run your own MongoDB installation outside of 4Minitz and upgrade your
+    database on your own schedule following the upgrade process as recommended
+    by MongoDB. 
 
 ## Production Server Setup with Docker
 
-The 4Minitz docker image includes the compiled 4Minitz app, a fitting node.js
-version and MongoDB and thus has no external dependencies.
+The 4Minitz Docker image includes the compiled 4Minitz app and a compatible node.js
+version. You need to provide a MongoDB database and set the `MONGO_URL` environment
+variable when starting the 4Minitz container.
 
 ### Docker Setup on Linux and Mac
 
@@ -62,15 +64,33 @@ version and MongoDB and thus has no external dependencies.
 2. In a directory where you have write access run:
 
 ```sh
-docker run -it --rm -v $(pwd)/4minitz_storage:/4minitz_storage -p 3100:3333 4minitz/4minitz
+docker run --rm \
+    -v $PWD/4minitz_storage:/4minitz_storage \
+    -p 3100:3333 \
+    -e MONGO_URL=<connection string to your MongoDB>
+    4minitz/4minitz
 ```
+
+If you just want to quickly check out 4Minitz and don't want to set up a MongoDB
+server you can use their Docker image as well. See the
+[Deployment Quickstart](../../README.md#deployment-quick-start) section in our
+README.
+
+When you run the container in the background with the `-d` flag and need access to
+the logs, you can use the
+[`docker logs`](https://docs.docker.com/engine/reference/commandline/logs/)
+command to read them.
 
 Omit the next section and continue with the section [Use your 4minitz container](#use-your-4minitz-docker-container).
 
 ### Docker Setup on Windows
 
-On Microsoft Windows 10 Professional or Enterprise 64-bit you can run 4minitz
-inside a docker container. The following snippets should be run inside a
+On some editions of Microsoft Windows 10 you can run 4Minitz in a Docker container
+as well. If you want to run a MongoDB in Docker on Windows you will run into issues,
+at least with older versions of MongoDB. This is due to the fact that MongoDB has
+certain restrictions on where they can store the data. On Windows, Docker volumes
+on the local file system do not meet these requirements. Follow the guide below
+to get your MongoDB set up. The following snippets should be run inside a
 PowerShell (indicated by a `PS>` prompt) or a bash shell inside a Docker
 container (indicated by a `root#` prompt).
 
@@ -78,46 +98,25 @@ container (indicated by a `root#` prompt).
 2. Open up a PowerShell and pull the 4minitz image from the Docker hub
 
     ```ps
-    PS> docker pull 4minitz/4minitz
+    PS> docker pull mongo
     ```
 
-3. Create a container instance called `4minitz-storage`
+3. Create a container instance called `mongo-storage`
 
     ```ps
-    PS> docker create -v /4minitz_storage --name 4minitz-storage 4minitz/4minitz
+    PS> docker create -v /data/db --name mongo-storage mongo
     ```
 
-4. If you want to edit the configuration, especially after updating your 4minitz
-   images, you should do so in an up-to-date 4minitz container by spawning a
-   bash shell into it. For now it suffices to simply start the volume container
-   and edit the config file `4minitz_settings.json`:
+5. Now you can use this data volume container in your MongoDB container:
 
     ```ps
-    PS> $docker = docker ps -q -l
-    PS> docker start $docker
-    PS> docker exec -ti $docker /bin/bash
-    root# nano /4minitz_storage/4minitz_settings.json
-    root# exit
-    PS> docker stop $docker
-    ```
-
-5. Now you can use this data volume container in a 4minitz container:
-
-    ```ps
-    PS> docker run -it --rm --volumes-from 4minitz-storage -p 3100:3333 4minitz/    4minitz
+    PS> docker run -it --rm --volumes-from mongo-storage --name mongo mongo
     ```
 
 See [this guide](https://docs.docker.com/engine/tutorials/dockervolumes/#backup-restore-or-migrate-data-volumes)
 on how to backup and restore the data in your data volume container.
 
 ### External MongoDB server with your 4Minitz docker container
-
-Per default inside the 4Minitz docker container there also runs a MongoDB server
-that is configured in a way that it stores all data *outside* of the container:
-in the hosts 4minitz_storage directory.
-
-Nevertheless there may be scenarios where you want to use an already existing
-MongoDB server and specify a 4Minitz sub-database there.
 
 You may specify an external MongoDB server instead of the MongoDB inside the
 4Minitz container by adding e.g.
@@ -168,27 +167,22 @@ volume container (Windows). Here you will find
 * **log** - here are MongoDB and 4Minitz logs - if something does not work.
 * **attachments** - all attachments that have been uploaded to meeting minutes
   are stored here.
-* **4minitz_mongodb** - MongoDB "--dbpath"
 
 ### Updating your 4minitz Docker container
 
 If a new version of 4Minitz is released, you may keep the above storage
-directory or data volume container. Simply Ctr+c the running container, and
+directory or data volume container. Simply stop the running container, and
 perform a `docker pull 4minitz/4minitz`. When you re-launch the container
 afterwards, all clients will get the new WebApp version automatically via
 meteors hot-code push.
 
 **Security Hints:**
 
-1. The embedded mongoDB inside the docker container is not protected by
-   user/password, so make sure nobody else is allowed to attach / exec commands
-   to your running container
 1. The outside host directory `./4minitz_storage` or docker volume container
    should only be read/write accessible by the 4minitz admin. Otherwise
-   unauthorized users may see attachments, copy the database or change
-   settings.json.
+   unauthorized users may see attachments or change your settings.json.
 1. Do not allow users to connect directly to your 4Minitz container. Instead
-   configure a reverse proxy with TSL / https: to make sure that all traffic
+   configure a reverse proxy with TLS / https: to make sure that all traffic
    between client and server is encrypted.
 
 ## Production Server by Building From Source
@@ -232,14 +226,10 @@ curl https://install.meteor.com/ | sh
 meteor --version
 ```
 
-You'll need root rights for the above. As a non-root user you may install meteor
-by:
-
-```sh
-git git clone --depth 1 --recursive https://github.com/meteor/meteor.git
-cd meteor
-meteor --version
-```
+The installer may ask you for your password during installation to install
+a wrapper script in `/usr/local/bin`. You may decline to enter it and the
+installation will still continue. You won't be able to run meteor by typing
+`meteor` in your shell unless you add `~/.meteor/` to your `PATH`.
 
 On Windows? [Download the meteor installer](https://install.meteor.com/windows).
 
@@ -293,7 +283,7 @@ git clone --depth 1 https://github.com/4minitz/4minitz.git --branch master --sin
 
 cd 4minitz
 meteor npm install
-# if the above fails, install node > v6.x and run 'npm install'
+# if the above fails, install node v8.11 and run 'npm ci'
 mkdir ../4minitz_bin
 meteor build ../4minitz_bin --directory
 cp settings_sample.json ../4minitz_bin/bundle/settings.json
