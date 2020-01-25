@@ -85,7 +85,6 @@ window.onpopstate = () => {
 };
 
 Meteor.startup(() => {
-    I18nHelper.initialize();
     I18nHelper.setLanguageLocale();
 
     Meteor.call('gitVersionInfoUpdate');
