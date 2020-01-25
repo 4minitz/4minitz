@@ -10,12 +10,12 @@ if [ "$TRAVIS" = "true" ]; then
 fi
 
 if [ "$TEST" = "unit and i18n" ]; then
-    echo Run unit test
-    npm run test:unit
-    UNIT=$?
     echo Run i18n test
     npm run test:i18n
     I18N=$?
+    echo Run unit test
+    npm run test:unit
+    UNIT=$?
     exit $(($UNIT + $I18N))
 fi
 
