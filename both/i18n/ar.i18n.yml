@@ -47,6 +47,10 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
 Mail:
   greeting: "مرحبا"
   newAgenda: "لدينا جدول اعمال جديد للاجتماع من اجلك"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "تبديل التجول"
   meetings: "الاجتماعات"
   processing: "جاري تشغيل المحتويات الخاصة بك ..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "مساعدة سريعة"
   meetingSeries: "<p>هنا يمكنك تكوين دقائق جديدة لسلسلة الاجتماعات الحالية أو اضغط على وصلة التاريخ الخاصة بالدقائق الموجودة.</p>"

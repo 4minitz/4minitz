@@ -47,6 +47,10 @@ Dialog:
     really: "Вы действительно хотите завершить эту встречу датой <strong>{$minutesDate}</strong>?"
     sendActionItems: "Отправить действия"
     sendMinutes: "Отправить информацию"
+  LocaleSetting:
+    title: "Установить язык"
+    languageLocale: "Язык"
+    automatic: "Автоматически через браузер"
 Mail:
   greeting: "Здравствуйте."
   newAgenda: "У нас есть новая повестка встречи для вас:"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Переключить навигацию"
   meetings: "Заседания"
   processing: "Обработка содержимого ..."
+  setLanguageForUser: "Установить язык"
+  setLanguageLogin: "Язык"
 QuickHelp:
   title: "Быстрая справка"
   meetingSeries: "<p>Здесь вы можете создать новые минуты для текущей серии встреч или нажать на дату ссылки существующих минут.</p>"

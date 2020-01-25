@@ -47,6 +47,10 @@ Dialog:
     really: "Deseja mesmo finalizar este minuto da reunião com data de <strong>{$minutesDate}</strong>?"
     sendActionItems: "Enviar itens de ação"
     sendMinutes: "Enviar informações de itens"
+  LocaleSetting:
+    title: "Definir Idioma"
+    languageLocale: "Idioma do Idioma"
+    automatic: "Automático via Navegador"
 Mail:
   greeting: "Olá"
   newAgenda: "Nós temos uma nova agenda de reuniões para você:"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Alternar Navegação"
   meetings: "Reuniões"
   processing: "Processando seu conteúdo ..."
+  setLanguageForUser: "Definir Idioma"
+  setLanguageLogin: "IDIOMA"
 QuickHelp:
   title: "Ajuda rápida"
   meetingSeries: "<p>Aqui você pode criar novos minutos para a série de reunião atual ou clicar em um link de data dos minutos existentes.</p>"

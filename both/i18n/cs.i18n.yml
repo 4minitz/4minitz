@@ -47,6 +47,10 @@ Dialog:
     really: "Opravdu chcete dokončit tuto schůzku s datem <strong>{$minutesDate}</strong>?"
     sendActionItems: "Odeslat položky akce"
     sendMinutes: "Odeslat informační položky"
+  LocaleSetting:
+    title: "Nastavit jazyk"
+    languageLocale: "Jazyk jazyka"
+    automatic: "Automaticky přes prohlížeč"
 Mail:
   greeting: "Ahoj."
   newAgenda: "Máme pro vás novou schůzku s novou schůzkou:"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Boj s navigací"
   meetings: "Setkání"
   processing: "Zpracování obsahu ..."
+  setLanguageForUser: "Nastavit jazyk"
+  setLanguageLogin: "Jazyk"
 QuickHelp:
   title: "Rychlá nápověda"
   meetingSeries: "<p>Zde můžete vytvořit nové minuty pro aktuální řadu schůzek nebo klepněte na odkaz na datum existující minuty.</p>"

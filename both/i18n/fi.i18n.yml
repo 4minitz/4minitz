@@ -47,6 +47,10 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
 Mail:
   greeting: "Hei"
   newAgenda: "Meillä on uusi tapaamisohjelma sinulle:"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Togon navigointi"
   meetings: "Kokoukset"
   processing: "Sisältösi käsittely ..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "Nopea ohje"
   meetingSeries: "<p>Voit luoda uusia minuutteja nykyiseen kokoussarjaan tai napsauttamalla aiemmin luotujen minuuttien päivämäärälinkkiä.</p>"

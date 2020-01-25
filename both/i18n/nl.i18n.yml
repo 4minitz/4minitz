@@ -47,6 +47,10 @@ Dialog:
     really: "Weet je zeker dat je deze minuut van de vergadering op <strong>{$minutesDate}</strong> wilt afsluiten?"
     sendActionItems: "Stuur actie items"
     sendMinutes: "Stuur informatie items"
+  LocaleSetting:
+    title: "Taal instellen"
+    languageLocale: "Locale taal"
+    automatic: "Automatisch via browser"
 Mail:
   greeting: "Hallo"
   newAgenda: "We hebben een nieuwe agenda voor u:"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Navigatie aan/uit"
   meetings: "Vergaderingen"
   processing: "Uw content wordt verwerkt ..."
+  setLanguageForUser: "Taal instellen"
+  setLanguageLogin: "Taal"
 QuickHelp:
   title: "Snelhulp"
   meetingSeries: "<p>Hier kunt u nieuwe minuten maken voor de huidige vergaderreeks of klikken op een datumlink van bestaande minuten.</p>"

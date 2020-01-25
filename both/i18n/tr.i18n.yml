@@ -47,6 +47,10 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
 Mail:
   greeting: "Merhaba."
   newAgenda: "Sizin için yepyeni bir toplantı gündemimiz var:"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Dolaşma Aç/Kapa"
   meetings: "Toplantılar"
   processing: "İçeriğiniz işleniyor ..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "Hızlı Yardım"
   meetingSeries: "<p>Burada, geçerli toplantı dizisi için yeni dakika oluşturabilir ya da var olan dakikaların tarih bağlantısını tıklatabilirsiniz.</p>"

@@ -47,6 +47,10 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
 Mail:
   greeting: "Hello"
   newAgenda: "Van egy új napirendünk a számodra:"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Navigáció átkapcsolása"
   meetings: "Ülések"
   processing: "Tartalom feldolgozása ..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "Gyors súgó"
   meetingSeries: "<p>Itt új perceket hozhat létre az aktuális találkozósorhoz, vagy kattintson a meglévő percek dátumhivatkozására.</p>"
