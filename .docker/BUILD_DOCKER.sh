@@ -62,6 +62,8 @@ docker build \
         --build-arg VCS_REF=`git rev-parse --short HEAD` \
         --build-arg VERSION=`git describe --tags --abbrev=0` \
         .
+
+docker tag "$baseimagetag" "$dockerproject:dev"
 echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
 echo "docker push $baseimagetag"
 pushlist="docker push $baseimagetag"
