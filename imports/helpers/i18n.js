@@ -42,10 +42,15 @@ export class I18nHelper {
     static setLanguageLocale(localeCode) {
         if (!localeCode) {
             localeCode = I18nHelper._getPreferredUserLocale();
-        } else if (Meteor.user() && !Meteor.user().isDemoUser) {
+        } else {
             I18nHelper._persistLanguagePreference(localeCode);
         }
         console.log('Switch to language locale: >'+localeCode+'<');
+        if (localeCode === 'auto') {
+            localeCode = I18nHelper._getPreferredBrowserLocale();
+            console.log(' Browser language locale: >'+localeCode+'<');
+        }
+
         i18n.setLocale(localeCode)
             .then(resp => {
                 T9n.setLanguage(localeCode);
@@ -90,6 +95,9 @@ export class I18nHelper {
     }
 
     static _persistLanguagePreference(localeCode) {
+        if (!Meteor.user() || Meteor.user().isDemoUser) {
+            return;
+        }
         if (localeCode === 'auto') {
             Meteor.users.update({_id: Meteor.userId()}, {$unset: {'profile.locale': ''}});
             localeCode = I18nHelper._getPreferredBrowserLocale();
