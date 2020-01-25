@@ -1,5 +1,5 @@
 <template name="confirmationDialogCreateNewMinutes">
     <p>
-        Do you really want to create new minutes for the meeting series <strong>{{project}}: {{name}}</strong>?
+        {{__ 'Dialog.ConfirmCreateNewMinutes.content' _purify='string => string' project=project name=name}}
     </p>
 </template>

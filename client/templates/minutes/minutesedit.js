@@ -490,13 +490,13 @@ Template.minutesedit.events({
         const routeToNewMinutes = (newMinutesId) => FlowRouter.redirect('/minutesedit/' + newMinutesId);
         const confirmationDialog = ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
             () => ms.addNewMinutes(routeToNewMinutes, handleError),
-            'Confirm Creating New Minutes',
+            i18n.__('Dialog.ConfirmCreateNewMinutes.title'),
             'confirmationDialogCreateNewMinutes',
             {
                 project: ms.project,
                 name: ms.name,
             },
-            'Create',
+            i18n.__('Buttons.create'),
         );
         confirmationDialog.show();
     },
