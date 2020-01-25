@@ -9,7 +9,7 @@ env:
     - TEST="tests/end2end/Mee* tests/end2end/My*"
     - TEST="tests/end2end/P* tests/end2end/At* tests/end2end/Mi*"
     - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
-    - TEST="unit"
+    - TEST="unit and i18n"
 
 addons:
   # chrome: stable - don't update chrome! Keep chrome of base image
