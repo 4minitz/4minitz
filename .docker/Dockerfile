@@ -7,8 +7,7 @@ MAINTAINER 4Minitz-Team <4minitz@gmx.de>
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name="4Minitz" \
+LABEL org.label-schema.name="4Minitz" \
       org.label-schema.description="Simply a decent free webapp for taking meeting minutes" \
       org.label-schema.url="https://www.4minitz.com/" \
       org.label-schema.vcs-ref=$VCS_REF \
