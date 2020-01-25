@@ -12,27 +12,9 @@ Meteor.methods({
             nameNative: i18n.getLanguageNativeName(code)[0].toUpperCase() + i18n.getLanguageNativeName(code).slice(1),
         }));
     },
-    getAvailableLocaleCodes() {
-        // ["en-US", "de", "el"]
-        return i18n.getLanguages();
-    }
 });
 
 export class I18nHelper {
-    static availableLocaleCodes = [];
-
-    static initialize() {
-        Meteor.call('getAvailableLocaleCodes',
-            function(error, result){
-                if(error){
-                    console.log('Error: No supported language locales reported by server.');
-                }else{
-                    I18nHelper.availableLocaleCodes = result;
-                }
-            }
-        );
-    }
-
     // setLanguageLocale() has two modes:
     // 1. No locale given
     //      => determine preference (first user, then browser)
@@ -52,11 +34,10 @@ export class I18nHelper {
         }
 
         i18n.setLocale(localeCode)
-            .then(resp => {
-                T9n.setLanguage(localeCode);
-            })
+            .then(() => T9n.setLanguage(localeCode))
             .catch(e => {
                 console.log('Error switching to: >'+localeCode+'<');
+                console.error(e);
                 const fallbackLocale = 'en-US';
                 console.log('Switching to fallback: >'+fallbackLocale+'<');
                 i18n.setLocale(fallbackLocale);
@@ -100,7 +81,6 @@ export class I18nHelper {
         }
         if (localeCode === 'auto') {
             Meteor.users.update({_id: Meteor.userId()}, {$unset: {'profile.locale': ''}});
-            localeCode = I18nHelper._getPreferredBrowserLocale();
         } else {
             Meteor.users.update({_id: Meteor.userId()}, {$set: {'profile.locale': localeCode}});
         }
