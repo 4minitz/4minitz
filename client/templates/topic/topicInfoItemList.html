@@ -34,8 +34,8 @@
                             <span class="btnEditInfoItem" style="cursor: {{cursorForEdit}};" data-index="{{@index}}">
                                 {{#if isActionItem @index}}
                                     {{infoItem.subject}} {{responsiblesHelper @index}}
-                                    {{#if infoItem.priority}}Prio:{{infoItem.priority}}{{/if}}
-                                    Due: {{infoItem.duedate}}
+                                    {{#if infoItem.priority}}{{__ 'Item.priority' }}:{{infoItem.priority}}{{/if}}
+                                    {{__ 'Item.due' }}: {{infoItem.duedate}}
                                 {{else}}
                                     {{infoItem.subject}}
                                 {{/if}}
@@ -49,14 +49,14 @@
 
                             <!-- New-Topic-Label -->
                             {{#if infoItem.isNew}}
-                                <span class="badge">New</span>
+                                <span class="badge">{{__ 'Topic.new' }}</span>
                             {{/if}}
 
                             {{#if showLinks}}
                                 <span class="pull-right">
                                     <span class="linkItemContext glyphicon glyphicon-menu-right"></span>
                                     <a class="linkItemContext" href="{{getLinkToTopic @index}}" title="{{tooltipForTopic @index}}">
-                                        Show Topic</a>
+                                        {{__ 'Topic.show' }}</a>
                                 </span>
                             {{/if}}
 
@@ -69,46 +69,46 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a  class="addDetail panel-link" title="Add details to item" data-index="{{@index}}">
+                                            <a  class="addDetail panel-link" title="{{__ 'Topic.addDetailsHint' }}" data-index="{{@index}}">
                                                 <span class="glyphicon glyphicon-plus"></span>
-                                                Add Details
+                                                {{__ 'Topic.addDetails' }}
                                             </a>
                                         </li>
                                         <li class="divider"></li>
                                         <li>
-                                            <a  class="btnEditInfoItem panel-link" title="Edit item" data-index="{{@index}}">
+                                            <a  class="btnEditInfoItem panel-link" title="{{__ 'Item.editItemHint' }}" data-index="{{@index}}">
                                                 <span class="glyphicon glyphicon-pencil"></span>
-                                                Edit Item
+                                                {{__ 'Item.editItem' }}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#" data-toggle="{{#unless isItemConversationAllowed @index}}tooltip{{/unless}}" class="btnConvertInfoItem panel-link {{#unless isItemConversationAllowed @index}}disabled{{/unless}}"
-                                               title="{{#unless isItemConversationAllowed @index}}Conversion disabled: item exists in past meeting{{/unless}}" data-index="{{@index}}">
+                                               title="{{#unless isItemConversationAllowed @index}}{{__ 'Item.convertDisabled' }}{{/unless}}" data-index="{{@index}}">
                                                 <span class="glyphicon {{#if isInfoItem @index}}glyphicon-check{{else}}glyphicon-info-sign{{/if}}"></span>
-                                                Convert to {{#if isInfoItem @index}}Action{{else}}Info{{/if}}
+                                                {{#if isInfoItem @index}}{{__ 'Item.convertToAction' }}{{else}}{{__ 'Item.convertToInfo' }}{{/if}}
                                             </a>
                                         </li>
                                         {{#if isInfoItem @index}}
                                             <li>
                                                 <a  class="btnPinInfoItem panel-link"
                                                    data-index="{{@index}}"
-                                                   title="{{#if infoItem.isSticky}}Set as non-pinned info item{{else}}Set as pinned info item{{/if}}">
+                                                   title="{{#if infoItem.isSticky}}{{__ 'Item.unsetPinHint' }}{{else}}{{__ 'Item.setPinHint' }}{{/if}}">
                                                     <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
-                                                    {{#if infoItem.isSticky}}Unset{{else}}Set{{/if}} Pinned
+                                                    {{#if infoItem.isSticky}}{{__ 'Item.unsetPin' }}{{else}}{{__ 'Item.setPin' }}{{/if}}
                                                 </a>
                                             </li>
                                         {{/if}}
                                         <li>
-                                            <a id="btnDelInfoItem"  data-index="{{@index}}" class="panel-link" title="Delete item">
+                                            <a id="btnDelInfoItem"  data-index="{{@index}}" class="panel-link" title="{{__ 'Item.deleteItemHint' }}">
                                                 <span class="glyphicon glyphicon-trash"></span>
-                                                Delete Item
+                                                {{__ 'Item.deleteItem' }}
                                             </a>
                                         </li>
                                     </ul>
                                 {{/unless}}
 
                                 {{#if infoItem.isSticky}}
-                                    <a  class="panel-link btnPinInfoItem" title="Set as unpinned info item" data-index="{{@index}}">
+                                    <a  class="panel-link btnPinInfoItem" title="{{__ 'Item.unsetPinHint' }}" data-index="{{@index}}">
                                         <span class="glyphicon glyphicon-pushpin sticky-item active-icon"></span>
                                     </a>
                                 {{/if}}
@@ -143,7 +143,7 @@
                                         </span>
                                         <!-- New-Topic-Label -->
                                         {{#if this.isNew}}
-                                            <span class="badge">New</span>
+                                            <span class="badge">{{__ 'Topic.new' }}</span>
                                         {{/if}}
                                     </div>
 
@@ -163,13 +163,13 @@
                                                   data-index="{{@index}}"
                                                   class="form-control detailInput"
                                                   style="display: none; font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
-                                                  placeholder="You may use Markdown to edit. Press Ctrl+Enter or Tab to leave."></textarea>
+                                                  placeholder="{{__ 'Item.detailPlaceholder' }}"></textarea>
                                     </div>
                                 </div>
                             {{/each}}
                         {{/let}}
                         {{#unless isReadonly}}
-                            <a  data-index="{{@index}}" class="addDetail hidden-print">Add details</a>
+                            <a  data-index="{{@index}}" class="addDetail hidden-print">{{__ 'Item.addDetails' }}</a>
                         {{/unless}}
                     </div>
                 </div>

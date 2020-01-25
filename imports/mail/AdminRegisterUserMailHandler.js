@@ -19,6 +19,7 @@ export class AdminRegisterUserMailHandler {
             ? emails[0].address
             : GlobalSettings.getDefaultEmailSenderAddress();
 
+        // TODO: Translate me!
         if (this._user.emails && this._user.emails.length > 0) {
             let mailer = MailFactory.getMailer(adminFrom, this._user.emails[0].address);
             mailer.setSubject('[4Minitz] Your new account at our server');

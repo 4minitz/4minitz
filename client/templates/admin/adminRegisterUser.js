@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { $ } from 'meteor/jquery';
 
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -46,7 +47,7 @@ Template.adminRegisterUser.events({
                     handleError(error);
                 } else {
                     $('#dlgAdminRegisterUser').modal('hide');
-                    (new FlashMessage('OK', 'Registered new user: '+uName, 'alert-success', 3000)).show();
+                    (new FlashMessage(i18n.__('Buttons.ok'), i18n.__('Admin.Register.success', {user: uName}), 'alert-success', 3000)).show();
                 }
             });
     },

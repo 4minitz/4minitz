@@ -1,16 +1,15 @@
 <template name="confirmDeleteItem">
     {{#if deleteAllowed}}
-        <p>Do you really want to delete the {{type}} <strong>{{subject}}</strong>?</p>
+        <p>{{{__ 'Dialog.confirmDeleteItemAllowed' _purify='string => string' type=type subject=subject }}}</p>
     {{else}}
         <p>
-            It is not possible to delete the {{type}} <strong>{{subject}}</strong> because the {{type}} was
-            created in a previous minutes.
+            {{{__ 'Dialog.confirmDeleteItemNotAllowed' _purify='string => string' type=type subject=subject }}}
         </p>
         <p>
             {{#if isActionItem}}
-                Do you want to close the action item instead?
+                {{__ 'Dialog.confirmDeleteItemActionItem' }}
             {{else}}
-                Do you want to unpin the sticky info item instead?
+                {{__ 'Dialog.confirmDeleteItemInfoItem' }}
             {{/if}}
         </p>
     {{/if}}

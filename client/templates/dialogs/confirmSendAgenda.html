@@ -1,6 +1,5 @@
 <template name="confirmSendAgenda">
     <p>
-        Do you really want to sent the agenda for this meeting minute dated on <strong>{{minDate}}</strong>?<br>
-        It was already sent on {{agendaSentDate}} at {{agendaSentTime}}
+        {{{__ 'Dialog.confirmSendAgenda' _purify='string => string' minDate=minDate agendaSentDate=agendaSentDate agendaSentTime=agendaSentTime }}}
     </p>
 </template>

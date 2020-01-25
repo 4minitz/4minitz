@@ -3,10 +3,10 @@
   "version": "v1.6.0-develop",
   "4minitz": {
     "//": "This is some app specific info",
-    "4m_branch": "develop",
-    "4m_commitlong": "2f840a86f5ff65fb52e036a797cf04d8b623db98",
-    "4m_commitshort": "2f840a86",
-    "4m_releasedate": "2019-04-17"
+    "4m_branch": "#30-internalization",
+    "4m_commitlong": "1b43b6842639aa3b4b0d6b66c80c53af2ca3b3eb",
+    "4m_commitshort": "1b43b684",
+    "4m_releasedate": "2019-10-30"
   },
   "description": "Simply the best free webapp for taking meeting minutes.  ;-)",
   "main": "4minitz.html",
@@ -30,6 +30,7 @@
     "test:end2end:watchheadless": "chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --path=tests/end2end/ --watch",
     "test:fixtures:seed-minutes:unit": "node ./node_modules/mocha/bin/mocha  --recursive tests/performance/fixtures/tests/ --compilers js:babel-register --require tests/performance/fixtures/tests/babel",
     "test:program:priority-analyzer": "node ./node_modules/mocha/bin/mocha  --recursive programs/priority-analyzer/tests/ --compilers js:babel-register --require programs/priority-analyzer/tests/babel",
+    "test:i18n": "node tests/i18n/test_i18n_resources.js",
     "progam:priority-analyzer": "node ./node_modules/babel-cli/bin/babel-node.js --presets=es2015,stage-3 programs/priority-analyzer/priority-analyzer.js",
     "fixtures:seed-minutes": "node ./node_modules/babel-cli/bin/babel-node.js --presets=es2015,stage-3 tests/performance/fixtures/insertMeetingSeries.js",
     "postinstall": "node programs/postInstall.js"
@@ -86,8 +87,11 @@
     "clone": "^2.1.1",
     "eslint": "^4.15.0",
     "faker": "^4.1.0",
+    "inject-loader": "^4.0.1",
+    "js-yaml": "^3.13.1",
     "markdownlint-cli": "^0.15.0",
     "mocha": "^4.1.0",
+    "mock-meteor-universe-i18n": "^0.2.1",
     "npm-license-crawler": "^0.1.5",
     "proxyquire": "^1.8.0",
     "sinon": "^4.1.6",

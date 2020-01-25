@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { i18n } from 'meteor/universe:i18n';
 import { Accounts } from 'meteor/accounts-base';
 import { Markdown } from 'meteor/perak:markdown';
 
@@ -25,9 +26,12 @@ import '/imports/collections/documentgeneration_private';
 
 import '/imports/services/finalize-minutes/finalizer';
 import '/imports/services/isEditedService';
+import '/imports/helpers/i18n';
 
 import cron from 'node-cron';
 import importUsers from '/imports/ldap/import';
+
+i18n.setLocale('en');
 
 let handleDemoUserAccount = function () {
     if (GlobalSettings.createDemoAccount()) {

@@ -1,5 +1,6 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 
 import { TopicsFilter } from '/imports/search/TopicsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -18,12 +19,6 @@ export class TabTopicsConfig {
     }
 }
 
-const FILTERS = [
-    {text: 'Uncompleted Topics', value: 'is:uncompleted'},
-    {text: 'Completed Topics', value: 'is:completed'},
-    {text: 'Your Topics', value: '@me'}
-];
-
 Template.tabTopics.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar('');
     let myTemplate = Template.instance();
@@ -41,6 +36,11 @@ Template.tabTopics.onCreated(function() {
 Template.tabTopics.helpers({
 
     'getTopicFilterConfig': function() {
+        const FILTERS = [
+            {text: i18n.__('Topic.Filter.uncompleted'), value: 'is:uncompleted'},
+            {text: i18n.__('Topic.Filter.completed'), value: 'is:completed'},
+            {text: i18n.__('Topic.Filter.yourTopic'), value: '@me'}
+        ];
         return new FilterControlConfig(Template.instance().topicFilterHandler, FILTERS, TOPIC_KEYWORDS, 'Topic-Filter');
     },
 

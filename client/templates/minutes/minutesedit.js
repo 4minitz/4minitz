@@ -1,5 +1,6 @@
 import moment from 'moment/moment';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { Blaze } from 'meteor/blaze';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
@@ -400,9 +401,9 @@ Template.minutesedit.helpers({
 
     finalizeHistoryTooltip: function (buttontype) {
         let aMin = new Minutes(_minutesID);
-        let tooltip = buttontype ? buttontype+'\n' : '';
+        let tooltip = buttontype ? i18n.__(buttontype)+'\n' : '';
         if (aMin.finalizedHistory) {
-            tooltip += '\nHistory:\n'+aMin.finalizedHistory.join('\n');
+            tooltip += '\n' + i18n.__('Minutes.history') + ':\n' + aMin.finalizedHistory.join('\n');
         }
         return tooltip;
     },

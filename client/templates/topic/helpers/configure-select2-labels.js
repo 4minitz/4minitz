@@ -1,3 +1,4 @@
+import { i18n } from 'meteor/universe:i18n';
 import {Minutes} from '../../../../imports/minutes';
 import $ from 'jquery';
 
@@ -16,7 +17,7 @@ export const configureSelect2Labels = (minutesId, elementSelector, editItem) => 
     });
 
     selectLabels.select2({
-        placeholder: 'Select...',
+        placeholder: i18n.__('MeetingSeries.Labels.select'),
         tags: true,                     // Allow freetext adding
         tokenSeparators: [',', ';'],
         data: selectOptions             // push <option>s data

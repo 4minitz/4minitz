@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
 
@@ -43,7 +44,7 @@ Template.topicsList.events({
         evt.preventDefault();
 
         if (tmpl.data.isReadonly) {
-            throw new Meteor.Error('illegal-state', 'Tried to call an illegal event in read-only mode');
+            throw new Meteor.Error('illegal-state', i18n.__('Topic.illegalAction'));
         }
 
         const topicDoc = {

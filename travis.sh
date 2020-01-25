@@ -9,11 +9,14 @@ if [ "$TRAVIS" = "true" ]; then
     echo Find screenshots here: http://s3files.4minitz.com/4minitz/4minitz/$BUILD/$JOB/tests/snapshots
 fi
 
-if [ "$TEST" = "unit" ]; then
+if [ "$TEST" = "unit and i18n" ]; then
+    echo Run i18n test
+    npm run test:i18n
+    I18N=$?
     echo Run unit test
     npm run test:unit
     UNIT=$?
-    exit $(($UNIT))
+    exit $(($UNIT + $I18N))
 fi
 
 echo Run end2end tests: "$TEST"

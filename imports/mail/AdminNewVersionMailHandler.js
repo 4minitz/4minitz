@@ -19,6 +19,7 @@ export class AdminNewVersionMailHandler {
         }
     }
 
+    // TODO: Translate me!
     send() {
         let adminFrom = GlobalSettings.getDefaultEmailSenderAddress();
 

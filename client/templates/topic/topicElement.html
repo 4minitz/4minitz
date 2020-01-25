@@ -33,13 +33,13 @@
 
                 <!-- New-Topic-Label -->
                 {{#if topic.isNew}}
-                    <span class="badge" style="margin-bottom: 5px;">New</span>
+                    <span class="badge" style="margin-bottom: 5px;">{{__ 'Topic.new' }}</span>
                 {{/if}}
                 {{#if isTopicFinallyCompleted}}
                     <span class="badge"
                           style="margin-bottom: 5px; background-color: teal;"
-                          title="This topic is finally completed. So it won't be propagated to the next meeting.">
-                       ✔ Completed
+                          title="{{__ 'Topic.completedHint' }}">
+                       ✔ {{__ 'Topic.completed' }}
                     </span>
                 {{/if}}
 
@@ -53,56 +53,56 @@
                             {{#if isEditable}}
                                 <li>
                                     <a  id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link"
-                                       data-toggle="modal" data-target="#dlgAddInfoItem" title="Add info item to topic">
+                                       data-toggle="modal" data-target="#dlgAddInfoItem" title="{{__ 'Item.addInfoHint' }}">
                                         <span class="glyphicon glyphicon-info-sign"></span>
-                                        Add Info Item
+                                        {{__ 'Item.addInfo' }}
                                     </a>
                                 </li>
                                 <li>
                                     <a  id="addTopicInfoItem_{{topic._id}}" class="addTopicActionItem panel-link"
-                                       data-toggle="modal" data-target="#dlgAddInfoItem" title="Add action item to topic">
+                                       data-toggle="modal" data-target="#dlgAddInfoItem" title="{{__ 'Item.addActionHint' }}">
                                         <span class="glyphicon glyphicon-check"></span>
-                                        Add Action Item
+                                        {{__ 'Item.addAction' }}
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a id="btnEditTopic"  class="panel-link" title="Edit topic">
+                                    <a id="btnEditTopic"  class="panel-link" title="{{__ 'Topic.edit' }}">
                                         <span class="glyphicon glyphicon-pencil"></span>
-                                        Edit Topic
+                                        {{__ 'Topic.edit' }}
                                     </a>
                                 </li>
                                 <li>
                                     <a  class="js-toggle-recurring panel-link"
-                                       title="{{#if topic.isRecurring}}Set as not-recurring topic{{else}}Set as recurring topic{{/if}}">
+                                       title="{{#if topic.isRecurring}}{{__ 'Topic.unsetRecurringHint' }}{{else}}{{__ 'Topic.setRecurringHint' }}{{/if}}">
                                         <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
-                                        {{#if topic.isRecurring}}Unset{{else}}Set{{/if}} Recurring
+                                        {{#if topic.isRecurring}}{{__ 'Topic.unsetRecurring' }}{{else}}{{__ 'Topic.setRecurring' }}{{/if}}
                                     </a>
                                 </li>
                                 <li>
                                     <a  class="js-toggle-skipped panel-link"
-                                       title="{{#if topic.isSkipped}}Set as non-skipped topic{{else}}Set as skipped topic{{/if}}">
+                                       title="{{#if topic.isSkipped}}{{__ 'Topic.unsetSkipHint' }}{{else}}{{__ 'Topic.setSkipHint' }}{{/if}}">
                                         <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
-                                        {{#if topic.isSkipped}}Unset{{else}}Set{{/if}} Skip
+                                        {{#if topic.isSkipped}}{{__ 'Topic.unsetSkip' }}{{else}}{{__ 'Topic.setSkip' }}{{/if}}
                                     </a>
                                 </li>                           
                                 <li>
-                                    <a id="btnShowTopic"  class="panel-link" title="Show complete finalized state of this topic">
+                                    <a id="btnShowTopic"  class="panel-link" title="{{__ 'Topic.historyHint' }}">
                                         <span class="glyphicon glyphicon-folder-open"></span>
-                                        Show History
+                                        {{__ 'Topic.history' }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a id="btnDelTopic"  class="panel-link" title="Delete topic">
+                                    <a id="btnDelTopic"  class="panel-link" title="{{__ 'Topic.deleteHint' }}">
                                         <span class="glyphicon glyphicon-trash"></span>
-                                        Delete Topic
+                                        {{__ 'Topic.deleteHint' }}
                                     </a>
                                 </li>
                             {{else}}
                                 <li>
-                                    <a id="btnReopenTopic"  class="panel-link" title="Reopen topic">
+                                    <a id="btnReopenTopic"  class="panel-link" title="{{__ 'Topic.reopenHint' }}">
                                         <span class="glyphicon glyphicon-share-alt"></span>
-                                        Re-open Topic
+                                        {{__ 'Topic.reopen' }}
                                     </a>
                                 </li>                           
                             {{/if}}
@@ -111,12 +111,12 @@
 
 
                     {{#if topic.isRecurring}}
-                        <a  class="js-toggle-recurring panel-link" title="Set as not-recurring topic">
+                        <a  class="js-toggle-recurring panel-link" title="{{__ 'Topic.unsetRecurringHint' }}">
                             <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
                         </a>
                     {{/if}}
                     {{#if topic.isSkipped}}
-                        <a  id="topicIsSkippedIcon" class="js-toggle-skipped panel-link" title="Set as not-skipped topic">
+                        <a  id="topicIsSkippedIcon" class="js-toggle-skipped panel-link" title="{{__ 'Topic.unsetSkipHint' }}">
                             <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
                         </a>
                     {{/if}}                 
@@ -140,7 +140,7 @@
                         <textarea id="addItemField_{{topic._id}}"
                                   rows="1"
                                   class="form-control add-item-field"
-                                  placeholder="Add Info Item. Append @username to add an Action Item. Press Enter to append details. Press Ctrl+Enter or Tab to submit."></textarea>
+                                  placeholder="{{__ 'Topic.placeholder' }}"></textarea>
 
                     </div>
                 </form>

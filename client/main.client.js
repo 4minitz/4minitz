@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { I18nHelper } from '/imports/helpers/i18n';
 import { Blaze } from 'meteor/blaze';
 import { Markdown } from 'meteor/perak:markdown';
 import { Astro } from 'meteor/jagi:astronomy';
@@ -84,6 +85,8 @@ window.onpopstate = () => {
 };
 
 Meteor.startup(() => {
+    I18nHelper.setLanguageLocale();
+
     Meteor.call('gitVersionInfoUpdate');
 
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>

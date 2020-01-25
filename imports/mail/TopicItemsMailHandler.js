@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { i18n } from 'meteor/universe:i18n';
 import { TemplateRenderer } from './../server_side_templates/TemplateRenderer';
 import { MailFactory } from './MailFactory';
 import { GlobalSettings } from '../config/GlobalSettings';
@@ -54,7 +55,8 @@ export class TopicItemsMailHandler {
 
     _getSubjectPrefix() {
         return '[' + this._minute.parentMeetingSeries().project + '] '
-            + this._minute.parentMeetingSeries().name + ' on '
+            + this._minute.parentMeetingSeries().name 
+            + ' ' + i18n.__('Minutes.dateOn') + ' '
             + this._minute.date;
     }
 

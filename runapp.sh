@@ -59,6 +59,9 @@ echo "To run a production server consult the admin guide:"
 echo "https://github.com/4minitz/4minitz/blob/master/doc/admin/adminguide.md"
 echo ""
 
+# Let client download all available localizations so that our custom accounts-ui
+# translations are mapped correctly (see imports/config/accounts.js)
+export UNIVERSE_I18N_LOCALES='all'
 
 # Run app on specific port
 meteor --production --settings settings.json --port $PORT4APP

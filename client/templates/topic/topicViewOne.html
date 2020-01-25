@@ -5,35 +5,30 @@
         {{redirectIfNotAllowed}}
         {{#unless theTopic}}
             <h2>
-                Sorry, Topic not found.
+                {{__ 'Topic.notFoundTitle' }}
             </h2>
-            Reasons may be...
-            <ul>
-                <li>The topic was never finalized (it only lives in an unfinalized minute)</li>
-                <li>The topic was deleted</li>
-                <li>You do not have access rights to this topic (anymore)</li>
-            </ul>
+            {{{__ 'Topic.notFoundReasons' _purify='string => string'}}}
         {{else}}
         <h2>
-            Topic of Meeting Series:<br>
+            {{__ 'Topic.childOf' }}<br>
             {{#with theMeetingSeries}}
                 <a href="{{pathFor 'meetingseries' _id=_id}}">
                     {{project}}: {{name}}
                 </a>
             {{/with}}
         </h2>
-        <h3>This Topic was</h3>
+        <h3>{{__ 'Topic.historyTitle' }}</h3>
             <table style="font-size: 125%; margin-bottom: 1.5em; margin-left: 2em;">
                 <tr>
-                    <td style="padding-right: 1.5em;">created on:</td>
-                    <td >{{formatDateISO8601Time theTopic.topic.createdAt}} (by {{theTopic.topic.createdBy}})</td>
+                    <td style="padding-right: 1.5em;">{{__ 'Topic.createdOn' }}</td>
+                    <td >{{formatDateISO8601Time theTopic.topic.createdAt}} {{__ 'Topic.doneBy' user=theTopic.topic.updatedBy }}</td>
                 </tr>
                 <tr>
-                    <td style="padding-right: 1.5em;">last updated on:</td>
-                    <td >{{formatDateISO8601Time theTopic.topic.updatedAt}} (by {{theTopic.topic.updatedBy}})</td>
+                    <td style="padding-right: 1.5em;">{{__ 'Topic.lastUpdate' }}</td>
+                    <td >{{formatDateISO8601Time theTopic.topic.updatedAt}} {{__ 'Topic.doneBy' user=theTopic.topic.updatedBy }}</td>
                 </tr>
                 <tr>
-                    <td style="padding-right: 1.5em;">finalized on minutes from:</td>
+                    <td style="padding-right: 1.5em;">{{__ 'Topic.finalizedOn' }}</td>
                     <td ><a href="{{pathFor 'minutesedit' _id=idOfLastFinalizedMinutes}}">
                         {{dateOfLastFinalizedMinutes}}</a></td>
                 </tr>
@@ -42,7 +37,7 @@
         {{/unless}}
     {{/if}}
         <button class="btn btn-primary btn-raised" id="btnGoBack">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="Go Back"></span>
-            Go Back
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="{{__ 'Buttons.back' }}"></span>
+            {{__ 'Buttons.back' }}
         </button>
 </template>
