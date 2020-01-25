@@ -55,7 +55,8 @@
                                     {{/unless}}
                                 {{/unless}}
                                 <li><a id="navbar-dlgLocale">
-                                    Set Language</a>
+                                    {{__ 'Navigation.setLanguageForUser' }}
+                                    </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li><a id="navbar-signout">
@@ -65,7 +66,7 @@
                         </li>
                     {{else}} <!-- No User logged in -->
                         <li><a id="navbar-dlgLocale">
-                            Language</a>
+                            {{__ 'Navigation.setLanguageLogin' }}</a>
                         </li>
                     {{/if}}  <!--currentUser?-->
                 </ul>

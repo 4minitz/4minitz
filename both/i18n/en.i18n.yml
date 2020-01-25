@@ -47,6 +47,11 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
+
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
@@ -340,6 +345,8 @@ Navigation:
   toggleNavigation: "Toggle Navigation"
   meetings: "Meetings"
   processing: "Processing your content..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "Quick Help"
   meetingSeries: "<p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>"
