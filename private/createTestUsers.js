@@ -8,47 +8,48 @@
  */
 
 let mongo = require('mongodb').MongoClient;
+let mongoUriParser = require('mongo-uri');
 let faker = require('faker');
 let random = require('randomstring');
 
 class UserFactory {
     static getUser()  {
         UserFactory.counter += 1;
-        const username = "user_"+UserFactory.postfix+"_"+UserFactory.counter;
+        const username = 'user_'+UserFactory.postfix+'_'+UserFactory.counter;
         return {
             _id: random.generate({
-                    length: 17,
-                    charset: '23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz'
-                }
+                length: 17,
+                charset: '23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz'
+            }
             ),
-            "username" : username,
-            "createdAt" : new Date(),
-            "isInactive" : false,
-            "services" : {
-                "password" : {  // PwdPwd1
-                    "bcrypt" : "$2a$10$mtPbwEoJmaAO01fxI/WnZepoUz4D.U6f/yYl6KG1oojxNI7JZmn.S"
+            'username' : username,
+            'createdAt' : new Date(),
+            'isInactive' : false,
+            'services' : {
+                'password' : {  // PwdPwd1
+                    'bcrypt' : '$2a$10$mtPbwEoJmaAO01fxI/WnZepoUz4D.U6f/yYl6KG1oojxNI7JZmn.S'
                 }
             }   ,
-            "profile" : {
-                "name" : faker.name.findName()
+            'profile' : {
+                'name' : faker.name.findName()
             },
-            "emails" : [
+            'emails' : [
                 {
-                    "address" : username+"@4minitz.com",
-                    "verified" : false
+                    'address' : username+'@4minitz.com',
+                    'verified' : false
                 }
             ]
         };
     }
 
-    static saveUsers(db, numberOfUsers) {
+    static saveUsers(client, numberOfUsers, mongoConnection) {
         return new Promise ((resolve, reject) => {
             for (let i=0; i<numberOfUsers; i++) {
                 let user = UserFactory.getUser();
-                db.collection('users').insert(user);
-                console.log(i+"\t"+user.username + "\t"+user.profile.name);
+                client.db(mongoConnection.database).collection('users').insert(user);
+                console.log(i+'\t'+user.username + '\t'+user.profile.name);
             }
-            resolve(db);
+            resolve(client);
         });
     }
 }
@@ -63,11 +64,11 @@ UserFactory.postfix = random.generate(
 
 let _connectMongo = function (mongoUrl) {
     return new Promise((resolve, reject) => {
-        mongo.connect(mongoUrl, (error, db) => {
+        mongo.connect(mongoUrl, (error, client) => {
             if (error) {
                 reject(error);
             }
-            resolve(db);
+            resolve(client);
         });
     });
 };
@@ -93,8 +94,11 @@ if (!mongoUrl) {
 }
 
 _connectMongo(mongoUrl)
-    .then(db => UserFactory.saveUsers(db, numberOfUsers))
-    .then(db => db.close())
+    .then(client => {
+        console.log('>>>'+mongoUrl);
+        const mongoConnection = mongoUriParser.parse(mongoUrl);
+        return UserFactory.saveUsers(client, numberOfUsers, mongoConnection);
+    }).then(client => client.close())
     .catch(error => {
-        console.log("Error: "+error);
+        console.log('Error: '+error);
     });
