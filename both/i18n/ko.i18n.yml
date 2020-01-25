@@ -47,6 +47,10 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
 Mail:
   greeting: "안녕하세요"
   newAgenda: "다음과 같은 새 미팅 의제가 있습니다."
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "탐색 토글로 토글"
   meetings: "회로"
   processing: "컨텐츠 처리 중 ..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "빠른 도움말"
   meetingSeries: "<p>여기서 현재 미팅 시리즈의 새 회의록을 작성하거나 기존 회의록의 날짜 링크를 클릭할 수 있습니다.</p>"

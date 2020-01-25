@@ -47,6 +47,10 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
 Mail:
   greeting: "ハロー"
   newAgenda: "新しいミーティング・アジェンダをお客様に提供しました:"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "ナビゲーションの切り替え"
   meetings: "会議"
   processing: "コンテンツの処理中 ..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "クイック・ヘルプ"
   meetingSeries: "<p>現在のミーティング・シリーズの新規議事録を作成するか、既存の議事録の日付リンクをクリックします。</p>"

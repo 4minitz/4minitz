@@ -47,6 +47,10 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
 Mail:
   greeting: "你好"
   newAgenda: "我們為您準備了全新的會議日程："
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "切換導覽"
   meetings: "會議"
   processing: "正在處理您的內容..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "快速說明"
   meetingSeries: "<p>在這裡，您可以為現行會議系列建立新的分鐘數，或按一下現有分鐘的日期鏈結。</p>"

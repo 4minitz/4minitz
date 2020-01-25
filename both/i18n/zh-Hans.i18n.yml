@@ -47,6 +47,10 @@ Dialog:
     really: "您真的想要完成这个日期为 <strong>{$minutesDate}</strong> 的会议记录吗？"
     sendActionItems: "发送操作项"
     sendMinutes: "发送信息项"
+  LocaleSetting:
+    title: "设置语言"
+    languageLocale: "语言语言"
+    automatic: "通过浏览器自动使用"
 Mail:
   greeting: "你好"
   newAgenda: "我们有一个全新的会议日程"
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "切换导航"
   meetings: "会议"
   processing: "正在处理您的内容..."
+  setLanguageForUser: "设置语言"
+  setLanguageLogin: "语言"
 QuickHelp:
   title: "快速帮助"
   meetingSeries: "<p>在这里您可以为当前会议系列创建新分钟，或点击现有分钟的日期链接。</p>"

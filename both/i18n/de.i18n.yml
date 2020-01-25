@@ -24,8 +24,8 @@ Dialog:
   confirmDeleteAttachment: "Möchten Sie den Anhang<br><b>{$name}</b> wirklich löschen?"
   confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements <strong>{$subject}</strong> löschen?"
   confirmDeleteItemAllowed: "Möchten Sie {$type} <strong>{$subject}</strong> wirklich löschen?"
-  confirmDeleteItemNotAllowed: "Es ist nicht möglich, {$type} <strong>{$subject}</strong> zu löschen, da der {$type} in einer vorherigen Minute erstellt wurde."
-  confirmDeleteItemActionItem: "Möchten Sie stattdessen das Aktionselement schließen?"
+  confirmDeleteItemNotAllowed: "Es ist nicht möglich, {$type} <strong>{$subject}</strong> zu löschen, da der {$type} in einem vorherigen Protokoll erstellt wurde."
+  confirmDeleteItemActionItem: "Möchten Sie stattdessen die Aufgabe abschließen?"
   confirmDeleteItemInfoItem: "Möchtest du stattdessen das klebrige Info-Element aufheben?"
   ConfirmDeleteTopic:
     allowed: "Wollen Sie wirklich das Thema <strong>{$subject}</strong> löschen?"
@@ -40,13 +40,17 @@ Dialog:
   confirmSendAgenda: "Möchten Sie wirklich die Tagesordnung für diese Sitzung von <strong>{$minDate}</strong>verschicken?<br>Es wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
   ConfirmDeleteMinutes:
     really: "Möchten Sie diese Besprechungsminute wirklich von <strong>{$minutesDate}</strong> löschen?"
-    newTopics: "Dadurch werden <strong>{$newTopicsCount} Themen</strong>entfernt, die innerhalb dieser Minute erstellt wurden."
-    closedTopicsAdditionally: "Zusätzlich werden <strong>{$closedTopicsCount} Themen</strong> wieder geöffnet, die innerhalb dieser Minuten geschlossen wurden."
-    closedTopics: "<strong>{$closedTopicsCount} Themen</strong> werden wieder geöffnet, die innerhalb dieser Minuten geschlossen wurden."
+    newTopics: "Dadurch werden <strong>{$newTopicsCount} Themen</strong>entfernt, die innerhalb dieses Protokolls erstellt wurden."
+    closedTopicsAdditionally: "Zusätzlich werden <strong>{$closedTopicsCount} Themen</strong> wieder geöffnet, die innerhalb dieses Protokolls geschlossen wurden."
+    closedTopics: "<strong>{$closedTopicsCount} Themen</strong> werden wieder geöffnet, die innerhalb dieses Protokolls geschlossen wurden."
   ConfirmFinalizeMinutes:
-    really: "Möchten Sie diese Besprechungsminute wirklich abschließen, die auf <strong>{$minutesDate}</strong> datiert ist?"
-    sendActionItems: "Aktionselemente senden"
-    sendMinutes: "Informationsartikel senden"
+    really: "Möchten Sie das Sitzungsprotokoll vom <strong>{$minutesDate}</strong> jetz beschließen?"
+    sendActionItems: "Aufgaben senden"
+    sendMinutes: "Informationen senden"
+  LocaleSetting:
+    title: "Sprache festlegen"
+    languageLocale: "Spracheinstellung"
+    automatic: "Automatisch via Browser"
 Mail:
   greeting: "Guten Tag"
   newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
@@ -117,7 +121,7 @@ Item:
     matchCaseLong: "Groß-/Kleinschreibung beachten"
     Usage:
       body: "Sie können mehrere Suchbegriffe verwenden, um die aufgelisteten Elemente zu filtern. Alle Suchbegriffe können kombiniert werden, die die Elemente filtern, die mit allen angegebenen Suchparametern übereinstimmen."
-      keyword: "Keyword"
+      keyword: "Suchwort"
       format: "Format"
       values: "Werte"
       eg: "z. B."
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Navigation anzeigen"
   meetings: "Sitzungen"
   processing: "Deine Anfrage wird bearbeitet..."
+  setLanguageForUser: "Sprache wählen"
+  setLanguageLogin: "Sprache"
 QuickHelp:
   title: "Schnellhilfe"
   meetingSeries: "<p>Hier können Sie neue Protokolle für die aktuelle Sitzungsreihe erstellen oder über das Datum das entsprechende Protokoll aufrufen.</p>"

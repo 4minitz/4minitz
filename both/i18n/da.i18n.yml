@@ -47,6 +47,10 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+  LocaleSetting:
+    title: "Set Language"
+    languageLocale: "Language Locale"
+    automatic: "Automatic via Browser"
 Mail:
   greeting: "Hallo?"
   newAgenda: "Vi har en helt ny mødedagsorden for dig."
@@ -340,6 +344,8 @@ Navigation:
   toggleNavigation: "Aktivér / deaktivér navigation"
   meetings: "Møder"
   processing: "Behandler dit indhold ..."
+  setLanguageForUser: "Set Language"
+  setLanguageLogin: "Language"
 QuickHelp:
   title: "Hurtig hjælp"
   meetingSeries: "<p>Her kan du oprette nye minutter til den aktuelle mødereferat eller klikke på et datalink på eksisterende minutter.</p>"
