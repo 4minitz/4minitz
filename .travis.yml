@@ -5,11 +5,11 @@ env:
   global:
     - CXX=g++-4.8
   matrix:
+    - TEST="unit and i18n"
     - TEST="tests/end2end/Ac* tests/end2end/Ad* tests/end2end/I* tests/end2end/L* tests/end2end/U*"
     - TEST="tests/end2end/Mee* tests/end2end/My*"
     - TEST="tests/end2end/P* tests/end2end/At* tests/end2end/Mi*"
     - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
-    - TEST="unit and i18n"
 
 addons:
   # chrome: stable - don't update chrome! Keep chrome of base image
