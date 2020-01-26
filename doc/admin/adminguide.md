@@ -6,10 +6,16 @@
 
 <!-- toc -->
 
+* [Upgrade](#upgrade)
+  * [4Minitz Docker Container](#4minitz-docker-container)
+  * [Docker Compose Deployment](#docker-compose-deployment)
+  * [Upgrade MongoDB](#upgrade-mongodb)
 * [Installation](#installation)
-  * [What's wrong with the 'Quick Installation' (Option 2)](#whats-wrong-with-the-quick-installation-option-2)
+  * [What's wrong with the 'Development Server' in a production environment?](#whats-wrong-with-the-development-server-in-a-production-environment)
   * [Production Server Setup with Docker](#production-server-setup-with-docker)
   * [Production Server by Building From Source](#production-server-by-building-from-source)
+* [Migrate production server from Meteor deployment to Docker](#migrate-production-server-from-meteor-deployment-to-docker)
+* [Upgrade from 4Minitz Docker container < 2.0 to 2.0+](#upgrade-from-4minitz-docker-container--20-to-20)
 * [Configuration with settings.json](#configuration-with-settingsjson)
   * [How to become a frontend admin](#how-to-become-a-frontend-admin)
   * [Database configuration](#database-configuration)
@@ -23,6 +29,109 @@
   * [Security](#security)
 
 <!-- tocstop -->
+
+# Upgrade
+
+If you are new to 4Minitz and do not have your own server, skip this section
+and read about how to set up a fresh 4Minitz instance in the next section
+[Installation](#installation).
+
+## 4Minitz Docker Container
+
+**Important**
+
+If you are upgrading your Docker container from pre 2.0 to 2.0 or greater,
+please read the section
+[upgrade from 4Minitz Docker < 2.0](#upgrade-from-4minitz-docker-container--20-to-20)
+below.
+
+Updating your 4Minitz Docker image is usually very easy. Just pull the latest
+4Minitz version you are interested in, e.g. to get the latest stable release
+of 4Minitz use
+
+```sh
+docker pull 4minitz/4minitz:stable
+```
+
+Shut down the container currently running 4Minitz with
+
+```sh
+docker stop <name of the 4Minitz container>
+```
+
+and instantiate a new container with
+
+```sh
+docker run -e MONGO_URL=<your mongo server connection> \
+    -v /persistent/data/storage:/4minitz_storage
+    -p 3100:3333
+    --name 4minitz
+    4minitz/4minitz:stable
+```
+
+that uses the new image you just pulled.
+
+When you re-launch the container afterwards, all clients will get the
+new WebApp version automatically via meteors hot-code push.
+
+## Docker Compose Deployment
+
+If you organize your 4Minitz server with Docker Compose you can
+update to the latest 4Minitz version by running the following
+commands in the folder that contains your `docker-compose.yml`.
+If your MongoDB server is part of the same Docker Compose configuration,
+make sure you ping the MongoDB version to the currently deployed
+version. See the MongoDB upgrade section below on how to upgrade MongoDB.
+
+```sh
+docker-compose down
+docker-compose rm -f
+docker-compose pull
+docker-compose up -d
+```
+
+Omit the `-d` flag in the last command if you want the process to run
+in the foreground, e.g. to redirect the container output to a log file.
+
+## Upgrade MongoDB
+
+When upgrading MongoDB you can't omit any versions. It is therefore not
+possible to upate your MongoDB 3.4 instance to MongoDB 4.0 directly, you
+have to upgrade to MongoDB 3.6 first. Before you can upgrade to the next
+MongoDB version you have to update the feature compatibility flag. First,
+make sure which version of MongoDB you are running. You can do this with
+by running
+
+```sh
+mongod --version
+```
+
+on the machine where MongoDB is installed. If it runs in a Docker container,
+use
+
+```sh
+docker exec <mongodb container> mongod --version
+```
+
+If your MongoDB version is 3.4 or greater you have to set the feature
+compatibility version. Open a Mongo shell connected to your server. If
+your MongoDB server is deployed via Docker you can get a Mongo shell with
+
+```sh
+docker exec -ti <mongo db container name> mongo
+```
+
+In this shell use the `adminCommand` to set the feature compatibility version
+to the very same version of your MongoDB, e.g. if you run MongoDB 3.6, set this
+to 3.6. If you run MongoDB 4.2, set this to 4.2:
+
+```sh
+db.adminCommand({ setFeatureCompatibilityVersion: "<version>" })
+quit()
+```
+
+You can now install the next MongoDB version. Before you uprade your Mongo
+server again, you need to update the feature compatibility version.
 
 # Installation
 
@@ -168,14 +277,6 @@ volume container (Windows). Here you will find
 * **attachments** - all attachments that have been uploaded to meeting minutes
   are stored here.
 
-### Updating your 4minitz Docker container
-
-If a new version of 4Minitz is released, you may keep the above storage
-directory or data volume container. Simply stop the running container, and
-perform a `docker pull 4minitz/4minitz`. When you re-launch the container
-afterwards, all clients will get the new WebApp version automatically via
-meteors hot-code push.
-
 **Security Hints:**
 
 1. The outside host directory `./4minitz_storage` or docker volume container
@@ -320,6 +421,100 @@ Now, you should be able to reach your 4Minitz instance via:
     http://localhost:61405
     or
     http://4minitz.example.com:61405
+
+# Migrate production server from Meteor deployment to Docker
+
+If you ran a development environment (`meteor start` or `meteor start --production`)
+as a production server, you have to migrate to either a Docker setup or a
+plain node.js setup without Meteor as described in section
+[production server by building from source](#production-server-by-building-from-source).
+
+For either deployment you need to set up a MongoDB server and then import the
+contents of your existing database. To create a backup of your existing
+database you need mongodump. If it is not available through your package
+manager or app store, try the official
+[downloads from MongoDB](https://www.mongodb.com/download-center/community).
+
+Extract the archive and then run (while your Meteor instance is running)
+
+```sh
+mongodump --host 127.0.0.1 --port 3001 \
+    -d meteor --gzip --archive=meteordump.gz
+```
+
+Shut down Meteor and start your MongoDB server. If you run MongoDB within a Docker
+container, copy your archive into the container with
+
+```sh
+docker cp meteordump <mongo db container name>:/tmp/
+```
+
+Restore the database with
+
+```sh
+mongorestore --host <mongodb server> \
+    --port <mongodb port> \
+    --db meteor \
+    --maintainInsertionOrder \
+    --gzip --archive=<your meteor dump file>
+```
+
+If you restore the database in a MongoDB Docker container, you can omit
+the `host` and `port` parameters. Don't forget to apply your settings.json
+by copying it to the storage directory (the one you map into the
+container's /4minitz_storage volume) and move the uploaded files to the
+storage directory, if you had uploads activated.
+
+# Upgrade from 4Minitz Docker container < 2.0 to 2.0+
+
+The Docker container for 4Minitz versions before 2.0 did not only contain
+4Minitz but also came with their own installation of MongoDB. This was changed with
+the release of 4Minitz 2.0+. Now the Docker image only contains 4Minitz, the
+MongoDB has to be set up independently. The easiest way to migrate is to use
+the official MongoDB Docker images and point them to your existing volume.
+
+Before you shut down your existing pre-2.0 4Minitz container, check which
+version of MongoDB is running inside it with
+
+```sh
+docker exec <4minitz container name> mongod --version
+```
+
+and write that down.
+
+Then shut down your existing pre-2.0 4Minitz container. Assuming you
+store your data in `/path/to/4minstorage`, start a MongoDB instance with
+
+```sh
+docker run --rm \
+    -v /path/to/4minstorage/4minitz_mongodb:/data/db \
+    --name mongo mongo:<version>
+```
+
+where `<version>` is the version that was used in the previous 4Minitz
+container.
+
+Once the MongoDB Docker container is up and running, pull the latest stable
+image and start the new 4Minitz container with
+
+```sh
+docker pull 4minitz/4minitz:stable
+docker run --rm \
+    -v /path/to/4minstorage:/4minitz_storage \
+    --link mongo \
+    -p 3100:3333 \
+    -e MONGO_URL=mongodb://mongo/4minitz \
+    4minitz/4minitz:stable
+```
+
+Please note that the `--link` method is deprecated. Consider using a docker compose
+setup as described in our [README](../../README.md) where both containers are
+part of the same virtual Docker network and can communicate with each other without
+linking the two containers.
+
+If you want you can separate the data for the MongoDB and the 4Minitz container. To do
+this, shut down both containers and move the `4minitz_mongodb` to another location.
+Then start the containers again, adjusting the volume location for the MongoDB.
 
 # Configuration with settings.json
 
