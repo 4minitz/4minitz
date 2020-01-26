@@ -35,10 +35,7 @@ RUN set -ex \
         ca-certificates \
         curl \
         ghostscript \
-        git \
-        nano \
-        openssh-client \
-        wget \
+        netcat \
         wkhtmltopdf \
         xauth \
         xvfb \
