@@ -228,7 +228,7 @@ to be able to build the sources in a runnable server, first install the current
 version of the meteor build tool:
 
 ```sh
-curl https://install.meteor.com/ | sh
+curl https://install.meteor.com/?release=1.6 | sh
 meteor --version
 ```
 
@@ -300,6 +300,7 @@ cp settings_sample.json ../4minitz_bin/bundle/settings.json
 
 cd ../4minitz_bin/bundle/programs/server
 meteor npm install --production
+meteor npm install @babel/runtime@7.0.0-beta.55
 
 cd ../..
 nano settings.json
