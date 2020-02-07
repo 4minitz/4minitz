@@ -319,7 +319,7 @@ export ROOT_URL='http://4minitz.example.com:61405'
 export METEOR_SETTINGS=$(cat ./settings.json)
 ```
 
-Now, inside the `/4minitz_bin/bundle/programs/server` directory, you must launch
+Now, inside the `/4minitz_bin/bundle` directory, you must launch
 the 4Minitz server:
 
 ```sh
