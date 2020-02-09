@@ -13,7 +13,8 @@ Buttons:
   register: "Enregistrer"
   change: "Changer"
   save: "Sauvegarder"
-  ok: "OK"
+  create: "Créer"
+  ok: "Ok"
   add: "Ajouter"
   dismissAll: "Tout désintéresser"
   back: "Retour"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Editer"
   hide: "Ok, cache"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirmer la création de nouvelles minutes"
+    content: "Voulez-vous vraiment créer de nouvelles minutes pour la série de réunions \"{$project}: {$name} \" ?"
   confirmDeleteAttachment: "Voulez-vous vraiment supprimer la pièce jointe<br><b>{$name}</b>?"
   confirmDeleteDetails: "Voulez-vous vraiment supprimer les détails sélectionnés de l'élément <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "Voulez-vous vraiment supprimer le {$type} <strong>{$subject}</strong>?"
@@ -231,7 +235,7 @@ Minutes:
     informed: "Utilisateurs informés"
     informedSolo: "1 Utilisateur informé"
     present: "Participants actuels"
-    absent: "Absent"
+    absent: "Absence"
     none: "Néant."
 MeetingSeries:
   title: "Série de réunions"
