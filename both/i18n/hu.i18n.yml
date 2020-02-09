@@ -13,6 +13,7 @@ Buttons:
   register: "Regisztráció"
   change: "Változás"
   save: "Mentés"
+  create: "Create"
   ok: "OKÉ."
   add: "Hozzáadás"
   dismissAll: "Összes kimarad"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Szerkesztés"
   hide: "Oké, bújj el"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirm Creating New Minutes"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
   confirmDeleteDetails: "Valóban törölni kívánja a <strong>{$subject}</strong> elem kiválasztott részleteit?"
   confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
