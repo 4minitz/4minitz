@@ -13,6 +13,7 @@ Buttons:
   register: "Cadastrar"
   change: "Alterar"
   save: "Salvar"
+  create: "Crio"
   ok: "OK"
   add: "Adicionar"
   dismissAll: "Dispensar Todos"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Editar"
   hide: "Ok, esconder"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirmar a criação de novos minutos"
+    content: "Deseja realmente criar novos minutos para a série de reunião \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Você realmente deseja excluir o anexo<br><b>{$name}</b>?"
   confirmDeleteDetails: "Você realmente deseja excluir os detalhes selecionados do item <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "Você realmente deseja excluir o {$type} <strong>{$subject}</strong>?"
