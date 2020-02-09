@@ -13,6 +13,7 @@ Buttons:
   register: "Tilmelding"
   change: "Change"
   save: "Gem"
+  create: "Create"
   ok: "-OKAY, OKAY."
   add: "Tilføj"
   dismissAll: "Afvist alle"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Redigér"
   hide: "Ok, gem dig"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirm Creating New Minutes"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
   confirmDeleteDetails: "Vil du virkelig slette de valgte detaljer for elementet <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
