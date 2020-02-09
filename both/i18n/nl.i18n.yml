@@ -13,6 +13,7 @@ Buttons:
   register: "Registreer"
   change: "Wijzig"
   save: "Opslaan"
+  create: "Aanmaken"
   ok: "Ok"
   add: "Toevoegen"
   dismissAll: "Alles negeren"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Bewerken"
   hide: "Oké, verstop je."
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Bevestig het aanmaken van nieuwe notulen"
+    content: "Wil je echt nieuwe minuten maken voor de meetingserie \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Wilt u de bijlage<br><b>{$name}</b> echt verwijderen?"
   confirmDeleteDetails: "Wilt u echt de geselecteerde details van het artikel <strong>{$subject}</strong> verwijderen?"
   confirmDeleteItemAllowed: "Wilt u de {$type} <strong>{$subject}</strong> echt verwijderen?"
@@ -57,7 +61,7 @@ Mail:
   newActionItem: "U bent toegewezen aan de volgende actie-items:"
   newMinutes: "Hieronder vindt u de laatste vergaderminuten."
   meeting: "Sitzung"
-  links: "Links"
+  links: "Koppelingen"
   openSeries: "Reeks openen"
   openMinutes: "Open minuten"
   minutesSubject: "Vergaderminuten"
@@ -92,7 +96,7 @@ Item:
   convertToInfo: "Converteren naar Info"
   convertDisabled: "Conversie uitgeschakeld: item bestaat in vorige vergadering"
   subject: "Onderwerp (verplicht)"
-  details: "Details"
+  details: "Beschrijving"
   addDetails: "Details toevoegen"
   priority: "Prioriteit"
   due: "Vervallen"
@@ -110,7 +114,7 @@ Item:
   Filter:
     title: "Filters"
     usageHint: "Gebruik filteren"
-    info: "Info Items"
+    info: "Info items"
     action: "Actie items"
     open: "Open Actieitems"
     closed: "Gesloten Actie Items"
@@ -216,7 +220,7 @@ Minutes:
     pause: "Upload pauzeren"
     abort: "Upload afbreken"
   version: "Versie"
-  versionTag: "v"
+  versionTag: "vv"
   Participants:
     title: "Deelnemers"
     invited: "Uitgenodigd"
@@ -269,7 +273,7 @@ MeetingSeries:
   Tab:
     minutes: "Minuten"
     topics: "Onderwerpen"
-    items: "Items"
+    items: "Artikelen"
 Profile:
   userName: "Gebruikersnaam"
   longName: "Lange naam"
@@ -335,7 +339,7 @@ Login:
   standard: "Standaard"
   demoHint: "Tip: Demo Mode Active<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en wachtwoord <b>demo</b>. Of u kunt uw eigen account te registreren door te klikken op de \"Register\" link hieronder."
 Navigation:
-  help: "Help"
+  help: "Hulp"
   about: "Over"
   adminTasks: "Admin Taken"
   editProfile: "Profiel bewerken"
