@@ -13,6 +13,7 @@ Buttons:
   register: "레지스터"
   change: "변화"
   save: "다른 이름으로 저장"
+  create: "Create"
   ok: "알았어"
   add: "추가하기"
   dismissAll: "모두 사용 안함"
@@ -21,6 +22,9 @@ Buttons:
   edit: "편집하기"
   hide: "알았어"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirm Creating New Minutes"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
   confirmDeleteDetails: "Do you really want to delete the selected details of the item <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
