@@ -13,6 +13,7 @@ Buttons:
   register: "註冊"
   change: "變化"
   save: "儲存"
+  create: "Create"
   ok: "好"
   add: "新增"
   dismissAll: "全部解除"
@@ -21,6 +22,9 @@ Buttons:
   edit: "編輯"
   hide: "好的"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirm Creating New Minutes"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "您真的要刪除附件<br><b>{$name}</b> 嗎？"
   confirmDeleteDetails: "您真的要刪除項目 <strong>{$subject}</strong> 的選定詳細資料嗎？"
   confirmDeleteItemAllowed: "您真的要刪除 {$type} <strong>{$subject}</strong> 嗎？"
