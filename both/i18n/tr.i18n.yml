@@ -13,6 +13,7 @@ Buttons:
   register: "Kaydol"
   change: "Değiştir"
   save: "Kaydet"
+  create: "Create"
   ok: "Tamam"
   add: "Ekle"
   dismissAll: "Tümünü Serbest Bırak"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Düzenle"
   hide: "Tamam, saklan."
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirm Creating New Minutes"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "<br><b>{$name}</b> ekinin silinmesini gerçekten istiyor musunuz?"
   confirmDeleteDetails: "<strong>{$subject}</strong> öğesinin seçili ayrıntılarını gerçekten de silmek istiyor musunuz?"
   confirmDeleteItemAllowed: "{$type} <strong>{$subject}</strong> 123_321 ' i gerçekten silmek istiyor musunuz?"
