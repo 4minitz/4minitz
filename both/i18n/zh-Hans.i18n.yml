@@ -13,6 +13,7 @@ Buttons:
   register: "注册"
   change: "更改"
   save: "保存"
+  create: "创建"
   ok: "确定"
   add: "添加"
   dismissAll: "全部取消"
@@ -21,6 +22,9 @@ Buttons:
   edit: "编辑"
   hide: "好的"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "确认创建新分钟"
+    content: "您真的想要为会议系列创建新的分钟数\"{$project}: {$name}\"？"
   confirmDeleteAttachment: "您真的想要删除附件<br><b>{$name}</b> 吗？"
   confirmDeleteDetails: "您真的想要删除项目 <strong>{$subject}的详细信息</strong> 吗？"
   confirmDeleteItemAllowed: "您真的想要删除 {$type} <strong>{$subject}</strong> 吗？"
@@ -316,9 +320,9 @@ Admin:
     count: "显示 {$visible} 的 {$all} 用户。使用过滤器显示其他。"
     Type:
       hint: "LDAP用户或标准用户"
-      column: "L/S"
+      column: "升/秒"
       ldap: "升"
-      standard: "S"
+      standard: "秒"
     State:
       hint: "切换活动状态/活动状态。非活动用户无法登录。"
       column: "在/活动中"
