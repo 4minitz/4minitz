@@ -13,6 +13,7 @@ Buttons:
   register: "Зареєструватися"
   change: "Змінити"
   save: "Зберегти"
+  create: "Створити"
   ok: "Гаразд"
   add: "Додати"
   dismissAll: "Закрити всі"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Редагувати"
   hide: "Ok, hide"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Підтвердіть створення нових хвилин"
+    content: "Ви дійсно хочете створити нові хвилини для серії зустрічей \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Ви дійсно хочете видалити вкладення<br><b>{$name}</b>?"
   confirmDeleteDetails: "Ви дійсно бажаєте видалити вибрані деталі елемента <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "Ви дійсно бажаєте видалити {$type} <strong>{$subject}</strong>?"
