@@ -13,6 +13,7 @@ Buttons:
   register: "Rekisteröi"
   change: "Muutos"
   save: "Tallenna"
+  create: "Create"
   ok: "OK"
   add: "Lisää"
   dismissAll: "Poista kaikki"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Muokkaa"
   hide: "Ok, piiloon"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirm Creating New Minutes"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
   confirmDeleteDetails: "Do you really want to delete the selected details of the item <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
