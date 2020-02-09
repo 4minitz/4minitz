@@ -4,7 +4,7 @@ _locale: 'es'
 Accounts:
   usernamePlaceholder: "(min. 3 caracteres)"
   nameDisplayName: "Nombre, Empresa"
-  namePlaceholder: "John Doe, Happy Corp."
+  namePlaceholder: "John Doe, Cuerpo Feliz."
   passwordPlaceholder: "min. 6 caracteres (dígito, inferior y superior)"
   passwordError: "min. 6 chars (min. 1 dígito, 1 inferior, 1 superior)"
 Buttons:
@@ -13,7 +13,8 @@ Buttons:
   register: "Registrarse"
   change: "Cambiar"
   save: "Guardar"
-  ok: "OK"
+  create: "Crear"
+  ok: "Ok"
   add: "Añadir"
   dismissAll: "Descartar todo"
   back: "Volver"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Editar"
   hide: "Bien, esconde."
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirmar la creación de nuevos minutos"
+    content: "¿Realmente desea crear nuevas actas para la serie de reuniones \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "¿Realmente desea eliminar el adjunto<br><b>{$name}</b>?"
   confirmDeleteDetails: "¿Realmente desea eliminar los detalles seleccionados del elemento <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "¿Realmente desea eliminar el {$type} <strong>{$subject}</strong>?"
@@ -231,7 +235,7 @@ Minutes:
     informed: "Usuarios informados"
     informedSolo: "1 Usuario Informado"
     present: "Presentar a los participantes"
-    absent: "Absent"
+    absent: "Ausente"
     none: "Ninguno."
 MeetingSeries:
   title: "Serie de reuniones"
@@ -264,7 +268,7 @@ MeetingSeries:
       name: "Por favor, introduzca un nombre de etiqueta válido"
       hexValue: "Valor de color hexadecimal inválido"
     add: "Añadir nueva etiqueta"
-    new: "NewLabel"
+    new: "Nueva etiqueta"
     select: "Seleccionar ..."
   Tab:
     minutes: "Minutos"
