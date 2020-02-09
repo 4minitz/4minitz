@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Roles } from 'meteor/alanning:roles';
 import  './collections/userroles_private';
 import { MeetingSeries } from './meetingseries';
@@ -7,6 +6,8 @@ import { MeetingSeries } from './meetingseries';
 
 export class UserRoles {
     constructor(userId /* may be null */ , userCollection /* may be null */) {
+        this._userRoles = [];
+
         if (userId) {
             this._userId = userId;
         } else {
@@ -19,10 +20,8 @@ export class UserRoles {
         } else {
             currentUser = Meteor.users.findOne(this._userId);
         }
-        
-        if (! currentUser) {
-            FlowRouter.go('/');
-            throw new Meteor.Error('Could not find user for userId:'+this._userId);
+        if (!currentUser) {
+            return;
         }
 
         this._userRoles = currentUser.roles;
@@ -79,7 +78,7 @@ export class UserRoles {
         }
         return visibleMeetingsSeries;
     }
-    
+
     isModeratorOf(aMeetingSeriesID) {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
         return (currentRole && currentRole <= UserRoles.USERROLES.Moderator);
@@ -99,13 +98,13 @@ export class UserRoles {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
         return (currentRole && currentRole <= UserRoles.USERROLES.Informed);
     }
-    
+
     hasViewRoleFor(aMeetingSeriesID) {
         return (this.isInvitedTo(aMeetingSeriesID) /* or lower access role */ );
     }
 
     currentRoleFor (aMeetingSeriesID) {
-        if (! this._userRoles[aMeetingSeriesID] || ! this._userRoles[aMeetingSeriesID][0]) {
+        if (!this._userRoles[aMeetingSeriesID] || !this._userRoles[aMeetingSeriesID][0]) {
             return undefined;
         }
         return this._userRoles[aMeetingSeriesID][0];
@@ -128,11 +127,17 @@ export class UserRoles {
     }
 
     saveRoleForMeetingSeries (aMeetingSeriesID, newRole) {
+        if (! this._user) {
+            return;
+        }
         Meteor.call('userroles.saveRoleForMeetingSeries', this._userId, aMeetingSeriesID, newRole);
     }
 
     // remove all roles for the current user for the given meeting series
     removeAllRolesForMeetingSeries(aMeetingSeriesID) {
+        if (! this._user) {
+            return;
+        }
         Meteor.call('userroles.removeAllRolesForMeetingSeries', this._userId, aMeetingSeriesID);
     }
 }

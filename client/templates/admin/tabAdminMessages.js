@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { i18n } from 'meteor/universe:i18n';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
+import { User } from '/imports/user';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
 Template.tabAdminMessages.onCreated(function() {
@@ -53,10 +54,10 @@ Template.tabAdminMessages.events({
         let userIds = this.dismissForUserIDs;
         let userNames = i18n.__('Admin.Message.dismissingUsers', {number: this.dismissForUserIDs.length});
         userIds.forEach(usrId => {
-            let user = Meteor.users.findOne(usrId);
-            if (user) {
-                userNames += user.username + ' ';
-                userNames += (user.profile && user.profile.name) ? user.profile.name + '\n' : '\n';
+            let user = new User(usrId);
+            if (user.OK) {
+                userNames += user.userNameWithFallback() + ' ';
+                userNames += user.profileNameWithFallback() + '\n';
             }
         });
         alert(userNames);

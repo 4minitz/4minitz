@@ -79,10 +79,18 @@ Template.profileEditDialog.events({
     'show.bs.modal #dlgEditProfile': function (evt, tmpl) {
         let otherUserId = Session.get('editProfile.userID');    // admin edit mode, undefined otherwise
         let usr = Meteor.users.findOne(otherUserId ? otherUserId : Meteor.userId());
-        if (usr.profile){
-            tmpl.find('#id_longName').value = usr.profile.name;
+        if (usr) {
+            if (usr.profile){
+                tmpl.find('#id_longName').value = usr.profile.name;
+            } else {
+                tmpl.find('#id_longName').value = '';
+            }
+            if (usr.emails[0] && usr.emails[0].address) {
+                tmpl.find('#id_emailAddress').value = usr.emails[0].address;
+            } else {
+                tmpl.find('#id_emailAddress').value = '';
+            }
         }
-        tmpl.find('#id_emailAddress').value = usr.emails[0].address;
         tmpl.$('#btnEditProfileSave').prop('disabled',false);
     },
 

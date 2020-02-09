@@ -6,6 +6,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import { Minutes } from '/imports/minutes';
 import { UserRoles } from '/imports/userroles';
+import { User } from '/imports/user';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
 import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
@@ -25,18 +26,8 @@ let isModeratorOfParentSeries = function (userId) {
 };
 
 let userNameForId = function (userId) {
-    let usr = Meteor.users.findOne(userId);
-    if (usr) {
-        let showName = usr.username;
-        // If we have a long name for the user: prepend it!
-        if (usr.profile && usr.profile.name && usr.profile.name !== '') {
-            showName = usr.profile.name + ' ('+showName+')';
-        }
-        return showName;
-
-    } else {
-        return 'Unknown User ('+userId+')';
-    }
+    let user = new User(userId);
+    return user.profileNameWithFallback(true);
 };
 
 function countParticipantsMarked() {

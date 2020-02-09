@@ -15,6 +15,7 @@ import { DocumentsCollection } from './collections/documentgeneration_private.js
 import './helpers/promisedMethods';
 import {LabelResolver} from './services/labelResolver';
 import {ResponsibleResolver} from './services/responsibleResolver';
+import { User } from '/imports/user';
 
 export class DocumentGeneration {
     // ********** static methods ****************
@@ -83,8 +84,8 @@ export class DocumentGeneration {
         if (minuteID) {
             let attachments = Attachment.findForMinutes(minuteID).fetch();
             attachments.forEach((file) => {
-                let usr = Meteor.users.findOne(file.userId);
-                file.username = usr.username;
+                let user = new User(file.userId);
+                file.username = user.userNameWithFallback();
             });
             return attachments;
         }

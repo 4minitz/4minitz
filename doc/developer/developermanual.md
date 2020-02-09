@@ -84,7 +84,7 @@ End-to-End tests are stored in directory ```tests/end2end/```.
 
 To run the e2e tests, you need to run the server in "end2end" mode. 
 
-    `npm run test:end2end:server`
+    npm run test:end2end:server
 
 This will set some specific e2e settings from ```settings-test-end2end.json```. 
 Then run the chimp tests use `once` mode or in `watch` mode with an installed 
@@ -98,6 +98,14 @@ which is included in our test runner chimp
 
     npm run test:end2end:headless
 
+To create only the test users from the end2end settings, without 
+running any end2end tests, first do `npm run test:end2end:server`, 
+then launch 4Minitz in your browser and enter in browser console:
+
+    Meteor.call('e2e.resetMyApp');
+
+*Hint:* In the end2end test scenario there exists a user `admin` which 
+password can be looked up in the `settings-test-end2end.json` file 
 
 #### Headless debugging with screenshots
 To debug headless testcases that run red, you can create screenshots at

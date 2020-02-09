@@ -12,28 +12,24 @@ export class ResponsibleResolver {
 
         return responsibleList
             .map((userIdOrEmail) => {
-                let emailFromDb = '';
                 let userNameFromDB = '';
                 if (userIdOrEmail.length > 15) {  // maybe DB Id or free text
                     const user = Meteor.users.findOne(userIdOrEmail);
                     if (user) {
                         userNameFromDB = user.username;
                         if (user.emails && user.emails.length) {
-                            emailFromDb = user.emails[0].address;
+                            return user.emails[0].address;
                         }
                     }
                 }
-                if (emailFromDb) {
-                    return emailFromDb;
-                } else {
-                    const freetextMail = userIdOrEmail.trim();
-                    if (/\S+@\S+\.\S+/.test(freetextMail)) {    // check valid mail anystring@anystring.anystring
-                        return freetextMail;
-                    } else {
-                        console.log('WARNING: Invalid mail address for responsible: >'+freetextMail+'< '+userNameFromDB);
-                        return null;
-                    }
+
+                const freetextMail = userIdOrEmail.trim();
+                if (/\S+@\S+\.\S+/.test(freetextMail)) {    // check valid mail anystring@anystring.anystring
+                    return freetextMail;
                 }
+
+                console.log('WARNING: Invalid mail address for responsible: >'+freetextMail+'< '+userNameFromDB);
+                return null;
             })
             .filter(email => email !== null);
     }

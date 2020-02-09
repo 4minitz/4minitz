@@ -159,19 +159,21 @@ Template.meetingSeriesEdit.events({
 
         // copy all attached users of this series to the temp. client-side user collection
         // and save their original _ids for later reference
-        for (let i in this.visibleFor) {
-            let user = Meteor.users.findOne(this.visibleFor[i]);
-            user._idOrg = user._id;
-            delete user._id;
-            Template.instance().userEditConfig.users.insert(user);
-        }
-        // now the same for the informed users
-        for (let i in this.informedUsers) {
-            let user = Meteor.users.findOne(this.informedUsers[i]);
-            user._idOrg = user._id;
-            delete user._id;
-            Template.instance().userEditConfig.users.insert(user);
-        }
+        [this.visibleFor, this.informedUsers].forEach(userIDs => {
+            if (!userIDs) {
+                return;
+            }
+            userIDs.forEach(userID => {
+                let user = Meteor.users.findOne(userID);
+                if (user) {
+                    user._idOrg = user._id;
+                    delete user._id;
+                    Template.instance().userEditConfig.users.insert(user);
+                } else {
+                    console.log('Warning (meetingSeriesEdit.js): Could not resolve user: '+userID);
+                }
+            });
+        });
     },
 
     'shown.bs.modal #dlgEditMeetingSeries': function (evt, tmpl) {

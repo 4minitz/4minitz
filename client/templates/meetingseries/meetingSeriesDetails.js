@@ -14,6 +14,7 @@ import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
 import {TopicsFinder} from '../../../imports/services/topicsFinder';
 import {formatDateISO8601Time} from '../../../imports/helpers/date';
+import { User } from '/imports/user';
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
 
@@ -131,9 +132,9 @@ Template.meetingSeriesDetails.helpers({
 
     meetingSeriesEditedBy() {
         let ms = new MeetingSeries(_meetingSeriesID);
-        let user = Meteor.users.findOne({_id: ms.isEditedBy});
+        let user = new User(ms.isEditedBy);
 
-        return i18n.__('MeetingSeries.Edit.editedBy', {user: user.username, date: formatDateISO8601Time(ms.isEditedDate)});
+        return i18n.__('MeetingSeries.Edit.editedBy', {user: user.userNameWithFallback(), date: formatDateISO8601Time(ms.isEditedDate)});
     }
 });
 

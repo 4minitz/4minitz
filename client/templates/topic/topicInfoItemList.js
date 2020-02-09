@@ -521,10 +521,9 @@ Template.topicInfoItemList.events({
                 IsEditedService.removeIsEditedDetail(aMin._id, aTopic._topicDoc._id, aActionItem._infoItemDoc._id, detailIndex, true);
             };
 
-            let user = Meteor.users.findOne({_id: aActionItem._infoItemDoc.details[detailIndex].isEditedBy});
-
+            let user = new User(aActionItem._infoItemDoc.details[detailIndex].isEditedBy);
             let tmplData = {
-                isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
+                isEditedByName: user.profileNameWithFallback(),
                 isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate)
             };
 

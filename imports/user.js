@@ -17,16 +17,21 @@ export class User {
         this.OK = !!this.user;
     }
 
-    static PROFILENAMEWITHFALLBACK(userObject) {
+    static PROFILENAMEWITHFALLBACK(userObject, appendUsername=false) {
+        let name = '';
         if (userObject) {
-            if (userObject.profile && userObject.profile.name) {
-                return userObject.profile.name;
+            if (userObject.profile && userObject.profile.name && userObject.profile.name !== '') {
+                name = userObject.profile.name;
             } else {
-                return userObject.username;
+                name =  userObject.username;
+            }
+            if (appendUsername) {
+                name = name + ' ('+userObject.username + ')';
             }
         } else {
-            return 'Unknown ('+ userObject._id ? userObject._id : userObject +')';
+            name = 'Unknown ('+ ((userObject && userObject.hasOwnProperty(_id)) ? userObject._id : userObject) +')';
         }
+        return name;
     }
 
     profileNameWithFallback() {

@@ -7,10 +7,13 @@ export function isEditedHandling(element, unset, setIsEdited, evt, confirmationD
     // Attention: .isEditedBy and .isEditedDate may be null!
     if ((element.isEditedBy != undefined && element.isEditedDate != undefined)) {
 
-        let user = Meteor.users.findOne({_id: element.isEditedBy});
+        let user = new User(element.isEditedBy);
+        if (!user.OK) {
+            console.log('Warning: could not find user for ID:'+element.isEditedBy);
+        }
 
         let tmplData = {
-            isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
+            isEditedByName: user.profileNameWithFallback(),
             isEditedDate: formatDateISO8601Time(element.isEditedDate)
         };
 

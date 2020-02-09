@@ -35,10 +35,6 @@ export class ParticipantsPreparer {
     }
 
     _prepareResponsibles() {
-        this._preparePossibleResponsibles();
-    }
-
-    _preparePossibleResponsibles() {
         this._addRegularParticipantsFromCurrentMinutes();
         this._addAdditionalParticipantsFromMinutesAsFreetext();
         this._addFormerResponsiblesFromParentSeries();
