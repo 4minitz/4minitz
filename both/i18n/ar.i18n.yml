@@ -13,6 +13,7 @@ Buttons:
   register: "تسجيل"
   change: "التغيير"
   save: "حفظ"
+  create: "Create"
   ok: "طيب"
   add: "اضافة"
   dismissAll: "تجاهل الكل"
@@ -21,6 +22,9 @@ Buttons:
   edit: "تحرير"
   hide: "طيب ، اخفاء"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirm Creating New Minutes"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "هل ترغب بالفعل في حذف الملحقات<br><b>{$name}</b>?"
   confirmDeleteDetails: "هل ترغب بالفعل في حذف التفاصيل المحددة للبند <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "هل تريد بالفعل حذف {$type} <strong>{$subject}</strong>?"
