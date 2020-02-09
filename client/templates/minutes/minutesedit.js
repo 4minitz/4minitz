@@ -24,6 +24,7 @@ import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { QualityTestRunner } from '/imports/client/QualityTestRunner';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { UserTracker } from '../../helpers/userTracker';
+import {handleError} from '../../helpers/handleError';
 
 let _minutesID; // the ID of these minutes
 
@@ -463,6 +464,11 @@ Template.minutesedit.helpers({
         return MinutesFinder.nextMinutes(aMin);
     },
 
+    displayCreateNextMinutes: function() {
+        return (isModerator() && isMinuteFinalized());
+    },
+
+
     isDocumentGenerationAllowed : function () {
         return Meteor.settings.public.docGeneration.enabled === true;
     },
@@ -476,6 +482,23 @@ Template.minutesedit.events({
     'click #checkHideClosedTopics': function(evt) {
         let isChecked = evt.target.checked;
         filterClosedTopics.set(isChecked);
+    },
+
+    'click #btnCreateNewMinutes': function(evt) {
+        evt.preventDefault();
+        let ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
+        const routeToNewMinutes = (newMinutesId) => FlowRouter.redirect('/minutesedit/' + newMinutesId);
+        const confirmationDialog = ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+            () => ms.addNewMinutes(routeToNewMinutes, handleError),
+            i18n.__('Dialog.ConfirmCreateNewMinutes.title'),
+            'confirmationDialogCreateNewMinutes',
+            {
+                project: ms.project,
+                name: ms.name,
+            },
+            i18n.__('Buttons.create'),
+        );
+        confirmationDialog.show();
     },
 
     'dp.change #id_minutesdatePicker': function (evt, tmpl) {

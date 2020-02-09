@@ -13,6 +13,7 @@ Buttons:
   register: "Register"
   change: "Change"
   save: "Save"
+  create: "Create"
   ok: "OK"
   add: "Add"
   dismissAll: "Dismiss All"
@@ -21,6 +22,9 @@ Buttons:
   edit: "Edit"
   hide: "Ok, hide"
 Dialog:
+  ConfirmCreateNewMinutes:
+    title: "Confirm Creating New Minutes"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
   confirmDeleteDetails: "Do you really want to delete the selected details of the item <strong>{$subject}</strong>?"
   confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
