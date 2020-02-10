@@ -13,7 +13,7 @@ Buttons:
   register: "Registrieren"
   change: "Ändern"
   save: "Speichern"
-  create: "Anlegen"
+  create: "Erstellen"
   ok: "Ok"
   add: "Hinzufügen"
   dismissAll: "Verwerfen"
@@ -23,8 +23,8 @@ Buttons:
   hide: "Ok, verstecken"
 Dialog:
   ConfirmCreateNewMinutes:
-    title: "Neue Minuten erstellen bestätigen"
-    content: "Möchten Sie wirklich neue Minuten für die Besprechungsreihe \"{$project}: {$name} \" erstellen?"
+    title: "Neues Protokoll erstellen bestätigen"
+    content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name} \" erstellen?"
   confirmDeleteAttachment: "Möchten Sie den Anhang<br><b>{$name}</b> wirklich löschen?"
   confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements <strong>{$subject}</strong> löschen?"
   confirmDeleteItemAllowed: "Möchten Sie {$type} <strong>{$subject}</strong> wirklich löschen?"
