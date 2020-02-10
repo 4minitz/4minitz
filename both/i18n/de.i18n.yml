@@ -48,7 +48,7 @@ Dialog:
     closedTopicsAdditionally: "Zusätzlich werden <strong>{$closedTopicsCount} Themen</strong> wieder geöffnet, die innerhalb dieses Protokolls geschlossen wurden."
     closedTopics: "<strong>{$closedTopicsCount} Themen</strong> werden wieder geöffnet, die innerhalb dieses Protokolls geschlossen wurden."
   ConfirmFinalizeMinutes:
-    really: "Möchten Sie das Sitzungsprotokoll vom <strong>{$minutesDate}</strong> jetz beschließen?"
+    really: "Möchten Sie das Sitzungsprotokoll vom <strong>{$minutesDate}</strong> jetzt beschließen?"
     sendActionItems: "Aufgaben senden"
     sendMinutes: "Informationen senden"
   LocaleSetting:
@@ -60,7 +60,7 @@ Mail:
   newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
   newActionItem: "Ihnen wurden die folgenden Aufgaben zugewiesen:"
   newMinutes: "nachfolgend finden Sie das aktuelle Protokoll der letzten Sitzung."
-  meeting: "Sitzung"
+  meeting: "Meeting"
   links: "Links"
   openSeries: "Sitzungsreihe öffnen"
   openMinutes: "Protokoll öffnen"
