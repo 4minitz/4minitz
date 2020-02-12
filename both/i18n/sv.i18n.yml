@@ -2,25 +2,25 @@
 _splitKey: ':'
 _locale: 'sv'
 Accounts:
-  usernamePlaceholder: "(min. 3 tecken)"
+  usernamePlaceholder: "(minst 3 tecken)"
   nameDisplayName: "Namn, företag"
   namePlaceholder: "John Doe, Happy Corp."
-  passwordPlaceholder: "min. 6 tecken (tal, undre & övre)"
-  passwordError: "min. 6 tecken (min. 1 siffra, 1 lägre, 1 övre)"
+  passwordPlaceholder: "minst 6 tecken (siffra, liten & stor)"
+  passwordError: "minst 6 tecken (minst 1 siffra, 1 liten, 1 stor)"
 Buttons:
   cancel: "Avbryt"
   close: "Stängning"
   register: "Registrera"
-  change: "Förändring"
+  change: "Ändra"
   save: "Spara"
   create: "Skapa"
-  ok: "OKEJ."
+  ok: "OK"
   add: "Lägg till"
   dismissAll: "Ignorera alla"
   back: "Gå tillbaka"
   delete: "Radera"
   edit: "Redigera"
-  hide: "Ok, göm dig"
+  hide: "Ok, göm"
 Dialog:
   ConfirmCreateNewMinutes:
     title: "Bekräfta skapandet av nya protokoll"
