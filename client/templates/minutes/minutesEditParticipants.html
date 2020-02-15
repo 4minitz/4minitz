@@ -13,7 +13,7 @@
             </label>
             {{#if isEditable}}
                 <a  id="btnEditParticipants" class="pull-right" data-toggle="modal" data-target="#dlgEditMeetingSeries">
-                    <span class="glyphicon glyphicon-cog grey-icon hidden-print" title="Edit invited users."></span>
+                    <span class="glyphicon glyphicon-cog grey-icon hidden-print" title="{{__ 'Minutes.Participants.editHint' }}"></span>
                 </a>
             {{/if}}
         </div>
@@ -31,9 +31,9 @@
                                                name="markAllNone" id="btnToggleMarkAllNone" checked="{{isChecked}}">
                                         <span id="id_markAllNone" class="text-black" style="color: teal">
                                             <b>{{#if isChecked}}
-                                                Mark none
+                                                {{__ 'Minutes.Participants.markNone' }}
                                             {{else}}
-                                                Mark all
+                                                {{__ 'Minutes.Participants.markAll' }}
                                             {{/if}}</b>
                                         </span>
                                     </label>
@@ -57,7 +57,7 @@
                                 </span>
                                 {{#if isUserRemotelyConnected this.userId}}
                                     <span class="glyphicon glyphicon-eye-open"
-                                          aria-hidden="true" title="This user is watching (remotely)"></span>
+                                          aria-hidden="true" title="{{__ 'Minutes.Participants.watchingHint' }}"></span>
                                 {{/if}}
                             </label>
                         </div>
@@ -65,11 +65,11 @@
                     </div>
                     <!--Additional Participants: freetext field-->
                     <input id="edtParticipantsAdditional" type="text" class="form-control"
-                           placeholder="Additional Participants (separate with ';'). Mail addresses will receive minutes."
+                           placeholder="{{__ 'Minutes.Participants.placeholder' }}"
                            value="{{participantsAdditional}}" {{disableUIControl}}>
                     {{#if hasInformedUsers}}
                         <div class="default-margin-top">
-                            <label>Informed Users:</label>
+                            <label>{{__ 'Minutes.Participants.informed' }}:</label>
                             <span class="large-font">{{getInformedUsers}}</span>
                         </div>
                     {{/if}}

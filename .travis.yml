@@ -5,11 +5,11 @@ env:
   global:
     - CXX=g++-4.8
   matrix:
+    - TEST="unit and i18n"
     - TEST="tests/end2end/Ac* tests/end2end/Ad* tests/end2end/I* tests/end2end/L* tests/end2end/U*"
     - TEST="tests/end2end/Mee* tests/end2end/My*"
     - TEST="tests/end2end/P* tests/end2end/At* tests/end2end/Mi*"
     - TEST="tests/end2end/R* tests/end2end/S* tests/end2end/T*"
-    - TEST="unit"
 
 addons:
   # chrome: stable - don't update chrome! Keep chrome of base image
@@ -27,11 +27,6 @@ addons:
       - ./server.log
       - ./client.log
       - $(ls ./versions/* | tr "\n" ":")
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
 
 #cache:
 #  directories:
@@ -45,6 +40,9 @@ node_js:
   - "8.9.4"
 
 before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -q --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
+  - sudo apt-get install gcc-4.8 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
   - curl https://install.meteor.com | /bin/sh
   - npm install -g chimp@0.51.1
 

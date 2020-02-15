@@ -1,5 +1,6 @@
 import moment from 'moment/moment';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { Blaze } from 'meteor/blaze';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
@@ -23,6 +24,7 @@ import { GlobalSettings } from '/imports/config/GlobalSettings';
 import { QualityTestRunner } from '/imports/client/QualityTestRunner';
 import { FlashMessage } from '../../helpers/flashMessage';
 import { UserTracker } from '../../helpers/userTracker';
+import {handleError} from '../../helpers/handleError';
 
 let _minutesID; // the ID of these minutes
 
@@ -399,9 +401,9 @@ Template.minutesedit.helpers({
 
     finalizeHistoryTooltip: function (buttontype) {
         let aMin = new Minutes(_minutesID);
-        let tooltip = buttontype ? buttontype+'\n' : '';
+        let tooltip = buttontype ? i18n.__(buttontype)+'\n' : '';
         if (aMin.finalizedHistory) {
-            tooltip += '\nHistory:\n'+aMin.finalizedHistory.join('\n');
+            tooltip += '\n' + i18n.__('Minutes.history') + ':\n' + aMin.finalizedHistory.join('\n');
         }
         return tooltip;
     },
@@ -462,6 +464,11 @@ Template.minutesedit.helpers({
         return MinutesFinder.nextMinutes(aMin);
     },
 
+    displayCreateNextMinutes: function() {
+        return (isModerator() && isMinuteFinalized());
+    },
+
+
     isDocumentGenerationAllowed : function () {
         return Meteor.settings.public.docGeneration.enabled === true;
     },
@@ -475,6 +482,23 @@ Template.minutesedit.events({
     'click #checkHideClosedTopics': function(evt) {
         let isChecked = evt.target.checked;
         filterClosedTopics.set(isChecked);
+    },
+
+    'click #btnCreateNewMinutes': function(evt) {
+        evt.preventDefault();
+        let ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
+        const routeToNewMinutes = (newMinutesId) => FlowRouter.redirect('/minutesedit/' + newMinutesId);
+        const confirmationDialog = ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+            () => ms.addNewMinutes(routeToNewMinutes, handleError),
+            i18n.__('Dialog.ConfirmCreateNewMinutes.title'),
+            'confirmationDialogCreateNewMinutes',
+            {
+                project: ms.project,
+                name: ms.name,
+            },
+            i18n.__('Buttons.create'),
+        );
+        confirmationDialog.show();
     },
 
     'dp.change #id_minutesdatePicker': function (evt, tmpl) {

@@ -1,4 +1,4 @@
-FROM mongo:3.4.10
+FROM mongo:3.4.20
 
 MAINTAINER 4Minitz-Team <4minitz@gmx.de>
 
@@ -38,6 +38,7 @@ RUN groupadd --gid 1000 node \
         C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
         DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
         FD3A5288F042B6850C66B31F09FE44734EB7990E \
+        0C49F3730359A14518585931BC711F9BA15703C6 \
       ; do \
             gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" || \
             gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$key" || \
@@ -52,7 +53,7 @@ RUN groupadd --gid 1000 node \
         wget \
         xz-utils \
         nano \
-        wkhtmltopdf xauth xvfb ghostscript=9.06~dfsg-2+deb8u6 \
+        wkhtmltopdf xauth xvfb ghostscript=9.26~dfsg+0-0ubuntu0.16.04.8 \
     && rm -rf /var/lib/apt/lists/* \
     \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
@@ -63,8 +64,8 @@ RUN groupadd --gid 1000 node \
     && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
     && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
     \
-    && cp /usr/share/ghostscript/9.06/lib/PDFA_def.ps / \
-    && cp /usr/share/ghostscript/9.06/iccprofiles/srgb.icc / \
+    && cp /usr/share/ghostscript/9.26/lib/PDFA_def.ps / \
+    && cp /usr/share/ghostscript/9.26/iccprofiles/srgb.icc / \
     && sed -i 's/\/ICCProfile.*/\/ICCProfile \(\/srgb.icc\)/' /PDFA_def.ps \
     && sed -i 's/\[\ \/Title.*/\[\ \/Title\ \(4Minitz Meeting Minutes\)/' /PDFA_def.ps
 

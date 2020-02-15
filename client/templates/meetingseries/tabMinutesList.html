@@ -5,8 +5,8 @@
             <!-- "Create New Minutes" button for "Moderators"-->
             <fieldset {{addMinutesDisabled}}>   <!-- dynamically set disabled=true -->
                 <button id="btnAddMinutes" class="btn btn-success btn-raised">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="Create New Minutes"></span>
-                    Create New Minutes
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="{{__ 'Minutes.create' }}"></span>
+                    {{__ 'Minutes.create' }}
                 </button>
             </fieldset>
         </div>
@@ -14,8 +14,8 @@
             <div class="pull-right">
                 <!-- "Leave Meeting Series" button for "Invited"-->
                 <a id="btnLeaveMeetingSeries" class="btn btn-default btn-raised">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="Leave Meeting Series"></span>
-                    Leave Meeting Series
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="{{__ 'MeetingSeries.leave' }}"></span>
+                    {{__ 'MeetingSeries.leave' }}
                 </a>
             </div>
         {{/if}}
@@ -24,12 +24,12 @@
     <div class="well">
         <table class="table table-striped">
             <thead style="font-weight: bold;">
-                <td style="width: 5%;">Date</td>
+                <td style="width: 5%;">{{__ 'Minutes.date' }}</td>
                 <td style="width: 5%;">
-                    <span class="hidden-xs">Finalized</span>
-                    <span class="glyphicon glyphicon-ok visible-xs" aria-hidden="true" aria-label="Finalized"></span>
+                    <span class="hidden-xs">{{__ 'Minutes.finalized' }}</span>
+                    <span class="glyphicon glyphicon-ok visible-xs" aria-hidden="true" aria-label="{{__ 'Minutes.finalized' }}"></span>
                 </td>
-                <td>Participants</td>
+                <td>{{__ 'Minutes.Participants.title' }}</td>
             </thead>
             <tbody>
             {{#each minutes}}
@@ -42,18 +42,18 @@
                 </td>
                 <td style="vertical-align: top; white-space: nowrap;">
                     {{#if isFinalized}}
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Minutes are finalized."
-                              aria-label="Finalized"></span>
-                        V{{finalizedVersion}}
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" title="{{__ 'Minutes.finalizedHint' }}"
+                              aria-label="{{__ 'Minutes.finalized' }}"></span>
+                        {{__ 'Minutes.versionTag' }}{{finalizedVersion}}
                         ({{finalizedBy}})
                     {{else}}
-                        <span class="glyphicon glyphicon-exclamation-sign" title="Minutes are not finalized."
-                              aria-hidden="true" aria-label="Finalized"></span>
-                        V{{finalizedVersion}}
+                        <span class="glyphicon glyphicon-exclamation-sign" title="{{__ 'Minutes.notFinalizedHint' }}"
+                              aria-hidden="true" aria-label="{{__ 'Minutes.notFinalized' }}"></span>
+                        {{__ 'Minutes.versionTag' }}{{finalizedVersion}}
                     {{/if}}
                     {{#if hasAttachments}}
-                        <span class="glyphicon glyphicon-paperclip" title="Minutes have attachments."
-                              aria-hidden="true" aria-label="HasAttachments"></span>
+                        <span class="glyphicon glyphicon-paperclip" title="{{__ 'Minutes.attachmentsHint' }}"
+                              aria-hidden="true" aria-label="{{__ 'Minutes.attachmentsHint' }}"></span>
                     {{/if}}
                 </td>
                 <td class="td-ellipsis">

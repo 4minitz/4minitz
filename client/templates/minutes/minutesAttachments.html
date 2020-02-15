@@ -12,7 +12,7 @@
                       id="btn2AttachmentsExpand"></span>
             {{/if}}
 
-            Attachments
+            {{__ 'Minutes.attachments' }}
             {{#unless isAttachmentsExpanded}}
                 ({{attachmentsCountText}})
             {{/unless}}
@@ -25,16 +25,16 @@
 
                 {{#with currentUpload}}     <!-- Upload in progress? -->
                     <h3 id="progress-basic">
-                        Uploading <b>{{file.name}}</b>
+                        {{__ 'Minutes.Upload.uploading' }} <b>{{file.name}}</b>
                         <button id="btnToggleUpload" type="button" class="btn btn-primary btn-info">
                             {{#if onPause.get}}
-                                <span class="glyphicon glyphicon-play" aria-label="Continue Upload"></span>
+                                <span class="glyphicon glyphicon-play" aria-label="{{__ 'Minutes.Upload.continue' }}"></span>
                             {{else}}
-                                <span class="glyphicon glyphicon-pause" aria-label="Pause Upload"></span>
+                                <span class="glyphicon glyphicon-pause" aria-label="{{__ 'Minutes.Upload.pause' }}"></span>
                             {{/if}}
                         </button>
                         <button id="btnAbortUpload" type="button" class="btn btn-primary btn-warning">
-                            <span class="glyphicon glyphicon-remove" aria-label="Abort Upload"></span>
+                            <span class="glyphicon glyphicon-remove" aria-label="{{__ 'Minutes.Upload.abort' }}"></span>
                         </button>
                         {{timeToFinish}}
                     </h3>
@@ -45,8 +45,8 @@
                     <!--UPLOAD... button-->
                     {{#if showUploadButton}}
                         <label id="lblUpload" class="btn btn-default btn-file hidden-print">
-                            <span class="glyphicon glyphicon-upload" aria-label="Start Upload"></span>
-                            Upload...
+                            <span class="glyphicon glyphicon-upload" aria-label="{{__ 'Minutes.Upload.start' }}"></span>
+                            {{__ 'Minutes.Upload.button' }}
                             <input type="file" id="btnUploadAttachment" style="display: none;">
                         </label>
                     {{/if}}

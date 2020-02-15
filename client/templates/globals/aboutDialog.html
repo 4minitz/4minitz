@@ -3,8 +3,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">About 4Minitz
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{__ 'Buttons.close' }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{__ 'About.title' }}
                         <span style="color: white; font-size: 75%;">{{currentUser._id}}</span>
                     </h4>
                 </div>
@@ -30,11 +30,10 @@
                                     {{/if}}
                                     <br>Branch: {{branch}} ({{commitshort}})<br>
                                 {{/with}}
-                                (C) 2015-2018 4Minitz-Team<br>
-                                Licensed under the
-                                <a href="https://github.com/4minitz/4minitz/blob/develop/LICENSE.md" target="_blank">MIT-License</a><br>
-                                <a href="{{pathForImproved "/"}}LicensesOfDependencies.txt" target="_blank">License of Dependecies</a><br>
-                                <a href="https://github.com/4minitz/4minitz" target="_blank">Fork us on GitHub</a>
+                                {{__ 'About.copyright' }}<br>
+                                <a href="https://github.com/4minitz/4minitz/blob/develop/LICENSE.md" target="_blank">{{__ 'About.licensedUnder' }}</a><br>
+                                <a href="{{pathForImproved "/"}}LicensesOfDependencies.txt" target="_blank">{{__ 'About.licenseDependencies' }}</a><br>
+                                <a href="https://github.com/4minitz/4minitz" target="_blank">{{__ 'About.forkGitHub' }}</a>
                                 <br>
 
                                 {{#if displayStatistics}}
@@ -42,17 +41,16 @@
                                 {{/if}}
 
                                 <div style="margin-top: 0.75em;">
-                                    <b style="color: darkgray;">Thanks To All Our <a href="https://github.com/4minitz/4minitz/graphs/contributors" target="_blank">
-                                        Contributors</a></b><br>
+                                    <b style="color: darkgray;"><a href="https://github.com/4minitz/4minitz/graphs/contributors" target="_blank">{{__ 'About.thanksContributors' }}</a></b><br>
                                 </div>
 
                                 <div style="margin-top: 0.75em;">
-                                    <b style="color: darkgray;">Proudly Sponsored By</b><br>
+                                    <b style="color: darkgray;">{{__ 'About.proudlySponsored' }}</b><br>
                                     <a href="http://www.methodpark.de" target="_blank"><img src="{{pathForImproved "/"}}sponsor_methodpark.png" style="height: 2em;"></a><br>
                                 </div>
 
                                 <div style="margin-top: 0.75em; overflow: hidden;">
-                                    <b style="color: darkgray;">Special Thanks To These Projects</b>
+                                    <b style="color: darkgray;">{{__ 'About.specialThanks' }}</b>
                                 <div style="max-height: 111px; overflow-y: scroll">
                                     <ul>
     <li><a target="_blank" href="https://nodejs.org">Node.js</a></li>
@@ -78,6 +76,8 @@
     <li><a target="_blank" href="https://github.com/lauren/pick-a-color">rcy:pick-a-color</a></li>
     <li><a target="_blank" href="https://github.com/sergeyt/meteor-typeahead">sergeyt:typeahead</a></li>
     <li><a target="_blank" href="https://github.com/VeliovGroup/Meteor-Files">VeliovGroup:Meteor-Files</a></li>
+    <li><a target="_blank" href="https://github.com/vazco/meteor-universe-i18n">universe:i18n</a></li>
+    <li><a target="_blank" href="https://github.com/vazco/universe-i18n-blaze/">universe:i18n-blaze</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__ 'Buttons.ok' }}</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

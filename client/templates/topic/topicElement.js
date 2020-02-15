@@ -199,6 +199,7 @@ Template.topicElement.events({
         }
     },
 
+    // TODO: Translate me
     'click #btnDelTopic'(evt) {
         evt.preventDefault();
 

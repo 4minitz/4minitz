@@ -8,6 +8,7 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { $ } from 'meteor/jquery';
 import { handleError } from '/client/helpers/handleError';
 import {createTopic} from './helpers/create-topic';
+import {configureSelect2Labels} from './helpers/configure-select2-labels';
 import {IsEditedService} from '../../../imports/services/isEditedService';
 import {isEditedHandling} from '../../helpers/isEditedHelpers';
 import {convertOrCreateLabelsFromStrings} from '/client/templates/topic/helpers/convert-or-create-label-from-string';
@@ -35,39 +36,11 @@ let getEditTopic = function() {
     return new Topic(_minutesID, topicId);
 };
 
-function configureSelect2Labels() {
-    let aMin = new Minutes(_minutesID);
-    let aSeries = aMin.parentMeetingSeries();
-
-    let selectLabels = $('#id_item_selLabels');
-    selectLabels.find('option')     // clear all <option>s
-        .remove();
-
-    let selectOptions = [];
-
-    aSeries.getAvailableLabels().forEach(label => {
-        selectOptions.push ({id: label._id, text: label.name});
-    });
-
-    selectLabels.select2({
-        placeholder: 'Select...',
-        tags: true,                     // Allow freetext adding
-        tokenSeparators: [',', ';'],
-        data: selectOptions             // push <option>s data
-    });
-
-
-    // select the options that where stored with this topic last time
-    let editItem = getEditTopic();
-    if (editItem) {
-        selectLabels.val(editItem.getLabelsRawArray());
-    }
-    selectLabels.trigger('change');
-}
-
 function closePopupAndUnsetIsEdited() {
     const topic = getEditTopic();
-    IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
+    if (typeof topic !== 'undefined') {
+        IsEditedService.removeIsEditedTopic(_minutesID, topic._topicDoc._id, false);
+    }
 
     $('#dlgAddTopic').modal('hide');
 }

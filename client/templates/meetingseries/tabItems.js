@@ -1,5 +1,6 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 
 import { ItemsFilter } from '/imports/search/ItemsFilter';
 import { QueryParser } from '/imports/search/QueryParser';
@@ -17,14 +18,6 @@ export class TabItemsConfig {
         this.parentMeetingSeriesId = parentMeetingSeriesId;
     }
 }
-
-const FILTERS = [
-    {text: 'Info Items', value: 'is:info'},
-    {text: 'Action Items', value: 'is:action'},
-    {text: 'Open Action Items', value: 'is:action is:open'},
-    {text: 'Closed Action Items', value: 'is:action is:closed'},
-    {text: 'Your Action Items', value: 'is:action @me'}
-];
 
 Template.tabItems.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar('');
@@ -44,6 +37,13 @@ Template.tabItems.onCreated(function() {
 Template.tabItems.helpers({
 
     getTopicFilterConfig () {
+        const FILTERS = [
+            {text: i18n.__('Item.Filter.info'), value: 'is:info'},
+            {text: i18n.__('Item.Filter.action'), value: 'is:action'},
+            {text: i18n.__('Item.Filter.open'), value: 'is:action is:open'},
+            {text: i18n.__('Item.Filter.closed'), value: 'is:action is:closed'},
+            {text: i18n.__('Item.Filter.yourAction'), value: 'is:action @me'}
+        ];
         let tmpl = Template.instance();
         return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS, ITEM_KEYWORDS, 'Item-Filter');
     },

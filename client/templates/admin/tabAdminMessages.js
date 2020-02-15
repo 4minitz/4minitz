@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { BroadcastMessageSchema } from '/imports/collections/broadcastmessages.schema';
 import { formatDateISO8601Time } from '/imports/helpers/date';
 
@@ -50,7 +51,7 @@ Template.tabAdminMessages.events({
     'click #btnDismissingUsers'(evt) {
         evt.preventDefault();
         let userIds = this.dismissForUserIDs;
-        let userNames = '#Dismissing Users: '+this.dismissForUserIDs.length+'\n';
+        let userNames = i18n.__('Admin.Message.dismissingUsers', {number: this.dismissForUserIDs.length});
         userIds.forEach(usrId => {
             let user = Meteor.users.findOne(usrId);
             if (user) {

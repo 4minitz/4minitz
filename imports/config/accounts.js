@@ -1,4 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { i18n } from 'meteor/universe:i18n';
+import { T9n } from 'meteor/softwarerero:accounts-t9n';
+import { I18nHelper } from '/imports/helpers/i18n';
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsTemplates } from 'meteor/useraccounts:core';
 import { GlobalSettings } from '/imports/config/GlobalSettings';
@@ -7,6 +10,24 @@ import { LdapSettings } from '/imports/config/LdapSettings';
 // For possible account configuration see:
 // https://github.com/meteor-useraccounts/core/blob/master/Guide.md#configuration-api
 
+// Regarding localization: displayName, placeholder, and errStr can also be an accounts-t9n registered key, 
+// in which case it will be translated based on the currently selected language. In case you'd like to specify 
+// a key which is not already provided by accounts-t9n you can always map your own keys.
+
+let availLanguages = i18n.getLanguages();
+
+for (var lang of availLanguages) {
+    T9n.map(lang, {
+        custom: {
+            usernamePlaceholder: i18n.__('Accounts.usernamePlaceholder', {_locale: lang}),
+            nameDisplayName: i18n.__('Accounts.nameDisplayName', {_locale: lang}),
+            namePlaceholder: i18n.__('Accounts.namePlaceholder', {_locale: lang}),
+            passwordPlaceholder: i18n.__('Accounts.passwordPlaceholder', {_locale: lang}),
+            passwordError: i18n.__('Accounts.passwordError', {_locale: lang})
+        }
+    });
+}
+
 AccountsTemplates.removeField('password');
 AccountsTemplates.removeField('email');
 
@@ -14,9 +35,9 @@ AccountsTemplates.addFields([
     {
         _id: 'username',
         type: 'text',
-        displayName: 'User name',
+        displayName: 'username',
         placeholder: {
-            signUp: '(min. 3 chars)'
+            signUp: 'custom.usernamePlaceholder'
         },
         required: true,
         minLength: 3
@@ -24,30 +45,35 @@ AccountsTemplates.addFields([
     {
         _id: 'name',
         type: 'text',
-        displayName: 'Name, Company',
+        displayName: 'custom.nameDisplayName',
         placeholder: {
-            signUp: 'John Doe, Happy Corp.'
+            signUp: 'custom.namePlaceholder'
         },
     },
     {
         _id: 'email',
         type: 'email',
         required: true,
-        displayName: 'Email',
+        displayName: 'emailAddress',
+        placeholder: {
+            default: 'emailAddress'
+        },
         re: /^[^\s@]+@([^\s@]+){2,}\.([^\s@]+){2,}$/,
-        errStr: 'Invalid email'
+        errStr: 'error.accounts.Invalid email'
     },
 
     {
         _id: 'password',
         type: 'password',
         placeholder: {
-            signUp: 'min. 6 chars (digit, lower & upper)'
+            default: 'password',
+            signUp: 'custom.passwordPlaceholder'
         },
         required: true,
         minLength: 6,
+        displayName: 'password',
         re: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
-        errStr: 'min. 6 chars (min. 1 digit, 1 lower, 1 upper)'
+        errStr: 'custom.passwordError'
     }
 ]);
 
@@ -85,7 +111,7 @@ if (Meteor.isServer) {
         return true;
     });
 
-} else {
+} else {  // isClient
     AccountsTemplates.configure({
         forbidClientAccountCreation: (Meteor.settings.public.forbidClientAccountCreation
             ? Meteor.settings.public.forbidClientAccountCreation
@@ -105,6 +131,14 @@ if (Meteor.isServer) {
 
         onSubmitHook: submitHookFunction
     });
+
+    Accounts.onLogin(function() {
+        // if user has preferred locale in profile, set this locale, otherwise: browser preference
+        I18nHelper.setLanguageLocale();
+    });
+
+    Accounts.onLogout(function() {
+        // reset to browser's locale after logout of user
+        I18nHelper.setLanguageLocale();
+    });
 }
-
-

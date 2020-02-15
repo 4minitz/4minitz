@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -13,7 +14,6 @@ import { TabItemsConfig } from './tabItems';
 import { TabTopicsConfig } from './tabTopics';
 import {TopicsFinder} from '../../../imports/services/topicsFinder';
 import {formatDateISO8601Time} from '../../../imports/helpers/date';
-
 
 let _meetingSeriesID;   // the parent meeting object of this minutes
 
@@ -133,12 +133,7 @@ Template.meetingSeriesDetails.helpers({
         let ms = new MeetingSeries(_meetingSeriesID);
         let user = Meteor.users.findOne({_id: ms.isEditedBy});
 
-        return user.username;
-    },
-
-    meetingSeriesEditedDate() {
-        let ms = new MeetingSeries(_meetingSeriesID);
-        return formatDateISO8601Time(ms.isEditedDate);
+        return i18n.__('MeetingSeries.Edit.editedBy', {user: user.username, date: formatDateISO8601Time(ms.isEditedDate)});
     }
 });
 

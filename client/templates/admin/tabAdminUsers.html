@@ -3,7 +3,7 @@
         <form id="adminUser"></form>
         <div class="col-md-5">
             <div class="form-group label-floating">
-                <label class="control-label" for="id_adminFilterUsers">Filter Users</label>
+                <label class="control-label" for="id_adminFilterUsers">{{__ 'Admin.Users.filterUsers' }}</label>
                 <input class="form-control clear-on-escape" id="id_adminFilterUsers" type="text" autocomplete="off">
             </div>
         </div>
@@ -11,15 +11,15 @@
             <div class='checkbox form-group'>
                 <label for='id_adminShowInactive'>
                     <input id="id_adminShowInactive" type='checkbox' class='checkbox'>
-                    Show Inactive
+                    {{__ 'Admin.Users.showInactive' }}
                 </label>
             </div>
         </div>
         <div class="col-md-2">
             <div class='checkbox form-group'>
-                <label for='id_adminShowOnline' title='Showing only users currently active on a minutesedit route'>
+                <label for='id_adminShowOnline' title="{{__'Admin.Users.onlineHint' }}">
                     <input id="id_adminShowOnline" type='checkbox' class='checkbox'>
-                    Online
+                    {{__ 'Admin.Users.online' }}
                 </label>
             </div>
         </div>
@@ -28,7 +28,7 @@
                     id="btnAdminRegisterNewUser"
                     data-toggle="modal"
                     data-target="#dlgAdminRegisterUser">
-                Register New User...
+                {{__ 'Admin.Register.button' }}
             </button>
         </div>
     </div>
@@ -36,12 +36,12 @@
     <table class="table" id="id_adminUserTable">
         <thead>
         <tr>
-            <td>User</td>
-            <td>Long Name</td>
-            <td>EMail</td>
-            <td>ID</td>
-            <td title="LDAP user or Standard user">L/S</td>
-            <td>In/Active</td>
+            <td>{{__ 'Profile.userName' }}</td>
+            <td>{{__ 'Profile.longName' }}</td>
+            <td>{{__ 'Profile.email' }}</td>
+            <td>{{__ 'Admin.Users.id' }}</td>
+            <td title="{{__ 'Admin.Users.Type.hint' }}">{{__ 'Admin.Users.Type.column' }}</td>
+            <td>{{__ 'Admin.Users.State.column' }}</td>
         </tr>
         </thead>
         <tbody>
@@ -51,11 +51,11 @@
                 <td>{{this.profile.name}}</td>
                 <td><a href="mailto:{{email this}}">{{email this}}</a></td>
                 <td style="font-family: 'Monaco', 'Courier New', monospace">{{this._id}}</td>
-                <td>{{#if this.isLDAPuser}}L{{else}}S{{/if}}</td>
+                <td>{{#if this.isLDAPuser}}{{__ 'Admin.Users.Type.ldap' }}{{else}}{{__ 'Admin.Users.Type.standard' }}{{/if}}</td>
                 <td>{{inactiveStateText this}}
                     {{#unless this.isLDAPuser}}
-                        <a id="id_ToggleInactive" title="Toggle active/inactive state. Inactive users can not log in.">Toggle</a>
-                        <a id="id_EditUserProfile" title="Edit User Profile">
+                        <a id="id_ToggleInactive" title="{{__ 'Admin.Users.State.hint' }}">{{__ 'Admin.Users.State.toggle' }}</a>
+                        <a id="id_EditUserProfile" title="{{__ 'Admin.Users.editProfile' }}">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     {{/unless}}
@@ -63,7 +63,7 @@
             </tr>
         {{/each}}
         </tbody></table>
-    <p>Showing {{userCountVisible}} of {{userCountAll}} users. Use filter to show others.</p>
+    <p>{{userCount}}</p>
 
     {{> adminRegisterUser}}
 </template>

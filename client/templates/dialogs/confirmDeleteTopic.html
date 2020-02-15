@@ -1,13 +1,17 @@
 <template name="confirmDeleteTopic">
     {{#if deleteAllowed}}
-        <p>Do you really want to delete the topic <strong>{{subject}}</strong>?</p>
+        <p>{{{__ 'Dialog.ConfirmDeleteTopic.allowed' _purify='string => string' type=type subject=subject }}}</p>
     {{else}}
         <p>
-            It is not possible to delete the topic <strong>{{subject}}</strong> because the topic was
-            created in a previous minutes.
+            {{{__ 'Dialog.ConfirmDeleteTopic.notAllowed' _purify='string => string' type=type subject=subject }}}
         </p>
         <p>
-            Do you want to close the topic {{#if hasOpenActionItems}}together with all related action items {{/if}}instead?
+            {{#if hasOpenActionItems}}
+                {{__ 'Dialog.ConfirmDeleteTopic.close' }}
+            {{else}}
+                {{__ 'Dialog.ConfirmDeleteTopic.closeWithActions' }}
+            {{/if}}
+            
         </p>
     {{/if}}
 </template>

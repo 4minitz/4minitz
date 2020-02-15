@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { i18n } from 'meteor/universe:i18n';
 import { Session } from 'meteor/session';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
@@ -68,9 +69,9 @@ Template.minutesEditParticipants.helpers({
     countParticipantsText () {
         const count = countParticipantsMarked();
         if (count === 1) {
-            return '1 Participant';
+            return i18n.__('Minutes.Participants.solo');
         } else {
-            return '' + count + ' Participants';
+            return '' + count + ' ' + i18n.__('Minutes.Participants.title');
         }
     },
 
@@ -88,9 +89,9 @@ Template.minutesEditParticipants.helpers({
             return '';
         }
         if (count === 1) {
-            return ', 1 Additional Participant';
+            return ', ' + i18n.__('Minutes.Participants.additionalSolo');
         }
-        return ', ' + count + ' Additional Participants';
+        return ', ' + count + ' ' + i18n.__('Minutes.Participants.additional');
     },
 
     countInformedText() {
@@ -100,9 +101,9 @@ Template.minutesEditParticipants.helpers({
             return '';
         }
         if (count === 1) {
-            return ', 1 Informed User';
+            return ', ' + i18n.__('Minutes.Participants.informedSolo');
         }
-        return ', ' + count + ' Informed Users';
+        return ', ' + count + ' ' + i18n.__('Minutes.Participants.informed');
     },
 
 

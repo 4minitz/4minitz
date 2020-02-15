@@ -93,6 +93,7 @@ echo "MONGO_URL=${MONGO_URL}"
 export PORT=3333
 export ROOT_URL='http://localhost:3100'
 export METEOR_SETTINGS=$(cat ${basedir4min}/4minitz_settings.json)
+export UNIVERSE_I18N_LOCALES='all'
 
 echo ""
 echo "***********************************"

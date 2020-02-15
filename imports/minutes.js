@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { i18n } from 'meteor/universe:i18n';
 import { Random } from 'meteor/random';
 import { MinutesSchema } from './collections/minutes.schema';
 import { MeetingSeries } from './meetingseries';
@@ -462,7 +463,7 @@ export class Minutes {
             return names.substr(0, maxChars) + '...';
         }
 
-        return names || 'None.';
+        return names || i18n.__('Minutes.Participants.none');
     }
 
     checkParent() {

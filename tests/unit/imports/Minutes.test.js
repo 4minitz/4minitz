@@ -52,6 +52,7 @@ const {
     Minutes
     } = proxyquire('../../../imports/minutes', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    'meteor/universe:i18n': { Meteor, '@noCallThru': true},
     'meteor/random': { Random, '@noCallThru': true},
     './collections/minutes_private': { MinutesSchema, '@noCallThru': true},
     './collections/minutes.schema': { MinutesSchema, '@noCallThru': true},

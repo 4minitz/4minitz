@@ -1,3 +1,4 @@
+import { i18n } from 'meteor/universe:i18n';
 import { TopicItemsMailHandler } from './TopicItemsMailHandler';
 import {ResponsibleResolver} from '../services/responsibleResolver';
 
@@ -14,7 +15,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix() + ' (Your Action Items)';
+        return this._getSubjectPrefix() + ' (' + i18n.__('Item.Filter.yourAction') + ')';
     }
 
     _sendMail() {
@@ -26,6 +27,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
                 this._buildMail(
                     mailSubject,
                     {
+                        greetingLabel: i18n.__('Mail.greeting'), newLabel: i18n.__('Mail.newActionItem'),
                         'actionItems': [ActionItemsMailHandler._createActionItemDataObject(topicSubject, item.getParentTopic()._topicDoc._id, item)]
                     }
                 );
@@ -35,6 +37,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
             this._buildMail(
                 mailSubject,
                 {
+                    greetingLabel: i18n.__('Mail.greeting'), newLabel: i18n.__('Mail.newActionItem'),
                     'actionItems': this._actionItems.map(item => {
                         let topicSubject = item.getParentTopic().getSubject();
                         return ActionItemsMailHandler._createActionItemDataObject(topicSubject, item.getParentTopic()._topicDoc._id, item);
@@ -50,14 +53,13 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
 
         return {
             _id: item.getDocument()._id,
-            topicId: topicId,
-            topicSubject: topicSubject,
+            topicLabel: i18n.__('Topic.title'), topicId: topicId, topicSubject: topicSubject,
             itemSubject: item.getSubject(),
-            labels: item.getLabelsRawArray(),
-            responsibles: ResponsibleResolver.resolveAndformatResponsiblesString(item.getResponsibleRawArray()),
-            priority: item.getPriority(),
-            duedate: item.getDuedate(),
-            details: details
+            labelsLabel: i18n.__('MeetingSeries.Edit.labels'), labels: item.getLabelsRawArray(),
+            responsibleLabel: i18n.__('Topic.responsible'), responsibles: ResponsibleResolver.resolveAndformatResponsiblesString(item.getResponsibleRawArray()),
+            priorityLabel: i18n.__('Item.priority'), priority: item.getPriority(),
+            dueLabel: i18n.__('Item.due'), duedate: item.getDuedate(), dueNoneLabel: i18n.__('Item.dueNone'),
+            detailsLabel: i18n.__('Item.details'), details: details
         };
     }
 

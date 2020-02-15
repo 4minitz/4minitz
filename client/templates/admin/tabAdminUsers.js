@@ -1,10 +1,11 @@
 import { $ } from 'meteor/jquery';
 
 import { Template } from 'meteor/templating';
+import { i18n} from 'meteor/universe:i18n';
 import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
-import {Session} from "meteor/session";
+import {Session} from 'meteor/session';
 
 let _filterUsers = new ReactiveVar('');
 let _showInactive = new ReactiveVar(false);
@@ -36,7 +37,7 @@ Template.tabAdminUsers.helpers({
             filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]};
         }
         if (_showOnline.get()) {
-            let onlineusers = OnlineUsersSchema.find().fetch().map(ousr => {return ousr.userId});
+            let onlineusers = OnlineUsersSchema.find().fetch().map(ousr => {return ousr.userId;});
             filterOptions = {$and: [{'_id': {$in: onlineusers}}, filterOptions]};
         }
 
@@ -47,9 +48,9 @@ Template.tabAdminUsers.helpers({
 
     'inactiveStateText'(user) {
         if (user.isInactive) {
-            return 'Inactive';
+            return i18n.__('Admin.Users.State.inactive');
         }
-        return 'Active';
+        return i18n.__('Admin.Users.State.active');
     },
     'inactiveStateColor'(user) {
         if (user.isInactive) {
@@ -65,15 +66,14 @@ Template.tabAdminUsers.helpers({
         return '';
     },
 
-    'userCountAll'() {
-        if (_showInactive.get()) {
-            return Meteor.users.find({}).count();
-        }
-        return Meteor.users.find({isInactive: {$not: true}}).count();
-    },
+    'userCount'() {
+        let userCountAll = _showInactive.get() ? Meteor.users.find({}).count() : Meteor.users.find({isInactive: {$not: true}}).count();
+        let userCountVisible = _visibleCount.get()+0;
 
-    'userCountVisible'() {
-        return _visibleCount.get()+0;
+        if (userCountVisible == 1) {
+            return i18n.__('Admin.Users.countSingle', {visible: userCountVisible, all: userCountAll});
+        }
+        return i18n.__('Admin.Users.count', {visible: userCountVisible, all: userCountAll});
     }
 });
 
@@ -88,7 +88,7 @@ Template.tabAdminUsers.events({
         Meteor.call('users.admin.ToggleInactiveUser', this._id);
     },
 
-    'click #id_EditUserProfile'(evt, tmpl) {
+    'click #id_EditUserProfile'(evt) {
         evt.preventDefault();
         Session.set('editProfile.userID', this._id);
         $('#dlgEditProfile').modal('show');

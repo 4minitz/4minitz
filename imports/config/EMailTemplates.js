@@ -1,6 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { GlobalSettings } from './GlobalSettings';
-import {Meteor} from "meteor/meteor";
+import {Meteor} from 'meteor/meteor';
 
 function setupEmailTemplatesForAccounts() {
     Accounts.emailTemplates.siteName = GlobalSettings.getSiteName();
