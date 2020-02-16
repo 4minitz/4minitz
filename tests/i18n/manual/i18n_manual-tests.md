@@ -325,6 +325,19 @@ Precondition:
 
 <hr>
 
+## 004.1-Msg.MinutesNonModeratorLeaveConfirmation.png
+
+Precondition:
+
+* Non moderator is invited to meeting series
+* Button 'Leave Meeting Series' should show up
+
+![](screenshots-en/004.1-Msg.MinutesNonModeratorLeaveConfirmation.png)
+
+
+
+<hr>
+
 ## 004.2-Screen.Minutes.Topics.png
 
 Precondition:
@@ -360,6 +373,19 @@ Precondition:
 * A closed topic shows 'Reopen Topic' menu
 
 ![](screenshots-en/004.2-Menu.Minutes.Topics-Reopen.png)
+
+
+
+<hr>
+
+## 004.2-Msg.Minutes.Topics-ReopenConfirmation.png
+
+Precondition:
+
+* On Meeting Series goto Topic list
+* On a closed toipic from three-dot menu select 'Reopen Topic'
+
+![](screenshots-en/004.2-Msg.Minutes.Topics-ReopenConfirmation.png)
 
 
 
@@ -453,6 +479,21 @@ Precondition:
 * Try to upload a file that is bigger than settings.json allows
 
 ![](screenshots-en/005.1-Msg.MinutesEdit.UploadError.png)
+
+
+
+
+<hr>
+
+## 005.1-Msg.MinutesEdit.UploadDeleteConfirmation.png
+
+Precondition:
+
+* Create new Meeting Minutes
+* Upload a file attachment
+* Click red "X" next to attachment file to delete it
+
+![](screenshots-en/005.1-Msg.MinutesEdit.UploadDeleteConfirmation.png)
 
 
 
