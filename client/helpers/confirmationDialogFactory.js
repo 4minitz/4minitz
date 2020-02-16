@@ -1,11 +1,13 @@
 import { ConfirmationDialog } from './confirmationDialog';
+import { i18n } from 'meteor/universe:i18n';
 
 export class ConfirmationDialogFactory {
 
     /**
      * @returns {ConfirmationDialog}
      */
-    static makeSuccessDialogWithTemplate(onSuccess, title, template, templateData, confirmButtonText = 'Confirm') {
+    static makeSuccessDialogWithTemplate(onSuccess, title, template, templateData,
+        confirmButtonText = i18n.__('Buttons.confirm')) {
         return new ConfirmationDialog({
             title: title,
             template: template,
@@ -21,7 +23,8 @@ export class ConfirmationDialogFactory {
     /**
      * @returns {ConfirmationDialog}
      */
-    static makeWarningDialogWithTemplate(onSuccess, title, template, templateData, confirmButtonText = 'Delete') {
+    static makeWarningDialogWithTemplate(onSuccess, title, template, templateData, 
+        confirmButtonText = i18n.__('Buttons.delete')) {
         return new ConfirmationDialog({
             title: title,
             template: template,
@@ -40,7 +43,7 @@ export class ConfirmationDialogFactory {
         return new ConfirmationDialog({
             title: title,
             content: content,
-            confirmButtonText: 'OK',
+            confirmButtonText: i18n.__('Buttons.ok'),
             confirmButtonType: 'btn-info',
             showCancelButton: false
         });
@@ -53,7 +56,7 @@ export class ConfirmationDialogFactory {
         return new ConfirmationDialog({
             title: title,
             content: content,
-            confirmButtonText: 'OK',
+            confirmButtonText: i18n.__('Buttons.ok'),
             showCancelButton: false
         });
     }

@@ -16,6 +16,8 @@ import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { i18n } from 'meteor/universe:i18n';
+
 
 let _minutesId;
 
@@ -199,7 +201,6 @@ Template.topicElement.events({
         }
     },
 
-    // TODO: Translate me
     'click #btnDelTopic'(evt) {
         evt.preventDefault();
 
@@ -222,21 +223,19 @@ Template.topicElement.events({
                         topic.closeTopicAndAllOpenActionItems().catch(onError);
                     }
                 },
-                deleteAllowed ? 'Confirm delete' : 'Close topic?',
+                deleteAllowed ? i18n.__('Dialog.ConfirmTopicDelete.title1') : i18n.__('Dialog.ConfirmTopicDelete.title2'),
                 'confirmDeleteTopic',
                 {
                     deleteAllowed: topic.isDeleteAllowed(),
                     hasOpenActionItems: topic.hasOpenActionItem(),
                     subject: topic.getSubject()
                 },
-                deleteAllowed ? 'Delete' : 'Close topic and actions'
+                deleteAllowed ? i18n.__('Buttons.delete') : i18n.__('Dialog.ConfirmTopicDelete.button2')
             ).show();
         } else {
             ConfirmationDialogFactory.makeInfoDialog(
-                'Cannot delete topic',
-                'It is not possible to delete this topic because it was created in a previous minutes. ' +
-                'The selected topic is already closed and has no open action items, so it won\'t be copied to the ' +
-                'following minutes'
+                i18n.__('Dialog.ConfirmTopicDelete.errortitle'),
+                i18n.__('Dialog.ConfirmTopicDelete.errorcontent')
             ).show();
         }
     },
@@ -371,12 +370,12 @@ Template.topicElement.events({
         };
         ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
             reopenTopic,
-            'Re-open Topic',
+            i18n.__('Dialog.ConfirmReOpenTopic.title'),
             'confirmReOpenTopic',
             {
                 topicSubject: Template.instance().data.topic.subject
             },
-            'Re-open'
+            i18n.__('Dialog.ConfirmReOpenTopic.button')
         ).show(); 
     }
 });

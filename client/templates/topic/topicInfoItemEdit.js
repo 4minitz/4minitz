@@ -26,6 +26,7 @@ import {handlerShowMarkdownHint} from './helpers/handler-show-markdown-hint';
 import {IsEditedService} from '../../../imports/services/isEditedService';
 import {isEditedHandling} from '../../helpers/isEditedHelpers';
 import {configureSelect2Responsibles} from '/imports/client/ResponsibleSearch';
+import { i18n } from 'meteor/universe:i18n';
 
 Session.setDefault('topicInfoItemEditTopicId', null);
 Session.setDefault('topicInfoItemEditInfoItemId', null);
@@ -286,8 +287,8 @@ Template.topicInfoItemEdit.events({
             if (! emailAddressRegExpTest.test(evt.params.args.data.text)) {    // no valid mail anystring@anystring.anystring
                 // prohibit non-mail free text entries
                 ConfirmationDialogFactory.makeInfoDialog(
-                    'Invalid Responsible',
-                    'This is not a valid responsible!\n\nPlease select an **existing user** from the dropdown or enter a **valid email address**.'
+                    i18n.__('Dialog.ActionItemResponsibleError.title'),
+                    i18n.__('Dialog.ActionItemResponsibleError.body')
                 ).show();
                 return false;
             }

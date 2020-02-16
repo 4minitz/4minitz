@@ -10,6 +10,7 @@ import { UserRoles } from '/imports/userroles';
 import { User } from '/imports/user';
 import { Attachment } from '/imports/attachment';
 import { msToHHMMSS, formatDateISO8601Time } from '/imports/helpers/date';
+import { i18n } from 'meteor/universe:i18n';
 
 let _minutesID; // the ID of these minutes
 
@@ -142,7 +143,7 @@ Template.minutesAttachments.events({
                     onEnd: (error) => {
                         if (error) {
                             ConfirmationDialogFactory.makeErrorDialog(
-                                'Error during upload',
+                                i18n.__('Minutes.Upload.error'),
                                 '' + error
                             ).show();
                         }
@@ -165,7 +166,7 @@ Template.minutesAttachments.events({
             () => {
                 Meteor.call('attachments.remove', this._id);
             },
-            'Confirm delete',
+            i18n.__('Minutes.Upload.confirmDeleteTitle'),
             'confirmDeleteAttachment',
             {name: this.name}
         ).show();

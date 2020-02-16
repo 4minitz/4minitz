@@ -4,6 +4,7 @@
  To add new scenarios triggering tests: simply add an unique identifier for your scenario to QualityTestRunner.TRIGGERS, then create your tests.
  */
 import {ConfirmationDialogFactory} from '../../client/helpers/confirmationDialogFactory';
+import { i18n } from 'meteor/universe:i18n';
 
 export class QualityTestRunner {
     static TRIGGERS = { // if you want to add new scenarios triggering test, add one unique string identifier here.
@@ -57,10 +58,10 @@ export class QualityTestRunner {
         } else {
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 callbackOnSuccess,
-                'Finalize Minutes: Quality Checks',
+                i18n.__('Dialog.ConfirmMinuteQualityAssurance.title'),
                 'confirmMinuteQualityAssurance',
                 { errors: errors },
-                'Proceed'
+                i18n.__('Dialog.ConfirmMinuteQualityAssurance.button')
             ).show();
         }
     }

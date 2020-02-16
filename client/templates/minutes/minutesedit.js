@@ -565,14 +565,14 @@ Template.minutesedit.events({
 
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     sendAgenda,
-                    'Confirm sending agenda',
+                    i18n.__('Dialog.ConfirmSendAgenda.title'),
                     'confirmSendAgenda',
                     {
                         minDate: aMin.date,
                         agendaSentDate: moment(date).format('YYYY-MM-DD'),
                         agendaSentTime: moment(date).format('h:mm')
                     },
-                    'Send Agenda'
+                    i18n.__('Dialog.ConfirmSendAgenda.button')
                 ).show();
             } else {
                 await sendAgenda();
@@ -605,7 +605,7 @@ Template.minutesedit.events({
             if (GlobalSettings.isEMailDeliveryEnabled()) {
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
-                    'Confirm Finalize Minutes',
+                    i18n.__('Dialog.ConfirmFinalizeMinutes.title'),
                     'confirmationDialogFinalize',
                     {
                         minutesDate: aMin.date,
@@ -613,7 +613,7 @@ Template.minutesedit.events({
                         sendActionItems: (sendActionItems) ? 'checked' : '',
                         sendInformationItems: (sendInformationItems) ? 'checked' : ''
                     },
-                    'Finalize'
+                    i18n.__('Dialog.ConfirmFinalizeMinutes.button')
                 ).show();
             } else {
                 doFinalize();
@@ -660,7 +660,7 @@ Template.minutesedit.events({
 
         ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             deleteMinutesCallback,
-            'Confirm delete',
+            i18n.__('Dialog.ConfirmDelete.title'),
             'confirmationDialogDeleteMinutes',
             tmplData
         ).show();
@@ -691,10 +691,10 @@ Template.minutesedit.events({
         let noProtocolExistsDialog = (downloadHTML) => {
             ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                 downloadHTML,
-                'Confirm generate protocol',
+                i18n.__('Dialog.ConfirmGenerateProtocol.title'),
                 'confirmPlainText',
-                { plainText: 'There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?'},
-                'Download'
+                { plainText: i18n.__('Dialog.ConfirmGenerateProtocol.body')},
+                i18n.__('Dialog.ConfirmGenerateProtocol.button')
             ).show();
         };
         

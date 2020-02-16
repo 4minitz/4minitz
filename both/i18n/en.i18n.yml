@@ -8,19 +8,20 @@ Accounts:
   passwordPlaceholder: "min. 6 chars (digit, lower & upper)"
   passwordError: "min. 6 chars (min. 1 digit, 1 lower, 1 upper)"
 Buttons:
-  cancel: "Cancel"
-  close: "Close"
-  register: "Register"
-  change: "Change"
-  save: "Save"
-  create: "Create"
-  ok: "OK"
   add: "Add"
-  dismissAll: "Dismiss All"
   back: "Go Back"
+  cancel: "Cancel"
+  change: "Change"
+  close: "Close"
+  confirm: "Confirm"
+  create: "Create"
   delete: "Delete"
+  dismissAll: "Dismiss All"
   edit: "Edit"
   hide: "Ok, hide"
+  ok: "OK"
+  register: "Register"
+  save: "Save"
 Dialog:
   ConfirmCreateNewMinutes:
     title: "Confirm Creating New Minutes"
@@ -38,16 +39,30 @@ Dialog:
     closeWithActions: "Do you want to close the topic together with all related action items instead?"
   ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
   ConfirmMinuteQualityAssurance:
+    title: "Finalize Minutes: Quality Checks"
+    button: "Proceed"
     issues: "There are finalize issues with your minutes!"
     proceed: "Do you want to proceed with finalizing?"
-  confirmReOpenTopic: "Do you really want to re-open the already closed topic {$topicSubject}?"
-  confirmSendAgenda: "Do you really want to sent the agenda for this meeting minute dated on <strong>{$minDate}</strong>?<br>It was already sent on {$agendaSentDate} at {$agendaSentTime}"
+  ConfirmReOpenTopic:
+    title: "Re-open Topic"
+    body: "Do you really want to re-open the already closed topic {$topicSubject}?"
+    button: "Re-open"
+  ConfirmSendAgenda:
+    body: "Do you really want to sent the agenda for this meeting minute dated on <strong>{$minDate}</strong>?<br>It was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    title: "Confirm sending agenda"
+    button: "Send Agenda"
+  ConfirmDelete:
+    title: "Confirm delete"
+    body: "Are you sure to delete this?"
   ConfirmDeleteMinutes:
+    title: ""
     really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
     newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
     closedTopicsAdditionally: "Additionally <strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
     closedTopics: "<strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
   ConfirmFinalizeMinutes:
+    title: "Confirm Finalize Minutes"
+    button: "Finalize"
     really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
@@ -56,8 +71,10 @@ Dialog:
     languageLocale: "Language Locale"
     automatic: "Automatic via Browser"
   IsEditedHandling:
+    title: "Edit despite existing editing"
     confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
     confirmationDialogResetEditDetails: "Please click on detail again to start editing."
+    button: "Edit Anyway"
   ConnectionInfo:
     tooltip: "Connection Lost!!!\n
                 Status: {$status}\n
@@ -68,6 +85,31 @@ Dialog:
     header: "You have lost the connection to the 4Minitz server."
     body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
     tryToReconnect: "Try To Reconnect"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    button: "Download"
+  ConfirmTopicDelete:
+    title1: "Confirm delete topic"
+    title2: "Mark topic as discussed?"
+    button2: "Close topic and actions"
+    errortitle: "Cannot delete topic"
+    errorcontent: "It is not possible to delete this topic because it was created in a
+        previous minutes. The selected topic is already closed and has no open action items,
+        so it won't be copied to the following minutes."
+  ItemDeleteError:
+    title: "Cannot delete item"
+    body1: "It is not possible to delete this item because it was created in a previous minutes."
+    body2a: "This action item is already closed,"
+    body2b: "This info item is already un-pinned"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: "This is not a valid responsible!\n\n
+           Please select an **existing user** from the dropdown or enter a **valid email address**."
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
@@ -232,6 +274,8 @@ Minutes:
     continue: "Continue Upload"
     pause: "Pause Upload"
     abort: "Abort Upload"
+    error: "Error during upload"
+    confirmDeleteTitle: "Confirm delete???"
   version: "Version"
   versionTag: "v"
   Participants:
@@ -255,6 +299,7 @@ MeetingSeries:
   team: "Team / Project"
   new: "New Meeting Series"
   leave: "Leave Meeting Series"
+  leaveButton: "Leave"
   moderator: "You are moderator"
   lastMinute: "Last Minute:"
   Search:
@@ -303,6 +348,10 @@ Profile:
     longName: "Please enter a valid long name"
     email: "Please enter a valid EMail address"
     password: "Please enter a valid password"
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
 Admin:
   users: "Users"
   messages: "Messages"
@@ -347,10 +396,42 @@ Login:
     title: "Login error"
     username: "Please enter your username"
     password: "Please enter your password"
-  title: "Sign In"
+  signIn: "Sign In"
   ldap: "LDAP"
   standard: "Standard"
   demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: "<p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
+               We made 4Minitz free open source software, as we strongly believe that
+               sensitive information like meeting minutes should not be hosted in the cloud.
+               Instead you want to host it on your own infrastructure where you can define
+               the level of security and safety you need."
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: "<li>Create your meeting series</li>
+                           <li>Invite other users</li>
+                           <li>Specify moderators and uploaders</li>
+                           <li>Fill agenda with topics</li>
+                           <li>Mark recurring topics for standard agenda</li>
+                           <li>Send agenda to invited users</li>"
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: "<li>Mark present participants</li>
+                             <li>Add action items with responsibles to topics</li>
+                             <li>Add information items to topics</li>
+                             <li>Add labels like 'Decision' to items</li>
+                             <li>Upload binary file attachments</li>
+                             <li>Send minutes &amp; action items via EMail</li>"
+    trackTopicsHeading: "Track Topics"
+    trackTopicsDetails: "<li>Open action items will show up next time</li>
+                         <li>Non-closed topics will show up next time</li>
+                         <li>Search list of all ever discussed topics</li>
+                         <li>Enrich topics with info items on multiple meetings</li>
+                         <li>Find topics with labels (e.g. all Decisions)</li>
+                         <li>Find items by fulltext search</li>"
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
 Navigation:
   help: "Help"
   about: "About"

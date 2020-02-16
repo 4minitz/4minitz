@@ -2,6 +2,7 @@ import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
+import { i18n } from 'meteor/universe:i18n';
 
 const DIALOG_TEMPLATE = Template.confirmationDialog;
 
@@ -9,11 +10,11 @@ export class ConfirmationDialog {
 
     constructor(options, callbacks = {}) {
         this.options = _.extend({
-            title: 'Confirm delete',
-            content: 'Are you sure to delete this?',
+            title: i18n.__('Dialog.ConfirmDelete.title'),
+            content: i18n.__('Dialog.ConfirmDelete.body'),
             template: null,
             templateData: {},
-            confirmButtonText: 'Delete',
+            confirmButtonText: i18n.__('Buttons.delete'),
             confirmButtonType: 'btn-danger',
             showCancelButton: true
         }, options);
