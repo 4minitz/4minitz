@@ -525,13 +525,14 @@ Template.topicInfoItemList.events({
 
             let tmplData = {
                 isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
-                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate)
+                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate),
+                isDetail: true
             };
 
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 unset,
                 'Edit despite existing editing',
-                'confirmationDialogResetDetailEdit',
+                'confirmationDialogResetEdit',
                 tmplData,
                 'Edit anyway'
             ).show();

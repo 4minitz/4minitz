@@ -55,7 +55,19 @@ Dialog:
     title: "Set Language"
     languageLocale: "Language Locale"
     automatic: "Automatic via Browser"
-
+  IsEditedHandling:
+    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
+    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
+  ConnectionInfo:
+    tooltip: "Connection Lost!!!\n
+                Status: {$status}\n
+                Retry Count: {$retryCount}\n
+                Retry Time: {$retryTime} sec.\n
+                Reason: {$reason}\n
+                Click to reconnect.\n"
+    header: "You have lost the connection to the 4Minitz server."
+    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
+    tryToReconnect: "Try To Reconnect"
 Mail:
   greeting: "Hello"
   newAgenda: "We've got a brand new meeting agenda for you:"
