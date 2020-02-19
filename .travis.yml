@@ -41,11 +41,7 @@ node_js:
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-
-  # Temporary disable apt-get update as Travis currently errors:
-  # Failed to fetch https://downloads.apache.org/cassandra/debian/dists/39x/main/binary-amd64/Packages  Protocol http not supported or disabled in libcurl
-  # - sudo apt-get update -q --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
-
+  - sudo apt-get update -q --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
   - sudo apt-get install gcc-4.8 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
   - curl https://install.meteor.com | /bin/sh
   - npm install -g chimp@0.51.1
