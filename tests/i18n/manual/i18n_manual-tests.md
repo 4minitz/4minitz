@@ -549,8 +549,8 @@ Precondition:
 Precondition:
 
 * In Minutes Edit
-* Click "Send Ageanda" once
-* Click "Send Ageanda" second time
+* Click "Send Agenda" once
+* Click "Send Agenda" second time
 
 ![](screenshots-en/005.1-Msg.MinutesEdit.AgendaResend.png)
 
@@ -753,3 +753,47 @@ Precondition:
 * Click tab 'Messages'
 
 ![](screenshots-en/006.2-Screen.Admin.Messages.png)
+
+<hr>
+
+## 007.1-Mail.Agenda.png
+
+Precondition:
+
+* Set email.enableMailDelivery = true in ./settings.json and configure accordingly
+* Create new Meeting Minutes
+* Create one topic
+* Click "Send Agenda"
+
+![](screenshots-en/007.1-Mail.Agenda.png)
+
+## 007.2-Mail.ActionItems.png
+
+Precondition:
+
+* Set email.enableMailDelivery = true in ./settings.json and configure accordingly
+* Create new Meeting Minutes
+* Create one topic with one action item and assign it yourself
+* Click Finalize button
+
+![](screenshots-en/007.2-Mail.ActionItems.png)
+
+## 007.3-Mail.FinishedAgenda.png
+
+Precondition:
+
+* Set email.enableMailDelivery = true in ./settings.json and configure accordingly
+* Create new Meeting Minutes
+* Create one topic
+* Click Finalize button
+
+![](screenshots-en/007.3-Mail.FinishedAgenda.png)
+
+## 007.4-Mail.ForgotPassword.png
+
+Precondition:
+
+* No user logged in
+* Click 'Forgot Your Password' and enter your email address
+
+![](screenshots-en/007.4-Mail.ForgotPassword.png)
