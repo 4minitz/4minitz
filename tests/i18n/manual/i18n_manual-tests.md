@@ -789,11 +789,11 @@ Precondition:
 
 ![](screenshots-en/007.3-Mail.FinishedAgenda.png)
 
-## 007.4-Mail.ForgotPassword.png
+## 007.4-Mail.ResetPassword.png
 
 Precondition:
 
 * No user logged in
 * Click 'Forgot Your Password' and enter your email address
 
-![](screenshots-en/007.4-Mail.ForgotPassword.png)
+![](screenshots-en/007.4-Mail.ResetPassword.png)
