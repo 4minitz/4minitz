@@ -114,6 +114,8 @@ Meteor.startup(() => {
     // If we find no admin broadcast messages, we create an INactive one for
     // easy re-activating.
     if (BroadcastMessageSchema.find().count() === 0) {
+        // No translation/i18n here. We don't have a logged in user, so we can't know the desired language
+        // But admin may do so in Admin frontend where messages can be overwritten.
         let message = 'Warning: 4Minitz will be down for maintenance in *4 Minutes*. ' +
             'Downtime will be about 4 Minutes. Just submit open dialogs. ' +
             'Then nothing is lost. You may finalize meetings later.';
