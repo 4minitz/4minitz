@@ -556,15 +556,15 @@ Template.minutesedit.events({
                 let date = aMin.getAgendaSentAt();
                 console.log(date);
 
-                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                ConfirmationDialogFactory.makeSuccessDialog(
                     sendAgenda,
                     i18n.__('Dialog.ConfirmSendAgenda.title'),
-                    'confirmSendAgenda',
-                    {
+                    i18n.__('Dialog.ConfirmSendAgenda.body', {
                         minDate: aMin.date,
                         agendaSentDate: moment(date).format('YYYY-MM-DD'),
                         agendaSentTime: moment(date).format('h:mm')
-                    },
+                    }),
+                    {},
                     i18n.__('Dialog.ConfirmSendAgenda.button')
                 ).show();
             } else {

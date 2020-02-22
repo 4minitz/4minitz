@@ -54,14 +54,14 @@ Template.tabMinutesList.events({
             FlowRouter.go('/');
         };
 
-        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        ConfirmationDialogFactory.makeWarningDialog(
             leaveSeriesCallback,
             i18n.__('MeetingSeries.leave'),
-            'confirmLeaveMeetingSeries',
-            {
+            i18n.__('Dialog.confirmLeaveMeetingSeries', {
                 project: ms.project,
                 name: ms.name
-            },
+            }),
+            {},
             i18n.__('MeetingSeries.leaveButton')
         ).show();
 

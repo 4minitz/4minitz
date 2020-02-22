@@ -362,13 +362,13 @@ Template.topicElement.events({
         let reopenTopic = () => {
             Meteor.call('workflow.reopenTopicFromMeetingSeries', this.parentMeetingSeriesId, this.topic._id);
         };
-        ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+        ConfirmationDialogFactory.makeSuccessDialog(
             reopenTopic,
             i18n.__('Dialog.ConfirmReOpenTopic.title'),
-            'confirmReOpenTopic',
-            {
+            i18n.__('Dialog.ConfirmReOpenTopic.body', {
                 topicSubject: Template.instance().data.topic.subject
-            },
+            }),
+            {},
             i18n.__('Dialog.ConfirmReOpenTopic.button')
         ).show(); 
     }

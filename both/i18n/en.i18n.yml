@@ -36,47 +36,47 @@ FlashMessages:
   finalizeProgress2: "This may take a few seconds..."
   finalizeOK: "This meeting minutes were successfully finalized"
 Dialog:
+  ConfirmDelete:
+    title: "Confirm delete?"
+    body: "Are you sure to delete this?"
   ConfirmCreateNewMinutes:
     title: "Confirm Creating New Minutes"
     content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item <strong>{$subject}</strong>?"
-  confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} <strong>{$subject}</strong> because the {$type} was created in a previous minutes."
+  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
+  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  confirmDeleteItemAllowed: "Do you really want to delete the {$type} **{$subject}**?"
+  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
   confirmDeleteItemActionItem: "Do you want to close the action item instead?"
   confirmDeleteItemInfoItem: "Do you want to unpin the sticky info item instead?"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic <strong>{$subject}</strong>?"
-    notAllowed: "It is not possible to delete the topic <strong>{$subject}</strong> because the topic was created in a previous minutes."
+    allowed: "Do you really want to delete the topic **{$subject}**?"
+    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
     close: "Do you want to close the topic instead?"
     closeWithActions: "Do you want to close the topic together with all related action items instead?"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
   ConfirmMinuteQualityAssurance:
     title: "Finalize Minutes: Quality Checks"
     button: "Proceed"
     issues: "There are finalize issues with your minutes!"
     proceed: "Do you want to proceed with finalizing?"
   ConfirmReOpenTopic:
-    title: "Re-open Topic"
-    body: "Do you really want to re-open the already closed topic {$topicSubject}?"
+    title: "Re-open Topic?"
+    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
     button: "Re-open"
   ConfirmSendAgenda:
-    body: "Do you really want to sent the agenda for this meeting minute dated on <strong>{$minDate}</strong>?<br>It was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
     title: "Confirm sending agenda"
     button: "Send Agenda"
-  ConfirmDelete:
-    title: "Confirm delete"
-    body: "Are you sure to delete this?"
   ConfirmDeleteMinutes:
     title: ""
-    really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
-    closedTopicsAdditionally: "Additionally <strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
+    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
+    newTopics: "This will remove **{$newTopicsCount} Topics**, which were created within this minute."
+    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
   ConfirmFinalizeMinutes:
     title: "Confirm Finalize Minutes"
     button: "Finalize"
-    really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
+    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
   LocaleSetting:
@@ -288,7 +288,6 @@ Minutes:
     pause: "Pause Upload"
     abort: "Abort Upload"
     error: "Error during upload"
-    confirmDeleteTitle: "Confirm delete???"
   version: "Version"
   versionTag: "v"
   Participants:

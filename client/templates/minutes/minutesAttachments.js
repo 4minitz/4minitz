@@ -162,13 +162,12 @@ Template.minutesAttachments.events({
         evt.preventDefault();
         console.log('Remove Attachment: '+this._id);
 
-        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        ConfirmationDialogFactory.makeWarningDialog(
             () => {
                 Meteor.call('attachments.remove', this._id);
             },
-            i18n.__('Minutes.Upload.confirmDeleteTitle'),
-            'confirmDeleteAttachment',
-            {name: this.name}
+            undefined,  // use default 'Confirm delete?"
+            i18n.__('Dialog.confirmDeleteAttachment', {name: this.name})
         ).show();
     },
 

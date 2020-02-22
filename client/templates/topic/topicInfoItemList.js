@@ -614,11 +614,10 @@ Template.topicInfoItemList.events({
                     deleteDetails();
                 } else {
                     // otherwise we show an confirmation dialog before the deails will be removed
-                    ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                    ConfirmationDialogFactory.makeWarningDialog(
                         deleteDetails,
-                        i18n.__('Dialog.ConfirmDelete.title'),
-                        'confirmDeleteDetails',
-                        {subject: aActionItem.getSubject()}
+                        undefined,
+                        i18n.__('Dialog.confirmDeleteDetails', {subject: aActionItem.getSubject()})
                     ).show();
                 }
             }

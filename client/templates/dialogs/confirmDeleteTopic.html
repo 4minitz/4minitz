@@ -1,9 +1,11 @@
 <template name="confirmDeleteTopic">
     {{#if deleteAllowed}}
-        <p>{{{__ 'Dialog.ConfirmDeleteTopic.allowed' _purify='string => string' type=type subject=subject }}}</p>
+        <p>
+            {{#markdown}}{{__ 'Dialog.ConfirmDeleteTopic.allowed' _purify='string => string' type=type subject=subject }}{{/markdown}}
+        </p>
     {{else}}
         <p>
-            {{{__ 'Dialog.ConfirmDeleteTopic.notAllowed' _purify='string => string' type=type subject=subject }}}
+            {{#markdown}}{{__ 'Dialog.ConfirmDeleteTopic.notAllowed' _purify='string => string' type=type subject=subject }}{{/markdown}}
         </p>
         <p>
             {{#if hasOpenActionItems}}
