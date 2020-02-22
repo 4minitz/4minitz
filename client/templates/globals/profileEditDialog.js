@@ -27,9 +27,9 @@ function updateUserProfile(tmpl) {
     let editUserId = Session.get('editProfile.userID') ? Session.get('editProfile.userID') : Meteor.userId();
     Meteor.call('users.editProfile', editUserId, uEmailAddress, uLongName, function (error) {
         if (error) {
-            (new FlashMessage('Error', error.reason)).show();
+            (new FlashMessage(i18n.__('FlashMessages.error'), error.reason)).show();
         } else {
-            (new FlashMessage('OK', 'Profile edited.', 'alert-success', 2000)).show();
+            (new FlashMessage(i18n.__('FlashMessages.ok'), i18n.__('FlashMessages.profileEditOK'), 'alert-success', 2000)).show();
             tmpl.$('#dlgEditProfile').modal('hide');
         }
     });
