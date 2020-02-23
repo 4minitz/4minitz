@@ -86,7 +86,7 @@ class QualityTestCase {
             () => {return true;},
             (minute) => {
                 if (!minute.topics || minute.topics.length === 0)
-                    return 'The current minutes have no topics';
+                    return i18n.__('Dialog.ConfirmMinuteQualityAssurance.warnNoTopics');
             }
         ));
 
@@ -100,7 +100,7 @@ class QualityTestCase {
                     if(p.present) noParticipantsPresent = false;
                 });
                 if(noParticipantsPresent)
-                    return 'No participant is marked as present';
+                    return i18n.__('Dialog.ConfirmMinuteQualityAssurance.warnNoParticipants');
             }
         ));
         /*
@@ -129,7 +129,7 @@ class QualityTestCase {
                     }
                 }
                 if(itemIsEdited)
-                    return 'A topic/item/detail is still edited';
+                    return i18n.__('Dialog.ConfirmMinuteQualityAssurance.warnEditing');;
             }
         ));
 */
@@ -144,7 +144,7 @@ class QualityTestCase {
                     if(!topic.isOpen) noTopicChecked = false;
                 });
                 if(noTopicChecked)
-                    return 'No topic is marked as \'discussed\'';
+                    return i18n.__('Dialog.ConfirmMinuteQualityAssurance.warnNoTopicDiscussed');
             }
         ));
 
@@ -161,7 +161,7 @@ class QualityTestCase {
                     if(!topic.infoItems || topic.infoItems.length === 0) checkedButChildren = true;
                 });
                 if(checkedButChildren)
-                    return 'At least one discussed topic has no items';
+                    return i18n.__('Dialog.ConfirmMinuteQualityAssurance.warnTopicWithoutItems');
             }
         ));
 
@@ -180,7 +180,7 @@ class QualityTestCase {
                     });
                 });
                 if(actionItemWithoutResponsible)
-                    return 'At least one action item has no responsible';
+                    return i18n.__('Dialog.ConfirmMinuteQualityAssurance.warnActionItemWithoutResponsible');
             }));
 
 
@@ -216,7 +216,7 @@ class QualityTestCase {
                         });
                 });
                 if(!noNewContent)
-                    return 'A topic is checked but has no new content'
+                    return i18n.__('Dialog.ConfirmMinuteQualityAssurance.warnTopicNoNewContent');
             }
         ));
         */

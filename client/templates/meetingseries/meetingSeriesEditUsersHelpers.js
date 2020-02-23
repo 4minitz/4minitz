@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { UserRoles } from '/imports/userroles';
+import { i18n } from 'meteor/universe:i18n';
 
 let longName2shortName = {};
 
@@ -42,12 +43,12 @@ export function checkUserName(newUserName, config) {
         errorMsg: ''
     };
     if (!addedUser) {
-        result.errorMsg = 'This is not a registered user name';
+        result.errorMsg = i18n.__('MeetingSeries.Edit.Error.notRegistered');
         return result;
     }
     let alreadyInEditor = config.users.findOne({'username': newUserName});
     if (alreadyInEditor) {
-        result.errorMsg = 'This user name is already in list';
+        result.errorMsg = i18n.__('MeetingSeries.Edit.Error.alreadyInList');
         return result;
     }
 

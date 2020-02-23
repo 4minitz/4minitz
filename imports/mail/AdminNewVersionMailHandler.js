@@ -37,7 +37,7 @@ export class AdminNewVersionMailHandler {
             admins.map(adm => {adminMails.push(adm.emails[0].address);});
             let mailer = MailFactory.getMailer(adminFrom, adminMails.join(','));
             mailer.setSubject('[4Minitz] '+i18n.__('Mail.AdminNewVersion.subject'));
-            mailer.setText(i18n.__('Mail.AdminNewVersion.subject', mailParams));
+            mailer.setText(i18n.__('Mail.AdminNewVersion.body', mailParams));
             mailer.send();
         } else {
             console.error('Could not send admin new version mail. Mail is disabled or no admins specified.');
