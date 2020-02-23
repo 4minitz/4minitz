@@ -76,7 +76,7 @@ Dialog:
     button: "Send Agenda"
   ConfirmDeleteMinutes:
     really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
-    newTopics: "This will remove **{$newTopicsCount} Topics**, which were created within this minute."
+    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
     closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
     closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
   ConfirmFinalizeMinutes:

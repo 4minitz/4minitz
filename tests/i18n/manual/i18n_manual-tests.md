@@ -141,6 +141,35 @@ Precondition:
 
 <hr>
 
+## 002.1-Msg.EditProfileFlashmessage.png
+
+Precondition:
+
+* User Menu: Edit Profile
+* Make some changes
+* Press OK
+
+![](screenshots-en/002.1-Msg.EditProfileFlashmessage.png)
+
+
+
+<hr>
+
+## 002.1-Msg.EditProfileConfirmReverifyEMail.png
+
+Precondition:
+
+* Ensure, settings.json has EMail verifiation set
+* User Menu: Edit Profile
+* Change mail address
+* Press OK
+
+![](screenshots-en/002.1-Msg.EditProfileConfirmReverifyEMail.png)
+
+
+
+<hr>
+
 ## 002.1-Dlg.SetLanguage.png
 
 Precondition:
@@ -536,9 +565,26 @@ Precondition:
 * In Minutes Edit
 * Create Topic
 * Add Info Item to Topic
-* Open Tree-Dot-Menu on Info Item 
+* Open Three-Dot-Menu on Info Item 
 
 ![](screenshots-en/005.1-Menu.MinutesEdit.InfoItem.png)
+
+
+
+<hr>
+
+## 005.1-Dlg.MinutesEdit.ItemConvert.png
+
+Precondition:
+
+* In Minutes Edit
+* Create Topic
+* Add Action Item to Topic
+* Finalize Minutes, create new Minutes
+* Open Three-Dot-Menu on Action Item
+* Click 'Convert' 
+
+![](screenshots-en/005.1-Dlg.MinutesEdit.ItemConvert.png)
 
 
 
@@ -658,6 +704,24 @@ Precondition:
 
 <hr>
 
+## 005.4-Msg.MinutesEdit-ConfirmDeleteMinutes.png
+
+Precondition:
+
+* In Minutes Edit
+* Create topic
+* Finalize Minutes, create new Minutes
+* Tick 1st topic as discussed
+* Create 2nd topic
+* Click "Delete Minutes"
+
+![](screenshots-en/005.4-Msg.MinutesEdit-ConfirmDeleteMinutes.png)
+
+
+
+
+<hr>
+
 ## 005.3-Msg.MinutesEdit.FinalizeWarning.png
 
 Precondition:
@@ -742,6 +806,8 @@ Precondition:
 
 ![](screenshots-en/006.1-Dlg.Admin.NewUser.png)
 
+
+
 <hr>
 
 ## 006.2-Screen.Admin.Messages.png
@@ -753,6 +819,8 @@ Precondition:
 * Click tab 'Messages'
 
 ![](screenshots-en/006.2-Screen.Admin.Messages.png)
+
+
 
 <hr>
 
@@ -767,6 +835,10 @@ Precondition:
 
 ![](screenshots-en/007.1-Mail.Agenda.png)
 
+
+
+<hr>
+
 ## 007.2-Mail.ActionItems.png
 
 Precondition:
@@ -777,6 +849,10 @@ Precondition:
 * Click Finalize button
 
 ![](screenshots-en/007.2-Mail.ActionItems.png)
+
+
+
+<hr>
 
 ## 007.3-Mail.FinishedAgenda.png
 
@@ -789,6 +865,10 @@ Precondition:
 
 ![](screenshots-en/007.3-Mail.FinishedAgenda.png)
 
+
+
+<hr>
+
 ## 007.4-Mail.ResetPassword.png
 
 Precondition:
@@ -797,3 +877,19 @@ Precondition:
 * Click 'Forgot Your Password' and enter your email address
 
 ![](screenshots-en/007.4-Mail.ResetPassword.png)
+
+
+
+<hr>
+
+## 007.5-Mail.RoleChange.png
+
+Precondition:
+
+* Set email.enableMailDelivery = true in ./settings.json and configure accordingly
+* Make sure second user with Mail address exists 
+* Create a new Meeting Series
+* Invite second user to meeting series
+
+![](screenshots-en/007.5-Mail.RoleChange.png)
+
