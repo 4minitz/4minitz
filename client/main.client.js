@@ -84,9 +84,7 @@ window.onpopstate = () => {
     $('.modal').hide();
 };
 
-Meteor.startup(() => {
-    I18nHelper.setLanguageLocale();
-
+Meteor.startup(async () => {
     Meteor.call('gitVersionInfoUpdate');
 
     // Make sure that all server side markdown rendering quotes all HTML <TAGs>
@@ -107,6 +105,8 @@ Meteor.startup(() => {
         }
         return pathWithTrailingSlash;
     });
+
+    await I18nHelper.setLanguageLocale();
 });
 
 window.onbeforeunload = function (e) {

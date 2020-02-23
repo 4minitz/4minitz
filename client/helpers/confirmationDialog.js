@@ -22,7 +22,6 @@ export class ConfirmationDialog {
             onSuccess: function() {}
         }, callbacks);
         this.dialogTemplate = DIALOG_TEMPLATE;
-        console.log('>>>',this.options);
     }
 
     setTemplate(template, data = {}) {

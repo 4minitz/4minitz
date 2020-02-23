@@ -132,13 +132,13 @@ if (Meteor.isServer) {
         onSubmitHook: submitHookFunction
     });
 
-    Accounts.onLogin(function() {
+    Accounts.onLogin(async function() {
         // if user has preferred locale in profile, set this locale, otherwise: browser preference
-        I18nHelper.setLanguageLocale();
+        await I18nHelper.setLanguageLocale();
     });
 
-    Accounts.onLogout(function() {
+    Accounts.onLogout(async function() {
         // reset to browser's locale after logout of user
-        I18nHelper.setLanguageLocale();
+        await I18nHelper.setLanguageLocale();
     });
 }
