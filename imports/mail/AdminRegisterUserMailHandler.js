@@ -26,8 +26,8 @@ export class AdminRegisterUserMailHandler {
                 rootURL: GlobalSettings.getRootUrl(),
                 userName: this._user.username,
                 passwordParagraph: this._includePassword ?
-                    i18n.__('EMail.AdminRegisterNewUser.passwordParagraph', {password: this._password}) :
-                    i18n.__('EMail.AdminRegisterNewUser.passwordNotSend'),
+                    i18n.__('Mail.AdminRegisterNewUser.passwordParagraph', {password: this._password}) :
+                    i18n.__('Mail.AdminRegisterNewUser.passwordNotSend'),
                 url4Minitz: 'https://github.com/4minitz/4minitz'
             };
 
