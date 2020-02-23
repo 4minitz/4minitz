@@ -30,7 +30,11 @@ export class I18nHelper {
     // Finally: set it in i18n
     static async setLanguageLocale(localeCode) {
         if (I18nHelper.supportedCodes.length === 0) {   // cache the supported languages
-            I18nHelper.supportedCodes = await Meteor.callPromise('getAvailableLocaleCodes');
+            try {
+                I18nHelper.supportedCodes = await Meteor.callPromise('getAvailableLocaleCodes');
+            } catch (err) {
+                console.log('Error callPromise(getAvailableLocaleCodes): No supported language locales reported by server.');
+            }
         }
 
         if (!localeCode) {
@@ -91,31 +95,28 @@ export class I18nHelper {
     // we want to determine the "highest" priority language, that
     // we actually support
     static _getPreferredBrowserLocaleByPrio() {
-        if (navigator.languages) {
-            try {
-                // console.log('4Minitz:', I18nHelper.supportedCodes);  // plz. keep for debugging
-                const supported = {};
-                I18nHelper.supportedCodes.forEach(code => {
-                    supported[code] = code;                     // remember we support: 'de-CH'
-                    let codeShort = code.split('-', 1)[0];
-                    if (!supported[codeShort]) {
-                        supported[codeShort] = code;            // remember we support: 'de' via 'de-CH'
-                    }
-                });
-                // console.log('Browser:', navigator.languages);        // plz. keep for debugging
-                for (let code of navigator.languages) {         // First try: use exact codes from browser
-                    if (supported[code]) {                                  // 'de-DE'
-                        return supported[code];
-                    } else {
-                        let codeShort = code.split('-', 1)[0]; // 'de'
-                        if (supported[codeShort]) {             // Second try: use prefix codes from browser
-                            return supported[codeShort];                    // but return the more precise 'de-CH'
-                        }
-                    }
+        if (!navigator.languages || !navigator.languages[0]) {
+            return undefined;   // no browser language, so we can't support any
+        }
+
+        // console.log('4Minitz:', I18nHelper.supportedCodes);  // plz. keep for debugging
+        const supported = {};
+        I18nHelper.supportedCodes.forEach(code => {
+            supported[code] = code;                     // remember we support: 'de-CH'
+            let codeShort = code.split('-', 1)[0];
+            if (!supported[codeShort]) {
+                supported[codeShort] = code;            // remember we support: 'de' via 'de-CH'
+            }
+        });
+        // console.log('Browser:', navigator.languages);        // plz. keep for debugging
+        for (let code of navigator.languages) {         // First try: use exact codes from browser
+            if (supported[code]) {                                  // 'de-DE'
+                return supported[code];
+            } else {
+                let codeShort = code.split('-', 1)[0]; // 'de'
+                if (supported[codeShort]) {             // Second try: use prefix codes from browser
+                    return supported[codeShort];                    // but return the more precise 'de-CH'
                 }
-                return undefined;   // we don't support any preferred browser languages
-            } catch (err) {
-                console.log('Error: No supported language locales reported by server.');
             }
         }
         return undefined;   // we don't support any preferred browser languages
