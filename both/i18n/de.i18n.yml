@@ -24,7 +24,7 @@ Buttons:
   save: "Speichern"
 UserRoles:
   roleModerator: "Moderator"
-  roleUploader: "Uploader"
+  roleUploader: "Hochlader"
   roleInvited: "Eingeladen"
   roleInformed: "Informiert"
 FlashMessages:
