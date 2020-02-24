@@ -146,7 +146,13 @@ About:
   proudlySponsored: "تم تنفيذه بفخر بواسطة"
   specialThanks: "شكر خاص لهذه المشاريع"
   forkGitHub: "Fork us on GitHub"
-  serverStatistics: "احصائيات وحدة الخدمة"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "اضافة / تحرير بند"
   editItem: "تحرير بند"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "حذف بند التصرف / المعلومات هذا"
   addItemModal: "اضافة {$type} الى {$topic}"
   editItemModal: "تحرير {$type} من {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "بند التصرف"
   addInfo: "اضافة بند معلومات"
   addInfoHint: "اضافة بند معلومات الى الموضوع"
   action: "بند التصرف"
