@@ -23,10 +23,10 @@ Buttons:
   register: "Registra"
   save: "Salva"
 UserRoles:
-  roleName01: "Moderatore"
-  roleName05: "Caricatore"
-  roleName10: "Invitato"
-  roleName66: "Informato"
+  roleModerator: "Moderatore"
+  roleUploader: "Caricatore"
+  roleInvited: "Invitato"
+  roleInformed: "Informato"
 FlashMessages:
   ok: "ok"
   error: "Errore"
