@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Proudly Sponsored af"
   specialThanks: "Speciel tak til disse projekter"
   forkGitHub: "Fork os på GitHub"
-  serverStatistics: "Serverstatistik"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Tilføj / redigér element"
   editItem: "Redigér element"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Slet denne handling / oplysningselement"
   addItemModal: "Tilføj {$type} til {$topic}"
   editItemModal: "Redigér {$type} af {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Handlingspunkt"
   addInfo: "Tilføj infoelement"
   addInfoHint: "Tilføj informationselement til emne"
   action: "Handlingspunkt"
