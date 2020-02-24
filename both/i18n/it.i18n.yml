@@ -436,7 +436,7 @@ Login:
       <li>Elenco di tutti gli argomenti mai discussi</li>
       <li>Arricchisci argomenti con informazioni su più riunioni</li>
       <li>Trova argomenti con etichette (e. . tutte le decisioni)</li>
-      <li></li>Trova elementi tramite ricerca fulltext</li>"
+      <li></li>Trova elementi tramite ricerca fulltext</li>
   Footer:
     withLove: "Codificato con ❤ dal"
     theTeam: "Team WebApp"

@@ -25,12 +25,12 @@ Buttons:
 FlashMessages:
   ok: "OK"
   error: "Fehler"
-  verifyEMailErr: "Fehler: EMail konnte nicht verifiziert werden"
-  verifyEMailOK: "OK: EMail ist jetzt verifiziert"
+  verifyEMailErr: "Fehler: E-Mail konnte nicht verifiziert werden"
+  verifyEMailOK: "OK: E-Mail ist jetzt verifiziert"
   passwordChangeOK: "Passwort geändert"
   passwordResetOK: "Passwort erfolgreich zurückgesetzt"
   profileEditOK: "Profiländerungen gespeichert"
-  minuteLinkErr: "Leider ist die Minute nicht korrekt mit der übergeordneten Serie verbunden - bitte kontaktieren Sie Ihren Systemadministrator."
+  minuteLinkErr: "Leider ist das Protokoll nicht korrekt mit der übergeordneten Sitzungsreihe verbunden - bitte kontaktieren Sie Ihren Systemadministrator."
   agendaSentOK: "Agenda wurde erfolgreich an {$result} Empfänger gesendet"
   finalizeProgress1: "Fertigstellen im Gange"
   finalizeProgress2: "Dies kann einige Sekunden dauern..."
@@ -437,7 +437,7 @@ Login:
 
       <li>Erweitern Sie Themen mit Informationen zu mehreren Meetings</li>
       <li>Themen mit Labels finden (e. . alle Entscheidungen)</li>
-      <li>Finden Sie Artikel nach Volltextsuche</li>"
+      <li>Finden Sie Artikel nach Volltextsuche</li>
   Footer:
     withLove: "Codiert mit ❤ von"
     theTeam: "WebApp-Team"

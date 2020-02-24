@@ -436,7 +436,7 @@ Login:
       <li>Lista wyszukiwań wszystkich kiedykolwiek dyskutowanych tematów</li>
       <li>wzbogacaj tematy z informacjami na wielu spotkaniach</li>
       <li>Znajdź tematy z etykietami (e. . wszystkie decyzje)</li>
-      <li>Znajdź przedmioty przez wyszukiwanie pełnotekstowe</li>"
+      <li>Znajdź przedmioty przez wyszukiwanie pełnotekstowe</li>
   Footer:
     withLove: "Kodowane przez ❤"
     theTeam: "Zespół WebApp"

@@ -436,7 +436,7 @@ Login:
       <li>Zoeklijst van alle onderwerpen die ooit besproken zijn</li>
       <li>Onderwerpen met info items op meerdere vergaderingen</li>
       <li>Vind onderwerpen met labels (bv. . alle beslissingen)</li>
-      <li>Vind items in fulltext zoeken</li>"
+      <li>Vind items op fulltext zoeken</li>
   Footer:
     withLove: "Gedecodeerd met ❤ door de"
     theTeam: "WebApp Team"
