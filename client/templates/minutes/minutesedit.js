@@ -36,10 +36,6 @@ let orphanFlashMessage = null;
 
 let filterClosedTopics = new ReactiveVar(false);
 
-let onError = (error) => {
-    (new FlashMessage('Error', error.reason)).show();
-};
-
 /**
  * togglePrintView
  * Prepares the DOM view for printing - on and off
@@ -261,7 +257,7 @@ let updateTopicSorting = function (event, ui) {
     // Write new sort order to DB
     minute.update({topics: newTopicSorting}).catch(error => {
         $('#topicPanel').sortable( 'cancel' );
-        onError(error);
+        handleError(error);
     });
 };
 
@@ -369,9 +365,7 @@ Template.minutesedit.helpers({
                 orphanFlashMessage = null;
             }
         } catch(error) {
-            let msg = 'Unfortunately the minute is not linked to its parent series correctly - please contact your ' +
-                'system administrator.';
-            orphanFlashMessage = (new FlashMessage('Error', msg, 'alert-danger', -1)).show();
+            orphanFlashMessage = (new FlashMessage(i18n.__('FlashMessages.error'), i18n.__('FlashMessages.minuteLinkErr'), 'alert-danger', -1)).show();
         }
     },
 
@@ -522,7 +516,7 @@ Template.minutesedit.events({
             return;
         }
 
-        aMin.update({date: aDate}).catch(onError);
+        aMin.update({date: aDate}).catch(handleError);
     },
 
     'keyup #editGlobalNotes' (evt) {
@@ -537,7 +531,7 @@ Template.minutesedit.events({
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
         let globalNote = tmpl.find('#editGlobalNotes').value;
-        aMin.update({globalNote: globalNote}).catch(onError);
+        aMin.update({globalNote: globalNote}).catch(handleError);
     },
 
     'click #btn_sendAgenda': async function(evt, tmpl) {
@@ -550,10 +544,9 @@ Template.minutesedit.events({
             sendBtn.prop('disabled', true);
             try {
                 let result = await aMin.sendAgenda();
-                let message = 'Agenda was sent to ' + result + ' recipients successfully';
-                (new FlashMessage('OK', message, 'alert-success')).show();
+                (new FlashMessage(i18n.__('FlashMessages.ok'), i18n.__('FlashMessages.agendaSentOK', {result: result}), 'alert-success')).show();
             } catch (error) {
-                onError(error);
+                handleError(error);
             }
             sendBtn.prop('disabled', false);
         };
@@ -563,16 +556,16 @@ Template.minutesedit.events({
                 let date = aMin.getAgendaSentAt();
                 console.log(date);
 
-                ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+                ConfirmationDialogFactory.makeSuccessDialog(
                     sendAgenda,
-                    'Confirm sending agenda',
-                    'confirmSendAgenda',
-                    {
+                    i18n.__('Dialog.ConfirmSendAgenda.title'),
+                    i18n.__('Dialog.ConfirmSendAgenda.body', {
                         minDate: aMin.date,
                         agendaSentDate: moment(date).format('YYYY-MM-DD'),
                         agendaSentTime: moment(date).format('h:mm')
-                    },
-                    'Send Agenda'
+                    }),
+                    {},
+                    i18n.__('Dialog.ConfirmSendAgenda.button')
                 ).show();
             } else {
                 await sendAgenda();
@@ -589,12 +582,12 @@ Template.minutesedit.events({
 
         let doFinalize = function () {
             tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
-            let msg = (new FlashMessage('Finalize in progress', 'This may take a few seconds...', 'alert-info', -1)).show();
+            let msg = (new FlashMessage(i18n.__('FlashMessages.finalizeProgress1'), i18n.__('FlashMessages.finalizeProgress2'), 'alert-info', -1)).show();
             // Force closing the dialog before starting the finalize process
             Meteor.setTimeout(() => {
-                Finalizer.finalize(aMin._id, sendActionItems, sendInformationItems, onError);
+                Finalizer.finalize(aMin._id, sendActionItems, sendInformationItems, handleError);
                 tmpl.$('#btn_finalizeMinutes').prop('disabled', true);
-                (new FlashMessage('OK', 'This meeting minutes were successfully finalized', FlashMessage.TYPES().SUCCESS, 3000)).show();
+                (new FlashMessage(i18n.__('FlashMessages.ok'), i18n.__('FlashMessages.finalizeOK'), FlashMessage.TYPES().SUCCESS, 3000)).show();
                 msg.hideMe();
                 toggleTopicSorting();
                 Session.set('participants.expand', false);
@@ -605,7 +598,7 @@ Template.minutesedit.events({
             if (GlobalSettings.isEMailDeliveryEnabled()) {
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                     doFinalize,
-                    'Confirm Finalize Minutes',
+                    i18n.__('Dialog.ConfirmFinalizeMinutes.title'),
                     'confirmationDialogFinalize',
                     {
                         minutesDate: aMin.date,
@@ -613,7 +606,7 @@ Template.minutesedit.events({
                         sendActionItems: (sendActionItems) ? 'checked' : '',
                         sendInformationItems: (sendInformationItems) ? 'checked' : ''
                     },
-                    'Finalize'
+                    i18n.__('Dialog.ConfirmFinalizeMinutes.button')
                 ).show();
             } else {
                 doFinalize();
@@ -644,7 +637,7 @@ Template.minutesedit.events({
             // otherwise the current route would automatically re-routed to the main page because the
             // minute is not available anymore -> see router.js
             FlowRouter.go('/meetingseries/'+aMin.meetingSeries_id);
-            ms.removeMinutesWithId(aMin._id).catch(onError);
+            ms.removeMinutesWithId(aMin._id).catch(handleError);
         };
 
         let newTopicsCount = aMin.getNewTopics().length;
@@ -660,7 +653,7 @@ Template.minutesedit.events({
 
         ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             deleteMinutesCallback,
-            'Confirm delete',
+            i18n.__('Dialog.ConfirmDelete.title'),
             'confirmationDialogDeleteMinutes',
             tmplData
         ).show();
@@ -691,14 +684,14 @@ Template.minutesedit.events({
         let noProtocolExistsDialog = (downloadHTML) => {
             ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
                 downloadHTML,
-                'Confirm generate protocol',
+                i18n.__('Dialog.ConfirmGenerateProtocol.title'),
                 'confirmPlainText',
-                { plainText: 'There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?'},
-                'Download'
+                { plainText: i18n.__('Dialog.ConfirmGenerateProtocol.body')},
+                i18n.__('Dialog.ConfirmGenerateProtocol.button')
             ).show();
         };
         
-        DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(onError);
+        DocumentGeneration.downloadMinuteProtocol(_minutesID, noProtocolExistsDialog).catch(handleError);
     },
 
     'click #btnPinGlobalNote': function (evt) {
@@ -707,7 +700,7 @@ Template.minutesedit.events({
             return;
         }
         let aMin = new Minutes(_minutesID);
-        aMin.update({globalNotePinned: !aMin.globalNotePinned}).catch(onError);
+        aMin.update({globalNotePinned: !aMin.globalNotePinned}).catch(handleError);
     }
 });
 

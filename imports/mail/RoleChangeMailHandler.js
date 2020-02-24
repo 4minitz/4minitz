@@ -5,6 +5,7 @@ import { GlobalSettings } from '../config/GlobalSettings';
 import {UserRoles as userroles} from '../userroles';
 import {MeetingSeries} from '../meetingseries';
 import { User } from '/imports/user';
+import {i18n} from 'meteor/universe:i18n';
 
 export class RoleChangeMailHandler {
     constructor(userId, oldRole, newRole, moderator, meetingSeriesId) {
@@ -29,12 +30,7 @@ export class RoleChangeMailHandler {
         let meetingProject = meetingSeries.project;
         let meetingName = meetingSeries.name;
 
-        let userName = '';
-        if(this._user.profile && this._user.profile.name) {
-            userName =  this._user.profile.name;
-        } else {
-            userName = this._user.username;
-        }
+        let userName = User.PROFILENAMEWITHFALLBACK(this._user);
 
         if(this._oldRole == null) { // will be true for undefined OR null
             this._oldRole = 'None';
@@ -48,28 +44,22 @@ export class RoleChangeMailHandler {
             this._newRole = userroles.role2Text(this._newRole);
         }
 
-        // TODO: Translate me!
         // generate mail
         if (this._user.emails && this._user.emails.length > 0) {
-            const mailText = 'Hello ' + userName + ', \n\n'+
-                'Your role has changed for meeting series "' + meetingProject + ':' + meetingName + '\n' +
-                '(' + GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId) + ')\n\n'+
-                '    Your old role was           : ' + this._oldRole + '\n'+
-                '    Your new role is            : ' + this._newRole + '\n'+
-                '    The change was performed by : ' + User.PROFILENAMEWITHFALLBACK(this._moderator) + '\n'  +
-                '\n' +
-                'For a comprehensive list of rights for each role see:\n' +
-                'https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md#table-of-roles-and-rights\n' +
-                '\n' +
-                'Your Admin.\n' +
-                '\n' +
-                '--- \n' +
-                '4Minitz is free open source developed by the 4Minitz team.\n' +
-                'Source is available at https://github.com/4minitz/4minitz\n';
-
             let mailer = MailFactory.getMailer(modFrom, emailTo);
-            mailer.setSubject(`[4Minitz] Your role has changed for ${meetingProject}:${meetingName}`);
-            mailer.setText(mailText);
+            let mailParams = {
+                userName: userName,
+                meetingProject: meetingProject,
+                meetingName: meetingName,
+                meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId),
+                roleOld: this._oldRole,
+                roleNew: this._newRole,
+                moderatorName: User.PROFILENAMEWITHFALLBACK(this._moderator),
+                urlRoleDocu: 'https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md#table-of-roles-and-rights',
+                url4Minitz: 'https://github.com/4minitz/4minitz'
+            };
+            mailer.setSubject('[4Minitz] '+ i18n.__('Mail.UserRoleChange.subject', mailParams));
+            mailer.setText(i18n.__('Mail.UserRoleChange.body', mailParams));
 
             mailer.send();
         } else {

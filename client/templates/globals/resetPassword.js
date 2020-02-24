@@ -3,6 +3,8 @@ import { Accounts } from 'meteor/accounts-base';
 import { $ } from 'meteor/jquery';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import {FlashMessage} from '../../helpers/flashMessage';
+import { handleError } from '/client/helpers/handleError';
+import {i18n} from 'meteor/universe:i18n';
 
 Template.resetPassword.events({
     'submit #at-pwd-form': function (event) {
@@ -10,10 +12,10 @@ Template.resetPassword.events({
         let token = FlowRouter.getParam('token');
         Accounts.resetPassword(token, $('#at-field-password').val(), ( error ) =>{
             if ( error ) {
-                (new FlashMessage('Error', error.reason)).show();
+                handleError(error.reason);
             } else {
                 FlowRouter.go( '/' );
-                (new FlashMessage('', 'Password sucessfully reseted!', 'alert-success')).show();
+                (new FlashMessage(i18n.__('FlashMessages.ok'), i18n.__('FlashMessages.passwordResetOK'), 'alert-success')).show();
             }
         });
     }

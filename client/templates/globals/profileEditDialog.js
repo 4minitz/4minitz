@@ -5,6 +5,7 @@ import { FlashMessage } from '../../helpers/flashMessage';
 import { addCustomValidator } from '../../helpers/customFieldValidator'; 
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 import {Session} from 'meteor/session';
+import { i18n } from 'meteor/universe:i18n';
 
 let checkEMailIsValid = (email) => {
     return emailAddressRegExpTest.test(email);
@@ -26,9 +27,9 @@ function updateUserProfile(tmpl) {
     let editUserId = Session.get('editProfile.userID') ? Session.get('editProfile.userID') : Meteor.userId();
     Meteor.call('users.editProfile', editUserId, uEmailAddress, uLongName, function (error) {
         if (error) {
-            (new FlashMessage('Error', error.reason)).show();
+            (new FlashMessage(i18n.__('FlashMessages.error'), error.reason)).show();
         } else {
-            (new FlashMessage('OK', 'Profile edited.', 'alert-success', 2000)).show();
+            (new FlashMessage(i18n.__('FlashMessages.ok'), i18n.__('FlashMessages.profileEditOK'), 'alert-success', 2000)).show();
             tmpl.$('#dlgEditProfile').modal('hide');
         }
     });
@@ -61,10 +62,10 @@ Template.profileEditDialog.events({
             if (Meteor.user().emails[0].address !== uEmailAddress) {
                 ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                     changeUserMail,
-                    'Confirm changing user mail',
+                    i18n.__('Profile.WarningEMailChange.title'),
                     'confirmPlainText',
-                    { plainText: 'You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue.'},
-                    'Sign off & Re-Verify'
+                    { plainText: i18n.__('Profile.WarningEMailChange.body')},
+                    i18n.__('Profile.WarningEMailChange.button')
                 ).show();
             }
             else {

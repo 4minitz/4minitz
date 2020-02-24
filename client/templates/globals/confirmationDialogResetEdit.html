@@ -1,8 +1,6 @@
 <template name="confirmationDialogResetEdit">
-    <p><strong>Warning:</strong> This document ist currently edited by <strong>{{isEditedByName}}</strong> since: {{isEditedDate}}</p>
-</template>
-
-<template name="confirmationDialogResetDetailEdit">
-    <p><strong>Warning:</strong> This document ist currently edited by <strong>{{isEditedByName}}</strong> since: {{isEditedDate}}</p>
-    <p>Please click on detail again to start editing.</p>
+    {{__ 'Dialog.IsEditedHandling.confirmationDialogResetEdit' name=isEditedByName date=isEditedDate}}
+    {{#if isDetail}}
+        <p>{{__ 'Dialog.IsEditedHandling.confirmationDialogResetEditDetails'}}</p>
+    {{/if}}
 </template>
