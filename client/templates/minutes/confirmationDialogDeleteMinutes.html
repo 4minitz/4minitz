@@ -1,14 +1,18 @@
 <template name="confirmationDialogDeleteMinutes">
-    <p>{{{__ 'Dialog.ConfirmDeleteMinutes.really' _purify='string => string' minutesDate=minutesDate }}}</p>
+    <p>
+    {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.really' _purify='string => string' minutesDate=minutesDate }}{{/markdown}}
+    </p>
     {{#if hasNewTopics}}
-        <p>{{{__ 'Dialog.ConfirmDeleteMinutes.newTopics' _purify='string => string' newTopicsCount=newTopicsCount }}}</p>
+        <p>
+            {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.newTopics' _purify='string => string' newTopicsCount=newTopicsCount }}{{/markdown}}
+        </p>
     {{/if}}
     {{#if hasClosedTopics}}
         <p>
             {{#if hasNewTopics}}
-                {{{__ 'Dialog.ConfirmDeleteMinutes.closedTopicsAdditionally' _purify='string => string' closedTopicsCount=closedTopicsCount }}}
+                {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.closedTopicsAdditionally' _purify='string => string' closedTopicsCount=closedTopicsCount }}{{/markdown}}
             {{else}}
-                {{{__ 'Dialog.ConfirmDeleteMinutes.closedTopics' _purify='string => string' closedTopicsCount=closedTopicsCount }}}
+                {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.closedTopics' _purify='string => string' closedTopicsCount=closedTopicsCount }}{{/markdown}}
             {{/if}} 
         </p>
     {{/if}}

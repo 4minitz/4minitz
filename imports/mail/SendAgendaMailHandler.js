@@ -29,7 +29,8 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
     _getEmailData() {
         let unSkippedTopics = this._topics.filter(topic => !topic.isSkipped);
         return {
-            greetingLabel: i18n.__('Mail.greeting'), newLabel: i18n.__('Mail.newAgenda'),
+            greetingLabel: i18n.__('Mail.greeting'),
+            newLabel: i18n.__('Mail.newAgenda'),
             agendaLabel: i18n.__('Minutes.agenda'), 
             minutesLabel: i18n.__('Mail.meeting'),
             minutesDateLabel: i18n.__('Minutes.date'), minutesDate: this._minute.date,

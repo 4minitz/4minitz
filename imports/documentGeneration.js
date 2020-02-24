@@ -109,6 +109,7 @@ export class DocumentGeneration {
 
         return {
             greetingLabel: i18n.__('Mail.greeting'),
+            newLabel: i18n.__('Mail.newMinutes'),
             meetingLabel: i18n.__('Mail.meeting'),
             minutesDateLabel: i18n.__('Minutes.date'),
             minutesDate: context._minute.date,

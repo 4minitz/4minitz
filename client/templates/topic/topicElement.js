@@ -7,7 +7,6 @@ import { $ } from 'meteor/jquery';
 import { MeetingSeries } from '/imports/meetingseries';
 import { Topic } from '/imports/topic';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
-import { FlashMessage } from '../../helpers/flashMessage';
 import { TopicInfoItemListContext } from './topicInfoItemList';
 import {LabelResolver} from '../../../imports/services/labelResolver';
 import {ResponsibleResolver} from '../../../imports/services/responsibleResolver';
@@ -16,13 +15,10 @@ import { handleError } from '../../helpers/handleError';
 import {detectTypeAndCreateItem} from './helpers/create-item';
 import {resizeTextarea} from './helpers/resize-textarea';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { i18n } from 'meteor/universe:i18n';
+
 
 let _minutesId;
-
-let onError = (error) => {
-    (new FlashMessage('Error', error.reason)).show();
-};
-
 const INITIAL_ITEMS_LIMIT = 4;
 
 const isFeatureShowItemInputFieldOnDemandEnabled = () => {
@@ -199,7 +195,6 @@ Template.topicElement.events({
         }
     },
 
-    // TODO: Translate me
     'click #btnDelTopic'(evt) {
         evt.preventDefault();
 
@@ -217,33 +212,31 @@ Template.topicElement.events({
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 () => {
                     if (deleteAllowed) {
-                        aMin.removeTopic(this.topic._id).catch(onError);
+                        aMin.removeTopic(this.topic._id).catch(handleError);
                     } else {
-                        topic.closeTopicAndAllOpenActionItems().catch(onError);
+                        topic.closeTopicAndAllOpenActionItems().catch(handleError);
                     }
                 },
-                deleteAllowed ? 'Confirm delete' : 'Close topic?',
+                deleteAllowed ? i18n.__('Dialog.ConfirmTopicDelete.title1') : i18n.__('Dialog.ConfirmTopicDelete.title2'),
                 'confirmDeleteTopic',
                 {
                     deleteAllowed: topic.isDeleteAllowed(),
                     hasOpenActionItems: topic.hasOpenActionItem(),
                     subject: topic.getSubject()
                 },
-                deleteAllowed ? 'Delete' : 'Close topic and actions'
+                deleteAllowed ? i18n.__('Buttons.delete') : i18n.__('Dialog.ConfirmTopicDelete.button2')
             ).show();
         } else {
             ConfirmationDialogFactory.makeInfoDialog(
-                'Cannot delete topic',
-                'It is not possible to delete this topic because it was created in a previous minutes. ' +
-                'The selected topic is already closed and has no open action items, so it won\'t be copied to the ' +
-                'following minutes'
+                i18n.__('Dialog.ConfirmTopicDelete.errortitle'),
+                i18n.__('Dialog.ConfirmTopicDelete.errorcontent')
             ).show();
         }
     },
 
     'click .btnToggleState'(evt) {
         editTopicEventHandler(evt, this, (aTopic) => {
-            aTopic.toggleState().catch(onError);
+            aTopic.toggleState().catch(handleError);
         });
     },
 
@@ -254,14 +247,14 @@ Template.topicElement.events({
     'click .js-toggle-recurring'(evt) {
         editTopicEventHandler(evt, this, (aTopic) => {
             aTopic.toggleRecurring();
-            aTopic.save().catch(onError);
+            aTopic.save().catch(handleError);
         });
     },
     
     'click .js-toggle-skipped'(evt) {
         editTopicEventHandler(evt, this, (aTopic) => {
             aTopic.toggleSkip();
-            aTopic.save().catch(onError);
+            aTopic.save().catch(handleError);
         });
     },
 
@@ -369,14 +362,14 @@ Template.topicElement.events({
         let reopenTopic = () => {
             Meteor.call('workflow.reopenTopicFromMeetingSeries', this.parentMeetingSeriesId, this.topic._id);
         };
-        ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
+        ConfirmationDialogFactory.makeSuccessDialog(
             reopenTopic,
-            'Re-open Topic',
-            'confirmReOpenTopic',
-            {
+            i18n.__('Dialog.ConfirmReOpenTopic.title'),
+            i18n.__('Dialog.ConfirmReOpenTopic.body', {
                 topicSubject: Template.instance().data.topic.subject
-            },
-            'Re-open'
+            }),
+            {},
+            i18n.__('Dialog.ConfirmReOpenTopic.button')
         ).show(); 
     }
 });

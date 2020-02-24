@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import {formatDateISO8601Time} from '../../imports/helpers/date';
 import {ConfirmationDialogFactory} from './confirmationDialogFactory';
 import { User } from '/imports/user';
+import { i18n } from 'meteor/universe:i18n';
 
 export function isEditedHandling(element, unset, setIsEdited, evt, confirmationDialogTemplate) {
     // Attention: .isEditedBy and .isEditedDate may be null!
@@ -16,10 +17,10 @@ export function isEditedHandling(element, unset, setIsEdited, evt, confirmationD
 
         ConfirmationDialogFactory.makeWarningDialogWithTemplate(
             unset,
-            'Edit despite existing editing',
+            i18n.__('Dialog.IsEditedHandling.title'),
             confirmationDialogTemplate,
             tmplData,
-            'Edit anyway'
+            i18n.__('Dialog.IsEditedHandling.button')
         ).show();
 
         evt.preventDefault();
