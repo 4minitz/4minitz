@@ -8,69 +8,122 @@ Accounts:
   passwordPlaceholder: "min. 6 tekens (cijfer, lager & boven)"
   passwordError: "min. 6 tekens (min. 1 cijfer, 1 lager, 1 boven)"
 Buttons:
-  cancel: "Annuleren"
-  close: "Sluiten"
-  register: "Registreer"
-  change: "Wijzig"
-  save: "Opslaan"
-  create: "Aanmaken"
-  ok: "Ok"
   add: "Toevoegen"
-  dismissAll: "Alles negeren"
   back: "Terug"
+  cancel: "Annuleren"
+  change: "Wijzig"
+  close: "Sluiten"
+  confirm: "Confirm"
+  create: "Aanmaken"
   delete: "Verwijderen"
+  dismissAll: "Alles negeren"
   edit: "Bewerken"
   hide: "Oké, verstop je."
+  ok: "Ok"
+  register: "Registreer"
+  save: "Opslaan"
+FlashMessages:
+  ok: "Ok"
+  error: "Error"
+  verifyEMailErr: "Error: EMail could not be verified"
+  verifyEMailOK: "OK: EMail is verified now"
+  passwordChangeOK: "Password changed"
+  passwordResetOK: "Password sucessfully reseted"
+  profileEditOK: "Profile changes saved"
+  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
+  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
+  finalizeProgress1: "Finalize in progress"
+  finalizeProgress2: "This may take a few seconds..."
+  finalizeOK: "This meeting minutes were successfully finalized"
 Dialog:
+  ConfirmDelete:
+    title: "Confirm delete?"
+    body: "Are you sure to delete this?"
   ConfirmCreateNewMinutes:
     title: "Bevestig het aanmaken van nieuwe notulen"
     content: "Wil je echt nieuwe minuten maken voor de meetingserie \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Wilt u de bijlage<br><b>{$name}</b> echt verwijderen?"
-  confirmDeleteDetails: "Wilt u echt de geselecteerde details van het artikel <strong>{$subject}</strong> verwijderen?"
-  confirmDeleteItemAllowed: "Wilt u de {$type} <strong>{$subject}</strong> echt verwijderen?"
-  confirmDeleteItemNotAllowed: "Het is niet mogelijk om de {$type} <strong>{$subject}</strong> te verwijderen omdat de {$type} is gemaakt in een vorige minuten."
+  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
+  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  confirmDeleteItemAllowed: "Do you really want to delete the {$type} **{$subject}**?"
+  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
   confirmDeleteItemActionItem: "Wilt u het actie item in plaats daarvan sluiten?"
   confirmDeleteItemInfoItem: "Wilt u in plaats daarvan het sticky info item losmaken?"
   ConfirmDeleteTopic:
-    allowed: "Wilt u deze topic echt verwijderen <strong>{$subject}</strong>?"
-    notAllowed: "Het is niet mogelijk om het onderwerp te verwijderen <strong>{$subject}</strong> omdat het onderwerp is gemaakt in een vorige minuten."
+    allowed: "Do you really want to delete the topic **{$subject}**?"
+    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
     close: "Wil je in plaats daarvan de topic afsluiten?"
     closeWithActions: "Wilt u in plaats daarvan het topic sluiten met alle gerelateerde actie items?"
-  ConfirmLeaveMeetingSeries: "Wil je echt de vergaderreeksen verlaten:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Je moet daarna een moderator vragen als je weer wilt deelnemen."
+  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
   ConfirmMinuteQualityAssurance:
+    title: "Finalize Minutes: Quality Checks"
+    button: "Proceed"
     issues: "Er zijn problemen met uw minuten afgerond!"
     proceed: "Wilt u doorgaan met afsluiten?"
-  confirmReOpenTopic: "Weet je zeker dat je het reeds gesloten topic {$topicSubject} opnieuw wilt openen?"
-  confirmSendAgenda: "Wilt u de agenda voor deze minuut van deze vergadering echt versturen op <strong>{$minDate}</strong>?<br>Het is al verstuurd op {$agendaSentDate} op {$agendaSentTime}"
+    warnNoTopics: "The current minutes have no topics"
+    warnNoParticipants: "No participant is marked as present"
+    warnEditing: "A topic/item/detail is still edited"
+    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
+    warnTopicWithoutItems: "At least one discussed topic has no items"
+    warnActionItemWithoutResponsible: "At least one action item has no responsible"
+    warnTopicNoNewContent: "A topic is checked but has no new content"
+  ConfirmReOpenTopic:
+    title: "Re-open Topic?"
+    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
+    button: "Re-open"
+  ConfirmSendAgenda:
+    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    title: "Confirm sending agenda"
+    button: "Agenda verzenden"
   ConfirmDeleteMinutes:
-    really: "Wilt u deze minuut van deze vergadering op <strong>{$minutesDate}</strong> echt verwijderen?"
-    newTopics: "Dit verwijdert <strong>{$newTopicsCount} Onderwerpen</strong>, die binnen deze minuut zijn gemaakt."
-    closedTopicsAdditionally: "Bovendien zullen <strong>{$closedTopicsCount} topics</strong> opnieuw worden geopend, die binnen deze minuten zijn gesloten."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> zullen opnieuw worden geopend, welke binnen deze minuten zijn gesloten."
+    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
+    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
+    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
   ConfirmFinalizeMinutes:
-    really: "Weet je zeker dat je deze minuut van de vergadering op <strong>{$minutesDate}</strong> wilt afsluiten?"
+    title: "Confirm Finalize Minutes"
+    button: "Finalize"
+    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
     sendActionItems: "Stuur actie items"
     sendMinutes: "Stuur informatie items"
   LocaleSetting:
     title: "Taal instellen"
     languageLocale: "Locale taal"
     automatic: "Automatisch via browser"
-Mail:
-  greeting: "Hallo"
-  newAgenda: "We hebben een nieuwe agenda voor u:"
-  newActionItem: "U bent toegewezen aan de volgende actie-items:"
-  newMinutes: "Hieronder vindt u de laatste vergaderminuten."
-  meeting: "Sitzung"
-  links: "Koppelingen"
-  openSeries: "Reeks openen"
-  openMinutes: "Open minuten"
-  minutesSubject: "Vergaderminuten"
-  discussedTopics: "Besproken onderwerpen"
-  skippedTopics: "Open onderwerpen"
-  none: "Geen"
+  IsEditedHandling:
+    title: "Edit despite existing editing"
+    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
+    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
+    button: "Edit Anyway"
+  ConnectionInfo:
+    tooltip: "Connection Lost!!!\n Status: {$status}\n Retry Count: {$retryCount}\n Retry Time: {$retryTime} sec.\n Reason: {$reason}\n Click to reconnect.\n"
+    header: "You have lost the connection to the 4Minitz server."
+    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
+    tryToReconnect: "Try To Reconnect"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    button: "Download"
+  ConfirmTopicDelete:
+    title1: "Confirm delete topic"
+    title2: "Mark topic as discussed?"
+    button2: "Close topic and actions"
+    errortitle: "Cannot delete topic"
+    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+  ItemDeleteError:
+    title: "Cannot delete item"
+    body1: "It is not possible to delete this item because it was created in a previous minutes."
+    body2a: "This action item is already closed,"
+    body2b: "This info item is already un-pinned"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: "This is not a valid responsible!\n\n Please select an **existing user** from the dropdown or enter a **valid email address**."
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
 About:
   title: "Ongeveer 4Minitz"
-  copyright: "(C) 2015-2019 4Minitz-Team"
+  copyrightTeam: "by 4Minitz-Team"
   licensedUnder: "Licentie onder de MIT-licentie"
   licenseDependencies: "Licentie van Afhankelijkheden"
   thanksContributors: "Bedankt aan alle medewerkers"
@@ -88,7 +141,6 @@ Item:
   editItemModal: "{$type} van {$topic} bewerken"
   addInfo: "Info item toevoegen"
   addInfoHint: "Voeg info item toe aan onderwerp"
-  editInfo: "Bewerk Info Item"
   action: "Actie-item"
   addAction: "Actie item toevoegen"
   addActionHint: "Voeg actie item toe aan onderwerp"
@@ -156,7 +208,6 @@ Topic:
   history: "Geschiedenis tonen"
   historyHint: "Toon volledige finale status van dit topic"
   delete: "Verwijder topic"
-  deleteHint: "Verwijder topic"
   reopen: "Heropen topic"
   reopenHint: "Heropen topic"
   placeholder: "Voeg Info Item toe. Voeg @gebruikersnaam toe om een actie item toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
@@ -219,6 +270,7 @@ Minutes:
     continue: "Upload voortzetten"
     pause: "Upload pauzeren"
     abort: "Upload afbreken"
+    error: "Error during upload"
   version: "Versie"
   versionTag: "vv"
   Participants:
@@ -242,6 +294,7 @@ MeetingSeries:
   team: "Team/Project"
   new: "Nieuwe vergaderSeries"
   leave: "Laat vergaderSeries achter"
+  leaveButton: "Leave"
   moderator: "Je bent moderator"
   lastMinute: "Laatste minuut:"
   Search:
@@ -290,6 +343,10 @@ Profile:
     longName: "Voer een geldige lange naam in"
     email: "Voer een geldig EMail adres in"
     password: "Voer een geldig wachtwoord in"
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
 Admin:
   users: "Gebruikers"
   messages: "Berichten"
@@ -334,10 +391,23 @@ Login:
     title: "Aanmeldingsfout"
     username: "Geef uw gebruikersnaam op"
     password: "Geef uw wachtwoord op"
-  title: "Aanmelden"
+  signIn: "Sign In"
   ldap: "LDAP"
   standard: "Standaard"
   demoHint: "Tip: Demo Mode Active<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en wachtwoord <b>demo</b>. Of u kunt uw eigen account te registreren door te klikken op de \"Register\" link hieronder."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: "<p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p> We made 4Minitz free open source software, as we strongly believe that sensitive information like meeting minutes should not be hosted in the cloud. Instead you want to host it on your own infrastructure where you can define the level of security and safety you need."
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: "<li>Create your meeting series</li> <li>Invite other users</li> <li>Specify moderators and uploaders</li> <li>Fill agenda with topics</li> <li>Mark recurring topics for standard agenda</li> <li>Send agenda to invited users</li>"
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: "<li>Mark present participants</li> <li>Add action items with responsibles to topics</li> <li>Add information items to topics</li> <li>Add labels like 'Decision' to items</li> <li>Upload binary file attachments</li> <li>Send minutes &amp; action items via EMail</li>"
+    trackTopicsHeading: "Track Topics"
+    trackTopicsDetails: "<li>Open action items will show up next time</li> <li>Non-closed topics will show up next time</li> <li>Search list of all ever discussed topics</li> <li>Enrich topics with info items on multiple meetings</li> <li>Find topics with labels (e.g. all Decisions)</li> <li>Find items by fulltext search</li>"
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
 Navigation:
   help: "Hulp"
   about: "Over"
@@ -356,3 +426,45 @@ QuickHelp:
   meetingSeriesList: "<p>Met 4Minitz kunt u minuten maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>maakt vervolgens vergaderminuten aan op meerdere datums voor uw vergaderreeks.</p>"
   minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering te maken<br>tijdens de vergadering markeert een onderwerp met de checkbox om duidelijk te maken dat u erover heeft gesproken.<br>Als het onderwerp...<br>&nbsp;&nbsp; - is niet gemarkeerd als besproken of<br>&nbsp;&nbsp; - is ingesteld als terugkerend onderwerp of<br>&nbsp;&nbsp; - bevat niet-voltooide actieitems<br>... het onderwerp zal opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Goedkeuring minuten afronden' om de notulen naar de uitgenodigde gebruikers en de actieitems naar hun reactiebalen te sturen.</p>"
   upload: "<ul><li>Hier kunt u bestanden zoals bijvoorbeeld presentaties, PDFs of whiteboard foto's uploaden</li><li>U heeft de rol 'Uploader' of 'Moderator' nodig om dit te doen</li><li>Uploaden of verwijderen is mogelijk tot de minuten zijn afgerond</li><li>Pro Tip: Klik op de bovenstaande 'Upload' knop op uw tablet of slimme telefoon!</li></ul>"
+Mail:
+  greeting: "Hallo"
+  newAgenda: "We hebben een nieuwe agenda voor u:"
+  newActionItem: "You have been assigned to the following action items:"
+  newMinutes: "Below you'll find the latest meeting minutes."
+  meeting: "Sitzung"
+  links: "Koppelingen"
+  openSeries: "Reeks openen"
+  openMinutes: "Open minuten"
+  minutesSubject: "Vergaderminuten"
+  discussedTopics: "Besproken onderwerpen"
+  skippedTopics: "Open onderwerpen"
+  none: "Geen"
+  AdminNewVersion:
+    subject: "Newer version exists"
+    body: "Hello Admin,\n \n It seems you are running an outdated version of 4Minitz.\n \n Your 4Minitz instance on: {$rootUrl}\n has version: {$myVersion}\n \n Newest version available is: {$masterVersion}'\n Release notes: {$urlReleaseNotes}\n Please consider to update.\n \n {$masterMessageText} \n This mail was generated by your 4Minitz backend.\n You can disable the update check via settings.json: \"updateCheck\": false.\n \n Have fun!\n Your 4Minitz team.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {url4Minitz}\n"
+  AdminRegisterNewUser:
+    subject: "Your new account at our server"
+    passwordNotSend: "    Contact admin for password."
+    passwordParagraph: "Your password : {$password}\n \n Don't forget to change your password after first login!\n"
+    body: "Hello {$userLongName}, \n \n Welcome to our 4Minitz WebApp.\n Now you can start to participate in keeping of professional meeting minutes.\n \n You may sign in with 'Standard' (not LDAP!) login at:\n Your host     : {$rootURL}\n Your user     : {$userName}\n {$passwordParagraph}\n \n Have fun!\n\n Your Admin.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+  UserRoleChange:
+    subject: "Your role has changed for {$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"
+    body2test: "Hello {$userName}\n \n Your role has changed for meeting series '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Your old role was           : {$roleOld}\n Your new role is            : {$roleNew}\n The change was performed by : {$moderatorName}\n \n For a comprehensive list of rights for each role see:\n {$urlRoleDocu}\n \n Your Admin.\n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
