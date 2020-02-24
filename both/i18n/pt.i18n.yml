@@ -415,11 +415,11 @@ Login:
     header: "4Minitz: Minutos das Reuniões Colaborativas."
     subheader: "● Preparação da Agenda ● Minutos de Documento ● Assunto do acompanhamento ●"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
+      <p>Todo convidado e logado no usuário pode assistir a mudanças na ata de reunião atual em tempo real.</p>
+      Fizemos software livre de código aberto 4Minitz, uma vez que acreditamos fortemente que informações sensíveis
+      como ata de reunião não devem ser hospedados na nuvem.
+      Em vez disso você deseja hospedá-lo em sua própria infraestrutura onde você pode definir
+      o nível de segurança e segurança que você precisa.
     prepareAgendaHeading: "Prepare Agenda"
     prepareAgendaDetails: |
       <li>Criar sua série de reunião</li>
@@ -430,20 +430,20 @@ Login:
       <li>Enviar agenda para usuários convidados</li>
     documentMinutesHeading: "Minutos do documento"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>Marcos apresentam os participantes</li>
+      <li>Adicionar itens de ação com responsáveis a tópicos</li>
+      <li>Adicionar itens de informação aos tópicos</li>
+      <li>Adicionar etiquetas como 'Decisão' aos itens</li>
+      <li>Upload de arquivos binários de arquivo binário</li>
+      <li>Enviar minutos &amp; itens de ação via EMail</li>
     trackTopicsHeading: "Rastrear Tópicos"
     trackTopicsDetails: |
-      <li>Open action items will show up next time</li>
-      <li>Non-closed topics will show up next time</li>
-      <li>Search list of all ever discussed topics</li>
-      <li>Enrich topics with info items on multiple meetings</li>
-      <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>
+      <li>Os itens de ação aberta aparecerão na próxima vez</li>
+      <li>Os tópicos não fechados aparecerão na próxima vez</li>
+      <li>Lista de pesquisa de todos os tópicos já discutidos tópicos</li>
+      <li>Enrich tópicos com itens info em várias reuniões</li>
+      <li>Encontre tópicos com etiquetas (ex.: todas as Decisões)</li>
+      <li>Localiza itens por busca de texto completo</li>
   Footer:
     withLove: "Codificado com ❤ pela"
     theTeam: "Equipe WebApp"
