@@ -484,15 +484,14 @@ Mail:
     body: |
       Hallo Admin,
 
-      Es scheint, dass Sie eine veraltete Version von 4Minitz verwenden.
+      Es scheint, dass du eine veraltete Version von 4Minitz verwendest.
 
       Ihre 4Minitz-Instanz unter: {$rootUrl}
       hat Version: {$myVersion}
 
       Die neueste verfügbare Version ist: {$masterVersion}'
       Versionshinweise: {$urlReleaseNotes}
-
-      Bitte denken Sie über ein Upgrade nach.
+      Bitte beachten Sie, dass sie aktualisiert wird.
 
       {$masterMessageText}
 
@@ -500,11 +499,12 @@ Mail:
       Sie können die Updateprüfung über settings.json deaktivieren: \"updateCheck\": false.
 
       Viel Spaß!
-              Dein 4Minitz-Team.
+              Dein 4Minitz Team.
 
-      --- 
-      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
-      Der Quellcode ist verfügbar unter {url4Minitz}
+
+      ---
+      4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
+      Quelle ist verfügbar unter {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Ihr neues Konto auf unserem Server"
     passwordNotSend: "    Admin-Kontakt für Passwort."
@@ -516,21 +516,21 @@ Mail:
       Hallo {$userLongName},
 
       Willkommen bei unserer 4Minitz WebApp.
-      Jetzt können Sie an der Organisation von professionellen Meetingprotokollen teilnehmen.
+      Jetzt können Sie einfach professionelle Sitzungsprotokolle erstellen und lesen.
 
-      Sie können sich mit 'Standard' anmelden (nicht LDAP! anmelden unter:
-         Ihr Gast: {$rootURL}
+      Sie können sich mit dem 'Standard'-Login (nicht LDAP!) anmelden unter:
+         Ihr Server: {$rootURL}
          Ihr Benutzer: {$userName}
       {$passwordParagraph}
 
       Viel Spaß!
-        Dein Admin.
+              Dein 4Minitz-Team.
 
-      ---
-      4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
-      Quelle ist verfügbar unter {$url4Minitz}
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Der Quellcode ist verfügbar unter {$url4Minitz}
   UserRoleChange:
-    subject: "Ihre Rolle hat sich geändert für {$meetingProject}:{$meetingName}"
+    subject: "Ihre Rolle hat sich geändert für '{$meetingProject}:{$meetingName}'"
     body: |
       Hallo {$userName}
 
