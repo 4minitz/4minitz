@@ -95,7 +95,13 @@ Dialog:
     confirmationDialogResetEditDetails: "Pro zahájení úprav klikněte znovu na detail."
     button: "Přesto upravit"
   ConnectionInfo:
-    tooltip: "Připojení se nezdařilo!!!\n Stav: {$status}\n Počet opakování: {$retryCount}\n Čas opakování: {$retryTime} sekund.\n Důvod: {$reason}\n Klikněte pro opětovné připojení.\n"
+    tooltip: |
+      Připojení se nezdařilo!
+        Stav: {$status}
+        Počet opakování: {$retryCount}
+        Čas opakování: {$retryTime} sekund.
+        Důvod: {$reason}
+        Klikněte pro opětovné připojení.
     header: "Ztratili jste připojení k 4Minitz serveru."
     body: "Pokud zavřete prohlížeč. Neuložená data mohou být ztracena. Pokud tento problém přetrvává, kontaktujte prosím svého administrátora."
     tryToReconnect: "Zkuste se znovu připojit"
@@ -117,7 +123,10 @@ Dialog:
     body3: "takže nebude zkopírován do následujících minut"
   ActionItemResponsibleError:
     title: "Neplatná odpovědnost za položku akce"
-    body: "Toto není platná odpovědnost!\n\n Prosím vyberte **existujícího uživatele** z rozbalovacího seznamu nebo zadejte **platnou e-mailovou adresu**."
+    body: |
+      Toto není platná odpovědnost!
+
+      Prosím vyberte **existujícího uživatele** z rozbalovacího seznamu nebo zadejte **platnou e-mailovou adresu**.
   ConvertItemError:
     title: "Položku nelze převést"
     body: "Není možné převést tuto položku, protože byla vytvořena v předchozích minutách."
@@ -398,13 +407,36 @@ Login:
   Login4MinitzInfo:
     header: "4Minitz: Minut pracovní schůzky."
     subheader: "● Připravte program ● Dokument Minutes ● Sledování témat ●"
-    abstract: "<p>Každý pozvaný a přihlášený uživatel může sledovat změny aktuálních minut schůzky v reálném čase.</p> Vytvořili jsme zdarma open source software 4Minitz, vzhledem k tomu, že jsme pevně přesvědčeni, že citlivé informace, jako jsou zápisy z jednání, by neměly být umístěny v mraku. Místo toho ho chcete hostit na vlastní infrastruktuře, kde můžete definovat úroveň zabezpečení a bezpečnosti, kterou potřebujete."
+    abstract: |
+      <p>Každý pozvaný a přihlášený uživatel může sledovat změny aktuálních minut schůzky v reálném čase.</p>
+      Vytvořili jsme zdarma open source software 4Minitz, protože jsme pevně přesvědčeni, že
+      citlivé informace, jako jsou zápisy z schůzek, by neměly být hostovány v cloudu.
+      Místo toho ho chcete hostit na vlastní infrastruktuře, kde můžete definovat
+      úroveň zabezpečení a bezpečnosti, kterou potřebujete.
     prepareAgendaHeading: "Prepare Agenda"
-    prepareAgendaDetails: "<li>Vytvořte sérii schůzek</li> <li>Pozvěte další uživatele</li> <li>Specifikujte moderátory a nahrávače</li> <li>Vyplňte program s tématy</li> <li>Označte opakující se témata pro standardní agendu</li> <li>Odesílat program pozvaným uživatelům</li>"
+    prepareAgendaDetails: |
+      <li>Vytvořte sérii schůzek</li>
+      <li>Pozvěte další uživatele</li>
+      <li>Specifikujte moderátory a nahrávače</li>
+      <li>Vyplňte program tématy</li>
+      <li>Označte opakující se témata pro standardní program</li>
+      <li>Odesílat program pozvaným uživatelům</li>
     documentMinutesHeading: "Zápis z dokumentu"
-    documentMinutesDetails: "<li>Označit současné účastníky</li> <li>Přidat akční položky s odpovědností k tématům</li> <li>Přidat informační položky do témat</li> <li>Přidat štítky jako 'Rozhodnutí' k položkám</li> <li>Odesílání binárních příloh</li> <li>minut odesílání &amp; akčních položek prostřednictvím e-mailu</li>"
+    documentMinutesDetails: |
+      <li>Označit současné účastníky</li>
+      <li>Přidejte položky akce s odpovědností k tématům</li>
+      <li>Přidat informační položky k tématům</li>
+      <li>Přidat štítky jako 'Rozhodnout' k položkám</li>
+      <li>Nahrát binární přílohy</li>
+      <li>Odesílat minuty &amp; akčních položek prostřednictvím EMail</li>
     trackTopicsHeading: "Sledovat témata"
-    trackTopicsDetails: "<li>Otevřené položky akce se zobrazí příště</li> <li>Neuzavřená témata se zobrazí příště</li> <li>Vyhledávací seznam všech témat</li> <li>Rozšířit témata s informacemi o více setkáních</li> <li>Najděte témata s popisky (např. štítky. . všechna rozhodnutí)</li> <li>Najít položky pomocí fulltextového vyhledávání</li>"
+    trackTopicsDetails: |
+      <li>Otevřené položky akce se zobrazí příště</li>
+      <li>Neuzavřená témata se zobrazí příště při</li>
+      <li>Vyhledávání všech témat</li>
+      <li>Rozšířit témata s informacemi o více setkáních</li>
+      <li>Najít témata s popisky (např. popisky). . všechna rozhodnutí)</li>
+      <li>Najít položky pomocí fulltextového vyhledávání</li>"
   Footer:
     withLove: "Kódováno pomocí ❤"
     theTeam: "Tým WebApp"
@@ -441,12 +473,54 @@ Mail:
   none: "Žádná položka"
   AdminNewVersion:
     subject: "Novější verze existuje"
-    body: "Dobrý den, Admin,\n \n Zdá se, že máte zastaralou verzi 4Minitz.\n \n Vaše 4Minitz instance na: {$rootUrl}\n má verzi: {$myVersion}\n \n Nejnovější dostupná verze je: {$masterVersion}'\n Poznámky k vydání: {$urlReleaseNotes}\n Prosím zvažte aktualizaci.\n \n {$masterMessageText} \n Tento e-mail byl vygenerován vaší 4Minitzovou backend.\n Kontrola aktualizací můžete zakázat pomocí settings.json: \"updateCheck\": false.\n \n bavte se!\n Váš 4Minitzový tým.\n \n \n --- \n 4Minitz je zdarma open source vyvinutý týmem 4Minitz.\n Zdroj je k dispozici na {url4Minitz}\n"
+    body: |
+      Dobrý den, Admin,
+
+      Zdá se, že máte zastaralou verzi 4Minitz.
+
+      Vaše 4Minitz instance na: {$rootUrl}
+      má verzi: {$myVersion}
+
+      Nejnovější dostupná verze je: {$masterVersion}'
+      Poznámky k vydání: {$urlReleaseNotes}
+      Prosím zvažte aktualizaci.
+
+      {$masterMessageText}
+
+      Tento e-mail byl vygenerován vaší backend 4Minitz.
+      Můžete zakázat kontrolu aktualizací prostřednictvím settings.json: \"updateCheck\": false.
+
+      Bavte se!
+              Váš 4Minitzový tým.
+
+
+      ---
+      4Minitz je zdarma open source vyvinutý týmem 4Minitz.
+      Zdroj je k dispozici na {url4Minitz}
   AdminRegisterNewUser:
     subject: "Váš nový účet na našem serveru"
     passwordNotSend: "    Kontaktujte administrátora pro heslo."
-    passwordParagraph: "Vaše heslo: {$password}\n \n Nezapomeňte změnit své heslo po prvním přihlášení!\n"
-    body: "Dobrý den {$userLongName}, \n \n Vítejte v naší 4Minitz WebApp.\n Nyní se můžete začít podílet na udržování zápisů z profesionálních schůzek.\n \n Můžete se přihlásit pomocí 'Standard' (ne LDAP! přihlášení na:\n Váš hostitel : {$rootURL}\n Váš uživatel : {$userName}\n {$passwordParagraph}\n \n se bavte!\n\n Váš Admin.\n \n \n --- \n 4Minitz je zdarma open source vyvinutý týmem 4Minitz.\n zdrojů je k dispozici na {$url4Minitz}"
+    passwordParagraph: |
+      Vaše heslo: {$password}
+
+      Nezapomeňte změnit své heslo po prvním přihlášení!
+    body: |
+      Dobrý den {$userLongName},
+
+      Vítejte v naší 4Minitz WebApp.
+      Nyní se můžete začít podílet na udržování profesionálních schůzek v minutách.
+
+      Můžete se přihlásit pomocí 'Standard' (ne LDAP! přihlaste se:
+         Váš hostitel : {$rootURL}
+         Váš uživatel : {$userName}
+      {$passwordParagraph}
+
+      bavte se!
+        Váš Admin.
+
+      ---
+      4Minitz je zdarma open source vyvinutý týmem 4Minitz.
+      Zdroj je k dispozici na {$url4Minitz}
   UserRoleChange:
     subject: "Vaše role se změnila pro {$meetingProject}:{$meetingName}'"
     body: |
@@ -459,12 +533,12 @@ Mail:
          Vaše nová role je: {$roleNew}
          Změna byla provedena za: {$moderatorName}
 
-      Pro úplný seznam práv pro každou roli viz:
+      Pro komplexní seznam práv pro každou roli vidět:
       {$urlRoleDocu}
 
-      Váš Admin.
+      Bav se!
+        Váš Admin.
 
       ---
-      4Minitz je zdarma open source vyvinutý týmem 4Minitz.
-      Zdroj je k dispozici na {$url4Minitz}"
-    body2test: "Dobrý den {$userName}\n \n Vaše role se změnila pro sérii schůzek '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Vaše stará role byla: {$roleOld}\n Vaše nová role je: {$roleNew}\n Změna byla provedena za: {$moderatorName}\n \n Pro komplexní seznam práv pro každou roli vidět:\n {$urlRoleDocu}\n \n Váš Admin.\n \n --- \n 4Minitz je zdarma open source vyvinutý týmem 4Minitz.\n Zdroj je k dispozici na {$url4Minitz}"
+      4Minitz je zdarma open source vyvinutý 4Minitz tým.
+      zdrojů je k dispozici na {$url4Minitz}"
