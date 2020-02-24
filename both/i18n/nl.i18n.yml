@@ -23,10 +23,10 @@ Buttons:
   register: "Registreer"
   save: "Opslaan"
 UserRoles:
-  roleName01: "Moderator"
-  roleName05: "Uploader"
-  roleName10: "Uitgenodigd"
-  roleName66: "Ingelicht"
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "Uitgenodigd"
+  roleInformed: "Ingelicht"
 FlashMessages:
   ok: "Ok"
   error: "Foutmelding"
