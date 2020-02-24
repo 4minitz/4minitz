@@ -23,10 +23,10 @@ Buttons:
   register: "注册"
   save: "保存"
 UserRoles:
-  roleName01: "版主"
-  roleName05: "上传器"
-  roleName10: "已邀请"
-  roleName66: "知情的"
+  roleModerator: "版主"
+  roleUploader: "上传器"
+  roleInvited: "已邀请"
+  roleInformed: "知情的"
 FlashMessages:
   ok: "好的"
   error: "错误"
