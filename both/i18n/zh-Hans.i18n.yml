@@ -503,7 +503,7 @@ Mail:
 
       -
       4Minitz是由4Minitz团队开发的免费开放源代码。
-      源代码可在 {url4Minitz}
+      源代码可在 {$url4Minitz}
   AdminRegisterNewUser:
     subject: "您在我们的服务器上的新账户"
     passwordNotSend: "    密码联系管理员。"
@@ -529,7 +529,7 @@ Mail:
       4Minitz是由4Minitz团队开发的免费开放源代码。
       源代码是 {$url4Minitz}
   UserRoleChange:
-    subject: "您的角色已经更改 {$meetingProject}:{$meetingName}'"
+    subject: "您的角色已经改变{$meetingProject}:{$meetingName}"
     body: |
       您好 {$userName}
 
