@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Büszkén szponzorált"
   specialThanks: "Külön köszönet ezeknek a projekteknek"
   forkGitHub: "Fork minket a GitHub-on"
-  serverStatistics: "Kiszolgáló statisztika"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Hozzáadás/szerkesztés elem"
   editItem: "Elem szerkesztése"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "A művelet/információs elem törlése"
   addItemModal: "{$type} és {$topic} hozzáadása"
   editItemModal: "{$type} szerkesztése {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Művelet elem"
   addInfo: "Info elem hozzáadása"
   addInfoHint: "Információs elem hozzáadása a témakörhöz"
   action: "Művelet elem"
