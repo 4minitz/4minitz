@@ -13,7 +13,7 @@ Buttons:
   cancel: "Avbryt"
   change: "Ändra"
   close: "Stängning"
-  confirm: "Confirm"
+  confirm: "Bekräfta"
   create: "Skapa"
   delete: "Radera"
   dismissAll: "Ignorera alla"
@@ -23,66 +23,66 @@ Buttons:
   register: "Registrera"
   save: "Spara"
 FlashMessages:
-  ok: "OK"
-  error: "Error"
-  verifyEMailErr: "Error: EMail could not be verified"
-  verifyEMailOK: "OK: EMail is verified now"
-  passwordChangeOK: "Password changed"
-  passwordResetOK: "Password sucessfully reseted"
-  profileEditOK: "Profile changes saved"
-  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
-  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
-  finalizeProgress1: "Finalize in progress"
-  finalizeProgress2: "This may take a few seconds..."
-  finalizeOK: "This meeting minutes were successfully finalized"
+  ok: "Ok"
+  error: "Fel"
+  verifyEMailErr: "Fel: EMail kunde inte verifieras"
+  verifyEMailOK: "OK: EMail verifieras nu"
+  passwordChangeOK: "Lösenord ändrat"
+  passwordResetOK: "Lösenordet har återställts"
+  profileEditOK: "Profiländringar sparade"
+  minuteLinkErr: "Tyvärr är minuten inte korrekt kopplad till dess överordnade serier - kontakta din systemadministratör."
+  agendaSentOK: "Föredragningslistan har skickats till {$result} mottagare"
+  finalizeProgress1: "Slutför pågående"
+  finalizeProgress2: "Detta kan ta några sekunder..."
+  finalizeOK: "Detta mötesprotokoll har slutförts"
 Dialog:
   ConfirmDelete:
-    title: "Confirm delete?"
-    body: "Are you sure to delete this?"
+    title: "Bekräfta radering?"
+    body: "Är du säker på att ta bort detta?"
   ConfirmCreateNewMinutes:
     title: "Bekräfta skapandet av nya protokoll"
     content: "Vill du verkligen skapa nya protokoll för mötesserien \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
-  confirmDeleteItemAllowed: "Do you really want to delete the {$type} **{$subject}**?"
-  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
+  confirmDeleteAttachment: "Vill du verkligen ta bort bilagan:\n**{$name}**?"
+  confirmDeleteDetails: "Vill du verkligen ta bort de markerade detaljerna i objektet **{$subject}**?"
+  confirmDeleteItemAllowed: "Vill du verkligen ta bort {$type} **{$subject}**?"
+  confirmDeleteItemNotAllowed: "Det är inte möjligt att ta bort {$type} **{$subject}** eftersom {$type} skapades i ett tidigare minuter."
   confirmDeleteItemActionItem: "Vill du stänga åtgärdsobjektet istället?"
   confirmDeleteItemInfoItem: "Vill du lossa den klibbiga info objektet istället?"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic **{$subject}**?"
-    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
+    allowed: "Vill du verkligen ta bort ämnet **{$subject}**?"
+    notAllowed: "Det är inte möjligt att ta bort ämnet **{$subject}** eftersom ämnet skapades i ett tidigare minuter."
     close: "Vill du stänga ämnet istället?"
     closeWithActions: "Vill du stänga ämnet tillsammans med alla relaterade åtgärdsobjekt istället?"
-  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Vill du verkligen lämna mötesserien:\n\n**{$project} / {$name}**\n\nDu måste fråga en moderator om du vill gå med igen efteråt."
   ConfirmMinuteQualityAssurance:
-    title: "Finalize Minutes: Quality Checks"
-    button: "Proceed"
+    title: "Slutför protokollet: Kvalitetskontroll"
+    button: "Fortsätt"
     issues: "Det finns slutgiltiga problem med dina minuter!"
     proceed: "Vill du fortsätta med att slutföra?"
-    warnNoTopics: "The current minutes have no topics"
-    warnNoParticipants: "No participant is marked as present"
-    warnEditing: "A topic/item/detail is still edited"
-    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
-    warnTopicWithoutItems: "At least one discussed topic has no items"
-    warnActionItemWithoutResponsible: "At least one action item has no responsible"
-    warnTopicNoNewContent: "A topic is checked but has no new content"
+    warnNoTopics: "De aktuella minuterna har inga trådar"
+    warnNoParticipants: "Ingen deltagare är markerad som närvarande"
+    warnEditing: "En tråd/artikel/detalj är fortfarande redigerad"
+    warnNoTopicDiscussed: "Inget ämne är markerat som \"diskuterat\""
+    warnTopicWithoutItems: "Åtminstone en diskuterad tråd har inga objekt"
+    warnActionItemWithoutResponsible: "Åtminstone en åtgärdspost har inget ansvar"
+    warnTopicNoNewContent: "Ett ämne är markerat men har inget nytt innehåll"
   ConfirmReOpenTopic:
-    title: "Re-open Topic?"
-    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
-    button: "Re-open"
+    title: "Öppna ämnet igen?"
+    body: "Vill du verkligen öppna den redan stängda tråden **{$topicSubject}**?"
+    button: "Återöppna"
   ConfirmSendAgenda:
-    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
-    title: "Confirm sending agenda"
+    body: "Vill du verkligen skicka agendan för denna mötesminut daterad den **{$minDate}**?\nDen skickades redan den {$agendaSentDate} kl. {$agendaSentTime}"
+    title: "Bekräfta sändning av agenda"
     button: "Skicka agenda"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
-    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
-    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
-    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    really: "Vill du verkligen ta bort denna mötesminut daterad den **{$minutesDate}**?"
+    newTopics: "Detta kommer att ta bort **{$newTopicsCount} ämnen**, som skapades inom denna minut."
+    closedTopicsAdditionally: "Dessutom kommer **{$closedTopicsCount} trådar** att öppnas igen, som stängdes inom dessa minuter."
+    closedTopics: "**{$closedTopicsCount} trådar** kommer att öppnas igen, som stängdes inom dessa minuter."
   ConfirmFinalizeMinutes:
-    title: "Confirm Finalize Minutes"
-    button: "Finalize"
-    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
+    title: "Bekräfta slutföra minuter"
+    button: "Slutför"
+    really: "Vill du verkligen slutföra denna mötesminut daterad den **{$minutesDate}**?"
     sendActionItems: "Skicka åtgärdsobjekt"
     sendMinutes: "Skicka informationsobjekt"
   LocaleSetting:
@@ -90,40 +90,40 @@ Dialog:
     languageLocale: "Språk språk"
     automatic: "Automatiskt via webbläsare"
   IsEditedHandling:
-    title: "Edit despite existing editing"
-    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
-    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
-    button: "Edit Anyway"
+    title: "Redigera trots befintlig redigering"
+    confirmationDialogResetEdit: "Varning: Detta dokument är för närvarande redigerat av {$name} sedan: {$date}"
+    confirmationDialogResetEditDetails: "Klicka på detaljer igen för att börja redigera."
+    button: "Redigera ändå"
   ConnectionInfo:
-    tooltip: "Connection Lost!!!\n Status: {$status}\n Retry Count: {$retryCount}\n Retry Time: {$retryTime} sec.\n Reason: {$reason}\n Click to reconnect.\n"
-    header: "You have lost the connection to the 4Minitz server."
-    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
-    tryToReconnect: "Try To Reconnect"
+    tooltip: "Anslutning förlorad!!!\n Status: {$status}\n Retry Count: {$retryCount}\n Retry Time: {$retryTime} sec.\n Anledning: {$reason}\n Klicka för att återansluta.\n"
+    header: "Du har förlorat anslutningen till 4Minitz server."
+    body: "Om du stänger din webbläsare kan osparade data gå förlorade. Kontakta din sever admin om problemet kvarstår."
+    tryToReconnect: "Försök att återanslut"
   ConfirmGenerateProtocol:
     title: "Confirm generate protocol"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
-    button: "Download"
+    body: "Det har inte genererats något protokoll för dessa minuter. Vill du ladda ner en dynamiskt genererad HTML-version av det istället?"
+    button: "Hämta"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    title1: "Bekräfta ta bort ämne"
+    title2: "Markera ämne som diskuterat?"
+    button2: "Stäng ämne och åtgärder"
+    errortitle: "Kan inte ta bort ämne"
+    errorcontent: "Det är inte möjligt att ta bort detta ämne eftersom det skapades i ett tidigare minuter. Det valda ämnet är redan stängt och har inga öppna åtgärdsobjekt, så det kommer inte att kopieras till de följande minuterna."
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
-    body3: "so it won't be copied to the following minutes"
+    title: "Kan inte ta bort objekt"
+    body1: "Det är inte möjligt att ta bort detta objekt eftersom det skapades i ett tidigare minuter."
+    body2a: "Denna åtgärd är redan stängd,"
+    body2b: "Denna info är redan opåverkad"
+    body3: "så att det inte kommer att kopieras till följande minuter"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
-    body: "This is not a valid responsible!\n\n Please select an **existing user** from the dropdown or enter a **valid email address**."
+    title: "Ogiltigt ansvar för åtgärdsobjekt"
+    body: "Detta är inte ett giltigt ansvar!\n\n Välj en **befintlig användare** från rullgardinsmenyn eller ange en **giltig e-postadress**."
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "Kan inte konvertera objekt"
+    body: "Det är inte möjligt att konvertera detta objekt eftersom det skapades i en tidigare minuter."
 About:
   title: "Om 4Minitz"
-  copyrightTeam: "by 4Minitz-Team"
+  copyrightTeam: "av 4Minitz-Team"
   licensedUnder: "Licensierad under MIT-licens"
   licenseDependencies: "Licens för beroenden"
   thanksContributors: "Tack till alla våra medverkande"
@@ -270,7 +270,7 @@ Minutes:
     continue: "Fortsätt uppladdningen"
     pause: "Pausa överföring"
     abort: "Avbryt uppladdning"
-    error: "Error during upload"
+    error: "Fel vid uppladdning"
   version: "Version"
   versionTag: "v"
   Participants:
@@ -294,7 +294,7 @@ MeetingSeries:
   team: "Team / Projekt"
   new: "Ny mötesserie"
   leave: "Lämna mötesserien"
-  leaveButton: "Leave"
+  leaveButton: "Lämna"
   moderator: "Du är moderator"
   lastMinute: "Senaste minuten:"
   Search:
@@ -344,9 +344,9 @@ Profile:
     email: "Du måste ange en giltig EMail-adress"
     password: "Ange ett giltigt lösenord"
   WarningEMailChange:
-    title: "Confirm changing user mail"
-    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
-    button: "Sign off + Re-Verify"
+    title: "Bekräfta ändring av användarens e-post"
+    body: "Du håller på att ändra din verifierade e-postadress. Du kommer att loggas ut och måste verifiera din nya e-postadress innan du kan fortsätta."
+    button: "Logga in + Re-Verifiera"
 Admin:
   users: "Användare"
   messages: "Meddelanden"
@@ -391,22 +391,22 @@ Login:
     title: "Fel vid inloggning"
     username: "Ange ditt användarnamn"
     password: "Ange ditt lösenord"
-  signIn: "Sign In"
+  signIn: "Logga in"
   ldap: "LDAP"
   standard: "Standard"
   demoHint: "Tips: Demoläge Active<br>Du kan logga in med användarnamn <b>demo</b> och lösenord <b>demo</b>. Eller så kan du registrera ditt eget konto genom att klicka på länken \"Registrera\"."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Minutes."
-    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
-    abstract: "<p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p> We made 4Minitz free open source software, as we strongly believe that sensitive information like meeting minutes should not be hosted in the cloud. Instead you want to host it on your own infrastructure where you can define the level of security and safety you need."
+    header: "4Minitz: Samverkande mötesprotokoll."
+    subheader: "● Förbered agendan ● Dokumentprotokoll ● Spåra ämnen ●"
+    abstract: "<p>Varje inbjuden och inloggad användare kan titta på ändringar i aktuella mötesprotokoll i realtid.</p> Vi gjorde 4Minitz gratis programvara med öppen källkod, eftersom vi är övertygade om att känslig information som mötesprotokoll inte bör vara värd i molnet. Istället vill du vara värd på din egen infrastruktur där du kan definiera vilken säkerhets- och säkerhetsnivå du behöver."
     prepareAgendaHeading: "Prepare Agenda"
-    prepareAgendaDetails: "<li>Create your meeting series</li> <li>Invite other users</li> <li>Specify moderators and uploaders</li> <li>Fill agenda with topics</li> <li>Mark recurring topics for standard agenda</li> <li>Send agenda to invited users</li>"
-    documentMinutesHeading: "Document Minutes"
-    documentMinutesDetails: "<li>Mark present participants</li> <li>Add action items with responsibles to topics</li> <li>Add information items to topics</li> <li>Add labels like 'Decision' to items</li> <li>Upload binary file attachments</li> <li>Send minutes &amp; action items via EMail</li>"
-    trackTopicsHeading: "Track Topics"
-    trackTopicsDetails: "<li>Open action items will show up next time</li> <li>Non-closed topics will show up next time</li> <li>Search list of all ever discussed topics</li> <li>Enrich topics with info items on multiple meetings</li> <li>Find topics with labels (e.g. all Decisions)</li> <li>Find items by fulltext search</li>"
+    prepareAgendaDetails: "<li>Skapa dina mötesserier</li> <li>Bjud in andra användare</li> <li>Ange moderatorer och uppladdare</li> <li>Fyll agendan med ämnen</li> <li>Markera återkommande ämnen för standard agenda</li> <li>Skicka agenda till inbjudna användare</li>"
+    documentMinutesHeading: "Dokument minuter"
+    documentMinutesDetails: "<li>Markera nuvarande deltagare</li> <li>Lägg till åtgärdsobjekt med ansvar för ämnen</li> <li>Lägg till informationsobjekt till ämnen</li> <li>Lägg till etiketter som 'Decision' till objekt</li> <li>Ladda upp binära bilagor</li> <li>Skicka minuter &amp; åtgärdsobjekt via EMail</li>"
+    trackTopicsHeading: "Spåra ämnen"
+    trackTopicsDetails: "<li>Öppna åtgärdsobjekt kommer att visas nästa gång</li> <li>Icke-stängda ämnen kommer att visas nästa gång</li> <li>Söklista över alla ämnen som någonsin diskuterats</li> <li>Berika ämnen med info på flera möten</li> <li>Hitta ämnen med etiketter (e. . alla beslut)</li> <li>Hitta objekt genom fulltextsökning</li>"
   Footer:
-    withLove: "Coded with ❤ by the"
+    withLove: "Kodad med ❤ av"
     theTeam: "WebApp Team"
 Navigation:
   help: "Hjälp"
@@ -429,8 +429,8 @@ QuickHelp:
 Mail:
   greeting: "Hej."
   newAgenda: "Vi har en helt ny mötesplan för dig."
-  newActionItem: "You have been assigned to the following action items:"
-  newMinutes: "Below you'll find the latest meeting minutes."
+  newActionItem: "Du har tilldelats följande åtgärdsobjekt:"
+  newMinutes: "Nedan hittar du de senaste mötesprotokollen."
   meeting: "Sitzung"
   links: "Länkar"
   openSeries: "Öppna serie"
@@ -440,31 +440,31 @@ Mail:
   skippedTopics: "Öppna iopier"
   none: "Ingen"
   AdminNewVersion:
-    subject: "Newer version exists"
-    body: "Hello Admin,\n \n It seems you are running an outdated version of 4Minitz.\n \n Your 4Minitz instance on: {$rootUrl}\n has version: {$myVersion}\n \n Newest version available is: {$masterVersion}'\n Release notes: {$urlReleaseNotes}\n Please consider to update.\n \n {$masterMessageText} \n This mail was generated by your 4Minitz backend.\n You can disable the update check via settings.json: \"updateCheck\": false.\n \n Have fun!\n Your 4Minitz team.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {url4Minitz}\n"
+    subject: "Nyare version finns"
+    body: "Hej Admin,\n \n Det verkar som om du kör en föråldrad version av 4Minitz.\n \n Din 4Minitz instans på: {$rootUrl}\n har version: {$myVersion}\n \n Nyaste versionen tillgänglig är: {$masterVersion}'\n Utgåvor: {$urlReleaseNotes}\n Vänligen överväga att uppdatera.\n \n {$masterMessageText} \n Detta mail har genererats av din 4Minitz backend.\n Du kan inaktivera uppdateringskontrollen via settings.json: \"updateCheck\": false.\n \n Ha så kul!\n Ditt 4Minitz team.\n \n \n --- \n 4Minitz är fri öppen källkod utvecklad av 4Minitz teamet.\n Källa finns på {url4Minitz}\n"
   AdminRegisterNewUser:
-    subject: "Your new account at our server"
-    passwordNotSend: "    Contact admin for password."
-    passwordParagraph: "Your password : {$password}\n \n Don't forget to change your password after first login!\n"
-    body: "Hello {$userLongName}, \n \n Welcome to our 4Minitz WebApp.\n Now you can start to participate in keeping of professional meeting minutes.\n \n You may sign in with 'Standard' (not LDAP!) login at:\n Your host     : {$rootURL}\n Your user     : {$userName}\n {$passwordParagraph}\n \n Have fun!\n\n Your Admin.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+    subject: "Ditt nya konto på vår server"
+    passwordNotSend: "    Kontakta admin för lösenord."
+    passwordParagraph: "Ditt lösenord : {$password}\n \n Glöm inte att ändra ditt lösenord efter första inloggningen!\n"
+    body: "Hej {$userLongName}, \n \n Välkommen till vår 4Minitz WebApp.\n Nu kan du börja delta i att hålla professionella mötesminuter.\n \n Du kan logga in med 'Standard' (inte LDAP! Logga in på:\n Din värd : {$rootURL}\n Din användare : {$userName}\n {$passwordParagraph}\n \n Ha så kul!\n\n Din administratör.\n \n \n --- \n 4Minitz är fri öppen källkod utvecklad av 4Minitz teamet.\n Källa finns tillgänglig på {$url4Minitz}"
   UserRoleChange:
-    subject: "Your role has changed for {$meetingProject}:{$meetingName}'"
+    subject: "Din roll har ändrats för {$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      Hej {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      Din roll har ändrats för mötesserien '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Din gamla roll var: {$roleOld}
+         Din nya roll är : {$roleNew}
+         Ändringen utfördes av : {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      För en omfattande lista över rättigheter för varje roll se:
       {$urlRoleDocu}
 
-      Your Admin.
+      Din administratör.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
-    body2test: "Hello {$userName}\n \n Your role has changed for meeting series '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Your old role was           : {$roleOld}\n Your new role is            : {$roleNew}\n The change was performed by : {$moderatorName}\n \n For a comprehensive list of rights for each role see:\n {$urlRoleDocu}\n \n Your Admin.\n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+      4Minitz är fri öppen källkod som utvecklats av 4Minitz-teamet.
+      Källa finns tillgänglig på {$url4Minitz}"
+    body2test: "Hej {$userName}\n \n Din roll har ändrats för mötesserien '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Din gamla roll var : {$roleOld}\n Din nya roll är : {$roleNew}\n Ändringen utfördes av : {$moderatorName}\n \n För en omfattande lista över rättigheter för varje roll:\n {$urlRoleDocu}\n \n Din administratör.\n \n --- \n 4Minitz är fri öppen källkod utvecklad av 4Minitz teamet.\n Källa finns tillgänglig på {$url4Minitz}"
