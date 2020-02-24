@@ -449,9 +449,9 @@ Login:
       <li>Automatische Wiedervorlage unerledigter Aufgaben</li>
       <li>Automatische Wiedervorlage offener Themen</li>
       <li>Suchliste aller jemals diskutierten Themen</li>
-      <li>Erweitern Sie Themen mit Informationen aus mehreren Protokollen</li>
-      <li>Themen mit Beschriftungen finden (z.B. alle Entscheidungen)</li>
-      <li>Finden Sie Elemente mit der Volltextsuche</li>
+      <li>Erweitern Sie Themen mit Informationen späteren Sitzungen</li>
+      <li>Themen nach Kategorien finden (z.B. alle 'Entscheidungen')</li>
+      <li>Elemente mit der Volltextsuche finden</li>
   Footer:
     withLove: "Codiert mit ❤ durch das"
     theTeam: "WebApp-Team"
@@ -464,17 +464,17 @@ Navigation:
   signOut: "Abmelden"
   toggleNavigation: "Navigation anzeigen"
   meetings: "Sitzungen"
-  processing: "Deine Anfrage wird bearbeitet..."
+  processing: "Ihre Anfrage wird bearbeitet..."
   setLanguageForUser: "Sprache wählen"
   setLanguageLogin: "Sprache"
 QuickHelp:
   title: "Schnellhilfe"
   meetingSeries: "<p>Hier können Sie neue Protokolle für die aktuelle Sitzungsreihe erstellen oder über das Datum das entsprechende Protokoll aufrufen.</p>"
-  meetingSeriesList: "<p>Mit 4Minitz kannst du Protokolle für Sitzungen erstellen.</p><p>Erstelle zuerst eine neue Sitzungsreihe und lade alle Teilnehmer ein.<br>Anschließend können Sie Protokolle zu dieser Sitzungsreihe anlegen.</p>"
-  minutes: "<p>Füge zunächst Themen zu deiner Tagesordnung hinzu, um diese vorab an alle Mitglieder zu verschicken.<br>Während der Sitzung werden alle Themen, die abschließend diskutiert wurden, mit einem Häkchen markiert.<br>Falls...<br>&nbsp;&nbsp; - das Thema nicht als diskutiert markiert oder<br>&nbsp;&nbsp; - dieses als wiederkehrendes Thema gesetzt oder<br>&nbsp;&nbsp; - das Thema eine unerledigte Aufgabe enthält<br>... wird das Thema in der nächsten Sitzung erneut vorgebracht.</p><p>Klicke auf 'Protokoll beschließen', um das Protokoll an die eingeladenen Benutzer und die Aufgaben an ihre Verantwortlichen zu senden.</p>"
+  meetingSeriesList: "<p>Mit 4Minitz können Sie Protokolle für Sitzungen erstellen.</p>\n<p>Erstellen Sie zuerst eine neue Sitzungsreihe und laden dann alle Teilnehmer ein.<br>\nAnschließend können Sie Protokolle zu dieser Sitzungsreihe anlegen.</p>"
+  minutes: "<p>Fügen Sie zunächst Themen zu Ihrer Tagesordnung hinzu, um diese vorab an alle Mitglieder zu verschicken.<br>\nWährend der Sitzung werden alle Themen, die abschließend diskutiert wurden, mit einem Häkchen markiert.<br>\nFalls...<br>\n&nbsp;&nbsp; - das Thema nicht als diskutiert markiert oder<br>\n&nbsp;&nbsp; - dieses als wiederkehrendes Thema gesetzt oder<br>\n&nbsp;&nbsp; - das Thema eine unerledigte Aufgabe enthält<br>\n... wird das Thema in der nächsten Sitzung erneut vorgebracht.</p>\n<p>Klicken Sie auf 'Protokoll beschließen', um das Protokoll an die eingeladenen Benutzer und die Aufgaben an ihre Verantwortlichen zu senden.</p>"
   upload: "<ul><li>Hier können Sie Dateien wie z.B. Präsentationen, PDFs oder Whiteboard-Fotos hochladen</li>\n<li>Sie benötigen die Rolle 'Uploader' oder 'Moderator', um dies tun zu können</li>\n<li>Hochladen und wieder löschen ist solange möglich, bis das Protokoll beschlossen wurde</li>\n<li>Tipp: Klicken Sie auf den 'Hochladen...' Knopf auf Ihrem Tablet oder Smartphone!</li></ul>"
 Mail:
-  greeting: "Guten Tag"
+  greeting: "Hallo"
   newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
   newActionItem: "Ihnen wurden folgende Aufgaben zugewiesen:"
   newMinutes: "Nachfolgend finden Sie das neueste Sitzungsprotokoll."
@@ -514,7 +514,7 @@ Mail:
       Der Quellcode ist verfügbar unter {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Ihr neues Konto auf unserem Server"
-    passwordNotSend: "    Admin-Kontakt für Passwort."
+    passwordNotSend: "Kontaktieren Sie den Administrator für Ihr Passwort."
     passwordParagraph: |
       Ihr Passwort : {$password}
 
