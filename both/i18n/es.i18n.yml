@@ -96,12 +96,12 @@ Dialog:
     button: "Editar de todos modos"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
-        Status: {$status}
-        Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
+      ¡Conexión perdida!
+        Estado: {$status}
+        Contador de reintento: {$retryCount}
+        Tiempo de reintento: {$retryTime} seg.
+        Razón: {$reason}
+        Haga clic para volver a conectar.
     header: "Has perdido la conexión con el servidor 4Minitz."
     body: "Si cierra su navegador, es posible que se pierdan los datos no guardados. Póngase en contacto con su administrador si el problema persiste."
     tryToReconnect: "Intentar volver a conectar"
@@ -124,9 +124,9 @@ Dialog:
   ActionItemResponsibleError:
     title: "Responsable no válido para el elemento de acción"
     body: |
-      This is not a valid responsible!
+      ¡No es un responsable válido!
 
-      Please select an **existing user** from the dropdown or enter a **valid email address**.
+      Por favor, seleccione un **usuario existente** en el menú desplegable o introduzca una **dirección de correo electrónico válida**.
   ConvertItemError:
     title: "No se puede convertir el artículo"
     body: "No es posible convertir este elemento porque fue creado en minutos anteriores."
@@ -408,35 +408,35 @@ Login:
     header: "4Minitz: Minutos de Colaboración."
     subheader: "● Preparar Agenda ● Minutos de documento ● Temas de seguimiento ●"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
+      <p>Cada usuario invitado y conectado puede ver cambios en las actas de la reunión actual en tiempo real.</p>
+      Hemos hecho 4Minitz software libre de código abierto, ya que creemos firmemente que
+      información sensible como las actas de reunión no debe alojarse en la nube.
+      En su lugar, desea alojarlo en su propia infraestructura donde puede definir
+      el nivel de seguridad y seguridad que necesita.
     prepareAgendaHeading: "Prepare Agenda"
     prepareAgendaDetails: |
-      <li>Create your meeting series</li>
-      <li>Invite other users</li>
-      <li>Specify moderators and uploaders</li>
-      <li>Fill agenda with topics</li>
-      <li>Mark recurring topics for standard agenda</li>
-      <li>Send agenda to invited users</li>
+      <li>Crear su serie de reuniones</li>
+      <li>Invitar a otros usuarios</li>
+      <li>Especificar moderadores y cargadores</li>
+      <li>Llenar agenda con temas</li>
+      <li>Marcar temas recurrentes para la agenda estándar</li>
+      <li>Enviar agenda a los usuarios invitados</li>
     documentMinutesHeading: "Minutos del documento"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>Marcar participantes presentes</li>
+      <li>Añadir elementos de acción con responsables a los tópicos</li>
+      <li>Añadir elementos de información a los tópicos</li>
+      <li>Añadir etiquetas como 'Decisión' a los elementos</li>
+      <li>Subir archivos adjuntos binarios</li>
+      <li>Enviar minutos &amp; elementos de acción vía correo electrónico</li>
     trackTopicsHeading: "Temas de seguimiento"
     trackTopicsDetails: |
-      <li>Open action items will show up next time</li>
-      <li>Non-closed topics will show up next time</li>
-      <li>Search list of all ever discussed topics</li>
-      <li>Enrich topics with info items on multiple meetings</li>
-      <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>"
+      <li>Los elementos de la acción abierta se mostrarán la próxima vez</li>
+      <li>Los temas no cerrados se mostrarán la próxima vez</li>
+      <li>La lista de búsqueda de todos los temas jamás discutidos</li>
+      <li>Enriquecer temas con elementos de información en múltiples reuniones</li>
+      <li>Encuentra temas con etiquetas (e. . todas las decisiones)</li>
+      <li>Buscar elementos por búsqueda de texto completo</li>"
   Footer:
     withLove: "Codificado con ❤ por el"
     theTeam: "Equipo WebApp"
@@ -474,36 +474,36 @@ Mail:
   AdminNewVersion:
     subject: "Existe una versión más reciente"
     body: |
-      Hello Admin,
+      Hola Admin,
 
-      It seems you are running an outdated version of 4Minitz.
+      Parece que está ejecutando una versión desactualizada de 4Minitz.
 
-      Your 4Minitz instance on: {$rootUrl}
-      has version: {$myVersion}
+      Su instancia de 4Minitz en: {$rootUrl}
+      tiene versión: {$myVersion}
 
-      Newest version available is: {$masterVersion}'
-      Release notes: {$urlReleaseNotes}
-      Please consider to update.
+      La versión más reciente disponible es: {$masterVersion}'
+      Notas de publicación: {$urlReleaseNotes}
+      Por favor, considere actualizar.
 
       {$masterMessageText}
 
-      This mail was generated by your 4Minitz backend.
-      You can disable the update check via settings.json: \"updateCheck\": false.
+      Este correo fue generado por el backend 4Minitz.
+      Puede desactivar la comprobación de actualización a través de settings.json: \"updateCheck\": false.
 
-      Have fun!
-              Your 4Minitz team.
+      ¡Diviértete!
+              Tu equipo de 4Minitz.
 
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {url4Minitz}
+      4Minitz es de código abierto desarrollado por el equipo 4Minitz.
+      Fuentes están disponibles en {url4Minitz}
   AdminRegisterNewUser:
     subject: "Tu nueva cuenta en nuestro servidor"
     passwordNotSend: "    Contacte al administrador para obtener una contraseña."
     passwordParagraph: |
-      Your password : {$password}
+      Su contraseña: {$password}
 
-      Don't forget to change your password after first login!
+      ¡No se olvide de cambiar su contraseña después de iniciar sesión!
     body: |
       Hello {$userLongName},
 
