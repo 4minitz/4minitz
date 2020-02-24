@@ -95,7 +95,13 @@ Dialog:
     confirmationDialogResetEditDetails: "Bitte klicken Sie erneut auf Details, um mit der Bearbeitung zu beginnen."
     button: "Trotzdem bearbeiten"
   ConnectionInfo:
-    tooltip: "Verbindung verloren!!!\n Status: {$status}\n Wiederholungsanzahl: {$retryCount}\n Wiederholung: {$retryTime} Sek.\n Grund: {$reason}\n Klicken zum erneuten Verbinden.\n"
+    tooltip: |
+      Verbindung verloren!
+        Status: {$status}
+        Wiederholung: {$retryCount}
+        Wiederholungszeit: {$retryTime} Sek.
+        Grund: {$reason}
+        Klicken zum erneuten Verbinden.
     header: "Sie haben die Verbindung zum 4Minitz Server verloren."
     body: "Wenn Sie Ihren Browser schließen, können ungespeicherte Daten verloren gehen. Bitte kontaktieren Sie Ihren Sever-Administrator, falls dieses Problem weiterhin besteht."
     tryToReconnect: "Erneut verbinden"
@@ -117,7 +123,10 @@ Dialog:
     body3: "so dass es nicht in die folgenden Minuten kopiert wird"
   ActionItemResponsibleError:
     title: "Ungültiger Verantwortlicher für Aktionsartikel"
-    body: "Dies ist keine gültige Verantwortung!\n\n Bitte wählen Sie einen **existierenden Benutzer** aus der Dropdown-Liste oder geben Sie eine **gültige E-Mail-Adresse** ein."
+    body: |
+      Dies ist keine gültige Verantwortung!
+
+      Bitte wählen Sie einen **existierenden Benutzer** aus der Dropdown-Liste oder geben Sie eine **gültige E-Mail-Adresse** ein.
   ConvertItemError:
     title: "Kann Element nicht konvertieren"
     body: "Es ist nicht möglich, dieses Element zu konvertieren, da es in einer vorherigen Minute erstellt wurde."
@@ -398,13 +407,37 @@ Login:
   Login4MinitzInfo:
     header: "4Minitz: Collaborative Meeting Protokoll."
     subheader: "● Agenda ● Dokument Protokoll vorbereiten ● Track Topics ●"
-    abstract: "<p>Jeder eingeladene und eingeloggte Benutzer kann Änderungen an den aktuellen Sitzungsprotokollen in Echtzeit verfolgen.</p> Wir haben 4Minitz freie Open-Source-Software erstellt da wir der festen Überzeugung sind, dass sensible Informationen wie Sitzungsprotokolle nicht in der Cloud gehostet werden sollten. Stattdessen möchten Sie es auf Ihre eigene Infrastruktur aufnehmen, wo Sie das notwendige Sicherheits- und Sicherheitsniveau definieren können."
+    abstract: |
+      <p>Jeder eingeladene und eingeloggte Benutzer kann Änderungen an den aktuellen Sitzungsprotokollen in Echtzeit verfolgen.</p>
+      Wir haben 4Minitz freie Open-Source-Software erstellt da wir der festen Überzeugung sind, dass
+      sensible Informationen wie Sitzungsprotokolle nicht in der Cloud gehostet werden sollten.
+      Stattdessen möchten Sie es auf Ihrer eigenen Infrastruktur hosten, wo Sie
+      definieren können, welches Sicherheitsniveau Sie benötigen.
     prepareAgendaHeading: "Prepare Agenda"
-    prepareAgendaDetails: "<li>Erstellen Sie Ihre Besprechungsreihe</li> <li>Laden Sie andere Benutzer ein</li> <li>Geben Sie Moderatoren und Uploader an</li> <li>Füllen Sie die Agenda mit Themen</li> <li>Markieren Sie wiederkehrende Themen für die Standardagenda</li> <li>Senden Sie Agenda an eingeladene Benutzer</li>"
+    prepareAgendaDetails: |
+      <li>Erstellen Sie Ihre Besprechungsreihe</li>
+      <li>Andere Benutzer einladen</li>
+      <li>Geben Sie Moderatoren und Uploader an</li>
+      <li><li> Füllen Sie die Agenda mit Themen</li>
+      <li>Markieren Sie wiederkehrende Themen für die Standardagenda</li>
+      <li>Senden Sie Agenda an eingeladene Benutzer</li>
     documentMinutesHeading: "Dokument Minuten"
-    documentMinutesDetails: "<li>Markiere die Teilnehmer</li> <li>füge Aktionselemente mit Verantwortlichkeit zu Themen</li> <li>Füge Informationselemente zu Themen hinzu</li> <li>Füge Beschriftungen wie 'Entscheidung' zu Elementen hinzu</li> <li>Binäre Dateianhänge hoch</li> <li>Senden Sie Minuten &amp; Aktionselemente per EMail</li>"
+    documentMinutesDetails: |
+      <li>Markiere die Teilnehmer</li>
+      <li>Füge Elemente mit Verantwortlichkeit zu Themen hinzu</li>
+      <li>Füge Informationselemente zu Themen</li>
+      <li>Füge Beschriftungen wie 'Entscheidung' zu Elementen hinzu</li>
+      <li>Binäre Dateianhänge hoch</li>
+      <li>Senden Sie Minuten &amp; Aktionselemente per E-Mail</li>
     trackTopicsHeading: "Themen verfolgen"
-    trackTopicsDetails: "<li>Beim nächsten Mal werden geöffnete Aktionselemente angezeigt</li> <li>Nicht geschlossene Themen werden beim nächsten Mal erscheinen</li> <li>Suchliste aller jemals diskutierten Themen</li> <li>Erweitern Sie Themen mit Informationen zu mehreren Meeting</li> <li>Finden Sie Themen mit Labels (z. . alle Entscheidungen)</li> <li>Finden Sie Artikel nach Volltextsuche</li>"
+    trackTopicsDetails: |
+      <li>Beim nächsten Mal werden geöffnete Aktionselemente angezeigt</li>
+      <li>Nicht geschlossene Themen werden beim nächsten Mal erscheinen</li>
+      <li>Suchliste aller jemals diskutierten Themen</li>
+
+      <li>Erweitern Sie Themen mit Informationen zu mehreren Meetings</li>
+      <li>Themen mit Labels finden (e. . alle Entscheidungen)</li>
+      <li>Finden Sie Artikel nach Volltextsuche</li>"
   Footer:
     withLove: "Codiert mit ❤ von"
     theTeam: "WebApp-Team"
@@ -441,12 +474,54 @@ Mail:
   none: "Keine"
   AdminNewVersion:
     subject: "Neuere Version existiert"
-    body: "Hallo Admin,\n \n Es scheint, dass du eine veraltete Version von 4Minitz verwendest.\n \n Ihre 4Minitz-Instanz am: {$rootUrl}\n hat Version: {$myVersion}\n \n Die neueste verfügbare Version ist: {$masterVersion}'\n Versionshinweise: {$urlReleaseNotes}\n Bitte beachten Sie, dass sie aktualisiert wird.\n \n {$masterMessageText} \n Diese E-Mail wurde von Ihrem 4Minitz Backend generiert.\n Sie können die Updateprüfung über settings.json: \"updateCheck\": falsch.\n \n Viel Spaß!\n Ihr 4Minitz Team.\n \n \n --- \n 4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.\n Quelle ist verfügbar unter {url4Minitz}\n"
+    body: |
+      Hallo Admin,
+
+      Es scheint, dass du eine veraltete Version von 4Minitz verwendest.
+
+      Ihre 4Minitz-Instanz unter: {$rootUrl}
+      hat Version: {$myVersion}
+
+      Die neueste verfügbare Version ist: {$masterVersion}'
+      Versionshinweise: {$urlReleaseNotes}
+      Bitte beachten Sie, dass sie aktualisiert wird.
+
+      {$masterMessageText}
+
+      Diese E-Mail wurde von Ihrem 4Minitz Backend generiert.
+      Sie können die Updateprüfung über settings.json deaktivieren: \"updateCheck\": false.
+
+      Viel Spaß!
+              Dein 4Minitz Team.
+
+
+      ---
+      4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
+      Quelle ist verfügbar unter {url4Minitz}
   AdminRegisterNewUser:
     subject: "Ihr neues Konto auf unserem Server"
     passwordNotSend: "    Admin-Kontakt für Passwort."
-    passwordParagraph: "Ihr Passwort : {$password}\n \n Vergessen Sie nicht, Ihr Passwort nach der ersten Anmeldung zu ändern!\n"
-    body: "Hallo {$userLongName}, \n \n Willkommen bei unserer 4Minitz WebApp.\n Jetzt können Sie an der Durchführung von professionellen Sitzungsprotokollen teilnehmen.\n \n Sie können sich mit 'Standard' anmelden (nicht LDAP! einloggen:\n Ihr Gast: {$rootURL}\n Ihr Benutzer: {$userName}\n {$passwordParagraph}\n \n Viel Spaß!\n\n Ihr Admin.\n \n \n --- \n 4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.\n Quelle ist verfügbar unter {$url4Minitz}"
+    passwordParagraph: |
+      Ihr Passwort : {$password}
+
+      Vergessen Sie nicht, Ihr Passwort nach der ersten Anmeldung zu ändern!
+    body: |
+      Hallo {$userLongName},
+
+      Willkommen bei unserer 4Minitz WebApp.
+      Jetzt können Sie an der Organisation von professionellen Meetingprotokollen teilnehmen.
+
+      Sie können sich mit 'Standard' anmelden (nicht LDAP! anmelden unter:
+         Ihr Gast: {$rootURL}
+         Ihr Benutzer: {$userName}
+      {$passwordParagraph}
+
+      Viel Spaß!
+        Dein Admin.
+
+      ---
+      4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
+      Quelle ist verfügbar unter {$url4Minitz}
   UserRoleChange:
     subject: "Deine Rolle hat sich geändert für {$meetingProject}:{$meetingName}'"
     body: |
@@ -459,12 +534,12 @@ Mail:
          Ihre neue Rolle ist : {$roleNew}
          Die Änderung wurde durchgeführt von : {$moderatorName}
 
-      Für eine umfassende Liste von Rechten für jede Rolle zu lesen Sie:
+      Für eine umfassende Liste von Rechten für jede Rolle siehe Sie:
       {$urlRoleDocu}
 
-      Ihr Admin.
+      Viel Spaß!
+        Ihr Admin.
 
       ---
       4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
       Quelle ist verfügbar unter {$url4Minitz}"
-    body2test: "Hallo {$userName}\n \n Ihre Rolle hat sich für die Besprechungsreihe '{$meetingProject}geändert:{$meetingName}'\n ({$meetingSeriesURL})\n \n Ihre alte Rolle war : {$roleOld}\n Ihre neue Rolle ist : {$roleNew}\n Die Änderung wurde von {$moderatorName}\n \n durchgeführt, um eine umfassende Liste von Rechten für jede Rolle zu finden:\n {$urlRoleDocu}\n \n Ihr Admin.\n \n --- \n 4Minitz ist eine kostenlose Open-Source, die vom 4Minitz Team entwickelt wurde.\n Quelle ist verfügbar unter {$url4Minitz}"
