@@ -478,7 +478,7 @@ Mail:
   newAgenda: "Meillä on uusi tapaamisohjelma sinulle:"
   newActionItem: "You have been assigned to the following action items:"
   newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Sitzungin"
+  meeting: "Meeting"
   links: "Linkit"
   openSeries: "Avaa sarja"
   openMinutes: "Avaa pöytäkirja"
