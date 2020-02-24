@@ -23,10 +23,10 @@ Buttons:
   register: "註冊"
   save: "儲存"
 UserRoles:
-  roleName01: "Moderator"
-  roleName05: "Uploader"
-  roleName10: "已邀請"
-  roleName66: "Informed"
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "已邀請"
+  roleInformed: "Informed"
 FlashMessages:
   ok: "好"
   error: "Error"
