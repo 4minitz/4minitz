@@ -95,7 +95,13 @@ Dialog:
     confirmationDialogResetEditDetails: "Пожалуйста, нажмите на детали снова, чтобы начать редактирование."
     button: "Все равно изменить"
   ConnectionInfo:
-    tooltip: "Потеряно соединение!!!\n Статус: {$status}\n Количество повторений: {$retryCount}\n Время повторения: {$retryTime} сек.\n Причина: {$reason}\n Нажмите, чтобы переподключиться.\n"
+    tooltip: |
+      Connection Lost!
+        Status: {$status}
+        Retry Count: {$retryCount}
+        Retry Time: {$retryTime} sec.
+        Reason: {$reason}
+        Click to reconnect.
     header: "Вы потеряли соединение с сервером 4Minitz."
     body: "Если вы закроете браузер, несохраненные данные могут быть утеряны. Если эта проблема повторится, обратитесь к администратору сервера."
     tryToReconnect: "Попробовать заново"
@@ -117,7 +123,10 @@ Dialog:
     body3: "так что он не будет скопирован в следующие минуты"
   ActionItemResponsibleError:
     title: "Недопустимый ответ на элемент действия"
-    body: "Это не является допустимым!\n\n Пожалуйста, выберите **существующий пользователь** из выпадающего списка или введите **действительный адрес электронной почты**."
+    body: |
+      This is not a valid responsible!
+
+      Please select an **existing user** from the dropdown or enter a **valid email address**.
   ConvertItemError:
     title: "Невозможно преобразовать элемент"
     body: "Невозможно преобразовать этот элемент, так как он был создан за предыдущие минуты."
@@ -398,13 +407,36 @@ Login:
   Login4MinitzInfo:
     header: "4Minitz: Совместные протоколы встреч."
     subheader: "● Подготовка повестки дня ● Протоколы документов ● Отслеживание тем ● ●"
-    abstract: "<p>В режиме реального времени каждый приглашенный и вошедший пользователь может просматривать изменения в текущие минуты встречи.</p> Мы сделали 4Minitz бесплатным программным обеспечением с открытым исходным кодом, Поскольку мы твердо убеждены в том, что конфиденциальная информация, такая как протоколы заседаний, не должна размещаться в облаке. Вместо этого вы хотите разместить его на собственной инфраструктуре, где вы можете определить уровень безопасности и безопасности."
+    abstract: |
+      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
+      We made 4Minitz free open source software, as we strongly believe that
+      sensitive information like meeting minutes should not be hosted in the cloud.
+      Instead you want to host it on your own infrastructure where you can define
+      the level of security and safety you need.
     prepareAgendaHeading: "Prepare Agenda"
-    prepareAgendaDetails: "<li>Создать серию встреч</li> <li>Пригласить других пользователей</li> <li>Указать модераторов и авторов</li> <li>Заполнить повестку дня темы</li> <li>Пометить повторяющиеся темы для стандартной повестки дня</li> <li>Отправлять повестку дня приглашенным пользователям</li>"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
     documentMinutesHeading: "Минут документа"
-    documentMinutesDetails: "<li>Отметить присутствующих участников</li> <li>Добавить элементы действий с ответственными к темам</li> <li>Добавить информацию к темам</li> <li>Добавить ярлыки, как 'Решение' к элементам</li> <li>Загрузить вложения бинарных файлов</li> <li>Отправлять минуты &amp; действий по EMail</li>"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
     trackTopicsHeading: "Отслеживать темы"
-    trackTopicsDetails: "<li>Открытые элементы будут показаны в следующий раз</li> <li>Незакрытые темы будут показаны в следующий раз</li> <li>Список поиска всех обсуждавшихся тем</li> <li>Улучшить темы с информационными элементами на нескольких встречах</li> <li>Найти темы с метками (e. . все решения)</li> <li>Найти элементы по полнотекстовому поиску</li>"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>"
   Footer:
     withLove: "Кодируется с ❤ по"
     theTeam: "Команда WebApp"
@@ -441,30 +473,72 @@ Mail:
   none: "Нет"
   AdminNewVersion:
     subject: "Более новая версия существует"
-    body: "Здравствуйте, Admin,\n \n Вы используете устаревшую версию 4Minitz.\n \n Ваша версия 4Minitz на: {$rootUrl}\n имеет версию: {$myVersion}\n \n Новейшая доступная версия: {$masterVersion}'\n Примечания к выпуску: {$urlReleaseNotes}\n Пожалуйста, подумайте об обновлении.\n \n {$masterMessageText} \n Эта почта была сгенерирована вашим 4Minitz бэкэндом.\n Вы можете отключить проверку обновлений через settings.json: \"updateCheck\": false.\n \n Веселитесь!\n Ваша 4Minitz команда.\n \n \n --- \n Minitz - бесплатный открытый исходный код, разработанный командой 4Minitz.\n исходный код доступен по адресу {url4Minitz}\n"
+    body: |
+      Hello Admin,
+
+      It seems you are running an outdated version of 4Minitz.
+
+      Your 4Minitz instance on: {$rootUrl}
+      has version: {$myVersion}
+
+      Newest version available is: {$masterVersion}'
+      Release notes: {$urlReleaseNotes}
+      Please consider to update.
+
+      {$masterMessageText}
+
+      This mail was generated by your 4Minitz backend.
+      You can disable the update check via settings.json: \"updateCheck\": false.
+
+      Have fun!
+              Your 4Minitz team.
+
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {url4Minitz}
   AdminRegisterNewUser:
     subject: "Ваш новый аккаунт на нашем сервере"
     passwordNotSend: "    Свяжитесь с администратором для получения пароля."
-    passwordParagraph: "Ваш пароль: {$password}\n \n Не забудьте сменить пароль после первого входа!\n"
-    body: "Здравствуйте, {$userLongName}, \n \n Добро пожаловать в наше веб-приложение 4Minitz.\n Теперь вы можете начать принимать участие в сохраняя сроки проведения профессиональных встреч.\n \n Вы можете войти с помощью 'Standard' (не LDAP! логин:\n Ваш хостинг : {$rootURL}\n Ваш пользователь : {$userName}\n {$passwordParagraph}\n \n Веселитесь!\n\n Ваш администратор.\n \n \n --- \n 4Minitz является свободным открытым исходным кодом, разработанным командой 4Minitz.\n Источник доступен в {$url4Minitz}"
+    passwordParagraph: |
+      Your password : {$password}
+
+      Don't forget to change your password after first login!
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
   UserRoleChange:
     subject: "Ваша роль изменена для {$meetingProject}:{$meetingName}'"
     body: |
-      Здравствуйте, {$userName}
+      Hello {$userName}
 
-      Ваша роль изменилась для серии встреч '{$meetingProject}:{$meetingName}'
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Ваша старая роль была: {$roleOld}
-         Ваша новая роль является : {$roleNew}
-         Изменение было произведено : {$moderatorName}
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
 
-      Для полного списка прав для каждой роли:
+      For a comprehensive list of rights for each role see:
       {$urlRoleDocu}
 
-      Ваш Администратор.
+      Have fun!
+        Your Admin.
 
       ---
-      4Minitz - свободный открытый исходный код, разработанный командой 4Minitz.
-      Исходный код доступен в {$url4Minitz}"
-    body2test: "Здравствуйте, {$userName}\n \n Ваша роль изменилась для серии встреч '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Ваша старая роль была : {$roleOld}\n Ваша новая роль является : {$roleNew}\n Изменение было произведено : {$moderatorName}\n \n За полный список прав для каждой роли, видящей:\n {$urlRoleDocu}\n \n Ваш администратор.\n \n --- \n 4Minitz - бесплатный открытый исходный код, разработанный командой 4Minitz.\n Источник доступен по адресу {$url4Minitz}"
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"
