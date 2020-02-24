@@ -32,7 +32,7 @@ FlashMessages:
   profileEditOK: "Profiländerungen gespeichert"
   minuteLinkErr: "Leider ist das Protokoll nicht korrekt mit der übergeordneten Sitzungsreihe verbunden - bitte kontaktieren Sie Ihren Systemadministrator."
   agendaSentOK: "Agenda wurde erfolgreich an {$result} Empfänger gesendet"
-  finalizeProgress1: "Fertigstellen im Gange"
+  finalizeProgress1: "Fertigstellen wird verarbeitet"
   finalizeProgress2: "Dies kann einige Sekunden dauern..."
   finalizeOK: "Diese Sitzungsprotokolle wurden erfolgreich abgeschlossen"
 Dialog:
