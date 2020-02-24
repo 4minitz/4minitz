@@ -430,12 +430,12 @@ Login:
       <li>Invia l'agenda agli utenti invitati</li>
     documentMinutesHeading: "Minuti del documento"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>Segnala presenti partecipanti</li>
+      <li>Aggiungi elementi di azione con risponditori agli argomenti</li>
+      <li>Aggiungi informazioni agli argomenti</li>
+      <li>Aggiungi etichette come 'Decisione' agli articoli</li>
+      <li>Carica file binari allegati</li>
+      <li>Invia minuti &amp; action items via EMail</li>
     trackTopicsHeading: "Traccia argomenti"
     trackTopicsDetails: |
       <li>Gli elementi di azione aperti appariranno la prossima volta</li>
