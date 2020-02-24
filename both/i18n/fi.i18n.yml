@@ -8,69 +8,122 @@ Accounts:
   passwordPlaceholder: "Min 6 Chars (numero, alempi ja ylempi)"
   passwordError: "Min 6 laturia (min. 1 luku, 1 alempi, 1 yläraja)"
 Buttons:
-  cancel: "Peruuta"
-  close: "Sulje"
-  register: "Rekisteröi"
-  change: "Muutos"
-  save: "Tallenna"
-  create: "Luo"
-  ok: "OK"
   add: "Lisää"
-  dismissAll: "Poista kaikki"
   back: "Mene."
+  cancel: "Peruuta"
+  change: "Muutos"
+  close: "Sulje"
+  confirm: "Confirm"
+  create: "Luo"
   delete: "Poista"
+  dismissAll: "Poista kaikki"
   edit: "Muokkaa"
   hide: "Ok, piiloon"
+  ok: "OK"
+  register: "Rekisteröi"
+  save: "Tallenna"
+FlashMessages:
+  ok: "OK"
+  error: "Error"
+  verifyEMailErr: "Error: EMail could not be verified"
+  verifyEMailOK: "OK: EMail is verified now"
+  passwordChangeOK: "Password changed"
+  passwordResetOK: "Password sucessfully reseted"
+  profileEditOK: "Profile changes saved"
+  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
+  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
+  finalizeProgress1: "Finalize in progress"
+  finalizeProgress2: "This may take a few seconds..."
+  finalizeOK: "This meeting minutes were successfully finalized"
 Dialog:
+  ConfirmDelete:
+    title: "Confirm delete?"
+    body: "Are you sure to delete this?"
   ConfirmCreateNewMinutes:
     title: "Uuden istunnon luonti"
     content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item <strong>{$subject}</strong>?"
-  confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "Ei ole mahdollista poistaa {$type} <strong>{$subject}</strong> , koska {$type} on luotu aiemmin."
+  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
+  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  confirmDeleteItemAllowed: "Do you really want to delete the {$type} **{$subject}**?"
+  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
   confirmDeleteItemActionItem: "Haluatko sulkea toiminnon kohteen sijasta?"
   confirmDeleteItemInfoItem: "Haluatko poistaa sen sijaan liimatun tietoalkion?"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic <strong>{$subject}</strong>?"
-    notAllowed: "It is not possible to delete the topic <strong>{$subject}</strong> because the topic was created in a previous minutes."
+    allowed: "Do you really want to delete the topic **{$subject}**?"
+    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
     close: "Haluatko sen sijaan sulkea aiheen?"
     closeWithActions: "Haluatko sulkea aiheen yhdessä kaikkien siihen liittyvien toimintoobjektien kanssa?"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
   ConfirmMinuteQualityAssurance:
+    title: "Finalize Minutes: Quality Checks"
+    button: "Proceed"
     issues: "Pöytäsi kanssa on ongelmia!"
     proceed: "Haluatko jatkaa loppuun asti?"
-  confirmReOpenTopic: "Haluatko todella avata jo suljettu aihe {$topicSubject}?"
-  confirmSendAgenda: "Do you really want to sent the agenda for this meeting minute dated on <strong>{$minDate}</strong>?<br>It was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    warnNoTopics: "The current minutes have no topics"
+    warnNoParticipants: "No participant is marked as present"
+    warnEditing: "A topic/item/detail is still edited"
+    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
+    warnTopicWithoutItems: "At least one discussed topic has no items"
+    warnActionItemWithoutResponsible: "At least one action item has no responsible"
+    warnTopicNoNewContent: "A topic is checked but has no new content"
+  ConfirmReOpenTopic:
+    title: "Re-open Topic?"
+    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
+    button: "Re-open"
+  ConfirmSendAgenda:
+    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    title: "Confirm sending agenda"
+    button: "Lähetä ohjelma"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
-    closedTopicsAdditionally: "Lisäksi <strong>{$closedTopicsCount} aiheet</strong> avataan uudelleen, joka suljettiin tämän minuutin aikana."
-    closedTopics: "<strong>{$closedTopicsCount} aiheet</strong> avataan uudelleen, joka suljettiin tämän minuutin aikana."
+    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
+    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
+    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
   ConfirmFinalizeMinutes:
-    really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
+    title: "Confirm Finalize Minutes"
+    button: "Finalize"
+    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
     sendActionItems: "Lähetä toimintotiedot"
     sendMinutes: "Lähetä tietoja"
   LocaleSetting:
     title: "Aseta kieli"
     languageLocale: "Kieli Locale"
     automatic: "Automaattinen selainta"
-Mail:
-  greeting: "Hei"
-  newAgenda: "Meillä on uusi tapaamisohjelma sinulle:"
-  newActionItem: "Sinut on määritetty seuraaviin toimintoobjekteihin:"
-  newMinutes: "Alla löydät viimeisimmät kokouspöytäkirjat."
-  meeting: "Sitzungin"
-  links: "Linkit"
-  openSeries: "Avaa sarja"
-  openMinutes: "Avaa pöytäkirja"
-  minutesSubject: "Kokouksen pöytäkirja"
-  discussedTopics: "Tyytyväiset aiheet"
-  skippedTopics: "Avaa aihe"
-  none: "Ei"
+  IsEditedHandling:
+    title: "Edit despite existing editing"
+    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
+    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
+    button: "Edit Anyway"
+  ConnectionInfo:
+    tooltip: "Connection Lost!!!\n Status: {$status}\n Retry Count: {$retryCount}\n Retry Time: {$retryTime} sec.\n Reason: {$reason}\n Click to reconnect.\n"
+    header: "You have lost the connection to the 4Minitz server."
+    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
+    tryToReconnect: "Try To Reconnect"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    button: "Download"
+  ConfirmTopicDelete:
+    title1: "Confirm delete topic"
+    title2: "Mark topic as discussed?"
+    button2: "Close topic and actions"
+    errortitle: "Cannot delete topic"
+    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+  ItemDeleteError:
+    title: "Cannot delete item"
+    body1: "It is not possible to delete this item because it was created in a previous minutes."
+    body2a: "This action item is already closed,"
+    body2b: "This info item is already un-pinned"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: "This is not a valid responsible!\n\n Please select an **existing user** from the dropdown or enter a **valid email address**."
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
 About:
   title: "Noin 4Minitz."
-  copyright: "(C) 2015-2019 4Minitz-Team"
+  copyrightTeam: "by 4Minitz-Team"
   licensedUnder: "Lisensoitu lisenssi-lisenssi"
   licenseDependencies: "Riippuvuuksien lisenssi"
   thanksContributors: "Kiitos kaikille osallistujien."
@@ -88,7 +141,6 @@ Item:
   editItemModal: "Muokkaa {$type} kohtaa {$topic}"
   addInfo: "Lisää tietoalkio"
   addInfoHint: "Lisää tietoa aiheeseen"
-  editInfo: "Muokkaa tietoja"
   action: "Toimintalinja"
   addAction: "Lisää toiminto"
   addActionHint: "Lisää toimintokohde aiheeseen"
@@ -156,7 +208,6 @@ Topic:
   history: "Näytä historia"
   historyHint: "Näytä tämän aiheen viimeistely"
   delete: "Poista aihe"
-  deleteHint: "Poista aihe"
   reopen: "Avaa aihe uudelleen"
   reopenHint: "Avaa aihe uudelleen"
   placeholder: "Lisää tietoalkio. Voit lisätä toiminnon kohteen @username avulla. Lisätietoja on lehdistötiedotteessa. Anna komento Ctrl + Enter tai Tab."
@@ -219,6 +270,7 @@ Minutes:
     continue: "Jatka latausta"
     pause: "Pause-päivitys"
     abort: "Keskeytä lataus"
+    error: "Error during upload"
   version: "Versio"
   versionTag: "V"
   Participants:
@@ -242,6 +294,7 @@ MeetingSeries:
   team: "Ryhmä/projekti"
   new: "Uusi kokoussarja"
   leave: "Jätä kokoussarja"
+  leaveButton: "Leave"
   moderator: "Olet moderaattori"
   lastMinute: "Viimeinen minuutti:"
   Search:
@@ -290,6 +343,10 @@ Profile:
     longName: "Anna kelvollinen pitkä nimi"
     email: "Anna kelvollinen sähköpostiosoite"
     password: "Anna kelvollinen salasana"
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
 Admin:
   users: "Käyttäjät"
   messages: "Viestit"
@@ -334,10 +391,23 @@ Login:
     title: "Loogin virhe"
     username: "Anna käyttäjätunnus."
     password: "Anna salasanasi"
-  title: "Merkki sisään"
+  signIn: "Sign In"
   ldap: "LDAP"
   standard: "Standard"
   demoHint: "Vihje: Demo Mode Active<br>. Voit kirjautua sisään käyttäjätunnuksessa <b>demo</b> ja salasanan <b>demo</b>. Tai voit rekisteröidä oman tilin napsauttamalla alla olevaa \"Rekisterin\" linkkiä."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: "<p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p> We made 4Minitz free open source software, as we strongly believe that sensitive information like meeting minutes should not be hosted in the cloud. Instead you want to host it on your own infrastructure where you can define the level of security and safety you need."
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: "<li>Create your meeting series</li> <li>Invite other users</li> <li>Specify moderators and uploaders</li> <li>Fill agenda with topics</li> <li>Mark recurring topics for standard agenda</li> <li>Send agenda to invited users</li>"
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: "<li>Mark present participants</li> <li>Add action items with responsibles to topics</li> <li>Add information items to topics</li> <li>Add labels like 'Decision' to items</li> <li>Upload binary file attachments</li> <li>Send minutes &amp; action items via EMail</li>"
+    trackTopicsHeading: "Track Topics"
+    trackTopicsDetails: "<li>Open action items will show up next time</li> <li>Non-closed topics will show up next time</li> <li>Search list of all ever discussed topics</li> <li>Enrich topics with info items on multiple meetings</li> <li>Find topics with labels (e.g. all Decisions)</li> <li>Find items by fulltext search</li>"
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
 Navigation:
   help: "Apua"
   about: "Tietoja"
@@ -356,3 +426,45 @@ QuickHelp:
   meetingSeriesList: "<p>Kun 4Minitz on valmis, voit luoda minuutteja kokouksiin.</p><p>ensin luodaan uusi neuvottelusarja ja kutsutaan muita käyttäjiä.<br>Sen jälkeen voit luoda kokouspöytäkirjoja kokouspöytäkirjoihin.</p>"
   minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
   upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+Mail:
+  greeting: "Hei"
+  newAgenda: "Meillä on uusi tapaamisohjelma sinulle:"
+  newActionItem: "You have been assigned to the following action items:"
+  newMinutes: "Below you'll find the latest meeting minutes."
+  meeting: "Sitzungin"
+  links: "Linkit"
+  openSeries: "Avaa sarja"
+  openMinutes: "Avaa pöytäkirja"
+  minutesSubject: "Kokouksen pöytäkirja"
+  discussedTopics: "Tyytyväiset aiheet"
+  skippedTopics: "Avaa aihe"
+  none: "Ei"
+  AdminNewVersion:
+    subject: "Newer version exists"
+    body: "Hello Admin,\n \n It seems you are running an outdated version of 4Minitz.\n \n Your 4Minitz instance on: {$rootUrl}\n has version: {$myVersion}\n \n Newest version available is: {$masterVersion}'\n Release notes: {$urlReleaseNotes}\n Please consider to update.\n \n {$masterMessageText} \n This mail was generated by your 4Minitz backend.\n You can disable the update check via settings.json: \"updateCheck\": false.\n \n Have fun!\n Your 4Minitz team.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {url4Minitz}\n"
+  AdminRegisterNewUser:
+    subject: "Your new account at our server"
+    passwordNotSend: "    Contact admin for password."
+    passwordParagraph: "Your password : {$password}\n \n Don't forget to change your password after first login!\n"
+    body: "Hello {$userLongName}, \n \n Welcome to our 4Minitz WebApp.\n Now you can start to participate in keeping of professional meeting minutes.\n \n You may sign in with 'Standard' (not LDAP!) login at:\n Your host     : {$rootURL}\n Your user     : {$userName}\n {$passwordParagraph}\n \n Have fun!\n\n Your Admin.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+  UserRoleChange:
+    subject: "Your role has changed for {$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"
+    body2test: "Hello {$userName}\n \n Your role has changed for meeting series '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Your old role was           : {$roleOld}\n Your new role is            : {$roleNew}\n The change was performed by : {$moderatorName}\n \n For a comprehensive list of rights for each role see:\n {$urlRoleDocu}\n \n Your Admin.\n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
