@@ -95,7 +95,13 @@ Dialog:
     confirmationDialogResetEditDetails: "Klik nogmaals op details om te beginnen met bewerken."
     button: "Toch bewerken"
   ConnectionInfo:
-    tooltip: "Verbinding verbroken!!!\n Status: {$status}\n Aantal opnieuw proberen: {$retryCount}\n Opnieuw proberen Tijd: {$retryTime} sec.\n Reden: {$reason}\n Klik om opnieuw te verbinden.\n"
+    tooltip: |
+      Verbinding verbroken!
+        Status: {$status}
+        Aantal opnieuw proberen: {$retryCount}
+        Opnieuw proberen: {$retryTime} sec.
+        Reden: {$reason}
+        Klik om opnieuw verbinding te maken.
     header: "Je hebt de verbinding met de 4Minitz server verloren."
     body: "Als u uw browser sluit, kunnen niet-opgeslagen gegevens verloren gaan. Neem contact op met uw beheerder als dit probleem zich blijft voordoen."
     tryToReconnect: "Probeer opnieuw verbinding te maken"
@@ -117,7 +123,10 @@ Dialog:
     body3: "dus zal het niet worden gekopieerd naar de volgende minuten"
   ActionItemResponsibleError:
     title: "Ongeldig verantwoordelijk voor actie item"
-    body: "Dit is geen geldige verantwoordelijkheid!\n\n Selecteer een **bestaande gebruiker** in het keuzemenu of voer een **geldig e-mailadres in**."
+    body: |
+      Dit is geen geldige verantwoordelijkheid!
+
+      Selecteer een **bestaande gebruiker** in het keuzemenu of voer een **geldig e-mailadres in**.
   ConvertItemError:
     title: "Kan item niet converteren"
     body: "Het is niet mogelijk om dit item om te zetten omdat het in een vorige minuten is gemaakt."
@@ -398,13 +407,36 @@ Login:
   Login4MinitzInfo:
     header: "4Minitz: gezamenlijke vergadernotulen."
     subheader: "● Bereid Agenda ● Document Minuten ● Track Onderwerpen voor."
-    abstract: "<p>Elke uitgenodigde en ingelogde gebruiker kan de wijzigingen van de huidige vergaderminuten in realtime bekijken.</p> Wij hebben gratis opensourcesoftware van 4Minitz gemaakt, omdat wij er vast van overtuigd zijn dat gevoelige informatie zoals vergadernotulen niet in de wolk mag worden gehost. In plaats daarvan wil je het hosten op je eigen infrastructuur waar je het beveiligingsniveau en de veiligheid kunt bepalen die je nodig hebt."
+    abstract: |
+      <p>Elke uitgenodigde en ingelogde gebruiker kan de wijzigingen van de huidige vergaderminuten in realtime bekijken.</p>
+      We hebben gratis opensourcesoftware van 4Minitz gemaakt, omdat wij er vast van overtuigd zijn dat
+      gevoelige informatie zoals vergadernotulen niet in de wolk mag worden gehost.
+      In plaats daarvan wil je het hosten op je eigen infrastructuur, waar je
+      het beveiligingsniveau kunt bepalen dat je nodig hebt.
     prepareAgendaHeading: "Prepare Agenda"
-    prepareAgendaDetails: "<li>Maak je meetingserie</li> <li>Nodig andere gebruikers uit</li> <li>Geef moderators en uploaders</li> <li>Vul de agenda in met onderwerpen</li> <li>Markeer periodieke onderwerpen voor de standaard agenda</li> <li>Stuur agenda naar uitgenodigde gebruikers</li>"
+    prepareAgendaDetails: |
+      <li>Maak je meetingserie</li>
+      <li>Nodig andere gebruikers uit</li>
+      <li>Geef moderators en uploaders</li>
+      <li>Vul de agenda in met onderwerpen</li>
+      <li>Markeer periodieke onderwerpen voor de standaard agenda</li>
+      <li>Stuur agenda naar uitgenodigde gebruikers</li>
     documentMinutesHeading: "Document minuten"
-    documentMinutesDetails: "<li>Markeer huidige deelnemers</li> <li>Voeg actie items toe met reacties op onderwerpen</li> <li>Voeg informatie toe aan onderwerpen</li> <li>Voeg labels toe zoals 'Besluit' aan items</li> <li>Upload binaire bijlagen</li> <li>Verzenden minuten &amp; items via EMail</li>"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
     trackTopicsHeading: "Onderwerpen volgen"
-    trackTopicsDetails: "<li>Open actie items zullen de volgende keer verschijnen</li> <li>niet-gesloten onderwerpen zullen de volgende keer verschijnen</li> <li>Zoeklijst van alle onderwerpen die ooit zijn besproken</li> <li>Onderwerpen met info items op meerdere vergaderingen</li> <li>Zoek onderwerpen met labels (bv. . alle beslissingen)</li> <li>Zoek items op fulltext zoeken</li>"
+    trackTopicsDetails: |
+      <li>Open actie items verschijnen de volgende keer</li>
+      <li>Niet-gesloten onderwerpen verschijnen de volgende keer</li>
+      <li>Zoeklijst van alle onderwerpen die ooit besproken zijn</li>
+      <li>Onderwerpen met info items op meerdere vergaderingen</li>
+      <li>Vind onderwerpen met labels (bv. . alle beslissingen)</li>
+      <li>Vind items in fulltext zoeken</li>"
   Footer:
     withLove: "Gedecodeerd met ❤ door de"
     theTeam: "WebApp Team"
@@ -441,12 +473,54 @@ Mail:
   none: "Geen"
   AdminNewVersion:
     subject: "Nieuwere versie bestaat"
-    body: "Hello Admin,\n \n It seems you are running an outdated version of 4Minitz.\n \n Your 4Minitz instance on: {$rootUrl}\n has version: {$myVersion}\n \n Newest version available is: {$masterVersion}'\n Release notes: {$urlReleaseNotes}\n Please consider to update.\n \n {$masterMessageText} \n This mail was generated by your 4Minitz backend.\n You can disable the update check via settings.json: \"updateCheck\": false.\n \n Have fun!\n Your 4Minitz team.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {url4Minitz}\n"
+    body: |
+      Hallo Admin,
+
+      Je hebt een verouderde versie van 4Minitz.
+
+      Jouw 4Minitz instantie op: {$rootUrl}
+      heeft versie: {$myVersion}
+
+      Nieuwste versie beschikbaar is: {$masterVersion}'
+      Release notities: {$urlReleaseNotes}
+      Overweeg om bij te werken.
+
+      {$masterMessageText}
+
+      Deze mail is gegenereerd door uw 4Minitz backend.
+      Je kunt de update controle uitschakelen via settings.json: \"updateCheck\": false.
+
+      Veel plezier!
+              Jouw 4Minitz team.
+
+
+      ---
+      4Minitz is gratis open source ontwikkeld door het 4Minitz team.
+      Source is beschikbaar op {url4Minitz}
   AdminRegisterNewUser:
     subject: "Uw nieuwe account op onze server"
     passwordNotSend: "    Contacteer de beheerder voor het wachtwoord."
-    passwordParagraph: "Uw wachtwoord: {$password}\n \n Vergeet niet uw wachtwoord te wijzigen na de eerste aanmelding!\n"
-    body: "Hallo {$userLongName}, \n \n Welkom op onze 4Minitz WebApp.\n Nu kunt u deelnemen aan het bijhouden van professionele vergaderminuten.\n \n Je kunt inloggen met 'Standaard' (geen LDAP! log in op:\n Je host : {$rootURL}\n Je gebruiker: {$userName}\n {$passwordParagraph}\n \n Veel plezier!\n\n Uw Admin.\n \n \n --- \n 4Minitz is vrije open source ontwikkeld door het 4Minitz team.\n Bron is beschikbaar op {$url4Minitz}"
+    passwordParagraph: |
+      Uw wachtwoord: {$password}
+
+      Vergeet niet uw wachtwoord te wijzigen na de eerste aanmelding!
+    body: |
+      Hallo {$userLongName},
+
+      Welkom op onze 4Minitz WebApp.
+      Nu kunt u deelnemen aan het bijhouden van professionele vergaderminuten.
+
+      Je kunt inloggen met 'Standaard' (geen LDAP! log in op:
+         Je host : {$rootURL}
+         Je gebruiker: {$userName}
+      {$passwordParagraph}
+
+      Veel plezier!
+        Uw Admin.
+
+      ---
+      4Minitz is gratis open source ontwikkeld door het 4Minitz team.
+      Source is beschikbaar op {$url4Minitz}
   UserRoleChange:
     subject: "Jouw rol is gewijzigd voor {$meetingProject}:{$meetingName}'"
     body: |
@@ -455,16 +529,16 @@ Mail:
       Je rol is veranderd voor vergaderreeksen '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Je oude rol was: {$roleOld}
+         Je oude rol was : {$roleOld}
          Je nieuwe rol is : {$roleNew}
          De wijziging is uitgevoerd door : {$moderatorName}
 
       Voor een uitgebreide lijst van rechten voor elke rol die je kunt zien:
       {$urlRoleDocu}
 
-      Je beheerder.
+      Veel plezier!
+        Uw Admin.
 
       ---
       4Minitz is gratis open source ontwikkeld door het 4Minitz team.
       Source is beschikbaar op {$url4Minitz}"
-    body2test: "Hallo {$userName}\n \n Je rol is veranderd voor vergaderserie '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Je oude rol was: {$roleOld}\n Je nieuwe rol is : {$roleNew}\n De wijziging is uitgevoerd door : {$moderatorName}\n \n Voor een uitgebreide lijst van rechten voor elke rol:\n {$urlRoleDocu}\n \n Je Admin.\n \n --- \n 4Minitz is gratis open source ontwikkeld door het 4Minitz team.\n Bron is beschikbaar op {$url4Minitz}"
