@@ -503,7 +503,7 @@ Mail:
 
       ---
       4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
-      Źródło jest dostępne pod adresem {url4Minitz}
+      Źródło jest dostępne pod adresem {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Twoje nowe konto na naszym serwerze"
     passwordNotSend: "    Skontaktuj się z administratorem w celu uzyskania hasła."
@@ -529,7 +529,7 @@ Mail:
       4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
       Źródło jest dostępne pod adresem {$url4Minitz}
   UserRoleChange:
-    subject: "Twoja rola została zmieniona na {$meetingProject}:{$meetingName}'"
+    subject: "Twoja rola zmieniła się na '{$meetingProject}:{$meetingName}'"
     body: |
       Witaj {$userName}
 
