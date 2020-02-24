@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Sponsrad av"
   specialThanks: "Speciellt tack till dessa projekt"
   forkGitHub: "Fork us on GitHub"
-  serverStatistics: "Server statistik"
+  ServerStatistics:
+    title: "Server statistik"
+    rowNumUser: "Antal användare (aktiv)"
+    rowNumMeetingSeries: "Antal mötesserier"
+    rowNumMeetingMinutes: "Antal mötesprotokoll"
+    rowNumAttachments: "Antal bilagor"
+    rowSizeAttachments: "Bilagor storlek"
 Item:
   ariaLabel: "Lägg till/redigera objekt"
   editItem: "Redigera objekt"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Ta bort detta åtgärd/info objekt"
   addItemModal: "Lägg till {$type} till {$topic}"
   editItemModal: "Redigera {$type} av {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Åtgärd objekt"
   addInfo: "Lägg till informationsobjekt"
   addInfoHint: "Lägg till infopost till ämne"
   action: "Åtgärd objekt"
