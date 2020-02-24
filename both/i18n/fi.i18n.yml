@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Ylpeästi Sponsoroitu"
   specialThanks: "Erityiskiitos näiden hankkeiden"
   forkGitHub: "Upota meidät GitHubiin"
-  serverStatistics: "Palvelimen tilastot"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Lisää/muokkaa"
   editItem: "Muokkaa kohdetta"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Poista tämä toiminto/tietoalkio"
   addItemModal: "Add {$type} to {$topic}"
   editItemModal: "Muokkaa {$type} kohtaa {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Toimintalinja"
   addInfo: "Lisää tietoalkio"
   addInfoHint: "Lisää tietoa aiheeseen"
   action: "Toimintalinja"
