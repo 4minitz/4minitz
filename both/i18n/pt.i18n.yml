@@ -503,7 +503,7 @@ Mail:
 
       ---
       4Minitz é código aberto gratuito desenvolvido pela equipe 4Minitz.
-      Fonte está disponível em {url4Minitz}
+      Fonte está disponível em {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Sua nova conta no nosso servidor"
     passwordNotSend: "    Administrador de contato para senha."
@@ -529,7 +529,7 @@ Mail:
       4Minitz é código aberto gratuito desenvolvido pela equipe 4Minitz.
       Origem está disponível em {$url4Minitz}
   UserRoleChange:
-    subject: "Sua função mudou para {$meetingProject}:{$meetingName}'"
+    subject: "Seu cargo mudou para '{$meetingProject}:{$meetingName}'"
     body: |
       Olá {$userName}
 
