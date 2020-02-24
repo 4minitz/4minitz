@@ -14,6 +14,7 @@ import { MinutesFinder } from '/imports/services/minutesFinder';
 
 import '/imports/helpers/promisedMethods';
 import {TopicsFinalizer} from './topicsFinalizer';
+import {i18n} from 'meteor/universe:i18n';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -37,10 +38,12 @@ function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
     }
 
     let emails = Meteor.user().emails;
+    let i18nLocale = i18n.getLocale();  // we have to remember this, as it will not survive the Meteor.defer()
     Meteor.defer(() => { // server background tasks after successfully updated the minute doc
         const senderEmail = (emails && emails.length > 0)
             ? emails[0].address
             : GlobalSettings.getDefaultEmailSenderAddress();
+        i18n.setLocale(i18nLocale);
         const finalizeMailHandler = new FinalizeMailHandler(minutes, senderEmail);
         finalizeMailHandler.sendMails(sendActionItems, sendInfoItems);
     });
