@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Приголомшено"
   specialThanks: "Особлива подяка цим проектам"
   forkGitHub: "Fork us on GitHub"
-  serverStatistics: "Статистика сервера"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Додати/Редагувати елемент"
   editItem: "Редагувати запис"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Видалити цей елемент дії/інформації"
   addItemModal: "Додати {$type} до {$topic}"
   editItemModal: "Edit {$type} з {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Елемент дії"
   addInfo: "Додати елемент інформації"
   addInfoHint: "Додати елемент інформації до теми"
   action: "Елемент дії"
