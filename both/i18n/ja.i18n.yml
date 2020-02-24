@@ -23,10 +23,10 @@ Buttons:
   register: "レジスター"
   save: "セーブ"
 UserRoles:
-  roleName01: "Moderator"
-  roleName05: "Uploader"
-  roleName10: "招待済み"
-  roleName66: "Informed"
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "招待済み"
+  roleInformed: "Informed"
 FlashMessages:
   ok: "オク"
   error: "エラー"
