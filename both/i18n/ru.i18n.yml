@@ -22,6 +22,11 @@ Buttons:
   ok: "ОК"
   register: "Регистрация"
   save: "Сохранить"
+UserRoles:
+  roleName01: "Модератор"
+  roleName05: "Загрузчик"
+  roleName10: "Приглашен"
+  roleName66: "Информирован"
 FlashMessages:
   ok: "ОК"
   error: "Ошибка"
