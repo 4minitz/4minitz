@@ -23,10 +23,10 @@ Buttons:
   register: "Rekisteröi"
   save: "Tallenna"
 UserRoles:
-  roleName01: "Moderator"
-  roleName05: "Uploader"
-  roleName10: "Kutsuttu"
-  roleName66: "Informed"
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "Kutsuttu"
+  roleInformed: "Informed"
 FlashMessages:
   ok: "OK"
   error: "Virhe"
