@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Непрерывно спонсируется"
   specialThanks: "Особая благодарность этим проектам"
   forkGitHub: "Fork us on GitHub"
-  serverStatistics: "Статистика сервера"
+  ServerStatistics:
+    title: "Статистика сервера"
+    rowNumUser: "Количество пользователей (активный)"
+    rowNumMeetingSeries: "Количество встреч серии"
+    rowNumMeetingMinutes: "Количество минут встречи"
+    rowNumAttachments: "Количество вложений"
+    rowSizeAttachments: "Размер вложений"
 Item:
   ariaLabel: "Добавить/изменить элемент"
   editItem: "Изменить элемент"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Удалить это действие/элемент информации"
   addItemModal: "Добавить {$type} к {$topic}"
   editItemModal: "Редактировать {$type} из {$topic}"
+  editItemModelTypeInfoItem: "Информация"
+  editItemModelTypeActionItem: "Действие Пункт"
   addInfo: "Добавить элемент информации"
   addInfoHint: "Добавить информационный элемент в тему"
   action: "Действие Пункт"
