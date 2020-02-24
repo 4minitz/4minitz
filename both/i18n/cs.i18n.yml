@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Proudypřítomně opěvovaný"
   specialThanks: "Zvláštní díky těmto projektům"
   forkGitHub: "Zapomeňte na GitHub"
-  serverStatistics: "Statistiky serverů"
+  ServerStatistics:
+    title: "Statistiky serveru"
+    rowNumUser: "Počet uživatelů (aktivní)"
+    rowNumMeetingSeries: "Počet sérií schůzí"
+    rowNumMeetingMinutes: "Počet zápisů ze zasedání"
+    rowNumAttachments: "Počet příloh"
+    rowSizeAttachments: "Velikost příloh"
 Item:
   ariaLabel: "Přidat/Upravit položku"
   editItem: "Upravit Item"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Odstranit tento bod jednání/info"
   addItemModal: "Přidat {$type} {$topic}"
   editItemModal: "Upravit {$type} , {$topic}"
+  editItemModelTypeInfoItem: "Informace"
+  editItemModelTypeActionItem: "Položka akce"
   addInfo: "Přidat Info Item"
   addInfoHint: "Přidat informace na téma"
   action: "Úkol"
