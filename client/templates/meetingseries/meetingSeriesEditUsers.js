@@ -52,15 +52,21 @@ Template.meetingSeriesEditUsers.helpers({
     },
 
     hasViewRole: function () {
+        // this is blaze context {{# with userRoleObj currentuser._id}}
+        // So, this is a UserRoles object
         return this.hasViewRoleFor(_config.meetingSeriesID);
     },
 
     // TODO: i18n
     currentRole: function () {
+        // this is blaze context {{# with userRoleObj currentuser._id}}
+        // So, this is a UserRoles object
         return this.currentRoleTextFor(_config.meetingSeriesID);
     },
 
     isModerator: function () {
+        // this is blaze context {{# with userRoleObj currentuser._id}}
+        // So, this is a UserRoles object
         return this.isModeratorOf(_config.meetingSeriesID);
     },
 
@@ -75,17 +81,19 @@ Template.meetingSeriesEditUsers.helpers({
     // role selected that is currently attached to the user
     // TODO: i18n
     rolesOptions: function () {
-        let currentRole = this.currentRoleTextFor(_config.meetingSeriesID);
+        // this is blaze context {{# with userRoleObj currentuser._id}}
+        // So, this is a UserRoles object
+        let currentRoleNum = this.currentRoleFor(_config.meetingSeriesID);
         let userName = this.getUser().username;
         let rolesHTML = '<select id="roleSelect'+userName+'" class="form-control user-role-select">';
-        let rolesText = UserRoles.allRolesText();
-        for (let i in rolesText) {
-            let role = rolesText[i];
-            let startTag = '<option value=\''+role+'\'>';
-            if (role === currentRole) {
-                startTag = '<option value="'+role+'" selected="selected">';
+        let rolesNums = UserRoles.allRolesNumerical();
+        for (let i in rolesNums) {
+            let roleNum = rolesNums[i];
+            let startTag = '<option value=\''+roleNum+'\'>';
+            if (roleNum === currentRoleNum) {
+                startTag = '<option value="'+roleNum+'" selected="selected">';
             }
-            rolesHTML += startTag+role+'Huhu'+'</option>';
+            rolesHTML += startTag+UserRoles.role2Text(roleNum)+'</option>';
         }
         rolesHTML += '</select>';
         return rolesHTML;
@@ -109,8 +117,7 @@ Template.meetingSeriesEditUsers.events({
 
     // when role select changes, update role in temp. client-only user collection
     'change .user-role-select': function (evt) {
-        let roleString = $(evt.target).val();
-        let roleValue = UserRoles.USERROLES[roleString];
+        let roleValue = $(evt.target).val();
 
         let changedUser = _config.users.findOne(this._userId);
         changedUser.roles[_config.meetingSeriesID] = [roleValue];
