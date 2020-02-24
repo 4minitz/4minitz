@@ -95,7 +95,7 @@ Dialog:
   LocaleSetting:
     title: "Sprache festlegen"
     languageLocale: "Spracheinstellung"
-    automatic: "Automatisch via Browser"
+    automatic: "Automatisch via Web-Browser"
   IsEditedHandling:
     title: "Trotz bestehender Bearbeitung bearbeiten"
     confirmationDialogResetEdit: "Warnung: Dieses Dokument wird derzeit von {$name} seit {$date} bearbeitet"
@@ -111,7 +111,7 @@ Dialog:
         Klicken zum erneuten Verbinden
     header: "Sie haben die Verbindung zum 4Minitz Server verloren."
     body: "Wenn Sie Ihren Browser schließen, können ungespeicherte Daten verloren gehen. Bitte kontaktieren Sie Ihren Sever-Administrator, falls dieses Problem weiterhin besteht."
-    tryToReconnect: "Erneut verbinden"
+    tryToReconnect: "Verbindung versuchen"
   ConfirmGenerateProtocol:
     title: "Generierung des Protokolls bestätigen"
     body: "Für dieses Protokoll wurde keine Protokoll-Datei generiert. Möchten Sie stattdessen eine dynamisch generierte HTML-Version herunterladen?"
@@ -126,7 +126,7 @@ Dialog:
     title: "Element kann nicht gelöscht werden"
     body1: "Es ist nicht möglich, dieses Element zu löschen, da es in einem vorherigen Protokoll erstellt wurde."
     body2a: "Diese Aufgabe ist bereits geschlossen,"
-    body2b: "Diese Information ist bereits nicht angeheftet"
+    body2b: "Diese Information ist bereits nicht angeheftet,"
     body3: "so dass sie nicht in das folgenden Protokoll kopiert wird"
   ActionItemResponsibleError:
     title: "Ungültige verantwortliche Person für die Aufgabe"
@@ -135,11 +135,11 @@ Dialog:
 
       Bitte wählen Sie einen **existierenden Benutzer** aus der Dropdown-Liste oder geben Sie eine **gültige E-Mail-Adresse** ein.
   ConvertItemError:
-    title: "Kann Element nicht umwandeln"
+    title: "Element kann nicht umgewandelt werden"
     body: "Es ist nicht möglich, dieses Element umzuwandeln, da es in einem vorherigen Protokoll erstellt wurde."
 About:
   title: "Über 4Minitz"
-  copyrightTeam: "vom 4Minitz-Team"
+  copyrightTeam: "4Minitz-Team"
   licensedUnder: "Lizenziert unter der MIT-Lizenz"
   licenseDependencies: "Lizenzen der abhängigen Pakete"
   thanksContributors: "Vielen Dank an alle Mitwirkenden"
