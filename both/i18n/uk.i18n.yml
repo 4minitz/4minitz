@@ -431,12 +431,12 @@ Login:
       <li>Send minutes &amp; action items via EMail</li>
     trackTopicsHeading: "Теми з відстеженням"
     trackTopicsDetails: |
-      <li>Предмети з відкритими діями з'являться наступного разу</li>
-      <li>Незакриті теми з'являться наступного разу</li>
-      <li>Список пошуків усіх коли-небудь обговорюваних тем</li>
-      <li>Розбагатих тем з інформаційними елементами на декількох зустрічах</li>
-      <li><li> шукати теми з мітками (e. . усіх рішень)</li>
-      <li><li> шукати елементи за повним текстовим пошуком</li>"
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
   Footer:
     withLove: "Кодується з ❤ від"
     theTeam: "Команда WebApp"
