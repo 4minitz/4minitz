@@ -46,7 +46,7 @@ Dialog:
   confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements **{$subject}** löschen?"
   ConfirmDeleteItem:
     allowed: "Wollen Sie die {$type} **{$subject} ** wirklich löschen?"
-    notAllowed: "Es ist nicht möglich, die {$type} **{$subject}** zu löschen, da die {$type} in einer vorherigen Minute erstellt wurde."
+    notAllowed: "Es ist nicht möglich, die {$type} **{$subject}** zu löschen, da die {$type} in einem vorherigen Protokoll erstellt wurde."
     questionActionItem: "Möchten Sie stattdessen die Aufgabe schließen?"
     questionInfoItem: "Möchten Sie stattdessen das angeheftete Info-Element ablösen?"
     typeActionItem: "Aufgabe"
@@ -64,7 +64,7 @@ Dialog:
   ConfirmMinuteQualityAssurance:
     title: "Protokoll-Abschluss: Qualitätsprüfungen"
     button: "Fortfahren"
-    issues: "Es sind Probleme mit Ihren Minuten fertiggestellt!"
+    issues: "Es sind Probleme in Ihrem Protokoll festgestellt worden!"
     proceed: "Möchten Sie mit der Fertigstellung fortfahren?"
     warnNoTopics: "Das aktuelle Protokoll hat keine Themen"
     warnNoParticipants: "Kein Teilnehmer ist als vorhanden markiert"
@@ -121,7 +121,7 @@ Dialog:
     title2: "Thema als diskutiert markieren?"
     button2: "Thema und Aufgaben schließen"
     errortitle: "Thema kann nicht gelöscht werden"
-    errorcontent: "Es ist nicht möglich, dieses Thema zu löschen, da es in einem vorherigen Protokoll erstellt wurde. Das ausgewählte Thema ist bereits geschlossen und hat keine offenen Aktionselemente, daher wird es nicht in das folgende Protokoll kopiert."
+    errorcontent: "Es ist nicht möglich, dieses Thema zu löschen, da es in einem vorherigen Protokoll erstellt wurde. Das ausgewählte Thema ist bereits geschlossen und hat keine offenen Aufgaben, daher wird es nicht in das folgende Protokoll kopiert."
   ItemDeleteError:
     title: "Element kann nicht gelöscht werden"
     body1: "Es ist nicht möglich, dieses Element zu löschen, da es in einem vorherigen Protokoll erstellt wurde."
@@ -484,14 +484,15 @@ Mail:
     body: |
       Hallo Admin,
 
-      Es scheint, dass du eine veraltete Version von 4Minitz verwendest.
+      Es scheint, dass Sie eine veraltete Version von 4Minitz verwenden.
 
       Ihre 4Minitz-Instanz unter: {$rootUrl}
       hat Version: {$myVersion}
 
-      Die neueste verfügbare Version ist: {$masterVersion}'
+      Die neueste verfügbare Version ist: {$masterVersion}
       Versionshinweise: {$urlReleaseNotes}
-      Bitte beachten Sie, dass sie aktualisiert wird.
+
+      Bitte denken Sie über ein Upgrade nach.
 
       {$masterMessageText}
 
@@ -499,12 +500,11 @@ Mail:
       Sie können die Updateprüfung über settings.json deaktivieren: \"updateCheck\": false.
 
       Viel Spaß!
-              Dein 4Minitz Team.
+              Dein 4Minitz-Team.
 
-
-      ---
-      4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
-      Quelle ist verfügbar unter {$url4Minitz}
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Der Quellcode ist verfügbar unter {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Ihr neues Konto auf unserem Server"
     passwordNotSend: "    Admin-Kontakt für Passwort."
