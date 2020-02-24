@@ -436,7 +436,7 @@ Login:
       <li>Liste de recherche de tous les sujets jamais discutés</li>
       <li>Enrichir les sujets avec des éléments d'information sur plusieurs réunions</li>
       <li>Trouver des sujets avec des étiquettes (e. . toutes les décisions)</li>
-      <li>Rechercher des éléments par recherche plein texte</li>"
+      <li>Rechercher des éléments par recherche plein texte</li>
   Footer:
     withLove: "Codé avec ❤ par le"
     theTeam: "Équipe WebApp"
