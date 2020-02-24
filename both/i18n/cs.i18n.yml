@@ -450,21 +450,21 @@ Mail:
   UserRoleChange:
     subject: "Vaše role se změnila pro {$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      Dobrý den {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      Vaše role se změnila pro sérii schůzek '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Vaše stará role byla: {$roleOld}
+         Vaše nová role je: {$roleNew}
+         Změna byla provedena za: {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      Pro úplný seznam práv pro každou roli viz:
       {$urlRoleDocu}
 
-      Your Admin.
+      Váš Admin.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
-    body2test: "Hello {$userName}\n \n Your role has changed for meeting series '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Your old role was           : {$roleOld}\n Your new role is            : {$roleNew}\n The change was performed by : {$moderatorName}\n \n For a comprehensive list of rights for each role see:\n {$urlRoleDocu}\n \n Your Admin.\n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+      4Minitz je zdarma open source vyvinutý týmem 4Minitz.
+      Zdroj je k dispozici na {$url4Minitz}"
+    body2test: "Dobrý den {$userName}\n \n Vaše role se změnila pro sérii schůzek '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Vaše stará role byla: {$roleOld}\n Vaše nová role je: {$roleNew}\n Změna byla provedena za: {$moderatorName}\n \n Pro komplexní seznam práv pro každou roli vidět:\n {$urlRoleDocu}\n \n Váš Admin.\n \n --- \n 4Minitz je zdarma open source vyvinutý týmem 4Minitz.\n Zdroj je k dispozici na {$url4Minitz}"
