@@ -6,6 +6,7 @@ import { MeetingSeries } from '/imports/meetingseries';
 import { UserRoles } from '/imports/userroles';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { handleError } from '/client/helpers/handleError';
+import { i18n } from 'meteor/universe:i18n';
 
 Template.tabMinutesList.helpers({
     meetingSeriesId: function () {
@@ -53,15 +54,15 @@ Template.tabMinutesList.events({
             FlowRouter.go('/');
         };
 
-        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        ConfirmationDialogFactory.makeWarningDialog(
             leaveSeriesCallback,
-            'Leave Meeting Series',
-            'confirmLeaveMeetingSeries',
-            {
+            i18n.__('MeetingSeries.leave'),
+            i18n.__('Dialog.confirmLeaveMeetingSeries', {
                 project: ms.project,
                 name: ms.name
-            },
-            'Leave'
+            }),
+            {},
+            i18n.__('MeetingSeries.leaveButton')
         ).show();
 
     }

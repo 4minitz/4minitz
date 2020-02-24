@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { MailFactory } from './MailFactory';
 import { GlobalSettings } from '../config/GlobalSettings';
+import { i18n } from 'meteor/universe:i18n';
 
 export class AdminRegisterUserMailHandler {
     constructor(newUserId, includePassword, password) {
@@ -19,30 +20,20 @@ export class AdminRegisterUserMailHandler {
             ? emails[0].address
             : GlobalSettings.getDefaultEmailSenderAddress();
 
-        // TODO: Translate me!
         if (this._user.emails && this._user.emails.length > 0) {
+            let mailParams = {
+                userLongName: this._user.profile.name,
+                rootURL: GlobalSettings.getRootUrl(),
+                userName: this._user.username,
+                passwordParagraph: this._includePassword ?
+                    i18n.__('Mail.AdminRegisterNewUser.passwordParagraph', {password: this._password}) :
+                    i18n.__('Mail.AdminRegisterNewUser.passwordNotSend'),
+                url4Minitz: 'https://github.com/4minitz/4minitz'
+            };
+
             let mailer = MailFactory.getMailer(adminFrom, this._user.emails[0].address);
-            mailer.setSubject('[4Minitz] Your new account at our server');
-            mailer.setText('Hello ' + this._user.profile.name+ ', \n'+
-                '\n'+
-                'Welcome to our 4Minitz WebApp.\n' +
-                'Now you can start to participate in keeping of professional meeting minutes.\n'+
-                '\n'+
-                'You may sign in with \'Standard\' (not LDAP!) login at:\n'+
-                '    Your host     : '+GlobalSettings.getRootUrl()+'\n'+
-                '    Your user     : '+this._user.username+'\n'+
-                (this._includePassword ? '    Your password : '+ this._password + '\n': '    Contact admin for password.\n')+
-                '\n' +
-                (this._includePassword ? 'Don\'t forget to change your password after first login!\n': '') +
-                '\n' +
-                'Have fun!\n\n' +
-                '        Your Admin.\n' +
-                '\n' +
-                '\n' +
-                '--- \n' +
-                '4Minitz is free open source developed by the 4Minitz team.\n' +
-                'Source is available at https://github.com/4minitz/4minitz\n'
-            );
+            mailer.setSubject('[4Minitz] '+i18n.__('Mail.AdminRegisterNewUser.subject'));
+            mailer.setText(i18n.__('Mail.AdminRegisterNewUser.body', mailParams));
             mailer.send();
         } else {
             console.error('Could not send admin register mail. User has no mail address: '+this._user._id);
