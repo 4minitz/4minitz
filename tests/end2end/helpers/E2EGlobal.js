@@ -228,14 +228,14 @@ E2EGlobal.SETTINGS = require('../../../settings-test-end2end.json');
 
 E2EGlobal.USERROLES = {
     Moderator:   'Moderator',
-    Invited:   'Invited',
     Uploader:  'Uploader',
+    Invited:   'Invited',
     Informed:  'Informed'
 };
 
 E2EGlobal.USERROLESNUM2TEXT = {
     '01':   'Moderator',
-    '05':   'Invited',
-    '10':  'Uploader',
+    '05':  'Uploader',
+    '10':   'Invited',
     '66':  'Informed'
 };
