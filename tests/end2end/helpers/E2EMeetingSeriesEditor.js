@@ -1,5 +1,5 @@
-import { E2EGlobal } from './E2EGlobal'
-import { E2EMeetingSeries } from './E2EMeetingSeries'
+import { E2EGlobal } from './E2EGlobal';
+import { E2EMeetingSeries } from './E2EMeetingSeries';
 
 
 export class E2EMeetingSeriesEditor {
@@ -120,7 +120,9 @@ export class E2EMeetingSeriesEditor {
             }
 
             usersAndRoles[usrName] = {
-                role: usrRole,
+                // with i18n we introduced numeric values in the <select> to keep texts for UI only purpose
+                // To avoid breaking change, we translate value '01' back to role name like 'Moderator'
+                role: E2EGlobal.USERROLESNUM2TEXT[usrRole] ? E2EGlobal.USERROLESNUM2TEXT[usrRole] : usrRole,
                 isReadOnly: usrIsReadOnly,
                 isDeletable: usrIsDeletable,
                 deleteElemId: usrDeleteElemId
@@ -129,7 +131,7 @@ export class E2EMeetingSeriesEditor {
         // console.log(usersAndRoles);
 
         return usersAndRoles;
-    };
+    }
 
     static changeLabel(labelName, newLabelName, newLabelColor, autoSaveLabelChange = true) {
         let labelId = E2EMeetingSeriesEditor.getLabelId(labelName);
