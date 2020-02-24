@@ -146,7 +146,13 @@ About:
   proudlySponsored: "自豪地赞助者"
   specialThanks: "特别感谢这些项目"
   forkGitHub: "在GitHub上转发我们"
-  serverStatistics: "服务器统计"
+  ServerStatistics:
+    title: "服务器统计"
+    rowNumUser: "用户数量(活动)"
+    rowNumMeetingSeries: "会议次数"
+    rowNumMeetingMinutes: "会议分钟数"
+    rowNumAttachments: "附件数"
+    rowSizeAttachments: "附件大小"
 Item:
   ariaLabel: "添加/编辑项目"
   editItem: "编辑项目"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "删除此操作/信息项目"
   addItemModal: "添加 {$type} 到 {$topic}"
   editItemModal: "编辑 {$type} of {$topic}"
+  editItemModelTypeInfoItem: "信息"
+  editItemModelTypeActionItem: "操作项"
   addInfo: "添加信息项目"
   addInfoHint: "将信息项目添加到主题"
   action: "操作项"
