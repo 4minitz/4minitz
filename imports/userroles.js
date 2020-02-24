@@ -44,8 +44,12 @@ export class UserRoles {
     }
 
     static role2Text(roleValue) {
-        const roleText = i18n.__('UserRoles.roleName'+roleValue);
-        return roleText;
+        // !!! Keep these comments for tests/i18n/test_i18n_resources.js
+        // i18n.__('UserRoles.roleName01')  // comment avoids non-used warnings, and forces error if they miss
+        // i18n.__('UserRoles.roleName05')  // comment avoids non-used warnings, and forces error if they miss
+        // i18n.__('UserRoles.roleName10')  // comment avoids non-used warnings, and forces error if they miss
+        // i18n.__('UserRoles.roleName66')  // comment avoids non-used warnings, and forces error if they miss
+        return i18n.__('UserRoles.roleName'+roleValue);
     }
 
     static removeAllRolesFor(aMeetingSeriesID) {
