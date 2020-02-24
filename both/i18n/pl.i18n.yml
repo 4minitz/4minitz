@@ -96,12 +96,12 @@ Dialog:
     button: "Edytuj mimo to"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
+      Połączenie utracone!
         Status: {$status}
-        Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
+        Ponów liczbę: {$retryCount}
+        Czas próby: {$retryTime} s.
+        Powód: {$reason}
+        Kliknij, aby ponownie połączyć.
     header: "Utracono połączenie z serwerem 4Minitz."
     body: "Jeśli zamkniesz przeglądarkę, niezapisane dane mogą zostać utracone. Jeśli problem będzie się powtarzał, skontaktuj się z administratorem systemu."
     tryToReconnect: "Spróbuj połączyć ponownie"
@@ -124,9 +124,9 @@ Dialog:
   ActionItemResponsibleError:
     title: "Nieprawidłowa osoba odpowiedzialna za pozycję działania"
     body: |
-      This is not a valid responsible!
+      To nie jest prawidłowa odpowiedzialność!
 
-      Please select an **existing user** from the dropdown or enter a **valid email address**.
+      Wybierz **istniejącego użytkownika** z listy rozwijanej lub wprowadź **poprawny adres e-mail**.
   ConvertItemError:
     title: "Nie można przekonwertować elementu"
     body: "Nie można przekonwertować tego elementu, ponieważ został on utworzony w poprzednich minutach."
@@ -408,35 +408,35 @@ Login:
     header: "4Minitz: Protokół ze spotkania w ramach współpracy."
     subheader: "● Przygotowanie Agendy ● Minuty Dokumentu ● Śledzenie tematów ●"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
+      <p>Każdy zaproszony i zalogowany użytkownik może oglądać zmiany w aktualnych minutach spotkania w czasie rzeczywistym.</p>
+      Stworzyliśmy 4Minitz darmowe oprogramowanie open source, ponieważ jesteśmy głęboko przekonani, że
+      poufne informacje, takie jak protokoły z posiedzeń, nie powinny być przechowywane w chmurze.
+      Zamiast tego chcesz gościć go w swojej własnej infrastrukturze, gdzie możesz zdefiniować
+      poziom bezpieczeństwa i ochrony, którego potrzebujesz.
     prepareAgendaHeading: "Prepare Agenda"
     prepareAgendaDetails: |
-      <li>Create your meeting series</li>
-      <li>Invite other users</li>
-      <li>Specify moderators and uploaders</li>
-      <li>Fill agenda with topics</li>
-      <li>Mark recurring topics for standard agenda</li>
-      <li>Send agenda to invited users</li>
+      <li>Utwórz serię spotkań</li>
+      <li>Zaproś innych użytkowników</li>
+      <li>Określ moderatorów i uploaderów</li>
+      <li>Wypełnij porządek obrad tematami</li>
+      <li>Zaznacz cykliczne tematy dla standardowego porządku obrad</li>
+      <li>Wyślij porządek obrad zaproszonym użytkownikom</li>
     documentMinutesHeading: "Protokół dokumentu"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>Zaznacz obecnych uczestników</li>
+      <li>Dodaj elementy działania odpowiedzialne za tematy</li>
+      <li>Dodaj elementy informacji do tematów</li>
+      <li>Dodaj etykiety takie jak 'Decyzja' do pozycji</li>
+      <li>Prześlij pliki binarne</li>
+      <li>Wyślij minuty &amp; elementy akcji za pośrednictwem EMail</li>
     trackTopicsHeading: "Śledź tematy"
     trackTopicsDetails: |
-      <li>Open action items will show up next time</li>
-      <li>Non-closed topics will show up next time</li>
-      <li>Search list of all ever discussed topics</li>
-      <li>Enrich topics with info items on multiple meetings</li>
-      <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>"
+      <li>Otwarte elementy akcji pojawią się następnym razem</li>
+      <li>Niezamknięte tematy pojawią się następnym razem</li>
+      <li>Lista wyszukiwań wszystkich kiedykolwiek dyskutowanych tematów</li>
+      <li>wzbogacaj tematy z informacjami na wielu spotkaniach</li>
+      <li>Znajdź tematy z etykietami (e. . wszystkie decyzje)</li>
+      <li>Znajdź przedmioty przez wyszukiwanie pełnotekstowe</li>"
   Footer:
     withLove: "Kodowane przez ❤"
     theTeam: "Zespół WebApp"
@@ -474,71 +474,71 @@ Mail:
   AdminNewVersion:
     subject: "Nowa wersja istnieje"
     body: |
-      Hello Admin,
+      Witaj Admin,
 
-      It seems you are running an outdated version of 4Minitz.
+      Wygląda na to, że używasz przestarzałej wersji 4Minitz.
 
-      Your 4Minitz instance on: {$rootUrl}
-      has version: {$myVersion}
+      Twoja instancja 4Minitza dnia: {$rootUrl}
+      ma wersję: {$myVersion}
 
-      Newest version available is: {$masterVersion}'
-      Release notes: {$urlReleaseNotes}
-      Please consider to update.
+      Najnowsza wersja dostępna to: {$masterVersion}'
+      Notatki o wydaniu: {$urlReleaseNotes}
+      Rozważ aktualizację.
 
       {$masterMessageText}
 
-      This mail was generated by your 4Minitz backend.
-      You can disable the update check via settings.json: \"updateCheck\": false.
+      Ta wiadomość została wygenerowana przez tło 4Minitz.
+      Możesz wyłączyć sprawdzanie aktualizacji za pomocą settings.json: \"updateCheck\": false.
 
-      Have fun!
-              Your 4Minitz team.
+      Baw się dobrze!
+              Twoja drużyna 4Minitz.
 
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {url4Minitz}
+      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      Źródło jest dostępne pod adresem {url4Minitz}
   AdminRegisterNewUser:
     subject: "Twoje nowe konto na naszym serwerze"
     passwordNotSend: "    Skontaktuj się z administratorem w celu uzyskania hasła."
     passwordParagraph: |
-      Your password : {$password}
+      Twoje hasło: {$password}
 
-      Don't forget to change your password after first login!
+      Nie zapomnij zmienić hasła po pierwszym zalogowaniu!
     body: |
-      Hello {$userLongName},
+      Witaj {$userLongName},
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      Witamy w naszej 4Minitz WebApp.
+      Teraz możesz zacząć uczestniczyć w trakcie profesjonalnych minut spotkania.
 
-      You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+      Możesz zalogować się za pomocą 'Standard' (nie LDAP! zaloguj się na:
+         Twój host: {$rootURL}
+         Twój użytkownik: {$userName}
       {$passwordParagraph}
 
-      Have fun!
-        Your Admin.
+      Baw się dobrze!
+        Twój administrator.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      Źródło jest dostępne pod adresem {$url4Minitz}
   UserRoleChange:
     subject: "Twoja rola została zmieniona na {$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      Witaj {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      Twoja rola zmieniła się dla serii spotkań '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Twoja stara rola była : {$roleOld}
+         Twoja nowa rola to: {$roleNew}
+         Zmiana została wykonana przez: {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      Aby uzyskać wyczerpującą listę praw dla każdej roli, zobacz:
       {$urlRoleDocu}
 
-      Have fun!
-        Your Admin.
+      Baw się dobrze!
+        Twój administrator.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
+      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      Źródło jest dostępne pod adresem {$url4Minitz}"
