@@ -375,17 +375,23 @@ Template.topicInfoItemList.events({
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {
-                    type: (item.isActionItem()) ? i18n.__('Dialog.confirmDeleteItemTypeAction') : i18n.__('Dialog.confirmDeleteItemTypeInfo'),
+                    type: (item.isActionItem()) ?
+                        i18n.__('Dialog.ConfirmDeleteItem.typeActionItem') :
+                        i18n.__('Dialog.ConfirmDeleteItem.typeInfoItem'),
                     isActionItem: item.isActionItem(),
                     subject: item.getSubject(),
                     deleteAllowed: isDeleteAllowed
                 };
 
-                let title = 'Confirm delete';
-                let button = 'Delete';
+                let title = i18n.__('Dialog.ConfirmDelete.title');
+                let button = i18n.__('Buttons.delete');
                 if (!isDeleteAllowed) {
-                    title = (item.isActionItem()) ? 'Close action item?' : 'Unpin info item?';
-                    button = (item.isActionItem()) ? 'Close action item' : 'Unpin info item';
+                    title = (item.isActionItem()) ?
+                        i18n.__('Dialog.ConfirmDeleteItem.titleCloseActionItem') :
+                        i18n.__('Dialog.ConfirmDeleteItem.titleUnpinInfoItem');
+                    button = (item.isActionItem()) ?
+                        i18n.__('Dialog.ConfirmDeleteItem.buttonCloseActionItem') :
+                        i18n.__('Dialog.ConfirmDeleteItem.buttonUnpinInfoItem');
                 }
 
                 let action = () => {
@@ -405,7 +411,7 @@ Template.topicInfoItemList.events({
                     templateData,
                     button
                 ).show();
-            } else {
+            } else {    // not-sticky && delte-not-allowed
                 ConfirmationDialogFactory.makeInfoDialog(
                     i18n.__('Dialog.ItemDeleteError.title'),
                     i18n.__('Dialog.ItemDeleteError.body1') + ' ' +
