@@ -55,6 +55,7 @@ Template.meetingSeriesEditUsers.helpers({
         return this.hasViewRoleFor(_config.meetingSeriesID);
     },
 
+    // TODO: i18n
     currentRole: function () {
         return this.currentRoleTextFor(_config.meetingSeriesID);
     },
@@ -72,6 +73,7 @@ Template.meetingSeriesEditUsers.helpers({
 
     // generate the "<select>" HTML with possible roles and the
     // role selected that is currently attached to the user
+    // TODO: i18n
     rolesOptions: function () {
         let currentRole = this.currentRoleTextFor(_config.meetingSeriesID);
         let userName = this.getUser().username;
@@ -83,7 +85,7 @@ Template.meetingSeriesEditUsers.helpers({
             if (role === currentRole) {
                 startTag = '<option value="'+role+'" selected="selected">';
             }
-            rolesHTML += startTag+role+'</option>';
+            rolesHTML += startTag+role+'Huhu'+'</option>';
         }
         rolesHTML += '</select>';
         return rolesHTML;

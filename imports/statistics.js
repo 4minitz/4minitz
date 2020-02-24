@@ -4,6 +4,7 @@ import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import { MinutesSchema } from './collections/minutes.schema';
 import { MeetingSeriesSchema } from './collections/meetingseries.schema';
 import { Attachment } from './attachment';
+import {i18n} from 'meteor/universe:i18n';
 
 let StatisticsCollection = new Mongo.Collection('statistics');
 
@@ -43,19 +44,19 @@ export const Statistics = SchemaClass.create({
 
             let statistics = this;
             statistics.result = [{
-                description: 'Number of users (active)',
+                description: i18n.__('About.ServerStatistics.rowNumUser'),
                 value: numberOfUsers + ' (' + numberOfActiveUsers + ')'
             }, {
-                description: 'Number of meeting series',
+                description: i18n.__('About.ServerStatistics.rowNumMeetingSeries'),
                 value: numberOfMeetingSeries.toString()
             }, {
-                description: 'Number of meeting minutes',
+                description: i18n.__('About.ServerStatistics.rowNumMeetingMinutes'),
                 value: numberOfMinutes.toString()
             }, {
-                description: 'Number of attachments',
+                description: i18n.__('About.ServerStatistics.rowNumAttachments'),
                 value: numberOfAttachments.toString()
             }, {
-                description: 'Attachments size',
+                description: i18n.__('About.ServerStatistics.rowSizeAttachments'),
                 value: numberOfAttachmentMB.toString()
             }];
 
