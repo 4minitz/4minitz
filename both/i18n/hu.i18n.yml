@@ -13,7 +13,7 @@ Buttons:
   cancel: "Mégse"
   change: "Változás"
   close: "Bezárás"
-  confirm: "Confirm"
+  confirm: "Erősítés"
   create: "Hozza létre"
   delete: "Törlés"
   dismissAll: "Összes kimarad"
@@ -24,72 +24,72 @@ Buttons:
   save: "Mentés"
 FlashMessages:
   ok: "OKÉ."
-  error: "Error"
-  verifyEMailErr: "Error: EMail could not be verified"
-  verifyEMailOK: "OK: EMail is verified now"
-  passwordChangeOK: "Password changed"
-  passwordResetOK: "Password sucessfully reseted"
-  profileEditOK: "Profile changes saved"
-  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
-  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
-  finalizeProgress1: "Finalize in progress"
-  finalizeProgress2: "This may take a few seconds..."
-  finalizeOK: "This meeting minutes were successfully finalized"
+  error: "Hiba"
+  verifyEMailErr: "Hiba: Az EMail nem ellenőrizhető"
+  verifyEMailOK: "OK: Az EMail most ellenőrzi"
+  passwordChangeOK: "Jelszó megváltozott"
+  passwordResetOK: "A jelszó sikeresen befejeződött"
+  profileEditOK: "Profil módosítások mentve"
+  minuteLinkErr: "Sajnos a perc nem kapcsolódik megfelelően a szülősorozatához-lépjen kapcsolatba a rendszeradminisztrátorral."
+  agendaSentOK: "Az ütemterv {$result} címzettnek sikerült"
+  finalizeProgress1: "Véglegesítés folyamatban"
+  finalizeProgress2: "Ez eltarthat pár másodpercig ..."
+  finalizeOK: "Ez a találkozó perc sikeresen véglegesítésre került"
 Dialog:
   ConfirmDelete:
-    title: "Confirm delete?"
-    body: "Are you sure to delete this?"
+    title: "A törlés megerősítése?"
+    body: "Biztos, hogy törli ezt?"
   ConfirmCreateNewMinutes:
     title: "Új percek megerősítése"
     content: "Valóban új perceket szeretne létrehozni a találkozó sorozathoz \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  confirmDeleteAttachment: "Valóban törölni kívánja a mellékletet:\n**{$name}**?"
+  confirmDeleteDetails: "Valóban törölni kívánja a **{$subject} ** elem kiválasztott részleteit?"
   ConfirmDeleteItem:
     allowed: "Do you really want to delete the {$type} **{$subject}**?"
     notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
     questionActionItem: "Do you want to close the action item instead?"
-    questionInfoItem: "Do you want to unpin the sticky info item instead?"
-    typeActionItem: "action item"
-    typeInfoItem: "information"
-    titleCloseActionItem: "Close action item?"
-    titleUnpinInfoItem: "Unpin info item?"
-    buttonCloseActionItem: "Close action item"
-    buttonUnpinInfoItem: "Unpin info item"
+    questionInfoItem: "Szeretné megszüntetni a ragadós információs elemet helyette?"
+    typeActionItem: "Művelet elem"
+    typeInfoItem: "Információ"
+    titleCloseActionItem: "Záró művelet elem?"
+    titleUnpinInfoItem: "Elérhetetlen infó?"
+    buttonCloseActionItem: "Munkaelem bezárása"
+    buttonUnpinInfoItem: "Unpin információs elem"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic **{$subject}**?"
-    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
+    allowed: "Valóban törölni kívánja a **{$subject} ** témakört?"
+    notAllowed: "A (z) **{$subject}** témakör nem törölhető, mert a témakör egy korábbi percben jött létre."
     close: "Szeretné inkább lezárni a témát?"
     closeWithActions: "Bezárja a témakört az összes kapcsolódó műveletelemmel együtt?"
-  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Valóban el kívánja hagyni a találkozó sorozatát:\n\n**{$project} / {$name}**\n\nA moderátort kell kérdeznie, ha utána újra csatlakozni akar."
   ConfirmMinuteQualityAssurance:
-    title: "Finalize Minutes: Quality Checks"
-    button: "Proceed"
+    title: "Percek véglegesítése: Minőségi ellenőrzések"
+    button: "Folytatás"
     issues: "Véglegesítik a problémákat a percekkel!"
     proceed: "Kívánja folytatni a véglegesítést?"
-    warnNoTopics: "The current minutes have no topics"
-    warnNoParticipants: "No participant is marked as present"
-    warnEditing: "A topic/item/detail is still edited"
-    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
-    warnTopicWithoutItems: "At least one discussed topic has no items"
-    warnActionItemWithoutResponsible: "At least one action item has no responsible"
-    warnTopicNoNewContent: "A topic is checked but has no new content"
+    warnNoTopics: "Az aktuális perceknek nincs témája"
+    warnNoParticipants: "Egyetlen résztvevő sincs megjelölve jelen"
+    warnEditing: "A topic/item/részletek továbbra is szerkeszthetők"
+    warnNoTopicDiscussed: "Nincs olyan témakör, mint ' megbeszéltük '"
+    warnTopicWithoutItems: "Legalább egy vitatott témakörben nincsenek elemek"
+    warnActionItemWithoutResponsible: "Legalább egy műveletelem nem felelős"
+    warnTopicNoNewContent: "A témakör le van jelölve, de nincs új tartalma"
   ConfirmReOpenTopic:
-    title: "Re-open Topic?"
-    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
-    button: "Re-open"
+    title: "Újra megnyitni Topicot?"
+    body: "Valóban újra meg kívánja nyitni a már lezárt **{$topicSubject} ** témát?"
+    button: "Újrakitható"
   ConfirmSendAgenda:
     body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
-    title: "Confirm sending agenda"
+    title: "Napirend megerősítése"
     button: "Napirend küldése"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
-    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
-    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
-    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    really: "Valóban törölni kívánja ezt a találkozó percet **{$minutesDate} ** dátummal?"
+    newTopics: "Ez eltávolítja a **{$newTopicsCount} témakört * *, amely ebben a percben jött létre."
+    closedTopicsAdditionally: "Továbbá a **{$closedTopicsCount} témakörök * * újra megnyitásra kerülnek, amelyek ebben a percben bezárásra kerültek."
+    closedTopics: "**{$closedTopicsCount} témakörök * * újra megnyitásra kerülnek, amelyek ebben a percben bezárásra kerültek."
   ConfirmFinalizeMinutes:
-    title: "Confirm Finalize Minutes"
-    button: "Finalize"
-    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
+    title: "A jegyzőkönyv véglegesítésének megerősítése"
+    button: "Véglegesítés"
+    really: "Valóban véglegesíteni szeretné ezt a találkozó percet **{$minutesDate}**?"
     sendActionItems: "Akcióelemek küldése"
     sendMinutes: "Információs elemek küldése"
   LocaleSetting:
@@ -97,10 +97,10 @@ Dialog:
     languageLocale: "Nyelvi területi beállítás"
     automatic: "Automatikus böngészővel"
   IsEditedHandling:
-    title: "Edit despite existing editing"
-    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
-    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
-    button: "Edit Anyway"
+    title: "Szerkesztés a meglévő szerkesztés ellenére"
+    confirmationDialogResetEdit: "Figyelmeztetés: Ez a dokumentumista jelenleg {$name} által szerkesztve: {$date}"
+    confirmationDialogResetEditDetails: "A szerkesztés megkezdéséhez kattintson ismét a részletekre."
+    button: "Szerkesztés"
   ConnectionInfo:
     tooltip: |
       Connection Lost!
@@ -483,27 +483,27 @@ Mail:
     body: |
       Hello Admin,
 
-      It seems you are running an outdated version of 4Minitz.
+      Úgy tűnik, hogy egy elavult 4Minitz változatot futtat.
 
-      Your 4Minitz instance on: {$rootUrl}
-      has version: {$myVersion}
+      A 4Minitz példány a következőn: {$rootUrl}
+      változat: {$myVersion}
 
-      Newest version available is: {$masterVersion}'
-      Release notes: {$urlReleaseNotes}
-      Please consider to update.
+      A Newest változat elérhető: {$masterVersion}"
+      Kiadási megjegyzések: {$urlReleaseNotes}
+      A frissítést fontolja meg.
 
       {$masterMessageText}
 
-      This mail was generated by your 4Minitz backend.
-      You can disable the update check via settings.json: \"updateCheck\": false.
+      Ez a levél a 4Minitz háttérből származik.
+      letilthatja a frissítési ellenőrzést a settings.json: \" updateCheck \": false.
 
-      Have fun!
-              Your 4Minitz team.
+      Jó szórakozást!
+              A 4Minitz csapat.
 
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      4Minitz a 4Minitz csapat által kifejlesztett szabad forrás.
+      Forrás: {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Your new account at our server"
     passwordNotSend: "    Contact admin for password."
@@ -529,7 +529,7 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   UserRoleChange:
-    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    subject: "A szerep megváltozott \"{$meetingProject}:{$meetingName}\""
     body: |
       Hello {$userName}
 
