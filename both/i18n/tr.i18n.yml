@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Gururla Sponsor Olan"
   specialThanks: "Bu Projeler Sayesinde özel"
   forkGitHub: "Bizi GitHub 'a at."
-  serverStatistics: "Sunucu İstatistikleri"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Öğe Ekle/Düzenle"
   editItem: "Öğeyi Düzenle"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Bu eylem/bilgi öğesini sil"
   addItemModal: "{$type} 'i {$topic} 'e ekleyin"
   editItemModal: "Düzenle {$type} / {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Eylem Öğesi"
   addInfo: "Bilgi Öğesi Ekle"
   addInfoHint: "Konuya bilgi öğesi ekle"
   action: "Eylem Öğesi"
