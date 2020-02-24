@@ -503,7 +503,7 @@ Mail:
 
       ---
       4Minitz è gratuito open source sviluppato dal team di 4Minitz.
-      Sorgenti è disponibile su {url4Minitz}
+      Sorgenti è disponibile su {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Il tuo nuovo account sul nostro server"
     passwordNotSend: "    Contatta l'amministratore per la password."
@@ -529,7 +529,7 @@ Mail:
       4Minitz è gratuito open source sviluppato dal team di 4Minitz.
       Sorgenti è disponibile su {$url4Minitz}
   UserRoleChange:
-    subject: "Il tuo ruolo è cambiato per {$meetingProject}:{$meetingName}'"
+    subject: "Il tuo ruolo è cambiato per '{$meetingProject}:{$meetingName}'"
     body: |
       Ciao {$userName}
 
