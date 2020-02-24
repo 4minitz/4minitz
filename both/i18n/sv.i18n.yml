@@ -95,7 +95,13 @@ Dialog:
     confirmationDialogResetEditDetails: "Klicka på detaljer igen för att börja redigera."
     button: "Redigera ändå"
   ConnectionInfo:
-    tooltip: "Anslutning förlorad!!!\n Status: {$status}\n Retry Count: {$retryCount}\n Retry Time: {$retryTime} sec.\n Anledning: {$reason}\n Klicka för att återansluta.\n"
+    tooltip: |
+      Connection Lost!
+        Status: {$status}
+        Retry Count: {$retryCount}
+        Retry Time: {$retryTime} sec.
+        Reason: {$reason}
+        Click to reconnect.
     header: "Du har förlorat anslutningen till 4Minitz server."
     body: "Om du stänger din webbläsare kan osparade data gå förlorade. Kontakta din sever admin om problemet kvarstår."
     tryToReconnect: "Försök att återanslut"
@@ -117,7 +123,10 @@ Dialog:
     body3: "så att det inte kommer att kopieras till följande minuter"
   ActionItemResponsibleError:
     title: "Ogiltigt ansvar för åtgärdsobjekt"
-    body: "Detta är inte ett giltigt ansvar!\n\n Välj en **befintlig användare** från rullgardinsmenyn eller ange en **giltig e-postadress**."
+    body: |
+      This is not a valid responsible!
+
+      Please select an **existing user** from the dropdown or enter a **valid email address**.
   ConvertItemError:
     title: "Kan inte konvertera objekt"
     body: "Det är inte möjligt att konvertera detta objekt eftersom det skapades i en tidigare minuter."
@@ -398,13 +407,36 @@ Login:
   Login4MinitzInfo:
     header: "4Minitz: Samverkande mötesprotokoll."
     subheader: "● Förbered agendan ● Dokumentprotokoll ● Spåra ämnen ●"
-    abstract: "<p>Varje inbjuden och inloggad användare kan titta på ändringar i aktuella mötesprotokoll i realtid.</p> Vi gjorde 4Minitz gratis programvara med öppen källkod, eftersom vi är övertygade om att känslig information som mötesprotokoll inte bör vara värd i molnet. Istället vill du vara värd på din egen infrastruktur där du kan definiera vilken säkerhets- och säkerhetsnivå du behöver."
+    abstract: |
+      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
+      We made 4Minitz free open source software, as we strongly believe that
+      sensitive information like meeting minutes should not be hosted in the cloud.
+      Instead you want to host it on your own infrastructure where you can define
+      the level of security and safety you need.
     prepareAgendaHeading: "Prepare Agenda"
-    prepareAgendaDetails: "<li>Skapa dina mötesserier</li> <li>Bjud in andra användare</li> <li>Ange moderatorer och uppladdare</li> <li>Fyll agendan med ämnen</li> <li>Markera återkommande ämnen för standard agenda</li> <li>Skicka agenda till inbjudna användare</li>"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
     documentMinutesHeading: "Dokument minuter"
-    documentMinutesDetails: "<li>Markera nuvarande deltagare</li> <li>Lägg till åtgärdsobjekt med ansvar för ämnen</li> <li>Lägg till informationsobjekt till ämnen</li> <li>Lägg till etiketter som 'Decision' till objekt</li> <li>Ladda upp binära bilagor</li> <li>Skicka minuter &amp; åtgärdsobjekt via EMail</li>"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
     trackTopicsHeading: "Spåra ämnen"
-    trackTopicsDetails: "<li>Öppna åtgärdsobjekt kommer att visas nästa gång</li> <li>Icke-stängda ämnen kommer att visas nästa gång</li> <li>Söklista över alla ämnen som någonsin diskuterats</li> <li>Berika ämnen med info på flera möten</li> <li>Hitta ämnen med etiketter (e. . alla beslut)</li> <li>Hitta objekt genom fulltextsökning</li>"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>"
   Footer:
     withLove: "Kodad med ❤ av"
     theTeam: "WebApp Team"
@@ -441,30 +473,72 @@ Mail:
   none: "Ingen"
   AdminNewVersion:
     subject: "Nyare version finns"
-    body: "Hej Admin,\n \n Det verkar som om du kör en föråldrad version av 4Minitz.\n \n Din 4Minitz instans på: {$rootUrl}\n har version: {$myVersion}\n \n Nyaste versionen tillgänglig är: {$masterVersion}'\n Utgåvor: {$urlReleaseNotes}\n Vänligen överväga att uppdatera.\n \n {$masterMessageText} \n Detta mail har genererats av din 4Minitz backend.\n Du kan inaktivera uppdateringskontrollen via settings.json: \"updateCheck\": false.\n \n Ha så kul!\n Ditt 4Minitz team.\n \n \n --- \n 4Minitz är fri öppen källkod utvecklad av 4Minitz teamet.\n Källa finns på {url4Minitz}\n"
+    body: |
+      Hello Admin,
+
+      It seems you are running an outdated version of 4Minitz.
+
+      Your 4Minitz instance on: {$rootUrl}
+      has version: {$myVersion}
+
+      Newest version available is: {$masterVersion}'
+      Release notes: {$urlReleaseNotes}
+      Please consider to update.
+
+      {$masterMessageText}
+
+      This mail was generated by your 4Minitz backend.
+      You can disable the update check via settings.json: \"updateCheck\": false.
+
+      Have fun!
+              Your 4Minitz team.
+
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {url4Minitz}
   AdminRegisterNewUser:
     subject: "Ditt nya konto på vår server"
     passwordNotSend: "    Kontakta admin för lösenord."
-    passwordParagraph: "Ditt lösenord : {$password}\n \n Glöm inte att ändra ditt lösenord efter första inloggningen!\n"
-    body: "Hej {$userLongName}, \n \n Välkommen till vår 4Minitz WebApp.\n Nu kan du börja delta i att hålla professionella mötesminuter.\n \n Du kan logga in med 'Standard' (inte LDAP! Logga in på:\n Din värd : {$rootURL}\n Din användare : {$userName}\n {$passwordParagraph}\n \n Ha så kul!\n\n Din administratör.\n \n \n --- \n 4Minitz är fri öppen källkod utvecklad av 4Minitz teamet.\n Källa finns tillgänglig på {$url4Minitz}"
+    passwordParagraph: |
+      Your password : {$password}
+
+      Don't forget to change your password after first login!
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
   UserRoleChange:
     subject: "Din roll har ändrats för {$meetingProject}:{$meetingName}'"
     body: |
-      Hej {$userName}
+      Hello {$userName}
 
-      Din roll har ändrats för mötesserien '{$meetingProject}:{$meetingName}'
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Din gamla roll var: {$roleOld}
-         Din nya roll är : {$roleNew}
-         Ändringen utfördes av : {$moderatorName}
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
 
-      För en omfattande lista över rättigheter för varje roll se:
+      For a comprehensive list of rights for each role see:
       {$urlRoleDocu}
 
-      Din administratör.
+      Have fun!
+        Your Admin.
 
       ---
-      4Minitz är fri öppen källkod som utvecklats av 4Minitz-teamet.
-      Källa finns tillgänglig på {$url4Minitz}"
-    body2test: "Hej {$userName}\n \n Din roll har ändrats för mötesserien '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Din gamla roll var : {$roleOld}\n Din nya roll är : {$roleNew}\n Ändringen utfördes av : {$moderatorName}\n \n För en omfattande lista över rättigheter för varje roll:\n {$urlRoleDocu}\n \n Din administratör.\n \n --- \n 4Minitz är fri öppen källkod utvecklad av 4Minitz teamet.\n Källa finns tillgänglig på {$url4Minitz}"
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"
