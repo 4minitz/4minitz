@@ -541,7 +541,7 @@ Mail:
     body: |
       Hallo {$userName}
 
-      Ihre Rolle hat sich für die Besprechungsreihe '{$meetingProject}:{$meetingName}'
+      Ihre Rolle hat sich geändert für die Sitzungsreihe '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
          Ihre alte Rolle war : {$roleOld}
@@ -556,4 +556,4 @@ Mail:
 
       ---
       4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
-      Quelle ist verfügbar unter {$url4Minitz}"
+      Quelle ist verfügbar unter {$url4Minitz}
