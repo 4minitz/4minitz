@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Gefördert durch"
   specialThanks: "Besonderer Dank an diese Projekte"
   forkGitHub: "Fork uns auf GitHub"
-  serverStatistics: "Serverstatistiken"
+  ServerStatistics:
+    title: "Serverstatistik"
+    rowNumUser: "Anzahl der Benutzer (aktiv)"
+    rowNumMeetingSeries: "Anzahl der Besprechungsreihen"
+    rowNumMeetingMinutes: "Anzahl der Besprechungsprotokolle"
+    rowNumAttachments: "Anzahl der Anhänge"
+    rowSizeAttachments: "Größe der Anhänge"
 Item:
   ariaLabel: "Element hinzufügen/bearbeiten"
   editItem: "Element bearbeiten"
@@ -155,9 +161,11 @@ Item:
   deleteItemHint: "Diese Information/Aufgabe entfernen"
   addItemModal: "{$type} zu {$topic} hinzufügen"
   editItemModal: "Bearbeite {$type} von {$topic}"
-  addInfo: "Info hinzufügen"
+  editItemModelTypeInfoItem: "Informationen"
+  editItemModelTypeActionItem: "Aktionsartikel"
+  addInfo: "Information hinzufügen"
   addInfoHint: "Information zum Thema hinzufügen"
-  action: "Aufgaben"
+  action: "Aufgabe"
   addAction: "Aufgabe hinzufügen"
   addActionHint: "Aufgabe zum Thema hinzufügen"
   convertToAction: "In Aufgabe umwandeln"
@@ -178,7 +186,7 @@ Item:
   done: "Erledigt"
   pinned: "angeheftet"
   Error:
-    subject: "Bitte geben Sie einen gültigen Betreff für dieses Thema an"
+    subject: "Bitte geben Sie einen gültigen Betreff an"
   Filter:
     title: "Filter"
     usageHint: "Filternutzung"
