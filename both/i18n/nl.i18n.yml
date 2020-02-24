@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Proudly gesponsord door"
   specialThanks: "Speciale dank aan deze projecten"
   forkGitHub: "Fork ons op GitHub"
-  serverStatistics: "Serverintatistieken"
+  ServerStatistics:
+    title: "Server statistieken"
+    rowNumUser: "Aantal gebruikers (actief)"
+    rowNumMeetingSeries: "Aantal vergaderreeksen"
+    rowNumMeetingMinutes: "Aantal vergaderminuten"
+    rowNumAttachments: "Aantal bijlagen"
+    rowSizeAttachments: "Grootte van bijlagen"
 Item:
   ariaLabel: "Item toevoegen/bewerken"
   editItem: "Item bewerken"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Verwijder deze actie/info item"
   addItemModal: "Voeg {$type} toe aan {$topic}"
   editItemModal: "{$type} van {$topic} bewerken"
+  editItemModelTypeInfoItem: "Informatie"
+  editItemModelTypeActionItem: "Actie item"
   addInfo: "Info item toevoegen"
   addInfoHint: "Voeg info item toe aan onderwerp"
   action: "Actie-item"
