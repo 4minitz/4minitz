@@ -478,7 +478,7 @@ Mail:
   newAgenda: "We've got a brand new meeting agenda for you:"
   newActionItem: "You have been assigned to the following action items:"
   newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Sitzung"
+  meeting: "Meeting"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
