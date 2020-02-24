@@ -95,7 +95,13 @@ Dialog:
     confirmationDialogResetEditDetails: "Veuillez cliquer à nouveau sur les détails pour commencer l'édition."
     button: "Modifier quand même"
   ConnectionInfo:
-    tooltip: "Connexion perdue!!!\n Statut: {$status}\n Nombre de réessai: {$retryCount}\n Temps de rétractation : {$retryTime} sec.\n Raison: {$reason}\n Cliquez pour vous reconnecter.\n"
+    tooltip: |
+      Connexion perdue !
+        Statut: {$status}
+        Nombre de réessai: {$retryCount}
+        Temps de rétractation : {$retryTime} sec.
+        Raison: {$reason}
+        Cliquez pour vous reconnecter.
     header: "Vous avez perdu la connexion au serveur 4Minitz."
     body: "Si vous fermez votre navigateur, des données non enregistrées peuvent être perdues. Veuillez contacter votre administrateur si le problème persiste."
     tryToReconnect: "Essayez de vous reconnecter"
@@ -117,7 +123,10 @@ Dialog:
     body3: "donc il ne sera pas copié dans les minutes suivantes"
   ActionItemResponsibleError:
     title: "Élément Responsable de l'action non valide"
-    body: "Ce n'est pas un responsable valide !\n\n Veuillez sélectionner un **utilisateur existant** dans la liste déroulante ou entrez une **adresse e-mail valide**."
+    body: |
+      Ce n'est pas un responsable valide !
+
+      Veuillez sélectionner un **utilisateur existant** dans la liste déroulante ou entrez une **adresse e-mail valide**.
   ConvertItemError:
     title: "Impossible de convertir l'élément"
     body: "Il n'est pas possible de convertir cet élément car il a été créé dans une minute précédente."
@@ -398,13 +407,36 @@ Login:
   Login4MinitzInfo:
     header: "4Minitz : Minutes de réunion collaborative."
     subheader: "● Préparer l'Agenda ● Document Minutes ● Suivre les sujets ●"
-    abstract: "<p>Chaque utilisateur invité et connecté peut regarder en temps réel les modifications apportées aux minutes de la réunion en cours.</p> Nous avons fait 4Minitz logiciel libre et open source, car nous croyons fermement que des informations sensibles comme les procès-verbaux de réunion ne devraient pas être hébergées dans le nuage. Au lieu de cela, vous voulez l'héberger sur votre propre infrastructure où vous pouvez définir le niveau de sécurité et de sécurité dont vous avez besoin."
+    abstract: |
+      <p>Chaque utilisateur invité et connecté peut regarder en temps réel les modifications apportées aux minutes de la réunion en cours.</p>
+      Nous avons fait 4Minitz logiciel libre et open source, car nous croyons fermement que
+      des informations sensibles comme les procès-verbaux de réunion ne devraient pas être hébergées dans le nuage.
+      Au lieu de cela, vous voulez l'héberger sur votre propre infrastructure où vous pouvez définir
+      le niveau de sécurité et de sécurité dont vous avez besoin.
     prepareAgendaHeading: "Prepare Agenda"
-    prepareAgendaDetails: "<li>Créez votre série de réunions</li> <li>Invitez d'autres utilisateurs</li> <li>Spécifiez les modérateurs et les téléchargeurs</li> <li>Remplissez l'ordre du jour avec les sujets</li> <li>Marquez les sujets récurrents pour l'ordre du jour standard</li> <li>Envoyez l'ordre du jour aux utilisateurs invités</li>"
+    prepareAgendaDetails: |
+      <li>Créez votre série de réunions</li>
+      <li>Invitez d'autres utilisateurs</li>
+      <li>Spécifiez les modérateurs et les téléchargeurs</li>
+      <li>Remplissez l'ordre du jour avec les sujets</li>
+      <li>Marquez des sujets récurrents pour l'ordre du jour standard</li>
+      <li>Envoyez l'ordre du jour aux utilisateurs invités</li>
     documentMinutesHeading: "Minutes du document"
-    documentMinutesDetails: "<li>Marquer les participants présents</li> <li>Ajouter des éléments d'action avec des responsables aux sujets</li> <li>Ajouter des éléments d'information aux sujets</li> <li>Ajouter des étiquettes comme 'Décision ' aux éléments</li> <li>Télécharger des pièces jointes de fichiers binaires</li> <li>Envoyer des minutes &amp; éléments d'action via E-mail</li>"
+    documentMinutesDetails: |
+      <li>Marquer les participants présents</li>
+      <li>Ajouter des éléments d'action avec des responsables aux sujets</li>
+      <li>Ajouter des éléments d'information aux sujets</li>
+      <li>Ajouter des étiquettes comme 'Décision' aux éléments</li>
+      <li>Télécharger des pièces jointes de fichier binaires</li>
+      <li>Envoyer des minutes &amp; éléments d'action par e-mail</li>
     trackTopicsHeading: "Sujets de suivi"
-    trackTopicsDetails: "<li>Les éléments de l'action ouverte apparaîtront la prochaine fois</li> <li>Les sujets non fermés apparaîtront la prochaine fois</li> <li>Liste de recherche de tous les sujets jamais discutés</li> <li>Enrichir les sujets avec des éléments d'information sur plusieurs réunions</li> <li>Trouver des sujets avec des étiquettes (e. . toutes les décisions)</li> <li>Rechercher des éléments par recherche plein texte</li>"
+    trackTopicsDetails: |
+      <li>Les éléments de l'action ouverte apparaîtront la prochaine fois que</li>
+      <li>Les sujets non fermés apparaîtront la prochaine fois</li>
+      <li>Liste de recherche de tous les sujets jamais discutés</li>
+      <li>Enrichir les sujets avec des éléments d'information sur plusieurs réunions</li>
+      <li>Trouver des sujets avec des étiquettes (e. . toutes les décisions)</li>
+      <li>Rechercher des éléments par recherche plein texte</li>"
   Footer:
     withLove: "Codé avec ❤ par le"
     theTeam: "Équipe WebApp"
@@ -441,30 +473,72 @@ Mail:
   none: "Néant"
   AdminNewVersion:
     subject: "Une nouvelle version existe"
-    body: "Bonjour Admin,\n \n Il semble que vous utilisez une version obsolète de 4Minitz.\n \n Votre instance 4Minitz sur : {$rootUrl}\n a une version : {$myVersion}\n \n La version la plus récente disponible est : {$masterVersion}' '\n Notes de version : {$urlReleaseNotes}\n Veuillez envisager de mettre à jour.\n \n {$masterMessageText} \n Ce mail a été généré par votre backend 4Minitz.\n Vous pouvez désactiver la vérification de mise à jour via settings.json : \"updateCheck\": false.\n \n Amusez-vous !\n Votre équipe de 4Minitz.\n \n \n --- \n 4Minitz est un logiciel libre développé par l'équipe 4Minitz.\n La source est disponible au {url4Minitz}\n"
+    body: |
+      Bonjour Admin,
+
+      Il semble que vous utilisez une version obsolète de 4Minitz.
+
+      Votre instance 4Minitz sur : {$rootUrl}
+      a la version : {$myVersion}
+
+      La version la plus récente disponible est : {$masterVersion}...
+      Notes de version : {$urlReleaseNotes}
+      Veuillez envisager de mettre à jour.
+
+      {$masterMessageText}
+
+      Ce mail a été généré par votre 4Minitz backend.
+      Vous pouvez désactiver la vérification de mise à jour via settings.json: \"updateCheck\": false.
+
+      Amusez-vous !
+              Votre équipe 4Minitz.
+
+
+      ---
+      4Minitz est un logiciel libre développé par l'équipe 4Minitz.
+      Source est disponible sur {url4Minitz}
   AdminRegisterNewUser:
     subject: "Votre nouveau compte sur notre serveur"
     passwordNotSend: "    Contactez l'administrateur pour obtenir le mot de passe."
-    passwordParagraph: "Votre mot de passe : {$password}\n \n N'oubliez pas de changer votre mot de passe après votre première connexion !\n"
-    body: "Bonjour {$userLongName}, \n \n Bienvenue sur notre application Web 4Minitz.\n Maintenant vous pouvez commencer à participer à la tenue des procès-verbaux de réunion professionnels.\n \n Vous pouvez vous connecter avec 'Standard' (pas LDAP! connectez-vous à:\n Votre hôte : {$rootURL}\n Votre utilisateur : {$userName}\n {$passwordParagraph}\n \n Amusez-vous !\n\n Votre administrateur.\n \n \n --- \n 4Minitz est un logiciel libre développé par l'équipe 4Minitz.\n La source est disponible à {$url4Minitz}"
+    passwordParagraph: |
+      Votre mot de passe : {$password}
+
+      N'oubliez pas de changer votre mot de passe après votre première connexion !
+    body: |
+      Bonjour {$userLongName},
+
+      Bienvenue sur notre application Web 4Minitz.
+      Vous pouvez maintenant commencer à participer en gardant les minutes de réunion professionnelles.
+
+      Vous pouvez vous connecter avec 'Standard' (pas LDAP! connectez-vous à:
+         Votre hôte : {$rootURL}
+         Votre utilisateur : {$userName}
+      {$passwordParagraph}
+
+      Amusez-vous !
+        Votre administrateur.
+
+      ---
+      4Minitz est un logiciel libre et libre développé par l'équipe 4Minitz.
+      Source est disponible sur {$url4Minitz}
   UserRoleChange:
     subject: "Votre rôle a changé pour {$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      Bonjour {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      Votre rôle a changé pour la série de réunions '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Votre ancien rôle était : {$roleOld}
+         Votre nouveau rôle est : {$roleNew}
+         Le changement a été effectué par : {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      Pour une liste complète des droits pour chaque rôle, voir :
       {$urlRoleDocu}
 
-      Your Admin.
+      Amusez-vous !
+        Votre administrateur.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
-    body2test: "Hello {$userName}\n \n Your role has changed for meeting series '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Your old role was           : {$roleOld}\n Your new role is            : {$roleNew}\n The change was performed by : {$moderatorName}\n \n For a comprehensive list of rights for each role see:\n {$urlRoleDocu}\n \n Your Admin.\n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+      4Minitz est un logiciel libre et libre développé par l'équipe 4Minitz.
+      Source est disponible sur {$url4Minitz}"
