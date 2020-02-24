@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Proudly Sponsored By"
   specialThanks: "Special Thanks to These Projects"
   forkGitHub: "Fork us on GitHub"
-  serverStatistics: "Server Statistics"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Add/Edit item"
   editItem: "Edit Item"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Delete this action/info item"
   addItemModal: "Add {$type} to {$topic}"
   editItemModal: "Edit {$type} of {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Action Item"
   addInfo: "Add Info Item"
   addInfoHint: "Add info item to topic"
   action: "Action Item"
