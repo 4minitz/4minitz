@@ -365,7 +365,7 @@ Profile:
   Error:
     name: "Bitte gebe einen gültigen Benutzernamen ein"
     longName: "Bitte geben Sie einen gültigen vollständigen Namen an"
-    email: "Bitte gib eine gültige E-Mail-Adresse ein"
+    email: "Bitte geben Sie eine gültige E-Mail-Adresse ein"
     password: "Bitte geben Sie ein gültiges Passwort ein"
   WarningEMailChange:
     title: "Ändern der Benutzer-E-Mail bestätigen"
@@ -382,22 +382,22 @@ Admin:
     includePassword: "Passwort mit E-Mail verschicken"
     success: "Neuen Benutzer angelegt: {$user}"
   Message:
-    title: "Broadcast-Nachrichten des Administrators"
+    title: "Nachrichten des Administrators"
     newMessage: "Neue Nachricht an alle Benutzer"
     broadcast: "Senden"
     date: "Datum"
     message: "Nachricht"
     dismissed: "Verworfen"
-    dismissingUsers: "Anzahl zur Kenntnis genommener Benutzer: {$number}\n"
+    dismissingUsers: "Anzahl zur Kenntnis genommener Benutzer: {$number}"
     edit: "Bearbeiten"
   Users:
-    filterUsers: "Suche Benutzer"
+    filterUsers: "Benutzer filtern"
     showInactive: "Zeige Inaktive"
     online: "Online"
-    onlineHint: "Zeige lediglich zur Zeit aktive Benutzer"
+    onlineHint: "Zeige nur gerade aktive Benutzer"
     id: "ID"
     editProfile: "Benutzer bearbeiten"
-    countSingle: "Zeige {$visible} von {$all} Benutzer. Verwenden Sie Filter, um die Auswahl zu ändern."
+    countSingle: "Zeige {$visible} von {$all} Benutzer. Verwenden Sie Filter, um andere zu sehen."
     count: "Zeige {$visible} von {$all} Benutzern. Verwenden Sie Filter, um die Auswahl zu ändern."
     Type:
       hint: "LDAP- oder Standard-Benutzer"
@@ -441,7 +441,7 @@ Login:
       <li>Teilnehmer abhaken</li>
       <li>Aufgaben mit Verantwortlichen festhalten</li>
       <li>Information zu Themen protokollieren</li>
-      <li>Beschriftungen (z.B. 'Entscheidung') hinzufügen</li>
+      <li>Kategorien (z.B. 'Entscheidung') anhängen</li>
       <li>Binäre Dateianhänge hochladen</li>
       <li>Protokolle &amp; Aufgaben per E-Mail</li>
     trackTopicsHeading: "Themen nachverfolgen"
