@@ -478,7 +478,7 @@ Mail:
   newAgenda: "Sizin için yepyeni bir toplantı gündemimiz var:"
   newActionItem: "You have been assigned to the following action items:"
   newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Sitzung"
+  meeting: "Meeting"
   links: "Bağlantılar"
   openSeries: "Seriyi Aç"
   openMinutes: "Dakikaları Aç"
