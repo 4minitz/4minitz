@@ -127,19 +127,19 @@ Dialog:
     body1: "Es ist nicht möglich, dieses Element zu löschen, da es in einem vorherigen Protokoll erstellt wurde."
     body2a: "Diese Aufgabe ist bereits geschlossen,"
     body2b: "Diese Information ist bereits nicht angeheftet"
-    body3: "so dass es nicht in die folgenden Minuten kopiert wird"
+    body3: "so dass sie nicht in das folgenden Protokoll kopiert wird"
   ActionItemResponsibleError:
-    title: "Ungültiger Verantwortlicher für Aktionsartikel"
+    title: "Ungültige verantwortliche Person für die Aufgabe"
     body: |
-      Dies ist keine gültige Verantwortung!
+      Dies ist keine gültiger Verantwortlicher!
 
       Bitte wählen Sie einen **existierenden Benutzer** aus der Dropdown-Liste oder geben Sie eine **gültige E-Mail-Adresse** ein.
   ConvertItemError:
-    title: "Kann Element nicht konvertieren"
-    body: "Es ist nicht möglich, dieses Element zu konvertieren, da es in einer vorherigen Minute erstellt wurde."
+    title: "Kann Element nicht umwandeln"
+    body: "Es ist nicht möglich, dieses Element umzuwandeln, da es in einem vorherigen Protokoll erstellt wurde."
 About:
   title: "Über 4Minitz"
-  copyrightTeam: "von 4Minitz-Team"
+  copyrightTeam: "vom 4Minitz-Team"
   licensedUnder: "Lizenziert unter der MIT-Lizenz"
   licenseDependencies: "Lizenzen der abhängigen Pakete"
   thanksContributors: "Vielen Dank an alle Mitwirkenden"
@@ -361,8 +361,8 @@ Profile:
     password: "Bitte geben Sie ein gültiges Passwort ein"
   WarningEMailChange:
     title: "Ändern der Benutzer-E-Mail bestätigen"
-    body: "Sie sind dabei, Ihre verifizierte E-Mail-Adresse zu ändern. Du wirst abgemeldet und musst deine neue E-Mail-Adresse überprüfen, bevor du fortfahren kannst."
-    button: "Abmelden + Verifizieren"
+    body: "Sie sind dabei, Ihre verifizierte E-Mail-Adresse zu ändern. Sie werden abgemeldet und müssen Ihre neue E-Mail-Adresse verifizieren, bevor Sie sich wieder einloggen können."
+    button: "Abmelden + Neu Verifizieren"
 Admin:
   users: "Benutzer"
   messages: "Nachrichten"
@@ -412,23 +412,23 @@ Login:
   standard: "Standard"
   demoHint: "Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link \"Registrieren\" klicken."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Protokoll."
-    subheader: "● Agenda ● Dokument Protokoll vorbereiten ● Track Topics ●"
+    header: "4Minitz: Collaborative Sitzungsprotokolle."
+    subheader: "● Tagesordnung vorbereiten ● Sitzungen protokollieren ● Themen nachverfolgen ●"
     abstract: |
       <p>Jeder eingeladene und eingeloggte Benutzer kann Änderungen an den aktuellen Sitzungsprotokollen in Echtzeit verfolgen.</p>
-      Wir haben 4Minitz freie Open-Source-Software erstellt da wir der festen Überzeugung sind, dass
-      sensible Informationen wie Sitzungsprotokolle nicht in der Cloud gehostet werden sollten.
+      Wir haben 4Minitz als freie Open-Source-Software erstellt da wir der festen Überzeugung sind, dass
+      sensible Informationen wie Sitzungsprotokolle nicht in der Cloud gespeichert werden sollten.
       Stattdessen möchten Sie es auf Ihrer eigenen Infrastruktur hosten, wo Sie
       definieren können, welches Sicherheitsniveau Sie benötigen.
-    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaHeading: "Tagesordnung vorbereiten"
     prepareAgendaDetails: |
-      <li>Erstellen Sie Ihre Besprechungsreihe</li>
+      <li>Sitzungsreihe erstellen</li>
       <li>Andere Benutzer einladen</li>
-      <li>Geben Sie Moderatoren und Uploader an</li>
-      <li><li> Füllen Sie die Agenda mit Themen</li>
-      <li>Markieren Sie wiederkehrende Themen für die Standardagenda</li>
-      <li>Senden Sie Agenda an eingeladene Benutzer</li>
-    documentMinutesHeading: "Dokument Minuten"
+      <li>Moderatoren und Uploader festlegen</li>
+      <li>Agenda mit Themen füllen</li>
+      <li>Wiederkehrende Themen für die Standardagenda</li>
+      <li>Agenda an eingeladene Benutzer senden</li>
+    documentMinutesHeading: "Sitzungen protokollieren"
     documentMinutesDetails: |
       <li>Markiere die Teilnehmer</li>
       <li>Füge Elemente mit Verantwortlichkeit zu Themen hinzu</li>
@@ -436,7 +436,7 @@ Login:
       <li>Füge Beschriftungen wie 'Entscheidung' zu Elementen hinzu</li>
       <li>Binäre Dateianhänge hoch</li>
       <li>Senden Sie Minuten &amp; Aktionselemente per E-Mail</li>
-    trackTopicsHeading: "Themen verfolgen"
+    trackTopicsHeading: "Themen nachverfolgen"
     trackTopicsDetails: |
       <li>Beim nächsten Mal werden geöffnete Aktionselemente angezeigt</li>
       <li>Nicht geschlossene Themen werden beim nächsten Mal erscheinen</li>
@@ -446,7 +446,7 @@ Login:
       <li>Themen mit Labels finden (e. . alle Entscheidungen)</li>
       <li>Finden Sie Artikel nach Volltextsuche</li>
   Footer:
-    withLove: "Codiert mit ❤ von"
+    withLove: "Codiert mit ❤ durch das"
     theTeam: "WebApp-Team"
 Navigation:
   help: "Hilfe"
@@ -469,8 +469,8 @@ QuickHelp:
 Mail:
   greeting: "Guten Tag"
   newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
-  newActionItem: "Ihnen wurden folgende Aktionselemente zugewiesen:"
-  newMinutes: "Nachfolgend finden Sie die neuesten Sitzungsprotokolle."
+  newActionItem: "Ihnen wurden folgende Aufgaben zugewiesen:"
+  newMinutes: "Nachfolgend finden Sie das neueste Sitzungsprotokoll."
   meeting: "Meeting"
   links: "Links"
   openSeries: "Sitzungsreihe öffnen"
@@ -484,14 +484,15 @@ Mail:
     body: |
       Hallo Admin,
 
-      Es scheint, dass du eine veraltete Version von 4Minitz verwendest.
+      Es scheint, dass Sie eine veraltete Version von 4Minitz verwenden.
 
       Ihre 4Minitz-Instanz unter: {$rootUrl}
       hat Version: {$myVersion}
 
       Die neueste verfügbare Version ist: {$masterVersion}'
       Versionshinweise: {$urlReleaseNotes}
-      Bitte beachten Sie, dass sie aktualisiert wird.
+
+      Bitte denken Sie über ein Upgrade nach.
 
       {$masterMessageText}
 
@@ -499,12 +500,11 @@ Mail:
       Sie können die Updateprüfung über settings.json deaktivieren: \"updateCheck\": false.
 
       Viel Spaß!
-              Dein 4Minitz Team.
+              Dein 4Minitz-Team.
 
-
-      ---
-      4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
-      Quelle ist verfügbar unter {url4Minitz}
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Der Quellcode ist verfügbar unter {url4Minitz}
   AdminRegisterNewUser:
     subject: "Ihr neues Konto auf unserem Server"
     passwordNotSend: "    Admin-Kontakt für Passwort."
@@ -530,7 +530,7 @@ Mail:
       4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
       Quelle ist verfügbar unter {$url4Minitz}
   UserRoleChange:
-    subject: "Deine Rolle hat sich geändert für {$meetingProject}:{$meetingName}'"
+    subject: "Ihre Rolle hat sich geändert für {$meetingProject}:{$meetingName}"
     body: |
       Hallo {$userName}
 
