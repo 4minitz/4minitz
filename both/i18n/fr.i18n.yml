@@ -478,7 +478,7 @@ Mail:
   newAgenda: "Nous avons un nouveau programme de réunion pour vous:"
   newActionItem: "Vous avez été assigné aux éléments suivants :"
   newMinutes: "Vous trouverez ci-dessous les derniers procès-verbaux de la réunion."
-  meeting: "Sitzung"
+  meeting: "Réunion"
   links: "Liens"
   openSeries: "Série ouverte"
   openMinutes: "Ouvrir le procès-verbal"
