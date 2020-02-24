@@ -13,7 +13,7 @@ Buttons:
   cancel: "الغاء"
   change: "التغيير"
   close: "اغلاق"
-  confirm: "Confirm"
+  confirm: "تأكيد"
   create: "تكوين"
   delete: "حذف"
   dismissAll: "تجاهل الكل"
@@ -24,72 +24,72 @@ Buttons:
   save: "حفظ"
 FlashMessages:
   ok: "طيب"
-  error: "Error"
-  verifyEMailErr: "Error: EMail could not be verified"
-  verifyEMailOK: "OK: EMail is verified now"
-  passwordChangeOK: "Password changed"
-  passwordResetOK: "Password sucessfully reseted"
-  profileEditOK: "Profile changes saved"
-  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
-  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
-  finalizeProgress1: "Finalize in progress"
-  finalizeProgress2: "This may take a few seconds..."
-  finalizeOK: "This meeting minutes were successfully finalized"
+  error: "خطأ"
+  verifyEMailErr: "خطأ : لا يمكن التحقق من EMail"
+  verifyEMailOK: "حسنا : تم التحقق من EMail الآن"
+  passwordChangeOK: "تم تغيير كلمة السرية"
+  passwordResetOK: "تم اعادة تحديد كلمة السرية بنجاح"
+  profileEditOK: "تم حفظ تغييرات ملف المواصفات"
+  minuteLinkErr: "للأسف ، لا يتم ربط الدقيقة بالتسلسل الأصلي الخاص به بطريقة صحيحة-برجاء الاتصال بموجه النظام الخاص بك."
+  agendaSentOK: "تم ارسال جدول الأعمال الى {$result} مستلمين بنجاح"
+  finalizeProgress1: "الانتهاء من عملية الانهاء"
+  finalizeProgress2: "... هذا قد يستغرق بضع ثوان"
+  finalizeOK: "وقد أنجزت بنجاح دقائق هذا الاجتماع"
 Dialog:
   ConfirmDelete:
-    title: "Confirm delete?"
-    body: "Are you sure to delete this?"
+    title: "تأكيد الحذف ?"
+    body: "هل أنت متأكد من حذف هذا ؟"
   ConfirmCreateNewMinutes:
     title: "تأكيد تكوين دقائق جديدة"
     content: "هل تريد بالفعل تكوين دقائق جديدة لسلسلة الاجتماعات \"{$project}: {$name} \" ?"
-  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  confirmDeleteAttachment: "هل ترغب حقا في حذف الملحقات :\n**{$name}**"
+  confirmDeleteDetails: "هل ترغب بالفعل في حذف التفاصيل المحددة للبند **{$subject}**"
   ConfirmDeleteItem:
     allowed: "Do you really want to delete the {$type} **{$subject}**?"
     notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
     questionActionItem: "Do you want to close the action item instead?"
     questionInfoItem: "Do you want to unpin the sticky info item instead?"
-    typeActionItem: "action item"
-    typeInfoItem: "information"
-    titleCloseActionItem: "Close action item?"
-    titleUnpinInfoItem: "Unpin info item?"
-    buttonCloseActionItem: "Close action item"
-    buttonUnpinInfoItem: "Unpin info item"
+    typeActionItem: "بند التصرف"
+    typeInfoItem: "معلومات"
+    titleCloseActionItem: "اغلاق بند التصرف ؟"
+    titleUnpinInfoItem: "بند معلومات غير مسمار ؟"
+    buttonCloseActionItem: "اغلاق بند التصرف"
+    buttonUnpinInfoItem: "بند معلومات Unpin"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic **{$subject}**?"
-    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
+    allowed: "هل ترغب بالفعل في حذف الموضوع **{$subject}**"
+    notAllowed: "من غير الممكن حذف الموضوع **{$subject}** لأن الموضوع تم تكوينه في الدقائق السابقة."
     close: "هل ترغب في اغلاق الموضوع بدلا من ذلك ?"
     closeWithActions: "هل ترغب في اغلاق الموضوع مع كل بنود التصرف المتعلقة بدلا من ذلك ؟"
-  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "هل ترغب حقا في ترك سلسلة الاجتماع :\n\n**{$project} / {$name}**\n\nيجب أن تقوم بسؤال المنسق اذا كنت ترغب في الانضمام مرة أخرى بعد ذلك."
   ConfirmMinuteQualityAssurance:
-    title: "Finalize Minutes: Quality Checks"
-    button: "Proceed"
+    title: "الانتهاء من الدقائق : فحص الجودة"
+    button: "استمر"
     issues: "هناك حل القضايا بالدقائق الخاصة بك !"
     proceed: "هل تريد الاستمرار في عملية الانتهاء ؟"
-    warnNoTopics: "The current minutes have no topics"
-    warnNoParticipants: "No participant is marked as present"
-    warnEditing: "A topic/item/detail is still edited"
-    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
-    warnTopicWithoutItems: "At least one discussed topic has no items"
-    warnActionItemWithoutResponsible: "At least one action item has no responsible"
-    warnTopicNoNewContent: "A topic is checked but has no new content"
+    warnNoTopics: "لا تحتوي الدقائق الحالية على أية موضوعات"
+    warnNoParticipants: "لم يتم وضع علامة على أي مشارك في الوقت الحالي"
+    warnEditing: "مازال يتم تحرير topic/item/detail"
+    warnNoTopicDiscussed: "لا يوجد موضوع تم تعليمه على أنه 'ناقش'"
+    warnTopicWithoutItems: "موضوع مناقشة واحد على الأقل ليس له بنود"
+    warnActionItemWithoutResponsible: "يوجد بند تصرف واحد على الأقل ليس له مسئول"
+    warnTopicNoNewContent: "تم تحديد موضوع ولكن ليس له محتويات جديدة"
   ConfirmReOpenTopic:
-    title: "Re-open Topic?"
-    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
-    button: "Re-open"
+    title: "اعادة فتح الموضوع ؟"
+    body: "هل ترغب بالفعل في اعادة فتح الموضوع الذي تم اغلاقه بالفعل * **{$topicSubject}**"
+    button: "اعادة فتح"
   ConfirmSendAgenda:
-    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
-    title: "Confirm sending agenda"
+    body: "هل تريد حقا أن تقوم بارسال جدول الأعمال لهذا الاجتماع دقيقة بتاريخ **{$minDate}** ؟\nتم ارسالها بالفعل على {$agendaSentDate} على {$agendaSentTime}"
+    title: "تأكيد ارسال جدول الأعمال"
     button: "ارسال جدول الأعمال"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
-    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
-    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
-    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    really: "هل ترغب بالفعل في حذف هذه الدقائق لهذا الاجتماع بتاريخ **{$minutesDate}**"
+    newTopics: "سيؤدي ذلك الى ازالة الموضوعات **{$newTopicsCount} * * ، التي تم تكوينها خلال هذه الدقيقة."
+    closedTopicsAdditionally: "بالاضافة الى ذلك **{$closedTopicsCount} موضوعات * * سيتم فتحها مرة أخرى ، والتي تم اغلاقها خلال هذه الدقائق."
+    closedTopics: "**{$closedTopicsCount} الموضوعات * * سيتم فتحها مرة أخرى ، والتي تم اغلاقها خلال هذه الدقائق."
   ConfirmFinalizeMinutes:
-    title: "Confirm Finalize Minutes"
-    button: "Finalize"
-    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
+    title: "تأكيد الانتهاء من الدقائق"
+    button: "الانتهاء من"
+    really: "هل ترغب حقا في وضع اللمسات الأخيرة على هذه الدقيقة للاجتماع المؤرخة **{$minutesDate} ** ؟"
     sendActionItems: "ارسال بنود التصرف"
     sendMinutes: "ارسال بنود المعلومات"
   LocaleSetting:
@@ -97,10 +97,10 @@ Dialog:
     languageLocale: "اللغة المحلية"
     automatic: "آليا بواسطة برنامج الاستعراض"
   IsEditedHandling:
-    title: "Edit despite existing editing"
-    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
-    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
-    button: "Edit Anyway"
+    title: "تحرير الرغم من التحرير الموجود"
+    confirmationDialogResetEdit: "تحذير : يتم تحرير هذه الوثيقة حاليا بواسطة {$name} منذ : {$date}"
+    confirmationDialogResetEditDetails: "برجاء الضغط على التفاصيل مرة أخرى لبدء عملية التحرير."
+    button: "تحرير على أية حال"
   ConnectionInfo:
     tooltip: |
       Connection Lost!
@@ -109,7 +109,7 @@ Dialog:
         Retry Time: {$retryTime} sec.
         Reason: {$reason}
         Click to reconnect.
-    header: "You have lost the connection to the 4Minitz server."
+    header: "لقد فقدت الاتصال بوحدة خدمة 4Minitz."
     body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
     tryToReconnect: "Try To Reconnect"
   ConfirmGenerateProtocol:
@@ -481,29 +481,29 @@ Mail:
   AdminNewVersion:
     subject: "Newer version exists"
     body: |
-      Hello Admin,
+      مرحبا Admin ،
 
-      It seems you are running an outdated version of 4Minitz.
+      ، يبدو أنك تقوم بتشغيل نسخة قديمة من 4Minitz.
 
-      Your 4Minitz instance on: {$rootUrl}
-      has version: {$myVersion}
+      'نسخة 4Minitz الخاصة بك : {$rootUrl}
+      النسخة : {$myVersion}
 
-      Newest version available is: {$masterVersion}'
-      Release notes: {$urlReleaseNotes}
-      Please consider to update.
+      النسخة الحديثة المتاحة هي : {$masterVersion}'
+      ملاحظات الاصدار : {$urlReleaseNotes}
+      برجاء التفكير في التعديل.
 
       {$masterMessageText}
 
-      This mail was generated by your 4Minitz backend.
-      You can disable the update check via settings.json: \"updateCheck\": false.
+      تم تكوين هذا البريد بواسطة 4Minitz Backend الخاص بك.
+      يمكنك الغاء اتاحة التحقق من التعديل بواسطة settings.json : \ " updateCheck \" : خطأ.
 
-      Have fun!
-              Your 4Minitz team.
+      استمتع بوقتك !
+              فريق MMinitz الخاص بك.
 
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      MMinitz عبارة عن مصدر مفتوح مفتوح تم تطويره بواسطة فريق 4Minitz.
+      المصدر متاح في {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Your new account at our server"
     passwordNotSend: "    Contact admin for password."
@@ -529,7 +529,7 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   UserRoleChange:
-    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    subject: "تم تغيير الدور الخاص بك الى '{$meetingProject}:{$meetingName}'"
     body: |
       Hello {$userName}
 
