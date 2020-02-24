@@ -503,7 +503,7 @@ Mail:
 
       ---
       4Minitz je zdarma open source vyvinutý týmem 4Minitz.
-      Zdroj je k dispozici na {url4Minitz}
+      Zdroj je k dispozici na {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Váš nový účet na našem serveru"
     passwordNotSend: "    Kontaktujte administrátora pro heslo."
@@ -529,7 +529,7 @@ Mail:
       4Minitz je zdarma open source vyvinutý týmem 4Minitz.
       Zdroj je k dispozici na {$url4Minitz}
   UserRoleChange:
-    subject: "Vaše role se změnila pro {$meetingProject}:{$meetingName}'"
+    subject: "Vaše role se změnila pro '{$meetingProject}:{$meetingName}'"
     body: |
       Dobrý den {$userName}
 
