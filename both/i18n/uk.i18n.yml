@@ -8,69 +8,122 @@ Accounts:
   passwordPlaceholder: "мін. 6 символів (цифрова, нижня та верхня)"
   passwordError: "мін. 6 символів (хв. 1 цифра, 1 нижче, 1 верхня кількість)"
 Buttons:
-  cancel: "Скасувати"
-  close: "Закрити"
-  register: "Зареєструватися"
-  change: "Змінити"
-  save: "Зберегти"
-  create: "Створити"
-  ok: "Гаразд"
   add: "Додати"
-  dismissAll: "Закрити всі"
   back: "Повернутися"
+  cancel: "Скасувати"
+  change: "Змінити"
+  close: "Закрити"
+  confirm: "Confirm"
+  create: "Створити"
   delete: "Видалити"
+  dismissAll: "Закрити всі"
   edit: "Редагувати"
   hide: "Ok, hide"
+  ok: "Гаразд"
+  register: "Зареєструватися"
+  save: "Зберегти"
+FlashMessages:
+  ok: "Гаразд"
+  error: "Error"
+  verifyEMailErr: "Error: EMail could not be verified"
+  verifyEMailOK: "OK: EMail is verified now"
+  passwordChangeOK: "Password changed"
+  passwordResetOK: "Password sucessfully reseted"
+  profileEditOK: "Profile changes saved"
+  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
+  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
+  finalizeProgress1: "Finalize in progress"
+  finalizeProgress2: "This may take a few seconds..."
+  finalizeOK: "This meeting minutes were successfully finalized"
 Dialog:
+  ConfirmDelete:
+    title: "Confirm delete?"
+    body: "Are you sure to delete this?"
   ConfirmCreateNewMinutes:
     title: "Підтвердіть створення нових хвилин"
     content: "Ви дійсно хочете створити нові хвилини для серії зустрічей \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Ви дійсно хочете видалити вкладення<br><b>{$name}</b>?"
-  confirmDeleteDetails: "Ви дійсно бажаєте видалити вибрані деталі елемента <strong>{$subject}</strong>?"
-  confirmDeleteItemAllowed: "Ви дійсно бажаєте видалити {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "Неможливо видалити {$type} <strong>{$subject}</strong> тому що {$type} було створено за попередні хвилини."
+  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
+  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  confirmDeleteItemAllowed: "Do you really want to delete the {$type} **{$subject}**?"
+  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
   confirmDeleteItemActionItem: "Чи хочете ви закрити замість цього елемент дії?"
   confirmDeleteItemInfoItem: "Відкріпити замість цього елемент прикріпленої інформації?"
   ConfirmDeleteTopic:
-    allowed: "Ви дійсно хочете видалити тему <strong>{$subject}</strong>?"
-    notAllowed: "Неможливо видалити тему <strong>{$subject}</strong> тому, що її було створено за попередні хвилини."
+    allowed: "Do you really want to delete the topic **{$subject}**?"
+    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
     close: "Замість цього ви хочете закрити тему?"
     closeWithActions: "Ви хочете закрити тему разом з усіма пов'язаними елементами дій?"
-  ConfirmLeaveMeetingSeries: "Ви дійсно хочете залишити серію зустрічі:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Вам доведеться попросити модератора як згодом приєднатися до нього."
+  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
   ConfirmMinuteQualityAssurance:
+    title: "Finalize Minutes: Quality Checks"
+    button: "Proceed"
     issues: "Завершення вирішення проблем за вашими хвилинами!"
     proceed: "Ви хочете перейти до завершення?"
-  confirmReOpenTopic: "Ви дійсно хочете повторно відкрити уже закриту тему {$topicSubject}?"
-  confirmSendAgenda: "Ви дійсно хочете відправити порядок денний для цієї зустрічі хвилин від <strong>{$minDate}</strong>?<br>Він вже був відправлений {$agendaSentDate} в {$agendaSentTime}"
+    warnNoTopics: "The current minutes have no topics"
+    warnNoParticipants: "No participant is marked as present"
+    warnEditing: "A topic/item/detail is still edited"
+    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
+    warnTopicWithoutItems: "At least one discussed topic has no items"
+    warnActionItemWithoutResponsible: "At least one action item has no responsible"
+    warnTopicNoNewContent: "A topic is checked but has no new content"
+  ConfirmReOpenTopic:
+    title: "Re-open Topic?"
+    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
+    button: "Re-open"
+  ConfirmSendAgenda:
+    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    title: "Confirm sending agenda"
+    button: "Розклад"
   ConfirmDeleteMinutes:
-    really: "Ви дійсно хочете видалити цю хвилину зустрічі <strong>{$minutesDate}</strong>?"
-    newTopics: "Це видалить <strong>{$newTopicsCount} тем</strong>, які були створені протягом цієї хвилини."
-    closedTopicsAdditionally: "Додатково <strong>{$closedTopicsCount} тем</strong> буде відкрито знову, які були закриті протягом цих хвилин."
-    closedTopics: "<strong>{$closedTopicsCount} тем</strong> буде відкрито знову, і це було закрито протягом цих хвилин."
+    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
+    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
+    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
   ConfirmFinalizeMinutes:
-    really: "Ви дійсно хочете завершити цю хвилину зустрічі <strong>{$minutesDate}</strong>?"
+    title: "Confirm Finalize Minutes"
+    button: "Finalize"
+    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
     sendActionItems: "Відправити дії"
     sendMinutes: "Відправка відомостей"
   LocaleSetting:
     title: "Встановити мову"
     languageLocale: "Мова"
     automatic: "Автоматично через браузер"
-Mail:
-  greeting: "Привіт"
-  newAgenda: "У нас є абсолютно нова програма на зустріч для вас:"
-  newActionItem: "ви були призначені для наступних елементів дії:"
-  newMinutes: "нижче ви знайдете останні хвилини зустрічі."
-  meeting: "Sitzung"
-  links: "Посилання"
-  openSeries: "Відкрита серія"
-  openMinutes: "Відкрити хвилини"
-  minutesSubject: "Хвилини зустрічі"
-  discussedTopics: "Обговорювані теми"
-  skippedTopics: "Відкрити теми"
-  none: "Без ефекту"
+  IsEditedHandling:
+    title: "Edit despite existing editing"
+    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
+    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
+    button: "Edit Anyway"
+  ConnectionInfo:
+    tooltip: "Connection Lost!!!\n Status: {$status}\n Retry Count: {$retryCount}\n Retry Time: {$retryTime} sec.\n Reason: {$reason}\n Click to reconnect.\n"
+    header: "You have lost the connection to the 4Minitz server."
+    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
+    tryToReconnect: "Try To Reconnect"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    button: "Download"
+  ConfirmTopicDelete:
+    title1: "Confirm delete topic"
+    title2: "Mark topic as discussed?"
+    button2: "Close topic and actions"
+    errortitle: "Cannot delete topic"
+    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+  ItemDeleteError:
+    title: "Cannot delete item"
+    body1: "It is not possible to delete this item because it was created in a previous minutes."
+    body2a: "This action item is already closed,"
+    body2b: "This info item is already un-pinned"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: "This is not a valid responsible!\n\n Please select an **existing user** from the dropdown or enter a **valid email address**."
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
 About:
   title: "Про 4Minitz"
-  copyright: "(C) 2015-2019 4Minitz-Team"
+  copyrightTeam: "by 4Minitz-Team"
   licensedUnder: "На ліцензії MIT-ліцензії"
   licenseDependencies: "Ліцензія залежностей"
   thanksContributors: "Дякуємо усім нашим учасникам"
@@ -88,7 +141,6 @@ Item:
   editItemModal: "Edit {$type} з {$topic}"
   addInfo: "Додати елемент інформації"
   addInfoHint: "Додати елемент інформації до теми"
-  editInfo: "Редагувати елемент інформації"
   action: "Елемент дії"
   addAction: "Додати елемент дії"
   addActionHint: "Додати елемент дії до теми"
@@ -156,7 +208,6 @@ Topic:
   history: "Показати історію"
   historyHint: "Показувати повністю завершений стан цієї теми"
   delete: "Видалити тему"
-  deleteHint: "Видалити тему"
   reopen: "Відкрийте тему заново"
   reopenHint: "Відкрийте тему заново"
   placeholder: "Додайте Інформаційний Елемент. Додавайте @username щоб додати елемент дії. Натисніть Enter щоб додати деталі додатка. Натисніть Ctrl+Enter або Вкладку для підміну."
@@ -219,6 +270,7 @@ Minutes:
     continue: "Продовжити завантаження"
     pause: "Призупинити завантаження"
     abort: "Відмінити завантаження"
+    error: "Error during upload"
   version: "Версія"
   versionTag: "з"
   Participants:
@@ -242,6 +294,7 @@ MeetingSeries:
   team: "Команда / проект"
   new: "Нова серія зустрічей"
   leave: "Залишити зустрічі"
+  leaveButton: "Leave"
   moderator: "Ви модератор"
   lastMinute: "Остання хвилина:"
   Search:
@@ -290,6 +343,10 @@ Profile:
     longName: "Будь ласка правильно введіть довге ім'я"
     email: "Будь ласка, введіть дійсну адресу електронної пошти"
     password: "Будь ласка, введіть правильний пароль"
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
 Admin:
   users: "Спільноти"
   messages: "Повідомлення"
@@ -334,10 +391,23 @@ Login:
     title: "Помилка входу"
     username: "Будь ласка, введіть ім'я користувача"
     password: "Будь ласка, введіть ваш пароль"
-  title: "Увійти"
+  signIn: "Sign In"
   ldap: "LDAP"
   standard: "Стандартна"
   demoHint: "Підказка: Демо-режим активовано<br>ви можете увійти за допомогою імені користувача <b>демо</b> і паролю <b>демо</b>. Або ви можете зареєструвати свій акаунт, натиснувши на посилання \"Реєстрація\" нижче."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: "<p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p> We made 4Minitz free open source software, as we strongly believe that sensitive information like meeting minutes should not be hosted in the cloud. Instead you want to host it on your own infrastructure where you can define the level of security and safety you need."
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: "<li>Create your meeting series</li> <li>Invite other users</li> <li>Specify moderators and uploaders</li> <li>Fill agenda with topics</li> <li>Mark recurring topics for standard agenda</li> <li>Send agenda to invited users</li>"
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: "<li>Mark present participants</li> <li>Add action items with responsibles to topics</li> <li>Add information items to topics</li> <li>Add labels like 'Decision' to items</li> <li>Upload binary file attachments</li> <li>Send minutes &amp; action items via EMail</li>"
+    trackTopicsHeading: "Track Topics"
+    trackTopicsDetails: "<li>Open action items will show up next time</li> <li>Non-closed topics will show up next time</li> <li>Search list of all ever discussed topics</li> <li>Enrich topics with info items on multiple meetings</li> <li>Find topics with labels (e.g. all Decisions)</li> <li>Find items by fulltext search</li>"
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
 Navigation:
   help: "Довідка"
   about: "Про програму"
@@ -356,3 +426,45 @@ QuickHelp:
   meetingSeriesList: "<p>За допомогою 4Minitz ви зможете створити хвилини для зустрічей.</p><p>Спочатку створіть нову серію зустрічей і запросіть деяких інших користувачів.<br>Потім створіть хвилини зустрічі на кілька дат у серії зустрічей.</p>"
   minutes: "<p>Додайте теми, щоб підготувати ваш порядок денний зустрічі<br>Під час зустрічі позначайте тему із галочкою, щоб чітко прояснити, ви обговорювали її.<br>Якщо тема...<br>&nbsp;&nbsp; - не позначений як обговорювані або<br>&nbsp;&nbsp; - встановлений як повторювана тема або<br>&nbsp;&nbsp; - містить не виконані дії<br>. . Ця тема буде представлена на наступній зустрічі знову.</p><p>Натисніть \"Завершіть хвилини\", щоб надіслати хвилини на запрошеного користувача та дійові пункти до їх відповідальності.</p>"
   upload: "<ul><li>Тут ви можете завантажувати такі файли, наприклад, наприклад, презентації, PDF або whiteboard фото</li><li>Вам потрібна роль 'Uploader' або 'Модератор' щоб зробити це</li><li>Вивантаження або видалення можливе до завершення хвилин до завершення роботи</li><li>Pro Порада: Натисніть вище кнопку 'Upload' на планшеті або розумний телефон!</li></ul>"
+Mail:
+  greeting: "Привіт"
+  newAgenda: "У нас є абсолютно нова програма на зустріч для вас:"
+  newActionItem: "You have been assigned to the following action items:"
+  newMinutes: "Below you'll find the latest meeting minutes."
+  meeting: "Sitzung"
+  links: "Посилання"
+  openSeries: "Відкрита серія"
+  openMinutes: "Відкрити хвилини"
+  minutesSubject: "Хвилини зустрічі"
+  discussedTopics: "Обговорювані теми"
+  skippedTopics: "Відкрити теми"
+  none: "Без ефекту"
+  AdminNewVersion:
+    subject: "Newer version exists"
+    body: "Hello Admin,\n \n It seems you are running an outdated version of 4Minitz.\n \n Your 4Minitz instance on: {$rootUrl}\n has version: {$myVersion}\n \n Newest version available is: {$masterVersion}'\n Release notes: {$urlReleaseNotes}\n Please consider to update.\n \n {$masterMessageText} \n This mail was generated by your 4Minitz backend.\n You can disable the update check via settings.json: \"updateCheck\": false.\n \n Have fun!\n Your 4Minitz team.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {url4Minitz}\n"
+  AdminRegisterNewUser:
+    subject: "Your new account at our server"
+    passwordNotSend: "    Contact admin for password."
+    passwordParagraph: "Your password : {$password}\n \n Don't forget to change your password after first login!\n"
+    body: "Hello {$userLongName}, \n \n Welcome to our 4Minitz WebApp.\n Now you can start to participate in keeping of professional meeting minutes.\n \n You may sign in with 'Standard' (not LDAP!) login at:\n Your host     : {$rootURL}\n Your user     : {$userName}\n {$passwordParagraph}\n \n Have fun!\n\n Your Admin.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+  UserRoleChange:
+    subject: "Your role has changed for {$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"
+    body2test: "Hello {$userName}\n \n Your role has changed for meeting series '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Your old role was           : {$roleOld}\n Your new role is            : {$roleNew}\n The change was performed by : {$moderatorName}\n \n For a comprehensive list of rights for each role see:\n {$urlRoleDocu}\n \n Your Admin.\n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
