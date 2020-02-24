@@ -23,10 +23,10 @@ Buttons:
   register: "Зареєструватися"
   save: "Зберегти"
 UserRoles:
-  roleName01: "Модератор"
-  roleName05: "Завантажувач"
-  roleName10: "Запрошені"
-  roleName66: "Усвідомлено"
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "Запрошені"
+  roleInformed: "Informed"
 FlashMessages:
   ok: "Гаразд"
   error: "Помилка"
