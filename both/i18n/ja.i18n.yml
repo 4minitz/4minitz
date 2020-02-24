@@ -146,7 +146,13 @@ About:
   proudlySponsored: "誇らしげに Sponsored"
   specialThanks: "これらのプロジェクトの特別支援"
   forkGitHub: "GitHub上でのフォーク"
-  serverStatistics: "サーバー統計"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "項目の追加/編集"
   editItem: "アイテムの編集"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "このアクション/情報項目を削除"
   addItemModal: "{$type} を {$topic}に追加"
   editItemModal: "{$topic}の {$type} を編集"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "アクション項目"
   addInfo: "情報項目の追加"
   addInfoHint: "トピックへの情報項目の追加"
   action: "アクション項目"
