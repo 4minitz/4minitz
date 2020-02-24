@@ -436,7 +436,7 @@ Login:
       <li>Search list of all ever discussed topics</li>
       <li>Enrich topics with info items on multiple meetings</li>
       <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>"
+      <li>Find items by fulltext search</li>
   Footer:
     withLove: "Coded with ❤ by the"
     theTeam: "WebApp Team"
