@@ -436,7 +436,7 @@ Login:
       <li>Vyhledávání všech témat</li>
       <li>Rozšířit témata s informacemi o více setkáních</li>
       <li>Najít témata s popisky (např. popisky). . všechna rozhodnutí)</li>
-      <li>Najít položky pomocí fulltextového vyhledávání</li>"
+      <li>Najít položky pomocí fulltextového vyhledávání</li>
   Footer:
     withLove: "Kódováno pomocí ❤"
     theTeam: "Tým WebApp"
