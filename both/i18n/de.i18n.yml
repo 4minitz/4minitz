@@ -319,7 +319,7 @@ MeetingSeries:
   new: "Neue Sitzungsreihe"
   leave: "Sitzungsreihe verlassen"
   leaveButton: "Verlassen"
-  moderator: "Du bist Moderator"
+  moderator: "Sie sind Moderator"
   lastMinute: "Letztes Protokoll:"
   Search:
     placeholder: "Nach Sitzungsreihe suchen"
