@@ -16,10 +16,10 @@ Buttons:
   confirm: "Bestätigen"
   create: "Erstellen"
   delete: "Löschen"
-  dismissAll: "Verwerfen"
+  dismissAll: "Als Gelesen Markieren"
   edit: "Bearbeiten"
-  hide: "Ok, verstecken"
-  ok: "Ok"
+  hide: "OK, verstecken"
+  ok: "OK"
   register: "Registrieren"
   save: "Speichern"
 FlashMessages:
@@ -32,7 +32,7 @@ FlashMessages:
   profileEditOK: "Profiländerungen gespeichert"
   minuteLinkErr: "Leider ist das Protokoll nicht korrekt mit der übergeordneten Sitzungsreihe verbunden - bitte kontaktieren Sie Ihren Systemadministrator."
   agendaSentOK: "Agenda wurde erfolgreich an {$result} Empfänger gesendet"
-  finalizeProgress1: "Beschluss wird verarbeitet"
+  finalizeProgress1: "Protokoll wird abgeschlossen"
   finalizeProgress2: "Dies kann einige Sekunden dauern..."
   finalizeOK: "Das Sitzungsprotokoll wurde erfolgreich abgeschlossen"
 Dialog:
@@ -41,8 +41,8 @@ Dialog:
     body: "Sind Sie sicher, dass Sie dies löschen wollen?"
   ConfirmCreateNewMinutes:
     title: "Neues Protokoll erstellen bestätigen"
-    content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name} \" erstellen?"
-  confirmDeleteAttachment: "Wollen Sie den Anhang wirklich löschen:\n**{$name}**?"
+    content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name}\" erstellen?"
+  confirmDeleteAttachment: "Wollen Sie den Datei-Anhang wirklich löschen:\n**{$name}**?"
   confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements **{$subject}** löschen?"
   ConfirmDeleteItem:
     allowed: "Wollen Sie die {$type} **{$subject} ** wirklich löschen?"
@@ -58,9 +58,9 @@ Dialog:
   ConfirmDeleteTopic:
     allowed: "Wollen Sie wirklich das Thema **{$subject}** löschen?"
     notAllowed: "Es ist nicht möglich, das Thema **{$subject}** zu löschen, da das Thema in einem beschlossenen Protokoll erstellt wurde."
-    close: "Möchten Sie das Thema stattdessen schließen?"
-    closeWithActions: "Möchten Sie stattdessen das Thema zusammen mit allen zugehörigen Aktionselementen schließen?"
-  confirmLeaveMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich verlassen:\n\n**{$project} / {$name}**\n\nSie müssen einen Moderator fragen, ob Sie später wieder beitreten möchten."
+    close: "Möchten Sie das Thema stattdessen als 'diskutiert' markieren?"
+    closeWithActions: "Möchten Sie stattdessen das Thema zusammen mit allen zugehörigen Aufgaben schließen?"
+  confirmLeaveMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich verlassen:\n\n**{$project} / {$name}**\n\nSie müssen einen Moderator fragen, falls Sie später wieder beitreten möchten."
   ConfirmMinuteQualityAssurance:
     title: "Protokoll-Abschluss: Qualitätsprüfungen"
     button: "Fortfahren"
@@ -71,11 +71,11 @@ Dialog:
     warnEditing: "Ein Thema/Element/Detail wird noch bearbeitet"
     warnNoTopicDiscussed: "Kein Thema ist als 'diskutiert' markiert"
     warnTopicWithoutItems: "Mindestens ein Thema hat keine Elemente"
-    warnActionItemWithoutResponsible: "Mindestens ein Aktionselement hat keine verantwortliche Person"
+    warnActionItemWithoutResponsible: "Mindestens eine Aufgabe hat keine verantwortliche Person"
     warnTopicNoNewContent: "Ein Thema wurde diskutiert, hat aber keinen neuen Inhalt"
   ConfirmReOpenTopic:
     title: "Thema erneut öffnen?"
-    body: "Möchten Sie das bereits geschlossene Thema **{$topicSubject} ** wirklich erneut öffnen?"
+    body: "Möchten Sie das bereits abgeschlossene Thema **{$topicSubject} ** wirklich erneut öffnen?"
     button: "Erneut öffnen"
   ConfirmSendAgenda:
     body: "Möchten Sie wirklich die Tagesordnung für die Sitzung vom **{$minDate}** erneut verschicken?\nSie wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
@@ -430,21 +430,20 @@ Login:
       <li>Agenda an eingeladene Benutzer senden</li>
     documentMinutesHeading: "Sitzungen protokollieren"
     documentMinutesDetails: |
-      <li>Markiere die Teilnehmer</li>
-      <li>Füge Elemente mit Verantwortlichkeit zu Themen hinzu</li>
-      <li>Füge Informationselemente zu Themen</li>
-      <li>Füge Beschriftungen wie 'Entscheidung' zu Elementen hinzu</li>
-      <li>Binäre Dateianhänge hoch</li>
-      <li>Senden Sie Minuten &amp; Aktionselemente per E-Mail</li>
+      <li>Teilnehmer abhaken</li>
+      <li>Aufgaben mit Verantwortlichen festhalten</li>
+      <li>Information zu Themen protokollieren</li>
+      <li>Beschriftungen (z.B. 'Entscheidung') hinzufügen</li>
+      <li>Binäre Dateianhänge hochladen</li>
+      <li>Protokolle &amp; Aufgaben per E-Mail</li>
     trackTopicsHeading: "Themen nachverfolgen"
     trackTopicsDetails: |
-      <li>Beim nächsten Mal werden geöffnete Aktionselemente angezeigt</li>
-      <li>Nicht geschlossene Themen werden beim nächsten Mal erscheinen</li>
+      <li>Automatische Wiedervorlage unerledigter Aufgaben</li>
+      <li>Automatische Wiedervorlage offener Themen</li>
       <li>Suchliste aller jemals diskutierten Themen</li>
-
-      <li>Erweitern Sie Themen mit Informationen zu mehreren Meetings</li>
-      <li>Themen mit Labels finden (e. . alle Entscheidungen)</li>
-      <li>Finden Sie Artikel nach Volltextsuche</li>
+      <li>Erweitern Sie Themen mit Informationen aus mehreren Protokollen</li>
+      <li>Themen mit Beschriftungen finden (z.B. alle Entscheidungen)</li>
+      <li>Finden Sie Elemente mit der Volltextsuche</li>
   Footer:
     withLove: "Codiert mit ❤ durch das"
     theTeam: "WebApp-Team"
@@ -463,9 +462,9 @@ Navigation:
 QuickHelp:
   title: "Schnellhilfe"
   meetingSeries: "<p>Hier können Sie neue Protokolle für die aktuelle Sitzungsreihe erstellen oder über das Datum das entsprechende Protokoll aufrufen.</p>"
-  meetingSeriesList: "<p>Mit 4Minitz kannst du Protokolle für Sitzungen erstellen.</p><p>Erstelle zuerst eine neue Sitzungsreihe und lade alle Teilnehmer ein.<br>Anschließend kannst du Protokolle zu dieser Sitzungsreihe anlegen.</p>"
+  meetingSeriesList: "<p>Mit 4Minitz kannst du Protokolle für Sitzungen erstellen.</p><p>Erstelle zuerst eine neue Sitzungsreihe und lade alle Teilnehmer ein.<br>Anschließend können Sie Protokolle zu dieser Sitzungsreihe anlegen.</p>"
   minutes: "<p>Füge zunächst Themen zu deiner Tagesordnung hinzu, um diese vorab an alle Mitglieder zu verschicken.<br>Während der Sitzung werden alle Themen, die abschließend diskutiert wurden, mit einem Häkchen markiert.<br>Falls...<br>&nbsp;&nbsp; - das Thema nicht als diskutiert markiert oder<br>&nbsp;&nbsp; - dieses als wiederkehrendes Thema gesetzt oder<br>&nbsp;&nbsp; - das Thema eine unerledigte Aufgabe enthält<br>... wird das Thema in der nächsten Sitzung erneut vorgebracht.</p><p>Klicke auf 'Protokoll beschließen', um das Protokoll an die eingeladenen Benutzer und die Aufgaben an ihre Verantwortlichen zu senden.</p>"
-  upload: "<ul><li>Hier kannst du Dateien wie z.B. Präsentationen, PDFs oder Whiteboards hochladen</li><li>Du benötigst die Rolle 'Uploader' oder 'Moderator', um dies tun zu können</li><li>Hochladen und wieder löschen ist solange möglich, bis das Protokoll beschlossen wurde</li><li>Tipp: Klicken Sie auf die oben stehende 'Upload' Taste auf Ihrem Tablet oder Smartphone!</li></ul>"
+  upload: "<ul><li>Hier können Sie Dateien wie z.B. Präsentationen, PDFs oder Whiteboard-Fotos hochladen</li>\n<li>Sie benötigen die Rolle 'Uploader' oder 'Moderator', um dies tun zu können</li>\n<li>Hochladen und wieder löschen ist solange möglich, bis das Protokoll beschlossen wurde</li>\n<li>Tipp: Klicken Sie auf den 'Hochladen...' Knopf auf Ihrem Tablet oder Smartphone!</li></ul>"
 Mail:
   greeting: "Guten Tag"
   newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
