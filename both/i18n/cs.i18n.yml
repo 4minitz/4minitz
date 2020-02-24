@@ -23,10 +23,10 @@ Buttons:
   register: "Registrace"
   save: "Zachránit"
 UserRoles:
-  roleName01: "Moderátor"
-  roleName05: "Nahrávání"
-  roleName10: "Pozvánka"
-  roleName66: "Informováno"
+  roleModerator: "Moderátor"
+  roleUploader: "Nahrávání"
+  roleInvited: "Pozvánka"
+  roleInformed: "Informováno"
 FlashMessages:
   ok: "OK"
   error: "Chyba"
