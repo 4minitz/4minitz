@@ -13,7 +13,7 @@ Buttons:
   cancel: "取消"
   change: "更改"
   close: "关闭"
-  confirm: "Confirm"
+  confirm: "确认"
   create: "创建"
   delete: "删除"
   dismissAll: "全部取消"
@@ -23,66 +23,66 @@ Buttons:
   register: "注册"
   save: "保存"
 FlashMessages:
-  ok: "确定"
-  error: "Error"
-  verifyEMailErr: "Error: EMail could not be verified"
-  verifyEMailOK: "OK: EMail is verified now"
-  passwordChangeOK: "Password changed"
-  passwordResetOK: "Password sucessfully reseted"
-  profileEditOK: "Profile changes saved"
-  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
-  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
-  finalizeProgress1: "Finalize in progress"
-  finalizeProgress2: "This may take a few seconds..."
-  finalizeOK: "This meeting minutes were successfully finalized"
+  ok: "好的"
+  error: "错误"
+  verifyEMailErr: "错误：邮件无法验证"
+  verifyEMailOK: "确定：电邮已验证"
+  passwordChangeOK: "密码已更改"
+  passwordResetOK: "密码已成功重置"
+  profileEditOK: "个人资料更改已保存"
+  minuteLinkErr: "很抱歉，该分钟未正确链接到其父序列-请联系您的系统管理员。"
+  agendaSentOK: "日程已成功发送至 {$result} 收件人"
+  finalizeProgress1: "正在完成中"
+  finalizeProgress2: "这可能需要几秒钟..."
+  finalizeOK: "本次会议记录已成功完成"
 Dialog:
   ConfirmDelete:
-    title: "Confirm delete?"
-    body: "Are you sure to delete this?"
+    title: "确认删除？"
+    body: "您确定要删除这个吗？"
   ConfirmCreateNewMinutes:
     title: "确认创建新分钟"
     content: "您真的想要为会议系列创建新的分钟数\"{$project}: {$name}\"？"
-  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
-  confirmDeleteItemAllowed: "Do you really want to delete the {$type} **{$subject}**?"
-  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
+  confirmDeleteAttachment: "您真的想要删除附件：\n**{$name}**？"
+  confirmDeleteDetails: "您真的想要删除项目**{$subject} **的详细信息吗？"
+  confirmDeleteItemAllowed: "您真的想要删除 {$type} **{$subject} **吗？"
+  confirmDeleteItemNotAllowed: "无法删除 {$type} **{$subject}** ，因为 {$type} 是在前几分钟内创建的。"
   confirmDeleteItemActionItem: "您想要关闭操作项吗？"
   confirmDeleteItemInfoItem: "您想要取消置顶粘滞信息项吗？"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic **{$subject}**?"
-    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
+    allowed: "您真的想要删除主题 **{$subject} **吗？"
+    notAllowed: "无法删除主题 **{$subject}** ，因为主题是在前几分钟内创建的。"
     close: "你想要关闭主题吗？"
     closeWithActions: "您想要关闭主题和所有相关的操作项目吗？"
-  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "您真的想要离开会议系列：\n\n**{$project} / {$name}**\n\n您必须询问版主，如果您想在会后再次加入。"
   ConfirmMinuteQualityAssurance:
-    title: "Finalize Minutes: Quality Checks"
-    button: "Proceed"
+    title: "完成分钟数：质量检查"
+    button: "继续"
     issues: "您的分钟有最后的问题！"
     proceed: "您想要继续最后完成吗？"
-    warnNoTopics: "The current minutes have no topics"
-    warnNoParticipants: "No participant is marked as present"
-    warnEditing: "A topic/item/detail is still edited"
-    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
-    warnTopicWithoutItems: "At least one discussed topic has no items"
-    warnActionItemWithoutResponsible: "At least one action item has no responsible"
-    warnTopicNoNewContent: "A topic is checked but has no new content"
+    warnNoTopics: "当前分钟没有主题"
+    warnNoParticipants: "没有参与者被标记为存在"
+    warnEditing: "一个主题/项目/详细信息仍被编辑"
+    warnNoTopicDiscussed: "没有主题被标记为“讨论”"
+    warnTopicWithoutItems: "至少有一个讨论过的主题没有项目"
+    warnActionItemWithoutResponsible: "至少有一个操作项目没有任何责任"
+    warnTopicNoNewContent: "选中了一个主题，但没有新内容"
   ConfirmReOpenTopic:
-    title: "Re-open Topic?"
-    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
-    button: "Re-open"
+    title: "重新打开主题？"
+    body: "您真的想要重新打开已关闭的主题**{$topicSubject} **吗？"
+    button: "重新打开"
   ConfirmSendAgenda:
-    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
-    title: "Confirm sending agenda"
-    button: "发送议程"
+    body: "您真的想要发送日期为 **{$minDate}**的这个会议记录吗？\n它已经在 {$agendaSentDate} 于 {$agendaSentTime} 发送"
+    title: "确认发送议程"
+    button: "发送任务"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
-    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
-    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
-    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    really: "您真的想要删除日期为 **{$minutesDate} **的这个会议记录吗？"
+    newTopics: "这将删除 **{$newTopicsCount} 个主题**，它们是在这分钟内创建的。"
+    closedTopicsAdditionally: "此外，**{$closedTopicsCount} 个主题** 将再次打开，这些主题将在此分钟内关闭。"
+    closedTopics: "**{$closedTopicsCount} 个主题** 将再次打开，这些主题将在此分钟内关闭。"
   ConfirmFinalizeMinutes:
-    title: "Confirm Finalize Minutes"
-    button: "Finalize"
-    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
+    title: "确认完成分钟"
+    button: "完成"
+    really: "您真的想要在**{$minutesDate}**的日期完成这个会议记录吗？"
     sendActionItems: "发送操作项"
     sendMinutes: "发送信息项"
   LocaleSetting:
@@ -90,40 +90,40 @@ Dialog:
     languageLocale: "语言语言"
     automatic: "通过浏览器自动使用"
   IsEditedHandling:
-    title: "Edit despite existing editing"
-    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
-    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
-    button: "Edit Anyway"
+    title: "编辑已存在的编辑"
+    confirmationDialogResetEdit: "警告：此文档ist 目前由 {$name} 编辑，原因是： {$date}"
+    confirmationDialogResetEditDetails: "请再次点击详细信息开始编辑。"
+    button: "继续编辑"
   ConnectionInfo:
-    tooltip: "Connection Lost!!!\n Status: {$status}\n Retry Count: {$retryCount}\n Retry Time: {$retryTime} sec.\n Reason: {$reason}\n Click to reconnect.\n"
-    header: "You have lost the connection to the 4Minitz server."
-    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
-    tryToReconnect: "Try To Reconnect"
+    tooltip: "连接丢失！！\n 状态： {$status}\n 重试次数： {$retryCount}\n 重试时间： {$retryTime} 秒。\n 原因： {$reason}\n 点击重新连接。\n"
+    header: "您已经失去连接到 4Minitz服务器。"
+    body: "如果您关闭了浏览器，未保存的数据可能会丢失。如果这个问题仍然存在，请联系您的管理员。"
+    tryToReconnect: "尝试重新连接"
   ConfirmGenerateProtocol:
     title: "Confirm generate protocol"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
-    button: "Download"
+    body: "这几分钟没有生成协议。您想要下载动态生成的 HTML 版本吗？"
+    button: "下载"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    title1: "确认删除主题"
+    title2: "将主题标记为已讨论？"
+    button2: "关闭主题和操作"
+    errortitle: "无法删除主题"
+    errorcontent: "无法删除此主题，因为它是在前几分钟内创建的。 选中的主题已经关闭，没有打开的操作项目，所以它不会被复制到下几分钟。"
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
-    body3: "so it won't be copied to the following minutes"
+    title: "无法删除项目"
+    body1: "无法删除此项目，因为它是在前几分钟内创建的。"
+    body2a: "此操作项已被关闭，"
+    body2b: "此信息项已取消置頂了"
+    body3: "所以它不会被复制到以下几分钟"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
-    body: "This is not a valid responsible!\n\n Please select an **existing user** from the dropdown or enter a **valid email address**."
+    title: "无效的操作项"
+    body: "这不是一个有效的责任！\n\n 请从下拉列表中选择一个**现有的用户** 或输入一个**有效的电子邮件地址**。"
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "无法转换项目"
+    body: "无法转换此项目，因为它是在前几分钟内创建的。"
 About:
   title: "关于 4Minitz"
-  copyrightTeam: "by 4Minitz-Team"
+  copyrightTeam: "由4Minitz-Team"
   licensedUnder: "许可证许可"
   licenseDependencies: "依赖许可证"
   thanksContributors: "感谢我们的所有贡献者"
@@ -270,7 +270,7 @@ Minutes:
     continue: "继续上传"
     pause: "暂停上传"
     abort: "中止上传"
-    error: "Error during upload"
+    error: "上传时出错"
   version: "版本"
   versionTag: "v"
   Participants:
@@ -294,7 +294,7 @@ MeetingSeries:
   team: "团队 / 项目"
   new: "新的会议系列"
   leave: "休假会议系列"
-  leaveButton: "Leave"
+  leaveButton: "退出"
   moderator: "你是版主"
   lastMinute: "最后一分钟："
   Search:
@@ -344,9 +344,9 @@ Profile:
     email: "请输入一个有效的EMail 地址"
     password: "请输入一个有效的密码"
   WarningEMailChange:
-    title: "Confirm changing user mail"
-    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
-    button: "Sign off + Re-Verify"
+    title: "确认更改用户邮件"
+    body: "您将要更改您已验证的邮件地址。 您将被登出并需要验证您的新邮件地址才能继续。"
+    button: "注销 + 重新验证"
 Admin:
   users: "用户"
   messages: "消息"
@@ -391,23 +391,23 @@ Login:
     title: "登录错误"
     username: "请输入您的用户名"
     password: "请输入您的密码"
-  signIn: "Sign In"
+  signIn: "登录"
   ldap: "卢达普"
   standard: "标准"
   demoHint: "提示:Demo Mode Active<br>您可以使用用户名 <b>demo</b> 和 password <b>demo</b>登录。 或者，您可以通过单击下面的 \"注册\" 链接来注册自己的帐户。"
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Minutes."
-    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
-    abstract: "<p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p> We made 4Minitz free open source software, as we strongly believe that sensitive information like meeting minutes should not be hosted in the cloud. Instead you want to host it on your own infrastructure where you can define the level of security and safety you need."
+    header: "4Minitz：合作会议记录。"
+    subheader: "● 准备议程 ● 文档分钟● 跟踪主题 ●"
+    abstract: "<p>每个被邀请并登录的用户都可以实时观看当前会议分钟的变化。</p> 我们制作了 4Minitz免费开放源码软件。 我们坚信，像会议记录这样的敏感信息不应放在云端。 相反，你想在自己的基础设施上托管它，你可以在那里定义你所需要的安全等级。"
     prepareAgendaHeading: "Prepare Agenda"
-    prepareAgendaDetails: "<li>Create your meeting series</li> <li>Invite other users</li> <li>Specify moderators and uploaders</li> <li>Fill agenda with topics</li> <li>Mark recurring topics for standard agenda</li> <li>Send agenda to invited users</li>"
-    documentMinutesHeading: "Document Minutes"
-    documentMinutesDetails: "<li>Mark present participants</li> <li>Add action items with responsibles to topics</li> <li>Add information items to topics</li> <li>Add labels like 'Decision' to items</li> <li>Upload binary file attachments</li> <li>Send minutes &amp; action items via EMail</li>"
-    trackTopicsHeading: "Track Topics"
-    trackTopicsDetails: "<li>Open action items will show up next time</li> <li>Non-closed topics will show up next time</li> <li>Search list of all ever discussed topics</li> <li>Enrich topics with info items on multiple meetings</li> <li>Find topics with labels (e.g. all Decisions)</li> <li>Find items by fulltext search</li>"
+    prepareAgendaDetails: "<li>创建您的会议系列</li> <li>邀请其他用户</li> <li>指定版主和上传者</li> <li>填写主题</li> <li>标记重复主题用于标准日程</li> <li>发送议程给邀请的用户</li>"
+    documentMinutesHeading: "文档分钟"
+    documentMinutesDetails: "<li>标记当前参与者</li> <li>添加对主题负责的操作项目</li> <li>添加信息项目到主题</li> <li>添加类似于'决定'的标签到项目</li> <li>上传二进制文件附件</li> <li>通过电子邮件发送分钟 &amp; 动作项目</li>"
+    trackTopicsHeading: "跟踪主题"
+    trackTopicsDetails: "<li>下次打开的动作项目将显示</li> <li>非闭合的主题下次显示</li> <li>搜索所有曾经讨论过的主题的列表</li> <li>多次会议上包含信息项目的主题</li> <li>查找带标签的主题(e). 。所有决定)</li> <li>通过全文搜索查找项目</li>"
   Footer:
-    withLove: "Coded with ❤ by the"
-    theTeam: "WebApp Team"
+    withLove: "用 ❤ 来电"
+    theTeam: "WebApp 团队"
 Navigation:
   help: "帮助"
   about: "关于"
@@ -429,8 +429,8 @@ QuickHelp:
 Mail:
   greeting: "你好"
   newAgenda: "我们有一个全新的会议日程"
-  newActionItem: "You have been assigned to the following action items:"
-  newMinutes: "Below you'll find the latest meeting minutes."
+  newActionItem: "您已被分配到以下操作项："
+  newMinutes: "下面你会找到最新的会议记录。"
   meeting: "西通"
   links: "链接"
   openSeries: "打开系列"
@@ -440,31 +440,31 @@ Mail:
   skippedTopics: "打开主题"
   none: "无"
   AdminNewVersion:
-    subject: "Newer version exists"
-    body: "Hello Admin,\n \n It seems you are running an outdated version of 4Minitz.\n \n Your 4Minitz instance on: {$rootUrl}\n has version: {$myVersion}\n \n Newest version available is: {$masterVersion}'\n Release notes: {$urlReleaseNotes}\n Please consider to update.\n \n {$masterMessageText} \n This mail was generated by your 4Minitz backend.\n You can disable the update check via settings.json: \"updateCheck\": false.\n \n Have fun!\n Your 4Minitz team.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {url4Minitz}\n"
+    subject: "已有新版本"
+    body: "您好 Admin,\n \n 似乎你正在运行一个过时版本的 4Minitz.\n \n 您的4Minitz实例： {$rootUrl}\n 有版本： {$myVersion}\n \n 最新版本可用： {$masterVersion}'\n 版本说明： {$urlReleaseNotes}\n 请考虑更新。\n \n {$masterMessageText} \n 这封邮件是由您的4Minitz后端生成的。\n 您可以通过 settings.json: \"updateCheck\": false\"禁用更新检查。\n \n 有趣！\n 你的4Minitz团队。\n \n \n - \n 4Minitz是4Minitz团队开发的免费开放源。\n 源代码可在 {url4Minitz}\n"
   AdminRegisterNewUser:
-    subject: "Your new account at our server"
-    passwordNotSend: "    Contact admin for password."
-    passwordParagraph: "Your password : {$password}\n \n Don't forget to change your password after first login!\n"
-    body: "Hello {$userLongName}, \n \n Welcome to our 4Minitz WebApp.\n Now you can start to participate in keeping of professional meeting minutes.\n \n You may sign in with 'Standard' (not LDAP!) login at:\n Your host     : {$rootURL}\n Your user     : {$userName}\n {$passwordParagraph}\n \n Have fun!\n\n Your Admin.\n \n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+    subject: "您在我们的服务器上的新账户"
+    passwordNotSend: "    密码联系管理员。"
+    passwordParagraph: "您的密码： {$password}\n \n 不要忘记在首次登录后更改您的密码！\n"
+    body: "您好 {$userLongName}, \n \n 欢迎来到我们的 4Minitz WebApp\n 现在您可以开始参加专业会议。\n \n 您可以使用 \"标准\" (而不是 LDAP! 登录于：\n 您的主机 : {$rootURL}\n 您的用户 : {$userName}\n {$passwordParagraph}\n \n 有趣！\n\n 您的管理员。\n \n \n - \n 4Minitz是由4Minitz团队开发的免费开放源。\n 源代码在 {$url4Minitz} 可用"
   UserRoleChange:
-    subject: "Your role has changed for {$meetingProject}:{$meetingName}'"
+    subject: "您的角色已经更改 {$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      您好 {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      您的角色已经改变了会议系列 '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         您的旧角色是 : {$roleOld}
+         您的新角色是 : {$roleNew}
+         您的更改是由 : {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      完成的关于每个角色的完整权利列表见:
       {$urlRoleDocu}
 
-      Your Admin.
+      您的管理员。
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
-    body2test: "Hello {$userName}\n \n Your role has changed for meeting series '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n Your old role was           : {$roleOld}\n Your new role is            : {$roleNew}\n The change was performed by : {$moderatorName}\n \n For a comprehensive list of rights for each role see:\n {$urlRoleDocu}\n \n Your Admin.\n \n --- \n 4Minitz is free open source developed by the 4Minitz team.\n Source is available at {$url4Minitz}"
+      -
+      4Minitz是由4Minitz团队开发的免费开放源代码。
+      源代码可在 {$url4Minitz}
+    body2test: "您好 {$userName}\n \n 您的角色已经改变了会议系列 '{$meetingProject}:{$meetingName}'\n ({$meetingSeriesURL})\n \n 您旧的角色是 : {$roleOld}\n 您新的角色是 : {$roleNew}\n 您的更改是: {$moderatorName}\n \n 每个角色的权利清单见:\n {$urlRoleDocu}\n \n 您的管理员。\n \n - \n 4Minitz是由4Minitz团队开发的免费开放源。\n 源代码在 {$url4Minitz} 可用"
