@@ -136,7 +136,9 @@ Template.topicInfoItemEdit.helpers({
 
     getTopicItemType: function () {
         let type = Session.get('topicInfoItemType');
-        return (type === 'infoItem') ? 'Information' : 'Action Item';
+        return (type === 'infoItem') ?
+            i18n.__('Item.editItemModelTypeInfoItem') :
+            i18n.__('Item.editItemModelTypeActionItem');
     },
 
     collapseState: function() {

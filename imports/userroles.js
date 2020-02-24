@@ -137,7 +137,7 @@ export class UserRoles {
     }
 }
 
-// Security:
+// #Security:
 // Make sure the values of this enum are string-sortable
 // and lower values have higher access rights!
 // So, prefix zeroes are important!

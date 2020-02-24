@@ -44,10 +44,17 @@ Dialog:
     content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
   confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
-  confirmDeleteItemAllowed: "Do you really want to delete the {$type} **{$subject}**?"
-  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
-  confirmDeleteItemActionItem: "Do you want to close the action item instead?"
-  confirmDeleteItemInfoItem: "Do you want to unpin the sticky info item instead?"
+  ConfirmDeleteItem:
+    allowed: "Do you really want to delete the {$type} **{$subject}**?"
+    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
+    questionActionItem: "Do you want to close the action item instead?"
+    questionInfoItem: "Do you want to unpin the sticky info item instead?"
+    typeActionItem: "action item"
+    typeInfoItem: "information"
+    titleCloseActionItem: "Close action item?"
+    titleUnpinInfoItem: "Unpin info item?"
+    buttonCloseActionItem: "Close action item"
+    buttonUnpinInfoItem: "Unpin info item"
   ConfirmDeleteTopic:
     allowed: "Do you really want to delete the topic **{$subject}**?"
     notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
@@ -141,7 +148,13 @@ About:
   proudlySponsored: "Proudly Sponsored By"
   specialThanks: "Special Thanks to These Projects"
   forkGitHub: "Fork us on GitHub"
-  serverStatistics: "Server Statistics"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Add/Edit item"
   editItem: "Edit Item"
@@ -150,6 +163,8 @@ Item:
   deleteItemHint: "Delete this action/info item"
   addItemModal: "Add {$type} to {$topic}"
   editItemModal: "Edit {$type} of {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Action Item"
   addInfo: "Add Info Item"
   addInfoHint: "Add info item to topic"
   action: "Action Item"
@@ -465,7 +480,7 @@ Mail:
   newAgenda: "We've got a brand new meeting agenda for you:"
   newActionItem: "You have been assigned to the following action items:"
   newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Sitzung"
+  meeting: "Meeting"
   links: "Links"
   openSeries: "Open Series"
   openMinutes: "Open Minutes"
@@ -498,7 +513,7 @@ Mail:
 
       ---
       4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {url4Minitz}
+      Source is available at {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Your new account at our server"
     passwordNotSend: "    Contact admin for password."
@@ -524,7 +539,7 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   UserRoleChange:
-    subject: "Your role has changed for {$meetingProject}:{$meetingName}'"
+    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
     body: |
      Hello {$userName}
 
