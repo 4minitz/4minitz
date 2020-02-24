@@ -232,10 +232,3 @@ E2EGlobal.USERROLES = {
     Invited:   'Invited',
     Informed:  'Informed'
 };
-
-E2EGlobal.USERROLESNUM2TEXT = {
-    '01':   'Moderator',
-    '05':  'Uploader',
-    '10':   'Invited',
-    '66':  'Informed'
-};

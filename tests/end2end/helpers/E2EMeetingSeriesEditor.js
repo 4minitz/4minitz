@@ -120,9 +120,7 @@ export class E2EMeetingSeriesEditor {
             }
 
             usersAndRoles[usrName] = {
-                // with i18n we introduced numeric values in the <select> to keep texts for UI only purpose
-                // To avoid breaking change, we translate value '01' back to role name like 'Moderator'
-                role: E2EGlobal.USERROLESNUM2TEXT[usrRole] ? E2EGlobal.USERROLESNUM2TEXT[usrRole] : usrRole,
+                role: usrRole,
                 isReadOnly: usrIsReadOnly,
                 isDeletable: usrIsDeletable,
                 deleteElemId: usrDeleteElemId

@@ -14,7 +14,7 @@
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const IGNOREKEYS = {
-    'UserRoles.roleName': true  // calculated at runtime: i18n.__('UserRoles.roleName'+roleValue);
+    'UserRoles.role': true  // calculated at runtime: i18n.__('UserRoles.roleName'+roleValue);
 };
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
