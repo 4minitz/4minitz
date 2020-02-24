@@ -13,7 +13,7 @@ Buttons:
   cancel: "İptal"
   change: "Değiştir"
   close: "Kapat"
-  confirm: "Confirm"
+  confirm: "Doğrula"
   create: "Oluştur"
   delete: "Sil"
   dismissAll: "Tümünü Serbest Bırak"
@@ -24,26 +24,26 @@ Buttons:
   save: "Kaydet"
 FlashMessages:
   ok: "Tamam"
-  error: "Error"
-  verifyEMailErr: "Error: EMail could not be verified"
-  verifyEMailOK: "OK: EMail is verified now"
-  passwordChangeOK: "Password changed"
-  passwordResetOK: "Password sucessfully reseted"
-  profileEditOK: "Profile changes saved"
-  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
-  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
-  finalizeProgress1: "Finalize in progress"
-  finalizeProgress2: "This may take a few seconds..."
-  finalizeOK: "This meeting minutes were successfully finalized"
+  error: "Hata"
+  verifyEMailErr: "Hata: E-posta doğrulanamadı"
+  verifyEMailOK: "Tamam: E-posta şimdi doğrulanıyor"
+  passwordChangeOK: "Parola değiştirildi"
+  passwordResetOK: "Parola başarıyla yeniden kapatıldı"
+  profileEditOK: "Profil değişiklikleri kaydedildi"
+  minuteLinkErr: "Ne yazık ki, dakika üst dizisiyle doğru bir şekilde bağlantılandırılmadı-lütfen sistem yöneticinize başvurun."
+  agendaSentOK: "Gündem {$result} alıcıya başarıyla gönderildi"
+  finalizeProgress1: "Devam eden sonuçlandırma"
+  finalizeProgress2: "Bu işlem birkaç saniye sürebilir ..."
+  finalizeOK: "Bu toplantı tutanakları başarıyla sonuçlandırıldı"
 Dialog:
   ConfirmDelete:
-    title: "Confirm delete?"
-    body: "Are you sure to delete this?"
+    title: "Silme işlemi doğruluyor mu?"
+    body: "Bunu sileceğinden emin misiniz?"
   ConfirmCreateNewMinutes:
     title: "Yeni Dakika Oluşturma İşlemini Doğrula"
     content: "Toplantı serileri için gerçekten yeni dakikalar yaratmak istiyor musunuz \"{$project}: {$name} \" mi?"
-  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  confirmDeleteAttachment: "bu eki gerçekten silmek istiyor musunuz:\n**{$name}**?"
+  confirmDeleteDetails: "**{$subject} ** öğesinin seçili ayrıntılarını gerçekten silmek istiyor musunuz?"
   ConfirmDeleteItem:
     allowed: "Do you really want to delete the {$type} **{$subject}**?"
     notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
@@ -52,44 +52,44 @@ Dialog:
     typeActionItem: "action item"
     typeInfoItem: "information"
     titleCloseActionItem: "Close action item?"
-    titleUnpinInfoItem: "Unpin info item?"
-    buttonCloseActionItem: "Close action item"
-    buttonUnpinInfoItem: "Unpin info item"
+    titleUnpinInfoItem: "Bilgi öğesi serbest mi?"
+    buttonCloseActionItem: "İşlem öğesini kapat"
+    buttonUnpinInfoItem: "Bilgi öğesinin pimini kaldır"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic **{$subject}**?"
-    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
+    allowed: "**{$subject} ** konusunu gerçekten silmek istiyor musunuz?"
+    notAllowed: "**{$subject}** konuyu silmek mümkün değil çünkü konu daha önceki bir dakikalarda yaratılmıştı."
     close: "Bunun yerine konuyu kapatmak istiyor musunuz?"
     closeWithActions: "Bu konuyu, ilgili tüm işlem öğeleriyle birlikte kapatmak istiyor musunuz?"
-  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Toplantı serisini gerçekten bırakmak istiyor musunuz:\n\n**{$project} / {$name}**\n\nDaha sonra tekrar katılmak isterseniz moderatöre sormanız gerekecek."
   ConfirmMinuteQualityAssurance:
-    title: "Finalize Minutes: Quality Checks"
-    button: "Proceed"
+    title: "Finalize Dakikalar: Kalite Denetimleri"
+    button: "Devam Et"
     issues: "Dakikalarınızla ilgili bazı sorunlar var!"
     proceed: "Kesinleştirmeye devam etmek istiyor musunuz?"
-    warnNoTopics: "The current minutes have no topics"
-    warnNoParticipants: "No participant is marked as present"
-    warnEditing: "A topic/item/detail is still edited"
-    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
-    warnTopicWithoutItems: "At least one discussed topic has no items"
-    warnActionItemWithoutResponsible: "At least one action item has no responsible"
-    warnTopicNoNewContent: "A topic is checked but has no new content"
+    warnNoTopics: "Geçerli dakikaların konu yok"
+    warnNoParticipants: "Katılımcı yok olarak işaretlenmedi"
+    warnEditing: "Bir topici/item/detail hala düzenleniyor"
+    warnNoTopicDiscussed: "'görüşülür' olarak işaretlenen bir konu yok"
+    warnTopicWithoutItems: "Tartışılan en az bir konu öğe içermiyor"
+    warnActionItemWithoutResponsible: "En az bir işlem öğesinin sorumluluğu yok"
+    warnTopicNoNewContent: "Bir konu işaretlendi, ancak yeni içeriği yok"
   ConfirmReOpenTopic:
-    title: "Re-open Topic?"
-    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
-    button: "Re-open"
+    title: "Konu Yeniden Açılsın Mı?"
+    body: "**{$topicSubject} ** başlıklı zaten kapatılmış olan konuyu yeniden açmak istiyor musunuz?"
+    button: "Yeniden aç"
   ConfirmSendAgenda:
-    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
-    title: "Confirm sending agenda"
+    body: "**{$minDate}** tarihinde tarihli bu toplantı dakikasının gündemini gerçekten göndermek istiyor musunuz?\n {$agendaSentDate} tarihinde {$agendaSentTime} tarihinde gönderildi."
+    title: "Gündemi göndermeyi onayla"
     button: "Gündem Gönder"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
-    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
-    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
-    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    really: "**{$minutesDate} ** tarihli bu toplantı dakikanını gerçekten silmek istiyor musunuz?"
+    newTopics: "Bu işlem, bu dakika içinde yaratılan **{$newTopicsCount} konularının * * kaldırılmasına neden olur."
+    closedTopicsAdditionally: "Ayrıca **{$closedTopicsCount} konular * * tekrar açılacaktır, bu süre içinde kapatılmıştır."
+    closedTopics: "**{$closedTopicsCount} konular * * bu dakikalar içinde kapatılan tekrar açılacaktır."
   ConfirmFinalizeMinutes:
-    title: "Confirm Finalize Minutes"
-    button: "Finalize"
-    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
+    title: "Dakikaları Finalize Onayla"
+    button: "Kesinleştir"
+    really: "**{$minutesDate} ** ile tarihli bu toplantı dakikasını gerçekten sonuçlandırmak istiyor musunuz?"
     sendActionItems: "İşlem öğelerini gönder"
     sendMinutes: "Bilgi öğelerini gönder"
   LocaleSetting:
@@ -97,10 +97,10 @@ Dialog:
     languageLocale: "Dil Ülke Değeri"
     automatic: "Tarayıcı Aracılığıyla Otomatik"
   IsEditedHandling:
-    title: "Edit despite existing editing"
-    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
-    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
-    button: "Edit Anyway"
+    title: "Var olan düzenlemeye rağmen düzenle"
+    confirmationDialogResetEdit: "Uyarı: Bu belge, şu anda {$name} tarafından düzenlenmiştir: {$date}"
+    confirmationDialogResetEditDetails: "Düzenlemeyi başlatmak için lütfen ayrıntı bağlantısını yeniden tıklatın."
+    button: "Yine De Düzenle"
   ConnectionInfo:
     tooltip: |
       Connection Lost!
@@ -109,11 +109,11 @@ Dialog:
         Retry Time: {$retryTime} sec.
         Reason: {$reason}
         Click to reconnect.
-    header: "You have lost the connection to the 4Minitz server."
-    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
-    tryToReconnect: "Try To Reconnect"
+    header: "4Minitz sunucusu bağlantısını kaybedin."
+    body: "Tarayıcınızı kapattığınızda kaydedilmemiş veriler kaybolabilir. Bu sorun devam ederse lütfen sunucunuzun denetimcisine başvurun."
+    tryToReconnect: "Yeniden Bağlanmayı Deneyin"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
+    title: "Protokol oluşturmayı doğrulayın"
     body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
     button: "Download"
   ConfirmTopicDelete:
@@ -481,29 +481,29 @@ Mail:
   AdminNewVersion:
     subject: "Newer version exists"
     body: |
-      Hello Admin,
+      Merhaba Admin,
 
-      It seems you are running an outdated version of 4Minitz.
+      Görünüşe göre 4Minitz 'in modası geçmiş bir versiyonunu işletiyorsunuz.
 
-      Your 4Minitz instance on: {$rootUrl}
-      has version: {$myVersion}
+      sizin 4Minitz örneğiniz: {$rootUrl}
+      has sürüm: {$myVersion}
 
-      Newest version available is: {$masterVersion}'
-      Release notes: {$urlReleaseNotes}
-      Please consider to update.
+      nebatı sürümü mevcut: {$masterVersion}'
+      Yayın notları: {$urlReleaseNotes}
+      Lütfen güncellemeyi düşünün.
 
       {$masterMessageText}
 
-      This mail was generated by your 4Minitz backend.
-      You can disable the update check via settings.json: \"updateCheck\": false.
+      Bu posta 4Minitz arka ucunuz tarafından üretildi.
+      Settings.json: \" updateCheck \" ile güncelleme denetimini geçersiz kılabilirsiniz: false.
 
-      Have fun!
-              Your 4Minitz team.
+      iyi eğlenceler!
+              4Minitz takımınız.
 
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      4Minitz, 4Minitz takımı tarafından geliştirilen ücretsiz açık kaynak.
+      Kaynak: {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Your new account at our server"
     passwordNotSend: "    Contact admin for password."
@@ -529,7 +529,7 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   UserRoleChange:
-    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    subject: "Sizin rolünüz şu şekilde değişti: '{$meetingProject}:{$meetingName}'"
     body: |
       Hello {$userName}
 
