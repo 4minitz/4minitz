@@ -3,6 +3,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Roles } from 'meteor/alanning:roles';
 import  './collections/userroles_private';
 import { MeetingSeries } from './meetingseries';
+import { i18n } from 'meteor/universe:i18n';
 
 
 export class UserRoles {
@@ -42,17 +43,9 @@ export class UserRoles {
         return rolesNum;
     }
 
-    static allRolesText() {
-        return Object.keys(UserRoles.USERROLES);
-    }
-
     static role2Text(roleValue) {
-        for (let key in UserRoles.USERROLES) {
-            if (UserRoles.USERROLES[key] === roleValue) {
-                return key;
-            }
-        }
-        return undefined;
+        const roleText = i18n.__('UserRoles.roleName'+roleValue);
+        return roleText;
     }
 
     static removeAllRolesFor(aMeetingSeriesID) {
@@ -142,7 +135,7 @@ export class UserRoles {
 // and lower values have higher access rights!
 // So, prefix zeroes are important!
 UserRoles.USERROLES = {
-    'Moderator':   '01'
+    'Moderator':   '01' // Attention: the key strings are not used for display! Use role2Text for UI!
     , 'Uploader':  '05'
     , 'Invited':   '10'
     , 'Informed':  '66'
