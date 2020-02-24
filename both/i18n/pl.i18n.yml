@@ -146,7 +146,13 @@ About:
   proudlySponsored: "Dumnie sponsorowane przez"
   specialThanks: "Specjalne podziękowania dla tych projektów"
   forkGitHub: "Rozwidlenie nas na GitHub"
-  serverStatistics: "Statystyki serwera"
+  ServerStatistics:
+    title: "Statystyki serwera"
+    rowNumUser: "Liczba użytkowników (aktywnych)"
+    rowNumMeetingSeries: "Seria spotkań"
+    rowNumMeetingMinutes: "Liczba protokołów posiedzeń"
+    rowNumAttachments: "Liczba załączników"
+    rowSizeAttachments: "Rozmiar załączników"
 Item:
   ariaLabel: "Dodaj/edytuj element"
   editItem: "Edytuj element"
@@ -155,6 +161,8 @@ Item:
   deleteItemHint: "Usuń tę czynność/element informacji"
   addItemModal: "Dodaj {$type} do {$topic}"
   editItemModal: "Edytuj {$type} z {$topic}"
+  editItemModelTypeInfoItem: "Informacje"
+  editItemModelTypeActionItem: "Element akcji"
   addInfo: "Dodaj element informacji"
   addInfoHint: "Dodaj element informacji do tematu"
   action: "Element działania"
