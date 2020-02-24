@@ -431,12 +431,12 @@ Login:
       <li>Skicka minuter &amp; åtgärdsobjekt via EMail</li>
     trackTopicsHeading: "Spåra ämnen"
     trackTopicsDetails: |
-      <li>Öppna åtgärdsobjekt visas nästa gång</li>
-      <li>Icke-stängda ämnen visas nästa gång</li>
-      <li>Söklista över alla ämnen som någonsin diskuterats</li>
-      <li>Berika ämnen med info på flera möten</li>
-      <li>Hitta ämnen med etiketter (e. . alla beslut)</li>
-      <li>Hitta objekt genom fulltextsökning</li>"
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
   Footer:
     withLove: "Kodad med ❤ av"
     theTeam: "WebApp Team"
