@@ -22,6 +22,11 @@ Buttons:
   ok: "OKÉ."
   register: "Regisztráció"
   save: "Mentés"
+UserRoles:
+  roleName01: "Moderator"
+  roleName05: "Uploader"
+  roleName10: "Meghívva"
+  roleName66: "Informed"
 FlashMessages:
   ok: "OKÉ."
   error: "Hiba"
