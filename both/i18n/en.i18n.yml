@@ -48,6 +48,8 @@ Dialog:
   confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
   confirmDeleteItemActionItem: "Do you want to close the action item instead?"
   confirmDeleteItemInfoItem: "Do you want to unpin the sticky info item instead?"
+  confirmDeleteItemTypeAction: "action item"
+  confirmDeleteItemTypeInfo: "information"
   ConfirmDeleteTopic:
     allowed: "Do you really want to delete the topic **{$subject}**?"
     notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."

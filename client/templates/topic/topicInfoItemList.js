@@ -375,7 +375,7 @@ Template.topicInfoItemList.events({
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {
-                    type: (item.isActionItem()) ? 'action item' : 'information',
+                    type: (item.isActionItem()) ? i18n.__('Dialog.confirmDeleteItemTypeAction') : i18n.__('Dialog.confirmDeleteItemTypeInfo'),
                     isActionItem: item.isActionItem(),
                     subject: item.getSubject(),
                     deleteAllowed: isDeleteAllowed
