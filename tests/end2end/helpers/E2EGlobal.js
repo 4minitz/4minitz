@@ -227,8 +227,8 @@ export class E2EGlobal {
 E2EGlobal.SETTINGS = require('../../../settings-test-end2end.json');
 
 E2EGlobal.USERROLES = {
-    Moderator:   "Moderator",
-    Invited:   "Invited",
-    Uploader:  "Uploader",
-    Informed:  "Informed"
+    Moderator:   'Moderator',
+    Uploader:  'Uploader',
+    Invited:   'Invited',
+    Informed:  'Informed'
 };

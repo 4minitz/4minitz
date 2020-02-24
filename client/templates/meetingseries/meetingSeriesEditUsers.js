@@ -57,7 +57,6 @@ Template.meetingSeriesEditUsers.helpers({
         return this.hasViewRoleFor(_config.meetingSeriesID);
     },
 
-    // TODO: i18n
     currentRole: function () {
         // this is blaze context {{# with userRoleObj currentuser._id}}
         // So, this is a UserRoles object
@@ -79,19 +78,20 @@ Template.meetingSeriesEditUsers.helpers({
 
     // generate the "<select>" HTML with possible roles and the
     // role selected that is currently attached to the user
-    // TODO: i18n
     rolesOptions: function () {
         // this is blaze context {{# with userRoleObj currentuser._id}}
         // So, this is a UserRoles object
         let currentRoleNum = this.currentRoleFor(_config.meetingSeriesID);
         let userName = this.getUser().username;
         let rolesHTML = '<select id="roleSelect'+userName+'" class="form-control user-role-select">';
+        let rolesNames = UserRoles.allRolesNames();
         let rolesNums = UserRoles.allRolesNumerical();
-        for (let i in rolesNums) {
+        for (let i in rolesNames) {
             let roleNum = rolesNums[i];
-            let startTag = '<option value=\''+roleNum+'\'>';
+            let roleName = rolesNames[i];
+            let startTag = '<option value=\''+roleName+'\'>';
             if (roleNum === currentRoleNum) {
-                startTag = '<option value="'+roleNum+'" selected="selected">';
+                startTag = '<option value="'+roleName+'" selected="selected">';
             }
             rolesHTML += startTag+UserRoles.role2Text(roleNum)+'</option>';
         }
@@ -117,7 +117,8 @@ Template.meetingSeriesEditUsers.events({
 
     // when role select changes, update role in temp. client-only user collection
     'change .user-role-select': function (evt) {
-        let roleValue = $(evt.target).val();
+        let roleName = $(evt.target).val();
+        let roleValue = UserRoles.USERROLES[roleName];
 
         let changedUser = _config.users.findOne(this._userId);
         changedUser.roles[_config.meetingSeriesID] = [roleValue];

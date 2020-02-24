@@ -1,3 +1,24 @@
+
+/*
+ * This script will check i18n resources keys
+ * 1. read all available keys from YAML
+ * 2. read all needed keys from HTML & JS files
+ * 3. Generate warning on unused keys
+ *    Generate errors on needed but unavailable keys
+ *
+ * Hint: You may ignore errors by keys that are calcultated at runtime
+ * by adding these keys to the IGNOREKEYS object
+ *
+ */
+
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const IGNOREKEYS = {
+    'UserRoles.role': true  // calculated at runtime: i18n.__('UserRoles.roleName'+roleValue);
+};
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 let fs = require('fs');
 let yaml = require('js-yaml');
 
@@ -74,7 +95,7 @@ function checkCodeUsage(extension, keyPattern) {
         let m;
         do {
             m = re.exec(content);
-            if (m) {
+            if (m && !IGNOREKEYS[m[1]]) {   // we have a match that is NOT in IGNOREKEYS
                 if (dictKeysFromCode[m[1]]) {
                     dictKeysFromCode[m[1]] = dictKeysFromCode[m[1]] + '\n' + jsFile;
                 } else {

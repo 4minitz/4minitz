@@ -1,5 +1,5 @@
-import { E2EGlobal } from './E2EGlobal'
-import { E2EMeetingSeries } from './E2EMeetingSeries'
+import { E2EGlobal } from './E2EGlobal';
+import { E2EMeetingSeries } from './E2EMeetingSeries';
 
 
 export class E2EMeetingSeriesEditor {
@@ -129,7 +129,7 @@ export class E2EMeetingSeriesEditor {
         // console.log(usersAndRoles);
 
         return usersAndRoles;
-    };
+    }
 
     static changeLabel(labelName, newLabelName, newLabelColor, autoSaveLabelChange = true) {
         let labelId = E2EMeetingSeriesEditor.getLabelId(labelName);
