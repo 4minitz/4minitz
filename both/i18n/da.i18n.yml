@@ -23,10 +23,10 @@ Buttons:
   register: "Tilmelding"
   save: "Gem"
 UserRoles:
-  roleName01: "Moderator"
-  roleName05: "Uploader"
-  roleName10: "Inviteret"
-  roleName66: "Informed"
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "Inviteret"
+  roleInformed: "Informed"
 FlashMessages:
   ok: "-OKAY, OKAY."
   error: "Fejl"
