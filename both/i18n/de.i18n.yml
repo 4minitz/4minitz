@@ -23,7 +23,7 @@ Buttons:
   register: "Registrieren"
   save: "Speichern"
 FlashMessages:
-  ok: "Ok"
+  ok: "OK"
   error: "Fehler"
   verifyEMailErr: "Fehler: EMail konnte nicht verifiziert werden"
   verifyEMailOK: "OK: EMail ist jetzt verifiziert"
