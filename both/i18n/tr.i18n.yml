@@ -8,72 +8,156 @@ Accounts:
   passwordPlaceholder: "dk. 6 chars (basamak, alt ve üst)"
   passwordError: "dk. 6 karakter (dk. 1 basamak, 1 alt, 1 üst)"
 Buttons:
-  cancel: "İptal"
-  close: "Kapat"
-  register: "Kaydol"
-  change: "Değiştir"
-  save: "Kaydet"
-  ok: "Tamam"
   add: "Ekle"
-  dismissAll: "Tümünü Serbest Bırak"
   back: "Geri Dön"
+  cancel: "İptal"
+  change: "Değiştir"
+  close: "Kapat"
+  confirm: "Doğrula"
+  create: "Oluştur"
   delete: "Sil"
+  dismissAll: "Tümünü Serbest Bırak"
   edit: "Düzenle"
   hide: "Tamam, saklan."
+  ok: "Tamam"
+  register: "Kaydol"
+  save: "Kaydet"
+UserRoles:
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "Davet Edildi"
+  roleInformed: "Informed"
+FlashMessages:
+  ok: "Tamam"
+  error: "Hata"
+  verifyEMailErr: "Hata: E-posta doğrulanamadı"
+  verifyEMailOK: "Tamam: E-posta şimdi doğrulanıyor"
+  passwordChangeOK: "Parola değiştirildi"
+  passwordResetOK: "Parola başarıyla yeniden kapatıldı"
+  profileEditOK: "Profil değişiklikleri kaydedildi"
+  minuteLinkErr: "Ne yazık ki, dakika üst dizisiyle doğru bir şekilde bağlantılandırılmadı-lütfen sistem yöneticinize başvurun."
+  agendaSentOK: "Gündem {$result} alıcıya başarıyla gönderildi"
+  finalizeProgress1: "Devam eden sonuçlandırma"
+  finalizeProgress2: "Bu işlem birkaç saniye sürebilir ..."
+  finalizeOK: "Bu toplantı tutanakları başarıyla sonuçlandırıldı"
 Dialog:
-  confirmDeleteAttachment: "<br><b>{$name}</b> ekinin silinmesini gerçekten istiyor musunuz?"
-  confirmDeleteDetails: "<strong>{$subject}</strong> öğesinin seçili ayrıntılarını gerçekten de silmek istiyor musunuz?"
-  confirmDeleteItemAllowed: "{$type} <strong>{$subject}</strong> 123_321 ' i gerçekten silmek istiyor musunuz?"
-  confirmDeleteItemNotAllowed: "{$type} <strong>{$subject}</strong> ' in silinmesi mümkün değildir çünkü {$type} önceki bir dakika içinde oluşturulmuştur."
-  confirmDeleteItemActionItem: "Bunun yerine eylem öğesini kapatmak istiyor musunuz?"
-  confirmDeleteItemInfoItem: "Bunun yerine yapışkan bilgi öğesinin pimini kaldırmak istiyor musunuz?"
+  ConfirmDelete:
+    title: "Silme işlemi doğruluyor mu?"
+    body: "Bunu sileceğinden emin misiniz?"
+  ConfirmCreateNewMinutes:
+    title: "Yeni Dakika Oluşturma İşlemini Doğrula"
+    content: "Toplantı serileri için gerçekten yeni dakikalar yaratmak istiyor musunuz \"{$project}: {$name} \" mi?"
+  confirmDeleteAttachment: "bu eki gerçekten silmek istiyor musunuz:\n**{$name}**?"
+  confirmDeleteDetails: "**{$subject} ** öğesinin seçili ayrıntılarını gerçekten silmek istiyor musunuz?"
+  ConfirmDeleteItem:
+    allowed: "Do you really want to delete the {$type} **{$subject}**?"
+    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
+    questionActionItem: "Do you want to close the action item instead?"
+    questionInfoItem: "Do you want to unpin the sticky info item instead?"
+    typeActionItem: "action item"
+    typeInfoItem: "information"
+    titleCloseActionItem: "Close action item?"
+    titleUnpinInfoItem: "Bilgi öğesi serbest mi?"
+    buttonCloseActionItem: "İşlem öğesini kapat"
+    buttonUnpinInfoItem: "Bilgi öğesinin pimini kaldır"
   ConfirmDeleteTopic:
-    allowed: "<strong>{$subject}</strong> konusunu gerçekten silmek istiyor musunuz?"
-    notAllowed: "<strong>{$subject}</strong> konusunu silmek mümkün değildir çünkü konu önceki bir dakika içinde yaratılmıs."
+    allowed: "**{$subject} ** konusunu gerçekten silmek istiyor musunuz?"
+    notAllowed: "**{$subject}** konuyu silmek mümkün değil çünkü konu daha önceki bir dakikalarda yaratılmıştı."
     close: "Bunun yerine konuyu kapatmak istiyor musunuz?"
     closeWithActions: "Bu konuyu, ilgili tüm işlem öğeleriyle birlikte kapatmak istiyor musunuz?"
-  ConfirmLeaveMeetingSeries: "Toplantı serisini gerçekten bırakmak istiyor musunuz:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Daha sonra tekrar katılmak isterseniz moderatöre davet etmek zorunda olacaktır."
+  confirmLeaveMeetingSeries: "Toplantı serisini gerçekten bırakmak istiyor musunuz:\n\n**{$project} / {$name}**\n\nDaha sonra tekrar katılmak isterseniz moderatöre sormanız gerekecek."
   ConfirmMinuteQualityAssurance:
-    issues: "There are finalize issues with your minutes!"
-    proceed: "Do you want to proceed with finalizing?"
-  confirmReOpenTopic: "{$topicSubject} önceden kapatılmış olan konuyu yeniden açmak istiyor musunuz?"
-  confirmSendAgenda: "<strong>{$minDate}</strong>sayılı bu toplantı dakikasının gündemini gerçekten de göndermek istiyor musunuz?<br> {$agendaSentDate} tarihinde gönderildi. {$agendaSentTime}"
+    title: "Finalize Dakikalar: Kalite Denetimleri"
+    button: "Devam Et"
+    issues: "Dakikalarınızla ilgili bazı sorunlar var!"
+    proceed: "Kesinleştirmeye devam etmek istiyor musunuz?"
+    warnNoTopics: "Geçerli dakikaların konu yok"
+    warnNoParticipants: "Katılımcı yok olarak işaretlenmedi"
+    warnEditing: "Bir topici/item/detail hala düzenleniyor"
+    warnNoTopicDiscussed: "'görüşülür' olarak işaretlenen bir konu yok"
+    warnTopicWithoutItems: "Tartışılan en az bir konu öğe içermiyor"
+    warnActionItemWithoutResponsible: "En az bir işlem öğesinin sorumluluğu yok"
+    warnTopicNoNewContent: "Bir konu işaretlendi, ancak yeni içeriği yok"
+  ConfirmReOpenTopic:
+    title: "Konu Yeniden Açılsın Mı?"
+    body: "**{$topicSubject} ** başlıklı zaten kapatılmış olan konuyu yeniden açmak istiyor musunuz?"
+    button: "Yeniden aç"
+  ConfirmSendAgenda:
+    body: "**{$minDate}** tarihinde tarihli bu toplantı dakikasının gündemini gerçekten göndermek istiyor musunuz?\n {$agendaSentDate} tarihinde {$agendaSentTime} tarihinde gönderildi."
+    title: "Gündemi göndermeyi onayla"
+    button: "Gündem Gönder"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
-    closedTopicsAdditionally: "Additionally <strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
+    really: "**{$minutesDate} ** tarihli bu toplantı dakikanını gerçekten silmek istiyor musunuz?"
+    newTopics: "Bu işlem, bu dakika içinde yaratılan **{$newTopicsCount} konularının * * kaldırılmasına neden olur."
+    closedTopicsAdditionally: "Ayrıca **{$closedTopicsCount} konular * * tekrar açılacaktır, bu süre içinde kapatılmıştır."
+    closedTopics: "**{$closedTopicsCount} konular * * bu dakikalar içinde kapatılan tekrar açılacaktır."
   ConfirmFinalizeMinutes:
-    really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    sendActionItems: "Send action items"
-    sendMinutes: "Send information items"
+    title: "Dakikaları Finalize Onayla"
+    button: "Kesinleştir"
+    really: "**{$minutesDate} ** ile tarihli bu toplantı dakikasını gerçekten sonuçlandırmak istiyor musunuz?"
+    sendActionItems: "İşlem öğelerini gönder"
+    sendMinutes: "Bilgi öğelerini gönder"
   LocaleSetting:
-    title: "Set Language"
-    languageLocale: "Language Locale"
-    automatic: "Automatic via Browser"
-Mail:
-  greeting: "Merhaba."
-  newAgenda: "Sizin için yepyeni bir toplantı gündemimiz var:"
-  newActionItem: "Aşağıdaki işlem öğelerine atandınız:"
-  newMinutes: "Aşağıda en son toplantı tutanaklarını bulacaksınız."
-  meeting: "Sitzung"
-  links: "Bağlantılar"
-  openSeries: "Seriyi Aç"
-  openMinutes: "Dakikaları Aç"
-  minutesSubject: "Toplantı Tutsaları"
-  discussedTopics: "Tartışılan Konular"
-  skippedTopics: "Açık Konular"
-  none: "Yok"
+    title: "Dil Ayarla"
+    languageLocale: "Dil Ülke Değeri"
+    automatic: "Tarayıcı Aracılığıyla Otomatik"
+  IsEditedHandling:
+    title: "Var olan düzenlemeye rağmen düzenle"
+    confirmationDialogResetEdit: "Uyarı: Bu belge, şu anda {$name} tarafından düzenlenmiştir: {$date}"
+    confirmationDialogResetEditDetails: "Düzenlemeyi başlatmak için lütfen ayrıntı bağlantısını yeniden tıklatın."
+    button: "Yine De Düzenle"
+  ConnectionInfo:
+    tooltip: |
+      Connection Lost!
+        Status: {$status}
+        Retry Count: {$retryCount}
+        Retry Time: {$retryTime} sec.
+        Reason: {$reason}
+        Click to reconnect.
+    header: "4Minitz sunucusu bağlantısını kaybedin."
+    body: "Tarayıcınızı kapattığınızda kaydedilmemiş veriler kaybolabilir. Bu sorun devam ederse lütfen sunucunuzun denetimcisine başvurun."
+    tryToReconnect: "Yeniden Bağlanmayı Deneyin"
+  ConfirmGenerateProtocol:
+    title: "Protokol oluşturmayı doğrulayın"
+    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    button: "Download"
+  ConfirmTopicDelete:
+    title1: "Confirm delete topic"
+    title2: "Mark topic as discussed?"
+    button2: "Close topic and actions"
+    errortitle: "Cannot delete topic"
+    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+  ItemDeleteError:
+    title: "Cannot delete item"
+    body1: "It is not possible to delete this item because it was created in a previous minutes."
+    body2a: "This action item is already closed,"
+    body2b: "This info item is already un-pinned"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: |
+      This is not a valid responsible!
+
+      Please select an **existing user** from the dropdown or enter a **valid email address**.
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
 About:
   title: "4Minitz hakkında"
-  copyright: "(C) 2015-2019 4Minitz-Takım"
+  copyrightTeam: "by 4Minitz-Team"
   licensedUnder: "MIT-Lisans kapsamında lisanslanır"
   licenseDependencies: "Bağımlılıklar Lisansı"
   thanksContributors: "Tüm Katkı Sağlayıcılarımız Sayesinde"
   proudlySponsored: "Gururla Sponsor Olan"
   specialThanks: "Bu Projeler Sayesinde özel"
   forkGitHub: "Bizi GitHub 'a at."
-  serverStatistics: "Sunucu İstatistikleri"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Öğe Ekle/Düzenle"
   editItem: "Öğeyi Düzenle"
@@ -82,9 +166,10 @@ Item:
   deleteItemHint: "Bu eylem/bilgi öğesini sil"
   addItemModal: "{$type} 'i {$topic} 'e ekleyin"
   editItemModal: "Düzenle {$type} / {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Eylem Öğesi"
   addInfo: "Bilgi Öğesi Ekle"
   addInfoHint: "Konuya bilgi öğesi ekle"
-  editInfo: "Bilgi Öğesini Düzenle"
   action: "Eylem Öğesi"
   addAction: "İşlem Öğesi Ekle"
   addActionHint: "Konuya eylem öğesi ekle"
@@ -120,11 +205,11 @@ Item:
     matchCaseHint: "Büyük/Küçük Harf"
     matchCaseLong: "Büyük/Küçük Harf"
     Usage:
-      body: "You can use several keywords to filter the listed elements. All keywords may be combined which filters those items matching all given search parameters."
-      keyword: "Keyword"
-      format: "Format"
-      values: "Values"
-      eg: "e.g."
+      body: "Listelenen öğeleri süzmek için birkaç anahtar sözcük kullanabilirsiniz. Tüm anahtar sözcükler, verili tüm arama değiştirgeleriyle eşleşen öğelere süzgeç uygulayarak birleştirilebilir."
+      keyword: "Anahtar Sözcük"
+      format: "Biçim"
+      values: "Değerler"
+      eg: "örn."
   myActionItems: "Eylem Öğelerim"
 Topic:
   title: "Konu"
@@ -152,7 +237,6 @@ Topic:
   history: "Geçmişi Göster"
   historyHint: "Bu konunun tam olarak kesinleştirilmiş durumunu göster"
   delete: "Konuyu Sil"
-  deleteHint: "Konuyu Sil"
   reopen: "Konuyu Yeniden Aç"
   reopenHint: "Konuyu Yeniden Aç"
   placeholder: "Bilgi Öğesi Ekle. Bir Eylem Öğesi eklemek için @kullanıcıadı ekleyin. Ayrıntıları eklemek için Enter tuşuna basın. Göndermek için Ctrl + Enter ya da Sekme tuşlarına basın."
@@ -193,7 +277,7 @@ Minutes:
   attachmentsHint: "Dakikaların ekleri var"
   previous: "Önceki:"
   next: "Sonraki:"
-  history: "History"
+  history: "Geçmiş"
   unfinalizeHint: "Dakikaları Sonlandırmak için Tıklat"
   print: "Dakikaları Yazdır"
   finalize: "Dakikaları Sonlandır"
@@ -215,6 +299,7 @@ Minutes:
     continue: "Yüklemeye Devam Et"
     pause: "Karşıya Yüklemeyi Duraklat"
     abort: "Karşıya Yüklemeyi Durdur"
+    error: "Error during upload"
   version: "Sürüm"
   versionTag: "V"
   Participants:
@@ -238,6 +323,7 @@ MeetingSeries:
   team: "Ekip/Proje"
   new: "Yeni Toplantı Dizisi"
   leave: "Toplantı Dizisini Bırak"
+  leaveButton: "Leave"
   moderator: "Başkan siz misiniz?"
   lastMinute: "Son Dakika:"
   Search:
@@ -286,6 +372,10 @@ Profile:
     longName: "Lütfen geçerli bir uzun ad girin"
     email: "Lütfen geçerli bir E-posta adresi girin"
     password: "Lütfen geçerli bir parola girin"
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
 Admin:
   users: "Kullanıcılar"
   messages: "İletiler"
@@ -330,10 +420,46 @@ Login:
     title: "Oturum açma hatası"
     username: "Lütfen kullanıcı adınızı girin"
     password: "Lütfen parolanızı girin"
-  title: "Oturum Aç"
+  signIn: "Sign In"
   ldap: "LDAP"
   standard: "Standart"
   demoHint: "İpucu: Demo Mode Active<br>Kullanıcı adı <b>gösterim</b> ve parola <b>gösterim</b>ile oturum açabilirsiniz. Ya da aşağıdaki \"Kaydol\" bağlantısını tıklatarak kendi hesabınızı kaydettirebilirsiniz."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: |
+      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
+      We made 4Minitz free open source software, as we strongly believe that
+      sensitive information like meeting minutes should not be hosted in the cloud.
+      Instead you want to host it on your own infrastructure where you can define
+      the level of security and safety you need.
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
+    trackTopicsHeading: "Track Topics"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
 Navigation:
   help: "Yardım"
   about: "Hakkında"
@@ -344,11 +470,95 @@ Navigation:
   toggleNavigation: "Dolaşma Aç/Kapa"
   meetings: "Toplantılar"
   processing: "İçeriğiniz işleniyor ..."
-  setLanguageForUser: "Set Language"
-  setLanguageLogin: "Language"
+  setLanguageForUser: "Dil Ayarla"
+  setLanguageLogin: "Dil"
 QuickHelp:
   title: "Hızlı Yardım"
   meetingSeries: "<p>Burada, geçerli toplantı dizisi için yeni dakika oluşturabilir ya da var olan dakikaların tarih bağlantısını tıklatabilirsiniz.</p>"
   meetingSeriesList: "<p>: 4Minitz ile toplantılar için dakikalar oluşturabilirsiniz.</p><p>İlk olarak yeni bir toplantı serisi oluşturun ve diğer bazı kullanıcıları davet edin.<br>Daha sonra toplantı diziniz için birden çok tarih için toplantı tutanaklarını oluşturun.</p>"
   minutes: "<p>Toplantı gündeminizi hazırlamak için konular ekleyin<br>toplantı sırasında bu konuda tartıştığınız net bir konu hakkında onay kutusu ile bir konu başlığı altında yer alan bir konu.<br>konu ...<br>&nbsp;&nbsp; -görüşülür olarak işaretlenmemiş veya<br>&nbsp;&nbsp; -yinelenen konu olarak ayarlansa veya<br>&nbsp;&nbsp; -yapilişi olmayan action items<br>... bu konu bir sonraki toplantıda tekrar sunulacaktır.</p><p>, davet edilen kullanıcılara dakikaları ve işlem öğelerini yanıt veren kullanıcılara göndermek için 'Finalize Minutes' (Dakika) seçeneğini tıklatın.</p>"
   upload: "<ul><li>Örneğin, sunumlar, PDF 'ler veya beyaz tahta fotoğrafları</li><li>gibi dosyaları karşıya yükleyebilirsiniz. Bu durumda</li><li>karşıya yükleme veya silme işlemi mümkün olur. dakikalar sonlanana kadar</li><li>Pro İpucu: tabletinizde veya akıllı telefonunuzda yukarıdaki' Karşıya Yükle ' düğmesini tıklatın!</li></ul>"
+Mail:
+  greeting: "Merhaba."
+  newAgenda: "Sizin için yepyeni bir toplantı gündemimiz var:"
+  newActionItem: "You have been assigned to the following action items:"
+  newMinutes: "Below you'll find the latest meeting minutes."
+  meeting: "Meeting"
+  links: "Bağlantılar"
+  openSeries: "Seriyi Aç"
+  openMinutes: "Dakikaları Aç"
+  minutesSubject: "Toplantı Tutsaları"
+  discussedTopics: "Tartışılan Konular"
+  skippedTopics: "Açık Konular"
+  none: "Yok"
+  AdminNewVersion:
+    subject: "Newer version exists"
+    body: |
+      Merhaba Admin,
+
+      Görünüşe göre 4Minitz 'in modası geçmiş bir versiyonunu işletiyorsunuz.
+
+      sizin 4Minitz örneğiniz: {$rootUrl}
+      has sürüm: {$myVersion}
+
+      nebatı sürümü mevcut: {$masterVersion}'
+      Yayın notları: {$urlReleaseNotes}
+      Lütfen güncellemeyi düşünün.
+
+      {$masterMessageText}
+
+      Bu posta 4Minitz arka ucunuz tarafından üretildi.
+      Settings.json: \" updateCheck \" ile güncelleme denetimini geçersiz kılabilirsiniz: false.
+
+      iyi eğlenceler!
+              4Minitz takımınız.
+
+
+      ---
+      4Minitz, 4Minitz takımı tarafından geliştirilen ücretsiz açık kaynak.
+      Kaynak: {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Your new account at our server"
+    passwordNotSend: "    Contact admin for password."
+    passwordParagraph: |
+      Your password : {$password}
+
+      Don't forget to change your password after first login!
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  UserRoleChange:
+    subject: "Sizin rolünüz şu şekilde değişti: '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"

@@ -8,72 +8,156 @@ Accounts:
   passwordPlaceholder: "最小。 6 文字 (数字、下位、および上限)"
   passwordError: "最小。 6 文字 (最小) 1 桁、下1 桁、 1 桁の上限)"
 Buttons:
-  cancel: "キャンセル"
-  close: "クローズ"
-  register: "レジスター"
-  change: "チェンジ"
-  save: "セーブ"
-  ok: "オク"
   add: "追加"
-  dismissAll: "すべてを却下"
   back: "ゴーバック"
+  cancel: "キャンセル"
+  change: "チェンジ"
+  close: "クローズ"
+  confirm: "確認"
+  create: "クリエイ作成"
   delete: "削除"
+  dismissAll: "すべてを却下"
   edit: "編集"
   hide: "OK、非表示"
+  ok: "オク"
+  register: "レジスター"
+  save: "セーブ"
+UserRoles:
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "招待済み"
+  roleInformed: "Informed"
+FlashMessages:
+  ok: "オク"
+  error: "エラー"
+  verifyEMailErr: "エラー: EMail を検証できませんでした"
+  verifyEMailOK: "OK: 現在、 E メールが検証されました"
+  passwordChangeOK: "パスワードの変更"
+  passwordResetOK: "パスワードが正常に再設定されました"
+  profileEditOK: "保存されたプロファイル変更"
+  minuteLinkErr: "残念ながら、その分は親系列に正しくリンクされていません。システム管理者に連絡してください。"
+  agendaSentOK: "{$result} 受信者が正常に受信されました"
+  finalizeProgress1: "ファイナライズ進行中"
+  finalizeProgress2: "これには数秒かかる場合があります ..."
+  finalizeOK: "このミーティング議事録は正常に完了しました"
 Dialog:
-  confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
-  confirmDeleteDetails: "選択した項目 <strong>{$subject}</strong> の詳細を削除しますか ?"
-  confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} <strong>{$subject}</strong> because the {$type} was created in a previous minutes."
-  confirmDeleteItemActionItem: "代わりにアクション項目を閉じますか ?"
-  confirmDeleteItemInfoItem: "スティッキー情報アイテムのピン留めを解除しますか ?"
+  ConfirmDelete:
+    title: "削除の確認 ?"
+    body: "これを削除しますか ?"
+  ConfirmCreateNewMinutes:
+    title: "新規議事録の作成の確認"
+    content: "ミーティングシリーズの新しい議事録を作成しますか ?{$project}: {$name}\"?"
+  confirmDeleteAttachment: "添付ファイル :\n**{$name} **を削除しますか ?"
+  confirmDeleteDetails: "項目 **{$subject} **の選択された詳細を削除しますか ?"
+  ConfirmDeleteItem:
+    allowed: "Do you really want to delete the {$type} **{$subject}**?"
+    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
+    questionActionItem: "Do you want to close the action item instead?"
+    questionInfoItem: "Do you want to unpin the sticky info item instead?"
+    typeActionItem: "action item"
+    typeInfoItem: "information"
+    titleCloseActionItem: "Close action item?"
+    titleUnpinInfoItem: "Unpin info item?"
+    buttonCloseActionItem: "Close action item"
+    buttonUnpinInfoItem: "Unpin info item"
   ConfirmDeleteTopic:
-    allowed: "トピック <strong>{$subject}</strong> を削除しますか ?"
-    notAllowed: "トピックが直前の分に作成されたため、トピック <strong>{$subject}</strong> を削除できません。"
+    allowed: "トピック **{$subject} **を削除しますか ?"
+    notAllowed: "トピック「{$subject}** 」を削除することはできません。これは、トピックが直前の分に作成されたためです。"
     close: "代わりにトピックを閉じますか ?"
     closeWithActions: "関連するすべてのアクション項目と共にトピックを閉じますか ?"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "「\n\n**{$project} / {$name}**\n\n」を終了します。後で再度参加する場合は、モデレーターにお願いする必要があります。"
   ConfirmMinuteQualityAssurance:
-    issues: "There are finalize issues with your minutes!"
-    proceed: "Do you want to proceed with finalizing?"
-  confirmReOpenTopic: "既にクローズされているトピック {$topicSubject} を再オープンしますか ?"
-  confirmSendAgenda: "<strong>{$minDate}</strong>に日付があるこの会議の議題を本当に送信しますか ?<br>既に {$agendaSentDate} が {$agendaSentTime} で送信されています。"
+    title: "最終化分: 品質検査"
+    button: "プロシード"
+    issues: "議事録には最終的な問題があります !"
+    proceed: "ファイナライズを続行しますか ?"
+    warnNoTopics: "現在の分にはトピックがありません"
+    warnNoParticipants: "参加者が存在しない"
+    warnEditing: "トピック /item/ 詳細がまだ編集されています"
+    warnNoTopicDiscussed: "トピックに「説明」のマークが付けられていません"
+    warnTopicWithoutItems: "少なくとも 1 つのディスカッション・トピックに項目がありません"
+    warnActionItemWithoutResponsible: "1 つ以上のアクション項目に責任がありません"
+    warnTopicNoNewContent: "トピックはチェックされますが、新規コンテンツはありません"
+  ConfirmReOpenTopic:
+    title: "トピックを再オープンしますか ?"
+    body: "既にクローズされているトピック「{$topicSubject} **」を再オープンしますか ?"
+    button: "再オープン"
+  ConfirmSendAgenda:
+    body: "**{$minDate}**に日付があるミーティング議事録の議題を送信しますか ?\n既に {$agendaSentDate} が {$agendaSentTime} で送信されています"
+    title: "議題の送信の確認"
+    button: "アジェンダの送信"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
-    closedTopicsAdditionally: "Additionally <strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
+    really: "**{$minutesDate} **で日付が指定されているミーティングを削除しますか ?"
+    newTopics: "これにより、この分以内に作成された **{$newTopicsCount} トピック* * が削除されます。"
+    closedTopicsAdditionally: "さらに、 **{$closedTopicsCount} トピック** が再度オープンされます。このトピックはこの分以内に閉じられました。"
+    closedTopics: "**{$closedTopicsCount} トピック** が再度オープンされます。このトピックはこの分以内に閉じられました。"
   ConfirmFinalizeMinutes:
-    really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    sendActionItems: "Send action items"
-    sendMinutes: "Send information items"
+    title: "分の確定の確認"
+    button: "ファイナライズ"
+    really: "**{$minutesDate} **でこのミーティング議事録の最終処理を完了しますか ?"
+    sendActionItems: "アクション項目の送信"
+    sendMinutes: "情報項目の送信"
   LocaleSetting:
-    title: "Set Language"
-    languageLocale: "Language Locale"
-    automatic: "Automatic via Browser"
-Mail:
-  greeting: "ハロー"
-  newAgenda: "新しいミーティング・アジェンダをお客様に提供しました:"
-  newActionItem: "以下のアクション項目に割り当てられています。"
-  newMinutes: "最新のミーティング議事録が表示されます。"
-  meeting: "シトゥン"
-  links: "リンク"
-  openSeries: "オープンシリーズ"
-  openMinutes: "オープン分数"
-  minutesSubject: "ミーティング議事録"
-  discussedTopics: "ディスカッションされたトピック"
-  skippedTopics: "トピックを開く"
-  none: "なし"
+    title: "言語の設定"
+    languageLocale: "言語ロケール"
+    automatic: "ブラウザーを介して自動"
+  IsEditedHandling:
+    title: "既存の編集にかかわらず編集"
+    confirmationDialogResetEdit: "警告: このドキュメント・リストは、 {$date} 以降、 {$name} によって現在編集されています。"
+    confirmationDialogResetEditDetails: "詳細を再度クリックして編集を開始してください。"
+    button: "エニウェイを編集"
+  ConnectionInfo:
+    tooltip: |
+      Connection Lost!
+        Status: {$status}
+        Retry Count: {$retryCount}
+        Retry Time: {$retryTime} sec.
+        Reason: {$reason}
+        Click to reconnect.
+    header: "You have lost the connection to the 4Minitz server."
+    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
+    tryToReconnect: "Try To Reconnect"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    button: "Download"
+  ConfirmTopicDelete:
+    title1: "Confirm delete topic"
+    title2: "Mark topic as discussed?"
+    button2: "Close topic and actions"
+    errortitle: "Cannot delete topic"
+    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+  ItemDeleteError:
+    title: "Cannot delete item"
+    body1: "It is not possible to delete this item because it was created in a previous minutes."
+    body2a: "This action item is already closed,"
+    body2b: "This info item is already un-pinned"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: |
+      This is not a valid responsible!
+
+      Please select an **existing user** from the dropdown or enter a **valid email address**.
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
 About:
   title: "約4ミニッツ"
-  copyright: "( C) 2015-2019 4Minitz-チーム"
+  copyrightTeam: "by 4Minitz-Team"
   licensedUnder: "MITライセンス下でライセンス交付されている"
   licenseDependencies: "依存関係のライセンス"
   thanksContributors: "すべての協力者に感謝する"
   proudlySponsored: "誇らしげに Sponsored"
   specialThanks: "これらのプロジェクトの特別支援"
   forkGitHub: "GitHub上でのフォーク"
-  serverStatistics: "サーバー統計"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "項目の追加/編集"
   editItem: "アイテムの編集"
@@ -82,9 +166,10 @@ Item:
   deleteItemHint: "このアクション/情報項目を削除"
   addItemModal: "{$type} を {$topic}に追加"
   editItemModal: "{$topic}の {$type} を編集"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "アクション項目"
   addInfo: "情報項目の追加"
   addInfoHint: "トピックへの情報項目の追加"
-  editInfo: "情報項目の編集"
   action: "アクション項目"
   addAction: "アクション項目の追加"
   addActionHint: "トピックへのアクション項目の追加"
@@ -120,11 +205,11 @@ Item:
     matchCaseHint: "一致ケース"
     matchCaseLong: "一致ケース"
     Usage:
-      body: "You can use several keywords to filter the listed elements. All keywords may be combined which filters those items matching all given search parameters."
-      keyword: "Keyword"
-      format: "Format"
-      values: "Values"
-      eg: "e.g."
+      body: "いくつかのキーワードを使用して、リストされているエレメントをフィルタリングする すべてのキーワードを組み合わせて、指定されたすべての検索パラメーターに一致する項目をフィルターに掛けます。"
+      keyword: "キーワード"
+      format: "形式"
+      values: "値"
+      eg: "例えば、"
   myActionItems: "自分のアクション・アイテム"
 Topic:
   title: "トピック"
@@ -152,7 +237,6 @@ Topic:
   history: "ヒストリーの表示"
   historyHint: "このトピックの完全なファイナライズ済み状態を表示"
   delete: "トピックの削除"
-  deleteHint: "トピックの削除"
   reopen: "トピックの再オープン"
   reopenHint: "トピックの再オープン"
   placeholder: "情報項目を追加します。 @username を追加してアクション項目を追加します。 Enter キーを押して詳細を追加します。 実行依頼するにはCtrl+Enter または Tabを押します。"
@@ -193,7 +277,7 @@ Minutes:
   attachmentsHint: "分に添付がある"
   previous: "前:"
   next: "次:"
-  history: "History"
+  history: "歴史"
   unfinalizeHint: "分を確定解除する場合にクリックします"
   print: "分の印刷"
   finalize: "最終化分"
@@ -215,6 +299,7 @@ Minutes:
     continue: "アップロードの続行"
     pause: "アップロードの一時停止"
     abort: "アップロードの中止"
+    error: "Error during upload"
   version: "バージョン"
   versionTag: "v"
   Participants:
@@ -238,6 +323,7 @@ MeetingSeries:
   team: "チーム / プロジェクト"
   new: "新規ミーティングシリーズ"
   leave: "ミーティング・シリーズの終了"
+  leaveButton: "Leave"
   moderator: "あなたはモデレーターです"
   lastMinute: "最後の分:"
   Search:
@@ -286,6 +372,10 @@ Profile:
     longName: "有効なロング・ネームを入力してください"
     email: "有効な E メール・アドレスを入力してください"
     password: "有効なパスワードを入力してください"
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
 Admin:
   users: "利用者"
   messages: "メッセージ"
@@ -330,10 +420,46 @@ Login:
     title: "ログイン・エラー"
     username: "ユーザー名を入力してください"
     password: "パスワードを入力してください"
-  title: "サインイン"
+  signIn: "Sign In"
   ldap: "ルダップ"
   standard: "スタンダード"
   demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: |
+      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
+      We made 4Minitz free open source software, as we strongly believe that
+      sensitive information like meeting minutes should not be hosted in the cloud.
+      Instead you want to host it on your own infrastructure where you can define
+      the level of security and safety you need.
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
+    trackTopicsHeading: "Track Topics"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
 Navigation:
   help: "ヘルプ"
   about: "アバウト"
@@ -344,11 +470,95 @@ Navigation:
   toggleNavigation: "ナビゲーションの切り替え"
   meetings: "会議"
   processing: "コンテンツの処理中 ..."
-  setLanguageForUser: "Set Language"
-  setLanguageLogin: "Language"
+  setLanguageForUser: "言語の設定"
+  setLanguageLogin: "言語"
 QuickHelp:
   title: "クイック・ヘルプ"
   meetingSeries: "<p>現在のミーティング・シリーズの新規議事録を作成するか、既存の議事録の日付リンクをクリックします。</p>"
   meetingSeriesList: "<p>4Minitz を使用すると、ミーティングの議事録を作成できます。</p><p>最初に新しい会議シリーズを作成し、他のユーザーを招待します。<br>では、ミーティング・シリーズの複数の日付にミーティング議事録を作成します。</p>"
   minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
   upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+Mail:
+  greeting: "ハロー"
+  newAgenda: "新しいミーティング・アジェンダをお客様に提供しました:"
+  newActionItem: "You have been assigned to the following action items:"
+  newMinutes: "Below you'll find the latest meeting minutes."
+  meeting: "Meeting"
+  links: "リンク"
+  openSeries: "オープンシリーズ"
+  openMinutes: "オープン分数"
+  minutesSubject: "ミーティング議事録"
+  discussedTopics: "ディスカッションされたトピック"
+  skippedTopics: "トピックを開く"
+  none: "なし"
+  AdminNewVersion:
+    subject: "Newer version exists"
+    body: |
+      Hello Admin,
+
+      It seems you are running an outdated version of 4Minitz.
+
+      Your 4Minitz instance on: {$rootUrl}
+      has version: {$myVersion}
+
+      Newest version available is: {$masterVersion}'
+      Release notes: {$urlReleaseNotes}
+      Please consider to update.
+
+      {$masterMessageText}
+
+      This mail was generated by your 4Minitz backend.
+      You can disable the update check via settings.json: \"updateCheck\": false.
+
+      Have fun!
+              Your 4Minitz team.
+
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Your new account at our server"
+    passwordNotSend: "    Contact admin for password."
+    passwordParagraph: |
+      Your password : {$password}
+
+      Don't forget to change your password after first login!
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  UserRoleChange:
+    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"

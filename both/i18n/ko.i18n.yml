@@ -8,72 +8,156 @@ Accounts:
   passwordPlaceholder: "최소값. 6자 (숫자, 하단 및 위쪽)"
   passwordError: "최소값. 6회 (분) (분). 1개의 숫자, 1개, 1개의 대문자)"
 Buttons:
-  cancel: "취소하기"
-  close: "닫기"
-  register: "레지스터"
-  change: "변화"
-  save: "다른 이름으로 저장"
-  ok: "알았어"
   add: "추가하기"
-  dismissAll: "모두 사용 안함"
   back: "뒤로 이동"
+  cancel: "취소하기"
+  change: "변화"
+  close: "닫기"
+  confirm: "확인하기"
+  create: "생성"
   delete: "삭제하기"
+  dismissAll: "모두 사용 안함"
   edit: "편집하기"
   hide: "알았어"
+  ok: "알았어"
+  register: "레지스터"
+  save: "다른 이름으로 저장"
+UserRoles:
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "초대받은"
+  roleInformed: "Informed"
+FlashMessages:
+  ok: "알았어"
+  error: "에러"
+  verifyEMailErr: "오류: 이메일을 확인할 수 없습니다."
+  verifyEMailOK: "확인: 지금 EMail을 확인한다."
+  passwordChangeOK: "암호를 변경했기"
+  passwordResetOK: "암호가 완전히 다시 스캔되지 않은 경우"
+  profileEditOK: "프로파일 변경 저장"
+  minuteLinkErr: "불행하게도 분이 해당 상위 시리즈에 올바르게 링크되지 않았습니다. 시스템 관리자에게 문의하십시오."
+  agendaSentOK: "Agenda를 {$result} 수신인에게 성공적으로 보냈다."
+  finalizeProgress1: "진행 중인 완료"
+  finalizeProgress2: "몇 초가 소요될 수 있습니다 ..."
+  finalizeOK: "이 회의록은 성공적으로 완료되었습니다."
 Dialog:
-  confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item <strong>{$subject}</strong>?"
-  confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} <strong>{$subject}</strong> because the {$type} was created in a previous minutes."
-  confirmDeleteItemActionItem: "대신에 조치 항목을 닫으시겠습니까?"
-  confirmDeleteItemInfoItem: "고정 정보 항목을 대신 해제하시겠습니까?"
+  ConfirmDelete:
+    title: "삭제 확인?"
+    body: "이것을 삭제하시겠습니까?"
+  ConfirmCreateNewMinutes:
+    title: "새로운 회의록 작성 확인"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
+  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
+  confirmDeleteDetails: "항목 **{$subject} ** 의 선택된 세부사항을 삭제하시겠습니까?"
+  ConfirmDeleteItem:
+    allowed: "{$type} **{$subject} ** 를 삭제하시겠습니까?"
+    notAllowed: "{$type} **{$subject}** 를 삭제하는 것은 불가능하며, 그 이유는 {$type} 이 이전의 분에서 생성되었기 때문이다."
+    questionActionItem: "대신에 조치 항목을 닫으시겠습니까?"
+    questionInfoItem: "고정 정보 항목을 대신 해제하시겠습니까?"
+    typeActionItem: "조치 수행 항목"
+    typeInfoItem: "정보수집"
+    titleCloseActionItem: "작업 항목 닫기?"
+    titleUnpinInfoItem: "정보 항목을 해제하시겠습니까?"
+    buttonCloseActionItem: "닫기 수행 항목"
+    buttonUnpinInfoItem: "비핀 정보 항목"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic <strong>{$subject}</strong>?"
-    notAllowed: "It is not possible to delete the topic <strong>{$subject}</strong> because the topic was created in a previous minutes."
+    allowed: "**{$subject} ** 주제를 삭제하시겠습니까?"
+    notAllowed: "토픽이 이전 분에 작성되었으므로 토픽 **{$subject}** 를 삭제할 수 없습니다."
     close: "대신 주제를 닫으시겠습니까?"
     closeWithActions: "관련된 모든 조치 항목과 함께 주제를 닫으시겠습니까?"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
   ConfirmMinuteQualityAssurance:
-    issues: "There are finalize issues with your minutes!"
-    proceed: "Do you want to proceed with finalizing?"
-  confirmReOpenTopic: "이미 닫힌 주제 {$topicSubject}을 다시 열시겠습니까?"
-  confirmSendAgenda: "Do you really want to sent the agenda for this meeting minute dated on <strong>{$minDate}</strong>?<br>It was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    title: "분할 수: 품질 검사"
+    button: "진행하기"
+    issues: "분 단위로 최종적인 문제가 있습니다!"
+    proceed: "마무리 작업을 진행하시겠습니까?"
+    warnNoTopics: "현재 분에 주제가 없습니다."
+    warnNoParticipants: "참가자가 현재로 표시되지 않음"
+    warnEditing: "topic/ item/세부사항이 여전히 편집되어 있음"
+    warnNoTopicDiscussed: "주제가 '토론된' 항목으로 표시되지 않았습니다."
+    warnTopicWithoutItems: "하나 이상의 토론 주제에 항목이 없습니다."
+    warnActionItemWithoutResponsible: "하나 이상의 조치 항목에 책임이 없음"
+    warnTopicNoNewContent: "주제가 선택되었지만 새 컨텐츠가 없습니다."
+  ConfirmReOpenTopic:
+    title: "-주제를 다시 시작하시겠습니까?"
+    body: "이미 닫힌 주제 **{$topicSubject} ** 를 다시 열시겠습니까?"
+    button: "다시 열기"
+  ConfirmSendAgenda:
+    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    title: "의제 전송 확인"
+    button: "발신인 보내기"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
-    closedTopicsAdditionally: "Additionally <strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
+    really: "**{$minutesDate} ** 에서 이 회의 시간을 삭제하시겠습니까?"
+    newTopics: "그러면 이 분 내에 작성된 **{$newTopicsCount} 주제 * * 가 제거됩니다."
+    closedTopicsAdditionally: "추가로 **{$closedTopicsCount} 토픽 * * 이 (가) 이 분 내에 닫혔을 때 다시 열립니다."
+    closedTopics: "**{$closedTopicsCount} 토픽 * * 이 다시 열립니다. 이 시간 내에 닫혔습니다."
   ConfirmFinalizeMinutes:
-    really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    sendActionItems: "Send action items"
-    sendMinutes: "Send information items"
+    title: "몇 분을 찾아 확인하기"
+    button: "실현하기"
+    really: "**{$minutesDate} ** 에 대한 이 회의 분을 완료하시겠습니까?"
+    sendActionItems: "조치 항목 보내기"
+    sendMinutes: "정보 항목 보내기"
   LocaleSetting:
-    title: "Set Language"
-    languageLocale: "Language Locale"
-    automatic: "Automatic via Browser"
-Mail:
-  greeting: "안녕하세요"
-  newAgenda: "다음과 같은 새 미팅 의제가 있습니다."
-  newActionItem: "사용자가 다음 조치 항목에 지정되었습니다."
-  newMinutes: "아래에서 최신 회의록을 찾을 수 있습니다."
-  meeting: "Sitzung"
-  links: "연결"
-  openSeries: "Open Series"
-  openMinutes: "오픈 회의록"
-  minutesSubject: "회의록 (회의록)"
-  discussedTopics: "주제에 대해 토론하기"
-  skippedTopics: "토픽을 오픈"
-  none: "없음"
+    title: "언어 설정하기"
+    languageLocale: "언어 로게일"
+    automatic: "브라우저를 통한 자동"
+  IsEditedHandling:
+    title: "Edit despite existing editing"
+    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
+    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
+    button: "Edit Anyway"
+  ConnectionInfo:
+    tooltip: |
+      Connection Lost!
+        Status: {$status}
+        Retry Count: {$retryCount}
+        Retry Time: {$retryTime} sec.
+        Reason: {$reason}
+        Click to reconnect.
+    header: "You have lost the connection to the 4Minitz server."
+    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
+    tryToReconnect: "Try To Reconnect"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    button: "Download"
+  ConfirmTopicDelete:
+    title1: "Confirm delete topic"
+    title2: "Mark topic as discussed?"
+    button2: "Close topic and actions"
+    errortitle: "Cannot delete topic"
+    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+  ItemDeleteError:
+    title: "Cannot delete item"
+    body1: "It is not possible to delete this item because it was created in a previous minutes."
+    body2a: "This action item is already closed,"
+    body2b: "This info item is already un-pinned"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: |
+      This is not a valid responsible!
+
+      Please select an **existing user** from the dropdown or enter a **valid email address**.
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
 About:
   title: "4Minitz에 관한 정보"
-  copyright: "(C) 2015 -2019 4Minitz-Team"
+  copyrightTeam: "by 4Minitz-Team"
   licensedUnder: "라이센스가 부여된 MIT-라이센스"
   licenseDependencies: "의존성의 라이센스"
   thanksContributors: "모두에게 감사를 드립니다."
   proudlySponsored: "자랑스럽게 스폰서를 받음"
   specialThanks: "이러한 프로젝트에 대한 특별 감사"
   forkGitHub: "GitHub 에서 우리를 Fork."
-  serverStatistics: "서버 통계 분석"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "항목 추가/편집"
   editItem: "항목 편집하기"
@@ -82,9 +166,10 @@ Item:
   deleteItemHint: "이 조치/정보 항목 삭제"
   addItemModal: "Add {$type} to {$topic}"
   editItemModal: "Edit {$type} of {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "조치 품목"
   addInfo: "정보 항목 추가"
   addInfoHint: "주제에 정보 항목 추가하기"
-  editInfo: "정보 항목 편집"
   action: "조치 품목"
   addAction: "동작 항목 추가하기"
   addActionHint: "주제에 조치 항목 추가하기"
@@ -120,11 +205,11 @@ Item:
     matchCaseHint: "일치 사례"
     matchCaseLong: "일치 사례"
     Usage:
-      body: "You can use several keywords to filter the listed elements. All keywords may be combined which filters those items matching all given search parameters."
-      keyword: "Keyword"
-      format: "Format"
-      values: "Values"
-      eg: "e.g."
+      body: "여러 키워드를 사용하여 나열된 요소를 필터링할 수 있습니다. 모든 지정된 검색 파라미터들과 매칭되는 아이템들을 필터링하는 모든 키워드들이 결합될 수 있다."
+      keyword: "키워드어"
+      format: "형식 지정하기"
+      values: "가치"
+      eg: "예를 들어"
   myActionItems: "내 동작 항목"
 Topic:
   title: "주제"
@@ -152,7 +237,6 @@ Topic:
   history: "히스토리 표시하기"
   historyHint: "이 주제의 완성된 완료 상태 표시"
   delete: "삭제 주제"
-  deleteHint: "삭제 주제"
   reopen: "주제 다시 시작"
   reopenHint: "주제 다시 시작"
   placeholder: "정보 항목을 추가한다. 조치 항목을 추가하기 위해 사용자 이름을 추가합니다. Enter를 눌러 세부사항을 추가한다. Ctrl+Enter 또는 Tab을 제출하여 제출한다."
@@ -193,7 +277,7 @@ Minutes:
   attachmentsHint: "분들은 첨부파일을"
   previous: "기존:"
   next: "다음은"
-  history: "History"
+  history: "기록"
   unfinalizeHint: "분을 완료하려면 클릭하십시오."
   print: "인쇄 분"
   finalize: "분을 완성하기"
@@ -215,6 +299,7 @@ Minutes:
     continue: "업로드 계속하십시오."
     pause: "Pause 업로드"
     abort: "중단된 업로드"
+    error: "Error during upload"
   version: "버전 (버전)"
   versionTag: "및 v."
   Participants:
@@ -238,6 +323,7 @@ MeetingSeries:
   team: "팀/프로젝트"
   new: "새 미팅 시리즈"
   leave: "미팅 시리즈 유지"
+  leaveButton: "Leave"
   moderator: "여러분은 사회자이다"
   lastMinute: "마지막 분:"
   Search:
@@ -286,6 +372,10 @@ Profile:
     longName: "올바른 긴 이름을 입력하십시오."
     email: "올바른 이메일 주소를 입력하십시오."
     password: "올바른 암호를 입력하십시오."
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
 Admin:
   users: "사용자들"
   messages: "메시지를 보낸 것"
@@ -330,10 +420,46 @@ Login:
     title: "로그인 에러"
     username: "사용자 이름을 입력하십시오."
     password: "암호를 입력하십시오."
-  title: "로그인하기"
+  signIn: "Sign In"
   ldap: "LDAP"
   standard: "표준규격"
   demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: |
+      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
+      We made 4Minitz free open source software, as we strongly believe that
+      sensitive information like meeting minutes should not be hosted in the cloud.
+      Instead you want to host it on your own infrastructure where you can define
+      the level of security and safety you need.
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
+    trackTopicsHeading: "Track Topics"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
 Navigation:
   help: "도움말"
   about: "약"
@@ -344,11 +470,95 @@ Navigation:
   toggleNavigation: "탐색 토글로 토글"
   meetings: "회로"
   processing: "컨텐츠 처리 중 ..."
-  setLanguageForUser: "Set Language"
-  setLanguageLogin: "Language"
+  setLanguageForUser: "언어 설정하기"
+  setLanguageLogin: "언어의"
 QuickHelp:
   title: "빠른 도움말"
   meetingSeries: "<p>여기서 현재 미팅 시리즈의 새 회의록을 작성하거나 기존 회의록의 날짜 링크를 클릭할 수 있습니다.</p>"
   meetingSeriesList: "<p>With 4Minitz you can create minutes for meetings.</p><p>First create a new meeting series and invite some other users.<br>Then create meeting minutes on multiple dates for your meeting series.</p>"
   minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
   upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+Mail:
+  greeting: "안녕하세요"
+  newAgenda: "다음과 같은 새 미팅 의제가 있습니다."
+  newActionItem: "You have been assigned to the following action items:"
+  newMinutes: "Below you'll find the latest meeting minutes."
+  meeting: "Meeting"
+  links: "연결"
+  openSeries: "Open Series"
+  openMinutes: "오픈 회의록"
+  minutesSubject: "회의록 (회의록)"
+  discussedTopics: "주제에 대해 토론하기"
+  skippedTopics: "토픽을 오픈"
+  none: "없음"
+  AdminNewVersion:
+    subject: "Newer version exists"
+    body: |
+      Hello Admin,
+
+      It seems you are running an outdated version of 4Minitz.
+
+      Your 4Minitz instance on: {$rootUrl}
+      has version: {$myVersion}
+
+      Newest version available is: {$masterVersion}'
+      Release notes: {$urlReleaseNotes}
+      Please consider to update.
+
+      {$masterMessageText}
+
+      This mail was generated by your 4Minitz backend.
+      You can disable the update check via settings.json: \"updateCheck\": false.
+
+      Have fun!
+              Your 4Minitz team.
+
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Your new account at our server"
+    passwordNotSend: "    Contact admin for password."
+    passwordParagraph: |
+      Your password : {$password}
+
+      Don't forget to change your password after first login!
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  UserRoleChange:
+    subject: "사용자의 역할이 ' 로 변경되었다 '{$meetingProject}:{$meetingName}"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"

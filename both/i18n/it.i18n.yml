@@ -8,101 +8,186 @@ Accounts:
   passwordPlaceholder: "min. 6 barche (cifra, inferiore e superiore)"
   passwordError: "min. 6 caratteri (min. 1 cifra, 1 inferiore, 1 superiore)"
 Buttons:
-  cancel: "Annulla"
-  close: "Chiudi"
-  register: "Registra"
-  change: "Cambia"
-  save: "Salva"
-  ok: "OK"
   add: "Aggiungi"
-  dismissAll: "Rimuovi tutto"
   back: "Torna indietro"
+  cancel: "Annulla"
+  change: "Cambia"
+  close: "Chiudi"
+  confirm: "Conferma"
+  create: "Crea"
   delete: "Elimina"
+  dismissAll: "Rimuovi tutto"
   edit: "Modifica"
   hide: "Ok, nasconditi"
+  ok: "ok"
+  register: "Registra"
+  save: "Salva"
+UserRoles:
+  roleModerator: "Moderatore"
+  roleUploader: "Caricatore"
+  roleInvited: "Invitato"
+  roleInformed: "Informato"
+FlashMessages:
+  ok: "ok"
+  error: "Errore"
+  verifyEMailErr: "Errore: EMail non può essere verificato"
+  verifyEMailOK: "OK: L'EMail è ora verificato"
+  passwordChangeOK: "Password modificata"
+  passwordResetOK: "Password reimpostata con successo"
+  profileEditOK: "Modifiche al profilo salvate"
+  minuteLinkErr: "Purtroppo il minuto non è collegato correttamente alla sua serie genitore - si prega di contattare l'amministratore di sistema."
+  agendaSentOK: "Agenda è stata inviata correttamente a {$result} destinatari"
+  finalizeProgress1: "Finalizzazione in corso"
+  finalizeProgress2: "Questa operazione potrebbe richiedere alcuni secondi..."
+  finalizeOK: "I verbali della riunione sono stati finalizzati con successo"
 Dialog:
-  confirmDeleteAttachment: "Vuoi davvero eliminare l'allegato<br><b>{$name}</b>?"
-  confirmDeleteDetails: "Vuoi davvero eliminare i dettagli selezionati dell'elemento <strong>{$subject}</strong>?"
-  confirmDeleteItemAllowed: "Vuoi davvero eliminare il {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "Non è possibile eliminare {$type} <strong>{$subject}</strong> perché il {$type} è stato creato in un minuto precedente."
-  confirmDeleteItemActionItem: "Vuoi invece chiudere l'elemento dell'azione?"
-  confirmDeleteItemInfoItem: "Vuoi invece sbloccare l'elemento info appiccicoso?"
+  ConfirmDelete:
+    title: "Confermi l'eliminazione?"
+    body: "Sei sicuro di voler eliminare questo?"
+  ConfirmCreateNewMinutes:
+    title: "Conferma la creazione di nuovi minuti"
+    content: "Vuoi davvero creare nuovi minuti per la serie di riunioni \"{$project}: {$name}\"?"
+  confirmDeleteAttachment: "Vuoi davvero eliminare l'allegato:\n**{$name}**?"
+  confirmDeleteDetails: "Vuoi davvero eliminare i dettagli selezionati dell'elemento **{$subject}**?"
+  ConfirmDeleteItem:
+    allowed: "Sei sicuro di voler eliminare il {$type} **{$subject}**?"
+    notAllowed: "Non è possibile eliminare il {$type} **{$subject}** perché il {$type} è stato creato in un minuto precedente."
+    questionActionItem: "Vuoi invece chiudere l'elemento dell'azione?"
+    questionInfoItem: "Vuoi invece sbloccare l'elemento info appiccicoso?"
+    typeActionItem: "elemento azione"
+    typeInfoItem: "informazioni"
+    titleCloseActionItem: "Chiudere l'elemento dell'azione?"
+    titleUnpinInfoItem: "Sbloccare le informazioni?"
+    buttonCloseActionItem: "Chiudi azione"
+    buttonUnpinInfoItem: "Sblocca info elemento"
   ConfirmDeleteTopic:
-    allowed: "Vuoi davvero eliminare la discussione <strong>{$subject}</strong>?"
-    notAllowed: "Non è possibile eliminare il topic <strong>{$subject}</strong> perché il topic è stato creato in un minuto precedente."
+    allowed: "Vuoi davvero eliminare la discussione **{$subject}**?"
+    notAllowed: "Non è possibile eliminare il topic **{$subject}** perché il topic è stato creato in un minuto precedente."
     close: "Vuoi invece chiudere la discussione?"
     closeWithActions: "Vuoi invece chiudere l'argomento insieme a tutti gli elementi relativi all'azione?"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Vuoi davvero uscire dalla serie delle riunioni:\n\n**{$project} / {$name}**\n\nDovrai chiedere a un moderatore se vuoi entrare di nuovo in seguito."
   ConfirmMinuteQualityAssurance:
+    title: "Termina minuti: controlli di qualità"
+    button: "Procedi"
     issues: "Ci sono problemi di finalizzazione con i tuoi minuti!"
     proceed: "Vuoi procedere con la finalizzazione?"
-  confirmReOpenTopic: "Vuoi davvero riaprire la discussione già chiusa {$topicSubject}?"
-  confirmSendAgenda: "Vuoi davvero inviare l'ordine del giorno per questo minuto di riunione datato il <strong>{$minDate}</strong>?<br>È già stato inviato il {$agendaSentDate} alle {$agendaSentTime}"
+    warnNoTopics: "I verbali attuali non hanno argomenti"
+    warnNoParticipants: "Nessun utente è contrassegnato come presente"
+    warnEditing: "Un argomento/oggetto/dettaglio è ancora modificato"
+    warnNoTopicDiscussed: "Nessun argomento è contrassegnato come 'discusso'"
+    warnTopicWithoutItems: "Almeno un argomento discusso non ha elementi"
+    warnActionItemWithoutResponsible: "Almeno un elemento azione non ha alcun responsabile"
+    warnTopicNoNewContent: "È selezionato un topic ma non ha nuovi contenuti"
+  ConfirmReOpenTopic:
+    title: "Riaprire Topic?"
+    body: "Vuoi davvero riaprire la discussione già chiusa **{$topicSubject}**?"
+    button: "Riapri"
+  ConfirmSendAgenda:
+    body: "Vuoi davvero inviare l'ordine del giorno per questo minuto di riunione datato il **{$minDate}**?\nÈ già stato inviato il {$agendaSentDate} alle {$agendaSentTime}"
+    title: "Conferma invio agenda"
+    button: "Invia Agenda"
   ConfirmDeleteMinutes:
-    really: "Vuoi davvero eliminare questo minuto di riunione datato il <strong>{$minutesDate}</strong>?"
-    newTopics: "Questo rimuoverà <strong>{$newTopicsCount} argomenti</strong>, che sono stati creati entro questo minuto."
-    closedTopicsAdditionally: "Inoltre, verranno riaperti <strong>{$closedTopicsCount} argomenti</strong> che sono stati chiusi entro questo minuto."
-    closedTopics: "<strong>{$closedTopicsCount} argomenti</strong> verranno riaperti, che sono stati chiusi entro questo minuto."
+    really: "Vuoi davvero eliminare questo minuto di riunione datato il **{$minutesDate}**?"
+    newTopics: "Questo rimuoverà **{$newTopicsCount} argomenti**, che sono stati creati entro questo minuto."
+    closedTopicsAdditionally: "Inoltre, verranno riaperti di nuovo i ** topic di{$closedTopicsCount} , che sono stati chiusi entro questo minuto."
+    closedTopics: "**{$closedTopicsCount} argomenti** verranno riaperti, che sono stati chiusi entro questo minuto."
   ConfirmFinalizeMinutes:
-    really: "Vuoi davvero finalizzare questo minuto di riunione datato il <strong>{$minutesDate}</strong>?"
+    title: "Conferma finalizzazione processo"
+    button: "Finalizzare"
+    really: "Vuoi davvero finalizzare questo minuto di riunione datato il **{$minutesDate}**?"
     sendActionItems: "Invia azioni"
     sendMinutes: "Invia informazioni"
   LocaleSetting:
     title: "Imposta lingua"
     languageLocale: "Lingua locale"
     automatic: "Automatico tramite Browser"
-Mail:
-  greeting: "Ciao"
-  newAgenda: "Abbiamo un nuovo ordine del giorno di riunione per te:"
-  newActionItem: "sono stati assegnati ai seguenti elementi di azione:"
-  newMinutes: "sotto troverete gli ultimi minuti di riunione."
-  meeting: "Sitzung"
-  links: "Collegamenti"
-  openSeries: "Serie aperta"
-  openMinutes: "Apri minuti"
-  minutesSubject: "Verbali riunione"
-  discussedTopics: "Argomenti discussi"
-  skippedTopics: "Apri argomento"
-  none: "Nessuno"
+  IsEditedHandling:
+    title: "Modifica nonostante le modifiche esistenti"
+    confirmationDialogResetEdit: "Attenzione: Questo documento è stato modificato da {$name} dal: {$date}"
+    confirmationDialogResetEditDetails: "Clicca nuovamente sui dettagli per iniziare a modificare."
+    button: "Modifica comunque"
+  ConnectionInfo:
+    tooltip: |
+      Connessione persa!
+        Stato: {$status}
+        Ritenta: {$retryCount}
+        Tempo di Riprova: {$retryTime} sec.
+        Motivo: {$reason}
+        Clicca per riconnettersi.
+    header: "Hai perso la connessione con il server 4Minitz."
+    body: "Se chiudi il tuo browser, i dati non salvati potrebbero essere persi. Se il problema persiste, contattare l'amministratore del sistema."
+    tryToReconnect: "Prova a riconnetterti"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "Non c'è nessun protocollo generato per questi minuti. Vuoi scaricare una versione HTML generata dinamicamente?"
+    button: "Scaricare"
+  ConfirmTopicDelete:
+    title1: "Conferma eliminazione argomento"
+    title2: "Segnare l'argomento come discusso?"
+    button2: "Chiudi topic e azioni"
+    errortitle: "Impossibile eliminare l'argomento"
+    errorcontent: "Non è possibile eliminare questo argomento perché è stato creato in un minuto precedente. L'argomento selezionato è già chiuso e non ha elementi di azione aperti, quindi non verrà copiato nei seguenti minuti."
+  ItemDeleteError:
+    title: "Impossibile eliminare l'elemento"
+    body1: "Non è possibile eliminare questo elemento perché è stato creato in un minuto precedente."
+    body2a: "Questo elemento azione è già chiuso,"
+    body2b: "Questo elemento info è già sbloccato"
+    body3: "quindi non sarà copiato ai seguenti minuti"
+  ActionItemResponsibleError:
+    title: "Responsabile dell'elemento di azione non valido"
+    body: |
+      Questo non è un responsabile valido!
+
+      Per favore seleziona un **utente esistente** dal menu a tendina o inserisci un **indirizzo email valido**.
+  ConvertItemError:
+    title: "Impossibile convertire l'elemento"
+    body: "Non è possibile convertire questo elemento perché è stato creato in un minuto precedente."
 About:
   title: "Circa 4Minitz"
-  copyright: "(C) 2015-2019 4Minitz-Team"
+  copyrightTeam: "di 4Minitz-Team"
   licensedUnder: "Licenza sotto licenza MIT-License"
   licenseDependencies: "Licenza delle Dipendenze"
   thanksContributors: "Grazie a tutti i nostri collaboratori"
-  proudlySponsored: "Proudly Sponsorizzato da"
-  specialThanks: "Grazie speciale a questi progetti"
-  forkGitHub: "Fork su GitHub"
-  serverStatistics: "Statistiche server"
+  proudlySponsored: "Sponsorizzato con orgoglio da"
+  specialThanks: "Un ringraziamento speciale a questi progetti"
+  forkGitHub: "Fork us on GitHub"
+  ServerStatistics:
+    title: "Statistiche del server"
+    rowNumUser: "Numero di utenti (attivo)"
+    rowNumMeetingSeries: "Numero di serie di riunioni"
+    rowNumMeetingMinutes: "Numero di minuti della riunione"
+    rowNumAttachments: "Numero di allegati"
+    rowSizeAttachments: "Dimensione allegati"
 Item:
   ariaLabel: "Aggiungi/Modifica elemento"
   editItem: "Modifica elemento"
-  editItemHint: "Modifica questa azione/info elemento"
+  editItemHint: "Modifica questo elemento azione/info"
   deleteItem: "Elimina elemento"
-  deleteItemHint: "Elimina questa azione/info elemento"
+  deleteItemHint: "Elimina questo elemento azione/info"
   addItemModal: "Aggiungi {$type} a {$topic}"
   editItemModal: "Modifica {$type} di {$topic}"
-  addInfo: "Aggiungi Info elemento"
-  addInfoHint: "Aggiungi voce all'argomento"
-  editInfo: "Modifica Info oggetto"
-  action: "Elemento azione"
-  addAction: "Aggiungi elemento"
-  addActionHint: "Aggiungi elemento azione al topic"
-  convertToAction: "Converti in azione"
+  editItemModelTypeInfoItem: "Informazioni"
+  editItemModelTypeActionItem: "Elemento Azione"
+  addInfo: "Aggiungi Info"
+  addInfoHint: "Aggiungi elemento informazioni all'argomento"
+  action: "Elemento Azione"
+  addAction: "Aggiungi Azione"
+  addActionHint: "Aggiungi elemento azione all'argomento"
+  convertToAction: "Converti in Azione"
   convertToInfo: "Converti in Info"
-  convertDisabled: "Conversione disabilitata: l'elemento esiste nella riunione precedente"
+  convertDisabled: "Conversione disabilitata: l'elemento esiste in precedenti riunioni"
   subject: "Oggetto (obbligatorio)"
   details: "Dettagli"
   addDetails: "Aggiungi dettagli"
   priority: "Priorità"
-  due: "Scade"
+  due: "Scadenza"
   dueNone: "nessuno"
-  detailPlaceholder: "Puoi utilizzare Markdown per modificare. Premi Ctrl+Invio o Tab per uscire."
-  markdownHint: "Guida per Markdown Syntax"
-  setPin: "Imposta Pinned"
-  setPinHint: "Imposta come elemento di info pinnato"
-  unsetPin: "Non bloccato"
-  unsetPinHint: "Imposta come elemento info non pinnato"
+  detailPlaceholder: "Puoi usare Markdown per modificare. Premi Ctrl+Enter o Tab per uscire."
+  markdownHint: "Aiuto per la sintassi Markdown"
+  setPin: "Imposta come fissato"
+  setPinHint: "Imposta come elemento in evidenza"
+  unsetPin: "Unset fissato"
+  unsetPinHint: "Imposta come elemento info non fissato"
   done: "fatto"
   pinned: "bloccato"
   Error:
@@ -127,37 +212,36 @@ Item:
       eg: "es."
   myActionItems: "I miei elementi"
 Topic:
-  title: "Topic"
-  new: "Nuovo"
-  add: "Aggiungi Topic"
-  addLong: "Aggiungi argomento ..."
-  addShort: "Topic"
-  addHint: "Aggiungi nuovo argomento alla parte superiore dell'elenco [ Ctrl + Alt + T ]"
-  quickAdd: "ADD TOPIC (alla fine della lista)"
-  edit: "Modifica Topic"
-  save: "Salva Topic"
-  show: "Mostra Topic"
+  title: "Argomento"
+  new: "Novità"
+  add: "Aggiungi argomento"
+  addLong: "Aggiungi argomento..."
+  addShort: "Argomento"
+  addHint: "Aggiungi un nuovo argomento in cima alla lista [Ctrl+Alt+T]"
+  quickAdd: "AGGIUNGI TOPIC (per la fine dell'elenco)"
+  edit: "Modifica argomento"
+  save: "Salva argomento"
+  show: "Mostra argomento"
   subject: "Oggetto dell'argomento (obbligatorio)"
   responsible: "Responsabile"
   completed: "Completato"
-  completedHint: "Questo argomento è finalmente completato. Non verrà propagato alla prossima riunione."
-  setRecurring: "Imposta Ricorrenza"
+  completedHint: "Questo argomento è finalmente completato. Quindi non verrà propagato alla prossima riunione."
+  setRecurring: "Imposta ricorrente"
   setRecurringHint: "Imposta come argomento ricorrente"
-  unsetRecurring: "Ricorrenza non prevista"
+  unsetRecurring: "Unset ricorrente"
   unsetRecurringHint: "Imposta come argomento non ricorrente"
-  setSkip: "Imposta Salta"
+  setSkip: "Imposta come Salta"
   setSkipHint: "Imposta come argomento saltato"
-  unsetSkip: "Ignora"
+  unsetSkip: "Annulla salta"
   unsetSkipHint: "Imposta come argomento non saltato"
   history: "Mostra cronologia"
-  historyHint: "Mostra lo stato completo di questo topic"
-  delete: "Elimina Topic"
-  deleteHint: "Elimina Topic"
+  historyHint: "Mostra lo stato completo di questo argomento"
+  delete: "Cancella Topic"
   reopen: "Riapri argomento"
   reopenHint: "Riapri argomento"
-  placeholder: "Aggiungi Info elemento. Aggiungi @username per aggiungere un elemento di azione. Premi Invio per aggiungere dettagli. Premi Ctrl+Invio o scheda per inviare."
-  childOf: "Argomento di Serie Riunione:"
-  historyTitle: "Questo Topic era"
+  placeholder: "Aggiungi elemento informazioni. Aggiungi @username per aggiungere un Elemento all'azione. Premere INVIO per aggiungere dettagli. Premere Ctrl+Enter o Tab per inviare."
+  childOf: "Argomento delle Meeting Series:"
+  historyTitle: "Questo topic è stato"
   createdOn: "creato il:"
   lastUpdate: "ultimo aggiornamento il:"
   finalizedOn: "finalizzato in minuti da:"
@@ -215,6 +299,7 @@ Minutes:
     continue: "Continua caricamento"
     pause: "Pausa Upload"
     abort: "Annulla caricamento"
+    error: "Errore durante il caricamento"
   version: "Versione"
   versionTag: "v"
   Participants:
@@ -235,46 +320,47 @@ Minutes:
     none: "Nessuno."
 MeetingSeries:
   title: "Serie Riunione"
-  team: "Team / Progetto"
-  new: "Nuove Serie Riunione"
-  leave: "Lascia Serie Riunione"
-  moderator: "Sei moderatore"
+  team: "Squadra / Progetto"
+  new: "Nuova Serie Riunione"
+  leave: "Abbandona Serie Riunione"
+  leaveButton: "Abbandona"
+  moderator: "Sei un moderatore"
   lastMinute: "Ultimo minuto:"
   Search:
     placeholder: "Cerca Serie Riunione"
     noResults: "Nessun risultato per questo input..."
   Edit:
     Error:
-      meetingName: "Inserisci un nome valido per la serie di riunione"
+      meetingName: "Inserisci un nome valido per la serie di riunioni"
       teamName: "Inserisci un nome di progetto valido"
       notRegistered: "Questo non è un nome utente registrato"
       alreadyInList: "Questo nome utente è già nella lista"
-    teamName: "Gruppo / Nome del progetto"
-    meetingName: "Nome riunione"
+    teamName: "Squadra / Nome Progetto"
+    meetingName: "Nome Riunione"
     title: "Modifica Serie Riunione"
-    base: "Configurazione di base"
+    base: "Configurazione base"
     editedBy: "Modificato da {$user} (alle {$date})"
     invited: "Utenti invitati e informati"
-    notifyRoleChange: "Notifica ai partecipanti al cambiamento del ruolo"
+    notifyRoleChange: "Notificare i partecipanti alla modifica del ruolo"
     labels: "Etichette"
     save: "Salva Serie Riunione"
-    confirmDelete: "Conferma eliminazione"
+    confirmDelete: "Conferma cancellazione"
   Labels:
     Error:
-      name: "Inserisci un nome valido per l'etichetta"
-      hexValue: "Valore colore esadecimale non valido"
+      name: "Inserisci un nome di etichetta valido"
+      hexValue: "Valore esadecimale non valido"
     add: "Aggiungi nuova etichetta"
-    new: "Nuova etichetta"
-    select: "Seleziona ..."
+    new: "NuovoEtichetta"
+    select: "Seleziona..."
   Tab:
-    minutes: "Minuti"
-    topics: "Argomenti"
-    items: "Elementi"
+    minutes: "minuti"
+    topics: "Discussioni"
+    items: "Articoli"
 Profile:
   userName: "Nome utente"
   longName: "Nome lungo"
   email: "E-Mail"
-  password: "Password"
+  password: "password"
   passwordRepeat: "Ripeti password"
   ChangePassword:
     oldPassword: "Vecchia Password"
@@ -286,6 +372,10 @@ Profile:
     longName: "Inserisci un nome lungo valido"
     email: "Inserisci un indirizzo email valido"
     password: "Inserisci una password valida"
+  WarningEMailChange:
+    title: "Conferma modifica email utente"
+    body: "Stai per cambiare il tuo indirizzo email verificato. Sarai disconnesso e dovrai verificare il tuo nuovo indirizzo email prima di continuare."
+    button: "Firma + Ripeti Verifica"
 Admin:
   users: "Utenti"
   messages: "Messaggi"
@@ -303,40 +393,76 @@ Admin:
     date: "Data"
     message: "Messaggio"
     dismissed: "Dispersa"
-    dismissingUsers: "#Utenti scomparsi: {$number}\n"
+    dismissingUsers: "#Rimuovi utenti: {$number}\n"
     edit: "Modifica"
   Users:
-    filterUsers: "Filtra Utenti"
-    showInactive: "Mostra inattivo"
+    filterUsers: "Filtra utenti"
+    showInactive: "Mostra inattivi"
     online: "Online"
-    onlineHint: "Mostrando solo gli utenti attualmente attivi su un percorso minutesedit"
+    onlineHint: "Mostrando solo gli utenti attualmente attivi su un percorso di pochi minuti"
     id: "ID"
-    editProfile: "Modifica profilo utente"
-    countSingle: "Mostrando {$visible} di {$all} utente. Usa il filtro per mostrare altri."
-    count: "Mostrando {$visible} di {$all} utenti. Usa il filtro per mostrare altri."
+    editProfile: "Modifica Profilo Utente"
+    countSingle: "Mostrando {$visible} di {$all} utente. Usa il filtro per mostrare gli altri."
+    count: "Mostrando {$visible} su {$all} utenti. Utilizza il filtro per mostrare gli altri."
     Type:
-      hint: "Utente LDAP o utente standard"
+      hint: "Utente LDAP o utente Standard"
       column: "L/S"
       ldap: "L"
-      standard: "S"
+      standard: "SU"
     State:
-      hint: "Attiva/inattiva stato. Gli utenti inattivi non possono accedere."
+      hint: "Attiva/disattiva stato attivo/inattivo. Gli utenti inattivi non possono accedere."
       column: "In/Attivo"
       active: "Attivo"
       inactive: "Inattivo"
-      toggle: "Commuta"
+      toggle: "Attiva/disattiva"
 Login:
   Error:
     title: "Errore di login"
-    username: "Immettere il nome utente"
-    password: "Immettere la password"
-  title: "Firma in"
+    username: "Inserisci il tuo nome utente"
+    password: "Inserisci la tua password"
+  signIn: "Accesso effettuato"
   ldap: "LDAP"
-  standard: "Standard"
-  demoHint: "Suggerimento: Demo Active<br>Si può accedere con il nome utente <b>demo</b> e la password <b>demo</b>. Oppure è possibile registrare il proprio account cliccando sul link \"Register\" sottostante."
+  standard: "Predefinito"
+  demoHint: "Suggerimento: Modalità demo attiva<br>Puoi accedere con nome utente <b>demo</b> e password <b>demo</b>. Oppure puoi registrare il tuo account cliccando sul link \"Registrati\" qui sotto."
+  Login4MinitzInfo:
+    header: "4Minitz: minuti di riunione collaborativa."
+    subheader: "● Preparare l'agenda ● Processo del documento ● Argomenti traccia ●"
+    abstract: |
+      <p>Ogni utente invitato e loggato può guardare in tempo reale le modifiche ai verbali delle riunioni in corso.</p>
+      Abbiamo creato 4Minitz free software open source, poiché crediamo fermamente che
+      informazioni sensibili come i minuti di riunione non debbano essere ospitate nel cloud.
+      si vuole invece ospitarlo sulla propria infrastruttura dove è possibile definire
+      il livello di sicurezza necessario.
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: |
+      <li>Crea la tua serie di riunioni</li>
+      <li>Invita altri utenti</li>
+      <li>Specifica moderatori e caricatori</li>
+      <li>Riempi l'agenda con gli argomenti</li>
+      <li>Contrassegna gli argomenti ricorrenti per l'agenda standard</li>
+      <li>Invia l'agenda agli utenti invitati</li>
+    documentMinutesHeading: "Minuti del documento"
+    documentMinutesDetails: |
+      <li>Segnala presenti partecipanti</li>
+      <li>Aggiungi elementi di azione con risponditori agli argomenti</li>
+      <li>Aggiungi informazioni agli argomenti</li>
+      <li>Aggiungi etichette come 'Decisione' agli articoli</li>
+      <li>Carica file binari allegati</li>
+      <li>Invia minuti &amp; action items via EMail</li>
+    trackTopicsHeading: "Traccia argomenti"
+    trackTopicsDetails: |
+      <li>Gli elementi di azione aperti appariranno la prossima volta</li>
+      <li>Argomenti non chiusi appariranno la prossima volta</li>
+      <li>Elenco di tutti gli argomenti mai discussi</li>
+      <li>Arricchisci argomenti con informazioni su più riunioni</li>
+      <li>Trova argomenti con etichette (e. . tutte le decisioni)</li>
+      <li></li>Trova elementi tramite ricerca fulltext</li>
+  Footer:
+    withLove: "Codificato con ❤ dal"
+    theTeam: "Team WebApp"
 Navigation:
-  help: "Aiuto"
-  about: "Su"
+  help: "Assistenza"
+  about: "Informazioni"
   adminTasks: "Attività Admin"
   editProfile: "Modifica profilo"
   changePassword: "Cambia password"
@@ -352,3 +478,87 @@ QuickHelp:
   meetingSeriesList: "<p>Con 4Minitz puoi creare minuti per riunioni.</p><p>Crea prima una nuova serie di incontri e invita alcuni altri utenti.<br>Poi crea i minuti di riunione in più date per la tua serie di incontri.</p>"
   minutes: "<p>Aggiungi argomenti per preparare la tua agenda di riunione<br>Durante il segno di incontro un argomento con la casella di controllo per chiarire che ne hai discusso.<br>Se l'argomento...<br>&nbsp;&nbsp; - non è contrassegnato come discusso o<br>&nbsp;&nbsp; - è impostato come argomento ricorrente o<br>&nbsp;&nbsp; - contiene elementi di azione non eseguiti<br>... l'argomento sarà nuovamente presentato nella prossima riunione.</p><p>Clicca su 'Finalizza processo verbale' per inviare i verbali agli utenti invitati e agli elementi dell'azione alle loro risposte.</p>"
   upload: "<ul><li>Qui puoi caricare file come e.g. presentazioni, PDF o whiteboard foto</li><li>Hai bisogno del ruolo 'Uploader' o 'Moderatore' per farlo</li><li>L'upload o la cancellazione è possibile finché i minuti non saranno completati</li><li>Pro Suggerimento: Clicca il pulsante sopra 'Carica' sul tuo tablet o sul tuo smartphone!</li></ul>"
+Mail:
+  greeting: "Ciao"
+  newAgenda: "Abbiamo un nuovo ordine del giorno di riunione per te:"
+  newActionItem: "Sei stato assegnato ai seguenti elementi di azione:"
+  newMinutes: "Di seguito troverai gli ultimi minuti delle riunioni."
+  meeting: "Riunione"
+  links: "Collegamenti"
+  openSeries: "Serie aperta"
+  openMinutes: "Apri minuti"
+  minutesSubject: "Verbali riunione"
+  discussedTopics: "Argomenti discussi"
+  skippedTopics: "Apri argomento"
+  none: "Nessuno"
+  AdminNewVersion:
+    subject: "La versione più recente esiste"
+    body: |
+      Ciao Admin,
+
+      Sembra che tu stia eseguendo una versione obsoleta di 4Minitz.
+
+      Il tuo esempio di 4Minitz su: {$rootUrl}
+      ha una versione: {$myVersion}
+
+      La versione più recente disponibile è: {$masterVersion}'
+      Note di rilascio: {$urlReleaseNotes}
+      Si prega di considerare l'aggiornamento.
+
+      {$masterMessageText}
+
+      Questa mail è stata generata dal tuo backend di 4Minitz.
+      Puoi disabilitare il controllo degli aggiornamenti tramite settings.json: \"updateCheck\": false.
+
+      Divertiti!
+              Il tuo team di 4 Minitz.
+
+
+      ---
+      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
+      Sorgenti è disponibile su {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Il tuo nuovo account sul nostro server"
+    passwordNotSend: "    Contatta l'amministratore per la password."
+    passwordParagraph: |
+      La tua password: {$password}
+
+      Non dimenticare di cambiare la password dopo il primo accesso!
+    body: |
+      Ciao {$userLongName},
+
+      Benvenuto nella nostra 4Minitz WebApp.
+      Ora puoi iniziare a partecipare per mantenere i minuti di riunione professionale.
+
+      Puoi accedere con 'Standard' (non LDAP! Accedi a:
+         Il tuo ospite: {$rootURL}
+         Il tuo utente: {$userName}
+      {$passwordParagraph}
+
+      Buon divertimento!
+        Tuo Amministratore.
+
+      ---
+      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
+      Sorgenti è disponibile su {$url4Minitz}
+  UserRoleChange:
+    subject: "Il tuo ruolo è cambiato per '{$meetingProject}:{$meetingName}'"
+    body: |
+      Ciao {$userName}
+
+      Il tuo ruolo è cambiato per la serie di riunioni '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Il tuo vecchio ruolo era: {$roleOld}
+         Il tuo nuovo ruolo è : {$roleNew}
+         La modifica è stata eseguita da : {$moderatorName}
+
+      Per un elenco completo di diritti per ogni ruolo vedi:
+      {$urlRoleDocu}
+
+      Divertiti!
+        Il tuo amministratore.
+
+      ---
+      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
+      Sorgenti sono disponibili a {$url4Minitz}"

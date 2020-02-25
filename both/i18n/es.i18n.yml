@@ -4,76 +4,160 @@ _locale: 'es'
 Accounts:
   usernamePlaceholder: "(min. 3 caracteres)"
   nameDisplayName: "Nombre, Empresa"
-  namePlaceholder: "John Doe, Happy Corp."
+  namePlaceholder: "John Doe, Cuerpo Feliz."
   passwordPlaceholder: "min. 6 caracteres (dígito, inferior y superior)"
   passwordError: "min. 6 chars (min. 1 dígito, 1 inferior, 1 superior)"
 Buttons:
-  cancel: "Cancelar"
-  close: "Cerrar"
-  register: "Registrarse"
-  change: "Cambiar"
-  save: "Guardar"
-  ok: "OK"
   add: "Añadir"
-  dismissAll: "Descartar todo"
   back: "Volver"
+  cancel: "Cancelar"
+  change: "Cambiar"
+  close: "Cerrar"
+  confirm: "Confirmar"
+  create: "Crear"
   delete: "Eliminar"
+  dismissAll: "Descartar todo"
   edit: "Editar"
   hide: "Bien, esconde."
+  ok: "Ok"
+  register: "Registrarse"
+  save: "Guardar"
+UserRoles:
+  roleModerator: "Moderador"
+  roleUploader: "Cargador"
+  roleInvited: "Invitado"
+  roleInformed: "Informado"
+FlashMessages:
+  ok: "Ok"
+  error: "Error"
+  verifyEMailErr: "Error: El correo electrónico no pudo ser verificado"
+  verifyEMailOK: "OK: Correo electrónico está verificado ahora"
+  passwordChangeOK: "Contraseña cambiada"
+  passwordResetOK: "Contraseña restablecida correctamente"
+  profileEditOK: "Cambios de perfil guardados"
+  minuteLinkErr: "Lamentablemente el minuto no está vinculado correctamente a su serie padre - por favor contacte con su administrador del sistema."
+  agendaSentOK: "Agenda enviada a {$result} destinatarios correctamente"
+  finalizeProgress1: "Finalizar en progreso"
+  finalizeProgress2: "Esto puede tardar unos segundos..."
+  finalizeOK: "Las actas de la reunión se han finalizado con éxito"
 Dialog:
-  confirmDeleteAttachment: "¿Realmente desea eliminar el adjunto<br><b>{$name}</b>?"
-  confirmDeleteDetails: "¿Realmente desea eliminar los detalles seleccionados del elemento <strong>{$subject}</strong>?"
-  confirmDeleteItemAllowed: "¿Realmente desea eliminar el {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "No es posible eliminar el {$type} <strong>{$subject}</strong> porque el {$type} fue creado en minutos anteriores."
-  confirmDeleteItemActionItem: "¿Quiere cerrar el elemento de acción en su lugar?"
-  confirmDeleteItemInfoItem: "¿Quiere desfijar el elemento de información pegajosa en su lugar?"
+  ConfirmDelete:
+    title: "¿Confirmar eliminación?"
+    body: "¿Estás seguro de eliminar esto?"
+  ConfirmCreateNewMinutes:
+    title: "Confirmar la creación de nuevos minutos"
+    content: "¿Realmente desea crear nuevas actas para la serie de reuniones \"{$project}: {$name}\"?"
+  confirmDeleteAttachment: "¿Realmente desea eliminar el archivo adjunto:\n**{$name}**?"
+  confirmDeleteDetails: "¿Realmente desea eliminar los detalles seleccionados del elemento **{$subject}**?"
+  ConfirmDeleteItem:
+    allowed: "¿Realmente desea eliminar el {$type} **{$subject}**?"
+    notAllowed: "No es posible eliminar el {$type} **{$subject}** porque el {$type} fue creado en minutos anteriores."
+    questionActionItem: "¿Quiere cerrar el elemento de acción en su lugar?"
+    questionInfoItem: "¿Quiere desfijar el elemento de información pegajosa en su lugar?"
+    typeActionItem: "elemento de acción"
+    typeInfoItem: "información"
+    titleCloseActionItem: "¿Cerrar elemento de acción?"
+    titleUnpinInfoItem: "¿Desanclar elemento información?"
+    buttonCloseActionItem: "Cerrar elemento de acción"
+    buttonUnpinInfoItem: "Desanclar elemento info"
   ConfirmDeleteTopic:
-    allowed: "¿Realmente desea eliminar el tema <strong>{$subject}</strong>?"
-    notAllowed: "No es posible eliminar el tema <strong>{$subject}</strong> porque el tema fue creado en minutos anteriores."
+    allowed: "¿Realmente desea eliminar el tema **{$subject}**?"
+    notAllowed: "No es posible eliminar el tema **{$subject}** porque el tema fue creado en minutos anteriores."
     close: "¿Quieres cerrar el tema en su lugar?"
     closeWithActions: "¿Quiere cerrar el tema junto con todos los elementos de acción relacionados en su lugar?"
-  ConfirmLeaveMeetingSeries: "¿Realmente desea abandonar la serie de reuniones:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Tendrá que preguntar a un moderador si desea unirse de nuevo después."
+  confirmLeaveMeetingSeries: "¿Realmente desea abandonar la serie de reuniones:\n\n**{$project} / {$name}**\n\nUsted tendrá que preguntar a un moderador si desea unirse de nuevo después."
   ConfirmMinuteQualityAssurance:
+    title: "Finalizar minutos: Comprobaciones de calidad"
+    button: "Continuar"
     issues: "¡Hay problemas finales con tus minutas!"
     proceed: "¿Quiere continuar con la finalización?"
-  confirmReOpenTopic: "¿Realmente desea volver a abrir el tema cerrado {$topicSubject}?"
-  confirmSendAgenda: "¿Realmente desea enviar el orden del día para este minuto de reunión datado el <strong>{$minDate}</strong>?<br>Ya fue enviado el {$agendaSentDate} a las {$agendaSentTime}"
+    warnNoTopics: "El Acta actual no tiene temas"
+    warnNoParticipants: "Ningún participante está marcado como presente"
+    warnEditing: "Un tema/artículo/detalle aún está editado"
+    warnNoTopicDiscussed: "Ningún tema está marcado como 'discutido'"
+    warnTopicWithoutItems: "Al menos un tema discutido no tiene elementos"
+    warnActionItemWithoutResponsible: "Al menos un elemento de acción no tiene ninguna responsabilidad"
+    warnTopicNoNewContent: "Un tema está marcado pero no tiene contenido nuevo"
+  ConfirmReOpenTopic:
+    title: "¿Volver a abrir tema?"
+    body: "¿Estás seguro de que quieres volver a abrir el tema **{$topicSubject}**?"
+    button: "Volver a abrir"
+  ConfirmSendAgenda:
+    body: "¿Realmente desea enviar el orden del día para este minuto de la reunión el **{$minDate}**?\nYa fue enviado el {$agendaSentDate} a las {$agendaSentTime}"
+    title: "Confirmar envío de agenda"
+    button: "Enviar Agenda"
   ConfirmDeleteMinutes:
-    really: "¿Realmente desea eliminar este minuto de reunión datado el <strong>{$minutesDate}</strong>?"
-    newTopics: "Esto eliminará <strong>{$newTopicsCount} temas</strong>que fueron creados en este minuto."
-    closedTopicsAdditionally: "Además, <strong>{$closedTopicsCount} temas</strong> serán abiertos de nuevo, los cuales fueron cerrados en este minuto."
-    closedTopics: "<strong>{$closedTopicsCount} temas</strong> serán abiertos de nuevo, los cuales fueron cerrados en este minuto."
+    really: "¿Realmente desea eliminar este minuto de reunión del **{$minutesDate}**?"
+    newTopics: "Esto eliminará **{$newTopicsCount} temas**, que fueron creados dentro de este minuto."
+    closedTopicsAdditionally: "Adicionalmente se abrirán **{$closedTopicsCount} temas** de nuevo, que fueron cerrados en este minuto."
+    closedTopics: "**{$closedTopicsCount} temas** se abrirán de nuevo, que fueron cerrados en este minuto."
   ConfirmFinalizeMinutes:
-    really: "¿Realmente desea finalizar este minuto de reunión con fecha de <strong>{$minutesDate}</strong>?"
+    title: "Confirmar Finalizar Minutos"
+    button: "Finalizar"
+    really: "¿Realmente desea finalizar el minuto de esta reunión el **{$minutesDate}**?"
     sendActionItems: "Enviar elementos de acción"
     sendMinutes: "Enviar elementos de información"
   LocaleSetting:
     title: "Definir Idioma"
     languageLocale: "Idioma"
     automatic: "Automático vía navegador"
-Mail:
-  greeting: "Hola"
-  newAgenda: "Tenemos una nueva agenda de reuniones para ti."
-  newActionItem: "se ha asignado a los siguientes elementos de acción:"
-  newMinutes: "abajo encontrarás los últimos minutos de la última reunión."
-  meeting: "Sitzung"
-  links: "Vínculos"
-  openSeries: "Serie abierta"
-  openMinutes: "Minutos abiertos"
-  minutesSubject: "Minutos de reunión"
-  discussedTopics: "Temas debatidos"
-  skippedTopics: "Abrir temas"
-  none: "Ninguna"
+  IsEditedHandling:
+    title: "Editar a pesar de la edición existente"
+    confirmationDialogResetEdit: "Advertencia: Este documento está actualmente editado por el {$name} de la siguiente manera: {$date}"
+    confirmationDialogResetEditDetails: "Por favor, haga clic en el detalle de nuevo para empezar a editar."
+    button: "Editar de todos modos"
+  ConnectionInfo:
+    tooltip: |
+      ¡Conexión perdida!
+        Estado: {$status}
+        Contador de reintento: {$retryCount}
+        Tiempo de reintento: {$retryTime} seg.
+        Razón: {$reason}
+        Haga clic para volver a conectar.
+    header: "Has perdido la conexión con el servidor 4Minitz."
+    body: "Si cierra su navegador, es posible que se pierdan los datos no guardados. Póngase en contacto con su administrador si el problema persiste."
+    tryToReconnect: "Intentar volver a conectar"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "No se ha generado ningún protocolo para estos minutos. ¿Quieres descargar una versión HTML generada dinámicamente?"
+    button: "Descargar"
+  ConfirmTopicDelete:
+    title1: "Confirmar borrar tema"
+    title2: "¿Marcar tema como discutido?"
+    button2: "Cerrar tema y acciones"
+    errortitle: "No se puede eliminar el tema"
+    errorcontent: "No es posible eliminar este tema porque fue creado en minutos anteriores. El tema seleccionado ya está cerrado y no tiene elementos de acción abiertos, por lo que no se copiará a los siguientes minutos."
+  ItemDeleteError:
+    title: "No se puede eliminar el elemento"
+    body1: "No es posible eliminar este elemento porque fue creado en minutos anteriores."
+    body2a: "Este elemento de acción ya está cerrado,"
+    body2b: "Este elemento de información ya no está fijado"
+    body3: "por lo que no se copiará a los siguientes minutos"
+  ActionItemResponsibleError:
+    title: "Responsable no válido para el elemento de acción"
+    body: |
+      ¡No es un responsable válido!
+
+      Por favor, seleccione un **usuario existente** en el menú desplegable o introduzca una **dirección de correo electrónico válida**.
+  ConvertItemError:
+    title: "No se puede convertir el artículo"
+    body: "No es posible convertir este elemento porque fue creado en minutos anteriores."
 About:
   title: "Acerca de 4Minitz"
-  copyright: "(C) 2015-2019 4Minitz-Team"
+  copyrightTeam: "por 4Minitz-Team"
   licensedUnder: "Licenciado bajo la licencia MIT"
   licenseDependencies: "Licencia de dependencias"
   thanksContributors: "Gracias a todos nuestros colaboradores"
   proudlySponsored: "Proudly Sponsored Por"
   specialThanks: "Agradecemos especialmente estos proyectos"
   forkGitHub: "Forzar en GitHub"
-  serverStatistics: "Estadísticas del servidor"
+  ServerStatistics:
+    title: "Estadísticas del servidor"
+    rowNumUser: "Número de usuarios (activos)"
+    rowNumMeetingSeries: "Número de series de reuniones"
+    rowNumMeetingMinutes: "Número de minutos de reunión"
+    rowNumAttachments: "Número de archivos adjuntos"
+    rowSizeAttachments: "Tamaño de adjuntos"
 Item:
   ariaLabel: "Añadir/Editar elemento"
   editItem: "Editar elemento"
@@ -82,9 +166,10 @@ Item:
   deleteItemHint: "Eliminar esta acción/elemento de información"
   addItemModal: "Añadir {$type} a {$topic}"
   editItemModal: "Editar {$type} de {$topic}"
+  editItemModelTypeInfoItem: "Información"
+  editItemModelTypeActionItem: "Artículo de acción"
   addInfo: "Añadir elemento de información"
   addInfoHint: "Añadir elemento de información al tema"
-  editInfo: "Editar Info Item"
   action: "Elemento de acción"
   addAction: "Añadir elemento de acción"
   addActionHint: "Añadir elemento de acción al tema"
@@ -152,7 +237,6 @@ Topic:
   history: "Mostrar historial"
   historyHint: "Mostrar estado completo de este tema"
   delete: "Eliminar tema"
-  deleteHint: "Eliminar tema"
   reopen: "Reabrir tema"
   reopenHint: "Reabrir tema"
   placeholder: "Añadir elemento de información. Añadir @username para añadir un elemento de acción. Pulse Enter para añadir detalles. Presione Ctrl+Enter o Tab para enviar."
@@ -215,6 +299,7 @@ Minutes:
     continue: "Continuar Subida"
     pause: "Pausar subida"
     abort: "Abortar subida"
+    error: "Error durante la carga"
   version: "Versión"
   versionTag: "v"
   Participants:
@@ -231,13 +316,14 @@ Minutes:
     informed: "Usuarios informados"
     informedSolo: "1 Usuario Informado"
     present: "Presentar a los participantes"
-    absent: "Absent"
+    absent: "Ausente"
     none: "Ninguno."
 MeetingSeries:
   title: "Serie de reuniones"
   team: "Equipo/Proyecto"
   new: "Nueva serie de reuniones"
   leave: "Dejar la serie de reuniones"
+  leaveButton: "Abandonar"
   moderator: "Eres moderador"
   lastMinute: "Último minuto:"
   Search:
@@ -264,7 +350,7 @@ MeetingSeries:
       name: "Por favor, introduzca un nombre de etiqueta válido"
       hexValue: "Valor de color hexadecimal inválido"
     add: "Añadir nueva etiqueta"
-    new: "NewLabel"
+    new: "Nueva etiqueta"
     select: "Seleccionar ..."
   Tab:
     minutes: "Minutos"
@@ -286,6 +372,10 @@ Profile:
     longName: "Por favor, introduzca un nombre largo válido"
     email: "Por favor, introduzca una dirección de correo electrónico válida"
     password: "Por favor, introduzca una contraseña válida"
+  WarningEMailChange:
+    title: "Confirmar cambio de correo del usuario"
+    body: "Está a punto de cambiar su dirección de correo verificada. Se cerrará la sesión y tendrá que verificar su nueva dirección de correo antes de poder continuar."
+    button: "Cerrar sesión + volver a verificar"
 Admin:
   users: "Usuarios"
   messages: "Mensajes"
@@ -330,10 +420,46 @@ Login:
     title: "Error de conexión"
     username: "Introduzca su nombre de usuario"
     password: "Introduzca su contraseña"
-  title: "Iniciar sesión"
+  signIn: "Iniciar sesión"
   ldap: "LDAP"
   standard: "Estándar"
   demoHint: "Sugerencia: Demo Mode Active<br>Puede iniciar la sesión con el nombre de usuario <b>demo</b> y la contraseña <b>demo</b>. O puede registrar su propia cuenta haciendo clic en el enlace \"Registro\" que aparece a continuación."
+  Login4MinitzInfo:
+    header: "4Minitz: Minutos de Colaboración."
+    subheader: "● Preparar Agenda ● Minutos de documento ● Temas de seguimiento ●"
+    abstract: |
+      <p>Cada usuario invitado y conectado puede ver cambios en las actas de la reunión actual en tiempo real.</p>
+      Hemos hecho 4Minitz software libre de código abierto, ya que creemos firmemente que
+      información sensible como las actas de reunión no debe alojarse en la nube.
+      En su lugar, desea alojarlo en su propia infraestructura donde puede definir
+      el nivel de seguridad y seguridad que necesita.
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: |
+      <li>Crear su serie de reuniones</li>
+      <li>Invitar a otros usuarios</li>
+      <li>Especificar moderadores y cargadores</li>
+      <li>Llenar agenda con temas</li>
+      <li>Marcar temas recurrentes para la agenda estándar</li>
+      <li>Enviar agenda a los usuarios invitados</li>
+    documentMinutesHeading: "Minutos del documento"
+    documentMinutesDetails: |
+      <li>Marcar participantes presentes</li>
+      <li>Añadir elementos de acción con responsables a los tópicos</li>
+      <li>Añadir elementos de información a los tópicos</li>
+      <li>Añadir etiquetas como 'Decisión' a los elementos</li>
+      <li>Subir archivos adjuntos binarios</li>
+      <li>Enviar minutos &amp; elementos de acción vía correo electrónico</li>
+    trackTopicsHeading: "Temas de seguimiento"
+    trackTopicsDetails: |
+      <li>Los elementos de la acción abierta se mostrarán la próxima vez</li>
+      <li>Los temas no cerrados se mostrarán la próxima vez</li>
+      <li>La lista de búsqueda de todos los temas jamás discutidos</li>
+      <li>Enriquecer temas con elementos de información en múltiples reuniones</li>
+      <li>Encuentra temas con etiquetas (e. . todas las decisiones)</li>
+      <li>Buscar elementos por búsqueda de texto completo</li>
+  Footer:
+    withLove: "Codificado con ❤ por el"
+    theTeam: "Equipo WebApp"
 Navigation:
   help: "Ayuda"
   about: "Acerca"
@@ -352,3 +478,87 @@ QuickHelp:
   meetingSeriesList: ". <p>Con 4Minitz puedes crear minutos para reuniones.</p><p>Primero crea una nueva serie de reuniones e invita a otros usuarios.<br>Luego crea minutos de reunión en varias fechas para tu serie de reuniones.</p>"
   minutes: ". <p>Añadir temas para preparar su agenda de reunión<br>Durante la reunión marque un tema con la casilla de verificación para dejar claro que ha hablado sobre él.<br>Si el tema...<br>&nbsp;&nbsp; - no está marcado como debatido o<br>&nbsp;&nbsp; - se establece como tema recurrente o<br>&nbsp;&nbsp; - contiene elementos de acción no hecho<br>... el tema será presentado de nuevo en la próxima reunión.</p><p>Haga clic en 'Finalizar Minutos' para enviar los minutos a los usuarios invitados y los elementos de acción a sus respuestas.</p>"
   upload: "<ul><li>Aquí puedes subir archivos como por ejemplo, presentaciones, PDFs o fotos en pizarra</li><li>Necesitas el rol 'Uploader' o 'Moderador' para hacerlo</li><li>La carga o eliminación es posible hasta que los minutos se finalicen</li><li>Consejos Pro: Haga clic en el botón 'Subir' arriba en tu tablet o en el teléfono inteligente!</li></ul>"
+Mail:
+  greeting: "Hola"
+  newAgenda: "Tenemos una nueva agenda de reuniones para ti."
+  newActionItem: "Ha sido asignado a los siguientes elementos de acción:"
+  newMinutes: "A continuación encontrará los últimos minutos de la reunión."
+  meeting: "Reunión"
+  links: "Vínculos"
+  openSeries: "Serie abierta"
+  openMinutes: "Minutos abiertos"
+  minutesSubject: "Minutos de reunión"
+  discussedTopics: "Temas debatidos"
+  skippedTopics: "Abrir temas"
+  none: "Ninguna"
+  AdminNewVersion:
+    subject: "Existe una versión más reciente"
+    body: |
+      Hola Admin,
+
+      Parece que está ejecutando una versión desactualizada de 4Minitz.
+
+      Su instancia de 4Minitz en: {$rootUrl}
+      tiene versión: {$myVersion}
+
+      La versión más reciente disponible es: {$masterVersion}'
+      Notas de publicación: {$urlReleaseNotes}
+      Por favor, considere actualizar.
+
+      {$masterMessageText}
+
+      Este correo fue generado por el backend 4Minitz.
+      Puede desactivar la comprobación de actualización a través de settings.json: \"updateCheck\": false.
+
+      ¡Diviértete!
+              Tu equipo de 4Minitz.
+
+
+      ---
+      4Minitz es de código abierto desarrollado por el equipo 4Minitz.
+      Fuentes están disponibles en {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Tu nueva cuenta en nuestro servidor"
+    passwordNotSend: "    Contacte al administrador para obtener una contraseña."
+    passwordParagraph: |
+      Su contraseña: {$password}
+
+      ¡No se olvide de cambiar su contraseña después de iniciar sesión!
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  UserRoleChange:
+    subject: "Tu rol ha cambiado para '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"

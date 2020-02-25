@@ -8,72 +8,156 @@ Accounts:
   passwordPlaceholder: "Min. 6 karakter (számjegy, alsó és felső)"
   passwordError: "Min. 6 üveg (min. 1 számjegy, 1 alsó, 1 felső)"
 Buttons:
-  cancel: "Mégse"
-  close: "Bezárás"
-  register: "Regisztráció"
-  change: "Változás"
-  save: "Mentés"
-  ok: "OKÉ."
   add: "Hozzáadás"
-  dismissAll: "Összes kimarad"
   back: "Menj vissza!"
+  cancel: "Mégse"
+  change: "Változás"
+  close: "Bezárás"
+  confirm: "Erősítés"
+  create: "Hozza létre"
   delete: "Törlés"
+  dismissAll: "Összes kimarad"
   edit: "Szerkesztés"
   hide: "Oké, bújj el"
+  ok: "OKÉ."
+  register: "Regisztráció"
+  save: "Mentés"
+UserRoles:
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "Meghívva"
+  roleInformed: "Informed"
+FlashMessages:
+  ok: "OKÉ."
+  error: "Hiba"
+  verifyEMailErr: "Hiba: Az EMail nem ellenőrizhető"
+  verifyEMailOK: "OK: Az EMail most ellenőrzi"
+  passwordChangeOK: "Jelszó megváltozott"
+  passwordResetOK: "A jelszó sikeresen befejeződött"
+  profileEditOK: "Profil módosítások mentve"
+  minuteLinkErr: "Sajnos a perc nem kapcsolódik megfelelően a szülősorozatához-lépjen kapcsolatba a rendszeradminisztrátorral."
+  agendaSentOK: "Az ütemterv {$result} címzettnek sikerült"
+  finalizeProgress1: "Véglegesítés folyamatban"
+  finalizeProgress2: "Ez eltarthat pár másodpercig ..."
+  finalizeOK: "Ez a találkozó perc sikeresen véglegesítésre került"
 Dialog:
-  confirmDeleteAttachment: "Do you really want to delete the attachment<br><b>{$name}</b>?"
-  confirmDeleteDetails: "Valóban törölni kívánja a <strong>{$subject}</strong> elem kiválasztott részleteit?"
-  confirmDeleteItemAllowed: "Do you really want to delete the {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} <strong>{$subject}</strong> because the {$type} was created in a previous minutes."
-  confirmDeleteItemActionItem: "Bezárja helyette a műveletelemet?"
-  confirmDeleteItemInfoItem: "Szeretné megszüntetni a ragadós információs elemet helyette?"
+  ConfirmDelete:
+    title: "A törlés megerősítése?"
+    body: "Biztos, hogy törli ezt?"
+  ConfirmCreateNewMinutes:
+    title: "Új percek megerősítése"
+    content: "Valóban új perceket szeretne létrehozni a találkozó sorozathoz \"{$project}: {$name}\"?"
+  confirmDeleteAttachment: "Valóban törölni kívánja a mellékletet:\n**{$name}**?"
+  confirmDeleteDetails: "Valóban törölni kívánja a **{$subject} ** elem kiválasztott részleteit?"
+  ConfirmDeleteItem:
+    allowed: "Do you really want to delete the {$type} **{$subject}**?"
+    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
+    questionActionItem: "Do you want to close the action item instead?"
+    questionInfoItem: "Szeretné megszüntetni a ragadós információs elemet helyette?"
+    typeActionItem: "Művelet elem"
+    typeInfoItem: "Információ"
+    titleCloseActionItem: "Záró művelet elem?"
+    titleUnpinInfoItem: "Elérhetetlen infó?"
+    buttonCloseActionItem: "Munkaelem bezárása"
+    buttonUnpinInfoItem: "Unpin információs elem"
   ConfirmDeleteTopic:
-    allowed: "Valóban törölni kívánja a <strong>{$subject}</strong> témakört?"
-    notAllowed: "Nem lehet törölni a <strong>{$subject}</strong> témakört, mert a témakör egy korábbi percben jött létre."
+    allowed: "Valóban törölni kívánja a **{$subject} ** témakört?"
+    notAllowed: "A (z) **{$subject}** témakör nem törölhető, mert a témakör egy korábbi percben jött létre."
     close: "Szeretné inkább lezárni a témát?"
     closeWithActions: "Bezárja a témakört az összes kapcsolódó műveletelemmel együtt?"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Valóban el kívánja hagyni a találkozó sorozatát:\n\n**{$project} / {$name}**\n\nA moderátort kell kérdeznie, ha utána újra csatlakozni akar."
   ConfirmMinuteQualityAssurance:
-    issues: "There are finalize issues with your minutes!"
-    proceed: "Do you want to proceed with finalizing?"
-  confirmReOpenTopic: "Valóban újra meg kívánja nyitni a már lezárt {$topicSubject} témakört?"
-  confirmSendAgenda: "Valóban a <strong>{$minDate}</strong>dátummal dátumra akarja küldeni a napirendet?<br>A {$agendaSentDate} már elküldésre került {$agendaSentTime} -kor"
+    title: "Percek véglegesítése: Minőségi ellenőrzések"
+    button: "Folytatás"
+    issues: "Véglegesítik a problémákat a percekkel!"
+    proceed: "Kívánja folytatni a véglegesítést?"
+    warnNoTopics: "Az aktuális perceknek nincs témája"
+    warnNoParticipants: "Egyetlen résztvevő sincs megjelölve jelen"
+    warnEditing: "A topic/item/részletek továbbra is szerkeszthetők"
+    warnNoTopicDiscussed: "Nincs olyan témakör, mint ' megbeszéltük '"
+    warnTopicWithoutItems: "Legalább egy vitatott témakörben nincsenek elemek"
+    warnActionItemWithoutResponsible: "Legalább egy műveletelem nem felelős"
+    warnTopicNoNewContent: "A témakör le van jelölve, de nincs új tartalma"
+  ConfirmReOpenTopic:
+    title: "Újra megnyitni Topicot?"
+    body: "Valóban újra meg kívánja nyitni a már lezárt **{$topicSubject} ** témát?"
+    button: "Újrakitható"
+  ConfirmSendAgenda:
+    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    title: "Napirend megerősítése"
+    button: "Napirend küldése"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
-    closedTopicsAdditionally: "Additionally <strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
+    really: "Valóban törölni kívánja ezt a találkozó percet **{$minutesDate} ** dátummal?"
+    newTopics: "Ez eltávolítja a **{$newTopicsCount} témakört * *, amely ebben a percben jött létre."
+    closedTopicsAdditionally: "Továbbá a **{$closedTopicsCount} témakörök * * újra megnyitásra kerülnek, amelyek ebben a percben bezárásra kerültek."
+    closedTopics: "**{$closedTopicsCount} témakörök * * újra megnyitásra kerülnek, amelyek ebben a percben bezárásra kerültek."
   ConfirmFinalizeMinutes:
-    really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    sendActionItems: "Send action items"
-    sendMinutes: "Send information items"
+    title: "A jegyzőkönyv véglegesítésének megerősítése"
+    button: "Véglegesítés"
+    really: "Valóban véglegesíteni szeretné ezt a találkozó percet **{$minutesDate}**?"
+    sendActionItems: "Akcióelemek küldése"
+    sendMinutes: "Információs elemek küldése"
   LocaleSetting:
-    title: "Set Language"
-    languageLocale: "Language Locale"
-    automatic: "Automatic via Browser"
-Mail:
-  greeting: "Hello"
-  newAgenda: "Van egy új napirendünk a számodra:"
-  newActionItem: "Az alábbi műveletelemekhez lett hozzárendelve:"
-  newMinutes: "Alattunk megtalálja a legutóbbi találkozási jegyzőkönyvet."
-  meeting: "Sitzung"
-  links: "Hivatkozások"
-  openSeries: "Series megnyitása"
-  openMinutes: "Nyitott jegyzőkönyv"
-  minutesSubject: "Találkozó percek"
-  discussedTopics: "Megpárolt témakörök"
-  skippedTopics: "Topika megnyitása"
-  none: "Nincs"
+    title: "Nyelv beállítása"
+    languageLocale: "Nyelvi területi beállítás"
+    automatic: "Automatikus böngészővel"
+  IsEditedHandling:
+    title: "Szerkesztés a meglévő szerkesztés ellenére"
+    confirmationDialogResetEdit: "Figyelmeztetés: Ez a dokumentumista jelenleg {$name} által szerkesztve: {$date}"
+    confirmationDialogResetEditDetails: "A szerkesztés megkezdéséhez kattintson ismét a részletekre."
+    button: "Szerkesztés"
+  ConnectionInfo:
+    tooltip: |
+      Connection Lost!
+        Status: {$status}
+        Retry Count: {$retryCount}
+        Retry Time: {$retryTime} sec.
+        Reason: {$reason}
+        Click to reconnect.
+    header: "You have lost the connection to the 4Minitz server."
+    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
+    tryToReconnect: "Try To Reconnect"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    button: "Download"
+  ConfirmTopicDelete:
+    title1: "Confirm delete topic"
+    title2: "Mark topic as discussed?"
+    button2: "Close topic and actions"
+    errortitle: "Cannot delete topic"
+    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+  ItemDeleteError:
+    title: "Cannot delete item"
+    body1: "It is not possible to delete this item because it was created in a previous minutes."
+    body2a: "This action item is already closed,"
+    body2b: "This info item is already un-pinned"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: |
+      This is not a valid responsible!
+
+      Please select an **existing user** from the dropdown or enter a **valid email address**.
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
 About:
   title: "Körülbelül 4Minitz."
-  copyright: "C) 2015-2019 4Minitz-Csapat"
+  copyrightTeam: "by 4Minitz-Team"
   licensedUnder: "Licenc az MIT-ban-Licenc"
   licenseDependencies: "Függőségek száma"
   thanksContributors: "Köszönhetően az összes közreműködőnek"
   proudlySponsored: "Büszkén szponzorált"
   specialThanks: "Külön köszönet ezeknek a projekteknek"
   forkGitHub: "Fork minket a GitHub-on"
-  serverStatistics: "Kiszolgáló statisztika"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "Hozzáadás/szerkesztés elem"
   editItem: "Elem szerkesztése"
@@ -82,9 +166,10 @@ Item:
   deleteItemHint: "A művelet/információs elem törlése"
   addItemModal: "{$type} és {$topic} hozzáadása"
   editItemModal: "{$type} szerkesztése {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Művelet elem"
   addInfo: "Info elem hozzáadása"
   addInfoHint: "Információs elem hozzáadása a témakörhöz"
-  editInfo: "Információs elem szerkesztése"
   action: "Művelet elem"
   addAction: "Művelet elem hozzáadása"
   addActionHint: "Művelet elem hozzáadása a témakörhöz"
@@ -120,11 +205,11 @@ Item:
     matchCaseHint: "Egyeztetési eset"
     matchCaseLong: "Egyeztetési eset"
     Usage:
-      body: "You can use several keywords to filter the listed elements. All keywords may be combined which filters those items matching all given search parameters."
-      keyword: "Keyword"
-      format: "Format"
-      values: "Values"
-      eg: "e.g."
+      body: "A felsorolt elemek szűréséhez több kulcsszót használhat. Minden kulcsszó kombinálható, amely szűri az összes megadott keresési paraméternek megfelelő elemeket."
+      keyword: "Kulcsszó"
+      format: "Formátum"
+      values: "Értékek"
+      eg: "Pl."
   myActionItems: "Saját műveletelemek"
 Topic:
   title: "Jellemző"
@@ -152,7 +237,6 @@ Topic:
   history: "Előzmények megjelenítése"
   historyHint: "A témakör véglegesített állapotának megjelenítése"
   delete: "Témakör törlése"
-  deleteHint: "Témakör törlése"
   reopen: "Témakör újramegnyitása"
   reopenHint: "Témakör újramegnyitása"
   placeholder: "Info elem hozzáadása. Hozzáfűzés @username egy műveletelem hozzáadásához. A részletek hozzáfűzéséhez nyomja meg az Entert. Nyomja le a Ctrl + Enter vagy a Tab billentyűkombinációt."
@@ -193,7 +277,7 @@ Minutes:
   attachmentsHint: "A jegyzőkönyvek mellékletei"
   previous: "Előző:"
   next: "Következő:"
-  history: "History"
+  history: "Történelem"
   unfinalizeHint: "Kattintson az Un-Finalize percek lehetőségre"
   print: "Nyomtatási jegyzőkönyv"
   finalize: "Percek befejezése"
@@ -215,6 +299,7 @@ Minutes:
     continue: "Frissítés folytatása"
     pause: "Feltöltés szüneteltetése"
     abort: "Feltöltés megszakítása"
+    error: "Error during upload"
   version: "Változat"
   versionTag: "V"
   Participants:
@@ -238,6 +323,7 @@ MeetingSeries:
   team: "Csapat/projekt"
   new: "Új találkozó sorozat"
   leave: "Találkozó sorozat elhagyása"
+  leaveButton: "Leave"
   moderator: "Ön moderátor"
   lastMinute: "Utolsó perc:"
   Search:
@@ -286,6 +372,10 @@ Profile:
     longName: "Adjon meg egy érvényes hosszú nevet"
     email: "Adjon meg egy érvényes EMail címet"
     password: "Adjon meg egy érvényes jelszót"
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
 Admin:
   users: "Felhasználók"
   messages: "Üzenetek"
@@ -330,10 +420,46 @@ Login:
     title: "Bejelentkezési hiba"
     username: "Adja meg a felhasználónevét"
     password: "Adja meg a jelszavát"
-  title: "Bejelentkezés"
+  signIn: "Sign In"
   ldap: "LAP"
   standard: "Szabvány"
   demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: |
+      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
+      We made 4Minitz free open source software, as we strongly believe that
+      sensitive information like meeting minutes should not be hosted in the cloud.
+      Instead you want to host it on your own infrastructure where you can define
+      the level of security and safety you need.
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
+    trackTopicsHeading: "Track Topics"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
 Navigation:
   help: "Súgó"
   about: "Körülbelül"
@@ -344,11 +470,95 @@ Navigation:
   toggleNavigation: "Navigáció átkapcsolása"
   meetings: "Ülések"
   processing: "Tartalom feldolgozása ..."
-  setLanguageForUser: "Set Language"
-  setLanguageLogin: "Language"
+  setLanguageForUser: "Nyelv beállítása"
+  setLanguageLogin: "Nyelv"
 QuickHelp:
   title: "Gyors súgó"
   meetingSeries: "<p>Itt új perceket hozhat létre az aktuális találkozósorhoz, vagy kattintson a meglévő percek dátumhivatkozására.</p>"
   meetingSeriesList: "<p>A 4Minitz segítségével perceket hozhat létre a találkozókhoz.</p><p>Először hozzon létre egy új találkozósort, és hívjon meg néhány felhasználót.<br>Ezután hozza létre a találkozó perceit a találkozó sorozatának több dátumára.</p>"
   minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
   upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+Mail:
+  greeting: "Hello"
+  newAgenda: "Van egy új napirendünk a számodra:"
+  newActionItem: "You have been assigned to the following action items:"
+  newMinutes: "Below you'll find the latest meeting minutes."
+  meeting: "Meeting"
+  links: "Hivatkozások"
+  openSeries: "Series megnyitása"
+  openMinutes: "Nyitott jegyzőkönyv"
+  minutesSubject: "Találkozó percek"
+  discussedTopics: "Megpárolt témakörök"
+  skippedTopics: "Topika megnyitása"
+  none: "Nincs"
+  AdminNewVersion:
+    subject: "Newer version exists"
+    body: |
+      Hello Admin,
+
+      Úgy tűnik, hogy egy elavult 4Minitz változatot futtat.
+
+      A 4Minitz példány a következőn: {$rootUrl}
+      változat: {$myVersion}
+
+      A Newest változat elérhető: {$masterVersion}"
+      Kiadási megjegyzések: {$urlReleaseNotes}
+      A frissítést fontolja meg.
+
+      {$masterMessageText}
+
+      Ez a levél a 4Minitz háttérből származik.
+      letilthatja a frissítési ellenőrzést a settings.json: \" updateCheck \": false.
+
+      Jó szórakozást!
+              A 4Minitz csapat.
+
+
+      ---
+      4Minitz a 4Minitz csapat által kifejlesztett szabad forrás.
+      Forrás: {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Your new account at our server"
+    passwordNotSend: "    Contact admin for password."
+    passwordParagraph: |
+      Your password : {$password}
+
+      Don't forget to change your password after first login!
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  UserRoleChange:
+    subject: "A szerep megváltozott \"{$meetingProject}:{$meetingName}\""
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}"

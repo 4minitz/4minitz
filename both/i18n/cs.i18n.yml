@@ -8,72 +8,156 @@ Accounts:
   passwordPlaceholder: "min. 6 znaků (číslice, dolní a horní)"
   passwordError: "min. 6 znaků (min. 1 číslice, 1 dolní, 1 horní)"
 Buttons:
-  cancel: "Rakovina"
-  close: "Úzké"
-  register: "Registrace"
-  change: "Změna"
-  save: "Zachránit"
-  ok: "OK"
   add: "Přidat"
-  dismissAll: "Nenechte se všechny"
   back: "Vraťte se"
+  cancel: "Rakovina"
+  change: "Změna"
+  close: "Úzké"
+  confirm: "Potvrdit"
+  create: "Vytvořit"
   delete: "Odstranit"
+  dismissAll: "Nenechte se všechny"
   edit: "Upravit"
   hide: "Ok, schovej."
+  ok: "OK"
+  register: "Registrace"
+  save: "Zachránit"
+UserRoles:
+  roleModerator: "Moderátor"
+  roleUploader: "Nahrávání"
+  roleInvited: "Pozvánka"
+  roleInformed: "Informováno"
+FlashMessages:
+  ok: "OK"
+  error: "Chyba"
+  verifyEMailErr: "Chyba: E-mail nemohl být ověřen"
+  verifyEMailOK: "OK: EMail je nyní ověřen"
+  passwordChangeOK: "Heslo změněno"
+  passwordResetOK: "Heslo bylo úspěšně obnoveno"
+  profileEditOK: "Změny profilu byly uloženy"
+  minuteLinkErr: "Bohužel tato minuta není správně propojena s nadřazenou sérií - kontaktujte prosím správce systému."
+  agendaSentOK: "Program byl úspěšně odeslán {$result} příjemcům"
+  finalizeProgress1: "Dokončování probíhá"
+  finalizeProgress2: "Může to trvat několik sekund..."
+  finalizeOK: "Tento zápis z jednání byl úspěšně dokončen"
 Dialog:
-  confirmDeleteAttachment: "Opravdu chcete odstranit přílohu<br><b>{$name}</b>?"
-  confirmDeleteDetails: "Opravdu chcete odstranit vybrané detaily položky <strong>{$subject}</strong>?"
-  confirmDeleteItemAllowed: "Opravdu chcete odstranit {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "Není možné odstranit {$type} <strong>{$subject}</strong> , protože {$type} bylo vytvořeno v předchozích minutách."
-  confirmDeleteItemActionItem: "Chcete místo toho položku akci zavřít?"
-  confirmDeleteItemInfoItem: "Chcete místo toho odepnout lepkavou informační položku?"
+  ConfirmDelete:
+    title: "Potvrdit smazání?"
+    body: "Opravdu to chcete smazat?"
+  ConfirmCreateNewMinutes:
+    title: "Potvrdit vytvoření nových minut"
+    content: "Opravdu chcete vytvořit nové minuty pro sérii schůzek \"{$project}: {$name}\"?"
+  confirmDeleteAttachment: "Opravdu chcete odstranit přílohu:\n**{$name}**?"
+  confirmDeleteDetails: "Opravdu chcete odstranit vybrané detaily položky **{$subject}**?"
+  ConfirmDeleteItem:
+    allowed: "Opravdu chcete odstranit {$type} **{$subject}**?"
+    notAllowed: "Není možné odstranit {$type} **{$subject}**, protože {$type} bylo vytvořeno v předchozích minutách."
+    questionActionItem: "Chcete místo toho položku akci zavřít?"
+    questionInfoItem: "Chcete místo toho odepnout lepkavou informační položku?"
+    typeActionItem: "položka akce"
+    typeInfoItem: "informace"
+    titleCloseActionItem: "Zavřít položku akce?"
+    titleUnpinInfoItem: "Odepnout info položku?"
+    buttonCloseActionItem: "Zavřít položku akce"
+    buttonUnpinInfoItem: "Odepnout info položku"
   ConfirmDeleteTopic:
-    allowed: "Opravdu chcete odstranit téma <strong>{$subject}</strong>?"
-    notAllowed: "Není možné odstranit téma <strong>{$subject}</strong> , protože toto téma bylo vytvořeno v předchozích minutách."
+    allowed: "Opravdu chcete odstranit téma **{$subject}**?"
+    notAllowed: "Není možné odstranit téma **{$subject}**, protože toto téma bylo vytvořeno v předchozích minutách."
     close: "Chcete místo toho téma zavřít?"
     closeWithActions: "Chcete místo toho zavřít téma spolu se všemi souvisejícími akčními položkami?"
-  ConfirmLeaveMeetingSeries: "Opravdu chcete opustit sérii schůzek:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Budete se muset zeptat moderátora, jestli se chcete připojit později."
+  confirmLeaveMeetingSeries: "Opravdu chcete opustit sérii schůzek:\n\n**{$project} / {$name}**\n\nBudete se muset zeptat moderátora, zda se chcete znovu připojit."
   ConfirmMinuteQualityAssurance:
+    title: "Dokončit minuty: Kontroly kvality"
+    button: "Pokračovat"
     issues: "Problémy s vašimi minutami jsou dokončeny!"
     proceed: "Chcete pokračovat s dokončením?"
-  confirmReOpenTopic: "Opravdu chcete znovu otevřít již uzavřené téma {$topicSubject}?"
-  confirmSendAgenda: "Opravdu chcete odeslat program pro tuto schůzku s datem <strong>{$minDate}</strong>?<br>Byla odeslána již dne {$agendaSentDate} v {$agendaSentTime}"
+    warnNoTopics: "Aktuální minuty nemají žádná témata"
+    warnNoParticipants: "Žádný uživatel není označen jako přítomný"
+    warnEditing: "Témat/položka/detail je stále upraven"
+    warnNoTopicDiscussed: "Žádné téma není označeno jako 'prodiskutované'"
+    warnTopicWithoutItems: "Alespoň jedno diskutované téma neobsahuje žádné položky"
+    warnActionItemWithoutResponsible: "Alespoň jedna položka akce nemá žádnou odpovědnost"
+    warnTopicNoNewContent: "Téma je zaškrtnuto, ale nemá žádný nový obsah"
+  ConfirmReOpenTopic:
+    title: "Znovu otevřít téma?"
+    body: "Opravdu chcete znovu otevřít již uzavřené téma **{$topicSubject}**?"
+    button: "Znovu otevřít"
+  ConfirmSendAgenda:
+    body: "Opravdu chcete odeslat pořad jednání pro tuto schůzku s datem **{$minDate}**?\nByla již odeslána dne {$agendaSentDate} v {$agendaSentTime}"
+    title: "Potvrdit odeslání programu"
+    button: "Odeslat program"
   ConfirmDeleteMinutes:
-    really: "Opravdu chcete odstranit tuto hodinu schůzky s datem <strong>{$minutesDate}</strong>?"
-    newTopics: "Tímto odstraníte <strong>{$newTopicsCount} témata</strong>, která byla vytvořena během této minuty."
-    closedTopicsAdditionally: "Navíc bude znovu otevřeno <strong>{$closedTopicsCount} témat</strong> , která byla během těchto minut uzavřena."
-    closedTopics: "<strong>{$closedTopicsCount} témat</strong> bude znovu otevřeno, které byly během této minuty uzavřeny."
+    really: "Opravdu chcete odstranit tuto schůzku s datem **{$minutesDate}**?"
+    newTopics: "Tímto odstraníte **{$newTopicsCount} témat **, která byla vytvořena během této minuty."
+    closedTopicsAdditionally: "Kromě toho bude znovu otevřeno **{$closedTopicsCount} témat ** a tato témata byla během těchto minut uzavřena."
+    closedTopics: "**{$closedTopicsCount} témat ** bude znovu otevřeno, které byly během této minuty uzavřeny."
   ConfirmFinalizeMinutes:
-    really: "Opravdu chcete dokončit tuto schůzku s datem <strong>{$minutesDate}</strong>?"
+    title: "Potvrdit dokončení minut"
+    button: "Dokončit"
+    really: "Opravdu chcete dokončit tuto schůzku s datem **{$minutesDate}**?"
     sendActionItems: "Odeslat položky akce"
     sendMinutes: "Odeslat informační položky"
   LocaleSetting:
     title: "Nastavit jazyk"
     languageLocale: "Jazyk jazyka"
     automatic: "Automaticky přes prohlížeč"
-Mail:
-  greeting: "Ahoj."
-  newAgenda: "Máme pro vás novou schůzku s novou schůzkou:"
-  newActionItem: "Byli jste přiřazeni k těmto položkám akcí:"
-  newMinutes: "pod tím, že najdete nejnovější zápisy z jednání."
-  meeting: "Sitzung"
-  links: "Odkazy"
-  openSeries: "Otevřené posloupnosti"
-  openMinutes: "Minuty otevření"
-  minutesSubject: "Zápis ze schůzky"
-  discussedTopics: "Diskutovaná témata"
-  skippedTopics: "Otevřít témata"
-  none: "Žádná položka"
+  IsEditedHandling:
+    title: "Upravit přes existující úpravy"
+    confirmationDialogResetEdit: "Varování: Tento dokument je aktuálně upraven uživatelem {$name} od: {$date}"
+    confirmationDialogResetEditDetails: "Pro zahájení úprav klikněte znovu na detail."
+    button: "Přesto upravit"
+  ConnectionInfo:
+    tooltip: |
+      Připojení se nezdařilo!
+        Stav: {$status}
+        Počet opakování: {$retryCount}
+        Čas opakování: {$retryTime} sekund.
+        Důvod: {$reason}
+        Klikněte pro opětovné připojení.
+    header: "Ztratili jste připojení k 4Minitz serveru."
+    body: "Pokud zavřete prohlížeč. Neuložená data mohou být ztracena. Pokud tento problém přetrvává, kontaktujte prosím svého administrátora."
+    tryToReconnect: "Zkuste se znovu připojit"
+  ConfirmGenerateProtocol:
+    title: "Confirm generate protocol"
+    body: "Pro tyto minuty nebyl vytvořen žádný protokol. Chcete si místo toho stáhnout dynamicky generovanou HTML verzi?"
+    button: "Stáhnout"
+  ConfirmTopicDelete:
+    title1: "Potvrdit odstranění tématu"
+    title2: "Označit téma jako diskutované?"
+    button2: "Zavřít téma a akce"
+    errortitle: "Téma nelze odstranit"
+    errorcontent: "Není možné odstranit toto téma, protože bylo vytvořeno v předchozích minutách. Vybrané téma je již uzavřeno a nemá žádné otevřené akční položky, takže nebude kopírováno do následujících minut."
+  ItemDeleteError:
+    title: "Položku nelze odstranit"
+    body1: "Není možné odstranit tuto položku, protože byla vytvořena v předchozích minutách."
+    body2a: "Tento akční bod je již uzavřen,"
+    body2b: "Tato položka je již odpřipnuta"
+    body3: "takže nebude zkopírován do následujících minut"
+  ActionItemResponsibleError:
+    title: "Neplatná odpovědnost za položku akce"
+    body: |
+      Toto není platná odpovědnost!
+
+      Prosím vyberte **existujícího uživatele** z rozbalovacího seznamu nebo zadejte **platnou e-mailovou adresu**.
+  ConvertItemError:
+    title: "Položku nelze převést"
+    body: "Není možné převést tuto položku, protože byla vytvořena v předchozích minutách."
 About:
   title: "O 4Minitzi"
-  copyright: "(C) 2015-2019 4Minitz-Team"
+  copyrightTeam: "od 4Minitz-Team"
   licensedUnder: "Licencencence podle licence MIT"
   licenseDependencies: "Licence Dependencies"
   thanksContributors: "Děkuji všem našim příspěvkům"
   proudlySponsored: "Proudypřítomně opěvovaný"
   specialThanks: "Zvláštní díky těmto projektům"
   forkGitHub: "Zapomeňte na GitHub"
-  serverStatistics: "Statistiky serverů"
+  ServerStatistics:
+    title: "Statistiky serveru"
+    rowNumUser: "Počet uživatelů (aktivní)"
+    rowNumMeetingSeries: "Počet sérií schůzí"
+    rowNumMeetingMinutes: "Počet zápisů ze zasedání"
+    rowNumAttachments: "Počet příloh"
+    rowSizeAttachments: "Velikost příloh"
 Item:
   ariaLabel: "Přidat/Upravit položku"
   editItem: "Upravit Item"
@@ -82,9 +166,10 @@ Item:
   deleteItemHint: "Odstranit tento bod jednání/info"
   addItemModal: "Přidat {$type} {$topic}"
   editItemModal: "Upravit {$type} , {$topic}"
+  editItemModelTypeInfoItem: "Informace"
+  editItemModelTypeActionItem: "Položka akce"
   addInfo: "Přidat Info Item"
   addInfoHint: "Přidat informace na téma"
-  editInfo: "Upravit Info Item"
   action: "Úkol"
   addAction: "Přidat akční bod"
   addActionHint: "Přidejte bod jednání k tématu"
@@ -101,7 +186,7 @@ Item:
   markdownHint: "Nápověda pro Markdown Syntax"
   setPin: "Nastavit Pinned"
   setPinHint: "Nastavit jako pinned info položka"
-  unsetPin: "Unset Pinned"
+  unsetPin: "Zrušit připnuté"
   unsetPinHint: "Nastavit jako nestaborané informace"
   done: "hotovo"
   pinned: "zafixováno"
@@ -110,7 +195,7 @@ Item:
   Filter:
     title: "Filtry"
     usageHint: "Použití filtru"
-    info: "Info Items"
+    info: "Informační položky"
     action: "Akční příčiny"
     open: "Otevřené akční závazky"
     closed: "Uzavřené akční body"
@@ -152,7 +237,6 @@ Topic:
   history: "Zobrazit dějiny"
   historyHint: "Zobrazit kompletní finalizovaný stav tohoto tématu"
   delete: "Odstranit Topic"
-  deleteHint: "Odstranit Topic"
   reopen: "Opětovné Topic"
   reopenHint: "Opětovné Topic"
   placeholder: "Přidat Info Item. Přidat @username k přidání Akční Item."
@@ -213,8 +297,9 @@ Minutes:
     uploading: "Nahrávání"
     start: "Začněte nahrát"
     continue: "Pokračujte v úložišti"
-    pause: "Pause Upload"
+    pause: "Pozastavit nahrávání"
     abort: "Zrušení úložiště"
+    error: "Chyba při nahrávání"
   version: "Verze"
   versionTag: "v"
   Participants:
@@ -238,6 +323,7 @@ MeetingSeries:
   team: "Tým/Projekt"
   new: "Nová koláče"
   leave: "Nechte si zahrávat"
+  leaveButton: "Opustit"
   moderator: "Jste umírněný"
   lastMinute: "Poslední poznámka:"
   Search:
@@ -252,7 +338,7 @@ MeetingSeries:
     teamName: "Tým / Název projektu"
     meetingName: "Jméno pro schůze"
     title: "Upravit série schůzek"
-    base: "Base Configuration"
+    base: "Základní konfigurace"
     editedBy: "Editované {$user} (na {$date})"
     invited: "Vyšetřené a poučené uživatele"
     notifyRoleChange: "Upozorňujeme účastníky na změnu úlohy"
@@ -274,7 +360,7 @@ Profile:
   userName: "Jméno uživatelů"
   longName: "Dlouhé jméno"
   email: "E-Mail"
-  password: "Password"
+  password: "Heslo"
   passwordRepeat: "Odpovědnost hesla"
   ChangePassword:
     oldPassword: "Staré heslo"
@@ -286,6 +372,10 @@ Profile:
     longName: "Zadejte prosím platné dlouhé jméno"
     email: "Zadejte prosím platnou adresu EMail"
     password: "Zadejte prosím platné heslo"
+  WarningEMailChange:
+    title: "Potvrdit změnu e-mailu uživatele"
+    body: "Chystáte se změnit svou ověřenou e-mailovou adresu. Budete odhlášeni a musíte ověřit svou novou e-mailovou adresu, než budete moci pokračovat."
+    button: "Odhlásit + znovu ověřit"
 Admin:
   users: "Uživatelé"
   messages: "Zprávy"
@@ -299,7 +389,7 @@ Admin:
   Message:
     title: "Vysílání zpráv od admira"
     newMessage: "Nová zpráva všem uživatelům"
-    broadcast: "Broadcast"
+    broadcast: "Vysílání"
     date: "Datum"
     message: "Zpráva"
     dismissed: "Nenechme se nechat unést"
@@ -330,14 +420,50 @@ Login:
     title: "Chyba přihlášení"
     username: "Zadejte své jméno uživatele"
     password: "Zadejte heslo"
-  title: "Přihlásit se"
+  signIn: "Přihlásit se"
   ldap: "LDAP"
   standard: "Standardní"
   demoHint: "Tip: Demo režim Active<br>Můžete se přihlásit se jménem uživatele <b>, demoverze</b> a heslo <b>, demoverze</b>. Nebo si můžete zaregistrovat svůj vlastní účet kliknutím na \"Registrovat\" odkaz níže."
+  Login4MinitzInfo:
+    header: "4Minitz: Minut pracovní schůzky."
+    subheader: "● Připravte program ● Dokument Minutes ● Sledování témat ●"
+    abstract: |
+      <p>Každý pozvaný a přihlášený uživatel může sledovat změny aktuálních minut schůzky v reálném čase.</p>
+      Vytvořili jsme zdarma open source software 4Minitz, protože jsme pevně přesvědčeni, že
+      citlivé informace, jako jsou zápisy z schůzek, by neměly být hostovány v cloudu.
+      Místo toho ho chcete hostit na vlastní infrastruktuře, kde můžete definovat
+      úroveň zabezpečení a bezpečnosti, kterou potřebujete.
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: |
+      <li>Vytvořte sérii schůzek</li>
+      <li>Pozvěte další uživatele</li>
+      <li>Specifikujte moderátory a nahrávače</li>
+      <li>Vyplňte program tématy</li>
+      <li>Označte opakující se témata pro standardní program</li>
+      <li>Odesílat program pozvaným uživatelům</li>
+    documentMinutesHeading: "Zápis z dokumentu"
+    documentMinutesDetails: |
+      <li>Označit současné účastníky</li>
+      <li>Přidejte položky akce s odpovědností k tématům</li>
+      <li>Přidat informační položky k tématům</li>
+      <li>Přidat štítky jako 'Rozhodnout' k položkám</li>
+      <li>Nahrát binární přílohy</li>
+      <li>Odesílat minuty &amp; akčních položek prostřednictvím EMail</li>
+    trackTopicsHeading: "Sledovat témata"
+    trackTopicsDetails: |
+      <li>Otevřené položky akce se zobrazí příště</li>
+      <li>Neuzavřená témata se zobrazí příště při</li>
+      <li>Vyhledávání všech témat</li>
+      <li>Rozšířit témata s informacemi o více setkáních</li>
+      <li>Najít témata s popisky (např. popisky). . všechna rozhodnutí)</li>
+      <li>Najít položky pomocí fulltextového vyhledávání</li>
+  Footer:
+    withLove: "Kódováno pomocí ❤"
+    theTeam: "Tým WebApp"
 Navigation:
   help: "Pomoc"
   about: "O čem"
-  adminTasks: "Admin Tasks"
+  adminTasks: "Úkoly správce"
   editProfile: "Upravit profil"
   changePassword: "Měnit heslo"
   signOut: "Zaregistrujte se"
@@ -352,3 +478,87 @@ QuickHelp:
   meetingSeriesList: "<p>S aplikací 4Minitz můžete vytvořit minuty pro schůzky.</p><p>Nejprve vytvořte novou řadu schůzek a pozvete některé další uživatele.<br>Poté pro řadu schůzek vytvořte několik minut schůzky pro několik dat.</p>"
   minutes: "<p>Přidat témata k přípravě schůzky<br>Během schůzky označit téma s pomocí zaškrtávacího políčka, aby bylo jasné, že jste o tom diskutovali.<br>Je-li téma ...<br>&nbsp;&nbsp; -není označeno jako opakující se nebo<br>&nbsp;&nbsp; -obsahuje jako opakující se téma nebo<br>&nbsp;&nbsp; -obsahuje neprovedené akční položky<br>... téma se znovu objeví na dalším setkání.</p><p>Klepnutím na tlačítko 'Dokončit minuty' odešlete zápisy do pozvaných uživatelů a položek akcí do jejich responsibles.</p>"
   upload: "<ul><li>Zde můžete nahrát soubory jako např. prezentace, fotografie ve formátu PDF nebo obrázky whiteboard</li><li>Potřebujete roli 'Uploader' nebo 'Moderátor', aby bylo možné provést tak</li><li>Odesílání nebo odstranění je možné až do dokončení minut</li><li>Pro tip: Klepněte na tlačítko \"Odeslat\" na tabletu nebo smartphone!</li></ul>"
+Mail:
+  greeting: "Ahoj."
+  newAgenda: "Máme pro vás novou schůzku s novou schůzkou:"
+  newActionItem: "Byli jste přiřazeni k následujícím akcím:"
+  newMinutes: "Níže najdete poslední minuty schůzek."
+  meeting: "Schůzka"
+  links: "Odkazy"
+  openSeries: "Otevřené posloupnosti"
+  openMinutes: "Minuty otevření"
+  minutesSubject: "Zápis ze schůzky"
+  discussedTopics: "Diskutovaná témata"
+  skippedTopics: "Otevřít témata"
+  none: "Žádná položka"
+  AdminNewVersion:
+    subject: "Novější verze existuje"
+    body: |
+      Dobrý den, Admin,
+
+      Zdá se, že máte zastaralou verzi 4Minitz.
+
+      Vaše 4Minitz instance na: {$rootUrl}
+      má verzi: {$myVersion}
+
+      Nejnovější dostupná verze je: {$masterVersion}'
+      Poznámky k vydání: {$urlReleaseNotes}
+      Prosím zvažte aktualizaci.
+
+      {$masterMessageText}
+
+      Tento e-mail byl vygenerován vaší backend 4Minitz.
+      Můžete zakázat kontrolu aktualizací prostřednictvím settings.json: \"updateCheck\": false.
+
+      Bavte se!
+              Váš 4Minitzový tým.
+
+
+      ---
+      4Minitz je zdarma open source vyvinutý týmem 4Minitz.
+      Zdroj je k dispozici na {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Váš nový účet na našem serveru"
+    passwordNotSend: "    Kontaktujte administrátora pro heslo."
+    passwordParagraph: |
+      Vaše heslo: {$password}
+
+      Nezapomeňte změnit své heslo po prvním přihlášení!
+    body: |
+      Dobrý den {$userLongName},
+
+      Vítejte v naší 4Minitz WebApp.
+      Nyní se můžete začít podílet na udržování profesionálních schůzek v minutách.
+
+      Můžete se přihlásit pomocí 'Standard' (ne LDAP! přihlaste se:
+         Váš hostitel : {$rootURL}
+         Váš uživatel : {$userName}
+      {$passwordParagraph}
+
+      bavte se!
+        Váš Admin.
+
+      ---
+      4Minitz je zdarma open source vyvinutý týmem 4Minitz.
+      Zdroj je k dispozici na {$url4Minitz}
+  UserRoleChange:
+    subject: "Vaše role se změnila pro '{$meetingProject}:{$meetingName}'"
+    body: |
+      Dobrý den {$userName}
+
+      Vaše role se změnila pro sérii schůzek '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Vaše stará role byla: {$roleOld}
+         Vaše nová role je: {$roleNew}
+         Změna byla provedena za: {$moderatorName}
+
+      Pro komplexní seznam práv pro každou roli vidět:
+      {$urlRoleDocu}
+
+      Bav se!
+        Váš Admin.
+
+      ---
+      4Minitz je zdarma open source vyvinutý 4Minitz tým.
+      zdrojů je k dispozici na {$url4Minitz}"

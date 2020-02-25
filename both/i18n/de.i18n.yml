@@ -8,72 +8,156 @@ Accounts:
   passwordPlaceholder: "min. 6 Zeichen (Zahl, Klein- & Großbuchstabe)"
   passwordError: "min. 6 Zeichen (und mindestens eine Zahl, ein Kleinbuchstabe und ein Großbuchstabe)"
 Buttons:
-  cancel: "Abbrechen"
-  close: "Schließen"
-  register: "Registrieren"
-  change: "Ändern"
-  save: "Speichern"
-  ok: "Ok"
   add: "Hinzufügen"
-  dismissAll: "Verwerfen"
   back: "Zurück"
+  cancel: "Abbrechen"
+  change: "Ändern"
+  close: "Schließen"
+  confirm: "Bestätigen"
+  create: "Erstellen"
   delete: "Löschen"
+  dismissAll: "Als Gelesen Markieren"
   edit: "Bearbeiten"
-  hide: "Ok, verstecken"
+  hide: "OK, verstecken"
+  ok: "OK"
+  register: "Registrieren"
+  save: "Speichern"
+UserRoles:
+  roleModerator: "Moderator"
+  roleUploader: "Hochlader"
+  roleInvited: "Eingeladen"
+  roleInformed: "Informiert"
+FlashMessages:
+  ok: "OK"
+  error: "Fehler"
+  verifyEMailErr: "Fehler: E-Mail konnte nicht verifiziert werden"
+  verifyEMailOK: "OK: E-Mail ist jetzt verifiziert"
+  passwordChangeOK: "Passwort geändert"
+  passwordResetOK: "Passwort erfolgreich zurückgesetzt"
+  profileEditOK: "Profiländerungen gespeichert"
+  minuteLinkErr: "Leider ist das Protokoll nicht korrekt mit der übergeordneten Sitzungsreihe verbunden - bitte kontaktieren Sie Ihren Systemadministrator."
+  agendaSentOK: "Agenda wurde erfolgreich an {$result} Empfänger gesendet"
+  finalizeProgress1: "Protokoll wird abgeschlossen"
+  finalizeProgress2: "Dies kann einige Sekunden dauern..."
+  finalizeOK: "Das Sitzungsprotokoll wurde erfolgreich abgeschlossen"
 Dialog:
-  confirmDeleteAttachment: "Möchten Sie den Anhang<br><b>{$name}</b> wirklich löschen?"
-  confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements <strong>{$subject}</strong> löschen?"
-  confirmDeleteItemAllowed: "Möchten Sie {$type} <strong>{$subject}</strong> wirklich löschen?"
-  confirmDeleteItemNotAllowed: "Es ist nicht möglich, {$type} <strong>{$subject}</strong> zu löschen, da der {$type} in einem vorherigen Protokoll erstellt wurde."
-  confirmDeleteItemActionItem: "Möchten Sie stattdessen die Aufgabe abschließen?"
-  confirmDeleteItemInfoItem: "Möchtest du stattdessen das klebrige Info-Element aufheben?"
+  ConfirmDelete:
+    title: "Löschen bestätigen?"
+    body: "Sind Sie sicher, dass Sie dies löschen wollen?"
+  ConfirmCreateNewMinutes:
+    title: "Neues Protokoll erstellen bestätigen"
+    content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name}\" erstellen?"
+  confirmDeleteAttachment: "Wollen Sie den Datei-Anhang wirklich löschen:\n**{$name}**?"
+  confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements **{$subject}** löschen?"
+  ConfirmDeleteItem:
+    allowed: "Wollen Sie die {$type} **{$subject} ** wirklich löschen?"
+    notAllowed: "Es ist nicht möglich, die {$type} **{$subject}** zu löschen, da die {$type} in einem vorherigen Protokoll erstellt wurde."
+    questionActionItem: "Möchten Sie stattdessen die Aufgabe schließen?"
+    questionInfoItem: "Möchten Sie stattdessen das angeheftete Info-Element ablösen?"
+    typeActionItem: "Aufgabe"
+    typeInfoItem: "Information"
+    titleCloseActionItem: "Aufgabe als 'erledigt' markieren?"
+    titleUnpinInfoItem: "Information lösen?"
+    buttonCloseActionItem: "Aufgabe schließen"
+    buttonUnpinInfoItem: "Information lösen"
   ConfirmDeleteTopic:
-    allowed: "Wollen Sie wirklich das Thema <strong>{$subject}</strong> löschen?"
-    notAllowed: "Das Thema <strong>{$subject}</strong> kann nicht gelöscht werden, da das Thema in einer vorherigen Minute erstellt wurde."
-    close: "Möchten Sie das Thema stattdessen schließen?"
-    closeWithActions: "Möchten Sie stattdessen das Thema zusammen mit allen zugehörigen Aktionselementen schließen?"
-  ConfirmLeaveMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich verlassen:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Sie müssen einen Moderator fragen, ob Sie danach wieder beitreten möchten."
+    allowed: "Wollen Sie wirklich das Thema **{$subject}** löschen?"
+    notAllowed: "Es ist nicht möglich, das Thema **{$subject}** zu löschen, da das Thema in einem beschlossenen Protokoll erstellt wurde."
+    close: "Möchten Sie das Thema stattdessen als 'diskutiert' markieren?"
+    closeWithActions: "Möchten Sie stattdessen das Thema zusammen mit allen zugehörigen Aufgaben schließen?"
+  confirmLeaveMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich verlassen:\n\n**{$project} / {$name}**\n\nSie müssen einen Moderator fragen, falls Sie später wieder beitreten möchten."
   ConfirmMinuteQualityAssurance:
-    issues: "Es sind Probleme mit Ihren Minuten fertiggestellt!"
+    title: "Protokoll-Abschluss: Qualitätsprüfungen"
+    button: "Fortfahren"
+    issues: "Es sind Probleme in Ihrem Protokoll festgestellt worden!"
     proceed: "Möchten Sie mit der Fertigstellung fortfahren?"
-  confirmReOpenTopic: "Möchten Sie wirklich das bereits geschlossene Thema {$topicSubject} erneut öffnen?"
-  confirmSendAgenda: "Möchten Sie wirklich die Tagesordnung für diese Sitzung von <strong>{$minDate}</strong>verschicken?<br>Es wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
+    warnNoTopics: "Das aktuelle Protokoll hat keine Themen"
+    warnNoParticipants: "Kein Teilnehmer ist als vorhanden markiert"
+    warnEditing: "Ein Thema/Element/Detail wird noch bearbeitet"
+    warnNoTopicDiscussed: "Kein Thema ist als 'diskutiert' markiert"
+    warnTopicWithoutItems: "Mindestens ein Thema hat keine Elemente"
+    warnActionItemWithoutResponsible: "Mindestens eine Aufgabe hat keine verantwortliche Person"
+    warnTopicNoNewContent: "Ein Thema wurde diskutiert, hat aber keinen neuen Inhalt"
+  ConfirmReOpenTopic:
+    title: "Thema erneut öffnen?"
+    body: "Möchten Sie das bereits abgeschlossene Thema **{$topicSubject} ** wirklich erneut öffnen?"
+    button: "Erneut öffnen"
+  ConfirmSendAgenda:
+    body: "Möchten Sie wirklich die Tagesordnung für die Sitzung vom **{$minDate}** erneut verschicken?\nSie wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
+    title: "Versand der Tagesordnung bestätigen"
+    button: "Tagesordnung senden"
   ConfirmDeleteMinutes:
-    really: "Möchten Sie diese Besprechungsminute wirklich von <strong>{$minutesDate}</strong> löschen?"
-    newTopics: "Dadurch werden <strong>{$newTopicsCount} Themen</strong>entfernt, die innerhalb dieses Protokolls erstellt wurden."
-    closedTopicsAdditionally: "Zusätzlich werden <strong>{$closedTopicsCount} Themen</strong> wieder geöffnet, die innerhalb dieses Protokolls geschlossen wurden."
-    closedTopics: "<strong>{$closedTopicsCount} Themen</strong> werden wieder geöffnet, die innerhalb dieses Protokolls geschlossen wurden."
+    really: "Möchten Sie dieses Protokoll vom **{$minutesDate}** wirklich löschen?"
+    newTopics: "Dadurch werden **{$newTopicsCount} Themen entfernt**, die innerhalb dieses Protokolls erstellt wurden."
+    closedTopicsAdditionally: "Zusätzlich werden **{$closedTopicsCount} Themen wieder geöffnet**, die innerhalb dieses Prokolls geschlossen wurden."
+    closedTopics: "**{$closedTopicsCount} Themen werden wieder geöffnet**, die innerhalb dieses Protokolls geschlossen wurden."
   ConfirmFinalizeMinutes:
-    really: "Möchten Sie das Sitzungsprotokoll vom <strong>{$minutesDate}</strong> jetz beschließen?"
+    title: "Protokoll-Abschluss bestätigen"
+    button: "Abschließen"
+    really: "Möchten Sie das **Protokoll vom {$minutesDate}** wirklich abschließen?"
     sendActionItems: "Aufgaben senden"
     sendMinutes: "Informationen senden"
   LocaleSetting:
     title: "Sprache festlegen"
     languageLocale: "Spracheinstellung"
-    automatic: "Automatisch via Browser"
-Mail:
-  greeting: "Guten Tag"
-  newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
-  newActionItem: "Ihnen wurden die folgenden Aufgaben zugewiesen:"
-  newMinutes: "nachfolgend finden Sie das aktuelle Protokoll der letzten Sitzung."
-  meeting: "Sitzung"
-  links: "Links"
-  openSeries: "Sitzungsreihe öffnen"
-  openMinutes: "Protokoll öffnen"
-  minutesSubject: "Sitzungsprotokoll"
-  discussedTopics: "Besprochene Themen"
-  skippedTopics: "Offene Themen"
-  none: "Keine"
+    automatic: "Automatisch via Web-Browser"
+  IsEditedHandling:
+    title: "Trotz bestehender Bearbeitung bearbeiten"
+    confirmationDialogResetEdit: "Warnung: Dieses Dokument wird derzeit von {$name} seit {$date} bearbeitet"
+    confirmationDialogResetEditDetails: "Bitte klicken Sie erneut auf Details, um mit der Bearbeitung zu beginnen."
+    button: "Trotzdem bearbeiten"
+  ConnectionInfo:
+    tooltip: |
+      Verbindung verloren!
+        Status: {$status}
+        Wiederholung: {$retryCount}
+        Wiederholungszeit: {$retryTime} Sek.
+        Grund: {$reason}
+        Klicken zum erneuten Verbinden
+    header: "Sie haben die Verbindung zum 4Minitz Server verloren."
+    body: "Wenn Sie Ihren Browser schließen, können ungespeicherte Daten verloren gehen. Bitte kontaktieren Sie Ihren Sever-Administrator, falls dieses Problem weiterhin besteht."
+    tryToReconnect: "Verbindung versuchen"
+  ConfirmGenerateProtocol:
+    title: "Generierung des Protokolls bestätigen"
+    body: "Für dieses Protokoll wurde keine Protokoll-Datei generiert. Möchten Sie stattdessen eine dynamisch generierte HTML-Version herunterladen?"
+    button: "Herunterladen"
+  ConfirmTopicDelete:
+    title1: "Löschen des Themas bestätigen"
+    title2: "Thema als diskutiert markieren?"
+    button2: "Thema und Aufgaben schließen"
+    errortitle: "Thema kann nicht gelöscht werden"
+    errorcontent: "Es ist nicht möglich, dieses Thema zu löschen, da es in einem vorherigen Protokoll erstellt wurde. Das ausgewählte Thema ist bereits geschlossen und hat keine offenen Aufgaben, daher wird es nicht in das folgende Protokoll kopiert."
+  ItemDeleteError:
+    title: "Element kann nicht gelöscht werden"
+    body1: "Es ist nicht möglich, dieses Element zu löschen, da es in einem vorherigen Protokoll erstellt wurde."
+    body2a: "Diese Aufgabe ist bereits geschlossen,"
+    body2b: "Diese Information ist bereits nicht angeheftet,"
+    body3: "so dass sie nicht in das folgenden Protokoll kopiert wird"
+  ActionItemResponsibleError:
+    title: "Ungültige verantwortliche Person für die Aufgabe"
+    body: |
+      Dies ist keine gültiger Verantwortlicher!
+
+      Bitte wählen Sie einen **existierenden Benutzer** aus der Dropdown-Liste oder geben Sie eine **gültige E-Mail-Adresse** ein.
+  ConvertItemError:
+    title: "Element kann nicht umgewandelt werden"
+    body: "Es ist nicht möglich, dieses Element umzuwandeln, da es in einem vorherigen Protokoll erstellt wurde."
 About:
   title: "Über 4Minitz"
-  copyright: "(C) 2015-2019 4Minitz-Team"
+  copyrightTeam: "4Minitz-Team"
   licensedUnder: "Lizenziert unter der MIT-Lizenz"
   licenseDependencies: "Lizenzen der abhängigen Pakete"
   thanksContributors: "Vielen Dank an alle Mitwirkenden"
   proudlySponsored: "Gefördert durch"
   specialThanks: "Besonderer Dank an diese Projekte"
   forkGitHub: "Fork uns auf GitHub"
-  serverStatistics: "Serverstatistiken"
+  ServerStatistics:
+    title: "Serverstatistik"
+    rowNumUser: "Anzahl der Benutzer (aktiv)"
+    rowNumMeetingSeries: "Anzahl der Sitzungsreihen"
+    rowNumMeetingMinutes: "Anzahl der Besprechungsprotokolle"
+    rowNumAttachments: "Anzahl der Anhänge"
+    rowSizeAttachments: "Größe der Anhänge"
 Item:
   ariaLabel: "Element hinzufügen/bearbeiten"
   editItem: "Element bearbeiten"
@@ -82,10 +166,11 @@ Item:
   deleteItemHint: "Diese Information/Aufgabe entfernen"
   addItemModal: "{$type} zu {$topic} hinzufügen"
   editItemModal: "Bearbeite {$type} von {$topic}"
-  addInfo: "Info hinzufügen"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Aufgabe"
+  addInfo: "Information hinzufügen"
   addInfoHint: "Information zum Thema hinzufügen"
-  editInfo: "Info bearbeiten"
-  action: "Aufgaben"
+  action: "Aufgabe"
   addAction: "Aufgabe hinzufügen"
   addActionHint: "Aufgabe zum Thema hinzufügen"
   convertToAction: "In Aufgabe umwandeln"
@@ -106,7 +191,7 @@ Item:
   done: "Erledigt"
   pinned: "angeheftet"
   Error:
-    subject: "Bitte geben Sie einen gültigen Betreff für dieses Thema an"
+    subject: "Bitte geben Sie einen gültigen Betreff an"
   Filter:
     title: "Filter"
     usageHint: "Filternutzung"
@@ -116,11 +201,11 @@ Item:
     closed: "Erledigte Aufgaben"
     yourAction: "Meine Aufgaben"
     placeholder: "Filter"
-    matchCase: "Groß-/Kleinschreibung"
+    matchCase: "Groß- / Kleinschreibung"
     matchCaseHint: "Groß-/Kleinschreibung beachten"
     matchCaseLong: "Groß-/Kleinschreibung beachten"
     Usage:
-      body: "Sie können mehrere Suchbegriffe verwenden, um die aufgelisteten Elemente zu filtern. Alle Suchbegriffe können kombiniert werden, die die Elemente filtern, die mit allen angegebenen Suchparametern übereinstimmen."
+      body: "Sie können mehrere Suchbegriffe verwenden, um die aufgelisteten Elemente zu filtern.\nAlle Suchbegriffe können kombiniert werden, die die Elemente filtern, die mit allen angegebenen Suchparametern übereinstimmen."
       keyword: "Suchwort"
       format: "Format"
       values: "Werte"
@@ -143,7 +228,7 @@ Topic:
   completedHint: "Dieses Thema ist abgeschlossen. Es wird nicht mehr in der nächsten Sitzung vorgebracht."
   setRecurring: "Wiederkehrend"
   setRecurringHint: "Als wiederkehrendes Thema festlegen"
-  unsetRecurring: "Nicht mehr wiederkehrend"
+  unsetRecurring: "Nicht wiederkehrend"
   unsetRecurringHint: "Als nicht wiederkehrendes Thema festlegen"
   setSkip: "Überspringen"
   setSkipHint: "Thema in dieser Sitzung überspringen"
@@ -152,12 +237,11 @@ Topic:
   history: "Verlauf anzeigen"
   historyHint: "Vollständigen Verlauf dieses Themas anzeigen"
   delete: "Thema löschen"
-  deleteHint: "Thema löschen"
   reopen: "Thema erneut öffnen"
   reopenHint: "Thema erneut öffnen"
-  placeholder: "Information hinzufügen. Füge @username hinzu, um eine Aufgabe hinzuzufügen. Drücke 'Enter', um weitere Details anzuhängen. Drücke 'Strg+Enter' oder Tab, um die Information oder die Aufgabe zu speichern."
+  placeholder: "Information hinzufügen. @username erzeugt Aufgabe. 'Enter' für Mardown-Details. 'Strg+Enter' oder 'Tab' speichert."
   childOf: "Thema der Sitzungsreihe:"
-  historyTitle: "Dieses Thema"
+  historyTitle: "Dieses Thema wurde"
   createdOn: "wurde erstellt am:"
   lastUpdate: "zuletzt aktualisiert am:"
   finalizedOn: "abgeschlossen im Protokoll vom:"
@@ -207,7 +291,7 @@ Minutes:
     pin: "Allgemeinen Hinweis anheften"
     unpin: "Allgemeinen Hinweis losheften"
     title: "Allgemeiner Hinweis"
-    placeholder: "Allgemeiner Hinweis für diese Sitzung. Drücken Sie auf die Stecknadel, um diesen Hinweis auch in die folgenden Sitzungen zu übertragen."
+    placeholder: "Allgemeiner Hinweis für diese Sitzung. Stecknadel überträgt den Hinweis in die folgende Sitzung"
   Upload:
     button: "Hochladen..."
     uploading: "Lade hoch"
@@ -215,6 +299,7 @@ Minutes:
     continue: "Hochladen fortsetzen"
     pause: "Hochladen pausieren"
     abort: "Hochladen abbrechen"
+    error: "Fehler beim Hochladen"
   version: "Version"
   versionTag: "v"
   Participants:
@@ -238,7 +323,8 @@ MeetingSeries:
   team: "Team / Projekt"
   new: "Neue Sitzungsreihe"
   leave: "Sitzungsreihe verlassen"
-  moderator: "Du bist Moderator"
+  leaveButton: "Verlassen"
+  moderator: "Sie sind Moderator"
   lastMinute: "Letztes Protokoll:"
   Search:
     placeholder: "Nach Sitzungsreihe suchen"
@@ -262,14 +348,14 @@ MeetingSeries:
   Labels:
     Error:
       name: "Bitte geben Sie einen gültigen Namen für die Kategorie ein"
-      hexValue: "Ungültiger Hex-Wert"
+      hexValue: "Ungültiger Hex-Wert für Farbe"
     add: "Neue Kategorie hinzufügen"
     new: "Kategorie"
     select: "Wählen..."
   Tab:
     minutes: "Sitzungen"
     topics: "Themen"
-    items: "Punkte"
+    items: "Elemente"
 Profile:
   userName: "Benutzername"
   longName: "Vollständiger Name"
@@ -284,8 +370,12 @@ Profile:
   Error:
     name: "Bitte gebe einen gültigen Benutzernamen ein"
     longName: "Bitte geben Sie einen gültigen vollständigen Namen an"
-    email: "Bitte gib eine gültige E-Mail-Adresse ein"
+    email: "Bitte geben Sie eine gültige E-Mail-Adresse ein"
     password: "Bitte geben Sie ein gültiges Passwort ein"
+  WarningEMailChange:
+    title: "Ändern der Benutzer-E-Mail bestätigen"
+    body: "Sie sind dabei, Ihre verifizierte E-Mail-Adresse zu ändern. Sie werden abgemeldet und müssen Ihre neue E-Mail-Adresse verifizieren, bevor Sie sich wieder einloggen können."
+    button: "Abmelden + Neu Verifizieren"
 Admin:
   users: "Benutzer"
   messages: "Nachrichten"
@@ -297,22 +387,22 @@ Admin:
     includePassword: "Passwort mit E-Mail verschicken"
     success: "Neuen Benutzer angelegt: {$user}"
   Message:
-    title: "Broadcast-Nachrichten des Administrators"
+    title: "Nachrichten des Administrators"
     newMessage: "Neue Nachricht an alle Benutzer"
     broadcast: "Senden"
     date: "Datum"
     message: "Nachricht"
     dismissed: "Verworfen"
-    dismissingUsers: "Anzahl zur Kenntnis genommener Benutzer: {$number}\n"
+    dismissingUsers: "Anzahl zur Kenntnis genommener Benutzer: {$number}"
     edit: "Bearbeiten"
   Users:
-    filterUsers: "Suche Benutzer"
+    filterUsers: "Benutzer filtern"
     showInactive: "Zeige Inaktive"
     online: "Online"
-    onlineHint: "Zeige lediglich zur Zeit aktive Benutzer"
+    onlineHint: "Zeige nur gerade aktive Benutzer"
     id: "ID"
     editProfile: "Benutzer bearbeiten"
-    countSingle: "Zeige {$visible} von {$all} Benutzer. Verwenden Sie Filter, um die Auswahl zu ändern."
+    countSingle: "Zeige {$visible} von {$all} Benutzer. Verwenden Sie Filter, um andere zu sehen."
     count: "Zeige {$visible} von {$all} Benutzern. Verwenden Sie Filter, um die Auswahl zu ändern."
     Type:
       hint: "LDAP- oder Standard-Benutzer"
@@ -330,10 +420,46 @@ Login:
     title: "Anmeldefehler"
     username: "Bitte geben Sie Ihren Benutzernamen ein"
     password: "Bitte geben Sie Ihr Passwort ein"
-  title: "Anmelden"
+  signIn: "Anmelden"
   ldap: "LDAP"
   standard: "Standard"
   demoHint: "Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link \"Registrieren\" klicken."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Sitzungsprotokolle."
+    subheader: "● Tagesordnung vorbereiten ● Sitzungen protokollieren ● Themen nachverfolgen ●"
+    abstract: |
+      <p>Jeder eingeladene und eingeloggte Benutzer kann Änderungen an den aktuellen Sitzungsprotokollen in Echtzeit verfolgen.</p>
+      Wir haben 4Minitz als freie Open-Source-Software erstellt da wir der festen Überzeugung sind, dass
+      sensible Informationen wie Sitzungsprotokolle nicht in der Cloud gespeichert werden sollten.
+      Stattdessen möchten Sie es auf Ihrer eigenen Infrastruktur hosten, wo Sie
+      definieren können, welches Sicherheitsniveau Sie benötigen.
+    prepareAgendaHeading: "Tagesordnung vorbereiten"
+    prepareAgendaDetails: |
+      <li>Sitzungsreihe erstellen</li>
+      <li>Andere Benutzer einladen</li>
+      <li>Moderatoren und Uploader festlegen</li>
+      <li>Agenda mit Themen füllen</li>
+      <li>Wiederkehrende Themen für die Standardagenda</li>
+      <li>Agenda an eingeladene Benutzer senden</li>
+    documentMinutesHeading: "Sitzungen protokollieren"
+    documentMinutesDetails: |
+      <li>Teilnehmer abhaken</li>
+      <li>Aufgaben mit Verantwortlichen festhalten</li>
+      <li>Information zu Themen protokollieren</li>
+      <li>Kategorien (z.B. 'Entscheidung') anhängen</li>
+      <li>Binäre Dateianhänge hochladen</li>
+      <li>Protokolle &amp; Aufgaben per E-Mail</li>
+    trackTopicsHeading: "Themen nachverfolgen"
+    trackTopicsDetails: |
+      <li>Automatische Wiedervorlage unerledigter Aufgaben</li>
+      <li>Automatische Wiedervorlage offener Themen</li>
+      <li>Suchliste aller jemals diskutierten Themen</li>
+      <li>Erweitern Sie Themen mit Informationen späteren Sitzungen</li>
+      <li>Themen nach Kategorien finden (z.B. alle 'Entscheidungen')</li>
+      <li>Elemente mit der Volltextsuche finden</li>
+  Footer:
+    withLove: "Codiert mit ❤ durch das"
+    theTeam: "WebApp-Team"
 Navigation:
   help: "Hilfe"
   about: "Über"
@@ -343,12 +469,96 @@ Navigation:
   signOut: "Abmelden"
   toggleNavigation: "Navigation anzeigen"
   meetings: "Sitzungen"
-  processing: "Deine Anfrage wird bearbeitet..."
+  processing: "Ihre Anfrage wird bearbeitet..."
   setLanguageForUser: "Sprache wählen"
   setLanguageLogin: "Sprache"
 QuickHelp:
   title: "Schnellhilfe"
   meetingSeries: "<p>Hier können Sie neue Protokolle für die aktuelle Sitzungsreihe erstellen oder über das Datum das entsprechende Protokoll aufrufen.</p>"
-  meetingSeriesList: "<p>Mit 4Minitz kannst du Protokolle für Sitzungen erstellen.</p><p>Erstelle zuerst eine neue Sitzungsreihe und lade alle Teilnehmer ein.<br>Anschließend kannst du Protokolle zu dieser Sitzungsreihe anlegen.</p>"
-  minutes: "<p>Füge zunächst Themen zu deiner Tagesordnung hinzu, um diese vorab an alle Mitglieder zu verschicken.<br>Während der Sitzung werden alle Themen, die abschließend diskutiert wurden, mit einem Häkchen markiert.<br>Falls...<br>&nbsp;&nbsp; - das Thema nicht als diskutiert markiert oder<br>&nbsp;&nbsp; - dieses als wiederkehrendes Thema gesetzt oder<br>&nbsp;&nbsp; - das Thema eine unerledigte Aufgabe enthält<br>... wird das Thema in der nächsten Sitzung erneut vorgebracht.</p><p>Klicke auf 'Protokoll beschließen', um das Protokoll an die eingeladenen Benutzer und die Aufgaben an ihre Verantwortlichen zu senden.</p>"
-  upload: "<ul><li>Hier kannst du Dateien wie z.B. Präsentationen, PDFs oder Whiteboards hochladen</li><li>Du benötigst die Rolle 'Uploader' oder 'Moderator', um dies tun zu können</li><li>Hochladen und wieder löschen ist solange möglich, bis das Protokoll beschlossen wurde</li><li>Tipp: Klicken Sie auf die oben stehende 'Upload' Taste auf Ihrem Tablet oder Smartphone!</li></ul>"
+  meetingSeriesList: "<p>Mit 4Minitz können Sie Protokolle für Sitzungen erstellen.</p>\n<p>Erstellen Sie zuerst eine neue Sitzungsreihe und laden dann alle Teilnehmer ein.<br>\nAnschließend können Sie Protokolle zu dieser Sitzungsreihe anlegen.</p>"
+  minutes: "<p>Fügen Sie zunächst Themen zu Ihrer Tagesordnung hinzu, um diese vorab an alle Mitglieder zu verschicken.<br>\nWährend der Sitzung werden alle Themen, die abschließend diskutiert wurden, mit einem Häkchen markiert.<br>\nFalls...<br>\n&nbsp;&nbsp; - das Thema nicht als diskutiert markiert oder<br>\n&nbsp;&nbsp; - dieses als wiederkehrendes Thema gesetzt oder<br>\n&nbsp;&nbsp; - das Thema eine unerledigte Aufgabe enthält<br>\n... wird das Thema in der nächsten Sitzung erneut vorgebracht.</p>\n<p>Klicken Sie auf 'Protokoll beschließen', um das Protokoll an die eingeladenen Benutzer und die Aufgaben an ihre Verantwortlichen zu senden.</p>"
+  upload: "<ul><li>Hier können Sie Dateien wie z.B. Präsentationen, PDFs oder Whiteboard-Fotos hochladen</li>\n<li>Sie benötigen die Rolle 'Uploader' oder 'Moderator', um dies tun zu können</li>\n<li>Hochladen und wieder löschen ist solange möglich, bis das Protokoll beschlossen wurde</li>\n<li>Tipp: Klicken Sie auf den 'Hochladen...' Knopf auf Ihrem Tablet oder Smartphone!</li></ul>"
+Mail:
+  greeting: "Hallo"
+  newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
+  newActionItem: "Ihnen wurden folgende Aufgaben zugewiesen:"
+  newMinutes: "Nachfolgend finden Sie das neueste Sitzungsprotokoll."
+  meeting: "Sitzung"
+  links: "Links"
+  openSeries: "Sitzungsreihe öffnen"
+  openMinutes: "Protokoll öffnen"
+  minutesSubject: "Sitzungsprotokoll"
+  discussedTopics: "Besprochene Themen"
+  skippedTopics: "Offene Themen"
+  none: "Keine"
+  AdminNewVersion:
+    subject: "Neuere Version existiert"
+    body: |
+      Hallo Admin,
+
+      Es scheint, dass Sie eine veraltete Version von 4Minitz verwenden.
+
+      Ihre 4Minitz-Instanz unter: {$rootUrl}
+      hat Version: {$myVersion}
+
+      Die neueste verfügbare Version ist: {$masterVersion}
+      Versionshinweise: {$urlReleaseNotes}
+
+      Bitte denken Sie über ein Upgrade nach.
+
+      {$masterMessageText}
+
+      Diese E-Mail wurde von Ihrem 4Minitz Backend generiert.
+      Sie können die Updateprüfung über settings.json deaktivieren: \"updateCheck\": false.
+
+      Viel Spaß!
+              Dein 4Minitz-Team.
+
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Der Quellcode ist verfügbar unter {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Ihr neues Konto auf unserem Server"
+    passwordNotSend: "Kontaktieren Sie den Administrator für Ihr Passwort."
+    passwordParagraph: |
+      Ihr Passwort : {$password}
+
+      Vergessen Sie nicht, Ihr Passwort nach der ersten Anmeldung zu ändern!
+    body: |
+      Hallo {$userLongName},
+
+      Willkommen bei unserer 4Minitz WebApp.
+      Jetzt können Sie einfach professionelle Sitzungsprotokolle erstellen und lesen.
+
+      Sie können sich mit dem 'Standard'-Login (nicht LDAP!) anmelden unter:
+         Ihr Server: {$rootURL}
+         Ihr Benutzer: {$userName}
+      {$passwordParagraph}
+
+      Viel Spaß!
+              Dein 4Minitz-Team.
+
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Der Quellcode ist verfügbar unter {$url4Minitz}
+  UserRoleChange:
+    subject: "Ihre Rolle hat sich geändert für '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hallo {$userName}
+
+      Ihre Rolle hat sich geändert für die Sitzungsreihe '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Ihre alte Rolle war : {$roleOld}
+         Ihre neue Rolle ist : {$roleNew}
+         Die Änderung wurde durchgeführt von : {$moderatorName}
+
+      Für eine umfassende Liste von Rechten für jede Rolle siehe Sie:
+      {$urlRoleDocu}
+
+      Viel Spaß!
+        Ihr Admin.
+
+      ---
+      4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
+      Quelle ist verfügbar unter {$url4Minitz}
