@@ -24,9 +24,9 @@ Buttons:
   save: "Gem"
 UserRoles:
   roleModerator: "Moderator"
-  roleUploader: "Uploader"
+  roleUploader: "Uploadning"
   roleInvited: "Inviteret"
-  roleInformed: "Informed"
+  roleInformed: "Informeret"
 FlashMessages:
   ok: "-OKAY, OKAY."
   error: "Fejl"
@@ -50,16 +50,16 @@ Dialog:
   confirmDeleteAttachment: "Vil du virkelig slette vedhæftningen:\n**{$name}**?"
   confirmDeleteDetails: "Vil du virkelig slette de valgte detaljer for elementet **{$subject}**?"
   ConfirmDeleteItem:
-    allowed: "Do you really want to delete the {$type} **{$subject}**?"
-    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
-    questionActionItem: "Do you want to close the action item instead?"
-    questionInfoItem: "Do you want to unpin the sticky info item instead?"
-    typeActionItem: "action item"
-    typeInfoItem: "information"
-    titleCloseActionItem: "Close action item?"
-    titleUnpinInfoItem: "Unpin info item?"
-    buttonCloseActionItem: "Close action item"
-    buttonUnpinInfoItem: "Unpin info item"
+    allowed: "Er du sikker på, at du vil slette {$type} **{$subject}**?"
+    notAllowed: "Det er ikke muligt at slette {$type} **{$subject}**, fordi {$type} er oprettet i en tidligere protokol."
+    questionActionItem: "Vil du lukke handlingselementet i stedet for?"
+    questionInfoItem: "Vil du fjerne det klistrede informationselement i stedet for?"
+    typeActionItem: "handlingspunkt"
+    typeInfoItem: "oplysninger"
+    titleCloseActionItem: "Luk handlingspunkt?"
+    titleUnpinInfoItem: "Frigør informationselement?"
+    buttonCloseActionItem: "Luk handlingspunkt"
+    buttonUnpinInfoItem: "Frigør oplysninger om oplysninger"
   ConfirmDeleteTopic:
     allowed: "Vil du virkelig slette emnet **{$subject}**?"
     notAllowed: "Det er ikke muligt at slette emnet **{$subject}**, fordi emnet er oprettet i et tidligere minut."
@@ -108,43 +108,43 @@ Dialog:
     button: "Redigér alligevel"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
+      Forbindelsen er tabt!
         Status: {$status}
         Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
+        Retry Time: {$retryTime} sek.
+        Årsag: {$reason}
+        Klik for at oprette forbindelse igen.
     header: "Du har mistet forbindelsen til 4Minitz-serveren."
     body: "Hvis du lukker din browser, kan data, der ikke er gemt, gå tabt. Kontakt administratoren af administratoren, hvis problemet opstår igen."
-    tryToReconnect: "Try To Reconnect"
+    tryToReconnect: "Prøv at Reconnect"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
+    title: "Bekræft generering af protokol"
+    body: "Der er ikke genereret nogen protokol for disse minutter. Vil du downloade en dynamisk genereret HTML-version af den i stedet for?"
     button: "Download"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    title1: "Bekræft sletning af emne"
+    title2: "Marker emnet som aftalt?"
+    button2: "Luk emne og handlinger"
+    errortitle: "Kan ikke slette emne"
+    errorcontent: "Det er ikke muligt at slette dette emne, fordi det er oprettet i et tidligere minut. Det valgte emne er allerede lukket og har ingen åbne handlingselementer, så den vil ikke blive kopieret til følgende minutter."
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
-    body3: "so it won't be copied to the following minutes"
+    title: "Kan ikke slette element"
+    body1: "Det er ikke muligt at slette dette element, fordi det er oprettet i et tidligere minut."
+    body2a: "Handlingselementet er allerede lukket,"
+    body2b: "Dette informationselement er allerede un-fastgjort"
+    body3: "Så det ikke vil blive kopieret til følgende minutter"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
+    title: "Ugyldig ansvarlig for handlingspunkt"
     body: |
-      This is not a valid responsible!
+      Dette er ikke en gyldig ansvarlig.
 
-      Please select an **existing user** from the dropdown or enter a **valid email address**.
+      Vælg en ** eksisterende bruger * * fra oversigten, eller angiv en gyldig e-mail-adresse * *.
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "Kan ikke konvertere vare"
+    body: "Det er ikke muligt at konvertere dette element, fordi det er oprettet i et tidligere minut."
 About:
   title: "Om 4Minitz"
-  copyrightTeam: "by 4Minitz-Team"
+  copyrightTeam: "af 4Minitz-Team"
   licensedUnder: "Licenseret under MIT-licens"
   licenseDependencies: "Licens af afhængigheder"
   thanksContributors: "Tak til alle vores bidragydere"
@@ -152,12 +152,12 @@ About:
   specialThanks: "Speciel tak til disse projekter"
   forkGitHub: "Fork os på GitHub"
   ServerStatistics:
-    title: "Server Statistics"
-    rowNumUser: "Number of users (active)"
-    rowNumMeetingSeries: "Number of meeting series"
-    rowNumMeetingMinutes: "Number of meeting minutes"
-    rowNumAttachments: "Number of attachments"
-    rowSizeAttachments: "Attachments size"
+    title: "Serverstatistik"
+    rowNumUser: "Antal brugere (aktive)"
+    rowNumMeetingSeries: "Antal mødeserier"
+    rowNumMeetingMinutes: "Antal mødeminutter"
+    rowNumAttachments: "Antal vedhæftninger"
+    rowSizeAttachments: "Vedhæftningsstørrelse"
 Item:
   ariaLabel: "Tilføj / redigér element"
   editItem: "Redigér element"
@@ -299,7 +299,7 @@ Minutes:
     continue: "Fortsæt uploadning"
     pause: "Stop uploadning af pause"
     abort: "Afbryd uploadning"
-    error: "Error during upload"
+    error: "Fejl under uploadning"
   version: "Version"
   versionTag: "v"
   Participants:
@@ -323,7 +323,7 @@ MeetingSeries:
   team: "Team / Projekt"
   new: "Ny mødeserie"
   leave: "Forlad mødeserie"
-  leaveButton: "Leave"
+  leaveButton: "Gå."
   moderator: "Du er moderator"
   lastMinute: "Sidste minut:"
   Search:
@@ -373,9 +373,9 @@ Profile:
     email: "Angiv en gyldig e-mail-adresse"
     password: "Angiv et gyldigt kodeord"
   WarningEMailChange:
-    title: "Confirm changing user mail"
-    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
-    button: "Sign off + Re-Verify"
+    title: "Bekræft ændring af brugerpost"
+    body: "Du er ved at ændre din validerede mailadresse. Du vil blive logget af og være nødt til at verificere din nye e-mailadresse, før du kan fortsætte."
+    button: "Log af + Re-Verify"
 Admin:
   users: "Brugere"
   messages: "Meddelelser"
@@ -420,20 +420,20 @@ Login:
     title: "Logon-fejl"
     username: "Angiv dit brugernavn"
     password: "Angiv dit kodeord"
-  signIn: "Sign In"
+  signIn: "Log på"
   ldap: "LDAP"
   standard: "Standard"
   demoHint: "Hint: Demo Mode Active<br>Du kan logge på med brugernavn <b>demo</b> og kodeord <b>demo</b>. Eller du kan registrere din egen konto ved at klikke på linket \"Registrér\" nedenfor."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Minutes."
-    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    header: "4Minitz: Samarbejdsmøde i mødeprotokollen."
+    subheader: "● Forberedelse af Agenda-dokumenter i Registrerede dokumentminutter i Registrerede Topics"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
-    prepareAgendaHeading: "Prepare Agenda"
+      <p>Alle inviterede og brugere, der er logget på, kan se ændringer i de aktuelle mødeminutter i realtid.</p>
+      Vi har gjort 4Minitz gratis open source-software, da vi er helt overbevist om, at
+      følsomme oplysninger som mødeprotokollen ikke bør hostes i skyen.
+      I stedet ønsker du at være vært for den på din egen infrastruktur, hvor du kan definere
+      det sikkerhedsniveau og sikkerhed, du har brug for.
+    prepareAgendaHeading: "Klargør dagsorden"
     prepareAgendaDetails: |
       <li>Create your meeting series</li>
       <li>Invite other users</li>
@@ -441,7 +441,7 @@ Login:
       <li>Fill agenda with topics</li>
       <li>Mark recurring topics for standard agenda</li>
       <li>Send agenda to invited users</li>
-    documentMinutesHeading: "Document Minutes"
+    documentMinutesHeading: "Dokumentminutter"
     documentMinutesDetails: |
       <li>Mark present participants</li>
       <li>Add action items with responsibles to topics</li>
@@ -449,7 +449,7 @@ Login:
       <li>Add labels like 'Decision' to items</li>
       <li>Upload binary file attachments</li>
       <li>Send minutes &amp; action items via EMail</li>
-    trackTopicsHeading: "Track Topics"
+    trackTopicsHeading: "Spor emner"
     trackTopicsDetails: |
       <li>Open action items will show up next time</li>
       <li>Non-closed topics will show up next time</li>
@@ -459,7 +459,7 @@ Login:
       <li>Find items by fulltext search</li>
   Footer:
     withLove: "Coded with ❤ by the"
-    theTeam: "WebApp Team"
+    theTeam: "WebApp-team"
 Navigation:
   help: "Hjælp"
   about: "Om"
@@ -481,9 +481,9 @@ QuickHelp:
 Mail:
   greeting: "Hallo?"
   newAgenda: "Vi har en helt ny mødedagsorden for dig."
-  newActionItem: "You have been assigned to the following action items:"
-  newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Meeting"
+  newActionItem: "Du er tildelt til følgende handlingselementer:"
+  newMinutes: "Under dig finder du de seneste mødeminutter."
+  meeting: "Møde"
   links: "Link"
   openSeries: "Åbn serie"
   openMinutes: "Åbn minutter"
@@ -492,7 +492,7 @@ Mail:
   skippedTopics: "Åbn emner"
   none: "Ingen"
   AdminNewVersion:
-    subject: "Newer version exists"
+    subject: "Der findes en nyere version"
     body: |
       Hello Admin,
 
@@ -518,8 +518,8 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   AdminRegisterNewUser:
-    subject: "Your new account at our server"
-    passwordNotSend: "    Contact admin for password."
+    subject: "Din nye konto på vores server"
+    passwordNotSend: "    Kontaktadministrator for kodeord."
     passwordParagraph: |
       Your password : {$password}
 
@@ -542,7 +542,7 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   UserRoleChange:
-    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    subject: "Din rolle er ændret for '{$meetingProject}:{$meetingName}'"
     body: |
       Hello {$userName}
 
