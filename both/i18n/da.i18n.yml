@@ -2,11 +2,11 @@
 _splitKey: ':'
 _locale: 'da'
 Accounts:
-  usernamePlaceholder: "(min. 3 årer)"
+  usernamePlaceholder: "(min. 3 tegn)"
   nameDisplayName: "Navn, virksomhed"
   namePlaceholder: "John Doe, Happy Corp."
-  passwordPlaceholder: "min. 6 årer (ciffer, nedre og øvre)"
-  passwordError: "min. 6 Chars (min. 1 ciffer, 1 lavere, 1 øvre)"
+  passwordPlaceholder: "min. 6 tegn (cifre, små og store bogstaver)"
+  passwordError: "min. 6 tegn (min. 1 ciffer, 1 lille og 1 stort bogstav)"
 Buttons:
   add: "Tilføj"
   back: "Gå tilbage"
@@ -435,12 +435,12 @@ Login:
       det sikkerhedsniveau og sikkerhed, du har brug for.
     prepareAgendaHeading: "Klargør dagsorden"
     prepareAgendaDetails: |
-      <li>XXXX</li>
-      <li>Invite other users</li>
-      <li>Specify moderators and uploaders</li>
-      <li>Fill agenda with topics</li>
-      <li>Mark recurring topics for standard agenda</li>
-      <li>Send agenda to invited users</li>
+      <li>Opret din mødeserie</li>
+      <li>Invitér andre brugere</li>
+      <li>Specificér moderatorer og uploadere</li>
+      <li>Udfyld agenda med emner</li>
+      <li>Markér tilbagevendende emner til standard agenda</li>
+      <li>Send agenda til inviterede brugere</li>
     documentMinutesHeading: "Dokumentminutter"
     documentMinutesDetails: |
       <li>Mark present participants</li>
