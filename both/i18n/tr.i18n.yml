@@ -23,10 +23,10 @@ Buttons:
   register: "Kaydol"
   save: "Kaydet"
 UserRoles:
-  roleModerator: "Moderator"
-  roleUploader: "Uploader"
+  roleModerator: "Toplantı Başkanı"
+  roleUploader: "Karşıya Yükleyici"
   roleInvited: "Davet Edildi"
-  roleInformed: "Informed"
+  roleInformed: "Bilgilendirilmiş"
 FlashMessages:
   ok: "Tamam"
   error: "Hata"
@@ -50,13 +50,13 @@ Dialog:
   confirmDeleteAttachment: "bu eki gerçekten silmek istiyor musunuz:\n**{$name}**?"
   confirmDeleteDetails: "**{$subject} ** öğesinin seçili ayrıntılarını gerçekten silmek istiyor musunuz?"
   ConfirmDeleteItem:
-    allowed: "Do you really want to delete the {$type} **{$subject}**?"
-    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
-    questionActionItem: "Do you want to close the action item instead?"
-    questionInfoItem: "Do you want to unpin the sticky info item instead?"
-    typeActionItem: "action item"
-    typeInfoItem: "information"
-    titleCloseActionItem: "Close action item?"
+    allowed: "{$type} **{$subject} ** ü gerçekten silmek istiyor musunuz?"
+    notAllowed: "{$type} **{$subject}** den silinmek mümkün değildir çünkü {$type} önceki bir dakikalarda oluşturulmuştur."
+    questionActionItem: "Bunun yerine eylem öğesini kapatmak istiyor musunuz?"
+    questionInfoItem: "Bunun yerine yapışkan bilgi öğesinin pimini kaldırmak istiyor musunuz?"
+    typeActionItem: "işlem öğesi"
+    typeInfoItem: "bilgi"
+    titleCloseActionItem: "İşlem öğesi kapatılsın mı?"
     titleUnpinInfoItem: "Bilgi öğesi serbest mi?"
     buttonCloseActionItem: "İşlem öğesini kapat"
     buttonUnpinInfoItem: "Bilgi öğesinin pimini kaldır"
@@ -108,43 +108,43 @@ Dialog:
     button: "Yine De Düzenle"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
-        Status: {$status}
-        Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
+      Bağlantı Kaybedildi!
+        Durum: {$status}
+        Yeniden Deneme Sayısı: {$retryCount}
+        Yeniden Deneme Süresi: {$retryTime} sn.
+        Neden: {$reason}
+        Yeniden bağlanmak için tıklatın.
     header: "4Minitz sunucusu bağlantısını kaybedin."
     body: "Tarayıcınızı kapattığınızda kaydedilmemiş veriler kaybolabilir. Bu sorun devam ederse lütfen sunucunuzun denetimcisine başvurun."
     tryToReconnect: "Yeniden Bağlanmayı Deneyin"
   ConfirmGenerateProtocol:
     title: "Protokol oluşturmayı doğrulayın"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
-    button: "Download"
+    body: "Bu dakikalar için herhangi bir protokol oluşturulmadı. Bunun yerine dinamik olarak oluşturulmuş bir HTML sürümünü karşıdan yüklemek istiyor musunuz?"
+    button: "Karşıdan Yükle"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    title1: "Konuyu silmeyi onayla"
+    title2: "Konuyu tartışıldığı gibi mi işaretle?"
+    button2: "Konuyu ve işlemleri kapat"
+    errortitle: "Konu silinemiyor"
+    errorcontent: "Önceki bir dakika içinde yaratıldığı için bu konunun silinmesi mümkün değildir. Seçilen konu zaten kapalı ve açık bir işlem öğesi yok, bu nedenle bu konu aşağıdaki dakikalara kopyalanmaz."
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
-    body3: "so it won't be copied to the following minutes"
+    title: "Öğe silinemiyor"
+    body1: "Önceki bir dakika içinde yaratıldığı için bu öğenin silinmesi mümkün değil."
+    body2a: "Bu eylem öğesi zaten kapalı,"
+    body2b: "Bu bilgi öğesi zaten sabitlenmiş durumda"
+    body3: "bu nedenle, aşağıdaki dakikalara kopyalanmaz"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
+    title: "İşlem Öğesi İçin Geçersiz Sorumlu Öğe"
     body: |
-      This is not a valid responsible!
+      Bu geçerli bir sorumluluk değildir!
 
-      Please select an **existing user** from the dropdown or enter a **valid email address**.
+      Lütfen açılan listeden bir ** var olan kullanıcı * * seçin veya ** geçerli bir e-posta adresi * * girin.
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "Öğe dönüştürülemez"
+    body: "Önceki bir dakika içinde yaratıldığı için bu öğe dönüştürülemez."
 About:
   title: "4Minitz hakkında"
-  copyrightTeam: "by 4Minitz-Team"
+  copyrightTeam: "4Minitz-Takım tarafından"
   licensedUnder: "MIT-Lisans kapsamında lisanslanır"
   licenseDependencies: "Bağımlılıklar Lisansı"
   thanksContributors: "Tüm Katkı Sağlayıcılarımız Sayesinde"
@@ -152,12 +152,12 @@ About:
   specialThanks: "Bu Projeler Sayesinde özel"
   forkGitHub: "Bizi GitHub 'a at."
   ServerStatistics:
-    title: "Server Statistics"
-    rowNumUser: "Number of users (active)"
-    rowNumMeetingSeries: "Number of meeting series"
-    rowNumMeetingMinutes: "Number of meeting minutes"
-    rowNumAttachments: "Number of attachments"
-    rowSizeAttachments: "Attachments size"
+    title: "Sunucu İstatistikleri"
+    rowNumUser: "Kullanıcı sayısı (etkin)"
+    rowNumMeetingSeries: "Toplantı dizilerinin sayısı"
+    rowNumMeetingMinutes: "Toplantı tutanaklarının sayısı"
+    rowNumAttachments: "Ek sayısı"
+    rowSizeAttachments: "Ek boyutu"
 Item:
   ariaLabel: "Öğe Ekle/Düzenle"
   editItem: "Öğeyi Düzenle"
@@ -166,7 +166,7 @@ Item:
   deleteItemHint: "Bu eylem/bilgi öğesini sil"
   addItemModal: "{$type} 'i {$topic} 'e ekleyin"
   editItemModal: "Düzenle {$type} / {$topic}"
-  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeInfoItem: "Bilgi"
   editItemModelTypeActionItem: "Eylem Öğesi"
   addInfo: "Bilgi Öğesi Ekle"
   addInfoHint: "Konuya bilgi öğesi ekle"
@@ -299,7 +299,7 @@ Minutes:
     continue: "Yüklemeye Devam Et"
     pause: "Karşıya Yüklemeyi Duraklat"
     abort: "Karşıya Yüklemeyi Durdur"
-    error: "Error during upload"
+    error: "Karşıya yükleme sırasında hata oluştu"
   version: "Sürüm"
   versionTag: "V"
   Participants:
@@ -323,7 +323,7 @@ MeetingSeries:
   team: "Ekip/Proje"
   new: "Yeni Toplantı Dizisi"
   leave: "Toplantı Dizisini Bırak"
-  leaveButton: "Leave"
+  leaveButton: "Ayrıl"
   moderator: "Başkan siz misiniz?"
   lastMinute: "Son Dakika:"
   Search:
@@ -373,9 +373,9 @@ Profile:
     email: "Lütfen geçerli bir E-posta adresi girin"
     password: "Lütfen geçerli bir parola girin"
   WarningEMailChange:
-    title: "Confirm changing user mail"
-    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
-    button: "Sign off + Re-Verify"
+    title: "Kullanıcı postasını değiştirmeyi onayla"
+    body: "Doğrulanan posta adresinizi değiştirmek üzeresiniz. Devam etmeden önce, imzalanacak ve yeni posta adresinizi doğrulamanız gerekir."
+    button: "Oturum kapat + Yeniden Doğrula"
 Admin:
   users: "Kullanıcılar"
   messages: "İletiler"
@@ -420,20 +420,20 @@ Login:
     title: "Oturum açma hatası"
     username: "Lütfen kullanıcı adınızı girin"
     password: "Lütfen parolanızı girin"
-  signIn: "Sign In"
+  signIn: "Oturum Aç"
   ldap: "LDAP"
   standard: "Standart"
   demoHint: "İpucu: Demo Mode Active<br>Kullanıcı adı <b>gösterim</b> ve parola <b>gösterim</b>ile oturum açabilirsiniz. Ya da aşağıdaki \"Kaydol\" bağlantısını tıklatarak kendi hesabınızı kaydettirebilirsiniz."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Minutes."
-    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    header: "4Minitz: Toplantı Süresi (dakika)."
+    subheader: "Kullanıcı İçin Hazırlık Gündemi İçin Belge Dakikaları İzleme Konuları"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
-    prepareAgendaHeading: "Prepare Agenda"
+      <p>Her davet edilen ve oturum açan kullanıcı, gerçek zamanlı olarak geçerli toplantı tutanaklarındaki değişiklikleri izleyebilirler.</p>
+      4Minitz ücretsiz açık kaynak yazılımı yaptık, toplantı tutkunu gibi
+      hassas bilgilerin bulutta barındırılmaması gerektiğini güçlü bir şekilde inandığımız için.
+      bunun yerine, ihtiyacınız olan güvenlik ve güvenlik düzeyini
+      olarak tanımlayabileceğiniz kendi altyapınıza ev sahipliği yapmak istemeniz gerekir.
+    prepareAgendaHeading: "Gündemi Hazırla"
     prepareAgendaDetails: |
       <li>Create your meeting series</li>
       <li>Invite other users</li>
@@ -441,25 +441,25 @@ Login:
       <li>Fill agenda with topics</li>
       <li>Mark recurring topics for standard agenda</li>
       <li>Send agenda to invited users</li>
-    documentMinutesHeading: "Document Minutes"
+    documentMinutesHeading: "Belge Dakikaları"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
-    trackTopicsHeading: "Track Topics"
+      <li>Mark mevcut katılımcılara</li>
+      <li>Yanıt verme ile ilgili konular</li>
+      <li>Konulara bilgi öğeleri ekle</li>
+      <li>'Karar' gibi etiketler</li>
+      <li>upload ikili dosya ekleri</li>
+      <li>mesaj gönder &amp; eylem öğeleri E-Posta yoluyla</li>
+    trackTopicsHeading: "Konuları İzle"
     trackTopicsDetails: |
-      <li>Open action items will show up next time</li>
-      <li>Non-closed topics will show up next time</li>
-      <li>Search list of all ever discussed topics</li>
-      <li>Enrich topics with info items on multiple meetings</li>
-      <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>
+      <li>Açık eylem öğeleri gelecek sefer gösterecektir</li>
+      <li>kapatılmayan konular sonraki zaman</li>
+      <li>için her türlü tartışılan konular</li>
+      <li>birden çok toplantıda bilgi içeren konular</li>
+      <li>etiketlerle ilgili konular bul (örneğin tüm kararlar)</li>
+      <li>fulltext ara ile items by fulltext search</li>
   Footer:
-    withLove: "Coded with ❤ by the"
-    theTeam: "WebApp Team"
+    withLove: "❤ ile kodlanmış"
+    theTeam: "WebApp Ekibi"
 Navigation:
   help: "Yardım"
   about: "Hakkında"
@@ -481,9 +481,9 @@ QuickHelp:
 Mail:
   greeting: "Merhaba."
   newAgenda: "Sizin için yepyeni bir toplantı gündemimiz var:"
-  newActionItem: "You have been assigned to the following action items:"
-  newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Meeting"
+  newActionItem: "Şu işlem öğelerine atandınız:"
+  newMinutes: "Aşağıda en son toplantı tutanaklarını bulacaksınız."
+  meeting: "Toplantı"
   links: "Bağlantılar"
   openSeries: "Seriyi Aç"
   openMinutes: "Dakikaları Aç"
@@ -492,7 +492,7 @@ Mail:
   skippedTopics: "Açık Konular"
   none: "Yok"
   AdminNewVersion:
-    subject: "Newer version exists"
+    subject: "Daha yeni sürüm var"
     body: |
       Merhaba Admin,
 
@@ -518,29 +518,29 @@ Mail:
       4Minitz, 4Minitz takımı tarafından geliştirilen ücretsiz açık kaynak.
       Kaynak: {$url4Minitz}
   AdminRegisterNewUser:
-    subject: "Your new account at our server"
-    passwordNotSend: "    Contact admin for password."
+    subject: "Sunucumuzdaki yeni hesabınız"
+    passwordNotSend: "    Parola için yönetici ile iletişim kurun."
     passwordParagraph: |
-      Your password : {$password}
+      Parolaniz: {$password}
 
-      Don't forget to change your password after first login!
+      İlk oturum açtıktan sonra parolanızı değiştirmeyi unutmayın!
     body: |
-      Hello {$userLongName},
+      Merhaba {$userLongName},
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      4Minitz WebApp 'e Hoş Geldiniz.
+      Şimdi profesyonel toplantı tutanaklarının tutulmasını sürdürebilirsiniz.
 
       You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+         your host: {$rootURL}
+         your user: {$userName}
       {$passwordParagraph}
 
-      Have fun!
-        Your Admin.
+      Hain fun!
+        Admin.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      4Minitz, 4Minitz takımı tarafından geliştirilen ücretsiz açık kaynak.
+      Kaynak: {$url4Minitz}
   UserRoleChange:
     subject: "Sizin rolünüz şu şekilde değişti: '{$meetingProject}:{$meetingName}'"
     body: |
