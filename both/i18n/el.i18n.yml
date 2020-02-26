@@ -8,7 +8,7 @@ Accounts:
   passwordPlaceholder: "min. 6 chars (digit, lower & upper)"
   passwordError: "min. 6 chars (min. 1 digit, 1 lower, 1 upper)"
 Buttons:
-  add: "Add"
+  add: "Προσθήκη"
   back: "Go Back"
   cancel: "Cancel"
   change: "Change"
