@@ -443,12 +443,12 @@ Login:
       <li>Send agenda til inviterede brugere</li>
     documentMinutesHeading: "Dokumentminutter"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>Markér tilstedeværende</li>
+      <li>Tilføj handlinger med ansvarlige til emner</li>
+      <li>Tilføj information til emner</li>
+      <li>Tilføj labels som f.eks. 'Beslutning' til handlinger</li>
+      <li>Vedhæft binære filer</li>
+      <li>Send mødereferat og handlinger via e-mail</li>
     trackTopicsHeading: "Spor emner"
     trackTopicsDetails: |
       <li>Open action items will show up next time</li>
