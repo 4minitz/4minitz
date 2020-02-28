@@ -286,7 +286,7 @@ Minutes:
   downloadHint: "Download minutter som fil"
   agenda: "Dagsorden"
   sendAgenda: "Send dagsorden"
-  delete: "Slet minutter"
+  delete: "Slet mødereferat"
   GlobalNotes:
     pin: "Fastsæt som fastgjort global note"
     unpin: "Angiv som ikke-fastgjort global note"
@@ -308,15 +308,15 @@ Minutes:
     solo: "1 deltager"
     additional: "Yderligere deltagere"
     additionalSolo: "1 Yderligere deltager"
-    placeholder: "Yderligere deltagere (separat med ';'). E-mailadresserne vil modtage minutter."
+    placeholder: "Yderligere deltagere (adskilt med ';'). E-mailadresserne vil modtage mødereferater."
     editHint: "Redigér inviterede brugere."
     markNone: "Markér ingen"
     markAll: "Markér alle"
     watchingHint: "Denne bruger ser (fjernbetjening)"
     informed: "Informerede brugere"
     informedSolo: "1 Informeret bruger"
-    present: "Præsentér deltagere"
-    absent: "Fraværet"
+    present: "Tilstedeværende deltagere"
+    absent: "Fraværende"
     none: "Ingen."
 MeetingSeries:
   title: "Møderække"
@@ -360,15 +360,15 @@ Profile:
   userName: "Brugernavn"
   longName: "Langt navn"
   email: "E-mail"
-  password: "Kodeord"
-  passwordRepeat: "Kodeord gentaget"
+  password: "Adgangskode"
+  passwordRepeat: "Adgangskode (gentag)"
   ChangePassword:
-    oldPassword: "Gammelt kodeord"
-    wrongOldPassword: "Angiv et gammelt gyldigt kodeord"
-    newPassword: "Nyt kodeord"
-    newPasswordRepeat: "Nyt kodeord gentages"
+    oldPassword: "Gammel adgangskode"
+    wrongOldPassword: "Angiv gammel gyldig adgangskode"
+    newPassword: "Ny adgangskode"
+    newPasswordRepeat: "Gentag ny adgangskode"
   Error:
-    name: "Angiv et gyldigt brugernavn"
+    name: "Angiv venligst et gyldigt brugernavn"
     longName: "Angiv et gyldigt langt navn"
     email: "Angiv en gyldig e-mail-adresse"
     password: "Angiv et gyldigt kodeord"
@@ -384,7 +384,7 @@ Admin:
     hint: "Hint: Dette registrerer en bruger for standardlogon (Ikke for LDAP-logon!)."
     button: "Registrér ny bruger ..."
     sendMail: "Send E-mail til ny bruger"
-    includePassword: "Inkludér kodeord i E-mail"
+    includePassword: "Inkludér kodeord i e-mail"
     success: "Registreret ny bruger: {$user}"
   Message:
     title: "Rundsendelse af beskeder fra admin"
@@ -397,7 +397,7 @@ Admin:
     edit: "Redigér"
   Users:
     filterUsers: "Filtrér brugere"
-    showInactive: "Vis inaktiv"
+    showInactive: "Vis inaktive"
     online: "Online"
     onlineHint: "Viser kun brugere, der er aktive på en minutesedit-rute"
     id: "ID"
@@ -444,14 +444,14 @@ Login:
     documentMinutesHeading: "Dokumentminutter"
     documentMinutesDetails: |
       <li>Markér tilstedeværende</li>
-      <li>Tilføj handlinger med ansvarlige til emner</li>
+      <li>Tilføj handlingspunkter med ansvarlige til emner</li>
       <li>Tilføj information til emner</li>
       <li>Tilføj labels som f.eks. 'Beslutning' til handlinger</li>
       <li>Vedhæft binære filer</li>
-      <li>Send mødereferat og handlinger via e-mail</li>
+      <li>Send mødereferat og handlingspunkter via e-mail</li>
     trackTopicsHeading: "Spor emner"
     trackTopicsDetails: |
-      <li>Åbne handlinger vil vises næste gang</li>
+      <li>Åbne handlingspunkter vil vises næste gang</li>
       <li>Ikke lukkede emner vil vises næste gang</li>
       <li>Søg i liste over alle diskuterede emner</li>
       <li>Berig emner med info fra flere møder</li>
