@@ -519,7 +519,7 @@ Mail:
       Source is available at {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Din nye konto på vores server"
-    passwordNotSend: "    Kontaktadministrator for kodeord."
+    passwordNotSend: "    Kontakt administrator for adgangskode."
     passwordParagraph: |
       Your password : {$password}
 
