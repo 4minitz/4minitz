@@ -438,9 +438,9 @@ Login:
       <li>Opret din mødeserie</li>
       <li>Invitér andre brugere</li>
       <li>Specificér moderatorer og uploadere</li>
-      <li>Udfyld agenda med emner</li>
-      <li>Markér tilbagevendende emner til standard agenda</li>
-      <li>Send agenda til inviterede brugere</li>
+      <li>Udfyld dagsorden med emner</li>
+      <li>Markér tilbagevendende emner til standard dagsorden</li>
+      <li>Send dagsorden til inviterede brugere</li>
     documentMinutesHeading: "Dokumentminutter"
     documentMinutesDetails: |
       <li>Markér tilstedeværende</li>
