@@ -92,18 +92,18 @@ Dialog:
     closedTopicsAdditionally: "Inoltre, verranno riaperti **{$closedTopicsCount} argomenti**, che sono stati chiusi nel presente verbale."
     closedTopics: "**{$closedTopicsCount} argomenti** verranno riaperti, che sono stati chiusi nel presente verbale."
   ConfirmFinalizeMinutes:
-    title: "Conferma la finalizzazione delle minute"
+    title: "Conferma la finalizzazione dei verbali"
     button: "Finalizzare"
     really: "Vuoi davvero finalizzare questo verbale datato **{$minutesDate}**?"
     sendActionItems: "Invia azioni"
     sendMinutes: "Invia informazioni"
   LocaleSetting:
-    title: "Imposta lingua"
-    languageLocale: "Lingua locale"
+    title: "Imposta la lingua"
+    languageLocale: "Impostazioni internazionali della lingua"
     automatic: "Automatico tramite Browser"
   IsEditedHandling:
     title: "Modifica nonostante le modifiche esistenti"
-    confirmationDialogResetEdit: "Attenzione: Questo documento è stato modificato da {$name} dal: {$date}"
+    confirmationDialogResetEdit: "Attenzione: Questo documento è stato modificato da {$name} in data: {$date}"
     confirmationDialogResetEditDetails: "Clicca nuovamente sui dettagli per iniziare a modificare."
     button: "Modifica comunque"
   ConnectionInfo:
