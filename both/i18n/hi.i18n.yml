@@ -449,7 +449,7 @@ Login:
       <li>Add labels like 'Decision' to items</li>
       <li>Upload binary file attachments</li>
       <li>Send minutes &amp; action items via EMail</li>
-    trackTopicsHeading: "Track Topics"
+    trackTopicsHeading: "ट्रैक प्रसंग"
     trackTopicsDetails: |
       <li>Open action items will show up next time</li>
       <li>Non-closed topics will show up next time</li>
