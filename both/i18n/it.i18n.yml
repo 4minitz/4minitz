@@ -110,19 +110,19 @@ Dialog:
     tooltip: |
       Connessione persa!
         Stato: {$status}
-        Ritenta: {$retryCount}
-        Tempo di Riprova: {$retryTime} sec.
+        Tentativi: {$retryCount}
+        Tempo del Tentativo: {$retryTime} sec.
         Motivo: {$reason}
         Clicca per riconnettersi.
     header: "Hai perso la connessione con il server 4Minitz."
     body: "Se chiudi il tuo browser, i dati non salvati potrebbero essere persi. Se il problema persiste, contattare l'amministratore del sistema."
     tryToReconnect: "Prova a riconnetterti"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "Non c'è nessun protocollo generato per questi minuti. Vuoi scaricare una versione HTML generata dinamicamente?"
-    button: "Scaricare"
+    title: "Conferma generazione del protocollo"
+    body: "Non c'è nessun protocollo generato per questi verbali. Vuoi scaricare una sua versione HTML generata dinamicamente?"
+    button: "Download"
   ConfirmTopicDelete:
-    title1: "Conferma eliminazione argomento"
+    title1: "Conferma eliminazione dell'argomento"
     title2: "Segnare l'argomento come discusso?"
     button2: "Chiudi topic e azioni"
     errortitle: "Impossibile eliminare l'argomento"
