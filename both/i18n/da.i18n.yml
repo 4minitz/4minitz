@@ -9,7 +9,7 @@ Accounts:
   passwordError: "min. 6 tegn (min. 1 ciffer, 1 lille og 1 stort bogstav)"
 Buttons:
   add: "Tilføj"
-  back: "Gå tilbage"
+  back: "Tilbage"
   cancel: "Annullér"
   change: "Change"
   close: "Luk"
@@ -384,7 +384,7 @@ Admin:
     hint: "Hint: Dette registrerer en bruger for standardlogon (Ikke for LDAP-logon!)."
     button: "Registrér ny bruger ..."
     sendMail: "Send E-mail til ny bruger"
-    includePassword: "Inkludér kodeord i e-mail"
+    includePassword: "Inkludér adgangskode i e-mail"
     success: "Registreret ny bruger: {$user}"
   Message:
     title: "Rundsendelse af beskeder fra admin"
