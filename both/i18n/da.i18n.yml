@@ -451,12 +451,12 @@ Login:
       <li>Send mødereferat og handlinger via e-mail</li>
     trackTopicsHeading: "Spor emner"
     trackTopicsDetails: |
-      <li>Open action items will show up next time</li>
-      <li>Non-closed topics will show up next time</li>
-      <li>Search list of all ever discussed topics</li>
-      <li>Enrich topics with info items on multiple meetings</li>
-      <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>
+      <li>Åbne handlinger vil vises næste gang</li>
+      <li>Ikke lukkede emner vil vises næste gang</li>
+      <li>Søg i liste over alle diskuterede emner</li>
+      <li>Berig emner med info fra flere møder</li>
+      <li>Find emner med labels (f.eks. alle Beslutninger)</li>
+      <li>Find elementer med fuldtekst søgning</li>
   Footer:
     withLove: "Coded with ❤ by the"
     theTeam: "WebApp-team"
