@@ -544,21 +544,21 @@ Mail:
   UserRoleChange:
     subject: "Sizin rolünüz şu şekilde değişti: '{$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      Merhaba {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      '{$meetingProject}:{$meetingName}' toplantı dizisi için rolünüz değişti.
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Eski rolün           : {$roleOld}
+         Yeni rolün           : {$roleNew}
+         Değişikliği yapan : {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      Her rol için kapsamlı bir hak listesi için:
       {$urlRoleDocu}
 
-      Have fun!
-        Your Admin.
+      İyi eğlenceler!
+        Admininiz.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
+      4Minitz, 4Minitz ekibi tarafından geliştirilmiş ücretsiz bir açık kaynaktır.
+      Kaynak {$url4Minitz}" linkinde mevcut
