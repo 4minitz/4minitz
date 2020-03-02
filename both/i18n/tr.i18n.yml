@@ -435,12 +435,12 @@ Login:
       olarak tanımlayabileceğiniz kendi altyapınıza ev sahipliği yapmak istemeniz gerekir.
     prepareAgendaHeading: "Gündemi Hazırla"
     prepareAgendaDetails: |
-      <li>Create your meeting series</li>
-      <li>Invite other users</li>
-      <li>Specify moderators and uploaders</li>
-      <li>Fill agenda with topics</li>
-      <li>Mark recurring topics for standard agenda</li>
-      <li>Send agenda to invited users</li>
+      <li>Toplantı dizilerini oluştur</li>
+      <li>Diğer kullanıcıları davet et</li>
+      <li>Moderatörleri ve yükleyicileri belirle</li>
+      <li>Ajandayı konularla doldur</li>
+      <li>Standart ajanda için tekrar eden konuları işaretle</li>
+      <li>Davetli kullanıcılara ajanda gönder</li>
     documentMinutesHeading: "Belge Dakikaları"
     documentMinutesDetails: |
       <li>Mark mevcut katılımcılara</li>
