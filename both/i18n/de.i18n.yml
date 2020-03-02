@@ -546,7 +546,7 @@ Mail:
     body: |
       Hallo {$userName}
 
-      Ihre Rolle hat sich für die Besprechungsreihe '{$meetingProject}:{$meetingName}'
+      Ihre Rolle hat sich geändert für die Sitzungsreihe '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
          Ihre alte Rolle war : {$roleOld}
@@ -554,11 +554,11 @@ Mail:
          Die Änderung wurde durchgeführt von : {$moderatorName}
 
       Für eine umfassende Liste von Rechten für jede Rolle siehe Sie:
-      {$urlRoleDocu}
+            {$urlRoleDocu}
 
       Viel Spaß!
-        Ihr Admin.
+            Ihr Admin.
 
-      ---
-      4Minitz ist kostenloser Open-Source, der vom 4Minitz Team entwickelt wurde.
-      Quelle ist verfügbar unter {$url4Minitz}
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Quellcode ist verfügbar unter {$url4Minitz}
