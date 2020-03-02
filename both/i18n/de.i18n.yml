@@ -546,7 +546,7 @@ Mail:
     body: |
       Hallo {$userName}
 
-      Ihre Rolle hat sich geändert für die Sitzungsreihe '{$meetingProject}:{$meetingName}'
+      Ihre Rolle hat sich für die Besprechungsreihe '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
          Ihre alte Rolle war : {$roleOld}
