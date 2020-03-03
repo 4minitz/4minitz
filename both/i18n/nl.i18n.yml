@@ -120,7 +120,7 @@ Dialog:
   ConfirmGenerateProtocol:
     title: "Confirm generate protocol"
     body: "Er is geen protocol gegenereerd voor deze minuten. Wil je in plaats daarvan een dynamisch gegenereerde HTML-versie downloaden?"
-    button: "downloaden"
+    button: "Downloaden"
   ConfirmTopicDelete:
     title1: "Bevestig verwijderen onderwerp"
     title2: "Topic als besproken markeren?"
@@ -143,7 +143,7 @@ Dialog:
     title: "Kan item niet converteren"
     body: "Het is niet mogelijk om dit item om te zetten omdat het in een vorige minuten is gemaakt."
 About:
-  title: "Ongeveer 4Minitz"
+  title: "Over 4Minitz"
   copyrightTeam: "door 4Minitz-Team"
   licensedUnder: "Licentie onder de MIT-licentie"
   licenseDependencies: "Licentie van Afhankelijkheden"
@@ -157,7 +157,7 @@ About:
     rowNumMeetingSeries: "Aantal vergaderreeksen"
     rowNumMeetingMinutes: "Aantal vergaderminuten"
     rowNumAttachments: "Aantal bijlagen"
-    rowSizeAttachments: "Grootte van bijlagen"
+    rowSizeAttachments: "Bijlagegrootte"
 Item:
   ariaLabel: "Item toevoegen/bewerken"
   editItem: "Item bewerken"
@@ -181,14 +181,14 @@ Item:
   addDetails: "Details toevoegen"
   priority: "Prioriteit"
   due: "Vervallen"
-  dueNone: "Geen"
+  dueNone: "geen"
   detailPlaceholder: "U kunt Markdown gebruiken om te bewerken. Druk op Ctrl+Enter of Tab om te verlaten."
   markdownHint: "Help bij Markdown-syntaxis"
   setPin: "Vast instellen"
   setPinHint: "Instellen als vastgezet info item"
   unsetPin: "Niet vastgezet"
   unsetPinHint: "Instellen als niet-vastgezet info item"
-  done: "klaar"
+  done: "gereed"
   pinned: "Vastgezet"
   Error:
     subject: "Voer een geldig onderwerp in"
@@ -206,7 +206,7 @@ Item:
     matchCaseLong: "Hoofdlettergevoelig"
     Usage:
       body: "U kunt meerdere trefwoorden gebruiken om de elementen in de lijst te filteren. Alle trefwoorden kunnen worden gecombineerd welke items die overeenkomen met de opgegeven zoekparameters filteren."
-      keyword: "Keyword"
+      keyword: "Trefwoord"
       format: "Formatteren"
       values: "Waarden"
       eg: "bijv."
@@ -269,7 +269,7 @@ Minutes:
   date: "Datum"
   dateOn: "op"
   title: "Minuten voor"
-  finalized: "Gesloten"
+  finalized: "Afgerond"
   finalizedHint: "Minuten zijn afgerond"
   notFinalized: "Niet afgerond"
   notFinalizedHint: "Minuten zijn niet afgerond"
@@ -294,7 +294,7 @@ Minutes:
     placeholder: "Algemene aantekeningen voor deze minuten. Klik op pin om notities te propageren naar volgende minuten."
   Upload:
     button: "Uploaden..."
-    uploading: "Uploaden"
+    uploading: "Bezig met uploaden"
     start: "Start upload"
     continue: "Upload voortzetten"
     pause: "Upload pauzeren"
@@ -311,7 +311,7 @@ Minutes:
     placeholder: "Aanvullende deelnemers (gescheiden met \";\"). E-mailadressen ontvangen minuten."
     editHint: "Geselecteerde gebruikers bewerken."
     markNone: "Geen markeren"
-    markAll: "Alle markeren"
+    markAll: "Alles markeren"
     watchingHint: "Deze gebruiker kijkt (op afstand)"
     informed: "Geïnformeerde gebruikers"
     informedSolo: "1 geïnformeerde gebruiker"
@@ -320,11 +320,11 @@ Minutes:
     none: "Geen."
 MeetingSeries:
   title: "Afspraak Series"
-  team: "Team/Project"
+  team: "Team / Project"
   new: "Nieuwe vergaderSeries"
   leave: "Laat vergaderSeries achter"
-  leaveButton: "Verlaat"
-  moderator: "Je bent moderator"
+  leaveButton: "Verlaten"
+  moderator: "U bent moderator"
   lastMinute: "Laatste minuut:"
   Search:
     placeholder: "Zoek naar vergaderSeries"
@@ -334,8 +334,8 @@ MeetingSeries:
       meetingName: "Voer een geldige naam in voor de vergaderreeks"
       teamName: "Voer een geldige projectnaam in"
       notRegistered: "Dit is geen geregistreerde gebruikersnaam"
-      alreadyInList: "Deze gebruikersnaam is al in de lijst"
-    teamName: "Team / projectnaam"
+      alreadyInList: "Deze gebruikersnaam staat al in de lijst"
+    teamName: "Team / Projectnaam"
     meetingName: "Naam vergadering"
     title: "Bewerk vergaderSeries"
     base: "Basis configuratie"
@@ -344,7 +344,7 @@ MeetingSeries:
     notifyRoleChange: "Informeer deelnemers over rol verandering"
     labels: "Labels"
     save: "Vergadering Series opslaan"
-    confirmDelete: "Bevestig verwijderen"
+    confirmDelete: "Verwijderen bevestigen"
   Labels:
     Error:
       name: "Voer een geldige label naam in"
@@ -361,16 +361,16 @@ Profile:
   longName: "Lange naam"
   email: "E-mail"
   password: "Wachtwoord"
-  passwordRepeat: "Wachtwoord Herhalen"
+  passwordRepeat: "Wachtwoord herhalen"
   ChangePassword:
-    oldPassword: "Oud wachtwoord"
-    wrongOldPassword: "Voer een oud geldig wachtwoord in"
+    oldPassword: "Oude wachtwoord"
+    wrongOldPassword: "Voer oude geldige wachtwoord in"
     newPassword: "Nieuw wachtwoord"
     newPasswordRepeat: "Nieuw wachtwoord herhalen"
   Error:
     name: "Voer een geldige gebruikersnaam in"
-    longName: "Voer een geldige lange naam in"
-    email: "Voer een geldig EMail adres in"
+    longName: "Voer een geldige volledige naam in"
+    email: "Voer een geldig e-mailadres in"
     password: "Voer een geldig wachtwoord in"
   WarningEMailChange:
     title: "Bevestig wijzigen gebruikersmail"
@@ -418,9 +418,9 @@ Admin:
 Login:
   Error:
     title: "Aanmeldingsfout"
-    username: "Geef uw gebruikersnaam op"
-    password: "Geef uw wachtwoord op"
-  signIn: "Log in"
+    username: "Voer uw gebruikersnaam in"
+    password: "Voer uw wachtwoord in"
+  signIn: "Aanmelden"
   ldap: "LDAP"
   standard: "Standaard"
   demoHint: "Tip: Demo Mode Active<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en wachtwoord <b>demo</b>. Of u kunt uw eigen account te registreren door te klikken op de \"Register\" link hieronder."
@@ -433,7 +433,7 @@ Login:
       gevoelige informatie zoals vergadernotulen niet in de wolk mag worden gehost.
       In plaats daarvan wil je het hosten op je eigen infrastructuur, waar je
       het beveiligingsniveau kunt bepalen dat je nodig hebt.
-    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaHeading: "Agenda voorbereiden"
     prepareAgendaDetails: |
       <li>Maak je meetingserie</li>
       <li>Nodig andere gebruikers uit</li>
@@ -461,7 +461,7 @@ Login:
     withLove: "Gedecodeerd met ❤ door de"
     theTeam: "WebApp Team"
 Navigation:
-  help: "Hulp"
+  help: "Help"
   about: "Over"
   adminTasks: "Admin Taken"
   editProfile: "Profiel bewerken"
@@ -519,7 +519,7 @@ Mail:
       Source is beschikbaar op {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Uw nieuwe account op onze server"
-    passwordNotSend: "    Contacteer de beheerder voor het wachtwoord."
+    passwordNotSend: "    Neem contact op met de beheerder voor het wachtwoord."
     passwordParagraph: |
       Uw wachtwoord: {$password}
 
