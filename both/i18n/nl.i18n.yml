@@ -30,7 +30,7 @@ UserRoles:
 FlashMessages:
   ok: "Oké"
   error: "Foutmelding"
-  verifyEMailErr: "Fout: EMail kon niet geverifieerd worden"
+  verifyEMailErr: "Foutmelding: e-mail kon niet geverifieerd worden"
   verifyEMailOK: "Oké: e-mail is nu geverifieerd"
   passwordChangeOK: "Wachtwoord gewijzigd"
   passwordResetOK: "Wachtwoord succesvol gereset"
@@ -70,7 +70,7 @@ Dialog:
     title: "Laatste minuten: kwaliteitscontroles"
     button: "Doorgaan"
     issues: "Er zijn problemen met uw minuten afgerond!"
-    proceed: "Wilt u doorgaan met afsluiten?"
+    proceed: "Wilt u doorgaan met afronden?"
     warnNoTopics: "De huidige minuten hebben geen onderwerpen"
     warnNoParticipants: "Geen enkele deelnemer is gemarkeerd als aanwezig"
     warnEditing: "Een onderwerp/artikel/detail is nog steeds bewerkt"
@@ -84,7 +84,7 @@ Dialog:
     button: "Heropenen"
   ConfirmSendAgenda:
     body: "Wilt u de agenda voor deze vergaderminuut gedateerd op **{$minDate}** echt verzenden?\nHet is al verzonden op {$agendaSentDate} om {$agendaSentTime}"
-    title: "Verstuurde agenda bevestigen"
+    title: "Verzenden van agenda bevestigen"
     button: "Agenda verzenden"
   ConfirmDeleteMinutes:
     really: "Wilt u deze minuut van de vergadering op **{$minutesDate} ** echt verwijderen?"
