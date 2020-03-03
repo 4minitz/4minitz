@@ -47,7 +47,7 @@ Dialog:
   ConfirmCreateNewMinutes:
     title: "Bevestig het aanmaken van nieuwe notulen"
     content: "Wil je echt nieuwe minuten maken voor de meetingserie \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Wil je de bijlage echt verwijderen:\n**{$name}**?"
+  confirmDeleteAttachment: "Weet u zeker dat u deze bijlage: **{$name}** wilt verwijderen?"
   confirmDeleteDetails: "Wil je echt de geselecteerde details van het artikel **{$subject} ** verwijderen?"
   ConfirmDeleteItem:
     allowed: "Weet je zeker dat je de {$type}{$subject} ** ** wilt verwijderen?"
