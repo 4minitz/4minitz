@@ -11,7 +11,7 @@ Buttons:
   add: "Toevoegen"
   back: "Terug"
   cancel: "Annuleren"
-  change: "Wijzig"
+  change: "Wijzigen"
   close: "Sluiten"
   confirm: "Bevestigen"
   create: "Aanmaken"
@@ -37,7 +37,7 @@ FlashMessages:
   profileEditOK: "Profiel wijzigingen opgeslagen"
   minuteLinkErr: "Helaas is de minuut niet correct aan de bovenliggende serie gekoppeld - neem contact op met uw systeembeheerder."
   agendaSentOK: "Agenda is succesvol verzonden naar {$result} ontvangers"
-  finalizeProgress1: "Voltooien in uitvoering"
+  finalizeProgress1: "Bezig met afronden"
   finalizeProgress2: "Dit kan enkele seconden duren..."
   finalizeOK: "Deze minuten van deze vergadering zijn succesvol afgerond"
 Dialog:
