@@ -384,10 +384,10 @@ Admin:
     hint: "Tip: Dit zal een gebruiker registreren voor Standaard Login (niet voor LDAP Login!)."
     button: "Nieuwe gebruiker registreren..."
     sendMail: "E-mail verzenden naar nieuwe gebruiker"
-    includePassword: "Wachtwoord opnemen in E-mail"
+    includePassword: "Wachtwoord opnemen in e-mail"
     success: "Nieuwe gebruiker geregistreerd: {$user}"
   Message:
-    title: "Berichten van Admin verzenden"
+    title: "Berichten van beheerder verzenden"
     newMessage: "Nieuw bericht aan alle gebruikers"
     broadcast: "Uitzenden"
     date: "Datum"
@@ -401,7 +401,7 @@ Admin:
     online: "Online"
     onlineHint: "Toon alleen gebruikers die momenteel actief zijn op een minutesedit route"
     id: "ID"
-    editProfile: "Gebruikersprofiel bewerken"
+    editProfile: "Profiel bewerken"
     countSingle: "Toont {$visible} van {$all} gebruiker. Gebruik filter om anderen te tonen."
     count: "Toont {$visible} van {$all} gebruikers. Gebruik filter om anderen te tonen."
     Type:
