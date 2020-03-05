@@ -1,6 +1,6 @@
 ---
 _splitKey: ':'
-_locale: 'hi'
+_locale: 'en'
 Accounts:
   usernamePlaceholder: "(मिनट. ३ चलिये)"
   nameDisplayName: "नाम, कंपनी"
