@@ -87,14 +87,14 @@ Dialog:
     title: "Verzenden van agenda bevestigen"
     button: "Agenda verzenden"
   ConfirmDeleteMinutes:
-    really: "Wilt u deze minuut van de vergadering op **{$minutesDate} ** echt verwijderen?"
+    really: "Weet u zeker dat u deze notulen van de vergadering op **{$minutesDate} ** wilt verwijderen?"
     newTopics: "Dit zal **{$newTopicsCount} onderwerpen** verwijderen, die binnen deze notulen zijn gemaakt."
     closedTopicsAdditionally: "Bovendien zullen{$closedTopicsCount} topics** opnieuw worden geopend, die binnen deze minuten zijn gesloten."
     closedTopics: "**{$closedTopicsCount} onderwerpen** zullen opnieuw worden geopend, die binnen deze minuten zijn gesloten."
   ConfirmFinalizeMinutes:
     title: "Afgeronde minuten bevestigen"
     button: "Afronden"
-    really: "Weet je zeker dat je deze vergaderminuut gedateerd op **{$minutesDate} ** wilt voltooien?"
+    really: "Weet u zeker dat u deze notulen gedateerd op **{$minutesDate} ** wilt afronden?"
     sendActionItems: "Stuur actie items"
     sendMinutes: "Stuur informatie items"
   LocaleSetting:
@@ -155,7 +155,7 @@ About:
     title: "Server statistieken"
     rowNumUser: "Aantal gebruikers (actief)"
     rowNumMeetingSeries: "Aantal vergaderreeksen"
-    rowNumMeetingMinutes: "Aantal vergaderminuten"
+    rowNumMeetingMinutes: "Aantal notulen"
     rowNumAttachments: "Aantal bijlagen"
     rowSizeAttachments: "Bijlagegrootte"
 Item:
@@ -435,12 +435,12 @@ Login:
       het beveiligingsniveau kunt bepalen dat je nodig hebt.
     prepareAgendaHeading: "Agenda voorbereiden"
     prepareAgendaDetails: |
-      <li>Maak je meetingserie</li>
+      <li>Maak uw vergaderreeks aan</li>
       <li>Nodig andere gebruikers uit</li>
-      <li>Geef moderators en uploaders</li>
+      <li>Specificeer voorzitters en uploaders</li>
       <li>Vul de agenda in met onderwerpen</li>
-      <li>Markeer periodieke onderwerpen voor de standaard agenda</li>
-      <li>Stuur agenda naar uitgenodigde gebruikers</li>
+      <li>Markeer terugkerende onderwerpen voor de standaard agenda</li>
+      <li>Stuur de agenda naar uitgenodigde gebruikers</li>
     documentMinutesHeading: "Document minuten"
     documentMinutesDetails: |
       <li>Mark present participants</li>
@@ -474,8 +474,8 @@ Navigation:
   setLanguageLogin: "Taal"
 QuickHelp:
   title: "Snelhulp"
-  meetingSeries: "<p>Hier kunt u nieuwe minuten maken voor de huidige vergaderreeks of klikken op een datumlink van bestaande minuten.</p>"
-  meetingSeriesList: "<p>Met 4Minitz kunt u minuten maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>maakt vervolgens vergaderminuten aan op meerdere datums voor uw vergaderreeks.</p>"
+  meetingSeries: "<p>Hier kunt u nieuwe notulen maken voor de huidige vergaderreeks of klikken op een datum link van bestaande notulen.</p>"
+  meetingSeriesList: "<p>Met 4Minitz kunt u notulen maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>Maak vervolgens notulen aan op meerdere datums voor uw vergaderreeks.</p>"
   minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering te maken<br>tijdens de vergadering markeert een onderwerp met de checkbox om duidelijk te maken dat u erover heeft gesproken.<br>Als het onderwerp...<br>&nbsp;&nbsp; - is niet gemarkeerd als besproken of<br>&nbsp;&nbsp; - is ingesteld als terugkerend onderwerp of<br>&nbsp;&nbsp; - bevat niet-voltooide actieitems<br>... het onderwerp zal opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Goedkeuring minuten afronden' om de notulen naar de uitgenodigde gebruikers en de actieitems naar hun reactiebalen te sturen.</p>"
   upload: "<ul><li>Hier kunt u bestanden zoals bijvoorbeeld presentaties, PDFs of whiteboard foto's uploaden</li><li>U heeft de rol 'Uploader' of 'Moderator' nodig om dit te doen</li><li>Uploaden of verwijderen is mogelijk tot de minuten zijn afgerond</li><li>Pro Tip: Klik op de bovenstaande 'Upload' knop op uw tablet of slimme telefoon!</li></ul>"
 Mail:
