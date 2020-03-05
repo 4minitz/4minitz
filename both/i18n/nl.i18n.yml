@@ -100,7 +100,7 @@ Dialog:
   LocaleSetting:
     title: "Taal instellen"
     languageLocale: "Taal Instellingen"
-    automatic: "Automatisch via browser"
+    automatic: "Automatisch via Browser"
   IsEditedHandling:
     title: "Bewerken ondanks bestaande bewerking"
     confirmationDialogResetEdit: "Waarschuwing: Dit document wordt momenteel bewerkt door {$name} sinds: {$date}"
@@ -145,7 +145,7 @@ Dialog:
 About:
   title: "Over 4Minitz"
   copyrightTeam: "door 4Minitz-Team"
-  licensedUnder: "Licentie onder de MIT-licentie"
+  licensedUnder: "Gelicentieerd onder de MIT-licentie"
   licenseDependencies: "Licentie van Afhankelijkheden"
   thanksContributors: "Met Dank Aan Al Onze Bijdragers"
   proudlySponsored: "Met Trots Gesponsord Door"
@@ -183,7 +183,7 @@ Item:
   due: "Deadline"
   dueNone: "geen"
   detailPlaceholder: "U kunt Markdown gebruiken om te bewerken. Druk op Ctrl+Enter of Tab om te verlaten."
-  markdownHint: "Help bij Markdown-syntaxis"
+  markdownHint: "Hulp bij Markdown-syntaxis"
   setPin: "Als Vastgezet Instellen"
   setPinHint: "Instellen als vastgezet informatie item"
   unsetPin: "Vastgezette Losmaken"
@@ -191,7 +191,7 @@ Item:
   done: "gereed"
   pinned: "vastgezet"
   Error:
-    subject: "Voer een geldig onderwerp in"
+    subject: "Voer s.v.p. een geldig onderwerp in"
   Filter:
     title: "Filters"
     usageHint: "Filter gebruik"
@@ -201,9 +201,9 @@ Item:
     closed: "Gesloten Actiepunten"
     yourAction: "Uw Actiepunten"
     placeholder: "Filteren"
-    matchCase: "Zaak"
-    matchCaseHint: "Hoofdlettergevoelig"
-    matchCaseLong: "Hoofdlettergevoelig"
+    matchCase: "Hoofdletters/kleine letters"
+    matchCaseHint: "Hoofdletters/kleine letters in acht nemen"
+    matchCaseLong: "Hoofdletters/kleine letters in acht nemen"
     Usage:
       body: "U kunt meerdere trefwoorden gebruiken om de elementen in de lijst te filteren. Alle trefwoorden kunnen worden gecombineerd, om alle items die overeenkomen met de opgegeven zoekparameters te filteren."
       keyword: "Trefwoord"
@@ -239,7 +239,7 @@ Topic:
   delete: "Onderwerp verwijderen"
   reopen: "Onderwerp opnieuw openen"
   reopenHint: "Onderwerp opnieuw openen"
-  placeholder: "Informatie Item Toevoegen. Voeg @gebruikersnaam toe om een Actiepunt toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
+  placeholder: "Voeg Informatie Item Toe. Voeg @gebruikersnaam toe om een Actiepunt toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
   childOf: "Onderwerp van Vergaderreeks:"
   historyTitle: "Dit onderwerp was"
   createdOn: "gemaakt op:"
@@ -338,7 +338,7 @@ MeetingSeries:
     teamName: "Team / Projectnaam"
     meetingName: "Vergadering Naam"
     title: "Vergaderreeks Bewerken"
-    base: "Basis configuratie"
+    base: "Basis Configuratie"
     editedBy: "Bewerkt door {$user} (op {$date})"
     invited: "Uitgenodigde & Geïnformeerde Gebruikers"
     notifyRoleChange: "Informeer deelnemers over verandering van rol"
@@ -348,7 +348,7 @@ MeetingSeries:
   Labels:
     Error:
       name: "Voer s.v.p. een geldige categorie naam in"
-      hexValue: "Ongeldige hex kleurwaarde"
+      hexValue: "Ongeldige hex-kleurwaarde"
     add: "Nieuwe categorie toevoegen"
     new: "Nieuwe Categorie"
     select: "Selecteren ..."
@@ -410,11 +410,11 @@ Admin:
       ldap: "L"
       standard: "S"
     State:
-      hint: "Schakel actieve/inactieve status in. Inactieve gebruikers kunnen niet inloggen."
+      hint: "Omschakelen tussen actieve en inactieve status. Inactieve gebruikers kunnen niet inloggen."
       column: "In/actief"
       active: "Actief"
       inactive: "Inactief"
-      toggle: "Wisselen"
+      toggle: "Omschakelen"
 Login:
   Error:
     title: "Aanmeldingsfout"
@@ -423,7 +423,7 @@ Login:
   signIn: "Aanmelden"
   ldap: "LDAP"
   standard: "Standaard"
-  demoHint: "Tip: Demo Mode Active<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en wachtwoord <b>demo</b>. Of u kunt uw eigen account te registreren door te klikken op de \"Register\" link hieronder."
+  demoHint: "Tip: Demo Modus Actief<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en het wachtwoord <b>demo</b>. Of u kunt uw eigen account registreren door te klikken op de \"Registreer\" link hieronder."
   Login4MinitzInfo:
     header: "4Minitz: gemeenschappelijke notulen."
     subheader: "● Bereid Agenda voor ● Documenteer Notulen ● Volg Onderwerpen ●"
@@ -463,29 +463,29 @@ Login:
 Navigation:
   help: "Help"
   about: "Over"
-  adminTasks: "Admin Taken"
+  adminTasks: "Beheerder Taken"
   editProfile: "Profiel bewerken"
   changePassword: "Wachtwoord wijzigen"
   signOut: "Afmelden"
-  toggleNavigation: "Navigatie aan/uit"
+  toggleNavigation: "Navigatie aan/uit zetten"
   meetings: "Vergaderingen"
-  processing: "Uw content wordt verwerkt ..."
+  processing: "Uw gegevens wordt verwerkt..."
   setLanguageForUser: "Taal instellen"
   setLanguageLogin: "Taal"
 QuickHelp:
-  title: "Snelhulp"
+  title: "Snelle hulp"
   meetingSeries: "<p>Hier kunt u nieuwe notulen maken voor de huidige vergaderreeks of klikken op een datum link van bestaande notulen.</p>"
   meetingSeriesList: "<p>Met 4Minitz kunt u notulen maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>Maak vervolgens notulen aan op meerdere datums voor uw vergaderreeks.</p>"
   minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering voor te bereiden<br>tijdens de vergadering kunt u een onderwerp aanvinken om duidelijk te maken dat u erover gesproken heeft.<br>Als het onderwerp...<br>&nbsp;&nbsp; - niet als besproken is gemarkeerd of<br>&nbsp;&nbsp; - als terugkerend onderwerp is ingesteld of<br>&nbsp;&nbsp; - niet-voltooide actiepunten bevat<br>... zal het onderwerp opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Notulen afronden' om de notulen naar de uitgenodigde gebruikers en de actiepunten naar hun verantwoordelijken te verzenden.</p>"
   upload: "<ul><li>Hier kunt u bestanden als bijvoorbeeld presentaties, PDFs of whiteboard foto's uploaden</li><li>U heeft de rol 'Uploader' of 'Voorzitter' nodig om dit te doen</li><li>Uploaden of verwijderen is mogelijk tot de notulen zijn afgerond</li><li>Pro Tip: Klik op de bovenstaande 'Upload' knop op uw tablet of smartphone!</li></ul>"
 Mail:
   greeting: "Hallo"
-  newAgenda: "We hebben een nieuwe agenda voor u:"
+  newAgenda: "We hebben een gloednieuwe vergaderagenda voor u:"
   newActionItem: "U hebt de volgende actiepunten toegewezen gekregen:"
   newMinutes: "Hieronder vindt u de laatste notulen."
-  meeting: "Afspraak"
-  links: "Koppelingen"
-  openSeries: "Reeks openen"
+  meeting: "Vergadering"
+  links: "Links"
+  openSeries: "Reeks Openen"
   openMinutes: "Notulen Openen"
   minutesSubject: "Notulen"
   discussedTopics: "Besproken Onderwerpen"
@@ -494,24 +494,24 @@ Mail:
   AdminNewVersion:
     subject: "Nieuwere versie bestaat"
     body: |
-      Hallo Admin,
+      Hallo Beheerder,
 
-      Je hebt een verouderde versie van 4Minitz.
+      U heeft een verouderde versie van 4Minitz.
 
-      Jouw 4Minitz instantie op: {$rootUrl}
+      Uw 4Minitz instantie op: {$rootUrl}
       heeft versie: {$myVersion}
 
       Nieuwste versie beschikbaar is: {$masterVersion}'
-      Release notities: {$urlReleaseNotes}
-      Overweeg om bij te werken.
+      Publicatie aantekeningen: {$urlReleaseNotes}
+      Overweeg alstublieft om uw versie bij te werken.
 
       {$masterMessageText}
 
       Deze mail is gegenereerd door uw 4Minitz backend.
-      Je kunt de update controle uitschakelen via settings.json: \"updateCheck\": false.
+      U kunt de update controle uitschakelen via settings.json: \"updateCheck\": false.
 
       Veel plezier!
-              Jouw 4Minitz team.
+              Uw 4Minitz team.
 
 
       ---
@@ -542,18 +542,18 @@ Mail:
       4Minitz is gratis open source ontwikkeld door het 4Minitz team.
       Source is beschikbaar op {$url4Minitz}
   UserRoleChange:
-    subject: "Jouw rol is veranderd voor '{$meetingProject}:{$meetingName}'"
+    subject: "Uw rol is veranderd voor '{$meetingProject}:{$meetingName}'"
     body: |
       Hallo {$userName}
 
-      Je rol is veranderd voor vergaderreeksen '{$meetingProject}:{$meetingName}'
+      Uw rol is veranderd voor vergaderreeks '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Je oude rol was : {$roleOld}
-         Je nieuwe rol is : {$roleNew}
+         Uw oude rol was : {$roleOld}
+         Uw  nieuwe rol is : {$roleNew}
          De wijziging is uitgevoerd door : {$moderatorName}
 
-      Voor een uitgebreide lijst van rechten voor elke rol die je kunt zien:
+      Een uitgebreide lijst van rechten voor elke rol kunt u hier zien:
       {$urlRoleDocu}
 
       Veel plezier!
