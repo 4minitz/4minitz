@@ -53,33 +53,33 @@ Dialog:
     allowed: "Weet u zeker dat u het {$type}{$subject} ** ** wilt verwijderen?"
     notAllowed: "Het is niet mogelijk om het {$type} **{$subject}** te verwijderen, omdat het {$type} in vorige notulen is gemaakt."
     questionActionItem: "Wilt u in plaats daarvan het actiepunt sluiten?"
-    questionInfoItem: "Wilt u in plaats daarvan het sticky info item losmaken?"
+    questionInfoItem: "Wilt u in plaats daarvan de vastgezette informatie losmaken?"
     typeActionItem: "actiepunt"
     typeInfoItem: "Informatie"
     titleCloseActionItem: "Actiepunt sluiten?"
-    titleUnpinInfoItem: "Ontpinnen info item?"
+    titleUnpinInfoItem: "Informatie item losmaken?"
     buttonCloseActionItem: "Actiepunt sluiten"
-    buttonUnpinInfoItem: "Ontpinnen info item"
+    buttonUnpinInfoItem: "Informatie item losmaken"
   ConfirmDeleteTopic:
     allowed: "Weet u zeker dat u het onderwerp **{$subject}** wilt verwijderen?"
     notAllowed: "Het is niet mogelijk om het onderwerp **{$subject}** te verwijderen omdat het onderwerp in vorige notulen is gemaakt."
-    close: "Wil je in plaats daarvan de topic afsluiten?"
+    close: "Wilt u in plaats daarvan het onderwerp sluiten?"
     closeWithActions: "Wilt u in plaats daarvan het onderwerp met alle gerelateerde actiepunten sluiten?"
   confirmLeaveMeetingSeries: "Weet u zeker dat u de vergaderreeks wilt verlaten:\n\n**{$project} / {$name}**\n\nU zou daarna een voorzitter moeten vragen als u achteraf weer deelnemen wilt."
   ConfirmMinuteQualityAssurance:
-    title: "Laatste minuten: kwaliteitscontroles"
+    title: "Afronden van de Notulen: Kwaliteitscontroles"
     button: "Doorgaan"
-    issues: "Er zijn problemen met uw minuten afgerond!"
+    issues: "Er zijn problemen met het afronden van uw notulen!"
     proceed: "Wilt u doorgaan met afronden?"
-    warnNoTopics: "De huidige minuten hebben geen onderwerpen"
+    warnNoTopics: "De huidige notulen hebben geen onderwerpen"
     warnNoParticipants: "Geen enkele deelnemer is gemarkeerd als aanwezig"
-    warnEditing: "Een onderwerp/artikel/detail is nog steeds bewerkt"
-    warnNoTopicDiscussed: "Geen onderwerp is gemarkeerd als 'besproken'"
+    warnEditing: "Een onderwerp/item/detail is nog bewerkt"
+    warnNoTopicDiscussed: "Geen enkel onderwerp is gemarkeerd als 'besproken'"
     warnTopicWithoutItems: "Ten minste één besproken onderwerp heeft geen items"
     warnActionItemWithoutResponsible: "Tenminste één actiepunt heeft geen verantwoordelijke"
-    warnTopicNoNewContent: "Een topic is aangevinkt maar heeft geen nieuwe inhoud"
+    warnTopicNoNewContent: "Een onderwerp is aangevinkt maar heeft geen nieuwe inhoud"
   ConfirmReOpenTopic:
-    title: "Heropen onderwerp?"
+    title: "Onderwerp opnieuw openen?"
     body: "Weet u zeker dat u het reeds gesloten onderwerp **{$topicSubject} ** opnieuw wilt openen?"
     button: "Heropenen"
   ConfirmSendAgenda:
@@ -89,22 +89,22 @@ Dialog:
   ConfirmDeleteMinutes:
     really: "Weet u zeker dat u deze notulen van de vergadering op **{$minutesDate} ** wilt verwijderen?"
     newTopics: "Dit zal **{$newTopicsCount} onderwerpen** verwijderen, die binnen deze notulen zijn gemaakt."
-    closedTopicsAdditionally: "Bovendien zullen{$closedTopicsCount} topics** opnieuw worden geopend, die binnen deze minuten zijn gesloten."
-    closedTopics: "**{$closedTopicsCount} onderwerpen** zullen opnieuw worden geopend, die binnen deze minuten zijn gesloten."
+    closedTopicsAdditionally: "Bovendien zullen **{$closedTopicsCount} onderwerpen** opnieuw worden geopend, die binnen deze notulen zijn gesloten."
+    closedTopics: "**{$closedTopicsCount} onderwerpen** zullen opnieuw worden geopend, die binnen deze notulen zijn gesloten."
   ConfirmFinalizeMinutes:
-    title: "Afgeronde minuten bevestigen"
+    title: "Afronden van de notulen bevestigen"
     button: "Afronden"
     really: "Weet u zeker dat u deze notulen gedateerd op **{$minutesDate} ** wilt afronden?"
-    sendActionItems: "Actiepunten versturen"
-    sendMinutes: "Stuur informatie items"
+    sendActionItems: "Actiepunten verzenden"
+    sendMinutes: "Informatie items verzenden"
   LocaleSetting:
     title: "Taal instellen"
-    languageLocale: "Locale taal"
+    languageLocale: "Taal Instellingen"
     automatic: "Automatisch via browser"
   IsEditedHandling:
     title: "Bewerken ondanks bestaande bewerking"
-    confirmationDialogResetEdit: "Waarschuwing: Dit document is momenteel bewerkt door {$name} sinds: {$date}"
-    confirmationDialogResetEditDetails: "Klik nogmaals op details om te beginnen met bewerken."
+    confirmationDialogResetEdit: "Waarschuwing: Dit document wordt momenteel bewerkt door {$name} sinds: {$date}"
+    confirmationDialogResetEditDetails: "Klik s.v.p. nogmaals op details om te beginnen met bewerken."
     button: "Toch bewerken"
   ConnectionInfo:
     tooltip: |
@@ -114,25 +114,25 @@ Dialog:
         Opnieuw proberen: {$retryTime} sec.
         Reden: {$reason}
         Klik om opnieuw verbinding te maken.
-    header: "Je hebt de verbinding met de 4Minitz server verloren."
+    header: "U heeft de verbinding met de 4Minitz server verloren."
     body: "Als u uw browser sluit, kunnen niet-opgeslagen gegevens verloren gaan. Neem contact op met uw beheerder als dit probleem zich blijft voordoen."
     tryToReconnect: "Probeer opnieuw verbinding te maken"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "Er is geen protocol gegenereerd voor deze minuten. Wil je in plaats daarvan een dynamisch gegenereerde HTML-versie downloaden?"
+    title: "Genereren van protocol bevestigen"
+    body: "Er is geen protocol gegenereerd voor deze notulen. Wilt u in plaats daarvan een dynamisch gegenereerde HTML-versie downloaden?"
     button: "Downloaden"
   ConfirmTopicDelete:
-    title1: "Bevestig verwijderen onderwerp"
-    title2: "Topic als besproken markeren?"
-    button2: "Sluit onderwerp en acties"
-    errortitle: "Kan onderwerp niet verwijderen"
+    title1: "Verwijderen van het onderwerp bevestigen"
+    title2: "Onderwerp markeren als besproken?"
+    button2: "Onderwerp en acties sluiten"
+    errortitle: "Kan het onderwerp niet verwijderen"
     errorcontent: "Het is niet mogelijk om dit onderwerp te verwijderen omdat het in vorige notulen is gemaakt. Het geselecteerde onderwerp is al afgesloten en heeft geen open actiepunten, dus het zal niet worden gekopieerd naar de volgende notulen."
   ItemDeleteError:
-    title: "Kan item niet verwijderen"
+    title: "Kan het item niet verwijderen"
     body1: "Het is niet mogelijk om dit item te verwijderen omdat het in vorige notulen is gemaakt."
     body2a: "Dit actiepunt is al gesloten,"
-    body2b: "Dit info item is al losgemaakt"
-    body3: "dus zal het niet worden gekopieerd naar de volgende minuten"
+    body2b: "Dit informatie item is al losgemaakt"
+    body3: "dus het zal niet worden gekopieerd naar de volgende notulen"
   ActionItemResponsibleError:
     title: "Ongeldige Verantwoordelijke voor Actiepunt"
     body: |
@@ -140,8 +140,8 @@ Dialog:
 
       Selecteer s.v.p. een **bestaande gebruiker** in het keuzemenu of voer een **geldig e-mailadres** in.
   ConvertItemError:
-    title: "Kan item niet converteren"
-    body: "Het is niet mogelijk om dit item om te zetten omdat het in vorige notulen is gemaakt."
+    title: "Kan het item niet omzetten"
+    body: "Het is niet mogelijk om dit item te converteren omdat het in vorige notulen is gemaakt."
 About:
   title: "Over 4Minitz"
   copyrightTeam: "door 4Minitz-Team"
@@ -173,7 +173,7 @@ Item:
   action: "Actiepunt"
   addAction: "Actiepunt toevoegen"
   addActionHint: "Actiepunt toevoegen aan onderwerp"
-  convertToAction: "Omzetten naar actie"
+  convertToAction: "Converteren naar actie"
   convertToInfo: "Converteren naar Info"
   convertDisabled: "Conversie uitgeschakeld: item bestaat in vorige vergadering"
   subject: "Onderwerp (verplicht)"
@@ -252,7 +252,7 @@ Topic:
   addDetails: "Details toevoegen"
   addDetailsHint: "Details toevoegen aan item"
   hideClosed: "Gesloten verbergen"
-  hideClosedHint: "Besproken/overgeslagen onderwerpen tijdelijk verbergen in lijst"
+  hideClosedHint: "Besproken/overgeslagen onderwerpen tijdelijk verbergen in de lijst"
   hideClosedLong: "Gesloten onderwerpen verbergen"
   collapse: "Samenvouwen"
   collapseLong: "Onderwerpen samenvouwen"
@@ -289,7 +289,7 @@ Minutes:
   delete: "Minuten wissen"
   GlobalNotes:
     pin: "Instellen als vastgezette globale notitie"
-    unpin: "Instellen als niet-vastgezette globale notitie"
+    unpin: "Instellen als niet-vastgepinde globale notitie"
     title: "Algemene opmerking"
     placeholder: "Algemene aantekeningen voor deze minuten. Klik op pin om notities te propageren naar volgende minuten."
   Upload:
@@ -443,12 +443,12 @@ Login:
       <li>Stuur de agenda naar uitgenodigde gebruikers</li>
     documentMinutesHeading: "Document minuten"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>Markeer aanwezige deelnemers</li>
+      <li>Voeg actiepunten met verantwoordelijken toe aan onderwerpen</li>
+      <li>Voeg informatie items toe aan ondewerpen</li>
+      <li>Voeg categorieën als 'Beslissing' toe aan items</li>
+      <li>Upload tweevoudige bijlages</li>
+      <li>Stuur notulen &amp; actiepunten via e-mail</li>
     trackTopicsHeading: "Onderwerpen volgen"
     trackTopicsDetails: |
       <li>Open actiepunten zullen de volgende keer verschijnen</li>
@@ -476,7 +476,7 @@ QuickHelp:
   title: "Snelhulp"
   meetingSeries: "<p>Hier kunt u nieuwe notulen maken voor de huidige vergaderreeks of klikken op een datum link van bestaande notulen.</p>"
   meetingSeriesList: "<p>Met 4Minitz kunt u notulen maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>Maak vervolgens notulen aan op meerdere datums voor uw vergaderreeks.</p>"
-  minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering voor te bereiden<br>tijdens de vergadering kunt u een onderwerp aanvinken om duidelijk te maken dat u erover gesproken heeft.<br>Als het onderwerp...<br>&nbsp;&nbsp; - niet als besproken is gemarkeerd of<br>&nbsp;&nbsp; - als terugkerend onderwerp is ingesteld of<br>&nbsp;&nbsp; - niet-voltooide actiepunten bevat<br>... zal het onderwerp opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Notulen afronden' om de notulen naar de uitgenodigde gebruikers en de actiepunten naar hun verantwoordelijken te versturen.</p>"
+  minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering voor te bereiden<br>tijdens de vergadering kunt u een onderwerp aanvinken om duidelijk te maken dat u erover gesproken heeft.<br>Als het onderwerp...<br>&nbsp;&nbsp; - niet als besproken is gemarkeerd of<br>&nbsp;&nbsp; - als terugkerend onderwerp is ingesteld of<br>&nbsp;&nbsp; - niet-voltooide actiepunten bevat<br>... zal het onderwerp opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Notulen afronden' om de notulen naar de uitgenodigde gebruikers en de actiepunten naar hun verantwoordelijken te verzenden.</p>"
   upload: "<ul><li>Hier kunt u bestanden zoals bijvoorbeeld presentaties, PDFs of whiteboard foto's uploaden</li><li>U heeft de rol 'Uploader' of 'Moderator' nodig om dit te doen</li><li>Uploaden of verwijderen is mogelijk tot de minuten zijn afgerond</li><li>Pro Tip: Klik op de bovenstaande 'Upload' knop op uw tablet of slimme telefoon!</li></ul>"
 Mail:
   greeting: "Hallo"
