@@ -134,11 +134,11 @@ Dialog:
     body2b: "Dit info item is al losgemaakt"
     body3: "dus zal het niet worden gekopieerd naar de volgende minuten"
   ActionItemResponsibleError:
-    title: "Ongeldig verantwoordelijk voor actie item"
+    title: "Ongeldige Verantwoordelijke voor Actiepunt"
     body: |
-      Dit is geen geldige verantwoordelijkheid!
+      Dit is geen geldige verantwoordelijke!
 
-      Selecteer een **bestaande gebruiker** in het keuzemenu of voer een **geldig e-mailadres in**.
+      Selecteer s.v.p. een **bestaande gebruiker** in het keuzemenu of voer een **geldig e-mailadres** in.
   ConvertItemError:
     title: "Kan item niet converteren"
     body: "Het is niet mogelijk om dit item om te zetten omdat het in vorige notulen is gemaakt."
@@ -173,7 +173,7 @@ Item:
   action: "Actiepunt"
   addAction: "Actiepunt toevoegen"
   addActionHint: "Actiepunt toevoegen aan onderwerp"
-  convertToAction: "Converteren naar actie"
+  convertToAction: "Omzetten naar actie"
   convertToInfo: "Converteren naar Info"
   convertDisabled: "Conversie uitgeschakeld: item bestaat in vorige vergadering"
   subject: "Onderwerp (verplicht)"
@@ -239,7 +239,7 @@ Topic:
   delete: "Verwijder topic"
   reopen: "Heropen topic"
   reopenHint: "Heropen topic"
-  placeholder: "Voeg Info Item toe. Voeg @gebruikersnaam toe om een actie item toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
+  placeholder: "Informatie Item Toevoegen. Voeg @gebruikersnaam toe om een Actiepunt toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
   childOf: "Onderwerp van vergaderSeries:"
   historyTitle: "Dit onderwerp was"
   createdOn: "gemaakt op:"
@@ -451,12 +451,12 @@ Login:
       <li>Send minutes &amp; action items via EMail</li>
     trackTopicsHeading: "Onderwerpen volgen"
     trackTopicsDetails: |
-      <li>Open actie items verschijnen de volgende keer</li>
-      <li>Niet-gesloten onderwerpen verschijnen de volgende keer</li>
+      <li>Open actiepunten zullen de volgende keer verschijnen</li>
+      <li>Niet-gesloten onderwerpen zullen de volgende keer verschijnen</li>
       <li>Zoeklijst van alle onderwerpen die ooit besproken zijn</li>
-      <li>Onderwerpen met info items op meerdere vergaderingen</li>
-      <li>Vind onderwerpen met labels (bv. . alle beslissingen)</li>
-      <li>Vind items op fulltext zoeken</li>
+      <li>Verrijk onderwerpen met informatie items tijdens meerdere vergaderingen</li>
+      <li>Vind onderwerpen met categorieën (bv. alle beslissingen)</li>
+      <li>Vind items door volledige doorzoekbaarheid</li>
   Footer:
     withLove: "Gedecodeerd met ❤ door de"
     theTeam: "WebApp Team"
