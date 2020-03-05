@@ -215,9 +215,9 @@ Topic:
   title: "Onderwerp"
   new: "Nieuw"
   add: "Onderwerp toevoegen"
-  addLong: "Onderwerp toevoegen ..."
+  addLong: "Onderwerp toevoegen..."
   addShort: "Onderwerp"
-  addHint: "Nieuw onderwerp toevoegen aan bovenkant van lijst [ Ctrl + Alt + T]"
+  addHint: "Nieuw onderwerp bovenaan de lijst toevoegen [Ctrl+Alt+T]"
   quickAdd: "ONDERWERP TOEVOEGEN (aan het einde van de lijst)"
   edit: "Onderwerp bewerken"
   save: "Onderwerp opslaan"
@@ -247,7 +247,7 @@ Topic:
   finalizedOn: "Geslaagd op minuten van:"
   doneBy: "(door {$user})"
   notFoundTitle: "Sorry, onderwerp niet gevonden."
-  notFoundReasons: "Reden zijn mogelijk...<br><ul><li>Het topic is nooit afgerond (het woont alleen in een niet-onvervreemdbare minuut)</li><li>Het onderwerp is verwijderd</li><li>U heeft geen toegang tot dit onderwerp (meer)</li></ul>"
+  notFoundReasons: "Redenen kunnen zijn...<br><ul><li>Het onderwerp is nooit afgerond (het bestaat alleen in een onafgeronde notulen)</li><li>Het onderwerp is verwijderd</li><li>U heeft geen toegang tot dit onderwerp (meer)</li></ul>"
   illegalAction: "Geëbd om een illegaal evenement te bellen in alleen-lezen modus"
   addDetails: "Details toevoegen"
   addDetailsHint: "Details toevoegen aan item"
@@ -261,8 +261,8 @@ Topic:
   Error:
     subject: "Voer een geldig onderwerp in"
   Filter:
-    completed: "Voltooide topics"
-    uncompleted: "Ongevoltooide topics"
+    completed: "Voltooide onderwerpen"
+    uncompleted: "Onvoltooide onderwerpen"
     yourTopic: "Uw onderwerpen"
 Minutes:
   create: "Nieuwe notulen aanmaken"
