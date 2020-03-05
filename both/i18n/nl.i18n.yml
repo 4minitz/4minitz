@@ -35,23 +35,23 @@ FlashMessages:
   passwordChangeOK: "Wachtwoord gewijzigd"
   passwordResetOK: "Wachtwoord succesvol gereset"
   profileEditOK: "Profielwijzigingen opgeslagen"
-  minuteLinkErr: "Helaas is de minuut niet correct aan de bovenliggende serie gekoppeld - neem contact op met uw systeembeheerder."
+  minuteLinkErr: "Helaas zijn de notulen niet correct aan de bovenliggende reeks gekoppeld - neem s.v.p. contact op met uw systeembeheerder."
   agendaSentOK: "Agenda is succesvol verzonden naar {$result} ontvangers"
   finalizeProgress1: "Bezig met afronden"
   finalizeProgress2: "Dit kan enkele seconden duren..."
-  finalizeOK: "Deze minuten van deze vergadering zijn succesvol afgerond"
+  finalizeOK: "De notulen van deze vergadering zijn succesvol afgerond"
 Dialog:
   ConfirmDelete:
     title: "Verwijderen bevestigen?"
     body: "Weet u zeker dat u dit wilt verwijderen?"
   ConfirmCreateNewMinutes:
     title: "Bevestig het aanmaken van nieuwe notulen"
-    content: "Wil je echt nieuwe minuten maken voor de meetingserie \"{$project}: {$name}\"?"
+    content: "Wilt u echt nieuwe notulen aanmaken voor de vergaderreeks \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Weet u zeker dat u deze bijlage: **{$name}** wilt verwijderen?"
   confirmDeleteDetails: "Wil je echt de geselecteerde details van het artikel **{$subject} ** verwijderen?"
   ConfirmDeleteItem:
     allowed: "Weet je zeker dat je de {$type}{$subject} ** ** wilt verwijderen?"
-    notAllowed: "Het is niet mogelijk om de {$type} **{$subject}** te verwijderen, omdat de {$type} is gemaakt in een vorige minuten."
+    notAllowed: "Het is niet mogelijk om het {$type} **{$subject}** te verwijderen, omdat het {$type} in vorige notulen is gemaakt."
     questionActionItem: "Wilt u het actie item in plaats daarvan sluiten?"
     questionInfoItem: "Wilt u in plaats daarvan het sticky info item losmaken?"
     typeActionItem: "actie item"
@@ -62,7 +62,7 @@ Dialog:
     buttonUnpinInfoItem: "Ontpinnen info item"
   ConfirmDeleteTopic:
     allowed: "Weet u zeker dat u dit onderwerp wilt verwijderen **{$subject}**?"
-    notAllowed: "Het is niet mogelijk om het onderwerp te verwijderen **{$subject}** omdat het onderwerp is gemaakt in een vorige minuten."
+    notAllowed: "Het is niet mogelijk om het onderwerp **{$subject}** te verwijderen omdat het onderwerp in vorige notulen is gemaakt."
     close: "Wil je in plaats daarvan de topic afsluiten?"
     closeWithActions: "Wilt u in plaats daarvan het topic sluiten met alle gerelateerde actie items?"
   confirmLeaveMeetingSeries: "Wil je echt de meetingserie verlaten:\n\n**{$project} / {$name}**\n\nJe moet daarna een moderator vragen als je daarna weer wilt deelnemen."
@@ -88,7 +88,7 @@ Dialog:
     button: "Agenda verzenden"
   ConfirmDeleteMinutes:
     really: "Wilt u deze minuut van de vergadering op **{$minutesDate} ** echt verwijderen?"
-    newTopics: "Dit verwijdert **{$newTopicsCount} topics**, die binnen deze minuut zijn gemaakt."
+    newTopics: "Dit zal **{$newTopicsCount} onderwerpen** verwijderen, die binnen deze notulen zijn gemaakt."
     closedTopicsAdditionally: "Bovendien zullen{$closedTopicsCount} topics** opnieuw worden geopend, die binnen deze minuten zijn gesloten."
     closedTopics: "**{$closedTopicsCount} onderwerpen** zullen opnieuw worden geopend, die binnen deze minuten zijn gesloten."
   ConfirmFinalizeMinutes:
@@ -126,10 +126,10 @@ Dialog:
     title2: "Topic als besproken markeren?"
     button2: "Sluit onderwerp en acties"
     errortitle: "Kan onderwerp niet verwijderen"
-    errorcontent: "Het is niet mogelijk om dit onderwerp te verwijderen omdat het in een vorige minuten is gemaakt. Het geselecteerde onderwerp is al gesloten en heeft geen open actie items, dus het zal niet worden gekopieerd naar de volgende minuten."
+    errorcontent: "Het is niet mogelijk om dit onderwerp te verwijderen omdat het in vorige notulen is gemaakt. Het geselecteerde onderwerp is al afgesloten en heeft geen open actiepunten, dus het zal niet worden gekopieerd naar de volgende notulen."
   ItemDeleteError:
     title: "Kan item niet verwijderen"
-    body1: "Het is niet mogelijk om dit item te verwijderen omdat het in een vorige minuten is gemaakt."
+    body1: "Het is niet mogelijk om dit item te verwijderen omdat het in vorige notulen is gemaakt."
     body2a: "Deze actie item is al gesloten,"
     body2b: "Dit info item is al losgemaakt"
     body3: "dus zal het niet worden gekopieerd naar de volgende minuten"
@@ -141,7 +141,7 @@ Dialog:
       Selecteer een **bestaande gebruiker** in het keuzemenu of voer een **geldig e-mailadres in**.
   ConvertItemError:
     title: "Kan item niet converteren"
-    body: "Het is niet mogelijk om dit item om te zetten omdat het in een vorige minuten is gemaakt."
+    body: "Het is niet mogelijk om dit item om te zetten omdat het in vorige notulen is gemaakt."
 About:
   title: "Over 4Minitz"
   copyrightTeam: "door 4Minitz-Team"
@@ -265,7 +265,7 @@ Topic:
     uncompleted: "Ongevoltooide topics"
     yourTopic: "Uw onderwerpen"
 Minutes:
-  create: "Nieuwe minuten aanmaken"
+  create: "Nieuwe notulen aanmaken"
   date: "Datum"
   dateOn: "op"
   title: "Minuten voor"
