@@ -23,7 +23,7 @@ Buttons:
   register: "Registreren"
   save: "Opslaan"
 UserRoles:
-  roleModerator: "Moderator"
+  roleModerator: "Voorzitter"
   roleUploader: "Uploader"
   roleInvited: "Uitgenodigd"
   roleInformed: "Geïnformeerd"
