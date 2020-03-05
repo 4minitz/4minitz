@@ -447,7 +447,7 @@ Login:
       <li>Voeg actiepunten met verantwoordelijken toe aan onderwerpen</li>
       <li>Voeg informatie items toe aan ondewerpen</li>
       <li>Voeg categorieën als 'Beslissing' toe aan items</li>
-      <li>Upload tweevoudige bijlages</li>
+      <li>Upload binaire bijlages</li>
       <li>Stuur notulen &amp; actiepunten via e-mail</li>
     trackTopicsHeading: "Onderwerpen Volgen"
     trackTopicsDetails: |
@@ -456,7 +456,7 @@ Login:
       <li>Zoeklijst van alle onderwerpen die ooit besproken zijn</li>
       <li>Verrijk onderwerpen met informatie items tijdens meerdere vergaderingen</li>
       <li>Vind onderwerpen met categorieën (bv. alle beslissingen)</li>
-      <li>Vind items door volledige doorzoekbaarheid</li>
+      <li>Vind items door zoekopdracht voor volledige tekst</li>
   Footer:
     withLove: "Gedecodeerd met ❤ door de"
     theTeam: "WebApp Team"
