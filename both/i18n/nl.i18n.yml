@@ -64,7 +64,7 @@ Dialog:
     allowed: "Weet u zeker dat u het onderwerp **{$subject}** wilt verwijderen?"
     notAllowed: "Het is niet mogelijk om het onderwerp **{$subject}** te verwijderen omdat het onderwerp in vorige notulen is gemaakt."
     close: "Wil je in plaats daarvan de topic afsluiten?"
-    closeWithActions: "Wilt u in plaats daarvan het topic sluiten met alle gerelateerde actie items?"
+    closeWithActions: "Wilt u in plaats daarvan het onderwerp met alle gerelateerde actiepunten sluiten?"
   confirmLeaveMeetingSeries: "Weet u zeker dat u de vergaderreeks wilt verlaten:\n\n**{$project} / {$name}**\n\nU zou daarna een voorzitter moeten vragen als u achteraf weer deelnemen wilt."
   ConfirmMinuteQualityAssurance:
     title: "Laatste minuten: kwaliteitscontroles"
@@ -130,7 +130,7 @@ Dialog:
   ItemDeleteError:
     title: "Kan item niet verwijderen"
     body1: "Het is niet mogelijk om dit item te verwijderen omdat het in vorige notulen is gemaakt."
-    body2a: "Deze actie item is al gesloten,"
+    body2a: "Dit actiepunt is al gesloten,"
     body2b: "Dit info item is al losgemaakt"
     body3: "dus zal het niet worden gekopieerd naar de volgende minuten"
   ActionItemResponsibleError:
@@ -161,9 +161,9 @@ About:
 Item:
   ariaLabel: "Item toevoegen/bewerken"
   editItem: "Item bewerken"
-  editItemHint: "Bewerk deze actie/info item"
+  editItemHint: "Bewerk dit actiepunt/informatie item"
   deleteItem: "Item verwijderen"
-  deleteItemHint: "Verwijder deze actie/info item"
+  deleteItemHint: "Verwijder dit actiepunt/informatie item"
   addItemModal: "Voeg {$type} toe aan {$topic}"
   editItemModal: "{$type} van {$topic} bewerken"
   editItemModelTypeInfoItem: "Informatie"
@@ -197,8 +197,8 @@ Item:
     usageHint: "Gebruik filteren"
     info: "Info items"
     action: "Actiepunten"
-    open: "Open Actieitems"
-    closed: "Gesloten Actie Items"
+    open: "Actiepunten Openen"
+    closed: "Gesloten Actiepunten"
     yourAction: "Uw Actiepunten"
     placeholder: "Filteren"
     matchCase: "Zaak"
