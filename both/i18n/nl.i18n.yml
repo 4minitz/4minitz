@@ -180,16 +180,16 @@ Item:
   details: "Details"
   addDetails: "Details toevoegen"
   priority: "Prioriteit"
-  due: "Vervallen"
+  due: "Deadline"
   dueNone: "geen"
   detailPlaceholder: "U kunt Markdown gebruiken om te bewerken. Druk op Ctrl+Enter of Tab om te verlaten."
   markdownHint: "Help bij Markdown-syntaxis"
-  setPin: "Vast instellen"
-  setPinHint: "Instellen als vastgezet info item"
-  unsetPin: "Niet vastgezet"
-  unsetPinHint: "Instellen als niet-vastgezet info item"
+  setPin: "Als Vastgezet Instellen"
+  setPinHint: "Instellen als vastgezet informatie item"
+  unsetPin: "Vastgezette Losmaken"
+  unsetPinHint: "Instellen als niet-vastgezet informatie item"
   done: "gereed"
-  pinned: "Vastgezet"
+  pinned: "vastgezet"
   Error:
     subject: "Voer een geldig onderwerp in"
   Filter:
@@ -218,10 +218,10 @@ Topic:
   addLong: "Onderwerp toevoegen ..."
   addShort: "Onderwerp"
   addHint: "Nieuw onderwerp toevoegen aan bovenkant van lijst [ Ctrl + Alt + T]"
-  quickAdd: "TOPIC TOPIC (tot het einde van de lijst)"
-  edit: "Bewerk topic"
+  quickAdd: "ONDERWERP TOEVOEGEN (aan het einde van de lijst)"
+  edit: "Onderwerp bewerken"
   save: "Onderwerp opslaan"
-  show: "Toon topic"
+  show: "Onderwerp tonen"
   subject: "Onderwerp (verplicht)"
   responsible: "Verantwoordelijk"
   completed: "Voltooid"
@@ -231,14 +231,14 @@ Topic:
   unsetRecurring: "Terugkerende ongedaan maken"
   unsetRecurringHint: "Instellen als niet-terugkerend onderwerp"
   setSkip: "Stel Skip in"
-  setSkipHint: "Instellen als overgeslagen topic"
+  setSkipHint: "Instellen als overgeslagen onderwerp"
   unsetSkip: "Uitschakelen overslaan"
-  unsetSkipHint: "Instellen als niet-overgeslagen topic"
+  unsetSkipHint: "Instellen als niet-overgeslagen onderwerp"
   history: "Geschiedenis tonen"
-  historyHint: "Toon volledige finale status van dit topic"
-  delete: "Verwijder topic"
-  reopen: "Heropen topic"
-  reopenHint: "Heropen topic"
+  historyHint: "Toon volledige afgeronde status van dit onderwerp"
+  delete: "Onderwerp verwijderen"
+  reopen: "Onderwerp opnieuw openen"
+  reopenHint: "Onderwerp opnieuw openen"
   placeholder: "Informatie Item Toevoegen. Voeg @gebruikersnaam toe om een Actiepunt toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
   childOf: "Onderwerp van vergaderSeries:"
   historyTitle: "Dit onderwerp was"
@@ -288,10 +288,10 @@ Minutes:
   sendAgenda: "Agenda verzenden"
   delete: "Minuten wissen"
   GlobalNotes:
-    pin: "Instellen als vastgezette globale notitie"
-    unpin: "Instellen als niet-vastgepinde globale notitie"
+    pin: "Instellen als vastgezette algemene aantekening"
+    unpin: "Instellen als niet-vastzette algemene aantekening"
     title: "Algemene opmerking"
-    placeholder: "Algemene aantekeningen voor deze minuten. Klik op pin om notities te propageren naar volgende minuten."
+    placeholder: "Algemene aantekeningen voor deze notulen. Klik op pin om aantekeningen te propageren naar volgende notulen."
   Upload:
     button: "Uploaden..."
     uploading: "Bezig met uploaden"
@@ -429,9 +429,9 @@ Login:
     subheader: "● Bereid Agenda ● Document Minuten ● Track Onderwerpen voor."
     abstract: |
       <p>Elke uitgenodigde en aangemelde gebruiker kan de wijzigingen van de huidige notulen in realtime bekijken.</p>
-      We hebben gratis opensourcesoftware van 4Minitz gemaakt, omdat wij er vast van overtuigd zijn dat
-      gevoelige informatie zoals notulen niet in de cloud gehost zou moeten worden.
-      In plaats daarvan wil je het hosten op je eigen infrastructuur, waar je
+      We hebben gratis open source software van 4Minitz gemaakt, omdat wij er vast van overtuigd zijn dat
+      gevoelige informatie zoals notulen niet in de cloud beschikbaar gesteld zou moeten worden.
+      In plaats daarvan wil je het beschikbaar stellen op je eigen infrastructuur, waar je
       het beveiligingsniveau kunt bepalen dat je nodig hebt.
     prepareAgendaHeading: "Agenda voorbereiden"
     prepareAgendaDetails: |
@@ -536,7 +536,7 @@ Mail:
       {$passwordParagraph}
 
       Veel plezier!
-        Uw Admin.
+        Uw Beheerder.
 
       ---
       4Minitz is gratis open source ontwikkeld door het 4Minitz team.
