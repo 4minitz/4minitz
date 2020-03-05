@@ -48,9 +48,9 @@ Dialog:
     title: "Bevestig het aanmaken van nieuwe notulen"
     content: "Wilt u echt nieuwe notulen aanmaken voor de vergaderreeks \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Weet u zeker dat u deze bijlage: **{$name}** wilt verwijderen?"
-  confirmDeleteDetails: "Wil je echt de geselecteerde details van het artikel **{$subject} ** verwijderen?"
+  confirmDeleteDetails: "Weet u zeker dat u de geselecteerde details van het item **{$subject} ** wilt verwijderen?"
   ConfirmDeleteItem:
-    allowed: "Weet je zeker dat je de {$type}{$subject} ** ** wilt verwijderen?"
+    allowed: "Weet u zeker dat u het {$type}{$subject} ** ** wilt verwijderen?"
     notAllowed: "Het is niet mogelijk om het {$type} **{$subject}** te verwijderen, omdat het {$type} in vorige notulen is gemaakt."
     questionActionItem: "Wilt u het actie item in plaats daarvan sluiten?"
     questionInfoItem: "Wilt u in plaats daarvan het sticky info item losmaken?"
@@ -61,11 +61,11 @@ Dialog:
     buttonCloseActionItem: "Sluit actie item"
     buttonUnpinInfoItem: "Ontpinnen info item"
   ConfirmDeleteTopic:
-    allowed: "Weet u zeker dat u dit onderwerp wilt verwijderen **{$subject}**?"
+    allowed: "Weet u zeker dat u het onderwerp **{$subject}** wilt verwijderen?"
     notAllowed: "Het is niet mogelijk om het onderwerp **{$subject}** te verwijderen omdat het onderwerp in vorige notulen is gemaakt."
     close: "Wil je in plaats daarvan de topic afsluiten?"
     closeWithActions: "Wilt u in plaats daarvan het topic sluiten met alle gerelateerde actie items?"
-  confirmLeaveMeetingSeries: "Wil je echt de meetingserie verlaten:\n\n**{$project} / {$name}**\n\nJe moet daarna een moderator vragen als je daarna weer wilt deelnemen."
+  confirmLeaveMeetingSeries: "Weet u zeker dat u de vergaderreeks wilt verlaten:\n\n**{$project} / {$name}**\n\nU zou daarna een voorzitter moeten vragen als u achteraf weer deelnemen wilt."
   ConfirmMinuteQualityAssurance:
     title: "Laatste minuten: kwaliteitscontroles"
     button: "Doorgaan"
@@ -80,7 +80,7 @@ Dialog:
     warnTopicNoNewContent: "Een topic is aangevinkt maar heeft geen nieuwe inhoud"
   ConfirmReOpenTopic:
     title: "Heropen onderwerp?"
-    body: "Weet je zeker dat je het reeds gesloten topic **{$topicSubject} ** opnieuw wilt openen?"
+    body: "Weet u zeker dat u het reeds gesloten onderwerp **{$topicSubject} ** opnieuw wilt openen?"
     button: "Heropenen"
   ConfirmSendAgenda:
     body: "Wilt u de agenda voor deze vergaderminuut gedateerd op **{$minDate}** echt verzenden?\nHet is al verzonden op {$agendaSentDate} om {$agendaSentTime}"
@@ -353,7 +353,7 @@ MeetingSeries:
     new: "Nieuwslabel"
     select: "Selecteren ..."
   Tab:
-    minutes: "Minuten"
+    minutes: "Notulen"
     topics: "Onderwerpen"
     items: "Artikelen"
 Profile:
@@ -425,12 +425,12 @@ Login:
   standard: "Standaard"
   demoHint: "Tip: Demo Mode Active<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en wachtwoord <b>demo</b>. Of u kunt uw eigen account te registreren door te klikken op de \"Register\" link hieronder."
   Login4MinitzInfo:
-    header: "4Minitz: gezamenlijke vergadernotulen."
+    header: "4Minitz: gemeenschappelijke notulen."
     subheader: "● Bereid Agenda ● Document Minuten ● Track Onderwerpen voor."
     abstract: |
-      <p>Elke uitgenodigde en ingelogde gebruiker kan de wijzigingen van de huidige vergaderminuten in realtime bekijken.</p>
+      <p>Elke uitgenodigde en aangemelde gebruiker kan de wijzigingen van de huidige notulen in realtime bekijken.</p>
       We hebben gratis opensourcesoftware van 4Minitz gemaakt, omdat wij er vast van overtuigd zijn dat
-      gevoelige informatie zoals vergadernotulen niet in de wolk mag worden gehost.
+      gevoelige informatie zoals notulen niet in de cloud gehost zou moeten worden.
       In plaats daarvan wil je het hosten op je eigen infrastructuur, waar je
       het beveiligingsniveau kunt bepalen dat je nodig hebt.
     prepareAgendaHeading: "Agenda voorbereiden"
@@ -476,18 +476,18 @@ QuickHelp:
   title: "Snelhulp"
   meetingSeries: "<p>Hier kunt u nieuwe notulen maken voor de huidige vergaderreeks of klikken op een datum link van bestaande notulen.</p>"
   meetingSeriesList: "<p>Met 4Minitz kunt u notulen maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>Maak vervolgens notulen aan op meerdere datums voor uw vergaderreeks.</p>"
-  minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering te maken<br>tijdens de vergadering markeert een onderwerp met de checkbox om duidelijk te maken dat u erover heeft gesproken.<br>Als het onderwerp...<br>&nbsp;&nbsp; - is niet gemarkeerd als besproken of<br>&nbsp;&nbsp; - is ingesteld als terugkerend onderwerp of<br>&nbsp;&nbsp; - bevat niet-voltooide actieitems<br>... het onderwerp zal opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Goedkeuring minuten afronden' om de notulen naar de uitgenodigde gebruikers en de actieitems naar hun reactiebalen te sturen.</p>"
+  minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering voor te bereiden<br>tijdens de vergadering kunt u een onderwerp aanvinken om duidelijk te maken dat u erover gesproken heeft.<br>Als het onderwerp...<br>&nbsp;&nbsp; - niet als besproken is gemarkeerd of<br>&nbsp;&nbsp; - als terugkerend onderwerp is ingesteld of<br>&nbsp;&nbsp; - niet-voltooide actiepunten bevat<br>... zal het onderwerp opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Notulen afronden' om de notulen naar de uitgenodigde gebruikers en de actiepunten naar hun verantwoordelijken te versturen.</p>"
   upload: "<ul><li>Hier kunt u bestanden zoals bijvoorbeeld presentaties, PDFs of whiteboard foto's uploaden</li><li>U heeft de rol 'Uploader' of 'Moderator' nodig om dit te doen</li><li>Uploaden of verwijderen is mogelijk tot de minuten zijn afgerond</li><li>Pro Tip: Klik op de bovenstaande 'Upload' knop op uw tablet of slimme telefoon!</li></ul>"
 Mail:
   greeting: "Hallo"
   newAgenda: "We hebben een nieuwe agenda voor u:"
   newActionItem: "U bent toegewezen aan de volgende actie items:"
-  newMinutes: "Hieronder vind je de laatste vergaderminuten."
+  newMinutes: "Hieronder vindt u de laatste notulen."
   meeting: "Afspraak"
   links: "Koppelingen"
   openSeries: "Reeks openen"
   openMinutes: "Open minuten"
-  minutesSubject: "Vergaderminuten"
+  minutesSubject: "Notulen"
   discussedTopics: "Besproken onderwerpen"
   skippedTopics: "Open onderwerpen"
   none: "Geen"
@@ -528,11 +528,11 @@ Mail:
       Hallo {$userLongName},
 
       Welkom op onze 4Minitz WebApp.
-      Nu kunt u deelnemen aan het bijhouden van professionele vergaderminuten.
+      Nu kunt u deelnemen aan het bijhouden van professionele notulen.
 
-      Je kunt inloggen met 'Standaard' (geen LDAP! log in op:
-         Je host : {$rootURL}
-         Je gebruiker: {$userName}
+      U kunt inloggen met een 'Standaard' (geen LDAP!) aanmelding op:
+         Uw host : {$rootURL}
+         Uw gebruiker: {$userName}
       {$passwordParagraph}
 
       Veel plezier!
