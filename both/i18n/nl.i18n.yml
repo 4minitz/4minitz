@@ -83,7 +83,7 @@ Dialog:
     body: "Weet u zeker dat u het reeds gesloten onderwerp **{$topicSubject} ** opnieuw wilt openen?"
     button: "Heropenen"
   ConfirmSendAgenda:
-    body: "Wilt u de agenda voor deze vergaderminuut gedateerd op **{$minDate}** echt verzenden?\nHet is al verzonden op {$agendaSentDate} om {$agendaSentTime}"
+    body: "Weet u zeker dat u de agenda voor deze notulen gedateerd op **{$minDate}** wilt verzenden?\nHet is al verzonden op {$agendaSentDate} om {$agendaSentTime}"
     title: "Verzenden van agenda bevestigen"
     button: "Agenda verzenden"
   ConfirmDeleteMinutes:
