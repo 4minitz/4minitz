@@ -110,8 +110,8 @@ Dialog:
     tooltip: |
       Verbinding verbroken!
         Status: {$status}
-        Aantal opnieuw proberen: {$retryCount}
-        Opnieuw proberen: {$retryTime} sec.
+        Aantal herhaalde pogingen: {$retryCount}
+        Tijdsduur van herhaalde pogingen: {$retryTime} sec.
         Reden: {$reason}
         Klik om opnieuw verbinding te maken.
     header: "U heeft de verbinding met de 4Minitz server verloren."
@@ -393,7 +393,7 @@ Admin:
     date: "Datum"
     message: "Bericht"
     dismissed: "Negeren"
-    dismissingUsers: "#Negerende gebruikers: {$number}\n"
+    dismissingUsers: "#Ontbrekende gebruikers: {$number}\n"
     edit: "Bewerken"
   Users:
     filterUsers: "Gebruikers Filteren"
