@@ -222,17 +222,17 @@ Topic:
   edit: "Onderwerp bewerken"
   save: "Onderwerp opslaan"
   show: "Onderwerp tonen"
-  subject: "Onderwerp (verplicht)"
+  subject: "Thema van Onderwerp (verplicht)"
   responsible: "Verantwoordelijk"
   completed: "Voltooid"
   completedHint: "Dit onderwerp is eindelijk klaar. Dus het wordt niet gepropageerd naar de volgende vergadering."
-  setRecurring: "Terugkerende instellen"
+  setRecurring: "Instellen als Terugkerend"
   setRecurringHint: "Instellen als terugkerend onderwerp"
-  unsetRecurring: "Terugkerende ongedaan maken"
+  unsetRecurring: "Terugkeren Ongedaan Maken"
   unsetRecurringHint: "Instellen als niet-terugkerend onderwerp"
-  setSkip: "Stel Skip in"
+  setSkip: "Instellen als Overslaan"
   setSkipHint: "Instellen als overgeslagen onderwerp"
-  unsetSkip: "Uitschakelen overslaan"
+  unsetSkip: "Overslaan Ongedaan Maken"
   unsetSkipHint: "Instellen als niet-overgeslagen onderwerp"
   history: "Geschiedenis tonen"
   historyHint: "Toon volledige afgeronde status van dit onderwerp"
@@ -240,30 +240,30 @@ Topic:
   reopen: "Onderwerp opnieuw openen"
   reopenHint: "Onderwerp opnieuw openen"
   placeholder: "Informatie Item Toevoegen. Voeg @gebruikersnaam toe om een Actiepunt toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
-  childOf: "Onderwerp van vergaderSeries:"
+  childOf: "Onderwerp van Vergaderreeks:"
   historyTitle: "Dit onderwerp was"
   createdOn: "gemaakt op:"
   lastUpdate: "voor het laatst gewijzigd op:"
-  finalizedOn: "Geslaagd op minuten van:"
+  finalizedOn: "afgerond op notulen van:"
   doneBy: "(door {$user})"
   notFoundTitle: "Sorry, onderwerp niet gevonden."
   notFoundReasons: "Redenen kunnen zijn...<br><ul><li>Het onderwerp is nooit afgerond (het bestaat alleen in een onafgeronde notulen)</li><li>Het onderwerp is verwijderd</li><li>U heeft geen toegang tot dit onderwerp (meer)</li></ul>"
-  illegalAction: "Geëbd om een illegaal evenement te bellen in alleen-lezen modus"
+  illegalAction: "Poging tot het aanroepen van een niet-toegestane event in de werkstand Alleen lezen"
   addDetails: "Details toevoegen"
   addDetailsHint: "Details toevoegen aan item"
   hideClosed: "Gesloten verbergen"
   hideClosedHint: "Besproken/overgeslagen onderwerpen tijdelijk verbergen in de lijst"
   hideClosedLong: "Gesloten onderwerpen verbergen"
   collapse: "Samenvouwen"
-  collapseLong: "Onderwerpen samenvouwen"
+  collapseLong: "Onderwerpen Samenvouwen"
   expand: "Uitvouwen"
-  expandLong: "Onderwerpen uitvouwen"
+  expandLong: "Onderwerpen Uitvouwen"
   Error:
     subject: "Voer een geldig onderwerp in"
   Filter:
     completed: "Voltooide onderwerpen"
     uncompleted: "Onvoltooide onderwerpen"
-    yourTopic: "Uw onderwerpen"
+    yourTopic: "Uw Onderwerpen"
 Minutes:
   create: "Nieuwe notulen aanmaken"
   date: "Datum"
@@ -426,7 +426,7 @@ Login:
   demoHint: "Tip: Demo Mode Active<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en wachtwoord <b>demo</b>. Of u kunt uw eigen account te registreren door te klikken op de \"Register\" link hieronder."
   Login4MinitzInfo:
     header: "4Minitz: gemeenschappelijke notulen."
-    subheader: "● Bereid Agenda ● Document Minuten ● Track Onderwerpen voor."
+    subheader: "● Bereid Agenda voor ● Documenteer Notulen ● Volg Onderwerpen ●"
     abstract: |
       <p>Elke uitgenodigde en aangemelde gebruiker kan de wijzigingen van de huidige notulen in realtime bekijken.</p>
       We hebben gratis open source software van 4Minitz gemaakt, omdat wij er vast van overtuigd zijn dat
@@ -449,7 +449,7 @@ Login:
       <li>Voeg categorieën als 'Beslissing' toe aan items</li>
       <li>Upload tweevoudige bijlages</li>
       <li>Stuur notulen &amp; actiepunten via e-mail</li>
-    trackTopicsHeading: "Onderwerpen volgen"
+    trackTopicsHeading: "Onderwerpen Volgen"
     trackTopicsDetails: |
       <li>Open actiepunten zullen de volgende keer verschijnen</li>
       <li>Niet-gesloten onderwerpen zullen de volgende keer verschijnen</li>
@@ -488,8 +488,8 @@ Mail:
   openSeries: "Reeks openen"
   openMinutes: "Open minuten"
   minutesSubject: "Notulen"
-  discussedTopics: "Besproken onderwerpen"
-  skippedTopics: "Open onderwerpen"
+  discussedTopics: "Besproken Onderwerpen"
+  skippedTopics: "Open Onderwerpen"
   none: "Geen"
   AdminNewVersion:
     subject: "Nieuwere versie bestaat"
