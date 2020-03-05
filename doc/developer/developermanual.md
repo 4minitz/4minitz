@@ -136,10 +136,13 @@ run the npm script `eslint:fix`:
     npm run eslint:fix
 
 ## Localization
-We use [Crowdin](https://crowdin.com/) for managing translations. Resource keys are added to [both/i18n/en.i18n.yml]
-(../../both/i18n/en.i18n.yml). You can then translate the UI strings within Crowdin, which will in turn commit to
-the branch ``l10n_develop`` and create a PR to ``develop``. Don't manually edit any translation file or it will
-be overwritten with the next PR.
+We use [Crowdin](https://crowdin.com/) for managing translations. Resource keys are added to [both/i18n/en.i18n.yml](../../both/i18n/en.i18n.yml) following the naming convention: 
+* PascalCase for nodes
+* camelCase for leafs
+
+After your changes were merged to the ``develop`` branch, you will be able to translate the UI strings directly within Crowdin.
+Any changes on Crowdin are synced every ten minutes to GitHub. Our faithful servant [4minitz-bot](https://github.com/4minitz-bot) will
+automatically commit these changes to the branch ``l10n_develop`` and create a PR to ``develop``. **Don't manually edit any translation file or it will be overwritten with the next PR**.
  
 ## Database Seeding
  
