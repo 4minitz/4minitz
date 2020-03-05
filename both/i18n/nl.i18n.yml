@@ -4,9 +4,9 @@ _locale: 'nl'
 Accounts:
   usernamePlaceholder: "(min. 3 tekens)"
   nameDisplayName: "Naam, Bedrijf"
-  namePlaceholder: "John Doe, Happy Corp."
-  passwordPlaceholder: "min. 6 tekens (cijfer, lager & boven)"
-  passwordError: "min. 6 tekens (min. 1 cijfer, 1 lager, 1 boven)"
+  namePlaceholder: "Jan Jansen, Holland BV."
+  passwordPlaceholder: "min. 6 tekens (cijfer, hoofdletter & kleine letter)"
+  passwordError: "min. 6 tekens (min. 1 cijfer, 1 hoofdletter, 1 kleine letter)"
 Buttons:
   add: "Toevoegen"
   back: "Terug"
