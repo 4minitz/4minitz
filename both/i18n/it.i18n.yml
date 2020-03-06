@@ -236,7 +236,7 @@ Topic:
   unsetSkipHint: "Imposta come argomento non saltato"
   history: "Mostra cronologia"
   historyHint: "Mostra lo stato completo di questo argomento"
-  delete: "Cancella Topic"
+  delete: "Cancella argomento"
   reopen: "Riapri argomento"
   reopenHint: "Riapri argomento"
   placeholder: "Aggiungi elemento informazioni. Aggiungi @username per aggiungere un Elemento all'azione. Premere INVIO per aggiungere dettagli. Premere Ctrl+Enter o Tab per inviare."
@@ -492,13 +492,13 @@ Mail:
   skippedTopics: "Argomenti aperti"
   none: "Nessuno"
   AdminNewVersion:
-    subject: "La versione più recente esiste"
+    subject: "Esiste una versione piu' recente"
     body: |
       Ciao Admin,
 
       Sembra che tu stia eseguendo una versione obsoleta di 4Minitz.
 
-      Il tuo esempio di 4Minitz su: {$rootUrl}
+      4Minitz su: {$rootUrl}
       ha una versione: {$myVersion}
 
       La versione più recente disponibile è: {$masterVersion}'
@@ -515,8 +515,8 @@ Mail:
 
 
       ---
-      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
-      Sorgenti è disponibile su {$url4Minitz}
+      4Minitz è un open source gratuito sviluppato dal team di 4Minitz.
+      I sorgenti sono disponibili su {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Il tuo nuovo account sul nostro server"
     passwordNotSend: "    Contatta l'amministratore per la password."
@@ -527,11 +527,11 @@ Mail:
     body: |
       Ciao {$userLongName},
 
-      Benvenuto nella nostra 4Minitz WebApp.
-      Ora puoi iniziare a partecipare per mantenere i minuti di riunione professionale.
+      Benvenuto nella nostra WebAPP 4Minitz.
+      Ora puoi iniziare a mantenere i verbali di riunione in modo professionale.
 
-      Puoi accedere con 'Standard' (non LDAP! Accedi a:
-         Il tuo ospite: {$rootURL}
+      Puoi accedere con 'Standard' (non LDAP!) login:
+         Il tuo host: {$rootURL}
          Il tuo utente: {$userName}
       {$passwordParagraph}
 
@@ -539,8 +539,8 @@ Mail:
         Tuo Amministratore.
 
       ---
-      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
-      Sorgenti è disponibile su {$url4Minitz}
+      4Minitz è un open source gratuito sviluppato dal team di 4Minitz.
+      I sorgenti sono disponibili su {$url4Minitz}
   UserRoleChange:
     subject: "Il tuo ruolo è cambiato per '{$meetingProject}:{$meetingName}'"
     body: |
@@ -553,12 +553,12 @@ Mail:
          Il tuo nuovo ruolo è : {$roleNew}
          La modifica è stata eseguita da : {$moderatorName}
 
-      Per un elenco completo di diritti per ogni ruolo vedi:
+      Per un elenco completo dei diritti per ogni ruolo sono presenti in:
       {$urlRoleDocu}
 
       Divertiti!
         Il tuo amministratore.
 
       ---
-      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
-      Fonte è disponibile a {$url4Minitz}
+      4Minitz è un open source gratuito sviluppato dal team di 4Minitz.
+      I sorgenti sono disponibili in {$url4Minitz}
