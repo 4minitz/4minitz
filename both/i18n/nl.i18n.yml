@@ -392,8 +392,8 @@ Admin:
     broadcast: "Verzenden"
     date: "Datum"
     message: "Bericht"
-    dismissed: "Niet-gemist"
-    dismissingUsers: "#Ontbrekende gebruikers: {$number}\n"
+    dismissed: "Afgewezen"
+    dismissingUsers: "Aantal gebruikers dat het bericht gesloten heeft: {$number}\n"
     edit: "Bewerken"
   Users:
     filterUsers: "Gebruikers Filteren"
