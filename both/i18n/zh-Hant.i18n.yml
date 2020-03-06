@@ -13,7 +13,7 @@ Buttons:
   cancel: "取消"
   change: "變化"
   close: "關閉"
-  confirm: "Confirm"
+  confirm: "確認"
   create: "建立"
   delete: "刪除"
   dismissAll: "全部解除"
@@ -29,31 +29,31 @@ UserRoles:
   roleInformed: "Informed"
 FlashMessages:
   ok: "好"
-  error: "Error"
-  verifyEMailErr: "Error: EMail could not be verified"
-  verifyEMailOK: "OK: EMail is verified now"
-  passwordChangeOK: "Password changed"
-  passwordResetOK: "Password sucessfully reseted"
-  profileEditOK: "Profile changes saved"
-  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
-  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
-  finalizeProgress1: "Finalize in progress"
-  finalizeProgress2: "This may take a few seconds..."
-  finalizeOK: "This meeting minutes were successfully finalized"
+  error: "錯誤"
+  verifyEMailErr: "錯誤：無法驗證 EMail"
+  verifyEMailOK: "行：現在已驗證 EMail"
+  passwordChangeOK: "密碼已變更"
+  passwordResetOK: "已順利重新安置密碼"
+  profileEditOK: "已儲存設定檔變更"
+  minuteLinkErr: "不幸的是，該分鐘未正確地鏈結至其母項系列 - 請聯絡您的系統管理者。"
+  agendaSentOK: "議程已順利傳送至 {$result} 收件者"
+  finalizeProgress1: "完成進行中"
+  finalizeProgress2: "這可能需要幾秒鐘 ..."
+  finalizeOK: "已順利完成此會議分鐘"
 Dialog:
   ConfirmDelete:
-    title: "Confirm delete?"
-    body: "Are you sure to delete this?"
+    title: "確認刪除？"
+    body: "您確定要刪除此嗎？"
   ConfirmCreateNewMinutes:
     title: "確認建立新的分鐘"
     content: "您真的想要為會議系列建立新的分鐘數 \"{$project}： {$name}\"？"
-  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  confirmDeleteAttachment: "您真的要刪除附件：\n**{$name} **嗎？"
+  confirmDeleteDetails: "您真的要刪除項目 **{$subject} ** 的選定詳細資料嗎 ** ？"
   ConfirmDeleteItem:
-    allowed: "Do you really want to delete the {$type} **{$subject}**?"
-    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
-    questionActionItem: "Do you want to close the action item instead?"
-    questionInfoItem: "Do you want to unpin the sticky info item instead?"
+    allowed: "您真的要刪除 {$type} **{$subject} **嗎？"
+    notAllowed: "無法刪除 {$type} **{$subject}** ，因為 {$type} 是在前一個分鐘內建立的。"
+    questionActionItem: "您要改為關閉動作項目嗎？"
+    questionInfoItem: "您要改為取消釘銷黏性資訊項目嗎？"
     typeActionItem: "action item"
     typeInfoItem: "information"
     titleCloseActionItem: "Close action item?"
@@ -61,40 +61,40 @@ Dialog:
     buttonCloseActionItem: "Close action item"
     buttonUnpinInfoItem: "Unpin info item"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic **{$subject}**?"
-    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
+    allowed: "您真的要刪除主題 **{$subject}**？"
+    notAllowed: "無法刪除主題 **{$subject}** ，因為本主題是在前一個分鐘內建立的。"
     close: "您要改為關閉主題嗎？"
     closeWithActions: "您要改為關閉主題與所有相關的動作項目嗎？"
-  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "您真的想要離開會議系列：\n\n**{$project} / {$name}**\n\n您必須先詢問主持人，如果您想要之後再加入，請您再加入。"
   ConfirmMinuteQualityAssurance:
-    title: "Finalize Minutes: Quality Checks"
-    button: "Proceed"
+    title: "終結分鐘：品質檢查"
+    button: "繼續"
     issues: "您的分鐘數已完成。"
     proceed: "您要繼續完成嗎？"
-    warnNoTopics: "The current minutes have no topics"
-    warnNoParticipants: "No participant is marked as present"
-    warnEditing: "A topic/item/detail is still edited"
-    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
-    warnTopicWithoutItems: "At least one discussed topic has no items"
-    warnActionItemWithoutResponsible: "At least one action item has no responsible"
-    warnTopicNoNewContent: "A topic is checked but has no new content"
+    warnNoTopics: "現行分鐘沒有主題"
+    warnNoParticipants: "沒有參與者標示為存在"
+    warnEditing: "仍在編輯主題 / 項目 / 明細"
+    warnNoTopicDiscussed: "沒有主題標示為「已討論」"
+    warnTopicWithoutItems: "至少一個討論主題沒有項目"
+    warnActionItemWithoutResponsible: "至少一個動作項目沒有責任"
+    warnTopicNoNewContent: "已檢查主題，但沒有新內容"
   ConfirmReOpenTopic:
-    title: "Re-open Topic?"
-    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
-    button: "Re-open"
+    title: "重新開啟主題？"
+    body: "您真的要重新開啟已關閉的主題 **{$topicSubject}**？"
+    button: "重新開啟"
   ConfirmSendAgenda:
-    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
-    title: "Confirm sending agenda"
+    body: "您真的要傳送此會議分鐘的議程，日期日期為 **{$minDate}**？\n它已在 {$agendaSentDate} 上的 {$agendaSentTime} 上傳送"
+    title: "確認傳送議程"
     button: "傳送議程"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
-    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
-    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
-    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    really: "您真的要刪除日期為 **{$minutesDate} **的會議分鐘嗎？"
+    newTopics: "這會移除 **{$newTopicsCount} 主題**，這是在此分鐘內建立的。"
+    closedTopicsAdditionally: "此外， **{$closedTopicsCount} 主題** 將會再次開啟，在此分鐘內關閉。"
+    closedTopics: "**{$closedTopicsCount} 主題** 將會再次開啟，在此分鐘內關閉。"
   ConfirmFinalizeMinutes:
-    title: "Confirm Finalize Minutes"
-    button: "Finalize"
-    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
+    title: "確認完成分鐘"
+    button: "終結"
+    really: "您真的要終結日期為 **{$minutesDate} **的會議分鐘嗎 ** ？"
     sendActionItems: "傳送動作項目"
     sendMinutes: "傳送資訊項目"
   LocaleSetting:
@@ -102,49 +102,49 @@ Dialog:
     languageLocale: "語言語言環境"
     automatic: "透過瀏覽器自動"
   IsEditedHandling:
-    title: "Edit despite existing editing"
-    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
-    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
-    button: "Edit Anyway"
+    title: "編輯雖然現有的編輯"
+    confirmationDialogResetEdit: "警告：此文件 ist 目前由 {$name} 進行編輯：自： {$date}"
+    confirmationDialogResetEditDetails: "請再次按一下詳細資料，以開始編輯。"
+    button: "編輯反正"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
-        Status: {$status}
-        Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
-    header: "You have lost the connection to the 4Minitz server."
-    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
-    tryToReconnect: "Try To Reconnect"
+      Connection Lost！
+        Status： {$status}
+        Retry Count： {$retryCount}
+        重試時間： {$retryTime} 秒。
+        原因： {$reason}
+        按一下以重新連接。
+    header: "您已失去與 4Minitz 伺服器的連線。"
+    body: "如果您關閉瀏覽器，則未儲存的資料可能會遺失。 如果此問題持續存在，請聯絡伺服器管理者。"
+    tryToReconnect: "嘗試重新連接"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
-    button: "Download"
+    title: "確認產生通訊協定"
+    body: "在這些分鐘數中未產生任何通訊協定。 您要改為下載動態產生的 HTML 版本嗎？"
+    button: "下載"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    title1: "確認刪除主題"
+    title2: "將主題標示為已討論？"
+    button2: "關閉主題和動作"
+    errortitle: "無法刪除主題"
+    errorcontent: "無法刪除此主題，因為它是在前一個分鐘內建立的。 選取的主題已關閉，且沒有開啟動作項目，因此不會將它複製到下列分鐘。"
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
-    body3: "so it won't be copied to the following minutes"
+    title: "無法刪除項目"
+    body1: "無法刪除此項目，因為它是在前一個分鐘內建立的。"
+    body2a: "此動作項目已關閉，"
+    body2b: "此資訊項目已取消固定"
+    body3: "這樣它就不會被複製到下一分鐘"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
+    title: "動作項目的責任無效"
     body: |
-      This is not a valid responsible!
+      這不是有效的負責人！
 
-      Please select an **existing user** from the dropdown or enter a **valid email address**.
+      請從下拉清單中選取 **現有的使用者** ，或輸入 **有效的電子郵件位址**。
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "無法轉換項目"
+    body: "無法轉換此項目，因為它是在前一個分鐘內建立的。"
 About:
   title: "4Minitz公司簡介"
-  copyrightTeam: "by 4Minitz-Team"
+  copyrightTeam: "4Minitz-團隊"
   licensedUnder: "授權下的授權 -授權"
   licenseDependencies: "相依關係的授權"
   thanksContributors: "感謝所有我們的投稿者"
@@ -299,7 +299,7 @@ Minutes:
     continue: "繼續上傳"
     pause: "暫停上傳"
     abort: "中斷上傳"
-    error: "Error during upload"
+    error: "上傳期間發生錯誤"
   version: "版本"
   versionTag: "v"
   Participants:
@@ -323,7 +323,7 @@ MeetingSeries:
   team: "團隊 / 專案"
   new: "新會議系列"
   leave: "離開會議系列"
-  leaveButton: "Leave"
+  leaveButton: "離開"
   moderator: "您是主持人"
   lastMinute: "最後一分鐘："
   Search:
@@ -373,9 +373,9 @@ Profile:
     email: "請輸入有效的電子郵件位址"
     password: "請輸入有效的密碼"
   WarningEMailChange:
-    title: "Confirm changing user mail"
-    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
-    button: "Sign off + Re-Verify"
+    title: "確認變更使用者郵件"
+    body: "您即將變更已驗證的郵件位址。 您將會登出，並需要驗證您的新郵件位址，然後才能繼續。"
+    button: "登出 + 重新驗證"
 Admin:
   users: "使用者"
   messages: "訊息"
@@ -420,20 +420,20 @@ Login:
     title: "登入錯誤"
     username: "請輸入您的使用者名稱"
     password: "請輸入您的密碼"
-  signIn: "Sign In"
+  signIn: "登入"
   ldap: "LDAP"
   standard: "標準"
   demoHint: "提示： Demo Mode Active<br>您可以使用 username <b>示範</b> 及密碼 <b>示範</b>登入。 或者，您可以按一下下面的「登錄」鏈結，來登錄自己的帳戶。"
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Minutes."
-    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    header: "4Minitz：協同會議分鐘。"
+    subheader: "● 準備議程 * 檔案紀要 * 追踪主題"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
-    prepareAgendaHeading: "Prepare Agenda"
+      <p>每一個受邀及登入的使用者，都可以即時監看現行會議分鐘的變更。</p>
+      我們製作了 4Minitz 免費開源軟體，因為我們強烈認為，不應該在雲端中管理
+      等像會議紀錄等敏感資訊。
+      而您想要在自己的基礎架構上管理它，您可以在其中定義
+      ，您需要的安全和安全層次。
+    prepareAgendaHeading: "準備議程"
     prepareAgendaDetails: |
       <li>Create your meeting series</li>
       <li>Invite other users</li>
@@ -441,7 +441,7 @@ Login:
       <li>Fill agenda with topics</li>
       <li>Mark recurring topics for standard agenda</li>
       <li>Send agenda to invited users</li>
-    documentMinutesHeading: "Document Minutes"
+    documentMinutesHeading: "文件分鐘"
     documentMinutesDetails: |
       <li>Mark present participants</li>
       <li>Add action items with responsibles to topics</li>
@@ -449,7 +449,7 @@ Login:
       <li>Add labels like 'Decision' to items</li>
       <li>Upload binary file attachments</li>
       <li>Send minutes &amp; action items via EMail</li>
-    trackTopicsHeading: "Track Topics"
+    trackTopicsHeading: "追踪主題"
     trackTopicsDetails: |
       <li>Open action items will show up next time</li>
       <li>Non-closed topics will show up next time</li>
@@ -458,8 +458,8 @@ Login:
       <li>Find topics with labels (e.g. all Decisions)</li>
       <li>Find items by fulltext search</li>
   Footer:
-    withLove: "Coded with ❤ by the"
-    theTeam: "WebApp Team"
+    withLove: "使用 ❤ 的編碼"
+    theTeam: "WebApp 團隊"
 Navigation:
   help: "救命"
   about: "關於"
@@ -481,8 +481,8 @@ QuickHelp:
 Mail:
   greeting: "你好"
   newAgenda: "我們為您準備了全新的會議日程："
-  newActionItem: "You have been assigned to the following action items:"
-  newMinutes: "Below you'll find the latest meeting minutes."
+  newActionItem: "您已指派給下列動作項目："
+  newMinutes: "在下方，您會找到最新的會議記錄。"
   meeting: "Meeting"
   links: "鏈結"
   openSeries: "開啟系列"
@@ -492,7 +492,7 @@ Mail:
   skippedTopics: "開啟主題"
   none: "沒有"
   AdminNewVersion:
-    subject: "Newer version exists"
+    subject: "有新版本存在"
     body: |
       Hello Admin,
 
@@ -518,12 +518,12 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   AdminRegisterNewUser:
-    subject: "Your new account at our server"
-    passwordNotSend: "    Contact admin for password."
+    subject: "您在我們伺服器上的新帳戶"
+    passwordNotSend: "    請聯絡管理者以取得密碼。"
     passwordParagraph: |
-      Your password : {$password}
+      您的密碼： {$password}
 
-      Don't forget to change your password after first login!
+      在第一次登入後，別忘了更改密碼！
     body: |
       Hello {$userLongName},
 
@@ -561,4 +561,4 @@ Mail:
 
       ---
       4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
+      Source is available at {$url4Minitz}

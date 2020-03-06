@@ -1,0 +1,564 @@
+---
+_splitKey: ':'
+_locale: 'hi'
+Accounts:
+  usernamePlaceholder: "(मिनट. ३ चलिये)"
+  nameDisplayName: "नाम, कंपनी"
+  namePlaceholder: "जॉन डॉफ, मुबारक कोप।"
+  passwordPlaceholder: "न्यूनतम 6 चारवी (अंक, निचला व ऊपरी)"
+  passwordError: "न्यूनतम 6 चारस (min min) 1 अंक 1, 1, 1, 1, 1)"
+Buttons:
+  add: "जोड़ें"
+  back: "वापस जाएँ"
+  cancel: "निरस्त"
+  change: "बदलाव"
+  close: "बन्द"
+  confirm: "संपुष्ट करें"
+  create: "बनाएँ (C)"
+  delete: "मिटाएँPermissions"
+  dismissAll: "सभी छोड़ें (A)"
+  edit: "संपादन (E)"
+  hide: "ओंक, छुपाना"
+  ok: "ओक"
+  register: "पंजीकृत करें"
+  save: "सहेजें"
+UserRoles:
+  roleModerator: "आधुनिकता का दौर"
+  roleUploader: "अद्यतन"
+  roleInvited: "आमंत्रित"
+  roleInformed: "ख़बरदार"
+FlashMessages:
+  ok: "ओक"
+  error: "त्रुटि"
+  verifyEMailErr: "त्रुटि: Email सत्यापित नहीं किया जा सका"
+  verifyEMailOK: "ठीक है: ई मेल की जांच हो चुकी है"
+  passwordChangeOK: "कूटशब्द बदल गया"
+  passwordResetOK: "कूटशब्द बहुत सफल हुआ"
+  profileEditOK: "प्रोफाइल परिवर्तन सहेजा गया"
+  minuteLinkErr: "दुर्भाग्य से यह मिनट अपने मूल श्रृंखला से ठीक नहीं है-कृपया अपने तंत्र प्रशासक से संपर्क करें."
+  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
+  finalizeProgress1: "प्रगति में अंतिम"
+  finalizeProgress2: "यह कुछ सेकंड ले सकता है ..."
+  finalizeOK: "इस बैठक मिनट को सफलतापूर्वक अंतिम रूप दिया गया"
+Dialog:
+  ConfirmDelete:
+    title: "मिटाने की पुष्टि करें?"
+    body: "क्या आप निश्चित हैं कि इस को मिटाना चाहते हैं?"
+  ConfirmCreateNewMinutes:
+    title: "नई मिनट्स बनाने की पुष्टि करें"
+    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
+  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
+  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+  ConfirmDeleteItem:
+    allowed: "Do you really want to delete the {$type} **{$subject}**?"
+    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
+    questionActionItem: "Do you want to close the action item instead?"
+    questionInfoItem: "Do you want to unpin the sticky info item instead?"
+    typeActionItem: "action item"
+    typeInfoItem: "information"
+    titleCloseActionItem: "Close action item?"
+    titleUnpinInfoItem: "Unpin info item?"
+    buttonCloseActionItem: "Close action item"
+    buttonUnpinInfoItem: "Unpin info item"
+  ConfirmDeleteTopic:
+    allowed: "Do you really want to delete the topic **{$subject}**?"
+    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
+    close: "क्या आप इसके बजाय विषय को बंद करना चाहते हैं?"
+    closeWithActions: "क्या आप इसके बजाय सभी संबंधित एक्षन मदों के साथ विषय को बंद करना चाहते हैं?"
+  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+  ConfirmMinuteQualityAssurance:
+    title: "कार्यरूप को समाप्त करें: गुणवत्ता जाँच"
+    button: "आगे बढ़ें"
+    issues: "आपके मिनट के साथ मुद्दे अंतिम रूप दे रहे हैं!"
+    proceed: "क्या आप अंतिम रूप से आगे बढ़ना चाहते हैं?"
+    warnNoTopics: "मौजूदा मिनट में कोई विषय नहीं है"
+    warnNoParticipants: "कोई सहभागी मौजूदा रूप में चिह्नित नहीं है"
+    warnEditing: "एक स्थला/विस्तृत विवरण अभी भी संपादित किया गया है"
+    warnNoTopicDiscussed: "कोई विषय 'चर्चा' के रूप में चिह्नित नहीं है"
+    warnTopicWithoutItems: "कम से कम एक विषय पर कोई वस्तु नहीं है"
+    warnActionItemWithoutResponsible: "कम से कम एक कार्य मद उत्तरदायी नहीं है"
+    warnTopicNoNewContent: "एक विषय पर रोक लगा दी गई है लेकिन कोई नया कंटेंट नहीं है"
+  ConfirmReOpenTopic:
+    title: "पुनः खुला विषय?"
+    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
+    button: "पुनः खुला"
+  ConfirmSendAgenda:
+    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    title: "एजेंडा भेजने की पुष्टि"
+    button: "एजेंडा भेजें"
+  ConfirmDeleteMinutes:
+    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
+    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
+    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+  ConfirmFinalizeMinutes:
+    title: "मिनट्स को समाप्त करने की पुष्टि करें"
+    button: "समाप्त कर रहा है"
+    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
+    sendActionItems: "क्रिया मद भेजें"
+    sendMinutes: "सूचना मद भेजें"
+  LocaleSetting:
+    title: "भाषा सेट करें"
+    languageLocale: "भाषा लॉक"
+    automatic: "ब्राउज़र के माध्यम से स्वचालित"
+  IsEditedHandling:
+    title: "मौजूदा संपादन के बावजूद संपादित करें"
+    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
+    confirmationDialogResetEditDetails: "कृपया संपादन करने के लिए फिर से विस्तार पर क्लिक करें."
+    button: "किसी तरह संपादित करें"
+  ConnectionInfo:
+    tooltip: |
+      Connection Lost!
+        Status: {$status}
+        Retry Count: {$retryCount}
+        Retry Time: {$retryTime} sec.
+        Reason: {$reason}
+        Click to reconnect.
+    header: "आपने 4Minitz सर्वर से संपर्क खो दिया है."
+    body: "यदि आप अपने ब्राउज़र को बंद करते हैं, अपसहेजा डेटा नष्ट हो सकता है. यदि यह समस्या बनी रहती है तो अपने नातों को दूर करने के लिए संपर्क करें"
+    tryToReconnect: "फिर से पुन: कनेक्ट"
+  ConfirmGenerateProtocol:
+    title: "उत्पन्न प्रोटोकॉल की पुष्टि करें"
+    body: "इन मिनटों के लिए कोई प्रोटोकॉल नहीं बनाया गया है. क्या आप इसके बजाय इसके HTML संस्करण को गतिशील रूप से डाउनलोड करना चाहते हैं?"
+    button: "डाउनलोड"
+  ConfirmTopicDelete:
+    title1: "मिटाने की पुष्टि करें"
+    title2: "मार्क के बारे में चर्चा के लिए?"
+    button2: "विषय और क्रिया बन्द करें"
+    errortitle: "विषय मिटा नहीं सकता है"
+    errorcontent: "इस टॉपिक को हटाना संभव नहीं है क्योंकि इसे पिछले मिनट में बनाया गया था. चयनित विषय पहले से ही बंद है और कोई खुली कार्यवाही मद नहीं है, इसलिए इसे निम्न मिनटों में नकल नहीं की जाएगी."
+  ItemDeleteError:
+    title: "आइटम मिटा नहीं सकता है"
+    body1: "इस मद को हटाना संभव नहीं है क्योंकि इसे पिछले मिनट में बनाया गया था."
+    body2a: "यह क्रिया पहले से बंद है,"
+    body2b: "यह जानकारी मद पहले से ही मौजूद है"
+    body3: "so it won't be copied to the following minutes"
+  ActionItemResponsibleError:
+    title: "Invalid Responsible for Action Item"
+    body: |
+      This is not a valid responsible!
+
+      Please select an **existing user** from the dropdown or enter a **valid email address**.
+  ConvertItemError:
+    title: "Cannot convert item"
+    body: "It is not possible to convert this item because it was created in a previous minutes."
+About:
+  title: "4Minitz के बारे में"
+  copyrightTeam: "by 4Minitz-Team"
+  licensedUnder: "MIT लाइसेंस के तहत लाइसेंस"
+  licenseDependencies: "निर्भरता का लाइसेंस"
+  thanksContributors: "हमारे सभी योगदानकर्ता के लिए धन्यवाद"
+  proudlySponsored: "प्रूव द्वारा प्रायोजित किया जा सकता है"
+  specialThanks: "इन परियोजनाओं के लिए विशेष धन्यवाद"
+  forkGitHub: "गीफ़स पर फैर्क"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
+Item:
+  ariaLabel: "जोड़ें/संपादन मद"
+  editItem: "वस्तु का संपादन करें"
+  editItemHint: "इस क्रिया/सूचना मद संपादित करें"
+  deleteItem: "वस्तु मिटाएँ"
+  deleteItemHint: "इस क्रिया/सूचना मद को मिटाएँ"
+  addItemModal: "Add {$type} to {$topic}"
+  editItemModal: "Edit {$type} of {$topic}"
+  editItemModelTypeInfoItem: "जानकारी"
+  editItemModelTypeActionItem: "कार्य मद"
+  addInfo: "सूचना मद जोड़ें"
+  addInfoHint: "विषय में सूचना मद जोड़ें"
+  action: "कार्य मद"
+  addAction: "कार्य मद जोड़ें"
+  addActionHint: "विषय में क्रिया मद जोड़ें"
+  convertToAction: "क्रिया में बदलें"
+  convertToInfo: "जानकारी के लिए बदलें"
+  convertDisabled: "परिवर्तन निष्क्रिय: पिछले बैठक में मद मौजूद है"
+  subject: "विषय"
+  details: "विवरण"
+  addDetails: "विवरण जोड़ें"
+  priority: "प्राथमिकता"
+  due: "शेष"
+  dueNone: "कोई नहीं"
+  detailPlaceholder: "आप मार्क्डाउन को संपादित करने के लिए प्रयोग कर सकते हैं. छोड़ने के लिए Ctrl + प्रवेश या टैब दबाएं."
+  markdownHint: "मार्क्डाउन सिन्टेक्स के लिए सहायता"
+  setPin: "पिन सेट करें"
+  setPinHint: "सेट सूचना मद के रूप में सेट करें"
+  unsetPin: "अचयनित नहीं हुए"
+  unsetPinHint: "गैर-आधारित सूचना मद के रूप में सेट करें"
+  done: "किया हुआ"
+  pinned: "निला"
+  Error:
+    subject: "वैध विषय दर्ज करें"
+  Filter:
+    title: "फ़िल्टर्स"
+    usageHint: "फ़िल्टर प्रयोग"
+    info: "जानकारी"
+    action: "क्रिया वस्तुएँ"
+    open: "खुली क्रिया वस्तुएँ"
+    closed: "बंद कार्य मद"
+    yourAction: "आपकी क्रिया वस्तुएँ"
+    placeholder: "फ़िल्टर"
+    matchCase: "केस"
+    matchCaseHint: "मिलान केस"
+    matchCaseLong: "मिलान केस"
+    Usage:
+      body: "आप सूचीबद्ध तत्वों को फिल्टर करने के लिए कई कुंजीशब्द का उपयोग कर सकते हैं. सभी कुंजीशब्द को मिल सकता है जो उन वस्तुओं से मेल खाते हैं जो सभी खोज पैरामीटरों को फिल्टर करते हैं."
+      keyword: "कीवर्ड"
+      format: "फ़ॉर्मेट"
+      values: "मान"
+      eg: "उदाहरण के लिए"
+  myActionItems: "मेरी क्रियाऐं मदें"
+Topic:
+  title: "विषय"
+  new: "नया"
+  add: "विषय जोड़ें"
+  addLong: "विषय जोड़ें ..."
+  addShort: "विषय"
+  addHint: "सूची में नया विषय जोड़ें [ Ctrl + Alt + T]"
+  quickAdd: "ADD TOPISC (सूची के अंत तक)"
+  edit: "टॉपिक संपादित करें"
+  save: "विषय सहेजें"
+  show: "विषय दिखायें"
+  subject: "विषय (अनिवार्य)"
+  responsible: "प्रतिक्रिया योग्य"
+  completed: "समाप्त"
+  completedHint: "यह विषय अंततः पूरा हो गया है. इसलिए अगली बैठक में प्रचार नहीं किया जाएगा."
+  setRecurring: "आवृत्ति सेट करें"
+  setRecurringHint: "बारंबार बार बार सेट करें"
+  unsetRecurring: "आवृत्ति"
+  unsetRecurringHint: "सेट-बार-बार नहीं सेट करें"
+  setSkip: "सेट छोड़ें"
+  setSkipHint: "बतौर छोड़ विषय के रूप में सेट करें"
+  unsetSkip: "अचयनित छोड़ें"
+  unsetSkipHint: "बतौर गैर-छोड़ विषय के रूप में सेट करें"
+  history: "इतिहास दिखायें"
+  historyHint: "इस टॉपिक को पूर्ण रूप से अंतिम रूप दिया"
+  delete: "टॉपिक मिटाएँ"
+  reopen: "खुला विषय"
+  reopenHint: "खुला विषय"
+  placeholder: "सूचना मद जोड़ें. एक क्रिया मद जोड़ने के लिए जोड़ें जोड़ने के लिए दबाएं. प्रस्तुत करने के लिए Ctrl + प्रवेश या टैब दबाएं."
+  childOf: "बैठक शृंखला के विषय:"
+  historyTitle: "यह विषय था"
+  createdOn: "पैदा किया:"
+  lastUpdate: "अंतिम बार अद्यतन:"
+  finalizedOn: "से मिनट को अंतिम रूप दिया:"
+  doneBy: "(by {$user})"
+  notFoundTitle: "क्षमा करें, विषय नहीं मिला."
+  notFoundReasons: "Reasons may be...<br><ul><li>The topic was never finalized (it only lives in an unfinalized minute)</li><li>The topic was deleted</li><li>You do not have access rights to this topic (anymore)</li></ul>"
+  illegalAction: "केवल पठनीय अवस्था में कॉल करने के लिए कोशिश"
+  addDetails: "विवरण जोड़ें"
+  addDetailsHint: "मद में विवरण जोड़ें"
+  hideClosed: "बंद छुपाएँ"
+  hideClosedHint: "अस्थायी रूप से छिपाने के लिए चुने गए मुद्दों को सूची से बाहर किया गया"
+  hideClosedLong: "बंद किए गए विषय"
+  collapse: "कोलैप्स"
+  collapseLong: "कोलैप्स"
+  expand: "विस्तार"
+  expandLong: "विषय विस्तार"
+  Error:
+    subject: "वैध विषय दर्ज करें"
+  Filter:
+    completed: "समाप्त हुआ"
+    uncompleted: "बिना पूरा हुआ मामला"
+    yourTopic: "आपके विषय"
+Minutes:
+  create: "नई मिनट्स बनाएँ"
+  date: "तिथि"
+  dateOn: "पर"
+  title: "मिनट के लिए मिनट्स"
+  finalized: "समाप्त"
+  finalizedHint: "कार्यवृत्त को अंतिम रूप दिया गया"
+  notFinalized: "अंतिम रूप नहीं दिया"
+  notFinalizedHint: "कार्यवृत्त को अंतिम रूप नहीं दिया गया"
+  attachments: "संलग्नक"
+  attachmentsHint: "मिनट्स संलग्नक"
+  previous: "पिछला:"
+  next: "अगला:"
+  history: "इतिहास"
+  unfinalizeHint: "Un-En-EU"
+  print: "कार्यवृत्त"
+  finalize: "कार्यवृत्त"
+  finalizeHint: "मिनट्स को अंतिम रूप देने के लिए क्लिक करें"
+  printHint: "कार्यवृत्त"
+  downloadHint: "फ़ाइल बतौर फ़ाइल डाउनलोड करें"
+  agenda: "एजेंडा"
+  sendAgenda: "एजेंडा भेजें"
+  delete: "कार्यवृत्त"
+  GlobalNotes:
+    pin: "सेट वैश्विक नोट के रूप में सेट करें"
+    unpin: "गैर-आधारित वैश्विक नोट के रूप में सेट करें"
+    title: "वैश्विक नोट"
+    placeholder: "इन मिनट के लिए ग्लोबल नोट्स. क्लिक करने के लिए नोट्स के प्रचार करने के लिए क्लिक करें."
+  Upload:
+    button: "अपलोड ..."
+    uploading: "अपलोड कर रहा है"
+    start: "अपलोड प्रारंभ करें"
+    continue: "जारी रखें अपडेट"
+    pause: "ठहरें रोकें"
+    abort: "निरस्त करें (U)"
+    error: "Error during upload"
+  version: "संस्करण"
+  versionTag: "बनाम"
+  Participants:
+    title: "सहभागी"
+    invited: "आमंत्रित"
+    solo: "1 सहभागी"
+    additional: "अतिरिक्त सहभागी"
+    additionalSolo: "1 अतिरिक्त सहभागी"
+    placeholder: "अतिरिक्त भाग (';' से अलग). डाक पता को मिनट मिलेगा."
+    editHint: "आमंत्रित उपयोक्ता को संपादित करें."
+    markNone: "कोई नहीं"
+    markAll: "सभी को चिह्नित करें"
+    watchingHint: "यह उपयोगकर्ता देख रहा है (दूर से)"
+    informed: "जानकार"
+    informedSolo: "1 ख़बर उपयोगकर्ता"
+    present: "वर्तमान सहभागी"
+    absent: "भेजे गए"
+    none: "कोई नहीं."
+MeetingSeries:
+  title: "बैठक शृंखला"
+  team: "टीम/परियोजना"
+  new: "नई बैठक शृंखला"
+  leave: "बैठक शृंखला"
+  leaveButton: "Leave"
+  moderator: "आप नियामक हैं"
+  lastMinute: "अंतिम मिनट:"
+  Search:
+    placeholder: "बैठक शृंखला के लिए खोजें"
+    noResults: "इस इनपुट के लिए कोई परिणाम नहीं ..."
+  Edit:
+    Error:
+      meetingName: "बैठक श्रृंखला के लिए वैध नाम दर्ज करें"
+      teamName: "कृपया एक वैध परियोजना नाम दर्ज करें"
+      notRegistered: "यह कोई पंजीकृत उपयोगकर्ता नाम नहीं है"
+      alreadyInList: "यह उपयोगकर्ता नाम पहले से सूची में है"
+    teamName: "टीम/परियोजना नाम"
+    meetingName: "बैठक नाम"
+    title: "बैठक शृंखला संपादित करें"
+    base: "आधार विन्यास"
+    editedBy: "Edited by {$user} (at {$date})"
+    invited: "आमंत्रित और जानकार"
+    notifyRoleChange: "भूमिका परिवर्तन पर प्रतिभागियों को सूचित करें"
+    labels: "लेबल"
+    save: "बैठक शृंखला सहेजें"
+    confirmDelete: "मिटाने की पुष्टि करें"
+  Labels:
+    Error:
+      name: "वैध लेबल नाम दर्ज करें"
+      hexValue: "अवैध हेक्स रंग मान"
+    add: "नया लेबल जोड़ें"
+    new: "न्यूलेबल"
+    select: "चुनें ..."
+  Tab:
+    minutes: "कार्यवृत्त"
+    topics: "प्रसंग"
+    items: "मद"
+Profile:
+  userName: "उपयोगकर्ता नाम"
+  longName: "लंबा नाम"
+  email: "ई-मेल"
+  password: "कूटशब्द (P)"
+  passwordRepeat: "कूटशब्द दोहराएँ"
+  ChangePassword:
+    oldPassword: "पुराने कूटशब्द"
+    wrongOldPassword: "कृपया पुराना वैध पासवर्ड डालें"
+    newPassword: "नया कूटशब्द"
+    newPasswordRepeat: "नया कूटशब्द दुहरायें"
+  Error:
+    name: "कृपया एक वैध उपयोक्तानाम दर्ज करें"
+    longName: "कृपया वैध लंबा नाम दर्ज करें"
+    email: "वैध Email पता दर्ज करें"
+    password: "वैध कूटशब्द दाखिल करें"
+  WarningEMailChange:
+    title: "Confirm changing user mail"
+    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
+    button: "Sign off + Re-Verify"
+Admin:
+  users: "उपयोक्ता"
+  messages: "संदेश"
+  Register:
+    label: "नया उपयोगकर्ता रजिस्टर करें"
+    hint: "संकेत: यह मानक लॉगिन के लिए एक उपयोक्ता को रजिस्टर करेगा (LDAP लॉगिन के लिए नहीं)."
+    button: "नया उपयोक्ता रजिस्टर करें ..."
+    sendMail: "नया उपयोगकर्ता के लिए ई-मेल भेजें"
+    includePassword: "ई-मेल में पासवर्ड शामिल करें"
+    success: "Registered new user: {$user}"
+  Message:
+    title: "व्यवस्थापक से संदेश प्रसारण"
+    newMessage: "सभी उपयोगकर्ताओं को नया संदेश"
+    broadcast: "प्रसारण"
+    date: "तिथि"
+    message: "सन्देश"
+    dismissed: "छूट गया"
+    dismissingUsers: "#Dismissing Users: {$number}\n"
+    edit: "संपादन (E)"
+  Users:
+    filterUsers: "फ़िल्टर उपयोक्ता"
+    showInactive: "निष्क्रिय दिखाएँ"
+    online: "ऑनलाइन"
+    onlineHint: "केवल प्रयोक्ता वर्तमान में सक्रिय रूप से सक्रिय करने वाले मार्ग पर सक्रिय है"
+    id: "आईडी"
+    editProfile: "उपयोगकर्ता प्रोफ़ाइल संपादित करें"
+    countSingle: "Showing {$visible} of {$all} user. Use filter to show others."
+    count: "Showing {$visible} of {$all} users. Use filter to show others."
+    Type:
+      hint: "LDAP उपयोगकर्ता या मानक उपयोगकर्ता"
+      column: "L/S"
+      ldap: "एल"
+      standard: "एस."
+    State:
+      hint: "सक्रिय/निष्क्रिय स्थिति टॉगल करें. सक्रिय उपयोक्ता लॉगिन नहीं कर सकते हैं."
+      column: "/सक्रिय"
+      active: "क्रियाशील"
+      inactive: "निष्क्रिय"
+      toggle: "टॉगल करें"
+Login:
+  Error:
+    title: "लॉगिन त्रुटि"
+    username: "कृपया अपना उपयोक्ता नाम भरें"
+    password: "अपना कूटशब्द दाखिल करें"
+  signIn: "Sign In"
+  ldap: "लदान"
+  standard: "मानक"
+  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
+  Login4MinitzInfo:
+    header: "4Minitz: Collaborative Meeting Minutes."
+    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    abstract: |
+      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
+      We made 4Minitz free open source software, as we strongly believe that
+      sensitive information like meeting minutes should not be hosted in the cloud.
+      Instead you want to host it on your own infrastructure where you can define
+      the level of security and safety you need.
+    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
+    documentMinutesHeading: "Document Minutes"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
+    trackTopicsHeading: "ट्रैक प्रसंग"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
+  Footer:
+    withLove: "Coded with ❤ by the"
+    theTeam: "WebApp Team"
+Navigation:
+  help: "Help"
+  about: "के बारे में"
+  adminTasks: "व्यवस्थापक कार्य"
+  editProfile: "प्रोफाइल संपादित करें"
+  changePassword: "[ बदलें]"
+  signOut: "साइन आउट करें"
+  toggleNavigation: "टॉगल नेविगेशन"
+  meetings: "बैठकें"
+  processing: "अपनी सामग्री को प्रसंस्करण करें ..."
+  setLanguageForUser: "भाषा सेट करें"
+  setLanguageLogin: "भाषा"
+QuickHelp:
+  title: "त्वरित मदद"
+  meetingSeries: "<p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>"
+  meetingSeriesList: "<p>With 4Minitz you can create minutes for meetings.</p><p>First create a new meeting series and invite some other users.<br>Then create meeting minutes on multiple dates for your meeting series.</p>"
+  minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
+  upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+Mail:
+  greeting: "Hello"
+  newAgenda: "हम आपके लिए एक नई बैठक का एजेंडा मिल गया है:"
+  newActionItem: "You have been assigned to the following action items:"
+  newMinutes: "Below you'll find the latest meeting minutes."
+  meeting: "बैठक"
+  links: "लिंक्स"
+  openSeries: "खुली श्रेणी"
+  openMinutes: "ओपन मिनट्स"
+  minutesSubject: "बैठक"
+  discussedTopics: "प्रसंग की चर्चा"
+  skippedTopics: "एक फाइल खोलें"
+  none: "Permissions"
+  AdminNewVersion:
+    subject: "Newer version exists"
+    body: |
+      Hello Admin,
+
+      It seems you are running an outdated version of 4Minitz.
+
+      Your 4Minitz instance on: {$rootUrl}
+      has version: {$myVersion}
+
+      Newest version available is: {$masterVersion}'
+      Release notes: {$urlReleaseNotes}
+      Please consider to update.
+
+      {$masterMessageText}
+
+      This mail was generated by your 4Minitz backend.
+      You can disable the update check via settings.json: \"updateCheck\": false.
+
+      Have fun!
+              Your 4Minitz team.
+
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Your new account at our server"
+    passwordNotSend: "    Contact admin for password."
+    passwordParagraph: |
+      Your password : {$password}
+
+      Don't forget to change your password after first login!
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  UserRoleChange:
+    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}

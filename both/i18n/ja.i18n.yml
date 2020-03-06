@@ -23,10 +23,10 @@ Buttons:
   register: "レジスター"
   save: "セーブ"
 UserRoles:
-  roleModerator: "Moderator"
-  roleUploader: "Uploader"
+  roleModerator: "モデレータ"
+  roleUploader: "アップローダー"
   roleInvited: "招待済み"
-  roleInformed: "Informed"
+  roleInformed: "インフォー成形"
 FlashMessages:
   ok: "オク"
   error: "エラー"
@@ -50,16 +50,16 @@ Dialog:
   confirmDeleteAttachment: "添付ファイル :\n**{$name} **を削除しますか ?"
   confirmDeleteDetails: "項目 **{$subject} **の選択された詳細を削除しますか ?"
   ConfirmDeleteItem:
-    allowed: "Do you really want to delete the {$type} **{$subject}**?"
-    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
-    questionActionItem: "Do you want to close the action item instead?"
-    questionInfoItem: "Do you want to unpin the sticky info item instead?"
-    typeActionItem: "action item"
-    typeInfoItem: "information"
-    titleCloseActionItem: "Close action item?"
-    titleUnpinInfoItem: "Unpin info item?"
-    buttonCloseActionItem: "Close action item"
-    buttonUnpinInfoItem: "Unpin info item"
+    allowed: "{$type} **{$subject} **を削除しますか ?"
+    notAllowed: "{$type} が直前の分数で作成されたため、 {$type} **{$subject}** を削除することはできません。"
+    questionActionItem: "代わりにアクション項目を閉じますか ?"
+    questionInfoItem: "スティッキー情報アイテムのピン留めを解除しますか ?"
+    typeActionItem: "アクション項目"
+    typeInfoItem: "情報"
+    titleCloseActionItem: "アクション項目を閉じますか ?"
+    titleUnpinInfoItem: "情報項目をピン留めする"
+    buttonCloseActionItem: "アクション項目を閉じる"
+    buttonUnpinInfoItem: "情報項目のピン留め解除"
   ConfirmDeleteTopic:
     allowed: "トピック **{$subject} **を削除しますか ?"
     notAllowed: "トピック「{$subject}** 」を削除することはできません。これは、トピックが直前の分に作成されたためです。"
@@ -114,37 +114,37 @@ Dialog:
         Retry Time: {$retryTime} sec.
         Reason: {$reason}
         Click to reconnect.
-    header: "You have lost the connection to the 4Minitz server."
-    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
-    tryToReconnect: "Try To Reconnect"
+    header: "4Minitz サーバーへの接続が失われました。"
+    body: "ブラウザーを閉じると、保存されていないデータが失われる可能性があります。 この問題が解決しない場合は、サーバー管理者にお問い合わせください。"
+    tryToReconnect: "再接続を試行"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
-    button: "Download"
+    title: "プロトコル生成の確認"
+    body: "これらの分数用に生成されたプロトコルはありません。 代わりに、動的に生成された HTML バージョンの HTML をダウンロードしますか ?"
+    button: "ダウンロード"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    title1: "トピック削除の確認"
+    title2: "トピックについての説明としてマーク"
+    button2: "トピックとアクションを閉じる"
+    errortitle: "トピックを削除できない"
+    errorcontent: "前の分に作成されたため、このトピックを削除することはできません。 選択されたトピックは既に閉じられており、開いているアクション・アイテムがないため、以下の分にコピーされません。"
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
-    body3: "so it won't be copied to the following minutes"
+    title: "項目を削除できませ"
+    body1: "前の分に作成されたため、この項目を削除することはできません。"
+    body2a: "このアクション項目は既に閉じられています。"
+    body2b: "この情報項目は既にピン解除されています"
+    body3: "そのため、次の議事録にコピーされません。"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
+    title: "アクション項目に対する担当者が無効です"
     body: |
-      This is not a valid responsible!
+      これは有効な責任ではありません !
 
-      Please select an **existing user** from the dropdown or enter a **valid email address**.
+      ドロップダウンから **既存のユーザー** を選択するか、または **有効な E メール・アドレス**を入力してください。
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "項目を変換できませ"
+    body: "前の分に作成されたため、この項目を変換することはできません。"
 About:
   title: "約4ミニッツ"
-  copyrightTeam: "by 4Minitz-Team"
+  copyrightTeam: "4Minitz-チーム"
   licensedUnder: "MITライセンス下でライセンス交付されている"
   licenseDependencies: "依存関係のライセンス"
   thanksContributors: "すべての協力者に感謝する"
@@ -152,12 +152,12 @@ About:
   specialThanks: "これらのプロジェクトの特別支援"
   forkGitHub: "GitHub上でのフォーク"
   ServerStatistics:
-    title: "Server Statistics"
-    rowNumUser: "Number of users (active)"
-    rowNumMeetingSeries: "Number of meeting series"
-    rowNumMeetingMinutes: "Number of meeting minutes"
-    rowNumAttachments: "Number of attachments"
-    rowSizeAttachments: "Attachments size"
+    title: "サーバー統計"
+    rowNumUser: "ユーザー数 (アクティブ)"
+    rowNumMeetingSeries: "会議のシリーズの数"
+    rowNumMeetingMinutes: "ミーティング議事録の数"
+    rowNumAttachments: "添付ファイルの数"
+    rowSizeAttachments: "添付ファイルのサイズ"
 Item:
   ariaLabel: "項目の追加/編集"
   editItem: "アイテムの編集"
@@ -166,7 +166,7 @@ Item:
   deleteItemHint: "このアクション/情報項目を削除"
   addItemModal: "{$type} を {$topic}に追加"
   editItemModal: "{$topic}の {$type} を編集"
-  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeInfoItem: "利用情報"
   editItemModelTypeActionItem: "アクション項目"
   addInfo: "情報項目の追加"
   addInfoHint: "トピックへの情報項目の追加"
@@ -299,7 +299,7 @@ Minutes:
     continue: "アップロードの続行"
     pause: "アップロードの一時停止"
     abort: "アップロードの中止"
-    error: "Error during upload"
+    error: "アップロード中のエラー"
   version: "バージョン"
   versionTag: "v"
   Participants:
@@ -323,7 +323,7 @@ MeetingSeries:
   team: "チーム / プロジェクト"
   new: "新規ミーティングシリーズ"
   leave: "ミーティング・シリーズの終了"
-  leaveButton: "Leave"
+  leaveButton: "休暇"
   moderator: "あなたはモデレーターです"
   lastMinute: "最後の分:"
   Search:
@@ -373,9 +373,9 @@ Profile:
     email: "有効な E メール・アドレスを入力してください"
     password: "有効なパスワードを入力してください"
   WarningEMailChange:
-    title: "Confirm changing user mail"
-    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
-    button: "Sign off + Re-Verify"
+    title: "ユーザー・メールの変更の確認"
+    body: "検証済みメール・アドレスを変更しようとしています。 処理を続行する前に、サインアウトして新しいメール・アドレスを確認する必要があります。"
+    button: "サインオフ + 再検査"
 Admin:
   users: "利用者"
   messages: "メッセージ"
@@ -420,20 +420,20 @@ Login:
     title: "ログイン・エラー"
     username: "ユーザー名を入力してください"
     password: "パスワードを入力してください"
-  signIn: "Sign In"
+  signIn: "サインイン"
   ldap: "ルダップ"
   standard: "スタンダード"
   demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Minutes."
-    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    header: "4Minitz: コラボレーティブ・ミーティング議事録。"
+    subheader: "● 「アジェンダ」の作成 : 「文書の作成」 : 「トピック」を追跡する"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
-    prepareAgendaHeading: "Prepare Agenda"
+      <p>すべての招待され、ログインしたユーザーは、現在のミーティング議事録の変更をリアルタイムで監視できます。</p>
+      IBM は、ミーティング議事録のような
+      機密情報をクラウドでホストしてはならないと強く確信しているため、 4Minitz のフリー・オープン・ソース・ソフトウェアを作成しました。
+      独自のインフラストラクチャーでホストをホストするのではなく、必要なセキュリティーと安全のレベルを
+      に定義することができます。
+    prepareAgendaHeading: "アジェンダの準備"
     prepareAgendaDetails: |
       <li>Create your meeting series</li>
       <li>Invite other users</li>
@@ -441,7 +441,7 @@ Login:
       <li>Fill agenda with topics</li>
       <li>Mark recurring topics for standard agenda</li>
       <li>Send agenda to invited users</li>
-    documentMinutesHeading: "Document Minutes"
+    documentMinutesHeading: "文書 ( 分 )"
     documentMinutesDetails: |
       <li>Mark present participants</li>
       <li>Add action items with responsibles to topics</li>
@@ -449,7 +449,7 @@ Login:
       <li>Add labels like 'Decision' to items</li>
       <li>Upload binary file attachments</li>
       <li>Send minutes &amp; action items via EMail</li>
-    trackTopicsHeading: "Track Topics"
+    trackTopicsHeading: "トピックの追跡"
     trackTopicsDetails: |
       <li>Open action items will show up next time</li>
       <li>Non-closed topics will show up next time</li>
@@ -458,8 +458,8 @@ Login:
       <li>Find topics with labels (e.g. all Decisions)</li>
       <li>Find items by fulltext search</li>
   Footer:
-    withLove: "Coded with ❤ by the"
-    theTeam: "WebApp Team"
+    withLove: "次のものによって ❤ とコード化"
+    theTeam: "WebApp チーム"
 Navigation:
   help: "ヘルプ"
   about: "アバウト"
@@ -481,9 +481,9 @@ QuickHelp:
 Mail:
   greeting: "ハロー"
   newAgenda: "新しいミーティング・アジェンダをお客様に提供しました:"
-  newActionItem: "You have been assigned to the following action items:"
-  newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Meeting"
+  newActionItem: "以下のアクション項目が割り当てられています。"
+  newMinutes: "以下では、最新のミーティング議事録を参照してください。"
+  meeting: "ミーティング"
   links: "リンク"
   openSeries: "オープンシリーズ"
   openMinutes: "オープン分数"
@@ -492,38 +492,38 @@ Mail:
   skippedTopics: "トピックを開く"
   none: "なし"
   AdminNewVersion:
-    subject: "Newer version exists"
+    subject: "より新しいバージョンが存在する"
     body: |
-      Hello Admin,
+      Hello Admin、
 
-      It seems you are running an outdated version of 4Minitz.
+      このバージョンは、 4Minitz の古いバージョンを実行しているようです。
 
-      Your 4Minitz instance on: {$rootUrl}
-      has version: {$myVersion}
+      : {$rootUrl}
+      の 4Minitz インスタンスはバージョン {$myVersion}
 
-      Newest version available is: {$masterVersion}'
-      Release notes: {$urlReleaseNotes}
-      Please consider to update.
+      、使用可能な最新バージョン : {$masterVersion}'
+      リリース・ノート: {$urlReleaseNotes}
+      を更新することを検討してください。
 
       {$masterMessageText}
 
-      This mail was generated by your 4Minitz backend.
-      You can disable the update check via settings.json: \"updateCheck\": false.
+      このメールは、ご使用の 4Minitz バックエンドによって生成されたものです。
+      settings.jsonによる更新チェックを無効にすることができます : \"updateCheck\": false。
 
-      Have fun!
-              Your 4Minitz team.
+      おもしろい !
+              4Minitz のチームをご用意ください。
 
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      4Minitz は、 4Minitz のチームによって開発されたフリーのオープンソースです。
+      ソースは {$url4Minitz} で使用可能です
   AdminRegisterNewUser:
-    subject: "Your new account at our server"
-    passwordNotSend: "    Contact admin for password."
+    subject: "IBM サーバーでの新規アカウント"
+    passwordNotSend: "    管理者に連絡して、パスワードを"
     passwordParagraph: |
-      Your password : {$password}
+      パスワード : {$password}
 
-      Don't forget to change your password after first login!
+      最初のログイン後にパスワードを変更することを忘れないでください。
     body: |
       Hello {$userLongName},
 
@@ -542,7 +542,7 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   UserRoleChange:
-    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    subject: "の役割が変更されました :{$meetingProject}:{$meetingName}'"
     body: |
       Hello {$userName}
 
@@ -561,4 +561,4 @@ Mail:
 
       ---
       4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
+      Source is available at {$url4Minitz}

@@ -8,7 +8,7 @@ Accounts:
   passwordPlaceholder: "min. 6 chars (digit, lower & upper)"
   passwordError: "min. 6 chars (min. 1 digit, 1 lower, 1 upper)"
 Buttons:
-  add: "Add"
+  add: "Προσθήκη"
   back: "Go Back"
   cancel: "Cancel"
   change: "Change"
@@ -561,4 +561,4 @@ Mail:
 
       ---
       4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
+      Source is available at {$url4Minitz}

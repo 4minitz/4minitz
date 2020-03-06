@@ -23,10 +23,10 @@ Buttons:
   register: "تسجيل"
   save: "حفظ"
 UserRoles:
-  roleModerator: "Moderator"
-  roleUploader: "Uploader"
+  roleModerator: "مدير المناقشة"
+  roleUploader: "تحميل-تحميل"
   roleInvited: "تم دعوته"
-  roleInformed: "Informed"
+  roleInformed: "ابلاغ"
 FlashMessages:
   ok: "طيب"
   error: "خطأ"
@@ -50,10 +50,10 @@ Dialog:
   confirmDeleteAttachment: "هل ترغب حقا في حذف الملحقات :\n**{$name}**"
   confirmDeleteDetails: "هل ترغب بالفعل في حذف التفاصيل المحددة للبند **{$subject}**"
   ConfirmDeleteItem:
-    allowed: "Do you really want to delete the {$type} **{$subject}**?"
-    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
-    questionActionItem: "Do you want to close the action item instead?"
-    questionInfoItem: "Do you want to unpin the sticky info item instead?"
+    allowed: "هل ترغب حقا في حذف {$type} **{$subject}**"
+    notAllowed: "من غير الممكن حذف {$type} **{$subject}** لأنه تم تكوين {$type} في الدقائق السابقة."
+    questionActionItem: "هل ترغب في اغلاق بند التصرف بدلا من ذلك ?"
+    questionInfoItem: "هل تريد الغاء تثبيت بند المعلومات لزجة بدلا من ذلك ؟"
     typeActionItem: "بند التصرف"
     typeInfoItem: "معلومات"
     titleCloseActionItem: "اغلاق بند التصرف ؟"
@@ -115,36 +115,36 @@ Dialog:
         Reason: {$reason}
         Click to reconnect.
     header: "لقد فقدت الاتصال بوحدة خدمة 4Minitz."
-    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
-    tryToReconnect: "Try To Reconnect"
+    body: "اذا قمت باغلاق برنامج التصفح الخاص بك ، قد يتم فقد البيانات التي لم يتم حفظها. برجاء الاتصال بموجه وحدة الخدمة الخاصة بك اذا استمرت هذه المشكلة."
+    tryToReconnect: "محاولة اعادة الاتصال"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
-    button: "Download"
+    title: "تأكيد تكوين البروتوكول"
+    body: "لم يتم تكوين أي بروتوكول لهذه الدقائق. هل تريد تحميل نسخة HTML التي تم تكوينها بطريقة ديناميكية بدلا من ذلك ؟"
+    button: "تحميل"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    title1: "تأكيد حذف الموضوع"
+    title2: "تعليم موضوع كما تم مناقشته ؟"
+    button2: "اغلاق الموضوع والتصرفات"
+    errortitle: "لا يمكن حذف الموضوع"
+    errorcontent: "لا يمكن حذف هذا الموضوع لأنه تم تكوينه في الدقائق السابقة. تم بالفعل اغلاق الموضوع المحدد وليس له بنود تصرف مفتوحة ، لذلك لن يتم نسخها الى الدقائق التالية."
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
-    body3: "so it won't be copied to the following minutes"
+    title: "لا يمكن حذف البند"
+    body1: "لا يمكن حذف هذا البند لأنه تم تكوينه في الدقائق السابقة."
+    body2a: "تم اغلاق بند التصرف هذا بالفعل ،"
+    body2b: "بند المعلومات هذا غير معلق بالفعل"
+    body3: "لذلك لن يتم نسخها الى الدقائق التالية"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
+    title: "مسئول غير صحيح لبند التصرف"
     body: |
-      This is not a valid responsible!
+      هذا ليس بالمسئول الصحيح !
 
-      Please select an **existing user** from the dropdown or enter a **valid email address**.
+      برجاء تحديد مستخدم ** موجود بالفعل * * من القائمة المسقطة أو قم بادخال عنوان بريد الكتروني صحيح * *.
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "لا يمكن تحويل البند"
+    body: "لا يمكن تحويل هذا البند لأنه تم تكوينه في الدقائق السابقة."
 About:
   title: "نبذة عن 4Minitz"
-  copyrightTeam: "by 4Minitz-Team"
+  copyrightTeam: "بواسطة فريق 4Minitz-Team"
   licensedUnder: "مرخص طبقا لترخيص-MIT-License"
   licenseDependencies: "الترخيص للتبعيات"
   thanksContributors: "شكرا لكل المساهمين"
@@ -152,12 +152,12 @@ About:
   specialThanks: "شكر خاص لهذه المشاريع"
   forkGitHub: "Fork us on GitHub"
   ServerStatistics:
-    title: "Server Statistics"
-    rowNumUser: "Number of users (active)"
-    rowNumMeetingSeries: "Number of meeting series"
-    rowNumMeetingMinutes: "Number of meeting minutes"
-    rowNumAttachments: "Number of attachments"
-    rowSizeAttachments: "Attachments size"
+    title: "احصائيات وحدة الخدمة"
+    rowNumUser: "عدد المستخدمين (فعال)"
+    rowNumMeetingSeries: "عدد سلاسل الاجتماعات"
+    rowNumMeetingMinutes: "عدد دقائق الاجتماع"
+    rowNumAttachments: "عدد المرفقات"
+    rowSizeAttachments: "حجم الملحقات"
 Item:
   ariaLabel: "اضافة / تحرير بند"
   editItem: "تحرير بند"
@@ -166,7 +166,7 @@ Item:
   deleteItemHint: "حذف بند التصرف / المعلومات هذا"
   addItemModal: "اضافة {$type} الى {$topic}"
   editItemModal: "تحرير {$type} من {$topic}"
-  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeInfoItem: "المعلومات"
   editItemModelTypeActionItem: "بند التصرف"
   addInfo: "اضافة بند معلومات"
   addInfoHint: "اضافة بند معلومات الى الموضوع"
@@ -299,7 +299,7 @@ Minutes:
     continue: "استمرار التحميل"
     pause: "تثبيت التحميل لأعلى"
     abort: "ايقاف التحميل"
-    error: "Error during upload"
+    error: "حدث خطأ أثناء التحميل لأعلى"
   version: "النسخة"
   versionTag: "v"
   Participants:
@@ -323,7 +323,7 @@ MeetingSeries:
   team: "الفريق / المشروع"
   new: "سلسلة اجتماعات جديدة"
   leave: "الخروج من سلسلة الاجتماعات"
-  leaveButton: "Leave"
+  leaveButton: "ترك"
   moderator: "أنت المنسق"
   lastMinute: "الدقيقة الأخيرة :"
   Search:
@@ -373,9 +373,9 @@ Profile:
     email: "برجاء ادخال عنوان بريد الكتروني صحيح"
     password: "برجاء ادخال كلمة سرية صحيحة"
   WarningEMailChange:
-    title: "Confirm changing user mail"
-    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
-    button: "Sign off + Re-Verify"
+    title: "تأكيد تغيير بريد المستخدم"
+    body: "انك على وشك تغيير عنوان البريد الذي تم التحقق منه. سيتم توقيعك وستحتاج الى التحقق من عنوان البريد الجديد الخاص بك قبل الاستمرار."
+    button: "انهاء الاتصال + اعادة التحقق"
 Admin:
   users: "المستخدمين"
   messages: "الرسائل"
@@ -420,20 +420,20 @@ Login:
     title: "خطأ في بدء الاتصال"
     username: "برجاء ادخال اسم المستخدم"
     password: "برجاء ادخال كلمة السرية الخاصة بك"
-  signIn: "Sign In"
+  signIn: "بدء الاتصال"
   ldap: "LDAP"
   standard: "قياسية"
   demoHint: "ملحوظة : يمكن أن تقوم ببدء تشغيل Medo Mode<br>باستخدام اسم المستخدم <b>demo</b> وكلمة السرية <b>demo</b>. أو يمكنك تسجيل الحساب الخاص بك من خلال الضغط على الوصلة \"تسجيل\" بأسفل."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Minutes."
-    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    header: "4Minitz : محاضر الاجتماع التعاوني."
+    subheader: ":: إعداد جدول الأعمال ومحاضر الوثائق للمواضيع."
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
-    prepareAgendaHeading: "Prepare Agenda"
+      <p>يمكن لكل من المستخدمين المدعوين والذين قاموا ببدء الاتصال مشاهدة التغييرات الخاصة بمحاضر الاجتماع الحالي في الوقت الحقيقي.</p>
+      قمنا بجعل 4مينيتز خاليا من البرامج المفتوحة المصدر ، حيث أننا نعتقد بقوة أنه يجب عدم استضافة المعلومات الحساسة
+      مثل دقائق الاجتماع في وحدة السحب.
+      بدلا من ذلك تريد أن تقوم باستضافته على البنية الأساسية الخاصة بك حيث يمكنك تعريف
+      مستوى السرية والأمان الذي تحتاج اليه.
+    prepareAgendaHeading: "اعداد جدول الأعمال"
     prepareAgendaDetails: |
       <li>Create your meeting series</li>
       <li>Invite other users</li>
@@ -441,7 +441,7 @@ Login:
       <li>Fill agenda with topics</li>
       <li>Mark recurring topics for standard agenda</li>
       <li>Send agenda to invited users</li>
-    documentMinutesHeading: "Document Minutes"
+    documentMinutesHeading: "محضر الوثيقة"
     documentMinutesDetails: |
       <li>Mark present participants</li>
       <li>Add action items with responsibles to topics</li>
@@ -449,7 +449,7 @@ Login:
       <li>Add labels like 'Decision' to items</li>
       <li>Upload binary file attachments</li>
       <li>Send minutes &amp; action items via EMail</li>
-    trackTopicsHeading: "Track Topics"
+    trackTopicsHeading: "تتبع الموضوعات"
     trackTopicsDetails: |
       <li>Open action items will show up next time</li>
       <li>Non-closed topics will show up next time</li>
@@ -458,8 +458,8 @@ Login:
       <li>Find topics with labels (e.g. all Decisions)</li>
       <li>Find items by fulltext search</li>
   Footer:
-    withLove: "Coded with ❤ by the"
-    theTeam: "WebApp Team"
+    withLove: "مشفر مع ❤ بواسطة"
+    theTeam: "فريق WebApp"
 Navigation:
   help: "مساعدة"
   about: "نبذة عن"
@@ -481,9 +481,9 @@ QuickHelp:
 Mail:
   greeting: "مرحبا"
   newAgenda: "لدينا جدول اعمال جديد للاجتماع من اجلك"
-  newActionItem: "You have been assigned to the following action items:"
-  newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Meeting"
+  newActionItem: "تم تخصيصك لبنود التصرف التالية :"
+  newMinutes: "تحتك ستجد آخر محضر اجتماع."
+  meeting: "اجتماع"
   links: "وصلات"
   openSeries: "فتح سلسلة"
   openMinutes: "دقائق الفتح"
@@ -492,7 +492,7 @@ Mail:
   skippedTopics: "فتح الموضوعات"
   none: "لا شيء"
   AdminNewVersion:
-    subject: "Newer version exists"
+    subject: "النسخة الحديثة موجودة"
     body: |
       مرحبا Admin ،
 
@@ -518,12 +518,12 @@ Mail:
       MMinitz عبارة عن مصدر مفتوح مفتوح تم تطويره بواسطة فريق 4Minitz.
       المصدر متاح في {$url4Minitz}
   AdminRegisterNewUser:
-    subject: "Your new account at our server"
-    passwordNotSend: "    Contact admin for password."
+    subject: "حسابك الجديد على خادمنا"
+    passwordNotSend: "    قم بالاتصال بموجه النظام لكلمة السرية."
     passwordParagraph: |
-      Your password : {$password}
+      كلمة السرية الخاصة بك : {$password}
 
-      Don't forget to change your password after first login!
+      لا تنسى تغيير كلمة السرية الخاصة بك بعد بدء الاتصال الأول !
     body: |
       Hello {$userLongName},
 
@@ -561,4 +561,4 @@ Mail:
 
       ---
       4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}"
+      Source is available at {$url4Minitz}
