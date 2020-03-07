@@ -108,31 +108,31 @@ Dialog:
     button: "Eπεξεργασία ούτως ή άλλως"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
-        Status: {$status}
-        Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
-    header: "You have lost the connection to the 4Minitz server."
-    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
-    tryToReconnect: "Try To Reconnect"
+      Η σύνδεση χάθηκε!
+        Κατάσταση: {$status}
+        Προσπάθειες: {$retryCount}
+        Χρόνος: {$retryTime} sec.
+        Αιτιολογία: {$reason}
+        Κλικάρετε για να συνδεθείτε πάλι.
+    header: "Χάσατε την σύνδεση με τον εξυπηρετητή του 4Minitz."
+    body: "Εάν κλείσετε τον περιηγητή σας, τα μη αποθηκευμένα δεδομένα μπορεί να χαθούν. Παρακαλώ επικοινωνήστε με τον διαχειριστή του συστήματος εάν το πρόβλημα επιμείνει."
+    tryToReconnect: "Δοκιμάστε να συνδεθείτε ξανά"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
-    button: "Download"
+    title: "Επιβεβαίωση δημιουργίας πρωτοκόλλου"
+    body: "Δεν έχει δημιουργηθεί πρωτόκολλο για αυτές τις σημειώσεις. Θέλετε να κατεβάσετε μια δυναμικά δημιουργημένη έκδοση HTML αντί αυτού;"
+    button: "Κατέβασμα"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
+    title1: "Επιβεβαίωση διαγραφής θέματος"
+    title2: "Μαρκάρετε το θέμα ως συζητημένο;"
+    button2: "Κλείστε το θέμα και τα στοιχεία δράσης"
+    errortitle: "Η διαγραφή του θέματος δεν είναι δυνατή"
     errorcontent: "Δεν είναι δυνατή η διαγραφή του θέματος επειδή έχει δημιουργηθεί σε προηγούμενες σημειώσεις. Το επιλεγμένο θέμα είναι ήδη κλειστό και δεν έχει ανοιχτά στοιχεία δράσης, οπότε δεν μπορεί να αντιγραφεί στις παρακάτω σημειώσεις."
   ItemDeleteError:
     title: "Η διαγραφή του στοιχείου δεν είναι δυνατή"
     body1: "Δεν είναι δυνατή η διαγραφή του στοιχείου επειδή έχει δημιουργηθεί σε προηγούμενες σημιώσεις."
     body2a: "Αυτό το στοιχείο δράσης είναι ήδη κλειστό,"
     body2b: "Αυτό το στοιχείο πληροφοριών είναι ήδη ξεκαρφιτσωμένο"
-    body3: "so it won't be copied to the following minutes"
+    body3: "ώστε δεν θα αντιγραφεί στις παρακάτω σημειώσεις"
   ActionItemResponsibleError:
     title: "Μη έγκυρος υπεύθυνος για το στοιχείο δράσης"
     body: |
