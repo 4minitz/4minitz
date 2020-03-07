@@ -163,13 +163,13 @@ Item:
   editItem: "Modifica elemento"
   editItemHint: "Modifica questa azione/informazione"
   deleteItem: "Elimina elemento"
-  deleteItemHint: "Modifica questa azione/informazione"
+  deleteItemHint: "Elimina questa azione/informazione"
   addItemModal: "Aggiungi {$type} a {$topic}"
   editItemModal: "Modifica {$type} di {$topic}"
   editItemModelTypeInfoItem: "Informazioni"
   editItemModelTypeActionItem: "Azione"
   addInfo: "Aggiungi Informazione"
-  addInfoHint: "Aggiungi inforamazione all'argomento"
+  addInfoHint: "Aggiungi informazione all'argomento"
   action: "Azione"
   addAction: "Aggiungi Azione"
   addActionHint: "Aggiungi azione all'argomento"
@@ -202,50 +202,50 @@ Item:
     yourAction: "Le tue Azioni"
     placeholder: "Filtro"
     matchCase: "Maiuscolo/minuscolo"
-    matchCaseHint: "Caso di corrispondenza"
-    matchCaseLong: "Caso di corrispondenza"
+    matchCaseHint: "Distingui maiuscole dalle minuscole"
+    matchCaseLong: "Distingui maiuscole dalle minuscole"
     Usage:
       body: "È possibile utilizzare diverse parole chiave per filtrare gli elementi elencati. Tutte le parole chiave possono essere combinate che filtrano gli articoli corrispondenti a tutti i parametri di ricerca dati."
-      keyword: "Keyword"
+      keyword: "Parola chiave"
       format: "Formato"
       values: "Valori"
-      eg: "es."
-  myActionItems: "I miei elementi"
+      eg: "ad es."
+  myActionItems: "Le mie Azioni"
 Topic:
   title: "Argomento"
-  new: "Novità"
+  new: "Nuovo"
   add: "Aggiungi argomento"
   addLong: "Aggiungi argomento..."
   addShort: "Argomento"
   addHint: "Aggiungi un nuovo argomento in cima alla lista [Ctrl+Alt+T]"
-  quickAdd: "AGGIUNGI TOPIC (per la fine dell'elenco)"
+  quickAdd: "AGGIUNGI ARGOMENTO (alla fine dell'elenco)"
   edit: "Modifica argomento"
   save: "Salva argomento"
   show: "Mostra argomento"
   subject: "Oggetto dell'argomento (obbligatorio)"
   responsible: "Responsabile"
   completed: "Completato"
-  completedHint: "Questo argomento è finalmente completato. Quindi non verrà propagato alla prossima riunione."
-  setRecurring: "Imposta ricorrente"
+  completedHint: "Questo argomento è finalmente completato. Non verrà propagato alla prossima riunione."
+  setRecurring: "Imposta Ricorrenza"
   setRecurringHint: "Imposta come argomento ricorrente"
-  unsetRecurring: "Unset ricorrente"
+  unsetRecurring: "Togli ricorrenza"
   unsetRecurringHint: "Imposta come argomento non ricorrente"
-  setSkip: "Imposta come Salta"
+  setSkip: "Imposta Salta"
   setSkipHint: "Imposta come argomento saltato"
   unsetSkip: "Annulla salta"
   unsetSkipHint: "Imposta come argomento non saltato"
   history: "Mostra cronologia"
   historyHint: "Mostra lo stato completo di questo argomento"
-  delete: "Cancella Topic"
+  delete: "Cancella argomento"
   reopen: "Riapri argomento"
   reopenHint: "Riapri argomento"
-  placeholder: "Aggiungi elemento informazioni. Aggiungi @username per aggiungere un Elemento all'azione. Premere INVIO per aggiungere dettagli. Premere Ctrl+Enter o Tab per inviare."
-  childOf: "Argomento delle Meeting Series:"
+  placeholder: "Aggiungi informazioni. Aggiungi @username per aggiungere un'azione. Premere Invio per aggiungere dettagli. Premere Ctrl+Enter o Tab per inviare."
+  childOf: "Argomento della serie di riunioni:"
   historyTitle: "Questo topic è stato"
   createdOn: "creato il:"
   lastUpdate: "ultimo aggiornamento il:"
-  finalizedOn: "finalizzato in minuti da:"
-  doneBy: "(di {$user})"
+  finalizedOn: "completato nei verbali da:"
+  doneBy: "(da {$user})"
   notFoundTitle: "Spiacenti, argomento non trovato."
   notFoundReasons: "Le ragioni potrebbero essere...<br><ul><li>L'argomento non è mai stato completato (vive solo in un minuto non inalato)</li><li>Il topic è stato eliminato</li><li>Non hai i diritti di accesso a questo argomento (più)</li></ul>"
   illegalAction: "Tentativo di chiamare un evento illegale in modalità sola lettura"
@@ -276,28 +276,28 @@ Minutes:
   attachments: "Allegati"
   attachmentsHint: "Minuti hanno allegati"
   previous: "Precedente:"
-  next: "Avanti:"
+  next: "Successivo:"
   history: "Storico"
-  unfinalizeHint: "Clicca su Un - Finalizza Minuti"
-  print: "Stampa minuti"
-  finalize: "Finalizzare Minuti"
-  finalizeHint: "Fare clic su Finalize Minuti"
-  printHint: "Stampa minuti"
-  downloadHint: "Scarica Minuti come file"
+  unfinalizeHint: "Clicca per impostare i verbali come non completati"
+  print: "Stampa Verbali"
+  finalize: "Completa i Verbali"
+  finalizeHint: "Fare clic per completare i Verbali"
+  printHint: "Stampa i verbali"
+  downloadHint: "Scarica i verbali come file"
   agenda: "Agenda"
   sendAgenda: "Invia agenda"
-  delete: "Elimina minuti"
+  delete: "Elimina i Verbali"
   GlobalNotes:
-    pin: "Imposta come nota globale bloccata"
-    unpin: "Imposta come nota globale non bloccata"
+    pin: "Imposta come nota globale agganciata"
+    unpin: "Imposta come nota globale non agganciata"
     title: "Nota globale"
-    placeholder: "Note globali per questi minuti. Fare clic su pin per propagare le note ai prossimi minuti."
+    placeholder: "Note globali per questo verbale. Fare clic su Aggancia per propagare le note al prossimo verbale."
   Upload:
     button: "Carica..."
     uploading: "Caricamento"
     start: "Avvia caricamento"
     continue: "Continua caricamento"
-    pause: "Pausa Upload"
+    pause: "Pausa Caricamento"
     abort: "Annulla caricamento"
     error: "Errore durante il caricamento"
   version: "Versione"
@@ -308,27 +308,27 @@ Minutes:
     solo: "1 Partecipante"
     additional: "Partecipanti aggiuntivi"
     additionalSolo: "1 Partecipante aggiuntivo"
-    placeholder: "Partecipanti aggiuntivi (separati con ';'). Gli indirizzi di posta riceveranno i minuti."
+    placeholder: "Partecipanti aggiuntivi (separati con ';'). Gli indirizzi di posta riceveranno i verbali."
     editHint: "Modifica utenti invitati."
-    markNone: "Mark nessuno"
-    markAll: "Mark tutto"
+    markNone: "Segna nessuno"
+    markAll: "Segna tutto"
     watchingHint: "Questo utente sta guardando (in remoto)"
     informed: "Utenti Informati"
     informedSolo: "1 Utente Informato"
     present: "Partecipanti presenti"
-    absent: "Assassin"
+    absent: "Assente"
     none: "Nessuno."
 MeetingSeries:
-  title: "Serie Riunione"
-  team: "Squadra / Progetto"
-  new: "Nuova Serie Riunione"
-  leave: "Abbandona Serie Riunione"
+  title: "Serie di riunioni"
+  team: "Team / Progetto"
+  new: "Nuova Serie di Riunioni"
+  leave: "Abbandona Serie di Riunioni"
   leaveButton: "Abbandona"
   moderator: "Sei un moderatore"
-  lastMinute: "Ultimo minuto:"
+  lastMinute: "Ultimo verbale:"
   Search:
-    placeholder: "Cerca Serie Riunione"
-    noResults: "Nessun risultato per questo input..."
+    placeholder: "Cerca Serie di Riunioni"
+    noResults: "Nessun risultato per questa ricerca..."
   Edit:
     Error:
       meetingName: "Inserisci un nome valido per la serie di riunioni"
@@ -366,16 +366,16 @@ Profile:
     oldPassword: "Vecchia Password"
     wrongOldPassword: "Inserisci la vecchia password valida"
     newPassword: "Nuova Password"
-    newPasswordRepeat: "Nuova password Ripeti"
+    newPasswordRepeat: "Ripeti nuova password"
   Error:
     name: "Inserisci un nome utente valido"
     longName: "Inserisci un nome lungo valido"
     email: "Inserisci un indirizzo email valido"
     password: "Inserisci una password valida"
   WarningEMailChange:
-    title: "Conferma modifica email utente"
+    title: "Conferma la modifica dell'email"
     body: "Stai per cambiare il tuo indirizzo email verificato. Sarai disconnesso e dovrai verificare il tuo nuovo indirizzo email prima di continuare."
-    button: "Firma + Ripeti Verifica"
+    button: "Disconnetiti + Ripeti Verifica"
 Admin:
   users: "Utenti"
   messages: "Messaggi"
@@ -387,42 +387,42 @@ Admin:
     includePassword: "Includi la password nell'e-mail"
     success: "Nuovo utente registrato: {$user}"
   Message:
-    title: "Trasmetti messaggi dall'amministratore"
+    title: "Trasmetti a tutti i messaggi dell'amministratore"
     newMessage: "Nuovo messaggio a tutti gli utenti"
-    broadcast: "Trasmetti"
+    broadcast: "Trasmetti a tutti"
     date: "Data"
     message: "Messaggio"
-    dismissed: "Dispersa"
+    dismissed: "Ignorato"
     dismissingUsers: "#Rimuovi utenti: {$number}\n"
     edit: "Modifica"
   Users:
     filterUsers: "Filtra utenti"
     showInactive: "Mostra inattivi"
     online: "Online"
-    onlineHint: "Mostrando solo gli utenti attualmente attivi su un percorso di pochi minuti"
+    onlineHint: "Visualizzazione solo degli utenti attualmente attivi per la modifica di un verbale"
     id: "ID"
     editProfile: "Modifica Profilo Utente"
-    countSingle: "Mostrando {$visible} di {$all} utente. Usa il filtro per mostrare gli altri."
-    count: "Mostrando {$visible} su {$all} utenti. Utilizza il filtro per mostrare gli altri."
+    countSingle: "Visualizzazione {$visible} di {$all} utente. Utilizzare il filtro per mostrare gli altri."
+    count: "Visualizzazione {$visible} di {$all} utente. Utilizzare il filtro per mostrare gli altri."
     Type:
-      hint: "Utente LDAP o utente Standard"
+      hint: "Utente LDAP o utente standard"
       column: "L/S"
       ldap: "L"
       standard: "SU"
     State:
-      hint: "Attiva/disattiva stato attivo/inattivo. Gli utenti inattivi non possono accedere."
-      column: "In/Attivo"
+      hint: "Cambia stato attivo/inattivo. Gli utenti inattivi non possono accedere."
+      column: "Inattivo/Attivo"
       active: "Attivo"
       inactive: "Inattivo"
-      toggle: "Attiva/disattiva"
+      toggle: "Cambia"
 Login:
   Error:
     title: "Errore di login"
     username: "Inserisci il tuo nome utente"
     password: "Inserisci la tua password"
-  signIn: "Accesso effettuato"
+  signIn: "Accedi"
   ldap: "LDAP"
-  standard: "Predefinito"
+  standard: "Standard"
   demoHint: "Suggerimento: Modalità demo attiva<br>Puoi accedere con nome utente <b>demo</b> e password <b>demo</b>. Oppure puoi registrare il tuo account cliccando sul link \"Registrati\" qui sotto."
   Login4MinitzInfo:
     header: "4Minitz: minuti di riunione collaborativa."
@@ -485,20 +485,20 @@ Mail:
   newMinutes: "Di seguito troverai gli ultimi minuti delle riunioni."
   meeting: "Riunione"
   links: "Collegamenti"
-  openSeries: "Serie aperta"
-  openMinutes: "Apri minuti"
+  openSeries: "Apri serie"
+  openMinutes: "Apri verbale"
   minutesSubject: "Verbali riunione"
   discussedTopics: "Argomenti discussi"
-  skippedTopics: "Apri argomento"
+  skippedTopics: "Argomenti aperti"
   none: "Nessuno"
   AdminNewVersion:
-    subject: "La versione più recente esiste"
+    subject: "Esiste una versione piu' recente"
     body: |
       Ciao Admin,
 
       Sembra che tu stia eseguendo una versione obsoleta di 4Minitz.
 
-      Il tuo esempio di 4Minitz su: {$rootUrl}
+      4Minitz su: {$rootUrl}
       ha una versione: {$myVersion}
 
       La versione più recente disponibile è: {$masterVersion}'
@@ -515,8 +515,8 @@ Mail:
 
 
       ---
-      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
-      Sorgenti è disponibile su {$url4Minitz}
+      4Minitz è un open source gratuito sviluppato dal team di 4Minitz.
+      I sorgenti sono disponibili su {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Il tuo nuovo account sul nostro server"
     passwordNotSend: "    Contatta l'amministratore per la password."
@@ -527,11 +527,11 @@ Mail:
     body: |
       Ciao {$userLongName},
 
-      Benvenuto nella nostra 4Minitz WebApp.
-      Ora puoi iniziare a partecipare per mantenere i minuti di riunione professionale.
+      Benvenuto nella nostra WebAPP 4Minitz.
+      Ora puoi iniziare a mantenere i verbali di riunione in modo professionale.
 
-      Puoi accedere con 'Standard' (non LDAP! Accedi a:
-         Il tuo ospite: {$rootURL}
+      Puoi accedere con 'Standard' (non LDAP!) login:
+         Il tuo host: {$rootURL}
          Il tuo utente: {$userName}
       {$passwordParagraph}
 
@@ -539,8 +539,8 @@ Mail:
         Tuo Amministratore.
 
       ---
-      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
-      Sorgenti è disponibile su {$url4Minitz}
+      4Minitz è un open source gratuito sviluppato dal team di 4Minitz.
+      I sorgenti sono disponibili su {$url4Minitz}
   UserRoleChange:
     subject: "Il tuo ruolo è cambiato per '{$meetingProject}:{$meetingName}'"
     body: |
@@ -553,12 +553,12 @@ Mail:
          Il tuo nuovo ruolo è : {$roleNew}
          La modifica è stata eseguita da : {$moderatorName}
 
-      Per un elenco completo di diritti per ogni ruolo vedi:
+      Per un elenco completo dei diritti per ogni ruolo sono presenti in:
       {$urlRoleDocu}
 
       Divertiti!
         Il tuo amministratore.
 
       ---
-      4Minitz è gratuito open source sviluppato dal team di 4Minitz.
-      Fonte è disponibile a {$url4Minitz}
+      4Minitz è un open source gratuito sviluppato dal team di 4Minitz.
+      I sorgenti sono disponibili in {$url4Minitz}
