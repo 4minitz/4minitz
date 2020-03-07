@@ -86,6 +86,10 @@ let syncRootUrl = function () {
     if (Meteor.settings.ROOT_URL) {
         process.env.ROOT_URL = Meteor.settings.ROOT_URL;
         __meteor_runtime_config__.ROOT_URL = Meteor.settings.ROOT_URL; //eslint-disable-line
+        // We overwrite the `rootUrl` also in the `defaultOptions` which might be overwritten by any other package ?!
+        // see https://github.com/meteor/meteor/blob/24865b28a0689de8b4949fb69ea1f95da647cd7a/packages/meteor/url_common.js#L52
+        // and https://github.com/4minitz/4minitz/issues/504
+        Meteor.absoluteUrl.defaultOptions.rootUrl = Meteor.settings.ROOT_URL;
     } else {
         Meteor.settings.ROOT_URL = process.env.ROOT_URL;
     }
