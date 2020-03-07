@@ -103,9 +103,9 @@ Dialog:
     automatic: "Αυτόματα από τον περιηγητή"
   IsEditedHandling:
     title: "Τροποποίηση παρά την ήδη υπάρχουσα τροποποίηση"
-    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
-    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
-    button: "Edit Anyway"
+    confirmationDialogResetEdit: "Προσοχή: Αυτό το εγγραφο τροποποιείται από τον/την {$name} από τις: {$date}"
+    confirmationDialogResetEditDetails: "Παρακαλώ κλικάρετε στις λεπτομέρεις ξανά για να αρχίσετε την επεξεργασία."
+    button: "Eπεξεργασία ούτως ή άλλως"
   ConnectionInfo:
     tooltip: |
       Connection Lost!
