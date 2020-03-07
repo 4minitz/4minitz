@@ -57,14 +57,14 @@ Dialog:
     typeActionItem: "στοιχείο δράσης"
     typeInfoItem: "information"
     titleCloseActionItem: "Επιλογή στοιχείου δράσης;"
-    titleUnpinInfoItem: "Unpin info item?"
-    buttonCloseActionItem: "Close action item"
-    buttonUnpinInfoItem: "Unpin info item"
+    titleUnpinInfoItem: "Ξεκαρφίτσωμα στοιχείου πληροφοριών;"
+    buttonCloseActionItem: "Κλείσιμο στοιχείου δράσης"
+    buttonUnpinInfoItem: "Ξεκαρφίτσωμα στοιχείου πληροφοριών"
   ConfirmDeleteTopic:
     allowed: "Do you really want to delete the topic **{$subject}**?"
     notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
     close: "Do you want to close the topic instead?"
-    closeWithActions: "Do you want to close the topic together with all related action items instead?"
+    closeWithActions: "Θέλετε αντί αυτού να κλείσετε το θέμα μαζί με όλα τα στοιχεία δράσης του;"
   confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
   ConfirmMinuteQualityAssurance:
     title: "Finalize Minutes: Quality Checks"
@@ -73,10 +73,10 @@ Dialog:
     proceed: "Do you want to proceed with finalizing?"
     warnNoTopics: "The current minutes have no topics"
     warnNoParticipants: "No participant is marked as present"
-    warnEditing: "A topic/item/detail is still edited"
+    warnEditing: "Ένα θέμα/στοιχείο/λεπτομέρεια βρίσκεται ακόμη σε επεξεργασία"
     warnNoTopicDiscussed: "No topic is marked as 'discussed'"
-    warnTopicWithoutItems: "At least one discussed topic has no items"
-    warnActionItemWithoutResponsible: "At least one action item has no responsible"
+    warnTopicWithoutItems: "Ένα τουλάχιστον θέμα συζήτησης δεν έχει καθόλου στοιχεία"
+    warnActionItemWithoutResponsible: "Τουλάχιστον ένα στοιχείο δράσης δεν έχει υπεύθυνο"
     warnTopicNoNewContent: "A topic is checked but has no new content"
   ConfirmReOpenTopic:
     title: "Re-open Topic?"
@@ -95,8 +95,8 @@ Dialog:
     title: "Confirm Finalize Minutes"
     button: "Finalize"
     really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
-    sendActionItems: "Send action items"
-    sendMinutes: "Send information items"
+    sendActionItems: "Αποστολή στοιχείων δράσης"
+    sendMinutes: "Αποστολή στοιχείων πληροφοριών"
   LocaleSetting:
     title: "Set Language"
     languageLocale: "Language Locale"
@@ -126,22 +126,22 @@ Dialog:
     title2: "Mark topic as discussed?"
     button2: "Close topic and actions"
     errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    errorcontent: "Δεν είναι δυνατή η διαγραφή του θέματος επειδή έχει δημιουργηθεί σε προηγούμενες σημειώσεις. Το επιλεγμένο θέμα είναι ήδη κλειστό και δεν έχει ανοιχτά στοιχεία δράσης, οπότε δεν μπορεί να αντιγραφεί στις παρακάτω σημειώσεις."
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
+    title: "Η διαγραφή του στοιχείου δεν είναι δυνατή"
+    body1: "Δεν είναι δυνατή η διαγραφή του στοιχείου επειδή έχει δημιουργηθεί σε προηγούμενες σημιώσεις."
+    body2a: "Αυτό το στοιχείο δράσης είναι ήδη κλειστό,"
+    body2b: "Αυτό το στοιχείο πληροφοριών είναι ήδη ξεκαρφιτσωμένο"
     body3: "so it won't be copied to the following minutes"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
+    title: "Μη έγκυρος υπεύθυνος για το στοιχείο δράσης"
     body: |
       This is not a valid responsible!
 
       Please select an **existing user** from the dropdown or enter a **valid email address**.
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "Δεν είναι δυνατή η μετατραπή του στοιχείου"
+    body: "Δεν είναι δυνατή η μετατροπή του στοιχείου επειδή έχει δημιουργηθεί σε προηγούμενες σημιώσεις."
 About:
   title: "About 4Minitz"
   copyrightTeam: "by 4Minitz-Team"
@@ -159,23 +159,23 @@ About:
     rowNumAttachments: "Number of attachments"
     rowSizeAttachments: "Attachments size"
 Item:
-  ariaLabel: "Add/Edit item"
-  editItem: "Edit Item"
-  editItemHint: "Edit this action/info item"
-  deleteItem: "Delete Item"
-  deleteItemHint: "Delete this action/info item"
+  ariaLabel: "Προσθήκη/Επεξεργασία στοιχείου"
+  editItem: "Επεξεργασία στοιχείου"
+  editItemHint: "Επεξεργασία στοιχείου δράσης/πληροφοριών"
+  deleteItem: "Διαγραφή Στοιχείου"
+  deleteItemHint: "Διαγραφή στοιχείου δράσης/πληροφοριών"
   addItemModal: "Add {$type} to {$topic}"
   editItemModal: "Edit {$type} of {$topic}"
   editItemModelTypeInfoItem: "Information"
-  editItemModelTypeActionItem: "Action Item"
-  addInfo: "Add Info Item"
-  addInfoHint: "Add info item to topic"
-  action: "Action Item"
-  addAction: "Add Action Item"
-  addActionHint: "Add action item to topic"
+  editItemModelTypeActionItem: "Στοιχείο δράσης"
+  addInfo: "Προσθήκη στοιχείου πληροφοριών"
+  addInfoHint: "Προσθήκη στοιχείου πληροφοριών στο θέμα"
+  action: "Στοιχείο πληροφοριών"
+  addAction: "Προσθήκη στοιχείου πληροφοριών"
+  addActionHint: "Προσθήκη στοιχείου δράσης στο θέμα"
   convertToAction: "Convert to Action"
   convertToInfo: "Convert to Info"
-  convertDisabled: "Conversion disabled: item exists in past meeting"
+  convertDisabled: "Η μετατροπή έχει απενεργοποιηθεί: το στοιχείο υπάρχει σε παλαιότερο μίτινγκ"
   subject: "Subject (mandatory)"
   details: "Details"
   addDetails: "Add details"
@@ -185,9 +185,9 @@ Item:
   detailPlaceholder: "You may use Markdown to edit. Press Ctrl+Enter or Tab to leave."
   markdownHint: "Help for Markdown Syntax"
   setPin: "Set Pinned"
-  setPinHint: "Set as pinned info item"
+  setPinHint: "Θέσε ως καρφιτσωμένο στοιχείο πληροφοριών"
   unsetPin: "Unset Pinned"
-  unsetPinHint: "Set as non-pinned info item"
+  unsetPinHint: "Θέσε ως μη καρφιτσωμένο στοιχείο πληροφοριών"
   done: "done"
   pinned: "pinned"
   Error:
@@ -195,22 +195,22 @@ Item:
   Filter:
     title: "Filters"
     usageHint: "Filter Usage"
-    info: "Info Items"
-    action: "Action Items"
-    open: "Open Action Items"
-    closed: "Closed Action Items"
-    yourAction: "Your Action Items"
+    info: "Στοιχεία πληροφοριών"
+    action: "Στοιχεία δράσης"
+    open: "Άνοιγμα στοιχείων δράσης"
+    closed: "Κλείσιμο στοιχείων δράσης"
+    yourAction: "Τα στοιχεία δράσης σας"
     placeholder: "Filter"
     matchCase: "Case"
     matchCaseHint: "Match Case"
     matchCaseLong: "Match Case"
     Usage:
-      body: "You can use several keywords to filter the listed elements. All keywords may be combined which filters those items matching all given search parameters."
+      body: "Μπορείτε να χρησιμοποιήσετε πολλές λέξεις-κλειδιά για φιλτράρετε τη λίστα των αντικειμένων. Όλες οι λέξεις κλειδιά μπορούν να συνδυαστούν ώστε να αναζητήσετε τα στοιχεία που ταιριάζουν."
       keyword: "Keyword"
       format: "Format"
       values: "Values"
       eg: "e.g."
-  myActionItems: "My Action Items"
+  myActionItems: "Τα στοιχεία δράσης μου"
 Topic:
   title: "Topic"
   new: "New"
@@ -239,7 +239,7 @@ Topic:
   delete: "Delete Topic"
   reopen: "Reopen Topic"
   reopenHint: "Reopen Topic"
-  placeholder: "Add Info Item. Append @username to add an Action Item. Press Enter to append details. Press Ctrl+Enter or Tab to submit."
+  placeholder: "Προσθήκη στοιχείου πληροφοριών. Δώστε το όνομα χρήστη @username για να προσθέσετε ένα στοιχείο δράσης. Πατήστε το πλήκτρο \"Enter\" για να προσθέσετε λεπτομέρειες. Πατήστε το πλήκτρο \"Ctrl + Enter\" ή \"Tab\" για υποβολή."
   childOf: "Topic of Meeting Series:"
   historyTitle: "This Topic was"
   createdOn: "created on:"
@@ -250,7 +250,7 @@ Topic:
   notFoundReasons: "Reasons may be...<br><ul><li>The topic was never finalized (it only lives in an unfinalized minute)</li><li>The topic was deleted</li><li>You do not have access rights to this topic (anymore)</li></ul>"
   illegalAction: "Tried to call an illegal event in read-only mode"
   addDetails: "Add Details"
-  addDetailsHint: "Add details to item"
+  addDetailsHint: "Προσθήκη πληροφοριών σε στοιχείο"
   hideClosed: "Hide closed"
   hideClosedHint: "Temporarily hide discussed/skipped topics from list"
   hideClosedLong: "Hide closed topics"
@@ -355,7 +355,7 @@ MeetingSeries:
   Tab:
     minutes: "Minutes"
     topics: "Topics"
-    items: "Items"
+    items: "Στοιχεία"
 Profile:
   userName: "User Name"
   longName: "Long Name"
@@ -443,12 +443,12 @@ Login:
       <li>Send agenda to invited users</li>
     documentMinutesHeading: "Document Minutes"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>Μαρκάρετε παρώντες συμμετέχοντες</li>
+      <li>Προσθηκη στοιχείων δράσης με επεύθυνους στα θέματα</li>
+      <li>Προσθήκη στοιχείων πληροφοριών στα θέματα</li>
+      <li>Προσθήκη ετικετών όπως "Απόφαση" σε στοιχεία</li>
+      <li>Μεταφόρτωση επισυναπτώμενων αρχείων</li>
+      <li>Αποστολή σημειώσεων, στοιχείων δράσης μέσω εμαιλ</li>
     trackTopicsHeading: "Track Topics"
     trackTopicsDetails: |
       <li>Open action items will show up next time</li>
