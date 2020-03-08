@@ -101,6 +101,8 @@ Dialog:
     title: "設定語言"
     languageLocale: "語言語言環境"
     automatic: "透過瀏覽器自動"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
     title: "編輯雖然現有的編輯"
     confirmationDialogResetEdit: "警告：此文件 ist 目前由 {$name} 進行編輯：自： {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "授權下的授權 -授權"
   licenseDependencies: "相依關係的授權"
   thanksContributors: "感謝所有我們的投稿者"
+  thanksTranslators: "Thanks To All Our Translators"
   proudlySponsored: "最受贊助者"
   specialThanks: "特別感謝這些專案"
   forkGitHub: "在 GitHub 上分出我們"
@@ -180,6 +183,10 @@ Item:
   details: "詳情"
   addDetails: "新增詳細資料"
   priority: "優先"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
   due: "到期"
   dueNone: "無"
   detailPlaceholder: "您可以使用 Markdown 來編輯。 按 Ctrl+Enter 或 Tab 鍵離開。"
@@ -264,6 +271,12 @@ Topic:
     completed: "已完成主題"
     uncompleted: "未完成的主題"
     yourTopic: "您的主題"
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
   create: "建立新的分鐘"
   date: "日期"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "基本配置"
     editedBy: "Edited by {$user} （at {$date}）"
     invited: "受邀及不成立的使用者"
+    placeholderUsers: "Add Users to Invited Users..."
     notifyRoleChange: "通知參與者角色變更"
     labels: "拉貝爾斯"
     save: "儲存會議系列"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "主題"
     items: "項目"
 Profile:
+  title: "Edit Profile for"
   userName: "User Name"
   longName: "長名稱"
   email: "E-Mail"
   password: "密碼"
   passwordRepeat: "密碼重複"
   ChangePassword:
+    title: "Change Password for"
     oldPassword: "舊密碼"
     wrongOldPassword: "請輸入舊的有效密碼"
     newPassword: "新密碼"
@@ -562,3 +578,21 @@ Mail:
       ---
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
