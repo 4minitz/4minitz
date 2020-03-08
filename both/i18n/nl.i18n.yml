@@ -101,6 +101,8 @@ Dialog:
     title: "Taal instellen"
     languageLocale: "Taal Instellingen"
     automatic: "Automatisch via Browser"
+    contributionHint1: "Vertalingsfouten of ontbrekende taal?"
+    contributionHint2: "Help ons 4Minitz te vertalen!"
   IsEditedHandling:
     title: "Bewerken ondanks bestaande bewerking"
     confirmationDialogResetEdit: "Waarschuwing: Dit document wordt momenteel bewerkt door {$name} sinds: {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "Gelicentieerd onder de MIT-licentie"
   licenseDependencies: "Licentie van Afhankelijkheden"
   thanksContributors: "Met Dank Aan Al Onze Bijdragers"
+  thanksTranslators: "Bedankt aan al onze vertalers"
   proudlySponsored: "Met Trots Gesponsord Door"
   specialThanks: "Speciale Dank Aan Deze Projecten"
   forkGitHub: "Fork ons op GitHub"
@@ -180,6 +183,10 @@ Item:
   details: "Details"
   addDetails: "Details toevoegen"
   priority: "Prioriteit"
+  Priorities:
+    high: "1 - Hoog"
+    medium: "3 - Medium"
+    low: "5 - Laag"
   due: "Deadline"
   dueNone: "geen"
   detailPlaceholder: "U kunt Markdown gebruiken om te bewerken. Druk op Ctrl+Enter of Tab om te verlaten."
@@ -264,6 +271,12 @@ Topic:
     completed: "Voltooide onderwerpen"
     uncompleted: "Onvoltooide onderwerpen"
     yourTopic: "Uw Onderwerpen"
+  TooltipCreated:
+    date: "Aangemaakt op {$dateCreateStr}"
+    user: "door {$userCreate}"
+  TooltipUpdated:
+    date: "Bijgewerkt op {$dateUpdStr}"
+    user: "door {$userUpd}"
 Minutes:
   create: "Nieuwe notulen aanmaken"
   date: "Datum"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "Basis Configuratie"
     editedBy: "Bewerkt door {$user} (op {$date})"
     invited: "Uitgenodigde & Geïnformeerde Gebruikers"
+    placeholderUsers: "Gebruikers toevoegen aan Uitgenodigde Gebruikers..."
     notifyRoleChange: "Informeer deelnemers over verandering van rol"
     labels: "Categorieën"
     save: "Vergaderreeks Opslaan"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "Onderwerpen"
     items: "Items"
 Profile:
+  title: "Profiel bewerken voor"
   userName: "Gebruikersnaam"
   longName: "Volledige naam"
   email: "E-mail"
   password: "Wachtwoord"
   passwordRepeat: "Wachtwoord herhalen"
   ChangePassword:
+    title: "Wachtwoord wijzigen voor"
     oldPassword: "Oude wachtwoord"
     wrongOldPassword: "Voer oude geldige wachtwoord in"
     newPassword: "Nieuw wachtwoord"
@@ -562,3 +578,21 @@ Mail:
       ---
       4Minitz is gratis open source ontwikkeld door het 4Minitz team.
       Source is beschikbaar op {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verifieer uw e-mailadres"
+    body: |
+      Ga naar de volgende link om je e-mailadres {$emailAddress} te verifiëren:
+
+      {$urlWithoutHash}
+
+      Als je deze verificatie niet hebt aangevraagd, negeer deze e-mail aub.
+      Als je denkt dat er iets fout gaat, neem dan contact op met je beheerdersteam.
+  ResetPassword:
+    subject: "[{$sitename}] Uw wachtwoord opnieuw instellen"
+    body: |
+      Om uw wachtwoord voor {$emailAddress} opnieuw in te stellen, gaat u naar de volgende link:
+
+      {$urlWithoutHash}
+
+      Als u uw wachtwoord niet hebt aangevraagd, negeer deze e-mail aub.
+      Als je denkt dat er iets fout gaat, neem dan contact op met je beheerdersteam.
