@@ -101,6 +101,8 @@ Dialog:
     title: "Definir Idioma"
     languageLocale: "Idioma"
     automatic: "Automático vía navegador"
+    contributionHint1: "¿Errores de traducción o falta de idioma?"
+    contributionHint2: "Ayúdanos a traducir 4Minitz!"
   IsEditedHandling:
     title: "Editar a pesar de la edición existente"
     confirmationDialogResetEdit: "Advertencia: Este documento está actualmente editado por el {$name} de la siguiente manera: {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "Licenciado bajo la licencia MIT"
   licenseDependencies: "Licencia de dependencias"
   thanksContributors: "Gracias a todos nuestros colaboradores"
+  thanksTranslators: "Gracias a todos nuestros traductores"
   proudlySponsored: "Proudly Sponsored Por"
   specialThanks: "Agradecemos especialmente estos proyectos"
   forkGitHub: "Forzar en GitHub"
@@ -180,6 +183,10 @@ Item:
   details: "Detalles"
   addDetails: "Añadir detalles"
   priority: "Prioridad"
+  Priorities:
+    high: "1 - Alto"
+    medium: "3 - Medio"
+    low: "5 - Baja"
   due: "Vence"
   dueNone: "ninguno"
   detailPlaceholder: "Puede usar Markdown para editar. Presione Ctrl+Enter o Tab para salir."
@@ -264,6 +271,12 @@ Topic:
     completed: "Temas completados"
     uncompleted: "Temas no completados"
     yourTopic: "Tus temas"
+  TooltipCreated:
+    date: "Creado {$dateCreateStr}"
+    user: "por {$userCreate}"
+  TooltipUpdated:
+    date: "Actualizado {$dateUpdStr}"
+    user: "por {$userUpd}"
 Minutes:
   create: "Crear nuevo Acta"
   date: "Fecha"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "Configuración base"
     editedBy: "Editado por {$user} (en {$date})"
     invited: "Usuarios Invitados e informados"
+    placeholderUsers: "Añadir usuarios a usuarios invitados..."
     notifyRoleChange: "Notificar a los participantes en el cambio de rol"
     labels: "Etiquetas"
     save: "Guardar serie de reuniones"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "Temas"
     items: "Artículos"
 Profile:
+  title: "Editar perfil para"
   userName: "Nombre de usuario"
   longName: "Nombre largo"
   email: "E-mail"
   password: "Contraseña"
   passwordRepeat: "Repetir contraseña"
   ChangePassword:
+    title: "Cambiar contraseña para"
     oldPassword: "Contraseña antigua"
     wrongOldPassword: "Por favor, introduzca la contraseña antigua válida"
     newPassword: "Nueva contraseña"
@@ -562,3 +578,21 @@ Mail:
       ---
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verificar su dirección de correo electrónico"
+    body: |
+      Para verificar tu dirección de correo electrónico {$emailAddress} visita el siguiente enlace:
+
+      {$urlWithoutHash}
+
+      Si no has solicitado esta verificación, por favor ignora este email.
+      Si crees que algo está mal, ponte en contacto con tu equipo de administración.
+  ResetPassword:
+    subject: "[{$sitename}] Restablecer su contraseña"
+    body: |
+      Para restablecer su contraseña para {$emailAddress} visite el siguiente enlace:
+
+      {$urlWithoutHash}
+
+      Si no solicitó restablecer su contraseña, por favor ignora este email.
+      Si crees que algo está mal, ponte en contacto con tu equipo de administración.
