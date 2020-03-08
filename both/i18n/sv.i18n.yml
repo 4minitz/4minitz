@@ -101,6 +101,8 @@ Dialog:
     title: "Ange språk"
     languageLocale: "Språk språk"
     automatic: "Automatiskt via webbläsare"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
     title: "Redigera trots befintlig redigering"
     confirmationDialogResetEdit: "Varning: Detta dokument är för närvarande redigerat av {$name} sedan: {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "Licensierad under MIT-licens"
   licenseDependencies: "Licens för beroenden"
   thanksContributors: "Tack till alla våra medverkande"
+  thanksTranslators: "Thanks To All Our Translators"
   proudlySponsored: "Sponsrad av"
   specialThanks: "Speciellt tack till dessa projekt"
   forkGitHub: "Fork us on GitHub"
@@ -180,6 +183,10 @@ Item:
   details: "Detaljer"
   addDetails: "Lägg till detaljer"
   priority: "Prioritet"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
   due: "Förfaller"
   dueNone: "ingen"
   detailPlaceholder: "Du kan använda Markdown för att redigera. Tryck på Ctrl+Enter eller Tab för att lämna."
@@ -264,6 +271,12 @@ Topic:
     completed: "Slutförda Topik"
     uncompleted: "Oavslutade utopier"
     yourTopic: "Dina \"Topics\""
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
   create: "Skapa nya minuter"
   date: "Datum"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "Grundläggande konfiguration"
     editedBy: "Redigerad av {$user} (vid {$date})"
     invited: "Inbjudna och informerade användare"
+    placeholderUsers: "Add Users to Invited Users..."
     notifyRoleChange: "Meddela deltagarna om rollförändring"
     labels: "Etiketter"
     save: "Spara mötesserien"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "Ämnen"
     items: "Objekt"
 Profile:
+  title: "Edit Profile for"
   userName: "Användarnamn"
   longName: "Långt namn"
   email: "E-post"
   password: "Lösenord"
   passwordRepeat: "Upprepa lösenord"
   ChangePassword:
+    title: "Change Password for"
     oldPassword: "Gammalt lösenord"
     wrongOldPassword: "Ange ett gammalt giltigt lösenord"
     newPassword: "Nytt lösenord"
@@ -562,3 +578,21 @@ Mail:
       ---
       4Minitz är fri öppen källkod som utvecklats av 4Minitz teamet.
       Källa finns tillgänglig på {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
