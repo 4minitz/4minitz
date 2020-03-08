@@ -46,7 +46,7 @@ Dialog:
     body: "Sind Sie sicher, dass Sie dies löschen wollen?"
   ConfirmDeleteMeetingSeries:
     questionMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich löschen"
-    questionMinutes: "Diese Serie enthält {$minutesCount} Besprechungsprotokolle (letzte Minuten von {$lastMinutesDate})."
+    questionMinutes: "Diese Serie enthält {$minutesCount} Besprechungsprotokolle (letztes Protokoll vom {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Neues Protokoll erstellen bestätigen"
     content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name}\" erstellen?"
@@ -582,14 +582,14 @@ Mail:
       4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
       Quellcode ist verfügbar unter {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Überprüfen Sie Ihre E-Mail-Adresse"
+    subject: "[{$sitename}] Bestätigen Sie Ihre E-Mail-Adresse"
     body: |
       Um Ihre E-Mail-Adresse {$emailAddress} zu verifizieren, besuchen Sie den folgenden Link:
 
       {$urlWithoutHash}
 
       Falls Sie diese Überprüfung nicht angefordert haben, bitte diese E-Mail ignorieren.
-      Wenn du das Gefühl hast, dass etwas falsch ist, kontaktiere bitte dein Administrator-Team.
+      Wenn Sie das Gefühl haben, dass etwas falsch ist, kontaktieren Sie bitte Ihren Administrator.
   ResetPassword:
     subject: "[{$sitename}] Passwort zurücksetzen"
     body: |
@@ -598,4 +598,4 @@ Mail:
       {$urlWithoutHash}
 
       Wenn Sie nicht angefordert haben, Ihr Passwort zurückzusetzen, bitte diese E-Mail ignorieren.
-      Wenn du das Gefühl hast, dass etwas falsch ist, kontaktiere bitte dein Administrator-Team.
+      Wenn Sie das Gefühl haben, dass etwas falsch ist, kontaktieren Sie bitte Ihren Administrator.
