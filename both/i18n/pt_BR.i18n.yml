@@ -101,6 +101,8 @@ Dialog:
     title: "Definir Idioma"
     languageLocale: "Idioma do Idioma"
     automatic: "Automático via Navegador"
+    contributionHint1: "Erros de tradução ou idioma faltando?"
+    contributionHint2: "Ajude-nos a traduzir o 4Minitz!"
   IsEditedHandling:
     title: "Editar apesar da edição existente"
     confirmationDialogResetEdit: "Aviso: Este documento foi editado atualmente por {$name} desde: {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "Licenciado sob a licença MIT"
   licenseDependencies: "Licença de Dependências"
   thanksContributors: "Obrigado a todos os nossos colaboradores"
+  thanksTranslators: "Obrigado a todos os nossos tradutores"
   proudlySponsored: "Pronunciado por"
   specialThanks: "Obrigado especiais a estes projetos"
   forkGitHub: "Esqueca-nos no GitHub"
@@ -180,6 +183,10 @@ Item:
   details: "Detalhes"
   addDetails: "Adicionar detalhes"
   priority: "Prioridade"
+  Priorities:
+    high: "1 - Alto"
+    medium: "3 - Médio"
+    low: "5 - Baixo"
   due: "Vencimento"
   dueNone: "nenhum"
   detailPlaceholder: "Você pode usar Markdown para editar. Pressione Ctrl+Enter ou aba para sair."
@@ -264,6 +271,12 @@ Topic:
     completed: "Tópicos concluídos"
     uncompleted: "Tópicos não concluídos"
     yourTopic: "Seus Tópicos"
+  TooltipCreated:
+    date: "Criado em {$dateCreateStr}"
+    user: "por {$userCreate}"
+  TooltipUpdated:
+    date: "Atualizado em {$dateUpdStr}"
+    user: "por {$userUpd}"
 Minutes:
   create: "Criar Novo Minuto"
   date: "Data"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "Configuração Base"
     editedBy: "Editado por {$user} (em {$date})"
     invited: "Usuários convidados e informados"
+    placeholderUsers: "Adicionar Usuários aos Usuários Convidados..."
     notifyRoleChange: "Notificar participantes na mudança de papel"
     labels: "Rótulos"
     save: "Salvar Séries de Reunião"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "Tópicos"
     items: "Itens"
 Profile:
+  title: "Editar Perfil para"
   userName: "Nome do Usuário"
   longName: "Nome Longo"
   email: "E-mail"
   password: "Senha"
   passwordRepeat: "Repetir Senha"
   ChangePassword:
+    title: "Alterar Senha para"
     oldPassword: "Senha antiga"
     wrongOldPassword: "Por favor, insira uma senha válida antiga"
     newPassword: "Nova Senha"
@@ -562,3 +578,21 @@ Mail:
       ---
       4Minitz é código aberto gratuito desenvolvido pela equipe 4Minitz.
       Fonte está disponível em {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verifique seu endereço de e-mail"
+    body: |
+      Para verificar o seu endereço de e-mail {$emailAddress} visite o seguinte link:
+
+      {$urlWithoutHash}
+
+      Se você não solicitou esta verificação, por favor, ignore este e-mail.
+      Se você acha que algo está errado, por favor, entre em contato com sua equipe de administrador.
+  ResetPassword:
+    subject: "[{$sitename}] Redefinir sua senha"
+    body: |
+      Para redefinir sua senha para {$emailAddress} visite o seguinte link:
+
+      {$urlWithoutHash}
+
+      Se você não solicitou a redefinição de senha, por favor, ignore este e-mail.
+      Se você acha que algo está errado, por favor, entre em contato com sua equipe de administrador.
