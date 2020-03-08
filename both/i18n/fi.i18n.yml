@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Vahvan poisto?"
     body: "Haluatko varmasti poistaa tämän?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Uuden istunnon luonti"
     content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
