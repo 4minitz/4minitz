@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Potvrdit smazání?"
     body: "Opravdu to chcete smazat?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Opravdu chcete odstranit sérii schůzek"
+    questionMinutes: "Tato série obsahuje {$minutesCount} minut schůzek (poslední minuty z {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Potvrdit vytvoření nových minut"
     content: "Opravdu chcete vytvořit nové minuty pro sérii schůzek \"{$project}: {$name}\"?"
