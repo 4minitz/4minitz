@@ -336,7 +336,7 @@ MeetingSeries:
       notRegistered: "Dit is geen geregistreerde gebruikersnaam"
       alreadyInList: "Deze gebruikersnaam staat al in de lijst"
     teamName: "Team / Projectnaam"
-    meetingName: "Vergadering Naam"
+    meetingName: "Naam van Vergadering"
     title: "Vergaderreeks Bewerken"
     base: "Basis Configuratie"
     editedBy: "Bewerkt door {$user} (op {$date})"
@@ -358,7 +358,7 @@ MeetingSeries:
     items: "Items"
 Profile:
   userName: "Gebruikersnaam"
-  longName: "Lange naam"
+  longName: "Volledige naam"
   email: "E-mail"
   password: "Wachtwoord"
   passwordRepeat: "Wachtwoord herhalen"
@@ -425,7 +425,7 @@ Login:
   standard: "Standaard"
   demoHint: "Tip: Demo Modus Actief<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en het wachtwoord <b>demo</b>. Of u kunt uw eigen account registreren door te klikken op de \"Registreer\" link hieronder."
   Login4MinitzInfo:
-    header: "4Minitz: gemeenschappelijke notulen."
+    header: "4Minitz: Gedeelde Notulen."
     subheader: "● Bereid Agenda voor ● Documenteer Notulen ● Volg Onderwerpen ●"
     abstract: |
       <p>Elke uitgenodigde en aangemelde gebruiker kan de wijzigingen van de huidige notulen in realtime bekijken.</p>
@@ -446,7 +446,7 @@ Login:
       <li>Markeer aanwezige deelnemers</li>
       <li>Voeg actiepunten met verantwoordelijken toe aan onderwerpen</li>
       <li>Voeg informatie items toe aan ondewerpen</li>
-      <li>Voeg categorieën als 'Beslissing' toe aan items</li>
+      <li>Voeg categorieën zoals 'Beslissing' toe aan items</li>
       <li>Upload binaire bijlages</li>
       <li>Stuur notulen &amp; actiepunten via e-mail</li>
     trackTopicsHeading: "Onderwerpen Volgen"
@@ -458,7 +458,7 @@ Login:
       <li>Vind onderwerpen met categorieën (bv. alle beslissingen)</li>
       <li>Vind items door zoekopdracht voor volledige tekst</li>
   Footer:
-    withLove: "Gedecodeerd met ❤ door de"
+    withLove: "Gecodeerd met ❤ door het"
     theTeam: "WebApp Team"
 Navigation:
   help: "Help"
