@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Επιβεβαίωση διαγραφής;"
     body: "Σίγουρα θέλετε να το διαγράψετε;"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Επιβεβαίωση δημιουργίας νέων σημειώσεων"
     content: "Θέλετε σίγουρα να δημιουργήσετε νέες σημειώσεις για την σειρά του μίτινγκ \"{$project}: {$name}\";"
