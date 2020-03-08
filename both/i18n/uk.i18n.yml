@@ -101,6 +101,8 @@ Dialog:
     title: "Встановити мову"
     languageLocale: "Мова"
     automatic: "Автоматично через браузер"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
     title: "Редагувати незважаючи на чинні зміни"
     confirmationDialogResetEdit: "Попередження: цей документ редагує {$name} з: {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "На ліцензії MIT-ліцензії"
   licenseDependencies: "Ліцензія залежностей"
   thanksContributors: "Дякуємо усім нашим учасникам"
+  thanksTranslators: "Thanks To All Our Translators"
   proudlySponsored: "Приголомшено"
   specialThanks: "Особлива подяка цим проектам"
   forkGitHub: "Fork us on GitHub"
@@ -180,6 +183,10 @@ Item:
   details: "Подробиці"
   addDetails: "Додайте подробиці"
   priority: "Пріоритет"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
   due: "На черзі"
   dueNone: "нічого"
   detailPlaceholder: "Ви можете використовувати Markdown для редагування. Натисніть Ctrl+Enter або Вкладку, щоб вийти."
@@ -264,6 +271,12 @@ Topic:
     completed: "Завершені теми"
     uncompleted: "Не завершені теми"
     yourTopic: "Ваші теми"
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
   create: "Створити нові хвилини"
   date: "Дата"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "Базова конфігурація"
     editedBy: "Змінено {$user} (у {$date})"
     invited: "Запрошені та інші користувачі"
+    placeholderUsers: "Add Users to Invited Users..."
     notifyRoleChange: "Повідомляти учасників про зміну ролі"
     labels: "Мітки"
     save: "Зберегти серію зустрічей"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "Теми"
     items: "Елементи"
 Profile:
+  title: "Edit Profile for"
   userName: "Ім'я користувача"
   longName: "Повна назва"
   email: "Е-пошта"
   password: "Пароль"
   passwordRepeat: "Повторіть пароль"
   ChangePassword:
+    title: "Change Password for"
     oldPassword: "Старий пароль"
     wrongOldPassword: "Будь ласка, введіть старий пароль"
     newPassword: "Новий пароль"
@@ -562,3 +578,21 @@ Mail:
       ---
       4Minitz є вільним з відкритим вихідним кодом, розробленим командою 4Minitz
       Source доступна о {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
