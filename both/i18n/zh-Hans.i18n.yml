@@ -101,6 +101,8 @@ Dialog:
     title: "设置语言"
     languageLocale: "语言语言"
     automatic: "通过浏览器自动使用"
+    contributionHint1: "翻译错误或缺少语言？"
+    contributionHint2: "帮助我们翻译 4Minitz！"
   IsEditedHandling:
     title: "编辑已存在的编辑"
     confirmationDialogResetEdit: "警告：此文档ist 目前由 {$name} 编辑，原因是： {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "许可证许可"
   licenseDependencies: "依赖许可证"
   thanksContributors: "感谢我们的所有贡献者"
+  thanksTranslators: "感谢我们所有的翻译者"
   proudlySponsored: "自豪地赞助者"
   specialThanks: "特别感谢这些项目"
   forkGitHub: "在GitHub上转发我们"
@@ -180,6 +183,10 @@ Item:
   details: "详细信息"
   addDetails: "添加详细信息"
   priority: "优先级"
+  Priorities:
+    high: "1-高"
+    medium: "3 - 中"
+    low: "5 - 低"
   due: "到期"
   dueNone: "无"
   detailPlaceholder: "您可以使用Markdown编辑。按 Ctrl+Enter 或 Tab 离开。"
@@ -264,6 +271,12 @@ Topic:
     completed: "已完成的主题"
     uncompleted: "未完成的主题"
     yourTopic: "您的主题"
+  TooltipCreated:
+    date: "创建于 {$dateCreateStr}"
+    user: "由 {$userCreate}"
+  TooltipUpdated:
+    date: "已更新 {$dateUpdStr}"
+    user: "由 {$userUpd}"
 Minutes:
   create: "创建新分钟"
   date: "日期"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "基础配置"
     editedBy: "由 {$user} (在 {$date}) 编辑"
     invited: "邀请 & 知情用户"
+    placeholderUsers: "添加用户到邀请用户..."
     notifyRoleChange: "通知参与者更改角色"
     labels: "标签"
     save: "保存会议系列"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "主题"
     items: "项目"
 Profile:
+  title: "编辑个人资料到"
   userName: "用户名"
   longName: "长名"
   email: "电子邮件"
   password: "密码"
   passwordRepeat: "密码重复"
   ChangePassword:
+    title: "更改密码"
     oldPassword: "旧密码"
     wrongOldPassword: "请输入旧密码"
     newPassword: "新密码"
@@ -562,3 +578,21 @@ Mail:
       -
       4Minitz是由4Minitz团队开发的免费开放源代码。
       源代码是 {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] 验证您的电子邮件地址"
+    body: |
+      要验证您的电子邮件地址 {$emailAddress} 请访问以下链接：
+
+      {$urlWithoutHash}
+
+      如果您没有请求此验证。 请忽略此电子邮件。
+      如果您觉得有问题，请联系您的管理员团队。
+  ResetPassword:
+    subject: "[{$sitename}] 重置您的密码"
+    body: |
+      要重置您的 {$emailAddress} 密码，请访问以下链接：
+
+      {$urlWithoutHash}
+
+      如果您没有请求重置您的密码， 请忽略此电子邮件。
+      如果您觉得有问题，请联系您的管理员团队。
