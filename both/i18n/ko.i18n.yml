@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "삭제 확인?"
     body: "이것을 삭제하시겠습니까?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "새로운 회의록 작성 확인"
     content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
