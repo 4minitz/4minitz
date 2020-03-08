@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Verwijderen bevestigen?"
     body: "Weet u zeker dat u dit wilt verwijderen?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Weet u zeker dat u de vergaderreeksen wilt verwijderen"
+    questionMinutes: "Deze serie bevat {$minutesCount} vergaderminuten (laatste minuten van {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Bevestig het aanmaken van nieuwe notulen"
     content: "Wilt u echt nieuwe notulen aanmaken voor de vergaderreeks \"{$project}: {$name}\"?"
