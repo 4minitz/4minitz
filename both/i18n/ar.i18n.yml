@@ -101,6 +101,8 @@ Dialog:
     title: "تحديد اللغة"
     languageLocale: "اللغة المحلية"
     automatic: "آليا بواسطة برنامج الاستعراض"
+    contributionHint1: "أخطاء الترجمة أو اللغة المفقودة؟"
+    contributionHint2: "ساعدنا على ترجمة 4Minitz!"
   IsEditedHandling:
     title: "تحرير الرغم من التحرير الموجود"
     confirmationDialogResetEdit: "تحذير : يتم تحرير هذه الوثيقة حاليا بواسطة {$name} منذ : {$date}"
@@ -108,12 +110,12 @@ Dialog:
     button: "تحرير على أية حال"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
-        Status: {$status}
-        Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
+      فقدان الاتصال!
+        الحالة: {$status}
+        عدد مرات إعادة المحاولة: {$retryCount}
+        وقت إعادة المحاولة: {$retryTime} ثانية.
+        السبب: {$reason}
+        انقر لإعادة الاتصال.
     header: "لقد فقدت الاتصال بوحدة خدمة 4Minitz."
     body: "اذا قمت باغلاق برنامج التصفح الخاص بك ، قد يتم فقد البيانات التي لم يتم حفظها. برجاء الاتصال بموجه وحدة الخدمة الخاصة بك اذا استمرت هذه المشكلة."
     tryToReconnect: "محاولة اعادة الاتصال"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "مرخص طبقا لترخيص-MIT-License"
   licenseDependencies: "الترخيص للتبعيات"
   thanksContributors: "شكرا لكل المساهمين"
+  thanksTranslators: "شكرا لجميع المترجمين لدينا"
   proudlySponsored: "تم تنفيذه بفخر بواسطة"
   specialThanks: "شكر خاص لهذه المشاريع"
   forkGitHub: "Fork us on GitHub"
@@ -180,6 +183,10 @@ Item:
   details: "التفاصيل"
   addDetails: "اضافة تفاصيل"
   priority: "الأولوية"
+  Priorities:
+    high: "1 - عالي"
+    medium: "3 - متوسط"
+    low: "5 - منخفض"
   due: "مستحق"
   dueNone: "لا شيء"
   detailPlaceholder: "يمكنك استخدام Markdown للتحرير. اضغط Ctrl + Enter أو Tab للمغادرة."
@@ -247,7 +254,7 @@ Topic:
   finalizedOn: "تم الانتهاء بالدقائق من :"
   doneBy: "(بواسطة {$user})"
   notFoundTitle: "عفوا ، لم يتم ايجاد الموضوع."
-  notFoundReasons: "Reasons may be...<br><ul><li>The topic was never finalized (it only lives in an unfinalized minute)</li><li>The topic was deleted</li><li>You do not have access rights to this topic (anymore)</li></ul>"
+  notFoundReasons: "قد تكون الأسباب...<br><ul><li>لم يتم الانتهاء من الموضوع (إنه يعيش فقط في دقيقة غير مكتملة)</li><li>تم حذف الموضوع</li><li>ليس لديك حقوق الوصول إلى هذا الموضوع (بعد الآن)</li></ul>"
   illegalAction: "تمت محاولة استدعاء حدث غير مسموح به في نمط القراءة فقط"
   addDetails: "اضافة تفاصيل"
   addDetailsHint: "اضافة تفاصيل الى البند"
@@ -264,6 +271,12 @@ Topic:
     completed: "موضوعات تم استكمالها"
     uncompleted: "الموضوعات التي لم يتم استكمالها"
     yourTopic: "الموضوعات الخاصة بك"
+  TooltipCreated:
+    date: "تم إنشاء {$dateCreateStr}"
+    user: "بواسطة {$userCreate}"
+  TooltipUpdated:
+    date: "تم تحديث {$dateUpdStr}"
+    user: "بواسطة {$userUpd}"
 Minutes:
   create: "تكوين دقائق جديدة"
   date: "التاريخ"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "التوصيف الأساسي"
     editedBy: "تم التحرير بواسطة {$user} (at {$date})"
     invited: "المستخدمين المدعو والواعين"
+    placeholderUsers: "إضافة مستخدمين لدعوة المستخدمين..."
     notifyRoleChange: "اعلام المشاركين بتغيير الوظيفة"
     labels: "علامات مميزة"
     save: "حفظ سلسلة الاجتماعات"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "الموضوعات"
     items: "البنود"
 Profile:
+  title: "تعديل الملف الشخصي لـ"
   userName: "اسم المستخدم"
   longName: "اسم طويل"
   email: "بريد الكتروني"
   password: "كلمة السرية"
   passwordRepeat: "تكرار كلمة السرية"
   ChangePassword:
+    title: "تغيير كلمة المرور لـ"
     oldPassword: "كلمة السرية القديمة"
     wrongOldPassword: "برجاء ادخال كلمة سرية قديمة صحيحة"
     newPassword: "كلمة السرية الجديدة"
@@ -435,28 +451,28 @@ Login:
       مستوى السرية والأمان الذي تحتاج اليه.
     prepareAgendaHeading: "اعداد جدول الأعمال"
     prepareAgendaDetails: |
-      <li>Create your meeting series</li>
-      <li>Invite other users</li>
-      <li>Specify moderators and uploaders</li>
-      <li>Fill agenda with topics</li>
-      <li>Mark recurring topics for standard agenda</li>
-      <li>Send agenda to invited users</li>
+      <li>أنشئ سلسلة اجتماعاتك</li>
+      <li>ادعو مستخدمين آخرين</li>
+      <li>حددوا المشرفين والمحمّلين</li>
+      <li>املأ جدول الأعمال بالمواضيع</li>
+      <li>وضع علامات على المواضيع المتكررة لجدول الأعمال القياسي</li>
+      <li>ارسل جدول الأعمال للمستخدمين المدعوين</li>
     documentMinutesHeading: "محضر الوثيقة"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>ضع علامة على المشاركين الحاليين</li>
+      <li>أضف عناصر عمل ذات مسؤوليات للمواضيع</li>
+      <li>أضف عناصر معلومات للمواضيع</li>
+      <li>أضف تسميات مثل 'القرار' إلى العناصر</li>
+      <li>تحميل مرفقات الملف الثنائي</li>
+      <li>إرسال دقائق &amp; عناصر العمل عبر البريد الإلكتروني</li>
     trackTopicsHeading: "تتبع الموضوعات"
     trackTopicsDetails: |
-      <li>Open action items will show up next time</li>
-      <li>Non-closed topics will show up next time</li>
-      <li>Search list of all ever discussed topics</li>
-      <li>Enrich topics with info items on multiple meetings</li>
-      <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>
+      <li>ستظهر عناصر الإجراءات المفتوحة في المرة القادمة</li>
+      <li>ستظهر المواضيع غير المغلقة في المرة القادمة</li>
+      <li>قائمة بحث لجميع المواضيع التي نوقشت في أي وقت من الأوقات</li>
+      <li>إثراء المواضيع بمعلومات عن العديد من الاجتماعات</li>
+      <li>العثور على المواضيع مع التسميات (e. . جميع القرارات)</li>
+      <li>العثور على العناصر عن طريق البحث عن النص الكامل</li>
   Footer:
     withLove: "مشفر مع ❤ بواسطة"
     theTeam: "فريق WebApp"
@@ -476,8 +492,8 @@ QuickHelp:
   title: "مساعدة سريعة"
   meetingSeries: "<p>هنا يمكنك تكوين دقائق جديدة لسلسلة الاجتماعات الحالية أو اضغط على وصلة التاريخ الخاصة بالدقائق الموجودة.</p>"
   meetingSeriesList: "<p>مع 4Minitz يمكنك تكوين دقائق للاجتماعات.</p><p>أولا قم بتكوين سلسلة اجتماعات جديدة ودعوة بعض المستخدمين الآخرين.<br>ثم قم بتكوين دقائق اجتماع في تواريخ متعددة لسلسلة الاجتماع الخاصة بك.</p>"
-  minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
-  upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+  minutes: "<p>أضف مواضيع لإعداد جدول أعمال اجتماعك<br>أثناء الاجتماع علامة على موضوع مع مربع الاختيار لتوضيح أنك ناقشت حوله.<br>إذا كان الموضوع...<br>&nbsp;&nbsp; - لم يتم وضع علامة كما نوقش أو<br>&nbsp;&nbsp; - يتم تعيين كموضوع متكرر أو<br>&nbsp;&nbsp; - يحتوي على عناصر غير منجزة من الإجراءات<br>. - سيعرض الموضوع في الجلسة القادمة مرة أخرى.</p><p>انقر فوق 'إنهاء الدقائق' لإرسال الدقائق إلى المستخدمين المدعوين و عناصر العمل إلى مسؤولياتهم.</p>"
+  upload: "<ul><li>هنا يمكنك تحميل الملفات مثل مثال. عروض، ملفات PDFs أو صور اللوحة البيضاء</li><li>تحتاج إلى دور 'التحميل' أو 'المشرف' للقيام بذلك</li><li>التحميل أو الحذف ممكن حتى ينتهي الدقائق</li><li>تلميح بر: انقر فوق زر 'التحميل' أعلاه على جهازك اللوحي أو هاتفك الذكي!</li></ul>"
 Mail:
   greeting: "مرحبا"
   newAgenda: "لدينا جدول اعمال جديد للاجتماع من اجلك"
@@ -525,40 +541,58 @@ Mail:
 
       لا تنسى تغيير كلمة السرية الخاصة بك بعد بدء الاتصال الأول !
     body: |
-      Hello {$userLongName},
+      مرحبا {$userLongName}،
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      مرحبا بكم في تطبيق الويب الخاص بنا 4Minitz
+      الآن يمكنك البدء في المشاركة في الاحتفاظ بدقائق الاجتماعات المهنية.
 
-      You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+      يمكنك تسجيل الدخول باستخدام 'قياسي' (ليس LDAP! تسجيل الدخول في:
+         المضيف الخاص بك: {$rootURL}
+         المستخدم الخاص بك: {$userName}
       {$passwordParagraph}
 
-      Have fun!
-        Your Admin.
+      استمتع!
+        المشرف الخاص بك.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      4Minitz هو مصدر مفتوح تم تطويره من قبل فريق 4Minitz .
+      المصدر متاح على {$url4Minitz}
   UserRoleChange:
     subject: "تم تغيير الدور الخاص بك الى '{$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      مرحبا {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      لقد تغير دورك لسلسلة الاجتماعات '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         دورك القديم كان : {$roleOld}
+         دورك الجديد هو : {$roleNew}
+         التغيير الذي قام به : {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      للحصول على قائمة شاملة للحقوق لكل دور انظر
       {$urlRoleDocu}
 
-      Have fun!
-        Your Admin.
+      استمتع!
+        المشرف الخاص بك.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      4Minitz هو مصدر مفتوح تم تطويره من قبل فريق 4Minitz .
+      المصدر متاح على {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] تحقق من عنوان بريدك الإلكتروني"
+    body: |
+      للتحقق من عنوان بريدك الإلكتروني {$emailAddress} زيارة الرابط التالي:
+
+      {$urlWithoutHash}
+
+      إذا لم تطلب هذا التحقق، الرجاء تجاهل هذا البريد الإلكتروني.
+      إذا كنت تشعر بأن شيئا ما خطأ، يرجى الاتصال بفريق المشرف.
+  ResetPassword:
+    subject: "[{$sitename}] إعادة تعيين كلمة المرور الخاصة بك"
+    body: |
+      لإعادة تعيين كلمة المرور الخاصة بك لزيارة {$emailAddress} الرابط التالي:
+
+      {$urlWithoutHash}
+
+      إذا لم تطلب إعادة تعيين كلمة المرور الخاصة بك، الرجاء تجاهل هذا البريد الإلكتروني.
+      إذا كنت تشعر بأن شيئا ما خطأ، يرجى الاتصال بفريق المشرف.
