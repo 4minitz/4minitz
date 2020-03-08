@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Silme işlemi doğruluyor mu?"
     body: "Bunu sileceğinden emin misiniz?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Yeni Dakika Oluşturma İşlemini Doğrula"
     content: "Toplantı serileri için gerçekten yeni dakikalar yaratmak istiyor musunuz \"{$project}: {$name} \" mi?"
