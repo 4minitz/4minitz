@@ -101,6 +101,8 @@ Dialog:
     title: "Ορισμός γλώσσας"
     languageLocale: "Κωδικός γλώσσας"
     automatic: "Αυτόματα από τον περιηγητή"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
     title: "Τροποποίηση παρά την ήδη υπάρχουσα τροποποίηση"
     confirmationDialogResetEdit: "Προσοχή: Αυτό το εγγραφο τροποποιείται από τον/την {$name} από τις: {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "Άδεια από MIT-License"
   licenseDependencies: "Άδεια εξαρτήσεων"
   thanksContributors: "Ευχαριστώ σε όλους τους συνεισφέροντες"
+  thanksTranslators: "Thanks To All Our Translators"
   proudlySponsored: "Περήφανα χορηγούμενη από"
   specialThanks: "Ειδικά ευχαριστώ στα πρότζεκτς"
   forkGitHub: "Ξεκινήστε μία διακλάδωση (fork) στο GitHub"
@@ -180,6 +183,10 @@ Item:
   details: "Λεπτομέρειες"
   addDetails: "Προσθήκη λεπτομερειών"
   priority: "Προτεραιότητα"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
   due: "Λήξη"
   dueNone: "κανένα"
   detailPlaceholder: "Μπορείτε να χρησιμοποιήσετε Markdown για επεξεργασία. Πατήστε \"Ctrl+Enter\" ή \"Tab\" για να φύγετε."
@@ -264,6 +271,12 @@ Topic:
     completed: "Ολοκληρωμένα θέματα"
     uncompleted: "Μη ολοκληρωμένα θέματα"
     yourTopic: "Τα θέματα σας"
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
   create: "Δημιουργία νέων σημειώσεων"
   date: "Ημερομηνία"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "Βασική παραμετροποίηση"
     editedBy: "Επεξεργασία από {$user} (στις {$date})"
     invited: "Προσκεκλημένοι και ενημερωμένοι χρήστες"
+    placeholderUsers: "Add Users to Invited Users..."
     notifyRoleChange: "Ειδοποιήστε τους συμμετέχοντες σχετικά με την αλλαγή ρόλου"
     labels: "Ετικέτες"
     save: "Αποθήκευση σειράς μίτινγκ"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "Θέματα"
     items: "Στοιχεία"
 Profile:
+  title: "Edit Profile for"
   userName: "Όνομα χρήστη"
   longName: "Πλήρες Όνομα"
   email: "Διεύθυνση εμαιλ"
   password: "Κωδικός πρόσβασης"
   passwordRepeat: "Κωδικός Πρόσβασης (ξανά)"
   ChangePassword:
+    title: "Change Password for"
     oldPassword: "Παλιός Κωδικός πρόσβασης"
     wrongOldPassword: "Παρακαλώ δώστε τον έγκυρο παλιό κωδικό πρόσβασης"
     newPassword: "Νέος κωδικός πρόσβασης"
@@ -561,3 +577,21 @@ Mail:
       ---
       Το 4Minitz είναι δωρεάν λογισμικό ανοικτού κώδικα που αναπτύχθηκε από την ομάδα 4Minitz.
       Η πηγή είναι διαθέσιμη στο {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
