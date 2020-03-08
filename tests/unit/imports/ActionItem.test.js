@@ -23,6 +23,18 @@ Helpers['@noCallThru'] = true;
 
 const Random = {id: () => {}};
 
+let i18n = {
+    setLocale: sinon.stub(),
+    getLocale: sinon.stub(),
+    __: sinon.stub()
+};
+
+const {
+    Priority
+} = proxyquire('../../../imports/priority', {
+    'meteor/universe:i18n': { i18n, '@noCallThru': true},
+});
+
 const {
     InfoItem
     } = proxyquire('../../../imports/infoitem', {
@@ -39,6 +51,7 @@ const {
     ActionItem
     } = proxyquire('../../../imports/actionitem', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    '/imports/priority': { Priority, '@noCallThru': true},
     './infoitem': { InfoItem, '@noCallThru': true}
 });
 

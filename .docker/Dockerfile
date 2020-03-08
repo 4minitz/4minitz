@@ -1,4 +1,4 @@
-FROM mongo:3.4.20
+FROM mongo:3.4.24
 
 MAINTAINER 4Minitz-Team <4minitz@gmx.de>
 
@@ -53,7 +53,7 @@ RUN groupadd --gid 1000 node \
         wget \
         xz-utils \
         nano \
-        wkhtmltopdf xauth xvfb ghostscript=9.26~dfsg+0-0ubuntu0.16.04.8 \
+        wkhtmltopdf xauth xvfb ghostscript=9.26~dfsg+0-0ubuntu0.16.04.12 \
     && rm -rf /var/lib/apt/lists/* \
     \
     && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \

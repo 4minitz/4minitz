@@ -1,6 +1,7 @@
 import { expect } from 'chai';
-import {Priority} from '../../../imports/priority';
 import {AssertHelper} from '../test-helper/assert-helper';
+import sinon from 'sinon';
+import proxyquire from 'proxyquire';
 
 const EXPECTED_PRIORITY_MAP = {
     1: '1 - High',
@@ -9,6 +10,20 @@ const EXPECTED_PRIORITY_MAP = {
     4: '4',
     5: '5 - Low'
 };
+
+
+let i18n = {
+    setLocale: sinon.stub(),
+    getLocale: sinon.stub(),
+    __: sinon.stub()
+};
+
+const {
+    Priority
+} = proxyquire('../../../imports/priority', {
+    'meteor/universe:i18n': { i18n, '@noCallThru': true},
+});
+
 
 describe('Priority', function() {
 
@@ -43,8 +58,8 @@ describe('Priority', function() {
     describe('#toString', function() {
 
         it('should return the string representation of the value', function() {
-            const prio = new Priority(3);
-            expect(prio.toString()).to.equal(EXPECTED_PRIORITY_MAP[3]);
+            const prio = new Priority(2);
+            expect(prio.toString()).to.equal(EXPECTED_PRIORITY_MAP[2]);
         });
 
         it('should throw for an invalid value', function() {
