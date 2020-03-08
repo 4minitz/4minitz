@@ -8,72 +8,156 @@ Accounts:
   passwordPlaceholder: "الحد الأدنى. 6 حروف (رقم ، أقل & أعلى)"
   passwordError: "الحد الأدنى. 6 قطع (دقائق) 1 رقم ، 1 أقل ، 1 أعلى)"
 Buttons:
-  cancel: "الغاء"
-  close: "اغلاق"
-  register: "تسجيل"
-  change: "التغيير"
-  save: "حفظ"
-  ok: "طيب"
   add: "اضافة"
-  dismissAll: "تجاهل الكل"
   back: "اذهب للخلف"
+  cancel: "الغاء"
+  change: "التغيير"
+  close: "اغلاق"
+  confirm: "تأكيد"
+  create: "تكوين"
   delete: "حذف"
+  dismissAll: "تجاهل الكل"
   edit: "تحرير"
   hide: "طيب ، اخفاء"
+  ok: "طيب"
+  register: "تسجيل"
+  save: "حفظ"
+UserRoles:
+  roleModerator: "مدير المناقشة"
+  roleUploader: "تحميل-تحميل"
+  roleInvited: "تم دعوته"
+  roleInformed: "ابلاغ"
+FlashMessages:
+  ok: "طيب"
+  error: "خطأ"
+  verifyEMailErr: "خطأ : لا يمكن التحقق من EMail"
+  verifyEMailOK: "حسنا : تم التحقق من EMail الآن"
+  passwordChangeOK: "تم تغيير كلمة السرية"
+  passwordResetOK: "تم اعادة تحديد كلمة السرية بنجاح"
+  profileEditOK: "تم حفظ تغييرات ملف المواصفات"
+  minuteLinkErr: "للأسف ، لا يتم ربط الدقيقة بالتسلسل الأصلي الخاص به بطريقة صحيحة-برجاء الاتصال بموجه النظام الخاص بك."
+  agendaSentOK: "تم ارسال جدول الأعمال الى {$result} مستلمين بنجاح"
+  finalizeProgress1: "الانتهاء من عملية الانهاء"
+  finalizeProgress2: "... هذا قد يستغرق بضع ثوان"
+  finalizeOK: "وقد أنجزت بنجاح دقائق هذا الاجتماع"
 Dialog:
-  confirmDeleteAttachment: "هل ترغب بالفعل في حذف الملحقات<br><b>{$name}</b>?"
-  confirmDeleteDetails: "هل ترغب بالفعل في حذف التفاصيل المحددة للبند <strong>{$subject}</strong>?"
-  confirmDeleteItemAllowed: "هل تريد بالفعل حذف {$type} <strong>{$subject}</strong>?"
-  confirmDeleteItemNotAllowed: "It is not possible to delete the {$type} <strong>{$subject}</strong> because the {$type} was created in a previous minutes."
-  confirmDeleteItemActionItem: "هل ترغب في اغلاق بند التصرف بدلا من ذلك ?"
-  confirmDeleteItemInfoItem: "هل تريد الغاء تثبيت بند المعلومات لزجة بدلا من ذلك ؟"
+  ConfirmDelete:
+    title: "تأكيد الحذف ?"
+    body: "هل أنت متأكد من حذف هذا ؟"
+  ConfirmCreateNewMinutes:
+    title: "تأكيد تكوين دقائق جديدة"
+    content: "هل تريد بالفعل تكوين دقائق جديدة لسلسلة الاجتماعات \"{$project}: {$name} \" ?"
+  confirmDeleteAttachment: "هل ترغب حقا في حذف الملحقات :\n**{$name}**"
+  confirmDeleteDetails: "هل ترغب بالفعل في حذف التفاصيل المحددة للبند **{$subject}**"
+  ConfirmDeleteItem:
+    allowed: "هل ترغب حقا في حذف {$type} **{$subject}**"
+    notAllowed: "من غير الممكن حذف {$type} **{$subject}** لأنه تم تكوين {$type} في الدقائق السابقة."
+    questionActionItem: "هل ترغب في اغلاق بند التصرف بدلا من ذلك ?"
+    questionInfoItem: "هل تريد الغاء تثبيت بند المعلومات لزجة بدلا من ذلك ؟"
+    typeActionItem: "بند التصرف"
+    typeInfoItem: "معلومات"
+    titleCloseActionItem: "اغلاق بند التصرف ؟"
+    titleUnpinInfoItem: "بند معلومات غير مسمار ؟"
+    buttonCloseActionItem: "اغلاق بند التصرف"
+    buttonUnpinInfoItem: "بند معلومات Unpin"
   ConfirmDeleteTopic:
-    allowed: "هل ترغب حقا في حذف الموضوع <strong>{$subject}</strong>?"
-    notAllowed: "من غير الممكن حذف الموضوع <strong>{$subject}</strong> لأن الموضوع تم تكوينه في الدقائق السابقة."
+    allowed: "هل ترغب بالفعل في حذف الموضوع **{$subject}**"
+    notAllowed: "من غير الممكن حذف الموضوع **{$subject}** لأن الموضوع تم تكوينه في الدقائق السابقة."
     close: "هل ترغب في اغلاق الموضوع بدلا من ذلك ?"
     closeWithActions: "هل ترغب في اغلاق الموضوع مع كل بنود التصرف المتعلقة بدلا من ذلك ؟"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "هل ترغب حقا في ترك سلسلة الاجتماع :\n\n**{$project} / {$name}**\n\nيجب أن تقوم بسؤال المنسق اذا كنت ترغب في الانضمام مرة أخرى بعد ذلك."
   ConfirmMinuteQualityAssurance:
-    issues: "There are finalize issues with your minutes!"
-    proceed: "Do you want to proceed with finalizing?"
-  confirmReOpenTopic: "هل ترغب بالفعل في اعادة فتح الموضوع الذي تم اغلاقه بالفعل {$topicSubject}?"
-  confirmSendAgenda: "هل تريد حقا أن تقوم بارسال جدول الأعمال لدقيقة الاجتماع هذه بتاريخ <strong>{$minDate}</strong>.<br>تم ارسالها بالفعل على {$agendaSentDate} at {$agendaSentTime}"
+    title: "الانتهاء من الدقائق : فحص الجودة"
+    button: "استمر"
+    issues: "هناك حل القضايا بالدقائق الخاصة بك !"
+    proceed: "هل تريد الاستمرار في عملية الانتهاء ؟"
+    warnNoTopics: "لا تحتوي الدقائق الحالية على أية موضوعات"
+    warnNoParticipants: "لم يتم وضع علامة على أي مشارك في الوقت الحالي"
+    warnEditing: "مازال يتم تحرير topic/item/detail"
+    warnNoTopicDiscussed: "لا يوجد موضوع تم تعليمه على أنه 'ناقش'"
+    warnTopicWithoutItems: "موضوع مناقشة واحد على الأقل ليس له بنود"
+    warnActionItemWithoutResponsible: "يوجد بند تصرف واحد على الأقل ليس له مسئول"
+    warnTopicNoNewContent: "تم تحديد موضوع ولكن ليس له محتويات جديدة"
+  ConfirmReOpenTopic:
+    title: "اعادة فتح الموضوع ؟"
+    body: "هل ترغب بالفعل في اعادة فتح الموضوع الذي تم اغلاقه بالفعل * **{$topicSubject}**"
+    button: "اعادة فتح"
+  ConfirmSendAgenda:
+    body: "هل تريد حقا أن تقوم بارسال جدول الأعمال لهذا الاجتماع دقيقة بتاريخ **{$minDate}** ؟\nتم ارسالها بالفعل على {$agendaSentDate} على {$agendaSentTime}"
+    title: "تأكيد ارسال جدول الأعمال"
+    button: "ارسال جدول الأعمال"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
-    closedTopicsAdditionally: "Additionally <strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
+    really: "هل ترغب بالفعل في حذف هذه الدقائق لهذا الاجتماع بتاريخ **{$minutesDate}**"
+    newTopics: "سيؤدي ذلك الى ازالة الموضوعات **{$newTopicsCount} * * ، التي تم تكوينها خلال هذه الدقيقة."
+    closedTopicsAdditionally: "بالاضافة الى ذلك **{$closedTopicsCount} موضوعات * * سيتم فتحها مرة أخرى ، والتي تم اغلاقها خلال هذه الدقائق."
+    closedTopics: "**{$closedTopicsCount} الموضوعات * * سيتم فتحها مرة أخرى ، والتي تم اغلاقها خلال هذه الدقائق."
   ConfirmFinalizeMinutes:
-    really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    sendActionItems: "Send action items"
-    sendMinutes: "Send information items"
+    title: "تأكيد الانتهاء من الدقائق"
+    button: "الانتهاء من"
+    really: "هل ترغب حقا في وضع اللمسات الأخيرة على هذه الدقيقة للاجتماع المؤرخة **{$minutesDate} ** ؟"
+    sendActionItems: "ارسال بنود التصرف"
+    sendMinutes: "ارسال بنود المعلومات"
   LocaleSetting:
-    title: "Set Language"
-    languageLocale: "Language Locale"
-    automatic: "Automatic via Browser"
-Mail:
-  greeting: "مرحبا"
-  newAgenda: "لدينا جدول اعمال جديد للاجتماع من اجلك"
-  newActionItem: "تم تخصيصك لبنود التصرف التالية :"
-  newMinutes: "بالأسفل ستجد آخر محضر اجتماع."
-  meeting: "Sitzung"
-  links: "وصلات"
-  openSeries: "فتح سلسلة"
-  openMinutes: "دقائق الفتح"
-  minutesSubject: "محضر الاجتماع"
-  discussedTopics: "الموضوعات التي تم مناقشتها"
-  skippedTopics: "فتح الموضوعات"
-  none: "لا شيء"
+    title: "تحديد اللغة"
+    languageLocale: "اللغة المحلية"
+    automatic: "آليا بواسطة برنامج الاستعراض"
+  IsEditedHandling:
+    title: "تحرير الرغم من التحرير الموجود"
+    confirmationDialogResetEdit: "تحذير : يتم تحرير هذه الوثيقة حاليا بواسطة {$name} منذ : {$date}"
+    confirmationDialogResetEditDetails: "برجاء الضغط على التفاصيل مرة أخرى لبدء عملية التحرير."
+    button: "تحرير على أية حال"
+  ConnectionInfo:
+    tooltip: |
+      Connection Lost!
+        Status: {$status}
+        Retry Count: {$retryCount}
+        Retry Time: {$retryTime} sec.
+        Reason: {$reason}
+        Click to reconnect.
+    header: "لقد فقدت الاتصال بوحدة خدمة 4Minitz."
+    body: "اذا قمت باغلاق برنامج التصفح الخاص بك ، قد يتم فقد البيانات التي لم يتم حفظها. برجاء الاتصال بموجه وحدة الخدمة الخاصة بك اذا استمرت هذه المشكلة."
+    tryToReconnect: "محاولة اعادة الاتصال"
+  ConfirmGenerateProtocol:
+    title: "تأكيد تكوين البروتوكول"
+    body: "لم يتم تكوين أي بروتوكول لهذه الدقائق. هل تريد تحميل نسخة HTML التي تم تكوينها بطريقة ديناميكية بدلا من ذلك ؟"
+    button: "تحميل"
+  ConfirmTopicDelete:
+    title1: "تأكيد حذف الموضوع"
+    title2: "تعليم موضوع كما تم مناقشته ؟"
+    button2: "اغلاق الموضوع والتصرفات"
+    errortitle: "لا يمكن حذف الموضوع"
+    errorcontent: "لا يمكن حذف هذا الموضوع لأنه تم تكوينه في الدقائق السابقة. تم بالفعل اغلاق الموضوع المحدد وليس له بنود تصرف مفتوحة ، لذلك لن يتم نسخها الى الدقائق التالية."
+  ItemDeleteError:
+    title: "لا يمكن حذف البند"
+    body1: "لا يمكن حذف هذا البند لأنه تم تكوينه في الدقائق السابقة."
+    body2a: "تم اغلاق بند التصرف هذا بالفعل ،"
+    body2b: "بند المعلومات هذا غير معلق بالفعل"
+    body3: "لذلك لن يتم نسخها الى الدقائق التالية"
+  ActionItemResponsibleError:
+    title: "مسئول غير صحيح لبند التصرف"
+    body: |
+      هذا ليس بالمسئول الصحيح !
+
+      برجاء تحديد مستخدم ** موجود بالفعل * * من القائمة المسقطة أو قم بادخال عنوان بريد الكتروني صحيح * *.
+  ConvertItemError:
+    title: "لا يمكن تحويل البند"
+    body: "لا يمكن تحويل هذا البند لأنه تم تكوينه في الدقائق السابقة."
 About:
   title: "نبذة عن 4Minitz"
-  copyright: "(جيم) 2015 -2019 4Minitz-فريق"
+  copyrightTeam: "بواسطة فريق 4Minitz-Team"
   licensedUnder: "مرخص طبقا لترخيص-MIT-License"
   licenseDependencies: "الترخيص للتبعيات"
   thanksContributors: "شكرا لكل المساهمين"
   proudlySponsored: "تم تنفيذه بفخر بواسطة"
   specialThanks: "شكر خاص لهذه المشاريع"
   forkGitHub: "Fork us on GitHub"
-  serverStatistics: "احصائيات وحدة الخدمة"
+  ServerStatistics:
+    title: "احصائيات وحدة الخدمة"
+    rowNumUser: "عدد المستخدمين (فعال)"
+    rowNumMeetingSeries: "عدد سلاسل الاجتماعات"
+    rowNumMeetingMinutes: "عدد دقائق الاجتماع"
+    rowNumAttachments: "عدد المرفقات"
+    rowSizeAttachments: "حجم الملحقات"
 Item:
   ariaLabel: "اضافة / تحرير بند"
   editItem: "تحرير بند"
@@ -82,9 +166,10 @@ Item:
   deleteItemHint: "حذف بند التصرف / المعلومات هذا"
   addItemModal: "اضافة {$type} الى {$topic}"
   editItemModal: "تحرير {$type} من {$topic}"
+  editItemModelTypeInfoItem: "المعلومات"
+  editItemModelTypeActionItem: "بند التصرف"
   addInfo: "اضافة بند معلومات"
   addInfoHint: "اضافة بند معلومات الى الموضوع"
-  editInfo: "تحرير بند المعلومات"
   action: "بند التصرف"
   addAction: "اضافة بند تصرف"
   addActionHint: "اضافة بند تصرف الى الموضوع"
@@ -120,11 +205,11 @@ Item:
     matchCaseHint: "تطابق الحالة"
     matchCaseLong: "تطابق الحالة"
     Usage:
-      body: "You can use several keywords to filter the listed elements. All keywords may be combined which filters those items matching all given search parameters."
-      keyword: "Keyword"
-      format: "Format"
-      values: "Values"
-      eg: "e.g."
+      body: "يمكنك استخدام العديد من الكلمات المرشدة لترشيح العناصر المعروضة. قد يتم دمج كل الكلمات المرشدة التي تقوم بترشيح تلك البنود التي تضاهي كل معاملات البحث المحددة."
+      keyword: "الكلمة المرشدة"
+      format: "النسق"
+      values: "القيم"
+      eg: "على سبيل المثال"
   myActionItems: "بنود التصرفات الخاصة بي"
 Topic:
   title: "موضوع"
@@ -152,7 +237,6 @@ Topic:
   history: "عرض السجل التاريخي"
   historyHint: "عرض حالة تامة لهذا الموضوع"
   delete: "حذف موضوع"
-  deleteHint: "حذف موضوع"
   reopen: "اعادة فتح الموضوع"
   reopenHint: "اعادة فتح الموضوع"
   placeholder: "اضافة بند معلومات. الحاق @username لاضافة بند تصرف. اضغط Enter للحاق التفاصيل. اضغط Ctrl + Enter أو Tab للتشغيل."
@@ -193,7 +277,7 @@ Minutes:
   attachmentsHint: "الدقائق لها ملحقات"
   previous: "سابق :"
   next: "التالي :"
-  history: "History"
+  history: "تاريخ"
   unfinalizeHint: "اضغط على Un-انهاء دقائق"
   print: "طباعة الدقائق"
   finalize: "الانتهاء من تنفيذ دقائق"
@@ -215,6 +299,7 @@ Minutes:
     continue: "استمرار التحميل"
     pause: "تثبيت التحميل لأعلى"
     abort: "ايقاف التحميل"
+    error: "حدث خطأ أثناء التحميل لأعلى"
   version: "النسخة"
   versionTag: "v"
   Participants:
@@ -238,6 +323,7 @@ MeetingSeries:
   team: "الفريق / المشروع"
   new: "سلسلة اجتماعات جديدة"
   leave: "الخروج من سلسلة الاجتماعات"
+  leaveButton: "ترك"
   moderator: "أنت المنسق"
   lastMinute: "الدقيقة الأخيرة :"
   Search:
@@ -286,6 +372,10 @@ Profile:
     longName: "برجاء ادخال اسم طويل صحيح"
     email: "برجاء ادخال عنوان بريد الكتروني صحيح"
     password: "برجاء ادخال كلمة سرية صحيحة"
+  WarningEMailChange:
+    title: "تأكيد تغيير بريد المستخدم"
+    body: "انك على وشك تغيير عنوان البريد الذي تم التحقق منه. سيتم توقيعك وستحتاج الى التحقق من عنوان البريد الجديد الخاص بك قبل الاستمرار."
+    button: "انهاء الاتصال + اعادة التحقق"
 Admin:
   users: "المستخدمين"
   messages: "الرسائل"
@@ -330,10 +420,46 @@ Login:
     title: "خطأ في بدء الاتصال"
     username: "برجاء ادخال اسم المستخدم"
     password: "برجاء ادخال كلمة السرية الخاصة بك"
-  title: "بدء الاتصال"
+  signIn: "بدء الاتصال"
   ldap: "LDAP"
   standard: "قياسية"
   demoHint: "ملحوظة : يمكن أن تقوم ببدء تشغيل Medo Mode<br>باستخدام اسم المستخدم <b>demo</b> وكلمة السرية <b>demo</b>. أو يمكنك تسجيل الحساب الخاص بك من خلال الضغط على الوصلة \"تسجيل\" بأسفل."
+  Login4MinitzInfo:
+    header: "4Minitz : محاضر الاجتماع التعاوني."
+    subheader: ":: إعداد جدول الأعمال ومحاضر الوثائق للمواضيع."
+    abstract: |
+      <p>يمكن لكل من المستخدمين المدعوين والذين قاموا ببدء الاتصال مشاهدة التغييرات الخاصة بمحاضر الاجتماع الحالي في الوقت الحقيقي.</p>
+      قمنا بجعل 4مينيتز خاليا من البرامج المفتوحة المصدر ، حيث أننا نعتقد بقوة أنه يجب عدم استضافة المعلومات الحساسة
+      مثل دقائق الاجتماع في وحدة السحب.
+      بدلا من ذلك تريد أن تقوم باستضافته على البنية الأساسية الخاصة بك حيث يمكنك تعريف
+      مستوى السرية والأمان الذي تحتاج اليه.
+    prepareAgendaHeading: "اعداد جدول الأعمال"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
+    documentMinutesHeading: "محضر الوثيقة"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
+    trackTopicsHeading: "تتبع الموضوعات"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
+  Footer:
+    withLove: "مشفر مع ❤ بواسطة"
+    theTeam: "فريق WebApp"
 Navigation:
   help: "مساعدة"
   about: "نبذة عن"
@@ -344,11 +470,95 @@ Navigation:
   toggleNavigation: "تبديل التجول"
   meetings: "الاجتماعات"
   processing: "جاري تشغيل المحتويات الخاصة بك ..."
-  setLanguageForUser: "Set Language"
-  setLanguageLogin: "Language"
+  setLanguageForUser: "تحديد اللغة"
+  setLanguageLogin: "اللغة"
 QuickHelp:
   title: "مساعدة سريعة"
   meetingSeries: "<p>هنا يمكنك تكوين دقائق جديدة لسلسلة الاجتماعات الحالية أو اضغط على وصلة التاريخ الخاصة بالدقائق الموجودة.</p>"
   meetingSeriesList: "<p>مع 4Minitz يمكنك تكوين دقائق للاجتماعات.</p><p>أولا قم بتكوين سلسلة اجتماعات جديدة ودعوة بعض المستخدمين الآخرين.<br>ثم قم بتكوين دقائق اجتماع في تواريخ متعددة لسلسلة الاجتماع الخاصة بك.</p>"
   minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
   upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+Mail:
+  greeting: "مرحبا"
+  newAgenda: "لدينا جدول اعمال جديد للاجتماع من اجلك"
+  newActionItem: "تم تخصيصك لبنود التصرف التالية :"
+  newMinutes: "تحتك ستجد آخر محضر اجتماع."
+  meeting: "اجتماع"
+  links: "وصلات"
+  openSeries: "فتح سلسلة"
+  openMinutes: "دقائق الفتح"
+  minutesSubject: "محضر الاجتماع"
+  discussedTopics: "الموضوعات التي تم مناقشتها"
+  skippedTopics: "فتح الموضوعات"
+  none: "لا شيء"
+  AdminNewVersion:
+    subject: "النسخة الحديثة موجودة"
+    body: |
+      مرحبا Admin ،
+
+      ، يبدو أنك تقوم بتشغيل نسخة قديمة من 4Minitz.
+
+      'نسخة 4Minitz الخاصة بك : {$rootUrl}
+      النسخة : {$myVersion}
+
+      النسخة الحديثة المتاحة هي : {$masterVersion}'
+      ملاحظات الاصدار : {$urlReleaseNotes}
+      برجاء التفكير في التعديل.
+
+      {$masterMessageText}
+
+      تم تكوين هذا البريد بواسطة 4Minitz Backend الخاص بك.
+      يمكنك الغاء اتاحة التحقق من التعديل بواسطة settings.json : \ " updateCheck \" : خطأ.
+
+      استمتع بوقتك !
+              فريق MMinitz الخاص بك.
+
+
+      ---
+      MMinitz عبارة عن مصدر مفتوح مفتوح تم تطويره بواسطة فريق 4Minitz.
+      المصدر متاح في {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "حسابك الجديد على خادمنا"
+    passwordNotSend: "    قم بالاتصال بموجه النظام لكلمة السرية."
+    passwordParagraph: |
+      كلمة السرية الخاصة بك : {$password}
+
+      لا تنسى تغيير كلمة السرية الخاصة بك بعد بدء الاتصال الأول !
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  UserRoleChange:
+    subject: "تم تغيير الدور الخاص بك الى '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}

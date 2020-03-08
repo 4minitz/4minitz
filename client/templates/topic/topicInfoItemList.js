@@ -25,6 +25,7 @@ import {formatDateISO8601Time} from '../../../imports/helpers/date';
 import {isEditedHandling} from '../../helpers/isEditedHelpers';
 import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 import { User } from '/imports/user';
+import { i18n } from 'meteor/universe:i18n';
 
 const INITIAL_ITEMS_LIMIT = 4;
 
@@ -374,17 +375,23 @@ Template.topicInfoItemList.events({
 
             if (item.isSticky() || isDeleteAllowed) {
                 let templateData = {
-                    type: (item.isActionItem()) ? 'action item' : 'information',
+                    type: (item.isActionItem()) ?
+                        i18n.__('Dialog.ConfirmDeleteItem.typeActionItem') :
+                        i18n.__('Dialog.ConfirmDeleteItem.typeInfoItem'),
                     isActionItem: item.isActionItem(),
                     subject: item.getSubject(),
                     deleteAllowed: isDeleteAllowed
                 };
 
-                let title = 'Confirm delete';
-                let button = 'Delete';
+                let title = i18n.__('Dialog.ConfirmDelete.title');
+                let button = i18n.__('Buttons.delete');
                 if (!isDeleteAllowed) {
-                    title = (item.isActionItem()) ? 'Close action item?' : 'Unpin info item?';
-                    button = (item.isActionItem()) ? 'Close action item' : 'Unpin info item';
+                    title = (item.isActionItem()) ?
+                        i18n.__('Dialog.ConfirmDeleteItem.titleCloseActionItem') :
+                        i18n.__('Dialog.ConfirmDeleteItem.titleUnpinInfoItem');
+                    button = (item.isActionItem()) ?
+                        i18n.__('Dialog.ConfirmDeleteItem.buttonCloseActionItem') :
+                        i18n.__('Dialog.ConfirmDeleteItem.buttonUnpinInfoItem');
                 }
 
                 let action = () => {
@@ -404,14 +411,14 @@ Template.topicInfoItemList.events({
                     templateData,
                     button
                 ).show();
-            } else {
+            } else {    // not-sticky && delte-not-allowed
                 ConfirmationDialogFactory.makeInfoDialog(
-                    'Cannot delete item',
-                    'It is not possible to delete this item because it was created in a previous minutes.' +
+                    i18n.__('Dialog.ItemDeleteError.title'),
+                    i18n.__('Dialog.ItemDeleteError.body1') + ' ' +
                     ((item.isActionItem())
-                        ? ' This action item is already closed,'
-                        : ' This info item is already un-pinned') +
-                    ' so it won\'t be copied to the following minutes'
+                        ? i18n.__('Dialog.ItemDeleteError.body2a')
+                        : i18n.__('Dialog.ItemDeleteError.body2b')) + ' ' +
+                    i18n.__('Dialog.ItemDeleteError.body3')
                 ).show();
             }
         });
@@ -444,8 +451,8 @@ Template.topicInfoItemList.events({
             ItemsConverter.convertItem(item).catch(handleError);
         } else {
             ConfirmationDialogFactory.makeInfoDialog(
-                'Cannot convert item',
-                'It is not possible to convert this item because it was created in a previous minutes.'
+                i18n.__('Dialog.ConvertItemError.title'),
+                i18n.__('Dialog.ConvertItemError.body')
             ).show();
         }
     },
@@ -525,15 +532,16 @@ Template.topicInfoItemList.events({
 
             let tmplData = {
                 isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
-                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate)
+                isEditedDate: formatDateISO8601Time(aActionItem._infoItemDoc.details[detailIndex].isEditedDate),
+                isDetail: true
             };
 
             ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                 unset,
-                'Edit despite existing editing',
-                'confirmationDialogResetDetailEdit',
+                i18n.__('Dialog.IsEditedHandling.title'),
+                'confirmationDialogResetEdit',
                 tmplData,
-                'Edit anyway'
+                i18n.__('Dialog.IsEditedHandling.button')
             ).show();
         }
         else {
@@ -612,11 +620,10 @@ Template.topicInfoItemList.events({
                     deleteDetails();
                 } else {
                     // otherwise we show an confirmation dialog before the deails will be removed
-                    ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+                    ConfirmationDialogFactory.makeWarningDialog(
                         deleteDetails,
-                        'Confirm delete',
-                        'confirmDeleteDetails',
-                        {subject: aActionItem.getSubject()}
+                        undefined,
+                        i18n.__('Dialog.confirmDeleteDetails', {subject: aActionItem.getSubject()})
                     ).show();
                 }
             }

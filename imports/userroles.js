@@ -3,6 +3,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Roles } from 'meteor/alanning:roles';
 import  './collections/userroles_private';
 import { MeetingSeries } from './meetingseries';
+import { i18n } from 'meteor/universe:i18n';
 
 
 export class UserRoles {
@@ -42,17 +43,27 @@ export class UserRoles {
         return rolesNum;
     }
 
-    static allRolesText() {
+    static allRolesNames() {    // raw role names - not for display!
         return Object.keys(UserRoles.USERROLES);
     }
 
+
+    // generate I18N Ui text from role value
+    // roleValue may be '05' numerical or 'Moderator' role name
     static role2Text(roleValue) {
-        for (let key in UserRoles.USERROLES) {
-            if (UserRoles.USERROLES[key] === roleValue) {
-                return key;
+        if (! isNaN(parseInt(roleValue))) {  // numerical '01'
+            for (let userrolesKey in UserRoles.USERROLES) {
+                if (UserRoles.USERROLES[userrolesKey] === roleValue) {
+                    roleValue = userrolesKey;
+                }
             }
         }
-        return undefined;
+        // !!! Keep these comments for tests/i18n/test_i18n_resources.js
+        // i18n.__('UserRoles.roleModerator')  // comment avoids non-used warnings, and forces error if they miss
+        // i18n.__('UserRoles.roleUploader')  // comment avoids non-used warnings, and forces error if they miss
+        // i18n.__('UserRoles.roleInvited')  // comment avoids non-used warnings, and forces error if they miss
+        // i18n.__('UserRoles.roleInformed')  // comment avoids non-used warnings, and forces error if they miss
+        return i18n.__('UserRoles.role'+roleValue);
     }
 
     static removeAllRolesFor(aMeetingSeriesID) {
@@ -137,12 +148,12 @@ export class UserRoles {
     }
 }
 
-// Security:
+// #Security:
 // Make sure the values of this enum are string-sortable
 // and lower values have higher access rights!
 // So, prefix zeroes are important!
 UserRoles.USERROLES = {
-    'Moderator':   '01'
+    'Moderator':   '01' // Attention: the role names are not used for display! Use role2Text for UI!
     , 'Uploader':  '05'
     , 'Invited':   '10'
     , 'Informed':  '66'

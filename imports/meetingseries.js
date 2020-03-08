@@ -96,6 +96,9 @@ export class MeetingSeries {
             let lastMinDate = moment(lastMinutes.date);
             newMinutesDate = lastMinDate.add(1, 'days').toDate();
         }
+        // Transfer global note from last minutes if set sticky
+        const globalNotePinned = lastMinutes && lastMinutes.globalNotePinned;
+        let globalNote = (globalNotePinned) ? lastMinutes.globalNote : '';
 
         let topics = [];
 
@@ -118,7 +121,9 @@ export class MeetingSeries {
             date: formatDateISO8601(newMinutesDate),
             topics: topics,
             visibleFor: this.visibleFor,             // freshly created minutes inherit visibility of their series
-            informedUsers: this.informedUsers       // freshly created minutes inherit informedUsers of their series
+            informedUsers: this.informedUsers,       // freshly created minutes inherit informedUsers of their series
+            globalNotePinned: globalNotePinned,
+            globalNote: globalNote,
         });
 
         min.generateNewParticipants();

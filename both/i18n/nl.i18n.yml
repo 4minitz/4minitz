@@ -3,218 +3,303 @@ _splitKey: ':'
 _locale: 'nl'
 Accounts:
   usernamePlaceholder: "(min. 3 tekens)"
-  nameDisplayName: "Naam, bedrijf"
-  namePlaceholder: "John Doe, Happy Corp."
-  passwordPlaceholder: "min. 6 tekens (cijfer, lager & boven)"
-  passwordError: "min. 6 tekens (min. 1 cijfer, 1 lager, 1 boven)"
+  nameDisplayName: "Naam, Bedrijf"
+  namePlaceholder: "Jan Jansen, Holland BV."
+  passwordPlaceholder: "min. 6 tekens (cijfer, hoofdletter & kleine letter)"
+  passwordError: "min. 6 tekens (min. 1 cijfer, 1 hoofdletter, 1 kleine letter)"
 Buttons:
-  cancel: "Annuleren"
-  close: "Sluiten"
-  register: "Registreer"
-  change: "Wijzig"
-  save: "Opslaan"
-  ok: "Ok"
   add: "Toevoegen"
-  dismissAll: "Alles negeren"
   back: "Terug"
+  cancel: "Annuleren"
+  change: "Wijzigen"
+  close: "Sluiten"
+  confirm: "Bevestigen"
+  create: "Aanmaken"
   delete: "Verwijderen"
+  dismissAll: "Alles negeren"
   edit: "Bewerken"
-  hide: "Oké, verstop je."
+  hide: "Oké, verbergen"
+  ok: "Oké"
+  register: "Registreren"
+  save: "Opslaan"
+UserRoles:
+  roleModerator: "Voorzitter"
+  roleUploader: "Uploader"
+  roleInvited: "Uitgenodigd"
+  roleInformed: "Geïnformeerd"
+FlashMessages:
+  ok: "Oké"
+  error: "Foutmelding"
+  verifyEMailErr: "Foutmelding: e-mail kon niet geverifieerd worden"
+  verifyEMailOK: "Oké: e-mail is nu geverifieerd"
+  passwordChangeOK: "Wachtwoord gewijzigd"
+  passwordResetOK: "Wachtwoord succesvol gereset"
+  profileEditOK: "Profielwijzigingen opgeslagen"
+  minuteLinkErr: "Helaas zijn de notulen niet correct aan de bovenliggende reeks gekoppeld - neem s.v.p. contact op met uw systeembeheerder."
+  agendaSentOK: "Agenda is succesvol verzonden naar {$result} ontvangers"
+  finalizeProgress1: "Bezig met afronden"
+  finalizeProgress2: "Dit kan enkele seconden duren..."
+  finalizeOK: "De notulen van deze vergadering zijn succesvol afgerond"
 Dialog:
-  confirmDeleteAttachment: "Wilt u de bijlage<br><b>{$name}</b> echt verwijderen?"
-  confirmDeleteDetails: "Wilt u echt de geselecteerde details van het artikel <strong>{$subject}</strong> verwijderen?"
-  confirmDeleteItemAllowed: "Wilt u de {$type} <strong>{$subject}</strong> echt verwijderen?"
-  confirmDeleteItemNotAllowed: "Het is niet mogelijk om de {$type} <strong>{$subject}</strong> te verwijderen omdat de {$type} is gemaakt in een vorige minuten."
-  confirmDeleteItemActionItem: "Wilt u het actie item in plaats daarvan sluiten?"
-  confirmDeleteItemInfoItem: "Wilt u in plaats daarvan het sticky info item losmaken?"
+  ConfirmDelete:
+    title: "Verwijderen bevestigen?"
+    body: "Weet u zeker dat u dit wilt verwijderen?"
+  ConfirmCreateNewMinutes:
+    title: "Bevestig het aanmaken van nieuwe notulen"
+    content: "Wilt u echt nieuwe notulen aanmaken voor de vergaderreeks \"{$project}: {$name}\"?"
+  confirmDeleteAttachment: "Weet u zeker dat u deze bijlage: **{$name}** wilt verwijderen?"
+  confirmDeleteDetails: "Weet u zeker dat u de geselecteerde details van het item **{$subject} ** wilt verwijderen?"
+  ConfirmDeleteItem:
+    allowed: "Weet u zeker dat u het {$type}{$subject} ** ** wilt verwijderen?"
+    notAllowed: "Het is niet mogelijk om het {$type} **{$subject}** te verwijderen, omdat het {$type} in vorige notulen is gemaakt."
+    questionActionItem: "Wilt u in plaats daarvan het actiepunt sluiten?"
+    questionInfoItem: "Wilt u in plaats daarvan de vastgezette informatie losmaken?"
+    typeActionItem: "actiepunt"
+    typeInfoItem: "Informatie"
+    titleCloseActionItem: "Actiepunt sluiten?"
+    titleUnpinInfoItem: "Informatie item losmaken?"
+    buttonCloseActionItem: "Actiepunt sluiten"
+    buttonUnpinInfoItem: "Informatie item losmaken"
   ConfirmDeleteTopic:
-    allowed: "Wilt u deze topic echt verwijderen <strong>{$subject}</strong>?"
-    notAllowed: "Het is niet mogelijk om het onderwerp te verwijderen <strong>{$subject}</strong> omdat het onderwerp is gemaakt in een vorige minuten."
-    close: "Wil je in plaats daarvan de topic afsluiten?"
-    closeWithActions: "Wilt u in plaats daarvan het topic sluiten met alle gerelateerde actie items?"
-  ConfirmLeaveMeetingSeries: "Wil je echt de vergaderreeksen verlaten:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> Je moet daarna een moderator vragen als je weer wilt deelnemen."
+    allowed: "Weet u zeker dat u het onderwerp **{$subject}** wilt verwijderen?"
+    notAllowed: "Het is niet mogelijk om het onderwerp **{$subject}** te verwijderen omdat het onderwerp in vorige notulen is gemaakt."
+    close: "Wilt u in plaats daarvan het onderwerp sluiten?"
+    closeWithActions: "Wilt u in plaats daarvan het onderwerp met alle gerelateerde actiepunten sluiten?"
+  confirmLeaveMeetingSeries: "Weet u zeker dat u de vergaderreeks wilt verlaten:\n\n**{$project} / {$name}**\n\nU zou daarna een voorzitter moeten vragen als u achteraf weer deelnemen wilt."
   ConfirmMinuteQualityAssurance:
-    issues: "Er zijn problemen met uw minuten afgerond!"
-    proceed: "Wilt u doorgaan met afsluiten?"
-  confirmReOpenTopic: "Weet je zeker dat je het reeds gesloten topic {$topicSubject} opnieuw wilt openen?"
-  confirmSendAgenda: "Wilt u de agenda voor deze minuut van deze vergadering echt versturen op <strong>{$minDate}</strong>?<br>Het is al verstuurd op {$agendaSentDate} op {$agendaSentTime}"
+    title: "Afronden van de Notulen: Kwaliteitscontroles"
+    button: "Doorgaan"
+    issues: "Er zijn problemen met het afronden van uw notulen!"
+    proceed: "Wilt u doorgaan met afronden?"
+    warnNoTopics: "De huidige notulen hebben geen onderwerpen"
+    warnNoParticipants: "Geen enkele deelnemer is gemarkeerd als aanwezig"
+    warnEditing: "Een onderwerp/item/detail is nog bewerkt"
+    warnNoTopicDiscussed: "Geen enkel onderwerp is gemarkeerd als 'besproken'"
+    warnTopicWithoutItems: "Ten minste één besproken onderwerp heeft geen items"
+    warnActionItemWithoutResponsible: "Tenminste één actiepunt heeft geen verantwoordelijke"
+    warnTopicNoNewContent: "Een onderwerp is aangevinkt maar heeft geen nieuwe inhoud"
+  ConfirmReOpenTopic:
+    title: "Onderwerp opnieuw openen?"
+    body: "Weet u zeker dat u het reeds gesloten onderwerp **{$topicSubject} ** opnieuw wilt openen?"
+    button: "Heropenen"
+  ConfirmSendAgenda:
+    body: "Weet u zeker dat u de agenda voor deze notulen gedateerd op **{$minDate}** wilt verzenden?\nHet is al verzonden op {$agendaSentDate} om {$agendaSentTime}"
+    title: "Verzenden van agenda bevestigen"
+    button: "Agenda verzenden"
   ConfirmDeleteMinutes:
-    really: "Wilt u deze minuut van deze vergadering op <strong>{$minutesDate}</strong> echt verwijderen?"
-    newTopics: "Dit verwijdert <strong>{$newTopicsCount} Onderwerpen</strong>, die binnen deze minuut zijn gemaakt."
-    closedTopicsAdditionally: "Bovendien zullen <strong>{$closedTopicsCount} topics</strong> opnieuw worden geopend, die binnen deze minuten zijn gesloten."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> zullen opnieuw worden geopend, welke binnen deze minuten zijn gesloten."
+    really: "Weet u zeker dat u deze notulen van de vergadering op **{$minutesDate} ** wilt verwijderen?"
+    newTopics: "Dit zal **{$newTopicsCount} onderwerpen** verwijderen, die binnen deze notulen zijn gemaakt."
+    closedTopicsAdditionally: "Bovendien zullen **{$closedTopicsCount} onderwerpen** opnieuw worden geopend, die binnen deze notulen zijn gesloten."
+    closedTopics: "**{$closedTopicsCount} onderwerpen** zullen opnieuw worden geopend, die binnen deze notulen zijn gesloten."
   ConfirmFinalizeMinutes:
-    really: "Weet je zeker dat je deze minuut van de vergadering op <strong>{$minutesDate}</strong> wilt afsluiten?"
-    sendActionItems: "Stuur actie items"
-    sendMinutes: "Stuur informatie items"
+    title: "Afronden van de notulen bevestigen"
+    button: "Afronden"
+    really: "Weet u zeker dat u deze notulen gedateerd op **{$minutesDate} ** wilt afronden?"
+    sendActionItems: "Actiepunten verzenden"
+    sendMinutes: "Informatie items verzenden"
   LocaleSetting:
     title: "Taal instellen"
-    languageLocale: "Locale taal"
-    automatic: "Automatisch via browser"
-Mail:
-  greeting: "Hallo"
-  newAgenda: "We hebben een nieuwe agenda voor u:"
-  newActionItem: "U bent toegewezen aan de volgende actie-items:"
-  newMinutes: "Hieronder vindt u de laatste vergaderminuten."
-  meeting: "Sitzung"
-  links: "Links"
-  openSeries: "Reeks openen"
-  openMinutes: "Open minuten"
-  minutesSubject: "Vergaderminuten"
-  discussedTopics: "Besproken onderwerpen"
-  skippedTopics: "Open onderwerpen"
-  none: "Geen"
+    languageLocale: "Taal Instellingen"
+    automatic: "Automatisch via Browser"
+  IsEditedHandling:
+    title: "Bewerken ondanks bestaande bewerking"
+    confirmationDialogResetEdit: "Waarschuwing: Dit document wordt momenteel bewerkt door {$name} sinds: {$date}"
+    confirmationDialogResetEditDetails: "Klik s.v.p. nogmaals op details om te beginnen met bewerken."
+    button: "Toch bewerken"
+  ConnectionInfo:
+    tooltip: |
+      Verbinding verbroken!
+        Status: {$status}
+        Aantal herhaalde pogingen: {$retryCount}
+        Tijdsduur van herhaalde pogingen: {$retryTime} sec.
+        Reden: {$reason}
+        Klik om opnieuw verbinding te maken.
+    header: "U heeft de verbinding met de 4Minitz server verloren."
+    body: "Als u uw browser sluit, kunnen niet-opgeslagen gegevens verloren gaan. Neem contact op met uw beheerder als dit probleem zich blijft voordoen."
+    tryToReconnect: "Probeer opnieuw verbinding te maken"
+  ConfirmGenerateProtocol:
+    title: "Genereren van protocol bevestigen"
+    body: "Er is geen protocol gegenereerd voor deze notulen. Wilt u in plaats daarvan een dynamisch gegenereerde HTML-versie downloaden?"
+    button: "Downloaden"
+  ConfirmTopicDelete:
+    title1: "Verwijderen van het onderwerp bevestigen"
+    title2: "Onderwerp markeren als besproken?"
+    button2: "Onderwerp en acties sluiten"
+    errortitle: "Kan het onderwerp niet verwijderen"
+    errorcontent: "Het is niet mogelijk om dit onderwerp te verwijderen omdat het in vorige notulen is gemaakt. Het geselecteerde onderwerp is al afgesloten en heeft geen open actiepunten, dus het zal niet worden gekopieerd naar de volgende notulen."
+  ItemDeleteError:
+    title: "Kan het item niet verwijderen"
+    body1: "Het is niet mogelijk om dit item te verwijderen omdat het in vorige notulen is gemaakt."
+    body2a: "Dit actiepunt is al gesloten,"
+    body2b: "Dit informatie item is al losgemaakt"
+    body3: "dus het zal niet worden gekopieerd naar de volgende notulen"
+  ActionItemResponsibleError:
+    title: "Ongeldige Verantwoordelijke voor Actiepunt"
+    body: |
+      Dit is geen geldige verantwoordelijke!
+
+      Selecteer s.v.p. een **bestaande gebruiker** in het keuzemenu of voer een **geldig e-mailadres** in.
+  ConvertItemError:
+    title: "Kan het item niet converteren"
+    body: "Het is niet mogelijk om dit item te converteren omdat het in vorige notulen is gemaakt."
 About:
-  title: "Ongeveer 4Minitz"
-  copyright: "(C) 2015-2019 4Minitz-Team"
-  licensedUnder: "Licentie onder de MIT-licentie"
+  title: "Over 4Minitz"
+  copyrightTeam: "door 4Minitz-Team"
+  licensedUnder: "Gelicentieerd onder de MIT-licentie"
   licenseDependencies: "Licentie van Afhankelijkheden"
-  thanksContributors: "Bedankt aan alle medewerkers"
-  proudlySponsored: "Proudly gesponsord door"
-  specialThanks: "Speciale dank aan deze projecten"
+  thanksContributors: "Met Dank Aan Al Onze Bijdragers"
+  proudlySponsored: "Met Trots Gesponsord Door"
+  specialThanks: "Speciale Dank Aan Deze Projecten"
   forkGitHub: "Fork ons op GitHub"
-  serverStatistics: "Serverintatistieken"
+  ServerStatistics:
+    title: "Server Statistieken"
+    rowNumUser: "Aantal gebruikers (actief)"
+    rowNumMeetingSeries: "Aantal vergaderreeksen"
+    rowNumMeetingMinutes: "Aantal notulen"
+    rowNumAttachments: "Aantal bijlagen"
+    rowSizeAttachments: "Bijlagegrootte"
 Item:
   ariaLabel: "Item toevoegen/bewerken"
-  editItem: "Item bewerken"
-  editItemHint: "Bewerk deze actie/info item"
-  deleteItem: "Item verwijderen"
-  deleteItemHint: "Verwijder deze actie/info item"
+  editItem: "Item Bewerken"
+  editItemHint: "Bewerk dit actiepunt/informatie item"
+  deleteItem: "Item Verwijderen"
+  deleteItemHint: "Verwijder dit actiepunt/informatie item"
   addItemModal: "Voeg {$type} toe aan {$topic}"
   editItemModal: "{$type} van {$topic} bewerken"
-  addInfo: "Info item toevoegen"
-  addInfoHint: "Voeg info item toe aan onderwerp"
-  editInfo: "Bewerk Info Item"
-  action: "Actie-item"
-  addAction: "Actie item toevoegen"
-  addActionHint: "Voeg actie item toe aan onderwerp"
+  editItemModelTypeInfoItem: "Informatie"
+  editItemModelTypeActionItem: "Actiepunt"
+  addInfo: "Informatie Item Toevoegen"
+  addInfoHint: "Informatie item toevoegen aan onderwerp"
+  action: "Actiepunt"
+  addAction: "Actiepunt toevoegen"
+  addActionHint: "Actiepunt toevoegen aan onderwerp"
   convertToAction: "Converteren naar actie"
-  convertToInfo: "Converteren naar Info"
+  convertToInfo: "Converteren naar Informatie"
   convertDisabled: "Conversie uitgeschakeld: item bestaat in vorige vergadering"
   subject: "Onderwerp (verplicht)"
   details: "Details"
   addDetails: "Details toevoegen"
   priority: "Prioriteit"
-  due: "Vervallen"
-  dueNone: "Geen"
+  due: "Deadline"
+  dueNone: "geen"
   detailPlaceholder: "U kunt Markdown gebruiken om te bewerken. Druk op Ctrl+Enter of Tab om te verlaten."
-  markdownHint: "Help bij Markdown-syntaxis"
-  setPin: "Vast instellen"
-  setPinHint: "Instellen als vastgezet info item"
-  unsetPin: "Niet vastgezet"
-  unsetPinHint: "Instellen als niet-vastgezet info item"
-  done: "klaar"
-  pinned: "Vastgezet"
+  markdownHint: "Hulp bij Markdown-syntaxis"
+  setPin: "Als Vastgezet Instellen"
+  setPinHint: "Instellen als vastgezet informatie item"
+  unsetPin: "Vastgezette Losmaken"
+  unsetPinHint: "Instellen als niet-vastgezet informatie item"
+  done: "gereed"
+  pinned: "vastgezet"
   Error:
-    subject: "Voer een geldig onderwerp in"
+    subject: "Voer s.v.p. een geldig onderwerp in"
   Filter:
     title: "Filters"
-    usageHint: "Gebruik filteren"
-    info: "Info Items"
-    action: "Actie items"
-    open: "Open Actieitems"
-    closed: "Gesloten Actie Items"
-    yourAction: "Uw Actie items"
+    usageHint: "Filter gebruik"
+    info: "Informatie items"
+    action: "Actiepunten"
+    open: "Actiepunten Openen"
+    closed: "Gesloten Actiepunten"
+    yourAction: "Uw Actiepunten"
     placeholder: "Filteren"
-    matchCase: "Zaak"
-    matchCaseHint: "Hoofdlettergevoelig"
-    matchCaseLong: "Hoofdlettergevoelig"
+    matchCase: "Hoofdletters/kleine letters"
+    matchCaseHint: "Hoofdletters/kleine letters in acht nemen"
+    matchCaseLong: "Hoofdletters/kleine letters in acht nemen"
     Usage:
-      body: "U kunt meerdere trefwoorden gebruiken om de elementen in de lijst te filteren. Alle trefwoorden kunnen worden gecombineerd welke items die overeenkomen met de opgegeven zoekparameters filteren."
-      keyword: "Keyword"
+      body: "U kunt meerdere trefwoorden gebruiken om de elementen in de lijst te filteren. Alle trefwoorden kunnen worden gecombineerd, om alle items die overeenkomen met de opgegeven zoekparameters te filteren."
+      keyword: "Trefwoord"
       format: "Formatteren"
       values: "Waarden"
       eg: "bijv."
-  myActionItems: "Mijn Actie items"
+  myActionItems: "Mijn Actiepunten"
 Topic:
   title: "Onderwerp"
   new: "Nieuw"
   add: "Onderwerp toevoegen"
-  addLong: "Onderwerp toevoegen ..."
+  addLong: "Onderwerp toevoegen..."
   addShort: "Onderwerp"
-  addHint: "Nieuw onderwerp toevoegen aan bovenkant van lijst [ Ctrl + Alt + T]"
-  quickAdd: "TOPIC TOPIC (tot het einde van de lijst)"
-  edit: "Bewerk topic"
+  addHint: "Nieuw onderwerp bovenaan de lijst toevoegen [Ctrl+Alt+T]"
+  quickAdd: "ONDERWERP TOEVOEGEN (aan het einde van de lijst)"
+  edit: "Onderwerp bewerken"
   save: "Onderwerp opslaan"
-  show: "Toon topic"
-  subject: "Onderwerp (verplicht)"
+  show: "Onderwerp tonen"
+  subject: "Thema van Onderwerp (verplicht)"
   responsible: "Verantwoordelijk"
   completed: "Voltooid"
   completedHint: "Dit onderwerp is eindelijk klaar. Dus het wordt niet gepropageerd naar de volgende vergadering."
-  setRecurring: "Terugkerende instellen"
+  setRecurring: "Instellen als Terugkerend"
   setRecurringHint: "Instellen als terugkerend onderwerp"
-  unsetRecurring: "Terugkerende ongedaan maken"
+  unsetRecurring: "Terugkeren Ongedaan Maken"
   unsetRecurringHint: "Instellen als niet-terugkerend onderwerp"
-  setSkip: "Stel Skip in"
-  setSkipHint: "Instellen als overgeslagen topic"
-  unsetSkip: "Uitschakelen overslaan"
-  unsetSkipHint: "Instellen als niet-overgeslagen topic"
+  setSkip: "Instellen als Overslaan"
+  setSkipHint: "Instellen als overgeslagen onderwerp"
+  unsetSkip: "Overslaan Ongedaan Maken"
+  unsetSkipHint: "Instellen als niet-overgeslagen onderwerp"
   history: "Geschiedenis tonen"
-  historyHint: "Toon volledige finale status van dit topic"
-  delete: "Verwijder topic"
-  deleteHint: "Verwijder topic"
-  reopen: "Heropen topic"
-  reopenHint: "Heropen topic"
-  placeholder: "Voeg Info Item toe. Voeg @gebruikersnaam toe om een actie item toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
-  childOf: "Onderwerp van vergaderSeries:"
+  historyHint: "Toon volledige afgeronde status van dit onderwerp"
+  delete: "Onderwerp verwijderen"
+  reopen: "Onderwerp opnieuw openen"
+  reopenHint: "Onderwerp opnieuw openen"
+  placeholder: "Voeg Informatie Item Toe. Voeg @gebruikersnaam toe om een Actiepunt toe te voegen. Druk op Enter om details toe te voegen. Druk op Ctrl+Enter of Tab om in te dienen."
+  childOf: "Onderwerp van Vergaderreeks:"
   historyTitle: "Dit onderwerp was"
   createdOn: "gemaakt op:"
-  lastUpdate: "laatst bijgewerkt op:"
-  finalizedOn: "Geslaagd op minuten van:"
+  lastUpdate: "voor het laatst gewijzigd op:"
+  finalizedOn: "afgerond op notulen van:"
   doneBy: "(door {$user})"
   notFoundTitle: "Sorry, onderwerp niet gevonden."
-  notFoundReasons: "Reden zijn mogelijk...<br><ul><li>Het topic is nooit afgerond (het woont alleen in een niet-onvervreemdbare minuut)</li><li>Het onderwerp is verwijderd</li><li>U heeft geen toegang tot dit onderwerp (meer)</li></ul>"
-  illegalAction: "Geëbd om een illegaal evenement te bellen in alleen-lezen modus"
+  notFoundReasons: "Redenen kunnen zijn...<br><ul><li>Het onderwerp is nooit afgerond (het bestaat alleen in een onafgeronde notulen)</li><li>Het onderwerp is verwijderd</li><li>U heeft geen toegang tot dit onderwerp (meer)</li></ul>"
+  illegalAction: "Poging tot het aanroepen van een niet-toegestaan gebeurtenis in de alleen-lezen modus"
   addDetails: "Details toevoegen"
   addDetailsHint: "Details toevoegen aan item"
   hideClosed: "Gesloten verbergen"
-  hideClosedHint: "Besproken/overgeslagen onderwerpen tijdelijk verbergen in lijst"
+  hideClosedHint: "Besproken/overgeslagen onderwerpen tijdelijk verbergen in de lijst"
   hideClosedLong: "Gesloten onderwerpen verbergen"
   collapse: "Samenvouwen"
-  collapseLong: "Onderwerpen samenvouwen"
+  collapseLong: "Onderwerpen Samenvouwen"
   expand: "Uitvouwen"
-  expandLong: "Onderwerpen uitvouwen"
+  expandLong: "Onderwerpen Uitvouwen"
   Error:
-    subject: "Voer een geldig onderwerp in"
+    subject: "Voer s.v.p. een geldig onderwerp in"
   Filter:
-    completed: "Voltooide topics"
-    uncompleted: "Ongevoltooide topics"
-    yourTopic: "Uw onderwerpen"
+    completed: "Voltooide onderwerpen"
+    uncompleted: "Onvoltooide onderwerpen"
+    yourTopic: "Uw Onderwerpen"
 Minutes:
-  create: "Nieuwe minuten aanmaken"
+  create: "Nieuwe notulen aanmaken"
   date: "Datum"
   dateOn: "op"
-  title: "Minuten voor"
-  finalized: "Gesloten"
-  finalizedHint: "Minuten zijn afgerond"
+  title: "Notulen voor"
+  finalized: "Afgerond"
+  finalizedHint: "Notulen zijn afgerond"
   notFinalized: "Niet afgerond"
-  notFinalizedHint: "Minuten zijn niet afgerond"
+  notFinalizedHint: "Notulen zijn niet afgerond"
   attachments: "Bijlagen"
-  attachmentsHint: "Minuten hebben bijlagen"
+  attachmentsHint: "Notulen hebben bijlagen"
   previous: "Vorige:"
   next: "Volgende:"
   history: "Geschiedenis"
-  unfinalizeHint: "Klik hier om de minuten te voltooien"
-  print: "Afdrukken minuten"
-  finalize: "Minuten afronden"
-  finalizeHint: "Klik om de minuten te voltooien"
-  printHint: "Afdrukken minuten"
-  downloadHint: "Minuten downloaden als bestand"
+  unfinalizeHint: "Klik hier om het afronden van de notulen ongedaan te maken"
+  print: "Notulen Afdrukken"
+  finalize: "Notulen Afronden"
+  finalizeHint: "Klik om de notulen af te ronden"
+  printHint: "Notulen Afdrukken"
+  downloadHint: "Notulen downloaden als bestand"
   agenda: "Agenda"
   sendAgenda: "Agenda verzenden"
-  delete: "Minuten wissen"
+  delete: "Notulen verwijderen"
   GlobalNotes:
-    pin: "Instellen als vastgezette globale notitie"
-    unpin: "Instellen als niet-vastgezette globale notitie"
-    title: "Algemene opmerking"
-    placeholder: "Algemene aantekeningen voor deze minuten. Klik op pin om notities te propageren naar volgende minuten."
+    pin: "Instellen als vastgezette algemene aantekening"
+    unpin: "Instellen als niet-vastzette algemene aantekening"
+    title: "Algemene aantekening"
+    placeholder: "Algemene aantekeningen voor deze notulen. Klik op pin om aantekeningen te propageren naar volgende notulen."
   Upload:
     button: "Uploaden..."
-    uploading: "Uploaden"
-    start: "Start upload"
-    continue: "Upload voortzetten"
-    pause: "Upload pauzeren"
-    abort: "Upload afbreken"
+    uploading: "Bezig met uploaden"
+    start: "Beginnen met Uploaden"
+    continue: "Uploaden Doorzetten"
+    pause: "Uploaden Pauzeren"
+    abort: "Upload Afbreken"
+    error: "Fout tijdens het uploaden"
   version: "Versie"
   versionTag: "v"
   Participants:
@@ -223,10 +308,10 @@ Minutes:
     solo: "1 deelnemer"
     additional: "Aanvullende deelnemers"
     additionalSolo: "1 Aanvullende Deelnemer"
-    placeholder: "Aanvullende deelnemers (gescheiden met \";\"). E-mailadressen ontvangen minuten."
-    editHint: "Geselecteerde gebruikers bewerken."
+    placeholder: "Aanvullende deelnemers (gescheiden met \";\"). E-mailadressen zullen notulen ontvangen."
+    editHint: "Uitgenodigde gebruikers bewerken."
     markNone: "Geen markeren"
-    markAll: "Alle markeren"
+    markAll: "Alles markeren"
     watchingHint: "Deze gebruiker kijkt (op afstand)"
     informed: "Geïnformeerde gebruikers"
     informedSolo: "1 geïnformeerde gebruiker"
@@ -234,40 +319,41 @@ Minutes:
     absent: "Afwezig"
     none: "Geen."
 MeetingSeries:
-  title: "Afspraak Series"
-  team: "Team/Project"
-  new: "Nieuwe vergaderSeries"
-  leave: "Laat vergaderSeries achter"
-  moderator: "Je bent moderator"
-  lastMinute: "Laatste minuut:"
+  title: "Vergaderreeks"
+  team: "Team / Project"
+  new: "Nieuwe Vergaderreeks"
+  leave: "Vergaderreeks Verlaten"
+  leaveButton: "Verlaten"
+  moderator: "U bent voorzitter"
+  lastMinute: "Laatste Notulen:"
   Search:
-    placeholder: "Zoek naar vergaderSeries"
+    placeholder: "Zoek naar Vergaderreeks"
     noResults: "Geen resultaten voor deze invoer..."
   Edit:
     Error:
-      meetingName: "Voer een geldige naam in voor de vergaderreeks"
-      teamName: "Voer een geldige projectnaam in"
+      meetingName: "Voer s.v.p. een geldige naam in voor de vergaderreeks"
+      teamName: "Voer s.v.p. een geldige projectnaam in"
       notRegistered: "Dit is geen geregistreerde gebruikersnaam"
-      alreadyInList: "Deze gebruikersnaam is al in de lijst"
-    teamName: "Team / projectnaam"
-    meetingName: "Naam vergadering"
-    title: "Bewerk vergaderSeries"
-    base: "Basis configuratie"
+      alreadyInList: "Deze gebruikersnaam staat al in de lijst"
+    teamName: "Team / Projectnaam"
+    meetingName: "Vergadering Naam"
+    title: "Vergaderreeks Bewerken"
+    base: "Basis Configuratie"
     editedBy: "Bewerkt door {$user} (op {$date})"
-    invited: "Uitgenodigde & geïnformeerde gebruikers"
-    notifyRoleChange: "Informeer deelnemers over rol verandering"
-    labels: "Labels"
-    save: "Vergadering Series opslaan"
-    confirmDelete: "Bevestig verwijderen"
+    invited: "Uitgenodigde & Geïnformeerde Gebruikers"
+    notifyRoleChange: "Informeer deelnemers over verandering van rol"
+    labels: "Categorieën"
+    save: "Vergaderreeks Opslaan"
+    confirmDelete: "Verwijderen bevestigen"
   Labels:
     Error:
-      name: "Voer een geldige label naam in"
-      hexValue: "Ongeldige hex kleurwaarde"
-    add: "Nieuw label toevoegen"
-    new: "Nieuwslabel"
+      name: "Voer s.v.p. een geldige categorie naam in"
+      hexValue: "Ongeldige hex-kleurwaarde"
+    add: "Nieuwe categorie toevoegen"
+    new: "Nieuwe Categorie"
     select: "Selecteren ..."
   Tab:
-    minutes: "Minuten"
+    minutes: "Notulen"
     topics: "Onderwerpen"
     items: "Items"
 Profile:
@@ -275,80 +361,204 @@ Profile:
   longName: "Lange naam"
   email: "E-mail"
   password: "Wachtwoord"
-  passwordRepeat: "Wachtwoord Herhalen"
+  passwordRepeat: "Wachtwoord herhalen"
   ChangePassword:
-    oldPassword: "Oud wachtwoord"
-    wrongOldPassword: "Voer een oud geldig wachtwoord in"
+    oldPassword: "Oude wachtwoord"
+    wrongOldPassword: "Voer oude geldige wachtwoord in"
     newPassword: "Nieuw wachtwoord"
     newPasswordRepeat: "Nieuw wachtwoord herhalen"
   Error:
     name: "Voer een geldige gebruikersnaam in"
-    longName: "Voer een geldige lange naam in"
-    email: "Voer een geldig EMail adres in"
+    longName: "Voer een geldige volledige naam in"
+    email: "Voer een geldig e-mailadres in"
     password: "Voer een geldig wachtwoord in"
+  WarningEMailChange:
+    title: "Wijzigen van e-mail van gebruiker bevestigen"
+    body: "U staat op het punt om uw geverifieerde mailadres te wijzigen. U zal worden afgemeld en moet uw nieuwe e-mailadres verifiëren voordat u verder kunt gaan."
+    button: "Afmelden + opnieuw verifiëren"
 Admin:
   users: "Gebruikers"
   messages: "Berichten"
   Register:
-    label: "Registreer nieuwe gebruiker"
-    hint: "Tip: Dit zal een gebruiker registreren voor standaard login (niet voor LDAP Login!)."
-    button: "Registreer nieuwe gebruiker..."
+    label: "Nieuwe gebruiker registreren"
+    hint: "Tip: Dit zal een gebruiker registreren voor Standaard Login (niet voor LDAP Login!)."
+    button: "Nieuwe gebruiker registreren..."
     sendMail: "E-mail verzenden naar nieuwe gebruiker"
-    includePassword: "Wachtwoord opnemen in E-mail"
+    includePassword: "Wachtwoord opnemen in e-mail"
     success: "Nieuwe gebruiker geregistreerd: {$user}"
   Message:
-    title: "Berichten van Admin verzenden"
+    title: "Berichten van beheerder verzenden"
     newMessage: "Nieuw bericht aan alle gebruikers"
-    broadcast: "Uitzenden"
+    broadcast: "Verzenden"
     date: "Datum"
     message: "Bericht"
-    dismissed: "Niet-gemist"
-    dismissingUsers: "#Ontbrekende gebruikers: {$number}\n"
+    dismissed: "Afgewezen"
+    dismissingUsers: "Aantal gebruikers dat het bericht gesloten heeft: {$number}\n"
     edit: "Bewerken"
   Users:
-    filterUsers: "Gebruikers filteren"
-    showInactive: "Toon Inactieve"
+    filterUsers: "Gebruikers Filteren"
+    showInactive: "Inactieve Gebruikers Tonen"
     online: "Online"
-    onlineHint: "Toon alleen gebruikers die momenteel actief zijn op een minutesedit route"
+    onlineHint: "Toon alleen actieve gebruikers"
     id: "ID"
-    editProfile: "Gebruikersprofiel bewerken"
+    editProfile: "Profiel bewerken"
     countSingle: "Toont {$visible} van {$all} gebruiker. Gebruik filter om anderen te tonen."
     count: "Toont {$visible} van {$all} gebruikers. Gebruik filter om anderen te tonen."
     Type:
-      hint: "LDAP gebruiker of standaard gebruiker"
+      hint: "LDAP gebruiker of Standaard gebruiker"
       column: "L/S"
       ldap: "L"
       standard: "S"
     State:
-      hint: "Schakel actieve/inactieve status in. Inactieve gebruikers kunnen niet inloggen."
+      hint: "Omschakelen tussen actieve en inactieve status. Inactieve gebruikers kunnen niet inloggen."
       column: "In/actief"
       active: "Actief"
       inactive: "Inactief"
-      toggle: "Wisselen"
+      toggle: "Omschakelen"
 Login:
   Error:
     title: "Aanmeldingsfout"
-    username: "Geef uw gebruikersnaam op"
-    password: "Geef uw wachtwoord op"
-  title: "Aanmelden"
+    username: "Voer uw gebruikersnaam in"
+    password: "Voer uw wachtwoord in"
+  signIn: "Aanmelden"
   ldap: "LDAP"
   standard: "Standaard"
-  demoHint: "Tip: Demo Mode Active<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en wachtwoord <b>demo</b>. Of u kunt uw eigen account te registreren door te klikken op de \"Register\" link hieronder."
+  demoHint: "Tip: Demo Modus Actief<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en het wachtwoord <b>demo</b>. Of u kunt uw eigen account registreren door te klikken op de \"Registreer\" link hieronder."
+  Login4MinitzInfo:
+    header: "4Minitz: gemeenschappelijke notulen."
+    subheader: "● Bereid Agenda voor ● Documenteer Notulen ● Volg Onderwerpen ●"
+    abstract: |
+      <p>Elke uitgenodigde en aangemelde gebruiker kan de wijzigingen van de huidige notulen in realtime bekijken.</p>
+      We hebben gratis open source software van 4Minitz gemaakt, omdat wij er vast van overtuigd zijn dat
+      gevoelige informatie zoals notulen niet in de cloud beschikbaar gesteld zou moeten worden.
+      In plaats daarvan wil je het beschikbaar stellen op je eigen infrastructuur, waar je
+      het beveiligingsniveau kunt bepalen dat je nodig hebt.
+    prepareAgendaHeading: "Agenda voorbereiden"
+    prepareAgendaDetails: |
+      <li>Maak uw vergaderreeks aan</li>
+      <li>Nodig andere gebruikers uit</li>
+      <li>Specificeer voorzitters en uploaders</li>
+      <li>Vul de agenda in met onderwerpen</li>
+      <li>Markeer terugkerende onderwerpen voor de standaard agenda</li>
+      <li>Stuur de agenda naar uitgenodigde gebruikers</li>
+    documentMinutesHeading: "Notulen Documenteren"
+    documentMinutesDetails: |
+      <li>Markeer aanwezige deelnemers</li>
+      <li>Voeg actiepunten met verantwoordelijken toe aan onderwerpen</li>
+      <li>Voeg informatie items toe aan ondewerpen</li>
+      <li>Voeg categorieën als 'Beslissing' toe aan items</li>
+      <li>Upload binaire bijlages</li>
+      <li>Stuur notulen &amp; actiepunten via e-mail</li>
+    trackTopicsHeading: "Onderwerpen Volgen"
+    trackTopicsDetails: |
+      <li>Open actiepunten zullen de volgende keer verschijnen</li>
+      <li>Niet-gesloten onderwerpen zullen de volgende keer verschijnen</li>
+      <li>Zoeklijst van alle onderwerpen die ooit besproken zijn</li>
+      <li>Verrijk onderwerpen met informatie items tijdens meerdere vergaderingen</li>
+      <li>Vind onderwerpen met categorieën (bv. alle beslissingen)</li>
+      <li>Vind items door zoekopdracht voor volledige tekst</li>
+  Footer:
+    withLove: "Gedecodeerd met ❤ door de"
+    theTeam: "WebApp Team"
 Navigation:
   help: "Help"
   about: "Over"
-  adminTasks: "Admin Taken"
+  adminTasks: "Beheerder Taken"
   editProfile: "Profiel bewerken"
   changePassword: "Wachtwoord wijzigen"
   signOut: "Afmelden"
-  toggleNavigation: "Navigatie aan/uit"
+  toggleNavigation: "Navigatie aan/uit zetten"
   meetings: "Vergaderingen"
-  processing: "Uw content wordt verwerkt ..."
+  processing: "Uw gegevens wordt verwerkt..."
   setLanguageForUser: "Taal instellen"
   setLanguageLogin: "Taal"
 QuickHelp:
-  title: "Snelhulp"
-  meetingSeries: "<p>Hier kunt u nieuwe minuten maken voor de huidige vergaderreeks of klikken op een datumlink van bestaande minuten.</p>"
-  meetingSeriesList: "<p>Met 4Minitz kunt u minuten maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>maakt vervolgens vergaderminuten aan op meerdere datums voor uw vergaderreeks.</p>"
-  minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering te maken<br>tijdens de vergadering markeert een onderwerp met de checkbox om duidelijk te maken dat u erover heeft gesproken.<br>Als het onderwerp...<br>&nbsp;&nbsp; - is niet gemarkeerd als besproken of<br>&nbsp;&nbsp; - is ingesteld als terugkerend onderwerp of<br>&nbsp;&nbsp; - bevat niet-voltooide actieitems<br>... het onderwerp zal opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Goedkeuring minuten afronden' om de notulen naar de uitgenodigde gebruikers en de actieitems naar hun reactiebalen te sturen.</p>"
-  upload: "<ul><li>Hier kunt u bestanden zoals bijvoorbeeld presentaties, PDFs of whiteboard foto's uploaden</li><li>U heeft de rol 'Uploader' of 'Moderator' nodig om dit te doen</li><li>Uploaden of verwijderen is mogelijk tot de minuten zijn afgerond</li><li>Pro Tip: Klik op de bovenstaande 'Upload' knop op uw tablet of slimme telefoon!</li></ul>"
+  title: "Snelle hulp"
+  meetingSeries: "<p>Hier kunt u nieuwe notulen maken voor de huidige vergaderreeks of klikken op een datum link van bestaande notulen.</p>"
+  meetingSeriesList: "<p>Met 4Minitz kunt u notulen maken voor vergaderingen.</p><p>Maak eerst een nieuwe vergaderreeks aan en nodig enkele andere gebruikers uit.<br>Maak vervolgens notulen aan op meerdere datums voor uw vergaderreeks.</p>"
+  minutes: "<p>Voeg onderwerpen toe om uw agenda voor de vergadering voor te bereiden<br>tijdens de vergadering kunt u een onderwerp aanvinken om duidelijk te maken dat u erover gesproken heeft.<br>Als het onderwerp...<br>&nbsp;&nbsp; - niet als besproken is gemarkeerd of<br>&nbsp;&nbsp; - als terugkerend onderwerp is ingesteld of<br>&nbsp;&nbsp; - niet-voltooide actiepunten bevat<br>... zal het onderwerp opnieuw worden gepresenteerd tijdens de volgende vergadering.</p><p>Klik op 'Notulen afronden' om de notulen naar de uitgenodigde gebruikers en de actiepunten naar hun verantwoordelijken te verzenden.</p>"
+  upload: "<ul><li>Hier kunt u bestanden als bijvoorbeeld presentaties, PDFs of whiteboard foto's uploaden</li><li>U heeft de rol 'Uploader' of 'Voorzitter' nodig om dit te doen</li><li>Uploaden of verwijderen is mogelijk tot de notulen zijn afgerond</li><li>Pro Tip: Klik op de bovenstaande 'Upload' knop op uw tablet of smartphone!</li></ul>"
+Mail:
+  greeting: "Hallo"
+  newAgenda: "We hebben een gloednieuwe vergaderagenda voor u:"
+  newActionItem: "U hebt de volgende actiepunten toegewezen gekregen:"
+  newMinutes: "Hieronder vindt u de laatste notulen."
+  meeting: "Vergadering"
+  links: "Links"
+  openSeries: "Reeks Openen"
+  openMinutes: "Notulen Openen"
+  minutesSubject: "Notulen"
+  discussedTopics: "Besproken Onderwerpen"
+  skippedTopics: "Open Onderwerpen"
+  none: "Geen"
+  AdminNewVersion:
+    subject: "Nieuwere versie bestaat"
+    body: |
+      Hallo Beheerder,
+
+      U heeft een verouderde versie van 4Minitz.
+
+      Uw 4Minitz instantie op: {$rootUrl}
+      heeft versie: {$myVersion}
+
+      Nieuwste versie beschikbaar is: {$masterVersion}'
+      Publicatie aantekeningen: {$urlReleaseNotes}
+      Overweeg alstublieft om uw versie bij te werken.
+
+      {$masterMessageText}
+
+      Deze mail is gegenereerd door uw 4Minitz backend.
+      U kunt de update controle uitschakelen via settings.json: \"updateCheck\": false.
+
+      Veel plezier!
+              Uw 4Minitz team.
+
+
+      ---
+      4Minitz is gratis open source ontwikkeld door het 4Minitz team.
+      Source is beschikbaar op {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Uw nieuwe account op onze server"
+    passwordNotSend: "    Neem contact op met de beheerder voor het wachtwoord."
+    passwordParagraph: |
+      Uw wachtwoord: {$password}
+
+      Vergeet niet uw wachtwoord te wijzigen na de eerste aanmelding!
+    body: |
+      Hallo {$userLongName},
+
+      Welkom op onze 4Minitz WebApp.
+      Nu kunt u deelnemen aan het bijhouden van professionele notulen.
+
+      U kunt inloggen met een 'Standaard' (geen LDAP!) aanmelding op:
+         Uw host : {$rootURL}
+         Uw gebruiker: {$userName}
+      {$passwordParagraph}
+
+      Veel plezier!
+        Uw Beheerder.
+
+      ---
+      4Minitz is gratis open source ontwikkeld door het 4Minitz team.
+      Source is beschikbaar op {$url4Minitz}
+  UserRoleChange:
+    subject: "Uw rol is veranderd voor '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hallo {$userName}
+
+      Uw rol is veranderd voor vergaderreeks '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Uw oude rol was : {$roleOld}
+         Uw  nieuwe rol is : {$roleNew}
+         De wijziging is uitgevoerd door : {$moderatorName}
+
+      Een uitgebreide lijst van rechten voor elke rol kunt u hier zien:
+      {$urlRoleDocu}
+
+      Veel plezier!
+        Uw Admin.
+
+      ---
+      4Minitz is gratis open source ontwikkeld door het 4Minitz team.
+      Source is beschikbaar op {$url4Minitz}

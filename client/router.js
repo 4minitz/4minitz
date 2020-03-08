@@ -2,6 +2,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import {FlashMessage} from './helpers/flashMessage';
 import { Accounts } from 'meteor/accounts-base';
+import { i18n } from 'meteor/universe:i18n';
 
 // reset document title on route exit
 // To set a route specific title use a helper in the according template
@@ -36,10 +37,10 @@ FlowRouter.route( '/verify-email/:token', {
     action( params ) {
         Accounts.verifyEmail( params.token, ( error ) =>{
             if ( error ) {
-                (new FlashMessage('Error', error.reason)).show();
+                (new FlashMessage(i18n.__('FlashMessages.verifyEMailErr'), error.reason)).show();
             } else {
                 FlowRouter.go( '/' );
-                (new FlashMessage('', 'Email verified', 'alert-success')).show();
+                (new FlashMessage('', i18n.__('FlashMessages.verifyEMailOK'), 'alert-success')).show();
             }
         });
     }

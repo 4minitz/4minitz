@@ -8,72 +8,156 @@ Accounts:
   passwordPlaceholder: "min. 6 個字元（數字、下 & 上）"
   passwordError: "min. 6 個字元（最小值） 1 位數， 1 個下方， 1 個上方）"
 Buttons:
-  cancel: "取消"
-  close: "關閉"
-  register: "註冊"
-  change: "變化"
-  save: "儲存"
-  ok: "好"
   add: "新增"
-  dismissAll: "全部解除"
   back: "返回"
+  cancel: "取消"
+  change: "變化"
+  close: "關閉"
+  confirm: "確認"
+  create: "建立"
   delete: "刪除"
+  dismissAll: "全部解除"
   edit: "編輯"
   hide: "好的"
+  ok: "好"
+  register: "註冊"
+  save: "儲存"
+UserRoles:
+  roleModerator: "Moderator"
+  roleUploader: "Uploader"
+  roleInvited: "已邀請"
+  roleInformed: "Informed"
+FlashMessages:
+  ok: "好"
+  error: "錯誤"
+  verifyEMailErr: "錯誤：無法驗證 EMail"
+  verifyEMailOK: "行：現在已驗證 EMail"
+  passwordChangeOK: "密碼已變更"
+  passwordResetOK: "已順利重新安置密碼"
+  profileEditOK: "已儲存設定檔變更"
+  minuteLinkErr: "不幸的是，該分鐘未正確地鏈結至其母項系列 - 請聯絡您的系統管理者。"
+  agendaSentOK: "議程已順利傳送至 {$result} 收件者"
+  finalizeProgress1: "完成進行中"
+  finalizeProgress2: "這可能需要幾秒鐘 ..."
+  finalizeOK: "已順利完成此會議分鐘"
 Dialog:
-  confirmDeleteAttachment: "您真的要刪除附件<br><b>{$name}</b> 嗎？"
-  confirmDeleteDetails: "您真的要刪除項目 <strong>{$subject}</strong> 的選定詳細資料嗎？"
-  confirmDeleteItemAllowed: "您真的要刪除 {$type} <strong>{$subject}</strong> 嗎？"
-  confirmDeleteItemNotAllowed: "無法刪除 {$type} <strong>{$subject}</strong> ，因為 {$type} 是在前一個分鐘內建立的。"
-  confirmDeleteItemActionItem: "您要改為關閉動作項目嗎？"
-  confirmDeleteItemInfoItem: "您要改為取消釘銷黏性資訊項目嗎？"
+  ConfirmDelete:
+    title: "確認刪除？"
+    body: "您確定要刪除此嗎？"
+  ConfirmCreateNewMinutes:
+    title: "確認建立新的分鐘"
+    content: "您真的想要為會議系列建立新的分鐘數 \"{$project}： {$name}\"？"
+  confirmDeleteAttachment: "您真的要刪除附件：\n**{$name} **嗎？"
+  confirmDeleteDetails: "您真的要刪除項目 **{$subject} ** 的選定詳細資料嗎 ** ？"
+  ConfirmDeleteItem:
+    allowed: "您真的要刪除 {$type} **{$subject} **嗎？"
+    notAllowed: "無法刪除 {$type} **{$subject}** ，因為 {$type} 是在前一個分鐘內建立的。"
+    questionActionItem: "您要改為關閉動作項目嗎？"
+    questionInfoItem: "您要改為取消釘銷黏性資訊項目嗎？"
+    typeActionItem: "action item"
+    typeInfoItem: "information"
+    titleCloseActionItem: "Close action item?"
+    titleUnpinInfoItem: "Unpin info item?"
+    buttonCloseActionItem: "Close action item"
+    buttonUnpinInfoItem: "Unpin info item"
   ConfirmDeleteTopic:
-    allowed: "您真的要刪除主題 <strong>{$subject}</strong> 嗎？"
-    notAllowed: "無法刪除主題 <strong>{$subject}</strong> 主題，因為該主題是在前一個分鐘內建立的。"
+    allowed: "您真的要刪除主題 **{$subject}**？"
+    notAllowed: "無法刪除主題 **{$subject}** ，因為本主題是在前一個分鐘內建立的。"
     close: "您要改為關閉主題嗎？"
     closeWithActions: "您要改為關閉主題與所有相關的動作項目嗎？"
-  ConfirmLeaveMeetingSeries: "Do you really want to leave the meeting series:<br> &nbsp;&nbsp;&nbsp;&nbsp;<b>{$project} / {$name}</b><br> You will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "您真的想要離開會議系列：\n\n**{$project} / {$name}**\n\n您必須先詢問主持人，如果您想要之後再加入，請您再加入。"
   ConfirmMinuteQualityAssurance:
-    issues: "There are finalize issues with your minutes!"
-    proceed: "Do you want to proceed with finalizing?"
-  confirmReOpenTopic: "您真的要重新開啟已關閉的主題 {$topicSubject} 嗎？"
-  confirmSendAgenda: "您真的要將此會議分鐘的議程傳送給日期為 <strong>{$minDate}</strong>嗎？<br>它已在 {$agendaSentDate} （ {$agendaSentTime} ）上傳送"
+    title: "終結分鐘：品質檢查"
+    button: "繼續"
+    issues: "您的分鐘數已完成。"
+    proceed: "您要繼續完成嗎？"
+    warnNoTopics: "現行分鐘沒有主題"
+    warnNoParticipants: "沒有參與者標示為存在"
+    warnEditing: "仍在編輯主題 / 項目 / 明細"
+    warnNoTopicDiscussed: "沒有主題標示為「已討論」"
+    warnTopicWithoutItems: "至少一個討論主題沒有項目"
+    warnActionItemWithoutResponsible: "至少一個動作項目沒有責任"
+    warnTopicNoNewContent: "已檢查主題，但沒有新內容"
+  ConfirmReOpenTopic:
+    title: "重新開啟主題？"
+    body: "您真的要重新開啟已關閉的主題 **{$topicSubject}**？"
+    button: "重新開啟"
+  ConfirmSendAgenda:
+    body: "您真的要傳送此會議分鐘的議程，日期日期為 **{$minDate}**？\n它已在 {$agendaSentDate} 上的 {$agendaSentTime} 上傳送"
+    title: "確認傳送議程"
+    button: "傳送議程"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    newTopics: "This will remove <strong>{$newTopicsCount} Topics</strong>, which were created within this minute."
-    closedTopicsAdditionally: "Additionally <strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
-    closedTopics: "<strong>{$closedTopicsCount} topics</strong> will be opened again, which were closed within this minutes."
+    really: "您真的要刪除日期為 **{$minutesDate} **的會議分鐘嗎？"
+    newTopics: "這會移除 **{$newTopicsCount} 主題**，這是在此分鐘內建立的。"
+    closedTopicsAdditionally: "此外， **{$closedTopicsCount} 主題** 將會再次開啟，在此分鐘內關閉。"
+    closedTopics: "**{$closedTopicsCount} 主題** 將會再次開啟，在此分鐘內關閉。"
   ConfirmFinalizeMinutes:
-    really: "Do you really want to finalize this meeting minute dated on <strong>{$minutesDate}</strong>?"
-    sendActionItems: "Send action items"
-    sendMinutes: "Send information items"
+    title: "確認完成分鐘"
+    button: "終結"
+    really: "您真的要終結日期為 **{$minutesDate} **的會議分鐘嗎 ** ？"
+    sendActionItems: "傳送動作項目"
+    sendMinutes: "傳送資訊項目"
   LocaleSetting:
-    title: "Set Language"
-    languageLocale: "Language Locale"
-    automatic: "Automatic via Browser"
-Mail:
-  greeting: "你好"
-  newAgenda: "我們為您準備了全新的會議日程："
-  newActionItem: "您已指派給下列動作項目："
-  newMinutes: "您將會找到最新的會議紀錄。"
-  meeting: "西宗"
-  links: "鏈結"
-  openSeries: "開啟系列"
-  openMinutes: "開啟分鐘數"
-  minutesSubject: "會議分鐘"
-  discussedTopics: "討論主題"
-  skippedTopics: "開啟主題"
-  none: "沒有"
+    title: "設定語言"
+    languageLocale: "語言語言環境"
+    automatic: "透過瀏覽器自動"
+  IsEditedHandling:
+    title: "編輯雖然現有的編輯"
+    confirmationDialogResetEdit: "警告：此文件 ist 目前由 {$name} 進行編輯：自： {$date}"
+    confirmationDialogResetEditDetails: "請再次按一下詳細資料，以開始編輯。"
+    button: "編輯反正"
+  ConnectionInfo:
+    tooltip: |
+      Connection Lost！
+        Status： {$status}
+        Retry Count： {$retryCount}
+        重試時間： {$retryTime} 秒。
+        原因： {$reason}
+        按一下以重新連接。
+    header: "您已失去與 4Minitz 伺服器的連線。"
+    body: "如果您關閉瀏覽器，則未儲存的資料可能會遺失。 如果此問題持續存在，請聯絡伺服器管理者。"
+    tryToReconnect: "嘗試重新連接"
+  ConfirmGenerateProtocol:
+    title: "確認產生通訊協定"
+    body: "在這些分鐘數中未產生任何通訊協定。 您要改為下載動態產生的 HTML 版本嗎？"
+    button: "下載"
+  ConfirmTopicDelete:
+    title1: "確認刪除主題"
+    title2: "將主題標示為已討論？"
+    button2: "關閉主題和動作"
+    errortitle: "無法刪除主題"
+    errorcontent: "無法刪除此主題，因為它是在前一個分鐘內建立的。 選取的主題已關閉，且沒有開啟動作項目，因此不會將它複製到下列分鐘。"
+  ItemDeleteError:
+    title: "無法刪除項目"
+    body1: "無法刪除此項目，因為它是在前一個分鐘內建立的。"
+    body2a: "此動作項目已關閉，"
+    body2b: "此資訊項目已取消固定"
+    body3: "這樣它就不會被複製到下一分鐘"
+  ActionItemResponsibleError:
+    title: "動作項目的責任無效"
+    body: |
+      這不是有效的負責人！
+
+      請從下拉清單中選取 **現有的使用者** ，或輸入 **有效的電子郵件位址**。
+  ConvertItemError:
+    title: "無法轉換項目"
+    body: "無法轉換此項目，因為它是在前一個分鐘內建立的。"
 About:
   title: "4Minitz公司簡介"
-  copyright: "（C） 2015-2019 4Minitz-團隊"
+  copyrightTeam: "4Minitz-團隊"
   licensedUnder: "授權下的授權 -授權"
   licenseDependencies: "相依關係的授權"
   thanksContributors: "感謝所有我們的投稿者"
   proudlySponsored: "最受贊助者"
   specialThanks: "特別感謝這些專案"
   forkGitHub: "在 GitHub 上分出我們"
-  serverStatistics: "伺服器統計資料"
+  ServerStatistics:
+    title: "Server Statistics"
+    rowNumUser: "Number of users (active)"
+    rowNumMeetingSeries: "Number of meeting series"
+    rowNumMeetingMinutes: "Number of meeting minutes"
+    rowNumAttachments: "Number of attachments"
+    rowSizeAttachments: "Attachments size"
 Item:
   ariaLabel: "新增/編輯項目"
   editItem: "編輯項目"
@@ -82,9 +166,10 @@ Item:
   deleteItemHint: "刪除此動作/資訊項目"
   addItemModal: "新增 {$type} 至 {$topic}"
   editItemModal: "Edit {$type} of {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "動作項目"
   addInfo: "新增資訊項目"
   addInfoHint: "將資訊項目新增至主題"
-  editInfo: "編輯資訊項目"
   action: "動作項目"
   addAction: "新增動作項目"
   addActionHint: "將動作項目新增至主題"
@@ -120,11 +205,11 @@ Item:
     matchCaseHint: "符合案例"
     matchCaseLong: "符合案例"
     Usage:
-      body: "You can use several keywords to filter the listed elements. All keywords may be combined which filters those items matching all given search parameters."
-      keyword: "Keyword"
-      format: "Format"
-      values: "Values"
-      eg: "e.g."
+      body: "您可以使用數個關鍵字來過濾列出的元素。 可以合併所有關鍵字，以過濾符合所有給定搜尋參數的那些項目。"
+      keyword: "關鍵字"
+      format: "格式"
+      values: "值"
+      eg: "例如："
   myActionItems: "我的動作項目"
 Topic:
   title: "主題"
@@ -152,7 +237,6 @@ Topic:
   history: "顯示歷程"
   historyHint: "顯示這個主題已完成的完整狀態"
   delete: "刪除主題"
-  deleteHint: "刪除主題"
   reopen: "重新開啟主題"
   reopenHint: "重新開啟主題"
   placeholder: "新增資訊項目。 附加 @username 以新增動作項目。 按 Enter 鍵以附加詳細資料。 按 Ctrl+Enter 或 Tab 鍵以提交。"
@@ -193,7 +277,7 @@ Minutes:
   attachmentsHint: "分鐘有附件"
   previous: "上一個："
   next: "下一個："
-  history: "History"
+  history: "歷史"
   unfinalizeHint: "按一下以取消序列化分鐘"
   print: "列印分鐘"
   finalize: "終結分鐘"
@@ -215,6 +299,7 @@ Minutes:
     continue: "繼續上傳"
     pause: "暫停上傳"
     abort: "中斷上傳"
+    error: "上傳期間發生錯誤"
   version: "版本"
   versionTag: "v"
   Participants:
@@ -238,6 +323,7 @@ MeetingSeries:
   team: "團隊 / 專案"
   new: "新會議系列"
   leave: "離開會議系列"
+  leaveButton: "離開"
   moderator: "您是主持人"
   lastMinute: "最後一分鐘："
   Search:
@@ -286,6 +372,10 @@ Profile:
     longName: "請輸入有效的詳細名稱"
     email: "請輸入有效的電子郵件位址"
     password: "請輸入有效的密碼"
+  WarningEMailChange:
+    title: "確認變更使用者郵件"
+    body: "您即將變更已驗證的郵件位址。 您將會登出，並需要驗證您的新郵件位址，然後才能繼續。"
+    button: "登出 + 重新驗證"
 Admin:
   users: "使用者"
   messages: "訊息"
@@ -330,10 +420,46 @@ Login:
     title: "登入錯誤"
     username: "請輸入您的使用者名稱"
     password: "請輸入您的密碼"
-  title: "登入"
+  signIn: "登入"
   ldap: "LDAP"
   standard: "標準"
   demoHint: "提示： Demo Mode Active<br>您可以使用 username <b>示範</b> 及密碼 <b>示範</b>登入。 或者，您可以按一下下面的「登錄」鏈結，來登錄自己的帳戶。"
+  Login4MinitzInfo:
+    header: "4Minitz：協同會議分鐘。"
+    subheader: "● 準備議程 * 檔案紀要 * 追踪主題"
+    abstract: |
+      <p>每一個受邀及登入的使用者，都可以即時監看現行會議分鐘的變更。</p>
+      我們製作了 4Minitz 免費開源軟體，因為我們強烈認為，不應該在雲端中管理
+      等像會議紀錄等敏感資訊。
+      而您想要在自己的基礎架構上管理它，您可以在其中定義
+      ，您需要的安全和安全層次。
+    prepareAgendaHeading: "準備議程"
+    prepareAgendaDetails: |
+      <li>Create your meeting series</li>
+      <li>Invite other users</li>
+      <li>Specify moderators and uploaders</li>
+      <li>Fill agenda with topics</li>
+      <li>Mark recurring topics for standard agenda</li>
+      <li>Send agenda to invited users</li>
+    documentMinutesHeading: "文件分鐘"
+    documentMinutesDetails: |
+      <li>Mark present participants</li>
+      <li>Add action items with responsibles to topics</li>
+      <li>Add information items to topics</li>
+      <li>Add labels like 'Decision' to items</li>
+      <li>Upload binary file attachments</li>
+      <li>Send minutes &amp; action items via EMail</li>
+    trackTopicsHeading: "追踪主題"
+    trackTopicsDetails: |
+      <li>Open action items will show up next time</li>
+      <li>Non-closed topics will show up next time</li>
+      <li>Search list of all ever discussed topics</li>
+      <li>Enrich topics with info items on multiple meetings</li>
+      <li>Find topics with labels (e.g. all Decisions)</li>
+      <li>Find items by fulltext search</li>
+  Footer:
+    withLove: "使用 ❤ 的編碼"
+    theTeam: "WebApp 團隊"
 Navigation:
   help: "救命"
   about: "關於"
@@ -344,11 +470,95 @@ Navigation:
   toggleNavigation: "切換導覽"
   meetings: "會議"
   processing: "正在處理您的內容..."
-  setLanguageForUser: "Set Language"
-  setLanguageLogin: "Language"
+  setLanguageForUser: "設定語言"
+  setLanguageLogin: "語言"
 QuickHelp:
   title: "快速說明"
   meetingSeries: "<p>在這裡，您可以為現行會議系列建立新的分鐘數，或按一下現有分鐘的日期鏈結。</p>"
   meetingSeriesList: "<p>使用 4Minitz ，您可以為會議建立分鐘數。</p><p>先建立新的會議系列，並邀請一些其他使用者。<br>然後為您的會議系列建立多個日期的會議分鐘數。</p>"
   minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
   upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+Mail:
+  greeting: "你好"
+  newAgenda: "我們為您準備了全新的會議日程："
+  newActionItem: "您已指派給下列動作項目："
+  newMinutes: "在下方，您會找到最新的會議記錄。"
+  meeting: "Meeting"
+  links: "鏈結"
+  openSeries: "開啟系列"
+  openMinutes: "開啟分鐘數"
+  minutesSubject: "會議分鐘"
+  discussedTopics: "討論主題"
+  skippedTopics: "開啟主題"
+  none: "沒有"
+  AdminNewVersion:
+    subject: "有新版本存在"
+    body: |
+      Hello Admin,
+
+      It seems you are running an outdated version of 4Minitz.
+
+      Your 4Minitz instance on: {$rootUrl}
+      has version: {$myVersion}
+
+      Newest version available is: {$masterVersion}'
+      Release notes: {$urlReleaseNotes}
+      Please consider to update.
+
+      {$masterMessageText}
+
+      This mail was generated by your 4Minitz backend.
+      You can disable the update check via settings.json: \"updateCheck\": false.
+
+      Have fun!
+              Your 4Minitz team.
+
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "您在我們伺服器上的新帳戶"
+    passwordNotSend: "    請聯絡管理者以取得密碼。"
+    passwordParagraph: |
+      您的密碼： {$password}
+
+      在第一次登入後，別忘了更改密碼！
+    body: |
+      Hello {$userLongName},
+
+      Welcome to our 4Minitz WebApp.
+      Now you can start to participate in keeping of professional meeting minutes.
+
+      You may sign in with 'Standard' (not LDAP!) login at:
+         Your host     : {$rootURL}
+         Your user     : {$userName}
+      {$passwordParagraph}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}
+  UserRoleChange:
+    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hello {$userName}
+
+      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Your old role was           : {$roleOld}
+         Your new role is            : {$roleNew}
+         The change was performed by : {$moderatorName}
+
+      For a comprehensive list of rights for each role see:
+      {$urlRoleDocu}
+
+      Have fun!
+        Your Admin.
+
+      ---
+      4Minitz is free open source developed by the 4Minitz team.
+      Source is available at {$url4Minitz}

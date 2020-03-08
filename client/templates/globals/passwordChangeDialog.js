@@ -5,9 +5,11 @@ import { Accounts } from 'meteor/accounts-base';
 
 import { FlashMessage } from '../../helpers/flashMessage';
 import { addCustomValidator } from '../../helpers/customFieldValidator';
+import { handleError } from '/client/helpers/handleError';
+import { i18n } from 'meteor/universe:i18n';
 
 let showError = function (evt, error) {
-    (new FlashMessage('Error', error.reason)).show();
+    handleError(error);
     evt.preventDefault();
 };
 
@@ -62,7 +64,7 @@ Template.passwordChangeDialog.events({
                 console.log(error);
                 showError(evt, error);
             } else {
-                (new FlashMessage('OK', 'Password changed.', 'alert-success', 2000)).show();
+                (new FlashMessage(i18n.__('FlashMessages.ok'), i18n.__('FlashMessages.passwordChangeOK'), 'alert-success', 2000)).show();
                 tmpl.find('#id_oldPassword').value = '';
                 tmpl.find('#id_newPassword1').value = '';
                 tmpl.find('#id_newPassword2').value = '';

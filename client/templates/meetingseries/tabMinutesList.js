@@ -3,11 +3,10 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { MeetingSeries } from '/imports/meetingseries';
-import { Minutes } from '/imports/minutes';
-import { MinutesFinder } from '/imports/services/minutesFinder';
 import { UserRoles } from '/imports/userroles';
 import { AttachmentsCollection } from '/imports/collections/attachments_private';
 import { handleError } from '/client/helpers/handleError';
+import { i18n } from 'meteor/universe:i18n';
 
 Template.tabMinutesList.helpers({
     meetingSeriesId: function () {
@@ -36,31 +35,14 @@ Template.tabMinutesList.helpers({
 Template.tabMinutesList.events({
     'click #btnAddMinutes': function(evt) {
         evt.preventDefault();
-        let newMinutesId;
         let ms = new MeetingSeries(this.meetingSeriesId);
         ms.addNewMinutes(
-            // optimistic ui callback
-            newMinutesID => {
-                newMinutesId = newMinutesID;
+            newMinutesId => {
+                FlowRouter.redirect('/minutesedit/' + newMinutesId);
             },
             // server callback
-            (error) => {
-                if(error) handleError(error);
-            }
+            handleError,
         );
-        if (newMinutesId) { // optimistic ui callback should have been called by now
-            let lastFinalizedMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
-            if (lastFinalizedMin && lastFinalizedMin.globalNotePinned) {
-                let aMin = new Minutes(newMinutesId);
-                if (aMin) {
-                    aMin.update({
-                        globalNotePinned: true,
-                        globalNote: lastFinalizedMin.globalNote
-                    });
-                }
-            }
-            FlowRouter.redirect('/minutesedit/' + newMinutesId);
-        }
     },
 
     'click #btnLeaveMeetingSeries': function () {
@@ -72,15 +54,15 @@ Template.tabMinutesList.events({
             FlowRouter.go('/');
         };
 
-        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        ConfirmationDialogFactory.makeWarningDialog(
             leaveSeriesCallback,
-            'Leave Meeting Series',
-            'confirmLeaveMeetingSeries',
-            {
+            i18n.__('MeetingSeries.leave'),
+            i18n.__('Dialog.confirmLeaveMeetingSeries', {
                 project: ms.project,
                 name: ms.name
-            },
-            'Leave'
+            }),
+            {},
+            i18n.__('MeetingSeries.leaveButton')
         ).show();
 
     }

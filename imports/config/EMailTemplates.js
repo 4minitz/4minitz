@@ -13,6 +13,7 @@ function setupEmailTemplatesForAccounts() {
         text(user, url) {
             let emailAddress = user.emails[0].address,
                 urlWithoutHash = url.replace('#/', ''),
+                // #I18N: No translation here. We don't have a logged in user, so we can't know the desired language
                 emailBody = 'To verify your email address ' + emailAddress + ' visit the following link:\n\n' +
                     urlWithoutHash +
                     '\n\n If you did not request this verification, please ignore this email. ' +
@@ -29,6 +30,7 @@ function setupEmailTemplatesForAccounts() {
         text(user, url) {
             let emailAddress = user.emails[0].address,
                 urlWithoutHash = url.replace('#/', ''),
+                // #I18N: No translation here. We don't have a logged in user, so we can't know the desired language
                 emailBody = 'To reset your password for ' + emailAddress + ' visit the following link:\n\n' +
                     urlWithoutHash +
                     '\n\n If you did not request to reset your password, please ignore this email. ' +

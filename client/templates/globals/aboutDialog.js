@@ -14,6 +14,11 @@ Template.aboutDialog.helpers({
     gitVersionInfo: function () {
         return Session.get('gitVersionInfo');
     },
+
+    currentYear: function() {
+        return new Date().getFullYear();
+    },
+
     displayStatistics: function() {
         return showStatistics.get();
     },

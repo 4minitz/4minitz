@@ -146,6 +146,10 @@
                         {{/if}}
                         {{#if nextMinutes}}
                             {{__ 'Minutes.next' }} <a id="btnNextMinutesNavigation" href="{{minutesPath nextMinutes._id}}">{{nextMinutes.date}}</a>
+                        {{else}}
+                            {{#if displayCreateNextMinutes}}
+                                {{__ 'Minutes.next' }} <a id="btnCreateNewMinutes" href="#">{{__ 'Minutes.create' }}</a>
+                            {{/if}}
                         {{/if}}
                     </div>
                     <div class="form-group">

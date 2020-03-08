@@ -30,12 +30,14 @@
     </div>
 
     {{#if showInfoOnLogin}}
-        {{> loginInfo }}
+        {{> login4MinitzInfo }}
     {{/if}}
 
     <div class="row">
         <div class="col-md-12" style="text-align: center;">
-            Coded with ❤ by the <a href="https://www.4minitz.com" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none">4Minitz.com</a> WebApp Team
+            {{__ 'Login.Footer.withLove'}}
+            <a href="https://www.4minitz.com" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none">4Minitz.com</a>
+            {{__ 'Login.Footer.theTeam'}}
         </div>
         {{#if legalNoticeEnabled}}
             <div class="col-md-12" style="text-align: center;">

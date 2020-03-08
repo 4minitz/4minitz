@@ -71,10 +71,16 @@ const User = {
     PROFILENAMEWITHFALLBACK: sinon.stub()
 };
 
+let i18n = {
+    setLocale: sinon.stub(),
+    getLocale: sinon.stub()
+};
+
 const {
     Finalizer
 } = proxyquire('../../../../../imports/services/finalize-minutes/finalizer', {
     'meteor/meteor': { Meteor, '@noCallThru': true },
+    'meteor/universe:i18n': { i18n, '@noCallThru': true},
     'meteor/underscore': { _, '@noCallThru': true },
     'meteor/check': { check, '@noCallThru': true },
     '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true },
