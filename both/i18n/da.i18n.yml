@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Bekræft sletning?"
     body: "Er du sikker på, at du vil slette dette?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Bekræft oprettelse af ny minutter"
     content: "Vil du virkelig oprette nye minutter til møderserien \"{$project}: {$name}\"?"
