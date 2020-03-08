@@ -64,6 +64,8 @@ export class MinutesGenerator {
             min.finalizedAt = this.nextMinutesDate;
             min.finalizedBy = this.user.username;
             let dateTime = this.constructor._formatDateTime(this.nextMinutesDate);
+
+            // #I18N: We will leave this is English, as it is published to the database!
             min.finalizedHistory.push(`Version 1. Finalized on ${dateTime} by ${this.user.username}`);
         }
         return min;

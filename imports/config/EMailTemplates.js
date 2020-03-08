@@ -1,6 +1,7 @@
 import { Accounts } from 'meteor/accounts-base';
 import { GlobalSettings } from './GlobalSettings';
 import {Meteor} from 'meteor/meteor';
+import { i18n } from 'meteor/universe:i18n';
 
 function setupEmailTemplatesForAccounts() {
     Accounts.emailTemplates.siteName = GlobalSettings.getSiteName();
@@ -8,35 +9,25 @@ function setupEmailTemplatesForAccounts() {
 
     Accounts.emailTemplates.verifyEmail = {
         subject() {
-            return '[' + Accounts.emailTemplates.siteName + '] Verify Your Email Address';
+            return i18n.__('Mail.VerifyEmailAddress.subject', {sitename: Accounts.emailTemplates.siteName});
         },
         text(user, url) {
             let emailAddress = user.emails[0].address,
-                urlWithoutHash = url.replace('#/', ''),
-                // #I18N: No translation here. We don't have a logged in user, so we can't know the desired language
-                emailBody = 'To verify your email address ' + emailAddress + ' visit the following link:\n\n' +
-                    urlWithoutHash +
-                    '\n\n If you did not request this verification, please ignore this email. ' +
-                    'If you feel something is wrong, please contact your admin team';
+                urlWithoutHash = url.replace('#/', '');
 
-            return emailBody;
+            return i18n.__('Mail.VerifyEmailAddress.body', {emailAddress: emailAddress, urlWithoutHash: urlWithoutHash});
         }
     };
 
     Accounts.emailTemplates.resetPassword = {
         subject() {
-            return '[' + Accounts.emailTemplates.siteName + '] Reset Your Password';
+            return i18n.__('Mail.ResetPassword.subject', {sitename: Accounts.emailTemplates.siteName});
         },
         text(user, url) {
             let emailAddress = user.emails[0].address,
-                urlWithoutHash = url.replace('#/', ''),
-                // #I18N: No translation here. We don't have a logged in user, so we can't know the desired language
-                emailBody = 'To reset your password for ' + emailAddress + ' visit the following link:\n\n' +
-                    urlWithoutHash +
-                    '\n\n If you did not request to reset your password, please ignore this email. ' +
-                    'If you feel something is wrong, please contact your admin team';
+                urlWithoutHash = url.replace('#/', '');
 
-            return emailBody;
+            return i18n.__('Mail.ResetPassword.body', {emailAddress: emailAddress, urlWithoutHash: urlWithoutHash});
         }
     };
 

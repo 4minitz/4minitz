@@ -1,5 +1,9 @@
+import {i18n} from 'meteor/universe:i18n';
+
 const assert = require('assert');
 
+// #I18N - Attention: the below strings with longer texts will be never be used in UI!
+// Instead they will be pulled from translation language files via toString() method below
 const PRIORITY_MAP = {
     1: '1 - High',
     2: '2',
@@ -34,6 +38,11 @@ export class Priority {
 
     toString() {
         if (PRIORITY_MAP.hasOwnProperty(this.value)) {
+            switch (this.value) {
+            case 1: return i18n.__('Item.Priorities.high');
+            case 3: return i18n.__('Item.Priorities.medium');
+            case 5: return i18n.__('Item.Priorities.low');
+            }
             return PRIORITY_MAP[this.value];
         }
         throw new Error(`illegal-state: Unknown priority ${this.value}`);
