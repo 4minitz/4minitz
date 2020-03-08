@@ -101,6 +101,8 @@ Dialog:
     title: "भाषा सेट करें"
     languageLocale: "भाषा लॉक"
     automatic: "ब्राउज़र के माध्यम से स्वचालित"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
     title: "मौजूदा संपादन के बावजूद संपादित करें"
     confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "MIT लाइसेंस के तहत लाइसेंस"
   licenseDependencies: "निर्भरता का लाइसेंस"
   thanksContributors: "हमारे सभी योगदानकर्ता के लिए धन्यवाद"
+  thanksTranslators: "Thanks To All Our Translators"
   proudlySponsored: "प्रूव द्वारा प्रायोजित किया जा सकता है"
   specialThanks: "इन परियोजनाओं के लिए विशेष धन्यवाद"
   forkGitHub: "गीफ़स पर फैर्क"
@@ -180,6 +183,10 @@ Item:
   details: "विवरण"
   addDetails: "विवरण जोड़ें"
   priority: "प्राथमिकता"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
   due: "शेष"
   dueNone: "कोई नहीं"
   detailPlaceholder: "आप मार्क्डाउन को संपादित करने के लिए प्रयोग कर सकते हैं. छोड़ने के लिए Ctrl + प्रवेश या टैब दबाएं."
@@ -264,6 +271,12 @@ Topic:
     completed: "समाप्त हुआ"
     uncompleted: "बिना पूरा हुआ मामला"
     yourTopic: "आपके विषय"
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
   create: "नई मिनट्स बनाएँ"
   date: "तिथि"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "आधार विन्यास"
     editedBy: "Edited by {$user} (at {$date})"
     invited: "आमंत्रित और जानकार"
+    placeholderUsers: "Add Users to Invited Users..."
     notifyRoleChange: "भूमिका परिवर्तन पर प्रतिभागियों को सूचित करें"
     labels: "लेबल"
     save: "बैठक शृंखला सहेजें"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "प्रसंग"
     items: "मद"
 Profile:
+  title: "Edit Profile for"
   userName: "उपयोगकर्ता नाम"
   longName: "लंबा नाम"
   email: "ई-मेल"
   password: "कूटशब्द (P)"
   passwordRepeat: "कूटशब्द दोहराएँ"
   ChangePassword:
+    title: "Change Password for"
     oldPassword: "पुराने कूटशब्द"
     wrongOldPassword: "कृपया पुराना वैध पासवर्ड डालें"
     newPassword: "नया कूटशब्द"
@@ -562,3 +578,21 @@ Mail:
       ---
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
