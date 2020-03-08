@@ -101,6 +101,8 @@ Dialog:
     title: "Set Language"
     languageLocale: "Language Locale"
     automatic: "Automatic via Browser"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
     title: "Edit despite existing editing"
     confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
@@ -148,6 +150,7 @@ About:
   licensedUnder: "Licensed under the MIT-License"
   licenseDependencies: "License of Dependencies"
   thanksContributors: "Thanks To All Our Contributors"
+  thanksTranslators: "Thanks To All Our Translators"
   proudlySponsored: "Proudly Sponsored By"
   specialThanks: "Special Thanks to These Projects"
   forkGitHub: "Fork us on GitHub"
@@ -180,6 +183,10 @@ Item:
   details: "Details"
   addDetails: "Add details"
   priority: "Priority"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
   due: "Due"
   dueNone: "none"
   detailPlaceholder: "You may use Markdown to edit. Press Ctrl+Enter or Tab to leave."
@@ -264,6 +271,12 @@ Topic:
     completed: "Completed Topics"
     uncompleted: "Uncompleted Topics"
     yourTopic: "Your Topics"
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
   create: "Create New Minutes"
   date: "Date"
@@ -341,6 +354,7 @@ MeetingSeries:
     base: "Base Configuration"
     editedBy: "Edited by {$user} (at {$date})"
     invited: "Invited & Informed Users"
+    placeholderUsers: "Add Users to Invited Users..."
     notifyRoleChange: "Notify participants on role change"
     labels: "Labels"
     save: "Save Meeting Series"
@@ -357,12 +371,14 @@ MeetingSeries:
     topics: "Topics"
     items: "Items"
 Profile:
+  title: "Edit Profile for"
   userName: "User Name"
   longName: "Long Name"
   email: "E-Mail"
   password: "Password"
   passwordRepeat: "Password Repeat"
   ChangePassword:
+    title: "Change Password for"
     oldPassword: "Old Password"
     wrongOldPassword: "Please enter old valid password"
     newPassword: "New Password"
@@ -562,3 +578,21 @@ Mail:
       ---
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
