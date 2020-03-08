@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Löschen bestätigen?"
     body: "Sind Sie sicher, dass Sie dies löschen wollen?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich löschen"
+    questionMinutes: "Diese Serie enthält {$minutesCount} Besprechungsprotokolle (letzte Minuten von {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Neues Protokoll erstellen bestätigen"
     content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name}\" erstellen?"
@@ -272,7 +275,7 @@ Topic:
     uncompleted: "Offene Themen"
     yourTopic: "Deine Themen"
   TooltipCreated:
-    date: "{$dateCreateStr} erstellt"
+    date: "Erstellt {$dateCreateStr}"
     user: "von {$userCreate}"
   TooltipUpdated:
     date: "Aktualisiert {$dateUpdStr}"
