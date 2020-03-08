@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Підтвердити видалення?"
     body: "Справді бажаєте видалити це?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Ви дійсно хочете видалити ряд зустрічей"
+    questionMinutes: "Ця серія містить {$minutesCount} хвилин зустрічей (останні хвилини {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Підтвердіть створення нових хвилин"
     content: "Ви дійсно хочете створити нові хвилини для серії зустрічей \"{$project}: {$name}\"?"
@@ -101,8 +104,8 @@ Dialog:
     title: "Встановити мову"
     languageLocale: "Мова"
     automatic: "Автоматично через браузер"
-    contributionHint1: "Translation mistakes or missing language?"
-    contributionHint2: "Help us to translate 4Minitz!"
+    contributionHint1: "Помилки перекладу чи відсутня мова?"
+    contributionHint2: "Допоможіть нам перекласти 4Minitz!"
   IsEditedHandling:
     title: "Редагувати незважаючи на чинні зміни"
     confirmationDialogResetEdit: "Попередження: цей документ редагує {$name} з: {$date}"
@@ -150,7 +153,7 @@ About:
   licensedUnder: "На ліцензії MIT-ліцензії"
   licenseDependencies: "Ліцензія залежностей"
   thanksContributors: "Дякуємо усім нашим учасникам"
-  thanksTranslators: "Thanks To All Our Translators"
+  thanksTranslators: "Дякуємо усім нашим перекладачам"
   proudlySponsored: "Приголомшено"
   specialThanks: "Особлива подяка цим проектам"
   forkGitHub: "Fork us on GitHub"
@@ -184,9 +187,9 @@ Item:
   addDetails: "Додайте подробиці"
   priority: "Пріоритет"
   Priorities:
-    high: "1 - High"
-    medium: "3 - Medium"
-    low: "5 - Low"
+    high: "1 - Висока"
+    medium: "3 - середній"
+    low: "5 - Низький"
   due: "На черзі"
   dueNone: "нічого"
   detailPlaceholder: "Ви можете використовувати Markdown для редагування. Натисніть Ctrl+Enter або Вкладку, щоб вийти."
@@ -272,11 +275,11 @@ Topic:
     uncompleted: "Не завершені теми"
     yourTopic: "Ваші теми"
   TooltipCreated:
-    date: "Created {$dateCreateStr}"
-    user: "by {$userCreate}"
+    date: "Створено {$dateCreateStr}"
+    user: "від {$userCreate}"
   TooltipUpdated:
-    date: "Updated {$dateUpdStr}"
-    user: "by {$userUpd}"
+    date: "Оновлено {$dateUpdStr}"
+    user: "від {$userUpd}"
 Minutes:
   create: "Створити нові хвилини"
   date: "Дата"
@@ -354,7 +357,7 @@ MeetingSeries:
     base: "Базова конфігурація"
     editedBy: "Змінено {$user} (у {$date})"
     invited: "Запрошені та інші користувачі"
-    placeholderUsers: "Add Users to Invited Users..."
+    placeholderUsers: "Додати користувачів до запрошених користувачів..."
     notifyRoleChange: "Повідомляти учасників про зміну ролі"
     labels: "Мітки"
     save: "Зберегти серію зустрічей"
@@ -371,14 +374,14 @@ MeetingSeries:
     topics: "Теми"
     items: "Елементи"
 Profile:
-  title: "Edit Profile for"
+  title: "Редагувати профіль для"
   userName: "Ім'я користувача"
   longName: "Повна назва"
   email: "Е-пошта"
   password: "Пароль"
   passwordRepeat: "Повторіть пароль"
   ChangePassword:
-    title: "Change Password for"
+    title: "Змінити пароль для"
     oldPassword: "Старий пароль"
     wrongOldPassword: "Будь ласка, введіть старий пароль"
     newPassword: "Новий пароль"
@@ -579,20 +582,20 @@ Mail:
       4Minitz є вільним з відкритим вихідним кодом, розробленим командою 4Minitz
       Source доступна о {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Verify Your Email Address"
+    subject: "[{$sitename}] Підтвердити свою адресу електронної пошти"
     body: |
-      To verify your email address {$emailAddress} visit the following link:
+      Для того, щоб підтвердити вашу адресу електронної пошти {$emailAddress} перейдіть за наступним посиланням:
 
       {$urlWithoutHash}
 
-      If you did not request this verification, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Якщо ви не замовили цю перевірку, проігноруйте цей лист.
+      Якщо ви відчуваєте, що щось не так, зверніться до вашої команди адміністратора.
   ResetPassword:
-    subject: "[{$sitename}] Reset Your Password"
+    subject: "[{$sitename}] Скидання вашого пароля"
     body: |
-      To reset your password for {$emailAddress} visit the following link:
+      Щоб скинути свій пароль для {$emailAddress} перейдіть за наступним посиланням:
 
       {$urlWithoutHash}
 
-      If you did not request to reset your password, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Якщо ви не запитували для скидання пароля, проігноруйте цей лист.
+      Якщо ви відчуваєте, що щось не так, зверніться до вашої команди адміністратора.
