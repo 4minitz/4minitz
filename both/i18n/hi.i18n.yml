@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "मिटाने की पुष्टि करें?"
     body: "क्या आप निश्चित हैं कि इस को मिटाना चाहते हैं?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "नई मिनट्स बनाने की पुष्टि करें"
     content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
