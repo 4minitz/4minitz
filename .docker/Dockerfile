@@ -42,8 +42,8 @@ RUN set -ex \
         xz-utils \
     && rm -rf /var/lib/apt/lists/* \
     \
-    && cp /usr/share/ghostscript/9.26/lib/PDFA_def.ps / \
-    && cp /usr/share/ghostscript/9.26/iccprofiles/srgb.icc / \
+    && find /usr/share/ghostscript -name 'PDFA_def.ps' -exec cp {} / \; \
+    && find /usr/share/ghostscript -name 'srgb.icc' -exec cp {} / \; \
     && sed -i 's/\/ICCProfile.*/\/ICCProfile \(\/srgb.icc\)/' /PDFA_def.ps \
     && sed -i 's/\[\ \/Title.*/\[\ \/Title\ \(4Minitz Meeting Minutes\)/' /PDFA_def.ps
 
