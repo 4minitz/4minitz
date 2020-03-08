@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "削除の確認 ?"
     body: "これを削除しますか ?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "新規議事録の作成の確認"
     content: "ミーティングシリーズの新しい議事録を作成しますか ?{$project}: {$name}\"?"
