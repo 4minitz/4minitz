@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "确认删除？"
     body: "您确定要删除这个吗？"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "您真的想要删除会议系列"
+    questionMinutes: "这个系列包含 {$minutesCount} 次会议分钟(最后一分钟的 {$lastMinutesDate})。"
   ConfirmCreateNewMinutes:
     title: "确认创建新分钟"
     content: "您真的想要为会议系列创建新的分钟数\"{$project}: {$name}\"？"
