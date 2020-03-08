@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "A törlés megerősítése?"
     body: "Biztos, hogy törli ezt?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Új percek megerősítése"
     content: "Valóban új perceket szeretne létrehozni a találkozó sorozathoz \"{$project}: {$name}\"?"
