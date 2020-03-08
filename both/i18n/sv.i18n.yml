@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Bekräfta radering?"
     body: "Är du säker på att ta bort detta?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Vill du verkligen ta bort mötesserien"
+    questionMinutes: "Denna serie innehåller {$minutesCount} mötesprotokoll (sista minuterna av {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Bekräfta skapandet av nya protokoll"
     content: "Vill du verkligen skapa nya protokoll för mötesserien \"{$project}: {$name}\"?"
@@ -101,8 +104,8 @@ Dialog:
     title: "Ange språk"
     languageLocale: "Språk språk"
     automatic: "Automatiskt via webbläsare"
-    contributionHint1: "Translation mistakes or missing language?"
-    contributionHint2: "Help us to translate 4Minitz!"
+    contributionHint1: "Översättningsfel eller saknat språk?"
+    contributionHint2: "Hjälp oss att översätta 4Minitz!"
   IsEditedHandling:
     title: "Redigera trots befintlig redigering"
     confirmationDialogResetEdit: "Varning: Detta dokument är för närvarande redigerat av {$name} sedan: {$date}"
@@ -150,7 +153,7 @@ About:
   licensedUnder: "Licensierad under MIT-licens"
   licenseDependencies: "Licens för beroenden"
   thanksContributors: "Tack till alla våra medverkande"
-  thanksTranslators: "Thanks To All Our Translators"
+  thanksTranslators: "Tack till alla våra översättare"
   proudlySponsored: "Sponsrad av"
   specialThanks: "Speciellt tack till dessa projekt"
   forkGitHub: "Fork us on GitHub"
@@ -184,9 +187,9 @@ Item:
   addDetails: "Lägg till detaljer"
   priority: "Prioritet"
   Priorities:
-    high: "1 - High"
+    high: "1 - Hög"
     medium: "3 - Medium"
-    low: "5 - Low"
+    low: "5 - Låg"
   due: "Förfaller"
   dueNone: "ingen"
   detailPlaceholder: "Du kan använda Markdown för att redigera. Tryck på Ctrl+Enter eller Tab för att lämna."
@@ -272,11 +275,11 @@ Topic:
     uncompleted: "Oavslutade utopier"
     yourTopic: "Dina \"Topics\""
   TooltipCreated:
-    date: "Created {$dateCreateStr}"
-    user: "by {$userCreate}"
+    date: "Skapad {$dateCreateStr}"
+    user: "av {$userCreate}"
   TooltipUpdated:
-    date: "Updated {$dateUpdStr}"
-    user: "by {$userUpd}"
+    date: "Uppdaterad {$dateUpdStr}"
+    user: "av {$userUpd}"
 Minutes:
   create: "Skapa nya minuter"
   date: "Datum"
@@ -354,7 +357,7 @@ MeetingSeries:
     base: "Grundläggande konfiguration"
     editedBy: "Redigerad av {$user} (vid {$date})"
     invited: "Inbjudna och informerade användare"
-    placeholderUsers: "Add Users to Invited Users..."
+    placeholderUsers: "Lägg till användare till inbjudna användare..."
     notifyRoleChange: "Meddela deltagarna om rollförändring"
     labels: "Etiketter"
     save: "Spara mötesserien"
@@ -371,14 +374,14 @@ MeetingSeries:
     topics: "Ämnen"
     items: "Objekt"
 Profile:
-  title: "Edit Profile for"
+  title: "Redigera profil för"
   userName: "Användarnamn"
   longName: "Långt namn"
   email: "E-post"
   password: "Lösenord"
   passwordRepeat: "Upprepa lösenord"
   ChangePassword:
-    title: "Change Password for"
+    title: "Ändra lösenord för"
     oldPassword: "Gammalt lösenord"
     wrongOldPassword: "Ange ett gammalt giltigt lösenord"
     newPassword: "Nytt lösenord"
@@ -579,20 +582,20 @@ Mail:
       4Minitz är fri öppen källkod som utvecklats av 4Minitz teamet.
       Källa finns tillgänglig på {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Verify Your Email Address"
+    subject: "[{$sitename}] Verifiera din e-postadress"
     body: |
-      To verify your email address {$emailAddress} visit the following link:
+      För att verifiera din e-postadress {$emailAddress} besök följande länk:
 
       {$urlWithoutHash}
 
-      If you did not request this verification, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Om du inte har begärt denna verifiering, ignorera detta mail.
+      Om du tycker att något är fel, kontakta din administratör.
   ResetPassword:
-    subject: "[{$sitename}] Reset Your Password"
+    subject: "[{$sitename}] Återställ ditt lösenord"
     body: |
-      To reset your password for {$emailAddress} visit the following link:
+      För att återställa ditt lösenord för {$emailAddress} besök följande länk:
 
       {$urlWithoutHash}
 
-      If you did not request to reset your password, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Om du inte har begärt att återställa ditt lösenord, ignorera detta mail.
+      Om du tycker att något är fel, kontakta din administratör.
