@@ -45,8 +45,8 @@ Dialog:
     title: "削除の確認 ?"
     body: "これを削除しますか ?"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "Do you really want to delete the meeting series"
-    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
+    questionMeetingSeries: "会議のシリーズを削除してもよろしいですか"
+    questionMinutes: "このシリーズには、 {$minutesCount} の会議議事録が含まれています（最後の議事録は {$lastMinutesDate}）。"
   ConfirmCreateNewMinutes:
     title: "新規議事録の作成の確認"
     content: "ミーティングシリーズの新しい議事録を作成しますか ?{$project}: {$name}\"?"
@@ -104,8 +104,8 @@ Dialog:
     title: "言語の設定"
     languageLocale: "言語ロケール"
     automatic: "ブラウザーを介して自動"
-    contributionHint1: "Translation mistakes or missing language?"
-    contributionHint2: "Help us to translate 4Minitz!"
+    contributionHint1: "翻訳ミスや言語が不足していますか？"
+    contributionHint2: "4Minitzの翻訳にご協力ください！"
   IsEditedHandling:
     title: "既存の編集にかかわらず編集"
     confirmationDialogResetEdit: "警告: このドキュメント・リストは、 {$date} 以降、 {$name} によって現在編集されています。"
@@ -153,7 +153,7 @@ About:
   licensedUnder: "MITライセンス下でライセンス交付されている"
   licenseDependencies: "依存関係のライセンス"
   thanksContributors: "すべての協力者に感謝する"
-  thanksTranslators: "Thanks To All Our Translators"
+  thanksTranslators: "すべての翻訳者に感謝"
   proudlySponsored: "誇らしげに Sponsored"
   specialThanks: "これらのプロジェクトの特別支援"
   forkGitHub: "GitHub上でのフォーク"
@@ -187,9 +187,9 @@ Item:
   addDetails: "詳細の追加"
   priority: "優先順位"
   Priorities:
-    high: "1 - High"
-    medium: "3 - Medium"
-    low: "5 - Low"
+    high: "1-高"
+    medium: "3-中"
+    low: "5-低"
   due: "デュー"
   dueNone: "なし"
   detailPlaceholder: "マークダウンを使用して編集することができます。 Ctrl +Enter キーまたは Tab キーを押して、終了します。"
@@ -257,7 +257,7 @@ Topic:
   finalizedOn: "数分後にファイナライズ"
   doneBy: "( {$user} による)"
   notFoundTitle: "トピックが見つかりません。"
-  notFoundReasons: "Reasons may be...<br><ul><li>The topic was never finalized (it only lives in an unfinalized minute)</li><li>The topic was deleted</li><li>You do not have access rights to this topic (anymore)</li></ul>"
+  notFoundReasons: "<br><ul><li>トピックはファイナライズされませんでした (ファイナライズされていない分でのみ存在します)</li><li>トピックは削除されました</li><li>このトピックへのアクセス権がありません (もうありません)</li>123_321</ul> 123_321 321"
   illegalAction: "読み取り専用モードでは正しくないイベントを呼びかけました。"
   addDetails: "詳細の追加"
   addDetailsHint: "項目に詳細を追加"
@@ -275,11 +275,11 @@ Topic:
     uncompleted: "未完了のトピック"
     yourTopic: "お客様のトピック"
   TooltipCreated:
-    date: "Created {$dateCreateStr}"
-    user: "by {$userCreate}"
+    date: "{$dateCreateStr} が作成されました"
+    user: "{$userCreate}"
   TooltipUpdated:
-    date: "Updated {$dateUpdStr}"
-    user: "by {$userUpd}"
+    date: "{$dateUpdStr} をアップデートしました"
+    user: "{$userUpd}"
 Minutes:
   create: "新規議事録の作成"
   date: "日付"
@@ -357,7 +357,7 @@ MeetingSeries:
     base: "基本構成"
     editedBy: "{$user} により編集( {$date})"
     invited: "招待されたユーザーと形式化されたユーザー"
-    placeholderUsers: "Add Users to Invited Users..."
+    placeholderUsers: "招待されたユーザーにユーザーを追加..."
     notifyRoleChange: "役割変更の参加者に通知する"
     labels: "ラベルス"
     save: "ミーティング・シリーズの保存"
@@ -374,14 +374,14 @@ MeetingSeries:
     topics: "トピックス"
     items: "事項"
 Profile:
-  title: "Edit Profile for"
+  title: "プロファイルの編集"
   userName: "ユーザー名"
   longName: "ロング・ネーム"
   email: "E メール"
   password: "パスワード"
   passwordRepeat: "パスワードの繰り返し"
   ChangePassword:
-    title: "Change Password for"
+    title: "のパスワードの変更"
     oldPassword: "古いパスワード"
     wrongOldPassword: "古い有効なパスワードを入力してください"
     newPassword: "新規パスワード"
@@ -442,7 +442,7 @@ Login:
   signIn: "サインイン"
   ldap: "ルダップ"
   standard: "スタンダード"
-  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
+  demoHint: "ヒント：デモモードアクティブ<br>あなたは、ユーザー名 <b>デモ</b> とパスワード <b>でログインすることができます <b> デモ</b>。 または、下の「登録」リンクをクリックして、自分のアカウントを登録することもできます。"
   Login4MinitzInfo:
     header: "4Minitz: コラボレーティブ・ミーティング議事録。"
     subheader: "● 「アジェンダ」の作成 : 「文書の作成」 : 「トピック」を追跡する"
@@ -544,22 +544,22 @@ Mail:
 
       最初のログイン後にパスワードを変更することを忘れないでください。
     body: |
-      Hello {$userLongName},
+      こんにちは {$userLongName},
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      私たちの4ミニッツWebアプリケーションへようこそ.
+      今、あなたはプロの会議議事録の維持に参加することができます.
 
-      You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+      あなたは「標準」でサインインすることができます (LDAPではありません!) ログイン先:
+         あなたのホスト: {$rootURL}
+         あなたのユーザー: {$userName}
       {$passwordParagraph}
 
-      Have fun!
-        Your Admin.
+      あなたのユーザー:楽しい時間を過ごしてください！
+        あなたの管理者。
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      —
+      4ミニッツは、4ミニッツチームによって開発された無料のオープンソースです。
+      ソースは {$url4Minitz}で入手可能です。
   UserRoleChange:
     subject: "の役割が変更されました :{$meetingProject}:{$meetingName}'"
     body: |
@@ -582,20 +582,20 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Verify Your Email Address"
+    subject: "[{$sitename}] Eメールアドレスを確認する"
     body: |
-      To verify your email address {$emailAddress} visit the following link:
+      Eメールアドレス {$emailAddress} を確認するには、次のリンクにアクセスしてください：
 
       {$urlWithoutHash}
 
-      If you did not request this verification, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      この確認をリクエストしなかった場合は、このEメールを無視してください。
+      何か問題がある場合は、管理者チームにお問い合わせください。
   ResetPassword:
-    subject: "[{$sitename}] Reset Your Password"
+    subject: "[{$sitename}] パスワードのリセット"
     body: |
-      To reset your password for {$emailAddress} visit the following link:
+      {$emailAddress} のパスワードをリセットするには、次のリンクにアクセスしてください。
 
       {$urlWithoutHash}
 
-      If you did not request to reset your password, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      パスワードのリセットをリクエストしなかった場合は、このメールを無視してください。
+      何か問題がある場合は、管理者チームにお問い合わせください。

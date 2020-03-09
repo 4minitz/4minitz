@@ -45,15 +45,15 @@ Dialog:
     title: "Vahvan poisto?"
     body: "Haluatko varmasti poistaa tämän?"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "Do you really want to delete the meeting series"
-    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
+    questionMeetingSeries: "Haluatko varmasti poistaa kokouksesarjan"
+    questionMinutes: "Tämä sarja sisältää {$minutesCount} kokouspöytäkirjat ( {$lastMinutesDate} kokouksen viimeiset minuutit)."
   ConfirmCreateNewMinutes:
     title: "Uuden istunnon luonti"
-    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
+    content: "Haluatko todella luoda uusia pöytäkirjoja kokoussarjalle \"{$project}: {$name}”?"
+  confirmDeleteAttachment: "Haluatko todella poistaa liitteen:\n**{$name}**?"
   confirmDeleteDetails: "Haluatko todella poistaa objektin valitut tiedot **{$subject}**?"
   ConfirmDeleteItem:
-    allowed: "Do you really want to delete the {$type} **{$subject}**?"
+    allowed: "Haluatko todella poistaa {$type} **{$subject}**?"
     notAllowed: "Ei ole mahdollista poistaa {$type} **{$subject}**, koska {$type} on luotu aiemmin."
     questionActionItem: "Haluatko sulkea toiminnon kohteen sijasta?"
     questionInfoItem: "Haluatko poistaa sen sijaan liimatun tietoalkion?"
@@ -68,7 +68,7 @@ Dialog:
     notAllowed: "Ei ole mahdollista poistaa aihetta **{$subject}**, koska aihe on luotu aiemmin."
     close: "Haluatko sen sijaan sulkea aiheen?"
     closeWithActions: "Haluatko sulkea aiheen yhdessä kaikkien siihen liittyvien toimintoobjektien kanssa?"
-  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+  confirmLeaveMeetingSeries: "Haluatko todella lähteä kokoussarjasta:\n\n**{$project} / {$name}**\n\nSinun täytyy kysyä moderaattorilta, jos haluat liittyä uudelleen sen jälkeen."
   ConfirmMinuteQualityAssurance:
     title: "Pöytäkirjan viimeistely: laatutarkastukset"
     button: "Jatka."
@@ -86,7 +86,7 @@ Dialog:
     body: "Haluatko todella avata jo suljettu aihe **{$topicSubject}**?"
     button: "Uudelleenavaus"
   ConfirmSendAgenda:
-    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
+    body: "Haluatko todella lähettää esityslistan kokouksen pöytäkirja päivätty **{$minDate}**?\nSe lähetettiin jo {$agendaSentDate} osoitteessa {$agendaSentTime}"
     title: "Vahvasta lähettämä ohjelma"
     button: "Lähetä ohjelma"
   ConfirmDeleteMinutes:
@@ -97,15 +97,15 @@ Dialog:
   ConfirmFinalizeMinutes:
     title: "Vahvasta Finalis-pöytäkirja"
     button: "Finalisoi"
-    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
+    really: "Haluatko todella viimeistellä tämän kokouksen minuutin päivätty **{$minutesDate}**?"
     sendActionItems: "Lähetä toimintotiedot"
     sendMinutes: "Lähetä tietoja"
   LocaleSetting:
     title: "Aseta kieli"
     languageLocale: "Kieli Locale"
     automatic: "Automaattinen selainta"
-    contributionHint1: "Translation mistakes or missing language?"
-    contributionHint2: "Help us to translate 4Minitz!"
+    contributionHint1: "Käännösvirheitä tai puuttuva kieli?"
+    contributionHint2: "Auta meitä kääntämään 4Minitz!"
   IsEditedHandling:
     title: "Muokkaa nykyisestä muokkauksesta huolimatta"
     confirmationDialogResetEdit: "Varoitus: Tämä asiakirja on tällä hetkellä muokattu {$name} lähtien: {$date}"
@@ -153,7 +153,7 @@ About:
   licensedUnder: "Lisensoitu lisenssi-lisenssi"
   licenseDependencies: "Riippuvuuksien lisenssi"
   thanksContributors: "Kiitos kaikille osallistujien."
-  thanksTranslators: "Thanks To All Our Translators"
+  thanksTranslators: "Kiitos kaikille kääntäjille"
   proudlySponsored: "Ylpeästi Sponsoroitu"
   specialThanks: "Erityiskiitos näiden hankkeiden"
   forkGitHub: "Upota meidät GitHubiin"
@@ -170,7 +170,7 @@ Item:
   editItemHint: "Muokkaa tätä toimintoa/tietoalkioa"
   deleteItem: "Poista kohde"
   deleteItemHint: "Poista tämä toiminto/tietoalkio"
-  addItemModal: "Add {$type} to {$topic}"
+  addItemModal: "Lisää {$type} kohteeseen {$topic}"
   editItemModal: "Muokkaa {$type} kohtaa {$topic}"
   editItemModelTypeInfoItem: "Tiedot"
   editItemModelTypeActionItem: "Toimintalinja"
@@ -187,9 +187,9 @@ Item:
   addDetails: "Lisää tiedot"
   priority: "Toimintalinja"
   Priorities:
-    high: "1 - High"
-    medium: "3 - Medium"
-    low: "5 - Low"
+    high: "1 - Korkea"
+    medium: "3 - Keskitaso"
+    low: "5 - Matala"
   due: "Määräaika"
   dueNone: "Ei"
   detailPlaceholder: "Voit käyttää Markdown muokkaamaan. Anna komento Ctrl + Enter tai Tab."
@@ -275,10 +275,10 @@ Topic:
     uncompleted: "Keskeneräiset aiheet"
     yourTopic: "Sinun aiheesi"
   TooltipCreated:
-    date: "Created {$dateCreateStr}"
+    date: "Luotu {$dateCreateStr}"
     user: "by {$userCreate}"
   TooltipUpdated:
-    date: "Updated {$dateUpdStr}"
+    date: "Päivitetty {$dateUpdStr}"
     user: "by {$userUpd}"
 Minutes:
   create: "Luo uusi pöytäkirja"
@@ -355,9 +355,9 @@ MeetingSeries:
     meetingName: "Kokouksen nimi"
     title: "Muokkaa kokousta"
     base: "Peruskokoonpano"
-    editedBy: "Edited by {$user} (at {$date})"
+    editedBy: "Muokannut {$user} (at {$date})"
     invited: "Kutsutut ja perustetut käyttäjät"
-    placeholderUsers: "Add Users to Invited Users..."
+    placeholderUsers: "Lisää käyttäjiä kutsutuille käyttäjille..."
     notifyRoleChange: "Ilmoita osallistujille roolimuutoksesta"
     labels: "Merkinnät"
     save: "Tallenna kokous"
@@ -374,14 +374,14 @@ MeetingSeries:
     topics: "Topics"
     items: "Erät"
 Profile:
-  title: "Edit Profile for"
+  title: "Muokkaa profiilia"
   userName: "Käyttäjän nimi"
   longName: "Pitkä nimi"
   email: "Sähköposti"
   password: "Salasana"
   passwordRepeat: "Salasana toistetaan"
   ChangePassword:
-    title: "Change Password for"
+    title: "Vaihda salasana"
     oldPassword: "Vanha salasana"
     wrongOldPassword: "Anna vanha kelvollinen salasana"
     newPassword: "Uusi salasana"
@@ -404,7 +404,7 @@ Admin:
     button: "Rekisteröi uusi käyttäjä ..."
     sendMail: "Lähetä sähköpostia uudelle käyttäjälle"
     includePassword: "Sisällytä salasana"
-    success: "Registered new user: {$user}"
+    success: "Rekisteröity uusi käyttäjä: {$user}"
   Message:
     title: "Yleisradioviestit Administa"
     newMessage: "Uusi viesti kaikille käyttäjille"
@@ -412,7 +412,7 @@ Admin:
     date: "Päivämäärä"
     message: "Viesti"
     dismissed: "Erotettu"
-    dismissingUsers: "#Dismissing Users: {$number}\n"
+    dismissingUsers: "#Dismissing Käyttäjät: {$number}\n"
     edit: "Muokkaa"
   Users:
     filterUsers: "Suodata käyttäjät"
@@ -421,8 +421,8 @@ Admin:
     onlineHint: "Vain minutetidit-reitin tällä hetkellä käytössä olevien käyttäjien näyttö"
     id: "ID"
     editProfile: "Muokkaa käyttäjäprofiilia"
-    countSingle: "Showing {$visible} of {$all} user. Use filter to show others."
-    count: "Showing {$visible} of {$all} users. Use filter to show others."
+    countSingle: "Näytetään {$visible} / {$all} käyttäjältä. Käytä suodatinta näyttämään muita."
+    count: "Näytetään {$visible} / {$all} käyttäjistä. Käytä suodatinta näyttämään muita."
     Type:
       hint: "LDAP-käyttäjän tai -käyttäjän"
       column: "L/S"
@@ -470,12 +470,12 @@ Login:
       <li>Send minutes &amp; action items via EMail</li>
     trackTopicsHeading: "Rata Topics"
     trackTopicsDetails: |
-      <li>Open action items will show up next time</li>
-      <li>Non-closed topics will show up next time</li>
-      <li>Search list of all ever discussed topics</li>
-      <li>Enrich topics with info items on multiple meetings</li>
-      <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>
+      <li>Avoimet toimet kohteet näkyvät seuraavan kerran</li>
+      <li>Suljetut aiheet näkyvät seuraavan kerran</li>
+      <li>Etsi luettelo kaikista koskaan keskustelluista aiheista</li>
+      <li>12321 useita kokouksia</li>
+      <li>Etsi aiheet etiketeillä (esim. kaikki päätökset)</li>
+      <li>Etsi kohteita tekstihakulla</li>
   Footer:
     withLove: "Koodatut ❤"
     theTeam: "Web-sovellusryhmä"
@@ -544,58 +544,58 @@ Mail:
 
       Älä unohda vaihtaa salasanaa ensimmäisen kirjautumisen jälkeen.
     body: |
-      Hello {$userLongName},
+      Hei {$userLongName},
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      Tervetuloa 4Minitz WebApp.
+      Nyt voit alkaa osallistua pitäminen ammatillinen kokous minuuttia.
 
-      You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+      Voit kirjautua sisään 'Standard' (ei LDAP!) Kirjaudu sisään:
+         isäntäsi: {$rootURL}
+         Käyttäjäsi: {$userName}
       {$passwordParagraph}
 
-      Have fun!
+      Pidä hauskaa!
         Your Admin.
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      —
+      4Minitz on ilmainen avoimen lähdekoodin kehittämä 4Minitz joukkue.
+      Lähde on saatavilla osoitteessa {$url4Minitz}
   UserRoleChange:
-    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    subject: "Rooli on muuttunut ”{$meetingProject}:{$meetingName}”"
     body: |
-      Hello {$userName}
+      Hei {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      Rooli on muuttunut kokoussarjassa{$meetingProject}:{$meetingName}
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Vanha rooli oli: {$roleOld}
+         Uusi rooli on: {$roleNew}
+         Muutos suoritti: {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      Kattava luettelo oikeuksista kunkin roolin katso:
       {$urlRoleDocu}
 
-      Have fun!
+      Pidä hauskaa!
         Your Admin.
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      —
+      4Minitz on ilmainen avoimen lähdekoodin kehittämä 4Minitz joukkue.
+      Lähde on saatavilla osoitteessa {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Verify Your Email Address"
+    subject: "[{$sitename}] Vahvista sähköpostiosoitteesi"
     body: |
-      To verify your email address {$emailAddress} visit the following link:
+      Vahvista sähköpostiosoitteesi {$emailAddress} seuraavasta linkistä:
 
       {$urlWithoutHash}
 
-      If you did not request this verification, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Jos et ole pyytänyt tätä vahvistusta, jätä tämä sähköpostiviesti huomiotta.
+      Jos sinusta tuntuu, että jokin on vialla, ota yhteyttä järjestelmänvalvojatiimiin.
   ResetPassword:
-    subject: "[{$sitename}] Reset Your Password"
+    subject: "[{$sitename}] Palauta salasana"
     body: |
-      To reset your password for {$emailAddress} visit the following link:
+      Jos haluat nollata salasanan {$emailAddress} , siirry seuraavaan linkkiin:
 
       {$urlWithoutHash}
 
-      If you did not request to reset your password, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Jos et pyytänyt salasanan nollaamista, jätä tämä sähköpostiviesti huomiotta.
+      Jos tunnet jonkin olevan vialla, ota yhteyttä järjestelmänvalvojatiimiin.

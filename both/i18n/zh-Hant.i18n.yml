@@ -23,10 +23,10 @@ Buttons:
   register: "註冊"
   save: "儲存"
 UserRoles:
-  roleModerator: "Moderator"
-  roleUploader: "Uploader"
+  roleModerator: "主持人"
+  roleUploader: "上傳者"
   roleInvited: "已邀請"
-  roleInformed: "Informed"
+  roleInformed: "知情"
 FlashMessages:
   ok: "好"
   error: "錯誤"
@@ -45,7 +45,7 @@ Dialog:
     title: "確認刪除？"
     body: "您確定要刪除此嗎？"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMeetingSeries: "您確定要刪除會議系列"
     questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "確認建立新的分鐘"
@@ -57,12 +57,12 @@ Dialog:
     notAllowed: "無法刪除 {$type} **{$subject}** ，因為 {$type} 是在前一個分鐘內建立的。"
     questionActionItem: "您要改為關閉動作項目嗎？"
     questionInfoItem: "您要改為取消釘銷黏性資訊項目嗎？"
-    typeActionItem: "action item"
-    typeInfoItem: "information"
-    titleCloseActionItem: "Close action item?"
-    titleUnpinInfoItem: "Unpin info item?"
-    buttonCloseActionItem: "Close action item"
-    buttonUnpinInfoItem: "Unpin info item"
+    typeActionItem: "行動項目"
+    typeInfoItem: "資訊"
+    titleCloseActionItem: "關閉行動項目？"
+    titleUnpinInfoItem: "取消釘選資訊項目？"
+    buttonCloseActionItem: "關閉行動項目"
+    buttonUnpinInfoItem: "取消釘住資訊項目"
   ConfirmDeleteTopic:
     allowed: "您真的要刪除主題 **{$subject}**？"
     notAllowed: "無法刪除主題 **{$subject}** ，因為本主題是在前一個分鐘內建立的。"
@@ -104,8 +104,8 @@ Dialog:
     title: "設定語言"
     languageLocale: "語言語言環境"
     automatic: "透過瀏覽器自動"
-    contributionHint1: "Translation mistakes or missing language?"
-    contributionHint2: "Help us to translate 4Minitz!"
+    contributionHint1: "翻譯錯誤或缺少語言？"
+    contributionHint2: "幫助我們翻譯 4 米尼茨！"
   IsEditedHandling:
     title: "編輯雖然現有的編輯"
     confirmationDialogResetEdit: "警告：此文件 ist 目前由 {$name} 進行編輯：自： {$date}"
@@ -153,17 +153,17 @@ About:
   licensedUnder: "授權下的授權 -授權"
   licenseDependencies: "相依關係的授權"
   thanksContributors: "感謝所有我們的投稿者"
-  thanksTranslators: "Thanks To All Our Translators"
+  thanksTranslators: "感謝我們所有的翻譯員"
   proudlySponsored: "最受贊助者"
   specialThanks: "特別感謝這些專案"
   forkGitHub: "在 GitHub 上分出我們"
   ServerStatistics:
-    title: "Server Statistics"
-    rowNumUser: "Number of users (active)"
-    rowNumMeetingSeries: "Number of meeting series"
-    rowNumMeetingMinutes: "Number of meeting minutes"
-    rowNumAttachments: "Number of attachments"
-    rowSizeAttachments: "Attachments size"
+    title: "伺服器統計資料"
+    rowNumUser: "使用者數目 (使用中)"
+    rowNumMeetingSeries: "會議系列數目"
+    rowNumMeetingMinutes: "會議紀要數目"
+    rowNumAttachments: "附件數目"
+    rowSizeAttachments: "附件大小"
 Item:
   ariaLabel: "新增/編輯項目"
   editItem: "編輯項目"
@@ -172,8 +172,8 @@ Item:
   deleteItemHint: "刪除此動作/資訊項目"
   addItemModal: "新增 {$type} 至 {$topic}"
   editItemModal: "Edit {$type} of {$topic}"
-  editItemModelTypeInfoItem: "Information"
-  editItemModelTypeActionItem: "動作項目"
+  editItemModelTypeInfoItem: "資訊"
+  editItemModelTypeActionItem: "行動項目"
   addInfo: "新增資訊項目"
   addInfoHint: "將資訊項目新增至主題"
   action: "動作項目"
@@ -187,9 +187,9 @@ Item:
   addDetails: "新增詳細資料"
   priority: "優先"
   Priorities:
-    high: "1 - High"
-    medium: "3 - Medium"
-    low: "5 - Low"
+    high: "1-高"
+    medium: "3-中"
+    low: "5-低"
   due: "到期"
   dueNone: "無"
   detailPlaceholder: "您可以使用 Markdown 來編輯。 按 Ctrl+Enter 或 Tab 鍵離開。"
@@ -357,7 +357,7 @@ MeetingSeries:
     base: "基本配置"
     editedBy: "Edited by {$user} （at {$date}）"
     invited: "受邀及不成立的使用者"
-    placeholderUsers: "Add Users to Invited Users..."
+    placeholderUsers: "將使用者新增至邀請的使用者..."
     notifyRoleChange: "通知參與者角色變更"
     labels: "拉貝爾斯"
     save: "儲存會議系列"
@@ -374,14 +374,14 @@ MeetingSeries:
     topics: "主題"
     items: "項目"
 Profile:
-  title: "Edit Profile for"
+  title: "編輯的設定檔"
   userName: "User Name"
   longName: "長名稱"
   email: "E-Mail"
   password: "密碼"
   passwordRepeat: "密碼重複"
   ChangePassword:
-    title: "Change Password for"
+    title: "變更的密碼"
     oldPassword: "舊密碼"
     wrongOldPassword: "請輸入舊的有效密碼"
     newPassword: "新密碼"
@@ -502,7 +502,7 @@ Mail:
   newAgenda: "我們為您準備了全新的會議日程："
   newActionItem: "您已指派給下列動作項目："
   newMinutes: "在下方，您會找到最新的會議記錄。"
-  meeting: "Meeting"
+  meeting: "開會"
   links: "鏈結"
   openSeries: "開啟系列"
   openMinutes: "開啟分鐘數"
@@ -582,7 +582,7 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Verify Your Email Address"
+    subject: "[{$sitename}] 驗證您的電子郵件地址"
     body: |
       To verify your email address {$emailAddress} visit the following link:
 
@@ -591,7 +591,7 @@ Mail:
       If you did not request this verification, please ignore this email.
       If you feel something is wrong, please contact your admin team.
   ResetPassword:
-    subject: "[{$sitename}] Reset Your Password"
+    subject: "[{$sitename}] 重設您的密碼"
     body: |
       To reset your password for {$emailAddress} visit the following link:
 

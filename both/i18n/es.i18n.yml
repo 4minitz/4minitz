@@ -544,43 +544,43 @@ Mail:
 
       ¡No se olvide de cambiar su contraseña después de iniciar sesión!
     body: |
-      Hello {$userLongName},
+      Hola {$userLongName},
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      Bienvenido a nuestra WebApp 4Minitz.
+      Ahora puede comenzar a participar manteniendo las actas de reunión profesional.
 
-      You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+      Puede iniciar sesión con 'Standard' (¡no LDAP!) login en:
+         Tu anfitrión: {$rootURL}
+         Tu usuario: {$userName}
       {$passwordParagraph}
 
-      Have fun!
-        Your Admin.
+      ¡Diviértete!
+        Su administrador.
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      —
+      4Minitz es libre de código abierto desarrollado por el equipo de 4Minitz.
+      Fuente está disponible en {$url4Minitz}
   UserRoleChange:
     subject: "Tu rol ha cambiado para '{$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      Hola {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      Su papel ha cambiado para la serie de reuniones '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Su antiguo papel era: {$roleOld}
+         Su nuevo papel es: {$roleNew}
+         El cambio fue realizado por: {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      Para una lista completa de derechos cada rol consulte:
       {$urlRoleDocu}
 
-      Have fun!
-        Your Admin.
+      ¡Diviértete!
+        Su administrador.
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      —
+      4Minitz es libre de código abierto desarrollado por el equipo de 4Minitz.
+      Fuente está disponible en {$url4Minitz}
   VerifyEmailAddress:
     subject: "[{$sitename}] Verificar su dirección de correo electrónico"
     body: |
