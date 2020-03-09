@@ -45,8 +45,8 @@ Dialog:
     title: "Bekræft sletning?"
     body: "Er du sikker på, at du vil slette dette?"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "Do you really want to delete the meeting series"
-    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
+    questionMeetingSeries: "Vil du virkelig slette mødeserien"
+    questionMinutes: "Denne serie indeholder {$minutesCount} mødeminutter (sidste minutter af {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Bekræft oprettelse af ny minutter"
     content: "Vil du virkelig oprette nye minutter til møderserien \"{$project}: {$name}\"?"
@@ -104,8 +104,8 @@ Dialog:
     title: "Angiv sprog"
     languageLocale: "Sprogkonvention for sprog"
     automatic: "Automatisk via browser"
-    contributionHint1: "Translation mistakes or missing language?"
-    contributionHint2: "Help us to translate 4Minitz!"
+    contributionHint1: "Oversættelsesfejl eller manglende sprog?"
+    contributionHint2: "Hjælp os med at oversætte 4Minitz!"
   IsEditedHandling:
     title: "Redigér til trods for eksisterende redigering"
     confirmationDialogResetEdit: "Advarsel: Dette dokument er i øjeblikket redigeret af {$name} siden: {$date}"
@@ -153,7 +153,7 @@ About:
   licensedUnder: "Licenseret under MIT-licens"
   licenseDependencies: "Licens af afhængigheder"
   thanksContributors: "Tak til alle vores bidragydere"
-  thanksTranslators: "Thanks To All Our Translators"
+  thanksTranslators: "Tak til alle vores oversættere"
   proudlySponsored: "Proudly Sponsored af"
   specialThanks: "Speciel tak til disse projekter"
   forkGitHub: "Fork os på GitHub"
@@ -187,9 +187,9 @@ Item:
   addDetails: "Tilføj detaljer"
   priority: "Prioritet"
   Priorities:
-    high: "1 - High"
+    high: "1 - Høj"
     medium: "3 - Medium"
-    low: "5 - Low"
+    low: "5 - Lav"
   due: "Tidsfrist"
   dueNone: "ingen"
   detailPlaceholder: "Du kan bruge Markdown til at redigere. Tryk på Ctrl + Enter eller tabulatortasten for at forlade."
@@ -275,11 +275,11 @@ Topic:
     uncompleted: "Ikke-udførte emner"
     yourTopic: "Dine emner"
   TooltipCreated:
-    date: "Created {$dateCreateStr}"
-    user: "by {$userCreate}"
+    date: "Oprettet {$dateCreateStr}"
+    user: "af {$userCreate}"
   TooltipUpdated:
-    date: "Updated {$dateUpdStr}"
-    user: "by {$userUpd}"
+    date: "Opdateret {$dateUpdStr}"
+    user: "af {$userUpd}"
 Minutes:
   create: "Opret ny protokol"
   date: "Dato"
@@ -357,7 +357,7 @@ MeetingSeries:
     base: "Basiskonfiguration"
     editedBy: "Redigeret af {$user} (ved {$date})"
     invited: "Invited & Informerede brugere"
-    placeholderUsers: "Add Users to Invited Users..."
+    placeholderUsers: "Tilføj brugere til inviterede brugere..."
     notifyRoleChange: "Advisér deltagere om rolleændring"
     labels: "Etiketter"
     save: "Gem mødeserie"
@@ -374,14 +374,14 @@ MeetingSeries:
     topics: "Emner"
     items: "Elementer"
 Profile:
-  title: "Edit Profile for"
+  title: "Redigér profil for"
   userName: "Brugernavn"
   longName: "Langt navn"
   email: "E-mail"
   password: "Adgangskode"
   passwordRepeat: "Adgangskode (gentag)"
   ChangePassword:
-    title: "Change Password for"
+    title: "Skift adgangskode for"
     oldPassword: "Gammel adgangskode"
     wrongOldPassword: "Angiv gammel gyldig adgangskode"
     newPassword: "Ny adgangskode"
@@ -540,26 +540,26 @@ Mail:
     subject: "Din nye konto på vores server"
     passwordNotSend: "    Kontakt administrator for adgangskode."
     passwordParagraph: |
-      Your password : {$password}
+      Din adgangskode: {$password}
 
-      Don't forget to change your password after first login!
+      Glem ikke at ændre din adgangskode efter første login!
     body: |
-      Hello {$userLongName},
+      Hej {$userLongName},
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      Velkommen til vores 4Minitz webapp.
+      Nu kan du begynde at deltage i at holde professionelle mødeminutter.
 
-      You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+      Du kan logge ind med 'Standard' (ikke LDAP!) log ind på:
+         Din vært: {$rootURL}
+         Din bruger: {$userName}
       {$passwordParagraph}
 
-      Have fun!
-        Your Admin.
+      Hav det sjovt!
+        Din administrator.
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      —
+      4Minitz er gratis open source udviklet af 4Minitz team.
+      Kilde er tilgængelig på {$url4Minitz}
   UserRoleChange:
     subject: "Din rolle er ændret for '{$meetingProject}:{$meetingName}'"
     body: |
@@ -582,7 +582,7 @@ Mail:
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Verify Your Email Address"
+    subject: "[{$sitename}] Bekræft din e-mail-adresse"
     body: |
       To verify your email address {$emailAddress} visit the following link:
 
@@ -591,7 +591,7 @@ Mail:
       If you did not request this verification, please ignore this email.
       If you feel something is wrong, please contact your admin team.
   ResetPassword:
-    subject: "[{$sitename}] Reset Your Password"
+    subject: "[{$sitename}] Nulstil din adgangskode"
     body: |
       To reset your password for {$emailAddress} visit the following link:
 
