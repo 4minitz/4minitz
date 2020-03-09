@@ -45,8 +45,8 @@ Dialog:
     title: "Επιβεβαίωση διαγραφής;"
     body: "Σίγουρα θέλετε να το διαγράψετε;"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "Do you really want to delete the meeting series"
-    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
+    questionMeetingSeries: "Θέλετε πραγματικά να διαγράψετε τη σειρά συσκέψεων"
+    questionMinutes: "Αυτή η σειρά περιέχει {$minutesCount} λεπτά σύσκεψης (τελευταία λεπτά του {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Επιβεβαίωση δημιουργίας νέων σημειώσεων"
     content: "Θέλετε σίγουρα να δημιουργήσετε νέες σημειώσεις για την σειρά του μίτινγκ \"{$project}: {$name}\";"
@@ -104,8 +104,8 @@ Dialog:
     title: "Ορισμός γλώσσας"
     languageLocale: "Κωδικός γλώσσας"
     automatic: "Αυτόματα από τον περιηγητή"
-    contributionHint1: "Translation mistakes or missing language?"
-    contributionHint2: "Help us to translate 4Minitz!"
+    contributionHint1: "Μεταφραστικά λάθη ή γλώσσα που λείπει;"
+    contributionHint2: "Βοηθήστε μας να μεταφράσουμε 4Minitz!"
   IsEditedHandling:
     title: "Τροποποίηση παρά την ήδη υπάρχουσα τροποποίηση"
     confirmationDialogResetEdit: "Προσοχή: Αυτό το εγγραφο τροποποιείται από τον/την {$name} από τις: {$date}"
@@ -153,7 +153,7 @@ About:
   licensedUnder: "Άδεια από MIT-License"
   licenseDependencies: "Άδεια εξαρτήσεων"
   thanksContributors: "Ευχαριστώ σε όλους τους συνεισφέροντες"
-  thanksTranslators: "Thanks To All Our Translators"
+  thanksTranslators: "Ευχαριστούμε όλους τους μεταφραστές μας"
   proudlySponsored: "Περήφανα χορηγούμενη από"
   specialThanks: "Ειδικά ευχαριστώ στα πρότζεκτς"
   forkGitHub: "Ξεκινήστε μία διακλάδωση (fork) στο GitHub"
@@ -187,9 +187,9 @@ Item:
   addDetails: "Προσθήκη λεπτομερειών"
   priority: "Προτεραιότητα"
   Priorities:
-    high: "1 - High"
-    medium: "3 - Medium"
-    low: "5 - Low"
+    high: "1 - Υψηλή"
+    medium: "3 - Μεσαία"
+    low: "5 - Χαμηλή"
   due: "Λήξη"
   dueNone: "κανένα"
   detailPlaceholder: "Μπορείτε να χρησιμοποιήσετε Markdown για επεξεργασία. Πατήστε \"Ctrl+Enter\" ή \"Tab\" για να φύγετε."
@@ -213,7 +213,7 @@ Item:
     placeholder: "Φίλτρο"
     matchCase: "Πεζά/Κεφαλαία"
     matchCaseHint: "Ταίριασμα Πεζών/Κεφαλαίων"
-    matchCaseLong: "Ταίριασμα Πεζών/Κεφαλαίων"
+    matchCaseLong: "Θήκη Αγώνα"
     Usage:
       body: "Μπορείτε να χρησιμοποιήσετε πολλές λέξεις-κλειδιά για φιλτράρετε τη λίστα των αντικειμένων. Όλες οι λέξεις κλειδιά μπορούν να συνδυαστούν ώστε να αναζητήσετε τα στοιχεία που ταιριάζουν."
       keyword: "Λέξη-κλειδί"
@@ -275,11 +275,11 @@ Topic:
     uncompleted: "Μη ολοκληρωμένα θέματα"
     yourTopic: "Τα θέματα σας"
   TooltipCreated:
-    date: "Created {$dateCreateStr}"
-    user: "by {$userCreate}"
+    date: "Δημιουργήθηκε {$dateCreateStr}"
+    user: "από {$userCreate}"
   TooltipUpdated:
-    date: "Updated {$dateUpdStr}"
-    user: "by {$userUpd}"
+    date: "Ενημερώθηκε {$dateUpdStr}"
+    user: "από {$userUpd}"
 Minutes:
   create: "Δημιουργία νέων σημειώσεων"
   date: "Ημερομηνία"
@@ -357,7 +357,7 @@ MeetingSeries:
     base: "Βασική παραμετροποίηση"
     editedBy: "Επεξεργασία από {$user} (στις {$date})"
     invited: "Προσκεκλημένοι και ενημερωμένοι χρήστες"
-    placeholderUsers: "Add Users to Invited Users..."
+    placeholderUsers: "Προσθήκη χρηστών σε προσκεκλημένους χρήστες..."
     notifyRoleChange: "Ειδοποιήστε τους συμμετέχοντες σχετικά με την αλλαγή ρόλου"
     labels: "Ετικέτες"
     save: "Αποθήκευση σειράς μίτινγκ"
@@ -374,14 +374,14 @@ MeetingSeries:
     topics: "Θέματα"
     items: "Στοιχεία"
 Profile:
-  title: "Edit Profile for"
+  title: "Επεξεργασία προφίλ για"
   userName: "Όνομα χρήστη"
   longName: "Πλήρες Όνομα"
   email: "Διεύθυνση εμαιλ"
   password: "Κωδικός πρόσβασης"
   passwordRepeat: "Κωδικός Πρόσβασης (ξανά)"
   ChangePassword:
-    title: "Change Password for"
+    title: "Αλλαγή κωδικού πρόσβασης για"
     oldPassword: "Παλιός Κωδικός πρόσβασης"
     wrongOldPassword: "Παρακαλώ δώστε τον έγκυρο παλιό κωδικό πρόσβασης"
     newPassword: "Νέος κωδικός πρόσβασης"
@@ -409,7 +409,7 @@ Admin:
     title: "Εκπομπή μηνυμάτων από το διαχειριστή"
     newMessage: "Νέο μήνυμα σε όλους τους χρήστες"
     broadcast: "Εκπομπή"
-    date: "Ημερομηνία"
+    date: "Ραντεβού"
     message: "Μηνύμα"
     dismissed: "Απόρριψη"
     dismissingUsers: "#Απόρριψη χρηστών: {$number}"
@@ -581,16 +581,16 @@ Mail:
       Το 4Minitz είναι δωρεάν λογισμικό ανοικτού κώδικα που αναπτύχθηκε από την ομάδα 4Minitz.
       Η πηγή είναι διαθέσιμη στο {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Verify Your Email Address"
+    subject: "[{$sitename}] Επαληθεύστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας"
     body: |
-      To verify your email address {$emailAddress} visit the following link:
+      Για να επαληθεύσετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας {$emailAddress} επισκεφθείτε τον ακόλουθο σύνδεσμο:
 
       {$urlWithoutHash}
 
-      If you did not request this verification, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Εάν δεν ζητήσατε αυτήν την επαλήθευση, παρακαλούμε αγνοήστε αυτό το email.
+      Αν αισθάνεστε ότι κάτι δεν πάει καλά, επικοινωνήστε με την ομάδα διαχειριστή σας.
   ResetPassword:
-    subject: "[{$sitename}] Reset Your Password"
+    subject: "[{$sitename}] Επαναφορά του κωδικού πρόσβασής σας"
     body: |
       To reset your password for {$emailAddress} visit the following link:
 
