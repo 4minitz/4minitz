@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Verwijderen bevestigen?"
     body: "Weet u zeker dat u dit wilt verwijderen?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Weet u zeker dat u de vergaderreeksen wilt verwijderen"
+    questionMinutes: "Deze serie bevat {$minutesCount} vergaderminuten (laatste minuten van {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Bevestig het aanmaken van nieuwe notulen"
     content: "Wilt u echt nieuwe notulen aanmaken voor de vergaderreeks \"{$project}: {$name}\"?"
@@ -101,6 +104,8 @@ Dialog:
     title: "Taal instellen"
     languageLocale: "Taal Instellingen"
     automatic: "Automatisch via Browser"
+    contributionHint1: "Vertalingsfouten of ontbrekende taal?"
+    contributionHint2: "Help ons 4Minitz te vertalen!"
   IsEditedHandling:
     title: "Bewerken ondanks bestaande bewerking"
     confirmationDialogResetEdit: "Waarschuwing: Dit document wordt momenteel bewerkt door {$name} sinds: {$date}"
@@ -148,6 +153,7 @@ About:
   licensedUnder: "Gelicentieerd onder de MIT-licentie"
   licenseDependencies: "Licentie van Afhankelijkheden"
   thanksContributors: "Met Dank Aan Al Onze Bijdragers"
+  thanksTranslators: "Bedankt aan al onze vertalers"
   proudlySponsored: "Met Trots Gesponsord Door"
   specialThanks: "Speciale Dank Aan Deze Projecten"
   forkGitHub: "Fork ons op GitHub"
@@ -180,6 +186,10 @@ Item:
   details: "Details"
   addDetails: "Details toevoegen"
   priority: "Prioriteit"
+  Priorities:
+    high: "1 - Hoog"
+    medium: "3 - Medium"
+    low: "5 - Laag"
   due: "Deadline"
   dueNone: "geen"
   detailPlaceholder: "U kunt Markdown gebruiken om te bewerken. Druk op Ctrl+Enter of Tab om te verlaten."
@@ -264,6 +274,12 @@ Topic:
     completed: "Voltooide onderwerpen"
     uncompleted: "Onvoltooide onderwerpen"
     yourTopic: "Uw Onderwerpen"
+  TooltipCreated:
+    date: "Aangemaakt op {$dateCreateStr}"
+    user: "door {$userCreate}"
+  TooltipUpdated:
+    date: "Bijgewerkt op {$dateUpdStr}"
+    user: "door {$userUpd}"
 Minutes:
   create: "Nieuwe notulen aanmaken"
   date: "Datum"
@@ -336,11 +352,12 @@ MeetingSeries:
       notRegistered: "Dit is geen geregistreerde gebruikersnaam"
       alreadyInList: "Deze gebruikersnaam staat al in de lijst"
     teamName: "Team / Projectnaam"
-    meetingName: "Vergadering Naam"
+    meetingName: "Naam van Vergadering"
     title: "Vergaderreeks Bewerken"
     base: "Basis Configuratie"
     editedBy: "Bewerkt door {$user} (op {$date})"
     invited: "Uitgenodigde & Geïnformeerde Gebruikers"
+    placeholderUsers: "Gebruikers toevoegen aan Uitgenodigde Gebruikers..."
     notifyRoleChange: "Informeer deelnemers over verandering van rol"
     labels: "Categorieën"
     save: "Vergaderreeks Opslaan"
@@ -357,12 +374,14 @@ MeetingSeries:
     topics: "Onderwerpen"
     items: "Items"
 Profile:
+  title: "Profiel bewerken voor"
   userName: "Gebruikersnaam"
-  longName: "Lange naam"
+  longName: "Volledige naam"
   email: "E-mail"
   password: "Wachtwoord"
   passwordRepeat: "Wachtwoord herhalen"
   ChangePassword:
+    title: "Wachtwoord wijzigen voor"
     oldPassword: "Oude wachtwoord"
     wrongOldPassword: "Voer oude geldige wachtwoord in"
     newPassword: "Nieuw wachtwoord"
@@ -425,7 +444,7 @@ Login:
   standard: "Standaard"
   demoHint: "Tip: Demo Modus Actief<br>U kunt inloggen met de gebruikersnaam <b>demo</b> en het wachtwoord <b>demo</b>. Of u kunt uw eigen account registreren door te klikken op de \"Registreer\" link hieronder."
   Login4MinitzInfo:
-    header: "4Minitz: gemeenschappelijke notulen."
+    header: "4Minitz: Gedeelde Notulen."
     subheader: "● Bereid Agenda voor ● Documenteer Notulen ● Volg Onderwerpen ●"
     abstract: |
       <p>Elke uitgenodigde en aangemelde gebruiker kan de wijzigingen van de huidige notulen in realtime bekijken.</p>
@@ -446,7 +465,7 @@ Login:
       <li>Markeer aanwezige deelnemers</li>
       <li>Voeg actiepunten met verantwoordelijken toe aan onderwerpen</li>
       <li>Voeg informatie items toe aan ondewerpen</li>
-      <li>Voeg categorieën als 'Beslissing' toe aan items</li>
+      <li>Voeg categorieën zoals 'Beslissing' toe aan items</li>
       <li>Upload binaire bijlages</li>
       <li>Stuur notulen &amp; actiepunten via e-mail</li>
     trackTopicsHeading: "Onderwerpen Volgen"
@@ -458,7 +477,7 @@ Login:
       <li>Vind onderwerpen met categorieën (bv. alle beslissingen)</li>
       <li>Vind items door zoekopdracht voor volledige tekst</li>
   Footer:
-    withLove: "Gedecodeerd met ❤ door de"
+    withLove: "Gecodeerd met ❤ door het"
     theTeam: "WebApp Team"
 Navigation:
   help: "Help"
@@ -562,3 +581,21 @@ Mail:
       ---
       4Minitz is gratis open source ontwikkeld door het 4Minitz team.
       Source is beschikbaar op {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verifieer uw e-mailadres"
+    body: |
+      Ga naar de volgende link om je e-mailadres {$emailAddress} te verifiëren:
+
+      {$urlWithoutHash}
+
+      Als je deze verificatie niet hebt aangevraagd, negeer deze e-mail aub.
+      Als je denkt dat er iets fout gaat, neem dan contact op met je beheerdersteam.
+  ResetPassword:
+    subject: "[{$sitename}] Uw wachtwoord opnieuw instellen"
+    body: |
+      Om uw wachtwoord voor {$emailAddress} opnieuw in te stellen, gaat u naar de volgende link:
+
+      {$urlWithoutHash}
+
+      Als u uw wachtwoord niet hebt aangevraagd, negeer deze e-mail aub.
+      Als je denkt dat er iets fout gaat, neem dan contact op met je beheerdersteam.

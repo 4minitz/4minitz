@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Potvrdit smazání?"
     body: "Opravdu to chcete smazat?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Opravdu chcete odstranit sérii schůzek"
+    questionMinutes: "Tato série obsahuje {$minutesCount} minut schůzek (poslední minuty z {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Potvrdit vytvoření nových minut"
     content: "Opravdu chcete vytvořit nové minuty pro sérii schůzek \"{$project}: {$name}\"?"
@@ -101,6 +104,8 @@ Dialog:
     title: "Nastavit jazyk"
     languageLocale: "Jazyk jazyka"
     automatic: "Automaticky přes prohlížeč"
+    contributionHint1: "Chyby překladu nebo chybějící jazyk?"
+    contributionHint2: "Pomozte nám přeložit 4Minitz!"
   IsEditedHandling:
     title: "Upravit přes existující úpravy"
     confirmationDialogResetEdit: "Varování: Tento dokument je aktuálně upraven uživatelem {$name} od: {$date}"
@@ -148,6 +153,7 @@ About:
   licensedUnder: "Licencencence podle licence MIT"
   licenseDependencies: "Licence Dependencies"
   thanksContributors: "Děkuji všem našim příspěvkům"
+  thanksTranslators: "Děkujeme všem našim překladatelům"
   proudlySponsored: "Proudypřítomně opěvovaný"
   specialThanks: "Zvláštní díky těmto projektům"
   forkGitHub: "Zapomeňte na GitHub"
@@ -180,6 +186,10 @@ Item:
   details: "Detaily"
   addDetails: "Přidat podrobnosti"
   priority: "Priorita"
+  Priorities:
+    high: "1 - Vysoká"
+    medium: "3 - Střední"
+    low: "5 - nízká"
   due: "Hlad"
   dueNone: "žádné"
   detailPlaceholder: "Pro editaci můžete použít Markdown."
@@ -264,6 +274,12 @@ Topic:
     completed: "Kompletní témata"
     uncompleted: "Nedokončená témata"
     yourTopic: "Vaše témata"
+  TooltipCreated:
+    date: "Vytvořeno {$dateCreateStr}"
+    user: "od {$userCreate}"
+  TooltipUpdated:
+    date: "Aktualizováno {$dateUpdStr}"
+    user: "od {$userUpd}"
 Minutes:
   create: "Vytvořit nový zápis"
   date: "Datum"
@@ -341,6 +357,7 @@ MeetingSeries:
     base: "Základní konfigurace"
     editedBy: "Editované {$user} (na {$date})"
     invited: "Vyšetřené a poučené uživatele"
+    placeholderUsers: "Přidat uživatele k pozvaným uživatelům..."
     notifyRoleChange: "Upozorňujeme účastníky na změnu úlohy"
     labels: "Označení"
     save: "Zachraňte si série jednání"
@@ -357,12 +374,14 @@ MeetingSeries:
     topics: "Témata"
     items: "Itemy"
 Profile:
+  title: "Upravit profil pro"
   userName: "Jméno uživatelů"
   longName: "Dlouhé jméno"
   email: "E-Mail"
   password: "Heslo"
   passwordRepeat: "Odpovědnost hesla"
   ChangePassword:
+    title: "Změnit heslo pro"
     oldPassword: "Staré heslo"
     wrongOldPassword: "Zadejte prosím staré platné heslo"
     newPassword: "Nový heslo"
@@ -562,3 +581,21 @@ Mail:
       ---
       4Minitz je zdarma open source vyvinutý 4Minitz tým.
       zdrojů je k dispozici na {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Ověřte Vaši e-mailovou adresu"
+    body: |
+      Pro ověření Vaší e-mailové adresy {$emailAddress} navštivte následující odkaz:
+
+      {$urlWithoutHash}
+
+      Pokud jste o toto ověření nepožádali, prosím ignorujte tento e-mail.
+      Pokud máte pocit, že je něco špatně, obraťte se na svůj admin tým.
+  ResetPassword:
+    subject: "[{$sitename}] Obnovte své heslo"
+    body: |
+      Chcete-li obnovit své heslo pro {$emailAddress} navštivte následující odkaz:
+
+      {$urlWithoutHash}
+
+      Pokud jste nepožádali o obnovení hesla, prosím ignorujte tento e-mail.
+      Pokud máte pocit, že je něco špatně, obraťte se na svůj admin tým.

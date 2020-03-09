@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Підтвердити видалення?"
     body: "Справді бажаєте видалити це?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Ви дійсно хочете видалити ряд зустрічей"
+    questionMinutes: "Ця серія містить {$minutesCount} хвилин зустрічей (останні хвилини {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Підтвердіть створення нових хвилин"
     content: "Ви дійсно хочете створити нові хвилини для серії зустрічей \"{$project}: {$name}\"?"
@@ -101,6 +104,8 @@ Dialog:
     title: "Встановити мову"
     languageLocale: "Мова"
     automatic: "Автоматично через браузер"
+    contributionHint1: "Помилки перекладу чи відсутня мова?"
+    contributionHint2: "Допоможіть нам перекласти 4Minitz!"
   IsEditedHandling:
     title: "Редагувати незважаючи на чинні зміни"
     confirmationDialogResetEdit: "Попередження: цей документ редагує {$name} з: {$date}"
@@ -148,6 +153,7 @@ About:
   licensedUnder: "На ліцензії MIT-ліцензії"
   licenseDependencies: "Ліцензія залежностей"
   thanksContributors: "Дякуємо усім нашим учасникам"
+  thanksTranslators: "Дякуємо усім нашим перекладачам"
   proudlySponsored: "Приголомшено"
   specialThanks: "Особлива подяка цим проектам"
   forkGitHub: "Fork us on GitHub"
@@ -180,6 +186,10 @@ Item:
   details: "Подробиці"
   addDetails: "Додайте подробиці"
   priority: "Пріоритет"
+  Priorities:
+    high: "1 - Висока"
+    medium: "3 - середній"
+    low: "5 - Низький"
   due: "На черзі"
   dueNone: "нічого"
   detailPlaceholder: "Ви можете використовувати Markdown для редагування. Натисніть Ctrl+Enter або Вкладку, щоб вийти."
@@ -264,6 +274,12 @@ Topic:
     completed: "Завершені теми"
     uncompleted: "Не завершені теми"
     yourTopic: "Ваші теми"
+  TooltipCreated:
+    date: "Створено {$dateCreateStr}"
+    user: "від {$userCreate}"
+  TooltipUpdated:
+    date: "Оновлено {$dateUpdStr}"
+    user: "від {$userUpd}"
 Minutes:
   create: "Створити нові хвилини"
   date: "Дата"
@@ -341,6 +357,7 @@ MeetingSeries:
     base: "Базова конфігурація"
     editedBy: "Змінено {$user} (у {$date})"
     invited: "Запрошені та інші користувачі"
+    placeholderUsers: "Додати користувачів до запрошених користувачів..."
     notifyRoleChange: "Повідомляти учасників про зміну ролі"
     labels: "Мітки"
     save: "Зберегти серію зустрічей"
@@ -357,12 +374,14 @@ MeetingSeries:
     topics: "Теми"
     items: "Елементи"
 Profile:
+  title: "Редагувати профіль для"
   userName: "Ім'я користувача"
   longName: "Повна назва"
   email: "Е-пошта"
   password: "Пароль"
   passwordRepeat: "Повторіть пароль"
   ChangePassword:
+    title: "Змінити пароль для"
     oldPassword: "Старий пароль"
     wrongOldPassword: "Будь ласка, введіть старий пароль"
     newPassword: "Новий пароль"
@@ -562,3 +581,21 @@ Mail:
       ---
       4Minitz є вільним з відкритим вихідним кодом, розробленим командою 4Minitz
       Source доступна о {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Підтвердити свою адресу електронної пошти"
+    body: |
+      Для того, щоб підтвердити вашу адресу електронної пошти {$emailAddress} перейдіть за наступним посиланням:
+
+      {$urlWithoutHash}
+
+      Якщо ви не замовили цю перевірку, проігноруйте цей лист.
+      Якщо ви відчуваєте, що щось не так, зверніться до вашої команди адміністратора.
+  ResetPassword:
+    subject: "[{$sitename}] Скидання вашого пароля"
+    body: |
+      Щоб скинути свій пароль для {$emailAddress} перейдіть за наступним посиланням:
+
+      {$urlWithoutHash}
+
+      Якщо ви не запитували для скидання пароля, проігноруйте цей лист.
+      Якщо ви відчуваєте, що щось не так, зверніться до вашої команди адміністратора.

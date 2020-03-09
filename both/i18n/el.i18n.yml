@@ -2,563 +2,599 @@
 _splitKey: ':'
 _locale: 'el'
 Accounts:
-  usernamePlaceholder: "(min. 3 chars)"
-  nameDisplayName: "Name, Company"
-  namePlaceholder: "John Doe, Happy Corp."
-  passwordPlaceholder: "min. 6 chars (digit, lower & upper)"
-  passwordError: "min. 6 chars (min. 1 digit, 1 lower, 1 upper)"
+  usernamePlaceholder: "(ελάχιστο 3 χαρακτήρες)"
+  nameDisplayName: "Όνομα, Εταιρία"
+  namePlaceholder: "Ονοματεπώνυμο, Εταιρία."
+  passwordPlaceholder: "ελάχιστο 6 χαρακτήρες (ψηφία, μικρά & κεφαλαία)"
+  passwordError: "ελάχιστο 6 χαρακτήρες (1 ψηφίο, 1 μικρό, 1 κεφαλαίο)"
 Buttons:
   add: "Προσθήκη"
-  back: "Go Back"
-  cancel: "Cancel"
-  change: "Change"
-  close: "Close"
-  confirm: "Confirm"
-  create: "Create"
-  delete: "Delete"
-  dismissAll: "Dismiss All"
-  edit: "Edit"
-  hide: "Ok, hide"
-  ok: "OK"
-  register: "Register"
-  save: "Save"
+  back: "Επιστροφή"
+  cancel: "Ακύρωση"
+  change: "Τροποποίηση"
+  close: "Κλείσιμο"
+  confirm: "Επιβεβαίωση"
+  create: "Δημιουργία"
+  delete: "Διαγραφή"
+  dismissAll: "Παράβλεψη όλων"
+  edit: "Επεξεργασία"
+  hide: "Εντάξει, απόκρυψη"
+  ok: "Εντάξει"
+  register: "Εγγραφή"
+  save: "Αποθήκευση"
 UserRoles:
-  roleModerator: "Moderator"
-  roleUploader: "Uploader"
-  roleInvited: "Invited"
-  roleInformed: "Informed"
+  roleModerator: "Διαχειριστής"
+  roleUploader: "Μεταφορτωτής"
+  roleInvited: "Καλεσμένος/η"
+  roleInformed: "Ενήμερος"
 FlashMessages:
-  ok: "OK"
-  error: "Error"
-  verifyEMailErr: "Error: EMail could not be verified"
-  verifyEMailOK: "OK: EMail is verified now"
-  passwordChangeOK: "Password changed"
-  passwordResetOK: "Password sucessfully reseted"
-  profileEditOK: "Profile changes saved"
-  minuteLinkErr: "Unfortunately the minute is not linked to its parent series correctly - please contact your system administrator."
-  agendaSentOK: "Agenda was sent to {$result} recipients successfully"
-  finalizeProgress1: "Finalize in progress"
-  finalizeProgress2: "This may take a few seconds..."
-  finalizeOK: "This meeting minutes were successfully finalized"
+  ok: "Εντάξει"
+  error: "Σφάλμα"
+  verifyEMailErr: "Σφάλμα: Το email σας δεν μπορεί να επαληθευτεί"
+  verifyEMailOK: "Εντάξει: Το εμαίλ σας επαληθεύτηκε"
+  passwordChangeOK: "Ο κωδικός πρόσβασης άλλαξε"
+  passwordResetOK: "Ο κωδικός πρόσβασης επαναφέρθηκε επιτυχώς"
+  profileEditOK: "Οι αλλαγές στο προφίλ σας αποθηκεύτηκαν"
+  minuteLinkErr: "Δυστυχώς oι σημειώσεις δεν είναι συνδεδεμένες με τη μητρική σειρά μίτινγκς - Παρακαλώ επικοινωνήστε με το διαχειριστή του συστήματος."
+  agendaSentOK: "Η ανζέντα εστάλη επιτυχώς στους {$result}"
+  finalizeProgress1: "Η ολοκλήρωση βρίσκεται σε εξέλιξη"
+  finalizeProgress2: "Αυτό μπορεί να διαρκέσει λίγα δευτερόλεπτα..."
+  finalizeOK: "Οι σημειώσεις του μίτινγκ ολοκληρώθηκαν με επιτυχία"
 Dialog:
   ConfirmDelete:
-    title: "Confirm delete?"
-    body: "Are you sure to delete this?"
+    title: "Επιβεβαίωση διαγραφής;"
+    body: "Σίγουρα θέλετε να το διαγράψετε;"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
-    title: "Confirm Creating New Minutes"
-    content: "Do you really want to create new minutes for the meeting series \"{$project}: {$name}\"?"
-  confirmDeleteAttachment: "Do you really want to delete the attachment:\n**{$name}**?"
-  confirmDeleteDetails: "Do you really want to delete the selected details of the item **{$subject}**?"
+    title: "Επιβεβαίωση δημιουργίας νέων σημειώσεων"
+    content: "Θέλετε σίγουρα να δημιουργήσετε νέες σημειώσεις για την σειρά του μίτινγκ \"{$project}: {$name}\";"
+  confirmDeleteAttachment: "Θέλετε πραγματικά να διαγράψετε αυτό το συνημμένο **{$name}**;"
+  confirmDeleteDetails: "Θέλετε πραγματικά να διαγράψετε επιλεγμένες λεπτομέρειες του στοιχείου **{$subject}**;"
   ConfirmDeleteItem:
-    allowed: "Do you really want to delete the {$type} **{$subject}**?"
-    notAllowed: "It is not possible to delete the {$type} **{$subject}** because the {$type} was created in a previous minutes."
-    questionActionItem: "Do you want to close the action item instead?"
-    questionInfoItem: "Do you want to unpin the sticky info item instead?"
-    typeActionItem: "action item"
-    typeInfoItem: "information"
-    titleCloseActionItem: "Close action item?"
-    titleUnpinInfoItem: "Unpin info item?"
-    buttonCloseActionItem: "Close action item"
-    buttonUnpinInfoItem: "Unpin info item"
+    allowed: "Θέλετε πραγματικά να διαγράψετε τον τύπο {$type} **{$subject}**;"
+    notAllowed: "Δεν είναι δυνατή η διαγραφή του τύπου {$type} **{$subject}** επειδή ο τύπος {$type} έχει δημιουργηθεί σε προηγούμενες σημιώσεις."
+    questionActionItem: "Θέλετε αντί αυτού να κλείσετε το στοιχείο δράσης;"
+    questionInfoItem: "Θέλετε αντί αυτού να ξεκαρφιτώσετε το στοιχείο;"
+    typeActionItem: "στοιχείο δράσης"
+    typeInfoItem: "πληροφορίες"
+    titleCloseActionItem: "Επιλογή στοιχείου δράσης;"
+    titleUnpinInfoItem: "Ξεκαρφίτσωμα στοιχείου πληροφοριών;"
+    buttonCloseActionItem: "Κλείσιμο στοιχείου δράσης"
+    buttonUnpinInfoItem: "Ξεκαρφίτσωμα στοιχείου πληροφοριών"
   ConfirmDeleteTopic:
-    allowed: "Do you really want to delete the topic **{$subject}**?"
-    notAllowed: "It is not possible to delete the topic **{$subject}** because the topic was created in a previous minutes."
-    close: "Do you want to close the topic instead?"
-    closeWithActions: "Do you want to close the topic together with all related action items instead?"
-  confirmLeaveMeetingSeries: "Do you really want to leave the meeting series:\n\n**{$project} / {$name}**\n\nYou will have to ask a moderator if you want to join again afterwards."
+    allowed: "Θέλετε πραγματικά να διαγράψετε τον θέμα **{$subject}**;"
+    notAllowed: "Δεν είναι δυνατή η διαγραφή του θέματος **{$subject}** επειδή το θέμα έχει δημιουργηθεί σε προηγούμενες σημιώσεις."
+    close: "Θέλετε αντί αυτού να κλείσετε το θέμα αυτό;"
+    closeWithActions: "Θέλετε αντί αυτού να κλείσετε το θέμα μαζί με όλα τα στοιχεία δράσης του;"
+  confirmLeaveMeetingSeries: "Θέλετε σίγουρα να αφήσετε την σειρά των σημειώσεων:\n\n**{$project}/ {$name}**\n\nΘα πρέπει να ρωτήσετε τον διαχειριστή εάν θέλετε να συμμετέχετε ξανά μετά."
   ConfirmMinuteQualityAssurance:
-    title: "Finalize Minutes: Quality Checks"
-    button: "Proceed"
-    issues: "There are finalize issues with your minutes!"
-    proceed: "Do you want to proceed with finalizing?"
-    warnNoTopics: "The current minutes have no topics"
-    warnNoParticipants: "No participant is marked as present"
-    warnEditing: "A topic/item/detail is still edited"
-    warnNoTopicDiscussed: "No topic is marked as 'discussed'"
-    warnTopicWithoutItems: "At least one discussed topic has no items"
-    warnActionItemWithoutResponsible: "At least one action item has no responsible"
-    warnTopicNoNewContent: "A topic is checked but has no new content"
+    title: "Ολοκλήρωση σημειώσεων: Έλεγχοι ποιότητας"
+    button: "Συνέχεια"
+    issues: "Υπάρχουν προβλήματα με την ολοκλήρωση των σημειώσεων!"
+    proceed: "Θέλετε να συνεχίσετε με την ολοκλήρωση;"
+    warnNoTopics: "Οι συγκεκριμένες σημειώσεις δεν έχουν θέματα"
+    warnNoParticipants: "Κανένας συμμετέχοντας δεν έχει μαρκαριστεί ως παρών"
+    warnEditing: "Ένα θέμα/στοιχείο/λεπτομέρεια βρίσκεται ακόμη σε επεξεργασία"
+    warnNoTopicDiscussed: "Κανένα θέμα δεν έχει μαρκαριστεί ως συζητημένο"
+    warnTopicWithoutItems: "Ένα τουλάχιστον θέμα συζήτησης δεν έχει καθόλου στοιχεία"
+    warnActionItemWithoutResponsible: "Τουλάχιστον ένα στοιχείο δράσης δεν έχει υπεύθυνο"
+    warnTopicNoNewContent: "Ένα θέμα έχει τσεκαριστεί αλλά δεν έχει περιεχόμενο"
   ConfirmReOpenTopic:
-    title: "Re-open Topic?"
-    body: "Do you really want to re-open the already closed topic **{$topicSubject}**?"
-    button: "Re-open"
+    title: "'Άνοιγμα ξανά του θέματος;"
+    body: "Θέλετε σίγουρα να ανοίξετε ξανά το ήδη κλειστό θέμα **{$topicSubject}**;"
+    button: "Άνοιγμα ξανά"
   ConfirmSendAgenda:
-    body: "Do you really want to sent the agenda for this meeting minute dated on **{$minDate}**?\nIt was already sent on {$agendaSentDate} at {$agendaSentTime}"
-    title: "Confirm sending agenda"
-    button: "Send Agenda"
+    body: "Θέλετε σίγουρα να στείλετε την αντζέντα αυτών των σημειώσεν ημερομηνίας **{$minDate}**?\nΈχει ήδη αποσταλεί στις {$agendaSentDate} {$agendaSentTime}"
+    title: "Επιβεβαίωση αποστολής αντζέντας"
+    button: "Αποστολή αντζέντας"
   ConfirmDeleteMinutes:
-    really: "Do you really want to delete this meeting minute dated on **{$minutesDate}**?"
-    newTopics: "This will remove **{$newTopicsCount} topics**, which were created within this minute."
-    closedTopicsAdditionally: "Additionally **{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
-    closedTopics: "**{$closedTopicsCount} topics** will be opened again, which were closed within this minutes."
+    really: "Θέλετε σίγουρα να διαγράψετε αυτές τις σημειώσεις ημερομηνίας **{$minutesDate}**;"
+    newTopics: "Αυτό θα αφαιρέσει **{$newTopicsCount} θέματα**, τα οποία δημιουργήθηκαν μέσα σε αυτές τις σημειώσεις."
+    closedTopicsAdditionally: "Επιπλέον **{$closedTopicsCount} θέματα** θα ανοιχτούν ξανά, τα οποία ήταν κλειστά μέσα σε αυτές τις σημειώσεις."
+    closedTopics: "**{$closedTopicsCount} θέματα** θα ανοιχτούν ξανά, τα οποία ήταν κλειστά μέσα σε αυτές τις σημειώσεις."
   ConfirmFinalizeMinutes:
-    title: "Confirm Finalize Minutes"
-    button: "Finalize"
-    really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
-    sendActionItems: "Send action items"
-    sendMinutes: "Send information items"
+    title: "Επιβεβαίωση ολοκλήρωσης σημειώσεων"
+    button: "Ολοκλήρωση"
+    really: "Θέλετε σίγουρα να ολοκλρώσετε αυτές τις σημειώσεις του μίτινγκ ημερομηνίας **{$minutesDate}**;"
+    sendActionItems: "Αποστολή στοιχείων δράσης"
+    sendMinutes: "Αποστολή στοιχείων πληροφοριών"
   LocaleSetting:
-    title: "Set Language"
-    languageLocale: "Language Locale"
-    automatic: "Automatic via Browser"
+    title: "Ορισμός γλώσσας"
+    languageLocale: "Κωδικός γλώσσας"
+    automatic: "Αυτόματα από τον περιηγητή"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
-    title: "Edit despite existing editing"
-    confirmationDialogResetEdit: "Warning: This document ist currently edited by {$name} since: {$date}"
-    confirmationDialogResetEditDetails: "Please click on detail again to start editing."
-    button: "Edit Anyway"
+    title: "Τροποποίηση παρά την ήδη υπάρχουσα τροποποίηση"
+    confirmationDialogResetEdit: "Προσοχή: Αυτό το εγγραφο τροποποιείται από τον/την {$name} από τις: {$date}"
+    confirmationDialogResetEditDetails: "Παρακαλώ κλικάρετε στις λεπτομέρεις ξανά για να αρχίσετε την επεξεργασία."
+    button: "Eπεξεργασία ούτως ή άλλως"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
-        Status: {$status}
-        Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
-    header: "You have lost the connection to the 4Minitz server."
-    body: "If you close your browser, unsaved data might be lost. Please contact your sever admin if this problem persists."
-    tryToReconnect: "Try To Reconnect"
+      Η σύνδεση χάθηκε!
+        Κατάσταση: {$status}
+        Προσπάθειες: {$retryCount}
+        Χρόνος: {$retryTime} sec.
+        Αιτιολογία: {$reason}
+        Κλικάρετε για να συνδεθείτε πάλι.
+    header: "Χάσατε την σύνδεση με τον εξυπηρετητή του 4Minitz."
+    body: "Εάν κλείσετε τον περιηγητή σας, τα μη αποθηκευμένα δεδομένα μπορεί να χαθούν. Παρακαλώ επικοινωνήστε με τον διαχειριστή του συστήματος εάν το πρόβλημα επιμείνει."
+    tryToReconnect: "Δοκιμάστε να συνδεθείτε ξανά"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "There has been no protocol generated for these minutes. Do you want to download a dynamically generated HTML version of it instead?"
-    button: "Download"
+    title: "Επιβεβαίωση δημιουργίας πρωτοκόλλου"
+    body: "Δεν έχει δημιουργηθεί πρωτόκολλο για αυτές τις σημειώσεις. Θέλετε να κατεβάσετε μια δυναμικά δημιουργημένη έκδοση HTML αντί αυτού;"
+    button: "Κατέβασμα"
   ConfirmTopicDelete:
-    title1: "Confirm delete topic"
-    title2: "Mark topic as discussed?"
-    button2: "Close topic and actions"
-    errortitle: "Cannot delete topic"
-    errorcontent: "It is not possible to delete this topic because it was created in a previous minutes. The selected topic is already closed and has no open action items, so it won't be copied to the following minutes."
+    title1: "Επιβεβαίωση διαγραφής θέματος"
+    title2: "Μαρκάρετε το θέμα ως συζητημένο;"
+    button2: "Κλείστε το θέμα και τα στοιχεία δράσης"
+    errortitle: "Η διαγραφή του θέματος δεν είναι δυνατή"
+    errorcontent: "Δεν είναι δυνατή η διαγραφή του θέματος επειδή έχει δημιουργηθεί σε προηγούμενες σημειώσεις. Το επιλεγμένο θέμα είναι ήδη κλειστό και δεν έχει ανοιχτά στοιχεία δράσης, οπότε δεν μπορεί να αντιγραφεί στις παρακάτω σημειώσεις."
   ItemDeleteError:
-    title: "Cannot delete item"
-    body1: "It is not possible to delete this item because it was created in a previous minutes."
-    body2a: "This action item is already closed,"
-    body2b: "This info item is already un-pinned"
-    body3: "so it won't be copied to the following minutes"
+    title: "Η διαγραφή του στοιχείου δεν είναι δυνατή"
+    body1: "Δεν είναι δυνατή η διαγραφή του στοιχείου επειδή έχει δημιουργηθεί σε προηγούμενες σημιώσεις."
+    body2a: "Αυτό το στοιχείο δράσης είναι ήδη κλειστό,"
+    body2b: "Αυτό το στοιχείο πληροφοριών είναι ήδη ξεκαρφιτσωμένο"
+    body3: "ώστε δεν θα αντιγραφεί στις παρακάτω σημειώσεις"
   ActionItemResponsibleError:
-    title: "Invalid Responsible for Action Item"
+    title: "Μη έγκυρος υπεύθυνος για το στοιχείο δράσης"
     body: |
-      This is not a valid responsible!
+      Ο υπεύθυνος δεν είναι έγκυρος!
 
-      Please select an **existing user** from the dropdown or enter a **valid email address**.
+      Παρακαλώ επιλέξτε έναν **υπάρχων χρήστη** από τη λίστα ή εισάγετε μια **έγκυρη διεύθυνση εμαιλ**.
   ConvertItemError:
-    title: "Cannot convert item"
-    body: "It is not possible to convert this item because it was created in a previous minutes."
+    title: "Δεν είναι δυνατή η μετατραπή του στοιχείου"
+    body: "Δεν είναι δυνατή η μετατροπή του στοιχείου επειδή έχει δημιουργηθεί σε προηγούμενες σημιώσεις."
 About:
-  title: "About 4Minitz"
-  copyrightTeam: "by 4Minitz-Team"
-  licensedUnder: "Licensed under the MIT-License"
-  licenseDependencies: "License of Dependencies"
-  thanksContributors: "Thanks To All Our Contributors"
-  proudlySponsored: "Proudly Sponsored By"
-  specialThanks: "Special Thanks to These Projects"
-  forkGitHub: "Fork us on GitHub"
+  title: "Περί 4Minitz"
+  copyrightTeam: "από την ομάδα 4Minitz"
+  licensedUnder: "Άδεια από MIT-License"
+  licenseDependencies: "Άδεια εξαρτήσεων"
+  thanksContributors: "Ευχαριστώ σε όλους τους συνεισφέροντες"
+  thanksTranslators: "Thanks To All Our Translators"
+  proudlySponsored: "Περήφανα χορηγούμενη από"
+  specialThanks: "Ειδικά ευχαριστώ στα πρότζεκτς"
+  forkGitHub: "Ξεκινήστε μία διακλάδωση (fork) στο GitHub"
   ServerStatistics:
-    title: "Server Statistics"
-    rowNumUser: "Number of users (active)"
-    rowNumMeetingSeries: "Number of meeting series"
-    rowNumMeetingMinutes: "Number of meeting minutes"
-    rowNumAttachments: "Number of attachments"
-    rowSizeAttachments: "Attachments size"
+    title: "Στατιστικά εξυπηρετητή"
+    rowNumUser: "Αριθμός χρηστών (ενεργών)"
+    rowNumMeetingSeries: "Αριθμός σειρών σημειώσεων μίτνινγκ"
+    rowNumMeetingMinutes: "Αριθμός σειρών σημειώσεων μίτνινγκ"
+    rowNumAttachments: "Αριθμός επισυναπτόμενων"
+    rowSizeAttachments: "Μέγεθος συνημμένων"
 Item:
-  ariaLabel: "Add/Edit item"
-  editItem: "Edit Item"
-  editItemHint: "Edit this action/info item"
-  deleteItem: "Delete Item"
-  deleteItemHint: "Delete this action/info item"
-  addItemModal: "Add {$type} to {$topic}"
-  editItemModal: "Edit {$type} of {$topic}"
-  editItemModelTypeInfoItem: "Information"
-  editItemModelTypeActionItem: "Action Item"
-  addInfo: "Add Info Item"
-  addInfoHint: "Add info item to topic"
-  action: "Action Item"
-  addAction: "Add Action Item"
-  addActionHint: "Add action item to topic"
-  convertToAction: "Convert to Action"
-  convertToInfo: "Convert to Info"
-  convertDisabled: "Conversion disabled: item exists in past meeting"
-  subject: "Subject (mandatory)"
-  details: "Details"
-  addDetails: "Add details"
-  priority: "Priority"
-  due: "Due"
-  dueNone: "none"
-  detailPlaceholder: "You may use Markdown to edit. Press Ctrl+Enter or Tab to leave."
-  markdownHint: "Help for Markdown Syntax"
-  setPin: "Set Pinned"
-  setPinHint: "Set as pinned info item"
-  unsetPin: "Unset Pinned"
-  unsetPinHint: "Set as non-pinned info item"
-  done: "done"
-  pinned: "pinned"
+  ariaLabel: "Προσθήκη/Επεξεργασία στοιχείου"
+  editItem: "Επεξεργασία στοιχείου"
+  editItemHint: "Επεξεργασία στοιχείου δράσης/πληροφοριών"
+  deleteItem: "Διαγραφή Στοιχείου"
+  deleteItemHint: "Διαγραφή στοιχείου δράσης/πληροφοριών"
+  addItemModal: "Προσθήκη τύπου {$type} στο θέμα {$topic}"
+  editItemModal: "Επεξεργασία τύπου {$type} θέματος {$topic}"
+  editItemModelTypeInfoItem: "Πληροφορίες"
+  editItemModelTypeActionItem: "Στοιχείο δράσης"
+  addInfo: "Προσθήκη στοιχείου πληροφοριών"
+  addInfoHint: "Προσθήκη στοιχείου πληροφοριών στο θέμα"
+  action: "Στοιχείο πληροφοριών"
+  addAction: "Προσθήκη στοιχείου πληροφοριών"
+  addActionHint: "Προσθήκη στοιχείου δράσης στο θέμα"
+  convertToAction: "Μετατροπή σε δράση"
+  convertToInfo: "Μετατροπή σε πληροφορίες"
+  convertDisabled: "Η μετατροπή έχει απενεργοποιηθεί: το στοιχείο υπάρχει σε παλαιότερο μίτινγκ"
+  subject: "Θέμα (υποχρεωτικό)"
+  details: "Λεπτομέρειες"
+  addDetails: "Προσθήκη λεπτομερειών"
+  priority: "Προτεραιότητα"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
+  due: "Λήξη"
+  dueNone: "κανένα"
+  detailPlaceholder: "Μπορείτε να χρησιμοποιήσετε Markdown για επεξεργασία. Πατήστε \"Ctrl+Enter\" ή \"Tab\" για να φύγετε."
+  markdownHint: "Βοήθεια για συντακτικό Markdown"
+  setPin: "Ορισμός καρφιτσωμένου"
+  setPinHint: "Θέσε ως καρφιτσωμένο στοιχείο πληροφοριών"
+  unsetPin: "Ξεκαρφίτσωμα"
+  unsetPinHint: "Θέσε ως μη καρφιτσωμένο στοιχείο πληροφοριών"
+  done: "έτοιμο"
+  pinned: "καρφιτσωμένο"
   Error:
-    subject: "Please enter a valid subject"
+    subject: "Παρακαλώ εισάγετε ένα έγκυρο θέμα"
   Filter:
-    title: "Filters"
-    usageHint: "Filter Usage"
-    info: "Info Items"
-    action: "Action Items"
-    open: "Open Action Items"
-    closed: "Closed Action Items"
-    yourAction: "Your Action Items"
-    placeholder: "Filter"
-    matchCase: "Case"
-    matchCaseHint: "Match Case"
-    matchCaseLong: "Match Case"
+    title: "Φίλτρα"
+    usageHint: "Χρήση φίλτρων"
+    info: "Στοιχεία πληροφοριών"
+    action: "Στοιχεία δράσης"
+    open: "Άνοιγμα στοιχείων δράσης"
+    closed: "Κλείσιμο στοιχείων δράσης"
+    yourAction: "Τα στοιχεία δράσης σας"
+    placeholder: "Φίλτρο"
+    matchCase: "Πεζά/Κεφαλαία"
+    matchCaseHint: "Ταίριασμα Πεζών/Κεφαλαίων"
+    matchCaseLong: "Ταίριασμα Πεζών/Κεφαλαίων"
     Usage:
-      body: "You can use several keywords to filter the listed elements. All keywords may be combined which filters those items matching all given search parameters."
-      keyword: "Keyword"
-      format: "Format"
-      values: "Values"
-      eg: "e.g."
-  myActionItems: "My Action Items"
+      body: "Μπορείτε να χρησιμοποιήσετε πολλές λέξεις-κλειδιά για φιλτράρετε τη λίστα των αντικειμένων. Όλες οι λέξεις κλειδιά μπορούν να συνδυαστούν ώστε να αναζητήσετε τα στοιχεία που ταιριάζουν."
+      keyword: "Λέξη-κλειδί"
+      format: "Μορφοποίηση"
+      values: "Τιμές"
+      eg: "π.χ."
+  myActionItems: "Τα στοιχεία δράσης μου"
 Topic:
-  title: "Topic"
-  new: "New"
-  add: "Add Topic"
-  addLong: "Add Topic..."
-  addShort: "Topic"
-  addHint: "Add new topic to top of list [Ctrl+Alt+T]"
-  quickAdd: "ADD TOPIC (to the end of list)"
-  edit: "Edit Topic"
-  save: "Save Topic"
-  show: "Show Topic"
-  subject: "Subject of Topic (mandatory)"
-  responsible: "Responsible"
-  completed: "Completed"
-  completedHint: "This topic is finally completed. So it won't be propagated to the next meeting."
-  setRecurring: "Set Recurring"
-  setRecurringHint: "Set as recurring topic"
-  unsetRecurring: "Unset Recurring"
-  unsetRecurringHint: "Set as not-recurring topic"
-  setSkip: "Set Skip"
-  setSkipHint: "Set as skipped topic"
-  unsetSkip: "Unset Skip"
-  unsetSkipHint: "Set as non-skipped topic"
-  history: "Show History"
-  historyHint: "Show complete finalized state of this topic"
-  delete: "Delete Topic"
-  reopen: "Reopen Topic"
-  reopenHint: "Reopen Topic"
-  placeholder: "Add Info Item. Append @username to add an Action Item. Press Enter to append details. Press Ctrl+Enter or Tab to submit."
-  childOf: "Topic of Meeting Series:"
-  historyTitle: "This Topic was"
-  createdOn: "created on:"
-  lastUpdate: "last updated on:"
-  finalizedOn: "finalized on minutes from:"
-  doneBy: "(by {$user})"
-  notFoundTitle: "Sorry, Topic not found."
-  notFoundReasons: "Reasons may be...<br><ul><li>The topic was never finalized (it only lives in an unfinalized minute)</li><li>The topic was deleted</li><li>You do not have access rights to this topic (anymore)</li></ul>"
-  illegalAction: "Tried to call an illegal event in read-only mode"
-  addDetails: "Add Details"
-  addDetailsHint: "Add details to item"
-  hideClosed: "Hide closed"
-  hideClosedHint: "Temporarily hide discussed/skipped topics from list"
-  hideClosedLong: "Hide closed topics"
-  collapse: "Collapse"
-  collapseLong: "Collapse Topics"
-  expand: "Expand"
-  expandLong: "Expand Topics"
+  title: "Θέμα"
+  new: "Νέο"
+  add: "Προσθήκη Θέματος"
+  addLong: "Προσθήκη Θέματος..."
+  addShort: "Θέμα"
+  addHint: "Προσθήκη νέου θέματος στην κορυφή της λίστας [Ctrl + Alt + T]"
+  quickAdd: "Προσθήκη θέματος (στο τέλος της λίστας)"
+  edit: "Επεξεργασία Θέματος"
+  save: "Αποθήκευση θέματος"
+  show: "Προβολή θέματος"
+  subject: "Αντικείμενο του θέματος (υποχρεωτικό)"
+  responsible: "Υπεύθυνος"
+  completed: "Ολοκληρωμένο"
+  completedHint: "Αυτό το θέμα ολοκληρώθηκε τελικά. Έτσι δεν θα διαδοθεί στην επόμενη συνάντηση."
+  setRecurring: "Ορισμός επανάληψης"
+  setRecurringHint: "Ορισμός ως επαναλαμβανόμενο θέμα"
+  unsetRecurring: "Ακύρωση επανάληψης"
+  unsetRecurringHint: "Ορισμός ως μη επαναλαμβανόμενο θέμα"
+  setSkip: "Ορισμός παράλειψης"
+  setSkipHint: "Ορισμός ως θέμα που θα παραληφθεί"
+  unsetSkip: "Ακύρωση παράλειψης"
+  unsetSkipHint: "Ορισμός ως θέμα που δεν θα παραληφθεί"
+  history: "Εμφάνιση ιστορικού"
+  historyHint: "Εμφάνιση πλήρους οριστικής κατάστασης αυτού του θέματος"
+  delete: "Διαγραφή θέματος"
+  reopen: "'Άνοιγμα ξανά του θέματος"
+  reopenHint: "'Άνοιγμα ξανά του θέματος"
+  placeholder: "Προσθήκη στοιχείου πληροφοριών. Δώστε το όνομα χρήστη @username για να προσθέσετε ένα στοιχείο δράσης. Πατήστε το πλήκτρο \"Enter\" για να προσθέσετε λεπτομέρειες. Πατήστε το πλήκτρο \"Ctrl + Enter\" ή \"Tab\" για υποβολή."
+  childOf: "Θέμα της σειράς του μίτινγκ:"
+  historyTitle: "Αυτό το θέμα ήταν"
+  createdOn: "δημιουργήθηκε στις:"
+  lastUpdate: "τελευταία ενημέρωση στις:"
+  finalizedOn: "ολοκληρώθηκε από σημειώσεις στις:"
+  doneBy: "(από τον {$user})"
+  notFoundTitle: "Λυπούμαστε, το θέμα δεν βρέθηκε."
+  notFoundReasons: "Λόγοι μπορεί να είναι... <br><ul><li> Το θέμα δεν ολοκληρώθηκε ποτέ (παραμένει σε μη ολοκληρωμένη σημείωση) </li><li> Το θέμα διαγράφηκε </li><li> Δεν έχετε δικαιώματα πρόσβασης στο θέμα αυτό (πια) </li></ul>"
+  illegalAction: "Έγινε προσπάθεια να κληθεί ένα παράνομο συμβάν σε λειτουργία μόνο για ανάγνωση"
+  addDetails: "Προσθήκη λεπτομερειών"
+  addDetailsHint: "Προσθήκη πληροφοριών σε στοιχείο"
+  hideClosed: "Απόκυψη κλειστού"
+  hideClosedHint: "Προσωρινή απόκρυψη συζητημένων θεμάτων ή θεμάτων που έχουν παραλειφθεί από τη λίστα"
+  hideClosedLong: "Απόκρυψη κλειστών θεμάτων"
+  collapse: "Σύμπτυξη"
+  collapseLong: "Σύμπτυξη θεμάτων"
+  expand: "Επέκταση"
+  expandLong: "Επέκταση θεμάτων"
   Error:
-    subject: "Please enter a valid subject"
+    subject: "Παρακαλώ εισάγετε ένα έγκυρο θέμα"
   Filter:
-    completed: "Completed Topics"
-    uncompleted: "Uncompleted Topics"
-    yourTopic: "Your Topics"
+    completed: "Ολοκληρωμένα θέματα"
+    uncompleted: "Μη ολοκληρωμένα θέματα"
+    yourTopic: "Τα θέματα σας"
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
-  create: "Create New Minutes"
-  date: "Date"
-  dateOn: "on"
-  title: "Minutes for"
-  finalized: "Finalized"
-  finalizedHint: "Minutes are finalized"
-  notFinalized: "Not finalized"
-  notFinalizedHint: "Minutes are not finalized"
-  attachments: "Attachments"
-  attachmentsHint: "Minutes have attachments"
-  previous: "Previous:"
-  next: "Next:"
-  history: "History"
-  unfinalizeHint: "Click to Un-Finalize Minutes"
-  print: "Print Minutes"
-  finalize: "Finalize Minutes"
-  finalizeHint: "Click to Finalize Minutes"
-  printHint: "Print Minutes"
-  downloadHint: "Download Minutes as file"
-  agenda: "Agenda"
-  sendAgenda: "Send Agenda"
-  delete: "Delete Minutes"
+  create: "Δημιουργία νέων σημειώσεων"
+  date: "Ημερομηνία"
+  dateOn: "στις"
+  title: "Σημειώσεις για"
+  finalized: "Ολοκληρωμένο"
+  finalizedHint: "Οι σημειώσεις είναι ολοκληρωμένες"
+  notFinalized: "Μη ολοκληρωμένο"
+  notFinalizedHint: "Οι σημειώσεις είναι μη ολοκληρωμένες"
+  attachments: "Συνημμένα"
+  attachmentsHint: "Οι σημειώσεις έχουν συνημμένα"
+  previous: "Προηγούμενο:"
+  next: "Επόμενο:"
+  history: "Ιστορικό"
+  unfinalizeHint: "Κλικάρετε να αφαιρέσε την ολοκλήρωση των σημειώσεων"
+  print: "Εκτύπωση σημειώσεων"
+  finalize: "Ολοκλήρωση σημειώσεων"
+  finalizeHint: "Κλικάρετε να ολοκληρώσετε τις σημειώσεις"
+  printHint: "Εκτύπωση σημειώσεων"
+  downloadHint: "Κατεβάστε τις σημειώσεις σε αρχείο"
+  agenda: "Ατζέντα"
+  sendAgenda: "Αποστολή αντζέντας"
+  delete: "Διαγραφή σημειώσεων"
   GlobalNotes:
-    pin: "Set as pinned global note"
-    unpin: "Set as non-pinned global note"
-    title: "Global Note"
-    placeholder: "Global notes for these minutes. Click pin to propagate notes to next minutes."
+    pin: "Καρφιτσώστε ως καθολικό υπόμνημα"
+    unpin: "Ξεκαρφιτσώστε ως καθολικό υπόμνημα"
+    title: "Καθολικό υπόμνημα"
+    placeholder: "Καθολικό υπόμνημα για τις σημειώσεις. Κλικάρετε να μεταδόσετε το υπόμνημα στις επόμενες σημειώσεις."
   Upload:
-    button: "Upload..."
-    uploading: "Uploading"
-    start: "Start Upload"
-    continue: "Continue Upload"
-    pause: "Pause Upload"
-    abort: "Abort Upload"
-    error: "Error during upload"
-  version: "Version"
-  versionTag: "v"
+    button: "Μεταφορτωτής..."
+    uploading: "Μεταφόρτωση"
+    start: "Έναρξη μεταφόρτωσης"
+    continue: "Συνέχεια μεταφόρτωσης"
+    pause: "Παύση μεταφόρτωσης"
+    abort: "Ματαίωση μεταφόρτωσης"
+    error: "Σφάλμα κατά την μεταφόρτωση"
+  version: "Έκδοση"
+  versionTag: "έ"
   Participants:
-    title: "Participants"
-    invited: "Invited"
-    solo: "1 Participant"
-    additional: "Additional Participants"
-    additionalSolo: "1 Additional Participant"
-    placeholder: "Additional Participants (separate with ';'). Mail addresses will receive minutes."
-    editHint: "Edit invited users."
-    markNone: "Mark none"
-    markAll: "Mark all"
-    watchingHint: "This user is watching (remotely)"
-    informed: "Informed Users"
-    informedSolo: "1 Informed User"
-    present: "Present Participants"
-    absent: "Absent"
-    none: "None."
+    title: "Συμμετέχοντες"
+    invited: "Καλεσμένος/η"
+    solo: "1 Συμμετέχων"
+    additional: "Περαιτέρω σμμετέχοντες"
+    additionalSolo: "1 περαιτέρω σμμετέχοντας"
+    placeholder: "Περαιτέρω σμμετέχοντες (χωρίστε με \";\"). Οι διευθύνσεις εμαιλ θα λάβουν τις σημειώσεις."
+    editHint: "Επεξεργασία καλλεσμένων χρηστών."
+    markNone: "Μαρκάρετε κανένα"
+    markAll: "Μαρκάρετε όλα"
+    watchingHint: "Ο χρήστης παρακολουθεί (απομακρυσμένα)"
+    informed: "Ενημερωμένοι χρήστες"
+    informedSolo: "1 ενημερωμένοι χρήστης"
+    present: "Παρώντες συμμετέχοντες"
+    absent: "Απών"
+    none: "Κανένα."
 MeetingSeries:
-  title: "Meeting Series"
-  team: "Team / Project"
-  new: "New Meeting Series"
-  leave: "Leave Meeting Series"
-  leaveButton: "Leave"
-  moderator: "You are moderator"
-  lastMinute: "Last Minute:"
+  title: "Σειρές μίτινγκ"
+  team: "Ομάδα / Πρότζεκτ"
+  new: "Νέα σειρά μίτινγκ"
+  leave: "Φύγετε από τη σειρά μίτινγκ"
+  leaveButton: "Φύγετε"
+  moderator: "Είστε διαχειριστής"
+  lastMinute: "Τελευταία σημείωση:"
   Search:
-    placeholder: "Search for Meeting Series"
-    noResults: "No results for this input..."
+    placeholder: "Αναζήτηση για σειρά μίτινγκ"
+    noResults: "Δεν υπάρχουν αποτελέσματα για αυτήν την είσοδο..."
   Edit:
     Error:
-      meetingName: "Please enter a valid name for the meeting series"
-      teamName: "Please enter a valid project name"
-      notRegistered: "This is not a registered user name"
-      alreadyInList: "This user name is already in list"
-    teamName: "Team / Project Name"
-    meetingName: "Meeting Name"
-    title: "Edit Meeting Series"
-    base: "Base Configuration"
-    editedBy: "Edited by {$user} (at {$date})"
-    invited: "Invited & Informed Users"
-    notifyRoleChange: "Notify participants on role change"
-    labels: "Labels"
-    save: "Save Meeting Series"
-    confirmDelete: "Confirm delete"
+      meetingName: "Παρακαλώ εισάγετε ένα έγκυρο όνομα για τη σειρά μίτινγκ"
+      teamName: "Παρακαλώ εισάγετε ένα έγκυρο όνομα πρότζεκτ"
+      notRegistered: "Αυτό δεν είναι ένα καταχωρημένο όνομα χρήστη"
+      alreadyInList: "Το όνομα χρήστη χρησιμοποιείται ήδη στη λίστα"
+    teamName: "Ομάδα / Όνομα Πρότζεκτ"
+    meetingName: "Όνομα μίτινγκ"
+    title: "Επεξεργασία σειράς μίτινγκ"
+    base: "Βασική παραμετροποίηση"
+    editedBy: "Επεξεργασία από {$user} (στις {$date})"
+    invited: "Προσκεκλημένοι και ενημερωμένοι χρήστες"
+    placeholderUsers: "Add Users to Invited Users..."
+    notifyRoleChange: "Ειδοποιήστε τους συμμετέχοντες σχετικά με την αλλαγή ρόλου"
+    labels: "Ετικέτες"
+    save: "Αποθήκευση σειράς μίτινγκ"
+    confirmDelete: "Επιβεβαίωση διαγραφής"
   Labels:
     Error:
-      name: "Please enter a valid label name"
-      hexValue: "Invalid hex color value"
-    add: "Add new Label"
-    new: "NewLabel"
-    select: "Select..."
+      name: "Παρακαλώ δώστε ένα έγκυρο όνομα ετικέτας"
+      hexValue: "Μη έγκυρη τιμή hex χρώματος"
+    add: "Προσθήκη νέας ετικέτας"
+    new: "Νέα ετικέτα"
+    select: "Επιλογή..."
   Tab:
-    minutes: "Minutes"
-    topics: "Topics"
-    items: "Items"
+    minutes: "Σημειώσεις"
+    topics: "Θέματα"
+    items: "Στοιχεία"
 Profile:
-  userName: "User Name"
-  longName: "Long Name"
-  email: "E-Mail"
-  password: "Password"
-  passwordRepeat: "Password Repeat"
+  title: "Edit Profile for"
+  userName: "Όνομα χρήστη"
+  longName: "Πλήρες Όνομα"
+  email: "Διεύθυνση εμαιλ"
+  password: "Κωδικός πρόσβασης"
+  passwordRepeat: "Κωδικός Πρόσβασης (ξανά)"
   ChangePassword:
-    oldPassword: "Old Password"
-    wrongOldPassword: "Please enter old valid password"
-    newPassword: "New Password"
-    newPasswordRepeat: "New Password Repeat"
+    title: "Change Password for"
+    oldPassword: "Παλιός Κωδικός πρόσβασης"
+    wrongOldPassword: "Παρακαλώ δώστε τον έγκυρο παλιό κωδικό πρόσβασης"
+    newPassword: "Νέος κωδικός πρόσβασης"
+    newPasswordRepeat: "Νέος κωδικός χρήστη (ξανά)"
   Error:
-    name: "Please enter a valid username"
-    longName: "Please enter a valid long name"
-    email: "Please enter a valid EMail address"
-    password: "Please enter a valid password"
+    name: "Παρακαλώ εισάγετε ένα έγκυρο όνομα χρήστη"
+    longName: "Παρακαλώ δώστε ένα έγκυρο πλήρες όνομα"
+    email: "Παρακαλώ εισάγετε μία έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου"
+    password: "Παρακαλώ δώστε έναν έγκυρο κωδικό πρόσβασης"
   WarningEMailChange:
-    title: "Confirm changing user mail"
-    body: "You are about to change your verified mail address. You will be signed out and need to verify your new mail address before you can continue."
-    button: "Sign off + Re-Verify"
+    title: "Επιβεβαιώστε την αλλαγή εμαιλ χρήστη"
+    body: "Πρόκειται να αλλάξετε την επαληθευμένη διεύθυνσή σας ηλεκτρονικού ταχυδρομείου. Θα αποσυνδεθείτε και θα πρέπει να επαληθεύσετε τη νέα σας διεύθυνση ηλεκτρονικού ταχυδρομείου προτού συνεχίσετε."
+    button: "Αποσυνδεθείτε + Επανάληψη επαλήθευσης"
 Admin:
-  users: "Users"
-  messages: "Messages"
+  users: "Χρήστες"
+  messages: "Μηνύματα"
   Register:
-    label: "Register New User"
-    hint: "Hint: This will register a user for Standard Login (Not for LDAP Login!)."
-    button: "Register New User..."
-    sendMail: "Send E-Mail to new user"
-    includePassword: "Include password in E-Mail"
-    success: "Registered new user: {$user}"
+    label: "Εγγραφή νέου χρήστη"
+    hint: "Υπόδειξη: Αυτό θα εγγράψει το χρήστη για την τυπική σύνδεση (όχι για σύνδεση LDAP!)."
+    button: "Εγγραφή νέου χρήστη..."
+    sendMail: "Αποστολή εμαιλ σε νέο χρήστη"
+    includePassword: "Να περιέχετε ο κωδικός πρόσβασης στο εμαιλ"
+    success: "Εγγραφή νέου χρήστη: {$user}"
   Message:
-    title: "Broadcast Messages from Admin"
-    newMessage: "New Message to All Users"
-    broadcast: "Broadcast"
-    date: "Date"
-    message: "Message"
-    dismissed: "Dismissed"
-    dismissingUsers: "#Dismissing Users: {$number}\n"
-    edit: "Edit"
+    title: "Εκπομπή μηνυμάτων από το διαχειριστή"
+    newMessage: "Νέο μήνυμα σε όλους τους χρήστες"
+    broadcast: "Εκπομπή"
+    date: "Ημερομηνία"
+    message: "Μηνύμα"
+    dismissed: "Απόρριψη"
+    dismissingUsers: "#Απόρριψη χρηστών: {$number}"
+    edit: "Επεξεργασία"
   Users:
-    filterUsers: "Filter Users"
-    showInactive: "Show Inactive"
-    online: "Online"
-    onlineHint: "Showing only users currently active on a minutesedit route"
-    id: "ID"
-    editProfile: "Edit User Profile"
-    countSingle: "Showing {$visible} of {$all} user. Use filter to show others."
-    count: "Showing {$visible} of {$all} users. Use filter to show others."
+    filterUsers: "Φιλτράρισμα χρηστών"
+    showInactive: "Παρουσίαση μη ενεργών"
+    online: "Συνδεδεμένος"
+    onlineHint: "Εμφάνιση μόνο των χρηστών που είναι ενεργοί στις σημειώσεις"
+    id: "Αναγνωριστικό"
+    editProfile: "Επεξεργασία Προφίλ Χρήστη"
+    countSingle: "Εμφάνιση {$visible} από {$all} χρήστη. Χρησιμοποιήστε το φίλτρο για να εμφανίσετε άλλους."
+    count: "Εμφάνιση {$visible} από {$all} χρήστες. Χρησιμοποιήστε το φίλτρο για να εμφανίσετε άλλους."
     Type:
-      hint: "LDAP user or Standard user"
+      hint: "Χρήστης LDAP ή τυπικός χρήστης"
       column: "L/S"
       ldap: "L"
       standard: "S"
     State:
-      hint: "Toggle active/inactive state. Inactive users can not log in."
-      column: "In/Active"
-      active: "Active"
-      inactive: "Inactive"
-      toggle: "Toggle"
+      hint: "Εναλλαγή ενεργής/ανενεργής κατάστασης. Οι ανενεργοι χρήστες δεν μπορούν να συνδεθούν."
+      column: "Ανενεργός/Ενεργός"
+      active: "Ενεργός"
+      inactive: "Ανενεργός"
+      toggle: "Εναλλαγή"
 Login:
   Error:
-    title: "Login error"
-    username: "Please enter your username"
-    password: "Please enter your password"
-  signIn: "Sign In"
+    title: "Σφάλμα σύνδεσης"
+    username: "Παρακαλώ εισάγετε το όνομα χρήστη"
+    password: "Παρακαλώ εισάγετε τον κωδικό πρόσβασής"
+  signIn: "Είσοδος"
   ldap: "LDAP"
-  standard: "Standard"
-  demoHint: "Hint: Demo Mode Active<br>You may log in with username <b>demo</b> and password <b>demo</b>. Or you may register your own account by clicking on the \"Register\" link below."
+  standard: "Τυπικός"
+  demoHint: "Υπόδειξη: Κατάσταση demo ενεργη. <br> Μπορείτε να συνδεθείτε με όνομα χρήστη <b>demo</b> και κωδικό πρόσβασης <b>demo</b>. Ή μπορείτε να εγγραφείτε κάνοντας κλικ στο σύνδεσμο \"Εγγραφή\" παρακάτω."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Meeting Minutes."
-    subheader: "● Prepare Agenda ● Document Minutes ● Track Topics ●"
+    header: "4Minitz: Συνεργατικές σημείωσης συνάντησης."
+    subheader: "● Προετοιμασία ατζέντας ● Συγγραφή σημειώσεων ● Παρακολούθηση θεμάτων ●"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
-    prepareAgendaHeading: "Prepare Agenda"
+      <p> Κάθε χρήστης που έχει προσκληθεί και συνδεθεί μπορεί να παρακολουθεί τις αλλαγές στις σημειώσεις του μίτινγκ σε πραγματικό χρόνο. </p>
+      Δημιουργήσαμε το 4Minitz ως δωρεάν λογισμικό ανοιχτού κώδικα, γιατί πιστεύουμε ακράδαντα ευαίσθητες πληροφορίες όπως οι σημειώσεις ενός μίτινγκ δεν πρέπει να φιλοξενούνται στο σύννεφο. Αντίθετα, θέλετε να τα φιλοξενήσετε στη δική σας υποδομή όπου μπορείτε να ορίσετε το επίπεδο ασφάλειας που χρειάζεστε.
+    prepareAgendaHeading: "Προετοιμασία αντζέντας"
     prepareAgendaDetails: |
-      <li>Create your meeting series</li>
-      <li>Invite other users</li>
-      <li>Specify moderators and uploaders</li>
-      <li>Fill agenda with topics</li>
-      <li>Mark recurring topics for standard agenda</li>
-      <li>Send agenda to invited users</li>
-    documentMinutesHeading: "Document Minutes"
+      <li>Δημιουργήστε τη σειρά μίτινγκ σας</li>
+      <li>Πρόσκληση άλλων χρηστών</li>
+      <li>Καθορίστε τους διαχειριστές και τους χρήστες που μπορούν να μεταφορτώνουν</li>
+      <li>Συμπληρώστε την ατζέντα με θέματα</li>
+      <li>Επισημάνετε τα επαναλαμβανόμενα θέματα για τυπική ατζέντα</li>
+      <li>Αποστολή αντζέντας στους προσκεκλημένους χρήστες</li>
+    documentMinutesHeading: "Κρατήστε σημειώσεις του μίτινγκ"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
-    trackTopicsHeading: "Track Topics"
+      <li>Μαρκάρετε παρώντες συμμετέχοντες</li>
+      <li>Προσθηκη στοιχείων δράσης με επεύθυνους στα θέματα</li>
+      <li>Προσθήκη στοιχείων πληροφοριών στα θέματα</li>
+      <li>Προσθήκη ετικετών όπως "Απόφαση" σε στοιχεία</li>
+      <li>Μεταφόρτωση επισυναπτώμενων αρχείων</li>
+      <li>Αποστολή σημειώσεων, στοιχείων δράσης μέσω εμαιλ</li>
+    trackTopicsHeading: "Παρακολουθήστε θέματα"
     trackTopicsDetails: |
-      <li>Open action items will show up next time</li>
-      <li>Non-closed topics will show up next time</li>
-      <li>Search list of all ever discussed topics</li>
-      <li>Enrich topics with info items on multiple meetings</li>
-      <li>Find topics with labels (e.g. all Decisions)</li>
-      <li>Find items by fulltext search</li>
+      <li>Τα ανοιχτά στοιχεία δράσης θα εμφανιστούν και την επόμενη φορά</li>
+      <li>Τα μη κλειστά θέματα θα εμφανιστούν και την επόμενη φορά</li>
+      <li>Αναζήτηση λίστας όλων των συζητημένων θεμάτων</li>
+      <li>Εμπλουτίστε θέματα με στοιχεία πληροφοριών σε πολλά μίτινγκς</li>
+      <li>Αναζητήστε θέματα με ετικέτες (για παράδειγμα Αποφάσεις)</li>
+      <li>Αναζητήστε στοιχεία με αναζήτηση πλήρους κειμένου</li>
   Footer:
-    withLove: "Coded with ❤ by the"
-    theTeam: "WebApp Team"
+    withLove: "Κωδικοποιημένο με ❤ από το"
+    theTeam: "Ομάδα WebApp"
 Navigation:
-  help: "Help"
-  about: "About"
-  adminTasks: "Admin Tasks"
-  editProfile: "Edit Profile"
-  changePassword: "Change Password"
-  signOut: "Sign Out"
-  toggleNavigation: "Toggle Navigation"
-  meetings: "Meetings"
-  processing: "Processing your content..."
-  setLanguageForUser: "Set Language"
-  setLanguageLogin: "Language"
+  help: "Βοήθεια"
+  about: "Σχετικά"
+  adminTasks: "Εργασίες Διαχειριστή"
+  editProfile: "Επεξεργασία προφίλ"
+  changePassword: "Αλλαγή κωδικού πρόσβασης"
+  signOut: "Αποσύνδεση"
+  toggleNavigation: "Εναλλαγή πλοήγησης"
+  meetings: "Μίτινγκς"
+  processing: "Επεξεργασία περιεχομένου..."
+  setLanguageForUser: "Ορισμός γλώσσας"
+  setLanguageLogin: "Γλώσσα"
 QuickHelp:
-  title: "Quick Help"
-  meetingSeries: "<p>Here you may create new minutes for the current meeting series or click on a date link of existing minutes.</p>"
-  meetingSeriesList: "<p>With 4Minitz you can create minutes for meetings.</p><p>First create a new meeting series and invite some other users.<br>Then create meeting minutes on multiple dates for your meeting series.</p>"
-  minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
-  upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+  title: "Γρήγορη βοήθεια"
+  meetingSeries: "<p>Εδώ μπορείτε να δημιουργήσετε σημειώσεις για την τρέχουσα σειρά μίτινγκς ή να κλικάρετε σε μια ημερομηνία των υφιστάμενων σημειώσεων. </p>"
+  meetingSeriesList: "<p>Με το 4Minitz μπορείτε να δημιουργήσετε σημειώσεις για μίτινγκς. </p><p> Πρώτα δημιουργήστε μια νέα σειρά μίτινγκς και προσκαλέστε χρήστες. <br> Στη συνέχεια, δημιουργήστε σημειώσεις μίτινγκ σε πολλαπλές ημερομηνίες για τη σειρά μίτινγκ σας.</p>"
+  minutes: "<p>Προσθήκη θεμάτων για να προετοιμάσετε την αντζέντα του μίτινγκ<br>Κατά την διάρκεια του μίτινγκ μαρκάρετε ένα θέμα με το πλαίσιο ελέγχου για να δηλώσετε ότι το έχετε συζητήσει.<br>Εάν το θέμα...<br>&nbsp;&nbsp; - δεν έχει μαρκαριστεί ως συζητημένο ή <br>&nbsp;&nbsp; - έχει τεθεί ως επαναλμβανώμενο ή <br>&nbsp;&nbsp; - περιέχει μη ολοκληρωμένα στοιχεία δράσης<br>... το θέμα θα παρουσιαστεί ξανά στο μίτινγκ.</p><p>Κλικάρετε \"Ολοκλήρωση σημειώσεων\" για να στείλετε τις σημειώσεις του μίτινγκ στους καλεσμένους χρήστες και τα στοιχεία δράσης στους υπεύθυνους.</p>"
+  upload: "<ul><li>Εδώ μπορείτε να ανεβάσετε αρχεία όπως π.χ. παρουσιάσεις, PDF ή φωτογραφίες whiteboard </li><li>Χρειάζεστε το ρόλο Μεταφορτωτή ή Διαχειριστή για να το κάνετε </li><li> Μεταφόρτωση ή διαγραφή είναι δυνατά μέχρι να οριστικοποιηθούν οι σημειώσεις</li><li> Pro Υπόδειξη: Κάντε κλικ στο κουμπί \"Μεταφόρτωση\" στο tablet ή στο τηλέφωνο! </li></ul>"
 Mail:
-  greeting: "Hello"
-  newAgenda: "We've got a brand new meeting agenda for you:"
-  newActionItem: "You have been assigned to the following action items:"
-  newMinutes: "Below you'll find the latest meeting minutes."
-  meeting: "Meeting"
-  links: "Links"
-  openSeries: "Open Series"
-  openMinutes: "Open Minutes"
-  minutesSubject: "Meeting Minutes"
-  discussedTopics: "Discussed Topics"
-  skippedTopics: "Open Topics"
-  none: "None"
+  greeting: "Γεια σας"
+  newAgenda: "Έχουμε μια ολοκαίνουργια ατζέντα για εσάς:"
+  newActionItem: "Σας έχουν ανατεθεί τα παρακάτω στοιχεία δράσης:"
+  newMinutes: "Παρακάτω θα βρείτε τα τελευταίες σημειώσεις του μίτινγκ."
+  meeting: "Μίτινγκ"
+  links: "Σύνδεσμοι"
+  openSeries: "Ανοιχτές σειρές"
+  openMinutes: "Ανοιχτές σημειώσεις"
+  minutesSubject: "Σημειώσεις μίτινγκ"
+  discussedTopics: "Συζητημένα θέματα"
+  skippedTopics: "Ανοιχτά θέματα"
+  none: "Κανένα"
   AdminNewVersion:
-    subject: "Newer version exists"
+    subject: "Υπάρχει νέα έκδοση"
     body: |
-      Hello Admin,
+      Γεια σας Admin,
 
-      It seems you are running an outdated version of 4Minitz.
+      Φαίνεται ότι τρέχετε μια ξεπερασμένη έκδοση του 4Minitz.
 
-      Your 4Minitz instance on: {$rootUrl}
-      has version: {$myVersion}
+      Το 4Minitz σας στο: {$rootUrl}
+      έχει την έκδοση: {$myVersion}
 
-      Newest version available is: {$masterVersion}'
-      Release notes: {$urlReleaseNotes}
-      Please consider to update.
+      Η νεότερη διαθέσιμη έκδοση είναι η: {$masterVersion}'
+      Σημειώσεις έκδοσης: {$urlReleaseNotes}
+      Παρακαλούμε να σκεφτείτε να ενημερώσετε την έκδοση σας.
 
       {$masterMessageText}
 
-      This mail was generated by your 4Minitz backend.
-      You can disable the update check via settings.json: \"updateCheck\": false.
+      Αυτή η αλληλογραφία δημιουργήθηκε από τον εξυπηρετητή του 4Minitz.
+      Μπορείτε να απενεργοποιήσετε τον έλεγχο ενημέρωσης μέσω του settings.json: \"updateCheck\": false.
 
       Have fun!
-              Your 4Minitz team.
+              Η ομάδα του 4Minitz.
 
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      Το 4Minitz είναι δωρεάν λογισμικό ανοικτού κώδικα που αναπτύχθηκε από την ομάδα 4Minitz.
+      Η πηγή είναι διαθέσιμη στο {$url4Minitz}
   AdminRegisterNewUser:
-    subject: "Your new account at our server"
-    passwordNotSend: "    Contact admin for password."
+    subject: "Ο νέος σας λογαριασμός στο διακομιστή μας"
+    passwordNotSend: "    Επικοινωνήστε με το admin για τον κωδικό πρόσβασης."
     passwordParagraph: |
-      Your password : {$password}
+      Ο κωδικός πρόσβασής σας: {$password}
 
-      Don't forget to change your password after first login!
+      Μην ξεχάσετε να αλλάξετε τον κωδικό πρόσβασής σας μετά την πρώτη είσοδο!
     body: |
-      Hello {$userLongName},
+      Γεια σας {$userLongName},
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      Καλώς ήλθατε στο 4Minitz WebApp.
+      Τώρα μπορείτε να αρχίσετε να συμμετέχετε στην τήρηση επαγγελματικών σημειώσεων μίτινγκ.
 
-      You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+      Μπορείτε να συνδεθείτε με την επιλογή "Τυπικό" (όχι LDAP!) στη διεύθυνση:
+        Ο οικοδεσπότης σας     : {$rootURL}
+        Ο χρήστης σας    : {$userName}
       {$passwordParagraph}
 
       Have fun!
-        Your Admin.
+              Η ομάδα του 4Minitz.
+
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      Το 4Minitz είναι δωρεάν λογισμικό ανοικτού κώδικα που αναπτύχθηκε από την ομάδα 4Minitz.
+      Η πηγή είναι διαθέσιμη στο {$url4Minitz}
   UserRoleChange:
-    subject: "Your role has changed for '{$meetingProject}:{$meetingName}'"
+    subject: "Ο ρόλος σας έχει αλλάξει για \"{$meetingProject}:{$meetingName}\""
     body: |
-      Hello {$userName}
+      Γεια σας {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      Ο ρόλος σας έχει αλλάξει για τη σειρά μίτινγκ '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Ο παλίος σας ρόλος           : {$roleOld}
+         Ο νέος σας ρόλος            : {$roleNew}
+         Η αλλαγή πραγματοποιήθηκε από : {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      Για μια πλήρη λίστα δικαιωμάτων για κάθε ρόλο δείτε:
       {$urlRoleDocu}
 
       Have fun!
-        Your Admin.
+              Η ομάδα του 4Minitz.
+
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      Το 4Minitz είναι δωρεάν λογισμικό ανοικτού κώδικα που αναπτύχθηκε από την ομάδα 4Minitz.
+      Η πηγή είναι διαθέσιμη στο {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.

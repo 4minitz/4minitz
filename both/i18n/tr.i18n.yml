@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Silme işlemi doğruluyor mu?"
     body: "Bunu sileceğinden emin misiniz?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Yeni Dakika Oluşturma İşlemini Doğrula"
     content: "Toplantı serileri için gerçekten yeni dakikalar yaratmak istiyor musunuz \"{$project}: {$name} \" mi?"
@@ -101,6 +104,8 @@ Dialog:
     title: "Dil Ayarla"
     languageLocale: "Dil Ülke Değeri"
     automatic: "Tarayıcı Aracılığıyla Otomatik"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
     title: "Var olan düzenlemeye rağmen düzenle"
     confirmationDialogResetEdit: "Uyarı: Bu belge, şu anda {$name} tarafından düzenlenmiştir: {$date}"
@@ -148,6 +153,7 @@ About:
   licensedUnder: "MIT-Lisans kapsamında lisanslanır"
   licenseDependencies: "Bağımlılıklar Lisansı"
   thanksContributors: "Tüm Katkı Sağlayıcılarımız Sayesinde"
+  thanksTranslators: "Thanks To All Our Translators"
   proudlySponsored: "Gururla Sponsor Olan"
   specialThanks: "Bu Projeler Sayesinde özel"
   forkGitHub: "Bizi GitHub 'a at."
@@ -180,6 +186,10 @@ Item:
   details: "Ayrıntılar"
   addDetails: "Ayrıntı ekle"
   priority: "Öncelik"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
   due: "Son Tarih"
   dueNone: "yok"
   detailPlaceholder: "Düzenlemek için Markdown 'ı kullanabilirsiniz. Çıkmak için Ctrl + Enter ya da Sekme tuşlarına basın."
@@ -264,6 +274,12 @@ Topic:
     completed: "Tamamlanan Konular"
     uncompleted: "Tamamlanmamış Konular"
     yourTopic: "Konularınız"
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
   create: "Yeni Dakika Oluştur"
   date: "Tarih"
@@ -341,6 +357,7 @@ MeetingSeries:
     base: "Temel Yapılandırma"
     editedBy: "Düzenleyen: {$user} (saat: {$date})"
     invited: "Davet Edilen ve Belirsiz Kullanıcılar"
+    placeholderUsers: "Add Users to Invited Users..."
     notifyRoleChange: "Katılımcılara rol değişikliği konusunda bildirim gönder"
     labels: "Etiketler"
     save: "Toplantı Dizisini Kaydet"
@@ -357,12 +374,14 @@ MeetingSeries:
     topics: "Konular"
     items: "Öğeler"
 Profile:
+  title: "Edit Profile for"
   userName: "Kullanıcı Adı"
   longName: "Uzun Ad"
   email: "E-Posta"
   password: "Parola"
   passwordRepeat: "Parola yineleniyor"
   ChangePassword:
+    title: "Change Password for"
     oldPassword: "Eski Parola"
     wrongOldPassword: "Lütfen eski geçerli parolayı girin"
     newPassword: "Yeni Parola"
@@ -562,3 +581,21 @@ Mail:
       ---
       4Minitz, 4Minitz ekibi tarafından geliştirilmiş ücretsiz bir açık kaynaktır.
       Kaynak {$url4Minitz}" linkinde mevcut
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.

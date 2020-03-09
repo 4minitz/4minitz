@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Confirmer la suppression?"
     body: "Êtes-vous sûr de vouloir supprimer cela ?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Voulez-vous vraiment supprimer la série de réunions"
+    questionMinutes: "Cette série contient {$minutesCount} minutes de réunion (dernière minute de {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Confirmer la création de nouvelles minutes"
     content: "Voulez-vous vraiment créer de nouvelles minutes pour la série de réunions \"{$project}: {$name} \" ?"
@@ -101,6 +104,8 @@ Dialog:
     title: "Définir la langue"
     languageLocale: "Langue locale"
     automatic: "Automatique via le navigateur"
+    contributionHint1: "Des erreurs de traduction ou une langue manquante?"
+    contributionHint2: "Aidez-nous à traduire 4Minitz!"
   IsEditedHandling:
     title: "Modifier malgré l'édition existante"
     confirmationDialogResetEdit: "AVERTISSEMENT : Ce document est actuellement modifié par {$name} depuis : {$date}"
@@ -148,6 +153,7 @@ About:
   licensedUnder: "Licencié sous la licence MIT"
   licenseDependencies: "Licence de dépendances"
   thanksContributors: "Merci à tous nos contributeurs"
+  thanksTranslators: "Merci à tous nos traducteurs"
   proudlySponsored: "Sponsored par"
   specialThanks: "Merci à ces projets"
   forkGitHub: "Forcer sur GitHub"
@@ -180,6 +186,10 @@ Item:
   details: "Détails"
   addDetails: "Ajouter des détails"
   priority: "Priorité"
+  Priorities:
+    high: "1 - Haut"
+    medium: "3 - Moyen"
+    low: "5 - Bas"
   due: "Remise"
   dueNone: "Aucune"
   detailPlaceholder: "Vous pouvez utiliser Markdown pour modifier. Appuyez sur Ctrl+Enter ou Tab pour quitter."
@@ -264,6 +274,12 @@ Topic:
     completed: "Sujets terminés"
     uncompleted: "Sujets non terminés"
     yourTopic: "Vos sujets"
+  TooltipCreated:
+    date: "Créé le {$dateCreateStr}"
+    user: "par {$userCreate}"
+  TooltipUpdated:
+    date: "Mis à jour {$dateUpdStr}"
+    user: "par {$userUpd}"
 Minutes:
   create: "Créer un nouveau procès-verbal"
   date: "Date"
@@ -341,6 +357,7 @@ MeetingSeries:
     base: "Configuration de base"
     editedBy: "Modifié par {$user} (à {$date})"
     invited: "Utilisateurs invités et informés"
+    placeholderUsers: "Ajouter des utilisateurs à des utilisateurs invités..."
     notifyRoleChange: "Notifier les participants au changement de rôle"
     labels: "Libellés"
     save: "Enregistrer la série de réunions"
@@ -357,12 +374,14 @@ MeetingSeries:
     topics: "Sujets"
     items: "Articles"
 Profile:
+  title: "Modifier le profil pour"
   userName: "Nom de l'utilisateur"
   longName: "Nom long"
   email: "E-mail"
   password: "Mot de passe"
   passwordRepeat: "Répéter le mot de passe"
   ChangePassword:
+    title: "Changer le mot de passe pour"
     oldPassword: "Ancien mot de passe"
     wrongOldPassword: "Veuillez entrer un ancien mot de passe valide"
     newPassword: "Nouveau mot de passe"
@@ -562,3 +581,21 @@ Mail:
       ---
       4Minitz est un logiciel libre et libre développé par l'équipe 4Minitz.
       Source est disponible sur {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Vérifiez votre adresse e-mail"
+    body: |
+      Pour vérifier votre adresse e-mail {$emailAddress} visitez le lien suivant :
+
+      {$urlWithoutHash}
+
+      Si vous n'avez pas demandé cette vérification, veuillez ignorer cet e-mail.
+      Si vous pensez que quelque chose ne va pas, veuillez contacter votre équipe d'administration.
+  ResetPassword:
+    subject: "[{$sitename}] Réinitialiser votre mot de passe"
+    body: |
+      Pour réinitialiser votre mot de passe pour {$emailAddress} , visitez le lien suivant :
+
+      {$urlWithoutHash}
+
+      Si vous n'avez pas demandé de réinitialiser votre mot de passe, veuillez ignorer cet e-mail.
+      Si vous pensez que quelque chose ne va pas, veuillez contacter votre équipe d'administration.

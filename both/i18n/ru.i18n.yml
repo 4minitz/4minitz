@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "Подтвердить удаление?"
     body: "Вы уверены, что хотите удалить это?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Вы действительно хотите удалить серию встреч"
+    questionMinutes: "Эта серия содержит {$minutesCount} минут встречи (последние минут {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Подтвердите создание новых минут"
     content: "Вы действительно хотите создать новые минуты для серии \"{$project}: {$name}\"?"
@@ -101,6 +104,8 @@ Dialog:
     title: "Установить язык"
     languageLocale: "Язык"
     automatic: "Автоматически через браузер"
+    contributionHint1: "Ошибка перевода или отсутствует язык?"
+    contributionHint2: "Помогите нам перевести 4Minitz!"
   IsEditedHandling:
     title: "Редактировать, несмотря на существующее редактирование"
     confirmationDialogResetEdit: "Предупреждение: Этот документ в настоящее время редактируется {$name} с: {$date}"
@@ -148,6 +153,7 @@ About:
   licensedUnder: "Лицензия лицензирована на MIT"
   licenseDependencies: "Лицензия зависимостей"
   thanksContributors: "Спасибо всем нашим спонсорам"
+  thanksTranslators: "Спасибо всем нашим переводчикам"
   proudlySponsored: "Непрерывно спонсируется"
   specialThanks: "Особая благодарность этим проектам"
   forkGitHub: "Fork us on GitHub"
@@ -180,6 +186,10 @@ Item:
   details: "Детали"
   addDetails: "Добавить подробности"
   priority: "Приоритет"
+  Priorities:
+    high: "1 - Высокий"
+    medium: "3 - Средний"
+    low: "5 - Низкий"
   due: "Срок сдачи"
   dueNone: "нет"
   detailPlaceholder: "Вы можете изменить Markdown для редактирования. Нажмите Ctrl+Enter или Tab чтобы уйти."
@@ -264,6 +274,12 @@ Topic:
     completed: "Завершенные темы"
     uncompleted: "Не завершенные темы"
     yourTopic: "Ваши темы"
+  TooltipCreated:
+    date: "Создано {$dateCreateStr}"
+    user: "от {$userCreate}"
+  TooltipUpdated:
+    date: "Обновлено {$dateUpdStr}"
+    user: "от {$userUpd}"
 Minutes:
   create: "Создать новые минуты"
   date: "Дата"
@@ -341,6 +357,7 @@ MeetingSeries:
     base: "Базовая конфигурация"
     editedBy: "Изменено {$user} (в {$date})"
     invited: "Приглашенные и информированные пользователи"
+    placeholderUsers: "Добавить пользователей в приглашенных пользователей..."
     notifyRoleChange: "Уведомлять участников о смене роли"
     labels: "Метки"
     save: "Сохранить серию встреч"
@@ -357,12 +374,14 @@ MeetingSeries:
     topics: "Темы"
     items: "Элементы"
 Profile:
+  title: "Изменить профиль для"
   userName: "Имя пользователя"
   longName: "Длинное имя"
   email: "Электронная почта"
   password: "Пароль"
   passwordRepeat: "Повтор пароля"
   ChangePassword:
+    title: "Изменить пароль для"
     oldPassword: "Старый пароль"
     wrongOldPassword: "Пожалуйста, введите старый правильный пароль"
     newPassword: "Новый пароль"
@@ -562,3 +581,21 @@ Mail:
       ---
       4Minitz является свободным открытым исходным кодом, разработанным командой 4Minitz.
       Исходный код доступен по адресу {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Подтвердить адрес электронной почты"
+    body: |
+      Чтобы подтвердить ваш адрес электронной почты {$emailAddress} , перейдите по следующей ссылке:
+
+      {$urlWithoutHash}
+
+      Если вы не запрашивали эту верификацию, игнорируйте это письмо.
+      Если что-то не так, обратитесь к команде администратора.
+  ResetPassword:
+    subject: "[{$sitename}] Сбросить пароль"
+    body: |
+      Чтобы сбросить пароль для {$emailAddress} перейдите по следующей ссылке:
+
+      {$urlWithoutHash}
+
+      Если вы не запрашивали сброс пароля, игнорируйте это письмо.
+      Если что-то не так, обратитесь к команде администратора.

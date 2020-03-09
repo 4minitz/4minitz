@@ -44,6 +44,9 @@ Dialog:
   ConfirmDelete:
     title: "削除の確認 ?"
     body: "これを削除しますか ?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Do you really want to delete the meeting series"
+    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "新規議事録の作成の確認"
     content: "ミーティングシリーズの新しい議事録を作成しますか ?{$project}: {$name}\"?"
@@ -101,6 +104,8 @@ Dialog:
     title: "言語の設定"
     languageLocale: "言語ロケール"
     automatic: "ブラウザーを介して自動"
+    contributionHint1: "Translation mistakes or missing language?"
+    contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
     title: "既存の編集にかかわらず編集"
     confirmationDialogResetEdit: "警告: このドキュメント・リストは、 {$date} 以降、 {$name} によって現在編集されています。"
@@ -148,6 +153,7 @@ About:
   licensedUnder: "MITライセンス下でライセンス交付されている"
   licenseDependencies: "依存関係のライセンス"
   thanksContributors: "すべての協力者に感謝する"
+  thanksTranslators: "Thanks To All Our Translators"
   proudlySponsored: "誇らしげに Sponsored"
   specialThanks: "これらのプロジェクトの特別支援"
   forkGitHub: "GitHub上でのフォーク"
@@ -180,6 +186,10 @@ Item:
   details: "経緯"
   addDetails: "詳細の追加"
   priority: "優先順位"
+  Priorities:
+    high: "1 - High"
+    medium: "3 - Medium"
+    low: "5 - Low"
   due: "デュー"
   dueNone: "なし"
   detailPlaceholder: "マークダウンを使用して編集することができます。 Ctrl +Enter キーまたは Tab キーを押して、終了します。"
@@ -264,6 +274,12 @@ Topic:
     completed: "完了したトピック"
     uncompleted: "未完了のトピック"
     yourTopic: "お客様のトピック"
+  TooltipCreated:
+    date: "Created {$dateCreateStr}"
+    user: "by {$userCreate}"
+  TooltipUpdated:
+    date: "Updated {$dateUpdStr}"
+    user: "by {$userUpd}"
 Minutes:
   create: "新規議事録の作成"
   date: "日付"
@@ -341,6 +357,7 @@ MeetingSeries:
     base: "基本構成"
     editedBy: "{$user} により編集( {$date})"
     invited: "招待されたユーザーと形式化されたユーザー"
+    placeholderUsers: "Add Users to Invited Users..."
     notifyRoleChange: "役割変更の参加者に通知する"
     labels: "ラベルス"
     save: "ミーティング・シリーズの保存"
@@ -357,12 +374,14 @@ MeetingSeries:
     topics: "トピックス"
     items: "事項"
 Profile:
+  title: "Edit Profile for"
   userName: "ユーザー名"
   longName: "ロング・ネーム"
   email: "E メール"
   password: "パスワード"
   passwordRepeat: "パスワードの繰り返し"
   ChangePassword:
+    title: "Change Password for"
     oldPassword: "古いパスワード"
     wrongOldPassword: "古い有効なパスワードを入力してください"
     newPassword: "新規パスワード"
@@ -562,3 +581,21 @@ Mail:
       ---
       4Minitz is free open source developed by the 4Minitz team.
       Source is available at {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Verify Your Email Address"
+    body: |
+      To verify your email address {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request this verification, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
+  ResetPassword:
+    subject: "[{$sitename}] Reset Your Password"
+    body: |
+      To reset your password for {$emailAddress} visit the following link:
+
+      {$urlWithoutHash}
+
+      If you did not request to reset your password, please ignore this email.
+      If you feel something is wrong, please contact your admin team.
