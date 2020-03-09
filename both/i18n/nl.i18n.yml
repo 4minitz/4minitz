@@ -45,8 +45,8 @@ Dialog:
     title: "Verwijderen bevestigen?"
     body: "Weet u zeker dat u dit wilt verwijderen?"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "Weet u zeker dat u de vergaderreeksen wilt verwijderen"
-    questionMinutes: "Deze serie bevat {$minutesCount} vergaderminuten (laatste minuten van {$lastMinutesDate})."
+    questionMeetingSeries: "Weet u zeker dat u de vergaderreeks wilt verwijderen"
+    questionMinutes: "Deze serie bevat {$minutesCount} notulen (laatste notulen zijn van {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Bevestig het aanmaken van nieuwe notulen"
     content: "Wilt u echt nieuwe notulen aanmaken voor de vergaderreeks \"{$project}: {$name}\"?"
@@ -104,8 +104,8 @@ Dialog:
     title: "Taal instellen"
     languageLocale: "Taal Instellingen"
     automatic: "Automatisch via Browser"
-    contributionHint1: "Vertalingsfouten of ontbrekende taal?"
-    contributionHint2: "Help ons 4Minitz te vertalen!"
+    contributionHint1: "Vertalingsfouten of mist u een taal?"
+    contributionHint2: "Help ons om 4Minitz te vertalen!"
   IsEditedHandling:
     title: "Bewerken ondanks bestaande bewerking"
     confirmationDialogResetEdit: "Waarschuwing: Dit document wordt momenteel bewerkt door {$name} sinds: {$date}"
@@ -153,7 +153,7 @@ About:
   licensedUnder: "Gelicentieerd onder de MIT-licentie"
   licenseDependencies: "Licentie van Afhankelijkheden"
   thanksContributors: "Met Dank Aan Al Onze Bijdragers"
-  thanksTranslators: "Bedankt aan al onze vertalers"
+  thanksTranslators: "Met Dank Aan Al Onze Vertalers"
   proudlySponsored: "Met Trots Gesponsord Door"
   specialThanks: "Speciale Dank Aan Deze Projecten"
   forkGitHub: "Fork ons op GitHub"
@@ -584,12 +584,12 @@ Mail:
   VerifyEmailAddress:
     subject: "[{$sitename}] Verifieer uw e-mailadres"
     body: |
-      Ga naar de volgende link om je e-mailadres {$emailAddress} te verifiëren:
+      Ga naar de volgende link om uw e-mailadres {$emailAddress} te verifiëren:
 
       {$urlWithoutHash}
 
-      Als je deze verificatie niet hebt aangevraagd, negeer deze e-mail aub.
-      Als je denkt dat er iets fout gaat, neem dan contact op met je beheerdersteam.
+      Als u deze verificatie niet heeft aangevraagd, negeer deze e-mail s.v.p.
+      Als u denkt dat er iets fout is gegaan, kunt u contact op met uw beheerdersteam.
   ResetPassword:
     subject: "[{$sitename}] Uw wachtwoord opnieuw instellen"
     body: |
@@ -597,5 +597,5 @@ Mail:
 
       {$urlWithoutHash}
 
-      Als u uw wachtwoord niet hebt aangevraagd, negeer deze e-mail aub.
-      Als je denkt dat er iets fout gaat, neem dan contact op met je beheerdersteam.
+      Als u uw wachtwoord niet heeft aangevraagd, negeer deze e-mail s.v.p.
+      Als u denkt dat er iets fout is gegaan, kunt u contact op met uw beheerdersteam.

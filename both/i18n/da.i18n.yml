@@ -563,39 +563,39 @@ Mail:
   UserRoleChange:
     subject: "Din rolle er ændret for '{$meetingProject}:{$meetingName}'"
     body: |
-      Hello {$userName}
+      Hej {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      Din rolle er ændret for mødeserien '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         Din gamle rolle var           : {$roleOld}
+         Din nye rolle er                  : {$roleNew}
+         Ændringen blev foretaget af: {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      For en udtømmende liste over rettigheder for alle brugere se:
       {$urlRoleDocu}
 
-      Have fun!
-        Your Admin.
+      Hav det sjovt!
+        Din Admin.
 
       ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      4Minitz er gratis open source udviklet af 4Minitz teamet.
+      Kildekoden er tilgængelig på {$url4Minitz}
   VerifyEmailAddress:
     subject: "[{$sitename}] Bekræft din e-mail-adresse"
     body: |
-      To verify your email address {$emailAddress} visit the following link:
+      Besøg følgende link for at bekræfte din e-mailadresse {$emailAddress}:
 
       {$urlWithoutHash}
 
-      If you did not request this verification, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Hvis du ikke har anmodet om denne bekræftelse, så ignorér denne mail.
+      Hvis du mener, noget er galt, så kontakt venligst dit administrator team.
   ResetPassword:
     subject: "[{$sitename}] Nulstil din adgangskode"
     body: |
-      To reset your password for {$emailAddress} visit the following link:
+      Besøg følgende link for at nulstille adgangskoden for {$emailAddress}:
 
       {$urlWithoutHash}
 
-      If you did not request to reset your password, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Hvis du ikke har anmodet om at nulstille din adgangskod, så ignorér denne mail.
+      Hvis du mener, noget er galt, så kontakt venligst dit administrator team.
