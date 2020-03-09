@@ -45,8 +45,8 @@ Dialog:
     title: "Silme işlemi doğruluyor mu?"
     body: "Bunu sileceğinden emin misiniz?"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "Do you really want to delete the meeting series"
-    questionMinutes: "This series contains {$minutesCount} meeting minutes (last minutes of {$lastMinutesDate})."
+    questionMeetingSeries: "Toplantı serisini gerçekten silmek istiyor musunuz?"
+    questionMinutes: "Bu seri {$minutesCount} toplantı dakikaları içerir ( {$lastMinutesDate} son dakika)."
   ConfirmCreateNewMinutes:
     title: "Yeni Dakika Oluşturma İşlemini Doğrula"
     content: "Toplantı serileri için gerçekten yeni dakikalar yaratmak istiyor musunuz \"{$project}: {$name} \" mi?"
@@ -104,8 +104,8 @@ Dialog:
     title: "Dil Ayarla"
     languageLocale: "Dil Ülke Değeri"
     automatic: "Tarayıcı Aracılığıyla Otomatik"
-    contributionHint1: "Translation mistakes or missing language?"
-    contributionHint2: "Help us to translate 4Minitz!"
+    contributionHint1: "Çeviri hataları mı yoksa eksik dil mi?"
+    contributionHint2: "4Minitz'i çevirmemize yardım edin!"
   IsEditedHandling:
     title: "Var olan düzenlemeye rağmen düzenle"
     confirmationDialogResetEdit: "Uyarı: Bu belge, şu anda {$name} tarafından düzenlenmiştir: {$date}"
@@ -153,7 +153,7 @@ About:
   licensedUnder: "MIT-Lisans kapsamında lisanslanır"
   licenseDependencies: "Bağımlılıklar Lisansı"
   thanksContributors: "Tüm Katkı Sağlayıcılarımız Sayesinde"
-  thanksTranslators: "Thanks To All Our Translators"
+  thanksTranslators: "Tüm Çevirmenlerimiz Sayesinde Teşekkürler"
   proudlySponsored: "Gururla Sponsor Olan"
   specialThanks: "Bu Projeler Sayesinde özel"
   forkGitHub: "Bizi GitHub 'a at."
@@ -187,9 +187,9 @@ Item:
   addDetails: "Ayrıntı ekle"
   priority: "Öncelik"
   Priorities:
-    high: "1 - High"
-    medium: "3 - Medium"
-    low: "5 - Low"
+    high: "1 - Yüksek"
+    medium: "3 - Orta"
+    low: "5 - Düşük"
   due: "Son Tarih"
   dueNone: "yok"
   detailPlaceholder: "Düzenlemek için Markdown 'ı kullanabilirsiniz. Çıkmak için Ctrl + Enter ya da Sekme tuşlarına basın."
@@ -275,11 +275,11 @@ Topic:
     uncompleted: "Tamamlanmamış Konular"
     yourTopic: "Konularınız"
   TooltipCreated:
-    date: "Created {$dateCreateStr}"
-    user: "by {$userCreate}"
+    date: "{$dateCreateStr} oluşturuldu"
+    user: "tarafından {$userCreate}"
   TooltipUpdated:
-    date: "Updated {$dateUpdStr}"
-    user: "by {$userUpd}"
+    date: "Güncelleme {$dateUpdStr}"
+    user: "tarafından {$userUpd}"
 Minutes:
   create: "Yeni Dakika Oluştur"
   date: "Tarih"
@@ -357,7 +357,7 @@ MeetingSeries:
     base: "Temel Yapılandırma"
     editedBy: "Düzenleyen: {$user} (saat: {$date})"
     invited: "Davet Edilen ve Belirsiz Kullanıcılar"
-    placeholderUsers: "Add Users to Invited Users..."
+    placeholderUsers: "Davet edilen Kullanıcılara Kullanıcı Ekle..."
     notifyRoleChange: "Katılımcılara rol değişikliği konusunda bildirim gönder"
     labels: "Etiketler"
     save: "Toplantı Dizisini Kaydet"
@@ -374,14 +374,14 @@ MeetingSeries:
     topics: "Konular"
     items: "Öğeler"
 Profile:
-  title: "Edit Profile for"
+  title: "için Profili Düzenle"
   userName: "Kullanıcı Adı"
   longName: "Uzun Ad"
   email: "E-Posta"
   password: "Parola"
   passwordRepeat: "Parola yineleniyor"
   ChangePassword:
-    title: "Change Password for"
+    title: "için Şifre Değiştir"
     oldPassword: "Eski Parola"
     wrongOldPassword: "Lütfen eski geçerli parolayı girin"
     newPassword: "Yeni Parola"
@@ -582,20 +582,20 @@ Mail:
       4Minitz, 4Minitz ekibi tarafından geliştirilmiş ücretsiz bir açık kaynaktır.
       Kaynak {$url4Minitz}" linkinde mevcut
   VerifyEmailAddress:
-    subject: "[{$sitename}] Verify Your Email Address"
+    subject: "[{$sitename}] E-posta Adresinizi Doğrulayın"
     body: |
-      To verify your email address {$emailAddress} visit the following link:
+      {$emailAddress} e-posta adresinizi doğrulamak için aşağıdaki bağlantıyı ziyaret edin:
 
       {$urlWithoutHash}
 
-      If you did not request this verification, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Bu doğrulamayı istemediyseniz lütfen bu e-postayı görmezden gelin.
+      Eğer bir sorun olduğunu düşünüyorsanız, lütfen yönetici ekibinizle iletişime geçin.
   ResetPassword:
-    subject: "[{$sitename}] Reset Your Password"
+    subject: "[{$sitename}] Parolanızı Sıfırlayın"
     body: |
-      To reset your password for {$emailAddress} visit the following link:
+      {$emailAddress} için şifrenizi sıfırlamak için aşağıdaki bağlantıyı ziyaret edin:
 
       {$urlWithoutHash}
 
-      If you did not request to reset your password, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Şifrenizi sıfırlamak istemediyseniz, lütfen bu e-postayı görmezden gelin.
+      Eğer bir sorun olduğunu düşünüyorsanız, lütfen yönetici ekibinizle iletişime geçin.
