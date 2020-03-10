@@ -449,10 +449,10 @@ Login:
     abstract: |
       <p>Ogni utente invitato e loggato può guardare in tempo reale le modifiche ai verbali delle riunioni in corso.</p>
       Abbiamo creato 4Minitz free software open source, poiché crediamo fermamente che
-      informazioni sensibili come i minuti di riunione non debbano essere ospitate nel cloud.
-      si vuole invece ospitarlo sulla propria infrastruttura dove è possibile definire
+      informazioni sensibili come i verbali non debbano essere ospitate in rete.
+      Invece tu puoi ospitarlo sulla tua infrastruttura dove è possibile definire
       il livello di sicurezza necessario.
-    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaHeading: "Preparare l'agenda"
     prepareAgendaDetails: |
       <li>Crea la tua serie di riunioni</li>
       <li>Invita altri utenti</li>
@@ -460,14 +460,14 @@ Login:
       <li>Riempi l'agenda con gli argomenti</li>
       <li>Contrassegna gli argomenti ricorrenti per l'agenda standard</li>
       <li>Invia l'agenda agli utenti invitati</li>
-    documentMinutesHeading: "Minuti del documento"
+    documentMinutesHeading: "Documenta i verbali"
     documentMinutesDetails: |
-      <li>Segnala presenti partecipanti</li>
-      <li>Aggiungi elementi di azione con risponditori agli argomenti</li>
+      <li>Segna i partecipanti presenti </li>
+      <li>Aggiungi azioni con i responsabili</li>
       <li>Aggiungi informazioni agli argomenti</li>
-      <li>Aggiungi etichette come 'Decisione' agli articoli</li>
-      <li>Carica file binari allegati</li>
-      <li>Invia minuti &amp; action items via EMail</li>
+      <li>Aggiungi etichette (p. es. 'Decisione') agli elementi</li>
+      <li>Carica file allegati</li>
+      <li>Invia il verbale &amp; le azioni via EMail</li>
     trackTopicsHeading: "Traccia argomenti"
     trackTopicsDetails: |
       <li>Gli elementi di azione aperti appariranno la prossima volta</li>
@@ -486,7 +486,7 @@ Navigation:
   editProfile: "Modifica profilo"
   changePassword: "Cambia password"
   signOut: "Esci"
-  toggleNavigation: "Navigazione Toggle"
+  toggleNavigation: "Attiva/disattiva navigazione"
   meetings: "Riunioni"
   processing: "Elaborazione dati in corso..."
   setLanguageForUser: "Imposta la lingua"
@@ -499,7 +499,7 @@ QuickHelp:
   upload: "<ul><li>Qui puoi caricare file come e.g. presentazioni, PDF o whiteboard foto</li><li>Hai bisogno del ruolo 'Uploader' o 'Moderatore' per farlo</li><li>L'upload o la cancellazione è possibile finché i minuti non saranno completati</li><li>Pro Suggerimento: Clicca il pulsante sopra 'Carica' sul tuo tablet o sul tuo smartphone!</li></ul>"
 Mail:
   greeting: "Ciao"
-  newAgenda: "Abbiamo un nuovo ordine del giorno di riunione per te:"
+  newAgenda: "Abbiamo una nuova agenda della riunione per te:"
   newActionItem: "Sei stato assegnato ai seguenti elementi di azione:"
   newMinutes: "Di seguito troverai gli ultimi minuti delle riunioni."
   meeting: "Riunione"
