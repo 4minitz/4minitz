@@ -215,7 +215,7 @@ Item:
     matchCaseHint: "Distingui maiuscole dalle minuscole"
     matchCaseLong: "Distingui maiuscole dalle minuscole"
     Usage:
-      body: "È possibile utilizzare diverse parole chiave per filtrare gli elementi elencati. Tutte le parole chiave possono essere combinate che filtrano gli articoli corrispondenti a tutti i parametri di ricerca dati."
+      body: "È possibile utilizzare diverse parole chiave per filtrare gli elementi elencati. Tutte le parole chiave possono essere combinate."
       keyword: "Parola chiave"
       format: "Formato"
       values: "Valori"
@@ -470,11 +470,11 @@ Login:
       <li>Invia il verbale &amp; le azioni via EMail</li>
     trackTopicsHeading: "Traccia argomenti"
     trackTopicsDetails: |
-      <li>Gli elementi di azione aperti appariranno la prossima volta</li>
-      <li>Argomenti non chiusi appariranno la prossima volta</li>
-      <li>Elenco di tutti gli argomenti mai discussi</li>
+      <li>Le azioni aperte appariranno la prossima volta</li>
+      <li>Gli argomenti non chiusi appariranno la prossima volta</li>
+      <li>Lista di tutti gli argomenti mai discussi</li>
       <li>Arricchisci argomenti con informazioni su più riunioni</li>
-      <li>Trova argomenti con etichette (e. . tutte le decisioni)</li>
+      <li>Trova argomenti con etichette (e.. tutte le decisioni)</li>
       <li></li>Trova elementi tramite ricerca fulltext</li>
   Footer:
     withLove: "Codificato con ❤ dal"
@@ -493,15 +493,15 @@ Navigation:
   setLanguageLogin: "Lingua"
 QuickHelp:
   title: "Guida rapida"
-  meetingSeries: "<p>Qui puoi creare nuovi minuti per la serie di incontri corrente o fare clic su un link di data dei minuti esistenti.</p>"
-  meetingSeriesList: "<p>Con 4Minitz puoi creare minuti per riunioni.</p><p>Crea prima una nuova serie di incontri e invita alcuni altri utenti.<br>Poi crea i minuti di riunione in più date per la tua serie di incontri.</p>"
-  minutes: "<p>Aggiungi argomenti per preparare la tua agenda di riunione<br>Durante il segno di incontro un argomento con la casella di controllo per chiarire che ne hai discusso.<br>Se l'argomento...<br>&nbsp;&nbsp; - non è contrassegnato come discusso o<br>&nbsp;&nbsp; - è impostato come argomento ricorrente o<br>&nbsp;&nbsp; - contiene elementi di azione non eseguiti<br>... l'argomento sarà nuovamente presentato nella prossima riunione.</p><p>Clicca su 'Finalizza processo verbale' per inviare i verbali agli utenti invitati e agli elementi dell'azione alle loro risposte.</p>"
-  upload: "<ul><li>Qui puoi caricare file come e.g. presentazioni, PDF o whiteboard foto</li><li>Hai bisogno del ruolo 'Uploader' o 'Moderatore' per farlo</li><li>L'upload o la cancellazione è possibile finché i minuti non saranno completati</li><li>Pro Suggerimento: Clicca il pulsante sopra 'Carica' sul tuo tablet o sul tuo smartphone!</li></ul>"
+  meetingSeries: "<p>Qui puoi creare un nuovo verbale per la serie di riunioni correnti o fare clic su una data dei verbali esistenti.</p>"
+  meetingSeriesList: "<p>Con 4Minitz puoi creare verbali per le riunioni.</p><p>Crea prima una nuova serie di riunioni e invita altri utenti.<br>Poi crea i verbali di riunione in più date per la tua serie di riunioni.</p>"
+  minutes: "<p>Aggiungi argomenti per preparare la tua agenda di riunione<br>Durante una riunione segna un argomento con la casella di controllo per contrassegnarlo come discusso.<br>Se l'argomento...<br>&nbsp;&nbsp; - non è contrassegnato come discusso o<br>&nbsp;&nbsp; - è impostato come argomento ricorrente o<br>&nbsp;&nbsp; - contiene azioni non eseguite<br>... l'argomento sarà nuovamente presentato nella prossima riunione.</p><p>Clicca su 'Finalizza processo verbale' per inviare i verbali agli utenti invitati e le azioni ai loro assegnatari.</p>"
+  upload: "<ul><li>Qui puoi caricare file come e.g. presentazioni, PDF o foto</li><li>Hai bisogno del ruolo 'Uploader' o 'Moderatore' per farlo</li><li>Il caricamento o la cancellazione è possibile finché il verbale non e' completato</li><li>Suggerimento: Clicca 'Carica' sul tuo tablet o sul tuo smartphone!</li></ul>"
 Mail:
   greeting: "Ciao"
   newAgenda: "Abbiamo una nuova agenda della riunione per te:"
-  newActionItem: "Sei stato assegnato ai seguenti elementi di azione:"
-  newMinutes: "Di seguito troverai gli ultimi minuti delle riunioni."
+  newActionItem: "Ti sono state assegnate le seguenti azioni:"
+  newMinutes: "Di seguito troverai l'ultimo verbale."
   meeting: "Riunione"
   links: "Collegamenti"
   openSeries: "Apri serie"
