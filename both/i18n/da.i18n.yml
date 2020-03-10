@@ -91,9 +91,9 @@ Dialog:
     button: "Send dagsorden"
   ConfirmDeleteMinutes:
     really: "Vil du virkelig slette dette møde i et minut, der er dateret på **{$minutesDate}**?"
-    newTopics: "Dette fjerner **{$newTopicsCount} emner * *, som er oprettet inden for dette minut."
-    closedTopicsAdditionally: "Derudover **{$closedTopicsCount} Emner * * vil blive åbnet igen, som er lukket inden for disse minutter."
-    closedTopics: "**{$closedTopicsCount} Emner * * vil blive åbnet igen, som var lukket inden for disse minutter."
+    newTopics: "Dette vil fjerne **{$newTopicsCount} emner**, som var oprettet inden for dette mødereferat."
+    closedTopicsAdditionally: "Yderligere **{$closedTopicsCount} emner** vil blive åbnet igen, som var lukket inden for disse mødereferater."
+    closedTopics: "**{$closedTopicsCount} emner** vil blive åbnet igen, som var lukket inden for disse mødereferater."
   ConfirmFinalizeMinutes:
     title: "Bekræft Finalisér minutter"
     button: "Afslut"
@@ -149,7 +149,7 @@ Dialog:
     body: "Det er ikke muligt at konvertere dette element, fordi det er oprettet i et tidligere minut."
 About:
   title: "Om 4Minitz"
-  copyrightTeam: "af 4Minitz-Team"
+  copyrightTeam: "af 4Minitz Teamet"
   licensedUnder: "Licenseret under MIT-licens"
   licenseDependencies: "Licens af afhængigheder"
   thanksContributors: "Tak til alle vores bidragydere"
