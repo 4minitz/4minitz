@@ -3,7 +3,7 @@ _splitKey: ':'
 _locale: 'fr'
 Accounts:
   usernamePlaceholder: "(min. 3 caractères)"
-  nameDisplayName: "Nom, société"
+  nameDisplayName: "Nom, Entreprise"
   namePlaceholder: "John Doe, Happy Corp."
   passwordPlaceholder: "Min. 6 caractères (chiffre, inférieur et supérieur)"
   passwordError: "Min. 6 caractères (min. 1 chiffre, 1 inférieur, 1 supérieur)"
