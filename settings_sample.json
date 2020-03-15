@@ -55,7 +55,18 @@
     "//2.2": "Change name of site",
     "siteName": "4Minitz",
 
-    "//3": "below option configures if and how to send E-Mails",
+  "//2.3": ["defaultMeetingSeriesMailLanguage:",
+    "New meeting series will get this language for sent eMails (finalized meeting minutes, agenda, action items).",
+    "Additionally this language is used for long-term archive of meeting minutes via the 'docGeneration' feature",
+    "A moderator can overwrite this default language in the settings of the meeting series.",
+    "Rationale: As eMails of meeting minutes often go to more than one user,",
+    "these eMail's language might need to be a different one as the moderator's own UI language.",
+    "Attention! Make sure this is a supported 4Minitz language locale, like: en, zh-cn, zh-tw"
+    ],
+  "defaultMeetingSeriesMailLanguage": "en",
+
+
+  "//3": "below option configures if and how to send E-Mails",
     "email": {
         "//3.1": "Switch on/off E-Mail sending",
         "enableMailDelivery": false,

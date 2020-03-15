@@ -35,6 +35,7 @@ let _minutesID; // the ID of these minutes
 let orphanFlashMessage = null;
 
 let filterClosedTopics = new ReactiveVar(false);
+let supportedLocales = new ReactiveVar([]);
 
 /**
  * togglePrintView
@@ -166,6 +167,15 @@ Template.minutesedit.onCreated(function () {
             this.minutesReady.set(this.subscriptionsReady());
         }
     });
+    Meteor.call('getAvailableLocales',
+        function(error, result){
+            if(error){
+                console.log('Error: No supported language locales reported by server.');
+            }else{
+                supportedLocales.set(result);
+            }
+        }
+    );
 
     Session.set('minutesedit.checkParent', false);
     handleTemplatesGlobalKeyboardShortcuts(true);
@@ -578,6 +588,8 @@ Template.minutesedit.events({
     'click #btn_finalizeMinutes': function(evt, tmpl) {
         evt.preventDefault();
         let aMin = new Minutes(_minutesID);
+        let ms = new MeetingSeries(aMin.meetingSeries_id);
+
         console.log('Finalize minutes: ' + aMin._id + ' from series: ' + aMin.meetingSeries_id);
 
         let doFinalize = function () {
@@ -594,6 +606,14 @@ Template.minutesedit.events({
             }, 500);
         };
 
+        let msLanguage = {}; //  //
+        for (let loc of supportedLocales.get()) {
+            if (loc.code === ms.getMailLanguage()) {
+                msLanguage = loc;
+                break;
+            }
+        }
+
         let processFinalize = function(){
             if (GlobalSettings.isEMailDeliveryEnabled()) {
                 ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
@@ -604,7 +624,8 @@ Template.minutesedit.events({
                         minutesDate: aMin.date,
                         hasOpenActionItems: aMin.hasOpenActionItems(),
                         sendActionItems: (sendActionItems) ? 'checked' : '',
-                        sendInformationItems: (sendInformationItems) ? 'checked' : ''
+                        sendInformationItems: (sendInformationItems) ? 'checked' : '',
+                        mailLanguage: msLanguage.name+'/'+msLanguage.nameNative+' ('+msLanguage.code+')'
                     },
                     i18n.__('Dialog.ConfirmFinalizeMinutes.button')
                 ).show();

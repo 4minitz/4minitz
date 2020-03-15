@@ -149,5 +149,6 @@ Meteor.startup(() => {
             });
         }
     }
-});
 
+    console.log('*** Default language for meeting series eMails: '+ GlobalSettings.getDefaultMeetingSeriesMailLanguage());
+});

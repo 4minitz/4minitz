@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { LdapSettings } from '/imports/config/LdapSettings';
 import _ from 'lodash';
+import { i18n } from 'meteor/universe:i18n';
 
 function getSetting(path, def = undefined) {
     return _.get(Meteor.settings, path, def);
@@ -108,6 +109,17 @@ export class GlobalSettings {
             if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {
                 Meteor.settings.attachments.storagePath = Meteor.settings.attachments.storagePath + '/';
             }
+        }
+
+        Meteor.settings.public.defaultMeetingSeriesMailLanguage =
+            Meteor.settings.defaultMeetingSeriesMailLanguage
+                ? Meteor.settings.defaultMeetingSeriesMailLanguage
+                : 'en';
+        if (!i18n.getLanguages().includes(Meteor.settings.public.defaultMeetingSeriesMailLanguage)) {
+            console.log('WARNING: settings for defaultMeetingSeriesMailLanguage invalid: '+Meteor.settings.public.defaultMeetingSeriesMailLanguage);
+            console.log('         Fallback to: en');
+            Meteor.settings.defaultMeetingSeriesMailLanguage = 'en';
+            Meteor.settings.public.defaultMeetingSeriesMailLanguage = 'en';
         }
 
         LdapSettings.publish();
@@ -286,5 +298,9 @@ export class GlobalSettings {
 
     static getAttachmentsEnabled() {
         return  Meteor.settings.public.attachments.enabled;
+    }
+
+    static getDefaultMeetingSeriesMailLanguage() {
+        return Meteor.settings.public.defaultMeetingSeriesMailLanguage;
     }
 }

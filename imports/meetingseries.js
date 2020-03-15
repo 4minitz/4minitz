@@ -13,6 +13,7 @@ import './helpers/promisedMethods';
 import './collections/meetingseries_private';
 import moment from 'moment/moment';
 import {TopicsFinder} from './services/topicsFinder';
+import {GlobalSettings} from './config/GlobalSettings';
 
 export class MeetingSeries {
     constructor(source) {   // constructs obj from Mongo ID or Mongo document
@@ -369,5 +370,12 @@ export class MeetingSeries {
 
     findTopic(topicId) {
         return TopicsFinder.getTopicById(topicId, this._id);
+    }
+
+    getMailLanguage() {
+        if (this.mailLanguage) {
+            return this.mailLanguage;
+        }
+        return GlobalSettings.getDefaultMeetingSeriesMailLanguage();
     }
 }
