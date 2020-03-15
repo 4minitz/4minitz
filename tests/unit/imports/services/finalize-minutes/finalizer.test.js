@@ -16,10 +16,11 @@ let MeetingSeriesSchema = {
     findOne: sinon.stub()
 };
 
+let ms1 = {
+    getMailLanguage: () => {return 'en'; }
+};
+let MeetingSeries = sinon.stub().returns(ms1);
 let Minutes = sinon.stub();
-//let Minutes = {
-//    save: sinon.stub(),
-//};
 
 const Topics = sinon.stub();
 const check = sinon.stub();
@@ -85,6 +86,7 @@ const {
     'meteor/check': { check, '@noCallThru': true },
     '/imports/collections/minutes.schema': { MinutesSchema, '@noCallThru': true },
     '/imports/collections/meetingseries.schema': { MeetingSeriesSchema, '@noCallThru': true },
+    '/imports/meetingseries': { MeetingSeries, '@noCallThru': true },
     '/imports/minutes': { Minutes, '@noCallThru': true },
     '/imports/topic': { Topics, '@noCallThru': true },
     '/imports/userroles': { UserRoles, '@noCallThru': true },
@@ -374,13 +376,16 @@ describe('workflow.unfinalizeMinute', function () {
     });
 });
 
+
 describe('Finalizer', function () {
     let minutesId, minutes;
 
     beforeEach(function () {
         minutesId = 'AaBbCc02';
 
-        minutes = {};
+        minutes = {
+            parentMeetingSeriesID: sinon.stub().returns(12),
+        };
         Minutes.returns(minutes);
     });
 
