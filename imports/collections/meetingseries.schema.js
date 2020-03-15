@@ -35,6 +35,7 @@ export const MeetingSeriesSchema = SchemaClass.create({
         availableLabels: {type: [LabelSchema], default: []},
         additionalResponsibles: {type: [String], default: []},
         isEditedBy: {type: String, optional: true},
-        isEditedDate: {type: Date, optional: true}
+        isEditedDate: {type: Date, optional: true},
+        mailLanguage: {type: String, optional: true}
     }
 });

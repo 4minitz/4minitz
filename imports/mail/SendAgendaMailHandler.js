@@ -4,6 +4,7 @@ import { i18n } from 'meteor/universe:i18n';
 import { InfoItemsMailHandler } from './InfoItemsMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { DocumentGeneration } from '../documentGeneration';
+import {MeetingSeries} from '../meetingseries';
 
 export class SendAgendaMailHandler extends InfoItemsMailHandler {
 
@@ -18,8 +19,14 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
     }
     
     _sendMail() {
-        super._sendMail(this._getEmailData());
-    }    
+        Meteor.defer(() => {    // we need .defer here, otherwise the setLocale won't be respected.
+            let ms = new MeetingSeries(this._meetingSeries._id);
+            let oldLoc = i18n.getLocale();
+            i18n.setLocale(ms.getMailLanguage());   // ask meeting series what language is preferred
+            super._sendMail(this._getEmailData());
+            i18n.setLocale(oldLoc);
+        });
+    }
 
     _getSubject() {
         return this._getSubjectPrefix() + ' (' + i18n.__('Minutes.agenda') + ')';

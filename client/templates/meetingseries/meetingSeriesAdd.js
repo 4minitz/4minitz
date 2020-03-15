@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { MeetingSeries } from '/imports/meetingseries';
 import { handleError } from '/client/helpers/handleError';
+import {GlobalSettings} from '../../../imports/config/GlobalSettings';
 
 function clearForm(template) {
     template.find('#id_meetingproject').value = '';
@@ -32,6 +33,7 @@ function addMeetingSeries(template, optimisticUICallback) {
     let ms = new MeetingSeries({
         project: aProject,
         name: aName,
+        mailLanguage: GlobalSettings.getDefaultMeetingSeriesMailLanguage(),
         createdAt: new Date()
     });
 

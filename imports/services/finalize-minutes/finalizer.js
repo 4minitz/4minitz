@@ -15,6 +15,7 @@ import { MinutesFinder } from '/imports/services/minutesFinder';
 import '/imports/helpers/promisedMethods';
 import {TopicsFinalizer} from './topicsFinalizer';
 import {i18n} from 'meteor/universe:i18n';
+import { MeetingSeries } from '/imports/meetingseries';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -38,14 +39,18 @@ function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
     }
 
     let emails = Meteor.user().emails;
-    let i18nLocale = i18n.getLocale();  // we have to remember this, as it will not survive the Meteor.defer()
     Meteor.defer(() => { // server background tasks after successfully updated the minute doc
         const senderEmail = (emails && emails.length > 0)
             ? emails[0].address
             : GlobalSettings.getDefaultEmailSenderAddress();
-        i18n.setLocale(i18nLocale);
+
+        // i18n.setLocale(i18nLocale);
+        let ms = new MeetingSeries(minutes.parentMeetingSeriesID());
+        const oldLocale = i18n.getLocale();
+        i18n.setLocale(ms.getMailLanguage());
         const finalizeMailHandler = new FinalizeMailHandler(minutes, senderEmail);
         finalizeMailHandler.sendMails(sendActionItems, sendInfoItems);
+        i18n.setLocale(oldLocale);
     });
 }
 
@@ -175,11 +180,19 @@ export class Finalizer {
         Meteor.call('workflow.finalizeMinute', minutesId, sendActionItems, sendInfoItems);
         // save protocol if enabled
         if (Meteor.settings.public.docGeneration.enabled) {
-            Meteor.call('documentgeneration.createAndStoreFile', minutesId, (error) => {
-                if (error) {
-                    error.reason = error.reason ? error.reason : error.error;
-                    onErrorCallback(error);
-                }
+            Meteor.defer(function () {  // we need .defer here, otherwise the setLocale won't be respected.
+                let min = new Minutes(minutesId);
+                let ms = new MeetingSeries(min.parentMeetingSeriesID());
+                let oldLoc = i18n.getLocale();
+                i18n.setLocale(ms.getMailLanguage());   // ask meeting series what language is preferred
+                Meteor.call('documentgeneration.createAndStoreFile', minutesId, (error) => {
+                    if (error) {
+                        error.reason = error.reason ? error.reason : error.error;
+                        onErrorCallback(error);
+                    }
+
+                });
+                i18n.setLocale(oldLoc);
             });
         }
     }

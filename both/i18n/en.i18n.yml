@@ -100,6 +100,8 @@ Dialog:
     really: "Do you really want to finalize this meeting minute dated on **{$minutesDate}**?"
     sendActionItems: "Send action items"
     sendMinutes: "Send information items"
+    eMailLanguage: "E-Mail Language:"
+    eMailLanguageHint: "Hint: You may configure the E-Mail language in the settings of the Meeting Series"
   LocaleSetting:
     title: "Set Language"
     languageLocale: "Language Locale"
@@ -365,6 +367,7 @@ MeetingSeries:
     labels: "Labels"
     save: "Save Meeting Series"
     confirmDelete: "Confirm delete"
+    languageLocale: "Language for Meeting Series E-Mails (Agenda, Minutes, ...)"
   Labels:
     Error:
       name: "Please enter a valid label name"
