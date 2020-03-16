@@ -59,9 +59,9 @@ Dialog:
     questionInfoItem: "Voulez-vous désépingler l'élément d'info sticky à la place?"
     typeActionItem: "élément d'action"
     typeInfoItem: "Information"
-    titleCloseActionItem: "Fermer l'élément d'action ?"
+    titleCloseActionItem: "Clôturer la tâche ?"
     titleUnpinInfoItem: "Désépingler l'élément d'info ?"
-    buttonCloseActionItem: "Fermer l'élément d'action"
+    buttonCloseActionItem: "Clôturer la tâche"
     buttonUnpinInfoItem: "Désépingler l'élément info"
   ConfirmDeleteTopic:
     allowed: "Voulez-vous vraiment supprimer le sujet **{$subject} ** ?"
