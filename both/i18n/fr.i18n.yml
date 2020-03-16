@@ -4,7 +4,7 @@ _locale: 'fr'
 Accounts:
   usernamePlaceholder: "(min. 3 caractères)"
   nameDisplayName: "Nom, Entreprise"
-  namePlaceholder: "John Doe, Happy Corp."
+  namePlaceholder: "Jean Dupond, Happy S. A."
   passwordPlaceholder: "Min. 6 caractères (chiffre, inférieur et supérieur)"
   passwordError: "Min. 6 caractères (min. 1 chiffre, 1 inférieur, 1 supérieur)"
 Buttons:
@@ -16,7 +16,7 @@ Buttons:
   confirm: "Valider"
   create: "Créer"
   delete: "Supprimer"
-  dismissAll: "Tout désintéresser"
+  dismissAll: "Tout ignorer"
   edit: "Editer"
   hide: "Ok, cache"
   ok: "Ok"
@@ -30,16 +30,16 @@ UserRoles:
 FlashMessages:
   ok: "Ok"
   error: "Erreur"
-  verifyEMailErr: "Erreur: L'e-mail n'a pas pu être vérifié"
+  verifyEMailErr: "Erreur: Le courrier électronique n'a pas pu être vérifié"
   verifyEMailOK: "OK: Le courrier électronique est maintenant vérifié"
   passwordChangeOK: "Mot de passe modifié"
   passwordResetOK: "Mot de passe réinitialisé avec succès"
-  profileEditOK: "Changements de profil enregistrés"
-  minuteLinkErr: "Malheureusement, la minute n'est pas correctement liée à sa série parente - veuillez contacter votre administrateur système."
+  profileEditOK: "Modification du profil enregistrés"
+  minuteLinkErr: "Malheureusement, le protocol de réunion n'est pas correctement liée à sa série parente - veuillez contacter votre administrateur système."
   agendaSentOK: "L'ordre du jour a été envoyé à {$result} destinataires avec succès"
-  finalizeProgress1: "Finaliser en cours"
+  finalizeProgress1: "Finalisation en cours"
   finalizeProgress2: "Cela peut prendre quelques secondes..."
-  finalizeOK: "Les procès-verbaux de cette réunion ont été finalisés avec succès"
+  finalizeOK: "Les protocoles de cette réunion ont été finalisés avec succès"
 Dialog:
   ConfirmDelete:
     title: "Confirmer la suppression?"
@@ -48,14 +48,14 @@ Dialog:
     questionMeetingSeries: "Voulez-vous vraiment supprimer la série de réunions"
     questionMinutes: "Cette série contient {$minutesCount} minutes de réunion (dernière minute de {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
-    title: "Confirmer la création de nouvelles minutes"
+    title: "Confirmer la création du nouveau protocole"
     content: "Voulez-vous vraiment créer de nouvelles minutes pour la série de réunions \"{$project}: {$name} \" ?"
   confirmDeleteAttachment: "Voulez-vous vraiment supprimer la pièce jointe :\n**{$name} ** ?"
   confirmDeleteDetails: "Voulez-vous vraiment supprimer les détails sélectionnés de l'élément **{$subject} ** ** ** ?"
   ConfirmDeleteItem:
-    allowed: "Voulez-vous vraiment supprimer le {$type} **{$subject}**?"
+    allowed: "Voulez-vous vraiment supprimer l élément : {$type} **{$subject}**?"
     notAllowed: "Il n'est pas possible de supprimer le {$type} **{$subject}** car le {$type} a été créé dans une minute précédente."
-    questionActionItem: "Voulez-vous fermer l'élément d'action à la place?"
+    questionActionItem: "Voulez-vous cloturer la tâche à la place?"
     questionInfoItem: "Voulez-vous désépingler l'élément d'info sticky à la place?"
     typeActionItem: "élément d'action"
     typeInfoItem: "Information"
