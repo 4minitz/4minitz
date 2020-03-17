@@ -4,7 +4,7 @@ _locale: 'fr'
 Accounts:
   usernamePlaceholder: "(min. 3 caractères)"
   nameDisplayName: "Nom, Entreprise"
-  namePlaceholder: "Jean Dupond, Happy S. A."
+  namePlaceholder: "Jean Dupond, ma société S. A."
   passwordPlaceholder: "Min. 6 caractères (chiffre, inférieur et supérieur)"
   passwordError: "Min. 6 caractères (min. 1 chiffre, 1 inférieur, 1 supérieur)"
 Buttons:
