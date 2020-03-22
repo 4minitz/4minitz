@@ -383,18 +383,18 @@ Profile:
   ChangePassword:
     title: "更改密码"
     oldPassword: "旧密码"
-    wrongOldPassword: "请输入旧密码"
+    wrongOldPassword: "请输入有效旧密码"
     newPassword: "新密码"
-    newPasswordRepeat: "新密码重复"
+    newPasswordRepeat: "再输入一遍新密码"
   Error:
     name: "请输入一个有效的用户名"
-    longName: "请输入一个有效的长期名称"
-    email: "请输入一个有效的EMail 地址"
+    longName: "请输入一个有效的长名"
+    email: "请输入一个有效的电子邮件地址"
     password: "请输入一个有效的密码"
   WarningEMailChange:
     title: "确认更改用户邮件"
     body: "您将要更改您已验证的邮件地址。 您将被登出并需要验证您的新邮件地址才能继续。"
-    button: "注销 + 重新验证"
+    button: "退出 + 重新验证"
 Admin:
   users: "用户"
   messages: "消息"
@@ -403,11 +403,11 @@ Admin:
     hint: "提示：这将注册一个用户用于标准登录 (不是 LDAP 登录!)。"
     button: "注册新用户..."
     sendMail: "发送电子邮件到新用户"
-    includePassword: "包含密码"
+    includePassword: "在电子邮件中包含密码"
     success: "注册新用户: {$user}"
   Message:
-    title: "从管理员广播消息"
-    newMessage: "新的消息给所有用户"
+    title: "来自管理员的广播消息"
+    newMessage: "给所有用户的新消息"
     broadcast: "广播"
     date: "日期"
     message: "消息"
