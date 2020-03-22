@@ -2,7 +2,7 @@
 _splitKey: ':'
 _locale: 'ar'
 Accounts:
-  usernamePlaceholder: "(دقيقة. 3 مجاديف)"
+  usernamePlaceholder: "(3 أحرف على الأقل)"
   nameDisplayName: "الاسم ، الشركة"
   namePlaceholder: "جون دو ، مؤسسة سعيدة."
   passwordPlaceholder: "الحد الأدنى. 6 حروف (رقم ، أقل & أعلى)"
