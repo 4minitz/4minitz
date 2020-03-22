@@ -35,8 +35,8 @@ FlashMessages:
   passwordChangeOK: "密码已更改"
   passwordResetOK: "密码已成功重置"
   profileEditOK: "个人资料更改已保存"
-  minuteLinkErr: "很抱歉，该分钟未正确链接到其父序列-请联系您的系统管理员。"
-  agendaSentOK: "日程已成功发送至 {$result} 收件人"
+  minuteLinkErr: "很抱歉，该会议记录未正确链接到其父序列-请联系您的系统管理员。"
+  agendaSentOK: "日程已成功发送至收件人{$result}"
   finalizeProgress1: "正在完成中"
   finalizeProgress2: "这可能需要几秒钟..."
   finalizeOK: "本次会议记录已成功完成"
@@ -46,10 +46,10 @@ Dialog:
     body: "您确定要删除这个吗？"
   ConfirmDeleteMeetingSeries:
     questionMeetingSeries: "您真的想要删除会议系列"
-    questionMinutes: "这个系列包含 {$minutesCount} 次会议分钟(最后一分钟的 {$lastMinutesDate})。"
+    questionMinutes: "这个系列包含 {$minutesCount} 次会议记录(最后一分钟的 {$lastMinutesDate})。"
   ConfirmCreateNewMinutes:
-    title: "确认创建新分钟"
-    content: "您真的想要为会议系列创建新的分钟数\"{$project}: {$name}\"？"
+    title: "确认创建新会议记录"
+    content: "您真的想要为会议系列\"{$project}: {$name}\"创建新的会议记录?"
   confirmDeleteAttachment: "您真的想要删除附件：\n**{$name}**？"
   confirmDeleteDetails: "您真的想要删除项目**{$subject} **的详细信息吗？"
   ConfirmDeleteItem:
