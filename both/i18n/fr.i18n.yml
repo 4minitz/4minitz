@@ -339,9 +339,9 @@ MeetingSeries:
   team: "Équipe / Projet"
   new: "Nouvelle série de réunions"
   leave: "Quitter la série de réunions"
-  leaveButton: "Quitter"
+  leaveButton: "Fermer"
   moderator: "Vous êtes modérateur"
-  lastMinute: "Dernière minute:"
+  lastMinute: "Dernier protocole:"
   Search:
     placeholder: "Rechercher une série de réunions"
     noResults: "Aucun résultat pour cette entrée..."
