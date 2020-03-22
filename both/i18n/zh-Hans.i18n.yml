@@ -447,37 +447,37 @@ Login:
     header: "4Minitz：合作会议记录。"
     subheader: "● 准备议程 ● 会议记录文档● 跟踪主题 ●"
     abstract: |
-      <p>每个被邀请并登录的用户都可以实时观看当前会议分钟的变化。</p>
-      我们制作了4Minitz免费开源软件。 我们坚信，
+      <p>每个被邀请并登录的用户都可以实时观看当前会议记录的变化。</p>
+      我们开发了免费开源软件4Minitz。 我们坚信，
       像会议记录这样的敏感信息不应放在云端。
       相反，您想在自己的基础设施上托管它，您可以在那里定义
       所需的安全等级。
-    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaHeading: "准备议程"
     prepareAgendaDetails: |
       <li>创建您的会议系列</li>
       <li>邀请其他用户</li>
-      <li>指定版主和上传者</li>
+      <li>指定会议主持者和上传者</li>
       <li>填写主题</li>
       <li>标记重复性主题作为标准议程</li>
-      <li>发送议程给邀请用户</li>
-    documentMinutesHeading: "文档分钟"
+      <li>发送议程给被邀请用户</li>
+    documentMinutesHeading: "文档记录"
     documentMinutesDetails: |
-      <li>标记与会者</li>
-      <li>添加对主题负责的操作项目</li>
+      <li>标记出席会议者</li>
+      <li>添加对主题负责的操作项目及负责人</li>
       <li>添加信息项目到主题</li>
       <li>在项目中加上“决定” 等标签</li>
       <li>上传二进制文件附件</li>
       <li>通过电子邮件发送 &amp; 行动项目</li>
     trackTopicsHeading: "跟踪主题"
     trackTopicsDetails: |
-      <li>下次打开的动作项目将显示在下次</li>
-      <li>下次非闭合的主题将显示</li>
-      <li>所有讨论主题的搜索列表</li>
-      <li>多次会议上包含信息项目的主题</li>
-      <li>查找带标签的主题 (e). 。所有决定)</li>
+      <li>下次将显示打开的动作项目</li>
+      <li>下次将显示非关闭的主题</li>
+      <li>搜索所有讨论过的主题列表</li>
+      <li>在多个会议里添加包含信息项目的主题</li>
+      <li>查找带标签的主题 (比如所有决定)</li>
       <li>通过全文搜索查找项目</li>
   Footer:
-    withLove: "用 ❤ 来电"
+    withLove: "用 ❤ 编码"
     theTeam: "WebApp 团队"
 Navigation:
   help: "帮助"
@@ -493,8 +493,8 @@ Navigation:
   setLanguageLogin: "语言"
 QuickHelp:
   title: "快速帮助"
-  meetingSeries: "<p>在这里您可以为当前会议系列创建新分钟，或点击现有分钟的日期链接。</p>"
-  meetingSeriesList: "<p>您可以创建会议分钟。</p><p>首先创建一个新的会议系列，邀请其他用户。<br>然后为您的会议系列创建会议记录。</p>"
+  meetingSeries: "<p>在这里您可以为当前会议系列创建新会议记录或点击现有会议记录的日期链接。</p>"
+  meetingSeriesList: "<p>您可以使用4Minitz创建会议记录。</p><p>首先创建一个新的会议系列，邀请其他用户。<br>然后为您的会议系列创建会议记录。</p>"
   minutes: "<p>添加主题来准备您的会议议程<br>在会议期间标记一个主题，其中要清楚您讨论过的主题。<br>如果主题...<br>&nbsp;&nbsp; - 未标记为讨论或<br>&nbsp;&nbsp; - 被设置为经常性主题，或者<br>&nbsp;&nbsp; - 包含未完成的操作项目<br>... 下一次会议将再次介绍这一专题。</p><p>点击“最后完成分钟”将分钟发送给被邀请的用户和操作项目到他们的响应。</p>"
   upload: "<ul><li>您可以在这里上传文件，例如，演示文、PDF或白板照片</li><li>你需要角色“上传者”或“主持人”这样做</li><li>上传或删除，直到几分钟最后完成</li><li>专业提示：点击上面的“上传”按钮或智能手机！</li></ul>"
 Mail:
