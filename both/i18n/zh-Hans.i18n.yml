@@ -49,14 +49,14 @@ Dialog:
     questionMinutes: "这个系列包含 {$minutesCount} 次会议记录(最后一分钟的 {$lastMinutesDate})。"
   ConfirmCreateNewMinutes:
     title: "确认创建新会议记录"
-    content: "您真的想要为会议系列\"{$project}: {$name}\"创建新的会议记录?"
-  confirmDeleteAttachment: "您真的想要删除附件：\n**{$name}**？"
+    content: "您真的想要为会议系列\"{$project}: {$name}\"创建新的会议记录吗?"
+  confirmDeleteAttachment: "您真的想要删除附件：\n**{$name}**吗？"
   confirmDeleteDetails: "您真的想要删除项目**{$subject} **的详细信息吗？"
   ConfirmDeleteItem:
     allowed: "您真的想要删除 {$type} **{$subject} **吗？"
     notAllowed: "无法删除 {$type} **{$subject}** ，因为 {$type} 是在前几分钟内创建的。"
-    questionActionItem: "您想要关闭操作项吗？"
-    questionInfoItem: "您想要取消置顶粘滞信息项吗？"
+    questionActionItem: "您想要改为关闭操作项吗？"
+    questionInfoItem: "您想要取消置顶粘贴信息项吗？"
     typeActionItem: "动作项目"
     typeInfoItem: "信息"
     titleCloseActionItem: "关闭操作项？"
