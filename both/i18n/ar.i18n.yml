@@ -4,7 +4,7 @@ _locale: 'ar'
 Accounts:
   usernamePlaceholder: "(دقيقة. 3 مجاديف)"
   nameDisplayName: "الاسم ، الشركة"
-  namePlaceholder: "جون دو ، مؤسسة سعيدة"
+  namePlaceholder: "جون دو ، مؤسسة سعيدة."
   passwordPlaceholder: "الحد الأدنى. 6 حروف (رقم ، أقل & أعلى)"
   passwordError: "الحد الأدنى. 6 قطع (دقائق) 1 رقم ، 1 أقل ، 1 أعلى)"
 Buttons:
