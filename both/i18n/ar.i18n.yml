@@ -161,7 +161,7 @@ About:
     title: "احصائيات وحدة الخدمة"
     rowNumUser: "عدد المستخدمين (فعال)"
     rowNumMeetingSeries: "عدد سلاسل الاجتماعات"
-    rowNumMeetingMinutes: "عدد دقائق الاجتماع"
+    rowNumMeetingMinutes: "عدد محاضر الاجتماع"
     rowNumAttachments: "عدد المرفقات"
     rowSizeAttachments: "حجم الملحقات"
 Item:
