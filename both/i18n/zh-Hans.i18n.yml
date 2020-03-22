@@ -70,9 +70,9 @@ Dialog:
     closeWithActions: "您想要改为关闭主题和所有相关的操作项目吗？"
   confirmLeaveMeetingSeries: "您真的想要离开会议系列：\n\n**{$project} / {$name}**\n\n您将必须询问版主，如果您想在会后再次加入。"
   ConfirmMinuteQualityAssurance:
-    title: "完成分钟数：质量检查"
+    title: "完成会议记录：质量检查"
     button: "继续"
-    issues: "您的分钟有最后的问题！"
+    issues: "您的会议记录还有一些问题！"
     proceed: "您想要继续最后完成吗？"
     warnNoTopics: "当前分钟没有主题"
     warnNoParticipants: "没有参与者被标记为存在"
