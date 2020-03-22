@@ -426,13 +426,13 @@ Admin:
     Type:
       hint: "LDAP用户或标准用户"
       column: "单点登录用户/标准用户"
-      ldap: "升"
-      standard: "秒"
+      ldap: "单点登录用户"
+      standard: "标准用户"
     State:
-      hint: "切换活动状态/活动状态。非活动用户无法登录。"
-      column: "在/活动中"
-      active: "活动中"
-      inactive: "非活动"
+      hint: "切换激活状态/未激活状态。非活动用户无法登录。"
+      column: "未激活/激活状态"
+      active: "已激活"
+      inactive: "未激活"
       toggle: "切换"
 Login:
   Error:
@@ -440,12 +440,12 @@ Login:
     username: "请输入您的用户名"
     password: "请输入您的密码"
   signIn: "登录"
-  ldap: "卢达普"
+  ldap: "单点登录"
   standard: "标准"
-  demoHint: "提示:Demo Mode Active<br>您可以使用用户名 <b>demo</b> 和 password <b>demo</b>登录。 或者，您可以通过单击下面的 \"注册\" 链接来注册自己的帐户。"
+  demoHint: "提示: 演示激活帐户<br>您可以使用用户名 <b>demo</b> 和 密码<b>demo</b>登录。 或者，您可以通过单击下面的 \"注册\" 链接来注册自己的帐户。"
   Login4MinitzInfo:
     header: "4Minitz：合作会议记录。"
-    subheader: "● 准备议程 ● 文档分钟● 跟踪主题 ●"
+    subheader: "● 准备议程 ● 会议记录文档● 跟踪主题 ●"
     abstract: |
       <p>每个被邀请并登录的用户都可以实时观看当前会议分钟的变化。</p>
       我们制作了4Minitz免费开源软件。 我们坚信，
