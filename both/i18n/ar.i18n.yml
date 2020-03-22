@@ -39,7 +39,7 @@ FlashMessages:
   agendaSentOK: "تم ارسال جدول الأعمال الى {$result} مستلمين بنجاح"
   finalizeProgress1: "الانتهاء من عملية الانهاء"
   finalizeProgress2: "... هذا قد يستغرق بضع ثوان"
-  finalizeOK: "وقد أنجزت بنجاح دقائق هذا الاجتماع"
+  finalizeOK: "تم الانتهاء بنجاح من محضر الاجتماع"
 Dialog:
   ConfirmDelete:
     title: "تأكيد الحذف ?"
@@ -370,7 +370,7 @@ MeetingSeries:
     new: "العلامة المميزة الجديدة"
     select: "تحديد ..."
   Tab:
-    minutes: "دقائق"
+    minutes: "محضر"
     topics: "الموضوعات"
     items: "البنود"
 Profile:
