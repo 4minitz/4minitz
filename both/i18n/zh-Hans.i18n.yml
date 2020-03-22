@@ -80,19 +80,19 @@ Dialog:
     warnNoTopicDiscussed: "不存在被标记为“已讨论”的主题"
     warnTopicWithoutItems: "至少有一个讨论过的主题不包含项目"
     warnActionItemWithoutResponsible: "至少有一个操作项目不含有任何责任人"
-    warnTopicNoNewContent: "选中了一个主题，但没有新内容"
+    warnTopicNoNewContent: "一个被选中的主题尚未有新内容"
   ConfirmReOpenTopic:
     title: "重新打开主题？"
-    body: "您真的想要重新打开已关闭的主题**{$topicSubject} **吗？"
+    body: "您确定想要重新打开已关闭的主题**{$topicSubject} **吗？"
     button: "重新打开"
   ConfirmSendAgenda:
-    body: "您真的想要发送日期为 **{$minDate}**的这个会议记录吗？\n它已经在 {$agendaSentDate} 于 {$agendaSentTime} 发送"
-    title: "确认发送议程"
-    button: "发送任务"
+    body: "您确定要发送日期为 **{$minDate}**的这个会议记录的日程吗？\n它已经在 {$agendaSentDate} 于 {$agendaSentTime} 发送"
+    title: "确认发送日程"
+    button: "发送日程"
   ConfirmDeleteMinutes:
-    really: "您真的想要删除日期为 **{$minutesDate} **的这个会议记录吗？"
-    newTopics: "这将删除 **{$newTopicsCount} 个主题**，它们是在这分钟内创建的。"
-    closedTopicsAdditionally: "此外，**{$closedTopicsCount} 个主题** 将再次打开，这些主题将在此分钟内关闭。"
+    really: "您确定想要删除日期为 **{$minutesDate} **的这个会议记录吗？"
+    newTopics: "这将删除一分钟前创建的 **{$newTopicsCount} 个主题**。"
+    closedTopicsAdditionally: "此外，一分钟前关闭**{$closedTopicsCount} 个主题** 将再次打开。"
     closedTopics: "**{$closedTopicsCount} 个主题** 将再次打开，这些主题将在此分钟内关闭。"
   ConfirmFinalizeMinutes:
     title: "确认完成分钟"
