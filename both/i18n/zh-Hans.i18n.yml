@@ -2,11 +2,11 @@
 _splitKey: ':'
 _locale: 'zh-cn'
 Accounts:
-  usernamePlaceholder: "(最小) 3个字符)"
+  usernamePlaceholder: "(至少 3个字符)"
   nameDisplayName: "名称，公司"
   namePlaceholder: "John Doe， Happy Corp."
-  passwordPlaceholder: "好的 6 个字符 (数字，下 & 上)"
-  passwordError: "好的 6 个字符 (分钟)。 1 个数字， 1 个低，1 个上限)"
+  passwordPlaceholder: "至少 6 个字符 (包括数字，大写 和小写字母)"
+  passwordError: "至少6 个字符 (至少包括 1 个数字， 1 个小写及1 个大写字母)"
 Buttons:
   add: "添加"
   back: "返回"
@@ -18,7 +18,7 @@ Buttons:
   delete: "删除"
   dismissAll: "全部取消"
   edit: "编辑"
-  hide: "好的"
+  hide: "确定, 隐藏"
   ok: "确定"
   register: "注册"
   save: "保存"
@@ -26,12 +26,12 @@ UserRoles:
   roleModerator: "版主"
   roleUploader: "上传器"
   roleInvited: "已邀请"
-  roleInformed: "知情的"
+  roleInformed: "已通知"
 FlashMessages:
   ok: "好的"
   error: "错误"
   verifyEMailErr: "错误：邮件无法验证"
-  verifyEMailOK: "确定：电邮已验证"
+  verifyEMailOK: "确定：电邮现已验证"
   passwordChangeOK: "密码已更改"
   passwordResetOK: "密码已成功重置"
   profileEditOK: "个人资料更改已保存"
