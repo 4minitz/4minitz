@@ -561,12 +561,12 @@ Mail:
       4Minitz是由4Minitz团队开发的免费开放源代码。
       源代码是 {$url4Minitz}
   UserRoleChange:
-    subject: "您的角色已经改变{$meetingProject}:{$meetingName}"
+    subject: "您的角色已经改变'{$meetingProject}:{$meetingName}'"
     body: |
       您好 {$userName}
 
-      您的角色已经改变了会议系列 '{$meetingProject}:{$meetingName}'
-      ({$meetingSeriesURL})
+      您在会议系列 '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL}) 中的脚色已被改变
 
          您的旧角色是 : {$roleOld}
          您的新角色是 : {$roleNew}
@@ -575,7 +575,7 @@ Mail:
       完成的关于每个角色的完整权利清单见:
       {$urlRoleDocu}
 
-      有趣！
+      开心！
         您的管理员。
 
       -
