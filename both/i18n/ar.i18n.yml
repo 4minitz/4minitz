@@ -2,9 +2,9 @@
 _splitKey: ':'
 _locale: 'ar'
 Accounts:
-  usernamePlaceholder: "(دقيقة. 3 مجاديف)"
+  usernamePlaceholder: "(3 أحرف على الأقل)"
   nameDisplayName: "الاسم ، الشركة"
-  namePlaceholder: "جون دو ، مؤسسة سعيدة"
+  namePlaceholder: "جون دو ، مؤسسة سعيدة."
   passwordPlaceholder: "الحد الأدنى. 6 حروف (رقم ، أقل & أعلى)"
   passwordError: "الحد الأدنى. 6 قطع (دقائق) 1 رقم ، 1 أقل ، 1 أعلى)"
 Buttons:
@@ -13,33 +13,33 @@ Buttons:
   cancel: "الغاء"
   change: "التغيير"
   close: "اغلاق"
-  confirm: "تأكيد"
+  confirm: "أكّد"
   create: "تكوين"
   delete: "حذف"
   dismissAll: "تجاهل الكل"
-  edit: "تحرير"
-  hide: "طيب ، اخفاء"
+  edit: "حرّر"
+  hide: "موافق ، اخفاء"
   ok: "طيب"
   register: "تسجيل"
-  save: "حفظ"
+  save: "Save"
 UserRoles:
-  roleModerator: "مدير المناقشة"
+  roleModerator: "المُشرف"
   roleUploader: "تحميل-تحميل"
   roleInvited: "تم دعوته"
   roleInformed: "ابلاغ"
 FlashMessages:
   ok: "طيب"
   error: "خطأ"
-  verifyEMailErr: "خطأ : لا يمكن التحقق من EMail"
-  verifyEMailOK: "حسنا : تم التحقق من EMail الآن"
+  verifyEMailErr: "خطأ: لم يتم التحقق من البريد الإلكتروني"
+  verifyEMailOK: "موافق: تم التحقق من البريد الإلكتروني الآن"
   passwordChangeOK: "تم تغيير كلمة السرية"
-  passwordResetOK: "تم اعادة تحديد كلمة السرية بنجاح"
+  passwordResetOK: "تم إعادة ضبط كلمة المرور بنجاح"
   profileEditOK: "تم حفظ تغييرات ملف المواصفات"
   minuteLinkErr: "للأسف ، لا يتم ربط الدقيقة بالتسلسل الأصلي الخاص به بطريقة صحيحة-برجاء الاتصال بموجه النظام الخاص بك."
   agendaSentOK: "تم ارسال جدول الأعمال الى {$result} مستلمين بنجاح"
   finalizeProgress1: "الانتهاء من عملية الانهاء"
   finalizeProgress2: "... هذا قد يستغرق بضع ثوان"
-  finalizeOK: "وقد أنجزت بنجاح دقائق هذا الاجتماع"
+  finalizeOK: "تم الانتهاء بنجاح من محضر الاجتماع"
 Dialog:
   ConfirmDelete:
     title: "تأكيد الحذف ?"
@@ -161,7 +161,7 @@ About:
     title: "احصائيات وحدة الخدمة"
     rowNumUser: "عدد المستخدمين (فعال)"
     rowNumMeetingSeries: "عدد سلاسل الاجتماعات"
-    rowNumMeetingMinutes: "عدد دقائق الاجتماع"
+    rowNumMeetingMinutes: "عدد محاضر الاجتماع"
     rowNumAttachments: "عدد المرفقات"
     rowSizeAttachments: "حجم الملحقات"
 Item:
@@ -370,7 +370,7 @@ MeetingSeries:
     new: "العلامة المميزة الجديدة"
     select: "تحديد ..."
   Tab:
-    minutes: "دقائق"
+    minutes: "محضر"
     topics: "الموضوعات"
     items: "البنود"
 Profile:

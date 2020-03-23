@@ -2,11 +2,11 @@
 _splitKey: ':'
 _locale: 'zh-cn'
 Accounts:
-  usernamePlaceholder: "(最小) 3个字符)"
+  usernamePlaceholder: "(至少 3个字符)"
   nameDisplayName: "名称，公司"
   namePlaceholder: "John Doe， Happy Corp."
-  passwordPlaceholder: "好的 6 个字符 (数字，下 & 上)"
-  passwordError: "好的 6 个字符 (分钟)。 1 个数字， 1 个低，1 个上限)"
+  passwordPlaceholder: "至少 6 个字符 (包括数字，大写 和小写字母)"
+  passwordError: "至少6 个字符 (至少包括 1 个数字， 1 个小写及1 个大写字母)"
 Buttons:
   add: "添加"
   back: "返回"
@@ -18,7 +18,7 @@ Buttons:
   delete: "删除"
   dismissAll: "全部取消"
   edit: "编辑"
-  hide: "好的"
+  hide: "确定, 隐藏"
   ok: "确定"
   register: "注册"
   save: "保存"
@@ -26,17 +26,17 @@ UserRoles:
   roleModerator: "版主"
   roleUploader: "上传器"
   roleInvited: "已邀请"
-  roleInformed: "知情的"
+  roleInformed: "已通知"
 FlashMessages:
   ok: "好的"
   error: "错误"
   verifyEMailErr: "错误：邮件无法验证"
-  verifyEMailOK: "确定：电邮已验证"
+  verifyEMailOK: "确定：电邮现已验证"
   passwordChangeOK: "密码已更改"
   passwordResetOK: "密码已成功重置"
   profileEditOK: "个人资料更改已保存"
-  minuteLinkErr: "很抱歉，该分钟未正确链接到其父序列-请联系您的系统管理员。"
-  agendaSentOK: "日程已成功发送至 {$result} 收件人"
+  minuteLinkErr: "很抱歉，该会议记录未正确链接到其父序列-请联系您的系统管理员。"
+  agendaSentOK: "日程已成功发送至收件人{$result}"
   finalizeProgress1: "正在完成中"
   finalizeProgress2: "这可能需要几秒钟..."
   finalizeOK: "本次会议记录已成功完成"
@@ -46,69 +46,69 @@ Dialog:
     body: "您确定要删除这个吗？"
   ConfirmDeleteMeetingSeries:
     questionMeetingSeries: "您真的想要删除会议系列"
-    questionMinutes: "这个系列包含 {$minutesCount} 次会议分钟(最后一分钟的 {$lastMinutesDate})。"
+    questionMinutes: "这个系列包含 {$minutesCount} 次会议记录(最后一分钟的 {$lastMinutesDate})。"
   ConfirmCreateNewMinutes:
-    title: "确认创建新分钟"
-    content: "您真的想要为会议系列创建新的分钟数\"{$project}: {$name}\"？"
-  confirmDeleteAttachment: "您真的想要删除附件：\n**{$name}**？"
+    title: "确认创建新会议记录"
+    content: "您真的想要为会议系列\"{$project}: {$name}\"创建新的会议记录吗?"
+  confirmDeleteAttachment: "您真的想要删除附件：\n**{$name}**吗？"
   confirmDeleteDetails: "您真的想要删除项目**{$subject} **的详细信息吗？"
   ConfirmDeleteItem:
     allowed: "您真的想要删除 {$type} **{$subject} **吗？"
     notAllowed: "无法删除 {$type} **{$subject}** ，因为 {$type} 是在前几分钟内创建的。"
-    questionActionItem: "您想要关闭操作项吗？"
-    questionInfoItem: "您想要取消置顶粘滞信息项吗？"
-    typeActionItem: "动作项目"
+    questionActionItem: "您想要改为关闭操作项吗？"
+    questionInfoItem: "您想要取消置顶粘贴信息项吗？"
+    typeActionItem: "操作项目"
     typeInfoItem: "信息"
-    titleCloseActionItem: "关闭操作项？"
+    titleCloseActionItem: "关闭操作项目？"
     titleUnpinInfoItem: "取消固定信息项？"
-    buttonCloseActionItem: "关闭操作项"
-    buttonUnpinInfoItem: "取消置顶信息项"
+    buttonCloseActionItem: "关闭操作项目"
+    buttonUnpinInfoItem: "取消置顶信息项目"
   ConfirmDeleteTopic:
     allowed: "您真的想要删除主题 **{$subject} **吗？"
     notAllowed: "无法删除主题 **{$subject}** ，因为主题是在前几分钟内创建的。"
-    close: "你想要关闭主题吗？"
-    closeWithActions: "您想要关闭主题和所有相关的操作项目吗？"
-  confirmLeaveMeetingSeries: "您真的想要离开会议系列：\n\n**{$project} / {$name}**\n\n您必须询问版主，如果您想在会后再次加入。"
+    close: "你想要改为关闭主题吗？"
+    closeWithActions: "您想要改为关闭主题和所有相关的操作项目吗？"
+  confirmLeaveMeetingSeries: "您真的想要离开会议系列：\n\n**{$project} / {$name}**\n\n您将必须询问版主，如果您想在会后再次加入。"
   ConfirmMinuteQualityAssurance:
-    title: "完成分钟数：质量检查"
+    title: "完成会议记录：质量检查"
     button: "继续"
-    issues: "您的分钟有最后的问题！"
-    proceed: "您想要继续最后完成吗？"
-    warnNoTopics: "当前分钟没有主题"
-    warnNoParticipants: "没有参与者被标记为存在"
-    warnEditing: "一个主题/项目/详细信息仍被编辑"
-    warnNoTopicDiscussed: "没有主题被标记为“讨论”"
-    warnTopicWithoutItems: "至少有一个讨论过的主题没有项目"
-    warnActionItemWithoutResponsible: "至少有一个操作项目没有任何责任"
-    warnTopicNoNewContent: "选中了一个主题，但没有新内容"
+    issues: "您的会议记录还有一些问题！"
+    proceed: "您想要继续完成会议记录吗？"
+    warnNoTopics: "当前会议记录没有主题"
+    warnNoParticipants: "不存在被标记为当前参与者"
+    warnEditing: "一个主题/项目/详细信息仍处于被编辑状态"
+    warnNoTopicDiscussed: "不存在被标记为“已讨论”的主题"
+    warnTopicWithoutItems: "至少有一个讨论过的主题不包含项目"
+    warnActionItemWithoutResponsible: "至少有一个操作项目不含有任何责任人"
+    warnTopicNoNewContent: "一个被选中的主题尚未有新内容"
   ConfirmReOpenTopic:
     title: "重新打开主题？"
-    body: "您真的想要重新打开已关闭的主题**{$topicSubject} **吗？"
+    body: "您确定想要重新打开已关闭的主题**{$topicSubject} **吗？"
     button: "重新打开"
   ConfirmSendAgenda:
-    body: "您真的想要发送日期为 **{$minDate}**的这个会议记录吗？\n它已经在 {$agendaSentDate} 于 {$agendaSentTime} 发送"
-    title: "确认发送议程"
-    button: "发送任务"
+    body: "您确定要发送日期为 **{$minDate}**的这个会议记录的日程吗？\n它已经在 {$agendaSentDate} 于 {$agendaSentTime} 发送"
+    title: "确认发送日程"
+    button: "发送日程"
   ConfirmDeleteMinutes:
-    really: "您真的想要删除日期为 **{$minutesDate} **的这个会议记录吗？"
-    newTopics: "这将删除 **{$newTopicsCount} 个主题**，它们是在这分钟内创建的。"
-    closedTopicsAdditionally: "此外，**{$closedTopicsCount} 个主题** 将再次打开，这些主题将在此分钟内关闭。"
-    closedTopics: "**{$closedTopicsCount} 个主题** 将再次打开，这些主题将在此分钟内关闭。"
+    really: "您确定想要删除日期为 **{$minutesDate} **的这个会议记录吗？"
+    newTopics: "这将删除一分钟内创建的 **{$newTopicsCount} 个主题**。"
+    closedTopicsAdditionally: "此外，一分钟内关闭**{$closedTopicsCount} 个主题** 将再次打开。"
+    closedTopics: "一分钟内关闭**{$closedTopicsCount} 个主题** 将再次打开。"
   ConfirmFinalizeMinutes:
-    title: "确认完成分钟"
+    title: "确认完成会议记录"
     button: "完成"
-    really: "您真的想要在**{$minutesDate}**的日期完成这个会议记录吗？"
+    really: "您确定想要在**{$minutesDate}**的日期完成这个会议记录吗？"
     sendActionItems: "发送操作项"
     sendMinutes: "发送信息项"
   LocaleSetting:
     title: "设置语言"
-    languageLocale: "语言语言"
-    automatic: "通过浏览器自动使用"
-    contributionHint1: "翻译错误或缺少语言？"
+    languageLocale: "本地语言"
+    automatic: "自动使用浏览器本地设置"
+    contributionHint1: "翻译错误或缺少相应的语言翻译？"
     contributionHint2: "帮助我们翻译 4Minitz！"
   IsEditedHandling:
-    title: "编辑已存在的编辑"
-    confirmationDialogResetEdit: "警告：此文档ist 目前由 {$name} 编辑，原因是： {$date}"
+    title: "忽略已存在的编辑继续编辑"
+    confirmationDialogResetEdit: "警告：此文档由用户{$name} 从 {$date} 编辑至今"
     confirmationDialogResetEditDetails: "请再次点击详细信息开始编辑。"
     button: "继续编辑"
   ConnectionInfo:
@@ -123,25 +123,25 @@ Dialog:
     body: "如果您关闭了浏览器，未保存的数据可能会丢失。如果这个问题仍然存在，请联系您的管理员。"
     tryToReconnect: "尝试重新连接"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "这几分钟没有生成协议。您想要下载动态生成的 HTML 版本吗？"
+    title: "确认生成记录"
+    body: "这几分钟没有生成记录。您想要下载动态生成的 HTML 版本吗？"
     button: "下载"
   ConfirmTopicDelete:
     title1: "确认删除主题"
     title2: "将主题标记为已讨论？"
     button2: "关闭主题和操作"
     errortitle: "无法删除主题"
-    errorcontent: "无法删除此主题，因为它是在前几分钟内创建的。 选中的主题已经关闭，没有打开的操作项目，所以它不会被复制到下几分钟。"
+    errorcontent: "无法删除此主题，因为它是在前几分钟内创建的。 选中的主题已经关闭且无尚需处理的操作项目，所以它不会被复制到以下会议记录。"
   ItemDeleteError:
     title: "无法删除项目"
     body1: "无法删除此项目，因为它是在前几分钟内创建的。"
     body2a: "此操作项已被关闭，"
     body2b: "此信息项已取消置頂了"
-    body3: "所以它不会被复制到以下几分钟"
+    body3: "所以它不会被复制到以下会议记录"
   ActionItemResponsibleError:
-    title: "无效的操作项"
+    title: "操作项含无效的负责人"
     body: |
-      这不是一个有效的责任！
+      这不是一个有效的责任人！
 
       请从下拉列表中选择一个**现有的用户** 或输入一个**有效的电子邮件地址**。
   ConvertItemError:
@@ -149,20 +149,20 @@ Dialog:
     body: "无法转换此项目，因为它是在前几分钟内创建的。"
 About:
   title: "关于 4Minitz"
-  copyrightTeam: "由4Minitz-Team"
-  licensedUnder: "许可证许可"
+  copyrightTeam: "由4Minitz-团队"
+  licensedUnder: "在 MIT-许可证下授权"
   licenseDependencies: "依赖许可证"
   thanksContributors: "感谢我们的所有贡献者"
-  thanksTranslators: "感谢我们所有的翻译者"
-  proudlySponsored: "自豪地赞助者"
+  thanksTranslators: "感谢所有我们的笔译员"
+  proudlySponsored: "有情赞助者"
   specialThanks: "特别感谢这些项目"
   forkGitHub: "在GitHub上转发我们"
   ServerStatistics:
-    title: "服务器统计"
-    rowNumUser: "用户数量(活动)"
-    rowNumMeetingSeries: "会议次数"
-    rowNumMeetingMinutes: "会议分钟数"
-    rowNumAttachments: "附件数"
+    title: "服务器统计数据"
+    rowNumUser: "用户数量(已激活)"
+    rowNumMeetingSeries: "会议序列总数"
+    rowNumMeetingMinutes: "会议记录总数"
+    rowNumAttachments: "附件总数"
     rowSizeAttachments: "附件大小"
 Item:
   ariaLabel: "添加/编辑项目"
@@ -171,7 +171,7 @@ Item:
   deleteItem: "删除项目"
   deleteItemHint: "删除此操作/信息项目"
   addItemModal: "添加 {$type} 到 {$topic}"
-  editItemModal: "编辑 {$type} of {$topic}"
+  editItemModal: "编辑 {$topic} 的{$type}"
   editItemModelTypeInfoItem: "信息"
   editItemModelTypeActionItem: "操作项"
   addInfo: "添加信息项目"
@@ -179,10 +179,10 @@ Item:
   action: "操作项"
   addAction: "添加操作项"
   addActionHint: "添加动作项目到主题"
-  convertToAction: "转换为行动"
+  convertToAction: "转换为操作项"
   convertToInfo: "转换为信息"
   convertDisabled: "转换禁用：项目存在于过去的会议"
-  subject: "主题(强制性)"
+  subject: "主题(必须注明)"
   details: "详细信息"
   addDetails: "添加详细信息"
   priority: "优先级"
@@ -193,78 +193,78 @@ Item:
   due: "到期"
   dueNone: "无"
   detailPlaceholder: "您可以使用Markdown编辑。按 Ctrl+Enter 或 Tab 离开。"
-  markdownHint: "降价语法的帮助"
+  markdownHint: "Markdown语法的帮助"
   setPin: "设置固定"
   setPinHint: "设置为置頂信息项"
   unsetPin: "取消固定"
   unsetPinHint: "设置为非置頂信息项"
-  done: "做"
-  pinned: "钉"
+  done: "完成"
+  pinned: "已固定"
   Error:
     subject: "请输入一个有效的主题"
   Filter:
     title: "过滤器"
-    usageHint: "过滤器使用情况"
+    usageHint: "如何使用过滤器"
     info: "信息项目"
     action: "操作项目"
     open: "打开操作项"
-    closed: "已关闭的行动项目"
+    closed: "已关闭的操作项目"
     yourAction: "您的操作项"
     placeholder: "过滤器"
-    matchCase: "案件"
+    matchCase: "大小写"
     matchCaseHint: "匹配大小写"
-    matchCaseLong: "匹配大小写"
+    matchCaseLong: "多个大小写匹配"
     Usage:
       body: "您可以使用几个关键字筛选列表元素。所有关键字都可以被组合在一起来筛选匹配所有指定搜索参数的项目。"
-      keyword: "Keyword"
+      keyword: "关键词"
       format: "格式"
       values: "值"
       eg: "例如:"
   myActionItems: "我的操作项目"
 Topic:
-  title: "专题"
+  title: "主题"
   new: "新建"
   add: "添加主题"
   addLong: "添加主题..."
-  addShort: "专题"
+  addShort: "主题"
   addHint: "将新主题添加到列表顶部 [Ctrl+Alt+T]"
-  quickAdd: "添加 TOPIC (至列表结尾)"
+  quickAdd: "添加主题(至列表结尾)"
   edit: "编辑主题"
   save: "保存主题"
   show: "显示主题"
-  subject: "主题(强制性)"
+  subject: "主题对象(必须给定)"
   responsible: "负责人"
   completed: "已完成"
   completedHint: "这个主题终于完成。所以不会传播到下次会议。"
   setRecurring: "设置周期"
-  setRecurringHint: "设置为经常性主题"
-  unsetRecurring: "未定期"
-  unsetRecurringHint: "设置为不重复主题"
-  setSkip: "设置跳过"
-  setSkipHint: "设置为跳过的主题"
-  unsetSkip: "取消跳过"
-  unsetSkipHint: "设置为不跳过的主题"
+  setRecurringHint: "设置为周期性主题"
+  unsetRecurring: "取消周期"
+  unsetRecurringHint: "设置为非周期主题"
+  setSkip: "设置忽略"
+  setSkipHint: "设置为忽略的主题"
+  unsetSkip: "取消忽略"
+  unsetSkipHint: "设置为不可忽略的主题"
   history: "显示历史"
   historyHint: "显示此主题的完整最后完成状态"
   delete: "删除主题"
   reopen: "重新打开主题"
   reopenHint: "重新打开主题"
-  placeholder: "添加信息项目。附加 @username 来添加一个动作项目。按下 Enter 来附加详细信息。按 Ctrl+Enter 或 Tab 提交。"
+  placeholder: "添加信息项目。附加 @username 来添加一个操作项目。按下回车键来附加详细信息。按 控制键+回车键或制表键提交。"
   childOf: "会议系列的主题："
-  historyTitle: "此主题是"
+  historyTitle: "此主题曾是"
   createdOn: "创建于："
   lastUpdate: "最后更新时间："
-  finalizedOn: "分钟后最后完成："
+  finalizedOn: "会议记录最后完成时间："
   doneBy: "(由 {$user})"
   notFoundTitle: "抱歉，找不到主题。"
-  notFoundReasons: "原因可能是...<br><ul><li>主题从未最后确定 (它只是在未指定时间)</li><li>主题被删除</li><li>您没有权限访问此主题 (不再)</li></ul>"
+  notFoundReasons: "原因可能是...<br><ul><li>主题从未最后完成 (它只是存在于一个未完成的会议记录中)</li><li>主题被删除</li><li>您(不再) 拥有访问此主题的权限</li></ul>"
   illegalAction: "尝试在只读模式下调用一个非法事件"
   addDetails: "添加详细信息"
   addDetailsHint: "添加详细信息到项目"
-  hideClosed: "隐藏已关闭"
-  hideClosedHint: "从列表中临时隐藏讨论/跳过的主题"
+  hideClosed: "隐藏已关闭主题"
+  hideClosedHint: "从列表中临时隐藏已讨论/已跳过的主题"
   hideClosedLong: "隐藏已关闭的主题"
-  collapse: "折叠(C)"
+  collapse: "折叠"
   collapseLong: "折叠主题"
   expand: "展开"
   expandLong: "展开主题"
@@ -278,36 +278,36 @@ Topic:
     date: "创建于 {$dateCreateStr}"
     user: "由 {$userCreate}"
   TooltipUpdated:
-    date: "已更新 {$dateUpdStr}"
+    date: "更新于 {$dateUpdStr}"
     user: "由 {$userUpd}"
 Minutes:
-  create: "创建新分钟"
+  create: "创建新会议记录"
   date: "日期"
   dateOn: "在"
-  title: "分钟"
+  title: "会议记录"
   finalized: "最后完成"
-  finalizedHint: "分钟最后确定"
+  finalizedHint: "会议记录已最后完成"
   notFinalized: "尚未最后完成"
-  notFinalizedHint: "分钟尚未最后完成"
+  notFinalizedHint: "会议记录尚未最后完成"
   attachments: "附件"
-  attachmentsHint: "分钟有附件"
+  attachmentsHint: "会议记录包含附件"
   previous: "上一个:"
-  next: "下一步:"
+  next: "下一个"
   history: "历史记录"
-  unfinalizeHint: "单击以取消-完成分钟"
-  print: "打印分钟"
-  finalize: "完成分钟数"
-  finalizeHint: "单击以确定分钟数"
-  printHint: "打印分钟"
-  downloadHint: "将分钟数下载为文件"
+  unfinalizeHint: "单击以取消-最后完成会议记录"
+  print: "打印会议记录"
+  finalize: "最后完成会议记录"
+  finalizeHint: "单击以确定最后完成会议记录"
+  printHint: "打印会议记录"
+  downloadHint: "将会议记录下载为文件"
   agenda: "议程"
   sendAgenda: "发送议程"
-  delete: "删除分钟"
+  delete: "删除会议记录"
   GlobalNotes:
     pin: "设置为固定全局注释"
     unpin: "设置为非固定全局注释"
     title: "全局注释"
-    placeholder: "这些分钟的全局注释。 单击 pin 以将注释传播到下一分钟。"
+    placeholder: "这些会议记录的全局注释。 单击固定以将注释传播到下一分钟。"
   Upload:
     button: "上传..."
     uploading: "上传中"
@@ -319,82 +319,82 @@ Minutes:
   version: "版本"
   versionTag: "v"
   Participants:
-    title: "参与者"
-    invited: "已邀请"
-    solo: "1 个参与者"
-    additional: "其他参与者"
-    additionalSolo: "1 个其他参与者"
-    placeholder: "其他参与者 (分别为 \";\")。 邮件地址将接收分钟。"
+    title: "与会者"
+    invited: "被邀请人"
+    solo: "1 个与会者"
+    additional: "其他与会者"
+    additionalSolo: "1 个额外与会者"
+    placeholder: "其他与会者 (分别为 \";\")。 邮件地址将接收会议记录。"
     editHint: "编辑受邀用户。"
-    markNone: "标记为无"
+    markNone: "取消全选"
     markAll: "全部标记"
-    watchingHint: "此用户正在监视(远程)"
+    watchingHint: "此用户正在观看(远程)"
     informed: "知情的用户"
     informedSolo: "1 个知情用户"
-    present: "出席与会者"
+    present: "当前与会者"
     absent: "缺席"
-    none: "没有。"
+    none: "无"
 MeetingSeries:
   title: "会议系列"
   team: "团队 / 项目"
   new: "新的会议系列"
-  leave: "休假会议系列"
+  leave: "退出会议系列"
   leaveButton: "退出"
-  moderator: "你是版主"
-  lastMinute: "最后一分钟："
+  moderator: "你是主持人"
+  lastMinute: "最后一个会议记录："
   Search:
     placeholder: "搜索会议系列"
     noResults: "此输入没有结果..."
   Edit:
     Error:
-      meetingName: "请输入会议系列的有效名称"
+      meetingName: "请输入一个有效的会议系列名称"
       teamName: "请输入一个有效的项目名称"
-      notRegistered: "这不是注册的用户名"
+      notRegistered: "这不是一个已注册的用户名"
       alreadyInList: "此用户名已经在列表中"
     teamName: "团队/项目名称"
     meetingName: "会议名称"
     title: "编辑会议系列"
     base: "基础配置"
-    editedBy: "由 {$user} (在 {$date}) 编辑"
-    invited: "邀请 & 知情用户"
-    placeholderUsers: "添加用户到邀请用户..."
-    notifyRoleChange: "通知参与者更改角色"
+    editedBy: "由 {$user} 编辑(于 {$date})"
+    invited: "邀请及知情用户"
+    placeholderUsers: "邀请更多用户..."
+    notifyRoleChange: "通知参与者有关角色更改"
     labels: "标签"
     save: "保存会议系列"
     confirmDelete: "确认删除"
   Labels:
     Error:
-      name: "请输入一个有效的标签名称"
+      name: "请输入一个有效的标签名"
       hexValue: "十六进制颜色值无效"
     add: "添加新标签"
     new: "新标签"
     select: "选择..."
   Tab:
-    minutes: "分钟"
+    minutes: "会议记录"
     topics: "主题"
     items: "项目"
 Profile:
-  title: "编辑个人资料到"
+  title: "编辑个人资料"
   userName: "用户名"
   longName: "长名"
   email: "电子邮件"
   password: "密码"
-  passwordRepeat: "密码重复"
+  passwordRepeat: "再输入一遍密码"
   ChangePassword:
     title: "更改密码"
     oldPassword: "旧密码"
-    wrongOldPassword: "请输入旧密码"
+    wrongOldPassword: "请输入有效旧密码"
     newPassword: "新密码"
-    newPasswordRepeat: "新密码重复"
+    newPasswordRepeat: "再输入一遍新密码"
   Error:
     name: "请输入一个有效的用户名"
-    longName: "请输入一个有效的长期名称"
-    email: "请输入一个有效的EMail 地址"
+    longName: "请输入一个有效的长名"
+    email: "请输入一个有效的电子邮件地址"
     password: "请输入一个有效的密码"
   WarningEMailChange:
     title: "确认更改用户邮件"
     body: "您将要更改您已验证的邮件地址。 您将被登出并需要验证您的新邮件地址才能继续。"
-    button: "注销 + 重新验证"
+    button: "退出 + 重新验证"
 Admin:
   users: "用户"
   messages: "消息"
@@ -403,36 +403,36 @@ Admin:
     hint: "提示：这将注册一个用户用于标准登录 (不是 LDAP 登录!)。"
     button: "注册新用户..."
     sendMail: "发送电子邮件到新用户"
-    includePassword: "包含密码"
+    includePassword: "在电子邮件中包含密码"
     success: "注册新用户: {$user}"
   Message:
-    title: "从管理员广播消息"
-    newMessage: "新的消息给所有用户"
+    title: "来自管理员的广播消息"
+    newMessage: "给所有用户的新消息"
     broadcast: "广播"
     date: "日期"
     message: "消息"
     dismissed: "已忽略"
-    dismissingUsers: "#忽略用户: {$number}\n"
+    dismissingUsers: "#忽略用户数: {$number}\n"
     edit: "编辑"
   Users:
     filterUsers: "筛选用户"
-    showInactive: "显示非活动"
+    showInactive: "显示未激活的用户"
     online: "在线"
-    onlineHint: "显示当前在minute disponse 路由上活动的用户"
-    id: "ID"
+    onlineHint: "显示当前在编辑会议记录的活动的用户"
+    id: "编号"
     editProfile: "编辑用户资料"
-    countSingle: "显示 {$visible} {$all} 用户。使用过滤器显示其他。"
-    count: "显示 {$visible} 的 {$all} 用户。使用过滤器显示其他。"
+    countSingle: "显示 {$all} 用户中的 {$visible} 。使用过滤器显示其他。"
+    count: "显示{$all} 所有{$visible} 的用户 。使用过滤器显示其他。"
     Type:
       hint: "LDAP用户或标准用户"
-      column: "升/秒"
-      ldap: "升"
-      standard: "秒"
+      column: "单点登录用户/标准用户"
+      ldap: "单点登录用户"
+      standard: "标准用户"
     State:
-      hint: "切换活动状态/活动状态。非活动用户无法登录。"
-      column: "在/活动中"
-      active: "活动中"
-      inactive: "非活动"
+      hint: "切换激活状态/未激活状态。非活动用户无法登录。"
+      column: "未激活/激活状态"
+      active: "已激活"
+      inactive: "未激活"
       toggle: "切换"
 Login:
   Error:
@@ -440,44 +440,44 @@ Login:
     username: "请输入您的用户名"
     password: "请输入您的密码"
   signIn: "登录"
-  ldap: "卢达普"
+  ldap: "单点登录"
   standard: "标准"
-  demoHint: "提示:Demo Mode Active<br>您可以使用用户名 <b>demo</b> 和 password <b>demo</b>登录。 或者，您可以通过单击下面的 \"注册\" 链接来注册自己的帐户。"
+  demoHint: "提示: 演示激活帐户<br>您可以使用用户名 <b>demo</b> 和 密码<b>demo</b>登录。 或者，您可以通过单击下面的 \"注册\" 链接来注册自己的帐户。"
   Login4MinitzInfo:
     header: "4Minitz：合作会议记录。"
-    subheader: "● 准备议程 ● 文档分钟● 跟踪主题 ●"
+    subheader: "● 准备议程 ● 会议记录文档● 跟踪主题 ●"
     abstract: |
-      <p>每个被邀请并登录的用户都可以实时观看当前会议分钟的变化。</p>
-      我们制作了4Minitz免费开源软件。 我们坚信，
+      <p>每个被邀请并登录的用户都可以实时观看当前会议记录的变化。</p>
+      我们开发了免费开源软件4Minitz。 我们坚信，
       像会议记录这样的敏感信息不应放在云端。
       相反，您想在自己的基础设施上托管它，您可以在那里定义
       所需的安全等级。
-    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaHeading: "准备议程"
     prepareAgendaDetails: |
       <li>创建您的会议系列</li>
       <li>邀请其他用户</li>
-      <li>指定版主和上传者</li>
+      <li>指定会议主持者和上传者</li>
       <li>填写主题</li>
       <li>标记重复性主题作为标准议程</li>
-      <li>发送议程给邀请用户</li>
-    documentMinutesHeading: "文档分钟"
+      <li>发送议程给被邀请用户</li>
+    documentMinutesHeading: "文档记录"
     documentMinutesDetails: |
-      <li>标记与会者</li>
-      <li>添加对主题负责的操作项目</li>
+      <li>标记出席会议者</li>
+      <li>添加对主题负责的操作项目及负责人</li>
       <li>添加信息项目到主题</li>
       <li>在项目中加上“决定” 等标签</li>
       <li>上传二进制文件附件</li>
       <li>通过电子邮件发送 &amp; 行动项目</li>
     trackTopicsHeading: "跟踪主题"
     trackTopicsDetails: |
-      <li>下次打开的动作项目将显示在下次</li>
-      <li>下次非闭合的主题将显示</li>
-      <li>所有讨论主题的搜索列表</li>
-      <li>多次会议上包含信息项目的主题</li>
-      <li>查找带标签的主题 (e). 。所有决定)</li>
+      <li>下次将显示打开的动作项目</li>
+      <li>下次将显示非关闭的主题</li>
+      <li>搜索所有讨论过的主题列表</li>
+      <li>在多个会议里添加包含信息项目的主题</li>
+      <li>查找带标签的主题 (比如所有决定)</li>
       <li>通过全文搜索查找项目</li>
   Footer:
-    withLove: "用 ❤ 来电"
+    withLove: "用 ❤ 编码"
     theTeam: "WebApp 团队"
 Navigation:
   help: "帮助"
@@ -493,32 +493,32 @@ Navigation:
   setLanguageLogin: "语言"
 QuickHelp:
   title: "快速帮助"
-  meetingSeries: "<p>在这里您可以为当前会议系列创建新分钟，或点击现有分钟的日期链接。</p>"
-  meetingSeriesList: "<p>您可以创建会议分钟。</p><p>首先创建一个新的会议系列，邀请其他用户。<br>然后为您的会议系列创建会议记录。</p>"
-  minutes: "<p>添加主题来准备您的会议议程<br>在会议期间标记一个主题，其中要清楚您讨论过的主题。<br>如果主题...<br>&nbsp;&nbsp; - 未标记为讨论或<br>&nbsp;&nbsp; - 被设置为经常性主题，或者<br>&nbsp;&nbsp; - 包含未完成的操作项目<br>... 下一次会议将再次介绍这一专题。</p><p>点击“最后完成分钟”将分钟发送给被邀请的用户和操作项目到他们的响应。</p>"
-  upload: "<ul><li>您可以在这里上传文件，例如，演示文、PDF或白板照片</li><li>你需要角色“上传者”或“主持人”这样做</li><li>上传或删除，直到几分钟最后完成</li><li>专业提示：点击上面的“上传”按钮或智能手机！</li></ul>"
+  meetingSeries: "<p>在这里您可以为当前会议系列创建新会议记录或点击现有会议记录的日期链接。</p>"
+  meetingSeriesList: "<p>您可以使用4Minitz创建会议记录。</p><p>首先创建一个新的会议系列，邀请其他用户。<br>然后为您的会议系列创建会议记录。</p>"
+  minutes: "<p>添加主题来准备您的会议议程<br>在会议期间标记每个您已讨论清楚的主题。<br>如果主题...<br>&nbsp;&nbsp; - 未标记为已讨论或<br>&nbsp;&nbsp; - 被设置为周期主题，或者<br>&nbsp;&nbsp; - 包含未完成的操作项目<br>... 下一次会议将再次介绍这一专题。</p><p>点击“完成会议记录”将它发送给被邀请的用户和操作项目到对应的负责人。</p>"
+  upload: "<ul><li>您可以在这里上传文件，例如，演示文、PDF或白板照片</li><li>你必须是“上传者”或“主持人”</li><li>只有已经完成的会议记录才可被上传或删除</li><li>专业提示：点击按钮或智能手机上面的“上传”键！</li></ul>"
 Mail:
-  greeting: "你好"
+  greeting: "您好"
   newAgenda: "我们有一个全新的会议日程"
-  newActionItem: "您已被分配到以下操作项："
+  newActionItem: "以下操作项已被指定给您："
   newMinutes: "下面你会找到最新的会议记录。"
   meeting: "会议"
   links: "链接"
   openSeries: "打开系列"
-  openMinutes: "打开分钟数"
-  minutesSubject: "会议分钟"
-  discussedTopics: "讨论主题"
+  openMinutes: "打开会议记录"
+  minutesSubject: "会议记录"
+  discussedTopics: "已讨论主题"
   skippedTopics: "打开主题"
   none: "无"
   AdminNewVersion:
     subject: "已有新版本"
     body: |
-      你好，
+      您好管理员，
 
-      你似乎正在运行一个过时版本的 4Minitz。
+      您似乎正在运行一个过时版本的 4Minitz。
 
       您的 4Minitz实例： {$rootUrl}
-      有版本： {$myVersion}
+      是版本： {$myVersion}
 
       最新版本可用为： {$masterVersion}'
       版本说明： {$urlReleaseNotes}
@@ -529,16 +529,16 @@ Mail:
       此邮件是由您的 4Minitz 后端生成的
       您可以通过settings.json来禁用更新检查：\"updateCheck\": false。
 
-      有趣！
-              你的4Minitz团队。
+      祝您开心！
+              您的4Minitz团队。
 
 
       -
       4Minitz是由4Minitz团队开发的免费开放源代码。
-      源代码可在 {$url4Minitz}
+      您可在{$url4Minitz} 找到源代码
   AdminRegisterNewUser:
     subject: "您在我们的服务器上的新账户"
-    passwordNotSend: "    密码联系管理员。"
+    passwordNotSend: "    联系管理员获取密码。"
     passwordParagraph: |
       您的密码: {$password}
 
@@ -561,12 +561,12 @@ Mail:
       4Minitz是由4Minitz团队开发的免费开放源代码。
       源代码是 {$url4Minitz}
   UserRoleChange:
-    subject: "您的角色已经改变{$meetingProject}:{$meetingName}"
+    subject: "您的角色已经改变'{$meetingProject}:{$meetingName}'"
     body: |
       您好 {$userName}
 
-      您的角色已经改变了会议系列 '{$meetingProject}:{$meetingName}'
-      ({$meetingSeriesURL})
+      您在会议系列 '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL}) 中的脚色已被改变
 
          您的旧角色是 : {$roleOld}
          您的新角色是 : {$roleNew}
@@ -575,7 +575,7 @@ Mail:
       完成的关于每个角色的完整权利清单见:
       {$urlRoleDocu}
 
-      有趣！
+      开心！
         您的管理员。
 
       -
