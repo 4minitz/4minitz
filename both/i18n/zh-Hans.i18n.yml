@@ -513,12 +513,12 @@ Mail:
   AdminNewVersion:
     subject: "已有新版本"
     body: |
-      你好，
+      您好管理员，
 
-      你似乎正在运行一个过时版本的 4Minitz。
+      您似乎正在运行一个过时版本的 4Minitz。
 
       您的 4Minitz实例： {$rootUrl}
-      有版本： {$myVersion}
+      是版本： {$myVersion}
 
       最新版本可用为： {$masterVersion}'
       版本说明： {$urlReleaseNotes}
@@ -529,13 +529,13 @@ Mail:
       此邮件是由您的 4Minitz 后端生成的
       您可以通过settings.json来禁用更新检查：\"updateCheck\": false。
 
-      有趣！
-              你的4Minitz团队。
+      祝您开心！
+              您的4Minitz团队。
 
 
       -
       4Minitz是由4Minitz团队开发的免费开放源代码。
-      源代码可在 {$url4Minitz}
+      您可在{$url4Minitz} 找到源代码
   AdminRegisterNewUser:
     subject: "您在我们的服务器上的新账户"
     passwordNotSend: "    密码联系管理员。"
