@@ -538,7 +538,7 @@ Mail:
       您可在{$url4Minitz} 找到源代码
   AdminRegisterNewUser:
     subject: "您在我们的服务器上的新账户"
-    passwordNotSend: "    密码联系管理员。"
+    passwordNotSend: "    联系管理员获取密码。"
     passwordParagraph: |
       您的密码: {$password}
 
