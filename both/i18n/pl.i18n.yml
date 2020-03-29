@@ -24,14 +24,14 @@ Buttons:
   save: "Zapisz"
 UserRoles:
   roleModerator: "Moderator"
-  roleUploader: "Przesyłacz"
+  roleUploader: "Osoba wysyłająca"
   roleInvited: "Zaproszono"
-  roleInformed: "Informowany"
+  roleInformed: "Poinformowany"
 FlashMessages:
   ok: "OK"
   error: "Błąd"
-  verifyEMailErr: "Błąd: nie można zweryfikować EMail"
-  verifyEMailOK: "OK: EMail jest teraz zweryfikowany"
+  verifyEMailErr: "Błąd: nie można zweryfikować adresu e-mail"
+  verifyEMailOK: "OK: adres e-mail jest teraz zweryfikowany"
   passwordChangeOK: "Hasło zmienione"
   passwordResetOK: "Hasło pomyślnie zresetowane"
   profileEditOK: "Zapisano zmiany profilu"
