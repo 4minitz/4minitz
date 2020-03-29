@@ -35,9 +35,9 @@ FlashMessages:
   passwordChangeOK: "Hasło zmienione"
   passwordResetOK: "Hasło pomyślnie zresetowane"
   profileEditOK: "Zapisano zmiany profilu"
-  minuteLinkErr: "Niestety minuta nie jest poprawnie połączona z serią nadrzędną - skontaktuj się z administratorem systemu."
-  agendaSentOK: "Agenda została wysłana do {$result} odbiorców"
-  finalizeProgress1: "Kończenie w toku"
+  minuteLinkErr: "Niestety protokół spotkania nie jest poprawnie połączony z serią nadrzędną - skontaktuj się z administratorem systemu."
+  agendaSentOK: "Lista tematów została poprawnie wysłana do {$result} odbiorców"
+  finalizeProgress1: "Finalizowanie w toku"
   finalizeProgress2: "To może potrwać kilka sekund..."
   finalizeOK: "Protokół spotkania został pomyślnie sfinalizowany"
 Dialog:
