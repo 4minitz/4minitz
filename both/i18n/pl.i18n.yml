@@ -65,8 +65,8 @@ Dialog:
     buttonUnpinInfoItem: "Usuń informację"
   ConfirmDeleteTopic:
     allowed: "Czy na pewno chcesz usunąć wątek **{$subject}**?"
-    notAllowed: "Usunięcie tematu **{$subject}** nie jest możliwe, ponieważ temat został utworzony w poprzednich minutach."
-    close: "Czy zamiast tego chcesz zamknąć temat?"
+    notAllowed: "Nie można usunąć **{$subject}** ponieważ temat został utworzony w jednym z poprzednich protokołów."
+    close: "Czy chcesz zamiast tego zamknąć zadanie?"
     closeWithActions: "Czy chcesz zamknąć wątek razem ze wszystkimi powiązanymi elementami akcji?"
   confirmLeaveMeetingSeries: "Czy na pewno chcesz opuścić serię spotkań:\n\n**{$project} / {$name}**\n\nBędziesz musiał zapytać moderatora, czy chcesz dołączyć ponownie później."
   ConfirmMinuteQualityAssurance:
