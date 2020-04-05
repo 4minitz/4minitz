@@ -74,7 +74,7 @@ Dialog:
     button: "Kontynuuj"
     issues: "Pojawiły się problemy z twoimi protokołami!"
     proceed: "Czy chcesz kontynuować finalizację?"
-    warnNoTopics: "Trwające protokoły nie mają tematów"
+    warnNoTopics: "Trwające protokoły nie mają wątków"
     warnNoParticipants: "Żaden użytkownik nie jest oznaczony jako obecny"
     warnEditing: "Wątek/element/szczegół jest nadal edytowany"
     warnNoTopicDiscussed: "Żaden temat nie jest oznaczony jako 'omówiony'"
@@ -97,44 +97,44 @@ Dialog:
   ConfirmFinalizeMinutes:
     title: "Potwierdź zakończenie protokołu"
     button: "Zakończ"
-    really: "Czy na pewno chcesz sfinalizować tę minutę spotkania datowaną na **{$minutesDate}**?"
-    sendActionItems: "Wyślij elementy akcji"
-    sendMinutes: "Wyślij elementy informacji"
+    really: "Czy na pewno chcesz zakończyć protokół datowany na **{$minutesDate}**?"
+    sendActionItems: "Wyślij zadanie"
+    sendMinutes: "Wyślij informację"
   LocaleSetting:
-    title: "Ustaw język"
-    languageLocale: "Język językowy"
+    title: "Wybierz język"
+    languageLocale: "Język lokalny"
     automatic: "Automatycznie przez przeglądarkę"
-    contributionHint1: "Tłumaczenie błędów lub brak języka?"
+    contributionHint1: "Błędy w tłumaczeniu lub brak języka?"
     contributionHint2: "Pomóż nam przetłumaczyć 4Minitz!"
   IsEditedHandling:
-    title: "Edytuj pomimo istniejącej edycji"
+    title: "Edytuj istniejącą wersję"
     confirmationDialogResetEdit: "Ostrzeżenie: Ten dokument jest obecnie edytowany przez {$name} od: {$date}"
-    confirmationDialogResetEditDetails: "Kliknij ponownie szczegóły, aby rozpocząć edycję."
+    confirmationDialogResetEditDetails: "Kliknij ponownie na symbol, aby rozpocząć edycję."
     button: "Edytuj mimo to"
   ConnectionInfo:
     tooltip: |
       Połączenie utracone!
         Status: {$status}
-        Ponów liczbę: {$retryCount}
+        Liczba prób: {$retryCount}
         Czas próby: {$retryTime} s.
         Powód: {$reason}
-        Kliknij, aby ponownie połączyć.
+        Kliknij, aby połączyć ponownie.
     header: "Utracono połączenie z serwerem 4Minitz."
     body: "Jeśli zamkniesz przeglądarkę, niezapisane dane mogą zostać utracone. Jeśli problem będzie się powtarzał, skontaktuj się z administratorem systemu."
     tryToReconnect: "Spróbuj połączyć ponownie"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "Przez te minuty nie wygenerowano protokołu. Czy chcesz pobrać wygenerowaną dynamicznie wersję HTML?"
+    title: "Potwierdź utworzenie protokołu"
+    body: "Nie został utworzony opis tego protokołu. Czy chcesz zamiast tego pobrać dynamicznie wygenerowaną wersję HTML?"
     button: "Pobierz"
   ConfirmTopicDelete:
     title1: "Potwierdź usunięcie wątku"
-    title2: "Oznaczyć temat jako omówiony?"
-    button2: "Zamknij temat i działania"
-    errortitle: "Nie można usunąć tematu"
-    errorcontent: "Nie można usunąć tego tematu, ponieważ został on utworzony w poprzednich minutach. Wybrany wątek jest już zamknięty i nie ma otwartych elementów akcji, więc nie zostanie skopiowany do następnych minut."
+    title2: "Oznaczyć wątek jako omówiony?"
+    button2: "Zamknij wątek i zadania"
+    errortitle: "Nie można usunąć wątku"
+    errorcontent: "Nie można usunąć tego wątku, ponieważ został on utworzony w poprzednich protokołach. Wybrany wątek jest już zamknięty i nie ma otwartych zadań, więc nie zostanie skopiowany do następnych protokołów."
   ItemDeleteError:
     title: "Nie można usunąć elementu"
-    body1: "Nie można usunąć tego elementu, ponieważ został utworzony w poprzednich minutach."
+    body1: "Nie można usunąć tego elementu, ponieważ został on utworzony w poprzednich protokołach."
     body2a: "Ten element akcji jest już zamknięty,"
     body2b: "Ten element informacji jest już odpięty"
     body3: "więc nie zostanie skopiowany do następnych minut"
