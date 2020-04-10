@@ -135,7 +135,7 @@ Dialog:
   ItemDeleteError:
     title: "Nie można usunąć elementu"
     body1: "Nie można usunąć tego elementu, ponieważ został on utworzony w poprzednich protokołach."
-    body2a: "Ten element akcji jest już zamknięty,"
+    body2a: "To zadanie jest już zamknięte,"
     body2b: "Ten element informacji jest już odpięty"
     body3: "więc nie zostanie skopiowany do następnych minut"
   ActionItemResponsibleError:
