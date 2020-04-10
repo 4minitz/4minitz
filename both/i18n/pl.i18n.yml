@@ -324,11 +324,11 @@ Minutes:
     solo: "1 uczestnik"
     additional: "Dodatkowi uczestnicy"
     additionalSolo: "1 dodatkowy uczestnik"
-    placeholder: "Dodatkowi uczestnicy (oddzielni od \";\"). Adresy e-mail otrzymają minuty."
+    placeholder: "Dodatkowi uczestnicy (oddziel \";\"). Adresy e-mail otrzymają protokół."
     editHint: "Edytuj zaproszonych użytkowników."
     markNone: "Nie zaznaczaj żadnego"
-    markAll: "Oznacz wszystko"
-    watchingHint: "Ten użytkownik jest obserwowany (zdalnie)"
+    markAll: "Zaznacz wszystko"
+    watchingHint: "Ten użytkownik obserwóje (zdalnie)"
     informed: "Poinformowani użytkownicy"
     informedSolo: "1 Poinformowany Użytkownik"
     present: "Obecni uczestnicy"
@@ -344,7 +344,7 @@ MeetingSeries:
   lastMinute: "Ostatni protokół:"
   Search:
     placeholder: "Wyszukiwanie serii spotkań"
-    noResults: "Brak wyników dla tego wejścia ..."
+    noResults: "Brak wyników dla tego wejścia..."
   Edit:
     Error:
       meetingName: "Wprowadź poprawną nazwę dla serii konferencji"
@@ -561,7 +561,7 @@ Mail:
       4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
       Źródło jest dostępne pod adresem {$url4Minitz}
   UserRoleChange:
-    subject: "Twoja rola zmieniła się na '{$meetingProject}:{$meetingName}'"
+    subject: "Twoja rola zmieniła się w '{$meetingProject} na:{$meetingName}'"
     body: |
       Witaj {$userName}
 
