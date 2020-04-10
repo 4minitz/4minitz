@@ -11,6 +11,7 @@ import { MinutesSchema } from './minutes.schema';
 import { AttachmentsCollection } from './attachments_private';
 import {MeetingSeriesTopicsUpdater} from '../services/finalize-minutes/meetingSeriesTopicsUpdater';
 import {Topic} from '../topic';
+import {TopicsFinder} from '../services/topicsFinder';
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
@@ -67,8 +68,27 @@ Meteor.methods({
         doc.createdAt = new Date();
         doc.createdBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
         delete doc.finalizedAt;
+        delete doc.topics;
         doc.finalizedVersion = 0;
         doc.finalizedHistory = [];
+
+        let topics = [];
+        // copy open topics from this meeting series & set isNew=false, isSkipped=false
+        console.log(`Parent MS id: ${parentMeetingSeries._id}`);
+        const openTopics = TopicsFinder.allOpenTopicsOfMeetingSeries(parentMeetingSeries._id);
+        console.log(openTopics);
+        if (openTopics) {
+            topics = openTopics;
+            topics.forEach((topicDoc) => {
+                let topic = new Topic(parentMeetingSeries, topicDoc);
+                topic.tailorTopic();
+                topic.invalidateIsNewFlag();
+                if (topic.isSkipped()) {
+                    topic.toggleSkip();
+                }
+            });
+        }
+        doc.topics = topics;
 
         try {
             let newMinutesID = MinutesSchema.insert(doc);

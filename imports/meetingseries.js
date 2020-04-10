@@ -3,7 +3,6 @@ import { Random } from 'meteor/random';
 import { MeetingSeriesSchema } from './collections/meetingseries.schema';
 import { MinutesFinder } from '/imports/services/minutesFinder';
 import { Minutes } from './minutes';
-import { Topic } from './topic';
 import { UserRoles } from './userroles';
 import { formatDateISO8601 } from '/imports/helpers/date';
 import { subElementsHelper } from '/imports/helpers/subElements';
@@ -100,26 +99,9 @@ export class MeetingSeries {
         const globalNotePinned = lastMinutes && lastMinutes.globalNotePinned;
         let globalNote = (globalNotePinned) ? lastMinutes.globalNote : '';
 
-        let topics = [];
-
-        // copy open topics from this meeting series & set isNew=false, isSkipped=false
-        const openTopics = TopicsFinder.allOpenTopicsOfMeetingSeries(this._id);
-        if (openTopics) {
-            topics = openTopics;
-            topics.forEach((topicDoc) => {
-                let topic = new Topic(this, topicDoc);
-                topic.tailorTopic();
-                topic.invalidateIsNewFlag();
-                if (topic.isSkipped()) {
-                    topic.toggleSkip();
-                }
-            });
-        }
-
         let min = new Minutes({
             meetingSeries_id: this._id,
             date: formatDateISO8601(newMinutesDate),
-            topics: topics,
             visibleFor: this.visibleFor,             // freshly created minutes inherit visibility of their series
             informedUsers: this.informedUsers,       // freshly created minutes inherit informedUsers of their series
             globalNotePinned: globalNotePinned,
