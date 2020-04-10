@@ -136,21 +136,21 @@ Dialog:
     title: "Nie można usunąć elementu"
     body1: "Nie można usunąć tego elementu, ponieważ został on utworzony w poprzednich protokołach."
     body2a: "To zadanie jest już zamknięte,"
-    body2b: "Ten element informacji jest już odpięty"
-    body3: "więc nie zostanie skopiowany do następnych minut"
+    body2b: "Ta infirmacja jest już odpięta"
+    body3: "więc nie zostanie skopiowane do następnych protokołów"
   ActionItemResponsibleError:
-    title: "Nieprawidłowa osoba odpowiedzialna za pozycję działania"
+    title: "Nieprawidłowa osoba odpowiedzialna za zadanie"
     body: |
-      To nie jest prawidłowa odpowiedzialność!
+      To nie jest odpowiednia osoba odpowiedzialna!
 
-      Wybierz **istniejącego użytkownika** z listy rozwijanej lub wprowadź **poprawny adres e-mail**.
+      Wybierz **istniejącego użytkownika** z listy lub wprowadź **poprawny adres e-mail**.
   ConvertItemError:
     title: "Nie można przekonwertować elementu"
-    body: "Nie można przekonwertować tego elementu, ponieważ został on utworzony w poprzednich minutach."
+    body: "Nie można przekonwertować tego elementu, ponieważ został on utworzony w poprzednich protokołach."
 About:
   title: "O 4Minitz"
-  copyrightTeam: "przez 4Minitz-Team"
-  licensedUnder: "Licencja na licencji MIT-License"
+  copyrightTeam: "przez ekipę 4Minitz"
+  licensedUnder: "Na licencji MIT"
   licenseDependencies: "Licencja zależności"
   thanksContributors: "Podziękowania Dla Wszystkich Naszych Współpracowników"
   thanksTranslators: "Dziękujemy wszystkim naszym tłumaczom"
@@ -299,7 +299,7 @@ Minutes:
   finalize: "Sfinalizuj protokół"
   finalizeHint: "Kliknij, aby zakończyć protokół"
   printHint: "Drukuj minuty"
-  downloadHint: "Pobierz minuty jako plik"
+  downloadHint: "Pobierz protokołyjako plik"
   agenda: "Harmonogram"
   sendAgenda: "Wyślij plan"
   delete: "Usuń protokół"
@@ -467,7 +467,7 @@ Login:
       <li>Dodaj elementy informacji do tematów</li>
       <li>Dodaj etykiety takie jak 'Decyzja' do pozycji</li>
       <li>Prześlij pliki binarne</li>
-      <li>Wyślij minuty &amp; elementy akcji za pośrednictwem EMail</li>
+      <li>Wyślij protokoły&amp; elementy akcji za pośrednictwem EMail</li>
     trackTopicsHeading: "Śledź tematy"
     trackTopicsDetails: |
       <li>Otwarte elementy akcji pojawią się następnym razem</li>
@@ -493,15 +493,15 @@ Navigation:
   setLanguageLogin: "Język"
 QuickHelp:
   title: "Szybka pomoc"
-  meetingSeries: "<p>Tutaj możesz utworzyć nowe minuty dla bieżącej serii spotkań lub kliknąć na link daty w istniejących minutach.</p>"
-  meetingSeriesList: "<p>Dzięki 4Minitz możesz tworzyć minuty na spotkania.</p><p>Najpierw stwórz nową serię spotkań i zaprosić innych użytkowników.<br>Następnie utwórz protokoły spotkania z wieloma datami dla serii spotkań.</p>"
+  meetingSeries: "<p>Tutaj możesz utworzyć nowe protokołydla bieżącej serii spotkań lub kliknąć na link daty w istniejących minutach.</p>"
+  meetingSeriesList: "<p>Dzięki 4Minitz możesz tworzyć protokołyna spotkania.</p><p>Najpierw stwórz nową serię spotkań i zaprosić innych użytkowników.<br>Następnie utwórz protokoły spotkania z wieloma datami dla serii spotkań.</p>"
   minutes: "<p>Dodaj tematy, aby przygotować swój porządek spotkania<br>Podczas spotkania oznacz temat za pomocą pola wyboru, aby wyjaśnić, że o tym rozmawiałeś.<br>Jeśli temat...<br>&nbsp;&nbsp; - nie jest oznaczony jako dyskutowany, ani<br>&nbsp;&nbsp; - jest ustawiony jako temat cykliczny lub<br>&nbsp;&nbsp; - zawiera nieukończone elementy akcji<br>. . Temat zostanie ponownie przedstawiony na następnym posiedzeniu.</p><p>Kliknij \"Finalizuj protokół\", aby wysłać protokoły zaproszonym użytkownikom i elementy akcji do ich odpowiedzialnych.</p>"
   upload: "<ul><li>Tutaj możesz przesłać pliki takie jak np. prezentacje, PDF lub zdjęcia tablicy danych</li><li>Potrzebujesz roli 'Uploader' lub 'Moderator' aby to zrobić</li><li>Przesyłanie lub usuwanie jest możliwe do czasu sfinalizowania</li><li>Wskazówka: Kliknij powyższy przycisk 'Załaduj' na tablecie lub smartfonie!</li></ul>"
 Mail:
   greeting: "Witaj"
   newAgenda: "Mamy dla Ciebie nową agendę spotkań:"
   newActionItem: "Zostałeś przypisany do następujących elementów akcji:"
-  newMinutes: "Poniżej znajdziesz najnowsze minuty spotkania."
+  newMinutes: "Poniżej znajdziesz najnowsze protokołyspotkania."
   meeting: "Spotkanie"
   links: "Linki"
   openSeries: "Otwórz serię"
