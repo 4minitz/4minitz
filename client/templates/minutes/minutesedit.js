@@ -162,6 +162,10 @@ Template.minutesedit.onCreated(function () {
             this.subscribe('meetingSeriesDetails', meetingSeriesId);
             this.subscribe('files.attachments.all', meetingSeriesId, _minutesID);        
             this.subscribe('files.protocols.all', meetingSeriesId, _minutesID);
+            // Workaround: We subscribe to the topics collection to allow creating new minutes
+            // from the minutesedit view, too.
+            // See https://github.com/4minitz/4minitz/issues/448#issuecomment-597498201 for details.
+            this.subscribe('topics', meetingSeriesId);
             
             this.minutesReady.set(this.subscriptionsReady());
         }
