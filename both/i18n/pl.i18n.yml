@@ -515,26 +515,26 @@ Mail:
     body: |
       Witaj Admin,
 
-      Wygląda na to, że używasz przestarzałej wersji 4Minitz.
+      Wygląda na to, że używasz przestarzałej wersję 4Minitz.
 
-      Twoja instancja 4Minitza dnia: {$rootUrl}
+      Twoja instancja 4Minitza: {$rootUrl}
       ma wersję: {$myVersion}
 
       Najnowsza wersja dostępna to: {$masterVersion}'
-      Notatki o wydaniu: {$urlReleaseNotes}
+      Notatki wydania: {$urlReleaseNotes}
       Rozważ aktualizację.
 
       {$masterMessageText}
 
-      Ta wiadomość została wygenerowana przez tło 4Minitz.
+      Ta wiadomość została wygenerowana przez 4Minitz.
       Możesz wyłączyć sprawdzanie aktualizacji za pomocą settings.json: \"updateCheck\": false.
 
       Baw się dobrze!
-              Twoja drużyna 4Minitz.
+              Twoja ekipa 4Minitz.
 
 
       ---
-      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      4Minitz jest darmowym open source stworzonym przez ekipę 4Minitz.
       Źródło jest dostępne pod adresem {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Twoje nowe konto na naszym serwerze"
