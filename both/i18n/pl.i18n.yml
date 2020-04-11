@@ -418,7 +418,7 @@ Admin:
     filterUsers: "Filtruj użytkowników"
     showInactive: "Pokaż nieaktywne"
     online: "Połączono"
-    onlineHint: "Wyświetlanie tylko aktywnych użytkowników na trasie minutesedit"
+    onlineHint: "Wyświetlanie tylko aktywnych użytkowników na minutesedit route"
     id: "ID"
     editProfile: "Edytuj profil użytkownika"
     countSingle: "Wyświetlanie {$visible} z {$all} użytkownika. Użyj filtru, aby wyświetlić inne osoby."
@@ -547,49 +547,49 @@ Mail:
       Witaj {$userLongName},
 
       Witamy w naszej 4Minitz WebApp.
-      Teraz możesz zacząć uczestniczyć w trakcie profesjonalnych minut spotkania.
+      Teraz możesz zacząć uczestniczyć w tworzeniu profesjonalnych protokołów konferencji.
 
-      Możesz zalogować się za pomocą 'Standard' (nie LDAP! zaloguj się na:
+      Możesz zalogować się za pomocą 'Standard' (nie LDAP!) zaloguj się na:
          Twój host: {$rootURL}
-         Twój użytkownik: {$userName}
+         Twoja nazwa użytkownika: {$userName}
       {$passwordParagraph}
 
       Baw się dobrze!
         Twój administrator.
 
       ---
-      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      4Minitz jest darmowym open source stworzonym przez zespół 4Minitz.
       Źródło jest dostępne pod adresem {$url4Minitz}
   UserRoleChange:
     subject: "Twoja rola zmieniła się w '{$meetingProject} na:{$meetingName}'"
     body: |
       Witaj {$userName}
 
-      Twoja rola zmieniła się dla serii spotkań '{$meetingProject}:{$meetingName}'
+      Twoja funkcja w następującej serii spotkań zmieniła się '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Twoja stara rola była : {$roleOld}
-         Twoja nowa rola to: {$roleNew}
-         Zmiana została wykonana przez: {$moderatorName}
+         Twoja poprzednia funkcja: {$roleOld}
+         Twoja obecna funkcja: {$roleNew}
+         Zmiana została przeprowadzona przez: {$moderatorName}
 
-      Aby uzyskać wyczerpującą listę praw dla każdej roli, zobacz:
+      Aby uzyskać pełną listę uprawnień dla każdej funkcji, zobacz:
       {$urlRoleDocu}
 
       Baw się dobrze!
         Twój administrator.
 
       ---
-      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      4Minitz jest darmowym free source stworzonym przez zespół 4Minitz.
       Źródło jest dostępne pod adresem {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Zweryfikuj adres e-mail"
+    subject: "[{$sitename}] Zweryfikuj swój adres e-mail"
     body: |
       Aby zweryfikować swój adres e-mail {$emailAddress} odwiedź następujący link:
 
       {$urlWithoutHash}
 
-      Jeśli nie prosiłeś o weryfikację, proszę zignoruj ten e-mail.
-      Jeśli uważasz, że coś jest nie tak, skontaktuj się z zespołem administratora.
+      Jeśli nie prosiłeś o weryfikację, zignoruj ten e-mail.
+      Jeśli uważasz, że coś jest nie w porządku, skontaktuj się z zespołem administratora.
   ResetPassword:
     subject: "[{$sitename}] Zresetuj hasło"
     body: |
@@ -597,5 +597,5 @@ Mail:
 
       {$urlWithoutHash}
 
-      Jeśli nie prosiłeś o zresetowanie hasła, proszę zignoruj ten e-mail.
-      Jeśli uważasz, że coś jest nie tak, skontaktuj się z zespołem administratora.
+      Jeśli nie prosiłeś o zresetowanie hasła, zignoruj ten e-mail.
+      Jeśli uważasz, że coś jest nie w porządku, skontaktuj się z zespołem administratora.
