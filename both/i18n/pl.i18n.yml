@@ -447,10 +447,10 @@ Login:
     header: "4Minitz: wspólne protokoły konferencji."
     subheader: "● Przygotowanie planu ● Dokumentowanie spotkania ● Śledzenie wątków ●"
     abstract: |
-      <p>Każdy zaproszony i zalogowany użytkownik może oglądać zmiany w aktualnych minutach spotkania w czasie rzeczywistym.</p>
-      Stworzyliśmy 4Minitz darmowe oprogramowanie open source, ponieważ jesteśmy głęboko przekonani, że
+      <p>Każdy zaproszony i zalogowany użytkownik może w czasie rzeczywistym śledzić zmiany w aktualnych protokołach spotkania.</p>
+      Stworzyliśmy 4Minitz free open source software, ponieważ wierzymy, że
       poufne informacje, takie jak protokoły z posiedzeń, nie powinny być przechowywane w chmurze.
-      Zamiast tego chcesz gościć go w swojej własnej infrastrukturze, gdzie możesz zdefiniować
+      Zamiast tego dajemy możliwość użycia 4Minitz we własnej infrastrukturze abyś mógł zdefiniować
       poziom bezpieczeństwa i ochrony, którego potrzebujesz.
     prepareAgendaHeading: "Przygotowanie planu"
     prepareAgendaDetails: |
@@ -458,16 +458,16 @@ Login:
       <li>Zaproś innych użytkowników</li>
       <li>Określ moderatorów i uploaderów</li>
       <li>Wypełnij porządek obrad tematami</li>
-      <li>Zaznacz cykliczne tematy dla standardowego porządku obrad</li>
+      <li>Zaznacz powracające tematy w standardowym porządku obrad</li>
       <li>Wyślij porządek obrad zaproszonym użytkownikom</li>
     documentMinutesHeading: "Dokumentowanie spotkania"
     documentMinutesDetails: |
       <li>Zaznacz obecnych uczestników</li>
-      <li>Dodaj elementy działania odpowiedzialne za tematy</li>
-      <li>Dodaj elementy informacji do tematów</li>
-      <li>Dodaj etykiety takie jak 'Decyzja' do pozycji</li>
+      <li>Przydziel zadania osobom odpowiedzalnym za poszczególne wątki</li>
+      <li>Dodaj informacje do tematów</li>
+      <li>Dodaj etykiety takie jak 'Decyzja' do elementów</li>
       <li>Prześlij pliki binarne</li>
-      <li>Wyślij protokoły&amp; elementy akcji za pośrednictwem EMail</li>
+      <li>Wyślij protokoły &amp; zadania za pośrednictwem poczty elektronicznej</li>
     trackTopicsHeading: "Śledź wątki"
     trackTopicsDetails: |
       <li>Otwarte elementy akcji pojawią się następnym razem</li>
