@@ -418,7 +418,7 @@ Admin:
     filterUsers: "Filtruj użytkowników"
     showInactive: "Pokaż nieaktywne"
     online: "Połączono"
-    onlineHint: "Wyświetlanie tylko aktywnych użytkowników na minutesedit route"
+    onlineHint: "Wyświetl tylko obecnie aktywnych użytkowników"
     id: "ID"
     editProfile: "Edytuj profil użytkownika"
     countSingle: "Wyświetlanie {$visible} z {$all} użytkownika. Użyj filtru, aby wyświetlić inne osoby."
