@@ -408,18 +408,18 @@ Admin:
   Message:
     title: "Rozgłaszanie wiadomości od administratora"
     newMessage: "Nowa wiadomość dla wszystkich użytkowników"
-    broadcast: "Rozgłaszanie"
+    broadcast: "Transmisja"
     date: "Data"
     message: "Wiadomość"
-    dismissed: "Oddalone"
-    dismissingUsers: "#Uniebrakujący Użytkownicy: {$number}\n"
+    dismissed: "Nie powiodło się"
+    dismissingUsers: "#Odrzucanie Użytkowników: {$number}\n"
     edit: "Edytuj"
   Users:
     filterUsers: "Filtruj użytkowników"
     showInactive: "Pokaż nieaktywne"
-    online: "Tryb z połączeniem"
+    online: "Połączono"
     onlineHint: "Wyświetlanie tylko aktywnych użytkowników na trasie minutesedit"
-    id: "Identyfikator"
+    id: "ID"
     editProfile: "Edytuj profil użytkownika"
     countSingle: "Wyświetlanie {$visible} z {$all} użytkownika. Użyj filtru, aby wyświetlić inne osoby."
     count: "Wyświetlanie {$visible} z {$all} użytkowników. Użyj filtru, aby wyświetlić inne osoby."
@@ -442,17 +442,17 @@ Login:
   signIn: "Zaloguj się"
   ldap: "LDAP"
   standard: "Standardowy"
-  demoHint: "Wskazówka: Tryb demonstracyjny Active<br>Możesz zalogować się z nazwą użytkownika <b>demo</b> i hasłami <b>demo</b>. Lub możesz zarejestrować własny rachunek, klikając na link \"Zarejestruj\" poniżej."
+  demoHint: "Wskazówka: Tryb demonstracyjny zaktywowany<br>Możesz zalogować się z nazwą użytkownika <b>demo</b> i hasłem <b>demo</b>. Lub możesz zarejestrować własne konto, klikając poniżej na link \"Zarejestruj\"."
   Login4MinitzInfo:
-    header: "4Minitz: Protokół ze spotkania w ramach współpracy."
-    subheader: "● Przygotowanie Agendy ● Minuty Dokumentu ● Śledzenie tematów ●"
+    header: "4Minitz: wspólne protokoły konferencji."
+    subheader: "● Przygotowanie planu ● Dokumentowanie spotkania ● Śledzenie wątków ●"
     abstract: |
       <p>Każdy zaproszony i zalogowany użytkownik może oglądać zmiany w aktualnych minutach spotkania w czasie rzeczywistym.</p>
       Stworzyliśmy 4Minitz darmowe oprogramowanie open source, ponieważ jesteśmy głęboko przekonani, że
       poufne informacje, takie jak protokoły z posiedzeń, nie powinny być przechowywane w chmurze.
       Zamiast tego chcesz gościć go w swojej własnej infrastrukturze, gdzie możesz zdefiniować
       poziom bezpieczeństwa i ochrony, którego potrzebujesz.
-    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaHeading: "Przygotowanie planu"
     prepareAgendaDetails: |
       <li>Utwórz serię spotkań</li>
       <li>Zaproś innych użytkowników</li>
@@ -460,7 +460,7 @@ Login:
       <li>Wypełnij porządek obrad tematami</li>
       <li>Zaznacz cykliczne tematy dla standardowego porządku obrad</li>
       <li>Wyślij porządek obrad zaproszonym użytkownikom</li>
-    documentMinutesHeading: "Protokół dokumentu"
+    documentMinutesHeading: "Dokumentowanie spotkania"
     documentMinutesDetails: |
       <li>Zaznacz obecnych uczestników</li>
       <li>Dodaj elementy działania odpowiedzialne za tematy</li>
@@ -468,7 +468,7 @@ Login:
       <li>Dodaj etykiety takie jak 'Decyzja' do pozycji</li>
       <li>Prześlij pliki binarne</li>
       <li>Wyślij protokoły&amp; elementy akcji za pośrednictwem EMail</li>
-    trackTopicsHeading: "Śledź tematy"
+    trackTopicsHeading: "Śledź wątki"
     trackTopicsDetails: |
       <li>Otwarte elementy akcji pojawią się następnym razem</li>
       <li>Niezamknięte tematy pojawią się następnym razem</li>
