@@ -7,7 +7,11 @@ The following people helped to translate 4Mintz
 * Andreas Borup Svendsen (Danish)
 * Carlo Tuzi (Italian)
 * Eduard Itrich (I18n Coding & German)
+* Jamel Rayani (Arabic)
 * Joëlle Busscher (Dutch)
+* Rui-Ping Shi (Chinese)
+* Sébastien Andreo (French)
+* Simon Jablonski (Polish)
 * Sun Glasses - HolyMoly (Turkish)
 * Wolfram Esser (I18n Coding & German)
 
