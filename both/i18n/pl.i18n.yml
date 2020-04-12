@@ -3,10 +3,10 @@ _splitKey: ':'
 _locale: 'pl'
 Accounts:
   usernamePlaceholder: "(min. 3 znaki)"
-  nameDisplayName: "Nazwa, Firma"
-  namePlaceholder: "John Doe, Szczęśliwy Corp."
-  passwordPlaceholder: "min. 6 znaków (cyfra, dolna i górna)"
-  passwordError: "min. 6 znaków (min. 1 cyfra, 1 dolna, 1 cholewka)"
+  nameDisplayName: "Nazwisko, Firma"
+  namePlaceholder: "Jan Kowalski, Radosna Korporacjia"
+  passwordPlaceholder: "min. 6 znaków (cyfra, małe i wielkie litery)"
+  passwordError: "min. 6 znaków (min. 1 cyfra, 1 mała litera, 1 wielka litera)"
 Buttons:
   add: "Dodaj"
   back: "Wróć"
@@ -24,20 +24,20 @@ Buttons:
   save: "Zapisz"
 UserRoles:
   roleModerator: "Moderator"
-  roleUploader: "Przesyłacz"
+  roleUploader: "Osoba wysyłająca"
   roleInvited: "Zaproszono"
-  roleInformed: "Informowany"
+  roleInformed: "Poinformowany"
 FlashMessages:
   ok: "OK"
   error: "Błąd"
-  verifyEMailErr: "Błąd: nie można zweryfikować EMail"
-  verifyEMailOK: "OK: EMail jest teraz zweryfikowany"
+  verifyEMailErr: "Błąd: nie można zweryfikować adresu e-mail"
+  verifyEMailOK: "OK: adres e-mail jest teraz zweryfikowany"
   passwordChangeOK: "Hasło zmienione"
   passwordResetOK: "Hasło pomyślnie zresetowane"
   profileEditOK: "Zapisano zmiany profilu"
-  minuteLinkErr: "Niestety minuta nie jest poprawnie połączona z serią nadrzędną - skontaktuj się z administratorem systemu."
-  agendaSentOK: "Agenda została wysłana do {$result} odbiorców"
-  finalizeProgress1: "Kończenie w toku"
+  minuteLinkErr: "Niestety protokół nie jest poprawnie połączony z serią nadrzędną - skontaktuj się z administratorem systemu."
+  agendaSentOK: "Lista tematów została pomyślnie wysłana do {$result} odbiorców"
+  finalizeProgress1: "Finalizowanie w toku"
   finalizeProgress2: "To może potrwać kilka sekund..."
   finalizeOK: "Protokół spotkania został pomyślnie sfinalizowany"
 Dialog:
@@ -46,143 +46,143 @@ Dialog:
     body: "Czy na pewno chcesz to usunąć?"
   ConfirmDeleteMeetingSeries:
     questionMeetingSeries: "Czy na pewno chcesz usunąć serię spotkań"
-    questionMinutes: "Ta seria zawiera {$minutesCount} minut spotkania (ostatnie minuty {$lastMinutesDate})."
+    questionMinutes: "Ta seria zawiera {$minutesCount} protokół spotkania (ostatni protokół {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Potwierdź utworzenie nowego protokołu"
-    content: "Czy na pewno chcesz utworzyć nowe minuty dla serii spotkań\"{$project}: {$name}\"?"
+    content: "Czy na pewno chcesz utworzyć nowe protokoły dla serii spotkań\"{$project}: {$name}\"?"
   confirmDeleteAttachment: "Czy na pewno chcesz usunąć załącznik:\n**{$name}**?"
   confirmDeleteDetails: "Czy na pewno chcesz usunąć wybrane szczegóły elementu **{$subject}**?"
   ConfirmDeleteItem:
     allowed: "Czy na pewno chcesz usunąć {$type} **{$subject}**?"
-    notAllowed: "Nie można usunąć {$type} **{$subject}** ponieważ {$type} został utworzony w poprzednich minutach."
-    questionActionItem: "Czy chcesz zamiast tego zamknąć element akcji?"
-    questionInfoItem: "Czy chcesz zamiast tego odpiąć lepką informację?"
-    typeActionItem: "element akcji"
-    typeInfoItem: "informacje"
-    titleCloseActionItem: "Zamknąć element akcji?"
-    titleUnpinInfoItem: "Usunąć element informacyjny?"
-    buttonCloseActionItem: "Zamknij element akcji"
-    buttonUnpinInfoItem: "Odepnij element informacji"
+    notAllowed: "Nie można usunąć {$type} **{$subject}** ponieważ {$type} został utworzony w jednym z poprzednich protokołów."
+    questionActionItem: "Czy chcesz zamiast tego zamknąć zadanie?"
+    questionInfoItem: "Czy chcesz zamiast tego usunąć przypiętą informację?"
+    typeActionItem: "zadanie"
+    typeInfoItem: "informacja"
+    titleCloseActionItem: "Zamknąć zadanie?"
+    titleUnpinInfoItem: "Usunąć zadanie?"
+    buttonCloseActionItem: "Zamknij zadanie"
+    buttonUnpinInfoItem: "Usuń informację"
   ConfirmDeleteTopic:
     allowed: "Czy na pewno chcesz usunąć wątek **{$subject}**?"
-    notAllowed: "Usunięcie tematu **{$subject}** nie jest możliwe, ponieważ temat został utworzony w poprzednich minutach."
-    close: "Czy zamiast tego chcesz zamknąć temat?"
-    closeWithActions: "Czy chcesz zamknąć wątek razem ze wszystkimi powiązanymi elementami akcji?"
-  confirmLeaveMeetingSeries: "Czy na pewno chcesz opuścić serię spotkań:\n\n**{$project} / {$name}**\n\nBędziesz musiał zapytać moderatora, czy chcesz dołączyć ponownie później."
+    notAllowed: "Nie można usunąć **{$subject}** ponieważ temat został utworzony w jednym z poprzednich protokołów."
+    close: "Czy chcesz zamiast tego zamknąć zadanie?"
+    closeWithActions: "Czy chcesz zamknąć wątek razem ze wszystkimi powiązanymi zadaniami?"
+  confirmLeaveMeetingSeries: "Czy na pewno chcesz opuścić serię spotkań:\n\n**{$project} / {$name}**\n\nBędziesz musiał zapytać moderatora, jeżeli będziesz chciał ponownie dołączyć."
   ConfirmMinuteQualityAssurance:
-    title: "Sfinalizuj protokół: Kontrole jakości"
+    title: "Zakończ protokół: Kontrole jakości"
     button: "Kontynuuj"
-    issues: "Pojawiły się problemy z twoimi minutami!"
-    proceed: "Czy chcesz kontynuować zakończenie?"
-    warnNoTopics: "Obecne minuty nie mają tematów"
+    issues: "Pojawiły się problemy z twoimi protokołami!"
+    proceed: "Czy chcesz kontynuować finalizację?"
+    warnNoTopics: "Trwające protokoły nie mają wątków"
     warnNoParticipants: "Żaden użytkownik nie jest oznaczony jako obecny"
-    warnEditing: "Wątek/element/szczegóły są nadal edytowane"
+    warnEditing: "Wątek/element/szczegół jest nadal edytowany"
     warnNoTopicDiscussed: "Żaden temat nie jest oznaczony jako 'omówiony'"
-    warnTopicWithoutItems: "Co najmniej jeden dyskutowany temat nie ma elementów"
-    warnActionItemWithoutResponsible: "Co najmniej jeden element akcji nie ma odpowiedzialności"
-    warnTopicNoNewContent: "Wątek jest zaznaczony, ale nie ma nowych treści"
+    warnTopicWithoutItems: "Co najmniej jeden omówiony temat nie ma elementów"
+    warnActionItemWithoutResponsible: "Co najmniej jedno zadanie nie ma osoby odpowiedzialnej"
+    warnTopicNoNewContent: "Wątek jest sprawdzony, ale nie ma nowych treści"
   ConfirmReOpenTopic:
-    title: "Ponownie otworzyć temat?"
+    title: "Czy ponownie otworzyć wątek?"
     body: "Czy na pewno chcesz ponownie otworzyć już zamknięty wątek **{$topicSubject}**?"
     button: "Otwórz ponownie"
   ConfirmSendAgenda:
-    body: "Czy na pewno chcesz wysłać porządek obrad na tę minutę spotkania z datą **{$minDate}**?\nZostał już wysłany {$agendaSentDate} o {$agendaSentTime}"
+    body: "Czy na pewno chcesz wysłać program tego protokołu z datą **{$minDate}**?\nProtokół został już wysłany dnia {$agendaSentDate} o {$agendaSentTime}"
     title: "Potwierdź wysyłanie programu"
-    button: "Wyślij plan"
+    button: "Wyślij program"
   ConfirmDeleteMinutes:
-    really: "Czy na pewno chcesz usunąć tę minutę spotkania datowaną na **{$minutesDate}**?"
-    newTopics: "Spowoduje to usunięcie **{$newTopicsCount} tematów**, które zostały utworzone w ciągu tej minuty."
-    closedTopicsAdditionally: "Dodatkowo **{$closedTopicsCount} tematów ** zostaną ponownie otwarte, które zostały zamknięte w ciągu tych minut."
-    closedTopics: "**{$closedTopicsCount} tematów** zostaną ponownie otwarte, które zostały zamknięte w ciągu tych minut."
+    really: "Czy na pewno chcesz usunąć ten protokół datowany na **{$minutesDate}**?"
+    newTopics: "Spowoduje to usunięcie **{$newTopicsCount} wątków**, które zostały utworzone w ramach tego protokołu."
+    closedTopicsAdditionally: "Dodatkowo **{$closedTopicsCount} wątki**, które zostały zamknięte w ramach tego protokołu, zostaną ponownie otwarte."
+    closedTopics: "**{$closedTopicsCount} wątki**, które zostały zamknięte w ramach tego protokołu, zostaną ponownie otwarte."
   ConfirmFinalizeMinutes:
     title: "Potwierdź zakończenie protokołu"
-    button: "Kończenie"
-    really: "Czy na pewno chcesz sfinalizować tę minutę spotkania datowaną na **{$minutesDate}**?"
-    sendActionItems: "Wyślij elementy akcji"
-    sendMinutes: "Wyślij elementy informacji"
+    button: "Zakończ"
+    really: "Czy na pewno chcesz zakończyć protokół datowany na **{$minutesDate}**?"
+    sendActionItems: "Wyślij zadanie"
+    sendMinutes: "Wyślij informację"
   LocaleSetting:
-    title: "Ustaw język"
-    languageLocale: "Język językowy"
+    title: "Wybierz język"
+    languageLocale: "Język lokalny"
     automatic: "Automatycznie przez przeglądarkę"
-    contributionHint1: "Tłumaczenie błędów lub brak języka?"
+    contributionHint1: "Błędy w tłumaczeniu lub brak języka?"
     contributionHint2: "Pomóż nam przetłumaczyć 4Minitz!"
   IsEditedHandling:
-    title: "Edytuj pomimo istniejącej edycji"
+    title: "Edytuj istniejącą wersję"
     confirmationDialogResetEdit: "Ostrzeżenie: Ten dokument jest obecnie edytowany przez {$name} od: {$date}"
-    confirmationDialogResetEditDetails: "Kliknij ponownie szczegóły, aby rozpocząć edycję."
+    confirmationDialogResetEditDetails: "Kliknij ponownie na symbol, aby rozpocząć edycję."
     button: "Edytuj mimo to"
   ConnectionInfo:
     tooltip: |
       Połączenie utracone!
         Status: {$status}
-        Ponów liczbę: {$retryCount}
+        Liczba prób: {$retryCount}
         Czas próby: {$retryTime} s.
         Powód: {$reason}
-        Kliknij, aby ponownie połączyć.
+        Kliknij, aby połączyć ponownie.
     header: "Utracono połączenie z serwerem 4Minitz."
     body: "Jeśli zamkniesz przeglądarkę, niezapisane dane mogą zostać utracone. Jeśli problem będzie się powtarzał, skontaktuj się z administratorem systemu."
     tryToReconnect: "Spróbuj połączyć ponownie"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "Przez te minuty nie wygenerowano protokołu. Czy chcesz pobrać wygenerowaną dynamicznie wersję HTML?"
+    title: "Potwierdź utworzenie protokołu"
+    body: "Nie został utworzony opis tego protokołu. Czy chcesz zamiast tego pobrać dynamicznie wygenerowaną wersję HTML?"
     button: "Pobierz"
   ConfirmTopicDelete:
     title1: "Potwierdź usunięcie wątku"
-    title2: "Oznaczyć temat jako omówiony?"
-    button2: "Zamknij temat i działania"
-    errortitle: "Nie można usunąć tematu"
-    errorcontent: "Nie można usunąć tego tematu, ponieważ został on utworzony w poprzednich minutach. Wybrany wątek jest już zamknięty i nie ma otwartych elementów akcji, więc nie zostanie skopiowany do następnych minut."
+    title2: "Oznaczyć wątek jako omówiony?"
+    button2: "Zamknij wątek i zadania"
+    errortitle: "Nie można usunąć wątku"
+    errorcontent: "Nie można usunąć tego wątku, ponieważ został on utworzony w poprzednich protokołach. Wybrany wątek jest już zamknięty i nie ma otwartych zadań, więc nie zostanie skopiowany do następnych protokołów."
   ItemDeleteError:
     title: "Nie można usunąć elementu"
-    body1: "Nie można usunąć tego elementu, ponieważ został utworzony w poprzednich minutach."
-    body2a: "Ten element akcji jest już zamknięty,"
-    body2b: "Ten element informacji jest już odpięty"
-    body3: "więc nie zostanie skopiowany do następnych minut"
+    body1: "Nie można usunąć tego elementu, ponieważ został on utworzony w poprzednich protokołach."
+    body2a: "To zadanie jest już zamknięte,"
+    body2b: "Ta infirmacja jest już odpięta"
+    body3: "więc nie zostanie skopiowane do następnych protokołów"
   ActionItemResponsibleError:
-    title: "Nieprawidłowa osoba odpowiedzialna za pozycję działania"
+    title: "Nieprawidłowa osoba odpowiedzialna za zadanie"
     body: |
-      To nie jest prawidłowa odpowiedzialność!
+      To nie jest odpowiednia osoba odpowiedzialna!
 
-      Wybierz **istniejącego użytkownika** z listy rozwijanej lub wprowadź **poprawny adres e-mail**.
+      Wybierz **istniejącego użytkownika** z listy lub wprowadź **poprawny adres e-mail**.
   ConvertItemError:
     title: "Nie można przekonwertować elementu"
-    body: "Nie można przekonwertować tego elementu, ponieważ został on utworzony w poprzednich minutach."
+    body: "Nie można przekonwertować tego elementu, ponieważ został on utworzony w poprzednich protokołach."
 About:
   title: "O 4Minitz"
-  copyrightTeam: "przez 4Minitz-Team"
-  licensedUnder: "Licencja na licencji MIT-License"
+  copyrightTeam: "przez ekipę 4Minitz"
+  licensedUnder: "Na licencji MIT"
   licenseDependencies: "Licencja zależności"
-  thanksContributors: "Podziękowania Dla Wszystkich Naszych Współpracowników"
+  thanksContributors: "Dziękujemy wszystkim naszym współpracownikom"
   thanksTranslators: "Dziękujemy wszystkim naszym tłumaczom"
-  proudlySponsored: "Dumnie sponsorowane przez"
+  proudlySponsored: "Sponsorowane z dumą przez"
   specialThanks: "Specjalne podziękowania dla tych projektów"
-  forkGitHub: "Rozwidlenie nas na GitHub"
+  forkGitHub: "Forkuj nas na GitHub"
   ServerStatistics:
     title: "Statystyki serwera"
     rowNumUser: "Liczba użytkowników (aktywnych)"
     rowNumMeetingSeries: "Seria spotkań"
-    rowNumMeetingMinutes: "Liczba protokołów posiedzeń"
+    rowNumMeetingMinutes: "Liczba protokołów spotkań"
     rowNumAttachments: "Liczba załączników"
     rowSizeAttachments: "Rozmiar załączników"
 Item:
   ariaLabel: "Dodaj/edytuj element"
   editItem: "Edytuj element"
-  editItemHint: "Edytuj to działanie/element informacji"
+  editItemHint: "Edytuj to zadanie/informację"
   deleteItem: "Usuń element"
-  deleteItemHint: "Usuń tę czynność/element informacji"
+  deleteItemHint: "Usuń to zadanie/informację"
   addItemModal: "Dodaj {$type} do {$topic}"
   editItemModal: "Edytuj {$type} z {$topic}"
   editItemModelTypeInfoItem: "Informacje"
-  editItemModelTypeActionItem: "Element akcji"
-  addInfo: "Dodaj element informacji"
-  addInfoHint: "Dodaj element informacji do tematu"
-  action: "Element działania"
-  addAction: "Dodaj element działania"
-  addActionHint: "Dodaj element działania do tematu"
+  editItemModelTypeActionItem: "Zadanie"
+  addInfo: "Dodaj informację"
+  addInfoHint: "Dodaj informację do tematu"
+  action: "Zadanie"
+  addAction: "Dodaj zadanie"
+  addActionHint: "Dodaj zadanie do wątku"
   convertToAction: "Przekształć w działanie"
-  convertToInfo: "Przekształć w informacje"
-  convertDisabled: "Konwersja jest wyłączona: element istnieje w minionym spotkaniu"
-  subject: "Temat (obowiązkowy)"
+  convertToInfo: "Przekształć w informację"
+  convertDisabled: "Konwersja nie powiodła się: element istnieje w minionym spotkaniu"
+  subject: "Wątek (obowiązkowy)"
   details: "Szczegóły"
   addDetails: "Dodaj szczegóły"
   priority: "Priorytet"
@@ -193,87 +193,87 @@ Item:
   due: "Termin zakończenia"
   dueNone: "brak"
   detailPlaceholder: "Do edycji można użyć funkcji Markdown. Naciśnij klawisze Ctrl + Enter lub Tab, aby wyjść."
-  markdownHint: "Pomoc do komendy Markdown"
+  markdownHint: "Pomoc dotycząca zasad Markdown"
   setPin: "Ustaw przypięte"
-  setPinHint: "Ustaw jako przypięty element info"
+  setPinHint: "Ustaw jako przypiętą informację"
   unsetPin: "Nieustawione przypięte"
-  unsetPinHint: "Ustaw jako nieprzypięty element informacji"
+  unsetPinHint: "Ustaw jako nieprzypiętą informację"
   done: "wykonano"
   pinned: "przypięte"
   Error:
-    subject: "Wprowadź poprawny temat"
+    subject: "Proszę, wprowadź poprawny temat"
   Filter:
     title: "Filtry"
     usageHint: "Użycie filtra"
-    info: "Elementy informacji"
-    action: "Elementy akcji"
-    open: "Otwórz elementy akcji"
-    closed: "Zamknięte elementy akcji"
-    yourAction: "Twoje elementy akcji"
+    info: "Informacje"
+    action: "Zadania"
+    open: "Otwórz zadania"
+    closed: "Zamknięte zadania"
+    yourAction: "Twoje zadania"
     placeholder: "Filtr"
-    matchCase: "Przypadek"
+    matchCase: "Wielkość liter"
     matchCaseHint: "Dopasuj wielkość liter"
     matchCaseLong: "Dopasuj wielkość liter"
     Usage:
       body: "Możesz użyć kilku słów kluczowych do filtrowania wymienionych elementów. Wszystkie słowa kluczowe mogą być połączone, które filtrują te elementy pasujące do wszystkich parametrów wyszukiwania."
-      keyword: "Keyword"
+      keyword: "Słowo kluczowe"
       format: "Formatowanie"
       values: "Wartości"
       eg: "np."
-  myActionItems: "Moje elementy akcji"
+  myActionItems: "Moje zadania"
 Topic:
-  title: "Temat"
+  title: "Wątek"
   new: "Nowy"
-  add: "Dodaj temat"
-  addLong: "Dodaj temat..."
-  addShort: "Temat"
-  addHint: "Dodaj nowy temat do góry listy [Ctrl+Alt+T]"
-  quickAdd: "DODAJ TOPIC (do końca listy)"
-  edit: "Edytuj temat"
-  save: "Zapisz temat"
-  show: "Pokaż temat"
-  subject: "Temat (obowiązkowy)"
-  responsible: "Odpowiedzialny"
+  add: "Dodaj wątek"
+  addLong: "Dodaj wątek..."
+  addShort: "Wątek"
+  addHint: "Dodaj nowy wątek na początku listy [Ctrl+Alt+T]"
+  quickAdd: "DODAJ WĄTEK (na koniec listy)"
+  edit: "Edytuj wątek"
+  save: "Zapisz wątek"
+  show: "Pokaż wątek"
+  subject: "Wątek (obowiązkowy)"
+  responsible: "Osoba odpowiedzialna"
   completed: "Zakończone"
-  completedHint: "Ten temat został ostatecznie zakończony. Więc to nie będzie propagowane na następne spotkanie."
+  completedHint: "Ten wątek został ostatecznie zakończony. Nie będzie więc omawiany na następnym spotkaniu."
   setRecurring: "Ustaw powtarzające się"
-  setRecurringHint: "Ustaw jako temat powtarzalny"
-  unsetRecurring: "Anuluj ustawienie powtarzania"
-  unsetRecurringHint: "Ustaw jako temat nie powtarzający się"
-  setSkip: "Ustaw pomijanie"
-  setSkipHint: "Ustaw jako pominięty temat"
-  unsetSkip: "Anuluj ustawienie pominięcia"
-  unsetSkipHint: "Ustaw jako temat, który nie został pominięty"
+  setRecurringHint: "Ustaw jako powtarzany wątek"
+  unsetRecurring: "Anuluj ustawienia powtarzających się"
+  unsetRecurringHint: "Ustaw jako nie powtarzający się wątek"
+  setSkip: "Ustaw pominięte"
+  setSkipHint: "Ustaw jako pominięty wątek"
+  unsetSkip: "Anuluj ustawienie pominiętych"
+  unsetSkipHint: "Ustaw jako wątek, który nie został pominięty"
   history: "Pokaż historię"
-  historyHint: "Pokaż pełny finalny stan tego tematu"
+  historyHint: "Pokaż pełny, końcowy stan tego wątku"
   delete: "Usuń wątek"
-  reopen: "Otwórz ponownie temat"
-  reopenHint: "Otwórz ponownie temat"
-  placeholder: "Dodaj element informacji. Dodaj @username, aby dodać element działania. Naciśnij klawisz Enter, aby dodać szczegóły. Naciśnij kombinację klawiszy Ctrl + Enter lub Tab, aby wprowadzić."
-  childOf: "Temat serii spotkań:"
+  reopen: "Otwórz ponownie wątek"
+  reopenHint: "Otwórz ponownie wątek"
+  placeholder: "Dodaj informację. Podaj @username, aby dodać zadanie. Naciśnij klawisz Enter, aby dodać szczegóły. Naciśnij kombinację klawiszy Ctrl + Enter lub Tab, aby potwierdzć."
+  childOf: "Wątek serii spotkań:"
   historyTitle: "Ten temat był"
   createdOn: "utworzone dnia:"
   lastUpdate: "ostatnia aktualizacja:"
-  finalizedOn: "sfinalizowane w minutach od:"
+  finalizedOn: "zakończone w protokołach od:"
   doneBy: "(przez {$user})"
-  notFoundTitle: "Niestety, temat nie został znaleziony."
-  notFoundReasons: "Powodem może być ...<br><ul><li>Temat nigdy nie został sfinalizowany (to tylko żyje w nieskończone minuty)</li><li>Temat został usunięty</li><li>Nie masz praw dostępu do tego tematu (już)</li></ul>"
-  illegalAction: "Próbowano wywołać niedozwoloną zdarzenie w trybie tylko do odczytu"
+  notFoundTitle: "Niestety wątek nie został znaleziony."
+  notFoundReasons: "Powodem może być...<br><ul><li>Wątek nigdy nie został zakończony (jest obecny tylko w niezakończonych protokołach)</li><li>Wątek został usunięty</li><li>Nie masz praw dostępu do tego wątku (już)</li></ul>"
+  illegalAction: "Próbowano wykonać niedozwoloną akcję w trybie wyłącznego czytania"
   addDetails: "Dodaj szczegóły"
   addDetailsHint: "Dodaj szczegóły do elementu"
   hideClosed: "Ukryj zamknięte"
-  hideClosedHint: "Tymczasowo ukryj omówione/pominięte tematy z listy"
-  hideClosedLong: "Ukryj zamknięte tematy"
+  hideClosedHint: "Tymczasowo ukryj omówione/pominięte wątki z listy"
+  hideClosedLong: "Ukryj zamknięte wątki"
   collapse: "Zwiń"
-  collapseLong: "Zwiń tematy"
+  collapseLong: "Zwiń wątki"
   expand: "Rozwiń"
-  expandLong: "Rozwiń tematy"
+  expandLong: "Rozwiń wątki"
   Error:
-    subject: "Wprowadź poprawny temat"
+    subject: "Wprowadź poprawny wątek"
   Filter:
     completed: "Wątki zakończone"
-    uncompleted: "Tematy nieukończone"
-    yourTopic: "Twoje Tematy"
+    uncompleted: "Wątki nieukończone"
+    yourTopic: "Twoje Wątki"
   TooltipCreated:
     date: "Utworzono {$dateCreateStr}"
     user: "przez {$userCreate}"
@@ -281,40 +281,40 @@ Topic:
     date: "Zaktualizowano {$dateUpdStr}"
     user: "przez {$userUpd}"
 Minutes:
-  create: "Utwórz nowe minuty"
+  create: "Utwórz nowy protokół"
   date: "Data"
   dateOn: "Włączone"
-  title: "Minuty na"
-  finalized: "Sfinalizowano"
-  finalizedHint: "Minut został sfinalizowany"
+  title: "Protokół dla"
+  finalized: "Zakończono"
+  finalizedHint: "Protokół został zakończony"
   notFinalized: "Nie ukończono"
-  notFinalizedHint: "Minuty nie są finalizowane"
+  notFinalizedHint: "Protokół nie jest zamknięty"
   attachments: "Załączniki"
-  attachmentsHint: "Protokoły zawierają załączniki"
+  attachmentsHint: "Protokoł zawiera załączniki"
   previous: "Poprzednie:"
   next: "Następne:"
   history: "Historia"
   unfinalizeHint: "Kliknij, aby zakończyć protokół"
-  print: "Drukuj minuty"
-  finalize: "Sfinalizuj protokół"
+  print: "Drukuj protokół"
+  finalize: "Zakończ protokół"
   finalizeHint: "Kliknij, aby zakończyć protokół"
-  printHint: "Drukuj minuty"
-  downloadHint: "Pobierz minuty jako plik"
-  agenda: "Harmonogram"
+  printHint: "Drukuj protokół"
+  downloadHint: "Pobierz protokoł jako plik"
+  agenda: "Plan"
   sendAgenda: "Wyślij plan"
   delete: "Usuń protokół"
   GlobalNotes:
     pin: "Ustaw jako przypiętą globalną notatkę"
     unpin: "Ustaw jako nieprzypiętą globalną notatkę"
     title: "Notatka globalna"
-    placeholder: "Globalne notatki na te minuty. Kliknij pin aby propagować notatki na następne minuty."
+    placeholder: "Globalne notatki do tego protokołu. Kliknij pin aby przenieść notatki do następnego protokołu."
   Upload:
-    button: "Załaduj..."
+    button: "Prześlij..."
     uploading: "Przesyłanie"
-    start: "Rozpocznij wysyłanie"
-    continue: "Kontynuuj wysyłanie"
-    pause: "Wstrzymaj wysyłanie"
-    abort: "Przerwij wysyłanie"
+    start: "Rozpocznij przesyłanie"
+    continue: "Kontynuuj przesyłanie"
+    pause: "Wstrzymaj przesyłanie"
+    abort: "Przerwij przesyłanie"
     error: "Błąd podczas przesyłania"
   version: "Wersja"
   versionTag: "v"
@@ -324,11 +324,11 @@ Minutes:
     solo: "1 uczestnik"
     additional: "Dodatkowi uczestnicy"
     additionalSolo: "1 dodatkowy uczestnik"
-    placeholder: "Dodatkowi uczestnicy (oddzielni od \";\"). Adresy e-mail otrzymają minuty."
+    placeholder: "Dodatkowi uczestnicy (oddziel \";\"). Adresy e-mail otrzymają protokół."
     editHint: "Edytuj zaproszonych użytkowników."
     markNone: "Nie zaznaczaj żadnego"
-    markAll: "Oznacz wszystko"
-    watchingHint: "Ten użytkownik jest obserwowany (zdalnie)"
+    markAll: "Zaznacz wszystko"
+    watchingHint: "Ten użytkownik obserwuje (zdalnie)"
     informed: "Poinformowani użytkownicy"
     informedSolo: "1 Poinformowany Użytkownik"
     present: "Obecni uczestnicy"
@@ -338,27 +338,27 @@ MeetingSeries:
   title: "Seria spotkań"
   team: "Zespół/projekt"
   new: "Nowa seria spotkań"
-  leave: "Opuszczanie serii konferencji"
+  leave: "Opuść serię spotkań"
   leaveButton: "Opuść"
   moderator: "Jesteś moderatorem"
-  lastMinute: "Ostatnia minuta:"
+  lastMinute: "Ostatni protokół:"
   Search:
     placeholder: "Wyszukiwanie serii spotkań"
-    noResults: "Brak wyników dla tego wejścia ..."
+    noResults: "Brak wyników dla tego wejścia..."
   Edit:
     Error:
-      meetingName: "Wprowadź poprawną nazwę dla serii konferencji"
+      meetingName: "Wprowadź poprawną nazwę serii spotkań"
       teamName: "Wprowadź poprawną nazwę projektu"
-      notRegistered: "To nie jest nazwa zarejestrowanego użytkownika"
+      notRegistered: "Ta nazwa użytkownika nie jest zarejestrowana"
       alreadyInList: "Ta nazwa użytkownika jest już na liście"
     teamName: "Nazwa zespołu/projektu"
     meetingName: "Nazwa konferencji"
     title: "Edytuj serię spotkań"
     base: "Konfiguracja podstawowa"
-    editedBy: "Edytowane przez {$user} (na {$date})"
-    invited: "Zaproszeni i informowani użytkownicy"
-    placeholderUsers: "Dodaj użytkowników do zaproszonych użytkowników..."
-    notifyRoleChange: "Powiadom uczestników o zmianie roli"
+    editedBy: "Edytowane przez {$user} (dnia {$date})"
+    invited: "Zaproszeni i poinformowani użytkownicy"
+    placeholderUsers: "Dodaj użytkowników do zaproszonych..."
+    notifyRoleChange: "Powiadom uczestników o zmianie funkcji"
     labels: "Etykiety"
     save: "Zapisz serię spotkań"
     confirmDelete: "Potwierdź usunięcie"
@@ -367,25 +367,25 @@ MeetingSeries:
       name: "Wprowadź poprawną nazwę etykiety"
       hexValue: "Niepoprawna wartość koloru szesnastkowego"
     add: "Dodaj nową etykietę"
-    new: "Nowa_etykieta"
-    select: "Wybierz ..."
+    new: "Nowa etykieta"
+    select: "Wybierz..."
   Tab:
-    minutes: "Minuty"
-    topics: "Tematy"
+    minutes: "Protokoł"
+    topics: "Wątki"
     items: "Elementy"
 Profile:
-  title: "Edytuj profil dla"
+  title: "Edytuj profil"
   userName: "Nazwa użytkownika"
   longName: "Długa nazwa"
-  email: "Poczta elektroniczna"
+  email: "E-mail"
   password: "Hasło"
-  passwordRepeat: "Powtarzanie hasła"
+  passwordRepeat: "Powtórzenie hasła"
   ChangePassword:
-    title: "Zmień hasło dla"
+    title: "Zmień hasło do"
     oldPassword: "Stare hasło"
     wrongOldPassword: "Wprowadź stare poprawne hasło"
     newPassword: "Nowe hasło"
-    newPasswordRepeat: "Nowe powtarzanie hasła"
+    newPasswordRepeat: "Powtórz nowe hasło"
   Error:
     name: "Wprowadź poprawną nazwę użytkownika"
     longName: "Wprowadź poprawną nazwę długą"
@@ -397,29 +397,29 @@ Profile:
     button: "Zarejestruj się + Zweryfikuj ponownie"
 Admin:
   users: "Użytkownicy"
-  messages: "Komunikaty"
+  messages: "Wiadomosci"
   Register:
     label: "Zarejestruj nowego użytkownika"
     hint: "Wskazówka: spowoduje to zarejestrowanie użytkownika na potrzeby standardowego logowania (nie dla logowania LDAP!)."
-    button: "Zarejestruj nowego użytkownika ..."
+    button: "Zarejestruj nowego użytkownika..."
     sendMail: "Wyślij wiadomość e-mail do nowego użytkownika"
     includePassword: "Dołącz hasło do wiadomości e-mail"
     success: "Zarejestrowany nowy użytkownik: {$user}"
   Message:
     title: "Rozgłaszanie wiadomości od administratora"
     newMessage: "Nowa wiadomość dla wszystkich użytkowników"
-    broadcast: "Rozgłaszanie"
+    broadcast: "Transmisja"
     date: "Data"
     message: "Wiadomość"
-    dismissed: "Oddalone"
-    dismissingUsers: "#Uniebrakujący Użytkownicy: {$number}\n"
+    dismissed: "Nie powiodło się"
+    dismissingUsers: "#Odrzucanie Użytkowników: {$number}\n"
     edit: "Edytuj"
   Users:
     filterUsers: "Filtruj użytkowników"
     showInactive: "Pokaż nieaktywne"
-    online: "Tryb z połączeniem"
-    onlineHint: "Wyświetlanie tylko aktywnych użytkowników na trasie minutesedit"
-    id: "Identyfikator"
+    online: "Połączono"
+    onlineHint: "Wyświetl tylko obecnie aktywnych użytkowników"
+    id: "ID"
     editProfile: "Edytuj profil użytkownika"
     countSingle: "Wyświetlanie {$visible} z {$all} użytkownika. Użyj filtru, aby wyświetlić inne osoby."
     count: "Wyświetlanie {$visible} z {$all} użytkowników. Użyj filtru, aby wyświetlić inne osoby."
@@ -427,7 +427,7 @@ Admin:
       hint: "Użytkownik LDAP lub użytkownik standardowy"
       column: "L/S"
       ldap: "L"
-      standard: "Pr"
+      standard: "S"
     State:
       hint: "Przełącz stan aktywny/nieaktywny. Nieaktywni użytkownicy nie mogą się zalogować."
       column: "W/Aktywny"
@@ -442,42 +442,42 @@ Login:
   signIn: "Zaloguj się"
   ldap: "LDAP"
   standard: "Standardowy"
-  demoHint: "Wskazówka: Tryb demonstracyjny Active<br>Możesz zalogować się z nazwą użytkownika <b>demo</b> i hasłami <b>demo</b>. Lub możesz zarejestrować własny rachunek, klikając na link \"Zarejestruj\" poniżej."
+  demoHint: "Wskazówka: Tryb demonstracyjny zaktywowany<br>Możesz zalogować się z nazwą użytkownika <b>demo</b> i hasłem <b>demo</b>. Lub możesz zarejestrować własne konto, klikając poniżej na link \"Zarejestruj\"."
   Login4MinitzInfo:
-    header: "4Minitz: Protokół ze spotkania w ramach współpracy."
-    subheader: "● Przygotowanie Agendy ● Minuty Dokumentu ● Śledzenie tematów ●"
+    header: "4Minitz: wspólne protokoły konferencji."
+    subheader: "● Przygotowanie planu ● Dokumentowanie spotkania ● Śledzenie wątków ●"
     abstract: |
-      <p>Każdy zaproszony i zalogowany użytkownik może oglądać zmiany w aktualnych minutach spotkania w czasie rzeczywistym.</p>
-      Stworzyliśmy 4Minitz darmowe oprogramowanie open source, ponieważ jesteśmy głęboko przekonani, że
+      <p>Każdy zaproszony i zalogowany użytkownik może w czasie rzeczywistym śledzić zmiany w aktualnych protokołach spotkania.</p>
+      Stworzyliśmy 4Minitz free open source software, ponieważ wierzymy, że
       poufne informacje, takie jak protokoły z posiedzeń, nie powinny być przechowywane w chmurze.
-      Zamiast tego chcesz gościć go w swojej własnej infrastrukturze, gdzie możesz zdefiniować
+      Zamiast tego dajemy możliwość użycia 4Minitz we własnej infrastrukturze abyś mógł zdefiniować
       poziom bezpieczeństwa i ochrony, którego potrzebujesz.
-    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaHeading: "Przygotowanie planu"
     prepareAgendaDetails: |
       <li>Utwórz serię spotkań</li>
       <li>Zaproś innych użytkowników</li>
       <li>Określ moderatorów i uploaderów</li>
       <li>Wypełnij porządek obrad tematami</li>
-      <li>Zaznacz cykliczne tematy dla standardowego porządku obrad</li>
+      <li>Zaznacz powracające tematy w standardowym porządku obrad</li>
       <li>Wyślij porządek obrad zaproszonym użytkownikom</li>
-    documentMinutesHeading: "Protokół dokumentu"
+    documentMinutesHeading: "Dokumentowanie spotkania"
     documentMinutesDetails: |
       <li>Zaznacz obecnych uczestników</li>
-      <li>Dodaj elementy działania odpowiedzialne za tematy</li>
-      <li>Dodaj elementy informacji do tematów</li>
-      <li>Dodaj etykiety takie jak 'Decyzja' do pozycji</li>
+      <li>Przydziel zadania osobom odpowiedzalnym za poszczególne wątki</li>
+      <li>Dodaj informacje do tematów</li>
+      <li>Dodaj etykiety takie jak 'Decyzja' do elementów</li>
       <li>Prześlij pliki binarne</li>
-      <li>Wyślij minuty &amp; elementy akcji za pośrednictwem EMail</li>
-    trackTopicsHeading: "Śledź tematy"
+      <li>Wyślij protokoły &amp; zadania za pośrednictwem poczty elektronicznej</li>
+    trackTopicsHeading: "Śledź wątki"
     trackTopicsDetails: |
-      <li>Otwarte elementy akcji pojawią się następnym razem</li>
-      <li>Niezamknięte tematy pojawią się następnym razem</li>
-      <li>Lista wyszukiwań wszystkich kiedykolwiek dyskutowanych tematów</li>
-      <li>wzbogacaj tematy z informacjami na wielu spotkaniach</li>
-      <li>Znajdź tematy z etykietami (e. . wszystkie decyzje)</li>
-      <li>Znajdź przedmioty przez wyszukiwanie pełnotekstowe</li>
+      <li>Niezakończone zadania pojawią się następnym razem</li>
+      <li>Niezamknięte wątki pojawią się następnym razem</li>
+      <li>Wyszukaj listę wszystkich kiedykolwiek dyskutowanych tematów</li>
+      <li>wzbogacaj wątki informacjami przez wiele spotkań</li>
+      <li>Znajdź tematy z etykietami (np. wszystkie decyzje)</li>
+      <li>Znajdź elementy przez wyszukiwanie pełnotekstowe</li>
   Footer:
-    withLove: "Kodowane przez ❤"
+    withLove: "Kodowane z ❤ przez"
     theTeam: "Zespół WebApp"
 Navigation:
   help: "Pomoc"
@@ -493,20 +493,20 @@ Navigation:
   setLanguageLogin: "Język"
 QuickHelp:
   title: "Szybka pomoc"
-  meetingSeries: "<p>Tutaj możesz utworzyć nowe minuty dla bieżącej serii spotkań lub kliknąć na link daty w istniejących minutach.</p>"
-  meetingSeriesList: "<p>Dzięki 4Minitz możesz tworzyć minuty na spotkania.</p><p>Najpierw stwórz nową serię spotkań i zaprosić innych użytkowników.<br>Następnie utwórz protokoły spotkania z wieloma datami dla serii spotkań.</p>"
-  minutes: "<p>Dodaj tematy, aby przygotować swój porządek spotkania<br>Podczas spotkania oznacz temat za pomocą pola wyboru, aby wyjaśnić, że o tym rozmawiałeś.<br>Jeśli temat...<br>&nbsp;&nbsp; - nie jest oznaczony jako dyskutowany, ani<br>&nbsp;&nbsp; - jest ustawiony jako temat cykliczny lub<br>&nbsp;&nbsp; - zawiera nieukończone elementy akcji<br>. . Temat zostanie ponownie przedstawiony na następnym posiedzeniu.</p><p>Kliknij \"Finalizuj protokół\", aby wysłać protokoły zaproszonym użytkownikom i elementy akcji do ich odpowiedzialnych.</p>"
-  upload: "<ul><li>Tutaj możesz przesłać pliki takie jak np. prezentacje, PDF lub zdjęcia tablicy danych</li><li>Potrzebujesz roli 'Uploader' lub 'Moderator' aby to zrobić</li><li>Przesyłanie lub usuwanie jest możliwe do czasu sfinalizowania</li><li>Wskazówka: Kliknij powyższy przycisk 'Załaduj' na tablecie lub smartfonie!</li></ul>"
+  meetingSeries: "<p>Tutaj możesz utworzyć nowe protokoły bieżącej serii spotkań lub kliknąć na link w istniejących protokołach.</p>"
+  meetingSeriesList: "<p>Dzięki 4Minitz możesz tworzyć protokoł spotkań.</p><p>Najpierw stwórz nową serię spotkań i zaproś innych użytkowników.<br>Następnie utwórz protokoły spotkań z różnymi datami aby powstała seria spotkań.</p>"
+  minutes: "<p>Dodaj tematy, aby przygotować swój porządek spotkania<br>Podczas spotkania oznacz temat za pomocą znacznika, aby być pewnym, że został on poruszony.<br>Jeśli temat...<br>&nbsp;&nbsp; - nie jest oznaczony jako omówiony, ani<br>&nbsp;&nbsp; - jest ustawiony jako temat powracający lub<br>&nbsp;&nbsp; - zawiera nieukończone zadania<br>... Wątek zostanie ponownie przedstawiony na następnym posiedzeniu.</p><p>Kliknij \"Zakończ protokół\", aby wysłać protokoły zaproszonym użytkownikom i zadania do odpowiedzialnych za nie osób.</p>"
+  upload: "<ul><li>Tutaj możesz przesłać pliki takie jak np. prezentacje, PDF lub zdjęcia tablicy</li><li>Musisz pełnić funkcję 'Uploader' lub 'Moderator' aby to zrobić</li><li>Przesyłanie lub usuwanie jest możliwe do czasu zakończenia protokołu</li><li>Wskazówka: Kliknij powyższy przycisk 'Załaduj' na tablecie lub smartfonie!</li></ul>"
 Mail:
   greeting: "Witaj"
-  newAgenda: "Mamy dla Ciebie nową agendę spotkań:"
-  newActionItem: "Zostałeś przypisany do następujących elementów akcji:"
-  newMinutes: "Poniżej znajdziesz najnowsze minuty spotkania."
+  newAgenda: "Mamy dla Ciebie nowy plan spotkania:"
+  newActionItem: "Zostałeś przypisany do następujących zadań:"
+  newMinutes: "Poniżej znajdziesz najnowszy protokół."
   meeting: "Spotkanie"
   links: "Linki"
   openSeries: "Otwórz serię"
   openMinutes: "Otwórz protokół"
-  minutesSubject: "Protokół ze spotkania"
+  minutesSubject: "Protokół spotkania"
   discussedTopics: "Omówione tematy"
   skippedTopics: "Otwórz tematy"
   none: "Brak"
@@ -515,26 +515,26 @@ Mail:
     body: |
       Witaj Admin,
 
-      Wygląda na to, że używasz przestarzałej wersji 4Minitz.
+      Wygląda na to, że używasz przestarzałej wersję 4Minitz.
 
-      Twoja instancja 4Minitza dnia: {$rootUrl}
+      Twoja instancja 4Minitza: {$rootUrl}
       ma wersję: {$myVersion}
 
       Najnowsza wersja dostępna to: {$masterVersion}'
-      Notatki o wydaniu: {$urlReleaseNotes}
+      Notatki wydania: {$urlReleaseNotes}
       Rozważ aktualizację.
 
       {$masterMessageText}
 
-      Ta wiadomość została wygenerowana przez tło 4Minitz.
+      Ta wiadomość została wygenerowana przez 4Minitz.
       Możesz wyłączyć sprawdzanie aktualizacji za pomocą settings.json: \"updateCheck\": false.
 
       Baw się dobrze!
-              Twoja drużyna 4Minitz.
+              Twoja ekipa 4Minitz.
 
 
       ---
-      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      4Minitz jest darmowym open source stworzonym przez ekipę 4Minitz.
       Źródło jest dostępne pod adresem {$url4Minitz}
   AdminRegisterNewUser:
     subject: "Twoje nowe konto na naszym serwerze"
@@ -547,49 +547,49 @@ Mail:
       Witaj {$userLongName},
 
       Witamy w naszej 4Minitz WebApp.
-      Teraz możesz zacząć uczestniczyć w trakcie profesjonalnych minut spotkania.
+      Teraz możesz zacząć uczestniczyć w tworzeniu profesjonalnych protokołów konferencji.
 
-      Możesz zalogować się za pomocą 'Standard' (nie LDAP! zaloguj się na:
+      Możesz zalogować się za pomocą 'Standard' (nie LDAP!) zaloguj się na:
          Twój host: {$rootURL}
-         Twój użytkownik: {$userName}
+         Twoja nazwa użytkownika: {$userName}
       {$passwordParagraph}
 
       Baw się dobrze!
         Twój administrator.
 
       ---
-      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      4Minitz jest darmowym open source stworzonym przez zespół 4Minitz.
       Źródło jest dostępne pod adresem {$url4Minitz}
   UserRoleChange:
-    subject: "Twoja rola zmieniła się na '{$meetingProject}:{$meetingName}'"
+    subject: "Twoja rola zmieniła się w '{$meetingProject} na:{$meetingName}'"
     body: |
       Witaj {$userName}
 
-      Twoja rola zmieniła się dla serii spotkań '{$meetingProject}:{$meetingName}'
+      Twoja funkcja w następującej serii spotkań zmieniła się '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Twoja stara rola była : {$roleOld}
-         Twoja nowa rola to: {$roleNew}
-         Zmiana została wykonana przez: {$moderatorName}
+         Twoja poprzednia funkcja: {$roleOld}
+         Twoja obecna funkcja: {$roleNew}
+         Zmiana została przeprowadzona przez: {$moderatorName}
 
-      Aby uzyskać wyczerpującą listę praw dla każdej roli, zobacz:
+      Aby uzyskać pełną listę uprawnień dla każdej funkcji, zobacz:
       {$urlRoleDocu}
 
       Baw się dobrze!
         Twój administrator.
 
       ---
-      4Minitz jest darmowym otwartym źródłem stworzonym przez zespół 4Minitz.
+      4Minitz jest darmowym free source stworzonym przez zespół 4Minitz.
       Źródło jest dostępne pod adresem {$url4Minitz}
   VerifyEmailAddress:
-    subject: "[{$sitename}] Zweryfikuj adres e-mail"
+    subject: "[{$sitename}] Zweryfikuj swój adres e-mail"
     body: |
       Aby zweryfikować swój adres e-mail {$emailAddress} odwiedź następujący link:
 
       {$urlWithoutHash}
 
-      Jeśli nie prosiłeś o weryfikację, proszę zignoruj ten e-mail.
-      Jeśli uważasz, że coś jest nie tak, skontaktuj się z zespołem administratora.
+      Jeśli nie prosiłeś o weryfikację, zignoruj ten e-mail.
+      Jeśli uważasz, że coś jest nie w porządku, skontaktuj się z zespołem administratora.
   ResetPassword:
     subject: "[{$sitename}] Zresetuj hasło"
     body: |
@@ -597,5 +597,5 @@ Mail:
 
       {$urlWithoutHash}
 
-      Jeśli nie prosiłeś o zresetowanie hasła, proszę zignoruj ten e-mail.
-      Jeśli uważasz, że coś jest nie tak, skontaktuj się z zespołem administratora.
+      Jeśli nie prosiłeś o zresetowanie hasła, zignoruj ten e-mail.
+      Jeśli uważasz, że coś jest nie w porządku, skontaktuj się z zespołem administratora.

@@ -56,50 +56,50 @@ Dialog:
     allowed: "Voulez-vous vraiment supprimer l élément : {$type} **{$subject}**?"
     notAllowed: "Il n'est pas possible de supprimer l'élement de {$type} avec le sujet **{$subject}** car le type de l'élement {$type} a été créé dans une minute précédente."
     questionActionItem: "Voulez-vous cloturer la tâche à la place?"
-    questionInfoItem: "Voulez-vous désépingler le post-it de l'élément d'info à la place?"
+    questionInfoItem: "Voulez-vous plutôt désépingler l'élément d'information?"
     typeActionItem: "tâche à accomplir"
     typeInfoItem: "Information"
     titleCloseActionItem: "Clôturer la tâche?"
-    titleUnpinInfoItem: "Désépingler l'élément d'info ?"
+    titleUnpinInfoItem: "Désépingler l'élément d'information ?"
     buttonCloseActionItem: "Clôturer la tâche"
     buttonUnpinInfoItem: "Désépingler l'élément d'information"
   ConfirmDeleteTopic:
     allowed: "Voulez-vous vraiment supprimer le sujet **{$subject} ** ?"
     notAllowed: "Il n'est pas possible de supprimer le sujet **{$subject}** car le sujet a été créé dans une minute précédente."
     close: "Voulez-vous fermer le sujet à la place ?"
-    closeWithActions: "Voulez-vous fermer le sujet avec toutes les tâches connexes à la place?"
-  confirmLeaveMeetingSeries: "Voulez-vous vraiment quitter la série de réunions :\n\n**{$project} / {$name}**\n\nVous devrez demander à un modérateur si vous souhaitez joindre à nouveau la série de réunions."
+    closeWithActions: "Voulez-vous cloturer le sujet avec toutes les tâches connexes à la place?"
+  confirmLeaveMeetingSeries: "Voulez-vous vraiment quitter la série de réunions :\n\n**{$project} / {$name}**\n\nVous devrez demander à un modérateur si vous souhaitez à nouveau la joindre."
   ConfirmMinuteQualityAssurance:
     title: "Finaliser les protocoles de réunion: Contrôles de qualité"
     button: "Continuer"
     issues: "Il y a des problèmes de finalisation avec vos protocoles de réunion !"
-    proceed: "Voulez-vous poursuivre la finalisation ?"
-    warnNoTopics: "Les minutes en cours n'ont aucun sujet"
+    proceed: "Souhaitez-vous poursuivre la finalisation ?"
+    warnNoTopics: "Les protocoles en cours n'ont pas de sujet"
     warnNoParticipants: "Aucun participant n'est marqué comme présent"
     warnEditing: "Un sujet/article/détail est toujours modifié"
-    warnNoTopicDiscussed: "Aucun sujet n'est marqué comme \"discuté\""
+    warnNoTopicDiscussed: "Aucun sujet n'est marqué comme \"en discution\""
     warnTopicWithoutItems: "Au moins un sujet discuté n'a aucun élément"
-    warnActionItemWithoutResponsible: "Au moins une action n'a pas de responsable"
+    warnActionItemWithoutResponsible: "Au moins une tâche n'a pas de responsable"
     warnTopicNoNewContent: "Une discussion est cochée mais n'a pas de nouveau contenu"
   ConfirmReOpenTopic:
     title: "Ré-ouvrir le sujet ?"
     body: "Voulez-vous vraiment rouvrir le sujet déjà fermé **{$topicSubject} ** ?"
     button: "Ré-ouvrir"
   ConfirmSendAgenda:
-    body: "Voulez-vous vraiment envoyer l'ordre du jour de cette minute de réunion daté de **{$minDate}** ?\nIl a déjà été envoyé le {$agendaSentDate} à {$agendaSentTime}"
+    body: "Voulez-vous vraiment renvoyer l'ordre du jour de cette réunion daté du **{$minDate}** ?\nIl a déjà été envoyé le {$agendaSentDate} à {$agendaSentTime}"
     title: "Confirmer l'envoi de l'agenda"
     button: "Envoyer l'agenda"
   ConfirmDeleteMinutes:
-    really: "Voulez-vous vraiment supprimer cette minute de réunion datée du **{$minutesDate} ** ?"
-    newTopics: "Cela supprimera **{$newTopicsCount} sujets**, qui ont été créés dans cette minute."
+    really: "Voulez-vous vraiment supprimer ce protocole de réunion datée du **{$minutesDate} ** ?"
+    newTopics: "Cela supprimera **{$newTopicsCount} sujets**, qui ont été créés dans ce protocole."
     closedTopicsAdditionally: "De plus, **{$closedTopicsCount} sujets ** seront ouverts à nouveau, qui ont été fermés dans ces minutes."
     closedTopics: "**{$closedTopicsCount} sujets** seront ouverts à nouveau, qui ont été fermés dans ces minutes."
   ConfirmFinalizeMinutes:
-    title: "Confirmer les minutes de finalisation"
+    title: "Confirmer la finalisation des protocoles"
     button: "Finaliser"
-    really: "Voulez-vous vraiment finaliser cette minute de réunion datée du **{$minutesDate} ** ?"
+    really: "Voulez-vous vraiment finaliser ce protocole de réunion datée du **{$minutesDate} ** ?"
     sendActionItems: "Envoyer les tâches"
-    sendMinutes: "Envoyer des informations"
+    sendMinutes: "Envoyer des éléments d'information"
   LocaleSetting:
     title: "Définir la langue"
     languageLocale: "Langue locale"
@@ -107,7 +107,7 @@ Dialog:
     contributionHint1: "Des erreurs de traduction ou une langue manquante?"
     contributionHint2: "Aidez-nous à traduire 4Minitz!"
   IsEditedHandling:
-    title: "Modifier malgré l'édition existante"
+    title: "Modifier malgré les modifications existantes"
     confirmationDialogResetEdit: "AVERTISSEMENT : Ce document est actuellement modifié par {$name} depuis : {$date}"
     confirmationDialogResetEditDetails: "Veuillez cliquer à nouveau sur les détails pour commencer l'édition."
     button: "Modifier quand même"
@@ -123,23 +123,23 @@ Dialog:
     body: "Si vous fermez votre navigateur, des données non enregistrées peuvent être perdues. Veuillez contacter votre administrateur si le problème persiste."
     tryToReconnect: "Essayez de vous reconnecter"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
-    body: "Aucun protocole n'a été généré pour ces minutes. Voulez-vous télécharger une version HTML générée dynamiquement à la place ?"
+    title: "Confirmer la génération de rapport"
+    body: "Aucun rapport n'a été généré pour ces protocoles de réunion. Voulez-vous télécharger une version HTML générée dynamiquement à la place ?"
     button: "Télécharger"
   ConfirmTopicDelete:
     title1: "Confirmer la suppression du sujet"
     title2: "Marquer le sujet comme discuté?"
-    button2: "Fermer le sujet et les actions"
+    button2: "Fermer le sujet et les tâches"
     errortitle: "Impossible de supprimer le sujet"
-    errorcontent: "Il n'est pas possible de supprimer ce sujet car il a été créé dans une minute précédente. Le sujet sélectionné est déjà fermé et n'a aucun élément d'action ouvert, il ne sera donc pas copié dans les minutes suivantes."
+    errorcontent: "Il n'est pas possible de supprimer ce sujet car il a été créé dans un protocole précédente. Le sujet sélectionné est déjà fermé et n'a aucune tâche ouverte, il ne sera donc pas copié dans le protocole suivant."
   ItemDeleteError:
     title: "Impossible de supprimer l'élément"
-    body1: "Il n'est pas possible de supprimer cet élément car il a été créé dans une minute précédente."
-    body2a: "Cet élément d'action est déjà fermé,"
+    body1: "Il n'est pas possible de supprimer cet élément car il a été créé dans un protocole précédent."
+    body2a: "Cette tâche est déjà cloturée,"
     body2b: "Cet élément d'information est déjà dé-épinglé"
-    body3: "donc il ne sera pas copié dans les minutes suivantes"
+    body3: "donc il ne sera pas copié dans lle protocole suivant"
   ActionItemResponsibleError:
-    title: "Élément Responsable de l'action non valide"
+    title: "Responsable de la tâche non valide"
     body: |
       Ce n'est pas un responsable valide !
 
@@ -430,18 +430,18 @@ Admin:
       standard: "S"
     State:
       hint: "Activer l'état actif/inactif. Les utilisateurs inactifs ne peuvent pas se connecter."
-      column: "En/Actif"
+      column: "Actif/inactif"
       active: "Actif"
       inactive: "Inactif"
       toggle: "Basculer"
 Login:
   Error:
-    title: "Erreur de connexion"
-    username: "Entrez votre nom d'utilisateur"
-    password: "Entrez votre mot de passe"
+    title: "Erreur d'authentification"
+    username: "Veuillez entrer votre nom d'utilisateur"
+    password: "Veuillez entrer votre mot de passe"
   signIn: "Se connecter"
-  ldap: "DAP"
-  standard: "Norme"
+  ldap: "LDAP"
+  standard: "Standard"
   demoHint: "Hint: Demo Mode Active<br>Vous pouvez vous connecter avec le nom d'utilisateur <b>démo</b> et le mot de passe <b>démo</b>. Ou vous pouvez enregistrer votre propre compte en cliquant sur le lien \"Inscrivez-vous\" ci-dessous."
   Login4MinitzInfo:
     header: "4Minitz : Minutes de réunion collaborative."
@@ -452,7 +452,7 @@ Login:
       des informations sensibles comme les procès-verbaux de réunion ne devraient pas être hébergées dans le nuage.
       Au lieu de cela, vous voulez l'héberger sur votre propre infrastructure où vous pouvez définir
       le niveau de sécurité et de sécurité dont vous avez besoin.
-    prepareAgendaHeading: "Prepare Agenda"
+    prepareAgendaHeading: "Preparation de l'agenda"
     prepareAgendaDetails: |
       <li>Créez votre série de réunions</li>
       <li>Invitez d'autres utilisateurs</li>
@@ -478,11 +478,11 @@ Login:
       <li>Rechercher des éléments par recherche plein texte</li>
   Footer:
     withLove: "Codé avec ❤ par le"
-    theTeam: "Équipe WebApp"
+    theTeam: "L'équipe WebApp"
 Navigation:
   help: "Aide"
-  about: "A propos"
-  adminTasks: "Tâches Admin"
+  about: "À propos de"
+  adminTasks: "Tâches d'administration"
   editProfile: "Modifier le profil"
   changePassword: "Changer le mot de passe"
   signOut: "Se déconnecter"
@@ -493,7 +493,7 @@ Navigation:
   setLanguageLogin: "Langue"
 QuickHelp:
   title: "Aide rapide"
-  meetingSeries: "<p>Ici vous pouvez créer de nouvelles minutes pour la série de réunions en cours ou cliquer sur un lien de date des minutes existantes.</p>"
+  meetingSeries: "<p>Ici vous pouvez créer de nouveaux protocole pour la série de réunions en cours ou cliquer sur un lien de date des protocoles existants.</p>"
   meetingSeriesList: "<p>Avec 4Minitz vous pouvez créer des minutes pour les réunions.</p><p>Premièrement créer une nouvelle série de réunions et inviter d'autres utilisateurs.<br>Ensuite, créez des minutes de réunion sur plusieurs dates pour votre série de réunions.</p>"
   minutes: "<p>Ajoutez des sujets pour préparer votre agenda de réunion<br>Pendant la réunion, marquez un sujet avec la case à cocher pour vous faire comprendre que vous en avez discuté.<br>Si le sujet...<br>&nbsp;&nbsp; n'est pas marqué comme discuté ou<br>&nbsp;&nbsp; - est défini comme sujet récurrent ou<br>&nbsp;&nbsp; - contient des éléments d'action non-faits<br>... le sujet sera présenté à nouveau lors de la prochaine réunion.</p><p>Cliquez sur 'Finaliser procès-verbal' pour envoyer les minutes aux utilisateurs invités et les éléments d'action à leurs responsables.</p>"
   upload: "<ul><li>Ici vous pouvez télécharger des fichiers comme e.g., présentations, PDFs ou photos de tableau blanc</li><li>Vous avez besoin du rôle 'Uploader' ou 'Moderator' pour le faire</li><li>Le chargement ou la suppression est possible jusqu'à ce que les minutes soient finalisées</li><li>Conseil Pro : Cliquez sur le bouton 'Télécharger' ci-dessus sur votre tablette ou votre téléphone intelligent !</li></ul>"
@@ -504,12 +504,12 @@ Mail:
   newMinutes: "Vous trouverez ci-dessous les derniers procès-verbaux de la réunion."
   meeting: "Réunion"
   links: "Liens"
-  openSeries: "Série ouverte"
-  openMinutes: "Ouvrir le procès-verbal"
-  minutesSubject: "Procès-verbaux des réunions"
+  openSeries: "Ouvrir les séries"
+  openMinutes: "Ouvrir le protocole"
+  minutesSubject: "Protocole de réunion"
   discussedTopics: "Sujets abordés"
-  skippedTopics: "Rubriques ouvertes"
-  none: "Néant"
+  skippedTopics: "Sujets ouverts"
+  none: "Aucun"
   AdminNewVersion:
     subject: "Une nouvelle version existe"
     body: |
@@ -593,7 +593,7 @@ Mail:
   ResetPassword:
     subject: "[{$sitename}] Réinitialiser votre mot de passe"
     body: |
-      Pour réinitialiser votre mot de passe pour {$emailAddress} , visitez le lien suivant :
+      Afin de réinitialiser votre mot de passe pour {$emailAddress} , visitez le lien suivant :
 
       {$urlWithoutHash}
 
