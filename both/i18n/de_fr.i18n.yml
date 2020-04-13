@@ -1,6 +1,6 @@
 ---
 _splitKey: ':'
-_locale: 'de'
+_locale: 'de-li'
 Accounts:
   usernamePlaceholder: "(min. 3 Zeichen)"
   nameDisplayName: "Name, Firma"
@@ -148,7 +148,7 @@ Dialog:
     title: "Element kann nicht umgewandelt werden"
     body: "Es ist nicht möglich, dieses Element umzuwandeln, da es in einem vorherigen Protokoll erstellt wurde."
 About:
-  title: "Über 4Minitz"
+  title: "Zeich und Woar"
   copyrightTeam: "4Minitz-Team"
   licensedUnder: "Lizenziert unter der MIT-Lizenz"
   licenseDependencies: "Lizenzen der abhängigen Pakete"
