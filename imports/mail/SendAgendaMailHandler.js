@@ -19,12 +19,9 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
     }
     
     _sendMail() {
-        Meteor.defer(() => {    // we need .defer here, otherwise the setLocale won't be respected.
-            let ms = new MeetingSeries(this._meetingSeries._id);
-            let oldLoc = i18n.getLocale();
-            i18n.setLocale(ms.getMailLanguage());   // ask meeting series what language is preferred
+        let ms = new MeetingSeries(this._meetingSeries._id);
+        i18n.runWithLocale(ms.getMailLanguage(), () => {
             super._sendMail(this._getEmailData());
-            i18n.setLocale(oldLoc);
         });
     }
 
