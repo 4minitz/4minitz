@@ -18,8 +18,8 @@ Buttons:
   delete: "Löschen"
   dismissAll: "Als Gelesen Markieren"
   edit: "Bearbeiten"
-  hide: "OK, verstecken"
-  ok: "OK"
+  hide: "Basd scho, verstecken"
+  ok: "Basd scho"
   register: "Registrieren"
   save: "Speichern"
 UserRoles:
@@ -28,12 +28,12 @@ UserRoles:
   roleInvited: "Eingeladen"
   roleInformed: "Informiert"
 FlashMessages:
-  ok: "OK"
+  ok: "Basd scho"
   error: "Fehler"
   verifyEMailErr: "Fehler: E-Mail konnte nicht verifiziert werden"
-  verifyEMailOK: "OK: E-Mail ist jetzt verifiziert"
-  passwordChangeOK: "Passwort geändert"
-  passwordResetOK: "Passwort erfolgreich zurückgesetzt"
+  verifyEMailOK: "Basd scho: E-Mail ist jetzt verifiziert"
+  passwordChangeOK: "Basd scho: Passwort geändert"
+  passwordResetOK: "Basd scho: Passwort zurückgesetzt"
   profileEditOK: "Profiländerungen gespeichert"
   minuteLinkErr: "Leider ist das Protokoll nicht korrekt mit der übergeordneten Sitzungsreihe verbunden - bitte kontaktieren Sie Ihren Systemadministrator."
   agendaSentOK: "Agenda wurde erfolgreich an {$result} Empfänger gesendet"
@@ -533,7 +533,7 @@ Mail:
       Viel Spaß!
               Dein 4Minitz-Team.
 
-      --- 
+      ---
       4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
       Der Quellcode ist verfügbar unter {$url4Minitz}
   AdminRegisterNewUser:
@@ -557,7 +557,7 @@ Mail:
       Viel Spaß!
               Dein 4Minitz-Team.
 
-      --- 
+      ---
       4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
       Der Quellcode ist verfügbar unter {$url4Minitz}
   UserRoleChange:
@@ -578,7 +578,7 @@ Mail:
       Viel Spaß!
             Ihr Admin.
 
-      --- 
+      ---
       4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
       Quellcode ist verfügbar unter {$url4Minitz}
   VerifyEmailAddress:
