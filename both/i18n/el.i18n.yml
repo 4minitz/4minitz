@@ -213,7 +213,7 @@ Item:
     placeholder: "Φίλτρο"
     matchCase: "Πεζά/Κεφαλαία"
     matchCaseHint: "Ταίριασμα Πεζών/Κεφαλαίων"
-    matchCaseLong: "Θήκη Αγώνα"
+    matchCaseLong: "Ταίριασμα Πεζών/Κεφαλαίων"
     Usage:
       body: "Μπορείτε να χρησιμοποιήσετε πολλές λέξεις-κλειδιά για φιλτράρετε τη λίστα των αντικειμένων. Όλες οι λέξεις κλειδιά μπορούν να συνδυαστούν ώστε να αναζητήσετε τα στοιχεία που ταιριάζουν."
       keyword: "Λέξη-κλειδί"
@@ -275,11 +275,11 @@ Topic:
     uncompleted: "Μη ολοκληρωμένα θέματα"
     yourTopic: "Τα θέματα σας"
   TooltipCreated:
-    date: "Δημιουργήθηκε {$dateCreateStr}"
-    user: "από {$userCreate}"
+    date: "Δημιουργήθηκε στις {$dateCreateStr}"
+    user: "από τον χρήστη {$userCreate}"
   TooltipUpdated:
-    date: "Ενημερώθηκε {$dateUpdStr}"
-    user: "από {$userUpd}"
+    date: "Ενημερώθηκε στις {$dateUpdStr}"
+    user: "από τον χρήστη {$userUpd}"
 Minutes:
   create: "Δημιουργία νέων σημειώσεων"
   date: "Ημερομηνία"
@@ -409,7 +409,7 @@ Admin:
     title: "Εκπομπή μηνυμάτων από το διαχειριστή"
     newMessage: "Νέο μήνυμα σε όλους τους χρήστες"
     broadcast: "Εκπομπή"
-    date: "Ραντεβού"
+    date: "Ημερομηνία"
     message: "Μηνύμα"
     dismissed: "Απόρριψη"
     dismissingUsers: "#Απόρριψη χρηστών: {$number}"
@@ -592,9 +592,9 @@ Mail:
   ResetPassword:
     subject: "[{$sitename}] Επαναφορά του κωδικού πρόσβασής σας"
     body: |
-      To reset your password for {$emailAddress} visit the following link:
+      Για να επαναφέρετε τον κωδικό πρόσβασης για το {$emailAddress} επισκεφθείτε τον ακόλουθο σύνδεσμο:
 
       {$urlWithoutHash}
 
-      If you did not request to reset your password, please ignore this email.
-      If you feel something is wrong, please contact your admin team.
+      Εάν δεν έχετε ζητήσει να επαναφέρετε τον κωδικό πρόσβασής σας, παρακαλούμε να αγνοήσετε αυτό το email.
+      Εάν αισθάνεστε ότι κάτι δεν πάει καλά, παρακαλούμε επικοινωνήστε με την ομάδα διαχειριστή σας.

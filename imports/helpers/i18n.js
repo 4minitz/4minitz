@@ -7,11 +7,22 @@ import './promisedMethods';
 Meteor.methods({
     getAvailableLocales() {
         // [{code: "el", name: "Greek", nameNative: "Ελληνικά"}, ...]
-        return i18n.getLanguages().map(code => ({
-            code,
-            name: i18n.getLanguageName(code),
-            nameNative: i18n.getLanguageNativeName(code)[0].toUpperCase() + i18n.getLanguageNativeName(code).slice(1),
-        }));
+        return i18n.getLanguages().map(code => {
+            if (code.toLowerCase() === 'de-li') {
+                return {
+                    code: code,
+                    codeUI: 'de-Fr',
+                    name: 'German (Franconian)',
+                    nameNative: 'Deutsch (Fränggisch)'
+                };
+            }
+            return {
+                code: code,
+                codeUI: code,
+                name: i18n.getLanguageName(code),
+                nameNative: i18n.getLanguageNativeName(code)[0].toUpperCase() + i18n.getLanguageNativeName(code).slice(1)
+            };
+        });
     },
     getAvailableLocaleCodes() {
         // ["el", "de", "zh-CN", "zh-TW"]
