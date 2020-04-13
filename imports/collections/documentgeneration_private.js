@@ -8,6 +8,7 @@ import { DocumentGeneration } from './../documentGeneration';
 import { FilesCollection } from 'meteor/ostrio:files';
 import { extendedPublishSubscribeHandler } from './../helpers/extendedPublishSubscribe';
 import {User} from '../user';
+import {i18n} from 'meteor/universe:i18n';
 
 export let DocumentsCollection = new FilesCollection({
     collectionName: 'DocumentsCollection',
@@ -125,13 +126,25 @@ Meteor.methods({
             }
         };
 
-        DocumentGeneration.generateResponsibleStringsForTopic(documentHandler);
-        let templateData = DocumentGeneration.getDocumentData(documentHandler);
-
-        let tmplRenderer = new TemplateRenderer('publishInfoItems', 'server_templates/email').addData('name', '');
-        tmplRenderer.addDataObject(templateData);
-        DocumentGeneration.addHelperForHTMLMail(tmplRenderer, documentHandler);
-        return tmplRenderer.render();
+        let externalException = null;
+        let html = 'An Error occured during document generation.';
+        i18n.runWithLocale(minute.parentMeetingSeries().getMailLanguage(),
+            () => {
+                try {
+                    DocumentGeneration.generateResponsibleStringsForTopic(documentHandler);
+                    let templateData = DocumentGeneration.getDocumentData(documentHandler);
+                    let tmplRenderer = new TemplateRenderer('publishInfoItems', 'server_templates/email').addData('name', '');
+                    tmplRenderer.addDataObject(templateData);
+                    DocumentGeneration.addHelperForHTMLMail(tmplRenderer, documentHandler);
+                    html = tmplRenderer.render();
+                } catch(e){
+                    externalException = e;
+                }
+            });
+        if (externalException) {
+            throw externalException;
+        }
+        return html;
     },
 
     'documentgeneration.createAndStoreFile'(minutesId) {
