@@ -2,10 +2,10 @@
 _splitKey: ':'
 _locale: 'es'
 Accounts:
-  usernamePlaceholder: "(min. 3 caracteres)"
+  usernamePlaceholder: "(min. 3 carácteres)"
   nameDisplayName: "Nombre, Empresa"
-  namePlaceholder: "John Doe, Cuerpo Feliz."
-  passwordPlaceholder: "min. 6 caracteres (dígito, inferior y superior)"
+  namePlaceholder: "John Doe, Sociedad feliz."
+  passwordPlaceholder: "min. 6 carácteres (dígito, inferior y superior)"
   passwordError: "min. 6 chars (min. 1 dígito, 1 inferior, 1 superior)"
 Buttons:
   add: "Añadir"
