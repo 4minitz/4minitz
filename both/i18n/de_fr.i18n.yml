@@ -1,6 +1,6 @@
 ---
 _splitKey: ':'
-_locale: 'de-li'
+_locale: 'de-LI'
 Accounts:
   usernamePlaceholder: "(min. 3 Zeichen)"
   nameDisplayName: "Name, Firma"
