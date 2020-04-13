@@ -35,8 +35,8 @@ FlashMessages:
   passwordChangeOK: "Contraseña modificada"
   passwordResetOK: "Contraseña restablecida correctamente"
   profileEditOK: "Cambios de perfil guardados"
-  minuteLinkErr: "Lamentablemente el minuto no está vinculado correctamente a su serie padre - por favor contacte con su administrador del sistema."
-  agendaSentOK: "Agenda enviada a {$result} destinatarios correctamente"
+  minuteLinkErr: "Lamentablemente, el minuto no está vinculado correctamente a su serie principal; póngase en contacto con el administrador del sistema."
+  agendaSentOK: "Agenda fue enviada a {$result} destinatarios correctamente"
   finalizeProgress1: "Finalizar en progreso"
   finalizeProgress2: "Esto puede tardar unos segundos..."
   finalizeOK: "Las actas de la reunión se han finalizado con éxito"
@@ -46,7 +46,7 @@ Dialog:
     body: "¿Estás seguro de eliminar esto?"
   ConfirmDeleteMeetingSeries:
     questionMeetingSeries: "Realmente desea eliminar la serie de reuniones"
-    questionMinutes: "Esta serie contiene {$minutesCount} minutos de reunión (últimos minutos de {$lastMinutesDate})."
+    questionMinutes: "Esta serie contiene {$minutesCount} acta de reunión (últimos minutos de {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "Confirmar la creación de nuevos minutos"
     content: "¿Realmente desea crear nuevas actas para la serie de reuniones \"{$project}: {$name}\"?"
