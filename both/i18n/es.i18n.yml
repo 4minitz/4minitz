@@ -6,7 +6,7 @@ Accounts:
   nameDisplayName: "Nombre, Empresa"
   namePlaceholder: "John Doe, Sociedad feliz."
   passwordPlaceholder: "min. 6 carácteres (dígito, minúscula y mayúscula)"
-  passwordError: "min. 6 carácteres (min. 1 dígito, una minúscula, una mayúscula)"
+  passwordError: "min. 6 carácteres (min. un dígito, una minúscula, una mayúscula)"
 Buttons:
   add: "Añadir"
   back: "Volver"
@@ -48,15 +48,15 @@ Dialog:
     questionMeetingSeries: "Realmente desea eliminar la serie de reuniones"
     questionMinutes: "Esta serie contiene {$minutesCount} acta de reunión (últimos minutos de {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
-    title: "Confirmar la creación de nuevos minutos"
+    title: "Confirmar la creación de nuevas actas"
     content: "¿Realmente desea crear nuevas actas para la serie de reuniones \"{$project}: {$name}\"?"
   confirmDeleteAttachment: "¿Realmente desea eliminar el archivo adjunto:\n**{$name}**?"
   confirmDeleteDetails: "¿Realmente desea eliminar los detalles seleccionados del elemento **{$subject}**?"
   ConfirmDeleteItem:
     allowed: "¿Realmente desea eliminar el {$type} **{$subject}**?"
-    notAllowed: "No es posible eliminar el {$type} **{$subject}** porque el {$type} fue creado en minutos anteriores."
+    notAllowed: "No es posible eliminar el {$type} **{$subject}** porque el {$type} fue creado en actas anteriores."
     questionActionItem: "¿Quiere cerrar el elemento de acción en su lugar?"
-    questionInfoItem: "¿Quiere desfijar el elemento de información pegajosa en su lugar?"
+    questionInfoItem: "¿Quiere desfijar el elemento de información adherido en su lugar?"
     typeActionItem: "elemento de acción"
     typeInfoItem: "información"
     titleCloseActionItem: "¿Cerrar elemento de acción?"
@@ -65,7 +65,7 @@ Dialog:
     buttonUnpinInfoItem: "Desanclar elemento info"
   ConfirmDeleteTopic:
     allowed: "¿Realmente desea eliminar el tema **{$subject}**?"
-    notAllowed: "No es posible eliminar el tema **{$subject}** porque el tema fue creado en minutos anteriores."
+    notAllowed: "No es posible eliminar el tema **{$subject}** porque el tema fue creado en actas anteriores."
     close: "¿Quieres cerrar el tema en su lugar?"
     closeWithActions: "¿Quiere cerrar el tema junto con todos los elementos de acción relacionados en su lugar?"
   confirmLeaveMeetingSeries: "¿Realmente desea abandonar la serie de reuniones:\n\n**{$project} / {$name}**\n\nUsted tendrá que preguntar a un moderador si desea unirse de nuevo después."
