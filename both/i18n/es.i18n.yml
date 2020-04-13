@@ -108,7 +108,7 @@ Dialog:
     contributionHint2: "Ayúdanos a traducir 4Minitz!"
   IsEditedHandling:
     title: "Editar a pesar de la edición existente"
-    confirmationDialogResetEdit: "Advertencia: Este documento está actualmente editado por el {$name} de la siguiente manera: {$date}"
+    confirmationDialogResetEdit: "Advertencia: Este documento está actualmente editado por {$name} desde: {$date}"
     confirmationDialogResetEditDetails: "Por favor, haga clic en el detalle de nuevo para empezar a editar."
     button: "Editar de todos modos"
   ConnectionInfo:
@@ -123,7 +123,7 @@ Dialog:
     body: "Si cierra su navegador, es posible que se pierdan los datos no guardados. Póngase en contacto con su administrador si el problema persiste."
     tryToReconnect: "Intentar volver a conectar"
   ConfirmGenerateProtocol:
-    title: "Confirm generate protocol"
+    title: "Confirmar generación de protocolo"
     body: "No se ha generado ningún protocolo para estos minutos. ¿Quieres descargar una versión HTML generada dinámicamente?"
     button: "Descargar"
   ConfirmTopicDelete:
