@@ -74,7 +74,6 @@ Meteor.methods({
 
         let topics = [];
         // copy open topics from this meeting series & set isNew=false, isSkipped=false
-        console.log(`Parent MS id: ${parentMeetingSeries._id}`);
         const openTopics = TopicsFinder.allOpenTopicsOfMeetingSeries(parentMeetingSeries._id);
         console.log(openTopics);
         if (openTopics) {
