@@ -96,7 +96,7 @@ Dialog:
     closedTopics: "**{$closedTopicsCount} Themen werden wieder geöffnet**, die innerhalb dieses Protokolls geschlossen wurden."
   ConfirmFinalizeMinutes:
     title: "Protokoll-Abschluss bestätigen"
-    button: "Abschließen"
+    button: "Hobbetz aaf die Mobbedz"
     really: "Möchten Sie das **Protokoll vom {$minutesDate}** wirklich abschließen?"
     sendActionItems: "Aufgaben senden"
     sendMinutes: "Informationen senden"
