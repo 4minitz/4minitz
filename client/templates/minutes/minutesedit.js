@@ -481,7 +481,10 @@ Template.minutesedit.events({
     'click #btnCreateNewMinutes': function(evt) {
         evt.preventDefault();
         let ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
-        const routeToNewMinutes = (newMinutesId) => FlowRouter.redirect('/minutesedit/' + newMinutesId);
+        const routeToNewMinutes = (newMinutesId) => {
+            Session.set('minutesedit.checkParent', false);
+            FlowRouter.redirect('/minutesedit/' + newMinutesId);
+        };
         const confirmationDialog = ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
             () => ms.addNewMinutes(routeToNewMinutes, handleError),
             i18n.__('Dialog.ConfirmCreateNewMinutes.title'),
