@@ -3,22 +3,43 @@ import { i18n } from 'meteor/universe:i18n';
 import { T9n } from 'meteor/softwarerero:accounts-t9n';
 import './promisedMethods';
 
+// We translate the 4Minitz UI with the help of CrowdIn:
+// https://crowdin.com/project/4minitz
+// For each language we start with a machine translation of English base texts
+// These machine translations always need native speaker approval / corrections
+// Below we list
+//       ****>>> languages with >90% strings approved <<<<****
+// So we can mark all other languages in the UI as "W-I-P" / Help wanted
+const approvedLocales = {
+    'de':       true,
+    'de-fr':    true,
+    'el':       true,
+    'it':       true,
+    'nl':       true,
+    'pl':       true,
+    'zh-cn':    true,
+};
+
 // Only server can provide all available languages via server-side method
 Meteor.methods({
-    getAvailableLocales() {
+    getAvailableLocales: function () {
         // [{code: "el", name: "Greek", nameNative: "Ελληνικά"}, ...]
         return i18n.getLanguages().map(code => {
             if (code.toLowerCase() === 'de-li') {
+                const franconianCode = 'de-Fr';
                 return {
                     code: code,
-                    codeUI: 'de-Fr',
+                    codeUI: franconianCode,
+                    approved: !!approvedLocales[franconianCode.toLowerCase()],
                     name: 'German (Franconian)',
                     nameNative: 'Deutsch (Fränggisch)'
                 };
             }
+            console.log('>>>', code, !!approvedLocales[code.toLowerCase()]);
             return {
                 code: code,
                 codeUI: code,
+                approved: !!approvedLocales[code.toLowerCase()],
                 name: i18n.getLanguageName(code),
                 nameNative: i18n.getLanguageNativeName(code)[0].toUpperCase() + i18n.getLanguageNativeName(code).slice(1)
             };
