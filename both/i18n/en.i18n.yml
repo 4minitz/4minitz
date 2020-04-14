@@ -106,6 +106,7 @@ Dialog:
     title: "Set Language"
     languageLocale: "Language Locale"
     automatic: "Automatic via Browser"
+    contributionHintMT: "(*) marks machine-translated languages. Help needed."
     contributionHint1: "Translation mistakes or missing language?"
     contributionHint2: "Help us to translate 4Minitz!"
   IsEditedHandling:
