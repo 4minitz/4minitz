@@ -19,7 +19,7 @@ Buttons:
   dismissAll: "Als Gelesen Markieren"
   edit: "Bearbeiten"
   hide: "OK, verstecken"
-  ok: "OK"
+  ok: "Bassd scho"
   register: "Registrieren"
   save: "Speichern"
 UserRoles:
@@ -28,7 +28,7 @@ UserRoles:
   roleInvited: "Eingeladen"
   roleInformed: "Informiert"
 FlashMessages:
-  ok: "OK"
+  ok: "Bassd scho"
   error: "Fehler"
   verifyEMailErr: "Fehler: E-Mail konnte nicht verifiziert werden"
   verifyEMailOK: "OK: E-Mail ist jetzt verifiziert"
