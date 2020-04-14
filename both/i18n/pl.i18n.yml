@@ -4,7 +4,7 @@ _locale: 'pl'
 Accounts:
   usernamePlaceholder: "(min. 3 znaki)"
   nameDisplayName: "Nazwisko, Firma"
-  namePlaceholder: "Jan Kowalski, Radosna Korporacjia"
+  namePlaceholder: "Jan Kowalski, Radosna Korporacja"
   passwordPlaceholder: "min. 6 znaków (cyfra, małe i wielkie litery)"
   passwordError: "min. 6 znaków (min. 1 cyfra, 1 mała litera, 1 wielka litera)"
 Buttons:
