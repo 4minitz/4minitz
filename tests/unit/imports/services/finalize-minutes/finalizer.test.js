@@ -74,7 +74,10 @@ const User = {
 
 let i18n = {
     setLocale: sinon.stub(),
-    getLocale: sinon.stub()
+    getLocale: sinon.stub(),
+    runWithLocale: (locale, callback) => {
+        callback();
+    },
 };
 
 const {
