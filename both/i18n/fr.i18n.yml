@@ -495,13 +495,13 @@ QuickHelp:
   title: "Aide rapide"
   meetingSeries: "<p>Ici vous pouvez créer de nouveaux protocole pour la série de réunions en cours ou cliquer sur un lien de date des protocoles existants.</p>"
   meetingSeriesList: "<p>Avec 4Minitz vous pouvez créer des protocoles pour les réunions.</p><p>Premièrement créer une nouvelle série de réunions et inviter d'autres utilisateurs.<br>Ensuite, créez des minutes de réunion sur plusieurs dates pour votre série de réunions.</p>"
-  minutes: "<p>Ajoutez des sujets pour préparer votre agenda de réunion<br>Pendant la réunion, marquez un sujet avec la case à cocher pour vous faire comprendre que vous en avez discuté.<br>Si le sujet...<br>&nbsp;&nbsp; n'est pas marqué comme discuté ou<br>&nbsp;&nbsp; - est défini comme sujet récurrent ou<br>&nbsp;&nbsp; - contient des éléments d'action non-faits<br>... le sujet sera présenté à nouveau lors de la prochaine réunion.</p><p>Cliquez sur 'Finaliser procès-verbal' pour envoyer les minutes aux utilisateurs invités et les éléments d'action à leurs responsables.</p>"
-  upload: "<ul><li>Ici vous pouvez télécharger des fichiers comme e.g., présentations, PDFs ou photos de tableau blanc</li><li>Vous avez besoin du rôle 'Uploader' ou 'Moderator' pour le faire</li><li>Le chargement ou la suppression est possible jusqu'à ce que les minutes soient finalisées</li><li>Conseil Pro : Cliquez sur le bouton 'Télécharger' ci-dessus sur votre tablette ou votre téléphone intelligent !</li></ul>"
+  minutes: "<p>Ajoutez des sujets pour préparer votre ordre du jour <br>Pendant la réunion, marquez un sujet avec la case à cocher pour vous faire comprendre que vous en avez discuté.<br>Si le sujet...<br>&nbsp;&nbsp; n'est pas marqué comme discuté ou<br>&nbsp;&nbsp; - est défini comme sujet récurrent ou<br>&nbsp;&nbsp; - contient des tâches non accomplies<br>... le sujet sera présenté à nouveau lors de la prochaine réunion.</p><p>Cliquez sur 'Finaliser protocole pour les envoyer aux utilisateurs invités et envoyer les tâches à leurs responsables.</p>"
+  upload: "<ul><li>Ici vous pouvez télécharger des fichiers comme par ex., présentations, PDFs ou photos de tableau blanc</li><li>Vous avez besoin du rôle 'Uploader' ou 'Moderator' pour le faire</li><li>Le chargement ou la suppression est possible jusqu'à ce que les protocoles soient finalisées</li><li>Conseil Pro : Cliquez sur le bouton 'Télécharger' ci-dessus sur votre tablette ou votre smart phone!</li></ul>"
 Mail:
   greeting: "Bonjour"
-  newAgenda: "Nous avons un nouveau programme de réunion pour vous:"
-  newActionItem: "Vous avez été assigné aux éléments suivants :"
-  newMinutes: "Vous trouverez ci-dessous les derniers procès-verbaux de la réunion."
+  newAgenda: "Nous avons un nouvel ordre du jour pour vous:"
+  newActionItem: "Les tâches suivantes vous ont été assignées :"
+  newMinutes: "Vous trouverez ci-dessous les derniers protocoles de la réunion."
   meeting: "Réunion"
   links: "Liens"
   openSeries: "Ouvrir les séries"
@@ -518,11 +518,11 @@ Mail:
       Il semble que vous utilisez une version obsolète de 4Minitz.
 
       Votre instance 4Minitz sur : {$rootUrl}
-      a la version : {$myVersion}
+      à la version : {$myVersion}
 
       La version la plus récente disponible est : {$masterVersion}...
       Notes de version : {$urlReleaseNotes}
-      Veuillez envisager de mettre à jour.
+      Veuillez envisager une mise à jour.
 
       {$masterMessageText}
 
