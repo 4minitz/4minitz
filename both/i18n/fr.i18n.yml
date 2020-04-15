@@ -442,10 +442,10 @@ Login:
   signIn: "Se connecter"
   ldap: "LDAP"
   standard: "Standard"
-  demoHint: "Hint: Demo Mode Active<br>Vous pouvez vous connecter avec le nom d'utilisateur <b>démo</b> et le mot de passe <b>démo</b>. Ou vous pouvez enregistrer votre propre compte en cliquant sur le lien \"Inscrivez-vous\" ci-dessous."
+  demoHint: "Hint: Demo Mode Actif<br>Vous pouvez vous connecter avec le nom d'utilisateur <b>démo</b> et le mot de passe <b>démo</b>. Ou vous pouvez enregistrer votre propre compte en cliquant sur le lien \"Inscrivez-vous\" ci-dessous."
   Login4MinitzInfo:
-    header: "4Minitz : Minutes de réunion collaborative."
-    subheader: "● Préparer l'Agenda ● Document Minutes ● Suivre les sujets ●"
+    header: "4Minitz : Protocole de réunion collaboratif."
+    subheader: "● Préparer l'Agenda ● Document les protocoles ● Suivre les sujets ●"
     abstract: |
       <p>Chaque utilisateur invité et connecté peut regarder en temps réel les modifications apportées aux minutes de la réunion en cours.</p>
       Nous avons fait 4Minitz logiciel libre et open source, car nous croyons fermement que
@@ -547,7 +547,7 @@ Mail:
       Bonjour {$userLongName},
 
       Bienvenue sur notre application Web 4Minitz.
-      Vous pouvez maintenant commencer à participer en gardant les minutes de réunion professionnelles.
+      Vous pouvez maintenant commencer à participer en gardant les protocoles de réunion professionnelles.
 
       Vous pouvez vous connecter avec 'Standard' (pas LDAP! connectez-vous à:
          Votre hôte : {$rootURL}
@@ -561,7 +561,7 @@ Mail:
       4Minitz est un logiciel libre et libre développé par l'équipe 4Minitz.
       Source est disponible sur {$url4Minitz}
   UserRoleChange:
-    subject: "Votre rôle a changé pour '{$meetingProject}:{$meetingName}'"
+    subject: "Votre rôle a été changé pour '{$meetingProject}:{$meetingName}'"
     body: |
       Bonjour {$userName}
 
