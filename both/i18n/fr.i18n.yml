@@ -350,7 +350,7 @@ MeetingSeries:
       meetingName: "Veuillez saisir un nom valide pour la série de réunions"
       teamName: "Veuillez saisir un nom de projet valide"
       notRegistered: "Ce n'est pas un nom d'utilisateur enregistré"
-      alreadyInList: "Ce nom d'utilisateur est déjà dans la liste"
+      alreadyInList: "Ce nom d'utilisateur est déjà utilisé"
     teamName: "Équipe / Nom du projet"
     meetingName: "Nom de la réunion"
     title: "Modifier la série de réunions"
@@ -460,15 +460,15 @@ Login:
       <li>Remplissez l'ordre du jour avec les sujets</li>
       <li>Marquez des sujets récurrents pour l'ordre du jour standard</li>
       <li>Envoyez l'ordre du jour aux utilisateurs invités</li>
-    documentMinutesHeading: "Minutes du document"
+    documentMinutesHeading: "Documentez les protocoles"
     documentMinutesDetails: |
       <li>Marquer les participants présents</li>
-      <li>Ajouter des éléments d'action avec des responsables aux sujets</li>
+      <li>Ajouter des tâches aux sujets avec leur responsables</li>
       <li>Ajouter des éléments d'information aux sujets</li>
-      <li>Ajouter des étiquettes comme 'Décision' aux éléments</li>
-      <li>Télécharger des pièces jointes de fichier binaires</li>
-      <li>Envoyer des minutes &amp; éléments d'action par e-mail</li>
-    trackTopicsHeading: "Sujets de suivi"
+      <li>Ajouter des labels comme 'Décision' aux éléments</li>
+      <li>Télécharger des pièces jointes </li>
+      <li>Envoyer des protocoles &amp; tâches par e-mail</li>
+    trackTopicsHeading: "Suivi de sujets"
     trackTopicsDetails: |
       <li>Les tâches en cours apparaîtront la prochaine fois que</li>
       <li>Les sujets non fermés apparaîtront la prochaine fois</li>
