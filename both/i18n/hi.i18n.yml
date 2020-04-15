@@ -2,7 +2,7 @@
 _splitKey: ':'
 _locale: 'hi'
 Accounts:
-  usernamePlaceholder: "(मिनट. ३ चलिये)"
+  usernamePlaceholder: "(न्यूनतम. ३ चलिये)"
   nameDisplayName: "नाम, कंपनी"
   namePlaceholder: "जॉन डॉफ, मुबारक कोप।"
   passwordPlaceholder: "न्यूनतम 6 चारवी (अंक, निचला व ऊपरी)"
