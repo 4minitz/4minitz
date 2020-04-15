@@ -71,7 +71,7 @@ Dialog:
   confirmLeaveMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich verlassen:\n\n**{$project} / {$name}**\n\nSie müssen einen Moderator fragen, falls Sie später wieder beitreten möchten."
   ConfirmMinuteQualityAssurance:
     title: "Protokoll-Abschluss: Qualitätsprüfungen"
-    button: "Fortfahren"
+    button: "Mach weider"
     issues: "Es sind Probleme in Ihrem Protokoll festgestellt worden!"
     proceed: "Möchten Sie mit der Fertigstellung fortfahren?"
     warnNoTopics: "Das aktuelle Protokoll hat keine Themen"
@@ -82,13 +82,13 @@ Dialog:
     warnActionItemWithoutResponsible: "Mindestens eine Aufgabe hat keine verantwortliche Person"
     warnTopicNoNewContent: "Ein Thema wurde diskutiert, hat aber keinen neuen Inhalt"
   ConfirmReOpenTopic:
-    title: "Thema erneut öffnen?"
+    title: "Müssd er do etzer werchli nuchamol drüba redn?"
     body: "Möchten Sie das bereits abgeschlossene Thema **{$topicSubject} ** wirklich erneut öffnen?"
     button: "Erneut öffnen"
   ConfirmSendAgenda:
     body: "Möchten Sie wirklich die Tagesordnung für die Sitzung vom **{$minDate}** erneut verschicken?\nSie wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
     title: "Versand der Tagesordnung bestätigen"
-    button: "Tagesordnung senden"
+    button: "Daachesordnungsbungde verschiggn"
   ConfirmDeleteMinutes:
     really: "Möchten Sie dieses Protokoll vom **{$minutesDate}** wirklich löschen?"
     newTopics: "Dadurch werden **{$newTopicsCount} Themen entfernt**, die innerhalb dieses Protokolls erstellt wurden."
@@ -98,7 +98,7 @@ Dialog:
     title: "Protokoll-Abschluss bestätigen"
     button: "Hobbetz aaf die Mobbedz"
     really: "Möchten Sie das **Protokoll vom {$minutesDate}** wirklich abschließen?"
-    sendActionItems: "Aufgaben senden"
+    sendActionItems: "Die Auffdrääch middschiggn"
     sendMinutes: "Informationen senden"
   LocaleSetting:
     title: "Schbrach einschdelle"
