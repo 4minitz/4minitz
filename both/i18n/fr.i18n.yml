@@ -418,7 +418,7 @@ Admin:
     filterUsers: "Filtrer par utilisateurs"
     showInactive: "Afficher utilisateurs inactifs"
     online: "En ligne"
-    onlineHint: "Affichage des utilisateurs actuellement actifs sur un parcours minutesedit"
+    onlineHint: "Affichage des utilisateurs actuellement actifs sur un minutesedit url"
     id: "ID"
     editProfile: "Modifier le profil utilisateur"
     countSingle: "Affichage {$visible} de l'utilisateur {$all} . Utiliser le filtre pour afficher les autres."
@@ -456,7 +456,7 @@ Login:
     prepareAgendaDetails: |
       <li>Créez votre série de réunions</li>
       <li>Invitez d'autres utilisateurs</li>
-      <li>Spécifiez les modérateurs et les téléchargeurs</li>
+      <li>Spécifiez les modérateurs et les uploaders</li>
       <li>Remplissez l'ordre du jour avec les sujets</li>
       <li>Marquez des sujets récurrents pour l'ordre du jour standard</li>
       <li>Envoyez l'ordre du jour aux utilisateurs invités</li>
