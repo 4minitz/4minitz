@@ -29,7 +29,7 @@ UserRoles:
   roleInformed: "Der waas B'scheid"
 FlashMessages:
   ok: "Bassd scho"
-  error: "Fehler"
+  error: "Do hosd di daischd"
   verifyEMailErr: "Fehler: E-Mail konnte nicht verifiziert werden"
   verifyEMailOK: "Bassd scho: Dei Ihmäil is subba!"
   passwordChangeOK: "Dei Basswodd is etz annersch"
