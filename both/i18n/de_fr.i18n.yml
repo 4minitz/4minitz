@@ -38,17 +38,17 @@ FlashMessages:
   minuteLinkErr: "Leider is des Broddokoll ned gscheid mit deä Siddsungsreiha driewä fäbundn - hau dein Süsdeemadminisdraadoa oo."
   agendaSentOK: "Agenda wurde erfolgreich an {$result} Empfänger gesendet"
   finalizeProgress1: "Broddokoll wädd feddich gmachd"
-  finalizeProgress2: "Dies kann einige Sekunden dauern..."
-  finalizeOK: "Das Sitzungsprotokoll wurde erfolgreich abgeschlossen"
+  finalizeProgress2: "Waddner a weng..."
+  finalizeOK: "Des Broddokoll hammä zun Glügg feddich gmachd"
 Dialog:
   ConfirmDelete:
-    title: "Löschen bestätigen?"
-    body: "Sind Sie sicher, dass Sie dies löschen wollen?"
+    title: "Willsdes in ächd wechhaua?"
+    body: "Willsdes wergli woah wech haua?"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "Möchten Sie die Besprechungsreihe wirklich löschen"
+    questionMeetingSeries: "Willsd di Siddsungsreiha wergli wechhaua"
     questionMinutes: "Diese Serie enthält {$minutesCount} Besprechungsprotokolle (letztes Protokoll vom {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
-    title: "Neues Protokoll erstellen bestätigen"
+    title: "In echd a neis Broddokoll machn"
     content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name}\" erstellen?"
   confirmDeleteAttachment: "Wollen Sie den Datei-Anhang wirklich löschen:\n**{$name}**?"
   confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements **{$subject}** löschen?"
