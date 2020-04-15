@@ -72,11 +72,11 @@ Dialog:
   ConfirmMinuteQualityAssurance:
     title: "Protokoll-Abschluss: Qualitätsprüfungen"
     button: "Mach weider"
-    issues: "Es sind Probleme in Ihrem Protokoll festgestellt worden!"
+    issues: "Horch, des bassd fei ned. Da mussd nochamal drüberguggn!"
     proceed: "Möchten Sie mit der Fertigstellung fortfahren?"
     warnNoTopics: "Das aktuelle Protokoll hat keine Themen"
     warnNoParticipants: "Kein Teilnehmer ist als vorhanden markiert"
-    warnEditing: "Ein Thema/Element/Detail wird noch bearbeitet"
+    warnEditing: "Dou wergelt noch anner an am Daachesordnungsbungd"
     warnNoTopicDiscussed: "Kein Thema ist als 'diskutiert' markiert"
     warnTopicWithoutItems: "Mindestens ein Thema hat keine Elemente"
     warnActionItemWithoutResponsible: "Mindestens eine Aufgabe hat keine verantwortliche Person"
@@ -84,7 +84,7 @@ Dialog:
   ConfirmReOpenTopic:
     title: "Müssd er do etzer werchli nuchamol drüba redn?"
     body: "Möchten Sie das bereits abgeschlossene Thema **{$topicSubject} ** wirklich erneut öffnen?"
-    button: "Erneut öffnen"
+    button: "Nochamal aufmachn"
   ConfirmSendAgenda:
     body: "Möchten Sie wirklich die Tagesordnung für die Sitzung vom **{$minDate}** erneut verschicken?\nSie wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
     title: "Versand der Tagesordnung bestätigen"
@@ -119,8 +119,8 @@ Dialog:
         Wiederholungszeit: {$retryTime} Sek.
         Grund: {$reason}
         Klicken zum erneuten Verbinden
-    header: "Sie haben die Verbindung zum 4Minitz Server verloren."
-    body: "Wenn Sie Ihren Browser schließen, können ungespeicherte Daten verloren gehen. Bitte kontaktieren Sie Ihren Sever-Administrator, falls dieses Problem weiterhin besteht."
+    header: "Unner Kompjuder duslt a weng."
+    body: "Wenns'd etzer abhausd dann is dei Broddokoll im Eimer. Red a mal mid deine Kompjuder Eggsberdn falls des häuficher bassierd."
     tryToReconnect: "Verbindung versuchen"
   ConfirmGenerateProtocol:
     title: "Generierung des Protokolls bestätigen"
@@ -301,7 +301,7 @@ Minutes:
   printHint: "Broddokoll ausdruggn"
   downloadHint: "Protokoll als Datei herunterladen"
   agenda: "Tagesordnung"
-  sendAgenda: "Tagesordnung verschicken"
+  sendAgenda: "Daachesordnungsbungde verschiggn"
   delete: "Protokoll löschen"
   GlobalNotes:
     pin: "Allgemeinen Hinweis anheften"
