@@ -103,9 +103,9 @@ Dialog:
   LocaleSetting:
     title: "Schbrach einschdelle"
     languageLocale: "Schbracheinschdellung"
-    automatic: "Automatisch via Web-Browser"
-    contributionHint1: "Übersetzungsfehler oder fehlende Sprache?"
-    contributionHint2: "Hilf uns, 4Minitz zu übersetzen!"
+    automatic: "Audomadisch übern Brauser"
+    contributionHint1: "Dodevo voschdehst du su viel wie die Kuh vum Sunndoach?"
+    contributionHint2: "Hilf a weng, 4Minitz gscheid zu übersetzn!"
   IsEditedHandling:
     title: "Trotz bestehender Bearbeitung bearbeiten"
     confirmationDialogResetEdit: "Warnung: Dieses Dokument wird derzeit von {$name} seit {$date} bearbeitet"
@@ -444,8 +444,8 @@ Login:
   standard: "Standard"
   demoHint: "Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link \"Registrieren\" klicken."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Sitzungsprotokolle."
-    subheader: "● Tagesordnung vorbereiten ● Sitzungen protokollieren ● Themen nachverfolgen ●"
+    header: "4Minitz: Zomme Protogolle schreim."
+    subheader: "● Doochesordnunge herrichtn ● Protogolle schreim ● Aufgab vafolche ●"
     abstract: |
       <p>Jeder eingeladene und eingeloggte Benutzer kann Änderungen an den aktuellen Sitzungsprotokollen in Echtzeit verfolgen.</p>
       Wir haben 4Minitz als freie Open-Source-Software erstellt da wir der festen Überzeugung sind, dass
