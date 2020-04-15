@@ -4,7 +4,7 @@ _locale: 'hi'
 Accounts:
   usernamePlaceholder: "(न्यूनतम. ३ चलिये)"
   nameDisplayName: "नाम, कंपनी"
-  namePlaceholder: "जॉन डॉफ, मुबारक कोप।"
+  namePlaceholder: "जॉन डॉफ, हैप्पी कॉर्प।"
   passwordPlaceholder: "न्यूनतम 6 चारवी (अंक, निचला व ऊपरी)"
   passwordError: "न्यूनतम 6 चारस (min min) 1 अंक 1, 1, 1, 1, 1)"
 Buttons:
