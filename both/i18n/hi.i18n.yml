@@ -37,19 +37,19 @@ FlashMessages:
   profileEditOK: "प्रोफाइल परिवर्तन सेव किया गया"
   minuteLinkErr: "दुर्भाग्य से यह मिनट अपनी मूल श्रृंखला से सही ढंग से जुड़ा नहीं है - कृपया अपने सिस्टम व्यवस्थापक से संपर्क करें।"
   agendaSentOK: "एजेंडा {$result} प्राप्तकर्ताओं को सफलतापूर्वक भेजा गया है"
-  finalizeProgress1: "प्रगति में अंतिम"
+  finalizeProgress1: "अंतिम रूप देना प्रगति में है"
   finalizeProgress2: "इसमें कुछ सेकंड लग सकते हैं..."
   finalizeOK: "इस मीटिंग के मिनटों को सफलतापूर्वक अंतिम रूप दिया गया"
 Dialog:
   ConfirmDelete:
     title: "मिटाने की पुष्टि करें?"
-    body: "क्या आप निश्चित हैं कि इस को मिटाना चाहते हैं?"
+    body: "क्या आप इसे मिटाना सुनिश्चित कर रहे हैं?"
   ConfirmDeleteMeetingSeries:
-    questionMeetingSeries: "क्या आप वास्तव में मीटिंग श्रृंखला को हटाना चाहते हैं?"
-    questionMinutes: "इस श्रृंखला में {$minutesCount} मीटिंग मिनट ( {$lastMinutesDate} के अंतिम मिनट) शामिल हैं।"
+    questionMeetingSeries: "क्या आप मीटिंग श्रृंखला को हटाना चाहते हैं?"
+    questionMinutes: "इस श्रृंखला में {$lastMinutesDate} के {$minutesCount} मीटिंग मिनट शामिल हैं।"
   ConfirmCreateNewMinutes:
     title: "नई मिनट्स बनाने की पुष्टि करें"
-    content: "क्या आप वास्तव में मीटिंग श्रृंखला के लिए नए मिनट बनाना चाहते हैं \"{$project}: {$name}“?"
+    content: "क्या आप \"{$project}: {$name}“ मीटिंग श्रृंखला के लिए नए मिनट बनाना चाहते हैं ?"
   confirmDeleteAttachment: "क्या आप वास्तव में अनुलग्नक को हटाना चाहते हैं:\n**{$name}**?"
   confirmDeleteDetails: "क्या आप वास्तव में आइटम के चयनित विवरण हटाना चाहते हैं**{$subject}**?"
   ConfirmDeleteItem:
