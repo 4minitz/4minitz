@@ -14,6 +14,7 @@ const approvedLocales = {
     'de':       true,
     'de-fr':    true,
     'el':       true,
+    'fr':       true,
     'it':       true,
     'nl':       true,
     'pl':       true,
