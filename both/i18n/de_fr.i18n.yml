@@ -3,8 +3,8 @@ _splitKey: ':'
 _locale: 'de-LI'
 Accounts:
   usernamePlaceholder: "(min. 3 Zeichen)"
-  nameDisplayName: "Name, Firma"
-  namePlaceholder: "Max Mustermann, Musterfirma"
+  nameDisplayName: "Noma, Glubb"
+  namePlaceholder: "Hans Dampf, Dischdennisglubb"
   passwordPlaceholder: "min. 6 Zeichen (Zahl, Klein- & Großbuchstabe)"
   passwordError: "min. 6 Zeichen (und mindestens eine Zahl, ein Kleinbuchstabe und ein Großbuchstabe)"
 Buttons:
@@ -36,7 +36,7 @@ FlashMessages:
   passwordResetOK: "Basswodd zun Glügg zrügggseddsd"
   profileEditOK: "Brofiländerunga gschbeichädd"
   minuteLinkErr: "Leider is des Broddokoll ned gscheid mit deä Siddsungsreiha driewä fäbundn - hau dein Süsdeemadminisdraadoa oo."
-  agendaSentOK: "Agenda wurde erfolgreich an {$result} Empfänger gesendet"
+  agendaSentOK: "Daachesordnungsbungde an {$result} Leude verschiggd"
   finalizeProgress1: "Broddokoll wädd feddich gmachd"
   finalizeProgress2: "Waddner a weng..."
   finalizeOK: "Des Broddokoll hammä zun Glügg feddich gmachd"
@@ -130,11 +130,11 @@ Dialog:
     title1: "Löschen des Themas bestätigen"
     title2: "Thema als diskutiert markieren?"
     button2: "Thema und Aufgaben schließen"
-    errortitle: "Thema kann nicht gelöscht werden"
+    errortitle: "Gehd ned"
     errorcontent: "Es ist nicht möglich, dieses Thema zu löschen, da es in einem vorherigen Protokoll erstellt wurde. Das ausgewählte Thema ist bereits geschlossen und hat keine offenen Aufgaben, daher wird es nicht in das folgende Protokoll kopiert."
   ItemDeleteError:
-    title: "Element kann nicht gelöscht werden"
-    body1: "Es ist nicht möglich, dieses Element zu löschen, da es in einem vorherigen Protokoll erstellt wurde."
+    title: "Gehd ned"
+    body1: "Des kömmer ned wegmachn, weils des in am alden Broddokoll scho angleechd hasd."
     body2a: "Diese Aufgabe ist bereits geschlossen,"
     body2b: "Diese Information ist bereits nicht angeheftet,"
     body3: "so dass sie nicht in das folgenden Protokoll kopiert wird"
@@ -145,8 +145,8 @@ Dialog:
 
       Bitte wählen Sie einen **existierenden Benutzer** aus der Dropdown-Liste oder geben Sie eine **gültige E-Mail-Adresse** ein.
   ConvertItemError:
-    title: "Element kann nicht umgewandelt werden"
-    body: "Es ist nicht möglich, dieses Element umzuwandeln, da es in einem vorherigen Protokoll erstellt wurde."
+    title: "Gehd ned"
+    body: "Des kömmer ned umbaua, weils des in am alden Broddokoll scho angleechd hasd."
 About:
   title: "Zeich und Woar"
   copyrightTeam: "4Minitz-Team"
