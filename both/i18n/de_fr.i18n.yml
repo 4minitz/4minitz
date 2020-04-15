@@ -370,7 +370,7 @@ MeetingSeries:
     new: "Kategorie"
     select: "Wählen..."
   Tab:
-    minutes: "Sitzungen"
+    minutes: "Broddokoll"
     topics: "Themen"
     items: "Elemente"
 Profile:
@@ -415,7 +415,7 @@ Admin:
     dismissingUsers: "Anzahl zur Kenntnis genommener Benutzer: {$number}"
     edit: "Beorbeidn"
   Users:
-    filterUsers: "Benutzer filtern"
+    filterUsers: "Leud aussordiern"
     showInactive: "Zeige Inaktive"
     online: "Online"
     onlineHint: "Zeige nur gerade aktive Benutzer"
