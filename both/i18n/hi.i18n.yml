@@ -50,11 +50,11 @@ Dialog:
   ConfirmCreateNewMinutes:
     title: "नई मिनट्स बनाने की पुष्टि करें"
     content: "क्या आप \"{$project}: {$name}“ मीटिंग श्रृंखला के लिए नए मिनट बनाना चाहते हैं ?"
-  confirmDeleteAttachment: "क्या आप वास्तव में अनुलग्नक को हटाना चाहते हैं:\n**{$name}**?"
-  confirmDeleteDetails: "क्या आप वास्तव में आइटम के चयनित विवरण हटाना चाहते हैं**{$subject}**?"
+  confirmDeleteAttachment: "क्या आप attachment को हटाना चाहते हैं:\n**{$name}**?"
+  confirmDeleteDetails: "क्या आप **{$subject}** आइटम के चयनित विवरण हटाना चाहते हैं?"
   ConfirmDeleteItem:
-    allowed: "क्या आप वास्तव में {$type} **{$subject} ** को हटाना चाहते हैं?"
-    notAllowed: "{$type} **{$subject}को हटाना संभव नहीं है क्योंकि {$type} पिछले मिनटों में बनाया गया था।"
+    allowed: "क्या आप {$type} **{$subject} ** को हटाना चाहते हैं?"
+    notAllowed: "{$type} **{$subject}** को हटाना संभव नहीं है क्योंकि {$type} पिछले मिनटों में बनाया गया था।"
     questionActionItem: "क्या आप इसके बजाय एक्शन आइटम को बंद करना चाहते हैं?"
     questionInfoItem: "क्या आप इसके बजाय चिपचिपा जानकारी आइटम को अनपिन करना चाहते हैं?"
     typeActionItem: "क्रिया आइटम"
