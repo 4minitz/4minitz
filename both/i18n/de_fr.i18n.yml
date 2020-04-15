@@ -101,8 +101,8 @@ Dialog:
     sendActionItems: "Aufgaben senden"
     sendMinutes: "Informationen senden"
   LocaleSetting:
-    title: "Sprache festlegen"
-    languageLocale: "Spracheinstellung"
+    title: "Schbrach einschdelle"
+    languageLocale: "Schbracheinschdellung"
     automatic: "Automatisch via Web-Browser"
     contributionHint1: "Übersetzungsfehler oder fehlende Sprache?"
     contributionHint2: "Hilf uns, 4Minitz zu übersetzen!"
@@ -489,8 +489,8 @@ Navigation:
   toggleNavigation: "Navigation anzeigen"
   meetings: "Sitzungen"
   processing: "Ihre Anfrage wird bearbeitet..."
-  setLanguageForUser: "Sprache wählen"
-  setLanguageLogin: "Sprache"
+  setLanguageForUser: "Schbrach einschdelle"
+  setLanguageLogin: "Schbrach"
 QuickHelp:
   title: "Schnellhilfe"
   meetingSeries: "<p>Hier können Sie neue Protokolle für die aktuelle Sitzungsreihe erstellen oder über das Datum das entsprechende Protokoll aufrufen.</p>"
