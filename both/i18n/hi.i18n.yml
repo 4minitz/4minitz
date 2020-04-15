@@ -55,7 +55,7 @@ Dialog:
   ConfirmDeleteItem:
     allowed: "क्या आप {$type} **{$subject} ** को हटाना चाहते हैं?"
     notAllowed: "{$type} **{$subject}** को हटाना संभव नहीं है क्योंकि {$type} पिछले मिनटों में बनाया गया था।"
-    questionActionItem: "क्या आप इसके बजाय एक्शन आइटम को बंद करना चाहते हैं?"
+    questionActionItem: "क्या आप इसके बजाय एक्शन आइटम को समाप्त करना चाहते हैं?"
     questionInfoItem: "क्या आप इसके बजाय चिपचिपा जानकारी आइटम को अनपिन करना चाहते हैं?"
     typeActionItem: "क्रिया आइटम"
     typeInfoItem: "जानकारी"
