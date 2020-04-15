@@ -416,7 +416,7 @@ Admin:
     edit: "Editer"
   Users:
     filterUsers: "Filtrer les utilisateurs"
-    showInactive: "Afficher inactif"
+    showInactive: "Afficher utilisateurs inactifs"
     online: "En ligne"
     onlineHint: "Affichage des utilisateurs actuellement actifs sur un parcours minutesedit"
     id: "ID"
@@ -433,7 +433,7 @@ Admin:
       column: "Actif/inactif"
       active: "Actif"
       inactive: "Inactif"
-      toggle: "Basculer"
+      toggle: "Activer/désactiver"
 Login:
   Error:
     title: "Erreur d'authentification"
