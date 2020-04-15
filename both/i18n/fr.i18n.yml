@@ -313,7 +313,7 @@ Minutes:
     uploading: "Envoi en cours"
     start: "Démarrer l'envoi"
     continue: "Poursuivre l'envoi"
-    pause: "Pause téléchargement"
+    pause: "Mettre en pause l'envoi"
     abort: "Annuler l'envoi"
     error: "Erreur lors de l'envoi"
   version: "Version"
@@ -328,10 +328,10 @@ Minutes:
     editHint: "Modifier les utilisateurs invités."
     markNone: "Ne pas marquer"
     markAll: "Marquer tous"
-    watchingHint: "Cet utilisateur surveille (à distance)"
+    watchingHint: "Cet utilisateur regarde (distant)"
     informed: "Utilisateurs informés"
     informedSolo: "1 Utilisateur informé"
-    present: "Participants actuels"
+    present: "Participants"
     absent: "Absent"
     none: "Aucun participants."
 MeetingSeries:
@@ -415,7 +415,7 @@ Admin:
     dismissingUsers: "#Utilisateurs rejetés: {$number}\n"
     edit: "Editer"
   Users:
-    filterUsers: "Filtrer les utilisateurs"
+    filterUsers: "Filtrer par utilisateurs"
     showInactive: "Afficher utilisateurs inactifs"
     online: "En ligne"
     onlineHint: "Affichage des utilisateurs actuellement actifs sur un parcours minutesedit"
@@ -447,9 +447,9 @@ Login:
     header: "4Minitz : Protocole de réunion collaboratif."
     subheader: "● Préparer l'Agenda ● Document les protocoles ● Suivre les sujets ●"
     abstract: |
-      <p>Chaque utilisateur invité et connecté peut regarder en temps réel les modifications apportées aux minutes de la réunion en cours.</p>
+      <p>Chaque utilisateur invité et connecté peut regarder en temps réel les modifications apportées au protocole de la réunion en cours.</p>
       Nous avons fait 4Minitz logiciel libre et open source, car nous croyons fermement que
-      des informations sensibles comme les procès-verbaux de réunion ne devraient pas être hébergées dans le nuage.
+      des informations sensibles comme les protocoles de réunion ne devraient pas être hébergées dans le cloud.
       Au lieu de cela, vous voulez l'héberger sur votre propre infrastructure où vous pouvez définir
       le niveau de sécurité et de sécurité dont vous avez besoin.
     prepareAgendaHeading: "Preparation de l'agenda"
