@@ -17,12 +17,12 @@ jobs:
     - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
     - run: sudo apt-get install gcc-4.8 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
     - run: curl https://install.meteor.com | /bin/sh
-      - env:
-          CXX: g++-4.8
+      env:
+        CXX: g++-4.8
     - run: npm install -g chimp@0.51.1
-        - env:
-            CXX: g++-4.8
+      env:
+        CXX: g++-4.8
     - run: npm install
-        - env:
-            CXX: g++-4.8
+      env:
+        CXX: g++-4.8
     - run: npm run test:unit
