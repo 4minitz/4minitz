@@ -124,20 +124,20 @@ Dialog:
     tryToReconnect: "Intentar volver a conectar"
   ConfirmGenerateProtocol:
     title: "Confirmar generación de protocolo"
-    body: "No se ha generado ningún protocolo para estos minutos. ¿Quieres descargar una versión HTML generada dinámicamente?"
+    body: "No se ha generado ningún protocolo para estas actas. ¿Quieres descargar una versión HTML generada dinámicamente como alternativa?"
     button: "Descargar"
   ConfirmTopicDelete:
     title1: "Confirmar borrar tema"
     title2: "¿Marcar tema como discutido?"
     button2: "Cerrar tema y acciones"
     errortitle: "No se puede eliminar el tema"
-    errorcontent: "No es posible eliminar este tema porque fue creado en minutos anteriores. El tema seleccionado ya está cerrado y no tiene elementos de acción abiertos, por lo que no se copiará a los siguientes minutos."
+    errorcontent: "No es posible eliminar este tema porque fue creado en actas anteriores. El tema seleccionado ya está cerrado y no tiene elementos de acción abiertos, por lo que no se copiará a las siguientes actas."
   ItemDeleteError:
     title: "No se puede eliminar el elemento"
-    body1: "No es posible eliminar este elemento porque fue creado en minutos anteriores."
+    body1: "No es posible eliminar este elemento porque fue creado en actas anteriores."
     body2a: "Este elemento de acción ya está cerrado,"
     body2b: "Este elemento de información ya no está fijado"
-    body3: "por lo que no se copiará a los siguientes minutos"
+    body3: "por lo que no se copiará a los siguientes actas"
   ActionItemResponsibleError:
     title: "Responsable no válido para el elemento de acción"
     body: |
