@@ -146,7 +146,7 @@ Dialog:
       Por favor, seleccione un **usuario existente** en el menú desplegable o introduzca una **dirección de correo electrónico válida**.
   ConvertItemError:
     title: "No se puede convertir el artículo"
-    body: "No es posible convertir este elemento porque fue creado en minutos anteriores."
+    body: "No es posible convertir este elemento porque fue creado en actas anteriores."
 About:
   title: "Acerca de 4Minitz"
   copyrightTeam: "por 4Minitz-Team"
@@ -161,7 +161,7 @@ About:
     title: "Estadísticas del servidor"
     rowNumUser: "Número de usuarios (activos)"
     rowNumMeetingSeries: "Número de series de reuniones"
-    rowNumMeetingMinutes: "Número de minutos de reunión"
+    rowNumMeetingMinutes: "Número de actas de reunión"
     rowNumAttachments: "Número de archivos adjuntos"
     rowSizeAttachments: "Tamaño de adjuntos"
 Item:
