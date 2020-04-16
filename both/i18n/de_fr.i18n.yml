@@ -110,7 +110,7 @@ Dialog:
     title: "Trotz bestehender Bearbeitung bearbeiten"
     confirmationDialogResetEdit: "Warnung: Dieses Dokument wird derzeit von {$name} seit {$date} bearbeitet"
     confirmationDialogResetEditDetails: "Bitte klicken Sie erneut auf Details, um mit der Bearbeitung zu beginnen."
-    button: "Trotzdem bearbeiten"
+    button: "Des kimmert mi an Scheiß!"
   ConnectionInfo:
     tooltip: |
       Verbindung verloren!
