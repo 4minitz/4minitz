@@ -22,6 +22,7 @@ jobs:
     - run: npm run test:unit
 
   End2EndTests:
+    runs-on: ubuntu-latest
     env:
       DISPLAY: ":99.0"
     steps:
