@@ -22,7 +22,7 @@ jobs:
     - run: npm run test:unit
 
   End2EndTests:
-    - env:
+    env:
       DISPLAY: ":99.0"
     steps:
       - uses: actions/checkout@v2
