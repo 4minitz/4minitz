@@ -444,8 +444,8 @@ Login:
   standard: "Standard"
   demoHint: "Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link \"Registrieren\" klicken."
   Login4MinitzInfo:
-    header: "4Minitz: Zomme Protogolle schreim."
-    subheader: "● Doochesordnunge herrichtn ● Protogolle schreim ● Aufgab vafolche ●"
+    header: "4Minitz: Zomme Broddokolle schreim."
+    subheader: "● Doochesordnunge herrichtn ● Broddokolle schreim ● Aufgab vafolche ●"
     abstract: |
       <p>Jeder eingeladene und eingeloggte Benutzer kann Änderungen an den aktuellen Sitzungsprotokollen in Echtzeit verfolgen.</p>
       Wir haben 4Minitz als freie Open-Source-Software erstellt da wir der festen Überzeugung sind, dass
