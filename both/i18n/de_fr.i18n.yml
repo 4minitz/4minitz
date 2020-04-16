@@ -499,9 +499,9 @@ QuickHelp:
   upload: "<ul><li>Hier können Sie Dateien wie z.B. Präsentationen, PDFs oder Whiteboard-Fotos hochladen</li>\n<li>Sie benötigen die Rolle 'Uploader' oder 'Moderator', um dies tun zu können</li>\n<li>Hochladen und wieder löschen ist solange möglich, bis das Protokoll beschlossen wurde</li>\n<li>Tipp: Klicken Sie auf den 'Hochladen...' Knopf auf Ihrem Tablet oder Smartphone!</li></ul>"
 Mail:
   greeting: "s`Godd"
-  newAgenda: "Es gibt eine neue Tagesordnung für Sie:"
-  newActionItem: "Ihnen wurden folgende Aufgaben zugewiesen:"
-  newMinutes: "Nachfolgend finden Sie das neueste Sitzungsprotokoll."
+  newAgenda: "Do hosd a Moddsdrumm neis Doochwerch:"
+  newActionItem: "Diä homms die Erwerd dododdn oogschaffd:"
+  newMinutes: "Dundn findsd es neiesde Siddsungsbroddokoll."
   meeting: "Siddsung"
   links: "Väwäddlunga"
   openSeries: "Siddsungsreiha aufmachng"
