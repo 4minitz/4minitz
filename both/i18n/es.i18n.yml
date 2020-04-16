@@ -156,7 +156,7 @@ About:
   thanksTranslators: "Gracias a todos nuestros traductores"
   proudlySponsored: "Proudly Sponsored Por"
   specialThanks: "Agradecemos especialmente estos proyectos"
-  forkGitHub: "Forzar en GitHub"
+  forkGitHub: "Bifurcar en GitHub"
   ServerStatistics:
     title: "Estadísticas del servidor"
     rowNumUser: "Número de usuarios (activos)"
