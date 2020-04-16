@@ -1,0 +1,29 @@
+name: 4Minitz Test Runner
+
+on: [push, pull_request]
+
+jobs:
+  MyTest:
+    runs-on: ubuntu-latest
+    env:
+      CXX: g++-4.8
+
+#    strategy:
+#      matrix:
+#        node-version: [10.x, 12.x]
+  
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '8.9.4'
+    - name: Install infrastructure
+      run: |
+        sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        sudo apt-get install gcc-4.8 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
+        curl https://install.meteor.com | /bin/sh
+        npm install -g chimp@0.51.1
+    - name: Npm Install
+      run: npm install
+    - name: Run Unit Tests
+      run: npm run test:unit
