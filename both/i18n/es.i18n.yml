@@ -295,14 +295,14 @@ Minutes:
   next: "Siguiente:"
   history: "Historial"
   unfinalizeHint: "Pulse para Deshacer-Finalizar minutos"
-  print: "Imprimir minutos"
-  finalize: "Finalizar minutos"
-  finalizeHint: "Pulse para Finalizar minutos"
-  printHint: "Imprimir minutos"
+  print: "Imprimir actas"
+  finalize: "Finalizar Actas"
+  finalizeHint: "Pulse para Finalizar Actas"
+  printHint: "Imprimir actas"
   downloadHint: "Descargar minutos como archivo"
-  agenda: "Programa"
+  agenda: "Agenda"
   sendAgenda: "Enviar agenda"
-  delete: "Suprimir minutos"
+  delete: "Suprimir actas"
   GlobalNotes:
     pin: "Establecer como nota global fijada"
     unpin: "Establecer como nota global no clavada"
@@ -336,12 +336,12 @@ Minutes:
     none: "Ninguno."
 MeetingSeries:
   title: "Serie de reuniones"
-  team: "Equipo/Proyecto"
+  team: "Equipo / Proyecto"
   new: "Nueva serie de reuniones"
   leave: "Dejar la serie de reuniones"
   leaveButton: "Abandonar"
   moderator: "Eres moderador"
-  lastMinute: "Último minuto:"
+  lastMinute: "Último acta:"
   Search:
     placeholder: "Buscar Serie de Reuniones"
     noResults: "No hay resultados para esta entrada..."
@@ -349,7 +349,7 @@ MeetingSeries:
     Error:
       meetingName: "Por favor, introduzca un nombre válido para la serie de reuniones"
       teamName: "Por favor, introduzca un nombre de proyecto válido"
-      notRegistered: "No es un nombre de usuario registrado"
+      notRegistered: "Este no es un nombre de usuario registrado"
       alreadyInList: "Este nombre de usuario ya está en la lista"
     teamName: "Nombre del equipo / proyecto"
     meetingName: "Nombre de reunión"
@@ -370,7 +370,7 @@ MeetingSeries:
     new: "Nueva etiqueta"
     select: "Seleccionar ..."
   Tab:
-    minutes: "Minutos"
+    minutes: "Actas"
     topics: "Temas"
     items: "Artículos"
 Profile:
@@ -383,7 +383,7 @@ Profile:
   ChangePassword:
     title: "Cambiar contraseña para"
     oldPassword: "Contraseña antigua"
-    wrongOldPassword: "Por favor, introduzca la contraseña antigua válida"
+    wrongOldPassword: "Por favor, introduzca la contraseña válida antigua"
     newPassword: "Nueva contraseña"
     newPasswordRepeat: "Nueva contraseña Repetir"
   Error:
