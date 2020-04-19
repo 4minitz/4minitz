@@ -30,7 +30,9 @@ jobs:
       DISPLAY: ":99.0"
     strategy:
       matrix:
-        e2etest: [tests/e2e2/helloWorld-test.js tests/e2e2/helloWDIO-test.js]
+        e2etest:
+          - tests/e2e2/helloWorld-test.js
+          - tests/e2e2/helloWDIO-test.js
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
