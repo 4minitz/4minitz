@@ -1,6 +1,8 @@
 
 // Configuration for WebDriver.IO TestRunner for End2End tests
 
+const headless = process.env.HEADLESS;
+
 exports.config = {
     //
     // ====================
@@ -24,6 +26,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
+        // './tests/e2e2/**/*-test.js'
         './tests/e2e2/**/*-test.js'
     ],
     // Patterns to exclude.
@@ -67,8 +70,8 @@ exports.config = {
                 // suppress the download pop up and directly save download files to disk
                 'download.default_directory': 'tests/e2e_downloads'
             },
-            args: ['--headless', '--window-size=1920x1080']
-            // args: ['--window-size=1920x1080']
+            args: [(headless ? '--headless' : '--empty'), '--window-size=1920x1080'],
+            // args: ['--headless', '--window-size=1920x1080'],
         },
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
@@ -144,6 +147,7 @@ exports.config = {
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
+        compilers: ['js:babel-register'],
         ui: 'bdd',
         timeout: 60000
     },
@@ -184,6 +188,10 @@ exports.config = {
 
         console.log(browser.sessionId); // outputs: "57b15c6ea81d0edb9e5b372da3d9ce28"
         console.log(browser.capabilities);
+
+        const server = require('end2end/helpers/Server');
+        global.server = server;
+        server.connect();
     },
     /**
      * Runs before a WebdriverIO command gets executed.
@@ -244,8 +252,9 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // after: function (result, capabilities, specs) {
-    // },
+    after: function (result, capabilities, specs) {
+        server.close();
+    },
     /**
      * Gets executed right after terminating the webdriver session.
      * @param {Object} config wdio configuration object

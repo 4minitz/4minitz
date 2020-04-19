@@ -1,5 +1,8 @@
-describe('suite sync', () => {
-    it('test sync',
+require('../end2end/helpers/Server');
+require('./wdio_v4_to_v5');
+
+describe('Hello WDIO', () => {
+    it('test WDIO',
         () => {
             browser.url('http://localhost:3100');
             expect(browser.getTitle()).to.contain('4Minitz');

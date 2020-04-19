@@ -13,7 +13,8 @@ jobs:
     - run: sudo apt-get install gcc-4.8 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
     - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
     - run: curl https://install.meteor.com | /bin/sh
-#    - run: npm install -g chimp@0.51.1
+    - run: pwd
+    - run: meteor --version
     - run: npm install
 
     - run: npm run test:unit
@@ -22,11 +23,16 @@ jobs:
 
   End2EndTests:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: end2end   # evaluated by .babel.rc
+      HEADLESS: 1         # evaluated by wdio.conf.js
     strategy:
+      fail-fast: true   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
       matrix:
         e2etest:
           - tests/e2e2/helloWorld-test.js
           - tests/e2e2/helloWDIO-test.js
+          - tests/e2e2/hello4Minitz-test.js
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -50,6 +56,7 @@ jobs:
         with:
           node-version: '8.9.4'
       - run: ./tests/e2e2/run_e2e.sh ${{ matrix.e2etest }}
+
       - uses: actions/upload-artifact@v1
         with:
           name: E2E Screenshots

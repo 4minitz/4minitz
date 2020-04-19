@@ -58,7 +58,9 @@ export class E2EApp {
         let generalAlertShowsLoginFailure = false;
 
         try {
-            generalAlertShowsLoginFailure = browser.getHTML('.alert.alert-danger').includes('403');
+            if (generalAlertExists) {
+                generalAlertShowsLoginFailure = browser.getHTML('.alert.alert-danger').includes('403');
+            }
         } catch (e) {
             const expectedError = 'An element could not be located on the page using the given search parameters (".alert.alert-danger")';
             if (!e.toString().includes(expectedError)) {
