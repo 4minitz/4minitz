@@ -24,7 +24,6 @@ jobs:
   End2EndTests:
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: end2end   # evaluated by .babel.rc
       HEADLESS: 1         # evaluated by wdio.conf.js
     strategy:
       fail-fast: true   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
@@ -56,6 +55,8 @@ jobs:
         with:
           node-version: '8.9.4'
       - run: ./tests/e2e2/run_e2e.sh ${{ matrix.e2etest }}
+        env:
+          NODE_ENV: end2end   # evaluated by .babel.rc
 
       - uses: actions/upload-artifact@v1
         with:
