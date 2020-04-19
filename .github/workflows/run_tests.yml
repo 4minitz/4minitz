@@ -50,3 +50,8 @@ jobs:
         with:
           node-version: '8.9.4'
       - run: ./tests/e2e2/run_e2e.sh ${{ matrix.e2etest }}
+      - uses: actions/upload-artifact@v1
+        with:
+          name: E2E Screenshots
+          path: tests/snapshots
+
