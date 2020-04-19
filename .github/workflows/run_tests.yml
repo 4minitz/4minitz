@@ -17,7 +17,7 @@ jobs:
     - run: sudo apt-get install gcc-4.8 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
     - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
     - run: curl https://install.meteor.com | /bin/sh
-    - run: npm install -g chimp@0.51.1
+#    - run: npm install -g chimp@0.51.1
     - run: npm install
 
     - run: npm run test:unit
@@ -42,19 +42,15 @@ jobs:
       - run: sudo apt-get install gcc-4.8 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
       - run: curl https://install.meteor.com | /bin/sh
+      - run: meteor --version
       - run: npm install
-#      - run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-#      - run: nvm --version
-      - run: node --version
       - run: google-chrome --version
       - uses: actions/setup-node@v1
         with:
           node-version: '12.16.2'
-#      - run: nvm install v12
       - run: node --version
       - run: npm i chromedriver@^80.0.0
-#      - run: nvm use v8
       - uses: actions/setup-node@v1
         with:
           node-version: '8.9.4'
-      - run: npx wdio run wdio.conf.js
+      - run: ./tests/e2e2/run_e2e.sh ./tests/e2e2/helloWorld-test.js
