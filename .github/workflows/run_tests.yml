@@ -55,18 +55,19 @@ jobs:
         with:
           node-version: '8.9.4'
       - run: ./tests/e2e2/run_e2e.sh ${{ matrix.e2etest }}
-        env:
-          NODE_ENV: end2end   # evaluated by .babel.rc
 
-      - uses: actions/upload-artifact@v1
+      - name: Upload E2E screenshot artifacts
+        uses: actions/upload-artifact@v1
         with:
           name: E2E Screenshots
           path: tests/snapshots
-      - uses: actions/upload-artifact@v1
+      - name: Upload E2E log artifacts
+        uses: actions/upload-artifact@v1
         with:
           name: E2E Logs
           path: tests/e2e2/logs
-      - uses: actions/upload-artifact@v1
+      - name: Upload E2E server log artifacts
+        uses: actions/upload-artifact@v1
         with:
           name: E2E Server Log
           path: tests/e2e2/logs/server.log
