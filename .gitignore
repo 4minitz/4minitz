@@ -2,6 +2,7 @@
 .meteor/local
 .meteor/meteorite
 .idea/
+.vscode/
 .docker/4minitz_settings.json
 .docker/4minitz_bin
 .deploy/4minitz_bin/
@@ -13,16 +14,13 @@ settings.json
 tests/snapshots/*.png
 tests/mongodump
 tests/e2e_downloads
+tests/e2e2/logs/*.log
+
 public/fonts/glyphicons-halflings-regular.*
 *.json.bak
 
 4minitz\.iml
-
-
-\.deploy/4minitz_bin\.zip
-
 package-lock\.json
-
 4minitz_settings\.json
 
 \.vscode
