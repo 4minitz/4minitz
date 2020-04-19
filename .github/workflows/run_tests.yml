@@ -28,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DISPLAY: ":99.0"
+    strategy:
+      matrix:
+        e2etest: [tests/e2e2/helloWorld-test.js tests/e2e2/helloWDIO-test.js]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -53,4 +56,4 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '8.9.4'
-      - run: ./tests/e2e2/run_e2e.sh ./tests/e2e2/helloWorld-test.js
+      - run: ./tests/e2e2/run_e2e.sh ${{ matrix.e2etest }}
