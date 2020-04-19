@@ -25,6 +25,7 @@ done
 sleep 10
 
 echo Start end2end test runner
+export HEADLESS=1         # evaluated by wdio.conf.js
 export NODE_ENV=end2end   # evaluated by .babel.rc - will break server build/launch above!
 npx wdio run wdio.conf.js --spec ${TEST}
 # chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=chrome -- $TEST tests/end2end/setup.js

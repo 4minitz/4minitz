@@ -23,8 +23,6 @@ jobs:
 
   End2EndTests:
     runs-on: ubuntu-latest
-    env:
-      HEADLESS: 1         # evaluated by wdio.conf.js
     strategy:
       fail-fast: true   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
       matrix:
@@ -56,18 +54,16 @@ jobs:
           node-version: '8.9.4'
       - run: ./tests/e2e2/run_e2e.sh ${{ matrix.e2etest }}
 
+
       - name: Upload E2E screenshot artifacts
+        if: always()
         uses: actions/upload-artifact@v1
         with:
           name: E2E Screenshots
           path: tests/snapshots
       - name: Upload E2E log artifacts
+        if: always()
         uses: actions/upload-artifact@v1
         with:
           name: E2E Logs
           path: tests/e2e2/logs
-      - name: Upload E2E server log artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: E2E Server Log
-          path: tests/e2e2/logs/server.log
