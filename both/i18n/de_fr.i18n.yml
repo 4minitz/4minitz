@@ -6,7 +6,7 @@ Accounts:
   nameDisplayName: "Noma, Glubb"
   namePlaceholder: "Hans Dampf, Dischdennisglubb"
   passwordPlaceholder: "wengsdns 6 Zeing braung mer (ä Zoal, än glann und än gruußn Buggschdoom)"
-  passwordError: "min. 6 Zeichen (und mindestens eine Zahl, ein Kleinbuchstabe und ein Großbuchstabe)"
+  passwordError: "wengsdns 6 Zeing braung mer (wengsdns aa Zoal, aan glann und aan gruußn Buggschdoom)"
 Buttons:
   add: "Daddsufüch"
   back: "Zurügg, ärschlings"
@@ -46,11 +46,11 @@ Dialog:
     body: "Willsdes wergli woah wech haua?"
   ConfirmDeleteMeetingSeries:
     questionMeetingSeries: "Willsd di Siddsungsreiha wergli wechhaua"
-    questionMinutes: "Diese Serie enthält {$minutesCount} Besprechungsprotokolle (letztes Protokoll vom {$lastMinutesDate})."
+    questionMinutes: "Die Serie hodd {$minutesCount} Gwaafbroddokolle (äs leddsde Broddokoll is vom {$lastMinutesDate})."
   ConfirmCreateNewMinutes:
     title: "In echd a neis Broddokoll machn"
-    content: "Möchten Sie wirklich neues Protokoll für die Sitzungsreihe \"{$project}: {$name}\" erstellen?"
-  confirmDeleteAttachment: "Wollen Sie den Datei-Anhang wirklich löschen:\n**{$name}**?"
+    content: "Horchermoll, willsd du wergli woahr ä neis Broddokoll fiä die Siddsundsreiha \"{$project}: {$name}\" erschdelln?"
+  confirmDeleteAttachment: "Willsd des Nooghängde wergli wechhaua: **{$name}**?"
   confirmDeleteDetails: "Möchten Sie wirklich die ausgewählten Details des Elements **{$subject}** löschen?"
   ConfirmDeleteItem:
     allowed: "Wollen Sie die {$type} **{$subject} ** wirklich löschen?"
