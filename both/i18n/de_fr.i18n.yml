@@ -2,10 +2,10 @@
 _splitKey: ':'
 _locale: 'de-LI'
 Accounts:
-  usernamePlaceholder: "(min. 3 Zeichen)"
+  usernamePlaceholder: "(wengsdns 3 Zeing braung mer)"
   nameDisplayName: "Noma, Glubb"
   namePlaceholder: "Hans Dampf, Dischdennisglubb"
-  passwordPlaceholder: "min. 6 Zeichen (Zahl, Klein- & Großbuchstabe)"
+  passwordPlaceholder: "wengsdns 6 Zeing braung mer (ä Zoal, än glann und än gruußn Buggschdoom)"
   passwordError: "min. 6 Zeichen (und mindestens eine Zahl, ein Kleinbuchstabe und ein Großbuchstabe)"
 Buttons:
   add: "Daddsufüch"
