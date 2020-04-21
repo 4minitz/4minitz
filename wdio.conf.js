@@ -1,7 +1,7 @@
 
 // Configuration for WebDriver.IO TestRunner for End2End tests
 
-const headless = process.env.HEADLESS;
+const headless = process.env.HEADLESS;  // export HEADLESS=1 on shell to trigger headless chrome testing
 
 exports.config = {
     //
@@ -149,7 +149,8 @@ exports.config = {
     mochaOpts: {
         compilers: ['js:babel-register'],
         ui: 'bdd',
-        timeout: 60000
+        timeout: 60000,
+        fullTrace: true,
     },
     //
     // =====
@@ -186,12 +187,12 @@ exports.config = {
         global.expect = chai.expect;
         // chai.should();   // to extend Object.prototype() with the should() function.
 
-        console.log(browser.sessionId); // outputs: "57b15c6ea81d0edb9e5b372da3d9ce28"
-        console.log(browser.capabilities);
+        //console.log(browser.sessionId); // outputs: "57b15c6ea81d0edb9e5b372da3d9ce28"
+        //console.log(browser.capabilities);
 
-        const server = require('end2end/helpers/Server');
-        global.server = server;
-        server.connect();
+        // const server = require('tests/end2end/helpers/Server');
+        // global.server = server.server;
+        // server.connect();
     },
     /**
      * Runs before a WebdriverIO command gets executed.

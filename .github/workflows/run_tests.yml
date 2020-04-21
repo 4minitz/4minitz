@@ -30,6 +30,7 @@ jobs:
           - tests/e2e2/helloWorld-test.js
           - tests/e2e2/helloWDIO-test.js
           - tests/e2e2/hello4Minitz-test.js
+          - tests/end2end/MeetingSeries-test.js
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1

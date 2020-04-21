@@ -1,4 +1,9 @@
-
+browser.elements = function (selector) {
+    return browser.findElements('css selector', selector); // or: 'xpath' as using
+};
+browser.isVisible = function (selector) {
+    return $(selector).isDisplayed();
+};
 browser.isExisting = function (selector) {
     return $(selector).isExisting();
 };

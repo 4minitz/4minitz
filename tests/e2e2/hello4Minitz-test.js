@@ -8,13 +8,16 @@ import {E2EMeetingSeries} from '../end2end/helpers/E2EMeetingSeries';
 describe('Hello 4Minitz', () => {
     before('reset app', () => {
         server.connect();
-        server.call('e2e.resetMyApp', false);
+        E2EApp.resetMyApp();
+        E2EApp.launchApp();
+        E2EApp.loginUser();
+        expect(E2EApp.isLoggedIn(), 'User is logged in').to.be.true;
+
     });
 
     it('test 4Minitz',
         () => {
             E2EApp.gotoStartPage();
-            E2EGlobal.saveScreenshot('e2e_reloaded');
             expect (E2EApp.isLoggedIn()).to.be.true;
         });
 });

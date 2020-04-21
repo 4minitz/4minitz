@@ -1,3 +1,6 @@
+require('./helpers/Server');
+require('../e2e2/wdio_v4_to_v5');
+
 import { E2EGlobal } from './helpers/E2EGlobal';
 import { E2EApp } from './helpers/E2EApp';
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
@@ -11,12 +14,13 @@ describe('MeetingSeries', function () {
     });
 
     before("reload page and reset app", function () {
+        server.connect();
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    it('can create a first meeting series', function () {
+    it.only('can create a first meeting series', function () {
         const aProjectName = "E2E Project";
         const aMeetingName = "Meeting Name #1";
         const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -26,7 +30,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it('can create a further meeting series', function () {
+    it.only('can create a further meeting series', function () {
         const aProjectName = "E2E Project";
         const aMeetingName = "Meeting Name #2";
         const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -36,7 +40,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it.skip('can submit the form by pressing enter in the meetingname input', function () {
+    it('can submit the form by pressing enter in the meetingname input', function () {
         const aProjectName = "E2E Project";
         const aMeetingName = "Meeting Name #2.7182818284";
         const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -76,19 +80,6 @@ describe('MeetingSeries', function () {
         expect(E2EApp.isOnStartPage()).to.be.false;
     });
 
-    it('displays the date of the last minutes in the meeting series overview', function() {
-        const aProjectName = "E2E Minutes";
-        const aMeetingName = "Meeting Name #4";
-        const myDate = "2015-03-17";  // date of first project commit ;-)
-
-        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
-
-        E2EMeetingSeries.doSomethingWithMeetingSeriesListItem(aProjectName, aMeetingName, '', (elemId) => {
-            expect(browser.elementIdText(elemId).value).to.have.string(`(Last Minute: ${myDate}`);
-        });
-    });
-    
     it.skip('can submit the form by pressing enter in the project name input', function () {
         let aProjectName = "E2E Project";
         let aMeetingName = "Meeting Name #4";
