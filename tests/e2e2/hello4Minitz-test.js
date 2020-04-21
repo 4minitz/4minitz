@@ -14,6 +14,7 @@ describe('Hello 4Minitz', () => {
     it('test 4Minitz',
         () => {
             E2EApp.gotoStartPage();
+            E2EGlobal.saveScreenshot('e2e_reloaded');
             expect (E2EApp.isLoggedIn()).to.be.true;
         });
 });
