@@ -55,7 +55,9 @@ export class E2EGlobal {
     }
 
     static clickWithRetry(selector, timeout = 10000) {
+        E2EGlobal.saveScreenshot('021');
         browser.scroll(selector);
+        E2EGlobal.saveScreenshot('022');
         E2EGlobal.waitSomeTime(100);
 
         const start = new Date();
@@ -63,10 +65,13 @@ export class E2EGlobal {
 
         while (current - start < timeout) {
             try {
+                E2EGlobal.saveScreenshot('023');
                 browser.click(selector);
                 E2EGlobal.waitSomeTime(100);
+                E2EGlobal.saveScreenshot('024');
                 return;
             } catch (e) {
+                E2EGlobal.saveScreenshot('025');
                 const message = e.toString(),
                     retryMakesSense = message.includes('Other element would receive the click')
                                    || message.includes('Element is not clickable at point');
