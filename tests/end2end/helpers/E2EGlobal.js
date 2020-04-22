@@ -1,4 +1,5 @@
 
+const specfile=process.env.SPECFILE;
 
 export class E2EGlobal {
     static setValueSafe(selector, string, retries = 5) {
@@ -189,8 +190,11 @@ export class E2EGlobal {
      */
     static saveScreenshot(filename) {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
-        filename = (!filename) ? dateStr : dateStr + "_" + filename;
-        let fullpath = './tests/snapshots/' + filename + ".png";
+        filename = (specfile ? specfile+'_' : '') +
+            dateStr +
+            (filename ? '_' : '') +
+            filename;
+        let fullpath = './tests/snapshots/' + filename + '.png';
         browser.saveScreenshot(fullpath);
 
         const weAreOnTravis = !!process.env.TRAVIS;
