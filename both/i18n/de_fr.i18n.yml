@@ -83,21 +83,21 @@ Dialog:
     warnTopicNoNewContent: "Ä Deema is beblauderd worn, hodd obbä - maan i - kann naia Inhalld"
   ConfirmReOpenTopic:
     title: "Müssd er do etzer werchli nuchamol drüba redn?"
-    body: "Möchten Sie das bereits abgeschlossene Thema **{$topicSubject} ** wirklich erneut öffnen?"
+    body: "Meechersd des Deema, des wuu scho gschlussn woa **{$topicSubject}**, wergli widdä aufmachng?"
     button: "Nochamal aufmachn"
   ConfirmSendAgenda:
-    body: "Möchten Sie wirklich die Tagesordnung für die Sitzung vom **{$minDate}** erneut verschicken?\nSie wurde bereits am {$agendaSentDate} um {$agendaSentTime} gesendet"
-    title: "Versand der Tagesordnung bestätigen"
+    body: "Willsd wergli des Doochwerch fiä di Siddsung vom **{$minDate}** nu amoll schiggng? Des hossd fei am {$agendaSentDate} um {$agendaSentTime} scho gschiggd"
+    title: "Bassd. Des Doochwerch willi schiggn"
     button: "Daachesordnungsbungde verschiggn"
   ConfirmDeleteMinutes:
-    really: "Möchten Sie dieses Protokoll vom **{$minutesDate}** wirklich löschen?"
-    newTopics: "Dadurch werden **{$newTopicsCount} Themen entfernt**, die innerhalb dieses Protokolls erstellt wurden."
-    closedTopicsAdditionally: "Zusätzlich werden **{$closedTopicsCount} Themen wieder geöffnet**, die innerhalb dieses Prokolls geschlossen wurden."
-    closedTopics: "**{$closedTopicsCount} Themen werden wieder geöffnet**, die innerhalb dieses Protokolls geschlossen wurden."
+    really: "Äächd? Willsd des Broddokoll vom {$minutesDate} wergli wechhaua?"
+    newTopics: "Doodabei wern {$newTopicsCount} Deema wechgmachd, die wuu in den Broddokoll drin erschdelld worn sin."
+    closedTopicsAdditionally: "Nudaddsu wern **{$closedTopicsCount} topics** Deema widdä aafgmachd, die wuu in den Broddokoll zugmachd worn sin."
+    closedTopics: "Bass fei aaf: **{$closedTopicsCount} topics** Deema wern widdä aafgmachd, die wuu in den Broddokoll zugmachd worn sin."
   ConfirmFinalizeMinutes:
     title: "Sooderla, edds dämmeräweng den Broddokoll-Abschluss beschdäädichng"
     button: "Hobbetz aaf die Mobbedz"
-    really: "Möchten Sie das **Protokoll vom {$minutesDate}** wirklich abschließen?"
+    really: "Äächd? Willsd des Broddokoll vom **{$minutesDate}** wergli fäddich machng?"
     sendActionItems: "Die Auffdrääch middschiggn"
     sendMinutes: "Informationen senden"
   LocaleSetting:
