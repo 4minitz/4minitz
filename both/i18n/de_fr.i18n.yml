@@ -99,7 +99,7 @@ Dialog:
     button: "Hobbetz aaf die Mobbedz"
     really: "Äächd? Willsd des Broddokoll vom **{$minutesDate}** wergli fäddich machng?"
     sendActionItems: "Die Auffdrääch middschiggn"
-    sendMinutes: "Informationen senden"
+    sendMinutes: "Innfomaddsiona schiggng"
   LocaleSetting:
     title: "Schbrach einschdelle"
     languageLocale: "Schbracheinschdellung"
@@ -107,28 +107,28 @@ Dialog:
     contributionHint1: "Dodevo voschdehst du su viel wie die Kuh vum Sunndoach?"
     contributionHint2: "Hilf a weng, 4Minitz gscheid zu übersetzn!"
   IsEditedHandling:
-    title: "Trotz bestehender Bearbeitung bearbeiten"
-    confirmationDialogResetEdit: "Warnung: Dieses Dokument wird derzeit von {$name} seit {$date} bearbeitet"
-    confirmationDialogResetEditDetails: "Bitte klicken Sie erneut auf Details, um mit der Bearbeitung zu beginnen."
+    title: "Des is schon beärwerd und iech wills drobbsdeem beärwern"
+    confirmationDialogResetEdit: "Fei Obachd! Des Doggumend werd eddsaddla grood im Auchngbligg vo {$name} seit {$date} beärwerd"
+    confirmationDialogResetEditDetails: "Edds gliggsd bidde nuamoll aaf Deddails, damiddsd mim Beärwern schdaddn koonsd."
     button: "Des kimmert mi an Scheiß!"
   ConnectionInfo:
     tooltip: |
-      Verbindung verloren!
-        Status: {$status}
-        Wiederholung: {$retryCount}
-        Wiederholungszeit: {$retryTime} Sek.
-        Grund: {$reason}
-        Klicken zum erneuten Verbinden
+      Mier homm die Väbindung väluurn!
+      Schdaddus: {$status}
+      Wiedähuulunga: {$retryCount}
+      Wiedähuulungszeid: {$retryTime} Sek.
+      Weechng, wall: {$reason}
+      Du mussd gliggng, dammiddsd widdä väbundn wärsd.
     header: "Unner Kompjuder duslt a weng."
     body: "Wenns'd etzer abhausd dann is dei Broddokoll im Eimer. Red a mal mid deine Kompjuder Eggsberdn falls des häuficher bassierd."
-    tryToReconnect: "Verbindung versuchen"
+    tryToReconnect: "Väbindung browwiern"
   ConfirmGenerateProtocol:
-    title: "Generierung des Protokolls bestätigen"
+    title: "Die Generierung vom Broddokoll beschdäädichn"
     body: "Für dieses Protokoll wurde keine Protokoll-Datei generiert. Möchten Sie stattdessen eine dynamisch generierte HTML-Version herunterladen?"
-    button: "Herunterladen"
+    button: "Her dammidd. Rundäloodn"
   ConfirmTopicDelete:
-    title1: "Löschen des Themas bestätigen"
-    title2: "Thema als diskutiert markieren?"
+    title1: "Des Foddhaua vom Deema beschdädichng"
+    title2: "Deema als beblauderd margkiän?"
     button2: "Thema und Aufgaben schließen"
     errortitle: "Gehd ned"
     errorcontent: "Es ist nicht möglich, dieses Thema zu löschen, da es in einem vorherigen Protokoll erstellt wurde. Das ausgewählte Thema ist bereits geschlossen und hat keine offenen Aufgaben, daher wird es nicht in das folgende Protokoll kopiert."
