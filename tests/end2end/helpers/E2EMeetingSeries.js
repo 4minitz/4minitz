@@ -23,7 +23,7 @@ export class E2EMeetingSeries {
         // is "create MeetingSeries dialog" closed?
         if (!browser.isVisible('input[id="id_meetingproject"]')) {
             E2EGlobal.clickWithRetry('#btnNewMeetingSeries');  // open
-            E2EGlobal.waitSomeTime();
+            E2EGlobal.waitSomeTime(600);
             browser.waitForVisible('input[id="id_meetingproject"]');
         }
 
