@@ -1,0 +1,601 @@
+---
+_splitKey: ':'
+_locale: 'de-LI'
+Accounts:
+  usernamePlaceholder: "(wengsdns 3 Zeing braung mer)"
+  nameDisplayName: "Noma, Glubb"
+  namePlaceholder: "Hans Dampf, Dischdennisglubb"
+  passwordPlaceholder: "wengsdns 6 Zeing braung mer (ä Zoal, än glann und än gruußn Buggschdoom)"
+  passwordError: "wengsdns 6 Zeing braung mer (wengsdns aa Zoal, aan glann und aan gruußn Buggschdoom)"
+Buttons:
+  add: "Daddsufüch"
+  back: "Zurügg, ärschlings"
+  cancel: "Aafhöan"
+  change: "Annersch machn"
+  close: "Mach Schluss"
+  confirm: "Bassd so"
+  create: "Mach des"
+  delete: "Hau wech"
+  dismissAll: "Scho gloar"
+  edit: "Beärwern"
+  hide: "Bassd scho, väschdeggn"
+  ok: "Bassd scho"
+  register: "Omeldn"
+  save: "Aafheem"
+UserRoles:
+  roleModerator: "Scheff"
+  roleUploader: "Hochloder"
+  roleInvited: "Eigloodn"
+  roleInformed: "Der waas B'scheid"
+FlashMessages:
+  ok: "Bassd scho"
+  error: "Allmäächd! Do hosd di daischd"
+  verifyEMailErr: "Do hosd di daischd: Ihmäil hodd ned iewerbrieft wern könna"
+  verifyEMailOK: "Bassd scho: Dei Ihmäil is subba!"
+  passwordChangeOK: "Dei Basswodd is etz annersch"
+  passwordResetOK: "Basswodd zun Glügg zrügggseddsd"
+  profileEditOK: "Brofiländerunga gschbeichädd"
+  minuteLinkErr: "Leider is des Broddokoll ned gscheid mit deä Siddsungsreiha driewä fäbundn - hau dein Süsdeemadminisdraadoa oo."
+  agendaSentOK: "Daachesordnungsbungde an {$result} Leude verschiggd"
+  finalizeProgress1: "Broddokoll wädd feddich gmachd"
+  finalizeProgress2: "Waddner a weng..."
+  finalizeOK: "Des Broddokoll hammä zun Glügg feddich gmachd"
+Dialog:
+  ConfirmDelete:
+    title: "Willsdes in ächd wechhaua?"
+    body: "Willsdes wergli woah wech haua?"
+  ConfirmDeleteMeetingSeries:
+    questionMeetingSeries: "Willsd di Siddsungsreiha wergli wechhaua"
+    questionMinutes: "Die Serie hodd {$minutesCount} Gwaafbroddokolle (äs leddsde Broddokoll is vom {$lastMinutesDate})."
+  ConfirmCreateNewMinutes:
+    title: "In echd a neis Broddokoll machn"
+    content: "Horchermoll, willsd du wergli woahr ä neis Broddokoll fiä die Siddsundsreiha \"{$project}: {$name}\" erschdelln?"
+  confirmDeleteAttachment: "Willsd des Nooghängde wergli wechhaua: **{$name}**?"
+  confirmDeleteDetails: "Waddaweng, willsd di ausgsuuchdn Deddails vom Elemend **{$subject}** wergli wechhaua?"
+  ConfirmDeleteItem:
+    allowed: "Willsd des dododdn {$type} **{$subject}** wergli wechhaua?"
+    notAllowed: "Blooss, dassdes wassd, des gehd fei ned, des {$type} **{$subject}** kömmer ned wegmachng, wallsd des {$type} in am aldn Broddokoll scho neidibbd hosd."
+    questionActionItem: "Willsd die Erwerd liewä zumachn?"
+    questionInfoItem: "Willsd des noobabbde Info-Zeich liewä widdä wechzubbfm?"
+    typeActionItem: "Aufdraach"
+    typeInfoItem: "Infoamaddsion"
+    titleCloseActionItem: "Aufdraach abschließa?"
+    titleUnpinInfoItem: "Infoamaddsion oozubbln?"
+    buttonCloseActionItem: "Aufdraach abgschlossn"
+    buttonUnpinInfoItem: "Infoamaddsion oozubbln"
+  ConfirmDeleteTopic:
+    allowed: "Willsd des Deema dododdn **{$subject}** wergli wechhaua?"
+    notAllowed: "Naa, des Deema **{$subject}** kömmer ned wegmachng, wallsd des in am aldn Broddokoll scho neidibbd hosd."
+    close: "Willsd des Deema liewä als `scho beblauderd´ zumachn?"
+    closeWithActions: "Willsd des Deema liewä mit alli Erwerdn zamm zumachn?"
+  confirmLeaveMeetingSeries: "Willsd di werggli aus dä Beschprechungsreiha schleing:\n**{$project} / {$name}**\nNacherdla mussd an Scheff frong, wennsd widdä miitmachn moggst."
+  ConfirmMinuteQualityAssurance:
+    title: "Schluss! Aus! Äpfl! middn Broddokoll: Bassd´s assuu?"
+    button: "Mach weider"
+    issues: "Horch, des bassd fei ned. Da mussd nochamal drüberguggn!"
+    proceed: "Willsd middn Aafhöan weidämachng?"
+    warnNoTopics: "Des aggduelle Broddokoll hodd ka Deemä ned"
+    warnNoParticipants: "Kaans doo"
+    warnEditing: "Dou wergelt noch anner an am Daachesordnungsbungd"
+    warnNoTopicDiscussed: "Ka Deema is `scho beblauderd´"
+    warnTopicWithoutItems: "Wengsdsn aa beblauderds Deema hodd kanne Ellemende"
+    warnActionItemWithoutResponsible: "Wengsdsn aa Erwerd hodd kann, der wo waaß, wo der Baddl den Mosd huld"
+    warnTopicNoNewContent: "Ä Deema is beblauderd worn, hodd obbä - maan i - kann naia Inhalld"
+  ConfirmReOpenTopic:
+    title: "Müssd er do etzer werchli nuchamol drüba redn?"
+    body: "Meechersd des Deema, des wuu scho gschlussn woa **{$topicSubject}**, wergli widdä aufmachng?"
+    button: "Nochamal aufmachn"
+  ConfirmSendAgenda:
+    body: "Willsd wergli des Doochwerch fiä di Siddsung vom **{$minDate}** nu amoll schiggng? Des hossd fei am {$agendaSentDate} um {$agendaSentTime} scho gschiggd"
+    title: "Bassd. Des Doochwerch willi schiggn"
+    button: "Daachesordnungsbungde verschiggn"
+  ConfirmDeleteMinutes:
+    really: "Äächd? Willsd des Broddokoll vom {$minutesDate} wergli wechhaua?"
+    newTopics: "Doodabei wern {$newTopicsCount} Deema wechgmachd, die wuu in den Broddokoll drin erschdelld worn sin."
+    closedTopicsAdditionally: "Nudaddsu wern **{$closedTopicsCount} topics** Deema widdä aafgmachd, die wuu in den Broddokoll zugmachd worn sin."
+    closedTopics: "Bass fei aaf: **{$closedTopicsCount} topics** Deema wern widdä aafgmachd, die wuu in den Broddokoll zugmachd worn sin."
+  ConfirmFinalizeMinutes:
+    title: "Sooderla, edds dämmeräweng den Broddokoll-Abschluss beschdäädichng"
+    button: "Hobbetz aaf die Mobbedz"
+    really: "Äächd? Willsd des Broddokoll vom **{$minutesDate}** wergli fäddich machng?"
+    sendActionItems: "Die Auffdrääch middschiggn"
+    sendMinutes: "Innfomaddsiona schiggng"
+  LocaleSetting:
+    title: "Schbrach einschdelle"
+    languageLocale: "Schbracheinschdellung"
+    automatic: "Audomadisch übern Brauser"
+    contributionHint1: "Dodevo voschdehst du su viel wie die Kuh vum Sunndoach?"
+    contributionHint2: "Hilf a weng, 4Minitz gscheid zu übersetzn!"
+  IsEditedHandling:
+    title: "Des is schon beärwerd und iech wills drobbsdeem beärwern"
+    confirmationDialogResetEdit: "Fei Obachd! Des Doggumend werd eddsaddla grood im Auchngbligg vo {$name} seit {$date} beärwerd"
+    confirmationDialogResetEditDetails: "Edds gliggsd bidde nuamoll aaf Deddails, damiddsd mim Beärwern schdaddn koonsd."
+    button: "Des kimmert mi an Scheiß!"
+  ConnectionInfo:
+    tooltip: |
+      Mier homm die Väbindung väluurn!
+      Schdaddus: {$status}
+      Wiedähuulunga: {$retryCount}
+      Wiedähuulungszeid: {$retryTime} Sek.
+      Weechng, wall: {$reason}
+      Du mussd gliggng, dammiddsd widdä väbundn wärsd.
+    header: "Unner Kompjuder duslt a weng."
+    body: "Wenns'd etzer abhausd dann is dei Broddokoll im Eimer. Red a mal mid deine Kompjuder Eggsberdn falls des häuficher bassierd."
+    tryToReconnect: "Väbindung browwiern"
+  ConfirmGenerateProtocol:
+    title: "Die Generierung vom Broddokoll beschdäädichn"
+    body: "Für dieses Protokoll wurde keine Protokoll-Datei generiert. Möchten Sie stattdessen eine dynamisch generierte HTML-Version herunterladen?"
+    button: "Her dammidd. Rundäloodn"
+  ConfirmTopicDelete:
+    title1: "Des Foddhaua vom Deema beschdädichng"
+    title2: "Deema als beblauderd margkiän?"
+    button2: "Thema und Aufgaben schließen"
+    errortitle: "Gehd ned"
+    errorcontent: "Es ist nicht möglich, dieses Thema zu löschen, da es in einem vorherigen Protokoll erstellt wurde. Das ausgewählte Thema ist bereits geschlossen und hat keine offenen Aufgaben, daher wird es nicht in das folgende Protokoll kopiert."
+  ItemDeleteError:
+    title: "Gehd ned"
+    body1: "Des kömmer ned wegmachn, weils des in am alden Broddokoll scho angleechd hasd."
+    body2a: "Diese Aufgabe ist bereits geschlossen,"
+    body2b: "Diese Information ist bereits nicht angeheftet,"
+    body3: "so dass sie nicht in das folgenden Protokoll kopiert wird"
+  ActionItemResponsibleError:
+    title: "Ungültige verantwortliche Person für die Aufgabe"
+    body: |
+      Dies ist keine gültiger Verantwortlicher!
+
+      Bitte wählen Sie einen **existierenden Benutzer** aus der Dropdown-Liste oder geben Sie eine **gültige E-Mail-Adresse** ein.
+  ConvertItemError:
+    title: "Gehd ned"
+    body: "Des kömmer ned umbaua, weils des in am alden Broddokoll scho angleechd hasd."
+About:
+  title: "Zeich und Woar"
+  copyrightTeam: "4Minitz-Team"
+  licensedUnder: "Lizenziert unter der MIT-Lizenz"
+  licenseDependencies: "Lizenzen der abhängigen Pakete"
+  thanksContributors: "Vielen Dank an alle Mitwirkenden"
+  thanksTranslators: "Vielen Dank an alle unsere Übersetzer"
+  proudlySponsored: "Gefördert durch"
+  specialThanks: "Besonderer Dank an diese Projekte"
+  forkGitHub: "Fork uns auf GitHub"
+  ServerStatistics:
+    title: "Serverstatistik"
+    rowNumUser: "Anzahl der Benutzer (aktiv)"
+    rowNumMeetingSeries: "Anzahl der Sitzungsreihen"
+    rowNumMeetingMinutes: "Anzahl der Besprechungsprotokolle"
+    rowNumAttachments: "Anzahl der Anhänge"
+    rowSizeAttachments: "Größe der Anhänge"
+Item:
+  ariaLabel: "Element hinzufügen/bearbeiten"
+  editItem: "Element bearbeiten"
+  editItemHint: "Diese Information/Aufgabe bearbeiten"
+  deleteItem: "Element entfernen"
+  deleteItemHint: "Diese Information/Aufgabe entfernen"
+  addItemModal: "{$type} zu {$topic} hinzufügen"
+  editItemModal: "Bearbeite {$type} von {$topic}"
+  editItemModelTypeInfoItem: "Information"
+  editItemModelTypeActionItem: "Aufgabe"
+  addInfo: "Information hinzufügen"
+  addInfoHint: "Information zum Thema hinzufügen"
+  action: "Aufgabe"
+  addAction: "Aufgabe hinzufügen"
+  addActionHint: "Aufgabe zum Thema hinzufügen"
+  convertToAction: "In Aufgabe umwandeln"
+  convertToInfo: "In Info umwandeln"
+  convertDisabled: "Umwandlung nicht möglich: Dieses Element existierte bereits in einem vorherigen Protokoll"
+  subject: "Betreff (Pflichtfeld)"
+  details: "Details"
+  addDetails: "Details hinzufügen"
+  priority: "Priorität"
+  Priorities:
+    high: "1 - Hoch"
+    medium: "3 - Mittel"
+    low: "5 - Niedrig"
+  due: "Fälligkeit"
+  dueNone: "keine"
+  detailPlaceholder: "Sie können Markdown zum Bearbeiten verwenden. Drücken Sie Strg+Enter oder Tab zum Verlassen."
+  markdownHint: "Hilfe für Markdown Syntax"
+  setPin: "Anheften"
+  setPinHint: "Diese Info anheften"
+  unsetPin: "Losheften"
+  unsetPinHint: "Diese Info losheften"
+  done: "Erledigt"
+  pinned: "angeheftet"
+  Error:
+    subject: "Bitte geben Sie einen gültigen Betreff an"
+  Filter:
+    title: "Filter"
+    usageHint: "Filternutzung"
+    info: "Infos"
+    action: "Aufgaben"
+    open: "Offene Aufgaben"
+    closed: "Erledigte Aufgaben"
+    yourAction: "Meine Aufgaben"
+    placeholder: "Filter"
+    matchCase: "Groß- / Kleinschreibung"
+    matchCaseHint: "Groß-/Kleinschreibung beachten"
+    matchCaseLong: "Groß-/Kleinschreibung beachten"
+    Usage:
+      body: "Sie können mehrere Suchbegriffe verwenden, um die aufgelisteten Elemente zu filtern.\nAlle Suchbegriffe können kombiniert werden, die die Elemente filtern, die mit allen angegebenen Suchparametern übereinstimmen."
+      keyword: "Suchwort"
+      format: "Format"
+      values: "Werte"
+      eg: "z. B."
+  myActionItems: "Meine Aufgaben"
+Topic:
+  title: "Thema"
+  new: "Neu"
+  add: "Thema hinzufügen"
+  addLong: "Thema hinzufügen..."
+  addShort: "Thema"
+  addHint: "Neues Thema oben zur Liste hinzufügen [Strg+Alt+T]"
+  quickAdd: "Thema hinzufügen (zum Ende der Liste)"
+  edit: "Thema bearbeiten"
+  save: "Thema speichern"
+  show: "Thema anzeigen"
+  subject: "Thema (Pflichtfeld)"
+  responsible: "Verantwortlicher"
+  completed: "Abgeschlossen"
+  completedHint: "Dieses Thema ist abgeschlossen. Es wird nicht mehr in der nächsten Sitzung vorgebracht."
+  setRecurring: "Wiederkehrend"
+  setRecurringHint: "Als wiederkehrendes Thema festlegen"
+  unsetRecurring: "Nicht wiederkehrend"
+  unsetRecurringHint: "Als nicht wiederkehrendes Thema festlegen"
+  setSkip: "Überspringen"
+  setSkipHint: "Thema in dieser Sitzung überspringen"
+  unsetSkip: "Nicht Überspringen"
+  unsetSkipHint: "Thema in dieser Sitzung nicht überspringen"
+  history: "Verlauf anzeigen"
+  historyHint: "Vollständigen Verlauf dieses Themas anzeigen"
+  delete: "Thema löschen"
+  reopen: "Thema erneut öffnen"
+  reopenHint: "Thema erneut öffnen"
+  placeholder: "Information hinzufügen. @username erzeugt Aufgabe. 'Enter' für Mardown-Details. 'Strg+Enter' oder 'Tab' speichert."
+  childOf: "Thema der Sitzungsreihe:"
+  historyTitle: "Dieses Thema wurde"
+  createdOn: "wurde erstellt am:"
+  lastUpdate: "zuletzt aktualisiert am:"
+  finalizedOn: "abgeschlossen im Protokoll vom:"
+  doneBy: "(von {$user})"
+  notFoundTitle: "Das Thema wurde nicht gefunden."
+  notFoundReasons: "Gründe können sein...<br><ul><li>Das Thema wurde nicht nicht abgeschlossen (es existiert lediglich in einem nicht beschlossenen Protokoll)</li><li>Das Thema wurde gelöscht</li><li>Sie haben keine Zugriffsrechte auf dieses Thema (mehr)</li></ul>"
+  illegalAction: "Versuch einer verbotenen Handlung im schreibgeschützten Modus"
+  addDetails: "Details hinzufügen"
+  addDetailsHint: "Details zum Element hinzufügen"
+  hideClosed: "Fertige ausbl."
+  hideClosedHint: "Abgeschlossene/Übersprungene Themen temporär ausblenden"
+  hideClosedLong: "Abgeschlossene ausblenden"
+  collapse: "Zuklappen"
+  collapseLong: "Themen zuklappen"
+  expand: "Aufklappen"
+  expandLong: "Themen aufklappen"
+  Error:
+    subject: "Bitte geben Sie einen gültigen Betreff für dieses Thema an"
+  Filter:
+    completed: "Abgeschlossene Themen"
+    uncompleted: "Offene Themen"
+    yourTopic: "Deine Themen"
+  TooltipCreated:
+    date: "Erstellt {$dateCreateStr}"
+    user: "von {$userCreate}"
+  TooltipUpdated:
+    date: "Aktualisiert {$dateUpdStr}"
+    user: "von {$userUpd}"
+Minutes:
+  create: "Neues Protokoll erstellen"
+  date: "Datum"
+  dateOn: "am"
+  title: "Protokoll von"
+  finalized: "Beschlossen"
+  finalizedHint: "Protokoll ist beschlossen"
+  notFinalized: "Nicht beschlossen"
+  notFinalizedHint: "Protokoll wurde noch nicht beschlossen"
+  attachments: "Anhänge"
+  attachmentsHint: "Protokoll enthält Anhänge"
+  previous: "Vorheriges:"
+  next: "Nächstes:"
+  history: "Verlauf"
+  unfinalizeHint: "Beschlossenes Protokoll wieder bearbeiten"
+  print: "Broddokoll ausdruggn"
+  finalize: "Protokoll beschließen"
+  finalizeHint: "Klicken, um das Protokoll zu beschließen"
+  printHint: "Broddokoll ausdruggn"
+  downloadHint: "Protokoll als Datei herunterladen"
+  agenda: "Tagesordnung"
+  sendAgenda: "Daachesordnungsbungde verschiggn"
+  delete: "Protokoll löschen"
+  GlobalNotes:
+    pin: "Allgemeinen Hinweis anheften"
+    unpin: "Allgemeinen Hinweis losheften"
+    title: "Allgemeiner Hinweis"
+    placeholder: "Allgemeiner Hinweis für diese Sitzung. Stecknadel überträgt den Hinweis in die folgende Sitzung"
+  Upload:
+    button: "Hochladen..."
+    uploading: "Lade hoch"
+    start: "Upload starten"
+    continue: "Hochladen fortsetzen"
+    pause: "Hochladen pausieren"
+    abort: "Hochladen abbrechen"
+    error: "Fehler beim Hochladen"
+  version: "Version"
+  versionTag: "v"
+  Participants:
+    title: "Teilnehmer"
+    invited: "Eingeladen"
+    solo: "1 Teilnehmer"
+    additional: "Weitere Teilnehmer"
+    additionalSolo: "1 weiterer Teilnehmer"
+    placeholder: "Weitere Teilnehmer (getrennt mit ';'). E-Mail-Adressen bekommen das Protokoll geschickt."
+    editHint: "Eingeladene Benutzer bearbeiten."
+    markNone: "Niemanden markieren"
+    markAll: "Alle markieren"
+    watchingHint: "Dieser Benutzer beobachtet aktuell"
+    informed: "Informierte Benutzer"
+    informedSolo: "1 informierter Benutzer"
+    present: "Anwesend"
+    absent: "Abwesend"
+    none: "Niemand."
+MeetingSeries:
+  title: "Sitzungsreihe"
+  team: "Team / Projekt"
+  new: "Neue Sitzungsreihe"
+  leave: "Sitzungsreihe verlassen"
+  leaveButton: "Verlassen"
+  moderator: "Sie sind Moderator"
+  lastMinute: "Letztes Protokoll:"
+  Search:
+    placeholder: "Nach Sitzungsreihe suchen"
+    noResults: "Keine Ergebnisse für diese Eingabe..."
+  Edit:
+    Error:
+      meetingName: "Bitte geben Sie einen gültigen Namen für die Sitzungreihe ein"
+      teamName: "Bitte geben Sie einen gültigen Teamnamen ein"
+      notRegistered: "Dies ist kein registrierter Benutzer"
+      alreadyInList: "Dieser Benutzer steht bereits in der Liste"
+    teamName: "Team-/Projektname"
+    meetingName: "Sitzungsname"
+    title: "Sitzungsreihe bearbeiten"
+    base: "Grundeinstellungen"
+    editedBy: "Bearbeitet von {$user} (um {$date})"
+    invited: "Eingeladene und informierte Benutzer"
+    placeholderUsers: "Benutzer zu eingeladenen Benutzern hinzufügen..."
+    notifyRoleChange: "Benutzer über Rollenveränderung benachrichtigen"
+    labels: "Kategorien"
+    save: "Sitzungsreihe speichern"
+    confirmDelete: "Willsdes in ächd wechhaua"
+  Labels:
+    Error:
+      name: "Bitte geben Sie einen gültigen Namen für die Kategorie ein"
+      hexValue: "Ungültiger Hex-Wert für Farbe"
+    add: "Neue Kategorie hinzufügen"
+    new: "Kategorie"
+    select: "Wählen..."
+  Tab:
+    minutes: "Broddokoll"
+    topics: "Themen"
+    items: "Elemente"
+Profile:
+  title: "Profil bearbeiten für"
+  userName: "Benutzername"
+  longName: "Vollständiger Name"
+  email: "E-Mail"
+  password: "Passwort"
+  passwordRepeat: "Passwort wiederholen"
+  ChangePassword:
+    title: "Passwort ändern für"
+    oldPassword: "Altes Passwort"
+    wrongOldPassword: "Das ursprüngliche Passwort ist ungültig"
+    newPassword: "Neues Passwort"
+    newPasswordRepeat: "Neues Passwort (Wiederholung)"
+  Error:
+    name: "Bitte gebe einen gültigen Benutzernamen ein"
+    longName: "Bitte geben Sie einen gültigen vollständigen Namen an"
+    email: "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+    password: "Bitte geben Sie ein gültiges Passwort ein"
+  WarningEMailChange:
+    title: "Ändern der Benutzer-E-Mail bestätigen"
+    body: "Sie sind dabei, Ihre verifizierte E-Mail-Adresse zu ändern. Sie werden abgemeldet und müssen Ihre neue E-Mail-Adresse verifizieren, bevor Sie sich wieder einloggen können."
+    button: "Abmelden + Neu Verifizieren"
+Admin:
+  users: "Leude"
+  messages: "Nachrichten"
+  Register:
+    label: "Neuen Benutzer anlegen"
+    hint: "Hinweis: Dies legt einen neuen Standard-Benutzer an (Nicht für den Login via LDAP!)."
+    button: "Neuen Benutzer anlegen..."
+    sendMail: "E-Mail an neuen Benutzer verschicken"
+    includePassword: "Passwort mit E-Mail verschicken"
+    success: "Neuen Benutzer angelegt: {$user}"
+  Message:
+    title: "Nachrichten des Administrators"
+    newMessage: "Neue Nachricht an alle Benutzer"
+    broadcast: "Senden"
+    date: "Daddum"
+    message: "Nachricht"
+    dismissed: "Verworfen"
+    dismissingUsers: "Anzahl zur Kenntnis genommener Benutzer: {$number}"
+    edit: "Beärwern"
+  Users:
+    filterUsers: "Leud aussordiern"
+    showInactive: "Zeige Inaktive"
+    online: "Online"
+    onlineHint: "Zeige nur gerade aktive Benutzer"
+    id: "ID"
+    editProfile: "Benutzer bearbeiten"
+    countSingle: "Zeige {$visible} von {$all} Benutzer. Verwenden Sie Filter, um andere zu sehen."
+    count: "Zeige {$visible} von {$all} Benutzern. Verwenden Sie Filter, um die Auswahl zu ändern."
+    Type:
+      hint: "LDAP- oder Standard-Benutzer"
+      column: "L/S"
+      ldap: "L"
+      standard: "S"
+    State:
+      hint: "Zwischen Aktiv und Inaktiv umschalten. Inaktive Benutzer können sich nicht einloggen."
+      column: "In/Aktiv"
+      active: "Aktiv"
+      inactive: "Inaktiv"
+      toggle: "Umschalten"
+Login:
+  Error:
+    title: "Anmeldefehler"
+    username: "Bitte geben Sie Ihren Benutzernamen ein"
+    password: "Bitte geben Sie Ihr Passwort ein"
+  signIn: "Anmelden"
+  ldap: "LDAP"
+  standard: "Standard"
+  demoHint: "Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link \"Registrieren\" klicken."
+  Login4MinitzInfo:
+    header: "4Minitz: Zomme Broddokolle schreim."
+    subheader: "● Doochesordnunge herrichtn ● Broddokolle schreim ● Aufgab vafolche ●"
+    abstract: |
+      <p>Jeder eingeladene und eingeloggte Benutzer kann Änderungen an den aktuellen Sitzungsprotokollen in Echtzeit verfolgen.</p>
+      Wir haben 4Minitz als freie Open-Source-Software erstellt da wir der festen Überzeugung sind, dass
+      sensible Informationen wie Sitzungsprotokolle nicht in der Cloud gespeichert werden sollten.
+      Stattdessen möchten Sie es auf Ihrer eigenen Infrastruktur hosten, wo Sie
+      definieren können, welches Sicherheitsniveau Sie benötigen.
+    prepareAgendaHeading: "Tagesordnung vorbereiten"
+    prepareAgendaDetails: |
+      <li>Sitzungsreihe erstellen</li>
+      <li>Andere Benutzer einladen</li>
+      <li>Moderatoren und Uploader festlegen</li>
+      <li>Agenda mit Themen füllen</li>
+      <li>Wiederkehrende Themen für die Standardagenda</li>
+      <li>Agenda an eingeladene Benutzer senden</li>
+    documentMinutesHeading: "Sitzungen protokollieren"
+    documentMinutesDetails: |
+      <li>Teilnehmer abhaken</li>
+      <li>Aufgaben mit Verantwortlichen festhalten</li>
+      <li>Information zu Themen protokollieren</li>
+      <li>Kategorien (z.B. 'Entscheidung') anhängen</li>
+      <li>Binäre Dateianhänge hochladen</li>
+      <li>Protokolle &amp; Aufgaben per E-Mail</li>
+    trackTopicsHeading: "Themen nachverfolgen"
+    trackTopicsDetails: |
+      <li>Automatische Wiedervorlage unerledigter Aufgaben</li>
+      <li>Automatische Wiedervorlage offener Themen</li>
+      <li>Suchliste aller jemals diskutierten Themen</li>
+      <li>Erweitern Sie Themen mit Informationen späteren Sitzungen</li>
+      <li>Themen nach Kategorien finden (z.B. alle 'Entscheidungen')</li>
+      <li>Elemente mit der Volltextsuche finden</li>
+  Footer:
+    withLove: "Codiert mit ❤ durch das"
+    theTeam: "WebApp-Team"
+Navigation:
+  help: "Doo wärdd diä fei gholfm"
+  about: "Iiewer"
+  adminTasks: "Addminisdraddsion"
+  editProfile: "Brofiel bäerwäddn"
+  changePassword: "Iech will ä annersch Basswodd hoom!"
+  signOut: "Ade, bleib schee!"
+  toggleNavigation: "Navigation anzeigen"
+  meetings: "Siddsunga"
+  processing: "Ihre Anfrage wird bearbeitet..."
+  setLanguageForUser: "Schbrach einschdelle"
+  setLanguageLogin: "Schbrach"
+QuickHelp:
+  title: "Iech hälf dä glei - schee zaggich"
+  meetingSeries: "<p>Hier können Sie neue Protokolle für die aktuelle Sitzungsreihe erstellen oder über das Datum das entsprechende Protokoll aufrufen.</p>"
+  meetingSeriesList: "<p>Mit 4Minitz können Sie Protokolle für Sitzungen erstellen.</p>\n<p>Erstellen Sie zuerst eine neue Sitzungsreihe und laden dann alle Teilnehmer ein.<br>\nAnschließend können Sie Protokolle zu dieser Sitzungsreihe anlegen.</p>"
+  minutes: "<p>Fügen Sie zunächst Themen zu Ihrer Tagesordnung hinzu, um diese vorab an alle Mitglieder zu verschicken.<br>\nWährend der Sitzung werden alle Themen, die abschließend diskutiert wurden, mit einem Häkchen markiert.<br>\nFalls...<br>\n&nbsp;&nbsp; - das Thema nicht als diskutiert markiert oder<br>\n&nbsp;&nbsp; - dieses als wiederkehrendes Thema gesetzt oder<br>\n&nbsp;&nbsp; - das Thema eine unerledigte Aufgabe enthält<br>\n... wird das Thema in der nächsten Sitzung erneut vorgebracht.</p>\n<p>Klicken Sie auf 'Protokoll beschließen', um das Protokoll an die eingeladenen Benutzer und die Aufgaben an ihre Verantwortlichen zu senden.</p>"
+  upload: "<ul><li>Hier können Sie Dateien wie z.B. Präsentationen, PDFs oder Whiteboard-Fotos hochladen</li>\n<li>Sie benötigen die Rolle 'Uploader' oder 'Moderator', um dies tun zu können</li>\n<li>Hochladen und wieder löschen ist solange möglich, bis das Protokoll beschlossen wurde</li>\n<li>Tipp: Klicken Sie auf den 'Hochladen...' Knopf auf Ihrem Tablet oder Smartphone!</li></ul>"
+Mail:
+  greeting: "Grissgoddala"
+  newAgenda: "Do hosd a Moddsdrumm neis Doochwerch:"
+  newActionItem: "Diä homms die Erwerd dododdn oogschaffd:"
+  newMinutes: "Dundn findsd es neiesde Siddsungsbroddokoll."
+  meeting: "Siddsung"
+  links: "Väwäddlunga"
+  openSeries: "Siddsungsreiha aufmachng"
+  openMinutes: "Broddokoll aufmachng"
+  minutesSubject: "Siddsungsbroddokoll"
+  discussedTopics: "Beblauderdes Zeich"
+  skippedTopics: "Nunni beblauderds Zeich"
+  none: "Kanne"
+  AdminNewVersion:
+    subject: "Do gibbds scho wos Neiers"
+    body: |
+      Hallo Admin,
+
+      Es scheint, dass Sie eine veraltete Version von 4Minitz verwenden.
+
+      Ihre 4Minitz-Instanz unter: {$rootUrl}
+      hat Version: {$myVersion}
+
+      Die neueste verfügbare Version ist: {$masterVersion}
+      Versionshinweise: {$urlReleaseNotes}
+
+      Bitte denken Sie über ein Upgrade nach.
+
+      {$masterMessageText}
+
+      Diese E-Mail wurde von Ihrem 4Minitz Backend generiert.
+      Sie können die Updateprüfung über settings.json deaktivieren: \"updateCheck\": false.
+
+      Viel Spaß!
+              Dein 4Minitz-Team.
+
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Der Quellcode ist verfügbar unter {$url4Minitz}
+  AdminRegisterNewUser:
+    subject: "Ihr neues Konto auf unserem Server"
+    passwordNotSend: "Kontaktieren Sie den Administrator für Ihr Passwort."
+    passwordParagraph: |
+      Ihr Passwort : {$password}
+
+      Vergessen Sie nicht, Ihr Passwort nach der ersten Anmeldung zu ändern!
+    body: |
+      Hallo {$userLongName},
+
+      Willkommen bei unserer 4Minitz WebApp.
+      Jetzt können Sie einfach professionelle Sitzungsprotokolle erstellen und lesen.
+
+      Sie können sich mit dem 'Standard'-Login (nicht LDAP!) anmelden unter:
+         Ihr Server: {$rootURL}
+         Ihr Benutzer: {$userName}
+      {$passwordParagraph}
+
+      Viel Spaß!
+              Dein 4Minitz-Team.
+
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Der Quellcode ist verfügbar unter {$url4Minitz}
+  UserRoleChange:
+    subject: "Ihre Rolle hat sich geändert für '{$meetingProject}:{$meetingName}'"
+    body: |
+      Hallo {$userName}
+
+      Ihre Rolle hat sich geändert für die Sitzungsreihe '{$meetingProject}:{$meetingName}'
+      ({$meetingSeriesURL})
+
+         Ihre alte Rolle war : {$roleOld}
+         Ihre neue Rolle ist : {$roleNew}
+         Die Änderung wurde durchgeführt von : {$moderatorName}
+
+      Für eine umfassende Liste von Rechten für jede Rolle siehe Sie:
+            {$urlRoleDocu}
+
+      Viel Spaß!
+            Ihr Admin.
+
+      --- 
+      4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
+      Quellcode ist verfügbar unter {$url4Minitz}
+  VerifyEmailAddress:
+    subject: "[{$sitename}] Bestätigen Sie Ihre E-Mail-Adresse"
+    body: |
+      Um Ihre E-Mail-Adresse {$emailAddress} zu verifizieren, besuchen Sie den folgenden Link:
+
+      {$urlWithoutHash}
+
+      Falls Sie diese Überprüfung nicht angefordert haben, bitte diese E-Mail ignorieren.
+      Wenn Sie das Gefühl haben, dass etwas falsch ist, kontaktieren Sie bitte Ihren Administrator.
+  ResetPassword:
+    subject: "[{$sitename}] Passwort zurücksetzen"
+    body: |
+      Um Ihr Passwort für {$emailAddress} zurückzusetzen, klicken Sie auf den folgenden Link:
+
+      {$urlWithoutHash}
+
+      Wenn Sie nicht angefordert haben, Ihr Passwort zurückzusetzen, bitte diese E-Mail ignorieren.
+      Wenn Sie das Gefühl haben, dass etwas falsch ist, kontaktieren Sie bitte Ihren Administrator.

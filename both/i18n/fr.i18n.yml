@@ -24,9 +24,9 @@ Buttons:
   save: "Sauvegarder"
 UserRoles:
   roleModerator: "Modérateur"
-  roleUploader: "Chargeur"
+  roleUploader: "Uploader"
   roleInvited: "Invité"
-  roleInformed: "Informez-vous"
+  roleInformed: "Personne à notifier"
 FlashMessages:
   ok: "Ok"
   error: "Erreur"
@@ -92,8 +92,8 @@ Dialog:
   ConfirmDeleteMinutes:
     really: "Voulez-vous vraiment supprimer ce protocole de réunion datée du **{$minutesDate} ** ?"
     newTopics: "Cela supprimera **{$newTopicsCount} sujets**, qui ont été créés dans ce protocole."
-    closedTopicsAdditionally: "De plus, **{$closedTopicsCount} sujets ** seront ouverts à nouveau, qui ont été fermés dans ces minutes."
-    closedTopics: "**{$closedTopicsCount} sujets** seront ouverts à nouveau, qui ont été fermés dans ces minutes."
+    closedTopicsAdditionally: "De plus, **{$closedTopicsCount} sujets ** seront re-ouverts, même ceux qui ont été fermés dans ces protocoles."
+    closedTopics: "**{$closedTopicsCount} sujets** seront re-ouverts, même ceux qui ont été fermés dans ces protocoles."
   ConfirmFinalizeMinutes:
     title: "Confirmer la finalisation des protocoles"
     button: "Finaliser"
@@ -146,7 +146,7 @@ Dialog:
       Veuillez sélectionner un **utilisateur existant** dans la liste déroulante ou entrez une **adresse e-mail valide**.
   ConvertItemError:
     title: "Impossible de convertir l'élément"
-    body: "Il n'est pas possible de convertir cet élément car il a été créé dans une minute précédente."
+    body: "Il n'est pas possible de convertir cet élément car il a été créé dans un protocle précédent."
 About:
   title: "À propos de 4Minitz"
   copyrightTeam: "par 4Minitz-Team"
@@ -167,21 +167,21 @@ About:
 Item:
   ariaLabel: "Ajouter/Modifier un élément"
   editItem: "Modifier l'élément"
-  editItemHint: "Modifier cette action/info"
+  editItemHint: "Modifier cette tâche /information"
   deleteItem: "Supprimer l'élément"
-  deleteItemHint: "Supprimer cette action/info"
+  deleteItemHint: "Supprimer cette tâche /information"
   addItemModal: "Ajouter {$type} au {$topic}"
   editItemModal: "Editer {$type} du sujet {$topic}"
   editItemModelTypeInfoItem: "Information"
   editItemModelTypeActionItem: "Tâche"
   addInfo: "Ajouter un élément d information"
   addInfoHint: "Ajouter un élément d'information au sujet"
-  action: "Elément d'action"
-  addAction: "Ajouter un élément d'action"
-  addActionHint: "Ajouter un élément d'action au sujet"
-  convertToAction: "Convertir en action"
-  convertToInfo: "Convertir en Info"
-  convertDisabled: "Conversion désactivée : l'élément existe dans la réunion précédente"
+  action: "Tâche"
+  addAction: "Ajouter une tâche"
+  addActionHint: "Ajouter une tâche au sujet"
+  convertToAction: "Convertir en tâche"
+  convertToInfo: "Convertir en Information"
+  convertDisabled: "Conversion désactivée : l'élément existe dans une réunion précédente"
   subject: "Objet (obligatoire)"
   details: "Détails"
   addDetails: "Ajouter des détails"
@@ -194,80 +194,80 @@ Item:
   dueNone: "sans échéance"
   detailPlaceholder: "Vous pouvez utiliser Markdown pour modifier. Appuyez sur Ctrl+Enter ou Tab pour quitter."
   markdownHint: "Aide sur la syntaxe de markdown"
-  setPin: "Définir épinglé"
+  setPin: "Définir comme épinglé"
   setPinHint: "Définir comme élément d'information épinglé"
-  unsetPin: "Non défini épinglé"
+  unsetPin: "Désépinglé"
   unsetPinHint: "Définir comme élément d'information non épinglé"
-  done: "Terminé"
+  done: "effectué(e)"
   pinned: "épinglé"
   Error:
     subject: "Veuillez saisir un sujet valide"
   Filter:
     title: "Filtres"
     usageHint: "Utilisation du filtre"
-    info: "Infos"
-    action: "Articles d'action"
-    open: "Ouvrir les éléments d'action"
-    closed: "Articles d'action fermés"
-    yourAction: "Vos éléments d'action"
+    info: "Informations"
+    action: "Tâches"
+    open: "Tâches en cours"
+    closed: "Tâches effectuées"
+    yourAction: "Vos tâches"
     placeholder: "Filtrer"
-    matchCase: "Cas"
-    matchCaseHint: "Correspondance de cas"
-    matchCaseLong: "Correspondance de cas"
+    matchCase: "Majuscules/Minuscules"
+    matchCaseHint: "Sensible aux majuscules"
+    matchCaseLong: "Sensible aux majuscules"
     Usage:
-      body: "Vous pouvez utiliser plusieurs mots-clés pour filtrer les éléments listés. Tous les mots-clés peuvent être combinés qui filtrent ces éléments correspondant à tous les paramètres de recherche donnés."
-      keyword: "Keyword"
-      format: "Formater"
+      body: "Vous pouvez utiliser plusieurs mots-clés pour filtrer les éléments. Tous les mots-clés peuvent être combinés ainsi tous les paramètres de recherche seront pris en compte."
+      keyword: "Mots-clé"
+      format: "Syntaxe"
       values: "Valeurs"
       eg: "par ex."
-  myActionItems: "Mes éléments d'action"
+  myActionItems: "Mes tâches"
 Topic:
-  title: "Rubrique"
+  title: "Sujet"
   new: "Nouveau"
   add: "Ajouter un sujet"
-  addLong: "Ajouter une rubrique ..."
-  addShort: "Rubrique"
-  addHint: "Ajouter une nouvelle rubrique au début de la liste [ Ctrl + Alt + T ]"
-  quickAdd: "ADD TOPIC (à la fin de la liste)"
+  addLong: "Ajouter un sujet..."
+  addShort: "Sujet"
+  addHint: "Ajouter un nouveau sujet au début de la liste [ Ctrl + Alt + T ]"
+  quickAdd: "Ajouter un sujet (à la fin de la liste)"
   edit: "Modifier le sujet"
   save: "Enregistrer le sujet"
   show: "Afficher le sujet"
-  subject: "Sujet de sujet (obligatoire)"
+  subject: "Objet du sujet (obligatoire)"
   responsible: "Responsable"
   completed: "Terminé"
-  completedHint: "Ce sujet est enfin terminé. Il ne sera donc pas propagé à la prochaine réunion."
-  setRecurring: "Définir récurrent"
+  completedHint: "Ce sujet est enfin terminé. Il ne sera donc pas ajouter à la prochaine réunion."
+  setRecurring: "Définir comme récurrent"
   setRecurringHint: "Définir comme sujet récurrent"
-  unsetRecurring: "Désinstaller récurrent"
+  unsetRecurring: "Annuler la récurrence"
   unsetRecurringHint: "Définir comme sujet non récurrent"
-  setSkip: "Définir le saut"
-  setSkipHint: "Définir comme sujet ignoré"
-  unsetSkip: "Débloquer le saut"
-  unsetSkipHint: "Définir comme sujet non ignoré"
+  setSkip: "Définir comme à ignorer"
+  setSkipHint: "Définir comme sujet à ignorer"
+  unsetSkip: "Ne plus ignorer"
+  unsetSkipHint: "Définir comme sujet à ne pas ignorer"
   history: "Afficher l'historique"
-  historyHint: "Afficher l'état terminé de ce sujet"
+  historyHint: "Afficher l'état final de ce sujet (terminé)"
   delete: "Supprimer le sujet"
   reopen: "Ré-ouvrir le sujet"
   reopenHint: "Ré-ouvrir le sujet"
-  placeholder: "Ajouter un élément d'information. Ajouter @username pour ajouter un élément d'action. Appuyez sur Entrée pour ajouter les détails. Appuyez sur Ctrl+Enter ou Tab pour soumettre."
+  placeholder: "Ajouter un élément d'information. Ajouter @username pour ajouter une tâche. Appuyez sur Entrée pour ajouter les détails. Appuyez sur Ctrl+Enter ou Tab pour envoyer."
   childOf: "Sujet de la série de réunions :"
   historyTitle: "Ce sujet a été"
   createdOn: "créé le :"
   lastUpdate: "dernière mise à jour le :"
-  finalizedOn: "finalisé à partir de quelques minutes :"
+  finalizedOn: "finalisé dans le protocole du :"
   doneBy: "(par {$user})"
   notFoundTitle: "Désolé, Sujet introuvable."
-  notFoundReasons: "Les raisons peuvent être...<br><ul><li>Le sujet n'a jamais été finalisé (il ne vit qu'en une minute non inalisée)</li><li>Le sujet a été supprimé</li><li>Vous n'avez plus de droits d'accès à ce sujet (plus)</li></ul>"
-  illegalAction: "Essai d'appeler un événement illégal en mode lecture seule"
+  notFoundReasons: "Les raisons peuvent être...<br><ul><li>Le sujet n'a jamais été finalisé (il n'est présent que dans un protocole non finalisé)</li><li>Le sujet a été supprimé</li><li>Vous n'avez plus ou pas de droits d'accès à ce sujet</li></ul>"
+  illegalAction: "Opération interdite en mode lecture seule"
   addDetails: "Ajouter des détails"
   addDetailsHint: "Ajouter des détails à l'élément"
-  hideClosed: "Masquer fermé"
+  hideClosed: "Masquer les sujets terminés"
   hideClosedHint: "Cacher temporairement les sujets discutés / ignorés de la liste"
   hideClosedLong: "Masquer les rubriques fermées"
-  collapse: "Réduction"
-  collapseLong: "Réduire les rubriques"
-  expand: "Développer"
-  expandLong: "Développer les rubriques"
+  collapse: "Réduire"
+  collapseLong: "Réduire les sujets"
+  expand: "Étendre"
+  expandLong: "Étendre les sujets"
   Error:
     subject: "Veuillez saisir un sujet valide"
   Filter:
@@ -283,37 +283,37 @@ Topic:
 Minutes:
   create: "Créer un nouveau protocole"
   date: "Date"
-  dateOn: "Sur"
+  dateOn: "le"
   title: "Protocoles pour"
   finalized: "Finalisé"
   finalizedHint: "Protocoles finalisés"
   notFinalized: "Non finalisé"
   notFinalizedHint: "Les protocoles ne sont pas finalisés"
   attachments: "Pièces jointes"
-  attachmentsHint: "Minutes avec pièces jointes"
+  attachmentsHint: "Protocoles avec pièces jointes"
   previous: "Précédent:"
   next: "Suivant:"
   history: "Historique"
-  unfinalizeHint: "Cliquez pour dépersonnaliser le procès-verbal"
-  print: "Imprimer le procès-verbal"
-  finalize: "Finaliser le procès-verbal"
-  finalizeHint: "Cliquez pour finaliser le procès-verbal"
-  printHint: "Imprimer le procès-verbal"
-  downloadHint: "Télécharger le procès-verbal en tant que fichier"
+  unfinalizeHint: "Cliquez pour re-ouvrir le protocole"
+  print: "Imprimer le protocole"
+  finalize: "Finaliser le protocole"
+  finalizeHint: "Cliquez pour finaliser le protocole"
+  printHint: "Imprimer le protocole"
+  downloadHint: "Télécharger le protocole sous forme de fichier"
   agenda: "Ordre du jour"
   sendAgenda: "Envoyer l'ordre du jour"
-  delete: "Supprimer le procès-verbal"
+  delete: "Supprimer le protocole"
   GlobalNotes:
-    pin: "Définir comme note globale réservée"
-    unpin: "Définir comme note globale non réservée"
+    pin: "Épingler comme note globale"
+    unpin: "Désépingler la note globale"
     title: "Note globale"
-    placeholder: "Notes globales pour ces minutes. Cliquez sur la broche pour propager les notes dans les minutes suivantes."
+    placeholder: "Notes globales pour ces protocoles . Cliquez sur la punaise pour propager les notes dans les protocoles suivants."
   Upload:
     button: "Envoyer..."
-    uploading: "Envoi"
+    uploading: "Envoi en cours"
     start: "Démarrer l'envoi"
-    continue: "Continuer l'envoi"
-    pause: "Pause téléchargement"
+    continue: "Poursuivre l'envoi"
+    pause: "Mettre en pause l'envoi"
     abort: "Annuler l'envoi"
     error: "Erreur lors de l'envoi"
   version: "Version"
@@ -326,12 +326,12 @@ Minutes:
     additionalSolo: "1 Participant supplémentaire"
     placeholder: "Participants supplémentaires (séparés par';'). Les protocoles seront envoyés aux adresses e-mail."
     editHint: "Modifier les utilisateurs invités."
-    markNone: "Ne pas marquer"
+    markNone: "Marquer aucun"
     markAll: "Marquer tous"
-    watchingHint: "Cet utilisateur surveille (à distance)"
-    informed: "Utilisateurs informés"
+    watchingHint: "Cet utilisateur regarde (distant)"
+    informed: "Utilisateurs à notifier"
     informedSolo: "1 Utilisateur informé"
-    present: "Participants actuels"
+    present: "Participants"
     absent: "Absent"
     none: "Aucun participants."
 MeetingSeries:
@@ -339,45 +339,45 @@ MeetingSeries:
   team: "Équipe / Projet"
   new: "Nouvelle série de réunions"
   leave: "Quitter la série de réunions"
-  leaveButton: "Fermer"
+  leaveButton: "Quitter"
   moderator: "Vous êtes modérateur"
   lastMinute: "Dernier protocole:"
   Search:
     placeholder: "Rechercher une série de réunions"
-    noResults: "Aucun résultat pour cette entrée..."
+    noResults: "Aucun résultat ne correspond à vos critères de recherche..."
   Edit:
     Error:
       meetingName: "Veuillez saisir un nom valide pour la série de réunions"
       teamName: "Veuillez saisir un nom de projet valide"
       notRegistered: "Ce n'est pas un nom d'utilisateur enregistré"
-      alreadyInList: "Ce nom d'utilisateur est déjà dans la liste"
+      alreadyInList: "Ce nom d'utilisateur est déjà utilisé"
     teamName: "Équipe / Nom du projet"
     meetingName: "Nom de la réunion"
     title: "Modifier la série de réunions"
     base: "Configuration de base"
-    editedBy: "Modifié par {$user} (à {$date})"
-    invited: "Utilisateurs invités et informés"
-    placeholderUsers: "Ajouter des utilisateurs à des utilisateurs invités..."
-    notifyRoleChange: "Notifier les participants au changement de rôle"
-    labels: "Libellés"
+    editedBy: "Modifié par {$user} (le {$date})"
+    invited: "Utilisateurs invités et à notifier"
+    placeholderUsers: "Ajouter des utilisateurs aux utilisateurs invités..."
+    notifyRoleChange: "Notifier les participants du changement de rôle"
+    labels: "Labels"
     save: "Enregistrer la série de réunions"
     confirmDelete: "Confirmer la suppression"
   Labels:
     Error:
       name: "Veuillez entrer un nom de label valide"
-      hexValue: "Valeur de couleur hex invalide"
+      hexValue: "Valeur de couleur hexadécimal invalide"
     add: "Ajouter un nouveau label"
     new: "Nouveau label"
     select: "Sélectionner ..."
   Tab:
-    minutes: "Minutes"
+    minutes: "Protocoles"
     topics: "Sujets"
-    items: "Articles"
+    items: "Elements"
 Profile:
-  title: "Modifier le profil pour"
+  title: "Modifier le profil de"
   userName: "Nom de l'utilisateur"
-  longName: "Nom long"
-  email: "E-mail"
+  longName: "Nom entier"
+  email: "Courriel"
   password: "Mot de passe"
   passwordRepeat: "Répéter le mot de passe"
   ChangePassword:
@@ -385,15 +385,15 @@ Profile:
     oldPassword: "Ancien mot de passe"
     wrongOldPassword: "Veuillez entrer un ancien mot de passe valide"
     newPassword: "Nouveau mot de passe"
-    newPasswordRepeat: "Nouveau mot de passe Répéter"
+    newPasswordRepeat: "Répéter le nouveau mot de passe"
   Error:
     name: "Veuillez saisir un nom d'utilisateur valide"
-    longName: "Veuillez saisir un nom de longue valide"
+    longName: "Veuillez saisir un nom entier valide"
     email: "Veuillez saisir une adresse e-mail valide"
     password: "Veuillez entrer un mot de passe valide"
   WarningEMailChange:
     title: "Confirmer le changement de courriel de l'utilisateur"
-    body: "Vous êtes sur le point de changer votre adresse mail vérifiée. Vous serez déconnecté et devrez vérifier votre nouvelle adresse e-mail avant de pouvoir continuer."
+    body: "Vous êtes sur le point de changer votre adresse e-mail (vérifiée). Vous serez déconnecté et devrez valider la nouvelle adresse e-mail avant de pouvoir continuer."
     button: "Déconnexion + Revérifier"
 Admin:
   users: "Utilisateurs"
@@ -404,21 +404,21 @@ Admin:
     button: "Enregistrer un nouvel utilisateur..."
     sendMail: "Envoyer un e-mail à un nouvel utilisateur"
     includePassword: "Inclure le mot de passe dans l'e-mail"
-    success: "Nouveau utilisateur enregistré : {$user}"
+    success: "Nouvel utilisateur enregistré : {$user}"
   Message:
-    title: "Diffuser les messages de l'Admin"
+    title: "Diffuser les messages provenant de l'Administrateur"
     newMessage: "Nouveau message à tous les utilisateurs"
     broadcast: "Diffusion"
     date: "Date"
     message: "Message"
-    dismissed: "Non raté"
-    dismissingUsers: "#Utilisateurs disparus : {$number}\n"
+    dismissed: "Rejeté"
+    dismissingUsers: "#Utilisateurs rejetés: {$number}\n"
     edit: "Editer"
   Users:
-    filterUsers: "Filtrer les utilisateurs"
-    showInactive: "Afficher inactif"
+    filterUsers: "Filtrer par utilisateurs"
+    showInactive: "Afficher utilisateurs inactifs"
     online: "En ligne"
-    onlineHint: "Affichage des utilisateurs actuellement actifs sur un parcours minutesedit"
+    onlineHint: "Affichage des utilisateurs actuellement actifs sur un minutesedit url"
     id: "ID"
     editProfile: "Modifier le profil utilisateur"
     countSingle: "Affichage {$visible} de l'utilisateur {$all} . Utiliser le filtre pour afficher les autres."
@@ -433,7 +433,7 @@ Admin:
       column: "Actif/inactif"
       active: "Actif"
       inactive: "Inactif"
-      toggle: "Basculer"
+      toggle: "Activer/désactiver"
 Login:
   Error:
     title: "Erreur d'authentification"
@@ -442,40 +442,40 @@ Login:
   signIn: "Se connecter"
   ldap: "LDAP"
   standard: "Standard"
-  demoHint: "Hint: Demo Mode Active<br>Vous pouvez vous connecter avec le nom d'utilisateur <b>démo</b> et le mot de passe <b>démo</b>. Ou vous pouvez enregistrer votre propre compte en cliquant sur le lien \"Inscrivez-vous\" ci-dessous."
+  demoHint: "Hint: Demo Mode Actif<br>Vous pouvez vous connecter avec le nom d'utilisateur <b>démo</b> et le mot de passe <b>démo</b>. Ou vous pouvez enregistrer votre propre compte en cliquant sur le lien \"Inscrivez-vous\" ci-dessous."
   Login4MinitzInfo:
-    header: "4Minitz : Minutes de réunion collaborative."
-    subheader: "● Préparer l'Agenda ● Document Minutes ● Suivre les sujets ●"
+    header: "4Minitz : Protocole de réunion collaboratif."
+    subheader: "● Préparer l'Agenda ● Document les protocoles ● Suivre les sujets ●"
     abstract: |
-      <p>Chaque utilisateur invité et connecté peut regarder en temps réel les modifications apportées aux minutes de la réunion en cours.</p>
+      <p>Chaque utilisateur invité et connecté peut regarder en temps réel les modifications apportées au protocole de la réunion en cours.</p>
       Nous avons fait 4Minitz logiciel libre et open source, car nous croyons fermement que
-      des informations sensibles comme les procès-verbaux de réunion ne devraient pas être hébergées dans le nuage.
+      des informations sensibles comme les protocoles de réunion ne devraient pas être hébergées dans le cloud.
       Au lieu de cela, vous voulez l'héberger sur votre propre infrastructure où vous pouvez définir
       le niveau de sécurité et de sécurité dont vous avez besoin.
     prepareAgendaHeading: "Preparation de l'agenda"
     prepareAgendaDetails: |
       <li>Créez votre série de réunions</li>
       <li>Invitez d'autres utilisateurs</li>
-      <li>Spécifiez les modérateurs et les téléchargeurs</li>
+      <li>Spécifiez les modérateurs et les uploaders</li>
       <li>Remplissez l'ordre du jour avec les sujets</li>
       <li>Marquez des sujets récurrents pour l'ordre du jour standard</li>
       <li>Envoyez l'ordre du jour aux utilisateurs invités</li>
-    documentMinutesHeading: "Minutes du document"
+    documentMinutesHeading: "Documentez les protocoles"
     documentMinutesDetails: |
       <li>Marquer les participants présents</li>
-      <li>Ajouter des éléments d'action avec des responsables aux sujets</li>
+      <li>Ajouter des tâches aux sujets avec leur responsables</li>
       <li>Ajouter des éléments d'information aux sujets</li>
-      <li>Ajouter des étiquettes comme 'Décision' aux éléments</li>
-      <li>Télécharger des pièces jointes de fichier binaires</li>
-      <li>Envoyer des minutes &amp; éléments d'action par e-mail</li>
-    trackTopicsHeading: "Sujets de suivi"
+      <li>Ajouter des labels comme 'Décision' aux éléments</li>
+      <li>Télécharger des pièces jointes </li>
+      <li>Envoyer des protocoles &amp; tâches par e-mail</li>
+    trackTopicsHeading: "Suivi de sujets"
     trackTopicsDetails: |
-      <li>Les éléments de l'action ouverte apparaîtront la prochaine fois que</li>
+      <li>Les tâches en cours apparaîtront la prochaine fois que</li>
       <li>Les sujets non fermés apparaîtront la prochaine fois</li>
       <li>Liste de recherche de tous les sujets jamais discutés</li>
       <li>Enrichir les sujets avec des éléments d'information sur plusieurs réunions</li>
       <li>Trouver des sujets avec des étiquettes (e. . toutes les décisions)</li>
-      <li>Rechercher des éléments par recherche plein texte</li>
+      <li>Rechercher des élements avec recherche en texte intégral</li>
   Footer:
     withLove: "Codé avec ❤ par le"
     theTeam: "L'équipe WebApp"
@@ -486,7 +486,7 @@ Navigation:
   editProfile: "Modifier le profil"
   changePassword: "Changer le mot de passe"
   signOut: "Se déconnecter"
-  toggleNavigation: "Activer la navigation"
+  toggleNavigation: "Activer/désactiver la navigation"
   meetings: "Réunions"
   processing: "Traitement de votre contenu ..."
   setLanguageForUser: "Définir la langue"
@@ -494,14 +494,14 @@ Navigation:
 QuickHelp:
   title: "Aide rapide"
   meetingSeries: "<p>Ici vous pouvez créer de nouveaux protocole pour la série de réunions en cours ou cliquer sur un lien de date des protocoles existants.</p>"
-  meetingSeriesList: "<p>Avec 4Minitz vous pouvez créer des minutes pour les réunions.</p><p>Premièrement créer une nouvelle série de réunions et inviter d'autres utilisateurs.<br>Ensuite, créez des minutes de réunion sur plusieurs dates pour votre série de réunions.</p>"
-  minutes: "<p>Ajoutez des sujets pour préparer votre agenda de réunion<br>Pendant la réunion, marquez un sujet avec la case à cocher pour vous faire comprendre que vous en avez discuté.<br>Si le sujet...<br>&nbsp;&nbsp; n'est pas marqué comme discuté ou<br>&nbsp;&nbsp; - est défini comme sujet récurrent ou<br>&nbsp;&nbsp; - contient des éléments d'action non-faits<br>... le sujet sera présenté à nouveau lors de la prochaine réunion.</p><p>Cliquez sur 'Finaliser procès-verbal' pour envoyer les minutes aux utilisateurs invités et les éléments d'action à leurs responsables.</p>"
-  upload: "<ul><li>Ici vous pouvez télécharger des fichiers comme e.g., présentations, PDFs ou photos de tableau blanc</li><li>Vous avez besoin du rôle 'Uploader' ou 'Moderator' pour le faire</li><li>Le chargement ou la suppression est possible jusqu'à ce que les minutes soient finalisées</li><li>Conseil Pro : Cliquez sur le bouton 'Télécharger' ci-dessus sur votre tablette ou votre téléphone intelligent !</li></ul>"
+  meetingSeriesList: "<p>Avec 4Minitz vous pouvez créer des protocoles pour les réunions.</p><p>Premièrement créer une nouvelle série de réunions et inviter d'autres utilisateurs.<br>Ensuite, créez des minutes de réunion sur plusieurs dates pour votre série de réunions.</p>"
+  minutes: "<p>Ajoutez des sujets pour préparer votre ordre du jour <br>Pendant la réunion, marquez un sujet avec la case à cocher pour vous faire comprendre que vous en avez discuté.<br>Si le sujet...<br>&nbsp;&nbsp; n'est pas marqué comme discuté ou<br>&nbsp;&nbsp; - est défini comme sujet récurrent ou<br>&nbsp;&nbsp; - contient des tâches non accomplies<br>... le sujet sera présenté à nouveau lors de la prochaine réunion.</p><p>Cliquez sur 'Finaliser protocole pour les envoyer aux utilisateurs invités et envoyer les tâches à leurs responsables.</p>"
+  upload: "<ul><li>Ici vous pouvez télécharger des fichiers comme par ex., présentations, PDFs ou photos de tableau blanc</li><li>Vous avez besoin du rôle 'Uploader' ou 'Moderator' pour le faire</li><li>Le chargement ou la suppression est possible jusqu'à ce que les protocoles soient finalisées</li><li>Conseil Pro : Cliquez sur le bouton 'Télécharger' ci-dessus sur votre tablette ou votre smart phone!</li></ul>"
 Mail:
   greeting: "Bonjour"
-  newAgenda: "Nous avons un nouveau programme de réunion pour vous:"
-  newActionItem: "Vous avez été assigné aux éléments suivants :"
-  newMinutes: "Vous trouverez ci-dessous les derniers procès-verbaux de la réunion."
+  newAgenda: "Nous avons un nouvel ordre du jour pour vous:"
+  newActionItem: "Les tâches suivantes vous ont été assignées :"
+  newMinutes: "Vous trouverez ci-dessous les derniers protocoles de la réunion."
   meeting: "Réunion"
   links: "Liens"
   openSeries: "Ouvrir les séries"
@@ -518,11 +518,11 @@ Mail:
       Il semble que vous utilisez une version obsolète de 4Minitz.
 
       Votre instance 4Minitz sur : {$rootUrl}
-      a la version : {$myVersion}
+      à la version : {$myVersion}
 
       La version la plus récente disponible est : {$masterVersion}...
       Notes de version : {$urlReleaseNotes}
-      Veuillez envisager de mettre à jour.
+      Veuillez envisager une mise à jour.
 
       {$masterMessageText}
 
@@ -547,7 +547,7 @@ Mail:
       Bonjour {$userLongName},
 
       Bienvenue sur notre application Web 4Minitz.
-      Vous pouvez maintenant commencer à participer en gardant les minutes de réunion professionnelles.
+      Vous pouvez maintenant commencer à participer en gardant les protocoles de réunion professionnelles.
 
       Vous pouvez vous connecter avec 'Standard' (pas LDAP! connectez-vous à:
          Votre hôte : {$rootURL}
@@ -561,7 +561,7 @@ Mail:
       4Minitz est un logiciel libre et libre développé par l'équipe 4Minitz.
       Source est disponible sur {$url4Minitz}
   UserRoleChange:
-    subject: "Votre rôle a changé pour '{$meetingProject}:{$meetingName}'"
+    subject: "Votre rôle a été changé pour '{$meetingProject}:{$meetingName}'"
     body: |
       Bonjour {$userName}
 
