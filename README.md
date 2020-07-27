@@ -48,67 +48,69 @@ Documentation is "continuously" not finished... Nevertheless these WIP docs may 
 ## 4Minitz is proudly sponsored by
 <a href="http://www.methodpark.de"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/sponsor_methodpark.png" height="50px" alt="Method Park"></a>
 
-## Quick Start
-You have two options to quickly evaluate a local demo 
-installation at your site.
+## Deployment Quick Start
 
-1. Use our ready-to-go docker image (recommended!) or
-1. Install meteor. Then build and run 4Minitz locally
+To quickly set up a local demo of 4Minitz at your site for evaluation and
+testing you can use our sample
+[Docker Compose configuration file](https://raw.githubusercontent.com/4minitz/4minitz/develop/docker-compose.yml) and run it with
 
+```sh
+docker-compose up
+```
 
-### Option 1: Use 4Minitz docker image (Linux, Mac & Windows)
-**Attention:** Option 1 is only one possibility of running a production
-server.
+You can now access 4Minitz by pointing your browser to [http://localhost:3100](http://localhost:3100).
+
+If you don't want to use `docker-compose` you can use just docker by
+starting the two containers manually:
+
+```sh
+docker run --rm --name mongo mongo
+docker run --rm --name 4minitz \
+    -v $PWD/4minitz_storage:/4minitz_storage \
+    -p 3100:3333 \
+    -e MONGO_URL=mongodb://mongo/4minitz \
+    --link mongo \
+    4minitz/4minitz:stable
+```
+
 Don't miss the [Admin Guide](doc/admin/adminguide.md)
 with a more comprehensive coverage of the real production
-building & installation topic!
-
-The 4Minitz docker image includes the compiled 4Minitz app, a fitting 
-node.js version and MongoDB and thus has no external dependencies.
-
-See the admin guide for
+building & installation topic! Especially see
 [how to configure your 4Minitz docker server](doc/admin/adminguide.md#production-running---with-docker).
 
-
-### Option 2: Clone, build & run your own (Linux, Mac)
-**Attention:** Option 2 is for quick testing only.
+## Development environment (Linux, Mac)
+**Attention:** This is not a proper setup for production deployment!
 It is intended for developers and so it has some security drawbacks (No
 password protection for MongoDB) and also consumes some amount of extra RAM
 (>700 MB)). Don't miss the [Admin Guide](doc/admin/adminguide.md)
 with a more comprehensive coverage of the real production installation topic!
 
-#### Prerequisites
+### Prerequisites
 4minitz is realized with the [Meteor JS Framework](http://www.meteor.com). So, first install the current version of meteor:
 
-    curl https://install.meteor.com/ | sh
-    meteor --version
-
-To download fresh code form github you will need `git` in your path.
-
-You'll need root rights for that. As a non-root user you may install
-meteor by:
-
-    git clone --depth 1 --recursive https://github.com/meteor/meteor.git
-    cd meteor
-    meteor --version
-    sudo ln -s ./meteor /usr/local/bin/meteor
+```sh
+curl https://install.meteor.com/ | sh
+meteor --version
+```
 
 On Windows? [Download the meteor installer](https://install.meteor.com/windows). 
-As experienced Windows admin you sure can transfer the below steps for Linux and Mac to your OS.
+As an experienced Windows admin you sure can transfer the below steps for Linux and Mac to your OS.
 
-#### Quick Installation of 4Minitz (Linux & Mac)   
-OK, here we go! For a quick test installation perform:
+### Run development version (Linux & Mac)   
+Once Meteor is set up you can clone and run 4Minitz from source like this:
 
-    git clone --depth 1 https://github.com/4minitz/4minitz.git --branch master --single-branch
-    cd 4minitz
-    cp settings_sample.json settings.json
-    ./runapp.sh
+```sh
+git clone https://github.com/4minitz/4minitz.git
+cd 4minitz
+cp settings_sample.json settings.json
+./runapp.sh
+```
 
 Wait some time for meteor to finish downloading and building. 
 You can reach 4Minitz via the default port 3100 by opening 
 [http://localhost:3100](http://localhost:3100) in your browser
 
-**Hint:** There exists a settings_sample.json file that has quite a few configuration options
+**Hint:** There is a settings_sample.json file that has quite a few configuration options
 (like sending eMails etc.). Don't miss the [Admin Guide](doc/admin/adminguide.md) with more details
  on this topic.
  

@@ -1,41 +1,72 @@
 #!/usr/bin/env bash
 
+set -e -u
+cd $(dirname $0)/../
+
 dockerproject=4minitz/4minitz
 commitshort=$(git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
 baseimagetag=$dockerproject:gitcommit-$commitshort
 
-echo "Usage: ./BUILD_DOCKER.sh [--imagename USER/IMAGE] [LIST OF TAGS]"
-echo "       e.g.: ./BUILD_DOCKER.sh master stable latest 0.9.1"
-echo "       e.g.: ./BUILD_DOCKER.sh develop unstable"
-echo "       e.g.: ./BUILD_DOCKER.sh --imagename johndoe/4minitz master stable latest 0.9.1"
-echo "       The default docker project is '$dockerproject'"
-echo ""
+unset build_image show_usage
+tags=()
+while [[ $# -gt 0 ]]
+do
+    case "$1" in
+        --build-image)
+        build_image="yes"
+        shift
+        ;;
+        --image-name)
+        shift
+        dockerproject="$1"
+        shift
+        ;;
+        --help)
+        show_usage="yes"
+        shift
+        ;;
+        --tags)
+        shift
+        IFS=','
+        read -ra tags <<< "$1"
+        shift
+        break
+        ;;
+        *)
+        echo "Unkown option: $1"
+        show_usage="yes"
+        break
+        ;;
+    esac
+done
 
-#### Check if docker daemon is running
-rep=$(curl -s --unix-socket /var/run/docker.sock http://ping > /dev/null)
-dockerstatus=$?
-if [ "$dockerstatus" == "7" ]; then
-    echo ' '
-    echo '*** ERROR'
-    echo '  Could not connect to docker.'
-    echo '  Is the "docker -d" daemon running?'
-    echo '  Will EXIT now!'
+if [[ -n ${show_usage:-} ]]; then
+    echo ""
+    echo "Usage: ./BUILD_DOCKER.sh [--build-image] [--image-name USER/IMAGE] [--tags TAGS]"
+    echo ""
+    echo " --build-image   Build a Docker image after preparing the build. Without"
+    echo "                 this flag this script only prepares the build in ./.deploy."
+    echo " --image-name    Choose a different image name. Default is $dockerproject."
+    echo " --tags          TAGS is a comma separated list of tags that will also be applied"
+    echo "                 to the image built."
+    echo ""
+    echo " Examples:"
+    echo "   ./BUILD_DOCKER.sh"
+    echo "   ./BUILD_DOCKER.sh --build-image --tags master,stable,latest,0.9.1"
+    echo "   ./BUILD_DOCKER.sh --build-image --tags develop,unstable"
+    echo "   ./BUILD_DOCKER.sh --build-image --image-name johndoe/4minitz --tags master,stable,latest,0.9.1"
+    echo "       The default docker project is '$dockerproject'"
+    echo ""
     exit 1
 fi
 
-
-#### Commandline parsing
-if [ "$1" == "--imagename" ]; then
-  dockerproject=$2
-  shift 2
-fi
 echo "Docker Project   : '$dockerproject'"
 echo "Target Base Image: '$baseimagetag'"
 echo ""
 
 #### Prepare settings.json
-settingsfile=./4minitz_settings.json
-cp ../settings_sample.json $settingsfile
+settingsfile=.docker/4minitz_settings.json
+cp settings_sample.json $settingsfile
 echo "Patching $settingsfile"
 sed -i '' 's/"ROOT_URL": "[^\"]*"/"ROOT_URL": "http:\/\/localhost:3100"/' $settingsfile
 sed -i '' 's/"topLeftLogoHTML": "[^\"]*"/"topLeftLogoHTML": "4Minitz [Docker]"/' $settingsfile
@@ -51,32 +82,31 @@ sed -i '' 's/"pathToPDFADefinitionFile": "[^\"]*"/"pathToPDFADefinitionFile": "\
 
 
 #### Build 4Minitz with meteor
-(cd .. && ./BUILD_DEPLOY.sh)
-rm -rf ./4minitz_bin
-mv ../.deploy/4minitz_bin . || exit 1
+./BUILD_DEPLOY.sh
 
-#### Build 4Minitz docker image
-docker build \
-        --no-cache -t "$baseimagetag" \
-        --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-        --build-arg VCS_REF=`git rev-parse --short HEAD` \
-        --build-arg VERSION=`git describe --tags --abbrev=0` \
-        .
-echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
-echo "docker push $baseimagetag"
-pushlist="docker push $baseimagetag"
+# Build Docker image - if requested
+if [[ -n ${build_image:-} ]]; then
+    echo Build 4Minitz docker image
+    docker build \
+            -f .docker/Dockerfile \
+            --no-cache -t "$baseimagetag" \
+            --build-arg VCS_REF=`git rev-parse --short HEAD` \
+            --build-arg VERSION=`git describe --tags --abbrev=0` \
+            .deploy/
 
-# iterate over list of tags like: ./BUILD.sh 1 1.9 1.9.3
-for var in "$@"
-do
-    imgtag=$dockerproject:$var
-    docker tag "$baseimagetag" "$imgtag"
-    pushcmd="docker push $imgtag"
-    echo "$pushcmd"
-    pushlist="$pushlist && $pushcmd"
-done
-echo "---------"
-echo "$pushlist"
+    echo "--------- CCPCL: The 'Convenience Copy&Paste Command List'"
+    echo "docker push $baseimagetag"
+    pushlist="docker push $baseimagetag"
 
-#### Clean up
-rm -rf ./4minitz_bin
+    # iterate over list of tags
+    for var in "${tags[@]}"; do
+        echo "tagging as $var"
+        imgtag=$dockerproject:$var
+        docker tag "$baseimagetag" "$imgtag"
+        pushcmd="docker push $imgtag"
+        echo "$pushcmd"
+        pushlist="$pushlist && $pushcmd"
+    done
+    echo "---------"
+    echo "$pushlist"
+fi
