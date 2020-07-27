@@ -26,7 +26,7 @@ export class E2EMeetingSeries {
             E2EGlobal.saveScreenshot('002');
             E2EGlobal.clickWithRetry('#btnNewMeetingSeries');  // open
             E2EGlobal.saveScreenshot('003');
-            E2EGlobal.waitSomeTime(600);
+            E2EGlobal.waitSomeTime(1500);
             E2EGlobal.saveScreenshot('004');
             browser.waitForVisible('input[id="id_meetingproject"]');
             E2EGlobal.saveScreenshot('005');
