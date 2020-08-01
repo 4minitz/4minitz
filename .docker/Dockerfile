@@ -51,7 +51,7 @@ RUN set -ex \
 #### Copy 4Minitz stuff
 COPY 4minitz_bin /4minitz_bin
 COPY 4minitz.sh /
-COPY 4minitz_settings.json /
+COPY 4minitz_bin/4minitz_settings_docker.json /4minitz_settings.json
 
 VOLUME /4minitz_storage
 

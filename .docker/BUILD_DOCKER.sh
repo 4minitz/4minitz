@@ -87,6 +87,8 @@ sed -i '' 's/"pathToPDFADefinitionFile": "[^\"]*"/"pathToPDFADefinitionFile": "\
 # Build Docker image - if requested
 if [[ -n ${build_image:-} ]]; then
     echo Build 4Minitz docker image
+
+    cp $settingsfile .deploy/4minitz_bin/4minitz_settings_docker.json   # will be copied to /4minitz_settings.json by Dockerfile later
     docker build \
             -f .docker/Dockerfile \
             --no-cache -t "$baseimagetag" \

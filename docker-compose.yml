@@ -16,7 +16,7 @@ services:
     networks:
       - 4minitz
     volumes:
-      - ./4minitz_storage:/data/db
+      - ./4minitz_storage/mongodb:/data/db
 
   4minitz:
     image: 4minitz/4minitz:stable
