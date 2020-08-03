@@ -454,20 +454,20 @@ Login:
       рівень безпеки, який вам потрібен.
     prepareAgendaHeading: "Prepare Agenda"
     prepareAgendaDetails: |
-      <li>Create your meeting series</li>
-      <li>Invite other users</li>
-      <li>Specify moderators and uploaders</li>
-      <li>Fill agenda with topics</li>
-      <li>Mark recurring topics for standard agenda</li>
-      <li>Send agenda to invited users</li>
+      <li>Створіть свою серію нарад</li>
+      <li>Запросіть інших користувачів</li>
+      <li>Укажіть модераторів і завантажувачі</li>
+      <li>Заповніть порядок денний темами</li>
+      <li>Позначте повторювані теми для стандартного порядку денного</li>
+      <li>Надіслати програму запрошеним користувачам</li>
     documentMinutesHeading: "Хвилини документа"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>Позначити учасників</li>
+      <li>Додавання елементів дії з відповідальними до тем</li>
+      <li>Додавання елементів інформації до тем</li>
+      <li>Додати мітки типу «Рішення» до пунктів</li>
+      <li>Завантажити двійковий файл вкладення</li>
+      <li>Надіслати хвилин &amp; елементів дії через Email</li>
     trackTopicsHeading: "Теми з відстеженням"
     trackTopicsDetails: |
       <li>Предмети з відкритими діями з'являться наступного разу</li>
