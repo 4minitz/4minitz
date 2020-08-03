@@ -21,7 +21,7 @@ Buttons:
   hide: "موافق ، اخفاء"
   ok: "طيب"
   register: "تسجيل"
-  save: "Save"
+  save: "حفظ"
 UserRoles:
   roleModerator: "المُشرف"
   roleUploader: "تحميل-تحميل"
