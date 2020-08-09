@@ -43,13 +43,13 @@ jobs:
       - run: curl https://install.meteor.com | /bin/sh
       - run: pwd
       - run: meteor --version
+      - run: google-chrome --version
       - run: npm install
       - uses: actions/setup-node@v1
         with:
           node-version: '12.16.2'
-      - run: google-chrome --version
+      - run: npm i chromedriver@^84.0.0     # chromedriver needs node 12 to install!
       - run: ./node_modules/chromedriver/bin/chromedriver --version
-#      - run: npm i chromedriver@^84.0.0
 
       - uses: actions/setup-node@v1
         with:
