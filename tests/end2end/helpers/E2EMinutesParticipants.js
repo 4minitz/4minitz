@@ -11,7 +11,7 @@ export class E2EMinutesParticipants {
     // ******************** STATIC Methods
     static isExpanded() {
         E2EGlobal.waitSomeTime(750);
-        return browser.isExisting("#edtParticipantsAdditional");
+        return browser.isExisting('#edtParticipantsAdditional');
     }
 
     static isCollapsed() {
@@ -20,14 +20,14 @@ export class E2EMinutesParticipants {
 
     static expand() {
         if (E2EMinutesParticipants.isCollapsed()) {
-            E2EGlobal.clickWithRetry("#btnParticipantsExpand");
+            E2EGlobal.clickWithRetry('#btnParticipantsExpand');
             browser.waitForVisible('#id_participants');
         }
     }
 
     static collapse() {
         if (E2EMinutesParticipants.isExpanded()) {
-            E2EGlobal.clickWithRetry("#btnParticipantsExpand");
+            E2EGlobal.clickWithRetry('#btnParticipantsExpand');
 
             const waitForInvisible = true;
             browser.waitForVisible('#id_participants', 10000, waitForInvisible);
@@ -38,8 +38,8 @@ export class E2EMinutesParticipants {
         try {
             return server.call('e2e.getPresentParticipantNames', minutesId);
         } catch (e) {
-            console.log("Exception: "+e);
-            console.log("Did you forget to run the server with '--settings settings-test-end2end.json'?");
+            console.log('Exception: '+e);
+            console.log('Did you forget to run the server with \'--settings settings-test-end2end.json\'?');
         } 
         return undefined;
     }
@@ -55,46 +55,47 @@ export class E2EMinutesParticipants {
              "##additional participants##": "Max Mustermann and some other guys",
              "user1": {
                  "present": false,
-                 "checkboxElemId": "700",
-                 "userElemId": "697"
+                 "checkboxElem": {...},
+                 "userElem": "{...}
              },
              "user2": {
                  "present": true,
-                 "checkboxElemId": "701",
-                 "userElemId": "698"
+                 "checkboxElem": {...},
+                 "userElem": {...}
              },
          }
      */
     updateUsersAndPresence() {
         // scroll to top to make sure the page will not scroll if any element disappears (e.g. item input field)
-        browser.scroll(0, 0);
+        browser.scrollXY(0, 0);
         E2EMinutesParticipants.expand();
 
         this._participantsAndPresence = {};
         try {
-            this._participantsAndPresence["##additional participants##"] = browser.getValue('#edtParticipantsAdditional');
+            this._participantsAndPresence['##additional participants##'] = $('#edtParticipantsAdditional').getValue();
         } catch(e) {
-            this._participantsAndPresence["##additional participants##"] = "";
+            this._participantsAndPresence['##additional participants##'] = '';
         }
 
-        const participants = browser.elements('.js-participant-checkbox #id_username');
-        const presence = browser.elements('input.js-toggle-present');
+        const participants = $$('.js-participant-checkbox #id_username');
+        const presence = $$('input.js-toggle-present');
 
-        for (let participantIndex in participants.value) {
-            let username = browser.elementIdText(participants.value[participantIndex].ELEMENT).value;
-            let checkboxId = presence.value[participantIndex].ELEMENT;
+        for (let participantIndex=0; participantIndex<participants.length; participantIndex++) {
+            let username = participants[participantIndex].getText();
+            let userElem = participants[participantIndex];
+            let checkboxElem = presence[participantIndex];
 
             this._participantsAndPresence[username] = {
-                present: browser.elementIdSelected(checkboxId).value,
-                checkboxElemId: checkboxId,
-                userElemId: participants.value[participantIndex].ELEMENT
+                present: checkboxElem.isSelected(),
+                checkboxElem: checkboxElem,
+                userElem: userElem
             };
         }
     }
 
     getParticipantsCount () {
         // "-1" to skip this._participantsAndPresence["##additional participants##"]
-        return Object.keys(this._participantsAndPresence).length -1
+        return Object.keys(this._participantsAndPresence).length -1;
     }
 
     getParticipantInfo(username) {
@@ -102,17 +103,19 @@ export class E2EMinutesParticipants {
     }
     
     getAdditionalParticipants() {
-        return this._participantsAndPresence["##additional participants##"];
+        return this._participantsAndPresence['##additional participants##'];
     }
 
     setUserPresence(username, presence) {
-        let currentSelectState = browser.elementIdSelected(this._participantsAndPresence[username].checkboxElemId).value;
-        if (currentSelectState != presence) {
+        if (!this._participantsAndPresence[username]) {
+            return false;
+        }
+        let currentSelectState = this._participantsAndPresence[username].checkboxElem.isSelected();
+        if (currentSelectState !== presence) {
             browser.scroll('#id_participants');
-            browser.elementIdClick(this._participantsAndPresence[username].userElemId)
+            this._participantsAndPresence[username].userElem.click();
         }
         this.updateUsersAndPresence();
+        return true;
     }
-    
-    
 }

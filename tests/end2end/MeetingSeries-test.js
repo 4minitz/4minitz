@@ -7,17 +7,17 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 
 
 describe('MeetingSeries', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
-        E2EApp.gotoStartPage();
-        expect (E2EApp.isLoggedIn()).to.be.true;
-    });
-
     before('reload page and reset app', function () {
         console.log('Executing: '+E2EGlobal.getTestSpecFilename());
         server.connect();
         E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp();
         E2EApp.launchApp();
+    });
+
+    beforeEach('goto start page and make sure test user is logged in', function () {
+        E2EApp.gotoStartPage();
+        expect (E2EApp.isLoggedIn()).to.be.true;
     });
 
     it('can create a first meeting series', function () {

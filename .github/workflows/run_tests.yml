@@ -28,6 +28,7 @@ jobs:
       matrix:   # max. 20 concurrent jobs https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits
         e2etest:
           - tests/end2end/MeetingSeries-test.js
+          - tests/end2end/MeetingSeriesEdit-test.js
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1

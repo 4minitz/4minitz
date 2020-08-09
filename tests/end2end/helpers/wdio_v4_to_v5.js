@@ -45,3 +45,7 @@ browser.waitForVisible = function (selector, timeout, reverse, timeoutMsg, inter
 browser.scroll = function (selector) {
     return $(selector).scrollIntoView();
 };
+
+browser.scrollXY = function (x, y) {
+    browser.execute('window.scrollTo('+x+','+y+');');
+};
