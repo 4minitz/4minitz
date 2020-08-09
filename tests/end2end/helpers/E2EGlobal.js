@@ -1,5 +1,5 @@
 
-const specfile=process.env.SPECFILE;
+const specfile=process.env.SPECFILE;  // from run_e2e.sh script
 
 export class E2EGlobal {
     static setValueSafe(selector, string, retries = 5) {
@@ -56,9 +56,7 @@ export class E2EGlobal {
     }
 
     static clickWithRetry(selector, timeout = 10000) {
-        E2EGlobal.saveScreenshot('021');
         browser.scroll(selector);
-        E2EGlobal.saveScreenshot('022');
         E2EGlobal.waitSomeTime(100);
 
         const start = new Date();
@@ -66,13 +64,10 @@ export class E2EGlobal {
 
         while (current - start < timeout) {
             try {
-                E2EGlobal.saveScreenshot('023');
                 browser.click(selector);
                 E2EGlobal.waitSomeTime(100);
-                E2EGlobal.saveScreenshot('024');
                 return;
             } catch (e) {
-                E2EGlobal.saveScreenshot('025');
                 const message = e.toString(),
                     retryMakesSense = message.includes('Other element would receive the click')
                                    || message.includes('Element is not clickable at point');
@@ -117,13 +112,13 @@ export class E2EGlobal {
         let mm = aDate.getMonth()+1; //January is 0!
         let yyyy = aDate.getFullYear();
         if(dd<10){
-            dd='0'+dd
+            dd='0'+dd;
         }
         if(mm<10){
-            mm='0'+mm
+            mm='0'+mm;
         }
-        return yyyy+"-"+mm+"-"+dd;
-    };
+        return yyyy+'-'+mm+'-'+dd;
+    }
 
     static formatTimeISO8601 (aDate) {
         let isoString = '';
@@ -135,7 +130,7 @@ export class E2EGlobal {
             isoString = 'NaN-NaN-NaN 00:00:00';
         }
         return isoString;
-    };
+    }
 
     static browserName() {
         if (browser &&
@@ -144,13 +139,13 @@ export class E2EGlobal {
             browser._original.desiredCapabilities.browserName) {
             return browser._original.desiredCapabilities.browserName;
         }
-        console.error("Error: E2EGlobal.browserName() could not determine browserName!");
-        return "unknown";
-    };
+        console.error('Error: E2EGlobal.browserName() could not determine browserName!');
+        return 'unknown';
+    }
 
     static browserIsPhantomJS() {
-        return (E2EGlobal.browserName() === "phantomjs")
-    };
+        return (E2EGlobal.browserName() === 'phantomjs');
+    }
 
     static isChrome() {
         if (browser &&
@@ -158,7 +153,7 @@ export class E2EGlobal {
             browser.options.desiredCapabilities) {
             return browser.options.desiredCapabilities.browserName === 'chrome';
         }
-        console.error("Error: Could not determine if the browser used is chrome!");
+        console.error('Error: Could not determine if the browser used is chrome!');
         return false;
     }
 
@@ -168,13 +163,13 @@ export class E2EGlobal {
             browser.options.desiredCapabilities) {
             return browser.options.desiredCapabilities.isHeadless;
         }
-        console.error("Error: Could not determine headlessness of browser!");
+        console.error('Error: Could not determine headlessness of browser!');
         return false;
     }
 
     static browserIsHeadlessChrome() {
         return E2EGlobal.isChrome() && E2EGlobal.isHeadless();
-    };
+    }
 
     static isCheckboxSelected(selector) {
         let element = browser.element(selector).value;
@@ -189,7 +184,7 @@ export class E2EGlobal {
      * @param filename
      */
     static saveScreenshot(filename) {
-        let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
+        let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, '') + '_';
         filename = (specfile ? specfile+'_' : '') +
             dateStr +
             (filename ? '_' : '') +

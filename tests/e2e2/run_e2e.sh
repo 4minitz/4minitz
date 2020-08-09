@@ -30,6 +30,7 @@ echo Start end2end test runner
 export HEADLESS=1         # evaluated by wdio.conf.js
 export NODE_ENV=end2end   # evaluated by .babel.rc - will break server build/launch above!
 export CHROME_LOG_FILE=$(pwd)/${LOGDIR}/client_console.log
+export SPECFILE="$(basename ${TEST})"       # make available for e2e scripts as process.env.SPECFILE
 npx wdio run wdio.conf.js --spec ${TEST}
 
 WDIO_RESULT=$?

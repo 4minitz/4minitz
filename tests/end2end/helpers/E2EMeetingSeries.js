@@ -21,15 +21,10 @@ export class E2EMeetingSeries {
         E2EApp.gotoStartPage();
 
         // is "create MeetingSeries dialog" closed?
-        E2EGlobal.saveScreenshot('001');
         if (!browser.isVisible('input[id="id_meetingproject"]')) {
-            E2EGlobal.saveScreenshot('002');
             E2EGlobal.clickWithRetry('#btnNewMeetingSeries');  // open
-            E2EGlobal.saveScreenshot('003');
-            E2EGlobal.waitSomeTime(1500);
-            E2EGlobal.saveScreenshot('004');
+            E2EGlobal.waitSomeTime();
             browser.waitForVisible('input[id="id_meetingproject"]');
-            E2EGlobal.saveScreenshot('005');
         }
 
         if (switchInput) {
