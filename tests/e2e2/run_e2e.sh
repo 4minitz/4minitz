@@ -3,7 +3,7 @@
 TEST="$1"       # We will run these tests
 
 echo Remove old log file
-LOGDIR=./tests/e2e2/logs
+LOGDIR=./tests/end2end/logs
 mkdir -p ${LOGDIR}
 SERVERLOG=${LOGDIR}/server.log
 rm ${SERVERLOG}
@@ -30,22 +30,16 @@ echo Start end2end test runner
 export HEADLESS=1         # evaluated by wdio.conf.js
 export NODE_ENV=end2end   # evaluated by .babel.rc - will break server build/launch above!
 export CHROME_LOG_FILE=$(pwd)/${LOGDIR}/client_console.log
-export SPECFILE="$(basename ${TEST})"
 npx wdio run wdio.conf.js --spec ${TEST}
-# chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=chrome -- $TEST tests/end2end/setup.js
 
 WDIO_RESULT=$?
 
-#echo Server log: http://4m.js42.de/4minitz/4minitz/$BUILD/$JOB/server.log
-#echo Client log: http://4m.js42.de/4minitz/4minitz/$BUILD/$JOB/client.log
-
-#mkdir tests/mongodump
-#mongodump -h localhost:3101 -d meteor -o ./tests/mongodump
+mkdir tests/mongodump
+mongodump -h localhost:3101 -d meteor -o ./tests/mongodump
 
 # archive versions
-#mkdir versions
-#npm ls > ./versions/npm.txt
-#google-chrome --version > ./versions/chrome.txt
-#chimp --version > ./versions/chimp.txt
+mkdir versions
+npm ls > ./versions/npm.txt
+google-chrome --version > ./versions/chrome.txt
 
 exit ${WDIO_RESULT}

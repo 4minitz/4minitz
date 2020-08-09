@@ -196,16 +196,7 @@ export class E2EGlobal {
             filename;
         let fullpath = './tests/snapshots/' + filename + '.png';
         browser.saveScreenshot(fullpath);
-
-        const weAreOnTravis = !!process.env.TRAVIS;
-        if (weAreOnTravis) {
-            const baseUrl = 'http://4m.js42.de/4minitz/4minitz',
-                build = process.env.TRAVIS_BUILD_NUMBER || 1,
-                job = process.env.TRAVIS_JOB_NUMBER || 1,
-                url = baseUrl + '/' + build + '/' + job + '/tests/snapshots/' + filename + '.png';
-
-            console.log('Screenshot taken: ', url);
-        }
+        console.log('Screenshot taken: ', fullpath);
         return fullpath;
     }
 

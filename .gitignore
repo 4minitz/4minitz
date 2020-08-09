@@ -14,7 +14,7 @@ settings.json
 tests/snapshots/*.png
 tests/mongodump
 tests/e2e_downloads
-tests/e2e2/logs/*.log
+tests/end2end/logs/*.log
 
 public/fonts/glyphicons-halflings-regular.*
 *.json.bak

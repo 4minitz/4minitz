@@ -12,7 +12,7 @@ exports.config = {
     // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
     // on a remote machine).
     runner: 'local',
-    outputDir: './tests/e2e2/logs',
+    outputDir: './tests/end2end/logs',
     //
     // Override default path ('/wd/hub') for chromedriver service.
     path: '/',
@@ -26,8 +26,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        // './tests/e2e2/**/*-test.js'
-        './tests/e2e2/**/*-test.js'
+        './tests/end2end/**/*-test.js'
     ],
     // Patterns to exclude.
     exclude: [
