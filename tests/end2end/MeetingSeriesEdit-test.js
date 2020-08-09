@@ -18,7 +18,7 @@ describe('MeetingSeries Editor', function () {
         console.log('Executing: '+E2EGlobal.getTestSpecFilename());
         server.connect();
         E2EGlobal.logTimestamp('Start test suite');
-        E2EApp.resetMyApp(true);
+        E2EApp.resetMyApp();
         E2EApp.launchApp();
     });
 
