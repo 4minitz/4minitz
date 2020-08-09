@@ -2,12 +2,13 @@
 export class E2EGlobal {
     static getTestSpecFilename() {
         let specfile=driver.config.spec;
-        if (!specfile) {
-            console.log('>>>driver.config>>>', driver.config);
-            return 'Unknown Spec File';
-        }
-        specfile = specfile.replace(/^.*[\\\/]/, '');
-        return specfile;
+        console.log('1>>>', driver);
+        console.log('2>>>', driver.config);
+        console.log('3>>>', driver.config.spec);
+
+        return 'Unknown Spec File';
+        //        specfile = specfile.replace(/^.*[\\\/]/, '');
+        //        return specfile;
     }
 
     static setValueSafe(selector, string, retries = 5) {
