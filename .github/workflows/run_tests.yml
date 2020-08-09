@@ -48,7 +48,8 @@ jobs:
         with:
           node-version: '12.16.2'
       - run: google-chrome --version
-      - run: npm i chromedriver@^84.0.0
+      - run: ./node_modules/chromedriver/bin/chromedriver --version
+#      - run: npm i chromedriver@^84.0.0
 
       - uses: actions/setup-node@v1
         with:

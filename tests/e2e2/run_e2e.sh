@@ -3,7 +3,9 @@
 TEST="$1"       # We will run these tests
 
 echo Remove old log file
-SERVERLOG=./tests/e2e2/logs/server.log
+LOGDIR=./tests/e2e2/logs
+mkdir -p ${LOGDIR}
+SERVERLOG=${LOGDIR}/server.log
 rm ${SERVERLOG}
 
 echo Start end2end server
@@ -27,7 +29,7 @@ sleep 10
 echo Start end2end test runner
 export HEADLESS=1         # evaluated by wdio.conf.js
 export NODE_ENV=end2end   # evaluated by .babel.rc - will break server build/launch above!
-export CHROME_LOG_FILE=$(pwd)/tests/e2e2/logs/client_console.log
+export CHROME_LOG_FILE=$(pwd)/${LOGDIR}/client_console.log
 export SPECFILE="$(basename ${TEST})"
 npx wdio run wdio.conf.js --spec ${TEST}
 # chimp .meteor/chimp_config_headless.js --ddp=http://localhost:3100 --mocha --path=tests/end2end --browser=chrome -- $TEST tests/end2end/setup.js
