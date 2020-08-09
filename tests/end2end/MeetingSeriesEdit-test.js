@@ -80,6 +80,7 @@ describe('MeetingSeries Editor', function () {
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
     });
 
+
     it.only('can clean up child minutes on deleting meeting series', function () {
         let aMeetingName = 'Meeting Name (with Minute)';
 
@@ -155,7 +156,6 @@ describe('MeetingSeries Editor', function () {
         E2EGlobal.clickWithRetry('#btnEditMSClose');
         E2EGlobal.waitSomeTime(); // give dialog animation time
     });
-
 
     it('can restore fields after cancel and re-open', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
