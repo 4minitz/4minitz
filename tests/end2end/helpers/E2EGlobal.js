@@ -1,7 +1,11 @@
 
-const specfile=process.env.SPECFILE;  // from run_e2e.sh script
-
 export class E2EGlobal {
+    static getTestSpecFilename() {
+        var specfile=driver.config.spec;
+        specfile = specfile.replace(/^.*[\\\/]/, '');
+        return specfile;
+    }
+
     static setValueSafe(selector, string, retries = 5) {
         let currentValue = browser.getValue(selector),
             isInteractable = true,
@@ -185,7 +189,7 @@ export class E2EGlobal {
      */
     static saveScreenshot(filename) {
         let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, '') + '_';
-        filename = (specfile ? specfile+'_' : '') +
+        filename = E2EGlobal.getTestSpecFilename()+'_'+
             dateStr +
             (filename ? '_' : '') +
             filename;

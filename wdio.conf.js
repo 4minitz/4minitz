@@ -32,6 +32,10 @@ exports.config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
+    filesToWatch: [
+        // watch for all JS files in E2E
+        './tests/end2end/**/*.js'
+    ],
     //
     // ============
     // Capabilities
