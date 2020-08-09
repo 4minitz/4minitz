@@ -25,11 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
-      matrix:
+      matrix:   # max. 20 concurrent jobs https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits
         e2etest:
-          - tests/e2e2/helloWorld-test.js
-          - tests/e2e2/helloWDIO-test.js
-          - tests/e2e2/hello4Minitz-test.js
           - tests/end2end/MeetingSeries-test.js
     steps:
       - uses: actions/checkout@v2
@@ -54,7 +51,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '8.11.4'           # switch back to meteors node v8
-      - run: ./tests/e2e2/run_e2e.sh ${{ matrix.e2etest }}
+      - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
 
       - name: Upload E2E screenshot artifacts
@@ -69,3 +66,9 @@ jobs:
         with:
           name: E2E Logs
           path: tests/end2end/logs
+      - name: Upload E2E MongoDB artifacts
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: E2E Mongodump
+          path: tests/mongodump

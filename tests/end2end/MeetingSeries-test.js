@@ -1,5 +1,5 @@
 require('./helpers/Server');
-require('../e2e2/wdio_v4_to_v5');
+require('./helpers/wdio_v4_to_v5');
 
 import { E2EGlobal } from './helpers/E2EGlobal';
 import { E2EApp } from './helpers/E2EApp';

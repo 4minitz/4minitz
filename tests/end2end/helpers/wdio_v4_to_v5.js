@@ -1,4 +1,4 @@
-import {E2EGlobal} from '../end2end/helpers/E2EGlobal';
+import {E2EGlobal} from './E2EGlobal';
 
 browser.elements = function (selector) {
     return browser.findElements('css selector', selector); // or: 'xpath' as using

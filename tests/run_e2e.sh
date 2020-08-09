@@ -23,17 +23,23 @@ until grep "=> App running at" ${SERVERLOG}; do
         cat ${SERVERLOG}
         exit 1
     fi
+    if grep "=> Your application has errors." ${SERVERLOG}; then
+        echo Meteor reports build errors, exiting. Server log:
+        cat ${SERVERLOG}
+        exit 1
+    fi
 done
 sleep 10
 
 echo Start end2end test runner
 export HEADLESS=1         # evaluated by wdio.conf.js
 export NODE_ENV=end2end   # evaluated by .babel.rc - will break server build/launch above!
-export CHROME_LOG_FILE=$(pwd)/${LOGDIR}/client_console.log
+export CHROME_LOG_FILE=$(pwd)/${LOGDIR}/chrome_client_console.log
 export SPECFILE="$(basename ${TEST})"       # make available for e2e scripts as process.env.SPECFILE
 npx wdio run wdio.conf.js --spec ${TEST}
-
 WDIO_RESULT=$?
+
+unset HEADLESS NODE_ENV CHROME_LOG_FILE SPECFILE
 
 mkdir tests/mongodump
 mongodump -h localhost:3101 -d meteor -o ./tests/mongodump
@@ -42,5 +48,6 @@ mongodump -h localhost:3101 -d meteor -o ./tests/mongodump
 mkdir versions
 npm ls > ./versions/npm.txt
 google-chrome --version > ./versions/chrome.txt
+./node_modules/chromedriver/bin/chromedriver --version > ./versions/chrome_driver.txt
 
 exit ${WDIO_RESULT}
