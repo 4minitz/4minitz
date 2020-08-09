@@ -1,7 +1,11 @@
 
 export class E2EGlobal {
     static getTestSpecFilename() {
-        var specfile=driver.config.spec;
+        let specfile=driver.config.spec;
+        if (!specfile) {
+            console.log('>>>driver.config>>>', driver.config);
+            return 'Unknown Spec File';
+        }
         specfile = specfile.replace(/^.*[\\\/]/, '');
         return specfile;
     }
