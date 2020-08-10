@@ -13,7 +13,7 @@ export class E2EMeetingSeries {
             return 0;   // we have no meeting series <li> => "zero" result
         }
         const elements = browser.elements('li.meeting-series-item');
-        return elements.value.length;
+        return elements.length;
     }
 
 
@@ -59,7 +59,7 @@ export class E2EMeetingSeries {
         if (! keepOpenMSEditor) {
             if (browser.isVisible('#btnMeetinSeriesEditCancel')) {
                 E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel');
-                browser.waitForVisible('#btnMeetinSeriesEditCancel', 4000, true); // will check for IN-VISIBLE!
+                // browser.waitForVisible('#btnMeetinSeriesEditCancel', 4000, true); // will check for IN-VISIBLE!
             } else {
                 // if for miracoulous reasons the MS editor is already gone - we will try to continue...
                 E2EGlobal.logTimestamp('MS Editor is closed by miracle. Continue.');
@@ -71,32 +71,13 @@ export class E2EMeetingSeries {
 
 
     static getMeetingSeriesId (aProj, aName) {
-        return E2EMeetingSeries.doSomethingWithMeetingSeriesListItem(aProj, aName, 'a', (elemId) => {
-            let linkTarget = browser.elementIdAttribute(elemId, 'href').value;
-            return linkTarget.slice(linkTarget.lastIndexOf('/')+1);
-        });
-    }
-
-    static doSomethingWithMeetingSeriesListItem(aProj, aName, subElementSelector, something) {
-        E2EApp.gotoStartPage();
-
-        try {
-            browser.waitForExist('li.meeting-series-item');
-        } catch (e) {
-            return false;   // we have no meeting series at all!
+        const link = $('='+aProj+': '+aName);
+        if (!link.isExisting()) {
+            console.log('Could not find MSId for', aProj, aName);
+            return '';
         }
-        let compareText = aProj+': '+aName;
-
-        const elements = browser.elements(`li.meeting-series-item ${subElementSelector}`);
-
-        for (let i in elements.value) {
-            let elemId = elements.value[i].ELEMENT;
-            let visibleText = browser.elementIdText(elemId).value;
-            if (visibleText.startsWith(compareText)) {
-                return something(elemId);
-            }
-        }
-        return false;
+        let linkTarget = link.getAttribute('href');
+        return linkTarget.slice(linkTarget.lastIndexOf('/')+1);
     }
 
     static gotoMeetingSeries (aProj, aName) {
@@ -111,24 +92,19 @@ export class E2EMeetingSeries {
         }
         let compareText = aProj+': '+aName;
 
-        const elements = browser.elements(selector);
-
-        for (let i in elements.value) {
-            let elemId = elements.value[i].ELEMENT;
-            let visibleText = browser.elementIdText(elemId).value;
-            if (visibleText === compareText) {
-                browser.execute('arguments[0].scrollIntoView();', elements.value[i]);
-                E2EGlobal.waitSomeTime(100);
-                browser.elementIdClick(elemId);
-                E2EGlobal.waitSomeTime(500);
-                let currentURL = browser.getUrl();
-                if (!currentURL.includes('meetingseries')) {
-                    throw new Error('Could not switch to Meeting Series \''+compareText+'\'');
-                }
-                return true;
-            }
+        const element = $('='+compareText);
+        if (!element.isExisting()) {
+            throw new Error('Could not find Meeting Series \''+compareText+'\'');
         }
-        throw new Error('Could not find Meeting Series \''+compareText+'\'');
+        element.scrollIntoView();
+        E2EGlobal.waitSomeTime(100);
+        element.click();
+        E2EGlobal.waitSomeTime(500);
+        let currentURL = browser.getUrl();
+        if (!currentURL.includes('meetingseries')) {
+            throw new Error('Could not switch to Meeting Series \''+compareText+'\'');
+        }
+        return true;
     }
 
     static gotoTabMinutes() {

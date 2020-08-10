@@ -60,17 +60,19 @@
 We use several approaches to test as many aspects of our application as possible.
 
 ### Preconditions to run tests locally
+1. Make sure you have [meteor installed](https://www.meteor.com/install). Run `meteor --version` and check which node / npm meteor uses internally `meteor node --version` then `meteor npm --version` (note that down!)
+1. Install the [node version manager](https://github.com/nvm-sh/nvm) `nvm` to quickly switch between node versions.
 1. Install a global node & npm version from https://nodejs.org/en/ (so that you can run our package.json test runner scripts)
 1. Install C/C++ commandline compiler (so that you can build native node modules with node-gyp)
    1. **Windows:** Install Microsoft's windows-build-tools using: `npm install --global --production windows-build-tools`
     from an elevated PowerShell or CMD.exe (run as Administrator)
    1. **MacOS:** Run in shell: `xcode-select --install`
-2. Install our test runner [Chimp](https://chimp.readme.io) by: 
-   `sudo npm install -g chimp`. If this  makes problems like 
-   `Error: EACCES: permission denied, mkdir`, then try:
-    `sudo npm install -g chimp --unsafe-perm=true --allow-root`.
-3. Chimp End2End tests need an installed chrome browser. 
-
+1. If not yet done, install all 4Minitz dependencies: `meteor npm install`
+1. Install chrome-driver
+    1. Check version number of you installed chrome browser
+    1. If your `node` version is less than 12.x temporarily switch with `nvm use 12`
+    1. `npm i chromedriver` or specific version `npm i chromedriver@^84.0.0`
+    1. `./node_modules/chromedriver/bin/chromedriver --version` check your chrome driver version 
 
 ### Unit Tests
 
@@ -87,16 +89,20 @@ To run the e2e tests, you need to run the server in "end2end" mode.
     `npm run test:end2end:server`
 
 This will set some specific e2e settings from ```settings-test-end2end.json```. 
-Then run the chimp tests use `once` mode or in `watch` mode with an installed 
-Chrome instance
 
-    npm run test:end2end:once
-    npm run test:end2end:watch
+After the end2end server is up and running you may run all(!) end2end tests in either of the following ways:
 
-or run them headless with phantomjs, 
-which is included in our test runner chimp
+```
+npm run test:end2end                # visible browser
+npm run test:end2end:headless       # invisible browser
+npm run test:end2end:watch          # visible browser, tests re-run when any test code changes
+npm run test:end2end:watchheadless  # invisible browser, tests re-run when any test code changes
+```
 
-    npm run test:end2end:headless
+To run any of the above scripts with a specific test file, you may append that test spec like so:
+```
+npm run test:end2end:watch -- --spec=tests/end2end/MeetingSeries-test.js 
+```
 
 
 #### Headless debugging with screenshots
@@ -113,11 +119,11 @@ where the later one adds a timestamp (YYYYMMDDHHMMSS plus milliseconds) in front
 of the file name to create unique names. The screenshots of the headless
 browser are stored in ```/tests/snapshots```.
 
-Our headless end-2-end` tests are also executed on our CI platform
-Travis-CI. To debug red testcases on Travis-CI, all screenshots are
-uploaded as "artifacts" to our Amazon AWS S3 storage. After a Travis build
-has completed, you can watch all created screenshots via this URL:
-[http://s3files.4minitz.com/4minitz/4minitz](http://s3files.4minitz.com/4minitz/4minitz)
+Headless end2end tests are executed via GitHub Actions. Screenshots are
+exported as github action artifacts with every build run.
+
+![Screenshot Artifacts](figures/github_action_artifacts.png)
+
 
 ## Code Quality
 We use [eslint](http://eslint.org/) to make static code analysis to keep our code quality constantly high. Our set of

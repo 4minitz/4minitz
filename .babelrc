@@ -1,0 +1,14 @@
+{
+    "env": {
+        "//": "Use 'export NODE_ENV=end2end' to use the below babel environment",
+        "///": "This will avoid this error on end2end test builds:",
+        "////": "Error: Cannot use import statement outside a module",
+        "end2end": {
+            "presets": ["es2015"],
+            "plugins": [
+                "add-module-exports",
+                "transform-class-properties"
+            ]
+        }
+    }
+}

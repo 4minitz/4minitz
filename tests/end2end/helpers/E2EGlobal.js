@@ -1,6 +1,16 @@
 
-
 export class E2EGlobal {
+    static getTestSpecFilename() {
+        if (!driver || !driver.config || !driver.config.spec) {
+            return 'Unknown Test Spec Filename';
+        }
+        let specfile=driver.config.spec;
+        if (Array.isArray(specfile)) {
+            specfile = specfile[0];
+        }
+        return specfile.replace(/^.*[\\\/]/, '');
+    }
+
     static setValueSafe(selector, string, retries = 5) {
         let currentValue = browser.getValue(selector),
             isInteractable = true,
@@ -111,13 +121,13 @@ export class E2EGlobal {
         let mm = aDate.getMonth()+1; //January is 0!
         let yyyy = aDate.getFullYear();
         if(dd<10){
-            dd='0'+dd
+            dd='0'+dd;
         }
         if(mm<10){
-            mm='0'+mm
+            mm='0'+mm;
         }
-        return yyyy+"-"+mm+"-"+dd;
-    };
+        return yyyy+'-'+mm+'-'+dd;
+    }
 
     static formatTimeISO8601 (aDate) {
         let isoString = '';
@@ -129,7 +139,7 @@ export class E2EGlobal {
             isoString = 'NaN-NaN-NaN 00:00:00';
         }
         return isoString;
-    };
+    }
 
     static browserName() {
         if (browser &&
@@ -138,13 +148,13 @@ export class E2EGlobal {
             browser._original.desiredCapabilities.browserName) {
             return browser._original.desiredCapabilities.browserName;
         }
-        console.error("Error: E2EGlobal.browserName() could not determine browserName!");
-        return "unknown";
-    };
+        console.error('Error: E2EGlobal.browserName() could not determine browserName!');
+        return 'unknown';
+    }
 
     static browserIsPhantomJS() {
-        return (E2EGlobal.browserName() === "phantomjs")
-    };
+        return (E2EGlobal.browserName() === 'phantomjs');
+    }
 
     static isChrome() {
         if (browser &&
@@ -152,7 +162,7 @@ export class E2EGlobal {
             browser.options.desiredCapabilities) {
             return browser.options.desiredCapabilities.browserName === 'chrome';
         }
-        console.error("Error: Could not determine if the browser used is chrome!");
+        console.error('Error: Could not determine if the browser used is chrome!');
         return false;
     }
 
@@ -162,13 +172,13 @@ export class E2EGlobal {
             browser.options.desiredCapabilities) {
             return browser.options.desiredCapabilities.isHeadless;
         }
-        console.error("Error: Could not determine headlessness of browser!");
+        console.error('Error: Could not determine headlessness of browser!');
         return false;
     }
 
     static browserIsHeadlessChrome() {
         return E2EGlobal.isChrome() && E2EGlobal.isHeadless();
-    };
+    }
 
     static isCheckboxSelected(selector) {
         let element = browser.element(selector).value;
@@ -183,20 +193,14 @@ export class E2EGlobal {
      * @param filename
      */
     static saveScreenshot(filename) {
-        let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, "") + "_";
-        filename = (!filename) ? dateStr : dateStr + "_" + filename;
-        let fullpath = './tests/snapshots/' + filename + ".png";
+        let dateStr = (new Date()).toISOString().replace(/[^0-9]/g, '') + '_';
+        filename = E2EGlobal.getTestSpecFilename()+'_'+
+            dateStr +
+            (filename ? '_' : '') +
+            filename;
+        let fullpath = './tests/snapshots/' + filename + '.png';
         browser.saveScreenshot(fullpath);
-
-        const weAreOnTravis = !!process.env.TRAVIS;
-        if (weAreOnTravis) {
-            const baseUrl = 'http://4m.js42.de/4minitz/4minitz',
-                build = process.env.TRAVIS_BUILD_NUMBER || 1,
-                job = process.env.TRAVIS_JOB_NUMBER || 1,
-                url = baseUrl + '/' + build + '/' + job + '/tests/snapshots/' + filename + '.png';
-
-            console.log('Screenshot taken: ', url);
-        }
+        console.log('Screenshot taken: ', fullpath);
         return fullpath;
     }
 
