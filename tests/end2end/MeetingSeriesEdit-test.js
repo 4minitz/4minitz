@@ -15,7 +15,7 @@ describe('MeetingSeries Editor', function () {
     let aMeetingName;
 
     before('reload page and reset app', function () {
-        console.log('Executing: '+E2EGlobal.getTestSpecFilename());
+        console.log('Executing: ',E2EGlobal.getTestSpecFilename());
         server.connect();
         E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp();
@@ -32,7 +32,7 @@ describe('MeetingSeries Editor', function () {
     });
 
 
-    it.only('can open and close meeting series editor without changing data', function () {
+    it('can open and close meeting series editor without changing data', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.true;
@@ -43,7 +43,7 @@ describe('MeetingSeries Editor', function () {
     });
 
 
-    it.only('can open and cancel meeting series editor without changing data', function () {
+    it('can open and cancel meeting series editor without changing data', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
         // Now dialog should be there
         expect(browser.isVisible('#btnMeetinSeriesEditCancel')).to.be.true;
@@ -55,7 +55,7 @@ describe('MeetingSeries Editor', function () {
     });
 
 
-    it.only('can delete an empty meeting series', function () {
+    it('can delete an empty meeting series', function () {
         let countAfterCreate = E2EMeetingSeries.countMeetingSeries();
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
@@ -68,7 +68,7 @@ describe('MeetingSeries Editor', function () {
     });
 
 
-    it.only('can cancel delete of meeting series', function () {
+    it('can cancel delete of meeting series', function () {
         let countAfterCreate = E2EMeetingSeries.countMeetingSeries();
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
@@ -81,7 +81,7 @@ describe('MeetingSeries Editor', function () {
     });
 
 
-    it.only('can clean up child minutes on deleting meeting series', function () {
+    it('can clean up child minutes on deleting meeting series', function () {
         let aMeetingName = 'Meeting Name (with Minute)';
 
         let countDBMeetingSeriesBefore = server.call('e2e.countMeetingSeriesInMongDB');
@@ -125,6 +125,7 @@ describe('MeetingSeries Editor', function () {
         expect(browser.isVisible('#btnMeetingSeriesSave')).to.be.true;  // dialog still open!
 
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);  // close with cancel
+        E2EApp.gotoStartPage();
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;  // prj/name should be unchanged
     });
 
@@ -137,6 +138,7 @@ describe('MeetingSeries Editor', function () {
         browser.setValue('input[id="id_meetingname"]', aNewMeetingName);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
+        E2EApp.gotoStartPage();
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
         expect(E2EMeetingSeries.getMeetingSeriesId(aNewProjectName, aNewMeetingName)).to.be.ok;
     });
@@ -146,7 +148,7 @@ describe('MeetingSeries Editor', function () {
         browser.setValue('input[id="id_meetingproject"]', aProjectName+' Changed!');
         browser.setValue('input[id="id_meetingname"]', aMeetingName + ' Changed!');
 
-        E2EGlobal.clickWithRetry('#btnEditMSClose');
+        E2EGlobal.clickWithRetry('#btnEditMSClose');    // Don't store new values!
         E2EGlobal.waitSomeTime(); // give dialog animation time
 
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'base', true);
@@ -183,6 +185,5 @@ describe('MeetingSeries Editor', function () {
 
         expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialCount - 1);
     });
-
-
 });
+

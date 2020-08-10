@@ -4,7 +4,10 @@ export class E2EGlobal {
         if (!driver || !driver.config || !driver.config.spec) {
             return 'Unknown Test Spec Filename';
         }
-        let specfile=driver.config.spec[0];
+        let specfile=driver.config.spec;
+        if (Array.isArray(specfile)) {
+            specfile = specfile[0];
+        }
         return specfile.replace(/^.*[\\\/]/, '');
     }
 
