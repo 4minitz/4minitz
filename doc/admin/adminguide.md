@@ -323,7 +323,7 @@ to be able to build the sources in a runnable server, first install the current
 version of the meteor build tool:
 
 ```sh
-curl https://install.meteor.com/ | sh
+curl https://install.meteor.com/?release=1.6 | sh
 meteor --version
 ```
 
@@ -391,6 +391,7 @@ cp settings_sample.json ../4minitz_bin/bundle/settings.json
 
 cd ../4minitz_bin/bundle/programs/server
 meteor npm install --production
+meteor npm install @babel/runtime@7.0.0-beta.55
 
 cd ../..
 nano settings.json
@@ -409,7 +410,7 @@ export ROOT_URL='http://4minitz.example.com:61405'
 export METEOR_SETTINGS=$(cat ./settings.json)
 ```
 
-Now, inside the `/4minitz_bin/bundle/programs/server` directory, you must launch
+Now, inside the `/4minitz_bin/bundle` directory, you must launch
 the 4Minitz server:
 
 ```sh
