@@ -444,7 +444,7 @@ Login:
   standard: "Standard"
   demoHint: "Hinweis: Demo Modus aktiv<br>Sie können sich mit dem Benutzernamen <b>demo</b> und dem Passwort <b>demo</b> anmelden. Oder Sie können Ihr eigenes Konto registrieren, indem Sie auf den Link \"Registrieren\" klicken."
   Login4MinitzInfo:
-    header: "4Minitz: Collaborative Sitzungsprotokolle."
+    header: "4Minitz: Kollaborative Sitzungsprotokolle."
     subheader: "● Tagesordnung vorbereiten ● Sitzungen protokollieren ● Themen nachverfolgen ●"
     abstract: |
       <p>Jeder eingeladene und eingeloggte Benutzer kann Änderungen an den aktuellen Sitzungsprotokollen in Echtzeit verfolgen.</p>

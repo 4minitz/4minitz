@@ -113,12 +113,12 @@ Dialog:
     button: "किसी तरह संपादित करें"
   ConnectionInfo:
     tooltip: |
-      Connection Lost!
-        Status: {$status}
-        Retry Count: {$retryCount}
-        Retry Time: {$retryTime} sec.
-        Reason: {$reason}
-        Click to reconnect.
+      कनेक्शन खो गया!
+        स्थिति: {$status}
+        पुनः प्रयास करें गणना: {$retryCount}
+        पुनः प्रयास करें समय: {$retryTime} सेकंड।
+        कारण: {$reason}
+        फिर से कनेक्ट करने के लिए क्लिक करें।
     header: "आपने 4Minitz सर्वर से संपर्क खो दिया है."
     body: "यदि आप अपने ब्राउज़र को बंद करते हैं, अपसहेजा डेटा नष्ट हो सकता है. यदि यह समस्या बनी रहती है तो अपने नातों को दूर करने के लिए संपर्क करें"
     tryToReconnect: "फिर से पुन: कनेक्ट"
@@ -257,7 +257,7 @@ Topic:
   finalizedOn: "से मिनट को अंतिम रूप दिया:"
   doneBy: "( {$user} द्वारा)"
   notFoundTitle: "क्षमा करें, विषय नहीं मिला."
-  notFoundReasons: "Reasons may be...<br><ul><li>The topic was never finalized (it only lives in an unfinalized minute)</li><li>The topic was deleted</li><li>You do not have access rights to this topic (anymore)</li></ul>"
+  notFoundReasons: "कारण हो सकते हैं...<br><ul><li>विषय को अंतिम रूप नहीं दिया गया था (यह केवल एक अनिश्चित मिनट में रहता है)</li><li>विषय हटा दिया गया था</li><li>आप इस विषय के लिए पहुँच अधिकार नहीं है (अब)</li></ul>"
   illegalAction: "केवल पठनीय अवस्था में कॉल करने के लिए कोशिश"
   addDetails: "विवरण जोड़ें"
   addDetailsHint: "मद में विवरण जोड़ें"
@@ -421,8 +421,8 @@ Admin:
     onlineHint: "केवल प्रयोक्ता वर्तमान में सक्रिय रूप से सक्रिय करने वाले मार्ग पर सक्रिय है"
     id: "आईडी"
     editProfile: "उपयोगकर्ता प्रोफ़ाइल संपादित करें"
-    countSingle: "Showing {$visible} of {$all} user. Use filter to show others."
-    count: "Showing {$visible} of {$all} users. Use filter to show others."
+    countSingle: "दिखा रहा है {$visible} का {$all} उपयोगकर्ता। दूसरों को दिखाने के लिए फ़िल्टर का उपयोग करें।"
+    count: "दिखा रहा है {$visible} का {$all} उपयोगकर्ताओं। दूसरों को दिखाने के लिए फ़िल्टर का उपयोग करें।"
     Type:
       hint: "LDAP उपयोगकर्ता या मानक उपयोगकर्ता"
       column: "L/S"
@@ -447,27 +447,27 @@ Login:
     header: "4Minitz: सहयोगी बैठक मिनट."
     subheader: "● तैयार एजेंडा ● दस्तावेज़ मिनट ● ट्रैक विषय ●"
     abstract: |
-      <p>Every invited and logged in user can watch changes to the current meeting minutes in real time.</p>
-      We made 4Minitz free open source software, as we strongly believe that
-      sensitive information like meeting minutes should not be hosted in the cloud.
-      Instead you want to host it on your own infrastructure where you can define
-      the level of security and safety you need.
+      <p>हर आमंत्रित और लॉग इन उपयोगकर्ता वास्तविक समय में वर्तमान मीटिंग मिनट में परिवर्तन देख सकते हैं।</p>
+      हमने 4Minitz मुक्त ओपन सोर्स सॉफ़्टवेयर बनाया है, क्योंकि हम दृढ़ता से मानते हैं कि मीटिंग मिनट जैसी
+      संवेदनशील जानकारी क्लाउड में होस्ट नहीं की जानी चाहिए।
+      इसके बजाय आप इसे अपने बुनियादी ढांचे पर होस्ट करना चाहते हैं जहां आप परिभाषित कर सकते हैं
+      सुरक्षा और सुरक्षा के स्तर की आवश्यकता है।
     prepareAgendaHeading: "एजेंडा तैयार करें"
     prepareAgendaDetails: |
-      <li>Create your meeting series</li>
-      <li>Invite other users</li>
-      <li>Specify moderators and uploaders</li>
-      <li>Fill agenda with topics</li>
-      <li>Mark recurring topics for standard agenda</li>
-      <li>Send agenda to invited users</li>
+      <li>अपनी मीटिंग श्रृंखला बनाएं</li>
+      <li>अन्य उपयोगकर्ताओं को आमंत्रित करें</li>
+      <li>मॉडरेटर निर्दिष्ट करें और अपलोडर</li>
+      <li>विषयों के साथ एजेंडा भरें</li>
+      <li>मानक एजेंडा के लिए आवर्ती विषयों को चिह्नित करें</li>
+      <li>आमंत्रित उपयोगकर्ताओं को एजेंडा भेजें</li>
     documentMinutesHeading: "दस्तावेज़ मिनट"
     documentMinutesDetails: |
-      <li>Mark present participants</li>
-      <li>Add action items with responsibles to topics</li>
-      <li>Add information items to topics</li>
-      <li>Add labels like 'Decision' to items</li>
-      <li>Upload binary file attachments</li>
-      <li>Send minutes &amp; action items via EMail</li>
+      <li>वर्तमान प्रतिभागियों को चिह्नित करें</li>
+      <li>विषयों के लिए responsibles के साथ कार्रवाई आइटम जोड़ें</li>
+      <li>विषयों के लिए जानकारी आइटम जोड़ें</li>
+      <li>आइटम के लिए 'निर्णय' जैसे लेबल जोड़ें</li>
+      <li>बाइनरी फ़ाइल अपलोड करें संलग्नक</li>
+      <li>मिनट भेजें &amp; ईमेल</li>के माध्यम से कार्रवाई आइटम
     trackTopicsHeading: "ट्रैक प्रसंग"
     trackTopicsDetails: |
       <li>ओपन एक्शन आइटम अगली बार दिखाई देंगे</li>
@@ -494,9 +494,9 @@ Navigation:
 QuickHelp:
   title: "त्वरित मदद"
   meetingSeries: "<p>यहां आप वर्तमान मीटिंग श्रृंखला के लिए नए मिनट बना सकते हैं या मौजूदा मिनटों की दिनांक लिंक पर क्लिक कर सकते हैं।</p>"
-  meetingSeriesList: "<p>With 4Minitz you can create minutes for meetings.</p><p>First create a new meeting series and invite some other users.<br>Then create meeting minutes on multiple dates for your meeting series.</p>"
-  minutes: "<p>Add topics to prepare your meeting agenda<br>During the meeting mark a topic with the checkbox to make clear you have discussed about it.<br>If the topic...<br>&nbsp;&nbsp; - is not marked as discussed or<br>&nbsp;&nbsp; - is set as recurring topic or<br>&nbsp;&nbsp; - contains un-done action items<br>... the topic will be presented in the next meeting again.</p><p>Click 'Finalize Minutes' to send the minutes to the invited users and the action items to their responsibles.</p>"
-  upload: "<ul><li>Here you can upload files like e.g., presentations, PDFs or whiteboard photos</li><li>You need the role 'Uploader' or 'Moderator' to do so</li><li>Uploading or deletion is possible until minutes are finalized</li><li>Pro Tip: Click the above 'Upload' button on your tablet or smart phone!</li></ul>"
+  meetingSeriesList: "<p>4Minitz के साथ आप बैठकों के लिए मिनट बना सकते हैं।</p><p>पहले एक नई मीटिंग श्रृंखला बनाएं और कुछ अन्य उपयोगकर्ताओं को आमंत्रित करें।<br>फिर अपनी मीटिंग श्रृंखला के लिए एकाधिक तिथियों पर मीटिंग मिनट बनाएं।</p>"
+  minutes: "<p>अपनी मीटिंग एजेंडा तैयार करने के लिए विषय जोड़ें<br>मीटिंग के दौरान चेकबॉक्स के साथ एक विषय को चिह्नित करने के लिए स्पष्ट करें कि आपने इसके बारे में चर्चा की है।<br>यदि विषय...<br>&nbsp;&nbsp; - चर्चा के रूप में चिह्नित नहीं है या<br>&nbsp;&nbsp; - आवर्ती विषय या<br>के रूप में सेट किया गया है&nbsp;&nbsp; - इसमें अन-किए गए एक्शन आइटम<br>हैं... विषय अगली बैठक में फिर से प्रस्तुत किया जाएगा।</p><p>आमंत्रित उपयोगकर्ताओं और उनके responsibles के लिए कार्रवाई आइटम के लिए मिनट भेजने के लिए 'मिनट्स को अंतिम रूप दें' पर क्लिक करें।</p>"
+  upload: "<ul><li>यहां आप फाइलें अपलोड कर सकते हैं जैसे, प्रस्तुतियां, पीडीएफ या व्हाइटबोर्ड फोटो</li><li>आपको ऐसा करने के लिए 'अपलोडर' या 'मॉडरेटर' भूमिका की आवश्यकता है</li><li>अपलोड या हटाने मिनट अंतिम रूप दिया जाता है जब तक संभव है</li><li>प्रो टिप: अपने टेबलेट या स्मार्ट फोन पर ऊपर 'अपलोड' बटन पर क्लिक करें!</li></ul>"
 Mail:
   greeting: "Hello"
   newAgenda: "हम आपके लिए एक नई बैठक का एजेंडा मिल गया है:"
@@ -513,29 +513,29 @@ Mail:
   AdminNewVersion:
     subject: "नया संस्करण मौजूद है"
     body: |
-      Hello Admin,
+      हैलो एडमिन,
 
-      It seems you are running an outdated version of 4Minitz.
+      ऐसा लगता है कि आप 4Minitz का पुराना संस्करण चला रहे हैं।
 
-      Your 4Minitz instance on: {$rootUrl}
-      has version: {$myVersion}
+      आपका 4Minitz उदाहरण: {$rootUrl}
+      में संस्करण है: {$myVersion}
 
-      Newest version available is: {$masterVersion}'
-      Release notes: {$urlReleaseNotes}
-      Please consider to update.
+      उपलब्ध नवीनतम संस्करण है: {$masterVersion}'
+      रिलीज नोट्स: {$urlReleaseNotes}
+      कृपया अपडेट करने पर विचार करें।
 
       {$masterMessageText}
 
-      This mail was generated by your 4Minitz backend.
-      You can disable the update check via settings.json: \"updateCheck\": false.
+      यह मेल आपके 4Minitz बैकएंड द्वारा उत्पन्न किया गया था।
+      आप settings.json के माध्यम से अद्यतन जांच को अक्षम कर सकते हैं:\ "UpdateTecheck\”: झूठा।
 
-      Have fun!
-              Your 4Minitz team.
+      मज़े करो!
+              आपका 4Minitz टीम।
 
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      -
+      4Minitz 4Minitz टीम द्वारा विकसित मुक्त खुला स्रोत है।
+      स्रोत {$url4Minitz}पर उपलब्ध है
   AdminRegisterNewUser:
     subject: "हमारे सर्वर पर आपका नया खाता"
     passwordNotSend: "    पासवर्ड के लिए व्यवस्थापक से संपर्क करें।"
@@ -544,43 +544,43 @@ Mail:
 
       पहले लॉगिन के बाद अपना पासवर्ड बदलना न भूलें!
     body: |
-      Hello {$userLongName},
+      नमस्ते {$userLongName},
 
-      Welcome to our 4Minitz WebApp.
-      Now you can start to participate in keeping of professional meeting minutes.
+      हमारे 4Minitz WebApp में आपका स्वागत है।
+      अब आप पेशेवर बैठक मिनट को ध्यान में रखते हुए भाग लेने के लिए शुरू कर सकते हैं।
 
-      You may sign in with 'Standard' (not LDAP!) login at:
-         Your host     : {$rootURL}
-         Your user     : {$userName}
+      आप 'मानक' के साथ साइन इन कर सकते हैं (एलडीएपी नहीं!) पर लॉग इन:
+         आपका मेजबान: {$rootURL}
+         आपका उपयोगकर्ता: {$userName}
       {$passwordParagraph}
 
-      Have fun!
-        Your Admin.
+      मज़े!
+        आपका व्यवस्थापक।
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      -
+      4Minitz 4Minitz टीम द्वारा विकसित मुक्त खुला स्रोत है।
+      स्रोत {$url4Minitz}पर उपलब्ध है
   UserRoleChange:
     subject: "'{$meetingProject}:{$meetingName} 'के लिए आपकी भूमिका बदल गई है"
     body: |
-      Hello {$userName}
+      नमस्ते {$userName}
 
-      Your role has changed for meeting series '{$meetingProject}:{$meetingName}'
+      आपकी भूमिका बैठक श्रृंखला के लिए बदल गया है '{$meetingProject}:{$meetingName}'
       ({$meetingSeriesURL})
 
-         Your old role was           : {$roleOld}
-         Your new role is            : {$roleNew}
-         The change was performed by : {$moderatorName}
+         अपने पुराने भूमिका थी: {$roleOld}
+         आपकी नई भूमिका है: {$roleNew}
+         परिवर्तन द्वारा किया गया था: {$moderatorName}
 
-      For a comprehensive list of rights for each role see:
+      के लिए अधिकारों की एक व्यापक सूची के लिए प्रत्येक भूमिका को देखने:
       {$urlRoleDocu}
 
-      Have fun!
-        Your Admin.
+      मज़े!
+        आपका व्यवस्थापक।
 
-      ---
-      4Minitz is free open source developed by the 4Minitz team.
-      Source is available at {$url4Minitz}
+      -
+      4Minitz 4Minitz टीम द्वारा विकसित मुक्त खुला स्रोत है।
+      स्रोत {$url4Minitz}पर उपलब्ध है
   VerifyEmailAddress:
     subject: "[{$sitename}] अपना ईमेल पता सत्यापित करें"
     body: |
