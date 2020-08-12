@@ -29,6 +29,7 @@ jobs:
         e2etest:
           - tests/end2end/MeetingSeries-test.js
           - tests/end2end/MeetingSeriesEdit-test.js
+          - tests/end2end/MeetingSeriesItemList-test.js
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
