@@ -30,6 +30,8 @@ jobs:
           - tests/end2end/MeetingSeries-test.js
           - tests/end2end/MeetingSeriesEdit-test.js
           - tests/end2end/MeetingSeriesItemList-test.js
+    env:
+        WOK: ${{ matrix.e2etest }}
     steps:
       - uses: actions/checkout@v2
 
@@ -55,8 +57,14 @@ jobs:
         with:
           node-version: '8.11.4'           # switch back to meteors node v8
       - run: echo github.job ${{ github.job }}
+      - run: WOK2=${{strategy.job-index}}
+      - run: export WOK3=${{strategy.job-index}}
+      - run: export WOK4="$(basename -- ${{strategy.job-index}})"
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
-
+      - run: echo WOK $WOK
+      - run: echo WOK2 $WOK2
+      - run: echo WOK3 $WOK3
+      - run: echo WOK4 $WOK4
 
       - name: Dump GitHub context
         env:
@@ -88,17 +96,17 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: E2E Screenshots
+          name: ${{strategy.job-index}}_E2E_Screenshots
           path: tests/snapshots
       - name: Upload E2E log artifacts
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: E2E Logs
+          name: ${{strategy.job-index}}_E2E_Logs
           path: tests/end2end/logs
       - name: Upload E2E MongoDB artifacts
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: E2E Mongodump
+          name: ${{ matrix.e2etest }}_E2E_Mongodump
           path: tests/mongodump
