@@ -21,7 +21,7 @@ jobs:
     - run: npm run test:i18n
 
 
-  End2EndTests:
+  E2E:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
@@ -32,10 +32,10 @@ jobs:
           - tests/end2end/MeetingSeriesItemList-test.js
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v1
         with:
           node-version: '8.11.4'
-
       - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
       - run: sudo apt-get install gcc-4.8 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
@@ -44,6 +44,7 @@ jobs:
       - run: meteor --version
       - run: google-chrome --version
       - run: npm install
+
       - uses: actions/setup-node@v1
         with:
           node-version: '12.16.2'         # chromedriver needs node v12 to install!
@@ -53,7 +54,34 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '8.11.4'           # switch back to meteors node v8
+      - run: echo github.job ${{ github.job }}
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
+
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
 
 
       - name: Upload E2E screenshot artifacts
