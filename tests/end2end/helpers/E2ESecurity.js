@@ -1,3 +1,5 @@
+require('./wdio_v4_to_v5');
+
 import { E2EGlobal } from './E2EGlobal';
 import { E2EMinutes } from './E2EMinutes';
 import { E2EMeetingSeriesEditor } from './E2EMeetingSeriesEditor';
@@ -27,7 +29,7 @@ export class E2ESecurity {
         let methodExists = browser.execute( function(methodName) {
             //The methodHandlers-Dictionary will contain all meteor methods known to the client.
             //By default it will contain exactly the same methods as the server
-            return typeof Meteor.connection._methodHandlers[methodName] === 'function'
+            return typeof Meteor.connection._methodHandlers[methodName] === 'function';
         },methodName).value;
         expect(methodExists, 'Method ' + methodName + ' exists').to.be.true;
     }
@@ -49,7 +51,7 @@ export class E2ESecurity {
     //to wrap these method calls with the following function, allowing for an emulated synchronous usage of these methods.
     static executeMethod(methodName, ...methodParameters) {
         E2ESecurity.expectMethodToExist(methodName);
-        browser.timeouts("script", 5000);
+        browser.timeouts('script', 5000);
         try {
             let result = browser.executeAsync((methodName, methodParameters, done) => {
                 Meteor.apply(methodName, methodParameters, _ => {
@@ -59,7 +61,7 @@ export class E2ESecurity {
             }, methodName, methodParameters);
             // console.log(`Results are in: error = ${result.value.error}, result = ${result.value.result}`);
         } catch (e) {
-            console.log("Exception in executeMethod(): "+e.message);
+            console.log('Exception in executeMethod(): '+e.message);
         }
     }
 

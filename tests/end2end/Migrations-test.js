@@ -10,18 +10,18 @@ import {E2EGlobal} from './helpers/E2EGlobal';
 // the amount of items will be count
 describe.skip('Migrations', function () {
 
-    const aProjectName = "Migrations";
+    const aProjectName = 'Migrations';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -53,12 +53,12 @@ describe.skip('Migrations', function () {
 
         const checkHistory = () => {
             const url = browser.getUrl();
-            const msId =  url.slice(url.lastIndexOf("/")+1);
+            const msId =  url.slice(url.lastIndexOf('/')+1);
 
             const topics = server.call('e2e.getTopicsOfMeetingSeries', msId);
 
-            expect(topics.length, "Meeting Series should have one topic").to.equal(1);
-            expect(topics[0].infoItems.length, "Topic should have four items").to.equal(4);
+            expect(topics.length, 'Meeting Series should have one topic').to.equal(1);
+            expect(topics[0].infoItems.length, 'Topic should have four items').to.equal(4);
         };
         
         checkHistory(20);

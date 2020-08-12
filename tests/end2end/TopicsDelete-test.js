@@ -5,22 +5,22 @@ import { E2EMinutes } from './helpers/E2EMinutes';
 import { E2ETopics } from './helpers/E2ETopics';
 
 describe('Topics Delete - Forbid deleting topics which were not created within the current minutes', function () {
-    const aProjectName = "E2E Topics Delete";
+    const aProjectName = 'E2E Topics Delete';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
 
     const EXISTING_TOPIC = 'existing topic';
     const EXISTING_ACTION = 'existing action item';
     const EXISTING_STICKY_INFO = 'existing sticky info item';
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
 
@@ -32,11 +32,11 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
         E2ETopics.addTopicToMinutes(EXISTING_TOPIC);
         E2ETopics.addInfoItemToTopic({
             subject: EXISTING_ACTION,
-            itemType: "actionItem"
+            itemType: 'actionItem'
         }, 1);
         E2ETopics.addInfoItemToTopic({
             subject: EXISTING_STICKY_INFO,
-            itemType: "infoItem"
+            itemType: 'infoItem'
         }, 1);
         E2ETopics.toggleInfoItemStickyState(1,1);
         E2EMinutes.finalizeCurrentMinutes();
@@ -49,7 +49,7 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
         E2ETopics.addTopicToMinutes('fresh created topic');
         E2ETopics.addInfoItemToTopic({
             subject: 'fresh action item',
-            itemType: "actionItem"
+            itemType: 'actionItem'
         }, 1);
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         E2ETopics.deleteTopic(1, true);
@@ -59,7 +59,7 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
     it('closes the topic together with its open action items instead of deleting it', function() {
         E2ETopics.deleteTopic(1, true);
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
-        expect(E2ETopics.isTopicClosed(1), "the topic should be closed now").to.be.true;
+        expect(E2ETopics.isTopicClosed(1), 'the topic should be closed now').to.be.true;
         expect(E2ETopics.isActionItemClosed(1, 2), 'the action item should be closed, too').to.be.true;
     });
 
@@ -70,9 +70,9 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
 
         let selectorDialog = '#confirmDialog';
         E2EGlobal.waitSomeTime(750); // give dialog animation time
-        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
+        expect(browser.isVisible(selectorDialog), 'Dialog should be visible').to.be.true;
 
-        let dialogContentElement = browser.element(selectorDialog + " .modal-header").value.ELEMENT;
+        let dialogContentElement = browser.element(selectorDialog + ' .modal-header').value.ELEMENT;
         let dialogContentTitle = browser.elementIdText(dialogContentElement).value;
 
         expect(dialogContentTitle).to.have.string('Cannot delete topic');
@@ -84,7 +84,7 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
 
     it('closes the action item instead of deleting it', function () {
         E2ETopics.deleteInfoItem(1, 2, true);
-        expect(E2ETopics.isActionItemClosed(1, 2), "the AI should be closed").to.be.true;
+        expect(E2ETopics.isActionItemClosed(1, 2), 'the AI should be closed').to.be.true;
     });
 
     it('closes the action item instead of deleting it even it was recently edited', function() {
@@ -93,7 +93,7 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
             UPDATED_SUBJECT = `${EXISTING_ACTION} (updated)`;
         E2ETopics.editInfoItemForTopic(topicIndex, itemIndex, {subject: UPDATED_SUBJECT});
         E2ETopics.deleteInfoItem(topicIndex, itemIndex, true);
-        expect(E2ETopics.isActionItemClosed(topicIndex, 2), "the AI should be closed").to.be.true;
+        expect(E2ETopics.isActionItemClosed(topicIndex, 2), 'the AI should be closed').to.be.true;
     });
 
     it('unpins the sticky info item instead of deleting it', function () {

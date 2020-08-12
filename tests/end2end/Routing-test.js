@@ -1,22 +1,22 @@
-import { E2EGlobal } from './helpers/E2EGlobal'
-import { E2EApp } from './helpers/E2EApp'
-import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMinutes } from './helpers/E2EMinutes'
+import { E2EGlobal } from './helpers/E2EGlobal';
+import { E2EApp } from './helpers/E2EApp';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EMinutes } from './helpers/E2EMinutes';
 
 
 describe('Routing', function () {
-    const aProjectName = "E2E Topics";
+    const aProjectName = 'E2E Topics';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
 
@@ -26,7 +26,7 @@ describe('Routing', function () {
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
     });
 
-    after("clear database and login user", function () {
+    after('clear database and login user', function () {
         E2EApp.launchApp();
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;
@@ -46,7 +46,7 @@ describe('Routing', function () {
         let selector = 'h2.header';
         let header = browser.element(selector).value.ELEMENT;
         let headerText = browser.elementIdText(header).value;
-        expect(headerText).to.have.string("Meeting Series: " + aProjectName);
+        expect(headerText).to.have.string('Meeting Series: ' + aProjectName);
     });
 
     it('ensures that following a URL to a concrete minute will relocate to the requested minute after sign-in', function () {
@@ -63,21 +63,21 @@ describe('Routing', function () {
         let selector = 'h2.header';
         let header = browser.element(selector).value.ELEMENT;
         let headerText = browser.elementIdText(header).value;
-        expect(headerText).to.have.string("Minutes for " + aProjectName);
+        expect(headerText).to.have.string('Minutes for ' + aProjectName);
     });
 
 
     it('ensures that "legal notice" route shows expected text', function () {
-        expect(browser.isVisible("div#divLegalNotice"), "legal notice should be invisible").to.be.false;
+        expect(browser.isVisible('div#divLegalNotice'), 'legal notice should be invisible').to.be.false;
         browser.keys(['Escape']);   // close eventually open modal dialog
         E2EGlobal.waitSomeTime();
 
         // Force to switch route
-        browser.url(E2EGlobal.SETTINGS.e2eUrl+"/legalnotice");
-        expect(browser.getUrl(), "on 'legal notice' route").to.contain("/legalnotice");
-        expect(browser.isVisible("div#divLegalNotice"), "legal notice should be visible").to.be.true;
-        expect(browser.getText("div#divLegalNotice"), "check text in legal notice route")
-            .to.contain("THE DEMO SERVICE AVAILABLE VIA");
+        browser.url(E2EGlobal.SETTINGS.e2eUrl+'/legalnotice');
+        expect(browser.getUrl(), 'on \'legal notice\' route').to.contain('/legalnotice');
+        expect(browser.isVisible('div#divLegalNotice'), 'legal notice should be visible').to.be.true;
+        expect(browser.getText('div#divLegalNotice'), 'check text in legal notice route')
+            .to.contain('THE DEMO SERVICE AVAILABLE VIA');
     });
 
 
@@ -88,10 +88,10 @@ describe('Routing', function () {
         E2EApp.logoutUser();
 
         // open about dialog and trigger legal notice link
-        expect(browser.getUrl(), "on normal route").not.to.contain("/legalnotice");
-        E2EGlobal.clickWithRetry("#btnAbout");
+        expect(browser.getUrl(), 'on normal route').not.to.contain('/legalnotice');
+        E2EGlobal.clickWithRetry('#btnAbout');
         E2EGlobal.waitSomeTime();
-        E2EGlobal.clickWithRetry("#btnLegalNotice");
-        expect(browser.getUrl(), "on 'legal notice' route").to.contain("/legalnotice");
+        E2EGlobal.clickWithRetry('#btnLegalNotice');
+        expect(browser.getUrl(), 'on \'legal notice\' route').to.contain('/legalnotice');
     });
 });

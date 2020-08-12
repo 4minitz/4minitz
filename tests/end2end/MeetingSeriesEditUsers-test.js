@@ -1,27 +1,27 @@
-import { E2EGlobal } from './helpers/E2EGlobal'
-import { E2EApp } from './helpers/E2EApp'
-import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
-import { E2EMinutes } from './helpers/E2EMinutes'
-import { E2EMinutesParticipants } from './helpers/E2EMinutesParticipants'
-import { E2EMails } from './helpers/E2EMails'
-import { E2ETopics } from './helpers/E2ETopics'
+import { E2EGlobal } from './helpers/E2EGlobal';
+import { E2EApp } from './helpers/E2EApp';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor';
+import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2EMinutesParticipants } from './helpers/E2EMinutesParticipants';
+import { E2EMails } from './helpers/E2EMails';
+import { E2ETopics } from './helpers/E2ETopics';
 
 
 describe('MeetingSeries Editor Users', function () {
-    const aProjectName = "E2E MSEditor Users";
+    const aProjectName = 'E2E MSEditor Users';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
 
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
         if (aMeetingCounter % 10 === 0) {
             E2EApp.resetMyApp(false);
             E2EApp.launchApp();
@@ -33,7 +33,7 @@ describe('MeetingSeries Editor Users', function () {
         aMeetingCounter++;
         aMeetingName = aMeetingNameBase + aMeetingCounter;
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
     });
 
 
@@ -71,7 +71,7 @@ describe('MeetingSeries Editor Users', function () {
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         expect(Object.keys(usersAndRoles)).to.have.length(2); // still two!
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -91,7 +91,7 @@ describe('MeetingSeries Editor Users', function () {
         let currentUser = E2EApp.getCurrentUser(); // but current user should still be there
         expect(usersAndRoles[currentUser]).to.be.ok;
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -104,7 +104,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[currentUser]).to.be.ok;
         expect(usersAndRoles[currentUser].isDeletable).to.be.false;
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -117,7 +117,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[currentUser]).to.be.ok;
         expect(usersAndRoles[currentUser].isReadOnly).to.be.true;
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -133,7 +133,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user2].isDeletable).to.be.true;
         expect(usersAndRoles[user2].isReadOnly).to.be.false;
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -150,9 +150,9 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user2].isReadOnly).to.be.false;
 
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
 
-        let roleSelector = "select.user-role-select";
+        let roleSelector = 'select.user-role-select';
         browser.selectByValue(roleSelector, E2EGlobal.USERROLES.Invited);
         usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         expect(Object.keys(usersAndRoles)).to.have.length(2);
@@ -161,7 +161,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[user2].isDeletable).to.be.true;
         expect(usersAndRoles[user2].isReadOnly).to.be.false;
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -177,25 +177,25 @@ describe('MeetingSeries Editor Users', function () {
         expect(Object.keys(usersAndRoles)).to.have.length(3);
 
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
 
         // after save and re-open, check what was persisted
         usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         expect(Object.keys(usersAndRoles)).to.have.length(3);
-        expect(usersAndRoles[currentUser], "current user").to.be.ok;                    // ... for current user
-        expect(usersAndRoles[currentUser].role, "current user").to.equal(E2EGlobal.USERROLES.Moderator);
-        expect(usersAndRoles[currentUser].isDeletable, "current user").to.be.false;
-        expect(usersAndRoles[currentUser].isReadOnly, "current user").to.be.true;
-        expect(usersAndRoles[user2], "user2").to.be.ok;                          // ... for user#2
-        expect(usersAndRoles[user2].role, "user2").to.equal(E2EGlobal.USERROLES.Moderator);
-        expect(usersAndRoles[user2].isDeletable, "user2").to.be.true;
-        expect(usersAndRoles[user2].isReadOnly, "user2").to.be.false;
-        expect(usersAndRoles[user3], "user3").to.be.ok;                          // ... for user#3
-        expect(usersAndRoles[user3].role, "user3").to.equal(E2EGlobal.USERROLES.Invited);
-        expect(usersAndRoles[user3].isDeletable, "user3").to.be.true;
-        expect(usersAndRoles[user3].isReadOnly, "user3").to.be.false;
+        expect(usersAndRoles[currentUser], 'current user').to.be.ok;                    // ... for current user
+        expect(usersAndRoles[currentUser].role, 'current user').to.equal(E2EGlobal.USERROLES.Moderator);
+        expect(usersAndRoles[currentUser].isDeletable, 'current user').to.be.false;
+        expect(usersAndRoles[currentUser].isReadOnly, 'current user').to.be.true;
+        expect(usersAndRoles[user2], 'user2').to.be.ok;                          // ... for user#2
+        expect(usersAndRoles[user2].role, 'user2').to.equal(E2EGlobal.USERROLES.Moderator);
+        expect(usersAndRoles[user2].isDeletable, 'user2').to.be.true;
+        expect(usersAndRoles[user2].isReadOnly, 'user2').to.be.false;
+        expect(usersAndRoles[user3], 'user3').to.be.ok;                          // ... for user#3
+        expect(usersAndRoles[user3].role, 'user3').to.equal(E2EGlobal.USERROLES.Invited);
+        expect(usersAndRoles[user3].isDeletable, 'user3').to.be.true;
+        expect(usersAndRoles[user3].isReadOnly, 'user3').to.be.false;
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -211,7 +211,7 @@ describe('MeetingSeries Editor Users', function () {
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime();
-        expect(browser.isExisting("#btnAddMinutes")).to.be.false;
+        expect(browser.isExisting('#btnAddMinutes')).to.be.false;
 
         E2EApp.loginUser();
     });
@@ -228,7 +228,7 @@ describe('MeetingSeries Editor Users', function () {
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime();
-        expect(browser.isExisting("#btnAddMinutes")).to.be.true;
+        expect(browser.isExisting('#btnAddMinutes')).to.be.true;
 
         E2EApp.loginUser();
     });
@@ -241,7 +241,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Moderator);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         browser.elementIdClick(usersAndRoles[user2].deleteElemId);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
@@ -262,7 +262,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
@@ -273,13 +273,13 @@ describe('MeetingSeries Editor Users', function () {
 
 
     it('allows new invited user to access old minutes', function () {
-        let myDate = "2015-03-17";  // date of first project commit ;-)
+        let myDate = '2015-03-17';  // date of first project commit ;-)
 
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         E2EGlobal.waitSomeTime();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Invited);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
@@ -310,7 +310,7 @@ describe('MeetingSeries Editor Users', function () {
             E2EGlobal.SETTINGS.e2eTestUsers[3]
         ];
         // enter prefix of multiple users, to provoke twitter typeahead.js suggestions
-        browser.setValue('#edt_AddUser', "us");
+        browser.setValue('#edt_AddUser', 'us');
         const userSuggestions = browser.elements('.tt-selectable');
         let suggestedUserArray = [];
         for (let usrIndex in userSuggestions.value) {
@@ -328,7 +328,7 @@ describe('MeetingSeries Editor Users', function () {
 
     it('can add other users via suggestion drop-down', function () {
         // enter prefix of multiple users, to provoke twitter typeahead.js suggestions
-        browser.setValue('#edt_AddUser', "us");
+        browser.setValue('#edt_AddUser', 'us');
         const userSuggestions = browser.elements('.tt-selectable');
         let addedUserElemId = userSuggestions.value[0].ELEMENT;  // first user in suggestion list
         let addedUserName = browser.elementIdText(addedUserElemId).value;
@@ -341,7 +341,7 @@ describe('MeetingSeries Editor Users', function () {
         expect(usersAndRoles[addedUserName].isDeletable).to.be.true;
         expect(usersAndRoles[addedUserName].isReadOnly).to.be.false;
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -352,7 +352,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
 
         // enter prefix of multiple users, to provoke twitter typeahead.js suggestions
-        browser.setValue('#edt_AddUser', "us");
+        browser.setValue('#edt_AddUser', 'us');
         const userSuggestions = browser.elements('.tt-selectable');
         for (let usrIndex in userSuggestions.value) {
             let elemId = userSuggestions.value[usrIndex].ELEMENT;
@@ -361,7 +361,7 @@ describe('MeetingSeries Editor Users', function () {
             expect(usrName).not.to.equal(user2);
         }
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -376,7 +376,7 @@ describe('MeetingSeries Editor Users', function () {
         browser.elementIdClick(usersAndRoles[user2].deleteElemId);
 
         // enter prefix of multiple users, to provoke twitter typeahead.js suggestions
-        browser.setValue('#edt_AddUser', "us");
+        browser.setValue('#edt_AddUser', 'us');
         const userSuggestions = browser.elements('.tt-selectable');
         let suggestedUserArray = [];
         for (let usrIndex in userSuggestions.value) {
@@ -387,7 +387,7 @@ describe('MeetingSeries Editor Users', function () {
 
         expect(suggestedUserArray).to.include(user2);
 
-        E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel"); // cancel & close editor dialog
+        E2EGlobal.clickWithRetry('#btnMeetinSeriesEditCancel'); // cancel & close editor dialog
         E2EGlobal.waitSomeTime();         // wait for dialog's animation
     });
 
@@ -401,12 +401,12 @@ describe('MeetingSeries Editor Users', function () {
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         let participantsInfo = new E2EMinutesParticipants();
-        expect(participantsInfo.getParticipantsCount(), "initial setup with 2 users").to.equal(2);
-        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "initial setup with user1").to.be.ok;
-        expect(participantsInfo.getParticipantInfo(user2), "initial setup with user2").to.be.ok;
+        expect(participantsInfo.getParticipantsCount(), 'initial setup with 2 users').to.equal(2);
+        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), 'initial setup with user1').to.be.ok;
+        expect(participantsInfo.getParticipantInfo(user2), 'initial setup with user2').to.be.ok;
 
         // Now remove user2 and add user3
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
         let usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0,1,2);
         browser.elementIdClick(usersAndRoles[user2].deleteElemId);
@@ -414,9 +414,9 @@ describe('MeetingSeries Editor Users', function () {
 
         E2EMinutes.gotoLatestMinutes();
         participantsInfo = new E2EMinutesParticipants();
-        expect(participantsInfo.getParticipantsCount(), "after edit still 2 users").to.equal(2);
-        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "after edit still with user1").to.be.ok;
-        expect(participantsInfo.getParticipantInfo(user3), "after edit now with user3").to.be.ok;
+        expect(participantsInfo.getParticipantsCount(), 'after edit still 2 users').to.equal(2);
+        expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), 'after edit still with user1').to.be.ok;
+        expect(participantsInfo.getParticipantInfo(user3), 'after edit now with user3').to.be.ok;
     });
 
 
@@ -433,12 +433,12 @@ describe('MeetingSeries Editor Users', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EGlobal.waitSomeTime();
 
-        E2EGlobal.clickWithRetry("#btnLeaveMeetingSeries"); // leave meeting series
+        E2EGlobal.clickWithRetry('#btnLeaveMeetingSeries'); // leave meeting series
         E2EApp.confirmationDialogAnswer(true);
         expect(E2EMeetingSeries.countMeetingSeries(),
-                "minus-one visible series after leave").to.equal(initialMSCount -1);
+            'minus-one visible series after leave').to.equal(initialMSCount -1);
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName),
-                "Series shall be invisible after leave").not.to.be.ok;
+            'Series shall be invisible after leave').not.to.be.ok;
 
         E2EApp.loginUser();
     });
@@ -462,7 +462,7 @@ describe('MeetingSeries Editor Users', function () {
             expect(recipients).to.have.length(2);
             expect(recipients).to.include.members(
                 [E2EGlobal.SETTINGS.e2eTestEmails[0],
-                E2EGlobal.SETTINGS.e2eTestEmails[1]]);
+                    E2EGlobal.SETTINGS.e2eTestEmails[1]]);
         });
     }
 
@@ -475,7 +475,7 @@ describe('MeetingSeries Editor Users', function () {
         E2EGlobal.waitSomeTime(500);
         E2EApp.loginUser();
 
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, E2EGlobal.USERROLES.Informed);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
@@ -499,22 +499,22 @@ describe('MeetingSeries Editor Users', function () {
         E2EGlobal.waitSomeTime(500);
 
         E2EApp.loginUser();
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-        let roleSelector = "select.user-role-select";
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
+        let roleSelector = 'select.user-role-select';
         browser.selectByValue(roleSelector, E2EGlobal.USERROLES.Informed);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
         E2EApp.loginUser(1);
-        expect(E2EMeetingSeries.countMeetingSeries(), "MS count should be minus one").to.equal(initialMScount - 1);
+        expect(E2EMeetingSeries.countMeetingSeries(), 'MS count should be minus one').to.equal(initialMScount - 1);
         E2EGlobal.waitSomeTime(500);
         
         E2EApp.loginUser();
     });
 
     it('ensures participants gets E-Mail on role change', function () {
-         // Clear mails
+        // Clear mails
         E2EMails.resetSentMailsDb();
 
-         // Add user
+        // Add user
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
@@ -525,23 +525,23 @@ describe('MeetingSeries Editor Users', function () {
     });
 
     it('ensures participants does not get an E-Mail if roles stay the same', function () {
-         // Clear mails
-         E2EMails.resetSentMailsDb();
+        // Clear mails
+        E2EMails.resetSentMailsDb();
 
-         // Add user
-         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-         E2EMeetingSeriesEditor.disableEmailForRoleChange();
-         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
-         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+        // Add user
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
+        E2EMeetingSeriesEditor.disableEmailForRoleChange();
+        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
 
-         // open the dialog without saving roles and save
-         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
-         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
+        // open the dialog without saving roles and save
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
+        E2EMeetingSeriesEditor.closeMeetingSeriesEditor();
 
-         //check emails
-         let recipients = E2EMails.getAllRecipients();
-         expect(recipients).to.have.length(0);
+        //check emails
+        let recipients = E2EMails.getAllRecipients();
+        expect(recipients).to.have.length(0);
     });
 
 });

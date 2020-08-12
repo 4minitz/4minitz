@@ -1,25 +1,25 @@
-import { E2EGlobal } from './helpers/E2EGlobal'
-import { E2EApp } from './helpers/E2EApp'
-import { E2EMails } from './helpers/E2EMails'
-import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMinutes } from './helpers/E2EMinutes'
-import { E2ETopics } from './helpers/E2ETopics'
-import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
+import { E2EGlobal } from './helpers/E2EGlobal';
+import { E2EApp } from './helpers/E2EApp';
+import { E2EMails } from './helpers/E2EMails';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2ETopics } from './helpers/E2ETopics';
+import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor';
 
 
 describe('Send agenda', function () {
-    const aProjectName = "E2E Send Agenda";
+    const aProjectName = 'E2E Send Agenda';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.launchApp();
         E2EApp.resetMyApp(true);
     });
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
         E2EMails.resetSentMailsDb();
 
         E2EApp.gotoStartPage();
@@ -32,7 +32,7 @@ describe('Send agenda', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-    after("clear database", function () {
+    after('clear database', function () {
         if (E2EGlobal.browserIsPhantomJS()) {
             E2EApp.resetMyApp(true);
         }
@@ -44,14 +44,14 @@ describe('Send agenda', function () {
 
     it('ensures that the send-agenda-button is invisible for non-moderators', function() {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
 
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
-        let selector = "select.user-role-select";
-        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        let selector = 'select.user-role-select';
+        let usrRoleOption = browser.selectByValue(selector, 'Invited');
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
@@ -79,10 +79,10 @@ describe('Send agenda', function () {
 
         E2EMinutes.confirmQualityAssuranceDialog();
 
-        let selectorDialog = "#confirmDialog";
+        let selectorDialog = '#confirmDialog';
 
         E2EGlobal.waitSomeTime(750); // give dialog animation time
-        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
+        expect(browser.isVisible(selectorDialog), 'Dialog should be visible').to.be.true;
 
         // close dialog otherwise beforeEach-hook will fail!
         E2EApp.confirmationDialogAnswer(false);
@@ -95,7 +95,7 @@ describe('Send agenda', function () {
         E2ETopics.addTopicToMinutes(topicSubject);
         E2ETopics.addInfoItemToTopic({
             subject: infoItemSubject,
-            itemType: "infoItem"
+            itemType: 'infoItem'
         }, 1);
 
         browser.waitForVisible('#btn_sendAgenda');
@@ -114,15 +114,15 @@ describe('Send agenda', function () {
 
     it('ensures that the agenda will be sent to all invited', function() {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
         E2EMeetingSeriesEditor.disableEmailForRoleChange();
 
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
-        let selector = "select.user-role-select";
-        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        let selector = 'select.user-role-select';
+        let usrRoleOption = browser.selectByValue(selector, 'Invited');
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
@@ -145,7 +145,7 @@ describe('Send agenda', function () {
     it('ensures that the agenda will be sent to the *normal* participants even if there are additional participants ' +
         'with no valid email addresses', function() {
 
-        let additionalUser = "Max Mustermann";
+        let additionalUser = 'Max Mustermann';
         browser.setValue('#edtParticipantsAdditional', additionalUser);
 
         browser.waitForVisible('#btn_sendAgenda');

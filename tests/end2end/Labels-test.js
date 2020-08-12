@@ -1,21 +1,21 @@
-import { E2EGlobal } from './helpers/E2EGlobal'
-import { E2EApp } from './helpers/E2EApp'
-import { E2EMeetingSeries } from './helpers/E2EMeetingSeries'
-import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
-import { E2EMinutes } from './helpers/E2EMinutes'
-import { E2ETopics } from './helpers/E2ETopics'
+import { E2EGlobal } from './helpers/E2EGlobal';
+import { E2EApp } from './helpers/E2EApp';
+import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
+import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor';
+import { E2EMinutes } from './helpers/E2EMinutes';
+import { E2ETopics } from './helpers/E2ETopics';
 
 
 describe('Labels', function () {
-    const aProjectName = "E2E Labels";
+    const aProjectName = 'E2E Labels';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name #";
+    let aTopicNameBase = 'Topic Name #';
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Action Item Name #";
+    let aAINameBase = 'Action Item Name #';
 
     let getNewMeetingName = () => {
         aMeetingCounter++;
@@ -30,13 +30,13 @@ describe('Labels', function () {
         return aAINameBase + aAICounter;
     };
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("make sure test user is logged in, create series and add minutes", function () {
+    beforeEach('make sure test user is logged in, create series and add minutes', function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -49,15 +49,15 @@ describe('Labels', function () {
         E2ETopics.addTopicToMinutes(aTopicName);
     });
 
-    describe("Labels for Action- / Info Items", function () {
+    describe('Labels for Action- / Info Items', function () {
 
         it('can add a new custom label to an AI', function () {
-            const labelName = "MyCustomLabel";
-            const labelColor = "#ff0000";
+            const labelName = 'MyCustomLabel';
+            const labelColor = '#ff0000';
 
             E2ETopics.addInfoItemToTopic({
                 subject: getNewAIName(),
-                itemType: "actionItem"
+                itemType: 'actionItem'
             }, 1);
 
             E2ETopics.addLabelToItem(1, 1, labelName + labelColor);
@@ -74,7 +74,7 @@ describe('Labels', function () {
 
             E2ETopics.addInfoItemToTopic({
                 subject: getNewAIName(),
-                itemType: "infoItem"
+                itemType: 'infoItem'
             }, 1);
 
             E2ETopics.addLabelToItem(1, 1, defaultLabel);
@@ -91,7 +91,7 @@ describe('Labels', function () {
 
             E2ETopics.addInfoItemToTopic({
                 subject: getNewAIName(),
-                itemType: "infoItem"
+                itemType: 'infoItem'
             }, 1);
 
             E2ETopics.addLabelToItem(1, 1, labelName);
@@ -103,7 +103,7 @@ describe('Labels', function () {
 
             E2EMinutes.finalizeCurrentMinutes();
 
-            E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "labels");
+            E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'labels');
             E2EMeetingSeriesEditor.changeLabel(labelName, renamedLabel);
             E2EMinutes.gotoLatestMinutes();
 
@@ -118,7 +118,7 @@ describe('Labels', function () {
             const renamedLabel = 'Test';
             const changedColor = 'ffffff';
 
-            E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "labels");
+            E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'labels');
 
             let labelId = E2EMeetingSeriesEditor.changeLabel(labelName, renamedLabel, changedColor, false);
             let selLabelRow = '#row-label-' + labelId;
@@ -126,11 +126,11 @@ describe('Labels', function () {
 
             // open editor again
             E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-label');
-            let newLabelNameValue = browser.getValue(selLabelRow + " [name='labelName']");
-            expect(newLabelNameValue, "label name should be restored").to.equal(labelName);
+            let newLabelNameValue = browser.getValue(selLabelRow + ' [name=\'labelName\']');
+            expect(newLabelNameValue, 'label name should be restored').to.equal(labelName);
 
-            let newLabelColorValue = browser.getValue(selLabelRow + " [name='labelColor-" + labelId + "']");
-            expect(newLabelColorValue, "label color should be restored").to.not.equal(changedColor);
+            let newLabelColorValue = browser.getValue(selLabelRow + ' [name=\'labelColor-' + labelId + '\']');
+            expect(newLabelColorValue, 'label color should be restored').to.not.equal(changedColor);
 
             E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
         });

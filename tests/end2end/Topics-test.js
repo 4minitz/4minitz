@@ -6,18 +6,18 @@ import { E2EMinutes } from './helpers/E2EMinutes';
 import { E2ETopics } from './helpers/E2ETopics';
 
 describe('Topics', function () {
-    const aProjectName = "E2E Topics";
+    const aProjectName = 'E2E Topics';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
 
@@ -42,10 +42,10 @@ describe('Topics', function () {
     });
 
     it('can submit a new topic by pressing enter on the topic title input', function () {
-        browser.waitForVisible("#id_showAddTopicDialog");
-        E2EGlobal.clickWithRetry("#id_showAddTopicDialog");
+        browser.waitForVisible('#id_showAddTopicDialog');
+        E2EGlobal.clickWithRetry('#id_showAddTopicDialog');
 
-        E2ETopics.insertTopicDataIntoDialog("some topic");
+        E2ETopics.insertTopicDataIntoDialog('some topic');
 
         const subjectInput = browser.$('#id_subject');
         subjectInput.keys('Enter');
@@ -66,12 +66,12 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.deleteTopic(1);
 
-        let selectorDialog = "#confirmDialog";
+        let selectorDialog = '#confirmDialog';
 
         E2EGlobal.waitSomeTime(750); // give dialog animation time
-        expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
+        expect(browser.isVisible(selectorDialog), 'Dialog should be visible').to.be.true;
 
-        let dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
+        let dialogContentElement = browser.element(selectorDialog + ' .modal-body').value.ELEMENT;
         let dialogContentText = browser.elementIdText(dialogContentElement).value;
 
         expect(dialogContentText, 'dialog content should display the title of the to-be-deleted object').to.have.string('some topic');
@@ -195,14 +195,14 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('yet another topic');
         
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
 
         let currentUser = E2EApp.getCurrentUser();
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
-        let selector = "select.user-role-select";
-        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        let selector = 'select.user-role-select';
+        let usrRoleOption = browser.selectByValue(selector, 'Invited');
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
@@ -250,74 +250,74 @@ describe('Topics', function () {
 
     it('can collapse a topic', function () {
         E2ETopics.addTopicToMinutes('topic 1');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#1',itemType: 'infoItem'}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#2',itemType: 'infoItem'}, 1);
 
-        let infoitems = browser.elements(".infoitem").value;
+        let infoitems = browser.elements('.infoitem').value;
         expect(infoitems.length).to.be.equal(2);
 
         // collapse top-most topic
         E2EGlobal.clickWithRetry('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
-        infoitems = browser.elements(".infoitem").value;
+        infoitems = browser.elements('.infoitem').value;
         expect(infoitems.length).to.be.equal(1);
 
         let firstVisibleInfoitemId = infoitems[0].ELEMENT;
         let firstVisibleInfoItemText = browser.elementIdText(firstVisibleInfoitemId).value;
-        expect(firstVisibleInfoItemText).to.have.string("InfoItem#1");
+        expect(firstVisibleInfoItemText).to.have.string('InfoItem#1');
     });
 
     it('can collapse and re-expand a topic', function () {
         E2ETopics.addTopicToMinutes('topic 1');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#1',itemType: 'infoItem'}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#2',itemType: 'infoItem'}, 1);
 
         // collapse & re-expand top-most topic
         E2EGlobal.clickWithRetry('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
         E2EGlobal.clickWithRetry('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
-        let infoitems = browser.elements(".infoitem").value;
+        let infoitems = browser.elements('.infoitem').value;
         expect(infoitems.length).to.be.equal(2);
     });
 
 
     it('can collapse all topics', function () {
         E2ETopics.addTopicToMinutes('topic 1');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#1',itemType: 'infoItem'}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#2',itemType: 'infoItem'}, 1);
 
         // collapse & re-expand top-most topic
         E2EGlobal.clickWithRetry('#btnCollapseAll');
-        let infoitems = browser.elements(".infoitem").value;
+        let infoitems = browser.elements('.infoitem').value;
         expect(infoitems.length).to.be.equal(0);
     });
 
 
     it('can collapse and re-expand all topics', function () {
         E2ETopics.addTopicToMinutes('topic 1');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#1',itemType: 'infoItem'}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#2',itemType: 'infoItem'}, 1);
 
         // collapse & re-expand top-most topic
         E2EGlobal.clickWithRetry('#btnCollapseAll');
         E2EGlobal.clickWithRetry('#btnExpandAll');
-        let infoitems = browser.elements(".infoitem").value;
+        let infoitems = browser.elements('.infoitem').value;
         expect(infoitems.length).to.be.equal(2);
     });
 
     it('can close topics', function () {
         E2ETopics.addTopicToMinutes('topic 1');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#1',itemType: 'infoItem'}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
-        E2ETopics.addInfoItemToTopic({subject: "InfoItem#2",itemType: "infoItem"}, 1);
+        E2ETopics.addInfoItemToTopic({subject: 'InfoItem#2',itemType: 'infoItem'}, 1);
 
         E2ETopics.toggleTopic(1);
         E2ETopics.toggleTopic(2);
 
-        expect(E2ETopics.isTopicClosed(1), "first topic should be closed").to.be.true;
-        expect(E2ETopics.isTopicClosed(2), "second topic should be closed").to.be.true;
+        expect(E2ETopics.isTopicClosed(1), 'first topic should be closed').to.be.true;
+        expect(E2ETopics.isTopicClosed(2), 'second topic should be closed').to.be.true;
     });
 
     it('is possible to mark topics as recurring persistently', function () {
@@ -447,13 +447,13 @@ describe('Topics', function () {
     });
 
     it('check whether labelselectionfield exists', function() {
-        browser.waitForVisible("#id_showAddTopicDialog");
-        E2EGlobal.clickWithRetry("#id_showAddTopicDialog");
+        browser.waitForVisible('#id_showAddTopicDialog');
+        E2EGlobal.clickWithRetry('#id_showAddTopicDialog');
         E2EGlobal.waitSomeTime(350);
 
-        expect(browser.waitForExist("#id_item_selLabels")).to.be.true;
+        expect(browser.waitForExist('#id_item_selLabels')).to.be.true;
         E2EGlobal.waitSomeTime(350);
-        E2EGlobal.clickWithRetry("#btnTopicCancel");
+        E2EGlobal.clickWithRetry('#btnTopicCancel');
     });
 
     it('add label to topic via selection field', function() {
@@ -461,8 +461,8 @@ describe('Topics', function () {
         E2ETopics.addTopicWithLabelToMinutes('topic', labelName);
         E2EGlobal.waitSomeTime(500);
 
-        expect(browser.waitForExist(".topic-labels")).to.be.true;
-        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
+        expect(browser.waitForExist('.topic-labels')).to.be.true;
+        expect(browser.getText('.topic-labels .label')).to.equal(labelName);
     });
 
     it('add label to topic via textbox', function() {
@@ -470,20 +470,20 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('topic #' + labelName);
         E2EGlobal.waitSomeTime(500);
 
-        expect(browser.waitForExist(".topic-labels")).to.be.true;
-        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
+        expect(browser.waitForExist('.topic-labels')).to.be.true;
+        expect(browser.getText('.topic-labels .label')).to.equal(labelName);
     });
 
     it('add more (2) labels to topic via textbox', function() {
-        const topicName = 'testTopic'
+        const topicName = 'testTopic';
         const labelName1 = 'testLabel1';
         const labelName2 = 'testLabel2';
         E2ETopics.addTopicToMinutes(topicName + ' #' + labelName1 + ' #' + labelName2);
         E2EGlobal.waitSomeTime(500);
 
-        expect(browser.waitForExist(".topic-labels")).to.be.true;
-        expect(browser.getText(".topic-labels .label:nth-child(1)")).to.equal(labelName1);
-        expect(browser.getText(".topic-labels .label:nth-child(2)")).to.equal(labelName2);
+        expect(browser.waitForExist('.topic-labels')).to.be.true;
+        expect(browser.getText('.topic-labels .label:nth-child(1)')).to.equal(labelName1);
+        expect(browser.getText('.topic-labels .label:nth-child(2)')).to.equal(labelName2);
     });
 
     it('add label to topic and check if topic is displayed in topic tab of meeting series', function() {
@@ -495,21 +495,21 @@ describe('Topics', function () {
         E2EMinutes.gotoParentMeetingSeries();
         E2EMeetingSeries.gotoTabTopics();
 
-        expect(browser.waitForExist(".topic-labels")).to.be.true;
-        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
+        expect(browser.waitForExist('.topic-labels')).to.be.true;
+        expect(browser.getText('.topic-labels .label')).to.equal(labelName);
     });
 
     it('can add a topic with label to minutes at the end of topics list', function() {
         const testTopicName = 'some topic at the end';
         const labelName = 'testLabel';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " #" + labelName);
+        E2ETopics.addTopicToMinutesAtEnd(testTopicName + ' #' + labelName);
         E2EGlobal.waitSomeTime(500);
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
-        expect(browser.waitForExist(".topic-labels")).to.be.true;
-        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
+        expect(browser.waitForExist('.topic-labels')).to.be.true;
+        expect(browser.getText('.topic-labels .label')).to.equal(labelName);
     });
 
     it('can add a topic with more (2) labels to minutes at the end of topics list', function() {
@@ -517,24 +517,24 @@ describe('Topics', function () {
         const labelName1 = 'testLabel1';
         const labelName2 = 'testLabel2';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " #" + labelName1 + " #" + labelName2);
+        E2ETopics.addTopicToMinutesAtEnd(testTopicName + ' #' + labelName1 + ' #' + labelName2);
         E2EGlobal.waitSomeTime(500);
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
-        expect(browser.waitForExist(".labels")).to.be.true;
-        expect(browser.getText(".topic-labels .label:nth-child(1)")).to.equal(labelName1);
-        expect(browser.getText(".topic-labels .label:nth-child(2)")).to.equal(labelName2);
+        expect(browser.waitForExist('.labels')).to.be.true;
+        expect(browser.getText('.topic-labels .label:nth-child(1)')).to.equal(labelName1);
+        expect(browser.getText('.topic-labels .label:nth-child(2)')).to.equal(labelName2);
     });
 
     it('can add a topic with responsible to minutes at the end of topics list', function() {
         const testTopicName = 'some topic at the end';
         const responsibleName = 'TestResponsible';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " @" + responsibleName);
+        E2ETopics.addTopicToMinutesAtEnd(testTopicName + ' @' + responsibleName);
         E2EGlobal.waitSomeTime(500);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
+        let topicHeadingText = browser.element('#topicPanel .well:nth-child(2) h3').getText();
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
@@ -546,10 +546,10 @@ describe('Topics', function () {
         const responsibleName1 = 'TestResponsible1';
         const responsibleName2 = 'TestResponsible2';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " @" + responsibleName1 + " @" + responsibleName2);
+        E2ETopics.addTopicToMinutesAtEnd(testTopicName + ' @' + responsibleName1 + ' @' + responsibleName2);
         E2EGlobal.waitSomeTime(500);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
+        let topicHeadingText = browser.element('#topicPanel .well:nth-child(2) h3').getText();
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
@@ -561,15 +561,15 @@ describe('Topics', function () {
         const labelName = 'testLabel';
         const responsibleName = 'TestResponsible';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " #" + labelName + " @" + responsibleName);
+        E2ETopics.addTopicToMinutesAtEnd(testTopicName + ' #' + labelName + ' @' + responsibleName);
         E2EGlobal.waitSomeTime(500);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
+        let topicHeadingText = browser.element('#topicPanel .well:nth-child(2) h3').getText();
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
-        expect(browser.waitForExist(".topic-labels")).to.be.true;
-        expect(browser.getText(".topic-labels .label")).to.equal(labelName);
+        expect(browser.waitForExist('.topic-labels')).to.be.true;
+        expect(browser.getText('.topic-labels .label')).to.equal(labelName);
         expect (topicHeadingText).to.contain(responsibleName);
     });
 });

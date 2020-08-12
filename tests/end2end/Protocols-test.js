@@ -16,7 +16,7 @@ describe('Protocols', function () {
     };
 
     before('reload page and reset app', function () {
-        E2EGlobal.logTimestamp("Start test suite");
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
@@ -105,22 +105,22 @@ describe('Protocols', function () {
     });
 
     it('Trying to download an existant protocol shows no confirmation dialog', function () {
-        console.log("checkpoint-1");
+        console.log('checkpoint-1');
         E2EProtocols.setSettingsForProtocolGeneration('html');
-        console.log("checkpoint-2");
+        console.log('checkpoint-2');
         let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
-        console.log("checkpoint-3");
+        console.log('checkpoint-3');
 
         E2EMinutes.finalizeCurrentMinutes();
-        console.log("checkpoint-4");
+        console.log('checkpoint-4');
         browser.scroll('.navbar-header'); //without this the "Minutes finalized" toast would be right above the download button
-        console.log("checkpoint-5");
+        console.log('checkpoint-5');
         E2EGlobal.waitSomeTime(750);
-        console.log("checkpoint-6");
+        console.log('checkpoint-6');
         expect(E2EProtocols.countProtocolsInMongoDB(), 'Protocol has been saved in database').to.equal(numberOfProtocolsBefore + 1);
-        console.log("checkpoint-7");
+        console.log('checkpoint-7');
         expect(E2EProtocols.checkDownloadOpensConfirmationDialog(), 'No Confirmation Dialog is opened').to.be.false;
-        console.log("checkpoint-8");
+        console.log('checkpoint-8');
     });
 
     it('Trying to download an protocol with an direct link should work with proper permissions', function () {

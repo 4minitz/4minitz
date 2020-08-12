@@ -8,9 +8,8 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 
 describe('MeetingSeries', function () {
     before('reload page and reset app', function () {
-        console.log('Executing: '+E2EGlobal.getTestSpecFilename());
+        E2EGlobal.logTimestamp('Starting test suite: '+E2EGlobal.getTestSpecFilename());
         server.connect();
-        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp();
         E2EApp.launchApp();
     });

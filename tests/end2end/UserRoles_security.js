@@ -1,6 +1,6 @@
 import { E2EApp } from './helpers/E2EApp';
 import { E2ESecurity } from './helpers/E2ESecurity';
-import {E2EGlobal} from "./helpers/E2EGlobal";
+import {E2EGlobal} from './helpers/E2EGlobal';
 
 const newRoleModerator = '01';
 
@@ -11,7 +11,7 @@ describe('UserRoles Method Security', function () {
     });
 
     before('reload page and reset app', function () {
-        E2EGlobal.logTimestamp("Start test suite");
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
@@ -34,7 +34,7 @@ describe('UserRoles Method Security', function () {
         const meetingSeriesID = E2ESecurity.createMeetingSeries(name);
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
 
-        E2ESecurity.tryUpdateRole(meetingSeriesID, 1, newRoleModerator, newRoleModerator)
+        E2ESecurity.tryUpdateRole(meetingSeriesID, 1, newRoleModerator, newRoleModerator);
     });
 
     it('a user can not change a Role of another user in a Meeting Serie', function () {

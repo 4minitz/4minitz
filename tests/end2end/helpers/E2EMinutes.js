@@ -1,3 +1,5 @@
+require('./wdio_v4_to_v5');
+
 import { E2EGlobal } from './E2EGlobal';
 import { E2EApp } from './E2EApp';
 import { E2EMeetingSeries } from './E2EMeetingSeries';

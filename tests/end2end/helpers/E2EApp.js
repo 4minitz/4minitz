@@ -1,3 +1,4 @@
+require('./wdio_v4_to_v5');
 
 import { E2EGlobal } from './E2EGlobal';
 

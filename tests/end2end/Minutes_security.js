@@ -12,7 +12,7 @@ describe('Minutes Method Security', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
     before('reload page and reset app', function () {
-        E2EGlobal.logTimestamp("Start test suite");
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
@@ -130,7 +130,7 @@ describe('Minutes Method Security', function () {
 
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
-        E2ESecurity.tryRemoveMinute(min.min_id, numberOfMinutes)
+        E2ESecurity.tryRemoveMinute(min.min_id, numberOfMinutes);
         E2EApp.loginUser();
     });
 

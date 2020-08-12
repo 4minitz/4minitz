@@ -1,3 +1,4 @@
+require('./wdio_v4_to_v5');
 
 export class E2EGlobal {
     static getTestSpecFilename() {

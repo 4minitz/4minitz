@@ -3,9 +3,9 @@ import { E2EApp } from './helpers/E2EApp';
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 
 describe('LDAP', function () {
-    const aProjectName = "E2E LDAP";
+    const aProjectName = 'E2E LDAP';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
 
     let getNewMeetingName = () => {
@@ -13,18 +13,18 @@ describe('LDAP', function () {
         return aMeetingNameBase + aMeetingCounter;
     };
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("make sure test user is logged out and on the start page", function () {
+    beforeEach('make sure test user is logged out and on the start page', function () {
         E2EApp.logoutUser();
         expect(E2EApp.isNotLoggedIn()).to.be.true;
     });
 
-    after("clear database and login user", function () {
+    after('clear database and login user', function () {
         E2EApp.launchApp();
         E2EApp.loginUser();
         expect(E2EApp.isLoggedIn()).to.be.true;

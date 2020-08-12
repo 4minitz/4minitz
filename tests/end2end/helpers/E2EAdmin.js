@@ -1,4 +1,6 @@
-import { E2EGlobal } from './E2EGlobal'
+require('./wdio_v4_to_v5');
+
+import { E2EGlobal } from './E2EGlobal';
 import { E2EApp } from './E2EApp';
 
 
@@ -19,7 +21,7 @@ export class E2EAdmin {
         btnNewUser_Save:        '#btnRegisterUserSave',
 
         inpFilterUsers:         '#id_adminFilterUsers',
-        labShowInactiveUsers:   "label[for='id_adminShowInactive']",
+        labShowInactiveUsers:   'label[for=\'id_adminShowInactive\']',
         chkShowInactiveUsers:   '#id_adminShowInactive',
         btnToggleUserInactive:  '#id_ToggleInactive',
 
@@ -48,12 +50,12 @@ export class E2EAdmin {
     }
 
     static switchToTab(tabName) {
-        if (tabName === "Users") {
-            E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.tabUsers)
-        } else if (tabName === "Messages") {
-            E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.tabMessages)
+        if (tabName === 'Users') {
+            E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.tabUsers);
+        } else if (tabName === 'Messages') {
+            E2EGlobal.clickWithRetry(E2EAdmin.selectorMap.tabMessages);
         } else {
-            throw new Exception("Unknown admin tab: "+tabName);
+            throw new Exception('Unknown admin tab: '+tabName);
         }
         E2EGlobal.waitSomeTime(600);
     }
@@ -80,7 +82,7 @@ export class E2EAdmin {
     }
 
     static sendNewBroadcastMessage(message) {
-        E2EAdmin.switchToTab("Messages");
+        E2EAdmin.switchToTab('Messages');
         browser.setValue(E2EAdmin.selectorMap.inpNewMessage, message);
         browser.keys(['Enter']);
         E2EGlobal.waitSomeTime(500);

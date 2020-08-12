@@ -85,11 +85,11 @@ describe('MyActionItems Tab', function () {
         E2EApp.gotoActionItemsTab();
 
         const firstActionItemOnMyActionItemsView = E2ETopics.getNthItemFromItemList(0);
-        const firstAItextOnMyActionItemsView = firstActionItemOnMyActionItemsView.value.replace(/\n.*/,'');
+        const firstAItextOnMyActionItemsView = firstActionItemOnMyActionItemsView.getText().replace(/\n.*/,'');
         E2EGlobal.clickWithRetry('a.linkItemContext');  // navigate to parent topic view
 
         const firstItemOnTopicView = E2ETopics.getNthItemFromItemList(0);
 
-        expect(firstAItextOnMyActionItemsView, 'AI before & AI after shall be same').to.equal(firstItemOnTopicView.value);
+        expect(firstAItextOnMyActionItemsView, 'AI before & AI after shall be same').to.equal(firstItemOnTopicView.getText());
     });
 });

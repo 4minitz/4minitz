@@ -1,4 +1,6 @@
-import {E2EGlobal} from './E2EGlobal'
+require('./wdio_v4_to_v5');
+
+import {E2EGlobal} from './E2EGlobal';
 
 
 export class E2EUser {
@@ -33,8 +35,8 @@ export class E2EUser {
     }
 
     static getUserEmail(){
-         return browser.execute(function () {
-             return Meteor.user().emails[0].address;
+        return browser.execute(function () {
+            return Meteor.user().emails[0].address;
         }).value;
     }
 

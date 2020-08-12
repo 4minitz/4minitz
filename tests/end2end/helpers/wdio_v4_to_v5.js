@@ -1,7 +1,12 @@
 import {E2EGlobal} from './E2EGlobal';
 
 browser.elements = function (selector) {
-    return browser.findElements('css selector', selector); // or: 'xpath' as using
+    // https://w3c.github.io/webdriver/#dfn-table-of-location-strategies
+    // https://webdriver.io/docs/selectors.html
+    // "css selector", "link text" (=...), "partial link text" (*=...), "tag name" (<my-element />), "xpath" (//body/p[2])
+    //
+    // return browser.findElements('css selector', selector); // or: 'xpath' as using
+    return browser.$$(selector);
 };
 browser.isVisible = function (selector) {
     return $(selector).isDisplayed();
@@ -33,7 +38,14 @@ browser.waitForExist = function (selector, timeout, reverse, timeoutMsg, interva
 };
 browser.waitForVisible = function (selector, timeout, reverse, timeoutMsg, interval) {
     try {
-        return $(selector).waitForDisplayed( {timeout, reverse, timeoutMsg, interval} );
+        // Attention: webdriver.io v5.22.4 / v5.22.5 has bug in waitForDisplayed
+        //            Other than the API states, this method still has the OLD v4 parameter interface!
+        //            So, this does NOT work:
+        //        let options = {timeout, reverse, timeoutMsg, interval};
+        //        return $(selector).waitForDisplayed( options );
+        // see: https://github.com/webdriverio/webdriverio/blob/v5/packages/webdriverio/src/commands/element/waitForDisplayed.js
+        // but this works:
+        return $(selector).waitForDisplayed( timeout, reverse, timeoutMsg);
     }
     catch (e) {
         let id = Math.random().toString(36).substr(2, 5);

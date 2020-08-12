@@ -4,24 +4,24 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor';
 import { E2EMinutes } from './helpers/E2EMinutes';
 import { E2ETopics } from './helpers/E2ETopics';
-import { E2EMails } from './helpers/E2EMails'
+import { E2EMails } from './helpers/E2EMails';
 
 describe('Topics Skip', function () {
-    const aProjectName = "E2E Topics Skip";
+    const aProjectName = 'E2E Topics Skip';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    let aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
     
     const nonSkippedTopicName = 'Non-skipped Topic #1';
     const skippedTopicName = 'Skipped Topic #2';
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("goto start page and make sure test user is logged in. Also create two topics", function () {
+    beforeEach('goto start page and make sure test user is logged in. Also create two topics', function () {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
 
@@ -85,18 +85,18 @@ describe('Topics Skip', function () {
     });
     
     it('Skipped topics will not be included in info item mails', function () { 
-        const skippedInfoItemTitle = "This is an Infoitem within a skipped Topic";
-        const nonSkippedInfoItemTitle = "This is an Infoitem within a non-skipped Topic"
+        const skippedInfoItemTitle = 'This is an Infoitem within a skipped Topic';
+        const nonSkippedInfoItemTitle = 'This is an Infoitem within a non-skipped Topic';
         
         E2EMails.resetSentMailsDb();
         E2ETopics.toggleSkipTopic(2, true);      
         E2ETopics.addInfoItemToTopic({
             subject: nonSkippedInfoItemTitle,
-            itemType: "infoItem"
+            itemType: 'infoItem'
         }, 1);      
         E2ETopics.addInfoItemToTopic({
-                subject: skippedInfoItemTitle,
-                itemType: "infoItem"
+            subject: skippedInfoItemTitle,
+            itemType: 'infoItem'
         }, 2);
             
         E2EMinutes.finalizeCurrentMinutes(true);
@@ -105,25 +105,25 @@ describe('Topics Skip', function () {
         let sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);    
         let sentMail = sentMails[0];        
-        expect(sentMail.html, "the email should contain the title of the non-skipped Topic's InfoItem").to.have.string(nonSkippedInfoItemTitle);
-        expect(sentMail.html, "the email should not contain the title of the skipped Topic's InfoItem").to.not.have.string(skippedInfoItemTitle);
+        expect(sentMail.html, 'the email should contain the title of the non-skipped Topic\'s InfoItem').to.have.string(nonSkippedInfoItemTitle);
+        expect(sentMail.html, 'the email should not contain the title of the skipped Topic\'s InfoItem').to.not.have.string(skippedInfoItemTitle);
     });
     
     it('Skipped topics will not be included in action item mails', function () { 
-        const skippedActionItemTitle = "This is an ActionItem within a skipped Topic";
-        const nonSkippedActionItemTitle = "This is an ActionItem within a non-skipped Topic"
+        const skippedActionItemTitle = 'This is an ActionItem within a skipped Topic';
+        const nonSkippedActionItemTitle = 'This is an ActionItem within a non-skipped Topic';
 
         E2EMails.resetSentMailsDb();        
         E2ETopics.toggleSkipTopic(2, true); 
         E2ETopics.addInfoItemToTopic({
             subject: nonSkippedActionItemTitle,
-            itemType: "actionItem",
+            itemType: 'actionItem',
             responsible: E2EApp.getCurrentUser()
         }, 1);      
         E2ETopics.addInfoItemToTopic({
-                subject: skippedActionItemTitle,
-                itemType: "actionItem",
-                responsible: E2EApp.getCurrentUser()
+            subject: skippedActionItemTitle,
+            itemType: 'actionItem',
+            responsible: E2EApp.getCurrentUser()
         }, 2);
         
         E2EMinutes.finalizeCurrentMinutes(true);
@@ -132,19 +132,19 @@ describe('Topics Skip', function () {
         let sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'two mail should be sent. One for the ActionItems, the other for the InfoItems').to.have.length(2);  
         let sentMail = sentMails[0]; //ActionItem Mail will be sent first
-        expect(sentMail.html, "the email should contain the title of the non-skipped Topic's ActionItem").to.have.string(nonSkippedActionItemTitle);
-        expect(sentMail.html, "the email should not contain the title of the skipped Topic's ActionItem").to.not.have.string(skippedActionItemTitle);   
+        expect(sentMail.html, 'the email should contain the title of the non-skipped Topic\'s ActionItem').to.have.string(nonSkippedActionItemTitle);
+        expect(sentMail.html, 'the email should not contain the title of the skipped Topic\'s ActionItem').to.not.have.string(skippedActionItemTitle);   
     });
     
     it('Skipped topics can only be seen by the moderator', function () {
         E2ETopics.toggleSkipTopic(2, true);
         //Moderator can see Topic
-        let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
+        let selector = '#topicPanel .well:nth-child(2) #btnTopicDropdownMenu';
         expect(browser.isVisible(selector)).to.be.true;
         
         //Add another participant
         E2EMinutes.gotoParentMeetingSeries();
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, 'invited');
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
@@ -162,12 +162,12 @@ describe('Topics Skip', function () {
     
     it('Hide closed Topics button will also hide skipped topics', function () {
         E2ETopics.toggleSkipTopic(2, true);
-        let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
+        let selector = '#topicPanel .well:nth-child(2) #btnTopicDropdownMenu';
         expect(browser.isVisible(selector)).to.be.true;
-        E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
+        E2EGlobal.clickWithRetry('#checkHideClosedTopicsLabel');
         E2EGlobal.waitSomeTime();
         expect(browser.isVisible(selector)).to.be.false;
-        E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
+        E2EGlobal.clickWithRetry('#checkHideClosedTopicsLabel');
     });
     
     it('Skipped topics will appear unskipped in the next minute', function () { 

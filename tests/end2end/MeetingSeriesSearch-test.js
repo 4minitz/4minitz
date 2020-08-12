@@ -1,16 +1,16 @@
 import { E2EApp } from './helpers/E2EApp';
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
-import {E2EGlobal} from "./helpers/E2EGlobal";
+import {E2EGlobal} from './helpers/E2EGlobal';
 
 
 describe('MeetingSeriesSearch', function () {
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    beforeEach('goto start page and make sure test user is logged in', function () {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before("reload page and reset app", function () {
-        E2EGlobal.logTimestamp("Start test suite");
+    before('reload page and reset app', function () {
+        E2EGlobal.logTimestamp('Start test suite');
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
@@ -20,8 +20,8 @@ describe('MeetingSeriesSearch', function () {
         if (initialCount !== count) {
             const startIndex = initialCount + 1;
             for (let i = startIndex; i <= count; i++) {
-                const aProjectName = "E2E Project" + i;
-                const aMeetingName = "Meeting Name #" + i;
+                const aProjectName = 'E2E Project' + i;
+                const aMeetingName = 'Meeting Name #' + i;
                 E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
             }
         }

@@ -1,26 +1,28 @@
-const fs = require('fs-extra');
-import { E2EGlobal } from './E2EGlobal'
-import { E2EApp } from './E2EApp'
+require('./wdio_v4_to_v5');
 
-import { E2EMeetingSeries } from './E2EMeetingSeries'
-import { E2EMeetingSeriesEditor } from './E2EMeetingSeriesEditor'
-import { E2EMinutes } from './E2EMinutes'
+const fs = require('fs-extra');
+import { E2EGlobal } from './E2EGlobal';
+import { E2EApp } from './E2EApp';
+
+import { E2EMeetingSeries } from './E2EMeetingSeries';
+import { E2EMeetingSeriesEditor } from './E2EMeetingSeriesEditor';
+import { E2EMinutes } from './E2EMinutes';
 
 
 export class E2EAttachments {
     static expandAttachmentsArea() {
-        browser.waitForExist("#btn2AttachmentsExpand");
-        E2EGlobal.clickWithRetry("#btn2AttachmentsExpand");
+        browser.waitForExist('#btn2AttachmentsExpand');
+        E2EGlobal.clickWithRetry('#btn2AttachmentsExpand');
         E2EGlobal.waitSomeTime();
     }
 
     static isUploadButtonVisible() {
-        return browser.isVisible("#lblUpload");
+        return browser.isVisible('#lblUpload');
     }
 
     static uploadFile (filename) {
         expect(fs.existsSync(filename),
-            "E2EAttachments.uploadFile(): file should exist: "+filename)
+            'E2EAttachments.uploadFile(): file should exist: '+filename)
             .to.be.ok;
 
         if (! E2EAttachments.isUploadButtonVisible()) {
@@ -30,11 +32,11 @@ export class E2EAttachments {
         // Different file upload mechanisms for headless and desktop browsers
         if (E2EGlobal.browserIsPhantomJS()) {
             browser.execute(function () {
-                $('#btnUploadAttachment').attr("style", "").focus();  // remove display:none style so that focus() works
+                $('#btnUploadAttachment').attr('style', '').focus();  // remove display:none style so that focus() works
             });
             browser.keys(filename); // send filename as keystrokes
         } else {
-            browser.chooseFile("#btnUploadAttachment", filename);
+            browser.chooseFile('#btnUploadAttachment', filename);
         }
         E2EGlobal.waitSomeTime(1500);
     }
@@ -42,15 +44,15 @@ export class E2EAttachments {
     static getChromeDownloadDirectory() {
         // .meteor/chimp_config.js configures chrome download dir relative to cwd()
         let chimpopts = require ('../../../.meteor/chimp_config');
-        let downloadDir = chimpopts.webdriverio.desiredCapabilities.chromeOptions.prefs["download.default_directory"];
-        expect(downloadDir, ".meteor/chimp_config.js must specify download.default_directory").to.be.ok;
-        downloadDir = process.cwd() + "/" + downloadDir;
+        let downloadDir = chimpopts.webdriverio.desiredCapabilities.chromeOptions.prefs['download.default_directory'];
+        expect(downloadDir, '.meteor/chimp_config.js must specify download.default_directory').to.be.ok;
+        downloadDir = process.cwd() + '/' + downloadDir;
         return downloadDir;
     }
 
     static switchToUserWithDifferentRole(newRole, _projectName, _lastMeetingName) {
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
+        E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, 'invited');
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, newRole);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
         E2EApp.loginUser(1);
@@ -66,7 +68,7 @@ export class E2EAttachments {
     // client browser context with currently logged in user
     static countAttachmentsOnClientForCurrentUser() {
         let result = browser.execute(function () {
-            let mod = require("/imports/collections/attachments_private");
+            let mod = require('/imports/collections/attachments_private');
             let coll = mod.AttachmentsCollection;
             return coll.find().count();
         });
