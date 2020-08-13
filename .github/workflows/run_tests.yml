@@ -1,4 +1,4 @@
-name: 4Minitz CI TestRunner
+name: 4MinitzCI
 on: [push, pull_request]
 
 jobs:
@@ -32,6 +32,8 @@ jobs:
           - tests/end2end/MeetingSeriesItemList-test.js
     env:
         WOK: ${{ matrix.e2etest }}
+        WOKB: ${{ matrix.e2etest }}
+        WOKA: $(basename -- ${{strategy.job-index}})
     steps:
       - uses: actions/checkout@v2
 
@@ -60,11 +62,18 @@ jobs:
       - run: WOK2=${{strategy.job-index}}
       - run: export WOK3=${{strategy.job-index}}
       - run: export WOK4="$(basename -- ${{strategy.job-index}})"
-      - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
+      - run: export WOK5="$(basename $WOKB)"
       - run: echo WOK $WOK
-      - run: echo WOK2 $WOK2
-      - run: echo WOK3 $WOK3
-      - run: echo WOK4 $WOK4
+      - run: echo WOK2 $WOK2 ${WOK2}
+      - run: echo WOK3 $WOK3 ${WOK3}
+      - run: echo WOK4 $WOK4  ${WOK4}
+      - run: echo WOKA $WOKA  ${WOKA}
+      - run: echo WOK5 $WOK5  ${WOK5}
+      - run: echo 1 ${{ env.WOK }}
+      - run: echo 2 ${{ env.WOK5 }}
+      - run: echo 3 ${{ jobs.E2E.env.WOK }}
+      - run: echo 4 ${{ jobs.E2E.env.WOK5 }}
+      - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
       - name: Dump GitHub context
         env:
