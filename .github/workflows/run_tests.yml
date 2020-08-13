@@ -30,13 +30,9 @@ jobs:
           - tests/end2end/MeetingSeries-test.js
           - tests/end2end/MeetingSeriesEdit-test.js
           - tests/end2end/MeetingSeriesItemList-test.js
-    env:
-        WOK: ${{ matrix.e2etest }}
-        WOKB: ${{ matrix.e2etest }}
-        WOKA: $(basename -- ${{strategy.job-index}})
+
     steps:
       - uses: actions/checkout@v2
-
       - uses: actions/setup-node@v1
         with:
           node-version: '8.11.4'
@@ -58,62 +54,24 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '8.11.4'           # switch back to meteors node v8
-      - run: echo github.job ${{ github.job }}
-      - run: WOK2=${{strategy.job-index}}
-      - run: export WOK3=${{strategy.job-index}}
-      - run: export WOK4="$(basename -- ${{strategy.job-index}})"
-      - run: export WOK5="$(basename $WOKB)"
-      - run: echo WOK $WOK
-      - run: echo WOK2 $WOK2 ${WOK2}
-      - run: echo WOK3 $WOK3 ${WOK3}
-      - run: echo WOK4 $WOK4  ${WOK4}
-      - run: echo WOKA $WOKA  ${WOKA}
-      - run: echo WOK5 $WOK5  ${WOK5}
-      - run: echo 1 ${{ env.WOK }}
-      - run: echo 2 ${{ env.WOK5 }}
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
-
-
+      # Upload Artifact ZIPs
       - name: Upload E2E screenshot artifacts
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: ${{strategy.job-index}}_E2E_Screenshots
+          name: ${{ github.job }}_job${{strategy.job-index}}_Screenshots
           path: tests/snapshots
       - name: Upload E2E log artifacts
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: ${{strategy.job-index}}_E2E_Logs
+          name: ${{ github.job }}_job${{strategy.job-index}}_E2E_Logs
           path: tests/end2end/logs
       - name: Upload E2E MongoDB artifacts
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.e2etest }}_E2E_Mongodump
+          name: ${{ github.job }}_job${{strategy.job-index}}_E2E_Mongodump
           path: tests/mongodump
