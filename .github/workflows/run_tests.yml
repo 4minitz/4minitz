@@ -71,8 +71,6 @@ jobs:
       - run: echo WOK5 $WOK5  ${WOK5}
       - run: echo 1 ${{ env.WOK }}
       - run: echo 2 ${{ env.WOK5 }}
-      - run: echo 3 ${{ jobs.E2E.env.WOK }}
-      - run: echo 4 ${{ jobs.E2E.env.WOK5 }}
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
       - name: Dump GitHub context
