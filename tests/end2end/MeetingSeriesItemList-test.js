@@ -34,7 +34,7 @@ describe('MeetingSeries Items list', function () {
     });
 
 
-    it.only('displays all info- and action-items of all topics', function () {
+    it('displays all info- and action-items of all topics', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
         E2ETopics.addInfoItemToTopic({subject: 'some action item', itemType: 'actionItem'}, 1);
@@ -57,10 +57,10 @@ describe('MeetingSeries Items list', function () {
         expect(E2ETopics.getNthItemFromItemList(3).getText(), 'First item should have correct subject').to.have.string('some information');
     });
 
-    it('can expand an info item to display its details on the item list', function () {
+    it.only('can expand an info item to display its details on the item list', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addInfoItemToTopic({subject: 'some information'}, 1);
-        E2ETopics.addDetailsToActionItem(1, 1, 'Amazing details for this information item');
+        E2ETopics.addDetailsToActionItem(1, 1, 'Amazing details for this information item'); 
 
         E2EMinutes.finalizeCurrentMinutes();
 

@@ -24,7 +24,7 @@ jobs:
   E2E:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
+      fail-fast: false   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
       matrix:   # max. 20 concurrent jobs https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits
         e2etest:
           - tests/end2end/MeetingSeries-test.js
@@ -67,11 +67,11 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ github.job }}_job${{strategy.job-index}}_E2E_Logs
+          name: ${{ github.job }}_job${{strategy.job-index}}_Logs
           path: tests/end2end/logs
       - name: Upload E2E MongoDB artifacts
         if: always()
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ github.job }}_job${{strategy.job-index}}_E2E_Mongodump
+          name: ${{ github.job }}_job${{strategy.job-index}}_Mongodump
           path: tests/mongodump

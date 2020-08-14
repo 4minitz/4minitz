@@ -452,6 +452,8 @@ export class E2ETopics {
             console.error('Could not add details. Input field not visible');
             return false;
         }
+        E2EGlobal.waitSomeTime(5000);   // !!!
+
         E2EGlobal.setValueSafe(selFocusedInput, detailsText);
         if (doBeforeSubmit) {
             doBeforeSubmit(selFocusedInput);
@@ -493,7 +495,7 @@ export class E2ETopics {
             return 0;
         }
         const elements = browser.elements(selector);
-        return elements.value;
+        return elements;
     }
 
     static countTopicsForMinute () {
@@ -518,7 +520,7 @@ export class E2ETopics {
             return [];
         }
         const elements = browser.elements(selector);
-        return elements.value;
+        return elements;
     }
 
     static getAllItemsFromItemList() {
@@ -554,7 +556,7 @@ export class E2ETopics {
             return 0;
         }
         const elements = browser.elements(selector);
-        return elements.value;
+        return elements;
     }
 
     static countDetailsForItem(topicIndex, infoItemIndex) {

@@ -26,7 +26,7 @@ export class E2EGlobal {
         while (count < retries && currentValue !== string) {
             try {
                 isInteractable = true;
-                browser.setValue(selector, string);
+                browser.setValue(selector, string);     // !!!
             } catch (e) {
                 const message = e.toString(),
                     notInteractable = message.includes('Element is not currently interactable and may not be manipulated'),
