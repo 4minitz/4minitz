@@ -4,6 +4,7 @@ import { i18n } from 'meteor/universe:i18n';
 import { InfoItemsMailHandler } from './InfoItemsMailHandler';
 import { GlobalSettings } from '../config/GlobalSettings';
 import { DocumentGeneration } from '../documentGeneration';
+import {MeetingSeries} from '../meetingseries';
 
 export class SendAgendaMailHandler extends InfoItemsMailHandler {
 
@@ -18,8 +19,11 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
     }
     
     _sendMail() {
-        super._sendMail(this._getEmailData());
-    }    
+        let ms = new MeetingSeries(this._meetingSeries._id);
+        i18n.runWithLocale(ms.getMailLanguage(), () => {
+            super._sendMail(this._getEmailData());
+        });
+    }
 
     _getSubject() {
         return this._getSubjectPrefix() + ' (' + i18n.__('Minutes.agenda') + ')';

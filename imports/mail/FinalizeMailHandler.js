@@ -15,7 +15,11 @@ export class FinalizeMailHandler {
             throw new Meteor.Error('illegal-argument', 'sender address required');
         }
         if (typeof minute === 'string') {   // we may have an ID here.
-            minute = new Minutes(minute);
+            let minuteObj = new Minutes(minute);
+            if (!minuteObj) {
+                throw new Meteor.Error('illegal-argument', 'Unknown minute ID'+minute);
+            }
+            minute = minuteObj;
         }
 
         this._minute = minute;

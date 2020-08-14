@@ -36,6 +36,22 @@
                                             <label class="control-label" for="id_meetingname">{{__ 'MeetingSeries.Edit.meetingName' }}</label>
                                             <input class="form-control" id="id_meetingname" type="text" value="{{this.name}}" required
                                                    data-error-msg="{{__ 'MeetingSeries.Edit.Error.meetingName' }}" autocomplete="off">
+
+                                            <label for="selLocale" class="control-label">{{__ 'MeetingSeries.Edit.languageLocale' }}</label>
+                                            <select id="selLocale" class="form-control">
+                                                {{#each locale in supportedLocales}}
+                                                    <option id="loc-{{locale.code}}" value="{{locale.code}}">
+                                                        {{#unless locale.approved}}(*){{/unless}}
+                                                        {{locale.nameNative}} ({{locale.codeUI}})
+                                                    </option>
+                                                {{/each}}
+                                            </select>
+                                            {{__ 'Dialog.LocaleSetting.contributionHintMT'}}<br>
+                                            {{__ 'Dialog.LocaleSetting.contributionHint1'}}
+                                            <a href="https://crowdin.com/project/4minitz" target="_blank">
+                                                {{__ 'Dialog.LocaleSetting.contributionHint2'}}
+                                            </a>
+
                                         </div>
                                     </div>
                                 </div>

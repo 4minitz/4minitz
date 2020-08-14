@@ -5,6 +5,7 @@
  */
 
 import { Meteor } from 'meteor/meteor';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { i18n } from 'meteor/universe:i18n';
 
 import { Minutes } from './minutes';

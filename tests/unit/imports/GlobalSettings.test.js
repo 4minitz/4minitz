@@ -20,10 +20,15 @@ const LdapSettings = {
     publish: sinon.stub()
 };
 
+let i18n = {
+    getLanguages: () => {return ['en'];}
+};
+
 const {
     GlobalSettings
     } = proxyquire('../../../imports/config/GlobalSettings', {
     'meteor/meteor': { Meteor, '@noCallThru': true},
+    'meteor/universe:i18n': { i18n, '@noCallThru': true},
     '/imports/config/LdapSettings': { LdapSettings, '@noCallThru': true}
 });
 
