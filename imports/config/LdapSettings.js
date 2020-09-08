@@ -106,8 +106,10 @@ export class LdapSettings {
         return get('serverUrl');
     }
 
+    // returns single or multiple serverDN(s) as array
     static serverDn() {
-        return get('serverDn');
+        const serverDN = get('serverDn');
+        return (typeof (serverDN) === 'string') ? [serverDN] : serverDN;
     }
 
     static searchFilter() {
