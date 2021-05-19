@@ -36,7 +36,9 @@
     "test:program:priority-analyzer": "npx mocha  --recursive programs/priority-analyzer/tests/ --compilers js:babel-register --require programs/priority-analyzer/tests/babel",
     "progam:priority-analyzer": "node ./node_modules/babel-cli/bin/babel-node.js --presets=es2015,stage-3 programs/priority-analyzer/priority-analyzer.js",
     "fixtures:seed-minutes": "node ./node_modules/babel-cli/bin/babel-node.js --presets=es2015,stage-3 tests/performance/fixtures/insertMeetingSeries.js",
-    "postinstall": "node programs/postInstall.js"
+    "postinstall": "node programs/postInstall.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -77,7 +79,8 @@
     "node-getopt": "^0.2.3",
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
-    "semver": "^5.5.0"
+    "semver": "^5.5.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@wdio/cli": "^5.22.4",
@@ -111,5 +114,6 @@
     "underscore": "^1.8.3",
     "wdio-chromedriver-service": "^5.0.2",
     "xtend": "^4.0.1"
-  }
+  },
+  "snyk": true
 }
