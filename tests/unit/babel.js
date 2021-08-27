@@ -1,6 +1,6 @@
 require("@babel/register")({
     "presets": [
-        "anv"
+        "env"
     ],
     "plugins": [
         "transform-runtime"
