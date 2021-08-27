@@ -9,7 +9,7 @@
                 <form id="frmDlgSetLocale">
                     <div class="modal-body">
                         <div class="form-group ">
-                            <label for="id_longName" class="control-label">{{__ 'Dialog.LocaleSetting.languageLocale' }}</label>
+                            <label for="selLocale" class="control-label">{{__ 'Dialog.LocaleSetting.languageLocale' }}</label>
 
                             <select id="selLocale" class="form-control">
                                 <option id="loc-auto" value="auto">
@@ -17,8 +17,9 @@
                                 </option>
                                 {{#each locale in supportedLocales}}
                                     <option id="loc-{{locale.code}}" value="{{locale.code}}">
+                                        {{#unless locale.approved}}(*){{/unless}}
                                         {{locale.nameNative}} ({{locale.codeUI}})
-                                    </option>
+                                        </option>
                                 {{/each}}
                             </select>
                         </div>
@@ -29,10 +30,11 @@
                     </div>
                 </form>
                 <p style="text-align: center; padding-top: 1em; padding-bottom: .5em;">
-                {{__ 'Dialog.LocaleSetting.contributionHint1'}}
-                <a href="https://crowdin.com/project/4minitz" target="_blank">
-                    {{__ 'Dialog.LocaleSetting.contributionHint2'}}
-                </a>
+                    {{__ 'Dialog.LocaleSetting.contributionHintMT'}}<br>
+                    {{__ 'Dialog.LocaleSetting.contributionHint1'}}
+                    <a href="https://crowdin.com/project/4minitz" target="_blank">
+                        {{__ 'Dialog.LocaleSetting.contributionHint2'}}
+                    </a>
                 </p>
             </div>
         </div>

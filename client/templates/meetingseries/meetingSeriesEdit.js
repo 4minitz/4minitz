@@ -15,6 +15,9 @@ import { UserRoles } from '/imports/userroles';
 import { Minutes } from '/imports/minutes';
 import {IsEditedService} from '../../../imports/services/isEditedService';
 import {isEditedHandling} from '../../helpers/isEditedHelpers';
+import {ReactiveVar} from 'meteor/reactive-var';
+
+let supportedLocales = new ReactiveVar([]);
 
 Template.meetingSeriesEdit.onCreated(function() {
     let thisMeetingSeriesID = FlowRouter.getParam('_id');
@@ -32,6 +35,16 @@ Template.meetingSeriesEdit.onCreated(function() {
         thisMeetingSeriesID,                                // the meeting series id
         _attachedUsersCollection);                          // collection of attached users
     // Hint: collection will be filled in the "show.bs.modal" event below
+
+    Meteor.call('getAvailableLocales',
+        function(error, result){
+            if(error){
+                console.log('Error: No supported language locales reported by server.');
+            }else{
+                supportedLocales.set(result);
+            }
+        }
+    );
 });
 
 Template.meetingSeriesEdit.helpers({
@@ -47,6 +60,10 @@ Template.meetingSeriesEdit.helpers({
         return {
             meetingSeriesId: this._id
         };
+    },
+
+    supportedLocales: function () {
+        return supportedLocales.get();
     }
 });
 
@@ -135,7 +152,6 @@ Template.meetingSeriesEdit.events({
     // "show" event is fired shortly before BootStrap modal dialog will pop up
     // We fill the temp. client-side only user database for the user editor on this event
     'show.bs.modal #dlgEditMeetingSeries': function (evt, tmpl) {
-
         const ms = new MeetingSeries(tmpl.data._id);
 
         const element = ms;
@@ -172,6 +188,16 @@ Template.meetingSeriesEdit.events({
             delete user._id;
             Template.instance().userEditConfig.users.insert(user);
         }
+
+        // preselect the current language, based on stored meeting series eMail language
+        // or global default specified by admin in settings.json "defaultMeetingSeriesMailLanguage"
+        let locID = '#loc-' + ms.getMailLanguage();       // e.g.: 'en'
+        let select = tmpl.find(locID);
+        if (select) {
+            select.selected = true;
+        } else {
+            console.log('Could not find select option: >' + locID + '<');
+        }
     },
 
     'shown.bs.modal #dlgEditMeetingSeries': function (evt, tmpl) {
@@ -199,6 +225,7 @@ Template.meetingSeriesEdit.events({
         let aProject = tmpl.find('#id_meetingproject').value;
         let aName = tmpl.find('#id_meetingname').value;
         let modWantsNotifyOnRoleChange = tmpl.find('#checkBoxRoleChange').checked;
+        const aMailLanguage = tmpl.find('#selLocale').value;
 
         // validate form and show errors - necessary for browsers which do not support form-validation
         let projectNode = tmpl.$('#id_meetingproject');
@@ -240,6 +267,7 @@ Template.meetingSeriesEdit.events({
         const ms = new MeetingSeries(meetingSeriesId);
         ms.project = aProject;
         ms.name = aName;
+        ms.mailLanguage = aMailLanguage;
         ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users
         ms.save();
         IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
@@ -261,7 +289,9 @@ Template.meetingSeriesEdit.events({
         evt.preventDefault();
 
         const ms = new MeetingSeries(tmpl.data._id);
-        IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
+        if (ms) {   // might be null, if MS was new created, never saved and dialog is cancelled
+            IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
+        }
 
         $('#dlgEditMeetingSeries').modal('hide');
     },
