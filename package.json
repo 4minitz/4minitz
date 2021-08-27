@@ -19,7 +19,7 @@
     "eslint:fix": "eslint --fix client/** imports/** server/**",
     "mdlint": "markdownlint -- ./*.md ./doc/**/*.md || true",
     "test": "npm run test:unit",
-    "test:unit": "npx mocha \"./tests/unit/**/*.test.js\"  js:babel-register --require tests/unit/babel && npm run test:fixtures:seed-minutes:unit",
+    "test:unit": "npx mocha \"./tests/unit/**/*.test.js\" --require @babel/register --require tests/unit/babel && npm run test:fixtures:seed-minutes:unit",
     "test:i18n": "node tests/i18n/test_i18n_resources.js",
     "test:ci": "npm run test:unit && npm run test:i18n && npm run test:end2end:headless",
     "test:end2end:ldap": "node tests/support/ldap-server.js                 # used by test:end2end:server",
@@ -30,10 +30,10 @@
     "test:end2end:headless": "export HEADLESS=1 && export NODE_ENV=end2end && npx wdio run wdio.conf.js",
     "test:end2end:watch": "unset HEADLESS && export NODE_ENV=end2end && npx wdio run wdio.conf.js --watch",
     "test:end2end:watchheadless": "export HEADLESS=1 && export NODE_ENV=end2end && npx wdio run wdio.conf.js --watch",
-    "test:fixtures:seed-minutes:unit": "npx mocha  --recursive tests/performance/fixtures/tests/ js:babel-register --require tests/performance/fixtures/tests/babel",
-    "test:program:priority-analyzer": "npx mocha  --recursive programs/priority-analyzer/tests/ js:babel-register --require programs/priority-analyzer/tests/babel",
-    "progam:priority-analyzer": "node ./node_modules/babel-cli/bin/babel-node.js --presets=es2015,stage-3 programs/priority-analyzer/priority-analyzer.js",
-    "fixtures:seed-minutes": "node ./node_modules/babel-cli/bin/babel-node.js --presets=es2015,stage-3 tests/performance/fixtures/insertMeetingSeries.js",
+    "test:fixtures:seed-minutes:unit": "npx mocha  --recursive tests/performance/fixtures/tests/ --require @babel/register --require tests/performance/fixtures/tests/babel",
+    "test:program:priority-analyzer": "npx mocha  --recursive programs/priority-analyzer/tests/ --require @babel/register --require programs/priority-analyzer/tests/babel",
+    "progam:priority-analyzer": "node ./node_modules/babel-cli/bin/babel-node.js --presets=env programs/priority-analyzer/priority-analyzer.js",
+    "fixtures:seed-minutes": "node ./node_modules/babel-cli/bin/babel-node.js --presets=env tests/performance/fixtures/insertMeetingSeries.js",
     "postinstall": "node programs/postInstall.js"
   },
   "repository": {
