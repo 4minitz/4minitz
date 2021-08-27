@@ -1,7 +1,6 @@
-require("babel-register")({
+require("@babel/register")({
     "presets": [
-        "es2015",
-        "stage-3"
+        "env"
     ],
     "plugins": [
         "transform-runtime"

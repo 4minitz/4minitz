@@ -1,7 +1,6 @@
-require("babel-register")({
+require("@babel/reigster")({
     "presets": [
-        "es2015",
-        "stage-3"
+        "anv"
     ],
     "plugins": [
         "transform-runtime"
