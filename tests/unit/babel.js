@@ -1,4 +1,4 @@
-require("@babel/reigster")({
+require("@babel/register")({
     "presets": [
         "anv"
     ],
