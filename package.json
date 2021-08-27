@@ -49,7 +49,6 @@
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
     "arrive": "^2.4.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
     "bcrypt": "^3.0.6",
     "bootstrap": "^3.3.7",
     "bootstrap-material-design": "^0.5.10",
@@ -78,6 +77,7 @@
     "@babel/cli": "^7.14.8",
     "@babel/core": "^7.15.0",
     "@babel/eslint-parser": "^7.15.0",
+    "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/register": "^7.15.3",
     "@wdio/cli": "^5.22.4",
