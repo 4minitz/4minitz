@@ -3,6 +3,6 @@ require("@babel/register")({
         "@babel/preset-env"
     ],
     "plugins": [
-        "transform-runtime"
+        "@babel/plugin-transform-runtime"
     ]
 });
