@@ -1,11 +1,11 @@
 develop/
-[![Build Status](https://github.com/bubonicfred/5minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=develop)](https://github.com/4minitz/4minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
+[![Build Status](https://github.com/bubonicfred/5minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=develop)](https://github.com/bubonicfred/5minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
+[![Depfu](https://badges.depfu.com/badges/7fd87ff3f89e108808bbeb22148db594/overview.svg)](https://depfu.com/github/bubonicfred/5minitz?project_id=30798)
+
 [![Code Climate](https://codeclimate.com/github/4minitz/4minitz/badges/gpa.svg)](https://codeclimate.com/github/4minitz/4minitz)
 [![Docker Pulls](https://img.shields.io/docker/pulls/4minitz/4minitz.svg)](https://hub.docker.com/r/4minitz/4minitz/)
 [![CLA assistant](https://cla-assistant.io/readme/badge/4minitz/4minitz)](https://cla-assistant.io/4minitz/4minitz)
 [![Crowdin](https://badges.crowdin.net/4minitz/localized.svg)](https://crowdin.com/project/4minitz)
-[![Depfu](https://badges.depfu.com/badges/7fd87ff3f89e108808bbeb22148db594/overview.svg)](https://depfu.com/github/bubonicfred/5minitz?project_id=30798)
-
 # 5Minitz!
 
 An attempt to maintain 4minitz
@@ -97,7 +97,7 @@ protection for MongoDB) and also consumes some amount of extra RAM (>700 MB)).
 Don't miss the [Admin Guide](doc/admin/adminguide.md) with a more comprehensive
 coverage of the real production installation topic!
 
-Tests currenly running with node 10.24.1 and meteor 1.6
+Tests currenly running with meteor 1.6.1.4
 
 ### Prerequisites
 
