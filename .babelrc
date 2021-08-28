@@ -1,12 +1,10 @@
 {
     "env": {
         "end2end": {
-            "presets": [
-                "@babel/preset-env"
-            ],
+            "presets": ["@babel/preset-env"],
             "plugins": [
                 "add-module-exports",
-                "@babel/plugin-proposal-class-properties"
+                "transform-class-properties"
             ]
         }
     }
