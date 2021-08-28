@@ -48,7 +48,7 @@
   "homepage": "https://www.4minitz.com",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "@babel/runtime-corejs2": "^7.0.0",
+    "@babel/runtime-corejs2": "^7.15.3",
     "arrive": "^2.4.1",
     "bcrypt": "^3.0.6",
     "bootstrap": "^3.3.7",
