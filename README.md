@@ -68,7 +68,7 @@ and run it with
 ```sh
 docker-compose up
 ```
-
+TODO:update docker-compose
 You can now access 4Minitz by pointing your browser to
 [http://localhost:3100](http://localhost:3100).
 
@@ -96,6 +96,8 @@ intended for developers and so it has some security drawbacks (No password
 protection for MongoDB) and also consumes some amount of extra RAM (>700 MB)).
 Don't miss the [Admin Guide](doc/admin/adminguide.md) with a more comprehensive
 coverage of the real production installation topic!
+
+Tests currenly running with node 10.24.1 and meteor 1.6
 
 ### Prerequisites
 
