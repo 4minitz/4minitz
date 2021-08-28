@@ -5,9 +5,7 @@ require("@babel/register")(
   [
   [
   "@babel/plugin-transform-runtime", 
-  { 
-  "corejs": 2
-  }
+
   ]
 ],
 });
