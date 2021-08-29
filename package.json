@@ -106,6 +106,6 @@
     "underscore": "^1.8.3",
     "wdio-chromedriver-service": "^5.0.2",
     "webpack": "^1.0.0",
-    "xtend": "^4.0.1"  
+    "xtend": "^4.0.1"
   }
 }
