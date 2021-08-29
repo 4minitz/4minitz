@@ -85,8 +85,8 @@ describe('Migrate Version 13', function () {
     });
 
     afterEach(function () {
-        MinutesSchema.update.reset();
-        MeetingSeriesSchema.update.reset();
+        MinutesSchema.update.resetHistory();
+        MeetingSeriesSchema.update.resetHistory();
     });
 
     describe('#up', function () {

@@ -43,11 +43,11 @@ describe('Migrate Version 16', function () {
 
     afterEach(function () {
         meetingSeries.splice(meetingSeries.length);
-        TopicSchema.insert.reset();
-        TopicSchema.find.reset();
-        TopicSchema.remove.reset();
-        MeetingSeriesSchema.update.reset();
-        MeetingSeriesSchema.find.reset();
+        TopicSchema.insert.resetHistory();
+        TopicSchema.find.resetHistory();
+        TopicSchema.remove.resetHistory();
+        MeetingSeriesSchema.update.resetHistory();
+        MeetingSeriesSchema.find.resetHistory();
     });
 
     describe('#up', function() {

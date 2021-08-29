@@ -112,7 +112,7 @@ describe('InfoItem', function() {
         myInfoItem.save();
         expect(dummyTopic.upsertInfoItem.calledOnce).to.be.true;
 
-        dummyTopic.upsertInfoItem.reset();
+        dummyTopic.upsertInfoItem.resetHistory();
 
     });
 

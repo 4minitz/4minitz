@@ -150,8 +150,8 @@ describe('Migrate Version 12', function () {
     });
 
     afterEach(function () {
-        MinutesSchema.update.reset();
-        MeetingSeriesSchema.update.reset();
+        MinutesSchema.update.resetHistory();
+        MeetingSeriesSchema.update.resetHistory();
     });
 
     describe('#up', function () {
