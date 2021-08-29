@@ -68,7 +68,7 @@
     "mongo-uri": "^0.1.2",
     "mongodb": "^3.0.1",
     "mongodb-extended-json": "^1.10.0",
-    "node-cron": "^1.2.1",
+    "node-cron": "^3.0.0",
     "node-getopt": "^0.2.3",
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
