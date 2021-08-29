@@ -89,7 +89,7 @@
     "babel-plugin-add-module-exports": "^1.0.2",
     "chai": "^4.1.2",
     "clone": "^2.1.1",
-    "chromedriver": "^92.0.0"
+    "chromedriver": "^92.0.0",
     "ddp": "^0.12.1",
     "eslint": "^7.5.0",
     "faker": "^5.5.3",
@@ -105,7 +105,7 @@
     "tree-kill": "^1.2.0",
     "underscore": "^1.8.3",
     "wdio-chromedriver-service": "^5.0.2",
-    "webpack": "^1.0.0"
+    "webpack": "^1.0.0",
     "xtend": "^4.0.1"  
   }
 }
