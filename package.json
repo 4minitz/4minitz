@@ -72,7 +72,7 @@
     "node-getopt": "^0.3.2",
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
-    "semver": "^5.5.0"
+    "semver": "^7.3.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",
