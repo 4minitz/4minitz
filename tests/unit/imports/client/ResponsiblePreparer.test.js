@@ -5,7 +5,7 @@ import  faker from 'faker';
 import { ParticipantsPreparer } from '../../../../imports/client/ParticipantsPreparer';
 
 let generateId = () => {
-    return faker.random.uuid();
+    return faker.datatype.uuid();
 };
 
 let createUser = (id, username, name) => {

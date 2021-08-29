@@ -70,10 +70,10 @@ export class TopicsGenerator {
 
             // close action items and add details, randomly
             topic.infoItems.forEach(item => {
-                if (item.itemType === 'actionItem' && faker.random.boolean()) {
+                if (item.itemType === 'actionItem' && faker.datatype.boolean()) {
                     item.isOpen = false;
                 }
-                if (faker.random.boolean()) {
+                if (faker.datatype.boolean()) {
                     item.details.push(this._generateADetail());
                 }
             });
@@ -129,7 +129,7 @@ export class TopicsGenerator {
             updatedBy: this.config.username,
             subject: faker.commerce.department() + ' - ' + faker.commerce.productName(),
             responsibles: [],
-            isOpen: faker.random.boolean(),
+            isOpen: faker.datatype.boolean(),
             isNew: false,
             isRecurring: false,
             isSkipped: false,
@@ -148,7 +148,7 @@ export class TopicsGenerator {
     }
 
     _generateANewInfoItem() {
-        let isAction = faker.random.boolean();
+        let isAction = faker.datatype.boolean();
         let item = {
             _id: Random.generateId(),
             createdAt: new Date(),
@@ -186,7 +186,7 @@ export class TopicsGenerator {
             updatedBy: this.config.username,
             createdInMinute: this.currentMinutesId,
             date: DateHelper.formatDateISO8601(date),
-            text: faker.lorem.sentences(faker.random.number(this.config.detailsSentenceRange))
+            text: faker.lorem.sentences(faker.datatype.number(this.config.detailsSentenceRange))
         }
     }
 
