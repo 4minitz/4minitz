@@ -89,13 +89,14 @@
     "babel-plugin-add-module-exports": "^1.0.2",
     "chai": "^4.1.2",
     "clone": "^2.1.1",
+    "chromedriver": "^92.0.0"
     "ddp": "^0.12.1",
     "eslint": "^7.5.0",
     "faker": "^5.5.3",
     "inject-loader": "^4.0.1",
     "js-yaml": "^3.13.1",
     "markdownlint-cli": "^0.28.1",
-    "mocha": "^9.1.0",
+    "mocha": "^7.2.0",
     "mock-meteor-universe-i18n": "^0.2.1",
     "npm-license-crawler": "^0.1.5",
     "proxyquire": "^1.8.0",
@@ -104,6 +105,7 @@
     "tree-kill": "^1.2.0",
     "underscore": "^1.8.3",
     "wdio-chromedriver-service": "^5.0.2",
-    "xtend": "^4.0.1"
+    "webpack": "^1.0.0"
+    "xtend": "^4.0.1"  
   }
 }
