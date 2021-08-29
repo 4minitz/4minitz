@@ -33,11 +33,11 @@ describe('ldap', function () {
                 }
             };
 
-            LdapSettings.ldapEnabled.resetHistory();
+            LdapSettings.ldapEnabled.reset();
             LdapSettings.ldapEnabled.returns(true);
-            LdapSettings.serverDn.resetHistory();
+            LdapSettings.serverDn.reset();
             LdapSettings.serverDn.returns('dc=example,dc=com');
-            LdapSettings.usernameAttribute.resetHistory();
+            LdapSettings.usernameAttribute.reset();
             LdapSettings.usernameAttribute.returns('test');
         });
 
@@ -86,8 +86,8 @@ describe('ldap', function () {
 
     describe('#filter', function () {
         beforeEach(function () {
-            LdapSettings.usernameAttribute.resetHistory();
-            LdapSettings.searchFilter.resetHistory();
+            LdapSettings.usernameAttribute.reset();
+            LdapSettings.searchFilter.reset();
 
             Meteor.settings = {
                 ldap: {
