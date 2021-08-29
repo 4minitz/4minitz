@@ -43,9 +43,9 @@ describe('Migrate Version 22', function() {
         });
 
         afterEach(function() {
-            MeetingSeriesSchema.findOne.resetHistory();
-            TopicSchema.update.resetHistory();
-            TopicSchema.find.resetHistory();
+            MeetingSeriesSchema.findOne.reset();
+            TopicSchema.update.reset();
+            TopicSchema.find.reset();
         });
 
         it('calls the update method of the topics collection for all three topics', function() {

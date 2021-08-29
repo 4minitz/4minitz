@@ -167,16 +167,16 @@ describe('workflow.finalizeMinute', function () {
     afterEach(function () {
         Meteor.isClient = true;
 
-        Minutes.resetHistory();
-        MinutesFinder.lastMinutesOfMeetingSeries.resetHistory();
-        MinutesSchema.update.resetHistory();
-        UserRoles.resetHistory();
-        Meteor.userId.resetHistory();
-        Meteor.user.resetHistory();
+        Minutes.reset();
+        MinutesFinder.lastMinutesOfMeetingSeries.reset();
+        MinutesSchema.update.reset();
+        UserRoles.reset();
+        Meteor.userId.reset();
+        Meteor.user.reset();
     });
 
     it('throws an exception if the user is not logged in', function () {
-        Meteor.userId.resetHistory();
+        Meteor.userId.reset();
         Meteor.userId.returns();
 
         try {
@@ -190,7 +190,7 @@ describe('workflow.finalizeMinute', function () {
     });
 
     it('throws an exception if the user is not authorized', function () {
-        UserRoles.resetHistory();
+        UserRoles.reset();
         UserRoles.returns({isModeratorOf: sinon.stub().returns(false)});
 
         try {
@@ -253,7 +253,7 @@ describe('workflow.finalizeMinute', function () {
 
         finalizeMeteorMethod(minutes._id, false, true);
 
-        FinalizeMailHandler.resetHistory();
+        FinalizeMailHandler.reset();
 
         sinon.assert.calledOnce(mailHandlerInstance.sendMails);
         sinon.assert.calledWith(mailHandlerInstance.sendMails, false, true);
@@ -316,15 +316,15 @@ describe('workflow.unfinalizeMinute', function () {
     afterEach(function () {
         Meteor.isClient = true;
 
-        Minutes.resetHistory();
-        MinutesFinder.lastMinutesOfMeetingSeries.resetHistory();
-        MinutesFinder.secondLastMinutesOfMeetingSeries.resetHistory();
-        MinutesSchema.update.resetHistory();
-        MinutesSchema.findOne.resetHistory();
-        MeetingSeriesSchema.findOne.resetHistory();
-        UserRoles.resetHistory();
-        Meteor.userId.resetHistory();
-        Meteor.user.resetHistory();
+        Minutes.reset();
+        MinutesFinder.lastMinutesOfMeetingSeries.reset();
+        MinutesFinder.secondLastMinutesOfMeetingSeries.reset();
+        MinutesSchema.update.reset();
+        MinutesSchema.findOne.reset();
+        MeetingSeriesSchema.findOne.reset();
+        UserRoles.reset();
+        Meteor.userId.reset();
+        Meteor.user.reset();
     });
 
     it('sets isFinalized to false', function () {
@@ -346,7 +346,7 @@ describe('workflow.unfinalizeMinute', function () {
     });
 
     it('throws an exception if the user is not logged in', function () {
-        Meteor.userId.resetHistory();
+        Meteor.userId.reset();
         Meteor.userId.returns();
 
         try {
@@ -360,7 +360,7 @@ describe('workflow.unfinalizeMinute', function () {
     });
 
     it('throws an exception if the user is not authorized', function () {
-        UserRoles.resetHistory();
+        UserRoles.reset();
         UserRoles.returns({isModeratorOf: sinon.stub().returns(false)});
 
         try {
@@ -394,7 +394,7 @@ describe('Finalizer', function () {
 
     afterEach(function () {
         Meteor.call.resetHistory();
-        Minutes.resetHistory();
+        Minutes.reset();
     });
 
     describe('#finalize', function () {
@@ -446,7 +446,7 @@ describe('Finalizer', function () {
         });
 
         afterEach(function () {
-            MinutesSchema.findOne.resetHistory();
+            MinutesSchema.findOne.reset();
         });
 
         it('returns that the minutes was never finalized if it was never finalized', function () {
@@ -522,9 +522,9 @@ describe('Finalizer', function () {
         });
 
         afterEach(function () {
-            MinutesSchema.findOne.resetHistory();
-            MeetingSeriesSchema.findOne.resetHistory();
-            MinutesFinder.lastMinutesOfMeetingSeries.resetHistory();
+            MinutesSchema.findOne.reset();
+            MeetingSeriesSchema.findOne.reset();
+            MinutesFinder.lastMinutesOfMeetingSeries.reset();
         });
 
         it('returns true if the given minutes id belongs to the last minutes in the series', function () {

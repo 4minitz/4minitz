@@ -21,7 +21,7 @@ const clear = function (obj) {
 
 const clearAll = function () {
     clear(MinutesSchema);
-    Minutes.resetHistory();
+    Minutes.reset();
 };
 
 describe('MinutesFinder', function() {

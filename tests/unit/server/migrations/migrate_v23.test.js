@@ -45,13 +45,13 @@ describe('MigrateV23', function () {
         });
 
         afterEach(function () {
-            TopicSchemaCollection.find.resetHistory();
-            TopicSchemaCollection.update.resetHistory();
-            TopicSchema.getCollection.resetHistory();
+            TopicSchemaCollection.find.reset();
+            TopicSchemaCollection.update.reset();
+            TopicSchema.getCollection.reset();
 
-            MinutesSchemaCollection.find.resetHistory();
-            MinutesSchemaCollection.update.resetHistory();
-            MinutesSchema.getCollection.resetHistory();
+            MinutesSchemaCollection.find.reset();
+            MinutesSchemaCollection.update.reset();
+            MinutesSchema.getCollection.reset();
         });
 
         it('calls update method for every topic in the topic collection which has no responsibles set', function () {

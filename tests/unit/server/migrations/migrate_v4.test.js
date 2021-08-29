@@ -76,10 +76,10 @@ describe('MigrateV4', function() {
 
 
     afterEach(function () {
-        MinutesSchema.find.resetHistory();
-        MinutesSchema.update.resetHistory();
-        MeetingSeriesSchema.find.resetHistory();
-        MeetingSeriesSchema.update.resetHistory();
+        MinutesSchema.find.reset();
+        MinutesSchema.update.reset();
+        MeetingSeriesSchema.find.reset();
+        MeetingSeriesSchema.update.reset();
     });
 
     describe('#up', function() {

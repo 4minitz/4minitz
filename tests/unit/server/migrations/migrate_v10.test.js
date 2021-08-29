@@ -90,9 +90,9 @@ describe('Migrate Version 10', function () {
     });
 
     afterEach(function () {
-        MinutesSchema.update.resetHistory();
-        MinutesSchema.find.resetHistory();
-        MeetingSeriesSchema.update.resetHistory();
+        MinutesSchema.update.reset();
+        MinutesSchema.find.reset();
+        MeetingSeriesSchema.update.reset();
     });
 
     describe('#up', function () {

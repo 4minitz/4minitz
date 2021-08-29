@@ -49,8 +49,8 @@ describe('Migrations', function () {
                 }
             };
 
-            backupMongo.resetHistory();
-            Migrations.migrateTo.resetHistory();
+            backupMongo.reset();
+            Migrations.migrateTo.reset();
         });
 
         afterEach(function () {

@@ -38,7 +38,7 @@ describe('getLDAPUsers', function () {
     const expectedSuccessfulResult = [{ uid: 'foo', isInactive: false }];
 
     beforeEach(function () {
-        ldap.createClient.resetHistory();
+        ldap.createClient.reset();
         settings = {
             propertyMap: {},
             whiteListedFields: [],
@@ -153,7 +153,7 @@ describe('getLDAPUsers', function () {
         let client;
 
         beforeEach(function () {
-            ldap.createClient.resetHistory();
+            ldap.createClient.reset();
         });
 
         const ldapSearchResult = (activeValue) => {
@@ -351,7 +351,7 @@ describe('getLDAPUsers', function () {
             };
 
         beforeEach(function () {
-            ldap.createClient.resetHistory();
+            ldap.createClient.reset();
         });
 
         for (let i = 0; i < 32; ++i) {
@@ -365,7 +365,7 @@ describe('getLDAPUsers', function () {
         let client;
 
         beforeEach(function () {
-            ldap.createClient.resetHistory();
+            ldap.createClient.reset();
         });
 
         const ldapSearchResponseWithGivenAttribute = (attribute, value) => {

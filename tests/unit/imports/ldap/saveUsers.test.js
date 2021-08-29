@@ -50,11 +50,11 @@ describe('saveUsers', function () {
   
     beforeEach(function () {
         MongoClient.connect = asyncStubs.doNothing();
-        bulk.find.resetHistory();
-        bulk.execute.resetHistory();
-        client.close.resetHistory();
-        upsert.upsert.resetHistory();
-        updateOne.updateOne.resetHistory();
+        bulk.find.reset();
+        bulk.execute.reset();
+        client.close.reset();
+        upsert.upsert.reset();
+        updateOne.updateOne.reset();
 
         settings = {
             propertyMap: {},

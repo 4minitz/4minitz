@@ -139,8 +139,8 @@ describe('Migrate Version 1', function () {
     });
 
     afterEach(function () {
-        MinutesSchema.update.resetHistory();
-        MeetingSeriesSchema.update.resetHistory();
+        MinutesSchema.update.reset();
+        MeetingSeriesSchema.update.reset();
         MeetingSeriesSchema.series = [];
         MinutesSchema.minutes = [];
     });

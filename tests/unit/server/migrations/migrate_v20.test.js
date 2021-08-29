@@ -93,8 +93,8 @@ describe('Migrate Version 20', function () {
     });
 
     afterEach(function () {
-        MinutesSchema.update.resetHistory();
-        TopicSchema.update.resetHistory();
+        MinutesSchema.update.reset();
+        TopicSchema.update.reset();
     });
 
 
