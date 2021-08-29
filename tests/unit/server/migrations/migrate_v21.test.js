@@ -80,11 +80,11 @@ describe('Migrate Version 21', function() {
         });
 
         afterEach(function() {
-            MeetingSeriesSchema.find.reset();
-            TopicSchema.update.reset();
-            MinutesFinder.firstMinutesOfMeetingSeries.reset();
-            MinutesFinder.nextMinutes.reset();
-            TopicsFinder.allTopicsOfMeetingSeries.reset();
+            MeetingSeriesSchema.find.resetHistory();
+            TopicSchema.update.resetHistory();
+            MinutesFinder.firstMinutesOfMeetingSeries.resetHistory();
+            MinutesFinder.nextMinutes.resetHistory();
+            TopicsFinder.allTopicsOfMeetingSeries.resetHistory();
         });
 
         it('calls the update method of the topics collection for both topics', function() {

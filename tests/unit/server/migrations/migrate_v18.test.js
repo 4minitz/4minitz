@@ -85,11 +85,11 @@ describe('Migrate Version 18', function () {
     });
 
     afterEach(function () {
-        MinutesSchema.find.reset();
-        MinutesSchema.update.reset();
-        TopicSchema.update.reset();
-        MinutesFinder.firstMinutesOfMeetingSeries.reset();
-        MinutesFinder.nextMinutes.reset();
+        MinutesSchema.find.resetHistory();
+        MinutesSchema.update.resetHistory();
+        TopicSchema.update.resetHistory();
+        MinutesFinder.firstMinutesOfMeetingSeries.resetHistory();
+        MinutesFinder.nextMinutes.resetHistory();
     });
 
     describe('#up', function() {
