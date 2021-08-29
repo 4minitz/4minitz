@@ -1,106 +1,94 @@
-import { expect } from 'chai';
-import proxyquire from 'proxyquire';
-import sinon from 'sinon';
-import asyncStubs from '../../../support/lib/asyncStubs';
+import { expect } from "chai";
+import proxyquire from "proxyquire";
+import sinon from "sinon";
+import asyncStubs from "../../../support/lib/asyncStubs";
 
-let MongoClient = {
-    connect: sinon.stub().resolves()
-};
+let MongoClient = { connect: sinon.stub().resolves() };
 
-let generate = sinon.stub().returns('123abc');
+let generate = sinon.stub().returns("123abc");
 
-let bulk = {
-    find: sinon.stub(),
-    execute: sinon.stub()
-};
+let bulk = { find: sinon.stub(), execute: sinon.stub() };
 
 let client = {
-    db() {
-        return {
-            collection: sinon.stub().returns({
-                initializeUnorderedBulkOp: sinon.stub().returns(bulk)
-            })
-        };
-    },
-    close: sinon.stub()
+  db() {
+    return {
+      collection: sinon
+        .stub()
+        .returns({ initializeUnorderedBulkOp: sinon.stub().returns(bulk) }),
+    };
+  },
+  close: sinon.stub(),
 };
 
-let upsert = {
-    upsert: sinon.stub()
-};
+let upsert = { upsert: sinon.stub() };
 
-let updateOne = {
-    updateOne: sinon.stub()
-};
+let updateOne = { updateOne: sinon.stub() };
 
-let mongoUrl = 'mongodb://host:port/db';
-let users = [{
-    cn: 'username',
-    mail: 'user@example.com',
-    password: 'p@ssw0rd'
-}];
+let mongoUrl = "mongodb://host:port/db";
+let users = [
+  { cn: "username", mail: "user@example.com", password: "p@ssw0rd" },
+];
 
-const saveUsers = proxyquire('../../../../imports/ldap/saveUsers', {
-    'mongodb': { MongoClient, '@noCallThru': true},
-    'randomstring': { generate, '@noCallThru': true}
+const saveUsers = proxyquire("../../../../imports/ldap/saveUsers", {
+  mongodb: { MongoClient, "@noCallThru": true },
+  randomstring: { generate, "@noCallThru": true },
 });
 
-describe('saveUsers', function () {
-    let settings;
-  
-    beforeEach(function () {
-        MongoClient.connect = asyncStubs.doNothing();
-        bulk.find.reset();
-        bulk.execute.reset();
-        client.close.reset();
-        upsert.upsert.reset();
-        updateOne.updateOne.reset();
+describe("saveUsers", function () {
+  let settings;
 
-        settings = {
-            propertyMap: {},
-            whiteListedFields: [],
-            inactiveUsers: {
-                strategy: 'none'
-            }
-        };
-    });
+  beforeEach(function () {
+    MongoClient.connect = asyncStubs.doNothing();
+    bulk.find.resetHistory();
+    bulk.execute.resetHistory();
+    client.close.resetHistory();
+    upsert.upsert.resetHistory();
+    updateOne.updateOne.resetHistory();
 
-    it('inserts users into database', function (done) {
-        MongoClient.connect = sinon.stub().resolves(client);
-        upsert.upsert.returns(updateOne);
-        bulk.find.returns(upsert);
-        bulk.execute.returns('bulk done');
+    settings = {
+      propertyMap: {},
+      whiteListedFields: [],
+      inactiveUsers: { strategy: "none" },
+    };
+  });
 
-        saveUsers(settings, mongoUrl, users)
-            .then((result) => {
-                try {
-                    expect(result).to.deep.equal('bulk done');
-                    expect(bulk.find.calledOnce).to.be.true;
-                    expect(bulk.execute.calledOnce).to.be.true;
+  it("inserts users into database", function (done) {
+    MongoClient.connect = sinon.stub().resolves(client);
+    upsert.upsert.returns(updateOne);
+    bulk.find.returns(upsert);
+    bulk.execute.returns("bulk done");
 
-                    done();
-                } catch (error) {
-                    done(error);
-                }
-            })
-            .catch((error) => {
-                done(new Error(error));
-            });
-    });
+    saveUsers(settings, mongoUrl, users)
+      .then((result) => {
+        try {
+          expect(result).to.deep.equal("bulk done");
+          expect(bulk.find.calledOnce).to.be.true;
+          expect(bulk.execute.calledOnce).to.be.true;
 
-    it('handles database connection problems', function (done) {
-        MongoClient.connect = sinon.stub().rejects('Connection error');//asyncStubs.returnsError(1, 'Connection error');
+          done();
+        } catch (error) {
+          done(error);
+        }
+      })
+      .catch((error) => {
+        done(new Error(error));
+      });
+  });
 
-        saveUsers(settings, mongoUrl, users)
-            .then((result) => {
-                done(new Error(`Unexpected result: ${result}`));
-            })
-            .catch((error) => {
-                try {
-                    expect(error.toString()).to.equal('Connection error');
-                    done();
-                } catch (error) {
-                    done(error);
-                }
-            });
-    });});
+  it("handles database connection problems", function (done) {
+    MongoClient.connect = sinon.stub().rejects("Connection error"); // asyncStubs.returnsError(1, 'Connection error');
+
+    saveUsers(settings, mongoUrl, users)
+      .then((result) => {
+        done(new Error(`Unexpected result: ${result}`));
+      })
+      .catch((error) => {
+        try {
+          expect(error.toString()).to.equal("Connection error");
+          done();
+        } catch (error) {
+          done(error);
+        }
+      });
+  });
+});
