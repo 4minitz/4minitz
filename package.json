@@ -51,7 +51,7 @@
     "@babel/runtime": "7.0.0-beta.55",
     "arrive": "^2.4.1",
     "bcrypt": "^3.0.6",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "bootstrap-material-design": "^0.5.10",
     "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.47",
     "fibers": "^4.0.0",
@@ -88,8 +88,8 @@
     "@wdio/sync": "^5.20.1",
     "babel-plugin-add-module-exports": "^1.0.2",
     "chai": "^4.1.2",
-    "clone": "^2.1.1",
     "chromedriver": "^92.0.0",
+    "clone": "^2.1.1",
     "ddp": "^0.12.1",
     "eslint": "^7.5.0",
     "faker": "^5.5.3",
@@ -105,7 +105,7 @@
     "tree-kill": "^1.2.0",
     "underscore": "^1.8.3",
     "wdio-chromedriver-service": "^5.0.2",
-    "webpack": "^1.0.0",
+    "webpack": "^4.44.2",
     "xtend": "^4.0.1"
   }
 }
