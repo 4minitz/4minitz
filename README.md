@@ -2,13 +2,11 @@ develop/
 [![Build Status](https://github.com/bubonicfred/5minitz/workflows/4Minitz%20CI%20TestRunner/badge.svg?branch=develop)](https://github.com/bubonicfred/5minitz/actions?query=workflow%3A%224Minitz+CI+TestRunner%22)
 [![Depfu](https://badges.depfu.com/badges/7fd87ff3f89e108808bbeb22148db594/overview.svg)](https://depfu.com/github/bubonicfred/5minitz?project_id=30798)
 
-[![Code Climate](https://codeclimate.com/github/4minitz/4minitz/badges/gpa.svg)](https://codeclimate.com/github/4minitz/4minitz)
-[![Docker Pulls](https://img.shields.io/docker/pulls/4minitz/4minitz.svg)](https://hub.docker.com/r/4minitz/4minitz/)
-[![CLA assistant](https://cla-assistant.io/readme/badge/4minitz/4minitz)](https://cla-assistant.io/4minitz/4minitz)
-[![Crowdin](https://badges.crowdin.net/4minitz/localized.svg)](https://crowdin.com/project/4minitz)
 # 5Minitz!
-
-An attempt to maintain 4minitz
+This is an attempt to maintain 4minitz.
+The main branch is currently identical to 4minitz/develop.
+The develop branch is currently functionally the same, with some dependancy updates.
+I have no immidiate plans for feature changes, though the front end might have to be redone at some point.
 
 _Simply ~~the best~~ a decent free webapp for taking meeting minutes._
 
