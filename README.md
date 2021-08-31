@@ -3,10 +3,16 @@ develop/
 [![Depfu](https://badges.depfu.com/badges/7fd87ff3f89e108808bbeb22148db594/overview.svg)](https://depfu.com/github/bubonicfred/5minitz?project_id=30798)
 
 # 5Minitz!
-This is an attempt to maintain 4minitz.
+This is an attempt to maintain 4minitz. 
+
 The main branch is currently identical to 4minitz/develop.
+
 The develop branch is currently functionally the same, with some dependancy updates.
-I have no immidiate plans for feature changes, though the front end might have to be redone at some point.
+
+I have no immidiate plans for feature changes, though the front end might have to be re-done at some point.
+
+Also the name is not set in stone.
+
 
 _Simply ~~the best~~ a decent free webapp for taking meeting minutes._
 
@@ -20,7 +26,7 @@ _Simply ~~the best~~ a decent free webapp for taking meeting minutes._
 - Track open action items and unfinished topics across meetings
 - Full privacy: Host your own server - it's easy!
 
-<a href="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/4minitz_screenshot.png" width="500" ></a>
+<a href="https://raw.githubusercontent.com/bubonicfred/5minitz/develop/doc/4minitz_screenshot.png"><img src="https://raw.githubusercontent.com/bubonicfred/5minitz/develop/doc/4minitz_screenshot.png" width="500" ></a>
 
 _(Click to enlarge screen shot)_
 
@@ -40,6 +46,8 @@ be of help:
 
 ## External Project Links
 
+** These still link to 4minitz links **
+
 - [4Minitz Backlog](https://github.com/4minitz/4minitz/projects/1) - organizes
   our project TODOs
 - [4Minitz Demo Server](https://www.4minitz.com) - well, our Demo server ;-)
@@ -52,15 +60,12 @@ be of help:
 - [Docker Hub](https://hub.docker.com/r/4minitz/4minitz/) - Spin up your own
   4Minitz server in seconds
 
-## 4Minitz is proudly sponsored by
-
-<a href="http://www.methodpark.de"><img src="https://raw.githubusercontent.com/4minitz/4minitz/develop/doc/sponsor_methodpark.png" height="50px" alt="Method Park"></a>
 
 ## Deployment Quick Start
 
 To quickly set up a local demo of 4Minitz at your site for evaluation and
 testing you can use our sample
-[Docker Compose configuration file](https://raw.githubusercontent.com/4minitz/4minitz/develop/docker-compose.yml)
+[Docker Compose configuration file](docker-compose.yml)
 and run it with
 
 ```sh
