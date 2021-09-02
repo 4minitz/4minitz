@@ -1,5 +1,4 @@
-define( function() {
-
-	// [[Class]] -> type pairs
-	return {};
-} );
+define(function () {
+  // [[Class]] -> type pairs
+  return {};
+});

@@ -11,60 +11,71 @@
   };
 
   function _isChar(evt) {
-    if (typeof evt.which == "undefined") {
+    if (typeof evt.which === "undefined") {
       return true;
-    } else if (typeof evt.which == "number" && evt.which > 0) {
+    } else if (typeof evt.which === "number" && evt.which > 0) {
       return (
-        !evt.ctrlKey
-        && !evt.metaKey
-        && !evt.altKey
-        && evt.which != 8  // backspace
-        && evt.which != 9  // tab
-        && evt.which != 13 // enter
-        && evt.which != 16 // shift
-        && evt.which != 17 // ctrl
-        && evt.which != 20 // caps lock
-        && evt.which != 27 // escape
+        !evt.ctrlKey &&
+        !evt.metaKey &&
+        !evt.altKey &&
+        evt.which != 8 && // backspace
+        evt.which != 9 && // tab
+        evt.which != 13 && // enter
+        evt.which != 16 && // shift
+        evt.which != 17 && // ctrl
+        evt.which != 20 && // caps lock
+        evt.which != 27 // escape
       );
     }
     return false;
   }
 
   function _addFormGroupFocus(element) {
-    var $element = $(element);
-    if (!$element.prop('disabled')) {  // this is showing as undefined on chrome but works fine on firefox??
+    const $element = $(element);
+    if (!$element.prop("disabled")) {
+      // this is showing as undefined on chrome but works fine on firefox??
       $element.closest(".form-group").addClass("is-focused");
     }
   }
 
   function _toggleDisabledState($element, state) {
-    var $target;
-    if ($element.hasClass('checkbox-inline') || $element.hasClass('radio-inline')) {
+    let $target;
+    if (
+      $element.hasClass("checkbox-inline") ||
+      $element.hasClass("radio-inline")
+    ) {
       $target = $element;
     } else {
-      $target = $element.closest('.checkbox').length ? $element.closest('.checkbox') : $element.closest('.radio');
+      $target = $element.closest(".checkbox").length
+        ? $element.closest(".checkbox")
+        : $element.closest(".radio");
     }
-    return $target.toggleClass('disabled', state);
+    return $target.toggleClass("disabled", state);
   }
 
   function _toggleTypeFocus($input) {
-    var disabledToggleType = false;
-    if ($input.is($.material.options.checkboxElements) || $input.is($.material.options.radioElements)) {
+    let disabledToggleType = false;
+    if (
+      $input.is($.material.options.checkboxElements) ||
+      $input.is($.material.options.radioElements)
+    ) {
       disabledToggleType = true;
     }
-    $input.closest('label').hover(function () {
-        var $i = $(this).find('input');
-        var isDisabled = $i.prop('disabled'); // hack because the _addFormGroupFocus() wasn't identifying the property on chrome
+    $input.closest("label").hover(
+      function () {
+        const $i = $(this).find("input");
+        const isDisabled = $i.prop("disabled"); // hack because the _addFormGroupFocus() wasn't identifying the property on chrome
         if (disabledToggleType) {
           _toggleDisabledState($(this), isDisabled);
         }
         if (!isDisabled) {
-          _addFormGroupFocus($i);     // need to find the input so we can check disablement
+          _addFormGroupFocus($i); // need to find the input so we can check disablement
         }
       },
       function () {
-        _removeFormGroupFocus($(this).find('input'));
-      });
+        _removeFormGroupFocus($(this).find("input"));
+      }
+    );
   }
 
   function _removeFormGroupFocus(element) {
@@ -72,82 +83,93 @@
   }
 
   $.material = {
-    "options": {
+    options: {
       // These options set what will be started by $.material.init()
-      "validate": true,
-      "input": true,
-      "ripples": true,
-      "checkbox": true,
-      "togglebutton": true,
-      "radio": true,
-      "arrive": true,
-      "autofill": false,
+      validate: true,
+      input: true,
+      ripples: true,
+      checkbox: true,
+      togglebutton: true,
+      radio: true,
+      arrive: true,
+      autofill: false,
 
-      "withRipples": [
+      withRipples: [
         ".btn:not(.btn-link)",
         ".card-image",
         ".navbar a:not(.withoutripple)",
         ".dropdown-menu a",
         ".nav-tabs a:not(.withoutripple)",
         ".withripple",
-        ".pagination li:not(.active):not(.disabled) a:not(.withoutripple)"
+        ".pagination li:not(.active):not(.disabled) a:not(.withoutripple)",
       ].join(","),
-      "inputElements": "input.form-control, textarea.form-control, select.form-control",
-      "checkboxElements": ".checkbox > label > input[type=checkbox], label.checkbox-inline > input[type=checkbox]",
-      "togglebuttonElements": ".togglebutton > label > input[type=checkbox]",
-      "radioElements": ".radio > label > input[type=radio], label.radio-inline > input[type=radio]"
+      inputElements:
+        "input.form-control, textarea.form-control, select.form-control",
+      checkboxElements:
+        ".checkbox > label > input[type=checkbox], label.checkbox-inline > input[type=checkbox]",
+      togglebuttonElements: ".togglebutton > label > input[type=checkbox]",
+      radioElements:
+        ".radio > label > input[type=radio], label.radio-inline > input[type=radio]",
     },
-    "checkbox": function (selector) {
+    checkbox: function (selector) {
       // Add fake-checkbox to material checkboxes
-      var $input = $((selector) ? selector : this.options.checkboxElements)
+      const $input = $(selector || this.options.checkboxElements)
         .filter(":notmdproc")
         .data("mdproc", true)
-        .after("<span class='checkbox-material'><span class='check'></span></span>");
+        .after(
+          "<span class='checkbox-material'><span class='check'></span></span>"
+        );
 
       _toggleTypeFocus($input);
     },
-    "togglebutton": function (selector) {
+    togglebutton: function (selector) {
       // Add fake-checkbox to material checkboxes
-      var $input = $((selector) ? selector : this.options.togglebuttonElements)
+      const $input = $(selector || this.options.togglebuttonElements)
         .filter(":notmdproc")
         .data("mdproc", true)
         .after("<span class='toggle'></span>");
 
       _toggleTypeFocus($input);
     },
-    "radio": function (selector) {
+    radio: function (selector) {
       // Add fake-radio to material radios
-      var $input = $((selector) ? selector : this.options.radioElements)
+      const $input = $(selector || this.options.radioElements)
         .filter(":notmdproc")
         .data("mdproc", true)
         .after("<span class='circle'></span><span class='check'></span>");
 
       _toggleTypeFocus($input);
     },
-    "input": function (selector) {
-      $((selector) ? selector : this.options.inputElements)
+    input: function (selector) {
+      $(selector || this.options.inputElements)
         .filter(":notmdproc")
         .data("mdproc", true)
         .each(function () {
-          var $input = $(this);
+          const $input = $(this);
 
           // Requires form-group standard markup (will add it if necessary)
-          var $formGroup = $input.closest(".form-group"); // note that form-group may be grandparent in the case of an input-group
-          if ($formGroup.length === 0 && $input.attr('type') !== "hidden" && !$input.attr('hidden')) {
+          let $formGroup = $input.closest(".form-group"); // note that form-group may be grandparent in the case of an input-group
+          if (
+            $formGroup.length === 0 &&
+            $input.attr("type") !== "hidden" &&
+            !$input.attr("hidden")
+          ) {
             $input.wrap("<div class='form-group'></div>");
             $formGroup = $input.closest(".form-group"); // find node after attached (otherwise additional attachments don't work)
           }
 
           // Legacy - Add hint label if using the old shorthand data-hint attribute on the input
           if ($input.attr("data-hint")) {
-            $input.after("<p class='help-block'>" + $input.attr("data-hint") + "</p>");
+            $input.after(
+              "<p class='help-block'>" + $input.attr("data-hint") + "</p>"
+            );
             $input.removeAttr("data-hint");
           }
 
           // Legacy - Change input-sm/lg to form-group-sm/lg instead (preferred standard and simpler css/less variants)
-          var legacySizes = {
+          const legacySizes = {
             "input-lg": "form-group-lg",
-            "input-sm": "form-group-sm"
+            "input-sm": "form-group-sm",
           };
           $.each(legacySizes, function (legacySize, standardSize) {
             if ($input.hasClass(legacySize)) {
@@ -158,19 +180,29 @@
 
           // Legacy - Add label-floating if using old shorthand <input class="floating-label" placeholder="foo">
           if ($input.hasClass("floating-label")) {
-            var placeholder = $input.attr("placeholder");
+            const placeholder = $input.attr("placeholder");
             $input.attr("placeholder", null).removeClass("floating-label");
-            var id = $input.attr("id");
-            var forAttribute = "";
+            const id = $input.attr("id");
+            let forAttribute = "";
             if (id) {
               forAttribute = "for='" + id + "'";
             }
             $formGroup.addClass("label-floating");
-            $input.after("<label " + forAttribute + "class='control-label'>" + placeholder + "</label>");
+            $input.after(
+              "<label " +
+                forAttribute +
+                "class='control-label'>" +
+                placeholder +
+                "</label>"
+            );
           }
 
           // Set as empty if is empty (damn I must improve this...)
-          if ($input.val() === null || $input.val() == "undefined" || $input.val() === "") {
+          if (
+            $input.val() === null ||
+            $input.val() == "undefined" ||
+            $input.val() === ""
+          ) {
             $formGroup.addClass("is-empty");
           }
 
@@ -180,8 +212,8 @@
           }
         });
     },
-    "attachInputEventHandlers": function () {
-      var validate = this.options.validate;
+    attachInputEventHandlers: function () {
+      const validate = this.options.validate;
 
       $(document)
         .on("keydown paste", ".form-control", function (e) {
@@ -190,14 +222,15 @@
           }
         })
         .on("keyup change", ".form-control", function () {
-          var $input = $(this);
-          var $formGroup = $input.closest(".form-group");
-          var isValid = (typeof $input[0].checkValidity === "undefined" || $input[0].checkValidity());
+          const $input = $(this);
+          const $formGroup = $input.closest(".form-group");
+          const isValid =
+            typeof $input[0].checkValidity === "undefined" ||
+            $input[0].checkValidity();
 
           if ($input.val() === "") {
             $formGroup.addClass("is-empty");
-          }
-          else {
+          } else {
             $formGroup.removeClass("is-empty");
           }
 
@@ -210,8 +243,7 @@
           if (validate) {
             if (isValid) {
               $formGroup.removeClass("has-error");
-            }
-            else {
+            } else {
               $formGroup.addClass("has-error");
             }
           }
@@ -225,13 +257,13 @@
         // make sure empty is added back when there is a programmatic value change.
         //  NOTE: programmatic changing of value using $.val() must trigger the change event i.e. $.val('x').trigger('change')
         .on("change", ".form-group input", function () {
-          var $input = $(this);
+          const $input = $(this);
           if ($input.attr("type") == "file") {
             return;
           }
 
-          var $formGroup = $input.closest(".form-group");
-          var value = $input.val();
+          const $formGroup = $input.closest(".form-group");
+          const value = $input.val();
           if (value) {
             $formGroup.removeClass("is-empty");
           } else {
@@ -239,30 +271,34 @@
           }
         })
         // set the fileinput readonly field with the name of the file
-        .on("change", ".form-group.is-fileinput input[type='file']", function () {
-          var $input = $(this);
-          var $formGroup = $input.closest(".form-group");
-          var value = "";
-          $.each(this.files, function (i, file) {
-            value += file.name + ", ";
-          });
-          value = value.substring(0, value.length - 2);
-          if (value) {
-            $formGroup.removeClass("is-empty");
-          } else {
-            $formGroup.addClass("is-empty");
+        .on(
+          "change",
+          ".form-group.is-fileinput input[type='file']",
+          function () {
+            const $input = $(this);
+            const $formGroup = $input.closest(".form-group");
+            let value = "";
+            $.each(this.files, function (i, file) {
+              value += file.name + ", ";
+            });
+            value = value.substring(0, value.length - 2);
+            if (value) {
+              $formGroup.removeClass("is-empty");
+            } else {
+              $formGroup.addClass("is-empty");
+            }
+            $formGroup.find("input.form-control[readonly]").val(value);
           }
-          $formGroup.find("input.form-control[readonly]").val(value);
-        });
+        );
     },
-    "ripples": function (selector) {
-      $((selector) ? selector : this.options.withRipples).ripples();
+    ripples: function (selector) {
+      $(selector || this.options.withRipples).ripples();
     },
-    "autofill": function () {
+    autofill: function () {
       // This part of code will detect autofill when the page is loading (username and password inputs for example)
-      var loading = setInterval(function () {
+      const loading = setInterval(function () {
         $("input[type!=checkbox]").each(function () {
-          var $this = $(this);
+          const $this = $(this);
           if ($this.val() && $this.val() !== $this.attr("value")) {
             $this.trigger("change");
           }
@@ -274,15 +310,18 @@
         clearInterval(loading);
       }, 10000);
     },
-    "attachAutofillEventHandlers": function () {
+    attachAutofillEventHandlers: function () {
       // Listen on inputs of the focused form (because user can select from the autofill dropdown only when the input has focus)
-      var focused;
+      let focused;
       $(document)
         .on("focus", "input", function () {
-          var $inputs = $(this).parents("form").find("input").not("[type=file]");
+          const $inputs = $(this)
+            .parents("form")
+            .find("input")
+            .not("[type=file]");
           focused = setInterval(function () {
             $inputs.each(function () {
-              var $this = $(this);
+              const $this = $(this);
               if ($this.val() !== $this.attr("value")) {
                 $this.trigger("change");
               }
@@ -293,9 +332,9 @@
           clearInterval(focused);
         });
     },
-    "init": function (options) {
+    init: function (options) {
       this.options = $.extend({}, this.options, options);
-      var $document = $(document);
+      const $document = $(document);
 
       if ($.fn.ripples && this.options.ripples) {
         this.ripples();
@@ -344,9 +383,7 @@
             $.material.togglebutton($(this));
           });
         }
-
       }
-    }
+    },
   };
-
 })(jQuery);

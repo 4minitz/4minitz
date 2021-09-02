@@ -1,158 +1,165 @@
-define( [
-	"./core",
-	"./var/slice",
-	"./callbacks"
-], function( jQuery, slice ) {
+define(["./core", "./var/slice", "./callbacks"], function (jQuery, slice) {
+  jQuery.extend({
+    Deferred: function (func) {
+      const tuples = [
+        // action, add listener, listener list, final state
+        ["resolve", "done", jQuery.Callbacks("once memory"), "resolved"],
+        ["reject", "fail", jQuery.Callbacks("once memory"), "rejected"],
+        ["notify", "progress", jQuery.Callbacks("memory")],
+      ];
+      let state = "pending";
+      var promise = {
+        state: function () {
+          return state;
+        },
+        always: function () {
+          deferred.done(arguments).fail(arguments);
+          return this;
+        },
+        then: function (/* fnDone, fnFail, fnProgress */) {
+          let fns = arguments;
+          return jQuery
+            .Deferred(function (newDefer) {
+              jQuery.each(tuples, function (i, tuple) {
+                const fn = jQuery.isFunction(fns[i]) && fns[i];
 
-jQuery.extend( {
+                // deferred[ done | fail | progress ] for forwarding actions to newDefer
+                deferred[tuple[1]](function () {
+                  const returned = fn && fn.apply(this, arguments);
+                  if (returned && jQuery.isFunction(returned.promise)) {
+                    returned
+                      .promise()
+                      .progress(newDefer.notify)
+                      .done(newDefer.resolve)
+                      .fail(newDefer.reject);
+                  } else {
+                    newDefer[tuple[0] + "With"](
+                      this === promise ? newDefer.promise() : this,
+                      fn ? [returned] : arguments
+                    );
+                  }
+                });
+              });
+              fns = null;
+            })
+            .promise();
+        },
 
-	Deferred: function( func ) {
-		var tuples = [
+        // Get a promise for this deferred
+        // If obj is provided, the promise aspect is added to the object
+        promise: function (obj) {
+          return obj != null ? jQuery.extend(obj, promise) : promise;
+        },
+      };
+      var deferred = {};
 
-				// action, add listener, listener list, final state
-				[ "resolve", "done", jQuery.Callbacks( "once memory" ), "resolved" ],
-				[ "reject", "fail", jQuery.Callbacks( "once memory" ), "rejected" ],
-				[ "notify", "progress", jQuery.Callbacks( "memory" ) ]
-			],
-			state = "pending",
-			promise = {
-				state: function() {
-					return state;
-				},
-				always: function() {
-					deferred.done( arguments ).fail( arguments );
-					return this;
-				},
-				then: function( /* fnDone, fnFail, fnProgress */ ) {
-					var fns = arguments;
-					return jQuery.Deferred( function( newDefer ) {
-						jQuery.each( tuples, function( i, tuple ) {
-							var fn = jQuery.isFunction( fns[ i ] ) && fns[ i ];
+      // Keep pipe for back-compat
+      promise.pipe = promise.then;
 
-							// deferred[ done | fail | progress ] for forwarding actions to newDefer
-							deferred[ tuple[ 1 ] ]( function() {
-								var returned = fn && fn.apply( this, arguments );
-								if ( returned && jQuery.isFunction( returned.promise ) ) {
-									returned.promise()
-										.progress( newDefer.notify )
-										.done( newDefer.resolve )
-										.fail( newDefer.reject );
-								} else {
-									newDefer[ tuple[ 0 ] + "With" ](
-										this === promise ? newDefer.promise() : this,
-										fn ? [ returned ] : arguments
-									);
-								}
-							} );
-						} );
-						fns = null;
-					} ).promise();
-				},
+      // Add list-specific methods
+      jQuery.each(tuples, function (i, tuple) {
+        const list = tuple[2];
+        const stateString = tuple[3];
 
-				// Get a promise for this deferred
-				// If obj is provided, the promise aspect is added to the object
-				promise: function( obj ) {
-					return obj != null ? jQuery.extend( obj, promise ) : promise;
-				}
-			},
-			deferred = {};
+        // promise[ done | fail | progress ] = list.add
+        promise[tuple[1]] = list.add;
 
-		// Keep pipe for back-compat
-		promise.pipe = promise.then;
+        // Handle state
+        if (stateString) {
+          list.add(
+            function () {
+              // state = [ resolved | rejected ]
+              state = stateString;
 
-		// Add list-specific methods
-		jQuery.each( tuples, function( i, tuple ) {
-			var list = tuple[ 2 ],
-				stateString = tuple[ 3 ];
+              // [ reject_list | resolve_list ].disable; progress_list.lock
+            },
+            tuples[i ^ 1][2].disable,
+            tuples[2][2].lock
+          );
+        }
 
-			// promise[ done | fail | progress ] = list.add
-			promise[ tuple[ 1 ] ] = list.add;
+        // deferred[ resolve | reject | notify ]
+        deferred[tuple[0]] = function () {
+          deferred[tuple[0] + "With"](
+            this === deferred ? promise : this,
+            arguments
+          );
+          return this;
+        };
+        deferred[tuple[0] + "With"] = list.fireWith;
+      });
 
-			// Handle state
-			if ( stateString ) {
-				list.add( function() {
+      // Make the deferred a promise
+      promise.promise(deferred);
 
-					// state = [ resolved | rejected ]
-					state = stateString;
+      // Call given func if any
+      if (func) {
+        func.call(deferred, deferred);
+      }
 
-				// [ reject_list | resolve_list ].disable; progress_list.lock
-				}, tuples[ i ^ 1 ][ 2 ].disable, tuples[ 2 ][ 2 ].lock );
-			}
+      // All done!
+      return deferred;
+    },
 
-			// deferred[ resolve | reject | notify ]
-			deferred[ tuple[ 0 ] ] = function() {
-				deferred[ tuple[ 0 ] + "With" ]( this === deferred ? promise : this, arguments );
-				return this;
-			};
-			deferred[ tuple[ 0 ] + "With" ] = list.fireWith;
-		} );
+    // Deferred helper
+    when: function (subordinate /* , ..., subordinateN */) {
+      let i = 0;
+      const resolveValues = slice.call(arguments);
+      const length = resolveValues.length;
 
-		// Make the deferred a promise
-		promise.promise( deferred );
+      // the count of uncompleted subordinates
+      let remaining =
+        length !== 1 || (subordinate && jQuery.isFunction(subordinate.promise))
+          ? length
+          : 0;
 
-		// Call given func if any
-		if ( func ) {
-			func.call( deferred, deferred );
-		}
+      // the master Deferred.
+      // If resolveValues consist of only a single Deferred, just use that.
+      const deferred = remaining === 1 ? subordinate : jQuery.Deferred();
 
-		// All done!
-		return deferred;
-	},
+      // Update function for both resolve and progress values
+      const updateFunc = function (i, contexts, values) {
+        return function (value) {
+          contexts[i] = this;
+          values[i] = arguments.length > 1 ? slice.call(arguments) : value;
+          if (values === progressValues) {
+            deferred.notifyWith(contexts, values);
+          } else if (!--remaining) {
+            deferred.resolveWith(contexts, values);
+          }
+        };
+      };
 
-	// Deferred helper
-	when: function( subordinate /* , ..., subordinateN */ ) {
-		var i = 0,
-			resolveValues = slice.call( arguments ),
-			length = resolveValues.length,
+      let progressValues;
+      let progressContexts;
+      let resolveContexts;
 
-			// the count of uncompleted subordinates
-			remaining = length !== 1 ||
-				( subordinate && jQuery.isFunction( subordinate.promise ) ) ? length : 0,
+      // Add listeners to Deferred subordinates; treat others as resolved
+      if (length > 1) {
+        progressValues = new Array(length);
+        progressContexts = new Array(length);
+        resolveContexts = new Array(length);
+        for (; i < length; i++) {
+          if (resolveValues[i] && jQuery.isFunction(resolveValues[i].promise)) {
+            resolveValues[i]
+              .promise()
+              .progress(updateFunc(i, progressContexts, progressValues))
+              .done(updateFunc(i, resolveContexts, resolveValues))
+              .fail(deferred.reject);
+          } else {
+            --remaining;
+          }
+        }
+      }
 
-			// the master Deferred.
-			// If resolveValues consist of only a single Deferred, just use that.
-			deferred = remaining === 1 ? subordinate : jQuery.Deferred(),
+      // If we're not waiting on anything, resolve the master
+      if (!remaining) {
+        deferred.resolveWith(resolveContexts, resolveValues);
+      }
 
-			// Update function for both resolve and progress values
-			updateFunc = function( i, contexts, values ) {
-				return function( value ) {
-					contexts[ i ] = this;
-					values[ i ] = arguments.length > 1 ? slice.call( arguments ) : value;
-					if ( values === progressValues ) {
-						deferred.notifyWith( contexts, values );
-					} else if ( !( --remaining ) ) {
-						deferred.resolveWith( contexts, values );
-					}
-				};
-			},
+      return deferred.promise();
+    },
+  });
 
-			progressValues, progressContexts, resolveContexts;
-
-		// Add listeners to Deferred subordinates; treat others as resolved
-		if ( length > 1 ) {
-			progressValues = new Array( length );
-			progressContexts = new Array( length );
-			resolveContexts = new Array( length );
-			for ( ; i < length; i++ ) {
-				if ( resolveValues[ i ] && jQuery.isFunction( resolveValues[ i ].promise ) ) {
-					resolveValues[ i ].promise()
-						.progress( updateFunc( i, progressContexts, progressValues ) )
-						.done( updateFunc( i, resolveContexts, resolveValues ) )
-						.fail( deferred.reject );
-				} else {
-					--remaining;
-				}
-			}
-		}
-
-		// If we're not waiting on anything, resolve the master
-		if ( !remaining ) {
-			deferred.resolveWith( resolveContexts, resolveValues );
-		}
-
-		return deferred.promise();
-	}
-} );
-
-return jQuery;
-} );
+  return jQuery;
+});

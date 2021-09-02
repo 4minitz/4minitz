@@ -4,16 +4,21 @@
   border-radius: 2px;
   border: 0;
 
-  @include variations(unquote(".panel"), unquote(" > .panel-heading"), background-color, $grey-200);
+  @include variations(
+    unquote(".panel"),
+    unquote(" > .panel-heading"),
+    background-color,
+    $grey-200
+  );
   @include shadow-z-1;
 }
-
 
 [class*="panel-"] > .panel-heading {
   color: $mdb-text-color-light;
   border: 0;
 }
-.panel-default, .panel:not([class*="panel-"]) {
+.panel-default,
+.panel:not([class*="panel-"]) {
   > .panel-heading {
     color: $mdb-text-color-primary;
   }

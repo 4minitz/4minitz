@@ -12,28 +12,26 @@ Bootstrap is a sleek, intuitive, and powerful front-end framework for faster and
 
 To get started, check out <http://getbootstrap.com>!
 
-
 ## Table of contents
 
-* [Quick start](#quick-start)
-* [Bugs and feature requests](#bugs-and-feature-requests)
-* [Documentation](#documentation)
-* [Contributing](#contributing)
-* [Community](#community)
-* [Versioning](#versioning)
-* [Creators](#creators)
-* [Copyright and license](#copyright-and-license)
-
+- [Quick start](#quick-start)
+- [Bugs and feature requests](#bugs-and-feature-requests)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Community](#community)
+- [Versioning](#versioning)
+- [Creators](#creators)
+- [Copyright and license](#copyright-and-license)
 
 ## Quick start
 
 Several quick start options are available:
 
-* [Download the latest release](https://github.com/twbs/bootstrap/archive/v3.3.6.zip).
-* Clone the repo: `git clone https://github.com/twbs/bootstrap.git`.
-* Install with [Bower](http://bower.io): `bower install bootstrap`.
-* Install with [npm](https://www.npmjs.com): `npm install bootstrap`.
-* Install with [Composer](https://getcomposer.org): `composer require twbs/bootstrap`.
+- [Download the latest release](https://github.com/twbs/bootstrap/archive/v3.3.6.zip).
+- Clone the repo: `git clone https://github.com/twbs/bootstrap.git`.
+- Install with [Bower](http://bower.io): `bower install bootstrap`.
+- Install with [npm](https://www.npmjs.com): `npm install bootstrap`.
+- Install with [Composer](https://getcomposer.org): `composer require twbs/bootstrap`.
 
 Read the [Getting started page](http://getbootstrap.com/getting-started/) for information on the framework contents, templates and examples, and more.
 
@@ -65,11 +63,9 @@ bootstrap/
 
 We provide compiled CSS and JS (`bootstrap.*`), as well as compiled and minified CSS and JS (`bootstrap.min.*`). CSS [source maps](https://developer.chrome.com/devtools/docs/css-preprocessors) (`bootstrap.*.map`) are available for use with certain browsers' developer tools. Fonts from Glyphicons are included, as is the optional Bootstrap theme.
 
-
 ## Bugs and feature requests
 
 Have a bug or a feature request? Please first read the [issue guidelines](https://github.com/twbs/bootstrap/blob/master/CONTRIBUTING.md#using-the-issue-tracker) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/twbs/bootstrap/issues/new).
-
 
 ## Documentation
 
@@ -91,7 +87,6 @@ Documentation for v2.3.2 has been made available for the time being at <http://g
 
 [Previous releases](https://github.com/twbs/bootstrap/releases) and their documentation are also available for download.
 
-
 ## Contributing
 
 Please read through our [contributing guidelines](https://github.com/twbs/bootstrap/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
@@ -100,18 +95,16 @@ Moreover, if your pull request contains JavaScript patches or features, you must
 
 Editor preferences are available in the [editor config](https://github.com/twbs/bootstrap/blob/master/.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.
 
-
 ## Community
 
 Get updates on Bootstrap's development and chat with the project maintainers and community members.
 
-* Follow [@getbootstrap on Twitter](https://twitter.com/getbootstrap).
-* Read and subscribe to [The Official Bootstrap Blog](http://blog.getbootstrap.com).
-* Join [the official Slack room](https://bootstrap-slack.herokuapp.com).
-* Chat with fellow Bootstrappers in IRC. On the `irc.freenode.net` server, in the `##bootstrap` channel.
-* Implementation help may be found at Stack Overflow (tagged [`twitter-bootstrap-3`](https://stackoverflow.com/questions/tagged/twitter-bootstrap-3)).
-* Developers should use the keyword `bootstrap` on packages which modify or add to the functionality of Bootstrap when distributing through [npm](https://www.npmjs.com/browse/keyword/bootstrap) or similar delivery mechanisms for maximum discoverability.
-
+- Follow [@getbootstrap on Twitter](https://twitter.com/getbootstrap).
+- Read and subscribe to [The Official Bootstrap Blog](http://blog.getbootstrap.com).
+- Join [the official Slack room](https://bootstrap-slack.herokuapp.com).
+- Chat with fellow Bootstrappers in IRC. On the `irc.freenode.net` server, in the `##bootstrap` channel.
+- Implementation help may be found at Stack Overflow (tagged [`twitter-bootstrap-3`](https://stackoverflow.com/questions/tagged/twitter-bootstrap-3)).
+- Developers should use the keyword `bootstrap` on packages which modify or add to the functionality of Bootstrap when distributing through [npm](https://www.npmjs.com/browse/keyword/bootstrap) or similar delivery mechanisms for maximum discoverability.
 
 ## Versioning
 
@@ -119,19 +112,17 @@ For transparency into our release cycle and in striving to maintain backward com
 
 See [the Releases section of our GitHub project](https://github.com/twbs/bootstrap/releases) for changelogs for each release version of Bootstrap. Release announcement posts on [the official Bootstrap blog](http://blog.getbootstrap.com) contain summaries of the most noteworthy changes made in each release.
 
-
 ## Creators
 
 **Mark Otto**
 
-* <https://twitter.com/mdo>
-* <https://github.com/mdo>
+- <https://twitter.com/mdo>
+- <https://github.com/mdo>
 
 **Jacob Thornton**
 
-* <https://twitter.com/fat>
-* <https://github.com/fat>
-
+- <https://twitter.com/fat>
+- <https://github.com/fat>
 
 ## Copyright and license
 

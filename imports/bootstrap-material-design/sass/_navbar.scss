@@ -74,7 +74,7 @@
 
   .navbar-collapse,
   .navbar-form {
-    border-color: rgba(0,0,0,0.1);
+    border-color: rgba(0, 0, 0, 0.1);
   }
 
   // Dropdowns
@@ -178,7 +178,9 @@
       //---
       //height: $mdb-input-height-base;
       $bs-line-height-base: 1.428571429 !default;
-      $bs-line-height-computed:    floor(($font-size-base * $bs-line-height-base)) !default; // ~20px
+      $bs-line-height-computed: floor(
+        ($font-size-base * $bs-line-height-base)
+      ) !default; // ~20px
       height: ($bs-line-height-computed + 8px);
       font-size: $font-size-base;
       line-height: $bs-line-height-base;
@@ -189,13 +191,11 @@
   // SASS conversion note: please mirror any content change in _mixins-shared.scss navbar-variations-content
   @include navbar-variations(unquote(".navbar"), unquote(""), $brand-primary);
 
-
   &-inverse {
     background-color: $indigo;
   }
 
   @media (max-width: $screen-md-max) {
-
     .navbar-brand {
       height: 50px;
       padding: 10px 15px;

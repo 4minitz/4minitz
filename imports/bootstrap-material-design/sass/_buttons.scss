@@ -2,7 +2,7 @@
 
 // specification: https://www.google.com/design/spec/components/buttons.html
 
-@mixin typo-button($colorContrast: false){
+@mixin typo-button($colorContrast: false) {
   font-size: $mdb-btn-font-size-base;
   font-weight: 500;
   text-transform: uppercase;
@@ -26,8 +26,8 @@
   @include typo-button();
   will-change: box-shadow, transform;
   transition: box-shadow 0.2s $mdb-animation-curve-fast-out-linear-in,
-  background-color 0.2s $mdb-animation-curve-default,
-  color 0.2s $mdb-animation-curve-default;
+    background-color 0.2s $mdb-animation-curve-default,
+    color 0.2s $mdb-animation-curve-default;
   outline: 0;
   cursor: pointer;
   text-decoration: none;
@@ -40,7 +40,12 @@
   // btn-flat
   background: transparent;
   &:not(.btn-raised) {
-    @include variations(unquote(".btn"), unquote(""), color, $mdb-text-color-primary);
+    @include variations(
+      unquote(".btn"),
+      unquote(""),
+      color,
+      $mdb-text-color-primary
+    );
     box-shadow: none;
 
     &:not(.btn-link) {
@@ -51,7 +56,7 @@
 
         .theme-dark & {
           // spec: dark bg Hover: 15% #CCCCCC
-          background-color: rgba(#CCCCCC, (15/100));
+          background-color: rgba(#cccccc, (15/100));
         }
       }
     }
@@ -62,7 +67,11 @@
   &.btn-raised,
   &.btn-fab,
   .btn-group-raised & {
-    @include background-variations(unquote(".btn"), unquote(""), $mdb-btn-background-color);
+    @include background-variations(
+      unquote(".btn"),
+      unquote(""),
+      $mdb-btn-background-color
+    );
   }
 
   //---
@@ -77,12 +86,15 @@
       &:focus,
       &.active,
       &:active {
-
         outline: 0;
 
         // FIXME: SPEC - this should be the 600 color, how can we get that programmatically if at all? Or are we limited to the color palette only?
         // SASS conversion note: please mirror any content change in _mixins-shared.scss button-variations-content
-        @include button-variations(unquote(".btn"), "", $mdb-btn-background-color);
+        @include button-variations(
+          unquote(".btn"),
+          "",
+          $mdb-btn-background-color
+        );
 
         // Spec:
         //  - Raised Light/Light theme no hover.
@@ -125,7 +137,8 @@
     width: $mdb-btn-fab-size;
     padding: 0;
     overflow: hidden;
-    box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+    box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12),
+      0 1px 1px 0 rgba(0, 0, 0, 0.24);
     position: relative;
     line-height: normal;
 
@@ -149,7 +162,10 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-($mdb-btn-fab-font-size / 2), -($mdb-btn-fab-font-size / 2));
+      transform: translate(
+        -($mdb-btn-fab-font-size / 2),
+        -($mdb-btn-fab-font-size / 2)
+      );
       line-height: $mdb-btn-fab-font-size;
       width: $mdb-btn-fab-font-size;
     }
@@ -191,7 +207,7 @@
     color: rgba(#000000, (26/100));
     .theme-dark & {
       // spec: dark theme: Disabled text: 30% #FFFFFF
-      color: rgba(#FFFFFF, (30/100));
+      color: rgba(#ffffff, (30/100));
     }
 
     // flat buttons lose transparency
@@ -213,7 +229,6 @@
 // btn-group variations
 .btn-group,
 .btn-group-vertical {
-
   position: relative;
   //border-radius: 2px;
   margin: 10px 1px;
@@ -225,7 +240,12 @@
     }
 
     & > .dropdown-toggle.btn {
-      @include variations(unquote(".btn"), unquote(""), background-color, $mdb-btn-background-color);
+      @include variations(
+        unquote(".btn"),
+        unquote(""),
+        background-color,
+        $mdb-btn-background-color
+      );
     }
   }
 

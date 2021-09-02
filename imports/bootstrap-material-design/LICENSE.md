@@ -20,11 +20,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-
 ## Acknowledgements:
 
 - Some original Bootstrap code and documentation http://getbootstrap.com
-`Copyright (c) 2011-2015 Twitter, Inc`
+  `Copyright (c) 2011-2015 Twitter, Inc`
 
 - Some original MDL code http://www.getmdl.io/
-`Copyright 2015 Google Inc. All Rights Reserved.`
+  `Copyright 2015 Google Inc. All Rights Reserved.`

@@ -12,18 +12,18 @@
   // Top section of the modal w/ title and dismiss
   .modal-header {
     border-bottom: none;
-    padding-top:    24px;
-    padding-right:  24px;
+    padding-top: 24px;
+    padding-right: 24px;
     padding-bottom: 0;
-    padding-left:   24px;
+    padding-left: 24px;
   }
   // Modal body
   // Where all modal content resides (sibling of .modal-header and .modal-footer)
   .modal-body {
-    padding-top:    24px;
-    padding-right:  24px;
+    padding-top: 24px;
+    padding-right: 24px;
     padding-bottom: 16px;
-    padding-left:   24px;
+    padding-left: 24px;
   }
   // Footer (for actions)
   .modal-footer {
@@ -41,7 +41,7 @@
         left: -5px;
       }
     }
-    button+button {
+    button + button {
       margin-bottom: 16px;
     }
   }
@@ -50,5 +50,5 @@
   }
 }
 .modal-backdrop {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
 }

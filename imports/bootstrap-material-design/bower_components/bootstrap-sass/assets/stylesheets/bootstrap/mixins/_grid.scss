@@ -6,14 +6,14 @@
 @mixin container-fixed($gutter: $grid-gutter-width) {
   margin-right: auto;
   margin-left: auto;
-  padding-left:  floor(($gutter / 2));
+  padding-left: floor(($gutter / 2));
   padding-right: ceil(($gutter / 2));
   @include clearfix;
 }
 
 // Creates a wrapper for a series of columns
 @mixin make-row($gutter: $grid-gutter-width) {
-  margin-left:  ceil(($gutter / -2));
+  margin-left: ceil(($gutter / -2));
   margin-right: floor(($gutter / -2));
   @include clearfix;
 }
@@ -24,7 +24,7 @@
   float: left;
   width: percentage(($columns / $grid-columns));
   min-height: 1px;
-  padding-left:  ($gutter / 2);
+  padding-left: ($gutter / 2);
   padding-right: ($gutter / 2);
 }
 @mixin make-xs-column-offset($columns) {
@@ -41,7 +41,7 @@
 @mixin make-sm-column($columns, $gutter: $grid-gutter-width) {
   position: relative;
   min-height: 1px;
-  padding-left:  ($gutter / 2);
+  padding-left: ($gutter / 2);
   padding-right: ($gutter / 2);
 
   @media (min-width: $screen-sm-min) {
@@ -69,7 +69,7 @@
 @mixin make-md-column($columns, $gutter: $grid-gutter-width) {
   position: relative;
   min-height: 1px;
-  padding-left:  ($gutter / 2);
+  padding-left: ($gutter / 2);
   padding-right: ($gutter / 2);
 
   @media (min-width: $screen-md-min) {
@@ -97,7 +97,7 @@
 @mixin make-lg-column($columns, $gutter: $grid-gutter-width) {
   position: relative;
   min-height: 1px;
-  padding-left:  ($gutter / 2);
+  padding-left: ($gutter / 2);
   padding-right: ($gutter / 2);
 
   @media (min-width: $screen-lg-min) {

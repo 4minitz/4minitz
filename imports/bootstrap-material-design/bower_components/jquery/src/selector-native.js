@@ -1,211 +1,216 @@
-define( [
-	"./core",
-	"./var/document",
-	"./var/documentElement",
-	"./var/hasOwn",
-	"./var/indexOf"
-], function( jQuery, document, documentElement, hasOwn, indexOf ) {
+define([
+  "./core",
+  "./var/document",
+  "./var/documentElement",
+  "./var/hasOwn",
+  "./var/indexOf",
+], function (jQuery, document, documentElement, hasOwn, indexOf) {
+  /*
+   * Optional (non-Sizzle) selector module for custom builds.
+   *
+   * Note that this DOES NOT SUPPORT many documented jQuery
+   * features in exchange for its smaller size:
+   *
+   * Attribute not equal selector
+   * Positional selectors (:first; :eq(n); :odd; etc.)
+   * Type selectors (:input; :checkbox; :button; etc.)
+   * State-based selectors (:animated; :visible; :hidden; etc.)
+   * :has(selector)
+   * :not(complex selector)
+   * custom selectors via Sizzle extensions
+   * Leading combinators (e.g., $collection.find("> *"))
+   * Reliable functionality on XML fragments
+   * Requiring all parts of a selector to match elements under context
+   *   (e.g., $div.find("div > *") now matches children of $div)
+   * Matching against non-elements
+   * Reliable sorting of disconnected nodes
+   * querySelectorAll bug fixes (e.g., unreliable :focus on WebKit)
+   *
+   * If any of these are unacceptable tradeoffs, either use Sizzle or
+   * customize this stub for the project's specific needs.
+   */
 
-/*
- * Optional (non-Sizzle) selector module for custom builds.
- *
- * Note that this DOES NOT SUPPORT many documented jQuery
- * features in exchange for its smaller size:
- *
- * Attribute not equal selector
- * Positional selectors (:first; :eq(n); :odd; etc.)
- * Type selectors (:input; :checkbox; :button; etc.)
- * State-based selectors (:animated; :visible; :hidden; etc.)
- * :has(selector)
- * :not(complex selector)
- * custom selectors via Sizzle extensions
- * Leading combinators (e.g., $collection.find("> *"))
- * Reliable functionality on XML fragments
- * Requiring all parts of a selector to match elements under context
- *   (e.g., $div.find("div > *") now matches children of $div)
- * Matching against non-elements
- * Reliable sorting of disconnected nodes
- * querySelectorAll bug fixes (e.g., unreliable :focus on WebKit)
- *
- * If any of these are unacceptable tradeoffs, either use Sizzle or
- * customize this stub for the project's specific needs.
- */
+  let hasDuplicate;
+  let sortInput;
+  const sortStable =
+    jQuery.expando.split("").sort(sortOrder).join("") === jQuery.expando;
+  const matches =
+    documentElement.matches ||
+    documentElement.webkitMatchesSelector ||
+    documentElement.mozMatchesSelector ||
+    documentElement.oMatchesSelector ||
+    documentElement.msMatchesSelector;
 
-var hasDuplicate, sortInput,
-	sortStable = jQuery.expando.split( "" ).sort( sortOrder ).join( "" ) === jQuery.expando,
-	matches = documentElement.matches ||
-		documentElement.webkitMatchesSelector ||
-		documentElement.mozMatchesSelector ||
-		documentElement.oMatchesSelector ||
-		documentElement.msMatchesSelector;
+  function sortOrder(a, b) {
+    // Flag for duplicate removal
+    if (a === b) {
+      hasDuplicate = true;
+      return 0;
+    }
 
-function sortOrder( a, b ) {
+    // Sort on method existence if only one input has compareDocumentPosition
+    let compare = !a.compareDocumentPosition - !b.compareDocumentPosition;
+    if (compare) {
+      return compare;
+    }
 
-	// Flag for duplicate removal
-	if ( a === b ) {
-		hasDuplicate = true;
-		return 0;
-	}
+    // Calculate position if both inputs belong to the same document
+    compare =
+      (a.ownerDocument || a) === (b.ownerDocument || b)
+        ? a.compareDocumentPosition(b)
+        : // Otherwise we know they are disconnected
+          1;
 
-	// Sort on method existence if only one input has compareDocumentPosition
-	var compare = !a.compareDocumentPosition - !b.compareDocumentPosition;
-	if ( compare ) {
-		return compare;
-	}
+    // Disconnected nodes
+    if (compare & 1) {
+      // Choose the first element that is related to our preferred document
+      if (
+        a === document ||
+        (a.ownerDocument === document && jQuery.contains(document, a))
+      ) {
+        return -1;
+      }
+      if (
+        b === document ||
+        (b.ownerDocument === document && jQuery.contains(document, b))
+      ) {
+        return 1;
+      }
 
-	// Calculate position if both inputs belong to the same document
-	compare = ( a.ownerDocument || a ) === ( b.ownerDocument || b ) ?
-		a.compareDocumentPosition( b ) :
+      // Maintain original order
+      return sortInput
+        ? indexOf.call(sortInput, a) - indexOf.call(sortInput, b)
+        : 0;
+    }
 
-		// Otherwise we know they are disconnected
-		1;
+    return compare & 4 ? -1 : 1;
+  }
 
-	// Disconnected nodes
-	if ( compare & 1 ) {
+  function uniqueSort(results) {
+    let elem;
+    const duplicates = [];
+    let j = 0;
+    let i = 0;
 
-		// Choose the first element that is related to our preferred document
-		if ( a === document || a.ownerDocument === document &&
-			jQuery.contains( document, a ) ) {
-			return -1;
-		}
-		if ( b === document || b.ownerDocument === document &&
-			jQuery.contains( document, b ) ) {
-			return 1;
-		}
+    hasDuplicate = false;
+    sortInput = !sortStable && results.slice(0);
+    results.sort(sortOrder);
 
-		// Maintain original order
-		return sortInput ?
-			( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :
-			0;
-	}
+    if (hasDuplicate) {
+      while ((elem = results[i++])) {
+        if (elem === results[i]) {
+          j = duplicates.push(i);
+        }
+      }
+      while (j--) {
+        results.splice(duplicates[j], 1);
+      }
+    }
 
-	return compare & 4 ? -1 : 1;
-}
+    // Clear input after sorting to release objects
+    // See https://github.com/jquery/sizzle/pull/225
+    sortInput = null;
 
-function uniqueSort( results ) {
-	var elem,
-		duplicates = [],
-		j = 0,
-		i = 0;
+    return results;
+  }
 
-	hasDuplicate = false;
-	sortInput = !sortStable && results.slice( 0 );
-	results.sort( sortOrder );
+  jQuery.extend({
+    find: function (selector, context, results, seed) {
+      let elem;
+      let nodeType;
+      let i = 0;
 
-	if ( hasDuplicate ) {
-		while ( ( elem = results[ i++ ] ) ) {
-			if ( elem === results[ i ] ) {
-				j = duplicates.push( i );
-			}
-		}
-		while ( j-- ) {
-			results.splice( duplicates[ j ], 1 );
-		}
-	}
+      results = results || [];
+      context = context || document;
 
-	// Clear input after sorting to release objects
-	// See https://github.com/jquery/sizzle/pull/225
-	sortInput = null;
+      // Same basic safeguard as Sizzle
+      if (!selector || typeof selector !== "string") {
+        return results;
+      }
 
-	return results;
-}
+      // Early return if context is not an element or document
+      if ((nodeType = context.nodeType) !== 1 && nodeType !== 9) {
+        return [];
+      }
 
-jQuery.extend( {
-	find: function( selector, context, results, seed ) {
-		var elem, nodeType,
-			i = 0;
+      if (seed) {
+        while ((elem = seed[i++])) {
+          if (jQuery.find.matchesSelector(elem, selector)) {
+            results.push(elem);
+          }
+        }
+      } else {
+        jQuery.merge(results, context.querySelectorAll(selector));
+      }
 
-		results = results || [];
-		context = context || document;
+      return results;
+    },
+    uniqueSort: uniqueSort,
+    unique: uniqueSort,
+    text: function (elem) {
+      let node;
+      let ret = "";
+      let i = 0;
+      const nodeType = elem.nodeType;
 
-		// Same basic safeguard as Sizzle
-		if ( !selector || typeof selector !== "string" ) {
-			return results;
-		}
+      if (!nodeType) {
+        // If no nodeType, this is expected to be an array
+        while ((node = elem[i++])) {
+          // Do not traverse comment nodes
+          ret += jQuery.text(node);
+        }
+      } else if (nodeType === 1 || nodeType === 9 || nodeType === 11) {
+        // Use textContent for elements
+        return elem.textContent;
+      } else if (nodeType === 3 || nodeType === 4) {
+        return elem.nodeValue;
+      }
 
-		// Early return if context is not an element or document
-		if ( ( nodeType = context.nodeType ) !== 1 && nodeType !== 9 ) {
-			return [];
-		}
+      // Do not include comment or processing instruction nodes
 
-		if ( seed ) {
-			while ( ( elem = seed[ i++ ] ) ) {
-				if ( jQuery.find.matchesSelector( elem, selector ) ) {
-					results.push( elem );
-				}
-			}
-		} else {
-			jQuery.merge( results, context.querySelectorAll( selector ) );
-		}
+      return ret;
+    },
+    contains: function (a, b) {
+      const adown = a.nodeType === 9 ? a.documentElement : a;
+      const bup = b && b.parentNode;
+      return a === bup || !!(bup && bup.nodeType === 1 && adown.contains(bup));
+    },
+    isXMLDoc: function (elem) {
+      // documentElement is verified for cases where it doesn't yet exist
+      // (such as loading iframes in IE - #4833)
+      const documentElement =
+        elem && (elem.ownerDocument || elem).documentElement;
+      return documentElement ? documentElement.nodeName !== "HTML" : false;
+    },
+    expr: {
+      attrHandle: {},
+      match: {
+        bool: new RegExp(
+          "^(?:checked|selected|async|autofocus|autoplay|controls|defer" +
+            "|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$",
+          "i"
+        ),
+        needsContext: /^[\x20\t\r\n\f]*[>+~]/,
+      },
+    },
+  });
 
-		return results;
-	},
-	uniqueSort: uniqueSort,
-	unique: uniqueSort,
-	text: function( elem ) {
-		var node,
-			ret = "",
-			i = 0,
-			nodeType = elem.nodeType;
+  jQuery.extend(jQuery.find, {
+    matches: function (expr, elements) {
+      return jQuery.find(expr, null, null, elements);
+    },
+    matchesSelector: function (elem, expr) {
+      return matches.call(elem, expr);
+    },
+    attr: function (elem, name) {
+      const fn = jQuery.expr.attrHandle[name.toLowerCase()];
 
-		if ( !nodeType ) {
-
-			// If no nodeType, this is expected to be an array
-			while ( ( node = elem[ i++ ] ) ) {
-
-				// Do not traverse comment nodes
-				ret += jQuery.text( node );
-			}
-		} else if ( nodeType === 1 || nodeType === 9 || nodeType === 11 ) {
-
-			// Use textContent for elements
-			return elem.textContent;
-		} else if ( nodeType === 3 || nodeType === 4 ) {
-			return elem.nodeValue;
-		}
-
-		// Do not include comment or processing instruction nodes
-
-		return ret;
-	},
-	contains: function( a, b ) {
-		var adown = a.nodeType === 9 ? a.documentElement : a,
-			bup = b && b.parentNode;
-		return a === bup || !!( bup && bup.nodeType === 1 && adown.contains( bup ) );
-	},
-	isXMLDoc: function( elem ) {
-
-		// documentElement is verified for cases where it doesn't yet exist
-		// (such as loading iframes in IE - #4833)
-		var documentElement = elem && ( elem.ownerDocument || elem ).documentElement;
-		return documentElement ? documentElement.nodeName !== "HTML" : false;
-	},
-	expr: {
-		attrHandle: {},
-		match: {
-			bool: new RegExp( "^(?:checked|selected|async|autofocus|autoplay|controls|defer" +
-				"|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$", "i" ),
-			needsContext: /^[\x20\t\r\n\f]*[>+~]/
-		}
-	}
-} );
-
-jQuery.extend( jQuery.find, {
-	matches: function( expr, elements ) {
-		return jQuery.find( expr, null, null, elements );
-	},
-	matchesSelector: function( elem, expr ) {
-		return matches.call( elem, expr );
-	},
-	attr: function( elem, name ) {
-		var fn = jQuery.expr.attrHandle[ name.toLowerCase() ],
-
-			// Don't get fooled by Object.prototype properties (jQuery #13807)
-			value = fn && hasOwn.call( jQuery.expr.attrHandle, name.toLowerCase() ) ?
-				fn( elem, name, jQuery.isXMLDoc( elem ) ) :
-				undefined;
-		return value !== undefined ? value : elem.getAttribute( name );
-	}
-} );
-
-} );
+      // Don't get fooled by Object.prototype properties (jQuery #13807)
+      const value =
+        fn && hasOwn.call(jQuery.expr.attrHandle, name.toLowerCase())
+          ? fn(elem, name, jQuery.isXMLDoc(elem))
+          : undefined;
+      return value !== undefined ? value : elem.getAttribute(name);
+    },
+  });
+});

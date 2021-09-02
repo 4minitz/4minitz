@@ -5,17 +5,16 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-'use strict';
+"use strict";
 
-var Markdown = require('markdown-it');
+const Markdown = require("markdown-it");
 
 function markdown2html(markdownString) {
-  var md = new Markdown();
+  const md = new Markdown();
 
   // the slice removes the <p>...</p> wrapper output by Markdown processor
   return md.render(markdownString.trim()).slice(3, -5);
 }
-
 
 /*
 Mini-language:
@@ -32,17 +31,16 @@ Mini-language:
   All other lines are ignored completely.
 */
 
-
-var CUSTOMIZABLE_HEADING = /^[/]{2}={2}(.*)$/;
-var UNCUSTOMIZABLE_HEADING = /^[/]{2}-{2}(.*)$/;
-var SUBSECTION_HEADING = /^[/]{2}={3}(.*)$/;
-var SECTION_DOCSTRING = /^[/]{2}#{2}(.+)$/;
-var VAR_ASSIGNMENT = /^(@[a-zA-Z0-9_-]+):[ ]*([^ ;][^;]*);[ ]*$/;
-var VAR_DOCSTRING = /^[/]{2}[*]{2}(.+)$/;
+const CUSTOMIZABLE_HEADING = /^[/]{2}={2}(.*)$/;
+const UNCUSTOMIZABLE_HEADING = /^[/]{2}-{2}(.*)$/;
+const SUBSECTION_HEADING = /^[/]{2}={3}(.*)$/;
+const SECTION_DOCSTRING = /^[/]{2}#{2}(.+)$/;
+const VAR_ASSIGNMENT = /^(@[a-zA-Z0-9_-]+):[ ]*([^ ;][^;]*);[ ]*$/;
+const VAR_DOCSTRING = /^[/]{2}[*]{2}(.+)$/;
 
 function Section(heading, customizable) {
   this.heading = heading.trim();
-  this.id = this.heading.replace(/\s+/g, '-').toLowerCase();
+  this.id = this.heading.replace(/\s+/g, "-").toLowerCase();
   this.customizable = customizable;
   this.docstring = null;
   this.subsections = [];
@@ -54,7 +52,7 @@ Section.prototype.addSubSection = function (subsection) {
 
 function SubSection(heading) {
   this.heading = heading.trim();
-  this.id = this.heading.replace(/\s+/g, '-').toLowerCase();
+  this.id = this.heading.replace(/\s+/g, "-").toLowerCase();
   this.variables = [];
 }
 
@@ -77,13 +75,13 @@ function Variable(name, defaultValue) {
 }
 
 function Tokenizer(fileContent) {
-  this._lines = fileContent.split('\n');
+  this._lines = fileContent.split("\n");
   this._next = undefined;
 }
 
 Tokenizer.prototype.unshift = function (token) {
   if (this._next !== undefined) {
-    throw new Error('Attempted to unshift twice!');
+    throw new Error("Attempted to unshift twice!");
   }
   this._next = token;
 };
@@ -92,15 +90,15 @@ Tokenizer.prototype._shift = function () {
   // returning null signals EOF
   // returning undefined means the line was ignored
   if (this._next !== undefined) {
-    var result = this._next;
+    const result = this._next;
     this._next = undefined;
     return result;
   }
   if (this._lines.length <= 0) {
     return null;
   }
-  var line = this._lines.shift();
-  var match = null;
+  const line = this._lines.shift();
+  let match = null;
   match = SUBSECTION_HEADING.exec(line);
   if (match !== null) {
     return new SubSection(match[1]);
@@ -121,8 +119,8 @@ Tokenizer.prototype._shift = function () {
   if (match !== null) {
     return new VarDocstring(match[1]);
   }
-  var commentStart = line.lastIndexOf('//');
-  var varLine = commentStart === -1 ? line : line.slice(0, commentStart);
+  const commentStart = line.lastIndexOf("//");
+  const varLine = commentStart === -1 ? line : line.slice(0, commentStart);
   match = VAR_ASSIGNMENT.exec(varLine);
   if (match !== null) {
     return new Variable(match[1], match[2]);
@@ -132,7 +130,7 @@ Tokenizer.prototype._shift = function () {
 
 Tokenizer.prototype.shift = function () {
   while (true) {
-    var result = this._shift();
+    const result = this._shift();
     if (result === undefined) {
       continue;
     }
@@ -145,12 +143,12 @@ function Parser(fileContent) {
 }
 
 Parser.prototype.parseFile = function () {
-  var sections = [];
+  const sections = [];
   while (true) {
-    var section = this.parseSection();
+    const section = this.parseSection();
     if (section === null) {
       if (this._tokenizer.shift() !== null) {
-        throw new Error('Unexpected unparsed section of file remains!');
+        throw new Error("Unexpected unparsed section of file remains!");
       }
       return sections;
     }
@@ -159,14 +157,16 @@ Parser.prototype.parseFile = function () {
 };
 
 Parser.prototype.parseSection = function () {
-  var section = this._tokenizer.shift();
+  const section = this._tokenizer.shift();
   if (section === null) {
     return null;
   }
   if (!(section instanceof Section)) {
-    throw new Error('Expected section heading; got: ' + JSON.stringify(section));
+    throw new Error(
+      "Expected section heading; got: " + JSON.stringify(section)
+    );
   }
-  var docstring = this._tokenizer.shift();
+  const docstring = this._tokenizer.shift();
   if (docstring instanceof SectionDocstring) {
     section.docstring = docstring;
   } else {
@@ -179,11 +179,11 @@ Parser.prototype.parseSection = function () {
 
 Parser.prototype.parseSubSections = function (section) {
   while (true) {
-    var subsection = this.parseSubSection();
+    let subsection = this.parseSubSection();
     if (subsection === null) {
       if (section.subsections.length === 0) {
         // Presume an implicit initial subsection
-        subsection = new SubSection('');
+        subsection = new SubSection("");
         this.parseVars(subsection);
       } else {
         break;
@@ -192,14 +192,18 @@ Parser.prototype.parseSubSections = function (section) {
     section.addSubSection(subsection);
   }
 
-  if (section.subsections.length === 1 && !section.subsections[0].heading && section.subsections[0].variables.length === 0) {
+  if (
+    section.subsections.length === 1 &&
+    !section.subsections[0].heading &&
+    section.subsections[0].variables.length === 0
+  ) {
     // Ignore lone empty implicit subsection
     section.subsections = [];
   }
 };
 
 Parser.prototype.parseSubSection = function () {
-  var subsection = this._tokenizer.shift();
+  const subsection = this._tokenizer.shift();
   if (subsection instanceof SubSection) {
     this.parseVars(subsection);
     return subsection;
@@ -210,7 +214,7 @@ Parser.prototype.parseSubSection = function () {
 
 Parser.prototype.parseVars = function (subsection) {
   while (true) {
-    var variable = this.parseVar();
+    const variable = this.parseVar();
     if (variable === null) {
       return;
     }
@@ -219,12 +223,12 @@ Parser.prototype.parseVars = function (subsection) {
 };
 
 Parser.prototype.parseVar = function () {
-  var docstring = this._tokenizer.shift();
+  let docstring = this._tokenizer.shift();
   if (!(docstring instanceof VarDocstring)) {
     this._tokenizer.unshift(docstring);
     docstring = null;
   }
-  var variable = this._tokenizer.shift();
+  const variable = this._tokenizer.shift();
   if (variable instanceof Variable) {
     variable.docstring = docstring;
     return variable;
@@ -232,6 +236,5 @@ Parser.prototype.parseVar = function () {
   this._tokenizer.unshift(variable);
   return null;
 };
-
 
 module.exports = Parser;

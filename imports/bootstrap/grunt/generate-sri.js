@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-'use strict';
+"use strict";
 
 /*!
  * Script to generate SRI hashes for use in our docs.
@@ -12,51 +12,53 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-var crypto = require('crypto');
-var fs = require('fs');
-var path = require('path');
-var replace = require('replace-in-file');
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
+const replace = require("replace-in-file");
 
-var configFile = path.join(__dirname, '../_config.yml');
+const configFile = path.join(__dirname, "../_config.yml");
 
 // Array of objects which holds the files to generate SRI hashes for.
 // `file` is the path from the root folder
 // `configPropertyName` is the _config.yml variable's name of the file
-var files = [
+const files = [
   {
-    file: 'dist/css/bootstrap.min.css',
-    configPropertyName: 'css_hash'
+    file: "dist/css/bootstrap.min.css",
+    configPropertyName: "css_hash",
   },
   {
-    file: 'dist/css/bootstrap-theme.min.css',
-    configPropertyName: 'css_theme_hash'
+    file: "dist/css/bootstrap-theme.min.css",
+    configPropertyName: "css_theme_hash",
   },
   {
-    file: 'dist/js/bootstrap.min.js',
-    configPropertyName: 'js_hash'
-  }
+    file: "dist/js/bootstrap.min.js",
+    configPropertyName: "js_hash",
+  },
 ];
 
 files.forEach(function (file) {
-  fs.readFile(file.file, 'utf8', function (err, data) {
+  fs.readFile(file.file, "utf8", function (err, data) {
     if (err) {
       throw err;
     }
 
-    var algo = 'sha384';
-    var hash = crypto.createHash(algo).update(data, 'utf8').digest('base64');
-    var integrity = algo + '-' + hash;
+    const algo = "sha384";
+    const hash = crypto.createHash(algo).update(data, "utf8").digest("base64");
+    const integrity = algo + "-" + hash;
 
-    console.log(file.configPropertyName + ': ' + integrity);
+    console.log(file.configPropertyName + ": " + integrity);
 
     try {
       replace.sync({
         files: configFile,
-        from: new RegExp('(\\s' + file.configPropertyName + ':\\s+"|\')(\\S+)("|\')'),
-        to: '$1' + integrity + '$3'
+        from: new RegExp(
+          "(\\s" + file.configPropertyName + ":\\s+\"|')(\\S+)(\"|')"
+        ),
+        to: "$1" + integrity + "$3",
       });
     } catch (error) {
-      console.error('Error occurred:', error);
+      console.error("Error occurred:", error);
     }
   });
 });

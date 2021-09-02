@@ -4,7 +4,8 @@ body {
   background-color: $body-bg;
   &.inverse {
     background: #333333;
-    &, .form-control {
+    &,
+    .form-control {
       color: $mdb-text-color-light;
     }
     .modal,
@@ -16,21 +17,32 @@ body {
         color: initial;
       }
     }
-
   }
 }
 
-
-body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4 {
   font-family: $font-family-sans-serif;
   font-weight: 300;
 }
 
-h5, h6{
+h5,
+h6 {
   font-weight: 400;
 }
 
-a, a:hover, a:focus {
+a,
+a:hover,
+a:focus {
   color: $link-color;
 
   & .material-icons {
@@ -38,26 +50,26 @@ a, a:hover, a:focus {
   }
 }
 
-@import '_form';
-@import '_welljumbo';
-@import '_buttons';
-@import '_checkboxes';
-@import '_togglebutton';
-@import '_radios';
-@import '_inputs';
+@import "_form";
+@import "_welljumbo";
+@import "_buttons";
+@import "_checkboxes";
+@import "_togglebutton";
+@import "_radios";
+@import "_inputs";
 
 legend {
   border-bottom: 0;
 }
 
-@import '_lists';
-@import '_navbar';
+@import "_lists";
+@import "_navbar";
 
 .dropdown-menu {
   border: 0;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   .divider {
-    background-color: rgba(0, 0, 0, .12);
+    background-color: rgba(0, 0, 0, 0.12);
   }
   li {
     overflow: hidden;
@@ -69,15 +81,15 @@ legend {
   }
 }
 
-@import '_alerts';
-@import '_progress';
-@import '_typography';
-@import '_tabs';
-@import '_popups';
-@import '_cards';
-@import '_dialogs';
-@import '_panels';
-@import '_dividers';
+@import "_alerts";
+@import "_progress";
+@import "_typography";
+@import "_tabs";
+@import "_popups";
+@import "_cards";
+@import "_dialogs";
+@import "_panels";
+@import "_dividers";
 
 // Prevent highlight on mobile
 * {
@@ -88,8 +100,7 @@ legend {
   }
 }
 
-
-@import '_themes';
+@import "_themes";
 
 // External plugins
-@import '_plugins';
+@import "_plugins";

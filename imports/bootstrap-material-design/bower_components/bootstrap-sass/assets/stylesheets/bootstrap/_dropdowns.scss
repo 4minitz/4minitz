@@ -2,7 +2,6 @@
 // Dropdown menus
 // --------------------------------------------------
 
-
 // Dropdown arrow/caret
 .caret {
   display: inline-block;
@@ -10,10 +9,10 @@
   height: 0;
   margin-left: 2px;
   vertical-align: middle;
-  border-top:   $caret-width-base dashed;
-  border-top:   $caret-width-base solid \9; // IE8
+  border-top: $caret-width-base dashed;
+  border-top: $caret-width-base solid \9; // IE8
   border-right: $caret-width-base solid transparent;
-  border-left:  $caret-width-base solid transparent;
+  border-left: $caret-width-base solid transparent;
 }
 
 // The dropdown wrapper (div)
@@ -45,7 +44,7 @@
   border: 1px solid $dropdown-fallback-border; // IE8 fallback
   border: 1px solid $dropdown-border;
   border-radius: $border-radius-base;
-  @include box-shadow(0 6px 12px rgba(0,0,0,.175));
+  @include box-shadow(0 6px 12px rgba(0, 0, 0, 0.175));
   background-clip: padding-box;
 
   // Aligns the dropdown menu to right
@@ -197,7 +196,6 @@
   }
 }
 
-
 // Component alignment
 //
 // Reiterate per navbar.less and the modified component alignment there.
@@ -205,12 +203,14 @@
 @media (min-width: $grid-float-breakpoint) {
   .navbar-right {
     .dropdown-menu {
-      right: 0; left: auto;
+      right: 0;
+      left: auto;
     }
     // Necessary for overrides of the default right aligned menu.
     // Will remove come v4 in all likelihood.
     .dropdown-menu-left {
-      left: 0; right: auto;
+      left: 0;
+      right: auto;
     }
   }
 }
