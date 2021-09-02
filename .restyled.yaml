@@ -19,7 +19,6 @@ auto: false
 commit_template: |
   Restyled by ${restyler.name}
 pull_requests: true
-
 comments: false
 
 statuses:
@@ -45,5 +44,5 @@ restylers_version: stable
 
 restylers:
   - prettier:
-        enabled: false
+      enabled: false
   - "*"
