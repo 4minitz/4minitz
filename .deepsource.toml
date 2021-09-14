@@ -27,6 +27,9 @@ enabled = true
 name = "docker"
 enabled = true
 
+  [analyzers.meta]
+  dockerfile_paths = [".docker/Dockerfile"]
+
 [[transformers]]
 name = "prettier"
 enabled = true
