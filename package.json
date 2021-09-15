@@ -65,7 +65,7 @@
     "md5-file": "^5.0.0",
     "meteor-node-stubs": "^1.1.0",
     "moment": "^2.22.2",
-    "moment-timezone": "^0.5.33",
+    "moment-timezone": "^0.4.0",
     "mongo-uri": "^0.1.2",
     "mongodb": "^3.0.1",
     "mongodb-extended-json": "^1.10.0",
