@@ -32,7 +32,7 @@ define([
 
   // Support: Android<4.1
   // Make sure we trim BOM and NBSP
-  const rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+  const rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/gu;
 
   // Matches dashed string for camelizing
   const rmsPrefix = /^-ms-/;

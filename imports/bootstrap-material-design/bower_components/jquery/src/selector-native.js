@@ -190,7 +190,7 @@ define([
             "|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$",
           "i"
         ),
-        needsContext: /^[\x20\t\r\n\f]*[>+~]/,
+        needsContext: /^[\x20\t\r\n\f]*[>+~]/u,
       },
     },
   });
