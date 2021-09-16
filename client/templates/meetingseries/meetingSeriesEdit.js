@@ -1,316 +1,344 @@
-import { Meteor } from 'meteor/meteor';
-import { Template } from 'meteor/templating';
-import { i18n } from 'meteor/universe:i18n';
-import { Session } from 'meteor/session';
-import { $ } from 'meteor/jquery';
-import { Mongo } from 'meteor/mongo';
-import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { Meteor } from "meteor/meteor";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
+import { Session } from "meteor/session";
+import { $ } from "meteor/jquery";
+import { Mongo } from "meteor/mongo";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 
-import {ConfirmationDialogFactory} from '../../helpers/confirmationDialogFactory';
-import { handleError } from '/client/helpers/handleError';
+import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
+import { handleError } from "/client/helpers/handleError";
 
-import { MeetingSeries } from '/imports/meetingseries';
-import { UsersEditConfig } from './meetingSeriesEditUsers';
-import { UserRoles } from '/imports/userroles';
-import { Minutes } from '/imports/minutes';
-import {IsEditedService} from '../../../imports/services/isEditedService';
-import {isEditedHandling} from '../../helpers/isEditedHelpers';
-import {ReactiveVar} from 'meteor/reactive-var';
+import { MeetingSeries } from "/imports/meetingseries";
+import { UsersEditConfig } from "./meetingSeriesEditUsers";
+import { UserRoles } from "/imports/userroles";
+import { Minutes } from "/imports/minutes";
+import { IsEditedService } from "../../../imports/services/isEditedService";
+import { isEditedHandling } from "../../helpers/isEditedHelpers";
+import { ReactiveVar } from "meteor/reactive-var";
 
-let supportedLocales = new ReactiveVar([]);
+const supportedLocales = new ReactiveVar([]);
 
-Template.meetingSeriesEdit.onCreated(function() {
-    let thisMeetingSeriesID = FlowRouter.getParam('_id');
-    //Check if this dialog was not called by a meetingseries but by a minute
-    if (!MeetingSeries.findOne(thisMeetingSeriesID))
-        thisMeetingSeriesID = Minutes.findOne(thisMeetingSeriesID).parentMeetingSeriesID();
+Template.meetingSeriesEdit.onCreated(function () {
+  let thisMeetingSeriesID = FlowRouter.getParam("_id");
+  // Check if this dialog was not called by a meetingseries but by a minute
+  if (!MeetingSeries.findOne(thisMeetingSeriesID)) {
+    thisMeetingSeriesID =
+      Minutes.findOne(thisMeetingSeriesID).parentMeetingSeriesID();
+  }
 
-    // create client-only collection for storage of users attached
-    // to this meeting series as input <=> output for the user editor
-    let _attachedUsersCollection = new Mongo.Collection(null);
+  // create client-only collection for storage of users attached
+  // to this meeting series as input <=> output for the user editor
+  const _attachedUsersCollection = new Mongo.Collection(null);
 
-    // build editor config and attach it to the instance of the template
-    this.userEditConfig = new UsersEditConfig(
-        true,                                               // current user can not be edited
-        thisMeetingSeriesID,                                // the meeting series id
-        _attachedUsersCollection);                          // collection of attached users
-    // Hint: collection will be filled in the "show.bs.modal" event below
+  // build editor config and attach it to the instance of the template
+  this.userEditConfig = new UsersEditConfig(
+    true, // current user can not be edited
+    thisMeetingSeriesID, // the meeting series id
+    _attachedUsersCollection
+  ); // collection of attached users
+  // Hint: collection will be filled in the "show.bs.modal" event below
 
-    Meteor.call('getAvailableLocales',
-        function(error, result){
-            if(error){
-                console.log('Error: No supported language locales reported by server.');
-            }else{
-                supportedLocales.set(result);
-            }
-        }
-    );
+  Meteor.call("getAvailableLocales", function (error, result) {
+    if (error) {
+      console.log("Error: No supported language locales reported by server.");
+    } else {
+      supportedLocales.set(result);
+    }
+  });
 });
 
 Template.meetingSeriesEdit.helpers({
-    users: function () {
-        return Meteor.users.find({});
-    },
+  users: function () {
+    return Meteor.users.find({});
+  },
 
-    userEditConfig: function () {
-        return Template.instance().userEditConfig;
-    },
+  userEditConfig: function () {
+    return Template.instance().userEditConfig;
+  },
 
-    labelsConfig: function() {
-        return {
-            meetingSeriesId: this._id
-        };
-    },
+  labelsConfig: function () {
+    return {
+      meetingSeriesId: this._id,
+    };
+  },
 
-    supportedLocales: function () {
-        return supportedLocales.get();
-    }
+  supportedLocales: function () {
+    return supportedLocales.get();
+  },
 });
 
 // This function handles notification on role changes if the
 // moderator checked the according check box in the meeting series editor
 // It does so by comparing the users & roles before and after usage of the editor.
-const notifyOnRoleChange = function(usersWithRolesAfterEdit, meetingSeriesId) {
-    function sendEmail (userId, oldRole, newRole, meetingSeriesId) {
-        Meteor.call('meetingseries.sendRoleChange', userId, oldRole, newRole, meetingSeriesId);
+const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
+  function sendEmail(userId, oldRole, newRole, meetingSeriesId) {
+    Meteor.call(
+      "meetingseries.sendRoleChange",
+      userId,
+      oldRole,
+      newRole,
+      meetingSeriesId
+    );
+  }
+
+  const usersBeforeEdit = this.visibleFor.concat(this.informedUsers);
+  const usersWithRolesAfterEditForEmails = usersWithRolesAfterEdit.slice();
+  const moderator = new UserRoles(Meteor.userId());
+
+  for (const i in usersBeforeEdit) {
+    const oldUserId = usersBeforeEdit[i];
+    const oldUserWithRole = new UserRoles(oldUserId);
+    const oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
+
+    // Search in after edit users whether the users still exists
+    const matchingUser = usersWithRolesAfterEditForEmails.find(function (user) {
+      return oldUserWithRole._userId === user._idOrg;
+    });
+
+    // If he does not, his role was removed
+    if (matchingUser === undefined) {
+      if (oldUserWithRole._userId !== moderator._userId) {
+        sendEmail(
+          oldUserWithRole.getUser()._id,
+          oldUserRole,
+          undefined,
+          meetingSeriesId
+        );
+      }
+    } else {
+      const newUserWithRole = new UserRoles(matchingUser._idOrg);
+      const newUserRole = matchingUser.roles[meetingSeriesId][0];
+      const index = usersWithRolesAfterEditForEmails.indexOf(matchingUser);
+
+      // Roles have changed
+      if (newUserRole !== oldUserRole) {
+        sendEmail(
+          newUserWithRole.getUser()._id,
+          oldUserRole,
+          newUserRole,
+          meetingSeriesId
+        );
+      }
+      usersWithRolesAfterEditForEmails.splice(index, 1);
     }
-
-    let usersBeforeEdit = this.visibleFor.concat(this.informedUsers);
-    let usersWithRolesAfterEditForEmails = usersWithRolesAfterEdit.slice();
-    let moderator = new UserRoles(Meteor.userId());
-
-    for (let i in usersBeforeEdit) {
-        let oldUserId = usersBeforeEdit[i];
-        let oldUserWithRole = new UserRoles(oldUserId);
-        let oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
-
-        // Search in after edit users whether the users still exists
-        let matchingUser = usersWithRolesAfterEditForEmails.find(function (user) {
-            return oldUserWithRole._userId === user._idOrg;
-        });
-
-        // If he does not, his role was removed
-        if (matchingUser === undefined) {
-            if (oldUserWithRole._userId !== moderator._userId) {
-                sendEmail(oldUserWithRole.getUser()._id, oldUserRole, undefined, meetingSeriesId);
-            }
-        } else {
-            let newUserWithRole = new UserRoles(matchingUser._idOrg);
-            let newUserRole = matchingUser.roles[meetingSeriesId][0];
-            let index = usersWithRolesAfterEditForEmails.indexOf(matchingUser);
-
-            // Roles have changed
-            if (newUserRole !== oldUserRole) {
-                sendEmail(newUserWithRole.getUser()._id, oldUserRole, newUserRole, meetingSeriesId);
-            }
-            usersWithRolesAfterEditForEmails.splice(index, 1);
-        }
+  }
+  // The remaining users in the after-edit-array -> got added
+  for (const i in usersWithRolesAfterEditForEmails) {
+    const newUser = usersWithRolesAfterEditForEmails[i];
+    const newUserRole = newUser.roles[meetingSeriesId][0];
+    if (moderator._userId !== newUser._idOrg) {
+      sendEmail(newUser._idOrg, undefined, newUserRole, meetingSeriesId);
     }
-    // The remaining users in the after-edit-array -> got added
-    for (let i in usersWithRolesAfterEditForEmails) {
-        let newUser = usersWithRolesAfterEditForEmails[i];
-        let newUserRole = newUser.roles[meetingSeriesId][0];
-        if (moderator._userId !== newUser._idOrg) {
-            sendEmail(newUser._idOrg, undefined, newUserRole, meetingSeriesId);
-        }
-    }
+  }
 };
 
 Template.meetingSeriesEdit.events({
+  "click #deleteMeetingSeries": function () {
+    console.log("Remove Meeting Series: " + this._id);
+    $("#dlgEditMeetingSeries").modal("hide"); // hide underlying modal dialog first, otherwise transparent modal layer is locked!
 
-    'click #deleteMeetingSeries': function() {
-        console.log('Remove Meeting Series: '+this._id);
-        $('#dlgEditMeetingSeries').modal('hide');   // hide underlying modal dialog first, otherwise transparent modal layer is locked!
+    const ms = new MeetingSeries(this._id);
 
-        let ms = new MeetingSeries(this._id);
+    const deleteSeriesCallback = () => {
+      MeetingSeries.remove(ms).catch(handleError);
+      FlowRouter.go("/");
+    };
 
-        let deleteSeriesCallback = () => {
-            MeetingSeries.remove(ms).catch(handleError);
-            FlowRouter.go('/');
-        };
-
-        const confirmationDialog = ConfirmationDialogFactory.makeWarningDialogWithTemplate(
-            deleteSeriesCallback,
-            i18n.__('MeetingSeries.Edit.confirmDelete'),
-            'confirmationDialogDeleteSeries',
-            {
-                project: ms.project,
-                name: ms.name,
-                hasMinutes: (ms.minutes.length !== 0),
-                minutesCount: ms.minutes.length,
-                lastMinutesDate: (ms.minutes.length !== 0) ? ms.lastMinutesDate : false
-            }
-        );
-
-        Meteor.setTimeout(() => {
-            confirmationDialog.show();
-        }, 0);
-
-    },
-
-
-    // "show" event is fired shortly before BootStrap modal dialog will pop up
-    // We fill the temp. client-side only user database for the user editor on this event
-    'show.bs.modal #dlgEditMeetingSeries': function (evt, tmpl) {
-        const ms = new MeetingSeries(tmpl.data._id);
-
-        const element = ms;
-        const unset = function () {
-            IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
-            $('#dlgEditMeetingSeries').modal('show');
-        };
-        const setIsEdited = () => {
-            IsEditedService.setIsEditedMeetingSerie(ms._id);
-        };
-
-        isEditedHandling(element, unset, setIsEdited, evt, 'confirmationDialogResetEdit');
-
-        // Make sure these init values are filled in a close/re-open scenario
-        $('#btnMeetingSeriesSave').prop('disabled',false);
-        $('#btnMeetinSeriesEditCancel').prop('disabled',false);
-        tmpl.find('#id_meetingproject').value = this.project;
-        tmpl.find('#id_meetingname').value = this.name;
-
-        Template.instance().userEditConfig.users.remove({});    // first: clean up everything!
-
-        // copy all attached users of this series to the temp. client-side user collection
-        // and save their original _ids for later reference
-        for (let i in this.visibleFor) {
-            let user = Meteor.users.findOne(this.visibleFor[i]);
-            user._idOrg = user._id;
-            delete user._id;
-            Template.instance().userEditConfig.users.insert(user);
+    const confirmationDialog =
+      ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        deleteSeriesCallback,
+        i18n.__("MeetingSeries.Edit.confirmDelete"),
+        "confirmationDialogDeleteSeries",
+        {
+          project: ms.project,
+          name: ms.name,
+          hasMinutes: ms.minutes.length !== 0,
+          minutesCount: ms.minutes.length,
+          lastMinutesDate: ms.minutes.length !== 0 ? ms.lastMinutesDate : false,
         }
-        // now the same for the informed users
-        for (let i in this.informedUsers) {
-            let user = Meteor.users.findOne(this.informedUsers[i]);
-            user._idOrg = user._id;
-            delete user._id;
-            Template.instance().userEditConfig.users.insert(user);
-        }
+      );
 
-        // preselect the current language, based on stored meeting series eMail language
-        // or global default specified by admin in settings.json "defaultMeetingSeriesMailLanguage"
-        let locID = '#loc-' + ms.getMailLanguage();       // e.g.: 'en'
-        let select = tmpl.find(locID);
-        if (select) {
-            select.selected = true;
-        } else {
-            console.log('Could not find select option: >' + locID + '<');
-        }
-    },
+    Meteor.defer(() => {
+      confirmationDialog.show();
+    });
+  },
 
-    'shown.bs.modal #dlgEditMeetingSeries': function (evt, tmpl) {
-        // switch to "invited users" tab once, if desired
-        if (Session.get('meetingSeriesEdit.showUsersPanel') === true) {
-            Session.set('meetingSeriesEdit.showUsersPanel', false);
-            $('#btnShowHideInvitedUsers').click();
-            Meteor.setTimeout(function () {
-                tmpl.find('#edt_AddUser').focus();
-            }, 500);
+  // "show" event is fired shortly before BootStrap modal dialog will pop up
+  // We fill the temp. client-side only user database for the user editor on this event
+  "show.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
+    const ms = new MeetingSeries(tmpl.data._id);
 
-        } else {
-            $('#dlgEditMeetingSeries input').trigger('change');   // ensure new values trigger placeholder animation
-            tmpl.find('#id_meetingproject').focus();
-        }
-    },
+    const element = ms;
+    const unset = function () {
+      IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
+      $("#dlgEditMeetingSeries").modal("show");
+    };
+    const setIsEdited = () => {
+      IsEditedService.setIsEditedMeetingSerie(ms._id);
+    };
 
-    'submit #frmDlgEditMeetingSeries': function(evt, tmpl) {
-        evt.preventDefault();
-        let saveButton = $('#btnMeetingSeriesSave');
-        let cancelButton = $('btnMeetinSeriesEditCancel');
-        saveButton.prop('disabled',true);
-        cancelButton.prop('disabled',true);
+    isEditedHandling(
+      element,
+      unset,
+      setIsEdited,
+      evt,
+      "confirmationDialogResetEdit"
+    );
 
-        let aProject = tmpl.find('#id_meetingproject').value;
-        let aName = tmpl.find('#id_meetingname').value;
-        let modWantsNotifyOnRoleChange = tmpl.find('#checkBoxRoleChange').checked;
-        const aMailLanguage = tmpl.find('#selLocale').value;
+    // Make sure these init values are filled in a close/re-open scenario
+    $("#btnMeetingSeriesSave").prop("disabled", false);
+    $("#btnMeetinSeriesEditCancel").prop("disabled", false);
+    tmpl.find("#id_meetingproject").value = this.project;
+    tmpl.find("#id_meetingname").value = this.name;
 
-        // validate form and show errors - necessary for browsers which do not support form-validation
-        let projectNode = tmpl.$('#id_meetingproject');
-        let nameNode = tmpl.$('#id_meetingname');
-        projectNode.parent().removeClass('has-error');
-        nameNode.parent().removeClass('has-error');
-        if (aProject === '') {
-            projectNode.parent().addClass('has-error');
-            projectNode.focus();
-            return;
-        }
-        if (aName === '') {
-            nameNode.parent().addClass('has-error');
-            nameNode.focus();
-            return;
-        }
+    Template.instance().userEditConfig.users.remove({}); // first: clean up everything!
 
-        let usersWithRolesAfterEdit = Template.instance().userEditConfig.users.find().fetch();
-        let allVisiblesArray = [];
-        let allInformedArray = [];
-        let meetingSeriesId = this._id;
-
-        if (modWantsNotifyOnRoleChange) {
-            notifyOnRoleChange.call(this, usersWithRolesAfterEdit, meetingSeriesId);
-        }
-
-        for (let i in usersWithRolesAfterEdit) {
-            let usrAfterEdit = usersWithRolesAfterEdit[i];
-            let newRole = new UserRoles(usrAfterEdit._idOrg);     // Attention: get back to Id of Meteor.users collection
-
-            newRole.saveRoleForMeetingSeries(meetingSeriesId, usrAfterEdit.roles[meetingSeriesId]);
-            if (UserRoles.isVisibleRole(usrAfterEdit.roles[meetingSeriesId])) {
-                allVisiblesArray.push(usrAfterEdit._idOrg);  // Attention: get back to Id of Meteor.users collection
-            } else {
-                allInformedArray.push(usrAfterEdit._idOrg);  // Attention: get back to Id of Meteor.users collection
-            }
-        }
-
-        const ms = new MeetingSeries(meetingSeriesId);
-        ms.project = aProject;
-        ms.name = aName;
-        ms.mailLanguage = aMailLanguage;
-        ms.setVisibleAndInformedUsers(allVisiblesArray,allInformedArray);   // this also removes the roles of removed users
-        ms.save();
-        IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
-
-        // Hide modal dialog
-        saveButton.prop('disabled',false);
-        cancelButton.prop('disabled',false);
-        $('#dlgEditMeetingSeries').modal('hide');
-    },
-
-    'click #btnMeetingSeriesSave': function (evt, tmpl) {
-        evt.preventDefault();
-        // Unfortunately the form.submit()-function does not trigger the
-        // validation process
-        tmpl.$('#submitMeetingSeriesEditForm').click();
-    },
-
-    'click #btnMeetinSeriesEditCancel,#btnEditMSClose': function (evt, tmpl) {
-        evt.preventDefault();
-
-        const ms = new MeetingSeries(tmpl.data._id);
-        if (ms) {   // might be null, if MS was new created, never saved and dialog is cancelled
-            IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
-        }
-
-        $('#dlgEditMeetingSeries').modal('hide');
-    },
-
-    'keyup': function (evt, tmpl) {
-        evt.preventDefault();
-        if (evt.keyCode === 27) {
-            const ms = new MeetingSeries(tmpl.data._id);
-            IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
-
-            $('#dlgEditMeetingSeries').modal('hide');
-        }
-    },
-
-    // Prevent the last open panel to be collapsible
-    'click .panel-heading a': function (evt) {
-        if($(evt.target).parents('.panel').children('.panel-collapse').hasClass('in')){
-            evt.stopPropagation();
-        }
-        evt.preventDefault();
+    // copy all attached users of this series to the temp. client-side user collection
+    // and save their original _ids for later reference
+    for (const i in this.visibleFor) {
+      const user = Meteor.users.findOne(this.visibleFor[i]);
+      user._idOrg = user._id;
+      delete user._id;
+      Template.instance().userEditConfig.users.insert(user);
     }
+    // now the same for the informed users
+    for (const i in this.informedUsers) {
+      const user = Meteor.users.findOne(this.informedUsers[i]);
+      user._idOrg = user._id;
+      delete user._id;
+      Template.instance().userEditConfig.users.insert(user);
+    }
+
+    // preselect the current language, based on stored meeting series eMail language
+    // or global default specified by admin in settings.json "defaultMeetingSeriesMailLanguage"
+    const locID = "#loc-" + ms.getMailLanguage(); // e.g.: 'en'
+    const select = tmpl.find(locID);
+    if (select) {
+      select.selected = true;
+    } else {
+      console.log("Could not find select option: >" + locID + "<");
+    }
+  },
+
+  "shown.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
+    // switch to "invited users" tab once, if desired
+    if (Session.get("meetingSeriesEdit.showUsersPanel") === true) {
+      Session.set("meetingSeriesEdit.showUsersPanel", false);
+      $("#btnShowHideInvitedUsers").click();
+      Meteor.setTimeout(function () {
+        tmpl.find("#edt_AddUser").focus();
+      }, 500);
+    } else {
+      $("#dlgEditMeetingSeries input").trigger("change"); // ensure new values trigger placeholder animation
+      tmpl.find("#id_meetingproject").focus();
+    }
+  },
+
+  "submit #frmDlgEditMeetingSeries": function (evt, tmpl) {
+    evt.preventDefault();
+    const saveButton = $("#btnMeetingSeriesSave");
+    const cancelButton = $("btnMeetinSeriesEditCancel");
+    saveButton.prop("disabled", true);
+    cancelButton.prop("disabled", true);
+
+    const aProject = tmpl.find("#id_meetingproject").value;
+    const aName = tmpl.find("#id_meetingname").value;
+    const modWantsNotifyOnRoleChange = tmpl.find("#checkBoxRoleChange").checked;
+    const aMailLanguage = tmpl.find("#selLocale").value;
+
+    // validate form and show errors - necessary for browsers which do not support form-validation
+    const projectNode = tmpl.$("#id_meetingproject");
+    const nameNode = tmpl.$("#id_meetingname");
+    projectNode.parent().removeClass("has-error");
+    nameNode.parent().removeClass("has-error");
+    if (aProject === "") {
+      projectNode.parent().addClass("has-error");
+      projectNode.focus();
+      return;
+    }
+    if (aName === "") {
+      nameNode.parent().addClass("has-error");
+      nameNode.focus();
+      return;
+    }
+
+    const usersWithRolesAfterEdit = Template.instance()
+      .userEditConfig.users.find()
+      .fetch();
+    const allVisiblesArray = [];
+    const allInformedArray = [];
+    const meetingSeriesId = this._id;
+
+    if (modWantsNotifyOnRoleChange) {
+      notifyOnRoleChange.call(this, usersWithRolesAfterEdit, meetingSeriesId);
+    }
+
+    for (const i in usersWithRolesAfterEdit) {
+      const usrAfterEdit = usersWithRolesAfterEdit[i];
+      const newRole = new UserRoles(usrAfterEdit._idOrg); // Attention: get back to Id of Meteor.users collection
+
+      newRole.saveRoleForMeetingSeries(
+        meetingSeriesId,
+        usrAfterEdit.roles[meetingSeriesId]
+      );
+      if (UserRoles.isVisibleRole(usrAfterEdit.roles[meetingSeriesId])) {
+        allVisiblesArray.push(usrAfterEdit._idOrg); // Attention: get back to Id of Meteor.users collection
+      } else {
+        allInformedArray.push(usrAfterEdit._idOrg); // Attention: get back to Id of Meteor.users collection
+      }
+    }
+
+    const ms = new MeetingSeries(meetingSeriesId);
+    ms.project = aProject;
+    ms.name = aName;
+    ms.mailLanguage = aMailLanguage;
+    ms.setVisibleAndInformedUsers(allVisiblesArray, allInformedArray); // this also removes the roles of removed users
+    ms.save();
+    IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
+
+    // Hide modal dialog
+    saveButton.prop("disabled", false);
+    cancelButton.prop("disabled", false);
+    $("#dlgEditMeetingSeries").modal("hide");
+  },
+
+  "click #btnMeetingSeriesSave": function (evt, tmpl) {
+    evt.preventDefault();
+    // Unfortunately the form.submit()-function does not trigger the
+    // validation process
+    tmpl.$("#submitMeetingSeriesEditForm").click();
+  },
+
+  "click #btnMeetinSeriesEditCancel,#btnEditMSClose": function (evt, tmpl) {
+    evt.preventDefault();
+
+    const ms = new MeetingSeries(tmpl.data._id);
+    if (ms) {
+      // might be null, if MS was new created, never saved and dialog is cancelled
+      IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
+    }
+
+    $("#dlgEditMeetingSeries").modal("hide");
+  },
+
+  keyup: function (evt, tmpl) {
+    evt.preventDefault();
+    if (evt.keyCode === 27) {
+      const ms = new MeetingSeries(tmpl.data._id);
+      IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
+
+      $("#dlgEditMeetingSeries").modal("hide");
+    }
+  },
+
+  // Prevent the last open panel to be collapsible
+  "click .panel-heading a": function (evt) {
+    if (
+      $(evt.target).parents(".panel").children(".panel-collapse").hasClass("in")
+    ) {
+      evt.stopPropagation();
+    }
+    evt.preventDefault();
+  },
 });
