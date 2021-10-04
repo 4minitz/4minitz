@@ -15,7 +15,7 @@ const FORBIDDEN_FILENAME_EXTENSIONS = "html|htm|swf";
 export const AttachmentsCollection = new FilesCollection({
   collectionName: "AttachmentsCollection",
   allowClientCode: false, // Disallow attachments remove() call from clients
-  permissions: 0o0600, // #Security: make uploaded files "chmod 600' only readable for server user
+  permissions: parseInt("0600", 8), // #Security: make uploaded files "chmod 600' only readable for server user
   storagePath: Meteor.isServer ? calculateAndCreateStoragePath : undefined, //eslint-disable-line
 
   // #Security: onBeforeUpload
