@@ -46,12 +46,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.16.2'         # chromedriver needs node v12 to install!
-      - run: npm i chromedriver@^92.0.1
+      - run: npm i chromedriver@^93.
       - run: ./node_modules/chromedriver/bin/chromedriver --version
 
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.14.0'           # switch back to meteors node v10
+          node-version: '12.14.0'          
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
 
