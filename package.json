@@ -50,7 +50,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.15.3",
     "arrive": "^2.4.1",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "bootstrap": "file:imports/bootstrap",
     "bootstrap-material-design": "file:imports/bootstrap-material-design",
     "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.47",
