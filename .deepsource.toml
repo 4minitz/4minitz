@@ -2,7 +2,10 @@ version = 1
 
 test_patterns = ["tests/**"]
 
-exclude_patterns = ["server/migrations/**"]
+exclude_patterns = [
+  "server/migrations/**",
+  "**/bootstrap/**"
+]
 
 [[analyzers]]
 name = "javascript"
