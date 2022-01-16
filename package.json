@@ -105,7 +105,7 @@
     "underscore": "^1.8.3",
     "wdio-chromedriver-service": "^7.0.0",
     "webdriverio": "^7.0.0",
-    "webpack": "^4.44.2",
+    "webpack": "^5.0.0",
     "xtend": "^4.0.1"
   }
 }
