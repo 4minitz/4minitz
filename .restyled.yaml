@@ -46,3 +46,5 @@ restylers:
   - prettier:
       enabled: false
   - "*"
+  - clang-formate:
+    enabled: false
