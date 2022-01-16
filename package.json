@@ -94,7 +94,6 @@
     "ddp": "^0.12.1",
     "eslint": "^7.5.0",
     "faker": "^5.5.3",
-    "inject-loader": "^4.0.1",
     "js-yaml": "^4.0.0",
     "markdownlint-cli": "^0.28.1",
     "mocha": "^9.0.0",
