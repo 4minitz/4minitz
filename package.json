@@ -100,7 +100,7 @@
     "mocha": "^9.0.0",
     "proxyquire": "^1.8.0",
     "resolve": "1.20.0",
-    "sinon": "^9.0.0",
+    "sinon": "^12.0.0",
     "sinon-chai": "^3.7.0",
     "tree-kill": "^1.2.0",
     "underscore": "^1.8.3",
