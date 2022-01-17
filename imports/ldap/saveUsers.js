@@ -1,90 +1,98 @@
-let mongo = require('mongodb').MongoClient,
-    mongoUriParser = require('mongo-uri'),
-    random = require('randomstring'),
-    transformUser = require('./transformUser'),
-    _ = require('underscore');
+const mongo = require("mongodb").MongoClient;
+//  mongoUriParser = require('mongo-uri'),
+const random = require("randomstring");
+const transformUser = require("./transformUser");
+const _ = require("underscore");
 
-
-
-let _transformUsers = function (settings, users) {
-    return _.map(users, user => transformUser(settings, user));
+const _transformUsers = function (settings, users) {
+  return _.map(users, (user) => transformUser(settings, user));
 };
 
-let _connectMongo = function (mongoUrl) {
-    return mongo.connect(mongoUrl);
+const _connectMongo = function (mongoUrl) {
+  return mongo.connect(mongoUrl);
 };
 
-RegExp.escape= function(s) {
-    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+RegExp.escape = function (s) {
+  return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
 };
 
-let _insertUsers = function (client, mongoUri, users) {
-    // unique id from the random package also used by minimongo
-    // character list: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
-    // string length: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
-    const randomStringConfig = {
-        length: 17,
-        charset: '23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz'
-    };
+const _insertUsers = function (client, mongoUri, users) {
+  // unique id from the random package also used by minimongo
+  // character list: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
+  // string length: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
+  const randomStringConfig = {
+    length: 17,
+    charset: "23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz",
+  };
 
-    return new Promise((resolve, reject) => {
-        try {
-            const mongoConnection = mongoUriParser.parse(mongoUri);
-            let bulk = client.db(mongoConnection.database).collection('users').initializeUnorderedBulkOp();
-            _.each(users, user => {
-                if (user && user.username && user.emails[0] && user.emails[0].address) {
-                    user.isLDAPuser = true;
-                    let usrRegExp = new RegExp('^'+RegExp.escape(user.username)+'$', 'i');
-                    bulk.find({username: usrRegExp}).upsert().updateOne({
-                        $setOnInsert: {
-                            _id: random.generate(randomStringConfig),
-                            // by setting this only on insert we won't log out everyone
-                            // everytime we sync the users
-                            services: {
-                                password: {bcrypt: ''},
-                                resume: {'loginTokens': []}
-                            }
-                        },
-                        $set: user
-                    });
-                } else {
-                    let stringifiedUser = JSON.stringify(user, null, 2);
-                    console.log(`SKIPPED INVALID USER (no username or no valid emails[0].address): ${stringifiedUser}`);
-                }
+  return new Promise((resolve, reject) => {
+    try {
+      const mongoConnection = mongoUri;
+      const bulk = client
+        .db(mongoConnection.database)
+        .collection("users")
+        .initializeUnorderedBulkOp();
+      _.each(users, (user) => {
+        if (user && user.username && user.emails[0] && user.emails[0].address) {
+          user.isLDAPuser = true;
+          const usrRegExp = new RegExp(
+            "^" + RegExp.escape(user.username) + "$",
+            "i"
+          );
+          bulk
+            .find({ username: usrRegExp })
+            .upsert()
+            .updateOne({
+              $setOnInsert: {
+                _id: random.generate(randomStringConfig),
+                // by setting this only on insert we won't log out everyone
+                // everytime we sync the users
+                services: {
+                  password: { bcrypt: "" },
+                  resume: { loginTokens: [] },
+                },
+              },
+              $set: user,
             });
-            let bulkResult = bulk.execute();
-
-            resolve({client, bulkResult});
-        } catch (error) {
-            reject(error);
+        } else {
+          const stringifiedUser = JSON.stringify(user, null, 2);
+          console.log(
+            `SKIPPED INVALID USER (no username or no valid emails[0].address): ${stringifiedUser}`
+          );
         }
-    });
+      });
+      const bulkResult = bulk.execute();
+
+      resolve({ client, bulkResult });
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
 
-let _closeMongo = function (data) {
-    let force = false,
-        client = data.client,
-        result = data.bulkResult;
+const _closeMongo = function (data) {
+  const force = false;
+  const client = data.client;
+  const result = data.bulkResult;
 
-    return new Promise((resolve) => {
-        client.close(force);
-        resolve(result);
-    });
+  return new Promise((resolve) => {
+    client.close(force);
+    resolve(result);
+  });
 };
 
+const saveUsers = function (settings, mongoUrl, users) {
+  const dbUsers = _transformUsers(settings, users);
 
-let saveUsers = function (settings, mongoUrl, users) {
-    let dbUsers = _transformUsers(settings, users);
-
-    return new Promise((resolve, reject) => {
-        _connectMongo(mongoUrl)
-            .then(client => {
-                return _insertUsers(client, mongoUrl, dbUsers);
-            })
-            .then(_closeMongo)
-            .then(resolve)
-            .catch(reject);
-    });
+  return new Promise((resolve, reject) => {
+    _connectMongo(mongoUrl)
+      .then((client) => {
+        return _insertUsers(client, mongoUrl, dbUsers);
+      })
+      .then(_closeMongo)
+      .then(resolve)
+      .catch(reject);
+  });
 };
 
 module.exports = saveUsers;
