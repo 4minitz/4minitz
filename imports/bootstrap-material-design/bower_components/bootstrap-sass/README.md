@@ -1,4 +1,5 @@
 # Bootstrap 3 for Sass
+
 [![Gem Version](https://badge.fury.io/rb/bootstrap-sass.svg)](http://badge.fury.io/rb/bootstrap-sass)
 [![npm version](https://img.shields.io/npm/v/bootstrap-sass.svg?style=flat)](https://www.npmjs.com/package/bootstrap-sass)
 [![Bower Version](https://badge.fury.io/bo/bootstrap-sass.svg)](http://badge.fury.io/bo/bootstrap-sass)
@@ -12,9 +13,9 @@ This is Bootstrap **3**. For Bootstrap **4** use the [Bootstrap rubygem](https:/
 
 Please see the appropriate guide for your environment of choice:
 
-* [Ruby on Rails](#a-ruby-on-rails).
-* [Bower](#b-bower).
-* [npm / Node.js](#c-npm--nodejs).
+- [Ruby on Rails](#a-ruby-on-rails).
+- [Bower](#b-bower).
+- [npm / Node.js](#c-npm--nodejs).
 
 ### a. Ruby on Rails
 
@@ -145,10 +146,10 @@ In `application.js`:
 See also this [example manifest.js](/test/dummy_node_mincer/manifest.js) for mincer.
 
 ### c. npm / Node.js
+
 ```console
 $ npm install bootstrap-sass
 ```
-
 
 ## Configuration
 
@@ -162,7 +163,7 @@ Then comment out components you do not want from `_bootstrap-custom`.
 In the application Sass file, replace `@import 'bootstrap'` with:
 
 ```scss
-@import 'bootstrap-custom';
+@import "bootstrap-custom";
 ```
 
 ### Sass: Number Precision
@@ -182,6 +183,7 @@ Bootstrap requires the use of [Autoprefixer][autoprefixer].
 [Autoprefixer][autoprefixer] adds vendor prefixes to CSS rules using values from [Can I Use](https://caniuse.com/).
 
 To match [upstream Bootstrap's level of browser compatibility](https://getbootstrap.com/getting-started/#support), set Autoprefixer's `browsers` option to:
+
 ```json
 [
   "Android 2.3",
@@ -199,7 +201,6 @@ To match [upstream Bootstrap's level of browser compatibility](https://getbootst
 
 [`assets/javascripts/bootstrap.js`](/assets/javascripts/bootstrap.js) contains all of Bootstrap's JavaScript,
 concatenated in the [correct order](/assets/javascripts/bootstrap-sprockets.js).
-
 
 #### JavaScript with Sprockets or Mincer
 
@@ -267,7 +268,7 @@ $navbar-default-color: $light-orange;
 Bootstrap is available as an [Eyeglass](https://github.com/sass-eyeglass/eyeglass) module. After installing Bootstrap via NPM you can import the Bootstrap library via:
 
 ```scss
-@import "bootstrap-sass/bootstrap"
+@import "bootstrap-sass/bootstrap";
 ```
 
 or import only the parts of Bootstrap you need:
@@ -290,8 +291,8 @@ Sass-specific changes. This was changed due to Bower and npm compatibility issue
 The upstream versions vs the Bootstrap for Sass versions are:
 
 | Upstream |    Sass |
-|---------:|--------:|
-|    3.3.4+ |   same |
+| -------: | ------: |
+|   3.3.4+ |    same |
 |    3.3.2 |   3.3.3 |
 | <= 3.3.1 | 3.3.1.x |
 
@@ -307,7 +308,7 @@ If you'd like to help with the development of bootstrap-sass itself, read this s
 
 Keeping bootstrap-sass in sync with upstream changes from Bootstrap used to be an error prone and time consuming manual process. With Bootstrap 3 we have introduced a converter that automates this.
 
-**Note: if you're just looking to *use* Bootstrap 3, see the [installation](#installation) section above.**
+**Note: if you're just looking to _use_ Bootstrap 3, see the [installation](#installation) section above.**
 
 Upstream changes to the Bootstrap project can now be pulled in using the `convert` rake task.
 
@@ -322,10 +323,10 @@ To convert a specific branch or version, pass the branch name or the commit hash
 
 The latest converter script is located [here][converter] and does the following:
 
-* Converts upstream Bootstrap LESS files to its matching SCSS file.
-* Copies all upstream JavaScript into `assets/javascripts/bootstrap`, a Sprockets manifest at `assets/javascripts/bootstrap-sprockets.js`, and a concatenation at `assets/javascripts/bootstrap.js`.
-* Copies all upstream font files into `assets/fonts/bootstrap`.
-* Sets `Bootstrap::BOOTSTRAP_SHA` in [version.rb][version] to the branch sha.
+- Converts upstream Bootstrap LESS files to its matching SCSS file.
+- Copies all upstream JavaScript into `assets/javascripts/bootstrap`, a Sprockets manifest at `assets/javascripts/bootstrap-sprockets.js`, and a concatenation at `assets/javascripts/bootstrap.js`.
+- Copies all upstream font files into `assets/fonts/bootstrap`.
+- Sets `Bootstrap::BOOTSTRAP_SHA` in [version.rb][version] to the branch sha.
 
 This converter fully converts original LESS to SCSS. Conversion is automatic but requires instructions for certain transformations (see converter output).
 Please submit GitHub issues tagged with `conversion`.
@@ -335,14 +336,16 @@ Please submit GitHub issues tagged with `conversion`.
 bootstrap-sass has a number of major contributors:
 
 <!-- feel free to make these link wherever you wish -->
-* [Thomas McDonald](https://twitter.com/thomasmcdonald_)
-* [Tristan Harward](http://www.trisweb.com)
-* Peter Gumeson
-* [Gleb Mazovetskiy](https://github.com/glebm)
+
+- [Thomas McDonald](https://twitter.com/thomasmcdonald_)
+- [Tristan Harward](http://www.trisweb.com)
+- Peter Gumeson
+- [Gleb Mazovetskiy](https://github.com/glebm)
 
 and a [significant number of other contributors][contrib].
 
 ## You're in good company
+
 bootstrap-sass is used to build some awesome projects all over the web, including
 [Diaspora](https://diasporafoundation.org/), [rails_admin](https://github.com/sferik/rails_admin),
 Michael Hartl's [Rails Tutorial](https://www.railstutorial.org/), [gitlabhq](http://gitlabhq.com/) and
