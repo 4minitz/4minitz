@@ -13,11 +13,7 @@
     "assets/stylesheets/_bootstrap.scss",
     "assets/javascripts/bootstrap.js"
   ],
-  "keywords": [
-    "twbs",
-    "bootstrap",
-    "sass"
-  ],
+  "keywords": ["twbs", "bootstrap", "sass"],
   "license": "MIT",
   "ignore": [
     "**/.*",
