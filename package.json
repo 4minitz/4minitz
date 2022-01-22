@@ -47,7 +47,6 @@
   },
   "homepage": "https://www.4minitz.com",
   "dependencies": {
-    "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.15.3",
     "arrive": "^2.4.1",
     "bcrypt": "^5.0.0",
