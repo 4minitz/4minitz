@@ -1,6 +1,5 @@
 FROM node:8.9.4
 
-MAINTAINER 4Minitz-Team <4minitz@gmx.de>
 
 #### Build-time metadata as defined at http://label-schema.org
 # For layer details see: https://microbadger.com/images/4minitz/4minitz
