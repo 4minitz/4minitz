@@ -114,7 +114,7 @@ export class MeetingSeries {
     }
 
     upsertTopic() {
-        // TODO: refactor topic class and make this method obsolete
+        // @todo refactor topic class and make this method obsolete
     }
 
     hasMinute(id) {
@@ -174,7 +174,7 @@ export class MeetingSeries {
     }
 
     _getDateOfLatestMinuteExcluding(minuteId) {
-        // todo: check if excluding the given minuteId could be
+        // @todo check if excluding the given minuteId could be
         // done directly in the find call on the collection
 
         let latestMinutes = Minutes.findAllIn(this.minutes, 2)

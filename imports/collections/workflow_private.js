@@ -13,7 +13,7 @@ import {MeetingSeriesTopicsUpdater} from '../services/finalize-minutes/meetingSe
 import {Topic} from '../topic';
 import {TopicsFinder} from '../services/topicsFinder';
 
-// todo merge with finalizer copy
+// @todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
     // Make sure the user is logged in before changing collections
     if (!Meteor.userId()) {

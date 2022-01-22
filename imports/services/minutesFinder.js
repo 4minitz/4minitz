@@ -21,7 +21,7 @@ export class MinutesFinder {
             options.limit = limit;
         }
 
-        // todo: use minutes schema directly?
+        // @todo use minutes schema directly? 
         return MinutesSchema.getCollection().find({_id: {$in: minutesIds}}, options)
             .map(doc => new Minutes(doc));
     }
