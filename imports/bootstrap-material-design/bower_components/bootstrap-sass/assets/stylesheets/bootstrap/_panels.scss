@@ -2,13 +2,14 @@
 // Panels
 // --------------------------------------------------
 
+
 // Base class
 .panel {
   margin-bottom: $line-height-computed;
   background-color: $panel-bg;
   border: 1px solid transparent;
   border-radius: $panel-border-radius;
-  @include box-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
+  @include box-shadow(0 1px 1px rgba(0, 0, 0, .05));
 }
 
 // Panel contents
@@ -51,6 +52,7 @@
   border-top: 1px solid $panel-inner-border;
   @include border-bottom-radius(($panel-border-radius - 1));
 }
+
 
 // List groups in panels
 //
@@ -111,8 +113,8 @@
     margin-bottom: 0;
 
     caption {
-      padding-left: $panel-body-padding;
       padding-right: $panel-body-padding;
+      padding-left: $panel-body-padding;
     }
   }
   // Add border top radius for first one
@@ -145,8 +147,8 @@
     > tbody:last-child,
     > tfoot:last-child {
       > tr:last-child {
-        border-bottom-left-radius: ($panel-border-radius - 1);
         border-bottom-right-radius: ($panel-border-radius - 1);
+        border-bottom-left-radius: ($panel-border-radius - 1);
 
         td:first-child,
         th:first-child {
@@ -206,12 +208,13 @@
     }
   }
   > .table-responsive {
-    border: 0;
     margin-bottom: 0;
+    border: 0;
   }
 }
 
-// Collapsable panels (aka, accordion)
+
+// Collapsible panels (aka, accordion)
 //
 // Wrap a series of panels in `.panel-group` to turn them into an accordion with
 // the help of our collapse JavaScript plugin.
@@ -246,52 +249,23 @@
   }
 }
 
+
 // Contextual variations
 .panel-default {
-  @include panel-variant(
-    $panel-default-border,
-    $panel-default-text,
-    $panel-default-heading-bg,
-    $panel-default-border
-  );
+  @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
 }
 .panel-primary {
-  @include panel-variant(
-    $panel-primary-border,
-    $panel-primary-text,
-    $panel-primary-heading-bg,
-    $panel-primary-border
-  );
+  @include panel-variant($panel-primary-border, $panel-primary-text, $panel-primary-heading-bg, $panel-primary-border);
 }
 .panel-success {
-  @include panel-variant(
-    $panel-success-border,
-    $panel-success-text,
-    $panel-success-heading-bg,
-    $panel-success-border
-  );
+  @include panel-variant($panel-success-border, $panel-success-text, $panel-success-heading-bg, $panel-success-border);
 }
 .panel-info {
-  @include panel-variant(
-    $panel-info-border,
-    $panel-info-text,
-    $panel-info-heading-bg,
-    $panel-info-border
-  );
+  @include panel-variant($panel-info-border, $panel-info-text, $panel-info-heading-bg, $panel-info-border);
 }
 .panel-warning {
-  @include panel-variant(
-    $panel-warning-border,
-    $panel-warning-text,
-    $panel-warning-heading-bg,
-    $panel-warning-border
-  );
+  @include panel-variant($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg, $panel-warning-border);
 }
 .panel-danger {
-  @include panel-variant(
-    $panel-danger-border,
-    $panel-danger-text,
-    $panel-danger-heading-bg,
-    $panel-danger-border
-  );
+  @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
 }

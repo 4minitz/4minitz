@@ -2,6 +2,7 @@
 // Alerts
 // --------------------------------------------------
 
+
 // Base styles
 // -------------------------
 
@@ -14,8 +15,7 @@
   // Headings for larger alerts
   h4 {
     margin-top: 0;
-    // Specified for the h4 to prevent conflicts of changing $headings-color
-    color: inherit;
+    color: inherit; // Specified for the h4 to prevent conflicts of changing $headings-color
   }
 
   // Provide class for links that match alerts
@@ -38,7 +38,8 @@
 //
 // Expand the right padding and account for the close button's positioning.
 
-.alert-dismissable, // The misspelled .alert-dismissable was deprecated in 3.2.0.
+// The misspelled .alert-dismissable was deprecated in 3.2.0.
+.alert-dismissable,
 .alert-dismissible {
   padding-right: ($alert-padding + 20);
 
@@ -56,11 +57,7 @@
 // Generate contextual modifier classes for colorizing the alert.
 
 .alert-success {
-  @include alert-variant(
-    $alert-success-bg,
-    $alert-success-border,
-    $alert-success-text
-  );
+  @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
 }
 
 .alert-info {
@@ -68,17 +65,9 @@
 }
 
 .alert-warning {
-  @include alert-variant(
-    $alert-warning-bg,
-    $alert-warning-border,
-    $alert-warning-text
-  );
+  @include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
 }
 
 .alert-danger {
-  @include alert-variant(
-    $alert-danger-bg,
-    $alert-danger-border,
-    $alert-danger-text
-  );
+  @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
 }
