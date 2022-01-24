@@ -1,8 +1,8 @@
 import { DateHelper } from "../lib/date-helper";
 import { Random } from "../lib/random";
 
-let faker = require("faker");
-let extend = require("clone"); // require("xtend");
+const faker = require("@faker-js/faker");
+const extend = require("clone"); // require("xtend");
 
 export class TopicsGenerator {
   /**
@@ -34,11 +34,11 @@ export class TopicsGenerator {
 
     // generate base list for the following minutes
     // basing on the previous list
-    let nextTopicsList = this.currentTopicList.filter((topic) => {
+    const nextTopicsList = this.currentTopicList.filter((topic) => {
       return !TopicsGenerator._isCompletelyClosed(topic);
     });
     this.currentTopicList = nextTopicsList.map((topic) => {
-      let topicClone = extend(topic);
+      const topicClone = extend(topic);
       topicClone.infoItems = topic.infoItems.filter((item) => {
         return item.isOpen;
       });
@@ -55,10 +55,10 @@ export class TopicsGenerator {
     // Here we have to clone the whole topics list to make sure
     // it will not be modified by the following one...
     return [...this.currentTopicList].map((topic) => {
-      let clone = extend(topic);
+      const clone = extend(topic);
       clone.infoItems = [];
       topic.infoItems.forEach((item) => {
-        let itemClone = extend(item);
+        const itemClone = extend(item);
         clone.infoItems.push(itemClone);
       });
       return clone;
@@ -67,7 +67,7 @@ export class TopicsGenerator {
 
   _extendExistingTopics() {
     for (let i = 0; i < this.currentTopicList.length; i++) {
-      let topic = this.currentTopicList[i];
+      const topic = this.currentTopicList[i];
 
       // close action items and add details, randomly
       topic.infoItems.forEach((item) => {
@@ -79,11 +79,11 @@ export class TopicsGenerator {
         }
       });
 
-      let itemsCount = Random.randomNumber(
+      const itemsCount = Random.randomNumber(
         this.config.itemsRange.min,
         this.config.itemsRange.max
       );
-      let start = itemsCount - topic.infoItems.length;
+      const start = itemsCount - topic.infoItems.length;
       for (let j = 0; j < start; j++) {
         topic.infoItems.unshift(this._generateANewInfoItem());
       }
@@ -91,11 +91,11 @@ export class TopicsGenerator {
   }
 
   _generateNewTopics() {
-    let topicsCount = Random.randomNumber(
+    const topicsCount = Random.randomNumber(
       this.config.topicsRange.min,
       this.config.topicsRange.max
     );
-    let start = topicsCount - this.currentTopicList.length;
+    const start = topicsCount - this.currentTopicList.length;
     for (let i = 0; i < start; i++) {
       this.currentTopicList.unshift(this._generateANewTopic());
     }
@@ -103,15 +103,15 @@ export class TopicsGenerator {
 
   _copyTopicsToSeries(isLastOne = false) {
     this.currentTopicList.forEach((topic) => {
-      let topicClone = extend(topic);
+      const topicClone = extend(topic);
 
       topicClone.infoItems = topicClone.infoItems.filter((item) => {
         return !item.isOpen || isLastOne;
       });
 
       if (this.seriesTopicIdIndexMap[topic._id] !== undefined) {
-        let index = this.seriesTopicIdIndexMap[topic._id];
-        let existingTopic = this.seriesTopicList[index];
+        const index = this.seriesTopicIdIndexMap[topic._id];
+        const existingTopic = this.seriesTopicList[index];
         topicClone.infoItems.forEach((item) => {
           existingTopic.infoItems.push(item);
         });
@@ -124,7 +124,7 @@ export class TopicsGenerator {
   }
 
   _generateANewTopic() {
-    let items = this._generateNewInfoItems();
+    const items = this._generateNewInfoItems();
 
     return {
       _id: Random.generateId(),
@@ -146,8 +146,8 @@ export class TopicsGenerator {
   }
 
   _generateNewInfoItems() {
-    let items = [];
-    let itemsCount = Random.randomNumber(
+    const items = [];
+    const itemsCount = Random.randomNumber(
       this.config.itemsRange.min,
       this.config.itemsRange.max
     );
@@ -158,8 +158,8 @@ export class TopicsGenerator {
   }
 
   _generateANewInfoItem() {
-    let isAction = faker.datatype.boolean();
-    let item = {
+    const isAction = faker.datatype.boolean();
+    const item = {
       _id: Random.generateId(),
       createdAt: new Date(),
       createdBy: this.config.username,
@@ -187,7 +187,7 @@ export class TopicsGenerator {
   }
 
   _generateADetail() {
-    let date = this.minutesDate ? this.minutesDate : new Date();
+    const date = this.minutesDate ? this.minutesDate : new Date();
     return {
       _id: Random.generateId(),
       createdAt: new Date(),
@@ -207,7 +207,7 @@ export class TopicsGenerator {
       return false;
     }
     for (let i = 0; i < topic.infoItems.length; i++) {
-      let item = topic.infoItems[i];
+      const item = topic.infoItems[i];
       if (item.isOpen) {
         return false;
       }
