@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import faker from "@faker-js/faker";
+import faker from "faker";
 import _ from "underscore";
 
 import { ParticipantsPreparer } from "../../../../imports/client/ParticipantsPreparer";
