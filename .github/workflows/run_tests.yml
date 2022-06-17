@@ -46,7 +46,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.22.5'         # chromedriver needs node v12 to install!
-      - run: npm i chromedriver@^97.0.0
+      - run: npm i chromedriver@^101.0.0
       - run: ./node_modules/chromedriver/bin/chromedriver --version
 
       - uses: actions/setup-node@v1
