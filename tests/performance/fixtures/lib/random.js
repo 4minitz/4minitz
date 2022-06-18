@@ -1,5 +1,5 @@
 const randomstring = require("randomstring");
-const faker = require("faker");
+const faker = require("@faker-js/faker");
 
 export class Random {
   static generateId() {

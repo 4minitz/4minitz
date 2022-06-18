@@ -1,7 +1,7 @@
 import { DateHelper } from "../lib/date-helper";
 import { Random } from "../lib/random";
 
-const faker = require("faker");
+const faker = require("@faker-js/faker");
 const extend = require("clone"); // require("xtend");
 
 export class TopicsGenerator {

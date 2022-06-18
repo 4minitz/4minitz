@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import faker from "faker";
+import faker from "@faker-js/faker";
 import _ from "underscore";
 
 import { ParticipantsPreparer } from "../../../../imports/client/ParticipantsPreparer";
@@ -9,7 +9,7 @@ const generateId = () => {
 };
 
 const createUser = (id, username, name) => {
-  return { _id: id, username: username, profile: { name: name } };
+  return { _id: id, username, profile: { name } };
 };
 
 const USER_1 = createUser(generateId(), "user1", "First User");

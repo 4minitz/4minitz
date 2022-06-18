@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2.1.4
       with:
         node-version: '12.22.5'
     - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -31,7 +31,7 @@ jobs:
           - tests/end2end/MeetingSeriesEdit-test.js
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.1.4
         with:
           node-version: '12.22.5'
 
@@ -43,17 +43,9 @@ jobs:
       - run: meteor --version
       - run: google-chrome --version
       - run: npm install
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.22.5'         # chromedriver needs node v12 to install!
       - run: npm i chromedriver@^101.0.0
       - run: ./node_modules/chromedriver/bin/chromedriver --version
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.22.5'          
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
-
 
       - name: Upload E2E screenshot artifacts
         if: always()
