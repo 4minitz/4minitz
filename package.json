@@ -92,7 +92,7 @@
     "chromedriver": "^101.0.0",
     "clone": "^2.1.2",
     "ddp": "^0.12.1",
-    "eslint": "^7.5.0",
+    "eslint": "^8.16.0",
     "@faker-js/faker": "5.5.3",
     "js-yaml": "^4.0.0",
     "markdownlint-cli": "^0.31.1",
