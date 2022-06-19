@@ -15,14 +15,14 @@ echo Port $PORT4APP
 
 # Find path of currently running script
 TARGET_FILE=$0
-cd `dirname $TARGET_FILE`
+cd `dirname "$TARGET_FILE"`
 TARGET_FILE=`basename $TARGET_FILE`
 
 # Iterate down a (possible) chain of symlinks
 while [ -L "$TARGET_FILE" ]
 do
     TARGET_FILE=`readlink $TARGET_FILE`
-    cd `dirname $TARGET_FILE`
+    cd `dirname "$TARGET_FILE"`
     TARGET_FILE=`basename $TARGET_FILE`
 done
 
