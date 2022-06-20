@@ -35,7 +35,7 @@
   "devDependencies": {
     "node-sass": "^4.9.3",
     "mincer": "~1.4.0",
-    "ejs": "~2.6.1"
+    "ejs": "3.1.7"
   },
   "eyeglass": {
     "exports": "eyeglass-exports.js",
