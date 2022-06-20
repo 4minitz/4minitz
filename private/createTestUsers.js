@@ -7,7 +7,7 @@
  */
 
 const mongo = require('mongodb').MongoClient
-const faker = require('@faker-js/faker')
+const { faker } = require('@faker-js/faker')
 const random = require('randomstring')
 
 class UserFactory {
