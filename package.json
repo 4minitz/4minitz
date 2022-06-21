@@ -53,7 +53,7 @@
     "bootstrap": "file:imports/bootstrap",
     "bootstrap-material-design": "file:imports/bootstrap-material-design",
     "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.49",
-    "fibers": "5.0.0",
+    "fibers": "5.0.1",
     "fs-extra": "^10.0.0",
     "git-rev-sync": "^3.0.1",
     "jquery": "^3.3.1",
