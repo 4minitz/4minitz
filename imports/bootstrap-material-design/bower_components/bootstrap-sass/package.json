@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "node-sass": "^4.9.3",
-    "mincer": "~1.4.0",
+    "mincer": "~2.0.1",
     "ejs": "3.1.7"
   },
   "eyeglass": {
