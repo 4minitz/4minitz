@@ -1,74 +1,74 @@
-const fs = require('fs')
-const EJSON = require('bson')
+const fs = require("fs");
+const EJSON = require("bson");
 
 class ExpImpTopics {
-  static get FILENAME_POSTFIX () {
-    return '_topics.json'
+  static get FILENAME_POSTFIX() {
+    return "_topics.json";
   }
 
-  static doExport (db, msID, userIDs) {
+  static doExport(db, msID, userIDs) {
     return new Promise((resolve, reject) => {
-      db.collection('topics')
+      db.collection("topics")
         .find({ parentId: msID })
         .toArray()
         .then((doc) => {
           if (doc) {
-            const topFile = msID + ExpImpTopics.FILENAME_POSTFIX
-            fs.writeFileSync(topFile, EJSON.stringify(doc, null, 2))
+            const topFile = msID + ExpImpTopics.FILENAME_POSTFIX;
+            fs.writeFileSync(topFile, EJSON.stringify(doc, null, 2));
             console.log(
-              'Saved: ' + topFile + ' with ' + doc.length + ' topics'
-            )
-            resolve({ db, userIDs })
+              "Saved: " + topFile + " with " + doc.length + " topics"
+            );
+            resolve({ db, userIDs });
           } else {
-            return reject('Unknown meeting series ID: ' + msID)
+            return reject("Unknown meeting series ID: " + msID);
           }
-        })
-    })
+        });
+    });
   }
 
-  static doImport (db, msID, usrMap) {
+  static doImport(db, msID, usrMap) {
     return new Promise((resolve, reject) => {
-      const topFile = msID + ExpImpTopics.FILENAME_POSTFIX
-      let AllTopicsDoc
+      const topFile = msID + ExpImpTopics.FILENAME_POSTFIX;
+      let AllTopicsDoc;
       try {
-        AllTopicsDoc = EJSON.parse(fs.readFileSync(topFile, 'utf8'))
+        AllTopicsDoc = EJSON.parse(fs.readFileSync(topFile, "utf8"));
         if (!AllTopicsDoc) {
-          return reject('Could not read topic file ' + topFile)
+          return reject("Could not read topic file " + topFile);
         }
       } catch (e) {
-        return reject('Could not read topic file ' + topFile + '\n' + e)
+        return reject("Could not read topic file " + topFile + "\n" + e);
       }
 
       // Replace old user IDs with new users IDs
-      const topicIDs = []
+      const topicIDs = [];
       for (let t = 0; t < AllTopicsDoc.length; t++) {
-        topicIDs.push(AllTopicsDoc[t]._id)
-        AllTopicsDoc[t] = ExpImpTopics.patchUsers(AllTopicsDoc[t], usrMap)
+        topicIDs.push(AllTopicsDoc[t]._id);
+        AllTopicsDoc[t] = ExpImpTopics.patchUsers(AllTopicsDoc[t], usrMap);
       }
 
       return db
-        .collection('topics')
+        .collection("topics")
         .deleteMany({ _id: { $in: topicIDs } }) // delete existing topics with same IDs
         .then(function (res) {
           if (res.result && !res.result.ok) {
-            console.log(res)
+            console.log(res);
           }
           return db
-            .collection('topics')
+            .collection("topics")
             .insertMany(AllTopicsDoc) // insert imported minutes
             .then(function (res) {
               if (res.result.ok === 1 && res.result.n === AllTopicsDoc.length) {
-                console.log('OK, inserted ' + res.result.n + ' topics.')
-                resolve({ db, usrMap })
+                console.log("OK, inserted " + res.result.n + " topics.");
+                resolve({ db, usrMap });
               } else {
-                reject('Could not insert topics')
+                reject("Could not insert topics");
               }
-            })
-        })
-    })
+            });
+        });
+    });
   }
 
-  static patchUsers (topicDoc, usrMap) {
+  static patchUsers(topicDoc, usrMap) {
     // patch topic-responsibles
     for (
       let i = 0;
@@ -77,7 +77,7 @@ class ExpImpTopics {
     ) {
       if (usrMap[topicDoc.responsibles[i]]) {
         // may be "free text" user
-        topicDoc.responsibles[i] = usrMap[topicDoc.responsibles[i]]
+        topicDoc.responsibles[i] = usrMap[topicDoc.responsibles[i]];
       }
     }
     // patch topic-actionitem-responsibles
@@ -91,12 +91,12 @@ class ExpImpTopics {
         if (usrMap[topicDoc.infoItems[i].responsibles[j]]) {
           // may be "free text" user
           topicDoc.infoItems[i].responsibles[j] =
-            usrMap[topicDoc.infoItems[i].responsibles[j]]
+            usrMap[topicDoc.infoItems[i].responsibles[j]];
         }
       }
     }
-    return topicDoc
+    return topicDoc;
   }
 }
 
-module.exports = ExpImpTopics
+module.exports = ExpImpTopics;
