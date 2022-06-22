@@ -13,7 +13,7 @@ import { i18n } from "meteor/universe:i18n";
 export const DocumentsCollection = new FilesCollection({
   collectionName: "DocumentsCollection",
   allowClientCode: false,
-  permissions: parseInt("0600", 8), // #Security: make uploaded files "chmod 600' only readable for server user
+  permissions: 0o0600, // #Security: make uploaded files "chmod 600' only readable for server user
   storagePath: Meteor.isServer ? createDocumentStoragePath : undefined, //eslint-disable-line
 
   // #Security: onBeforeUpload
