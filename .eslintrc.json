@@ -11,28 +11,24 @@
         "server": true,
         "browser": true
     },
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended", 
+        "plugin:prettier/recommended"
+    ],
+    "plugins": ["prettier"],  
     "parserOptions": {
         "sourceType": "module"
     },
     "rules": {
-        "indent": [
-            "error",
-            4
-        ],
         "linebreak-style": [
             "error",
             "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
         ],
         "semi": [
             "error",
             "always"
         ],
         "no-useless-escape": ["off"],
-        "no-console": ["off"]
+        "no-console": ["off"],
+        "prettier/prettier": ["error"]
     }
 }

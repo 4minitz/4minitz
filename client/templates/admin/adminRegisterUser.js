@@ -10,16 +10,16 @@ import { handleError } from '../../helpers/handleError';
 Template.adminRegisterUser.helpers({
     isMailEnabled() {
         return GlobalSettings.isEMailDeliveryEnabled();
-    }
+    },
 });
 
 Template.adminRegisterUser.events({
-    'submit #frmDlgRegisterUser'(evt) {
+    "submit #frmDlgRegisterUser"(evt) {
         evt.preventDefault();
     },
 
-    'click #btnRegisterUserSave'(evt, tmpl) {
-        if (! Meteor.user().isAdmin) {
+    "click #btnRegisterUserSave"(evt, tmpl) {
+        if (!Meteor.user().isAdmin) {
             return;
         }
 
@@ -36,20 +36,33 @@ Template.adminRegisterUser.events({
             sendPassword = tmpl.find('#id_RegUserSendPassword').checked;
         }
 
-        tmpl.$('#btnRegisterUserSave').prop('disabled',true);
-        Meteor.call('users.admin.registerUser',
-            uName, uLongName, uMail, uPassword1, uPassword2, sendMail, sendPassword,
+        tmpl.$('#btnRegisterUserSave').prop('disabled', true);
+        Meteor.call(
+            "users.admin.registerUser",
+            uName,
+            uLongName,
+            uMail,
+            uPassword1,
+            uPassword2,
+            sendMail,
+            sendPassword,
             function (error) {
                 if (error) {
-                    tmpl.$('#btnRegisterUserSave').prop('disabled',false);
+                    tmpl.$('#btnRegisterUserSave').prop('disabled', false);
                     console.log(error);
                     evt.preventDefault();
                     handleError(error);
                 } else {
                     $('#dlgAdminRegisterUser').modal('hide');
-                    (new FlashMessage(i18n.__('FlashMessages.ok'), i18n.__('Admin.Register.success', {user: uName}), 'alert-success', 3000)).show();
+                    new FlashMessage(
+                        i18n.__('FlashMessages.ok'),
+                        i18n.__('Admin.Register.success', { user: uName }),
+                        "alert-success",
+                        3000
+                    ).show();
                 }
-            });
+            }
+        );
     },
 
     'show.bs.modal #dlgAdminRegisterUser': function (evt, tmpl) {
@@ -58,10 +71,10 @@ Template.adminRegisterUser.events({
         tmpl.find('#id_newUsrMail').value = '';
         tmpl.find('#id_newUsrPassword1').value = '';
         tmpl.find('#id_newUsrPassword2').value = '';
-        tmpl.$('#btnRegisterUserSave').prop('disabled',false);
+        tmpl.$('#btnRegisterUserSave').prop('disabled', false);
     },
 
     'shown.bs.modal #dlgAdminRegisterUser': function (evt, tmpl) {
         tmpl.find('#id_newUsrName').focus();
-    }
+    },
 });
