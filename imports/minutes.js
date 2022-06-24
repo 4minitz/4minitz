@@ -400,7 +400,7 @@ export class Minutes {
   // method?
   /**
    * Change presence of a single participant. Immediately updates .participants array
-   * @TODO Reactive performance may be better if we only update one array element in DB
+   * @todo Reactive performance may be better if we only update one array element in DB
    * @param userid of the participant in the participant array
    * @param isPresent new state of presence
    */

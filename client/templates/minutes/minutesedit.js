@@ -294,7 +294,7 @@ let updateTopicSorting = function (event, ui) {
 let openPrintDialog = function () {
   let ua = navigator.userAgent.toLowerCase();
   let isAndroid = ua.indexOf("android") > -1;
-  // @todo Cloud print is deprecated
+  /* @todo Cloud print is deprecated */
     if (isAndroid && cloudprint && cloudprint.Gadget) { //eslint-disable-line 
     // https://developers.google.com/cloud-print/docs/gadget
         let gadget = new cloudprint.Gadget(); //eslint-disable-line
