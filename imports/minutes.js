@@ -400,7 +400,7 @@ export class Minutes {
   // method?
   /**
    * Change presence of a single participant. Immediately updates .participants array
-   * @todo Reactive performance may be better if we only update one array element in DB
+   * TODO Reactive performance may be better if we only update one array element in DB
    * @param userid of the participant in the participant array
    * @param isPresent new state of presence
    */
@@ -485,7 +485,7 @@ export class Minutes {
    * @returns {String} with comma separated list of names
    */
   getPresentParticipantNames(maxChars) {
-    // @todo does this member have to be updated?
+    // TODO does this member have to be updated?
     this.participants = this.participants || [];
     const additionalParticipants = this.participantsAdditional || [];
 

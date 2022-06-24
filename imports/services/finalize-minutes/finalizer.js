@@ -17,7 +17,7 @@ import { TopicsFinalizer } from "./topicsFinalizer";
 import { i18n } from "meteor/universe:i18n";
 import { MeetingSeries } from "/imports/meetingseries";
 
-// @todo merge with finalizer copy
+// TODO merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   // Make sure the user is logged in before changing collections
   if (!Meteor.userId()) {

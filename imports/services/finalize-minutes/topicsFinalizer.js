@@ -136,7 +136,7 @@ export class TopicsFinalizer {
   }
 
   static isStickyItem(item) {
-    // @todo Use ItemFactory to create info-/actionItem Object then we can use the isSticky-Method
+    // TODO Use ItemFactory to create info-/actionItem Object then we can use the isSticky-Method
     return (
       (item.itemType === "infoItem" && item.isSticky) ||
       (item.itemType === "actionItem" && item.isOpen)

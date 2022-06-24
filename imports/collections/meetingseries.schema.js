@@ -21,7 +21,7 @@ export const MeetingSeriesSchema = SchemaClass.create({
     visibleFor: { type: [String], validators: [{ type: "meteorId" }] },
     // element may be userID or EMail address
     informedUsers: { type: [String], optional: true },
-    // @todo make this a date?
+    // TODO make this a date?
     lastMinutesDate: { type: String },
     lastMinutesFinalized: { type: Boolean, default: false },
     lastMinutesId: {

@@ -25,7 +25,7 @@ export const MinutesSchema = SchemaClass.create({
   collection: MinutesCollection,
   fields: {
     meetingSeries_id: { type: String, validators: [{ type: "meteorId" }] },
-    // @todo make this of type date
+    // TODO make this of type date
     date: { type: String },
     globalNote: { type: String, default: "", optional: true },
     globalNotePinned: { type: Boolean, default: false, optional: true },
