@@ -88,7 +88,6 @@
     "@wdio/spec-reporter": "^7.0.0",
     "@wdio/sync": "^7.0.0",
     "acorn": "^8.0.0",
-    "babel-plugin-add-module-exports": "^1.0.2",
     "chai": "^4.1.2",
     "chromedriver": "^101.0.0",
     "clone": "^2.1.2",
