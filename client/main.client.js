@@ -42,7 +42,7 @@ import "jquery-ui/ui/scroll-parent";
 import "jquery-ui/ui/widgets/mouse";
 import "jquery-ui/ui/widgets/sortable";
 
-import "jquery-ui-touch-punch/jquery.ui.touch-punch";
+// import "jquery-ui-touch-punch/jquery.ui.touch-punch";
 
 $(document).arrive(
   "input",
