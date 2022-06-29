@@ -134,7 +134,7 @@ Template.minutesAttachments.events({
       // We upload only one file, in case
       // multiple files were selected
       const uploadFilename = e.currentTarget.files[0];
-      console.log("Uploading... " + uploadFilename);
+      console.log("Uploading... " + uploadFilename); // i18n.__("Minutes.Upload.uploading"),
       const minObj = new Minutes(_minutesID);
       Attachment.uploadFile(uploadFilename, minObj, {
         onStart: (fileUploadObj) => {
