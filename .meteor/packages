@@ -55,3 +55,4 @@ promise@0.12.0
 accounts-base@2.2.3
 babel-compiler@7.9.0
 ostrio:files
+ddp-client

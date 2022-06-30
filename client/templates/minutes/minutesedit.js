@@ -353,7 +353,17 @@ Template.minutesedit.helpers({
         // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on some systems...
         showTodayButton: true,
       });
-
+/**
+ *   new tempusDominus.TempusDominus(document.getElementById('datetimepicker4'), {
+   display: {
+     viewMode: 'clock',
+    buttons: {
+      today: 'true',
+    }
+    
+   }
+ });
+ */
       let aMin = new Minutes(_minutesID);
       if (!aMin.isFinalized) {
         let ms = aMin.parentMeetingSeries();
@@ -361,7 +371,7 @@ Template.minutesedit.helpers({
           let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
           if (minDate) {
             minDate.setDate(minDate.getDate() + 1);
-            datePickerNode.data("DateTimePicker").minDate(minDate);
+            datePickerNode.data("DateTimePicker").minDate(minDate); //convert for TD
           }
         }
       }
