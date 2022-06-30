@@ -138,7 +138,7 @@ class QualityTestCase {
             QualityTestRunner.TRIGGERS.finalize,
             () => {return true;},
             (minute) => {
-                if(minute.topics.length < 0) return;
+                if(minute.topics.length === 0) return;
                 let noTopicChecked = true;
                 minute.topics.forEach(topic => {
                     if(!topic.isOpen) noTopicChecked = false;
@@ -153,7 +153,7 @@ class QualityTestCase {
             QualityTestRunner.TRIGGERS.finalize,
             () => {return true;},
             (minute) => {
-                if(minute.topics.length < 0) return;
+                if(minute.topics.length === 0) return;
 
                 let checkedButChildren = false;
                 minute.topics.forEach(topic => {
@@ -170,7 +170,7 @@ class QualityTestCase {
             QualityTestRunner.TRIGGERS.finalize,
             () => {return true;},
             (minute) => {
-                if(minute.topics.length < 0) return;
+                if(minute.topics.length === 0) return;
 
                 let actionItemWithoutResponsible = false;
                 minute.topics.forEach(topic => {
