@@ -6,33 +6,33 @@
 // and broke loading the app in IE11
 
 
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from "meteor/meteor";
 
 const fs = require('fs-extra');
 const path = require('path');
 
 createDocumentStoragePath = function (fileObj) { //eslint-disable-line
-    if (Meteor.isServer) { 
+    if (Meteor.isServer) {
         let absoluteDocumentPath = getDocumentStorageRootDirectory(); //eslint-disable-line
         // optionally: append sub directory for parent meeting series and year if a minute is given
         if (fileObj && fileObj.meta && fileObj.meta.minuteId) {
-            absoluteDocumentPath =  absoluteDocumentPath + '/' + fileObj.meta.meetingSeriesId; 
-            let minuteYear = new Date(fileObj.meta.minuteDate).getFullYear(); 
-            absoluteDocumentPath =  absoluteDocumentPath + '/' + minuteYear;
+            absoluteDocumentPath = absoluteDocumentPath + '/' + fileObj.meta.meetingSeriesId;
+            let minuteYear = new Date(fileObj.meta.minuteDate).getFullYear();
+            absoluteDocumentPath = absoluteDocumentPath + '/' + minuteYear;
         }
         // create target dir for document storage if it does not exist 
-        fs.ensureDirSync(absoluteDocumentPath, function (err) { 
-            if (err) { 
-                console.error('ERROR: Could not create path for protocol storage: ' + absoluteDocumentPath); 
-            } 
-        }); 
-        return absoluteDocumentPath; 
+        fs.ensureDirSync(absoluteDocumentPath, function (err) {
+            if (err) {
+                console.error('ERROR: Could not create path for protocol storage: ' + absoluteDocumentPath);
+            }
+        });
+        return absoluteDocumentPath;
     }
 };
 
 //This function will delete the DocumentStoragePath with each subdirectory in it
 //It is used within the E2E-Tests to reset the app
-resetDocumentStorageDirectory = function() { //eslint-disable-line
+resetDocumentStorageDirectory = function () { //eslint-disable-line
     let storagePath = getDocumentStorageRootDirectory(); //eslint-disable-line
     if (fs.existsSync(storagePath)) {
         fs.emptyDir(storagePath);
@@ -40,12 +40,12 @@ resetDocumentStorageDirectory = function() { //eslint-disable-line
 };
 
 getDocumentStorageRootDirectory = () => { //eslint-disable-line
-    let absoluteDocumentPath = Meteor.settings.docGeneration && Meteor.settings.docGeneration.targetDocPath 
-        ? Meteor.settings.docGeneration.targetDocPath 
-        : 'protocols'; 
+    let absoluteDocumentPath = Meteor.settings.docGeneration && Meteor.settings.docGeneration.targetDocPath
+        ? Meteor.settings.docGeneration.targetDocPath
+        : 'protocols';
     // make path absolute 
-    if (!path.isAbsolute(absoluteDocumentPath)) { 
-        absoluteDocumentPath = path.resolve(absoluteDocumentPath); 
+    if (!path.isAbsolute(absoluteDocumentPath)) {
+        absoluteDocumentPath = path.resolve(absoluteDocumentPath);
     }
     return absoluteDocumentPath;
 };
@@ -73,7 +73,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {  //eslint-disable-line
         additionalArguments = ' ' + Meteor.settings.docGeneration.wkhtmltopdfParameters.trim();
     }
 
-    exec(exePath + additionalArguments + ' "'+ tempFileName + '" "' +  outputPath + '"', {
+    exec(exePath + additionalArguments + ' "' + tempFileName + '" "' + outputPath + '"', {
         stdio: 'ignore' //surpress progess messages from pdf generation in server console
     });
 
@@ -92,7 +92,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {  //eslint-disable-line
             ' -sDEVICE=pdfwrite -dPDFACompatibilityPolicy=1 -sOutputFile=';
 
         try {
-            exec(exePath + additionalArguments + '"' + outputPath + '" "' + Meteor.settings.docGeneration.pathToPDFADefinitionFile + '" "' + inputPath +  '"', {
+            exec(exePath + additionalArguments + '"' + outputPath + '" "' + Meteor.settings.docGeneration.pathToPDFADefinitionFile + '" "' + inputPath + '"', {
                 stdio: 'ignore' //surpress progess messages from pdf generation in server console
             });
         } catch (error) {
@@ -103,7 +103,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {  //eslint-disable-line
     }
     fs.unlink(tempFileName);
     // Now move file to it's meetingseries directory
-    let finalPDFOutputPath = createDocumentStoragePath({meta: metaData}) + '/' + Random.id() + '.pdf'; //eslint-disable-line
+    let finalPDFOutputPath = createDocumentStoragePath({ meta: metaData }) + '/' + Random.id() + '.pdf'; //eslint-disable-line
     fs.moveSync(outputPath, finalPDFOutputPath);
 
     return finalPDFOutputPath;
@@ -118,8 +118,8 @@ if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
     let absoluteTargetPath = path.resolve(settingsPath);
     console.log('Document Storage Path: ' + absoluteTargetPath);
 
-    fs.access(absoluteTargetPath, fs.W_OK, function(err) {
-        if(err){
+    fs.access(absoluteTargetPath, fs.W_OK, function (err) {
+        if (err) {
             console.error('*** ERROR*** No write access to Document Storage Path');
             console.error('             Documents can not be saved.');
             console.error('             Ensure write access to path specified in your settings.json');
@@ -136,7 +136,7 @@ if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
                 if (Meteor.settings.docGeneration.format === 'pdfa') {
                     checkCondition((Meteor.settings.docGeneration.pathToGhostscript), 'No path for ghostscript is assigned within settings.json.');
                     checkFileExists(Meteor.settings.docGeneration.pathToGhostscript, 'binary for ghostscript');
-                    checkCondition((Meteor.settings.docGeneration.pathToPDFADefinitionFile) && ((Meteor.settings.docGeneration.ICCProfileType === 'rgb') || (Meteor.settings.docGeneration.ICCProfileType === 'cmyk')), 
+                    checkCondition((Meteor.settings.docGeneration.pathToPDFADefinitionFile) && ((Meteor.settings.docGeneration.ICCProfileType === 'rgb') || (Meteor.settings.docGeneration.ICCProfileType === 'cmyk')),
                         'Both a path to a pdfa definition file and a valid ICC profile type have to be assigned in the settings.json');
                     checkFileExists(Meteor.settings.docGeneration.pathToPDFADefinitionFile, 'PDFA definition file');
                 }
@@ -150,7 +150,7 @@ if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
 let checkCondition = (condition, errorMessage) => {
     if (Meteor.settings.docGeneration.enabled) {
         if (!condition) {
-            console.error('*** ERROR*** '+ errorMessage);
+            console.error('*** ERROR*** ' + errorMessage);
             console.error('             Document generation feature: DISABLED');
             Meteor.settings.docGeneration.enabled = false;
         }
