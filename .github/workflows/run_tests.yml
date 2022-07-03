@@ -6,9 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2.1.4
+    - uses: actions/setup-node@v3
       with:
-        node-version: '14.17.6'
+        node-version-file: '.nvmrc'
+        cache: 'npm'
     - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
     - run: sudo apt-get install gcc-10 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
     - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 50
@@ -31,9 +32,10 @@ jobs:
           - tests/end2end/MeetingSeriesEdit-test.js
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.1.4
+      - uses: actions/setup-node@v3
         with:
-          node-version: '14.17.6'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
       - run: sudo apt-get install gcc-10 -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
