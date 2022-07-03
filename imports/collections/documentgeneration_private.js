@@ -200,9 +200,9 @@ Meteor.methods({
       storeFileFunction = (htmldata, fileName, metaData) => {
         console.log("Protocol generation to file: ", fileName);
         DocumentsCollection.write(
-          new Buffer(htmldata),
+          new Buffer.from(htmldata),
           {
-            fileName: fileName + ".html",
+            fileName: "$(fileName).html",
             type: "text/html",
             meta: metaData,
           },
