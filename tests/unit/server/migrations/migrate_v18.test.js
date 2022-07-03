@@ -175,33 +175,33 @@ describe("Migrate Version 18", function () {
       expect(argsFirstCall[0]).to.equal(firstMinutes._id);
       expect(argsSecondCall[0]).to.equal(secondMinutes._id);
 
-      const topcisFirstCall = argsFirstCall[1].$set.topics;
-      expect(topcisFirstCall).to.have.length(2);
-      expect(topcisFirstCall[0].createdAt.getTime()).to.equal(
+      const topicsFirstCall = argsFirstCall[1].$set.topics;
+      expect(topicsFirstCall).to.have.length(2);
+      expect(topicsFirstCall[0].createdAt.getTime()).to.equal(
         expectedDateForElementsCreatedInFirstMinutes.getTime()
       );
-      expect(topcisFirstCall[0].updatedAt.getTime()).to.equal(
+      expect(topicsFirstCall[0].updatedAt.getTime()).to.equal(
         expectedDateForElementsCreatedInFirstMinutes.getTime()
       );
-      expect(topcisFirstCall[1].createdAt.getTime()).to.equal(
+      expect(topicsFirstCall[1].createdAt.getTime()).to.equal(
         expectedDateForElementsCreatedInFirstMinutes.getTime()
       );
-      expect(topcisFirstCall[1].updatedAt.getTime()).to.equal(
+      expect(topicsFirstCall[1].updatedAt.getTime()).to.equal(
         expectedDateForElementsCreatedInFirstMinutes.getTime()
       );
 
-      const topcis2ndCall = argsSecondCall[1].$set.topics;
-      expect(topcis2ndCall).to.have.length(2);
-      expect(topcis2ndCall[0].createdAt.getTime()).to.equal(
+      const topics2ndCall = argsSecondCall[1].$set.topics;
+      expect(topics2ndCall).to.have.length(2);
+      expect(topics2ndCall[0].createdAt.getTime()).to.equal(
         expectedDateForElementsCreatedInFirstMinutes.getTime()
       );
-      expect(topcis2ndCall[0].updatedAt.getTime()).to.equal(
+      expect(topics2ndCall[0].updatedAt.getTime()).to.equal(
         expectedDateForElementsCreatedInFirstMinutes.getTime()
       );
-      expect(topcis2ndCall[1].createdAt.getTime()).to.equal(
+      expect(topics2ndCall[1].createdAt.getTime()).to.equal(
         expectedDateForElementsCreatedIn2ndMinutes.getTime()
       );
-      expect(topcis2ndCall[1].updatedAt.getTime()).to.equal(
+      expect(topics2ndCall[1].updatedAt.getTime()).to.equal(
         expectedDateForElementsCreatedIn2ndMinutes.getTime()
       );
     });

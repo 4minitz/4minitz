@@ -35,7 +35,7 @@ describe("Migrate Version 16", function () {
       {
         _id: meetingSeriesId,
         topics: [openTopic, closedTopic],
-        openTopcis: [openTopic],
+        openTopics: [openTopic],
       },
     ];
 
@@ -52,7 +52,7 @@ describe("Migrate Version 16", function () {
   });
 
   describe("#up", function () {
-    it("calls insert on the topcis collection for each topic of the meeting series", function () {
+    it("calls insert on the topics collection for each topic of the meeting series", function () {
       MigrateV16.up();
       expect(TopicSchema.insert.calledTwice).to.be.true;
     });
@@ -100,7 +100,7 @@ describe("Migrate Version 16", function () {
       ).to.be.true;
     });
 
-    it("removes all topics from the topcis collection", function () {
+    it("removes all topics from the topics collection", function () {
       MigrateV16.down();
       expect(TopicSchema.remove.calledOnce).to.be.true;
       expect(TopicSchema.remove.calledWithExactly({})).to.be.true;
