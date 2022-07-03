@@ -65,18 +65,3 @@ jobs:
         with:
           name: E2E Mongodump
           path: tests/mongodump
-          
-  ESLint:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install modules
-      run: |
-          npm install eslint@8.10.0
-            with:
-          node-version: '14.17.6'
-          npm install @microsoft/eslint-formatter-sarif@2.1.7
-           with:
-          node-version: '14.17.6'
-    - name: Run ESLint
-      run: eslint . --ext .js,.jsx,.ts,.tsx
