@@ -31,16 +31,16 @@ Meteor.methods({
                 return {
                     code: code,
                     codeUI: franconianCode,
-                    approved: !!approvedLocales[franconianCode.toLowerCase()],
+                    approved: Boolean(approvedLocales[franconianCode.toLowerCase()]),
                     name: 'German (Franconian)',
                     nameNative: 'Deutsch (Fränggisch)'
                 };
             }
-            console.log('>>>', code, !!approvedLocales[code.toLowerCase()]);
+            console.log('>>>', code, Boolean(approvedLocales[code.toLowerCase()]));
             return {
                 code: code,
                 codeUI: code,
-                approved: !!approvedLocales[code.toLowerCase()],
+                approved: Boolean(approvedLocales[code.toLowerCase()]),
                 name: i18n.getLanguageName(code),
                 nameNative: i18n.getLanguageNativeName(code)[0].toUpperCase() + i18n.getLanguageNativeName(code).slice(1)
             };
