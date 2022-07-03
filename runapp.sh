@@ -5,7 +5,7 @@
 # ./runapp.sh 4321    - launches app on port 4321
 
 PORT4APP="3100"
-if [ -n $1 ]
+if [ -n "$1" ]
 then
     PORT4APP=$1
     echo $PORT4APP

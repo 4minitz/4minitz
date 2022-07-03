@@ -42,7 +42,6 @@ import "jquery-ui/ui/scroll-parent";
 import "jquery-ui/ui/widgets/mouse";
 import "jquery-ui/ui/widgets/sortable";
 
-
 $(document).arrive(
   "input",
   {

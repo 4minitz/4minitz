@@ -1,5 +1,5 @@
-import { Template } from 'meteor/templating';
+import { Template } from "meteor/templating";
 
-Template.registerHelper('and', (a, b) => {
-    return a && b;
+Template.registerHelper("and", (a, b) => {
+  return a && b;
 });

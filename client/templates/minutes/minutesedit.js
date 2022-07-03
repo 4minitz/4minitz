@@ -353,7 +353,7 @@ Template.minutesedit.helpers({
         // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on some systems...
         showTodayButton: true,
       });
-/**
+      /**
  *   new tempusDominus.TempusDominus(document.getElementById('datetimepicker4'), {
    display: {
      viewMode: 'clock',

@@ -1,5 +1,5 @@
-
 @media print {
+
     /* On meetingedit view on print:
        prohibit bootstrap print media query to add link targets behind our lik to the parent meeting series */
     #id_linkToParentSeries:after {

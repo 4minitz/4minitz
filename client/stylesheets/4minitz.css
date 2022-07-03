@@ -1,12 +1,11 @@
-
 .meetingListItem {
     padding: 2px;
 }
 
 .version-info {
-    position:absolute;
-    top:0;
-    right:0;
+    position: absolute;
+    top: 0;
+    right: 0;
     margin-top: 5px;
     margin-right: 5px;
     text-align: right;
@@ -19,7 +18,7 @@
     top: 13px;
     right: 10px;
     text-align: right;
-    padding-top:5px;
+    padding-top: 5px;
     width: 250px;
     color: yellow;
     z-index: 1000;
@@ -51,7 +50,7 @@
 
 .remove-symbol {
     padding: 3px 2px 2px 6px;
-    font-size:93%;
+    font-size: 93%;
 }
 
 .connection-warning-text {
@@ -68,6 +67,7 @@
 .panel-dropper {
     color: grey;
 }
+
 .panel-dropper:hover {
     color: teal;
 }
@@ -77,7 +77,8 @@
     margin-left: 0;
 }
 
-.panel-link:hover, .panel-link:link {
+.panel-link:hover,
+.panel-link:link {
     color: inherit;
 }
 
@@ -98,15 +99,17 @@ ul.nav-tabs {
     background-color: transparent;
     border-bottom: .333rem solid transparent;
 }
+
 ul.nav-tabs li.active {
     border-bottom: .333rem solid teal;
     color: grey;
 }
+
 ul.nav-tabs li a,
-ul.nav-tabs li a:focus
-{
+ul.nav-tabs li a:focus {
     color: grey !important;
 }
+
 ul.nav-tabs li a:hover {
     color: black !important;
 }
@@ -123,12 +126,15 @@ a:focus {
 .panel-heading.actionitem-open {
     background-color: #88dddd !important;
 }
+
 .panel-heading.actionitem-open-due-today {
     background-color: #ffffcc !important;
 }
+
 .panel-heading.actionitem-open-due-over {
     background-color: #ffdddd !important;
 }
+
 .panel-heading.actionitem-closed {
     background-color: #DDDDDD !important;
 }
@@ -158,15 +164,19 @@ a:focus {
 
 @media screen and (max-width: 799px) {
     .version-info {
-        display:none;
+        display: none;
     }
 }
 
 .sticky-item {
-    -webkit-transform: rotate(315deg); /* Safari and Chrome */
-    -moz-transform: rotate(315deg);   /* Firefox */
-    -ms-transform: rotate(315deg);   /* IE 9 */
-    -o-transform: rotate(315deg);   /* Opera */
+    -webkit-transform: rotate(315deg);
+    /* Safari and Chrome */
+    -moz-transform: rotate(315deg);
+    /* Firefox */
+    -ms-transform: rotate(315deg);
+    /* IE 9 */
+    -o-transform: rotate(315deg);
+    /* Opera */
     transform: rotate(315deg);
 }
 
@@ -202,7 +212,8 @@ a:focus {
 }
 
 .dragDropHandle:hover {
-    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: move;
+    /* fallback if grab cursor is unsupported */
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
@@ -222,13 +233,14 @@ a:focus {
 
 /* Format tables in MarkDown details */
 .detailText table {
-    border-collapse:separate;
-    border:solid darkgray 1px;
-    border-radius:6px;
+    border-collapse: separate;
+    border: solid darkgray 1px;
+    border-radius: 6px;
     padding: 10px;
 }
 
-.detailText td, .detailText th {
+.detailText td,
+.detailText th {
     padding: 10px;
     border-bottom: solid black 1px;
 }
@@ -238,7 +250,8 @@ a:focus {
 }
 
 
-@media screen and (max-width: 739px), screen and (min-width: 992px) {
+@media screen and (max-width: 739px),
+screen and (min-width: 992px) {
     .minutes-action-buttons .btn-raised {
         width: 100%
     }
@@ -259,6 +272,7 @@ input.pick-a-color {
 }
 
 @media (min-width: 768px) {
+
     /* used to indent topic content like infoitems / action items */
     .leftIndent-desktop {
         margin-left: 20px;
@@ -297,7 +311,7 @@ input.pick-a-color {
     text-decoration: line-through;
 }
 
-.linkItemContext{
+.linkItemContext {
     color: grey;
     font-size: 80%;
     vertical-align: sub;
@@ -307,13 +321,14 @@ a.linkItemContext:hover {
     color: black;
 }
 
-.meetingSeriesSearchbar input{
+.meetingSeriesSearchbar input {
     margin: 5px 0 0 1px;
     width: 233px;
     height: 30px;
 }
-@media (min-width: 600px){
-    .meetingSeriesSearchbar{
+
+@media (min-width: 600px) {
+    .meetingSeriesSearchbar {
         float: right;
         margin: 10px 15px 0 0;
     }
@@ -328,10 +343,12 @@ a {
 .td-ellipsis {
     position: relative;
 }
+
 .td-ellipsis:before {
     content: '&nbsp;';
     visibility: hidden;
 }
+
 .td-ellipsis span {
     position: absolute;
     left: 0;
@@ -348,7 +365,8 @@ a {
 
     See also related issue https://github.com/FezVrasta/bootstrap-material-design/issues/1189
 */
-.checkbox input[type=checkbox]:checked + .checkbox-material .check, label.checkbox-inline input[type=checkbox]:checked + .checkbox-material .check {
+.checkbox input[type=checkbox]:checked+.checkbox-material .check,
+label.checkbox-inline input[type=checkbox]:checked+.checkbox-material .check {
     background-color: #009688;
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
 }
