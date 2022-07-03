@@ -101,7 +101,7 @@
     "mocha": "^10.0.0",
     "prettier": "2.7.1",
     "proxyquire": "^1.8.0",
-    "resolve": "1.20.0",
+    "resolve": "1.22.1",
     "sinon": "^14.0.0",
     "sinon-chai": "^3.7.0",
     "tree-kill": "^1.2.0",
