@@ -287,4 +287,11 @@ export class GlobalSettings {
     static getAttachmentsEnabled() {
         return  Meteor.settings.public.attachments.enabled;
     }
+    
+    // The url is in settings file. 
+    static getLegalNoticeExternalUrl(){
+        if (navigator.language == "de-DE")
+            return Meteor.settings.public.branding.legalNotice.externalURL.de;
+        return Meteor.settings.public.branding.legalNotice.externalURL.en;
+    }
 }

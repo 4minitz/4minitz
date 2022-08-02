@@ -37,9 +37,9 @@ Template.aboutDialog.events({
     },
 
     'click #btnLegalNotice': function () {
-        $('#dlgAbout').modal('hide');
-        $('.modal-backdrop').remove();  // The backdrop was sticky - we remove it manually...
-        FlowRouter.go('/legalnotice');
+        //$('#dlgAbout').modal('hide');
+        //$('.modal-backdrop').remove();  // The backdrop was sticky - we remove it manually...
+        window.open(GlobalSettings.getLegalNoticeExternalUrl());
     },
 
     'show.bs.modal #dlgAbout': function () {
