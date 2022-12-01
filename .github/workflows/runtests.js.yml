@@ -46,13 +46,13 @@ jobs:
       - run: curl https://install.meteor.com | /bin/sh
       - run: pwd
       - run: meteor --version
-      - run: npm i chromedriver
+      - run: npm install chromedriver
       - run: google-chrome --version
 
       - run: npm install
-      - run: npm audit fix --force
-      - run: npm audit fix
-      - run: npm fund
+#      - run: npm audit fix --force
+#      - run: npm audit fix
+#      - run: npm fund
 
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
