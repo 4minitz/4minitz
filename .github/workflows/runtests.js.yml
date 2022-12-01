@@ -16,9 +16,9 @@ jobs:
     - run: pwd
     - run: meteor --version
     - run: npm install
-    - run: npm audit fix --force
-    - run: npm audit fix
-    - run: npm fund
+#    - run: npm audit fix --force
+#    - run: npm audit fix
+#    - run: npm fund
 
 
     - run: npm run test:unit
