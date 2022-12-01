@@ -54,6 +54,8 @@ jobs:
 #      - run: npm audit fix
 #      - run: npm fund
 
+      - run: mkdir ./tests/mongodump
+
       - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
 
 
