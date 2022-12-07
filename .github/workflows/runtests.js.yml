@@ -46,13 +46,17 @@ jobs:
 #      - run: meteor --version
 
       - run: node --version
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '18.12.1'
       - run: curl https://install.meteor.com | /bin/sh
       - run: pwd
       - run: node --version
       - run: meteor --version
       - run: npm install chromedriver
       - run: google-chrome --version
-
+      - run: meteor update
       - run: npm install
 #      - run: npm audit fix --force
 #      - run: npm audit fix
