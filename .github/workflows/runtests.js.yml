@@ -43,7 +43,7 @@ jobs:
       - run: sudo apt update && sudo apt upgrade -y
       - run: sudo apt-get install nodejs gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
-      - run: meteor --version
+#      - run: meteor --version
 
       - uses: actions/setup-node@v1
         with:
