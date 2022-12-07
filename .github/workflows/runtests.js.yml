@@ -33,9 +33,9 @@ jobs:
           - tests/end2end/MeetingSeriesEdit-test.js
     steps:
       - uses: actions/checkout@v2
-#      - uses: actions/setup-node@v1
-#        with:
-#          node-version: '18.12.1'
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '18.12.1'
 
       - run: node --version
       - run: sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
