@@ -36,7 +36,7 @@ jobs:
 #      - uses: actions/setup-node@v1
 #        with:
 #          node-version: '18.12.1'
-      - run: sudo curl -fsSL https://deb.nodesource.com/setup_$2.x | sudo -E bash -
+      - run: sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
       - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
       - run: sudo apt update && sudo apt upgrade -y
       - run: sudo apt-get install nodejs gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
