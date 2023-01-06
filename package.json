@@ -73,6 +73,7 @@
     "mongodb-extended-json": "^1.10.0",
     "node-cron": "^1.2.1",
     "node-getopt": "^0.2.3",
+    "node-sass": "6.0.1",
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
     "semver": "^5.5.0"
