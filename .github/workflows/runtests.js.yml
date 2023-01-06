@@ -14,6 +14,12 @@ jobs:
     - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
     - run: curl https://install.meteor.com | /bin/sh
     - run: pwd
+    - run: |
+          sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+          sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-org
+          mongodump --version
     - run: meteor --version
     - run: npm install
 #    - run: npm audit fix --force
@@ -41,7 +47,7 @@ jobs:
       - run: sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
       - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
       - run: sudo apt update && sudo apt upgrade -y
-      - run: sudo apt-get install mongodb-database-tools nodejs gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
+      - run: sudo apt-get install nodejs gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
 #      - run: meteor --version
 
