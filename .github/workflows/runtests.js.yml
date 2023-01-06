@@ -70,7 +70,7 @@ jobs:
       - run: pwd
       - run: node --version
       - run: meteor --version
-      - run: npm install chromedriver@89.0.0
+      - run: npm install chromedriver@107.0.3
       - run: google-chrome --version
 #      - run: meteor update
       - run: npm install
