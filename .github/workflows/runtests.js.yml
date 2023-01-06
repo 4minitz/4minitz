@@ -10,8 +10,8 @@ jobs:
       with:
         node-version: '15.14.0'
           
-    - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-    - run: sudo apt update && sudo apt upgrade -y
+#    - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+#    - run: sudo apt update && sudo apt upgrade -y
     - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
     - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
     - run: curl https://install.meteor.com | /bin/sh
@@ -48,8 +48,8 @@ jobs:
 
       - run: node --version
 #      - run: sudo curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
-      - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-      - run: sudo apt update && sudo apt upgrade -y
+#      - run: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+#      - run: sudo apt update && sudo apt upgrade -y
       - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
       
