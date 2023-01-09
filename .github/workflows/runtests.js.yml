@@ -100,3 +100,57 @@ jobs:
         with:
           name: E2E Mongodump
           path: tests/mongodump
+
+
+  Node18:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true   # When set to true, GitHub cancels all in-progress jobs if any matrix job fails. Default: true
+      matrix:   # max. 20 concurrent jobs https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits
+        e2etest:
+          - tests/end2end/MeetingSeries-test.js
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '18.13.0'
+
+      - run: node --version
+      - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
+      - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
+      
+      - run: |
+          sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+          sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-org
+          mongodump --version
+          
+      - run: curl https://install.meteor.com | /bin/sh
+      - run: npm install chromedriver@107.0.3
+      - run: google-chrome --version
+      - run: npm install
+
+      - run: mkdir ./tests/mongodump
+
+      - run: ./tests/run_e2e.sh ${{ matrix.e2etest }}
+
+      - name: Upload E2E screenshot artifacts
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: E2E Screenshots
+          path: tests/snapshots
+      - name: Upload E2E log artifacts
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: E2E Logs
+          path: tests/end2end/logs
+      - name: Upload E2E MongoDB artifacts
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: E2E Mongodump
+          path: tests/mongodump
+
