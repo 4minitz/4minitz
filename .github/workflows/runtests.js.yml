@@ -14,7 +14,8 @@ jobs:
     - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
     - run: curl https://install.meteor.com | /bin/sh
     - run: pwd
-    - run: sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+    - run: |
+          sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
           sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
           sudo apt-get update
           sudo apt-get install -y mongodb-org
