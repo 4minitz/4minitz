@@ -2,8 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
-import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { GlobalSettings } from '/imports/config/GlobalSettings';
 
 let showStatistics = new ReactiveVar(false);
 
@@ -39,7 +38,7 @@ Template.aboutDialog.events({
     'click #btnLegalNotice': function () {
         $('#dlgAbout').modal('hide');
         $('.modal-backdrop').remove();  // The backdrop was sticky - we remove it manually...
-        FlowRouter.go('/legalnotice');
+        window.open(GlobalSettings.getLegalNoticeExternalUrl());
     },
 
     'show.bs.modal #dlgAbout': function () {
