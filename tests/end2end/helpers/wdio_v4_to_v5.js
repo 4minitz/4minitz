@@ -42,6 +42,9 @@ browser.waitForVisible = function (selector, timeout, reverse, timeoutMsg, inter
         throw e;
     }
 };
+browser.browser.waitUntil = function (selector, timeout, timeoutMsg, interval) {
+    return $(selector).waitUntil( { timeout, timeoutMsg, interval });
+};  
 browser.scroll = function (selector) {
     return $(selector).scrollIntoView();
 };

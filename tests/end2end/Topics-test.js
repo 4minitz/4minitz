@@ -133,7 +133,7 @@ describe('Topics', function () {
         browser.waitForExist('#topicPanel .well:nth-child(3) .topicDragDropHandle');
         browser.moveToObject('#topicPanel .well:nth-child(3) .topicDragDropHandle');
         browser.buttonDown();
-        browser.moveTo(1, 1);
+        browser.moveTo({ 1, 1 });
         browser.moveToObject('#topicPanel .well:nth-child(1)');
         browser.buttonUp();
 
@@ -229,7 +229,7 @@ describe('Topics', function () {
         browser.waitForExist('#topicPanel .well:nth-child(3) .topicDragDropHandle');
         browser.moveToObject('#topicPanel .well:nth-child(3) .topicDragDropHandle');
         browser.buttonDown();
-        browser.moveTo(1, 1);
+        browser.moveTo({ 1, 1 });
         browser.moveToObject('#topicPanel .well:nth-child(1)');
         browser.buttonUp();
 
