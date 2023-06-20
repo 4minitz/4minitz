@@ -1,5 +1,5 @@
 const fs = require('fs');
-const EJSON = require('mongodb-extended-json');
+const EJSON = require('bson');
 
 class ExpImpSchema {
     static get MADE_FOR_SCHEMA() {

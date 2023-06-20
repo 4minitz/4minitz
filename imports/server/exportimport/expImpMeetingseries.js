@@ -1,5 +1,5 @@
 const fs = require('fs');
-const EJSON = require('mongodb-extended-json');
+const EJSON = require('bson');
 
 class ExpImpMeetingSeries {
     static get FILENAME_POSTFIX() {
