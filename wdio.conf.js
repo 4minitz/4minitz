@@ -150,6 +150,7 @@ exports.config = {
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
+        // This still uses the old babel? but the compilers flag has been deprecated, so I think this can be removed?
         compilers: ['js:babel-register'],
         ui: 'bdd',
         timeout: 60000,
