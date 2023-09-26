@@ -54,7 +54,7 @@
     "bcrypt": "^5.1.0",
     "bootstrap": "^3.3.7",
     "bootstrap-material-design": "^0.5.10",
-    "bson": "^5.3.0",
+    "bson": "^6.1.0",
     "chromedriver": "^114.0.0",
     "eonasdan-bootstrap-datetimepicker": "github:eonasdan/bootstrap-datetimepicker#4.17.47",
     "fibers": "^5.0.3",
