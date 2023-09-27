@@ -93,7 +93,7 @@
     "clone": "^2.1.1",
     "ddp": "^0.9.4",
     "eslint": "^8.28.0",
-    "@faker-js/faker": "^4.1.0",
+    "@faker-js/faker": "^6.0.0",
     "js-yaml": "^3.13.1",
     "markdownlint-cli": "^0.32.2",
     "mocha": "^10.2.0",
