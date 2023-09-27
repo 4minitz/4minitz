@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import _ from 'underscore';
-import  faker from 'faker';
+const { faker } = require('@faker-js/faker');
 
 import { ParticipantsPreparer } from '../../../../imports/client/ParticipantsPreparer';
 
