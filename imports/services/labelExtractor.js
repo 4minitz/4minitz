@@ -5,9 +5,9 @@
  *  * can be matched to a already existing label
  *    or they do not start with a number and do not contain white spaces
  */
-import { MeetingSeriesSchema } from "../collections/meetingseries.schema";
-import { Label } from "../label";
-import { StringUtils } from "../helpers/string-utils";
+import {MeetingSeriesSchema} from "../collections/meetingseries.schema";
+import {StringUtils} from "../helpers/string-utils";
+import {Label} from "../label";
 
 export class LabelExtractor {
   constructor(string, meetingSeriesId) {
@@ -20,13 +20,9 @@ export class LabelExtractor {
     this._extractLabels();
   }
 
-  getExtractedLabelIds() {
-    return this.extractedLabelIds;
-  }
+  getExtractedLabelIds() { return this.extractedLabelIds; }
 
-  getCleanedString() {
-    return this.string;
-  }
+  getCleanedString() { return this.string; }
 
   _loadLabelsFromSeries() {
     const series = MeetingSeriesSchema.findOne(this.meetingSeriesId);
@@ -62,7 +58,7 @@ export class LabelExtractor {
   _addLabelByName(labelName) {
     let label = Label.createLabelByName(this.meetingSeriesId, labelName);
     if (null === label) {
-      label = new Label({ name: labelName });
+      label = new Label({name : labelName});
       label.save(this.meetingSeriesId);
     }
     this._addLabel(label.getDocument());
