@@ -60,7 +60,8 @@ let checkUpdateMinuteCall = (minute, checkUpdatedTopic) => {
   expect(updateCall.args[0]).to.equal(minute._id);
 
   let updateSetter = updateCall.args[1].$set;
-  expect(Object.prototype.hasOwnProperty.call(updateSetter, 'topics.0')).to.be.true;
+  expect(Object.prototype.hasOwnProperty.call(updateSetter, "topics.0")).to.be
+    .true;
 
   let updatedTopic = updateSetter["topics.0"];
   checkUpdatedTopic(updatedTopic);
@@ -82,7 +83,8 @@ let checkUpdateMeetingSeriesCall = (series, checkUpdatedTopic) => {
   expect(firstCall.args[0]).to.equal(series._id);
 
   let updateSetter1 = firstCall.args[1].$set;
-  expect(Object.prototype.hasOwnProperty.call(updateSetter1, 'openTopics.0')).to.be.true;
+  expect(Object.prototype.hasOwnProperty.call(updateSetter1, "openTopics.0")).to
+    .be.true;
 
   let updTopic = updateSetter1["openTopics.0"];
   checkUpdatedTopic(updTopic);
@@ -92,7 +94,8 @@ let checkUpdateMeetingSeriesCall = (series, checkUpdatedTopic) => {
   expect(sndCall.args[0]).to.equal(series._id);
 
   let updateSetter2 = sndCall.args[1].$set;
-  expect(Object.prototype.hasOwnProperty.call(updateSetter2, 'closedTopics.0')).to.be.true;
+  expect(Object.prototype.hasOwnProperty.call(updateSetter2, "closedTopics.0"))
+    .to.be.true;
 
   let updClosedTopic = updateSetter2["closedTopics.0"];
   checkUpdatedTopic(updClosedTopic);
