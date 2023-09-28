@@ -76,9 +76,7 @@ export class ActionItem extends InfoItem {
    * @return {boolean}
    */
   hasResponsibles() {
-    return (
-      this._infoItemDoc.responsibles?.length
-    );
+    return this._infoItemDoc.responsibles?.length;
   }
   /**
    * Returns all responsibles associated with this
