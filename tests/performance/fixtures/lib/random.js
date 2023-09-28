@@ -20,7 +20,7 @@ export class Random {
   static generateMeetingSeriesValues() {
     return {
       project: faker.company.companyName(),
-      name: faker.name.findName(),
+      name: faker.person.fullName(),
     };
   }
 }

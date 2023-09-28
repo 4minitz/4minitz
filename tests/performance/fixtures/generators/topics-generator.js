@@ -186,7 +186,7 @@ export class TopicsGenerator {
             updatedBy: this.config.username,
             createdInMinute: this.currentMinutesId,
             date: DateHelper.formatDateISO8601(date),
-            text: faker.lorem.sentences(faker.datatype.number(this.config.detailsSentenceRange))
+            text: faker.lorem.sentences(faker.number.int(this.config.detailsSentenceRange))
         }
     }
 

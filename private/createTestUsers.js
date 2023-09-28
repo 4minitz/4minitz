@@ -30,7 +30,7 @@ class UserFactory {
                 }
             }   ,
             "profile" : {
-                "name" : faker.name.findName()
+                "name" : faker.person.fullName()
             },
             "emails" : [
                 {
