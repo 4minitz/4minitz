@@ -2,7 +2,7 @@ let mongo = require('mongodb').MongoClient,
     mongoUriParser = require('mongo-uri'),
     transformUser = require('./transformUser'),
     _ = require('underscore');
-import { Random } from "../lib/random";
+import { Random } from '../../tests/performance/fixtures/lib/random';
 
 
 let _transformUsers = function (settings, users) {
