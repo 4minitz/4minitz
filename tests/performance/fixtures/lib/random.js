@@ -1,4 +1,4 @@
-const { randomstring } = require("randomstring");
+var randomstring = require("randomstring");
 const { faker } = require("@faker-js/faker");
 
 export class Random {
