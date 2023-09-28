@@ -73,7 +73,7 @@
     "node-getopt": "^0.2.3",
     "node-sass": "^9.0.0",
     "path": "^0.12.7",
-    "randomstring": "1.3.0",
+    "randomstring": "1.1.5",
     "semver": "^7.5.4",
     "underscore": "^1.8.3"
   },
