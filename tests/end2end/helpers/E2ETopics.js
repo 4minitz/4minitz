@@ -170,7 +170,7 @@ export class E2ETopics {
     }
 
     static addInfoItemToTopic (infoItemDoc, topicIndex, autoCloseDetailInput = true) {
-        let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
+        let type = (Object.prototype.hasOwnProperty.call(infoItemDoc, 'itemType')) ? infoItemDoc.itemType : 'infoItem';
         this.openInfoItemDialog(topicIndex, type);
         this.insertInfoItemDataIntoDialog(infoItemDoc);
         this.submitInfoItemDialog();
@@ -410,7 +410,7 @@ export class E2ETopics {
     }
 
     static addFirstDetailsToNewInfoItem(infoItemDoc, topicIndex, detailsText, autoCloseDetailInput = true) {
-        let type = (infoItemDoc.hasOwnProperty('itemType')) ? infoItemDoc.itemType : 'infoItem';
+        let type = (Object.prototype.hasOwnProperty.call(infoItemDoc, 'itemType')) ? infoItemDoc.itemType : 'infoItem';
         this.openInfoItemDialog(topicIndex, type);
         this.insertInfoItemDataIntoDialog(infoItemDoc);
 

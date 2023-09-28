@@ -78,7 +78,7 @@ describe('MeetingSeries', function () {
         });
 
         afterEach(function () {
-            if (Minutes.hasOwnProperty("findAllIn")) {
+            if (Object.prototype.hasOwnProperty.call(Minutes, 'findAllIn')) {
                 delete Minutes.findAllIn;
             }
         });

@@ -90,7 +90,7 @@ export class Minutes {
         // merge new doc fragment into this document
         _.extend(this, docPart);
 
-        if (docPart.hasOwnProperty('date') || docPart.hasOwnProperty('isFinalized')) {
+        if (Object.prototype.hasOwnProperty.call(docPart, 'date') || Object.prototype.hasOwnProperty.call(docPart, 'isFinalized')) {
             return await parentMeetingSeries.updateLastMinutesFieldsAsync(this);
         }
     }

@@ -37,7 +37,7 @@ export class Priority {
     }
 
     toString() {
-        if (PRIORITY_MAP.hasOwnProperty(this.value)) {
+        if (Object.prototype.hasOwnProperty.call(PRIORITY_MAP, this.value)) {
             switch (this.value) {
             case 1: return i18n.__('Item.Priorities.high');
             case 3: return i18n.__('Item.Priorities.medium');

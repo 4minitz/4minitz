@@ -34,7 +34,7 @@ let getKeyWordFromToken = function(token, queryUserIdByName) {
 
 let isAllowedValueForKey = function(key, value) {
     key = key.toUpperCase();
-    if (this.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(this, key)) {
         let values = this[key].values;
         return (values === '*' || _.contains(values, value));
     }

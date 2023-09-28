@@ -69,7 +69,7 @@ function collectFilesRecursive (dir, extension) {
 // Recursively iterate a JS object build full pathes of keys
 function buildFullPathes(obj, stack, separator='.') {
     for (let property in obj) {
-        if (obj.hasOwnProperty(property)) {
+        if (Object.prototype.hasOwnProperty.call(obj, property)) {
             if (typeof obj[property] == 'object') {
                 if (!stack) {
                     buildFullPathes(obj[property], property);

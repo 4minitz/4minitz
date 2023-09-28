@@ -141,7 +141,7 @@ describe("MigrateV4", function () {
     it("removes the responsibles array and converts the array to a flat string", function () {
       MigrateV4.down();
       topicsWithResponsible.forEach((topic) => {
-        expect(topic.hasOwnProperty("responsibles")).to.be.false;
+        expect(Object.prototype.hasOwnProperty.call(topic, 'responsibles')).to.be.false;
         expect(topic.responsible).to.equal(expectedResponsibleString);
       });
     });

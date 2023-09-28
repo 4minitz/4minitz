@@ -37,7 +37,7 @@ export class TopicItemsMailHandler {
     _getCurrentMailAddress() {
         if (typeof this._currentRecipient === 'string') {
             return this._currentRecipient;
-        } else if (this._currentRecipient.hasOwnProperty('address')) {
+        } else if (Object.prototype.hasOwnProperty.call(this._currentRecipient, 'address')) {
             return this._currentRecipient.address;
         } else {
             // we should send the mail to multiple recipients -> return array of strings
@@ -71,7 +71,7 @@ export class TopicItemsMailHandler {
     }
 
     _getTmplRenderer() {
-        let recipientsName = (this._currentRecipient.hasOwnProperty('name'))
+        let recipientsName = (Object.prototype.hasOwnProperty.call(this._currentRecipient, 'name'))
             ? this._currentRecipient.name
             : '';
         return (new TemplateRenderer(this._templateName, 'server_templates/email')).addData('name', recipientsName);

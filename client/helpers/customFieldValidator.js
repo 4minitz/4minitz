@@ -4,7 +4,7 @@ export function addCustomValidator(inputFieldSelector, validate, errorMsg = '', 
         element.addEventListener(event, function() {
             let result = validate(this.value);
 
-            if (result.hasOwnProperty('errorMsg')) {
+            if (Object.prototype.hasOwnProperty.call(result, 'errorMsg')) {
                 errorMsg = result.errorMsg;
                 result = result.valid;
             }

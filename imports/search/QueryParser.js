@@ -154,7 +154,7 @@ export class QueryParser {
     _isFilterKeyword(token) {
         let arr = token.split(':');
         let res = this.keywords.isKeyword(token);
-        if (this.keywords.hasOwnProperty('DO') && res && arr[0] === this.keywords.DO.key && arr[1] === 'match-case') {
+        if (Object.prototype.hasOwnProperty.call(this.keywords, 'DO') && res && arr[0] === this.keywords.DO.key && arr[1] === 'match-case') {
             this.matchCase = true;
         }
         return res;

@@ -38,7 +38,7 @@ export class ActionItem extends InfoItem{
     getDateFromDetails (index) {
         if (index === undefined) index = 0;
         let details = this._infoItemDoc.details;
-        if (details.length > index && details[index].hasOwnProperty('date')) {
+        if (details.length > index && Object.prototype.hasOwnProperty.call(details[index], 'date')) {
             return details[index].date;
         }
         return false;
@@ -54,7 +54,7 @@ export class ActionItem extends InfoItem{
     getTextFromDetails (index) {
         if (index === undefined) index = 0;
         let details = this._infoItemDoc.details;
-        if (details && details.length > 0 && details[index].hasOwnProperty('text')) {
+        if (details && details.length > 0 && Object.prototype.hasOwnProperty.call(details[index], 'text')) {
             return details[index].text;
         }
         return '';

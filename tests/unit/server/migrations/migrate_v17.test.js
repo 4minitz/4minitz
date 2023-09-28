@@ -4,7 +4,7 @@ import proxyquire from 'proxyquire';
 let MeetingSeriesSchema = {
     update: (id,doc) => {
         let meetingSeries = MeetingSeriesSchema.getCollection().find().find(series => series._id === id);
-        if (doc.hasOwnProperty('$set')) { // called by migrate-up
+        if (Object.prototype.hasOwnProperty.call(doc, '$set')) { // called by migrate-up
             meetingSeries.lastMinutesFinalized = doc.$set.lastMinutesFinalized;
             meetingSeries.lastMinutesId = doc.$set.lastMinutesId;
         } else { // called by migrate-down (unset)

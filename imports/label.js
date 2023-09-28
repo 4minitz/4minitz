@@ -71,7 +71,7 @@ export class Label {
     static _createParentMeetingSeries(parentMeetingSeries) {
         if (typeof parentMeetingSeries === 'string') {
             return new MeetingSeries(parentMeetingSeries);
-        } else if (parentMeetingSeries.hasOwnProperty('findLabel')) {
+        } else if (Object.prototype.hasOwnProperty.call(parentMeetingSeries, 'findLabel')) {
             return parentMeetingSeries;
         }
 
