@@ -1,58 +1,63 @@
-import { Meteor } from 'meteor/meteor';
-import { emailAddressRegExpTest } from '../helpers/email';
-import {StringUtils} from '../helpers/string-utils';
+import { Meteor } from "meteor/meteor";
+
+import { emailAddressRegExpTest } from "../helpers/email";
+import { StringUtils } from "../helpers/string-utils";
 
 export class ResponsibleExtractor {
+  constructor(string, acceptOnlyValidEmailAsFreeText = false) {
+    this.string = string;
+    this.extractedResponsible = [];
+    this.acceptOnlyValidEmailAsFreeText = acceptOnlyValidEmailAsFreeText;
 
-    constructor(string, acceptOnlyValidEmailAsFreeText = false) {
-        this.string = string;
-        this.extractedResponsible = [];
-        this.acceptOnlyValidEmailAsFreeText = acceptOnlyValidEmailAsFreeText;
+    this._extractResponsible();
+  }
 
-        this._extractResponsible();
+  getExtractedResponsible() {
+    return this.extractedResponsible;
+  }
+
+  getCleanedString() {
+    return this.string;
+  }
+
+  _extractResponsible() {
+    const regEx = new RegExp(/(^|[\s.,;])@([a-zA-Z]+[^\s,;]*)/g);
+    const subjectString = this.string;
+    let match;
+
+    while ((match = regEx.exec(subjectString)) !== null) {
+      const possibleResponsibleName = match[2];
+      const added = this._addResponsible(possibleResponsibleName);
+      if (added) {
+        this._removeResponsibleFromString(possibleResponsibleName);
+      }
     }
+  }
 
-    getExtractedResponsible() {
-        return this.extractedResponsible;
+  _addResponsible(responsibleName) {
+    let user = Meteor.users.findOne({ username: responsibleName });
+    if (user) {
+      this.extractedResponsible.push(user._id);
+      return true;
     }
-
-    getCleanedString() {
-        return this.string;
+    if (this._isValidResonsible(responsibleName)) {
+      this.extractedResponsible.push(responsibleName);
+      return true;
     }
+    return false;
+  }
 
-    _extractResponsible() {
-        const regEx = new RegExp(/(^|[\s.,;])@([a-zA-z]+[^\s,;]*)/g);
-        const subjectString = this.string;
-        let match;
+  _isValidResonsible(possibleResponsibleName) {
+    return (
+      !this.acceptOnlyValidEmailAsFreeText ||
+      emailAddressRegExpTest.test(possibleResponsibleName)
+    );
+  }
 
-        while ((match = regEx.exec(subjectString)) !== null) {
-            const possibleResponsibleName = match[2];
-            const added = this._addResponsible(possibleResponsibleName);
-            if (added) {
-                this._removeResponsibleFromString(possibleResponsibleName);
-            }
-        }
-    }
-
-    _addResponsible(responsibleName) {
-        let user = Meteor.users.findOne({username: responsibleName});
-        if (user) {
-            this.extractedResponsible.push(user._id);
-            return true;
-        }
-        if (this._isValidResonsible(responsibleName)) {
-            this.extractedResponsible.push(responsibleName);
-            return true;
-        }
-        return false;
-    }
-
-    _isValidResonsible(possibleResponsibleName) {
-        return (!this.acceptOnlyValidEmailAsFreeText || emailAddressRegExpTest.test(possibleResponsibleName));
-    }
-
-    _removeResponsibleFromString(responsibleName) {
-        this.string = StringUtils.eraseSubstring(this.string, `@${responsibleName}`);
-    }
-
+  _removeResponsibleFromString(responsibleName) {
+    this.string = StringUtils.eraseSubstring(
+      this.string,
+      `@${responsibleName}`,
+    );
+  }
 }

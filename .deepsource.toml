@@ -1,0 +1,38 @@
+version = 1
+
+test_patterns = ["tests/**"]
+
+exclude_patterns = [
+  "server/migrations/**",
+  "**/bootstrap/**"
+]
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  plugins = ["meteor"]
+  environment = [
+    "nodejs",
+    "mocha",
+    "mongo",
+    "jquery"
+  ]
+
+[[analyzers]]
+name = "secrets"
+
+[[analyzers]]
+name = "test-coverage"
+
+[[analyzers]]
+name = "shell"
+
+[[analyzers]]
+name = "docker"
+
+  [analyzers.meta]
+  dockerfile_paths = [".docker/Dockerfile"]
+
+[[transformers]]
+name = "prettier"

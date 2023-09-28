@@ -18,10 +18,12 @@ RegExp.escape = function (s) {
 
 let _insertUsers = function (client, mongoUri, users) {
   // unique id from the random package also used by minimongo
-  // character list:
-  // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
-  // string length:
-  // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
+  // character list: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
+  // string length: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
+  const randomStringConfig = {
+    length: 17,
+    charset: "23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz",
+  };
 
   return new Promise((resolve, reject) => {
     try {
@@ -31,7 +33,7 @@ let _insertUsers = function (client, mongoUri, users) {
         .collection("users")
         .initializeUnorderedBulkOp();
       _.each(users, (user) => {
-        if (user && user.username && user.emails[0] && user.emails[0].address) {
+        if (user?.username && user.emails[0] && user.emails[0].address) {
           user.isLDAPuser = true;
           let usrRegExp = new RegExp(
             "^" + RegExp.escape(user.username) + "$",
