@@ -56,7 +56,7 @@ Template.tabAdminMessages.events({
             let user = Meteor.users.findOne(usrId);
             if (user) {
                 userNames += user.username + ' ';
-                userNames += (user.profile && user.profile.name) ? user.profile.name + '\n' : '\n';
+                userNames += (user.profile?.name) ? user.profile.name + '\n' : '\n';
             }
         });
         alert(userNames);

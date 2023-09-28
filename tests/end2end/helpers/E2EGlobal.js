@@ -142,8 +142,7 @@ export class E2EGlobal {
     }
 
     static browserName() {
-        if (browser &&
-            browser._original &&
+        if (browser?._original &&
             browser._original.desiredCapabilities &&
             browser._original.desiredCapabilities.browserName) {
             return browser._original.desiredCapabilities.browserName;
@@ -157,8 +156,7 @@ export class E2EGlobal {
     }
 
     static isChrome() {
-        if (browser &&
-            browser.options &&
+        if (browser?.options &&
             browser.options.desiredCapabilities) {
             return browser.options.desiredCapabilities.browserName === 'chrome';
         }
@@ -167,8 +165,7 @@ export class E2EGlobal {
     }
 
     static isHeadless() {
-        if (browser &&
-            browser.options &&
+        if (browser?.options &&
             browser.options.desiredCapabilities) {
             return browser.options.desiredCapabilities.isHeadless;
         }

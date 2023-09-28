@@ -22,7 +22,7 @@ let _minutesId;
 const INITIAL_ITEMS_LIMIT = 4;
 
 const isFeatureShowItemInputFieldOnDemandEnabled = () => {
-    return !(Meteor.settings && Meteor.settings.public && Meteor.settings.public.isEnd2EndTest);
+    return !(Meteor.settings?.public && Meteor.settings.public.isEnd2EndTest);
 };
 
 Template.topicElement.onCreated(function () {

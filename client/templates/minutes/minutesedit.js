@@ -187,12 +187,12 @@ Template.minutesedit.onDestroyed(function() {
 
 let isMinuteFinalized = function () {
     let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isFinalized);
+    return (aMin?.isFinalized);
 };
 
 let isModerator = function () {
     let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isCurrentUserModerator());
+    return (aMin?.isCurrentUserModerator());
 };
 
 let toggleTopicSorting = function () {

@@ -15,7 +15,7 @@ createDocumentStoragePath = function (fileObj) { //eslint-disable-line
     if (Meteor.isServer) { 
         let absoluteDocumentPath = getDocumentStorageRootDirectory(); //eslint-disable-line
         // optionally: append sub directory for parent meeting series and year if a minute is given
-        if (fileObj && fileObj.meta && fileObj.meta.minuteId) {
+        if (fileObj?.meta && fileObj.meta.minuteId) {
             absoluteDocumentPath =  absoluteDocumentPath + '/' + fileObj.meta.meetingSeriesId; 
             let minuteYear = new Date(fileObj.meta.minuteDate).getFullYear(); 
             absoluteDocumentPath =  absoluteDocumentPath + '/' + minuteYear;
@@ -40,7 +40,7 @@ resetDocumentStorageDirectory = function() { //eslint-disable-line
 };
 
 getDocumentStorageRootDirectory = () => { //eslint-disable-line
-    let absoluteDocumentPath = Meteor.settings.docGeneration && Meteor.settings.docGeneration.targetDocPath 
+    let absoluteDocumentPath = Meteor.settings.docGeneration?.targetDocPath 
         ? Meteor.settings.docGeneration.targetDocPath 
         : 'protocols'; 
     // make path absolute 
@@ -112,7 +112,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {  //eslint-disable-line
 
 // check storagePath for protocols once at server bootstrapping
 // also check necessary binaries for pdf generation
-if (Meteor.settings.docGeneration && Meteor.settings.docGeneration.enabled) {
+if (Meteor.settings.docGeneration?.enabled) {
     console.log('Document generation feature: ENABLED');
     let settingsPath = createDocumentStoragePath(undefined); //eslint-disable-line
     let absoluteTargetPath = path.resolve(settingsPath);

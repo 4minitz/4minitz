@@ -41,7 +41,7 @@ export class E2EMinutes {
 
         E2EMinutes.confirmQualityAssuranceDialog();
 
-        if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
+        if (E2EGlobal.SETTINGS.email?.enableMailDelivery) {
             if (confirmDialog === undefined || confirmDialog) {
                 E2EApp.confirmationDialogAnswer(true);
             }
@@ -62,7 +62,7 @@ export class E2EMinutes {
 
         if(processFinalize == true) {
             E2EMinutes.confirmQualityAssuranceDialog();
-            if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
+            if (E2EGlobal.SETTINGS.email?.enableMailDelivery) {
                 if (confirmDialog === undefined || confirmDialog) {
                     E2EApp.confirmationDialogAnswer(true);
                 }

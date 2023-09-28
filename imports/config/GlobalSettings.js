@@ -104,7 +104,7 @@ export class GlobalSettings {
         Meteor.settings.public.isEnd2EndTest = Meteor.settings.isEnd2EndTest;
 
         // enforce slash "/" at the end
-        if (Meteor.settings.attachments && Meteor.settings.attachments.storagePath) {
+        if (Meteor.settings.attachments?.storagePath) {
             if (! Meteor.settings.attachments.storagePath.match(/\/$/)) {
                 Meteor.settings.attachments.storagePath = Meteor.settings.attachments.storagePath + '/';
             }
@@ -136,17 +136,17 @@ export class GlobalSettings {
     }
 
     static hasImportUsersCronTab() {
-        return !!(Meteor.settings.ldap && Meteor.settings.ldap.enabled && Meteor.settings.ldap.importCronTab);
+        return !!(Meteor.settings.ldap?.enabled && Meteor.settings.ldap.importCronTab);
     }
 
     static getImportUsersCronTab() {
-        if (Meteor.settings.ldap && Meteor.settings.ldap.enabled) {
+        if (Meteor.settings.ldap?.enabled) {
             return Meteor.settings.ldap.importCronTab;
         }
     }
 
     static getImportUsersOnLaunch() {
-        if (Meteor.settings.ldap && Meteor.settings.ldap.enabled) {
+        if (Meteor.settings.ldap?.enabled) {
             if (Meteor.settings.ldap.importOnLaunch !== undefined) {
                 return Meteor.settings.ldap.importOnLaunch;
             }
@@ -211,7 +211,7 @@ export class GlobalSettings {
     }
 
     static getFallbackEMailSenderAddress() {
-        if (Meteor.settings.email && Meteor.settings.email.fallbackEMailSenderAddress) {
+        if (Meteor.settings.email?.fallbackEMailSenderAddress) {
             return Meteor.settings.email.fallbackEMailSenderAddress;
         }
 
@@ -226,7 +226,7 @@ export class GlobalSettings {
     }
 
     static getMailDeliverer() {
-        if (Meteor.settings.email && Meteor.settings.email.mailDeliverer) {
+        if (Meteor.settings.email?.mailDeliverer) {
             return Meteor.settings.email.mailDeliverer;
         }
 
@@ -254,14 +254,14 @@ export class GlobalSettings {
     }
 
     static getSMTPMailUrl() {
-        if (Meteor.settings.email && Meteor.settings.email.smtp && Meteor.settings.email.smtp.mailUrl) {
+        if (Meteor.settings.email?.smtp && Meteor.settings.email.smtp.mailUrl) {
             return Meteor.settings.email.smtp.mailUrl;
         }
         return '';
     }
 
     static getMailgunSettings() {
-        if (Meteor.settings.email && Meteor.settings.email.mailgun) {
+        if (Meteor.settings.email?.mailgun) {
             return Meteor.settings.email.mailgun;
         }
 

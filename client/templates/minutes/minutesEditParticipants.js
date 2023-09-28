@@ -29,7 +29,7 @@ let userNameForId = function (userId) {
     if (usr) {
         let showName = usr.username;
         // If we have a long name for the user: prepend it!
-        if (usr.profile && usr.profile.name && usr.profile.name !== '') {
+        if (usr.profile?.name && usr.profile.name !== '') {
             showName = usr.profile.name + ' ('+showName+')';
         }
         return showName;

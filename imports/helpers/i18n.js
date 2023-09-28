@@ -79,7 +79,7 @@ export class I18nHelper {
     }
 
     static _getPreferredUserLocale () {
-        if (Meteor.settings && Meteor.settings.public && Meteor.settings.public.isEnd2EndTest) {
+        if (Meteor.settings?.public && Meteor.settings.public.isEnd2EndTest) {
             return 'en-US';
         }
         return (

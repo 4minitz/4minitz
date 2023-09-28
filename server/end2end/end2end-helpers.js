@@ -163,7 +163,7 @@ if (Meteor.settings.isEnd2EndTest) {
         'e2e.getUserRole'(MSid, i){
             console.log('-------------------------- E2E-METHOD: getUserRole');
             let usr = Meteor.users.findOne({username: Meteor.settings.e2eTestUsers[i]});
-            if (usr.roles && usr.roles[MSid] && usr.roles[MSid][0]){
+            if (usr.roles?.[MSid] && usr.roles[MSid][0]){
                 return usr.roles[MSid][0];
             }
             return null;

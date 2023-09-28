@@ -75,7 +75,7 @@ export class ParticipantsPreparer {
     }
 
     _addResponsiblesFromCurrentElement() {
-        if (this.currentElement && this.currentElement.hasResponsibles()) {
+        if (this.currentElement?.hasResponsibles()) {
             this.buffer = this.buffer.concat(this.currentElement.getResponsibles());
         }
     }
@@ -109,7 +109,7 @@ export class ParticipantsPreparer {
 
     static _formatUser(user) {
         let usertext = user.username;
-        if (user.profile && user.profile.name && user.profile.name !== '') {
+        if (user.profile?.name && user.profile.name !== '') {
             usertext += ` - ${user.profile.name}`;
         }
         return usertext;

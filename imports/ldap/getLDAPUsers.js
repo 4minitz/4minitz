@@ -23,8 +23,8 @@ let _bind = function (connection) {
         const client = connection.client,
             settings = connection.settings,
             auth = settings.authentication,
-            userDn = auth && auth.userDn,
-            password = auth && auth.password;
+            userDn = auth?.userDn,
+            password = auth?.password;
 
         // no authentication details provided
         // => the ldap server probably allows anonymous access
@@ -64,7 +64,7 @@ const inactivityStrategies = {
 };
 
 function isInactive(inactivitySettings, entry) {
-    const strategy = inactivitySettings && inactivitySettings.strategy || 'none',
+    const strategy = inactivitySettings?.strategy || 'none',
         strategyFunction = inactivityStrategies[strategy] || inactivityStrategies.none;
 
     return strategyFunction(inactivitySettings, entry);

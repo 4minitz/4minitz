@@ -100,7 +100,7 @@ Template.meetingSeriesEditUsers.helpers({
     },
 
     displayUsername(userObj) {
-        if (userObj.profile && userObj.profile.name) {
+        if (userObj.profile?.name) {
             return userObj.profile.name + ' ('+ userObj.username+ ')';
         }
         return userObj.username;

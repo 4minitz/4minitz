@@ -18,7 +18,7 @@ export class ResponsibleResolver {
                     const user = Meteor.users.findOne(userIdOrEmail);
                     if (user) {
                         userNameFromDB = user.username;
-                        if (user.emails && user.emails.length) {
+                        if (user.emails?.length) {
                             emailFromDb = user.emails[0].address;
                         }
                     }

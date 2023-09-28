@@ -77,7 +77,7 @@ export class ActionItem extends InfoItem {
    */
   hasResponsibles() {
     return (
-      this._infoItemDoc.responsibles && this._infoItemDoc.responsibles.length
+      this._infoItemDoc.responsibles?.length
     );
   }
   /**

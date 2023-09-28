@@ -42,7 +42,7 @@ function collectFilesRecursive(dir, extension) {
   list.forEach(function (file) {
     file = dir + "/" + file;
     let stat = fs.statSync(file);
-    if (stat && stat.isDirectory()) {
+    if (stat?.isDirectory()) {
       /* Recurse into a subdirectory */
       let aDir = file;
       if (

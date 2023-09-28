@@ -39,7 +39,7 @@ describe('Minutes Finalize', function () {
     });
 
     // this test does only make sense if mail delivery is enabled
-    if (E2EGlobal.SETTINGS.email && E2EGlobal.SETTINGS.email.enableMailDelivery) {
+    if (E2EGlobal.SETTINGS.email?.enableMailDelivery) {
         it('asks if emails should be sent before finalizing the minute', function () {
             aMeetingCounter++;
             aMeetingName = aMeetingNameBase + aMeetingCounter;

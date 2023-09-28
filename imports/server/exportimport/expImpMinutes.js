@@ -20,21 +20,21 @@ class ExpImpMinutes {
 
                         // Collect additional invited / informed users from older minutes
                         allMinutesDoc.map(min => {
-                            min.visibleFor && min.visibleFor.map(userID => {      // should be identical to meeting series
+                            min.visibleFor?.map(userID => {      // should be identical to meeting series
                                 userIDs[userID] = 1;
                             });
-                            min.informedUsers && min.informedUsers.map(userID => {   // should be identical to meeting series
+                            min.informedUsers?.map(userID => {   // should be identical to meeting series
                                 userIDs[userID] = 1;
                             });
-                            min.participants && min.participants.map(part => {      // might differ from meeting series users!
+                            min.participants?.map(part => {      // might differ from meeting series users!
                                 userIDs[part.userId] = 1;
                             });
-                            min.topics && min.topics.map(top => { // iterate topics
-                                top.responsibles && top.responsibles.map(resp => {  // topic-responsibles
+                            min.topics?.map(top => { // iterate topics
+                                top.responsibles?.map(resp => {  // topic-responsibles
                                     userIDs[resp] = 1;
                                 });
-                                top.infoItems && top.infoItems.map(item => {     // topic-actionitem-responsibles
-                                    item.responsibles && item.responsibles.map(resp => {
+                                top.infoItems?.map(item => {     // topic-actionitem-responsibles
+                                    item.responsibles?.map(resp => {
                                         userIDs[resp] = 1;
                                     });
                                 });

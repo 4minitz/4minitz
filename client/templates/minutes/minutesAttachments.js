@@ -16,7 +16,7 @@ let _minutesID; // the ID of these minutes
 
 let isModerator = function () {
     let aMin = new Minutes(_minutesID);
-    return (aMin && aMin.isCurrentUserModerator());
+    return (aMin?.isCurrentUserModerator());
 };
 
 
@@ -127,7 +127,7 @@ Template.minutesAttachments.helpers({
 
 Template.minutesAttachments.events({
     'change #btnUploadAttachment': function (e, template) {
-        if (e.currentTarget.files && e.currentTarget.files[0]) {
+        if (e.currentTarget.files?.[0]) {
             // We upload only one file, in case
             // multiple files were selected
             const uploadFilename = e.currentTarget.files[0];

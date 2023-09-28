@@ -12,7 +12,7 @@ const path = require('path');
 
 calculateAndCreateStoragePath = function (fileObj) { //eslint-disable-line
     if (Meteor.isServer) {
-        let absAttachmentStoragePath = Meteor.settings.attachments && Meteor.settings.attachments.storagePath
+        let absAttachmentStoragePath = Meteor.settings.attachments?.storagePath
             ? Meteor.settings.attachments.storagePath
             : 'attachments';
         // make path absolute
@@ -20,7 +20,7 @@ calculateAndCreateStoragePath = function (fileObj) { //eslint-disable-line
             absAttachmentStoragePath = path.resolve(absAttachmentStoragePath);
         }
         // optionally: append sub directory for parent meeting series
-        if (fileObj && fileObj.meta && fileObj.meta.parentseries_id) {
+        if (fileObj?.meta && fileObj.meta.parentseries_id) {
             absAttachmentStoragePath =  absAttachmentStoragePath + '/' + fileObj.meta.parentseries_id;
         }
 
@@ -49,7 +49,7 @@ removeMeetingSeriesAttachmentDir = function (meetingseries_id) { //eslint-disabl
 
 
 // check storagePath for attachments once at server bootstrapping
-if (Meteor.settings.attachments && Meteor.settings.attachments.enabled) {
+if (Meteor.settings.attachments?.enabled) {
     console.log('Attachments upload feature: ENABLED');
     let settingsPath = calculateAndCreateStoragePath(null); //eslint-disable-line
     let absoluteTargetPath = path.resolve(settingsPath);

@@ -101,7 +101,7 @@ export class ItemsFilter {
             }
             case ITEM_KEYWORDS.DUE.key:
             {
-                if (!( doc.duedate && doc.duedate.startsWith(filter.value))) {
+                if (!( doc.duedate?.startsWith(filter.value))) {
                     return false;
                 }
                 break;

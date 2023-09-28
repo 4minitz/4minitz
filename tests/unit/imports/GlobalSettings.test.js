@@ -8,7 +8,7 @@ let Meteor = {
     absoluteUrl: (path, config) => {
         if (!path) path = "";
 
-        if (config && config.rootUrl) {
+        if (config?.rootUrl) {
             if (path !== "") path = "/" + path;
             return config.rootUrl + path;
         }

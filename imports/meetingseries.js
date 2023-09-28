@@ -96,7 +96,7 @@ export class MeetingSeries {
             newMinutesDate = lastMinDate.add(1, 'days').toDate();
         }
         // Transfer global note from last minutes if set sticky
-        const globalNotePinned = lastMinutes && lastMinutes.globalNotePinned;
+        const globalNotePinned = lastMinutes?.globalNotePinned;
         let globalNote = (globalNotePinned) ? lastMinutes.globalNote : '';
 
         let min = new Minutes({

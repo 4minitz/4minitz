@@ -167,7 +167,7 @@ class ExpImpUsers {
             // Now execute the chain.
             Promise.all(promiseChain)
                 .then(function (res) {
-                    if (res && res[0] && res[0].result && !res[0].result.ok) {
+                    if (res?.[0] && res[0].result && !res[0].result.ok) {
                         console.log('Promisechain result: ', res);
                     }
                     resolve(db);

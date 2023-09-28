@@ -219,7 +219,7 @@ Template.topicInfoItemList.helpers({
         let infoItem = context.items[index];
         if (infoItem && infoItem.itemType !== 'actionItem') {
             return 'infoitem';
-        } else if (infoItem && infoItem.isOpen) {
+        } else if (infoItem?.isOpen) {
             let todayDate = formatDateISO8601(new Date());
             if (infoItem.duedate && infoItem.duedate === todayDate) {
                 return 'actionitem-open-due-today';
