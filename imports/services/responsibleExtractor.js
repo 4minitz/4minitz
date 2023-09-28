@@ -21,7 +21,7 @@ export class ResponsibleExtractor {
     }
 
     _extractResponsible() {
-        const regEx = new RegExp(/(^|[\s.,;])@([a-zA-z]+[^\s,;]*)/g);
+        const regEx = new RegExp(/(^|[\s.,;])@([a-zA-Z]+[^\s,;]*)/g);
         const subjectString = this.string;
         let match;
 
