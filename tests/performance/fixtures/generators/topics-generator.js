@@ -1,7 +1,7 @@
-import { DateHelper } from "../lib/date-helper";
-import { Random } from "../lib/random";
+import {DateHelper} from "../lib/date-helper";
+import {Random} from "../lib/random";
 
-const { faker } = require("@faker-js/faker");
+const {faker} = require("@faker-js/faker");
 let extend = require("clone"); // require("xtend");
 
 export class TopicsGenerator {
@@ -34,14 +34,12 @@ export class TopicsGenerator {
 
     // generate base list for the following minutes
     // basing on the previous list
-    let nextTopicsList = this.currentTopicList.filter((topic) => {
-      return !TopicsGenerator._isCompletelyClosed(topic);
-    });
+    let nextTopicsList = this.currentTopicList.filter(
+        (topic) => { return !TopicsGenerator._isCompletelyClosed(topic); });
     this.currentTopicList = nextTopicsList.map((topic) => {
       let topicClone = extend(topic);
-      topicClone.infoItems = topic.infoItems.filter((item) => {
-        return item.isOpen;
-      });
+      topicClone.infoItems =
+          topic.infoItems.filter((item) => { return item.isOpen; });
       return topicClone;
     });
 
@@ -54,7 +52,7 @@ export class TopicsGenerator {
 
     // Here we have to clone the whole topics list to make sure
     // it will not be modified by the following one...
-    return [...this.currentTopicList].map((topic) => {
+    return [...this.currentTopicList ].map((topic) => {
       let clone = extend(topic);
       clone.infoItems = [];
       topic.infoItems.forEach((item) => {
@@ -80,8 +78,8 @@ export class TopicsGenerator {
       });
 
       let itemsCount = Random.randomNumber(
-        this.config.itemsRange.min,
-        this.config.itemsRange.max,
+          this.config.itemsRange.min,
+          this.config.itemsRange.max,
       );
       let start = itemsCount - topic.infoItems.length;
       for (let j = 0; j < start; j++) {
@@ -92,8 +90,8 @@ export class TopicsGenerator {
 
   _generateNewTopics() {
     let topicsCount = Random.randomNumber(
-      this.config.topicsRange.min,
-      this.config.topicsRange.max,
+        this.config.topicsRange.min,
+        this.config.topicsRange.max,
     );
     let start = topicsCount - this.currentTopicList.length;
     for (let i = 0; i < start; i++) {
@@ -105,16 +103,14 @@ export class TopicsGenerator {
     this.currentTopicList.forEach((topic) => {
       let topicClone = extend(topic);
 
-      topicClone.infoItems = topicClone.infoItems.filter((item) => {
-        return !item.isOpen || isLastOne;
-      });
+      topicClone.infoItems = topicClone.infoItems.filter(
+          (item) => { return !item.isOpen || isLastOne; });
 
       if (this.seriesTopicIdIndexMap[topic._id] !== undefined) {
         let index = this.seriesTopicIdIndexMap[topic._id];
         let existingTopic = this.seriesTopicList[index];
-        topicClone.infoItems.forEach((item) => {
-          existingTopic.infoItems.push(item);
-        });
+        topicClone.infoItems.forEach(
+            (item) => { existingTopic.infoItems.push(item); });
       } else {
         topicClone.isOpen = !TopicsGenerator._isCompletelyClosed(topic);
         this.seriesTopicList.push(topicClone);
@@ -127,29 +123,29 @@ export class TopicsGenerator {
     let items = this._generateNewInfoItems();
 
     return {
-      _id: Random.generateId(),
-      createdInMinute: this.currentMinutesId,
-      createdAt: new Date(),
-      createdBy: this.config.username,
-      updatedAt: new Date(),
-      updatedBy: this.config.username,
-      subject:
-        faker.commerce.department() + " - " + faker.commerce.productName(),
-      responsibles: [],
-      isOpen: faker.datatype.boolean(),
-      isNew: false,
-      isRecurring: false,
-      isSkipped: false,
-      labels: [],
-      infoItems: items,
+      _id : Random.generateId(),
+      createdInMinute : this.currentMinutesId,
+      createdAt : new Date(),
+      createdBy : this.config.username,
+      updatedAt : new Date(),
+      updatedBy : this.config.username,
+      subject :
+          faker.commerce.department() + " - " + faker.commerce.productName(),
+      responsibles : [],
+      isOpen : faker.datatype.boolean(),
+      isNew : false,
+      isRecurring : false,
+      isSkipped : false,
+      labels : [],
+      infoItems : items,
     };
   }
 
   _generateNewInfoItems() {
     let items = [];
     let itemsCount = Random.randomNumber(
-      this.config.itemsRange.min,
-      this.config.itemsRange.max,
+        this.config.itemsRange.min,
+        this.config.itemsRange.max,
     );
     for (let i = 0; i < itemsCount; i++) {
       items.push(this._generateANewInfoItem());
@@ -160,17 +156,17 @@ export class TopicsGenerator {
   _generateANewInfoItem() {
     let isAction = faker.datatype.boolean();
     let item = {
-      _id: Random.generateId(),
-      createdAt: new Date(),
-      createdBy: this.config.username,
-      updatedAt: new Date(),
-      updatedBy: this.config.username,
-      itemType: isAction ? "actionItem" : "infoItem",
-      isSticky: false,
-      createdInMinute: this.currentMinutesId,
-      labels: [],
-      subject: faker.lorem.sentence(),
-      details: [this._generateADetail()],
+      _id : Random.generateId(),
+      createdAt : new Date(),
+      createdBy : this.config.username,
+      updatedAt : new Date(),
+      updatedBy : this.config.username,
+      itemType : isAction ? "actionItem" : "infoItem",
+      isSticky : false,
+      createdInMinute : this.currentMinutesId,
+      labels : [],
+      subject : faker.lorem.sentence(),
+      details : [ this._generateADetail() ],
     };
 
     if (isAction) {
@@ -189,14 +185,14 @@ export class TopicsGenerator {
   _generateADetail() {
     let date = this.minutesDate ? this.minutesDate : new Date();
     return {
-      _id: Random.generateId(),
-      createdAt: new Date(),
-      createdBy: this.config.username,
-      updatedAt: new Date(),
-      updatedBy: this.config.username,
-      createdInMinute: this.currentMinutesId,
-      date: DateHelper.formatDateISO8601(date),
-      text: faker.lorem.sentences(this.config.detailsSentenceRange),
+      _id : Random.generateId(),
+      createdAt : new Date(),
+      createdBy : this.config.username,
+      updatedAt : new Date(),
+      updatedBy : this.config.username,
+      createdInMinute : this.currentMinutesId,
+      date : DateHelper.formatDateISO8601(date),
+      text : faker.lorem.sentences(this.config.detailsSentenceRange),
     };
   }
 
