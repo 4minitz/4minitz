@@ -49,7 +49,7 @@ export class LabelExtractor {
     }
 
     _extractAndCreatedNewLabels() {
-        const regEx = /(^|[\s.,;])#([a-zA-z]+[^\s.,;]*)/g;
+        const regEx = /(^|[\s.,;])#([a-zA-Z]+[^\s.,;]*)/g;
         let completeString = this.string;
         let match;
 
