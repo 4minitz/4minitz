@@ -1,7 +1,7 @@
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
-import {emailAddressRegExpTest} from "../helpers/email";
-import {StringUtils} from "../helpers/string-utils";
+import { emailAddressRegExpTest } from "../helpers/email";
+import { StringUtils } from "../helpers/string-utils";
 
 export class ResponsibleExtractor {
   constructor(string, acceptOnlyValidEmailAsFreeText = false) {
@@ -12,9 +12,13 @@ export class ResponsibleExtractor {
     this._extractResponsible();
   }
 
-  getExtractedResponsible() { return this.extractedResponsible; }
+  getExtractedResponsible() {
+    return this.extractedResponsible;
+  }
 
-  getCleanedString() { return this.string; }
+  getCleanedString() {
+    return this.string;
+  }
 
   _extractResponsible() {
     const regEx = new RegExp(/(^|[\s.,;])@([a-zA-Z]+[^\s,;]*)/g);
@@ -31,7 +35,7 @@ export class ResponsibleExtractor {
   }
 
   _addResponsible(responsibleName) {
-    let user = Meteor.users.findOne({username : responsibleName});
+    let user = Meteor.users.findOne({ username: responsibleName });
     if (user) {
       this.extractedResponsible.push(user._id);
       return true;
@@ -44,14 +48,16 @@ export class ResponsibleExtractor {
   }
 
   _isValidResonsible(possibleResponsibleName) {
-    return (!this.acceptOnlyValidEmailAsFreeText ||
-            emailAddressRegExpTest.test(possibleResponsibleName));
+    return (
+      !this.acceptOnlyValidEmailAsFreeText ||
+      emailAddressRegExpTest.test(possibleResponsibleName)
+    );
   }
 
   _removeResponsibleFromString(responsibleName) {
     this.string = StringUtils.eraseSubstring(
-        this.string,
-        `@${responsibleName}`,
+      this.string,
+      `@${responsibleName}`,
     );
   }
 }
