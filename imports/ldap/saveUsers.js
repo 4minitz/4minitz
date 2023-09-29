@@ -1,8 +1,8 @@
 let mongo = require("mongodb").MongoClient,
   mongoUriParser = require("mongo-uri"),
-  random = require("randomstring"),
   transformUser = require("./transformUser"),
   _ = require("underscore");
+import { Random } from "../../tests/performance/fixtures/lib/random";
 
 let _transformUsers = function (settings, users) {
   return _.map(users, (user) => transformUser(settings, user));
@@ -18,8 +18,10 @@ RegExp.escape = function (s) {
 
 let _insertUsers = function (client, mongoUri, users) {
   // unique id from the random package also used by minimongo
-  // character list: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
-  // string length: https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
+  // character list:
+  // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
+  // string length:
+  // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L197
   const randomStringConfig = {
     length: 17,
     charset: "23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz",
@@ -44,7 +46,7 @@ let _insertUsers = function (client, mongoUri, users) {
             .upsert()
             .updateOne({
               $setOnInsert: {
-                _id: random.generate(randomStringConfig),
+                _id: Random.generateId(),
                 // by setting this only on insert we won't log out everyone
                 // everytime we sync the users
                 services: {
