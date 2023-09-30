@@ -95,7 +95,7 @@
     "ddp": "^0.9.4",
     "eslint": "^8.28.0",
     "js-yaml": "^3.13.1",
-    "markdownlint-cli": "^0.32.2",
+    "markdownlint-cli": "^0.37.0",
     "mocha": "^10.2.0",
     "npm-license-crawler": "^0.1.5",
     "proxyquire": "^1.8.0",
