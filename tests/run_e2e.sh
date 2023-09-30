@@ -16,7 +16,7 @@ MAX_WAIT=900
 until grep "=> App running at" "$SERVERLOG"; do
   echo App has not started yet.. Waiting for "$COUNTER" seconds
   sleep 30
-  COUNTER=$(COUNTER+30)
+  COUNTER=$((COUNTER + 30))
 
   if [ "$COUNTER" -gt "$MAX_WAIT" ]; then
     echo Meteor takes too long to start, exiting. Server log:
