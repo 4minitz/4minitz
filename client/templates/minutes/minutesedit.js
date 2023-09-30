@@ -1,30 +1,26 @@
-import moment from "moment/moment";
+import { QualityTestRunner } from "/imports/client/QualityTestRunner";
+import { GlobalSettings } from "/imports/config/GlobalSettings";
+import { DocumentGeneration } from "/imports/documentGeneration";
+import { MeetingSeries } from "/imports/meetingseries";
+import { Minutes } from "/imports/minutes";
+import { Finalizer } from "/imports/services/finalize-minutes/finalizer";
+import { MinutesFinder } from "/imports/services/minutesFinder";
+import { UserRoles } from "/imports/userroles";
+import { Blaze } from "meteor/blaze";
+import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+import { ReactiveVar } from "meteor/reactive-var";
+import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
-import { Blaze } from "meteor/blaze";
-import { Session } from "meteor/session";
-import { $ } from "meteor/jquery";
+import moment from "moment/moment";
 
 import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
-
-import { Meteor } from "meteor/meteor";
-import { ReactiveVar } from "meteor/reactive-var";
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-
-import { Minutes } from "/imports/minutes";
-import { MinutesFinder } from "/imports/services/minutesFinder";
-import { MeetingSeries } from "/imports/meetingseries";
-import { UserRoles } from "/imports/userroles";
-import { DocumentGeneration } from "/imports/documentGeneration";
-
-import { Finalizer } from "/imports/services/finalize-minutes/finalizer";
-
-import { TopicListConfig } from "../topic/topicsList";
-import { GlobalSettings } from "/imports/config/GlobalSettings";
-import { QualityTestRunner } from "/imports/client/QualityTestRunner";
 import { FlashMessage } from "../../helpers/flashMessage";
-import { UserTracker } from "../../helpers/userTracker";
 import { handleError } from "../../helpers/handleError";
+import { UserTracker } from "../../helpers/userTracker";
+import { TopicListConfig } from "../topic/topicsList";
 
 let _minutesID; // the ID of these minutes
 
@@ -110,9 +106,9 @@ let togglePrintView = function (switchOn) {
 })();
 
 // Global keyboard shortcut handler for this template
-// In Meteor global key events can only be bound to the template on <INPUT> elements
-// If we want to have these key events really global, we have to register them with
-// the document. For details see SO:
+// In Meteor global key events can only be bound to the template on <INPUT>
+// elements If we want to have these key events really global, we have to
+// register them with the document. For details see SO:
 // http://stackoverflow.com/questions/27972873/meteor-keydown-keyup-events-outside-input
 let handleTemplatesGlobalKeyboardShortcuts = function (switchOn) {
   if (switchOn) {
@@ -130,8 +126,8 @@ let handleTemplatesGlobalKeyboardShortcuts = function (switchOn) {
       // }
 
       // Listen for "Ctrl+Alt+T" for "Add Topic" (Alt+T in IE11)
-      // accesskey attribute is not an option, as it needs browser specific modifieres
-      // (see www.w3schools.com/tags/att_global_accesskey.asp) and
+      // accesskey attribute is not an option, as it needs browser specific
+      // modifieres (see www.w3schools.com/tags/att_global_accesskey.asp) and
       // accessKeyLabel is not implemented in all browsers
       if (evt.ctrlKey && evt.altKey && !evt.shiftKey && evt.keyCode === 84) {
         $("#dlgAddTopic").modal("show");
@@ -242,7 +238,8 @@ let updateTopicSorting = function (event, ui) {
       newTargetPos = i;
     }
   }
-  // In visible topics find ID of the following topic, or '' if dragged to end of list
+  // In visible topics find ID of the following topic, or '' if dragged to end
+  // of list
   let followerTopicID = ""; // The ID of the topic below the dragged one
   if (newTargetPos < sorting.length - 1) {
     followerTopicID = $(sorting[newTargetPos + 1]).attr("data-id");
@@ -287,20 +284,7 @@ let openPrintDialog = function () {
   let ua = navigator.userAgent.toLowerCase();
   let isAndroid = ua.indexOf("android") > -1;
 
-  if (isAndroid && cloudprint && cloudprint.Gadget) {
-    //eslint-disable-line
-    // https://developers.google.com/cloud-print/docs/gadget
-    let gadget = new cloudprint.Gadget(); //eslint-disable-line
-    gadget.setPrintDocument(
-      "url",
-      $("title").html(),
-      window.location.href,
-      "utf-8",
-    );
-    gadget.openPrintDialog();
-  } else {
-    window.print();
-  }
+  window.print();
 };
 
 let sendActionItems = true;
@@ -343,7 +327,8 @@ Template.minutesedit.helpers({
       // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
       datePickerNode.datetimepicker({
         format: "YYYY-MM-DD",
-        // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on some systems...
+        // calendarWeeks: true, // unfortunately this leads to "NaN" weeks on
+        // some systems...
         showTodayButton: true,
       });
 
@@ -727,8 +712,8 @@ Template.minutesedit.events({
     let deleteMinutesCallback = () => {
       let ms = new MeetingSeries(aMin.meetingSeries_id);
       // first route to the parent meetingseries then remove the minute.
-      // otherwise the current route would automatically re-routed to the main page because the
-      // minute is not available anymore -> see router.js
+      // otherwise the current route would automatically re-routed to the main
+      // page because the minute is not available anymore -> see router.js
       FlowRouter.go("/meetingseries/" + aMin.meetingSeries_id);
       ms.removeMinutesWithId(aMin._id).catch(handleError);
     };
