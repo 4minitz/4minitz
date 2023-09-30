@@ -74,7 +74,9 @@ Template.minutesAttachments.helpers({
   showUploadButton() {
     let min = new Minutes(_minutesID);
     let ur = new UserRoles();
-    return Boolean(!min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID()));
+    return Boolean(
+      !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID()),
+    );
   },
 
   showAttachmentRemoveButton() {

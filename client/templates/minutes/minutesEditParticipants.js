@@ -137,10 +137,12 @@ Template.minutesEditParticipants.helpers({
   },
 
   isUserRemotelyConnected(userId) {
-    return Boolean(OnlineUsersSchema.findOne({
-      userId: userId,
-      activeRoute: FlowRouter.current().path,
-    }));
+    return Boolean(
+      OnlineUsersSchema.findOne({
+        userId: userId,
+        activeRoute: FlowRouter.current().path,
+      }),
+    );
   },
 
   isModeratorOfParentSeries(userId) {
