@@ -14,23 +14,22 @@ export PORT=3100
 # the leading http:// or https:// is IMPORTANT!
 export ROOT_URL='http://localhost:3100'
 # Read in your settings.json
-export METEOR_SETTINGS=$(cat ./settings.json)
+export METEOR_SETTINGS="$(cat ./settings.json)"
 #################################################
 
 #### Check if installed node version matches the node build version
-nodeversionbuild=`cat ./bundle/.node_version.txt`
-nodeversionnow=`node --version`
-if [ ${nodeversionbuild} != ${nodeversionnow} ]
-then
-    echo " "
-    echo "*** WARNING!"
-    echo "    Node version mismatch:"
-    echo "    Node version on build: ${nodeversionbuild}"
-    echo "    Node version now     : ${nodeversionnow}"
-    echo "If app has launch errors, use node version manager:"
-    echo "     nvm install ${nodeversionbuild} &&  nvm use ${nodeversionbuild}"
-    echo " "
-    sleep 5
+nodeversionbuild=$(cat ./bundle/.node_version.txt)
+nodeversionnow=$(node --version)
+if [ "$nodeversionbuild" != "$nodeversionnow" ]; then
+  echo " "
+  echo "*** WARNING!"
+  echo "    Node version mismatch:"
+  echo "    Node version on build: $nodeversionbuild"
+  echo "    Node version now     : $nodeversionnow"
+  echo "If app has launch errors, use node version manager:"
+  echo "     nvm install $nodeversionbuild &&  nvm use $nodeversionbuild"
+  echo " "
+  sleep 5
 fi
 
 #### Launch the 4Minitz server
