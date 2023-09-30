@@ -47,7 +47,6 @@
   },
   "homepage": "https://www.4minitz.com",
   "dependencies": {
-    "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.22.5",
     "@faker-js/faker": "^8.0.0",
     "arrive": "^2.4.1",
