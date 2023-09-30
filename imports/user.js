@@ -17,7 +17,7 @@ export class User {
       this.id = this.user._id;
     }
 
-    this.OK = !!this.user;
+    this.OK = Boolean(this.user);
   }
 
   static PROFILENAMEWITHFALLBACK(userObject) {

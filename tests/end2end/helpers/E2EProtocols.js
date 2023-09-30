@@ -8,7 +8,7 @@ export class E2EProtocols {
         server.call('e2e.setSettingsForProtocolGeneration', format);
         //Set on client
         browser.execute((format) => {
-            Meteor.settings.public.docGeneration.enabled = !!format;
+            Meteor.settings.public.docGeneration.enabled = Boolean(format);
 
             if (format) {
                 Meteor.settings.public.docGeneration.format = format;

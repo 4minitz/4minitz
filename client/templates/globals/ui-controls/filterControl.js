@@ -87,7 +87,7 @@ Template.filterControl.onRendered(function() {
 
 Template.filterControl.helpers({
     'hasFilters': function() {
-        return !!Template.instance().data.config.filters;
+        return Boolean(Template.instance().data.config.filters);
     },
 
     'filters': function () {

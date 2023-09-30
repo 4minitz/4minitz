@@ -78,7 +78,7 @@ Template.minutesEditParticipants.helpers({
     if (count === 1) {
       return i18n.__("Minutes.Participants.solo");
     } else {
-      return "" + count + " " + i18n.__("Minutes.Participants.title");
+      return String(count) + " " + i18n.__("Minutes.Participants.title");
     }
   },
 
@@ -137,10 +137,10 @@ Template.minutesEditParticipants.helpers({
   },
 
   isUserRemotelyConnected(userId) {
-    return !!OnlineUsersSchema.findOne({
+    return Boolean(OnlineUsersSchema.findOne({
       userId: userId,
       activeRoute: FlowRouter.current().path,
-    });
+    }));
   },
 
   isModeratorOfParentSeries(userId) {

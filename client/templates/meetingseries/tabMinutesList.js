@@ -28,7 +28,7 @@ Template.tabMinutesList.helpers({
     },
 
     hasAttachments() {
-        return !!AttachmentsCollection.findOne({'meta.meetingminutes_id': this._id});
+        return Boolean(AttachmentsCollection.findOne({'meta.meetingminutes_id': this._id}));
     }
 });
 

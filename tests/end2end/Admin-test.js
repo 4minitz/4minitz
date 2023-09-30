@@ -60,7 +60,7 @@ describe('Admin View', function () {
             E2EApp.loginUser(testUser, true);
             loginSuccess = true;
         } catch (e) {
-            expect(e+"").to.contain("wrong password");
+            expect(String(e)).to.contain("wrong password");
         }
         expect(loginSuccess, "loginSuccess should be false, as user is in-active").to.be.false;
     });
