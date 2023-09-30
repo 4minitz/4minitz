@@ -95,6 +95,7 @@
     "eslint": "^8.28.0",
     "js-yaml": "^3.13.1",
     "markdownlint-cli": "^0.37.0",
+    "meteor-sdk": "0.0.21",
     "mocha": "^10.2.0",
     "npm-license-crawler": "^0.1.5",
     "proxyquire": "^1.8.0",
