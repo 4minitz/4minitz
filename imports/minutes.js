@@ -1,18 +1,19 @@
-import { Meteor } from "meteor/meteor";
-import { i18n } from "meteor/universe:i18n";
-import { Random } from "meteor/random";
-import { MinutesSchema } from "./collections/minutes.schema";
-import { MeetingSeries } from "./meetingseries";
-import { Topic } from "./topic";
-import { ActionItem } from "./actionitem";
-import { emailAddressRegExpMatch } from "/imports/helpers/email";
-import { subElementsHelper } from "/imports/helpers/subElements";
-import { _ } from "meteor/underscore";
-import { User } from "/imports/user";
-
 import "./collections/minutes_private";
 import "./helpers/promisedMethods";
 import "./collections/workflow_private";
+
+import { emailAddressRegExpMatch } from "/imports/helpers/email";
+import { subElementsHelper } from "/imports/helpers/subElements";
+import { User } from "/imports/user";
+import { Meteor } from "meteor/meteor";
+import { Random } from "meteor/random";
+import { _ } from "meteor/underscore";
+import { i18n } from "meteor/universe:i18n";
+
+import { ActionItem } from "./actionitem";
+import { MinutesSchema } from "./collections/minutes.schema";
+import { MeetingSeries } from "./meetingseries";
+import { Topic } from "./topic";
 
 export class Minutes {
   constructor(source) {
@@ -87,7 +88,7 @@ export class Minutes {
           if (!min.isFinalized) {
             let newparticipants = min.generateNewParticipants();
             if (newparticipants) {
-              //Write participants to database if they have changed
+              // Write participants to database if they have changed
               MinutesSchema.update(
                 { _id: min._id },
                 { $set: { participants: newparticipants } },
@@ -115,7 +116,7 @@ export class Minutes {
       Object.prototype.hasOwnProperty.call(docPart, "date") ||
       Object.prototype.hasOwnProperty.call(docPart, "isFinalized")
     ) {
-      return await parentMeetingSeries.updateLastMinutesFieldsAsync(this);
+      return parentMeetingSeries.updateLastMinutesFieldsAsync(this);
     }
   }
 
@@ -325,11 +326,13 @@ export class Minutes {
       /* initial value */ [],
     );
 
-    // search for mail addresses in additional participants and add them to recipients
+    // search for mail addresses in additional participants and add them to
+    // recipients
     if (this.participantsAdditional) {
       let addMails = this.participantsAdditional.match(emailAddressRegExpMatch);
       if (addMails) {
-        // addMails is null if there is no substring matching the email regular expression
+        // addMails is null if there is no substring matching the email regular
+        // expression
         addMails.forEach((additionalMail) => {
           recipientResult.push({
             userId: "additionalRecipient",
@@ -349,8 +352,9 @@ export class Minutes {
    * This method adds and removes users from the .participants list.
    * But it does not change attributes (e.g. .present) of untouched users
    * It will not write the new Participants into the database.
-   * Instead it returns an array containing the new participants. If the participants have not changed it will return "undefined"
-   * Throws an exception if this minutes are finalized
+   * Instead it returns an array containing the new participants. If the
+   * participants have not changed it will return "undefined" Throws an
+   * exception if this minutes are finalized
    *
    * @returns {Array}
    */
@@ -387,7 +391,8 @@ export class Minutes {
     });
     this.participants = newParticipants;
 
-    //Now the participantsDict contains only the participants that have been removed. If there are any the database has to be updated
+    // Now the participantsDict contains only the participants that have been
+    // removed. If there are any the database has to be updated
     changed = changed || Object.keys(participantDict).length > 0;
 
     // only return new paricipants if they have changed
@@ -396,8 +401,10 @@ export class Minutes {
 
   // method?
   /**
-   * Change presence of a single participant. Immediately updates .participants array
-   * TODO Reactive performance may be better if we only update one array element in DB
+   * Change presence of a single participant. Immediately updates .participants
+   * array
+   * TODO Reactive performance may be better if we only update one array element
+   * in DB
    * @param userid of the participant in the participant array
    * @param isPresent new state of presence
    */
