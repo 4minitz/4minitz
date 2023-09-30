@@ -159,12 +159,12 @@ describe("Migrate Version 15", function () {
   describe("#up", function () {
     it("does not change the info item", function () {
       MigrateV15.up();
-      checkPriorities(0, undefined);
+      checkPriorities(0);
     });
 
     it("removes the priority property of an info item if it exists", function () {
       MigrateV15.up();
-      checkPriorities(5, undefined);
+      checkPriorities(5);
     });
 
     it("converts the priority with value high to the corresponding number", function () {
@@ -210,7 +210,7 @@ describe("Migrate Version 15", function () {
 
     it("does not change the info item", function () {
       MigrateV15.down();
-      checkPriorities(0, undefined);
+      checkPriorities(0);
     });
 
     it("converts the priority with a numeric value to a string value", function () {

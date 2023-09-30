@@ -58,7 +58,7 @@ let togglePrintView = function (switchOn) {
       "minutesedit.collapsetopics-save4print." + _minutesID,
       Session.get("minutesedit.collapsetopics." + _minutesID),
     );
-    Session.set("minutesedit.collapsetopics." + _minutesID, undefined);
+    Session.set("minutesedit.collapsetopics." + _minutesID);
 
     Session.set("participants.expand", false);
     $(".help").hide();
@@ -763,7 +763,7 @@ Template.minutesedit.events({
   },
 
   "click #btnExpandAll": function () {
-    Session.set("minutesedit.collapsetopics." + _minutesID, undefined);
+    Session.set("minutesedit.collapsetopics." + _minutesID);
   },
 
   "click #btn_printMinutes": function (evt) {
