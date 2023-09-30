@@ -61,7 +61,7 @@ export class LabelExtractor {
 
   _addLabelByName(labelName) {
     let label = Label.createLabelByName(this.meetingSeriesId, labelName);
-    if (null === label) {
+    if (label === null) {
       label = new Label({ name: labelName });
       label.save(this.meetingSeriesId);
     }

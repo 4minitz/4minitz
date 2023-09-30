@@ -50,7 +50,7 @@ export class QueryParser {
       this._parseToken(token);
     });
     // add last label
-    if (null !== this.currentLabel) {
+    if (this.currentLabel !== null) {
       this._addCompleteLabelToken();
     }
     this.queryParsed = true;
@@ -181,7 +181,7 @@ export class QueryParser {
   _addLabelToken(token) {
     let completeLabel;
     if (this.newLabel) {
-      if (null !== this.currentLabel) {
+      if (this.currentLabel !== null) {
         this._addCompleteLabelToken();
       }
       this.currentLabel = token.substr(1);
