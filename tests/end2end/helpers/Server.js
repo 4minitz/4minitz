@@ -1,4 +1,4 @@
-const DDPClient = require('ddp');
+const DDPClient = require('meteor-sdk');
 const Future = require('fibers/future');
 
 const ddpclient = new DDPClient({
