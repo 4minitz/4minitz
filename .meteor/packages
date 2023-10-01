@@ -26,7 +26,6 @@ alanning:roles@3.5.1
 percolate:migrations
 sergeyt:typeahead
 email@2.2.5
-markdown@1.0.12
 reactive-var@1.0.12
 natestrauser:select2
 
