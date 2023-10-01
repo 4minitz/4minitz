@@ -42,7 +42,7 @@ kadira:blaze-layout
 jagi:astronomy
 mouse0270:bootstrap-notify
 dynamic-import@0.7.3
-msavin:mongol
+msavin:mongol@10.0.1
 ostrio:flow-router-extra
 accounts-password@2.3.4
 universe:i18n
