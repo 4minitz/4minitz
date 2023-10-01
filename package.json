@@ -91,7 +91,6 @@
     "@wdio/spec-reporter": "^8.11.2",
     "chai": "^4.1.2",
     "clone": "^2.1.1",
-    "ddp": "^0.12.1",
     "eslint": "^8.28.0",
     "js-yaml": "^3.13.1",
     "markdownlint-cli": "^0.37.0",
