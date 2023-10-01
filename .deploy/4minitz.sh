@@ -7,7 +7,7 @@ if [[ ! -d $basedir4min ]]
 then
     echo "Could not find $basedir4min. This script is intended as an entrypoint"
     echo "for the 4Minitz Docker container. To start the app without Docker"
-    echo "adjust the `./deploy/run_sample.sh` script and use that."
+    echo "adjust the $(./deploy/run_sample.sh) script and use that."
     exit 1
 fi
 
@@ -23,7 +23,7 @@ fi
 echo "You may edit the settings file locally on your host."
 echo "Then restart this docker container."
 
-cd /4minitz_bin/bundle
+cd /4minitz_bin/bundle || exit
 
 export PORT=3333
 export ROOT_URL='http://localhost:3100'
@@ -50,38 +50,38 @@ function parse_mongo_url {
     local PROTO
     local URL
 
-    PROTO="$(echo ${MONGO_URL} | grep :// | sed -e's,^\(.*://\).*,\1,g')"
+    PROTO="$(echo "${MONGO_URL}" | grep :// | sed -e's,^\(.*://\).*,\1,g')"
     URL="${MONGO_URL/${PROTO}/}"
 
-    AUTH="$(echo ${URL} | grep @ | rev | cut -d@ -f2- | rev)"
-    if [ -n ${AUTH} ]; then
-        URL="$(echo ${URL} | rev | cut -d@ -f1 | rev)"
+    AUTH="$(echo "${URL}" | grep @ | rev | cut -d@ -f2- | rev)"
+    if [[ -n ${AUTH} ]]; then
+        URL="$(echo "${URL}" | rev | cut -d@ -f1 | rev)"
     fi
 
-    MONGO_PASSWORD="$(echo ${AUTH} | grep : | cut -d: -f2-)"
+    MONGO_PASSWORD="$(echo "${AUTH}" | grep : | cut -d: -f2-)"
     if [ -n "${MONGO_PASSWORD}" ]; then
-        MONGO_USER="$(echo ${AUTH} | grep : | cut -d: -f1)"
+        MONGO_USER="$(echo "${AUTH}" | grep : | cut -d: -f1)"
     else
         MONGO_USER=${AUTH}
     fi
 
-    HOST_PORT="$(echo ${URL} | cut -d/ -f1)"
-    MONGO_PORT="$(echo ${HOST_PORT} | grep : | cut -d: -f2)"
+    HOST_PORT="$(echo "${URL}" | cut -d/ -f1)"
+    MONGO_PORT="$(echo "${HOST_PORT}" | grep : | cut -d: -f2)"
     if [ -n "${MONGO_PORT}" ]; then
-        MONGO_HOST="$(echo ${HOST_PORT} | grep : | cut -d: -f1)"
+        MONGO_HOST="$(echo "${HOST_PORT}" | grep : | cut -d: -f1)"
     else
         MONGO_PORT=27017
         MONGO_HOST="${HOST_PORT}"
     fi
 
-    MONGO_DATABASE="$(echo ${URL} | grep / | cut -d/ -f2-)"
+    MONGO_DATABASE="$(echo "${URL}" | grep / | cut -d/ -f2-)"
 }
 
-parse_mongo_url ${MONGO_URL}
+parse_mongo_url "${MONGO_URL}"
 
 # Wait until mongo logs that it's ready (or timeout after 60s)
 COUNTER=0
-while !(nc -z ${MONGO_HOST} ${MONGO_PORT}) && [[ $COUNTER -lt 60 ]] ; do
+while ! (nc -z "${MONGO_HOST}" "${MONGO_PORT}") && [[ $COUNTER -lt 60 ]] ; do
     sleep 2
     let COUNTER+=2
     echo "Waiting for mongo to initialize... ($COUNTER seconds so far)"
