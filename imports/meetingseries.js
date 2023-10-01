@@ -1,22 +1,25 @@
-import { Meteor } from "meteor/meteor";
-import { Random } from "meteor/random";
-import { MeetingSeriesSchema } from "./collections/meetingseries.schema";
-import { MinutesFinder } from "/imports/services/minutesFinder";
-import { Minutes } from "./minutes";
-import { UserRoles } from "./userroles";
-import { formatDateISO8601 } from "/imports/helpers/date";
-import { subElementsHelper } from "/imports/helpers/subElements";
-import { _ } from "lodash";
-import { $ } from "meteor/jquery";
 import "./helpers/promisedMethods";
 import "./collections/meetingseries_private";
+
+import {formatDateISO8601} from "/imports/helpers/date";
+import {subElementsHelper} from "/imports/helpers/subElements";
+import {MinutesFinder} from "/imports/services/minutesFinder";
+import {_} from "lodash";
+import {$} from "meteor/jquery";
+import {Meteor} from "meteor/meteor";
+import {Random} from "meteor/random";
 import moment from "moment/moment";
-import { TopicsFinder } from "./services/topicsFinder";
+
+import {MeetingSeriesSchema} from "./collections/meetingseries.schema";
+import {Minutes} from "./minutes";
+import {TopicsFinder} from "./services/topicsFinder";
+import {UserRoles} from "./userroles";
 
 export class MeetingSeries {
   constructor(source) {
     // constructs obj from Mongo ID or Mongo document
-    if (!source) return;
+    if (!source)
+      return;
 
     if (typeof source === "string") {
       // we may have an ID here.
@@ -39,8 +42,8 @@ export class MeetingSeries {
 
   static async remove(meetingSeries) {
     return Meteor.callPromise(
-      "workflow.removeMeetingSeries",
-      meetingSeries._id,
+        "workflow.removeMeetingSeries",
+        meetingSeries._id,
     );
   }
 
@@ -50,19 +53,17 @@ export class MeetingSeries {
 
   static getAllVisibleIDsForUser(userId) {
     // we return an array with just a list of visible meeting series IDs
-    return MeetingSeriesSchema.find(
-      { visibleFor: { $in: [userId] } },
-      { _id: 1 },
-    ).map(function (item) {
-      return item._id;
-    });
+    return MeetingSeriesSchema
+        .find(
+            {visibleFor : {$in : [ userId ]}},
+            {_id : 1},
+            )
+        .map(function(item) { return item._id; });
   }
 
   // ################### object methods
 
-  getRecord() {
-    return MeetingSeriesSchema.findOne(this._id);
-  }
+  getRecord() { return MeetingSeriesSchema.findOne(this._id); }
 
   async removeMinutesWithId(minutesId) {
     console.log("removeMinutesWithId: " + minutesId);
@@ -77,9 +78,9 @@ export class MeetingSeries {
       return Meteor.callPromise("meetingseries.update", doc);
     } else {
       return Meteor.callPromise(
-        "meetingseries.insert",
-        doc,
-        optimisticUICallback,
+          "meetingseries.insert",
+          doc,
+          optimisticUICallback,
       );
     }
   }
@@ -88,13 +89,9 @@ export class MeetingSeries {
     await this.save(optimisticUICallback);
   }
 
-  toString() {
-    return "MeetingSeries: " + JSON.stringify(this, null, 4);
-  }
+  toString() { return "MeetingSeries: " + JSON.stringify(this, null, 4); }
 
-  log() {
-    console.log(this.toString());
-  }
+  log() { console.log(this.toString()); }
 
   addNewMinutes(optimisticUICallback, serverCallback) {
     console.log("addNewMinutes()");
@@ -111,12 +108,14 @@ export class MeetingSeries {
     let globalNote = globalNotePinned ? lastMinutes.globalNote : "";
 
     let min = new Minutes({
-      meetingSeries_id: this._id,
-      date: formatDateISO8601(newMinutesDate),
-      visibleFor: this.visibleFor, // freshly created minutes inherit visibility of their series
-      informedUsers: this.informedUsers, // freshly created minutes inherit informedUsers of their series
-      globalNotePinned: globalNotePinned,
-      globalNote: globalNote,
+      meetingSeries_id : this._id,
+      date : formatDateISO8601(newMinutesDate),
+      visibleFor : this.visibleFor,       // freshly created minutes inherit
+                                          // visibility of their series
+      informedUsers : this.informedUsers, // freshly created minutes inherit
+                                          // informedUsers of their series
+      globalNotePinned : globalNotePinned,
+      globalNote : globalNote,
     });
 
     min.generateNewParticipants();
@@ -144,7 +143,7 @@ export class MeetingSeries {
   }
 
   async updateLastMinutesFields(callback) {
-    callback = callback || function () {};
+    callback = callback || function() {};
 
     try {
       let result = await this.updateLastMinutesFieldsAsync();
@@ -156,18 +155,17 @@ export class MeetingSeries {
 
   async updateLastMinutesFieldsAsync(lastMinuteDoc) {
     let updateInfo = {
-      _id: this._id,
+      _id : this._id,
     };
 
     let lastMinutes = lastMinuteDoc
-      ? lastMinuteDoc
-      : MinutesFinder.lastMinutesOfMeetingSeries(this);
+                          ? lastMinuteDoc
+                          : MinutesFinder.lastMinutesOfMeetingSeries(this);
 
     updateInfo.lastMinutesDate = lastMinutes ? lastMinutes.date : "";
     updateInfo.lastMinutesId = lastMinutes ? lastMinutes._id : null;
-    updateInfo.lastMinutesFinalized = lastMinutes
-      ? lastMinutes.isFinalized
-      : false;
+    updateInfo.lastMinutesFinalized =
+        lastMinutes ? lastMinutes.isFinalized : false;
 
     return Meteor.callPromise("meetingseries.update", updateInfo);
   }
@@ -191,8 +189,8 @@ export class MeetingSeries {
 
     let latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
       return {
-        _id: minute._id,
-        date: minute.date,
+        _id : minute._id,
+        date : minute.date,
       };
     });
 
@@ -201,7 +199,7 @@ export class MeetingSeries {
     }
 
     let firstNonMatchingMinute = latestMinutes.find(
-      (minute) => minute._id !== minuteId,
+        (minute) => minute._id !== minuteId,
     );
     if (firstNonMatchingMinute) {
       return new Date(firstNonMatchingMinute.date);
@@ -254,8 +252,8 @@ export class MeetingSeries {
   setVisibleAndInformedUsers(newVisibleForArray, newInformedUsersArray) {
     if (!this._id) {
       throw new Meteor.Error(
-        "MeetingSeries not saved.",
-        "Call save() before using addVisibleUser()",
+          "MeetingSeries not saved.",
+          "Call save() before using addVisibleUser()",
       );
     }
     if (!$.isArray(newVisibleForArray)) {
@@ -263,8 +261,9 @@ export class MeetingSeries {
     }
 
     // Clean-up roles
-    // Collect all removed users where the meeting series is not visible and not informed anymore
-    // And then remove the old meeting series role from these users
+    // Collect all removed users where the meeting series is not visible and not
+    // informed anymore And then remove the old meeting series role from these
+    // users
     let oldUserArray = this.visibleFor;
     if (this.informedUsers) {
       oldUserArray = oldUserArray.concat(this.informedUsers);
@@ -272,9 +271,8 @@ export class MeetingSeries {
     let newUserArray = newVisibleForArray;
     newUserArray = newUserArray.concat(newInformedUsersArray);
 
-    let removedUserIDs = oldUserArray.filter((usrID) => {
-      return newUserArray.indexOf(usrID) === -1;
-    });
+    let removedUserIDs = oldUserArray.filter(
+        (usrID) => { return newUserArray.indexOf(usrID) === -1; });
     removedUserIDs.forEach((removedUserID) => {
       let ur = new UserRoles(removedUserID);
       ur.removeAllRolesForMeetingSeries(this._id);
@@ -306,9 +304,9 @@ export class MeetingSeries {
 
   findLabelByName(labelName) {
     return subElementsHelper.getElementById(
-      labelName,
-      this.availableLabels,
-      "name",
+        labelName,
+        this.availableLabels,
+        "name",
     );
   }
 
@@ -336,7 +334,8 @@ export class MeetingSeries {
       // brand-new label
       labelDoc._id = Random.id();
     } else {
-      i = subElementsHelper.findIndexById(labelDoc._id, this.availableLabels); // try to find it
+      i = subElementsHelper.findIndexById(
+          labelDoc._id, this.availableLabels); // try to find it
     }
 
     if (i === undefined) {
@@ -371,7 +370,5 @@ export class MeetingSeries {
     this.additionalResponsibles.unshift(newResponsible);
   }
 
-  findTopic(topicId) {
-    return TopicsFinder.getTopicById(topicId, this._id);
-  }
+  findTopic(topicId) { return TopicsFinder.getTopicById(topicId, this._id); }
 }
