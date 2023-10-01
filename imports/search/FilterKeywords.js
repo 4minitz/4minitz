@@ -1,4 +1,4 @@
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 
 let isKeyword = function (token) {
   if (this.USER && token.startsWith(this.USER.key)) {
@@ -36,7 +36,7 @@ let isAllowedValueForKey = function (key, value) {
   key = key.toUpperCase();
   if (Object.prototype.hasOwnProperty.call(this, key)) {
     let values = this[key].values;
-    return values === "*" || _.contains(values, value);
+    return values === "*" || _.includes(values, value);
   }
   return false;
 };

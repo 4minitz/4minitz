@@ -1,4 +1,4 @@
-import { _ } from 'meteor/underscore';
+import { _ } from 'lodash';
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { Blaze } from 'meteor/blaze';
