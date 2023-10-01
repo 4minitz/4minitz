@@ -17,7 +17,7 @@ import { currentDatePlusDeltaDays } from '/imports/helpers/date';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 
 import { $ } from 'meteor/jquery';
-import { _ } from 'meteor/underscore';
+import { _ } from 'lodash';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { handleError } from '/client/helpers/handleError';
 import {createItem} from './helpers/create-item';

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ServerTemplate } from 'meteor/felixble:server-templates';
-import { _ } from 'meteor/underscore';
+import { _ } from 'lodash';
 import { GlobalHelpers } from './global_helpers';
 
 export class TemplateRenderer {
