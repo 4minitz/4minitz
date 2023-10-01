@@ -3,22 +3,20 @@
 basedir4min=/4minitz_storage
 settingsfile=$basedir4min/4minitz_settings.json
 
-if [[ ! -d $basedir4min ]]
-then
-    echo "Could not find $basedir4min. This script is intended as an entrypoint"
-    echo "for the 4Minitz Docker container. To start the app without Docker"
-    echo "adjust the $(./deploy/run_sample.sh) script and use that."
-    exit 1
+if [[ ! -d $basedir4min ]]; then
+  echo "Could not find $basedir4min. This script is intended as an entrypoint"
+  echo "for the 4Minitz Docker container. To start the app without Docker"
+  echo "adjust the $(./deploy/run_sample.sh) script and use that."
+  exit 1
 fi
 
 # Settings file, initial copy from container to host once
-if [ -f "$settingsfile" ]
-then
-    echo "4minitz_settings.json found on your local host directory."
+if [ -f "$settingsfile" ]; then
+  echo "4minitz_settings.json found on your local host directory."
 else
-    echo "Copying 4minitz_settings.json to your local host directory - once!"
-    cp /4minitz_settings.json "$settingsfile"
-    echo "DONE."
+  echo "Copying 4minitz_settings.json to your local host directory - once!"
+  cp /4minitz_settings.json "$settingsfile"
+  echo "DONE."
 fi
 echo "You may edit the settings file locally on your host."
 echo "Then restart this docker container."
@@ -43,59 +41,59 @@ echo "Checking for MongoDB"
 # MONGO_USER
 # MONGO_PASSWORD
 function parse_mongo_url {
-    local MONGO_URL="$1"
+  local MONGO_URL="$1"
 
-    local AUTH
-    local HOST_PORT
-    local PROTO
-    local URL
+  local AUTH
+  local HOST_PORT
+  local PROTO
+  local URL
 
-    PROTO="$(echo "$MONGO_URL" | grep :// | sed -e's,^\(.*://\).*,\1,g')"
-    URL="${MONGO_URL/${PROTO}/}"
+  PROTO="$(echo "$MONGO_URL" | grep :// | sed -e's,^\(.*://\).*,\1,g')"
+  URL="${MONGO_URL/${PROTO}/}"
 
-    AUTH="$(echo "$URL" | grep @ | rev | cut -d@ -f2- | rev)"
-    if [[ -n ${AUTH} ]]; then
-        URL="$(echo "$URL" | rev | cut -d@ -f1 | rev)"
-    fi
+  AUTH="$(echo "$URL" | grep @ | rev | cut -d@ -f2- | rev)"
+  if [[ -n ${AUTH} ]]; then
+    URL="$(echo "$URL" | rev | cut -d@ -f1 | rev)"
+  fi
 
-    MONGO_PASSWORD="$(echo "$AUTH" | grep : | cut -d: -f2-)"
-    if [ -n "$MONGO_PASSWORD" ]; then
-        MONGO_USER="$(echo "$AUTH" | grep : | cut -d: -f1)"
-    else
-        MONGO_USER=$AUTH
-    fi
+  MONGO_PASSWORD="$(echo "$AUTH" | grep : | cut -d: -f2-)"
+  if [ -n "$MONGO_PASSWORD" ]; then
+    MONGO_USER="$(echo "$AUTH" | grep : | cut -d: -f1)"
+  else
+    MONGO_USER=$AUTH
+  fi
 
-    HOST_PORT="$(echo "$URL" | cut -d/ -f1)"
-    MONGO_PORT="$(echo "$HOST_PORT" | grep : | cut -d: -f2)"
-    if [ -n "$MONGO_PORT" ]; then
-        MONGO_HOST="$(echo "$HOST_PORT" | grep : | cut -d: -f1)"
-    else
-        MONGO_PORT=27017
-        MONGO_HOST="$HOST_PORT"
-    fi
+  HOST_PORT="$(echo "$URL" | cut -d/ -f1)"
+  MONGO_PORT="$(echo "$HOST_PORT" | grep : | cut -d: -f2)"
+  if [ -n "$MONGO_PORT" ]; then
+    MONGO_HOST="$(echo "$HOST_PORT" | grep : | cut -d: -f1)"
+  else
+    MONGO_PORT=27017
+    MONGO_HOST="$HOST_PORT"
+  fi
 
-    MONGO_DATABASE="$(echo "$URL" | grep / | cut -d/ -f2-)"
+  MONGO_DATABASE="$(echo "$URL" | grep / | cut -d/ -f2-)"
 }
 
 parse_mongo_url "$MONGO_URL"
 
 # Wait until mongo logs that it's ready (or timeout after 60s)
 COUNTER=0
-while ! (nc -z "$MONGO_HOST" "$MONGO_PORT") && [[ $COUNTER -lt 60 ]] ; do
-    sleep 2
-    let COUNTER+=2
-    echo "Waiting for mongo to initialize... ($COUNTER seconds so far)"
+while ! (nc -z "$MONGO_HOST" "$MONGO_PORT") && [[ $COUNTER -lt 60 ]]; do
+  sleep 2
+  let COUNTER+=2
+  echo "Waiting for mongo to initialize... ($COUNTER seconds so far)"
 done
 
 if [[ $COUNTER -ge 60 ]]; then
-    echo "MongoDB not found! Aborting 4Minitz start."
-    echo "Did you set up a MongoDB and pass in the correct MONGO_URL?"
-    echo "Since version 2.0 4Minitz longer comes bundled with a MongoDB."
-    echo "You need to set up your own database instance. See our admin guide:"
-    echo ""
-    echo "https://github.com/4minitz/4minitz/blob/develop/doc/admin/adminguide.md"
-    echo ""
-    exit 1
+  echo "MongoDB not found! Aborting 4Minitz start."
+  echo "Did you set up a MongoDB and pass in the correct MONGO_URL?"
+  echo "Since version 2.0 4Minitz longer comes bundled with a MongoDB."
+  echo "You need to set up your own database instance. See our admin guide:"
+  echo ""
+  echo "https://github.com/4minitz/4minitz/blob/develop/doc/admin/adminguide.md"
+  echo ""
+  exit 1
 fi
 
 echo "MongoDB is up and running, starting 4Minitz..."
