@@ -73,7 +73,7 @@ npm-mongo@4.16.0
 observe-sequence@1.0.21
 ordered-dict@1.1.0
 ostrio:cookies@2.7.2
-ostrio:files@1.14.3
+ostrio:files@2.3.3
 ostrio:flow-router-extra@3.9.0
 perak:markdown@1.0.5
 percolate:migrations@1.1.1
