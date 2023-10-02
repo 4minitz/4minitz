@@ -71,7 +71,6 @@
     "mongodb": "^4.0.0",
     "node-cron": "^1.2.1",
     "node-getopt": "^0.3.2",
-    "node-sass": "^9.0.0",
     "path": "^0.12.7",
     "randomstring": "1.1.5",
     "semver": "^7.5.4",
