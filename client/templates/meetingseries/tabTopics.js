@@ -9,8 +9,7 @@ import { TOPIC_KEYWORDS } from '/imports/search/FilterKeywords';
 
 import { TopicListConfig } from '../topic/topicsList';
 
-import { createLabelIdsReceiver } from './helpers/tabFilterDatabaseOperations';
-import { createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
+import { createLabelIdsReceiver, createUserIdsReceiver } from './helpers/tabFilterDatabaseOperations';
 
 export class TabTopicsConfig {
     constructor (topics, parentMeetingSeriesId) {
