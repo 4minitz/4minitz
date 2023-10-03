@@ -54,7 +54,7 @@ jobs:
       - run: pwd
       - run: node --version
       - run: meteor --version
-      - run: npm install chromedriver@^114.0.0
+      - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version
       - run: npm install
 
@@ -106,7 +106,7 @@ jobs:
           mongodump --version
           
       - run: curl https://install.meteor.com | /bin/sh
-      - run: npm install chromedriver@^114.0.0
+      - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version
       - run: npm install
 
@@ -157,7 +157,7 @@ jobs:
           mongodump --version
           
       - run: curl https://install.meteor.com | /bin/sh
-      - run: npm install chromedriver@^114.0.0
+      - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version
       - run: npm install
 
@@ -208,7 +208,7 @@ jobs:
           mongodump --version
           
       - run: curl https://install.meteor.com | /bin/sh
-      - run: npm install chromedriver@^114.0.0
+      - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version
       - run: npm install
 
@@ -261,7 +261,7 @@ jobs:
           mongodump --version
           
       - run: curl https://install.meteor.com | /bin/sh
-      - run: npm install chromedriver@^114.0.0
+      - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version
       - run: npm install
 
