@@ -20,7 +20,6 @@ tests/end2end/logs/*.log
 
 public/fonts/glyphicons-halflings-regular.*
 
-package-lock\.json
 4minitz_settings\.json
 *.json.bak
 *.code-workspace
