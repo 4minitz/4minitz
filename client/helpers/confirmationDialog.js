@@ -22,7 +22,7 @@ export class ConfirmationDialog {
     ); // overwrite above defaults with given options
     this.callback = _.extend(
       {
-        onSuccess: function () {},
+        onSuccess() {},
       },
       callbacks,
     );
@@ -45,7 +45,7 @@ export class ConfirmationDialog {
   }
 
   _renderDialog() {
-    let dialogData = this.options;
+    const dialogData = this.options;
     this.dialogTmpl = Blaze.renderWithData(
       this.dialogTemplate,
       dialogData,
@@ -55,9 +55,10 @@ export class ConfirmationDialog {
   }
 
   _renderContentTemplate() {
-    let tmplOpt = this.options.template;
+    const tmplOpt = this.options.template;
     if (tmplOpt) {
-      let template = typeof tmplOpt === "string" ? Template[tmplOpt] : tmplOpt;
+      const template =
+        typeof tmplOpt === "string" ? Template[tmplOpt] : tmplOpt;
       Blaze.renderWithData(
         template,
         this.options.templateData,
