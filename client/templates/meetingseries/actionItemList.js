@@ -1,56 +1,52 @@
-import { ReactiveVar } from "meteor/reactive-var";
-import { Template } from "meteor/templating";
-import { i18n } from "meteor/universe:i18n";
+import {TopicSchema} from "/imports/collections/topic.schema";
+import {MeetingSeries} from "/imports/meetingseries";
+import {ITEM_KEYWORDS} from "/imports/search/FilterKeywords";
+import {ItemsFilter} from "/imports/search/ItemsFilter";
+import {QueryParser} from "/imports/search/QueryParser";
+import {Meteor} from "meteor/meteor";
+import {ReactiveVar} from "meteor/reactive-var";
+import {Template} from "meteor/templating";
+import {i18n} from "meteor/universe:i18n";
 
-import { ItemsFilter } from "/imports/search/ItemsFilter";
-import { QueryParser } from "/imports/search/QueryParser";
-import { FilterControlConfig } from "../globals/ui-controls/filterControl";
-import { ITEM_KEYWORDS } from "/imports/search/FilterKeywords";
-
-import { TopicInfoItemListContext } from "../topic/topicInfoItemList";
+import {FilterControlConfig} from "../globals/ui-controls/filterControl";
+import {TopicInfoItemListContext} from "../topic/topicInfoItemList";
 
 import {
   createLabelIdsReceiver,
   createUserIdsReceiver,
 } from "./helpers/tabFilterDatabaseOperations";
 
-import { MeetingSeries } from "/imports/meetingseries";
-import { Meteor } from "meteor/meteor";
-import { TopicSchema } from "/imports/collections/topic.schema";
-
-Template.actionItemList.onCreated(function () {
+Template.actionItemList.onCreated(function() {
   this.topicFilterQuery = new ReactiveVar("");
   let myTemplate = Template.instance();
-  this.topicFilterHandler = (query) => {
-    myTemplate.topicFilterQuery.set(query);
-  };
+  this.topicFilterHandler =
+      (query) => { myTemplate.topicFilterQuery.set(query); };
 
   this.itemsFilter = new ItemsFilter();
   this.parser = new QueryParser(
-    ITEM_KEYWORDS,
-    createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
-    createUserIdsReceiver,
+      ITEM_KEYWORDS,
+      createLabelIdsReceiver(myTemplate.data.parentMeetingSeriesId),
+      createUserIdsReceiver,
   );
 
-  let meetingSeriesIDs = MeetingSeries.find().map(function (item) {
-    return item._id;
-  });
+  let meetingSeriesIDs =
+      MeetingSeries.find().map(function(item) { return item._id; });
   this.subscribe("topics", meetingSeriesIDs);
 });
 
 Template.actionItemList.helpers({
   getTopicFilterConfig() {
     const FILTERS = [
-      { text: i18n.__("Item.Filter.open"), value: "is:action is:open" },
-      { text: i18n.__("Item.Filter.closed"), value: "is:action is:closed" },
+      {text : i18n.__("Item.Filter.open"), value : "is:action is:open"},
+      {text : i18n.__("Item.Filter.closed"), value : "is:action is:closed"},
     ];
     let tmpl = Template.instance();
     return new FilterControlConfig(
-      tmpl.topicFilterHandler,
-      FILTERS,
-      ITEM_KEYWORDS,
-      "Item-Filter",
-      "is:action is:open",
+        tmpl.topicFilterHandler,
+        FILTERS,
+        ITEM_KEYWORDS,
+        "Item-Filter",
+        "is:action is:open",
     );
   },
 
@@ -62,10 +58,8 @@ Template.actionItemList.helpers({
     let topics = TopicSchema.getCollection().find().fetch();
     topics.forEach((topic) => {
       let actionItems = topic.infoItems.filter(
-        (item) =>
-          item.itemType === "actionItem" &&
-          item.responsibles &&
-          item.responsibles.includes(Meteor.userId()),
+          (item) => item.itemType === "actionItem" && item.responsibles &&
+                    item.responsibles.includes(Meteor.userId()),
       );
       actionItems.forEach((actionItem) => {
         myActionItems.push(actionItem);
@@ -81,18 +75,14 @@ Template.actionItemList.helpers({
 
     myActionItems = tmpl.itemsFilter.filter(myActionItems, tmpl.parser);
 
-    myActionItems.sort(function (a, b) {
-      return new Date(a.duedate) - new Date(b.duedate);
-    });
+    myActionItems.sort(function(
+        a, b) { return new Date(a.duedate) - new Date(b.duedate); });
 
-    return TopicInfoItemListContext.createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
-      myActionItems,
-      (itemId) => {
-        return actionItemSeriesIdMap[itemId];
-      },
-      (itemId) => {
-        return actionItemTopicIdMap[itemId];
-      },
-    );
+    return TopicInfoItemListContext
+        .createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
+            myActionItems,
+            (itemId) => { return actionItemSeriesIdMap[itemId]; },
+            (itemId) => { return actionItemTopicIdMap[itemId]; },
+        );
   },
 });
