@@ -1,38 +1,19 @@
-{
+{   
     "parser": "@babel/eslint-parser",
     "env": {
         "browser": true,
-        "es6": true,
-        "node": true,
-        "mocha": true,
-        "jasmine": true
+        "es2021": true,
+        "node": true
     },
-    "globals": {
-        "server": true,
-        "browser": true
-    },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+
+        "prettier"
+    ],    
     "parserOptions": {
+        "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "rules": {
-        "indent": [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "no-useless-escape": ["off"],
-        "no-console": ["off"]
     }
 }
