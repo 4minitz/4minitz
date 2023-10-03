@@ -1,22 +1,20 @@
+import { TopicSchema } from "/imports/collections/topic.schema";
+import { MeetingSeries } from "/imports/meetingseries";
+import { ITEM_KEYWORDS } from "/imports/search/FilterKeywords";
+import { ItemsFilter } from "/imports/search/ItemsFilter";
+import { QueryParser } from "/imports/search/QueryParser";
+import { Meteor } from "meteor/meteor";
 import { ReactiveVar } from "meteor/reactive-var";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 
-import { ItemsFilter } from "/imports/search/ItemsFilter";
-import { QueryParser } from "/imports/search/QueryParser";
 import { FilterControlConfig } from "../globals/ui-controls/filterControl";
-import { ITEM_KEYWORDS } from "/imports/search/FilterKeywords";
-
 import { TopicInfoItemListContext } from "../topic/topicInfoItemList";
 
 import {
   createLabelIdsReceiver,
   createUserIdsReceiver,
 } from "./helpers/tabFilterDatabaseOperations";
-
-import { MeetingSeries } from "/imports/meetingseries";
-import { Meteor } from "meteor/meteor";
-import { TopicSchema } from "/imports/collections/topic.schema";
 
 Template.actionItemList.onCreated(function () {
   this.topicFilterQuery = new ReactiveVar("");

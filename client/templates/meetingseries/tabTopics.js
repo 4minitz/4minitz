@@ -1,12 +1,11 @@
+import { TOPIC_KEYWORDS } from "/imports/search/FilterKeywords";
+import { QueryParser } from "/imports/search/QueryParser";
+import { TopicsFilter } from "/imports/search/TopicsFilter";
 import { ReactiveVar } from "meteor/reactive-var";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 
-import { TopicsFilter } from "/imports/search/TopicsFilter";
-import { QueryParser } from "/imports/search/QueryParser";
 import { FilterControlConfig } from "../globals/ui-controls/filterControl";
-import { TOPIC_KEYWORDS } from "/imports/search/FilterKeywords";
-
 import { TopicListConfig } from "../topic/topicsList";
 
 import {

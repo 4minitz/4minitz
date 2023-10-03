@@ -1,7 +1,7 @@
 import { MeetingSeriesGenerator } from "./generators/meeting-series-generator";
 import { MinutesGenerator } from "./generators/minutes-generator";
 import { TopicsGenerator } from "./generators/topics-generator";
-import { MongoDb, Collections } from "./lib/mongo-db";
+import { Collections, MongoDb } from "./lib/mongo-db";
 import { RangeHelper } from "./lib/range-helper";
 
 /* Define parameters */
