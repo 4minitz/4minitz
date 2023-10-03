@@ -180,7 +180,7 @@ if (Meteor.settings.isEnd2EndTest) {
         Meteor.settings.public.docGeneration = {};
       }
 
-      Meteor.settings.docGeneration.enabled = !!format;
+      Meteor.settings.docGeneration.enabled = Boolean(format);
       Meteor.settings.public.docGeneration.enabled =
         Meteor.settings.docGeneration.enabled;
 

@@ -74,8 +74,8 @@ Template.minutesAttachments.helpers({
   showUploadButton() {
     let min = new Minutes(_minutesID);
     let ur = new UserRoles();
-    return !!(
-      !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID())
+    return Boolean(
+      !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID()),
     );
   },
 
@@ -144,7 +144,7 @@ Template.minutesAttachments.events({
           if (error) {
             ConfirmationDialogFactory.makeErrorDialog(
               i18n.__("Minutes.Upload.error"),
-              "" + error,
+              String(error),
             ).show();
           }
           template.currentUpload.set(false);

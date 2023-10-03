@@ -149,8 +149,8 @@ export class GlobalSettings {
   }
 
   static hasImportUsersCronTab() {
-    return !!(
-      Meteor.settings.ldap?.enabled && Meteor.settings.ldap.importCronTab
+    return Boolean(
+      Meteor.settings.ldap?.enabled && Meteor.settings.ldap.importCronTab,
     );
   }
 
@@ -176,7 +176,7 @@ export class GlobalSettings {
 
   static isTrustedIntranetInstallation() {
     // returns false instead of undefined
-    return !!Meteor.settings.trustedIntranetInstallation;
+    return Boolean(Meteor.settings.trustedIntranetInstallation);
   }
 
   static getDefaultLabels() {

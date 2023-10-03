@@ -49,7 +49,7 @@ const inactivityStrategies = {
     const uac = entry.object.userAccountControl || 0,
       flagIsSet = uac & 2;
 
-    return !!flagIsSet;
+    return Boolean(flagIsSet);
   },
   property(inactivitySettings, entry) {
     const inactiveProperties = inactivitySettings.properties;

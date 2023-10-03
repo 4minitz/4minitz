@@ -1,6 +1,6 @@
-import { Template } from 'meteor/templating';
-import { Meteor } from 'meteor/meteor';
+import { Template } from "meteor/templating";
+import { Meteor } from "meteor/meteor";
 
-Template.registerHelper('isLoggedIn', () => {
-    return !!Meteor.user();
+Template.registerHelper("isLoggedIn", () => {
+  return Boolean(Meteor.user());
 });
