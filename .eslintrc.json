@@ -5,9 +5,18 @@
         "es2021": true,
         "node": true
     },
+    "plugins": [
+        "meteor",
+        "lodash"
+        
+
+],
+
     "extends": [
         "eslint:recommended",
-
+        "plugin:meteor/recommended",
+        "plugin:lodash/canonical",
+        "plugin:import/recommended",
         "prettier"
     ],
     "parserOptions": {
