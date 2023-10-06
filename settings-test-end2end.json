@@ -124,9 +124,9 @@
         "maxFileSize": 80000
     },
 
-  "docGeneration": { 
-        "enabled": true, 
-        "format": "html", 
+  "docGeneration": {
+        "enabled": true,
+        "format": "html",
         "targetDocPath": "protocols_e2e"
   }
 }

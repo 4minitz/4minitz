@@ -32,7 +32,7 @@ Template.topicsList.helpers({
             parentMeetingSeriesId: config.parentMeetingSeriesId
         };
     },
-    
+
     isReadOnlyMode: function() {
         return Template.instance().data.isReadonly;
     }

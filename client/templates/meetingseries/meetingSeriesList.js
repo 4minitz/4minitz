@@ -10,7 +10,7 @@ function getFilteredSeries(queryString) {
                 $or: [{name: regex}, {project: regex}]
             };
         });
-    
+
     return MeetingSeries.find({ $and: queries });
 }
 

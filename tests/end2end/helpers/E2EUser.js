@@ -39,5 +39,3 @@ export class E2EUser {
     }
 
 }
-
-

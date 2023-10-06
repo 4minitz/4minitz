@@ -47,7 +47,7 @@ const saveUsers = proxyquire('../../../../imports/ldap/saveUsers', {
 
 describe('saveUsers', function () {
     let settings;
-  
+
     beforeEach(function () {
         MongoClient.connect = asyncStubs.doNothing();
         bulk.find.reset();

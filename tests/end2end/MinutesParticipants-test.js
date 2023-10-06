@@ -243,18 +243,18 @@ describe('Minutes Participants', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         expect(browser.getText("tr#id_MinuteRow")).to.contain("user1; user3; Max Mustermann");
     });
-    
+
     it('can edit participants from within a minute as a moderator', function () {
         let participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(1);
-        
+
         E2EGlobal.clickWithRetry("#btnEditParticipants");
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
-        
+
         participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(2);
-    }); 
+    });
 });

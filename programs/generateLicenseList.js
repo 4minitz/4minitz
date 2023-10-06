@@ -24,7 +24,7 @@ const meteorPackages = {
     'sergeyt:typeahead':            {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/sergeyt/meteor-typeahead/master/LICENSE'},
     'useraccounts:bootstrap':       {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/meteor-useraccounts/bootstrap/master/LICENSE'},
     'universe:i18n':                {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/vazco/meteor-universe-i18n/master/LICENSE'},
-    'universe:i18n-blaze':          {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/vazco/universe-i18n-blaze/master/LICENSE'} 
+    'universe:i18n-blaze':          {licenses: 'MIT',      licenseUrl: 'https://raw.githubusercontent.com/vazco/universe-i18n-blaze/master/LICENSE'}
 };
 
 
@@ -56,7 +56,7 @@ function downloadToStream(project, url, licenseId, originalLicenseUrl) {
             // was retrieved from the SDPX repo we get the original url
             // as the last parameter
             url = originalLicenseUrl || url;
-            
+
             // handle redirects
             if (response.statusCode >= 300 && response.statusCode < 400) {
                 const location = response.headers.location;
@@ -117,7 +117,7 @@ crawler.dumpLicenses({start: ['.']}, (error, res) => {
     let output = fs.createWriteStream('LicensesOfDependencies.txt');
     let streams = Object.keys(res)
         .map(project => downloadToStream(project, res[project].licenseUrl, res[project].licenses));
-    
+
     streamCollector(streams, 0, output);
 
     // Generate & print license counts
@@ -127,4 +127,3 @@ crawler.dumpLicenses({start: ['.']}, (error, res) => {
     getSortedKeys(licenseCount).forEach(license => console.log(`${license}   ${licenseCount[license]}`));
     console.log('********************');
 });
-

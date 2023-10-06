@@ -60,7 +60,7 @@ describe.skip('Migrations', function () {
             expect(topics.length, "Meeting Series should have one topic").to.equal(1);
             expect(topics[0].infoItems.length, "Topic should have four items").to.equal(4);
         };
-        
+
         checkHistory(20);
 
         E2EGlobal.waitSomeTime(500);

@@ -178,20 +178,20 @@
         "maxFileSize": 10485760
     },
 
-    "//8": ["Document Generation", 
-            "enabled: true|false to switch on/off downloading minute protocols", 
-            "format: string indicating the file format to be used for protocols. Currently supported: html, pdf, pdfa", 
-            "targetDocPath: relative path based on the app's private/assets folder, alternatively", 
+    "//8": ["Document Generation",
+            "enabled: true|false to switch on/off downloading minute protocols",
+            "format: string indicating the file format to be used for protocols. Currently supported: html, pdf, pdfa",
+            "targetDocPath: relative path based on the app's private/assets folder, alternatively",
             "               assign absolute path. Ensure write access for meteor users!",
             "pathToWkhtmltopdf: only applies if format pdf or pdfa is selected. Contains the path to the wkhtmltopdf binary necessary to generate PDF files",
             "wkhtmltopdfParameters: applies if format pdf or pdfa is selected. Enables you to use the Command Line Switches wkhtmltopdf offers. Read more about it in the AdminDoc",
             "pathToGhostscript: only applies if format pdfa is selected. Contains the path to the ghostscript binary necessary to generate PDF/A files",
             "pathToPDFADefinitionFile: only applies if format is pdfa. Contains the path to the PDFA definition file. For further information consult the AdminDoc",
             "ICCProfileType: only applies if format is pdfa. Represents the type of the icc colour profile assigned in the PDFA definition file. Allowed types: cmyk"
-        ], 
-         
-  "docGeneration": { 
-        "enabled": true, 
+        ],
+
+  "docGeneration": {
+        "enabled": true,
         "format": "html",
         "targetDocPath": "4minitz_storage/protocols",
         "pathToWkhtmltopdf": "/usr/local/bin/wkhtmltopdf",
@@ -199,5 +199,5 @@
         "pathToGhostscript": "/usr/local/bin/gs",
         "pathToPDFADefinitionFile": "/usr/local/bin/gs/lib/PDFA_def.ps",
         "ICCProfileType" : "cmyk"
-  } 
+  }
 }

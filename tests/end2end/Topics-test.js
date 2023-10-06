@@ -193,7 +193,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
-        
+
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 

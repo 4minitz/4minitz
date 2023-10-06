@@ -1,4 +1,4 @@
-In your E2E tests you may use `browser.saveScreenshot()` or our 
+In your E2E tests you may use `browser.saveScreenshot()` or our
 convenience function to save screenshots of the current browser
 instance.
 

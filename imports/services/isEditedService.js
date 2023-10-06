@@ -126,7 +126,7 @@ function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
     if (typeof infoItem === 'undefined' ) {
         return;
     }
-    
+
     if (ignoreLock === true) {
         unset = true;
     }
@@ -161,7 +161,7 @@ function removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreL
     if (typeof infoItem === 'undefined' ) {
         return;
     }
-    
+
     if (ignoreLock === true) {
         unset = true;
     }

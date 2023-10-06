@@ -1,4 +1,4 @@
-{   
+{
     "parser": "@babel/eslint-parser",
     "env": {
         "browser": true,
@@ -9,7 +9,7 @@
         "eslint:recommended",
 
         "prettier"
-    ],    
+    ],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"

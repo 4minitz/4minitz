@@ -533,7 +533,7 @@ Mail:
       Viel Spaß!
               Dein 4Minitz-Team.
 
-      --- 
+      ---
       4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
       Der Quellcode ist verfügbar unter {$url4Minitz}
   AdminRegisterNewUser:
@@ -557,7 +557,7 @@ Mail:
       Viel Spaß!
               Dein 4Minitz-Team.
 
-      --- 
+      ---
       4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
       Der Quellcode ist verfügbar unter {$url4Minitz}
   UserRoleChange:
@@ -578,7 +578,7 @@ Mail:
       Viel Spaß!
             Ihr Admin.
 
-      --- 
+      ---
       4Minitz ist kostenlose Open-Source-Software, die vom 4Minitz-Team entwickelt wurde.
       Quellcode ist verfügbar unter {$url4Minitz}
   VerifyEmailAddress:

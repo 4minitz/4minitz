@@ -26,17 +26,17 @@ if (Meteor.isServer) {
             }
         );
     });
-    
-    //this will publish the full information for a single meeting series 
+
+    //this will publish the full information for a single meeting series
     Meteor.publish('meetingSeriesDetails', function meetingSeriesPublication(meetingSeriesId) {
         if (meetingSeriesId) {
             return MeetingSeriesSchema.find(
                 { $and: [{visibleFor: {$in: [this.userId]}}, {_id: meetingSeriesId}]});
         }
-        
+
         return this.ready();
     });
-    
+
 }
 
 Meteor.methods({

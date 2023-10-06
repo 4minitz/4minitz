@@ -1,6 +1,6 @@
 # I18n - Translation Glossary
-This document collects terms and wordings from the 4Minitz project 
-to improve translation consistency. For each language think about a 
+This document collects terms and wordings from the 4Minitz project
+to improve translation consistency. For each language think about a
 word/phrase that best transports the meaning of the below terms.
 
 | English Term  | Meaning  | Examples  |

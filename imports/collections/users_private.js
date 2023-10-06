@@ -25,7 +25,7 @@ Meteor.methods({
                 throw new Meteor.Error('Cannot edit profile', 'You are not admin or you are trying to change someone else\'s profile');
             }
         }
-        
+
         if (! emailAddressRegExpTest.test(eMail)) {
             throw new Meteor.Error('Invalid E-Mail', 'Not a valid E-Mail address');
         }

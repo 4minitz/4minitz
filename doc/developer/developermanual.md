@@ -50,7 +50,7 @@
 * __No client-side exceptions:__ Check your user story and watch the browser console
 * __No server-side exceptions:__ Check your user story and the meteor console
 * __No open issues:__ on your user story
-* __Create issues:__ if your tests discover issues in other already implemented user stories: write a [github issue](https://github.com/4minitz/4minitz/issues) 
+* __Create issues:__ if your tests discover issues in other already implemented user stories: write a [github issue](https://github.com/4minitz/4minitz/issues)
 * __ES2015:__ Where possible we use ES2015 language features
 * __Localization:__ All UI strings are added to [both/i18n/en.i18n.yml](../../both/i18n/en.i18n.yml) with their corresponding ressource key
 
@@ -72,7 +72,7 @@ We use several approaches to test as many aspects of our application as possible
     1. Check version number of you installed chrome browser
     1. If your `node` version is less than 12.x temporarily switch with `nvm use 12`
     1. `npm i chromedriver` or specific version `npm i chromedriver@^84.0.0`
-    1. `./node_modules/chromedriver/bin/chromedriver --version` check your chrome driver version 
+    1. `./node_modules/chromedriver/bin/chromedriver --version` check your chrome driver version
 
 ### Unit Tests
 
@@ -84,11 +84,11 @@ to execute unit tests run
 ### End2End Tests
 End-to-End tests are stored in directory ```tests/end2end/```.
 
-To run the e2e tests, you need to run the server in "end2end" mode. 
+To run the e2e tests, you need to run the server in "end2end" mode.
 
     `npm run test:end2end:server`
 
-This will set some specific e2e settings from ```settings-test-end2end.json```. 
+This will set some specific e2e settings from ```settings-test-end2end.json```.
 
 After the end2end server is up and running you may run all(!) end2end tests in either of the following ways:
 
@@ -101,7 +101,7 @@ npm run test:end2end:watchheadless  # invisible browser, tests re-run when any t
 
 To run any of the above scripts with a specific test file, you may append that test spec like so:
 ```
-npm run test:end2end:watch -- --spec=tests/end2end/MeetingSeries-test.js 
+npm run test:end2end:watch -- --spec=tests/end2end/MeetingSeries-test.js
 ```
 
 
@@ -110,12 +110,12 @@ To debug headless testcases that run red, you can create screenshots at
 interesting timepoints in your tests by either calling WebDriver.io's:
 
     browser.saveScreenshot("my-testcase");
-    
+
 or by calling our convenience wrapper function:
-    
+
     E2EGlobal.saveScreenshot("my-testcase");
-    
-where the later one adds a timestamp (YYYYMMDDHHMMSS plus milliseconds) in front 
+
+where the later one adds a timestamp (YYYYMMDDHHMMSS plus milliseconds) in front
 of the file name to create unique names. The screenshots of the headless
 browser are stored in ```/tests/snapshots```.
 
@@ -132,34 +132,34 @@ rules is defined in the [.eslintrc.json](../../.eslintrc.json) configuration fil
 You can run eslint to check the code by executing the npm script `eslint`:
 
     npm run eslint
-    
+
 Some rules can be applied automatically like correcting file indention or transforming double quoted literals into
-single quoted ones (yes we use single quotes like recommended in the 
-[Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#features-strings-use-single-quotes) 
+single quoted ones (yes we use single quotes like recommended in the
+[Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#features-strings-use-single-quotes)
 together with template strings if necessary). To automatically fix all those errors which can be fixed automatically
 run the npm script `eslint:fix`:
 
     npm run eslint:fix
 
 ## Localization
-We use [Crowdin](https://crowdin.com/) for managing translations. Resource keys are added to [both/i18n/en.i18n.yml](../../both/i18n/en.i18n.yml) following the naming convention: 
+We use [Crowdin](https://crowdin.com/) for managing translations. Resource keys are added to [both/i18n/en.i18n.yml](../../both/i18n/en.i18n.yml) following the naming convention:
 * PascalCase for nodes
 * camelCase for leafs
 
 After your changes were merged to the ``develop`` branch, you will be able to translate the UI strings directly within Crowdin.
 Any changes on Crowdin are synced every ten minutes to GitHub. Our faithful servant [4minitz-bot](https://github.com/4minitz-bot) will
 automatically commit these changes to the branch ``l10n_develop`` and create a PR to ``develop``. **Don't manually edit any translation file or it will be overwritten with the next PR**.
- 
+
 ## Database Seeding
- 
+
 Sometimes it is necessary that there are some test data available in the database. Therefore you can use our
 minutes seeding tool. This tool allows to insert a meeting series with dummy entries. The series contains
 a custom amount of minutes containing a custom amount of topics and items.
 
 Simply execute:
-    
+
     npm run fixtures:seed-minutes
-    
+
 The parameter `--help` displays all command-line options:
 
     npm run fixtures:seed-minutes -- --help
@@ -202,21 +202,21 @@ address or an array of email addresses. As a result you will ge a Mail-Object.
 With this object you can prepare your email by providing a subject, setting a email text as either plain text or html
 or both. After that you can send the email by calling the Method send() of the Mail-Object.
 
-When sending the mail by calling the send method, the abstract class Mail takes care about some general things like 
+When sending the mail by calling the send method, the abstract class Mail takes care about some general things like
 checking if the necessary parameters are set. Then it calls the abstract method _sendMail() which will be implemented
 by the concrete implementation either MeteorMail or MailgunMail which takes care about actually sending the mail.
 Afterwords the send-method of the Mail-Class takes care about logging the result.
 
 The following sequence diagram shows the process of sending mails using the concrete meteor mail object as an example.
-But you should never use the constructor of a Mail class directly. Instead you should always use the MailFactory to 
+But you should never use the constructor of a Mail class directly. Instead you should always use the MailFactory to
 get an instance of a Mailer.
 
 ![Sequence: Sending emails](./figures/email/seq_sendEmails.png)
- 
+
 ### Adding a different email deliverer
 
 If you want to add an additional email service you have to write your own class which derives from the abstract class
-Mail. In your class you have to implement the method _sendMail() only. There you can access the attributes _replyTo, 
+Mail. In your class you have to implement the method _sendMail() only. There you can access the attributes _replyTo,
 _recipients, _from, _html and _text for building and sending the mail. Then you have to adjust the MailFactory so that
 it will return your implementation depending on the current configuration. Do not forget to adjust the settings_sample.json
 file to draw attention to your new email delivery service.
@@ -229,7 +229,7 @@ features for sending action or info items.
 
 ![Classes: TopicsItemMailHandler](./figures/email/cls_MailHandler.png)
 
-The following sequence diagram shows the process of sending info items. If you pass multiple recipients to the 
+The following sequence diagram shows the process of sending info items. If you pass multiple recipients to the
 InfoItemsMailHandler depending on the isTrustedIntranetEnvironment configuration the info items will be sent to all
 recipients in one mail (all recipients in the TO-field) or if the system is not in a trusted intranet environment
 the info items will sent to all recipients separately.
@@ -237,10 +237,10 @@ Sending action items works analog.
 
 ![Sequence: Sending info items](./figures/email/seq_sendInfoItems.png)
 
-The email layout will be provided as a spacebars template. You can pass a template name to the TopicItemsMailHandler 
-which must be found under the path "/private/server_side_templates/email" (e.g InfoItemsMailHandler uses the template 
-"publishInfoItems"). In a concrete derivation of the base class you have to call the method _buildMail() of the base 
-class and pass the subject and the data required by the template as parameters. The method _buildMail() will then take 
+The email layout will be provided as a spacebars template. You can pass a template name to the TopicItemsMailHandler
+which must be found under the path "/private/server_side_templates/email" (e.g InfoItemsMailHandler uses the template
+"publishInfoItems"). In a concrete derivation of the base class you have to call the method _buildMail() of the base
+class and pass the subject and the data required by the template as parameters. The method _buildMail() will then take
 care about rendering the template and sending the email.
 
 ## MongoDB Collection Schema

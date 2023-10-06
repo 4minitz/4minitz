@@ -208,8 +208,8 @@ Meteor.methods({
         // 3rd.: sync "visibleFor" to minutes that have this meeting series as parent
         Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(meetingSeries_id, visibleForArray);
     },
-    
-        
+
+
     'workflow.reopenTopicFromMeetingSeries'(meetingSeries_id, topic_id) {
         //ensure parameters are complete
         check(meetingSeries_id, String);
@@ -219,14 +219,14 @@ Meteor.methods({
         check(topic_id, String);
         if (topic_id === undefined || topic_id === '') {
             throw new Meteor.Error('illegal-arguments', 'topic id required');
-        }       
-        
+        }
+
         //ensure user is logged in and moderator
         checkUserAvailableAndIsModeratorOf(meetingSeries_id);
 
         const topicsUpdater = new MeetingSeriesTopicsUpdater(meetingSeries_id);
         topicsUpdater.reOpenTopic(topic_id);
-        
+
         //Write to currently unfinalized Minute, if existent
         const meetingSeries = new MeetingSeries(meetingSeries_id);
         let lastMinute = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);

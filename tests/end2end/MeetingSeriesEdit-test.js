@@ -186,4 +186,3 @@ describe('MeetingSeries Editor', function () {
         expect(E2EMeetingSeries.countMeetingSeries()).to.equal(initialCount - 1);
     });
 });
-

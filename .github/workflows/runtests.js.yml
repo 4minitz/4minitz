@@ -20,7 +20,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mongodb-org
           mongodump --version
-          
+
     - run: meteor --version
     - run: npm install
     - run: npm run test:unit
@@ -42,14 +42,14 @@ jobs:
 
       - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
-      
+
       - run: |
           sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
           sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
           sudo apt-get update
           sudo apt-get install -y mongodb-org
           mongodump --version
-          
+
       - run: curl https://install.meteor.com | /bin/sh
       - run: pwd
       - run: node --version
@@ -97,14 +97,14 @@ jobs:
 
       - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
-      
+
       - run: |
           sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
           sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
           sudo apt-get update
           sudo apt-get install -y mongodb-org
           mongodump --version
-          
+
       - run: curl https://install.meteor.com | /bin/sh
       - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version
@@ -148,14 +148,14 @@ jobs:
 
       - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
-      
+
       - run: |
           sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
           sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
           sudo apt-get update
           sudo apt-get install -y mongodb-org
           mongodump --version
-          
+
       - run: curl https://install.meteor.com | /bin/sh
       - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version
@@ -199,14 +199,14 @@ jobs:
 
       - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
-      
+
       - run: |
           sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
           sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
           sudo apt-get update
           sudo apt-get install -y mongodb-org
           mongodump --version
-          
+
       - run: curl https://install.meteor.com | /bin/sh
       - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version
@@ -235,7 +235,7 @@ jobs:
           name: E2E Mongodump
           path: tests/mongodump
 
-           
+
 
   Node14:
     runs-on: ubuntu-latest
@@ -252,14 +252,14 @@ jobs:
 
       - run: sudo apt-get install gcc-12 g++ build-essential -y --option Acquire::Retries=100 --option Acquire::http::Timeout="300"
       - run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
-      
+
       - run: |
           sudo wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
           sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
           sudo apt-get update
           sudo apt-get install -y mongodb-org
           mongodump --version
-          
+
       - run: curl https://install.meteor.com | /bin/sh
       - run: npm install chromedriver@^117.0.0
       - run: google-chrome --version

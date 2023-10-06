@@ -50,7 +50,7 @@ export class DocumentGeneration {
         };
         noProtocolExistsDialog(generateAndDownloadHTML);
     }
-    
+
     static getProtocolForMinute(minuteId) {
         return DocumentsCollection.findOne({'meta.minuteId': minuteId});
     }

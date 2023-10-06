@@ -28,7 +28,7 @@ export const MeetingSeriesSchema = SchemaClass.create({
             {type: 'or',
                 param: [
                     {type: 'null'},
-                    {type: 'meteorId'}                    
+                    {type: 'meteorId'}
                 ]
             }]},
         minutes: {type: [String], default: []},

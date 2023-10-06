@@ -7,7 +7,7 @@ if (Meteor.isServer) {
     // #Security: first reset all admins, then set "isAdmin:true" for IDs in settings.json
     Meteor.users.update({isAdmin: true},
         {$unset: { isAdmin: false }}, {multi: true});
-    
+
     const adminIDs = GlobalSettings.getAdminIDs();
     if (adminIDs.length > 0) {
         // set admins

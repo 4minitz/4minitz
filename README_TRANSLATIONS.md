@@ -1,4 +1,4 @@
-## 4Minitz Translators 
+## 4Minitz Translators
 
 The following people helped to translate 4Mintz
 
@@ -20,7 +20,7 @@ __Thanks to our translators for all their great effort!__
 
 (If you are missing here, but should be listed, then sorry, please get in contact with us!)
 
-Are you missing your language or you found a translations mistake, 
+Are you missing your language or you found a translations mistake,
 then come over to Crowdin and help us to crowd-translate
 
 https://crowdin.com/project/4minitz

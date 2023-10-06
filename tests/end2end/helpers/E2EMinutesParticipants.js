@@ -1,7 +1,7 @@
 import {E2EGlobal} from './E2EGlobal';
 
 export class E2EMinutesParticipants {
-    
+
     constructor() {
         this.updateUsersAndPresence();
     }
@@ -40,7 +40,7 @@ export class E2EMinutesParticipants {
         } catch (e) {
             console.log('Exception: '+e);
             console.log('Did you forget to run the server with \'--settings settings-test-end2end.json\'?');
-        } 
+        }
         return undefined;
     }
 
@@ -101,7 +101,7 @@ export class E2EMinutesParticipants {
     getParticipantInfo(username) {
         return this._participantsAndPresence[username];
     }
-    
+
     getAdditionalParticipants() {
         return this._participantsAndPresence['##additional participants##'];
     }

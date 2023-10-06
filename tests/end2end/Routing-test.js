@@ -32,7 +32,7 @@ describe('Routing', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    
+
     it('ensures that following a URL to a meeting series will relocate to the requested series after sign-in', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         const url = browser.getUrl();

@@ -159,7 +159,7 @@ export class E2EApp {
     static getCurrentUser () {
         return E2EApp._currentlyLoggedInUser;
     }
-    
+
     static launchApp () {
         browser.url(E2EGlobal.SETTINGS.e2eUrl);
 

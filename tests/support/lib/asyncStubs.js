@@ -7,7 +7,7 @@ module.exports = {
             if (Array.isArray(parameterCollector)) {
                 parameterCollector.push(arguments);
             }
-            
+
             let callback = arguments[positionOfCallback];
             callback(null, dataToReturn);
         };

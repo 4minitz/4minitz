@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ConfirmationDialogFactory } from '../../helpers/confirmationDialogFactory';
 import { FlashMessage } from '../../helpers/flashMessage';
-import { addCustomValidator } from '../../helpers/customFieldValidator'; 
+import { addCustomValidator } from '../../helpers/customFieldValidator';
 import { emailAddressRegExpTest } from '/imports/helpers/email';
 import {Session} from 'meteor/session';
 import { i18n } from 'meteor/universe:i18n';
@@ -11,11 +11,11 @@ let checkEMailIsValid = (email) => {
     return emailAddressRegExpTest.test(email);
 };
 
-Template.profileEditDialog.onRendered(function() { 
-    addCustomValidator( 
-        '#id_emailAddress', 
+Template.profileEditDialog.onRendered(function() {
+    addCustomValidator(
+        '#id_emailAddress',
         (value) => { return checkEMailIsValid(value); },
-        'Not a valid E-Mail address'); 
+        'Not a valid E-Mail address');
 });
 
 function updateUserProfile(tmpl) {
@@ -45,8 +45,8 @@ Template.profileEditDialog.events({
             return;
         }
 
-        if (Meteor.user().isDemoUser) { 
-            return; 
+        if (Meteor.user().isDemoUser) {
+            return;
         }
 
         let uEmailAddress = tmpl.find('#id_emailAddress').value;
@@ -58,7 +58,7 @@ Template.profileEditDialog.events({
                 Meteor.logoutOtherClients();
                 Meteor.logout();
             };
-            
+
             if (Meteor.user().emails[0].address !== uEmailAddress) {
                 ConfirmationDialogFactory.makeWarningDialogWithTemplate(
                     changeUserMail,

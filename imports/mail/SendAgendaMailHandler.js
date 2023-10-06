@@ -16,10 +16,10 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             , minute.getInformed(Meteor.users)
             , 'sendAgenda');
     }
-    
+
     _sendMail() {
         super._sendMail(this._getEmailData());
-    }    
+    }
 
     _getSubject() {
         return this._getSubjectPrefix() + ' (' + i18n.__('Minutes.agenda') + ')';
@@ -31,7 +31,7 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
         return {
             greetingLabel: i18n.__('Mail.greeting'),
             newLabel: i18n.__('Mail.newAgenda'),
-            agendaLabel: i18n.__('Minutes.agenda'), 
+            agendaLabel: i18n.__('Minutes.agenda'),
             minutesLabel: i18n.__('Mail.meeting'),
             minutesDateLabel: i18n.__('Minutes.date'), minutesDate: this._minute.date,
             minutesGlobalNoteLabel: i18n.__('Minutes.GlobalNotes.title'), minutesGlobalNote: this._minute.globalNote,

@@ -10,7 +10,7 @@ For
 
 The idea is: when a new language is introduced to I18N / NLS then the
 below preconditions can be created, and then the user interface can be checked if the
-expexted content now shows up in the new translated language.  
+expexted content now shows up in the new translated language.
 
 
 <hr>
@@ -280,7 +280,7 @@ Precondition:
 
 Precondition:
 
-* Open 4Minitz in two different browsers 
+* Open 4Minitz in two different browsers
 * In each browser login as different user
 * User#1 'Edit Meeting Series'
 * User#2 try to 'Edit Meeting Series'
@@ -333,7 +333,7 @@ Precondition:
 Precondition:
 
 * Create meeting series
-* Create two meeting minutes 
+* Create two meeting minutes
 
 ![](screenshots-en/004.1-Screen.Minutes.png)
 
@@ -386,7 +386,7 @@ Precondition:
 
 * On Meeting Series Topic list
 * Open topic filters
-* Click '?' question mark for help 
+* Click '?' question mark for help
 
 ![](screenshots-en/004.2-Dlg.Minutes.TopicsFilter.png)
 
@@ -426,7 +426,7 @@ Precondition:
 
 * On Meeting Series Item List
 * Item filter
-* Click '?' question mark for help 
+* Click '?' question mark for help
 
 ![](screenshots-en/004.3-Dlg.Minutes-ItemsFilter.png)
 
@@ -452,7 +452,7 @@ Precondition:
 
 * On Meeting Series Item List
 * Item filter
-* Click '?' question mark for help 
+* Click '?' question mark for help
 
 ![](screenshots-en/004.3-Dlg.Minutes-ItemsFilter.png)
 
@@ -535,7 +535,7 @@ Precondition:
 
 * In Minutes Edit
 * Create Topic
-* Open Tree-Dot-Menu on Topic Item 
+* Open Tree-Dot-Menu on Topic Item
 
 ![](screenshots-en/005.1-Menu.MinutesEdit.Topic.png)
 
@@ -550,7 +550,7 @@ Precondition:
 * In Minutes Edit
 * Create Topic
 * Add Action Item to Topic
-* Open Tree-Dot-Menu on Action Item 
+* Open Tree-Dot-Menu on Action Item
 
 ![](screenshots-en/005.1-Menu.MinutesEdit.ActionItem.png)
 
@@ -565,7 +565,7 @@ Precondition:
 * In Minutes Edit
 * Create Topic
 * Add Info Item to Topic
-* Open Three-Dot-Menu on Info Item 
+* Open Three-Dot-Menu on Info Item
 
 ![](screenshots-en/005.1-Menu.MinutesEdit.InfoItem.png)
 
@@ -582,7 +582,7 @@ Precondition:
 * Add Action Item to Topic
 * Finalize Minutes, create new Minutes
 * Open Three-Dot-Menu on Action Item
-* Click 'Convert' 
+* Click 'Convert'
 
 ![](screenshots-en/005.1-Dlg.MinutesEdit.ItemConvert.png)
 
@@ -745,7 +745,7 @@ Precondition:
 * In Minutes Edit
 * Create topic with Action Item (without responsible!)
 * Make sure no participants are marked
-* Make sure one topics marked as discussed - but topic has no embedded item 
+* Make sure one topics marked as discussed - but topic has no embedded item
 * Click Finalize button
 
 ![](screenshots-en/005.3-Msg.MinutesEdit.FinalizeWarning2.png)
@@ -887,9 +887,8 @@ Precondition:
 Precondition:
 
 * Set email.enableMailDelivery = true in ./settings.json and configure accordingly
-* Make sure second user with Mail address exists 
+* Make sure second user with Mail address exists
 * Create a new Meeting Series
 * Invite second user to meeting series
 
 ![](screenshots-en/007.5-Mail.RoleChange.png)
-

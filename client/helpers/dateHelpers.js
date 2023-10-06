@@ -19,4 +19,3 @@ Template.registerHelper('formateUpdatedHint', (dateCreate, userCreate, dateUpd, 
     }
     return tooltip;
 });
-

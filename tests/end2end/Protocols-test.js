@@ -99,7 +99,7 @@ describe('Protocols', function () {
         E2EApp.logoutUser(); //Re-Login to allow app to get changes of settings
         E2EApp.loginUser();
         E2EMeetingSeries.gotoMeetingSeries(_projectName, _lastMeetingName);
-        E2EMinutes.gotoLatestMinutes(); 
+        E2EMinutes.gotoLatestMinutes();
 
         expect(E2EProtocols.checkDownloadOpensConfirmationDialog(), 'Confirmation Dialog is opened').to.be.true;
     });
@@ -136,7 +136,7 @@ describe('Protocols', function () {
         }, E2EProtocols.getDownloadLinkForProtocolOfMinute(_lastMinutesID) + '?download=true');
 
         E2EGlobal.waitSomeTime(750);
-        
+
         expect(browser.getText('body')).to.not.have.string('File Not Found');
     });
 
@@ -154,7 +154,7 @@ describe('Protocols', function () {
         }, E2EProtocols.getDownloadLinkForProtocolOfMinute(_lastMinutesID) + '?download=true');
 
         E2EGlobal.waitSomeTime(750);
-        
+
         expect(browser.getText('body')).to.have.string('File Not Found');
     });
 
@@ -173,7 +173,7 @@ describe('Protocols', function () {
         }, E2EProtocols.getDownloadLinkForProtocolOfMinute(_lastMinutesID) + '?download=true');
 
         E2EGlobal.waitSomeTime(750);
-        
+
         expect(browser.getText('body')).to.have.string('File Not Found');
-    }); 
+    });
 });

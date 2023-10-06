@@ -15,8 +15,8 @@ export class MigrateV6 {
                     let resp = item.responsible.split(',');
                     resp.forEach((oneResp, index, array) => {
                         oneResp = oneResp.trim();
-                        // let's try if this is a valid username. 
-                        // If yes: we store this user's _id instead of its name!  
+                        // let's try if this is a valid username.
+                        // If yes: we store this user's _id instead of its name!
                         let userTry = Meteor.users.findOne({username: oneResp});
                         if (userTry) {
                             oneResp = userTry._id;

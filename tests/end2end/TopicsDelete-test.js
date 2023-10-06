@@ -55,7 +55,7 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
         E2ETopics.deleteTopic(1, true);
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
-    
+
     it('closes the topic together with its open action items instead of deleting it', function() {
         E2ETopics.deleteTopic(1, true);
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);

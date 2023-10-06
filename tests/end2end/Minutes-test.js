@@ -175,7 +175,7 @@ describe('Minutes', function () {
 
 
     });
-    
+
     it('can navigate to previous and next minutes within a minutes', function () {
         let aProjectName = "E2E Minutes";
         let aMeetingName = "Meeting Name PrevNext";
@@ -188,14 +188,14 @@ describe('Minutes', function () {
         const secondDate = E2EMinutes.getCurrentMinutesDate();
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         const thirdDate = E2EMinutes.getCurrentMinutesDate();
-        
+
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(3);
-        
+
         E2EMinutes.gotoLatestMinutes();
         E2EGlobal.clickWithRetry("#btnPreviousMinutesNavigation");
         let currentdate = E2EMinutes.getCurrentMinutesDate();
         expect(currentdate).to.equal(secondDate);
-        
+
         E2EGlobal.clickWithRetry("#btnNextMinutesNavigation");
         currentdate = E2EMinutes.getCurrentMinutesDate();
         expect(currentdate).to.equal(thirdDate);

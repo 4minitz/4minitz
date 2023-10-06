@@ -3,7 +3,7 @@
         "end2end": {
             "presets": ["@babel/preset-env"],
             "plugins": [
-                
+
             ]
         }
     }

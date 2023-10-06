@@ -35,9 +35,9 @@
 ![Connection Lost Warning](./figures/connection_lost.png)
 
 In this state you can hover the mouse over the top icon to get information about how long the connection is lost and how often the client retried to re-connect. You may click on the button "try to reconnect" to force an immediate reconnect.
- 
+
  **Important:** If you see the above waning and you close your webbrowser, or close the tab where 4Minitz is loaded, or if you enter a different URL in the address bar - **You will lose all your unsaved changes!**
- 
+
  So, unless you intentionally work offline, you should stop adding content to 4Minitz and instead check your web browsers internet connection or clarify with a system administrator, why the 4Minitz client lost connection to the 4Minitz server.
 
 
@@ -62,8 +62,8 @@ If you are a non-LDAP user, you can edit your profile by clicking the button "Ed
 
 You can change your:
  * long name ()
- * E-Mail address (required) 
- 
+ * E-Mail address (required)
+
 ![edit_profile_button](./figures/edit_profile.png)
 
 
@@ -74,8 +74,8 @@ Minutes have to be added to an existing meeting series.
 If you create a new meeting series, you will automatically become a moderator of this meeting series.
 
 ![Create Meeting Series](./figures/create_meeting_series.png)
- 
-If you are a moderator of a meeting series you can... 
+
+If you are a moderator of a meeting series you can...
 
 * invite users. Only invited users can see your meeting series.
 * uninvite users
@@ -96,13 +96,13 @@ On the meeting series screen you may click the cog to open the meeting series ed
 ![Edit Meeting Series](./figures/edit_meeting_series.png)
 
 The meeting series editor allows a moderator to
- 
+
  * Change project/team name or meeting name of the series
  * Invite, uninvite, promote users
  * Change available labels (aka tags) for this meeting series
- 
+
  ![Edit Invited](./figures/edit_meeting_series_invited.png)
- 
+
  *Note: Changes to invited users of a meeting series will only be propagated future meeting minutes of this series.*
 
  ### Table of Roles and Rights
@@ -116,13 +116,13 @@ The meeting series editor allows a moderator to
 
  * The 'Informed' user only gets the final meeting minutes protocol email.
    But not the agenda email.
- 
+
  ![Image](./figures/edit_meeting_series_labels.png)
-  
+
  *Note: Changes to the labels will only take effect for meeting minutes that are created afterwards. Existing minutes are not changed by the meeting series properties editor.*
 
- 
- 
+
+
 ## Add New Minutes to a Meeting Series
 As a moderator you may create new minutes for an existing meeting series by clicking the "+ Create New Minutes" button.
 
@@ -146,7 +146,7 @@ If the moderator wants to change the order of the topic it is possible to drag'n
 
 ![Topic Drag Drop Handle](./figures/topic_dragdrop_handle.png)
 
-If you click the "three dots" menu icon 
+If you click the "three dots" menu icon
 
 ![Three Dot Menu Icon](./figures/three_dot_menu.png)
 
@@ -160,12 +160,12 @@ the topic menu will allow you to:
 * **"Show History"** If the topic was ever finalized in previous meeting minutes,
  this will show the finalized topic content as it is stored in the
  meeting series. Here you are able to see closed action items of the topic
- or historical info items that are not any longer visible in the current 
- meeting minutes. 
+ or historical info items that are not any longer visible in the current
+ meeting minutes.
 * **"Delete Topic"** will delete this topic after a security question
 * **"Up-Down-Arrow"** allows reordering the topics via drag'n'drop
 
-There is also a "three dots" menu icon within the meeting series' overview of topics. 
+There is also a "three dots" menu icon within the meeting series' overview of topics.
 This menu is available for already closed Topics and contains the menu entry **"Re-open Topics"**. By using this feature the topic will be opened again and will occur in the next minute respectively the current one, if it is not finished yet.
 
 ### The Global Notes of a Meeting
@@ -190,17 +190,17 @@ During a meeting a moderator may add
 * child **Action Items** to topics
 
 by clicking the corresponding menu entry on the topic "three dot" menu.
- 
+
 ### Information Items
 Information Items are children of topics and will be sent as part of the meeting protocol to all invited users on finalize.
 
 Information items will not be propagated to the next meeting unless the "pinned state" is switched on **and** the parent topic is propagated to the next meeting:
- 
+
 ![Image](./figures/info_item_unpinned.png) Unpinned state. Click to pin
- 
+
 ![Image](./figures/info_item_pinned.png) Pinned state. Click to unpin
 
-For details on when topics are propagated to the next meeting see the "Finalize Meeting" chapter. 
+For details on when topics are propagated to the next meeting see the "Finalize Meeting" chapter.
 
 The menu entries in the "three dot" info item menu allow the following operations:
 
@@ -208,9 +208,9 @@ The menu entries in the "three dot" info item menu allow the following operation
 * **"Edit Item"** will allow the moderator to edit this items properties (like subject, label)
 * **"Convert to Action"** will convert this info item to an action item. But only possible for new items!
 * **"Set Pinned"** will switch the topic to a pinned topic that will be propagated to the next meeting, if the parent topic is also propagated
-* **"Delete Item"** will delete this item after a security question. Info Items from previous meeting can not be deleted - they can only be set to "unpinned" state. So you will get rid of them in the next meeting. 
-  
- 
+* **"Delete Item"** will delete this item after a security question. Info Items from previous meeting can not be deleted - they can only be set to "unpinned" state. So you will get rid of them in the next meeting.
+
+
 ### Action Items
 Action Items are children of topics and will be sent to the entered responsible(s) in a separate mail when the moderator finalizes the meeting minutes.
 
@@ -236,7 +236,7 @@ If the Item already exists it is possible to add details to them by clicking the
 
 In the details editor it is possible to use markdown syntax to create rich text formatting like headings, bold, italic, bullet lists, etc.
 
-For a complete reference of layout commands see [Markdown Reference](https://guides.github.com/features/mastering-markdown/).   
+For a complete reference of layout commands see [Markdown Reference](https://guides.github.com/features/mastering-markdown/).
 
 
 ### Expand and Collapse
@@ -249,7 +249,7 @@ Select participants that were present before finalizing the Minute. You can use 
 
 ![Finalize Button](./figures/finalize_meeting_minutes.png)
 
-Make sure you haven't forgotten to select participants before finalizing the Minutes. A warning message will be shown, if no participants are selected. You can cancel finalizing and add them or confirm and proceed without 
+Make sure you haven't forgotten to select participants before finalizing the Minutes. A warning message will be shown, if no participants are selected. You can cancel finalizing and add them or confirm and proceed without
 participants:
 
 ![Warning_on_finalize](./figures/warning_no_participants_on_finalize.png)
@@ -266,12 +266,12 @@ A topic is automatically propagated to the next meeting if one of the following 
   1. the topic has at least one **open action item** which is not checked as done.
 
 Contrary, a topic that is "finally completed" is marked with an automatic
-"Completed" label to give a visual clue that it will **not** 
+"Completed" label to give a visual clue that it will **not**
 be propagated to the next meeting.
 
 So, such a "finally completed" topic...
   1. is checked as dicussed in the current meeting - and
-  1. has no open action items - and 
+  1. has no open action items - and
   1. is not marked as recurring
 
 ![Completed Label](./figures/completed_label.png)
@@ -285,7 +285,7 @@ the finalize history for every version of the protocol:
 
  ![Finalize History](../figures/finalize_history.png)
 
- 
+
 ## Print Meeting Minutes
 With the button "Print Minutes" temporary some view changes are performed for the current minutes like
 * All buttons are hidden
@@ -319,8 +319,8 @@ If the feature is enabled but no protocol has been created for a specific minute
 
 ## Upload Binary Attachments
 It is possible to attach binary uploads to the current non-finalized
-meeting minutes. You need to have the moderator or the uploader role 
-for the current meeting series to do so. 
+meeting minutes. You need to have the moderator or the uploader role
+for the current meeting series to do so.
 
 ![Binary Attachments](./figures/binary_attachments.png)
 
@@ -330,12 +330,12 @@ clicking on the triangle. Then click the "UPLOAD" button to open
  a file selection dialog. Select your local file and press "OK".
 
 Your server admin may have specified a maximum file size or denied /
-allowed file extensions. Your client will show an error, if the 
+allowed file extensions. Your client will show an error, if the
 current file is not allowed. If you are not happy with the settings,
 talk to your admin.
 
-**Did you know?** If you click the Upload button not only 
-on your desktop, but also on your *smartphone or tablet*. 
+**Did you know?** If you click the Upload button not only
+on your desktop, but also on your *smartphone or tablet*.
 This will present a dialog where you can take a photo with the devices
 camera that will be uploaded afterwards. Very handy for snapshots of
 white boards that where filled during meetings.
@@ -344,8 +344,8 @@ white boards that where filled during meetings.
 ![Upload with iPhone](./figures/attachments_upload_iphone.png)
 
 
-During the attachment upload a progress bar will show how long 
-the upload will take. The progress bar has buttons to pause, 
+During the attachment upload a progress bar will show how long
+the upload will take. The progress bar has buttons to pause,
 continue or cancel the upload.
 
 If you are the *moderator* of the meeting series, you may remove
@@ -375,16 +375,16 @@ Sometimes one want to dig out, when a certain decision was made
  or who was responsible for a specific action item. In this case
  you can head over to the meeting series overview and use the tabs
  called "Topics" and "Items".
- 
+
 ![Meeting Series Tabs](./figures/meetingseries_tabs.png)
-  
+
 On these tabs you get a list of all topics or items that where ever part of finalized meeting minutes. Above the list you have a
   powerful filter bar:
-  
+
 ![Topic Filter](./figures/meetingseries_topic_filter.png)
-  
+
 In the filter bar you can enter any text that is searched in the topics / items. Here are some hints:
-  
+
 * Search is case in-sensitive by default. You can switch on the "Match Case" to make search case sensitive
 * Multiple search terms are combined with a logical "AND". So only documents are filtered that match all of your terms and attributes
 
@@ -392,15 +392,15 @@ In the filter bar you can enter any text that is searched in the topics / items.
   * `do:match-case` - perform a case sensitive search
   * `@me` - find all topics, info items or action items that are assigned to me
   * `@John` - find topics / items assigned to "John"
-  * `@John @Doe` - find topics / items assigned to "John Doe" 
+  * `@John @Doe` - find topics / items assigned to "John Doe"
   * `\#Decision` - find topics / items with this label
 
 * The following attributes can be used in the **Topic Filter**:
   * `is:open` - find open topics
   * `is:closed` - find closed topics
-  
+
 * The following attributes can be used in the **Item Filter**:
-  * `is:action` - find only action items 
+  * `is:action` - find only action items
   * `is:info` - find only info items
   * `is:open` - find open action items
   * `is:closed` -  find closed action items

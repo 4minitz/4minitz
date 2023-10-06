@@ -29,7 +29,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
         this._buildMail(
             mailSubject,
             mailData
-        );        
+        );
     }
 
     _userArrayToString(users) {

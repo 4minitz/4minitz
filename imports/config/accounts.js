@@ -10,8 +10,8 @@ import { LdapSettings } from '/imports/config/LdapSettings';
 // For possible account configuration see:
 // https://github.com/meteor-useraccounts/core/blob/master/Guide.md#configuration-api
 
-// Regarding localization: displayName, placeholder, and errStr can also be an accounts-t9n registered key, 
-// in which case it will be translated based on the currently selected language. In case you'd like to specify 
+// Regarding localization: displayName, placeholder, and errStr can also be an accounts-t9n registered key,
+// in which case it will be translated based on the currently selected language. In case you'd like to specify
 // a key which is not already provided by accounts-t9n you can always map your own keys.
 
 let availLanguages = i18n.getLanguages();

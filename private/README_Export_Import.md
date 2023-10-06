@@ -1,6 +1,6 @@
 ## Export & Import MeetingSeries
 
-Disclaimer: these script is only runnable from source tree after npm install. 
+Disclaimer: these script is only runnable from source tree after npm install.
 So currently not appropriate for docker deployments - sorry!
 
 **Important:** Before you use the importer script, make a complete mongoDB backup with `mongodump` on the target (import) database!
@@ -23,7 +23,7 @@ Though 4Minitz uses a document based database, The information documents belongi
 1. Do not forget to zip/copy all attachments & meeting protocols from the appropriate directories
 
 The export script will create multiple files:
-``` 
+```
 *** 4Minitz MeetingSeries Export Tool *** (made for schema version: 19)
 DB Schema Version: 19
 Saved: fEn2eaLCiGDscjnrx_schema.json
@@ -52,7 +52,7 @@ Nevertheless, you can change the right side (value) of every user ID to map to a
 
 **FIRST PERFORM A BACKUP!! - SERIOUSLY!!**
 1. Determine your target/import MongoDB host and port.
-1. Use anexported meeting series ID, e.g. fEn2eaLCiGDscjnrx 
+1. Use anexported meeting series ID, e.g. fEn2eaLCiGDscjnrx
 1. `node importMeetingSeries.js  -m mongodb://localhost:1234/meteor -i fEn2eaLCiGDscjnrx`
 
 You should see something like:

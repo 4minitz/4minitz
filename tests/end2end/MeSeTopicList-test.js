@@ -119,59 +119,59 @@ describe('MeetingSeries complete Topic list', function () {
 		E2ETopics.addTopicToMinutes('some open topic');
 		E2ETopics.addTopicToMinutes('some closed topic');
 		E2ETopics.toggleTopic(1);
-		
+
 		E2EMinutes.finalizeCurrentMinutes();
         E2EMinutes.gotoParentMeetingSeries();
 		E2EMeetingSeries.gotoTabTopics();
-		
+
 		expect(E2ETopics.isTopicClosed(2), "Topic should be open").to.be.false;
 		expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
-		
+
 		expect(E2ETopics.hasDropDownMenuButton(2, '#btnReopenTopic')).to.be.false;
 		expect(E2ETopics.hasDropDownMenuButton(1, '#btnReopenTopic')).to.be.true;
 	});
-	
+
 	it('Only Moderator can Re-Open a closed Topic', function () {
 		E2ETopics.addTopicToMinutes('some closed topic');
 		E2ETopics.toggleTopic(1);
 		E2EMinutes.finalizeCurrentMinutes();
-		
+
 		E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
         let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
 		E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
-		
+
         E2EApp.loginUser(1);
 		E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
 		E2EMeetingSeries.gotoTabTopics();
-		
+
 		expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
 		expect(E2ETopics.hasDropDownMenuButton(1, '#btnReopenTopic')).to.be.false;
-        E2EApp.loginUser();		
+        E2EApp.loginUser();
 	});
 
 	it('Reopen a Topic if there is no currently unfinalized Minute', function () {
 		E2ETopics.addTopicToMinutes('some closed topic');
 		E2ETopics.toggleTopic(1);
 		E2EMinutes.finalizeCurrentMinutes();
-		
+
 		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 		E2EMinutes.finalizeCurrentMinutes();
-		
+
 		E2EMinutes.gotoParentMeetingSeries();
 		E2EMeetingSeries.gotoTabTopics();
 		expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
-		
+
 		//try to reopen the topic
 		E2ETopics.reOpenTopic(1);
 		expect(E2ETopics.isTopicClosed(1), "Topic should be reopened").to.be.false;
-		
+
 		// currently finalized minute should not get the reopened Topic
 		E2EMeetingSeries.gotoTabMinutes();
 		E2EMinutes.gotoLatestMinutes();
 		expect(E2ETopics.countTopicsForMinute()).to.equal(0);
-		
+
 		//a minute which is opened after reopening the topic should contain the topic
 		E2EMinutes.gotoParentMeetingSeries();
 		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -183,21 +183,21 @@ describe('MeetingSeries complete Topic list', function () {
 		E2ETopics.addTopicToMinutes('some closed topic');
 		E2ETopics.toggleTopic(1);
 		E2EMinutes.finalizeCurrentMinutes();
-		
+
 		E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 		expect(E2ETopics.countTopicsForMinute()).to.equal(0);
-		
+
 		E2EMinutes.gotoParentMeetingSeries();
 		E2EMeetingSeries.gotoTabTopics();
-		E2ETopics.reOpenTopic(1);		
-		
+		E2ETopics.reOpenTopic(1);
+
 		// the topic should have been copied to the latest minute
 		E2EMeetingSeries.gotoTabMinutes();
 		E2EMinutes.gotoLatestMinutes();
 		E2EGlobal.waitSomeTime();
 		expect(E2ETopics.countTopicsForMinute()).to.equal(1);
-	});	
-	
+	});
+
     describe('merge topics', function () {
 
         beforeEach('Create and finalize a first minute', function() {

@@ -159,7 +159,7 @@ we strongly discourage you from doing so as this has some serious drawbacks:
     comes with the latest Meteor release. Due to this we highly recommend you
     run your own MongoDB installation outside of 4Minitz and upgrade your
     database on your own schedule following the upgrade process as recommended
-    by MongoDB. 
+    by MongoDB.
 
 ## Production Server Setup with Docker
 

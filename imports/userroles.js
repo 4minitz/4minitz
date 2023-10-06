@@ -13,14 +13,14 @@ export class UserRoles {
         } else {
             this._userId = Meteor.userId();
         }
-        
-        let currentUser; 
+
+        let currentUser;
         if (userCollection) {
             currentUser = userCollection.findOne(this._userId);
         } else {
             currentUser = Meteor.users.findOne(this._userId);
         }
-        
+
         if (! currentUser) {
             FlowRouter.go('/');
             throw new Meteor.Error('Could not find user for userId:'+this._userId);
@@ -73,9 +73,9 @@ export class UserRoles {
             Roles.removeUsersFromRoles(affectedUsers, UserRoles.allRolesNumerical(), aMeetingSeriesID);
         }
     }
-    
+
     static isVisibleRole(aRole) {
-        return (aRole <= UserRoles.USERROLES.Invited); 
+        return (aRole <= UserRoles.USERROLES.Invited);
     }
 
     // **************************** METHODS
@@ -90,7 +90,7 @@ export class UserRoles {
         }
         return visibleMeetingsSeries;
     }
-    
+
     isModeratorOf(aMeetingSeriesID) {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
         return (currentRole && currentRole <= UserRoles.USERROLES.Moderator);
@@ -110,7 +110,7 @@ export class UserRoles {
         const currentRole = this.currentRoleFor (aMeetingSeriesID);
         return (currentRole && currentRole <= UserRoles.USERROLES.Informed);
     }
-    
+
     hasViewRoleFor(aMeetingSeriesID) {
         return (this.isInvitedTo(aMeetingSeriesID) /* or lower access role */ );
     }

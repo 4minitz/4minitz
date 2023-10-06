@@ -6,4 +6,3 @@ Template.appLayout.helpers({
         return GlobalSettings.showGithubCorner();
     }
 });
-
