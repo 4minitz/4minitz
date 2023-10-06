@@ -49,7 +49,7 @@ export class TopicInfoItemListContext {
   // called from Meeting Series "tabItems" view
   static createReadonlyContextForItemsOfDifferentTopics(
     items,
-    meetingSeriesId
+    meetingSeriesId,
   ) {
     const context = new TopicInfoItemListContext(items, true, meetingSeriesId);
     const mapItemID2topicID = {};

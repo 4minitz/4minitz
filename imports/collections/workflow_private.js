@@ -120,9 +120,12 @@ Meteor.methods({
       const newMinutesID = MinutesSchema.insert(doc);
       try {
         parentMeetingSeries.minutes.push(newMinutesID);
-        const affectedDocs = MeetingSeriesSchema.update(parentMeetingSeries._id, {
-          $set: { minutes: parentMeetingSeries.minutes },
-        });
+        const affectedDocs = MeetingSeriesSchema.update(
+          parentMeetingSeries._id,
+          {
+            $set: { minutes: parentMeetingSeries.minutes },
+          },
+        );
         if (affectedDocs !== 1) {
           throw new Meteor.Error(
             "runtime-error",

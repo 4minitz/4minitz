@@ -511,7 +511,9 @@ Template.minutesedit.events({
 
   "click #btnCreateNewMinutes": function (evt) {
     evt.preventDefault();
-    const ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
+    const ms = new MeetingSeries(
+      new Minutes(_minutesID).parentMeetingSeriesID(),
+    );
     const routeToNewMinutes = (newMinutesId) => {
       Session.set("minutesedit.checkParent", false);
       FlowRouter.redirect(`/minutesedit/${newMinutesId}`);

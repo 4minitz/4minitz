@@ -66,7 +66,7 @@ export class Label {
   static findLabelsContainingSubstring(
     parentMeetingSeries,
     name,
-    caseSensitive
+    caseSensitive,
   ) {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 

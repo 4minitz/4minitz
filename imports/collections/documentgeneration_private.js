@@ -210,7 +210,11 @@ Meteor.methods({
       Meteor.settings.public.docGeneration.format === "pdfa"
     ) {
       storeFileFunction = (htmldata, fileName, metaData) => {
-        const finalPDFOutputPath = convertHTML2PDF(htmldata, fileName, metaData); // eslint-disable-line
+        const finalPDFOutputPath = convertHTML2PDF(
+          htmldata,
+          fileName,
+          metaData,
+        ); // eslint-disable-line
         console.log(
           "Protocol generation to file: ",
           finalPDFOutputPath,

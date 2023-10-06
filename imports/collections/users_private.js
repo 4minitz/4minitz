@@ -113,7 +113,7 @@ Meteor.methods({
     password1,
     password2,
     sendMail,
-    sendPassword
+    sendPassword,
   ) {
     console.log(`users.admin.registerUser for user: ${username}`);
     // #Security: Only logged in admin may invoke this method:

@@ -72,7 +72,7 @@ export class Minutes {
 
   static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
     parentSeriesID,
-    visibleForArray
+    visibleForArray,
   ) {
     if (MinutesSchema.find({ meetingSeries_id: parentSeriesID }).count() > 0) {
       MinutesSchema.update(
@@ -203,7 +203,7 @@ export class Minutes {
    * @returns {boolean}
    */
   hasOpenActionItems() {
-    for (let i = this.topics.length; i-- > 0;  ) {
+    for (let i = this.topics.length; i-- > 0; ) {
       const topic = new Topic(this, this.topics[i]);
       if (topic.hasOpenActionItem()) {
         return true;
@@ -267,7 +267,7 @@ export class Minutes {
           }),
         );
       },
-      /* initial value */ []
+      /* initial value */ [],
     );
   }
 
@@ -323,13 +323,15 @@ export class Minutes {
         }
         return recipients;
       },
-      /* initial value */ []
+      /* initial value */ [],
     );
 
     // search for mail addresses in additional participants and add them to
     // recipients
     if (this.participantsAdditional) {
-      const addMails = this.participantsAdditional.match(emailAddressRegExpMatch);
+      const addMails = this.participantsAdditional.match(
+        emailAddressRegExpMatch,
+      );
       if (addMails) {
         // addMails is null if there is no substring matching the email regular
         // expression

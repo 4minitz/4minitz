@@ -1,44 +1,43 @@
-const task = require('./lib/task');
-
+const task = require("./lib/task");
 
 function logTask(taskname) {
-    return function (data) {
-        process.stdout.write(taskname + ': ' + data);
-    }
+  return function (data) {
+    process.stdout.write(taskname + ": " + data);
+  };
 }
 
 const tasks = [
-    task.run('npm', ['run', 'test:end2end:ldap'], logTask('ldap')),
-    task.run('npm', ['run', 'test:end2end:meteor'], logTask('meteor'))
+  task.run("npm", ["run", "test:end2end:ldap"], logTask("ldap")),
+  task.run("npm", ["run", "test:end2end:meteor"], logTask("meteor")),
 ];
 
 function shutdown() {
-    console.log('Kill all running tasks');
+  console.log("Kill all running tasks");
 
-    const done = [].fill(false, 0, tasks.length);
-    tasks.forEach((task, index) => {
-        task.kill('SIGINT', function (error) {
-            if (error) {
-                console.warn('ERROR: ', error);
-            }
+  const done = [].fill(false, 0, tasks.length);
+  tasks.forEach((task, index) => {
+    task.kill("SIGINT", function (error) {
+      if (error) {
+        console.warn("ERROR: ", error);
+      }
 
-            done[index] = true;
-            if (!done.includes(false)) {
-                console.log('All tasks killed, exiting.');
-                process.exit(0);
-            }
-        });
+      done[index] = true;
+      if (!done.includes(false)) {
+        console.log("All tasks killed, exiting.");
+        process.exit(0);
+      }
     });
+  });
 }
 
-if (process.platform === 'win32') {
-    var readline = require('readline').createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+if (process.platform === "win32") {
+  var readline = require("readline").createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
 
-    readline.on('SIGINT', shutdown);
+  readline.on("SIGINT", shutdown);
 }
 
-process.on('uncaughtException', shutdown);
-process.on('SIGINT', shutdown);
+process.on("uncaughtException", shutdown);
+process.on("SIGINT", shutdown);

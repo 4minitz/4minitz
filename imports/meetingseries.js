@@ -327,7 +327,10 @@ export class MeetingSeries {
   }
 
   removeLabel(id) {
-    const index = subElementsHelper.findIndexById(id, this.getAvailableLabels());
+    const index = subElementsHelper.findIndexById(
+      id,
+      this.getAvailableLabels(),
+    );
     if (undefined === index) {
       return;
     }

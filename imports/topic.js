@@ -229,7 +229,7 @@ export class Topic {
       (infoItemDoc) => {
         const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
         return infoItem.isSticky();
-      }
+      },
     );
   }
 

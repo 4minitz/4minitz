@@ -1,22 +1,21 @@
-
 module.exports = {
-    doNothing() {},
+  doNothing() {},
 
-    returns(positionOfCallback, dataToReturn, parameterCollector) {
-        return function () {
-            if (Array.isArray(parameterCollector)) {
-                parameterCollector.push(arguments);
-            }
+  returns(positionOfCallback, dataToReturn, parameterCollector) {
+    return function () {
+      if (Array.isArray(parameterCollector)) {
+        parameterCollector.push(arguments);
+      }
 
-            const callback = arguments[positionOfCallback];
-            callback(null, dataToReturn);
-        };
-    },
+      const callback = arguments[positionOfCallback];
+      callback(null, dataToReturn);
+    };
+  },
 
-    returnsError(positionOfCallback, error) {
-        return function () {
-            const callback = arguments[positionOfCallback];
-            callback(error, null);
-        };
-    }
+  returnsError(positionOfCallback, error) {
+    return function () {
+      const callback = arguments[positionOfCallback];
+      callback(error, null);
+    };
+  },
 };

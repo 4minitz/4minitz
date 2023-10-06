@@ -81,7 +81,9 @@ Template.topicElement.helpers({
 
   // determine if this topic shall be rendered collapsed
   isCollapsed() {
-    const collapseState = Session.get(`minutesedit.collapsetopics.${_minutesId}`);
+    const collapseState = Session.get(
+      `minutesedit.collapsetopics.${_minutesId}`,
+    );
     return collapseState ? collapseState[this.topic._id] : false;
   },
 

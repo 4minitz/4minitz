@@ -186,7 +186,7 @@ class ExpImpUsers {
                     .collection("users") // upsert role field
                     .update({ _id: usr._id }, { $set: { roles: roles } });
                 }
-              })
+              }),
           );
         }
       }

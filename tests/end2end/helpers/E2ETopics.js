@@ -176,7 +176,7 @@ export class E2ETopics {
   static addInfoItemToTopic(
     infoItemDoc,
     topicIndex,
-    autoCloseDetailInput = true
+    autoCloseDetailInput = true,
   ) {
     const type = Object.prototype.hasOwnProperty.call(infoItemDoc, "itemType")
       ? infoItemDoc.itemType
@@ -471,7 +471,7 @@ export class E2ETopics {
     infoItemDoc,
     topicIndex,
     detailsText,
-    autoCloseDetailInput = true
+    autoCloseDetailInput = true,
   ) {
     const type = Object.prototype.hasOwnProperty.call(infoItemDoc, "itemType")
       ? infoItemDoc.itemType
@@ -496,7 +496,7 @@ export class E2ETopics {
     topicIndex,
     infoItemIndex,
     detailsText,
-    doBeforeSubmit
+    doBeforeSubmit,
   ) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
       topicIndex,
@@ -535,7 +535,7 @@ export class E2ETopics {
     topicIndex,
     infoItemIndex,
     detailIndex,
-    detailsText
+    detailsText,
   ) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
       topicIndex,

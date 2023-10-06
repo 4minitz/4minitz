@@ -12,7 +12,7 @@ function select2search(
   delayTime,
   freeTextValidator,
   minuteID,
-  topicOrItem
+  topicOrItem,
 ) {
   const minute = new Minutes(minuteID);
   const preparer = new ParticipantsPreparer(
@@ -81,7 +81,7 @@ export function configureSelect2Responsibles(
   topicOrItemDoc,
   freeTextValidator,
   _minutesID,
-  topicOrItem
+  topicOrItem,
 ) {
   const selectResponsibles = $(`#${SelectResponsibleElementID}`);
   selectResponsibles
