@@ -1,47 +1,41 @@
-import { Meteor } from "meteor/meteor";
-import { Session } from "meteor/session";
-import { ReactiveVar } from "meteor/reactive-var";
-import { Template } from "meteor/templating";
-import { GlobalSettings } from "/imports/config/GlobalSettings";
+import {GlobalSettings} from "/imports/config/GlobalSettings";
+import {Meteor} from "meteor/meteor";
+import {ReactiveVar} from "meteor/reactive-var";
+import {Session} from "meteor/session";
+import {Template} from "meteor/templating";
 
 let showStatistics = new ReactiveVar(false);
 
-Template.aboutDialog.onRendered(function () {});
+Template.aboutDialog.onRendered(function() {});
 
 Template.aboutDialog.helpers({
-  gitVersionInfo: function () {
-    return Session.get("gitVersionInfo");
-  },
+  gitVersionInfo : function() { return Session.get("gitVersionInfo"); },
 
-  currentYear: function () {
-    return new Date().getFullYear();
-  },
+  currentYear : function() { return new Date().getFullYear(); },
 
-  displayStatistics: function () {
-    return showStatistics.get();
-  },
+  displayStatistics : function() { return showStatistics.get(); },
 
-  legalNoticeEnabled: function () {
+  legalNoticeEnabled : function() {
     return Meteor.settings.public.branding.legalNotice.enabled;
   },
-  legalNoticeLinktext: function () {
+  legalNoticeLinktext : function() {
     return Meteor.settings.public.branding.legalNotice.linkText;
   },
 });
 
 Template.aboutDialog.events({
-  "click #about-4minitz-logo": function () {
-    showStatistics.set(!showStatistics.get());
-  },
+  "click #about-4minitz-logo" :
+      function() { showStatistics.set(!showStatistics.get()); },
 
-  "click #btnLegalNotice": function () {
+  "click #btnLegalNotice" : function() {
     $("#dlgAbout").modal("hide");
-    $(".modal-backdrop").remove(); // The backdrop was sticky - we remove it manually...
+    $(".modal-backdrop")
+        .remove(); // The backdrop was sticky - we remove it manually...
     window.open(GlobalSettings.getLegalNoticeExternalUrl());
   },
 
-  "show.bs.modal #dlgAbout": function () {
-    Meteor.call("gitVersionInfo", function (error, result) {
+  "show.bs.modal #dlgAbout" : function() {
+    Meteor.call("gitVersionInfo", function(error, result) {
       if (!error) {
         Session.set("gitVersionInfo", result);
       } else {

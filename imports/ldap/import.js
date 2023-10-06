@@ -1,18 +1,17 @@
 let getLDAPUsers = require("./getLDAPUsers"),
-  saveUsers = require("./saveUsers");
+    saveUsers = require("./saveUsers");
 
-let report = function (bulkResult) {
-  let inserted = bulkResult.nUpserted,
-    updated = bulkResult.nModified;
+let report = function(bulkResult) {
+  let inserted = bulkResult.nUpserted, updated = bulkResult.nModified;
 
   console.log(
-    `Successfully inserted ${inserted} users and updated ${updated} users.`,
+      `Successfully inserted ${inserted} users and updated ${updated} users.`,
   );
 };
 
 let selfSignedTLSAllowed = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
 let importLock = false;
-let setSelfSigned = function (ldapSettings) {
+let setSelfSigned = function(ldapSettings) {
   return new Promise((resolve, reject) => {
     if (importLock) {
       reject("There already is a user import running.");
@@ -32,12 +31,12 @@ let setSelfSigned = function (ldapSettings) {
   });
 };
 
-let resetSelfSigned = function () {
+let resetSelfSigned = function() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = selfSignedTLSAllowed;
   importLock = false;
 };
 
-let handleRejection = function (error) {
+let handleRejection = function(error) {
   // make sure the import lock is released and
   // the NODE_TLS_REJECT_UNAUTHORIZED env is reset
   resetSelfSigned();
@@ -46,15 +45,14 @@ let handleRejection = function (error) {
   throw error;
 };
 
-let importUsers = function (ldapSettings, mongoUrl) {
+let importUsers = function(ldapSettings, mongoUrl) {
   return setSelfSigned(ldapSettings)
-    .then(getLDAPUsers)
-    .then((data) => {
-      return saveUsers(data.settings, mongoUrl, data.users);
-    })
-    .then(report)
-    .then(resetSelfSigned)
-    .catch(handleRejection);
+      .then(getLDAPUsers)
+      .then(
+          (data) => { return saveUsers(data.settings, mongoUrl, data.users); })
+      .then(report)
+      .then(resetSelfSigned)
+      .catch(handleRejection);
 };
 
 module.exports = importUsers;

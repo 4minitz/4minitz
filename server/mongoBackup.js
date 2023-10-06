@@ -1,5 +1,5 @@
+import {spawn} from "child_process";
 import Future from "fibers/future";
-import { spawn } from "child_process";
 import mongoUri from "mongo-uri";
 
 function dumpParameters(uri, path) {
@@ -29,7 +29,7 @@ function dumpParameters(uri, path) {
   return params;
 }
 
-export const backupMongo = function (mongoUrl, path) {
+export const backupMongo = function(mongoUrl, path) {
   console.log("Backing up mongodb", mongoUrl, "to", path);
 
   let uri = mongoUri.parse(mongoUrl);

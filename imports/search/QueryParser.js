@@ -1,4 +1,4 @@
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
 
 const TOKEN_TYPE_SEARCH = 1;
 const TOKEN_TYPE_FILTER = 2;
@@ -13,7 +13,8 @@ export class QueryParser {
 
   /**
    * @typedef {Object} LabelToken
-   * @property {string} token The search-word which was detected in the search query
+   * @property {string} token The search-word which was detected in the search
+   * query
    * @property {string[]} ids The matching label ids.
    */
 
@@ -46,9 +47,7 @@ export class QueryParser {
   parse(query) {
     this.query = query;
     this.tokens = query.split(/\s/);
-    this.tokens.forEach((token) => {
-      this._parseToken(token);
-    });
+    this.tokens.forEach((token) => { this._parseToken(token); });
     // add last label
     if (this.currentLabel !== null) {
       this._addCompleteLabelToken();
@@ -88,9 +87,7 @@ export class QueryParser {
    *
    * @returns {FilterToken[]}
    */
-  getFilterTokens() {
-    return this.filterTokens;
-  }
+  getFilterTokens() { return this.filterTokens; }
 
   /**
    * Returns all label tokens of the current
@@ -99,9 +96,7 @@ export class QueryParser {
    *
    * @returns {LabelToken[]}
    */
-  getLabelTokens() {
-    return this.labelTokens;
-  }
+  getLabelTokens() { return this.labelTokens; }
 
   /**
    * Returns all search tokens of the current
@@ -109,34 +104,32 @@ export class QueryParser {
    *
    * @returns {string[]}
    */
-  getSearchTokens() {
-    return this.searchTokens;
-  }
+  getSearchTokens() { return this.searchTokens; }
 
   _parseToken(token) {
     let tokenType = this._getTokenType(token);
     switch (tokenType) {
-      case TOKEN_TYPE_FILTER: {
-        this._addFilterToken(token);
-        break;
-      }
+    case TOKEN_TYPE_FILTER: {
+      this._addFilterToken(token);
+      break;
+    }
 
-      case TOKEN_TYPE_LABEL: {
-        let result = this._addLabelToken(token);
-        if (!result) {
-          this.searchTokens.push(token);
-        }
-        break;
-      }
-      case TOKEN_TYPE_SEARCH: {
+    case TOKEN_TYPE_LABEL: {
+      let result = this._addLabelToken(token);
+      if (!result) {
         this.searchTokens.push(token);
-        break;
       }
-      default:
-        throw new Meteor.Error(
+      break;
+    }
+    case TOKEN_TYPE_SEARCH: {
+      this.searchTokens.push(token);
+      break;
+    }
+    default:
+      throw new Meteor.Error(
           "illegal-state",
           `Unknown token type ${tokenType}`,
-        );
+      );
     }
   }
 
@@ -155,12 +148,8 @@ export class QueryParser {
   _isFilterKeyword(token) {
     let arr = token.split(":");
     let res = this.keywords.isKeyword(token);
-    if (
-      Object.prototype.hasOwnProperty.call(this.keywords, "DO") &&
-      res &&
-      arr[0] === this.keywords.DO.key &&
-      arr[1] === "match-case"
-    ) {
+    if (Object.prototype.hasOwnProperty.call(this.keywords, "DO") && res &&
+        arr[0] === this.keywords.DO.key && arr[1] === "match-case") {
       this.matchCase = true;
     }
     return res;
@@ -168,7 +157,7 @@ export class QueryParser {
 
   _addFilterToken(token) {
     this.filterTokens.push(
-      this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName),
+        this.keywords.getKeyWordFromToken(token, this.queryUserIdsByName),
     );
   }
 
@@ -187,13 +176,12 @@ export class QueryParser {
       this.currentLabel = token.substr(1);
     } else {
       completeLabel = `${this.currentLabel} ${token}`; // prepend whitespace!
-      let matchingIds = this.queryLabelIdsByName
-        ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
-        : true;
-      if (
-        matchingIds === true ||
-        (matchingIds !== null && matchingIds.length > 0)
-      ) {
+      let matchingIds =
+          this.queryLabelIdsByName
+              ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
+              : true;
+      if (matchingIds === true ||
+          (matchingIds !== null && matchingIds.length > 0)) {
         this.currentLabel = completeLabel;
       } else {
         // the current token does not match any labels
@@ -213,11 +201,11 @@ export class QueryParser {
   _addCompleteLabelToken() {
     let token = this.currentLabel;
     let ids = this.queryLabelIdsByName
-      ? this.queryLabelIdsByName(token, this.isCaseSensitive())
-      : [token];
+                  ? this.queryLabelIdsByName(token, this.isCaseSensitive())
+                  : [ token ];
     this.labelTokens.push({
-      token: token,
-      ids: ids,
+      token : token,
+      ids : ids,
     });
   }
 

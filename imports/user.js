@@ -1,4 +1,4 @@
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
 
 export class User {
   constructor(source) {
@@ -32,9 +32,7 @@ export class User {
     }
   }
 
-  profileNameWithFallback() {
-    return User.PROFILENAMEWITHFALLBACK(this.user);
-  }
+  profileNameWithFallback() { return User.PROFILENAMEWITHFALLBACK(this.user); }
 
   userNameWithFallback() {
     if (this.user) {
@@ -66,12 +64,12 @@ export class User {
 }
 
 export const userSettings = {
-  showQuickHelp: {
-    meetingSeriesList: "showQuickHelp_meetingSeriesList",
-    meetingSeries: "showQuickHelp_meetingSeries",
-    meeting: "showQuickHelp_meeting",
-    meetingUpload: "showQuickHelp_meetingUpload",
+  showQuickHelp : {
+    meetingSeriesList : "showQuickHelp_meetingSeriesList",
+    meetingSeries : "showQuickHelp_meetingSeries",
+    meeting : "showQuickHelp_meeting",
+    meetingUpload : "showQuickHelp_meetingUpload",
   },
 
-  showAddDetail: "showAddDetail",
+  showAddDetail : "showAddDetail",
 };

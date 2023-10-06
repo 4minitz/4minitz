@@ -1,12 +1,12 @@
-import { Meteor } from "meteor/meteor";
-import { UserRoles } from "/imports/userroles";
-import { i18n } from "meteor/universe:i18n";
+import {UserRoles} from "/imports/userroles";
+import {Meteor} from "meteor/meteor";
+import {i18n} from "meteor/universe:i18n";
 
 let longName2shortName = {};
 
 // For adding of users:
 // build list of available users that are not already shown in user editor
-export let userlistClean = function (allUsers, substractUsers) {
+export let userlistClean = function(allUsers, substractUsers) {
   let resultUsers = [];
 
   // build a dict with username => user object
@@ -25,7 +25,8 @@ export let userlistClean = function (allUsers, substractUsers) {
         longname = ` - ${aUser.profile.name}`;
       }
       resultUsers.push(aUser["username"] + longname);
-      // create lookup dict to convert the long LDAP names back to unique short usernames
+      // create lookup dict to convert the long LDAP names back to unique short
+      // usernames
       longName2shortName[aUser["username"] + longname] = aUser["username"];
     }
   }
@@ -36,17 +37,17 @@ export let userlistClean = function (allUsers, substractUsers) {
 export function checkUserName(newUserName, config) {
   // convert the LDAP long name back to the short unique username
   newUserName = longName2shortName[newUserName];
-  let addedUser = Meteor.users.findOne({ username: newUserName });
+  let addedUser = Meteor.users.findOne({username : newUserName});
   let result = {
-    addedUser: addedUser,
-    valid: false,
-    errorMsg: "",
+    addedUser : addedUser,
+    valid : false,
+    errorMsg : "",
   };
   if (!addedUser) {
     result.errorMsg = i18n.__("MeetingSeries.Edit.Error.notRegistered");
     return result;
   }
-  let alreadyInEditor = config.users.findOne({ username: newUserName });
+  let alreadyInEditor = config.users.findOne({username : newUserName});
   if (alreadyInEditor) {
     result.errorMsg = i18n.__("MeetingSeries.Edit.Error.alreadyInList");
     return result;
@@ -64,7 +65,7 @@ export function checkUserName(newUserName, config) {
  * To enable "Cancel" of editor, this role is kept in the temporary
  * collection until "Save".
  */
-export let addNewUser = function (newUserName, config) {
+export let addNewUser = function(newUserName, config) {
   if (!newUserName) {
     return;
   }
@@ -83,6 +84,6 @@ export let addNewUser = function (newUserName, config) {
     addedUser.roles = {};
   }
 
-  addedUser.roles[config.meetingSeriesID] = [UserRoles.USERROLES.Invited];
+  addedUser.roles[config.meetingSeriesID] = [ UserRoles.USERROLES.Invited ];
   config.users.insert(addedUser);
 };

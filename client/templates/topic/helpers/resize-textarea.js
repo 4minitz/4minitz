@@ -1,4 +1,4 @@
-import { $ } from "meteor/jquery";
+import {$} from "meteor/jquery";
 
 export const resizeTextarea = (element) => {
   const scrollPos = $(document).scrollTop();

@@ -1,9 +1,9 @@
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-import { Template } from "meteor/templating";
-import { Session } from "meteor/session";
-import { $ } from "meteor/jquery";
-import { MeetingSeries } from "/imports/meetingseries";
-import { handleError } from "/client/helpers/handleError";
+import {handleError} from "/client/helpers/handleError";
+import {MeetingSeries} from "/imports/meetingseries";
+import {$} from "meteor/jquery";
+import {FlowRouter} from "meteor/ostrio:flow-router-extra";
+import {Session} from "meteor/session";
+import {Template} from "meteor/templating";
 
 function clearForm(template) {
   template.find("#id_meetingproject").value = "";
@@ -29,21 +29,19 @@ function addMeetingSeries(template, optimisticUICallback) {
   let aName = template.find("#id_meetingname").value;
 
   let ms = new MeetingSeries({
-    project: aProject,
-    name: aName,
-    createdAt: new Date(),
+    project : aProject,
+    name : aName,
+    createdAt : new Date(),
   });
 
   ms.saveAsync(optimisticUICallback).catch(handleError);
 }
 
 Template.meetingSeriesAdd.helpers({
-  isExpanded: function () {
-    return Session.get("meetingSeriesAdd.isExpanded");
-  },
-  meetingSeriesAmountBiggerFour: function () {
-    return MeetingSeries.find().count() > 4;
-  },
+  isExpanded :
+      function() { return Session.get("meetingSeriesAdd.isExpanded"); },
+  meetingSeriesAmountBiggerFour :
+      function() { return MeetingSeries.find().count() > 4; },
 });
 
 Template.meetingSeriesAdd.events({
@@ -57,9 +55,8 @@ Template.meetingSeriesAdd.events({
 
     $("#collapseMeetingSeriesAdd").collapse("hide");
 
-    addMeetingSeries(template, (id) => {
-      FlowRouter.go(`/meetingseries/${id}?edit=true`);
-    });
+    addMeetingSeries(
+        template, (id) => { FlowRouter.go(`/meetingseries/${id}?edit=true`); });
   },
 
   "hidden.bs.collapse #collapseMeetingSeriesAdd"(evt, tmpl) {

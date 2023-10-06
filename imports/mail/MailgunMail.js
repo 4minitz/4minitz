@@ -1,31 +1,30 @@
-import { HTTP } from "meteor/http";
-import { Mail } from "./Mail";
-import { GlobalSettings } from "../config/GlobalSettings";
+import {HTTP} from "meteor/http";
+
+import {GlobalSettings} from "../config/GlobalSettings";
+
+import {Mail} from "./Mail";
 
 export class MailgunMail extends Mail {
-  constructor(replyTo, recipient) {
-    super(replyTo, recipient);
-  }
+  constructor(replyTo, recipient) { super(replyTo, recipient); }
 
   _sendMail() {
     console.log("Sending mail via mailgun");
 
     let mailgunSettings = GlobalSettings.getMailgunSettings();
 
-    let postURL = `${mailgunSettings.apiUrl}/${mailgunSettings.domain}/messages`;
+    let postURL =
+        `${mailgunSettings.apiUrl}/${mailgunSettings.domain}/messages`;
 
-    let recipient =
-      typeof this._recipients === "string"
-        ? [this._recipients]
-        : this._recipients;
+    let recipient = typeof this._recipients === "string" ? [ this._recipients ]
+                                                         : this._recipients;
 
     let options = {
-      auth: `api:${mailgunSettings.apiKey}`,
-      params: {
-        from: this._from,
-        to: recipient,
-        "h:Reply-To": this._replyTo,
-        subject: this._subject,
+      auth : `api:${mailgunSettings.apiKey}`,
+      params : {
+        from : this._from,
+        to : recipient,
+        "h:Reply-To" : this._replyTo,
+        subject : this._subject,
       },
     };
     if (this._text) {
@@ -36,7 +35,9 @@ export class MailgunMail extends Mail {
     }
 
     // Send the request
-    const result = HTTP.post(postURL, options); // do not pass callback so the post request will run synchronously
+    const result =
+        HTTP.post(postURL, options); // do not pass callback so the post request
+                                     // will run synchronously
     this._verifyStatus(result);
   }
 
@@ -45,8 +46,8 @@ export class MailgunMail extends Mail {
       return; // everything seems to be ok
     }
     const msg =
-      "Could not verify if mailgun has succeeded. Please check your configuration. Mailgun response: " +
-      result.content;
+        "Could not verify if mailgun has succeeded. Please check your configuration. Mailgun response: " +
+        result.content;
     throw new Error(msg);
   }
 }

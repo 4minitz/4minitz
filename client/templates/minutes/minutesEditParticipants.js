@@ -1,30 +1,30 @@
-import { Meteor } from "meteor/meteor";
-import { Template } from "meteor/templating";
-import { i18n } from "meteor/universe:i18n";
-import { Session } from "meteor/session";
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-
-import { Minutes } from "/imports/minutes";
-import { UserRoles } from "/imports/userroles";
-import { ReactiveVar } from "meteor/reactive-var";
-import { handleError } from "/client/helpers/handleError";
-import { OnlineUsersSchema } from "/imports/collections/onlineusers.schema";
 import "/imports/collections/onlineusers_private";
+
+import {handleError} from "/client/helpers/handleError";
+import {OnlineUsersSchema} from "/imports/collections/onlineusers.schema";
+import {Minutes} from "/imports/minutes";
+import {UserRoles} from "/imports/userroles";
+import {Meteor} from "meteor/meteor";
+import {FlowRouter} from "meteor/ostrio:flow-router-extra";
+import {ReactiveVar} from "meteor/reactive-var";
+import {Session} from "meteor/session";
+import {Template} from "meteor/templating";
+import {i18n} from "meteor/universe:i18n";
 
 let _minutesID; // the ID of these minutes
 
-let isEditable = function () {
+let isEditable = function() {
   let min = new Minutes(_minutesID);
   return min.isCurrentUserModerator() && !min.isFinalized;
 };
 
-let isModeratorOfParentSeries = function (userId) {
+let isModeratorOfParentSeries = function(userId) {
   let aMin = new Minutes(_minutesID);
   let usrRole = new UserRoles(userId);
   return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
 };
 
-let userNameForId = function (userId) {
+let userNameForId = function(userId) {
   let usr = Meteor.users.findOne(userId);
   if (usr) {
     let showName = usr.username;
@@ -40,24 +40,18 @@ let userNameForId = function (userId) {
 
 function countParticipantsMarked() {
   let aMin = new Minutes(_minutesID);
-  return aMin.participants.filter((p) => {
-    return p.present;
-  }).length;
+  return aMin.participants.filter((p) => { return p.present; }).length;
 }
 
 function allParticipantsMarked() {
   let aMin = new Minutes(_minutesID);
-  return (
-    aMin.participants.findIndex((p) => {
-      return !p.present;
-    }) === -1
-  );
+  return (aMin.participants.findIndex((p) => { return !p.present; }) === -1);
 }
 
-Template.minutesEditParticipants.onCreated(function () {
+Template.minutesEditParticipants.onCreated(function() {
   _minutesID = FlowRouter.getParam("_id");
   console.log(
-    `Template minutesEditParticipants created with minutesID ${_minutesID}`,
+      `Template minutesEditParticipants created with minutesID ${_minutesID}`,
   );
 
   this.autorun(() => {
@@ -86,14 +80,10 @@ Template.minutesEditParticipants.helpers({
     let aMin = new Minutes(_minutesID);
     let count = 0;
     if (aMin.participantsAdditional && aMin.participantsAdditional.length > 0) {
-      count = aMin.participantsAdditional
-        .split(";")
-        .map((p) => {
-          return p.trim();
-        })
-        .filter((p) => {
-          return p.length > 0;
-        }).length;
+      count = aMin.participantsAdditional.split(";")
+                  .map((p) => { return p.trim(); })
+                  .filter((p) => { return p.length > 0; })
+                  .length;
     }
     if (count === 0) {
       return "";
@@ -119,39 +109,30 @@ Template.minutesEditParticipants.helpers({
   participantsSorted() {
     let aMin = new Minutes(_minutesID);
     let partSorted = aMin.participants;
-    partSorted.forEach((p) => {
-      p["displayName"] = userNameForId(p.userId);
-    });
-    partSorted = partSorted.sort(function (a, b) {
-      return a.displayName > b.displayName
-        ? 1
-        : b.displayName > a.displayName
-        ? -1
-        : 0;
+    partSorted.forEach((p) => { p["displayName"] = userNameForId(p.userId); });
+    partSorted = partSorted.sort(function(a, b) {
+      return a.displayName > b.displayName   ? 1
+             : b.displayName > a.displayName ? -1
+                                             : 0;
     });
     return partSorted;
   },
 
-  getUserDisplayName(userId) {
-    return userNameForId(userId);
-  },
+  getUserDisplayName(userId) { return userNameForId(userId); },
 
   isUserRemotelyConnected(userId) {
     return Boolean(
-      OnlineUsersSchema.findOne({
-        userId: userId,
-        activeRoute: FlowRouter.current().path,
-      }),
+        OnlineUsersSchema.findOne({
+          userId : userId,
+          activeRoute : FlowRouter.current().path,
+        }),
     );
   },
 
-  isModeratorOfParentSeries(userId) {
-    return isModeratorOfParentSeries(userId);
-  },
+  isModeratorOfParentSeries(
+      userId) { return isModeratorOfParentSeries(userId); },
 
-  isParticipantsExpanded() {
-    return Session.get("participants.expand");
-  },
+  isParticipantsExpanded() { return Session.get("participants.expand"); },
 
   collapsedParticipantsNames() {
     let aMin = new Minutes(_minutesID);
@@ -160,7 +141,7 @@ Template.minutesEditParticipants.helpers({
 
   checkedStatePresent() {
     if (this.present) {
-      return { checked: "checked" };
+      return {checked : "checked"};
     }
     return {};
   },
@@ -169,7 +150,7 @@ Template.minutesEditParticipants.helpers({
     if (isEditable()) {
       return "";
     } else {
-      return { disabled: "disabled" };
+      return {disabled : "disabled"};
     }
   },
 
@@ -203,13 +184,9 @@ Template.minutesEditParticipants.helpers({
     return aMin.participants.length > 2;
   },
 
-  isChecked() {
-    return Template.instance().markedAll.get();
-  },
+  isChecked() { return Template.instance().markedAll.get(); },
 
-  isEditable() {
-    return isEditable();
-  },
+  isEditable() { return isEditable(); },
 
   parentMeetingSeries() {
     let aMin = new Minutes(_minutesID);
@@ -228,7 +205,7 @@ Template.minutesEditParticipants.events({
   "change #edtParticipantsAdditional"(evt, tmpl) {
     let aMin = new Minutes(_minutesID);
     let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
-    aMin.update({ participantsAdditional: theParticipant });
+    aMin.update({participantsAdditional : theParticipant});
   },
 
   "click #btnParticipantsExpand"() {

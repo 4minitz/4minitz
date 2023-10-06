@@ -1,42 +1,37 @@
-import { Template } from "meteor/templating";
-import { i18n } from "meteor/universe:i18n";
-import { $ } from "meteor/jquery";
-import { addCustomValidator } from "../../helpers/customFieldValidator";
+import {ColorHelper} from "/imports/ColorHelper";
+import {Label} from "/imports/label";
+import {MeetingSeries} from "/imports/meetingseries";
+import {$} from "meteor/jquery";
+import {Template} from "meteor/templating";
+import {i18n} from "meteor/universe:i18n";
 
-import { MeetingSeries } from "/imports/meetingseries";
-import { Label } from "/imports/label";
-
-import { ColorHelper } from "/imports/ColorHelper";
+import {addCustomValidator} from "../../helpers/customFieldValidator";
 
 let initColorPicker = (selector) => {
-  setTimeout(function () {
+  setTimeout(function() {
     $(selector).pickAColor({
-      showSavedColors: false,
-      showAdvanced: false,
-      inlineDropdown: false,
+      showSavedColors : false,
+      showAdvanced : false,
+      inlineDropdown : false,
     });
     $(".hex-pound").hide();
   }, 50);
 };
 
-Template.meetingSeriesEditLabels.onRendered(function () {
+Template.meetingSeriesEditLabels.onRendered(function() {
   initColorPicker(".pick-a-color");
 
   addCustomValidator(
-    ".label-color-field",
-    (value) => {
-      return ColorHelper.isValidHexColorString(value);
-    },
-    i18n.__("MeetingSeries.Labels.Error.hexValue"),
+      ".label-color-field",
+      (value) => { return ColorHelper.isValidHexColorString(value); },
+      i18n.__("MeetingSeries.Labels.Error.hexValue"),
   );
 });
 
 Template.meetingSeriesEditLabels.helpers({
-  getColorNum: function () {
-    return this.color.substr(1);
-  },
+  getColorNum : function() { return this.color.substr(1); },
 
-  getLabels: function () {
+  getLabels : function() {
     let aSeries = new MeetingSeries(this.meetingSeriesId);
     return aSeries.getAvailableLabels().map((labelDoc) => {
       let labelObj = new Label(labelDoc);
@@ -68,9 +63,9 @@ function saveLabel(tmpl, context) {
   }
 
   let labelDoc = {
-    _id: labelId,
-    name: labelName,
-    color: labelColor,
+    _id : labelId,
+    name : labelName,
+    color : labelColor,
   };
 
   let label = new Label(labelDoc);
@@ -78,7 +73,7 @@ function saveLabel(tmpl, context) {
 }
 
 Template.meetingSeriesEditLabels.events({
-  "click .evt-btn-edit-label": function (evt, tmpl) {
+  "click .evt-btn-edit-label" : function(evt, tmpl) {
     evt.preventDefault();
     let labelId = this._id;
     let row = tmpl.$(`#row-label-${labelId}`);
@@ -87,7 +82,7 @@ Template.meetingSeriesEditLabels.events({
     row.find("[name='labelName']").focus();
   },
 
-  "click .evt-btn-edit-cancel": function (evt, tmpl) {
+  "click .evt-btn-edit-cancel" : function(evt, tmpl) {
     evt.preventDefault();
     let labelId = this._id;
     let row = tmpl.$(`#row-label-${labelId}`);
@@ -105,7 +100,7 @@ Template.meetingSeriesEditLabels.events({
     row.find(".view-edit").hide();
   },
 
-  "submit .label-form": function (evt, tmpl) {
+  "submit .label-form" : function(evt, tmpl) {
     evt.preventDefault();
     saveLabel(tmpl, this);
   },
@@ -120,12 +115,12 @@ Template.meetingSeriesEditLabels.events({
     }
   },
 
-  "click .evt-btn-edit-save": function (evt, tmpl) {
+  "click .evt-btn-edit-save" : function(evt, tmpl) {
     evt.preventDefault();
     submitLabelForm(tmpl, this);
   },
 
-  "click .evt-btn-delete-label": function (evt, tmpl) {
+  "click .evt-btn-delete-label" : function(evt, tmpl) {
     evt.preventDefault();
     let labelId = this._id;
     let aSeries = new MeetingSeries(tmpl.data.meetingSeriesId);
@@ -133,11 +128,11 @@ Template.meetingSeriesEditLabels.events({
     aSeries.save();
   },
 
-  "click .evt-btn-add-label": function (evt, tmpl) {
+  "click .evt-btn-add-label" : function(evt, tmpl) {
     evt.preventDefault();
     let labelDoc = {
-      name: i18n.__("MeetingSeries.Labels.new"),
-      color: "#cccccc",
+      name : i18n.__("MeetingSeries.Labels.new"),
+      color : "#cccccc",
     };
 
     let label = new Label(labelDoc);

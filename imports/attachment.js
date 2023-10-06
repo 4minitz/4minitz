@@ -1,8 +1,8 @@
-import { _ } from "meteor/underscore";
-import { UserRoles } from "./userroles";
-import { Minutes } from "./minutes";
+import {_} from "meteor/underscore";
 
-import { AttachmentsCollection } from "./collections/attachments_private";
+import {AttachmentsCollection} from "./collections/attachments_private";
+import {Minutes} from "./minutes";
+import {UserRoles} from "./userroles";
 
 export class Attachment {
   constructor(attachmentID) {
@@ -13,76 +13,68 @@ export class Attachment {
     this._file = AttachmentsCollection.findOne(attachmentID);
     if (!this._file) {
       throw new Error(
-        `Attachment(): Could not retrieve attachment for ID ${attachmentID}`,
+          `Attachment(): Could not retrieve attachment for ID ${attachmentID}`,
       );
     }
   }
 
   // ********** static methods ****************
   static findForMinutes(minID) {
-    return AttachmentsCollection.find({ "meta.meetingminutes_id": minID });
+    return AttachmentsCollection.find({"meta.meetingminutes_id" : minID});
   }
 
-  static countAll() {
-    return AttachmentsCollection.find().count();
-  }
+  static countAll() { return AttachmentsCollection.find().count(); }
 
   static countForMinutes(minID) {
     return Attachment.findForMinutes(minID).count();
   }
 
   static countAllBytes() {
-    let atts = AttachmentsCollection.find({}, { size: 1 });
+    let atts = AttachmentsCollection.find({}, {size : 1});
     let sumBytes = 0;
-    atts.forEach((att) => {
-      sumBytes += att.size;
-    });
+    atts.forEach((att) => { sumBytes += att.size; });
     return sumBytes;
   }
 
   static uploadFile(uploadFilename, minutesObj, callbacks = {}) {
     let doNothing = () => {};
     callbacks = _.extend(
-      {
-        onStart: doNothing,
-        onEnd: doNothing,
-        onAbort: doNothing,
-      },
-      callbacks,
+        {
+          onStart : doNothing,
+          onEnd : doNothing,
+          onAbort : doNothing,
+        },
+        callbacks,
     );
 
     let upload = AttachmentsCollection.insert(
-      {
-        file: uploadFilename,
-        streams: "dynamic",
-        chunkSize: "dynamic",
-        meta: {
-          meetingminutes_id: minutesObj._id,
-          parentseries_id: minutesObj.parentMeetingSeriesID(),
+        {
+          file : uploadFilename,
+          streams : "dynamic",
+          chunkSize : "dynamic",
+          meta : {
+            meetingminutes_id : minutesObj._id,
+            parentseries_id : minutesObj.parentMeetingSeriesID(),
+          },
         },
-      },
-      false,
+        false,
     );
 
-    upload.on("start", function () {
+    upload.on("start", function() {
       callbacks.onStart(this); // this == current upload object
     });
-    upload.on("end", function (error, fileObj) {
-      callbacks.onEnd(error, fileObj);
-    });
-    upload.on("abort", function (error, fileObj) {
-      callbacks.onAbort(error, fileObj);
-    });
+    upload.on("end",
+              function(error, fileObj) { callbacks.onEnd(error, fileObj); });
+    upload.on("abort",
+              function(error, fileObj) { callbacks.onAbort(error, fileObj); });
 
     upload.start();
   }
 
   // ********** object methods ****************
   isUploaderAndFileOwner() {
-    return (
-      this._roles.isUploaderFor(this._file.meta.parentseries_id) &&
-      this._roles.getUserID() === this._file.userId
-    );
+    return (this._roles.isUploaderFor(this._file.meta.parentseries_id) &&
+            this._roles.getUserID() === this._file.userId);
   }
 
   isModerator() {
