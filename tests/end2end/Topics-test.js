@@ -8,7 +8,7 @@ import { E2ETopics } from './helpers/E2ETopics';
 describe('Topics', function () {
     const aProjectName = "E2E Topics";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     before("reload page and reset app", function () {
@@ -66,13 +66,13 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.deleteTopic(1);
 
-        let selectorDialog = "#confirmDialog";
+        const selectorDialog = "#confirmDialog";
 
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
 
-        let dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
-        let dialogContentText = browser.elementIdText(dialogContentElement).value;
+        const dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
+        const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
         expect(dialogContentText, 'dialog content should display the title of the to-be-deleted object').to.have.string('some topic');
 
@@ -105,8 +105,8 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutes('yet another topic');
 
         const topics = E2ETopics.getTopicsForMinute();
-        let elementId = topics[0].ELEMENT;
-        let visibleText = browser.elementIdText(elementId).value;
+        const elementId = topics[0].ELEMENT;
+        const visibleText = browser.elementIdText(elementId).value;
 
         expect(visibleText).to.have.string('yet another topic');
     });
@@ -119,8 +119,8 @@ describe('Topics', function () {
         browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         const topics = E2ETopics.getTopicsForMinute();
-        let elementId = topics[0].ELEMENT;
-        let visibleText = browser.elementIdText(elementId).value;
+        const elementId = topics[0].ELEMENT;
+        const visibleText = browser.elementIdText(elementId).value;
 
         expect(visibleText).to.have.string('yet another topic');
     });
@@ -138,8 +138,8 @@ describe('Topics', function () {
         browser.buttonUp();
 
         const topics = E2ETopics.getTopicsForMinute();
-        let elementId = topics[0].ELEMENT;
-        let visibleText = browser.elementIdText(elementId).value;
+        const elementId = topics[0].ELEMENT;
+        const visibleText = browser.elementIdText(elementId).value;
 
         expect(visibleText).to.have.string('some topic');
     });
@@ -156,15 +156,15 @@ describe('Topics', function () {
         E2EGlobal.waitSomeTime();
 
         const topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
-        let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
-        let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
+        const firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
+        const visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
         browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         const topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
-        let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
-        let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
+        const firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
+        const visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
         expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
     });
 
@@ -176,15 +176,15 @@ describe('Topics', function () {
         E2EMinutes.finalizeCurrentMinutes();
 
         const topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
-        let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
-        let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
+        const firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
+        const visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
         browser.dragAndDrop('#topicPanel .well:nth-child(3)', '#topicPanel .well:nth-child(1)');
 
         const topicsAfterSortAttempt = E2ETopics.getTopicsForMinute();
-        let firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
-        let visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
+        const firstElementAfterSortAttempt = topicsAfterSortAttempt[0].ELEMENT;
+        const visibleTextAfterSortAttempt = browser.elementIdText(firstElementAfterSortAttempt).value;
         expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
     });
 
@@ -197,12 +197,12 @@ describe('Topics', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
-        let currentUser = E2EApp.getCurrentUser();
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const currentUser = E2EApp.getCurrentUser();
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
-        let selector = "select.user-role-select";
-        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        const selector = "select.user-role-select";
+        const usrRoleOption = browser.selectByValue(selector, "Invited");
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
@@ -211,8 +211,8 @@ describe('Topics', function () {
 
         E2EMinutes.gotoLatestMinutes();
         const topicsBeforeSortAttempt = E2ETopics.getTopicsForMinute();
-        let firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
-        let visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
+        const firstElementBeforeSortAttempt = topicsBeforeSortAttempt[0].ELEMENT;
+        const visibleTextBeforeSortAttempt = browser.elementIdText(firstElementBeforeSortAttempt).value;
         expect(visibleTextBeforeSortAttempt).to.have.string('yet another topic');
 
         expect(browser.isExisting('#topicPanel .well:nth-child(3) .topicDragDropHandle')).to.be.false;
@@ -234,16 +234,16 @@ describe('Topics', function () {
         browser.buttonUp();
 
         const topicsBeforeReload = E2ETopics.getTopicsForMinute();
-        let firstElementBeforeReload = topicsBeforeReload[0].ELEMENT;
-        let visibleTextBeforeReload = browser.elementIdText(firstElementBeforeReload).value;
+        const firstElementBeforeReload = topicsBeforeReload[0].ELEMENT;
+        const visibleTextBeforeReload = browser.elementIdText(firstElementBeforeReload).value;
         expect(visibleTextBeforeReload).to.have.string('some topic');
 
         browser.refresh();
         E2EGlobal.waitSomeTime(2500); // phantom.js needs some time here...
 
         const topicsAfterReload = E2ETopics.getTopicsForMinute();
-        let firstElementAfterReload = topicsAfterReload[0].ELEMENT;
-        let visibleTextAfterReload = browser.elementIdText(firstElementAfterReload).value;
+        const firstElementAfterReload = topicsAfterReload[0].ELEMENT;
+        const visibleTextAfterReload = browser.elementIdText(firstElementAfterReload).value;
         expect(visibleTextAfterReload).to.have.string('some topic');
     });
 
@@ -262,8 +262,8 @@ describe('Topics', function () {
         infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(1);
 
-        let firstVisibleInfoitemId = infoitems[0].ELEMENT;
-        let firstVisibleInfoItemText = browser.elementIdText(firstVisibleInfoitemId).value;
+        const firstVisibleInfoitemId = infoitems[0].ELEMENT;
+        const firstVisibleInfoItemText = browser.elementIdText(firstVisibleInfoitemId).value;
         expect(firstVisibleInfoItemText).to.have.string("InfoItem#1");
     });
 
@@ -276,7 +276,7 @@ describe('Topics', function () {
         // collapse & re-expand top-most topic
         E2EGlobal.clickWithRetry('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
         E2EGlobal.clickWithRetry('#topicPanel .well:nth-child(1) #btnTopicExpandCollapse');
-        let infoitems = browser.elements(".infoitem").value;
+        const infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(2);
     });
 
@@ -289,7 +289,7 @@ describe('Topics', function () {
 
         // collapse & re-expand top-most topic
         E2EGlobal.clickWithRetry('#btnCollapseAll');
-        let infoitems = browser.elements(".infoitem").value;
+        const infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(0);
     });
 
@@ -303,7 +303,7 @@ describe('Topics', function () {
         // collapse & re-expand top-most topic
         E2EGlobal.clickWithRetry('#btnCollapseAll');
         E2EGlobal.clickWithRetry('#btnExpandAll');
-        let infoitems = browser.elements(".infoitem").value;
+        const infoitems = browser.elements(".infoitem").value;
         expect(infoitems.length).to.be.equal(2);
     });
 
@@ -387,8 +387,8 @@ describe('Topics', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
         const topicsOfNewMinute = E2ETopics.getTopicsForMinute();
-        let firstElement = topicsOfNewMinute[0].ELEMENT;
-        let visibleText = browser.elementIdText(firstElement).value;
+        const firstElement = topicsOfNewMinute[0].ELEMENT;
+        const visibleText = browser.elementIdText(firstElement).value;
         expect(visibleText).to.have.string(myTopicSubject);
     });
 
@@ -417,10 +417,10 @@ describe('Topics', function () {
     it('should not be possible to insert a new topics to a meeting minutes which has the same id as an existing one ' +
         '- even not by using the meteor method directly', function() {
         const url = browser.getUrl();
-        let parts = url.split('/');
-        let minutesId = parts[parts.length - 1];
+        const parts = url.split('/');
+        const minutesId = parts[parts.length - 1];
 
-        let topic = {
+        const topic = {
             _id: 'nCNm3FCx4hRmp2SDQ',
             subject: 'duplicate me',
             isOpen:false,
@@ -430,8 +430,8 @@ describe('Topics', function () {
             infoItems: [],
             labels: []
         };
-        let aUser = E2EGlobal.SETTINGS.e2eTestUsers[0];
-        let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
+        const aUser = E2EGlobal.SETTINGS.e2eTestUsers[0];
+        const aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
         server.call('login', {user: {username: aUser}, password: aPassword});
 
         server.call('minutes.addTopic', minutesId, topic);
@@ -457,7 +457,7 @@ describe('Topics', function () {
     });
 
     it('add label to topic via selection field', function() {
-        let labelName = 'testLabel';
+        const labelName = 'testLabel';
         E2ETopics.addTopicWithLabelToMinutes('topic', labelName);
         E2EGlobal.waitSomeTime(500);
 
@@ -466,7 +466,7 @@ describe('Topics', function () {
     });
 
     it('add label to topic via textbox', function() {
-        let labelName = 'testLabel';
+        const labelName = 'testLabel';
         E2ETopics.addTopicToMinutes('topic #' + labelName);
         E2EGlobal.waitSomeTime(500);
 
@@ -487,7 +487,7 @@ describe('Topics', function () {
     });
 
     it('add label to topic and check if topic is displayed in topic tab of meeting series', function() {
-        let labelName = 'testLabel';
+        const labelName = 'testLabel';
         E2ETopics.addTopicToMinutes('topic #' + labelName);
         E2EGlobal.waitSomeTime(500);
 
@@ -534,7 +534,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutesAtEnd(testTopicName + " @" + responsibleName);
         E2EGlobal.waitSomeTime(500);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
+        const topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
@@ -549,7 +549,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutesAtEnd(testTopicName + " @" + responsibleName1 + " @" + responsibleName2);
         E2EGlobal.waitSomeTime(500);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
+        const topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
@@ -564,7 +564,7 @@ describe('Topics', function () {
         E2ETopics.addTopicToMinutesAtEnd(testTopicName + " #" + labelName + " @" + responsibleName);
         E2EGlobal.waitSomeTime(500);
 
-        let topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
+        const topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);

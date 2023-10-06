@@ -15,7 +15,7 @@ export class TemplateRenderer {
 
     let tmplString;
     if (loadTmplFromAssets) {
-      let templatePath = templatePathPrefix
+      const templatePath = templatePathPrefix
         ? `${templatePathPrefix}/${template}.html`
         : `${template}.html`;
       //  Assets cannot be imported!

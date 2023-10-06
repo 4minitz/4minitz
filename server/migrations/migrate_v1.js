@@ -7,7 +7,7 @@ import {
 
 export class MigrateV1 {
   static up() {
-    let topicModifier = (topic) => {
+    const topicModifier = (topic) => {
       delete topic.priority;
       delete topic.duedate;
       delete topic.details;
@@ -21,8 +21,8 @@ export class MigrateV1 {
   }
 
   static down() {
-    let topicModifier = (topic, minute) => {
-      let date = minute ? new Date(minute.date) : new Date();
+    const topicModifier = (topic, minute) => {
+      const date = minute ? new Date(minute.date) : new Date();
 
       topic.priority = "";
       topic.duedate = currentDatePlusDeltaDays(7, date);
@@ -43,8 +43,8 @@ export class MigrateV1 {
         minute.topics.forEach((topic, index) => {
           topic = modifyTopic(topic, minute);
 
-          let sel = `topics.${index}`;
-          let setNewTopic = {};
+          const sel = `topics.${index}`;
+          const setNewTopic = {};
           setNewTopic[sel] = topic;
           MinutesSchema.getCollection().update(minute._id, {
             $set: setNewTopic,
@@ -57,12 +57,12 @@ export class MigrateV1 {
     MeetingSeriesSchema.getCollection()
       .find()
       .forEach((series) => {
-        let iterateTopics = (propertyName) => {
+        const iterateTopics = (propertyName) => {
           return (topic, index) => {
             topic = modifyTopic(topic);
 
-            let sel = `${propertyName}.${index}`;
-            let setNewTopic = {};
+            const sel = `${propertyName}.${index}`;
+            const setNewTopic = {};
             setNewTopic[sel] = topic;
             MeetingSeriesSchema.getCollection().update(series._id, {
               $set: setNewTopic,

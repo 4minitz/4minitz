@@ -27,7 +27,7 @@ const isFeatureShowItemInputFieldOnDemandEnabled = () => {
 };
 
 Template.topicElement.onCreated(function () {
-  let tmplData = Template.instance().data;
+  const tmplData = Template.instance().data;
   _minutesId = tmplData.minutesID;
 
   this.isItemsLimited = new ReactiveVar(
@@ -56,7 +56,7 @@ Template.topicElement.helpers({
   },
 
   getLabels: function () {
-    let tmplData = Template.instance().data;
+    const tmplData = Template.instance().data;
     return LabelResolver.resolveLabels(
       this.topic.labels,
       tmplData.parentMeetingSeriesId,
@@ -81,7 +81,7 @@ Template.topicElement.helpers({
 
   // determine if this topic shall be rendered collapsed
   isCollapsed() {
-    let collapseState = Session.get(`minutesedit.collapsetopics.${_minutesId}`);
+    const collapseState = Session.get(`minutesedit.collapsetopics.${_minutesId}`);
     return collapseState ? collapseState[this.topic._id] : false;
   },
 
@@ -227,9 +227,9 @@ Template.topicElement.events({
       `Delete topics: ${this.topic._id} from minutes ${this.minutesID}`,
     );
 
-    let aMin = new Minutes(this.minutesID);
+    const aMin = new Minutes(this.minutesID);
 
-    let topic = new Topic(this.minutesID, this.topic);
+    const topic = new Topic(this.minutesID, this.topic);
     const deleteAllowed = topic.isDeleteAllowed();
 
     if (!topic.isFinallyCompleted() || deleteAllowed) {
@@ -399,7 +399,7 @@ Template.topicElement.events({
 
   "click #btnReopenTopic"(evt) {
     evt.preventDefault();
-    let reopenTopic = () => {
+    const reopenTopic = () => {
       Meteor.call(
         "workflow.reopenTopicFromMeetingSeries",
         this.parentMeetingSeriesId,

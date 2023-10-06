@@ -8,14 +8,14 @@ module.exports = {
                 parameterCollector.push(arguments);
             }
 
-            let callback = arguments[positionOfCallback];
+            const callback = arguments[positionOfCallback];
             callback(null, dataToReturn);
         };
     },
 
     returnsError(positionOfCallback, error) {
         return function () {
-            let callback = arguments[positionOfCallback];
+            const callback = arguments[positionOfCallback];
             callback(error, null);
         };
     }

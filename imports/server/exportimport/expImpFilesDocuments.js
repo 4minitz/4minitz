@@ -51,7 +51,7 @@ class ExpImpFilesDocuments {
       }
 
       // Replace old user IDs with new users IDs
-      let protcolsIDs = [];
+      const protcolsIDs = [];
       for (let p = 0; p < AllProtocolsDoc.length; p++) {
         protcolsIDs.push(AllProtocolsDoc[p]._id);
         AllProtocolsDoc[p] = ExpImpFilesDocuments.patchUsers(

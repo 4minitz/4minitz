@@ -42,7 +42,7 @@ Template.home.helpers({
     },
 
     tab: function() {
-        let meetingSeriesTab = Session.get('gotoMeetingSeriesTab');
+        const meetingSeriesTab = Session.get('gotoMeetingSeriesTab');
         if(meetingSeriesTab) {
             Template.instance().activeTabId.set('tab_meetings');
             Template.instance().activeTabTemplate.set('meetingSeriesList');
@@ -56,7 +56,7 @@ Template.home.helpers({
 
 Template.home.events({
     'click .nav-tabs li': function(event, tmpl) {
-        let currentTab = $(event.target).closest('li');
+        const currentTab = $(event.target).closest('li');
 
         tmpl.activeTabId.set(currentTab.attr('id'));
         tmpl.activeTabTemplate.set(currentTab.data('template'));

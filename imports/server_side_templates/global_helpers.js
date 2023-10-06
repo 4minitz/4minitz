@@ -1,7 +1,7 @@
 import { Markdown } from "meteor/perak:markdown";
 import { Spacebars } from "meteor/spacebars";
 
-export let GlobalHelpers = {
+export const GlobalHelpers = {
   markdown2html: function (text = "") {
     text = text.toString();
 
@@ -24,14 +24,14 @@ export let GlobalHelpers = {
   },
 
   doctype: function () {
-    let dt =
+    const dt =
       '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
     return Spacebars.SafeString(dt);
   },
 
   style: function (filename) {
     //  Assets cannot be imported!
-    let style = Assets.getText(filename); // eslint-disable-line
+    const style = Assets.getText(filename); // eslint-disable-line
     return Spacebars.SafeString(`<style>${style}</style>`);
   },
 };

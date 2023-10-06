@@ -8,7 +8,7 @@ export const formatDateISO8601Time = (aDate, timeZoneCorrection = true) => {
     let isoString = '';
 
     try {
-        let tzoffset = timeZoneCorrection ? aDate.getTimezoneOffset() * 60000  :  0; //offset in milliseconds
+        const tzoffset = timeZoneCorrection ? aDate.getTimezoneOffset() * 60000  :  0; //offset in milliseconds
         isoString = (new Date(aDate - tzoffset)).toISOString().substr(0,19).replace('T',' ');   // YYYY-MM-DD hh:mm:ss
     } catch (e) {
         isoString = 'NaN-NaN-NaN 00:00:00';
@@ -18,7 +18,7 @@ export const formatDateISO8601Time = (aDate, timeZoneCorrection = true) => {
 
 // removes leading "00:" if there are no hours
 export const msToHHMMSS = ms => {
-    let date = new Date (ms);
+    const date = new Date (ms);
     let timeString =  formatDateISO8601Time(date, false).slice(-8);
     timeString = timeString.replace(/^00:/, '');
     return timeString;
@@ -45,6 +45,6 @@ export const currentDatePlusDeltaDays = (deltaDays, currentDate) => {
 
 export const extractDateFromString = (string) => {
     const regEx = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/g;
-    let match = regEx.exec(string);
+    const match = regEx.exec(string);
     return (match !== null) ? match[0] : false;
 };

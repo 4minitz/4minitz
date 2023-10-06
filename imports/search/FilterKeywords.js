@@ -1,14 +1,14 @@
 import { _ } from "lodash";
 
-let isKeyword = function (token) {
+const isKeyword = function (token) {
   if (this.USER && token.startsWith(this.USER.key)) {
     return true;
   }
-  let arr = token.split(":");
+  const arr = token.split(":");
   return arr.length === 2 && this.isAllowedValueForKey(arr[0], arr[1]);
 };
 
-let getKeyWordFromToken = function (token, queryUserIdByName) {
+const getKeyWordFromToken = function (token, queryUserIdByName) {
   let key, value, ids;
   ids = [];
   if (this.USER && token.startsWith(this.USER.key)) {
@@ -21,7 +21,7 @@ let getKeyWordFromToken = function (token, queryUserIdByName) {
       }
     }
   } else {
-    let arr = token.split(":");
+    const arr = token.split(":");
     key = arr[0];
     value = arr[1];
   }
@@ -32,10 +32,10 @@ let getKeyWordFromToken = function (token, queryUserIdByName) {
   };
 };
 
-let isAllowedValueForKey = function (key, value) {
+const isAllowedValueForKey = function (key, value) {
   key = key.toUpperCase();
   if (Object.prototype.hasOwnProperty.call(this, key)) {
-    let values = this[key].values;
+    const values = this[key].values;
     return values === "*" || _.includes(values, value);
   }
   return false;

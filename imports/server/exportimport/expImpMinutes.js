@@ -1,6 +1,6 @@
 const fs = require("fs");
 const EJSON = require("bson");
-let ExpImpTopics = require("./expImpTopics");
+const ExpImpTopics = require("./expImpTopics");
 
 class ExpImpMinutes {
   static get FILENAME_POSTFIX() {
@@ -101,7 +101,7 @@ class ExpImpMinutes {
   }
 
   static patchUsers(minDoc, usrMap) {
-    let minIDs = [];
+    const minIDs = [];
     for (let m = 0; m < minDoc.length; m++) {
       // iterate all minutes
       minIDs.push(minDoc[m]._id);

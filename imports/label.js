@@ -17,7 +17,7 @@ export class Label {
       color: "#e6e6e6",
     });
 
-    let nameAndColor = Label._separateNameAndColor(source.name);
+    const nameAndColor = Label._separateNameAndColor(source.name);
     if (typeof nameAndColor !== "string") {
       source.name = nameAndColor.name;
       source.color = nameAndColor.color;
@@ -29,7 +29,7 @@ export class Label {
   }
 
   static _separateNameAndColor(nameAndColorStr) {
-    let nameAndColor = nameAndColorStr.match(
+    const nameAndColor = nameAndColorStr.match(
       /(.*)(#([a-f\d][a-f\d][a-f\d]){1,2})$/,
     );
     if (nameAndColor && nameAndColor.length > 2) {
@@ -45,20 +45,20 @@ export class Label {
   static createLabelById(parentMeetingSeries, labelId) {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
-    let labelDoc = parentMeetingSeries.findLabel(labelId);
+    const labelDoc = parentMeetingSeries.findLabel(labelId);
     if (labelDoc) return new Label(labelDoc);
     return null;
   }
 
   static createLabelByName(parentMeetingSeries, labelName) {
-    let nameAndColor = Label._separateNameAndColor(labelName);
+    const nameAndColor = Label._separateNameAndColor(labelName);
     if (typeof nameAndColor !== "string") {
       labelName = nameAndColor.name;
     }
 
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
-    let labelDoc = parentMeetingSeries.findLabelByName(labelName);
+    const labelDoc = parentMeetingSeries.findLabelByName(labelName);
     if (labelDoc) return new Label(labelDoc);
     return null;
   }
@@ -66,11 +66,11 @@ export class Label {
   static findLabelsContainingSubstring(
     parentMeetingSeries,
     name,
-    caseSensitive,
+    caseSensitive
   ) {
     parentMeetingSeries = Label._createParentMeetingSeries(parentMeetingSeries);
 
-    let labelDoc = parentMeetingSeries.findLabelContainingSubstr(
+    const labelDoc = parentMeetingSeries.findLabelContainingSubstr(
       name,
       caseSensitive,
     );

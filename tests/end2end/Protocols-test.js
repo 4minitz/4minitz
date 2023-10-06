@@ -10,7 +10,7 @@ describe('Protocols', function () {
     let _meetingCounter = 0;
     let _lastMinutesID;
     let _lastMeetingName;
-    let getNewMeetingName = () => {
+    const getNewMeetingName = () => {
         _meetingCounter++;
         return _meetingNameBase + _meetingCounter;
     };
@@ -38,7 +38,7 @@ describe('Protocols', function () {
     it('No Protocol is created on finalizing Minutes if feature is disabled', function () {
         E2EProtocols.setSettingsForProtocolGeneration(); //Disable document generation
 
-        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
+        const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
         E2EMinutes.finalizeCurrentMinutes();
 
         expect(browser.isExisting('#btn_unfinalizeMinutes'),'Minute has been finalized').to.be.true;
@@ -49,7 +49,7 @@ describe('Protocols', function () {
     it('HTML Protocol is created on finalizing Minutes', function () {
         E2EProtocols.setSettingsForProtocolGeneration('html');
 
-        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
+        const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
         E2EMinutes.finalizeCurrentMinutes();
 
         expect(browser.isExisting('#btn_unfinalizeMinutes'),'Minute has been finalized').to.be.true;
@@ -63,7 +63,7 @@ describe('Protocols', function () {
         E2EMinutes.finalizeCurrentMinutes();
         expect(browser.isExisting('#btn_unfinalizeMinutes'),'Minute has been finalized').to.be.true;
 
-        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
+        const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
         expect(numberOfProtocolsBefore > 0, 'A Protocol has been saved in database').to.be.true;
         expect(E2EProtocols.checkProtocolFileForMinuteExits(_lastMinutesID), 'A Protocol has been saved on file system').to.be.true;
 
@@ -91,7 +91,7 @@ describe('Protocols', function () {
     xit('Trying to download a non-existent protocol shows a confirmation dialog to download on-the-fly version', function () {
         E2EProtocols.setSettingsForProtocolGeneration(); //Deactivate protocol generation
 
-        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
+        const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
         E2EMinutes.finalizeCurrentMinutes();
         expect(E2EProtocols.countProtocolsInMongoDB(), 'No protocol has been created').to.equal(numberOfProtocolsBefore);
 
@@ -108,7 +108,7 @@ describe('Protocols', function () {
         console.log("checkpoint-1");
         E2EProtocols.setSettingsForProtocolGeneration('html');
         console.log("checkpoint-2");
-        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
+        const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
         console.log("checkpoint-3");
 
         E2EMinutes.finalizeCurrentMinutes();
@@ -125,7 +125,7 @@ describe('Protocols', function () {
 
     it('Trying to download an protocol with an direct link should work with proper permissions', function () {
         E2EProtocols.setSettingsForProtocolGeneration('html');
-        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
+        const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
         E2EMinutes.finalizeCurrentMinutes();
         E2EGlobal.waitSomeTime(750);
@@ -142,7 +142,7 @@ describe('Protocols', function () {
 
     it('Trying to download an protocol with an direct link should not work when logged out', function () {
         E2EProtocols.setSettingsForProtocolGeneration('html');
-        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
+        const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
         E2EMinutes.finalizeCurrentMinutes();
         E2EGlobal.waitSomeTime(750);
@@ -160,7 +160,7 @@ describe('Protocols', function () {
 
     it('Trying to download an protocol with an direct link should not work when loggin in but no permissions', function () {
         E2EProtocols.setSettingsForProtocolGeneration('html');
-        let numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
+        const numberOfProtocolsBefore = E2EProtocols.countProtocolsInMongoDB();
 
         E2EMinutes.finalizeCurrentMinutes();
         E2EGlobal.waitSomeTime(750);

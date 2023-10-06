@@ -7,7 +7,7 @@ import { E2EMinutes } from './helpers/E2EMinutes'
 describe('Routing', function () {
     const aProjectName = "E2E Topics";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     before("reload page and reset app", function () {
@@ -43,9 +43,9 @@ describe('Routing', function () {
 
         E2EApp.loginUser(0, false);
 
-        let selector = 'h2.header';
-        let header = browser.element(selector).value.ELEMENT;
-        let headerText = browser.elementIdText(header).value;
+        const selector = 'h2.header';
+        const header = browser.element(selector).value.ELEMENT;
+        const headerText = browser.elementIdText(header).value;
         expect(headerText).to.have.string("Meeting Series: " + aProjectName);
     });
 
@@ -60,9 +60,9 @@ describe('Routing', function () {
 
         E2EApp.loginUser(0, false);
 
-        let selector = 'h2.header';
-        let header = browser.element(selector).value.ELEMENT;
-        let headerText = browser.elementIdText(header).value;
+        const selector = 'h2.header';
+        const header = browser.element(selector).value.ELEMENT;
+        const headerText = browser.elementIdText(header).value;
         expect(headerText).to.have.string("Minutes for " + aProjectName);
     });
 

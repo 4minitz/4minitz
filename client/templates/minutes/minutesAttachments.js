@@ -13,8 +13,8 @@ import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFacto
 
 let _minutesID; // the ID of these minutes
 
-let isModerator = function () {
-  let aMin = new Minutes(_minutesID);
+const isModerator = function () {
+  const aMin = new Minutes(_minutesID);
   return aMin?.isCurrentUserModerator();
 };
 
@@ -45,7 +45,7 @@ Template.minutesAttachments.helpers({
   },
 
   isAttachmentsExpanded() {
-    let min = new Minutes(_minutesID);
+    const min = new Minutes(_minutesID);
     if (min.isFinalized && Attachment.countForMinutes(_minutesID) === 0) {
       return false;
     }
@@ -71,18 +71,18 @@ Template.minutesAttachments.helpers({
   },
 
   showUploadButton() {
-    let min = new Minutes(_minutesID);
-    let ur = new UserRoles();
+    const min = new Minutes(_minutesID);
+    const ur = new UserRoles();
     return Boolean(
       !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID()),
     );
   },
 
   showAttachmentRemoveButton() {
-    let file = this.fetch()[0]; // this is an attachment cursor in this context,
+    const file = this.fetch()[0]; // this is an attachment cursor in this context,
     // so get "first" object of array
     try {
-      let attachment = new Attachment(file._id);
+      const attachment = new Attachment(file._id);
       return attachment.mayRemove();
     } catch (err) {
       // when attachment is in the process of being removed
@@ -117,14 +117,14 @@ Template.minutesAttachments.helpers({
   },
 
   uploaderUsername() {
-    let file = this.fetch()[0]; // this is an attachment cursor in this context,
+    const file = this.fetch()[0]; // this is an attachment cursor in this context,
     // so get "first" object of array
-    let usr = new User(file.userId);
+    const usr = new User(file.userId);
     return usr.profileNameWithFallback();
   },
 
   uploadTimestamp() {
-    let file = this.fetch()[0]; // this is an attachment cursor in this context,
+    const file = this.fetch()[0]; // this is an attachment cursor in this context,
     // so get "first" object of array
     return formatDateISO8601Time(file.meta.timestamp);
   },
@@ -137,7 +137,7 @@ Template.minutesAttachments.events({
       // multiple files were selected
       const uploadFilename = e.currentTarget.files[0];
       console.log(`Uploading... ${uploadFilename}`);
-      let minObj = new Minutes(_minutesID);
+      const minObj = new Minutes(_minutesID);
       Attachment.uploadFile(uploadFilename, minObj, {
         onStart: (fileUploadObj) => {
           template.currentUpload.set(fileUploadObj);

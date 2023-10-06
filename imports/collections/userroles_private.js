@@ -24,7 +24,7 @@ if (Meteor.isServer) {
 
     console.log("*** Admin IDs:");
     adminIDs.forEach((id) => {
-      let user = Meteor.users.findOne(id);
+      const user = Meteor.users.findOne(id);
       if (user) {
         console.log(`    ${user._id}: ${user.username}`);
       } else {
@@ -34,7 +34,7 @@ if (Meteor.isServer) {
   }
 
   // #Security: intentionally suppress email addresses of all other users!
-  let publishFields = {
+  const publishFields = {
     username: 1,
     "profile.locale": 1,
     roles: 1,
@@ -65,7 +65,7 @@ if (Meteor.isServer) {
   // #Security: Publish all user fields only to admin user
   Meteor.publish("userAdmin", function () {
     if (this.userId) {
-      let usr = Meteor.users.findOne(this.userId);
+      const usr = Meteor.users.findOne(this.userId);
       if (usr.isAdmin) {
         return Meteor.users.find({});
       }
@@ -105,13 +105,13 @@ Meteor.methods({
     const allowedRoles = Object.keys(UserRoles.USERROLES).map(
       (key) => UserRoles.USERROLES[key],
     );
-    let newRoleString = newRole[0];
+    const newRoleString = newRole[0];
     if (allowedRoles.indexOf(newRoleString) === -1) {
       throw new Meteor.Error(`Unknown role value: ${newRole}`);
     }
 
     // #Security: Ensure user is moderator of affected meeting series
-    let userRoles = new UserRoles(Meteor.userId());
+    const userRoles = new UserRoles(Meteor.userId());
     if (userRoles.isModeratorOf(meetingSeriesId)) {
       Roles.removeUsersFromRoles(
         otherUserId,
@@ -143,7 +143,7 @@ Meteor.methods({
     }
 
     // #Security: Ensure user is moderator of affected meeting series
-    let userRoles = new UserRoles(Meteor.userId());
+    const userRoles = new UserRoles(Meteor.userId());
     if (userRoles.isModeratorOf(meetingSeriesId)) {
       Roles.removeUsersFromRoles(
         otherUserId,

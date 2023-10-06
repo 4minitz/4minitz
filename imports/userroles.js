@@ -36,8 +36,8 @@ export class UserRoles {
 
   // **************************** STATIC METHODS
   static allRolesNumerical() {
-    let rolesNum = [];
-    for (let key in UserRoles.USERROLES) {
+    const rolesNum = [];
+    for (const key in UserRoles.USERROLES) {
       rolesNum.push(UserRoles.USERROLES[key]);
     }
     return rolesNum;
@@ -53,7 +53,7 @@ export class UserRoles {
   static role2Text(roleValue) {
     if (!isNaN(parseInt(roleValue))) {
       // numerical '01'
-      for (let userrolesKey in UserRoles.USERROLES) {
+      for (const userrolesKey in UserRoles.USERROLES) {
         if (UserRoles.USERROLES[userrolesKey] === roleValue) {
           roleValue = userrolesKey;
         }
@@ -71,7 +71,7 @@ export class UserRoles {
 
   static removeAllRolesFor(aMeetingSeriesID) {
     const ms = new MeetingSeries(aMeetingSeriesID);
-    let affectedUsers = ms.visibleFor;
+    const affectedUsers = ms.visibleFor;
     if (affectedUsers && affectedUsers.length > 0) {
       Roles.removeUsersFromRoles(
         affectedUsers,
@@ -89,8 +89,8 @@ export class UserRoles {
 
   // generate list of visible meeting series for a specific user
   visibleMeetingSeries() {
-    let visibleMeetingsSeries = [];
-    for (let aMeetingSeriesID in this._userRoles) {
+    const visibleMeetingsSeries = [];
+    for (const aMeetingSeriesID in this._userRoles) {
       if (this.hasViewRoleFor(aMeetingSeriesID)) {
         visibleMeetingsSeries.push(aMeetingSeriesID);
       }

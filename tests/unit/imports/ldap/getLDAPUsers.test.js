@@ -3,12 +3,12 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import asyncStubs from '../../../support/lib/asyncStubs';
 
-let ldap = {
+const ldap = {
     createClient: sinon.stub(),
     '@noCallThru': true
 };
 
-let ldapSearchResponseWithResult = {
+const ldapSearchResponseWithResult = {
     on: (event, callback) => {
         if (event === 'searchEntry') {
             callback({ object: { uid: 'foo' } });
@@ -20,7 +20,7 @@ let ldapSearchResponseWithResult = {
     }
 };
 
-let ldapSearchResponseWithError = {
+const ldapSearchResponseWithError = {
     on: (event, callback) => {
         if (event === 'error') {
             callback('Some error');
@@ -49,7 +49,7 @@ describe('getLDAPUsers', function () {
     });
 
     it('uses ldapjs to connect to ldap and gets users', function (done) {
-        let client = {
+        const client = {
             search: asyncStubs.returns(2, ldapSearchResponseWithResult),
             unbind: asyncStubs.returns(0, {})
         };
@@ -87,7 +87,7 @@ describe('getLDAPUsers', function () {
     });
 
     it('handles ldap search errors properly', function (done) {
-        let client = {
+        const client = {
             search: asyncStubs.returns(2, ldapSearchResponseWithError),
             unbind: asyncStubs.returns(0, {})
         };
@@ -108,7 +108,7 @@ describe('getLDAPUsers', function () {
     });
 
     it('handles ldap search errors properly', function (done) {
-        let client = {
+        const client = {
             search: asyncStubs.returns(2, ldapSearchResponseWithError),
             unbind: asyncStubs.returns(0, {})
         };
@@ -129,7 +129,7 @@ describe('getLDAPUsers', function () {
     });
 
     it('ignores errors during unbind', function (done) {
-        let client = {
+        const client = {
             search: asyncStubs.returns(2, ldapSearchResponseWithResult),
             unbind: asyncStubs.returnsError(0, 'Some error')
         };
@@ -176,7 +176,7 @@ describe('getLDAPUsers', function () {
             };
 
         it('returns user object with isInactive property set to true', function (done) {
-            let client = {
+            const client = {
                 search: asyncStubs.returns(2, ldapSearchResult('no')),
                 unbind: asyncStubs.returnsError(0, 'Some error')
             };
@@ -204,8 +204,8 @@ describe('getLDAPUsers', function () {
                 },
                 whiteListedFields: ['someField']
             });
-            let parameters = [];
-            let client = {
+            const parameters = [];
+            const client = {
                 search: asyncStubs.returns(2, ldapSearchResult('no'), parameters),
                 unbind: asyncStubs.returnsError(0, 'Some error')
             };
@@ -228,7 +228,7 @@ describe('getLDAPUsers', function () {
         });
 
         it('returns user object with isInactive property set to false', function (done) {
-            let client = {
+            const client = {
                 search: asyncStubs.returns(2, ldapSearchResult('yes')),
                 unbind: asyncStubs.returnsError(0, 'Some error')
             };
@@ -257,7 +257,7 @@ describe('getLDAPUsers', function () {
                 }
             };
 
-            let client = {
+            const client = {
                 search: asyncStubs.returns(2, ldapSearchResponseWithResult),
                 unbind: asyncStubs.returnsError(0, 'Some error')
             };
@@ -284,7 +284,7 @@ describe('getLDAPUsers', function () {
                 }
             };
 
-            let client = {
+            const client = {
                 search: asyncStubs.returns(2, ldapSearchResponseWithResult),
                 unbind: asyncStubs.returnsError(0, 'Some error')
             };

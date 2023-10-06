@@ -6,7 +6,7 @@ export class extendedPublishSubscribeHandler {
         if (Meteor.isServer) {
             Meteor.publish(publishName, function (meetingSeriesId, minuteId) {
                 if (meetingSeriesId) {
-                    let userRole = new UserRoles(this.userId);
+                    const userRole = new UserRoles(this.userId);
                     if (userRole.hasViewRoleFor(meetingSeriesId)) {
                         const query = minuteId ? {[minuteAttribute]: minuteId} : {[meetingSeriesAttribute]: meetingSeriesId};
                         return collection.find(query).cursor;

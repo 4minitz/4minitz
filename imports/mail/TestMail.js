@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { Mail } from './Mail';
 
-export let TestMailCollection = new Mongo.Collection('testemails');
+export const TestMailCollection = new Mongo.Collection('testemails');
 
 export class TestMail extends Mail{
 
@@ -10,7 +10,7 @@ export class TestMail extends Mail{
     }
 
     _sendMail() {
-        let config = {
+        const config = {
             to: this._recipients,
             from: this._from,
             replyTo: this._replyTo,

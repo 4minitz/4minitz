@@ -15,8 +15,8 @@ export class MinutesFinder {
             return [];
         }
 
-        let sort = descendingByDate ? -1 : 1;
-        let options = {sort: {date: sort}};
+        const sort = descendingByDate ? -1 : 1;
+        const options = {sort: {date: sort}};
         if (limit) {
             options.limit = limit;
         }
@@ -31,7 +31,7 @@ export class MinutesFinder {
             return false;
         }
 
-        let minutes = this.allMinutesOfMeetingSeries(meetingSeries, limit, descendingByDate);
+        const minutes = this.allMinutesOfMeetingSeries(meetingSeries, limit, descendingByDate);
         if (minutes && minutes.length === limit) {
             return minutes[limit-1];
         }
@@ -50,7 +50,7 @@ export class MinutesFinder {
     }
 
     static lastFinalizedMinutesOfMeetingSeries(meetingSeries) {
-        let lastMinute = this.lastMinutesOfMeetingSeries(meetingSeries);
+        const lastMinute = this.lastMinutesOfMeetingSeries(meetingSeries);
         if(lastMinute.isFinalized)
             return lastMinute;
         else
@@ -68,7 +68,7 @@ export class MinutesFinder {
             neighborPosition = myPosition + offset;
 
         if (neighborPosition > -1 && neighborPosition < parentSeries.minutes.length) {
-            let neighborMinutesId = parentSeries.minutes[neighborPosition];
+            const neighborMinutesId = parentSeries.minutes[neighborPosition];
             return new Minutes(neighborMinutesId);
         }
 

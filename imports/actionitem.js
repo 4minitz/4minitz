@@ -38,7 +38,7 @@ export class ActionItem extends InfoItem {
    */
   getDateFromDetails(index) {
     if (index === undefined) index = 0;
-    let details = this._infoItemDoc.details;
+    const details = this._infoItemDoc.details;
     if (
       details.length > index &&
       Object.prototype.hasOwnProperty.call(details[index], "date")
@@ -57,7 +57,7 @@ export class ActionItem extends InfoItem {
    */
   getTextFromDetails(index) {
     if (index === undefined) index = 0;
-    let details = this._infoItemDoc.details;
+    const details = this._infoItemDoc.details;
     if (
       details &&
       details.length > 0 &&
@@ -102,7 +102,7 @@ export class ActionItem extends InfoItem {
   }
 
   getPriority() {
-    let prio = this._infoItemDoc.priority;
+    const prio = this._infoItemDoc.priority;
     return prio ? new Priority(prio) : "";
   }
 

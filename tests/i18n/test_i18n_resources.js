@@ -16,8 +16,8 @@ const IGNOREKEYS = {
 };
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-let fs = require("fs");
-let yaml = require("js-yaml");
+const fs = require("fs");
+const yaml = require("js-yaml");
 
 const en_yaml = __dirname + "/../../both/i18n/en.i18n.yml";
 let anyErrorExitCodeToShell = 0;
@@ -31,20 +31,20 @@ console.log(
     en_yaml,
 );
 
-let dictKeysFromYaml = {};
+const dictKeysFromYaml = {};
 let dictKeysFromCode = {};
 let count = 0;
 
 // Recursive find files with file extension
 function collectFilesRecursive(dir, extension) {
   let results = [];
-  let list = fs.readdirSync(dir);
+  const list = fs.readdirSync(dir);
   list.forEach(function (file) {
     file = dir + "/" + file;
-    let stat = fs.statSync(file);
+    const stat = fs.statSync(file);
     if (stat?.isDirectory()) {
       /* Recurse into a subdirectory */
-      let aDir = file;
+      const aDir = file;
       if (
         !aDir.endsWith("/node_modules") &&
         !aDir.endsWith("/.deploy") &&
@@ -69,7 +69,7 @@ function collectFilesRecursive(dir, extension) {
 
 // Recursively iterate a JS object build full pathes of keys
 function buildFullPathes(obj, stack, separator = ".") {
-  for (let property in obj) {
+  for (const property in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, property)) {
       if (typeof obj[property] == "object") {
         if (!stack) {
@@ -87,7 +87,7 @@ function buildFullPathes(obj, stack, separator = ".") {
 function checkCodeUsage(extension, keyPattern) {
   dictKeysFromCode = {};
   let localErrorCount = 0;
-  let files_js = collectFilesRecursive(__dirname + "/../..", extension);
+  const files_js = collectFilesRecursive(__dirname + "/../..", extension);
 
   // Find all i18n __ keys used in this file, according to regexp key pattern provided
   files_js.forEach((jsFile) => {

@@ -12,7 +12,7 @@ import { extendedPublishSubscribeHandler } from "./../helpers/extendedPublishSub
 // see https://github.com/VeliovGroup/Meteor-Files/issues/289
 const FORBIDDEN_FILENAME_EXTENSIONS = "html|htm|swf";
 
-export let AttachmentsCollection = new FilesCollection({
+export const AttachmentsCollection = new FilesCollection({
   collectionName: "AttachmentsCollection",
   allowClientCode: false, // Disallow attachments remove() call from clients
   permissions: 0o0600, // #Security: make uploaded files "chmod 600' only
@@ -38,7 +38,7 @@ export let AttachmentsCollection = new FilesCollection({
       return "Upload not allowed. File has no target meeting series.";
     }
     // see if user has the uploader role - or better - for this meeting series
-    let ur = new UserRoles();
+    const ur = new UserRoles();
     if (!ur.isUploaderFor(file.meta.parentseries_id)) {
       const msg =
         "Upload not allowed. User has no upload role for this meeting series.";
@@ -46,7 +46,7 @@ export let AttachmentsCollection = new FilesCollection({
       return msg;
     }
     // check if minutes is finalized
-    let min = new Minutes(file.meta.meetingminutes_id);
+    const min = new Minutes(file.meta.meetingminutes_id);
     if (min.isFinalized) {
       const msg = "Upload not allowed. Minutes are finalized.";
       console.log(msg);
@@ -128,7 +128,7 @@ export let AttachmentsCollection = new FilesCollection({
     }
 
     // see if user has the view role for this meeting series
-    let ur = new UserRoles(this.userId);
+    const ur = new UserRoles(this.userId);
     if (!ur.hasViewRoleFor(file.meta.parentseries_id)) {
       console.log(
         "Attachment download prohibited. User has no view role for meeting series: " +
@@ -160,7 +160,7 @@ Meteor.methods({
         console.log("Attachment removal prohibited. User not logged in.");
         return false;
       }
-      let file = AttachmentsCollection.findOne(attachmentID);
+      const file = AttachmentsCollection.findOne(attachmentID);
       if (!file) {
         console.log(
           "Attachment removal prohibited. Attachment not found in DB.",

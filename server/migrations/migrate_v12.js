@@ -29,7 +29,7 @@ class MigrateSeriesUp {
     run() {
         let minutes = MinutesFinder.firstMinutesOfMeetingSeries(this.series);
         while (minutes) {
-            let prevMinutes = MinutesFinder.previousMinutes(minutes);
+            const prevMinutes = MinutesFinder.previousMinutes(minutes);
             if (prevMinutes){
                 // find topics/items/details that occur in a current minute, but were created in a prev. minute
                 this._updatePreviousCreatedTopicItemDetails(minutes,prevMinutes);
@@ -50,7 +50,7 @@ class MigrateSeriesUp {
 
     _updatePreviousCreatedItemDetails(topic, prevTopics, minutesId){
         if (!prevTopics) return;
-        let prevTopic = prevTopics.find(prevTopic => topic._id === prevTopic._id);
+        const prevTopic = prevTopics.find(prevTopic => topic._id === prevTopic._id);
         if (!prevTopic) return;
         topic.infoItems.forEach(infoItem => {
             this._updatePreviousCreatedDetails(infoItem, prevTopic.infoItems, minutesId);
@@ -59,7 +59,7 @@ class MigrateSeriesUp {
 
     _updatePreviousCreatedDetails(infoItem, prevItems, minutesId){
         if(!prevItems) return;
-        let prevInfoItem = prevItems.find(prevInfoItem => infoItem._id === prevInfoItem._id);
+        const prevInfoItem = prevItems.find(prevInfoItem => infoItem._id === prevInfoItem._id);
         if (!prevInfoItem || !prevInfoItem.details) return;
         forEachDetail(infoItem, detail =>{
             this._compareDetails(detail, prevInfoItem.details, infoItem, minutesId);
@@ -137,7 +137,7 @@ export class MigrateV12 {
 
     static up() {
         console.log('% Progress - updating all topics. This might take several minutes...');
-        let allSeries = MeetingSeriesSchema.getCollection().find();
+        const allSeries = MeetingSeriesSchema.getCollection().find();
         allSeries.forEach(series => {
             (new MigrateSeriesUp(series)).run();
         });

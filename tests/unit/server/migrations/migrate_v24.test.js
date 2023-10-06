@@ -2,10 +2,10 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-let Meteor = {};
+const Meteor = {};
 
-let MinutesSchemaCollection = { update: sinon.spy() };
-let MinutesSchema = { find: sinon.stub(), getCollection: sinon.stub() };
+const MinutesSchemaCollection = { update: sinon.spy() };
+const MinutesSchema = { find: sinon.stub(), getCollection: sinon.stub() };
 
 const { MigrateV24 } = proxyquire("../../../../server/migrations/migrate_v24", {
   "meteor/meteor": { Meteor, "@noCallThru": true },

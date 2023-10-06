@@ -8,7 +8,7 @@ describe('transformUser', function () {
                 cn: 'username'
             };
 
-        let meteorUser = transformUser(ldapSettings, userData);
+        const meteorUser = transformUser(ldapSettings, userData);
 
         expect(meteorUser.username).to.equal(userData.cn);
     });
@@ -24,7 +24,7 @@ describe('transformUser', function () {
                 attr: 'username'
             };
 
-        let meteorUser = transformUser(ldapSettings, userData);
+        const meteorUser = transformUser(ldapSettings, userData);
 
         expect(meteorUser.username).to.equal(userData.attr);
     });
@@ -35,9 +35,9 @@ describe('transformUser', function () {
                 mail: 'me@example.com'
             };
 
-        let meteorUser = transformUser(ldapSettings, userData);
+        const meteorUser = transformUser(ldapSettings, userData);
 
-        let expectedResult = [{
+        const expectedResult = [{
             address: userData.mail,
             verified: true,
             fromLDAP: true
@@ -51,9 +51,9 @@ describe('transformUser', function () {
                 mail: ['me@example.com', 'me2@example.com']
             };
 
-        let meteorUser = transformUser(ldapSettings, userData);
+        const meteorUser = transformUser(ldapSettings, userData);
 
-        let expectedResult = [{
+        const expectedResult = [{
             address: userData.mail[0],
             verified: true,
             fromLDAP: true
@@ -68,7 +68,7 @@ describe('transformUser', function () {
             },
             userData = {profile};
 
-        let meteorUser = transformUser(ldapSettings, userData);
+        const meteorUser = transformUser(ldapSettings, userData);
 
         expect(meteorUser.profile.name).to.equal(userData.cn);
     });
@@ -80,7 +80,7 @@ describe('transformUser', function () {
                 anotherAttribute: 2
             };
 
-        let meteorUser = transformUser(ldapSettings, userData);
+        const meteorUser = transformUser(ldapSettings, userData);
 
         expect(meteorUser.profile).to.deep.equal({});
     });
@@ -95,9 +95,9 @@ describe('transformUser', function () {
                 anUnexpectedAttribute: true
             };
 
-        let meteorUser = transformUser(ldapSettings, userData);
+        const meteorUser = transformUser(ldapSettings, userData);
 
-        let expectedResult = {
+        const expectedResult = {
             someAttribute: 'someValue',
             anotherAttribute: 2
         };

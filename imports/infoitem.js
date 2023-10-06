@@ -32,7 +32,7 @@ export class InfoItem {
       // we may have an ID here.
       // Caution: findInfoItem returns a InfoItem-Object not the document
       // itself!
-      let infoItem = this._parentTopic.findInfoItem(source);
+      const infoItem = this._parentTopic.findInfoItem(source);
       source = infoItem._infoItemDoc;
     }
 
@@ -86,7 +86,7 @@ export class InfoItem {
   addDetails(minuteId, text) {
     if (text === undefined) text = "";
 
-    let date = formatDateISO8601(new Date());
+    const date = formatDateISO8601(new Date());
     if (!this._infoItemDoc.details) {
       this._infoItemDoc.details = [];
     }
@@ -149,7 +149,7 @@ export class InfoItem {
     callback = callback || function () {};
 
     try {
-      let result = await this.saveAsync();
+      const result = await this.saveAsync();
       callback(undefined, result);
     } catch (error) {
       callback(error);

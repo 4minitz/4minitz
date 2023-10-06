@@ -2,24 +2,24 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-let doNothing = () => {};
+const doNothing = () => {};
 
-let moment = function () {
+const moment = function () {
   return { format: sinon.stub() };
 };
 moment["@noCallThru"] = true;
 
-let Migrations = {
+const Migrations = {
   getVersion: sinon.stub().returns(0),
   _list: [],
   migrateTo: sinon.spy(),
   add: doNothing,
 };
-let Meteor = {};
-let backupMongo = sinon.spy();
-let join = sinon.stub().returns("outputdir");
+const Meteor = {};
+const backupMongo = sinon.spy();
+const join = sinon.stub().returns("outputdir");
 
-let proxyquireFakes = {
+const proxyquireFakes = {
   "meteor/percolate:migrations": { Migrations, "@noCallThru": true },
   "moment/moment": moment,
   "/imports/collections/minutes.schema": { Meteor, "@noCallThru": true },

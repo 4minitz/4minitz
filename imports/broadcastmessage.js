@@ -55,9 +55,9 @@ export class BroadcastMessage {
   static listAll() {
     if (Meteor.isServer) {
       console.log("List All BroadcastMessages.");
-      let allMsgs = [];
+      const allMsgs = [];
       BroadcastMessageSchema.find({ isActive: true }).forEach((msg) => {
-        let oneMsg =
+        const oneMsg =
           `Message: ${msg._id} ` +
           formatDateISO8601Time(msg.createdAt) +
           " dismissed:" +

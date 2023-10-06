@@ -4,7 +4,7 @@ import { MinutesFinder } from '../../../imports/services/minutesFinder';
 
 Template.meetingSeriesOverview.helpers({
     isModeratorOfSeries () {
-        let usrRole = new UserRoles();
+        const usrRole = new UserRoles();
         return usrRole.isModeratorOf(Template.instance().data._id);
     },
 

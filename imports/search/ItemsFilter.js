@@ -51,16 +51,16 @@ export class ItemsFilter {
 
   docMatchesSearchTokens(doc, searchTokens) {
     for (let i = 0; i < searchTokens.length; i++) {
-      let token = this._toUpper(searchTokens[i]);
-      let subject = this._toUpper(doc.subject);
-      let infos = doc.details
+      const token = this._toUpper(searchTokens[i]);
+      const subject = this._toUpper(doc.subject);
+      const infos = doc.details
         ? this._toUpper(
             doc.details.reduce((acc, detail) => {
               return acc + detail.text;
             }, ""),
           )
         : "";
-      let due = doc.duedate ? doc.duedate : "";
+      const due = doc.duedate ? doc.duedate : "";
       if (
         subject.indexOf(token) === -1 &&
         infos.indexOf(token) === -1 &&
@@ -75,8 +75,8 @@ export class ItemsFilter {
 
   docMatchesLabelTokens(doc, labelTokens) {
     for (let i = 0; i < labelTokens.length; i++) {
-      let labelToken = labelTokens[i];
-      let labelIds = labelToken.ids;
+      const labelToken = labelTokens[i];
+      const labelIds = labelToken.ids;
 
       if (_.intersection(doc.labels, labelIds).length === 0) {
         return false;
@@ -88,7 +88,7 @@ export class ItemsFilter {
 
   docMatchesFilterTokens(doc, filterTokens) {
     for (let i = 0; i < filterTokens.length; i++) {
-      let filter = filterTokens[i];
+      const filter = filterTokens[i];
 
       switch (filter.key) {
         case ITEM_KEYWORDS.IS.key: {
@@ -133,7 +133,7 @@ export class ItemsFilter {
     if (!doc.responsibles) {
       return false;
     }
-    let respStr = doc.responsibles.reduce((acc, resp) => {
+    const respStr = doc.responsibles.reduce((acc, resp) => {
       return acc + resp;
     }, "");
     return (

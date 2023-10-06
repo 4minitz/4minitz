@@ -20,17 +20,17 @@ export class DocumentGeneration {
   // ********** static methods ****************
   static async downloadMinuteProtocol(minuteID, noProtocolExistsDialog) {
     // This Function dynamically generates an HTML document for instant-download
-    let generateAndDownloadHTML = async function () {
-      let minuteID = FlowRouter.getParam("_id"); // eslint-disable-line
+    const generateAndDownloadHTML = async function () {
+      const minuteID = FlowRouter.getParam("_id"); // eslint-disable-line
 
       // Create HTML
-      let htmldata = await Meteor.callPromise(
+      const htmldata = await Meteor.callPromise(
         "documentgeneration.createHTML",
         minuteID,
       );
-      let currentMinute = new Minutes(minuteID);
+      const currentMinute = new Minutes(minuteID);
       // Download File
-      let fileBlob = new Blob([htmldata], { type: "octet/stream" });
+      const fileBlob = new Blob([htmldata], { type: "octet/stream" });
 
       const filename = `${DocumentGeneration.calcFileNameforMinute(
         currentMinute,
@@ -41,9 +41,9 @@ export class DocumentGeneration {
         // download-attribute for anchors
         window.navigator.msSaveBlob(fileBlob, filename);
       } else {
-        let fileurl = window.URL.createObjectURL(fileBlob);
+        const fileurl = window.URL.createObjectURL(fileBlob);
 
-        let a = document.createElement("a");
+        const a = document.createElement("a");
         document.body.appendChild(a);
         a.style = "display: none";
         a.href = fileurl;
@@ -99,9 +99,9 @@ export class DocumentGeneration {
 
   static getAttachmentsFromMinute(minuteID) {
     if (minuteID) {
-      let attachments = Attachment.findForMinutes(minuteID).fetch();
+      const attachments = Attachment.findForMinutes(minuteID).fetch();
       attachments.forEach((file) => {
-        let usr = Meteor.users.findOne(file.userId);
+        const usr = Meteor.users.findOne(file.userId);
         file.username = usr.username;
       });
       return attachments;
@@ -109,19 +109,19 @@ export class DocumentGeneration {
   }
 
   static getDocumentData(context) {
-    let presentParticipants = context._participants.filter((participant) => {
+    const presentParticipants = context._participants.filter((participant) => {
       return participant.present;
     });
 
-    let absentParticipants = context._participants.filter((participant) => {
+    const absentParticipants = context._participants.filter((participant) => {
       return !participant.present;
     });
 
-    let discussedTopics = context._topics.filter((topic) => {
+    const discussedTopics = context._topics.filter((topic) => {
       return !topic.isOpen;
     });
 
-    let outstandingTopics = context._topics.filter((topic) => {
+    const outstandingTopics = context._topics.filter((topic) => {
       return topic.isOpen && !topic.isSkipped;
     });
 

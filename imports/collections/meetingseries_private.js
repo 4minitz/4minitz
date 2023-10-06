@@ -50,7 +50,7 @@ Meteor.methods({
 
         // the user should not be able to define the date when this series was create - or should he?
         // -> so we overwrite this field if it was set previously
-        let currentDate = new Date();
+        const currentDate = new Date();
         doc.createdAt = currentDate;
         doc.lastMinutesDate = formatDateISO8601(currentDate);
 
@@ -71,7 +71,7 @@ Meteor.methods({
         // Every logged in user is allowed to create a new meeting series.
 
         try {
-            let newMeetingSeriesID = MeetingSeriesSchema.insert(doc);
+            const newMeetingSeriesID = MeetingSeriesSchema.insert(doc);
 
             // Make creator of this meeting series the first moderator
             Roles.addUsersToRoles(Meteor.userId(), UserRoles.USERROLES.Moderator, newMeetingSeriesID);
@@ -98,7 +98,7 @@ Meteor.methods({
 
         console.log('meetingseries.update:', doc.minutes);
 
-        let id = doc._id;
+        const id = doc._id;
         check(id, String);
         delete doc._id; // otherwise collection.update will fail
         if (!id) {
@@ -116,7 +116,7 @@ Meteor.methods({
         }
 
         // Ensure user can not update documents of other users
-        let userRoles = new UserRoles(Meteor.userId());
+        const userRoles = new UserRoles(Meteor.userId());
         if (!userRoles.isModeratorOf(id)) {
             throw new Meteor.Error('Cannot update meeting series', 'You are not moderator of this meeting series.');
         }
@@ -138,7 +138,7 @@ Meteor.methods({
         }
 
         // Ensure user is Moderator of the meeting series
-        let userRole = new UserRoles(Meteor.userId());
+        const userRole = new UserRoles(Meteor.userId());
         if(userRole.isModeratorOf(meetingSeriesId)){
             if (!GlobalSettings.isEMailDeliveryEnabled()) {
                 console.log('Skip sending mails because email delivery is not enabled. To enable email delivery set enableMailDelivery to true in your settings.json file');
@@ -146,7 +146,7 @@ Meteor.methods({
             }
 
             if(Meteor.isServer) {
-                let roleChangeMailHandler = new RoleChangeMailHandler(userId, oldRole, newRole, Meteor.user(), meetingSeriesId);
+                const roleChangeMailHandler = new RoleChangeMailHandler(userId, oldRole, newRole, Meteor.user(), meetingSeriesId);
                 roleChangeMailHandler.send();
             }
         } else {

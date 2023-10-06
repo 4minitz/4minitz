@@ -30,14 +30,14 @@ let _minutesID; // the ID of these minutes
  */
 let orphanFlashMessage = null;
 
-let filterClosedTopics = new ReactiveVar(false);
+const filterClosedTopics = new ReactiveVar(false);
 
 /**
  * togglePrintView
  * Prepares the DOM view for printing - on and off
  * @param switchOn - optional (if missing, function toggles on <=> off)
  */
-let togglePrintView = function (switchOn) {
+const togglePrintView = function (switchOn) {
   if (switchOn === undefined) {
     // toggle on <=> off
     Session.set(
@@ -89,12 +89,12 @@ let togglePrintView = function (switchOn) {
 
 // Automatically restore view after printing
 (function () {
-  let afterPrint = function () {
+  const afterPrint = function () {
     togglePrintView(false);
   };
 
   if (window.matchMedia) {
-    let mediaQueryList = window.matchMedia("print");
+    const mediaQueryList = window.matchMedia("print");
     mediaQueryList.addListener(function (mql) {
       if (!mql.matches) {
         afterPrint();
@@ -110,7 +110,7 @@ let togglePrintView = function (switchOn) {
 // elements If we want to have these key events really global, we have to
 // register them with the document. For details see SO:
 // http://stackoverflow.com/questions/27972873/meteor-keydown-keyup-events-outside-input
-let handleTemplatesGlobalKeyboardShortcuts = function (switchOn) {
+const handleTemplatesGlobalKeyboardShortcuts = function (switchOn) {
   if (switchOn) {
     $(document).keydown(function (evt) {
       if ($(".modal.in").length > 0) {
@@ -140,12 +140,12 @@ let handleTemplatesGlobalKeyboardShortcuts = function (switchOn) {
 };
 
 Template.minutesedit.onRendered(function () {
-  let tmpl = this; // store for second, inner callback
+  const tmpl = this; // store for second, inner callback
   // Ugly hack...   :-(
   // For some strange reason, our DOM element is not available immediately
   // (Blaze API tells us differently!) - so, we give it some time to settle
   Meteor.setTimeout(function () {
-    let target = tmpl.find("#editGlobalNotes");
+    const target = tmpl.find("#editGlobalNotes");
     if (target) {
       target.style.height = 0;
       target.style.overflow = "auto";
@@ -168,7 +168,7 @@ Template.minutesedit.onCreated(function () {
       this.subscribe("minutes", undefined, _minutesID),
     );
     if (this.currentMinuteLoaded.get().ready()) {
-      let meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
+      const meetingSeriesId = new Minutes(_minutesID).parentMeetingSeriesID();
       this.subscribe("minutes", meetingSeriesId);
       this.subscribe("meetingSeriesDetails", meetingSeriesId);
       this.subscribe("files.attachments.all", meetingSeriesId, _minutesID);
@@ -196,17 +196,17 @@ Template.minutesedit.onDestroyed(function () {
   this.userTracker.onLeave();
 });
 
-let isMinuteFinalized = function () {
-  let aMin = new Minutes(_minutesID);
+const isMinuteFinalized = function () {
+  const aMin = new Minutes(_minutesID);
   return aMin?.isFinalized;
 };
 
-let isModerator = function () {
-  let aMin = new Minutes(_minutesID);
+const isModerator = function () {
+  const aMin = new Minutes(_minutesID);
   return aMin?.isCurrentUserModerator();
 };
 
-let toggleTopicSorting = function () {
+const toggleTopicSorting = function () {
   let topicList = $("#topicPanel"),
     isFinalized = isMinuteFinalized();
 
@@ -219,7 +219,7 @@ let toggleTopicSorting = function () {
   }
 };
 
-let updateTopicSorting = function (event, ui) {
+const updateTopicSorting = function (event, ui) {
   const draggedTopicID = $(ui.item).attr("data-id");
   if (!draggedTopicID) {
     return;
@@ -257,11 +257,11 @@ let updateTopicSorting = function (event, ui) {
   // Perform position change in complete topic array coming from DB
   // Here we also have currently hidden topics
   newTopicSorting = minute.topics;
-  let topic = newTopicSorting[oldDragTopicPos]; // remember topic
+  const topic = newTopicSorting[oldDragTopicPos]; // remember topic
   newTopicSorting.splice(oldDragTopicPos, 1); // remove topic from array
   if (oldFollowerPos >= 0) {
     // insert before new follower
-    let correction = oldDragTopicPos > oldFollowerPos ? 0 : 1;
+    const correction = oldDragTopicPos > oldFollowerPos ? 0 : 1;
     newTopicSorting.splice(oldFollowerPos - correction, 0, topic);
   } else {
     const lastVisibleTopicId = $(sorting[sorting.length - 2]).attr("data-id");
@@ -280,9 +280,9 @@ let updateTopicSorting = function (event, ui) {
   });
 };
 
-let openPrintDialog = function () {
-  let ua = navigator.userAgent.toLowerCase();
-  let isAndroid = ua.indexOf("android") > -1;
+const openPrintDialog = function () {
+  const ua = navigator.userAgent.toLowerCase();
+  const isAndroid = ua.indexOf("android") > -1;
 
   window.print();
 };
@@ -292,8 +292,8 @@ let sendInformationItems = true;
 
 Template.minutesedit.helpers({
   setDocumentTitle() {
-    let min = new Minutes(_minutesID);
-    let ms = min.parentMeetingSeries();
+    const min = new Minutes(_minutesID);
+    const ms = min.parentMeetingSeries();
     document.title = `4M! ${ms.name} [${ms.project}] ${min.date}`;
     // Hint: this will be resetted on router's exit hook (see router.js).
   },
@@ -304,9 +304,9 @@ Template.minutesedit.helpers({
   },
 
   canShow() {
-    let usrRoles = new UserRoles();
+    const usrRoles = new UserRoles();
 
-    let minute = new Minutes(_minutesID);
+    const minute = new Minutes(_minutesID);
     if (!usrRoles.hasViewRoleFor(minute.parentMeetingSeriesID())) {
       FlowRouter.redirect("/");
     }
@@ -315,7 +315,7 @@ Template.minutesedit.helpers({
   },
 
   initialize() {
-    let templateInstance = Template.instance();
+    const templateInstance = Template.instance();
 
     $(document).arrive("#id_minutesdatePicker", () => {
       // Configure DateTimePicker
@@ -323,7 +323,7 @@ Template.minutesedit.helpers({
         week: { dow: 1 }, // Monday is the first day of the week
       });
 
-      let datePickerNode = templateInstance.$("#id_minutesdatePicker");
+      const datePickerNode = templateInstance.$("#id_minutesdatePicker");
       // see http://eonasdan.github.io/bootstrap-datetimepicker/Options/
       datePickerNode.datetimepicker({
         format: "YYYY-MM-DD",
@@ -332,11 +332,11 @@ Template.minutesedit.helpers({
         showTodayButton: true,
       });
 
-      let aMin = new Minutes(_minutesID);
+      const aMin = new Minutes(_minutesID);
       if (!aMin.isFinalized) {
-        let ms = aMin.parentMeetingSeries();
+        const ms = aMin.parentMeetingSeries();
         if (ms) {
-          let minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
+          const minDate = ms.getMinimumAllowedDateForMinutes(_minutesID);
           if (minDate) {
             minDate.setDate(minDate.getDate() + 1);
             datePickerNode.data("DateTimePicker").minDate(minDate);
@@ -369,7 +369,7 @@ Template.minutesedit.helpers({
   checkParentSeries: function () {
     if (!Session.get("minutesedit.checkParent")) return;
 
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     try {
       aMin.checkParent();
       if (orphanFlashMessage !== null) {
@@ -387,7 +387,7 @@ Template.minutesedit.helpers({
   },
 
   meetingSeries: function () {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     if (aMin) {
       return aMin.parentMeetingSeries();
     }
@@ -395,7 +395,7 @@ Template.minutesedit.helpers({
   },
 
   minutes: function () {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     if (aMin) {
       return aMin;
     }
@@ -411,7 +411,7 @@ Template.minutesedit.helpers({
   },
 
   finalizeHistoryTooltip: function (buttontype) {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     let tooltip = buttontype ? `${i18n.__(buttontype)}\n` : "";
     if (aMin.finalizedHistory) {
       tooltip +=
@@ -424,8 +424,8 @@ Template.minutesedit.helpers({
   },
 
   disableUIControl: function () {
-    let aMin = new Minutes(_minutesID);
-    let usrRole = new UserRoles();
+    const aMin = new Minutes(_minutesID);
+    const usrRole = new UserRoles();
     return aMin.isFinalized ||
       !usrRole.isModeratorOf(aMin.parentMeetingSeriesID())
       ? "disabled"
@@ -437,14 +437,14 @@ Template.minutesedit.helpers({
   },
 
   isModeratorOfParentSeries: function () {
-    let aMin = new Minutes(_minutesID);
-    let usrRole = new UserRoles();
+    const aMin = new Minutes(_minutesID);
+    const usrRole = new UserRoles();
 
     return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
   },
 
   getTopicsListConfig: function () {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     let filteredTopics = aMin.topics;
     if (filterClosedTopics.get()) {
       filteredTopics = aMin.topics.filter(
@@ -481,12 +481,12 @@ Template.minutesedit.helpers({
   },
 
   previousMinutes: function () {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     return MinutesFinder.previousMinutes(aMin);
   },
 
   nextMinutes: function () {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     return MinutesFinder.nextMinutes(aMin);
   },
 
@@ -505,13 +505,13 @@ Template.minutesedit.helpers({
 
 Template.minutesedit.events({
   "click #checkHideClosedTopics": function (evt) {
-    let isChecked = evt.target.checked;
+    const isChecked = evt.target.checked;
     filterClosedTopics.set(isChecked);
   },
 
   "click #btnCreateNewMinutes": function (evt) {
     evt.preventDefault();
-    let ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
+    const ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
     const routeToNewMinutes = (newMinutesId) => {
       Session.set("minutesedit.checkParent", false);
       FlowRouter.redirect(`/minutesedit/${newMinutesId}`);
@@ -531,7 +531,7 @@ Template.minutesedit.events({
   },
 
   "dp.change #id_minutesdatePicker": function (evt, tmpl) {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     if (aMin.isFinalized || !aMin.isCurrentUserModerator()) {
       // event will be called on page load
       // if the meeting is already finalized ...
@@ -540,8 +540,8 @@ Template.minutesedit.events({
       return;
     }
 
-    let dateNode = tmpl.$("#id_minutesdateInput");
-    let aDate = tmpl.find("#id_minutesdateInput").value;
+    const dateNode = tmpl.$("#id_minutesdateInput");
+    const aDate = tmpl.find("#id_minutesdateInput").value;
 
     dateNode.parent().removeClass("has-error");
     if (!aMin.parentMeetingSeries().isMinutesDateAllowed(aMin._id, aDate)) {
@@ -563,23 +563,23 @@ Template.minutesedit.events({
 
   "change #editGlobalNotes"(evt, tmpl) {
     evt.preventDefault();
-    let aMin = new Minutes(_minutesID);
-    let globalNote = tmpl.find("#editGlobalNotes").value;
+    const aMin = new Minutes(_minutesID);
+    const globalNote = tmpl.find("#editGlobalNotes").value;
     aMin.update({ globalNote: globalNote }).catch(handleError);
   },
 
   "click #btn_sendAgenda": async function (evt, tmpl) {
     evt.preventDefault();
-    let sendBtn = tmpl.$("#btn_sendAgenda");
-    let aMin = new Minutes(_minutesID);
+    const sendBtn = tmpl.$("#btn_sendAgenda");
+    const aMin = new Minutes(_minutesID);
     console.log(
       `Send agenda: ${aMin._id} from series: ${aMin.meetingSeries_id}`,
     );
 
-    let sendAgenda = async () => {
+    const sendAgenda = async () => {
       sendBtn.prop("disabled", true);
       try {
-        let result = await aMin.sendAgenda();
+        const result = await aMin.sendAgenda();
         new FlashMessage(
           i18n.__("FlashMessages.ok"),
           i18n.__("FlashMessages.agendaSentOK", { result: result }),
@@ -591,9 +591,9 @@ Template.minutesedit.events({
       sendBtn.prop("disabled", false);
     };
 
-    let agendaCheckDate = async () => {
+    const agendaCheckDate = async () => {
       if (aMin.getAgendaSentAt()) {
-        let date = aMin.getAgendaSentAt();
+        const date = aMin.getAgendaSentAt();
         console.log(date);
 
         ConfirmationDialogFactory.makeSuccessDialog(
@@ -621,7 +621,7 @@ Template.minutesedit.events({
 
   "click #btn_finalizeMinutes": function (evt, tmpl) {
     evt.preventDefault();
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     console.log(
       "Finalize minutes: " +
         aMin._id +
@@ -629,9 +629,9 @@ Template.minutesedit.events({
         aMin.meetingSeries_id,
     );
 
-    let doFinalize = function () {
+    const doFinalize = function () {
       tmpl.$("#btn_finalizeMinutes").prop("disabled", true);
-      let msg = new FlashMessage(
+      const msg = new FlashMessage(
         i18n.__("FlashMessages.finalizeProgress1"),
         i18n.__("FlashMessages.finalizeProgress2"),
         "alert-info",
@@ -658,7 +658,7 @@ Template.minutesedit.events({
       }, 500);
     };
 
-    let processFinalize = function () {
+    const processFinalize = function () {
       if (GlobalSettings.isEMailDeliveryEnabled()) {
         ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
           doFinalize,
@@ -686,7 +686,7 @@ Template.minutesedit.events({
 
   "click #btn_unfinalizeMinutes": function (evt) {
     evt.preventDefault();
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     console.log(
       "Un-Finalize minutes: " +
         aMin._id +
@@ -701,7 +701,7 @@ Template.minutesedit.events({
 
   "click #btn_deleteMinutes": function (evt) {
     evt.preventDefault();
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     console.log(
       "Remove Meeting Minute " +
         this._id +
@@ -709,8 +709,8 @@ Template.minutesedit.events({
         this.meetingSeries_id,
     );
 
-    let deleteMinutesCallback = () => {
-      let ms = new MeetingSeries(aMin.meetingSeries_id);
+    const deleteMinutesCallback = () => {
+      const ms = new MeetingSeries(aMin.meetingSeries_id);
       // first route to the parent meetingseries then remove the minute.
       // otherwise the current route would automatically re-routed to the main
       // page because the minute is not available anymore -> see router.js
@@ -718,10 +718,10 @@ Template.minutesedit.events({
       ms.removeMinutesWithId(aMin._id).catch(handleError);
     };
 
-    let newTopicsCount = aMin.getNewTopics().length;
-    let closedOldTopicsCount = aMin.getOldClosedTopics().length;
+    const newTopicsCount = aMin.getNewTopics().length;
+    const closedOldTopicsCount = aMin.getOldClosedTopics().length;
 
-    let tmplData = {
+    const tmplData = {
       minutesDate: aMin.date,
       hasNewTopics: newTopicsCount > 0,
       newTopicsCount: newTopicsCount,
@@ -738,10 +738,10 @@ Template.minutesedit.events({
   },
 
   "click #btnCollapseAll": function () {
-    let aMin = new Minutes(_minutesID);
-    let sessionCollapse = {};
-    for (let topicIndex in aMin.topics) {
-      let topicId = aMin.topics[topicIndex]._id;
+    const aMin = new Minutes(_minutesID);
+    const sessionCollapse = {};
+    for (const topicIndex in aMin.topics) {
+      const topicId = aMin.topics[topicIndex]._id;
       sessionCollapse[topicId] = true;
     }
     Session.set(`minutesedit.collapsetopics.${_minutesID}`, sessionCollapse);
@@ -759,7 +759,7 @@ Template.minutesedit.events({
   "click #btn_dynamicallyGenerateProtocol": function (evt) {
     evt.preventDefault();
 
-    let noProtocolExistsDialog = (downloadHTML) => {
+    const noProtocolExistsDialog = (downloadHTML) => {
       ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
         downloadHTML,
         i18n.__("Dialog.ConfirmGenerateProtocol.title"),
@@ -780,7 +780,7 @@ Template.minutesedit.events({
     if (!isModerator() || isMinuteFinalized()) {
       return;
     }
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     aMin
       .update({ globalNotePinned: !aMin.globalNotePinned })
       .catch(handleError);

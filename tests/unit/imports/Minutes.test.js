@@ -6,7 +6,7 @@ import * as Helpers from '../../../imports/helpers/date';
 import * as EmailHelpers from '../../../imports/helpers/email';
 import * as SubElements from '../../../imports/helpers/subElements';
 
-let MinutesSchema = {
+const MinutesSchema = {
     find: sinon.stub(),
     findOne: sinon.stub()
 };
@@ -15,31 +15,31 @@ MinutesSchema.getCollection = _ => MinutesSchema;
 
 class MeteorError {}
 
-let Meteor = {
+const Meteor = {
     call: sinon.stub(),
     callPromise: sinon.stub().resolves(true),
     Error: MeteorError
 };
 
-let PromisedMethods = {};
+const PromisedMethods = {};
 
-let isCurrentUserModeratorStub = sinon.stub();
-let updateLastMinutesFieldsStub = sinon.stub();
-let updateLastMinutesFieldsAsyncStub = sinon.stub().resolves(true);
-let MeetingSeries = function(seriesId) {
+const isCurrentUserModeratorStub = sinon.stub();
+const updateLastMinutesFieldsStub = sinon.stub();
+const updateLastMinutesFieldsAsyncStub = sinon.stub().resolves(true);
+const MeetingSeries = function(seriesId) {
     this._id = seriesId;
     this.isCurrentUserModerator = isCurrentUserModeratorStub;
     this.updateLastMinutesFields = updateLastMinutesFieldsStub;
     this.updateLastMinutesFieldsAsync = updateLastMinutesFieldsAsyncStub;
 };
 
-let topicGetOpenActionItemsStub = sinon.stub().returns([]);
-let Topic = function () {
+const topicGetOpenActionItemsStub = sinon.stub().returns([]);
+const Topic = function () {
     this.getOpenActionItems = topicGetOpenActionItemsStub;
 };
 Topic.hasOpenActionItem = () => { return false; };
 
-let ActionItem = function (topic, doc) {
+const ActionItem = function (topic, doc) {
     this._parentTopic = topic;
     this._infoItemDoc = doc;
 };
@@ -154,23 +154,23 @@ describe('Minutes', function () {
 
             it('sets the id selector correctly', function () {
                 Minutes.findAllIn(minIdArray, limit);
-                let selector = MinutesSchema.find.getCall(0).args[0];
+                const selector = MinutesSchema.find.getCall(0).args[0];
                 expect(selector, "Selector has the property _id").to.have.ownProperty('_id');
                 expect(selector._id, '_id-selector has propery $in').to.have.ownProperty('$in');
                 expect(selector._id.$in, 'idArray should be passed').to.deep.equal(minIdArray);
             });
 
             it('sets the option correctly (sort, no limit)', function () {
-                let expectedOption = { sort: {date: -1} };
+                const expectedOption = { sort: {date: -1} };
                 Minutes.findAllIn(minIdArray);
-                let options = MinutesSchema.find.getCall(0).args[1];
+                const options = MinutesSchema.find.getCall(0).args[1];
                 expect(options).to.deep.equal(expectedOption);
             });
 
             it('sets the option correctly (sort and limit)', function () {
-                let expectedOption = { sort: {date: -1}, limit: limit };
+                const expectedOption = { sort: {date: -1}, limit: limit };
                 Minutes.findAllIn(minIdArray, limit);
-                let options = MinutesSchema.find.getCall(0).args[1];
+                const options = MinutesSchema.find.getCall(0).args[1];
                 expect(options).to.deep.equal(expectedOption);
             });
 
@@ -233,7 +233,7 @@ describe('Minutes', function () {
 
         it('sends the doc part and the minutes id to the meteor method minutes.update', function () {
             minute.update(updateDocPart);
-            let sentObj = JSON.parse(JSON.stringify(updateDocPart));
+            const sentObj = JSON.parse(JSON.stringify(updateDocPart));
             sentObj._id = minute._id;
             expect(Meteor.callPromise.calledWithExactly('minutes.update', sentObj, undefined)).to.be.true;
         });
@@ -279,7 +279,7 @@ describe('Minutes', function () {
     });
 
     it('#parentMeetingSeries', function () {
-        let parentSeries = minute.parentMeetingSeries();
+        const parentSeries = minute.parentMeetingSeries();
         expect(parentSeries instanceof MeetingSeries, "result should be an instance of MeetingSeries").to.be.true;
         expect(parentSeries._id, "created meeting series object should have the correct series id").to.equal(minute.meetingSeries_id);
     });
@@ -338,7 +338,7 @@ describe('Minutes', function () {
         describe('#removeTopic', function () {
 
             it('removes the topic from the topics array', function () {
-                let oldLength = minute.topics.length;
+                const oldLength = minute.topics.length;
                 minute.removeTopic(topic1._id);
                 expect(minute.topics).to.have.length(oldLength-1);
             });
@@ -357,7 +357,7 @@ describe('Minutes', function () {
             });
 
             it('returns only new topics', function () {
-                let newTopics = minute.getNewTopics();
+                const newTopics = minute.getNewTopics();
                 newTopics.forEach(topic => {
                     expect(topic.isNew, "isNew-flag should be set").to.be.true;
                 });
@@ -372,7 +372,7 @@ describe('Minutes', function () {
             });
 
             it('returns only old and closed topics', function () {
-                let oldClosedTopics = minute.getOldClosedTopics();
+                const oldClosedTopics = minute.getOldClosedTopics();
                 oldClosedTopics.forEach(topic => {
                     expect(
                         topic.isNew && topic.isOpen,
@@ -439,9 +439,9 @@ describe('Minutes', function () {
 
         it('sends the minutes id and the topic doc to the meteor method minutes.addTopic', function () {
             minute.upsertTopic(topicDoc);
-            let callArgs = Meteor.callPromise.getCall(0).args;
+            const callArgs = Meteor.callPromise.getCall(0).args;
             expect(callArgs[0], "first argument should be the name of the meteor method", 'minutes.addTopic');
-            let sentDoc = callArgs[1];
+            const sentDoc = callArgs[1];
             expect(callArgs[1], 'minutes id should be sent to the meteor method').to.equal(minutesDoc._id);
             expect(callArgs[2], 'topic-doc should be sent to the meteor method').to.equal(topicDoc);
         });

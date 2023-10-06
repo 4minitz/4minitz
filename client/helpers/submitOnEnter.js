@@ -5,7 +5,7 @@ function createHandler(action) {
     return (event) => {
         event.preventDefault();
 
-        let ctrl = event.ctrlKey;
+        const ctrl = event.ctrlKey;
         let enterWasPressed = event.key === 'Enter';
 
         // for browsers that do not support event.key yet

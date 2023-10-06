@@ -52,7 +52,7 @@ export class E2EGlobal {
     const start = new Date();
     let current = new Date();
 
-    let i = 0;
+    const i = 0;
     while (current - start < timeout) {
       try {
         predicate();
@@ -121,7 +121,7 @@ export class E2EGlobal {
   static formatDateISO8601(aDate) {
     let dd = aDate.getDate();
     let mm = aDate.getMonth() + 1; //January is 0!
-    let yyyy = aDate.getFullYear();
+    const yyyy = aDate.getFullYear();
     if (dd < 10) {
       dd = "0" + dd;
     }
@@ -135,7 +135,7 @@ export class E2EGlobal {
     let isoString = "";
 
     try {
-      let tzoffset = aDate.getTimezoneOffset() * 60000; //offset in milliseconds
+      const tzoffset = aDate.getTimezoneOffset() * 60000; //offset in milliseconds
       isoString = new Date(aDate - tzoffset)
         .toISOString()
         .substr(0, 19)
@@ -185,8 +185,8 @@ export class E2EGlobal {
   }
 
   static isCheckboxSelected(selector) {
-    let element = browser.element(selector).value;
-    let checkboxId = element.ELEMENT;
+    const element = browser.element(selector).value;
+    const checkboxId = element.ELEMENT;
     return browser.elementIdSelected(checkboxId).value;
   }
 
@@ -197,14 +197,14 @@ export class E2EGlobal {
    * @param filename
    */
   static saveScreenshot(filename) {
-    let dateStr = new Date().toISOString().replace(/[^0-9]/g, "") + "_";
+    const dateStr = new Date().toISOString().replace(/[^0-9]/g, "") + "_";
     filename =
       E2EGlobal.getTestSpecFilename() +
       "_" +
       dateStr +
       (filename ? "_" : "") +
       filename;
-    let fullpath = "./tests/snapshots/" + filename + ".png";
+    const fullpath = "./tests/snapshots/" + filename + ".png";
     browser.saveScreenshot(fullpath);
     console.log("Screenshot taken: ", fullpath);
     return fullpath;

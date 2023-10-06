@@ -10,24 +10,24 @@ require('../../imports/helpers/date');
 describe('Sticky Info Items', function () {
     const aProjectName = "E2E Sticky Info Items";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name #";
+    const aTopicNameBase = "Topic Name #";
     let aTopicName;
     let aInfoItemName = "";
     let aAICounter = 0;
-    let aAINameBase = "Info Item Name #";
+    const aAINameBase = "Info Item Name #";
 
-    let getNewMeetingName = () => {
+    const getNewMeetingName = () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
     };
-    let getNewTopicName = () => {
+    const getNewTopicName = () => {
         aTopicCounter++;
         return aTopicNameBase + aTopicCounter;
     };
-    let getNewInfoItemName = () => {
+    const getNewInfoItemName = () => {
         aAICounter++;
         aInfoItemName = aAINameBase + aAICounter;
         return aInfoItemName;
@@ -73,8 +73,8 @@ describe('Sticky Info Items', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
         expect(E2ETopics.countItemsForTopic(1), "The topic should have one item").to.equal(1);
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let stickyInfoItem = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const stickyInfoItem = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(stickyInfoItem).value, "the sticky info item should be displayed")
             .to.have.string(aInfoItemName);
 
@@ -143,8 +143,8 @@ describe('Sticky Info Items', function () {
 
         expect(E2ETopics.countItemsForTopic(1), "topic should have one item").to.equal(1);
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let stickyInfoItem = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const stickyInfoItem = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(stickyInfoItem).value, "the subject of the sticky info item should have changed")
             .to.have.string(newInfoItemName);
 

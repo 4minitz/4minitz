@@ -29,7 +29,7 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
   }
 
   _getEmailData() {
-    let unSkippedTopics = this._topics.filter((topic) => !topic.isSkipped);
+    const unSkippedTopics = this._topics.filter((topic) => !topic.isSkipped);
     return {
       greetingLabel: i18n.__("Mail.greeting"),
       newLabel: i18n.__("Mail.newAgenda"),

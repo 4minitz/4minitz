@@ -35,7 +35,7 @@ export class ResponsibleExtractor {
   }
 
   _addResponsible(responsibleName) {
-    let user = Meteor.users.findOne({ username: responsibleName });
+    const user = Meteor.users.findOne({ username: responsibleName });
     if (user) {
       this.extractedResponsible.push(user._id);
       return true;

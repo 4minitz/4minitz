@@ -88,17 +88,17 @@ Template.meetingSeriesEditUsers.helpers({
   rolesOptions: function () {
     // this is blaze context {{# with userRoleObj currentuser._id}}
     // So, this is a UserRoles object
-    let currentRoleNum = this.currentRoleFor(_config.meetingSeriesID);
-    let userName = this.getUser().username;
+    const currentRoleNum = this.currentRoleFor(_config.meetingSeriesID);
+    const userName = this.getUser().username;
     let rolesHTML =
       '<select id="roleSelect' +
       userName +
       '" class="form-control user-role-select">';
-    let rolesNames = UserRoles.allRolesNames();
-    let rolesNums = UserRoles.allRolesNumerical();
-    for (let i in rolesNames) {
-      let roleNum = rolesNums[i];
-      let roleName = rolesNames[i];
+    const rolesNames = UserRoles.allRolesNames();
+    const rolesNums = UserRoles.allRolesNumerical();
+    for (const i in rolesNames) {
+      const roleNum = rolesNums[i];
+      const roleName = rolesNames[i];
       let startTag = `<option value='${roleName}'>`;
       if (roleNum === currentRoleNum) {
         startTag = `<option value="${roleName}" selected="selected">`;
@@ -125,17 +125,17 @@ Template.meetingSeriesEditUsers.events({
 
   // when role select changes, update role in temp. client-only user collection
   "change .user-role-select": function (evt) {
-    let roleName = $(evt.target).val();
-    let roleValue = UserRoles.USERROLES[roleName];
+    const roleName = $(evt.target).val();
+    const roleValue = UserRoles.USERROLES[roleName];
 
-    let changedUser = _config.users.findOne(this._userId);
+    const changedUser = _config.users.findOne(this._userId);
     changedUser.roles[_config.meetingSeriesID] = [roleValue];
     _config.users.update(this._userId, { $set: { roles: changedUser.roles } });
   },
 
   "submit #form-add-user": function (evt, tmpl) {
     evt.preventDefault();
-    let newUserName = tmpl.find("#edt_AddUser").value;
+    const newUserName = tmpl.find("#edt_AddUser").value;
     addNewUser(newUserName, _config);
 
     $(".typeahead").typeahead("val", "").typeahead("close");
@@ -162,7 +162,7 @@ Template.meetingSeriesEditUsers.events({
 
   // a typeahead suggestion was selected from drop-down menu
   "typeahead:select": function (evt, tmpl, selected) {
-    let newUserName = selected.value.toString();
+    const newUserName = selected.value.toString();
     $(".typeahead").typeahead("val", "");
     addNewUser(newUserName, _config);
   },

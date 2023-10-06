@@ -5,10 +5,10 @@ import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 describe('LDAP', function () {
     const aProjectName = "E2E LDAP";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
-    let getNewMeetingName = () => {
+    const getNewMeetingName = () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
     };
@@ -64,7 +64,7 @@ describe('LDAP', function () {
     it('ldap user can create meeting series', function () {
         E2EApp.loginLdapUserWithCredentials('ldapUser1', 'ldapPwd1', false);
 
-        let initialCount = E2EMeetingSeries.countMeetingSeries();
+        const initialCount = E2EMeetingSeries.countMeetingSeries();
 
         aMeetingName = getNewMeetingName();
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
@@ -87,9 +87,9 @@ describe('LDAP', function () {
     });
 
     it('ldap user can not log in with the standard login form', function () {
-        let message = 'Login failed for user ldapUser1 with ldapPwd1\nwith Error: Unknown user or wrong password.';
+        const message = 'Login failed for user ldapUser1 with ldapPwd1\nwith Error: Unknown user or wrong password.';
 
-        let login = () => {
+        const login = () => {
             E2EApp.loginUserWithCredentials('ldapUser1', 'ldapPwd1', false);
         };
 

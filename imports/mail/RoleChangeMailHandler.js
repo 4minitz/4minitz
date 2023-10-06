@@ -24,18 +24,18 @@ export class RoleChangeMailHandler {
   }
 
   send() {
-    let emailFrom = this._moderator.emails;
-    let modFrom =
+    const emailFrom = this._moderator.emails;
+    const modFrom =
       emailFrom && emailFrom.length > 0
         ? emailFrom[0].address
         : GlobalSettings.getDefaultEmailSenderAddress();
-    let emailTo = this._user.emails[0].address;
+    const emailTo = this._user.emails[0].address;
 
-    let meetingSeries = new MeetingSeries(this._meetingSeriesId);
-    let meetingProject = meetingSeries.project;
-    let meetingName = meetingSeries.name;
+    const meetingSeries = new MeetingSeries(this._meetingSeriesId);
+    const meetingProject = meetingSeries.project;
+    const meetingName = meetingSeries.name;
 
-    let userName = User.PROFILENAMEWITHFALLBACK(this._user);
+    const userName = User.PROFILENAMEWITHFALLBACK(this._user);
 
     if (this._oldRole == null) {
       // will be true for undefined OR null
@@ -53,8 +53,8 @@ export class RoleChangeMailHandler {
 
     // generate mail
     if (this._user.emails && this._user.emails.length > 0) {
-      let mailer = MailFactory.getMailer(modFrom, emailTo);
-      let mailParams = {
+      const mailer = MailFactory.getMailer(modFrom, emailTo);
+      const mailParams = {
         userName: userName,
         meetingProject: meetingProject,
         meetingName: meetingName,

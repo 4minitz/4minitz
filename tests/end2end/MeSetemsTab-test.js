@@ -8,7 +8,7 @@ import { E2ETopics } from './helpers/E2ETopics'
 describe('MeetingSeries Items Tab', function () {
     const aProjectName = "MeetingSeries Items Tab";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     before("reload page and reset app", function () {

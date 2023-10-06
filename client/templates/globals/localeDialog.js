@@ -3,7 +3,7 @@ import { Meteor } from "meteor/meteor";
 import { ReactiveVar } from "meteor/reactive-var";
 import { Template } from "meteor/templating";
 
-let supportedLocales = new ReactiveVar([]);
+const supportedLocales = new ReactiveVar([]);
 
 Template.localeDialog.onCreated(function () {
   Meteor.call("getAvailableLocales", function (error, result) {

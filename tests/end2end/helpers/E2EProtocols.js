@@ -21,7 +21,7 @@ export class E2EProtocols {
   }
 
   static checkProtocolFileForMinuteExits(minuteId) {
-    let path = server.call("e2e.getProtocolStoragePathForMinute", minuteId);
+    const path = server.call("e2e.getProtocolStoragePathForMinute", minuteId);
 
     if (!path) {
       //no protocol record in MongoDB

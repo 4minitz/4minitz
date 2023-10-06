@@ -17,7 +17,7 @@ import { Minutes } from "./minutes";
 
 function resolveParentElement(parent) {
   if (typeof parent === "string") {
-    let parentId = parent;
+    const parentId = parent;
     parent = MeetingSeries.findOne(parentId);
     if (!parent) parent = Minutes.findOne(parentId);
     return parent;
@@ -95,7 +95,7 @@ export class Topic {
    * @returns {boolean}
    */
   static hasOpenActionItem(topicDoc) {
-    let infoItemDocs = topicDoc.infoItems;
+    const infoItemDocs = topicDoc.infoItems;
     let i;
     for (i = 0; i < infoItemDocs.length; i++) {
       if (infoItemDocs[i].itemType === "actionItem" && infoItemDocs[i].isOpen) {
@@ -117,7 +117,7 @@ export class Topic {
   invalidateIsNewFlag() {
     this._topicDoc.isNew = false;
     this._topicDoc.infoItems.forEach((infoItemDoc) => {
-      let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
+      const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
       infoItem.invalidateIsNewFlag();
     });
   }
@@ -200,8 +200,8 @@ export class Topic {
   }
 
   async removeInfoItem(id) {
-    let index = subElementsHelper.findIndexById(id, this.getInfoItems());
-    let item = this.getInfoItems()[index];
+    const index = subElementsHelper.findIndexById(id, this.getInfoItems());
+    const item = this.getInfoItems()[index];
     if (
       InfoItem.isActionItem(item) &&
       !InfoItem.isCreatedInMinutes(item, this._parentMinutes._id)
@@ -227,9 +227,9 @@ export class Topic {
   tailorTopic() {
     this._topicDoc.infoItems = this._topicDoc.infoItems.filter(
       (infoItemDoc) => {
-        let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
+        const infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
         return infoItem.isSticky();
-      },
+      }
     );
   }
 
@@ -241,7 +241,7 @@ export class Topic {
    * @returns {undefined|InfoItem|ActionItem}
    */
   findInfoItem(id) {
-    let i = subElementsHelper.findIndexById(id, this.getInfoItems());
+    const i = subElementsHelper.findIndexById(id, this.getInfoItems());
     if (i !== undefined) {
       return InfoItemFactory.createInfoItem(this, this.getInfoItems()[i]);
     }
@@ -348,7 +348,7 @@ export class Topic {
    * @return {boolean}
    */
   hasResponsibles() {
-    let responsibles = this._topicDoc.responsibles;
+    const responsibles = this._topicDoc.responsibles;
     return responsibles && responsibles.length > 0;
   }
 

@@ -27,10 +27,10 @@ export class TopicsFilter {
 
     docMatchesSearchTokens(doc, searchTokens) {
         for (let i=0; i < searchTokens.length; i++) {
-            let token = this._toUpper(searchTokens[i]);
-            let subject = this._toUpper(doc.subject);
+            const token = this._toUpper(searchTokens[i]);
+            const subject = this._toUpper(doc.subject);
 
-            let hasMatchingInfoItems =
+            const hasMatchingInfoItems =
                 this.itemsFilter.filterWithParams(doc.infoItems, this.isCaseSensitive, [token]).length > 0;
 
             if (
@@ -50,8 +50,8 @@ export class TopicsFilter {
 
     docMatchesLabelTokens(doc, labelTokens) {
         for (let i=0; i < labelTokens.length; i++) {
-            let token = labelTokens[i];
-            let hasMatchingInfoItems =
+            const token = labelTokens[i];
+            const hasMatchingInfoItems =
                 this.itemsFilter.filterWithParams(doc.infoItems, this.isCaseSensitive, [], [token]).length > 0;
             if (!hasMatchingInfoItems) {
                 return false;
@@ -62,7 +62,7 @@ export class TopicsFilter {
 
     docMatchesFilterTokens(doc, filterTokens) {
         for (let i=0; i < filterTokens.length; i++) {
-            let filter = filterTokens[i];
+            const filter = filterTokens[i];
 
             switch (filter.key) {
             case TOPIC_KEYWORDS.IS.key:
@@ -99,7 +99,7 @@ export class TopicsFilter {
 
     _docMatchesKeywords_USER(doc, filter) {
         if (!doc.responsibles) { return false; }
-        let respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp; }, '');
+        const respStr = doc.responsibles.reduce((acc, resp) => { return acc + resp; }, '');
         return ( (filter.ids && _.intersection(doc.responsibles, filter.ids).length > 0)
                     || (filter.value && this._toUpper(respStr).indexOf(this._toUpper(filter.value)) !== -1) );
     }
@@ -126,7 +126,7 @@ export class TopicsFilter {
         case 'info':
         case 'action':
         {
-            let items = this.itemsFilter.filterWithParams(
+            const items = this.itemsFilter.filterWithParams(
                 doc.infoItems,
                 this.isCaseSensitive,
                 [],

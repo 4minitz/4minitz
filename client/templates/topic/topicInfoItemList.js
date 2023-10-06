@@ -49,10 +49,10 @@ export class TopicInfoItemListContext {
   // called from Meeting Series "tabItems" view
   static createReadonlyContextForItemsOfDifferentTopics(
     items,
-    meetingSeriesId,
+    meetingSeriesId
   ) {
     const context = new TopicInfoItemListContext(items, true, meetingSeriesId);
-    let mapItemID2topicID = {};
+    const mapItemID2topicID = {};
     items.forEach((item) => {
       mapItemID2topicID[item._id] = item.parentTopicId;
     });
@@ -103,7 +103,7 @@ export class TopicInfoItemListContext {
 
 Template.topicInfoItemList.onCreated(function () {
   /** @type {TopicInfoItemListContext} */
-  let tmplData = Template.instance().data;
+  const tmplData = Template.instance().data;
   this.isItemsLimited = new ReactiveVar(
     tmplData.items.length > INITIAL_ITEMS_LIMIT,
   );
@@ -121,7 +121,7 @@ Template.topicInfoItemList.onCreated(function () {
         )._id;
 });
 
-let updateItemSorting = (evt, ui) => {
+const updateItemSorting = (evt, ui) => {
   let item = ui.item,
     sorting = item.parent().find("> .topicInfoItem"),
     topic = new Topic(
@@ -131,8 +131,8 @@ let updateItemSorting = (evt, ui) => {
     newItemSorting = [];
 
   for (let i = 0; i < sorting.length; ++i) {
-    let itemId = $(sorting[i]).attr("data-id");
-    let item = topic.findInfoItem(itemId);
+    const itemId = $(sorting[i]).attr("data-id");
+    const item = topic.findInfoItem(itemId);
 
     newItemSorting.push(item.getDocument());
   }
@@ -144,8 +144,8 @@ let updateItemSorting = (evt, ui) => {
   });
 };
 
-let getMeetingSeriesId = (parentElementId) => {
-  let aMin = Minutes.findOne(parentElementId);
+const getMeetingSeriesId = (parentElementId) => {
+  const aMin = Minutes.findOne(parentElementId);
   if (aMin) {
     return aMin.parentMeetingSeriesID();
   } else {
@@ -153,13 +153,13 @@ let getMeetingSeriesId = (parentElementId) => {
   }
 };
 
-let createTopic = (parentElementId, topicId) => {
+const createTopic = (parentElementId, topicId) => {
   if (!parentElementId || !topicId) return undefined;
   return new Topic(parentElementId, topicId);
 };
 
-let findInfoItem = (parentElementId, topicId, infoItemId) => {
-  let aTopic = createTopic(parentElementId, topicId);
+const findInfoItem = (parentElementId, topicId, infoItemId) => {
+  const aTopic = createTopic(parentElementId, topicId);
   if (aTopic) {
     return aTopic.findInfoItem(infoItemId);
   }
@@ -209,18 +209,18 @@ Template.topicInfoItemList.onRendered(function () {
   }
 });
 
-let addNewDetails = async (tmpl, index) => {
+const addNewDetails = async (tmpl, index) => {
   /** @type {TopicInfoItemListContext} */
   const context = tmpl.data;
   if (context.isReadonly) {
     return;
   }
-  let infoItem = context.items[index];
-  let aMin = new Minutes(context.getSeriesId(infoItem._id));
-  let aTopic = new Topic(aMin, infoItem.parentTopicId);
-  let aItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+  const infoItem = context.items[index];
+  const aMin = new Minutes(context.getSeriesId(infoItem._id));
+  const aTopic = new Topic(aMin, infoItem.parentTopicId);
+  const aItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
-  let detailsRootElement = tmpl.$(`#id-details-${infoItem._id}`);
+  const detailsRootElement = tmpl.$(`#id-details-${infoItem._id}`);
   detailsRootElement.parent().collapse("show");
 
   aItem.addDetails(aMin._id);
@@ -229,7 +229,7 @@ let addNewDetails = async (tmpl, index) => {
   // Defer opening new details editor to give DOM some time for its expand
   // animation
   Meteor.setTimeout(function () {
-    let inputEl = detailsRootElement.find(".detailInput").last().show();
+    const inputEl = detailsRootElement.find(".detailInput").last().show();
     detailsRootElement.find(".detailActions").last().show();
     inputEl.parent().css("margin", "0 0 25px 0");
     inputEl.show();
@@ -252,11 +252,11 @@ Template.topicInfoItemList.helpers({
   topicStateClass: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
-    let infoItem = context.items[index];
+    const infoItem = context.items[index];
     if (infoItem && infoItem.itemType !== "actionItem") {
       return "infoitem";
     } else if (infoItem?.isOpen) {
-      let todayDate = formatDateISO8601(new Date());
+      const todayDate = formatDateISO8601(new Date());
       if (infoItem.duedate && infoItem.duedate === todayDate) {
         return "actionitem-open-due-today";
       }
@@ -270,7 +270,7 @@ Template.topicInfoItemList.helpers({
   },
 
   hasDetails: function (index) {
-    let details = getDetails(Template.instance(), index);
+    const details = getDetails(Template.instance(), index);
     return details.length > 0;
   },
 
@@ -279,7 +279,7 @@ Template.topicInfoItemList.helpers({
   },
 
   isExpanded(itemID) {
-    let allItemsExpandedState = Template.instance().isItemExpanded.get();
+    const allItemsExpandedState = Template.instance().isItemExpanded.get();
     return allItemsExpandedState[itemID];
   },
 
@@ -312,7 +312,7 @@ Template.topicInfoItemList.helpers({
   checkedState: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
-    let infoItem = context.items[index];
+    const infoItem = context.items[index];
     if ((infoItem && infoItem.itemType === "infoItem") || infoItem.isOpen) {
       return "";
     } else {
@@ -395,8 +395,8 @@ Template.topicInfoItemList.helpers({
     }
     const topicId = context.getTopicId(infoItem._id);
     const seriesId = context.getSeriesId(infoItem._id);
-    let ms = new MeetingSeries(seriesId);
-    let aTopic = createTopic(seriesId, topicId);
+    const ms = new MeetingSeries(seriesId);
+    const aTopic = createTopic(seriesId, topicId);
     return (
       "Meeting Series:\n    " +
       ms.project +
@@ -420,12 +420,12 @@ Template.topicInfoItemList.events({
     /** @type {TopicInfoItemListContext} */
     const context = tmpl.data;
     performActionForItem(evt, tmpl, (item) => {
-      let isDeleteAllowed = item.isDeleteAllowed(
+      const isDeleteAllowed = item.isDeleteAllowed(
         context.getSeriesId(item._infoItemDoc._id),
       );
 
       if (item.isSticky() || isDeleteAllowed) {
-        let templateData = {
+        const templateData = {
           type: item.isActionItem()
             ? i18n.__("Dialog.ConfirmDeleteItem.typeActionItem")
             : i18n.__("Dialog.ConfirmDeleteItem.typeInfoItem"),
@@ -445,7 +445,7 @@ Template.topicInfoItemList.events({
             : i18n.__("Dialog.ConfirmDeleteItem.buttonUnpinInfoItem");
         }
 
-        let action = () => {
+        const action = () => {
           if (isDeleteAllowed) {
             item
               .getParentTopic()
@@ -499,10 +499,10 @@ Template.topicInfoItemList.events({
       return;
     }
 
-    let index = evt.currentTarget.getAttribute("data-index");
-    let infoItem = context.items[index];
+    const index = evt.currentTarget.getAttribute("data-index");
+    const infoItem = context.items[index];
 
-    let item = findInfoItem(
+    const item = findInfoItem(
       context.topicParentId,
       infoItem.parentTopicId,
       infoItem._id,
@@ -545,8 +545,8 @@ Template.topicInfoItemList.events({
       return;
     }
 
-    let index = evt.currentTarget.getAttribute("data-index");
-    let infoItem = context.items[index];
+    const index = evt.currentTarget.getAttribute("data-index");
+    const infoItem = context.items[index];
 
     Session.set("topicInfoItemEditTopicId", infoItem.parentTopicId);
     Session.set("topicInfoItemEditInfoItemId", infoItem._id);
@@ -571,29 +571,29 @@ Template.topicInfoItemList.events({
       return;
     }
 
-    let detailId = evt.currentTarget.getAttribute("data-id");
-    let textEl = tmpl.$(`#detailText_${detailId}`);
-    let inputEl = tmpl.$(`#detailInput_${detailId}`);
-    let detailActionsId = tmpl.$(`#detailActions_${detailId}`);
+    const detailId = evt.currentTarget.getAttribute("data-id");
+    const textEl = tmpl.$(`#detailText_${detailId}`);
+    const inputEl = tmpl.$(`#detailInput_${detailId}`);
+    const detailActionsId = tmpl.$(`#detailActions_${detailId}`);
 
     if (inputEl.val() !== "") {
       return;
     }
 
-    let index = inputEl.data("item");
-    let infoItem = context.items[index];
-    let aMin = new Minutes(context.topicParentId);
-    let aTopic = new Topic(aMin, infoItem.parentTopicId);
-    let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+    const index = inputEl.data("item");
+    const infoItem = context.items[index];
+    const aMin = new Minutes(context.topicParentId);
+    const aTopic = new Topic(aMin, infoItem.parentTopicId);
+    const aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
-    let detailIndex = detailId.split("_")[1]; // detail id is: <collapseId>_<index>
+    const detailIndex = detailId.split("_")[1]; // detail id is: <collapseId>_<index>
 
     // Attention: .isEditedBy and .isEditedDate may be null!
     if (
       aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined &&
       aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined
     ) {
-      let unset = function () {
+      const unset = function () {
         IsEditedService.removeIsEditedDetail(
           aMin._id,
           aTopic._topicDoc._id,
@@ -603,11 +603,11 @@ Template.topicInfoItemList.events({
         );
       };
 
-      let user = Meteor.users.findOne({
+      const user = Meteor.users.findOne({
         _id: aActionItem._infoItemDoc.details[detailIndex].isEditedBy,
       });
 
-      let tmplData = {
+      const tmplData = {
         isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
         isEditedDate: formatDateISO8601Time(
           aActionItem._infoItemDoc.details[detailIndex].isEditedDate,
@@ -670,7 +670,7 @@ Template.topicInfoItemList.events({
       return;
     }
 
-    let index = evt.currentTarget.getAttribute("data-index");
+    const index = evt.currentTarget.getAttribute("data-index");
     addNewDetails(tmpl, index).catch(handleError);
   },
 
@@ -683,19 +683,19 @@ Template.topicInfoItemList.events({
       return;
     }
 
-    let detailId = evt.currentTarget.getAttribute("data-id");
-    let index = $(evt.currentTarget).data("item");
-    let infoItem = context.items[index];
-    let textEl = tmpl.$(`#detailText_${detailId}`);
-    let inputEl = tmpl.$(`#detailInput_${detailId}`);
-    let detailActionsEl = tmpl.$(`#detailActions_${detailId}`);
+    const detailId = evt.currentTarget.getAttribute("data-id");
+    const index = $(evt.currentTarget).data("item");
+    const infoItem = context.items[index];
+    const textEl = tmpl.$(`#detailText_${detailId}`);
+    const inputEl = tmpl.$(`#detailInput_${detailId}`);
+    const detailActionsEl = tmpl.$(`#detailActions_${detailId}`);
 
-    let text = inputEl.val().trim();
+    const text = inputEl.val().trim();
 
-    let aMin = new Minutes(context.topicParentId);
-    let aTopic = new Topic(aMin, infoItem.parentTopicId);
-    let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
-    let detailIndex = detailId.split("_")[1]; // detail id is: <collapseId>_<index>
+    const aMin = new Minutes(context.topicParentId);
+    const aTopic = new Topic(aMin, infoItem.parentTopicId);
+    const aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
+    const detailIndex = detailId.split("_")[1]; // detail id is: <collapseId>_<index>
 
     IsEditedService.removeIsEditedDetail(
       aMin._id,
@@ -717,16 +717,16 @@ Template.topicInfoItemList.events({
           true,
         );
       } else {
-        let deleteDetails = () => {
+        const deleteDetails = () => {
           aActionItem.removeDetails(detailIndex);
           aActionItem.save().catch(handleError);
-          let detailsCount = aActionItem.getDetails().length;
+          const detailsCount = aActionItem.getDetails().length;
           if (detailsCount === 0) {
             tmpl.$(`#collapse-${infoItem._id}`).collapse("hide");
           }
         };
 
-        let oldText = aActionItem.getDetailsAt(detailIndex).text;
+        const oldText = aActionItem.getDetailsAt(detailIndex).text;
         if (!oldText) {
           // use case: Adding details and leaving the input field without
           // entering any text should go silently.
@@ -753,8 +753,8 @@ Template.topicInfoItemList.events({
   },
 
   "keydown .detailInput"(evt, tmpl) {
-    let detailId = evt.currentTarget.getAttribute("data-id");
-    let inputEl = tmpl.$(`#detailInput_${detailId}`);
+    const detailId = evt.currentTarget.getAttribute("data-id");
+    const inputEl = tmpl.$(`#detailInput_${detailId}`);
     if (evt.which === 13 /*enter*/ && (evt.ctrlKey || evt.metaKey)) {
       evt.preventDefault();
       inputEl.blur();
@@ -764,14 +764,14 @@ Template.topicInfoItemList.events({
   },
 
   "hide.bs.collapse"(evt, tmpl) {
-    let itemID = $(evt.currentTarget).data("itemid");
-    let expandStates = tmpl.isItemExpanded.get();
+    const itemID = $(evt.currentTarget).data("itemid");
+    const expandStates = tmpl.isItemExpanded.get();
     expandStates[itemID] = false;
     tmpl.isItemExpanded.set(expandStates);
   },
   "show.bs.collapse"(evt, tmpl) {
-    let itemID = $(evt.currentTarget).data("itemid");
-    let expandStates = tmpl.isItemExpanded.get();
+    const itemID = $(evt.currentTarget).data("itemid");
+    const expandStates = tmpl.isItemExpanded.get();
     expandStates[itemID] = true;
     tmpl.isItemExpanded.set(expandStates);
   },
@@ -781,8 +781,8 @@ Template.topicInfoItemList.events({
   "mousedown .detailInputDelete"(evt, tmpl) {
     evt.preventDefault();
     evt.stopPropagation();
-    let detailId = evt.currentTarget.getAttribute("data-id");
-    let inputEl = tmpl.$(`#detailInput_${detailId}`);
+    const detailId = evt.currentTarget.getAttribute("data-id");
+    const inputEl = tmpl.$(`#detailInput_${detailId}`);
     inputEl.val("");
     inputEl.blur();
   },

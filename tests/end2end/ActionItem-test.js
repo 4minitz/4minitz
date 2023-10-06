@@ -10,29 +10,29 @@ require('../../imports/helpers/date');
 describe('ActionItems', function () {
     const aProjectName = "E2E ActionItems";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name #";
+    const aTopicNameBase = "Topic Name #";
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Action Item Name #";
+    const aAINameBase = "Action Item Name #";
 
-    let getNewMeetingName = () => {
+    const getNewMeetingName = () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
     };
-    let getNewTopicName = () => {
+    const getNewTopicName = () => {
         aTopicCounter++;
         return aTopicNameBase + aTopicCounter;
     };
-    let getNewAIName = () => {
+    const getNewAIName = () => {
         aAICounter++;
         return aAINameBase + aAICounter;
     };
 
     function addActionItemToFirstTopic() {
-        let actionItemName = getNewAIName();
+        const actionItemName = getNewAIName();
 
         E2ETopics.addInfoItemToTopic({
             subject: actionItemName,
@@ -62,7 +62,7 @@ describe('ActionItems', function () {
     });
 
     it('can add an info item', function () {
-        let topicIndex = 1;
+        const topicIndex = 1;
         const actionItemName = getNewAIName();
 
         E2ETopics.addInfoItemToTopic({
@@ -72,17 +72,17 @@ describe('ActionItems', function () {
 
         E2EGlobal.waitSomeTime();
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
         expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
 
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
     });
 
     it('can edit an existing action item', function() {
-        let topicIndex = 1;
+        const topicIndex = 1;
         const actionItemName = getNewAIName();
         const updatedActionItemName = actionItemName + ' CHANGED!';
 
@@ -96,11 +96,11 @@ describe('ActionItems', function () {
 
         E2ETopics.editInfoItemForTopic(topicIndex, 1, {subject: updatedActionItemName});
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
         expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
 
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "AI text should have changed").to.have.string(updatedActionItemName);
     });
@@ -108,7 +108,7 @@ describe('ActionItems', function () {
 
     // This was broken before bugfix of github issue #228
     it('can edit an existing action item after an info item was added', function() {
-        let topicIndex = 1;
+        const topicIndex = 1;
         const actionItemName = getNewAIName();
         const updatedActionItemName = actionItemName + ' CHANGED!';
 
@@ -127,7 +127,7 @@ describe('ActionItems', function () {
         E2EGlobal.waitSomeTime();
 
         const newResponsible = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        let actionItemIndex = 2;    // II was inserted before AI!
+        const actionItemIndex = 2;    // II was inserted before AI!
         E2ETopics.editInfoItemForTopic(topicIndex, actionItemIndex,
             {
                 subject: updatedActionItemName,
@@ -135,18 +135,18 @@ describe('ActionItems', function () {
                 responsible: newResponsible,
             });
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem:nth-child(" + actionItemIndex + ")";
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") .topicInfoItem:nth-child(" + actionItemIndex + ")";
         expect(browser.isVisible(selector), "Action item should be visible after edit").to.be.true;
 
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
         expect(actionItemExpandElementText, "AI subject text should have changed after edit").to.have.string(updatedActionItemName);
         expect(actionItemExpandElementText, "AI responsible should have changed after edit").to.contain(newResponsible);
     });
 
 
     it('can add an action item by pressing enter in the topic field', function () {
-        let topicIndex = 1;
+        const topicIndex = 1;
         E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
@@ -160,17 +160,17 @@ describe('ActionItems', function () {
 
         E2EGlobal.waitSomeTime();
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
         expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
 
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
     });
 
     it('can add an action item and set the priority field', function () {
-        let topicIndex = 1;
+        const topicIndex = 1;
 
         const actionItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
@@ -179,12 +179,12 @@ describe('ActionItems', function () {
             itemType: "actionItem"
         }, topicIndex);
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
         browser.waitForVisible(selector);
         expect(browser.isVisible(selector), "Action item should be visible").to.be.true;
 
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "Action item visible text should match").to.have.string(actionItemName);
     });
@@ -211,17 +211,17 @@ describe('ActionItems', function () {
 
 
     it('shows security question before deleting action items', function () {
-        let actionItemName = addActionItemToFirstTopic();
+        const actionItemName = addActionItemToFirstTopic();
 
         E2ETopics.deleteInfoItem(1, 1);
 
-        let selectorDialog = "#confirmDialog";
+        const selectorDialog = "#confirmDialog";
 
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
 
-        let dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
-        let dialogContentText = browser.elementIdText(dialogContentElement).value;
+        const dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
+        const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
         expect(dialogContentText, 'dialog content should display the title of the to-be-deleted object').to.have.string(actionItemName);
         expect(dialogContentText, 'dialog content should display the correct type of the to-be-deleted object').to.have.string("action item");
@@ -232,7 +232,7 @@ describe('ActionItems', function () {
 
 
     it('can delete an action item', function () {
-        let topicIndex = 1;
+        const topicIndex = 1;
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
             subject: infoItemName,
@@ -241,7 +241,7 @@ describe('ActionItems', function () {
 
         E2EGlobal.waitSomeTime();
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
         expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
 
         E2ETopics.deleteInfoItem(1, 1, true);
@@ -250,7 +250,7 @@ describe('ActionItems', function () {
 
 
     it('can cancel a "delete action item"', function () {
-        let topicIndex = 1;
+        const topicIndex = 1;
         const infoItemName = getNewAIName();
         E2ETopics.addInfoItemToTopic({
             subject: infoItemName,
@@ -259,7 +259,7 @@ describe('ActionItems', function () {
 
         E2EGlobal.waitSomeTime();
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
         expect(browser.isVisible(selector), "Info item should be visible").to.be.true;
 
         E2ETopics.deleteInfoItem(1, 1, false);

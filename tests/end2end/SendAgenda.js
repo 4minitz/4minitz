@@ -10,7 +10,7 @@ import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 describe('Send agenda', function () {
     const aProjectName = "E2E Send Agenda";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     before("reload page and reset app", function () {
@@ -46,12 +46,12 @@ describe('Send agenda', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
-        let currentUser = E2EApp.getCurrentUser();
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const currentUser = E2EApp.getCurrentUser();
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
-        let selector = "select.user-role-select";
-        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        const selector = "select.user-role-select";
+        const usrRoleOption = browser.selectByValue(selector, "Invited");
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
@@ -79,7 +79,7 @@ describe('Send agenda', function () {
 
         E2EMinutes.confirmQualityAssuranceDialog();
 
-        let selectorDialog = "#confirmDialog";
+        const selectorDialog = "#confirmDialog";
 
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
@@ -104,9 +104,9 @@ describe('Send agenda', function () {
 
         E2EGlobal.waitSomeTime();
 
-        let sentMails = E2EMails.getAllSentMails();
+        const sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);
-        let sentMail = sentMails[0];
+        const sentMail = sentMails[0];
         expect(sentMail.subject, 'the subject should contain the string Agenda').to.have.string('Agenda');
         expect(sentMail.html, 'the email should contain the subject of the topic').to.have.string(topicSubject);
         expect(sentMail.html, 'the email should not contain the info item').to.not.have.string(infoItemSubject);
@@ -117,12 +117,12 @@ describe('Send agenda', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EMeetingSeriesEditor.disableEmailForRoleChange();
 
-        let currentUser = E2EApp.getCurrentUser();
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const currentUser = E2EApp.getCurrentUser();
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
-        let selector = "select.user-role-select";
-        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        const selector = "select.user-role-select";
+        const usrRoleOption = browser.selectByValue(selector, "Invited");
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
@@ -136,7 +136,7 @@ describe('Send agenda', function () {
 
         E2EGlobal.waitSomeTime();
 
-        let recipients = E2EMails.getAllRecipients();
+        const recipients = E2EMails.getAllRecipients();
 
         expect(recipients).to.have.length(2);
         expect(recipients).to.include.members([E2EGlobal.SETTINGS.e2eTestEmails[0], E2EGlobal.SETTINGS.e2eTestEmails[1]]);
@@ -145,7 +145,7 @@ describe('Send agenda', function () {
     it('ensures that the agenda will be sent to the *normal* participants even if there are additional participants ' +
         'with no valid email addresses', function() {
 
-        let additionalUser = "Max Mustermann";
+        const additionalUser = "Max Mustermann";
         browser.setValue('#edtParticipantsAdditional', additionalUser);
 
         browser.waitForVisible('#btn_sendAgenda');
@@ -154,7 +154,7 @@ describe('Send agenda', function () {
 
         E2EGlobal.waitSomeTime(3000);
 
-        let sentMails = E2EMails.getAllSentMails();
+        const sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);
     });
 

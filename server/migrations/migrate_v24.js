@@ -21,9 +21,9 @@ export class MigrateV24 {
     }
 
     static migrateMinutesCollection() {
-        let minutes = MinutesSchema.find({});
+        const minutes = MinutesSchema.find({});
         minutes.forEach(singleMinute => {
-            let topics = singleMinute.topics.map(topic => this.fixTopic(topic));
+            const topics = singleMinute.topics.map(topic => this.fixTopic(topic));
             MinutesSchema.getCollection().update(singleMinute._id, {$set: {topics}});
         });
     }

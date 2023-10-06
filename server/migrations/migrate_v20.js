@@ -47,13 +47,13 @@ function forEachDetailInMinutes(minutes, operation) {
 export class MigrateV20 {
 
     static up() {
-        let allTopics = TopicSchema.getCollection().find();
+        const allTopics = TopicSchema.getCollection().find();
         forEachDetailInTopics(allTopics, detail => {
             detail.isNew = false;
         });
         saveTopics(allTopics);
 
-        let allMinutes = MinutesSchema.getCollection().find();
+        const allMinutes = MinutesSchema.getCollection().find();
         allMinutes.forEach(min => {
             forEachDetailInTopics(min.topics, detail => {
                 detail.isNew = (detail.createdInMinute === min._id);
@@ -63,13 +63,13 @@ export class MigrateV20 {
     }
 
     static down() {
-        let allTopics = TopicSchema.getCollection().find();
+        const allTopics = TopicSchema.getCollection().find();
         forEachDetailInTopics(allTopics, detail => {
             delete detail.isNew;
         });
         saveTopics(allTopics);
 
-        let allMinutes = MinutesSchema.getCollection().find();
+        const allMinutes = MinutesSchema.getCollection().find();
         forEachDetailInMinutes(allMinutes, detail => {
             delete detail.isNew;
         });

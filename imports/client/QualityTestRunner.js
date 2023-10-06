@@ -39,16 +39,16 @@ export class QualityTestRunner {
     }
 
     //filter test cases
-    let selectedTests = QualityTestCase.testCases.filter((testCase) => {
+    const selectedTests = QualityTestCase.testCases.filter((testCase) => {
       return (
         testCase.triggers.includes(selectedTrigger) && testCase.condition()
       );
     });
 
     //execute tests
-    let errors = [];
+    const errors = [];
     selectedTests.forEach((selectedTest) => {
-      let error = selectedTest.test(testObject);
+      const error = selectedTest.test(testObject);
       if (error) {
         errors.push(error);
       }

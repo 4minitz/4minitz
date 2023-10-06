@@ -1,4 +1,4 @@
-let _ = require('underscore');
+const _ = require('underscore');
 
 module.exports = function (ldapSettings, userData) {
     ldapSettings.propertyMap = ldapSettings.propertyMap || {};
@@ -12,18 +12,18 @@ module.exports = function (ldapSettings, userData) {
     if (Array.isArray(tmpEMail)) {
         tmpEMail = tmpEMail[0];
     }
-    let tmpEMailArray = [{
+    const tmpEMailArray = [{
         address: tmpEMail,
         verified: true,
         fromLDAP: true
     }];
 
-    let username = userData[usernameAttribute] || '';
+    const username = userData[usernameAttribute] || '';
 
     const whiteListedFields = ldapSettings.whiteListedFields || [];
     const profileFields = whiteListedFields.concat(['dn']);
 
-    let user = {
+    const user = {
         createdAt: new Date(),
         isInactive: false,
         emails: tmpEMailArray,

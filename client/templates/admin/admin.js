@@ -32,7 +32,7 @@ Template.admin.helpers({
 Template.admin.events({
     // Switch between tabs via user click on <li>
     'click .nav-tabs li': function(event, tmpl) {
-        let currentTab = $(event.target).closest('li');
+        const currentTab = $(event.target).closest('li');
 
         tmpl.activeTabId.set(currentTab.attr('id'));
         tmpl.activeTabTemplate.set(currentTab.data('template'));

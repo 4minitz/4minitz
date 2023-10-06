@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import _ from 'underscore';
 
 class MeteorError {}
-let Meteor = {
+const Meteor = {
     Error: MeteorError
 };
 
@@ -85,7 +85,7 @@ describe('ItemsFilter', function() {
         parser.searchTokens.push(".three");
         parser.searchTokens.push("Three");
         parser.caseSensitive = true;
-        let res = topicsFilter.filter(topics, parser);
+        const res = topicsFilter.filter(topics, parser);
         parser.caseSensitive = false;
 
         expect(res, "Length of the topic array should be 1").have.length(1);
@@ -94,7 +94,7 @@ describe('ItemsFilter', function() {
 
     it('filters topics which has items with a specific label', function() {
         parser.labelTokens.push("L1");
-        let res = topicsFilter.filter(topics, parser);
+        const res = topicsFilter.filter(topics, parser);
         expect(res, "Length of the topic array should be 2").have.length(2);
         expect(res[0].infoItems, "The resulting first topic should contain all its items").to.have.length(2);
         expect(res[1].infoItems, "The resulting snd topic should contain all its items").to.have.length(3);

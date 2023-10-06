@@ -29,10 +29,10 @@ export class MinutesGenerator {
    * @returns {Array}
    */
   generate(topicsGenerator) {
-    let result = [];
+    const result = [];
     let lastMin = false;
     for (let i = 0; i < this.config.minutesCount; i++) {
-      let isLastOne = i + 1 === this.config.minutesCount;
+      const isLastOne = i + 1 === this.config.minutesCount;
       lastMin = this.generateOne(topicsGenerator, isLastOne);
       result.push(lastMin);
       this._tickOneDay();
@@ -42,8 +42,8 @@ export class MinutesGenerator {
   }
 
   generateOne(topicsGenerator, isLastOne = false) {
-    let id = Random.generateId();
-    let min = {
+    const id = Random.generateId();
+    const min = {
       _id: id,
       meetingSeries_id: this.parentSeriesId,
       date: this.constructor._formatDate(this.nextMinutesDate),
@@ -69,7 +69,7 @@ export class MinutesGenerator {
     if (!isLastOne) {
       min.finalizedAt = this.nextMinutesDate;
       min.finalizedBy = this.user.username;
-      let dateTime = this.constructor._formatDateTime(this.nextMinutesDate);
+      const dateTime = this.constructor._formatDateTime(this.nextMinutesDate);
 
       // #I18N: We will leave this is English, as it is published to the database!
       min.finalizedHistory.push(

@@ -62,10 +62,10 @@ if (Meteor.settings.isEnd2EndTest) {
       if (!skipUsersCreation) {
         // Reset users and create our e2e test users
         Meteor.users.remove({});
-        for (let i in Meteor.settings.e2eTestUsers) {
-          let newUser = Meteor.settings.e2eTestUsers[i];
-          let newPassword = Meteor.settings.e2eTestPasswords[i];
-          let newEmail = Meteor.settings.e2eTestEmails[i];
+        for (const i in Meteor.settings.e2eTestUsers) {
+          const newUser = Meteor.settings.e2eTestUsers[i];
+          const newPassword = Meteor.settings.e2eTestPasswords[i];
+          const newEmail = Meteor.settings.e2eTestEmails[i];
           Accounts.createUser({
             username: newUser,
             password: newPassword,
@@ -125,7 +125,7 @@ if (Meteor.settings.isEnd2EndTest) {
       console.log(
         "-------------------------- E2E-METHOD: getParticipantsString",
       );
-      let aMin = new Minutes(minutesId);
+      const aMin = new Minutes(minutesId);
       return aMin.getPresentParticipantNames();
     },
     "e2e.updateMeetingSeries"(id, doc) {
@@ -194,19 +194,19 @@ if (Meteor.settings.isEnd2EndTest) {
       console.log(
         "-------------------------- E2E-METHOD: getProtocolStoragePathForMinute",
       );
-      let protocol = DocumentGeneration.getProtocolForMinute(minuteId);
+      const protocol = DocumentGeneration.getProtocolForMinute(minuteId);
       return protocol ? protocol.path : undefined;
     },
     "e2e.getProtocolLinkForMinute"(minuteId) {
       console.log(
         "-------------------------- E2E-METHOD: getProtocolLinkForMinute",
       );
-      let protocol = DocumentGeneration.getProtocolForMinute(minuteId);
+      const protocol = DocumentGeneration.getProtocolForMinute(minuteId);
       return protocol ? protocol.link() : undefined;
     },
     "e2e.getUserRole"(MSid, i) {
       console.log("-------------------------- E2E-METHOD: getUserRole");
-      let usr = Meteor.users.findOne({
+      const usr = Meteor.users.findOne({
         username: Meteor.settings.e2eTestUsers[i],
       });
       if (usr.roles?.[MSid] && usr.roles[MSid][0]) {
@@ -220,7 +220,7 @@ if (Meteor.settings.isEnd2EndTest) {
     },
     "e2e.getUserId"(i) {
       console.log("-------------------------- E2E-METHOD: getUserId");
-      let usr = Meteor.users.findOne({
+      const usr = Meteor.users.findOne({
         username: Meteor.settings.e2eTestUsers[i],
       });
       return usr._id;
@@ -229,12 +229,12 @@ if (Meteor.settings.isEnd2EndTest) {
       console.log(
         "-------------------------- E2E-METHOD: countTopicsInMongoDB",
       );
-      let minId = MinutesSchema.getCollection().findOne(minuteID);
+      const minId = MinutesSchema.getCollection().findOne(minuteID);
       return minId.topics.length;
     },
     "e2e.getTopics"(minuteID) {
       console.log("-------------------------- E2E-METHOD: getTopics");
-      let min = MinutesSchema.getCollection().findOne(minuteID);
+      const min = MinutesSchema.getCollection().findOne(minuteID);
       return min.topics;
     },
     "e2e.triggerMigration"(version) {

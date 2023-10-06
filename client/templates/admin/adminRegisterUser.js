@@ -23,11 +23,11 @@ Template.adminRegisterUser.events({
             return;
         }
 
-        let uName = tmpl.find('#id_newUsrName').value;
-        let uLongName = tmpl.find('#id_newUsrLongName').value;
-        let uMail = tmpl.find('#id_newUsrMail').value;
-        let uPassword1 = tmpl.find('#id_newUsrPassword1').value;
-        let uPassword2 = tmpl.find('#id_newUsrPassword2').value;
+        const uName = tmpl.find('#id_newUsrName').value;
+        const uLongName = tmpl.find('#id_newUsrLongName').value;
+        const uMail = tmpl.find('#id_newUsrMail').value;
+        const uPassword1 = tmpl.find('#id_newUsrPassword1').value;
+        const uPassword2 = tmpl.find('#id_newUsrPassword2').value;
 
         let sendMail = false;
         let sendPassword = false;

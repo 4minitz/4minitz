@@ -13,7 +13,7 @@ export const subElementsHelper = {
     },
 
     getElementById: function(id, elements, attributeName) {
-        let i = subElementsHelper.findIndexById(id, elements, attributeName);
+        const i = subElementsHelper.findIndexById(id, elements, attributeName);
         if (i != undefined) {
             return elements[i];
         }

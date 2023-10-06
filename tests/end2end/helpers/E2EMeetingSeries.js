@@ -76,7 +76,7 @@ export class E2EMeetingSeries {
             console.log('Could not find MSId for', aProj, aName);
             return '';
         }
-        let linkTarget = link.getAttribute('href');
+        const linkTarget = link.getAttribute('href');
         return linkTarget.slice(linkTarget.lastIndexOf('/')+1);
     }
 
@@ -84,13 +84,13 @@ export class E2EMeetingSeries {
         E2EApp.gotoStartPage();
         E2EGlobal.waitSomeTime();
 
-        let selector = 'li.meeting-series-item a';
+        const selector = 'li.meeting-series-item a';
         try {
             browser.waitForExist(selector);
         } catch (e) {
             return false;   // we have no meeting series at all!
         }
-        let compareText = aProj+': '+aName;
+        const compareText = aProj+': '+aName;
 
         const element = $('='+compareText);
         if (!element.isExisting()) {
@@ -100,7 +100,7 @@ export class E2EMeetingSeries {
         E2EGlobal.waitSomeTime(100);
         element.click();
         E2EGlobal.waitSomeTime(500);
-        let currentURL = browser.getUrl();
+        const currentURL = browser.getUrl();
         if (!currentURL.includes('meetingseries')) {
             throw new Error('Could not switch to Meeting Series \''+compareText+'\'');
         }
@@ -108,7 +108,7 @@ export class E2EMeetingSeries {
     }
 
     static gotoTabMinutes() {
-        let selector = '#tab_minutes';
+        const selector = '#tab_minutes';
         try {
             browser.waitForExist(selector);
         } catch (e) {
@@ -119,7 +119,7 @@ export class E2EMeetingSeries {
     }
 
     static gotoTabTopics() {
-        let selector = '#tab_topics';
+        const selector = '#tab_topics';
         try {
             browser.waitForExist(selector);
         } catch (e) {
@@ -130,7 +130,7 @@ export class E2EMeetingSeries {
     }
 
     static gotoTabItems() {
-        let selector = '#tab_items';
+        const selector = '#tab_items';
         try {
             browser.waitForExist(selector);
         } catch (e) {

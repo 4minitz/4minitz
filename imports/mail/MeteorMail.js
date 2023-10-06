@@ -8,7 +8,7 @@ export class MeteorMail extends Mail{
     }
 
     _sendMail() {
-        let config = {
+        const config = {
             to: this._recipients,
             from: this._from,
             replyTo: this._replyTo,

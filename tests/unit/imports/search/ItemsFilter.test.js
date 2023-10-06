@@ -3,7 +3,7 @@ import proxyquire from 'proxyquire';
 import _ from 'underscore';
 
 class MeteorError {}
-let Meteor = {
+const Meteor = {
     Error: MeteorError
 };
 
@@ -52,7 +52,7 @@ describe('ItemsFilter', function() {
 
     it('returns the filtered array of items', function() {
         parser.searchTokens.push("three");
-        let res = itemsFilter.filter(items, parser);
+        const res = itemsFilter.filter(items, parser);
 
         expect(res, "Length of the result items array should be 5").have.length(5);
     });
@@ -60,7 +60,7 @@ describe('ItemsFilter', function() {
     it('can filter for multiple search tokens', function() {
         parser.searchTokens.push("three");
         parser.searchTokens.push("two");
-        let res = itemsFilter.filter(items, parser);
+        const res = itemsFilter.filter(items, parser);
 
         expect(res, "Length of the result items array should be 2").have.length(2);
     });
@@ -68,7 +68,7 @@ describe('ItemsFilter', function() {
     it('should return an items array containing only info items matching the search query', function() {
         const query = "three";
         parser.searchTokens.push(query);
-        let res = itemsFilter.filter(items, parser);
+        const res = itemsFilter.filter(items, parser);
         let foundAWrongItem = false;
         res.forEach(item => {
             if (item.subject.indexOf(query) === -1) {
@@ -80,14 +80,14 @@ describe('ItemsFilter', function() {
 
     it('can filter for labels', function() {
         parser.labelTokens.push("L1");
-        let res = itemsFilter.filter(items, parser);
+        const res = itemsFilter.filter(items, parser);
         expect(res, "Length of the result items array should be 3").have.length(3);
     });
 
     it('filters case insensitive per default for search tokens', function() {
         parser.searchTokens.push("THREE");
         parser.searchTokens.push("TWO");
-        let res = itemsFilter.filter(items, parser);
+        const res = itemsFilter.filter(items, parser);
 
         expect(res, "Length of the result items array should be 2").have.length(2);
     });
@@ -95,7 +95,7 @@ describe('ItemsFilter', function() {
     it('can enable case sensitive search', function() {
         parser.caseSensitive = true;
         parser.searchTokens.push("THREE");
-        let res = itemsFilter.filter(items, parser);
+        const res = itemsFilter.filter(items, parser);
         parser.caseSensitive = false;
 
         expect(res, "Length of the result items array should be 0").have.length(0);
@@ -104,21 +104,21 @@ describe('ItemsFilter', function() {
     it('can combine multiple is-filter-tokens as logical AND which is a conjunctive operation', function() {
         parser.filterTokens.push({key: 'is', value: 'open'});
         parser.filterTokens.push({key: 'is', value: 'action'});
-        let res = itemsFilter.filter(items, parser);
+        const res = itemsFilter.filter(items, parser);
 
         expect(res, "Length of the result items array should be 2").have.length(2);
 
         parser.init();
         parser.filterTokens.push({key: 'is', value: 'action'});
         parser.filterTokens.push({key: 'is', value: 'open'});
-        let res2 = itemsFilter.filter(items, parser);
+        const res2 = itemsFilter.filter(items, parser);
 
         expect(res2, "The order of the filter tokens should not matter").have.length(2);
     });
 
     it('can filter items depending on their due date', function() {
         parser.filterTokens.push({key: 'due', value: '2017-'});
-        let res = itemsFilter.filter(items, parser);
+        const res = itemsFilter.filter(items, parser);
 
         expect(res, "Length of the result items array should be 2").have.length(2);
     });

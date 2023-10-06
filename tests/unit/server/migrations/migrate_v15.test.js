@@ -4,7 +4,7 @@ import sinon from "sinon";
 
 const DEFAULT_PRIORITY = 3;
 
-let MinutesSchema = {
+const MinutesSchema = {
   minutes: [],
 
   find: function () {
@@ -19,7 +19,7 @@ let MinutesSchema = {
 };
 MinutesSchema.getCollection = (_) => MinutesSchema;
 
-let MeetingSeriesSchema = {
+const MeetingSeriesSchema = {
   series: [],
 
   find: function () {

@@ -32,7 +32,7 @@ Meteor.methods({
       throw new Meteor.Error("Invalid E-Mail", "Not a valid E-Mail address");
     }
 
-    let targetUser = Meteor.users.findOne({ _id: userId });
+    const targetUser = Meteor.users.findOne({ _id: userId });
     if (!targetUser) {
       throw new Meteor.Error(
         "Could not find user",
@@ -49,7 +49,7 @@ Meteor.methods({
     const hasMailChanged = eMail !== targetUser.emails[0].address;
 
     if (hasMailChanged) {
-      let ifEmailExists = Meteor.users.findOne({ "emails.0.address": eMail });
+      const ifEmailExists = Meteor.users.findOne({ "emails.0.address": eMail });
       if (ifEmailExists !== undefined) {
         throw new Meteor.Error(
           "Invalid E-Mail",
@@ -113,7 +113,7 @@ Meteor.methods({
     password1,
     password2,
     sendMail,
-    sendPassword,
+    sendPassword
   ) {
     console.log(`users.admin.registerUser for user: ${username}`);
     // #Security: Only logged in admin may invoke this method:
@@ -155,7 +155,7 @@ Meteor.methods({
       "EMail address not valid",
     );
 
-    let newUserId = Accounts.createUser({
+    const newUserId = Accounts.createUser({
       username: username,
       password: password1,
       email: email,
@@ -168,7 +168,7 @@ Meteor.methods({
     );
 
     if (Meteor.isServer && newUserId && sendMail) {
-      let mailer = new AdminRegisterUserMailHandler(
+      const mailer = new AdminRegisterUserMailHandler(
         newUserId,
         sendPassword,
         password1,
@@ -187,7 +187,7 @@ Meteor.methods({
         "You are not admin.",
       );
     }
-    let usr = Meteor.users.findOne(userId);
+    const usr = Meteor.users.findOne(userId);
     if (usr) {
       if (usr.isInactive) {
         Meteor.users.update({ _id: userId }, { $unset: { isInactive: "" } });

@@ -1,7 +1,7 @@
 let spawn = require('child_process').spawn,
     killTree = require('tree-kill');
 
-let transformCommand = (command, args) => {
+const transformCommand = (command, args) => {
     if (process.platform === 'win32') {
         return {
             command: 'cmd',
@@ -22,7 +22,7 @@ function run (command, args, out) {
         state = 'running',
         pipe = (data) => {
             if (out) {
-                let str = data.toString();
+                const str = data.toString();
                 out(str);
             }
         };

@@ -25,7 +25,7 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   }
 
   // Ensure user can not update documents of other users
-  let userRoles = new UserRoles(Meteor.userId());
+  const userRoles = new UserRoles(Meteor.userId());
   if (!userRoles.isModeratorOf(meetingSeriesId)) {
     throw new Meteor.Error(
       "Cannot modify this minutes/series",
@@ -41,7 +41,7 @@ function checkUserMayLeave(meetingSeriesId) {
   }
 
   // Ensure user can not update documents of other users
-  let userRoles = new UserRoles(Meteor.userId());
+  const userRoles = new UserRoles(Meteor.userId());
   if (userRoles.isModeratorOf(meetingSeriesId)) {
     throw new Meteor.Error(
       "Cannot leave this meeting series",
@@ -63,7 +63,7 @@ Meteor.methods({
     // It is not allowed to insert new minutes if the last minute was not
     // finalized
     check(doc.meetingSeries_id, String);
-    let parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
+    const parentMeetingSeries = new MeetingSeries(doc.meetingSeries_id);
     if (!parentMeetingSeries.addNewMinutesAllowed()) {
       // last minutes is not finalized!
       throw new Meteor.Error(
@@ -106,7 +106,7 @@ Meteor.methods({
     if (openTopics) {
       topics = openTopics;
       topics.forEach((topicDoc) => {
-        let topic = new Topic(parentMeetingSeries, topicDoc);
+        const topic = new Topic(parentMeetingSeries, topicDoc);
         topic.tailorTopic();
         topic.invalidateIsNewFlag();
         if (topic.isSkipped()) {
@@ -117,10 +117,10 @@ Meteor.methods({
     doc.topics = topics;
 
     try {
-      let newMinutesID = MinutesSchema.insert(doc);
+      const newMinutesID = MinutesSchema.insert(doc);
       try {
         parentMeetingSeries.minutes.push(newMinutesID);
-        let affectedDocs = MeetingSeriesSchema.update(parentMeetingSeries._id, {
+        const affectedDocs = MeetingSeriesSchema.update(parentMeetingSeries._id, {
           $set: { minutes: parentMeetingSeries.minutes },
         });
         if (affectedDocs !== 1) {
@@ -154,12 +154,12 @@ Meteor.methods({
       throw new Meteor.Error("illegal-arguments", "Minutes id required");
     }
     console.log(`workflow.removeMinute: ${minutes_id}`);
-    let aMin = new Minutes(minutes_id);
-    let meetingSeriesId = aMin.parentMeetingSeriesID();
+    const aMin = new Minutes(minutes_id);
+    const meetingSeriesId = aMin.parentMeetingSeriesID();
 
     checkUserAvailableAndIsModeratorOf(meetingSeriesId);
 
-    let affectedDocs = MinutesSchema.remove({
+    const affectedDocs = MinutesSchema.remove({
       _id: minutes_id,
       isFinalized: false,
     });
@@ -236,12 +236,12 @@ Meteor.methods({
     checkUserMayLeave(meetingSeries_id);
 
     // 1st.: remove user from roles
-    let roles = new UserRoles();
+    const roles = new UserRoles();
     roles.removeAllRolesForMeetingSeries(meetingSeries_id);
 
     // 2nd.: adapt "visibleFor" of meeting series
-    let ms = new MeetingSeries(meetingSeries_id);
-    let visibleForArray = ms.visibleFor;
+    const ms = new MeetingSeries(meetingSeries_id);
+    const visibleForArray = ms.visibleFor;
     let index = visibleForArray.indexOf(Meteor.userId());
     while (index !== -1) {
       // loop, just in case we have multiple hits of this user
@@ -279,7 +279,7 @@ Meteor.methods({
 
     // Write to currently unfinalized Minute, if existent
     const meetingSeries = new MeetingSeries(meetingSeries_id);
-    let lastMinute = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
+    const lastMinute = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
     if (lastMinute && !lastMinute.isFinalized) {
       const topicDoc = topicsUpdater.getTopicById(topic_id);
       const topicObject = new Topic(meetingSeries, topicDoc);

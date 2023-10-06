@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { Class as SchemaClass } from 'meteor/jagi:astronomy';
 import './idValidator';
 
-let BroadcastMessageCollection = new Mongo.Collection('broadcastmessage');
+const BroadcastMessageCollection = new Mongo.Collection('broadcastmessage');
 
 export const BroadcastMessageSchema = SchemaClass.create({
     name: 'BroadcastMessageSchema',

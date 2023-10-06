@@ -18,12 +18,12 @@ let collapseID = 0;
 Template.topicsList.helpers({
 
     'getTopics': function() {
-        let config =Template.instance().data;
+        const config =Template.instance().data;
         return config.topics;
     },
 
     getTopicElement: function () {
-        let config = Template.instance().data;
+        const config = Template.instance().data;
         return {
             topic: this,
             isEditable: !config.isReadonly,
@@ -62,7 +62,7 @@ Template.topicsList.events({
         // Scroll "add topic" edit field into view
         // We need a timeout here, to give meteor time to add the new topic field first
         Meteor.setTimeout(function () {
-            let elem = document.getElementById('addTopicToBottomDIV');
+            const elem = document.getElementById('addTopicToBottomDIV');
             if (elem) {
                 elem.scrollIntoView(false); // false => bottom will be aligned
             }

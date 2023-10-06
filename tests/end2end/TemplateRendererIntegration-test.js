@@ -26,14 +26,14 @@ describe('TemplateRendererIntegration', function () {
 
     it('uses the markdown helper correctly', function () {
         const template = 'Hello {{markdown2html name}}';
-        let expected = 'Hello <strong>Peter</strong><br>\n';
+        const expected = 'Hello <strong>Peter</strong><br>\n';
         const response = server.call('e2e-render-template', template, {name: '**Peter**'});
         expect(response.result).to.equal(expected);
     });
 
     it('uses the doctype helper correctly', function () {
         const template = '{{doctype}}';
-        let expected = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+        const expected = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
         const response = server.call('e2e-render-template', template, {});
         expect(response.result).to.equal(expected);
     });

@@ -7,9 +7,9 @@
  * users: node createTestUsers.js -m mongodb://localhost:3101/meteor -n 5000
  */
 
-let mongo = require("mongodb").MongoClient;
+const mongo = require("mongodb").MongoClient;
 const { faker } = require("@faker-js/faker");
-let random = require("randomstring");
+const random = require("randomstring");
 
 class UserFactory {
   static getUser() {
@@ -38,7 +38,7 @@ class UserFactory {
   static saveUsers(db, numberOfUsers) {
     return new Promise((resolve, reject) => {
       for (let i = 0; i < numberOfUsers; i++) {
-        let user = UserFactory.getUser();
+        const user = UserFactory.getUser();
         db.collection("users").insert(user);
         console.log(`${i}\t${user.username}\t${user.profile.name}`);
       }
@@ -52,7 +52,7 @@ UserFactory.postfix = random.generate({
   charset: "23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz",
 });
 
-let _connectMongo = function (mongoUrl) {
+const _connectMongo = function (mongoUrl) {
   return new Promise((resolve, reject) => {
     mongo.connect(mongoUrl, (error, db) => {
       if (error) {
@@ -63,14 +63,14 @@ let _connectMongo = function (mongoUrl) {
   });
 };
 
-let optionParser = require("node-getopt").create([
+const optionParser = require("node-getopt").create([
   ["n", "number=[ARG]", "Number of users to be created"],
   ["m", "mongourl=[ARG]", "Mongo DB url"],
   ["h", "help", "Display this help"],
 ]);
-let arg = optionParser.bindHelp().parseSystem();
-let mongoUrl = arg.options.mongourl || process.env.MONGO_URL;
-let numberOfUsers = arg.options.number;
+const arg = optionParser.bindHelp().parseSystem();
+const mongoUrl = arg.options.mongourl || process.env.MONGO_URL;
+const numberOfUsers = arg.options.number;
 if (!numberOfUsers) {
   optionParser.showHelp();
   console.error("No --numberparameter set");

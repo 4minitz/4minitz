@@ -38,7 +38,7 @@ class ExpImpTopics {
       }
 
       // Replace old user IDs with new users IDs
-      let topicIDs = [];
+      const topicIDs = [];
       for (let t = 0; t < AllTopicsDoc.length; t++) {
         topicIDs.push(AllTopicsDoc[t]._id);
         AllTopicsDoc[t] = ExpImpTopics.patchUsers(AllTopicsDoc[t], usrMap);

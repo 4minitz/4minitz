@@ -14,7 +14,7 @@ before(function() {
         try {
             browser.click_org(...args);
         } catch (e) {
-            let id = Math.random().toString(36).substr(2, 5);
+            const id = Math.random().toString(36).substr(2, 5);
             console.log(`browser.click() target "${args[0]}" not found - see screenshot with ID: ${id}`);
             E2EGlobal.saveScreenshot(`click-error_${id}`);
             throw e;
@@ -28,7 +28,7 @@ before(function() {
         try {
             browser.waitForVisible_org(selector, timeout, ...args);
         } catch (e) {
-            let id = Math.random().toString(36).substr(2, 5);
+            const id = Math.random().toString(36).substr(2, 5);
             console.log(`browser.waitForVisible() target "${selector}" not found - see screenshot with ID: ${id}`);
             E2EGlobal.saveScreenshot(`waitForVisible-error_${id}`);
             throw e;
@@ -42,7 +42,7 @@ before(function() {
         try {
             browser.elementIdClick_org(...args);
         } catch (e) {
-            let id = Math.random().toString(36).substr(2, 5);
+            const id = Math.random().toString(36).substr(2, 5);
             console.log(`browser.elementIdClick() target "${args[0]}" not found - see screenshot with ID: ${id}`);
             E2EGlobal.saveScreenshot(`clickId-error_${id}`);
             throw e;

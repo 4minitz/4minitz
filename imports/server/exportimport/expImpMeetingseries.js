@@ -8,7 +8,7 @@ class ExpImpMeetingSeries {
 
   static doExport(db, msID) {
     return new Promise((resolve, reject) => {
-      let userIDs = {};
+      const userIDs = {};
       db.collection("meetingSeries")
         .findOne({ _id: msID })
         .then((doc) => {

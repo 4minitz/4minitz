@@ -3,18 +3,18 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import asyncStubs from '../../../support/lib/asyncStubs';
 
-let MongoClient = {
+const MongoClient = {
     connect: sinon.stub().resolves()
 };
 
-let generate = sinon.stub().returns('123abc');
+const generate = sinon.stub().returns('123abc');
 
-let bulk = {
+const bulk = {
     find: sinon.stub(),
     execute: sinon.stub()
 };
 
-let client = {
+const client = {
     db() {
         return {
             collection: sinon.stub().returns({
@@ -25,16 +25,16 @@ let client = {
     close: sinon.stub()
 };
 
-let upsert = {
+const upsert = {
     upsert: sinon.stub()
 };
 
-let updateOne = {
+const updateOne = {
     updateOne: sinon.stub()
 };
 
-let mongoUrl = 'mongodb://host:port/db';
-let users = [{
+const mongoUrl = 'mongodb://host:port/db';
+const users = [{
     cn: 'username',
     mail: 'user@example.com',
     password: 'p@ssw0rd'

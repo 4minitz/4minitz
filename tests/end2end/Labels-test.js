@@ -9,23 +9,23 @@ import { E2ETopics } from './helpers/E2ETopics'
 describe('Labels', function () {
     const aProjectName = "E2E Labels";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name #";
+    const aTopicNameBase = "Topic Name #";
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Action Item Name #";
+    const aAINameBase = "Action Item Name #";
 
-    let getNewMeetingName = () => {
+    const getNewMeetingName = () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
     };
-    let getNewTopicName = () => {
+    const getNewTopicName = () => {
         aTopicCounter++;
         return aTopicNameBase + aTopicCounter;
     };
-    let getNewAIName = () => {
+    const getNewAIName = () => {
         aAICounter++;
         return aAINameBase + aAICounter;
     };
@@ -63,8 +63,8 @@ describe('Labels', function () {
             E2ETopics.addLabelToItem(1, 1, labelName + labelColor);
 
             var items = E2ETopics.getItemsForTopic(1);
-            let firstActionITem = items[0].ELEMENT;
-            let visibleText = browser.elementIdText(firstActionITem).value;
+            const firstActionITem = items[0].ELEMENT;
+            const visibleText = browser.elementIdText(firstActionITem).value;
             expect(visibleText).to.have.string(labelName);
             expect(visibleText).to.not.have.string(labelColor);
         });
@@ -80,8 +80,8 @@ describe('Labels', function () {
             E2ETopics.addLabelToItem(1, 1, defaultLabel);
 
             var items = E2ETopics.getItemsForTopic(1);
-            let firstActionItem = items[0].ELEMENT;
-            let visibleText = browser.elementIdText(firstActionItem).value;
+            const firstActionItem = items[0].ELEMENT;
+            const visibleText = browser.elementIdText(firstActionItem).value;
             expect(visibleText).to.have.string(defaultLabel);
         });
 
@@ -120,16 +120,16 @@ describe('Labels', function () {
 
             E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "labels");
 
-            let labelId = E2EMeetingSeriesEditor.changeLabel(labelName, renamedLabel, changedColor, false);
-            let selLabelRow = '#row-label-' + labelId;
+            const labelId = E2EMeetingSeriesEditor.changeLabel(labelName, renamedLabel, changedColor, false);
+            const selLabelRow = '#row-label-' + labelId;
             E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-cancel');
 
             // open editor again
             E2EGlobal.clickWithRetry(selLabelRow + ' .evt-btn-edit-label');
-            let newLabelNameValue = browser.getValue(selLabelRow + " [name='labelName']");
+            const newLabelNameValue = browser.getValue(selLabelRow + " [name='labelName']");
             expect(newLabelNameValue, "label name should be restored").to.equal(labelName);
 
-            let newLabelColorValue = browser.getValue(selLabelRow + " [name='labelColor-" + labelId + "']");
+            const newLabelColorValue = browser.getValue(selLabelRow + " [name='labelColor-" + labelId + "']");
             expect(newLabelColorValue, "label color should be restored").to.not.equal(changedColor);
 
             E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);

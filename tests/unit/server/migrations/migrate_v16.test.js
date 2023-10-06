@@ -2,7 +2,7 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-let TopicSchema = {
+const TopicSchema = {
   insert: sinon.stub(),
   find: sinon.stub(),
   remove: sinon.stub(),
@@ -10,7 +10,7 @@ let TopicSchema = {
 
 TopicSchema.getCollection = () => TopicSchema;
 
-let MeetingSeriesSchema = { find: sinon.stub(), update: sinon.stub() };
+const MeetingSeriesSchema = { find: sinon.stub(), update: sinon.stub() };
 MeetingSeriesSchema.getCollection = () => MeetingSeriesSchema;
 
 const { MigrateV16 } = proxyquire("../../../../server/migrations/migrate_v16", {

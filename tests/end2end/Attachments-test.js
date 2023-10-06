@@ -18,7 +18,7 @@ describe('Attachments', function () {
     let _localPublicDir;
     let _staticLocalFilename = "";
 
-    let getNewMeetingName = () => {
+    const getNewMeetingName = () => {
         _meetingCounter++;
         return _meetingNameBase + _meetingCounter;
     };
@@ -57,9 +57,9 @@ describe('Attachments', function () {
             "Number of attachments after upload").to.equal(1);
 
         // check if the server file exists after upload
-        let attachment = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID)[0];
-        let serverAttachmentDir = server.call('e2e.getServerAttachmentsDir');
-        let serverAttachmentFilename = serverAttachmentDir +
+        const attachment = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID)[0];
+        const serverAttachmentDir = server.call('e2e.getServerAttachmentsDir');
+        const serverAttachmentFilename = serverAttachmentDir +
                                 "/" + _lastMeetingSeriesID +
                                 "/" + attachment._id +
                                 "." + attachment.extension;
@@ -77,13 +77,13 @@ describe('Attachments', function () {
 
     it('can not upload illegal files (as moderator)', function () {
         // wrong extension
-        let fileWithDeniedExtension = _localPublicDir + "loading-gears.gif";
+        const fileWithDeniedExtension = _localPublicDir + "loading-gears.gif";
         E2EAttachments.uploadFile(fileWithDeniedExtension);
         E2EApp.confirmationDialogCheckMessage("Error: Denied file extension: \"gif\".");
         E2EApp.confirmationDialogAnswer(true);
 
         // to big file size
-        let fileWithTooBigSize = _localPublicDir + "mstile-310x310.png";
+        const fileWithTooBigSize = _localPublicDir + "mstile-310x310.png";
         E2EAttachments.uploadFile(fileWithTooBigSize);
         E2EApp.confirmationDialogCheckMessage("Error: Please upload file with max.");
         E2EApp.confirmationDialogAnswer(true);
@@ -139,7 +139,7 @@ describe('Attachments', function () {
     // ******************
     it('can upload an attachment to the server (as uploader)', function () {
         E2EAttachments.switchToUserWithDifferentRole(E2EGlobal.USERROLES.Uploader, _projectName, _lastMeetingName);
-        let countAttachmentsBeforeUpload = E2EAttachments.countAttachmentsGlobally();
+        const countAttachmentsBeforeUpload = E2EAttachments.countAttachmentsGlobally();
 
         E2EAttachments.uploadFile(_staticLocalFilename);
 
@@ -151,22 +151,22 @@ describe('Attachments', function () {
     it('can remove only my own attachment (as uploader)', function () {
         // 1st Upload by Moderator
         E2EAttachments.uploadFile(_staticLocalFilename);
-        let attDocBefore = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID);
+        const attDocBefore = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID);
         E2EAttachments.switchToUserWithDifferentRole(E2EGlobal.USERROLES.Uploader, _projectName, _lastMeetingName);
 
         // 2nd upload by "Uploader". We expect two attachments but only one remove button
         E2EAttachments.uploadFile(_staticLocalFilename);
-        let attachmentCountInMin = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID).length;
+        const attachmentCountInMin = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID).length;
         expect(attachmentCountInMin, "Two attachment after 2nd upload")
             .to.equal(2);
         expect(E2EAttachments.getRemoveButtons().length, "One remove attachment buttons after upload")
             .to.equal(1);
 
         // REMOVE 2nd UPLOAD by Uploader!
-        let removeBtns = E2EAttachments.getRemoveButtons();
+        const removeBtns = E2EAttachments.getRemoveButtons();
         removeBtns[0].click();
         E2EApp.confirmationDialogAnswer(true);
-        let attDocAfter = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID);
+        const attDocAfter = E2EAttachments.getAttachmentDocsForMinuteID(_lastMinutesID);
         expect(attDocBefore, "1st upload is still there after remove").to.deep.equal(attDocAfter);
         E2EApp.loginUser(0);
     });
@@ -196,15 +196,15 @@ describe('Attachments', function () {
             E2EAttachments.uploadFile(_staticLocalFilename);
             E2EAttachments.switchToUserWithDifferentRole(E2EGlobal.USERROLES.Invited, _projectName, _lastMeetingName);
 
-            let fileShort = path.basename(_staticLocalFilename); // => e.g. "favicon.ico"
-            let downloadDir = E2EAttachments.getChromeDownloadDirectory();
-            let downloadTargetFile = path.join(downloadDir, fileShort);
+            const fileShort = path.basename(_staticLocalFilename); // => e.g. "favicon.ico"
+            const downloadDir = E2EAttachments.getChromeDownloadDirectory();
+            const downloadTargetFile = path.join(downloadDir, fileShort);
             if (fs.existsSync(downloadTargetFile)) {
                 fs.unlinkSync(downloadTargetFile);
             }
             expect(fs.existsSync(downloadTargetFile)).to.be.false;  // No file there!
 
-            let links = E2EAttachments.getDownloadLinks();
+            const links = E2EAttachments.getDownloadLinks();
             links[0].click();                                       // now download via chrome desktop
             E2EGlobal.waitSomeTime(2000);
             expect(fs.existsSync(downloadTargetFile)).to.be.true;   // File should be there
@@ -248,12 +248,12 @@ describe('Attachments', function () {
 
     it('can not download attachment via URL if user not invited', function () {
         E2EAttachments.uploadFile(_staticLocalFilename);
-        let links = E2EAttachments.getDownloadLinks();
-        let attachmentURL = links[0].getAttribute("href");
+        const links = E2EAttachments.getDownloadLinks();
+        const attachmentURL = links[0].getAttribute("href");
 
         E2EApp.loginUser(2);                    // switch to non-invited user
         browser.url(attachmentURL);             // try to access download URL
-        let htmlSource = browser.getSource();
+        const htmlSource = browser.getSource();
         expect(htmlSource).to.contain("File Not Found :(");
         E2EApp.launchApp();
         E2EApp.loginUser(0);
@@ -261,12 +261,12 @@ describe('Attachments', function () {
 
     it('can not download attachment via URL if user not logged in', function () {
         E2EAttachments.uploadFile(_staticLocalFilename);
-        let links = E2EAttachments.getDownloadLinks();
-        let attachmentURL = links[0].getAttribute("href");
+        const links = E2EAttachments.getDownloadLinks();
+        const attachmentURL = links[0].getAttribute("href");
 
         E2EApp.logoutUser();                    // log out user
         browser.url(attachmentURL);             // try to access download URL
-        let htmlSource = browser.getSource();
+        const htmlSource = browser.getSource();
         expect(htmlSource).to.contain("File Not Found :(");
         E2EApp.launchApp();
         E2EApp.loginUser(0);

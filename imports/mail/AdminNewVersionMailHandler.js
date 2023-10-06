@@ -26,11 +26,11 @@ export class AdminNewVersionMailHandler {
   }
 
   send() {
-    let adminFrom = GlobalSettings.getDefaultEmailSenderAddress();
+    const adminFrom = GlobalSettings.getDefaultEmailSenderAddress();
 
-    let admins = Meteor.users.find({ isAdmin: true }).fetch();
+    const admins = Meteor.users.find({ isAdmin: true }).fetch();
     if (GlobalSettings.isEMailDeliveryEnabled() && admins.length > 0) {
-      let mailParams = {
+      const mailParams = {
         rootUrl: GlobalSettings.getRootUrl(),
         myVersion: this._myVersion,
         masterVersion: this._masterVersion,
@@ -38,11 +38,11 @@ export class AdminNewVersionMailHandler {
         masterMessageText: this._masterMessageTxt,
         url4Minitz: "https://github.com/4minitz/4minitz",
       };
-      let adminMails = [];
+      const adminMails = [];
       admins.map((adm) => {
         adminMails.push(adm.emails[0].address);
       });
-      let mailer = MailFactory.getMailer(adminFrom, adminMails.join(","));
+      const mailer = MailFactory.getMailer(adminFrom, adminMails.join(","));
       mailer.setSubject(`[4Minitz] ${i18n.__("Mail.AdminNewVersion.subject")}`);
       mailer.setText(i18n.__("Mail.AdminNewVersion.body", mailParams));
       mailer.send();

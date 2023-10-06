@@ -57,7 +57,7 @@ export class ParticipantsPreparer {
   }
 
   _addAdditionalParticipantsFromMinutesAsFreetext() {
-    let participantsAdditional = this.minutes.participantsAdditional;
+    const participantsAdditional = this.minutes.participantsAdditional;
     if (participantsAdditional) {
       participantsAdditional.split(/[,;]/).forEach((freeText) => {
         this._addFreeTextElementToBuffer(freeText.trim());

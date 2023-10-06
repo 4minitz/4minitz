@@ -7,10 +7,10 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { OnlineUsersSchema } from '/imports/collections/onlineusers.schema';
 import {Session} from 'meteor/session';
 
-let _filterUsers = new ReactiveVar('');
-let _showInactive = new ReactiveVar(false);
-let _showOnline = new ReactiveVar(false);
-let _visibleCount = new ReactiveVar(0);
+const _filterUsers = new ReactiveVar('');
+const _showInactive = new ReactiveVar(false);
+const _showOnline = new ReactiveVar(false);
+const _visibleCount = new ReactiveVar(0);
 
 Template.tabAdminUsers.onCreated(function () {
     this.autorun(() => {
@@ -26,7 +26,7 @@ Template.tabAdminUsers.onRendered(function() {
 
 Template.tabAdminUsers.helpers({
     users(){
-        let filterString = _filterUsers.get();
+        const filterString = _filterUsers.get();
         let filterOptions = filterString.length > 0
             ? {$or: [{'username': {$regex: filterString, $options: 'i'}},
                 {'profile.name': {$regex: filterString, $options: 'i'}},
@@ -37,11 +37,11 @@ Template.tabAdminUsers.helpers({
             filterOptions = {$and: [{isInactive: {$not: true}}, filterOptions]};
         }
         if (_showOnline.get()) {
-            let onlineusers = OnlineUsersSchema.find().fetch().map(ousr => {return ousr.userId;});
+            const onlineusers = OnlineUsersSchema.find().fetch().map(ousr => {return ousr.userId;});
             filterOptions = {$and: [{'_id': {$in: onlineusers}}, filterOptions]};
         }
 
-        let userCursor = Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 250});
+        const userCursor = Meteor.users.find(filterOptions, {sort: {username: 1}, limit: 250});
         _visibleCount.set(userCursor.count());
         return userCursor;
     },
@@ -67,8 +67,8 @@ Template.tabAdminUsers.helpers({
     },
 
     'userCount'() {
-        let userCountAll = _showInactive.get() ? Meteor.users.find({}).count() : Meteor.users.find({isInactive: {$not: true}}).count();
-        let userCountVisible = _visibleCount.get()+0;
+        const userCountAll = _showInactive.get() ? Meteor.users.find({}).count() : Meteor.users.find({isInactive: {$not: true}}).count();
+        const userCountVisible = _visibleCount.get()+0;
 
         if (userCountVisible == 1) {
             return i18n.__('Admin.Users.countSingle', {visible: userCountVisible, all: userCountAll});
@@ -79,7 +79,7 @@ Template.tabAdminUsers.helpers({
 
 Template.tabAdminUsers.events({
     'keyup #id_adminFilterUsers'(evt, tmpl) {
-        let filterString = tmpl.find('#id_adminFilterUsers').value;
+        const filterString = tmpl.find('#id_adminFilterUsers').value;
         _filterUsers.set(filterString);
     },
 

@@ -12,12 +12,12 @@ export class MigrateV6 {
             topic.infoItems.forEach(item => {
                 item.responsibles = [];
                 if (item.responsible) {
-                    let resp = item.responsible.split(',');
+                    const resp = item.responsible.split(',');
                     resp.forEach((oneResp, index, array) => {
                         oneResp = oneResp.trim();
                         // let's try if this is a valid username.
                         // If yes: we store this user's _id instead of its name!
-                        let userTry = Meteor.users.findOne({username: oneResp});
+                        const userTry = Meteor.users.findOne({username: oneResp});
                         if (userTry) {
                             oneResp = userTry._id;
                         }

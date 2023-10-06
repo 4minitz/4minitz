@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import _ from 'underscore';
 
 class MeteorError {}
-let Meteor = {
+const Meteor = {
     Error: MeteorError
 };
 
@@ -31,9 +31,9 @@ describe("QueryParser", function() {
     it("parses a simple query string containing only search tokens correctly", function() {
         const QUERY = "hello world";
         parser.parse(QUERY);
-        let filterTokens = parser.getFilterTokens();
-        let labelTokens = parser.getLabelTokens();
-        let searchTokens = parser.getSearchTokens();
+        const filterTokens = parser.getFilterTokens();
+        const labelTokens = parser.getLabelTokens();
+        const searchTokens = parser.getSearchTokens();
 
         expect(filterTokens, "should contain no filter tokens").to.have.length(0);
         expect(labelTokens, "should contain no label tokens").to.have.length(0);
@@ -47,9 +47,9 @@ describe("QueryParser", function() {
         const QUERY = "#label 1 #label zwo";
         parser.parse(QUERY);
 
-        let filterTokens = parser.getFilterTokens();
-        let labelTokens = parser.getLabelTokens().map(token => {return token.token;});
-        let searchTokens = parser.getSearchTokens();
+        const filterTokens = parser.getFilterTokens();
+        const labelTokens = parser.getLabelTokens().map(token => {return token.token;});
+        const searchTokens = parser.getSearchTokens();
 
         expect(filterTokens, "should contain no filter tokens").to.have.length(0);
         expect(labelTokens, "should contain 2 label tokens").to.have.length(2);
@@ -62,9 +62,9 @@ describe("QueryParser", function() {
     it("parses a simple query string containing search tokens, keywords and labels correctly", function() {
         const QUERY = "hello is:open world #my label";
         parser.parse(QUERY);
-        let filterTokens = parser.getFilterTokens();
-        let labelTokens = parser.getLabelTokens().map(token => {return token.token;});
-        let searchTokens = parser.getSearchTokens();
+        const filterTokens = parser.getFilterTokens();
+        const labelTokens = parser.getLabelTokens().map(token => {return token.token;});
+        const searchTokens = parser.getSearchTokens();
 
         expect(filterTokens, "should contain 1 filter tokens").to.have.length(1);
         expect(labelTokens, "should contain 1 label token").to.have.length(1);
@@ -101,7 +101,7 @@ describe("QueryParser", function() {
                     return [];
                 }
 
-                let length = labelName.length;
+                const length = labelName.length;
                 return [`${labelName}-${length}`];
             })
         });
@@ -109,9 +109,9 @@ describe("QueryParser", function() {
         it('can query the label id for a given name using the passed function', function() {
             const QUERY = "#my label hello world";
             parser.parse(QUERY);
-            let filterTokens = parser.getFilterTokens();
-            let labelTokens = parser.getLabelTokens();
-            let searchTokens = parser.getSearchTokens();
+            const filterTokens = parser.getFilterTokens();
+            const labelTokens = parser.getLabelTokens();
+            const searchTokens = parser.getSearchTokens();
 
             expect(filterTokens, "should contain no filter tokens").to.have.length(0);
             expect(labelTokens, "should contain 1 label token").to.have.length(1);

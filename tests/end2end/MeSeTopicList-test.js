@@ -8,7 +8,7 @@ import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor'
 describe('MeetingSeries complete Topic list', function () {
     const aProjectName = "MeetingSeries Topic List";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     before("reload page and reset app", function () {
@@ -44,11 +44,11 @@ describe('MeetingSeries complete Topic list', function () {
 
         expect(E2ETopics.countItemsForTopic(1), "Topic should have two items").to.equal(2);
 
-        let items = E2ETopics.getItemsForTopic(1);
-        let firstItemElement = items[0].ELEMENT;
+        const items = E2ETopics.getItemsForTopic(1);
+        const firstItemElement = items[0].ELEMENT;
         expect(browser.elementIdText(firstItemElement).value, "fist element should be the action item").to.have.string('some action item');
 
-        let sndElement = items[1].ELEMENT;
+        const sndElement = items[1].ELEMENT;
         expect(browser.elementIdText(sndElement).value, "2nd element should be the info item").to.have.string('some information');
     });
 
@@ -138,7 +138,7 @@ describe('MeetingSeries complete Topic list', function () {
 
 		E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
 		E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
@@ -246,11 +246,11 @@ describe('MeetingSeries complete Topic list', function () {
 
             // check the first topic (this should be the new one)
             expect(E2ETopics.countItemsForTopic(1), "New Topic should have two items").to.equal(2);
-            let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-            let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+            const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+            const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
             expect(browser.elementIdText(firstItemOfNewTopic).value, "first item of new topic should be the action item")
                 .to.have.string('with an action item');
-            let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
+            const sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
             expect(browser.elementIdText(sndItemOfNewTopic).value, "2nd item of new topic should be the info item")
                 .to.have.string('with information');
 
@@ -311,8 +311,8 @@ describe('MeetingSeries complete Topic list', function () {
 
             E2EMeetingSeries.gotoTabTopics();
 
-            let topicItems = E2ETopics.getTopicsForMinute();
-            let topicEl = topicItems[0].ELEMENT;
+            const topicItems = E2ETopics.getTopicsForMinute();
+            const topicEl = topicItems[0].ELEMENT;
             expect(browser.elementIdText(topicEl).value, "the topic subject should have changed").to.have.string(newTopicSubject);
             expect(browser.elementIdText(topicEl).value, "the topic responsible should have changed").to.have.string(newResponsible);
         });
@@ -333,8 +333,8 @@ describe('MeetingSeries complete Topic list', function () {
 
             E2EMeetingSeries.gotoTabTopics();
 
-            let topicItems = E2ETopics.getTopicsForMinute();
-            let topicEl = topicItems[0].ELEMENT;
+            const topicItems = E2ETopics.getTopicsForMinute();
+            const topicEl = topicItems[0].ELEMENT;
             expect(browser.elementIdText(topicEl).value, "the topic subject should have changed").to.not.have.string(newTopicSubject);
             expect(browser.elementIdText(topicEl).value, "the topic responsible should have changed").to.not.have.string(newResponsible);
         });
@@ -354,8 +354,8 @@ describe('MeetingSeries complete Topic list', function () {
 
             E2EMeetingSeries.gotoTabTopics();
 
-            let items = E2ETopics.getItemsForTopic(1);
-            let firstItemElement = items[0].ELEMENT;
+            const items = E2ETopics.getItemsForTopic(1);
+            const firstItemElement = items[0].ELEMENT;
             expect(browser.elementIdText(firstItemElement).value, "the action item subject should have changed").to.have.string(newSubject);
             expect(browser.elementIdText(firstItemElement).value, "the action item responsible should have changed").to.have.string(newResponsible);
         });
@@ -376,8 +376,8 @@ describe('MeetingSeries complete Topic list', function () {
 
             E2EMeetingSeries.gotoTabTopics();
 
-            let items = E2ETopics.getItemsForTopic(1);
-            let firstItemElement = items[0].ELEMENT;
+            const items = E2ETopics.getItemsForTopic(1);
+            const firstItemElement = items[0].ELEMENT;
             expect(browser.elementIdText(firstItemElement).value, "the action item subject should have changed").to.not.have.string(newSubject);
             expect(browser.elementIdText(firstItemElement).value, "the action item responsible should have changed").to.not.have.string("Resp: " + newResponsible);
         });
@@ -390,8 +390,8 @@ describe('MeetingSeries complete Topic list', function () {
 
             E2EMeetingSeries.gotoTabTopics();
 
-            let items = E2ETopics.getItemsForTopic(1);
-            let firstItemElement = items[0].ELEMENT;
+            const items = E2ETopics.getItemsForTopic(1);
+            const firstItemElement = items[0].ELEMENT;
             expect(browser.elementIdText(firstItemElement).value).to.not.have.string("New");
         });
 
@@ -405,8 +405,8 @@ describe('MeetingSeries complete Topic list', function () {
 
             E2EMeetingSeries.gotoTabTopics();
 
-            let items = E2ETopics.getItemsForTopic(1);
-            let firstItemElement = items[0].ELEMENT;
+            const items = E2ETopics.getItemsForTopic(1);
+            const firstItemElement = items[0].ELEMENT;
             expect(browser.elementIdText(firstItemElement).value).to.have.string("New");
         });
 

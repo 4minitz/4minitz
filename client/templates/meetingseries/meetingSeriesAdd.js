@@ -25,10 +25,10 @@ function escapeHandler(event) {
 }
 
 function addMeetingSeries(template, optimisticUICallback) {
-  let aProject = template.find("#id_meetingproject").value;
-  let aName = template.find("#id_meetingname").value;
+  const aProject = template.find("#id_meetingproject").value;
+  const aName = template.find("#id_meetingname").value;
 
-  let ms = new MeetingSeries({
+  const ms = new MeetingSeries({
     project: aProject,
     name: aName,
     createdAt: new Date(),
@@ -49,8 +49,8 @@ Template.meetingSeriesAdd.helpers({
 Template.meetingSeriesAdd.events({
   "submit #id_meetingSeriesAddForm"(event, template) {
     event.preventDefault();
-    let aProject = template.find("#id_meetingproject").value;
-    let aName = template.find("#id_meetingname").value;
+    const aProject = template.find("#id_meetingproject").value;
+    const aName = template.find("#id_meetingname").value;
     if (aProject === "" || aName === "") {
       return;
     }

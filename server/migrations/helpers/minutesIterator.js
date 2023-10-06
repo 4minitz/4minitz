@@ -9,7 +9,7 @@ export class MinutesIterator {
     }
 
     iterate() {
-        let allSeries = this.meetingSeriesSchema.getCollection().find();
+        const allSeries = this.meetingSeriesSchema.getCollection().find();
         allSeries.forEach(series => {
             this._iterateOverMinutesOfSeries(series);
             this.minutesHandler.finishedSeries(series);

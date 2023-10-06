@@ -13,7 +13,7 @@ Template.connectionInfo.onCreated(function() {
 // We delay the display of connection info dialog to make sure
 // the connection lost lasts longer than xx secs.
 // This should prevent flashing of this warning during app bootstrapping
-let showWithDelay = function () {
+const showWithDelay = function () {
     if (!Meteor.status().connected) {
         $('#connectionLostWarning').fadeIn('slow');
         // the reactive var triggers connectionLost() helper, which will trigger blaze to show
@@ -24,7 +24,7 @@ let showWithDelay = function () {
 Template.connectionInfo.helpers({
     connectionLost() {
         templateInstance = Template.instance();
-        let cl = Template.instance().connectionLost.get();
+        const cl = Template.instance().connectionLost.get();
 
         if (!Meteor.status().connected) {
             if (cl === false) { // delay & fade in  - only once per connection lost!
@@ -59,7 +59,7 @@ Template.connectionInfo.events({
 
     'click #btnWarningExpandCollapse': function (evt, tmpl) {
         evt.preventDefault();
-        let warningMessage = document.getElementById('warningMessage');
+        const warningMessage = document.getElementById('warningMessage');
         warningMessage.style.display = (warningMessage.style.display === 'none') ? 'inline-block' : 'none';
         tmpl.currentSymbol.set(!tmpl.currentSymbol.get());
     },

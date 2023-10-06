@@ -11,25 +11,25 @@ import { formatDateISO8601 } from '../../imports/helpers/date';
 describe('Item Details', function () {
     const aProjectName = "E2E ActionItems Details";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name #";
+    const aTopicNameBase = "Topic Name #";
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Item Name #";
+    const aAINameBase = "Item Name #";
 
     let infoItemName;
 
-    let getNewMeetingName = () => {
+    const getNewMeetingName = () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
     };
-    let getNewTopicName = () => {
+    const getNewTopicName = () => {
         aTopicCounter++;
         return aTopicNameBase + aTopicCounter;
     };
-    let getNewAIName = () => {
+    const getNewAIName = () => {
         aAICounter++;
         return aAINameBase + aAICounter;
     };
@@ -69,8 +69,8 @@ describe('Item Details', function () {
         browser.element(".expandDetails ").click();
         E2EGlobal.waitSomeTime();
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
 
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
@@ -79,8 +79,8 @@ describe('Item Details', function () {
     it('can add details to an Action Item', function() {
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
@@ -94,8 +94,8 @@ describe('Item Details', function () {
 
         E2ETopics.addDetailsToActionItem(1, 1, detailsText);
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
     });
@@ -104,8 +104,8 @@ describe('Item Details', function () {
         E2ETopics.addDetailsToActionItem(1, 1, 'First Details');
         E2ETopics.addDetailsToActionItem(1, 1, 'Second Details');
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, "First added detail should be displayed")
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nFirst Details');
         expect(browser.elementIdText(firstItemOfNewTopic).value, "2nd added detail should be displayed, too")
@@ -130,8 +130,8 @@ describe('Item Details', function () {
 
         E2EGlobal.waitSomeTime(100); // phantom.js needs some time here, too...
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
         expect(browser.elementIdText(sndItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + detailsText);
     });
@@ -146,8 +146,8 @@ describe('Item Details', function () {
         E2ETopics.addDetailsToActionItem(1, 1, '2nd Details');
 
         E2ETopics.editDetailsForActionItem(1, 2, 1, "Updated Details");
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
         expect(browser.elementIdText(sndItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\n' + "Updated Details");
     });
@@ -159,23 +159,23 @@ describe('Item Details', function () {
 
         E2ETopics.editInfoItemForTopic(1, 1, { subject: newSubject });
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1, 1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
-        let completeAIText = browser.elementIdText(firstItemOfNewTopic).value;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1, 1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const completeAIText = browser.elementIdText(firstItemOfNewTopic).value;
         expect(completeAIText, "Subject of AI should have changed").to.have.string(newSubject);
         expect(completeAIText, "AI should still contain the details").to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
 
     it('does not revert changes when input field receives click-event during input', function () {
-        let doBeforeSubmit = (inputElement) => {
+        const doBeforeSubmit = (inputElement) => {
            // perform click event on the input field after setting the text and before submitting the changes
             E2EGlobal.clickWithRetry(inputElement);
         };
 
         E2ETopics.addDetailsToActionItem(1, 1, 'First Details', doBeforeSubmit);
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, "Added detail should be displayed")
             .to.have.string(formatDateISO8601(new Date()) + ' New' +'\nFirst Details');
     });
@@ -185,8 +185,8 @@ describe('Item Details', function () {
 
         E2ETopics.editDetailsForActionItem(1, 1, 1, 'New Details (changed)');
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details (changed)');
     });
@@ -196,13 +196,13 @@ describe('Item Details', function () {
 
         E2ETopics.editDetailsForActionItem(1, 1, 1, ''); // empty text will remove the detail
 
-        let selectorDialog = "#confirmDialog";
+        const selectorDialog = "#confirmDialog";
 
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
 
-        let dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
-        let dialogContentText = browser.elementIdText(dialogContentElement).value;
+        const dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
+        const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
         expect(dialogContentText, 'dialog content should display the subject of the to-be-deleted parent item')
             .to.have.string(infoItemName);
@@ -214,13 +214,13 @@ describe('Item Details', function () {
     it('should remove the details if the input field of the new item will be submitted empty', function() {
         E2ETopics.addDetailsToActionItem(1, 1, '');
 
-        let selectorDialog = "#confirmDialog";
+        const selectorDialog = "#confirmDialog";
 
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.false;
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value, 'the item should have not have any details')
             .to.not.have.string(formatDateISO8601(new Date()));
     });
@@ -235,8 +235,8 @@ describe('Item Details', function () {
 
         E2EGlobal.waitSomeTime(100); // phantom.js needs some time here, too...
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
     });
@@ -245,11 +245,11 @@ describe('Item Details', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
-        let selector = "select.user-role-select";
-        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        const selector = "select.user-role-select";
+        const usrRoleOption = browser.selectByValue(selector, "Invited");
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
 
@@ -262,8 +262,8 @@ describe('Item Details', function () {
         E2ETopics.addDetailsToActionItem(1, 1, 'New Details');
 
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.not.have.string(formatDateISO8601(new Date()) + ' New' + '\nNew Details');
 
@@ -276,11 +276,11 @@ describe('Item Details', function () {
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
 
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         browser.setValue('#edt_AddUser', user2);
         browser.keys(['Enter']);
-        let selector = "select.user-role-select";
-        let usrRoleOption = browser.selectByValue(selector, "Invited");
+        const selector = "select.user-role-select";
+        const usrRoleOption = browser.selectByValue(selector, "Invited");
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EApp.loginUser(1);
@@ -292,8 +292,8 @@ describe('Item Details', function () {
         E2ETopics.editDetailsForActionItem(1, 1, 1, 'Changed Details');
 
 
-        let itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
-        let firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
+        const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
+        const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
         expect(browser.elementIdText(firstItemOfNewTopic).value)
             .to.have.string(formatDateISO8601(new Date()) + ' New' + '\nOld Details');
 

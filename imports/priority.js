@@ -23,7 +23,7 @@ export class Priority {
 
   static extractPriorityFromString(string) {
     const regEx = /prio:([1-5])/g;
-    let match = regEx.exec(string);
+    const match = regEx.exec(string);
     if (match !== null) {
       return new Priority(match[1]);
     }

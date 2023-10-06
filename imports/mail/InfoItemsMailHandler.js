@@ -34,7 +34,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
   _sendMail(mailData) {
     if (mailData === undefined)
       mailData = DocumentGeneration.getDocumentData(this);
-    let mailSubject = this._getSubject();
+    const mailSubject = this._getSubject();
 
     DocumentGeneration.generateResponsibleStringsForTopic(this);
 

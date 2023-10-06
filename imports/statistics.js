@@ -7,7 +7,7 @@ import { Attachment } from "./attachment";
 import { MeetingSeriesSchema } from "./collections/meetingseries.schema";
 import { MinutesSchema } from "./collections/minutes.schema";
 
-let StatisticsCollection = new Mongo.Collection("statistics");
+const StatisticsCollection = new Mongo.Collection("statistics");
 
 if (Meteor.isServer) {
   Meteor.publish("statistics", function () {
@@ -49,7 +49,7 @@ export const Statistics = SchemaClass.create({
 
       StatisticsCollection.remove({});
 
-      let statistics = this;
+      const statistics = this;
       statistics.result = [
         {
           description: i18n.__("About.ServerStatistics.rowNumUser"),
@@ -84,9 +84,9 @@ export const Statistics = SchemaClass.create({
 // minutes are considered
 // @param minTopicsCount {Number} only meeting series with at least so much
 // finalized topics are considered
-let statisticsDetails = function (minMinutesCount = 2, minTopicsCount = 5) {
+const statisticsDetails = function (minMinutesCount = 2, minTopicsCount = 5) {
   // eslint-disable-line
-  let MS = MeetingSeriesSchema.find();
+  const MS = MeetingSeriesSchema.find();
   let MScount = 0;
   let MinutesCount = 0;
   let TopicCount = 0;

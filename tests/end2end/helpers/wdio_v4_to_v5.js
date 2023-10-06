@@ -13,7 +13,7 @@ browser.click = function (selector) {
     try {
         return $(selector).click();
     } catch (e) {
-        let id = Math.random().toString(36).substr(2, 5);
+        const id = Math.random().toString(36).substr(2, 5);
         console.log(`browser.click() target "${selector}" not found - see screenshot with ID: ${id}`);
         E2EGlobal.saveScreenshot(`click-error_${id}`);
         throw e;
@@ -36,7 +36,7 @@ browser.waitForVisible = function (selector, timeout, reverse, timeoutMsg, inter
         return $(selector).waitForDisplayed( {timeout, reverse, timeoutMsg, interval} );
     }
     catch (e) {
-        let id = Math.random().toString(36).substr(2, 5);
+        const id = Math.random().toString(36).substr(2, 5);
         console.log(`browser.waitForVisible() target "${selector}" not found - see screenshot with ID: ${id}`);
         E2EGlobal.saveScreenshot(`waitForVisible-error_${id}`);
         throw e;

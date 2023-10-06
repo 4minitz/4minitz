@@ -19,7 +19,7 @@ if (Meteor.isServer) {
   // and even messages dismissed by herself!
   Meteor.publish("broadcastmessageAdmin", function () {
     if (this.userId) {
-      let usr = Meteor.users.findOne(this.userId);
+      const usr = Meteor.users.findOne(this.userId);
       if (usr.isAdmin) {
         return BroadcastMessageSchema.find({});
       }
@@ -88,7 +88,7 @@ Meteor.methods({
       throw new Meteor.Error("Cannot remove message", "You are not admin.");
     }
 
-    let msg = BroadcastMessageSchema.findOne(messageId);
+    const msg = BroadcastMessageSchema.findOne(messageId);
     if (msg) {
       if (msg.isActive) {
         BroadcastMessageSchema.update(messageId, { $set: { isActive: false } });

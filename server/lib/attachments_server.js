@@ -59,8 +59,8 @@ removeMeetingSeriesAttachmentDir = function (meetingseries_id) {
 // check storagePath for attachments once at server bootstrapping
 if (Meteor.settings.attachments?.enabled) {
   console.log("Attachments upload feature: ENABLED");
-  let settingsPath = calculateAndCreateStoragePath(null); // eslint-disable-line
-  let absoluteTargetPath = path.resolve(settingsPath);
+  const settingsPath = calculateAndCreateStoragePath(null); // eslint-disable-line
+  const absoluteTargetPath = path.resolve(settingsPath);
   console.log(`attachmentsStoragePath:${absoluteTargetPath}`);
 
   fs.access(absoluteTargetPath, fs.W_OK, function (err) {

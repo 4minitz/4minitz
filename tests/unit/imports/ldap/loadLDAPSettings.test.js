@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import asyncStubs from '../../../support/lib/asyncStubs';
 
-let fs = {
+const fs = {
     readFile: asyncStubs.doNothing,
     '@noCallThru': true
 };

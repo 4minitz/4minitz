@@ -25,7 +25,7 @@ Template.topicViewOne.onCreated(function() {
     this.autorun(() => {
         _topicID = FlowRouter.getParam('_id');
         this.subscribe('topicOnlyOne', _topicID, ()=>{  // perform the inner subscription after the outer one is ready
-            let aTopic = TopicSchema.getCollection().findOne({_id: _topicID});
+            const aTopic = TopicSchema.getCollection().findOne({_id: _topicID});
             if (aTopic) {
                 _parentSeriesId = aTopic.parentId;
                 if (_parentSeriesId) {
@@ -55,7 +55,7 @@ Template.topicViewOne.helpers({
     },
 
     redirectIfNotAllowed() {
-        let usrRoles = new UserRoles();
+        const usrRoles = new UserRoles();
         if (_parentSeriesId && !usrRoles.hasViewRoleFor(_parentSeriesId)) {
             FlowRouter.go('/');
         }
@@ -66,7 +66,7 @@ Template.topicViewOne.helpers({
     },
 
     theTopic() {
-        let theTopic = TopicSchema.getCollection().findOne({_id: _topicID});
+        const theTopic = TopicSchema.getCollection().findOne({_id: _topicID});
         if (!_topicID || ! theTopic) {
             return undefined;
         }
@@ -81,8 +81,8 @@ Template.topicViewOne.helpers({
     },
 
     dateOfLastFinalizedMinutes() {
-        let ms = new MeetingSeries(_parentSeriesId);
-        let aMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
+        const ms = new MeetingSeries(_parentSeriesId);
+        const aMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
         if (aMin) {
             return aMin.date;
         }
@@ -90,8 +90,8 @@ Template.topicViewOne.helpers({
     },
 
     idOfLastFinalizedMinutes() {
-        let ms = new MeetingSeries(_parentSeriesId);
-        let aMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
+        const ms = new MeetingSeries(_parentSeriesId);
+        const aMin = MinutesFinder.lastFinalizedMinutesOfMeetingSeries(ms);
         if (aMin) {
             return aMin._id;
         }

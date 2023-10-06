@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import proxyquire from "proxyquire";
 
-let MeetingSeriesSchema = {
+const MeetingSeriesSchema = {
   update: (id, doc) => {
-    let meetingSeries = MeetingSeriesSchema.getCollection()
+    const meetingSeries = MeetingSeriesSchema.getCollection()
       .find()
       .find((series) => series._id === id);
     if (Object.prototype.hasOwnProperty.call(doc, "$set")) {
@@ -20,11 +20,11 @@ let MeetingSeriesSchema = {
 MeetingSeriesSchema.getCollection = (_) => MeetingSeriesSchema;
 
 class MeteorError {}
-let Meteor = {
+const Meteor = {
   Error: MeteorError,
 };
 
-let MinutesFinder = {
+const MinutesFinder = {
   lastMinutesOfMeetingSeries(meetingSeries) {
     if (meetingSeries.hasMinute) {
       return {

@@ -73,7 +73,7 @@ export class MigrateV10 {
 
     static up() {
         console.log('% Progress - updating all topics. This might take several minutes...');
-        let allSeries = MeetingSeriesSchema.getCollection().find();
+        const allSeries = MeetingSeriesSchema.getCollection().find();
         allSeries.forEach(series => {
             (new MigrateSeriesUp(series)).run();
         });

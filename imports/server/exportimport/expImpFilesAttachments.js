@@ -48,7 +48,7 @@ class ExpImpFilesAttachments {
       }
 
       // Replace old user IDs with new users IDs
-      let attachmentIDs = [];
+      const attachmentIDs = [];
       for (let a = 0; a < AllAttachmentsDoc.length; a++) {
         attachmentIDs.push(AllAttachmentsDoc[a]._id);
         AllAttachmentsDoc[a] = ExpImpFilesAttachments.patchUsers(

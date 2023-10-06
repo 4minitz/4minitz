@@ -22,8 +22,8 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
   _sendMail() {
     if (this._sendAIseperately) {
       this._actionItems.forEach((item) => {
-        let topicSubject = item.getParentTopic().getSubject();
-        let mailSubject = `${this._getSubject()}: ${topicSubject}`;
+        const topicSubject = item.getParentTopic().getSubject();
+        const mailSubject = `${this._getSubject()}: ${topicSubject}`;
 
         this._buildMail(mailSubject, {
           greetingLabel: i18n.__("Mail.greeting"),
@@ -38,12 +38,12 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
         });
       });
     } else {
-      let mailSubject = this._getSubject();
+      const mailSubject = this._getSubject();
       this._buildMail(mailSubject, {
         greetingLabel: i18n.__("Mail.greeting"),
         newLabel: i18n.__("Mail.newActionItem"),
         actionItems: this._actionItems.map((item) => {
-          let topicSubject = item.getParentTopic().getSubject();
+          const topicSubject = item.getParentTopic().getSubject();
           return ActionItemsMailHandler._createActionItemDataObject(
             topicSubject,
             item.getParentTopic()._topicDoc._id,
@@ -56,7 +56,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
 
   static _createActionItemDataObject(topicSubject, topicId, item) {
     // prevent sending empty details
-    let details = item.getTextFromDetails() === "" ? [] : item.getDetails();
+    const details = item.getTextFromDetails() === "" ? [] : item.getDetails();
 
     return {
       _id: item.getDocument()._id,

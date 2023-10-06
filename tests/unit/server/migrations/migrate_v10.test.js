@@ -7,13 +7,13 @@ require("../../../../imports/helpers/date");
 const FIRST_MIN_ID = "#Min01";
 const SND_MIN_ID = "#Min02";
 
-let MinutesSchema = { update: sinon.stub(), find: sinon.stub() };
+const MinutesSchema = { update: sinon.stub(), find: sinon.stub() };
 MinutesSchema.getCollection = (_) => MinutesSchema;
 
-let MeetingSeriesSchema = { update: sinon.stub() };
+const MeetingSeriesSchema = { update: sinon.stub() };
 MeetingSeriesSchema.getCollection = (_) => MeetingSeriesSchema;
 
-let MinutesFinder = {
+const MinutesFinder = {
   firstMinutesResult: undefined,
   firstMinutesOfMeetingSeries() {
     return this.firstMinutesResult;
@@ -29,7 +29,7 @@ let MinutesFinder = {
   },
 };
 class MeteorError {}
-let Meteor = { Error: MeteorError };
+const Meteor = { Error: MeteorError };
 
 const { MigrateV10 } = proxyquire("../../../../server/migrations/migrate_v10", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
@@ -76,7 +76,7 @@ describe("Migrate Version 10", function () {
   });
 
   describe("#up", function () {
-    let checkTopicHasProperty = (topic) => {
+    const checkTopicHasProperty = (topic) => {
       expect(topic).to.have.ownProperty("createdInMinute");
     };
 
@@ -113,7 +113,7 @@ describe("Migrate Version 10", function () {
 
   describe("#down", function () {
     beforeEach(function () {
-      let addCreatedInMinuteFakeAttribute = (topic) => {
+      const addCreatedInMinuteFakeAttribute = (topic) => {
         topic.createdInMinute = "fakeID";
       };
       firstFakeMinute.topics.forEach(addCreatedInMinuteFakeAttribute);
@@ -125,7 +125,7 @@ describe("Migrate Version 10", function () {
     it("removes the createdInMinute-attribute", function () {
       MigrateV10.down();
 
-      let checkTopicHasNoAttribute = (topic) => {
+      const checkTopicHasNoAttribute = (topic) => {
         expect(topic).not.have.ownProperty("createdInMinute");
       };
 

@@ -74,7 +74,7 @@ export class MeetingSeries {
   }
 
   save(optimisticUICallback) {
-    let doc = this;
+    const doc = this;
     if (this._id) {
       return Meteor.callPromise("meetingseries.update", doc);
     } else {
@@ -103,16 +103,16 @@ export class MeetingSeries {
 
     // The new Minutes object should be dated after the latest existing one
     let newMinutesDate = new Date();
-    let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
+    const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
     if (lastMinutes && formatDateISO8601(newMinutesDate) <= lastMinutes.date) {
-      let lastMinDate = moment(lastMinutes.date);
+      const lastMinDate = moment(lastMinutes.date);
       newMinutesDate = lastMinDate.add(1, "days").toDate();
     }
     // Transfer global note from last minutes if set sticky
     const globalNotePinned = lastMinutes?.globalNotePinned;
-    let globalNote = globalNotePinned ? lastMinutes.globalNote : "";
+    const globalNote = globalNotePinned ? lastMinutes.globalNote : "";
 
-    let min = new Minutes({
+    const min = new Minutes({
       meetingSeries_id: this._id,
       date: formatDateISO8601(newMinutesDate),
       visibleFor: this.visibleFor, // freshly created minutes inherit
@@ -132,7 +132,7 @@ export class MeetingSeries {
   }
 
   hasMinute(id) {
-    for (let minuteId of this.minutes) {
+    for (const minuteId of this.minutes) {
       if (minuteId === id) {
         return true;
       }
@@ -151,7 +151,7 @@ export class MeetingSeries {
     callback = callback || function () {};
 
     try {
-      let result = await this.updateLastMinutesFieldsAsync();
+      const result = await this.updateLastMinutesFieldsAsync();
       callback(undefined, result);
     } catch (error) {
       callback(error);
@@ -159,11 +159,11 @@ export class MeetingSeries {
   }
 
   async updateLastMinutesFieldsAsync(lastMinuteDoc) {
-    let updateInfo = {
+    const updateInfo = {
       _id: this._id,
     };
 
-    let lastMinutes = lastMinuteDoc
+    const lastMinutes = lastMinuteDoc
       ? lastMinuteDoc
       : MinutesFinder.lastMinutesOfMeetingSeries(this);
 
@@ -177,12 +177,12 @@ export class MeetingSeries {
   }
 
   addNewMinutesAllowed() {
-    let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
+    const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
     return !lastMinutes || lastMinutes.isFinalized;
   }
 
   _getDateOfLatestMinute() {
-    let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
+    const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
 
     if (lastMinutes) {
       return new Date(lastMinutes.date);
@@ -193,7 +193,7 @@ export class MeetingSeries {
     // todo: check if excluding the given minuteId could be
     // done directly in the find call on the collection
 
-    let latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
+    const latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
       return {
         _id: minute._id,
         date: minute.date,
@@ -204,7 +204,7 @@ export class MeetingSeries {
       return;
     }
 
-    let firstNonMatchingMinute = latestMinutes.find(
+    const firstNonMatchingMinute = latestMinutes.find(
       (minute) => minute._id !== minuteId,
     );
     if (firstNonMatchingMinute) {
@@ -244,7 +244,7 @@ export class MeetingSeries {
     date.setHours(0);
     date.setMinutes(0);
 
-    let firstPossibleDate = this.getMinimumAllowedDateForMinutes(minutesId);
+    const firstPossibleDate = this.getMinimumAllowedDateForMinutes(minutesId);
     // if no firstPossibleDate is given, all dates are allowed
     return !firstPossibleDate || date > firstPossibleDate;
   }
@@ -277,11 +277,11 @@ export class MeetingSeries {
     let newUserArray = newVisibleForArray;
     newUserArray = newUserArray.concat(newInformedUsersArray);
 
-    let removedUserIDs = oldUserArray.filter((usrID) => {
+    const removedUserIDs = oldUserArray.filter((usrID) => {
       return newUserArray.indexOf(usrID) === -1;
     });
     removedUserIDs.forEach((removedUserID) => {
-      let ur = new UserRoles(removedUserID);
+      const ur = new UserRoles(removedUserID);
       ur.removeAllRolesForMeetingSeries(this._id);
     });
 
@@ -293,7 +293,7 @@ export class MeetingSeries {
     Minutes.syncVisibility(this._id, this.visibleFor);
 
     // sync informed only to *not finalized* minutes (do not change the past!)
-    let lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
+    const lastMinutes = MinutesFinder.lastMinutesOfMeetingSeries(this);
     if (lastMinutes && !lastMinutes.isFinalized) {
       lastMinutes.informedUsers = newInformedUsersArray;
       lastMinutes.save();
@@ -301,7 +301,7 @@ export class MeetingSeries {
   }
 
   isCurrentUserModerator() {
-    let ur = new UserRoles();
+    const ur = new UserRoles();
     return ur.isModeratorOf(this._id);
   }
 
@@ -320,14 +320,14 @@ export class MeetingSeries {
   findLabelContainingSubstr(name, caseSensitive) {
     caseSensitive = caseSensitive === undefined ? true : caseSensitive;
     return this.availableLabels.filter((label) => {
-      let left = caseSensitive ? label.name : label.name.toUpperCase();
-      let right = caseSensitive ? name : name.toUpperCase();
+      const left = caseSensitive ? label.name : label.name.toUpperCase();
+      const right = caseSensitive ? name : name.toUpperCase();
       return left.indexOf(right) !== -1;
     });
   }
 
   removeLabel(id) {
-    let index = subElementsHelper.findIndexById(id, this.getAvailableLabels());
+    const index = subElementsHelper.findIndexById(id, this.getAvailableLabels());
     if (undefined === index) {
       return;
     }
@@ -367,7 +367,7 @@ export class MeetingSeries {
    */
   addAdditionalResponsible(newResponsible) {
     // remove newResponsible if already present
-    let index = this.additionalResponsibles.indexOf(newResponsible);
+    const index = this.additionalResponsibles.indexOf(newResponsible);
     if (index !== -1) {
       this.additionalResponsibles.splice(index, 1);
     }

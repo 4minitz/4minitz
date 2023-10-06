@@ -12,7 +12,7 @@ describe.skip('Migrations', function () {
 
     const aProjectName = "Migrations";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     before("reload page and reset app", function () {

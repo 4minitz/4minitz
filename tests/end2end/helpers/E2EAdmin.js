@@ -77,7 +77,7 @@ export class E2EAdmin {
     if (index === undefined) {
       index = 1;
     }
-    let selector =
+    const selector =
       E2EAdmin.selectorMap.btnToggleUserInactive + ":nth-child(" + index + ")";
     E2EGlobal.clickWithRetry(selector);
     E2EGlobal.waitSomeTime();

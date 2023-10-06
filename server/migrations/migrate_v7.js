@@ -49,7 +49,7 @@ export class MigrateV7 {
             MigrateV7._upgradeTopics(series.openTopics);
             MigrateV7._upgradeTopics(series.topics);
 
-            let defaultLabels = GlobalSettings.getDefaultLabels();
+            const defaultLabels = GlobalSettings.getDefaultLabels();
             defaultLabels.forEach((label) => {
                 label._id = Random.id();
                 label.isDefaultLabel = true;

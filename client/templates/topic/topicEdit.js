@@ -24,12 +24,12 @@ let _meetingSeries; // ATTENTION - this var. is not reactive!
 Template.topicEdit.onCreated(function () {
   _minutesID = this.data;
   console.log(`Template topicEdit created with minutesID ${_minutesID}`);
-  let aMin = new Minutes(_minutesID);
+  const aMin = new Minutes(_minutesID);
   _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 });
 
-let getEditTopic = function () {
-  let topicId = Session.get("topicEditTopicId");
+const getEditTopic = function () {
+  const topicId = Session.get("topicEditTopicId");
 
   if (_minutesID === null || topicId === null) {
     return false;
@@ -49,30 +49,30 @@ function closePopupAndUnsetIsEdited() {
 
 Template.topicEdit.helpers({
   getTopicSubject: function () {
-    let topic = getEditTopic();
+    const topic = getEditTopic();
     return topic ? topic._topicDoc.subject : "";
   },
 });
 
 Template.topicEdit.events({
   "submit #frmDlgAddTopic": async function (evt, tmpl) {
-    let saveButton = $("#btnTopicSave");
+    const saveButton = $("#btnTopicSave");
 
     try {
       saveButton.prop("disabled", true);
 
       evt.preventDefault();
 
-      let editTopic = getEditTopic();
-      let topicDoc = {};
+      const editTopic = getEditTopic();
+      const topicDoc = {};
       if (editTopic) {
         _.extend(topicDoc, editTopic._topicDoc);
       }
 
       let labels = tmpl.$("#id_item_selLabels").val();
       if (!labels) labels = [];
-      let aMinute = new Minutes(_minutesID);
-      let aSeries = aMinute.parentMeetingSeries();
+      const aMinute = new Minutes(_minutesID);
+      const aSeries = aMinute.parentMeetingSeries();
       labels = convertOrCreateLabelsFromStrings(labels, aSeries);
 
       topicDoc.subject = tmpl.find("#id_subject").value;
@@ -92,7 +92,7 @@ Template.topicEdit.events({
 
   "hidden.bs.modal #dlgAddTopic": function (evt, tmpl) {
     $("#frmDlgAddTopic")[0].reset();
-    let subjectNode = tmpl.$("#id_subject");
+    const subjectNode = tmpl.$("#id_subject");
     subjectNode.parent().removeClass("has-error");
 
     // reset the session vars to indicate that edit mode has been closed
@@ -100,7 +100,7 @@ Template.topicEdit.events({
   },
 
   "show.bs.modal #dlgAddTopic": function (evt) {
-    let topic = getEditTopic();
+    const topic = getEditTopic();
 
     if (topic !== false) {
       const element = topic._topicDoc;
@@ -132,13 +132,13 @@ Template.topicEdit.events({
       _minutesID,
       topic,
     );
-    let selectLabels = $("#id_item_selLabels");
+    const selectLabels = $("#id_item_selLabels");
     if (selectLabels) {
       selectLabels.val([]).trigger("change");
     }
     configureSelect2Labels(_minutesID, "#id_item_selLabels", getEditTopic());
-    let saveButton = $("#btnTopicSave");
-    let cancelButton = $("#btnTopicCancel");
+    const saveButton = $("#btnTopicSave");
+    const cancelButton = $("#btnTopicCancel");
     saveButton.prop("disabled", false);
     cancelButton.prop("disabled", false);
   },
@@ -168,9 +168,9 @@ Template.topicEdit.events({
   },
 
   "select2:select #id_selResponsible"(evt) {
-    let respId = evt.params.data.id;
-    let respName = evt.params.data.text;
-    let aUser = Meteor.users.findOne(respId);
+    const respId = evt.params.data.id;
+    const respName = evt.params.data.text;
+    const aUser = Meteor.users.findOne(respId);
     if (!aUser && respId === respName) {
       // we have a free-text user here!
       _meetingSeries.addAdditionalResponsible(respName);

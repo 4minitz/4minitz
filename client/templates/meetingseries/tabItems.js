@@ -21,7 +21,7 @@ export class TabItemsConfig {
 
 Template.tabItems.onCreated(function() {
     this.topicFilterQuery = new ReactiveVar('');
-    let myTemplate = Template.instance();
+    const myTemplate = Template.instance();
     this.topicFilterHandler = (query) => {
         myTemplate.topicFilterQuery.set(query);
     };
@@ -44,7 +44,7 @@ Template.tabItems.helpers({
             {text: i18n.__('Item.Filter.closed'), value: 'is:action is:closed'},
             {text: i18n.__('Item.Filter.yourAction'), value: 'is:action @me'}
         ];
-        let tmpl = Template.instance();
+        const tmpl = Template.instance();
         return new FilterControlConfig(tmpl.topicFilterHandler, FILTERS, ITEM_KEYWORDS, 'Item-Filter');
     },
 

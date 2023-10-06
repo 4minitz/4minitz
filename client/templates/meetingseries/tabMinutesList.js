@@ -15,7 +15,7 @@ Template.tabMinutesList.helpers({
   },
 
   addMinutesDisabled: function () {
-    let ms = new MeetingSeries(this.meetingSeriesId);
+    const ms = new MeetingSeries(this.meetingSeriesId);
     if (ms.addNewMinutesAllowed()) {
       return {};
     } else {
@@ -24,7 +24,7 @@ Template.tabMinutesList.helpers({
   },
 
   isModeratorOfParentSeries: function () {
-    let usrRole = new UserRoles();
+    const usrRole = new UserRoles();
     return usrRole.isModeratorOf(this.meetingSeriesId);
   },
 
@@ -38,7 +38,7 @@ Template.tabMinutesList.helpers({
 Template.tabMinutesList.events({
   "click #btnAddMinutes": function (evt) {
     evt.preventDefault();
-    let ms = new MeetingSeries(this.meetingSeriesId);
+    const ms = new MeetingSeries(this.meetingSeriesId);
     ms.addNewMinutes(
       (newMinutesId) => {
         FlowRouter.redirect(`/minutesedit/${newMinutesId}`);
@@ -49,9 +49,9 @@ Template.tabMinutesList.events({
   },
 
   "click #btnLeaveMeetingSeries": function () {
-    let ms = new MeetingSeries(this.meetingSeriesId);
+    const ms = new MeetingSeries(this.meetingSeriesId);
 
-    let leaveSeriesCallback = () => {
+    const leaveSeriesCallback = () => {
       console.log(
         "User: " +
           Meteor.user().username +

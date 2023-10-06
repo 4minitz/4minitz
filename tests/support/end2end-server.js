@@ -1,4 +1,4 @@
-let task = require('./lib/task');
+const task = require('./lib/task');
 
 
 function logTask(taskname) {
@@ -15,7 +15,7 @@ const tasks = [
 function shutdown() {
     console.log('Kill all running tasks');
 
-    let done = [].fill(false, 0, tasks.length);
+    const done = [].fill(false, 0, tasks.length);
     tasks.forEach((task, index) => {
         task.kill('SIGINT', function (error) {
             if (error) {

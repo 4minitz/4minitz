@@ -14,7 +14,7 @@ import { LdapSettings } from '/imports/config/LdapSettings';
 // in which case it will be translated based on the currently selected language. In case you'd like to specify
 // a key which is not already provided by accounts-t9n you can always map your own keys.
 
-let availLanguages = i18n.getLanguages();
+const availLanguages = i18n.getLanguages();
 
 for (var lang of availLanguages) {
     T9n.map(lang, {
@@ -77,7 +77,7 @@ AccountsTemplates.addFields([
     }
 ]);
 
-let submitHookFunction = function(error, state){     //eslint-disable-line
+const submitHookFunction = function(error, state){     //eslint-disable-line
     // After submitting registration, resend, ...
     // we want to go back to normal signin sub template
     Meteor.setTimeout(() => {AccountsTemplates.setState('signIn');}, 3000);

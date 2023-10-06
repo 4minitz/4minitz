@@ -34,8 +34,8 @@ export class FinalizeMailHandler {
     _sendActionItems() {
         // create map recipient->mailHandler and add all AIs to the
         // mail handler for this recipient
-        let userMailHandlerMap = new Map();
-        let actionItems = this._minute.getOpenActionItems(false); // false-parameter makes skipped Topics being not included in the Mail
+        const userMailHandlerMap = new Map();
+        const actionItems = this._minute.getOpenActionItems(false); // false-parameter makes skipped Topics being not included in the Mail
         actionItems.forEach(item => {
             const recipients = ResponsibleResolver.resolveEmailAddressesForResponsibles(item.getResponsibleRawArray());
             recipients.forEach(recipient => {
@@ -54,15 +54,15 @@ export class FinalizeMailHandler {
         });
 
         // iterate over all mail handler and send the mails
-        for(let mailHandler of userMailHandlerMap.values()) {
+        for(const mailHandler of userMailHandlerMap.values()) {
             mailHandler.send();
         }
     }
 
     _sendInfoItems() {
-        let recipients = this._minute.getPersonsInformedWithEmail(Meteor.users);
+        const recipients = this._minute.getPersonsInformedWithEmail(Meteor.users);
 
-        let mailHandler = new InfoItemsMailHandler(
+        const mailHandler = new InfoItemsMailHandler(
             this._senderAddress,
             recipients,
             this._minute,

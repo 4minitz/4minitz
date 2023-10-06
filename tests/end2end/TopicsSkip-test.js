@@ -9,7 +9,7 @@ import { E2EMails } from './helpers/E2EMails'
 describe('Topics Skip', function () {
     const aProjectName = "E2E Topics Skip";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     const nonSkippedTopicName = 'Non-skipped Topic #1';
@@ -40,7 +40,7 @@ describe('Topics Skip', function () {
     });
 
     it('Can skip and unskip topic', function () {
-        let skipAndUnskipTopicViaUI = (useDropdownMenu) => {
+        const skipAndUnskipTopicViaUI = (useDropdownMenu) => {
             E2ETopics.toggleSkipTopic(2, true); //skip
             expect(E2ETopics.isTopicSkipped(1)).to.be.false;
             expect(E2ETopics.isTopicSkipped(2)).to.be.true;
@@ -76,10 +76,10 @@ describe('Topics Skip', function () {
 
         E2EGlobal.waitSomeTime();
 
-        let sentMails = E2EMails.getAllSentMails();
+        const sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);
 
-        let sentMail = sentMails[0];
+        const sentMail = sentMails[0];
         expect(sentMail.html, 'the email should contain the subject of the topic').to.have.string(nonSkippedTopicName);
         expect(sentMail.html, 'the email should not contain the subject of the skipped topic').to.not.have.string(skippedTopicName);
     });
@@ -102,9 +102,9 @@ describe('Topics Skip', function () {
         E2EMinutes.finalizeCurrentMinutes(true);
         E2EGlobal.waitSomeTime();
 
-        let sentMails = E2EMails.getAllSentMails();
+        const sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'one mail should be sent').to.have.length(1);
-        let sentMail = sentMails[0];
+        const sentMail = sentMails[0];
         expect(sentMail.html, "the email should contain the title of the non-skipped Topic's InfoItem").to.have.string(nonSkippedInfoItemTitle);
         expect(sentMail.html, "the email should not contain the title of the skipped Topic's InfoItem").to.not.have.string(skippedInfoItemTitle);
     });
@@ -129,9 +129,9 @@ describe('Topics Skip', function () {
         E2EMinutes.finalizeCurrentMinutes(true);
         E2EGlobal.waitSomeTime();
 
-        let sentMails = E2EMails.getAllSentMails();
+        const sentMails = E2EMails.getAllSentMails();
         expect(sentMails, 'two mail should be sent. One for the ActionItems, the other for the InfoItems').to.have.length(2);
-        let sentMail = sentMails[0]; //ActionItem Mail will be sent first
+        const sentMail = sentMails[0]; //ActionItem Mail will be sent first
         expect(sentMail.html, "the email should contain the title of the non-skipped Topic's ActionItem").to.have.string(nonSkippedActionItemTitle);
         expect(sentMail.html, "the email should not contain the title of the skipped Topic's ActionItem").to.not.have.string(skippedActionItemTitle);
     });
@@ -139,14 +139,14 @@ describe('Topics Skip', function () {
     it('Skipped topics can only be seen by the moderator', function () {
         E2ETopics.toggleSkipTopic(2, true);
         //Moderator can see Topic
-        let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
+        const selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
         expect(browser.isVisible(selector)).to.be.true;
 
         //Add another participant
         E2EMinutes.gotoParentMeetingSeries();
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
         //check if new non-moderator-participant can see skipped topic
@@ -162,7 +162,7 @@ describe('Topics Skip', function () {
 
     it('Hide closed Topics button will also hide skipped topics', function () {
         E2ETopics.toggleSkipTopic(2, true);
-        let selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
+        const selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
         expect(browser.isVisible(selector)).to.be.true;
         E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
         E2EGlobal.waitSomeTime();

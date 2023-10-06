@@ -82,16 +82,16 @@ export class E2EApp {
             E2EGlobal.clickWithRetry(tab);
 
             browser.waitUntil(_ => {
-                let tabIsStandard = browser.isExisting('#at-field-username_and_email');
-                let userWantsStandard = tab === '#tab_standard';
-                let tabIsLdap = browser.isExisting('#id_ldapUsername');
-                let userWantsLdap = tab === '#tab_ldap';
+                const tabIsStandard = browser.isExisting('#at-field-username_and_email');
+                const userWantsStandard = tab === '#tab_standard';
+                const tabIsLdap = browser.isExisting('#id_ldapUsername');
+                const userWantsLdap = tab === '#tab_ldap';
 
                 return (tabIsStandard && userWantsStandard) || (tabIsLdap && userWantsLdap);
             }, 7500, 'The login screen could not been loaded in time');
 
-            let tabIsStandard = browser.isExisting('#at-field-username_and_email');
-            let tabIsLdap = browser.isExisting('#id_ldapUsername');
+            const tabIsStandard = browser.isExisting('#at-field-username_and_email');
+            const tabIsLdap = browser.isExisting('#id_ldapUsername');
 
             if (tabIsStandard) {
                 E2EGlobal.setValueSafe('input[id="at-field-username_and_email"]', username);
@@ -142,7 +142,7 @@ export class E2EApp {
             indexOrUsername = 0;
         }
         if (typeof indexOrUsername === 'string') {
-            let orgUserName = indexOrUsername;
+            const orgUserName = indexOrUsername;
             indexOrUsername = E2EGlobal.SETTINGS.e2eTestUsers.indexOf(indexOrUsername);
             if (indexOrUsername === -1) {
                 console.log('Error {E2EApp.loginUser} : Could not find user '+orgUserName+'. Fallback: index=0.');
@@ -150,8 +150,8 @@ export class E2EApp {
             }
         }
 
-        let aUser = E2EGlobal.SETTINGS.e2eTestUsers[indexOrUsername];
-        let aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[indexOrUsername];
+        const aUser = E2EGlobal.SETTINGS.e2eTestUsers[indexOrUsername];
+        const aPassword = E2EGlobal.SETTINGS.e2eTestPasswords[indexOrUsername];
 
         this.loginUserWithCredentials(aUser, aPassword, autoLogout);
     }
@@ -242,7 +242,7 @@ export class E2EApp {
     }
 
     static gotoActionItemsTab() {
-        let selector = '#tab_actionItems';
+        const selector = '#tab_actionItems';
         try {
             browser.waitForExist(selector);
         } catch (e) {

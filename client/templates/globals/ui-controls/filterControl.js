@@ -32,7 +32,7 @@ export class FilterControlConfig {
 const MATCH_CASE = "do:match-case ";
 const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`, "g");
 
-let toggleMatchCase = function (enable, input) {
+const toggleMatchCase = function (enable, input) {
   if (enable) {
     input.value = MATCH_CASE + input.value;
   } else {
@@ -40,7 +40,7 @@ let toggleMatchCase = function (enable, input) {
   }
 };
 
-let performSearch = function (query, tmpl) {
+const performSearch = function (query, tmpl) {
   tmpl.data.config.callback(query);
 
   if (!tmpl.view.isRendered) {
@@ -48,13 +48,13 @@ let performSearch = function (query, tmpl) {
   }
 
   // toogle Match Case Checkbox
-  let caseSensitive =
+  const caseSensitive =
     query.indexOf(MATCH_CASE.substr(0, MATCH_CASE.length - 1)) !== -1;
   tmpl.$("#cbCaseSensitiveFilter").prop("checked", caseSensitive);
 
   // change filters dropdown
   if (tmpl.data.config.filters) {
-    let matchingFilter = tmpl.find(`#filters option[value='${query}']`);
+    const matchingFilter = tmpl.find(`#filters option[value='${query}']`);
     if (matchingFilter) {
       matchingFilter.selected = true;
     } else {
@@ -63,18 +63,18 @@ let performSearch = function (query, tmpl) {
   }
 };
 
-let appendSpace = function (string) {
+const appendSpace = function (string) {
   if (string !== "") {
     string = `${string.trim()} `;
   }
   return string;
 };
 
-let focusInputField = function (tmpl) {
+const focusInputField = function (tmpl) {
   if (!tmpl.view.isRendered) {
     return;
   }
-  let input = tmpl.find("#inputFilter");
+  const input = tmpl.find("#inputFilter");
   input.value = appendSpace(input.value);
   input.focus();
 };
@@ -82,7 +82,7 @@ let focusInputField = function (tmpl) {
 Template.filterControl.onCreated(function () {});
 
 Template.filterControl.onRendered(function () {
-  let tmpl = Template.instance();
+  const tmpl = Template.instance();
   Meteor.setTimeout(() => {
     focusInputField(tmpl);
   }, 1);
@@ -104,13 +104,13 @@ Template.filterControl.helpers({
 Template.filterControl.events({
   "keyup #inputFilter": function (evt, tmpl) {
     evt.preventDefault();
-    let query = tmpl.find("#inputFilter").value;
+    const query = tmpl.find("#inputFilter").value;
     performSearch(query, tmpl);
   },
 
   "change #cbCaseSensitiveFilter": function (evt, tmpl) {
     evt.preventDefault();
-    let input = tmpl.find("#inputFilter");
+    const input = tmpl.find("#inputFilter");
     toggleMatchCase(evt.target.checked, input);
     performSearch(input.value, tmpl);
     focusInputField(tmpl);
@@ -118,7 +118,7 @@ Template.filterControl.events({
 
   "change #filters": function (evt, tmpl) {
     evt.preventDefault();
-    let input = tmpl.find("#inputFilter");
+    const input = tmpl.find("#inputFilter");
     input.value = evt.target.value;
     toggleMatchCase(tmpl.find("#cbCaseSensitiveFilter").checked, input);
     performSearch(input.value, tmpl);

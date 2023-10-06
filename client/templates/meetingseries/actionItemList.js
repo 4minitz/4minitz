@@ -18,7 +18,7 @@ import {
 
 Template.actionItemList.onCreated(function () {
   this.topicFilterQuery = new ReactiveVar("");
-  let myTemplate = Template.instance();
+  const myTemplate = Template.instance();
   this.topicFilterHandler = (query) => {
     myTemplate.topicFilterQuery.set(query);
   };
@@ -30,7 +30,7 @@ Template.actionItemList.onCreated(function () {
     createUserIdsReceiver,
   );
 
-  let meetingSeriesIDs = MeetingSeries.find().map(function (item) {
+  const meetingSeriesIDs = MeetingSeries.find().map(function (item) {
     return item._id;
   });
   this.subscribe("topics", meetingSeriesIDs);
@@ -42,7 +42,7 @@ Template.actionItemList.helpers({
       { text: i18n.__("Item.Filter.open"), value: "is:action is:open" },
       { text: i18n.__("Item.Filter.closed"), value: "is:action is:closed" },
     ];
-    let tmpl = Template.instance();
+    const tmpl = Template.instance();
     return new FilterControlConfig(
       tmpl.topicFilterHandler,
       FILTERS,
@@ -57,9 +57,9 @@ Template.actionItemList.helpers({
     const actionItemSeriesIdMap = {};
     const actionItemTopicIdMap = {};
 
-    let topics = TopicSchema.getCollection().find().fetch();
+    const topics = TopicSchema.getCollection().find().fetch();
     topics.forEach((topic) => {
-      let actionItems = topic.infoItems.filter(
+      const actionItems = topic.infoItems.filter(
         (item) =>
           item.itemType === "actionItem" &&
           item.responsibles &&

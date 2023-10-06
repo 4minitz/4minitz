@@ -6,8 +6,8 @@ import { E2ETopics } from './helpers/E2ETopics';
 
 describe('MyActionItems Tab', function () {
     const aProjectName = 'MyActionItems Tab';
-    let aMeetingCounter = 0;
-    let aMeetingNameBase = 'Meeting Name #';
+    const aMeetingCounter = 0;
+    const aMeetingNameBase = 'Meeting Name #';
 
     before('reload page and reset app', function () {
         E2EGlobal.logTimestamp('Start test suite');
@@ -65,7 +65,7 @@ describe('MyActionItems Tab', function () {
     // This test case has expected side effect to next test case!
     // **************
     it('can filter my action items from all action items', function () {
-        let meetingName = aMeetingNameBase + '3';
+        const meetingName = aMeetingNameBase + '3';
         E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);

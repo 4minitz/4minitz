@@ -26,7 +26,7 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   }
 
   // Ensure user can not update documents of other users
-  let userRoles = new UserRoles(Meteor.userId());
+  const userRoles = new UserRoles(Meteor.userId());
   if (!userRoles.isModeratorOf(meetingSeriesId)) {
     throw new Meteor.Error(
       "Cannot modify this minutes/series",
@@ -44,8 +44,8 @@ function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
     return;
   }
 
-  let emails = Meteor.user().emails;
-  let i18nLocale = i18n.getLocale(); // we have to remember this, as it will not
+  const emails = Meteor.user().emails;
+  const i18nLocale = i18n.getLocale(); // we have to remember this, as it will not
   // survive the Meteor.defer()
   Meteor.defer(() => {
     // server background tasks after successfully updated the minute doc
@@ -60,13 +60,13 @@ function sendFinalizationMail(minutes, sendActionItems, sendInfoItems) {
 }
 
 function removeIsEdited(aMin) {
-  for (let topic of aMin.topics) {
+  for (const topic of aMin.topics) {
     topic.isEditedBy = null;
     topic.isEditedDate = null;
-    for (let infoItem of topic.infoItems) {
+    for (const infoItem of topic.infoItems) {
       infoItem.isEditedBy = null;
       infoItem.isEditedDate = null;
-      for (let detail of infoItem.details) {
+      for (const detail of infoItem.details) {
         detail.isEditedBy = null;
         detail.isEditedDate = null;
       }
@@ -93,7 +93,7 @@ Meteor.methods({
     console.log(`workflow.finalizeMinute on ${id}`);
     check(id, String);
 
-    let minutes = new Minutes(id);
+    const minutes = new Minutes(id);
     // check if minute is already finalized
     if (minutes.isFinalized) {
       throw new Meteor.Error(
@@ -122,9 +122,9 @@ Meteor.methods({
     );
 
     // then we tag the minute as finalized
-    let version = minutes.finalizedVersion + 1 || 1;
+    const version = minutes.finalizedVersion + 1 || 1;
 
-    let doc = {
+    const doc = {
       finalizedAt: new Date(),
       finalizedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
       isFinalized: true,
@@ -134,11 +134,11 @@ Meteor.methods({
     // update minutes object to generate new history entry
     Object.assign(minutes, doc);
 
-    let history = minutes.finalizedHistory || [];
+    const history = minutes.finalizedHistory || [];
     history.push(compileFinalizedInfo(minutes));
     doc.finalizedHistory = history;
 
-    let affectedDocs = MinutesSchema.update(id, { $set: doc });
+    const affectedDocs = MinutesSchema.update(id, { $set: doc });
     if (affectedDocs === 1 && !Meteor.isClient) {
       sendFinalizationMail(minutes, sendActionItems, sendInfoItems);
     }
@@ -154,12 +154,12 @@ Meteor.methods({
     console.log(`workflow.unfinalizeMinute on ${id}`);
     check(id, String);
 
-    let minutes = new Minutes(id);
+    const minutes = new Minutes(id);
     checkUserAvailableAndIsModeratorOf(minutes.parentMeetingSeriesID());
 
     // it is not allowed to un-finalize a minute if it is not the last finalized
     // one
-    let parentSeries = minutes.parentMeetingSeries();
+    const parentSeries = minutes.parentMeetingSeries();
     if (!Finalizer.isUnfinalizeMinutesAllowed(id)) {
       throw new Meteor.Error(
         "not-allowed",
@@ -169,7 +169,7 @@ Meteor.methods({
 
     TopicsFinalizer.mergeTopicsForUnfinalize(parentSeries, minutes.visibleFor);
 
-    let doc = {
+    const doc = {
       finalizedAt: new Date(),
       finalizedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
       isFinalized: false,
@@ -178,12 +178,12 @@ Meteor.methods({
     // update minutes object to generate new history entry
     Object.assign(minutes, doc);
 
-    let history = minutes.finalizedHistory || [];
+    const history = minutes.finalizedHistory || [];
     history.push(compileFinalizedInfo(minutes));
     doc.finalizedHistory = history;
 
     console.log("workflow.unfinalizeMinute DONE.");
-    let result = MinutesSchema.update(id, { $set: doc });
+    const result = MinutesSchema.update(id, { $set: doc });
 
     // update meeting series fields to correctly resemble the finalized status
     // of the minute

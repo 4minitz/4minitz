@@ -41,7 +41,7 @@ export class E2EAttachments {
 
     static getChromeDownloadDirectory() {
         // .meteor/chimp_config.js configures chrome download dir relative to cwd()
-        let chimpopts = require ('../../../.meteor/chimp_config');
+        const chimpopts = require ('../../../.meteor/chimp_config');
         let downloadDir = chimpopts.webdriverio.desiredCapabilities.chromeOptions.prefs["download.default_directory"];
         expect(downloadDir, ".meteor/chimp_config.js must specify download.default_directory").to.be.ok;
         downloadDir = process.cwd() + "/" + downloadDir;
@@ -49,7 +49,7 @@ export class E2EAttachments {
     }
 
     static switchToUserWithDifferentRole(newRole, _projectName, _lastMeetingName) {
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(_projectName, _lastMeetingName, "invited");
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2, newRole);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor(true);  // save!
@@ -65,9 +65,9 @@ export class E2EAttachments {
     // execute an attachment collection count in the
     // client browser context with currently logged in user
     static countAttachmentsOnClientForCurrentUser() {
-        let result = browser.execute(function () {
-            let mod = require("/imports/collections/attachments_private");
-            let coll = mod.AttachmentsCollection;
+        const result = browser.execute(function () {
+            const mod = require("/imports/collections/attachments_private");
+            const coll = mod.AttachmentsCollection;
             return coll.find().count();
         });
         return result.value;

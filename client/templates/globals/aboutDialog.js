@@ -4,7 +4,7 @@ import { ReactiveVar } from "meteor/reactive-var";
 import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 
-let showStatistics = new ReactiveVar(false);
+const showStatistics = new ReactiveVar(false);
 
 Template.aboutDialog.onRendered(function () {});
 

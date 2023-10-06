@@ -6,7 +6,7 @@ import sinon from "sinon";
 import _ from "underscore";
 
 class MeteorError {}
-let Meteor = {
+const Meteor = {
   call: sinon.stub(),
   Error: MeteorError,
   callPromise: sinon.stub(),
@@ -42,8 +42,8 @@ class Minutes {
   }
 }
 
-let dummyMinute = new Minutes(minuteId);
-let dummySeries = new MeetingSeries(meetingSeriesId);
+const dummyMinute = new Minutes(minuteId);
+const dummySeries = new MeetingSeries(meetingSeriesId);
 
 const Random = {
   i: 1,
@@ -105,41 +105,41 @@ describe("Topic", function () {
 
   describe("#constructor", function () {
     it("sets the reference to the parent minute correctly", function () {
-      let myTopic = new Topic(dummyMinute._id, topicDoc);
+      const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._parentMinutes).to.equal(dummyMinute);
     });
 
     it("can instantiate a topic with the parent minutes object instead of its id", function () {
-      let myTopic = new Topic(dummyMinute, topicDoc);
+      const myTopic = new Topic(dummyMinute, topicDoc);
       expect(myTopic._parentMinutes).to.equal(dummyMinute);
     });
 
     it("sets the subject correctly", function () {
-      let myTopic = new Topic(dummyMinute._id, topicDoc);
+      const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.subject).to.equal(topicDoc.subject);
     });
 
     it("sets the initial value of the isOpen-flag correctly", function () {
-      let myTopic = new Topic(dummyMinute._id, topicDoc);
+      const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.isOpen).to.be.true;
     });
 
     it("sets the initial value of the isNew-flag correctly", function () {
-      let myTopic = new Topic(dummyMinute._id, topicDoc);
+      const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.isNew).to.be.true;
     });
 
     it("enforces infoItems to be of type Array", function () {
       topicDoc.infoItems = "something";
-      let myTopic = new Topic(dummyMinute._id, topicDoc);
+      const myTopic = new Topic(dummyMinute._id, topicDoc);
 
       expect(myTopic._topicDoc.infoItems).to.be.an("array");
     });
   });
 
   it("#findTopicIndexInArray", function () {
-    let topicArray = [topicDoc];
-    let index = Topic.findTopicIndexInArray(topicDoc._id, topicArray);
+    const topicArray = [topicDoc];
+    const index = Topic.findTopicIndexInArray(topicDoc._id, topicArray);
     expect(index).to.equal(0);
   });
 
@@ -195,7 +195,7 @@ describe("Topic", function () {
         itemType: "actionItem",
         isOpen: true,
       });
-      let myTopic = new Topic(dummyMinute._id, topicDoc);
+      const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic.hasOpenActionItem()).to.be.true;
     });
   });
@@ -226,9 +226,9 @@ describe("Topic", function () {
   });
 
   it("#toggleState", function () {
-    let myTopic = new Topic(dummyMinute._id, topicDoc);
+    const myTopic = new Topic(dummyMinute._id, topicDoc);
 
-    let oldState = myTopic._topicDoc.isOpen;
+    const oldState = myTopic._topicDoc.isOpen;
 
     myTopic.toggleState();
 
@@ -303,7 +303,7 @@ describe("Topic", function () {
       myTopic.upsertInfoItem(topicItemDoc);
 
       // Change the subject and call the upsertTopicItem method again
-      let topicItem = myTopic.getInfoItems()[0];
+      const topicItem = myTopic.getInfoItems()[0];
       topicItem.subject = "new_subject";
 
       myTopic.upsertInfoItem(topicItem);
@@ -324,8 +324,8 @@ describe("Topic", function () {
   });
 
   it("#findInfoItem", function () {
-    let myTopic = new Topic(dummyMinute._id, topicDoc);
-    let infoItemDoc = {
+    const myTopic = new Topic(dummyMinute._id, topicDoc);
+    const infoItemDoc = {
       _id: "AaBbCcDd01",
       subject: "info-item-subject",
       createdAt: new Date(),
@@ -350,14 +350,14 @@ describe("Topic", function () {
   });
 
   it("#removeInfoItem", function () {
-    let myTopic = new Topic(dummyMinute._id, topicDoc);
+    const myTopic = new Topic(dummyMinute._id, topicDoc);
 
-    let infoItemDoc = {
+    const infoItemDoc = {
       _id: "AaBbCcDd01",
       subject: "info-item-subject",
       createdAt: new Date(),
     };
-    let infoItemDoc2 = {
+    const infoItemDoc2 = {
       _id: "AaBbCcDd02",
       subject: "info-item-subject2",
       createdAt: new Date(),
@@ -368,12 +368,12 @@ describe("Topic", function () {
     myTopic.upsertInfoItem(infoItemDoc2);
 
     // check that the two info items was added
-    let initialLength = myTopic.getInfoItems().length;
+    const initialLength = myTopic.getInfoItems().length;
 
     // remove the second one
     myTopic.removeInfoItem(infoItemDoc2._id);
 
-    let diff = initialLength - myTopic.getInfoItems().length;
+    const diff = initialLength - myTopic.getInfoItems().length;
 
     // check that there are now only one items
     expect(
@@ -464,7 +464,7 @@ describe("Topic", function () {
   });
 
   it("#save", function () {
-    let myTopic = new Topic(dummyMinute._id, topicDoc);
+    const myTopic = new Topic(dummyMinute._id, topicDoc);
 
     // the save-method should call the upsertTopic-Method of the parent Minute
     // so we spy on it
@@ -483,7 +483,7 @@ describe("Topic", function () {
   });
 
   it("#getDocument", function () {
-    let myTopic = new Topic(dummyMinute._id, topicDoc);
+    const myTopic = new Topic(dummyMinute._id, topicDoc);
 
     expect(myTopic.getDocument()).to.equal(topicDoc);
   });

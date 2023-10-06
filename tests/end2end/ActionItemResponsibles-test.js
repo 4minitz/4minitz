@@ -11,29 +11,29 @@ require('../../imports/helpers/date');
 describe('ActionItems Responsibles', function () {
     const aProjectName = "E2E ActionItems Responsibles";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
     let aTopicCounter = 0;
-    let aTopicNameBase = "Topic Name #";
+    const aTopicNameBase = "Topic Name #";
     let aTopicName;
     let aAICounter = 0;
-    let aAINameBase = "Action Item Name #";
+    const aAINameBase = "Action Item Name #";
 
-    let getNewMeetingName = () => {
+    const getNewMeetingName = () => {
         aMeetingCounter++;
         return aMeetingNameBase + aMeetingCounter;
     };
-    let getNewTopicName = () => {
+    const getNewTopicName = () => {
         aTopicCounter++;
         return aTopicNameBase + aTopicCounter;
     };
-    let getNewAIName = () => {
+    const getNewAIName = () => {
         aAICounter++;
         return aAINameBase + aAICounter;
     };
 
     function addActionItemToFirstTopic() {
-        let actionItemName = getNewAIName();
+        const actionItemName = getNewAIName();
 
         E2ETopics.addInfoItemToTopic({
             subject: actionItemName,
@@ -63,8 +63,8 @@ describe('ActionItems Responsibles', function () {
     });
 
     it('can add an action item with a responsible', function () {
-        let topicIndex = 1;
-        let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
+        const topicIndex = 1;
+        const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
 
         E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
@@ -77,18 +77,18 @@ describe('ActionItems Responsibles', function () {
         browser.element("#btnInfoItemSave").click();
         E2EGlobal.waitSomeTime();
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(user1);
     });
 
 
     it('can add an action item with two responsibles', function () {
-        let topicIndex = 1;
-        let user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const topicIndex = 1;
+        const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
 
         E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
@@ -101,9 +101,9 @@ describe('ActionItems Responsibles', function () {
         browser.element("#btnInfoItemSave").click();
         E2EGlobal.waitSomeTime();
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(user1);
         expect(actionItemExpandElementText, "user2 shall be responsible").to.have.string(user2);
@@ -111,8 +111,8 @@ describe('ActionItems Responsibles', function () {
 
 
     it('can add an action item with a free-text EMail-responsible', function () {
-        let topicIndex = 1;
-        let emailUser = "noreply@4minitz.com";
+        const topicIndex = 1;
+        const emailUser = "noreply@4minitz.com";
         E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
@@ -124,9 +124,9 @@ describe('ActionItems Responsibles', function () {
         browser.element("#btnInfoItemSave").click();
         E2EGlobal.waitSomeTime();
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "user1 shall be responsible").to.have.string(emailUser);
         E2EGlobal.waitSomeTime();
@@ -134,8 +134,8 @@ describe('ActionItems Responsibles', function () {
 
 
     it('prohibits non-email-string as free-text responsible', function () {
-        let topicIndex = 1;
-        let illegalUserName = "NonEMailResponsible";
+        const topicIndex = 1;
+        const illegalUserName = "NonEMailResponsible";
         E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
         const actionItemName = getNewAIName();
@@ -157,9 +157,9 @@ describe('ActionItems Responsibles', function () {
         browser.element("#btnInfoItemSave").click();    // save AI
         E2EGlobal.waitSomeTime();
 
-        let selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
-        let actionItemExpandElement = browser.element(selector).value.ELEMENT;
-        let actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
+        const selector = "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+        const actionItemExpandElement = browser.element(selector).value.ELEMENT;
+        const actionItemExpandElementText = browser.elementIdText(actionItemExpandElement).value;
 
         expect(actionItemExpandElementText, "no illegal responsible added").not.to.have.string(illegalUserName);
     });

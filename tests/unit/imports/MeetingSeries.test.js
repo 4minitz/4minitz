@@ -5,16 +5,16 @@ import proxyquire from "proxyquire";
 import sinon from "sinon";
 import _ from "underscore";
 
-let MeetingSeriesSchema = {};
-let Meteor = {
+const MeetingSeriesSchema = {};
+const Meteor = {
   call: sinon.stub(),
   callPromise: sinon.stub(),
 };
-let Minutes = {};
-let Topic = {};
-let UserRoles = {};
-let PromisedMethods = {};
-let MinutesFinder = {
+const Minutes = {};
+const Topic = {};
+const UserRoles = {};
+const PromisedMethods = {};
+const MinutesFinder = {
   result: undefined,
   lastMinutesOfMeetingSeries() {
     return this.result;
@@ -100,7 +100,7 @@ describe("MeetingSeries", function () {
     }
 
     it("retrieves the date of the lastMinutes() if no id is given", function () {
-      let expectedDate = new Date();
+      const expectedDate = new Date();
 
       MinutesFinder.result = { date: expectedDate };
 

@@ -12,16 +12,16 @@ export class MailgunMail extends Mail {
   _sendMail() {
     console.log("Sending mail via mailgun");
 
-    let mailgunSettings = GlobalSettings.getMailgunSettings();
+    const mailgunSettings = GlobalSettings.getMailgunSettings();
 
-    let postURL = `${mailgunSettings.apiUrl}/${mailgunSettings.domain}/messages`;
+    const postURL = `${mailgunSettings.apiUrl}/${mailgunSettings.domain}/messages`;
 
-    let recipient =
+    const recipient =
       typeof this._recipients === "string"
         ? [this._recipients]
         : this._recipients;
 
-    let options = {
+    const options = {
       auth: `api:${mailgunSettings.apiKey}`,
       params: {
         from: this._from,

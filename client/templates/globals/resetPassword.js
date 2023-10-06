@@ -9,7 +9,7 @@ import {i18n} from 'meteor/universe:i18n';
 Template.resetPassword.events({
     'submit #at-pwd-form': function (event) {
         event.preventDefault();
-        let token = FlowRouter.getParam('token');
+        const token = FlowRouter.getParam('token');
         Accounts.resetPassword(token, $('#at-field-password').val(), ( error ) =>{
             if ( error ) {
                 handleError(error.reason);

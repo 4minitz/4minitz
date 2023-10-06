@@ -102,9 +102,9 @@ function streamCollector(streams, index, outStream) {
         .catch(console.error);
 }
 
-let licenseCount = {};
+const licenseCount = {};
 function getSortedKeys(obj) {
-    let keys = []; for(let key in obj) keys.push(key);
+    const keys = []; for(const key in obj) keys.push(key);
     return keys.sort(function(a,b){return obj[b]-obj[a];});
 }
 
@@ -114,8 +114,8 @@ crawler.dumpLicenses({start: ['.']}, (error, res) => {
         return;
     }
 
-    let output = fs.createWriteStream('LicensesOfDependencies.txt');
-    let streams = Object.keys(res)
+    const output = fs.createWriteStream('LicensesOfDependencies.txt');
+    const streams = Object.keys(res)
         .map(project => downloadToStream(project, res[project].licenseUrl, res[project].licenses));
 
     streamCollector(streams, 0, output);

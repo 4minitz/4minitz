@@ -204,7 +204,7 @@ export class GlobalSettings {
       Meteor.settings.email.defaultEMailSenderExceptionDomains &&
       Meteor.settings.email.defaultEMailSenderExceptionDomains.length > 0
     ) {
-      let senderDomain = alternativeSender.replace(/^.*@/, "").toLowerCase(); // me@mycompany.com => mycompany.com
+      const senderDomain = alternativeSender.replace(/^.*@/, "").toLowerCase(); // me@mycompany.com => mycompany.com
       for (
         let i = 0;
         i < Meteor.settings.email.defaultEMailSenderExceptionDomains.length;

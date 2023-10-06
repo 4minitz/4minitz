@@ -60,7 +60,7 @@ export class TopicsFinalizer {
 
         // iterate backwards through the topics of the minute
         for (let i = minutesTopics.length; i-- > 0;) {
-            let topicDoc = minutesTopics[i];
+            const topicDoc = minutesTopics[i];
             topicDoc.isSkipped = false;
             this._mergeOrInsertTopic(topicDoc);
         }
@@ -96,8 +96,8 @@ export class TopicsFinalizer {
 
         // loop backwards through topic items and upsert them in the accepting one
         for (let i = resistantTopicDoc.infoItems.length; i-- > 0;) {
-            let infoDoc = resistantTopicDoc.infoItems[i];
-            let index = subElementsHelper.findIndexById(infoDoc._id, acceptingTopicDoc.infoItems);
+            const infoDoc = resistantTopicDoc.infoItems[i];
+            const index = subElementsHelper.findIndexById(infoDoc._id, acceptingTopicDoc.infoItems);
             if (index === undefined) {
                 acceptingTopicDoc.infoItems.unshift(infoDoc);
             } else {
@@ -109,7 +109,7 @@ export class TopicsFinalizer {
         // (these were deleted during the last minute)
         acceptingTopicDoc.infoItems = acceptingTopicDoc.infoItems.filter(itemDoc => {
             if (TopicsFinalizer.isStickyItem(itemDoc)) {
-                let indexInResistantTopic = subElementsHelper.findIndexById(itemDoc._id, resistantTopicDoc.infoItems);
+                const indexInResistantTopic = subElementsHelper.findIndexById(itemDoc._id, resistantTopicDoc.infoItems);
                 return !(indexInResistantTopic === undefined);
             }
             return true;

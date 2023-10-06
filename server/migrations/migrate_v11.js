@@ -4,7 +4,7 @@ import { Meteor} from 'meteor/meteor';
 export class MigrateV11 {
 
     static up() {
-        let demoUser = Meteor.users.findOne({'username': 'demo'});
+        const demoUser = Meteor.users.findOne({'username': 'demo'});
         if (demoUser) {
             Meteor.users.update({'username': 'demo'}, {$set: {isDemoUser: true}});
             if (demoUser.isInactive === undefined) {
@@ -14,7 +14,7 @@ export class MigrateV11 {
     }
 
     static down() {
-        let demoUser = Meteor.users.findOne({'username': 'demo'});
+        const demoUser = Meteor.users.findOne({'username': 'demo'});
         if (demoUser) {
             Meteor.users.update({'username': 'demo'}, {$unset: {isDemoUser: false}});
         }

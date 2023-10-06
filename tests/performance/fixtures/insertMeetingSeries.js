@@ -5,7 +5,7 @@ import { Collections, MongoDb } from "./lib/mongo-db";
 import { RangeHelper } from "./lib/range-helper";
 
 /* Define parameters */
-let optionParser = require("node-getopt").create([
+const optionParser = require("node-getopt").create([
   [
     "m",
     "mongourl=[ARG]",
@@ -36,7 +36,7 @@ let optionParser = require("node-getopt").create([
 ]);
 
 /* Initialize parameter parser */
-let arg = optionParser.bindHelp().parseSystem();
+const arg = optionParser.bindHelp().parseSystem();
 
 const USERNAME = arg.options.username || "user1";
 const MONGO_URL = arg.options.mongourl || "mongodb://localhost:3101/meteor";
@@ -60,18 +60,18 @@ const CONFIG = {
 async function main() {
   try {
     // set up the database
-    let mongoDb = new MongoDb(MONGO_URL);
+    const mongoDb = new MongoDb(MONGO_URL);
     await mongoDb.connect();
 
     // Find user id
-    let user = await mongoDb.findOne("users", { username: USERNAME });
+    const user = await mongoDb.findOne("users", { username: USERNAME });
 
     // Generate the data
-    let meetingSeriesGenerator = new MeetingSeriesGenerator(user);
-    let series = meetingSeriesGenerator.generate();
-    let minutesGenerator = new MinutesGenerator(CONFIG, series._id, user);
-    let topicsGenerator = new TopicsGenerator(CONFIG);
-    let minutes = minutesGenerator.generate(topicsGenerator);
+    const meetingSeriesGenerator = new MeetingSeriesGenerator(user);
+    const series = meetingSeriesGenerator.generate();
+    const minutesGenerator = new MinutesGenerator(CONFIG, series._id, user);
+    const topicsGenerator = new TopicsGenerator(CONFIG);
+    const minutes = minutesGenerator.generate(topicsGenerator);
     meetingSeriesGenerator.addAllMinutes(
       minutes,
       topicsGenerator.seriesTopicList,
@@ -85,11 +85,11 @@ async function main() {
         return topic;
       }),
     );
-    let count = (await mongoDb.insertMany(Collections.Minutes, minutes))
+    const count = (await mongoDb.insertMany(Collections.Minutes, minutes))
       .insertedCount;
 
     // Add Role Moderator for User
-    let role = {};
+    const role = {};
     role["roles." + series._id] = ["01"];
     await mongoDb.updateOne(
       Collections.Users,

@@ -12,16 +12,16 @@ function select2search(
   delayTime,
   freeTextValidator,
   minuteID,
-  topicOrItem,
+  topicOrItem
 ) {
-  let minute = new Minutes(minuteID);
-  let preparer = new ParticipantsPreparer(
+  const minute = new Minutes(minuteID);
+  const preparer = new ParticipantsPreparer(
     minute,
     topicOrItem,
     Meteor.users,
     freeTextValidator,
   );
-  let participants = preparer.getPossibleResponsibles();
+  const participants = preparer.getPossibleResponsibles();
   selectResponsibles.select2({
     placeholder: "Select...",
     tags: true, // Allow freetext adding
@@ -43,8 +43,8 @@ function select2search(
         );
       },
       processResults: function (data) {
-        let results_participants = [];
-        let results_other = [];
+        const results_participants = [];
+        const results_other = [];
         _.each(data.results, function (result) {
           if (result.isParticipant) {
             results_participants.push({
@@ -59,7 +59,7 @@ function select2search(
         });
         // save the return value (when participants/other user are empty -> do
         // not show a group-name
-        let returnValues = [];
+        const returnValues = [];
         if (results_participants.length > 0)
           returnValues.push({
             text: "Participants",
@@ -81,13 +81,13 @@ export function configureSelect2Responsibles(
   topicOrItemDoc,
   freeTextValidator,
   _minutesID,
-  topicOrItem,
+  topicOrItem
 ) {
-  let selectResponsibles = $(`#${SelectResponsibleElementID}`);
+  const selectResponsibles = $(`#${SelectResponsibleElementID}`);
   selectResponsibles
     .find("option") // clear all <option>s
     .remove();
-  let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
+  const delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;
 
   select2search(
     selectResponsibles,
@@ -96,9 +96,9 @@ export function configureSelect2Responsibles(
     _minutesID,
     topicOrItem,
   );
-  let data = { options: [] };
+  const data = { options: [] };
   if (topicOrItemDoc !== undefined) {
-    let responsibles = topicOrItemDoc.responsibles || [];
+    const responsibles = topicOrItemDoc.responsibles || [];
     responsibles.forEach((responsibleId) => {
       let responsibleUser = Meteor.users.findOne(responsibleId);
       if (!responsibleUser) {

@@ -2,7 +2,7 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-let MeetingSeriesSchema = { findOne: sinon.stub() };
+const MeetingSeriesSchema = { findOne: sinon.stub() };
 MeetingSeriesSchema.getCollection = () => MeetingSeriesSchema;
 
 const TopicSchema = {

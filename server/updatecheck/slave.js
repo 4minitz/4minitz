@@ -16,20 +16,20 @@ if (!myServerID) {
   };
   ServerCollection.insert(myServerID);
 }
-let myVersion = VERSION_INFO.tag;
+const myVersion = VERSION_INFO.tag;
 const url = `https://www.4minitz.com/version/updatecheck/${myServerID.value}/${myVersion}`;
-let updateCheck = function (forceReport) {
+const updateCheck = function (forceReport) {
   HTTP.get(url, {}, function (error, result) {
     if (error || !result.data || !result.data.tag) {
       // Swallow silently.
       // If we can't check the version - we will not bother the admin...
       return;
     }
-    let masterVersion = result.data.tag;
-    let masterMessage = result.data.message;
+    const masterVersion = result.data.tag;
+    const masterMessage = result.data.message;
     if (semver.lt(myVersion, masterVersion)) {
       // did we already inform about this specific masterVersion?
-      let lastReported = ServerCollection.findOne({
+      const lastReported = ServerCollection.findOne({
         key: "lastReportedVersion",
       });
       let lastReportedVersion = "0.0.0";
@@ -55,7 +55,7 @@ let updateCheck = function (forceReport) {
           { upsert: true },
         );
         try {
-          let mailer = new AdminNewVersionMailHandler(
+          const mailer = new AdminNewVersionMailHandler(
             myVersion,
             masterVersion,
             masterMessage,

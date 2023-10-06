@@ -40,10 +40,10 @@ describe('User Profile/Password editing', function () {
 
     it('User can successfully change his password', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        let newPassword = 'Test12';
-        let oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
+        const newPassword = 'Test12';
+        const oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
 
-        let changePassword = (oldPassword, newPassword) => {
+        const changePassword = (oldPassword, newPassword) => {
             E2EGlobal.clickWithRetry('#navbar-usermenu');
             E2EGlobal.waitSomeTime();
             E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
@@ -72,7 +72,7 @@ describe('User Profile/Password editing', function () {
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
         E2EGlobal.waitSomeTime();
-        let oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
+        const oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
         E2EUser.changePassword(oldPassword, 'TTest12', 'Test12');
 
         browser.waitUntil(_ => browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
@@ -85,7 +85,7 @@ describe('User Profile/Password editing', function () {
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
         E2EGlobal.waitSomeTime();
-        let oldPassword = '4Minitz!';
+        const oldPassword = '4Minitz!';
         E2EUser.changePassword(oldPassword, 'Test12', 'Test12');
         browser.waitUntil(_ => browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
         E2EGlobal.clickWithRetry('#btnChangePasswordCancel');
@@ -98,7 +98,7 @@ describe('User Profile/Password editing', function () {
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgChangePassword');
         E2EGlobal.waitSomeTime();
-        let oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
+        const oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
         E2EUser.changePassword(oldPassword, 'test12', 'test12');
         browser.waitUntil(_ => browser.isVisible('#frmDlgChangePassword'), waitUntilTimeout);
         E2EGlobal.clickWithRetry('#btnChangePasswordCancel');
@@ -107,8 +107,8 @@ describe('User Profile/Password editing', function () {
 
     it('User can successefully change his profile', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        let longName = 'longname';
-        let email = 'test@test.de';
+        const longName = 'longname';
+        const email = 'test@test.de';
         E2EGlobal.clickWithRetry('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
@@ -120,8 +120,8 @@ describe('User Profile/Password editing', function () {
 
     it('User can not save his profile with an invalid Email', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        let longName = 'longname';
-        let email = 'testtest.de';
+        const longName = 'longname';
+        const email = 'testtest.de';
         E2EGlobal.clickWithRetry('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
@@ -133,8 +133,8 @@ describe('User Profile/Password editing', function () {
 
     it('User profile is not changed, if pressing Cancel', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        let longName = 'cancellongname';
-        let email = 'canceltest@test.de';
+        const longName = 'cancellongname';
+        const email = 'canceltest@test.de';
         E2EGlobal.clickWithRetry('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
@@ -147,8 +147,8 @@ describe('User Profile/Password editing', function () {
 
     it('User can save his profile with an empty LongName', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        let longName = '';
-        let email = 'test@test.de';
+        const longName = '';
+        const email = 'test@test.de';
         E2EGlobal.clickWithRetry('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
@@ -159,8 +159,8 @@ describe('User Profile/Password editing', function () {
 
     it('User can not save his profile with an empty Email', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        let longName = 'longname';
-        let email = '';
+        const longName = 'longname';
+        const email = '';
         E2EGlobal.clickWithRetry('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');
@@ -172,8 +172,8 @@ describe('User Profile/Password editing', function () {
 
     it('User can change his longname without editing his Email', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
-        let longName = 'longnameChanged';
-        let email = E2EUser.getUserEmail();
+        const longName = 'longnameChanged';
+        const email = E2EUser.getUserEmail();
         E2EGlobal.clickWithRetry('#navbar-usermenu');
         E2EGlobal.waitSomeTime();
         E2EGlobal.clickWithRetry('#navbar-dlgEditProfile');

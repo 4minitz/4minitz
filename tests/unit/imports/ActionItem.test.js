@@ -4,14 +4,14 @@ import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 import _ from 'underscore';
 
-let doNothing = () => {};
+const doNothing = () => {};
 
-let Topic = {};
-let Label = {};
+const Topic = {};
+const Label = {};
 
 class MeteorError {}
 
-let Meteor = {
+const Meteor = {
     call: sinon.stub(),
     Error: MeteorError,
     user: () => {
@@ -23,7 +23,7 @@ Helpers['@noCallThru'] = true;
 
 const Random = {id: () => {}};
 
-let i18n = {
+const i18n = {
     setLocale: sinon.stub(),
     getLocale: sinon.stub(),
     __: sinon.stub()
@@ -83,47 +83,47 @@ describe('ActionItem', function() {
     describe('#constructor', function () {
 
         it('sets the reference to the parent topic correctly', function() {
-            let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+            const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
             // the infoItem should have a reference of our dummyTopic
             expect(myActionItem._parentTopic).to.equal(dummyTopic);
         });
 
         it('sets the document correctly', function() {
-            let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+            const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
             // the doc should be equal to our initial document
             expect(myActionItem._infoItemDoc).to.deep.equal(infoItemDoc);
         });
 
         it('sets the initial value for the isOpen-flag correctly', function() {
-            let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+            const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
             // the isOpen-filed should be initially true for a new actionItem
             expect(myActionItem._infoItemDoc.isOpen).to.be.true;
         });
 
         it('sets the initial value for the isNew-flag correctly', function() {
-            let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+            const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
             // the isOpen-filed should be initially true for a new actionItem
             expect(myActionItem._infoItemDoc.isNew).to.be.true;
         });
     });
 
     it('#getDateFromDetails', function () {
-        let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+        const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
         expect(myActionItem.getDateFromDetails()).to.equal(infoItemDoc.details[0].date);
     });
 
     it('#getTextFromDetails', function () {
-        let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+        const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
         expect(myActionItem.getTextFromDetails()).to.equal(infoItemDoc.details[0].text);
     });
 
     it('#toggleState', function() {
-        let myActionItem = new ActionItem(dummyTopic, infoItemDoc);
+        const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
-        let oldState = myActionItem._infoItemDoc.isOpen;
+        const oldState = myActionItem._infoItemDoc.isOpen;
 
         myActionItem.toggleState();
 

@@ -38,7 +38,7 @@ Meteor.methods({
 
   gitVersionInfoUpdate: function () {
     try {
-      let git = require("git-rev-sync");
+      const git = require("git-rev-sync");
       VERSION_INFO.commitshort = git.short();
       VERSION_INFO.commitlong = git.long();
       VERSION_INFO.branch = git.branch();

@@ -22,7 +22,7 @@ export class TabTopicsConfig {
 
 Template.tabTopics.onCreated(function () {
   this.topicFilterQuery = new ReactiveVar("");
-  let myTemplate = Template.instance();
+  const myTemplate = Template.instance();
   this.topicFilterHandler = (query) => {
     myTemplate.topicFilterQuery.set(query);
   };
@@ -50,12 +50,12 @@ Template.tabTopics.helpers({
   },
 
   topicViewData: function () {
-    let tmpl = Template.instance();
-    let query = tmpl.topicFilterQuery.get();
+    const tmpl = Template.instance();
+    const query = tmpl.topicFilterQuery.get();
     tmpl.parser.reset();
     tmpl.parser.parse(query);
 
-    let topics = tmpl.topicFilter.filter(tmpl.data.topics, tmpl.parser);
+    const topics = tmpl.topicFilter.filter(tmpl.data.topics, tmpl.parser);
     return new TopicListConfig(
       topics,
       null,

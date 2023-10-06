@@ -8,7 +8,7 @@ import { MeetingSeries } from '../meetingseries';
 import {Topic} from '../topic';
 
 function setIsEditedMeetingSerie(msId) {
-    let ms = new MeetingSeries(msId);
+    const ms = new MeetingSeries(msId);
 
     ms.isEditedBy = Meteor.userId();
     ms.isEditedDate = new Date();
@@ -18,7 +18,7 @@ function setIsEditedMeetingSerie(msId) {
 
 function removeIsEditedMeetingSerie(msId, ignoreLock) {
     let unset = false;
-    let ms = new MeetingSeries(msId);
+    const ms = new MeetingSeries(msId);
 
     if (ignoreLock === true) {
         unset = true;
@@ -37,8 +37,8 @@ function removeIsEditedMeetingSerie(msId, ignoreLock) {
 }
 
 function removeIsEditedMinute(minuteId, ignoreLock) {
-    let minute = new Minutes(minuteId);
-    for (let topic of minute.topics) {
+    const minute = new Minutes(minuteId);
+    for (const topic of minute.topics) {
         if (ignoreLock === true) {
             topic.isEditedBy = null;
             topic.isEditedDate = null;
@@ -49,7 +49,7 @@ function removeIsEditedMinute(minuteId, ignoreLock) {
                 topic.isEditedDate = null;
             }
         }
-        for (let infoItem of topic.infoItems) {
+        for (const infoItem of topic.infoItems) {
             if (ignoreLock === true)
             {
                 infoItem.isEditedBy = null;
@@ -61,7 +61,7 @@ function removeIsEditedMinute(minuteId, ignoreLock) {
                     infoItem.isEditedDate = null;
                 }
             }
-            for (let detail of infoItem.details) {
+            for (const detail of infoItem.details) {
                 if (ignoreLock === true) {
                     detail.isEditedBy = null;
                     detail.isEditedDate = null;
@@ -79,7 +79,7 @@ function removeIsEditedMinute(minuteId, ignoreLock) {
 }
 
 function setIsEditedTopic(minutesId, topicId) {
-    let topic = new Topic(minutesId, topicId);
+    const topic = new Topic(minutesId, topicId);
 
     topic._topicDoc.isEditedBy = Meteor.userId();
     topic._topicDoc.isEditedDate = new Date();
@@ -89,7 +89,7 @@ function setIsEditedTopic(minutesId, topicId) {
 
 function removeIsEditedTopic(minutesId, topicId, ignoreLock) {
     let unset = false;
-    let topic = new Topic(minutesId, topicId);
+    const topic = new Topic(minutesId, topicId);
 
     if (ignoreLock === true) {
         unset = true;
@@ -109,8 +109,8 @@ function removeIsEditedTopic(minutesId, topicId, ignoreLock) {
 }
 
 function setIsEditedInfoItem(minutesId, topicId, infoItemId) {
-    let topic = new Topic(minutesId, topicId);
-    let infoItem = topic.findInfoItem(infoItemId);
+    const topic = new Topic(minutesId, topicId);
+    const infoItem = topic.findInfoItem(infoItemId);
 
     infoItem._infoItemDoc.isEditedBy = Meteor.userId();
     infoItem._infoItemDoc.isEditedDate = new Date();
@@ -120,8 +120,8 @@ function setIsEditedInfoItem(minutesId, topicId, infoItemId) {
 
 function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
     let unset = false;
-    let topic = new Topic(minutesId, topicId);
-    let infoItem = topic.findInfoItem(infoItemId);
+    const topic = new Topic(minutesId, topicId);
+    const infoItem = topic.findInfoItem(infoItemId);
 
     if (typeof infoItem === 'undefined' ) {
         return;
@@ -144,8 +144,8 @@ function removeIsEditedInfoItem(minutesId, topicId, infoItemId, ignoreLock) {
 }
 
 function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
-    let topic = new Topic(minutesId, topicId);
-    let infoItem = topic.findInfoItem(infoItemId);
+    const topic = new Topic(minutesId, topicId);
+    const infoItem = topic.findInfoItem(infoItemId);
 
     infoItem._infoItemDoc.details[detailIdx].isEditedBy = Meteor.userId();
     infoItem._infoItemDoc.details[detailIdx].isEditedDate = new Date();
@@ -155,8 +155,8 @@ function setIsEditedDetail(minutesId, topicId, infoItemId, detailIdx) {
 
 function removeIsEditedDetail(minutesId, topicId, infoItemId, detailIdx, ignoreLock) {
     let unset = false;
-    let topic = new Topic(minutesId, topicId);
-    let infoItem = topic.findInfoItem(infoItemId);
+    const topic = new Topic(minutesId, topicId);
+    const infoItem = topic.findInfoItem(infoItemId);
 
     if (typeof infoItem === 'undefined' ) {
         return;
@@ -220,12 +220,12 @@ Meteor.methods({
 export class IsEditedService {
     static removeIsEditedOnLogout() {
 
-        let allMs = MeetingSeriesSchema.getCollection().find();
+        const allMs = MeetingSeriesSchema.getCollection().find();
         allMs.forEach(meetingSerie => {
             Meteor.callPromise('workflow.removeIsEditedMeetingSerie', meetingSerie._id, false);
         });
 
-        let allMinutes = MinutesSchema.getCollection().find();
+        const allMinutes = MinutesSchema.getCollection().find();
         allMinutes.forEach(minute => {
             Meteor.callPromise('workflow.removeIsEditedMinute', minute._id, false);
         });

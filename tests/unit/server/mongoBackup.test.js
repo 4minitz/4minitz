@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
-let spawn = sinon.stub().returns({on: sinon.spy()});
+const spawn = sinon.stub().returns({on: sinon.spy()});
 
-let Future = function () {
+const Future = function () {
     this['return'] = sinon.spy();
     this.wait = sinon.spy();
 };
@@ -27,9 +27,9 @@ describe('mongoBackup', function () {
         it('uses mongodump to create a backup', function () {
             backupMongo('mongodb://user:password@localhost:1234/database', 'outputdir');
 
-            let firstCall = spawn.args[0];
-            let command = firstCall[0];
-            let parameters = firstCall[1].join(';');
+            const firstCall = spawn.args[0];
+            const command = firstCall[0];
+            const parameters = firstCall[1].join(';');
 
             expect(command).to.equal('mongodump');
             expect(parameters).to.equal('-h;localhost:1234;-u;user;-p;password;-d;database;-o;outputdir');

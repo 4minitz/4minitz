@@ -85,7 +85,7 @@ Template.meetingSeriesDetails.helpers({
     return Meteor.loggingIn() || !subscriptionReady;
   },
   redirectIfNotAllowed() {
-    let usrRoles = new UserRoles();
+    const usrRoles = new UserRoles();
     if (!usrRoles.hasViewRoleFor(_meetingSeriesID)) {
       FlowRouter.go("/");
     }
@@ -133,15 +133,15 @@ Template.meetingSeriesDetails.helpers({
   },
 
   isMeetingSeriesEditedByAnotherUser: function () {
-    let ms = new MeetingSeries(_meetingSeriesID);
+    const ms = new MeetingSeries(_meetingSeriesID);
     if (ms.isEditedBy == undefined && ms.isEditedDate == undefined)
       return false;
     return ms.isEditedBy !== Meteor.userId();
   },
 
   meetingSeriesEditedBy() {
-    let ms = new MeetingSeries(_meetingSeriesID);
-    let user = Meteor.users.findOne({ _id: ms.isEditedBy });
+    const ms = new MeetingSeries(_meetingSeriesID);
+    const user = Meteor.users.findOne({ _id: ms.isEditedBy });
 
     return i18n.__("MeetingSeries.Edit.editedBy", {
       user: user.username,
@@ -152,7 +152,7 @@ Template.meetingSeriesDetails.helpers({
 
 Template.meetingSeriesDetails.events({
   "click .nav-tabs li": function (event, tmpl) {
-    let currentTab = $(event.target).closest("li");
+    const currentTab = $(event.target).closest("li");
 
     tmpl.activeTabId.set(currentTab.attr("id"));
     tmpl.activeTabTemplate.set(currentTab.data("template"));

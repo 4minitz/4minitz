@@ -3,8 +3,8 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import _ from 'underscore';
 
-let jQueryOnStub = sinon.stub();
-let $ = sinon.stub().returns({
+const jQueryOnStub = sinon.stub();
+const $ = sinon.stub().returns({
     on: jQueryOnStub
 });
 
@@ -14,7 +14,7 @@ const submitOnEnter = proxyquire('../../../../client/helpers/submitOnEnter', {
 }).default;
 
 describe('submitOnEnter', function () {
-    let action = sinon.stub();
+    const action = sinon.stub();
 
     function fakeEnterPressed(controlPressed) {
         return {
@@ -51,7 +51,7 @@ describe('submitOnEnter', function () {
 
         submitOnEnter(input, action);
 
-        let handler = jQueryOnStub.getCall(0).args[1];
+        const handler = jQueryOnStub.getCall(0).args[1];
         handler(event);
 
         expect(action.calledOnce).to.be.false;
@@ -63,7 +63,7 @@ describe('submitOnEnter', function () {
 
         submitOnEnter(input, action);
 
-        let handler = jQueryOnStub.getCall(0).args[1];
+        const handler = jQueryOnStub.getCall(0).args[1];
         handler(event);
 
         expect(action.calledOnce).to.be.true;
@@ -78,7 +78,7 @@ describe('submitOnEnter', function () {
 
         submitOnEnter(input, action);
 
-        let handler = jQueryOnStub.getCall(0).args[1];
+        const handler = jQueryOnStub.getCall(0).args[1];
         handler(event);
 
         expect(action.calledOnce).to.be.false;

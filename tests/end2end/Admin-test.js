@@ -49,7 +49,7 @@ describe("Admin View", function () {
     E2EAdmin.switchToTab("Users");
     E2EAdmin.setShowInactive(true);
 
-    let testUser = "user2";
+    const testUser = "user2";
     E2EAdmin.filterForUser(testUser + "@4min"); // the '@' actually searches in mail address. This prevents 'ldapuser1' to show up
     expect(browser.getText("#id_adminUserTable tbody tr")).to.contain("Active");
     E2EAdmin.toggleUserActiveState(1); // toggle 1st visible user!
@@ -74,7 +74,7 @@ describe("Admin View", function () {
     E2EAdmin.switchToTab("Users");
     E2EAdmin.setShowInactive(true);
 
-    let testUser = "user2";
+    const testUser = "user2";
     E2EAdmin.filterForUser(testUser + "@4min"); // the '@' actually searches in mail address. This prevents 'ldapuser1' to show up
     expect(browser.getText("#id_adminUserTable tbody tr")).to.contain(
       "Inactive",
@@ -91,7 +91,7 @@ describe("Admin View", function () {
     E2EAdmin.clickAdminMenu();
 
     // admin sends broadcast message
-    let message = "Hello from admin!";
+    const message = "Hello from admin!";
     expect(
       browser.isVisible(E2EAdmin.selectorMap.dlgAllMessages),
       "message dialog should be invisible for admin",
@@ -140,16 +140,16 @@ describe("Admin View", function () {
     E2EApp.loginUser("admin", true);
     E2EAdmin.clickAdminMenu();
 
-    let username = "newuser";
-    let longname = "New User";
-    let email = "newuser@4minitz.com";
-    let password = "NewNew1";
+    const username = "newuser";
+    const longname = "New User";
+    const email = "newuser@4minitz.com";
+    const password = "NewNew1";
     E2EAdmin.registerNewUser(username, longname, email, password);
 
     // check EMail sent to new user
-    let sentMails = E2EMails.getAllSentMails();
+    const sentMails = E2EMails.getAllSentMails();
     expect(sentMails, "one mail should be sent").to.have.length(1);
-    let sentMail = sentMails[0];
+    const sentMail = sentMails[0];
     expect(sentMail.to, "the email should contain to: mail").to.equal(email);
     expect(sentMail.text, "the email should contain username").to.contain(
       username,

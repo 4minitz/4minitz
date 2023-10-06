@@ -7,7 +7,7 @@ describe('subElementsHelper', function () {
             let list = [],
                 id = 'someId';
 
-            let result = subElementsHelper.findIndexById(id, list);
+            const result = subElementsHelper.findIndexById(id, list);
 
             expect(result).to.be.undefined;
         });
@@ -16,7 +16,7 @@ describe('subElementsHelper', function () {
             let list = [{}, {}, {}],
                 id = 'someId';
 
-            let result = subElementsHelper.findIndexById(id, list);
+            const result = subElementsHelper.findIndexById(id, list);
 
             expect(result).to.be.undefined;
         });
@@ -25,7 +25,7 @@ describe('subElementsHelper', function () {
             let id = 'someId',
                 list = [{}, {_id: 'someId'}, {}];
 
-            let result = subElementsHelper.findIndexById(id, list);
+            const result = subElementsHelper.findIndexById(id, list);
 
             expect(result).to.equal(1);
         });
@@ -34,7 +34,7 @@ describe('subElementsHelper', function () {
             let id = 'someId',
                 list = [{}, {_id: id}, {_id: id}];
 
-            let result = subElementsHelper.findIndexById(id, list);
+            const result = subElementsHelper.findIndexById(id, list);
 
             expect(result).to.equal(1);
         });

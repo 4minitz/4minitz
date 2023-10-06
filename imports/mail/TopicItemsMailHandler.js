@@ -71,7 +71,7 @@ export class TopicItemsMailHandler {
 
   _buildMail(subject, emailData) {
     this._getMailer().setSubject(subject);
-    let tmplRenderer = this._getTmplRenderer();
+    const tmplRenderer = this._getTmplRenderer();
     tmplRenderer.addDataObject(emailData);
     DocumentGeneration.addHelperForHTMLMail(tmplRenderer, this);
 
@@ -80,7 +80,7 @@ export class TopicItemsMailHandler {
   }
 
   _getTmplRenderer() {
-    let recipientsName = Object.prototype.hasOwnProperty.call(
+    const recipientsName = Object.prototype.hasOwnProperty.call(
       this._currentRecipient,
       "name",
     )

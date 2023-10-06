@@ -23,8 +23,8 @@ if (!arg.options.settings) {
     process.exit(1);
 }
 
-let meteorSettingsFile = arg.options.settings;
-let mongoUrl = arg.options.mongourl || process.env.MONGO_URL;
+const meteorSettingsFile = arg.options.settings;
+const mongoUrl = arg.options.mongourl || process.env.MONGO_URL;
 
 if (!mongoUrl) {
     optionParser.showHelp();

@@ -4,11 +4,11 @@ let mongo = require("mongodb").MongoClient,
   _ = require("underscore");
 import { Random } from "../../tests/performance/fixtures/lib/random";
 
-let _transformUsers = function (settings, users) {
+const _transformUsers = function (settings, users) {
   return _.map(users, (user) => transformUser(settings, user));
 };
 
-let _connectMongo = function (mongoUrl) {
+const _connectMongo = function (mongoUrl) {
   return mongo.connect(mongoUrl);
 };
 
@@ -16,7 +16,7 @@ RegExp.escape = function (s) {
   return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
 };
 
-let _insertUsers = function (client, mongoUri, users) {
+const _insertUsers = function (client, mongoUri, users) {
   // unique id from the random package also used by minimongo
   // character list:
   // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
@@ -30,14 +30,14 @@ let _insertUsers = function (client, mongoUri, users) {
   return new Promise((resolve, reject) => {
     try {
       const mongoConnection = mongoUriParser.parse(mongoUri);
-      let bulk = client
+      const bulk = client
         .db(mongoConnection.database)
         .collection("users")
         .initializeUnorderedBulkOp();
       _.each(users, (user) => {
         if (user?.username && user.emails[0] && user.emails[0].address) {
           user.isLDAPuser = true;
-          let usrRegExp = new RegExp(`^${RegExp.escape(user.username)}$`, "i");
+          const usrRegExp = new RegExp(`^${RegExp.escape(user.username)}$`, "i");
           bulk
             .find({ username: usrRegExp })
             .upsert()
@@ -54,13 +54,13 @@ let _insertUsers = function (client, mongoUri, users) {
               $set: user,
             });
         } else {
-          let stringifiedUser = JSON.stringify(user, null, 2);
+          const stringifiedUser = JSON.stringify(user, null, 2);
           console.log(
             `SKIPPED INVALID USER (no username or no valid emails[0].address): ${stringifiedUser}`,
           );
         }
       });
-      let bulkResult = bulk.execute();
+      const bulkResult = bulk.execute();
 
       resolve({ client, bulkResult });
     } catch (error) {
@@ -69,7 +69,7 @@ let _insertUsers = function (client, mongoUri, users) {
   });
 };
 
-let _closeMongo = function (data) {
+const _closeMongo = function (data) {
   let force = false,
     client = data.client,
     result = data.bulkResult;
@@ -80,8 +80,8 @@ let _closeMongo = function (data) {
   });
 };
 
-let saveUsers = function (settings, mongoUrl, users) {
-  let dbUsers = _transformUsers(settings, users);
+const saveUsers = function (settings, mongoUrl, users) {
+  const dbUsers = _transformUsers(settings, users);
 
   return new Promise((resolve, reject) => {
     _connectMongo(mongoUrl)

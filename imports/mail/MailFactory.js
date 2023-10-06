@@ -8,7 +8,7 @@ import { TestMail } from "./TestMail";
 
 export class MailFactory {
   static getMailer(replyTo, recipients) {
-    let deliverer = GlobalSettings.getMailDeliverer();
+    const deliverer = GlobalSettings.getMailDeliverer();
     switch (deliverer) {
       case "mailgun":
         return new MailgunMail(replyTo, recipients);

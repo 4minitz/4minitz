@@ -32,7 +32,7 @@ export class Attachment {
   }
 
   static countAllBytes() {
-    let atts = AttachmentsCollection.find({}, { size: 1 });
+    const atts = AttachmentsCollection.find({}, { size: 1 });
     let sumBytes = 0;
     atts.forEach((att) => {
       sumBytes += att.size;
@@ -41,7 +41,7 @@ export class Attachment {
   }
 
   static uploadFile(uploadFilename, minutesObj, callbacks = {}) {
-    let doNothing = () => {};
+    const doNothing = () => {};
     callbacks = _.extend(
       {
         onStart: doNothing,
@@ -51,7 +51,7 @@ export class Attachment {
       callbacks,
     );
 
-    let upload = AttachmentsCollection.insert(
+    const upload = AttachmentsCollection.insert(
       {
         file: uploadFilename,
         streams: "dynamic",

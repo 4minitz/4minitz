@@ -19,14 +19,14 @@ export class AdminRegisterUserMailHandler {
   }
 
   send() {
-    let emails = Meteor.user().emails;
-    let adminFrom =
+    const emails = Meteor.user().emails;
+    const adminFrom =
       emails && emails.length > 0
         ? emails[0].address
         : GlobalSettings.getDefaultEmailSenderAddress();
 
     if (this._user.emails && this._user.emails.length > 0) {
-      let mailParams = {
+      const mailParams = {
         userLongName: this._user.profile.name,
         rootURL: GlobalSettings.getRootUrl(),
         userName: this._user.username,
@@ -38,7 +38,7 @@ export class AdminRegisterUserMailHandler {
         url4Minitz: "https://github.com/4minitz/4minitz",
       };
 
-      let mailer = MailFactory.getMailer(
+      const mailer = MailFactory.getMailer(
         adminFrom,
         this._user.emails[0].address,
       );

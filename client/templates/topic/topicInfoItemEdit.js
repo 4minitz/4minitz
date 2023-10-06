@@ -36,7 +36,7 @@ let _meetingSeries; // ATTENTION - this var. is not reactive! It is cached for
 Template.topicInfoItemEdit.onCreated(function () {
   _minutesID = this.data;
   console.log(`Template topicEdit created with minutesID ${_minutesID}`);
-  let aMin = new Minutes(_minutesID);
+  const aMin = new Minutes(_minutesID);
   _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 
   const user = new User();
@@ -59,9 +59,9 @@ Template.topicInfoItemEdit.onRendered(function () {
   });
 });
 
-let getRelatedTopic = function () {
-  let minutesId = _minutesID;
-  let topicId = Session.get("topicInfoItemEditTopicId");
+const getRelatedTopic = function () {
+  const minutesId = _minutesID;
+  const topicId = Session.get("topicInfoItemEditTopicId");
 
   if (minutesId === null || topicId === null) {
     return false;
@@ -70,19 +70,19 @@ let getRelatedTopic = function () {
   return new Topic(minutesId, topicId);
 };
 
-let getEditInfoItem = function () {
-  let id = Session.get("topicInfoItemEditInfoItemId");
+const getEditInfoItem = function () {
+  const id = Session.get("topicInfoItemEditInfoItemId");
 
   if (!id) return false;
 
   return getRelatedTopic().findInfoItem(id);
 };
 
-let toggleItemMode = function (type, tmpl) {
-  let actionItemOnlyElements = tmpl.$(".actionItemOnly");
+const toggleItemMode = function (type, tmpl) {
+  const actionItemOnlyElements = tmpl.$(".actionItemOnly");
   Session.set("topicInfoItemType", type);
-  let editItem = getEditInfoItem();
-  let freeTextValidator = (text) => {
+  const editItem = getEditInfoItem();
+  const freeTextValidator = (text) => {
     return emailAddressRegExpTest.test(text);
   };
   switch (type) {
@@ -105,9 +105,9 @@ let toggleItemMode = function (type, tmpl) {
   }
 };
 
-let resizeTextarea = (element) => {
-  let newLineRegEx = new RegExp(/\n/g);
-  let textAreaValue = element.val();
+const resizeTextarea = (element) => {
+  const newLineRegEx = new RegExp(/\n/g);
+  const textAreaValue = element.val();
   let occurrences;
 
   occurrences = (textAreaValue.match(newLineRegEx) || []).length;
@@ -139,12 +139,12 @@ Template.topicInfoItemEdit.helpers({
   },
 
   getTopicSubject: function () {
-    let topic = getRelatedTopic();
+    const topic = getRelatedTopic();
     return topic ? topic._topicDoc.subject : "";
   },
 
   getTopicItemType: function () {
-    let type = Session.get("topicInfoItemType");
+    const type = Session.get("topicInfoItemType");
     return type === "infoItem"
       ? i18n.__("Item.editItemModelTypeInfoItem")
       : i18n.__("Item.editItemModelTypeActionItem");
@@ -158,7 +158,7 @@ Template.topicInfoItemEdit.helpers({
 
 Template.topicInfoItemEdit.events({
   "submit #frmDlgAddInfoItem": async function (evt, tmpl) {
-    let saveButton = $("#btnInfoItemSave");
+    const saveButton = $("#btnInfoItemSave");
 
     try {
       saveButton.prop("disabled", true);
@@ -186,7 +186,7 @@ Template.topicInfoItemEdit.events({
         : false;
       const labels = tmpl.$("#id_item_selLabelsActionItem").val();
 
-      let doc = {};
+      const doc = {};
       if (editItem) {
         _.extend(doc, editItem._infoItemDoc);
       }
@@ -223,14 +223,14 @@ Template.topicInfoItemEdit.events({
   // will be called before the dialog is shown
   "show.bs.modal #dlgAddInfoItem": function (evt, tmpl) {
     // at this point we clear the view
-    let saveButton = $("#btnInfoItemSave");
-    let cancelButton = $("#btnInfoItemCancel");
+    const saveButton = $("#btnInfoItemSave");
+    const cancelButton = $("#btnInfoItemCancel");
     saveButton.prop("disabled", false);
     cancelButton.prop("disabled", false);
 
-    let editItem = getEditInfoItem();
+    const editItem = getEditInfoItem();
 
-    let itemSubject = tmpl.find("#id_item_subject");
+    const itemSubject = tmpl.find("#id_item_subject");
     itemSubject.value = editItem ? editItem._infoItemDoc.subject : "";
 
     tmpl.find("#id_item_priority").value =
@@ -246,7 +246,7 @@ Template.topicInfoItemEdit.events({
     const user = new User();
     tmpl.collapseState.set(user.getSetting(userSettings.showAddDetail, true));
 
-    let detailsArea = tmpl.find("#id_item_detailInput");
+    const detailsArea = tmpl.find("#id_item_detailInput");
     if (detailsArea) {
       detailsArea.value = "";
       detailsArea.setAttribute("rows", 2);
@@ -262,7 +262,7 @@ Template.topicInfoItemEdit.events({
     );
     // set type: edit existing item
     if (editItem) {
-      let type = editItem instanceof ActionItem ? "actionItem" : "infoItem";
+      const type = editItem instanceof ActionItem ? "actionItem" : "infoItem";
       toggleItemMode(type, tmpl);
 
       const element = editItem._infoItemDoc;
@@ -292,10 +292,10 @@ Template.topicInfoItemEdit.events({
       );
     } else {
       // adding a new item
-      let freeTextValidator = (text) => {
+      const freeTextValidator = (text) => {
         return emailAddressRegExpTest.test(text);
       };
-      let editItem = getEditInfoItem();
+      const editItem = getEditInfoItem();
       configureSelect2Responsibles(
         "id_selResponsibleActionItem",
         editItem._infoItemDoc,
@@ -303,15 +303,15 @@ Template.topicInfoItemEdit.events({
         _minutesID,
         editItem,
       );
-      let selectResponsibles = $("#id_selResponsibleActionItem");
+      const selectResponsibles = $("#id_selResponsibleActionItem");
       if (selectResponsibles) {
         selectResponsibles.val([]).trigger("change");
       }
-      let selectLabels = $("#id_item_selLabelsActionItem");
+      const selectLabels = $("#id_item_selLabelsActionItem");
       if (selectLabels) {
         selectLabels.val([]).trigger("change");
       }
-      let infoItemType = Session.get("topicInfoItemType");
+      const infoItemType = Session.get("topicInfoItemType");
       toggleItemMode(infoItemType, tmpl);
 
       if (infoItemType === "infoItem") {
@@ -326,7 +326,7 @@ Template.topicInfoItemEdit.events({
     // ensure new values trigger placeholder animation
     $("#id_item_subject").trigger("change");
     $("#id_item_priority").trigger("change");
-    let itemSubject = tmpl.find("#id_item_subject");
+    const itemSubject = tmpl.find("#id_item_subject");
     itemSubject.focus();
     itemSubject.select();
   },
@@ -355,9 +355,9 @@ Template.topicInfoItemEdit.events({
   },
 
   "select2:select #id_selResponsibleActionItem"(evt) {
-    let respId = evt.params.data.id;
-    let respName = evt.params.data.text;
-    let aUser = Meteor.users.findOne(respId);
+    const respId = evt.params.data.id;
+    const respName = evt.params.data.text;
+    const aUser = Meteor.users.findOne(respId);
     if (
       !aUser &&
       respId === respName && // we have a free-text user here!
@@ -376,7 +376,7 @@ Template.topicInfoItemEdit.events({
   "click #btnExpandCollapse": function (evt, tmpl) {
     evt.preventDefault();
 
-    let detailsArea = tmpl.find("#id_item_detailInput");
+    const detailsArea = tmpl.find("#id_item_detailInput");
     detailsArea.style.display =
       detailsArea.style.display === "none" ? "inline-block" : "none";
 
@@ -404,7 +404,7 @@ Template.topicInfoItemEdit.events({
   },
 
   "keyup #id_item_detailInput": function (evt, tmpl) {
-    let inputEl = tmpl.$("#id_item_detailInput");
+    const inputEl = tmpl.$("#id_item_detailInput");
 
     if (
       evt.which === 13 /*Enter*/ ||

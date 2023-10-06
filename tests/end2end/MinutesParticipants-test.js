@@ -9,7 +9,7 @@ import { E2EMinutesParticipants } from './helpers/E2EMinutesParticipants'
 describe('Minutes Participants', function () {
     const aProjectName = "E2E Minutes Participants";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     before("reload page and reset app", function () {
@@ -31,7 +31,7 @@ describe('Minutes Participants', function () {
 
 
     it('ensures per default only creator of series is participant', function () {
-        let participantsInfo = new E2EMinutesParticipants();
+        const participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(1);
         expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser())).to.be.ok;
     });
@@ -44,8 +44,8 @@ describe('Minutes Participants', function () {
         // prepare meeting series
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
@@ -53,7 +53,7 @@ describe('Minutes Participants', function () {
         // now create some new minutes
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-        let participantsInfo = new E2EMinutesParticipants();
+        const participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(3);
         expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "currentUser").to.be.ok;
         expect(participantsInfo.getParticipantInfo(user2), user2).to.be.ok;
@@ -65,8 +65,8 @@ describe('Minutes Participants', function () {
         // prepare meeting series
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
@@ -75,7 +75,7 @@ describe('Minutes Participants', function () {
 
         browser.waitForVisible('#btnParticipantsExpand', 3000);
 
-        let participantsInfo = new E2EMinutesParticipants();
+        const participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(3);
         expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser()), "currentUser").to.be.ok;
         expect(participantsInfo.getParticipantInfo(user2), user2).to.be.ok;
@@ -89,8 +89,8 @@ describe('Minutes Participants', function () {
         // prepare meeting series
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
@@ -99,7 +99,7 @@ describe('Minutes Participants', function () {
         // finalized minutes have their participants collapsed, by default.
         E2EMinutesParticipants.expand();
 
-        let participantsInfo = new E2EMinutesParticipants();
+        const participantsInfo = new E2EMinutesParticipants();
         expect(participantsInfo.getParticipantsCount()).to.equal(1);
         expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser())).to.be.ok;
     });
@@ -107,36 +107,36 @@ describe('Minutes Participants', function () {
 
     it('can persist checked participants', function () {
         // prepare meeting series
-        let currentUser = E2EApp.getCurrentUser();
+        const currentUser = E2EApp.getCurrentUser();
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMinutes.gotoLatestMinutes();
-        let minId = E2EMinutes.getCurrentMinutesId();
+        const minId = E2EMinutes.getCurrentMinutesId();
 
-        let participantsInfo = new E2EMinutesParticipants();
+        const participantsInfo = new E2EMinutesParticipants();
         participantsInfo.setUserPresence(currentUser, true);
         participantsInfo.setUserPresence(user3, true);
 
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        let parts = E2EMinutesParticipants.getPresentParticipantsFromServer(minId);
+        const parts = E2EMinutesParticipants.getPresentParticipantsFromServer(minId);
         expect(parts).to.contain(currentUser);
         expect(parts).to.contain(user3);
     });
 
 
     it('can persist additional participants', function () {
-        let additionalUser = "Max Mustermann";
+        const additionalUser = "Max Mustermann";
         browser.setValue('#edtParticipantsAdditional', additionalUser);
         E2EMinutes.finalizeCurrentMinutes();
 
-        let minId = E2EMinutes.getCurrentMinutesId();
-        let parts = E2EMinutesParticipants.getPresentParticipantsFromServer(minId);
+        const minId = E2EMinutes.getCurrentMinutesId();
+        const parts = E2EMinutesParticipants.getPresentParticipantsFromServer(minId);
         expect(parts).to.contains(additionalUser);
     });
 
@@ -156,10 +156,10 @@ describe('Minutes Participants', function () {
 
     it('shows collapsed view for non-moderators', function () {
         // prepare meeting series
-        let currentUser = E2EApp.getCurrentUser();
+        const currentUser = E2EApp.getCurrentUser();
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
@@ -174,10 +174,10 @@ describe('Minutes Participants', function () {
 
     it('prohibits non-moderator users to change participants', function () {
         // prepare meeting series
-        let currentUser = E2EApp.getCurrentUser();
+        const currentUser = E2EApp.getCurrentUser();
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
@@ -186,13 +186,13 @@ describe('Minutes Participants', function () {
         E2EMinutes.gotoLatestMinutes();
         E2EMinutesParticipants.expand();
 
-        let participantsInfoBefore = new E2EMinutesParticipants();
+        const participantsInfoBefore = new E2EMinutesParticipants();
         participantsInfoBefore.setUserPresence(currentUser, true);
         participantsInfoBefore.setUserPresence(user2, true);
-        let additionalUser = "Max Mustermann";
+        const additionalUser = "Max Mustermann";
         try{browser.setValue('#edtParticipantsAdditional', additionalUser);} catch (e) {}
 
-        let participantsInfoAfter = new E2EMinutesParticipants();
+        const participantsInfoAfter = new E2EMinutesParticipants();
         expect(participantsInfoAfter).to.deep.equal(participantsInfoBefore);
 
         E2EApp.loginUser();
@@ -201,13 +201,13 @@ describe('Minutes Participants', function () {
 
     it('prohibits change of participants on finalized minutes', function () {
         E2EMinutes.finalizeCurrentMinutes();
-        let currentUser = E2EApp.getCurrentUser();
-        let participantsInfoBefore = new E2EMinutesParticipants();
+        const currentUser = E2EApp.getCurrentUser();
+        const participantsInfoBefore = new E2EMinutesParticipants();
         participantsInfoBefore.setUserPresence(currentUser, true);
-        let additionalUser = "Max Mustermann";
+        const additionalUser = "Max Mustermann";
         try{browser.setValue('#edtParticipantsAdditional', additionalUser);} catch (e) {}
 
-        let participantsInfoAfter = new E2EMinutesParticipants();
+        const participantsInfoAfter = new E2EMinutesParticipants();
         expect(participantsInfoAfter).to.deep.equal(participantsInfoBefore);
     });
 
@@ -223,20 +223,20 @@ describe('Minutes Participants', function () {
 
     it('shows participants on minutelist in meeting series details view', function () {
         // prepare meeting series
-        let currentUser = E2EApp.getCurrentUser();
+        const currentUser = E2EApp.getCurrentUser();
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName, "invited");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-        let user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user3, E2EGlobal.USERROLES.Moderator);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 
         E2EMinutes.gotoLatestMinutes();
-        let participantsInfo = new E2EMinutesParticipants();
+        const participantsInfo = new E2EMinutesParticipants();
         participantsInfo.setUserPresence(currentUser, true);
         participantsInfo.setUserPresence(user3, true);
-        let additionalUser = "Max Mustermann";
+        const additionalUser = "Max Mustermann";
         browser.setValue('#edtParticipantsAdditional', additionalUser);
         E2EMinutes.finalizeCurrentMinutes();
 
@@ -250,7 +250,7 @@ describe('Minutes Participants', function () {
 
         E2EGlobal.clickWithRetry("#btnEditParticipants");
         E2EGlobal.waitSomeTime(750);
-        let user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
+        const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
         E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save
 

@@ -3,7 +3,7 @@ import { Meteor} from 'meteor/meteor';
 export class MigrateV14 {
 
     static up() {
-        let demoUser = Meteor.users.findOne({'$and': [
+        const demoUser = Meteor.users.findOne({'$and': [
             {'username': 'demo'},
             {'isDemoUser': true}
         ]});
@@ -13,7 +13,7 @@ export class MigrateV14 {
     }
 
     static down() {
-        let demoUser = Meteor.users.findOne({'$and': [
+        const demoUser = Meteor.users.findOne({'$and': [
             {'username': 'demo'},
             {'isDemoUser': true}
         ]});

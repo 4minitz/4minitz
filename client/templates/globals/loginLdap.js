@@ -11,7 +11,7 @@ function loginCallback(error) {
         (new FlashMessage(i18n.__('Login.Error.title'), error.message)).show();
     }
 
-    let routeName = FlowRouter.current().route.name;
+    const routeName = FlowRouter.current().route.name;
     if (routeName === 'signup' || routeName === 'home') {
         FlowRouter.go('home');
     }
@@ -33,8 +33,8 @@ Template.loginLdap.events({
     'submit #ldapLoginForm'(event) {
         event.preventDefault();
 
-        let username = $('#id_ldapUsername').val();
-        let password = $('#id_ldapPassword').val();
+        const username = $('#id_ldapUsername').val();
+        const password = $('#id_ldapPassword').val();
 
         Meteor.loginWithLdap(username, password, loginCallback);
     }

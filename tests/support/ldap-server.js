@@ -1,7 +1,7 @@
-let ldap = require('ldapjs')
+const ldap = require('ldapjs')
     _ = require('underscore');
 
-let users = [{
+const users = [{
     dn: 'cn=ldapUser1,dc=example,dc=com',
     password: 'ldapPwd1',
     attributes: {
@@ -49,7 +49,7 @@ let users = [{
   }
 }];
 
-let server = ldap.createServer();
+const server = ldap.createServer();
 
 function authorize(req, res, next) {
     if (!req.connection.ldap.bindDN.equals('cn=ldapUser1,dc=example,dc=com'))
@@ -59,7 +59,7 @@ function authorize(req, res, next) {
 }
 
 server.search('dc=example,dc=com', authorize, function(req, res, next) {
-    let matches = _.filter(users, user => req.filter.matches(user.attributes));
+    const matches = _.filter(users, user => req.filter.matches(user.attributes));
     _.each(matches, match => res.send(match));
 
     res.end();
@@ -73,7 +73,7 @@ server.bind('dc=example,dc=com', function (req, res, next) {
 
     console.log(dn, normalizedDn, password);
 
-    let matchingUsers = _.filter(users, user => normalizedDn == user.dn);
+    const matchingUsers = _.filter(users, user => normalizedDn == user.dn);
 
     console.log(matchingUsers);
 
@@ -85,7 +85,7 @@ server.bind('dc=example,dc=com', function (req, res, next) {
         return next(new ldap.NoSuchObjectError(dn));
     }
 
-    let user = matchingUsers[0];
+    const user = matchingUsers[0];
 
     if (user.password != password) {
         return next(new ldap.InvalidCredentialsError());

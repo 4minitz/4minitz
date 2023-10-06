@@ -2,16 +2,16 @@ import { expect } from "chai";
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 
-let MinutesSchema = { find: sinon.stub(), update: sinon.stub() };
+const MinutesSchema = { find: sinon.stub(), update: sinon.stub() };
 MinutesSchema.getCollection = () => MinutesSchema;
 
-let MeetingSeriesSchema = { find: sinon.stub() };
+const MeetingSeriesSchema = { find: sinon.stub() };
 MeetingSeriesSchema.getCollection = () => MeetingSeriesSchema;
 
-let TopicSchema = { find: sinon.stub(), update: sinon.stub() };
+const TopicSchema = { find: sinon.stub(), update: sinon.stub() };
 TopicSchema.getCollection = () => TopicSchema;
 
-let MinutesFinder = {
+const MinutesFinder = {
   firstMinutesOfMeetingSeries: sinon.stub(),
   nextMinutes: sinon.stub(),
 };

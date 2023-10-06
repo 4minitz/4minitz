@@ -13,19 +13,19 @@ import { i18n } from "meteor/universe:i18n";
 
 let _minutesID; // the ID of these minutes
 
-let isEditable = function () {
-  let min = new Minutes(_minutesID);
+const isEditable = function () {
+  const min = new Minutes(_minutesID);
   return min.isCurrentUserModerator() && !min.isFinalized;
 };
 
-let isModeratorOfParentSeries = function (userId) {
-  let aMin = new Minutes(_minutesID);
-  let usrRole = new UserRoles(userId);
+const isModeratorOfParentSeries = function (userId) {
+  const aMin = new Minutes(_minutesID);
+  const usrRole = new UserRoles(userId);
   return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
 };
 
-let userNameForId = function (userId) {
-  let usr = Meteor.users.findOne(userId);
+const userNameForId = function (userId) {
+  const usr = Meteor.users.findOne(userId);
   if (usr) {
     let showName = usr.username;
     // If we have a long name for the user: prepend it!
@@ -39,14 +39,14 @@ let userNameForId = function (userId) {
 };
 
 function countParticipantsMarked() {
-  let aMin = new Minutes(_minutesID);
+  const aMin = new Minutes(_minutesID);
   return aMin.participants.filter((p) => {
     return p.present;
   }).length;
 }
 
 function allParticipantsMarked() {
-  let aMin = new Minutes(_minutesID);
+  const aMin = new Minutes(_minutesID);
   return (
     aMin.participants.findIndex((p) => {
       return !p.present;
@@ -83,7 +83,7 @@ Template.minutesEditParticipants.helpers({
   },
 
   countAdditionalParticipantsText() {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     let count = 0;
     if (aMin.participantsAdditional && aMin.participantsAdditional.length > 0) {
       count = aMin.participantsAdditional
@@ -105,8 +105,8 @@ Template.minutesEditParticipants.helpers({
   },
 
   countInformedText() {
-    let aMin = new Minutes(_minutesID);
-    let count = aMin.informedUsers ? aMin.informedUsers.length : 0;
+    const aMin = new Minutes(_minutesID);
+    const count = aMin.informedUsers ? aMin.informedUsers.length : 0;
     if (count === 0) {
       return "";
     }
@@ -117,7 +117,7 @@ Template.minutesEditParticipants.helpers({
   },
 
   participantsSorted() {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     let partSorted = aMin.participants;
     partSorted.forEach((p) => {
       p["displayName"] = userNameForId(p.userId);
@@ -154,7 +154,7 @@ Template.minutesEditParticipants.helpers({
   },
 
   collapsedParticipantsNames() {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     return aMin.getPresentParticipantNames();
   },
 
@@ -174,12 +174,12 @@ Template.minutesEditParticipants.helpers({
   },
 
   hasInformedUsers() {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     return aMin.informedUsers && aMin.informedUsers.length > 0;
   },
 
   getInformedUsers() {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     let informedNames = "";
     if (aMin.informedUsers && aMin.informedUsers.length > 0) {
       aMin.informedUsers.forEach((id) => {
@@ -191,7 +191,7 @@ Template.minutesEditParticipants.helpers({
   },
 
   switch2MultiColumn() {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
 
     if (aMin.participants.length > 7) {
       return "multicolumn";
@@ -199,7 +199,7 @@ Template.minutesEditParticipants.helpers({
   },
 
   enoughParticipants() {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     return aMin.participants.length > 2;
   },
 
@@ -212,22 +212,22 @@ Template.minutesEditParticipants.helpers({
   },
 
   parentMeetingSeries() {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     return aMin.parentMeetingSeries();
   },
 });
 
 Template.minutesEditParticipants.events({
   "click .js-toggle-present"(evt, tmpl) {
-    let min = new Minutes(_minutesID);
-    let userId = evt.target.dataset.userid;
-    let checkedState = evt.target.checked;
+    const min = new Minutes(_minutesID);
+    const userId = evt.target.dataset.userid;
+    const checkedState = evt.target.checked;
     min.updateParticipantPresent(userId, checkedState);
     tmpl.markedAll.set(allParticipantsMarked());
   },
   "change #edtParticipantsAdditional"(evt, tmpl) {
-    let aMin = new Minutes(_minutesID);
-    let theParticipant = tmpl.find("#edtParticipantsAdditional").value;
+    const aMin = new Minutes(_minutesID);
+    const theParticipant = tmpl.find("#edtParticipantsAdditional").value;
     aMin.update({ participantsAdditional: theParticipant });
   },
 
@@ -236,7 +236,7 @@ Template.minutesEditParticipants.events({
   },
 
   "click #btnToggleMarkAllNone"(evt, tmpl) {
-    let aMin = new Minutes(_minutesID);
+    const aMin = new Minutes(_minutesID);
     if (allParticipantsMarked()) {
       aMin.changeParticipantsStatus(false).catch(handleError);
       tmpl.markedAll.set(false);

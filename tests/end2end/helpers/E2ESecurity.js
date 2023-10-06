@@ -24,7 +24,7 @@ export class E2ESecurity {
     //In order to check this, all security-e2e-tests should use this function to check if the methods called within them do still exist.
     //If that's not the case, the test will fail and by this give a hint for the dev, which test cases have yet to be updated with the new method name.
     static expectMethodToExist(methodName){
-        let methodExists = browser.execute( function(methodName) {
+        const methodExists = browser.execute( function(methodName) {
             //The methodHandlers-Dictionary will contain all meteor methods known to the client.
             //By default it will contain exactly the same methods as the server
             return typeof Meteor.connection._methodHandlers[methodName] === 'function'
@@ -51,7 +51,7 @@ export class E2ESecurity {
         E2ESecurity.expectMethodToExist(methodName);
         browser.timeouts("script", 5000);
         try {
-            let result = browser.executeAsync((methodName, methodParameters, done) => {
+            const result = browser.executeAsync((methodName, methodParameters, done) => {
                 Meteor.apply(methodName, methodParameters, _ => {
                 }, (error, result) => {
                     done({error, result});
@@ -65,7 +65,7 @@ export class E2ESecurity {
 
     static countRecordsInMiniMongo(collectionName) {
         return browser.execute((collectionName) => {
-            let collectionpointer = Meteor.Collection.get(collectionName);
+            const collectionpointer = Meteor.Collection.get(collectionName);
             return collectionpointer ? collectionpointer.find().count() : 0;
         }, collectionName).value;
     }
@@ -78,7 +78,7 @@ export class E2ESecurity {
 
     static createMeetingSeriesAndMinute = (name) => {
         E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod, {project: name, name: name});
-        let msID = E2EMeetingSeries.getMeetingSeriesId(name, name);
+        const msID = E2EMeetingSeries.getMeetingSeriesId(name, name);
         E2EMinutes.addMinutesToMeetingSeries(name, name);
         E2EMinutes.gotoLatestMinutes();
         return {
@@ -126,7 +126,7 @@ export class E2ESecurity {
 
     static inviteUserToMeetingSerie = (MSname, role, userIndex) => {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(MSname, MSname, 'invited');
-        let user = E2EGlobal.SETTINGS.e2eTestUsers[userIndex];
+        const user = E2EGlobal.SETTINGS.e2eTestUsers[userIndex];
         if (role === 'Invited')
             E2EMeetingSeriesEditor.addUserToMeetingSeries(user, E2EGlobal.USERROLES.Invited);
         else

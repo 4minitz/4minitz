@@ -8,12 +8,12 @@ import { GlobalSettings } from '/imports/config/GlobalSettings';
 const ldapEnabled = Meteor.settings.public.ldapEnabled;
 
 Template.login.onCreated(function () {
-    let defaultTab = ldapEnabled ? 'loginLdap' : 'atForm';
+    const defaultTab = ldapEnabled ? 'loginLdap' : 'atForm';
     Session.setDefault('currentLoginForm', defaultTab);
 });
 
 Template.login.onRendered(function () {
-    let tab = ldapEnabled ? 'loginLdap' : 'atForm';
+    const tab = ldapEnabled ? 'loginLdap' : 'atForm';
     Session.setDefault('currentLoginForm', tab);
 });
 
@@ -57,7 +57,7 @@ Template.login.helpers({
 
 Template.login.events({
     'click .nav-tabs li': function(event) {
-        let currentTab = $(event.target).closest('li');
+        const currentTab = $(event.target).closest('li');
 
         currentTab.addClass('active');
         $('.nav-tabs li').not(currentTab).removeClass('active');

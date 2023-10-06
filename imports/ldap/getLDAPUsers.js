@@ -1,10 +1,10 @@
 const ldap = require("ldapjs"),
   _ = require("lodash");
 
-let _createLDAPClient = function (settings) {
+const _createLDAPClient = function (settings) {
   return new Promise((resolve, reject) => {
     try {
-      let client = ldap.createClient({
+      const client = ldap.createClient({
         url: settings.serverUrl,
       });
 
@@ -18,7 +18,7 @@ let _createLDAPClient = function (settings) {
   });
 };
 
-let _bind = function (connection) {
+const _bind = function (connection) {
   return new Promise((resolve, reject) => {
     const client = connection.client,
       settings = connection.settings,
@@ -71,7 +71,7 @@ function isInactive(inactivitySettings, entry) {
   return strategyFunction(inactivitySettings, entry);
 }
 
-let _fetchLDAPUsers = function (connection) {
+const _fetchLDAPUsers = function (connection) {
   let client = connection.client,
     settings = connection.settings,
     base = settings.serverDn,
@@ -101,7 +101,7 @@ let _fetchLDAPUsers = function (connection) {
       client.search(base, options, (error, response) => {
         if (error) reject(`Search failed: ${error}`);
 
-        let entries = [];
+        const entries = [];
 
         response.on("searchEntry", function (entry) {
           const userIsInactive = isInactive(settings.inactiveUsers, entry),
@@ -123,7 +123,7 @@ let _fetchLDAPUsers = function (connection) {
   });
 };
 
-let _closeLDAPClient = function (connection) {
+const _closeLDAPClient = function (connection) {
   let client = connection.client,
     settings = connection.settings,
     users = connection.entries;
@@ -137,7 +137,7 @@ let _closeLDAPClient = function (connection) {
   });
 };
 
-let getLDAPUsers = function (settings) {
+const getLDAPUsers = function (settings) {
   return new Promise((resolve, reject) => {
     _createLDAPClient(settings)
       .then(_bind)

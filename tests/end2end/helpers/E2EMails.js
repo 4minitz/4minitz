@@ -15,7 +15,7 @@ export class E2EMails {
      * Returns all recipients of all sent mails
      */
     static getAllRecipients() {
-        let mails = E2EMails.getAllSentMails();
+        const mails = E2EMails.getAllSentMails();
         let recipients = [];
         mails.forEach(mail => {
             recipients = recipients.concat(mail.to);

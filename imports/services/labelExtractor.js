@@ -49,11 +49,11 @@ export class LabelExtractor {
 
   _extractAndCreatedNewLabels() {
     const regEx = /(^|[\s.,;])#([a-zA-Z]+[^\s.,;]*)/g;
-    let completeString = this.string;
+    const completeString = this.string;
     let match;
 
     while ((match = regEx.exec(completeString)) !== null) {
-      let labelName = match[2];
+      const labelName = match[2];
       this._addLabelByName(labelName);
       this._removeLabelFromString(labelName);
     }

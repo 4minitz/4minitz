@@ -12,7 +12,7 @@ const EXPECTED_PRIORITY_MAP = {
 };
 
 
-let i18n = {
+const i18n = {
     setLocale: sinon.stub(),
     getLocale: sinon.stub(),
     __: sinon.stub()

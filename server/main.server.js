@@ -31,9 +31,9 @@ import { handleMigration } from "./migrations/migrations";
 
 i18n.setLocale("en");
 
-let handleDemoUserAccount = function () {
+const handleDemoUserAccount = function () {
   if (GlobalSettings.createDemoAccount()) {
-    let demoUser = Meteor.users.findOne({
+    const demoUser = Meteor.users.findOne({
       $and: [{ username: "demo" }, { isDemoUser: true }],
     });
     if (!demoUser) {
@@ -74,7 +74,7 @@ let handleDemoUserAccount = function () {
     }
   } else {
     // we don't want a demo user
-    let demoUserActive = Meteor.users.findOne({
+    const demoUserActive = Meteor.users.findOne({
       $and: [{ username: "demo" }, { isDemoUser: true }, { isInactive: false }],
     });
     if (demoUserActive) {
@@ -87,7 +87,7 @@ let handleDemoUserAccount = function () {
   }
 
   // #Security: warn admin if demo user exists
-  let demoUserActive = Meteor.users.findOne({
+  const demoUserActive = Meteor.users.findOne({
     $and: [{ username: "demo" }, { isDemoUser: true }, { isInactive: false }],
   });
   if (demoUserActive) {
@@ -101,7 +101,7 @@ let handleDemoUserAccount = function () {
   }
 };
 
-let syncRootUrl = function () {
+const syncRootUrl = function () {
   if (!Meteor.settings) {
     console.log("*** Warning: no settings specified. Running in 'WTF' mode.");
     return;
@@ -158,7 +158,7 @@ Meteor.startup(() => {
     // #I18N: No translation here. We don't have a logged in user, so we can't
     // know the desired language But admin may do so in Admin frontend where
     // messages can be overwritten.
-    let message =
+    const message =
       "Warning: 4Minitz will be down for maintenance in *4 Minutes*. " +
       "Downtime will be about 4 Minutes. Just submit open dialogs. " +
       "Then nothing is lost. You may finalize meetings later.";

@@ -3,7 +3,7 @@ import Future from "fibers/future";
 import mongoUri from "mongo-uri";
 
 function dumpParameters(uri, path) {
-  let params = [];
+  const params = [];
 
   let host = uri.hosts[0];
   if (uri.ports[0]) {
@@ -32,12 +32,12 @@ function dumpParameters(uri, path) {
 export const backupMongo = function (mongoUrl, path) {
   console.log("Backing up mongodb", mongoUrl, "to", path);
 
-  let uri = mongoUri.parse(mongoUrl);
-  let parameters = dumpParameters(uri, path);
+  const uri = mongoUri.parse(mongoUrl);
+  const parameters = dumpParameters(uri, path);
   const command = "mongodump";
-  let future = new Future();
+  const future = new Future();
 
-  let dumpProcess = spawn(command, parameters);
+  const dumpProcess = spawn(command, parameters);
   dumpProcess.on("error", console.log);
 
   dumpProcess.on("close", (code) => {

@@ -2,7 +2,7 @@ import { LDAP } from "meteor/babrahams:accounts-ldap";
 import { Meteor } from "meteor/meteor";
 import { LdapSettings } from "/imports/config/LdapSettings";
 
-let allowSelfSignedTLS = LdapSettings.allowSelfSignedTLS();
+const allowSelfSignedTLS = LdapSettings.allowSelfSignedTLS();
 if (allowSelfSignedTLS) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 }

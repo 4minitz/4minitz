@@ -11,7 +11,7 @@ import { E2EMinutes } from './helpers/E2EMinutes';
 describe('MeetingSeries Editor', function () {
     const aProjectName = 'E2E MeetingSeries Editor';
     let aMeetingCounter = 0;
-    let aMeetingNameBase = 'Meeting Name #';
+    const aMeetingNameBase = 'Meeting Name #';
     let aMeetingName;
 
     before('reload page and reset app', function () {
@@ -56,7 +56,7 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can delete an empty meeting series', function () {
-        let countAfterCreate = E2EMeetingSeries.countMeetingSeries();
+        const countAfterCreate = E2EMeetingSeries.countMeetingSeries();
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
@@ -69,7 +69,7 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can cancel delete of meeting series', function () {
-        let countAfterCreate = E2EMeetingSeries.countMeetingSeries();
+        const countAfterCreate = E2EMeetingSeries.countMeetingSeries();
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to.be.ok;
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
 
@@ -82,10 +82,10 @@ describe('MeetingSeries Editor', function () {
 
 
     it('can clean up child minutes on deleting meeting series', function () {
-        let aMeetingName = 'Meeting Name (with Minute)';
+        const aMeetingName = 'Meeting Name (with Minute)';
 
-        let countDBMeetingSeriesBefore = server.call('e2e.countMeetingSeriesInMongDB');
-        let countDBMinutesBefore = server.call('e2e.countMinutesInMongoDB');
+        const countDBMeetingSeriesBefore = server.call('e2e.countMeetingSeriesInMongDB');
+        const countDBMinutesBefore = server.call('e2e.countMinutesInMongoDB');
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.finalizeCurrentMinutes();
@@ -132,8 +132,8 @@ describe('MeetingSeries Editor', function () {
 
     it('can save meeting series with new project name and meeting name', function () {
         E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
-        let aNewProjectName = 'E2E New Project';
-        let aNewMeetingName = 'New Meeting Name';
+        const aNewProjectName = 'E2E New Project';
+        const aNewMeetingName = 'New Meeting Name';
         browser.setValue('input[id="id_meetingproject"]', aNewProjectName);
         browser.setValue('input[id="id_meetingname"]', aNewMeetingName);
         E2EMeetingSeriesEditor.closeMeetingSeriesEditor();  // close with save

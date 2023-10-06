@@ -5,11 +5,11 @@ import _ from "underscore";
 
 import * as DateHelpers from "../../../../../imports/helpers/date";
 
-let MinutesSchema = { update: sinon.stub(), findOne: sinon.stub() };
+const MinutesSchema = { update: sinon.stub(), findOne: sinon.stub() };
 
-let MeetingSeriesSchema = { update: sinon.stub(), findOne: sinon.stub() };
+const MeetingSeriesSchema = { update: sinon.stub(), findOne: sinon.stub() };
 
-let Minutes = sinon.stub();
+const Minutes = sinon.stub();
 // let Minutes = {
 //     save: sinon.stub(),
 // };
@@ -25,7 +25,7 @@ const MeteorError = (err, details) => {
 };
 const MeteorMethods = {};
 
-let Meteor = {
+const Meteor = {
   userId: sinon.stub(),
   user: sinon.stub(),
   defer: sinon.stub().callsArg(0),
@@ -36,7 +36,7 @@ let Meteor = {
   settings: { public: { docGeneration: { enabled: true } } },
 };
 
-let PromisedMethods = {};
+const PromisedMethods = {};
 DateHelpers["@noCallThru"] = true;
 
 const GlobalSettings = {
@@ -63,7 +63,7 @@ const User = {
   PROFILENAMEWITHFALLBACK: sinon.stub(),
 };
 
-let i18n = { setLocale: sinon.stub(), getLocale: sinon.stub() };
+const i18n = { setLocale: sinon.stub(), getLocale: sinon.stub() };
 
 const { Finalizer } = proxyquire(
   "../../../../../imports/services/finalize-minutes/finalizer",

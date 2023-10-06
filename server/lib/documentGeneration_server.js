@@ -17,7 +17,7 @@ createDocumentStoragePath = function (fileObj) {
     // minute is given
     if (fileObj?.meta && fileObj.meta.minuteId) {
       absoluteDocumentPath = `${absoluteDocumentPath}/${fileObj.meta.meetingSeriesId}`;
-      let minuteYear = new Date(fileObj.meta.minuteDate).getFullYear();
+      const minuteYear = new Date(fileObj.meta.minuteDate).getFullYear();
       absoluteDocumentPath = `${absoluteDocumentPath}/${minuteYear}`;
     }
     // create target dir for document storage if it does not exist
@@ -37,7 +37,7 @@ createDocumentStoragePath = function (fileObj) {
 // it It is used within the E2E-Tests to reset the app
 resetDocumentStorageDirectory = function () {
   // eslint-disable-line
-  let storagePath = getDocumentStorageRootDirectory(); // eslint-disable-line
+  const storagePath = getDocumentStorageRootDirectory(); // eslint-disable-line
   if (fs.existsSync(storagePath)) {
     fs.emptyDir(storagePath);
   }
@@ -57,7 +57,7 @@ getDocumentStorageRootDirectory = () => {
 
 convertHTML2PDF = (htmldata, fileName, metaData) => {
   // eslint-disable-line
-  let checkFileExists = (filepath, fileNameForErrorMsg) => {
+  const checkFileExists = (filepath, fileNameForErrorMsg) => {
     if (!fs.existsSync(filepath)) {
       throw new Meteor.Error(
         "runtime-error",
@@ -116,8 +116,8 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
     );
 
     exePath = `"${Meteor.settings.docGeneration.pathToGhostscript}"`;
-    let icctype = Meteor.settings.docGeneration.ICCProfileType.toUpperCase();
-    let inputPath = outputPath;
+    const icctype = Meteor.settings.docGeneration.ICCProfileType.toUpperCase();
+    const inputPath = outputPath;
     outputPath = `${getDocumentStorageRootDirectory()}/TemporaryProtocol-A.pdf`; // eslint-disable-line
     additionalArguments =
       " -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE" +
@@ -154,7 +154,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
   }
   fs.unlink(tempFileName);
   // Now move file to it's meetingseries directory
-  let finalPDFOutputPath = `${createDocumentStoragePath({
+  const finalPDFOutputPath = `${createDocumentStoragePath({
     meta: metaData,
   })}/${Random.id()}.pdf`; // eslint-disable-line
   fs.moveSync(outputPath, finalPDFOutputPath);
@@ -166,8 +166,8 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
 // also check necessary binaries for pdf generation
 if (Meteor.settings.docGeneration?.enabled) {
   console.log("Document generation feature: ENABLED");
-  let settingsPath = createDocumentStoragePath(undefined); // eslint-disable-line
-  let absoluteTargetPath = path.resolve(settingsPath);
+  const settingsPath = createDocumentStoragePath(undefined); // eslint-disable-line
+  const absoluteTargetPath = path.resolve(settingsPath);
   console.log(`Document Storage Path: ${absoluteTargetPath}`);
 
   fs.access(absoluteTargetPath, fs.W_OK, function (err) {
@@ -226,7 +226,7 @@ if (Meteor.settings.docGeneration?.enabled) {
   console.log("Document generation feature: DISABLED");
 }
 
-let checkCondition = (condition, errorMessage) => {
+const checkCondition = (condition, errorMessage) => {
   if (Meteor.settings.docGeneration.enabled) {
     if (!condition) {
       console.error(`*** ERROR*** ${errorMessage}`);
@@ -236,7 +236,7 @@ let checkCondition = (condition, errorMessage) => {
   }
 };
 
-let checkFileExists = (filepath, filename) => {
+const checkFileExists = (filepath, filename) => {
   checkCondition(
     fs.existsSync(filepath),
     `Missing ${filename} at path: ${filepath}`,

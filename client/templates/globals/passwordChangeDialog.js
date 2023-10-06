@@ -8,16 +8,16 @@ import { addCustomValidator } from '../../helpers/customFieldValidator';
 import { handleError } from '/client/helpers/handleError';
 import { i18n } from 'meteor/universe:i18n';
 
-let showError = function (evt, error) {
+const showError = function (evt, error) {
     handleError(error);
     evt.preventDefault();
 };
 
-let checkPasswordsIdentical = (password1, password2) => {
+const checkPasswordsIdentical = (password1, password2) => {
     return password1 === password2;
 };
 
-let checkPasswordMatchesPattern = (password) => {
+const checkPasswordMatchesPattern = (password) => {
     return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password);
 };
 
@@ -44,9 +44,9 @@ Template.passwordChangeDialog.events({
             return;
         }
 
-        let uOldPassword = tmpl.find('#id_oldPassword').value;
-        let uPassword1 = tmpl.find('#id_newPassword1').value;
-        let uPassword2 = tmpl.find('#id_newPassword2').value;
+        const uOldPassword = tmpl.find('#id_oldPassword').value;
+        const uPassword1 = tmpl.find('#id_newPassword1').value;
+        const uPassword2 = tmpl.find('#id_newPassword2').value;
 
         if (!checkPasswordsIdentical(uPassword1, uPassword2)) {
             showError(evt, {reason: 'New Passwords are not identical'});

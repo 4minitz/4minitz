@@ -81,9 +81,9 @@ export class E2EMinutesParticipants {
         const presence = $$('input.js-toggle-present');
 
         for (let participantIndex=0; participantIndex<participants.length; participantIndex++) {
-            let username = participants[participantIndex].getText();
-            let userElem = participants[participantIndex];
-            let checkboxElem = presence[participantIndex];
+            const username = participants[participantIndex].getText();
+            const userElem = participants[participantIndex];
+            const checkboxElem = presence[participantIndex];
 
             this._participantsAndPresence[username] = {
                 present: checkboxElem.isSelected(),
@@ -110,7 +110,7 @@ export class E2EMinutesParticipants {
         if (!this._participantsAndPresence[username]) {
             return false;
         }
-        let currentSelectState = this._participantsAndPresence[username].checkboxElem.isSelected();
+        const currentSelectState = this._participantsAndPresence[username].checkboxElem.isSelected();
         if (currentSelectState !== presence) {
             browser.scroll('#id_participants');
             this._participantsAndPresence[username].userElem.click();

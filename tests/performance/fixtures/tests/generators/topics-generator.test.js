@@ -1,4 +1,4 @@
-let expect = require('chai').expect;
+const expect = require('chai').expect;
 
 import { TopicsGenerator } from '../../generators/topics-generator';
 
@@ -20,7 +20,7 @@ describe('TopicsGenerator', function() {
         });
 
         it('should not modify the previously returned topics array', function() {
-            let firstTopicList = generator.generateNextListForMinutes('a'); // all AIs of this list should be open!
+            const firstTopicList = generator.generateNextListForMinutes('a'); // all AIs of this list should be open!
             generator.generateNextListForMinutes('a');
 
             firstTopicList.forEach(topic => {
@@ -48,7 +48,7 @@ describe('TopicsGenerator', function() {
 
         it('generates one topic with the correct amount of info items', function() {
             for(let i = 0; i < 100; i++) {
-                let topic = generator._generateANewTopic();
+                const topic = generator._generateANewTopic();
                 expect(topic.infoItems).to.have.length.below(CONFIG.itemsRange.max+1);
                 expect(topic.infoItems).to.have.length.above(CONFIG.itemsRange.min-1);
             }
@@ -57,7 +57,7 @@ describe('TopicsGenerator', function() {
         it('sets the createdInMinute attribute for topics correctly', function() {
             const MIN_ID = 'AaBbCcDd01';
             generator.currentMinutesId = MIN_ID;
-            let topic = generator._generateANewTopic();
+            const topic = generator._generateANewTopic();
             expect(topic.createdInMinute).to.equal(MIN_ID);
         });
 
@@ -152,7 +152,7 @@ describe('TopicsGenerator', function() {
             // mock generator
             let nextId = 16;
             generator._generateANewInfoItem = () => {
-                let id = '1.' + nextId++;
+                const id = '1.' + nextId++;
                 return {_id: id, itemType: 'actionItem', isOpen: true}
             };
 

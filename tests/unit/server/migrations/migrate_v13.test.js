@@ -7,13 +7,13 @@ require("../../../../imports/helpers/date");
 const FIRST_MIN_ID = "#Min01";
 const SND_MIN_ID = "#Min02";
 
-let MinutesSchema = { update: sinon.stub() };
+const MinutesSchema = { update: sinon.stub() };
 MinutesSchema.getCollection = (_) => MinutesSchema;
 
-let MeetingSeriesSchema = { update: sinon.stub() };
+const MeetingSeriesSchema = { update: sinon.stub() };
 MeetingSeriesSchema.getCollection = (_) => MeetingSeriesSchema;
 
-let MinutesFinder = {
+const MinutesFinder = {
   result: undefined,
   firstMinutesOfMeetingSeries() {
     return this.result;
@@ -72,7 +72,7 @@ describe("Migrate Version 13", function () {
   });
 
   describe("#up", function () {
-    let checkTopicHasProperty = (topic) => {
+    const checkTopicHasProperty = (topic) => {
       expect(topic).to.have.ownProperty("isSkipped");
       expect(topic.isSkipped).to.be.false;
     };
@@ -92,7 +92,7 @@ describe("Migrate Version 13", function () {
 
   describe("#down", function () {
     beforeEach(function () {
-      let addCreatedInMinuteFakeAttribute = (topic) => {
+      const addCreatedInMinuteFakeAttribute = (topic) => {
         topic.createdInMinute = "fakeID";
       };
       firstFakeMinute.topics.forEach(addCreatedInMinuteFakeAttribute);
@@ -104,7 +104,7 @@ describe("Migrate Version 13", function () {
     it("removes the isSkipped-attribute", function () {
       MigrateV13.down();
 
-      let checkTopicHasNoAttribute = (topic) => {
+      const checkTopicHasNoAttribute = (topic) => {
         expect(topic).not.have.ownProperty("isSkipped");
       };
 

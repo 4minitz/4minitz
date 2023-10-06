@@ -5,14 +5,14 @@ import sinon from "sinon";
 const FIRST_MIN_ID = "#Min01";
 const SND_MIN_ID = "#Min02";
 
-let MinutesSchema = { update: sinon.stub() };
+const MinutesSchema = { update: sinon.stub() };
 MinutesSchema.getCollection = (_) => MinutesSchema;
 
-let TopicSchema = { update: sinon.stub() };
+const TopicSchema = { update: sinon.stub() };
 TopicSchema.getCollection = (_) => TopicSchema;
 
 class MeteorError {}
-let Meteor = { Error: MeteorError };
+const Meteor = { Error: MeteorError };
 
 const Random = {
   i: 1,
@@ -101,7 +101,7 @@ describe("Migrate Version 20", function () {
   });
 
   describe("#up", function () {
-    let checkDetailHasProperty = (detail) => {
+    const checkDetailHasProperty = (detail) => {
       expect(detail).to.have.ownProperty("isNew");
     };
 
@@ -161,7 +161,7 @@ describe("Migrate Version 20", function () {
 
   describe("#down", function () {
     beforeEach(function () {
-      let addIsNewToDetail = (topic) => {
+      const addIsNewToDetail = (topic) => {
         topic.infoItems.forEach((infoItem) => {
           if (infoItem.details) {
             infoItem.details.forEach((detail) => {
@@ -177,11 +177,11 @@ describe("Migrate Version 20", function () {
 
     it("removes the isNew attribute", function () {
       MigrateV20.down();
-      let checkDetailHasNoProperty = (detail) => {
+      const checkDetailHasNoProperty = (detail) => {
         expect(detail).not.have.ownProperty("isNew");
       };
 
-      let checkTopics = (topic) => {
+      const checkTopics = (topic) => {
         topic.infoItems.forEach((infoItem) => {
           if (infoItem.details) {
             infoItem.details.forEach(checkDetailHasNoProperty);

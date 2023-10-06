@@ -7,7 +7,7 @@ import { E2ETopics } from './helpers/E2ETopics';
 describe('Topics Delete - Forbid deleting topics which were not created within the current minutes', function () {
     const aProjectName = "E2E Topics Delete";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     const EXISTING_TOPIC = 'existing topic';
@@ -68,12 +68,12 @@ describe('Topics Delete - Forbid deleting topics which were not created within t
         E2ETopics.toggleActionItem(1, 2);
         E2ETopics.deleteTopic(1);
 
-        let selectorDialog = '#confirmDialog';
+        const selectorDialog = '#confirmDialog';
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
 
-        let dialogContentElement = browser.element(selectorDialog + " .modal-header").value.ELEMENT;
-        let dialogContentTitle = browser.elementIdText(dialogContentElement).value;
+        const dialogContentElement = browser.element(selectorDialog + " .modal-header").value.ELEMENT;
+        const dialogContentTitle = browser.elementIdText(dialogContentElement).value;
 
         expect(dialogContentTitle).to.have.string('Cannot delete topic');
 

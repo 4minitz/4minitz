@@ -1,4 +1,4 @@
-let mongo = require('mongodb').MongoClient;
+const mongo = require('mongodb').MongoClient;
 
 
 export const Collections = {

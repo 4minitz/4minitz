@@ -4,11 +4,11 @@ const { faker } = require("@faker-js/faker");
 
 import { ParticipantsPreparer } from "../../../../imports/client/ParticipantsPreparer";
 
-let generateId = () => {
+const generateId = () => {
   return faker.string.uuid();
 };
 
-let createUser = (id, username, name) => {
+const createUser = (id, username, name) => {
   return { _id: id, username: username, profile: { name: name } };
 };
 
@@ -44,8 +44,8 @@ describe("ParticipantsPreparer", function () {
     fakeUserCollection = {
       users: [USER_1, USER_2, USER_3],
       find: function (selector) {
-        let excludeIds = selector.$and[0]._id.$nin;
-        let result = this.users.filter((user) => {
+        const excludeIds = selector.$and[0]._id.$nin;
+        const result = this.users.filter((user) => {
           return !_.contains(excludeIds, user._id);
         });
         return {
@@ -87,7 +87,7 @@ describe("ParticipantsPreparer", function () {
 
     it("returns all participants of the current minutes", function () {
       preparer._prepareResponsibles();
-      let result = preparer.getPossibleResponsibles();
+      const result = preparer.getPossibleResponsibles();
       expect(result).to.have.length(2);
       expect(result).to.deep.include({
         id: USER_1._id,
@@ -102,7 +102,7 @@ describe("ParticipantsPreparer", function () {
     it("returns the additional responsible, too", function () {
       fakeMinutes.participantsAdditional = `${ADDITIONAL_RESP_TEXT}, ${ADDITIONAL_RESP_MAIL}`;
       preparer._prepareResponsibles();
-      let result = preparer.getPossibleResponsibles();
+      const result = preparer.getPossibleResponsibles();
       expect(result).to.have.length(4);
       expect(result).to.deep.include({
         id: ADDITIONAL_RESP_TEXT,
@@ -120,7 +120,7 @@ describe("ParticipantsPreparer", function () {
         FORMER_RESP_MAIL,
       ];
       preparer._prepareResponsibles();
-      let result = preparer.getPossibleResponsibles();
+      const result = preparer.getPossibleResponsibles();
       expect(result).to.have.length(4);
       expect(result).to.deep.include({
         id: FORMER_RESP_TEXT,
@@ -142,7 +142,7 @@ describe("ParticipantsPreparer", function () {
         return text.indexOf("@") !== -1;
       };
       preparer._prepareResponsibles();
-      let result = preparer.getPossibleResponsibles();
+      const result = preparer.getPossibleResponsibles();
       expect(result).to.have.length(4);
       expect(result).to.deep.include({
         id: ADDITIONAL_RESP_MAIL,
@@ -160,7 +160,7 @@ describe("ParticipantsPreparer", function () {
         { id: USER_2._id, text: USER_2.name },
       ];
       preparer._prepareResponsibles();
-      let result = preparer.getPossibleResponsibles();
+      const result = preparer.getPossibleResponsibles();
       expect(result).to.have.length(3);
     });
   });

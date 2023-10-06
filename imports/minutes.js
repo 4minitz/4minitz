@@ -48,8 +48,8 @@ export class Minutes {
       return [];
     }
 
-    let sort = lastMintuesFirst ? -1 : 1;
-    let options = { sort: { date: sort } };
+    const sort = lastMintuesFirst ? -1 : 1;
+    const options = { sort: { date: sort } };
     if (limit) {
       options["limit"] = limit;
     }
@@ -72,7 +72,7 @@ export class Minutes {
 
   static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
     parentSeriesID,
-    visibleForArray,
+    visibleForArray
   ) {
     if (MinutesSchema.find({ meetingSeries_id: parentSeriesID }).count() > 0) {
       MinutesSchema.update(
@@ -86,7 +86,7 @@ export class Minutes {
         .find({ meetingSeries_id: parentSeriesID })
         .forEach((min) => {
           if (!min.isFinalized) {
-            let newparticipants = min.generateNewParticipants();
+            const newparticipants = min.generateNewParticipants();
             if (newparticipants) {
               // Write participants to database if they have changed
               MinutesSchema.update(
@@ -161,7 +161,7 @@ export class Minutes {
   // This also does a minimal update of collection!
   // method
   async removeTopic(id) {
-    let i = this._findTopicIndex(id);
+    const i = this._findTopicIndex(id);
     if (i !== undefined) {
       this.topics.splice(i, 1);
       return Meteor.callPromise("minutes.removeTopic", id);
@@ -169,7 +169,7 @@ export class Minutes {
   }
 
   findTopic(id) {
-    let i = this._findTopicIndex(id);
+    const i = this._findTopicIndex(id);
     if (i !== undefined) {
       return this.topics[i];
     }
@@ -203,8 +203,8 @@ export class Minutes {
    * @returns {boolean}
    */
   hasOpenActionItems() {
-    for (let i = this.topics.length; i-- > 0; ) {
-      let topic = new Topic(this, this.topics[i]);
+    for (let i = this.topics.length; i-- > 0;  ) {
+      const topic = new Topic(this, this.topics[i]);
       if (topic.hasOpenActionItem()) {
         return true;
       }
@@ -253,21 +253,21 @@ export class Minutes {
    * @returns ActionItem[]
    */
   getOpenActionItems(includeSkippedTopics = true) {
-    let nonSkippedTopics = includeSkippedTopics
+    const nonSkippedTopics = includeSkippedTopics
       ? this.topics
       : this.topics.filter((topic) => !topic.isSkipped);
 
     return nonSkippedTopics.reduce(
       (acc, topicDoc) => {
-        let topic = new Topic(this, topicDoc);
-        let actionItemDocs = topic.getOpenActionItems();
+        const topic = new Topic(this, topicDoc);
+        const actionItemDocs = topic.getOpenActionItems();
         return acc.concat(
           actionItemDocs.map((doc) => {
             return new ActionItem(topic, doc);
           }),
         );
       },
-      /* initial value */ [],
+      /* initial value */ []
     );
   }
 
@@ -311,9 +311,9 @@ export class Minutes {
    * @returns {Array}
    */
   getPersonsInformedWithEmail(userCollection) {
-    let recipientResult = this.getPersonsInformed().reduce(
+    const recipientResult = this.getPersonsInformed().reduce(
       (recipients, userId) => {
-        let user = userCollection.findOne(userId);
+        const user = userCollection.findOne(userId);
         if (user.emails && user.emails.length > 0) {
           recipients.push({
             userId: userId,
@@ -323,13 +323,13 @@ export class Minutes {
         }
         return recipients;
       },
-      /* initial value */ [],
+      /* initial value */ []
     );
 
     // search for mail addresses in additional participants and add them to
     // recipients
     if (this.participantsAdditional) {
-      let addMails = this.participantsAdditional.match(emailAddressRegExpMatch);
+      const addMails = this.participantsAdditional.match(emailAddressRegExpMatch);
       if (addMails) {
         // addMails is null if there is no substring matching the email regular
         // expression
@@ -366,14 +366,14 @@ export class Minutes {
     }
     let changed = false;
 
-    let participantDict = {};
+    const participantDict = {};
     if (this.participants) {
       this.participants.forEach((participant) => {
         participantDict[participant.userId] = participant;
       });
     }
 
-    let newParticipants = this.visibleFor.map((userId) => {
+    const newParticipants = this.visibleFor.map((userId) => {
       if (!participantDict[userId]) {
         // Participant has been added, insert with default values
         changed = true;
@@ -384,7 +384,7 @@ export class Minutes {
         };
       } else {
         // Participant stays without changes
-        let participant = participantDict[userId];
+        const participant = participantDict[userId];
         delete participantDict[userId];
         return participant;
       }
@@ -434,7 +434,7 @@ export class Minutes {
   getParticipants(userCollection) {
     if (userCollection) {
       return this.participants.map((participant) => {
-        let user = userCollection.findOne(participant.userId);
+        const user = userCollection.findOne(participant.userId);
         if (user) {
           participant.name = user.username;
           participant.profile = user.profile;
@@ -466,7 +466,7 @@ export class Minutes {
     if (this.informedUsers) {
       if (userCollection) {
         return this.informedUsers.map((informed) => {
-          let user = userCollection.findOne(informed);
+          const user = userCollection.findOne(informed);
           informed = {
             id: informed,
             name: user ? user.username : `Unknown ${informed}`,
@@ -500,7 +500,7 @@ export class Minutes {
       _id: { $in: presentParticipantIds },
     });
 
-    let names = presentParticipants
+    const names = presentParticipants
       .map((p) => {
         const user = new User(p);
         return user.profileNameWithFallback();
@@ -516,7 +516,7 @@ export class Minutes {
   }
 
   checkParent() {
-    let parent = this.parentMeetingSeries();
+    const parent = this.parentMeetingSeries();
     if (!parent.hasMinute(this._id)) {
       throw new Meteor.Error("runtime-error", "Minute is an orphan!");
     }

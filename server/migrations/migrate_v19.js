@@ -6,9 +6,9 @@ import {MinutesFinder} from '../../imports/services/minutesFinder';
 export class MigrateV19 {
 
     static up() {
-        let allSeries = MeetingSeriesSchema.getCollection().find();
+        const allSeries = MeetingSeriesSchema.getCollection().find();
         allSeries.forEach(series => {
-            let minutes = MinutesFinder.lastMinutesOfMeetingSeries(series);
+            const minutes = MinutesFinder.lastMinutesOfMeetingSeries(series);
             if (minutes && minutes.isFinalized) {
                 let i= 0;
                 minutes.topics.forEach(top => {

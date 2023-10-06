@@ -9,7 +9,7 @@ import { formatDateISO8601 } from '../../imports/helpers/date';
 describe('MeetingSeries Items list', function () {
     const aProjectName = "MeetingSeries Topic List";
     let aMeetingCounter = 0;
-    let aMeetingNameBase = "Meeting Name #";
+    const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
     before("reload page and reset app", function () {

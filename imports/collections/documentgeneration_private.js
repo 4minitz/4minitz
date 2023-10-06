@@ -9,7 +9,7 @@ import { Minutes } from "./../minutes";
 import { TemplateRenderer } from "./../server_side_templates/TemplateRenderer";
 import { UserRoles } from "./../userroles";
 
-export let DocumentsCollection = new FilesCollection({
+export const DocumentsCollection = new FilesCollection({
   collectionName: "DocumentsCollection",
   allowClientCode: false,
   permissions: 0o0600, // #Security: make uploaded files "chmod 600' only
@@ -37,11 +37,11 @@ export let DocumentsCollection = new FilesCollection({
     if (file.meta.minuteDate === undefined) {
       return "Document Generation not possible. File has no minute date.";
     }
-    let ur = new UserRoles();
+    const ur = new UserRoles();
     if (!ur.isModeratorOf(file.meta.meetingSeriesID)) {
       return "Document Genration not possible. User is not Moderator of this meeting series.";
     }
-    let min = new Minutes(file.meta.minuteID);
+    const min = new Minutes(file.meta.minuteID);
     if (!min.isFinalized) {
       return "Document Generation not possible. Minutes are not finalized.";
     }
@@ -60,7 +60,7 @@ export let DocumentsCollection = new FilesCollection({
     if (!Meteor.userId()) {
       return "Document could not be removed. No user logged in.";
     }
-    let ur = new UserRoles();
+    const ur = new UserRoles();
     if (!ur.isModeratorOf(file.meta.meetingSeriesID)) {
       return "Document could not be removed. User is not Moderator of this meeting series.";
     }
@@ -89,7 +89,7 @@ export let DocumentsCollection = new FilesCollection({
       return false;
     }
 
-    let ur = new UserRoles(this.userId);
+    const ur = new UserRoles(this.userId);
     if (!ur.hasViewRoleFor(file.meta.meetingSeriesId)) {
       console.log(
         "Protocol download prohibited. User has no view role for meeting series: " +
@@ -126,8 +126,8 @@ Meteor.methods({
       );
     }
 
-    let minute = new Minutes(minuteID);
-    let userRoles = new UserRoles(Meteor.userId());
+    const minute = new Minutes(minuteID);
+    const userRoles = new UserRoles(Meteor.userId());
     if (!userRoles.isInvitedTo(minute.parentMeetingSeriesID())) {
       throw new Meteor.Error(
         "Cannot download this minute",
@@ -135,7 +135,7 @@ Meteor.methods({
       );
     }
 
-    let documentHandler = {
+    const documentHandler = {
       _topics: minute.topics,
       _minute: minute,
       _meetingSeries: minute.parentMeetingSeries(),
@@ -151,9 +151,9 @@ Meteor.methods({
     };
 
     DocumentGeneration.generateResponsibleStringsForTopic(documentHandler);
-    let templateData = DocumentGeneration.getDocumentData(documentHandler);
+    const templateData = DocumentGeneration.getDocumentData(documentHandler);
 
-    let tmplRenderer = new TemplateRenderer(
+    const tmplRenderer = new TemplateRenderer(
       "publishInfoItems",
       "server_templates/email",
     ).addData("name", "");
@@ -170,15 +170,15 @@ Meteor.methods({
       return;
     }
 
-    let minutesObj = new Minutes(minutesId);
+    const minutesObj = new Minutes(minutesId);
     // Security checks will be done in the onBeforeUpload-Hook
 
     // this variable should be overwritten by the specific implementation of
     // storing files based on their format for this purpose they'll receive two
     // parameters: the html-content as a string and the minute as a object
     let storeFileFunction = undefined;
-    let fileName = DocumentGeneration.calcFileNameforMinute(minutesObj);
-    let metaData = {
+    const fileName = DocumentGeneration.calcFileNameforMinute(minutesObj);
+    const metaData = {
       minuteId: minutesObj._id,
       meetingSeriesId: minutesObj.parentMeetingSeriesID(),
       minuteDate: minutesObj.date,
@@ -210,7 +210,7 @@ Meteor.methods({
       Meteor.settings.public.docGeneration.format === "pdfa"
     ) {
       storeFileFunction = (htmldata, fileName, metaData) => {
-        let finalPDFOutputPath = convertHTML2PDF(htmldata, fileName, metaData); // eslint-disable-line
+        const finalPDFOutputPath = convertHTML2PDF(htmldata, fileName, metaData); // eslint-disable-line
         console.log(
           "Protocol generation to file: ",
           finalPDFOutputPath,
@@ -242,14 +242,14 @@ Meteor.methods({
 
     // generate and store protocol
     try {
-      let htmldata = Meteor.call(
+      const htmldata = Meteor.call(
         "documentgeneration.createHTML",
         minutesObj._id,
       ); // this one will run synchronous
       storeFileFunction(htmldata, fileName, metaData);
     } catch (error) {
       console.error("Error at Protocol generation:");
-      let errormsg = error.reason ? error.reason : error;
+      const errormsg = error.reason ? error.reason : error;
       console.error(errormsg);
       throw new Meteor.Error("runtime-error", errormsg.message);
     }

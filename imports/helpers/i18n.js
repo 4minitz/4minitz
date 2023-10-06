@@ -130,20 +130,20 @@ export class I18nHelper {
     const supported = {};
     I18nHelper.supportedCodes.forEach((code) => {
       supported[code] = code; // remember we support: 'de-CH'
-      let codeShort = code.split("-", 1)[0];
+      const codeShort = code.split("-", 1)[0];
       if (!supported[codeShort]) {
         supported[codeShort] = code; // remember we support: 'de' via 'de-CH'
       }
     });
     // console.log('Browser:', navigator.languages);        // plz. keep for
     // debugging
-    for (let code of navigator.languages) {
+    for (const code of navigator.languages) {
       // First try: use exact codes from browser
       if (supported[code]) {
         // 'de-DE'
         return supported[code];
       } else {
-        let codeShort = code.split("-", 1)[0]; // 'de'
+        const codeShort = code.split("-", 1)[0]; // 'de'
         if (supported[codeShort]) {
           // Second try: use prefix codes from browser
           return supported[codeShort]; // but return the more precise 'de-CH'

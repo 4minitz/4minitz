@@ -19,8 +19,8 @@ describe('Minutes', function () {
 
 
     it('can add first minutes to meeting series', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #1";
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #1";
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         expect(E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName)).to.equal(0);
@@ -32,11 +32,11 @@ describe('Minutes', function () {
 
 
     it('can add further minutes to meeting series', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #2";
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #2";
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-        let countInitialMinutes = E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName);
+        const countInitialMinutes = E2EMinutes.countMinutesForSeries(aProjectName, aMeetingName);
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.finalizeCurrentMinutes();
@@ -47,9 +47,9 @@ describe('Minutes', function () {
 
 
     it('can add minutes for specific date', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #3";
-        let myDate = "2015-03-17";  // date of first project commit ;-)
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #3";
+        const myDate = "2015-03-17";  // date of first project commit ;-)
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
@@ -61,9 +61,9 @@ describe('Minutes', function () {
 
 
     it('can delete unfinalized minutes', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #4";
-        let myDate = "2015-03-17";  // date of first project commit ;-)
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #4";
+        const myDate = "2015-03-17";  // date of first project commit ;-)
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
@@ -83,9 +83,9 @@ describe('Minutes', function () {
 
 
     it('can cancel delete of unfinalized minutes', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #5";
-        let myDate = "2015-03-17";  // date of first project commit ;-)
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #5";
+        const myDate = "2015-03-17";  // date of first project commit ;-)
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName, myDate);
@@ -104,33 +104,33 @@ describe('Minutes', function () {
     });
 
     it('displays an error message if the minute is not linked to the parent series', function() {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #6";
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #6";
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
-        let urlArr = browser.getUrl().split('/');
-        let msId = urlArr[(urlArr.length) - 1];
+        const urlArr = browser.getUrl().split('/');
+        const msId = urlArr[(urlArr.length) - 1];
 
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
         E2EGlobal.waitSomeTime(2000); // wait until parent check will be enabled
 
-        let messageSelector = '[data-notify="container"]';
+        const messageSelector = '[data-notify="container"]';
 
         expect(browser.isVisible(messageSelector), 'flash message should not be visible before un-linking the minute').to.be.false;
 
         server.call('e2e.updateMeetingSeries', msId, {minutes: []});
 
         browser.waitForVisible(messageSelector);
-        let dialogMsgElement = browser.element(messageSelector).value.ELEMENT;
-        let dialogMsgText = browser.elementIdText(dialogMsgElement).value;
+        const dialogMsgElement = browser.element(messageSelector).value.ELEMENT;
+        const dialogMsgText = browser.elementIdText(dialogMsgElement).value;
         expect(dialogMsgText, 'error message should be displayed').to.have.string('Unfortunately the minute is not linked to its parent series correctly');
     });
 
     it('can persist global notes', function() {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #6";
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #6";
         const aGlobalNote = "Amazing global note";
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
@@ -152,8 +152,8 @@ describe('Minutes', function () {
     });
 
     it('hide closed topics', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #7";
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #7";
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
 
@@ -177,8 +177,8 @@ describe('Minutes', function () {
     });
 
     it('can navigate to previous and next minutes within a minutes', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name PrevNext";
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name PrevNext";
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
@@ -202,8 +202,8 @@ describe('Minutes', function () {
     });
 
     it('hide closed topics by click', function () {
-        let aProjectName = "E2E Minutes";
-        let aMeetingName = "Meeting Name #8";
+        const aProjectName = "E2E Minutes";
+        const aMeetingName = "Meeting Name #8";
 
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
 
