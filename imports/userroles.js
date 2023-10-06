@@ -1,11 +1,11 @@
 import "./collections/userroles_private";
 
-import {Roles} from "meteor/alanning:roles";
-import {Meteor} from "meteor/meteor";
-import {FlowRouter} from "meteor/ostrio:flow-router-extra";
-import {i18n} from "meteor/universe:i18n";
+import { Roles } from "meteor/alanning:roles";
+import { Meteor } from "meteor/meteor";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+import { i18n } from "meteor/universe:i18n";
 
-import {MeetingSeries} from "./meetingseries";
+import { MeetingSeries } from "./meetingseries";
 
 export class UserRoles {
   constructor(userId /* may be null */, userCollection /* may be null */) {
@@ -74,14 +74,16 @@ export class UserRoles {
     let affectedUsers = ms.visibleFor;
     if (affectedUsers && affectedUsers.length > 0) {
       Roles.removeUsersFromRoles(
-          affectedUsers,
-          UserRoles.allRolesNumerical(),
-          aMeetingSeriesID,
+        affectedUsers,
+        UserRoles.allRolesNumerical(),
+        aMeetingSeriesID,
       );
     }
   }
 
-  static isVisibleRole(aRole) { return aRole <= UserRoles.USERROLES.Invited; }
+  static isVisibleRole(aRole) {
+    return aRole <= UserRoles.USERROLES.Invited;
+  }
 
   // **************************** METHODS
 
@@ -121,41 +123,49 @@ export class UserRoles {
   }
 
   currentRoleFor(aMeetingSeriesID) {
-    if (!this._userRoles[aMeetingSeriesID] ||
-        !this._userRoles[aMeetingSeriesID][0]) {
+    if (
+      !this._userRoles[aMeetingSeriesID] ||
+      !this._userRoles[aMeetingSeriesID][0]
+    ) {
       return undefined;
     }
     return this._userRoles[aMeetingSeriesID][0];
   }
 
   currentRoleTextFor(aMeetingSeriesID) {
-    if (this._userRoles[aMeetingSeriesID] &&
-        this._userRoles[aMeetingSeriesID].length > 0) {
+    if (
+      this._userRoles[aMeetingSeriesID] &&
+      this._userRoles[aMeetingSeriesID].length > 0
+    ) {
       // use only the first role element from the array
       return UserRoles.role2Text(this._userRoles[aMeetingSeriesID][0]);
     }
     return "Unknown Role";
   }
 
-  getUser() { return this._user; }
+  getUser() {
+    return this._user;
+  }
 
-  getUserID() { return this._userId; }
+  getUserID() {
+    return this._userId;
+  }
 
   saveRoleForMeetingSeries(aMeetingSeriesID, newRole) {
     Meteor.call(
-        "userroles.saveRoleForMeetingSeries",
-        this._userId,
-        aMeetingSeriesID,
-        newRole,
+      "userroles.saveRoleForMeetingSeries",
+      this._userId,
+      aMeetingSeriesID,
+      newRole,
     );
   }
 
   // remove all roles for the current user for the given meeting series
   removeAllRolesForMeetingSeries(aMeetingSeriesID) {
     Meteor.call(
-        "userroles.removeAllRolesForMeetingSeries",
-        this._userId,
-        aMeetingSeriesID,
+      "userroles.removeAllRolesForMeetingSeries",
+      this._userId,
+      aMeetingSeriesID,
     );
   }
 }
@@ -165,9 +175,9 @@ export class UserRoles {
 // and lower values have higher access rights!
 // So, prefix zeroes are important!
 UserRoles.USERROLES = {
-  Moderator : "01", // Attention: the role names are not used for display! Use
-                    // role2Text for UI!
-  Uploader : "05",
-  Invited : "10",
-  Informed : "66",
+  Moderator: "01", // Attention: the role names are not used for display! Use
+  // role2Text for UI!
+  Uploader: "05",
+  Invited: "10",
+  Informed: "66",
 };

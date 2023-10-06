@@ -1,46 +1,42 @@
-import {ActionItem} from "/imports/actionitem";
-import {formatDateISO8601} from "/imports/helpers/date";
-import {InfoItem} from "/imports/infoitem";
-import {Minutes} from "/imports/minutes";
-import {Topic} from "/imports/topic";
-import {User} from "/imports/user";
-import {Blaze} from "meteor/blaze";
-import {$} from "meteor/jquery";
-import {Meteor} from "meteor/meteor";
-import {FlowRouter} from "meteor/ostrio:flow-router-extra";
-import {ReactiveVar} from "meteor/reactive-var";
-import {Session} from "meteor/session";
-import {Template} from "meteor/templating";
-import {i18n} from "meteor/universe:i18n";
+import { ActionItem } from "/imports/actionitem";
+import { formatDateISO8601 } from "/imports/helpers/date";
+import { InfoItem } from "/imports/infoitem";
+import { Minutes } from "/imports/minutes";
+import { Topic } from "/imports/topic";
+import { User } from "/imports/user";
+import { Blaze } from "meteor/blaze";
+import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+import { ReactiveVar } from "meteor/reactive-var";
+import { Session } from "meteor/session";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
 
-import {formatDateISO8601Time} from "../../../imports/helpers/date";
-import {InfoItemFactory} from "../../../imports/InfoItemFactory";
-import {MeetingSeries} from "../../../imports/meetingseries";
-import {IsEditedService} from "../../../imports/services/isEditedService";
-import {ItemsConverter} from "../../../imports/services/itemsConverter";
-import {LabelResolver} from "../../../imports/services/labelResolver";
-import {MinutesFinder} from "../../../imports/services/minutesFinder";
-import {
-  ResponsibleResolver
-} from "../../../imports/services/responsibleResolver";
-import {
-  ConfirmationDialogFactory
-} from "../../helpers/confirmationDialogFactory";
-import {handleError} from "../../helpers/handleError";
-import {isEditedHandling} from "../../helpers/isEditedHelpers";
+import { formatDateISO8601Time } from "../../../imports/helpers/date";
+import { InfoItemFactory } from "../../../imports/InfoItemFactory";
+import { MeetingSeries } from "../../../imports/meetingseries";
+import { IsEditedService } from "../../../imports/services/isEditedService";
+import { ItemsConverter } from "../../../imports/services/itemsConverter";
+import { LabelResolver } from "../../../imports/services/labelResolver";
+import { MinutesFinder } from "../../../imports/services/minutesFinder";
+import { ResponsibleResolver } from "../../../imports/services/responsibleResolver";
+import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
+import { handleError } from "../../helpers/handleError";
+import { isEditedHandling } from "../../helpers/isEditedHelpers";
 
-import {handlerShowMarkdownHint} from "./helpers/handler-show-markdown-hint";
-import {labelSetFontColor} from "./helpers/label-set-font-color";
-import {resizeTextarea} from "./helpers/resize-textarea";
+import { handlerShowMarkdownHint } from "./helpers/handler-show-markdown-hint";
+import { labelSetFontColor } from "./helpers/label-set-font-color";
+import { resizeTextarea } from "./helpers/resize-textarea";
 
 const INITIAL_ITEMS_LIMIT = 4;
 
 export class TopicInfoItemListContext {
   // called from Meeting Series "actionItemList" view (aka "My Action Items")
   static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
-      items,
-      resolveSeriesForItem,
-      resolveTopicForItem,
+    items,
+    resolveSeriesForItem,
+    resolveTopicForItem,
   ) {
     const context = new TopicInfoItemListContext(items, true, null);
     context.getSeriesId = resolveSeriesForItem;
@@ -52,30 +48,33 @@ export class TopicInfoItemListContext {
 
   // called from Meeting Series "tabItems" view
   static createReadonlyContextForItemsOfDifferentTopics(
-      items,
-      meetingSeriesId,
+    items,
+    meetingSeriesId,
   ) {
     const context = new TopicInfoItemListContext(items, true, meetingSeriesId);
     let mapItemID2topicID = {};
-    items.forEach(
-        (item) => { mapItemID2topicID[item._id] = item.parentTopicId; });
-    context.getTopicId = (itemId) => { return mapItemID2topicID[itemId]; };
+    items.forEach((item) => {
+      mapItemID2topicID[item._id] = item.parentTopicId;
+    });
+    context.getTopicId = (itemId) => {
+      return mapItemID2topicID[itemId];
+    };
     context.hasLink = true;
     return context;
   }
 
   // called from "topicElement" view
   static createContextForItemsOfOneTopic(
+    items,
+    isReadonly,
+    topicParentId,
+    parentTopicId,
+  ) {
+    return new TopicInfoItemListContext(
       items,
       isReadonly,
       topicParentId,
       parentTopicId,
-  ) {
-    return new TopicInfoItemListContext(
-        items,
-        isReadonly,
-        topicParentId,
-        parentTopicId,
     );
   }
 
@@ -87,22 +86,26 @@ export class TopicInfoItemListContext {
    * @param parentTopicId topic ID
    */
   constructor(items, isReadonly, topicParentId = null, parentTopicId = null) {
-    this.items = !parentTopicId ? items : items.map((item) => {
-      item.parentTopicId = parentTopicId;
-      return item;
-    });
+    this.items = !parentTopicId
+      ? items
+      : items.map((item) => {
+          item.parentTopicId = parentTopicId;
+          return item;
+        });
     this.isReadonly = isReadonly;
     this.topicParentId = topicParentId; // the parent of the topic: either
-                                        // minute or meeting series!
-    this.getSeriesId = () => { return topicParentId; };
+    // minute or meeting series!
+    this.getSeriesId = () => {
+      return topicParentId;
+    };
   }
 }
 
-Template.topicInfoItemList.onCreated(function() {
+Template.topicInfoItemList.onCreated(function () {
   /** @type {TopicInfoItemListContext} */
   let tmplData = Template.instance().data;
   this.isItemsLimited = new ReactiveVar(
-      tmplData.items.length > INITIAL_ITEMS_LIMIT,
+    tmplData.items.length > INITIAL_ITEMS_LIMIT,
   );
 
   // Dict maps Item._id => true/false, where true := "expanded state"
@@ -111,22 +114,21 @@ Template.topicInfoItemList.onCreated(function() {
 
   // get last finalized Minute for details's new label
   this.lastFinalizedMinuteId =
-      FlowRouter.getRouteName() === "minutesedit" // eslint-disable-line
-          ? tmplData.topicParentId
-          : MinutesFinder
-                .lastFinalizedMinutesOfMeetingSeries(
-                    new MeetingSeries(tmplData.topicParentId),
-                    )
-                ._id;
+    FlowRouter.getRouteName() === "minutesedit" // eslint-disable-line
+      ? tmplData.topicParentId
+      : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(
+          new MeetingSeries(tmplData.topicParentId),
+        )._id;
 });
 
 let updateItemSorting = (evt, ui) => {
-  let item = ui.item, sorting = item.parent().find("> .topicInfoItem"),
-      topic = new Topic(
-          item.attr("data-topic-parent-id"),
-          item.attr("data-parent-id"),
-          ),
-      newItemSorting = [];
+  let item = ui.item,
+    sorting = item.parent().find("> .topicInfoItem"),
+    topic = new Topic(
+      item.attr("data-topic-parent-id"),
+      item.attr("data-parent-id"),
+    ),
+    newItemSorting = [];
 
   for (let i = 0; i < sorting.length; ++i) {
     let itemId = $(sorting[i]).attr("data-id");
@@ -152,8 +154,7 @@ let getMeetingSeriesId = (parentElementId) => {
 };
 
 let createTopic = (parentElementId, topicId) => {
-  if (!parentElementId || !topicId)
-    return undefined;
+  if (!parentElementId || !topicId) return undefined;
   return new Topic(parentElementId, topicId);
 };
 
@@ -177,21 +178,21 @@ const performActionForItem = (evt, tmpl, action) => {
   const index = evt.currentTarget.getAttribute("data-index");
   const infoItem = context.items[index];
   const aInfoItem = findInfoItem(
-      context.getSeriesId(infoItem._id),
-      infoItem.parentTopicId,
-      infoItem._id,
+    context.getSeriesId(infoItem._id),
+    infoItem.parentTopicId,
+    infoItem._id,
   );
   action(aInfoItem);
 };
 
 function initializeDragAndDrop(tmpl) {
   tmpl.$(".itemPanel").sortable({
-    appendTo : document.body,
-    axis : "y",
-    opacity : 0.5,
-    disabled : false,
-    handle : ".itemDragDropHandle",
-    update : updateItemSorting,
+    appendTo: document.body,
+    axis: "y",
+    opacity: 0.5,
+    disabled: false,
+    handle: ".itemDragDropHandle",
+    update: updateItemSorting,
   });
 }
 
@@ -202,7 +203,7 @@ function getDetails(tmpl, infoItemIndex) {
   return item ? item.details || [] : [];
 }
 
-Template.topicInfoItemList.onRendered(function() {
+Template.topicInfoItemList.onRendered(function () {
   if (!Template.instance().data.isReadonly) {
     initializeDragAndDrop(this);
   }
@@ -227,7 +228,7 @@ let addNewDetails = async (tmpl, index) => {
 
   // Defer opening new details editor to give DOM some time for its expand
   // animation
-  Meteor.setTimeout(function() {
+  Meteor.setTimeout(function () {
     let inputEl = detailsRootElement.find(".detailInput").last().show();
     detailsRootElement.find(".detailActions").last().show();
     inputEl.parent().css("margin", "0 0 25px 0");
@@ -248,7 +249,7 @@ function makeDetailEditable(textEl, inputEl, detailActionsId) {
 }
 
 Template.topicInfoItemList.helpers({
-  topicStateClass : function(index) {
+  topicStateClass: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     let infoItem = context.items[index];
@@ -268,60 +269,62 @@ Template.topicInfoItemList.helpers({
     }
   },
 
-  hasDetails : function(index) {
+  hasDetails: function (index) {
     let details = getDetails(Template.instance(), index);
     return details.length > 0;
   },
 
-  detailsArray : function(
-      index) { return getDetails(Template.instance(), index); },
+  detailsArray: function (index) {
+    return getDetails(Template.instance(), index);
+  },
 
   isExpanded(itemID) {
     let allItemsExpandedState = Template.instance().isItemExpanded.get();
     return allItemsExpandedState[itemID];
   },
 
-  isActionItem : function(index) {
+  isActionItem: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const item = context.items[index];
     return item && item.itemType === "actionItem";
   },
 
-  isInfoItem : function(index) {
+  isInfoItem: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const item = context.items[index];
     return item && context.items[index].itemType === "infoItem";
   },
 
-  isItemConversationAllowed : function(index) {
+  isItemConversationAllowed: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     if (context.isReadonly) {
       return false;
     }
     const item = context.items[index];
-    return (item &&
-            ItemsConverter.isConversionAllowed(item, context.topicParentId));
+    return (
+      item && ItemsConverter.isConversionAllowed(item, context.topicParentId)
+    );
   },
 
-  checkedState : function(index) {
+  checkedState: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     let infoItem = context.items[index];
     if ((infoItem && infoItem.itemType === "infoItem") || infoItem.isOpen) {
       return "";
     } else {
-      return {checked : "checked"};
+      return { checked: "checked" };
     }
   },
 
-  disabledState : function() {
+  disabledState: function () {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     if (context.isReadonly) {
-      return {disabled : "disabled"};
+      return { disabled: "disabled" };
     } else {
       return "";
     }
@@ -345,27 +348,25 @@ Template.topicInfoItemList.helpers({
       return;
     }
     const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(
-        infoItem.responsibles,
+      infoItem.responsibles,
     );
     return responsible ? `(${responsible})` : "";
   },
 
-  getLabels : function(index) {
+  getLabels: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const infoItem = context.items[index];
     if (!infoItem) {
       return;
     }
-    return LabelResolver
-        .resolveLabels(
-            infoItem.labels,
-            getMeetingSeriesId(context.getSeriesId(infoItem._id)),
-            )
-        .map(labelSetFontColor);
+    return LabelResolver.resolveLabels(
+      infoItem.labels,
+      getMeetingSeriesId(context.getSeriesId(infoItem._id)),
+    ).map(labelSetFontColor);
   },
 
-  getLinkToTopic : function(index) {
+  getLinkToTopic: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const infoItem = context.items[index];
@@ -375,17 +376,17 @@ Template.topicInfoItemList.helpers({
       return;
     }
     return Blaze._globalHelpers.pathForImproved(
-        `/topic/${context.getTopicId(infoItem._id)}`,
+      `/topic/${context.getTopicId(infoItem._id)}`,
     );
   },
 
-  showLinks : function() {
+  showLinks: function () {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     return context.hasLink;
   },
 
-  tooltipForTopic : function(index) {
+  tooltipForTopic: function (index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const infoItem = context.items[index];
@@ -396,8 +397,14 @@ Template.topicInfoItemList.helpers({
     const seriesId = context.getSeriesId(infoItem._id);
     let ms = new MeetingSeries(seriesId);
     let aTopic = createTopic(seriesId, topicId);
-    return ("Meeting Series:\n    " + ms.project + ":" + ms.name +
-            "\nTopic:\n    " + aTopic.getDocument().subject);
+    return (
+      "Meeting Series:\n    " +
+      ms.project +
+      ":" +
+      ms.name +
+      "\nTopic:\n    " +
+      aTopic.getDocument().subject
+    );
   },
 });
 
@@ -414,66 +421,62 @@ Template.topicInfoItemList.events({
     const context = tmpl.data;
     performActionForItem(evt, tmpl, (item) => {
       let isDeleteAllowed = item.isDeleteAllowed(
-          context.getSeriesId(item._infoItemDoc._id),
+        context.getSeriesId(item._infoItemDoc._id),
       );
 
       if (item.isSticky() || isDeleteAllowed) {
         let templateData = {
-          type : item.isActionItem()
-                     ? i18n.__("Dialog.ConfirmDeleteItem.typeActionItem")
-                     : i18n.__("Dialog.ConfirmDeleteItem.typeInfoItem"),
-          isActionItem : item.isActionItem(),
-          subject : item.getSubject(),
-          deleteAllowed : isDeleteAllowed,
+          type: item.isActionItem()
+            ? i18n.__("Dialog.ConfirmDeleteItem.typeActionItem")
+            : i18n.__("Dialog.ConfirmDeleteItem.typeInfoItem"),
+          isActionItem: item.isActionItem(),
+          subject: item.getSubject(),
+          deleteAllowed: isDeleteAllowed,
         };
 
         let title = i18n.__("Dialog.ConfirmDelete.title");
         let button = i18n.__("Buttons.delete");
         if (!isDeleteAllowed) {
           title = item.isActionItem()
-                      ? i18n.__("Dialog.ConfirmDeleteItem.titleCloseActionItem")
-                      : i18n.__("Dialog.ConfirmDeleteItem.titleUnpinInfoItem");
-          button =
-              item.isActionItem()
-                  ? i18n.__("Dialog.ConfirmDeleteItem.buttonCloseActionItem")
-                  : i18n.__("Dialog.ConfirmDeleteItem.buttonUnpinInfoItem");
+            ? i18n.__("Dialog.ConfirmDeleteItem.titleCloseActionItem")
+            : i18n.__("Dialog.ConfirmDeleteItem.titleUnpinInfoItem");
+          button = item.isActionItem()
+            ? i18n.__("Dialog.ConfirmDeleteItem.buttonCloseActionItem")
+            : i18n.__("Dialog.ConfirmDeleteItem.buttonUnpinInfoItem");
         }
 
         let action = () => {
           if (isDeleteAllowed) {
-            item.getParentTopic()
-                .removeInfoItem(item.getId())
-                .catch(handleError);
+            item
+              .getParentTopic()
+              .removeInfoItem(item.getId())
+              .catch(handleError);
           } else {
-            if (item.isActionItem())
-              item.toggleState();
-            else
-              item.toggleSticky();
+            if (item.isActionItem()) item.toggleState();
+            else item.toggleSticky();
             item.save().catch(handleError);
           }
         };
 
-        ConfirmationDialogFactory
-            .makeWarningDialogWithTemplate(
-                action,
-                title,
-                "confirmDeleteItem",
-                templateData,
-                button,
-                )
-            .show();
+        ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+          action,
+          title,
+          "confirmDeleteItem",
+          templateData,
+          button,
+        ).show();
       } else {
         // not-sticky && delte-not-allowed
-        ConfirmationDialogFactory
-            .makeInfoDialog(
-                i18n.__("Dialog.ItemDeleteError.title"),
-                i18n.__("Dialog.ItemDeleteError.body1") + " " +
-                    (item.isActionItem()
-                         ? i18n.__("Dialog.ItemDeleteError.body2a")
-                         : i18n.__("Dialog.ItemDeleteError.body2b")) +
-                    " " + i18n.__("Dialog.ItemDeleteError.body3"),
-                )
-            .show();
+        ConfirmationDialogFactory.makeInfoDialog(
+          i18n.__("Dialog.ItemDeleteError.title"),
+          i18n.__("Dialog.ItemDeleteError.body1") +
+            " " +
+            (item.isActionItem()
+              ? i18n.__("Dialog.ItemDeleteError.body2a")
+              : i18n.__("Dialog.ItemDeleteError.body2b")) +
+            " " +
+            i18n.__("Dialog.ItemDeleteError.body3"),
+        ).show();
       }
     });
   },
@@ -500,23 +503,23 @@ Template.topicInfoItemList.events({
     let infoItem = context.items[index];
 
     let item = findInfoItem(
-        context.topicParentId,
-        infoItem.parentTopicId,
-        infoItem._id,
+      context.topicParentId,
+      infoItem.parentTopicId,
+      infoItem._id,
     );
     // if edit is allowed topicParentId == currentMinutesId
-    if (ItemsConverter.isConversionAllowed(
-            item.getDocument(),
-            context.topicParentId,
-            )) {
+    if (
+      ItemsConverter.isConversionAllowed(
+        item.getDocument(),
+        context.topicParentId,
+      )
+    ) {
       ItemsConverter.convertItem(item).catch(handleError);
     } else {
-      ConfirmationDialogFactory
-          .makeInfoDialog(
-              i18n.__("Dialog.ConvertItemError.title"),
-              i18n.__("Dialog.ConvertItemError.body"),
-              )
-          .show();
+      ConfirmationDialogFactory.makeInfoDialog(
+        i18n.__("Dialog.ConvertItemError.title"),
+        i18n.__("Dialog.ConvertItemError.body"),
+      ).show();
     }
   },
 
@@ -551,7 +554,9 @@ Template.topicInfoItemList.events({
   },
 
   // Keep <a href=...> as clickable links inside detailText markdown
-  "click .detailText a"(evt) { evt.stopPropagation(); },
+  "click .detailText a"(evt) {
+    evt.stopPropagation();
+  },
 
   "click .detailText"(evt, tmpl) {
     evt.preventDefault();
@@ -581,80 +586,78 @@ Template.topicInfoItemList.events({
     let aTopic = new Topic(aMin, infoItem.parentTopicId);
     let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
 
-    let detailIndex =
-        detailId.split("_")[1]; // detail id is: <collapseId>_<index>
+    let detailIndex = detailId.split("_")[1]; // detail id is: <collapseId>_<index>
 
     // Attention: .isEditedBy and .isEditedDate may be null!
-    if (aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined &&
-        aActionItem._infoItemDoc.details[detailIndex].isEditedDate !=
-            undefined) {
-      let unset = function() {
+    if (
+      aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined &&
+      aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined
+    ) {
+      let unset = function () {
         IsEditedService.removeIsEditedDetail(
-            aMin._id,
-            aTopic._topicDoc._id,
-            aActionItem._infoItemDoc._id,
-            detailIndex,
-            true,
-        );
-      };
-
-      let user = Meteor.users.findOne({
-        _id : aActionItem._infoItemDoc.details[detailIndex].isEditedBy,
-      });
-
-      let tmplData = {
-        isEditedByName : User.PROFILENAMEWITHFALLBACK(user),
-        isEditedDate : formatDateISO8601Time(
-            aActionItem._infoItemDoc.details[detailIndex].isEditedDate,
-            ),
-        isDetail : true,
-      };
-
-      ConfirmationDialogFactory
-          .makeWarningDialogWithTemplate(
-              unset,
-              i18n.__("Dialog.IsEditedHandling.title"),
-              "confirmationDialogResetEdit",
-              tmplData,
-              i18n.__("Dialog.IsEditedHandling.button"),
-              )
-          .show();
-    } else {
-      IsEditedService.setIsEditedDetail(
-          aMin._id,
-          aTopic._topicDoc._id,
-          aActionItem._infoItemDoc._id,
-          detailIndex,
-      );
-      makeDetailEditable(textEl, inputEl, detailActionsId);
-    }
-
-    const element = aActionItem._infoItemDoc.details[detailIndex];
-    const unset = function() {
-      IsEditedService.removeIsEditedDetail(
           aMin._id,
           aTopic._topicDoc._id,
           aActionItem._infoItemDoc._id,
           detailIndex,
           true,
+        );
+      };
+
+      let user = Meteor.users.findOne({
+        _id: aActionItem._infoItemDoc.details[detailIndex].isEditedBy,
+      });
+
+      let tmplData = {
+        isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
+        isEditedDate: formatDateISO8601Time(
+          aActionItem._infoItemDoc.details[detailIndex].isEditedDate,
+        ),
+        isDetail: true,
+      };
+
+      ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        unset,
+        i18n.__("Dialog.IsEditedHandling.title"),
+        "confirmationDialogResetEdit",
+        tmplData,
+        i18n.__("Dialog.IsEditedHandling.button"),
+      ).show();
+    } else {
+      IsEditedService.setIsEditedDetail(
+        aMin._id,
+        aTopic._topicDoc._id,
+        aActionItem._infoItemDoc._id,
+        detailIndex,
+      );
+      makeDetailEditable(textEl, inputEl, detailActionsId);
+    }
+
+    const element = aActionItem._infoItemDoc.details[detailIndex];
+    const unset = function () {
+      IsEditedService.removeIsEditedDetail(
+        aMin._id,
+        aTopic._topicDoc._id,
+        aActionItem._infoItemDoc._id,
+        detailIndex,
+        true,
       );
     };
     const setIsEdited = () => {
       IsEditedService.setIsEditedDetail(
-          aMin._id,
-          aTopic._topicDoc._id,
-          aActionItem._infoItemDoc._id,
-          detailIndex,
+        aMin._id,
+        aTopic._topicDoc._id,
+        aActionItem._infoItemDoc._id,
+        detailIndex,
       );
       makeDetailEditable(textEl, inputEl, detailActionsId);
     };
 
     isEditedHandling(
-        element,
-        unset,
-        setIsEdited,
-        evt,
-        "confirmationDialogResetDetail",
+      element,
+      unset,
+      setIsEdited,
+      evt,
+      "confirmationDialogResetDetail",
     );
   },
 
@@ -692,15 +695,14 @@ Template.topicInfoItemList.events({
     let aMin = new Minutes(context.topicParentId);
     let aTopic = new Topic(aMin, infoItem.parentTopicId);
     let aActionItem = InfoItemFactory.createInfoItem(aTopic, infoItem._id);
-    let detailIndex =
-        detailId.split("_")[1]; // detail id is: <collapseId>_<index>
+    let detailIndex = detailId.split("_")[1]; // detail id is: <collapseId>_<index>
 
     IsEditedService.removeIsEditedDetail(
-        aMin._id,
-        aTopic._topicDoc._id,
-        aActionItem._infoItemDoc._id,
-        detailIndex,
-        true,
+      aMin._id,
+      aTopic._topicDoc._id,
+      aActionItem._infoItemDoc._id,
+      detailIndex,
+      true,
     );
 
     if (text === "" || text !== textEl.attr("data-text")) {
@@ -708,11 +710,11 @@ Template.topicInfoItemList.events({
         aActionItem.updateDetails(detailIndex, text);
         aActionItem.save().catch(handleError);
         IsEditedService.removeIsEditedDetail(
-            aMin._id,
-            aTopic._topicDoc._id,
-            aActionItem._infoItemDoc._id,
-            detailIndex,
-            true,
+          aMin._id,
+          aTopic._topicDoc._id,
+          aActionItem._infoItemDoc._id,
+          detailIndex,
+          true,
         );
       } else {
         let deleteDetails = () => {
@@ -732,15 +734,13 @@ Template.topicInfoItemList.events({
         } else {
           // otherwise we show an confirmation dialog before the deails will be
           // removed
-          ConfirmationDialogFactory
-              .makeWarningDialog(
-                  deleteDetails,
-                  undefined,
-                  i18n.__("Dialog.confirmDeleteDetails", {
-                    subject : aActionItem.getSubject(),
-                  }),
-                  )
-              .show();
+          ConfirmationDialogFactory.makeWarningDialog(
+            deleteDetails,
+            undefined,
+            i18n.__("Dialog.confirmDeleteDetails", {
+              subject: aActionItem.getSubject(),
+            }),
+          ).show();
         }
       }
     }
@@ -791,5 +791,7 @@ Template.topicInfoItemList.events({
   // Otherwise the detailsEdit textarea will loose focus and trigger
   // its blur-event which in turn makes the markdownhint icon invisible
   // which in turn swallow the click event - and nothing happens on click.
-  "mousedown .detailInputMarkdownHint"(evt) { handlerShowMarkdownHint(evt); },
+  "mousedown .detailInputMarkdownHint"(evt) {
+    handlerShowMarkdownHint(evt);
+  },
 });

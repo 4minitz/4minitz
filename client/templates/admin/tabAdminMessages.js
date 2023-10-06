@@ -1,22 +1,21 @@
-import {
-  BroadcastMessageSchema
-} from "/imports/collections/broadcastmessages.schema";
-import {formatDateISO8601Time} from "/imports/helpers/date";
-import {Meteor} from "meteor/meteor";
-import {Template} from "meteor/templating";
-import {i18n} from "meteor/universe:i18n";
+import { BroadcastMessageSchema } from "/imports/collections/broadcastmessages.schema";
+import { formatDateISO8601Time } from "/imports/helpers/date";
+import { Meteor } from "meteor/meteor";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
 
-Template.tabAdminMessages.onCreated(function() {
+Template.tabAdminMessages.onCreated(function () {
   this.subscribe("broadcastmessage");
   this.subscribe("broadcastmessageAdmin");
 });
 
-Template.tabAdminMessages.onRendered(
-    function() { Template.instance().find("#id_adminMessage").focus(); });
+Template.tabAdminMessages.onRendered(function () {
+  Template.instance().find("#id_adminMessage").focus();
+});
 
 Template.tabAdminMessages.helpers({
   messages() {
-    return BroadcastMessageSchema.find({}, {sort : {createdAt : -1}});
+    return BroadcastMessageSchema.find({}, { sort: { createdAt: -1 } });
   },
 
   inactiveStateColor(message) {
@@ -26,7 +25,9 @@ Template.tabAdminMessages.helpers({
     return "#ffced9";
   },
 
-  formatTimeStamp : function(date) { return formatDateISO8601Time(date); },
+  formatTimeStamp: function (date) {
+    return formatDateISO8601Time(date);
+  },
 });
 
 Template.tabAdminMessages.events({
@@ -51,7 +52,7 @@ Template.tabAdminMessages.events({
     evt.preventDefault();
     let userIds = this.dismissForUserIDs;
     let userNames = i18n.__("Admin.Message.dismissingUsers", {
-      number : this.dismissForUserIDs.length,
+      number: this.dismissForUserIDs.length,
     });
     userIds.forEach((usrId) => {
       let user = Meteor.users.findOne(usrId);

@@ -1,4 +1,4 @@
-import {Label} from "../label";
+import { Label } from "../label";
 
 export class LabelResolver {
   static resolveLabels(labelIds, meetingSeriesId) {
@@ -6,8 +6,8 @@ export class LabelResolver {
       return [];
     }
     return labelIds
-        .map((labelId) => Label.createLabelById(meetingSeriesId, labelId))
-        .filter((label) => label !== null);
+      .map((labelId) => Label.createLabelById(meetingSeriesId, labelId))
+      .filter((label) => label !== null);
   }
 
   static resolveAndformatLabelsString(labelIds, meetingSeriesId) {

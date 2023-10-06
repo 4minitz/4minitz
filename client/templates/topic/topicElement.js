@@ -1,27 +1,23 @@
-import {MeetingSeries} from "/imports/meetingseries";
-import {Minutes} from "/imports/minutes";
-import {Topic} from "/imports/topic";
-import {$} from "meteor/jquery";
-import {Meteor} from "meteor/meteor";
-import {FlowRouter} from "meteor/ostrio:flow-router-extra";
-import {ReactiveVar} from "meteor/reactive-var";
-import {Session} from "meteor/session";
-import {Template} from "meteor/templating";
-import {i18n} from "meteor/universe:i18n";
+import { MeetingSeries } from "/imports/meetingseries";
+import { Minutes } from "/imports/minutes";
+import { Topic } from "/imports/topic";
+import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
+import { ReactiveVar } from "meteor/reactive-var";
+import { Session } from "meteor/session";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
 
-import {LabelResolver} from "../../../imports/services/labelResolver";
-import {
-  ResponsibleResolver
-} from "../../../imports/services/responsibleResolver";
-import {
-  ConfirmationDialogFactory
-} from "../../helpers/confirmationDialogFactory";
-import {handleError} from "../../helpers/handleError";
+import { LabelResolver } from "../../../imports/services/labelResolver";
+import { ResponsibleResolver } from "../../../imports/services/responsibleResolver";
+import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
+import { handleError } from "../../helpers/handleError";
 
-import {detectTypeAndCreateItem} from "./helpers/create-item";
-import {labelSetFontColor} from "./helpers/label-set-font-color";
-import {resizeTextarea} from "./helpers/resize-textarea";
-import {TopicInfoItemListContext} from "./topicInfoItemList";
+import { detectTypeAndCreateItem } from "./helpers/create-item";
+import { labelSetFontColor } from "./helpers/label-set-font-color";
+import { resizeTextarea } from "./helpers/resize-textarea";
+import { TopicInfoItemListContext } from "./topicInfoItemList";
 
 let _minutesId;
 const INITIAL_ITEMS_LIMIT = 4;
@@ -30,12 +26,12 @@ const isFeatureShowItemInputFieldOnDemandEnabled = () => {
   return !(Meteor.settings?.public && Meteor.settings.public.isEnd2EndTest);
 };
 
-Template.topicElement.onCreated(function() {
+Template.topicElement.onCreated(function () {
   let tmplData = Template.instance().data;
   _minutesId = tmplData.minutesID;
 
   this.isItemsLimited = new ReactiveVar(
-      tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT,
+    tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT,
   );
   this.isCollapsed = new ReactiveVar(false);
 });
@@ -59,29 +55,27 @@ Template.topicElement.helpers({
     return isFeatureShowItemInputFieldOnDemandEnabled();
   },
 
-  getLabels : function() {
+  getLabels: function () {
     let tmplData = Template.instance().data;
-    return LabelResolver
-        .resolveLabels(
-            this.topic.labels,
-            tmplData.parentMeetingSeriesId,
-            )
-        .map(labelSetFontColor);
+    return LabelResolver.resolveLabels(
+      this.topic.labels,
+      tmplData.parentMeetingSeriesId,
+    ).map(labelSetFontColor);
   },
 
-  checkedState : function() {
+  checkedState: function () {
     if (this.topic.isOpen) {
       return "";
     } else {
-      return {checked : "checked"};
+      return { checked: "checked" };
     }
   },
 
-  disabledState : function() {
+  disabledState: function () {
     if (this.isEditable && !this.topic.isSkipped) {
       return "";
     } else {
-      return {disabled : "disabled"};
+      return { disabled: "disabled" };
     }
   },
 
@@ -91,14 +85,16 @@ Template.topicElement.helpers({
     return collapseState ? collapseState[this.topic._id] : false;
   },
 
-  showRecurringIcon() { return this.isEditable || this.topic.isRecurring; },
+  showRecurringIcon() {
+    return this.isEditable || this.topic.isRecurring;
+  },
 
   responsiblesHelper() {
     try {
       const responsible =
-          ResponsibleResolver.resolveAndformatResponsiblesString(
-              this.topic.responsibles,
-          );
+        ResponsibleResolver.resolveAndformatResponsiblesString(
+          this.topic.responsibles,
+        );
       return responsible ? `(${responsible})` : "";
     } catch (e) {
       // intentionally left blank.
@@ -110,31 +106,37 @@ Template.topicElement.helpers({
 
   getData() {
     const data = Template.instance().data;
-    const parentElement =
-        data.minutesID ? data.minutesID : data.parentMeetingSeriesId;
+    const parentElement = data.minutesID
+      ? data.minutesID
+      : data.parentMeetingSeriesId;
     return TopicInfoItemListContext.createContextForItemsOfOneTopic(
-        data.topic.infoItems,
-        !data.isEditable,
-        parentElement,
-        data.topic._id,
+      data.topic.infoItems,
+      !data.isEditable,
+      parentElement,
+      data.topic._id,
     );
   },
 
-  classForEdit() { return this.isEditable ? "btnEditTopic" : ""; },
+  classForEdit() {
+    return this.isEditable ? "btnEditTopic" : "";
+  },
 
   classForSkippedTopics() {
     return this.topic.isSkipped ? "strikethrough" : "";
   },
 
-  cursorForEdit() { return this.isEditable ? "pointer" : ""; },
+  cursorForEdit() {
+    return this.isEditable ? "pointer" : "";
+  },
 
   showMenu() {
     return (
-        this.isEditable || // Context: Current non-finalized Minute
-        (!this.minutesID && !this.topic.isOpen &&
-         new MeetingSeries(this.parentMeetingSeriesId)
-             .isCurrentUserModerator())); // Context: Closed Topic within
-                                          // MeetingSeries, user is moderator;
+      this.isEditable || // Context: Current non-finalized Minute
+      (!this.minutesID &&
+        !this.topic.isOpen &&
+        new MeetingSeries(this.parentMeetingSeriesId).isCurrentUserModerator())
+    ); // Context: Closed Topic within
+    // MeetingSeries, user is moderator;
   },
 });
 
@@ -182,8 +184,10 @@ let savingNewItem = false;
 Template.topicElement.events({
   "click .topic-element"(evt, tmpl) {
     // return if the current target is not the original target of the event
-    if (evt.currentTarget.getAttribute("class") !==
-        evt.target.getAttribute("class")) {
+    if (
+      evt.currentTarget.getAttribute("class") !==
+      evt.target.getAttribute("class")
+    ) {
       return;
     }
 
@@ -220,7 +224,7 @@ Template.topicElement.events({
       return;
     }
     console.log(
-        `Delete topics: ${this.topic._id} from minutes ${this.minutesID}`,
+      `Delete topics: ${this.topic._id} from minutes ${this.minutesID}`,
     );
 
     let aMin = new Minutes(this.minutesID);
@@ -229,43 +233,44 @@ Template.topicElement.events({
     const deleteAllowed = topic.isDeleteAllowed();
 
     if (!topic.isFinallyCompleted() || deleteAllowed) {
-      ConfirmationDialogFactory
-          .makeWarningDialogWithTemplate(
-              () => {
-                if (deleteAllowed) {
-                  aMin.removeTopic(this.topic._id).catch(handleError);
-                } else {
-                  topic.closeTopicAndAllOpenActionItems().catch(handleError);
-                }
-              },
-              deleteAllowed ? i18n.__("Dialog.ConfirmTopicDelete.title1")
-                            : i18n.__("Dialog.ConfirmTopicDelete.title2"),
-              "confirmDeleteTopic",
-              {
-                deleteAllowed : topic.isDeleteAllowed(),
-                hasOpenActionItems : topic.hasOpenActionItem(),
-                subject : topic.getSubject(),
-              },
-              deleteAllowed ? i18n.__("Buttons.delete")
-                            : i18n.__("Dialog.ConfirmTopicDelete.button2"),
-              )
-          .show();
+      ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        () => {
+          if (deleteAllowed) {
+            aMin.removeTopic(this.topic._id).catch(handleError);
+          } else {
+            topic.closeTopicAndAllOpenActionItems().catch(handleError);
+          }
+        },
+        deleteAllowed
+          ? i18n.__("Dialog.ConfirmTopicDelete.title1")
+          : i18n.__("Dialog.ConfirmTopicDelete.title2"),
+        "confirmDeleteTopic",
+        {
+          deleteAllowed: topic.isDeleteAllowed(),
+          hasOpenActionItems: topic.hasOpenActionItem(),
+          subject: topic.getSubject(),
+        },
+        deleteAllowed
+          ? i18n.__("Buttons.delete")
+          : i18n.__("Dialog.ConfirmTopicDelete.button2"),
+      ).show();
     } else {
-      ConfirmationDialogFactory
-          .makeInfoDialog(
-              i18n.__("Dialog.ConfirmTopicDelete.errortitle"),
-              i18n.__("Dialog.ConfirmTopicDelete.errorcontent"),
-              )
-          .show();
+      ConfirmationDialogFactory.makeInfoDialog(
+        i18n.__("Dialog.ConfirmTopicDelete.errortitle"),
+        i18n.__("Dialog.ConfirmTopicDelete.errorcontent"),
+      ).show();
     }
   },
 
   "click .btnToggleState"(evt) {
-    editTopicEventHandler(
-        evt, this, (aTopic) => { aTopic.toggleState().catch(handleError); });
+    editTopicEventHandler(evt, this, (aTopic) => {
+      aTopic.toggleState().catch(handleError);
+    });
   },
 
-  "click #btnShowTopic"() { FlowRouter.go(`/topic/${this.topic._id}`); },
+  "click #btnShowTopic"() {
+    FlowRouter.go(`/topic/${this.topic._id}`);
+  },
 
   "click .js-toggle-recurring"(evt) {
     editTopicEventHandler(evt, this, (aTopic) => {
@@ -306,8 +311,8 @@ Template.topicElement.events({
   "blur .addItemForm"(evt, tmpl) {
     if (!tmpl.data.isEditable) {
       throw new Meteor.Error(
-          "illegal-state",
-          "Tried to call an illegal event in read-only mode",
+        "illegal-state",
+        "Tried to call an illegal event in read-only mode",
       );
     }
 
@@ -321,23 +326,23 @@ Template.topicElement.events({
     savingNewItem = true;
     const splitIndex = inputText.indexOf("\n");
     const subject =
-        splitIndex === -1 ? inputText : inputText.substring(0, splitIndex);
+      splitIndex === -1 ? inputText : inputText.substring(0, splitIndex);
     const detail =
-        splitIndex === -1 ? "" : inputText.substring(splitIndex + 1).trim();
+      splitIndex === -1 ? "" : inputText.substring(splitIndex + 1).trim();
 
     const itemDoc = {
-      subject : subject,
-      responsibles : [],
-      createdInMinute : this.minutesID,
+      subject: subject,
+      responsibles: [],
+      createdInMinute: this.minutesID,
     };
 
     const topic = new Topic(this.minutesID, this.topic);
     const minutes = new Minutes(this.minutesID);
     const newItem = detectTypeAndCreateItem(
-        itemDoc,
-        topic,
-        this.minutesID,
-        minutes.parentMeetingSeries(),
+      itemDoc,
+      topic,
+      this.minutesID,
+      minutes.parentMeetingSeries(),
     );
     if (detail) {
       newItem.addDetails(this.minutesID, detail);
@@ -357,7 +362,9 @@ Template.topicElement.events({
     // Clean & focus for next usage after saving last item
     theItemTextarea.value = "";
     resizeTextarea(theItemTextarea);
-    Meteor.setTimeout(() => { theItemTextarea.focus(); }, 100);
+    Meteor.setTimeout(() => {
+      theItemTextarea.focus();
+    }, 100);
   },
 
   "keydown .addItemForm"(evt, tmpl) {
@@ -394,21 +401,19 @@ Template.topicElement.events({
     evt.preventDefault();
     let reopenTopic = () => {
       Meteor.call(
-          "workflow.reopenTopicFromMeetingSeries",
-          this.parentMeetingSeriesId,
-          this.topic._id,
+        "workflow.reopenTopicFromMeetingSeries",
+        this.parentMeetingSeriesId,
+        this.topic._id,
       );
     };
-    ConfirmationDialogFactory
-        .makeSuccessDialog(
-            reopenTopic,
-            i18n.__("Dialog.ConfirmReOpenTopic.title"),
-            i18n.__("Dialog.ConfirmReOpenTopic.body", {
-              topicSubject : Template.instance().data.topic.subject,
-            }),
-            {},
-            i18n.__("Dialog.ConfirmReOpenTopic.button"),
-            )
-        .show();
+    ConfirmationDialogFactory.makeSuccessDialog(
+      reopenTopic,
+      i18n.__("Dialog.ConfirmReOpenTopic.title"),
+      i18n.__("Dialog.ConfirmReOpenTopic.body", {
+        topicSubject: Template.instance().data.topic.subject,
+      }),
+      {},
+      i18n.__("Dialog.ConfirmReOpenTopic.button"),
+    ).show();
   },
 });

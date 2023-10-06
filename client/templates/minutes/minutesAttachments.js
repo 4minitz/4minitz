@@ -1,26 +1,24 @@
-import {Attachment} from "/imports/attachment";
-import {formatDateISO8601Time, msToHHMMSS} from "/imports/helpers/date";
-import {Minutes} from "/imports/minutes";
-import {User} from "/imports/user";
-import {UserRoles} from "/imports/userroles";
-import {Meteor} from "meteor/meteor";
-import {ReactiveVar} from "meteor/reactive-var";
-import {Session} from "meteor/session";
-import {Template} from "meteor/templating";
-import {i18n} from "meteor/universe:i18n";
+import { Attachment } from "/imports/attachment";
+import { formatDateISO8601Time, msToHHMMSS } from "/imports/helpers/date";
+import { Minutes } from "/imports/minutes";
+import { User } from "/imports/user";
+import { UserRoles } from "/imports/userroles";
+import { Meteor } from "meteor/meteor";
+import { ReactiveVar } from "meteor/reactive-var";
+import { Session } from "meteor/session";
+import { Template } from "meteor/templating";
+import { i18n } from "meteor/universe:i18n";
 
-import {
-  ConfirmationDialogFactory
-} from "../../helpers/confirmationDialogFactory";
+import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
 
 let _minutesID; // the ID of these minutes
 
-let isModerator = function() {
+let isModerator = function () {
   let aMin = new Minutes(_minutesID);
   return aMin?.isCurrentUserModerator();
 };
 
-Template.minutesAttachments.onCreated(function() {
+Template.minutesAttachments.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
   _minutesID = this.data._id;
   console.log(`minutesAttachment on minutes.id:${_minutesID}`);
@@ -33,16 +31,18 @@ Template.minutesAttachments.onCreated(function() {
   }
 });
 
-Template.minutesAttachments.onRendered(function() {
+Template.minutesAttachments.onRendered(function () {
   // add your statement here
 });
 
-Template.minutesAttachments.onDestroyed(function() {
+Template.minutesAttachments.onDestroyed(function () {
   // add your statement here
 });
 
 Template.minutesAttachments.helpers({
-  attachmentsEnabled() { return Meteor.settings.public.attachments.enabled; },
+  attachmentsEnabled() {
+    return Meteor.settings.public.attachments.enabled;
+  },
 
   isAttachmentsExpanded() {
     let min = new Minutes(_minutesID);
@@ -53,28 +53,34 @@ Template.minutesAttachments.helpers({
     return Session.get("attachments.expand");
   },
 
-  attachments() { return Attachment.findForMinutes(_minutesID); },
+  attachments() {
+    return Attachment.findForMinutes(_minutesID);
+  },
 
   attachmentsCountText() {
     const count = Attachment.countForMinutes(_minutesID);
     return count === 1 ? `${count} file` : `${count} files`;
   },
 
-  attachmentsCount() { return Attachment.countForMinutes(_minutesID); },
+  attachmentsCount() {
+    return Attachment.countForMinutes(_minutesID);
+  },
 
-  currentUpload() { return Template.instance().currentUpload.get(); },
+  currentUpload() {
+    return Template.instance().currentUpload.get();
+  },
 
   showUploadButton() {
     let min = new Minutes(_minutesID);
     let ur = new UserRoles();
     return Boolean(
-        !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID()),
+      !min.isFinalized && ur.isUploaderFor(min.parentMeetingSeriesID()),
     );
   },
 
   showAttachmentRemoveButton() {
     let file = this.fetch()[0]; // this is an attachment cursor in this context,
-                                // so get "first" object of array
+    // so get "first" object of array
     try {
       let attachment = new Attachment(file._id);
       return attachment.mayRemove();
@@ -87,8 +93,10 @@ Template.minutesAttachments.helpers({
   },
 
   uploadSpeed() {
-    if (Template.instance().currentUpload.get() &&
-        Template.instance().currentUpload.get().state.get() === "active") {
+    if (
+      Template.instance().currentUpload.get() &&
+      Template.instance().currentUpload.get().state.get() === "active"
+    ) {
       let speed = Template.instance().currentUpload.get().estimateSpeed.get();
       speed = speed / 1024 / 1024;
       return `@${speed.toFixed(2)} MB/s`;
@@ -97,8 +105,10 @@ Template.minutesAttachments.helpers({
   },
 
   timeToFinish() {
-    if (Template.instance().currentUpload.get() &&
-        Template.instance().currentUpload.get().state.get() === "active") {
+    if (
+      Template.instance().currentUpload.get() &&
+      Template.instance().currentUpload.get().state.get() === "active"
+    ) {
       let time = Template.instance().currentUpload.get().estimateTime.get();
       time = msToHHMMSS(time);
       return `${time} remaining`;
@@ -108,20 +118,20 @@ Template.minutesAttachments.helpers({
 
   uploaderUsername() {
     let file = this.fetch()[0]; // this is an attachment cursor in this context,
-                                // so get "first" object of array
+    // so get "first" object of array
     let usr = new User(file.userId);
     return usr.profileNameWithFallback();
   },
 
   uploadTimestamp() {
     let file = this.fetch()[0]; // this is an attachment cursor in this context,
-                                // so get "first" object of array
+    // so get "first" object of array
     return formatDateISO8601Time(file.meta.timestamp);
   },
 });
 
 Template.minutesAttachments.events({
-  "change #btnUploadAttachment" : function(e, template) {
+  "change #btnUploadAttachment": function (e, template) {
     if (e.currentTarget.files?.[0]) {
       // We upload only one file, in case
       // multiple files were selected
@@ -129,20 +139,19 @@ Template.minutesAttachments.events({
       console.log(`Uploading... ${uploadFilename}`);
       let minObj = new Minutes(_minutesID);
       Attachment.uploadFile(uploadFilename, minObj, {
-        onStart :
-            (fileUploadObj) => { template.currentUpload.set(fileUploadObj); },
-        onEnd : (error) => {
+        onStart: (fileUploadObj) => {
+          template.currentUpload.set(fileUploadObj);
+        },
+        onEnd: (error) => {
           if (error) {
-            ConfirmationDialogFactory
-                .makeErrorDialog(
-                    i18n.__("Minutes.Upload.error"),
-                    String(error),
-                    )
-                .show();
+            ConfirmationDialogFactory.makeErrorDialog(
+              i18n.__("Minutes.Upload.error"),
+              String(error),
+            ).show();
           }
           template.currentUpload.set(false);
         },
-        onAbort : () => {
+        onAbort: () => {
           console.log("Upload of attachment was aborted.");
           template.currentUpload.set(false);
         },
@@ -150,26 +159,26 @@ Template.minutesAttachments.events({
     }
   },
 
-  "click #btnDelAttachment" : function(evt) {
+  "click #btnDelAttachment": function (evt) {
     evt.preventDefault();
     console.log(`Remove Attachment: ${this._id}`);
 
-    ConfirmationDialogFactory
-        .makeWarningDialog(
-            () => { Meteor.call("attachments.remove", this._id); },
-            undefined, // use default 'Confirm delete?"
-            i18n.__("Dialog.confirmDeleteAttachment", {name : this.name}),
-            )
-        .show();
+    ConfirmationDialogFactory.makeWarningDialog(
+      () => {
+        Meteor.call("attachments.remove", this._id);
+      },
+      undefined, // use default 'Confirm delete?"
+      i18n.__("Dialog.confirmDeleteAttachment", { name: this.name }),
+    ).show();
   },
 
-  "click #btnToggleUpload" : function(e) {
+  "click #btnToggleUpload": function (e) {
     e.preventDefault();
     this.toggle();
     return false;
   },
 
-  "click #btnAbortUpload" : function(e) {
+  "click #btnAbortUpload": function (e) {
     e.preventDefault();
     this.abort();
     return false;

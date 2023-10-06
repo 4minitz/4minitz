@@ -1,28 +1,26 @@
-import {MinutesFinder} from "/imports/services/minutesFinder";
-import {check} from "meteor/check";
-import {Meteor} from "meteor/meteor";
+import { MinutesFinder } from "/imports/services/minutesFinder";
+import { check } from "meteor/check";
+import { Meteor } from "meteor/meteor";
 
-import {MeetingSeries} from "../meetingseries";
-import {Minutes} from "../minutes";
-import {
-  MeetingSeriesTopicsUpdater
-} from "../services/finalize-minutes/meetingSeriesTopicsUpdater";
-import {TopicsFinder} from "../services/topicsFinder";
-import {Topic} from "../topic";
+import { MeetingSeries } from "../meetingseries";
+import { Minutes } from "../minutes";
+import { MeetingSeriesTopicsUpdater } from "../services/finalize-minutes/meetingSeriesTopicsUpdater";
+import { TopicsFinder } from "../services/topicsFinder";
+import { Topic } from "../topic";
 
-import {User} from "./../user";
-import {UserRoles} from "./../userroles";
-import {AttachmentsCollection} from "./attachments_private";
-import {MeetingSeriesSchema} from "./meetingseries.schema";
-import {MinutesSchema} from "./minutes.schema";
+import { User } from "./../user";
+import { UserRoles } from "./../userroles";
+import { AttachmentsCollection } from "./attachments_private";
+import { MeetingSeriesSchema } from "./meetingseries.schema";
+import { MinutesSchema } from "./minutes.schema";
 
 // todo merge with finalizer copy
 function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   // Make sure the user is logged in before changing collections
   if (!Meteor.userId()) {
     throw new Meteor.Error(
-        "not-authorized",
-        "You are not authorized to perform this action.",
+      "not-authorized",
+      "You are not authorized to perform this action.",
     );
   }
 
@@ -30,8 +28,8 @@ function checkUserAvailableAndIsModeratorOf(meetingSeriesId) {
   let userRoles = new UserRoles(Meteor.userId());
   if (!userRoles.isModeratorOf(meetingSeriesId)) {
     throw new Meteor.Error(
-        "Cannot modify this minutes/series",
-        "You are not moderator of the meeting series.",
+      "Cannot modify this minutes/series",
+      "You are not moderator of the meeting series.",
     );
   }
 }
@@ -46,14 +44,14 @@ function checkUserMayLeave(meetingSeriesId) {
   let userRoles = new UserRoles(Meteor.userId());
   if (userRoles.isModeratorOf(meetingSeriesId)) {
     throw new Meteor.Error(
-        "Cannot leave this meeting series",
-        "Moderators may only be removed by other moderators.",
+      "Cannot leave this meeting series",
+      "Moderators may only be removed by other moderators.",
     );
   }
   if (!userRoles.isInvitedTo(meetingSeriesId)) {
     throw new Meteor.Error(
-        "Cannot leave this meeting series",
-        "You are not invited to this meeting series.",
+      "Cannot leave this meeting series",
+      "You are not invited to this meeting series.",
     );
   }
 }
@@ -69,22 +67,24 @@ Meteor.methods({
     if (!parentMeetingSeries.addNewMinutesAllowed()) {
       // last minutes is not finalized!
       throw new Meteor.Error(
-          "Cannot create new Minutes",
-          "Last Minutes must be finalized first.",
+        "Cannot create new Minutes",
+        "Last Minutes must be finalized first.",
       );
     }
 
     // It also not allowed to insert a new minute dated before the last
     // finalized one
-    if (!parentMeetingSeries.isMinutesDateAllowed(
-            /*we have no minutes_id*/ null,
-            doc.date,
-            )) {
+    if (
+      !parentMeetingSeries.isMinutesDateAllowed(
+        /*we have no minutes_id*/ null,
+        doc.date,
+      )
+    ) {
       // invalid date
       throw new Meteor.Error(
-          "Cannot create new Minutes",
-          "Invalid date - it is not allowed to create a new minute" +
-              "dated before the last finalized one.",
+        "Cannot create new Minutes",
+        "Invalid date - it is not allowed to create a new minute" +
+          "dated before the last finalized one.",
       );
     }
 
@@ -100,7 +100,7 @@ Meteor.methods({
     // copy open topics from this meeting series & set isNew=false,
     // isSkipped=false
     const openTopics = TopicsFinder.allOpenTopicsOfMeetingSeries(
-        parentMeetingSeries._id,
+      parentMeetingSeries._id,
     );
     console.log(openTopics);
     if (openTopics) {
@@ -121,16 +121,16 @@ Meteor.methods({
       try {
         parentMeetingSeries.minutes.push(newMinutesID);
         let affectedDocs = MeetingSeriesSchema.update(parentMeetingSeries._id, {
-          $set : {minutes : parentMeetingSeries.minutes},
+          $set: { minutes: parentMeetingSeries.minutes },
         });
         if (affectedDocs !== 1) {
           throw new Meteor.Error(
-              "runtime-error",
-              "Update parent meeting series failed - no docs affected",
+            "runtime-error",
+            "Update parent meeting series failed - no docs affected",
           );
         }
       } catch (e) {
-        MinutesSchema.remove({_id : newMinutesID});
+        MinutesSchema.remove({ _id: newMinutesID });
         console.error(e);
         throw e;
       }
@@ -160,30 +160,31 @@ Meteor.methods({
     checkUserAvailableAndIsModeratorOf(meetingSeriesId);
 
     let affectedDocs = MinutesSchema.remove({
-      _id : minutes_id,
-      isFinalized : false,
+      _id: minutes_id,
+      isFinalized: false,
     });
     if (affectedDocs > 0) {
       // remove the reference in the meeting series minutes array
       MeetingSeriesSchema.update(meetingSeriesId, {
-        $pull : {minutes : minutes_id},
+        $pull: { minutes: minutes_id },
       });
 
       // remove all uploaded attachments for meeting series, if any exist
-      if (Meteor.isServer && AttachmentsCollection
-                                     .find({
-                                       "meta.meetingminutes_id" : minutes_id,
-                                     })
-                                     .count() > 0) {
+      if (
+        Meteor.isServer &&
+        AttachmentsCollection.find({
+          "meta.meetingminutes_id": minutes_id,
+        }).count() > 0
+      ) {
         AttachmentsCollection.remove(
-            {"meta.meetingminutes_id" : minutes_id},
-            function(error) {
-              if (error) {
-                console.error(`File wasn't removed, error: ${error.reason}`);
-              } else {
-                console.log("OK, removed linked attachments.");
-              }
-            },
+          { "meta.meetingminutes_id": minutes_id },
+          function (error) {
+            if (error) {
+              console.error(`File wasn't removed, error: ${error.reason}`);
+            } else {
+              console.log("OK, removed linked attachments.");
+            }
+          },
         );
       }
     }
@@ -192,13 +193,12 @@ Meteor.methods({
   "workflow.removeMeetingSeries"(meetingseries_id) {
     console.log(`workflow.removeMeetingSeries: ${meetingseries_id}`);
     check(meetingseries_id, String);
-    if (meetingseries_id === undefined || meetingseries_id === "")
-      return;
+    if (meetingseries_id === undefined || meetingseries_id === "") return;
     checkUserAvailableAndIsModeratorOf(meetingseries_id);
     // first we remove all containing minutes to make sure we don't get orphans
     // deleting all minutes of one series is allowed, even if they are
     // finalized.
-    MinutesSchema.remove({meetingSeries_id : meetingseries_id});
+    MinutesSchema.remove({ meetingSeries_id: meetingseries_id });
 
     // then we delete all topics related to this series
     const topicsUpdater = new MeetingSeriesTopicsUpdater(meetingseries_id);
@@ -207,20 +207,21 @@ Meteor.methods({
     // then we remove the meeting series document itself
     MeetingSeriesSchema.remove(meetingseries_id);
     // remove all uploaded attachments for meeting series, if any exist
-    if (Meteor.isServer && AttachmentsCollection
-                                   .find({
-                                     "meta.parentseries_id" : meetingseries_id,
-                                   })
-                                   .count() > 0) {
+    if (
+      Meteor.isServer &&
+      AttachmentsCollection.find({
+        "meta.parentseries_id": meetingseries_id,
+      }).count() > 0
+    ) {
       AttachmentsCollection.remove(
-          {"meta.parentseries_id" : meetingseries_id},
-          function(error) {
-            if (error) {
-              console.error(`File wasn't removed, error: ${error.reason}`);
-            } else {
-              console.log("OK, removed linked attachments.");
-            }
-          },
+        { "meta.parentseries_id": meetingseries_id },
+        function (error) {
+          if (error) {
+            console.error(`File wasn't removed, error: ${error.reason}`);
+          } else {
+            console.log("OK, removed linked attachments.");
+          }
+        },
       );
       removeMeetingSeriesAttachmentDir(meetingseries_id); // eslint-disable-line
     }
@@ -230,8 +231,7 @@ Meteor.methods({
     // check(meetingSeries_id, Meteor.Collection.ObjectID);
     check(meetingSeries_id, String);
     console.log(`meetingseries.leave:${meetingSeries_id}`);
-    if (meetingSeries_id === undefined || meetingSeries_id === "")
-      return;
+    if (meetingSeries_id === undefined || meetingSeries_id === "") return;
 
     checkUserMayLeave(meetingSeries_id);
 
@@ -249,14 +249,14 @@ Meteor.methods({
       index = visibleForArray.indexOf(Meteor.userId());
     }
     MeetingSeriesSchema.update(meetingSeries_id, {
-      $set : {visibleFor : visibleForArray},
+      $set: { visibleFor: visibleForArray },
     });
 
     // 3rd.: sync "visibleFor" to minutes that have this meeting series as
     // parent
     Minutes.updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
-        meetingSeries_id,
-        visibleForArray,
+      meetingSeries_id,
+      visibleForArray,
     );
   },
 
@@ -285,10 +285,10 @@ Meteor.methods({
       const topicObject = new Topic(meetingSeries, topicDoc);
       topicObject.tailorTopic();
       Meteor.call(
-          "minutes.addTopic",
-          lastMinute._id,
-          topicObject.getDocument(),
-          true,
+        "minutes.addTopic",
+        lastMinute._id,
+        topicObject.getDocument(),
+        true,
       );
     }
   },

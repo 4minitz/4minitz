@@ -1,36 +1,34 @@
-import {handleError} from "/client/helpers/handleError";
-import {
-  convertOrCreateLabelsFromStrings
-} from "/client/templates/topic/helpers/convert-or-create-label-from-string";
-import {configureSelect2Responsibles} from "/imports/client/ResponsibleSearch";
-import {MeetingSeries} from "/imports/meetingseries";
-import {Minutes} from "/imports/minutes";
-import {Topic} from "/imports/topic";
-import {_} from "lodash";
-import {$} from "meteor/jquery";
-import {Meteor} from "meteor/meteor";
-import {Session} from "meteor/session";
-import {Template} from "meteor/templating";
+import { handleError } from "/client/helpers/handleError";
+import { convertOrCreateLabelsFromStrings } from "/client/templates/topic/helpers/convert-or-create-label-from-string";
+import { configureSelect2Responsibles } from "/imports/client/ResponsibleSearch";
+import { MeetingSeries } from "/imports/meetingseries";
+import { Minutes } from "/imports/minutes";
+import { Topic } from "/imports/topic";
+import { _ } from "lodash";
+import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
+import { Session } from "meteor/session";
+import { Template } from "meteor/templating";
 
-import {IsEditedService} from "../../../imports/services/isEditedService";
-import {isEditedHandling} from "../../helpers/isEditedHelpers";
+import { IsEditedService } from "../../../imports/services/isEditedService";
+import { isEditedHandling } from "../../helpers/isEditedHelpers";
 
-import {configureSelect2Labels} from "./helpers/configure-select2-labels";
-import {createTopic} from "./helpers/create-topic";
+import { configureSelect2Labels } from "./helpers/configure-select2-labels";
+import { createTopic } from "./helpers/create-topic";
 
 Session.setDefault("topicEditTopicId", null);
 
-let _minutesID;     // the ID of these minutes
+let _minutesID; // the ID of these minutes
 let _meetingSeries; // ATTENTION - this var. is not reactive!
 
-Template.topicEdit.onCreated(function() {
+Template.topicEdit.onCreated(function () {
   _minutesID = this.data;
   console.log(`Template topicEdit created with minutesID ${_minutesID}`);
   let aMin = new Minutes(_minutesID);
   _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 });
 
-let getEditTopic = function() {
+let getEditTopic = function () {
   let topicId = Session.get("topicEditTopicId");
 
   if (_minutesID === null || topicId === null) {
@@ -50,14 +48,14 @@ function closePopupAndUnsetIsEdited() {
 }
 
 Template.topicEdit.helpers({
-  getTopicSubject : function() {
+  getTopicSubject: function () {
     let topic = getEditTopic();
     return topic ? topic._topicDoc.subject : "";
   },
 });
 
 Template.topicEdit.events({
-  "submit #frmDlgAddTopic" : async function(evt, tmpl) {
+  "submit #frmDlgAddTopic": async function (evt, tmpl) {
     let saveButton = $("#btnTopicSave");
 
     try {
@@ -72,8 +70,7 @@ Template.topicEdit.events({
       }
 
       let labels = tmpl.$("#id_item_selLabels").val();
-      if (!labels)
-        labels = [];
+      if (!labels) labels = [];
       let aMinute = new Minutes(_minutesID);
       let aSeries = aMinute.parentMeetingSeries();
       labels = convertOrCreateLabelsFromStrings(labels, aSeries);
@@ -81,7 +78,7 @@ Template.topicEdit.events({
       topicDoc.subject = tmpl.find("#id_subject").value;
       topicDoc.responsibles = $("#id_selResponsible").val();
       topicDoc.labels = labels;
-      topicDoc.isEditedBy = null;   // We don't use the IsEditedService here...
+      topicDoc.isEditedBy = null; // We don't use the IsEditedService here...
       topicDoc.isEditedDate = null; // ... as this would save the topic twice to
       // the DB. And it provokes Issue #379
 
@@ -93,7 +90,7 @@ Template.topicEdit.events({
     }
   },
 
-  "hidden.bs.modal #dlgAddTopic" : function(evt, tmpl) {
+  "hidden.bs.modal #dlgAddTopic": function (evt, tmpl) {
     $("#frmDlgAddTopic")[0].reset();
     let subjectNode = tmpl.$("#id_subject");
     subjectNode.parent().removeClass("has-error");
@@ -102,16 +99,16 @@ Template.topicEdit.events({
     Session.set("topicEditTopicId", null);
   },
 
-  "show.bs.modal #dlgAddTopic" : function(evt) {
+  "show.bs.modal #dlgAddTopic": function (evt) {
     let topic = getEditTopic();
 
     if (topic !== false) {
       const element = topic._topicDoc;
-      const unset = function() {
+      const unset = function () {
         IsEditedService.removeIsEditedTopic(
-            _minutesID,
-            topic._topicDoc._id,
-            true,
+          _minutesID,
+          topic._topicDoc._id,
+          true,
         );
         $("#dlgAddTopic").modal("show");
       };
@@ -120,20 +117,20 @@ Template.topicEdit.events({
       };
 
       isEditedHandling(
-          element,
-          unset,
-          setIsEdited,
-          evt,
-          "confirmationDialogResetEdit",
+        element,
+        unset,
+        setIsEdited,
+        evt,
+        "confirmationDialogResetEdit",
       );
     }
 
     configureSelect2Responsibles(
-        "id_selResponsible",
-        topic._topicDoc,
-        false,
-        _minutesID,
-        topic,
+      "id_selResponsible",
+      topic._topicDoc,
+      false,
+      _minutesID,
+      topic,
     );
     let selectLabels = $("#id_item_selLabels");
     if (selectLabels) {
@@ -146,26 +143,24 @@ Template.topicEdit.events({
     cancelButton.prop("disabled", false);
   },
 
-  "shown.bs.modal #dlgAddTopic" : function(evt, tmpl) {
-    $("#dlgAddTopic")
-        .find("input")
-        .trigger("change"); // ensure new values trigger placeholder animation
+  "shown.bs.modal #dlgAddTopic": function (evt, tmpl) {
+    $("#dlgAddTopic").find("input").trigger("change"); // ensure new values trigger placeholder animation
     tmpl.find("#id_subject").focus();
   },
 
-  "click #btnTopicCancel" : function(evt) {
+  "click #btnTopicCancel": function (evt) {
     evt.preventDefault();
 
     closePopupAndUnsetIsEdited();
   },
 
-  "click .close" : function(evt) {
+  "click .close": function (evt) {
     evt.preventDefault();
 
     closePopupAndUnsetIsEdited();
   },
 
-  keyup : function(evt) {
+  keyup: function (evt) {
     evt.preventDefault();
     if (evt.keyCode === 27) {
       closePopupAndUnsetIsEdited();

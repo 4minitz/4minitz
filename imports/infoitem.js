@@ -4,17 +4,17 @@
  * a date when is was created
  * and a list of associated tags.
  */
-import {formatDateISO8601} from "/imports/helpers/date";
-import {User} from "/imports/user";
-import {Meteor} from "meteor/meteor";
-import {Random} from "meteor/random";
-import {_} from "meteor/underscore";
+import { formatDateISO8601 } from "/imports/helpers/date";
+import { User } from "/imports/user";
+import { Meteor } from "meteor/meteor";
+import { Random } from "meteor/random";
+import { _ } from "meteor/underscore";
 
 export class InfoItem {
   constructor(parentTopic, source) {
     if (!parentTopic || !source)
       throw new Meteor.Error(
-          "It is not allowed to create a InfoItem without the parentTopicId and the source",
+        "It is not allowed to create a InfoItem without the parentTopicId and the source",
       );
 
     this._parentTopic = undefined;
@@ -41,10 +41,10 @@ export class InfoItem {
     }
 
     _.defaults(source, {
-      itemType : "infoItem",
-      isNew : true,
-      isSticky : false,
-      labels : [],
+      itemType: "infoItem",
+      isNew: true,
+      isSticky: false,
+      labels: [],
     });
     this._infoItemDoc = source;
   }
@@ -59,49 +59,60 @@ export class InfoItem {
   }
 
   // ################### object methods
-  invalidateIsNewFlag() { this._infoItemDoc.isNew = false; }
+  invalidateIsNewFlag() {
+    this._infoItemDoc.isNew = false;
+  }
 
-  getId() { return this._infoItemDoc._id; }
+  getId() {
+    return this._infoItemDoc._id;
+  }
 
-  isSticky() { return this._infoItemDoc.isSticky; }
+  isSticky() {
+    return this._infoItemDoc.isSticky;
+  }
 
   isDeleteAllowed(currentMinutesId) {
     return this._infoItemDoc.createdInMinute === currentMinutesId;
   }
 
-  toggleSticky() { this._infoItemDoc.isSticky = !this.isSticky(); }
+  toggleSticky() {
+    this._infoItemDoc.isSticky = !this.isSticky();
+  }
 
-  getSubject() { return this._infoItemDoc.subject; }
+  getSubject() {
+    return this._infoItemDoc.subject;
+  }
 
   addDetails(minuteId, text) {
-    if (text === undefined)
-      text = "";
+    if (text === undefined) text = "";
 
     let date = formatDateISO8601(new Date());
     if (!this._infoItemDoc.details) {
       this._infoItemDoc.details = [];
     }
     this._infoItemDoc.details.push({
-      _id : Random.id(),
-      createdInMinute : minuteId,
-      createdAt : new Date(),
-      createdBy : User.PROFILENAMEWITHFALLBACK(Meteor.user()),
-      updatedAt : new Date(),
-      updatedBy : User.PROFILENAMEWITHFALLBACK(Meteor.user()),
-      date : date,
-      text : text,
-      isNew : true,
+      _id: Random.id(),
+      createdInMinute: minuteId,
+      createdAt: new Date(),
+      createdBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
+      updatedAt: new Date(),
+      updatedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
+      date: date,
+      text: text,
+      isNew: true,
     });
   }
 
-  removeDetails(index) { this._infoItemDoc.details.splice(index, 1); }
+  removeDetails(index) {
+    this._infoItemDoc.details.splice(index, 1);
+  }
 
   updateDetails(index, text) {
     if (text === "") {
       throw new Meteor.Error(
-          "invalid-argument",
-          "Empty details are not allowed. Use #removeDetails() " +
-              "to delete an element",
+        "invalid-argument",
+        "Empty details are not allowed. Use #removeDetails() " +
+          "to delete an element",
       );
     }
     if (text !== this._infoItemDoc.details[index].text) {
@@ -109,7 +120,7 @@ export class InfoItem {
       this._infoItemDoc.details[index].text = text;
       this._infoItemDoc.details[index].updatedAt = new Date();
       this._infoItemDoc.details[index].updatedBy = User.PROFILENAMEWITHFALLBACK(
-          Meteor.user(),
+        Meteor.user(),
       );
     }
   }
@@ -123,8 +134,11 @@ export class InfoItem {
   }
 
   getDetailsAt(index) {
-    if (!this._infoItemDoc.details || index < 0 ||
-        index >= this._infoItemDoc.details.length) {
+    if (
+      !this._infoItemDoc.details ||
+      index < 0 ||
+      index >= this._infoItemDoc.details.length
+    ) {
       throw new Meteor.Error("index-out-of-bounds");
     }
 
@@ -132,7 +146,7 @@ export class InfoItem {
   }
 
   async save(callback) {
-    callback = callback || function() {};
+    callback = callback || function () {};
 
     try {
       let result = await this.saveAsync();
@@ -153,21 +167,31 @@ export class InfoItem {
     this._infoItemDoc.updatedAt = new Date();
     this._infoItemDoc.updatedBy = User.PROFILENAMEWITHFALLBACK(Meteor.user());
     this._infoItemDoc._id = await this._parentTopic.upsertInfoItem(
-        this._infoItemDoc,
-        true,
-        insertPlacementTop,
+      this._infoItemDoc,
+      true,
+      insertPlacementTop,
     );
   }
 
-  async saveAtBottom() { return this.saveAsync(false); }
+  async saveAtBottom() {
+    return this.saveAsync(false);
+  }
 
-  getParentTopic() { return this._parentTopic; }
+  getParentTopic() {
+    return this._parentTopic;
+  }
 
-  isActionItem() { return InfoItem.isActionItem(this._infoItemDoc); }
+  isActionItem() {
+    return InfoItem.isActionItem(this._infoItemDoc);
+  }
 
-  getDocument() { return this._infoItemDoc; }
+  getDocument() {
+    return this._infoItemDoc;
+  }
 
-  setSubject(newSubject) { this._infoItemDoc.subject = newSubject; }
+  setSubject(newSubject) {
+    this._infoItemDoc.subject = newSubject;
+  }
 
   /**
    *
@@ -202,5 +226,7 @@ export class InfoItem {
     return `InfoItem: ${JSON.stringify(this._infoItemDoc, null, 4)}`;
   }
 
-  log() { console.log(this.toString()); }
+  log() {
+    console.log(this.toString());
+  }
 }

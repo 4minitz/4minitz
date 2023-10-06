@@ -1,6 +1,6 @@
-import {LdapSettings} from "/imports/config/LdapSettings";
+import { LdapSettings } from "/imports/config/LdapSettings";
 import _ from "lodash";
-import {Meteor} from "meteor/meteor";
+import { Meteor } from "meteor/meteor";
 
 function getSetting(path, def = undefined) {
   return _.get(Meteor.settings, path, def);
@@ -22,106 +22,104 @@ export class GlobalSettings {
     }
 
     Meteor.settings.public.enableMailDelivery =
-        Meteor.settings.email &&
-                Meteor.settings.email.enableMailDelivery !== undefined
-            ? Meteor.settings.email.enableMailDelivery
-            : false;
+      Meteor.settings.email &&
+      Meteor.settings.email.enableMailDelivery !== undefined
+        ? Meteor.settings.email.enableMailDelivery
+        : false;
 
     Meteor.settings.public.branding = {};
     Meteor.settings.public.branding.topLeftLogoHTML =
-        Meteor.settings.branding &&
-                Meteor.settings.branding.topLeftLogoHTML !== undefined
-            ? Meteor.settings.branding.topLeftLogoHTML
-            : "4Minitz.com";
+      Meteor.settings.branding &&
+      Meteor.settings.branding.topLeftLogoHTML !== undefined
+        ? Meteor.settings.branding.topLeftLogoHTML
+        : "4Minitz.com";
     Meteor.settings.public.branding.showGithubCorner =
-        Meteor.settings.branding &&
-                Meteor.settings.branding.showGithubCorner !== undefined
-            ? Meteor.settings.branding.showGithubCorner
-            : true;
+      Meteor.settings.branding &&
+      Meteor.settings.branding.showGithubCorner !== undefined
+        ? Meteor.settings.branding.showGithubCorner
+        : true;
     Meteor.settings.public.branding.showInfoOnLogin =
-        Meteor.settings.branding &&
-                Meteor.settings.branding.showInfoOnLogin !== undefined
-            ? Meteor.settings.branding.showInfoOnLogin
-            : true;
+      Meteor.settings.branding &&
+      Meteor.settings.branding.showInfoOnLogin !== undefined
+        ? Meteor.settings.branding.showInfoOnLogin
+        : true;
     Meteor.settings.public.branding.createDemoAccount =
-        Meteor.settings.branding &&
-                Meteor.settings.branding.createDemoAccount !== undefined
-            ? Meteor.settings.branding.createDemoAccount
-            : false; // #Security: if this setting is not present, we will *NOT*
-                     // create a demo user account!
+      Meteor.settings.branding &&
+      Meteor.settings.branding.createDemoAccount !== undefined
+        ? Meteor.settings.branding.createDemoAccount
+        : false; // #Security: if this setting is not present, we will *NOT*
+    // create a demo user account!
 
     Meteor.settings.public.branding.legalNotice =
-        Meteor.settings.branding &&
-                Meteor.settings.branding.legalNotice !== undefined
-            ? Meteor.settings.branding.legalNotice
-            : {enabled : false, linkText : "", content : [ "" ]};
+      Meteor.settings.branding &&
+      Meteor.settings.branding.legalNotice !== undefined
+        ? Meteor.settings.branding.legalNotice
+        : { enabled: false, linkText: "", content: [""] };
 
     Meteor.settings.public.attachments = {};
     Meteor.settings.public.attachments.enabled =
-        Meteor.settings.attachments &&
-                Meteor.settings.attachments.enabled !== undefined
-            ? Meteor.settings.attachments.enabled
-            : false;
+      Meteor.settings.attachments &&
+      Meteor.settings.attachments.enabled !== undefined
+        ? Meteor.settings.attachments.enabled
+        : false;
 
     Meteor.settings.public.attachments.allowExtensions =
-        Meteor.settings.attachments &&
-                Meteor.settings.attachments.allowExtensions !== undefined
-            ? Meteor.settings.attachments.allowExtensions
-            : ".*";
+      Meteor.settings.attachments &&
+      Meteor.settings.attachments.allowExtensions !== undefined
+        ? Meteor.settings.attachments.allowExtensions
+        : ".*";
     Meteor.settings.public.attachments.denyExtensions =
-        Meteor.settings.attachments &&
-                Meteor.settings.attachments.denyExtensions !== undefined
-            ? Meteor.settings.attachments.denyExtensions
-            : "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh";
+      Meteor.settings.attachments &&
+      Meteor.settings.attachments.denyExtensions !== undefined
+        ? Meteor.settings.attachments.denyExtensions
+        : "exe|app|bat|sh|cmd|com|cpl|exe|gad|hta|inf|jar|jpe|jse|lnk|msc|msh|msi|msp|pif|ps1|ps2|psc|reg|scf|scr|vbe|vbs|wsc|wsf|wsh";
     Meteor.settings.public.attachments.maxFileSize =
-        Meteor.settings.attachments &&
-                Meteor.settings.attachments.maxFileSize !== undefined
-            ? Meteor.settings.attachments.maxFileSize
-            : 10 * 1024 * 1024; // default: 10 MB
+      Meteor.settings.attachments &&
+      Meteor.settings.attachments.maxFileSize !== undefined
+        ? Meteor.settings.attachments.maxFileSize
+        : 10 * 1024 * 1024; // default: 10 MB
 
     Meteor.settings.public.docGeneration = {};
     Meteor.settings.public.docGeneration.enabled =
-        Meteor.settings.docGeneration &&
-                Meteor.settings.docGeneration.enabled !== undefined
-            ? Meteor.settings.docGeneration.enabled
-            : false;
+      Meteor.settings.docGeneration &&
+      Meteor.settings.docGeneration.enabled !== undefined
+        ? Meteor.settings.docGeneration.enabled
+        : false;
     Meteor.settings.public.docGeneration.format =
-        Meteor.settings.docGeneration &&
-                Meteor.settings.docGeneration.enabled !== undefined
-            ? Meteor.settings.docGeneration.format
-            : "html";
+      Meteor.settings.docGeneration &&
+      Meteor.settings.docGeneration.enabled !== undefined
+        ? Meteor.settings.docGeneration.format
+        : "html";
 
     Meteor.settings.public.forbidClientAccountCreation =
-        Meteor.settings.forbidClientAccountCreation !== undefined
-            ? Meteor.settings.forbidClientAccountCreation
-            : false;
+      Meteor.settings.forbidClientAccountCreation !== undefined
+        ? Meteor.settings.forbidClientAccountCreation
+        : false;
 
     Meteor.settings.public.sendVerificationEmail =
-        Meteor.settings.email &&
-                Meteor.settings.email.sendVerificationEmail !== undefined
-            ? Meteor.settings.email.sendVerificationEmail
-            : false;
+      Meteor.settings.email &&
+      Meteor.settings.email.sendVerificationEmail !== undefined
+        ? Meteor.settings.email.sendVerificationEmail
+        : false;
 
     Meteor.settings.public.showResendVerificationEmailLink =
-        Meteor.settings.email &&
-                Meteor.settings.email.showResendVerificationEmailLink !==
-                    undefined
-            ? Meteor.settings.email.showResendVerificationEmailLink
-            : false;
+      Meteor.settings.email &&
+      Meteor.settings.email.showResendVerificationEmailLink !== undefined
+        ? Meteor.settings.email.showResendVerificationEmailLink
+        : false;
 
     Meteor.settings.public.showForgotPasswordLink =
-        Meteor.settings.email &&
-                Meteor.settings.email.showForgotPasswordLink !== undefined
-            ? Meteor.settings.email.showForgotPasswordLink
-            : false;
+      Meteor.settings.email &&
+      Meteor.settings.email.showForgotPasswordLink !== undefined
+        ? Meteor.settings.email.showForgotPasswordLink
+        : false;
 
     Meteor.settings.public.isEnd2EndTest = Meteor.settings.isEnd2EndTest;
 
     // enforce slash "/" at the end
     if (Meteor.settings.attachments?.storagePath) {
       if (!Meteor.settings.attachments.storagePath.match(/\/$/)) {
-        Meteor.settings.attachments.storagePath =
-            `${Meteor.settings.attachments.storagePath}/`;
+        Meteor.settings.attachments.storagePath = `${Meteor.settings.attachments.storagePath}/`;
       }
     }
 
@@ -144,7 +142,7 @@ export class GlobalSettings {
 
   static getRootUrl(path) {
     if (Meteor.settings.ROOT_URL) {
-      return Meteor.absoluteUrl(path, {rootUrl : Meteor.settings.ROOT_URL});
+      return Meteor.absoluteUrl(path, { rootUrl: Meteor.settings.ROOT_URL });
     }
 
     return Meteor.absoluteUrl(path);
@@ -152,7 +150,7 @@ export class GlobalSettings {
 
   static hasImportUsersCronTab() {
     return Boolean(
-        Meteor.settings.ldap?.enabled && Meteor.settings.ldap.importCronTab,
+      Meteor.settings.ldap?.enabled && Meteor.settings.ldap.importCronTab,
     );
   }
 
@@ -172,7 +170,9 @@ export class GlobalSettings {
     return false;
   }
 
-  static getLDAPSettings() { return Meteor.settings.ldap || {}; }
+  static getLDAPSettings() {
+    return Meteor.settings.ldap || {};
+  }
 
   static isTrustedIntranetInstallation() {
     // returns false instead of undefined
@@ -180,8 +180,7 @@ export class GlobalSettings {
   }
 
   static getDefaultLabels() {
-    if (!Meteor.settings.defaultLabels)
-      return [];
+    if (!Meteor.settings.defaultLabels) return [];
 
     return Meteor.settings.defaultLabels;
   }
@@ -195,20 +194,27 @@ export class GlobalSettings {
 
   static getDefaultEmailSenderAddress(alternativeSender) {
     let address = Meteor.settings.email
-                      ? Meteor.settings.email.defaultEMailSenderAddress
-                      : undefined;
+      ? Meteor.settings.email.defaultEMailSenderAddress
+      : undefined;
 
-    if (address && alternativeSender && Meteor.settings.email &&
-        Meteor.settings.email.defaultEMailSenderExceptionDomains &&
-        Meteor.settings.email.defaultEMailSenderExceptionDomains.length > 0) {
-      let senderDomain =
-          alternativeSender.replace(/^.*@/, "")
-              .toLowerCase(); // me@mycompany.com => mycompany.com
-      for (let i = 0;
-           i < Meteor.settings.email.defaultEMailSenderExceptionDomains.length;
-           i++) {
-        if (Meteor.settings.email.defaultEMailSenderExceptionDomains[i]
-                .toLowerCase() === senderDomain) {
+    if (
+      address &&
+      alternativeSender &&
+      Meteor.settings.email &&
+      Meteor.settings.email.defaultEMailSenderExceptionDomains &&
+      Meteor.settings.email.defaultEMailSenderExceptionDomains.length > 0
+    ) {
+      let senderDomain = alternativeSender.replace(/^.*@/, "").toLowerCase(); // me@mycompany.com => mycompany.com
+      for (
+        let i = 0;
+        i < Meteor.settings.email.defaultEMailSenderExceptionDomains.length;
+        i++
+      ) {
+        if (
+          Meteor.settings.email.defaultEMailSenderExceptionDomains[
+            i
+          ].toLowerCase() === senderDomain
+        ) {
           address = alternativeSender;
           break;
         }
@@ -220,18 +226,17 @@ export class GlobalSettings {
       if (address === "") {
         // but it's empty!
         return alternativeSender // luckily we have a real user profile mail
-                   ? alternativeSender // we take it!
-                   : GlobalSettings
-                         .getFallbackEMailSenderAddress(); // nope. use
-                                                           // fallback!
+          ? alternativeSender // we take it!
+          : GlobalSettings.getFallbackEMailSenderAddress(); // nope. use
+        // fallback!
       } else {
         return address;
       }
     }
 
     throw new Meteor.Error(
-        "illegal-state",
-        "defaultEMailSenderAddress not defined in settings",
+      "illegal-state",
+      "defaultEMailSenderAddress not defined in settings",
     );
   }
 
@@ -241,8 +246,8 @@ export class GlobalSettings {
     }
 
     throw new Meteor.Error(
-        "illegal-state",
-        "fallback email sender address required but not defined in settings",
+      "illegal-state",
+      "fallback email sender address required but not defined in settings",
     );
   }
 
@@ -263,27 +268,26 @@ export class GlobalSettings {
 
   static sendVerificationEmail() {
     const mailEnabled = getSetting("email.enableMailDelivery", false),
-          sendVerificationEmail =
-              getSetting("email.sendVerificationEmail", false);
+      sendVerificationEmail = getSetting("email.sendVerificationEmail", false);
     return mailEnabled && sendVerificationEmail;
   }
 
   static showResendVerificationEmailLink() {
     const mailEnabled = getSetting("email.enableMailDelivery", false),
-          showResendVerificationEmailLink = getSetting(
-              "email.showResendVerificationEmailLink",
-              false,
-          );
+      showResendVerificationEmailLink = getSetting(
+        "email.showResendVerificationEmailLink",
+        false,
+      );
 
     return mailEnabled && showResendVerificationEmailLink;
   }
 
   static showForgotPasswordLink() {
     const mailEnabled = getSetting("email.enableMailDelivery", false),
-          showForgotPasswordLink = getSetting(
-              "email.showForgotPasswordLink",
-              false,
-          );
+      showForgotPasswordLink = getSetting(
+        "email.showForgotPasswordLink",
+        false,
+      );
 
     return mailEnabled && showForgotPasswordLink;
   }
@@ -301,8 +305,8 @@ export class GlobalSettings {
     }
 
     throw new Meteor.Error(
-        "illegal-state",
-        "mailgun settings not defined in meteor settings",
+      "illegal-state",
+      "mailgun settings not defined in meteor settings",
     );
   }
 

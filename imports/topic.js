@@ -5,22 +5,21 @@
 import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
-import {subElementsHelper} from "/imports/helpers/subElements";
-import {Meteor} from "meteor/meteor";
-import {Random} from "meteor/random";
-import {_} from "meteor/underscore";
+import { subElementsHelper } from "/imports/helpers/subElements";
+import { Meteor } from "meteor/meteor";
+import { Random } from "meteor/random";
+import { _ } from "meteor/underscore";
 
-import {InfoItem} from "./infoitem";
-import {InfoItemFactory} from "./InfoItemFactory";
-import {MeetingSeries} from "./meetingseries";
-import {Minutes} from "./minutes";
+import { InfoItem } from "./infoitem";
+import { InfoItemFactory } from "./InfoItemFactory";
+import { MeetingSeries } from "./meetingseries";
+import { Minutes } from "./minutes";
 
 function resolveParentElement(parent) {
   if (typeof parent === "string") {
     let parentId = parent;
     parent = MeetingSeries.findOne(parentId);
-    if (!parent)
-      parent = Minutes.findOne(parentId);
+    if (!parent) parent = Minutes.findOne(parentId);
     return parent;
   }
 
@@ -44,11 +43,11 @@ function resolveTopic(parentElement, source) {
   }
 
   _.defaults(source, {
-    isOpen : true,
-    isNew : true,
-    isRecurring : false,
-    labels : [],
-    isSkipped : false,
+    isOpen: true,
+    isNew: true,
+    isRecurring: false,
+    labels: [],
+    isSkipped: false,
   });
 
   return source;
@@ -107,9 +106,13 @@ export class Topic {
   }
 
   // ################### object methods
-  toString() { return `Topic: ${JSON.stringify(this._topicDoc, null, 4)}`; }
+  toString() {
+    return `Topic: ${JSON.stringify(this._topicDoc, null, 4)}`;
+  }
 
-  log() { console.log(this.toString()); }
+  log() {
+    console.log(this.toString());
+  }
 
   invalidateIsNewFlag() {
     this._topicDoc.isNew = false;
@@ -128,19 +131,28 @@ export class Topic {
    * @returns {boolean}
    */
   isFinallyCompleted() {
-    return (!this.getDocument().isOpen && !this.hasOpenActionItem() &&
-            !this.isRecurring());
+    return (
+      !this.getDocument().isOpen &&
+      !this.hasOpenActionItem() &&
+      !this.isRecurring()
+    );
   }
 
   isDeleteAllowed() {
     return this.getDocument().createdInMinute === this._parentMinutes._id;
   }
 
-  isRecurring() { return this.getDocument().isRecurring; }
+  isRecurring() {
+    return this.getDocument().isRecurring;
+  }
 
-  toggleRecurring() { this.getDocument().isRecurring = !this.isRecurring(); }
+  toggleRecurring() {
+    this.getDocument().isRecurring = !this.isRecurring();
+  }
 
-  isSkipped() { return this.getDocument().isSkipped; }
+  isSkipped() {
+    return this.getDocument().isSkipped;
+  }
 
   toggleSkip(forceOpenTopic = true) {
     this.getDocument().isSkipped = !this.isSkipped();
@@ -162,8 +174,8 @@ export class Topic {
       topicItemDoc._id = Random.id(); // create our own local _id here!
     } else {
       i = subElementsHelper.findIndexById(
-          topicItemDoc._id,
-          this.getInfoItems(),
+        topicItemDoc._id,
+        this.getInfoItems(),
       );
     }
     if (i === undefined) {
@@ -190,12 +202,14 @@ export class Topic {
   async removeInfoItem(id) {
     let index = subElementsHelper.findIndexById(id, this.getInfoItems());
     let item = this.getInfoItems()[index];
-    if (InfoItem.isActionItem(item) &&
-        !InfoItem.isCreatedInMinutes(item, this._parentMinutes._id)) {
+    if (
+      InfoItem.isActionItem(item) &&
+      !InfoItem.isCreatedInMinutes(item, this._parentMinutes._id)
+    ) {
       throw new Meteor.Error(
-          "Cannot remove item",
-          "It is not allowed to remove an action item which was not " +
-              "created within the current minutes",
+        "Cannot remove item",
+        "It is not allowed to remove an action item which was not " +
+          "created within the current minutes",
       );
     }
 
@@ -212,10 +226,10 @@ export class Topic {
    */
   tailorTopic() {
     this._topicDoc.infoItems = this._topicDoc.infoItems.filter(
-        (infoItemDoc) => {
-          let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
-          return infoItem.isSticky();
-        },
+      (infoItemDoc) => {
+        let infoItem = InfoItemFactory.createInfoItem(this, infoItemDoc);
+        return infoItem.isSticky();
+      },
     );
   }
 
@@ -234,16 +248,20 @@ export class Topic {
     return undefined;
   }
 
-  getInfoItems() { return this._topicDoc.infoItems; }
+  getInfoItems() {
+    return this._topicDoc.infoItems;
+  }
 
   getOnlyInfoItems() {
-    return this.getInfoItems().filter(
-        (item) => { return !InfoItem.isActionItem(item); });
+    return this.getInfoItems().filter((item) => {
+      return !InfoItem.isActionItem(item);
+    });
   }
 
   getOnlyActionItems() {
-    return this._topicDoc.infoItems.filter(
-        (infoItemDoc) => { return InfoItem.isActionItem(infoItemDoc); });
+    return this._topicDoc.infoItems.filter((infoItemDoc) => {
+      return InfoItem.isActionItem(infoItemDoc);
+    });
   }
 
   getOpenActionItems() {
@@ -252,13 +270,21 @@ export class Topic {
     });
   }
 
-  setItems(items) { this._topicDoc.infoItems = items; }
+  setItems(items) {
+    this._topicDoc.infoItems = items;
+  }
 
-  setSubject(subject) { this._topicDoc.subject = subject; }
+  setSubject(subject) {
+    this._topicDoc.subject = subject;
+  }
 
-  getSubject() { return this._topicDoc.subject; }
+  getSubject() {
+    return this._topicDoc.subject;
+  }
 
-  async save() { return this._parentMinutes.upsertTopic(this._topicDoc); }
+  async save() {
+    return this._parentMinutes.upsertTopic(this._topicDoc);
+  }
 
   async saveAtBottom() {
     return this._parentMinutes.upsertTopic(this._topicDoc, false);
@@ -268,20 +294,26 @@ export class Topic {
     // open/close
     this._topicDoc.isOpen = !this._topicDoc.isOpen;
     return Meteor.callPromise("minutes.updateTopic", this._topicDoc._id, {
-      isOpen : this._topicDoc.isOpen,
+      isOpen: this._topicDoc.isOpen,
     });
   }
 
   async closeTopicAndAllOpenActionItems() {
     this._topicDoc.isOpen = false;
     this._topicDoc.isRecurring = false;
-    this.getOpenActionItems().forEach((item) => { item.isOpen = false; });
+    this.getOpenActionItems().forEach((item) => {
+      item.isOpen = false;
+    });
     await this.save();
   }
 
-  hasOpenActionItem() { return Topic.hasOpenActionItem(this._topicDoc); }
+  hasOpenActionItem() {
+    return Topic.hasOpenActionItem(this._topicDoc);
+  }
 
-  getDocument() { return this._topicDoc; }
+  getDocument() {
+    return this._topicDoc;
+  }
 
   addLabelsByIds(labelIds) {
     labelIds.forEach((id) => {
@@ -327,5 +359,7 @@ export class Topic {
    *
    * @return {Array}
    */
-  getResponsibles() { return this._topicDoc.responsibles; }
+  getResponsibles() {
+    return this._topicDoc.responsibles;
+  }
 }
