@@ -32,7 +32,7 @@ Meteor.methods({
 
         let targetUser = Meteor.users.findOne({_id: userId});
         if (!targetUser) {
-            throw new Meteor.Error('Could not find user', 'No user found for ID: '+userId);
+            throw new Meteor.Error('Could not find user', `No user found for ID: ${userId}`);
         }
 
         if (targetUser.isLDAPuser) {
@@ -64,7 +64,7 @@ Meteor.methods({
     'users.admin.changePassword'(userId, password1, password2) {
         if (Meteor.isServer) {
             // #Security: Only logged in admin may invoke this method: users.admin.changePassword
-            console.log('users.admin.changePassword for user: '+Meteor.userId());
+            console.log(`users.admin.changePassword for user: ${Meteor.userId()}`);
             if (! Meteor.userId()) {
                 throw new Meteor.Error('Cannot change password', 'User not logged in.');
             }
@@ -87,7 +87,7 @@ Meteor.methods({
     },
 
     'users.admin.registerUser'(username, longname, email, password1, password2, sendMail, sendPassword) {
-        console.log('users.admin.registerUser for user: '+username);
+        console.log(`users.admin.registerUser for user: ${username}`);
         // #Security: Only logged in admin may invoke this method: users.admin.registerUser
         if (! Meteor.userId()) {
             throw new Meteor.Error('Cannot register user', 'User not logged in.');
@@ -130,7 +130,7 @@ Meteor.methods({
 
 
     'users.admin.ToggleInactiveUser'(userId) {
-        console.log('users.admin.ToggleInactiveUser for '+userId);
+        console.log(`users.admin.ToggleInactiveUser for ${userId}`);
         // #Security: Only logged in admin may invoke this method: users.admin.ToggleInactiveUser
         if (! Meteor.user().isAdmin) {
             throw new Meteor.Error('Cannot toggle inactive user', 'You are not admin.');
@@ -145,7 +145,7 @@ Meteor.methods({
                 Meteor.users.update({ _id: userId }, {$set: { 'services.resume.loginTokens' : [] }});
             }
         } else {
-            console.error('Could not find user:'+userId+' to toggle isInactive');
+            console.error(`Could not find user:${userId} to toggle isInactive`);
         }
     }
 });

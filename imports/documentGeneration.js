@@ -29,7 +29,7 @@ export class DocumentGeneration {
             //Download File
             let fileBlob = new Blob([htmldata], {type:'octet/stream'});
 
-            const filename = DocumentGeneration.calcFileNameforMinute(currentMinute) + '.html';
+            const filename = `${DocumentGeneration.calcFileNameforMinute(currentMinute)}.html`;
 
             if (window.navigator.msSaveOrOpenBlob) { // necessary for Internet Explorer, since it does'nt support the download-attribute for anchors
                 window.navigator.msSaveBlob(fileBlob, filename);
@@ -58,7 +58,7 @@ export class DocumentGeneration {
     static calcFileNameforMinute(minutesObj) {
         if (minutesObj) {
             let fileName = minutesObj.parentMeetingSeries().getRecord().name;
-            fileName = fileName + '-' + minutesObj.date;
+            fileName = `${fileName}-${minutesObj.date}`;
             return fileName;
         }
     }
@@ -119,8 +119,8 @@ export class DocumentGeneration {
             meetingSeriesName: context._meetingSeries.name,
             meetingSeriesProjectLabel: i18n.__('MeetingSeries.team'),
             meetingSeriesProject: context._meetingSeries.project,
-            meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + context._meetingSeries._id),
-            minuteUrl: GlobalSettings.getRootUrl('minutesedit/' + context._minute._id),
+            meetingSeriesURL: GlobalSettings.getRootUrl(`meetingseries/${context._meetingSeries._id}`),
+            minuteUrl: GlobalSettings.getRootUrl(`minutesedit/${context._minute._id}`),
             presentParticipantsLabel: i18n.__('Minutes.Participants.present'),
             presentParticipants: context._userArrayToString(presentParticipants),
             absentParticipantsLabel: i18n.__('Minutes.Participants.absent'),

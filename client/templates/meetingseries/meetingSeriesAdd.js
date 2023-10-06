@@ -59,7 +59,7 @@ Template.meetingSeriesAdd.events({
         $('#collapseMeetingSeriesAdd').collapse('hide');
 
         addMeetingSeries(template, (id) => {
-            FlowRouter.go('/meetingseries/' + id + '?edit=true');
+            FlowRouter.go(`/meetingseries/${id}?edit=true`);
         });
     },
 

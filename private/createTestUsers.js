@@ -14,7 +14,7 @@ let random = require("randomstring");
 class UserFactory {
   static getUser() {
     UserFactory.counter += 1;
-    const username = "user_" + UserFactory.postfix + "_" + UserFactory.counter;
+    const username = `user_${UserFactory.postfix}_${UserFactory.counter}`;
     return {
       _id: random.generate({
         length: 17,
@@ -31,7 +31,7 @@ class UserFactory {
         },
       },
       profile: { name: faker.person.fullName() },
-      emails: [{ address: username + "@4minitz.com", verified: false }],
+      emails: [{ address: `${username}@4minitz.com`, verified: false }],
     };
   }
 
@@ -40,7 +40,7 @@ class UserFactory {
       for (let i = 0; i < numberOfUsers; i++) {
         let user = UserFactory.getUser();
         db.collection("users").insert(user);
-        console.log(i + "\t" + user.username + "\t" + user.profile.name);
+        console.log(`${i}\t${user.username}\t${user.profile.name}`);
       }
       resolve(db);
     });
@@ -86,5 +86,5 @@ _connectMongo(mongoUrl)
   .then((db) => UserFactory.saveUsers(db, numberOfUsers))
   .then((db) => db.close())
   .catch((error) => {
-    console.log("Error: " + error);
+    console.log(`Error: ${error}`);
   });

@@ -16,7 +16,7 @@ export class AdminNewVersionMailHandler {
                 + masterMessage[msgVersion] + '\n';
         });
         if (this._masterMessageTxt !== '') {
-            this._masterMessageTxt = 'Version Hints:\n' + this._masterMessageTxt + '\n';
+            this._masterMessageTxt = `Version Hints:\n${this._masterMessageTxt}\n`;
         }
     }
 
@@ -36,7 +36,7 @@ export class AdminNewVersionMailHandler {
             let adminMails = [];
             admins.map(adm => {adminMails.push(adm.emails[0].address);});
             let mailer = MailFactory.getMailer(adminFrom, adminMails.join(','));
-            mailer.setSubject('[4Minitz] '+i18n.__('Mail.AdminNewVersion.subject'));
+            mailer.setSubject(`[4Minitz] ${i18n.__('Mail.AdminNewVersion.subject')}`);
             mailer.setText(i18n.__('Mail.AdminNewVersion.body', mailParams));
             mailer.send();
         } else {

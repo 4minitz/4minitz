@@ -55,7 +55,7 @@ function select2search(selectResponsibles, delayTime, freeTextValidator, minuteI
 }
 
 export function configureSelect2Responsibles(SelectResponsibleElementID, topicOrItemDoc, freeTextValidator, _minutesID, topicOrItem) {
-    let selectResponsibles = $('#'+SelectResponsibleElementID);
+    let selectResponsibles = $(`#${SelectResponsibleElementID}`);
     selectResponsibles.find('option')     // clear all <option>s
         .remove();
     let delayTime = Meteor.settings.public.isEnd2EndTest ? 0 : 50;

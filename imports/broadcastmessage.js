@@ -48,7 +48,7 @@ export class BroadcastMessage {
             return;
         }
         if (Meteor.isServer) {
-            console.log('Remove BroadcastMessage: ' + id);
+            console.log(`Remove BroadcastMessage: ${id}`);
             BroadcastMessageSchema.remove({_id: id});
         }
     }
@@ -58,7 +58,7 @@ export class BroadcastMessage {
             console.log('List All BroadcastMessages.');
             let allMsgs = [];
             BroadcastMessageSchema.find({isActive: true}).forEach(msg => {
-                let oneMsg = 'Message: '+msg._id+' '+
+                let oneMsg = `Message: ${msg._id} `+
                             formatDateISO8601Time(msg.createdAt) +
                             ' dismissed:'+msg.dismissForUserIDs.length +
                             '\n' + msg.text;

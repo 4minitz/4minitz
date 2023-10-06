@@ -38,7 +38,7 @@ let _insertUsers = function (client, mongoUri, users) {
         if (user?.username && user.emails[0] && user.emails[0].address) {
           user.isLDAPuser = true;
           let usrRegExp = new RegExp(
-            "^" + RegExp.escape(user.username) + "$",
+            `^${RegExp.escape(user.username)}$`,
             "i",
           );
           bulk

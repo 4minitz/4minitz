@@ -18,9 +18,9 @@ if (Meteor.isServer) {
         adminIDs.forEach(id => {
             let user = Meteor.users.findOne(id);
             if (user) {
-                console.log('    '+user._id+': '+user.username);
+                console.log(`    ${user._id}: ${user.username}`);
             } else {
-                console.log('    '+id+': unknown ID!');
+                console.log(`    ${id}: unknown ID!`);
             }
         });
     }
@@ -92,7 +92,7 @@ Meteor.methods({
         const allowedRoles = Object.keys(UserRoles.USERROLES).map(key => UserRoles.USERROLES[key]);
         let newRoleString = newRole[0];
         if (allowedRoles.indexOf(newRoleString) === -1) {
-            throw new Meteor.Error('Unknown role value: '+newRole);
+            throw new Meteor.Error(`Unknown role value: ${newRole}`);
         }
 
         // #Security: Ensure user is moderator of affected meeting series

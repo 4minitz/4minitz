@@ -28,7 +28,7 @@ export class User {
         return userObject.username;
       }
     } else {
-      return "Unknown (" + userObject._id ? userObject._id : userObject + ")";
+      return `Unknown (${userObject._id}` ? userObject._id : `${userObject})`;
     }
   }
 
@@ -40,7 +40,7 @@ export class User {
     if (this.user) {
       return this.user.username;
     } else {
-      return "Unknown (" + this.id + ")";
+      return `Unknown (${this.id})`;
     }
   }
 

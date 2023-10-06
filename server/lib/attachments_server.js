@@ -22,7 +22,7 @@ calculateAndCreateStoragePath = function (fileObj) {
     // optionally: append sub directory for parent meeting series
     if (fileObj?.meta && fileObj.meta.parentseries_id) {
       absAttachmentStoragePath =
-        absAttachmentStoragePath + "/" + fileObj.meta.parentseries_id;
+        `${absAttachmentStoragePath}/${fileObj.meta.parentseries_id}`;
     }
 
     // create target dir for attachment storage if it does not exist
@@ -43,7 +43,7 @@ removeMeetingSeriesAttachmentDir = function (meetingseries_id) {
   if (meetingseries_id.length > 0) {
     // ensure "attachment root" is not deleted
     let storagePath = calculateAndCreateStoragePath(); //eslint-disable-line
-    storagePath += "/" + meetingseries_id;
+    storagePath += `/${meetingseries_id}`;
     fs.remove(storagePath, function (err) {
       if (err) {
         console.error(
@@ -62,7 +62,7 @@ if (Meteor.settings.attachments?.enabled) {
   console.log("Attachments upload feature: ENABLED");
   let settingsPath = calculateAndCreateStoragePath(null); //eslint-disable-line
   let absoluteTargetPath = path.resolve(settingsPath);
-  console.log("attachmentsStoragePath:" + absoluteTargetPath);
+  console.log(`attachmentsStoragePath:${absoluteTargetPath}`);
 
   fs.access(absoluteTargetPath, fs.W_OK, function (err) {
     if (err) {
@@ -76,7 +76,7 @@ if (Meteor.settings.attachments?.enabled) {
           settingsPath,
       );
       if (!path.isAbsolute(settingsPath)) {
-        console.error("             Which maps to: " + absoluteTargetPath);
+        console.error(`             Which maps to: ${absoluteTargetPath}`);
       }
       // Now switch off feature!
       Meteor.settings.attachments.enabled = false;

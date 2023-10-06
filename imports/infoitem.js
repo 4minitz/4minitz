@@ -221,7 +221,7 @@ export class InfoItem {
   }
 
   toString() {
-    return "InfoItem: " + JSON.stringify(this._infoItemDoc, null, 4);
+    return `InfoItem: ${JSON.stringify(this._infoItemDoc, null, 4)}`;
   }
 
   log() {

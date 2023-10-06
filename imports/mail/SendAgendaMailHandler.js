@@ -22,7 +22,7 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix() + ' (' + i18n.__('Minutes.agenda') + ')';
+        return `${this._getSubjectPrefix()} (${i18n.__('Minutes.agenda')})`;
     }
 
 
@@ -37,8 +37,8 @@ export class SendAgendaMailHandler extends InfoItemsMailHandler {
             minutesGlobalNoteLabel: i18n.__('Minutes.GlobalNotes.title'), minutesGlobalNote: this._minute.globalNote,
             meetingSeriesNameLabel: i18n.__('MeetingSeries.title'), meetingSeriesName: this._meetingSeries.name,
             meetingSeriesProjectLabel: i18n.__('MeetingSeries.team'), meetingSeriesProject: this._meetingSeries.project,
-            meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeries._id),
-            minuteUrl: GlobalSettings.getRootUrl('minutesedit/' + this._minute._id),
+            meetingSeriesURL: GlobalSettings.getRootUrl(`meetingseries/${this._meetingSeries._id}`),
+            minuteUrl: GlobalSettings.getRootUrl(`minutesedit/${this._minute._id}`),
             participantsLabel: i18n.__('Minutes.Participants.invited'), participants: this._userArrayToString(this._participants),
             participantsAdditionalLabel: i18n.__('Minutes.Participants.additional'), participantsAdditional: this._minute.participantsAdditional,
             topics: unSkippedTopics,

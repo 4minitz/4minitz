@@ -60,20 +60,20 @@ export class I18nHelper {
     } else {
       I18nHelper._persistLanguagePreference(localeCode);
     }
-    console.log("Switch to language locale: >" + localeCode + "<");
+    console.log(`Switch to language locale: >${localeCode}<`);
     if (localeCode === "auto") {
       localeCode = I18nHelper._getPreferredBrowserLocale();
-      console.log(" Browser language locale: >" + localeCode + "<");
+      console.log(` Browser language locale: >${localeCode}<`);
     }
 
     i18n
       .setLocale(localeCode)
       .then(() => T9n.setLanguage(localeCode))
       .catch((e) => {
-        console.log("Error switching to: >" + localeCode + "<");
+        console.log(`Error switching to: >${localeCode}<`);
         console.error(e);
         const fallbackLocale = "en-US";
-        console.log("Switching to fallback: >" + fallbackLocale + "<");
+        console.log(`Switching to fallback: >${fallbackLocale}<`);
         i18n.setLocale(fallbackLocale);
         T9n.setLanguage(fallbackLocale);
       });

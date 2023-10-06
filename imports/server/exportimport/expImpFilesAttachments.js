@@ -15,14 +15,14 @@ class ExpImpFilesAttachments {
                     if (doc) {
                         const attFile = msID + ExpImpFilesAttachments.FILENAME_POSTFIX;
                         fs.writeFileSync(attFile, EJSON.stringify(doc,null,2));
-                        console.log('Saved: '+attFile + ' with '+doc.length+' file attachments');
+                        console.log(`Saved: ${attFile} with ${doc.length} file attachments`);
                         if (doc[0]) {
                             console.log('      *** Hint *** Please manually copy all files below:');
-                            console.log('      '+doc[0]._storagePath);
+                            console.log(`      ${doc[0]._storagePath}`);
                         }
                         resolve({db, userIDs});
                     } else {
-                        return reject ('Unknown meeting series ID: '+ msID);
+                        return reject (`Unknown meeting series ID: ${msID}`);
                     }
                 });
         });
@@ -35,10 +35,10 @@ class ExpImpFilesAttachments {
             try {
                 AllAttachmentsDoc = EJSON.parse(fs.readFileSync(attachmentFile, 'utf8'));
                 if (!AllAttachmentsDoc) {
-                    return reject('Could not read attachment file '+attachmentFile);
+                    return reject(`Could not read attachment file ${attachmentFile}`);
                 }
             } catch (e) {
-                return reject('Could not read attachment file '+attachmentFile+'\n'+e);
+                return reject(`Could not read attachment file ${attachmentFile}\n${e}`);
             }
 
             // Replace old user IDs with new users IDs
@@ -59,7 +59,7 @@ class ExpImpFilesAttachments {
                         .insertMany(AllAttachmentsDoc)                         // insert imported minutes
                         .then(function (res) {
                             if (res.result.ok === 1 && res.result.n === AllAttachmentsDoc.length) {
-                                console.log('OK, inserted '+res.result.n+' attachments meta data.');
+                                console.log(`OK, inserted ${res.result.n} attachments meta data.`);
                                 resolve({db, usrMap});
                             } else {
                                 reject('Could not insert attachment meta data');

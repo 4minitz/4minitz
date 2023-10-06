@@ -12,7 +12,7 @@ export class Attachment {
         }
         this._file = AttachmentsCollection.findOne(attachmentID);
         if (!this._file) {
-            throw new Error('Attachment(): Could not retrieve attachment for ID '+attachmentID);
+            throw new Error(`Attachment(): Could not retrieve attachment for ID ${attachmentID}`);
         }
     }
 

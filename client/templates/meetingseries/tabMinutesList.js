@@ -40,7 +40,7 @@ Template.tabMinutesList.events({
     let ms = new MeetingSeries(this.meetingSeriesId);
     ms.addNewMinutes(
       (newMinutesId) => {
-        FlowRouter.redirect("/minutesedit/" + newMinutesId);
+        FlowRouter.redirect(`/minutesedit/${newMinutesId}`);
       },
       // server callback
       handleError,

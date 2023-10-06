@@ -114,7 +114,7 @@ Template.meetingSeriesDetails.helpers({
             return new TabItemsConfig(topics, _meetingSeriesID);
         }
 
-        default: throw new Meteor.Error('illegal-state', 'Unknown tab: ' + tab);
+        default: throw new Meteor.Error('illegal-state', `Unknown tab: ${tab}`);
         }
     },
 

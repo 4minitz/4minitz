@@ -123,7 +123,7 @@ Meteor.methods({
         if (minutes_id === undefined || minutes_id === '') {
             throw new Meteor.Error('illegal-arguments', 'Minutes id required');
         }
-        console.log('workflow.removeMinute: '+minutes_id);
+        console.log(`workflow.removeMinute: ${minutes_id}`);
         let aMin = new Minutes(minutes_id);
         let meetingSeriesId = aMin.parentMeetingSeriesID();
 
@@ -141,7 +141,7 @@ Meteor.methods({
                 AttachmentsCollection.remove({'meta.meetingminutes_id': minutes_id},
                     function (error) {
                         if (error) {
-                            console.error('File wasn\'t removed, error: ' + error.reason);
+                            console.error(`File wasn't removed, error: ${error.reason}`);
                         } else {
                             console.log('OK, removed linked attachments.');
                         }
@@ -152,7 +152,7 @@ Meteor.methods({
     },
 
     'workflow.removeMeetingSeries'(meetingseries_id) {
-        console.log('workflow.removeMeetingSeries: '+meetingseries_id);
+        console.log(`workflow.removeMeetingSeries: ${meetingseries_id}`);
         check(meetingseries_id, String);
         if (meetingseries_id === undefined || meetingseries_id === '')
             return;
@@ -172,7 +172,7 @@ Meteor.methods({
             AttachmentsCollection.remove({'meta.parentseries_id': meetingseries_id},
                 function (error) {
                     if (error) {
-                        console.error('File wasn\'t removed, error: ' + error.reason);
+                        console.error(`File wasn't removed, error: ${error.reason}`);
                     } else {
                         console.log('OK, removed linked attachments.');
                     }
@@ -185,7 +185,7 @@ Meteor.methods({
     'workflow.leaveMeetingSeries'(meetingSeries_id) {
         // check(meetingSeries_id, Meteor.Collection.ObjectID);
         check(meetingSeries_id, String);
-        console.log('meetingseries.leave:'+meetingSeries_id);
+        console.log(`meetingseries.leave:${meetingSeries_id}`);
         if (meetingSeries_id === undefined || meetingSeries_id === '')
             return;
 

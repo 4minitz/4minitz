@@ -119,7 +119,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
 
 Template.meetingSeriesEdit.events({
   "click #deleteMeetingSeries": function () {
-    console.log("Remove Meeting Series: " + this._id);
+    console.log(`Remove Meeting Series: ${this._id}`);
     $("#dlgEditMeetingSeries").modal("hide"); // hide underlying modal dialog first, otherwise transparent modal layer is locked!
 
     let ms = new MeetingSeries(this._id);

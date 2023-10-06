@@ -15,7 +15,7 @@ class ExpImpUsers {
         return allUserDoc[i];
       }
     }
-    throw Error("Could not find user with _id:" + searchID);
+    throw Error(`Could not find user with _id:${searchID}`);
   }
 
   static doExport(db, msID, userIDsFlat) {
@@ -37,7 +37,7 @@ class ExpImpUsers {
             const usrFile = msID + ExpImpUsers.FILENAME_POSTFIX;
             fs.writeFileSync(usrFile, EJSON.stringify(allUsersDoc, null, 2));
             console.log(
-              "Saved: " + usrFile + " with " + allUsersDoc.length + " users",
+              `Saved: ${usrFile} with ${allUsersDoc.length} users`
             );
 
             // Save mapping file old => new user ID
@@ -50,13 +50,13 @@ class ExpImpUsers {
                 let thisUser = ExpImpUsers.searchUser(allUsersDoc, usrID);
                 userIDsOuputMap[usrID] = {
                   newID: usrID,
-                  hint: thisUser.username + " " + thisUser.profile.name,
+                  hint: `${thisUser.username} ${thisUser.profile.name}`,
                 };
               }
             });
             const mapFile = msID + ExpImpUsers.MAPNAME_POSTFIX;
             fs.writeFileSync(mapFile, JSON.stringify(userIDsOuputMap, null, 2));
-            console.log("Saved: " + mapFile);
+            console.log(`Saved: ${mapFile}`);
             console.log(
               "       *** IMPORTANT!!! EDIT USER MAP FILE BEFORE IMPORT!!!",
             );
@@ -76,10 +76,10 @@ class ExpImpUsers {
       try {
         usrMap = JSON.parse(fs.readFileSync(mapFile, "utf8"));
         if (!usrMap) {
-          return reject("Could not read user map file " + mapFile);
+          return reject(`Could not read user map file ${mapFile}`);
         }
       } catch (e) {
-        return reject("Could not read user map file " + mapFile + "\n" + e);
+        return reject(`Could not read user map file ${mapFile}\n${e}`);
       }
       let usrMapSimple = {}; // make flat map: oldID => newID
       usrMap = Object.keys(usrMap).map((key) => {
@@ -88,7 +88,7 @@ class ExpImpUsers {
       usrMap = usrMapSimple;
 
       let usrMapCount = Object.keys(usrMap).length;
-      console.log("Found " + usrMapCount + " users in " + mapFile);
+      console.log(`Found ${usrMapCount} users in ${mapFile}`);
       let usrMapTargetIDs = [];
       let usrCopyIDs = [];
       Object.keys(usrMap).map((key) => {
@@ -107,7 +107,7 @@ class ExpImpUsers {
         .then((doc) => {
           if (doc) {
             console.log(
-              "Found " + doc.length + " target users in current user DB.",
+              `Found ${doc.length} target users in current user DB.`
             );
             console.log(
               "Will copy over " +
@@ -152,10 +152,10 @@ class ExpImpUsers {
       try {
         allUsersDoc = EJSON.parse(fs.readFileSync(usrFile, "utf8"));
         if (!allUsersDoc) {
-          return reject("Could not read user file " + usrFile);
+          return reject(`Could not read user file ${usrFile}`);
         }
       } catch (e) {
-        return reject("Could not read user file " + usrFile + "\n" + e);
+        return reject(`Could not read user file ${usrFile}\n${e}`);
       }
 
       // We have some sequential DB inserts/updates from two cases now.

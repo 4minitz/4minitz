@@ -53,4 +53,4 @@ Meteor.methods({
 
 // initialize versioning once on server launch
 Meteor.call('gitVersionInfoUpdate');
-console.log('Version: '+JSON.stringify(VERSION_INFO, null, 4));
+console.log(`Version: ${JSON.stringify(VERSION_INFO, null, 4)}`);

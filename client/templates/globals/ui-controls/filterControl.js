@@ -63,7 +63,7 @@ let performSearch = function (query, tmpl) {
 
 let appendSpace = function (string) {
   if (string !== "") {
-    string = string.trim() + " ";
+    string = `${string.trim()} `;
   }
   return string;
 };

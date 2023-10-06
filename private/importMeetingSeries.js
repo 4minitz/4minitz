@@ -45,7 +45,7 @@ let _connectMongo = function (mongoUrl) {
 };
 
 console.log("");
-console.log("*** 4Minitz MeetingSeries Import Tool *** (made for schema version: "+ExpImpSchema.MADE_FOR_SCHEMA+")");
+console.log(`*** 4Minitz MeetingSeries Import Tool *** (made for schema version: ${ExpImpSchema.MADE_FOR_SCHEMA})`);
 console.log("*** ATTENTION ***");
 console.log("- This script will import a meeting series and all dependecies to your DB.");
 console.log("- This script has to change existing user roles, so users can access the new data.");
@@ -72,6 +72,6 @@ _connectMongo(mongoUrl)
     .then(({db, usrMap})  => {return ExpImpUsers.doImport(db, meetingseriesID, usrMap);})
     .then(db            => closeDB.close())
     .catch(error => {
-        console.log("Error: "+error);
+        console.log(`Error: ${error}`);
         console.log("Press Ctrl+C to stop.");
     });

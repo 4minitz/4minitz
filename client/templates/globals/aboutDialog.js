@@ -47,7 +47,7 @@ Template.aboutDialog.events({
                 Session.set('gitVersionInfo', result);
             }
             else {
-                console.log('err:'+error);
+                console.log(`err:${error}`);
             }
         });
     },

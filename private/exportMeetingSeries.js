@@ -43,7 +43,7 @@ let _connectMongo = function (mongoUrl) {
 };
 
 console.log("");
-console.log("*** 4Minitz MeetingSeries Export Tool *** (made for schema version: "+ExpImpSchema.MADE_FOR_SCHEMA+")");
+console.log(`*** 4Minitz MeetingSeries Export Tool *** (made for schema version: ${ExpImpSchema.MADE_FOR_SCHEMA})`);
 _connectMongo(mongoUrl)
     .then(db              => {return ExpImpSchema.exportCheck(db, meetingseriesID);})
     .then(db              => {return ExpImpMeetingSeries.doExport(db, meetingseriesID);})
@@ -54,6 +54,6 @@ _connectMongo(mongoUrl)
     .then(({db, userIDs}) => {return ExpImpUsers.doExport(db, meetingseriesID, userIDs);})
     .then(db            => db.close())
     .catch(error => {
-        console.log("Error: "+error);
+        console.log(`Error: ${error}`);
         console.log("Press Ctrl+C to stop.");
     });

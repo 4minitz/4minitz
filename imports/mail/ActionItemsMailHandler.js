@@ -15,14 +15,14 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix() + ' (' + i18n.__('Item.Filter.yourAction') + ')';
+        return `${this._getSubjectPrefix()} (${i18n.__('Item.Filter.yourAction')})`;
     }
 
     _sendMail() {
         if (this._sendAIseperately) {
             this._actionItems.forEach(item => {
                 let topicSubject = item.getParentTopic().getSubject();
-                let mailSubject = this._getSubject()+': ' + topicSubject;
+                let mailSubject = `${this._getSubject()}: ${topicSubject}`;
 
                 this._buildMail(
                     mailSubject,

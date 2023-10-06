@@ -67,7 +67,7 @@ export class MeetingSeries {
   }
 
   async removeMinutesWithId(minutesId) {
-    console.log("removeMinutesWithId: " + minutesId);
+    console.log(`removeMinutesWithId: ${minutesId}`);
 
     await Minutes.remove(minutesId);
     return this.updateLastMinutesFieldsAsync();
@@ -91,7 +91,7 @@ export class MeetingSeries {
   }
 
   toString() {
-    return "MeetingSeries: " + JSON.stringify(this, null, 4);
+    return `MeetingSeries: ${JSON.stringify(this, null, 4)}`;
   }
 
   log() {

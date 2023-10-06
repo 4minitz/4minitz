@@ -43,7 +43,7 @@ export class MigrateV1 {
             minute.topics.forEach((topic, index) => {
                 topic = modifyTopic(topic, minute);
 
-                let sel = 'topics.' + index;
+                let sel = `topics.${index}`;
                 let setNewTopic = {};
                 setNewTopic[sel] = topic;
                 MinutesSchema.getCollection().update(
@@ -63,7 +63,7 @@ export class MigrateV1 {
                 return (topic, index) => {
                     topic = modifyTopic(topic);
 
-                    let sel = propertyName + '.' + index;
+                    let sel = `${propertyName}.${index}`;
                     let setNewTopic = {};
                     setNewTopic[sel] = topic;
                     MeetingSeriesSchema.getCollection().update(

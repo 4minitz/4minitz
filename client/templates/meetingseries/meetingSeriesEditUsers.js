@@ -98,11 +98,11 @@ Template.meetingSeriesEditUsers.helpers({
     for (let i in rolesNames) {
       let roleNum = rolesNums[i];
       let roleName = rolesNames[i];
-      let startTag = "<option value='" + roleName + "'>";
+      let startTag = `<option value='${roleName}'>`;
       if (roleNum === currentRoleNum) {
-        startTag = '<option value="' + roleName + '" selected="selected">';
+        startTag = `<option value="${roleName}" selected="selected">`;
       }
-      rolesHTML += startTag + UserRoles.role2Text(roleNum) + "</option>";
+      rolesHTML += `${startTag + UserRoles.role2Text(roleNum)}</option>`;
     }
     rolesHTML += "</select>";
     return rolesHTML;
@@ -110,7 +110,7 @@ Template.meetingSeriesEditUsers.helpers({
 
   displayUsername(userObj) {
     if (userObj.profile?.name) {
-      return userObj.profile.name + " (" + userObj.username + ")";
+      return `${userObj.profile.name} (${userObj.username})`;
     }
     return userObj.username;
   },

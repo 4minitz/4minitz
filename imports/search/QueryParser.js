@@ -186,7 +186,7 @@ export class QueryParser {
       }
       this.currentLabel = token.substr(1);
     } else {
-      completeLabel = this.currentLabel + ` ${token}`; // prepend whitespace!
+      completeLabel = `${this.currentLabel} ${token}`; // prepend whitespace!
       let matchingIds = this.queryLabelIdsByName
         ? this.queryLabelIdsByName(completeLabel, this.isCaseSensitive())
         : true;

@@ -31,7 +31,7 @@ export const handleMigration = function () {
         let basePath = Meteor.settings && Meteor.settings.db && Meteor.settings.db.mongodumpTargetDirectory || '';
 
         if (basePath !== '') {
-            let backupPath = path.join(basePath, 'mongobackup_' + moment().format('YYYY-MM-DD'));
+            let backupPath = path.join(basePath, `mongobackup_${moment().format('YYYY-MM-DD')}`);
             backupMongo(process.env.MONGO_URL, backupPath);
         } else {
             console.warn('db.mongodumpTargetDirectory is not configured in settings.json. Skipping database backup!');

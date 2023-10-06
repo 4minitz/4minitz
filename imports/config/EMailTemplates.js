@@ -5,7 +5,7 @@ import { i18n } from 'meteor/universe:i18n';
 
 function setupEmailTemplatesForAccounts() {
     Accounts.emailTemplates.siteName = GlobalSettings.getSiteName();
-    Accounts.emailTemplates.from = Accounts.emailTemplates.siteName + '<' + GlobalSettings.getDefaultEmailSenderAddress() + '>';
+    Accounts.emailTemplates.from = `${Accounts.emailTemplates.siteName}<${GlobalSettings.getDefaultEmailSenderAddress()}>`;
 
     Accounts.emailTemplates.verifyEmail = {
         subject() {

@@ -55,17 +55,17 @@ export let AttachmentsCollection = new FilesCollection({
       const maxMB = Math.floor(
         Meteor.settings.public.attachments.maxFileSize / 1024 / 1024,
       );
-      return "Please upload file with max. " + maxMB + " MB.";
+      return `Please upload file with max. ${maxMB} MB.`;
     }
     // Check for non-allowed file extensions
     if (Meteor.settings.public.attachments.denyExtensions !== undefined) {
       const denyRE = new RegExp(
-        "^(" + Meteor.settings.public.attachments.denyExtensions + ")$",
-        "i",
+        `^(${Meteor.settings.public.attachments.denyExtensions})$`,
+        "i"
       );
       const forbiddenRE = new RegExp(
-        "^(" + FORBIDDEN_FILENAME_EXTENSIONS + ")$",
-        "i",
+        `^(${FORBIDDEN_FILENAME_EXTENSIONS})$`,
+        "i"
       );
       if (denyRE.test(file.extension) || forbiddenRE.test(file.extension)) {
         return (
@@ -81,8 +81,8 @@ export let AttachmentsCollection = new FilesCollection({
     }
     // Check for allowed file extensions
     const allowRE = new RegExp(
-      "^(" + Meteor.settings.public.attachments.allowExtensions + ")$",
-      "i",
+      `^(${Meteor.settings.public.attachments.allowExtensions})$`,
+      "i"
     );
     if (allowRE.test(file.extension)) {
       return true;
@@ -187,10 +187,10 @@ Meteor.methods({
       AttachmentsCollection.remove({ _id: attachmentID }, function (error) {
         if (error) {
           console.error(
-            "File " + attachmentID + " wasn't removed, error: " + error.reason,
+            `File ${attachmentID} wasn't removed, error: ${error.reason}`
           );
         } else {
-          console.info("File " + attachmentID + " successfully removed");
+          console.info(`File ${attachmentID} successfully removed`);
         }
       });
     }

@@ -7,7 +7,7 @@ import { i18n } from 'meteor/universe:i18n';
 
 
 export class UserRoles {
-    constructor(userId /* may be null */ , userCollection /* may be null */) {
+    constructor(userId /* may be null */  , userCollection /* may be null */) {
         if (userId) {
             this._userId = userId;
         } else {
@@ -23,7 +23,7 @@ export class UserRoles {
 
         if (! currentUser) {
             FlowRouter.go('/');
-            throw new Meteor.Error('Could not find user for userId:'+this._userId);
+            throw new Meteor.Error(`Could not find user for userId:${this._userId}`);
         }
 
         this._userRoles = currentUser.roles;
@@ -63,7 +63,7 @@ export class UserRoles {
         // i18n.__('UserRoles.roleUploader')  // comment avoids non-used warnings, and forces error if they miss
         // i18n.__('UserRoles.roleInvited')  // comment avoids non-used warnings, and forces error if they miss
         // i18n.__('UserRoles.roleInformed')  // comment avoids non-used warnings, and forces error if they miss
-        return i18n.__('UserRoles.role'+roleValue);
+        return i18n.__(`UserRoles.role${roleValue}`);
     }
 
     static removeAllRolesFor(aMeetingSeriesID) {

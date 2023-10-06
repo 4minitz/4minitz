@@ -48,20 +48,20 @@ function submitLabelForm(tmpl, context) {
     let labelId = context._id;
     // Unfortunately the form.submit()-function does not trigger the
     // validation process
-    tmpl.$('#form-label-' + labelId).find(':submit').click();
+    tmpl.$(`#form-label-${labelId}`).find(':submit').click();
 }
 
 function saveLabel(tmpl, context) {
     let labelId = context._id;
-    let row = tmpl.$('#row-label-' + labelId);
+    let row = tmpl.$(`#row-label-${labelId}`);
     row.find('.view-display').show();
     row.find('.view-edit').hide();
 
     let labelName = row.find('[name=\'labelName\']').val();
-    let labelColor = row.find('[name=\'labelColor-' + labelId + '\']').val();
+    let labelColor = row.find(`[name='labelColor-${labelId}']`).val();
 
     if (labelColor.substr(0, 1) !== '#') {
-        labelColor = '#' + labelColor;
+        labelColor = `#${labelColor}`;
     }
 
     let labelDoc = {
@@ -79,7 +79,7 @@ Template.meetingSeriesEditLabels.events({
     'click .evt-btn-edit-label': function(evt, tmpl) {
         evt.preventDefault();
         let labelId = this._id;
-        let row = tmpl.$('#row-label-' + labelId);
+        let row = tmpl.$(`#row-label-${labelId}`);
         row.find('.view-display').hide();
         row.find('.view-edit').show();
         row.find('[name=\'labelName\']').focus();
@@ -89,12 +89,12 @@ Template.meetingSeriesEditLabels.events({
     'click .evt-btn-edit-cancel': function(evt, tmpl) {
         evt.preventDefault();
         let labelId = this._id;
-        let row = tmpl.$('#row-label-' + labelId);
+        let row = tmpl.$(`#row-label-${labelId}`);
 
         // reset the values
         let aLabel = Label.createLabelById(tmpl.data.meetingSeriesId, labelId);
         let labelName = row.find('[name=\'labelName\']');
-        let labelColor = row.find('[name=\'labelColor-' + labelId + '\']');
+        let labelColor = row.find(`[name='labelColor-${labelId}']`);
         labelName.val(aLabel.getName());
         labelColor.val(aLabel.getColor().substr(1));
         labelColor.focus();
@@ -113,7 +113,7 @@ Template.meetingSeriesEditLabels.events({
         // escape key will not be handled in keypress callback...
         if (evt.which === 27/*escape*/) {
             let labelId = this._id;
-            let row = tmpl.$('#row-label-' + labelId);
+            let row = tmpl.$(`#row-label-${labelId}`);
             row.find('.view-display').show();
             row.find('.view-edit').hide();
         }

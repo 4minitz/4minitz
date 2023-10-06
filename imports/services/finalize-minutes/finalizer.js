@@ -78,7 +78,7 @@ function compileFinalizedInfo(minutes) {
 
 Meteor.methods({
     'workflow.finalizeMinute'(id, sendActionItems, sendInfoItems) {
-        console.log('workflow.finalizeMinute on ' + id);
+        console.log(`workflow.finalizeMinute on ${id}`);
         check(id, String);
 
         let minutes = new Minutes(id);
@@ -132,7 +132,7 @@ Meteor.methods({
     },
 
     'workflow.unfinalizeMinute'(id) {
-        console.log('workflow.unfinalizeMinute on ' + id);
+        console.log(`workflow.unfinalizeMinute on ${id}`);
         check(id, String);
 
         let minutes = new Minutes(id);

@@ -143,7 +143,7 @@ export class Minutes {
   }
 
   toString() {
-    return "Minutes: " + JSON.stringify(this, null, 4);
+    return `Minutes: ${JSON.stringify(this, null, 4)}`;
   }
 
   log() {
@@ -439,7 +439,7 @@ export class Minutes {
           participant.name = user.username;
           participant.profile = user.profile;
         } else {
-          participant.name = "Unknown " + participant.userId;
+          participant.name = `Unknown ${participant.userId}`;
         }
         return participant;
       });
@@ -469,7 +469,7 @@ export class Minutes {
           let user = userCollection.findOne(informed);
           informed = {
             id: informed,
-            name: user ? user.username : "Unknown " + informed,
+            name: user ? user.username : `Unknown ${informed}`,
             profile: user ? user.profile : null,
           };
           return informed;
@@ -509,7 +509,7 @@ export class Minutes {
       .join("; ");
 
     if (maxChars && names.length > maxChars) {
-      return names.substr(0, maxChars) + "...";
+      return `${names.substr(0, maxChars)}...`;
     }
 
     return names || i18n.__("Minutes.Participants.none");
@@ -530,7 +530,7 @@ export class Minutes {
   static formatResponsibles(responsible, usernameField, isProfileAvaliable) {
     if (isProfileAvaliable && responsible.profile && responsible.profile.name) {
       responsible.fullname =
-        responsible[usernameField] + ` - ${responsible.profile.name}`;
+        `${responsible[usernameField]} - ${responsible.profile.name}`;
     } else {
       responsible.fullname = responsible[usernameField];
     }

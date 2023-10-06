@@ -36,17 +36,17 @@ Template.localeDialog.events({
 
     'show.bs.modal #dlgLocale': function (evt, tmpl) {
         // preselect the current locale, if user is logged in
-        let locID = '#loc-' + I18nHelper.getLanguageLocale();       // might be 'en-US'
+        let locID = `#loc-${I18nHelper.getLanguageLocale()}`;       // might be 'en-US'
         const select = tmpl.find(locID);
         if (select) {
             select.selected = true;
         } else {
-            locID = '#loc-' + I18nHelper.getLanguageLocale().substr(0,2);   // fallback: try 'en'
+            locID = `#loc-${I18nHelper.getLanguageLocale().substr(0,2)}`;   // fallback: try 'en'
             const select = tmpl.find(locID);
             if (select) {
                 select.selected = true;
             } else {
-                console.log('Could not find select option: >'+ locID+'<');
+                console.log(`Could not find select option: >${locID}<`);
             }
         }
     },

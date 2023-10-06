@@ -22,7 +22,7 @@ export let userlistClean = function (allUsers, substractUsers) {
     if (indexedSubstractUsers[aUser["username"]] === undefined) {
       let longname = "";
       if (aUser.profile?.name && aUser.profile.name !== "") {
-        longname = " - " + aUser.profile.name;
+        longname = ` - ${aUser.profile.name}`;
       }
       resultUsers.push(aUser["username"] + longname);
       // create lookup dict to convert the long LDAP names back to unique short usernames

@@ -17,7 +17,7 @@ if (!myServerID) {
     ServerCollection.insert(myServerID);
 }
 let myVersion = VERSION_INFO.tag;
-const url = 'https://www.4minitz.com/version/updatecheck/'+myServerID.value+'/'+myVersion;
+const url = `https://www.4minitz.com/version/updatecheck/${myServerID.value}/${myVersion}`;
 let updateCheck = function (forceReport) {
     HTTP.get(url, {}, function (error, result) {
         if (error || !result.data || !result.data.tag) {
@@ -39,8 +39,8 @@ let updateCheck = function (forceReport) {
             if (forceReport || masterVersion !== lastReportedVersion) {
                 console.log('*** ATTENTION ***');
                 console.log('    Your 4Minitz version seems outdated.');
-                console.log('    Your version    : '+myVersion);
-                console.log('    Official version: '+masterVersion);
+                console.log(`    Your version    : ${myVersion}`);
+                console.log(`    Official version: ${masterVersion}`);
                 console.log('    Official message: ', masterMessage);
                 console.log('    Please visit: https://github.com/4minitz/4minitz/releases');
                 console.log(' ');

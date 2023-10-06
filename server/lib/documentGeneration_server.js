@@ -16,9 +16,9 @@ createDocumentStoragePath = function (fileObj) {
     // optionally: append sub directory for parent meeting series and year if a minute is given
     if (fileObj?.meta && fileObj.meta.minuteId) {
       absoluteDocumentPath =
-        absoluteDocumentPath + "/" + fileObj.meta.meetingSeriesId;
+        `${absoluteDocumentPath}/${fileObj.meta.meetingSeriesId}`;
       let minuteYear = new Date(fileObj.meta.minuteDate).getFullYear();
-      absoluteDocumentPath = absoluteDocumentPath + "/" + minuteYear;
+      absoluteDocumentPath = `${absoluteDocumentPath}/${minuteYear}`;
     }
     // create target dir for document storage if it does not exist
     fs.ensureDirSync(absoluteDocumentPath, function (err) {
@@ -75,13 +75,13 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
 
   //Safe file as html
   const tempFileName =
-    getDocumentStorageRootDirectory() + "/TemporaryProtocol.html"; //eslint-disable-line
+    `${getDocumentStorageRootDirectory()}/TemporaryProtocol.html`; //eslint-disable-line
   fs.outputFileSync(tempFileName, htmldata);
 
   //Safe file as pdf
   const exec = require("child_process").execSync;
-  let exePath = '"' + Meteor.settings.docGeneration.pathToWkhtmltopdf + '"';
-  let outputPath = getDocumentStorageRootDirectory() + "/TemporaryProtocol.pdf"; //eslint-disable-line
+  let exePath = `"${Meteor.settings.docGeneration.pathToWkhtmltopdf}"`;
+  let outputPath = `${getDocumentStorageRootDirectory()}/TemporaryProtocol.pdf`; //eslint-disable-line
 
   let additionalArguments = "";
   if (
@@ -89,7 +89,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
     Meteor.settings.docGeneration.wkhtmltopdfParameters !== ""
   ) {
     additionalArguments =
-      " " + Meteor.settings.docGeneration.wkhtmltopdfParameters.trim();
+      ` ${Meteor.settings.docGeneration.wkhtmltopdfParameters.trim()}`;
   }
 
   exec(
@@ -116,10 +116,10 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
       "PDFA definition file",
     );
 
-    exePath = '"' + Meteor.settings.docGeneration.pathToGhostscript + '"';
+    exePath = `"${Meteor.settings.docGeneration.pathToGhostscript}"`;
     let icctype = Meteor.settings.docGeneration.ICCProfileType.toUpperCase();
     let inputPath = outputPath;
-    outputPath = getDocumentStorageRootDirectory() + "/TemporaryProtocol-A.pdf"; //eslint-disable-line
+    outputPath = `${getDocumentStorageRootDirectory()}/TemporaryProtocol-A.pdf`; //eslint-disable-line
     additionalArguments =
       " -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE" +
       " -dColorConversionStrategy=/" +
@@ -155,7 +155,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
   fs.unlink(tempFileName);
   // Now move file to it's meetingseries directory
   let finalPDFOutputPath =
-    createDocumentStoragePath({ meta: metaData }) + "/" + Random.id() + ".pdf"; //eslint-disable-line
+    `${createDocumentStoragePath({ meta: metaData })}/${Random.id()}.pdf`; //eslint-disable-line
   fs.moveSync(outputPath, finalPDFOutputPath);
 
   return finalPDFOutputPath;
@@ -167,7 +167,7 @@ if (Meteor.settings.docGeneration?.enabled) {
   console.log("Document generation feature: ENABLED");
   let settingsPath = createDocumentStoragePath(undefined); //eslint-disable-line
   let absoluteTargetPath = path.resolve(settingsPath);
-  console.log("Document Storage Path: " + absoluteTargetPath);
+  console.log(`Document Storage Path: ${absoluteTargetPath}`);
 
   fs.access(absoluteTargetPath, fs.W_OK, function (err) {
     if (err) {
@@ -228,7 +228,7 @@ if (Meteor.settings.docGeneration?.enabled) {
 let checkCondition = (condition, errorMessage) => {
   if (Meteor.settings.docGeneration.enabled) {
     if (!condition) {
-      console.error("*** ERROR*** " + errorMessage);
+      console.error(`*** ERROR*** ${errorMessage}`);
       console.error("             Document generation feature: DISABLED");
       Meteor.settings.docGeneration.enabled = false;
     }
@@ -238,6 +238,6 @@ let checkCondition = (condition, errorMessage) => {
 let checkFileExists = (filepath, filename) => {
   checkCondition(
     fs.existsSync(filepath),
-    "Missing " + filename + " at path: " + filepath,
+    `Missing ${filename} at path: ${filepath}`
   );
 };

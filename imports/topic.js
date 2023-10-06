@@ -107,7 +107,7 @@ export class Topic {
 
   // ################### object methods
   toString() {
-    return "Topic: " + JSON.stringify(this._topicDoc, null, 4);
+    return `Topic: ${JSON.stringify(this._topicDoc, null, 4)}`;
   }
 
   log() {

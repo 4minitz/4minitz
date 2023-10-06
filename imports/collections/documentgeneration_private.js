@@ -49,7 +49,7 @@ export let DocumentsCollection = new FilesCollection({
 
   onAfterUpload: function (file) {
     console.log(
-      "Successfully created protocol: " + file.name + " to " + file.path,
+      `Successfully created protocol: ${file.name} to ${file.path}`
     );
     DocumentsCollection.update(file._id, {
       $set: { "meta.timestamp": new Date() },
@@ -188,12 +188,12 @@ Meteor.methods({
         console.log("Protocol generation to file: ", fileName);
         DocumentsCollection.write(
           new Buffer(htmldata),
-          { fileName: fileName + ".html", type: "text/html", meta: metaData },
+          { fileName: `${fileName}.html`, type: "text/html", meta: metaData },
           function (error) {
             if (error) {
               throw new Meteor.Error(error);
             }
-          },
+          }
         );
       };
     }
@@ -213,7 +213,7 @@ Meteor.methods({
         DocumentsCollection.addFile(
           finalPDFOutputPath,
           {
-            fileName: fileName + ".pdf",
+            fileName: `${fileName}.pdf`,
             type: "application/pdf",
             meta: metaData,
           },
@@ -221,7 +221,7 @@ Meteor.methods({
             if (error) {
               throw new Meteor.Error(error);
             }
-          },
+          }
         );
       };
     }
@@ -257,10 +257,10 @@ Meteor.methods({
         function (error) {
           if (error) {
             throw new Meteor.Error(
-              "Protocol could not be deleted, error: " + error.reason,
+              `Protocol could not be deleted, error: ${error.reason}`
             );
           }
-        },
+        }
       );
     }
   },

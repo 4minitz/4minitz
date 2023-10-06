@@ -15,7 +15,7 @@ export class RoleChangeMailHandler {
         this._meetingSeriesId = meetingSeriesId;
         this._user = Meteor.users.findOne(userId);
         if (!this._user) {
-            throw new Meteor.Error('Send Role Change Mail', 'Could not find user: '+ userId);
+            throw new Meteor.Error('Send Role Change Mail', `Could not find user: ${userId}`);
         }
     }
 
@@ -51,19 +51,19 @@ export class RoleChangeMailHandler {
                 userName: userName,
                 meetingProject: meetingProject,
                 meetingName: meetingName,
-                meetingSeriesURL: GlobalSettings.getRootUrl('meetingseries/' + this._meetingSeriesId),
+                meetingSeriesURL: GlobalSettings.getRootUrl(`meetingseries/${this._meetingSeriesId}`),
                 roleOld: this._oldRole,
                 roleNew: this._newRole,
                 moderatorName: User.PROFILENAMEWITHFALLBACK(this._moderator),
                 urlRoleDocu: 'https://github.com/4minitz/4minitz/blob/develop/doc/user/usermanual.md#table-of-roles-and-rights',
                 url4Minitz: 'https://github.com/4minitz/4minitz'
             };
-            mailer.setSubject('[4Minitz] '+ i18n.__('Mail.UserRoleChange.subject', mailParams));
+            mailer.setSubject(`[4Minitz] ${i18n.__('Mail.UserRoleChange.subject', mailParams)}`);
             mailer.setText(i18n.__('Mail.UserRoleChange.body', mailParams));
 
             mailer.send();
         } else {
-            console.error('Could not send eMail for role change. User has no mail address: '+this._user._id);
+            console.error(`Could not send eMail for role change. User has no mail address: ${this._user._id}`);
         }
     }
 }

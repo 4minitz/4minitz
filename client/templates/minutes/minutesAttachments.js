@@ -22,7 +22,7 @@ let isModerator = function () {
 Template.minutesAttachments.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
   _minutesID = this.data._id;
-  console.log("minutesAttachment on minutes.id:" + _minutesID);
+  console.log(`minutesAttachment on minutes.id:${_minutesID}`);
 
   // Calculate initial expanded/collapsed state
   Session.set("attachments.expand", true);
@@ -60,7 +60,7 @@ Template.minutesAttachments.helpers({
 
   attachmentsCountText() {
     const count = Attachment.countForMinutes(_minutesID);
-    return count === 1 ? count + " file" : count + " files";
+    return count === 1 ? `${count} file` : `${count} files`;
   },
 
   attachmentsCount() {
@@ -99,7 +99,7 @@ Template.minutesAttachments.helpers({
     ) {
       let speed = Template.instance().currentUpload.get().estimateSpeed.get();
       speed = speed / 1024 / 1024;
-      return "@" + speed.toFixed(2) + " MB/s";
+      return `@${speed.toFixed(2)} MB/s`;
     }
     return "";
   },
@@ -111,7 +111,7 @@ Template.minutesAttachments.helpers({
     ) {
       let time = Template.instance().currentUpload.get().estimateTime.get();
       time = msToHHMMSS(time);
-      return time + " remaining";
+      return `${time} remaining`;
     }
     return "";
   },
@@ -134,7 +134,7 @@ Template.minutesAttachments.events({
       // We upload only one file, in case
       // multiple files were selected
       const uploadFilename = e.currentTarget.files[0];
-      console.log("Uploading... " + uploadFilename);
+      console.log(`Uploading... ${uploadFilename}`);
       let minObj = new Minutes(_minutesID);
       Attachment.uploadFile(uploadFilename, minObj, {
         onStart: (fileUploadObj) => {
@@ -159,7 +159,7 @@ Template.minutesAttachments.events({
 
   "click #btnDelAttachment": function (evt) {
     evt.preventDefault();
-    console.log("Remove Attachment: " + this._id);
+    console.log(`Remove Attachment: ${this._id}`);
 
     ConfirmationDialogFactory.makeWarningDialog(
       () => {

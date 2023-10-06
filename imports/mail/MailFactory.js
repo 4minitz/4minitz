@@ -16,7 +16,7 @@ export class MailFactory {
         case 'test':
             return new TestMail(replyTo, recipients);
         default:
-            throw new Meteor.Error('illegal-state', 'Unknown mail deliverer: ' + deliverer);
+            throw new Meteor.Error('illegal-state', `Unknown mail deliverer: ${deliverer}`);
         }
     }
 

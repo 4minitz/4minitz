@@ -15,7 +15,7 @@ class ExpImpMeetingSeries {
           if (doc) {
             const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;
             fs.writeFileSync(msFile, EJSON.stringify(doc, null, 2));
-            console.log("Saved: " + msFile);
+            console.log(`Saved: ${msFile}`);
             doc.visibleFor?.map((userID) => {
               userIDs[userID] = 1;
             });
@@ -24,7 +24,7 @@ class ExpImpMeetingSeries {
             });
             resolve({ db, userIDs });
           } else {
-            return reject("Unknown meeting series ID: " + msID);
+            return reject(`Unknown meeting series ID: ${msID}`);
           }
         });
     });
@@ -47,10 +47,10 @@ class ExpImpMeetingSeries {
             try {
               msDoc = EJSON.parse(fs.readFileSync(msFile, "utf8"));
               if (!msDoc) {
-                return reject("Could not read meeting series file " + msFile);
+                return reject(`Could not read meeting series file ${msFile}`);
               }
             } catch (e) {
-              return reject("Could not read meeting series file " + msFile);
+              return reject(`Could not read meeting series file ${msFile}`);
             }
 
             // Replace old user IDs with new users IDs
@@ -66,10 +66,10 @@ class ExpImpMeetingSeries {
               .insert(msDoc)
               .then(function (res) {
                 if (res.result.ok === 1) {
-                  console.log("OK, inserted meeting series with ID: " + msID);
+                  console.log(`OK, inserted meeting series with ID: ${msID}`);
                   resolve({ db, usrMap });
                 } else {
-                  reject("Could not insert meeting series with ID: " + msID);
+                  reject(`Could not insert meeting series with ID: ${msID}`);
                 }
               });
           }

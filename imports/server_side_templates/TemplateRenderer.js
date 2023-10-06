@@ -16,8 +16,8 @@ export class TemplateRenderer {
     let tmplString;
     if (loadTmplFromAssets) {
       let templatePath = templatePathPrefix
-        ? templatePathPrefix + "/" + template + ".html"
-        : template + ".html";
+        ? `${templatePathPrefix}/${template}.html`
+        : `${template}.html`;
       //  Assets cannot be imported!
       tmplString = Assets.getText(templatePath); // eslint-disable-line
     } else {

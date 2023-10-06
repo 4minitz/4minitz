@@ -372,7 +372,7 @@ Template.topicInfoItemList.helpers({
       return;
     }
     return Blaze._globalHelpers.pathForImproved(
-      "/topic/" + context.getTopicId(infoItem._id),
+      `/topic/${context.getTopicId(infoItem._id)}`
     );
   },
 
@@ -568,9 +568,9 @@ Template.topicInfoItemList.events({
     }
 
     let detailId = evt.currentTarget.getAttribute("data-id");
-    let textEl = tmpl.$("#detailText_" + detailId);
-    let inputEl = tmpl.$("#detailInput_" + detailId);
-    let detailActionsId = tmpl.$("#detailActions_" + detailId);
+    let textEl = tmpl.$(`#detailText_${detailId}`);
+    let inputEl = tmpl.$(`#detailInput_${detailId}`);
+    let detailActionsId = tmpl.$(`#detailActions_${detailId}`);
 
     if (inputEl.val() !== "") {
       return;
@@ -682,9 +682,9 @@ Template.topicInfoItemList.events({
     let detailId = evt.currentTarget.getAttribute("data-id");
     let index = $(evt.currentTarget).data("item");
     let infoItem = context.items[index];
-    let textEl = tmpl.$("#detailText_" + detailId);
-    let inputEl = tmpl.$("#detailInput_" + detailId);
-    let detailActionsEl = tmpl.$("#detailActions_" + detailId);
+    let textEl = tmpl.$(`#detailText_${detailId}`);
+    let inputEl = tmpl.$(`#detailInput_${detailId}`);
+    let detailActionsEl = tmpl.$(`#detailActions_${detailId}`);
 
     let text = inputEl.val().trim();
 
@@ -718,7 +718,7 @@ Template.topicInfoItemList.events({
           aActionItem.save().catch(handleError);
           let detailsCount = aActionItem.getDetails().length;
           if (detailsCount === 0) {
-            tmpl.$("#collapse-" + infoItem._id).collapse("hide");
+            tmpl.$(`#collapse-${infoItem._id}`).collapse("hide");
           }
         };
 
@@ -776,7 +776,7 @@ Template.topicInfoItemList.events({
     evt.preventDefault();
     evt.stopPropagation();
     let detailId = evt.currentTarget.getAttribute("data-id");
-    let inputEl = tmpl.$("#detailInput_" + detailId);
+    let inputEl = tmpl.$(`#detailInput_${detailId}`);
     inputEl.val("");
     inputEl.blur();
   },

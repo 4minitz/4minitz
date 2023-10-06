@@ -79,7 +79,7 @@ Template.topicElement.helpers({
 
   // determine if this topic shall be rendered collapsed
   isCollapsed() {
-    let collapseState = Session.get("minutesedit.collapsetopics." + _minutesId);
+    let collapseState = Session.get(`minutesedit.collapsetopics.${_minutesId}`);
     return collapseState ? collapseState[this.topic._id] : false;
   },
 
@@ -221,7 +221,7 @@ Template.topicElement.events({
       return;
     }
     console.log(
-      "Delete topics: " + this.topic._id + " from minutes " + this.minutesID,
+      `Delete topics: ${this.topic._id} from minutes ${this.minutesID}`
     );
 
     let aMin = new Minutes(this.minutesID);
@@ -266,7 +266,7 @@ Template.topicElement.events({
   },
 
   "click #btnShowTopic"() {
-    FlowRouter.go("/topic/" + this.topic._id);
+    FlowRouter.go(`/topic/${this.topic._id}`);
   },
 
   "click .js-toggle-recurring"(evt) {
@@ -349,12 +349,12 @@ Template.topicElement.events({
       handleError(error);
     });
 
-    let collapseState = Session.get("minutesedit.collapsetopics." + _minutesId);
+    let collapseState = Session.get(`minutesedit.collapsetopics.${_minutesId}`);
     if (!collapseState) {
       collapseState = {};
     }
     collapseState[this.topic._id] = false;
-    Session.set("minutesedit.collapsetopics." + _minutesId, collapseState);
+    Session.set(`minutesedit.collapsetopics.${_minutesId}`, collapseState);
 
     // Clean & focus for next usage after saving last item
     theItemTextarea.value = "";
@@ -383,14 +383,14 @@ Template.topicElement.events({
   },
 
   "click #btnTopicExpandCollapse"(evt) {
-    console.log("btnTopicExpandCollapse()" + this.topic._id);
+    console.log(`btnTopicExpandCollapse()${this.topic._id}`);
     evt.preventDefault();
-    let collapseState = Session.get("minutesedit.collapsetopics." + _minutesId);
+    let collapseState = Session.get(`minutesedit.collapsetopics.${_minutesId}`);
     if (!collapseState) {
       collapseState = {};
     }
     collapseState[this.topic._id] = !collapseState[this.topic._id];
-    Session.set("minutesedit.collapsetopics." + _minutesId, collapseState);
+    Session.set(`minutesedit.collapsetopics.${_minutesId}`, collapseState);
   },
 
   "click #btnReopenTopic"(evt) {

@@ -30,11 +30,11 @@ let userNameForId = function (userId) {
     let showName = usr.username;
     // If we have a long name for the user: prepend it!
     if (usr.profile?.name && usr.profile.name !== "") {
-      showName = usr.profile.name + " (" + showName + ")";
+      showName = `${usr.profile.name} (${showName})`;
     }
     return showName;
   } else {
-    return "Unknown User (" + userId + ")";
+    return `Unknown User (${userId})`;
   }
 };
 
@@ -57,7 +57,7 @@ function allParticipantsMarked() {
 Template.minutesEditParticipants.onCreated(function () {
   _minutesID = FlowRouter.getParam("_id");
   console.log(
-    "Template minutesEditParticipants created with minutesID " + _minutesID,
+    `Template minutesEditParticipants created with minutesID ${_minutesID}`
   );
 
   this.autorun(() => {
@@ -78,7 +78,7 @@ Template.minutesEditParticipants.helpers({
     if (count === 1) {
       return i18n.__("Minutes.Participants.solo");
     } else {
-      return String(count) + " " + i18n.__("Minutes.Participants.title");
+      return `${String(count)} ${i18n.__("Minutes.Participants.title")}`;
     }
   },
 
@@ -99,9 +99,9 @@ Template.minutesEditParticipants.helpers({
       return "";
     }
     if (count === 1) {
-      return ", " + i18n.__("Minutes.Participants.additionalSolo");
+      return `, ${i18n.__("Minutes.Participants.additionalSolo")}`;
     }
-    return ", " + count + " " + i18n.__("Minutes.Participants.additional");
+    return `, ${count} ${i18n.__("Minutes.Participants.additional")}`;
   },
 
   countInformedText() {
@@ -111,9 +111,9 @@ Template.minutesEditParticipants.helpers({
       return "";
     }
     if (count === 1) {
-      return ", " + i18n.__("Minutes.Participants.informedSolo");
+      return `, ${i18n.__("Minutes.Participants.informedSolo")}`;
     }
-    return ", " + count + " " + i18n.__("Minutes.Participants.informed");
+    return `, ${count} ${i18n.__("Minutes.Participants.informed")}`;
   },
 
   participantsSorted() {
@@ -183,7 +183,7 @@ Template.minutesEditParticipants.helpers({
     let informedNames = "";
     if (aMin.informedUsers && aMin.informedUsers.length > 0) {
       aMin.informedUsers.forEach((id) => {
-        informedNames = informedNames + userNameForId(id) + ", ";
+        informedNames = `${informedNames + userNameForId(id)}, `;
       });
       informedNames = informedNames.slice(0, -2); // remove last ", "
     }

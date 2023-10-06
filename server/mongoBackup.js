@@ -7,7 +7,7 @@ function dumpParameters(uri, path) {
 
     let host = uri.hosts[0];
     if (uri.ports[0]) {
-        host += ':' + uri.ports[0];
+        host += `:${uri.ports[0]}`;
     }
 
     params.push('-h');

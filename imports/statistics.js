@@ -38,14 +38,14 @@ export const Statistics = SchemaClass.create({
                 numberOfUsers = Meteor.users.find().count(),
                 numberOfActiveUsers = Meteor.users.find({$or: [{isInactive: { $exists: false }}, {isInactive: false}]}).count(),
                 numberOfAttachments = Attachment.countAll(),
-                numberOfAttachmentMB = Math.floor(Attachment.countAllBytes() / 1024 / 1024)+ ' MB';
+                numberOfAttachmentMB = `${Math.floor(Attachment.countAllBytes() / 1024 / 1024)} MB`;
 
             StatisticsCollection.remove({});
 
             let statistics = this;
             statistics.result = [{
                 description: i18n.__('About.ServerStatistics.rowNumUser'),
-                value: numberOfUsers + ' (' + numberOfActiveUsers + ')'
+                value: `${numberOfUsers} (${numberOfActiveUsers})`
             }, {
                 description: i18n.__('About.ServerStatistics.rowNumMeetingSeries'),
                 value: numberOfMeetingSeries.toString()

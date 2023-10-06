@@ -5,7 +5,7 @@ export let GlobalHelpers = {
     'markdown2html': function(text = '') {
         text = text.toString();
 
-        let html = '<pre>'+text+'</pre>';
+        let html = `<pre>${text}</pre>`;
         try {
             html = Markdown(text);
         } catch (e) {

@@ -30,7 +30,7 @@ Meteor.methods({
         if (! Meteor.userId()) {
             return;
         }
-        console.log('Dismissing BroadcastMessages for user: '+Meteor.userId());
+        console.log(`Dismissing BroadcastMessages for user: ${Meteor.userId()}`);
 
         BroadcastMessageSchema.find({isActive: true}).forEach(msg => {
             BroadcastMessageSchema.update(
@@ -52,7 +52,7 @@ Meteor.methods({
             return;
         }
 
-        console.log('New BroadcastMessage from Admin: >' + message+'<');
+        console.log(`New BroadcastMessage from Admin: >${message}<`);
 
         const id = BroadcastMessageSchema.insert({
             text: message,
@@ -63,7 +63,7 @@ Meteor.methods({
     },
 
     'broadcastmessage.remove': function (messageId) {
-        console.log('broadcastmessage.remove: '+messageId);
+        console.log(`broadcastmessage.remove: ${messageId}`);
         if (! Meteor.userId()) {
             return;
         }
@@ -76,7 +76,7 @@ Meteor.methods({
     },
 
     'broadcastmessage.toggleActive': function (messageId) {
-        console.log('broadcastmessage.toggleActive: '+messageId);
+        console.log(`broadcastmessage.toggleActive: ${messageId}`);
         if (! Meteor.userId()) {
             return;
         }

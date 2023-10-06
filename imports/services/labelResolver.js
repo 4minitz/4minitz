@@ -13,6 +13,6 @@ export class LabelResolver {
 
     static resolveAndformatLabelsString(labelIds, meetingSeriesId) {
         const labels = LabelResolver.resolveLabels(labelIds, meetingSeriesId);
-        return labels.map(label => '#' + label.getName()).join(', ');
+        return labels.map(label => `#${label.getName()}`).join(', ');
     }
 }

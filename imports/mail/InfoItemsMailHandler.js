@@ -16,7 +16,7 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
     }
 
     _getSubject() {
-        return this._getSubjectPrefix()  + ' (' + i18n.__('Mail.minutesSubject') + ' ' + i18n.__('Minutes.versionTag') + this._minute.finalizedVersion + ')';
+        return `${this._getSubjectPrefix()} (${i18n.__('Mail.minutesSubject')} ${i18n.__('Minutes.versionTag')}${this._minute.finalizedVersion})`;
     }
 
     _sendMail(mailData) {

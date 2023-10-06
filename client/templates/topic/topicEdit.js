@@ -23,7 +23,7 @@ let _meetingSeries; // ATTENTION - this var. is not reactive!
 
 Template.topicEdit.onCreated(function () {
   _minutesID = this.data;
-  console.log("Template topicEdit created with minutesID " + _minutesID);
+  console.log(`Template topicEdit created with minutesID ${_minutesID}`);
   let aMin = new Minutes(_minutesID);
   _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 });

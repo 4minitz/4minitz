@@ -51,10 +51,10 @@ let togglePrintView = function (switchOn) {
   if (Session.get("minutesedit.PrintViewActive")) {
     // expand all topics, but save current state before!
     Session.set(
-      "minutesedit.collapsetopics-save4print." + _minutesID,
-      Session.get("minutesedit.collapsetopics." + _minutesID),
+      `minutesedit.collapsetopics-save4print.${_minutesID}`,
+      Session.get(`minutesedit.collapsetopics.${_minutesID}`)
     );
-    Session.set("minutesedit.collapsetopics." + _minutesID);
+    Session.set(`minutesedit.collapsetopics.${_minutesID}`);
 
     Session.set("participants.expand", false);
     $(".help").hide();
@@ -81,8 +81,8 @@ let togglePrintView = function (switchOn) {
     $(".collapse").removeClass("in");
     // restore old topic collapsible state
     Session.set(
-      "minutesedit.collapsetopics." + _minutesID,
-      Session.get("minutesedit.collapsetopics-save4print." + _minutesID),
+      `minutesedit.collapsetopics.${_minutesID}`,
+      Session.get(`minutesedit.collapsetopics-save4print.${_minutesID}`)
     );
   }
 };
@@ -149,7 +149,7 @@ Template.minutesedit.onRendered(function () {
     if (target) {
       target.style.height = 0;
       target.style.overflow = "auto";
-      target.style.height = target.scrollHeight + "px";
+      target.style.height = `${target.scrollHeight}px`;
       target.style.maxHeight = "700px";
     }
   }, 2000);
@@ -412,7 +412,7 @@ Template.minutesedit.helpers({
 
   finalizeHistoryTooltip: function (buttontype) {
     let aMin = new Minutes(_minutesID);
-    let tooltip = buttontype ? i18n.__(buttontype) + "\n" : "";
+    let tooltip = buttontype ? `${i18n.__(buttontype)}\n` : "";
     if (aMin.finalizedHistory) {
       tooltip +=
         "\n" +
@@ -514,7 +514,7 @@ Template.minutesedit.events({
     let ms = new MeetingSeries(new Minutes(_minutesID).parentMeetingSeriesID());
     const routeToNewMinutes = (newMinutesId) => {
       Session.set("minutesedit.checkParent", false);
-      FlowRouter.redirect("/minutesedit/" + newMinutesId);
+      FlowRouter.redirect(`/minutesedit/${newMinutesId}`);
     };
     const confirmationDialog =
       ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
@@ -557,7 +557,7 @@ Template.minutesedit.events({
     evt.preventDefault();
     evt.target.style.height = 0;
     evt.target.style.overflow = "auto";
-    evt.target.style.height = evt.target.scrollHeight + "px";
+    evt.target.style.height = `${evt.target.scrollHeight}px`;
     evt.target.style.maxHeight = "700px";
   },
 
@@ -573,7 +573,7 @@ Template.minutesedit.events({
     let sendBtn = tmpl.$("#btn_sendAgenda");
     let aMin = new Minutes(_minutesID);
     console.log(
-      "Send agenda: " + aMin._id + " from series: " + aMin.meetingSeries_id,
+      `Send agenda: ${aMin._id} from series: ${aMin.meetingSeries_id}`
     );
 
     let sendAgenda = async () => {
@@ -714,7 +714,7 @@ Template.minutesedit.events({
       // first route to the parent meetingseries then remove the minute.
       // otherwise the current route would automatically re-routed to the main
       // page because the minute is not available anymore -> see router.js
-      FlowRouter.go("/meetingseries/" + aMin.meetingSeries_id);
+      FlowRouter.go(`/meetingseries/${aMin.meetingSeries_id}`);
       ms.removeMinutesWithId(aMin._id).catch(handleError);
     };
 
@@ -744,11 +744,11 @@ Template.minutesedit.events({
       let topicId = aMin.topics[topicIndex]._id;
       sessionCollapse[topicId] = true;
     }
-    Session.set("minutesedit.collapsetopics." + _minutesID, sessionCollapse);
+    Session.set(`minutesedit.collapsetopics.${_minutesID}`, sessionCollapse);
   },
 
   "click #btnExpandAll": function () {
-    Session.set("minutesedit.collapsetopics." + _minutesID);
+    Session.set(`minutesedit.collapsetopics.${_minutesID}`);
   },
 
   "click #btn_printMinutes": function (evt) {

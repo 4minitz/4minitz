@@ -55,7 +55,7 @@ class ExpImpMinutes {
 
             resolve({ db, userIDs });
           } else {
-            return reject("Unknown meeting series ID: " + msID);
+            return reject(`Unknown meeting series ID: ${msID}`);
           }
         });
     });
@@ -68,10 +68,10 @@ class ExpImpMinutes {
       try {
         minDoc = EJSON.parse(fs.readFileSync(minFile, "utf8"));
         if (!minDoc) {
-          return reject("Could not read minutes file " + minFile);
+          return reject(`Could not read minutes file ${minFile}`);
         }
       } catch (e) {
-        return reject("Could not read minutes file " + minFile + "\n" + e);
+        return reject(`Could not read minutes file ${minFile}\n${e}`);
       }
 
       // Replace old user IDs with new users IDs
@@ -91,7 +91,7 @@ class ExpImpMinutes {
             .then(function (res) {
               if (res.result.ok === 1 && res.result.n === minDoc.length) {
                 console.log(
-                  "OK, inserted " + res.result.n + " meeting minutes.",
+                  `OK, inserted ${res.result.n} meeting minutes.`
                 );
                 resolve({ db, usrMap });
               } else {

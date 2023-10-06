@@ -97,13 +97,13 @@ let syncRootUrl = function () {
 
 Meteor.startup(() => {
     syncRootUrl();
-    console.log('*** ROOT_URL: '+Meteor.settings.ROOT_URL);
+    console.log(`*** ROOT_URL: ${Meteor.settings.ROOT_URL}`);
 
     GlobalSettings.publishSettings();
     LdapSettings.loadSettingsAndPerformSanityCheck();
 
     process.env.MAIL_URL = GlobalSettings.getSMTPMailUrl();
-    console.log('WebApp current working directory:'+process.cwd());
+    console.log(`WebApp current working directory:${process.cwd()}`);
 
     // #Security: Make sure that all server side markdown rendering quotes all HTML <TAGs>
     Markdown.setOptions({
