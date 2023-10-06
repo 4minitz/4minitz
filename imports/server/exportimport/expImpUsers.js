@@ -36,9 +36,7 @@ class ExpImpUsers {
             });
             const usrFile = msID + ExpImpUsers.FILENAME_POSTFIX;
             fs.writeFileSync(usrFile, EJSON.stringify(allUsersDoc, null, 2));
-            console.log(
-              `Saved: ${usrFile} with ${allUsersDoc.length} users`
-            );
+            console.log(`Saved: ${usrFile} with ${allUsersDoc.length} users`);
 
             // Save mapping file old => new user ID
             // But only with REAL DB users (skip free text users)
@@ -106,9 +104,7 @@ class ExpImpUsers {
         .toArray()
         .then((doc) => {
           if (doc) {
-            console.log(
-              `Found ${doc.length} target users in current user DB.`
-            );
+            console.log(`Found ${doc.length} target users in current user DB.`);
             console.log(
               "Will copy over " +
                 usrCopyIDs.length +

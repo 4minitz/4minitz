@@ -21,8 +21,7 @@ calculateAndCreateStoragePath = function (fileObj) {
     }
     // optionally: append sub directory for parent meeting series
     if (fileObj?.meta && fileObj.meta.parentseries_id) {
-      absAttachmentStoragePath =
-        `${absAttachmentStoragePath}/${fileObj.meta.parentseries_id}`;
+      absAttachmentStoragePath = `${absAttachmentStoragePath}/${fileObj.meta.parentseries_id}`;
     }
 
     // create target dir for attachment storage if it does not exist

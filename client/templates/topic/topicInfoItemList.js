@@ -372,7 +372,7 @@ Template.topicInfoItemList.helpers({
       return;
     }
     return Blaze._globalHelpers.pathForImproved(
-      `/topic/${context.getTopicId(infoItem._id)}`
+      `/topic/${context.getTopicId(infoItem._id)}`,
     );
   },
 

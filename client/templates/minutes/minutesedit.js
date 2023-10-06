@@ -52,7 +52,7 @@ let togglePrintView = function (switchOn) {
     // expand all topics, but save current state before!
     Session.set(
       `minutesedit.collapsetopics-save4print.${_minutesID}`,
-      Session.get(`minutesedit.collapsetopics.${_minutesID}`)
+      Session.get(`minutesedit.collapsetopics.${_minutesID}`),
     );
     Session.set(`minutesedit.collapsetopics.${_minutesID}`);
 
@@ -82,7 +82,7 @@ let togglePrintView = function (switchOn) {
     // restore old topic collapsible state
     Session.set(
       `minutesedit.collapsetopics.${_minutesID}`,
-      Session.get(`minutesedit.collapsetopics-save4print.${_minutesID}`)
+      Session.get(`minutesedit.collapsetopics-save4print.${_minutesID}`),
     );
   }
 };
@@ -573,7 +573,7 @@ Template.minutesedit.events({
     let sendBtn = tmpl.$("#btn_sendAgenda");
     let aMin = new Minutes(_minutesID);
     console.log(
-      `Send agenda: ${aMin._id} from series: ${aMin.meetingSeries_id}`
+      `Send agenda: ${aMin._id} from series: ${aMin.meetingSeries_id}`,
     );
 
     let sendAgenda = async () => {

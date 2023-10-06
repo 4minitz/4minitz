@@ -90,9 +90,7 @@ class ExpImpMinutes {
             .insertMany(minDoc) // insert imported minutes
             .then(function (res) {
               if (res.result.ok === 1 && res.result.n === minDoc.length) {
-                console.log(
-                  `OK, inserted ${res.result.n} meeting minutes.`
-                );
+                console.log(`OK, inserted ${res.result.n} meeting minutes.`);
                 resolve({ db, usrMap });
               } else {
                 reject("Could not insert meeting minutes");

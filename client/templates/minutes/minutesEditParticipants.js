@@ -57,7 +57,7 @@ function allParticipantsMarked() {
 Template.minutesEditParticipants.onCreated(function () {
   _minutesID = FlowRouter.getParam("_id");
   console.log(
-    `Template minutesEditParticipants created with minutesID ${_minutesID}`
+    `Template minutesEditParticipants created with minutesID ${_minutesID}`,
   );
 
   this.autorun(() => {

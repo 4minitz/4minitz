@@ -48,9 +48,7 @@ export let DocumentsCollection = new FilesCollection({
   },
 
   onAfterUpload: function (file) {
-    console.log(
-      `Successfully created protocol: ${file.name} to ${file.path}`
-    );
+    console.log(`Successfully created protocol: ${file.name} to ${file.path}`);
     DocumentsCollection.update(file._id, {
       $set: { "meta.timestamp": new Date() },
     });
@@ -193,7 +191,7 @@ Meteor.methods({
             if (error) {
               throw new Meteor.Error(error);
             }
-          }
+          },
         );
       };
     }
@@ -221,7 +219,7 @@ Meteor.methods({
             if (error) {
               throw new Meteor.Error(error);
             }
-          }
+          },
         );
       };
     }
@@ -257,10 +255,10 @@ Meteor.methods({
         function (error) {
           if (error) {
             throw new Meteor.Error(
-              `Protocol could not be deleted, error: ${error.reason}`
+              `Protocol could not be deleted, error: ${error.reason}`,
             );
           }
-        }
+        },
       );
     }
   },

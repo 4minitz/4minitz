@@ -41,7 +41,7 @@ if (Meteor.settings.isEnd2EndTest) {
         });
       MeetingSeriesSchema.remove({});
       console.log(
-        `Count MeetingSeries after reset:${MeetingSeriesSchema.find().count()}`
+        `Count MeetingSeries after reset:${MeetingSeriesSchema.find().count()}`,
       );
       MinutesSchema.remove({});
       console.log(`Count Minutes after reset:${MinutesSchema.find().count()}`);
@@ -54,7 +54,7 @@ if (Meteor.settings.isEnd2EndTest) {
       TopicSchema.remove({});
       DocumentsCollection.remove({});
       console.log(
-        `Count Protocls after reset:${DocumentsCollection.find().count()}`
+        `Count Protocls after reset:${DocumentsCollection.find().count()}`,
       );
       resetDocumentStorageDirectory(); //eslint-disable-line
 
@@ -74,9 +74,7 @@ if (Meteor.settings.isEnd2EndTest) {
             { username: newUser },
             { $set: { "emails.0.verified": true } },
           );
-          console.log(
-            `Created user: ${newUser} with password: ${newPassword}`
-          );
+          console.log(`Created user: ${newUser} with password: ${newPassword}`);
         }
         if (Meteor.settings.e2eAdminUser) {
           Meteor.users.update(

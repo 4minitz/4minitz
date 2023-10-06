@@ -221,7 +221,7 @@ Template.topicElement.events({
       return;
     }
     console.log(
-      `Delete topics: ${this.topic._id} from minutes ${this.minutesID}`
+      `Delete topics: ${this.topic._id} from minutes ${this.minutesID}`,
     );
 
     let aMin = new Minutes(this.minutesID);

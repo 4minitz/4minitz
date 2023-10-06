@@ -118,8 +118,7 @@ export class GlobalSettings {
     // enforce slash "/" at the end
     if (Meteor.settings.attachments?.storagePath) {
       if (!Meteor.settings.attachments.storagePath.match(/\/$/)) {
-        Meteor.settings.attachments.storagePath =
-          `${Meteor.settings.attachments.storagePath}/`;
+        Meteor.settings.attachments.storagePath = `${Meteor.settings.attachments.storagePath}/`;
       }
     }
 

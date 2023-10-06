@@ -15,8 +15,7 @@ createDocumentStoragePath = function (fileObj) {
     let absoluteDocumentPath = getDocumentStorageRootDirectory(); //eslint-disable-line
     // optionally: append sub directory for parent meeting series and year if a minute is given
     if (fileObj?.meta && fileObj.meta.minuteId) {
-      absoluteDocumentPath =
-        `${absoluteDocumentPath}/${fileObj.meta.meetingSeriesId}`;
+      absoluteDocumentPath = `${absoluteDocumentPath}/${fileObj.meta.meetingSeriesId}`;
       let minuteYear = new Date(fileObj.meta.minuteDate).getFullYear();
       absoluteDocumentPath = `${absoluteDocumentPath}/${minuteYear}`;
     }
@@ -74,8 +73,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
   );
 
   //Safe file as html
-  const tempFileName =
-    `${getDocumentStorageRootDirectory()}/TemporaryProtocol.html`; //eslint-disable-line
+  const tempFileName = `${getDocumentStorageRootDirectory()}/TemporaryProtocol.html`; //eslint-disable-line
   fs.outputFileSync(tempFileName, htmldata);
 
   //Safe file as pdf
@@ -88,8 +86,7 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
     Meteor.settings.docGeneration.wkhtmltopdfParameters &&
     Meteor.settings.docGeneration.wkhtmltopdfParameters !== ""
   ) {
-    additionalArguments =
-      ` ${Meteor.settings.docGeneration.wkhtmltopdfParameters.trim()}`;
+    additionalArguments = ` ${Meteor.settings.docGeneration.wkhtmltopdfParameters.trim()}`;
   }
 
   exec(
@@ -154,8 +151,9 @@ convertHTML2PDF = (htmldata, fileName, metaData) => {
   }
   fs.unlink(tempFileName);
   // Now move file to it's meetingseries directory
-  let finalPDFOutputPath =
-    `${createDocumentStoragePath({ meta: metaData })}/${Random.id()}.pdf`; //eslint-disable-line
+  let finalPDFOutputPath = `${createDocumentStoragePath({
+    meta: metaData,
+  })}/${Random.id()}.pdf`; //eslint-disable-line
   fs.moveSync(outputPath, finalPDFOutputPath);
 
   return finalPDFOutputPath;
@@ -238,6 +236,6 @@ let checkCondition = (condition, errorMessage) => {
 let checkFileExists = (filepath, filename) => {
   checkCondition(
     fs.existsSync(filepath),
-    `Missing ${filename} at path: ${filepath}`
+    `Missing ${filename} at path: ${filepath}`,
   );
 };

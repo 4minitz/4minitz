@@ -61,11 +61,11 @@ export let AttachmentsCollection = new FilesCollection({
     if (Meteor.settings.public.attachments.denyExtensions !== undefined) {
       const denyRE = new RegExp(
         `^(${Meteor.settings.public.attachments.denyExtensions})$`,
-        "i"
+        "i",
       );
       const forbiddenRE = new RegExp(
         `^(${FORBIDDEN_FILENAME_EXTENSIONS})$`,
-        "i"
+        "i",
       );
       if (denyRE.test(file.extension) || forbiddenRE.test(file.extension)) {
         return (
@@ -82,7 +82,7 @@ export let AttachmentsCollection = new FilesCollection({
     // Check for allowed file extensions
     const allowRE = new RegExp(
       `^(${Meteor.settings.public.attachments.allowExtensions})$`,
-      "i"
+      "i",
     );
     if (allowRE.test(file.extension)) {
       return true;
@@ -187,7 +187,7 @@ Meteor.methods({
       AttachmentsCollection.remove({ _id: attachmentID }, function (error) {
         if (error) {
           console.error(
-            `File ${attachmentID} wasn't removed, error: ${error.reason}`
+            `File ${attachmentID} wasn't removed, error: ${error.reason}`,
           );
         } else {
           console.info(`File ${attachmentID} successfully removed`);
