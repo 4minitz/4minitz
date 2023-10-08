@@ -1,24 +1,23 @@
-import { Accounts } from "meteor/accounts-base";
-import { Meteor } from "meteor/meteor";
-import { i18n } from "meteor/universe:i18n";
+import {Accounts} from "meteor/accounts-base";
+import {Meteor} from "meteor/meteor";
+import {i18n} from "meteor/universe:i18n";
 
-import { GlobalSettings } from "./GlobalSettings";
+import {GlobalSettings} from "./GlobalSettings";
 
 function setupEmailTemplatesForAccounts() {
   Accounts.emailTemplates.siteName = GlobalSettings.getSiteName();
-  Accounts.emailTemplates.from = `${
-    Accounts.emailTemplates.siteName
-  }<${GlobalSettings.getDefaultEmailSenderAddress()}>`;
+  Accounts.emailTemplates.from = `${Accounts.emailTemplates.siteName}<${
+      GlobalSettings.getDefaultEmailSenderAddress()}>`;
 
   Accounts.emailTemplates.verifyEmail = {
     subject() {
       return i18n.__("Mail.VerifyEmailAddress.subject", {
-        sitename: Accounts.emailTemplates.siteName,
+        sitename : Accounts.emailTemplates.siteName,
       });
     },
     text(user, url) {
       let emailAddress = user.emails[0].address,
-        urlWithoutHash = url.replace("#/", "");
+          urlWithoutHash = url.replace("#/", "");
 
       return i18n.__("Mail.VerifyEmailAddress.body", {
         emailAddress,
@@ -30,12 +29,12 @@ function setupEmailTemplatesForAccounts() {
   Accounts.emailTemplates.resetPassword = {
     subject() {
       return i18n.__("Mail.ResetPassword.subject", {
-        sitename: Accounts.emailTemplates.siteName,
+        sitename : Accounts.emailTemplates.siteName,
       });
     },
     text(user, url) {
       let emailAddress = user.emails[0].address,
-        urlWithoutHash = url.replace("#/", "");
+          urlWithoutHash = url.replace("#/", "");
 
       return i18n.__("Mail.ResetPassword.body", {
         emailAddress,
