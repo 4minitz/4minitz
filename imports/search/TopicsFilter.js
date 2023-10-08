@@ -147,7 +147,7 @@ export class TopicsFilter {
           this.isCaseSensitive,
           [],
           [],
-          [{ key: "is", value: value }],
+          [{ key: "is", value }],
         );
         return items.length > 0;
       }

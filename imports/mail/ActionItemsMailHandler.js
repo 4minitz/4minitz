@@ -61,8 +61,8 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
     return {
       _id: item.getDocument()._id,
       topicLabel: i18n.__("Topic.title"),
-      topicId: topicId,
-      topicSubject: topicSubject,
+      topicId,
+      topicSubject,
       itemSubject: item.getSubject(),
       labelsLabel: i18n.__("MeetingSeries.Edit.labels"),
       labels: item.getLabelsRawArray(),
@@ -76,7 +76,7 @@ export class ActionItemsMailHandler extends TopicItemsMailHandler {
       duedate: item.getDuedate(),
       dueNoneLabel: i18n.__("Item.dueNone"),
       detailsLabel: i18n.__("Item.details"),
-      details: details,
+      details,
     };
   }
 }

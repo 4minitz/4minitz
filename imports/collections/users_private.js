@@ -156,15 +156,15 @@ Meteor.methods({
     );
 
     const newUserId = Accounts.createUser({
-      username: username,
+      username,
       password: password1,
-      email: email,
+      email,
       profile: { name: longname },
     });
 
     Meteor.users.update(
-      { username: username },
-      { $set: { "emails.0.verified": true } },
+      { username },
+      { $set: { "emails.0.verified": true } }
     );
 
     if (Meteor.isServer && newUserId && sendMail) {

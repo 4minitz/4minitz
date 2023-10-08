@@ -139,7 +139,7 @@ Template.minutesEditParticipants.helpers({
   isUserRemotelyConnected(userId) {
     return Boolean(
       OnlineUsersSchema.findOne({
-        userId: userId,
+        userId,
         activeRoute: FlowRouter.current().path,
       }),
     );

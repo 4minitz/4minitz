@@ -26,9 +26,9 @@ const getKeyWordFromToken = function (token, queryUserIdByName) {
     value = arr[1];
   }
   return {
-    key: key,
-    value: value,
-    ids: ids,
+    key,
+    value,
+    ids,
   };
 };
 
@@ -79,11 +79,11 @@ export const ITEM_KEYWORDS = {
     example: '"@john" finds all action items assigned to the user john',
   },
 
-  isKeyword: isKeyword,
+  isKeyword,
 
-  getKeyWordFromToken: getKeyWordFromToken,
+  getKeyWordFromToken,
 
-  isAllowedValueForKey: isAllowedValueForKey,
+  isAllowedValueForKey,
 };
 
 export const TOPIC_KEYWORDS = {
@@ -116,9 +116,9 @@ export const TOPIC_KEYWORDS = {
     example: '"@john" finds all topics assigned to the user john',
   },
 
-  isKeyword: isKeyword,
+  isKeyword,
 
-  getKeyWordFromToken: getKeyWordFromToken,
+  getKeyWordFromToken,
 
-  isAllowedValueForKey: isAllowedValueForKey,
+  isAllowedValueForKey,
 };

@@ -62,7 +62,7 @@ export class QualityTestRunner {
         callbackOnSuccess,
         i18n.__("Dialog.ConfirmMinuteQualityAssurance.title"),
         "confirmMinuteQualityAssurance",
-        { errors: errors },
+        { errors },
         i18n.__("Dialog.ConfirmMinuteQualityAssurance.button"),
       ).show();
     }

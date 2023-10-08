@@ -333,7 +333,7 @@ Template.topicElement.events({
       splitIndex === -1 ? "" : inputText.substring(splitIndex + 1).trim();
 
     const itemDoc = {
-      subject: subject,
+      subject,
       responsibles: [],
       createdInMinute: this.minutesID,
     };

@@ -10,7 +10,7 @@ const fs = {
 const loadLDAPSettings = proxyquire(
   "../../../../imports/ldap/loadLDAPSettings",
   {
-    fs: fs,
+    fs,
   },
 );
 

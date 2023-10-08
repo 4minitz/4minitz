@@ -11,7 +11,7 @@ const Future = function () {
 Future["@noCallThru"] = true;
 
 const { backupMongo } = proxyquire("../../../server/mongoBackup", {
-  child_process: { spawn: spawn, "@noCallThru": true },
+  child_process: { spawn, "@noCallThru": true },
   "fibers/future": Future,
 });
 

@@ -23,9 +23,9 @@ if (Meteor.settings.isEnd2EndTest) {
             const result = tmplRenderer.render();
             Assets.getText = getTextSaved; //eslint-disable-line
             return {
-                date: date,
-                textFile: textFile,
-                result: result
+                date,
+                textFile,
+                result
             };
         }
     });

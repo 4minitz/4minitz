@@ -90,8 +90,8 @@ export class E2EMinutesParticipants {
 
       this._participantsAndPresence[username] = {
         present: checkboxElem.isSelected(),
-        checkboxElem: checkboxElem,
-        userElem: userElem,
+        checkboxElem,
+        userElem,
       };
     }
   }

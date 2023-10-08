@@ -15,8 +15,8 @@ export class RangeHelper {
     }
 
     return {
-      min: min,
-      max: max,
+      min,
+      max,
     };
   }
 }

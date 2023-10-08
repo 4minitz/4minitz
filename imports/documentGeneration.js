@@ -152,7 +152,7 @@ export class DocumentGeneration {
       participantsAdditionalLabel: i18n.__("Minutes.Participants.additional"),
       participantsAdditional: context._minute.participantsAdditional,
       discussedTopicsLabel: i18n.__("Mail.discussedTopics"),
-      discussedTopics: discussedTopics,
+      discussedTopics,
       skippedTopicsLabel: i18n.__("Mail.skippedTopics"),
       skippedTopics: outstandingTopics,
       actionItemLabel: i18n.__("Item.action"),

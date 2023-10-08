@@ -25,8 +25,8 @@ Meteor.methods({
     checkRouteParamAndAuthorization(route, userId);
 
     OnlineUsersSchema.upsert(
-      { userId: userId, activeRoute: route },
-      { userId: userId, activeRoute: route, updatedAt: new Date() },
+      { userId, activeRoute: route },
+      { userId, activeRoute: route, updatedAt: new Date() }
     );
 
     // remove outdated entries
@@ -36,6 +36,6 @@ Meteor.methods({
   "onlineUsers.leaveRoute"(route) {
     const userId = Meteor.userId();
     checkRouteParamAndAuthorization(route, userId);
-    OnlineUsersSchema.remove({ userId: userId, activeRoute: route });
+    OnlineUsersSchema.remove({ userId, activeRoute: route });
   },
 });

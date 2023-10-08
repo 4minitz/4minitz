@@ -39,7 +39,7 @@ export function checkUserName(newUserName, config) {
   newUserName = longName2shortName[newUserName];
   const addedUser = Meteor.users.findOne({ username: newUserName });
   const result = {
-    addedUser: addedUser,
+    addedUser,
     valid: false,
     errorMsg: "",
   };

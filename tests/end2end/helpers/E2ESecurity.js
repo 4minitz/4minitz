@@ -88,7 +88,7 @@ export class E2ESecurity {
   static createMeetingSeriesAndMinute = (name) => {
     E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod, {
       project: name,
-      name: name,
+      name,
     });
     const msID = E2EMeetingSeries.getMeetingSeriesId(name, name);
     E2EMinutes.addMinutesToMeetingSeries(name, name);
@@ -111,7 +111,7 @@ export class E2ESecurity {
   static createMeetingSeries = (name) => {
     E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod, {
       project: name,
-      name: name,
+      name,
     });
     return E2EMeetingSeries.getMeetingSeriesId(name, name);
   };
@@ -135,13 +135,13 @@ export class E2ESecurity {
     meetingSeriesID,
     date,
     expectToEqualNumberMinutes,
-    userIdex,
+    userIdex
   ) => {
     const userid = server.call("e2e.getUserId", userIdex);
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.addMinutes);
     E2ESecurity.executeMethod(E2ESecurity.addMinutes, {
       meetingSeries_id: meetingSeriesID,
-      date: date,
+      date,
       visibleFor: [userid],
     });
     expect(server.call("e2e.countMinutesInMongoDB")).to.equal(
@@ -187,7 +187,7 @@ export class E2ESecurity {
     );
     E2ESecurity.executeMethod(E2ESecurity.insertMeetingSeriesMethod, {
       project: name,
-      name: name,
+      name,
     });
     expect(server.call("e2e.countMeetingSeriesInMongDB"), testName).to.equal(
       expectToEqual,
@@ -235,11 +235,11 @@ export class E2ESecurity {
     topic_id,
     min_id,
     expectToEqual,
-    testName,
+    testName
   ) => {
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.addTopic);
     E2ESecurity.executeMethod(E2ESecurity.addTopic, min_id, {
-      subject: subject,
+      subject,
       labels: Array(0),
       _id: topic_id,
     });

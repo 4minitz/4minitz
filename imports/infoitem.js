@@ -97,8 +97,8 @@ export class InfoItem {
       createdBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
       updatedAt: new Date(),
       updatedBy: User.PROFILENAMEWITHFALLBACK(Meteor.user()),
-      date: date,
-      text: text,
+      date,
+      text,
       isNew: true,
     });
   }

@@ -20,7 +20,7 @@ export class QueryParserMock {
         return this.filterTokens
     }
     getLabelTokens() {
-        return this.labelTokens.map(token => { return {token: token, ids: [token]}; });
+        return this.labelTokens.map(token => { return {token, ids: [token]}; });
     }
     hasKeyword() {
         return true;

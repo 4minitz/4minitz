@@ -567,7 +567,7 @@ Template.minutesedit.events({
     evt.preventDefault();
     const aMin = new Minutes(_minutesID);
     const globalNote = tmpl.find("#editGlobalNotes").value;
-    aMin.update({ globalNote: globalNote }).catch(handleError);
+    aMin.update({ globalNote }).catch(handleError);
   },
 
   "click #btn_sendAgenda": async function (evt, tmpl) {
@@ -584,8 +584,8 @@ Template.minutesedit.events({
         const result = await aMin.sendAgenda();
         new FlashMessage(
           i18n.__("FlashMessages.ok"),
-          i18n.__("FlashMessages.agendaSentOK", { result: result }),
-          "alert-success",
+          i18n.__("FlashMessages.agendaSentOK", { result }),
+          "alert-success"
         ).show();
       } catch (error) {
         handleError(error);
@@ -726,7 +726,7 @@ Template.minutesedit.events({
     const tmplData = {
       minutesDate: aMin.date,
       hasNewTopics: newTopicsCount > 0,
-      newTopicsCount: newTopicsCount,
+      newTopicsCount,
       hasClosedTopics: closedOldTopicsCount > 0,
       closedTopicsCount: closedOldTopicsCount,
     };

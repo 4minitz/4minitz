@@ -11,14 +11,14 @@ Meteor.methods({
     return i18n.getLanguages().map((code) => {
       if (code.toLowerCase() === "de-li") {
         return {
-          code: code,
+          code,
           codeUI: "de-Fr",
           name: "German (Franconian)",
           nameNative: "Deutsch (Fränggisch)",
         };
       }
       return {
-        code: code,
+        code,
         codeUI: code,
         name: i18n.getLanguageName(code),
         nameNative:

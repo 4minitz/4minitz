@@ -63,7 +63,7 @@ class TopicsHandler {
         this.topicsCollection.update(
             topic._id,
             {
-                $set: {visibleFor: visibleFor}
+                $set: {visibleFor}
             },
             {bypassCollection2: true}
         );

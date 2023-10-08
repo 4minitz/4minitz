@@ -21,8 +21,8 @@ function setupEmailTemplatesForAccounts() {
         urlWithoutHash = url.replace("#/", "");
 
       return i18n.__("Mail.VerifyEmailAddress.body", {
-        emailAddress: emailAddress,
-        urlWithoutHash: urlWithoutHash,
+        emailAddress,
+        urlWithoutHash,
       });
     },
   };
@@ -38,8 +38,8 @@ function setupEmailTemplatesForAccounts() {
         urlWithoutHash = url.replace("#/", "");
 
       return i18n.__("Mail.ResetPassword.body", {
-        emailAddress: emailAddress,
-        urlWithoutHash: urlWithoutHash,
+        emailAddress,
+        urlWithoutHash,
       });
     },
   };

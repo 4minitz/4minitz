@@ -55,9 +55,9 @@ export class RoleChangeMailHandler {
     if (this._user.emails && this._user.emails.length > 0) {
       const mailer = MailFactory.getMailer(modFrom, emailTo);
       const mailParams = {
-        userName: userName,
-        meetingProject: meetingProject,
-        meetingName: meetingName,
+        userName,
+        meetingProject,
+        meetingName,
         meetingSeriesURL: GlobalSettings.getRootUrl(
           `meetingseries/${this._meetingSeriesId}`,
         ),

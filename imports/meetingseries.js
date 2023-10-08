@@ -117,8 +117,8 @@ export class MeetingSeries {
       // visibility of their series
       informedUsers: this.informedUsers, // freshly created minutes inherit
       // informedUsers of their series
-      globalNotePinned: globalNotePinned,
-      globalNote: globalNote,
+      globalNotePinned,
+      globalNote,
     });
 
     min.generateNewParticipants();

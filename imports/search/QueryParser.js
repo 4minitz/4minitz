@@ -217,8 +217,8 @@ export class QueryParser {
       ? this.queryLabelIdsByName(token, this.isCaseSensitive())
       : [token];
     this.labelTokens.push({
-      token: token,
-      ids: ids,
+      token,
+      ids,
     });
   }
 

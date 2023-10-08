@@ -9,7 +9,7 @@ const generateId = () => {
 };
 
 const createUser = (id, username, name) => {
-  return { _id: id, username: username, profile: { name: name } };
+  return { _id: id, username, profile: { name } };
 };
 
 const USER_1 = createUser(generateId(), "user1", "First User");

@@ -19,8 +19,8 @@ const getVisibilityKeys = () => {
         }
     }
     return {
-        stateKey: stateKey,
-        eventKey: eventKey
+        stateKey,
+        eventKey
     };
 };
 

@@ -185,7 +185,7 @@ describe("Minutes", () => {
       });
 
       it("sets the option correctly (sort and limit)", () => {
-        const expectedOption = { sort: { date: -1 }, limit: limit };
+        const expectedOption = { sort: { date: -1 }, limit };
         Minutes.findAllIn(minIdArray, limit);
         const options = MinutesSchema.find.getCall(0).args[1];
         expect(options).to.deep.equal(expectedOption);
