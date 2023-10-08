@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { AccountsTemplates } from "meteor/useraccounts:core";
 import { Template } from "meteor/templating";
-import { Session } from "meteor/session";
+import { ReactiveDict } from "meteor/reactive-dict";
 import { $ } from "meteor/jquery";
 import { GlobalSettings } from "/imports/config/GlobalSettings";
 
@@ -9,12 +9,12 @@ const ldapEnabled = Meteor.settings.public.ldapEnabled;
 
 Template.login.onCreated(() => {
   const defaultTab = ldapEnabled ? "loginLdap" : "atForm";
-  Session.setDefault("currentLoginForm", defaultTab);
+  ReactiveDict.setDefault("currentLoginForm", defaultTab);
 });
 
 Template.login.onRendered(() => {
   const tab = ldapEnabled ? "loginLdap" : "atForm";
-  Session.setDefault("currentLoginForm", tab);
+  ReactiveDict.setDefault("currentLoginForm", tab);
 });
 
 Template.login.helpers({
@@ -26,11 +26,11 @@ Template.login.helpers({
   },
 
   tab: function () {
-    return Session.get("currentLoginForm");
+    return ReactiveDict.get("currentLoginForm");
   },
 
   tabActive: function (tabFormName) {
-    if (Session.get("currentLoginForm") === tabFormName) {
+    if (ReactiveDict.equals("currentLoginForm", tabFormName)) {
       return "active";
     }
     return "";
@@ -44,7 +44,7 @@ Template.login.helpers({
     return (
       !Meteor.userId() &&
       GlobalSettings.createDemoAccount() &&
-      Session.get("currentLoginForm") === "atForm" && // only if Standard Login is active
+      ReactiveDict.get("currentLoginForm") === "atForm" && // only if Standard Login is active
       AccountsTemplates.getState() === "signIn" // only show demo hint on signIn sub-template
     );
   },
@@ -64,7 +64,7 @@ Template.login.events({
     currentTab.addClass("active");
     $(".nav-tabs li").not(currentTab).removeClass("active");
 
-    Session.set("currentLoginForm", currentTab.data("template"));
+    ReactiveDict.set("currentLoginForm", currentTab.data("template"));
   },
 
   "click #btnLegalNotice": function () {

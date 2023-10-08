@@ -55,3 +55,4 @@ accounts-base@2.2.8
 babel-compiler@7.10.4
 ostrio:files@2.3.3
 ddp-client@2.6.1
+reactive-dict

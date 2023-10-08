@@ -2,10 +2,9 @@ import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 import { $ } from "meteor/jquery";
 import { ReactiveVar } from "meteor/reactive-var";
-import { Session } from "meteor/session";
-
+import ReactiveDict from "meteor/reactive-dict";
 const rememberLastTab = (tmpl) => {
-  Session.set("home.lastTab", {
+  ReactiveDict.set("home.lastTab", {
     tabId: tmpl.activeTabId.get(),
     tabTemplate: tmpl.activeTabTemplate.get(),
   });
@@ -13,12 +12,12 @@ const rememberLastTab = (tmpl) => {
 
 Template.home.onCreated(function () {
   // Did another view request to restore the last tab on this view?
-  if (Session.get("restoreTabAfterBackButton") && Session.get("home.lastTab")) {
-    this.activeTabId = new ReactiveVar(Session.get("home.lastTab").tabId);
+  if (ReactiveDict.equals("restoreTabAfterBackButton", "home.lastTab")) {
+    this.activeTabId = new ReactiveVar(ReactiveDict.get("home.lastTab").tabId);
     this.activeTabTemplate = new ReactiveVar(
-      Session.get("home.lastTab").tabTemplate,
+      ReactiveDict.get("home.lastTab").tabTemplate
     );
-    Session.set("restoreTabAfterBackButton", false);
+    ReactiveDict.set("restoreTabAfterBackButton", false);
   } else {
     this.activeTabId = new ReactiveVar("tab_meetings");
     this.activeTabTemplate = new ReactiveVar("meetingSeriesList");
@@ -43,11 +42,11 @@ Template.home.helpers({
   },
 
   tab: function () {
-    const meetingSeriesTab = Session.get("gotoMeetingSeriesTab");
+    const meetingSeriesTab = ReactiveDict.get("gotoMeetingSeriesTab");
     if (meetingSeriesTab) {
       Template.instance().activeTabId.set("tab_meetings");
       Template.instance().activeTabTemplate.set("meetingSeriesList");
-      Session.set("gotoMeetingSeriesTab", false);
+      ReactiveDict.set("gotoMeetingSeriesTab", false);
     } else {
       return Template.instance().activeTabTemplate.get();
     }
