@@ -28,7 +28,7 @@ const { MigrateV4 } = proxyquire("../../../../server/migrations/migrate_v4", {
   },
 });
 
-describe("MigrateV4", function () {
+describe("MigrateV4", () => {
   const dummyResponsible = "I am responsible";
   let minutesDoc,
     topicDocWithResponsible,
@@ -40,7 +40,7 @@ describe("MigrateV4", function () {
     topicDocWithoutRespOfSeriesOpenTopics;
   let topicsWithResponsible, topicWithoutResponsible;
 
-  beforeEach(function () {
+  beforeEach(() => {
     let nextId = 0;
     const createTopicDoc = (withResponsible = true) => {
       nextId++;
@@ -88,57 +88,57 @@ describe("MigrateV4", function () {
     ];
   });
 
-  afterEach(function () {
+  afterEach(() => {
     MinutesSchema.find.reset();
     MinutesSchema.update.resetHistory();
     MeetingSeriesSchema.find.reset();
     MeetingSeriesSchema.update.resetHistory();
   });
 
-  describe("#up", function () {
-    it("converts the responsible string of each topics inside every minutes to an array containing the responsible", function () {
+  describe("#up", () => {
+    it("converts the responsible string of each topics inside every minutes to an array containing the responsible", () => {
       MigrateV4.up();
-      topicsWithResponsible.forEach(function (topicDoc) {
+      topicsWithResponsible.forEach((topicDoc) => {
         expect(topicDoc.responsibles).to.have.length(1);
       });
-      topicWithoutResponsible.forEach(function (topicDoc) {
+      topicWithoutResponsible.forEach((topicDoc) => {
         expect(topicDoc.responsibles).to.have.length(0);
       });
     });
 
-    it("calls the update method of the minutes collection", function () {
+    it("calls the update method of the minutes collection", () => {
       MigrateV4.up();
       expect(MinutesSchema.update.calledOnce).to.be.true;
     });
 
-    it("sends the minutes id as selector to the update call on the minutes collection", function () {
+    it("sends the minutes id as selector to the update call on the minutes collection", () => {
       MigrateV4.up();
       expect(MinutesSchema.update.calledWith(minutesDoc._id)).to.be.true;
     });
 
-    it("calls the update method of the meeting series collection", function () {
+    it("calls the update method of the meeting series collection", () => {
       MigrateV4.up();
       expect(MeetingSeriesSchema.update.calledOnce).to.be.true;
     });
 
-    it("sends the series id as selector to the update call on the meeting series collection", function () {
+    it("sends the series id as selector to the update call on the meeting series collection", () => {
       MigrateV4.up();
       expect(MeetingSeriesSchema.update.calledWith(meetingSeriesDoc._id)).to.be
         .true;
     });
   });
 
-  describe("#down", function () {
+  describe("#down", () => {
     const expectedResponsibleString = "resp1,resp2";
 
-    beforeEach(function () {
+    beforeEach(() => {
       topicsWithResponsible.forEach((topic) => {
         delete topic.responsible;
         topic.responsibles = ["resp1", "resp2"];
       });
     });
 
-    it("removes the responsibles array and converts the array to a flat string", function () {
+    it("removes the responsibles array and converts the array to a flat string", () => {
       MigrateV4.down();
       topicsWithResponsible.forEach((topic) => {
         expect(Object.prototype.hasOwnProperty.call(topic, "responsibles")).to
@@ -147,22 +147,22 @@ describe("MigrateV4", function () {
       });
     });
 
-    it("calls the update method of the minutes collection", function () {
+    it("calls the update method of the minutes collection", () => {
       MigrateV4.down();
       expect(MinutesSchema.update.calledOnce).to.be.true;
     });
 
-    it("sends the minutes id as selector to the update call on the minutes collection", function () {
+    it("sends the minutes id as selector to the update call on the minutes collection", () => {
       MigrateV4.down();
       expect(MinutesSchema.update.calledWith(minutesDoc._id)).to.be.true;
     });
 
-    it("calls the update method of the meeting series collection", function () {
+    it("calls the update method of the meeting series collection", () => {
       MigrateV4.down();
       expect(MeetingSeriesSchema.update.calledOnce).to.be.true;
     });
 
-    it("sends the series id as selector to the update call on the meeting series collection", function () {
+    it("sends the series id as selector to the update call on the meeting series collection", () => {
       MigrateV4.down();
       expect(MeetingSeriesSchema.update.calledWith(meetingSeriesDoc._id)).to.be
         .true;

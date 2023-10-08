@@ -2,8 +2,8 @@ const expect = require("chai").expect;
 
 import { MinutesGenerator } from "../../generators/minutes-generator";
 
-describe("MinutesGenerator", function () {
-  describe("#generate", function () {
+describe("MinutesGenerator", () => {
+  describe("#generate", () => {
     const DUMMY_USER = {
       _id: "userId",
       username: "username",
@@ -16,7 +16,7 @@ describe("MinutesGenerator", function () {
       },
     };
 
-    it("should generate the correct amount of minutes", function () {
+    it("should generate the correct amount of minutes", () => {
       const config = {
         minutesCount: 5,
       };
@@ -26,7 +26,7 @@ describe("MinutesGenerator", function () {
       );
     });
 
-    it("should set all minutes as finalized except the last one", function () {
+    it("should set all minutes as finalized except the last one", () => {
       const config = {
         minutesCount: 5,
       };
@@ -44,7 +44,7 @@ describe("MinutesGenerator", function () {
       });
     });
 
-    it("should generate minutes at increasing dates", function () {
+    it("should generate minutes at increasing dates", () => {
       const config = {
         minutesCount: 5,
       };
@@ -58,16 +58,16 @@ describe("MinutesGenerator", function () {
     });
   });
 
-  describe("#_formatDate", function () {
-    it("should format a date correctly", function () {
+  describe("#_formatDate", () => {
+    it("should format a date correctly", () => {
       const DATE_STR = "2016-08-26";
       const formattedDate = MinutesGenerator._formatDate(new Date(DATE_STR));
       expect(formattedDate).to.equal(DATE_STR);
     });
   });
 
-  describe("#_tickOneDay", function () {
-    it("should increase the next minutes date by one day", function () {
+  describe("#_tickOneDay", () => {
+    it("should increase the next minutes date by one day", () => {
       const generator = new MinutesGenerator(
         null,
         null,
@@ -80,7 +80,7 @@ describe("MinutesGenerator", function () {
       );
     });
 
-    it("should increase the month if necessary", function () {
+    it("should increase the month if necessary", () => {
       const generator = new MinutesGenerator(
         null,
         null,

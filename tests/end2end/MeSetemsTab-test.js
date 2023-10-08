@@ -4,13 +4,13 @@ import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("MeetingSeries Items Tab", function () {
+describe("MeetingSeries Items Tab", () => {
   const aProjectName = "MeetingSeries Items Tab";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -18,7 +18,7 @@ describe("MeetingSeries Items Tab", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -27,10 +27,10 @@ describe("MeetingSeries Items Tab", function () {
 
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  it("can filter the list of items", function () {
+  it("can filter the list of items", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(

@@ -13,7 +13,7 @@ Template.connectionInfo.onCreated(function () {
 // We delay the display of connection info dialog to make sure
 // the connection lost lasts longer than xx secs.
 // This should prevent flashing of this warning during app bootstrapping
-const showWithDelay = function () {
+const showWithDelay = () => {
   if (!Meteor.status().connected) {
     $("#connectionLostWarning").fadeIn("slow");
     // the reactive var triggers connectionLost() helper, which will trigger blaze to show

@@ -4,19 +4,13 @@ let mongo = require("mongodb").MongoClient,
   _ = require("underscore");
 import { Random } from "../../tests/performance/fixtures/lib/random";
 
-const _transformUsers = function (settings, users) {
-  return _.map(users, (user) => transformUser(settings, user));
-};
+const _transformUsers = (settings, users) => _.map(users, (user) => transformUser(settings, user));
 
-const _connectMongo = function (mongoUrl) {
-  return mongo.connect(mongoUrl);
-};
+const _connectMongo = (mongoUrl) => mongo.connect(mongoUrl);
 
-RegExp.escape = function (s) {
-  return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-};
+RegExp.escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
 
-const _insertUsers = function (client, mongoUri, users) {
+const _insertUsers = (client, mongoUri, users) => {
   // unique id from the random package also used by minimongo
   // character list:
   // https://github.com/meteor/meteor/blob/release/METEOR%401.4.0.1/packages/random/random.js#L88
@@ -72,7 +66,7 @@ const _insertUsers = function (client, mongoUri, users) {
   });
 };
 
-const _closeMongo = function (data) {
+const _closeMongo = (data) => {
   let force = false,
     client = data.client,
     result = data.bulkResult;
@@ -83,7 +77,7 @@ const _closeMongo = function (data) {
   });
 };
 
-const saveUsers = function (settings, mongoUrl, users) {
+const saveUsers = (settings, mongoUrl, users) => {
   const dbUsers = _transformUsers(settings, users);
 
   return new Promise((resolve, reject) => {

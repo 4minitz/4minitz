@@ -19,13 +19,13 @@ const { MigrateV22 } = proxyquire("../../../../server/migrations/migrate_v22", {
   "/imports/collections/topic.schema": { TopicSchema, "@noCallThru": true },
 });
 
-describe("Migrate Version 22", function () {
-  describe("#up", function () {
+describe("Migrate Version 22", () => {
+  describe("#up", () => {
     const topic1 = "topic#1";
     const topic2 = "topic#2";
     const topic3 = "topic#3";
 
-    beforeEach(function () {
+    beforeEach(() => {
       const meetingSeries = { _id: "ms#01", visibleFor: ["u#1", "u#2"] };
       const anotherSeries = { _id: "ms#01", visibleFor: ["u#3"] };
       const topicsOfFirstSeries = [
@@ -40,18 +40,18 @@ describe("Migrate Version 22", function () {
       MeetingSeriesSchema.findOne.withArgs("ms#02").returns(anotherSeries);
     });
 
-    afterEach(function () {
+    afterEach(() => {
       MeetingSeriesSchema.findOne.reset();
       TopicSchema.update.resetHistory();
       TopicSchema.find.reset();
     });
 
-    it("calls the update method of the topics collection for all three topics", function () {
+    it("calls the update method of the topics collection for all three topics", () => {
       MigrateV22.up();
       expect(TopicSchema.update.callCount).to.equal(3);
     });
 
-    it("queries the meeting series collection once for each series id", function () {
+    it("queries the meeting series collection once for each series id", () => {
       MigrateV22.up();
       expect(MeetingSeriesSchema.findOne.callCount).to.equal(2);
       expect(MeetingSeriesSchema.findOne.calledWithExactly("ms#01")).to.be.true;
@@ -59,8 +59,8 @@ describe("Migrate Version 22", function () {
     });
   });
 
-  describe("#down", function () {
-    it("should exist", function () {
+  describe("#down", () => {
+    it("should exist", () => {
       expect(MigrateV22).to.have.ownProperty("down");
     });
   });

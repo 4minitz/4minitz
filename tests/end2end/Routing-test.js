@@ -3,13 +3,13 @@ import { E2EApp } from "./helpers/E2EApp";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 
-describe("Routing", function () {
+describe("Routing", () => {
   const aProjectName = "E2E Topics";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -17,7 +17,7 @@ describe("Routing", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -25,16 +25,16 @@ describe("Routing", function () {
       aMeetingName = aMeetingNameBase + aMeetingCounter;
 
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  after("clear database and login user", function () {
+  after("clear database and login user", () => {
     E2EApp.launchApp();
     E2EApp.loginUser();
     expect(E2EApp.isLoggedIn()).to.be.true;
   });
 
-  it("ensures that following a URL to a meeting series will relocate to the requested series after sign-in", function () {
+  it("ensures that following a URL to a meeting series will relocate to the requested series after sign-in", () => {
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     const url = browser.getUrl();
 
@@ -50,7 +50,7 @@ describe("Routing", function () {
     expect(headerText).to.have.string("Meeting Series: " + aProjectName);
   });
 
-  it("ensures that following a URL to a concrete minute will relocate to the requested minute after sign-in", function () {
+  it("ensures that following a URL to a concrete minute will relocate to the requested minute after sign-in", () => {
     E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
     const url = browser.getUrl();
@@ -67,7 +67,7 @@ describe("Routing", function () {
     expect(headerText).to.have.string("Minutes for " + aProjectName);
   });
 
-  it('ensures that "legal notice" route shows expected text', function () {
+  it('ensures that "legal notice" route shows expected text', () => {
     expect(
       browser.isVisible("div#divLegalNotice"),
       "legal notice should be invisible",
@@ -90,7 +90,7 @@ describe("Routing", function () {
     ).to.contain("THE DEMO SERVICE AVAILABLE VIA");
   });
 
-  it('ensures that "legal notice" route is reachable on login screen via About dialog', function () {
+  it('ensures that "legal notice" route is reachable on login screen via About dialog', () => {
     E2EGlobal.waitSomeTime(1500);
     browser.keys(["Escape"]); // close open edit meeting series dialog
     E2EGlobal.waitSomeTime();

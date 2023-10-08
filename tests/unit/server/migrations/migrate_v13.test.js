@@ -29,10 +29,10 @@ const { MigrateV13 } = proxyquire("../../../../server/migrations/migrate_v13", {
   "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
 });
 
-describe("Migrate Version 13", function () {
+describe("Migrate Version 13", () => {
   let firstFakeMinute, sndFakeMinute, fakeMeetingSeries;
 
-  beforeEach(function () {
+  beforeEach(() => {
     sndFakeMinute = {
       _id: SND_MIN_ID,
       topics: [{ _id: "#T01" }, { _id: "#T02" }],
@@ -66,32 +66,32 @@ describe("Migrate Version 13", function () {
     };
   });
 
-  afterEach(function () {
+  afterEach(() => {
     MinutesSchema.update.resetHistory();
     MeetingSeriesSchema.update.resetHistory();
   });
 
-  describe("#up", function () {
+  describe("#up", () => {
     const checkTopicHasProperty = (topic) => {
       expect(topic).to.have.ownProperty("isSkipped");
       expect(topic.isSkipped).to.be.false;
     };
 
-    it("sets the isSkipped attribute for all topics in all minutes", function () {
+    it("sets the isSkipped attribute for all topics in all minutes", () => {
       MigrateV13.up();
       firstFakeMinute.topics.forEach(checkTopicHasProperty);
       sndFakeMinute.topics.forEach(checkTopicHasProperty);
     });
 
-    it("sets the isSkipped attribute for all topics in the meeting series", function () {
+    it("sets the isSkipped attribute for all topics in the meeting series", () => {
       MigrateV13.up();
       fakeMeetingSeries.topics.forEach(checkTopicHasProperty);
       fakeMeetingSeries.openTopics.forEach(checkTopicHasProperty);
     });
   });
 
-  describe("#down", function () {
-    beforeEach(function () {
+  describe("#down", () => {
+    beforeEach(() => {
       const addCreatedInMinuteFakeAttribute = (topic) => {
         topic.createdInMinute = "fakeID";
       };
@@ -101,7 +101,7 @@ describe("Migrate Version 13", function () {
       fakeMeetingSeries.openTopics.forEach(addCreatedInMinuteFakeAttribute);
     });
 
-    it("removes the isSkipped-attribute", function () {
+    it("removes the isSkipped-attribute", () => {
       MigrateV13.down();
 
       const checkTopicHasNoAttribute = (topic) => {

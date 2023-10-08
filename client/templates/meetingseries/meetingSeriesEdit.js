@@ -77,9 +77,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
     const oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
 
     // Search in after edit users whether the users still exists
-    const matchingUser = usersWithRolesAfterEditForEmails.find(function (user) {
-      return oldUserWithRole._userId === user._idOrg;
-    });
+    const matchingUser = usersWithRolesAfterEditForEmails.find((user) => oldUserWithRole._userId === user._idOrg);
 
     // If he does not, his role was removed
     if (matchingUser === undefined) {
@@ -157,7 +155,7 @@ Template.meetingSeriesEdit.events({
     const ms = new MeetingSeries(tmpl.data._id);
 
     const element = ms;
-    const unset = function () {
+    const unset = () => {
       IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
       $("#dlgEditMeetingSeries").modal("show");
     };
@@ -203,7 +201,7 @@ Template.meetingSeriesEdit.events({
     if (Session.get("meetingSeriesEdit.showUsersPanel") === true) {
       Session.set("meetingSeriesEdit.showUsersPanel", false);
       $("#btnShowHideInvitedUsers").click();
-      Meteor.setTimeout(function () {
+      Meteor.setTimeout(() => {
         tmpl.find("#edt_AddUser").focus();
       }, 500);
     } else {

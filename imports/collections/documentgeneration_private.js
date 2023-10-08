@@ -143,9 +143,7 @@ Meteor.methods({
       _informed: minute.getInformed(Meteor.users),
       _userArrayToString: function (users) {
         return users
-          .map(function (user) {
-            return User.PROFILENAMEWITHFALLBACK(user);
-          })
+          .map((user) => User.PROFILENAMEWITHFALLBACK(user))
           .join("; ");
       },
     };
@@ -195,11 +193,11 @@ Meteor.methods({
             type: "text/html",
             meta: metaData,
           },
-          function (error) {
+          (error) => {
             if (error) {
               throw new Meteor.Error(error);
             }
-          },
+          }
         );
       };
     }
@@ -227,11 +225,11 @@ Meteor.methods({
             type: "application/pdf",
             meta: metaData,
           },
-          function (error) {
+          (error) => {
             if (error) {
               throw new Meteor.Error(error);
             }
-          },
+          }
         );
       };
     }
@@ -264,13 +262,13 @@ Meteor.methods({
       // Security checks will be done in the onBeforeRemove-Hook
       DocumentsCollection.remove(
         { "meta.minuteId": minutesId },
-        function (error) {
+        (error) => {
           if (error) {
             throw new Meteor.Error(
               `Protocol could not be deleted, error: ${error.reason}`,
             );
           }
-        },
+        }
       );
     }
   },

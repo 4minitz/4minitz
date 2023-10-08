@@ -1,6 +1,6 @@
 const _ = require("underscore");
 
-module.exports = function (ldapSettings, userData) {
+module.exports = (ldapSettings, userData) => {
   ldapSettings.propertyMap = ldapSettings.propertyMap || {};
   const usernameAttribute =
       ldapSettings.searchDn || ldapSettings.propertyMap.username || "cn",

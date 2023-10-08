@@ -25,7 +25,7 @@ Template.meetingSeriesEditUsers.onCreated(function () {
   _config = this.data; // UsersEditConfig object
 });
 
-Template.meetingSeriesEditUsers.onRendered(function () {
+Template.meetingSeriesEditUsers.onRendered(() => {
   Meteor.typeahead.inject();
 
   addCustomValidator(

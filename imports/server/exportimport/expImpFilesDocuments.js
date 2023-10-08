@@ -65,14 +65,14 @@ class ExpImpFilesDocuments {
         .deleteMany({
           _id: { $in: protcolsIDs },
         }) // delete existing attachments with same IDs
-        .then(function (res) {
+        .then((res) => {
           if (res.result && !res.result.ok) {
             console.log(res);
           }
           return db
             .collection("DocumentsCollection")
             .insertMany(AllProtocolsDoc) // insert imported minutes
-            .then(function (res) {
+            .then((res) => {
               if (
                 res.result.ok === 1 &&
                 res.result.n === AllProtocolsDoc.length

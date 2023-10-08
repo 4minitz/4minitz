@@ -9,7 +9,7 @@ Template.tabAdminMessages.onCreated(function () {
   this.subscribe("broadcastmessageAdmin");
 });
 
-Template.tabAdminMessages.onRendered(function () {
+Template.tabAdminMessages.onRendered(() => {
   Template.instance().find("#id_adminMessage").focus();
 });
 

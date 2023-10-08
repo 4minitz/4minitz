@@ -31,7 +31,7 @@ import { handleMigration } from "./migrations/migrations";
 
 i18n.setLocale("en");
 
-const handleDemoUserAccount = function () {
+const handleDemoUserAccount = () => {
   if (GlobalSettings.createDemoAccount()) {
     const demoUser = Meteor.users.findOne({
       $and: [{ username: "demo" }, { isDemoUser: true }],
@@ -101,7 +101,7 @@ const handleDemoUserAccount = function () {
   }
 };
 
-const syncRootUrl = function () {
+const syncRootUrl = () => {
   if (!Meteor.settings) {
     console.log("*** Warning: no settings specified. Running in 'WTF' mode.");
     return;
@@ -187,7 +187,7 @@ Meteor.startup(() => {
     }
     if (GlobalSettings.hasImportUsersCronTab()) {
       console.log("Configuring cron job for regular LDAP user import.");
-      cron.schedule(crontab, function () {
+      cron.schedule(crontab, () => {
         importUsers(ldapSettings, mongoUrl).catch(() => {});
       });
     }

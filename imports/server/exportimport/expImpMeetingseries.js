@@ -64,7 +64,7 @@ class ExpImpMeetingSeries {
             return db
               .collection("meetingSeries")
               .insert(msDoc)
-              .then(function (res) {
+              .then((res) => {
                 if (res.result.ok === 1) {
                   console.log(`OK, inserted meeting series with ID: ${msID}`);
                   resolve({ db, usrMap });

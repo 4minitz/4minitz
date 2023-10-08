@@ -4,13 +4,13 @@ import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("Topics Responsibles", function () {
+describe("Topics Responsibles", () => {
   const aProjectName = "E2E Topics Responsibles";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -18,7 +18,7 @@ describe("Topics Responsibles", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -27,10 +27,10 @@ describe("Topics Responsibles", function () {
 
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  it("can add a responsible to a topic", function () {
+  it("can add a responsible to a topic", () => {
     const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
     E2ETopics.addTopicToMinutes("TOP-1", user1);
 
@@ -40,7 +40,7 @@ describe("Topics Responsibles", function () {
     expect(topicHeadingText).to.contain(user1);
   });
 
-  it("can add two responsibles to a topic", function () {
+  it("can add two responsibles to a topic", () => {
     const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2ETopics.addTopicToMinutes("TOP-1", user1 + "," + user2);
@@ -52,7 +52,7 @@ describe("Topics Responsibles", function () {
     expect(topicHeadingText).to.contain(user2);
   });
 
-  it("can remove a responsible from a topic", function () {
+  it("can remove a responsible from a topic", () => {
     const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2ETopics.addTopicToMinutes("TOP-1", user1 + "," + user2);
@@ -71,7 +71,7 @@ describe("Topics Responsibles", function () {
     expect(topicHeadingText).to.contain(user2);
   });
 
-  it("can add arbitrary free text responsible name", function () {
+  it("can add arbitrary free text responsible name", () => {
     const username = "Max Mustermann";
     E2ETopics.addTopicToMinutes("TOP-1", username);
     const topicHeadingText = browser
@@ -80,7 +80,7 @@ describe("Topics Responsibles", function () {
     expect(topicHeadingText).to.contain(username);
   });
 
-  it("can add a responsible from the participant users", function () {
+  it("can add a responsible from the participant users", () => {
     const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
     E2ETopics.addTopicToMinutes("TOP-1", "");
 
@@ -97,7 +97,7 @@ describe("Topics Responsibles", function () {
     expect(topicHeadingText).to.contain(user1);
   });
 
-  it("can add a responsible from user collection that is not a participant", function () {
+  it("can add a responsible from user collection that is not a participant", () => {
     const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
     E2ETopics.addTopicToMinutes("TOP-1", "");
 
@@ -114,7 +114,7 @@ describe("Topics Responsibles", function () {
     expect(topicHeadingText).to.contain(user3);
   });
 
-  it("can add a responsible from drop-down that is an additional participant", function () {
+  it("can add a responsible from drop-down that is an additional participant", () => {
     const additionalParticipant = "Additional Participant";
     browser.setValue("#edtParticipantsAdditional", additionalParticipant);
 

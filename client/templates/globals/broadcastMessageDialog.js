@@ -18,11 +18,11 @@ Template.broadcastMessageDialog.helpers({
             {$and: [{isActive: true},
                 {dismissForUserIDs: { $nin: [Meteor.userId()] } }]}).count();
         if (msgCount > 0) {
-            Meteor.setTimeout(function () {
+            Meteor.setTimeout(() => {
                 $('#broadcastMessage').modal('show');
             }, 250);
         } else {
-            Meteor.setTimeout(function () {
+            Meteor.setTimeout(() => {
                 $('#broadcastMessage').modal('hide');
             }, 250);
         }

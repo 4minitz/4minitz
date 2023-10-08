@@ -6,13 +6,13 @@ import { E2ETopics } from "./helpers/E2ETopics";
 
 import { formatDateISO8601 } from "../../imports/helpers/date";
 
-describe("MeetingSeries Items list", function () {
+describe("MeetingSeries Items list", () => {
   const aProjectName = "MeetingSeries Topic List";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -20,7 +20,7 @@ describe("MeetingSeries Items list", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -29,10 +29,10 @@ describe("MeetingSeries Items list", function () {
 
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  it("displays all info- and action-items of all topics", function () {
+  it("displays all info- and action-items of all topics", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(
@@ -79,7 +79,7 @@ describe("MeetingSeries Items list", function () {
     ).to.have.string("some information");
   });
 
-  it("can expand an info item to display its details on the item list", function () {
+  it("can expand an info item to display its details on the item list", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addDetailsToActionItem(

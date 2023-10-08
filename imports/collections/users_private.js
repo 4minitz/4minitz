@@ -127,11 +127,11 @@ Meteor.methods({
 
     checkWithMsg(
       username,
-      Match.Where(function (x) {
+      Match.Where((x) => {
         check(x, String);
         return x.length > 2;
       }),
-      "Username: at least 3 characters",
+      "Username: at least 3 characters"
     );
     check(password1, String);
     check(password2, String);
@@ -148,11 +148,11 @@ Meteor.methods({
     }
     checkWithMsg(
       email,
-      Match.Where(function (x) {
+      Match.Where((x) => {
         check(x, String);
         return emailAddressRegExpTest.test(x);
       }),
-      "EMail address not valid",
+      "EMail address not valid"
     );
 
     const newUserId = Accounts.createUser({

@@ -59,7 +59,7 @@ Template.topicInfoItemEdit.onRendered(function () {
   });
 });
 
-const getRelatedTopic = function () {
+const getRelatedTopic = () => {
   const minutesId = _minutesID;
   const topicId = Session.get("topicInfoItemEditTopicId");
 
@@ -70,7 +70,7 @@ const getRelatedTopic = function () {
   return new Topic(minutesId, topicId);
 };
 
-const getEditInfoItem = function () {
+const getEditInfoItem = () => {
   const id = Session.get("topicInfoItemEditInfoItemId");
 
   if (!id) return false;
@@ -78,7 +78,7 @@ const getEditInfoItem = function () {
   return getRelatedTopic().findInfoItem(id);
 };
 
-const toggleItemMode = function (type, tmpl) {
+const toggleItemMode = (type, tmpl) => {
   const actionItemOnlyElements = tmpl.$(".actionItemOnly");
   Session.set("topicInfoItemType", type);
   const editItem = getEditInfoItem();
@@ -266,7 +266,7 @@ Template.topicInfoItemEdit.events({
       toggleItemMode(type, tmpl);
 
       const element = editItem._infoItemDoc;
-      const unset = function () {
+      const unset = () => {
         IsEditedService.removeIsEditedInfoItem(
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),

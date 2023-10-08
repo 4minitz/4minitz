@@ -24,9 +24,9 @@ const { ldap } = proxyquire("../../../server/ldap", {
   "meteor/babrahams:accounts-ldap": { LDAP, "@noCallThru": true },
 });
 
-describe("ldap", function () {
-  describe("#bindValue", function () {
-    beforeEach(function () {
+describe("ldap", () => {
+  describe("#bindValue", () => {
+    beforeEach(() => {
       Meteor.settings = {
         ldap: {
           enabled: true,
@@ -41,7 +41,7 @@ describe("ldap", function () {
       LdapSettings.usernameAttribute.returns("test");
     });
 
-    it("generates a dn based on the configuration and the given username", function () {
+    it("generates a dn based on the configuration and the given username", () => {
       const isEmail = false;
       const username = "username";
 
@@ -50,7 +50,7 @@ describe("ldap", function () {
       expect(result).to.equal("test=username,dc=example,dc=com");
     });
 
-    it("removes the host part if an email address is given", function () {
+    it("removes the host part if an email address is given", () => {
       const isEmail = true;
       const username = "username@example.com";
 
@@ -59,7 +59,7 @@ describe("ldap", function () {
       expect(result).to.equal("test=username,dc=example,dc=com");
     });
 
-    it("returns an empty string if ldap is not enabled", function () {
+    it("returns an empty string if ldap is not enabled", () => {
       LdapSettings.ldapEnabled.returns(false);
 
       const result = LDAP.bindValue();
@@ -67,7 +67,7 @@ describe("ldap", function () {
       expect(result).to.equal("");
     });
 
-    it("returns an empty string if serverDn is not set", function () {
+    it("returns an empty string if serverDn is not set", () => {
       LdapSettings.serverDn.returns("");
 
       const result = LDAP.bindValue();
@@ -75,7 +75,7 @@ describe("ldap", function () {
       expect(result).to.equal("");
     });
 
-    it("returns an empty string if no username attribute mapping is not defined", function () {
+    it("returns an empty string if no username attribute mapping is not defined", () => {
       LdapSettings.usernameAttribute.returns("");
 
       const result = LDAP.bindValue();
@@ -84,8 +84,8 @@ describe("ldap", function () {
     });
   });
 
-  describe("#filter", function () {
-    beforeEach(function () {
+  describe("#filter", () => {
+    beforeEach(() => {
       LdapSettings.usernameAttribute.reset();
       LdapSettings.searchFilter.reset();
 
@@ -96,7 +96,7 @@ describe("ldap", function () {
       };
     });
 
-    it("generates a dn based on the configuration and the given username", function () {
+    it("generates a dn based on the configuration and the given username", () => {
       LdapSettings.usernameAttribute.returns("test");
       LdapSettings.searchFilter.returns("");
 
@@ -108,7 +108,7 @@ describe("ldap", function () {
       expect(result).to.equal("(&(test=username))");
     });
 
-    it("removes the host part if an email address is given", function () {
+    it("removes the host part if an email address is given", () => {
       LdapSettings.usernameAttribute.returns("test");
       LdapSettings.searchFilter.returns("");
 
@@ -120,7 +120,7 @@ describe("ldap", function () {
       expect(result).to.equal("(&(test=username))");
     });
 
-    it("still works if searchFilter is undefined", function () {
+    it("still works if searchFilter is undefined", () => {
       LdapSettings.usernameAttribute.returns("test");
       LdapSettings.searchFilter.returns();
 
@@ -132,7 +132,7 @@ describe("ldap", function () {
       expect(result).to.equal("(&(test=username))");
     });
 
-    it("appends the searchFilter configuration to the filter", function () {
+    it("appends the searchFilter configuration to the filter", () => {
       LdapSettings.usernameAttribute.returns("test");
       LdapSettings.searchFilter.returns("(objectClass=user)");
 
@@ -144,7 +144,7 @@ describe("ldap", function () {
       expect(result).to.equal("(&(test=username)(objectClass=user))");
     });
 
-    it("returns an empty string if the ldap configuration is missing", function () {
+    it("returns an empty string if the ldap configuration is missing", () => {
       delete Meteor.settings.ldap;
 
       const result = LDAP.filter();
@@ -152,7 +152,7 @@ describe("ldap", function () {
       expect(result).to.equal("");
     });
 
-    it("returns an empty string if ldap is not enabled", function () {
+    it("returns an empty string if ldap is not enabled", () => {
       Meteor.settings.ldap.enabled = false;
 
       const result = LDAP.filter();
@@ -160,15 +160,15 @@ describe("ldap", function () {
       expect(result).to.equal("");
     });
 
-    it("returns an empty string if searchDn is not set", function () {
+    it("returns an empty string if searchDn is not set", () => {
       const result = LDAP.filter();
 
       expect(result).to.equal("");
     });
   });
 
-  describe("#addFields", function () {
-    it("returns an object with a password property that holds an empty string", function () {
+  describe("#addFields", () => {
+    it("returns an object with a password property that holds an empty string", () => {
       const expectedResult = {
         password: "",
       };
@@ -179,20 +179,20 @@ describe("ldap", function () {
     });
   });
 
-  describe("#log", function () {
-    beforeEach(function () {
+  describe("#log", () => {
+    beforeEach(() => {
       sinon.spy(console, "log");
       sinon.spy(console, "error");
       sinon.spy(console, "warn");
     });
 
-    afterEach(function () {
+    afterEach(() => {
       console.log.restore();
       console.error.restore();
       console.warn.restore();
     });
 
-    it("forwards error messages to the console", function () {
+    it("forwards error messages to the console", () => {
       const message = "some error";
 
       LDAP.error(message);
@@ -200,7 +200,7 @@ describe("ldap", function () {
       expect(console.error.calledOnce).to.be.true;
     });
 
-    it("forwards warning messages to the console", function () {
+    it("forwards warning messages to the console", () => {
       const message = "some warning";
 
       LDAP.warn(message);

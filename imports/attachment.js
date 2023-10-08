@@ -67,10 +67,10 @@ export class Attachment {
     upload.on("start", function () {
       callbacks.onStart(this); // this == current upload object
     });
-    upload.on("end", function (error, fileObj) {
+    upload.on("end", (error, fileObj) => {
       callbacks.onEnd(error, fileObj);
     });
-    upload.on("abort", function (error, fileObj) {
+    upload.on("abort", (error, fileObj) => {
       callbacks.onAbort(error, fileObj);
     });
 

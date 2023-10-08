@@ -1,7 +1,7 @@
 const task = require("./lib/task");
 
 function logTask(taskname) {
-  return function (data) {
+  return (data) => {
     process.stdout.write(taskname + ": " + data);
   };
 }
@@ -16,7 +16,7 @@ function shutdown() {
 
   const done = [].fill(false, 0, tasks.length);
   tasks.forEach((task, index) => {
-    task.kill("SIGINT", function (error) {
+    task.kill("SIGINT", (error) => {
       if (error) {
         console.warn("ERROR: ", error);
       }

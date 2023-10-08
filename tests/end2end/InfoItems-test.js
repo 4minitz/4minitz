@@ -4,7 +4,7 @@ import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("Info Items", function () {
+describe("Info Items", () => {
   const aProjectName = "E2E Info Items";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -28,7 +28,7 @@ describe("Info Items", function () {
     return aAINameBase + aAICounter;
   };
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -36,7 +36,7 @@ describe("Info Items", function () {
 
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -47,10 +47,10 @@ describe("Info Items", function () {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    },
+    }
   );
 
-  it("can add an info item", function () {
+  it("can add an info item", () => {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
@@ -79,7 +79,7 @@ describe("Info Items", function () {
     ).to.have.string(infoItemName);
   });
 
-  it("shows security question before deleting info items", function () {
+  it("shows security question before deleting info items", () => {
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
       {
@@ -115,7 +115,7 @@ describe("Info Items", function () {
     E2EApp.confirmationDialogAnswer(false);
   });
 
-  it("can delete an info item", function () {
+  it("can delete an info item", () => {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
@@ -138,7 +138,7 @@ describe("Info Items", function () {
       .false;
   });
 
-  it('can cancel a "delete info item"', function () {
+  it('can cancel a "delete info item"', () => {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
@@ -161,7 +161,7 @@ describe("Info Items", function () {
       .true;
   });
 
-  it("can submit an info item by pressing enter in the topic field", function () {
+  it("can submit an info item by pressing enter in the topic field", () => {
     const topicIndex = 1;
     E2ETopics.openInfoItemDialog(topicIndex, "infoItem");
 
@@ -192,7 +192,7 @@ describe("Info Items", function () {
     ).to.have.string(infoItemName);
   });
 
-  it("can edit an info item", function () {
+  it("can edit an info item", () => {
     const topicIndex = 1;
     E2ETopics.addInfoItemToTopic(
       {
@@ -244,7 +244,7 @@ describe("Info Items", function () {
     ).to.have.string("Decision");
   });
 
-  it("can edit the 2nd info item after creating three of them", function () {
+  it("can edit the 2nd info item after creating three of them", () => {
     const topicIndex = 1;
     for (let i = 1; i < 4; i++) {
       E2ETopics.addInfoItemToTopic(

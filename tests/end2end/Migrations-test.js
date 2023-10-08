@@ -8,13 +8,13 @@ import { E2EGlobal } from "./helpers/E2EGlobal";
 // The tests creates a series with two minutes containing action and info items
 // After that you can migrate down to a specific version and migrate up step by step. After each step
 // the amount of items will be count
-describe.skip("Migrations", function () {
+describe.skip("Migrations", () => {
   const aProjectName = "Migrations";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -22,7 +22,7 @@ describe.skip("Migrations", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -31,10 +31,10 @@ describe.skip("Migrations", function () {
 
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  it("should not change meeting series topics history when migration down and up", function () {
+  it("should not change meeting series topics history when migration down and up", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "information" }, 1);
     E2ETopics.addInfoItemToTopic(

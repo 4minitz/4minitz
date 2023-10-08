@@ -4,12 +4,12 @@ import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("MyActionItems Tab", function () {
+describe("MyActionItems Tab", () => {
   const aProjectName = "MyActionItems Tab";
   const aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -17,10 +17,10 @@ describe("MyActionItems Tab", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
-    },
+    }
   );
 
   // **************
@@ -98,7 +98,7 @@ describe("MyActionItems Tab", function () {
   // ATTENTION!
   // This test case has expected side effect to next test case!
   // **************
-  it("can filter my action items from all action items", function () {
+  it("can filter my action items from all action items", () => {
     const meetingName = aMeetingNameBase + "3";
     E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
 
@@ -132,7 +132,7 @@ describe("MyActionItems Tab", function () {
     ).to.equal(4);
   });
 
-  it('can navigate from AI on "My Action Item" to parent topic', function () {
+  it('can navigate from AI on "My Action Item" to parent topic', () => {
     E2EApp.gotoStartPage();
     E2EApp.gotoActionItemsTab();
 

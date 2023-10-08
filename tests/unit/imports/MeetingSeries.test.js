@@ -50,38 +50,38 @@ const { MeetingSeries } = proxyquire("../../../imports/meetingseries", {
   "/imports/services/minutesFinder": { MinutesFinder, "@noCallThru": true },
 });
 
-describe("MeetingSeries", function () {
-  describe("#constructor", function () {
+describe("MeetingSeries", () => {
+  describe("#constructor", () => {
     let meetingSeries;
 
-    beforeEach(function () {
+    beforeEach(() => {
       meetingSeries = {
         project: "foo",
         name: "bar",
       };
     });
 
-    it("sets the project correctly", function () {
+    it("sets the project correctly", () => {
       var ms = new MeetingSeries(meetingSeries);
 
       expect(ms.project).to.equal(meetingSeries.project);
     });
 
-    it("sets the name correctly", function () {
+    it("sets the name correctly", () => {
       var ms = new MeetingSeries(meetingSeries);
 
       expect(ms.name).to.equal(meetingSeries.name);
     });
   });
 
-  describe("#getMinimumAllowedDateForMinutes", function () {
+  describe("#getMinimumAllowedDateForMinutes", () => {
     let series;
 
-    beforeEach(function () {
+    beforeEach(() => {
       series = new MeetingSeries();
     });
 
-    afterEach(function () {
+    afterEach(() => {
       if (Object.prototype.hasOwnProperty.call(Minutes, "findAllIn")) {
         delete Minutes.findAllIn;
       }
@@ -99,7 +99,7 @@ describe("MeetingSeries", function () {
       );
     }
 
-    it("retrieves the date of the lastMinutes() if no id is given", function () {
+    it("retrieves the date of the lastMinutes() if no id is given", () => {
       const expectedDate = new Date();
 
       MinutesFinder.result = { date: expectedDate };
@@ -109,7 +109,7 @@ describe("MeetingSeries", function () {
       compareDates(actualDate, expectedDate);
     });
 
-    it("gets the date from the second to last minute if id of last minute is given", function () {
+    it("gets the date from the second to last minute if id of last minute is given", () => {
       let lastMinuteId = "lastMinuteId",
         expectedDate = new Date();
 
@@ -129,7 +129,7 @@ describe("MeetingSeries", function () {
       compareDates(actualDate, expectedDate);
     });
 
-    it("gets the date from the last minute if id of second to last minute is given", function () {
+    it("gets the date from the last minute if id of second to last minute is given", () => {
       let secondToLastMinuteId = "minuteId",
         expectedDate = new Date();
 
@@ -151,23 +151,23 @@ describe("MeetingSeries", function () {
     });
   });
 
-  describe("#save", function () {
+  describe("#save", () => {
     let meetingSeries;
 
-    beforeEach(function () {
+    beforeEach(() => {
       meetingSeries = new MeetingSeries({
         project: "foo",
         name: "bar",
       });
     });
 
-    it("calls the meteor method meetingseries.insert", function () {
+    it("calls the meteor method meetingseries.insert", () => {
       meetingSeries.save();
 
       expect(Meteor.callPromise.calledOnce).to.be.true;
     });
 
-    it("sends the document to the meteor method meetingseries.insert", function () {
+    it("sends the document to the meteor method meetingseries.insert", () => {
       meetingSeries.save();
 
       expect(

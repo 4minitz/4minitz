@@ -37,7 +37,7 @@ const filterClosedTopics = new ReactiveVar(false);
  * Prepares the DOM view for printing - on and off
  * @param switchOn - optional (if missing, function toggles on <=> off)
  */
-const togglePrintView = function (switchOn) {
+const togglePrintView = (switchOn) => {
   if (switchOn === undefined) {
     // toggle on <=> off
     Session.set(
@@ -58,20 +58,20 @@ const togglePrintView = function (switchOn) {
 
     Session.set("participants.expand", false);
     $(".help").hide();
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       $(".collapse").addClass("in");
     }, 100);
 
     // give collapsibles some time for animation
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       $(".expand-collapse-triangle").hide();
     }, 350);
     // as material checkboxes do not print correctly...
     // change material checkbox to normal checkbox for printing
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       $("div.checkbox").toggleClass("checkbox print-checkbox");
     }, 360);
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       openPrintDialog();
     }, 500);
   } else {
@@ -88,14 +88,14 @@ const togglePrintView = function (switchOn) {
 };
 
 // Automatically restore view after printing
-(function () {
-  const afterPrint = function () {
+(() => {
+  const afterPrint = () => {
     togglePrintView(false);
   };
 
   if (window.matchMedia) {
     const mediaQueryList = window.matchMedia("print");
-    mediaQueryList.addListener(function (mql) {
+    mediaQueryList.addListener((mql) => {
       if (!mql.matches) {
         afterPrint();
       }
@@ -110,9 +110,9 @@ const togglePrintView = function (switchOn) {
 // elements If we want to have these key events really global, we have to
 // register them with the document. For details see SO:
 // http://stackoverflow.com/questions/27972873/meteor-keydown-keyup-events-outside-input
-const handleTemplatesGlobalKeyboardShortcuts = function (switchOn) {
+const handleTemplatesGlobalKeyboardShortcuts = (switchOn) => {
   if (switchOn) {
-    $(document).keydown(function (evt) {
+    $(document).keydown((evt) => {
       if ($(".modal.in").length > 0) {
         // any modal dialog open?
         return;
@@ -144,7 +144,7 @@ Template.minutesedit.onRendered(function () {
   // Ugly hack...   :-(
   // For some strange reason, our DOM element is not available immediately
   // (Blaze API tells us differently!) - so, we give it some time to settle
-  Meteor.setTimeout(function () {
+  Meteor.setTimeout(() => {
     const target = tmpl.find("#editGlobalNotes");
     if (target) {
       target.style.height = 0;
@@ -196,17 +196,17 @@ Template.minutesedit.onDestroyed(function () {
   this.userTracker.onLeave();
 });
 
-const isMinuteFinalized = function () {
+const isMinuteFinalized = () => {
   const aMin = new Minutes(_minutesID);
   return aMin?.isFinalized;
 };
 
-const isModerator = function () {
+const isModerator = () => {
   const aMin = new Minutes(_minutesID);
   return aMin?.isCurrentUserModerator();
 };
 
-const toggleTopicSorting = function () {
+const toggleTopicSorting = () => {
   let topicList = $("#topicPanel"),
     isFinalized = isMinuteFinalized();
 
@@ -219,7 +219,7 @@ const toggleTopicSorting = function () {
   }
 };
 
-const updateTopicSorting = function (event, ui) {
+const updateTopicSorting = (event, ui) => {
   const draggedTopicID = $(ui.item).attr("data-id");
   if (!draggedTopicID) {
     return;
@@ -280,7 +280,7 @@ const updateTopicSorting = function (event, ui) {
   });
 };
 
-const openPrintDialog = function () {
+const openPrintDialog = () => {
   const ua = navigator.userAgent.toLowerCase();
   const isAndroid = ua.indexOf("android") > -1;
 
@@ -361,7 +361,7 @@ Template.minutesedit.helpers({
 
     // enable the parent series check after 2.5 seconds delay to make sure
     // there was enough time to update the meeting series
-    Meteor.setTimeout(function () {
+    Meteor.setTimeout(() => {
       Session.set("minutesedit.checkParent", true);
     }, 2500);
   },
@@ -631,7 +631,7 @@ Template.minutesedit.events({
         aMin.meetingSeries_id,
     );
 
-    const doFinalize = function () {
+    const doFinalize = () => {
       tmpl.$("#btn_finalizeMinutes").prop("disabled", true);
       const msg = new FlashMessage(
         i18n.__("FlashMessages.finalizeProgress1"),
@@ -660,7 +660,7 @@ Template.minutesedit.events({
       }, 500);
     };
 
-    const processFinalize = function () {
+    const processFinalize = () => {
       if (GlobalSettings.isEMailDeliveryEnabled()) {
         ConfirmationDialogFactory.makeSuccessDialogWithTemplate(
           doFinalize,

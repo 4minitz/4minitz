@@ -9,7 +9,7 @@ import { Meteor } from "meteor/meteor";
 const fs = require("fs-extra");
 const path = require("path");
 
-createDocumentStoragePath = function (fileObj) {
+createDocumentStoragePath = (fileObj) => {
   // eslint-disable-line
   if (Meteor.isServer) {
     let absoluteDocumentPath = getDocumentStorageRootDirectory(); // eslint-disable-line
@@ -21,7 +21,7 @@ createDocumentStoragePath = function (fileObj) {
       absoluteDocumentPath = `${absoluteDocumentPath}/${minuteYear}`;
     }
     // create target dir for document storage if it does not exist
-    fs.ensureDirSync(absoluteDocumentPath, function (err) {
+    fs.ensureDirSync(absoluteDocumentPath, (err) => {
       if (err) {
         console.error(
           "ERROR: Could not create path for protocol storage: " +
@@ -35,7 +35,7 @@ createDocumentStoragePath = function (fileObj) {
 
 // This function will delete the DocumentStoragePath with each subdirectory in
 // it It is used within the E2E-Tests to reset the app
-resetDocumentStorageDirectory = function () {
+resetDocumentStorageDirectory = () => {
   // eslint-disable-line
   const storagePath = getDocumentStorageRootDirectory(); // eslint-disable-line
   if (fs.existsSync(storagePath)) {
@@ -170,7 +170,7 @@ if (Meteor.settings.docGeneration?.enabled) {
   const absoluteTargetPath = path.resolve(settingsPath);
   console.log(`Document Storage Path: ${absoluteTargetPath}`);
 
-  fs.access(absoluteTargetPath, fs.W_OK, function (err) {
+  fs.access(absoluteTargetPath, fs.W_OK, (err) => {
     if (err) {
       console.error("*** ERROR*** No write access to Document Storage Path");
       console.error("             Documents can not be saved.");

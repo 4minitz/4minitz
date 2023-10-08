@@ -5,7 +5,7 @@ import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("Labels", function () {
+describe("Labels", () => {
   const aProjectName = "E2E Labels";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -29,7 +29,7 @@ describe("Labels", function () {
     return aAINameBase + aAICounter;
   };
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -37,7 +37,7 @@ describe("Labels", function () {
 
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -48,11 +48,11 @@ describe("Labels", function () {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    },
+    }
   );
 
-  describe("Labels for Action- / Info Items", function () {
-    it("can add a new custom label to an AI", function () {
+  describe("Labels for Action- / Info Items", () => {
+    it("can add a new custom label to an AI", () => {
       const labelName = "MyCustomLabel";
       const labelColor = "#ff0000";
 
@@ -73,7 +73,7 @@ describe("Labels", function () {
       expect(visibleText).to.not.have.string(labelColor);
     });
 
-    it("can add a default label to an info item", function () {
+    it("can add a default label to an info item", () => {
       const defaultLabel = E2EGlobal.SETTINGS.defaultLabels[0].name;
 
       E2ETopics.addInfoItemToTopic(
@@ -92,7 +92,7 @@ describe("Labels", function () {
       expect(visibleText).to.have.string(defaultLabel);
     });
 
-    it("changes the labels text in finalized minutes if the label will be renamed", function () {
+    it("changes the labels text in finalized minutes if the label will be renamed", () => {
       const labelName = "Decision";
       const renamedLabel = "Entscheidung";
 
@@ -129,7 +129,7 @@ describe("Labels", function () {
       );
     });
 
-    it("resets the labels name if editing will be canceled", function () {
+    it("resets the labels name if editing will be canceled", () => {
       const labelName = "Status:RED";
       const renamedLabel = "Test";
       const changedColor = "ffffff";

@@ -47,14 +47,14 @@ class ExpImpTopics {
       return db
         .collection("topics")
         .deleteMany({ _id: { $in: topicIDs } }) // delete existing topics with same IDs
-        .then(function (res) {
+        .then((res) => {
           if (res.result && !res.result.ok) {
             console.log(res);
           }
           return db
             .collection("topics")
             .insertMany(AllTopicsDoc) // insert imported minutes
-            .then(function (res) {
+            .then((res) => {
               if (res.result.ok === 1 && res.result.n === AllTopicsDoc.length) {
                 console.log(`OK, inserted ${res.result.n} topics.`);
                 resolve({ db, usrMap });

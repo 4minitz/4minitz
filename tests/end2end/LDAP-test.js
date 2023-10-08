@@ -2,7 +2,7 @@ import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
 import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 
-describe("LDAP", function () {
+describe("LDAP", () => {
   const aProjectName = "E2E LDAP";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -13,7 +13,7 @@ describe("LDAP", function () {
     return aMeetingNameBase + aMeetingCounter;
   };
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -21,19 +21,19 @@ describe("LDAP", function () {
 
   beforeEach(
     "make sure test user is logged out and on the start page",
-    function () {
+    () => {
       E2EApp.logoutUser();
       expect(E2EApp.isNotLoggedIn()).to.be.true;
-    },
+    }
   );
 
-  after("clear database and login user", function () {
+  after("clear database and login user", () => {
     E2EApp.launchApp();
     E2EApp.loginUser();
     expect(E2EApp.isLoggedIn()).to.be.true;
   });
 
-  xit("import cronjob does not produce errors", function () {
+  xit("import cronjob does not produce errors", () => {
     const numberOfUsersWithoutLdap = server.call("e2e.removeLdapUsersFromDb");
 
     server.call("e2e.importLdapUsers");
@@ -44,13 +44,13 @@ describe("LDAP", function () {
     );
   });
 
-  it("ldap user can login with his credentials", function () {
+  it("ldap user can login with his credentials", () => {
     E2EApp.loginLdapUserWithCredentials("ldapUser1", "ldapPwd1", false);
 
     expect(E2EApp.isLoggedIn()).to.be.true;
   });
 
-  it("ldap user can NOT reset password", function () {
+  it("ldap user can NOT reset password", () => {
     E2EApp.loginLdapUserWithCredentials("ldapUser1", "ldapPwd1", false);
     E2EApp.logoutUser();
 
@@ -69,7 +69,7 @@ describe("LDAP", function () {
     }
   });
 
-  it("ldap user can create meeting series", function () {
+  it("ldap user can create meeting series", () => {
     E2EApp.loginLdapUserWithCredentials("ldapUser1", "ldapPwd1", false);
 
     const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -82,7 +82,7 @@ describe("LDAP", function () {
       .be.ok;
   });
 
-  it("ldap user will be rejected if the password is wrong", function () {
+  it("ldap user will be rejected if the password is wrong", () => {
     let loginUnexpectedlySucceeded = false;
     try {
       E2EApp.loginLdapUserWithCredentials("ldapUser1", "wrongPassword", false);
@@ -95,7 +95,7 @@ describe("LDAP", function () {
     expect(E2EApp.isNotLoggedIn()).to.be.true;
   });
 
-  it("ldap user can not log in with the standard login form", function () {
+  it("ldap user can not log in with the standard login form", () => {
     const message =
       "Login failed for user ldapUser1 with ldapPwd1\nwith Error: Unknown user or wrong password.";
 

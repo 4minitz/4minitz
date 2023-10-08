@@ -189,7 +189,7 @@ Meteor.methods({
         return false;
       }
 
-      AttachmentsCollection.remove({ _id: attachmentID }, function (error) {
+      AttachmentsCollection.remove({ _id: attachmentID }, (error) => {
         if (error) {
           console.error(
             `File ${attachmentID} wasn't removed, error: ${error.reason}`,

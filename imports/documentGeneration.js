@@ -50,7 +50,7 @@ export class DocumentGeneration {
         a.download = filename;
         a.click();
 
-        setTimeout(function () {
+        setTimeout(() => {
           window.URL.revokeObjectURL(fileurl);
         }, 250);
       }

@@ -18,7 +18,7 @@ Template.tabAdminUsers.onCreated(function () {
   });
 });
 
-Template.tabAdminUsers.onRendered(function () {
+Template.tabAdminUsers.onRendered(() => {
   _filterUsers.set("");
   Template.instance().find("#id_adminFilterUsers").focus();
   Template.instance().find("#id_adminShowInactive").checked =

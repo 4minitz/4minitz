@@ -1,7 +1,7 @@
 import { Statistics } from '/imports/statistics';
 import { Template } from 'meteor/templating';
 
-Template.aboutStatistics.onRendered(function () {
+Template.aboutStatistics.onRendered(() => {
     (new Statistics()).update();
 });
 

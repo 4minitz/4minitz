@@ -31,7 +31,7 @@ function findLatestVersion() {
   return max;
 }
 
-export const handleMigration = function () {
+export const handleMigration = () => {
   const latestVersion = findLatestVersion(),
     currentVersion = Migrations.getVersion();
 

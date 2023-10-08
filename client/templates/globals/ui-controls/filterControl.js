@@ -32,7 +32,7 @@ export class FilterControlConfig {
 const MATCH_CASE = "do:match-case ";
 const MATCH_CASE_RE = new RegExp(`${MATCH_CASE}*`, "g");
 
-const toggleMatchCase = function (enable, input) {
+const toggleMatchCase = (enable, input) => {
   if (enable) {
     input.value = MATCH_CASE + input.value;
   } else {
@@ -40,7 +40,7 @@ const toggleMatchCase = function (enable, input) {
   }
 };
 
-const performSearch = function (query, tmpl) {
+const performSearch = (query, tmpl) => {
   tmpl.data.config.callback(query);
 
   if (!tmpl.view.isRendered) {
@@ -63,14 +63,14 @@ const performSearch = function (query, tmpl) {
   }
 };
 
-const appendSpace = function (string) {
+const appendSpace = (string) => {
   if (string !== "") {
     string = `${string.trim()} `;
   }
   return string;
 };
 
-const focusInputField = function (tmpl) {
+const focusInputField = (tmpl) => {
   if (!tmpl.view.isRendered) {
     return;
   }
@@ -79,9 +79,9 @@ const focusInputField = function (tmpl) {
   input.focus();
 };
 
-Template.filterControl.onCreated(function () {});
+Template.filterControl.onCreated(() => {});
 
-Template.filterControl.onRendered(function () {
+Template.filterControl.onRendered(() => {
   const tmpl = Template.instance();
   Meteor.setTimeout(() => {
     focusInputField(tmpl);

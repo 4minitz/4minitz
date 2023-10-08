@@ -101,10 +101,10 @@ const checkUpdateMeetingSeriesCall = (series, checkUpdatedTopic) => {
   checkUpdatedTopic(updClosedTopic);
 };
 
-describe("Migrate Version 1", function () {
+describe("Migrate Version 1", () => {
   let series, minute, topic, closedTopic;
 
-  beforeEach(function () {
+  beforeEach(() => {
     topic = {
       subject: "Topic Subject",
       responsible: "person",
@@ -130,14 +130,14 @@ describe("Migrate Version 1", function () {
     MeetingSeriesSchema.insert(series);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     MinutesSchema.update.resetHistory();
     MeetingSeriesSchema.update.resetHistory();
     MeetingSeriesSchema.series = [];
     MinutesSchema.minutes = [];
   });
 
-  describe("#up", function () {
+  describe("#up", () => {
     const checkUpdatedTopic = (updatedTopic) => {
       expect(updatedTopic).to.not.have.ownProperty("details");
       expect(updatedTopic).to.not.have.ownProperty("duedate");
@@ -148,20 +148,20 @@ describe("Migrate Version 1", function () {
       expect(updatedTopic.infoItems).to.be.empty;
     };
 
-    it("modifies the topic of the minute in the minutes collection", function () {
+    it("modifies the topic of the minute in the minutes collection", () => {
       MigrateV1.up();
 
       checkUpdateMinuteCall(minute, checkUpdatedTopic);
     });
 
-    it("modifies the open/closed topics of a series", function () {
+    it("modifies the open/closed topics of a series", () => {
       MigrateV1.up();
 
       checkUpdateMeetingSeriesCall(series, checkUpdatedTopic);
     });
   });
 
-  describe("#down", function () {
+  describe("#down", () => {
     const checkUpdatedTopic = (updatedTopic) => {
       expect(updatedTopic).to.have.ownProperty("details");
       expect(updatedTopic).to.have.ownProperty("duedate");
@@ -170,13 +170,13 @@ describe("Migrate Version 1", function () {
       expect(updatedTopic).to.not.have.ownProperty("infoItems");
     };
 
-    it("modifies the topic of the minute in the minutes collection", function () {
+    it("modifies the topic of the minute in the minutes collection", () => {
       MigrateV1.down();
 
       checkUpdateMinuteCall(minute, checkUpdatedTopic);
     });
 
-    it("modifies the open/closed topics of a series", function () {
+    it("modifies the open/closed topics of a series", () => {
       MigrateV1.down();
 
       checkUpdateMeetingSeriesCall(series, checkUpdatedTopic);

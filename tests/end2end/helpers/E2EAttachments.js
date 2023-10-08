@@ -29,7 +29,7 @@ export class E2EAttachments {
 
     // Different file upload mechanisms for headless and desktop browsers
     if (E2EGlobal.browserIsPhantomJS()) {
-      browser.execute(function () {
+      browser.execute(() => {
         $("#btnUploadAttachment").attr("style", "").focus(); // remove display:none style so that focus() works
       });
       browser.keys(filename); // send filename as keystrokes
@@ -79,7 +79,7 @@ export class E2EAttachments {
   // execute an attachment collection count in the
   // client browser context with currently logged in user
   static countAttachmentsOnClientForCurrentUser() {
-    const result = browser.execute(function () {
+    const result = browser.execute(() => {
       const mod = require("/imports/collections/attachments_private");
       const coll = mod.AttachmentsCollection;
       return coll.find().count();

@@ -6,7 +6,7 @@ import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 import { E2EMails } from "./helpers/E2EMails";
 
-describe("Topics Skip", function () {
+describe("Topics Skip", () => {
   const aProjectName = "E2E Topics Skip";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -15,7 +15,7 @@ describe("Topics Skip", function () {
   const nonSkippedTopicName = "Non-skipped Topic #1";
   const skippedTopicName = "Skipped Topic #2";
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -23,7 +23,7 @@ describe("Topics Skip", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in. Also create two topics",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -39,10 +39,10 @@ describe("Topics Skip", function () {
 
       expect(E2ETopics.isTopicSkipped(1)).to.be.false;
       expect(E2ETopics.isTopicSkipped(2)).to.be.false;
-    },
+    }
   );
 
-  it("Can skip and unskip topic", function () {
+  it("Can skip and unskip topic", () => {
     const skipAndUnskipTopicViaUI = (useDropdownMenu) => {
       E2ETopics.toggleSkipTopic(2, true); //skip
       expect(E2ETopics.isTopicSkipped(1)).to.be.false;
@@ -58,7 +58,7 @@ describe("Topics Skip", function () {
     skipAndUnskipTopicViaUI(false);
   });
 
-  it("Skipping closed topics will open them and they cannot be closed again", function () {
+  it("Skipping closed topics will open them and they cannot be closed again", () => {
     E2ETopics.toggleTopic(2);
     expect(E2ETopics.isTopicClosed(2)).to.be.true;
 
@@ -70,7 +70,7 @@ describe("Topics Skip", function () {
     expect(E2ETopics.isTopicClosed(2)).to.be.false; // topic has not been opened again, since the checkbox is not editable
   });
 
-  it("Skipped topics will not be included in agenda mails", function () {
+  it("Skipped topics will not be included in agenda mails", () => {
     E2EMails.resetSentMailsDb();
 
     E2ETopics.toggleSkipTopic(2, true);
@@ -93,7 +93,7 @@ describe("Topics Skip", function () {
     ).to.not.have.string(skippedTopicName);
   });
 
-  it("Skipped topics will not be included in info item mails", function () {
+  it("Skipped topics will not be included in info item mails", () => {
     const skippedInfoItemTitle = "This is an Infoitem within a skipped Topic";
     const nonSkippedInfoItemTitle =
       "This is an Infoitem within a non-skipped Topic";
@@ -131,7 +131,7 @@ describe("Topics Skip", function () {
     ).to.not.have.string(skippedInfoItemTitle);
   });
 
-  it("Skipped topics will not be included in action item mails", function () {
+  it("Skipped topics will not be included in action item mails", () => {
     const skippedActionItemTitle =
       "This is an ActionItem within a skipped Topic";
     const nonSkippedActionItemTitle =
@@ -175,7 +175,7 @@ describe("Topics Skip", function () {
     ).to.not.have.string(skippedActionItemTitle);
   });
 
-  it("Skipped topics can only be seen by the moderator", function () {
+  it("Skipped topics can only be seen by the moderator", () => {
     E2ETopics.toggleSkipTopic(2, true);
     //Moderator can see Topic
     const selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
@@ -202,7 +202,7 @@ describe("Topics Skip", function () {
     E2EApp.loginUser();
   });
 
-  it("Hide closed Topics button will also hide skipped topics", function () {
+  it("Hide closed Topics button will also hide skipped topics", () => {
     E2ETopics.toggleSkipTopic(2, true);
     const selector = "#topicPanel .well:nth-child(2) #btnTopicDropdownMenu";
     expect(browser.isVisible(selector)).to.be.true;
@@ -212,7 +212,7 @@ describe("Topics Skip", function () {
     E2EGlobal.clickWithRetry("#checkHideClosedTopicsLabel");
   });
 
-  it("Skipped topics will appear unskipped in the next minute", function () {
+  it("Skipped topics will appear unskipped in the next minute", () => {
     E2ETopics.toggleSkipTopic(2, true);
     expect(E2ETopics.isTopicSkipped(2)).to.be.true;
     E2EMinutes.finalizeCurrentMinutes(true);

@@ -73,7 +73,7 @@ Template.meetingSeriesDetails.onRendered(function () {
 
     // Defer opening the meeting series settings dialog after rendering of the
     // template
-    window.setTimeout(function () {
+    window.setTimeout(() => {
       $("#dlgEditMeetingSeries").modal("show");
     }, 500);
   }

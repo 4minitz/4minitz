@@ -6,26 +6,26 @@ import { E2EGlobal } from './helpers/E2EGlobal';
 
 const newMinuteDate = '01.01.2000';
 
-describe('Minutes Method Security', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
+describe('Minutes Method Security', () => {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
-    before('reload page and reset app', function () {
+    before('reload page and reset app', () => {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
     //minute.update
-    it('can update a Minute if moderator', function () {
+    it('can update a Minute if moderator', () => {
         const name = 'MinuteUpdate as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2ESecurity.tryUpdateCurrentMinuteDate(min.min_id, newMinuteDate, newMinuteDate);
 
     });
 
-    it('can not update a Minute if not logged in', function () {
+    it('can not update a Minute if not logged in', () => {
         const name = 'MinuteUpdate as not logged in';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2EApp.logoutUser();
@@ -36,7 +36,7 @@ describe('Minutes Method Security', function () {
 
     });
 
-    it('can not update a Minute if not invited to a Meeting Serie', function () {
+    it('can not update a Minute if not invited to a Meeting Serie', () => {
         const name = 'MinuteUpdate as not invited to MS';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2EApp.loginUser(1);
@@ -47,7 +47,7 @@ describe('Minutes Method Security', function () {
 
     });
 
-    it('can not update a Minute as an invited user', function () {
+    it('can not update a Minute as an invited user', () => {
         const name = 'MinuteUpdate as Invited';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
@@ -61,7 +61,7 @@ describe('Minutes Method Security', function () {
     });
 
     //addMinute
-    it('can not add a new Minute if not logged in', function () {
+    it('can not add a new Minute if not logged in', () => {
         const name = 'MinuteAdd as not logged in';
         const ms_id = E2ESecurity.createMeetingSeries(name);
 
@@ -73,7 +73,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can add a new Minute if a moderator', function () {
+    it('can add a new Minute if a moderator', () => {
         const name = 'MinuteAdd as moderator';
         const ms_id = E2ESecurity.createMeetingSeries(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
@@ -81,7 +81,7 @@ describe('Minutes Method Security', function () {
         E2ESecurity.tryAddNewMinute(ms_id, '29.07.2017', numberOfMinutes+1, 0);
     });
 
-    it('can not add a new Minute as an invited user', function () {
+    it('can not add a new Minute as an invited user', () => {
         const name = 'MinuteAdd as invited user';
         const ms_id = E2ESecurity.createMeetingSeries(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
@@ -93,7 +93,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can not add a new Minute if not invited to a Meeting Serie', function () {
+    it('can not add a new Minute if not invited to a Meeting Serie', () => {
         const name = 'MinuteAdd as not invited to MS';
         const ms_id = E2ESecurity.createMeetingSeries(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
@@ -105,7 +105,7 @@ describe('Minutes Method Security', function () {
     });
 
     //workflow.removeMinute
-    it('can delete a Minute if a moderator', function () {
+    it('can delete a Minute if a moderator', () => {
         const name = 'MinuteDelete as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
@@ -113,7 +113,7 @@ describe('Minutes Method Security', function () {
         E2ESecurity.tryRemoveMinute(min.min_id, numberOfMinutes-1);
     });
 
-    it('can not delete a Minute if not logged in', function () {
+    it('can not delete a Minute if not logged in', () => {
         const name = 'MinuteDelete as not logged in';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
@@ -123,7 +123,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can not delete a Minute if not invited to a Meeting Serie', function () {
+    it('can not delete a Minute if not invited to a Meeting Serie', () => {
         const name = 'MinuteDelete as not invited to MS';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
@@ -134,7 +134,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can not delete a Minute as an invited user', function () {
+    it('can not delete a Minute as an invited user', () => {
         const name = 'MinuteDelete as an invited user';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const numberOfMinutes = server.call('e2e.countMinutesInMongoDB');
@@ -147,14 +147,14 @@ describe('Minutes Method Security', function () {
     });
 
     //workflow.finalizeMinute
-    it('can finalize a Minute if Moderator', function () {
+    it('can finalize a Minute if Moderator', () => {
         const name = 'MinuteFinalize as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
         E2ESecurity.tryFinalizeMinute(min.min_id, true);
     });
 
-    it('can not finalize a Minute if not logged in', function () {
+    it('can not finalize a Minute if not logged in', () => {
         const name = 'MinuteFinalize as not logged in';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
@@ -164,7 +164,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can not finalize a Minute if not invited to a Meeting Serie', function () {
+    it('can not finalize a Minute if not invited to a Meeting Serie', () => {
         const name = 'MinuteFinalize as not invited to MS';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
@@ -174,7 +174,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can not finalize a Minute as an invited user', function () {
+    it('can not finalize a Minute as an invited user', () => {
         const name = 'MinuteFinalize as an invited user';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
@@ -186,7 +186,7 @@ describe('Minutes Method Security', function () {
     });
 
     //workflow.unfinalizeMinute
-    it('can unfinalize a Minute if Moderator', function () {
+    it('can unfinalize a Minute if Moderator', () => {
         const name = 'MinuteUnfinalize as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
@@ -194,7 +194,7 @@ describe('Minutes Method Security', function () {
         E2ESecurity.tryUnfinalizeMinute(min.min_id, false);
     });
 
-    it('can not unfinalize a Minute if not logged in', function () {
+    it('can not unfinalize a Minute if not logged in', () => {
         const name = 'MinuteUnfinalize as not logged in';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
@@ -205,7 +205,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can not unfinalize a Minute if not invited to a Meeting Serie', function () {
+    it('can not unfinalize a Minute if not invited to a Meeting Serie', () => {
         const name = 'MinuteUnfinalize as not invited to MS';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
@@ -216,7 +216,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can not unfinalize a Minute as an invited user', function () {
+    it('can not unfinalize a Minute as an invited user', () => {
         const name = 'MinuteUnfinalize as an invited user';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
 
@@ -229,7 +229,7 @@ describe('Minutes Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('can not unfinalize a Minute as a Moderator if it is not the last one', function () {
+    it('can not unfinalize a Minute as a Moderator if it is not the last one', () => {
         const name = 'MinuteUnfinalize for not last Minute';
         const minute_1 = E2ESecurity.createMeetingSeriesAndMinute(name);
 
@@ -244,18 +244,18 @@ describe('Minutes Method Security', function () {
 
 });
 
-describe('Minute Publish & Subscribe Security', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
+describe('Minute Publish & Subscribe Security', () => {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before('reload page and reset app', function () {
+    before('reload page and reset app', () => {
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    it('Non-logged in users have no unexpected Minutes published', function () {
+    it('Non-logged in users have no unexpected Minutes published', () => {
         const name = 'Publish Minutes Project #1';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2ESecurity.tryFinalizeMinute(min.min_id, true);
@@ -273,7 +273,7 @@ describe('Minute Publish & Subscribe Security', function () {
         E2EApp.loginUser();
     });
 
-    it('Invited users should have Minutes published', function () {
+    it('Invited users should have Minutes published', () => {
         expect(E2EApp.isLoggedIn()).to.be.true;
         const name = 'Publish Minutes Project #2';
 

@@ -6,7 +6,7 @@ const longName2shortName = {};
 
 // For adding of users:
 // build list of available users that are not already shown in user editor
-export const userlistClean = function (allUsers, substractUsers) {
+export const userlistClean = (allUsers, substractUsers) => {
   const resultUsers = [];
 
   // build a dict with username => user object
@@ -65,7 +65,7 @@ export function checkUserName(newUserName, config) {
  * To enable "Cancel" of editor, this role is kept in the temporary
  * collection until "Save".
  */
-export const addNewUser = function (newUserName, config) {
+export const addNewUser = (newUserName, config) => {
   if (!newUserName) {
     return;
   }

@@ -30,9 +30,7 @@ Template.actionItemList.onCreated(function () {
     createUserIdsReceiver,
   );
 
-  const meetingSeriesIDs = MeetingSeries.find().map(function (item) {
-    return item._id;
-  });
+  const meetingSeriesIDs = MeetingSeries.find().map((item) => item._id);
   this.subscribe("topics", meetingSeriesIDs);
 });
 
@@ -79,9 +77,7 @@ Template.actionItemList.helpers({
 
     myActionItems = tmpl.itemsFilter.filter(myActionItems, tmpl.parser);
 
-    myActionItems.sort(function (a, b) {
-      return new Date(a.duedate) - new Date(b.duedate);
-    });
+    myActionItems.sort((a, b) => new Date(a.duedate) - new Date(b.duedate));
 
     return TopicInfoItemListContext.createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
       myActionItems,

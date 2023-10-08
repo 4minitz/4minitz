@@ -41,13 +41,13 @@ const {
     './actionitem': { ActionItem, '@noCallThru': true}
 });
 
-describe('InfoItemFactory', function () {
+describe('InfoItemFactory', () => {
 
-    afterEach(function() {
+    afterEach(() => {
         TestSetup.reset();
     });
 
-    describe('#createInfoItem', function() {
+    describe('#createInfoItem', () => {
 
         let infoItemDoc, parentItemDoc;
 
@@ -56,30 +56,30 @@ describe('InfoItemFactory', function () {
             expect(actualArgs[0][1]).to.deep.equal(infoItemDoc);
         };
 
-        beforeEach(function() {
+        beforeEach(() => {
             infoItemDoc = {name: 'A Info Item'};
             parentItemDoc = {name: 'A Parent Item'};
         });
 
-        it('should call the info item constructor if InfoItem.isActionItem returns false', function () {
+        it('should call the info item constructor if InfoItem.isActionItem returns false', () => {
             InfoItemFactory.createInfoItem(parentItemDoc, infoItemDoc);
             expect(TestSetup.infoItemConstructorCallCount, 'InfoItem constructor should have been called once').to.equal(1);
             expect(TestSetup.actionItemConstructorCallCount, 'actionItem constructor should not have been called').to.equal(0);
         });
 
-        it('should create a new info item if InfoItem.isActionItem returns true', function () {
+        it('should create a new info item if InfoItem.isActionItem returns true', () => {
             TestSetup.nextItemIsAnActionItem = true;
             InfoItemFactory.createInfoItem(parentItemDoc, infoItemDoc);
             expect(TestSetup.infoItemConstructorCallCount, 'InfoItem constructor should not have been called').to.equal(0);
             expect(TestSetup.actionItemConstructorCallCount, 'actionItem constructor should have been called once').to.equal(1);
         });
 
-        it('should pass the correct arguments to the info item constructor', function() {
+        it('should pass the correct arguments to the info item constructor', () => {
             InfoItemFactory.createInfoItem(parentItemDoc, infoItemDoc);
             verifyArguments(TestSetup.infoItemConstructorArguments);
         });
 
-        it('should pass the correct arguments to the action item constructor', function() {
+        it('should pass the correct arguments to the action item constructor', () => {
             TestSetup.nextItemIsAnActionItem = true;
             InfoItemFactory.createInfoItem(parentItemDoc, infoItemDoc);
             verifyArguments(TestSetup.actionItemConstructorArguments);

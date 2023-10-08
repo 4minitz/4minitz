@@ -81,14 +81,14 @@ class ExpImpMinutes {
       return db
         .collection("minutes")
         .deleteMany({ _id: { $in: minIDs } }) // delete existing minutes with same IDs
-        .then(function (res) {
+        .then((res) => {
           if (res.result && !res.result.ok) {
             console.log(res);
           }
           return db
             .collection("minutes")
             .insertMany(minDoc) // insert imported minutes
-            .then(function (res) {
+            .then((res) => {
               if (res.result.ok === 1 && res.result.n === minDoc.length) {
                 console.log(`OK, inserted ${res.result.n} meeting minutes.`);
                 resolve({ db, usrMap });

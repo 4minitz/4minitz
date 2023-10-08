@@ -39,7 +39,7 @@ let count = 0;
 function collectFilesRecursive(dir, extension) {
   let results = [];
   const list = fs.readdirSync(dir);
-  list.forEach(function (file) {
+  list.forEach((file) => {
     file = dir + "/" + file;
     const stat = fs.statSync(file);
     if (stat?.isDirectory()) {

@@ -7,7 +7,7 @@ import { E2ETopics } from "./helpers/E2ETopics";
 
 import { formatDateISO8601 } from "../../imports/helpers/date";
 
-describe("Item Details", function () {
+describe("Item Details", () => {
   const aProjectName = "E2E ActionItems Details";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -33,7 +33,7 @@ describe("Item Details", function () {
     return aAINameBase + aAICounter;
   };
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -41,7 +41,7 @@ describe("Item Details", function () {
 
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -60,10 +60,10 @@ describe("Item Details", function () {
         },
         1,
       );
-    },
+    }
   );
 
-  it("can add first details to a new Info Item", function () {
+  it("can add first details to a new Info Item", () => {
     const detailsText = "First Details for Info Item";
     E2ETopics.addFirstDetailsToNewInfoItem(
       {
@@ -86,7 +86,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("can add details to an Action Item", function () {
+  it("can add details to an Action Item", () => {
     E2ETopics.addDetailsToActionItem(1, 1, "New Details");
 
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
@@ -96,7 +96,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("can add details to an Info Item, too", function () {
+  it("can add details to an Info Item, too", () => {
     const detailsText = "New Details for Info Item";
     E2ETopics.addInfoItemToTopic(
       {
@@ -115,7 +115,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("can add a second detail to an Action Item", function () {
+  it("can add a second detail to an Action Item", () => {
     E2ETopics.addDetailsToActionItem(1, 1, "First Details");
     E2ETopics.addDetailsToActionItem(1, 1, "Second Details");
 
@@ -135,7 +135,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("can add details to the 2nd AI of the same topic persistent", function () {
+  it("can add details to the 2nd AI of the same topic persistent", () => {
     E2ETopics.addInfoItemToTopic(
       {
         subject: getNewAIName(),
@@ -163,7 +163,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("can edit the details of the 2nd AI of the same topic", function () {
+  it("can edit the details of the 2nd AI of the same topic", () => {
     E2ETopics.addDetailsToActionItem(1, 1, "First Details");
 
     E2ETopics.addInfoItemToTopic(
@@ -183,7 +183,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("does not remove details when AI will be updated with the edit dialog", function () {
+  it("does not remove details when AI will be updated with the edit dialog", () => {
     const newSubject = "AI - changed subject";
 
     E2ETopics.addDetailsToActionItem(1, 1, "New Details");
@@ -202,7 +202,7 @@ describe("Item Details", function () {
     ).to.have.string(formatDateISO8601(new Date()) + " New" + "\nNew Details");
   });
 
-  it("does not revert changes when input field receives click-event during input", function () {
+  it("does not revert changes when input field receives click-event during input", () => {
     const doBeforeSubmit = (inputElement) => {
       // perform click event on the input field after setting the text and before submitting the changes
       E2EGlobal.clickWithRetry(inputElement);
@@ -220,7 +220,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("can change existing details", function () {
+  it("can change existing details", () => {
     E2ETopics.addDetailsToActionItem(1, 1, "New Details");
 
     E2ETopics.editDetailsForActionItem(1, 1, 1, "New Details (changed)");
@@ -232,7 +232,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("shows an confirmation dialog when removing existing details", function () {
+  it("shows an confirmation dialog when removing existing details", () => {
     E2ETopics.addDetailsToActionItem(1, 1, "New Details");
 
     E2ETopics.editDetailsForActionItem(1, 1, 1, ""); // empty text will remove the detail
@@ -257,7 +257,7 @@ describe("Item Details", function () {
     E2EApp.confirmationDialogAnswer(false);
   });
 
-  it("should remove the details if the input field of the new item will be submitted empty", function () {
+  it("should remove the details if the input field of the new item will be submitted empty", () => {
     E2ETopics.addDetailsToActionItem(1, 1, "");
 
     const selectorDialog = "#confirmDialog";
@@ -274,7 +274,7 @@ describe("Item Details", function () {
     ).to.not.have.string(formatDateISO8601(new Date()));
   });
 
-  it("saves details persistent", function () {
+  it("saves details persistent", () => {
     E2ETopics.addDetailsToActionItem(1, 1, "New Details");
 
     browser.refresh();
@@ -291,7 +291,7 @@ describe("Item Details", function () {
     );
   });
 
-  it("ensures that only moderator can add details", function () {
+  it("ensures that only moderator can add details", () => {
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
       aProjectName,
@@ -323,7 +323,7 @@ describe("Item Details", function () {
     E2EApp.loginUser();
   });
 
-  it("ensures that only moderator can change details", function () {
+  it("ensures that only moderator can change details", () => {
     E2ETopics.addDetailsToActionItem(1, 1, "Old Details");
 
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
@@ -357,7 +357,7 @@ describe("Item Details", function () {
     E2EApp.loginUser();
   });
 
-  it("can follow a-hyperlink in details", function () {
+  it("can follow a-hyperlink in details", () => {
     E2ETopics.addDetailsToActionItem(
       1,
       1,

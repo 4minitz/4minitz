@@ -33,19 +33,19 @@ function select2search(
           "responsiblesSearch",
           params.data.q,
           participants,
-          function (err, results) {
+          (err, results) => {
             if (err) {
               failure(err);
               return;
             }
             success(results);
-          },
+          }
         );
       },
       processResults: function (data) {
         const results_participants = [];
         const results_other = [];
-        _.each(data.results, function (result) {
+        _.each(data.results, (result) => {
           if (result.isParticipant) {
             results_participants.push({
               id: result.id,

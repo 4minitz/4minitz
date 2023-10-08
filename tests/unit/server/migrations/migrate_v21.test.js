@@ -31,12 +31,12 @@ const { MigrateV21 } = proxyquire("../../../../server/migrations/migrate_v21", {
   "/imports/collections/topic.schema": { TopicSchema, "@noCallThru": true },
 });
 
-describe("Migrate Version 21", function () {
-  describe("#up", function () {
+describe("Migrate Version 21", () => {
+  describe("#up", () => {
     const topic1 = "topic#1";
     const topic2 = "topic#2";
 
-    beforeEach(function () {
+    beforeEach(() => {
       const firstMinutes = {
         _id: "min#01",
         isFinalized: true,
@@ -81,7 +81,7 @@ describe("Migrate Version 21", function () {
       MinutesFinder.nextMinutes.withArgs(thirdMinutes).returns(false);
     });
 
-    afterEach(function () {
+    afterEach(() => {
       MeetingSeriesSchema.find.resetHistory();
       TopicSchema.update.resetHistory();
       MinutesFinder.firstMinutesOfMeetingSeries.resetHistory();
@@ -89,18 +89,18 @@ describe("Migrate Version 21", function () {
       TopicsFinder.allTopicsOfMeetingSeries.resetHistory();
     });
 
-    it("calls the update method of the topics collection for both topics", function () {
+    it("calls the update method of the topics collection for both topics", () => {
       MigrateV21.up();
       expect(TopicSchema.update.callCount).to.equal(2);
     });
 
-    it("calls the update method of the topics collection with the correct topic id as query", function () {
+    it("calls the update method of the topics collection with the correct topic id as query", () => {
       MigrateV21.up();
       const updateCallArgs = TopicSchema.update.getCall(0).args;
       expect(updateCallArgs[0]).to.equal(topic1);
     });
 
-    it("sends the existing and the missing items to the update call of the topics collection", function () {
+    it("sends the existing and the missing items to the update call of the topics collection", () => {
       MigrateV21.up();
       const itemsInUpdateCall =
         TopicSchema.update.getCall(0).args[1].$set.infoItems;
@@ -112,8 +112,8 @@ describe("Migrate Version 21", function () {
     });
   });
 
-  describe("#down", function () {
-    it("should exist", function () {
+  describe("#down", () => {
+    it("should exist", () => {
       expect(MigrateV21).to.have.ownProperty("down");
     });
   });

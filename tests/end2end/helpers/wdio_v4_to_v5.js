@@ -1,15 +1,9 @@
 import { E2EGlobal } from "./E2EGlobal";
 
-browser.elements = function (selector) {
-  return browser.findElements("css selector", selector); // or: 'xpath' as using
-};
-browser.isVisible = function (selector) {
-  return $(selector).isDisplayed();
-};
-browser.isExisting = function (selector) {
-  return $(selector).isExisting();
-};
-browser.click = function (selector) {
+browser.elements = (selector) => browser.findElements("css selector", selector);
+browser.isVisible = (selector) => $(selector).isDisplayed();
+browser.isExisting = (selector) => $(selector).isExisting();
+browser.click = (selector) => {
   try {
     return $(selector).click();
   } catch (e) {
@@ -21,31 +15,19 @@ browser.click = function (selector) {
     throw e;
   }
 };
-browser.getHTML = function (selector) {
-  return $(selector).getHTML();
-};
-browser.getValue = function (selector) {
-  return $(selector).getValue();
-};
-browser.setValue = function (selector, value) {
-  return $(selector).setValue(value);
-};
-browser.waitForExist = function (
-  selector,
+browser.getHTML = (selector) => $(selector).getHTML();
+browser.getValue = (selector) => $(selector).getValue();
+browser.setValue = (selector, value) => $(selector).setValue(value);
+browser.waitForExist = (selector,
   timeout,
   reverse,
   timeoutMsg,
-  interval,
-) {
-  return $(selector).waitForExist({ timeout, reverse, timeoutMsg, interval });
-};
-browser.waitForVisible = function (
-  selector,
+  interval) => $(selector).waitForExist({ timeout, reverse, timeoutMsg, interval });
+browser.waitForVisible = (selector,
   timeout,
   reverse,
   timeoutMsg,
-  interval,
-) {
+  interval) => {
   try {
     return $(selector).waitForDisplayed({
       timeout,
@@ -62,13 +44,9 @@ browser.waitForVisible = function (
     throw e;
   }
 };
-browser.browser.waitUntil = function (selector, timeout, timeoutMsg, interval) {
-  return $(selector).waitUntil({ timeout, timeoutMsg, interval });
-};
-browser.scroll = function (selector) {
-  return $(selector).scrollIntoView();
-};
+browser.browser.waitUntil = (selector, timeout, timeoutMsg, interval) => $(selector).waitUntil({ timeout, timeoutMsg, interval });
+browser.scroll = (selector) => $(selector).scrollIntoView();
 
-browser.scrollXY = function (x, y) {
+browser.scrollXY = (x, y) => {
   browser.execute("window.scrollTo(" + x + "," + y + ");");
 };

@@ -4,8 +4,8 @@ import { E2EMails } from "./helpers/E2EMails";
 
 import { E2EAdmin } from "./helpers/E2EAdmin";
 
-describe("Admin View", function () {
-  before("reload page and reset app", function () {
+describe("Admin View", () => {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -13,21 +13,21 @@ describe("Admin View", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       server.call("e2e.removeAllBroadcasts");
       E2EApp.launchApp();
       E2EApp.loginUser(0);
       expect(E2EApp.isLoggedIn()).to.be.true;
-    },
+    }
   );
 
-  after("log in user1", function () {
+  after("log in user1", () => {
     server.call("e2e.removeAllBroadcasts");
     E2EApp.launchApp();
     E2EApp.loginUser(0, true);
   });
 
-  it("can not access admin menu or route for non-admin user", function () {
+  it("can not access admin menu or route for non-admin user", () => {
     expect(E2EAdmin.clickAdminMenu(), "click admin menu").to.be.false;
 
     browser.url(browser.getUrl() + E2EAdmin.getAdminRoute());
@@ -35,7 +35,7 @@ describe("Admin View", function () {
     expect(E2EAdmin.isOnAdminView(), "! isOnAdminView").to.be.false;
   });
 
-  it("can access admin menu for admin user", function () {
+  it("can access admin menu for admin user", () => {
     E2EApp.loginUser(4, true);
     expect(E2EAdmin.clickAdminMenu(), "click admin menu").to.be.true;
     expect(E2EAdmin.isOnAdminView(), "isOnAdminView").to.be.true;
@@ -43,7 +43,7 @@ describe("Admin View", function () {
   });
 
   // #Security: Inactive users shall not be able to log in.
-  it("can toggle a user to in-active. In-active user cannot sign in.", function () {
+  it("can toggle a user to in-active. In-active user cannot sign in.", () => {
     E2EApp.loginUser("admin", true);
     E2EAdmin.clickAdminMenu();
     E2EAdmin.switchToTab("Users");
@@ -68,7 +68,7 @@ describe("Admin View", function () {
       .to.be.false;
   });
 
-  it("can toggle a user back to active. Active user can sign in, again.", function () {
+  it("can toggle a user back to active. Active user can sign in, again.", () => {
     E2EApp.loginUser("admin", true);
     E2EAdmin.clickAdminMenu();
     E2EAdmin.switchToTab("Users");
@@ -86,7 +86,7 @@ describe("Admin View", function () {
     expect(E2EApp.isLoggedIn(), "user is logged in").to.be.true;
   });
 
-  it("can broadcast a message and dismiss it", function () {
+  it("can broadcast a message and dismiss it", () => {
     E2EApp.loginUser("admin", true);
     E2EAdmin.clickAdminMenu();
 
@@ -136,7 +136,7 @@ describe("Admin View", function () {
     ).to.be.false;
   });
 
-  it("can register a new user", function () {
+  it("can register a new user", () => {
     E2EApp.loginUser("admin", true);
     E2EAdmin.clickAdminMenu();
 

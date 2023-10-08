@@ -32,12 +32,12 @@ const getLDAPUsers = proxyquire("../../../../imports/ldap/getLDAPUsers", {
   ldapjs: ldap,
 });
 
-describe("getLDAPUsers", function () {
+describe("getLDAPUsers", () => {
   let settings;
 
   const expectedSuccessfulResult = [{ uid: "foo", isInactive: false }];
 
-  beforeEach(function () {
+  beforeEach(() => {
     ldap.createClient.reset();
     settings = {
       propertyMap: {},
@@ -48,7 +48,7 @@ describe("getLDAPUsers", function () {
     };
   });
 
-  it("uses ldapjs to connect to ldap and gets users", function (done) {
+  it("uses ldapjs to connect to ldap and gets users", (done) => {
     const client = {
       search: asyncStubs.returns(2, ldapSearchResponseWithResult),
       unbind: asyncStubs.returns(0, {}),
@@ -69,7 +69,7 @@ describe("getLDAPUsers", function () {
       });
   });
 
-  it("handles connection errors to ldap properly", function (done) {
+  it("handles connection errors to ldap properly", (done) => {
     ldap.createClient.throws(new Error("Some connection error"));
 
     getLDAPUsers(settings)
@@ -88,7 +88,7 @@ describe("getLDAPUsers", function () {
       });
   });
 
-  it("handles ldap search errors properly", function (done) {
+  it("handles ldap search errors properly", (done) => {
     const client = {
       search: asyncStubs.returns(2, ldapSearchResponseWithError),
       unbind: asyncStubs.returns(0, {}),
@@ -109,7 +109,7 @@ describe("getLDAPUsers", function () {
       });
   });
 
-  it("handles ldap search errors properly", function (done) {
+  it("handles ldap search errors properly", (done) => {
     const client = {
       search: asyncStubs.returns(2, ldapSearchResponseWithError),
       unbind: asyncStubs.returns(0, {}),
@@ -130,7 +130,7 @@ describe("getLDAPUsers", function () {
       });
   });
 
-  it("ignores errors during unbind", function (done) {
+  it("ignores errors during unbind", (done) => {
     const client = {
       search: asyncStubs.returns(2, ldapSearchResponseWithResult),
       unbind: asyncStubs.returnsError(0, "Some error"),
@@ -151,10 +151,10 @@ describe("getLDAPUsers", function () {
       });
   });
 
-  describe("legacy inactive user detection settings", function (done) {
+  describe("legacy inactive user detection settings", (done) => {
     let client;
 
-    beforeEach(function () {
+    beforeEach(() => {
       ldap.createClient.reset();
     });
 
@@ -177,7 +177,7 @@ describe("getLDAPUsers", function () {
         },
       };
 
-    it("returns user object with isInactive property set to true", function (done) {
+    it("returns user object with isInactive property set to true", (done) => {
       const client = {
         search: asyncStubs.returns(2, ldapSearchResult("no")),
         unbind: asyncStubs.returnsError(0, "Some error"),
@@ -198,7 +198,7 @@ describe("getLDAPUsers", function () {
         });
     });
 
-    it("adds property map attributes to whitelist automatically", function (done) {
+    it("adds property map attributes to whitelist automatically", (done) => {
       const s = Object.assign({}, settings, {
         propertyMap: {
           username: "someweirdAttribute",
@@ -232,7 +232,7 @@ describe("getLDAPUsers", function () {
         });
     });
 
-    it("returns user object with isInactive property set to false", function (done) {
+    it("returns user object with isInactive property set to false", (done) => {
       const client = {
         search: asyncStubs.returns(2, ldapSearchResult("yes")),
         unbind: asyncStubs.returnsError(0, "Some error"),
@@ -254,9 +254,9 @@ describe("getLDAPUsers", function () {
     });
   });
 
-  describe("inactive user detection strategy: none", function (done) {
+  describe("inactive user detection strategy: none", (done) => {
     const activeUsers = [{ isInactive: false, uid: "foo" }];
-    it("returns user object with isInactive property set to false", function (done) {
+    it("returns user object with isInactive property set to false", (done) => {
       const settings = {
         inactiveUsers: {
           strategy: "none",
@@ -283,7 +283,7 @@ describe("getLDAPUsers", function () {
         });
     });
 
-    it("uses the none strategy if an invalid strategy is given", function (done) {
+    it("uses the none strategy if an invalid strategy is given", (done) => {
       const settings = {
         inactiveUsers: {
           strategy: "doesnotexist",
@@ -311,7 +311,7 @@ describe("getLDAPUsers", function () {
     });
   });
 
-  describe("inactive user detection strategy: UAC", function () {
+  describe("inactive user detection strategy: UAC", () => {
     let client;
 
     const activeUsers = false,
@@ -330,7 +330,7 @@ describe("getLDAPUsers", function () {
         };
       },
       generateTestCase = (value, expectedResult) => {
-        return function (done) {
+        return (done) => {
           const settings = {
             inactiveUsers: {
               strategy: "userAccountControl",
@@ -359,7 +359,7 @@ describe("getLDAPUsers", function () {
         };
       };
 
-    beforeEach(function () {
+    beforeEach(() => {
       ldap.createClient.reset();
     });
 
@@ -373,10 +373,10 @@ describe("getLDAPUsers", function () {
     }
   });
 
-  describe("inactive user detection strategy: property", function () {
+  describe("inactive user detection strategy: property", () => {
     let client;
 
-    beforeEach(function () {
+    beforeEach(() => {
       ldap.createClient.reset();
     });
 
@@ -394,7 +394,7 @@ describe("getLDAPUsers", function () {
       };
     };
 
-    it("returns isInactive == true if given property is set to requested value", function (done) {
+    it("returns isInactive == true if given property is set to requested value", (done) => {
       const settings = {
         inactiveUsers: {
           strategy: "property",
@@ -425,7 +425,7 @@ describe("getLDAPUsers", function () {
         .catch((error) => done(error));
     });
 
-    it("returns isInactive == false if given property is not set to requested value", function (done) {
+    it("returns isInactive == false if given property is not set to requested value", (done) => {
       const settings = {
         inactiveUsers: {
           strategy: "property",

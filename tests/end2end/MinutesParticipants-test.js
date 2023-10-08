@@ -5,13 +5,13 @@ import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2EMinutesParticipants } from "./helpers/E2EMinutesParticipants";
 
-describe("Minutes Participants", function () {
+describe("Minutes Participants", () => {
   const aProjectName = "E2E Minutes Participants";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -19,7 +19,7 @@ describe("Minutes Participants", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -28,17 +28,17 @@ describe("Minutes Participants", function () {
 
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  it("ensures per default only creator of series is participant", function () {
+  it("ensures per default only creator of series is participant", () => {
     const participantsInfo = new E2EMinutesParticipants();
     expect(participantsInfo.getParticipantsCount()).to.equal(1);
     expect(participantsInfo.getParticipantInfo(E2EApp.getCurrentUser())).to.be
       .ok;
   });
 
-  it("can add users to series which will show up on new minutes", function () {
+  it("can add users to series which will show up on new minutes", () => {
     E2EMinutes.finalizeCurrentMinutes(); // we don't need these...
 
     // prepare meeting series
@@ -70,7 +70,7 @@ describe("Minutes Participants", function () {
     expect(participantsInfo.getParticipantInfo(user3), user3).to.be.ok;
   });
 
-  it("can add users to series which will show up on unfinalized minutes", function () {
+  it("can add users to series which will show up on unfinalized minutes", () => {
     // prepare meeting series
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
       aProjectName,
@@ -101,7 +101,7 @@ describe("Minutes Participants", function () {
     expect(participantsInfo.getParticipantInfo(user3), user3).to.be.ok;
   });
 
-  it("prohibits user changes in series to propagate to all finalized minutes", function () {
+  it("prohibits user changes in series to propagate to all finalized minutes", () => {
     E2EMinutes.finalizeCurrentMinutes();
 
     // prepare meeting series
@@ -130,7 +130,7 @@ describe("Minutes Participants", function () {
       .ok;
   });
 
-  it("can persist checked participants", function () {
+  it("can persist checked participants", () => {
     // prepare meeting series
     const currentUser = E2EApp.getCurrentUser();
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
@@ -162,7 +162,7 @@ describe("Minutes Participants", function () {
     expect(parts).to.contain(user3);
   });
 
-  it("can persist additional participants", function () {
+  it("can persist additional participants", () => {
     const additionalUser = "Max Mustermann";
     browser.setValue("#edtParticipantsAdditional", additionalUser);
     E2EMinutes.finalizeCurrentMinutes();
@@ -173,18 +173,18 @@ describe("Minutes Participants", function () {
     expect(parts).to.contains(additionalUser);
   });
 
-  it("can show collapsed view", function () {
+  it("can show collapsed view", () => {
     E2EMinutesParticipants.collapse();
     expect(E2EMinutesParticipants.isCollapsed()).to.be.true;
   });
 
-  it("can re-expand a collapsed view", function () {
+  it("can re-expand a collapsed view", () => {
     E2EMinutesParticipants.collapse();
     E2EMinutesParticipants.expand();
     expect(E2EMinutesParticipants.isExpanded()).to.be.true;
   });
 
-  it("shows collapsed view for non-moderators", function () {
+  it("shows collapsed view for non-moderators", () => {
     // prepare meeting series
     const currentUser = E2EApp.getCurrentUser();
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
@@ -205,7 +205,7 @@ describe("Minutes Participants", function () {
     E2EApp.loginUser();
   });
 
-  it("prohibits non-moderator users to change participants", function () {
+  it("prohibits non-moderator users to change participants", () => {
     // prepare meeting series
     const currentUser = E2EApp.getCurrentUser();
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
@@ -237,7 +237,7 @@ describe("Minutes Participants", function () {
     E2EApp.loginUser();
   });
 
-  it("prohibits change of participants on finalized minutes", function () {
+  it("prohibits change of participants on finalized minutes", () => {
     E2EMinutes.finalizeCurrentMinutes();
     const currentUser = E2EApp.getCurrentUser();
     const participantsInfoBefore = new E2EMinutesParticipants();
@@ -251,7 +251,7 @@ describe("Minutes Participants", function () {
     expect(participantsInfoAfter).to.deep.equal(participantsInfoBefore);
   });
 
-  it("collapses / expands participants on finalize / un-finalize", function () {
+  it("collapses / expands participants on finalize / un-finalize", () => {
     expect(E2EMinutesParticipants.isExpanded(), "initial state").to.be.true;
     E2EMinutes.finalizeCurrentMinutes();
     expect(E2EMinutesParticipants.isCollapsed(), "after finalize").to.be.true;
@@ -259,7 +259,7 @@ describe("Minutes Participants", function () {
     expect(E2EMinutesParticipants.isExpanded(), "after unfinalize").to.be.true;
   });
 
-  it("shows participants on minutelist in meeting series details view", function () {
+  it("shows participants on minutelist in meeting series details view", () => {
     // prepare meeting series
     const currentUser = E2EApp.getCurrentUser();
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
@@ -291,7 +291,7 @@ describe("Minutes Participants", function () {
     );
   });
 
-  it("can edit participants from within a minute as a moderator", function () {
+  it("can edit participants from within a minute as a moderator", () => {
     let participantsInfo = new E2EMinutesParticipants();
     expect(participantsInfo.getParticipantsCount()).to.equal(1);
 

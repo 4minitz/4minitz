@@ -146,7 +146,7 @@ export class InfoItem {
   }
 
   async save(callback) {
-    callback = callback || function () {};
+    callback = callback || (() => {});
 
     try {
       const result = await this.saveAsync();

@@ -46,7 +46,7 @@ Template.adminRegisterUser.events({
       uPassword2,
       sendMail,
       sendPassword,
-      function (error) {
+      (error) => {
         if (error) {
           tmpl.$("#btnRegisterUserSave").prop("disabled", false);
           console.log(error);

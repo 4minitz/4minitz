@@ -5,19 +5,19 @@ import {E2EGlobal} from "./helpers/E2EGlobal";
 const newName = 'Changed Hacker Project #3';
 
 
-describe('MeetingSeries Methods Security', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
+describe('MeetingSeries Methods Security', () => {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before('reload page and reset app', function () {
+    before('reload page and reset app', () => {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    it('can not insert a new MeetingSerie if not logged in', function () {
+    it('can not insert a new MeetingSerie if not logged in', () => {
         const name = 'Insert a MeetingSerie';
         const meetingSeriesCount = server.call('e2e.countMeetingSeriesInMongDB');
         E2EApp.logoutUser();
@@ -29,7 +29,7 @@ describe('MeetingSeries Methods Security', function () {
         E2ESecurity.tryInsertMeetingSeries(name, meetingSeriesCount+1, 'Meeting Series can be added if user is logged in');
     });
 
-    it('can not delete a new MeetingSerie if not logged in', function () {
+    it('can not delete a new MeetingSerie if not logged in', () => {
         const name = 'DeleteMeetingSerie';
         const ms_id = E2ESecurity.createMeetingSeries(name);
         const meetingSeriesCount = server.call('e2e.countMeetingSeriesInMongDB');
@@ -52,7 +52,7 @@ describe('MeetingSeries Methods Security', function () {
         E2ESecurity.tryDeleteMeetingSeries(ms_id, meetingSeriesCount-1, 'Meeting Series can be deleted if user is moderator');
     });
 
-    it('can not update a MeetingSerie if not logged in', function () {
+    it('can not update a MeetingSerie if not logged in', () => {
         const name = 'UpdateMeetingSerie';
         const ms_id = E2ESecurity.createMeetingSeries(name);
         const oldName = (server.call('e2e.findMeetingSeries', ms_id)).name;
@@ -76,18 +76,18 @@ describe('MeetingSeries Methods Security', function () {
     });
 });
 
-describe('MeetingSeries Publish & Subscribe Security', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
+describe('MeetingSeries Publish & Subscribe Security', () => {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before('reload page and reset app', function () {
+    before('reload page and reset app', () => {
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    it('Non-logged in users have no unexpected MS published', function () {
+    it('Non-logged in users have no unexpected MS published', () => {
         const msUser1 = E2ESecurity.countRecordsInMiniMongo('meetingSeries');
         const name = 'Publish MS Project #1';
         E2ESecurity.createMeetingSeries(name);
@@ -102,7 +102,7 @@ describe('MeetingSeries Publish & Subscribe Security', function () {
         E2EApp.loginUser();
     });
 
-    it('Invited users have no unexpected MS published', function () {
+    it('Invited users have no unexpected MS published', () => {
         E2EApp.loginUser(1);
         expect(E2EApp.isLoggedIn()).to.be.true;
         const msUser2 = E2ESecurity.countRecordsInMiniMongo('meetingSeries');
@@ -122,7 +122,7 @@ describe('MeetingSeries Publish & Subscribe Security', function () {
         E2EApp.loginUser();
     });
 
-    it('Informed users have no unexpected MS published', function () {
+    it('Informed users have no unexpected MS published', () => {
         E2EApp.loginUser(2);
         expect(E2EApp.isLoggedIn()).to.be.true;
         const msUser3 = E2ESecurity.countRecordsInMiniMongo('meetingSeries');

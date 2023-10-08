@@ -8,20 +8,20 @@ const topicSubject = 'Topic Security';
 const newSubject = 'Updated Subject';
 
 
-describe('Topics Methods Security', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
+describe('Topics Methods Security', () => {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before('reload page and reset app', function () {
+    before('reload page and reset app', () => {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
     // minutes.addTopic
-    it('Moderator can insert a new Topic, not logged in can not insert a topic', function () {
+    it('Moderator can insert a new Topic, not logged in can not insert a topic', () => {
         const name = 'AddTopic as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const topicId = E2ESecurity.returnMeteorId();
@@ -36,7 +36,7 @@ describe('Topics Methods Security', function () {
     });
 
 
-    it('Informed/Invited users can not insert a new Topic', function () {
+    it('Informed/Invited users can not insert a new Topic', () => {
         const name = 'AddTopic as informed/invited';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const topicId = E2ESecurity.returnMeteorId();
@@ -55,7 +55,7 @@ describe('Topics Methods Security', function () {
     });
 
     //minutes.updateTopic
-    it('Moderator can update a Topic, not logged in user can not update a topic', function () {
+    it('Moderator can update a Topic, not logged in user can not update a topic', () => {
         const name = 'UpdateTopic as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const topicId = E2ESecurity.returnMeteorId();
@@ -71,7 +71,7 @@ describe('Topics Methods Security', function () {
     });
 
 
-    it('Informed/Invited user in can not update a Topic', function () {
+    it('Informed/Invited user in can not update a Topic', () => {
         const name = 'UpdateTopic as informed/invited';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const topicId = E2ESecurity.returnMeteorId();
@@ -90,7 +90,7 @@ describe('Topics Methods Security', function () {
     });
 
     //minutes.removeTopic
-    it('Moderator can delete a Topic, not logged in can not delete a topic', function () {
+    it('Moderator can delete a Topic, not logged in can not delete a topic', () => {
         const name = 'RemoveTopic as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const topicId = E2ESecurity.returnMeteorId();
@@ -106,7 +106,7 @@ describe('Topics Methods Security', function () {
         E2ESecurity.tryRemoveTopic(topicId, min.min_id, 0, 'moderator can delete a topic');
     });
 
-    it('Informed/Invited users can not delete a topic', function () {
+    it('Informed/Invited users can not delete a topic', () => {
         const name = 'RemoveTopic as informed/invited';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const topicId = E2ESecurity.returnMeteorId();
@@ -127,7 +127,7 @@ describe('Topics Methods Security', function () {
     });
 
     //'workflow.reopenTopicFromMeetingSeries'
-    it('Moderator can reopen a topic, not logged in can not reopen a topic', function () {
+    it('Moderator can reopen a topic, not logged in can not reopen a topic', () => {
         const name = 'ReopenTopic as moderator';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const topicId = E2ESecurity.returnMeteorId();
@@ -147,7 +147,7 @@ describe('Topics Methods Security', function () {
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    it('Invited/Informed user can not reopen a topic', function () {
+    it('Invited/Informed user can not reopen a topic', () => {
         const name = 'ReopenTopic as invited';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
@@ -172,18 +172,18 @@ describe('Topics Methods Security', function () {
     });
 });
 
-describe('Topics Publish & Subscribe Security', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
+describe('Topics Publish & Subscribe Security', () => {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before('reload page and reset app', function () {
+    before('reload page and reset app', () => {
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    it('Non-logged in users have no unexpected Topics from MeetingSeries published', function () {
+    it('Non-logged in users have no unexpected Topics from MeetingSeries published', () => {
         const name = 'Publish Topics Project #1';
         const min = E2ESecurity.createMeetingSeriesAndMinute(name);
         const topicId = E2ESecurity.returnMeteorId();
@@ -209,7 +209,7 @@ describe('Topics Publish & Subscribe Security', function () {
         E2EApp.loginUser();
     });
 
-    it('Invited users should have Topics from MeetingSeries published', function () {
+    it('Invited users should have Topics from MeetingSeries published', () => {
         expect(E2EApp.isLoggedIn()).to.be.true;
         const name = 'Publish Topics Project #2';
 

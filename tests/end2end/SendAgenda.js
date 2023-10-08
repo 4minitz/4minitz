@@ -6,13 +6,13 @@ import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
 
-describe("Send agenda", function () {
+describe("Send agenda", () => {
   const aProjectName = "E2E Send Agenda";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.launchApp();
     E2EApp.resetMyApp(true);
@@ -20,7 +20,7 @@ describe("Send agenda", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EMails.resetSentMailsDb();
 
       E2EApp.gotoStartPage();
@@ -31,20 +31,20 @@ describe("Send agenda", function () {
 
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  after("clear database", function () {
+  after("clear database", () => {
     if (E2EGlobal.browserIsPhantomJS()) {
       E2EApp.resetMyApp(true);
     }
   });
 
-  it("displays a button send agenda on a new created minute", function () {
+  it("displays a button send agenda on a new created minute", () => {
     expect(browser.isVisible("#btn_sendAgenda")).to.be.true;
   });
 
-  it("ensures that the send-agenda-button is invisible for non-moderators", function () {
+  it("ensures that the send-agenda-button is invisible for non-moderators", () => {
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
       aProjectName,
@@ -70,12 +70,12 @@ describe("Send agenda", function () {
     E2EApp.loginUser();
   });
 
-  it("ensures that the send-agenda-button is invisible for finalizes minutes", function () {
+  it("ensures that the send-agenda-button is invisible for finalizes minutes", () => {
     E2EMinutes.finalizeCurrentMinutes();
     expect(browser.isVisible("#btn_sendAgenda")).to.be.false;
   });
 
-  it("ensures that a confirmation dialog is shown before sending the agenda a second time", function () {
+  it("ensures that a confirmation dialog is shown before sending the agenda a second time", () => {
     browser.waitForVisible("#btn_sendAgenda");
     E2EGlobal.clickWithRetry("#btn_sendAgenda");
 
@@ -95,7 +95,7 @@ describe("Send agenda", function () {
     E2EApp.confirmationDialogAnswer(false);
   });
 
-  it("sends one email to the participant containing the topic but not the info items", function () {
+  it("sends one email to the participant containing the topic but not the info items", () => {
     const topicSubject = "some topic";
     const infoItemSubject = "amazing information";
 
@@ -131,7 +131,7 @@ describe("Send agenda", function () {
     ).to.not.have.string(infoItemSubject);
   });
 
-  it("ensures that the agenda will be sent to all invited", function () {
+  it("ensures that the agenda will be sent to all invited", () => {
     E2EMeetingSeries.gotoMeetingSeries(aProjectName, aMeetingName);
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(
       aProjectName,
@@ -171,7 +171,7 @@ describe("Send agenda", function () {
   it(
     "ensures that the agenda will be sent to the *normal* participants even if there are additional participants " +
       "with no valid email addresses",
-    function () {
+    () => {
       const additionalUser = "Max Mustermann";
       browser.setValue("#edtParticipantsAdditional", additionalUser);
 
@@ -183,6 +183,6 @@ describe("Send agenda", function () {
 
       const sentMails = E2EMails.getAllSentMails();
       expect(sentMails, "one mail should be sent").to.have.length(1);
-    },
+    }
   );
 });

@@ -16,19 +16,19 @@ const { MigrateV23 } = proxyquire("../../../../server/migrations/migrate_v23", {
   "/imports/collections/topic.schema": { TopicSchema, "@noCallThru": true },
 });
 
-describe("MigrateV23", function () {
-  describe("#up", function () {
+describe("MigrateV23", () => {
+  describe("#up", () => {
     const topicWithResponsiblesNull = { responsibles: null },
       topicsWithResponsiblesDefined = { responsibles: [1, 2, 3] };
 
-    beforeEach(function () {
+    beforeEach(() => {
       TopicSchemaCollection.find.returns([]);
       MinutesSchemaCollection.find.returns([]);
       MinutesSchema.getCollection.returns(MinutesSchemaCollection);
       TopicSchema.getCollection.returns(TopicSchemaCollection);
     });
 
-    afterEach(function () {
+    afterEach(() => {
       TopicSchemaCollection.find.reset();
       TopicSchemaCollection.update.resetHistory();
       TopicSchema.getCollection.reset();
@@ -38,7 +38,7 @@ describe("MigrateV23", function () {
       MinutesSchema.getCollection.reset();
     });
 
-    it("calls update method for every topic in the topic collection which has no responsibles set", function () {
+    it("calls update method for every topic in the topic collection which has no responsibles set", () => {
       const topics = [topicWithResponsiblesNull, topicsWithResponsiblesDefined];
       TopicSchemaCollection.find.returns(topics);
 
@@ -50,7 +50,7 @@ describe("MigrateV23", function () {
       );
     });
 
-    it("converts null in topic collection entries to an empty array", function () {
+    it("converts null in topic collection entries to an empty array", () => {
       TopicSchemaCollection.find.returns([topicWithResponsiblesNull]);
 
       MigrateV23.up();
@@ -62,7 +62,7 @@ describe("MigrateV23", function () {
       ).to.be.true;
     });
 
-    it("does not update topics with responsibles already set", function () {
+    it("does not update topics with responsibles already set", () => {
       TopicSchemaCollection.find.returns([topicsWithResponsiblesDefined]);
 
       MigrateV23.up();
@@ -70,7 +70,7 @@ describe("MigrateV23", function () {
       expect(TopicSchemaCollection.update.called).to.be.false;
     });
 
-    it("calls the update method for every minutes which contains at least one topic where the responsibles field is not an array", function () {
+    it("calls the update method for every minutes which contains at least one topic where the responsibles field is not an array", () => {
       const minutes = [{ topics: [topicWithResponsiblesNull] }];
       MinutesSchemaCollection.find.returns(minutes);
 
@@ -82,7 +82,7 @@ describe("MigrateV23", function () {
       );
     });
 
-    it("converts null in topic collection entries to an empty array", function () {
+    it("converts null in topic collection entries to an empty array", () => {
       const minutesWithATopicWithNull = [
         { topics: [topicWithResponsiblesNull] },
       ];
@@ -97,7 +97,7 @@ describe("MigrateV23", function () {
       ).to.be.true;
     });
 
-    it("does not modify responsibles that already are defined", function () {
+    it("does not modify responsibles that already are defined", () => {
       const minutesWithATopicWithNull = [
         { topics: [topicsWithResponsiblesDefined] },
       ];

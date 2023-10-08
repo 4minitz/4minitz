@@ -13,7 +13,7 @@ const submitOnEnter = proxyquire("../../../../client/helpers/submitOnEnter", {
   "meteor/underscore": { _, "@noCallThru": true },
 }).default;
 
-describe("submitOnEnter", function () {
+describe("submitOnEnter", () => {
   const action = sinon.stub();
 
   function fakeEnterPressed(controlPressed) {
@@ -25,13 +25,13 @@ describe("submitOnEnter", function () {
     };
   }
 
-  beforeEach(function () {
+  beforeEach(() => {
     jQueryOnStub.resetHistory();
     $.resetHistory();
     action.resetHistory();
   });
 
-  it("attaches event handlers to the given textareas", function () {
+  it("attaches event handlers to the given textareas", () => {
     let textareas = ["one", "two"],
       numberOfTextareas = textareas.length;
 
@@ -45,7 +45,7 @@ describe("submitOnEnter", function () {
     sinon.assert.calledWith($, "two");
   });
 
-  it("action is not triggered when control is not pressed for textarea", function () {
+  it("action is not triggered when control is not pressed for textarea", () => {
     let input = ["one"],
       event = fakeEnterPressed(false);
 
@@ -57,7 +57,7 @@ describe("submitOnEnter", function () {
     expect(action.calledOnce).to.be.false;
   });
 
-  it("action is triggered when control is pressed for textareas", function () {
+  it("action is triggered when control is pressed for textareas", () => {
     let input = ["one"],
       event = fakeEnterPressed(true);
 
@@ -69,7 +69,7 @@ describe("submitOnEnter", function () {
     expect(action.calledOnce).to.be.true;
   });
 
-  it("action is not triggered for textareas when something other than enter is entered", function () {
+  it("action is not triggered for textareas when something other than enter is entered", () => {
     let input = ["one"],
       event = fakeEnterPressed(true);
 

@@ -176,7 +176,7 @@ class ExpImpUsers {
               .findOne({
                 _id: usrMap[allUsersDoc[u]._id],
               }) // find the user in target DB
-              .then(function (usr) {
+              .then((usr) => {
                 const roleValueForMS = allUsersDoc[u].roles[msID];
                 if (roleValueForMS && roleValueForMS.length > 0) {
                   // user needs role for import meeting series?
@@ -186,20 +186,20 @@ class ExpImpUsers {
                     .collection("users") // upsert role field
                     .update({ _id: usr._id }, { $set: { roles: roles } });
                 }
-              }),
+              })
           );
         }
       }
 
       // Now execute the chain.
       Promise.all(promiseChain)
-        .then(function (res) {
+        .then((res) => {
           if (res?.[0] && res[0].result && !res[0].result.ok) {
             console.log("Promisechain result: ", res);
           }
           resolve(db);
         })
-        .catch(function (err) {
+        .catch((err) => {
           reject(err);
         });
     });

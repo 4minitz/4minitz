@@ -52,7 +52,7 @@ const { MigrateV15 } = proxyquire("../../../../server/migrations/migrate_v15", {
   "./helpers/migrateItems": { MigrateItemsPre16, "@noCallThru": true },
 });
 
-describe("Migrate Version 15", function () {
+describe("Migrate Version 15", () => {
   let series,
     minute,
     topicOfMinute,
@@ -65,7 +65,7 @@ describe("Migrate Version 15", function () {
     infoItem,
     infoItem2;
 
-  beforeEach(function () {
+  beforeEach(() => {
     infoItem = {
       _id: "AaBbCc0101",
       subject: "my info item",
@@ -130,7 +130,7 @@ describe("Migrate Version 15", function () {
     MeetingSeriesSchema.insert(series);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     MinutesSchema.update.resetHistory();
     MeetingSeriesSchema.update.resetHistory();
     MeetingSeriesSchema.series = [];
@@ -156,50 +156,50 @@ describe("Migrate Version 15", function () {
     );
   };
 
-  describe("#up", function () {
-    it("does not change the info item", function () {
+  describe("#up", () => {
+    it("does not change the info item", () => {
       MigrateV15.up();
       checkPriorities(0);
     });
 
-    it("removes the priority property of an info item if it exists", function () {
+    it("removes the priority property of an info item if it exists", () => {
       MigrateV15.up();
       checkPriorities(5);
     });
 
-    it("converts the priority with value high to the corresponding number", function () {
+    it("converts the priority with value high to the corresponding number", () => {
       MigrateV15.up();
       checkPriorities(1, 1);
     });
 
-    it("converts the priority with value medium to the corresponding number", function () {
+    it("converts the priority with value medium to the corresponding number", () => {
       MigrateV15.up();
       checkPriorities(3, 3);
     });
 
-    it("converts the priority with value low to the corresponding number", function () {
+    it("converts the priority with value low to the corresponding number", () => {
       MigrateV15.up();
       checkPriorities(4, 5);
     });
 
-    it("sets the default value for an action item without priority", function () {
+    it("sets the default value for an action item without priority", () => {
       MigrateV15.up();
       checkPriorities(2, DEFAULT_PRIORITY);
     });
 
-    it("calls the update method on the MinutesSchema", function () {
+    it("calls the update method on the MinutesSchema", () => {
       MigrateV15.up();
       expect(MinutesSchema.update.calledOnce).to.be.true;
     });
 
-    it("calls the update method on the MeetingSeriesSchema", function () {
+    it("calls the update method on the MeetingSeriesSchema", () => {
       MigrateV15.up();
       expect(MeetingSeriesSchema.update.calledOnce).to.be.true;
     });
   });
 
-  describe("#down", function () {
-    beforeEach("setup priority numbers for action items", function () {
+  describe("#down", () => {
+    beforeEach("setup priority numbers for action items", () => {
       minute.topics[0].infoItems[1].priority = 1;
       minute.topics[0].infoItems[2].priority = DEFAULT_PRIORITY;
       series.topics[0].infoItems[1].priority = 1;
@@ -208,27 +208,27 @@ describe("Migrate Version 15", function () {
       series.openTopics[0].infoItems[2].priority = DEFAULT_PRIORITY;
     });
 
-    it("does not change the info item", function () {
+    it("does not change the info item", () => {
       MigrateV15.down();
       checkPriorities(0);
     });
 
-    it("converts the priority with a numeric value to a string value", function () {
+    it("converts the priority with a numeric value to a string value", () => {
       MigrateV15.down();
       checkPriorities(1, "1");
     });
 
-    it("sets the default value for an action item without priority", function () {
+    it("sets the default value for an action item without priority", () => {
       MigrateV15.down();
       checkPriorities(2, DEFAULT_PRIORITY.toString());
     });
 
-    it("calls the update method on the MinutesSchema", function () {
+    it("calls the update method on the MinutesSchema", () => {
       MigrateV15.down();
       expect(MinutesSchema.update.calledOnce).to.be.true;
     });
 
-    it("calls the update method on the MeetingSeriesSchema", function () {
+    it("calls the update method on the MeetingSeriesSchema", () => {
       MigrateV15.down();
       expect(MeetingSeriesSchema.update.calledOnce).to.be.true;
     });

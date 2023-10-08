@@ -181,9 +181,7 @@ const licenseCount = {};
 function getSortedKeys(obj) {
   const keys = [];
   for (const key in obj) keys.push(key);
-  return keys.sort(function (a, b) {
-    return obj[b] - obj[a];
-  });
+  return keys.sort((a, b) => obj[b] - obj[a]);
 }
 
 crawler.dumpLicenses({ start: ["."] }, (error, res) => {

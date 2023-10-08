@@ -81,7 +81,7 @@ AccountsTemplates.addFields([
   },
 ]);
 
-const submitHookFunction = function (error, state) {
+const submitHookFunction = (error, state) => {
   //eslint-disable-line
   // After submitting registration, resend, ...
   // we want to go back to normal signin sub template
@@ -104,7 +104,7 @@ if (Meteor.isServer) {
   });
 
   // #Security: Do not allow standard/LDAP users log in under some conditions
-  Accounts.validateLoginAttempt(function (attempt) {
+  Accounts.validateLoginAttempt((attempt) => {
     if (attempt.user) {
       if (attempt.user.isInactive) {
         attempt.allowed = false;

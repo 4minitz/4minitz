@@ -4,7 +4,7 @@ import { check } from 'meteor/check';
 import moment from 'moment/moment';
 
 if (Meteor.isServer) {
-    Meteor.publish('onlineUsersForRoute', function (route) {
+    Meteor.publish('onlineUsersForRoute', (route) => {
         if (route) {
             return OnlineUsersSchema.find({activeRoute: route});
         }

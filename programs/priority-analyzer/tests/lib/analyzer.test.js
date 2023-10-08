@@ -2,17 +2,17 @@ import {Analyzer} from '../../lib/analyzer';
 
 const expect = require('chai').expect;
 
-describe('Analyzer', function() {
+describe('Analyzer', () => {
 
 
-    it('adds the priority in upper case of the items to its token map', function() {
+    it('adds the priority in upper case of the items to its token map', () => {
         const analyzer = new Analyzer();
         const item = { priority: 'high' };
         analyzer.analyseActionItem(item);
         expect(analyzer.tokens).to.have.ownProperty('HIGH');
     });
 
-    it('increments the token counter if a second element with the same priority is added (case-insensitive)', function () {
+    it('increments the token counter if a second element with the same priority is added (case-insensitive)', () => {
         const analyzer = new Analyzer();
         const item_1 = { priority: 'high' };
         const item_2 = { priority: 'HIGH' };

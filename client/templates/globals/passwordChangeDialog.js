@@ -8,7 +8,7 @@ import { addCustomValidator } from "../../helpers/customFieldValidator";
 import { handleError } from "/client/helpers/handleError";
 import { i18n } from "meteor/universe:i18n";
 
-const showError = function (evt, error) {
+const showError = (evt, error) => {
   handleError(error);
   evt.preventDefault();
 };
@@ -21,7 +21,7 @@ const checkPasswordMatchesPattern = (password) => {
   return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password);
 };
 
-Template.passwordChangeDialog.onRendered(function () {
+Template.passwordChangeDialog.onRendered(() => {
   addCustomValidator(
     "#id_newPassword1",
     (value) => {
@@ -66,7 +66,7 @@ Template.passwordChangeDialog.events({
     }
 
     tmpl.$("#btnChangePasswordSave").prop("disabled", true);
-    Accounts.changePassword(uOldPassword, uPassword1, function (error) {
+    Accounts.changePassword(uOldPassword, uPassword1, (error) => {
       if (error) {
         tmpl.$("#btnChangePasswordSave").prop("disabled", false);
         console.log(error);

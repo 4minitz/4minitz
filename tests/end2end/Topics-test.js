@@ -5,19 +5,19 @@ import { E2EMeetingSeriesEditor } from './helpers/E2EMeetingSeriesEditor';
 import { E2EMinutes } from './helpers/E2EMinutes';
 import { E2ETopics } from './helpers/E2ETopics';
 
-describe('Topics', function () {
+describe('Topics', () => {
     const aProjectName = "E2E Topics";
     let aMeetingCounter = 0;
     const aMeetingNameBase = "Meeting Name #";
     let aMeetingName;
 
-    before("reload page and reset app", function () {
+    before("reload page and reset app", () => {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    beforeEach("goto start page and make sure test user is logged in", function () {
+    beforeEach("goto start page and make sure test user is logged in", () => {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
 
@@ -28,12 +28,12 @@ describe('Topics', function () {
         E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
     });
 
-    it('can add a topic to minutes', function () {
+    it('can add a topic to minutes', () => {
         E2ETopics.addTopicToMinutes('some topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
-    it('can add a topic to minutes at the end of topics list', function() {
+    it('can add a topic to minutes at the end of topics list', () => {
         const testTopicName = 'some topic at the end';
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutesAtEnd(testTopicName);
@@ -41,7 +41,7 @@ describe('Topics', function () {
         expect(E2ETopics.getLastTopicForMinute() === testTopicName);
     });
 
-    it('can submit a new topic by pressing enter on the topic title input', function () {
+    it('can submit a new topic by pressing enter on the topic title input', () => {
         browser.waitForVisible("#id_showAddTopicDialog");
         E2EGlobal.clickWithRetry("#id_showAddTopicDialog");
 
@@ -55,14 +55,14 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
-    it('can add multiple topics', function () {
+    it('can add multiple topics', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(3);
     });
 
-    it('shows security question before deleting a topic', function() {
+    it('shows security question before deleting a topic', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.deleteTopic(1);
 
@@ -81,7 +81,7 @@ describe('Topics', function () {
     });
 
 
-    it('can delete a topic', function () {
+    it('can delete a topic', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('yet another topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
@@ -90,7 +90,7 @@ describe('Topics', function () {
     });
 
 
-    it('can cancel a "delete topic"', function () {
+    it('can cancel a "delete topic"', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('yet another topic');
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
@@ -99,7 +99,7 @@ describe('Topics', function () {
     });
 
 
-    it('multiple topics are added with latest topic at the top', function () {
+    it('multiple topics are added with latest topic at the top', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -111,7 +111,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it.skip('can not change the order of topics via drag and drop by clicking anywhere', function () {
+    it.skip('can not change the order of topics via drag and drop by clicking anywhere', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -125,7 +125,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('yet another topic');
     });
 
-    it.skip('can change the order of topics via drag and drop by clicking on the sort icon', function () {
+    it.skip('can change the order of topics via drag and drop by clicking on the sort icon', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -144,7 +144,7 @@ describe('Topics', function () {
         expect(visibleText).to.have.string('some topic');
     });
 
-    it.skip('can not change the order of topics on the topics page', function () {
+    it.skip('can not change the order of topics on the topics page', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -168,7 +168,7 @@ describe('Topics', function () {
         expect(visibleTextAfterSortAttempt).to.have.string('yet another topic');
     });
 
-    it.skip('can not change the order of topics of finalized minutes', function () {
+    it.skip('can not change the order of topics of finalized minutes', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -189,7 +189,7 @@ describe('Topics', function () {
     });
 
 
-    it.skip('ensures invited user can not drag-n-drop topics', function () {
+    it.skip('ensures invited user can not drag-n-drop topics', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -221,7 +221,7 @@ describe('Topics', function () {
     });
 
 
-    it.skip('sorting of topics is persistent', function () {
+    it.skip('sorting of topics is persistent', () => {
         E2ETopics.addTopicToMinutes('some topic');
         E2ETopics.addTopicToMinutes('some other topic');
         E2ETopics.addTopicToMinutes('yet another topic');
@@ -248,7 +248,7 @@ describe('Topics', function () {
     });
 
 
-    it('can collapse a topic', function () {
+    it('can collapse a topic', () => {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
@@ -267,7 +267,7 @@ describe('Topics', function () {
         expect(firstVisibleInfoItemText).to.have.string("InfoItem#1");
     });
 
-    it('can collapse and re-expand a topic', function () {
+    it('can collapse and re-expand a topic', () => {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
@@ -281,7 +281,7 @@ describe('Topics', function () {
     });
 
 
-    it('can collapse all topics', function () {
+    it('can collapse all topics', () => {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
@@ -294,7 +294,7 @@ describe('Topics', function () {
     });
 
 
-    it('can collapse and re-expand all topics', function () {
+    it('can collapse and re-expand all topics', () => {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
@@ -307,7 +307,7 @@ describe('Topics', function () {
         expect(infoitems.length).to.be.equal(2);
     });
 
-    it('can close topics', function () {
+    it('can close topics', () => {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addInfoItemToTopic({subject: "InfoItem#1",itemType: "infoItem"}, 1);
         E2ETopics.addTopicToMinutes('topic 2');
@@ -320,7 +320,7 @@ describe('Topics', function () {
         expect(E2ETopics.isTopicClosed(2), "second topic should be closed").to.be.true;
     });
 
-    it('is possible to mark topics as recurring persistently', function () {
+    it('is possible to mark topics as recurring persistently', () => {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addTopicToMinutes('topic 2');
 
@@ -335,7 +335,7 @@ describe('Topics', function () {
         expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be recurring').to.be.false;
     });
 
-    it('ensures that recurring topics will be displayed as recurring even in read-only-mode', function () {
+    it('ensures that recurring topics will be displayed as recurring even in read-only-mode', () => {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addTopicToMinutes('topic 2');
 
@@ -353,7 +353,7 @@ describe('Topics', function () {
         expect(E2ETopics.isTopicRecurring(2), 'unchanged topic should not be displayed as recurring on topics tab').to.be.false;
     });
 
-    it('ensures that it is not possible to change the recurring flag if topic is presented in read-only-mode', function () {
+    it('ensures that it is not possible to change the recurring flag if topic is presented in read-only-mode', () => {
         E2ETopics.addTopicToMinutes('topic 1');
         E2ETopics.addTopicToMinutes('topic 2');
         E2ETopics.toggleRecurringTopic(1);
@@ -376,7 +376,7 @@ describe('Topics', function () {
         expect(E2ETopics.isTopicRecurring(2), 'topic of meeting series should not be able to set as recurring in topics tab').to.be.false;
     });
 
-    it('ensures that a closed recurring topic should be presented in the next minute again', function () {
+    it('ensures that a closed recurring topic should be presented in the next minute again', () => {
         const myTopicSubject = 'recurring topic';
 
         E2ETopics.addTopicToMinutes(myTopicSubject);
@@ -393,7 +393,7 @@ describe('Topics', function () {
     });
 
     it('ensures that the isRecurring-State of a topic in the meeting series topic list will be overwritten from the ' +
-        'topics state within the last finalized minute', function () {
+        'topics state within the last finalized minute', () => {
 
         const myTopicSubject = 'recurring topic';
 
@@ -415,7 +415,7 @@ describe('Topics', function () {
     });
 
     it('should not be possible to insert a new topics to a meeting minutes which has the same id as an existing one ' +
-        '- even not by using the meteor method directly', function() {
+        '- even not by using the meteor method directly', () => {
         const url = browser.getUrl();
         const parts = url.split('/');
         const minutesId = parts[parts.length - 1];
@@ -446,7 +446,7 @@ describe('Topics', function () {
         expect(E2ETopics.countTopicsForMinute()).to.equal(1);
     });
 
-    it('check whether labelselectionfield exists', function() {
+    it('check whether labelselectionfield exists', () => {
         browser.waitForVisible("#id_showAddTopicDialog");
         E2EGlobal.clickWithRetry("#id_showAddTopicDialog");
         E2EGlobal.waitSomeTime(350);
@@ -456,7 +456,7 @@ describe('Topics', function () {
         E2EGlobal.clickWithRetry("#btnTopicCancel");
     });
 
-    it('add label to topic via selection field', function() {
+    it('add label to topic via selection field', () => {
         const labelName = 'testLabel';
         E2ETopics.addTopicWithLabelToMinutes('topic', labelName);
         E2EGlobal.waitSomeTime(500);
@@ -465,7 +465,7 @@ describe('Topics', function () {
         expect(browser.getText(".topic-labels .label")).to.equal(labelName);
     });
 
-    it('add label to topic via textbox', function() {
+    it('add label to topic via textbox', () => {
         const labelName = 'testLabel';
         E2ETopics.addTopicToMinutes('topic #' + labelName);
         E2EGlobal.waitSomeTime(500);
@@ -474,7 +474,7 @@ describe('Topics', function () {
         expect(browser.getText(".topic-labels .label")).to.equal(labelName);
     });
 
-    it('add more (2) labels to topic via textbox', function() {
+    it('add more (2) labels to topic via textbox', () => {
         const topicName = 'testTopic'
         const labelName1 = 'testLabel1';
         const labelName2 = 'testLabel2';
@@ -486,7 +486,7 @@ describe('Topics', function () {
         expect(browser.getText(".topic-labels .label:nth-child(2)")).to.equal(labelName2);
     });
 
-    it('add label to topic and check if topic is displayed in topic tab of meeting series', function() {
+    it('add label to topic and check if topic is displayed in topic tab of meeting series', () => {
         const labelName = 'testLabel';
         E2ETopics.addTopicToMinutes('topic #' + labelName);
         E2EGlobal.waitSomeTime(500);
@@ -499,7 +499,7 @@ describe('Topics', function () {
         expect(browser.getText(".topic-labels .label")).to.equal(labelName);
     });
 
-    it('can add a topic with label to minutes at the end of topics list', function() {
+    it('can add a topic with label to minutes at the end of topics list', () => {
         const testTopicName = 'some topic at the end';
         const labelName = 'testLabel';
         E2ETopics.addTopicToMinutes('some topic on top');
@@ -512,7 +512,7 @@ describe('Topics', function () {
         expect(browser.getText(".topic-labels .label")).to.equal(labelName);
     });
 
-    it('can add a topic with more (2) labels to minutes at the end of topics list', function() {
+    it('can add a topic with more (2) labels to minutes at the end of topics list', () => {
         const testTopicName = 'some topic at the end';
         const labelName1 = 'testLabel1';
         const labelName2 = 'testLabel2';
@@ -527,7 +527,7 @@ describe('Topics', function () {
         expect(browser.getText(".topic-labels .label:nth-child(2)")).to.equal(labelName2);
     });
 
-    it('can add a topic with responsible to minutes at the end of topics list', function() {
+    it('can add a topic with responsible to minutes at the end of topics list', () => {
         const testTopicName = 'some topic at the end';
         const responsibleName = 'TestResponsible';
         E2ETopics.addTopicToMinutes('some topic on top');
@@ -541,7 +541,7 @@ describe('Topics', function () {
         expect (topicHeadingText).to.contain(responsibleName);
     });
 
-    it('can add a topic with more (2) responsible to minutes at the end of topics list', function() {
+    it('can add a topic with more (2) responsible to minutes at the end of topics list', () => {
         const testTopicName = 'some topic at the end';
         const responsibleName1 = 'TestResponsible1';
         const responsibleName2 = 'TestResponsible2';
@@ -556,7 +556,7 @@ describe('Topics', function () {
         expect (topicHeadingText).to.contain(responsibleName1, responsibleName2);
     });
 
-    it('can add a topic with label and responsible to minutes at the end of topics list', function() {
+    it('can add a topic with label and responsible to minutes at the end of topics list', () => {
         const testTopicName = 'some topic at the end';
         const labelName = 'testLabel';
         const responsibleName = 'TestResponsible';

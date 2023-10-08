@@ -25,13 +25,9 @@ export class E2ESecurity {
   //In order to check this, all security-e2e-tests should use this function to check if the methods called within them do still exist.
   //If that's not the case, the test will fail and by this give a hint for the dev, which test cases have yet to be updated with the new method name.
   static expectMethodToExist(methodName) {
-    const methodExists = browser.execute(function (methodName) {
-      //The methodHandlers-Dictionary will contain all meteor methods known to the client.
-      //By default it will contain exactly the same methods as the server
-      return (
+    const methodExists = browser.execute((methodName) => (
         typeof Meteor.connection._methodHandlers[methodName] === "function"
-      );
-    }, methodName).value;
+      ), methodName).value;
     expect(methodExists, "Method " + methodName + " exists").to.be.true;
   }
 
@@ -41,10 +37,10 @@ export class E2ESecurity {
   //This is done by overwriting the local client copy of the method with an empty method stump containing no checks anymore and therefore always being executed successfully.
   //By doing this only the server-side security mechanisms remain which should of course still stop unauthorized actions.
   static replaceMethodOnClientSide(methodName) {
-    browser.execute(function (methodName) {
+    browser.execute((methodName) => {
       //The methodHandlers-Dictionary contains the client's copy of the meteor methods.
       //By changing the function for a specific meteor method all future calls of this method for this session will execute the changed function.
-      Meteor.connection._methodHandlers[methodName] = function () {
+      Meteor.connection._methodHandlers[methodName] = () => {
         console.log("Modified Client Method: " + methodName);
       };
     }, methodName);
@@ -84,9 +80,7 @@ export class E2ESecurity {
   }
 
   static returnMeteorId() {
-    return browser.execute(function () {
-      return Random.id();
-    }).value;
+    return browser.execute(() => Random.id()).value;
   }
 
   static createMeetingSeriesAndMinute = (name) => {

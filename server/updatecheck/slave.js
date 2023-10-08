@@ -18,8 +18,8 @@ if (!myServerID) {
 }
 const myVersion = VERSION_INFO.tag;
 const url = `https://www.4minitz.com/version/updatecheck/${myServerID.value}/${myVersion}`;
-const updateCheck = function (forceReport) {
-  HTTP.get(url, {}, function (error, result) {
+const updateCheck = (forceReport) => {
+  HTTP.get(url, {}, (error, result) => {
     if (error || !result.data || !result.data.tag) {
       // Swallow silently.
       // If we can't check the version - we will not bother the admin...

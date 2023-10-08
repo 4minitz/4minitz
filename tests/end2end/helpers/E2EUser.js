@@ -20,7 +20,7 @@ export class E2EUser {
     }
 
     static checkProfileChanged(longName, email) {
-        return browser.execute(function (longName, email) {
+        return browser.execute((longName, email) => {
             let profileChanged = false;
 
             if (((!Meteor.user().profile) ||
@@ -33,9 +33,7 @@ export class E2EUser {
     }
 
     static getUserEmail(){
-         return browser.execute(function () {
-             return Meteor.user().emails[0].address;
-        }).value;
+         return browser.execute(() => Meteor.user().emails[0].address).value;
     }
 
 }

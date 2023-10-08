@@ -10,9 +10,7 @@ import { MinutesSchema } from "./collections/minutes.schema";
 const StatisticsCollection = new Mongo.Collection("statistics");
 
 if (Meteor.isServer) {
-  Meteor.publish("statistics", function () {
-    return StatisticsCollection.find();
-  });
+  Meteor.publish("statistics", () => StatisticsCollection.find());
 }
 if (Meteor.isClient) {
   Meteor.subscribe("statistics");
@@ -84,7 +82,7 @@ export const Statistics = SchemaClass.create({
 // minutes are considered
 // @param minTopicsCount {Number} only meeting series with at least so much
 // finalized topics are considered
-const statisticsDetails = function (minMinutesCount = 2, minTopicsCount = 5) {
+const statisticsDetails = (minMinutesCount = 2, minTopicsCount = 5) => {
   // eslint-disable-line
   const MS = MeetingSeriesSchema.find();
   let MScount = 0;

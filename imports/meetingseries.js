@@ -55,9 +55,7 @@ export class MeetingSeries {
     return MeetingSeriesSchema.find(
       { visibleFor: { $in: [userId] } },
       { _id: 1 },
-    ).map(function (item) {
-      return item._id;
-    });
+    ).map((item) => item._id);
   }
 
   // ################### object methods
@@ -148,7 +146,7 @@ export class MeetingSeries {
   }
 
   async updateLastMinutesFields(callback) {
-    callback = callback || function () {};
+    callback = callback || (() => {});
 
     try {
       const result = await this.updateLastMinutesFieldsAsync();

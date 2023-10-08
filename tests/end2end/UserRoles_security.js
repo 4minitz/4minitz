@@ -4,20 +4,20 @@ import {E2EGlobal} from "./helpers/E2EGlobal";
 
 const newRoleModerator = '01';
 
-describe('UserRoles Method Security', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
+describe('UserRoles Method Security', () => {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before('reload page and reset app', function () {
+    before('reload page and reset app', () => {
         E2EGlobal.logTimestamp("Start test suite");
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
     //userroles.saveRoleForMeetingSeries
-    it('a user can not upgrade himself to a moderator of MS', function () {
+    it('a user can not upgrade himself to a moderator of MS', () => {
         const name = 'Update my own Role Project';
         const meetingSeriesID = E2ESecurity.createMeetingSeries(name);
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
@@ -29,7 +29,7 @@ describe('UserRoles Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('a moderator can change a role of an invited user in Meeting Series', function () {
+    it('a moderator can change a role of an invited user in Meeting Series', () => {
         const name = 'Update my own Role Moderator Project';
         const meetingSeriesID = E2ESecurity.createMeetingSeries(name);
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
@@ -37,7 +37,7 @@ describe('UserRoles Method Security', function () {
         E2ESecurity.tryUpdateRole(meetingSeriesID, 1, newRoleModerator, newRoleModerator)
     });
 
-    it('a user can not change a Role of another user in a Meeting Serie', function () {
+    it('a user can not change a Role of another user in a Meeting Serie', () => {
         const name = 'Update other users Role Project';
         const meetingSeriesID = E2ESecurity.createMeetingSeries(name);
 
@@ -50,7 +50,7 @@ describe('UserRoles Method Security', function () {
         E2EApp.loginUser();
     });
 
-    it('a user can not add himself to a Meeting Serie', function () {
+    it('a user can not add himself to a Meeting Serie', () => {
         const name = 'RoleUpdate add to MS Project';
         const meetingSeriesID = E2ESecurity.createMeetingSeries(name);
 
@@ -61,7 +61,7 @@ describe('UserRoles Method Security', function () {
     });
 
     //userroles.removeAllRolesForMeetingSeries
-    it('a Moderator can delete another user from a Meeting Serie', function () {
+    it('a Moderator can delete another user from a Meeting Serie', () => {
         const name = 'RoleDelete Moderator Project';
         const meetingSeriesID = E2ESecurity.createMeetingSeries(name);
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
@@ -69,7 +69,7 @@ describe('UserRoles Method Security', function () {
         E2ESecurity.tryRemoveRole(meetingSeriesID, 1, null);
     });
 
-    it('a user can not delete another user from a Meeting Serie', function () {
+    it('a user can not delete another user from a Meeting Serie', () => {
         const name = 'RoleDelete invited user Project';
         const meetingSeriesID = E2ESecurity.createMeetingSeries(name);
         E2ESecurity.inviteUserToMeetingSerie(name, 'Invited', 1);
@@ -83,18 +83,18 @@ describe('UserRoles Method Security', function () {
     });
 });
 
-describe('Users Publish & Subscribe Security', function () {
-    beforeEach('goto start page and make sure test user is logged in', function () {
+describe('Users Publish & Subscribe Security', () => {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect(E2EApp.isLoggedIn()).to.be.true;
     });
 
-    before('reload page and reset app', function () {
+    before('reload page and reset app', () => {
         E2EApp.resetMyApp(true);
         E2EApp.launchApp();
     });
 
-    it('Non-logged in users have no users collection published', function () {
+    it('Non-logged in users have no users collection published', () => {
         expect(E2ESecurity.countRecordsInMiniMongo('users') > 0).to.be.true;
 
         E2EApp.logoutUser();

@@ -5,13 +5,13 @@ import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
 
-describe("MeetingSeries complete Topic list", function () {
+describe("MeetingSeries complete Topic list", () => {
   const aProjectName = "MeetingSeries Topic List";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -19,7 +19,7 @@ describe("MeetingSeries complete Topic list", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -28,10 +28,10 @@ describe("MeetingSeries complete Topic list", function () {
 
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  it("copies all topics of the first minute to the parent series including both all info- and actionItems.", function () {
+  it("copies all topics of the first minute to the parent series including both all info- and actionItems.", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(
@@ -69,7 +69,7 @@ describe("MeetingSeries complete Topic list", function () {
     ).to.have.string("some information");
   });
 
-  it("closes the topic if it were discussed and has no open AI", function () {
+  it("closes the topic if it were discussed and has no open AI", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(
@@ -89,7 +89,7 @@ describe("MeetingSeries complete Topic list", function () {
     expect(E2ETopics.isTopicClosed(1), "Topic should be closed").to.be.true;
   });
 
-  it("remains the topic open if it were neither discussed nor has open AI", function () {
+  it("remains the topic open if it were neither discussed nor has open AI", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(
@@ -106,7 +106,7 @@ describe("MeetingSeries complete Topic list", function () {
     expect(E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
   });
 
-  it("remains the topic open if it were not discussed but has no open AI", function () {
+  it("remains the topic open if it were not discussed but has no open AI", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(
@@ -125,7 +125,7 @@ describe("MeetingSeries complete Topic list", function () {
     expect(E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
   });
 
-  it("remains the topic open if it were discussed but has open AI", function () {
+  it("remains the topic open if it were discussed but has open AI", () => {
     E2ETopics.addTopicToMinutes("some topic");
     E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
     E2ETopics.addInfoItemToTopic(
@@ -144,7 +144,7 @@ describe("MeetingSeries complete Topic list", function () {
     expect(E2ETopics.isTopicClosed(1), "Topic should remain open").to.be.false;
   });
 
-  it("Closed Topics have a Re-open Button, open ones not", function () {
+  it("Closed Topics have a Re-open Button, open ones not", () => {
     E2ETopics.addTopicToMinutes("some open topic");
     E2ETopics.addTopicToMinutes("some closed topic");
     E2ETopics.toggleTopic(1);
@@ -160,7 +160,7 @@ describe("MeetingSeries complete Topic list", function () {
     expect(E2ETopics.hasDropDownMenuButton(1, "#btnReopenTopic")).to.be.true;
   });
 
-  it("Only Moderator can Re-Open a closed Topic", function () {
+  it("Only Moderator can Re-Open a closed Topic", () => {
     E2ETopics.addTopicToMinutes("some closed topic");
     E2ETopics.toggleTopic(1);
     E2EMinutes.finalizeCurrentMinutes();
@@ -184,7 +184,7 @@ describe("MeetingSeries complete Topic list", function () {
     E2EApp.loginUser();
   });
 
-  it("Reopen a Topic if there is no currently unfinalized Minute", function () {
+  it("Reopen a Topic if there is no currently unfinalized Minute", () => {
     E2ETopics.addTopicToMinutes("some closed topic");
     E2ETopics.toggleTopic(1);
     E2EMinutes.finalizeCurrentMinutes();
@@ -212,7 +212,7 @@ describe("MeetingSeries complete Topic list", function () {
     expect(E2ETopics.countTopicsForMinute()).to.equal(1);
   });
 
-  it("Reopen a Topic if there is a currently unfinalized Minute", function () {
+  it("Reopen a Topic if there is a currently unfinalized Minute", () => {
     E2ETopics.addTopicToMinutes("some closed topic");
     E2ETopics.toggleTopic(1);
     E2EMinutes.finalizeCurrentMinutes();
@@ -231,8 +231,8 @@ describe("MeetingSeries complete Topic list", function () {
     expect(E2ETopics.countTopicsForMinute()).to.equal(1);
   });
 
-  describe("merge topics", function () {
-    beforeEach("Create and finalize a first minute", function () {
+  describe("merge topics", () => {
+    beforeEach("Create and finalize a first minute", () => {
       E2ETopics.addTopicToMinutes("some topic");
       E2ETopics.addInfoItemToTopic({ subject: "some information" }, 1);
       E2ETopics.addInfoItemToTopic(
@@ -245,7 +245,7 @@ describe("MeetingSeries complete Topic list", function () {
       E2EMinutes.gotoParentMeetingSeries();
     });
 
-    it("clears the topic list if the first minute will be un-finalized.", function () {
+    it("clears the topic list if the first minute will be un-finalized.", () => {
       E2EMinutes.gotoLatestMinutes();
 
       E2EMinutes.unfinalizeCurrentMinutes();
@@ -257,7 +257,7 @@ describe("MeetingSeries complete Topic list", function () {
       expect(E2ETopics.countTopicsForMinute()).to.equal(0);
     });
 
-    it("adds new topics and AIs/IIs to the topic list of the meeting series", function () {
+    it("adds new topics and AIs/IIs to the topic list of the meeting series", () => {
       // add a second minute
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
@@ -311,7 +311,7 @@ describe("MeetingSeries complete Topic list", function () {
       ).to.equal(4);
     });
 
-    it("closes an existing open AI but remains the topic open if it were not discussed", function () {
+    it("closes an existing open AI but remains the topic open if it were not discussed", () => {
       // add a second minute
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
@@ -334,7 +334,7 @@ describe("MeetingSeries complete Topic list", function () {
         .true;
     });
 
-    it("closes an existing open AI and closes the topic if it were discussed", function () {
+    it("closes an existing open AI and closes the topic if it were discussed", () => {
       // add a second minute
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
@@ -357,7 +357,7 @@ describe("MeetingSeries complete Topic list", function () {
         .true;
     });
 
-    it("changes the properties (subject/responsible) of an existing Topic", function () {
+    it("changes the properties (subject/responsible) of an existing Topic", () => {
       const newTopicSubject = "changed topic subject";
       const newResponsible = "user1";
 
@@ -384,7 +384,7 @@ describe("MeetingSeries complete Topic list", function () {
       ).to.have.string(newResponsible);
     });
 
-    it("reverts property changes (subject/responsible) of a Topic if the minute will be un-finalized", function () {
+    it("reverts property changes (subject/responsible) of a Topic if the minute will be un-finalized", () => {
       const newTopicSubject = "changed topic subject";
       const newResponsible = "user1";
 
@@ -412,7 +412,7 @@ describe("MeetingSeries complete Topic list", function () {
       ).to.not.have.string(newResponsible);
     });
 
-    it("changes the properties (subject/responsible) of an existing AI", function () {
+    it("changes the properties (subject/responsible) of an existing AI", () => {
       const newSubject = "changed action item subject";
       const newResponsible = "user1";
 
@@ -442,7 +442,7 @@ describe("MeetingSeries complete Topic list", function () {
       ).to.have.string(newResponsible);
     });
 
-    it("reverts property changes (subject/responsible) of an AI if the minute will be un-finalized", function () {
+    it("reverts property changes (subject/responsible) of an AI if the minute will be un-finalized", () => {
       const newSubject = "changed action item subject";
       const newResponsible = "user1";
 
@@ -473,7 +473,7 @@ describe("MeetingSeries complete Topic list", function () {
       ).to.not.have.string("Resp: " + newResponsible);
     });
 
-    it("removes the is-New-Flag of an existing topic after finalizing the 2nd minute", function () {
+    it("removes the is-New-Flag of an existing topic after finalizing the 2nd minute", () => {
       // add a second minute
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.finalizeCurrentMinutes();
@@ -488,7 +488,7 @@ describe("MeetingSeries complete Topic list", function () {
       );
     });
 
-    it("restores the is-New-Flag of an existing topic after un-finalizing the 2nd minute", function () {
+    it("restores the is-New-Flag of an existing topic after un-finalizing the 2nd minute", () => {
       // add a second minute
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
       E2EMinutes.finalizeCurrentMinutes();
@@ -505,7 +505,7 @@ describe("MeetingSeries complete Topic list", function () {
       );
     });
 
-    it("removes the topic from the meeting series topics list if it was created int the un-finalized minutes", function () {
+    it("removes the topic from the meeting series topics list if it was created int the un-finalized minutes", () => {
       // add a second minute
       E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 

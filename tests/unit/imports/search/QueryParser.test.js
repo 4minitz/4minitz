@@ -19,14 +19,14 @@ const { QueryParser } = proxyquire("../../../../imports/search/QueryParser", {
   "meteor/meteor": { Meteor, "@noCallThru": true },
 });
 
-describe("QueryParser", function () {
+describe("QueryParser", () => {
   let parser;
 
-  beforeEach(function () {
+  beforeEach(() => {
     parser = new QueryParser(ITEM_KEYWORDS);
   });
 
-  it("parses a simple query string containing only search tokens correctly", function () {
+  it("parses a simple query string containing only search tokens correctly", () => {
     const QUERY = "hello world";
     parser.parse(QUERY);
     const filterTokens = parser.getFilterTokens();
@@ -41,7 +41,7 @@ describe("QueryParser", function () {
     expect(searchTokens).to.contain("world");
   });
 
-  it("parses a simple query string containing only label tokens correctly", function () {
+  it("parses a simple query string containing only label tokens correctly", () => {
     const QUERY = "#label 1 #label zwo";
     parser.parse(QUERY);
 
@@ -59,7 +59,7 @@ describe("QueryParser", function () {
     expect(labelTokens).to.contain("label zwo");
   });
 
-  it("parses a simple query string containing search tokens, keywords and labels correctly", function () {
+  it("parses a simple query string containing search tokens, keywords and labels correctly", () => {
     const QUERY = "hello is:open world #my label";
     parser.parse(QUERY);
     const filterTokens = parser.getFilterTokens();
@@ -78,7 +78,7 @@ describe("QueryParser", function () {
     expect(labelTokens).to.contain("my label");
   });
 
-  it("identifies the due-keyword correctly", function () {
+  it("identifies the due-keyword correctly", () => {
     const QUERY = "hello due:2017 world";
     parser.parse(QUERY);
 
@@ -91,7 +91,7 @@ describe("QueryParser", function () {
     });
   });
 
-  it("can query if a specific keyword is set", function () {
+  it("can query if a specific keyword is set", () => {
     const QUERY = "hello is:open world #my label";
     parser.parse(QUERY);
 
@@ -99,8 +99,8 @@ describe("QueryParser", function () {
     expect(parser.hasKeyword({ key: "is" }, "open")).to.be.true;
   });
 
-  describe("Query LabelIds", function () {
-    beforeEach(function () {
+  describe("Query LabelIds", () => {
+    beforeEach(() => {
       parser = new QueryParser(ITEM_KEYWORDS, (labelName) => {
         if (labelName.split(/\s/).length > 2) {
           return [];
@@ -111,7 +111,7 @@ describe("QueryParser", function () {
       });
     });
 
-    it("can query the label id for a given name using the passed function", function () {
+    it("can query the label id for a given name using the passed function", () => {
       const QUERY = "#my label hello world";
       parser.parse(QUERY);
       const filterTokens = parser.getFilterTokens();

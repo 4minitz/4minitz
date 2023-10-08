@@ -16,14 +16,14 @@ const USER_1 = createUser(generateId(), "user1", "First User");
 const USER_2 = createUser(generateId(), "user2", "Second User");
 const USER_3 = createUser(generateId(), "user3", "Third User");
 
-describe("ParticipantsPreparer", function () {
+describe("ParticipantsPreparer", () => {
   let preparer,
     fakeMinutes,
     fakeParentSeries,
     fakeTopicOrItem,
     fakeUserCollection;
 
-  beforeEach(function () {
+  beforeEach(() => {
     fakeMinutes = {
       participants: [],
       participantsAdditional: "",
@@ -72,20 +72,20 @@ describe("ParticipantsPreparer", function () {
     preparer._init();
   });
 
-  describe("#getPossibleResponsibles", function () {
+  describe("#getPossibleResponsibles", () => {
     const ADDITIONAL_RESP_TEXT = "guest";
     const ADDITIONAL_RESP_MAIL = "guest@mail.de";
     const FORMER_RESP_TEXT = "old guest";
     const FORMER_RESP_MAIL = "old_guest@mail.de";
 
-    beforeEach(function () {
+    beforeEach(() => {
       fakeMinutes.participants = [
         { userId: USER_2._id },
         { userId: USER_1._id },
       ];
     });
 
-    it("returns all participants of the current minutes", function () {
+    it("returns all participants of the current minutes", () => {
       preparer._prepareResponsibles();
       const result = preparer.getPossibleResponsibles();
       expect(result).to.have.length(2);
@@ -99,7 +99,7 @@ describe("ParticipantsPreparer", function () {
       });
     });
 
-    it("returns the additional responsible, too", function () {
+    it("returns the additional responsible, too", () => {
       fakeMinutes.participantsAdditional = `${ADDITIONAL_RESP_TEXT}, ${ADDITIONAL_RESP_MAIL}`;
       preparer._prepareResponsibles();
       const result = preparer.getPossibleResponsibles();
@@ -114,7 +114,7 @@ describe("ParticipantsPreparer", function () {
       });
     });
 
-    it("returns the former responsible, too", function () {
+    it("returns the former responsible, too", () => {
       fakeParentSeries.additionalResponsibles = [
         FORMER_RESP_TEXT,
         FORMER_RESP_MAIL,
@@ -132,7 +132,7 @@ describe("ParticipantsPreparer", function () {
       });
     });
 
-    it("returns only valid entries from the former/additional responsible if desired", function () {
+    it("returns only valid entries from the former/additional responsible if desired", () => {
       fakeMinutes.participantsAdditional = `${ADDITIONAL_RESP_TEXT}, ${ADDITIONAL_RESP_MAIL}`;
       fakeParentSeries.additionalResponsibles = [
         FORMER_RESP_TEXT,
@@ -154,7 +154,7 @@ describe("ParticipantsPreparer", function () {
       });
     });
 
-    it("returns also the responsible of the current topic/item", function () {
+    it("returns also the responsible of the current topic/item", () => {
       fakeTopicOrItem._topicDoc.responsibles = [
         { id: "free-text-entry", text: "free-text-entry" },
         { id: USER_2._id, text: USER_2.name },

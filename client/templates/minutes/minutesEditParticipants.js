@@ -13,18 +13,18 @@ import { i18n } from "meteor/universe:i18n";
 
 let _minutesID; // the ID of these minutes
 
-const isEditable = function () {
+const isEditable = () => {
   const min = new Minutes(_minutesID);
   return min.isCurrentUserModerator() && !min.isFinalized;
 };
 
-const isModeratorOfParentSeries = function (userId) {
+const isModeratorOfParentSeries = (userId) => {
   const aMin = new Minutes(_minutesID);
   const usrRole = new UserRoles(userId);
   return usrRole.isModeratorOf(aMin.parentMeetingSeriesID());
 };
 
-const userNameForId = function (userId) {
+const userNameForId = (userId) => {
   const usr = Meteor.users.findOne(userId);
   if (usr) {
     let showName = usr.username;
@@ -122,13 +122,11 @@ Template.minutesEditParticipants.helpers({
     partSorted.forEach((p) => {
       p["displayName"] = userNameForId(p.userId);
     });
-    partSorted = partSorted.sort(function (a, b) {
-      return a.displayName > b.displayName
-        ? 1
-        : b.displayName > a.displayName
-        ? -1
-        : 0;
-    });
+    partSorted = partSorted.sort((a, b) => a.displayName > b.displayName
+    ? 1
+    : b.displayName > a.displayName
+    ? -1
+    : 0);
     return partSorted;
   },
 

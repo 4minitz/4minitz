@@ -50,10 +50,10 @@ const { MigrateV3 } = proxyquire("../../../../server/migrations/migrate_v3", {
   "./helpers/migrateItems": { MigrateItemsPre16, "@noCallThru": true },
 });
 
-describe("Migrate Version 3", function () {
+describe("Migrate Version 3", () => {
   let series, minute, topicOfMinute, topicOfSeries, openTopic, infoItem;
 
-  beforeEach(function () {
+  beforeEach(() => {
     infoItem = {
       _id: "AaBbCc0101",
       subject: "my info item",
@@ -83,15 +83,15 @@ describe("Migrate Version 3", function () {
     MeetingSeriesSchema.insert(series);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     MinutesSchema.update.resetHistory();
     MeetingSeriesSchema.update.resetHistory();
     MeetingSeriesSchema.series = [];
     MinutesSchema.minutes = [];
   });
 
-  describe("#up", function () {
-    it("adds the isSticky flag for each info item in minutes collection", function () {
+  describe("#up", () => {
+    it("adds the isSticky flag for each info item in minutes collection", () => {
       MigrateV3.up();
 
       expect(
@@ -104,7 +104,7 @@ describe("Migrate Version 3", function () {
       ).to.be.true;
     });
 
-    it("adds the isSticky flag for each info item in meeting series collection", function () {
+    it("adds the isSticky flag for each info item in meeting series collection", () => {
       MigrateV3.up();
 
       expect(
@@ -122,14 +122,14 @@ describe("Migrate Version 3", function () {
     });
   });
 
-  describe("#down", function () {
-    beforeEach("add isSticky property for each item", function () {
+  describe("#down", () => {
+    beforeEach("add isSticky property for each item", () => {
       minute.topics[0].infoItems[0].isSticky = true;
       series.topics[0].infoItems[0].isSticky = false;
       series.openTopics[0].infoItems[0].isSticky = true;
     });
 
-    it("removes the isSticky flag for each info item in minutes collection", function () {
+    it("removes the isSticky flag for each info item in minutes collection", () => {
       MigrateV3.down();
 
       expect(
@@ -142,7 +142,7 @@ describe("Migrate Version 3", function () {
       ).to.be.true;
     });
 
-    it("removes the isSticky flag for each info item in meeting series collection", function () {
+    it("removes the isSticky flag for each info item in meeting series collection", () => {
       MigrateV3.down();
 
       expect(

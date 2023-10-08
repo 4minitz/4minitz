@@ -93,43 +93,43 @@ const { Topic } = proxyquire("../../../imports/topic", {
   "./collections/minutes_private": { null: null, "@noCallThru": true },
 });
 
-describe("Topic", function () {
+describe("Topic", () => {
   let topicDoc;
 
-  beforeEach(function () {
+  beforeEach(() => {
     topicDoc = {
       subject: "topic-subject",
       infoItems: [],
     };
   });
 
-  describe("#constructor", function () {
-    it("sets the reference to the parent minute correctly", function () {
+  describe("#constructor", () => {
+    it("sets the reference to the parent minute correctly", () => {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._parentMinutes).to.equal(dummyMinute);
     });
 
-    it("can instantiate a topic with the parent minutes object instead of its id", function () {
+    it("can instantiate a topic with the parent minutes object instead of its id", () => {
       const myTopic = new Topic(dummyMinute, topicDoc);
       expect(myTopic._parentMinutes).to.equal(dummyMinute);
     });
 
-    it("sets the subject correctly", function () {
+    it("sets the subject correctly", () => {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.subject).to.equal(topicDoc.subject);
     });
 
-    it("sets the initial value of the isOpen-flag correctly", function () {
+    it("sets the initial value of the isOpen-flag correctly", () => {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.isOpen).to.be.true;
     });
 
-    it("sets the initial value of the isNew-flag correctly", function () {
+    it("sets the initial value of the isNew-flag correctly", () => {
       const myTopic = new Topic(dummyMinute._id, topicDoc);
       expect(myTopic._topicDoc.isNew).to.be.true;
     });
 
-    it("enforces infoItems to be of type Array", function () {
+    it("enforces infoItems to be of type Array", () => {
       topicDoc.infoItems = "something";
       const myTopic = new Topic(dummyMinute._id, topicDoc);
 
@@ -137,18 +137,18 @@ describe("Topic", function () {
     });
   });
 
-  it("#findTopicIndexInArray", function () {
+  it("#findTopicIndexInArray", () => {
     const topicArray = [topicDoc];
     const index = Topic.findTopicIndexInArray(topicDoc._id, topicArray);
     expect(index).to.equal(0);
   });
 
-  describe("#hasOpenActionItem", function () {
-    it("returns false if the topic does not have any sub items", function () {
+  describe("#hasOpenActionItem", () => {
+    it("returns false if the topic does not have any sub items", () => {
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
     });
 
-    it("returns true if the topic has at least one open action items", function () {
+    it("returns true if the topic has at least one open action items", () => {
       topicDoc.infoItems.push({
         itemType: "actionItem",
         isOpen: false,
@@ -161,7 +161,7 @@ describe("Topic", function () {
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.true;
     });
 
-    it("returns false if the topic has only closed action items", function () {
+    it("returns false if the topic has only closed action items", () => {
       topicDoc.infoItems.push({
         itemType: "actionItem",
         isOpen: false,
@@ -174,7 +174,7 @@ describe("Topic", function () {
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
     });
 
-    it("returns false if the topic has only info items (whose open state is unimportant)", function () {
+    it("returns false if the topic has only info items (whose open state is unimportant)", () => {
       topicDoc.infoItems.push({
         itemType: "infoItem",
         isOpen: false,
@@ -190,7 +190,7 @@ describe("Topic", function () {
       expect(Topic.hasOpenActionItem(topicDoc)).to.be.false;
     });
 
-    it("returns true if the topic has a open action item (object method call)", function () {
+    it("returns true if the topic has a open action item (object method call)", () => {
       topicDoc.infoItems.push({
         itemType: "actionItem",
         isOpen: true,
@@ -200,10 +200,10 @@ describe("Topic", function () {
     });
   });
 
-  describe("#invalidateIsNewFlag", function () {
+  describe("#invalidateIsNewFlag", () => {
     let myTopic;
 
-    beforeEach(function () {
+    beforeEach(() => {
       topicDoc.isNew = true;
       topicDoc.infoItems.push({
         isOpen: true,
@@ -214,18 +214,18 @@ describe("Topic", function () {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
 
-    it("clears the isNew-Flag of the topic itself", function () {
+    it("clears the isNew-Flag of the topic itself", () => {
       myTopic.invalidateIsNewFlag();
       expect(topicDoc.isNew).to.be.false;
     });
 
-    it("clears the isNew-Flag of the action item", function () {
+    it("clears the isNew-Flag of the action item", () => {
       myTopic.invalidateIsNewFlag();
       expect(topicDoc.infoItems[0].isNew).to.be.false;
     });
   });
 
-  it("#toggleState", function () {
+  it("#toggleState", () => {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 
     const oldState = myTopic._topicDoc.isOpen;
@@ -236,46 +236,46 @@ describe("Topic", function () {
     expect(myTopic._topicDoc.isOpen).to.not.equal(oldState);
   });
 
-  describe("#isRecurring", function () {
+  describe("#isRecurring", () => {
     let myTopic;
 
-    beforeEach(function () {
+    beforeEach(() => {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
 
-    it("sets the default value correctly", function () {
+    it("sets the default value correctly", () => {
       expect(myTopic.isRecurring()).to.be.false;
     });
 
-    it("returns the correct value", function () {
+    it("returns the correct value", () => {
       myTopic.getDocument().isRecurring = true;
       expect(myTopic.isRecurring()).to.be.true;
     });
   });
 
-  describe("#toggleRecurring", function () {
+  describe("#toggleRecurring", () => {
     let myTopic;
 
-    beforeEach(function () {
+    beforeEach(() => {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
 
-    it("can change the value correctly", function () {
+    it("can change the value correctly", () => {
       myTopic.toggleRecurring();
       expect(myTopic.isRecurring()).to.be.true;
     });
 
-    it("can reset the isRecurring-Flag", function () {
+    it("can reset the isRecurring-Flag", () => {
       myTopic.toggleRecurring();
       myTopic.toggleRecurring();
       expect(myTopic.isRecurring()).to.be.false;
     });
   });
 
-  describe("#upsertInfoItem", function () {
+  describe("#upsertInfoItem", () => {
     let myTopic, topicItemDoc;
 
-    beforeEach(function () {
+    beforeEach(() => {
       myTopic = new Topic(dummyMinute._id, topicDoc);
 
       topicItemDoc = {
@@ -284,7 +284,7 @@ describe("Topic", function () {
       };
     });
 
-    it("adds a new info item to our topic", function () {
+    it("adds a new info item to our topic", () => {
       myTopic.upsertInfoItem(topicItemDoc);
 
       expect(
@@ -299,7 +299,7 @@ describe("Topic", function () {
       ).to.equal(topicItemDoc.subject);
     });
 
-    it("updates an existing info item", function () {
+    it("updates an existing info item", () => {
       myTopic.upsertInfoItem(topicItemDoc);
 
       // Change the subject and call the upsertTopicItem method again
@@ -323,7 +323,7 @@ describe("Topic", function () {
     });
   });
 
-  it("#findInfoItem", function () {
+  it("#findInfoItem", () => {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
     const infoItemDoc = {
       _id: "AaBbCcDd01",
@@ -349,7 +349,7 @@ describe("Topic", function () {
     ).to.equal(infoItemDoc.subject);
   });
 
-  it("#removeInfoItem", function () {
+  it("#removeInfoItem", () => {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 
     const infoItemDoc = {
@@ -388,10 +388,10 @@ describe("Topic", function () {
     ).to.equal(infoItemDoc._id);
   });
 
-  describe("#tailorTopic", function () {
+  describe("#tailorTopic", () => {
     let myTopic;
 
-    beforeEach(function () {
+    beforeEach(() => {
       topicDoc.infoItems.push({
         subject: "myInfoItem",
         createdInMinute: dummyMinute._id,
@@ -411,23 +411,23 @@ describe("Topic", function () {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
 
-    it("removes all info items and closed action items", function () {
+    it("removes all info items and closed action items", () => {
       myTopic.tailorTopic();
 
       expect(myTopic.getInfoItems()).to.have.length(1);
     });
 
-    it("keeps the open action items", function () {
+    it("keeps the open action items", () => {
       myTopic.tailorTopic();
 
       expect(myTopic._topicDoc.infoItems[0].isOpen).to.be.true;
     });
   });
 
-  describe("#getOpenActionItems", function () {
+  describe("#getOpenActionItems", () => {
     let myTopic;
 
-    beforeEach(function () {
+    beforeEach(() => {
       topicDoc.infoItems.push({
         subject: "myInfoItem",
       });
@@ -449,11 +449,11 @@ describe("Topic", function () {
       myTopic = new Topic(dummyMinute._id, topicDoc);
     });
 
-    it("returns the correct amount of items", function () {
+    it("returns the correct amount of items", () => {
       expect(myTopic.getOpenActionItems()).to.have.length(2);
     });
 
-    it("returns only open action items", function () {
+    it("returns only open action items", () => {
       myTopic.getOpenActionItems().forEach((item) => {
         expect(item, "the item should be a action item").to.have.ownProperty(
           "isOpen",
@@ -463,7 +463,7 @@ describe("Topic", function () {
     });
   });
 
-  it("#save", function () {
+  it("#save", () => {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 
     // the save-method should call the upsertTopic-Method of the parent Minute
@@ -482,7 +482,7 @@ describe("Topic", function () {
     spy.restore();
   });
 
-  it("#getDocument", function () {
+  it("#getDocument", () => {
     const myTopic = new Topic(dummyMinute._id, topicDoc);
 
     expect(myTopic.getDocument()).to.equal(topicDoc);

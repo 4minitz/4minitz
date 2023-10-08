@@ -7,13 +7,13 @@ import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMeetingSeriesEditor } from "./helpers/E2EMeetingSeriesEditor";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 
-describe("MeetingSeries Editor", function () {
+describe("MeetingSeries Editor", () => {
   const aProjectName = "E2E MeetingSeries Editor";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     console.log("Executing: ", E2EGlobal.getTestSpecFilename());
     server.connect();
     E2EGlobal.logTimestamp("Start test suite");
@@ -23,17 +23,17 @@ describe("MeetingSeries Editor", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
       aMeetingCounter++;
       aMeetingName = aMeetingNameBase + aMeetingCounter;
       E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-    },
+    }
   );
 
-  it("can open and close meeting series editor without changing data", function () {
+  it("can open and close meeting series editor without changing data", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     // Now dialog should be there
     expect(browser.isVisible("#btnMeetingSeriesSave")).to.be.true;
@@ -44,7 +44,7 @@ describe("MeetingSeries Editor", function () {
       .to.be.false;
   });
 
-  it("can open and cancel meeting series editor without changing data", function () {
+  it("can open and cancel meeting series editor without changing data", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     // Now dialog should be there
     expect(browser.isVisible("#btnMeetinSeriesEditCancel")).to.be.true;
@@ -56,7 +56,7 @@ describe("MeetingSeries Editor", function () {
       .to.be.false;
   });
 
-  it("can delete an empty meeting series", function () {
+  it("can delete an empty meeting series", () => {
     const countAfterCreate = E2EMeetingSeries.countMeetingSeries();
     expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to
       .be.ok;
@@ -72,7 +72,7 @@ describe("MeetingSeries Editor", function () {
       .to.be.ok;
   });
 
-  it("can cancel delete of meeting series", function () {
+  it("can cancel delete of meeting series", () => {
     const countAfterCreate = E2EMeetingSeries.countMeetingSeries();
     expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).to
       .be.ok;
@@ -86,7 +86,7 @@ describe("MeetingSeries Editor", function () {
       .be.ok;
   });
 
-  it("can clean up child minutes on deleting meeting series", function () {
+  it("can clean up child minutes on deleting meeting series", () => {
     const aMeetingName = "Meeting Name (with Minute)";
 
     const countDBMeetingSeriesBefore = server.call(
@@ -122,7 +122,7 @@ describe("MeetingSeries Editor", function () {
       .to.be.ok;
   });
 
-  it("can not save meeting series without project or name", function () {
+  it("can not save meeting series without project or name", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue('input[id="id_meetingproject"]', ""); // empty input
     browser.setValue('input[id="id_meetingname"]', ""); // empty input
@@ -145,7 +145,7 @@ describe("MeetingSeries Editor", function () {
       .be.ok; // prj/name should be unchanged
   });
 
-  it("can save meeting series with new project name and meeting name", function () {
+  it("can save meeting series with new project name and meeting name", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     const aNewProjectName = "E2E New Project";
     const aNewMeetingName = "New Meeting Name";
@@ -161,7 +161,7 @@ describe("MeetingSeries Editor", function () {
     ).to.be.ok;
   });
 
-  it("can restore fields after close and re-open", function () {
+  it("can restore fields after close and re-open", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue(
       'input[id="id_meetingproject"]',
@@ -189,7 +189,7 @@ describe("MeetingSeries Editor", function () {
     E2EGlobal.waitSomeTime(); // give dialog animation time
   });
 
-  it("can restore fields after cancel and re-open", function () {
+  it("can restore fields after cancel and re-open", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue(
       'input[id="id_meetingproject"]',
@@ -217,7 +217,7 @@ describe("MeetingSeries Editor", function () {
     E2EGlobal.waitSomeTime(); // give dialog animation time
   });
 
-  it("can delete a meeting series", function () {
+  it("can delete a meeting series", () => {
     const initialCount = E2EMeetingSeries.countMeetingSeries();
 
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);

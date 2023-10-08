@@ -45,7 +45,5 @@ if (Meteor.isServer) {
         });
     });
 
-    Meteor.publish('topicOnlyOne', function (topicID) {
-        return TopicSchema.find({ _id: topicID });
-    });
+    Meteor.publish('topicOnlyOne', (topicID) => TopicSchema.find({ _id: topicID }));
 }

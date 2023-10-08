@@ -66,10 +66,10 @@ const { Minutes } = proxyquire("../../../imports/minutes", {
   "meteor/underscore": { _, "@noCallThru": true },
 });
 
-describe("Minutes", function () {
+describe("Minutes", () => {
   let minutesDoc, minute;
 
-  beforeEach(function () {
+  beforeEach(() => {
     minutesDoc = {
       meetingSeries_id: "AaBbCc01",
       _id: "AaBbCc02",
@@ -84,7 +84,7 @@ describe("Minutes", function () {
     minute = new Minutes(minutesDoc);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     MinutesSchema.find.resetHistory();
     MinutesSchema.findOne.resetHistory();
     Meteor.call.resetHistory();
@@ -94,12 +94,12 @@ describe("Minutes", function () {
     topicGetOpenActionItemsStub.resetHistory();
   });
 
-  describe("#constructor", function () {
-    it("sets the properties correctly", function () {
+  describe("#constructor", () => {
+    it("sets the properties correctly", () => {
       expect(JSON.stringify(minute)).to.equal(JSON.stringify(minutesDoc));
     });
 
-    it("fetches the minute from the database if the id was given", function () {
+    it("fetches the minute from the database if the id was given", () => {
       new Minutes(minutesDoc._id);
       expect(MinutesSchema.findOne.calledOnce, "findOne should be called once")
         .to.be.true;
@@ -109,7 +109,7 @@ describe("Minutes", function () {
       ).to.be.true;
     });
 
-    it("throws exception if constructor will be called without any arguments", function () {
+    it("throws exception if constructor will be called without any arguments", () => {
       let exceptionThrown;
       try {
         new Minutes();
@@ -122,8 +122,8 @@ describe("Minutes", function () {
     });
   });
 
-  describe("find", function () {
-    it("#find", function () {
+  describe("find", () => {
+    it("#find", () => {
       Minutes.find("myArg");
       expect(MinutesSchema.find.calledOnce, "find-Method should be called once")
         .to.be.true;
@@ -133,7 +133,7 @@ describe("Minutes", function () {
       ).to.be.true;
     });
 
-    it("#findOne", function () {
+    it("#findOne", () => {
       Minutes.findOne("myArg");
       expect(
         MinutesSchema.findOne.calledOnce,
@@ -145,16 +145,16 @@ describe("Minutes", function () {
       ).to.be.true;
     });
 
-    describe("#findAllIn", function () {
+    describe("#findAllIn", () => {
       let minIdArray;
       let limit;
 
-      beforeEach(function () {
+      beforeEach(() => {
         minIdArray = ["1", "2"];
         limit = 3;
       });
 
-      it("calls the find-Method of the Collection", function () {
+      it("calls the find-Method of the Collection", () => {
         Minutes.findAllIn(minIdArray, limit);
         expect(
           MinutesSchema.find.calledOnce,
@@ -162,7 +162,7 @@ describe("Minutes", function () {
         ).to.be.true;
       });
 
-      it("sets the id selector correctly", function () {
+      it("sets the id selector correctly", () => {
         Minutes.findAllIn(minIdArray, limit);
         const selector = MinutesSchema.find.getCall(0).args[0];
         expect(selector, "Selector has the property _id").to.have.ownProperty(
@@ -177,14 +177,14 @@ describe("Minutes", function () {
         );
       });
 
-      it("sets the option correctly (sort, no limit)", function () {
+      it("sets the option correctly (sort, no limit)", () => {
         const expectedOption = { sort: { date: -1 } };
         Minutes.findAllIn(minIdArray);
         const options = MinutesSchema.find.getCall(0).args[1];
         expect(options).to.deep.equal(expectedOption);
       });
 
-      it("sets the option correctly (sort and limit)", function () {
+      it("sets the option correctly (sort and limit)", () => {
         const expectedOption = { sort: { date: -1 }, limit: limit };
         Minutes.findAllIn(minIdArray, limit);
         const options = MinutesSchema.find.getCall(0).args[1];
@@ -193,13 +193,13 @@ describe("Minutes", function () {
     });
   });
 
-  describe("#remove", function () {
-    it("calls the meteor method minutes.remove", function () {
+  describe("#remove", () => {
+    it("calls the meteor method minutes.remove", () => {
       Minutes.remove(minute._id);
       expect(Meteor.callPromise.calledOnce).to.be.true;
     });
 
-    it("sends the minutes id to the meteor method minutes.remove", function () {
+    it("sends the minutes id to the meteor method minutes.remove", () => {
       Minutes.remove(minute._id);
       expect(
         Meteor.callPromise.calledWithExactly(
@@ -210,20 +210,20 @@ describe("Minutes", function () {
     });
   });
 
-  describe("#syncVisibilityAndParticipants", function () {
+  describe("#syncVisibilityAndParticipants", () => {
     let visibleForArray, parentSeriesId;
 
-    beforeEach(function () {
+    beforeEach(() => {
       visibleForArray = ["1", "2"];
       parentSeriesId = minute.meetingSeries_id;
     });
 
-    it("calls the meteor method minutes.syncVisibilityAndParticipants", function () {
+    it("calls the meteor method minutes.syncVisibilityAndParticipants", () => {
       Minutes.syncVisibility(parentSeriesId, visibleForArray);
       expect(Meteor.callPromise.calledOnce).to.be.true;
     });
 
-    it("sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibilityAndParticipants", function () {
+    it("sends the parentSeriesId and the visibleFor-array to the meteor method minutes.syncVisibilityAndParticipants", () => {
       Minutes.syncVisibility(parentSeriesId, visibleForArray);
       expect(
         Meteor.callPromise.calledWithExactly(
@@ -235,21 +235,21 @@ describe("Minutes", function () {
     });
   });
 
-  describe("#update", function () {
+  describe("#update", () => {
     let updateDocPart;
 
-    beforeEach(function () {
+    beforeEach(() => {
       updateDocPart = {
         date: "2016-05-07",
       };
     });
 
-    it("calls the meteor method minutes.update", function () {
+    it("calls the meteor method minutes.update", () => {
       minute.update(updateDocPart);
       expect(Meteor.callPromise.calledOnce).to.be.true;
     });
 
-    it("sends the doc part and the minutes id to the meteor method minutes.update", function () {
+    it("sends the doc part and the minutes id to the meteor method minutes.update", () => {
       minute.update(updateDocPart);
       const sentObj = JSON.parse(JSON.stringify(updateDocPart));
       sentObj._id = minute._id;
@@ -268,14 +268,14 @@ describe("Minutes", function () {
     });
   });
 
-  describe("#save", function () {
-    it("calls the meteor method minutes.insert if a new minute will be saved", function () {
+  describe("#save", () => {
+    it("calls the meteor method minutes.insert if a new minute will be saved", () => {
       delete minute._id;
       minute.save();
       expect(Meteor.call.calledOnce).to.be.true;
     });
 
-    it("uses the workflow.addMinutes method to save a new minutes document", function () {
+    it("uses the workflow.addMinutes method to save a new minutes document", () => {
       delete minute._id;
       minute.save();
       expect(
@@ -288,26 +288,26 @@ describe("Minutes", function () {
       ).to.be.true;
     });
 
-    it("sets the createdAt-property if it is not set", function () {
+    it("sets the createdAt-property if it is not set", () => {
       delete minute._id;
       delete minute.createdAt;
       minute.save();
       expect(minute).to.have.ownProperty("createdAt");
     });
 
-    it("calls the meteor method minutes.update if a existing minute will be saved", function () {
+    it("calls the meteor method minutes.update if a existing minute will be saved", () => {
       minute.save();
       expect(Meteor.call.calledOnce).to.be.true;
     });
 
-    it("sends the minutes object to the meteor method minutes.update", function () {
+    it("sends the minutes object to the meteor method minutes.update", () => {
       minute.save();
       expect(Meteor.call.calledWithExactly("minutes.update", minute)).to.be
         .true;
     });
   });
 
-  it("#parentMeetingSeries", function () {
+  it("#parentMeetingSeries", () => {
     const parentSeries = minute.parentMeetingSeries();
     expect(
       parentSeries instanceof MeetingSeries,
@@ -319,14 +319,14 @@ describe("Minutes", function () {
     ).to.equal(minute.meetingSeries_id);
   });
 
-  it("#parentMeetingSeriesID", function () {
+  it("#parentMeetingSeriesID", () => {
     expect(minute.parentMeetingSeriesID()).to.equal(minute.meetingSeries_id);
   });
 
-  describe("topic related methods", function () {
+  describe("topic related methods", () => {
     let topic1, topic2, topic3, topic4;
 
-    beforeEach(function () {
+    beforeEach(() => {
       topic1 = {
         _id: "01",
         subject: "firstTopic",
@@ -357,35 +357,35 @@ describe("Minutes", function () {
       minute.topics.push(topic4);
     });
 
-    describe("#findTopic", function () {
-      it("finds the correct topic identified by its id", function () {
+    describe("#findTopic", () => {
+      it("finds the correct topic identified by its id", () => {
         expect(minute.findTopic(topic1._id)).to.deep.equal(topic1);
       });
 
-      it("returns undefined if topic was not found", function () {
+      it("returns undefined if topic was not found", () => {
         expect(minute.findTopic("unknownId")).to.be.undefined;
       });
     });
 
-    describe("#removeTopic", function () {
-      it("removes the topic from the topics array", function () {
+    describe("#removeTopic", () => {
+      it("removes the topic from the topics array", () => {
         const oldLength = minute.topics.length;
         minute.removeTopic(topic1._id);
         expect(minute.topics).to.have.length(oldLength - 1);
       });
 
-      it("calls the meteor method minutes.update", function () {
+      it("calls the meteor method minutes.update", () => {
         minute.removeTopic(topic1._id);
         expect(Meteor.callPromise.calledOnce).to.be.true;
       });
     });
 
-    describe("#getNewTopics", function () {
-      it("returns the correct amount of topics", function () {
+    describe("#getNewTopics", () => {
+      it("returns the correct amount of topics", () => {
         expect(minute.getNewTopics()).to.have.length(2);
       });
 
-      it("returns only new topics", function () {
+      it("returns only new topics", () => {
         const newTopics = minute.getNewTopics();
         newTopics.forEach((topic) => {
           expect(topic.isNew, "isNew-flag should be set").to.be.true;
@@ -393,12 +393,12 @@ describe("Minutes", function () {
       });
     });
 
-    describe("#getOldClosedTopics", function () {
-      it("returns the correct amount of topics", function () {
+    describe("#getOldClosedTopics", () => {
+      it("returns the correct amount of topics", () => {
         expect(minute.getOldClosedTopics()).to.have.length(1);
       });
 
-      it("returns only old and closed topics", function () {
+      it("returns only old and closed topics", () => {
         const oldClosedTopics = minute.getOldClosedTopics();
         oldClosedTopics.forEach((topic) => {
           expect(
@@ -409,15 +409,15 @@ describe("Minutes", function () {
       });
     });
 
-    describe("#getOpenActionItems", function () {
-      it("calls the getOpenActionItems method for each topic", function () {
+    describe("#getOpenActionItems", () => {
+      it("calls the getOpenActionItems method for each topic", () => {
         minute.getOpenActionItems();
         expect(topicGetOpenActionItemsStub.callCount).to.equal(
           minute.topics.length,
         );
       });
 
-      it("concatenates all results of each getOpenActionItems-call", function () {
+      it("concatenates all results of each getOpenActionItems-call", () => {
         topicGetOpenActionItemsStub.returns([5, 7]);
         expect(minute.getOpenActionItems()).to.have.length(
           minute.topics.length * 2,
@@ -426,16 +426,16 @@ describe("Minutes", function () {
     });
   });
 
-  describe("#upsertTopic", function () {
+  describe("#upsertTopic", () => {
     let topicDoc;
 
-    beforeEach(function () {
+    beforeEach(() => {
       topicDoc = {
         subject: "myTopic",
       };
     });
 
-    it("adds a new topic to the topic array", function () {
+    it("adds a new topic to the topic array", () => {
       minute.upsertTopic(topicDoc);
       expect(Meteor.callPromise.calledOnce).to.be.true;
       expect(
@@ -447,7 +447,7 @@ describe("Minutes", function () {
       );
     });
 
-    it("adds a new topic which already has an id", function () {
+    it("adds a new topic which already has an id", () => {
       topicDoc._id = "myId";
       minute.upsertTopic(topicDoc);
       expect(Meteor.callPromise.calledOnce).to.be.true;
@@ -460,7 +460,7 @@ describe("Minutes", function () {
       );
     });
 
-    it("updates an existing topic correctly", function () {
+    it("updates an existing topic correctly", () => {
       topicDoc._id = "myId";
       minute.topics.unshift(topicDoc);
       topicDoc.subject = "changedSubject";
@@ -475,12 +475,12 @@ describe("Minutes", function () {
       ).to.equal(topicDoc.subject);
     });
 
-    it("calls the meteor method minutes.update", function () {
+    it("calls the meteor method minutes.update", () => {
       minute.upsertTopic(topicDoc);
       expect(Meteor.callPromise.calledOnce).to.be.true;
     });
 
-    it("sends the minutes id and the topic doc to the meteor method minutes.addTopic", function () {
+    it("sends the minutes id and the topic doc to the meteor method minutes.addTopic", () => {
       minute.upsertTopic(topicDoc);
       const callArgs = Meteor.callPromise.getCall(0).args;
       expect(
@@ -500,7 +500,7 @@ describe("Minutes", function () {
     });
   });
 
-  it("#isCurrentUserModerator", function () {
+  it("#isCurrentUserModerator", () => {
     minute.isCurrentUserModerator();
 
     expect(isCurrentUserModeratorStub.calledOnce).to.be.true;

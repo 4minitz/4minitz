@@ -8,7 +8,7 @@ import { i18n } from "meteor/universe:i18n";
 import { addCustomValidator } from "../../helpers/customFieldValidator";
 
 const initColorPicker = (selector) => {
-  setTimeout(function () {
+  setTimeout(() => {
     $(selector).pickAColor({
       showSavedColors: false,
       showAdvanced: false,
@@ -18,7 +18,7 @@ const initColorPicker = (selector) => {
   }, 50);
 };
 
-Template.meetingSeriesEditLabels.onRendered(function () {
+Template.meetingSeriesEditLabels.onRendered(() => {
   initColorPicker(".pick-a-color");
 
   addCustomValidator(

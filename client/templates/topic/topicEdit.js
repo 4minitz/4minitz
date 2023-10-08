@@ -28,7 +28,7 @@ Template.topicEdit.onCreated(function () {
   _meetingSeries = new MeetingSeries(aMin.parentMeetingSeriesID());
 });
 
-const getEditTopic = function () {
+const getEditTopic = () => {
   const topicId = Session.get("topicEditTopicId");
 
   if (_minutesID === null || topicId === null) {
@@ -104,7 +104,7 @@ Template.topicEdit.events({
 
     if (topic !== false) {
       const element = topic._topicDoc;
-      const unset = function () {
+      const unset = () => {
         IsEditedService.removeIsEditedTopic(
           _minutesID,
           topic._topicDoc._id,

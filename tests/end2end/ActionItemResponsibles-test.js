@@ -7,7 +7,7 @@ import { E2ETopics } from "./helpers/E2ETopics";
 
 require("../../imports/helpers/date");
 
-describe("ActionItems Responsibles", function () {
+describe("ActionItems Responsibles", () => {
   const aProjectName = "E2E ActionItems Responsibles";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -45,7 +45,7 @@ describe("ActionItems Responsibles", function () {
     return actionItemName;
   }
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -53,7 +53,7 @@ describe("ActionItems Responsibles", function () {
 
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -64,10 +64,10 @@ describe("ActionItems Responsibles", function () {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    },
+    }
   );
 
-  it("can add an action item with a responsible", function () {
+  it("can add an action item with a responsible", () => {
     const topicIndex = 1;
     const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
 
@@ -95,7 +95,7 @@ describe("ActionItems Responsibles", function () {
     ).to.have.string(user1);
   });
 
-  it("can add an action item with two responsibles", function () {
+  it("can add an action item with two responsibles", () => {
     const topicIndex = 1;
     const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -128,7 +128,7 @@ describe("ActionItems Responsibles", function () {
     ).to.have.string(user2);
   });
 
-  it("can add an action item with a free-text EMail-responsible", function () {
+  it("can add an action item with a free-text EMail-responsible", () => {
     const topicIndex = 1;
     const emailUser = "noreply@4minitz.com";
     E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
@@ -156,7 +156,7 @@ describe("ActionItems Responsibles", function () {
     E2EGlobal.waitSomeTime();
   });
 
-  it("prohibits non-email-string as free-text responsible", function () {
+  it("prohibits non-email-string as free-text responsible", () => {
     const topicIndex = 1;
     const illegalUserName = "NonEMailResponsible";
     E2ETopics.openInfoItemDialog(topicIndex, "actionItem");

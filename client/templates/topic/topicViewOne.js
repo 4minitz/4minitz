@@ -39,11 +39,11 @@ Template.topicViewOne.onCreated(function () {
   });
 });
 
-Template.topicViewOne.onRendered(function () {
+Template.topicViewOne.onRendered(() => {
   //add your statement here
 });
 
-Template.topicViewOne.onDestroyed(function () {
+Template.topicViewOne.onDestroyed(() => {
   //add your statement here
 });
 

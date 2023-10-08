@@ -22,10 +22,10 @@ const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {
 
 import { QueryParserMock } from "./QueryParserMock";
 
-describe("ItemsFilter", function () {
+describe("ItemsFilter", () => {
   let items, itemsFilter, parser;
 
-  beforeEach(function () {
+  beforeEach(() => {
     parser = new QueryParserMock();
     itemsFilter = new ItemsFilter();
     items = [
@@ -53,21 +53,21 @@ describe("ItemsFilter", function () {
     ];
   });
 
-  it("does not change the original array of items", function () {
+  it("does not change the original array of items", () => {
     parser.searchTokens.push("three");
     itemsFilter.filter(items, parser);
 
     expect(items, "Length of the items array should be 9").have.length(9);
   });
 
-  it("returns the filtered array of items", function () {
+  it("returns the filtered array of items", () => {
     parser.searchTokens.push("three");
     const res = itemsFilter.filter(items, parser);
 
     expect(res, "Length of the result items array should be 5").have.length(5);
   });
 
-  it("can filter for multiple search tokens", function () {
+  it("can filter for multiple search tokens", () => {
     parser.searchTokens.push("three");
     parser.searchTokens.push("two");
     const res = itemsFilter.filter(items, parser);
@@ -75,7 +75,7 @@ describe("ItemsFilter", function () {
     expect(res, "Length of the result items array should be 2").have.length(2);
   });
 
-  it("should return an items array containing only info items matching the search query", function () {
+  it("should return an items array containing only info items matching the search query", () => {
     const query = "three";
     parser.searchTokens.push(query);
     const res = itemsFilter.filter(items, parser);
@@ -91,13 +91,13 @@ describe("ItemsFilter", function () {
     ).to.be.false;
   });
 
-  it("can filter for labels", function () {
+  it("can filter for labels", () => {
     parser.labelTokens.push("L1");
     const res = itemsFilter.filter(items, parser);
     expect(res, "Length of the result items array should be 3").have.length(3);
   });
 
-  it("filters case insensitive per default for search tokens", function () {
+  it("filters case insensitive per default for search tokens", () => {
     parser.searchTokens.push("THREE");
     parser.searchTokens.push("TWO");
     const res = itemsFilter.filter(items, parser);
@@ -105,7 +105,7 @@ describe("ItemsFilter", function () {
     expect(res, "Length of the result items array should be 2").have.length(2);
   });
 
-  it("can enable case sensitive search", function () {
+  it("can enable case sensitive search", () => {
     parser.caseSensitive = true;
     parser.searchTokens.push("THREE");
     const res = itemsFilter.filter(items, parser);
@@ -114,7 +114,7 @@ describe("ItemsFilter", function () {
     expect(res, "Length of the result items array should be 0").have.length(0);
   });
 
-  it("can combine multiple is-filter-tokens as logical AND which is a conjunctive operation", function () {
+  it("can combine multiple is-filter-tokens as logical AND which is a conjunctive operation", () => {
     parser.filterTokens.push({ key: "is", value: "open" });
     parser.filterTokens.push({ key: "is", value: "action" });
     const res = itemsFilter.filter(items, parser);
@@ -132,7 +132,7 @@ describe("ItemsFilter", function () {
     ).have.length(2);
   });
 
-  it("can filter items depending on their due date", function () {
+  it("can filter items depending on their due date", () => {
     parser.filterTokens.push({ key: "due", value: "2017-" });
     const res = itemsFilter.filter(items, parser);
 

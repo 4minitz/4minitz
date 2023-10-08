@@ -40,10 +40,10 @@ const { MigrateV5 } = proxyquire("../../../../server/migrations/migrate_v5", {
   },
 });
 
-describe("Migrate Version 5", function () {
+describe("Migrate Version 5", () => {
   let series, minute, topicOfMinute, topicOfSeries, openTopic;
 
-  beforeEach(function () {
+  beforeEach(() => {
     topicOfMinute = {
       subject: "Topic Subject",
       isOpen: true,
@@ -66,15 +66,15 @@ describe("Migrate Version 5", function () {
     MeetingSeriesSchema.insert(series);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     MinutesSchema.update.resetHistory();
     MeetingSeriesSchema.update.resetHistory();
     MeetingSeriesSchema.series = [];
     MinutesSchema.minutes = [];
   });
 
-  describe("#up", function () {
-    it("adds the isRecurring flag for each topic in minutes collection", function () {
+  describe("#up", () => {
+    it("adds the isRecurring flag for each topic in minutes collection", () => {
       MigrateV5.up();
 
       expect(minute.topics[0].isRecurring, "isRecurring flag should be added")
@@ -85,7 +85,7 @@ describe("Migrate Version 5", function () {
       ).to.be.true;
     });
 
-    it("adds the isRecurring flag for each topic in meeting series collection", function () {
+    it("adds the isRecurring flag for each topic in meeting series collection", () => {
       MigrateV5.up();
 
       expect(
@@ -103,14 +103,14 @@ describe("Migrate Version 5", function () {
     });
   });
 
-  describe("#down", function () {
-    beforeEach("add isRecurring property for each topic", function () {
+  describe("#down", () => {
+    beforeEach("add isRecurring property for each topic", () => {
       minute.topics[0].isRecurring = true;
       series.topics[0].isRecurring = false;
       series.openTopics[0].isRecurring = true;
     });
 
-    it("removes the isRecurring flag for each topic in minutes collection", function () {
+    it("removes the isRecurring flag for each topic in minutes collection", () => {
       MigrateV5.down();
 
       expect(minute.topics[0].isRecurring, "isRecurring flag should be removed")
@@ -121,7 +121,7 @@ describe("Migrate Version 5", function () {
       ).to.be.true;
     });
 
-    it("removes the isRecurring flag for each topic in meeting series collection", function () {
+    it("removes the isRecurring flag for each topic in meeting series collection", () => {
       MigrateV5.down();
 
       expect(

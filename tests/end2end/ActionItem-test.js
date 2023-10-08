@@ -6,7 +6,7 @@ import { E2ETopics } from "./helpers/E2ETopics";
 
 require("../../imports/helpers/date");
 
-describe("ActionItems", function () {
+describe("ActionItems", () => {
   const aProjectName = "E2E ActionItems";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
@@ -44,7 +44,7 @@ describe("ActionItems", function () {
     return actionItemName;
   }
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -52,7 +52,7 @@ describe("ActionItems", function () {
 
   beforeEach(
     "make sure test user is logged in, create series and add minutes",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -63,10 +63,10 @@ describe("ActionItems", function () {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    },
+    }
   );
 
-  it("can add an info item", function () {
+  it("can add an info item", () => {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
 
@@ -96,7 +96,7 @@ describe("ActionItems", function () {
     ).to.have.string(actionItemName);
   });
 
-  it("can edit an existing action item", function () {
+  it("can edit an existing action item", () => {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
     const updatedActionItemName = actionItemName + " CHANGED!";
@@ -133,7 +133,7 @@ describe("ActionItems", function () {
   });
 
   // This was broken before bugfix of github issue #228
-  it("can edit an existing action item after an info item was added", function () {
+  it("can edit an existing action item after an info item was added", () => {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
     const updatedActionItemName = actionItemName + " CHANGED!";
@@ -193,7 +193,7 @@ describe("ActionItems", function () {
     ).to.contain(newResponsible);
   });
 
-  it("can add an action item by pressing enter in the topic field", function () {
+  it("can add an action item by pressing enter in the topic field", () => {
     const topicIndex = 1;
     E2ETopics.openInfoItemDialog(topicIndex, "actionItem");
 
@@ -224,7 +224,7 @@ describe("ActionItems", function () {
     ).to.have.string(actionItemName);
   });
 
-  it("can add an action item and set the priority field", function () {
+  it("can add an action item and set the priority field", () => {
     const topicIndex = 1;
 
     const actionItemName = getNewAIName();
@@ -254,7 +254,7 @@ describe("ActionItems", function () {
     ).to.have.string(actionItemName);
   });
 
-  it("toggles the open-state of the first AI", function () {
+  it("toggles the open-state of the first AI", () => {
     addActionItemToFirstTopic();
 
     E2ETopics.toggleActionItem(1, 1);
@@ -263,7 +263,7 @@ describe("ActionItems", function () {
       .true;
   });
 
-  it("toggles the open-state of the second AI", function () {
+  it("toggles the open-state of the second AI", () => {
     addActionItemToFirstTopic();
 
     E2ETopics.addInfoItemToTopic(
@@ -279,7 +279,7 @@ describe("ActionItems", function () {
       .true;
   });
 
-  it("shows security question before deleting action items", function () {
+  it("shows security question before deleting action items", () => {
     const actionItemName = addActionItemToFirstTopic();
 
     E2ETopics.deleteInfoItem(1, 1);
@@ -308,7 +308,7 @@ describe("ActionItems", function () {
     E2EApp.confirmationDialogAnswer(false);
   });
 
-  it("can delete an action item", function () {
+  it("can delete an action item", () => {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
@@ -331,7 +331,7 @@ describe("ActionItems", function () {
       .false;
   });
 
-  it('can cancel a "delete action item"', function () {
+  it('can cancel a "delete action item"', () => {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(

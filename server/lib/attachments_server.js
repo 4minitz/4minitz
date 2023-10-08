@@ -9,7 +9,7 @@ import { Meteor } from "meteor/meteor";
 const fs = require("fs-extra");
 const path = require("path");
 
-calculateAndCreateStoragePath = function (fileObj) {
+calculateAndCreateStoragePath = (fileObj) => {
   // eslint-disable-line
   if (Meteor.isServer) {
     let absAttachmentStoragePath = Meteor.settings.attachments?.storagePath
@@ -25,7 +25,7 @@ calculateAndCreateStoragePath = function (fileObj) {
     }
 
     // create target dir for attachment storage if it does not exist
-    fs.ensureDirSync(absAttachmentStoragePath, function (err) {
+    fs.ensureDirSync(absAttachmentStoragePath, (err) => {
       if (err) {
         console.error(
           "ERROR: Could not create path for attachment upload: " +
@@ -37,13 +37,13 @@ calculateAndCreateStoragePath = function (fileObj) {
   }
 };
 
-removeMeetingSeriesAttachmentDir = function (meetingseries_id) {
+removeMeetingSeriesAttachmentDir = (meetingseries_id) => {
   // eslint-disable-line
   if (meetingseries_id.length > 0) {
     // ensure "attachment root" is not deleted
     let storagePath = calculateAndCreateStoragePath(); // eslint-disable-line
     storagePath += `/${meetingseries_id}`;
-    fs.remove(storagePath, function (err) {
+    fs.remove(storagePath, (err) => {
       if (err) {
         console.error(
           "Could not remove attachment dir:" +
@@ -63,7 +63,7 @@ if (Meteor.settings.attachments?.enabled) {
   const absoluteTargetPath = path.resolve(settingsPath);
   console.log(`attachmentsStoragePath:${absoluteTargetPath}`);
 
-  fs.access(absoluteTargetPath, fs.W_OK, function (err) {
+  fs.access(absoluteTargetPath, fs.W_OK, (err) => {
     if (err) {
       console.error("*** ERROR*** No write access to attachmentsStoragePath");
       console.error("             Uploads can not be saved.");

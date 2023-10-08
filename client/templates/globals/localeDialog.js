@@ -5,8 +5,8 @@ import { Template } from "meteor/templating";
 
 const supportedLocales = new ReactiveVar([]);
 
-Template.localeDialog.onCreated(function () {
-  Meteor.call("getAvailableLocales", function (error, result) {
+Template.localeDialog.onCreated(() => {
+  Meteor.call("getAvailableLocales", (error, result) => {
     if (error) {
       console.log("Error: No supported language locales reported by server.");
     } else {

@@ -11,7 +11,7 @@ const checkEMailIsValid = (email) => {
   return emailAddressRegExpTest.test(email);
 };
 
-Template.profileEditDialog.onRendered(function () {
+Template.profileEditDialog.onRendered(() => {
   addCustomValidator(
     "#id_emailAddress",
     (value) => {
@@ -35,7 +35,7 @@ function updateUserProfile(tmpl) {
     editUserId,
     uEmailAddress,
     uLongName,
-    function (error) {
+    (error) => {
       if (error) {
         new FlashMessage(i18n.__("FlashMessages.error"), error.reason).show();
       } else {
@@ -47,7 +47,7 @@ function updateUserProfile(tmpl) {
         ).show();
         tmpl.$("#dlgEditProfile").modal("hide");
       }
-    },
+    }
   );
 
   tmpl.$("#btnEditProfileSave").prop("disabled", false);

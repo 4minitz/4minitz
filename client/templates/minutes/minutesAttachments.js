@@ -13,7 +13,7 @@ import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFacto
 
 let _minutesID; // the ID of these minutes
 
-const isModerator = function () {
+const isModerator = () => {
   const aMin = new Minutes(_minutesID);
   return aMin?.isCurrentUserModerator();
 };
@@ -31,11 +31,11 @@ Template.minutesAttachments.onCreated(function () {
   }
 });
 
-Template.minutesAttachments.onRendered(function () {
+Template.minutesAttachments.onRendered(() => {
   // add your statement here
 });
 
-Template.minutesAttachments.onDestroyed(function () {
+Template.minutesAttachments.onDestroyed(() => {
   // add your statement here
 });
 

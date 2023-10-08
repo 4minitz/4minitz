@@ -2,10 +2,10 @@ import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
 import { E2EUser } from "./helpers/E2EUser";
 
-describe("User Profile/Password editing", function () {
+describe("User Profile/Password editing", () => {
   const waitUntilTimeout = 10000;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -13,13 +13,13 @@ describe("User Profile/Password editing", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
-    },
+    }
   );
 
-  it("Buttons Change Password and Edit Profile are not visible for an LDAP user", function () {
+  it("Buttons Change Password and Edit Profile are not visible for an LDAP user", () => {
     E2EApp.logoutUser();
     expect(E2EApp.isNotLoggedIn()).to.be.true;
 
@@ -40,7 +40,7 @@ describe("User Profile/Password editing", function () {
     E2EApp.loginUser();
   });
 
-  it("User can successfully change his password", function () {
+  it("User can successfully change his password", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     const newPassword = "Test12";
     const oldPassword = E2EGlobal.SETTINGS.e2eTestPasswords[0];
@@ -78,7 +78,7 @@ describe("User Profile/Password editing", function () {
     );
   });
 
-  it("User can not change his password, if new Passwords are not equal", function () {
+  it("User can not change his password, if new Passwords are not equal", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     E2EGlobal.clickWithRetry("#navbar-usermenu");
     E2EGlobal.waitSomeTime();
@@ -94,7 +94,7 @@ describe("User Profile/Password editing", function () {
     E2EGlobal.clickWithRetry("#btnChangePasswordCancel");
   });
 
-  it("User can not change his password, if he typed his old password incorrect", function () {
+  it("User can not change his password, if he typed his old password incorrect", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     E2EGlobal.clickWithRetry("#navbar-usermenu");
     E2EGlobal.waitSomeTime();
@@ -110,7 +110,7 @@ describe("User Profile/Password editing", function () {
     E2EGlobal.waitSomeTime();
   });
 
-  it("User can not change his password, if his new password is not valid due to guidelines", function () {
+  it("User can not change his password, if his new password is not valid due to guidelines", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     E2EGlobal.clickWithRetry("#navbar-usermenu");
     E2EGlobal.waitSomeTime();
@@ -126,7 +126,7 @@ describe("User Profile/Password editing", function () {
     E2EGlobal.waitSomeTime();
   });
 
-  it("User can successefully change his profile", function () {
+  it("User can successefully change his profile", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     const longName = "longname";
     const email = "test@test.de";
@@ -142,7 +142,7 @@ describe("User Profile/Password editing", function () {
     expect(E2EUser.checkProfileChanged(longName, email).value).to.be.true;
   });
 
-  it("User can not save his profile with an invalid Email", function () {
+  it("User can not save his profile with an invalid Email", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     const longName = "longname";
     const email = "testtest.de";
@@ -158,7 +158,7 @@ describe("User Profile/Password editing", function () {
     expect(E2EUser.checkProfileChanged(longName, email).value).to.be.false;
   });
 
-  it("User profile is not changed, if pressing Cancel", function () {
+  it("User profile is not changed, if pressing Cancel", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     const longName = "cancellongname";
     const email = "canceltest@test.de";
@@ -175,7 +175,7 @@ describe("User Profile/Password editing", function () {
     );
   });
 
-  it("User can save his profile with an empty LongName", function () {
+  it("User can save his profile with an empty LongName", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     const longName = "";
     const email = "test@test.de";
@@ -190,7 +190,7 @@ describe("User Profile/Password editing", function () {
     );
   });
 
-  it("User can not save his profile with an empty Email", function () {
+  it("User can not save his profile with an empty Email", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     const longName = "longname";
     const email = "";
@@ -205,7 +205,7 @@ describe("User Profile/Password editing", function () {
     );
   });
 
-  it("User can change his longname without editing his Email", function () {
+  it("User can change his longname without editing his Email", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     const longName = "longnameChanged";
     const email = E2EUser.getUserEmail();
@@ -220,7 +220,7 @@ describe("User Profile/Password editing", function () {
     );
   });
 
-  it("Clicking the back button closes the password change dialog", function () {
+  it("Clicking the back button closes the password change dialog", () => {
     expect(E2EApp.isLoggedIn()).to.be.true;
     E2EGlobal.clickWithRetry("#navbar-usermenu");
     browser.waitForVisible("#navbar-dlgEditProfile");

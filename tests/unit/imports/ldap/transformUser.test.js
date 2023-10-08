@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import transformUser from "../../../../imports/ldap/transformUser";
 
-describe("transformUser", function () {
-  it("defaults to cn for the username when no searchDn is given", function () {
+describe("transformUser", () => {
+  it("defaults to cn for the username when no searchDn is given", () => {
     let ldapSettings = {},
       userData = {
         cn: "username",
@@ -13,7 +13,7 @@ describe("transformUser", function () {
     expect(meteorUser.username).to.equal(userData.cn);
   });
 
-  it("uses the configured attribute as username", function () {
+  it("uses the configured attribute as username", () => {
     let ldapSettings = {
         propertyMap: {
           username: "attr",
@@ -29,7 +29,7 @@ describe("transformUser", function () {
     expect(meteorUser.username).to.equal(userData.attr);
   });
 
-  it("uses the given email if given as string", function () {
+  it("uses the given email if given as string", () => {
     let ldapSettings = {},
       userData = {
         mail: "me@example.com",
@@ -47,7 +47,7 @@ describe("transformUser", function () {
     expect(meteorUser.emails).to.deep.equal(expectedResult);
   });
 
-  it("uses the first email if given an array", function () {
+  it("uses the first email if given an array", () => {
     let ldapSettings = {},
       userData = {
         mail: ["me@example.com", "me2@example.com"],
@@ -65,7 +65,7 @@ describe("transformUser", function () {
     expect(meteorUser.emails).to.deep.equal(expectedResult);
   });
 
-  it("copies over the value of the users profile cn attribute as the profile name", function () {
+  it("copies over the value of the users profile cn attribute as the profile name", () => {
     let ldapSettings = {},
       profile = {
         cn: "user name",
@@ -77,7 +77,7 @@ describe("transformUser", function () {
     expect(meteorUser.profile.name).to.equal(userData.cn);
   });
 
-  it("copies nothing into the user's profile if no whitelisted fields are given", function () {
+  it("copies nothing into the user's profile if no whitelisted fields are given", () => {
     let ldapSettings = {},
       userData = {
         someAttribute: "someValue",
@@ -89,7 +89,7 @@ describe("transformUser", function () {
     expect(meteorUser.profile).to.deep.equal({});
   });
 
-  it("copies over the attributes given as whitelistedFields into the user's profile", function () {
+  it("copies over the attributes given as whitelistedFields into the user's profile", () => {
     let ldapSettings = {
         whiteListedFields: ["someAttribute", "anotherAttribute"],
       },

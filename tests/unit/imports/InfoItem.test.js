@@ -34,10 +34,10 @@ const { InfoItem } = proxyquire("../../../imports/infoitem", {
   "./label": { Label, "@noCallThru": true },
 });
 
-describe("InfoItem", function () {
+describe("InfoItem", () => {
   let dummyTopic, infoItemDoc;
 
-  beforeEach(function () {
+  beforeEach(() => {
     dummyTopic = {
       _id: "AaBbCcDd",
       _infoItems: [],
@@ -62,20 +62,20 @@ describe("InfoItem", function () {
     };
   });
 
-  describe("#constructor", function () {
-    it("sets the reference to the parent topic correctly", function () {
+  describe("#constructor", () => {
+    it("sets the reference to the parent topic correctly", () => {
       const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
       // the infoItem should have a reference of our dummyTopic
       expect(myInfoItem._parentTopic).to.equal(dummyTopic);
     });
 
-    it("sets the document correctly", function () {
+    it("sets the document correctly", () => {
       const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
       // the doc should be equal to our initial document
       expect(myInfoItem._infoItemDoc).to.equal(infoItemDoc);
     });
 
-    it("creates the same object by passing the id of an existing one", function () {
+    it("creates the same object by passing the id of an existing one", () => {
       const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
       // add the created info item to our dummy topic
       dummyTopic.addInfoItem(myInfoItem);
@@ -91,7 +91,7 @@ describe("InfoItem", function () {
     });
   });
 
-  it("#isActionItem", function () {
+  it("#isActionItem", () => {
     const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
     expect(
       myInfoItem.isActionItem(),
@@ -109,7 +109,7 @@ describe("InfoItem", function () {
     ).to.be.true;
   });
 
-  it("#save", function () {
+  it("#save", () => {
     const myInfoItem = new InfoItem(dummyTopic, infoItemDoc);
 
     myInfoItem.save();

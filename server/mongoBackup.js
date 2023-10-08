@@ -29,7 +29,7 @@ function dumpParameters(uri, path) {
   return params;
 }
 
-export const backupMongo = function (mongoUrl, path) {
+export const backupMongo = (mongoUrl, path) => {
   console.log("Backing up mongodb", mongoUrl, "to", path);
 
   const uri = mongoUri.parse(mongoUrl);

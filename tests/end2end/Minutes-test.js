@@ -4,8 +4,8 @@ import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("Minutes", function () {
-  before("reload page and reset app", function () {
+describe("Minutes", () => {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -13,13 +13,13 @@ describe("Minutes", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
-    },
+    }
   );
 
-  it("can add first minutes to meeting series", function () {
+  it("can add first minutes to meeting series", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #1";
 
@@ -35,7 +35,7 @@ describe("Minutes", function () {
     ).to.equal(1);
   });
 
-  it("can add further minutes to meeting series", function () {
+  it("can add further minutes to meeting series", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #2";
 
@@ -54,7 +54,7 @@ describe("Minutes", function () {
     ).to.equal(countInitialMinutes + 2);
   });
 
-  it("can add minutes for specific date", function () {
+  it("can add minutes for specific date", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #3";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -69,7 +69,7 @@ describe("Minutes", function () {
     expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
   });
 
-  it("can delete unfinalized minutes", function () {
+  it("can delete unfinalized minutes", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #4";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -94,7 +94,7 @@ describe("Minutes", function () {
     expect(E2EMinutes.getMinutesId(myDate)).not.to.be.ok;
   });
 
-  it("can cancel delete of unfinalized minutes", function () {
+  it("can cancel delete of unfinalized minutes", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #5";
     const myDate = "2015-03-17"; // date of first project commit ;-)
@@ -119,7 +119,7 @@ describe("Minutes", function () {
     expect(E2EMinutes.getMinutesId(myDate)).to.be.ok;
   });
 
-  it("displays an error message if the minute is not linked to the parent series", function () {
+  it("displays an error message if the minute is not linked to the parent series", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #6";
 
@@ -149,7 +149,7 @@ describe("Minutes", function () {
     );
   });
 
-  it("can persist global notes", function () {
+  it("can persist global notes", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #6";
     const aGlobalNote = "Amazing global note";
@@ -171,7 +171,7 @@ describe("Minutes", function () {
     expect(result).to.equal(aGlobalNote);
   });
 
-  it("hide closed topics", function () {
+  it("hide closed topics", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #7";
 
@@ -194,7 +194,7 @@ describe("Minutes", function () {
     expect(E2ETopics.countTopicsForMinute()).to.equal(2);
   });
 
-  it("can navigate to previous and next minutes within a minutes", function () {
+  it("can navigate to previous and next minutes within a minutes", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name PrevNext";
 
@@ -221,7 +221,7 @@ describe("Minutes", function () {
     expect(currentdate).to.equal(thirdDate);
   });
 
-  it("hide closed topics by click", function () {
+  it("hide closed topics by click", () => {
     const aProjectName = "E2E Minutes";
     const aMeetingName = "Meeting Name #8";
 

@@ -14,7 +14,7 @@ const ddpclient = new DDPClient({
 
 function connect() {
   const future = new Future();
-  ddpclient.connect(function (error) {
+  ddpclient.connect((error) => {
     if (error) {
       future.throw(error);
     }
@@ -35,12 +35,12 @@ function call() {
   ddpclient.call(
     arguments[0],
     [].slice.call(arguments, 1),
-    function (err, result) {
+    (err, result) => {
       if (err) {
         future.throw(err);
       }
       future.return(result);
-    },
+    }
   );
 
   return future;

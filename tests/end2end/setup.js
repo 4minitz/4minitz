@@ -1,14 +1,14 @@
 import { E2EGlobal } from "./helpers/E2EGlobal";
 import { E2EApp } from "./helpers/E2EApp";
 
-before(function () {
+before(() => {
   console.log("End2End Settings:");
   console.log("# of test users:", E2EGlobal.SETTINGS.e2eTestUsers.length);
 
   // We refactor the browser.click() method to save a screenshot
   // with a unique ID if click() fails.
   browser.click_org = browser.click;
-  browser.click = function (...args) {
+  browser.click = (...args) => {
     try {
       browser.click_org(...args);
     } catch (e) {
@@ -24,7 +24,7 @@ before(function () {
   // We refactor the browser.waitForVisible() method to save a screenshot
   // with a unique ID if waitForVisible() fails.
   browser.waitForVisible_org = browser.waitForVisible;
-  browser.waitForVisible = function (selector, timeout = 10000, ...args) {
+  browser.waitForVisible = (selector, timeout = 10000, ...args) => {
     try {
       browser.waitForVisible_org(selector, timeout, ...args);
     } catch (e) {
@@ -40,7 +40,7 @@ before(function () {
   // We refactor the browser.click() method to save a screenshot
   // with a unique ID if click() fails.
   browser.elementIdClick_org = browser.elementIdClick;
-  browser.elementIdClick = function (...args) {
+  browser.elementIdClick = (...args) => {
     try {
       browser.elementIdClick_org(...args);
     } catch (e) {

@@ -8,7 +8,7 @@ import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 import { E2EMinutes } from "./helpers/E2EMinutes";
 import { E2EAttachments } from "./helpers/E2EAttachments";
 
-describe("Attachments", function () {
+describe("Attachments", () => {
   const _projectName = "E2E Attachments";
   const _meetingNameBase = "Meeting Name #";
   let _meetingCounter = 0;
@@ -23,7 +23,7 @@ describe("Attachments", function () {
     return _meetingNameBase + _meetingCounter;
   };
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -35,7 +35,7 @@ describe("Attachments", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       E2EApp.gotoStartPage();
       expect(E2EApp.isLoggedIn()).to.be.true;
 
@@ -48,13 +48,13 @@ describe("Attachments", function () {
         _projectName,
         _lastMeetingName,
       );
-    },
+    }
   );
 
   // ******************
   // * MODERATOR TESTS
   // ******************
-  it("can upload an attachment to the server (as moderator)", function () {
+  it("can upload an attachment to the server (as moderator)", () => {
     expect(
       E2EAttachments.countAttachmentsGlobally(),
       "Number of attachments before upload",
@@ -94,7 +94,7 @@ describe("Attachments", function () {
     ).to.equal(md5server);
   });
 
-  it("can not upload illegal files (as moderator)", function () {
+  it("can not upload illegal files (as moderator)", () => {
     // wrong extension
     const fileWithDeniedExtension = _localPublicDir + "loading-gears.gif";
     E2EAttachments.uploadFile(fileWithDeniedExtension);
@@ -112,7 +112,7 @@ describe("Attachments", function () {
     E2EApp.confirmationDialogAnswer(true);
   });
 
-  it("can remove an attachment (as moderator)", function () {
+  it("can remove an attachment (as moderator)", () => {
     let removeBtns = E2EAttachments.getRemoveButtons();
     expect(
       removeBtns.length,
@@ -147,7 +147,7 @@ describe("Attachments", function () {
     ).to.equal(0);
   });
 
-  it("has correct UI on finalized minutes with attachments (as moderator)", function () {
+  it("has correct UI on finalized minutes with attachments (as moderator)", () => {
     E2EAttachments.uploadFile(_staticLocalFilename);
     expect(
       E2EAttachments.isUploadButtonVisible(),
@@ -181,7 +181,7 @@ describe("Attachments", function () {
   // ******************
   // * UPLOADER TESTS
   // ******************
-  it("can upload an attachment to the server (as uploader)", function () {
+  it("can upload an attachment to the server (as uploader)", () => {
     E2EAttachments.switchToUserWithDifferentRole(
       E2EGlobal.USERROLES.Uploader,
       _projectName,
@@ -199,7 +199,7 @@ describe("Attachments", function () {
     E2EApp.loginUser(0);
   });
 
-  it("can remove only my own attachment (as uploader)", function () {
+  it("can remove only my own attachment (as uploader)", () => {
     // 1st Upload by Moderator
     E2EAttachments.uploadFile(_staticLocalFilename);
     const attDocBefore =
@@ -236,7 +236,7 @@ describe("Attachments", function () {
   // ******************
   // * INVITED TESTS
   // ******************
-  it("can not upload but sees download links (as invited)", function () {
+  it("can not upload but sees download links (as invited)", () => {
     E2EAttachments.uploadFile(_staticLocalFilename);
     E2EAttachments.switchToUserWithDifferentRole(
       E2EGlobal.USERROLES.Invited,
@@ -258,7 +258,7 @@ describe("Attachments", function () {
   // This does not work in PhantomJS - see https://github.com/ariya/phantomjs/issues/10052
   // This only works in Chrome. Chrome is configured via .meteor/chimp_config.js to
   // show no pop up dialog on saving, but instead save directly to a known target directory
-  it("can download attachment via URL (as invited) - DESKTOP-CHROME-ONLY", function () {
+  it("can download attachment via URL (as invited) - DESKTOP-CHROME-ONLY", () => {
     if (
       !E2EGlobal.browserIsPhantomJS() &&
       !E2EGlobal.browserIsHeadlessChrome()
@@ -298,7 +298,7 @@ describe("Attachments", function () {
   // * NOT INVITED / NOT LOGGED IN TESTS
   // ******************
 
-  it("has no published attachment if not invited", function () {
+  it("has no published attachment if not invited", () => {
     E2EAttachments.uploadFile(_staticLocalFilename);
     expect(
       E2EAttachments.countAttachmentsOnClientForCurrentUser() > 0,
@@ -313,7 +313,7 @@ describe("Attachments", function () {
     E2EApp.loginUser(0);
   });
 
-  it("has no published attachment if not logged in", function () {
+  it("has no published attachment if not logged in", () => {
     E2EAttachments.uploadFile(_staticLocalFilename);
     expect(
       E2EAttachments.countAttachmentsOnClientForCurrentUser() > 0,
@@ -328,7 +328,7 @@ describe("Attachments", function () {
     E2EApp.loginUser(0);
   });
 
-  it("can not download attachment via URL if user not invited", function () {
+  it("can not download attachment via URL if user not invited", () => {
     E2EAttachments.uploadFile(_staticLocalFilename);
     const links = E2EAttachments.getDownloadLinks();
     const attachmentURL = links[0].getAttribute("href");
@@ -341,7 +341,7 @@ describe("Attachments", function () {
     E2EApp.loginUser(0);
   });
 
-  it("can not download attachment via URL if user not logged in", function () {
+  it("can not download attachment via URL if user not logged in", () => {
     E2EAttachments.uploadFile(_staticLocalFilename);
     const links = E2EAttachments.getDownloadLinks();
     const attachmentURL = links[0].getAttribute("href");

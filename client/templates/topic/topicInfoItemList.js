@@ -228,7 +228,7 @@ const addNewDetails = async (tmpl, index) => {
 
   // Defer opening new details editor to give DOM some time for its expand
   // animation
-  Meteor.setTimeout(function () {
+  Meteor.setTimeout(() => {
     const inputEl = detailsRootElement.find(".detailInput").last().show();
     detailsRootElement.find(".detailActions").last().show();
     inputEl.parent().css("margin", "0 0 25px 0");
@@ -593,7 +593,7 @@ Template.topicInfoItemList.events({
       aActionItem._infoItemDoc.details[detailIndex].isEditedBy != undefined &&
       aActionItem._infoItemDoc.details[detailIndex].isEditedDate != undefined
     ) {
-      const unset = function () {
+      const unset = () => {
         IsEditedService.removeIsEditedDetail(
           aMin._id,
           aTopic._topicDoc._id,
@@ -633,7 +633,7 @@ Template.topicInfoItemList.events({
     }
 
     const element = aActionItem._infoItemDoc.details[detailIndex];
-    const unset = function () {
+    const unset = () => {
       IsEditedService.removeIsEditedDetail(
         aMin._id,
         aTopic._topicDoc._id,

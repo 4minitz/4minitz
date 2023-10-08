@@ -6,8 +6,8 @@ import { E2EApp } from './helpers/E2EApp';
 import { E2EMeetingSeries } from './helpers/E2EMeetingSeries';
 
 
-describe('MeetingSeries', function () {
-    before('reload page and reset app', function () {
+describe('MeetingSeries', () => {
+    before('reload page and reset app', () => {
         console.log('Executing: '+E2EGlobal.getTestSpecFilename());
         server.connect();
         E2EGlobal.logTimestamp('Start test suite');
@@ -15,12 +15,12 @@ describe('MeetingSeries', function () {
         E2EApp.launchApp();
     });
 
-    beforeEach('goto start page and make sure test user is logged in', function () {
+    beforeEach('goto start page and make sure test user is logged in', () => {
         E2EApp.gotoStartPage();
         expect (E2EApp.isLoggedIn()).to.be.true;
     });
 
-    it('can create a first meeting series', function () {
+    it('can create a first meeting series', () => {
         const aProjectName = 'E2E Project';
         const aMeetingName = 'Meeting Name #1';
         const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -30,7 +30,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it('can create a further meeting series', function () {
+    it('can create a further meeting series', () => {
         const aProjectName = 'E2E Project';
         const aMeetingName = 'Meeting Name #2';
         const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -40,7 +40,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it('can submit the form by pressing enter in the meetingname input', function () {
+    it('can submit the form by pressing enter in the meetingname input', () => {
         const aProjectName = 'E2E Project';
         const aMeetingName = 'Meeting Name #2.7182818284';
         const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -54,7 +54,7 @@ describe('MeetingSeries', function () {
     });
 
 
-    it('can not create meeting series with empty project', function () {
+    it('can not create meeting series with empty project', () => {
         const aProjectName = '';
         const aMeetingName = 'Meeting Name #2.1';
         const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -63,7 +63,7 @@ describe('MeetingSeries', function () {
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
     });
 
-    it('can not create meeting series with empty name', function () {
+    it('can not create meeting series with empty name', () => {
         const aProjectName = 'E2E Project - Unknown series';
         const aMeetingName = '';
         const initialCount = E2EMeetingSeries.countMeetingSeries();
@@ -72,7 +72,7 @@ describe('MeetingSeries', function () {
         expect(E2EMeetingSeries.getMeetingSeriesId(aProjectName, aMeetingName)).not.to.be.ok;
     });
 
-    it('can goto meeting series details', function () {
+    it('can goto meeting series details', () => {
         const aProjectName = 'E2E Project';
         const aMeetingName = 'Meeting Name #4';
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);

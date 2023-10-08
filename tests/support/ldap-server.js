@@ -64,7 +64,7 @@ function authorize(req, res, next) {
   return next();
 }
 
-server.search("dc=example,dc=com", authorize, function (req, res, next) {
+server.search("dc=example,dc=com", authorize, (req, res, next) => {
   const matches = _.filter(users, (user) =>
     req.filter.matches(user.attributes),
   );
@@ -74,7 +74,7 @@ server.search("dc=example,dc=com", authorize, function (req, res, next) {
   return next();
 });
 
-server.bind("dc=example,dc=com", function (req, res, next) {
+server.bind("dc=example,dc=com", (req, res, next) => {
   let dn = req.dn.toString(),
     normalizedDn = dn.replace(/ /g, ""),
     password = req.credentials;
@@ -103,6 +103,6 @@ server.bind("dc=example,dc=com", function (req, res, next) {
   return next();
 });
 
-server.listen(1389, function () {
+server.listen(1389, () => {
   console.log("ldapjs listening at " + server.url);
 });

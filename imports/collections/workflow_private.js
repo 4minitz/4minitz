@@ -181,13 +181,13 @@ Meteor.methods({
       ) {
         AttachmentsCollection.remove(
           { "meta.meetingminutes_id": minutes_id },
-          function (error) {
+          (error) => {
             if (error) {
               console.error(`File wasn't removed, error: ${error.reason}`);
             } else {
               console.log("OK, removed linked attachments.");
             }
-          },
+          }
         );
       }
     }
@@ -218,13 +218,13 @@ Meteor.methods({
     ) {
       AttachmentsCollection.remove(
         { "meta.parentseries_id": meetingseries_id },
-        function (error) {
+        (error) => {
           if (error) {
             console.error(`File wasn't removed, error: ${error.reason}`);
           } else {
             console.log("OK, removed linked attachments.");
           }
-        },
+        }
       );
       removeMeetingSeriesAttachmentDir(meetingseries_id); // eslint-disable-line
     }

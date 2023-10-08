@@ -7,13 +7,13 @@ import { E2EMinutesParticipants } from "./helpers/E2EMinutesParticipants";
 import { E2EMails } from "./helpers/E2EMails";
 import { E2ETopics } from "./helpers/E2ETopics";
 
-describe("MeetingSeries Editor Users", function () {
+describe("MeetingSeries Editor Users", () => {
   const aProjectName = "E2E MSEditor Users";
   let aMeetingCounter = 0;
   const aMeetingNameBase = "Meeting Name #";
   let aMeetingName;
 
-  before("reload page and reset app", function () {
+  before("reload page and reset app", () => {
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp(true);
     E2EApp.launchApp();
@@ -21,7 +21,7 @@ describe("MeetingSeries Editor Users", function () {
 
   beforeEach(
     "goto start page and make sure test user is logged in",
-    function () {
+    () => {
       if (aMeetingCounter % 10 === 0) {
         E2EApp.resetMyApp(false);
         E2EApp.launchApp();
@@ -38,10 +38,10 @@ describe("MeetingSeries Editor Users", function () {
         aMeetingName,
         "invited",
       );
-    },
+    }
   );
 
-  it("has one moderator per default", function () {
+  it("has one moderator per default", () => {
     const usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0, 1, 2);
     E2EMeetingSeriesEditor.closeMeetingSeriesEditor(); // close with save
 
@@ -53,7 +53,7 @@ describe("MeetingSeries Editor Users", function () {
     );
   });
 
-  it('can add a further user, which defaults to "Invited" role', function () {
+  it('can add a further user, which defaults to "Invited" role', () => {
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
 
@@ -67,7 +67,7 @@ describe("MeetingSeries Editor Users", function () {
     expect(usersAndRoles[user2].isReadOnly).to.be.false;
   });
 
-  it("can not add user twice", function () {
+  it("can not add user twice", () => {
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
     E2EMeetingSeriesEditor.addUserToMeetingSeries(user2); // try to add same user again!
@@ -79,7 +79,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can delete other user", function () {
+  it("can delete other user", () => {
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
 
@@ -98,7 +98,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can not delete own user", function () {
+  it("can not delete own user", () => {
     const usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0, 1, 2);
 
     expect(Object.keys(usersAndRoles)).to.have.length(1);
@@ -110,7 +110,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can not change role of own user", function () {
+  it("can not change role of own user", () => {
     const usersAndRoles = E2EMeetingSeriesEditor.getUsersAndRoles(0, 1, 2);
 
     expect(Object.keys(usersAndRoles)).to.have.length(1);
@@ -122,7 +122,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can promote other user to moderator", function () {
+  it("can promote other user to moderator", () => {
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(
       user2,
@@ -140,7 +140,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can configure other user back to invited role after save", function () {
+  it("can configure other user back to invited role after save", () => {
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(
       user2,
@@ -174,7 +174,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can persist edited user roles to database", function () {
+  it("can persist edited user roles to database", () => {
     const currentUser = E2EApp.getCurrentUser();
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
@@ -220,7 +220,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("ensures invited user can see but not edit new meeting series", function () {
+  it("ensures invited user can see but not edit new meeting series", () => {
     const currentUser = E2EApp.getCurrentUser();
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(
@@ -240,7 +240,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EApp.loginUser();
   });
 
-  it("ensures additional moderator user can see & edit new meeting series", function () {
+  it("ensures additional moderator user can see & edit new meeting series", () => {
     const currentUser = E2EApp.getCurrentUser();
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(
@@ -260,7 +260,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EApp.loginUser();
   });
 
-  it("ensures moderator role can be revoked by deleting", function () {
+  it("ensures moderator role can be revoked by deleting", () => {
     const currentUser = E2EApp.getCurrentUser();
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(
@@ -284,7 +284,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EApp.loginUser();
   });
 
-  it("ensures that roles do not change on dialog cancel", function () {
+  it("ensures that roles do not change on dialog cancel", () => {
     const currentUser = E2EApp.getCurrentUser();
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
@@ -310,7 +310,7 @@ describe("MeetingSeries Editor Users", function () {
     expect(usersAndRoles[currentUser]).to.be.ok;
   });
 
-  it("allows new invited user to access old minutes", function () {
+  it("allows new invited user to access old minutes", () => {
     const myDate = "2015-03-17"; // date of first project commit ;-)
 
     E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
@@ -339,7 +339,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EApp.loginUser();
   });
 
-  it("prohibits user with no access role to see meeting series", function () {
+  it("prohibits user with no access role to see meeting series", () => {
     E2EMeetingSeriesEditor.closeMeetingSeriesEditor(false);
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
 
@@ -349,7 +349,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EApp.loginUser();
   });
 
-  it("can see other users in drop-down", function () {
+  it("can see other users in drop-down", () => {
     const otherRegisteredUsers = [
       E2EGlobal.SETTINGS.e2eTestUsers[1],
       E2EGlobal.SETTINGS.e2eTestUsers[2],
@@ -371,7 +371,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can add other users via suggestion drop-down", function () {
+  it("can add other users via suggestion drop-down", () => {
     // enter prefix of multiple users, to provoke twitter typeahead.js suggestions
     browser.setValue("#edt_AddUser", "us");
     const userSuggestions = browser.elements(".tt-selectable");
@@ -392,7 +392,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can only pick not-already added users from drop-down", function () {
+  it("can only pick not-already added users from drop-down", () => {
     const currentUser = E2EApp.getCurrentUser();
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
@@ -411,7 +411,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("can pick recently deleted user from drop-down", function () {
+  it("can pick recently deleted user from drop-down", () => {
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(user2);
 
@@ -435,7 +435,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EGlobal.waitSomeTime(); // wait for dialog's animation
   });
 
-  it("ensures sync of invited users to participants of un-finalized minutes", function () {
+  it("ensures sync of invited users to participants of un-finalized minutes", () => {
     const currentUser = E2EApp.getCurrentUser();
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     const user3 = E2EGlobal.SETTINGS.e2eTestUsers[2];
@@ -491,7 +491,7 @@ describe("MeetingSeries Editor Users", function () {
     ).to.be.ok;
   });
 
-  it("allows an invited user to leave a meeting series", function () {
+  it("allows an invited user to leave a meeting series", () => {
     const currentUser = E2EApp.getCurrentUser();
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
     E2EMeetingSeriesEditor.addUserToMeetingSeries(
@@ -523,7 +523,7 @@ describe("MeetingSeries Editor Users", function () {
 
   // this test does only make sense if mail delivery is enabled
   if (E2EGlobal.SETTINGS.email?.enableMailDelivery) {
-    it("ensures informed user gets minutes email", function () {
+    it("ensures informed user gets minutes email", () => {
       E2EMails.resetSentMailsDb();
       const currentUser = E2EApp.getCurrentUser();
       const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
@@ -609,7 +609,7 @@ describe("MeetingSeries Editor Users", function () {
     E2EApp.loginUser();
   });
 
-  it("ensures participants gets E-Mail on role change", function () {
+  it("ensures participants gets E-Mail on role change", () => {
     // Clear mails
     E2EMails.resetSentMailsDb();
 
@@ -623,7 +623,7 @@ describe("MeetingSeries Editor Users", function () {
     expect(recipients).to.have.length(1);
   });
 
-  it("ensures participants does not get an E-Mail if roles stay the same", function () {
+  it("ensures participants does not get an E-Mail if roles stay the same", () => {
     // Clear mails
     E2EMails.resetSentMailsDb();
 

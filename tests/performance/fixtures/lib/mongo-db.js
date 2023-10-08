@@ -70,7 +70,7 @@ export class MongoDb {
 
   async _asyncCollectionWrapper(method, collection, ...args) {
     return new Promise((resolve, reject) => {
-      this.db.collection(collection)[method](...args, function (err, result) {
+      this.db.collection(collection)[method](...args, (err, result) => {
         if (err) {
           reject(err);
         } else {

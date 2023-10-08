@@ -7,12 +7,12 @@ import { GlobalSettings } from "/imports/config/GlobalSettings";
 
 const ldapEnabled = Meteor.settings.public.ldapEnabled;
 
-Template.login.onCreated(function () {
+Template.login.onCreated(() => {
   const defaultTab = ldapEnabled ? "loginLdap" : "atForm";
   Session.setDefault("currentLoginForm", defaultTab);
 });
 
-Template.login.onRendered(function () {
+Template.login.onRendered(() => {
   const tab = ldapEnabled ? "loginLdap" : "atForm";
   Session.setDefault("currentLoginForm", tab);
 });

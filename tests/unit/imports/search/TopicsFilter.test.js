@@ -37,10 +37,10 @@ const { TopicsFilter } = proxyquire("../../../../imports/search/TopicsFilter", {
 
 import { QueryParserMock } from "./QueryParserMock";
 
-describe("ItemsFilter", function () {
+describe("ItemsFilter", () => {
   let topics, topicsFilter, parser;
 
-  beforeEach(function () {
+  beforeEach(() => {
     parser = new QueryParserMock();
     topicsFilter = new TopicsFilter();
     topics = [
@@ -71,7 +71,7 @@ describe("ItemsFilter", function () {
     ];
   });
 
-  it("does not change the original array of items", function () {
+  it("does not change the original array of items", () => {
     parser.searchTokens.push("three");
     topicsFilter.filter(topics, parser);
 
@@ -90,7 +90,7 @@ describe("ItemsFilter", function () {
     ).to.have.length(4);
   });
 
-  it("searches for a search tokens in topic subject and containing info items", function () {
+  it("searches for a search tokens in topic subject and containing info items", () => {
     parser.searchTokens.push(".three");
     parser.searchTokens.push("Three");
     parser.caseSensitive = true;
@@ -104,7 +104,7 @@ describe("ItemsFilter", function () {
     ).to.have.length(4);
   });
 
-  it("filters topics which has items with a specific label", function () {
+  it("filters topics which has items with a specific label", () => {
     parser.labelTokens.push("L1");
     const res = topicsFilter.filter(topics, parser);
     expect(res, "Length of the topic array should be 2").have.length(2);

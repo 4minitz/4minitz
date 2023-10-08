@@ -47,10 +47,10 @@ const saveUsers = proxyquire("../../../../imports/ldap/saveUsers", {
   randomstring: { generate, "@noCallThru": true },
 });
 
-describe("saveUsers", function () {
+describe("saveUsers", () => {
   let settings;
 
-  beforeEach(function () {
+  beforeEach(() => {
     MongoClient.connect = asyncStubs.doNothing();
     bulk.find.reset();
     bulk.execute.reset();
@@ -67,7 +67,7 @@ describe("saveUsers", function () {
     };
   });
 
-  it("inserts users into database", function (done) {
+  it("inserts users into database", (done) => {
     MongoClient.connect = sinon.stub().resolves(client);
     upsert.upsert.returns(updateOne);
     bulk.find.returns(upsert);
@@ -90,7 +90,7 @@ describe("saveUsers", function () {
       });
   });
 
-  it("handles database connection problems", function (done) {
+  it("handles database connection problems", (done) => {
     MongoClient.connect = sinon.stub().rejects("Connection error"); //asyncStubs.returnsError(1, 'Connection error');
 
     saveUsers(settings, mongoUrl, users)

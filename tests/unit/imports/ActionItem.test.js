@@ -49,10 +49,10 @@ const { ActionItem } = proxyquire("../../../imports/actionitem", {
   "./infoitem": { InfoItem, "@noCallThru": true },
 });
 
-describe("ActionItem", function () {
+describe("ActionItem", () => {
   let dummyTopic, infoItemDoc;
 
-  beforeEach(function () {
+  beforeEach(() => {
     dummyTopic = {
       _id: "AaBbCcDd",
       save: doNothing,
@@ -73,34 +73,34 @@ describe("ActionItem", function () {
     };
   });
 
-  describe("#constructor", function () {
-    it("sets the reference to the parent topic correctly", function () {
+  describe("#constructor", () => {
+    it("sets the reference to the parent topic correctly", () => {
       const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
       // the infoItem should have a reference of our dummyTopic
       expect(myActionItem._parentTopic).to.equal(dummyTopic);
     });
 
-    it("sets the document correctly", function () {
+    it("sets the document correctly", () => {
       const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
       // the doc should be equal to our initial document
       expect(myActionItem._infoItemDoc).to.deep.equal(infoItemDoc);
     });
 
-    it("sets the initial value for the isOpen-flag correctly", function () {
+    it("sets the initial value for the isOpen-flag correctly", () => {
       const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
       // the isOpen-filed should be initially true for a new actionItem
       expect(myActionItem._infoItemDoc.isOpen).to.be.true;
     });
 
-    it("sets the initial value for the isNew-flag correctly", function () {
+    it("sets the initial value for the isNew-flag correctly", () => {
       const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
       // the isOpen-filed should be initially true for a new actionItem
       expect(myActionItem._infoItemDoc.isNew).to.be.true;
     });
   });
 
-  it("#getDateFromDetails", function () {
+  it("#getDateFromDetails", () => {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     expect(myActionItem.getDateFromDetails()).to.equal(
@@ -108,7 +108,7 @@ describe("ActionItem", function () {
     );
   });
 
-  it("#getTextFromDetails", function () {
+  it("#getTextFromDetails", () => {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     expect(myActionItem.getTextFromDetails()).to.equal(
@@ -116,7 +116,7 @@ describe("ActionItem", function () {
     );
   });
 
-  it("#toggleState", function () {
+  it("#toggleState", () => {
     const myActionItem = new ActionItem(dummyTopic, infoItemDoc);
 
     const oldState = myActionItem._infoItemDoc.isOpen;

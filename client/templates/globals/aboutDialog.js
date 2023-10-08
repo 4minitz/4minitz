@@ -6,7 +6,7 @@ import { Template } from "meteor/templating";
 
 const showStatistics = new ReactiveVar(false);
 
-Template.aboutDialog.onRendered(function () {});
+Template.aboutDialog.onRendered(() => {});
 
 Template.aboutDialog.helpers({
   gitVersionInfo: function () {
@@ -41,7 +41,7 @@ Template.aboutDialog.events({
   },
 
   "show.bs.modal #dlgAbout": function () {
-    Meteor.call("gitVersionInfo", function (error, result) {
+    Meteor.call("gitVersionInfo", (error, result) => {
       if (!error) {
         Session.set("gitVersionInfo", result);
       } else {
