@@ -47,7 +47,7 @@ function updateUserProfile(tmpl) {
         ).show();
         tmpl.$("#dlgEditProfile").modal("hide");
       }
-    }
+    },
   );
 
   tmpl.$("#btnEditProfileSave").prop("disabled", false);

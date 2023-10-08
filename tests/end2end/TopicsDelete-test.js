@@ -20,39 +20,36 @@ describe("Topics Delete - Forbid deleting topics which were not created within t
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    E2EApp.gotoStartPage();
+    expect(E2EApp.isLoggedIn()).to.be.true;
 
-      aMeetingCounter++;
-      aMeetingName = aMeetingNameBase + aMeetingCounter;
+    aMeetingCounter++;
+    aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-      E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-      E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-      E2ETopics.addTopicToMinutes(EXISTING_TOPIC);
-      E2ETopics.addInfoItemToTopic(
-        {
-          subject: EXISTING_ACTION,
-          itemType: "actionItem",
-        },
-        1,
-      );
-      E2ETopics.addInfoItemToTopic(
-        {
-          subject: EXISTING_STICKY_INFO,
-          itemType: "infoItem",
-        },
-        1,
-      );
-      E2ETopics.toggleInfoItemStickyState(1, 1);
-      E2EMinutes.finalizeCurrentMinutes();
+    E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+    E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+    E2ETopics.addTopicToMinutes(EXISTING_TOPIC);
+    E2ETopics.addInfoItemToTopic(
+      {
+        subject: EXISTING_ACTION,
+        itemType: "actionItem",
+      },
+      1,
+    );
+    E2ETopics.addInfoItemToTopic(
+      {
+        subject: EXISTING_STICKY_INFO,
+        itemType: "infoItem",
+      },
+      1,
+    );
+    E2ETopics.toggleInfoItemStickyState(1, 1);
+    E2EMinutes.finalizeCurrentMinutes();
 
-      E2EMinutes.gotoParentMeetingSeries();
-      E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    }
-  );
+    E2EMinutes.gotoParentMeetingSeries();
+    E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+  });
 
   it("is allowed to delete a topic which was created within the current minutes even if it has open action items", () => {
     E2ETopics.addTopicToMinutes("fresh created topic");

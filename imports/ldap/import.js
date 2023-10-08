@@ -12,23 +12,24 @@ const report = (bulkResult) => {
 
 let selfSignedTLSAllowed = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
 let importLock = false;
-const setSelfSigned = (ldapSettings) => new Promise((resolve, reject) => {
-  if (importLock) {
-    reject("There already is a user import running.");
-    return;
-  }
+const setSelfSigned = (ldapSettings) =>
+  new Promise((resolve, reject) => {
+    if (importLock) {
+      reject("There already is a user import running.");
+      return;
+    }
 
-  importLock = true;
+    importLock = true;
 
-  const allowSelfSignedTLS = ldapSettings.allowSelfSignedTLS;
-  selfSignedTLSAllowed = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+    const allowSelfSignedTLS = ldapSettings.allowSelfSignedTLS;
+    selfSignedTLSAllowed = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
 
-  if (allowSelfSignedTLS) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-  }
+    if (allowSelfSignedTLS) {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    }
 
-  resolve(ldapSettings);
-});
+    resolve(ldapSettings);
+  });
 
 const resetSelfSigned = () => {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = selfSignedTLSAllowed;
@@ -44,13 +45,14 @@ const handleRejection = (error) => {
   throw error;
 };
 
-const importUsers = (ldapSettings, mongoUrl) => setSelfSigned(ldapSettings)
-.then(getLDAPUsers)
-.then((data) => {
-  return saveUsers(data.settings, mongoUrl, data.users);
-})
-.then(report)
-.then(resetSelfSigned)
-.catch(handleRejection);
+const importUsers = (ldapSettings, mongoUrl) =>
+  setSelfSigned(ldapSettings)
+    .then(getLDAPUsers)
+    .then((data) => {
+      return saveUsers(data.settings, mongoUrl, data.users);
+    })
+    .then(report)
+    .then(resetSelfSigned)
+    .catch(handleRejection);
 
 module.exports = importUsers;

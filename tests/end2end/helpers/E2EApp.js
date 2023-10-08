@@ -82,7 +82,7 @@ export class E2EApp {
     username,
     password,
     autoLogout = true,
-    tab = "#tab_standard"
+    tab = "#tab_standard",
   ) {
     if (autoLogout) {
       E2EApp.logoutUser();
@@ -248,7 +248,7 @@ export class E2EApp {
         () => browser.getTitle() === E2EApp.titlePrefix,
         5000,
         "Timeout! Title did not change! Will try to re-launchApp().",
-        250
+        250,
       );
     } catch (e) {
       E2EApp.launchApp();

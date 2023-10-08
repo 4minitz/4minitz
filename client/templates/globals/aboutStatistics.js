@@ -1,12 +1,12 @@
-import { Statistics } from '/imports/statistics';
-import { Template } from 'meteor/templating';
+import { Statistics } from "/imports/statistics";
+import { Template } from "meteor/templating";
 
 Template.aboutStatistics.onRendered(() => {
-    (new Statistics()).update();
+  new Statistics().update();
 });
 
 Template.aboutStatistics.helpers({
-    statistics() {
-        return Statistics.findOne();
-    }
+  statistics() {
+    return Statistics.findOne();
+  },
 });

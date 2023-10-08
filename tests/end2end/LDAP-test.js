@@ -19,13 +19,10 @@ describe("LDAP", () => {
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "make sure test user is logged out and on the start page",
-    () => {
-      E2EApp.logoutUser();
-      expect(E2EApp.isNotLoggedIn()).to.be.true;
-    }
-  );
+  beforeEach("make sure test user is logged out and on the start page", () => {
+    E2EApp.logoutUser();
+    expect(E2EApp.isNotLoggedIn()).to.be.true;
+  });
 
   after("clear database and login user", () => {
     E2EApp.launchApp();

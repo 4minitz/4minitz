@@ -11,13 +11,10 @@ describe("Minutes", () => {
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
-    }
-  );
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    E2EApp.gotoStartPage();
+    expect(E2EApp.isLoggedIn()).to.be.true;
+  });
 
   it("can add first minutes to meeting series", () => {
     const aProjectName = "E2E Minutes";

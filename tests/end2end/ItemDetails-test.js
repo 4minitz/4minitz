@@ -60,7 +60,7 @@ describe("Item Details", () => {
         },
         1,
       );
-    }
+    },
   );
 
   it("can add first details to a new Info Item", () => {

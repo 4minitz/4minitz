@@ -21,17 +21,14 @@ describe("MeetingSeries Editor", () => {
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    E2EApp.gotoStartPage();
+    expect(E2EApp.isLoggedIn()).to.be.true;
 
-      aMeetingCounter++;
-      aMeetingName = aMeetingNameBase + aMeetingCounter;
-      E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-    }
-  );
+    aMeetingCounter++;
+    aMeetingName = aMeetingNameBase + aMeetingCounter;
+    E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+  });
 
   it("can open and close meeting series editor without changing data", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);

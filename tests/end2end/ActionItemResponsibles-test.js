@@ -64,7 +64,7 @@ describe("ActionItems Responsibles", () => {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    }
+    },
   );
 
   it("can add an action item with a responsible", () => {

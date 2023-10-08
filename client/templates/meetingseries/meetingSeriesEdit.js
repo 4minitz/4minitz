@@ -77,7 +77,9 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
     const oldUserRole = oldUserWithRole.currentRoleFor(meetingSeriesId);
 
     // Search in after edit users whether the users still exists
-    const matchingUser = usersWithRolesAfterEditForEmails.find((user) => oldUserWithRole._userId === user._idOrg);
+    const matchingUser = usersWithRolesAfterEditForEmails.find(
+      (user) => oldUserWithRole._userId === user._idOrg,
+    );
 
     // If he does not, his role was removed
     if (matchingUser === undefined) {

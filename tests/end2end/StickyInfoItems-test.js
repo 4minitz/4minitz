@@ -59,7 +59,7 @@ describe("Sticky Info Items", () => {
         },
         1,
       );
-    }
+    },
   );
 
   it("is possible to toggle the sticky-state of info items", () => {
@@ -185,6 +185,6 @@ describe("Sticky Info Items", () => {
         E2ETopics.isInfoItemSticky(1, 1),
         "the info item should be still sticky",
       ).to.be.true;
-    }
+    },
   );
 });

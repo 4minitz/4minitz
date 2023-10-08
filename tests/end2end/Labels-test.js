@@ -48,7 +48,7 @@ describe("Labels", () => {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    }
+    },
   );
 
   describe("Labels for Action- / Info Items", () => {

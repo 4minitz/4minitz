@@ -197,7 +197,7 @@ Meteor.methods({
             if (error) {
               throw new Meteor.Error(error);
             }
-          }
+          },
         );
       };
     }
@@ -229,7 +229,7 @@ Meteor.methods({
             if (error) {
               throw new Meteor.Error(error);
             }
-          }
+          },
         );
       };
     }
@@ -260,16 +260,13 @@ Meteor.methods({
   "documentgeneration.removeFile"(minutesId) {
     if (Meteor.isServer) {
       // Security checks will be done in the onBeforeRemove-Hook
-      DocumentsCollection.remove(
-        { "meta.minuteId": minutesId },
-        (error) => {
-          if (error) {
-            throw new Meteor.Error(
-              `Protocol could not be deleted, error: ${error.reason}`,
-            );
-          }
+      DocumentsCollection.remove({ "meta.minuteId": minutesId }, (error) => {
+        if (error) {
+          throw new Meteor.Error(
+            `Protocol could not be deleted, error: ${error.reason}`,
+          );
         }
-      );
+      });
     }
   },
 });

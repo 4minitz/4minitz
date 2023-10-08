@@ -16,13 +16,10 @@ describe("Minutes Finalize", () => {
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
-    }
-  );
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    E2EApp.gotoStartPage();
+    expect(E2EApp.isLoggedIn()).to.be.true;
+  });
 
   it("can finalize minutes", () => {
     aMeetingCounter++;

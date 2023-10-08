@@ -63,7 +63,7 @@ describe("ActionItems", () => {
 
       aTopicName = getNewTopicName();
       E2ETopics.addTopicToMinutes(aTopicName);
-    }
+    },
   );
 
   it("can add an info item", () => {

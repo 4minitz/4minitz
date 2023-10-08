@@ -1,44 +1,46 @@
 const ldap = require("ldapjs"),
   _ = require("lodash");
 
-const _createLDAPClient = (settings) => new Promise((resolve, reject) => {
-  try {
-    const client = ldap.createClient({
-      url: settings.serverUrl,
-    });
+const _createLDAPClient = (settings) =>
+  new Promise((resolve, reject) => {
+    try {
+      const client = ldap.createClient({
+        url: settings.serverUrl,
+      });
 
-    resolve({
-      client,
-      settings,
-    });
-  } catch (error) {
-    reject(`Error creating client: ${error}`);
-  }
-});
+      resolve({
+        client,
+        settings,
+      });
+    } catch (error) {
+      reject(`Error creating client: ${error}`);
+    }
+  });
 
-const _bind = (connection) => new Promise((resolve, reject) => {
-  const client = connection.client,
-    settings = connection.settings,
-    auth = settings.authentication,
-    userDn = auth?.userDn,
-    password = auth?.password;
+const _bind = (connection) =>
+  new Promise((resolve, reject) => {
+    const client = connection.client,
+      settings = connection.settings,
+      auth = settings.authentication,
+      userDn = auth?.userDn,
+      password = auth?.password;
 
-  // no authentication details provided
-  // => the ldap server probably allows anonymous access
-  if (!userDn || !password) {
-    resolve(connection);
-    return;
-  }
-
-  client.bind(userDn, password, (error) => {
-    if (error) {
-      reject(error);
+    // no authentication details provided
+    // => the ldap server probably allows anonymous access
+    if (!userDn || !password) {
+      resolve(connection);
       return;
     }
 
-    resolve(connection);
+    client.bind(userDn, password, (error) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      resolve(connection);
+    });
   });
-});
 
 const inactivityStrategies = {
   userAccountControl(inactivitySettings, entry) {
@@ -133,13 +135,14 @@ const _closeLDAPClient = (connection) => {
   });
 };
 
-const getLDAPUsers = (settings) => new Promise((resolve, reject) => {
-  _createLDAPClient(settings)
-    .then(_bind)
-    .then(_fetchLDAPUsers)
-    .then(_closeLDAPClient)
-    .then(resolve)
-    .catch(reject);
-});
+const getLDAPUsers = (settings) =>
+  new Promise((resolve, reject) => {
+    _createLDAPClient(settings)
+      .then(_bind)
+      .then(_fetchLDAPUsers)
+      .then(_closeLDAPClient)
+      .then(resolve)
+      .catch(reject);
+  });
 
 module.exports = getLDAPUsers;

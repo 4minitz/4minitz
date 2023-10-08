@@ -18,16 +18,9 @@ browser.click = (selector) => {
 browser.getHTML = (selector) => $(selector).getHTML();
 browser.getValue = (selector) => $(selector).getValue();
 browser.setValue = (selector, value) => $(selector).setValue(value);
-browser.waitForExist = (selector,
-  timeout,
-  reverse,
-  timeoutMsg,
-  interval) => $(selector).waitForExist({ timeout, reverse, timeoutMsg, interval });
-browser.waitForVisible = (selector,
-  timeout,
-  reverse,
-  timeoutMsg,
-  interval) => {
+browser.waitForExist = (selector, timeout, reverse, timeoutMsg, interval) =>
+  $(selector).waitForExist({ timeout, reverse, timeoutMsg, interval });
+browser.waitForVisible = (selector, timeout, reverse, timeoutMsg, interval) => {
   try {
     return $(selector).waitForDisplayed({
       timeout,
@@ -44,7 +37,8 @@ browser.waitForVisible = (selector,
     throw e;
   }
 };
-browser.browser.waitUntil = (selector, timeout, timeoutMsg, interval) => $(selector).waitUntil({ timeout, timeoutMsg, interval });
+browser.browser.waitUntil = (selector, timeout, timeoutMsg, interval) =>
+  $(selector).waitUntil({ timeout, timeoutMsg, interval });
 browser.scroll = (selector) => $(selector).scrollIntoView();
 
 browser.scrollXY = (x, y) => {

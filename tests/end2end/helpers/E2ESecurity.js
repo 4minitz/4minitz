@@ -25,9 +25,11 @@ export class E2ESecurity {
   //In order to check this, all security-e2e-tests should use this function to check if the methods called within them do still exist.
   //If that's not the case, the test will fail and by this give a hint for the dev, which test cases have yet to be updated with the new method name.
   static expectMethodToExist(methodName) {
-    const methodExists = browser.execute((methodName) => (
-        typeof Meteor.connection._methodHandlers[methodName] === "function"
-      ), methodName).value;
+    const methodExists = browser.execute(
+      (methodName) =>
+        typeof Meteor.connection._methodHandlers[methodName] === "function",
+      methodName,
+    ).value;
     expect(methodExists, "Method " + methodName + " exists").to.be.true;
   }
 

@@ -122,11 +122,13 @@ Template.minutesEditParticipants.helpers({
     partSorted.forEach((p) => {
       p["displayName"] = userNameForId(p.userId);
     });
-    partSorted = partSorted.sort((a, b) => a.displayName > b.displayName
-    ? 1
-    : b.displayName > a.displayName
-    ? -1
-    : 0);
+    partSorted = partSorted.sort((a, b) =>
+      a.displayName > b.displayName
+        ? 1
+        : b.displayName > a.displayName
+        ? -1
+        : 0,
+    );
     return partSorted;
   },
 

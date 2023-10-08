@@ -21,20 +21,17 @@ describe("Protocols", () => {
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    E2EApp.gotoStartPage();
+    expect(E2EApp.isLoggedIn()).to.be.true;
 
-      _lastMeetingName = getNewMeetingName();
-      E2EMeetingSeries.createMeetingSeries(_projectName, _lastMeetingName);
-      _lastMinutesID = E2EMinutes.addMinutesToMeetingSeries(
-        _projectName,
-        _lastMeetingName,
-      );
-    }
-  );
+    _lastMeetingName = getNewMeetingName();
+    E2EMeetingSeries.createMeetingSeries(_projectName, _lastMeetingName);
+    _lastMinutesID = E2EMinutes.addMinutesToMeetingSeries(
+      _projectName,
+      _lastMeetingName,
+    );
+  });
 
   // ******************
   // * DOCUMENT GENERATION TESTS

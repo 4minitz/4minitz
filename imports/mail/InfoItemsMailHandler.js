@@ -42,8 +42,6 @@ export class InfoItemsMailHandler extends TopicItemsMailHandler {
   }
 
   _userArrayToString(users) {
-    return users
-      .map((user) => User.PROFILENAMEWITHFALLBACK(user))
-      .join("; ");
+    return users.map((user) => User.PROFILENAMEWITHFALLBACK(user)).join("; ");
   }
 }

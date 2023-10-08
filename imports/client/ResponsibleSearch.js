@@ -39,7 +39,7 @@ function select2search(
               return;
             }
             success(results);
-          }
+          },
         );
       },
       processResults: function (data) {

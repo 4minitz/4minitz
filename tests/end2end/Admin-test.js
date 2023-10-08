@@ -11,15 +11,12 @@ describe("Admin View", () => {
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      server.call("e2e.removeAllBroadcasts");
-      E2EApp.launchApp();
-      E2EApp.loginUser(0);
-      expect(E2EApp.isLoggedIn()).to.be.true;
-    }
-  );
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    server.call("e2e.removeAllBroadcasts");
+    E2EApp.launchApp();
+    E2EApp.loginUser(0);
+    expect(E2EApp.isLoggedIn()).to.be.true;
+  });
 
   after("log in user1", () => {
     server.call("e2e.removeAllBroadcasts");

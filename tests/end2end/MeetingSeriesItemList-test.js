@@ -18,19 +18,16 @@ describe("MeetingSeries Items list", () => {
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    E2EApp.gotoStartPage();
+    expect(E2EApp.isLoggedIn()).to.be.true;
 
-      aMeetingCounter++;
-      aMeetingName = aMeetingNameBase + aMeetingCounter;
+    aMeetingCounter++;
+    aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-      E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-      E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    }
-  );
+    E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+    E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+  });
 
   it("displays all info- and action-items of all topics", () => {
     E2ETopics.addTopicToMinutes("some topic");

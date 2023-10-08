@@ -4,7 +4,8 @@ let mongo = require("mongodb").MongoClient,
   _ = require("underscore");
 import { Random } from "../../tests/performance/fixtures/lib/random";
 
-const _transformUsers = (settings, users) => _.map(users, (user) => transformUser(settings, user));
+const _transformUsers = (settings, users) =>
+  _.map(users, (user) => transformUser(settings, user));
 
 const _connectMongo = (mongoUrl) => mongo.connect(mongoUrl);
 

@@ -32,16 +32,12 @@ function close() {
 function call() {
   const future = new Future();
 
-  ddpclient.call(
-    arguments[0],
-    [].slice.call(arguments, 1),
-    (err, result) => {
-      if (err) {
-        future.throw(err);
-      }
-      future.return(result);
+  ddpclient.call(arguments[0], [].slice.call(arguments, 1), (err, result) => {
+    if (err) {
+      future.throw(err);
     }
-  );
+    future.return(result);
+  });
 
   return future;
 }

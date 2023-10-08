@@ -11,13 +11,10 @@ describe("User Profile/Password editing", () => {
     E2EApp.launchApp();
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
-    }
-  );
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    E2EApp.gotoStartPage();
+    expect(E2EApp.isLoggedIn()).to.be.true;
+  });
 
   it("Buttons Change Password and Edit Profile are not visible for an LDAP user", () => {
     E2EApp.logoutUser();

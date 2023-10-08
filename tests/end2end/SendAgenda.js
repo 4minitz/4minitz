@@ -18,21 +18,18 @@ describe("Send agenda", () => {
     E2EApp.resetMyApp(true);
   });
 
-  beforeEach(
-    "goto start page and make sure test user is logged in",
-    () => {
-      E2EMails.resetSentMailsDb();
+  beforeEach("goto start page and make sure test user is logged in", () => {
+    E2EMails.resetSentMailsDb();
 
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
+    E2EApp.gotoStartPage();
+    expect(E2EApp.isLoggedIn()).to.be.true;
 
-      aMeetingCounter++;
-      aMeetingName = aMeetingNameBase + aMeetingCounter;
+    aMeetingCounter++;
+    aMeetingName = aMeetingNameBase + aMeetingCounter;
 
-      E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-      E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
-    }
-  );
+    E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+    E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+  });
 
   after("clear database", () => {
     if (E2EGlobal.browserIsPhantomJS()) {
@@ -183,6 +180,6 @@ describe("Send agenda", () => {
 
       const sentMails = E2EMails.getAllSentMails();
       expect(sentMails, "one mail should be sent").to.have.length(1);
-    }
+    },
   );
 });

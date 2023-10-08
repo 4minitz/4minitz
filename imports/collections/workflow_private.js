@@ -187,7 +187,7 @@ Meteor.methods({
             } else {
               console.log("OK, removed linked attachments.");
             }
-          }
+          },
         );
       }
     }
@@ -224,7 +224,7 @@ Meteor.methods({
           } else {
             console.log("OK, removed linked attachments.");
           }
-        }
+        },
       );
       removeMeetingSeriesAttachmentDir(meetingseries_id); // eslint-disable-line
     }

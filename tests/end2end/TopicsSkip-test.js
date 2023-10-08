@@ -39,7 +39,7 @@ describe("Topics Skip", () => {
 
       expect(E2ETopics.isTopicSkipped(1)).to.be.false;
       expect(E2ETopics.isTopicSkipped(2)).to.be.false;
-    }
+    },
   );
 
   it("Can skip and unskip topic", () => {
