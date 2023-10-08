@@ -6,8 +6,7 @@ import { addCustomValidator } from "../../helpers/customFieldValidator";
 import { emailAddressRegExpTest } from "/imports/helpers/email";
 import { Session } from "meteor/session";
 import { i18n } from "meteor/universe:i18n";
-import isEmail from 'validator/lib/isEmail';
-
+import isEmail from "validator/lib/isEmail";
 
 Template.profileEditDialog.onRendered(() => {
   addCustomValidator(

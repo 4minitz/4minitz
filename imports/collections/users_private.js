@@ -4,7 +4,7 @@ import { AdminRegisterUserMailHandler } from "/imports/mail/AdminRegisterUserMai
 import { Accounts } from "meteor/accounts-base";
 import { check, Match } from "meteor/check";
 import { Meteor } from "meteor/meteor";
-import isEmail from 'validator/lib/isEmail';
+import isEmail from "validator/lib/isEmail";
 Meteor.methods({
   "users.saveSettings"(settings) {
     const id = Meteor.userId();
