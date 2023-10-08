@@ -1,5 +1,7 @@
 export class QueryParserMock {
-  constructor() { this.init(); }
+  constructor() {
+    this.init();
+  }
   init() {
     this.caseSensitive = false;
     this.searchTokens = [];
@@ -12,12 +14,21 @@ export class QueryParserMock {
   }
 
   parse() {}
-  getSearchTokens() { return this.searchTokens; }
-  getFilterTokens() { return this.filterTokens; }
-  getLabelTokens() {
-    return this.labelTokens.map(
-        (token) => { return {token, ids : [ token ]}; });
+  getSearchTokens() {
+    return this.searchTokens;
   }
-  hasKeyword() { return true; }
-  isCaseSensitive() { return this.caseSensitive; }
+  getFilterTokens() {
+    return this.filterTokens;
+  }
+  getLabelTokens() {
+    return this.labelTokens.map((token) => {
+      return { token, ids: [token] };
+    });
+  }
+  hasKeyword() {
+    return true;
+  }
+  isCaseSensitive() {
+    return this.caseSensitive;
+  }
 }

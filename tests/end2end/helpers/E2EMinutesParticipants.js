@@ -1,7 +1,9 @@
-import {E2EGlobal} from "./E2EGlobal";
+import { E2EGlobal } from "./E2EGlobal";
 
 export class E2EMinutesParticipants {
-  constructor() { this.updateUsersAndPresence(); }
+  constructor() {
+    this.updateUsersAndPresence();
+  }
 
   // ******************** STATIC Methods
   static isExpanded() {
@@ -9,7 +11,9 @@ export class E2EMinutesParticipants {
     return browser.isExisting("#edtParticipantsAdditional");
   }
 
-  static isCollapsed() { return !E2EMinutesParticipants.isExpanded(); }
+  static isCollapsed() {
+    return !E2EMinutesParticipants.isExpanded();
+  }
 
   static expand() {
     if (E2EMinutesParticipants.isCollapsed()) {
@@ -33,7 +37,7 @@ export class E2EMinutesParticipants {
     } catch (e) {
       console.log("Exception: " + e);
       console.log(
-          "Did you forget to run the server with '--settings settings-test-end2end.json'?",
+        "Did you forget to run the server with '--settings settings-test-end2end.json'?",
       );
     }
     return undefined;
@@ -64,11 +68,9 @@ export class E2EMinutesParticipants {
 
     this._participantsAndPresence = {};
     try {
-      this._participantsAndPresence["##additional participants##"] =
-          $(
-              "#edtParticipantsAdditional",
-              )
-              .getValue();
+      this._participantsAndPresence["##additional participants##"] = $(
+        "#edtParticipantsAdditional",
+      ).getValue();
     } catch (e) {
       this._participantsAndPresence["##additional participants##"] = "";
     }
@@ -76,14 +78,17 @@ export class E2EMinutesParticipants {
     const participants = $$(".js-participant-checkbox #id_username");
     const presence = $$("input.js-toggle-present");
 
-    for (let participantIndex = 0; participantIndex < participants.length;
-         participantIndex++) {
+    for (
+      let participantIndex = 0;
+      participantIndex < participants.length;
+      participantIndex++
+    ) {
       const username = participants[participantIndex].getText();
       const userElem = participants[participantIndex];
       const checkboxElem = presence[participantIndex];
 
       this._participantsAndPresence[username] = {
-        present : checkboxElem.isSelected(),
+        present: checkboxElem.isSelected(),
         checkboxElem,
         userElem,
       };
@@ -108,7 +113,7 @@ export class E2EMinutesParticipants {
       return false;
     }
     const currentSelectState =
-        this._participantsAndPresence[username].checkboxElem.isSelected();
+      this._participantsAndPresence[username].checkboxElem.isSelected();
     if (currentSelectState !== presence) {
       browser.scroll("#id_participants");
       this._participantsAndPresence[username].userElem.click();

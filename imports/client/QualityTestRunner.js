@@ -5,17 +5,15 @@
  scenarios triggering tests: simply add an unique identifier for your scenario
  to QualityTestRunner.TRIGGERS, then create your tests.
  */
-import {i18n} from "meteor/universe:i18n";
+import { i18n } from "meteor/universe:i18n";
 
-import {
-  ConfirmationDialogFactory
-} from "../../client/helpers/confirmationDialogFactory";
+import { ConfirmationDialogFactory } from "../../client/helpers/confirmationDialogFactory";
 
 export class QualityTestRunner {
   static TRIGGERS = {
     // if you want to add new scenarios triggering test, add one unique string
     // identifier here.
-    finalize : "finalize",
+    finalize: "finalize",
     sendAgenda: "sendAgenda",
   };
 
@@ -33,8 +31,9 @@ export class QualityTestRunner {
     }
 
     // filter test cases
-    return QualityTestCase.testCases.filter(
-        (testCase) => { return testCase.triggers.includes(selectedTrigger); });
+    return QualityTestCase.testCases.filter((testCase) => {
+      return testCase.triggers.includes(selectedTrigger);
+    });
   }
 
   static run(selectedTrigger, testObject, callbackOnSuccess) {
@@ -45,8 +44,9 @@ export class QualityTestRunner {
 
     // filter test cases
     const selectedTests = QualityTestCase.testCases.filter((testCase) => {
-      return (testCase.triggers.includes(selectedTrigger) &&
-              testCase.condition());
+      return (
+        testCase.triggers.includes(selectedTrigger) && testCase.condition()
+      );
     });
 
     // execute tests
@@ -62,15 +62,13 @@ export class QualityTestRunner {
     if (errors.length === 0) {
       callbackOnSuccess();
     } else {
-      ConfirmationDialogFactory
-          .makeWarningDialogWithTemplate(
-              callbackOnSuccess,
-              i18n.__("Dialog.ConfirmMinuteQualityAssurance.title"),
-              "confirmMinuteQualityAssurance",
-              {errors},
-              i18n.__("Dialog.ConfirmMinuteQualityAssurance.button"),
-              )
-          .show();
+      ConfirmationDialogFactory.makeWarningDialogWithTemplate(
+        callbackOnSuccess,
+        i18n.__("Dialog.ConfirmMinuteQualityAssurance.title"),
+        "confirmMinuteQualityAssurance",
+        { errors },
+        i18n.__("Dialog.ConfirmMinuteQualityAssurance.button"),
+      ).show();
     }
   }
 }
@@ -81,12 +79,10 @@ class QualityTestCase {
   constructor(testName, triggers, condition, test) {
     this.testName = testName; // name of the test for list generation
     this.triggers = triggers; // to determine to which scenarios applies
-    this.condition =
-        condition; // checks if the test is to be run at all. For future
-                   // purposes e.g. disabling tests via settings
-    this.test =
-        test; // the test itself. Receives the minute object as a parameter,
-              // returns a string if the test fails, otherwise undefined
+    this.condition = condition; // checks if the test is to be run at all. For future
+    // purposes e.g. disabling tests via settings
+    this.test = test; // the test itself. Receives the minute object as a parameter,
+    // returns a string if the test fails, otherwise undefined
   }
 
   static createTestCases() {
@@ -94,39 +90,41 @@ class QualityTestCase {
 
     // no topics in minute (F) (A)
     QualityTestCase.testCases.push(
-        new QualityTestCase(
-            "No topics in minute",
-            [
-              QualityTestRunner.TRIGGERS.finalize,
-              QualityTestRunner.TRIGGERS.sendAgenda,
-            ],
-            () => { return true; },
-            (minute) => {
-              if (!minute.topics || minute.topics.length === 0)
-                return i18n.__(
-                    "Dialog.ConfirmMinuteQualityAssurance.warnNoTopics");
-            },
-            ),
+      new QualityTestCase(
+        "No topics in minute",
+        [
+          QualityTestRunner.TRIGGERS.finalize,
+          QualityTestRunner.TRIGGERS.sendAgenda,
+        ],
+        () => {
+          return true;
+        },
+        (minute) => {
+          if (!minute.topics || minute.topics.length === 0)
+            return i18n.__("Dialog.ConfirmMinuteQualityAssurance.warnNoTopics");
+        },
+      ),
     );
 
     // no participant marked as present (F)
     QualityTestCase.testCases.push(
-        new QualityTestCase(
-            "No participants marked as present",
-            QualityTestRunner.TRIGGERS.finalize,
-            () => { return true; },
-            (minute) => {
-              let noParticipantsPresent = true;
-              minute.participants.forEach((p) => {
-                if (p.present)
-                  noParticipantsPresent = false;
-              });
-              if (noParticipantsPresent)
-                return i18n.__(
-                    "Dialog.ConfirmMinuteQualityAssurance.warnNoParticipants",
-                );
-            },
-            ),
+      new QualityTestCase(
+        "No participants marked as present",
+        QualityTestRunner.TRIGGERS.finalize,
+        () => {
+          return true;
+        },
+        (minute) => {
+          let noParticipantsPresent = true;
+          minute.participants.forEach((p) => {
+            if (p.present) noParticipantsPresent = false;
+          });
+          if (noParticipantsPresent)
+            return i18n.__(
+              "Dialog.ConfirmMinuteQualityAssurance.warnNoParticipants",
+            );
+        },
+      ),
     );
     /*
         // an item is still edited (F)
@@ -158,76 +156,78 @@ class QualityTestCase {
 */
     // no topics checked (F)
     QualityTestCase.testCases.push(
-        new QualityTestCase(
-            "No topic is checked",
-            QualityTestRunner.TRIGGERS.finalize,
-            () => { return true; },
-            (minute) => {
-              if (minute.topics.length === 0)
-                return;
-              let noTopicChecked = true;
-              minute.topics.forEach((topic) => {
-                if (!topic.isOpen)
-                  noTopicChecked = false;
-              });
-              if (noTopicChecked)
-                return i18n.__(
-                    "Dialog.ConfirmMinuteQualityAssurance.warnNoTopicDiscussed",
-                );
-            },
-            ),
+      new QualityTestCase(
+        "No topic is checked",
+        QualityTestRunner.TRIGGERS.finalize,
+        () => {
+          return true;
+        },
+        (minute) => {
+          if (minute.topics.length === 0) return;
+          let noTopicChecked = true;
+          minute.topics.forEach((topic) => {
+            if (!topic.isOpen) noTopicChecked = false;
+          });
+          if (noTopicChecked)
+            return i18n.__(
+              "Dialog.ConfirmMinuteQualityAssurance.warnNoTopicDiscussed",
+            );
+        },
+      ),
     );
 
     // topic checked but no children (F)
     QualityTestCase.testCases.push(
-        new QualityTestCase(
-            "A topic is checked but has no children",
-            QualityTestRunner.TRIGGERS.finalize,
-            () => { return true; },
-            (minute) => {
-              if (minute.topics.length === 0)
-                return;
+      new QualityTestCase(
+        "A topic is checked but has no children",
+        QualityTestRunner.TRIGGERS.finalize,
+        () => {
+          return true;
+        },
+        (minute) => {
+          if (minute.topics.length === 0) return;
 
-              let checkedButChildren = false;
-              minute.topics.forEach((topic) => {
-                if (topic.isOpen)
-                  return;
-                if (!topic.infoItems || topic.infoItems.length === 0)
-                  checkedButChildren = true;
-              });
-              if (checkedButChildren)
-                return i18n.__(
-                    "Dialog.ConfirmMinuteQualityAssurance.warnTopicWithoutItems",
-                );
-            },
-            ),
+          let checkedButChildren = false;
+          minute.topics.forEach((topic) => {
+            if (topic.isOpen) return;
+            if (!topic.infoItems || topic.infoItems.length === 0)
+              checkedButChildren = true;
+          });
+          if (checkedButChildren)
+            return i18n.__(
+              "Dialog.ConfirmMinuteQualityAssurance.warnTopicWithoutItems",
+            );
+        },
+      ),
     );
 
     // action item with no responsible (F)
     QualityTestCase.testCases.push(
-        new QualityTestCase(
-            "Action item has no responsible",
-            QualityTestRunner.TRIGGERS.finalize,
-            () => { return true; },
-            (minute) => {
-              if (minute.topics.length === 0)
-                return;
+      new QualityTestCase(
+        "Action item has no responsible",
+        QualityTestRunner.TRIGGERS.finalize,
+        () => {
+          return true;
+        },
+        (minute) => {
+          if (minute.topics.length === 0) return;
 
-              let actionItemWithoutResponsible = false;
-              minute.topics.forEach((topic) => {
-                topic.infoItems.forEach((infoItem) => {
-                  if (infoItem.itemType === "actionItem" &&
-                      (!infoItem.responsibles ||
-                       infoItem.responsibles.length === 0))
-                    actionItemWithoutResponsible = true;
-                });
-              });
-              if (actionItemWithoutResponsible)
-                return i18n.__(
-                    "Dialog.ConfirmMinuteQualityAssurance.warnActionItemWithoutResponsible",
-                );
-            },
-            ),
+          let actionItemWithoutResponsible = false;
+          minute.topics.forEach((topic) => {
+            topic.infoItems.forEach((infoItem) => {
+              if (
+                infoItem.itemType === "actionItem" &&
+                (!infoItem.responsibles || infoItem.responsibles.length === 0)
+              )
+                actionItemWithoutResponsible = true;
+            });
+          });
+          if (actionItemWithoutResponsible)
+            return i18n.__(
+              "Dialog.ConfirmMinuteQualityAssurance.warnActionItemWithoutResponsible",
+            );
+        },
+      ),
     );
 
     // Topic checked, but no updated or new content (F)

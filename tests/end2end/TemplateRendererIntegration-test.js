@@ -1,5 +1,5 @@
-import {E2EApp} from "./helpers/E2EApp";
-import {E2EGlobal} from "./helpers/E2EGlobal";
+import { E2EApp } from "./helpers/E2EApp";
+import { E2EGlobal } from "./helpers/E2EGlobal";
 
 describe("TemplateRendererIntegration", () => {
   before("reload page and reset app", () => {
@@ -29,7 +29,7 @@ describe("TemplateRendererIntegration", () => {
     const template = "Hello {{markdown2html name}}";
     const expected = "Hello <strong>Peter</strong><br>\n";
     const response = server.call("e2e-render-template", template, {
-      name : "**Peter**",
+      name: "**Peter**",
     });
     expect(response.result).to.equal(expected);
   });
@@ -37,7 +37,7 @@ describe("TemplateRendererIntegration", () => {
   it("uses the doctype helper correctly", () => {
     const template = "{{doctype}}";
     const expected =
-        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+      '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
     const response = server.call("e2e-render-template", template, {});
     expect(response.result).to.equal(expected);
   });

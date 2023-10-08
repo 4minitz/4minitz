@@ -1,8 +1,8 @@
 import "./promisedMethods";
 
-import {Meteor} from "meteor/meteor";
-import {T9n} from "meteor/softwarerero:accounts-t9n";
-import {i18n} from "meteor/universe:i18n";
+import { Meteor } from "meteor/meteor";
+import { T9n } from "meteor/softwarerero:accounts-t9n";
+import { i18n } from "meteor/universe:i18n";
 
 // Only server can provide all available languages via server-side method
 Meteor.methods({
@@ -12,17 +12,18 @@ Meteor.methods({
       if (code.toLowerCase() === "de-li") {
         return {
           code,
-          codeUI : "de-Fr",
-          name : "German (Franconian)",
-          nameNative : "Deutsch (Fränggisch)",
+          codeUI: "de-Fr",
+          name: "German (Franconian)",
+          nameNative: "Deutsch (Fränggisch)",
         };
       }
       return {
         code,
-        codeUI : code,
-        name : i18n.getLanguageName(code),
-        nameNative : i18n.getLanguageNativeName(code)[0].toUpperCase() +
-                         i18n.getLanguageNativeName(code).slice(1),
+        codeUI: code,
+        name: i18n.getLanguageName(code),
+        nameNative:
+          i18n.getLanguageNativeName(code)[0].toUpperCase() +
+          i18n.getLanguageNativeName(code).slice(1),
       };
     });
   },
@@ -46,11 +47,11 @@ export class I18nHelper {
       // cache the supported languages
       try {
         I18nHelper.supportedCodes = await Meteor.callPromise(
-            "getAvailableLocaleCodes",
+          "getAvailableLocaleCodes",
         );
       } catch (err) {
         console.log(
-            "Error callPromise(getAvailableLocaleCodes): No supported language locales reported by server.",
+          "Error callPromise(getAvailableLocaleCodes): No supported language locales reported by server.",
         );
       }
     }
@@ -66,21 +67,25 @@ export class I18nHelper {
       console.log(` Browser language locale: >${localeCode}<`);
     }
 
-    i18n.setLocale(localeCode)
-        .then(() => T9n.setLanguage(localeCode))
-        .catch((e) => {
-          console.log(`Error switching to: >${localeCode}<`);
-          console.error(e);
-          const fallbackLocale = "en-US";
-          console.log(`Switching to fallback: >${fallbackLocale}<`);
-          i18n.setLocale(fallbackLocale);
-          T9n.setLanguage(fallbackLocale);
-        });
+    i18n
+      .setLocale(localeCode)
+      .then(() => T9n.setLanguage(localeCode))
+      .catch((e) => {
+        console.log(`Error switching to: >${localeCode}<`);
+        console.error(e);
+        const fallbackLocale = "en-US";
+        console.log(`Switching to fallback: >${fallbackLocale}<`);
+        i18n.setLocale(fallbackLocale);
+        T9n.setLanguage(fallbackLocale);
+      });
   }
 
   static getLanguageLocale() {
-    if (!Meteor.user() || !Meteor.user().profile ||
-        !Meteor.user().profile.locale) {
+    if (
+      !Meteor.user() ||
+      !Meteor.user().profile ||
+      !Meteor.user().profile.locale
+    ) {
       return "auto";
     }
     return i18n.getLocale();
@@ -90,9 +95,12 @@ export class I18nHelper {
     if (Meteor.settings?.public && Meteor.settings.public.isEnd2EndTest) {
       return "en-US";
     }
-    return ((Meteor.user() && Meteor.user().profile &&
-             Meteor.user().profile.locale) ||
-            I18nHelper._getPreferredBrowserLocale());
+    return (
+      (Meteor.user() &&
+        Meteor.user().profile &&
+        Meteor.user().profile.locale) ||
+      I18nHelper._getPreferredBrowserLocale()
+    );
   }
 
   static _getPreferredBrowserLocale() {
@@ -100,9 +108,13 @@ export class I18nHelper {
       return "en-US";
     }
 
-    return (I18nHelper._getPreferredBrowserLocaleByPrio() ||
-            navigator.language || navigator.browserLanguage ||
-            navigator.userLanguage || "en-US");
+    return (
+      I18nHelper._getPreferredBrowserLocaleByPrio() ||
+      navigator.language ||
+      navigator.browserLanguage ||
+      navigator.userLanguage ||
+      "en-US"
+    );
   }
 
   // If browser has a prioritized array of preferred languages,
@@ -147,13 +159,13 @@ export class I18nHelper {
     }
     if (localeCode === "auto") {
       Meteor.users.update(
-          {_id : Meteor.userId()},
-          {$unset : {"profile.locale" : ""}},
+        { _id: Meteor.userId() },
+        { $unset: { "profile.locale": "" } },
       );
     } else {
       Meteor.users.update(
-          {_id : Meteor.userId()},
-          {$set : {"profile.locale" : localeCode}},
+        { _id: Meteor.userId() },
+        { $set: { "profile.locale": localeCode } },
       );
     }
   }
