@@ -17,17 +17,13 @@ Template.registerHelper(
       `${i18n.__("Topic.TooltipCreated.date", {
         dateCreateStr,
       })} ` +
-      (userCreate
-        ? i18n.__("Topic.TooltipCreated.user", { userCreate })
-        : "");
+      (userCreate ? i18n.__("Topic.TooltipCreated.user", { userCreate }) : "");
     if (dateUpd && dateUpdStr > dateCreateStr) {
       tooltip =
         `${tooltip}\n` +
         i18n.__("Topic.TooltipUpdated.date", { dateUpdStr }) +
         " " +
-        (userUpd
-          ? i18n.__("Topic.TooltipUpdated.user", { userUpd })
-          : "");
+        (userUpd ? i18n.__("Topic.TooltipUpdated.user", { userUpd }) : "");
     }
     return tooltip;
   },

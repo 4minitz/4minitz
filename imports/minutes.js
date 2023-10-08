@@ -323,7 +323,7 @@ export class Minutes {
         }
         return recipients;
       },
-      /* initial value */ []
+      /* initial value */ [],
     );
 
     // search for mail addresses in additional participants and add them to

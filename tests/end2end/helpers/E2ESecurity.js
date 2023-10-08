@@ -135,7 +135,7 @@ export class E2ESecurity {
     meetingSeriesID,
     date,
     expectToEqualNumberMinutes,
-    userIdex
+    userIdex,
   ) => {
     const userid = server.call("e2e.getUserId", userIdex);
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.addMinutes);
@@ -235,7 +235,7 @@ export class E2ESecurity {
     topic_id,
     min_id,
     expectToEqual,
-    testName
+    testName,
   ) => {
     E2ESecurity.replaceMethodOnClientSide(E2ESecurity.addTopic);
     E2ESecurity.executeMethod(E2ESecurity.addTopic, min_id, {

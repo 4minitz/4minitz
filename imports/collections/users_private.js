@@ -162,10 +162,7 @@ Meteor.methods({
       profile: { name: longname },
     });
 
-    Meteor.users.update(
-      { username },
-      { $set: { "emails.0.verified": true } }
-    );
+    Meteor.users.update({ username }, { $set: { "emails.0.verified": true } });
 
     if (Meteor.isServer && newUserId && sendMail) {
       const mailer = new AdminRegisterUserMailHandler(

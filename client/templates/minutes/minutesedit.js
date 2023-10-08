@@ -585,7 +585,7 @@ Template.minutesedit.events({
         new FlashMessage(
           i18n.__("FlashMessages.ok"),
           i18n.__("FlashMessages.agendaSentOK", { result }),
-          "alert-success"
+          "alert-success",
         ).show();
       } catch (error) {
         handleError(error);

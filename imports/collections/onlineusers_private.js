@@ -26,7 +26,7 @@ Meteor.methods({
 
     OnlineUsersSchema.upsert(
       { userId, activeRoute: route },
-      { userId, activeRoute: route, updatedAt: new Date() }
+      { userId, activeRoute: route, updatedAt: new Date() },
     );
 
     // remove outdated entries
