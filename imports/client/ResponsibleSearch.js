@@ -3,7 +3,7 @@ import { Blaze } from "meteor/blaze";
 import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 
 import { ParticipantsPreparer } from "./ParticipantsPreparer";
 
