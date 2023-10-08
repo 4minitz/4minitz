@@ -6,16 +6,14 @@ import { addCustomValidator } from "../../helpers/customFieldValidator";
 import { emailAddressRegExpTest } from "/imports/helpers/email";
 import { Session } from "meteor/session";
 import { i18n } from "meteor/universe:i18n";
+import isEmail from 'validator/lib/isEmail';
 
-const checkEMailIsValid = (email) => {
-  return emailAddressRegExpTest.test(email);
-};
 
 Template.profileEditDialog.onRendered(() => {
   addCustomValidator(
     "#id_emailAddress",
     (value) => {
-      return checkEMailIsValid(value);
+      return isEmail(value);
     },
     "Not a valid E-Mail address",
   );

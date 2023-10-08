@@ -4,7 +4,7 @@ import { AdminRegisterUserMailHandler } from "/imports/mail/AdminRegisterUserMai
 import { Accounts } from "meteor/accounts-base";
 import { check, Match } from "meteor/check";
 import { Meteor } from "meteor/meteor";
-
+import isEmail from 'validator/lib/isEmail';
 Meteor.methods({
   "users.saveSettings"(settings) {
     const id = Meteor.userId();
@@ -28,7 +28,7 @@ Meteor.methods({
       }
     }
 
-    if (!emailAddressRegExpTest.test(eMail)) {
+    if (!isEmail(eMail)) {
       throw new Meteor.Error("Invalid E-Mail", "Not a valid E-Mail address");
     }
 
@@ -150,7 +150,7 @@ Meteor.methods({
       email,
       Match.Where((x) => {
         check(x, String);
-        return emailAddressRegExpTest.test(x);
+        return isEmail(x);
       }),
       "EMail address not valid",
     );

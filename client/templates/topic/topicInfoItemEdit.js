@@ -16,6 +16,7 @@ import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 import moment from "moment/moment";
+import isEmail from 'validator/lib/isEmail';
 
 import { IsEditedService } from "../../../imports/services/isEditedService";
 import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
@@ -83,7 +84,7 @@ const toggleItemMode = (type, tmpl) => {
   Session.set("topicInfoItemType", type);
   const editItem = getEditInfoItem();
   const freeTextValidator = (text) => {
-    return emailAddressRegExpTest.test(text);
+    return isEmail(text);
   };
   switch (type) {
     case "actionItem":
@@ -293,7 +294,7 @@ Template.topicInfoItemEdit.events({
     } else {
       // adding a new item
       const freeTextValidator = (text) => {
-        return emailAddressRegExpTest.test(text);
+        return isEmail(text);
       };
       const editItem = getEditInfoItem();
       configureSelect2Responsibles(
@@ -341,7 +342,7 @@ Template.topicInfoItemEdit.events({
   "select2:selecting #id_selResponsibleActionItem"(evt) {
     if (evt.params.args.data.id === evt.params.args.data.text) {
       // we have a free-text entry
-      if (!emailAddressRegExpTest.test(evt.params.args.data.text)) {
+      if (!isEmail(evt.params.args.data.text)) {
         // no valid mail anystring@anystring.anystring
         // prohibit non-mail free text entries
         ConfirmationDialogFactory.makeInfoDialog(
@@ -361,7 +362,7 @@ Template.topicInfoItemEdit.events({
     if (
       !aUser &&
       respId === respName && // we have a free-text user here!
-      emailAddressRegExpTest.test(respName)
+      isEmail(respName)
     ) {
       // only take valid mail addresses
       _meetingSeries.addAdditionalResponsible(respName);
