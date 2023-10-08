@@ -28,7 +28,6 @@ import "jquery-ui/ui/data";
 import "jquery-ui/ui/scroll-parent";
 import "jquery-ui/ui/widgets/mouse";
 import "jquery-ui/ui/widgets/sortable";
-import "jquery-ui-touch-punch/jquery.ui.touch-punch";
 
 import { I18nHelper } from "/imports/helpers/i18n";
 import { Blaze } from "meteor/blaze";
@@ -53,7 +52,7 @@ $(document).arrive(
         this.setCustomValidity("");
       });
     }
-  },
+  }
 );
 
 $(document).arrive(".clear-on-escape", function () {
