@@ -15,7 +15,7 @@ Template.home.onCreated(function () {
   if (ReactiveDict.equals("restoreTabAfterBackButton", "home.lastTab")) {
     this.activeTabId = new ReactiveVar(ReactiveDict.get("home.lastTab").tabId);
     this.activeTabTemplate = new ReactiveVar(
-      ReactiveDict.get("home.lastTab").tabTemplate
+      ReactiveDict.get("home.lastTab").tabTemplate,
     );
     ReactiveDict.set("restoreTabAfterBackButton", false);
   } else {
