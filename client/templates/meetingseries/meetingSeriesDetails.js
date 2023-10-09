@@ -5,7 +5,6 @@ import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import { ReactiveVar } from "meteor/reactive-var";
-import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 
@@ -14,6 +13,7 @@ import { TopicsFinder } from "../../../imports/services/topicsFinder";
 
 import { TabItemsConfig } from "./tabItems";
 import { TabTopicsConfig } from "./tabTopics";
+import { ReactiveDict } from "meteor/reactive-dict";
 
 let _meetingSeriesID; // the parent meeting object of this minutes
 
@@ -23,7 +23,7 @@ const isModerator = () => {
 };
 
 const rememberLastTab = (tmpl) => {
-  Session.set("meetingSeriesEdit.lastTab", {
+  ReactiveDict.set("meetingSeriesEdit.lastTab", {
     tabId: tmpl.activeTabId.get(),
     tabTemplate: tmpl.activeTabTemplate.get(),
   });
@@ -50,26 +50,28 @@ Template.meetingSeriesDetails.onCreated(function () {
 
   // Did another view request to restore the last tab on this view?
   if (
-    Session.get("restoreTabAfterBackButton") &&
-    Session.get("meetingSeriesEdit.lastTab")
+    ReactiveDict.equals(
+      "restoreTabAfterBackButton",
+      "meetingSeriesEdit.lastTab"
+    )
   ) {
     this.activeTabId = new ReactiveVar(
-      Session.get("meetingSeriesEdit.lastTab").tabId,
+      ReactiveDict.get("meetingSeriesEdit.lastTab").tabId
     );
     this.activeTabTemplate = new ReactiveVar(
-      Session.get("meetingSeriesEdit.lastTab").tabTemplate,
+      ReactiveDict.get("meetingSeriesEdit.lastTab").tabTemplate
     );
-    Session.set("restoreTabAfterBackButton", false);
-  } else {
-    this.activeTabId = new ReactiveVar("tab_minutes");
-    this.activeTabTemplate = new ReactiveVar("tabMinutesList");
-    rememberLastTab(this);
+    ReactiveDict.set("restoreTabAfterBackButton", false);
+    return;
   }
+  this.activeTabId = new ReactiveVar("tab_minutes");
+  this.activeTabTemplate = new ReactiveVar("tabMinutesList");
+  rememberLastTab(this);
 });
 
 Template.meetingSeriesDetails.onRendered(function () {
   if (this.showSettingsDialog && isModerator()) {
-    Session.set("meetingSeriesEdit.showUsersPanel", true);
+    ReactiveDict.set("meetingSeriesEdit.showUsersPanel", true);
 
     // Defer opening the meeting series settings dialog after rendering of the
     // template
@@ -90,19 +92,19 @@ Template.meetingSeriesDetails.helpers({
       FlowRouter.go("/");
     }
   },
-  meetingSeries: function () {
+  meetingSeries() {
     return new MeetingSeries(_meetingSeriesID);
   },
 
-  isTabActive: function (tabId) {
+  isTabActive(tabId) {
     return Template.instance().activeTabId.get() === tabId ? "active" : "";
   },
 
-  tab: function () {
+  tab() {
     return Template.instance().activeTabTemplate.get();
   },
 
-  tabData: function () {
+  tabData() {
     const tmpl = Template.instance();
     const tab = tmpl.activeTabTemplate.get();
     const ms = new MeetingSeries(_meetingSeriesID);
@@ -128,11 +130,11 @@ Template.meetingSeriesDetails.helpers({
     }
   },
 
-  isModerator: function () {
+  isModerator() {
     return isModerator();
   },
 
-  isMeetingSeriesEditedByAnotherUser: function () {
+  isMeetingSeriesEditedByAnotherUser() {
     const ms = new MeetingSeries(_meetingSeriesID);
     if (ms.isEditedBy == undefined && ms.isEditedDate == undefined)
       return false;
