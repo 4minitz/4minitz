@@ -9,7 +9,10 @@ import { ITEM_KEYWORDS } from "/imports/search/FilterKeywords";
 
 import { TopicInfoItemListContext } from "../topic/topicInfoItemList";
 
-import { createLabelIdsReceiver, createUserIdsReceiver  } from "./helpers/tabFilterDatabaseOperations";
+import {
+  createLabelIdsReceiver,
+  createUserIdsReceiver,
+} from "./helpers/tabFilterDatabaseOperations";
 export class TabItemsConfig {
   constructor(topics, parentMeetingSeriesId) {
     this.topics = topics;
