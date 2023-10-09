@@ -4,10 +4,9 @@ import { GlobalSettings } from "/imports/config/GlobalSettings";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import { AccountsTemplates } from "meteor/useraccounts:core";
 import { IsEditedService } from "../../../imports/services/isEditedService";
-import { Session } from "meteor/session";
-
+import { ReactiveDict } from 'meteor/reactive-dict';
 Template.navigation.helpers({
-  logoHTML: function () {
+  logoHTML() {
     return GlobalSettings.getBrandingLogoHTML();
   },
   displayUsername() {
@@ -35,11 +34,11 @@ Template.navigation.events({
     // (and not register / resend...) sub template
     AccountsTemplates.setState("signIn");
 
-    Session.set("gotoMeetingSeriesTab", true);
+    ReactiveDict.set("gotoMeetingSeriesTab", true);
   },
 
   "click #navbar-dlgEditProfile": function (evt, tmpl) {
-    Session.set("editProfile.userID"); // per default use "current" user. Admin may edit others
+    ReactiveDict.set("editProfile.userID"); // per default use "current" user. Admin may edit others
     tmpl.$("#dlgEditProfile").modal("show");
   },
 
