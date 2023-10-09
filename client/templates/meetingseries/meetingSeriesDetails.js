@@ -52,14 +52,14 @@ Template.meetingSeriesDetails.onCreated(function () {
   if (
     ReactiveDict.equals(
       "restoreTabAfterBackButton",
-      "meetingSeriesEdit.lastTab"
+      "meetingSeriesEdit.lastTab",
     )
   ) {
     this.activeTabId = new ReactiveVar(
-      ReactiveDict.get("meetingSeriesEdit.lastTab").tabId
+      ReactiveDict.get("meetingSeriesEdit.lastTab").tabId,
     );
     this.activeTabTemplate = new ReactiveVar(
-      ReactiveDict.get("meetingSeriesEdit.lastTab").tabTemplate
+      ReactiveDict.get("meetingSeriesEdit.lastTab").tabTemplate,
     );
     ReactiveDict.set("restoreTabAfterBackButton", false);
     return;
