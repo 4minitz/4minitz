@@ -155,7 +155,7 @@ describe("TopicsGenerator", () => {
       // mock generator
       let nextId = 16;
       generator._generateANewInfoItem = () => {
-        const id = "1." + nextId++;
+        const id = `1.${nextId++}`;
         return { _id: id, itemType: "actionItem", isOpen: true };
       };
 

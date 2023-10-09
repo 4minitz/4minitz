@@ -81,7 +81,7 @@ describe("ActionItems", () => {
     E2EGlobal.waitSomeTime();
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Action item should be visible").to.be
       .true;
 
@@ -99,7 +99,7 @@ describe("ActionItems", () => {
   it("can edit an existing action item", () => {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
-    const updatedActionItemName = actionItemName + " CHANGED!";
+    const updatedActionItemName = `${actionItemName} CHANGED!`;
 
     E2ETopics.addInfoItemToTopic(
       {
@@ -117,7 +117,7 @@ describe("ActionItems", () => {
     });
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Action item should be visible").to.be
       .true;
 
@@ -136,7 +136,7 @@ describe("ActionItems", () => {
   it("can edit an existing action item after an info item was added", () => {
     const topicIndex = 1;
     const actionItemName = getNewAIName();
-    const updatedActionItemName = actionItemName + " CHANGED!";
+    const updatedActionItemName = `${actionItemName} CHANGED!`;
 
     E2ETopics.addInfoItemToTopic(
       {
@@ -209,7 +209,7 @@ describe("ActionItems", () => {
     E2EGlobal.waitSomeTime();
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Action item should be visible").to.be
       .true;
 
@@ -238,7 +238,7 @@ describe("ActionItems", () => {
     );
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     browser.waitForVisible(selector);
     expect(browser.isVisible(selector), "Action item should be visible").to.be
       .true;
@@ -291,7 +291,7 @@ describe("ActionItems", () => {
       .true;
 
     const dialogContentElement = browser.element(
-      selectorDialog + " .modal-body",
+      `${selectorDialog} .modal-body`
     ).value.ELEMENT;
     const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
@@ -322,7 +322,7 @@ describe("ActionItems", () => {
     E2EGlobal.waitSomeTime();
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Info item should be visible").to.be
       .true;
 
@@ -345,7 +345,7 @@ describe("ActionItems", () => {
     E2EGlobal.waitSomeTime();
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Info item should be visible").to.be
       .true;
 

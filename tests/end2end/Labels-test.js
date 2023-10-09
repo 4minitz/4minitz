@@ -146,20 +146,20 @@ describe("Labels", () => {
         changedColor,
         false,
       );
-      const selLabelRow = "#row-label-" + labelId;
-      E2EGlobal.clickWithRetry(selLabelRow + " .evt-btn-edit-cancel");
+      const selLabelRow = `#row-label-${labelId}`;
+      E2EGlobal.clickWithRetry(`${selLabelRow} .evt-btn-edit-cancel`);
 
       // open editor again
-      E2EGlobal.clickWithRetry(selLabelRow + " .evt-btn-edit-label");
+      E2EGlobal.clickWithRetry(`${selLabelRow} .evt-btn-edit-label`);
       const newLabelNameValue = browser.getValue(
-        selLabelRow + " [name='labelName']",
+        `${selLabelRow} [name='labelName']`
       );
       expect(newLabelNameValue, "label name should be restored").to.equal(
         labelName,
       );
 
       const newLabelColorValue = browser.getValue(
-        selLabelRow + " [name='labelColor-" + labelId + "']",
+        `${selLabelRow} [name='labelColor-${labelId}']`
       );
       expect(newLabelColorValue, "label color should be restored").to.not.equal(
         changedColor,

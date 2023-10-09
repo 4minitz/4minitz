@@ -71,7 +71,7 @@ describe('Topics', () => {
         E2EGlobal.waitSomeTime(750); // give dialog animation time
         expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be.true;
 
-        const dialogContentElement = browser.element(selectorDialog + " .modal-body").value.ELEMENT;
+        const dialogContentElement = browser.element(`${selectorDialog} .modal-body`).value.ELEMENT;
         const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
         expect(dialogContentText, 'dialog content should display the title of the to-be-deleted object').to.have.string('some topic');
@@ -467,7 +467,7 @@ describe('Topics', () => {
 
     it('add label to topic via textbox', () => {
         const labelName = 'testLabel';
-        E2ETopics.addTopicToMinutes('topic #' + labelName);
+        E2ETopics.addTopicToMinutes(`topic #${labelName}`);
         E2EGlobal.waitSomeTime(500);
 
         expect(browser.waitForExist(".topic-labels")).to.be.true;
@@ -478,7 +478,7 @@ describe('Topics', () => {
         const topicName = 'testTopic'
         const labelName1 = 'testLabel1';
         const labelName2 = 'testLabel2';
-        E2ETopics.addTopicToMinutes(topicName + ' #' + labelName1 + ' #' + labelName2);
+        E2ETopics.addTopicToMinutes(`${topicName} #${labelName1} #${labelName2}`);
         E2EGlobal.waitSomeTime(500);
 
         expect(browser.waitForExist(".topic-labels")).to.be.true;
@@ -488,7 +488,7 @@ describe('Topics', () => {
 
     it('add label to topic and check if topic is displayed in topic tab of meeting series', () => {
         const labelName = 'testLabel';
-        E2ETopics.addTopicToMinutes('topic #' + labelName);
+        E2ETopics.addTopicToMinutes(`topic #${labelName}`);
         E2EGlobal.waitSomeTime(500);
 
         E2EMinutes.finalizeCurrentMinutes();
@@ -503,7 +503,7 @@ describe('Topics', () => {
         const testTopicName = 'some topic at the end';
         const labelName = 'testLabel';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " #" + labelName);
+        E2ETopics.addTopicToMinutesAtEnd(`${testTopicName} #${labelName}`);
         E2EGlobal.waitSomeTime(500);
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
@@ -517,7 +517,7 @@ describe('Topics', () => {
         const labelName1 = 'testLabel1';
         const labelName2 = 'testLabel2';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " #" + labelName1 + " #" + labelName2);
+        E2ETopics.addTopicToMinutesAtEnd(`${testTopicName} #${labelName1} #${labelName2}`);
         E2EGlobal.waitSomeTime(500);
 
         expect(E2ETopics.countTopicsForMinute()).to.equal(2);
@@ -531,7 +531,7 @@ describe('Topics', () => {
         const testTopicName = 'some topic at the end';
         const responsibleName = 'TestResponsible';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " @" + responsibleName);
+        E2ETopics.addTopicToMinutesAtEnd(`${testTopicName} @${responsibleName}`);
         E2EGlobal.waitSomeTime(500);
 
         const topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
@@ -546,7 +546,7 @@ describe('Topics', () => {
         const responsibleName1 = 'TestResponsible1';
         const responsibleName2 = 'TestResponsible2';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " @" + responsibleName1 + " @" + responsibleName2);
+        E2ETopics.addTopicToMinutesAtEnd(`${testTopicName} @${responsibleName1} @${responsibleName2}`);
         E2EGlobal.waitSomeTime(500);
 
         const topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();
@@ -561,7 +561,7 @@ describe('Topics', () => {
         const labelName = 'testLabel';
         const responsibleName = 'TestResponsible';
         E2ETopics.addTopicToMinutes('some topic on top');
-        E2ETopics.addTopicToMinutesAtEnd(testTopicName + " #" + labelName + " @" + responsibleName);
+        E2ETopics.addTopicToMinutesAtEnd(`${testTopicName} #${labelName} @${responsibleName}`);
         E2EGlobal.waitSomeTime(500);
 
         const topicHeadingText = browser.element("#topicPanel .well:nth-child(2) h3").getText();

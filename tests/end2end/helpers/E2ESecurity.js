@@ -33,7 +33,7 @@ export class E2ESecurity {
         typeof Meteor.connection._methodHandlers[methodName] === "function",
       methodName,
     ).value;
-    expect(methodExists, "Method " + methodName + " exists").to.be.true;
+    expect(methodExists, `Method ${methodName} exists`).to.be.true;
   }
 
   // Due too Meteor's nature most method calls will result in an execution both
@@ -52,7 +52,7 @@ export class E2ESecurity {
       // future calls of this method for this session will execute the changed
       // function.
       Meteor.connection._methodHandlers[methodName] = () => {
-        console.log("Modified Client Method: " + methodName);
+        console.log(`Modified Client Method: ${methodName}`);
       };
     }, methodName);
   }
@@ -82,7 +82,7 @@ export class E2ESecurity {
       // console.log(`Results are in: error = ${result.value.error}, result =
       // ${result.value.result}`);
     } catch (e) {
-      console.log("Exception in executeMethod(): " + e.message);
+      console.log(`Exception in executeMethod(): ${e.message}`);
     }
   }
 

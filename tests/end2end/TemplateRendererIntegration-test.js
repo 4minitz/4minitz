@@ -14,7 +14,7 @@ describe("TemplateRendererIntegration", () => {
     const response = server.call("e2e-render-template", template, {
       name,
     });
-    const expected = "Hello " + name + ", time: " + response.date;
+    const expected = `Hello ${name}, time: ${response.date}`;
     expect(response.result).to.equal(expected);
   });
 

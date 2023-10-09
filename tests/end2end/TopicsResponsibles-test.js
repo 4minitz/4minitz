@@ -40,7 +40,7 @@ describe("Topics Responsibles", () => {
   it("can add two responsibles to a topic", () => {
     const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-    E2ETopics.addTopicToMinutes("TOP-1", user1 + "," + user2);
+    E2ETopics.addTopicToMinutes("TOP-1", `${user1},${user2}`);
 
     const topicHeadingText = browser
       .element("#topicPanel .well:nth-child(1) h3")
@@ -52,7 +52,7 @@ describe("Topics Responsibles", () => {
   it("can remove a responsible from a topic", () => {
     const user1 = E2EGlobal.SETTINGS.e2eTestUsers[0];
     const user2 = E2EGlobal.SETTINGS.e2eTestUsers[1];
-    E2ETopics.addTopicToMinutes("TOP-1", user1 + "," + user2);
+    E2ETopics.addTopicToMinutes("TOP-1", `${user1},${user2}`);
 
     E2ETopics.openEditTopicForMinutes(1);
     browser

@@ -78,7 +78,7 @@ describe.skip("Migrations", () => {
 
     for (let i = startAtVersion + 1; i <= 21; i++) {
       server.call("e2e.triggerMigration", i);
-      console.log("migrated to version " + i);
+      console.log(`migrated to version ${i}`);
       E2EGlobal.waitSomeTime(1000);
       checkHistory();
     }

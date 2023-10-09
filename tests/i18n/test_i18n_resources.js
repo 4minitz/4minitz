@@ -19,7 +19,7 @@ const IGNOREKEYS = {
 const fs = require("fs");
 const yaml = require("js-yaml");
 
-const en_yaml = __dirname + "/../../both/i18n/en.i18n.yml";
+const en_yaml = `${__dirname}/../../both/i18n/en.i18n.yml`;
 let anyErrorExitCodeToShell = 0;
 let globalErrorCount = 0;
 let globalWarningCount = 0;
@@ -40,7 +40,7 @@ function collectFilesRecursive(dir, extension) {
   let results = [];
   const list = fs.readdirSync(dir);
   list.forEach((file) => {
-    file = dir + "/" + file;
+    file = `${dir}/${file}`;
     const stat = fs.statSync(file);
     if (stat?.isDirectory()) {
       /* Recurse into a subdirectory */
@@ -87,7 +87,7 @@ function buildFullPathes(obj, stack, separator = ".") {
 function checkCodeUsage(extension, keyPattern) {
   dictKeysFromCode = {};
   let localErrorCount = 0;
-  const files_js = collectFilesRecursive(__dirname + "/../..", extension);
+  const files_js = collectFilesRecursive(`${__dirname}/../..`, extension);
 
   // Find all i18n __ keys used in this file, according to regexp key pattern provided
   files_js.forEach((jsFile) => {
@@ -99,7 +99,7 @@ function checkCodeUsage(extension, keyPattern) {
       if (m && !IGNOREKEYS[m[1]]) {
         // we have a match that is NOT in IGNOREKEYS
         if (dictKeysFromCode[m[1]]) {
-          dictKeysFromCode[m[1]] = dictKeysFromCode[m[1]] + "\n" + jsFile;
+          dictKeysFromCode[m[1]] = `${dictKeysFromCode[m[1]]}\n${jsFile}`;
         } else {
           dictKeysFromCode[m[1]] = jsFile;
         }
@@ -107,15 +107,15 @@ function checkCodeUsage(extension, keyPattern) {
       }
     } while (m);
   });
-  console.log("#keys in " + extension + ": " + count);
+  console.log(`#keys in ${extension}: ${count}`);
 
   // Check if needed keys from code exist in YAML
   for (const keyFromCode in dictKeysFromCode) {
     if (dictKeysFromYaml[keyFromCode] === undefined) {
       console.log(
-        "I18N-ERROR: >" + keyFromCode + "< not found in YAML needed by:",
+        `I18N-ERROR: >${keyFromCode}< not found in YAML needed by:`
       );
-      console.log(dictKeysFromCode[keyFromCode] + "\n");
+      console.log(`${dictKeysFromCode[keyFromCode]}\n`);
       anyErrorExitCodeToShell = 1;
       localErrorCount++;
       globalErrorCount++;
@@ -123,7 +123,7 @@ function checkCodeUsage(extension, keyPattern) {
       dictKeysFromYaml[keyFromCode]++; // increase usage of this key
     }
   }
-  console.log("#I18N Errors for " + extension + ": " + localErrorCount);
+  console.log(`#I18N Errors for ${extension}: ${localErrorCount}`);
   console.log("---------------------------------------------");
   console.log("");
 }
@@ -144,7 +144,7 @@ if (yaml_doc) {
   console.log("Error: could not parse YAML");
   anyErrorExitCodeToShell = 20;
 }
-console.log("#keys in YAML: " + Object.keys(dictKeysFromYaml).length);
+console.log(`#keys in YAML: ${Object.keys(dictKeysFromYaml).length}`);
 console.log("---------------------------------------------");
 console.log("");
 
@@ -159,15 +159,15 @@ checkCodeUsage(".html", /{{__\s*["']([^"']+)/gm);
 for (const keyFromYaml in dictKeysFromYaml) {
   if (!keyFromYaml.startsWith("._") && dictKeysFromYaml[keyFromYaml] === 0) {
     console.log(
-      "I18N-Warning: >" + keyFromYaml + "< from YAML never used in code.",
+      `I18N-Warning: >${keyFromYaml}< from YAML never used in code.`
     );
     globalWarningCount++;
   }
 }
 
 console.log("");
-console.log("#I18N Errors Total  : " + globalErrorCount);
-console.log("#I18N Warnings Total: " + globalWarningCount);
+console.log(`#I18N Errors Total  : ${globalErrorCount}`);
+console.log(`#I18N Warnings Total: ${globalWarningCount}`);
 console.log("");
 
 process.exitCode = anyErrorExitCodeToShell;

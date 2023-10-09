@@ -20,7 +20,7 @@ export class E2EAttachments {
   static uploadFile(filename) {
     expect(
       fs.existsSync(filename),
-      "E2EAttachments.uploadFile(): file should exist: " + filename,
+      `E2EAttachments.uploadFile(): file should exist: ${filename}`
     ).to.be.ok;
 
     if (!E2EAttachments.isUploadButtonVisible()) {
@@ -50,7 +50,7 @@ export class E2EAttachments {
       downloadDir,
       ".meteor/chimp_config.js must specify download.default_directory",
     ).to.be.ok;
-    downloadDir = process.cwd() + "/" + downloadDir;
+    downloadDir = `${process.cwd()}/${downloadDir}`;
     return downloadDir;
   }
 

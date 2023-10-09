@@ -68,7 +68,7 @@ export class E2EMeetingSeries {
   }
 
   static getMeetingSeriesId(aProj, aName) {
-    const link = $("=" + aProj + ": " + aName);
+    const link = $(`=${aProj}: ${aName}`);
     if (!link.isExisting()) {
       console.log("Could not find MSId for", aProj, aName);
       return "";
@@ -87,11 +87,11 @@ export class E2EMeetingSeries {
     } catch (e) {
       return false; // we have no meeting series at all!
     }
-    const compareText = aProj + ": " + aName;
+    const compareText = `${aProj}: ${aName}`;
 
-    const element = $("=" + compareText);
+    const element = $(`=${compareText}`);
     if (!element.isExisting()) {
-      throw new Error("Could not find Meeting Series '" + compareText + "'");
+      throw new Error(`Could not find Meeting Series '${compareText}'`);
     }
     element.scrollIntoView();
     E2EGlobal.waitSomeTime(100);
@@ -99,9 +99,7 @@ export class E2EMeetingSeries {
     E2EGlobal.waitSomeTime(500);
     const currentURL = browser.getUrl();
     if (!currentURL.includes("meetingseries")) {
-      throw new Error(
-        "Could not switch to Meeting Series '" + compareText + "'",
-      );
+      throw new Error(`Could not switch to Meeting Series '${compareText}'`);
     }
     return true;
   }

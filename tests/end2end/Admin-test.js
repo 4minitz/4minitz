@@ -47,7 +47,7 @@ describe("Admin View", () => {
     E2EAdmin.setShowInactive(true);
 
     const testUser = "user2";
-    E2EAdmin.filterForUser(testUser + "@4min"); // the '@' actually searches in mail address. This prevents 'ldapuser1' to show up
+    E2EAdmin.filterForUser(`${testUser}@4min`); // the '@' actually searches in mail address. This prevents 'ldapuser1' to show up
     expect(browser.getText("#id_adminUserTable tbody tr")).to.contain("Active");
     E2EAdmin.toggleUserActiveState(1); // toggle 1st visible user!
     expect(browser.getText("#id_adminUserTable tbody tr")).to.contain(
@@ -72,7 +72,7 @@ describe("Admin View", () => {
     E2EAdmin.setShowInactive(true);
 
     const testUser = "user2";
-    E2EAdmin.filterForUser(testUser + "@4min"); // the '@' actually searches in mail address. This prevents 'ldapuser1' to show up
+    E2EAdmin.filterForUser(`${testUser}@4min`); // the '@' actually searches in mail address. This prevents 'ldapuser1' to show up
     expect(browser.getText("#id_adminUserTable tbody tr")).to.contain(
       "Inactive",
     );

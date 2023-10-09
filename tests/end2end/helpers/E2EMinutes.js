@@ -152,7 +152,7 @@ export class E2EMinutes {
         return true;
       }
     }
-    throw new Error("Could not find Minutes '" + aDate + "'");
+    throw new Error(`Could not find Minutes '${aDate}'`);
   }
 
   static gotoLatestMinutes() {

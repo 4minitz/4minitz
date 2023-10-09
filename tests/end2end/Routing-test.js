@@ -44,7 +44,7 @@ describe("Routing", () => {
     const selector = "h2.header";
     const header = browser.element(selector).value.ELEMENT;
     const headerText = browser.elementIdText(header).value;
-    expect(headerText).to.have.string("Meeting Series: " + aProjectName);
+    expect(headerText).to.have.string(`Meeting Series: ${aProjectName}`);
   });
 
   it("ensures that following a URL to a concrete minute will relocate to the requested minute after sign-in", () => {
@@ -61,7 +61,7 @@ describe("Routing", () => {
     const selector = "h2.header";
     const header = browser.element(selector).value.ELEMENT;
     const headerText = browser.elementIdText(header).value;
-    expect(headerText).to.have.string("Minutes for " + aProjectName);
+    expect(headerText).to.have.string(`Minutes for ${aProjectName}`);
   });
 
   it('ensures that "legal notice" route shows expected text', () => {
@@ -73,7 +73,7 @@ describe("Routing", () => {
     E2EGlobal.waitSomeTime();
 
     // Force to switch route
-    browser.url(E2EGlobal.SETTINGS.e2eUrl + "/legalnotice");
+    browser.url(`${E2EGlobal.SETTINGS.e2eUrl}/legalnotice`);
     expect(browser.getUrl(), "on 'legal notice' route").to.contain(
       "/legalnotice",
     );

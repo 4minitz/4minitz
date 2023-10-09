@@ -27,7 +27,7 @@ describe("MyActionItems Tab", () => {
   it("can filter my action items from all meeting series", function () {
     this.timeout(150000);
 
-    let meetingName = aMeetingNameBase + "1";
+    let meetingName = `${aMeetingNameBase}1`;
     E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
 
     E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
@@ -55,7 +55,7 @@ describe("MyActionItems Tab", () => {
     E2ETopics.toggleActionItem(1, 1);
     E2EMinutes.finalizeCurrentMinutes();
 
-    meetingName = aMeetingNameBase + "2";
+    meetingName = `${aMeetingNameBase}2`;
     E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
 
     E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
@@ -96,7 +96,7 @@ describe("MyActionItems Tab", () => {
   // This test case has expected side effect to next test case!
   // **************
   it("can filter my action items from all action items", () => {
-    const meetingName = aMeetingNameBase + "3";
+    const meetingName = `${aMeetingNameBase}3`;
     E2EMeetingSeries.createMeetingSeries(aProjectName, meetingName);
 
     E2EMinutes.addMinutesToMeetingSeries(aProjectName, meetingName);
@@ -106,9 +106,9 @@ describe("MyActionItems Tab", () => {
         subject: "action item #5",
         itemType: "actionItem",
         responsible:
-          E2EApp.getCurrentUser() + "," + E2EGlobal.SETTINGS.e2eTestUsers[1],
+          `${E2EApp.getCurrentUser()},${E2EGlobal.SETTINGS.e2eTestUsers[1]}`,
       },
-      1,
+      1
     );
     E2ETopics.addInfoItemToTopic(
       {

@@ -104,5 +104,5 @@ server.bind("dc=example,dc=com", (req, res, next) => {
 });
 
 server.listen(1389, () => {
-  console.log("ldapjs listening at " + server.url);
+  console.log(`ldapjs listening at ${server.url}`);
 });

@@ -28,7 +28,7 @@ export class E2ETopics {
 
   static openEditTopicForMinutes(topicIndex) {
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #btnEditTopic";
+      `#topicPanel .well:nth-child(${topicIndex}) #btnEditTopic`;
     browser.waitForVisible(selector);
     E2EGlobal.clickWithRetry(selector);
     E2EGlobal.waitSomeTime(500);
@@ -42,11 +42,11 @@ export class E2ETopics {
 
   static deleteTopic(topicIndex, confirmDialog) {
     const selectorMenu =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+      `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
     browser.waitForVisible(selectorMenu);
     E2EGlobal.clickWithRetry(selectorMenu);
     const selectorDeleteBtn =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #btnDelTopic";
+      `#topicPanel .well:nth-child(${topicIndex}) #btnDelTopic`;
     browser.waitForVisible(selectorDeleteBtn);
     E2EGlobal.clickWithRetry(selectorDeleteBtn);
     if (confirmDialog === undefined) {
@@ -58,7 +58,7 @@ export class E2ETopics {
   static label2TopicEnterFreetext(labelName) {
     browser.element("#id_subject").click();
     browser.keys("\uE004"); // Tab to reach next input field => labels
-    browser.keys(labelName + "\uE007"); // plus ENTER
+    browser.keys(`${labelName}\uE007`); // plus ENTER
   }
 
   static responsible2ItemEnterFreetext(theText) {
@@ -91,7 +91,7 @@ export class E2ETopics {
     E2EGlobal.waitSomeTime();
     browser.element(".form-group-labels .select2-selection").click();
     E2EGlobal.waitSomeTime();
-    browser.keys(theText + "\uE007"); // plus ENTER
+    browser.keys(`${theText}\uE007`); // plus ENTER
   }
 
   static insertTopicDataIntoDialog(subject, responsible) {
@@ -158,7 +158,7 @@ export class E2ETopics {
 
   static openInfoItemDialog(topicIndex, type = "infoItem") {
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+      `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
 
     browser.waitForVisible(selector, 2000);
     E2EGlobal.clickWithRetry(selector);
@@ -167,7 +167,7 @@ export class E2ETopics {
       typeClass = ".addTopicActionItem";
     }
     E2EGlobal.clickWithRetry(
-      "#topicPanel .well:nth-child(" + topicIndex + ") " + typeClass,
+      `#topicPanel .well:nth-child(${topicIndex}) ${typeClass}`
     );
 
     browser.waitForVisible("#id_item_subject", 5000);
@@ -267,14 +267,14 @@ export class E2ETopics {
 
   static toggleTopic(topicIndex) {
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") .labelTopicCb";
+      `#topicPanel .well:nth-child(${topicIndex}) .labelTopicCb`;
     browser.waitForVisible(selector);
     E2EGlobal.clickWithRetry(selector);
   }
 
   static toggleRecurringTopic(topicIndex) {
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+      `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
     try {
       // we use the "_org" / non screen shot version here intentionally,
       // as we often expect the 'recurring icon' to be hidden!
@@ -284,7 +284,7 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selector);
     E2EGlobal.clickWithRetry(
-      "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-recurring",
+      `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-recurring`
     );
   }
 
@@ -293,7 +293,7 @@ export class E2ETopics {
     // The latter one will of course only work if the topic is currently skipped
     if (useDropDownMenu) {
       const selector =
-        "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+        `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
       try {
         // we use the "_org" / non screen shot version here intentionally,
         // as we often expect the 'recurring icon' to be hidden!
@@ -303,19 +303,19 @@ export class E2ETopics {
       }
       E2EGlobal.clickWithRetry(selector);
       E2EGlobal.clickWithRetry(
-        "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-skipped",
+        `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-skipped`
       );
     } else {
       E2EGlobal.waitSomeTime();
       E2EGlobal.clickWithRetry(
-        "#topicPanel .well:nth-child(" + topicIndex + ") #topicIsSkippedIcon",
+        `#topicPanel .well:nth-child(${topicIndex}) #topicIsSkippedIcon`
       );
     }
   }
 
   static isTopicClosed(topicIndex) {
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") .btnToggleState";
+      `#topicPanel .well:nth-child(${topicIndex}) .btnToggleState`;
 
     return E2EGlobal.isCheckboxSelected(selector);
   }
@@ -330,7 +330,7 @@ export class E2ETopics {
 
   static isTopicSkipped(topicIndex) {
     return this._isSelectorVisible(
-      "#topicPanel .well:nth-child(" + topicIndex + ") .js-toggle-skipped span",
+      `#topicPanel .well:nth-child(${topicIndex}) .js-toggle-skipped span`
     );
   }
 
@@ -349,7 +349,7 @@ export class E2ETopics {
     if (!buttonSelector) return false;
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+      `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
     try {
       // we use the "_org" / non screen shot version here intentionally,
       // as we often expect the 'dropdown icon' to be hidden!
@@ -359,13 +359,13 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selector);
     return browser.isVisible(
-      "#topicPanel .well:nth-child(" + topicIndex + ") " + buttonSelector,
+      `#topicPanel .well:nth-child(${topicIndex}) ${buttonSelector}`
     );
   }
 
   static reOpenTopic(topicIndex) {
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #btnTopicDropdownMenu";
+      `#topicPanel .well:nth-child(${topicIndex}) #btnTopicDropdownMenu`;
     try {
       // we use the "_org" / non screen shot version here intentionally,
       // as we often expect the 'recurring icon' to be hidden!
@@ -375,7 +375,7 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selector);
     E2EGlobal.clickWithRetry(
-      "#topicPanel .well:nth-child(" + topicIndex + ") #btnReopenTopic",
+      `#topicPanel .well:nth-child(${topicIndex}) #btnReopenTopic`
     );
     E2EApp.confirmationDialogAnswer(true);
   }
@@ -386,7 +386,7 @@ export class E2ETopics {
       infoItemIndex,
     );
 
-    const selector = selectInfoItem + ".checkboxLabel";
+    const selector = `${selectInfoItem}.checkboxLabel`;
     browser.waitForVisible(selector);
     E2EGlobal.clickWithRetry(selector);
   }
@@ -404,7 +404,7 @@ export class E2ETopics {
       topicIndex,
       infoItemIndex,
     );
-    const selectorOpenMenu = selectInfoItem + "#btnItemDropdownMenu";
+    const selectorOpenMenu = `${selectInfoItem}#btnItemDropdownMenu`;
     try {
       browser.waitForVisible_org(selectorOpenMenu);
     } catch (e) {
@@ -412,7 +412,7 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selectorOpenMenu);
 
-    const selector = selectInfoItem + ".btnPinInfoItem";
+    const selector = `${selectInfoItem}.btnPinInfoItem`;
     E2EGlobal.clickWithRetry(selector);
   }
 
@@ -422,7 +422,7 @@ export class E2ETopics {
       infoItemIndex,
     );
 
-    const selector = selectInfoItem + ".btnPinInfoItem span";
+    const selector = `${selectInfoItem}.btnPinInfoItem span`;
     try {
       browser.waitForVisible(selector);
       return true;
@@ -442,11 +442,11 @@ export class E2ETopics {
   }
 
   static expandDetails(selectorForInfoItem) {
-    const selOpenDetails = selectorForInfoItem + ".expandDetails";
+    const selOpenDetails = `${selectorForInfoItem}.expandDetails`;
     browser.waitForVisible(selOpenDetails);
 
     try {
-      browser.waitForVisible(selectorForInfoItem + ".detailRow");
+      browser.waitForVisible(`${selectorForInfoItem}.detailRow`);
     } catch (e) {
       E2EGlobal.clickWithRetry(selOpenDetails);
     }
@@ -462,7 +462,7 @@ export class E2ETopics {
   }
 
   static expandDetailsForNthInfoItem(n) {
-    const selectInfoItem = "#itemPanel .topicInfoItem:nth-child(" + n + ") ";
+    const selectInfoItem = `#itemPanel .topicInfoItem:nth-child(${n}) `;
     E2ETopics.expandDetails(selectInfoItem);
     E2EGlobal.waitSomeTime();
   }
@@ -496,14 +496,14 @@ export class E2ETopics {
     topicIndex,
     infoItemIndex,
     detailsText,
-    doBeforeSubmit,
+    doBeforeSubmit
   ) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
       topicIndex,
       infoItemIndex,
     );
 
-    const selOpenMenu = selectInfoItem + "#btnItemDropdownMenu";
+    const selOpenMenu = `${selectInfoItem}#btnItemDropdownMenu`;
     try {
       browser.waitForVisible(selOpenMenu);
     } catch (e) {
@@ -511,12 +511,12 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selOpenMenu);
 
-    const selAddDetails = selectInfoItem + ".addDetail";
+    const selAddDetails = `${selectInfoItem}.addDetail`;
     E2EGlobal.clickWithRetry(selAddDetails);
 
     const newId = E2ETopics.countDetailsForItem(topicIndex, infoItemIndex);
-    const selDetails = selectInfoItem + ".detailRow:nth-child(" + newId + ") ";
-    const selFocusedInput = selDetails + ".detailInput";
+    const selDetails = `${selectInfoItem}.detailRow:nth-child(${newId}) `;
+    const selFocusedInput = `${selDetails}.detailInput`;
     try {
       browser.waitForVisible(selFocusedInput);
     } catch (e) {
@@ -535,7 +535,7 @@ export class E2ETopics {
     topicIndex,
     infoItemIndex,
     detailIndex,
-    detailsText,
+    detailsText
   ) {
     const selectInfoItem = E2ETopics.getInfoItemSelector(
       topicIndex,
@@ -544,9 +544,9 @@ export class E2ETopics {
     E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
 
     const selDetails =
-      selectInfoItem + ".detailRow:nth-child(" + detailIndex + ") ";
+      `${selectInfoItem}.detailRow:nth-child(${detailIndex}) `;
 
-    const selEditDetails = selDetails + ".detailText";
+    const selEditDetails = `${selDetails}.detailText`;
     try {
       browser.waitForVisible(selEditDetails);
     } catch (e) {
@@ -555,7 +555,7 @@ export class E2ETopics {
     }
     E2EGlobal.clickWithRetry(selEditDetails);
 
-    const selFocusedInput = selDetails + ".detailInput";
+    const selFocusedInput = `${selDetails}.detailInput`;
     try {
       browser.waitForVisible(selFocusedInput);
     } catch (e) {
@@ -594,7 +594,7 @@ export class E2ETopics {
         topicIndexOrSelectorForParentElement +
         ")";
     }
-    const selector = parentSel + " .topicInfoItem";
+    const selector = `${parentSel} .topicInfoItem`;
     try {
       browser.waitForExist(selector);
     } catch (e) {
@@ -632,7 +632,7 @@ export class E2ETopics {
 
     E2ETopics.expandDetailsForActionItem(topicIndex, infoItemIndex);
 
-    const selector = selectInfoItem + " .detailRow";
+    const selector = `${selectInfoItem} .detailRow`;
     try {
       browser.waitForExist(selector);
     } catch (e) {

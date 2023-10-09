@@ -9,7 +9,7 @@ const Meteor = {
     if (!path) path = "";
 
     if (config?.rootUrl) {
-      if (path !== "") path = "/" + path;
+      if (path !== "") path = `/${path}`;
       return config.rootUrl + path;
     }
     return path;

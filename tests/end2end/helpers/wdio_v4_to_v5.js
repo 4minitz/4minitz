@@ -42,5 +42,5 @@ browser.browser.waitUntil = (selector, timeout, timeoutMsg, interval) =>
 browser.scroll = (selector) => $(selector).scrollIntoView();
 
 browser.scrollXY = (x, y) => {
-  browser.execute("window.scrollTo(" + x + "," + y + ");");
+  browser.execute(`window.scrollTo(${x},${y});`);
 };

@@ -19,8 +19,8 @@ describe("MeetingSeriesSearch", () => {
     if (initialCount !== count) {
       const startIndex = initialCount + 1;
       for (let i = startIndex; i <= count; i++) {
-        const aProjectName = "E2E Project" + i;
-        const aMeetingName = "Meeting Name #" + i;
+        const aProjectName = `E2E Project${i}`;
+        const aMeetingName = `Meeting Name #${i}`;
         E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
       }
     }

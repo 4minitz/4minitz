@@ -28,7 +28,7 @@ export class E2EGlobal {
       } catch (e) {
         const message = e.toString(),
           notInteractable = message.includes(
-            "Element is not currently interactable and may not be manipulated",
+            "Element is not currently interactable and may not be manipulated"
           ),
           cannotFocusElement = message.includes("Cannot focus element");
 
@@ -123,12 +123,12 @@ export class E2EGlobal {
     let mm = aDate.getMonth() + 1; //January is 0!
     const yyyy = aDate.getFullYear();
     if (dd < 10) {
-      dd = "0" + dd;
+      dd = `0${dd}`;
     }
     if (mm < 10) {
-      mm = "0" + mm;
+      mm = `0${mm}`;
     }
-    return yyyy + "-" + mm + "-" + dd;
+    return `${yyyy}-${mm}-${dd}`;
   }
 
   static formatTimeISO8601(aDate) {
@@ -155,7 +155,7 @@ export class E2EGlobal {
       return browser._original.desiredCapabilities.browserName;
     }
     console.error(
-      "Error: E2EGlobal.browserName() could not determine browserName!",
+      "Error: E2EGlobal.browserName() could not determine browserName!"
     );
     return "unknown";
   }
@@ -197,14 +197,14 @@ export class E2EGlobal {
    * @param filename
    */
   static saveScreenshot(filename) {
-    const dateStr = new Date().toISOString().replace(/[^0-9]/g, "") + "_";
+    const dateStr = `${new Date().toISOString().replace(/[^0-9]/g, "")}_`;
     filename =
       E2EGlobal.getTestSpecFilename() +
       "_" +
       dateStr +
       (filename ? "_" : "") +
       filename;
-    const fullpath = "./tests/snapshots/" + filename + ".png";
+    const fullpath = `./tests/snapshots/${filename}.png`;
     browser.saveScreenshot(fullpath);
     console.log("Screenshot taken: ", fullpath);
     return fullpath;

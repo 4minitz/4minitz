@@ -35,7 +35,7 @@ export class E2EMinutesParticipants {
     try {
       return server.call("e2e.getPresentParticipantNames", minutesId);
     } catch (e) {
-      console.log("Exception: " + e);
+      console.log(`Exception: ${e}`);
       console.log(
         "Did you forget to run the server with '--settings settings-test-end2end.json'?",
       );

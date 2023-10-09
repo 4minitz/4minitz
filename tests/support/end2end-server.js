@@ -2,7 +2,7 @@ const task = require("./lib/task");
 
 function logTask(taskname) {
   return (data) => {
-    process.stdout.write(taskname + ": " + data);
+    process.stdout.write(`${taskname}: ${data}`);
   };
 }
 

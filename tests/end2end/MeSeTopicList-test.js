@@ -467,7 +467,7 @@ describe("MeetingSeries complete Topic list", () => {
       expect(
         browser.elementIdText(firstItemElement).value,
         "the action item responsible should have changed",
-      ).to.not.have.string("Resp: " + newResponsible);
+      ).to.not.have.string(`Resp: ${newResponsible}`);
     });
 
     it("removes the is-New-Flag of an existing topic after finalizing the 2nd minute", () => {

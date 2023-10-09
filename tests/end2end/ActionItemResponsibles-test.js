@@ -83,7 +83,7 @@ describe("ActionItems Responsibles", () => {
     E2EGlobal.waitSomeTime();
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
       actionItemExpandElement,
@@ -106,13 +106,13 @@ describe("ActionItems Responsibles", () => {
     E2ETopics.insertInfoItemDataIntoDialog({
       subject: actionItemName,
       itemType: "actionItem",
-      responsible: user1 + "," + user2,
+      responsible: `${user1},${user2}`,
     });
     browser.element("#btnInfoItemSave").click();
     E2EGlobal.waitSomeTime();
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
       actionItemExpandElement,
@@ -143,7 +143,7 @@ describe("ActionItems Responsibles", () => {
     E2EGlobal.waitSomeTime();
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
       actionItemExpandElement,
@@ -184,7 +184,7 @@ describe("ActionItems Responsibles", () => {
     E2EGlobal.waitSomeTime();
 
     const selector =
-      "#topicPanel .well:nth-child(" + topicIndex + ") #headingOne";
+      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     const actionItemExpandElement = browser.element(selector).value.ELEMENT;
     const actionItemExpandElementText = browser.elementIdText(
       actionItemExpandElement,

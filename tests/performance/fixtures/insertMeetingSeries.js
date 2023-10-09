@@ -90,7 +90,7 @@ async function main() {
 
     // Add Role Moderator for User
     const role = {};
-    role["roles." + series._id] = ["01"];
+    role[`roles.${series._id}`] = ["01"];
     await mongoDb.updateOne(
       Collections.Users,
       { _id: user._id },

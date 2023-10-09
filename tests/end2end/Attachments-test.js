@@ -30,7 +30,7 @@ describe("Attachments", () => {
 
     _localPublicDir = server.call("e2e.getServerCurrentWorkingDir"); // call meteor server method
     _localPublicDir += "/../web.browser/app/"; // location of files from "/public" directory
-    _staticLocalFilename = _localPublicDir + "favicon.ico";
+    _staticLocalFilename = `${_localPublicDir}favicon.ico`;
   });
 
   beforeEach("goto start page and make sure test user is logged in", () => {
@@ -79,7 +79,7 @@ describe("Attachments", () => {
       attachment.extension;
     expect(
       fs.existsSync(serverAttachmentFilename),
-      "Attachment file should exist on server: " + serverAttachmentFilename,
+      `Attachment file should exist on server: ${serverAttachmentFilename}`
     ).to.be.ok;
 
     // check if local and server files have same MD5 checksum
@@ -93,7 +93,7 @@ describe("Attachments", () => {
 
   it("can not upload illegal files (as moderator)", () => {
     // wrong extension
-    const fileWithDeniedExtension = _localPublicDir + "loading-gears.gif";
+    const fileWithDeniedExtension = `${_localPublicDir}loading-gears.gif`;
     E2EAttachments.uploadFile(fileWithDeniedExtension);
     E2EApp.confirmationDialogCheckMessage(
       'Error: Denied file extension: "gif".',
@@ -101,7 +101,7 @@ describe("Attachments", () => {
     E2EApp.confirmationDialogAnswer(true);
 
     // to big file size
-    const fileWithTooBigSize = _localPublicDir + "mstile-310x310.png";
+    const fileWithTooBigSize = `${_localPublicDir}mstile-310x310.png`;
     E2EAttachments.uploadFile(fileWithTooBigSize);
     E2EApp.confirmationDialogCheckMessage(
       "Error: Please upload file with max.",

@@ -74,7 +74,7 @@ beforeEach(function () {
 
   const testName = this.currentTest.title;
   browser.execute((testName) => {
-    console.log("--- TEST CASE STARTED --- >" + testName + "<");
+    console.log(`--- TEST CASE STARTED --- >${testName}<`);
   }, testName);
 
   server.call("e2e.debugLog", `--- TEST CASE STARTED --- >${testName}<`);
@@ -90,11 +90,11 @@ afterEach(function () {
 
   browser.execute(
     (testName, state) => {
-      console.log("--- TEST CASE FINISHED --- >" + testName + "<");
-      console.log("--- TEST CASE STATUS: " + state);
+      console.log(`--- TEST CASE FINISHED --- >${testName}<`);
+      console.log(`--- TEST CASE STATUS: ${state}`);
     },
     testName,
-    testState,
+    testState
   );
 
   server.call("e2e.debugLog", `--- TEST CASE FINISHED --- >${testName}<`);

@@ -87,7 +87,7 @@ describe("Topics Delete - Forbid deleting topics which were not created within t
       .true;
 
     const dialogContentElement = browser.element(
-      selectorDialog + " .modal-header",
+      `${selectorDialog} .modal-header`,
     ).value.ELEMENT;
     const dialogContentTitle =
       browser.elementIdText(dialogContentElement).value;

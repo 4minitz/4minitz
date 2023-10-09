@@ -7,7 +7,7 @@ import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
 
 describe("MeetingSeries", () => {
   before("reload page and reset app", () => {
-    console.log("Executing: " + E2EGlobal.getTestSpecFilename());
+    console.log(`Executing: ${E2EGlobal.getTestSpecFilename()}`);
     server.connect();
     E2EGlobal.logTimestamp("Start test suite");
     E2EApp.resetMyApp();
@@ -44,7 +44,7 @@ describe("MeetingSeries", () => {
     const aMeetingName = "Meeting Name #2.7182818284";
     const initialCount = E2EMeetingSeries.countMeetingSeries();
 
-    E2EMeetingSeries.editMeetingSeriesForm(aProjectName, aMeetingName + "\n");
+    E2EMeetingSeries.editMeetingSeriesForm(aProjectName, `${aMeetingName}\n`);
     E2EGlobal.waitSomeTime(500);
     E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel");
 

@@ -162,9 +162,9 @@ describe("MeetingSeries Editor", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue(
       'input[id="id_meetingproject"]',
-      aProjectName + " Changed!",
+      `${aProjectName} Changed!`
     );
-    browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
+    browser.setValue('input[id="id_meetingname"]', `${aMeetingName} Changed!`);
 
     E2EGlobal.clickWithRetry("#btnEditMSClose"); // Don't store new values!
     E2EGlobal.waitSomeTime(); // give dialog animation time
@@ -190,9 +190,9 @@ describe("MeetingSeries Editor", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue(
       'input[id="id_meetingproject"]',
-      aProjectName + " Changed!",
+      `${aProjectName} Changed!`
     );
-    browser.setValue('input[id="id_meetingname"]', aMeetingName + " Changed!");
+    browser.setValue('input[id="id_meetingname"]', `${aMeetingName} Changed!`);
 
     E2EGlobal.clickWithRetry("#btnMeetinSeriesEditCancel");
     E2EGlobal.waitSomeTime(); // give dialog animation time
