@@ -5,7 +5,7 @@ import { i18n } from "meteor/universe:i18n";
 import { Meteor } from "meteor/meteor";
 import { ReactiveVar } from "meteor/reactive-var";
 import { OnlineUsersSchema } from "/imports/collections/onlineusers.schema";
-import { Session } from "meteor/session";
+import { ReactiveDict } from "meteor/reactive-dict";
 
 const _filterUsers = new ReactiveVar("");
 const _showInactive = new ReactiveVar(false);
@@ -111,7 +111,7 @@ Template.tabAdminUsers.events({
 
   "click #id_EditUserProfile"(evt) {
     evt.preventDefault();
-    Session.set("editProfile.userID", this._id);
+    ReactiveDict.set("editProfile.userID", this._id);
     $("#dlgEditProfile").modal("show");
   },
 
