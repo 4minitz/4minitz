@@ -1,0 +1,3 @@
+enabled: true
+commit_template: |
+  style: format code with ${restyler.name}
