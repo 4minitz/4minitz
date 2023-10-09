@@ -6,15 +6,14 @@ import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
-
 import { IsEditedService } from "../../../imports/services/isEditedService";
 import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
 import { isEditedHandling } from "../../helpers/isEditedHelpers";
 
 import { UsersEditConfig } from "./meetingSeriesEditUsers";
+import { ReactiveDict } from "meteor/reactive-dict";
 
 Template.meetingSeriesEdit.onCreated(function () {
   let thisMeetingSeriesID = FlowRouter.getParam("_id");
@@ -31,21 +30,21 @@ Template.meetingSeriesEdit.onCreated(function () {
   this.userEditConfig = new UsersEditConfig(
     true, // current user can not be edited
     thisMeetingSeriesID, // the meeting series id
-    _attachedUsersCollection,
+    _attachedUsersCollection
   ); // collection of attached users
   // Hint: collection will be filled in the "show.bs.modal" event below
 });
 
 Template.meetingSeriesEdit.helpers({
-  users: function () {
+  users() {
     return Meteor.users.find({});
   },
 
-  userEditConfig: function () {
+  userEditConfig() {
     return Template.instance().userEditConfig;
   },
 
-  labelsConfig: function () {
+  labelsConfig() {
     return {
       meetingSeriesId: this._id,
     };
@@ -63,7 +62,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
       userId,
       oldRole,
       newRole,
-      meetingSeriesId,
+      meetingSeriesId
     );
   }
 
@@ -78,7 +77,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
 
     // Search in after edit users whether the users still exists
     const matchingUser = usersWithRolesAfterEditForEmails.find(
-      (user) => oldUserWithRole._userId === user._idOrg,
+      (user) => oldUserWithRole._userId === user._idOrg
     );
 
     // If he does not, his role was removed
@@ -88,7 +87,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
           oldUserWithRole.getUser()._id,
           oldUserRole,
           undefined,
-          meetingSeriesId,
+          meetingSeriesId
         );
       }
     } else {
@@ -102,7 +101,7 @@ const notifyOnRoleChange = function (usersWithRolesAfterEdit, meetingSeriesId) {
           newUserWithRole.getUser()._id,
           oldUserRole,
           newUserRole,
-          meetingSeriesId,
+          meetingSeriesId
         );
       }
       usersWithRolesAfterEditForEmails.splice(index, 1);
@@ -141,8 +140,8 @@ Template.meetingSeriesEdit.events({
           name: ms.name,
           hasMinutes: ms.minutes.length !== 0,
           minutesCount: ms.minutes.length,
-          lastMinutesDate: ms.minutes.length !== 0 ? ms.lastMinutesDate : false,
-        },
+          lastMinutesDate: ms.minutes.length === 0 ? false : ms.lastMinutesDate,
+        }
       );
 
     Meteor.defer(() => {
@@ -156,7 +155,6 @@ Template.meetingSeriesEdit.events({
   "show.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
     const ms = new MeetingSeries(tmpl.data._id);
 
-    const element = ms;
     const unset = () => {
       IsEditedService.removeIsEditedMeetingSerie(ms._id, true);
       $("#dlgEditMeetingSeries").modal("show");
@@ -166,11 +164,11 @@ Template.meetingSeriesEdit.events({
     };
 
     isEditedHandling(
-      element,
+      ms,
       unset,
       setIsEdited,
       evt,
-      "confirmationDialogResetEdit",
+      "confirmationDialogResetEdit"
     );
 
     // Make sure these init values are filled in a close/re-open scenario
@@ -200,16 +198,16 @@ Template.meetingSeriesEdit.events({
 
   "shown.bs.modal #dlgEditMeetingSeries": function (evt, tmpl) {
     // switch to "invited users" tab once, if desired
-    if (Session.get("meetingSeriesEdit.showUsersPanel") === true) {
-      Session.set("meetingSeriesEdit.showUsersPanel", false);
+    if (ReactiveDict.equals("meetingSeriesEdit.showUsersPanel", true)) {
+      ReactiveDict.set("meetingSeriesEdit.showUsersPanel", false);
       $("#btnShowHideInvitedUsers").click();
       Meteor.setTimeout(() => {
         tmpl.find("#edt_AddUser").focus();
       }, 500);
-    } else {
-      $("#dlgEditMeetingSeries input").trigger("change"); // ensure new values trigger placeholder animation
-      tmpl.find("#id_meetingproject").focus();
+      return;
     }
+    $("#dlgEditMeetingSeries input").trigger("change"); // ensure new values trigger placeholder animation
+    tmpl.find("#id_meetingproject").focus();
   },
 
   "submit #frmDlgEditMeetingSeries": function (evt, tmpl) {
@@ -257,7 +255,7 @@ Template.meetingSeriesEdit.events({
 
       newRole.saveRoleForMeetingSeries(
         meetingSeriesId,
-        usrAfterEdit.roles[meetingSeriesId],
+        usrAfterEdit.roles[meetingSeriesId]
       );
       if (UserRoles.isVisibleRole(usrAfterEdit.roles[meetingSeriesId])) {
         allVisiblesArray.push(usrAfterEdit._idOrg); // Attention: get back to Id of Meteor.users
@@ -297,7 +295,7 @@ Template.meetingSeriesEdit.events({
     $("#dlgEditMeetingSeries").modal("hide");
   },
 
-  keyup: function (evt, tmpl) {
+  keyup(evt, tmpl) {
     evt.preventDefault();
     if (evt.keyCode === 27) {
       const ms = new MeetingSeries(tmpl.data._id);
