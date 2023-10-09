@@ -1,9 +1,10 @@
-import { handleError } from "/client/helpers/handleError";
-import { MeetingSeries } from "/imports/meetingseries";
-import { $ } from "meteor/jquery";
-import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-import { Template } from "meteor/templating";
-import { ReactiveDict } from "meteor/reactive-dict";
+import {handleError} from "/client/helpers/handleError";
+import {MeetingSeries} from "/imports/meetingseries";
+import {$} from "meteor/jquery";
+import {FlowRouter} from "meteor/ostrio:flow-router-extra";
+import {ReactiveDict} from "meteor/reactive-dict";
+import {Template} from "meteor/templating";
+
 function clearForm(template) {
   template.find("#id_meetingproject").value = "";
   template.find("#id_meetingname").value = "";
@@ -28,21 +29,17 @@ function addMeetingSeries(template, optimisticUICallback) {
   const aName = template.find("#id_meetingname").value;
 
   const ms = new MeetingSeries({
-    project: aProject,
-    name: aName,
-    createdAt: new Date(),
+    project : aProject,
+    name : aName,
+    createdAt : new Date(),
   });
 
   ms.saveAsync(optimisticUICallback).catch(handleError);
 }
 
 Template.meetingSeriesAdd.helpers({
-  isExpanded() {
-    return ReactiveDict.get("meetingSeriesAdd.isExpanded");
-  },
-  meetingSeriesAmountBiggerFour() {
-    return MeetingSeries.find().count() > 4;
-  },
+  isExpanded() { return ReactiveDict.get("meetingSeriesAdd.isExpanded"); },
+  meetingSeriesAmountBiggerFour() { return MeetingSeries.find().count() > 4; },
 });
 
 Template.meetingSeriesAdd.events({
@@ -56,9 +53,8 @@ Template.meetingSeriesAdd.events({
 
     $("#collapseMeetingSeriesAdd").collapse("hide");
 
-    addMeetingSeries(template, (id) => {
-      FlowRouter.go(`/meetingseries/${id}?edit=true`);
-    });
+    addMeetingSeries(
+        template, (id) => { FlowRouter.go(`/meetingseries/${id}?edit=true`); });
   },
 
   "hidden.bs.collapse #collapseMeetingSeriesAdd"(evt, tmpl) {
