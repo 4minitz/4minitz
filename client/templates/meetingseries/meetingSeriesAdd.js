@@ -2,9 +2,8 @@ import { handleError } from "/client/helpers/handleError";
 import { MeetingSeries } from "/imports/meetingseries";
 import { $ } from "meteor/jquery";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
-import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
-
+import { ReactiveDict } from "meteor/reactive-dict";
 function clearForm(template) {
   template.find("#id_meetingproject").value = "";
   template.find("#id_meetingname").value = "";
@@ -39,7 +38,7 @@ function addMeetingSeries(template, optimisticUICallback) {
 
 Template.meetingSeriesAdd.helpers({
   isExpanded: function () {
-    return Session.get("meetingSeriesAdd.isExpanded");
+    return ReactiveDict.get("meetingSeriesAdd.isExpanded");
   },
   meetingSeriesAmountBiggerFour: function () {
     return MeetingSeries.find().count() > 4;
@@ -64,13 +63,13 @@ Template.meetingSeriesAdd.events({
 
   "hidden.bs.collapse #collapseMeetingSeriesAdd"(evt, tmpl) {
     clearForm(tmpl);
-    Session.set("meetingSeriesAdd.isExpanded", false);
+    ReactiveDict.set("meetingSeriesAdd.isExpanded", false);
     document.removeEventListener("keyup", escapeHandler);
   },
 
   "shown.bs.collapse #collapseMeetingSeriesAdd"(evt, tmpl) {
     tmpl.find("#id_meetingproject").focus();
-    Session.set("meetingSeriesAdd.isExpanded", true);
+    ReactiveDict.set("meetingSeriesAdd.isExpanded", true);
     document.addEventListener("keyup", escapeHandler);
   },
 });
