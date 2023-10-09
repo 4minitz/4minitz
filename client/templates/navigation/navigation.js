@@ -10,7 +10,7 @@ Template.navigation.helpers({
     return GlobalSettings.getBrandingLogoHTML();
   },
   displayUsername() {
-    if (Meteor.user().profile && Meteor.user().profile.name) {
+    if (Meteor.user().profile?.name) {
       return Meteor.user().profile.name;
     }
     return Meteor.user().username;
@@ -20,12 +20,13 @@ Template.navigation.helpers({
 Template.navigation.events({
   "click li #navbar-signout": function (event) {
     event.preventDefault();
-    if (Meteor.userId()) {
-      IsEditedService.removeIsEditedOnLogout();
-
-      AccountsTemplates.logout();
-      FlowRouter.go("/");
+    if (!Meteor.userId()) {
+      return;
     }
+    IsEditedService.removeIsEditedOnLogout();
+
+    AccountsTemplates.logout();
+    FlowRouter.go("/");
   },
 
   "click .navbar-brand": function () {
