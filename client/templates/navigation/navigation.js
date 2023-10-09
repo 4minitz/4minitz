@@ -4,7 +4,7 @@ import { GlobalSettings } from "/imports/config/GlobalSettings";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import { AccountsTemplates } from "meteor/useraccounts:core";
 import { IsEditedService } from "../../../imports/services/isEditedService";
-import { ReactiveDict } from 'meteor/reactive-dict';
+import { ReactiveDict } from "meteor/reactive-dict";
 Template.navigation.helpers({
   logoHTML() {
     return GlobalSettings.getBrandingLogoHTML();

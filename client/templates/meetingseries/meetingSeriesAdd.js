@@ -37,10 +37,10 @@ function addMeetingSeries(template, optimisticUICallback) {
 }
 
 Template.meetingSeriesAdd.helpers({
-  isExpanded: function () {
+  isExpanded() {
     return ReactiveDict.get("meetingSeriesAdd.isExpanded");
   },
-  meetingSeriesAmountBiggerFour: function () {
+  meetingSeriesAmountBiggerFour() {
     return MeetingSeries.find().count() > 4;
   },
 });
