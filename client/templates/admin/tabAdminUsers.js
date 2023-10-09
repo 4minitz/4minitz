@@ -84,7 +84,7 @@ Template.tabAdminUsers.helpers({
       : Meteor.users.find({ isInactive: { $not: true } }).count();
     const userCountVisible = _visibleCount.get() + 0;
 
-    if (userCountVisible == 1) {
+    if (userCountVisible === 1) {
       return i18n.__("Admin.Users.countSingle", {
         visible: userCountVisible,
         all: userCountAll,

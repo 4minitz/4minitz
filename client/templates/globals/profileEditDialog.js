@@ -1,6 +1,5 @@
-import { emailAddressRegExpTest } from "/imports/helpers/email";
 import { Meteor } from "meteor/meteor";
-import { Session } from "meteor/session";
+import { ReactiveDict } from "meteor/reactive-dict";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 import isEmail from "validator/lib/isEmail";
@@ -25,8 +24,8 @@ function updateUserProfile(tmpl) {
 
   tmpl.$("#btnEditProfileSave").prop("disabled", true);
 
-  const editUserId = Session.get("editProfile.userID")
-    ? Session.get("editProfile.userID")
+  const editUserId = ReactiveDict.equals("editProfile.userID", true)
+    ? ReactiveDict.get("editProfile.userID")
     : Meteor.userId();
   Meteor.call(
     "users.editProfile",
@@ -65,7 +64,8 @@ Template.profileEditDialog.events({
 
     const uEmailAddress = tmpl.find("#id_emailAddress").value;
 
-    const userEditsOwnProfile = Session.get("editProfile.userID") === undefined;
+    const userEditsOwnProfile =
+      ReactiveDict.get("editProfile.userID") === undefined;
     if (Meteor.settings.public.sendVerificationEmail && userEditsOwnProfile) {
       const changeUserMail = () => {
         updateUserProfile(tmpl);
@@ -73,7 +73,9 @@ Template.profileEditDialog.events({
         Meteor.logout();
       };
 
-      if (Meteor.user().emails[0].address !== uEmailAddress) {
+      if (Meteor.user().emails[0].address === uEmailAddress) {
+        updateUserProfile(tmpl);
+      } else {
         ConfirmationDialogFactory.makeWarningDialogWithTemplate(
           changeUserMail,
           i18n.__("Profile.WarningEMailChange.title"),
@@ -81,8 +83,6 @@ Template.profileEditDialog.events({
           { plainText: i18n.__("Profile.WarningEMailChange.body") },
           i18n.__("Profile.WarningEMailChange.button"),
         ).show();
-      } else {
-        updateUserProfile(tmpl);
       }
     } else {
       updateUserProfile(tmpl);
@@ -90,7 +90,7 @@ Template.profileEditDialog.events({
   },
 
   "show.bs.modal #dlgEditProfile": function (evt, tmpl) {
-    const otherUserId = Session.get("editProfile.userID"); // admin edit mode, undefined otherwise
+    const otherUserId = ReactiveDict.get("editProfile.userID"); // admin edit mode, undefined otherwise
     const usr = Meteor.users.findOne(
       otherUserId ? otherUserId : Meteor.userId(),
     );

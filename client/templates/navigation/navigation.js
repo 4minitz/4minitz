@@ -43,6 +43,7 @@ Template.navigation.events({
   "click #navbar-dlgEditProfile": function (evt, tmpl) {
     ReactiveDict.set("editProfile.userID"); // per default use "current" user.
     // Admin may edit others
+
     tmpl.$("#dlgEditProfile").modal("show");
   },
 
