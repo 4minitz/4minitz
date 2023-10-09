@@ -94,7 +94,7 @@ afterEach(function () {
       console.log(`--- TEST CASE STATUS: ${state}`);
     },
     testName,
-    testState
+    testState,
   );
 
   server.call("e2e.debugLog", `--- TEST CASE FINISHED --- >${testName}<`);

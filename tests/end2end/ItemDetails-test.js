@@ -82,7 +82,7 @@ describe("Item Details", () => {
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
 
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      `${formatDateISO8601(new Date())} New\n${detailsText}`
+      `${formatDateISO8601(new Date())} New\n${detailsText}`,
     );
   });
 
@@ -92,7 +92,7 @@ describe("Item Details", () => {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      `${formatDateISO8601(new Date())} New\nNew Details`
+      `${formatDateISO8601(new Date())} New\nNew Details`,
     );
   });
 
@@ -111,7 +111,7 @@ describe("Item Details", () => {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      `${formatDateISO8601(new Date())} New\n${detailsText}`
+      `${formatDateISO8601(new Date())} New\n${detailsText}`,
     );
   });
 
@@ -124,15 +124,11 @@ describe("Item Details", () => {
     expect(
       browser.elementIdText(firstItemOfNewTopic).value,
       "First added detail should be displayed",
-    ).to.have.string(
-      `${formatDateISO8601(new Date())} New\nFirst Details`
-    );
+    ).to.have.string(`${formatDateISO8601(new Date())} New\nFirst Details`);
     expect(
       browser.elementIdText(firstItemOfNewTopic).value,
       "2nd added detail should be displayed, too",
-    ).to.have.string(
-      `${formatDateISO8601(new Date())} New\nSecond Details`
-    );
+    ).to.have.string(`${formatDateISO8601(new Date())} New\nSecond Details`);
   });
 
   it("can add details to the 2nd AI of the same topic persistent", () => {
@@ -159,7 +155,7 @@ describe("Item Details", () => {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
     expect(browser.elementIdText(sndItemOfNewTopic).value).to.have.string(
-      `${formatDateISO8601(new Date())} New\n${detailsText}`
+      `${formatDateISO8601(new Date())} New\n${detailsText}`,
     );
   });
 
@@ -179,7 +175,7 @@ describe("Item Details", () => {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const sndItemOfNewTopic = itemsOfNewTopic[1].ELEMENT;
     expect(browser.elementIdText(sndItemOfNewTopic).value).to.have.string(
-      `${formatDateISO8601(new Date())} New\nUpdated Details`
+      `${formatDateISO8601(new Date())} New\nUpdated Details`,
     );
   });
 
@@ -215,9 +211,7 @@ describe("Item Details", () => {
     expect(
       browser.elementIdText(firstItemOfNewTopic).value,
       "Added detail should be displayed",
-    ).to.have.string(
-      `${formatDateISO8601(new Date())} New\nFirst Details`
-    );
+    ).to.have.string(`${formatDateISO8601(new Date())} New\nFirst Details`);
   });
 
   it("can change existing details", () => {
@@ -228,7 +222,7 @@ describe("Item Details", () => {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      `${formatDateISO8601(new Date())} New\nNew Details (changed)`
+      `${formatDateISO8601(new Date())} New\nNew Details (changed)`,
     );
   });
 
@@ -244,7 +238,7 @@ describe("Item Details", () => {
       .true;
 
     const dialogContentElement = browser.element(
-      `${selectorDialog} .modal-body`
+      `${selectorDialog} .modal-body`,
     ).value.ELEMENT;
     const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
@@ -287,7 +281,7 @@ describe("Item Details", () => {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      `${formatDateISO8601(new Date())} New\nNew Details`
+      `${formatDateISO8601(new Date())} New\nNew Details`,
     );
   });
 
@@ -317,7 +311,7 @@ describe("Item Details", () => {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.not.have.string(
-      `${formatDateISO8601(new Date())} New\nNew Details`
+      `${formatDateISO8601(new Date())} New\nNew Details`,
     );
 
     E2EApp.loginUser();
@@ -351,7 +345,7 @@ describe("Item Details", () => {
     const itemsOfNewTopic = E2ETopics.getItemsForTopic(1);
     const firstItemOfNewTopic = itemsOfNewTopic[0].ELEMENT;
     expect(browser.elementIdText(firstItemOfNewTopic).value).to.have.string(
-      `${formatDateISO8601(new Date())} New\nOld Details`
+      `${formatDateISO8601(new Date())} New\nOld Details`,
     );
 
     E2EApp.loginUser();

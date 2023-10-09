@@ -63,8 +63,7 @@ describe("Info Items", () => {
 
     E2EGlobal.waitSomeTime();
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Info item should be visible").to.be
       .true;
 
@@ -98,7 +97,7 @@ describe("Info Items", () => {
       .true;
 
     const dialogContentElement = browser.element(
-      `${selectorDialog} .modal-body`
+      `${selectorDialog} .modal-body`,
     ).value.ELEMENT;
     const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
@@ -128,8 +127,7 @@ describe("Info Items", () => {
 
     E2EGlobal.waitSomeTime();
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Info item should be visible").to.be
       .true;
 
@@ -151,8 +149,7 @@ describe("Info Items", () => {
 
     E2EGlobal.waitSomeTime();
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Info item should be visible").to.be
       .true;
 
@@ -176,8 +173,7 @@ describe("Info Items", () => {
 
     E2EGlobal.waitSomeTime();
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Info item should be visible").to.be
       .true;
 
@@ -214,8 +210,7 @@ describe("Info Items", () => {
     E2ETopics.submitInfoItemDialog();
 
     // Check new subject text
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(
       browser.isVisible(selector),
       "Info item should be visible after edit",
@@ -230,8 +225,7 @@ describe("Info Items", () => {
     ).to.have.string("New Item Subject");
 
     // Check new label
-    const newLabelSelector =
-      `#topicPanel .well:nth-child(${topicIndex}) .label:nth-child(1)`;
+    const newLabelSelector = `#topicPanel .well:nth-child(${topicIndex}) .label:nth-child(1)`;
     expect(browser.isVisible(newLabelSelector), "New label should be visible")
       .to.be.true;
     infoItemExpandElement = browser.element(newLabelSelector).value.ELEMENT;

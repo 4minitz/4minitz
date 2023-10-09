@@ -105,10 +105,11 @@ describe("MyActionItems Tab", () => {
       {
         subject: "action item #5",
         itemType: "actionItem",
-        responsible:
-          `${E2EApp.getCurrentUser()},${E2EGlobal.SETTINGS.e2eTestUsers[1]}`,
+        responsible: `${E2EApp.getCurrentUser()},${
+          E2EGlobal.SETTINGS.e2eTestUsers[1]
+        }`,
       },
-      1
+      1,
     );
     E2ETopics.addInfoItemToTopic(
       {

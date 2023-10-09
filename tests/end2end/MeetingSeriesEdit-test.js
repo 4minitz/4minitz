@@ -162,7 +162,7 @@ describe("MeetingSeries Editor", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue(
       'input[id="id_meetingproject"]',
-      `${aProjectName} Changed!`
+      `${aProjectName} Changed!`,
     );
     browser.setValue('input[id="id_meetingname"]', `${aMeetingName} Changed!`);
 
@@ -190,7 +190,7 @@ describe("MeetingSeries Editor", () => {
     E2EMeetingSeriesEditor.openMeetingSeriesEditor(aProjectName, aMeetingName);
     browser.setValue(
       'input[id="id_meetingproject"]',
-      `${aProjectName} Changed!`
+      `${aProjectName} Changed!`,
     );
     browser.setValue('input[id="id_meetingname"]', `${aMeetingName} Changed!`);
 

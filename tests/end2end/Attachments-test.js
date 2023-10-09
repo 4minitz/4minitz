@@ -79,7 +79,7 @@ describe("Attachments", () => {
       attachment.extension;
     expect(
       fs.existsSync(serverAttachmentFilename),
-      `Attachment file should exist on server: ${serverAttachmentFilename}`
+      `Attachment file should exist on server: ${serverAttachmentFilename}`,
     ).to.be.ok;
 
     // check if local and server files have same MD5 checksum

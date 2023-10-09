@@ -112,9 +112,7 @@ function checkCodeUsage(extension, keyPattern) {
   // Check if needed keys from code exist in YAML
   for (const keyFromCode in dictKeysFromCode) {
     if (dictKeysFromYaml[keyFromCode] === undefined) {
-      console.log(
-        `I18N-ERROR: >${keyFromCode}< not found in YAML needed by:`
-      );
+      console.log(`I18N-ERROR: >${keyFromCode}< not found in YAML needed by:`);
       console.log(`${dictKeysFromCode[keyFromCode]}\n`);
       anyErrorExitCodeToShell = 1;
       localErrorCount++;
@@ -158,9 +156,7 @@ checkCodeUsage(".html", /{{__\s*["']([^"']+)/gm);
 // ---------------------------------------------------------------  YAML Warnings
 for (const keyFromYaml in dictKeysFromYaml) {
   if (!keyFromYaml.startsWith("._") && dictKeysFromYaml[keyFromYaml] === 0) {
-    console.log(
-      `I18N-Warning: >${keyFromYaml}< from YAML never used in code.`
-    );
+    console.log(`I18N-Warning: >${keyFromYaml}< from YAML never used in code.`);
     globalWarningCount++;
   }
 }

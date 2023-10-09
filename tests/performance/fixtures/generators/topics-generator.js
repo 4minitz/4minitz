@@ -133,8 +133,7 @@ export class TopicsGenerator {
       createdBy: this.config.username,
       updatedAt: new Date(),
       updatedBy: this.config.username,
-      subject:
-        `${faker.commerce.department()} - ${faker.commerce.productName()}`,
+      subject: `${faker.commerce.department()} - ${faker.commerce.productName()}`,
       responsibles: [],
       isOpen: faker.datatype.boolean(),
       isNew: false,

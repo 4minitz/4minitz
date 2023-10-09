@@ -6,7 +6,7 @@ export class E2EMeetingSeriesEditor {
     aProj,
     aName,
     panelName = "base",
-    skipGotoMeetingSeries
+    skipGotoMeetingSeries,
   ) {
     // Maybe we can save "gotoStartPage => gotoMeetingSeries"?
     if (!skipGotoMeetingSeries) {
@@ -104,11 +104,11 @@ export class E2EMeetingSeriesEditor {
       const elemTRId = elementsUserRows.value[rowIndex].ELEMENT;
       const elementsTD = browser.elementIdElements(elemTRId, "td");
       const usrName = browser.elementIdText(
-        elementsTD.value[colNumUser].ELEMENT
+        elementsTD.value[colNumUser].ELEMENT,
       ).value;
       const elementsDelete = browser.elementIdElements(
         elementsTD.value[colNumDelete].ELEMENT,
-        "#btnDeleteUser"
+        "#btnDeleteUser",
       );
       const usrIsDeletable = elementsDelete.value.length === 1;
       const usrDeleteElemId = usrIsDeletable
@@ -117,7 +117,7 @@ export class E2EMeetingSeriesEditor {
 
       // for the current user usrRole already contains his read-only role string "Moderator"
       let usrRole = browser.elementIdText(
-        elementsTD.value[colNumRole].ELEMENT
+        elementsTD.value[colNumRole].ELEMENT,
       ).value;
       let usrIsReadOnly = true;
 
@@ -148,7 +148,7 @@ export class E2EMeetingSeriesEditor {
     labelName,
     newLabelName,
     newLabelColor,
-    autoSaveLabelChange = true
+    autoSaveLabelChange = true,
   ) {
     const labelId = E2EMeetingSeriesEditor.getLabelId(labelName);
     const selLabelRow = `#row-label-${labelId}`;
@@ -160,7 +160,7 @@ export class E2EMeetingSeriesEditor {
     if (newLabelColor) {
       browser.setValue(
         `${selLabelRow} [name='labelColor-${labelId}']`,
-        newLabelColor
+        newLabelColor,
       );
     }
 

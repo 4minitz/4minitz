@@ -28,7 +28,7 @@ export class E2EGlobal {
       } catch (e) {
         const message = e.toString(),
           notInteractable = message.includes(
-            "Element is not currently interactable and may not be manipulated"
+            "Element is not currently interactable and may not be manipulated",
           ),
           cannotFocusElement = message.includes("Cannot focus element");
 
@@ -155,7 +155,7 @@ export class E2EGlobal {
       return browser._original.desiredCapabilities.browserName;
     }
     console.error(
-      "Error: E2EGlobal.browserName() could not determine browserName!"
+      "Error: E2EGlobal.browserName() could not determine browserName!",
     );
     return "unknown";
   }

@@ -80,8 +80,7 @@ describe("ActionItems", () => {
 
     E2EGlobal.waitSomeTime();
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Action item should be visible").to.be
       .true;
 
@@ -116,8 +115,7 @@ describe("ActionItems", () => {
       subject: updatedActionItemName,
     });
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Action item should be visible").to.be
       .true;
 
@@ -208,8 +206,7 @@ describe("ActionItems", () => {
 
     E2EGlobal.waitSomeTime();
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Action item should be visible").to.be
       .true;
 
@@ -237,8 +234,7 @@ describe("ActionItems", () => {
       topicIndex,
     );
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     browser.waitForVisible(selector);
     expect(browser.isVisible(selector), "Action item should be visible").to.be
       .true;
@@ -291,7 +287,7 @@ describe("ActionItems", () => {
       .true;
 
     const dialogContentElement = browser.element(
-      `${selectorDialog} .modal-body`
+      `${selectorDialog} .modal-body`,
     ).value.ELEMENT;
     const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
@@ -321,8 +317,7 @@ describe("ActionItems", () => {
 
     E2EGlobal.waitSomeTime();
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Info item should be visible").to.be
       .true;
 
@@ -344,8 +339,7 @@ describe("ActionItems", () => {
 
     E2EGlobal.waitSomeTime();
 
-    const selector =
-      `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
+    const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(browser.isVisible(selector), "Info item should be visible").to.be
       .true;
 
