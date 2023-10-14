@@ -1,8 +1,8 @@
 import { _ } from "underscore";
 
 import { DateHelper } from "../lib/date-helper";
-import { Random } from "../lib/random";
 import { gMSV } from "../lib/gMSV";
+import { Random } from "../lib/random";
 
 export class MeetingSeriesGenerator {
   /**
