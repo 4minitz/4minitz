@@ -12,14 +12,14 @@ function select2search(
   delayTime,
   freeTextValidator,
   minuteID,
-  topicOrItem,
+  topicOrItem
 ) {
   const minute = new Minutes(minuteID);
   const preparer = new ParticipantsPreparer(
     minute,
     topicOrItem,
     Meteor.users,
-    freeTextValidator,
+    freeTextValidator
   );
   const participants = preparer.getPossibleResponsibles();
   selectResponsibles.select2({
@@ -28,7 +28,7 @@ function select2search(
     tokenSeparators: [",", ";"],
     ajax: {
       delay: delayTime,
-      transport: function (params, success, failure) {
+      transport(params, success, failure) {
         Meteor.call(
           "responsiblesSearch",
           params.data.q,
@@ -39,10 +39,10 @@ function select2search(
               return;
             }
             success(results);
-          },
+          }
         );
       },
-      processResults: function (data) {
+      processResults(data) {
         const results_participants = [];
         const results_other = [];
         _.each(data.results, (result) => {
@@ -81,7 +81,7 @@ export function configureSelect2Responsibles(
   topicOrItemDoc,
   freeTextValidator,
   _minutesID,
-  topicOrItem,
+  topicOrItem
 ) {
   const selectResponsibles = $(`#${SelectResponsibleElementID}`);
   selectResponsibles
@@ -94,22 +94,22 @@ export function configureSelect2Responsibles(
     delayTime,
     freeTextValidator,
     _minutesID,
-    topicOrItem,
+    topicOrItem
   );
   const data = { options: [] };
   if (topicOrItemDoc !== undefined) {
     const responsibles = topicOrItemDoc.responsibles || [];
     responsibles.forEach((responsibleId) => {
       let responsibleUser = Meteor.users.findOne(responsibleId);
-      if (!responsibleUser) {
-        // free text user
-        responsibleUser = { fullname: responsibleId };
-      } else {
+      if (responsibleUser) {
         Minutes.formatResponsibles(
           responsibleUser,
           "username",
-          responsibleUser.profile,
+          responsibleUser.profile
         );
+      } else {
+        // free text user
+        responsibleUser = { fullname: responsibleId };
       }
       data.options.push({
         optionId: responsibleId,
@@ -117,9 +117,9 @@ export function configureSelect2Responsibles(
       });
     });
     Blaze.renderWithData(
-      Template["optionsElement"],
+      Template.optionsElement,
       data,
-      document.getElementById(SelectResponsibleElementID),
+      document.getElementById(SelectResponsibleElementID)
     );
   }
   selectResponsibles.trigger("change");

@@ -16,6 +16,6 @@ describe("Analyzer", () => {
     const item_2 = { priority: "HIGH" };
     analyzer.analyseActionItem(item_1);
     analyzer.analyseActionItem(item_2);
-    expect(analyzer.tokens["HIGH"].counter).to.equal(2);
+    expect(analyzer.tokens.HIGH.counter).to.equal(2);
   });
 });

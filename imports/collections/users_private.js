@@ -1,5 +1,5 @@
 import { checkWithMsg } from "/imports/helpers/check";
-import { emailAddressRegExpTest } from "/imports/helpers/email";
+
 import { AdminRegisterUserMailHandler } from "/imports/mail/AdminRegisterUserMailHandler";
 import { Accounts } from "meteor/accounts-base";
 import { check, Match } from "meteor/check";
@@ -19,13 +19,11 @@ Meteor.methods({
       throw new Meteor.Error("Cannot edit profile", "User not logged in.");
     }
 
-    if (!Meteor.user().isAdmin) {
-      if (Meteor.userId() !== userId) {
-        throw new Meteor.Error(
-          "Cannot edit profile",
-          "You are not admin or you are trying to change someone else's profile",
-        );
-      }
+    if (!Meteor.user().isAdmin && Meteor.userId() !== userId) {
+      throw new Meteor.Error(
+        "Cannot edit profile",
+        "You are not admin or you are trying to change someone else's profile"
+      );
     }
 
     if (!isEmail(eMail)) {
@@ -36,14 +34,14 @@ Meteor.methods({
     if (!targetUser) {
       throw new Meteor.Error(
         "Could not find user",
-        `No user found for ID: ${userId}`,
+        `No user found for ID: ${userId}`
       );
     }
 
     if (targetUser.isLDAPuser) {
       throw new Meteor.Error(
         "LDAP-Users cannot change profile",
-        "LDAP-Users may not change their longname or their E-Mail-address",
+        "LDAP-Users may not change their longname or their E-Mail-address"
       );
     }
     const hasMailChanged = eMail !== targetUser.emails[0].address;
@@ -53,7 +51,7 @@ Meteor.methods({
       if (ifEmailExists !== undefined) {
         throw new Meteor.Error(
           "Invalid E-Mail",
-          "E-Mail address already in use",
+          "E-Mail address already in use"
         );
       }
     }
@@ -75,35 +73,36 @@ Meteor.methods({
   },
 
   "users.admin.changePassword"(userId, password1, password2) {
-    if (Meteor.isServer) {
-      // #Security: Only logged in admin may invoke this method:
-      // users.admin.changePassword
-      console.log(`users.admin.changePassword for user: ${Meteor.userId()}`);
-      if (!Meteor.userId()) {
-        throw new Meteor.Error("Cannot change password", "User not logged in.");
-      }
-      if (!Meteor.user().isAdmin) {
-        throw new Meteor.Error("Cannot change password", "You are not admin.");
-      }
-
-      check(userId, String);
-      check(password1, String);
-      check(password2, String);
-      if (password1 !== password2) {
-        throw new Meteor.Error(
-          "Cannot change password",
-          "Passwords do not match",
-        );
-      }
-      if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password1)) {
-        throw new Meteor.Error(
-          "Cannot change password",
-          "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)",
-        );
-      }
-
-      Accounts.setPassword(userId, password1, { logout: false });
+    if (!Meteor.isServer) {
+      return;
     }
+    // #Security: Only logged in admin may invoke this method:
+    // users.admin.changePassword
+    console.log(`users.admin.changePassword for user: ${Meteor.userId()}`);
+    if (!Meteor.userId()) {
+      throw new Meteor.Error("Cannot change password", "User not logged in.");
+    }
+    if (!Meteor.user().isAdmin) {
+      throw new Meteor.Error("Cannot change password", "You are not admin.");
+    }
+
+    check(userId, String);
+    check(password1, String);
+    check(password2, String);
+    if (password1 !== password2) {
+      throw new Meteor.Error(
+        "Cannot change password",
+        "Passwords do not match"
+      );
+    }
+    if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password1)) {
+      throw new Meteor.Error(
+        "Cannot change password",
+        "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)"
+      );
+    }
+
+    Accounts.setPassword(userId, password1, { logout: false });
   },
 
   "users.admin.registerUser"(
@@ -113,7 +112,7 @@ Meteor.methods({
     password1,
     password2,
     sendMail,
-    sendPassword,
+    sendPassword
   ) {
     console.log(`users.admin.registerUser for user: ${username}`);
     // #Security: Only logged in admin may invoke this method:
@@ -131,7 +130,7 @@ Meteor.methods({
         check(x, String);
         return x.length > 2;
       }),
-      "Username: at least 3 characters",
+      "Username: at least 3 characters"
     );
     check(password1, String);
     check(password2, String);
@@ -143,7 +142,7 @@ Meteor.methods({
     if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(password1)) {
       throw new Meteor.Error(
         "Cannot register user",
-        "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)",
+        "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)"
       );
     }
     checkWithMsg(
@@ -152,7 +151,7 @@ Meteor.methods({
         check(x, String);
         return isEmail(x);
       }),
-      "EMail address not valid",
+      "EMail address not valid"
     );
 
     const newUserId = Accounts.createUser({
@@ -168,7 +167,7 @@ Meteor.methods({
       const mailer = new AdminRegisterUserMailHandler(
         newUserId,
         sendPassword,
-        password1,
+        password1
       );
       mailer.send();
     }
@@ -181,7 +180,7 @@ Meteor.methods({
     if (!Meteor.user().isAdmin) {
       throw new Meteor.Error(
         "Cannot toggle inactive user",
-        "You are not admin.",
+        "You are not admin."
       );
     }
     const usr = Meteor.users.findOne(userId);
@@ -193,7 +192,7 @@ Meteor.methods({
         // Logout user
         Meteor.users.update(
           { _id: userId },
-          { $set: { "services.resume.loginTokens": [] } },
+          { $set: { "services.resume.loginTokens": [] } }
         );
       }
     } else {

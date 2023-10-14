@@ -106,10 +106,8 @@ Meteor.methods({
     delete doc.finalizedHistory;
 
     const aMin = new Minutes(id);
-    if (doc.date) {
-      if (!aMin.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)) {
-        return;
-      }
+    if (doc.date && !aMin.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)) {
+      return;
     }
 
     // Ensure user can not update documents of other users
@@ -121,12 +119,11 @@ Meteor.methods({
         { _id: id, isFinalized: false },
         { $set: doc },
       );
-    } else {
-      throw new Meteor.Error(
-        "Cannot update minutes",
-        "You are not moderator of the parent meeting series.",
-      );
     }
+    throw new Meteor.Error(
+      "Cannot update minutes",
+      "You are not moderator of the parent meeting series.",
+    );
   },
 
   /**
@@ -176,12 +173,11 @@ Meteor.methods({
         { _id: aMin._id, isFinalized: false, "topics._id": topicId },
         { $set: modifierDoc },
       );
-    } else {
-      throw new Meteor.Error(
-        "Cannot update minutes",
-        "You are not moderator of the parent meeting series.",
-      );
     }
+    throw new Meteor.Error(
+      "Cannot update minutes",
+      "You are not moderator of the parent meeting series.",
+    );
   },
 
   "minutes.addTopic"(minutesId, doc, insertPlacementTop) {
@@ -228,12 +224,11 @@ Meteor.methods({
         { _id: minutesId, isFinalized: false },
         { $push: topicModifier },
       );
-    } else {
-      throw new Meteor.Error(
-        "Cannot update minutes",
-        "You are not moderator of the parent meeting series.",
-      );
     }
+    throw new Meteor.Error(
+      "Cannot update minutes",
+      "You are not moderator of the parent meeting series.",
+    );
   },
 
   "minutes.removeTopic"(topicId) {
@@ -308,12 +303,13 @@ Meteor.methods({
     const foundPartipantsNames = [];
 
     participants.forEach((participant) => {
-      if (participant.text.toLowerCase().includes(partialName.toLowerCase())) {
-        participant["isParticipant"] = true;
-        results_participants.push(participant);
-        const name = participant.text.split(" - ");
-        foundPartipantsNames.push(name[0]);
+      if (!participant.text.toLowerCase().includes(partialName.toLowerCase())) {
+        return;
       }
+      participant.isParticipant = true;
+      results_participants.push(participant);
+      const name = participant.text.split(" - ");
+      foundPartipantsNames.push(name[0]);
     });
 
     let searchSettings = { username: { $regex: partialName, $options: "i" } };
