@@ -1,4 +1,4 @@
-var randomstring = require("randomstring");
+import { randomstring } from "randomstring";
 
 export class Random {
   static generateId() {
