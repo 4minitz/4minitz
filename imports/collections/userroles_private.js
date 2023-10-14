@@ -10,7 +10,7 @@ if (Meteor.isServer) {
   Meteor.users.update(
     { isAdmin: true },
     { $unset: { isAdmin: false } },
-    { multi: true }
+    { multi: true },
   );
 
   const adminIDs = GlobalSettings.getAdminIDs();
@@ -19,7 +19,7 @@ if (Meteor.isServer) {
     Meteor.users.update(
       { _id: { $in: adminIDs } },
       { $set: { isAdmin: true } },
-      { multi: true }
+      { multi: true },
     );
 
     console.log("*** Admin IDs:");
@@ -57,7 +57,7 @@ if (Meteor.isServer) {
         { _id: this.userId },
         {
           fields: { settings: 1, isAdmin: 1, isLDAPuser: 1, isDemoUser: 1 },
-        }
+        },
       );
     }
   });
@@ -87,7 +87,7 @@ Meteor.methods({
         "Method: userroles.saveRoleForMeetingSeries ",
         otherUserId,
         meetingSeriesId,
-        newRole
+        newRole,
       );
     }
     if (!Meteor.userId()) {
@@ -103,7 +103,7 @@ Meteor.methods({
       newRole = [newRole];
     }
     const allowedRoles = Object.keys(UserRoles.USERROLES).map(
-      (key) => UserRoles.USERROLES[key]
+      (key) => UserRoles.USERROLES[key],
     );
     const newRoleString = newRole[0];
     if (!allowedRoles.includes(newRoleString)) {
@@ -116,13 +116,13 @@ Meteor.methods({
       Roles.removeUsersFromRoles(
         otherUserId,
         UserRoles.allRolesNumerical(),
-        meetingSeriesId
+        meetingSeriesId,
       );
       Roles.addUsersToRoles(otherUserId, newRole, meetingSeriesId);
     } else {
       throw new Meteor.Error(
         "Cannot set roles for meeting series",
-        "You are not moderator of this meeting series."
+        "You are not moderator of this meeting series.",
       );
     }
   },
@@ -132,7 +132,7 @@ Meteor.methods({
       console.log(
         "Method: userroles.removeAllRolesForMeetingSeries ",
         otherUserId,
-        meetingSeriesId
+        meetingSeriesId,
       );
     }
     if (!Meteor.userId()) {
@@ -148,12 +148,12 @@ Meteor.methods({
       Roles.removeUsersFromRoles(
         otherUserId,
         UserRoles.allRolesNumerical(),
-        meetingSeriesId
+        meetingSeriesId,
       );
     } else {
       throw new Meteor.Error(
         "Cannot set roles for meeting series",
-        "You are not moderator of this meeting series."
+        "You are not moderator of this meeting series.",
       );
     }
   },
