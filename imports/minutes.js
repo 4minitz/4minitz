@@ -21,7 +21,7 @@ export class Minutes {
     if (!source)
       throw new Meteor.Error(
         "invalid-argument",
-        "Mongo ID or Mongo document required",
+        "Mongo ID or Mongo document required"
       );
 
     if (typeof source === "string") {
@@ -51,7 +51,7 @@ export class Minutes {
     const sort = lastMintuesFirst ? -1 : 1;
     const options = { sort: { date: sort } };
     if (limit) {
-      options["limit"] = limit;
+      options.limit = limit;
     }
     return Minutes.find({ _id: { $in: MinutesIDArray } }, options);
   }
@@ -66,19 +66,19 @@ export class Minutes {
     return Meteor.callPromise(
       "minutes.syncVisibilityAndParticipants",
       parentSeriesID,
-      visibleForArray,
+      visibleForArray
     );
   }
 
   static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
     parentSeriesID,
-    visibleForArray,
+    visibleForArray
   ) {
     if (MinutesSchema.find({ meetingSeries_id: parentSeriesID }).count() > 0) {
       MinutesSchema.update(
         { meetingSeries_id: parentSeriesID },
         { $set: { visibleFor: visibleForArray } },
-        { multi: true },
+        { multi: true }
       );
 
       // add missing participants to non-finalized meetings
@@ -91,7 +91,7 @@ export class Minutes {
               // Write participants to database if they have changed
               MinutesSchema.update(
                 { _id: min._id },
-                { $set: { participants: newparticipants } },
+                { $set: { participants: newparticipants } }
               );
             }
           }
@@ -136,7 +136,7 @@ export class Minutes {
         "workflow.addMinutes",
         this,
         optimisticUICallback,
-        serverCallback,
+        serverCallback
       );
     }
     this.parentMeetingSeries().updateLastMinutesFields(serverCallback);
@@ -227,11 +227,11 @@ export class Minutes {
   async upsertTopic(topicDoc, insertPlacementTop = true) {
     let i = undefined;
 
-    if (!topicDoc._id) {
+    if (topicDoc._id) {
+      i = this._findTopicIndex(topicDoc._id); // try to find it
+    } else {
       // brand-new topic
       topicDoc._id = Random.id(); // create our own local _id here!
-    } else {
-      i = this._findTopicIndex(topicDoc._id); // try to find it
     }
 
     if (i === undefined) {
@@ -240,7 +240,7 @@ export class Minutes {
         "minutes.addTopic",
         this._id,
         topicDoc,
-        insertPlacementTop,
+        insertPlacementTop
       );
     } else {
       this.topics[i] = topicDoc; // overwrite in place
@@ -264,10 +264,10 @@ export class Minutes {
         return acc.concat(
           actionItemDocs.map((doc) => {
             return new ActionItem(topic, doc);
-          }),
+          })
         );
       },
-      /* initial value */ [],
+      /* initial value */ []
     );
   }
 
@@ -295,9 +295,9 @@ export class Minutes {
    * @returns {string[]} of user ids
    */
   getPersonsInformed() {
-    let informed = this.visibleFor;
+    const informed = this.visibleFor;
     if (this.informedUsers) {
-      informed = informed.concat(this.informedUsers);
+      return informed.concat(this.informedUsers);
     }
     return informed;
   }
@@ -323,14 +323,14 @@ export class Minutes {
         }
         return recipients;
       },
-      /* initial value */ [],
+      /* initial value */ []
     );
 
     // search for mail addresses in additional participants and add them to
     // recipients
     if (this.participantsAdditional) {
       const addMails = this.participantsAdditional.match(
-        emailAddressRegExpMatch,
+        emailAddressRegExpMatch
       );
       if (addMails) {
         // addMails is null if there is no substring matching the email regular
@@ -363,7 +363,7 @@ export class Minutes {
   generateNewParticipants() {
     if (this.isFinalized) {
       throw new Error(
-        "generateNewParticipants () must not be called on finalized minutes",
+        "generateNewParticipants () must not be called on finalized minutes"
       );
     }
     let changed = false;
@@ -376,7 +376,12 @@ export class Minutes {
     }
 
     const newParticipants = this.visibleFor.map((userId) => {
-      if (!participantDict[userId]) {
+      if (participantDict[userId]) {
+        // Participant stays without changes
+        const participant = participantDict[userId];
+        delete participantDict[userId];
+        return participant;
+      } else {
         // Participant has been added, insert with default values
         changed = true;
         return {
@@ -384,11 +389,6 @@ export class Minutes {
           present: false,
           minuteKeeper: false,
         };
-      } else {
-        // Participant stays without changes
-        const participant = participantDict[userId];
-        delete participantDict[userId];
-        return participant;
       }
     });
     this.participants = newParticipants;
@@ -466,19 +466,17 @@ export class Minutes {
    */
   getInformed(userCollection) {
     if (this.informedUsers) {
-      if (userCollection) {
-        return this.informedUsers.map((informed) => {
-          const user = userCollection.findOne(informed);
-          informed = {
-            id: informed,
-            name: user ? user.username : `Unknown ${informed}`,
-            profile: user ? user.profile : null,
-          };
-          return informed;
-        });
-      } else {
-        return this.informedUsers;
-      }
+      return userCollection
+        ? this.informedUsers.map((informed) => {
+            const user = userCollection.findOne(informed);
+            informed = {
+              id: informed,
+              name: user ? user.username : `Unknown ${informed}`,
+              profile: user ? user.profile : null,
+            };
+            return informed;
+          })
+        : this.informedUsers;
     }
 
     return [];
@@ -530,11 +528,10 @@ export class Minutes {
   }
 
   static formatResponsibles(responsible, usernameField, isProfileAvaliable) {
-    if (isProfileAvaliable && responsible.profile && responsible.profile.name) {
-      responsible.fullname = `${responsible[usernameField]} - ${responsible.profile.name}`;
-    } else {
-      responsible.fullname = responsible[usernameField];
-    }
+    responsible.fullname =
+      isProfileAvaliable && responsible.profile && responsible.profile.name
+        ? `${responsible[usernameField]} - ${responsible.profile.name}`
+        : responsible[usernameField];
     return responsible;
   }
 }

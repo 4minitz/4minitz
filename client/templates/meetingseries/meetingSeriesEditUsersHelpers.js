@@ -13,21 +13,21 @@ export const userlistClean = (allUsers, substractUsers) => {
   const indexedSubstractUsers = {};
   for (const i in substractUsers) {
     const sUser = substractUsers[i];
-    indexedSubstractUsers[sUser["username"]] = sUser;
+    indexedSubstractUsers[sUser.username] = sUser;
   }
 
   // copy all users to result, if NOT in indexedSubstractUsers
   for (const i in allUsers) {
     const aUser = allUsers[i];
-    if (indexedSubstractUsers[aUser["username"]] === undefined) {
-      let longname = "";
-      if (aUser.profile?.name && aUser.profile.name !== "") {
-        longname = ` - ${aUser.profile.name}`;
-      }
-      resultUsers.push(aUser["username"] + longname);
+    if (indexedSubstractUsers[aUser.username] === undefined) {
+      const longname =
+        aUser.profile?.name && aUser.profile.name !== ""
+          ? ` - ${aUser.profile.name}`
+          : "";
+      resultUsers.push(aUser.username + longname);
       // create lookup dict to convert the long LDAP names back to unique short
       // usernames
-      longName2shortName[aUser["username"] + longname] = aUser["username"];
+      longName2shortName[aUser.username + longname] = aUser.username;
     }
   }
 

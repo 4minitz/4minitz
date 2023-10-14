@@ -27,10 +27,10 @@ const isModeratorOfParentSeries = (userId) => {
 const userNameForId = (userId) => {
   const usr = Meteor.users.findOne(userId);
   if (usr) {
-    let showName = usr.username;
+    const showName = usr.username;
     // If we have a long name for the user: prepend it!
     if (usr.profile?.name && usr.profile.name !== "") {
-      showName = `${usr.profile.name} (${showName})`;
+      return `${usr.profile.name} (${showName})`;
     }
     return showName;
   } else {
@@ -57,7 +57,7 @@ function allParticipantsMarked() {
 Template.minutesEditParticipants.onCreated(function () {
   _minutesID = FlowRouter.getParam("_id");
   console.log(
-    `Template minutesEditParticipants created with minutesID ${_minutesID}`,
+    `Template minutesEditParticipants created with minutesID ${_minutesID}`
   );
 
   this.autorun(() => {
@@ -75,26 +75,24 @@ Template.minutesEditParticipants.onCreated(function () {
 Template.minutesEditParticipants.helpers({
   countParticipantsText() {
     const count = countParticipantsMarked();
-    if (count === 1) {
-      return i18n.__("Minutes.Participants.solo");
-    } else {
-      return `${String(count)} ${i18n.__("Minutes.Participants.title")}`;
-    }
+    return count === 1
+      ? i18n.__("Minutes.Participants.solo")
+      : `${String(count)} ${i18n.__("Minutes.Participants.title")}`;
   },
 
   countAdditionalParticipantsText() {
     const aMin = new Minutes(_minutesID);
-    let count = 0;
-    if (aMin.participantsAdditional && aMin.participantsAdditional.length > 0) {
-      count = aMin.participantsAdditional
-        .split(";")
-        .map((p) => {
-          return p.trim();
-        })
-        .filter((p) => {
-          return p.length > 0;
-        }).length;
-    }
+    const count =
+      aMin.participantsAdditional && aMin.participantsAdditional.length > 0
+        ? aMin.participantsAdditional
+            .split(";")
+            .map((p) => {
+              return p.trim();
+            })
+            .filter((p) => {
+              return p.length > 0;
+            }).length
+        : 0;
     if (count === 0) {
       return "";
     }
@@ -118,18 +116,13 @@ Template.minutesEditParticipants.helpers({
 
   participantsSorted() {
     const aMin = new Minutes(_minutesID);
-    let partSorted = aMin.participants;
+    const partSorted = aMin.participants;
     partSorted.forEach((p) => {
-      p["displayName"] = userNameForId(p.userId);
+      p.displayName = userNameForId(p.userId);
     });
-    partSorted = partSorted.sort((a, b) =>
-      a.displayName > b.displayName
-        ? 1
-        : b.displayName > a.displayName
-        ? -1
-        : 0,
+    return partSorted.sort((a, b) =>
+      a.displayName > b.displayName ? 1 : b.displayName > a.displayName ? -1 : 0
     );
-    return partSorted;
   },
 
   getUserDisplayName(userId) {
@@ -141,7 +134,7 @@ Template.minutesEditParticipants.helpers({
       OnlineUsersSchema.findOne({
         userId,
         activeRoute: FlowRouter.current().path,
-      }),
+      })
     );
   },
 
@@ -166,11 +159,7 @@ Template.minutesEditParticipants.helpers({
   },
 
   disableUIControl() {
-    if (isEditable()) {
-      return "";
-    } else {
-      return { disabled: "disabled" };
-    }
+    return isEditable() ? "" : { disabled: "disabled" };
   },
 
   hasInformedUsers() {
@@ -185,7 +174,7 @@ Template.minutesEditParticipants.helpers({
       aMin.informedUsers.forEach((id) => {
         informedNames = `${informedNames + userNameForId(id)}, `;
       });
-      informedNames = informedNames.slice(0, -2); // remove last ", "
+      return informedNames.slice(0, -2);
     }
     return informedNames;
   },
