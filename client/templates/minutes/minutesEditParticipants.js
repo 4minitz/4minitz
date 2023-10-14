@@ -7,9 +7,9 @@ import { UserRoles } from "/imports/userroles";
 import { Meteor } from "meteor/meteor";
 import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import { ReactiveVar } from "meteor/reactive-var";
-import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
+import { ReactiveDict } from "meteor/reactive-dict";
 
 let _minutesID; // the ID of these minutes
 
@@ -65,9 +65,9 @@ Template.minutesEditParticipants.onCreated(function () {
   });
 
   // Calculate initial expanded/collapsed state
-  Session.set("participants.expand", false);
+  ReactiveDict.set("participants.expand", false);
   if (isEditable()) {
-    Session.set("participants.expand", true);
+    ReactiveDict.set("participants.expand", true);
   }
   this.markedAll = new ReactiveVar(allParticipantsMarked());
 });
@@ -147,7 +147,7 @@ Template.minutesEditParticipants.helpers({
   },
 
   isParticipantsExpanded() {
-    return Session.get("participants.expand");
+    return ReactiveDict.get("participants.expand");
   },
 
   collapsedParticipantsNames() {
@@ -225,7 +225,10 @@ Template.minutesEditParticipants.events({
   },
 
   "click #btnParticipantsExpand"() {
-    Session.set("participants.expand", !Session.get("participants.expand"));
+    ReactiveDict.set(
+      "participants.expand",
+      !ReactiveDict.get("participants.expand")
+    );
   },
 
   "click #btnToggleMarkAllNone"(evt, tmpl) {
@@ -240,6 +243,6 @@ Template.minutesEditParticipants.events({
   },
 
   "click #btnEditParticipants"() {
-    Session.set("meetingSeriesEdit.showUsersPanel", true);
+    ReactiveDict.set("meetingSeriesEdit.showUsersPanel", true);
   },
 });
