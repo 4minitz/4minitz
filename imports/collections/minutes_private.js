@@ -6,7 +6,7 @@ import { SendAgendaMailHandler } from "../mail/SendAgendaMailHandler";
 import { Minutes } from "../minutes";
 import { User } from "../user";
 
-import { UserRoles } from "./../userroles";
+import { UserRoles } from "../userroles";
 import { MinutesSchema } from "./minutes.schema";
 import { TopicSchema } from "./topic.schema";
 
