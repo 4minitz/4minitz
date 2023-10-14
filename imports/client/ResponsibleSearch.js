@@ -12,14 +12,14 @@ function select2search(
   delayTime,
   freeTextValidator,
   minuteID,
-  topicOrItem
+  topicOrItem,
 ) {
   const minute = new Minutes(minuteID);
   const preparer = new ParticipantsPreparer(
     minute,
     topicOrItem,
     Meteor.users,
-    freeTextValidator
+    freeTextValidator,
   );
   const participants = preparer.getPossibleResponsibles();
   selectResponsibles.select2({
@@ -39,7 +39,7 @@ function select2search(
               return;
             }
             success(results);
-          }
+          },
         );
       },
       processResults(data) {
@@ -81,7 +81,7 @@ export function configureSelect2Responsibles(
   topicOrItemDoc,
   freeTextValidator,
   _minutesID,
-  topicOrItem
+  topicOrItem,
 ) {
   const selectResponsibles = $(`#${SelectResponsibleElementID}`);
   selectResponsibles
@@ -94,7 +94,7 @@ export function configureSelect2Responsibles(
     delayTime,
     freeTextValidator,
     _minutesID,
-    topicOrItem
+    topicOrItem,
   );
   const data = { options: [] };
   if (topicOrItemDoc !== undefined) {
@@ -105,7 +105,7 @@ export function configureSelect2Responsibles(
         Minutes.formatResponsibles(
           responsibleUser,
           "username",
-          responsibleUser.profile
+          responsibleUser.profile,
         );
       } else {
         // free text user
@@ -119,7 +119,7 @@ export function configureSelect2Responsibles(
     Blaze.renderWithData(
       Template.optionsElement,
       data,
-      document.getElementById(SelectResponsibleElementID)
+      document.getElementById(SelectResponsibleElementID),
     );
   }
   selectResponsibles.trigger("change");

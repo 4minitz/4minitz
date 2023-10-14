@@ -106,7 +106,10 @@ Meteor.methods({
     delete doc.finalizedHistory;
 
     const aMin = new Minutes(id);
-    if (doc.date && !aMin.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)) {
+    if (
+      doc.date &&
+      !aMin.parentMeetingSeries().isMinutesDateAllowed(id, doc.date)
+    ) {
       return;
     }
 

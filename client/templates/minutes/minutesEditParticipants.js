@@ -57,7 +57,7 @@ function allParticipantsMarked() {
 Template.minutesEditParticipants.onCreated(function () {
   _minutesID = FlowRouter.getParam("_id");
   console.log(
-    `Template minutesEditParticipants created with minutesID ${_minutesID}`
+    `Template minutesEditParticipants created with minutesID ${_minutesID}`,
   );
 
   this.autorun(() => {
@@ -121,7 +121,11 @@ Template.minutesEditParticipants.helpers({
       p.displayName = userNameForId(p.userId);
     });
     return partSorted.sort((a, b) =>
-      a.displayName > b.displayName ? 1 : b.displayName > a.displayName ? -1 : 0
+      a.displayName > b.displayName
+        ? 1
+        : b.displayName > a.displayName
+        ? -1
+        : 0,
     );
   },
 
@@ -134,7 +138,7 @@ Template.minutesEditParticipants.helpers({
       OnlineUsersSchema.findOne({
         userId,
         activeRoute: FlowRouter.current().path,
-      })
+      }),
     );
   },
 

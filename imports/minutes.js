@@ -21,7 +21,7 @@ export class Minutes {
     if (!source)
       throw new Meteor.Error(
         "invalid-argument",
-        "Mongo ID or Mongo document required"
+        "Mongo ID or Mongo document required",
       );
 
     if (typeof source === "string") {
@@ -66,19 +66,19 @@ export class Minutes {
     return Meteor.callPromise(
       "minutes.syncVisibilityAndParticipants",
       parentSeriesID,
-      visibleForArray
+      visibleForArray,
     );
   }
 
   static updateVisibleForAndParticipantsForAllMinutesOfMeetingSeries(
     parentSeriesID,
-    visibleForArray
+    visibleForArray,
   ) {
     if (MinutesSchema.find({ meetingSeries_id: parentSeriesID }).count() > 0) {
       MinutesSchema.update(
         { meetingSeries_id: parentSeriesID },
         { $set: { visibleFor: visibleForArray } },
-        { multi: true }
+        { multi: true },
       );
 
       // add missing participants to non-finalized meetings
@@ -91,7 +91,7 @@ export class Minutes {
               // Write participants to database if they have changed
               MinutesSchema.update(
                 { _id: min._id },
-                { $set: { participants: newparticipants } }
+                { $set: { participants: newparticipants } },
               );
             }
           }
@@ -136,7 +136,7 @@ export class Minutes {
         "workflow.addMinutes",
         this,
         optimisticUICallback,
-        serverCallback
+        serverCallback,
       );
     }
     this.parentMeetingSeries().updateLastMinutesFields(serverCallback);
@@ -240,7 +240,7 @@ export class Minutes {
         "minutes.addTopic",
         this._id,
         topicDoc,
-        insertPlacementTop
+        insertPlacementTop,
       );
     } else {
       this.topics[i] = topicDoc; // overwrite in place
@@ -264,10 +264,10 @@ export class Minutes {
         return acc.concat(
           actionItemDocs.map((doc) => {
             return new ActionItem(topic, doc);
-          })
+          }),
         );
       },
-      /* initial value */ []
+      /* initial value */ [],
     );
   }
 
@@ -323,14 +323,14 @@ export class Minutes {
         }
         return recipients;
       },
-      /* initial value */ []
+      /* initial value */ [],
     );
 
     // search for mail addresses in additional participants and add them to
     // recipients
     if (this.participantsAdditional) {
       const addMails = this.participantsAdditional.match(
-        emailAddressRegExpMatch
+        emailAddressRegExpMatch,
       );
       if (addMails) {
         // addMails is null if there is no substring matching the email regular
@@ -363,7 +363,7 @@ export class Minutes {
   generateNewParticipants() {
     if (this.isFinalized) {
       throw new Error(
-        "generateNewParticipants () must not be called on finalized minutes"
+        "generateNewParticipants () must not be called on finalized minutes",
       );
     }
     let changed = false;
