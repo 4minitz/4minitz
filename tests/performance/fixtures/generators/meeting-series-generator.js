@@ -2,6 +2,7 @@ import { _ } from "underscore";
 
 import { DateHelper } from "../lib/date-helper";
 import { Random } from "../lib/random";
+import { gMSV } from "../lib/gMSV";
 
 export class MeetingSeriesGenerator {
   /**
@@ -18,8 +19,8 @@ export class MeetingSeriesGenerator {
   generate() {
     this.series = {
       _id: Random.generateId(),
-      project: Random.generateMeetingSeriesValues().project,
-      name: Random.generateMeetingSeriesValues().name,
+      project: gMSV.generateMeetingSeriesValues().project,
+      name: gMSV.generateMeetingSeriesValues().name,
       createdAt: new Date(),
       lastMinutesDate: DateHelper.formatDateISO8601(new Date()),
       visibleFor: [this.user._id],

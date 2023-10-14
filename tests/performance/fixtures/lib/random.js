@@ -1,5 +1,4 @@
 var randomstring = require("randomstring");
-const { faker } = require("@faker-js/faker");
 
 export class Random {
   static generateId() {
@@ -17,12 +16,5 @@ export class Random {
 
   static randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
-  static generateMeetingSeriesValues() {
-    return {
-      project: faker.company.name(),
-      name: faker.person.fullName(),
-    };
   }
 }
