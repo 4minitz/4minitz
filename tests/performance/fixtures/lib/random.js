@@ -1,4 +1,4 @@
-import { randomstring } from "randomstring";
+import randomstring from "randomstring";
 
 export class Random {
   static generateId() {
