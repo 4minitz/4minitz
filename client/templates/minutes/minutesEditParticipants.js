@@ -227,7 +227,7 @@ Template.minutesEditParticipants.events({
   "click #btnParticipantsExpand"() {
     ReactiveDict.set(
       "participants.expand",
-      !ReactiveDict.get("participants.expand")
+      !ReactiveDict.get("participants.expand"),
     );
   },
 
