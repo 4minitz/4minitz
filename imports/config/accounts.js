@@ -156,9 +156,7 @@ if (Meteor.isServer) {
     onSubmitHook: submitHookFunction,
   });
 
-  Accounts.onLogin(async function () {
-    // if user has preferred locale in profile, set this locale, otherwise:
-    // browser preference
+  Accounts.onLogin(async () => {
     await I18nHelper.setLanguageLocale();
   });
 
