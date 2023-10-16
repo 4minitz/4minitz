@@ -1,8 +1,8 @@
-import { E2EGlobal } from "./helpers/E2EGlobal";
-import { E2EApp } from "./helpers/E2EApp";
-import { E2EMeetingSeries } from "./helpers/E2EMeetingSeries";
-import { E2EMinutes } from "./helpers/E2EMinutes";
-import { E2ETopics } from "./helpers/E2ETopics";
+import {E2EApp} from "./helpers/E2EApp";
+import {E2EGlobal} from "./helpers/E2EGlobal";
+import {E2EMeetingSeries} from "./helpers/E2EMeetingSeries";
+import {E2EMinutes} from "./helpers/E2EMinutes";
+import {E2ETopics} from "./helpers/E2ETopics";
 
 describe("Info Items", () => {
   const aProjectName = "E2E Info Items";
@@ -35,57 +35,60 @@ describe("Info Items", () => {
   });
 
   beforeEach(
-    "make sure test user is logged in, create series and add minutes",
-    () => {
-      E2EApp.gotoStartPage();
-      expect(E2EApp.isLoggedIn()).to.be.true;
+      "make sure test user is logged in, create series and add minutes",
+      () => {
+        E2EApp.gotoStartPage();
+        expect(E2EApp.isLoggedIn()).to.be.true;
 
-      aMeetingName = getNewMeetingName();
+        aMeetingName = getNewMeetingName();
 
-      E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
-      E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
+        E2EMeetingSeries.createMeetingSeries(aProjectName, aMeetingName);
+        E2EMinutes.addMinutesToMeetingSeries(aProjectName, aMeetingName);
 
-      aTopicName = getNewTopicName();
-      E2ETopics.addTopicToMinutes(aTopicName);
-    },
+        aTopicName = getNewTopicName();
+        E2ETopics.addTopicToMinutes(aTopicName);
+      },
   );
 
   it("can add an info item", () => {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
-      {
-        subject: infoItemName,
-        itemType: "infoItem",
-      },
-      topicIndex,
+        {
+          subject : infoItemName,
+          itemType : "infoItem",
+        },
+        topicIndex,
     );
 
     E2EGlobal.waitSomeTime();
 
     const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
-    expect(browser.isVisible(selector), "Info item should be visible").to.be
-      .true;
+    expect(browser.isVisible(selector), "Info item should be visible")
+        .to.be.true;
 
     const infoItemExpandElement = browser.element(selector).value.ELEMENT;
-    const infoItemExpandElementText = browser.elementIdText(
-      infoItemExpandElement,
-    ).value;
+    const infoItemExpandElementText = browser
+                                          .elementIdText(
+                                              infoItemExpandElement,
+                                              )
+                                          .value;
 
     expect(
-      infoItemExpandElementText,
-      "Info item visible text should match",
-    ).to.have.string(infoItemName);
+        infoItemExpandElementText,
+        "Info item visible text should match",
+        )
+        .to.have.string(infoItemName);
   });
 
   it("shows security question before deleting info items", () => {
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
-      {
-        subject: infoItemName,
-        itemType: "infoItem",
-      },
-      1,
+        {
+          subject : infoItemName,
+          itemType : "infoItem",
+        },
+        1,
     );
 
     E2ETopics.deleteInfoItem(1, 1);
@@ -93,22 +96,26 @@ describe("Info Items", () => {
     const selectorDialog = "#confirmDialog";
 
     E2EGlobal.waitSomeTime(750); // give dialog animation time
-    expect(browser.isVisible(selectorDialog), "Dialog should be visible").to.be
-      .true;
+    expect(browser.isVisible(selectorDialog), "Dialog should be visible")
+        .to.be.true;
 
-    const dialogContentElement = browser.element(
-      `${selectorDialog} .modal-body`,
-    ).value.ELEMENT;
+    const dialogContentElement = browser
+                                     .element(
+                                         `${selectorDialog} .modal-body`,
+                                         )
+                                     .value.ELEMENT;
     const dialogContentText = browser.elementIdText(dialogContentElement).value;
 
     expect(
-      dialogContentText,
-      "dialog content should display the title of the to-be-deleted object",
-    ).to.have.string(infoItemName);
+        dialogContentText,
+        "dialog content should display the title of the to-be-deleted object",
+        )
+        .to.have.string(infoItemName);
     expect(
-      dialogContentText,
-      "dialog content should display the correct type of the to-be-deleted object",
-    ).to.have.string("information");
+        dialogContentText,
+        "dialog content should display the correct type of the to-be-deleted object",
+        )
+        .to.have.string("information");
 
     // close dialog otherwise beforeEach-hook will fail!
     E2EApp.confirmationDialogAnswer(false);
@@ -118,44 +125,44 @@ describe("Info Items", () => {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
-      {
-        subject: infoItemName,
-        itemType: "infoItem",
-      },
-      topicIndex,
+        {
+          subject : infoItemName,
+          itemType : "infoItem",
+        },
+        topicIndex,
     );
 
     E2EGlobal.waitSomeTime();
 
     const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
-    expect(browser.isVisible(selector), "Info item should be visible").to.be
-      .true;
+    expect(browser.isVisible(selector), "Info item should be visible")
+        .to.be.true;
 
     E2ETopics.deleteInfoItem(1, 1, true);
-    expect(browser.isVisible(selector), "Info item should be deleted").to.be
-      .false;
+    expect(browser.isVisible(selector), "Info item should be deleted")
+        .to.be.false;
   });
 
   it('can cancel a "delete info item"', () => {
     const topicIndex = 1;
     const infoItemName = getNewAIName();
     E2ETopics.addInfoItemToTopic(
-      {
-        subject: infoItemName,
-        itemType: "infoItem",
-      },
-      topicIndex,
+        {
+          subject : infoItemName,
+          itemType : "infoItem",
+        },
+        topicIndex,
     );
 
     E2EGlobal.waitSomeTime();
 
     const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
-    expect(browser.isVisible(selector), "Info item should be visible").to.be
-      .true;
+    expect(browser.isVisible(selector), "Info item should be visible")
+        .to.be.true;
 
     E2ETopics.deleteInfoItem(1, 1, false);
-    expect(browser.isVisible(selector), "Info item should still exist").to.be
-      .true;
+    expect(browser.isVisible(selector), "Info item should still exist")
+        .to.be.true;
   });
 
   it("can submit an info item by pressing enter in the topic field", () => {
@@ -164,8 +171,8 @@ describe("Info Items", () => {
 
     const infoItemName = getNewAIName();
     E2ETopics.insertInfoItemDataIntoDialog({
-      subject: infoItemName,
-      itemType: "infoItem",
+      subject : infoItemName,
+      itemType : "infoItem",
     });
 
     const subjectInput = browser.$("#id_item_subject");
@@ -174,79 +181,90 @@ describe("Info Items", () => {
     E2EGlobal.waitSomeTime();
 
     const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
-    expect(browser.isVisible(selector), "Info item should be visible").to.be
-      .true;
+    expect(browser.isVisible(selector), "Info item should be visible")
+        .to.be.true;
 
     const infoItemExpandElement = browser.element(selector).value.ELEMENT;
-    const infoItemExpandElementText = browser.elementIdText(
-      infoItemExpandElement,
-    ).value;
+    const infoItemExpandElementText = browser
+                                          .elementIdText(
+                                              infoItemExpandElement,
+                                              )
+                                          .value;
 
     expect(
-      infoItemExpandElementText,
-      "Info item visible text should match",
-    ).to.have.string(infoItemName);
+        infoItemExpandElementText,
+        "Info item visible text should match",
+        )
+        .to.have.string(infoItemName);
   });
 
   it("can edit an info item", () => {
     const topicIndex = 1;
     E2ETopics.addInfoItemToTopic(
-      {
-        subject: "Old Item Subject",
-        itemType: "infoItem",
-        label: "Proposal",
-      },
-      topicIndex,
+        {
+          subject : "Old Item Subject",
+          itemType : "infoItem",
+          label : "Proposal",
+        },
+        topicIndex,
     );
     E2EGlobal.waitSomeTime();
 
     E2ETopics.openInfoItemEditor(topicIndex, 1);
     E2EGlobal.waitSomeTime();
     E2ETopics.insertInfoItemDataIntoDialog({
-      subject: "New Item Subject",
-      itemType: "infoItem",
-      label: "Decision",
+      subject : "New Item Subject",
+      itemType : "infoItem",
+      label : "Decision",
     });
     E2ETopics.submitInfoItemDialog();
 
     // Check new subject text
     const selector = `#topicPanel .well:nth-child(${topicIndex}) #headingOne`;
     expect(
-      browser.isVisible(selector),
-      "Info item should be visible after edit",
-    ).to.be.true;
+        browser.isVisible(selector),
+        "Info item should be visible after edit",
+        )
+        .to.be.true;
     let infoItemExpandElement = browser.element(selector).value.ELEMENT;
-    let infoItemExpandElementText = browser.elementIdText(
-      infoItemExpandElement,
-    ).value;
+    let infoItemExpandElementText = browser
+                                        .elementIdText(
+                                            infoItemExpandElement,
+                                            )
+                                        .value;
     expect(
-      infoItemExpandElementText,
-      "Info item subject text should match after edit",
-    ).to.have.string("New Item Subject");
+        infoItemExpandElementText,
+        "Info item subject text should match after edit",
+        )
+        .to.have.string("New Item Subject");
 
     // Check new label
-    const newLabelSelector = `#topicPanel .well:nth-child(${topicIndex}) .label:nth-child(1)`;
+    const newLabelSelector =
+        `#topicPanel .well:nth-child(${topicIndex}) .label:nth-child(1)`;
     expect(browser.isVisible(newLabelSelector), "New label should be visible")
-      .to.be.true;
+        .to.be.true;
     infoItemExpandElement = browser.element(newLabelSelector).value.ELEMENT;
-    infoItemExpandElementText = browser.elementIdText(
-      infoItemExpandElement,
-    ).value;
+    infoItemExpandElementText = browser
+                                    .elementIdText(
+                                        infoItemExpandElement,
+                                        )
+                                    .value;
     expect(
-      infoItemExpandElementText,
-      "New label text should match",
-    ).to.have.string("Decision");
+        infoItemExpandElementText,
+        "New label text should match",
+        )
+        .to.have.string("Decision");
   });
 
   it("can edit the 2nd info item after creating three of them", () => {
     const topicIndex = 1;
     for (let i = 1; i < 4; i++) {
       E2ETopics.addInfoItemToTopic(
-        {
-          subject: `Info Item #${i}`,
-          itemType: "infoItem",
-        },
-        topicIndex,
+          {
+            subject : `Info Item #${i}`,
+            itemType : "infoItem",
+          },
+          topicIndex,
       );
       E2EGlobal.waitSomeTime();
       if (i === 2) {
@@ -259,36 +277,44 @@ describe("Info Items", () => {
 
     for (let i = 1; i < 4; i++) {
       // Check new subject text
-      const selector = `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(${i})`;
-      expect(browser.isVisible(selector), `Info Item ${i} should be visible`).to
-        .be.true;
+      const selector = `#topicPanel .well:nth-child(${
+          topicIndex}) .topicInfoItem:nth-child(${i})`;
+      expect(browser.isVisible(selector), `Info Item ${i} should be visible`)
+          .to.be.true;
       const infoItemExpandElement = browser.element(selector).value.ELEMENT;
-      const infoItemExpandElementText = browser.elementIdText(
-        infoItemExpandElement,
-      ).value;
+      const infoItemExpandElementText = browser
+                                            .elementIdText(
+                                                infoItemExpandElement,
+                                                )
+                                            .value;
       expect(
-        infoItemExpandElementText,
-        `Info Item ${i} should be added correctly`,
-      ).to.have.string(`Info Item #${i}`);
+          infoItemExpandElementText,
+          `Info Item ${i} should be added correctly`,
+          )
+          .to.have.string(`Info Item #${i}`);
     }
 
     // Check if the 2nd item can be edited correctly
     E2ETopics.openInfoItemEditor(topicIndex, 2);
     E2EGlobal.waitSomeTime();
     E2ETopics.insertInfoItemDataIntoDialog({
-      subject: "Info Item #2 - changed",
-      itemType: "infoItem",
+      subject : "Info Item #2 - changed",
+      itemType : "infoItem",
     });
     E2ETopics.submitInfoItemDialog();
 
-    const selector = `#topicPanel .well:nth-child(${topicIndex}) .topicInfoItem:nth-child(2)`;
+    const selector = `#topicPanel .well:nth-child(${
+        topicIndex}) .topicInfoItem:nth-child(2)`;
     const infoItemExpandElement = browser.element(selector).value.ELEMENT;
-    const infoItemExpandElementText = browser.elementIdText(
-      infoItemExpandElement,
-    ).value;
+    const infoItemExpandElementText = browser
+                                          .elementIdText(
+                                              infoItemExpandElement,
+                                              )
+                                          .value;
     expect(
-      infoItemExpandElementText,
-      `Info Item 2 should be edited correctly`,
-    ).to.have.string("Info Item #2 - changed");
+        infoItemExpandElementText,
+        `Info Item 2 should be edited correctly`,
+        )
+        .to.have.string("Info Item #2 - changed");
   });
 });

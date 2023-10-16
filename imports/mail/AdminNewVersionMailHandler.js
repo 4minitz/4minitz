@@ -1,9 +1,9 @@
-import { Meteor } from "meteor/meteor";
-import { i18n } from "meteor/universe:i18n";
+import {Meteor} from "meteor/meteor";
+import {i18n} from "meteor/universe:i18n";
 
-import { GlobalSettings } from "../config/GlobalSettings";
+import {GlobalSettings} from "../config/GlobalSettings";
 
-import { MailFactory } from "./MailFactory";
+import {MailFactory} from "./MailFactory";
 
 export class AdminNewVersionMailHandler {
   constructor(myVersion, masterVersion, masterMessage) {
@@ -12,13 +12,9 @@ export class AdminNewVersionMailHandler {
     // Build text for version hint messages
     this._masterMessageTxt = "";
     Object.keys(masterMessage).map((msgVersion) => {
-      this._masterMessageTxt =
-        this._masterMessageTxt +
-        "\n* Version " +
-        msgVersion +
-        ":\n" +
-        masterMessage[msgVersion] +
-        "\n";
+      this._masterMessageTxt = this._masterMessageTxt + "\n* Version " +
+                               msgVersion + ":\n" + masterMessage[msgVersion] +
+                               "\n";
     });
     if (this._masterMessageTxt !== "") {
       this._masterMessageTxt = `Version Hints:\n${this._masterMessageTxt}\n`;
@@ -28,20 +24,18 @@ export class AdminNewVersionMailHandler {
   send() {
     const adminFrom = GlobalSettings.getDefaultEmailSenderAddress();
 
-    const admins = Meteor.users.find({ isAdmin: true }).fetch();
+    const admins = Meteor.users.find({isAdmin : true}).fetch();
     if (GlobalSettings.isEMailDeliveryEnabled() && admins.length > 0) {
       const mailParams = {
-        rootUrl: GlobalSettings.getRootUrl(),
-        myVersion: this._myVersion,
-        masterVersion: this._masterVersion,
-        urlReleaseNotes: "https://github.com/4minitz/4minitz/releases",
-        masterMessageText: this._masterMessageTxt,
-        url4Minitz: "https://github.com/4minitz/4minitz",
+        rootUrl : GlobalSettings.getRootUrl(),
+        myVersion : this._myVersion,
+        masterVersion : this._masterVersion,
+        urlReleaseNotes : "https://github.com/4minitz/4minitz/releases",
+        masterMessageText : this._masterMessageTxt,
+        url4Minitz : "https://github.com/4minitz/4minitz",
       };
       const adminMails = [];
-      admins.map((adm) => {
-        adminMails.push(adm.emails[0].address);
-      });
+      admins.map((adm) => { adminMails.push(adm.emails[0].address); });
       const mailer = MailFactory.getMailer(adminFrom, adminMails.join(","));
       mailer.setSubject(`[4Minitz] ${i18n.__("Mail.AdminNewVersion.subject")}`);
       mailer.setText(i18n.__("Mail.AdminNewVersion.body", mailParams));
@@ -49,7 +43,7 @@ export class AdminNewVersionMailHandler {
       return;
     }
     console.error(
-      "Could not send admin new version mail. Mail is disabled or no admins specified.",
+        "Could not send admin new version mail. Mail is disabled or no admins specified.",
     );
   }
 }
