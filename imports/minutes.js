@@ -164,7 +164,7 @@ export class Minutes {
     const i = this._findTopicIndex(id);
     if (i !== undefined) {
       this.topics.splice(i, 1);
-      return await Meteor.callPromise("minutes.removeTopic", id);
+      return Meteor.callPromise("minutes.removeTopic", id);
     }
   }
 
