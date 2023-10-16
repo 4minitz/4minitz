@@ -46,10 +46,10 @@ export class AdminNewVersionMailHandler {
       mailer.setSubject(`[4Minitz] ${i18n.__("Mail.AdminNewVersion.subject")}`);
       mailer.setText(i18n.__("Mail.AdminNewVersion.body", mailParams));
       mailer.send();
-    } else {
-      console.error(
-        "Could not send admin new version mail. Mail is disabled or no admins specified.",
-      );
+      return;
     }
+    console.error(
+      "Could not send admin new version mail. Mail is disabled or no admins specified."
+    );
   }
 }

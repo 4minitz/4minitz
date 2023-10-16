@@ -11,7 +11,7 @@ const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
   {
     "meteor/underscore": { _, "@noCallThru": true },
-  },
+  }
 );
 
 const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {
@@ -23,7 +23,9 @@ const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {
 import { QueryParserMock } from "./QueryParserMock";
 
 describe("ItemsFilter", () => {
-  let items, itemsFilter, parser;
+  let items;
+  let itemsFilter;
+  let parser;
 
   beforeEach(() => {
     parser = new QueryParserMock();
@@ -87,7 +89,7 @@ describe("ItemsFilter", () => {
     });
     expect(
       foundAWrongItem,
-      "Result array contains info item which does not match the search query",
+      "Result array contains info item which does not match the search query"
     ).to.be.false;
   });
 
@@ -128,7 +130,7 @@ describe("ItemsFilter", () => {
 
     expect(
       res2,
-      "The order of the filter tokens should not matter",
+      "The order of the filter tokens should not matter"
     ).have.length(2);
   });
 

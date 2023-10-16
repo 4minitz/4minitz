@@ -16,7 +16,7 @@ import { LdapSettings } from "/imports/config/LdapSettings";
 
 const availLanguages = i18n.getLanguages();
 
-for (var lang of availLanguages) {
+for (const lang of availLanguages) {
   T9n.map(lang, {
     custom: {
       usernamePlaceholder: i18n.__("Accounts.usernamePlaceholder", {
