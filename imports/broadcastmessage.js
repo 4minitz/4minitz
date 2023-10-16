@@ -1,6 +1,6 @@
+import { Meteor } from "meteor/meteor";
 import { BroadcastMessageSchema } from "/imports/collections/broadcastmessages.schema";
 import { formatDateISO8601Time } from "/imports/helpers/date";
-import { Meteor } from "meteor/meteor";
 
 // Dear admin,
 // This class can be used via the 'meteor shell' command from the server
@@ -53,22 +53,23 @@ export class BroadcastMessage {
   }
 
   static listAll() {
-    if (Meteor.isServer) {
-      console.log("List All BroadcastMessages.");
-      const allMsgs = [];
-      BroadcastMessageSchema.find({ isActive: true }).forEach((msg) => {
-        const oneMsg =
-          `Message: ${msg._id} ` +
-          formatDateISO8601Time(msg.createdAt) +
-          " dismissed:" +
-          msg.dismissForUserIDs.length +
-          "\n" +
-          msg.text;
-        console.log(oneMsg);
-        allMsgs.push(oneMsg);
-      });
-      console.log("---");
-      return allMsgs;
+    if (!Meteor.isServer) {
+      return;
     }
+    console.log("List All BroadcastMessages.");
+    const allMsgs = [];
+    BroadcastMessageSchema.find({ isActive: true }).forEach((msg) => {
+      const oneMsg =
+        `Message: ${msg._id} ` +
+        formatDateISO8601Time(msg.createdAt) +
+        " dismissed:" +
+        msg.dismissForUserIDs.length +
+        "\n" +
+        msg.text;
+      console.log(oneMsg);
+      allMsgs.push(oneMsg);
+    });
+    console.log("---");
+    return allMsgs;
   }
 }
