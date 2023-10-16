@@ -6,7 +6,7 @@ class ExpImpMinutes {
   static get FILENAME_POSTFIX() {
     return "_minutes.json";
   }
-// TODO big function. consider refactoring.
+  // TODO big function. consider refactoring.
   static doExport(db, msID, userIDs) {
     return new Promise((resolve, reject) => {
       db.collection("minutes")
@@ -56,7 +56,7 @@ class ExpImpMinutes {
         });
     });
   }
-// TODO big function. consider refactoring.
+  // TODO big function. consider refactoring.
   static doImport(db, msID, usrMap) {
     return new Promise((resolve, reject) => {
       const minFile = msID + ExpImpMinutes.FILENAME_POSTFIX;
@@ -67,7 +67,9 @@ class ExpImpMinutes {
           return reject(new Error(`Could not read minutes file ${minFile}`));
         }
       } catch (e) {
-        return reject(new Error(`Could not read minutes file ${minFile}\n${e}`));
+        return reject(
+          new Error(`Could not read minutes file ${minFile}\n${e}`),
+        );
       }
 
       // Replace old user IDs with new users IDs
@@ -95,7 +97,7 @@ class ExpImpMinutes {
         });
     });
   }
-// TODO big function. consider refactoring.
+  // TODO big function. consider refactoring.
   static patchUsers(minDoc, usrMap) {
     const minIDs = [];
     for (let m = 0; m < minDoc.length; m++) {
