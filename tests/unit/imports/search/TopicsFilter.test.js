@@ -12,14 +12,14 @@ const { ITEM_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
   {
     "meteor/underscore": { _, "@noCallThru": true },
-  }
+  },
 );
 
 const { TOPIC_KEYWORDS } = proxyquire(
   "../../../../imports/search/FilterKeywords",
   {
     "meteor/underscore": { _, "@noCallThru": true },
-  }
+  },
 );
 
 const { ItemsFilter } = proxyquire("../../../../imports/search/ItemsFilter", {
@@ -80,15 +80,15 @@ describe("ItemsFilter", () => {
     expect(topics, "Length of the topic array should be 3").have.length(3);
     expect(
       topics[0].infoItems,
-      "The first topic should contain two info items"
+      "The first topic should contain two info items",
     ).to.have.length(2);
     expect(
       topics[1].infoItems,
-      "The 2nd topic should contain three info items"
+      "The 2nd topic should contain three info items",
     ).to.have.length(3);
     expect(
       topics[2].infoItems,
-      "The 3rd topic should contain four info items"
+      "The 3rd topic should contain four info items",
     ).to.have.length(4);
   });
 
@@ -102,7 +102,7 @@ describe("ItemsFilter", () => {
     expect(res, "Length of the topic array should be 1").have.length(1);
     expect(
       res[0].infoItems,
-      "The resulting topic should contain all its items"
+      "The resulting topic should contain all its items",
     ).to.have.length(4);
   });
 
@@ -112,11 +112,11 @@ describe("ItemsFilter", () => {
     expect(res, "Length of the topic array should be 2").have.length(2);
     expect(
       res[0].infoItems,
-      "The resulting first topic should contain all its items"
+      "The resulting first topic should contain all its items",
     ).to.have.length(2);
     expect(
       res[1].infoItems,
-      "The resulting snd topic should contain all its items"
+      "The resulting snd topic should contain all its items",
     ).to.have.length(3);
   });
 });

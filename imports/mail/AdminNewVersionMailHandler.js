@@ -49,7 +49,7 @@ export class AdminNewVersionMailHandler {
       return;
     }
     console.error(
-      "Could not send admin new version mail. Mail is disabled or no admins specified."
+      "Could not send admin new version mail. Mail is disabled or no admins specified.",
     );
   }
 }

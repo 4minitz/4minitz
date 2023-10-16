@@ -17,7 +17,7 @@ class ExpImpMinutes {
             const minFile = msID + ExpImpMinutes.FILENAME_POSTFIX;
             fs.writeFileSync(minFile, EJSON.stringify(allMinutesDoc, null, 2));
             console.log(
-              `Saved: ${minFile} with ${allMinutesDoc.length} minutes`
+              `Saved: ${minFile} with ${allMinutesDoc.length} minutes`,
             );
 
             // Collect additional invited / informed users from older minutes
@@ -128,7 +128,7 @@ class ExpImpMinutes {
       for (let t = 0; minDoc[m].topics && t < minDoc[m].topics.length; t++) {
         minDoc[m].topics[t] = ExpImpTopics.patchUsers(
           minDoc[m].topics[t],
-          usrMap
+          usrMap,
         );
       }
     }

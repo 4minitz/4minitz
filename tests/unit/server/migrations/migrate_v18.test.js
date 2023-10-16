@@ -129,14 +129,14 @@ describe("Migrate Version 18", () => {
       expect(
         TopicSchema.update.calledWith(
           topicFirstMinutes._id,
-          expectedUpdateParamFirstMinutes
-        )
+          expectedUpdateParamFirstMinutes,
+        ),
       ).to.be.true;
       expect(
         TopicSchema.update.calledWith(
           topicFirstAndSecondMinutes._id,
-          expectedUpdateParamFirstMinutesWithItems
-        )
+          expectedUpdateParamFirstMinutesWithItems,
+        ),
       ).to.be.true;
     });
 
@@ -147,7 +147,7 @@ describe("Migrate Version 18", () => {
 
       expect(argsFirstCall[1].$set.infoItems).to.have.length(1);
       expect(argsFirstCall[1].$set.infoItems[0].createdAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
     });
 
@@ -158,10 +158,10 @@ describe("Migrate Version 18", () => {
       const itemsOfFirstTopic = argsFirstCall[1].$set.infoItems;
       expect(itemsOfFirstTopic[0].details).to.have.length(1);
       expect(itemsOfFirstTopic[0].details[0].createdAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
       expect(itemsOfFirstTopic[0].details[0].updatedAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
     });
 
@@ -178,31 +178,31 @@ describe("Migrate Version 18", () => {
       const topcisFirstCall = argsFirstCall[1].$set.topics;
       expect(topcisFirstCall).to.have.length(2);
       expect(topcisFirstCall[0].createdAt.getTime()).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes.getTime()
+        expectedDateForElementsCreatedInFirstMinutes.getTime(),
       );
       expect(topcisFirstCall[0].updatedAt.getTime()).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes.getTime()
+        expectedDateForElementsCreatedInFirstMinutes.getTime(),
       );
       expect(topcisFirstCall[1].createdAt.getTime()).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes.getTime()
+        expectedDateForElementsCreatedInFirstMinutes.getTime(),
       );
       expect(topcisFirstCall[1].updatedAt.getTime()).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes.getTime()
+        expectedDateForElementsCreatedInFirstMinutes.getTime(),
       );
 
       const topcis2ndCall = argsSecondCall[1].$set.topics;
       expect(topcis2ndCall).to.have.length(2);
       expect(topcis2ndCall[0].createdAt.getTime()).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes.getTime()
+        expectedDateForElementsCreatedInFirstMinutes.getTime(),
       );
       expect(topcis2ndCall[0].updatedAt.getTime()).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes.getTime()
+        expectedDateForElementsCreatedInFirstMinutes.getTime(),
       );
       expect(topcis2ndCall[1].createdAt.getTime()).to.equal(
-        expectedDateForElementsCreatedIn2ndMinutes.getTime()
+        expectedDateForElementsCreatedIn2ndMinutes.getTime(),
       );
       expect(topcis2ndCall[1].updatedAt.getTime()).to.equal(
-        expectedDateForElementsCreatedIn2ndMinutes.getTime()
+        expectedDateForElementsCreatedIn2ndMinutes.getTime(),
       );
     });
 
@@ -215,32 +215,32 @@ describe("Migrate Version 18", () => {
       const topicsFirstCall = argsFirstCall[1].$set.topics;
       expect(topicsFirstCall[0].infoItems).to.have.length(1);
       expect(topicsFirstCall[0].infoItems[0].createdAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
       expect(topicsFirstCall[0].infoItems[0].updatedAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
 
       const topics2ndCall = argsSecondCall[1].$set.topics;
       expect(topics2ndCall[0].infoItems).to.have.length(1);
       expect(topics2ndCall[0].infoItems[0].createdAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
       expect(topics2ndCall[0].infoItems[0].updatedAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
       expect(topics2ndCall[1].infoItems).to.have.length(2);
       expect(topics2ndCall[1].infoItems[0].createdAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
       expect(topics2ndCall[1].infoItems[0].updatedAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
       expect(topics2ndCall[1].infoItems[1].createdAt).to.equal(
-        expectedDateForElementsCreatedIn2ndMinutes
+        expectedDateForElementsCreatedIn2ndMinutes,
       );
       expect(topics2ndCall[1].infoItems[1].updatedAt).to.equal(
-        expectedDateForElementsCreatedIn2ndMinutes
+        expectedDateForElementsCreatedIn2ndMinutes,
       );
     });
 
@@ -253,19 +253,19 @@ describe("Migrate Version 18", () => {
       const itemsFirstCall = argsFirstCall[1].$set.topics[0].infoItems;
       expect(itemsFirstCall[0].details).to.have.length(1);
       expect(itemsFirstCall[0].details[0].createdAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
       expect(itemsFirstCall[0].details[0].updatedAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
 
       const items2ndCall = argsSecondCall[1].$set.topics[0].infoItems;
       expect(items2ndCall[0].details).to.have.length(1);
       expect(items2ndCall[0].details[0].createdAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
       expect(items2ndCall[0].details[0].updatedAt).to.equal(
-        expectedDateForElementsCreatedInFirstMinutes
+        expectedDateForElementsCreatedInFirstMinutes,
       );
     });
   });
@@ -282,7 +282,7 @@ describe("Migrate Version 18", () => {
             return item;
           });
           return topic;
-        }
+        },
       );
     });
 
@@ -292,12 +292,12 @@ describe("Migrate Version 18", () => {
       expect(
         TopicSchema.update.calledWith(topicFirstMinutes._id, {
           $set: topicFirstMinutes,
-        })
+        }),
       ).to.be.true;
       expect(
         TopicSchema.update.calledWith(topicFirstAndSecondMinutes._id, {
           $set: topicFirstAndSecondMinutes,
-        })
+        }),
       ).to.be.true;
     });
 
