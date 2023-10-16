@@ -52,7 +52,7 @@ class ExpImpMinutes {
             resolve({ db, userIDs });
             return;
           }
-          return reject(`Unknown meeting series ID: ${msID}`);
+          return reject(new Error(`Unknown meeting series ID: ${msID}`));
         });
     });
   }
