@@ -1,6 +1,6 @@
-import { UserRoles } from "/imports/userroles";
-import { Meteor } from "meteor/meteor";
-import { i18n } from "meteor/universe:i18n";
+import {UserRoles} from "/imports/userroles";
+import {Meteor} from "meteor/meteor";
+import {i18n} from "meteor/universe:i18n";
 
 const longName2shortName = {};
 
@@ -20,10 +20,9 @@ export const userlistClean = (allUsers, substractUsers) => {
   for (const i in allUsers) {
     const aUser = allUsers[i];
     if (indexedSubstractUsers[aUser.username] === undefined) {
-      const longname =
-        aUser.profile?.name && aUser.profile.name !== ""
-          ? ` - ${aUser.profile.name}`
-          : "";
+      const longname = aUser.profile?.name && aUser.profile.name !== ""
+                           ? ` - ${aUser.profile.name}`
+                           : "";
       resultUsers.push(aUser.username + longname);
       // create lookup dict to convert the long LDAP names back to unique short
       // usernames
@@ -37,17 +36,17 @@ export const userlistClean = (allUsers, substractUsers) => {
 export function checkUserName(newUserName, config) {
   // convert the LDAP long name back to the short unique username
   newUserName = longName2shortName[newUserName];
-  const addedUser = Meteor.users.findOne({ username: newUserName });
+  const addedUser = Meteor.users.findOne({username : newUserName});
   const result = {
     addedUser,
-    valid: false,
-    errorMsg: "",
+    valid : false,
+    errorMsg : "",
   };
   if (!addedUser) {
     result.errorMsg = i18n.__("MeetingSeries.Edit.Error.notRegistered");
     return result;
   }
-  const alreadyInEditor = config.users.findOne({ username: newUserName });
+  const alreadyInEditor = config.users.findOne({username : newUserName});
   if (alreadyInEditor) {
     result.errorMsg = i18n.__("MeetingSeries.Edit.Error.alreadyInList");
     return result;
@@ -84,6 +83,6 @@ export const addNewUser = (newUserName, config) => {
     addedUser.roles = {};
   }
 
-  addedUser.roles[config.meetingSeriesID] = [UserRoles.USERROLES.Invited];
+  addedUser.roles[config.meetingSeriesID] = [ UserRoles.USERROLES.Invited ];
   config.users.insert(addedUser);
 };
