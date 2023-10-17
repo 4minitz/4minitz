@@ -171,8 +171,10 @@ Meteor.startup(() => {
   }
 
   if (
-    !(GlobalSettings.hasImportUsersCronTab() ||
-  GlobalSettings.getImportUsersOnLaunch())
+    !(
+      GlobalSettings.hasImportUsersCronTab() ||
+      GlobalSettings.getImportUsersOnLaunch()
+    )
   ) {
     return;
   }
