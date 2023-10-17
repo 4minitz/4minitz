@@ -4,10 +4,10 @@
  *    - send meeting minutes as HTML eMails
  */
 
-import "./helpers/promisedMethods";
-
 import { Meteor } from "meteor/meteor";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 import { i18n } from "meteor/universe:i18n";
+import "./helpers/promisedMethods";
 
 import { Attachment } from "./attachment";
 import { DocumentsCollection } from "./collections/documentgeneration_private.js";
@@ -26,34 +26,34 @@ export class DocumentGeneration {
       // Create HTML
       const htmldata = await Meteor.callPromise(
         "documentgeneration.createHTML",
-        minuteID,
+        minuteID
       );
       const currentMinute = new Minutes(minuteID);
       // Download File
       const fileBlob = new Blob([htmldata], { type: "octet/stream" });
 
       const filename = `${DocumentGeneration.calcFileNameforMinute(
-        currentMinute,
+        currentMinute
       )}.html`;
 
       if (window.navigator.msSaveOrOpenBlob) {
         // necessary for Internet Explorer, since it does'nt support the
         // download-attribute for anchors
         window.navigator.msSaveBlob(fileBlob, filename);
-      } else {
-        const fileurl = window.URL.createObjectURL(fileBlob);
-
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style = "display: none";
-        a.href = fileurl;
-        a.download = filename;
-        a.click();
-
-        setTimeout(() => {
-          window.URL.revokeObjectURL(fileurl);
-        }, 250);
+        return;
       }
+      const fileurl = window.URL.createObjectURL(fileBlob);
+
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      a.href = fileurl;
+      a.download = filename;
+      a.click();
+
+      setTimeout(() => {
+        window.URL.revokeObjectURL(fileurl);
+      }, 250);
     };
     noProtocolExistsDialog(generateAndDownloadHTML);
   }
@@ -63,23 +63,23 @@ export class DocumentGeneration {
   }
 
   static calcFileNameforMinute(minutesObj) {
-    if (minutesObj) {
-      let fileName = minutesObj.parentMeetingSeries().getRecord().name;
-      fileName = `${fileName}-${minutesObj.date}`;
-      return fileName;
+    if (!minutesObj) {
+      return;
     }
+    const fileName = minutesObj.parentMeetingSeries().getRecord().name;
+    return `${fileName}-${minutesObj.date}`;
   }
   // ********** static methods for generation of HTML Document ****************
   static generateResponsibleStringsForTopic(context) {
     context._topics.forEach((topic) => {
       const responsible =
         ResponsibleResolver.resolveAndformatResponsiblesString(
-          topic.responsibles,
+          topic.responsibles
         );
       topic.responsiblesString = responsible ? `(${responsible})` : "";
       topic.labelsString = LabelResolver.resolveAndformatLabelsString(
         topic.labels,
-        context._meetingSeries._id,
+        context._meetingSeries._id
       );
 
       // inject responsible as readable short user names to all action items of
@@ -89,7 +89,7 @@ export class DocumentGeneration {
           const responsible =
             ResponsibleResolver.resolveAndformatResponsiblesString(
               item.responsibles,
-              "@",
+              "@"
             );
           item.responsiblesString = responsible ? `(${responsible})` : "";
         }
@@ -98,14 +98,15 @@ export class DocumentGeneration {
   }
 
   static getAttachmentsFromMinute(minuteID) {
-    if (minuteID) {
-      const attachments = Attachment.findForMinutes(minuteID).fetch();
-      attachments.forEach((file) => {
-        const usr = Meteor.users.findOne(file.userId);
-        file.username = usr.username;
-      });
-      return attachments;
+    if (!minuteID) {
+      return;
     }
+    const attachments = Attachment.findForMinutes(minuteID).fetch();
+    attachments.forEach((file) => {
+      const usr = Meteor.users.findOne(file.userId);
+      file.username = usr.username;
+    });
+    return attachments;
   }
 
   static getDocumentData(context) {
@@ -138,10 +139,10 @@ export class DocumentGeneration {
       meetingSeriesProjectLabel: i18n.__("MeetingSeries.team"),
       meetingSeriesProject: context._meetingSeries.project,
       meetingSeriesURL: GlobalSettings.getRootUrl(
-        `meetingseries/${context._meetingSeries._id}`,
+        `meetingseries/${context._meetingSeries._id}`
       ),
       minuteUrl: GlobalSettings.getRootUrl(
-        `minutesedit/${context._minute._id}`,
+        `minutesedit/${context._minute._id}`
       ),
       presentParticipantsLabel: i18n.__("Minutes.Participants.present"),
       presentParticipants: context._userArrayToString(presentParticipants),
@@ -177,7 +178,7 @@ export class DocumentGeneration {
     template.addHelper("formatLabels", function () {
       return LabelResolver.resolveAndformatLabelsString(
         this.labels,
-        context._minute.parentMeetingSeriesID(),
+        context._minute.parentMeetingSeriesID()
       );
     });
     template.addHelper("doneActionItemClass", function () {
