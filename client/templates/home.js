@@ -1,22 +1,22 @@
-import {$} from "meteor/jquery";
-import {Meteor} from "meteor/meteor";
+import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
 import ReactiveDict from "meteor/reactive-dict";
-import {ReactiveVar} from "meteor/reactive-var";
-import {Template} from "meteor/templating";
+import { ReactiveVar } from "meteor/reactive-var";
+import { Template } from "meteor/templating";
 
 const rememberLastTab = (tmpl) => {
   ReactiveDict.set("home.lastTab", {
-    tabId : tmpl.activeTabId.get(),
-    tabTemplate : tmpl.activeTabTemplate.get(),
+    tabId: tmpl.activeTabId.get(),
+    tabTemplate: tmpl.activeTabTemplate.get(),
   });
 };
 
-Template.home.onCreated(function() {
+Template.home.onCreated(function () {
   // Did another view request to restore the last tab on this view?
   if (ReactiveDict.equals("restoreTabAfterBackButton", "home.lastTab")) {
     this.activeTabId = new ReactiveVar(ReactiveDict.get("home.lastTab").tabId);
     this.activeTabTemplate = new ReactiveVar(
-        ReactiveDict.get("home.lastTab").tabTemplate,
+      ReactiveDict.get("home.lastTab").tabTemplate,
     );
     ReactiveDict.set("restoreTabAfterBackButton", false);
   } else {
@@ -55,7 +55,7 @@ Template.home.helpers({
 });
 
 Template.home.events({
-  "click .nav-tabs li" : function(event, tmpl) {
+  "click .nav-tabs li": function (event, tmpl) {
     const currentTab = $(event.target).closest("li");
 
     tmpl.activeTabId.set(currentTab.attr("id"));
