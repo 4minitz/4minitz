@@ -1,34 +1,52 @@
 <template name="confirmationDialog">
-    <div id="confirmationDialogWrapper">
-        <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
+  <div id="confirmationDialogWrapper">
+    <div
+      class="modal fade"
+      id="confirmDialog"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
+          </div>
 
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
-                    </div>
+          <div class="modal-body">{{#markdown}}{{content}}{{/markdown}}</div>
 
-                    <div class="modal-body">
-                        {{#markdown}}{{content}}{{/markdown}}
-                    </div>
-
-                    <div class="modal-footer">
-                        {{#if showCancelButton}}
-                            <button type="button" class="btn btn-default" id="confirmationDialogCancel"
-                                    data-dismiss="modal">
-                                {{__ 'Buttons.cancel'}}
-                            </button>
-                        {{/if}}
-                        <!-- Caution: this button is not reactive! -> see confirmationDialogdate.jss.js -->
-                        <button type="button" class="btn btn-ok btn-raised {{confirmButtonType}}"
-                                id="confirmationDialogOK" data-dismiss="modal">
-                            {{confirmButtonText}}
-                        </button>
-                    </div>
-                </div>
-            </div>
+          <div class="modal-footer">
+            {{#if showCancelButton}}
+            <button
+              type="button"
+              class="btn btn-default"
+              id="confirmationDialogCancel"
+              data-dismiss="modal"
+            >
+              {{__ 'Buttons.cancel'}}
+            </button>
+            {{/if}}
+            <!-- Caution: this button is not reactive! -> see confirmationDialogdate.jss.js -->
+            <button
+              type="button"
+              class="btn btn-ok btn-raised {{confirmButtonType}}"
+              id="confirmationDialogOK"
+              data-dismiss="modal"
+            >
+              {{confirmButtonText}}
+            </button>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>

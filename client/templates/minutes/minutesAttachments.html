@@ -1,81 +1,111 @@
 <template name="minutesAttachments">
-
-{{#if attachmentsEnabled}}
-<div id="attachements-panel" class="form-group panel">
+  {{#if attachmentsEnabled}}
+  <div id="attachements-panel" class="form-group panel">
     <div class="panel-heading bright">
-        <label for="attachments" id="btnAttachmentsExpand">
-            {{#if isAttachmentsExpanded}}
-                <span class="glyphicon glyphicon-triangle-bottom expand-collapse-triangle hidden-print"
-                      id="btn2AttachmentsExpand"></span>
-            {{else}}
-                <span class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"
-                      id="btn2AttachmentsExpand"></span>
-            {{/if}}
-
-            {{__ 'Minutes.attachments' }}
-            {{#unless isAttachmentsExpanded}}
-                ({{attachmentsCountText}})
-            {{/unless}}
-        </label>
+      <label for="attachments" id="btnAttachmentsExpand">
+        {{#if isAttachmentsExpanded}}
+        <span
+          class="glyphicon glyphicon-triangle-bottom expand-collapse-triangle hidden-print"
+          id="btn2AttachmentsExpand"
+        ></span>
+        {{else}}
+        <span
+          class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"
+          id="btn2AttachmentsExpand"
+        ></span>
+        {{/if}} {{__ 'Minutes.attachments' }} {{#unless isAttachmentsExpanded}}
+        ({{attachmentsCountText}}) {{/unless}}
+      </label>
     </div>
 
     {{#if isAttachmentsExpanded}}
-        <div class="panel-body force-no-padding-top">
-            <div class="padding-for-collabsable" id="id_attachments">
-
-                {{#with currentUpload}}     <!-- Upload in progress? -->
-                    <h3 id="progress-basic">
-                        {{__ 'Minutes.Upload.uploading' }} <b>{{file.name}}</b>
-                        <button id="btnToggleUpload" type="button" class="btn btn-primary btn-info">
-                            {{#if onPause.get}}
-                                <span class="glyphicon glyphicon-play" aria-label="{{__ 'Minutes.Upload.continue' }}"></span>
-                            {{else}}
-                                <span class="glyphicon glyphicon-pause" aria-label="{{__ 'Minutes.Upload.pause' }}"></span>
-                            {{/if}}
-                        </button>
-                        <button id="btnAbortUpload" type="button" class="btn btn-primary btn-warning">
-                            <span class="glyphicon glyphicon-remove" aria-label="{{__ 'Minutes.Upload.abort' }}"></span>
-                        </button>
-                        {{timeToFinish}}
-                    </h3>
-                    <div class="progress">
-                        <div class="progress-bar" style="width: {{progress.get}}%;"></div>
-                    </div>
-                {{else}}
-                    <!--UPLOAD... button-->
-                    {{#if showUploadButton}}
-                        <label id="lblUpload" class="btn btn-default btn-file hidden-print">
-                            <span class="glyphicon glyphicon-upload" aria-label="{{__ 'Minutes.Upload.start' }}"></span>
-                            {{__ 'Minutes.Upload.button' }}
-                            <input type="file" id="btnUploadAttachment" style="display: none;">
-                        </label>
-                    {{/if}}
-                {{/with}}
-
-                <ol>
-                    <!-- Strange! Without binding the context via .each only {{name}} works, but not {{link}} -->
-                    {{#each attachments.each}}
-                            <li class="large-font">
-                                <!--Delete this Atachment-->
-                                {{#if showAttachmentRemoveButton}}
-                                    <button id="btnDelAttachment" type="button" class="btn btn-xs btn-danger hidden-print">×</button>
-                                {{/if}}
-                                <!--Download Attachment-->
-                                <a href="{{link}}?download=true"
-                                   class="linkToAttachmentDownload"
-                                   download="{{name}}" target="_parent"
-                                   type="{{type}}" title="{{size}} bytes">
-                                    {{name}}
-                                </a> ({{uploaderUsername}} {{uploadTimestamp}})
-                            </li>
-                    {{/each}}
-                </ol>
-            </div>
-            {{#unless attachmentsCount}}
-                {{> quickHelp context='meetingUpload' contentTmpl='quickHelpMeetingUpload'}}
-            {{/unless}}
+    <div class="panel-body force-no-padding-top">
+      <div class="padding-for-collabsable" id="id_attachments">
+        {{#with currentUpload}}
+        <!-- Upload in progress? -->
+        <h3 id="progress-basic">
+          {{__ 'Minutes.Upload.uploading' }} <b>{{file.name}}</b>
+          <button
+            id="btnToggleUpload"
+            type="button"
+            class="btn btn-primary btn-info"
+          >
+            {{#if onPause.get}}
+            <span
+              class="glyphicon glyphicon-play"
+              aria-label="{{__ 'Minutes.Upload.continue' }}"
+            ></span>
+            {{else}}
+            <span
+              class="glyphicon glyphicon-pause"
+              aria-label="{{__ 'Minutes.Upload.pause' }}"
+            ></span>
+            {{/if}}
+          </button>
+          <button
+            id="btnAbortUpload"
+            type="button"
+            class="btn btn-primary btn-warning"
+          >
+            <span
+              class="glyphicon glyphicon-remove"
+              aria-label="{{__ 'Minutes.Upload.abort' }}"
+            ></span>
+          </button>
+          {{timeToFinish}}
+        </h3>
+        <div class="progress">
+          <div class="progress-bar" style="width: {{progress.get}}%;"></div>
         </div>
-    {{/if}} <!-- isAttachmentsExpanded -->
-</div>
-{{/if}} <!-- attachmentsEnabled -->
+        {{else}}
+        <!--UPLOAD... button-->
+        {{#if showUploadButton}}
+        <label id="lblUpload" class="btn btn-default btn-file hidden-print">
+          <span
+            class="glyphicon glyphicon-upload"
+            aria-label="{{__ 'Minutes.Upload.start' }}"
+          ></span>
+          {{__ 'Minutes.Upload.button' }}
+          <input type="file" id="btnUploadAttachment" style="display: none" />
+        </label>
+        {{/if}} {{/with}}
+
+        <ol>
+          <!-- Strange! Without binding the context via .each only {{name}} works, but not {{link}} -->
+          {{#each attachments.each}}
+          <li class="large-font">
+            <!--Delete this Atachment-->
+            {{#if showAttachmentRemoveButton}}
+            <button
+              id="btnDelAttachment"
+              type="button"
+              class="btn btn-xs btn-danger hidden-print"
+            >
+              ×
+            </button>
+            {{/if}}
+            <!--Download Attachment-->
+            <a
+              href="{{link}}?download=true"
+              class="linkToAttachmentDownload"
+              download="{{name}}"
+              target="_parent"
+              type="{{type}}"
+              title="{{size}} bytes"
+            >
+              {{name}}
+            </a>
+            ({{uploaderUsername}} {{uploadTimestamp}})
+          </li>
+          {{/each}}
+        </ol>
+      </div>
+      {{#unless attachmentsCount}} {{> quickHelp context='meetingUpload'
+      contentTmpl='quickHelpMeetingUpload'}} {{/unless}}
+    </div>
+    {{/if}}
+    <!-- isAttachmentsExpanded -->
+  </div>
+  {{/if}}
+  <!-- attachmentsEnabled -->
 </template>

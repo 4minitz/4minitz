@@ -1,49 +1,79 @@
 <template name="meetingSeriesDetails">
-    {{#if authenticating}}
-        {{> loading}}
-    {{else}}
-        {{redirectIfNotAllowed}}
-        {{#with meetingSeries}}
-            <!--Include modal dialog for edit meeting series -->
-            {{> meetingSeriesEdit this}}
+  {{#if authenticating}} {{> loading}} {{else}} {{redirectIfNotAllowed}} {{#with
+  meetingSeries}}
+  <!--Include modal dialog for edit meeting series -->
+  {{> meetingSeriesEdit this}}
 
-            <h2 class="header">
-                <span class="hidden-xs">{{__ 'MeetingSeries.title' }}:</span>
-                {{project}} - {{name}}
-                {{#if isModerator}}
-                    <a  data-toggle="modal" data-target="#dlgEditMeetingSeries"
-                       id="btnEditMeetingSeries"
-                       class="pull-right"
-                       title="{{__ 'MeetingSeries.Edit.title' }}">
+  <h2 class="header">
+    <span class="hidden-xs">{{__ 'MeetingSeries.title' }}:</span>
+    {{project}} - {{name}} {{#if isModerator}}
+    <a
+      data-toggle="modal"
+      data-target="#dlgEditMeetingSeries"
+      id="btnEditMeetingSeries"
+      class="pull-right"
+      title="{{__ 'MeetingSeries.Edit.title' }}"
+    >
+      <span
+        class="glyphicon glyphicon-cog"
+        title="{{__ 'MeetingSeries.Edit.title' }}"
+        aria-hidden="true"
+        aria-label="{{__ 'MeetingSeries.Edit.title'}}"
+      ></span>
+    </a>
+    {{#if isMeetingSeriesEditedByAnotherUser}}
+    <span
+      style="color: firebrick"
+      class="glyphicon glyphicon-warning-sign pull-right"
+      title="{{meetingSeriesEditedBy}})"
+    ></span>
+    {{/if}} {{/if}}
+  </h2>
+  {{/with}}
 
-                        <span class="glyphicon glyphicon-cog" title="{{__ 'MeetingSeries.Edit.title' }}"
-                              aria-hidden="true" aria-label="{{__ 'MeetingSeries.Edit.title'}}"></span>
-                    </a>
-                    {{#if isMeetingSeriesEditedByAnotherUser}}
-                        <span style="color:firebrick" class="glyphicon glyphicon-warning-sign pull-right" title="{{meetingSeriesEditedBy}})"></span>
-                    {{/if}}
-                {{/if}}
-            </h2>
-        {{/with}}
+  <ul class="nav nav-tabs">
+    <li
+      id="tab_minutes"
+      data-template="tabMinutesList"
+      role="presentation"
+      class="{{isTabActive 'tab_minutes'}}"
+    >
+      <a>{{__ 'MeetingSeries.Tab.minutes' }}</a>
+    </li>
+    <li
+      id="tab_topics"
+      data-template="tabTopics"
+      data-action="topics"
+      role="presentation"
+      class="{{isTabActive 'tab_topics'}}"
+    >
+      <a>{{__ 'MeetingSeries.Tab.topics' }}</a>
+    </li>
+    <li
+      id="tab_items"
+      data-template="tabItems"
+      data-action="items"
+      role="presentation"
+      class="{{isTabActive 'tab_items'}}"
+    >
+      <a>{{__ 'MeetingSeries.Tab.items' }}</a>
+    </li>
+  </ul>
+  <div class="active">{{> Template.dynamic template=tab data=tabData}}</div>
 
-        <ul class="nav nav-tabs">
-            <li id="tab_minutes" data-template="tabMinutesList" role="presentation" class="{{isTabActive 'tab_minutes'}}"><a >{{__ 'MeetingSeries.Tab.minutes' }}</a></li>
-            <li id="tab_topics" data-template="tabTopics" data-action="topics" role="presentation" class="{{isTabActive 'tab_topics'}}"><a >{{__ 'MeetingSeries.Tab.topics' }}</a></li>
-            <li id="tab_items" data-template="tabItems" data-action="items" role="presentation" class="{{isTabActive 'tab_items'}}"><a >{{__ 'MeetingSeries.Tab.items' }}</a></li>
-        </ul>
-        <div class="active">
-            {{> Template.dynamic template=tab data=tabData}}
-        </div>
+  <p></p>
+  <a class="btn btn-primary btn-raised" href="{{pathFor '/'}}">
+    <span
+      class="glyphicon glyphicon-chevron-left"
+      aria-hidden="true"
+      aria-label="{{__ 'Buttons.back' }}"
+    ></span>
+    {{__ 'Buttons.back' }}
+  </a>
 
-        <p></p>
-        <a class="btn btn-primary btn-raised" href="{{pathFor '/'}}">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="{{__ 'Buttons.back' }}"></span>
-            {{__ 'Buttons.back' }}
-        </a>
+  <br />
+  <br />
 
-        <br>
-        <br>
-
-        {{> quickHelp context='meetingSeries' contentTmpl='quickHelpMeetingSeries'}}
-    {{/if}}
+  {{> quickHelp context='meetingSeries' contentTmpl='quickHelpMeetingSeries'}}
+  {{/if}}
 </template>

@@ -1,13 +1,13 @@
 <template name="quickHelp">
-    {{#if isQuickHelpVisible}}
-        <div class="help panel panel-default hidden-print">
-            <div class="panel-heading">{{__ 'QuickHelp.title'}}</div>
-            <div class="panel-body">
-                {{> Template.dynamic template=contentTmpl}}
-                {{#unless currentUser.isDemoUser}}
-                    <a  class="clickHideQuickHelp">{{__ 'Buttons.hide'}}</a>
-                {{/unless}}
-            </div>
-        </div>
-    {{/if}}
+  {{#if isQuickHelpVisible}}
+  <div class="help panel panel-default hidden-print">
+    <div class="panel-heading">{{__ 'QuickHelp.title'}}</div>
+    <div class="panel-body">
+      {{> Template.dynamic template=contentTmpl}} {{#unless
+      currentUser.isDemoUser}}
+      <a class="clickHideQuickHelp">{{__ 'Buttons.hide'}}</a>
+      {{/unless}}
+    </div>
+  </div>
+  {{/if}}
 </template>

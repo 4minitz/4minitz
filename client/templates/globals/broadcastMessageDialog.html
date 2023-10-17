@@ -1,38 +1,50 @@
 <template name="broadcastMessageDialog">
-
-    <div style="z-index: 15999999;" class="modal fade" id="broadcastMessage" data-backdrop="static" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">{{__ 'Admin.Message.title' }}</h4>
+  <div
+    style="z-index: 15999999"
+    class="modal fade"
+    id="broadcastMessage"
+    data-backdrop="static"
+    tabindex="-1"
+    role="dialog"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{__ 'Admin.Message.title' }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="container col-md-12">
+            {{#each message in broadcastMessages}}
+            <div class="alert alert-danger">
+              <div class="row">
+                <div class="col-md-4">
+                  {{formatTimeStamp message.createdAt}}
                 </div>
-                <div class="modal-body">
-                    <div class="container col-md-12">
-                        {{#each message in broadcastMessages}}
-                            <div class="alert alert-danger">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        {{formatTimeStamp message.createdAt}}
-                                    </div>
-                                    <div class="col-md-8">
-                                        {{message.text}}
-                                    </div>
-                                </div>
-                            </div>
-                        {{/each}}
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btnDismissBroadcast" class="btn btn-primary" data-dismiss="modal">{{__ 'Buttons.dismissAll' }}</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
-    <div class="container">
-        <!--Reactive trigger to show the above dialog if necessarry-->
-        {{showBroadcastMessages}}
+                <div class="col-md-8">{{message.text}}</div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="btnDismissBroadcast"
+            class="btn btn-primary"
+            data-dismiss="modal"
+          >
+            {{__ 'Buttons.dismissAll' }}
+          </button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+  <div class="container">
+    <!--Reactive trigger to show the above dialog if necessarry-->
+    {{showBroadcastMessages}}
+  </div>
 </template>

@@ -1,35 +1,71 @@
 <template name="meetingSeriesAdd">
+  <a
+    class="btn btn-primary btn-raised form-group"
+    id="btnNewMeetingSeries"
+    role="button"
+    data-toggle="collapse"
+    href="#collapseMeetingSeriesAdd"
+    aria-expanded="false"
+    aria-controls="collapseExample"
+  >
+    {{__ 'MeetingSeries.new' }} {{#if isExpanded}}
+    <span
+      class="glyphicon glyphicon-align-left glyphicon-menu-down"
+      aria-hidden="true"
+    ></span>
+    {{else}}
+    <span
+      class="glyphicon glyphicon-align-left glyphicon-menu-right"
+      aria-hidden="true"
+    ></span>
+    {{/if}}
+  </a>
 
-    <a class="btn btn-primary btn-raised form-group" id="btnNewMeetingSeries" role="button" data-toggle="collapse" href="#collapseMeetingSeriesAdd"
-       aria-expanded="false" aria-controls="collapseExample">
-        {{__ 'MeetingSeries.new' }}
-        {{#if isExpanded}}
-            <span class="glyphicon glyphicon-align-left glyphicon-menu-down" aria-hidden="true"></span>
-        {{else}}
-            <span class="glyphicon glyphicon-align-left glyphicon-menu-right" aria-hidden="true"></span>
-        {{/if}}
-    </a>
-
-    <div class="collapse" id="collapseMeetingSeriesAdd">
-        <div class="well">
-            <form id="id_meetingSeriesAddForm">
-                <div class="form-group label-floating">
-                    <label class="control-label" for="id_meetingproject">{{__ 'MeetingSeries.Edit.teamName' }}</label>
-                    <input class="form-control" id="id_meetingproject" type="text" required
-                           data-error-msg="{{__ 'MeetingSeries.Edit.Error.teamName' }}" autocomplete="off">
-                </div>
-                <div class="form-group label-floating">
-                    <label class="control-label" for="id_meetingname">{{__ 'MeetingSeries.Edit.meetingName' }}</label>
-                    <input class="form-control" id="id_meetingname" type="text" required
-                           data-error-msg="{{__ 'MeetingSeries.Edit.Error.meetingName' }}" autocomplete="off">
-                </div>
-                <br>
-                <button id="btnAddInvite" class="btn btn-primary btn-raised" aria-hidden="true" aria-label="{{__ 'Buttons.add' }}" type="submit">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="{{__ 'Buttons.add' }}"></span>
-                    {{__ 'Buttons.add' }}
-                </button>
-            </form>
+  <div class="collapse" id="collapseMeetingSeriesAdd">
+    <div class="well">
+      <form id="id_meetingSeriesAddForm">
+        <div class="form-group label-floating">
+          <label class="control-label" for="id_meetingproject"
+            >{{__ 'MeetingSeries.Edit.teamName' }}</label
+          >
+          <input
+            class="form-control"
+            id="id_meetingproject"
+            type="text"
+            required
+            data-error-msg="{{__ 'MeetingSeries.Edit.Error.teamName' }}"
+            autocomplete="off"
+          />
         </div>
+        <div class="form-group label-floating">
+          <label class="control-label" for="id_meetingname"
+            >{{__ 'MeetingSeries.Edit.meetingName' }}</label
+          >
+          <input
+            class="form-control"
+            id="id_meetingname"
+            type="text"
+            required
+            data-error-msg="{{__ 'MeetingSeries.Edit.Error.meetingName' }}"
+            autocomplete="off"
+          />
+        </div>
+        <br />
+        <button
+          id="btnAddInvite"
+          class="btn btn-primary btn-raised"
+          aria-hidden="true"
+          aria-label="{{__ 'Buttons.add' }}"
+          type="submit"
+        >
+          <span
+            class="glyphicon glyphicon-plus"
+            aria-hidden="true"
+            aria-label="{{__ 'Buttons.add' }}"
+          ></span>
+          {{__ 'Buttons.add' }}
+        </button>
+      </form>
     </div>
-
+  </div>
 </template>

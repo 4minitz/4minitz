@@ -1,19 +1,20 @@
 <template name="confirmationDialogDeleteMinutes">
-    <p>
-    {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.really' _purify='string => string' minutesDate=minutesDate }}{{/markdown}}
-    </p>
-    {{#if hasNewTopics}}
-        <p>
-            {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.newTopics' _purify='string => string' newTopicsCount=newTopicsCount }}{{/markdown}}
-        </p>
-    {{/if}}
-    {{#if hasClosedTopics}}
-        <p>
-            {{#if hasNewTopics}}
-                {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.closedTopicsAdditionally' _purify='string => string' closedTopicsCount=closedTopicsCount }}{{/markdown}}
-            {{else}}
-                {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.closedTopics' _purify='string => string' closedTopicsCount=closedTopicsCount }}{{/markdown}}
-            {{/if}}
-        </p>
-    {{/if}}
+  <p>
+    {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.really' _purify='string =>
+    string' minutesDate=minutesDate }}{{/markdown}}
+  </p>
+  {{#if hasNewTopics}}
+  <p>
+    {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.newTopics' _purify='string =>
+    string' newTopicsCount=newTopicsCount }}{{/markdown}}
+  </p>
+  {{/if}} {{#if hasClosedTopics}}
+  <p>
+    {{#if hasNewTopics}} {{#markdown}}{{__
+    'Dialog.ConfirmDeleteMinutes.closedTopicsAdditionally' _purify='string =>
+    string' closedTopicsCount=closedTopicsCount }}{{/markdown}} {{else}}
+    {{#markdown}}{{__ 'Dialog.ConfirmDeleteMinutes.closedTopics' _purify='string
+    => string' closedTopicsCount=closedTopicsCount }}{{/markdown}} {{/if}}
+  </p>
+  {{/if}}
 </template>

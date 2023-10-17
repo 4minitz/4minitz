@@ -1,41 +1,92 @@
 <template name="topicEdit">
-
-    <div class="modal fade" id="dlgAddTopic" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="{{__ 'Topic.edit' }}">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{__ 'Buttons.close' }}"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{__ 'Topic.edit' }}</h4>
-                </div>
-                <form id="frmDlgAddTopic">
-                    <div class="modal-body">
-                        <div class="form-group label-floating">
-                            <label for="id_subject" class="control-label">{{__ 'Topic.subject' }}</label>
-                            <input id="id_subject" type="text" class="form-control" value="{{getTopicSubject}}"
-                                   required data-error-msg="{{__ 'Topic.Error.subject' }}" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label for="id_item_selLabels" class="control-label" style="color: teal;">{{__ 'MeetingSeries.Edit.labels' }}</label>
-                            <select id="id_item_selLabels" multiple="multiple" style="width:100%;">
-                                <!--Options will be filled in by show.bs.modal event handler-->
-                            </select>
-                        </div>
-                        <div class="form-group form-group-responsibles">
-                            <label for="id_selResponsible" class="control-label" style="color: teal;">{{__ 'Topic.responsible' }}</label>
-                            <select id="id_selResponsible" multiple="multiple" style="width:100%;">
-                                <!--Options will be filled in by show.bs.modal event handler-->
-                            </select>
-                        </div>
-                        <div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="btnTopicCancel" class="btn btn-default" data-dismiss="modal">{{__ 'Buttons.cancel' }}</button>
-                        <button type="submit" id="btnTopicSave" class="btn btn-primary btn-raised">{{__ 'Topic.save' }}</button>
-                    </div>
-                </form>
-            </div>
+  <div
+    class="modal fade"
+    id="dlgAddTopic"
+    tabindex="-1"
+    role="dialog"
+    data-backdrop="static"
+    aria-labelledby="{{__ 'Topic.edit' }}"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="{{__ 'Buttons.close' }}"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">{{__ 'Topic.edit' }}</h4>
         </div>
+        <form id="frmDlgAddTopic">
+          <div class="modal-body">
+            <div class="form-group label-floating">
+              <label for="id_subject" class="control-label"
+                >{{__ 'Topic.subject' }}</label
+              >
+              <input
+                id="id_subject"
+                type="text"
+                class="form-control"
+                value="{{getTopicSubject}}"
+                required
+                data-error-msg="{{__ 'Topic.Error.subject' }}"
+                autocomplete="off"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                for="id_item_selLabels"
+                class="control-label"
+                style="color: teal"
+                >{{__ 'MeetingSeries.Edit.labels' }}</label
+              >
+              <select
+                id="id_item_selLabels"
+                multiple="multiple"
+                style="width: 100%"
+              >
+                <!--Options will be filled in by show.bs.modal event handler-->
+              </select>
+            </div>
+            <div class="form-group form-group-responsibles">
+              <label
+                for="id_selResponsible"
+                class="control-label"
+                style="color: teal"
+                >{{__ 'Topic.responsible' }}</label
+              >
+              <select
+                id="id_selResponsible"
+                multiple="multiple"
+                style="width: 100%"
+              >
+                <!--Options will be filled in by show.bs.modal event handler-->
+              </select>
+            </div>
+            <div></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="btnTopicCancel"
+              class="btn btn-default"
+              data-dismiss="modal"
+            >
+              {{__ 'Buttons.cancel' }}
+            </button>
+            <button
+              type="submit"
+              id="btnTopicSave"
+              class="btn btn-primary btn-raised"
+            >
+              {{__ 'Topic.save' }}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-
+  </div>
 </template>

@@ -1,179 +1,293 @@
 <template name="topicInfoItemList">
-    <div class="panel-group itemPanel" id="disabled-accordion" role="tablist" aria-multiselectable="true">
-        {{#each infoItem in items}}
-            <div class="panel topicInfoItem"
-                 data-id="{{infoItem._id}}"
-                 data-topic-parent-id="{{topicParentId}}"
-                 data-parent-id="{{infoItem.parentTopicId}}">
-                <div class="panel-heading {{topicStateClass @index}}" role="tab" id="headingOne" style="position: relative;">
-                    {{#if hasDetails @index}}
-                        <a role="button" class="expandDetails hidden-print expand-collapse-triangle"
-                           data-toggle="collapse" data-parent="#accordion"
-                           href="#collapse-{{infoItem._id}}"
-                           style="position: absolute; top:0; left: 0; color: grey;">
-                            {{#if isExpanded infoItem._id}}
-                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            {{else}}
-                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            {{/if}}
-                        </a>
-                    {{/if}}
-                    <h4 class="panel-title">
-                        <div class="checkbox" style="font-size: 110%;" data-toggle="tooltip"
-                             title="{{formateUpdatedHint infoItem.createdAt infoItem.createdBy infoItem.updatedAt infoItem.updatedBy}}">
-                            <label for="btnToggleAIState_{{infoItem._id}}" class="checkboxLabel">
-                                {{#if isActionItem @index}}
-                                    <input type="checkbox" class="checkbox btnToggleAIState" data-index="{{@index}}"
-                                           id="btnToggleAIState_{{infoItem._id}}" {{checkedState @index}} {{disabledState @index}}>
-                                    <span class="checkbox-material"><span class="check"></span></span>
-                                {{else}}
-                                    <span class="glyphicon glyphicon-info-sign" style="cursor: auto"></span>
-                                {{/if}}
-                            </label>
+  <div
+    class="panel-group itemPanel"
+    id="disabled-accordion"
+    role="tablist"
+    aria-multiselectable="true"
+  >
+    {{#each infoItem in items}}
+    <div
+      class="panel topicInfoItem"
+      data-id="{{infoItem._id}}"
+      data-topic-parent-id="{{topicParentId}}"
+      data-parent-id="{{infoItem.parentTopicId}}"
+    >
+      <div
+        class="panel-heading {{topicStateClass @index}}"
+        role="tab"
+        id="headingOne"
+        style="position: relative"
+      >
+        {{#if hasDetails @index}}
+        <a
+          role="button"
+          class="expandDetails hidden-print expand-collapse-triangle"
+          data-toggle="collapse"
+          data-parent="#accordion"
+          href="#collapse-{{infoItem._id}}"
+          style="position: absolute; top: 0; left: 0; color: grey"
+        >
+          {{#if isExpanded infoItem._id}}
+          <span
+            class="glyphicon glyphicon-triangle-bottom"
+            aria-hidden="true"
+          ></span>
+          {{else}}
+          <span
+            class="glyphicon glyphicon-triangle-right"
+            aria-hidden="true"
+          ></span>
+          {{/if}}
+        </a>
+        {{/if}}
+        <h4 class="panel-title">
+          <div
+            class="checkbox"
+            style="font-size: 110%"
+            data-toggle="tooltip"
+            title="{{formateUpdatedHint infoItem.createdAt infoItem.createdBy infoItem.updatedAt infoItem.updatedBy}}"
+          >
+            <label
+              for="btnToggleAIState_{{infoItem._id}}"
+              class="checkboxLabel"
+            >
+              {{#if isActionItem @index}}
+              <input
+                type="checkbox"
+                class="checkbox btnToggleAIState"
+                data-index="{{@index}}"
+                id="btnToggleAIState_{{infoItem._id}}"
+                {{checkedState
+                @index}}
+                {{disabledState
+                @index}}
+              />
+              <span class="checkbox-material"><span class="check"></span></span>
+              {{else}}
+              <span
+                class="glyphicon glyphicon-info-sign"
+                style="cursor: auto"
+              ></span>
+              {{/if}}
+            </label>
 
-                            <span class="btnEditInfoItem" style="cursor: {{cursorForEdit}};" data-index="{{@index}}">
-                                {{#if isActionItem @index}}
-                                    {{infoItem.subject}} {{responsiblesHelper @index}}
-                                    {{#if infoItem.priority}}{{__ 'Item.priority' }}:{{infoItem.priority}}{{/if}}
-                                    {{__ 'Item.due' }}: {{infoItem.duedate}}
-                                {{else}}
-                                    {{infoItem.subject}}
-                                {{/if}}
-                                <span class="labels">
-                                    <!-- Labels -->
-                                    {{#each label in getLabels @index}}
-                                        <span class="label" style="background-color: {{label.color}}; color: {{label.fontColor}}">{{label.name}}</span>
-                                    {{/each}}
-                                </span>
-                            </span>
+            <span
+              class="btnEditInfoItem"
+              style="cursor: {{cursorForEdit}};"
+              data-index="{{@index}}"
+            >
+              {{#if isActionItem @index}} {{infoItem.subject}}
+              {{responsiblesHelper @index}} {{#if infoItem.priority}}{{__
+              'Item.priority' }}:{{infoItem.priority}}{{/if}} {{__ 'Item.due'
+              }}: {{infoItem.duedate}} {{else}} {{infoItem.subject}} {{/if}}
+              <span class="labels">
+                <!-- Labels -->
+                {{#each label in getLabels @index}}
+                <span
+                  class="label"
+                  style="background-color: {{label.color}}; color: {{label.fontColor}}"
+                  >{{label.name}}</span
+                >
+                {{/each}}
+              </span>
+            </span>
 
-                            <!-- New-Topic-Label -->
-                            {{#if infoItem.isNew}}
-                                <span class="badge">{{__ 'Topic.new' }}</span>
-                            {{/if}}
+            <!-- New-Topic-Label -->
+            {{#if infoItem.isNew}}
+            <span class="badge">{{__ 'Topic.new' }}</span>
+            {{/if}} {{#if showLinks}}
+            <span class="pull-right">
+              <span
+                class="linkItemContext glyphicon glyphicon-menu-right"
+              ></span>
+              <a
+                class="linkItemContext"
+                href="{{getLinkToTopic @index}}"
+                title="{{tooltipForTopic @index}}"
+              >
+                {{__ 'Topic.show' }}</a
+              >
+            </span>
+            {{/if}}
 
-                            {{#if showLinks}}
-                                <span class="pull-right">
-                                    <span class="linkItemContext glyphicon glyphicon-menu-right"></span>
-                                    <a class="linkItemContext" href="{{getLinkToTopic @index}}" title="{{tooltipForTopic @index}}">
-                                        {{__ 'Topic.show' }}</a>
-                                </span>
-                            {{/if}}
+            <!-- Manipulation Drop-Down Menu -->
+            <span class="pull-right pull-right-icons hidden-print">
+              {{#unless isReadonly}}
+              <a
+                id="btnItemDropdownMenu"
+                class="panel-dropper dropdown-toggle"
+                data-toggle="dropdown"
+              >
+                <span class="glyphicon glyphicon-option-vertical"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a
+                    class="addDetail panel-link"
+                    title="{{__ 'Topic.addDetailsHint' }}"
+                    data-index="{{@index}}"
+                  >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    {{__ 'Topic.addDetails' }}
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a
+                    class="btnEditInfoItem panel-link"
+                    title="{{__ 'Item.editItemHint' }}"
+                    data-index="{{@index}}"
+                  >
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    {{__ 'Item.editItem' }}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    data-toggle="{{#unless isItemConversationAllowed @index}}tooltip{{/unless}}"
+                    class="btnConvertInfoItem panel-link {{#unless isItemConversationAllowed @index}}disabled{{/unless}}"
+                    title="{{#unless isItemConversationAllowed @index}}{{__ 'Item.convertDisabled' }}{{/unless}}"
+                    data-index="{{@index}}"
+                  >
+                    <span
+                      class="glyphicon {{#if isInfoItem @index}}glyphicon-check{{else}}glyphicon-info-sign{{/if}}"
+                    ></span>
+                    {{#if isInfoItem @index}}{{__ 'Item.convertToAction'
+                    }}{{else}}{{__ 'Item.convertToInfo' }}{{/if}}
+                  </a>
+                </li>
+                {{#if isInfoItem @index}}
+                <li>
+                  <a
+                    class="btnPinInfoItem panel-link"
+                    data-index="{{@index}}"
+                    title="{{#if infoItem.isSticky}}{{__ 'Item.unsetPinHint' }}{{else}}{{__ 'Item.setPinHint' }}{{/if}}"
+                  >
+                    <span
+                      class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"
+                    ></span>
+                    {{#if infoItem.isSticky}}{{__ 'Item.unsetPin' }}{{else}}{{__
+                    'Item.setPin' }}{{/if}}
+                  </a>
+                </li>
+                {{/if}}
+                <li>
+                  <a
+                    id="btnDelInfoItem"
+                    data-index="{{@index}}"
+                    class="panel-link"
+                    title="{{__ 'Item.deleteItemHint' }}"
+                  >
+                    <span class="glyphicon glyphicon-trash"></span>
+                    {{__ 'Item.deleteItem' }}
+                  </a>
+                </li>
+              </ul>
+              {{/unless}} {{#if infoItem.isSticky}}
+              <a
+                class="panel-link btnPinInfoItem"
+                title="{{__ 'Item.unsetPinHint' }}"
+                data-index="{{@index}}"
+              >
+                <span
+                  class="glyphicon glyphicon-pushpin sticky-item active-icon"
+                ></span>
+              </a>
+              {{/if}} {{#unless isReadonly}}
+              <span
+                class="itemDragDropHandle dragDropHandle glyphicon glyphicon-sort"
+              ></span>
+              {{/unless}}
+            </span>
+          </div>
+          <div class="clearfix"></div>
+        </h4>
+      </div>
 
-                            <!-- Manipulation Drop-Down Menu -->
-                            <span class="pull-right pull-right-icons hidden-print">
-                                {{#unless isReadonly}}
-                                    <a  id="btnItemDropdownMenu" class="panel-dropper dropdown-toggle"
-                                       data-toggle="dropdown">
-                                        <span class="glyphicon glyphicon-option-vertical"></span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a  class="addDetail panel-link" title="{{__ 'Topic.addDetailsHint' }}" data-index="{{@index}}">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                                {{__ 'Topic.addDetails' }}
-                                            </a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li>
-                                            <a  class="btnEditInfoItem panel-link" title="{{__ 'Item.editItemHint' }}" data-index="{{@index}}">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                                {{__ 'Item.editItem' }}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-toggle="{{#unless isItemConversationAllowed @index}}tooltip{{/unless}}" class="btnConvertInfoItem panel-link {{#unless isItemConversationAllowed @index}}disabled{{/unless}}"
-                                               title="{{#unless isItemConversationAllowed @index}}{{__ 'Item.convertDisabled' }}{{/unless}}" data-index="{{@index}}">
-                                                <span class="glyphicon {{#if isInfoItem @index}}glyphicon-check{{else}}glyphicon-info-sign{{/if}}"></span>
-                                                {{#if isInfoItem @index}}{{__ 'Item.convertToAction' }}{{else}}{{__ 'Item.convertToInfo' }}{{/if}}
-                                            </a>
-                                        </li>
-                                        {{#if isInfoItem @index}}
-                                            <li>
-                                                <a  class="btnPinInfoItem panel-link"
-                                                   data-index="{{@index}}"
-                                                   title="{{#if infoItem.isSticky}}{{__ 'Item.unsetPinHint' }}{{else}}{{__ 'Item.setPinHint' }}{{/if}}">
-                                                    <span class="glyphicon glyphicon-pushpin {{#if infoItem.isSticky}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
-                                                    {{#if infoItem.isSticky}}{{__ 'Item.unsetPin' }}{{else}}{{__ 'Item.setPin' }}{{/if}}
-                                                </a>
-                                            </li>
-                                        {{/if}}
-                                        <li>
-                                            <a id="btnDelInfoItem"  data-index="{{@index}}" class="panel-link" title="{{__ 'Item.deleteItemHint' }}">
-                                                <span class="glyphicon glyphicon-trash"></span>
-                                                {{__ 'Item.deleteItem' }}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                {{/unless}}
-
-                                {{#if infoItem.isSticky}}
-                                    <a  class="panel-link btnPinInfoItem" title="{{__ 'Item.unsetPinHint' }}" data-index="{{@index}}">
-                                        <span class="glyphicon glyphicon-pushpin sticky-item active-icon"></span>
-                                    </a>
-                                {{/if}}
-
-                                {{#unless isReadonly}}
-                                    <span class="itemDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
-                                {{/unless}}
-                            </span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </h4>
-                </div>
-
-                <div id="collapse-{{infoItem._id}}" class="panel-collapse collapse" role="tabpanel"
-                     aria-labelledby="headingOne"
-                     data-itemid="{{infoItem._id}}">
-                    <div id="id-details-{{infoItem._id}}" class="panel-body actionItemDetails">
-                        {{#let itemIndex=@index itemId=infoItem._id}}
-                            {{#each detailsArray itemIndex}}
-                                <div class="detailRow row" style="margin: 0 0 -10px 0; vertical-align: baseline;">
-                                    <div>
-                                        <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate">
-                                            <strong data-toggle="tooltip"
-                                                    title="{{formateUpdatedHint this.createdAt this.createdBy this.updatedAt this.updatedBy}}">{{this.date}}</strong>
-                                        </label>
-                                        <span id="detailActions_{{itemId}}_{{@index}}"
-                                              class="pull-right pull-right-icons detailActions"
-                                              style="display: none;">
-                                            <span class="detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"></span>
-                                            <span class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
-                                                data-id="{{itemId}}_{{@index}}"></span>
-                                        </span>
-                                        <!-- New-Topic-Label -->
-                                        {{#if this.isNew}}
-                                            <span class="badge">{{__ 'Topic.new' }}</span>
-                                        {{/if}}
-                                    </div>
-
-                                    <div style="padding-left: 10px;" class="detailText"
-                                         data-id="{{itemId}}_{{@index}}">
-                                        <span id="detailText_{{itemId}}_{{@index}}"
-                                              style="font-size: 120%;"
-                                              data-id="{{itemId}}_{{@index}}"
-                                              data-text="{{this.text}}">
-                                            {{#markdown}}{{this.text}}{{/markdown}}
-                                        </span>
-
-                                        <textarea id="detailInput_{{itemId}}_{{@index}}"
-                                                  rows="1"
-                                                  data-id="{{itemId}}_{{@index}}"
-                                                  data-item="{{itemIndex}}"
-                                                  data-index="{{@index}}"
-                                                  class="form-control detailInput"
-                                                  style="display: none; font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
-                                                  placeholder="{{__ 'Item.detailPlaceholder' }}"></textarea>
-                                    </div>
-                                </div>
-                            {{/each}}
-                        {{/let}}
-                        {{#unless isReadonly}}
-                            <a  data-index="{{@index}}" class="addDetail hidden-print">{{__ 'Item.addDetails' }}</a>
-                        {{/unless}}
-                    </div>
-                </div>
+      <div
+        id="collapse-{{infoItem._id}}"
+        class="panel-collapse collapse"
+        role="tabpanel"
+        aria-labelledby="headingOne"
+        data-itemid="{{infoItem._id}}"
+      >
+        <div
+          id="id-details-{{infoItem._id}}"
+          class="panel-body actionItemDetails"
+        >
+          {{#let itemIndex=@index itemId=infoItem._id}} {{#each detailsArray
+          itemIndex}}
+          <div
+            class="detailRow row"
+            style="margin: 0 0 -10px 0; vertical-align: baseline"
+          >
+            <div>
+              <label for="detailInput_{{itemId}}_{{@index}}" class="detailDate">
+                <strong
+                  data-toggle="tooltip"
+                  title="{{formateUpdatedHint this.createdAt this.createdBy this.updatedAt this.updatedBy}}"
+                  >{{this.date}}</strong
+                >
+              </label>
+              <span
+                id="detailActions_{{itemId}}_{{@index}}"
+                class="pull-right pull-right-icons detailActions"
+                style="display: none"
+              >
+                <span
+                  class="detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"
+                ></span>
+                <span
+                  class="detailInputDelete glyphicon glyphicon-trash detailItemIcon"
+                  data-id="{{itemId}}_{{@index}}"
+                ></span>
+              </span>
+              <!-- New-Topic-Label -->
+              {{#if this.isNew}}
+              <span class="badge">{{__ 'Topic.new' }}</span>
+              {{/if}}
             </div>
-        {{/each}}
+
+            <div
+              style="padding-left: 10px"
+              class="detailText"
+              data-id="{{itemId}}_{{@index}}"
+            >
+              <span
+                id="detailText_{{itemId}}_{{@index}}"
+                style="font-size: 120%"
+                data-id="{{itemId}}_{{@index}}"
+                data-text="{{this.text}}"
+              >
+                {{#markdown}}{{this.text}}{{/markdown}}
+              </span>
+
+              <textarea
+                id="detailInput_{{itemId}}_{{@index}}"
+                rows="1"
+                data-id="{{itemId}}_{{@index}}"
+                data-item="{{itemIndex}}"
+                data-index="{{@index}}"
+                class="form-control detailInput"
+                style="
+                  display: none;
+                  font-size: 120%;
+                  font-family: 'Lucida Console', 'Monaco', 'Courier New',
+                    monospace;
+                "
+                placeholder="{{__ 'Item.detailPlaceholder' }}"
+              ></textarea>
+            </div>
+          </div>
+          {{/each}} {{/let}} {{#unless isReadonly}}
+          <a data-index="{{@index}}" class="addDetail hidden-print"
+            >{{__ 'Item.addDetails' }}</a
+          >
+          {{/unless}}
+        </div>
+      </div>
     </div>
+    {{/each}}
+  </div>
 </template>

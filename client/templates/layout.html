@@ -1,21 +1,10 @@
 <template name="appLayout">
+  {{> navigation}}
 
-        {{> navigation}}
+  <div class="container">
+    {{> broadcastMessageDialog }} {{#if isLoggedIn}} {{> Template.dynamic
+    template=main}} {{else}} {{> login}} {{/if}}
+  </div>
 
-        <div class="container">
-
-            {{> broadcastMessageDialog }}
-
-            {{#if isLoggedIn}}
-                {{> Template.dynamic template=main}}
-            {{else}}
-                {{> login}}
-            {{/if}}
-        </div>
-
-        {{#if showGitHubCorner}}
-            {{> githubcorner }}
-        {{/if}}
-        {{> connectionInfo }}
-
+  {{#if showGitHubCorner}} {{> githubcorner }} {{/if}} {{> connectionInfo }}
 </template>

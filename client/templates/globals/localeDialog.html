@@ -1,41 +1,71 @@
 <template name="localeDialog">
-    <div class="modal fade" id="dlgLocale" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="Set Locale">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="LocaleSettingsLabel">{{__ 'Dialog.LocaleSetting.title' }}</h4>
-                </div>
-                <form id="frmDlgSetLocale">
-                    <div class="modal-body">
-                        <div class="form-group ">
-                            <label for="id_longName" class="control-label">{{__ 'Dialog.LocaleSetting.languageLocale' }}</label>
-
-                            <select id="selLocale" class="form-control">
-                                <option id="loc-auto" value="auto">
-                                    {{__ 'Dialog.LocaleSetting.automatic' }}
-                                </option>
-                                {{#each locale in supportedLocales}}
-                                    <option id="loc-{{locale.code}}" value="{{locale.code}}">
-                                        {{locale.nameNative}} ({{locale.codeUI}})
-                                    </option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="btnSetLocaleCancel" class="btn btn-default" data-dismiss="modal">{{__ 'Buttons.cancel' }}</button>
-                        <button type="submit" id="btnSetLocaleSave" class="btn btn-primary btn-raised">{{__ 'Buttons.change' }}</button>
-                    </div>
-                </form>
-                <p style="text-align: center; padding-top: 1em; padding-bottom: .5em;">
-                {{__ 'Dialog.LocaleSetting.contributionHint1'}}
-                <a href="https://crowdin.com/project/4minitz" target="_blank">
-                    {{__ 'Dialog.LocaleSetting.contributionHint2'}}
-                </a>
-                </p>
-            </div>
+  <div
+    class="modal fade"
+    id="dlgLocale"
+    tabindex="-1"
+    role="dialog"
+    data-backdrop="static"
+    aria-labelledby="Set Locale"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="LocaleSettingsLabel">
+            {{__ 'Dialog.LocaleSetting.title' }}
+          </h4>
         </div>
-    </div>
+        <form id="frmDlgSetLocale">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="id_longName" class="control-label"
+                >{{__ 'Dialog.LocaleSetting.languageLocale' }}</label
+              >
 
+              <select id="selLocale" class="form-control">
+                <option id="loc-auto" value="auto">
+                  {{__ 'Dialog.LocaleSetting.automatic' }}
+                </option>
+                {{#each locale in supportedLocales}}
+                <option id="loc-{{locale.code}}" value="{{locale.code}}">
+                  {{locale.nameNative}} ({{locale.codeUI}})
+                </option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="btnSetLocaleCancel"
+              class="btn btn-default"
+              data-dismiss="modal"
+            >
+              {{__ 'Buttons.cancel' }}
+            </button>
+            <button
+              type="submit"
+              id="btnSetLocaleSave"
+              class="btn btn-primary btn-raised"
+            >
+              {{__ 'Buttons.change' }}
+            </button>
+          </div>
+        </form>
+        <p style="text-align: center; padding-top: 1em; padding-bottom: 0.5em">
+          {{__ 'Dialog.LocaleSetting.contributionHint1'}}
+          <a href="https://crowdin.com/project/4minitz" target="_blank">
+            {{__ 'Dialog.LocaleSetting.contributionHint2'}}
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
 </template>

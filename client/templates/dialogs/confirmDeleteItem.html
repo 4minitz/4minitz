@@ -1,18 +1,17 @@
 <template name="confirmDeleteItem">
-    {{#if deleteAllowed}}
-        <p>
-            {{#markdown}}{{__ 'Dialog.ConfirmDeleteItem.allowed' _purify='string => string' type=type subject=subject }}{{/markdown}}
-        </p>
-    {{else}}
-        <p>
-            {{#markdown}}{{__ 'Dialog.ConfirmDeleteItem.notAllowed' _purify='string => string' type=type subject=subject }}{{/markdown}}
-        </p>
-        <p>
-            {{#if isActionItem}}
-                {{__ 'Dialog.ConfirmDeleteItem.questionActionItem' }}
-            {{else}}
-                {{__ 'Dialog.ConfirmDeleteItem.questionInfoItem' }}
-            {{/if}}
-        </p>
-    {{/if}}
+  {{#if deleteAllowed}}
+  <p>
+    {{#markdown}}{{__ 'Dialog.ConfirmDeleteItem.allowed' _purify='string =>
+    string' type=type subject=subject }}{{/markdown}}
+  </p>
+  {{else}}
+  <p>
+    {{#markdown}}{{__ 'Dialog.ConfirmDeleteItem.notAllowed' _purify='string =>
+    string' type=type subject=subject }}{{/markdown}}
+  </p>
+  <p>
+    {{#if isActionItem}} {{__ 'Dialog.ConfirmDeleteItem.questionActionItem' }}
+    {{else}} {{__ 'Dialog.ConfirmDeleteItem.questionInfoItem' }} {{/if}}
+  </p>
+  {{/if}}
 </template>

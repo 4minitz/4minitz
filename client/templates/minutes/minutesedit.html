@@ -1,233 +1,344 @@
 <template name="minutesedit">
-    {{#if authenticating}}
-        {{> loading}}
-    {{else}}
-        {{setDocumentTitle}}
-        {{#if and canShow Template.subscriptionsReady}}
-            {{!
-                This will not display any content instead it will check if the minute is linked to the parent series
-                and display an error message reactively.
-                The error message will be removed when destroying the template
-            }}
-            {{checkParentSeries}}
+  {{#if authenticating}} {{> loading}} {{else}} {{setDocumentTitle}} {{#if and
+  canShow Template.subscriptionsReady}} {{! This will not display any content
+  instead it will check if the minute is linked to the parent series and display
+  an error message reactively. The error message will be removed when destroying
+  the template }} {{checkParentSeries}} {{! Invoke an initialization once the
+  main template is rendered. TODO: Find a better solution. }} {{initialize}}
 
-            {{!
-                Invoke an initialization once the main template is rendered.
-                TODO: Find a better solution.
-            }}
-            {{initialize}}
+  <h2 id="minutesHeading" class="header">
+    {{__ 'Minutes.title' }}
+    <a
+      id="id_linkToParentSeries"
+      href="{{pathFor 'meetingseries' _id=meetingSeries._id}}"
+      title="{{finalizeHistoryTooltip}}"
+    >
+      {{meetingSeries.project}} - {{meetingSeries.name}}
+    </a>
+  </h2>
 
-            <h2 id="minutesHeading" class="header">
-                {{__ 'Minutes.title' }}
-                <a id="id_linkToParentSeries" href="{{pathFor 'meetingseries' _id=meetingSeries._id}}"
-                   title="{{finalizeHistoryTooltip}}">
-                    {{meetingSeries.project}} - {{meetingSeries.name}}
-                </a>
-            </h2>
+  <p></p>
 
-            <p></p>
+  <div class="well">
+    <form>
+      <div class="row">
+        {{#if isFinalized}}
+        <div class="col-md-8 col-md-push-4 text-right minutes-action-buttons">
+          <!--Static Finalize Text -->
+          <span id="txt_FinalizedBy" title="{{finalizeHistoryTooltip}}">
+            {{getFinalizedText}}
+          </span>
+          {{#if isModeratorOfParentSeries}} {{#if isUnfinalizeAllowed}}
+          <!--Unfinalize Button -->
+          <a
+            href=""
+            id="btn_unfinalizeMinutes"
+            class="btn btn-default hidden-print"
+            data-toggle="tooltip"
+            title="{{finalizeHistoryTooltip 'Minutes.unfinalizeHint'}}"
+          >
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+          {{/if}} {{/if}}
+          <!--Print Button #1 of 3-->
+          <button
+            type="button"
+            id="btn_printMinutes"
+            class="btn {{isPrintView}} hidden-print"
+            title="{{__ 'Minutes.printHint' }}"
+          >
+            <span
+              class="glyphicon glyphicon-print"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.print' }}"
+            ></span>
+          </button>
+          {{#if isDocumentGenerationAllowed}} {{#if theProtocol}}
+          <!--Protocol exists -->
+          {{#with theProtocol}}
+          <a
+            class="btn hidden-print btn-download"
+            href="{{link}}?download=true"
+            target="_parent"
+            type="{{type}}"
+            download="{{name}}"
+            title="{{__ 'Minutes.downloadHint' }}"
+          >
+            <span
+              class="glyphicon glyphicon-download"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.downloadHint' }}"
+            ></span>
+          </a>
+          {{/with}} {{else}}
+          <!--No Protocol exists, offer to dynamically generate one -->
+          <a
+            class="btn hidden-print btn-download"
+            id="btn_dynamicallyGenerateProtocol"
+          >
+            <span
+              class="glyphicon glyphicon-download"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.print' }}"
+            ></span>
+          </a>
+          {{/if}} {{/if}}
+        </div>
+        {{else}}
+        <!--NOT isFinalized-->
+        {{#if isModeratorOfParentSeries}}
+        <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
+          <!--Send Agenda Button-->
+          <button
+            type="button"
+            id="btn_sendAgenda"
+            class="btn btn-lg btn-raised hidden-print"
+          >
+            <span
+              class="glyphicon glyphicon-envelope"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.sendAgenda' }}"
+            ></span>
+            {{__ 'Minutes.sendAgenda' }}
+          </button>
 
-            <div class="well">
-                <form>
-                    <div class="row">
-                        {{#if isFinalized}}
-                            <div class="col-md-8 col-md-push-4 text-right minutes-action-buttons">
-                                <!--Static Finalize Text -->
-                                <span id="txt_FinalizedBy" title="{{finalizeHistoryTooltip}}">
-                                    {{getFinalizedText}}
-                                </span>
-                                {{#if isModeratorOfParentSeries}}
-                                    {{#if isUnfinalizeAllowed}}
-                                        <!--Unfinalize Button -->
-                                        <a href="" id="btn_unfinalizeMinutes" class="btn btn-default hidden-print"
-                                           data-toggle="tooltip"
-                                           title="{{finalizeHistoryTooltip 'Minutes.unfinalizeHint'}}">
-                                            <span class="glyphicon glyphicon-pencil"></span>
-                                        </a>
-                                    {{/if}}
-                                {{/if}}
-                                <!--Print Button #1 of 3-->
-                                <button type="button" id="btn_printMinutes" class="btn {{isPrintView}} hidden-print"
-                                        title="{{__ 'Minutes.printHint' }}">
-                                    <span class="glyphicon glyphicon-print" aria-hidden="true"
-                                          aria-label="{{__ 'Minutes.print' }}"></span>
-                                </button>
-                                {{#if isDocumentGenerationAllowed}}
-                                    {{#if theProtocol}} <!--Protocol exists -->
-                                        {{#with theProtocol}}
-                                            <a class= "btn hidden-print btn-download" href="{{link}}?download=true"
-                                                target="_parent" type="{{type}}" download="{{name}}"
-                                                title="{{__ 'Minutes.downloadHint' }}">
-                                                <span class="glyphicon glyphicon-download" aria-hidden="true"
-                                                    aria-label="{{__ 'Minutes.downloadHint' }}"></span>
-                                            </a>
-                                        {{/with}}
-                                    {{else}} <!--No Protocol exists, offer to dynamically generate one -->
-                                        <a class="btn hidden-print btn-download" id="btn_dynamicallyGenerateProtocol">
-                                            <span class="glyphicon glyphicon-download" aria-hidden="true"
-                                                aria-label="{{__ 'Minutes.print' }}"></span>
-                                        </a>
-                                    {{/if}}
-                                {{/if}}
-                            </div>
-                        {{else}}  <!--NOT isFinalized-->
-                            {{#if isModeratorOfParentSeries}}
-                                <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
-                                    <!--Send Agenda Button-->
-                                    <button type="button" id="btn_sendAgenda"
-                                            class="btn btn-lg btn-raised hidden-print">
-                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"
-                                              aria-label="{{__ 'Minutes.sendAgenda' }}"></span>
-                                        {{__ 'Minutes.sendAgenda' }}
-                                    </button>
+          <!--Print Button #2 of 3-->
+          <button
+            type="button"
+            id="btn_printMinutes"
+            class="btn btn-lg btn-raised {{isPrintView}} hidden-print"
+            title="{{__ 'Minutes.printHint' }}"
+          >
+            <span
+              class="glyphicon glyphicon-print"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.print' }}"
+            ></span>
+            {{__ 'Minutes.print' }}
+          </button>
+        </div>
+        <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
+          <!--Finalize Minutes Button-->
+          <button
+            type="button"
+            id="btn_finalizeMinutes"
+            class="btn btn-success btn-lg btn-raised hidden-print"
+            data-toggle="tooltip"
+            title="{{finalizeHistoryTooltip 'Minutes.finalizeHint' }}"
+          >
+            <span
+              class="glyphicon glyphicon-ok"
+              aria-hidden="true"
+              aria-label="Finalize Minutes"
+            ></span>
+            {{__ 'Minutes.finalize' }}
+          </button>
 
-                                    <!--Print Button #2 of 3-->
-                                    <button type="button" id="btn_printMinutes"
-                                            class="btn btn-lg btn-raised {{isPrintView}} hidden-print"
-                                            title="{{__ 'Minutes.printHint' }}">
-                                        <span class="glyphicon glyphicon-print" aria-hidden="true"
-                                              aria-label="{{__ 'Minutes.print' }}"></span>
-                                        {{__ 'Minutes.print' }}
-                                    </button>
-                                </div>
-                                <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
-                                    <!--Finalize Minutes Button-->
-                                    <button type="button" id="btn_finalizeMinutes"
-                                            class="btn btn-success btn-lg btn-raised hidden-print"
-                                            data-toggle="tooltip"
-                                            title="{{finalizeHistoryTooltip 'Minutes.finalizeHint' }}">
-                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"
-                                              aria-label="Finalize Minutes"></span>
-                                        {{__ 'Minutes.finalize' }}
-                                    </button>
+          <!--Delete Minutes Button-->
+          <button
+            type="button"
+            id="btn_deleteMinutes"
+            class="btn btn-danger btn-lg btn-raised hidden-print"
+          >
+            <span
+              class="glyphicon glyphicon-trash"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.delete' }}"
+            ></span>
+            {{__ 'Minutes.delete' }}
+          </button>
+        </div>
+        {{else}}
+        <!--NOT isModeratorOfParentSeries-->
+        <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
+          <!--First Column of buttons is empty-->
+        </div>
+        <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
+          <!--Print Button #3 of 3-->
+          <button
+            type="button"
+            id="btn_printMinutes"
+            class="btn btn-lg btn-raised {{isPrintView}} hidden-print"
+            title="{{__ 'Minutes.printHint' }}"
+          >
+            <span
+              class="glyphicon glyphicon-print"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.print' }}"
+            ></span>
+            {{__ 'Minutes.print' }}
+          </button>
+        </div>
+        {{/if}}
+        <!--END isModeratorOfParentSeries-->
+        {{/if}}
+        <!--END isFinalized-->
 
-                                    <!--Delete Minutes Button-->
-                                    <button type="button" id="btn_deleteMinutes"
-                                            class="btn btn-danger btn-lg btn-raised hidden-print">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"
-                                              aria-label="{{__ 'Minutes.delete' }}"></span>
-                                        {{__ 'Minutes.delete' }}
-                                    </button>
-                                </div>
-                            {{else}}  <!--NOT isModeratorOfParentSeries-->
-                                <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
-                                    <!--First Column of buttons is empty-->
-                                </div>
-                                <div class="col-md-4 col-md-push-4 text-right minutes-action-buttons">
-                                    <!--Print Button #3 of 3-->
-                                    <button type="button" id="btn_printMinutes"
-                                            class="btn btn-lg btn-raised {{isPrintView}} hidden-print"
-                                            title="{{__ 'Minutes.printHint' }}">
-                                        <span class="glyphicon glyphicon-print" aria-hidden="true"
-                                              aria-label="{{__ 'Minutes.print' }}"></span>
-                                        {{__ 'Minutes.print' }}
-                                    </button>
-                                </div>
-                            {{/if}}  <!--END isModeratorOfParentSeries-->
-                        {{/if}}  <!--END isFinalized-->
-
-                        <!--Date Picker-->
-                        <div class="col-md-4 col-md-pull-8" style="max-width: 15em;">
-                            <div class="form-group">
-                                <label for="id_minutesdateInput">{{__ 'Minutes.date' }}</label>
-                                <div class='input-group date' id='id_minutesdatePicker'>
-                                    <input id="id_minutesdateInput" type='text' class="form-control"
-                                           value="{{minutes.date}}" {{disableUIControl}}/>
-                                    <span class="input-group-addon hidden-print">
-                                <span class="glyphicon glyphicon-calendar" style="cursor: pointer"></span>
-                            </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        {{#if previousMinutes}}
-                            {{__ 'Minutes.previous' }} <a id="btnPreviousMinutesNavigation" href="{{minutesPath previousMinutes._id}}">{{previousMinutes.date}}</a> &nbsp;&nbsp;
-                        {{/if}}
-                        {{#if nextMinutes}}
-                            {{__ 'Minutes.next' }} <a id="btnNextMinutesNavigation" href="{{minutesPath nextMinutes._id}}">{{nextMinutes.date}}</a>
-                        {{else}}
-                            {{#if displayCreateNextMinutes}}
-                                {{__ 'Minutes.next' }} <a id="btnCreateNewMinutes" href="#">{{__ 'Minutes.create' }}</a>
-                            {{/if}}
-                        {{/if}}
-                    </div>
-                    <div class="form-group">
-                        <label for="editGlobalNotes">{{__ 'Minutes.GlobalNotes.title' }}</label>
-                        {{#unless isReadOnly}}
-                            &nbsp;<span id="btnPinGlobalNote" class="hidden-print" style="cursor: pointer"
-                                  title="{{#if minutes.globalNotePinned}}{{__ 'Minutes.GlobalNotes.unpin' }}{{else}}{{__ 'Minutes.GlobalNotes.pin' }}{{/if}}"
-                            >
-                                <span class="glyphicon glyphicon-pushpin {{#if minutes.globalNotePinned}}sticky-item active-icon{{else}}grey-icon{{/if}}"></span>
-                            </span>
-                        {{/unless}}
-                        <textarea id="editGlobalNotes" type="text" class="form-control"
-                               placeholder="{{__ 'Minutes.GlobalNotes.placeholder' }}"
-                               value="{{minutes.globalNote}}"  {{disableUIControl}}></textarea>
-
-                    </div>
-
-                    {{> minutesEditParticipants minutes}}
-
-                    {{> minutesAttachments minutes}}
-
-                    <div class="row">
-                        {{#unless isReadOnly}}
-                            <div class="col-sm-3 col-xs-6">
-                                <!--ADD TOPIC button-->
-                                <button id="id_showAddTopicDialog" type="button"
-                                        class="btn btn-primary btn-lg btn-raised hidden-print" data-toggle="modal"
-                                        data-target="#dlgAddTopic"
-                                        title="{{__ 'Topic.addHint' }}"
-                                        accesskey="t">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="{{__ 'Topic.add' }}"></span>
-                                    <span class="hidden-xs hidden-sm">{{__ 'Topic.addLong' }}</span><span class="visible-xs visible-sm">{{__ 'Topic.addShort' }}</span>
-                                </button>
-                            </div>
-                            <div class="checkbox-hide-topics visible-xs col-xs-6 checkbox hidden-print">
-                                <label class="text-black" title="{{__ 'Topic.hideClosedHint' }}">
-                                    <input type="checkbox" id="checkHideClosedTopics" class="checkbox"/>
-                                    <span class="hidden-xs hidden-sm">{{__ 'Topic.hideClosedLong' }}</span><span class="visible-xs visible-sm">{{__ 'Topic.hideClosed' }}</span>
-                                </label>
-                            </div>
-                        {{/unless}}
-
-                        <div class="clearfix visible-xs"></div>
-
-                        <div class="col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} col-xs-6">
-                            <!--Responsive Expand / Collapse All buttons-->
-                            <button id="btnCollapseAll" type="button" class="btn btn-default hidden-print">
-                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                                <span class="hidden-xs hidden-sm">{{__ 'Topic.collapseLong' }}</span><span class="visible-xs visible-sm">{{__ 'Topic.collapse' }}</span>
-                            </button>
-                        </div>
-
-                        <div class="col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} col-xs-6">
-                            <button id="btnExpandAll" type="button" class="btn btn-default hidden-print">
-                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                                <span class="hidden-xs hidden-sm">{{__ 'Topic.expandLong' }}</span><span class="visible-xs visible-sm">{{__ 'Topic.expand' }}</span>
-                            </button>
-                        </div>
-
-                        <div class="clearfix visible-xs"></div>
-
-                        <div class="checkbox-hide-topics col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} {{#unless isReadOnly}}hidden-xs{{/unless}} checkbox">
-                            <label class="text-black" id="checkHideClosedTopicsLabel"
-                                   title="{{__ 'Topic.hideClosedHint' }}">
-                                <input type="checkbox" id="checkHideClosedTopics" class="checkbox"/>
-                                <span class="hidden-xs hidden-sm">{{__ 'Topic.hideClosedLong' }}</span><span class="visible-xs visible-sm">{{__ 'Topic.hideClosed' }}</span>
-                            </label>
-                        </div>
-                    </div>
-                </form>
+        <!--Date Picker-->
+        <div class="col-md-4 col-md-pull-8" style="max-width: 15em">
+          <div class="form-group">
+            <label for="id_minutesdateInput">{{__ 'Minutes.date' }}</label>
+            <div class="input-group date" id="id_minutesdatePicker">
+              <input
+                id="id_minutesdateInput"
+                type="text"
+                class="form-control"
+                value="{{minutes.date}}"
+                {{disableUIControl}}
+              />
+              <span class="input-group-addon hidden-print">
+                <span
+                  class="glyphicon glyphicon-calendar"
+                  style="cursor: pointer"
+                ></span>
+              </span>
             </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {{#if previousMinutes}} {{__ 'Minutes.previous' }}
+        <a
+          id="btnPreviousMinutesNavigation"
+          href="{{minutesPath previousMinutes._id}}"
+          >{{previousMinutes.date}}</a
+        >
+        &nbsp;&nbsp; {{/if}} {{#if nextMinutes}} {{__ 'Minutes.next' }}
+        <a id="btnNextMinutesNavigation" href="{{minutesPath nextMinutes._id}}"
+          >{{nextMinutes.date}}</a
+        >
+        {{else}} {{#if displayCreateNextMinutes}} {{__ 'Minutes.next' }}
+        <a id="btnCreateNewMinutes" href="#">{{__ 'Minutes.create' }}</a>
+        {{/if}} {{/if}}
+      </div>
+      <div class="form-group">
+        <label for="editGlobalNotes">{{__ 'Minutes.GlobalNotes.title' }}</label>
+        {{#unless isReadOnly}} &nbsp;<span
+          id="btnPinGlobalNote"
+          class="hidden-print"
+          style="cursor: pointer"
+          title="{{#if minutes.globalNotePinned}}{{__ 'Minutes.GlobalNotes.unpin' }}{{else}}{{__ 'Minutes.GlobalNotes.pin' }}{{/if}}"
+        >
+          <span
+            class="glyphicon glyphicon-pushpin {{#if minutes.globalNotePinned}}sticky-item active-icon{{else}}grey-icon{{/if}}"
+          ></span>
+        </span>
+        {{/unless}}
+        <textarea
+          id="editGlobalNotes"
+          type="text"
+          class="form-control"
+          placeholder="{{__ 'Minutes.GlobalNotes.placeholder' }}"
+          value="{{minutes.globalNote}}"
+          {{disableUIControl}}
+        ></textarea>
+      </div>
 
-            {{>topicsList getTopicsListConfig}}
+      {{> minutesEditParticipants minutes}} {{> minutesAttachments minutes}}
 
-            {{> quickHelp context='meeting' contentTmpl='quickHelpMeeting'}}
+      <div class="row">
+        {{#unless isReadOnly}}
+        <div class="col-sm-3 col-xs-6">
+          <!--ADD TOPIC button-->
+          <button
+            id="id_showAddTopicDialog"
+            type="button"
+            class="btn btn-primary btn-lg btn-raised hidden-print"
+            data-toggle="modal"
+            data-target="#dlgAddTopic"
+            title="{{__ 'Topic.addHint' }}"
+            accesskey="t"
+          >
+            <span
+              class="glyphicon glyphicon-plus"
+              aria-hidden="true"
+              aria-label="{{__ 'Topic.add' }}"
+            ></span>
+            <span class="hidden-xs hidden-sm">{{__ 'Topic.addLong' }}</span
+            ><span class="visible-xs visible-sm">{{__ 'Topic.addShort' }}</span>
+          </button>
+        </div>
+        <div
+          class="checkbox-hide-topics visible-xs col-xs-6 checkbox hidden-print"
+        >
+          <label class="text-black" title="{{__ 'Topic.hideClosedHint' }}">
+            <input
+              type="checkbox"
+              id="checkHideClosedTopics"
+              class="checkbox"
+            />
+            <span class="hidden-xs hidden-sm"
+              >{{__ 'Topic.hideClosedLong' }}</span
+            ><span class="visible-xs visible-sm"
+              >{{__ 'Topic.hideClosed' }}</span
+            >
+          </label>
+        </div>
+        {{/unless}}
 
-            {{> topicEdit minutes._id}}
-            {{> topicInfoItemEdit minutes._id}}
-        {{/if}}  <!--if canShow-->
-    {{/if}}  <!--if NOT authenticating-->
+        <div class="clearfix visible-xs"></div>
+
+        <div class="col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} col-xs-6">
+          <!--Responsive Expand / Collapse All buttons-->
+          <button
+            id="btnCollapseAll"
+            type="button"
+            class="btn btn-default hidden-print"
+          >
+            <span
+              class="glyphicon glyphicon-triangle-right"
+              aria-hidden="true"
+            ></span>
+            <span class="hidden-xs hidden-sm">{{__ 'Topic.collapseLong' }}</span
+            ><span class="visible-xs visible-sm">{{__ 'Topic.collapse' }}</span>
+          </button>
+        </div>
+
+        <div class="col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} col-xs-6">
+          <button
+            id="btnExpandAll"
+            type="button"
+            class="btn btn-default hidden-print"
+          >
+            <span
+              class="glyphicon glyphicon-triangle-bottom"
+              aria-hidden="true"
+            ></span>
+            <span class="hidden-xs hidden-sm">{{__ 'Topic.expandLong' }}</span
+            ><span class="visible-xs visible-sm">{{__ 'Topic.expand' }}</span>
+          </button>
+        </div>
+
+        <div class="clearfix visible-xs"></div>
+
+        <div
+          class="checkbox-hide-topics col-sm-{{#if isReadOnly}}4{{else}}3{{/if}} {{#unless isReadOnly}}hidden-xs{{/unless}} checkbox"
+        >
+          <label
+            class="text-black"
+            id="checkHideClosedTopicsLabel"
+            title="{{__ 'Topic.hideClosedHint' }}"
+          >
+            <input
+              type="checkbox"
+              id="checkHideClosedTopics"
+              class="checkbox"
+            />
+            <span class="hidden-xs hidden-sm"
+              >{{__ 'Topic.hideClosedLong' }}</span
+            ><span class="visible-xs visible-sm"
+              >{{__ 'Topic.hideClosed' }}</span
+            >
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  {{>topicsList getTopicsListConfig}} {{> quickHelp context='meeting'
+  contentTmpl='quickHelpMeeting'}} {{> topicEdit minutes._id}} {{>
+  topicInfoItemEdit minutes._id}} {{/if}}
+  <!--if canShow-->
+  {{/if}}
+  <!--if NOT authenticating-->
 </template>

@@ -1,67 +1,95 @@
 <template name="tabMinutesList">
-    <div class="clearfix">
-        {{#if isModeratorOfParentSeries}}
-        <div class="pull-right">
-            <!-- "Create New Minutes" button for "Moderators"-->
-            <fieldset {{addMinutesDisabled}}>   <!-- dynamically set disabled=true -->
-                <button id="btnAddMinutes" class="btn btn-success btn-raised">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="{{__ 'Minutes.create' }}"></span>
-                    {{__ 'Minutes.create' }}
-                </button>
-            </fieldset>
-        </div>
-        {{else}}
-            <div class="pull-right">
-                <!-- "Leave Meeting Series" button for "Invited"-->
-                <a id="btnLeaveMeetingSeries" class="btn btn-default btn-raised">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="{{__ 'MeetingSeries.leave' }}"></span>
-                    {{__ 'MeetingSeries.leave' }}
-                </a>
-            </div>
-        {{/if}}
+  <div class="clearfix">
+    {{#if isModeratorOfParentSeries}}
+    <div class="pull-right">
+      <!-- "Create New Minutes" button for "Moderators"-->
+      <fieldset {{addMinutesDisabled}}>
+        <!-- dynamically set disabled=true -->
+        <button id="btnAddMinutes" class="btn btn-success btn-raised">
+          <span
+            class="glyphicon glyphicon-plus"
+            aria-hidden="true"
+            aria-label="{{__ 'Minutes.create' }}"
+          ></span>
+          {{__ 'Minutes.create' }}
+        </button>
+      </fieldset>
     </div>
+    {{else}}
+    <div class="pull-right">
+      <!-- "Leave Meeting Series" button for "Invited"-->
+      <a id="btnLeaveMeetingSeries" class="btn btn-default btn-raised">
+        <span
+          class="glyphicon glyphicon-remove"
+          aria-hidden="true"
+          aria-label="{{__ 'MeetingSeries.leave' }}"
+        ></span>
+        {{__ 'MeetingSeries.leave' }}
+      </a>
+    </div>
+    {{/if}}
+  </div>
 
-    <div class="well">
-        <table class="table table-striped">
-            <thead style="font-weight: bold;">
-                <td style="width: 5%;">{{__ 'Minutes.date' }}</td>
-                <td style="width: 5%;">
-                    <span class="hidden-xs">{{__ 'Minutes.finalized' }}</span>
-                    <span class="glyphicon glyphicon-ok visible-xs" aria-hidden="true" aria-label="{{__ 'Minutes.finalized' }}"></span>
-                </td>
-                <td>{{__ 'Minutes.Participants.title' }}</td>
-            </thead>
-            <tbody>
-            {{#each minutes}}
-            <tr id="id_MinuteRow">
-                <td>
-                    <a href="{{pathFor 'minutesedit' _id=_id}}" id="id_linkToMinutes" style="white-space: nowrap;"
-                       data-toggle="tooltip" title="{{globalNote}}">
-                        {{date}}
-                    </a>
-                </td>
-                <td style="vertical-align: top; white-space: nowrap;">
-                    {{#if isFinalized}}
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true" title="{{__ 'Minutes.finalizedHint' }}"
-                              aria-label="{{__ 'Minutes.finalized' }}"></span>
-                        {{__ 'Minutes.versionTag' }}{{finalizedVersion}}
-                        ({{finalizedBy}})
-                    {{else}}
-                        <span class="glyphicon glyphicon-exclamation-sign" title="{{__ 'Minutes.notFinalizedHint' }}"
-                              aria-hidden="true" aria-label="{{__ 'Minutes.notFinalized' }}"></span>
-                        {{__ 'Minutes.versionTag' }}{{finalizedVersion}}
-                    {{/if}}
-                    {{#if hasAttachments}}
-                        <span class="glyphicon glyphicon-paperclip" title="{{__ 'Minutes.attachmentsHint' }}"
-                              aria-hidden="true" aria-label="{{__ 'Minutes.attachmentsHint' }}"></span>
-                    {{/if}}
-                </td>
-                <td class="td-ellipsis">
-                    <span>{{getPresentParticipantNames}}</span>
-                </td>
-            </tr>
-            {{/each}}
-            </tbody>
-        </table>
-    </div>
+  <div class="well">
+    <table class="table table-striped">
+      <thead style="font-weight: bold">
+        <td style="width: 5%">{{__ 'Minutes.date' }}</td>
+        <td style="width: 5%">
+          <span class="hidden-xs">{{__ 'Minutes.finalized' }}</span>
+          <span
+            class="glyphicon glyphicon-ok visible-xs"
+            aria-hidden="true"
+            aria-label="{{__ 'Minutes.finalized' }}"
+          ></span>
+        </td>
+        <td>{{__ 'Minutes.Participants.title' }}</td>
+      </thead>
+      <tbody>
+        {{#each minutes}}
+        <tr id="id_MinuteRow">
+          <td>
+            <a
+              href="{{pathFor 'minutesedit' _id=_id}}"
+              id="id_linkToMinutes"
+              style="white-space: nowrap"
+              data-toggle="tooltip"
+              title="{{globalNote}}"
+            >
+              {{date}}
+            </a>
+          </td>
+          <td style="vertical-align: top; white-space: nowrap">
+            {{#if isFinalized}}
+            <span
+              class="glyphicon glyphicon-ok"
+              aria-hidden="true"
+              title="{{__ 'Minutes.finalizedHint' }}"
+              aria-label="{{__ 'Minutes.finalized' }}"
+            ></span>
+            {{__ 'Minutes.versionTag' }}{{finalizedVersion}} ({{finalizedBy}})
+            {{else}}
+            <span
+              class="glyphicon glyphicon-exclamation-sign"
+              title="{{__ 'Minutes.notFinalizedHint' }}"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.notFinalized' }}"
+            ></span>
+            {{__ 'Minutes.versionTag' }}{{finalizedVersion}} {{/if}} {{#if
+            hasAttachments}}
+            <span
+              class="glyphicon glyphicon-paperclip"
+              title="{{__ 'Minutes.attachmentsHint' }}"
+              aria-hidden="true"
+              aria-label="{{__ 'Minutes.attachmentsHint' }}"
+            ></span>
+            {{/if}}
+          </td>
+          <td class="td-ellipsis">
+            <span>{{getPresentParticipantNames}}</span>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </template>

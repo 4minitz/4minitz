@@ -1,43 +1,46 @@
 <template name="topicViewOne">
-    {{#if authenticating}}
-        {{> loading}}
-    {{else}}
-        {{redirectIfNotAllowed}}
-        {{#unless theTopic}}
-            <h2>
-                {{__ 'Topic.notFoundTitle' }}
-            </h2>
-            {{{__ 'Topic.notFoundReasons' _purify='string => string'}}}
-        {{else}}
-        <h2>
-            {{__ 'Topic.childOf' }}<br>
-            {{#with theMeetingSeries}}
-                <a href="{{pathFor 'meetingseries' _id=_id}}">
-                    {{project}}: {{name}}
-                </a>
-            {{/with}}
-        </h2>
-        <h3>{{__ 'Topic.historyTitle' }}</h3>
-            <table style="font-size: 125%; margin-bottom: 1.5em; margin-left: 2em;">
-                <tr>
-                    <td style="padding-right: 1.5em;">{{__ 'Topic.createdOn' }}</td>
-                    <td >{{formatDateISO8601Time theTopic.topic.createdAt}} {{__ 'Topic.doneBy' user=theTopic.topic.updatedBy }}</td>
-                </tr>
-                <tr>
-                    <td style="padding-right: 1.5em;">{{__ 'Topic.lastUpdate' }}</td>
-                    <td >{{formatDateISO8601Time theTopic.topic.updatedAt}} {{__ 'Topic.doneBy' user=theTopic.topic.updatedBy }}</td>
-                </tr>
-                <tr>
-                    <td style="padding-right: 1.5em;">{{__ 'Topic.finalizedOn' }}</td>
-                    <td ><a href="{{pathFor 'minutesedit' _id=idOfLastFinalizedMinutes}}">
-                        {{dateOfLastFinalizedMinutes}}</a></td>
-                </tr>
-            </table>
-        {{> topicElement theTopic}}
-        {{/unless}}
-    {{/if}}
-        <button class="btn btn-primary btn-raised" id="btnGoBack">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" aria-label="{{__ 'Buttons.back' }}"></span>
-            {{__ 'Buttons.back' }}
-        </button>
+  {{#if authenticating}} {{> loading}} {{else}} {{redirectIfNotAllowed}}
+  {{#unless theTopic}}
+  <h2>{{__ 'Topic.notFoundTitle' }}</h2>
+  {{{__ 'Topic.notFoundReasons' _purify='string => string'}}} {{else}}
+  <h2>
+    {{__ 'Topic.childOf' }}<br />
+    {{#with theMeetingSeries}}
+    <a href="{{pathFor 'meetingseries' _id=_id}}"> {{project}}: {{name}} </a>
+    {{/with}}
+  </h2>
+  <h3>{{__ 'Topic.historyTitle' }}</h3>
+  <table style="font-size: 125%; margin-bottom: 1.5em; margin-left: 2em">
+    <tr>
+      <td style="padding-right: 1.5em">{{__ 'Topic.createdOn' }}</td>
+      <td>
+        {{formatDateISO8601Time theTopic.topic.createdAt}} {{__ 'Topic.doneBy'
+        user=theTopic.topic.updatedBy }}
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-right: 1.5em">{{__ 'Topic.lastUpdate' }}</td>
+      <td>
+        {{formatDateISO8601Time theTopic.topic.updatedAt}} {{__ 'Topic.doneBy'
+        user=theTopic.topic.updatedBy }}
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-right: 1.5em">{{__ 'Topic.finalizedOn' }}</td>
+      <td>
+        <a href="{{pathFor 'minutesedit' _id=idOfLastFinalizedMinutes}}">
+          {{dateOfLastFinalizedMinutes}}</a
+        >
+      </td>
+    </tr>
+  </table>
+  {{> topicElement theTopic}} {{/unless}} {{/if}}
+  <button class="btn btn-primary btn-raised" id="btnGoBack">
+    <span
+      class="glyphicon glyphicon-chevron-left"
+      aria-hidden="true"
+      aria-label="{{__ 'Buttons.back' }}"
+    ></span>
+    {{__ 'Buttons.back' }}
+  </button>
 </template>

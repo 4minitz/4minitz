@@ -1,52 +1,63 @@
 <template name="tabAdminMessages">
-    <div class="row">
-        <form id="frmAdminMessages">
-            <div class="col-md-10">
-                <div class="form-group label-floating">
-                    <label class="control-label" for="id_adminMessage">
-                        {{__ 'Admin.Message.newMessage' }}
-                    </label>
-                    <input class="form-control" id="id_adminMessage" type="text" autocomplete="off">
-                </div>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary btn-default btn-raised" id="id_Broadcast" type="submit">
-                    {{__ 'Admin.Message.broadcast' }}
-                </button>
-            </div>
-        </form>
+  <div class="row">
+    <form id="frmAdminMessages">
+      <div class="col-md-10">
+        <div class="form-group label-floating">
+          <label class="control-label" for="id_adminMessage">
+            {{__ 'Admin.Message.newMessage' }}
+          </label>
+          <input
+            class="form-control"
+            id="id_adminMessage"
+            type="text"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button
+          class="btn btn-primary btn-default btn-raised"
+          id="id_Broadcast"
+          type="submit"
+        >
+          {{__ 'Admin.Message.broadcast' }}
+        </button>
+      </div>
+    </form>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <td>{{__ 'Admin.Message.date' }}</td>
-                <td>{{__ 'Admin.Message.message' }}</td>
-                <td>{{__ 'Admin.Message.dismissed' }}</td>
-                <td>{{__ 'Admin.Message.edit' }}</td>
-            </tr>
-            </thead>
-            <tbody>
-            {{#each messages}}
-                <tr style="background-color: {{inactiveStateColor this}};">
-                    <td>{{formatTimeStamp this.createdAt}}</td>
-                    <td>
-                        <a  id="btnReShow">{{this.text}}</a></td>
-                    <td>
-                        <a  id="btnDismissingUsers">{{this.dismissForUserIDs.length}}</a>
-                    </td>
-                    <td>
-                        <a  id="btnTogglaActiveMessage">
-                            <span class="glyphicon glyphicon-eye-close"></span> <!-- Toggle Active -->
-                        </a>
-                        <a  id="btnRemoveMessage">
-                            <span class="glyphicon glyphicon-trash"></span> <!--Remove Button with Trashcan-->
-                        </a>
-                    </td>
-                </tr>
-            {{/each}}
-            </tbody></table>
-        <br>
-
-    </div>
-
+    <table class="table">
+      <thead>
+        <tr>
+          <td>{{__ 'Admin.Message.date' }}</td>
+          <td>{{__ 'Admin.Message.message' }}</td>
+          <td>{{__ 'Admin.Message.dismissed' }}</td>
+          <td>{{__ 'Admin.Message.edit' }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each messages}}
+        <tr style="background-color: {{inactiveStateColor this}};">
+          <td>{{formatTimeStamp this.createdAt}}</td>
+          <td>
+            <a id="btnReShow">{{this.text}}</a>
+          </td>
+          <td>
+            <a id="btnDismissingUsers">{{this.dismissForUserIDs.length}}</a>
+          </td>
+          <td>
+            <a id="btnTogglaActiveMessage">
+              <span class="glyphicon glyphicon-eye-close"></span>
+              <!-- Toggle Active -->
+            </a>
+            <a id="btnRemoveMessage">
+              <span class="glyphicon glyphicon-trash"></span>
+              <!--Remove Button with Trashcan-->
+            </a>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <br />
+  </div>
 </template>

@@ -1,105 +1,196 @@
 <template name="meetingSeriesEdit">
-    <!-- ********************************* -->
-    <!-- MODAL DIALOG: Edit Meeting Series -->
-    <!-- ********************************* -->
+  <!-- ********************************* -->
+  <!-- MODAL DIALOG: Edit Meeting Series -->
+  <!-- ********************************* -->
 
-    <div class="modal fade" id="dlgEditMeetingSeries" tabindex="-1" role="dialog" data-backdrop="static">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" id="btnEditMSClose" data-dismiss="modal" aria-label="{{__ 'Buttons.close' }}">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">{{__ 'MeetingSeries.Edit.title' }}</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="frmDlgEditMeetingSeries">
-                        <div>
-
-                            <!--BASE CONFIGURATION-->
-                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headingOne">
-                                        <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                               id="btnShowHideBaseConfig">
-                                                {{__ 'MeetingSeries.Edit.base' }}
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{__ 'MeetingSeries.Edit.base' }}">
-                                        <div class="panel-body">
-                                            <label class="control-label" for="id_meetingproject">{{__ 'MeetingSeries.Edit.teamName' }}</label>
-                                            <input class="form-control" id="id_meetingproject" type="text" value="{{this.project}}" required
-                                                   data-error-msg="{{__ 'MeetingSeries.Edit.Error.teamName' }}" autocomplete="off">
-
-                                            <label class="control-label" for="id_meetingname">{{__ 'MeetingSeries.Edit.meetingName' }}</label>
-                                            <input class="form-control" id="id_meetingname" type="text" value="{{this.name}}" required
-                                                   data-error-msg="{{__ 'MeetingSeries.Edit.Error.meetingName' }}" autocomplete="off">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--INVITED USERS-->
-                                <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headingTwo">
-                                        <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
-                                            id="btnShowHideInvitedUsers">
-                                                {{{__ 'MeetingSeries.Edit.invited' }}}
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{__ 'MeetingSeries.Edit.invited' }}">
-                                        <div class="panel-body">
-                                            {{>meetingSeriesEditUsers userEditConfig}}
-                                            <div class="checkbox" id="id_roleChange">
-                                                <label id="labelRoleChange">
-                                                    <input type="checkbox" class="checkbox" checked id="checkBoxRoleChange">
-                                                    <span>{{__ 'MeetingSeries.Edit.notifyRoleChange' }}</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--LABELS-->
-                                <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headingThree">
-                                        <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"
-                                              id="btnShowHideLabels">
-                                                {{__ 'MeetingSeries.Edit.labels' }}
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{__ 'MeetingSeries.Edit.labels' }}">
-                                            {{>meetingSeriesEditLabels labelsConfig}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{!-- hidden submit button required for form-validation --}}
-                        <input id="submitMeetingSeriesEditForm" style="display: none" type="submit" value="submit">
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-                    <!--BUTTONS-->
-                    <a  id="deleteMeetingSeries" class="btn btn-danger btn-raised">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        <span class="hidden-xs">{{__ 'Buttons.delete' }}</span>
-                    </a>
-                    <button type="button" id= "btnMeetinSeriesEditCancel" class="btn btn-default" data-dismiss="modal">
-                        {{__ 'Buttons.cancel' }}
-                    </button>
-                    <button type="button" id="btnMeetingSeriesSave" class="btn btn-primary btn-raised">
-                        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-                        <span class="hidden-xs">{{__ 'MeetingSeries.Edit.save' }}</span>
-                    </button>
-                </div>
-            </div>
+  <div
+    class="modal fade"
+    id="dlgEditMeetingSeries"
+    tabindex="-1"
+    role="dialog"
+    data-backdrop="static"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            id="btnEditMSClose"
+            data-dismiss="modal"
+            aria-label="{{__ 'Buttons.close' }}"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            {{__ 'MeetingSeries.Edit.title' }}
+          </h4>
         </div>
+        <div class="modal-body">
+          <form id="frmDlgEditMeetingSeries">
+            <div>
+              <!--BASE CONFIGURATION-->
+              <div
+                class="panel-group"
+                id="accordion"
+                role="tablist"
+                aria-multiselectable="true"
+              >
+                <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                      <a
+                        role="button"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        href="#collapseOne"
+                        id="btnShowHideBaseConfig"
+                      >
+                        {{__ 'MeetingSeries.Edit.base' }}
+                      </a>
+                    </h4>
+                  </div>
+                  <div
+                    id="collapseOne"
+                    class="panel-collapse collapse in"
+                    role="tabpanel"
+                    aria-labelledby="{{__ 'MeetingSeries.Edit.base' }}"
+                  >
+                    <div class="panel-body">
+                      <label class="control-label" for="id_meetingproject"
+                        >{{__ 'MeetingSeries.Edit.teamName' }}</label
+                      >
+                      <input
+                        class="form-control"
+                        id="id_meetingproject"
+                        type="text"
+                        value="{{this.project}}"
+                        required
+                        data-error-msg="{{__ 'MeetingSeries.Edit.Error.teamName' }}"
+                        autocomplete="off"
+                      />
+
+                      <label class="control-label" for="id_meetingname"
+                        >{{__ 'MeetingSeries.Edit.meetingName' }}</label
+                      >
+                      <input
+                        class="form-control"
+                        id="id_meetingname"
+                        type="text"
+                        value="{{this.name}}"
+                        required
+                        data-error-msg="{{__ 'MeetingSeries.Edit.Error.meetingName' }}"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!--INVITED USERS-->
+                <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                      <a
+                        class="collapsed"
+                        role="button"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        href="#collapseTwo"
+                        id="btnShowHideInvitedUsers"
+                      >
+                        {{{__ 'MeetingSeries.Edit.invited' }}}
+                      </a>
+                    </h4>
+                  </div>
+                  <div
+                    id="collapseTwo"
+                    class="panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="{{__ 'MeetingSeries.Edit.invited' }}"
+                  >
+                    <div class="panel-body">
+                      {{>meetingSeriesEditUsers userEditConfig}}
+                      <div class="checkbox" id="id_roleChange">
+                        <label id="labelRoleChange">
+                          <input
+                            type="checkbox"
+                            class="checkbox"
+                            checked
+                            id="checkBoxRoleChange"
+                          />
+                          <span
+                            >{{__ 'MeetingSeries.Edit.notifyRoleChange' }}</span
+                          >
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--LABELS-->
+                <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="headingThree">
+                    <h4 class="panel-title">
+                      <a
+                        class="collapsed"
+                        role="button"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        href="#collapseThree"
+                        id="btnShowHideLabels"
+                      >
+                        {{__ 'MeetingSeries.Edit.labels' }}
+                      </a>
+                    </h4>
+                  </div>
+                  <div
+                    id="collapseThree"
+                    class="panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="{{__ 'MeetingSeries.Edit.labels' }}"
+                  >
+                    {{>meetingSeriesEditLabels labelsConfig}}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {{!-- hidden submit button required for form-validation --}}
+            <input
+              id="submitMeetingSeriesEditForm"
+              style="display: none"
+              type="submit"
+              value="submit"
+            />
+          </form>
+        </div>
+        <div class="modal-footer">
+          <!--BUTTONS-->
+          <a id="deleteMeetingSeries" class="btn btn-danger btn-raised">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            <span class="hidden-xs">{{__ 'Buttons.delete' }}</span>
+          </a>
+          <button
+            type="button"
+            id="btnMeetinSeriesEditCancel"
+            class="btn btn-default"
+            data-dismiss="modal"
+          >
+            {{__ 'Buttons.cancel' }}
+          </button>
+          <button
+            type="button"
+            id="btnMeetingSeriesSave"
+            class="btn btn-primary btn-raised"
+          >
+            <span
+              class="glyphicon glyphicon-floppy-disk"
+              aria-hidden="true"
+            ></span>
+            <span class="hidden-xs">{{__ 'MeetingSeries.Edit.save' }}</span>
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </template>

@@ -1,86 +1,121 @@
 <template name="minutesEditParticipants">
-    <div class="panel default-margin-top">
-        <!--Include modal dialog for edit meeting series -->
-        {{> meetingSeriesEdit parentMeetingSeries}}
-        <div class="panel-heading bright">
-            <label for="id_participants" id="btnParticipantsExpand">
-                {{#if isParticipantsExpanded}}
-                    <span class="glyphicon glyphicon-triangle-bottom expand-collapse-triangle hidden-print"></span>
-                {{else}}
-                    <span class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"></span>
-                {{/if}}
-                {{countParticipantsText}}{{countAdditionalParticipantsText}}{{countInformedText}}
-            </label>
-            {{#if isEditable}}
-                <a  id="btnEditParticipants" class="pull-right" data-toggle="modal" data-target="#dlgEditMeetingSeries">
-                    <span class="glyphicon glyphicon-cog grey-icon hidden-print" title="{{__ 'Minutes.Participants.editHint' }}"></span>
-                </a>
-            {{/if}}
-        </div>
-
-        <div class="panel-body force-no-padding-top">
-            <!-- Expanded variant of participant list -->
-            {{#if isParticipantsExpanded}}
-                <div class="padding-for-collabsable" id="id_participants">
-                    {{#if isEditable}}
-                        {{#if isModeratorOfParentSeries}}
-                            {{#if enoughParticipants}}
-                                <div class="checkbox" id="id_markAllNone">
-                                    <label class = "checkbox-markAllNone">
-                                        <input type="checkbox" class="checkbox"
-                                               name="markAllNone" id="btnToggleMarkAllNone" checked="{{isChecked}}">
-                                        <span id="id_markAllNone" class="text-black" style="color: teal">
-                                            <b>{{#if isChecked}}
-                                                {{__ 'Minutes.Participants.markNone' }}
-                                            {{else}}
-                                                {{__ 'Minutes.Participants.markAll' }}
-                                            {{/if}}</b>
-                                        </span>
-                                    </label>
-                                </div>
-                            {{/if}}
-                        {{/if}}
-                    {{/if}}
-                    <div class = "{{switch2MultiColumn}}">
-                        {{#each participantsSorted}}
-                        <div class="checkbox js-participant-checkbox" id="id_participant_{{this.userId}}">
-                            <label>
-                                <input type="checkbox" class="checkbox js-toggle-present"
-                                       name="present" id="btnTogglePresent_{{this.userId}}" data-userid="{{this.userId}}"
-                                        {{checkedStatePresent}} {{disableUIControl}}>
-                                <span id="id_username" class="text-black">
-                                    {{#if isModeratorOfParentSeries this.userId}}
-                                        <b>{{getUserDisplayName this.userId}}</b>    <!-- make moderators bold -->
-                                    {{else}}
-                                        {{getUserDisplayName this.userId}}
-                                    {{/if}}
-                                </span>
-                                {{#if isUserRemotelyConnected this.userId}}
-                                    <span class="glyphicon glyphicon-eye-open"
-                                          aria-hidden="true" title="{{__ 'Minutes.Participants.watchingHint' }}"></span>
-                                {{/if}}
-                            </label>
-                        </div>
-                        {{/each}}
-                    </div>
-                    <!--Additional Participants: freetext field-->
-                    <input id="edtParticipantsAdditional" type="text" class="form-control"
-                           placeholder="{{__ 'Minutes.Participants.placeholder' }}"
-                           value="{{participantsAdditional}}" {{disableUIControl}}>
-                    {{#if hasInformedUsers}}
-                        <div class="default-margin-top">
-                            <label>{{__ 'Minutes.Participants.informed' }}:</label>
-                            <span class="large-font">{{getInformedUsers}}</span>
-                        </div>
-                    {{/if}}
-                </div>
-
-            <!-- Collapsed variant of participant list -->
-            {{else}}
-                <div class="padding-for-collabsable">
-                <div id="btnParticipantsExpand" class="form-control" style="cursor: pointer;">{{collapsedParticipantsNames}}</div>
-                </div>
-            {{/if}}
-        </div>
+  <div class="panel default-margin-top">
+    <!--Include modal dialog for edit meeting series -->
+    {{> meetingSeriesEdit parentMeetingSeries}}
+    <div class="panel-heading bright">
+      <label for="id_participants" id="btnParticipantsExpand">
+        {{#if isParticipantsExpanded}}
+        <span
+          class="glyphicon glyphicon-triangle-bottom expand-collapse-triangle hidden-print"
+        ></span>
+        {{else}}
+        <span
+          class="glyphicon glyphicon-triangle-right expand-collapse-triangle hidden-print"
+        ></span>
+        {{/if}}
+        {{countParticipantsText}}{{countAdditionalParticipantsText}}{{countInformedText}}
+      </label>
+      {{#if isEditable}}
+      <a
+        id="btnEditParticipants"
+        class="pull-right"
+        data-toggle="modal"
+        data-target="#dlgEditMeetingSeries"
+      >
+        <span
+          class="glyphicon glyphicon-cog grey-icon hidden-print"
+          title="{{__ 'Minutes.Participants.editHint' }}"
+        ></span>
+      </a>
+      {{/if}}
     </div>
+
+    <div class="panel-body force-no-padding-top">
+      <!-- Expanded variant of participant list -->
+      {{#if isParticipantsExpanded}}
+      <div class="padding-for-collabsable" id="id_participants">
+        {{#if isEditable}} {{#if isModeratorOfParentSeries}} {{#if
+        enoughParticipants}}
+        <div class="checkbox" id="id_markAllNone">
+          <label class="checkbox-markAllNone">
+            <input
+              type="checkbox"
+              class="checkbox"
+              name="markAllNone"
+              id="btnToggleMarkAllNone"
+              checked="{{isChecked}}"
+            />
+            <span id="id_markAllNone" class="text-black" style="color: teal">
+              <b
+                >{{#if isChecked}} {{__ 'Minutes.Participants.markNone' }}
+                {{else}} {{__ 'Minutes.Participants.markAll' }} {{/if}}</b
+              >
+            </span>
+          </label>
+        </div>
+        {{/if}} {{/if}} {{/if}}
+        <div class="{{switch2MultiColumn}}">
+          {{#each participantsSorted}}
+          <div
+            class="checkbox js-participant-checkbox"
+            id="id_participant_{{this.userId}}"
+          >
+            <label>
+              <input
+                type="checkbox"
+                class="checkbox js-toggle-present"
+                name="present"
+                id="btnTogglePresent_{{this.userId}}"
+                data-userid="{{this.userId}}"
+                {{checkedStatePresent}}
+                {{disableUIControl}}
+              />
+              <span id="id_username" class="text-black">
+                {{#if isModeratorOfParentSeries this.userId}}
+                <b>{{getUserDisplayName this.userId}}</b>
+                <!-- make moderators bold -->
+                {{else}} {{getUserDisplayName this.userId}} {{/if}}
+              </span>
+              {{#if isUserRemotelyConnected this.userId}}
+              <span
+                class="glyphicon glyphicon-eye-open"
+                aria-hidden="true"
+                title="{{__ 'Minutes.Participants.watchingHint' }}"
+              ></span>
+              {{/if}}
+            </label>
+          </div>
+          {{/each}}
+        </div>
+        <!--Additional Participants: freetext field-->
+        <input
+          id="edtParticipantsAdditional"
+          type="text"
+          class="form-control"
+          placeholder="{{__ 'Minutes.Participants.placeholder' }}"
+          value="{{participantsAdditional}}"
+          {{disableUIControl}}
+        />
+        {{#if hasInformedUsers}}
+        <div class="default-margin-top">
+          <label>{{__ 'Minutes.Participants.informed' }}:</label>
+          <span class="large-font">{{getInformedUsers}}</span>
+        </div>
+        {{/if}}
+      </div>
+
+      <!-- Collapsed variant of participant list -->
+      {{else}}
+      <div class="padding-for-collabsable">
+        <div
+          id="btnParticipantsExpand"
+          class="form-control"
+          style="cursor: pointer"
+        >
+          {{collapsedParticipantsNames}}
+        </div>
+      </div>
+      {{/if}}
+    </div>
+  </div>
 </template>
