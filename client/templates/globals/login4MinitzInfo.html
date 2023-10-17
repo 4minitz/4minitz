@@ -1,70 +1,54 @@
+
 <!--This template is shown on the login screen
     if not deactivated in settings.json via "showInfoOnLogin" -->
 
 <template name="login4MinitzInfo">
-  <div class="row">
-    <div class="col-md-12" style="text-align: center">
-      <h2>{{__ 'Login.Login4MinitzInfo.header'}}</h2>
-      <h3>{{__ 'Login.Login4MinitzInfo.subheader'}}</h3>
-      <p>
-        {{{__ 'Login.Login4MinitzInfo.abstract' _purify='string => string'}}}
-      </p>
-      <br /><br />
-    </div>
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+            <h2>{{__ 'Login.Login4MinitzInfo.header'}}</h2>
+            <h3>{{__ 'Login.Login4MinitzInfo.subheader'}}</h3>
+            <p>{{{__ 'Login.Login4MinitzInfo.abstract' _purify='string => string'}}}</p>
+            <br><br>
+        </div>
 
-    <div class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading" style="font-size: 140%">
-          <span
-            class="glyphicon glyphicon-send"
-            aria-hidden="true"
-            style="font-size: 150%; top: +0.2em; color: teal"
-          ></span>
-          &nbsp;{{__ 'Login.Login4MinitzInfo.prepareAgendaHeading'}}
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="font-size: 140%;">
+                    <span class="glyphicon glyphicon-send" aria-hidden="true" style="font-size: 150%; top: +0.2em; color:teal;"></span>
+                    &nbsp;{{__ 'Login.Login4MinitzInfo.prepareAgendaHeading'}}
+                </div>
+                <div class="panel-body">
+                    <ul style="padding-left: 10px;">
+                        {{{__ 'Login.Login4MinitzInfo.prepareAgendaDetails' _purify='string => string'}}}
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="panel-body">
-          <ul style="padding-left: 10px">
-            {{{__ 'Login.Login4MinitzInfo.prepareAgendaDetails' _purify='string
-            => string'}}}
-          </ul>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="font-size: 140%;">
+                    <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="font-size: 150%; top: +0.2em; color:teal;"></span>
+                    {{__ 'Login.Login4MinitzInfo.documentMinutesHeading'}}
+                </div>
+                <div class="panel-body">
+                    <ul style="padding-left: 10px;">
+                        {{{__ 'Login.Login4MinitzInfo.documentMinutesDetails' _purify='string => string'}}}
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="font-size: 140%;">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 150%; top: +0.2em; color:teal;"></span>
+                    {{__ 'Login.Login4MinitzInfo.trackTopicsHeading'}}
+                </div>
+                <div class="panel-body">
+                    <ul style="padding-left: 10px;">
+                        {{{__ 'Login.Login4MinitzInfo.trackTopicsDetails' _purify='string => string'}}}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading" style="font-size: 140%">
-          <span
-            class="glyphicon glyphicon-list-alt"
-            aria-hidden="true"
-            style="font-size: 150%; top: +0.2em; color: teal"
-          ></span>
-          {{__ 'Login.Login4MinitzInfo.documentMinutesHeading'}}
-        </div>
-        <div class="panel-body">
-          <ul style="padding-left: 10px">
-            {{{__ 'Login.Login4MinitzInfo.documentMinutesDetails'
-            _purify='string => string'}}}
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading" style="font-size: 140%">
-          <span
-            class="glyphicon glyphicon-ok"
-            aria-hidden="true"
-            style="font-size: 150%; top: +0.2em; color: teal"
-          ></span>
-          {{__ 'Login.Login4MinitzInfo.trackTopicsHeading'}}
-        </div>
-        <div class="panel-body">
-          <ul style="padding-left: 10px">
-            {{{__ 'Login.Login4MinitzInfo.trackTopicsDetails' _purify='string =>
-            string'}}}
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>

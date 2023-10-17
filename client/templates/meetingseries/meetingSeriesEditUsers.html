@@ -1,54 +1,51 @@
 <template name="meetingSeriesEditUsers" id="id_useredit">
-  <div class="form-group">
-    <div style="max-height: 300px; overflow-y: scroll">
-      <table class="table table-striped">
-        <thead>
-          <tr></tr>
-        </thead>
-        <tbody>
-          {{#each users}} {{# with userRoleObj this._id}}
-          <tr id="id_userRow">
-            <td style="vertical-align: middle" id="id_userName">
-              {{displayUsername getUser}}
-            </td>
-            <td
-              style="vertical-align: middle"
-              id="id_userRole"
-              class="form-group"
-            >
-              {{#if userIsReadOnly}} {{currentRole}}
-              <!-- static role text -->
-              {{else}} {{{rolesOptions}}} {{/if}}
-            </td>
-            <td style="text-align: right; vertical-align: middle">
-              {{#unless userIsReadOnly}}
-              <span
-                id="btnDeleteUser"
-                class="glyphicon glyphicon-trash"
-                style="color: red; cursor: pointer"
-              ></span>
-              {{/unless}}
-            </td>
-          </tr>
-          {{/with}} {{/each}}
-        </tbody>
-      </table>
-    </div>
+    <div class="form-group">
+        <div  style="max-height: 300px; overflow-y: scroll">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each users}}
+                {{# with userRoleObj this._id}}
+                    <tr id="id_userRow">
+                        <td style="vertical-align: middle;" id="id_userName">
+                            {{displayUsername getUser}}
+                        </td>
+                        <td style="vertical-align: middle;" id="id_userRole" class="form-group">
+                            {{#if userIsReadOnly}}
+                                {{currentRole}}     <!-- static role text -->
+                            {{else}}
+                                {{{rolesOptions}}}
+                            {{/if}}
+                        </td>
+                        <td style="text-align: right; vertical-align: middle;">
+                            {{#unless userIsReadOnly}}
+                                <span id="btnDeleteUser" class="glyphicon glyphicon-trash" style="color:red; cursor:pointer;"></span>
+                            {{/unless}}
+                        </td>
+                    </tr>
+                {{/with}}
+            {{/each}}
 
-    <!--Use TypeAhead.js for insertion of new users-->
-    <form id="form-add-user">
-      <div class="form-group">
-        <input
-          class="form-control typeahead"
-          id="edt_AddUser"
-          name="newUserName"
-          type="text"
-          placeholder="{{__ 'MeetingSeries.Edit.placeholderUsers'}}"
-          autocomplete="off"
-          data-source="userListClean"
-        />
-      </div>
-      <input style="display: none" type="submit" value="submit" />
-    </form>
-  </div>
+            </tbody>
+
+        </table>
+        </div>
+
+        <!--Use TypeAhead.js for insertion of new users-->
+        <form id="form-add-user">
+        <div class="form-group">
+            <input class="form-control typeahead"
+                   id ="edt_AddUser"
+                   name="newUserName"
+                   type="text"
+                   placeholder="{{__ 'MeetingSeries.Edit.placeholderUsers'}}"
+                   autocomplete="off"
+                   data-source="userListClean"/>
+        </div>
+            <input style="display: none;" type="submit" value="submit">
+        </form>
+    </div>
 </template>

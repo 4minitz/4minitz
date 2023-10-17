@@ -1,12 +1,6 @@
 <template name="confirmationDialogDeleteSeries">
-  <p>
-    {{__ 'Dialog.ConfirmDeleteMeetingSeries.questionMeetingSeries'}}
-    <strong>{{project}}: {{name}}</strong>?
-  </p>
-  {{#if hasMinutes}}
-  <p>
-    {{__ 'Dialog.ConfirmDeleteMeetingSeries.questionMinutes' _purify='string =>
-    string' minutesCount=minutesCount lastMinutesDate=lastMinutesDate}}
-  </p>
-  {{/if}}
+    <p>{{__ 'Dialog.ConfirmDeleteMeetingSeries.questionMeetingSeries'}} <strong>{{project}}: {{name}}</strong>?</p>
+    {{#if hasMinutes}}
+        <p>{{__ 'Dialog.ConfirmDeleteMeetingSeries.questionMinutes' _purify='string => string' minutesCount=minutesCount lastMinutesDate=lastMinutesDate}}</p>
+    {{/if}}
 </template>

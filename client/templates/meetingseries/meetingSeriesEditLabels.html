@@ -1,86 +1,52 @@
 <template name="meetingSeriesEditLabels">
-  <table class="table" id="table-edit-labels">
-    <tbody>
-      <tr>
-        <td>{{__ 'MeetingSeries.Labels.add' }}</td>
-        <td>
-          <a class="evt-btn-add-label pull-right">
-            <span
-              class="glyphicon glyphicon-plus"
-              aria-hidden="true"
-              aria-label="{{__ 'MeetingSeries.Labels.add' }}"
-            ></span>
-          </a>
-        </td>
-      </tr>
-      {{#each getLabels}}
-      <tr id="row-label-{{_id}}">
-        <td id="col-label-{{_id}}">
-          <form id="form-label-{{_id}}" class="label-form">
-            <span
-              class="label label-large view-display"
-              id="{{_id}}"
-              style="background-color: {{color}}; color: {{fontColor}};"
-              >{{name}}</span
-            >
-            <span class="view-edit controls form-inline" style="display: none">
-              <input
-                class="form-control evt-submit-enter"
-                name="labelName"
-                type="text"
-                required
-                data-error-msg="{{__ 'MeetingSeries.Labels.Error.name' }}"
-                value="{{name}}"
-              />
-              <div class="input-group-btn">
-                <input
-                  class="form-control evt-submit-enter label-color-field pick-a-color"
-                  name="labelColor-{{_id}}"
-                  type="text"
-                  value="{{getColorNum}}"
-                />
-              </div>
-              <input style="display: none" type="submit" value="submit" />
-            </span>
-          </form>
-        </td>
-        <td class="text-right">
-          <span class="view-display">
-            <a class="evt-btn-edit-label">
-              <span
-                class="glyphicon glyphicon-pencil"
-                aria-hidden="true"
-                aria-label="{{__ 'Buttons.edit' }}"
-              ></span>
-            </a>
-            &nbsp;
-            <a class="evt-btn-delete-label">
-              <span
-                class="glyphicon glyphicon-trash"
-                aria-hidden="true"
-                aria-label="{{__ 'Buttons.delete' }}"
-              ></span>
-            </a>
-          </span>
-          <span class="view-edit" style="display: none">
-            <button class="btn btn-default btn-raised evt-btn-edit-cancel">
-              <span
-                class="glyphicon glyphicon-remove"
-                aria-hidden="true"
-                aria-label="{{__ 'Buttons.cancel' }}"
-              ></span>
-            </button>
-            <button class="btn btn-success btn-raised evt-btn-edit-save">
-              <span
-                class="glyphicon glyphicon-ok"
-                aria-hidden="true"
-                aria-label="{{__ 'Buttons.save' }}"
-              ></span>
-            </button>
-          </span>
-        </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+        <table class="table" id="table-edit-labels">
+            <tbody>
+            <tr>
+                <td>
+                    {{__ 'MeetingSeries.Labels.add' }}
+                </td>
+                <td>
+                    <a  class="evt-btn-add-label pull-right">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true" aria-label="{{__ 'MeetingSeries.Labels.add' }}"></span>
+                    </a>
+                </td>
+            </tr>
+            {{#each getLabels}}
+                <tr id="row-label-{{_id}}">
+                    <td id="col-label-{{_id}}">
+                        <form id="form-label-{{_id}}" class="label-form">
+                            <span class="label label-large view-display" id="{{_id}}" style="background-color: {{color}}; color: {{fontColor}};">{{name}}</span>
+                            <span class="view-edit controls form-inline" style="display: none;">
+                                <input class="form-control evt-submit-enter" name="labelName" type="text" required
+                                       data-error-msg="{{__ 'MeetingSeries.Labels.Error.name' }}" value="{{name}}">
+                                <div class="input-group-btn">
+                                <input class="form-control evt-submit-enter label-color-field pick-a-color" name="labelColor-{{_id}}" type="text" value="{{getColorNum}}">
+                                </div>
+                                <input style="display: none;" type="submit" value="submit">
+                            </span>
+                        </form>
+                    </td>
+                    <td class="text-right">
+                        <span class="view-display">
+                            <a  class="evt-btn-edit-label">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="{{__ 'Buttons.edit' }}"></span>
+                            </a>
+                            &nbsp;
+                            <a  class="evt-btn-delete-label">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" aria-label="{{__ 'Buttons.delete' }}"></span>
+                            </a>
+                        </span>
+                        <span class="view-edit" style="display: none">
+                            <button class="btn btn-default btn-raised evt-btn-edit-cancel">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="{{__ 'Buttons.cancel' }}"></span>
+                            </button>
+                            <button class="btn btn-success btn-raised evt-btn-edit-save">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true" aria-label="{{__ 'Buttons.save' }}"></span>
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
 </template>

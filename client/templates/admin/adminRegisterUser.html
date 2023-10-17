@@ -1,146 +1,68 @@
 <template name="adminRegisterUser">
-  <div
-    class="modal fade"
-    id="dlgAdminRegisterUser"
-    tabindex="-1"
-    role="dialog"
-    data-backdrop="static"
-    aria-labelledby="{{__ 'Admin.Register.label' }}"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="{{__ 'Buttons.close' }}"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title" id="myModalLabel">
-            {{__ 'Admin.Register.label' }}
-          </h4>
-          <h5>{{__ 'Admin.Register.hint' }}</h5>
-        </div>
-        <form id="frmDlgRegisterUser">
-          <div class="modal-body">
-            <div class="form-group label-floating">
-              <label for="id_newUsrName" class="control-label"
-                >{{__ 'Profile.userName' }}</label
-              >
-              <input
-                id="id_newUsrName"
-                type="text"
-                class="form-control"
-                required
-                data-error-msg="{{__ 'Profile.Error.name' }}"
-                autocomplete="off"
-              />
-            </div>
-            <div class="form-group label-floating">
-              <label for="id_newUsrLongName" class="control-label"
-                >{{__ 'Profile.longName' }}</label
-              >
-              <input
-                id="id_newUsrLongName"
-                type="text"
-                class="form-control"
-                required
-                data-error-msg="{{__ 'Profile.Error.longName' }}"
-                autocomplete="off"
-              />
-            </div>
-            <div class="form-group label-floating">
-              <label for="id_newUsrMail" class="control-label"
-                >{{__ 'Profile.email' }}</label
-              >
-              <input
-                id="id_newUsrMail"
-                type="text"
-                class="form-control"
-                required
-                data-error-msg="{{__ 'Profile.Error.email' }}"
-                autocomplete="off"
-              />
-            </div>
-            <div class="form-group label-floating">
-              <label for="id_newUsrPassword1" class="control-label"
-                >{{__ 'Profile.password' }}</label
-              >
-              <input
-                id="id_newUsrPassword1"
-                type="password"
-                class="form-control"
-                required
-                data-error-msg="{{__ 'Profile.Error.password' }}"
-                autocomplete="off"
-              />
-            </div>
-            <div class="form-group label-floating">
-              <label for="id_newUsrPassword2" class="control-label"
-                >{{__ 'Profile.passwordRepeat' }}</label
-              >
-              <input
-                id="id_newUsrPassword2"
-                type="password"
-                class="form-control"
-                required
-                data-error-msg="{{__ 'Profile.Error.password' }}"
-                autocomplete="off"
-              />
-            </div>
+    <div class="modal fade" id="dlgAdminRegisterUser" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="{{__ 'Admin.Register.label' }}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{__ 'Buttons.close' }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{__ 'Admin.Register.label' }}</h4>
+                    <h5>{{__ 'Admin.Register.hint' }}</h5>
+                </div>
+                <form id="frmDlgRegisterUser">
+                    <div class="modal-body">
+                        <div class="form-group label-floating">
+                            <label for="id_newUsrName" class="control-label">{{__ 'Profile.userName' }}</label>
+                            <input id="id_newUsrName" type="text" class="form-control"
+                                   required data-error-msg="{{__ 'Profile.Error.name' }}" autocomplete="off">
+                        </div>
+                        <div class="form-group label-floating">
+                            <label for="id_newUsrLongName" class="control-label">{{__ 'Profile.longName' }}</label>
+                            <input id="id_newUsrLongName" type="text" class="form-control"
+                                   required data-error-msg="{{__ 'Profile.Error.longName' }}" autocomplete="off">
+                        </div>
+                        <div class="form-group label-floating">
+                            <label for="id_newUsrMail" class="control-label">{{__ 'Profile.email' }}</label>
+                            <input id="id_newUsrMail" type="text" class="form-control"
+                                   required data-error-msg="{{__ 'Profile.Error.email' }}" autocomplete="off">
+                        </div>
+                        <div class="form-group label-floating">
+                            <label for="id_newUsrPassword1" class="control-label">{{__ 'Profile.password' }}</label>
+                            <input id="id_newUsrPassword1" type="password" class="form-control"
+                                   required data-error-msg="{{__ 'Profile.Error.password' }}" autocomplete="off">
+                        </div>
+                        <div class="form-group label-floating">
+                            <label for="id_newUsrPassword2" class="control-label">{{__ 'Profile.passwordRepeat' }}</label>
+                            <input id="id_newUsrPassword2" type="password" class="form-control"
+                                   required data-error-msg="{{__ 'Profile.Error.password' }}" autocomplete="off">
+                        </div>
 
-            {{#if isMailEnabled}}
-            <div class="row">
-              <div class="col-md-6">
-                <div class="checkbox form-group">
-                  <label for="id_regUserSendMail">
-                    <input
-                      id="id_regUserSendMail"
-                      type="checkbox"
-                      class="checkbox"
-                      checked
-                    />
-                    {{__ 'Admin.Register.sendMail' }}
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="checkbox form-group">
-                  <label for="id_RegUserSendPassword">
-                    <input
-                      id="id_RegUserSendPassword"
-                      type="checkbox"
-                      class="checkbox"
-                      checked
-                    />
-                    {{__ 'Admin.Register.includePassword' }}
-                  </label>
-                </div>
-              </div>
+                        {{#if isMailEnabled}}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class='checkbox form-group'>
+                                        <label for='id_regUserSendMail'>
+                                            <input id="id_regUserSendMail" type='checkbox' class='checkbox' checked>
+                                            {{__ 'Admin.Register.sendMail' }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class='checkbox form-group'>
+                                        <label for='id_RegUserSendPassword'>
+                                            <input id="id_RegUserSendPassword" type='checkbox' class='checkbox' checked>
+                                            {{__ 'Admin.Register.includePassword' }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnRegisterUserCancel" class="btn btn-default" data-dismiss="modal">{{__ 'Buttons.cancel' }}</button>
+                        <button type="submit" id="btnRegisterUserSave" class="btn btn-primary btn-raised">{{__ 'Buttons.register' }}</button>
+                    </div>
+                </form>
             </div>
-            {{/if}}
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              id="btnRegisterUserCancel"
-              class="btn btn-default"
-              data-dismiss="modal"
-            >
-              {{__ 'Buttons.cancel' }}
-            </button>
-            <button
-              type="submit"
-              id="btnRegisterUserSave"
-              class="btn btn-primary btn-raised"
-            >
-              {{__ 'Buttons.register' }}
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
+
 </template>

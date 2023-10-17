@@ -1,236 +1,150 @@
 <template name="topicElement">
-  <div
-    class="well topic-element"
-    data-id="{{topic._id}}"
-    style="position: relative"
-    tabindex="0"
-  >
-    <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
-    {{#if topic.infoItems.length}}
-    <a
-      tabindex="0"
-      id="btnTopicExpandCollapse"
-      style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        color: grey;
-        cursor: pointer;
-        font-size: 150%;
-      "
-      class="expand-collapse-triangle hidden-print"
-    >
-      {{#if isCollapsed}}
-      <span
-        class="glyphicon glyphicon-triangle-right"
-        aria-hidden="true"
-      ></span>
-      {{else}}
-      <span
-        class="glyphicon glyphicon-triangle-bottom"
-        aria-hidden="true"
-      ></span>
-      {{/if}}
-    </a>
-    {{/if}}
-    <div>
-      <div class="checkbox">
-        <label for="btnToggleState_{{topic._id}}" class="labelTopicCb">
-          <input
-            type="checkbox"
-            class="checkbox btnToggleState"
-            id="btnToggleState_{{topic._id}}"
-            {{checkedState}}
-            {{disabledState}}
-          />
-        </label>
+    <div class="well topic-element" data-id="{{topic._id}}" style="position: relative;" tabindex="0">
 
-        <h3
-          id="{{classForEdit}}"
-          style="display: inline; cursor: {{cursorForEdit}};"
-          data-toggle="tooltip"
-          title="{{formateUpdatedHint topic.createdAt topic.createdBy topic.updatedAt topic.updatedBy}}"
-        >
-          <span class="{{classForSkippedTopics}}">
-            {{topic.subject}} {{responsiblesHelper}}
-          </span>
-          <span class="labels topic-labels">
-            <!-- Labels -->
-            {{#each getLabels}}
-            <span
-              class="label"
-              style="background-color: {{color}}; color: {{fontColor}}"
-              >{{name}}</span
-            >
-            {{/each}}
-          </span>
-        </h3>
-
-        <!-- New-Topic-Label -->
-        {{#if topic.isNew}}
-        <span class="badge" style="margin-bottom: 5px"
-          >{{__ 'Topic.new' }}</span
-        >
-        {{/if}} {{#if isTopicFinallyCompleted}}
-        <span
-          class="badge"
-          style="margin-bottom: 5px; background-color: teal"
-          title="{{__ 'Topic.completedHint' }}"
-        >
-          ✔ {{__ 'Topic.completed' }}
-        </span>
+        <!--Topic expand / collapse icon - positioned absolute, but relative to parent DIV -->
+        {{#if topic.infoItems.length}}
+            <a tabindex="0" id="btnTopicExpandCollapse" style="position: absolute; top:0; left: 0; color: grey; cursor:pointer; font-size: 150%;" class="expand-collapse-triangle hidden-print">
+                {{#if isCollapsed}}
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                {{else}}
+                    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                {{/if}}
+            </a>
         {{/if}}
+        <div>
+            <div class="checkbox">
+                <label for="btnToggleState_{{topic._id}}" class="labelTopicCb" >
+                    <input type="checkbox" class="checkbox btnToggleState" id="btnToggleState_{{topic._id}}" {{checkedState}} {{disabledState}}>
+                </label>
 
-        <!-- Manipulation Drop-Down Menu -->
-        <span class="pull-right pull-right-icons hidden-print">
-          {{#if showMenu}}
-          <a
-            id="btnTopicDropdownMenu"
-            class="panel-dropper dropdown-toggle"
-            data-toggle="dropdown"
-          >
-            <span class="glyphicon glyphicon-option-vertical"></span>
-          </a>
-          <ul class="dropdown-menu">
+                <h3 id="{{classForEdit}}" style="display: inline; cursor: {{cursorForEdit}};" data-toggle="tooltip"
+                    title="{{formateUpdatedHint topic.createdAt topic.createdBy topic.updatedAt topic.updatedBy}}">
+                    <span class="{{classForSkippedTopics}}">
+                    {{topic.subject}}
+                    {{responsiblesHelper}}
+                    </span>
+                    <span class="labels topic-labels">
+                        <!-- Labels -->
+                        {{#each getLabels}}
+                            <span class="label" style="background-color: {{color}}; color: {{fontColor}}">{{name}}</span>
+                        {{/each}}
+                    </span>
+                </h3>
+
+                <!-- New-Topic-Label -->
+                {{#if topic.isNew}}
+                    <span class="badge" style="margin-bottom: 5px;">{{__ 'Topic.new' }}</span>
+                {{/if}}
+                {{#if isTopicFinallyCompleted}}
+                    <span class="badge"
+                          style="margin-bottom: 5px; background-color: teal;"
+                          title="{{__ 'Topic.completedHint' }}">
+                       ✔ {{__ 'Topic.completed' }}
+                    </span>
+                {{/if}}
+
+                <!-- Manipulation Drop-Down Menu -->
+                <span class="pull-right pull-right-icons hidden-print">
+                    {{#if showMenu}}
+                        <a  id="btnTopicDropdownMenu" class="panel-dropper dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-option-vertical"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {{#if isEditable}}
+                                <li>
+                                    <a  id="addTopicInfoItem_{{topic._id}}" class="addTopicInfoItem panel-link"
+                                       data-toggle="modal" data-target="#dlgAddInfoItem" title="{{__ 'Item.addInfoHint' }}">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                        {{__ 'Item.addInfo' }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  id="addTopicInfoItem_{{topic._id}}" class="addTopicActionItem panel-link"
+                                       data-toggle="modal" data-target="#dlgAddInfoItem" title="{{__ 'Item.addActionHint' }}">
+                                        <span class="glyphicon glyphicon-check"></span>
+                                        {{__ 'Item.addAction' }}
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a id="btnEditTopic"  class="panel-link" title="{{__ 'Topic.edit' }}">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        {{__ 'Topic.edit' }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  class="js-toggle-recurring panel-link"
+                                       title="{{#if topic.isRecurring}}{{__ 'Topic.unsetRecurringHint' }}{{else}}{{__ 'Topic.setRecurringHint' }}{{/if}}">
+                                        <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
+                                        {{#if topic.isRecurring}}{{__ 'Topic.unsetRecurring' }}{{else}}{{__ 'Topic.setRecurring' }}{{/if}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  class="js-toggle-skipped panel-link"
+                                       title="{{#if topic.isSkipped}}{{__ 'Topic.unsetSkipHint' }}{{else}}{{__ 'Topic.setSkipHint' }}{{/if}}">
+                                        <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
+                                        {{#if topic.isSkipped}}{{__ 'Topic.unsetSkip' }}{{else}}{{__ 'Topic.setSkip' }}{{/if}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnShowTopic"  class="panel-link" title="{{__ 'Topic.historyHint' }}">
+                                        <span class="glyphicon glyphicon-folder-open"></span>
+                                        {{__ 'Topic.history' }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnDelTopic"  class="panel-link" title="{{__ 'Topic.delete' }}">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                        {{__ 'Topic.delete' }}
+                                    </a>
+                                </li>
+                            {{else}}
+                                <li>
+                                    <a id="btnReopenTopic"  class="panel-link" title="{{__ 'Topic.reopenHint' }}">
+                                        <span class="glyphicon glyphicon-share-alt"></span>
+                                        {{__ 'Topic.reopen' }}
+                                    </a>
+                                </li>
+                            {{/if}}
+                        </ul>
+                    {{/if}}
+
+
+                    {{#if topic.isRecurring}}
+                        <a  class="js-toggle-recurring panel-link" title="{{__ 'Topic.unsetRecurringHint' }}">
+                            <span class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"></span>
+                        </a>
+                    {{/if}}
+                    {{#if topic.isSkipped}}
+                        <a  id="topicIsSkippedIcon" class="js-toggle-skipped panel-link" title="{{__ 'Topic.unsetSkipHint' }}">
+                            <span class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"></span>
+                        </a>
+                    {{/if}}
+                    {{#if isEditable}}
+                        <span class="topicDragDropHandle dragDropHandle glyphicon glyphicon-sort"></span>
+                    {{/if}}
+                </span>
+                <br clear="all">
+            </div>
+        </div>
+
+        {{#unless isCollapsed}}
+            <div class="leftIndent-desktop">
+                {{> topicInfoItemList getData}}
+            </div>
+        {{/unless}}
+        {{#unless and isCollapsed topic.infoItems.length}}
             {{#if isEditable}}
-            <li>
-              <a
-                id="addTopicInfoItem_{{topic._id}}"
-                class="addTopicInfoItem panel-link"
-                data-toggle="modal"
-                data-target="#dlgAddInfoItem"
-                title="{{__ 'Item.addInfoHint' }}"
-              >
-                <span class="glyphicon glyphicon-info-sign"></span>
-                {{__ 'Item.addInfo' }}
-              </a>
-            </li>
-            <li>
-              <a
-                id="addTopicInfoItem_{{topic._id}}"
-                class="addTopicActionItem panel-link"
-                data-toggle="modal"
-                data-target="#dlgAddInfoItem"
-                title="{{__ 'Item.addActionHint' }}"
-              >
-                <span class="glyphicon glyphicon-check"></span>
-                {{__ 'Item.addAction' }}
-              </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-              <a
-                id="btnEditTopic"
-                class="panel-link"
-                title="{{__ 'Topic.edit' }}"
-              >
-                <span class="glyphicon glyphicon-pencil"></span>
-                {{__ 'Topic.edit' }}
-              </a>
-            </li>
-            <li>
-              <a
-                class="js-toggle-recurring panel-link"
-                title="{{#if topic.isRecurring}}{{__ 'Topic.unsetRecurringHint' }}{{else}}{{__ 'Topic.setRecurringHint' }}{{/if}}"
-              >
-                <span
-                  class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"
-                ></span>
-                {{#if topic.isRecurring}}{{__ 'Topic.unsetRecurring'
-                }}{{else}}{{__ 'Topic.setRecurring' }}{{/if}}
-              </a>
-            </li>
-            <li>
-              <a
-                class="js-toggle-skipped panel-link"
-                title="{{#if topic.isSkipped}}{{__ 'Topic.unsetSkipHint' }}{{else}}{{__ 'Topic.setSkipHint' }}{{/if}}"
-              >
-                <span
-                  class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"
-                ></span>
-                {{#if topic.isSkipped}}{{__ 'Topic.unsetSkip' }}{{else}}{{__
-                'Topic.setSkip' }}{{/if}}
-              </a>
-            </li>
-            <li>
-              <a
-                id="btnShowTopic"
-                class="panel-link"
-                title="{{__ 'Topic.historyHint' }}"
-              >
-                <span class="glyphicon glyphicon-folder-open"></span>
-                {{__ 'Topic.history' }}
-              </a>
-            </li>
-            <li>
-              <a
-                id="btnDelTopic"
-                class="panel-link"
-                title="{{__ 'Topic.delete' }}"
-              >
-                <span class="glyphicon glyphicon-trash"></span>
-                {{__ 'Topic.delete' }}
-              </a>
-            </li>
-            {{else}}
-            <li>
-              <a
-                id="btnReopenTopic"
-                class="panel-link"
-                title="{{__ 'Topic.reopenHint' }}"
-              >
-                <span class="glyphicon glyphicon-share-alt"></span>
-                {{__ 'Topic.reopen' }}
-              </a>
-            </li>
-            {{/if}}
-          </ul>
-          {{/if}} {{#if topic.isRecurring}}
-          <a
-            class="js-toggle-recurring panel-link"
-            title="{{__ 'Topic.unsetRecurringHint' }}"
-          >
-            <span
-              class="glyphicon glyphicon-repeat {{#if topic.isRecurring}}active-icon{{else}}grey-icon{{/if}}"
-            ></span>
-          </a>
-          {{/if}} {{#if topic.isSkipped}}
-          <a
-            id="topicIsSkippedIcon"
-            class="js-toggle-skipped panel-link"
-            title="{{__ 'Topic.unsetSkipHint' }}"
-          >
-            <span
-              class="glyphicon glyphicon-eye-close {{#if topic.isSkipped}}active-icon{{else}}grey-icon{{/if}}"
-            ></span>
-          </a>
-          {{/if}} {{#if isEditable}}
-          <span
-            class="topicDragDropHandle dragDropHandle glyphicon glyphicon-sort"
-          ></span>
-          {{/if}}
-        </span>
-        <br clear="all" />
-      </div>
-    </div>
+                <form class="addItemForm leftIndent-desktop" style="{{#if hideAddItemInputField}}display: none;{{/if}}">
+                    <div class="form-group label-placeholder" style="padding-bottom: 1em;">
+                        <textarea id="addItemField_{{topic._id}}"
+                                  rows="1"
+                                  class="form-control add-item-field"
+                                  placeholder="{{__ 'Topic.placeholder' }}"></textarea>
 
-    {{#unless isCollapsed}}
-    <div class="leftIndent-desktop">{{> topicInfoItemList getData}}</div>
-    {{/unless}} {{#unless and isCollapsed topic.infoItems.length}} {{#if
-    isEditable}}
-    <form
-      class="addItemForm leftIndent-desktop"
-      style="{{#if hideAddItemInputField}}display: none;{{/if}}"
-    >
-      <div class="form-group label-placeholder" style="padding-bottom: 1em">
-        <textarea
-          id="addItemField_{{topic._id}}"
-          rows="1"
-          class="form-control add-item-field"
-          placeholder="{{__ 'Topic.placeholder' }}"
-        ></textarea>
-      </div>
-    </form>
-    {{/if}} {{/unless}}
-  </div>
+                    </div>
+                </form>
+            {{/if}}
+        {{/unless}}
+    </div>
 </template>

@@ -1,15 +1,15 @@
 <template name="aboutStatistics">
-  <div style="margin-top: 0.75em">
-    <b style="color: darkgray">{{__ 'About.ServerStatistics.title' }}</b>
-    <table class="table table-condensed table-hover">
-      <tbody>
-        {{#each statrow in statistics.result}}
-        <tr>
-          <td>{{statrow.description}}</td>
-          <td class="text-right">{{statrow.value}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+	<div style="margin-top: 0.75em;">
+		<b style="color: darkgray;">{{__ 'About.ServerStatistics.title' }}</b>
+		<table class="table table-condensed table-hover">
+			<tbody>
+                {{#each statrow in statistics.result}}
+                    <tr>
+                        <td>{{statrow.description}}</td>
+                        <td class="text-right">{{statrow.value}}</td>
+                    </tr>
+                {{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>

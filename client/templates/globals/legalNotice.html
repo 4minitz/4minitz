@@ -1,14 +1,14 @@
 <template name="legalNotice">
-  <div class="container">
-    <h1>Legal Notice</h1>
+    <div class="container">
+        <h1>Legal Notice</h1>
 
-    <div class="well" id="divLegalNotice">
-      <!-- #Security: Tripe curlys are safe here, as only admin can specify what's shown here -->
-      {{{legalNoticeContent}}}
+        <div class="well" id="divLegalNotice">
+            <!-- #Security: Tripe curlys are safe here, as only admin can specify what's shown here -->
+            {{{legalNoticeContent}}}
+        </div>
+        <a class="btn btn-primary btn-raised" href="{{pathFor '/'}}">
+            {{__ 'Buttons.ok'}}
+        </a>
+        <br clear="left">
     </div>
-    <a class="btn btn-primary btn-raised" href="{{pathFor '/'}}">
-      {{__ 'Buttons.ok'}}
-    </a>
-    <br clear="left" />
-  </div>
 </template>

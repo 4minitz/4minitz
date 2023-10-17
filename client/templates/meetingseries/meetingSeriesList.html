@@ -1,16 +1,20 @@
 <template name="meetingSeriesList">
-  {{> meetingSeriesAdd}} {{#if meetingSeriesAmountBiggerFour}} {{>
-  meetingSeriesSearch updateSearchQuery=updateSearchQuery}} {{/if}}
-  <br />
-  <br />
-
-  <ul class="list-group" style="font-size: 130%">
-    {{#if meetingSeriesRow}} {{#each meetingSeriesRow}} {{>
-    meetingSeriesOverview}} {{/each}} {{else}}
-    <span id="id_noresults">{{__ 'MeetingSeries.Search.noResults' }}</span>
+    {{> meetingSeriesAdd}}
+    {{#if meetingSeriesAmountBiggerFour}}
+        {{> meetingSeriesSearch updateSearchQuery=updateSearchQuery}}
     {{/if}}
-  </ul>
+    <br>
+    <br>
 
-  {{> quickHelp context='meetingSeriesList'
-  contentTmpl='quickHelpMeetingSeriesList'}}
+    <ul class="list-group" style="font-size: 130%;">
+        {{#if meetingSeriesRow}}
+            {{#each meetingSeriesRow}}
+                {{> meetingSeriesOverview}}
+            {{/each}}
+        {{else}}
+            <span id="id_noresults">{{__ 'MeetingSeries.Search.noResults' }}</span>
+        {{/if}}
+    </ul>
+
+    {{> quickHelp context='meetingSeriesList' contentTmpl='quickHelpMeetingSeriesList'}}
 </template>

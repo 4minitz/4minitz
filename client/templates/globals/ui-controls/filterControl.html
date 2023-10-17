@@ -1,55 +1,36 @@
 <template name="filterControl">
-  <div class="row">
-    {{#if hasFilters}}
-    <div class="col-sm-2 col-xs-8">
-      <div class="form-group">
-        <select id="filters" class="form-control">
-          <option id="noFilter" value="">{{__ 'Item.Filter.title' }}</option>
-          {{#each filters}}
-          <option value="{{value}}">{{text}}</option>
-          {{/each}}
-        </select>
-      </div>
-    </div>
-    {{/if}}
+    <div class="row">
 
-    <div
-      class="col-xs-2 {{#if hasFilters}}col-sm-push-8{{else}}col-xs-push-10{{/if}} align-with-input"
-      style="{{#if hasFilters}}min-width: 84px;{{/if}}"
-    >
-      <div class="checkbox">
-        <label
-          for="cbCaseSensitiveFilter"
-          title="{{__ 'Item.Filter.matchCaseHint' }}"
-        >
-          <input type="checkbox" class="checkbox" id="cbCaseSensitiveFilter" />
-          <span class="hidden-sm hidden-xs"
-            ><span class="hidden-md">{{__ 'Item.Filter.matchCaseLong' }}</span
-            ><span class="visible-md"
-              >{{__ 'Item.Filter.matchCase' }}</span
-            ></span
-          >
-        </label>
+        {{#if hasFilters}}
+        <div class="col-sm-2 col-xs-8">
+            <div class="form-group">
+                <select id="filters" class="form-control">
+                    <option id="noFilter" value="">{{__ 'Item.Filter.title' }}</option>
+                    {{#each filters}}
+                        <option value="{{value}}">{{text}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        {{/if}}
 
-        <span
-          id="filter-usage"
-          class="pull-right pull-right-icons"
-          title="{{__ 'Item.Filter.usageHint' }}"
-        >
-          <span class="glyphicon glyphicon-question-sign detailItemIcon"></span>
-        </span>
-      </div>
-    </div>
+        <div class="col-xs-2 {{#if hasFilters}}col-sm-push-8{{else}}col-xs-push-10{{/if}} align-with-input"
+                style="{{#if hasFilters}}min-width: 84px;{{/if}}">
+            <div class="checkbox">
+                <label for="cbCaseSensitiveFilter" title="{{__ 'Item.Filter.matchCaseHint' }}">
+                    <input type="checkbox" class="checkbox" id="cbCaseSensitiveFilter">
+                    <span class="hidden-sm hidden-xs"><span class="hidden-md">{{__ 'Item.Filter.matchCaseLong' }}</span><span class="visible-md">{{__ 'Item.Filter.matchCase' }}</span></span>
+                </label>
 
-    <div
-      class="{{#if hasFilters}}col-sm-8 col-sm-pull-2{{else}}col-xs-10 col-xs-pull-2{{/if}}"
-    >
-      <input
-        type="text"
-        id="inputFilter"
-        class="form-control clear-on-escape"
-        placeholder="{{__ 'Item.Filter.placeholder' }}"
-      />
+                <span id="filter-usage" class="pull-right pull-right-icons" title="{{__ 'Item.Filter.usageHint' }}">
+                    <span class="glyphicon glyphicon-question-sign detailItemIcon"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="{{#if hasFilters}}col-sm-8 col-sm-pull-2{{else}}col-xs-10 col-xs-pull-2{{/if}}">
+            <input type="text" id="inputFilter" class="form-control clear-on-escape" placeholder="{{__ 'Item.Filter.placeholder' }}">
+        </div>
+
     </div>
-  </div>
 </template>

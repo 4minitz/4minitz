@@ -1,180 +1,103 @@
 <template name="topicInfoItemEdit">
-  <!-- ********************************* -->
-  <!-- MODAL DIALOG: Edit Topic InfoItem -->
-  <!-- ********************************* -->
+    <!-- ********************************* -->
+    <!-- MODAL DIALOG: Edit Topic InfoItem -->
+    <!-- ********************************* -->
 
-  <div
-    class="modal fade"
-    id="dlgAddInfoItem"
-    tabindex="-1"
-    role="dialog"
-    data-backdrop="static"
-    aria-labelledby="{{__ 'Item.ariaLabel' }}"
-  >
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="{{__ 'Buttons.close' }}"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title" id="myModalLabel">
-            {{#if isEditMode}} {{__ 'Item.editItemModal' type=getTopicItemType
-            topic=getTopicSubject}} {{else}} {{__ 'Item.addItemModal'
-            type=getTopicItemType topic=getTopicSubject}} {{/if}}
-          </h4>
-        </div>
-        <form id="frmDlgAddInfoItem">
-          <div class="modal-body">
-            <div class="form-group label-floating">
-              <label for="id_item_subject" class="control-label"
-                >{{__ 'Item.subject' }}</label
-              >
-              <input
-                id="id_item_subject"
-                type="text"
-                class="form-control"
-                required
-                data-error-msg="{{__ 'Item.Error.subject' }}"
-                autocomplete="off"
-              />
-            </div>
-
-            {{#unless isEditMode}}
-            <div class="form-group form-group-labels">
-              <a
-                id="btnExpandCollapse"
-                class="expandDetails hidden-print expand-collapse-triangle"
-                tabindex="-1"
-                data-toggle="collapse"
-                style="color: grey; text-decoration: none"
-              >
-                {{#if collapseState}}
-                <span
-                  id="collapseExpandFalse"
-                  class="glyphicon glyphicon-triangle-bottom collapseExpandDetails"
-                ></span>
-                {{else}}
-                <span
-                  id="collapseExpandTrue"
-                  class="glyphicon glyphicon-triangle-right collapseExpandDetails"
-                ></span>
-                {{/if}}
-                <label
-                  for="id_item_detailInput"
-                  class="control-label"
-                  style="color: teal; cursor: pointer"
-                  >{{__ 'Item.details' }}</label
-                >
-              </a>
-              <span
-                class="pull-right pull-right-icons detailActions detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"
-                style="margin-top: 11px"
-              ></span>
-              <textarea
-                id="id_item_detailInput"
-                rows="2"
-                class="form-control detailInput"
-                style="
-                  font-size: 120%;
-                  font-family: 'Lucida Console', 'Monaco', 'Courier New',
-                    monospace;
-                "
-                placeholder="{{__ 'Item.detailPlaceholder' }}"
-              ></textarea>
-            </div>
-            {{/unless}}
-
-            <div class="form-group form-group-labels">
-              <label
-                for="id_item_selLabelsActionItem"
-                class="control-label"
-                style="color: teal"
-                >{{__ 'MeetingSeries.Edit.labels' }}</label
-              >
-              <select
-                id="id_item_selLabelsActionItem"
-                multiple="multiple"
-                style="width: 100%"
-              >
-                <!--Options will be filled in by show.bs.modal event handler-->
-              </select>
-            </div>
-
-            <div class="actionItemOnly" style="display: none">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group form-group-responsibles">
-                    <label
-                      for="id_selResponsibleActionItem"
-                      class="control-label"
-                      style="color: teal"
-                      >{{__ 'Topic.responsible' }}</label
-                    >
-                    <select
-                      id="id_selResponsibleActionItem"
-                      multiple="multiple"
-                      style="width: 100%"
-                    >
-                      <!--Options will be filled in by show.bs.modal event handler-->
-                    </select>
-                  </div>
+    <div class="modal fade" id="dlgAddInfoItem" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="{{__ 'Item.ariaLabel' }}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{__ 'Buttons.close' }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        {{#if isEditMode}}
+                            {{__ 'Item.editItemModal' type=getTopicItemType topic=getTopicSubject}}
+                        {{else}}
+                            {{__ 'Item.addItemModal' type=getTopicItemType topic=getTopicSubject}}
+                        {{/if}}
+                    </h4>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group label-floating">
-                    <label for="id_item_priority" class="control-label"
-                      >{{__ 'Item.priority' }}</label
-                    >
-                    <select id="id_item_priority" class="form-control">
-                      {{#each getPriorities}}
-                      <option value="{{this.value}}">{{this.toString}}</option>
-                      {{/each}}
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <div class="input-group date" id="id_item_duedatePicker">
-                      <input
-                        id="id_item_duedateInput"
-                        type="text"
-                        class="form-control"
-                      />
-                      <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
+                <form id="frmDlgAddInfoItem">
+                    <div class="modal-body">
+                        <div class="form-group label-floating">
+                            <label for="id_item_subject" class="control-label">{{__ 'Item.subject' }}</label>
+                            <input id="id_item_subject" type="text" class="form-control" required
+                                   data-error-msg="{{__ 'Item.Error.subject' }}" autocomplete="off">
+                        </div>
+
+                        {{#unless isEditMode}}
+                        <div class="form-group form-group-labels">
+                            <a id="btnExpandCollapse" class="expandDetails hidden-print expand-collapse-triangle"
+                               tabindex="-1"
+                               data-toggle="collapse"
+
+                               style="color: grey; text-decoration: none;">
+                                {{#if collapseState}}
+                                    <span id="collapseExpandFalse" class="glyphicon glyphicon-triangle-bottom collapseExpandDetails"></span>
+                                {{else}}
+                                    <span id="collapseExpandTrue" class="glyphicon glyphicon-triangle-right collapseExpandDetails"></span>
+                                {{/if}}
+                                <label for="id_item_detailInput" class="control-label" style="color: teal; cursor: pointer;">{{__ 'Item.details' }}</label>
+                            </a>
+                            <span class="pull-right pull-right-icons detailActions detailInputMarkdownHint glyphicon glyphicon-question-sign detailItemIcon"
+                                      style="margin-top: 11px;"></span>
+                            <textarea id="id_item_detailInput"
+                                      rows="2"
+                                      class="form-control detailInput"
+                                      style="font-size: 120%; font-family: 'Lucida Console', 'Monaco', 'Courier New', monospace;"
+                                      placeholder="{{__ 'Item.detailPlaceholder' }}"></textarea>
+                        </div>
+                        {{/unless}}
+
+                        <div class="form-group form-group-labels">
+                            <label for="id_item_selLabelsActionItem" class="control-label" style="color: teal;">{{__ 'MeetingSeries.Edit.labels' }}</label>
+                            <select id="id_item_selLabelsActionItem" multiple="multiple" style="width:100%;">
+                                <!--Options will be filled in by show.bs.modal event handler-->
+                            </select>
+                        </div>
+
+                        <div class="actionItemOnly" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group form-group-responsibles">
+                                        <label for="id_selResponsibleActionItem" class="control-label" style="color: teal;">{{__ 'Topic.responsible' }}</label>
+                                        <select id="id_selResponsibleActionItem" multiple="multiple" style="width:100%;">
+                                            <!--Options will be filled in by show.bs.modal event handler-->
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group label-floating">
+                                        <label for="id_item_priority" class="control-label">{{__ 'Item.priority' }}</label>
+                                        <select id="id_item_priority" class="form-control">
+                                            {{#each getPriorities}}
+                                                <option value="{{this.value}}">{{this.toString}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='id_item_duedatePicker'>
+                                            <input id="id_item_duedateInput" type='text' class="form-control"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                    <div class="modal-footer">
+                        <button type="button"  id="btnInfoItemCancel" class="btn btn-default" data-dismiss="modal">{{__ 'Buttons.cancel' }}</button>
+                        <button type="submit"  id="btnInfoItemSave" class="btn btn-primary btn-raised">{{__ 'Buttons.save' }}</button>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              id="btnInfoItemCancel"
-              class="btn btn-default"
-              data-dismiss="modal"
-            >
-              {{__ 'Buttons.cancel' }}
-            </button>
-            <button
-              type="submit"
-              id="btnInfoItemSave"
-              class="btn btn-primary btn-raised"
-            >
-              {{__ 'Buttons.save' }}
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  <!-- END-OF MODAL DIALOG: Add Topic -->
+    <!-- END-OF MODAL DIALOG: Add Topic -->
 </template>

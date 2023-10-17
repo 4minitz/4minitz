@@ -1,27 +1,15 @@
 <template name="confirmationDialogFinalize">
-  {{#markdown}}{{__ 'Dialog.ConfirmFinalizeMinutes.really' _purify='string =>
-  string' minutesDate=minutesDate }}{{/markdown}} {{#if hasOpenActionItems}}
-  <div class="checkbox form-group">
-    <label for="cbSendAI">
-      <input
-        id="cbSendAI"
-        type="checkbox"
-        class="checkbox"
-        {{sendActionItems}}
-      />
-      {{__ 'Dialog.ConfirmFinalizeMinutes.sendActionItems' }}
-    </label>
-  </div>
-  {{/if}}
-  <div class="checkbox form-group">
-    <label for="cbSendII">
-      <input
-        id="cbSendII"
-        type="checkbox"
-        class="checkbox"
-        {{sendInformationItems}}
-      />
-      {{__ 'Dialog.ConfirmFinalizeMinutes.sendMinutes' }}
-    </label>
-  </div>
+    {{#markdown}}{{__ 'Dialog.ConfirmFinalizeMinutes.really' _purify='string => string' minutesDate=minutesDate }}{{/markdown}}
+    {{#if hasOpenActionItems}}
+        <div class='checkbox form-group'>
+            <label for='cbSendAI'>
+                <input id='cbSendAI' type='checkbox' class='checkbox' {{sendActionItems}}> {{__ 'Dialog.ConfirmFinalizeMinutes.sendActionItems' }}
+            </label>
+        </div>
+     {{/if}}
+    <div class='checkbox form-group'>
+        <label for='cbSendII'>
+            <input id='cbSendII' type='checkbox' class='checkbox' {{sendInformationItems}}> {{__ 'Dialog.ConfirmFinalizeMinutes.sendMinutes' }}
+        </label>
+    </div>
 </template>

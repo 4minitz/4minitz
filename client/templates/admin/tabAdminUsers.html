@@ -1,88 +1,69 @@
 <template name="tabAdminUsers">
-  <div class="row">
-    <form id="adminUser"></form>
-    <div class="col-md-5">
-      <div class="form-group label-floating">
-        <label class="control-label" for="id_adminFilterUsers"
-          >{{__ 'Admin.Users.filterUsers' }}</label
-        >
-        <input
-          class="form-control clear-on-escape"
-          id="id_adminFilterUsers"
-          type="text"
-          autocomplete="off"
-        />
-      </div>
+    <div class="row">
+        <form id="adminUser"></form>
+        <div class="col-md-5">
+            <div class="form-group label-floating">
+                <label class="control-label" for="id_adminFilterUsers">{{__ 'Admin.Users.filterUsers' }}</label>
+                <input class="form-control clear-on-escape" id="id_adminFilterUsers" type="text" autocomplete="off">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class='checkbox form-group'>
+                <label for='id_adminShowInactive'>
+                    <input id="id_adminShowInactive" type='checkbox' class='checkbox'>
+                    {{__ 'Admin.Users.showInactive' }}
+                </label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class='checkbox form-group'>
+                <label for='id_adminShowOnline' title="{{__'Admin.Users.onlineHint' }}">
+                    <input id="id_adminShowOnline" type='checkbox' class='checkbox'>
+                    {{__ 'Admin.Users.online' }}
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary btn-default btn-raised"
+                    id="btnAdminRegisterNewUser"
+                    data-toggle="modal"
+                    data-target="#dlgAdminRegisterUser">
+                {{__ 'Admin.Register.button' }}
+            </button>
+        </div>
     </div>
-    <div class="col-md-2">
-      <div class="checkbox form-group">
-        <label for="id_adminShowInactive">
-          <input id="id_adminShowInactive" type="checkbox" class="checkbox" />
-          {{__ 'Admin.Users.showInactive' }}
-        </label>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="checkbox form-group">
-        <label for="id_adminShowOnline" title="{{__'Admin.Users.onlineHint' }}">
-          <input id="id_adminShowOnline" type="checkbox" class="checkbox" />
-          {{__ 'Admin.Users.online' }}
-        </label>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <button
-        class="btn btn-primary btn-default btn-raised"
-        id="btnAdminRegisterNewUser"
-        data-toggle="modal"
-        data-target="#dlgAdminRegisterUser"
-      >
-        {{__ 'Admin.Register.button' }}
-      </button>
-    </div>
-  </div>
 
-  <table class="table" id="id_adminUserTable">
-    <thead>
-      <tr>
-        <td>{{__ 'Profile.userName' }}</td>
-        <td>{{__ 'Profile.longName' }}</td>
-        <td>{{__ 'Profile.email' }}</td>
-        <td>{{__ 'Admin.Users.id' }}</td>
-        <td title="{{__ 'Admin.Users.Type.hint' }}">
-          {{__ 'Admin.Users.Type.column' }}
-        </td>
-        <td>{{__ 'Admin.Users.State.column' }}</td>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each users}}
-      <tr style="background-color: {{inactiveStateColor this}};">
-        <td>{{this.username}}</td>
-        <td>{{this.profile.name}}</td>
-        <td><a href="mailto:{{email this}}">{{email this}}</a></td>
-        <td style="font-family: 'Monaco', 'Courier New', monospace">
-          {{this._id}}
-        </td>
-        <td>
-          {{#if this.isLDAPuser}}{{__ 'Admin.Users.Type.ldap' }}{{else}}{{__
-          'Admin.Users.Type.standard' }}{{/if}}
-        </td>
-        <td>
-          {{inactiveStateText this}} {{#unless this.isLDAPuser}}
-          <a id="id_ToggleInactive" title="{{__ 'Admin.Users.State.hint' }}"
-            >{{__ 'Admin.Users.State.toggle' }}</a
-          >
-          <a id="id_EditUserProfile" title="{{__ 'Admin.Users.editProfile' }}">
-            <span class="glyphicon glyphicon-pencil"></span>
-          </a>
-          {{/unless}}
-        </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-  <p>{{userCount}}</p>
+    <table class="table" id="id_adminUserTable">
+        <thead>
+        <tr>
+            <td>{{__ 'Profile.userName' }}</td>
+            <td>{{__ 'Profile.longName' }}</td>
+            <td>{{__ 'Profile.email' }}</td>
+            <td>{{__ 'Admin.Users.id' }}</td>
+            <td title="{{__ 'Admin.Users.Type.hint' }}">{{__ 'Admin.Users.Type.column' }}</td>
+            <td>{{__ 'Admin.Users.State.column' }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each users}}
+            <tr style="background-color: {{inactiveStateColor this}};">
+                <td>{{this.username}}</td>
+                <td>{{this.profile.name}}</td>
+                <td><a href="mailto:{{email this}}">{{email this}}</a></td>
+                <td style="font-family: 'Monaco', 'Courier New', monospace">{{this._id}}</td>
+                <td>{{#if this.isLDAPuser}}{{__ 'Admin.Users.Type.ldap' }}{{else}}{{__ 'Admin.Users.Type.standard' }}{{/if}}</td>
+                <td>{{inactiveStateText this}}
+                    {{#unless this.isLDAPuser}}
+                        <a id="id_ToggleInactive" title="{{__ 'Admin.Users.State.hint' }}">{{__ 'Admin.Users.State.toggle' }}</a>
+                        <a id="id_EditUserProfile" title="{{__ 'Admin.Users.editProfile' }}">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    {{/unless}}
+                </td>
+            </tr>
+        {{/each}}
+        </tbody></table>
+    <p>{{userCount}}</p>
 
-  {{> adminRegisterUser}}
+    {{> adminRegisterUser}}
 </template>

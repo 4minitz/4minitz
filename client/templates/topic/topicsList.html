@@ -1,24 +1,15 @@
 <template name="topicsList">
-  <div class="panel-group" id="topicPanel">
-    {{#each getTopics}} {{> topicElement getTopicElement}} {{/each}} {{#unless
-    isReadOnlyMode}}
-    <form id="addTopicForm">
-      <div
-        class="form-group label-placeholder"
-        id="addTopicToBottomDIV"
-        style="padding-bottom: 1em"
-      >
-        <label for="addTopicField" class="control-label"
-          >{{__ 'Topic.quickAdd' }}</label
-        >
-        <input
-          type="text"
-          class="form-control"
-          id="addTopicField"
-          autocomplete="off"
-        />
-      </div>
-    </form>
-    {{/unless}}
-  </div>
+    <div class="panel-group" id="topicPanel">
+        {{#each getTopics}}
+            {{> topicElement getTopicElement}}
+        {{/each}}
+        {{#unless isReadOnlyMode}}
+            <form id="addTopicForm">
+                <div class="form-group label-placeholder" id="addTopicToBottomDIV" style="padding-bottom: 1em;">
+                    <label for="addTopicField" class="control-label">{{__ 'Topic.quickAdd' }}</label>
+                    <input type="text" class="form-control" id="addTopicField" autocomplete="off">
+                </div>
+            </form>
+        {{/unless}}
+    </div>
 </template>

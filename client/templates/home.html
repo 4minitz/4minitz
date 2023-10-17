@@ -1,24 +1,16 @@
 <template name="home">
-  {{#if authenticating}} {{> loading}} {{else}}
-  <ul class="nav nav-tabs">
-    <li
-      id="tab_meetings"
-      data-template="meetingSeriesList"
-      role="presentation"
-      class="{{isTabActive 'tab_meetings'}}"
-    >
-      <a>{{__ 'Navigation.meetings' }}</a>
-    </li>
-    <li
-      id="tab_actionItems"
-      data-template="actionItemList"
-      data-action="actionItems"
-      role="presentation"
-      class="{{isTabActive 'tab_actionItems'}}"
-    >
-      <a>{{__ 'Item.myActionItems' }}</a>
-    </li>
-  </ul>
-  <div class="active">{{> Template.dynamic template=tab}}</div>
-  {{/if}}
+    {{#if authenticating}}
+        {{> loading}}
+    {{else}}
+        <ul class="nav nav-tabs">
+            <li id="tab_meetings" data-template="meetingSeriesList" role="presentation" class="{{isTabActive 'tab_meetings'}}">
+                <a>{{__ 'Navigation.meetings' }}</a></li>
+            <li id="tab_actionItems" data-template="actionItemList" data-action="actionItems" role="presentation" class="{{isTabActive 'tab_actionItems'}}">
+                <a>{{__ 'Item.myActionItems' }}</a></li>
+        </ul>
+        <div class="active">
+            {{> Template.dynamic template=tab}}
+        </div>
+    {{/if}}
+
 </template>

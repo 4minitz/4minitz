@@ -1,31 +1,19 @@
 <template name="meetingSeriesOverview">
-  <li class="list-group-item meeting-series-item" style="padding-bottom: 10px">
-    <a href="{{pathFor 'meetingseries' _id=this._id}}">{{project}}: {{name}}</a>
-    {{#if isModeratorOfSeries}}
-    <span
-      class="glyphicon glyphicon-user"
-      title="{{__ 'MeetingSeries.moderator' }}"
-    ></span>
-    {{/if}} {{#if lastMinutesId}} (<span class="hidden-xs"
-      >{{__ 'MeetingSeries.lastMinute' }} </span
-    ><a href="{{pathFor 'minutesedit' _id=lastMinutesId}}"
-      >{{lastMinutesDate}}</a
-    >
-    {{#if lastMinutesFinalized}}
-    <span
-      class="glyphicon glyphicon-ok"
-      title="{{__ 'Minutes.finalizedHint' }}"
-      aria-hidden="true"
-      aria-label="{{__ 'Minutes.finalized' }}"
-    ></span
-    >) {{else}}
-    <span
-      class="glyphicon glyphicon-exclamation-sign"
-      title="{{__ 'Minutes.notFinalizedHint' }}"
-      aria-hidden="true"
-      aria-label="{{__ 'Minutes.notFinalized' }}"
-    ></span
-    >) {{/if}} {{/if}}
-    <span class="badge">{{countMinutes}}</span>
-  </li>
+    <li class="list-group-item meeting-series-item" style="padding-bottom: 10px;">
+        <a href="{{pathFor 'meetingseries' _id=this._id}}">{{project}}: {{name}}</a>
+        {{#if isModeratorOfSeries}}
+            <span class="glyphicon glyphicon-user" title="{{__ 'MeetingSeries.moderator' }}"></span>
+        {{/if}}
+        {{#if lastMinutesId}}
+            (<span class="hidden-xs">{{__ 'MeetingSeries.lastMinute' }} </span><a href="{{pathFor 'minutesedit' _id=lastMinutesId}}">{{lastMinutesDate}}</a>
+            {{#if lastMinutesFinalized}}
+                <span class="glyphicon glyphicon-ok" title="{{__ 'Minutes.finalizedHint' }}"
+                      aria-hidden="true" aria-label="{{__ 'Minutes.finalized' }}"></span>)
+            {{else}}
+                <span class="glyphicon glyphicon-exclamation-sign" title="{{__ 'Minutes.notFinalizedHint' }}"
+                      aria-hidden="true" aria-label="{{__ 'Minutes.notFinalized' }}"></span>)
+            {{/if}}
+        {{/if}}
+        <span class="badge">{{countMinutes}}</span>
+    </li>
 </template>

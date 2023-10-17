@@ -1,40 +1,26 @@
 <template name="connectionInfo">
-  {{#if connectionLost}}
-  <div id="connectionLostWarning" style="display: none">
-    <span
-      id="btnWarningExpandCollapse"
-      class="connection-info btn-warning-expand"
-      aria-hidden="true"
-      title="{{__ 'Dialog.ConnectionInfo.tooltip' status=connectionStatus.status retryCount=connectionStatus.retryCount retryTime=connectionWaitTime reason=connectionStatus.reason}}"
-    >
-      {{#if currentSymbol }}
-      <span class="glyphicon glyphicon-warning-sign"></span>
-      {{else}}
-      <span class="glyphicon glyphicon-remove remove-symbol"></span>
-      {{/if}}
-    </span>
+    {{#if connectionLost}}
+        <div id="connectionLostWarning" style="display: none;">
+            <span id="btnWarningExpandCollapse" class="connection-info btn-warning-expand" aria-hidden="true"
+              title="{{__ 'Dialog.ConnectionInfo.tooltip' status=connectionStatus.status retryCount=connectionStatus.retryCount retryTime=connectionWaitTime reason=connectionStatus.reason}}">
+                {{#if currentSymbol }}
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                {{else}}
+                    <span class="glyphicon glyphicon-remove remove-symbol"></span>
+                {{/if}}
+            </span>
 
-    <div
-      id="warningMessage"
-      class="connection-info connection-warning-text"
-      aria-hidden="true"
-    >
-      <b>{{__ 'Dialog.ConnectionInfo.header'}}</b><br />
-      {{__ 'Dialog.ConnectionInfo.body'}}
-      <a id="btnReconnect" class="btn-reconnect">
-        <span
-          class="btn btn-secondary btn-raised"
-          style="
-            color: yellow;
-            font-size: 100%;
-            font-weight: bold;
-            background: darkred;
-          "
-        >
-          {{__ 'Dialog.ConnectionInfo.tryToReconnect'}}
-        </span>
-      </a>
-    </div>
-  </div>
-  {{/if}}
+            <div id="warningMessage" class="connection-info connection-warning-text" aria-hidden="true">
+                <b>{{__ 'Dialog.ConnectionInfo.header'}}</b><br>
+                {{__ 'Dialog.ConnectionInfo.body'}}
+                <a  id="btnReconnect" class="btn-reconnect">
+                    <span class="btn btn-secondary btn-raised"
+                          style="color:yellow; font-size:100%; font-weight:bold; background:darkred;">
+                    {{__ 'Dialog.ConnectionInfo.tryToReconnect'}}
+                    </span>
+                </a>
+            </div>
+        </div>
+    {{/if}}
+
 </template>

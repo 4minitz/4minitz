@@ -1,27 +1,23 @@
 <template name="admin">
-  {{redirectIfNotAllowed}} {{#if currentUser}} {{#if currentUser.isAdmin}}
-  <ul class="nav nav-tabs">
-    <li
-      id="tab_users"
-      data-template="tabAdminUsers"
-      role="presentation"
-      class="{{isTabActive 'tab_users'}}"
-    >
-      <a id="tabAdminUsers"> {{__ 'Admin.users' }}</a>
-    </li>
-    <li
-      id="tab_messages"
-      data-template="tabAdminMessages"
-      role="presentation"
-      class="{{isTabActive 'tab_messages'}}"
-    >
-      <a id="tabAdminMessages"> {{__ 'Admin.messages' }}</a>
-    </li>
-  </ul>
-  <p></p>
-  <div class="active">{{> Template.dynamic template=tab}}</div>
-  {{/if}}
-  <!--isAdmin-->
-  {{/if}}
-  <!--currentUser-->
+    {{redirectIfNotAllowed}}
+    {{#if currentUser}}
+        {{#if currentUser.isAdmin}}
+            <ul class="nav nav-tabs">
+                <li id="tab_users" data-template="tabAdminUsers" role="presentation" class="{{isTabActive 'tab_users'}}">
+                    <a  id="tabAdminUsers">
+                        {{__ 'Admin.users' }}</a>
+                </li>
+                <li id="tab_messages" data-template="tabAdminMessages" role="presentation" class="{{isTabActive 'tab_messages'}}">
+                    <a  id="tabAdminMessages">
+                        {{__ 'Admin.messages' }}</a>
+                </li>
+            </ul>
+            <p>
+
+            </p>
+            <div class="active">
+                {{> Template.dynamic template=tab}}
+            </div>
+        {{/if}} <!--isAdmin-->
+    {{/if}}  <!--currentUser-->
 </template>

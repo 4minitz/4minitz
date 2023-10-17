@@ -1,68 +1,49 @@
 <template name="login">
-  <div class="row">
-    <div class="col-md-offset-4 col-md-4">
-      {{#if showTabSwitcher}}
-      <ul class="nav nav-tabs">
-        <li
-          id="tab_ldap"
-          data-template="loginLdap"
-          role="presentation"
-          class="{{tabActive 'loginLdap'}}"
-        >
-          <a>{{__ 'Login.ldap'}}</a>
-        </li>
-        <li
-          id="tab_standard"
-          data-template="atForm"
-          role="presentation"
-          class="{{tabActive 'atForm'}}"
-        >
-          <a>{{__ 'Login.standard'}}</a>
-        </li>
-      </ul>
-      {{/if}} {{> Template.dynamic template=tab}} {{#if loggingIn }}
-      <!-- Show animation during log in procedure -->
-      <img src="{{pathForImproved "/"}}loading-gears.gif" style="position:
-      absolute; top: 50%; left: 50%; width: 120px; height: 120px; margin-top:
-      -60px; margin-left: -60px;" > {{/if}}
-    </div>
-    {{#if showDemoUserHint}}
-    <div class="col-md-3">
-      <div class="hidden-sm" style="min-height: 150px"></div>
-      <div class="panel panel-body" style="background: #fffacd">
-        {{{__ 'Login.demoHint' _purify='string => string'}}}
-      </div>
-    </div>
-    {{/if}}
-  </div>
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            {{#if showTabSwitcher}}
+                <ul class="nav nav-tabs">
+                    <li id="tab_ldap" data-template="loginLdap" role="presentation"
+                        class="{{tabActive 'loginLdap'}}"><a>{{__ 'Login.ldap'}}</a></li>
+                    <li id="tab_standard" data-template="atForm" role="presentation"
+                        class="{{tabActive 'atForm'}}"><a>{{__ 'Login.standard'}}</a></li>
+                </ul>
+            {{/if}}
 
-  {{#if showInfoOnLogin}} {{> login4MinitzInfo }} {{/if}}
+            {{> Template.dynamic template=tab}}
 
-  <div class="row">
-    <div class="col-md-12" style="text-align: center">
-      {{__ 'Login.Footer.withLove'}}
-      <a
-        href="https://www.4minitz.com"
-        style="
-          margin: 0;
-          color: #2199e8;
-          font-family: Helvetica, Arial, sans-serif;
-          font-weight: normal;
-          line-height: 1.3;
-          margin: 0;
-          padding: 0;
-          text-align: left;
-          text-decoration: none;
-        "
-        >4Minitz.com</a
-      >
-      {{__ 'Login.Footer.theTeam'}}
+            {{#if loggingIn }}  <!-- Show animation during log in procedure -->
+                <img src="{{pathForImproved "/"}}loading-gears.gif"
+                     style="position: absolute; top: 50%; left: 50%; width: 120px; height: 120px; margin-top: -60px; margin-left: -60px;"
+                >
+            {{/if}}
+        </div>
+        {{#if showDemoUserHint}}
+            <div class="col-md-3">
+                <div class="hidden-sm" style="min-height: 150px;"></div>
+                <div class="panel panel-body" style="background: #FFFACD;">
+                    {{{__ 'Login.demoHint' _purify='string => string'}}}
+                </div>
+
+            </div>
+        {{/if}}
     </div>
-    {{#if legalNoticeEnabled}}
-    <div class="col-md-12" style="text-align: center">
-      <br />
-      <large><a id="btnLegalNotice">{{legalNoticeLinktext}}</a></large>
-    </div>
+
+    {{#if showInfoOnLogin}}
+        {{> login4MinitzInfo }}
     {{/if}}
-  </div>
+
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+            {{__ 'Login.Footer.withLove'}}
+            <a href="https://www.4minitz.com" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none">4Minitz.com</a>
+            {{__ 'Login.Footer.theTeam'}}
+        </div>
+        {{#if legalNoticeEnabled}}
+            <div class="col-md-12" style="text-align: center;">
+                <br>
+                <large><a id="btnLegalNotice" >{{legalNoticeLinktext}}</a></large>
+            </div>
+        {{/if}}
+    </div>
 </template>
