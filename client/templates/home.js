@@ -38,19 +38,19 @@ Template.home.helpers({
     const subscriptionReady = Template.instance().seriesReady.get();
     return Meteor.loggingIn() || !subscriptionReady;
   },
-  isTabActive: function (tabId) {
+  isTabActive(tabId) {
     return Template.instance().activeTabId.get() === tabId ? "active" : "";
   },
 
-  tab: function () {
+  tab() {
     const meetingSeriesTab = ReactiveDict.get("gotoMeetingSeriesTab");
     if (meetingSeriesTab) {
       Template.instance().activeTabId.set("tab_meetings");
       Template.instance().activeTabTemplate.set("meetingSeriesList");
       ReactiveDict.set("gotoMeetingSeriesTab", false);
-    } else {
-      return Template.instance().activeTabTemplate.get();
+      return;
     }
+    return Template.instance().activeTabTemplate.get();
   },
 });
 
