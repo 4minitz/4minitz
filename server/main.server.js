@@ -36,7 +36,21 @@ const handleDemoUserAccount = () => {
     const demoUser = Meteor.users.findOne({
       $and: [{ username: "demo" }, { isDemoUser: true }],
     });
-    if (!demoUser) {
+    if (demoUser) {
+      // we already have one, let's ensure he is not switched Inactive
+      if (demoUser.isInactive) {
+        Meteor.users.update(
+          { username: "demo" },
+          { $set: { isInactive: false } },
+        );
+      }
+      if (!demoUser.emails[0].verified) {
+        Meteor.users.update(
+          { username: "demo" },
+          { $set: { "emails.0.verified": true } },
+        );
+      }
+    } else {
       // we don't have a demo user, but settings demand one
       Accounts.createUser({
         username: "demo",
@@ -57,20 +71,6 @@ const handleDemoUserAccount = () => {
       console.log(
         "*** ATTENTION ***\n    Created demo/demo user account once on startup",
       );
-    } else {
-      // we already have one, let's ensure he is not switched Inactive
-      if (demoUser.isInactive) {
-        Meteor.users.update(
-          { username: "demo" },
-          { $set: { isInactive: false } },
-        );
-      }
-      if (!demoUser.emails[0].verified) {
-        Meteor.users.update(
-          { username: "demo" },
-          { $set: { "emails.0.verified": true } },
-        );
-      }
     }
   } else {
     // we don't want a demo user
@@ -125,9 +125,9 @@ const syncRootUrl = () => {
     // https://github.com/meteor/meteor/blob/24865b28a0689de8b4949fb69ea1f95da647cd7a/packages/meteor/url_common.js#L52
     // and https://github.com/4minitz/4minitz/issues/504
     Meteor.absoluteUrl.defaultOptions.rootUrl = Meteor.settings.ROOT_URL;
-  } else {
-    Meteor.settings.ROOT_URL = process.env.ROOT_URL;
+    return;
   }
+  Meteor.settings.ROOT_URL = process.env.ROOT_URL;
 };
 
 Meteor.startup(() => {
@@ -171,25 +171,26 @@ Meteor.startup(() => {
   }
 
   if (
-    GlobalSettings.hasImportUsersCronTab() ||
-    GlobalSettings.getImportUsersOnLaunch()
+    !(GlobalSettings.hasImportUsersCronTab() ||
+  GlobalSettings.getImportUsersOnLaunch())
   ) {
-    const crontab = GlobalSettings.getImportUsersCronTab(),
-      mongoUrl = process.env.MONGO_URL,
-      ldapSettings = GlobalSettings.getLDAPSettings();
-    console.log("MONGO_URL:", mongoUrl);
+    return;
+  }
+  const crontab = GlobalSettings.getImportUsersCronTab();
+  const mongoUrl = process.env.MONGO_URL;
+  const ldapSettings = GlobalSettings.getLDAPSettings();
+  console.log("MONGO_URL:", mongoUrl);
 
-    if (GlobalSettings.getImportUsersOnLaunch()) {
-      console.log(
-        "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.",
-      );
+  if (GlobalSettings.getImportUsersOnLaunch()) {
+    console.log(
+      "Importing LDAP users on launch. Disable via settings.json ldap.importOnLaunch.",
+    );
+    importUsers(ldapSettings, mongoUrl).catch(() => {});
+  }
+  if (GlobalSettings.hasImportUsersCronTab()) {
+    console.log("Configuring cron job for regular LDAP user import.");
+    cron.schedule(crontab, () => {
       importUsers(ldapSettings, mongoUrl).catch(() => {});
-    }
-    if (GlobalSettings.hasImportUsersCronTab()) {
-      console.log("Configuring cron job for regular LDAP user import.");
-      cron.schedule(crontab, () => {
-        importUsers(ldapSettings, mongoUrl).catch(() => {});
-      });
-    }
+    });
   }
 });
