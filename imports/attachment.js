@@ -13,7 +13,7 @@ export class Attachment {
     this._file = AttachmentsCollection.findOne(attachmentID);
     if (!this._file) {
       throw new Error(
-        `Attachment(): Could not retrieve attachment for ID ${attachmentID}`
+        `Attachment(): Could not retrieve attachment for ID ${attachmentID}`,
       );
     }
   }
@@ -48,7 +48,7 @@ export class Attachment {
         onEnd: doNothing,
         onAbort: doNothing,
       },
-      callbacks
+      callbacks,
     );
 
     const upload = AttachmentsCollection.insert(
@@ -61,7 +61,7 @@ export class Attachment {
           parentseries_id: minutesObj.parentMeetingSeriesID(),
         },
       },
-      false
+      false,
     );
 
     upload.on("start", function () {
