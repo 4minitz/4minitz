@@ -7,7 +7,7 @@ export function createTopic(minutesId, parentSeriesId, topicDoc) {
   const responsibleExtractor = new ResponsibleExtractor(topicDoc.subject);
   topicDoc.subject = responsibleExtractor.getCleanedString();
   topicDoc.responsibles = topicDoc.responsibles.concat(
-    responsibleExtractor.getExtractedResponsible()
+    responsibleExtractor.getExtractedResponsible(),
   );
 
   const aTopic = new Topic(minutesId, topicDoc);

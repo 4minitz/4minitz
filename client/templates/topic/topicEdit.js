@@ -108,7 +108,7 @@ Template.topicEdit.events({
         IsEditedService.removeIsEditedTopic(
           _minutesID,
           topic._topicDoc._id,
-          true
+          true,
         );
         $("#dlgAddTopic").modal("show");
       };
@@ -121,7 +121,7 @@ Template.topicEdit.events({
         unset,
         setIsEdited,
         evt,
-        "confirmationDialogResetEdit"
+        "confirmationDialogResetEdit",
       );
     }
 
@@ -130,7 +130,7 @@ Template.topicEdit.events({
       topic._topicDoc,
       false,
       _minutesID,
-      topic
+      topic,
     );
     const selectLabels = $("#id_item_selLabels");
     if (selectLabels) {

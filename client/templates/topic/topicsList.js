@@ -51,7 +51,7 @@ Template.topicsList.events({
     const aTopic = createTopic(
       tmpl.data.minutesId,
       this.parentMeetingSeriesId,
-      topicDoc
+      topicDoc,
     );
 
     aTopic.saveAtBottom().catch((error) => {

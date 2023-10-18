@@ -62,16 +62,16 @@ class ExpImpMeetingSeries {
           }
 
           return db
-          .collection("meetingSeries")
-          .insert(msDoc)
-          .then((res) => {
-            if (res.result.ok === 1) {
-              console.log(`OK, inserted meeting series with ID: ${msID}`);
-              resolve({ db, usrMap });
-            } else {
-              reject(`Could not insert meeting series with ID: ${msID}`);
-            }
-          });
+            .collection("meetingSeries")
+            .insert(msDoc)
+            .then((res) => {
+              if (res.result.ok === 1) {
+                console.log(`OK, inserted meeting series with ID: ${msID}`);
+                resolve({ db, usrMap });
+              } else {
+                reject(`Could not insert meeting series with ID: ${msID}`);
+              }
+            });
         });
     });
   }

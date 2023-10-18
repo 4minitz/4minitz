@@ -36,7 +36,7 @@ Template.meetingSeriesEditUsers.onRendered(() => {
       }
       return checkUserName(value, _config);
     },
-    ""
+    "",
   );
 });
 
@@ -44,7 +44,7 @@ Template.meetingSeriesEditUsers.helpers({
   userListClean() {
     return userlistClean(
       Meteor.users.find({ isInactive: { $not: true } }).fetch(),
-      _config.users.find().fetch()
+      _config.users.find().fetch(),
     );
   },
 

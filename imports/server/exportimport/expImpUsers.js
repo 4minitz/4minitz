@@ -184,8 +184,8 @@ class ExpImpUsers {
                 const roles = usr.roles ? usr.roles : {};
                 roles[msID] = roleValueForMS;
                 return db
-                .collection("users") // upsert role field
-                .update({ _id: usr._id }, { $set: { roles } });
+                  .collection("users") // upsert role field
+                  .update({ _id: usr._id }, { $set: { roles } });
               }),
           );
         }

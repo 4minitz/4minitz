@@ -146,8 +146,7 @@ export class InfoItem {
     return this._infoItemDoc.details[index];
   }
 
-  async save(callback = (() => {})) {
-
+  async save(callback = () => {}) {
     try {
       const result = await this.saveAsync();
       callback(undefined, result);

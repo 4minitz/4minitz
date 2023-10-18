@@ -14,7 +14,7 @@ export function createItem(
   minutesId,
   meetingSeries,
   type = "infoItem",
-  labels = []
+  labels = [],
 ) {
   itemDoc.labels = convertOrCreateLabelsFromStrings(labels, meetingSeries);
 
@@ -25,7 +25,7 @@ export function createItem(
   if (!itemDoc.subject) {
     throw new Meteor.Error(
       "illegal-argument",
-      "Please add a subject for the new item"
+      "Please add a subject for the new item",
     );
   }
 
@@ -70,7 +70,7 @@ export function detectTypeAndCreateItem(
   itemDoc,
   parentTopic,
   minutesId,
-  meetingSeries
+  meetingSeries,
 ) {
   const responsibleExtractor = new ResponsibleExtractor(itemDoc.subject, true);
   let type = "infoItem";
