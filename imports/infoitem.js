@@ -4,11 +4,11 @@
  * a date when is was created
  * and a list of associated tags.
  */
-import { formatDateISO8601 } from "/imports/helpers/date";
-import { User } from "/imports/user";
+import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
-import { _ } from "meteor/underscore";
+import { formatDateISO8601 } from "/imports/helpers/date";
+import { User } from "/imports/user";
 
 export class InfoItem {
   constructor(parentTopic, source) {
@@ -115,14 +115,15 @@ export class InfoItem {
           "to delete an element",
       );
     }
-    if (text !== this._infoItemDoc.details[index].text) {
-      this._infoItemDoc.details[index].date = formatDateISO8601(new Date());
-      this._infoItemDoc.details[index].text = text;
-      this._infoItemDoc.details[index].updatedAt = new Date();
-      this._infoItemDoc.details[index].updatedBy = User.PROFILENAMEWITHFALLBACK(
-        Meteor.user(),
-      );
+    if (text === this._infoItemDoc.details[index].text) {
+      return;
     }
+    this._infoItemDoc.details[index].date = formatDateISO8601(new Date());
+    this._infoItemDoc.details[index].text = text;
+    this._infoItemDoc.details[index].updatedAt = new Date();
+    this._infoItemDoc.details[index].updatedBy = User.PROFILENAMEWITHFALLBACK(
+      Meteor.user(),
+    );
   }
 
   getDetails() {
@@ -145,8 +146,7 @@ export class InfoItem {
     return this._infoItemDoc.details[index];
   }
 
-  async save(callback) {
-    callback = callback || (() => {});
+  async save(callback = (() => {})) {
 
     try {
       const result = await this.saveAsync();

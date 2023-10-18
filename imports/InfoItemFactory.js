@@ -16,11 +16,7 @@ export class InfoItemFactory {
      * @returns {InfoItem|ActionItem}
      */
     static createInfoItem(parentTopic, infoItemDoc) {
-        if (InfoItem.isActionItem(infoItemDoc)) {
-            return new ActionItem(parentTopic, infoItemDoc);
-        } else {
-            return new InfoItem(parentTopic, infoItemDoc);
-        }
+        return InfoItem.isActionItem(infoItemDoc) ? new ActionItem(parentTopic, infoItemDoc) : new InfoItem(parentTopic, infoItemDoc);
     }
 
 }

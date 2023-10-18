@@ -72,16 +72,11 @@ export class MeetingSeries {
   }
 
   save(optimisticUICallback) {
-    const doc = this;
-    if (this._id) {
-      return Meteor.callPromise("meetingseries.update", doc);
-    } else {
-      return Meteor.callPromise(
-        "meetingseries.insert",
-        doc,
-        optimisticUICallback,
-      );
-    }
+    return this._id ? Meteor.callPromise("meetingseries.update", this) : Meteor.callPromise(
+      "meetingseries.insert",
+      this,
+      optimisticUICallback
+    );
   }
 
   async saveAsync(optimisticUICallback) {
@@ -138,11 +133,7 @@ export class MeetingSeries {
   }
 
   countMinutes() {
-    if (this.minutes) {
-      return this.minutes.length;
-    } else {
-      return 0;
-    }
+    return this.minutes ? this.minutes.length : 0;
   }
 
   async updateLastMinutesFields(callback) {
@@ -188,7 +179,7 @@ export class MeetingSeries {
   }
 
   _getDateOfLatestMinuteExcluding(minuteId) {
-    // todo: check if excluding the given minuteId could be
+    // TODO check if excluding the given minuteId could be
     // done directly in the find call on the collection
 
     const latestMinutes = Minutes.findAllIn(this.minutes, 2).map((minute) => {
@@ -218,13 +209,7 @@ export class MeetingSeries {
    * @returns Date or false, if all dates are possible.
    */
   getMinimumAllowedDateForMinutes(minutesId) {
-    let firstPossibleDate;
-
-    if (!minutesId) {
-      firstPossibleDate = this._getDateOfLatestMinute();
-    } else {
-      firstPossibleDate = this._getDateOfLatestMinuteExcluding(minutesId);
-    }
+    const firstPossibleDate = minutesId ? this._getDateOfLatestMinuteExcluding(minutesId) : this._getDateOfLatestMinute();
 
     if (firstPossibleDate) {
       firstPossibleDate.setHours(0);
@@ -315,8 +300,7 @@ export class MeetingSeries {
     );
   }
 
-  findLabelContainingSubstr(name, caseSensitive) {
-    caseSensitive = caseSensitive === undefined ? true : caseSensitive;
+  findLabelContainingSubstr(name, caseSensitive = true) {
     return this.availableLabels.filter((label) => {
       const left = caseSensitive ? label.name : label.name.toUpperCase();
       const right = caseSensitive ? name : name.toUpperCase();
@@ -338,11 +322,11 @@ export class MeetingSeries {
 
   upsertLabel(labelDoc) {
     let i = undefined;
-    if (!labelDoc._id) {
+    if (labelDoc._id) {
+      i = subElementsHelper.findIndexById(labelDoc._id, this.availableLabels); // try to find it
+    } else {
       // brand-new label
       labelDoc._id = Random.id();
-    } else {
-      i = subElementsHelper.findIndexById(labelDoc._id, this.availableLabels); // try to find it
     }
 
     if (i === undefined) {
