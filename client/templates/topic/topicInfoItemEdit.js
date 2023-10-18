@@ -1,13 +1,3 @@
-import { handleError } from "/client/helpers/handleError";
-import { ActionItem } from "/imports/actionitem";
-import { configureSelect2Responsibles } from "/imports/client/ResponsibleSearch";
-import { currentDatePlusDeltaDays } from "/imports/helpers/date";
-import { emailAddressRegExpTest } from "/imports/helpers/email";
-import { MeetingSeries } from "/imports/meetingseries";
-import { Minutes } from "/imports/minutes";
-import { Priority } from "/imports/priority";
-import { Topic } from "/imports/topic";
-import { User, userSettings } from "/imports/user";
 import { _ } from "lodash";
 import { $ } from "meteor/jquery";
 import { Meteor } from "meteor/meteor";
@@ -17,6 +7,15 @@ import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
 import moment from "moment/moment";
 import isEmail from "validator/lib/isEmail";
+import { handleError } from "/client/helpers/handleError";
+import { ActionItem } from "/imports/actionitem";
+import { configureSelect2Responsibles } from "/imports/client/ResponsibleSearch";
+import { currentDatePlusDeltaDays } from "/imports/helpers/date";
+import { MeetingSeries } from "/imports/meetingseries";
+import { Minutes } from "/imports/minutes";
+import { Priority } from "/imports/priority";
+import { Topic } from "/imports/topic";
+import { User, userSettings } from "/imports/user";
 
 import { IsEditedService } from "../../../imports/services/isEditedService";
 import { ConfirmationDialogFactory } from "../../helpers/confirmationDialogFactory";
@@ -42,7 +41,7 @@ Template.topicInfoItemEdit.onCreated(function () {
 
   const user = new User();
   this.collapseState = new ReactiveVar(
-    user.getSetting(userSettings.showAddDetail, true),
+    user.getSetting(userSettings.showAddDetail, true)
   );
 });
 
@@ -94,7 +93,7 @@ const toggleItemMode = (type, tmpl) => {
         editItem._infoItemDoc,
         freeTextValidator,
         _minutesID,
-        editItem,
+        editItem
       );
       break;
     case "infoItem":
@@ -109,9 +108,7 @@ const toggleItemMode = (type, tmpl) => {
 const resizeTextarea = (element) => {
   const newLineRegEx = new RegExp(/\n/g);
   const textAreaValue = element.val();
-  let occurrences;
-
-  occurrences = (textAreaValue.match(newLineRegEx) || []).length;
+  const occurrences = (textAreaValue.match(newLineRegEx) || []).length;
 
   // limit of textarea size
   if (occurrences < 15) {
@@ -125,33 +122,33 @@ function closePopupAndUnsetIsEdited() {
     _minutesID,
     Session.get("topicInfoItemEditTopicId"),
     Session.get("topicInfoItemEditInfoItemId"),
-    false,
+    false
   );
 
   $("#dlgAddInfoItem").modal("hide");
 }
 
 Template.topicInfoItemEdit.helpers({
-  getPriorities: function () {
+  getPriorities() {
     return Priority.GET_PRIORITIES();
   },
-  isEditMode: function () {
+  isEditMode() {
     return getEditInfoItem() !== false;
   },
 
-  getTopicSubject: function () {
+  getTopicSubject() {
     const topic = getRelatedTopic();
     return topic ? topic._topicDoc.subject : "";
   },
 
-  getTopicItemType: function () {
+  getTopicItemType() {
     const type = Session.get("topicInfoItemType");
     return type === "infoItem"
       ? i18n.__("Item.editItemModelTypeInfoItem")
       : i18n.__("Item.editItemModelTypeActionItem");
   },
 
-  collapseState: function () {
+  collapseState() {
     const user = new User();
     return user.getSetting(userSettings.showAddDetail, true);
   },
@@ -168,7 +165,7 @@ Template.topicInfoItemEdit.events({
 
       if (!getRelatedTopic()) {
         throw new Meteor.Error(
-          "IllegalState: We have no related topic object!",
+          "IllegalState: We have no related topic object!"
         );
       }
       if (Session.get("topicInfoItemEditInfoItemId") !== null)
@@ -176,15 +173,15 @@ Template.topicInfoItemEdit.events({
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
           Session.get("topicInfoItemEditInfoItemId"),
-          true,
+          true
         );
       const editItem = getEditInfoItem();
 
       const type = Session.get("topicInfoItemType");
       const newSubject = tmpl.find("#id_item_subject").value;
-      const newDetail = !editItem
-        ? tmpl.find("#id_item_detailInput").value
-        : false;
+      const newDetail = editItem
+        ? false
+        : tmpl.find("#id_item_detailInput").value;
       const labels = tmpl.$("#id_item_selLabelsActionItem").val();
 
       const doc = {};
@@ -207,7 +204,7 @@ Template.topicInfoItemEdit.events({
         _minutesID,
         minutes.parentMeetingSeries(),
         type,
-        labels,
+        labels
       );
 
       if (newDetail) {
@@ -259,7 +256,7 @@ Template.topicInfoItemEdit.events({
     configureSelect2Labels(
       _minutesID,
       "#id_item_selLabelsActionItem",
-      getEditInfoItem(),
+      getEditInfoItem()
     );
     // set type: edit existing item
     if (editItem) {
@@ -272,7 +269,7 @@ Template.topicInfoItemEdit.events({
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
           Session.get("topicInfoItemEditInfoItemId"),
-          true,
+          true
         );
         $("#dlgAddInfoItem").modal("show");
       };
@@ -280,7 +277,7 @@ Template.topicInfoItemEdit.events({
         IsEditedService.setIsEditedInfoItem(
           _minutesID,
           Session.get("topicInfoItemEditTopicId"),
-          Session.get("topicInfoItemEditInfoItemId"),
+          Session.get("topicInfoItemEditInfoItemId")
         );
       };
 
@@ -289,7 +286,7 @@ Template.topicInfoItemEdit.events({
         unset,
         setIsEdited,
         evt,
-        "confirmationDialogResetEdit",
+        "confirmationDialogResetEdit"
       );
     } else {
       // adding a new item
@@ -302,7 +299,7 @@ Template.topicInfoItemEdit.events({
         editItem._infoItemDoc,
         freeTextValidator,
         _minutesID,
-        editItem,
+        editItem
       );
       const selectResponsibles = $("#id_selResponsibleActionItem");
       if (selectResponsibles) {
@@ -315,11 +312,7 @@ Template.topicInfoItemEdit.events({
       const infoItemType = Session.get("topicInfoItemType");
       toggleItemMode(infoItemType, tmpl);
 
-      if (infoItemType === "infoItem") {
-        itemSubject.value = "Info";
-      } else {
-        itemSubject.value = "";
-      }
+      itemSubject.value = infoItemType === "infoItem" ? "Info" : "";
     }
   },
 
@@ -340,17 +333,17 @@ Template.topicInfoItemEdit.events({
   },
 
   "select2:selecting #id_selResponsibleActionItem"(evt) {
-    if (evt.params.args.data.id === evt.params.args.data.text) {
-      // we have a free-text entry
-      if (!isEmail(evt.params.args.data.text)) {
-        // no valid mail anystring@anystring.anystring
-        // prohibit non-mail free text entries
-        ConfirmationDialogFactory.makeInfoDialog(
-          i18n.__("Dialog.ActionItemResponsibleError.title"),
-          i18n.__("Dialog.ActionItemResponsibleError.body"),
-        ).show();
-        return false;
-      }
+    if (
+      evt.params.args.data.id === evt.params.args.data.text &&
+      !isEmail(evt.params.args.data.text)
+    ) {
+      // no valid mail anystring@anystring.anystring
+      // prohibit non-mail free text entries
+      ConfirmationDialogFactory.makeInfoDialog(
+        i18n.__("Dialog.ActionItemResponsibleError.title"),
+        i18n.__("Dialog.ActionItemResponsibleError.body")
+      ).show();
+      return false;
     }
     return true;
   },
@@ -397,7 +390,7 @@ Template.topicInfoItemEdit.events({
     closePopupAndUnsetIsEdited();
   },
 
-  keyup: function (evt) {
+  keyup(evt) {
     evt.preventDefault();
     if (evt.keyCode === 27) {
       closePopupAndUnsetIsEdited();

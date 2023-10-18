@@ -15,12 +15,12 @@ export class TopicListConfig {
 
 let collapseID = 0;
 Template.topicsList.helpers({
-  getTopics: function () {
+  getTopics() {
     const config = Template.instance().data;
     return config.topics;
   },
 
-  getTopicElement: function () {
+  getTopicElement() {
     const config = Template.instance().data;
     return {
       topic: this,
@@ -31,7 +31,7 @@ Template.topicsList.helpers({
     };
   },
 
-  isReadOnlyMode: function () {
+  isReadOnlyMode() {
     return Template.instance().data.isReadonly;
   },
 });
@@ -51,7 +51,7 @@ Template.topicsList.events({
     const aTopic = createTopic(
       tmpl.data.minutesId,
       this.parentMeetingSeriesId,
-      topicDoc,
+      topicDoc
     );
 
     aTopic.saveAtBottom().catch((error) => {

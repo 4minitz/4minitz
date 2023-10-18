@@ -8,7 +8,7 @@ import "./collections/minutes_private";
 import { subElementsHelper } from "/imports/helpers/subElements";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
-import { _ } from "meteor/underscore";
+import { _ } from "lodash";
 
 import { InfoItem } from "./infoitem";
 import { InfoItemFactory } from "./InfoItemFactory";
@@ -19,7 +19,7 @@ function resolveParentElement(parent) {
   if (typeof parent === "string") {
     const parentId = parent;
     parent = MeetingSeries.findOne(parentId);
-    if (!parent) parent = Minutes.findOne(parentId);
+    if (!parent) return Minutes.findOne(parentId);
     return parent;
   }
 
@@ -156,11 +156,9 @@ export class Topic {
 
   toggleSkip(forceOpenTopic = true) {
     this.getDocument().isSkipped = !this.isSkipped();
-    if (forceOpenTopic) {
-      if (this.isSkipped() && !this._topicDoc.isOpen) {
-        // topic has been set to skip, so it will be automatically set as open
-        this.toggleState();
-      }
+    if (forceOpenTopic && (this.isSkipped() && !this._topicDoc.isOpen)) {
+      // topic has been set to skip, so it will be automatically set as open
+      this.toggleState();
     }
   }
 
@@ -169,14 +167,14 @@ export class Topic {
       saveChanges = true;
     }
     let i = undefined;
-    if (!topicItemDoc._id) {
-      // brand-new topicItem
-      topicItemDoc._id = Random.id(); // create our own local _id here!
-    } else {
+    if (topicItemDoc._id) {
       i = subElementsHelper.findIndexById(
         topicItemDoc._id,
         this.getInfoItems(),
       );
+    } else {
+      // brand-new topicItem
+      topicItemDoc._id = Random.id(); // create our own local _id here!
     }
     if (i === undefined) {
       // topicItem not in array

@@ -36,7 +36,7 @@ export class TopicInfoItemListContext {
   static createdReadonlyContextForItemsOfDifferentTopicsAndDifferentMinutes(
     items,
     resolveSeriesForItem,
-    resolveTopicForItem,
+    resolveTopicForItem
   ) {
     const context = new TopicInfoItemListContext(items, true, null);
     context.getSeriesId = resolveSeriesForItem;
@@ -49,7 +49,7 @@ export class TopicInfoItemListContext {
   // called from Meeting Series "tabItems" view
   static createReadonlyContextForItemsOfDifferentTopics(
     items,
-    meetingSeriesId,
+    meetingSeriesId
   ) {
     const context = new TopicInfoItemListContext(items, true, meetingSeriesId);
     const mapItemID2topicID = {};
@@ -68,13 +68,13 @@ export class TopicInfoItemListContext {
     items,
     isReadonly,
     topicParentId,
-    parentTopicId,
+    parentTopicId
   ) {
     return new TopicInfoItemListContext(
       items,
       isReadonly,
       topicParentId,
-      parentTopicId,
+      parentTopicId
     );
   }
 
@@ -86,12 +86,12 @@ export class TopicInfoItemListContext {
    * @param parentTopicId topic ID
    */
   constructor(items, isReadonly, topicParentId = null, parentTopicId = null) {
-    this.items = !parentTopicId
-      ? items
-      : items.map((item) => {
+    this.items = parentTopicId
+      ? items.map((item) => {
           item.parentTopicId = parentTopicId;
           return item;
-        });
+        })
+      : items;
     this.isReadonly = isReadonly;
     this.topicParentId = topicParentId; // the parent of the topic: either
     // minute or meeting series!
@@ -105,7 +105,7 @@ Template.topicInfoItemList.onCreated(function () {
   /** @type {TopicInfoItemListContext} */
   const tmplData = Template.instance().data;
   this.isItemsLimited = new ReactiveVar(
-    tmplData.items.length > INITIAL_ITEMS_LIMIT,
+    tmplData.items.length > INITIAL_ITEMS_LIMIT
   );
 
   // Dict maps Item._id => true/false, where true := "expanded state"
@@ -117,18 +117,18 @@ Template.topicInfoItemList.onCreated(function () {
     FlowRouter.getRouteName() === "minutesedit" // eslint-disable-line
       ? tmplData.topicParentId
       : MinutesFinder.lastFinalizedMinutesOfMeetingSeries(
-          new MeetingSeries(tmplData.topicParentId),
+          new MeetingSeries(tmplData.topicParentId)
         )._id;
 });
 
 const updateItemSorting = (evt, ui) => {
-  let item = ui.item,
-    sorting = item.parent().find("> .topicInfoItem"),
-    topic = new Topic(
-      item.attr("data-topic-parent-id"),
-      item.attr("data-parent-id"),
-    ),
-    newItemSorting = [];
+  const item = ui.item;
+  const sorting = item.parent().find("> .topicInfoItem");
+  const topic = new Topic(
+    item.attr("data-topic-parent-id"),
+    item.attr("data-parent-id")
+  );
+  const newItemSorting = [];
 
   for (let i = 0; i < sorting.length; ++i) {
     const itemId = $(sorting[i]).attr("data-id");
@@ -146,11 +146,7 @@ const updateItemSorting = (evt, ui) => {
 
 const getMeetingSeriesId = (parentElementId) => {
   const aMin = Minutes.findOne(parentElementId);
-  if (aMin) {
-    return aMin.parentMeetingSeriesID();
-  } else {
-    return parentElementId;
-  }
+  return aMin ? aMin.parentMeetingSeriesID() : parentElementId;
 };
 
 const createTopic = (parentElementId, topicId) => {
@@ -180,7 +176,7 @@ const performActionForItem = (evt, tmpl, action) => {
   const aInfoItem = findInfoItem(
     context.getSeriesId(infoItem._id),
     infoItem.parentTopicId,
-    infoItem._id,
+    infoItem._id
   );
   action(aInfoItem);
 };
@@ -249,7 +245,7 @@ function makeDetailEditable(textEl, inputEl, detailActionsId) {
 }
 
 Template.topicInfoItemList.helpers({
-  topicStateClass: function (index) {
+  topicStateClass(index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const infoItem = context.items[index];
@@ -269,12 +265,12 @@ Template.topicInfoItemList.helpers({
     }
   },
 
-  hasDetails: function (index) {
+  hasDetails(index) {
     const details = getDetails(Template.instance(), index);
     return details.length > 0;
   },
 
-  detailsArray: function (index) {
+  detailsArray(index) {
     return getDetails(Template.instance(), index);
   },
 
@@ -283,21 +279,21 @@ Template.topicInfoItemList.helpers({
     return allItemsExpandedState[itemID];
   },
 
-  isActionItem: function (index) {
+  isActionItem(index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const item = context.items[index];
     return item && item.itemType === "actionItem";
   },
 
-  isInfoItem: function (index) {
+  isInfoItem(index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const item = context.items[index];
     return item && context.items[index].itemType === "infoItem";
   },
 
-  isItemConversationAllowed: function (index) {
+  isItemConversationAllowed(index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     if (context.isReadonly) {
@@ -309,35 +305,25 @@ Template.topicInfoItemList.helpers({
     );
   },
 
-  checkedState: function (index) {
+  checkedState(index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const infoItem = context.items[index];
-    if ((infoItem && infoItem.itemType === "infoItem") || infoItem.isOpen) {
-      return "";
-    } else {
-      return { checked: "checked" };
-    }
+    return (infoItem && infoItem.itemType === "infoItem") || infoItem.isOpen
+      ? ""
+      : { checked: "checked" };
   },
 
-  disabledState: function () {
+  disabledState() {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
-    if (context.isReadonly) {
-      return { disabled: "disabled" };
-    } else {
-      return "";
-    }
+    return context.isReadonly ? { disabled: "disabled" } : "";
   },
 
   cursorForEdit() {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
-    if (context.isReadonly) {
-      return "";
-    } else {
-      return "pointer";
-    }
+    return context.isReadonly ? "" : "pointer";
   },
 
   responsiblesHelper(index) {
@@ -348,12 +334,12 @@ Template.topicInfoItemList.helpers({
       return;
     }
     const responsible = ResponsibleResolver.resolveAndformatResponsiblesString(
-      infoItem.responsibles,
+      infoItem.responsibles
     );
     return responsible ? `(${responsible})` : "";
   },
 
-  getLabels: function (index) {
+  getLabels(index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const infoItem = context.items[index];
@@ -362,11 +348,11 @@ Template.topicInfoItemList.helpers({
     }
     return LabelResolver.resolveLabels(
       infoItem.labels,
-      getMeetingSeriesId(context.getSeriesId(infoItem._id)),
+      getMeetingSeriesId(context.getSeriesId(infoItem._id))
     ).map(labelSetFontColor);
   },
 
-  getLinkToTopic: function (index) {
+  getLinkToTopic(index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const infoItem = context.items[index];
@@ -376,17 +362,17 @@ Template.topicInfoItemList.helpers({
       return;
     }
     return Blaze._globalHelpers.pathForImproved(
-      `/topic/${context.getTopicId(infoItem._id)}`,
+      `/topic/${context.getTopicId(infoItem._id)}`
     );
   },
 
-  showLinks: function () {
+  showLinks() {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     return context.hasLink;
   },
 
-  tooltipForTopic: function (index) {
+  tooltipForTopic(index) {
     /** @type {TopicInfoItemListContext} */
     const context = Template.instance().data;
     const infoItem = context.items[index];
@@ -421,7 +407,7 @@ Template.topicInfoItemList.events({
     const context = tmpl.data;
     performActionForItem(evt, tmpl, (item) => {
       const isDeleteAllowed = item.isDeleteAllowed(
-        context.getSeriesId(item._infoItemDoc._id),
+        context.getSeriesId(item._infoItemDoc._id)
       );
 
       if (item.isSticky() || isDeleteAllowed) {
@@ -463,21 +449,21 @@ Template.topicInfoItemList.events({
           title,
           "confirmDeleteItem",
           templateData,
-          button,
+          button
         ).show();
-      } else {
-        // not-sticky && delte-not-allowed
-        ConfirmationDialogFactory.makeInfoDialog(
-          i18n.__("Dialog.ItemDeleteError.title"),
-          i18n.__("Dialog.ItemDeleteError.body1") +
-            " " +
-            (item.isActionItem()
-              ? i18n.__("Dialog.ItemDeleteError.body2a")
-              : i18n.__("Dialog.ItemDeleteError.body2b")) +
-            " " +
-            i18n.__("Dialog.ItemDeleteError.body3"),
-        ).show();
+        return;
       }
+      // not-sticky && delte-not-allowed
+      ConfirmationDialogFactory.makeInfoDialog(
+        i18n.__("Dialog.ItemDeleteError.title"),
+        i18n.__("Dialog.ItemDeleteError.body1") +
+          " " +
+          (item.isActionItem()
+            ? i18n.__("Dialog.ItemDeleteError.body2a")
+            : i18n.__("Dialog.ItemDeleteError.body2b")) +
+          " " +
+          i18n.__("Dialog.ItemDeleteError.body3")
+      ).show();
     });
   },
 
@@ -505,20 +491,20 @@ Template.topicInfoItemList.events({
     const item = findInfoItem(
       context.topicParentId,
       infoItem.parentTopicId,
-      infoItem._id,
+      infoItem._id
     );
     // if edit is allowed topicParentId == currentMinutesId
     if (
       ItemsConverter.isConversionAllowed(
         item.getDocument(),
-        context.topicParentId,
+        context.topicParentId
       )
     ) {
       ItemsConverter.convertItem(item).catch(handleError);
     } else {
       ConfirmationDialogFactory.makeInfoDialog(
         i18n.__("Dialog.ConvertItemError.title"),
-        i18n.__("Dialog.ConvertItemError.body"),
+        i18n.__("Dialog.ConvertItemError.body")
       ).show();
     }
   },
@@ -599,7 +585,7 @@ Template.topicInfoItemList.events({
           aTopic._topicDoc._id,
           aActionItem._infoItemDoc._id,
           detailIndex,
-          true,
+          true
         );
       };
 
@@ -610,7 +596,7 @@ Template.topicInfoItemList.events({
       const tmplData = {
         isEditedByName: User.PROFILENAMEWITHFALLBACK(user),
         isEditedDate: formatDateISO8601Time(
-          aActionItem._infoItemDoc.details[detailIndex].isEditedDate,
+          aActionItem._infoItemDoc.details[detailIndex].isEditedDate
         ),
         isDetail: true,
       };
@@ -620,14 +606,14 @@ Template.topicInfoItemList.events({
         i18n.__("Dialog.IsEditedHandling.title"),
         "confirmationDialogResetEdit",
         tmplData,
-        i18n.__("Dialog.IsEditedHandling.button"),
+        i18n.__("Dialog.IsEditedHandling.button")
       ).show();
     } else {
       IsEditedService.setIsEditedDetail(
         aMin._id,
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
-        detailIndex,
+        detailIndex
       );
       makeDetailEditable(textEl, inputEl, detailActionsId);
     }
@@ -639,7 +625,7 @@ Template.topicInfoItemList.events({
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
         detailIndex,
-        true,
+        true
       );
     };
     const setIsEdited = () => {
@@ -647,7 +633,7 @@ Template.topicInfoItemList.events({
         aMin._id,
         aTopic._topicDoc._id,
         aActionItem._infoItemDoc._id,
-        detailIndex,
+        detailIndex
       );
       makeDetailEditable(textEl, inputEl, detailActionsId);
     };
@@ -657,7 +643,7 @@ Template.topicInfoItemList.events({
       unset,
       setIsEdited,
       evt,
-      "confirmationDialogResetDetail",
+      "confirmationDialogResetDetail"
     );
   },
 
@@ -702,21 +688,11 @@ Template.topicInfoItemList.events({
       aTopic._topicDoc._id,
       aActionItem._infoItemDoc._id,
       detailIndex,
-      true,
+      true
     );
 
     if (text === "" || text !== textEl.attr("data-text")) {
-      if (text !== "") {
-        aActionItem.updateDetails(detailIndex, text);
-        aActionItem.save().catch(handleError);
-        IsEditedService.removeIsEditedDetail(
-          aMin._id,
-          aTopic._topicDoc._id,
-          aActionItem._infoItemDoc._id,
-          detailIndex,
-          true,
-        );
-      } else {
+      if (text === "") {
         const deleteDetails = () => {
           aActionItem.removeDetails(detailIndex);
           aActionItem.save().catch(handleError);
@@ -727,11 +703,7 @@ Template.topicInfoItemList.events({
         };
 
         const oldText = aActionItem.getDetailsAt(detailIndex).text;
-        if (!oldText) {
-          // use case: Adding details and leaving the input field without
-          // entering any text should go silently.
-          deleteDetails();
-        } else {
+        if (oldText) {
           // otherwise we show an confirmation dialog before the deails will be
           // removed
           ConfirmationDialogFactory.makeWarningDialog(
@@ -739,9 +711,23 @@ Template.topicInfoItemList.events({
             undefined,
             i18n.__("Dialog.confirmDeleteDetails", {
               subject: aActionItem.getSubject(),
-            }),
+            })
           ).show();
+        } else {
+          // use case: Adding details and leaving the input field without
+          // entering any text should go silently.
+          deleteDetails();
         }
+      } else {
+        aActionItem.updateDetails(detailIndex, text);
+        aActionItem.save().catch(handleError);
+        IsEditedService.removeIsEditedDetail(
+          aMin._id,
+          aTopic._topicDoc._id,
+          aActionItem._infoItemDoc._id,
+          detailIndex,
+          true
+        );
       }
     }
 
