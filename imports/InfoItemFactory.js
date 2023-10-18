@@ -1,5 +1,5 @@
-import { InfoItem } from "./infoitem";
-import { ActionItem } from "./actionitem";
+import {ActionItem} from "./actionitem";
+import {InfoItem} from "./infoitem";
 
 export class InfoItemFactory {
   /**
@@ -15,7 +15,7 @@ export class InfoItemFactory {
    */
   static createInfoItem(parentTopic, infoItemDoc) {
     return InfoItem.isActionItem(infoItemDoc)
-      ? new ActionItem(parentTopic, infoItemDoc)
-      : new InfoItem(parentTopic, infoItemDoc);
+               ? new ActionItem(parentTopic, infoItemDoc)
+               : new InfoItem(parentTopic, infoItemDoc);
   }
 }

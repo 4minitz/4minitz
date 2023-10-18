@@ -1,18 +1,18 @@
 /**
  *
  * @param {Date} aDate
- * @param {boolean} [timeZoneCorrection=true] perform shift of aDate according to time zone?
+ * @param {boolean} [timeZoneCorrection=true] perform shift of aDate according
+ *     to time zone?
  * @returns {string} YYYY-MM-DD hh:mm:ss
  */
 export const formatDateISO8601Time = (aDate, timeZoneCorrection = true) => {
   try {
-    const tzoffset = timeZoneCorrection
-      ? aDate.getTimezoneOffset() * 60_000
-      : 0; //offset in milliseconds
+    const tzoffset = timeZoneCorrection ? aDate.getTimezoneOffset() * 60_000
+                                        : 0; // offset in milliseconds
     return new Date(aDate - tzoffset)
-      .toISOString()
-      .substr(0, 19)
-      .replace("T", " "); // YYYY-MM-DD hh:mm:ss
+        .toISOString()
+        .substr(0, 19)
+        .replace("T", " "); // YYYY-MM-DD hh:mm:ss
   } catch (e) {
     return "NaN-NaN-NaN 00:00:00";
   }
@@ -26,7 +26,8 @@ export const msToHHMMSS = (ms) => {
 };
 
 export const formatDateISO8601 = (aDate) => {
-  aDate.setHours(0, -aDate.getTimezoneOffset(), 0, 0); //removing the timezone offset.
+  aDate.setHours(0, -aDate.getTimezoneOffset(), 0,
+                 0); // removing the timezone offset.
   try {
     return aDate.toISOString().substr(0, 10); // YYYY-MM-DD
   } catch (e) {
