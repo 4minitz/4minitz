@@ -9,9 +9,6 @@ Template.meetingSeriesOverview.helpers({
   },
 
   lastMinutes() {
-    const seriesDocumentFromDataContext = this;
-    return MinutesFinder.lastMinutesOfMeetingSeries(
-      seriesDocumentFromDataContext,
-    );
+    return MinutesFinder.lastMinutesOfMeetingSeries(this);
   },
 });

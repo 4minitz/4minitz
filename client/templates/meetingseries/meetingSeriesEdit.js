@@ -298,12 +298,13 @@ Template.meetingSeriesEdit.events({
 
   keyup(evt, tmpl) {
     evt.preventDefault();
-    if (evt.keyCode === 27) {
-      const ms = new MeetingSeries(tmpl.data._id);
-      IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
-
-      $("#dlgEditMeetingSeries").modal("hide");
+    if (evt.keyCode !== 27) {
+      return;
     }
+    const ms = new MeetingSeries(tmpl.data._id);
+    IsEditedService.removeIsEditedMeetingSerie(ms._id, false);
+
+    $("#dlgEditMeetingSeries").modal("hide");
   },
 
   // Prevent the last open panel to be collapsible

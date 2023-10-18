@@ -36,41 +36,41 @@ Template.meetingSeriesEditUsers.onRendered(() => {
       }
       return checkUserName(value, _config);
     },
-    "",
+    ""
   );
 });
 
 Template.meetingSeriesEditUsers.helpers({
-  userListClean: function () {
+  userListClean() {
     return userlistClean(
       Meteor.users.find({ isInactive: { $not: true } }).fetch(),
-      _config.users.find().fetch(),
+      _config.users.find().fetch()
     );
   },
 
-  users: function () {
+  users() {
     return _config.users.find({}, { sort: { username: 1 } });
   },
 
-  userRoleObj: function (userID) {
+  userRoleObj(userID) {
     // get user with roles from temp. user collection, not the global meteor
     // user collection!
     return new UserRoles(userID, _config.users);
   },
 
-  hasViewRole: function () {
+  hasViewRole() {
     // this is blaze context {{# with userRoleObj currentuser._id}}
     // So, this is a UserRoles object
     return this.hasViewRoleFor(_config.meetingSeriesID);
   },
 
-  currentRole: function () {
+  currentRole() {
     // this is blaze context {{# with userRoleObj currentuser._id}}
     // So, this is a UserRoles object
     return this.currentRoleTextFor(_config.meetingSeriesID);
   },
 
-  isModerator: function () {
+  isModerator() {
     // this is blaze context {{# with userRoleObj currentuser._id}}
     // So, this is a UserRoles object
     return this.isModeratorOf(_config.meetingSeriesID);
@@ -79,13 +79,13 @@ Template.meetingSeriesEditUsers.helpers({
   // the currently logged in user shall not be able to edit herself.
   // Eg. logged in user shall not change herself Moderator => Invited
   // or currently logged in user shall not be able to delete herself from list
-  userIsReadOnly: function () {
+  userIsReadOnly() {
     return _config.currentUserReadOnly && this._user._idOrg === Meteor.userId();
   },
 
   // generate the "<select>" HTML with possible roles and the
   // role selected that is currently attached to the user
-  rolesOptions: function () {
+  rolesOptions() {
     // this is blaze context {{# with userRoleObj currentuser._id}}
     // So, this is a UserRoles object
     const currentRoleNum = this.currentRoleFor(_config.meetingSeriesID);
@@ -151,13 +151,14 @@ Template.meetingSeriesEditUsers.events({
 
       return false;
     }
-    if (evt.which === 27) {
-      // 'ESC' on username <input>
-      evt.stopPropagation();
-      evt.preventDefault();
-      $(".typeahead").typeahead("val", "").typeahead("close");
-      return false;
+    if (evt.which !== 27) {
+      return;
     }
+    // 'ESC' on username <input>
+    evt.stopPropagation();
+    evt.preventDefault();
+    $(".typeahead").typeahead("val", "").typeahead("close");
+    return false;
   },
 
   // a typeahead suggestion was selected from drop-down menu

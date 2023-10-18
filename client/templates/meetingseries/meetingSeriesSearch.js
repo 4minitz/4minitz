@@ -1,10 +1,10 @@
-import { Template } from 'meteor/templating';
+import { Template } from "meteor/templating";
 
 Template.meetingSeriesSearch.events({
-    'keyup .meetingSeriesSearchbar': function (event) {
-        const target = event.currentTarget;
-        const text = target.searchMeetingSeries.value;
+  "keyup .meetingSeriesSearchbar": function (event) {
+    const target = event.currentTarget;
+    const text = target.searchMeetingSeries.value;
 
-        Template.instance().data.updateSearchQuery(text);
-    }
+    Template.instance().data.updateSearchQuery(text);
+  },
 });

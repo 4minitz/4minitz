@@ -26,16 +26,16 @@ Template.meetingSeriesEditLabels.onRendered(() => {
     (value) => {
       return ColorHelper.isValidHexColorString(value);
     },
-    i18n.__("MeetingSeries.Labels.Error.hexValue"),
+    i18n.__("MeetingSeries.Labels.Error.hexValue")
   );
 });
 
 Template.meetingSeriesEditLabels.helpers({
-  getColorNum: function () {
+  getColorNum() {
     return this.color.substr(1);
   },
 
-  getLabels: function () {
+  getLabels() {
     const aSeries = new MeetingSeries(this.meetingSeriesId);
     return aSeries.getAvailableLabels().map((labelDoc) => {
       const labelObj = new Label(labelDoc);
@@ -111,12 +111,13 @@ Template.meetingSeriesEditLabels.events({
 
   "keyup .evt-submit-enter"(evt, tmpl) {
     // escape key will not be handled in keypress callback...
-    if (evt.which === 27 /*escape*/) {
-      const labelId = this._id;
-      const row = tmpl.$(`#row-label-${labelId}`);
-      row.find(".view-display").show();
-      row.find(".view-edit").hide();
+    if (evt.which !== 27 /*escape*/ /*escape*/) {
+      return;
     }
+    const labelId = this._id;
+    const row = tmpl.$(`#row-label-${labelId}`);
+    row.find(".view-display").show();
+    row.find(".view-edit").hide();
   },
 
   "click .evt-btn-edit-save": function (evt, tmpl) {
