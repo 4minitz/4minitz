@@ -17,9 +17,9 @@ class ExpImpTopics {
             fs.writeFileSync(topFile, EJSON.stringify(doc, null, 2));
             console.log(`Saved: ${topFile} with ${doc.length} topics`);
             resolve({ db, userIDs });
-          } else {
-            return reject(`Unknown meeting series ID: ${msID}`);
+            return;
           }
+          return reject(`Unknown meeting series ID: ${msID}`);
         });
     });
   }

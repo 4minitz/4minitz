@@ -23,9 +23,9 @@ class ExpImpMeetingSeries {
               userIDs[userID] = 1;
             });
             resolve({ db, userIDs });
-          } else {
-            return reject(`Unknown meeting series ID: ${msID}`);
+            return;
           }
+          return reject(`Unknown meeting series ID: ${msID}`);
         });
     });
   }
@@ -41,38 +41,37 @@ class ExpImpMeetingSeries {
                 msID +
                 " already exists. Cannot import.",
             );
-          } else {
-            const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;
-            let msDoc = undefined;
-            try {
-              msDoc = EJSON.parse(fs.readFileSync(msFile, "utf8"));
-              if (!msDoc) {
-                return reject(`Could not read meeting series file ${msFile}`);
-              }
-            } catch (e) {
+          }
+          const msFile = msID + ExpImpMeetingSeries.FILENAME_POSTFIX;
+          let msDoc = undefined;
+          try {
+            msDoc = EJSON.parse(fs.readFileSync(msFile, "utf8"));
+            if (!msDoc) {
               return reject(`Could not read meeting series file ${msFile}`);
             }
-
-            // Replace old user IDs with new users IDs
-            for (let i = 0; i < msDoc.visibleFor.length; i++) {
-              msDoc.visibleFor[i] = usrMap[msDoc.visibleFor[i]];
-            }
-            for (let i = 0; i < msDoc.informedUsers.length; i++) {
-              msDoc.informedUsers[i] = usrMap[msDoc.informedUsers[i]];
-            }
-
-            return db
-              .collection("meetingSeries")
-              .insert(msDoc)
-              .then((res) => {
-                if (res.result.ok === 1) {
-                  console.log(`OK, inserted meeting series with ID: ${msID}`);
-                  resolve({ db, usrMap });
-                } else {
-                  reject(`Could not insert meeting series with ID: ${msID}`);
-                }
-              });
+          } catch (e) {
+            return reject(`Could not read meeting series file ${msFile}`);
           }
+
+          // Replace old user IDs with new users IDs
+          for (let i = 0; i < msDoc.visibleFor.length; i++) {
+            msDoc.visibleFor[i] = usrMap[msDoc.visibleFor[i]];
+          }
+          for (let i = 0; i < msDoc.informedUsers.length; i++) {
+            msDoc.informedUsers[i] = usrMap[msDoc.informedUsers[i]];
+          }
+
+          return db
+          .collection("meetingSeries")
+          .insert(msDoc)
+          .then((res) => {
+            if (res.result.ok === 1) {
+              console.log(`OK, inserted meeting series with ID: ${msID}`);
+              resolve({ db, usrMap });
+            } else {
+              reject(`Could not insert meeting series with ID: ${msID}`);
+            }
+          });
         });
     });
   }

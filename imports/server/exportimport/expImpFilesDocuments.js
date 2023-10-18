@@ -30,9 +30,9 @@ class ExpImpFilesDocuments {
               );
             }
             resolve({ db, userIDs });
-          } else {
-            return reject(`Unknown meeting series ID: ${msID}`);
+            return;
           }
+          return reject(`Unknown meeting series ID: ${msID}`);
         });
     });
   }

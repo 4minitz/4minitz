@@ -100,37 +100,37 @@ class ExpImpMinutes {
   // TODO big function. consider refactoring.
   static patchUsers(minDoc, usrMap) {
     const minIDs = [];
-    for (let m = 0; m < minDoc.length; m++) {
+    for (const element of minDoc) {
       // iterate all minutes
-      minIDs.push(minDoc[m]._id);
+      minIDs.push(element._id);
       for (
         let i = 0;
-        minDoc[m].visibleFor && i < minDoc[m].visibleFor.length;
+        element.visibleFor && i < element.visibleFor.length;
         i++
       ) {
-        minDoc[m].visibleFor[i] = usrMap[minDoc[m].visibleFor[i]];
+        element.visibleFor[i] = usrMap[element.visibleFor[i]];
       }
       for (
         let i = 0;
-        minDoc[m].informedUsers && i < minDoc[m].informedUsers.length;
+        element.informedUsers && i < element.informedUsers.length;
         i++
       ) {
-        minDoc[m].informedUsers[i] = usrMap[minDoc[m].informedUsers[i]];
+        element.informedUsers[i] = usrMap[element.informedUsers[i]];
       }
       for (
         let i = 0;
-        minDoc[m].participants && i < minDoc[m].participants.length;
+        element.participants && i < element.participants.length;
         i++
       ) {
-        minDoc[m].participants[i].userId =
-          usrMap[minDoc[m].participants[i].userId];
+        element.participants[i].userId =
+          usrMap[element.participants[i].userId];
       }
 
       // iterate topics
-      for (let t = 0; minDoc[m].topics && t < minDoc[m].topics.length; t++) {
-        minDoc[m].topics[t] = ExpImpTopics.patchUsers(
-          minDoc[m].topics[t],
-          usrMap,
+      for (let t = 0; element.topics && t < element.topics.length; t++) {
+        element.topics[t] = ExpImpTopics.patchUsers(
+          element.topics[t],
+          usrMap
         );
       }
     }

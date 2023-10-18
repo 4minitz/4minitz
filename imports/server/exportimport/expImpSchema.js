@@ -37,11 +37,11 @@ class ExpImpSchema {
             fs.writeFileSync(schemaFile, EJSON.stringify(doc, null, 2));
             console.log(`Saved: ${schemaFile}`);
             resolve(db);
-          } else {
-            return reject(
-              "No migrations schema version found in your DB! Unable to export.",
-            );
+            return;
           }
+          return reject(
+            "No migrations schema version found in your DB! Unable to export.",
+          );
         });
     });
   }
@@ -97,11 +97,11 @@ class ExpImpSchema {
               }
             }
             resolve(db);
-          } else {
-            return reject(
-              "No migrations schema version found in your DB! Unable to import.",
-            );
+            return;
           }
+          return reject(
+            "No migrations schema version found in your DB! Unable to import.",
+          );
         });
     });
   }

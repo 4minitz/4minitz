@@ -62,9 +62,9 @@ class ExpImpUsers {
             );
 
             resolve(db);
-          } else {
-            return reject("Could not find users: ", userIDsFlat);
+            return;
           }
+          return reject("Could not find users: ", userIDsFlat);
         });
     });
   }
@@ -92,11 +92,11 @@ class ExpImpUsers {
       const usrMapTargetIDs = [];
       const usrCopyIDs = [];
       Object.keys(usrMap).map((key) => {
-        if (key !== usrMap[key]) {
+        if (key === usrMap[key]) {
+          usrCopyIDs.push(key); // copy user from export DB => import DB
+        } else {
           // key/value different...
           usrMapTargetIDs.push(usrMap[key]); // map to existing user
-        } else {
-          usrCopyIDs.push(key); // copy user from export DB => import DB
         }
       });
 
@@ -132,13 +132,12 @@ class ExpImpUsers {
                       " to-be copied user(s) already exists:\n" +
                       JSON.stringify(errorUsers),
                   );
-                } else {
-                  resolve({ db, usrMap });
                 }
+                resolve({ db, usrMap });
               });
-          } else {
-            return reject("Could not find users: ", usrMapTargetIDs);
+            return;
           }
+          return reject("Could not find users: ", usrMapTargetIDs);
         });
     });
   }
@@ -178,14 +177,15 @@ class ExpImpUsers {
               }) // find the user in target DB
               .then((usr) => {
                 const roleValueForMS = allUsersDoc[u].roles[msID];
-                if (roleValueForMS && roleValueForMS.length > 0) {
-                  // user needs role for import meeting series?
-                  const roles = usr.roles ? usr.roles : {};
-                  roles[msID] = roleValueForMS;
-                  return db
-                    .collection("users") // upsert role field
-                    .update({ _id: usr._id }, { $set: { roles } });
+                if (!(roleValueForMS && roleValueForMS.length > 0)) {
+                  return;
                 }
+                // user needs role for import meeting series?
+                const roles = usr.roles ? usr.roles : {};
+                roles[msID] = roleValueForMS;
+                return db
+                .collection("users") // upsert role field
+                .update({ _id: usr._id }, { $set: { roles } });
               }),
           );
         }

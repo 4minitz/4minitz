@@ -25,9 +25,9 @@ class ExpImpFilesAttachments {
               console.log(`      ${doc[0]._storagePath}`);
             }
             resolve({ db, userIDs });
-          } else {
-            return reject(`Unknown meeting series ID: ${msID}`);
+            return;
           }
+          return reject(`Unknown meeting series ID: ${msID}`);
         });
     });
   }
