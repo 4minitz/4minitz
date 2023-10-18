@@ -1,8 +1,6 @@
-import {
-  BroadcastMessageSchema
-} from "/imports/collections/broadcastmessages.schema";
-import {formatDateISO8601Time} from "/imports/helpers/date";
-import {Meteor} from "meteor/meteor";
+import { BroadcastMessageSchema } from "/imports/collections/broadcastmessages.schema";
+import { formatDateISO8601Time } from "/imports/helpers/date";
+import { Meteor } from "meteor/meteor";
 
 // Dear admin,
 // This class can be used via the 'meteor shell' command from the server
@@ -16,11 +14,17 @@ import {Meteor} from "meteor/meteor";
 // BroadcastMessage.removeAll()
 
 export class BroadcastMessage {
-  static find(...args) { return BroadcastMessageSchema.find(...args); }
+  static find(...args) {
+    return BroadcastMessageSchema.find(...args);
+  }
 
-  static findOne(...args) { return BroadcastMessageSchema.findOne(...args); }
+  static findOne(...args) {
+    return BroadcastMessageSchema.findOne(...args);
+  }
 
-  static dismissForMe() { Meteor.call("broadcastmessage.dismiss"); }
+  static dismissForMe() {
+    Meteor.call("broadcastmessage.dismiss");
+  }
 
   // ************************
   // * static server-only methods
@@ -44,7 +48,7 @@ export class BroadcastMessage {
     }
     if (Meteor.isServer) {
       console.log(`Remove BroadcastMessage: ${id}`);
-      BroadcastMessageSchema.remove({_id : id});
+      BroadcastMessageSchema.remove({ _id: id });
     }
   }
 
@@ -54,10 +58,14 @@ export class BroadcastMessage {
     }
     console.log("List All BroadcastMessages.");
     const allMsgs = [];
-    BroadcastMessageSchema.find({isActive : true}).forEach((msg) => {
+    BroadcastMessageSchema.find({ isActive: true }).forEach((msg) => {
       const oneMsg =
-          `Message: ${msg._id} ` + formatDateISO8601Time(msg.createdAt) +
-          " dismissed:" + msg.dismissForUserIDs.length + "\n" + msg.text;
+        `Message: ${msg._id} ` +
+        formatDateISO8601Time(msg.createdAt) +
+        " dismissed:" +
+        msg.dismissForUserIDs.length +
+        "\n" +
+        msg.text;
       console.log(oneMsg);
       allMsgs.push(oneMsg);
     });

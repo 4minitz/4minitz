@@ -1,7 +1,7 @@
-import {Template} from "meteor/templating";
+import { Template } from "meteor/templating";
 
 Template.meetingSeriesSearch.events({
-  "keyup .meetingSeriesSearchbar" : function(event) {
+  "keyup .meetingSeriesSearchbar": function (event) {
     const target = event.currentTarget;
     const text = target.searchMeetingSeries.value;
 

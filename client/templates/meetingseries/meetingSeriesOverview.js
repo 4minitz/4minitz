@@ -1,7 +1,7 @@
-import {UserRoles} from "/imports/userroles";
-import {Template} from "meteor/templating";
+import { UserRoles } from "/imports/userroles";
+import { Template } from "meteor/templating";
 
-import {MinutesFinder} from "../../../imports/services/minutesFinder";
+import { MinutesFinder } from "../../../imports/services/minutesFinder";
 
 Template.meetingSeriesOverview.helpers({
   isModeratorOfSeries() {
@@ -9,5 +9,7 @@ Template.meetingSeriesOverview.helpers({
     return usrRole.isModeratorOf(Template.instance().data._id);
   },
 
-  lastMinutes() { return MinutesFinder.lastMinutesOfMeetingSeries(this); },
+  lastMinutes() {
+    return MinutesFinder.lastMinutesOfMeetingSeries(this);
+  },
 });

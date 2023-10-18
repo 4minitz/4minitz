@@ -1,9 +1,9 @@
-import {UserRoles} from "/imports/userroles";
-import {$} from "meteor/jquery";
-import {Meteor} from "meteor/meteor";
-import {Template} from "meteor/templating";
+import { UserRoles } from "/imports/userroles";
+import { $ } from "meteor/jquery";
+import { Meteor } from "meteor/meteor";
+import { Template } from "meteor/templating";
 
-import {addCustomValidator} from "../../helpers/customFieldValidator";
+import { addCustomValidator } from "../../helpers/customFieldValidator";
 
 import {
   addNewUser,
@@ -21,7 +21,7 @@ export class UsersEditConfig {
   }
 }
 
-Template.meetingSeriesEditUsers.onCreated(function() {
+Template.meetingSeriesEditUsers.onCreated(function () {
   _config = this.data; // UsersEditConfig object
 });
 
@@ -29,26 +29,28 @@ Template.meetingSeriesEditUsers.onRendered(() => {
   Meteor.typeahead.inject();
 
   addCustomValidator(
-      "#edt_AddUser",
-      (value) => {
-        if (value === "") {
-          return false;
-        }
-        return checkUserName(value, _config);
-      },
-      "",
+    "#edt_AddUser",
+    (value) => {
+      if (value === "") {
+        return false;
+      }
+      return checkUserName(value, _config);
+    },
+    "",
   );
 });
 
 Template.meetingSeriesEditUsers.helpers({
   userListClean() {
     return userlistClean(
-        Meteor.users.find({isInactive : {$not : true}}).fetch(),
-        _config.users.find().fetch(),
+      Meteor.users.find({ isInactive: { $not: true } }).fetch(),
+      _config.users.find().fetch(),
     );
   },
 
-  users() { return _config.users.find({}, {sort : {username : 1}}); },
+  users() {
+    return _config.users.find({}, { sort: { username: 1 } });
+  },
 
   userRoleObj(userID) {
     // get user with roles from temp. user collection, not the global meteor
@@ -88,8 +90,10 @@ Template.meetingSeriesEditUsers.helpers({
     // So, this is a UserRoles object
     const currentRoleNum = this.currentRoleFor(_config.meetingSeriesID);
     const userName = this.getUser().username;
-    let rolesHTML = '<select id="roleSelect' + userName +
-                    '" class="form-control user-role-select">';
+    let rolesHTML =
+      '<select id="roleSelect' +
+      userName +
+      '" class="form-control user-role-select">';
     const rolesNames = UserRoles.allRolesNames();
     const rolesNums = UserRoles.allRolesNumerical();
     for (const i in rolesNames) {
@@ -114,22 +118,22 @@ Template.meetingSeriesEditUsers.helpers({
 });
 
 Template.meetingSeriesEditUsers.events({
-  "click #btnDeleteUser" : function(evt) {
+  "click #btnDeleteUser": function (evt) {
     evt.preventDefault();
-    _config.users.remove({_id : this._userId});
+    _config.users.remove({ _id: this._userId });
   },
 
   // when role select changes, update role in temp. client-only user collection
-  "change .user-role-select" : function(evt) {
+  "change .user-role-select": function (evt) {
     const roleName = $(evt.target).val();
     const roleValue = UserRoles.USERROLES[roleName];
 
     const changedUser = _config.users.findOne(this._userId);
-    changedUser.roles[_config.meetingSeriesID] = [ roleValue ];
-    _config.users.update(this._userId, {$set : {roles : changedUser.roles}});
+    changedUser.roles[_config.meetingSeriesID] = [roleValue];
+    _config.users.update(this._userId, { $set: { roles: changedUser.roles } });
   },
 
-  "submit #form-add-user" : function(evt, tmpl) {
+  "submit #form-add-user": function (evt, tmpl) {
     evt.preventDefault();
     const newUserName = tmpl.find("#edt_AddUser").value;
     addNewUser(newUserName, _config);
@@ -137,7 +141,7 @@ Template.meetingSeriesEditUsers.events({
     $(".typeahead").typeahead("val", "").typeahead("close");
   },
 
-  "keyup #edt_AddUser" : function(evt, tmpl) {
+  "keyup #edt_AddUser": function (evt, tmpl) {
     if (evt.which === 13) {
       // 'ENTER' on username <input>
       evt.stopPropagation();
@@ -158,7 +162,7 @@ Template.meetingSeriesEditUsers.events({
   },
 
   // a typeahead suggestion was selected from drop-down menu
-  "typeahead:select" : function(evt, tmpl, selected) {
+  "typeahead:select": function (evt, tmpl, selected) {
     const newUserName = selected.value.toString();
     $(".typeahead").typeahead("val", "");
     addNewUser(newUserName, _config);
