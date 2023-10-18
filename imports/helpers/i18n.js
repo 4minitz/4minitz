@@ -56,10 +56,10 @@ export class I18nHelper {
       }
     }
 
-    if (!localeCode) {
-      localeCode = I18nHelper._getPreferredUserLocale();
-    } else {
+    if (localeCode) {
       I18nHelper._persistLanguagePreference(localeCode);
+    } else {
+      localeCode = I18nHelper._getPreferredUserLocale();
     }
     console.log(`Switch to language locale: >${localeCode}<`);
     if (localeCode === "auto") {
@@ -142,12 +142,11 @@ export class I18nHelper {
       if (supported[code]) {
         // 'de-DE'
         return supported[code];
-      } else {
-        const codeShort = code.split("-", 1)[0]; // 'de'
-        if (supported[codeShort]) {
-          // Second try: use prefix codes from browser
-          return supported[codeShort]; // but return the more precise 'de-CH'
-        }
+      }
+      const codeShort = code.split("-", 1)[0]; // 'de'
+      if (supported[codeShort]) {
+        // Second try: use prefix codes from browser
+        return supported[codeShort]; // but return the more precise 'de-CH'
       }
     }
     return undefined; // we don't support any preferred browser languages

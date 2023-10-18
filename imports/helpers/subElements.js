@@ -1,5 +1,5 @@
 export const subElementsHelper = {
-  findIndexById: function (id, elements, attributeName) {
+  findIndexById(id, elements, attributeName) {
     if (!attributeName) {
       attributeName = "_id";
     }
@@ -12,7 +12,7 @@ export const subElementsHelper = {
     return undefined;
   },
 
-  getElementById: function (id, elements, attributeName) {
+  getElementById(id, elements, attributeName) {
     const i = subElementsHelper.findIndexById(id, elements, attributeName);
     if (i != undefined) {
       return elements[i];
