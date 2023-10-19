@@ -4,11 +4,11 @@
  * a date when is was created
  * and a list of associated tags.
  */
+import { formatDateISO8601 } from "/imports/helpers/date";
+import { User } from "/imports/user";
 import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
-import { formatDateISO8601 } from "/imports/helpers/date";
-import { User } from "/imports/user";
 
 export class InfoItem {
   constructor(parentTopic, source) {
@@ -146,8 +146,7 @@ export class InfoItem {
     return this._infoItemDoc.details[index];
   }
 
-  async save(callback = (() => {})) {
-
+  async save(callback = () => {}) {
     try {
       const result = await this.saveAsync();
       callback(undefined, result);

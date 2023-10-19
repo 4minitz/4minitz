@@ -122,16 +122,12 @@ class ExpImpMinutes {
         element.participants && i < element.participants.length;
         i++
       ) {
-        element.participants[i].userId =
-          usrMap[element.participants[i].userId];
+        element.participants[i].userId = usrMap[element.participants[i].userId];
       }
 
       // iterate topics
       for (let t = 0; element.topics && t < element.topics.length; t++) {
-        element.topics[t] = ExpImpTopics.patchUsers(
-          element.topics[t],
-          usrMap
-        );
+        element.topics[t] = ExpImpTopics.patchUsers(element.topics[t], usrMap);
       }
     }
 

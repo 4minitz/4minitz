@@ -1,7 +1,8 @@
+import { handleError } from "/client/helpers/handleError";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 import { i18n } from "meteor/universe:i18n";
-import { handleError } from "/client/helpers/handleError";
+
 import { createTopic } from "./helpers/create-topic";
 
 export class TopicListConfig {
@@ -51,7 +52,7 @@ Template.topicsList.events({
     const aTopic = createTopic(
       tmpl.data.minutesId,
       this.parentMeetingSeriesId,
-      topicDoc
+      topicDoc,
     );
 
     aTopic.saveAtBottom().catch((error) => {
@@ -61,7 +62,8 @@ Template.topicsList.events({
     tmpl.find("#addTopicField").value = "";
 
     // Scroll "add topic" edit field into view
-    // We need a timeout here, to give meteor time to add the new topic field first
+    // We need a timeout here, to give meteor time to add the new topic field
+    // first
     Meteor.setTimeout(() => {
       const elem = document.getElementById("addTopicToBottomDIV");
       if (elem) {

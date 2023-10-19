@@ -6,9 +6,9 @@ import "./helpers/promisedMethods";
 import "./collections/minutes_private";
 
 import { subElementsHelper } from "/imports/helpers/subElements";
+import { _ } from "lodash";
 import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
-import { _ } from "lodash";
 
 import { InfoItem } from "./infoitem";
 import { InfoItemFactory } from "./InfoItemFactory";
@@ -156,7 +156,7 @@ export class Topic {
 
   toggleSkip(forceOpenTopic = true) {
     this.getDocument().isSkipped = !this.isSkipped();
-    if (forceOpenTopic && (this.isSkipped() && !this._topicDoc.isOpen)) {
+    if (forceOpenTopic && this.isSkipped() && !this._topicDoc.isOpen) {
       // topic has been set to skip, so it will be automatically set as open
       this.toggleState();
     }

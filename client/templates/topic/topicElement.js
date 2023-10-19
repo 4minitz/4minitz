@@ -31,7 +31,7 @@ Template.topicElement.onCreated(function () {
   _minutesId = tmplData.minutesID;
 
   this.isItemsLimited = new ReactiveVar(
-    tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT
+    tmplData.topic.infoItems.length > INITIAL_ITEMS_LIMIT,
   );
   this.isCollapsed = new ReactiveVar(false);
 });
@@ -59,7 +59,7 @@ Template.topicElement.helpers({
     const tmplData = Template.instance().data;
     return LabelResolver.resolveLabels(
       this.topic.labels,
-      tmplData.parentMeetingSeriesId
+      tmplData.parentMeetingSeriesId,
     ).map(labelSetFontColor);
   },
 
@@ -76,7 +76,7 @@ Template.topicElement.helpers({
   // determine if this topic shall be rendered collapsed
   isCollapsed() {
     const collapseState = Session.get(
-      `minutesedit.collapsetopics.${_minutesId}`
+      `minutesedit.collapsetopics.${_minutesId}`,
     );
     return collapseState ? collapseState[this.topic._id] : false;
   },
@@ -89,7 +89,7 @@ Template.topicElement.helpers({
     try {
       const responsible =
         ResponsibleResolver.resolveAndformatResponsiblesString(
-          this.topic.responsibles
+          this.topic.responsibles,
         );
       return responsible ? `(${responsible})` : "";
     } catch (e) {
@@ -109,7 +109,7 @@ Template.topicElement.helpers({
       data.topic.infoItems,
       !data.isEditable,
       parentElement,
-      data.topic._id
+      data.topic._id,
     );
   },
 
@@ -220,7 +220,7 @@ Template.topicElement.events({
       return;
     }
     console.log(
-      `Delete topics: ${this.topic._id} from minutes ${this.minutesID}`
+      `Delete topics: ${this.topic._id} from minutes ${this.minutesID}`,
     );
 
     const aMin = new Minutes(this.minutesID);
@@ -248,12 +248,12 @@ Template.topicElement.events({
         },
         deleteAllowed
           ? i18n.__("Buttons.delete")
-          : i18n.__("Dialog.ConfirmTopicDelete.button2")
+          : i18n.__("Dialog.ConfirmTopicDelete.button2"),
       ).show();
     } else {
       ConfirmationDialogFactory.makeInfoDialog(
         i18n.__("Dialog.ConfirmTopicDelete.errortitle"),
-        i18n.__("Dialog.ConfirmTopicDelete.errorcontent")
+        i18n.__("Dialog.ConfirmTopicDelete.errorcontent"),
       ).show();
     }
   },
@@ -308,7 +308,7 @@ Template.topicElement.events({
     if (!tmpl.data.isEditable) {
       throw new Meteor.Error(
         "illegal-state",
-        "Tried to call an illegal event in read-only mode"
+        "Tried to call an illegal event in read-only mode",
       );
     }
 
@@ -338,7 +338,7 @@ Template.topicElement.events({
       itemDoc,
       topic,
       this.minutesID,
-      minutes.parentMeetingSeries()
+      minutes.parentMeetingSeries(),
     );
     if (detail) {
       newItem.addDetails(this.minutesID, detail);
@@ -399,7 +399,7 @@ Template.topicElement.events({
       Meteor.call(
         "workflow.reopenTopicFromMeetingSeries",
         this.parentMeetingSeriesId,
-        this.topic._id
+        this.topic._id,
       );
     };
     ConfirmationDialogFactory.makeSuccessDialog(
@@ -409,7 +409,7 @@ Template.topicElement.events({
         topicSubject: Template.instance().data.topic.subject,
       }),
       {},
-      i18n.__("Dialog.ConfirmReOpenTopic.button")
+      i18n.__("Dialog.ConfirmReOpenTopic.button"),
     ).show();
   },
 });

@@ -26,7 +26,7 @@ Template.meetingSeriesEditLabels.onRendered(() => {
     (value) => {
       return ColorHelper.isValidHexColorString(value);
     },
-    i18n.__("MeetingSeries.Labels.Error.hexValue")
+    i18n.__("MeetingSeries.Labels.Error.hexValue"),
   );
 });
 

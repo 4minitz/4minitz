@@ -72,11 +72,9 @@ export class MeetingSeries {
   }
 
   save(optimisticUICallback) {
-    return this._id ? Meteor.callPromise("meetingseries.update", this) : Meteor.callPromise(
-      "meetingseries.insert",
-      this,
-      optimisticUICallback
-    );
+    return this._id
+      ? Meteor.callPromise("meetingseries.update", this)
+      : Meteor.callPromise("meetingseries.insert", this, optimisticUICallback);
   }
 
   async saveAsync(optimisticUICallback) {
@@ -209,7 +207,9 @@ export class MeetingSeries {
    * @returns Date or false, if all dates are possible.
    */
   getMinimumAllowedDateForMinutes(minutesId) {
-    const firstPossibleDate = minutesId ? this._getDateOfLatestMinuteExcluding(minutesId) : this._getDateOfLatestMinute();
+    const firstPossibleDate = minutesId
+      ? this._getDateOfLatestMinuteExcluding(minutesId)
+      : this._getDateOfLatestMinute();
 
     if (firstPossibleDate) {
       firstPossibleDate.setHours(0);

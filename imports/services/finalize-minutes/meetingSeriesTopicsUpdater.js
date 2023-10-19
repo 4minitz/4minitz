@@ -1,12 +1,14 @@
-import { Meteor } from "meteor/meteor";
 import { TopicSchema } from "/imports/collections/topic.schema";
-import { TopicsFinder } from "../topicsFinder";
+import { Meteor } from "meteor/meteor";
+
 import { Minutes } from "../../minutes";
+import { TopicsFinder } from "../topicsFinder";
 
 export class MeetingSeriesTopicsUpdater {
   /**
    * @param meetingSeriesId
-   * @param topicsVisibleFor array of user_ids states which user should be able to see these topics
+   * @param topicsVisibleFor array of user_ids states which user should be able
+   *     to see these topics
    */
   constructor(meetingSeriesId, topicsVisibleFor) {
     this.meetingSeriesId = meetingSeriesId;
@@ -41,7 +43,7 @@ export class MeetingSeriesTopicsUpdater {
     topicDoc.visibleFor = this.topicsVisibleFor;
     TopicSchema.upsert(
       { parentId: this.meetingSeriesId, _id: topicId },
-      topicDoc
+      topicDoc,
     );
   }
 
@@ -55,7 +57,7 @@ export class MeetingSeriesTopicsUpdater {
   removeTopicItemsCreatedInMinutes(minutesId) {
     TopicsFinder.allTopicsOfMeetingSeriesWithAtLeastOneItemCreatedInMinutes(
       this.meetingSeriesId,
-      minutesId
+      minutesId,
     ).forEach((topicDoc) => {
       topicDoc.infoItems = topicDoc.infoItems.filter((infoItemDoc) => {
         return infoItemDoc.createdInMinute !== minutesId;
@@ -72,7 +74,7 @@ export class MeetingSeriesTopicsUpdater {
     try {
       const affectedDocuments = TopicSchema.update(
         { parentId: this.meetingSeriesId, _id: topicId },
-        { $set: { isOpen: true } }
+        { $set: { isOpen: true } },
       );
       if (affectedDocuments !== 1) {
         throw new Meteor.Error("runtime-error", "Could not re-open topic.");

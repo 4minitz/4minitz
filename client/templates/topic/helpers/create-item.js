@@ -1,11 +1,13 @@
 import { Meteor } from "meteor/meteor";
+
 import { ActionItem } from "../../../../imports/actionitem";
-import { InfoItem } from "../../../../imports/infoitem";
-import { LabelExtractor } from "../../../../imports/services/labelExtractor";
-import { Priority } from "../../../../imports/priority";
-import { ResponsibleExtractor } from "../../../../imports/services/responsibleExtractor";
 import { extractDateFromString } from "../../../../imports/helpers/date";
 import { StringUtils } from "../../../../imports/helpers/string-utils";
+import { InfoItem } from "../../../../imports/infoitem";
+import { Priority } from "../../../../imports/priority";
+import { LabelExtractor } from "../../../../imports/services/labelExtractor";
+import { ResponsibleExtractor } from "../../../../imports/services/responsibleExtractor";
+
 import { convertOrCreateLabelsFromStrings } from "./convert-or-create-label-from-string";
 
 export function createItem(
@@ -14,7 +16,7 @@ export function createItem(
   minutesId,
   meetingSeries,
   type = "infoItem",
-  labels = []
+  labels = [],
 ) {
   itemDoc.labels = convertOrCreateLabelsFromStrings(labels, meetingSeries);
 
@@ -25,7 +27,7 @@ export function createItem(
   if (!itemDoc.subject) {
     throw new Meteor.Error(
       "illegal-argument",
-      "Please add a subject for the new item"
+      "Please add a subject for the new item",
     );
   }
 
@@ -70,7 +72,7 @@ export function detectTypeAndCreateItem(
   itemDoc,
   parentTopic,
   minutesId,
-  meetingSeries
+  meetingSeries,
 ) {
   const responsibleExtractor = new ResponsibleExtractor(itemDoc.subject, true);
   let type = "infoItem";
