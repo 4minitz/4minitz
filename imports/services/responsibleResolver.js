@@ -25,20 +25,19 @@ export class ResponsibleResolver {
         }
         if (emailFromDb) {
           return emailFromDb;
+        }
+        const freetextMail = userIdOrEmail.trim();
+        if (/\S+@\S+\.\S+/.test(freetextMail)) {
+          // check valid mail anystring@anystring.anystring
+          return freetextMail;
         } else {
-          const freetextMail = userIdOrEmail.trim();
-          if (/\S+@\S+\.\S+/.test(freetextMail)) {
-            // check valid mail anystring@anystring.anystring
-            return freetextMail;
-          } else {
-            console.log(
-              "WARNING: Invalid mail address for responsible: >" +
-                freetextMail +
-                "< " +
-                userNameFromDB,
-            );
-            return null;
-          }
+          console.log(
+            "WARNING: Invalid mail address for responsible: >" +
+              freetextMail +
+              "< " +
+              userNameFromDB,
+          );
+          return null;
         }
       })
       .filter((email) => email !== null);

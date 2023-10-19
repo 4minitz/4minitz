@@ -61,8 +61,7 @@ export class MinutesFinder {
 
   static lastFinalizedMinutesOfMeetingSeries(meetingSeries) {
     const lastMinute = this.lastMinutesOfMeetingSeries(meetingSeries);
-    if (lastMinute.isFinalized) return lastMinute;
-    else return this.secondLastMinutesOfMeetingSeries(meetingSeries);
+    return lastMinute.isFinalized ? lastMinute : this.secondLastMinutesOfMeetingSeries(meetingSeries);
   }
 
   static secondLastMinutesOfMeetingSeries(meetingSeries) {
@@ -71,9 +70,9 @@ export class MinutesFinder {
   }
 
   static _getNeighborMinutes(minutes, offset) {
-    const parentSeries = minutes.parentMeetingSeries(),
-      myPosition = parentSeries.minutes.indexOf(minutes._id),
-      neighborPosition = myPosition + offset;
+    const parentSeries = minutes.parentMeetingSeries();
+    const myPosition = parentSeries.minutes.indexOf(minutes._id);
+    const neighborPosition = myPosition + offset;
 
     if (
       neighborPosition > -1 &&
