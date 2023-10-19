@@ -83,9 +83,9 @@ if (Meteor.settings.isEnd2EndTest) {
             { $set: { isAdmin: true } },
           );
         }
-      } else {
-        console.log("skip resetting users");
+        return;
       }
+      console.log("skip resetting users");
     },
     "e2e.getServerCurrentWorkingDir"() {
       console.log(
@@ -249,8 +249,8 @@ if (Meteor.settings.isEnd2EndTest) {
       return Meteor.users.find().count();
     },
     async "e2e.importLdapUsers"() {
-      const mongoUrl = process.env.MONGO_URL,
-        ldapSettings = GlobalSettings.getLDAPSettings();
+      const mongoUrl = process.env.MONGO_URL;
+      const ldapSettings = GlobalSettings.getLDAPSettings();
 
       await importUsers(ldapSettings, mongoUrl);
     },

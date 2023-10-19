@@ -15,8 +15,8 @@ LDAP.bindValue = (usernameOrEmail, isEmailAddress) => {
     return "";
   }
 
-  const serverDn = LdapSettings.serverDn(),
-    searchDn = LdapSettings.usernameAttribute();
+  const serverDn = LdapSettings.serverDn();
+  const searchDn = LdapSettings.usernameAttribute();
 
   if (!serverDn || !searchDn) {
     return "";
@@ -31,8 +31,8 @@ LDAP.bindValue = (usernameOrEmail, isEmailAddress) => {
   // make some users isInactive==true - we stop them from logging in here.
   if (Meteor?.users) {
     // skip this during unit tests
-    const uid = username.toLowerCase(),
-      user = Meteor.users.findOne({ username: uid });
+    const uid = username.toLowerCase();
+    const user = Meteor.users.findOne({ username: uid });
 
     if (user?.isInactive) {
       throw new Meteor.Error(403, "User is inactive");
