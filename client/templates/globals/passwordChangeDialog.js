@@ -27,7 +27,7 @@ Template.passwordChangeDialog.onRendered(() => {
     (value) => {
       return checkPasswordMatchesPattern(value);
     },
-    "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)",
+    "Password: min. 6 chars (at least 1 digit, 1 lowercase and 1 uppercase)"
   );
 
   addCustomValidator(
@@ -35,7 +35,7 @@ Template.passwordChangeDialog.onRendered(() => {
     (value) => {
       return checkPasswordsIdentical(value, $("#id_newPassword1").val());
     },
-    "New Passwords are not identical",
+    "New Passwords are not identical"
   );
 });
 
@@ -71,18 +71,18 @@ Template.passwordChangeDialog.events({
         tmpl.$("#btnChangePasswordSave").prop("disabled", false);
         console.log(error);
         showError(evt, error);
-      } else {
-        new FlashMessage(
-          i18n.__("FlashMessages.ok"),
-          i18n.__("FlashMessages.passwordChangeOK"),
-          "alert-success",
-          2000,
-        ).show();
-        tmpl.find("#id_oldPassword").value = "";
-        tmpl.find("#id_newPassword1").value = "";
-        tmpl.find("#id_newPassword2").value = "";
-        $("#dlgChangePassword").modal("hide");
+        return;
       }
+      new FlashMessage(
+        i18n.__("FlashMessages.ok"),
+        i18n.__("FlashMessages.passwordChangeOK"),
+        "alert-success",
+        2000
+      ).show();
+      tmpl.find("#id_oldPassword").value = "";
+      tmpl.find("#id_newPassword1").value = "";
+      tmpl.find("#id_newPassword2").value = "";
+      $("#dlgChangePassword").modal("hide");
     });
   },
 

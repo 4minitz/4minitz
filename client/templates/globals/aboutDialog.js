@@ -9,22 +9,22 @@ const showStatistics = new ReactiveVar(false);
 Template.aboutDialog.onRendered(() => {});
 
 Template.aboutDialog.helpers({
-  gitVersionInfo: function () {
+  gitVersionInfo() {
     return Session.get("gitVersionInfo");
   },
 
-  currentYear: function () {
+  currentYear() {
     return new Date().getFullYear();
   },
 
-  displayStatistics: function () {
+  displayStatistics() {
     return showStatistics.get();
   },
 
-  legalNoticeEnabled: function () {
+  legalNoticeEnabled() {
     return Meteor.settings.public.branding.legalNotice.enabled;
   },
-  legalNoticeLinktext: function () {
+  legalNoticeLinktext() {
     return Meteor.settings.public.branding.legalNotice.linkText;
   },
 });
@@ -42,10 +42,10 @@ Template.aboutDialog.events({
 
   "show.bs.modal #dlgAbout": function () {
     Meteor.call("gitVersionInfo", (error, result) => {
-      if (!error) {
-        Session.set("gitVersionInfo", result);
-      } else {
+      if (error) {
         console.log(`err:${error}`);
+      } else {
+        Session.set("gitVersionInfo", result);
       }
     });
   },

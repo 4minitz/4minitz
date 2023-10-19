@@ -14,7 +14,7 @@ Template.profileEditDialog.onRendered(() => {
     (value) => {
       return isEmail(value);
     },
-    "Not a valid E-Mail address",
+    "Not a valid E-Mail address"
   );
 });
 
@@ -40,11 +40,11 @@ function updateUserProfile(tmpl) {
           i18n.__("FlashMessages.ok"),
           i18n.__("FlashMessages.profileEditOK"),
           "alert-success",
-          2000,
+          2000
         ).show();
         tmpl.$("#dlgEditProfile").modal("hide");
       }
-    },
+    }
   );
 
   tmpl.$("#btnEditProfileSave").prop("disabled", false);
@@ -81,7 +81,7 @@ Template.profileEditDialog.events({
           i18n.__("Profile.WarningEMailChange.title"),
           "confirmPlainText",
           { plainText: i18n.__("Profile.WarningEMailChange.body") },
-          i18n.__("Profile.WarningEMailChange.button"),
+          i18n.__("Profile.WarningEMailChange.button")
         ).show();
       }
     } else {
@@ -92,7 +92,7 @@ Template.profileEditDialog.events({
   "show.bs.modal #dlgEditProfile": function (evt, tmpl) {
     const otherUserId = ReactiveDict.get("editProfile.userID"); // admin edit mode, undefined otherwise
     const usr = Meteor.users.findOne(
-      otherUserId ? otherUserId : Meteor.userId(),
+      otherUserId ? otherUserId : Meteor.userId()
     );
     if (usr.profile) {
       tmpl.find("#id_longName").value = usr.profile.name;

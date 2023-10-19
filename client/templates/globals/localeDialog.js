@@ -16,7 +16,7 @@ Template.localeDialog.onCreated(() => {
 });
 
 Template.localeDialog.helpers({
-  supportedLocales: function () {
+  supportedLocales() {
     return supportedLocales.get();
   },
 });

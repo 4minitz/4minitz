@@ -26,15 +26,13 @@ Template.connectionInfo.helpers({
     templateInstance = Template.instance();
     const cl = Template.instance().connectionLost.get();
 
-    if (!Meteor.status().connected) {
-      if (cl === false) {
-        // delay & fade in  - only once per connection lost!
-        Meteor.setTimeout(showWithDelay, 3000);
-      }
-    } else {
+    if (Meteor.status().connected) {
       if (cl === true) {
         Template.instance().connectionLost.set(false);
       }
+    } else if (cl === false) {
+      // delay & fade in  - only once per connection lost!
+      Meteor.setTimeout(showWithDelay, 3000);
     }
     return Template.instance().connectionLost.get();
   },
@@ -49,7 +47,7 @@ Template.connectionInfo.helpers({
     return Math.round(secondsToRetry);
   },
 
-  currentSymbol: function () {
+  currentSymbol() {
     return Template.instance().currentSymbol.get();
   },
 });

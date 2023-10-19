@@ -25,22 +25,22 @@ Template.login.helpers({
     );
   },
 
-  tab: function () {
+  tab() {
     return ReactiveDict.get("currentLoginForm");
   },
 
-  tabActive: function (tabFormName) {
+  tabActive(tabFormName) {
     if (ReactiveDict.equals("currentLoginForm", tabFormName)) {
       return "active";
     }
     return "";
   },
 
-  showInfoOnLogin: function () {
+  showInfoOnLogin() {
     return !Meteor.userId() && GlobalSettings.showInfoOnLogin();
   },
 
-  showDemoUserHint: function () {
+  showDemoUserHint() {
     return (
       !Meteor.userId() &&
       GlobalSettings.createDemoAccount() &&
@@ -49,10 +49,10 @@ Template.login.helpers({
     );
   },
 
-  legalNoticeEnabled: function () {
+  legalNoticeEnabled() {
     return Meteor.settings.public.branding.legalNotice.enabled;
   },
-  legalNoticeLinktext: function () {
+  legalNoticeLinktext() {
     return Meteor.settings.public.branding.legalNotice.linkText;
   },
 });

@@ -12,7 +12,7 @@ Template.broadcastMessageDialog.onCreated(function () {
 
 Template.broadcastMessageDialog.helpers({
   // just a little reactive trigger to show the modal msg dialog
-  showBroadcastMessages: function () {
+  showBroadcastMessages() {
     const msgCount = BroadcastMessageSchema.find({
       $and: [
         { isActive: true },
@@ -32,7 +32,7 @@ Template.broadcastMessageDialog.helpers({
     return "";
   },
 
-  broadcastMessages: function () {
+  broadcastMessages() {
     return BroadcastMessageSchema.find(
       {
         $and: [
@@ -40,11 +40,11 @@ Template.broadcastMessageDialog.helpers({
           { dismissForUserIDs: { $nin: [Meteor.userId()] } },
         ],
       },
-      { sort: { createdAt: -1 } },
+      { sort: { createdAt: -1 } }
     );
   },
 
-  formatTimeStamp: function (date) {
+  formatTimeStamp(date) {
     return formatDateISO8601Time(date);
   },
 });
