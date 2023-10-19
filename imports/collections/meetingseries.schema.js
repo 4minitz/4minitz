@@ -6,7 +6,7 @@ import { MeetingSeries } from "../meetingseries";
 import "./idValidator";
 
 const MeetingSeriesCollection = new Mongo.Collection("meetingSeries", {
-  transform: function (doc) {
+  transform(doc) {
     return new MeetingSeries(doc);
   },
 });

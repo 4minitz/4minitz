@@ -1,6 +1,6 @@
-import { MinutesFinder } from "/imports/services/minutesFinder";
 import { check } from "meteor/check";
 import { Meteor } from "meteor/meteor";
+import { MinutesFinder } from "/imports/services/minutesFinder";
 
 import { MeetingSeries } from "../meetingseries";
 import { Minutes } from "../minutes";
@@ -283,16 +283,17 @@ Meteor.methods({
     // Write to currently unfinalized Minute, if existent
     const meetingSeries = new MeetingSeries(meetingSeries_id);
     const lastMinute = MinutesFinder.lastMinutesOfMeetingSeries(meetingSeries);
-    if (lastMinute && !lastMinute.isFinalized) {
-      const topicDoc = topicsUpdater.getTopicById(topic_id);
-      const topicObject = new Topic(meetingSeries, topicDoc);
-      topicObject.tailorTopic();
-      Meteor.call(
-        "minutes.addTopic",
-        lastMinute._id,
-        topicObject.getDocument(),
-        true,
-      );
+    if (!(lastMinute && !lastMinute.isFinalized)) {
+      return;
     }
+    const topicDoc = topicsUpdater.getTopicById(topic_id);
+    const topicObject = new Topic(meetingSeries, topicDoc);
+    topicObject.tailorTopic();
+    Meteor.call(
+      "minutes.addTopic",
+      lastMinute._id,
+      topicObject.getDocument(),
+      true,
+    );
   },
 });

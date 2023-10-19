@@ -15,7 +15,7 @@ const FORBIDDEN_FILENAME_EXTENSIONS = "html|htm|swf";
 export const AttachmentsCollection = new FilesCollection({
   collectionName: "AttachmentsCollection",
   allowClientCode: false, // Disallow attachments remove() call from clients
-  permissions: 0o0600, // #Security: make uploaded files "chmod 600' only
+  permissions: 0o0_6_0_0, // #Security: make uploaded files "chmod 600' only
   // readable for server user
   storagePath: Meteor.isServer ? calculateAndCreateStoragePath : undefined, // eslint-disable-line
 
@@ -25,7 +25,7 @@ export const AttachmentsCollection = new FilesCollection({
   // upload role or better for meeting series. This will be run in method
   // context on client and(!) server by the Meteor-Files package So, server will
   // always perform the last ultimate check!
-  onBeforeUpload: function (file) {
+  onBeforeUpload(file) {
     if (!GlobalSettings.getAttachmentsEnabled()) {
       return "Upload not allowed in settings.json";
     }
@@ -99,7 +99,7 @@ export const AttachmentsCollection = new FilesCollection({
     );
   },
 
-  onAfterUpload: function (file) {
+  onAfterUpload(file) {
     console.log(
       "Successfully uploaded attachment file: " +
         file.name +
@@ -115,7 +115,7 @@ export const AttachmentsCollection = new FilesCollection({
   // role - or better. This will be run in method context on client and(!)
   // server by the Meteor-Files package So, server will always perform the last
   // ultimate check!
-  downloadCallback: function (file) {
+  downloadCallback(file) {
     if (!this.userId) {
       console.log("Attachment download prohibited. User not logged in.");
       return false;
@@ -155,49 +155,50 @@ Meteor.methods({
   //   - or: uploader role for meeting series and this file was uploaded by user
   // This will be run in method server context.
   "attachments.remove"(attachmentID) {
-    if (Meteor.isServer && attachmentID) {
-      if (!this.userId) {
-        console.log("Attachment removal prohibited. User not logged in.");
-        return false;
-      }
-      const file = AttachmentsCollection.findOne(attachmentID);
-      if (!file) {
-        console.log(
-          "Attachment removal prohibited. Attachment not found in DB.",
-        );
-        return false;
-      }
-      // we must ensure a known meeting minutes id, otherwise we can not check
-      // sufficient user role afterwards
-      if (
-        file.meta === undefined ||
-        file.meta.meetingminutes_id === undefined
-      ) {
-        console.log(
-          "Attachment removal prohibited. File without meetingminutes_id.",
-        );
-        return false;
-      }
-
-      const att = new Attachment(attachmentID);
-      // mayRemove() checks for not-finalized minutes and sufficient user role
-      if (!att.mayRemove()) {
-        console.log(
-          "Attachment removal prohibited. User has no sufficient role for meeting series: " +
-            file.meta.parentseries_id,
-        );
-        return false;
-      }
-
-      AttachmentsCollection.remove({ _id: attachmentID }, (error) => {
-        if (error) {
-          console.error(
-            `File ${attachmentID} wasn't removed, error: ${error.reason}`,
-          );
-        } else {
-          console.info(`File ${attachmentID} successfully removed`);
-        }
-      });
+    if (!(Meteor.isServer && attachmentID)) {
+      return;
     }
+    if (!this.userId) {
+      console.log("Attachment removal prohibited. User not logged in.");
+      return false;
+    }
+    const file = AttachmentsCollection.findOne(attachmentID);
+    if (!file) {
+      console.log(
+        "Attachment removal prohibited. Attachment not found in DB.",
+      );
+      return false;
+    }
+    // we must ensure a known meeting minutes id, otherwise we can not check
+    // sufficient user role afterwards
+    if (
+      file.meta === undefined ||
+      file.meta.meetingminutes_id === undefined
+    ) {
+      console.log(
+        "Attachment removal prohibited. File without meetingminutes_id.",
+      );
+      return false;
+    }
+
+    const att = new Attachment(attachmentID);
+    // mayRemove() checks for not-finalized minutes and sufficient user role
+    if (!att.mayRemove()) {
+      console.log(
+        "Attachment removal prohibited. User has no sufficient role for meeting series: " +
+          file.meta.parentseries_id,
+      );
+      return false;
+    }
+
+    AttachmentsCollection.remove({ _id: attachmentID }, (error) => {
+      if (error) {
+        console.error(
+          `File ${attachmentID} wasn't removed, error: ${error.reason}`,
+        );
+      } else {
+        console.info(`File ${attachmentID} successfully removed`);
+      }
+    });
   },
 });
